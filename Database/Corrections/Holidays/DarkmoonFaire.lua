@@ -7,6 +7,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 
 ---@alias DMFLocation "MULGORE"|"ELWYNN_FOREST"|"TEROKKAR_FOREST"|"DARKMOON_ISLAND"
+
 ---@class DarkmoonFaireState
 ---@field status "active"|"inactive"|"pending"|"unavailable"
 ---@field location DMFLocation?
@@ -28,18 +29,22 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@field endMinute number?
 ---@field endInclusive boolean? Include the final minute; calculated Monday 03:00 endings exclude it.
 ---@field anchor CalendarTime? First opening date for a fortnightly schedule.
+
 ---@class DMFLocationRule
 ---@field source "monthly"|"fortnightly"|"calendar"|"fixed"
 ---@field locations DMFLocation[]? January-first monthly rotation, or anchor-first fortnightly rotation.
 ---@field anchor CalendarTime? Location rotation anchor, independent of the timing rule.
 ---@field location DMFLocation?
+
 ---@class DMFAvailabilityRule
 ---@field phaseKey string Key in ContentPhases.activePhases; an unknown counter is treated as phase 0.
 ---@field minimumPhase number
+
 ---@class DMFRule
 ---@field timing DMFTimingRule?
 ---@field location DMFLocationRule?
 ---@field availability DMFAvailabilityRule?
+
 ---@class DMFExpansionRules
 ---@field default DMFRule
 ---@field seasons table<number, DMFRule>
@@ -221,105 +226,198 @@ local locationByTexture = {
     [235453] = "TEROKKAR_FOREST", -- End
 }
 
+-- Calendar value checks and civil-date arithmetic
+
+---Checks date-field ranges, not whether a day exists in a particular month (for example, February 31).
 ---@param value CalendarTime?
 ---@return boolean
 local function _HasDate(value)
-    return type(value) == "table" and type(value.year) == "number" and value.year > 0
-        and type(value.month) == "number" and value.month >= 1 and value.month <= 12
-        and type(value.monthDay) == "number" and value.monthDay >= 1 and value.monthDay <= 31
+    if type(value) ~= "table" then
+        return false
+    end
+
+    local validYear = type(value.year) == "number" and value.year > 0
+    if not validYear then
+        return false
+    end
+
+    local validMonth = type(value.month) == "number" and value.month >= 1 and value.month <= 12
+    if not validMonth then
+        return false
+    end
+
+    return type(value.monthDay) == "number" and value.monthDay >= 1 and value.monthDay <= 31
 end
 
+---A calendar timestamp needs both the date and a complete clock value; a date alone is not midnight.
 ---@param value CalendarTime?
 ---@return boolean
 local function _HasTime(value)
-    return _HasDate(value) and type(value.hour) == "number" and value.hour >= 0 and value.hour < 24
-        and type(value.minute) == "number" and value.minute >= 0 and value.minute < 60
+    if not _HasDate(value) then
+        return false
+    end
+
+    local validHour = type(value.hour) == "number" and value.hour >= 0 and value.hour < 24
+    if not validHour then
+        return false
+    end
+
+    return type(value.minute) == "number" and value.minute >= 0 and value.minute < 60
 end
 
 ---Civil-day arithmetic avoids local timezone/DST changes and cumulative recurrence drift.
 ---@param value CalendarTime
 ---@return number dayNumber January 1, year 1 is Monday, day 1.
 local function _DayNumber(value)
-    local year = value.year - 1
-    local days = year * 365 + math.floor(year / 4) - math.floor(year / 100) + math.floor(year / 400)
-    local monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
-    if value.year % 4 == 0 and (value.year % 100 ~= 0 or value.year % 400 == 0) then
-        monthDays[2] = 29
+    -- Count completed years, including Gregorian leap days.
+    local completedYears = value.year - 1
+    local days = completedYears * 365
+        + math.floor(completedYears / 4)
+        - math.floor(completedYears / 100)
+        + math.floor(completedYears / 400)
+
+    -- February's length depends on the current year, not the completed-year count above.
+    local daysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+    local isLeapYear = value.year % 4 == 0 and (value.year % 100 ~= 0 or value.year % 400 == 0)
+    if isLeapYear then
+        daysInMonth[2] = 29
     end
+
     for month = 1, value.month - 1 do
-        days = days + monthDays[month]
+        days = days + daysInMonth[month]
     end
+
     return days + value.monthDay
 end
 
+---Uses the civil-day scale for clock comparisons, not Unix time or the computer's timezone.
 ---@param value CalendarTime
----@return number
+---@return number minuteNumber Day number * 1440 plus the hour/minute within that day.
 local function _MinuteNumber(value)
-    return _DayNumber(value) * 1440 + value.hour * 60 + value.minute
+    local dayNumber = _DayNumber(value)
+    return dayNumber * 1440 + value.hour * 60 + value.minute
 end
 
----Converts only the requested occurrence days, without local timezone conversion.
+---Finds the date components for an occurrence day, starting from the nearby reference month.
 ---@param reference CalendarTime
----@param dayNumber number
----@return CalendarTime
+---@param dayNumber number Civil day on the same scale as _DayNumber.
+---@return CalendarTime date Date components only; no clock values are added.
 local function _DateAtDayNumber(reference, dayNumber)
     local year, month = reference.year, reference.month
-    local firstDay = _DayNumber({year = year, month = month, monthDay = 1})
-    while dayNumber < firstDay do
+    local firstDayOfMonth = _DayNumber({year = year, month = month, monthDay = 1})
+
+    -- An occurrence can begin in a month before the reference date.
+    while dayNumber < firstDayOfMonth do
         month = month - 1
-        if month == 0 then year, month = year - 1, 12 end
-        firstDay = _DayNumber({year = year, month = month, monthDay = 1})
+        if month == 0 then
+            year = year - 1
+            month = 12
+        end
+
+        firstDayOfMonth = _DayNumber({year = year, month = month, monthDay = 1})
     end
+
+    -- Walk forward until the requested day falls before the next month's first day.
     while true do
         local nextYear, nextMonth = year, month + 1
-        if nextMonth == 13 then nextYear, nextMonth = year + 1, 1 end
-        local nextFirstDay = _DayNumber({year = nextYear, month = nextMonth, monthDay = 1})
-        if dayNumber < nextFirstDay then
-            return {year = year, month = month, monthDay = dayNumber - firstDay + 1}
+        if nextMonth == 13 then
+            nextYear = year + 1
+            nextMonth = 1
         end
-        year, month, firstDay = nextYear, nextMonth, nextFirstDay
+
+        local firstDayOfNextMonth = _DayNumber({year = nextYear, month = nextMonth, monthDay = 1})
+        if dayNumber < firstDayOfNextMonth then
+            return {
+                year = year,
+                month = month,
+                monthDay = dayNumber - firstDayOfMonth + 1,
+            }
+        end
+
+        year, month = nextYear, nextMonth
+        firstDayOfMonth = firstDayOfNextMonth
     end
 end
 
+-- Calculated occurrence timing
+
+---Resolves activity and the occurrence dates to search when its location comes from the calendar.
 ---@param now CalendarTime
 ---@param timing DMFTimingRule
 ---@return boolean active
----@return number? firstDay
----@return number? lastDay
+---@return number? firstDay First civil day of the occurrence, unless now precedes the fortnightly anchor.
+---@return number? lastDay Last civil day containing an included minute of the occurrence.
 local function _CalculatedTiming(now, timing)
+    -- Find the opening day independently of its clock time.
     local startDay
     if timing.source == "fortnightly" then
         local anchorDay = _DayNumber(timing.anchor)
-        local cycle = math.floor((_DayNumber(now) - anchorDay) / 14)
+        local daysSinceAnchor = _DayNumber(now) - anchorDay
+        local cycle = math.floor(daysSinceAnchor / 14)
         if cycle < 0 then
             return false
         end
+
         startDay = anchorDay + cycle * 14
     else
-        local firstDay = _DayNumber({year = now.year, month = now.month, monthDay = 1})
-        local setupDay = firstDay + (timing.setupWeekday - (firstDay % 7 + 1)) % 7
+        local firstDayOfMonth = _DayNumber({year = now.year, month = now.month, monthDay = 1})
+
+        -- Civil day 1 is Monday; configured weekday values use Sunday = 1.
+        local firstWeekday = firstDayOfMonth % 7 + 1
+        local daysUntilSetup = (timing.setupWeekday - firstWeekday) % 7
+        local setupDay = firstDayOfMonth + daysUntilSetup
+
+        -- Opening must follow setup strictly, even if both use the same weekday.
         local openingOffset = (timing.startWeekday - timing.setupWeekday) % 7
-        startDay = setupDay + (openingOffset == 0 and 7 or openingOffset)
+        if openingOffset == 0 then
+            openingOffset = 7
+        end
+
+        startDay = setupDay + openingOffset
     end
-    local startMinute = startDay * 1440 + timing.startHour * 60 + timing.startMinute
-    local endMinute = (startDay + timing.endDayOffset) * 1440 + timing.endHour * 60 + timing.endMinute
+
+    -- Opening is inclusive; only rules with endInclusive include the closing minute.
+    local openingMinute = startDay * 1440 + timing.startHour * 60 + timing.startMinute
+    local closingMinute = (startDay + timing.endDayOffset) * 1440 + timing.endHour * 60 + timing.endMinute
     local currentMinute = _MinuteNumber(now)
-    local beforeEnd = currentMinute < endMinute or (timing.endInclusive and currentMinute == endMinute)
-    -- An exclusive midnight ending does not include any calendar entries on the closing day.
-    local lastDay = math.floor((endMinute - (timing.endInclusive and 0 or 1)) / 1440)
-    return currentMinute >= startMinute and not not beforeEnd, startDay, lastDay
+
+    local beforeEnd = currentMinute < closingMinute
+    if timing.endInclusive and currentMinute == closingMinute then
+        beforeEnd = true
+    end
+
+    local active = currentMinute >= openingMinute and beforeEnd
+
+    -- Location-only calendar queries need the dates touched by the occurrence.
+    -- An exclusive midnight ending excludes the closing date entirely.
+    local lastActiveMinute = closingMinute
+    if not timing.endInclusive then
+        lastActiveMinute = closingMinute - 1
+    end
+
+    local lastDay = math.floor(lastActiveMinute / 1440)
+    return active, startDay, lastDay
 end
 
+-- Native calendar identification and queries
+
+---Identifies recognized Faire artwork while applying the island's shared-texture exception.
 ---@param texture number?
 ---@param locationRule DMFLocationRule
 ---@return DMFLocation?
 local function _CalendarLocation(texture, locationRule)
-    local location = locationByTexture[texture]
+    local textureLocation = locationByTexture[texture]
+
     if locationRule.source == "fixed" and locationRule.location == "DARKMOON_ISLAND" then
-        -- Ignore stale rotating-location records on island clients.
-        return location == "ELWYNN_FOREST" and "DARKMOON_ISLAND" or nil
+        -- The island shares Elwynn artwork. Stale Mulgore/Terokkar records are not island occurrences.
+        if textureLocation == "ELWYNN_FOREST" then
+            return "DARKMOON_ISLAND"
+        end
+
+        return nil
     end
-    return location
+
+    return textureLocation
 end
 
 ---The caller selects this date's month; off-month queries can omit native holiday records.
@@ -332,14 +430,17 @@ local function _ReadCalendar(now, locationRule, useCalendarTiming)
     if not count then
         return {status = "pending"}
     end
+
     local pending = false
     for index = 1, count do
         local dayEvent = C_Calendar.GetDayEvent and C_Calendar.GetDayEvent(0, now.monthDay, index)
+
         if C_Calendar.GetDayEvent and not dayEvent then
             pending = true
         elseif not dayEvent or dayEvent.calendarType == "HOLIDAY" then
             local holiday = C_Calendar.GetHolidayInfo(0, now.monthDay, index)
             local location = holiday and _CalendarLocation(holiday.texture, locationRule)
+
             if not holiday then
                 pending = true
             elseif location then
@@ -347,51 +448,73 @@ local function _ReadCalendar(now, locationRule, useCalendarTiming)
                 if not useCalendarTiming then
                     return {status = "active", location = location}
                 end
+
+                -- Calendar-timed occurrences require both complete endpoints before comparing activity.
                 if not _HasTime(holiday.startTime) or not _HasTime(holiday.endTime) then
                     pending = true
                 else
                     local startMinute = _MinuteNumber(holiday.startTime)
                     local endMinute = _MinuteNumber(holiday.endTime)
+
                     if startMinute > endMinute then
                         pending = true
                     elseif _MinuteNumber(now) >= startMinute and _MinuteNumber(now) <= endMinute then
                         -- Native calendar endpoints are minute-granular (observed through 23:59).
-                        return {status = "active", location = location, startTime = holiday.startTime, endTime = holiday.endTime}
+                        return {
+                            status = "active",
+                            location = location,
+                            startTime = holiday.startTime,
+                            endTime = holiday.endTime,
+                        }
                     end
                 end
             end
         end
     end
+
     return {status = pending and "pending" or "inactive"}
 end
 
+---Queries the requested months and attempts to restore the player's calendar settings on every exit.
 ---@param now CalendarTime
 ---@param locationRule DMFLocationRule
 ---@param calendarReady boolean?
 ---@param calculatedRange DMFCalendarRange? Search this occurrence for location only; nil uses today's native timing.
 ---@return DarkmoonFaireState
 local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
-    if not C_Calendar or not C_Calendar.GetMonthInfo or not C_Calendar.SetAbsMonth or not C_Calendar.GetNumDayEvents
-        or not C_Calendar.GetHolidayInfo or not GetCVarBool or not SetCVar then
+    if not C_Calendar
+        or not C_Calendar.GetMonthInfo
+        or not C_Calendar.SetAbsMonth
+        or not C_Calendar.GetNumDayEvents
+        or not C_Calendar.GetHolidayInfo
+        or not GetCVarBool
+        or not SetCVar
+    then
         return {status = "unavailable"}
     end
+
     if not calendarReady then
         return {status = "pending"}
     end
 
     local wasVisible, originalMonth
     local monthChanged = false
+
     local ok, state = pcall(function()
+        -- Preserve the player's selection before changing either the month or the holiday filter.
         originalMonth = C_Calendar.GetMonthInfo()
         if not originalMonth or not originalMonth.year or not originalMonth.month then
             return {status = "pending"}
         end
+
         local selectedMonth = originalMonth
+
         wasVisible = GetCVarBool("calendarShowDarkmoon")
         if not wasVisible then
             SetCVar("calendarShowDarkmoon", "1")
         end
 
+        ---Select the actual month before accepting an empty list as evidence of inactivity.
         ---@param date CalendarTime
         ---@param useCalendarTiming boolean
         ---@return DarkmoonFaireState
@@ -403,6 +526,7 @@ local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
                 C_Calendar.SetAbsMonth(date.month, date.year)
                 selectedMonth = date
             end
+
             return _ReadCalendar(date, locationRule, useCalendarTiming)
         end
 
@@ -418,6 +542,7 @@ local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
                 return locationState
             end
         end
+
         -- Timing is known to be active; missing location data must not turn it into an inactive result.
         return {status = "pending"}
     end)
@@ -427,33 +552,47 @@ local function _CalendarState(now, locationRule, calendarReady, calculatedRange)
     if wasVisible == false then
         filterRestored = pcall(SetCVar, "calendarShowDarkmoon", "0")
     end
+
     if monthChanged then
         monthRestored = pcall(C_Calendar.SetAbsMonth, originalMonth.month, originalMonth.year)
     end
+
     if not ok or not filterRestored or not monthRestored then
         return {status = "unavailable"}
     end
+
     return state
 end
+
+-- Startup snapshot resolution
 
 ---Resolves one startup snapshot; the caller owns calendar requests, readiness, retries and timeout.
 ---A season replaces each timing/location/availability rule as a whole; omitted rules inherit the expansion default.
 ---@param calendarReady boolean? True after the calendar event list has loaded.
 ---@return DarkmoonFaireState
 function DarkmoonFaire.GetCurrentState(calendarReady)
+    -- Choose each rule independently, inheriting omitted season rules from the expansion.
     local expansionRules = DarkmoonFaire.rules[Expansions.Current]
     if not expansionRules and Expansions.Current and Expansions.Current > Expansions.MoP then
         expansionRules = DarkmoonFaire.rules[Expansions.MoP]
     end
+
     if not expansionRules then
         return {status = "unavailable"}
     end
-    local seasonId = C_Seasons and C_Seasons.HasActiveSeason and C_Seasons.GetActiveSeason
-        and C_Seasons.HasActiveSeason() and C_Seasons.GetActiveSeason()
+
+    local seasonId = C_Seasons
+        and C_Seasons.HasActiveSeason
+        and C_Seasons.GetActiveSeason
+        and C_Seasons.HasActiveSeason()
+        and C_Seasons.GetActiveSeason()
+
     local season = expansionRules.seasons[seasonId] or {}
     local timing = season.timing or expansionRules.default.timing
     local locationRule = season.location or expansionRules.default.location
     local availability = season.availability or expansionRules.default.availability
+
+    -- Phase-gated content needs no clock or calendar query until it becomes available.
     if availability then
         local activePhase = ContentPhases.activePhases and ContentPhases.activePhases[availability.phaseKey] or 0
         if activePhase < availability.minimumPhase then
@@ -465,6 +604,8 @@ function DarkmoonFaire.GetCurrentState(calendarReady)
     if not _HasTime(now) then
         return {status = "pending"}
     end
+
+    -- Resolve activity first. A calculated schedule may still need the calendar for its location.
     local state
     if timing.source == "calendar" then
         state = _CalendarState(now, locationRule, calendarReady)
@@ -473,23 +614,31 @@ function DarkmoonFaire.GetCurrentState(calendarReady)
         if not active then
             return {status = "inactive"}
         end
+
         if locationRule.source == "calendar" then
-            state = _CalendarState(now, locationRule, calendarReady, {firstDay = firstDay, lastDay = lastDay})
+            local occurrenceDates = {firstDay = firstDay, lastDay = lastDay}
+            state = _CalendarState(now, locationRule, calendarReady, occurrenceDates)
         else
             state = {status = "active"}
         end
     end
+
     if state.status ~= "active" then
         return state
     end
 
+    -- Calculated/fixed locations do not replace the timestamps returned by calendar timing.
     if locationRule.source == "monthly" then
-        state.location = locationRule.locations[(now.month - 1) % #locationRule.locations + 1]
+        local locationIndex = (now.month - 1) % #locationRule.locations + 1
+        state.location = locationRule.locations[locationIndex]
     elseif locationRule.source == "fortnightly" then
-        local cycle = math.floor((_DayNumber(now) - _DayNumber(locationRule.anchor)) / 14)
-        state.location = locationRule.locations[cycle % #locationRule.locations + 1]
+        local daysSinceAnchor = _DayNumber(now) - _DayNumber(locationRule.anchor)
+        local cycle = math.floor(daysSinceAnchor / 14)
+        local locationIndex = cycle % #locationRule.locations + 1
+        state.location = locationRule.locations[locationIndex]
     elseif locationRule.source == "fixed" then
         state.location = locationRule.location
     end
+
     return state
 end

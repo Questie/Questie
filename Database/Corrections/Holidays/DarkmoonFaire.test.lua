@@ -202,6 +202,17 @@ describe("DarkmoonFaire", function()
             assert.equals("inactive", DarkmoonFaire.GetCurrentState().status)
         end)
 
+        it("opens a week after setup when both use the same weekday", function()
+            DarkmoonFaire.rules[Expansions.Era].default.timing.startWeekday = 6
+            now = {year = 2026, month = 5, monthDay = 1, hour = 3, minute = 0}
+
+            -- May 1, 2026 is Friday. The configured opening must be strictly after that setup Friday.
+            assert.equals("inactive", DarkmoonFaire.GetCurrentState().status)
+
+            now.monthDay = 8
+            assert.same({status = "active", location = "ELWYNN_FOREST"}, DarkmoonFaire.GetCurrentState())
+        end)
+
         it("keeps configured opening times when only the location comes from the calendar", function()
             DarkmoonFaire.rules[Expansions.Era].default.location = {source = "calendar"}
             events = {holiday(235450,
@@ -280,6 +291,9 @@ describe("DarkmoonFaire", function()
 
         it("alternates SoD every fourteen civil days without minute or DST drift", function()
             seasonId = 2
+            now = {year = 2023, month = 12, monthDay = 3, hour = 23, minute = 59}
+            assert.equals("inactive", DarkmoonFaire.GetCurrentState().status)
+
             now = {year = 2023, month = 12, monthDay = 4, hour = 0, minute = 0}
             assert.equals("inactive", DarkmoonFaire.GetCurrentState().status)
             now.minute = 1
