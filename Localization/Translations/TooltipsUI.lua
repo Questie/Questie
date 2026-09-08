@@ -145,6 +145,18 @@ local tooltipsUILocales = {
         ["ruRU"] = "Разработчик Questie",
         ["zhCN"] = "Questie 开发者",
         ["zhTW"] = "Questie 開發者",
+    },
+    ["Multiple Sources"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Mehrere Quellen",
+        ["esES"] = "Múltiples fuentes",
+        ["esMX"] = "Múltiples fuentes",
+        ["frFR"] = "Sources multiples",
+        ["koKR"] = "여러 출처",
+        ["ptBR"] = "Múltiplas fontes",
+        ["ruRU"] = "Несколько источников",
+        ["zhCN"] = "多个来源",
+        ["zhTW"] = "多個來源",
     }
 }
 
