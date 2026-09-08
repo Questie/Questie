@@ -34,9 +34,6 @@ local MAX_GROUP_SIZE = 5
 local MAX_PARTY_ICONS = 500
 -- How many quests we redraw per frame when spreading a large refresh across frames.
 local CHUNK_SIZE = 50
--- How many times we re-poll the client for a party member's quest objective data (for the
--- Blizzard objective text) before giving up, when it isn't cached yet on the first draw.
-local MAX_PREFETCH_RETRIES = 5
 
 -- The single-character objective types used in the QuestieComms packets, mapped to the
 -- full type names used by the drawing pipeline and the database ObjectiveData.
@@ -53,12 +50,11 @@ local drawnByQuest = {}
 -- spawnListCache[questId][objectiveIndex] = spawnList. Spawn data is static (DB + the
 -- objective's icon, both constant per questId+objectiveIndex), so it is built once and reused.
 local spawnListCache = {}
+-- apiObjectivesCache[questId] = objectives table from ContinueOnQuestObjectivesLoad.
+-- Cached after async load completes so subsequent objectives on the same quest are instant.
+local apiObjectivesCache = {}
 -- Running total of party map-icons currently drawn, compared against MAX_PARTY_ICONS.
 local drawnIconCount = 0
--- prefetchedQuests[questId] = { attempts = number, pending = boolean }. Tracks our bounded poll
--- for a party member's quest objective data so a cache miss is retried a few times (not forever)
--- and only one retry timer is in flight per quest.
-local prefetchedQuests = {}
 
 -- Scheduling state.
 local dirtyQuests = {}
@@ -96,41 +92,28 @@ end
 
 -- A flagged objective's database name is meaningless (kill-credit, event, etc.). The Blizzard API
 -- returns the real objective text for quests we don't have, once the client has cached the quest
--- data (same pattern as Link.lua _AddQuestRequirements).
+-- data.
 ---@param questId number
 ---@param objectiveIndex number
 ---@return string?
 local function _GetApiObjectiveText(questId, objectiveIndex)
-    if not HaveQuestData(questId) then
-        C_QuestLog.GetQuestObjectives(questId) -- prime the client cache
-        -- The data arrives asynchronously and QUEST_DATA_LOAD_RESULT isn't available on Classic
-        -- clients, so poll with a bounded number of delayed redraws until it's cached (a server
-        -- round-trip can take a few seconds on login). One timer in flight per quest so multiple
-        -- objectives don't multiply retries; gives up after MAX_PREFETCH_RETRIES so it can't loop.
-        local state = prefetchedQuests[questId]
-        if not state then
-            state = {attempts = 0, pending = false}
-            prefetchedQuests[questId] = state
+    -- Check cache first
+    local objectives = apiObjectivesCache[questId]
+    if objectives then
+        local objective = objectives[objectiveIndex]
+        local text = objective and objective.text
+        if text and text ~= "" and string.byte(text, 1) ~= 32 and objective.type then
+            return QuestieLib.GetFullObjectiveText(text) or text
         end
-        if (not state.pending) and state.attempts < MAX_PREFETCH_RETRIES then
-            state.pending = true
-            C_Timer.After(1.5, function()
-                state.pending = false
-                state.attempts = state.attempts + 1
-                QuestiePartyObjectives:ScheduleUpdate(questId)
-            end)
-        end
-        return nil
-    end
-    local objectives = C_QuestLog.GetQuestObjectives(questId)
-    local objective = objectives and objectives[objectiveIndex]
-    local text = objective and objective.text
-    if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
         return nil
     end
 
-    -- Strip the counter from the objective text; the tooltip prepends fulfilled/required separately
-    return QuestieLib.GetFullObjectiveText(text) or text
+    QuestieLib.ContinueOnQuestObjectivesLoad(questId, function(loadedObjectives)
+        apiObjectivesCache[questId] = loadedObjectives
+        QuestiePartyObjectives:ScheduleUpdate(questId)
+    end)
+
+    return nil -- will retry on next scheduled update
 end
 
 -- The tooltips prefer FullDescription (the objective text including "slain", see
@@ -496,7 +479,7 @@ function QuestiePartyObjectives:Clear()
     end
     drawnByQuest = {}
     drawnIconCount = 0
-    prefetchedQuests = {}
+    apiObjectivesCache = {}
 end
 
 -- Immediate full refresh, used by the options toggle.
