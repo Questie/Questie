@@ -20,6 +20,10 @@ describe("DarkmoonFaireFixes", function()
         DarkmoonFaireFixes = QuestieLoader:ImportModule("DarkmoonFaireFixes")
     end)
 
+    it("returns no NPC corrections for Darkmoon Island", function()
+        assert.is_nil(DarkmoonFaireFixes.GetNpcFixes("DARKMOON_ISLAND"))
+    end)
+
     it("returns the six Mulgore NPC corrections", function()
         local npcKeys = QuestieDB.npcKeys
         local zoneIDs = ZoneDB.zoneIDs

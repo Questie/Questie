@@ -245,20 +245,21 @@ end
 ---@field minute number
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_DateAndTime.GetCurrentCalendarTime)
----Returns the current date and time information.
+---Older clients supply the calendar date and in-game clock through separate APIs.
 ---@return CalendarTime
 function QuestieCompat.GetCurrentCalendarTime()
     if C_DateAndTime and C_DateAndTime.GetCurrentCalendarTime then
         return C_DateAndTime.GetCurrentCalendarTime()
-    elseif C_DateAndTime and C_DateAndTime.GetTodaysDate then
+    elseif C_DateAndTime and C_DateAndTime.GetTodaysDate and GetGameTime then
         local today = C_DateAndTime.GetTodaysDate()
+        local hour, minute = GetGameTime()
         return {
             monthDay = today.day,
             month = today.month,
             year = today.year,
             weekday = today.weekDay,
-            hour = 0,
-            minute = 0,
+            hour = hour,
+            minute = minute,
         }
     end
     error(errorMsg, 2)
