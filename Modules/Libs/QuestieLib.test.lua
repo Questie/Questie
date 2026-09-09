@@ -305,7 +305,7 @@ describe("QuestieLib", function()
             originalGetQuestObjectives = _G.C_QuestLog.GetQuestObjectives
             timer = {}
             ThreadLib.Thread = spy.new(function(body, delay)
-                assert.are_same(0.1, delay)
+                assert.are_same(0.2, delay)
                 thread = coroutine.create(body)
                 return timer, thread
             end)
