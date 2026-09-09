@@ -398,6 +398,20 @@ describe("QuestieLib", function()
             assert.are_same("dead", coroutine.status(thread))
         end)
 
+        it("should call onFailure (if provided) and not onSuccess when timing out after 20 attempts", function()
+            objectives = {{text = "", type = "event"}}
+            local onFailure = spy.new(function() end)
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback, onFailure)
+            for _ = 1, 20 do
+                Tick()
+            end
+
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(20)
+            assert.spy(callback).was.not_called()
+            assert.spy(onFailure).was.called(1)
+            assert.are_same("dead", coroutine.status(thread))
+        end)
+
         it("should still call back if objectives load on the twentieth attempt", function()
             objectives = nil
             QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
