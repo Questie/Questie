@@ -46,6 +46,15 @@ describe("QuestiePartyObjectives", function()
         end
     end
 
+    -- Capture the callback passed to ContinueOnQuestObjectivesLoad so a test can invoke it
+    -- manually when ready (simulating the async load completing).
+    local pendingObjectiveLoadCallback
+    local function mockContinueOnQuestObjectivesLoad()
+        return function(questId, callback)
+            pendingObjectiveLoadCallback = callback
+        end
+    end
+
     ---Build one or more party quests, each drawing the given number of map and minimap icons.
     ---@param spec table<number, number> @questId -> icons drawn per objective
     local function givenPartyQuests(spec)
@@ -90,10 +99,47 @@ describe("QuestiePartyObjectives", function()
         givenPartyQuests({[QUEST_ID] = spawnCount})
     end
 
+    -- Build a party quest where the DB objective type (e.g. "monster") differs from the
+    -- comms type (e.g. "m" -> "monster" would match; use "object" to force a mismatch
+    -- so the API text path is taken). DB type "monster" vs comms "object" triggers
+    -- _NeedsApiObjectiveText to return true.
+    local function givenMismatchedPartyQuest()
+        QuestieComms.remoteQuestLogs = {}
+        QuestieComms.remoteQuestLogs[QUEST_ID] = {
+            ["Partymember"] = {
+                [1] = {finished = false, type = "o", id = 100}, -- comms says "object"
+            },
+        }
+
+        QuestieDB.GetQuest = function(questId)
+            return {
+                Id = questId,
+                Color = {1, 1, 1},
+                ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}}, -- DB says "monster"
+                SpecialObjectives = {},
+            }
+        end
+
+        QuestieQuest.PopulateObjective = function(_, quest, _, objective)
+            spawnListPrefilled[#spawnListPrefilled + 1] = next(objective.spawnList) ~= nil
+            objective.spawnList[1] = {Name = "spawn", Spawns = {}}
+
+            local mapRefs = {}
+            local minimapRefs = {}
+            for i = 1, 1 do
+                mapRefs[i] = {data = objective}
+                minimapRefs[i] = {data = objective}
+            end
+            objective.AlreadySpawned[1] = {data = objective, mapRefs = mapRefs, minimapRefs = minimapRefs}
+            drawnObjectives[#drawnObjectives + 1] = objective
+        end
+    end
+
     before_each(function()
         pendingThreads = {}
         drawnObjectives = {}
         spawnListPrefilled = {}
+        pendingObjectiveLoadCallback = nil
 
         Questie.db.profile.showPartyQuestObjectives = true
         Questie.db.profile.trimObjectiveText = false
@@ -118,7 +164,11 @@ describe("QuestiePartyObjectives", function()
         QuestiePlayer.GetGroupType = function() return "party" end
         CommsVisibility.ShouldShowPartyObjective = function() return true end
         QuestieLib.ColorWheel = function() return {1, 1, 1} end
-        QuestieLib.GetFullObjectiveText = function(text) return text end
+        -- Mock GetFullObjectiveText to strip the counter portion (": X/Y") like the real function
+        QuestieLib.GetFullObjectiveText = function(text)
+            return string.match(text, "^(.*):%s*%d+/%d+$") or string.match(text, "^(.*)：%s*%d+/%d+$") or text
+        end
+        QuestieLib.ContinueOnQuestObjectivesLoad = mockContinueOnQuestObjectivesLoad()
         QuestieFramePool.UnloadFrame = spy.new(function() end)
         QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
@@ -354,6 +404,90 @@ describe("QuestiePartyObjectives", function()
 
             -- Both objectives adopted: 2 frames each.
             assert.spy(QuestieFramePool.UnloadFrame).was.called(4)
+        end)
+    end)
+
+    describe("API objective text (type mismatch)", function()
+        it("should use cached API objectives when available", function()
+            -- Trigger the path that would have cached it: first draw with mismatch
+            -- (which starts the load), then resolve the load, then draw again.
+            -- So we test the full sequence: draw -> load -> redraw with cache.
+
+            givenMismatchedPartyQuest()
+
+            -- First draw: mismatch detected, cache empty -> ContinueOnQuestObjectivesLoad called
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            -- Load callback hasn't been invoked yet; no objectives drawn yet
+            assert.equals(0, #drawnObjectives)
+            assert.is_not_nil(pendingObjectiveLoadCallback)
+
+            -- Simulate the async load resolving with API objectives
+            pendingObjectiveLoadCallback({
+                [1] = {text = "API says: Slay 5 wolves: 0/5", type = "monster"},
+            })
+            runPendingThreads()
+
+            -- Now the quest should be drawn with the API text as Description (counter stripped)
+            assert.equals(1, #drawnObjectives)
+            assert.equals("API says: Slay 5 wolves", drawnObjectives[1].Description)
+
+            -- Second draw (redraw): cache hit, should use cached API text immediately
+            drawnObjectives = {}
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.equals(1, #drawnObjectives)
+            assert.equals("API says: Slay 5 wolves", drawnObjectives[1].Description)
+            -- Spawn list should be reused on second draw
+            assert.same({false, true}, spawnListPrefilled)
+        end)
+
+        it("should not draw objectives until API load callback resolves", function()
+            givenMismatchedPartyQuest()
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            -- Before the load callback runs, nothing should be drawn
+            assert.equals(0, #drawnObjectives)
+            assert.is_not_nil(pendingObjectiveLoadCallback)
+
+            -- Now invoke the callback
+            pendingObjectiveLoadCallback({
+                [1] = {text = "Loaded from API: 0/3", type = "monster"},
+            })
+            runPendingThreads()
+
+            -- After callback, the quest is drawn
+            assert.equals(1, #drawnObjectives)
+            assert.equals("Loaded from API", drawnObjectives[1].Description)
+        end)
+
+        it("should not redraw if quest was cleared before load callback", function()
+            givenMismatchedPartyQuest()
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_not_nil(pendingObjectiveLoadCallback)
+
+            -- Clear the quest before the load resolves
+            QuestiePartyObjectives:Clear()
+            -- Reset the spy to track only new calls
+            QuestieFramePool.UnloadFrame = spy.new(function() end)
+
+            -- Now invoke the callback - it should detect staleness and bail out
+            pendingObjectiveLoadCallback({
+                [1] = {text = "Should not be used", type = "monster"},
+            })
+            runPendingThreads()
+
+            -- No new frames should have been created/adopted
+            assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
+            -- drawnObjectives should still be empty (the old ones were cleared)
+            assert.equals(0, #drawnObjectives)
         end)
     end)
 end)
