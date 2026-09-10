@@ -54,6 +54,18 @@ Questie.db = {profile = {minimap = {hide = false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
+-- Season enum compatibility
+-- Rule tables use these keys at load time. Fill omissions without replacing values supplied by the client.
+Enum.SeasonID = Enum.SeasonID or {}
+Enum.SeasonID.SeasonOfMastery = Enum.SeasonID.SeasonOfMastery or 1
+Enum.SeasonID.SeasonOfDiscovery = Enum.SeasonID.SeasonOfDiscovery or 2
+Enum.SeasonID.Hardcore = Enum.SeasonID.Hardcore or 3
+Enum.SeasonID.Fresh = Enum.SeasonID.Fresh or 11
+Enum.SeasonID.FreshHardcore = Enum.SeasonID.FreshHardcore or 12
+Enum.SeasonID.TitanReforged = Enum.SeasonID.TitanReforged or 109
+
+-- Client expansion
+
 --- Addon is running on Classic MoP client
 ---@type boolean
 Questie.IsMoP = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
@@ -74,6 +86,8 @@ Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 ---@type boolean
 Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
+-- Realm variants: expansion and season together distinguish Era Fresh from TBC Fresh.
+
 --- Addon is running on Classic "Vanilla" client and on Era realm (non-seasonal)
 ---@type boolean
 Questie.IsEra = Questie.IsClassic and (not C_Seasons.HasActiveSeason())
@@ -82,27 +96,39 @@ Questie.IsEra = Questie.IsClassic and (not C_Seasons.HasActiveSeason())
 
 --- Addon is running on Classic "Vanilla" client and on Season of Mastery realm specifically
 ---@type boolean
-Questie.IsSoM = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery)
+Questie.IsSoM = Questie.IsClassic
+    and C_Seasons.HasActiveSeason()
+    and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery)
 
 --- Addon is running on Classic "Vanilla" client and on Season of Discovery realm specifically
 ---@type boolean
-Questie.IsSoD = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery)
+Questie.IsSoD = Questie.IsClassic
+    and C_Seasons.HasActiveSeason()
+    and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery)
 
---- Addon is running on Classic "WotLK" client and on a Titan Forged realm specifically
+--- Addon is running on Classic "WotLK" client and on a Titan Reforged realm specifically
 ---@type boolean
-Questie.IsTitanReforged = Questie.IsWotlk and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 109) -- There is no entry in Enum.SeasonID for this
+Questie.IsTitanReforged = Questie.IsWotlk
+    and C_Seasons.HasActiveSeason()
+    and (C_Seasons.GetActiveSeason() == Enum.SeasonID.TitanReforged)
 
---- Addon is running on Classic "Vanilla" client and on Classic Anniversary realm ( )
+--- Addon is running on an Anniversary Era realm.
 ---@type boolean
-Questie.IsAnniversaryEra = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Fresh)
+Questie.IsAnniversaryEra = Questie.IsClassic
+    and C_Seasons.HasActiveSeason()
+    and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Fresh)
 
---- Addon is running on Classic "Vanilla" client and on Classic Anniversary realm ( )
+--- Addon is running on an Anniversary TBC realm.
 ---@type boolean
-Questie.IsAnniversaryTBC = Questie.IsTBC and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Fresh)
+Questie.IsAnniversaryTBC = Questie.IsTBC
+    and C_Seasons.HasActiveSeason()
+    and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Fresh)
 
 --- Addon is running on Classic "Vanilla" client and on Classic Anniversary Hardcore realm
 ---@type boolean
-Questie.IsAnniversaryHardcore = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.FreshHardcore)
+Questie.IsAnniversaryHardcore = Questie.IsClassic
+    and C_Seasons.HasActiveSeason()
+    and (C_Seasons.GetActiveSeason() == Enum.SeasonID.FreshHardcore)
 
 --- Addon is running on a HardCore realm specifically
 ---@type boolean

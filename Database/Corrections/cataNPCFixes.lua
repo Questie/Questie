@@ -2089,23 +2089,28 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{49.52,71.35},{-1,-1}}},
         },
         [14828] = { -- Gelvas Grimegate
+            [npcKeys.zoneID] = zoneIDs.DARKMOON_FAIRE_ISLAND,
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.77,64.78},{-1,-1}}},
             [npcKeys.questStarts] = {7940},
         },
         [14829] = { -- Yebb Neblegear
+            [npcKeys.zoneID] = zoneIDs.DARKMOON_FAIRE_ISLAND,
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{51.1,82.05},{-1,-1}}},
             [npcKeys.questStarts] = {7899,7900,7901,7902,7903,8222,29508},
             [npcKeys.questEnds] = {7899,7900,7901,7902,7903,7943,8222,8223,29444,29448,29468,29508},
         },
         [14832] = { -- Kerri Hicks
+            [npcKeys.zoneID] = zoneIDs.DARKMOON_FAIRE_ISLAND,
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{47.9,67.12},{-1,-1}}},
             [npcKeys.questStarts] = {7889,7890,7891,7892,7893,29433},
         },
         [14833] = { -- Chronos
+            [npcKeys.zoneID] = zoneIDs.DARKMOON_FAIRE_ISLAND,
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{55,70.77},{-1,-1}}},
             [npcKeys.questStarts] = {7881,7882,7883,7884,29512,29514,29516,29519},
         },
         [14841] = { -- Rinling
+            [npcKeys.zoneID] = zoneIDs.DARKMOON_FAIRE_ISLAND,
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{49.17,60.71},{-1,-1}}},
             [npcKeys.questStarts] = {7894,7895,7896,7897,7898,29438,29511,29517,29518},
         },
@@ -2153,6 +2158,7 @@ function CataNpcFixes.Load()
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{53.71,82.42},{-1,-1}}},
         },
         [14871] = { -- Morja
+            [npcKeys.zoneID] = zoneIDs.DARKMOON_FAIRE_ISLAND,
             [npcKeys.spawns] = {[zoneIDs.DARKMOON_FAIRE_ISLAND] = {{55.93,70.73},{-1,-1}}},
         },
         [14902] = { -- Jin'rokh the Breaker
