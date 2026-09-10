@@ -46,12 +46,14 @@ describe("QuestiePartyObjectives", function()
         end
     end
 
-    -- Capture the callback passed to ContinueOnQuestObjectivesLoad so a test can invoke it
-    -- manually when ready (simulating the async load completing).
-    local pendingObjectiveLoadCallback
+    -- Capture the callbacks passed to ContinueOnQuestObjectivesLoad so a test can invoke them
+    -- manually when ready (simulating the async load completing or failing).
+    local pendingObjectiveLoadSuccess
+    local pendingObjectiveLoadFailure
     local function mockContinueOnQuestObjectivesLoad()
-        return function(questId, callback)
-            pendingObjectiveLoadCallback = callback
+        return function(questId, onSuccess, onFailure)
+            pendingObjectiveLoadSuccess = onSuccess
+            pendingObjectiveLoadFailure = onFailure
         end
     end
 
@@ -139,7 +141,8 @@ describe("QuestiePartyObjectives", function()
         pendingThreads = {}
         drawnObjectives = {}
         spawnListPrefilled = {}
-        pendingObjectiveLoadCallback = nil
+        pendingObjectiveLoadSuccess = nil
+        pendingObjectiveLoadFailure = nil
 
         Questie.db.profile.showPartyQuestObjectives = true
         Questie.db.profile.trimObjectiveText = false
@@ -421,10 +424,10 @@ describe("QuestiePartyObjectives", function()
 
             -- Load callback hasn't been invoked yet; no objectives drawn yet
             assert.equals(0, #drawnObjectives)
-            assert.is_not_nil(pendingObjectiveLoadCallback)
+            assert.is_not_nil(pendingObjectiveLoadSuccess)
 
             -- Simulate the async load resolving with API objectives
-            pendingObjectiveLoadCallback({
+            pendingObjectiveLoadSuccess({
                 [1] = {text = "API says: Slay 5 wolves: 0/5", type = "monster"},
             })
             runPendingThreads()
@@ -452,10 +455,10 @@ describe("QuestiePartyObjectives", function()
 
             -- Before the load callback runs, nothing should be drawn
             assert.equals(0, #drawnObjectives)
-            assert.is_not_nil(pendingObjectiveLoadCallback)
+            assert.is_not_nil(pendingObjectiveLoadSuccess)
 
             -- Now invoke the callback
-            pendingObjectiveLoadCallback({
+            pendingObjectiveLoadSuccess({
                 [1] = {text = "Loaded from API: 0/3", type = "monster"},
             })
             runPendingThreads()
@@ -471,7 +474,7 @@ describe("QuestiePartyObjectives", function()
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
 
-            assert.is_not_nil(pendingObjectiveLoadCallback)
+            assert.is_not_nil(pendingObjectiveLoadSuccess)
 
             -- Clear the quest before the load resolves
             QuestiePartyObjectives:Clear()
@@ -479,7 +482,7 @@ describe("QuestiePartyObjectives", function()
             QuestieFramePool.UnloadFrame = spy.new(function() end)
 
             -- Now invoke the callback - it should detect staleness and bail out
-            pendingObjectiveLoadCallback({
+            pendingObjectiveLoadSuccess({
                 [1] = {text = "Should not be used", type = "monster"},
             })
             runPendingThreads()
@@ -488,6 +491,24 @@ describe("QuestiePartyObjectives", function()
             assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
             -- drawnObjectives should still be empty (the old ones were cleared)
             assert.equals(0, #drawnObjectives)
+        end)
+
+        it("should draw with default/DB text when load times out (onFailure)", function()
+            givenMismatchedPartyQuest()
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_not_nil(pendingObjectiveLoadSuccess)
+            assert.is_not_nil(pendingObjectiveLoadFailure)
+
+            -- Simulate the load timing out by invoking onFailure
+            pendingObjectiveLoadFailure()
+            runPendingThreads()
+
+            -- Should draw with default text (from DB, since no API text available)
+            assert.equals(1, #drawnObjectives)
+            assert.equals("Kill things", drawnObjectives[1].Description)
         end)
     end)
 end)
