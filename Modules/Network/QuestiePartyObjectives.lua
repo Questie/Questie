@@ -378,6 +378,12 @@ local function _DrawQuest(questId)
             end
             apiObjectivesCache[questId] = loadedObjectives
             _DrawObjectives(loadedObjectives)
+        end, function()
+            -- Objective loading failed, fallback to the default objectives
+            if _IsStale() then
+                return
+            end
+            _DrawObjectives(nil)
         end)
     end
 
