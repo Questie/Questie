@@ -53,8 +53,8 @@ describe("TrackerMenu", function()
 
     describe("addShowHideObjectivesOption", function()
         it("should add 'Hide Icons' option and call ToggleQuestNotes(false) when icons are visible", function()
-            local quest = { Id = 100 }
-            local objective = { Index = 1, HideIcons = nil }
+            local quest = {Id = 100}
+            local objective = {Index = 1, HideIcons = nil}
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -73,8 +73,8 @@ describe("TrackerMenu", function()
         end)
 
         it("should add 'Show Icons' option and call ToggleQuestNotes(true) when icons are hidden", function()
-            local quest = { Id = 100 }
-            local objective = { Index = 1, HideIcons = true }
+            local quest = {Id = 100}
+            local objective = {Index = 1, HideIcons = true}
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -95,7 +95,7 @@ describe("TrackerMenu", function()
 
     describe("addShowHideQuestsOption", function()
         it("should add 'Hide Icons' option and call ToggleQuestNotes(false) when icons are visible", function()
-            local quest = { Id = 200, HideIcons = nil }
+            local quest = {Id = 200, HideIcons = nil}
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -114,7 +114,7 @@ describe("TrackerMenu", function()
         end)
 
         it("should add 'Show Icons' option and call ToggleQuestNotes(true) when icons are hidden", function()
-            local quest = { Id = 200, HideIcons = true }
+            local quest = {Id = 200, HideIcons = true}
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -135,8 +135,8 @@ describe("TrackerMenu", function()
 
     describe("addShowObjectivesOnMapOption", function()
         it("should call ToggleQuestNotes(true) when objective has HideIcons set", function()
-            local quest = { Id = 300, HideIcons = nil }
-            local objective = { Index = 1, HideIcons = true }
+            local quest = {Id = 300, HideIcons = nil}
+            local objective = {Index = 1, HideIcons = true}
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -150,8 +150,8 @@ describe("TrackerMenu", function()
         end)
 
         it("should call ToggleQuestNotes(true) when quest has HideIcons set", function()
-            local quest = { Id = 300, HideIcons = true }
-            local objective = { Index = 1, HideIcons = nil }
+            local quest = {Id = 300, HideIcons = true}
+            local objective = {Index = 1, HideIcons = nil}
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -165,8 +165,8 @@ describe("TrackerMenu", function()
         end)
 
         it("should not call ToggleQuestNotes when nothing is hidden", function()
-            local quest = { Id = 300, HideIcons = nil }
-            local objective = { Index = 1, HideIcons = nil }
+            local quest = {Id = 300, HideIcons = nil}
+            local objective = {Index = 1, HideIcons = nil}
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
