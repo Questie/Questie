@@ -5752,6 +5752,7 @@ function QuestieQuestFixes:Load()
         },
         [8751] = { -- The Protector of Kalimdor
             [questKeys.exclusiveTo] = {8752, 8757}, -- protector exalted
+            [questKeys.nextQuestInChain] = 8764,
         },
         [8752] = { -- The Path of the Conqueror
             [questKeys.exclusiveTo] = {8747, 8757}, -- conqueror neutral
@@ -5771,6 +5772,7 @@ function QuestieQuestFixes:Load()
         },
         [8756] = { -- The Qiraji Conqueror
             [questKeys.exclusiveTo] = {8747, 8757}, -- conqueror exalted
+            [questKeys.nextQuestInChain] = 8766,
         },
         [8757] = { -- The Path of the Invoker
             [questKeys.exclusiveTo] = {8747, 8752}, -- invoker neutral
@@ -5790,10 +5792,22 @@ function QuestieQuestFixes:Load()
         },
         [8761] = { -- The Grand Invoker
             [questKeys.exclusiveTo] = {8747, 8752}, -- invoker exalted
+            [questKeys.nextQuestInChain] = 8765,
         },
         [8762] = { -- Metzen the Reindeer
             [questKeys.requiredSourceItems] = {21314},
             [questKeys.nextQuestInChain] = 8763,
+        },
+        [8764] = { -- The Changing of Paths - Protector No More
+            [questKeys.preQuestSingle] = {8751},
+        },
+        [8765] = { -- The Changing of Paths - Invoker No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {8761},
+        },
+        [8766] = { -- The Changing of Paths - Conqueror No More
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+            [questKeys.preQuestSingle] = {8756},
         },
         [8767] = { -- A Gently Shaken Gift
             [questKeys.requiredRaces] = raceIDs.NONE,
