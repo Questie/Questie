@@ -51,7 +51,7 @@ describe("QuestiePartyObjectives", function()
     local pendingObjectiveLoadSuccess
     local pendingObjectiveLoadFailure
     local function mockContinueOnQuestObjectivesLoad()
-        return function(questId, onSuccess, onFailure)
+        return function(_, onSuccess, onFailure)
             pendingObjectiveLoadSuccess = onSuccess
             pendingObjectiveLoadFailure = onFailure
         end
@@ -122,7 +122,7 @@ describe("QuestiePartyObjectives", function()
             }
         end
 
-        QuestieQuest.PopulateObjective = function(_, quest, _, objective)
+        QuestieQuest.PopulateObjective = function(_, _, _, objective)
             spawnListPrefilled[#spawnListPrefilled + 1] = next(objective.spawnList) ~= nil
             objective.spawnList[1] = {Name = "spawn", Spawns = {}}
 
@@ -224,11 +224,11 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             -- The pre-draw staleness check means no frames are created, so none need releasing.
-            assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
+            assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
 
             -- Nothing was adopted either, so a later Clear finds nothing.
             QuestiePartyObjectives:Clear()
-            assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
+            assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
         end)
 
         it("should release icons when the quest is cleared while the draw is in progress", function()
@@ -263,7 +263,7 @@ describe("QuestiePartyObjectives", function()
 
             QuestieFramePool.UnloadFrame = spy.new(function() end)
             QuestiePartyObjectives:Clear()
-            assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
+            assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
         end)
 
         it("should reject an objective that on its own exceeds the icon budget", function()
@@ -280,7 +280,7 @@ describe("QuestiePartyObjectives", function()
             -- And none of it was adopted, so there is nothing left for Clear to find.
             QuestieFramePool.UnloadFrame = spy.new(function() end)
             QuestiePartyObjectives:Clear()
-            assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
+            assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
         end)
 
         it("should draw nothing at all once the icon budget is exhausted", function()
@@ -488,7 +488,7 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             -- No new frames should have been created/adopted
-            assert.spy(QuestieFramePool.UnloadFrame).was_not.called()
+            assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
             -- drawnObjectives should still be empty (the old ones were cleared)
             assert.equals(0, #drawnObjectives)
         end)
