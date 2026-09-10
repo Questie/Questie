@@ -289,7 +289,7 @@ describe("QuestiePartyObjectives", function()
 
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
-            assert.equals(1, #drawnObjectives) -- budget now fully spent
+            assert.is_equal(1, #drawnObjectives) -- budget now fully spent
 
             -- The second quest must be abandoned before anything is drawn. Reaching PopulateObjective
             -- would allocate frames only to release them, and a frame unloaded while still queued
@@ -297,7 +297,7 @@ describe("QuestiePartyObjectives", function()
             QuestiePartyObjectives:ScheduleUpdate(otherQuest)
             runPendingThreads()
 
-            assert.equals(1, #drawnObjectives)
+            assert.is_equal(1, #drawnObjectives)
         end)
 
         it("should not draw a quest the local player also has", function()
@@ -310,7 +310,7 @@ describe("QuestiePartyObjectives", function()
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
 
-            assert.equals(0, #drawnObjectives)
+            assert.is_equal(0, #drawnObjectives)
         end)
 
         it("should count adopted icons against the budget of later quests", function()
@@ -423,7 +423,7 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             -- Load callback hasn't been invoked yet; no objectives drawn yet
-            assert.equals(0, #drawnObjectives)
+            assert.is_equal(0, #drawnObjectives)
             assert.is_not_nil(pendingObjectiveLoadSuccess)
 
             -- Simulate the async load resolving with API objectives
@@ -433,16 +433,16 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             -- Now the quest should be drawn with the API text as Description (counter stripped)
-            assert.equals(1, #drawnObjectives)
-            assert.equals("API says: Slay 5 wolves", drawnObjectives[1].Description)
+            assert.is_equal(1, #drawnObjectives)
+            assert.is_equal("API says: Slay 5 wolves", drawnObjectives[1].Description)
 
             -- Second draw (redraw): cache hit, should use cached API text immediately
             drawnObjectives = {}
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
 
-            assert.equals(1, #drawnObjectives)
-            assert.equals("API says: Slay 5 wolves", drawnObjectives[1].Description)
+            assert.is_equal(1, #drawnObjectives)
+            assert.is_equal("API says: Slay 5 wolves", drawnObjectives[1].Description)
             -- Spawn list should be reused on second draw
             assert.same({false, true}, spawnListPrefilled)
         end)
@@ -454,7 +454,7 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             -- Before the load callback runs, nothing should be drawn
-            assert.equals(0, #drawnObjectives)
+            assert.is_equal(0, #drawnObjectives)
             assert.is_not_nil(pendingObjectiveLoadSuccess)
 
             -- Now invoke the callback
@@ -464,8 +464,8 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             -- After callback, the quest is drawn
-            assert.equals(1, #drawnObjectives)
-            assert.equals("Loaded from API", drawnObjectives[1].Description)
+            assert.is_equal(1, #drawnObjectives)
+            assert.is_equal("Loaded from API", drawnObjectives[1].Description)
         end)
 
         it("should not redraw if quest was cleared before load callback", function()
@@ -490,7 +490,7 @@ describe("QuestiePartyObjectives", function()
             -- No new frames should have been created/adopted
             assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
             -- drawnObjectives should still be empty (the old ones were cleared)
-            assert.equals(0, #drawnObjectives)
+            assert.is_equal(0, #drawnObjectives)
         end)
 
         it("should draw with default/DB text when load times out (onFailure)", function()
@@ -507,8 +507,8 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             -- Should draw with default text (from DB, since no API text available)
-            assert.equals(1, #drawnObjectives)
-            assert.equals("Kill things", drawnObjectives[1].Description)
+            assert.is_equal(1, #drawnObjectives)
+            assert.is_equal("Kill things", drawnObjectives[1].Description)
         end)
     end)
 end)
