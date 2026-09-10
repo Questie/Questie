@@ -299,6 +299,9 @@ function QuestieTBCQuestFixes:Load()
         [1268] = { -- Suspicious Hoofprints
             [questKeys.startedBy] = {nil,{187273}},
         },
+        [1276] = { -- The Black Shield
+            [questKeys.nextQuestInChain] = 11204,
+        },
         [1282] = { -- They Call Him Smiling Jim
             [questKeys.breadcrumbForQuestId] = 11123,
         },
@@ -1441,6 +1444,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [8328] = { -- Mage Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.nextQuestInChain] = 10068,
         },
         [8330] = { -- Solanian's Belongings
             [questKeys.preQuestSingle] = {},
@@ -1453,6 +1457,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [8335] = { -- Felendren the Banished
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.nextQuestInChain] = 8347,
         },
         [8336] = { -- A Fistful of Slivers
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -1567,6 +1572,9 @@ function QuestieTBCQuestFixes:Load()
         [8482] = { -- Incriminating Documents
             [questKeys.startedBy] = {nil,nil,{20765}},
         },
+        [8483] = { -- The Dwarven Spy
+            [questKeys.nextQuestInChain] = 9256,
+        },
         [8484] = { -- The Brokering of Peace
             [questKeys.reputationReward] = {{factionIDs.ALLIANCE,500}},
         },
@@ -1617,9 +1625,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [8563] = { -- Warlock Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.nextQuestInChain] = 10073,
         },
         [8564] = { -- Priest Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.nextQuestInChain] = 10072,
         },
         [8572] = { -- Veteran's Battlegear
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -1980,6 +1990,7 @@ function QuestieTBCQuestFixes:Load()
         [8892] = { -- Situation at Sunsail Anchorage
             [questKeys.preQuestSingle] = {}, -- TO DO: double check
             [questKeys.breadcrumbs] = {9256},
+            [questKeys.nextQuestInChain] = 9359,
         },
         [8894] = { -- Cleaning up the Grounds
             [questKeys.preQuestSingle] = {},
@@ -2148,6 +2159,7 @@ function QuestieTBCQuestFixes:Load()
         [9147] = { -- The Fallen Courier
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {9144},
+            [questKeys.nextQuestInChain] = 9148,
         },
         [9149] = { -- The Plagued Coast
             [questKeys.preQuestSingle] = {9327,9329},
@@ -2158,6 +2170,9 @@ function QuestieTBCQuestFixes:Load()
         [9152] = { -- Tomber's Supplies
             [questKeys.preQuestSingle] = {9327,9329},
         },
+        [9158] = { -- Bearers of the Plague
+            [questKeys.nextQuestInChain] = 9159,
+        },
         [9160] = { -- Investigate An'daroth
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS] = {{37.13,16.15}}}},
         },
@@ -2167,6 +2182,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9164] = { -- Captives at Deatholme
             [questKeys.objectives] = {{{16208,nil,Questie.ICON_TYPE_TALK},{16206,nil,Questie.ICON_TYPE_TALK},{16209,nil,Questie.ICON_TYPE_TALK}}},
+        },
+        [9166] = { -- Deliver the Plans to An'telas
+            [questKeys.nextQuestInChain] = 9169,
         },
         [9174] = { -- Vanquishing Aquantion
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Bundle of Medallions"), 0, {{"object", 181157}}}},
@@ -2179,6 +2197,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9180] = { -- Journey to Undercity
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.nextQuestInChain] = 9189,
         },
         [9181] = { -- Craftsman's Writ - Volcanic Hammer
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -2207,11 +2226,18 @@ function QuestieTBCQuestFixes:Load()
         [9212] = { -- Escape from the Catacombs
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS] = {{72.24,30.21}}}},
         },
+        [9216] = { -- Rotting Hearts
+            [questKeys.nextQuestInChain] = 9217,
+        },
+        [9218] = { -- Spinal Dust
+            [questKeys.nextQuestInChain] = 9219,
+        },
         [9220] = { -- War on Deatholme
             [questKeys.breadcrumbs] = {9151},
         },
         [9252] = { -- Defending Fairbreeze Village
             [questKeys.breadcrumbs] = {9358},
+            [questKeys.nextQuestInChain] = 9253,
         },
         [9253] = { -- Runewarden Deryan
             [questKeys.breadcrumbForQuestId] = 8490,
@@ -2269,6 +2295,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
             [questKeys.preQuestSingle] = {9280},
         },
+        [9294] = { -- Healing the Lake
+            [questKeys.nextQuestInChain] = 10304,
+        },
         [9303] = { -- Inoculation
             [questKeys.breadcrumbs] = {10304},
             [questKeys.objectives] = {{{16518,nil,Questie.ICON_TYPE_INTERACT}}},
@@ -2276,6 +2305,7 @@ function QuestieTBCQuestFixes:Load()
         [9312] = { -- The Emitter
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {9305,9311},
+            [questKeys.nextQuestInChain] = 9313,
         },
         [9314] = { -- Word from Azure Watch
             [questKeys.requiredLevel] = 1,
@@ -2339,9 +2369,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [9392] = { -- Rogue Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.nextQuestInChain] = 10071,
         },
         [9393] = { -- Hunter Training
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.nextQuestInChain] = 10070,
         },
         [9394] = { -- Where's Wyllithen?
             [questKeys.breadcrumbForQuestId] = 8894,
@@ -2445,6 +2477,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 9464,
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
+        [9463] = { -- Medicinal Purpose
+            [questKeys.nextQuestInChain] = 9473,
+        },
         [9464] = { -- Call of Fire
             [questKeys.breadcrumbs] = {9462},
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
@@ -2464,6 +2499,9 @@ function QuestieTBCQuestFixes:Load()
         [9472] = { -- Arelion's Mistress
             [questKeys.requiredSourceItems] = {29112},
             [questKeys.objectives] = {{{17226,nil,Questie.ICON_TYPE_INTERACT}}},
+        },
+        [9473] = { -- An Alternative Alternative
+            [questKeys.nextQuestInChain] = 9505,
         },
         [9484] = { -- Taming the Beast
             [questKeys.breadcrumbs] = {9617,10530},
@@ -2553,6 +2591,7 @@ function QuestieTBCQuestFixes:Load()
         [9514] = { -- Rune Covered Tablet
             [questKeys.preQuestSingle] = {9506},
             [questKeys.startedBy] = {nil,nil,{23759}},
+            [questKeys.nextQuestInChain] = 9515,
         },
         [9523] = { -- Precious and Fragile Things Need Special Handling
             [questKeys.preQuestSingle] = {9506,9512},
@@ -2703,6 +2742,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{16681,20406}},
             [questKeys.breadcrumbForQuestId] = 10590,
         },
+        [9602] = { -- Deliver Them From Evil...
+            [questKeys.nextQuestInChain] = 9671,
+        },
         [9607] = { -- Heart of Rage
             [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_CITADEL,
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA] = {{45.89,51.93}}}},
@@ -2803,6 +2845,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9671] = { -- Urgent Delivery
             [questKeys.requiredLevel] = 15,
+        },
+        [9676] = { -- Paladin Training
+            [questKeys.nextQuestInChain] = 10069,
         },
         [9677] = { -- Summons from Knight-Lord Bloodvalor
             [questKeys.breadcrumbForQuestId] = 9678,
@@ -2951,6 +2996,7 @@ function QuestieTBCQuestFixes:Load()
         [9759] = { -- Ending Their World
             [questKeys.preQuestSingle] = {9756},
             [questKeys.triggerEnd] = {"Vector Coil Destroyed and Sironas Slain", {[zoneIDs.BLOODMYST_ISLE] = {{14.86,54.84}}}},
+            [questKeys.nextQuestInChain] = 9762,
         },
         [9760] = { -- Vindicator's Rest
             [questKeys.exclusiveTo] = {9759},
@@ -2980,6 +3026,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9802] = { -- Plants of Zangarmarsh
             [questKeys.requiredMaxRep] = {},
+            [questKeys.nextQuestInChain] = 9784,
         },
         [9805] = { -- Blessing of Incineratus
             [questKeys.objectives] = {{{18110,nil,Questie.ICON_TYPE_EVENT},{18142,nil,Questie.ICON_TYPE_EVENT},{18143,nil,Questie.ICON_TYPE_EVENT},{18144,nil,Questie.ICON_TYPE_EVENT}}},
@@ -4086,6 +4133,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10518] = { -- Planting the Banner
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bladespire Banner atop the Northmaul Tower"), 0, {{"object", 184704}}}},
+            [questKeys.nextQuestInChain] = 10580,
         },
         [10519] = { -- The Cipher of Damnation - Truth and History
             [questKeys.objectives] = {{{21183,nil,Questie.ICON_TYPE_TALK}}},
@@ -4197,6 +4245,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use The Cipher of Damnation at Altar of Damnation"), 0, {{"object", 184907}}},
                                            {nil, Questie.ICON_TYPE_TALK, l10n("Let him know when you are ready for Cyrukh"), 0, {{"monster", 21685}}},
             },
+            [questKeys.nextQuestInChain] = 10883,
         },
         [10590] = { -- Prove Your Hatred
             [questKeys.preQuestSingle] = {},
@@ -5013,6 +5062,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10987] = { -- To Catch A Sparrowhawk
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use the Sparrowhawk Net to capture a Wild Sparrowhawk"), 0, {{"monster", 22979}}}},
+            [questKeys.nextQuestInChain] = 10988,
+        },
+        [10988] = { -- The Raven Stones
+            [questKeys.nextQuestInChain] = 10990,
         },
         [10990] = { -- The Eagle's Essence
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat the Guardian of the Eagle and obtain the Essence of the Eagle"), 0, {{"object", 185547}}}},
@@ -5043,6 +5096,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}},
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Skulloc's Soul"), 0, {{"monster", 22910}}},
             },
+        },
+        [11001] = { -- Vanquish the Raven God
+            [questKeys.nextQuestInChain] = 11011,
         },
         [11004] = { -- World of Shadows
             [questKeys.nextQuestInChain] = 11006,
@@ -5258,6 +5314,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11061] = { -- A Father's Duty
             [questKeys.requiredLevel] = 70,
+            [questKeys.nextQuestInChain] = 11079,
         },
         [11062] = { -- The Skyguard Outpost
             [questKeys.requiredLevel] = 70,
@@ -5541,6 +5598,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.breadcrumbForQuestId] = 1218,
             [questKeys.preQuestSingle] = {11134,11198}, -- double check 11198
         },
+        [11178] = { -- Blood of the Warlord
+            [questKeys.nextQuestInChain] = 11163,
+        },
         [11180] = { -- What's Haunting Witch Hill?
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23554,23555,23861},23861}}},
         },
@@ -5751,6 +5811,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11490] = { -- The Scryer's Scryer
             [questKeys.objectives] = {nil,{{187578}}},
+        },
+        [11492] = { -- Hard to Kill
+            [questKeys.nextQuestInChain] = 11499,
         },
         [11496] = { -- The Sanctum Wards
             [questKeys.objectives] = {nil,{{187078}}},

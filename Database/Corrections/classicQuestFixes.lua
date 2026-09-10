@@ -40,6 +40,9 @@ function QuestieQuestFixes:Load()
         [7] = { -- Kobold Camp Cleanup
             [questKeys.nextQuestInChain] = 15,
         },
+        [8] = { -- A Rogue's Deal
+            [questKeys.nextQuestInChain] = 590,
+        },
         [11] = { -- Riverpaw Gnoll Bounty
             [questKeys.preQuestSingle] = {76}, -- #7364
             [questKeys.breadcrumbs] = {239},
@@ -89,6 +92,9 @@ function QuestieQuestFixes:Load()
         },
         [76] = { -- The Jasperlode Mine
             [questKeys.nextQuestInChain] = 239,
+        },
+        [77] = { -- A Sticky Situation
+            [questKeys.nextQuestInChain] = 81,
         },
         [82] = { -- The Scrimshank Redemption
             [questKeys.nextQuestInChain] = 10,
@@ -154,6 +160,9 @@ function QuestieQuestFixes:Load()
         },
         [214] = { -- Red Silk Bandanas
             [questKeys.preQuestSingle] = {155}, -- wotlkDB has prequest wrong data
+        },
+        [216] = { -- Between a Rock and a Thistlefur
+            [questKeys.nextQuestInChain] = 6621,
         },
         [217] = { -- In Defense of the King's Lands
             [questKeys.preQuestSingle] = {},
@@ -277,6 +286,9 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.parentQuest] = 310,
         },
+        [404] = { -- A Putrid Task
+            [questKeys.nextQuestInChain] = 426,
+        },
         [409] = { -- Proving Allegiance
             [questKeys.requiredSourceItems] = {3080},
         },
@@ -301,6 +313,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1843
             [questKeys.breadcrumbs] = {428},
         },
+        [430] = { -- Return to Quinn
+            [questKeys.nextQuestInChain] = 425,
+        },
         [431] = { -- Candles Of Beckoning
             [questKeys.preQuestSingle] = {366}, -- #638
             [questKeys.exclusiveTo] = {411}, -- #752
@@ -320,6 +335,9 @@ function QuestieQuestFixes:Load()
         [443] = { -- Rot Hide Ichor
             [questKeys.preQuestSingle] = {439},
         },
+        [444] = { -- Rot Hide Origins
+            [questKeys.nextQuestInChain] = 446,
+        },
         [452] = { -- Pyrewood Ambush
             [questKeys.objectives] = {nil, nil, nil, nil, {{{2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068}, 2060}}},
         },
@@ -329,6 +347,7 @@ function QuestieQuestFixes:Load()
         [455] = { -- The Algaz Gauntlet
             [questKeys.preQuestSingle] = {}, -- #1858
             [questKeys.breadcrumbs] = {468},
+            [questKeys.nextQuestInChain] = 473,
         },
         [456] = { -- The Balance of Nature
             [questKeys.nextQuestInChain] = 457,
@@ -360,6 +379,9 @@ function QuestieQuestFixes:Load()
         },
         [484] = { -- Young Crocolisk Skins
             [questKeys.requiredMinRep] = {72, 0}, -- #1501
+        },
+        [488] = { -- Zenn's Bidding
+            [questKeys.nextQuestInChain] = 489,
         },
         [489] = { -- Seek Redemption!
             [questKeys.startedBy] = {{2081, 2083, 2151, 2155}},
@@ -401,6 +423,9 @@ function QuestieQuestFixes:Load()
         [549] = { -- WANTED: Syndicate Personnel
             [questKeys.nextQuestInChain] = 566, -- #1134
         },
+        [556] = { -- Stone Tokens
+            [questKeys.nextQuestInChain] = 557,
+        },
         [558] = { -- Jaina's Autograph
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {1687, 1479, 1558},
@@ -421,11 +446,17 @@ function QuestieQuestFixes:Load()
         [577] = { -- Some Assembly Required
             [questKeys.nextQuestInChain] = 628,
         },
+        [582] = { -- Headhunting
+            [questKeys.nextQuestInChain] = 584,
+        },
         [587] = { -- Up to Snuff
             [questKeys.preQuestSingle] = {597},
         },
         [590] = { -- A Rogue's Deal
             [questKeys.triggerEnd] = {"Defeat Calvin Montague", {[zoneIDs.TIRISFAL_GLADES] = {{38.19, 56.74}}}},
+        },
+        [591] = { -- The Mind's Eye
+            [questKeys.nextQuestInChain] = 592,
         },
         [598] = { -- Split Bone Necklace
             [questKeys.preQuestSingle] = {},
@@ -460,6 +491,7 @@ function QuestieQuestFixes:Load()
         },
         [640] = { -- The Broken Sigil
             [questKeys.objectivesText] = {"Retrieve the 11 Sigil Fragments from the defenders in Stromgarde, and bring them to Tor'gan in Hammerfall.",},
+            [questKeys.nextQuestInChain] = 641,
         },
         [648] = { -- Rescue OOX-17/TN!
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to Steamwheedle Port", {[zoneIDs.TANARIS] = {{67.06, 23.16}}}},
@@ -486,6 +518,9 @@ function QuestieQuestFixes:Load()
         },
         [670] = { -- Sunken Treasure
             [questKeys.nextQuestInChain] = 667,
+        },
+        [671] = { -- Foul Magics
+            [questKeys.nextQuestInChain] = 673,
         },
         [676] = { -- The Hammer May Fall
             [questKeys.breadcrumbForQuestId] = 677,
@@ -527,6 +562,12 @@ function QuestieQuestFixes:Load()
         [696] = { -- Attack on the Tower
             [questKeys.requiredSourceItems] = {4529},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use it"), 0, {{"object", 2715}}}},
+        },
+        [702] = { -- Guile of the Raptor
+            [questKeys.nextQuestInChain] = 847,
+        },
+        [705] = { -- Pearl Diving
+            [questKeys.nextQuestInChain] = 1559,
         },
         [707] = { -- Ironband Wants You!
             [questKeys.nextQuestInChain] = 738,
@@ -685,6 +726,12 @@ function QuestieQuestFixes:Load()
         [870] = { -- The Forgotten Pools
             [questKeys.breadcrumbs] = {886},
         },
+        [871] = { -- Disrupt the Attacks
+            [questKeys.nextQuestInChain] = 872,
+        },
+        [876] = { -- Serena Bloodfeather
+            [questKeys.nextQuestInChain] = 1060,
+        },
         [878] = { -- Tribes at War
             [questKeys.nextQuestInChain] = 5052,
         },
@@ -696,6 +743,9 @@ function QuestieQuestFixes:Load()
         },
         [898] = { -- Free From the Hold
             [questKeys.triggerEnd] = {"Escort Gilthares Firebough back to Ratchet", {[zoneIDs.THE_BARRENS] = {{62.27, 39.09}}}},
+        },
+        [902] = { -- Samophlange
+            [questKeys.nextQuestInChain] = 3921,
         },
         [910] = { -- Down at the Docks
             [questKeys.triggerEnd] = {"Go to the docks of Ratchet in the Barrens.", {[zoneIDs.THE_BARRENS] = {{62.96, 38.04}}}},
@@ -712,6 +762,9 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {},
             [questKeys.parentQuest] = 0,
             [questKeys.requiredSourceItems] = {18597},
+        },
+        [917] = { -- Webwood Egg
+            [questKeys.nextQuestInChain] = 920,
         },
         [918] = { -- Timberling Seeds
             [questKeys.preQuestSingle] = {},
@@ -903,6 +956,15 @@ function QuestieQuestFixes:Load()
         [1062] = { -- Goblin Invaders
             [questKeys.breadcrumbs] = {1061}, -- #1803
         },
+        [1063] = { -- The Elder Crone
+            [questKeys.nextQuestInChain] = 1064,
+        },
+        [1066] = { -- Blood of Innocents
+            [questKeys.nextQuestInChain] = 1067,
+        },
+        [1067] = { -- Return to Thunder Bluff
+            [questKeys.nextQuestInChain] = 1086,
+        },
         [1070] = { -- On Guard in Stonetalon
             [questKeys.breadcrumbForQuestId] = 1085,
         },
@@ -978,6 +1040,9 @@ function QuestieQuestFixes:Load()
         [1121] = { -- Get the Goblins Drunk
             [questKeys.nextQuestInChain] = 1122,
         },
+        [1122] = { -- Report Back to Fizzlebub
+            [questKeys.nextQuestInChain] = 1127,
+        },
         [1123] = { -- Rabine Saturna
             [questKeys.preQuestSingle] = {1000, 1004, 1018},
         },
@@ -1022,6 +1087,12 @@ function QuestieQuestFixes:Load()
         [1148] = { -- Parts of the Swarm
             [questKeys.preQuestSingle] = {1146},
         },
+        [1169] = { -- Identifying the Brood
+            [questKeys.nextQuestInChain] = 1170,
+        },
+        [1172] = { -- The Brood of Onyxia
+            [questKeys.nextQuestInChain] = 1173,
+        },
         [1173] = { -- Challenge Overlord Mok'Morokk
             [questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[zoneIDs.DUSTWALLOW_MARSH] = {{36.41, 31.43}}}},
         },
@@ -1060,6 +1131,13 @@ function QuestieQuestFixes:Load()
         },
         [1222] = { -- Stinky's Escape
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH] = {{48.87, 24.58}}}},
+            [questKeys.nextQuestInChain] = 1271,
+        },
+        [1238] = { -- The Lost Report
+            [questKeys.nextQuestInChain] = 1239,
+        },
+        [1240] = { -- The Troll Witchdoctor
+            [questKeys.nextQuestInChain] = 1261,
         },
         [1249] = { -- The Missing Diplomat
             [questKeys.objectives] = {{{4962}}},
@@ -1074,6 +1152,9 @@ function QuestieQuestFixes:Load()
         [1260] = { -- Morgan Stern
             [questKeys.breadcrumbForQuestId] = 1204, -- #938
         },
+        [1262] = { -- Report to Zor
+            [questKeys.nextQuestInChain] = 7541,
+        },
         [1264] = { -- The Missing Diplomat
             [questKeys.preQuestSingle] = {1250}, -- wotlkDB is wrong
         },
@@ -1085,6 +1166,9 @@ function QuestieQuestFixes:Load()
         },
         [1268] = { -- Suspicious Hoofprints
             [questKeys.startedBy] = {nil, {21015, 21016}}, -- #1574
+        },
+        [1269] = { -- Lieutenant Paval Reethe
+            [questKeys.nextQuestInChain] = 1273,
         },
         [1270] = { -- Stinky's Escape
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH] = {{48.87, 24.58}}}},
@@ -1146,6 +1230,7 @@ function QuestieQuestFixes:Load()
         },
         [1365] = { -- Khan Dez'hepah
             [questKeys.breadcrumbs] = {1362},
+            [questKeys.nextQuestInChain] = 1366,
         },
         [1367] = { -- Magram Alliance
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Gelkis centaur to increase your reputation with the Magram Clan"), 0, {{"monster", 4653}, {"monster", 4647}, {"monster", 4646}, {"monster", 4661}, {"monster", 5602}, {"monster", 4648}, {"monster", 4649}, {"monster", 4651}, {"monster", 4652}}}},
@@ -1185,6 +1270,9 @@ function QuestieQuestFixes:Load()
         [1382] = { -- Strange Alliance
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Magram centaur to increase your reputation with the Gelkis Clan"), 0, {{"monster", 4643}, {"monster", 4645}, {"monster", 4662}, {"monster", 5601}, {"monster", 4638}, {"monster", 4641}, {"monster", 6068}, {"monster", 4640}, {"monster", 4639}, {"monster", 4642}, {"monster", 4644}}}},
             [questKeys.reputationReward] = {{factionIDs.MAGRAM_CLAN_CENTAUR, -500}, {factionIDs.GELKIS_CLAN_CENTAUR, 100}},
+        },
+        [1383] = { -- Nothing But The Truth
+            [questKeys.nextQuestInChain] = 1388,
         },
         [1384] = { -- Raid on the Kolkar
             [questKeys.requiredMinRep] = {factionIDs.GELKIS_CLAN_CENTAUR, 3000},
@@ -1302,8 +1390,14 @@ function QuestieQuestFixes:Load()
         [1480] = { -- The Corrupter
             [questKeys.startedBy] = {nil, nil, {20310}},
         },
+        [1482] = { -- The Corrupter
+            [questKeys.nextQuestInChain] = 1484,
+        },
         [1483] = { -- Ziz Fizziks
             [questKeys.breadcrumbForQuestId] = 1093,
+        },
+        [1484] = { -- The Corrupter
+            [questKeys.nextQuestInChain] = 1488,
         },
         [1485] = { -- Vile Familiars
             [questKeys.exclusiveTo] = {1470}, -- #999
@@ -1552,6 +1646,7 @@ function QuestieQuestFixes:Load()
         [1699] = { -- The Rethban Gauntlet
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {1698},
+            [questKeys.nextQuestInChain] = 1702,
         },
         [1700] = { -- Grimand Elmore
             [questKeys.preQuestSingle] = {1782},
@@ -1574,6 +1669,9 @@ function QuestieQuestFixes:Load()
             [questKeys.breadcrumbs] = {1700}, -- #1857
             [questKeys.nextQuestInChain] = 1706,
         },
+        [1707] = { -- Water Pouch Bounty
+            [questKeys.nextQuestInChain] = 1878,
+        },
         [1708] = { -- Iron Coral
             [questKeys.preQuestSingle] = {1782},
             [questKeys.breadcrumbs] = {1704}, -- #1857
@@ -1583,6 +1681,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1782},
             [questKeys.breadcrumbs] = {1703}, -- #1857
             [questKeys.nextQuestInChain] = 1711,
+        },
+        [1713] = { -- The Summoning
+            [questKeys.nextQuestInChain] = 1792,
         },
         [1715] = { -- The Slaughtered Lamb
             [questKeys.exclusiveTo] = {1688},
@@ -1596,6 +1697,9 @@ function QuestieQuestFixes:Load()
         },
         [1718] = { -- The Islander
             [questKeys.startedBy] = {{3041, 3354, 4595, 5113, 5479}}, -- #1034
+        },
+        [1719] = { -- The Affray
+            [questKeys.nextQuestInChain] = 1791,
         },
         [1739] = { -- The Binding
             [questKeys.requiredSourceItems] = {},
@@ -1864,6 +1968,12 @@ function QuestieQuestFixes:Load()
         [2201] = { -- Find the Gems
             [questKeys.requiredLevel] = 37, -- #2447
         },
+        [2202] = { -- Uldaman Reagent Run
+            [questKeys.nextQuestInChain] = 2203,
+        },
+        [2204] = { -- Restoring the Necklace
+            [questKeys.nextQuestInChain] = 2361,
+        },
         [2205] = { -- Seek out SI: 7
             [questKeys.exclusiveTo] = {}, -- #1466
             [questKeys.nextQuestInChain] = 2206,
@@ -1917,6 +2027,12 @@ function QuestieQuestFixes:Load()
         [2318] = { -- Translating the Journal
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [2338] = { -- Translating the Journal
+            [questKeys.nextQuestInChain] = 2339,
+        },
+        [2339] = { -- Find the Gems and Power Source
+            [questKeys.nextQuestInChain] = 2340,
+        },
         [2358] = { -- Horns of Nez'ra
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -1942,6 +2058,15 @@ function QuestieQuestFixes:Load()
         },
         [2438] = { -- The Emerald Dreamcatcher
             [questKeys.specialFlags] = specialFlags.NONE,
+        },
+        [2439] = { -- The Platinum Discs
+            [questKeys.nextQuestInChain] = 2963,
+        },
+        [2440] = { -- The Platinum Discs
+            [questKeys.nextQuestInChain] = 2965,
+        },
+        [2458] = { -- Deep Cover
+            [questKeys.nextQuestInChain] = 2478,
         },
         [2460] = { -- The Shattered Salute
             [questKeys.objectives] = {{{3401, nil, Questie.ICON_TYPE_INTERACT}}},
@@ -1989,8 +2114,12 @@ function QuestieQuestFixes:Load()
         [2603] = { -- Vulture's Vigor
             [questKeys.nextQuestInChain] = 2604,
         },
+        [2607] = { -- The Touch of Zanzil
+            [questKeys.nextQuestInChain] = 2608,
+        },
         [2608] = { -- The Touch of Zanzil
             [questKeys.triggerEnd] = {"Diagnosis Complete", {[zoneIDs.STORMWIND_CITY] = {{78.04, 59}}}},
+            [questKeys.nextQuestInChain] = 2609,
         },
         [2609] = { -- The Touch of Zanzil
             [questKeys.objectivesText] = {"Bring Doc Mixilpixil one bundle of Simple Wildflowers, one Leaded Vial, one Bronze Tube, and one Spool of Light Chartreuse Silk Thread. The 'itis' doesn't cure itself, young <fella/lady>."},
@@ -2018,8 +2147,23 @@ function QuestieQuestFixes:Load()
         [2746] = { -- Items of Some Consequence
             [questKeys.nextQuestInChain] = 434,
         },
+        [2751] = { -- Barbaric Battlements
+            [questKeys.nextQuestInChain] = 2752,
+        },
+        [2752] = { -- On Iron Pauldrons
+            [questKeys.nextQuestInChain] = 2753,
+        },
+        [2753] = { -- Trampled Under Foot
+            [questKeys.nextQuestInChain] = 2754,
+        },
+        [2754] = { -- Horns of Frenzy
+            [questKeys.nextQuestInChain] = 2755,
+        },
         [2755] = { -- Joys of Omosh
             [questKeys.objectives] = {{{7790, nil, Questie.ICON_TYPE_EVENT}}},
+        },
+        [2761] = { -- Smelt On, Smelt Off
+            [questKeys.nextQuestInChain] = 2764,
         },
         [2765] = { -- Expert Blacksmith!
             [questKeys.objectives] = {{{7802, nil, Questie.ICON_TYPE_EVENT}}},
@@ -2044,6 +2188,9 @@ function QuestieQuestFixes:Load()
         },
         [2781] = { -- WANTED: Caliph Scorpidsting
             [questKeys.startedBy] = {nil, {142122, 150075}}, -- #1081
+        },
+        [2782] = { -- Rin'ji's Secret
+            [questKeys.nextQuestInChain] = 8273,
         },
         [2784] = { -- Fall From Grace
             [questKeys.objectives] = {{{7572, nil, Questie.ICON_TYPE_TALK}}},
@@ -2087,6 +2234,7 @@ function QuestieQuestFixes:Load()
         },
         [2853] = { -- Master of the Wild Leather
             [questKeys.preQuestGroup] = {2851, 2852}, -- #7161
+            [questKeys.nextQuestInChain] = 5143,
         },
         [2854] = { -- Wild Leather Armor
             [questKeys.requiredSkill] = {profKeys.LEATHERWORKING, 200},
@@ -2101,6 +2249,7 @@ function QuestieQuestFixes:Load()
         },
         [2860] = { -- Master of the Wild Leather
             [questKeys.preQuestGroup] = {2858, 2859}, -- #7161
+            [questKeys.nextQuestInChain] = 5148,
         },
         [2861] = { -- Tabetha's Task
             [questKeys.startedBy] = {{4568, 5144, 5497, 5885}}, -- #1152
@@ -2176,6 +2325,9 @@ function QuestieQuestFixes:Load()
         },
         [2936] = { -- The Spider God
             [questKeys.triggerEnd] = {"Find the Spider God's Name", {[zoneIDs.TANARIS] = {{38.73, 19.88}}}},
+        },
+        [2937] = { -- Summoning Shadra
+            [questKeys.nextQuestInChain] = 2938,
         },
         [2939] = { -- In Search of Knowledge
             [questKeys.nextQuestInChain] = 2940,
@@ -2289,6 +2441,9 @@ function QuestieQuestFixes:Load()
         [3372] = { -- Release Them
             [questKeys.nextQuestInChain] = 3566,
         },
+        [3373] = { -- The Essence of Eranikus
+            [questKeys.nextQuestInChain] = 3374,
+        },
         [3374] = { -- The Essence of Eranikus
             [questKeys.nextQuestInChain] = 3512,
         },
@@ -2355,6 +2510,12 @@ function QuestieQuestFixes:Load()
         },
         [3528] = { -- The God Hakkar
             [questKeys.nextQuestInChain] = 5065,
+        },
+        [3568] = { -- Seeping Corruption
+            [questKeys.nextQuestInChain] = 3569,
+        },
+        [3569] = { -- Seeping Corruption
+            [questKeys.nextQuestInChain] = 3570,
         },
         [3601] = { -- Kim'jael Indeed!
             [questKeys.nextQuestInChain] = 5534,
@@ -2565,6 +2726,12 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Travel to Blackrock Depths and slay Bael'Gar.", "", "You only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.", "", "Return the Encased Fiery Essence to Cyrus Therepentous."},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Altered Black Dragonflight Molt on Bael'gar's corpse."), 0, {{"monster", 9016}}}},
         },
+        [4081] = { -- KILL ON SIGHT: Dark Iron Dwarves
+            [questKeys.nextQuestInChain] = 4082,
+        },
+        [4082] = { -- KILL ON SIGHT: High Ranking Dark Iron Officials
+            [questKeys.nextQuestInChain] = 4122,
+        },
         [4083] = { -- The Spectral Chalice
             [questKeys.requiredSkill] = {186, 230}, -- #1293
         },
@@ -2636,9 +2803,11 @@ function QuestieQuestFixes:Load()
         },
         [4121] = { -- Precarious Predicament
             [questKeys.triggerEnd] = {"Prisoner Transport", {[zoneIDs.BURNING_STEPPES] = {{25.73, 27.1}}}},
+            [questKeys.nextQuestInChain] = 4132,
         },
         [4122] = { -- Grark Lorkrub
             [questKeys.preQuestSingle] = {4082}, -- #1349
+            [questKeys.nextQuestInChain] = 4121,
         },
         [4123] = { -- The Heart of the Mountain
             [questKeys.requiredSourceItems] = {11078},
@@ -2782,6 +2951,7 @@ function QuestieQuestFixes:Load()
         },
         [4505] = { -- Well of Corruption
             [questKeys.breadcrumbs] = {6605}, -- #1859
+            [questKeys.nextQuestInChain] = 4506,
         },
         [4506] = { -- Corrupted Sabers
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
@@ -2844,6 +3014,7 @@ function QuestieQuestFixes:Load()
         },
         [4735] = { -- Egg Collection
             [questKeys.objectives] = {nil, {{175124}}},
+            [questKeys.nextQuestInChain] = 5522,
         },
         [4736] = { -- In Search of Menara Voidrender
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2915,6 +3086,9 @@ function QuestieQuestFixes:Load()
         },
         [4811] = { -- The Red Crystal
             [questKeys.objectives] = {nil, {{175524, nil, Questie.ICON_TYPE_EVENT}}},
+        },
+        [4821] = { -- Alien Egg
+            [questKeys.nextQuestInChain] = 4865,
         },
         [4841] = { -- Pacify the Centaur
             [questKeys.preQuestSingle] = {},
@@ -3000,6 +3174,9 @@ function QuestieQuestFixes:Load()
         [4972] = { -- Counting Out Time
             [questKeys.nextQuestInChain] = 4973,
         },
+        [4974] = { -- For The Horde!
+            [questKeys.nextQuestInChain] = 6566,
+        },
         [4975] = { -- The Completed Orb of Noh'Orahil
             [questKeys.objectives] = {{{6266, nil, Questie.ICON_TYPE_EVENT}}},
             [questKeys.preQuestSingle] = {},
@@ -3022,6 +3199,9 @@ function QuestieQuestFixes:Load()
         [5057] = { -- Past Endeavors
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {},
+        },
+        [5062] = { -- Sacred Fire
+            [questKeys.nextQuestInChain] = 5088,
         },
         [5063] = { -- Cap of the Scarlet Savant
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1335
@@ -3084,6 +3264,7 @@ function QuestieQuestFixes:Load()
         },
         [5122] = { -- The Medallion of Faith
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #1140
+            [questKeys.nextQuestInChain] = 5125,
         },
         [5123] = { -- The Final Piece
             [questKeys.nextQuestInChain] = 5128,
@@ -3125,6 +3306,7 @@ function QuestieQuestFixes:Load()
         },
         [5163] = { -- Are We There, Yeti?
             [questKeys.objectives] = {{{10978, nil, Questie.ICON_TYPE_EVENT}, {7583, nil, Questie.ICON_TYPE_EVENT}, {10977, nil, Questie.ICON_TYPE_EVENT}}},
+            [questKeys.nextQuestInChain] = 8798,
         },
         [5165] = { -- Dousing the Flames of Protection
             [questKeys.nextQuestInChain] = 5242,
@@ -3193,6 +3375,9 @@ function QuestieQuestFixes:Load()
         },
         [5250] = { -- Starfall
             [questKeys.breadcrumbForQuestId] = 5244,
+        },
+        [5251] = { -- The Archivist
+            [questKeys.nextQuestInChain] = 5262,
         },
         [5261] = { -- Eagan Peltskinner
             [questKeys.breadcrumbForQuestId] = 33, -- #1726
@@ -3275,6 +3460,9 @@ function QuestieQuestFixes:Load()
         [5526] = { -- Shards of the Felvine
             [questKeys.zoneOrSort] = zoneIDs.MOONGLADE,
             [questKeys.requiredSourceItems] = {18501},
+        },
+        [5529] = { -- Plagued Hatchlings
+            [questKeys.nextQuestInChain] = 5582,
         },
         [5542] = { -- Demon Dogs
             [questKeys.startedBy] = {{1855, 12126}},
@@ -3489,6 +3677,12 @@ function QuestieQuestFixes:Load()
         },
         [5781] = { -- Of Forgotten Memories
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the false grave for the Taelan's Hammer."), 0, {{"object", 177240}}}},
+        },
+        [5803] = { -- Araj's Scarab
+            [questKeys.nextQuestInChain] = 5505,
+        },
+        [5804] = { -- Araj's Scarab
+            [questKeys.nextQuestInChain] = 5511,
         },
         [5821] = { -- Bodyguard for Hire
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE] = {{67.17, 56.62}}}},
@@ -3801,6 +3995,9 @@ function QuestieQuestFixes:Load()
         [6187] = { -- Order Must Be Restored
             [questKeys.objectivesText] = {"Assemble an army and travel to the Eastern Plaguelands. Launch a full assault on Nathanos Blightcaller and any Horde filth that may attempt to protect him.", "", "Keep your wits about you, <Name>. The Horde will defend the ranger lord with their very lives."},
         },
+        [6301] = { -- Cycle of Rebirth
+            [questKeys.nextQuestInChain] = 6381,
+        },
         [6341] = { -- The Bounty of Teldrassil
             [questKeys.breadcrumbs] = {6344},
             [questKeys.preQuestSingle] = {},
@@ -3821,6 +4018,9 @@ function QuestieQuestFixes:Load()
         },
         [6403] = { -- The Great Masquerade
             [questKeys.triggerEnd] = {"Reginald's March", {[zoneIDs.STORMWIND_CITY] = {{77.57, 18.59}}}},
+        },
+        [6421] = { -- Boulderslide Ravine
+            [questKeys.nextQuestInChain] = 6481,
         },
         [6482] = { -- Freedom to Ruul
             [questKeys.triggerEnd] = {"Escort Ruul from the Thistlefurs.", {[zoneIDs.ASHENVALE] = {{38.53, 37.32}}}},
@@ -3919,6 +4119,9 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{13016, nil, Questie.ICON_TYPE_INTERACT}}},
             [questKeys.nextQuestInChain] = 6662,
         },
+        [6681] = { -- The Manor, Ravenholdt
+            [questKeys.nextQuestInChain] = 6701,
+        },
         [6721] = { -- The Hunter's Path
             [questKeys.startedBy] = {{5116}},
             [questKeys.exclusiveTo] = {6071, 6072, 6073, 6722},
@@ -3978,6 +4181,9 @@ function QuestieQuestFixes:Load()
         },
         [7002] = { -- Ram Hide Harnesses
             [questKeys.objectivesText] = {},
+        },
+        [7003] = { -- Zapped Giants
+            [questKeys.nextQuestInChain] = 7725,
         },
         [7021] = { -- Great-father Winter is Here!
             [questKeys.finishedBy] = {{13445}},
@@ -4052,46 +4258,66 @@ function QuestieQuestFixes:Load()
         },
         [7141] = { -- The Battle of Alterac
             [questKeys.triggerEnd] = {"Defeat Drek'thar.", {[zoneIDs.ALTERAC_VALLEY] = {{47.22, 86.95}}}},
+            [questKeys.nextQuestInChain] = 8271,
         },
         [7142] = { -- The Battle for Alterac
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.", {[zoneIDs.ALTERAC_VALLEY] = {{42.29, 12.85}}}},
+            [questKeys.nextQuestInChain] = 8272,
         },
         [7161] = { -- Proving Grounds
             [questKeys.breadcrumbs] = {7241},
+            [questKeys.nextQuestInChain] = 7163,
         },
         [7162] = { -- Proving Grounds
             [questKeys.breadcrumbs] = {7261},
+            [questKeys.nextQuestInChain] = 7168,
         },
         [7163] = { -- Rise and Be Recognized
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 7164,
         },
         [7164] = { -- Honored Amongst the Clan
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 7165,
+        },
+        [7165] = { -- Earned Reverence
+            [questKeys.nextQuestInChain] = 7166,
         },
         [7166] = { -- Legendary Heroes
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 7167,
         },
         [7167] = { -- The Eye of Command
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7168] = { -- Rise and Be Recognized
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 7169,
         },
         [7169] = { -- Honored Amongst the Guard
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 7170,
         },
         [7170] = { -- Earned Reverence
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 7171,
         },
         [7171] = { -- Legendary Heroes
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 7172,
         },
         [7172] = { -- The Eye of Command
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7201] = { -- The Last Element
             [questKeys.preQuestSingle] = {3906},
+        },
+        [7223] = { -- Armor Scraps
+            [questKeys.nextQuestInChain] = 6781,
+        },
+        [7224] = { -- Enemy Booty
+            [questKeys.nextQuestInChain] = 6741,
         },
         [7241] = { -- In Defense of Frostwolf
             [questKeys.breadcrumbForQuestId] = 7161,
@@ -4155,6 +4381,9 @@ function QuestieQuestFixes:Load()
         [7490] = { -- Victory for the Horde
             [questKeys.preQuestSingle] = {6602},
         },
+        [7491] = { -- For All To See
+            [questKeys.nextQuestInChain] = 7493,
+        },
         [7492] = { -- Camp Mojache
             [questKeys.startedBy] = {{10879, 10880, 10881}}, -- #1350
             [questKeys.breadcrumbForQuestId] = 7489, -- #1514
@@ -4166,6 +4395,9 @@ function QuestieQuestFixes:Load()
         [7495] = { -- Victory for the Alliance
             [questKeys.requiredLevel] = 60,
             [questKeys.preQuestSingle] = {6502},
+        },
+        [7496] = { -- Celebrating Good Times
+            [questKeys.nextQuestInChain] = 7497,
         },
         [7507] = { -- Nostro's Compendium
             [questKeys.name] = "Nostro's Compendium",
@@ -4263,6 +4495,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7638},
             [questKeys.zoneOrSort] = sortKeys.PALADIN,
         },
+        [7721] = { -- Fuel for the Zapping
+            [questKeys.nextQuestInChain] = 7726,
+        },
         [7735] = { -- Pristine Yeti Hide A
             [questKeys.preQuestSingle] = {2821},
         },
@@ -4277,6 +4512,9 @@ function QuestieQuestFixes:Load()
         },
         [7784] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{4949}},
+        },
+        [7786] = { -- Thunderaan the Windseeker
+            [questKeys.nextQuestInChain] = 7787,
         },
         [7795] = { -- A Donation of Runecloth
             [questKeys.nextQuestInChain] = 7796,
@@ -4551,6 +4789,15 @@ function QuestieQuestFixes:Load()
             },
             [questKeys.requiredMinRep] = {510, 42000},
         },
+        [8141] = { -- Zandalarian Shadow Talisman
+            [questKeys.nextQuestInChain] = 8142,
+        },
+        [8142] = { -- Zandalarian Shadow Talisman
+            [questKeys.nextQuestInChain] = 8143,
+        },
+        [8143] = { -- Zandalarian Shadow Talisman
+            [questKeys.nextQuestInChain] = 8144,
+        },
         [8145] = { -- The Maelstrom's Tendril
             [questKeys.nextQuestInChain] = 8146,
         },
@@ -4781,6 +5028,12 @@ function QuestieQuestFixes:Load()
         [8317] = { -- Kitchen Assistance
             [questKeys.requiredSourceItems] = {20424},
         },
+        [8318] = { -- Secret Communication
+            [questKeys.nextQuestInChain] = 8319,
+        },
+        [8323] = { -- True Believers
+            [questKeys.nextQuestInChain] = 8324,
+        },
         [8331] = { -- Aurel Goldleaf
             [questKeys.breadcrumbForQuestId] = 8332,
         },
@@ -4801,6 +5054,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {8332},
             [questKeys.breadcrumbs] = {8349},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Duke using a full Twilight set and neck."), 0, {{"object", 180461}, {"object", 180534}, {"object", 180554},}}},
+            [questKeys.nextQuestInChain] = 8363,
         },
         [8349] = { -- Bor Wildmane
             [questKeys.breadcrumbForQuestId] = 8348,
@@ -4812,6 +5066,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {8341},
             [questKeys.breadcrumbs] = {8351},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Lord using a full Twilight set, neck and ring."), 0, {{"object", 180466}, {"object", 180539}, {"object", 180559},}}},
+            [questKeys.nextQuestInChain] = 8364,
         },
         [8353] = { -- Chicken Clucking for a Mint
             [questKeys.objectives] = {{{5111, nil, Questie.ICON_TYPE_EVENT}}},
@@ -4847,9 +5102,13 @@ function QuestieQuestFixes:Load()
         },
         [8361] = { -- Abyssal Contacts
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon a Templar using a full Twilight set."), 0, {{"object", 180456}, {"object", 180518}, {"object", 180529}, {"object", 180544}, {"object", 180549}, {"object", 180564},}}},
+            [questKeys.nextQuestInChain] = 8362,
         },
         [8363] = { -- Abyssal Signets
             [questKeys.requiredMinRep] = {609, 3000},
+        },
+        [8367] = { -- For Great Honor
+            [questKeys.nextQuestInChain] = 8388,
         },
         [8368] = { -- Battle of Warsong Gulch
             [questKeys.exclusiveTo] = {8426, 8427, 8428, 8429, 8430},
@@ -4858,6 +5117,9 @@ function QuestieQuestFixes:Load()
         [8370] = { -- Conquering Arathi Basin
             [questKeys.exclusiveTo] = {8436, 8437, 8438, 8439},
             [questKeys.requiredMaxLevel] = 29,
+        },
+        [8371] = { -- Concerted Efforts
+            [questKeys.nextQuestInChain] = 8385,
         },
         [8372] = { -- Fight for Warsong Gulch
             [questKeys.exclusiveTo] = {8399, 8400, 8401, 8402, 8403},
@@ -4988,10 +5250,12 @@ function QuestieQuestFixes:Load()
         },
         [8412] = { -- Spirit Totem
             [questKeys.preQuestSingle] = {8410, 8411},
+            [questKeys.nextQuestInChain] = 8413,
         },
         [8414] = { -- Dispelling Evil
             [questKeys.preQuestSingle] = {},
             [questKeys.breadcrumbs] = {8414},
+            [questKeys.nextQuestInChain] = 8416,
         },
         [8415] = { -- Chillwind Camp
             [questKeys.startedBy] = {{928, 5149}},
@@ -5117,6 +5381,7 @@ function QuestieQuestFixes:Load()
         [8492] = { -- The Alliance Needs Copper Bars!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8493,
         },
         [8493] = { -- The Alliance Needs More Copper Bars!
             [questKeys.requiredLevel] = 1,
@@ -5126,6 +5391,7 @@ function QuestieQuestFixes:Load()
         [8494] = { -- The Alliance Needs Iron Bars!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8495,
         },
         [8495] = { -- The Alliance Needs More Iron Bars!
             [questKeys.requiredLevel] = 1,
@@ -5138,6 +5404,7 @@ function QuestieQuestFixes:Load()
         [8499] = { -- The Alliance Needs Thorium Bars!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8500,
         },
         [8500] = { -- The Alliance Needs More Thorium Bars!
             [questKeys.requiredLevel] = 1,
@@ -5146,6 +5413,7 @@ function QuestieQuestFixes:Load()
         [8503] = { -- The Alliance Needs Stranglekelp!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8504,
         },
         [8504] = { -- The Alliance Needs More Stranglekelp!
             [questKeys.requiredLevel] = 1,
@@ -5154,6 +5422,7 @@ function QuestieQuestFixes:Load()
         [8505] = { -- The Alliance Needs Purple Lotus!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8506,
         },
         [8506] = { -- The Alliance Needs More Purple Lotus!
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -5164,6 +5433,7 @@ function QuestieQuestFixes:Load()
         [8509] = { -- The Alliance Needs Arthas' Tears!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8510,
         },
         [8510] = { -- The Alliance Needs More Arthas' Tears!
             [questKeys.requiredLevel] = 1,
@@ -5172,6 +5442,7 @@ function QuestieQuestFixes:Load()
         [8511] = { -- The Alliance Needs Light Leather!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8512,
         },
         [8512] = { -- The Alliance Needs Light Leather!
             [questKeys.requiredLevel] = 1,
@@ -5181,6 +5452,7 @@ function QuestieQuestFixes:Load()
         [8513] = { -- The Alliance Needs Medium Leather!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8514,
         },
         [8514] = { -- The Alliance Needs More Medium Leather!
             [questKeys.requiredLevel] = 1,
@@ -5190,6 +5462,7 @@ function QuestieQuestFixes:Load()
         [8515] = { -- The Alliance Needs Thick Leather!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8516,
         },
         [8516] = { -- The Alliance Needs More Thick Leather!
             [questKeys.requiredLevel] = 1,
@@ -5199,6 +5472,7 @@ function QuestieQuestFixes:Load()
         [8517] = { -- The Alliance Needs Linen Bandages!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8518,
         },
         [8518] = { -- The Alliance Needs More Linen Bandages!
             [questKeys.requiredLevel] = 1,
@@ -5213,6 +5487,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.preQuestSingle] = {},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8521,
         },
         [8521] = { -- The Alliance Needs More Silk Bandages!
             [questKeys.requiredLevel] = 1,
@@ -5222,6 +5497,7 @@ function QuestieQuestFixes:Load()
         [8522] = { -- The Alliance Needs Runecloth Bandages!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8523,
         },
         [8523] = { -- The Alliance Needs More Runecloth Bandages!
             [questKeys.requiredLevel] = 1,
@@ -5231,6 +5507,7 @@ function QuestieQuestFixes:Load()
         [8524] = { -- The Alliance Needs Rainbow Fin Albacore!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8525,
         },
         [8525] = { -- The Alliance Needs More Rainbow Fin Albacore!
             [questKeys.requiredLevel] = 1,
@@ -5240,6 +5517,7 @@ function QuestieQuestFixes:Load()
         [8526] = { -- The Alliance Needs Roast Raptor!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8527,
         },
         [8527] = { -- The Alliance Needs More Roast Raptor!
             [questKeys.requiredLevel] = 1,
@@ -5248,6 +5526,7 @@ function QuestieQuestFixes:Load()
         [8528] = { -- The Alliance Needs Spotted Yellowtail!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.nextQuestInChain] = 8529,
         },
         [8529] = { -- The Alliance Needs More Spotted Yellowtail!
             [questKeys.requiredLevel] = 1,
@@ -5257,6 +5536,7 @@ function QuestieQuestFixes:Load()
         [8532] = { -- The Horde Needs Copper Bars!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8533,
         },
         [8533] = { -- The Horde Needs More Copper Bars!
             [questKeys.requiredLevel] = 1,
@@ -5278,6 +5558,7 @@ function QuestieQuestFixes:Load()
         [8542] = { -- The Horde Needs Tin Bars!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8543,
         },
         [8543] = { -- The Horde Needs More Tin Bars!
             [questKeys.requiredLevel] = 1,
@@ -5286,6 +5567,7 @@ function QuestieQuestFixes:Load()
         [8545] = { -- The Horde Needs Mithril Bars!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8546,
         },
         [8546] = { -- The Horde Needs More Mithril Bars!
             [questKeys.requiredLevel] = 1,
@@ -5297,6 +5579,7 @@ function QuestieQuestFixes:Load()
         [8549] = { -- The Horde Needs Peacebloom!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8550,
         },
         [8550] = { -- The Horde Needs Peacebloom!
             [questKeys.requiredLevel] = 1,
@@ -5328,6 +5611,7 @@ function QuestieQuestFixes:Load()
         [8580] = { -- The Horde Needs Firebloom!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8581,
         },
         [8581] = { -- The Horde Needs More Firebloom!
             [questKeys.requiredLevel] = 1,
@@ -5336,6 +5620,7 @@ function QuestieQuestFixes:Load()
         [8582] = { -- The Horde Needs Purple Lotus!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8583,
         },
         [8583] = { -- The Horde Needs More Purple Lotus!
             [questKeys.requiredLevel] = 1,
@@ -5344,6 +5629,7 @@ function QuestieQuestFixes:Load()
         [8588] = { -- The Horde Needs Heavy Leather!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8589,
         },
         [8589] = { -- The Horde Needs More Heavy Leather!
             [questKeys.requiredLevel] = 1,
@@ -5352,6 +5638,7 @@ function QuestieQuestFixes:Load()
         [8590] = { -- The Horde Needs Thick Leather!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8591,
         },
         [8591] = { -- The Horde Needs More Thick Leather!
             [questKeys.requiredLevel] = 1,
@@ -5360,6 +5647,7 @@ function QuestieQuestFixes:Load()
         [8600] = { -- The Horde Needs Rugged Leather!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8601,
         },
         [8601] = { -- The Horde Needs More Rugged Leather!
             [questKeys.requiredLevel] = 1,
@@ -5368,6 +5656,7 @@ function QuestieQuestFixes:Load()
         [8604] = { -- The Horde Needs Wool Bandages!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8604,
         },
         [8605] = { -- The Horde Needs More Wool Bandages!
             [questKeys.requiredLevel] = 1,
@@ -5376,6 +5665,7 @@ function QuestieQuestFixes:Load()
         [8607] = { -- The Horde Needs Mageweave Bandages!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8608,
         },
         [8608] = { -- The Horde Needs More Mageweave Bandages!
             [questKeys.requiredLevel] = 1,
@@ -5384,6 +5674,7 @@ function QuestieQuestFixes:Load()
         [8609] = { -- The Horde Needs Runecloth Bandages!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8610,
         },
         [8610] = { -- The Horde Needs More Runecloth Bandages!
             [questKeys.requiredLevel] = 1,
@@ -5392,6 +5683,7 @@ function QuestieQuestFixes:Load()
         [8611] = { -- The Horde Needs Lean Wolf Steaks!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8612,
         },
         [8612] = { -- The Horde Needs More Lean Wolf Steaks!
             [questKeys.requiredLevel] = 1,
@@ -5400,6 +5692,7 @@ function QuestieQuestFixes:Load()
         [8613] = { -- The Horde Needs Spotted Yellowtail!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8614,
         },
         [8614] = { -- The Horde Needs More Spotted Yellowtail!
             [questKeys.requiredLevel] = 1,
@@ -5408,6 +5701,7 @@ function QuestieQuestFixes:Load()
         [8615] = { -- The Horde Needs Baked Salmon!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.nextQuestInChain] = 8616,
         },
         [8616] = { -- The Horde Needs More Baked Salmon!
             [questKeys.requiredLevel] = 1,
@@ -5438,54 +5732,68 @@ function QuestieQuestFixes:Load()
         },
         [8746] = { -- Metzen the Reindeer
             [questKeys.requiredSourceItems] = {21314},
+            [questKeys.nextQuestInChain] = 8799,
         },
         [8747] = { -- The Path of the Protector
-            [questKeys.exclusiveTo] = {8752, 8753, 8754, 8755, 8756, 8757, 8758, 8759, 8760, 8761}, --protector neutral
+            [questKeys.exclusiveTo] = {8752, 8757}, -- protector neutral
+            [questKeys.nextQuestInChain] = 8748,
         },
         [8748] = { -- The Path of the Protector
-            [questKeys.exclusiveTo] = {8752, 8753, 8754, 8755, 8756, 8757, 8758, 8759, 8760, 8761}, --protector friendly
+            [questKeys.exclusiveTo] = {8752, 8757}, -- protector riendly
+            [questKeys.nextQuestInChain] = 8749,
         },
         [8749] = { -- The Path of the Protector
-            [questKeys.exclusiveTo] = {8752, 8753, 8754, 8755, 8756, 8757, 8758, 8759, 8760, 8761}, --protector honored
+            [questKeys.exclusiveTo] = {8752, 8757}, -- protector honored
+            [questKeys.nextQuestInChain] = 8750,
         },
         [8750] = { -- The Path of the Protector
-            [questKeys.exclusiveTo] = {8752, 8753, 8754, 8755, 8756, 8757, 8758, 8759, 8760, 8761}, --protector revered
+            [questKeys.exclusiveTo] = {8752, 8757}, -- protector revered
+            [questKeys.nextQuestInChain] = 8751,
         },
         [8751] = { -- The Protector of Kalimdor
-            [questKeys.exclusiveTo] = {8752, 8753, 8754, 8755, 8756, 8757, 8758, 8759, 8760, 8761}, --protector exalted
+            [questKeys.exclusiveTo] = {8752, 8757}, -- protector exalted
         },
         [8752] = { -- The Path of the Conqueror
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8757, 8758, 8759, 8760, 8761}, --conqueror neutral
+            [questKeys.exclusiveTo] = {8747, 8757}, -- conqueror neutral
+            [questKeys.nextQuestInChain] = 8753,
         },
         [8753] = { -- The Path of the Conqueror
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8757, 8758, 8759, 8760, 8761}, --conqueror friendly
+            [questKeys.exclusiveTo] = {8747, 8757}, -- conqueror friendly
+            [questKeys.nextQuestInChain] = 8754,
         },
         [8754] = { -- The Path of the Conqueror
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8757, 8758, 8759, 8760, 8761}, --conqueror honored
+            [questKeys.exclusiveTo] = {8747, 8757}, -- conqueror honored
+            [questKeys.nextQuestInChain] = 8755,
         },
         [8755] = { -- The Path of the Conqueror
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8757, 8758, 8759, 8760, 8761}, --conqueror revered
+            [questKeys.exclusiveTo] = {8747, 8757}, -- conqueror revered
+            [questKeys.nextQuestInChain] = 8756,
         },
         [8756] = { -- The Qiraji Conqueror
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8757, 8758, 8759, 8760, 8761}, --conqueror exalted
+            [questKeys.exclusiveTo] = {8747, 8757}, -- conqueror exalted
         },
         [8757] = { -- The Path of the Invoker
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8752, 8753, 8754, 8755, 8756}, --invoker neutral
+            [questKeys.exclusiveTo] = {8747, 8752}, -- invoker neutral
+            [questKeys.nextQuestInChain] = 8758,
         },
         [8758] = { -- The Path of the Invoker
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8752, 8753, 8754, 8755, 8756}, --invoker friendly
+            [questKeys.exclusiveTo] = {8747, 8752}, -- invoker friendly
+            [questKeys.nextQuestInChain] = 8759,
         },
         [8759] = { -- The Path of the Invoker
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8752, 8753, 8754, 8755, 8756}, --invoker honored
+            [questKeys.exclusiveTo] = {8747, 8752}, -- invoker honored
+            [questKeys.nextQuestInChain] = 8760,
         },
         [8760] = { -- The Path of the Invoker
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8752, 8753, 8754, 8755, 8756}, --invoker revered
+            [questKeys.exclusiveTo] = {8747, 8752}, -- invoker revered
+            [questKeys.nextQuestInChain] = 8761,
         },
         [8761] = { -- The Grand Invoker
-            [questKeys.exclusiveTo] = {8747, 8748, 8749, 8750, 8751, 8752, 8753, 8754, 8755, 8756}, --invoker exalted
+            [questKeys.exclusiveTo] = {8747, 8752}, -- invoker exalted
         },
         [8762] = { -- Metzen the Reindeer
             [questKeys.requiredSourceItems] = {21314},
+            [questKeys.nextQuestInChain] = 8763,
         },
         [8767] = { -- A Gently Shaken Gift
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -5533,6 +5841,54 @@ function QuestieQuestFixes:Load()
         },
         [8807] = { -- Scrying Materials
             [questKeys.specialFlags] = specialFlags.REPEATABLE, -- #2401
+        },
+        [8811] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8830,
+        },
+        [8812] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8834,
+        },
+        [8813] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8836,
+        },
+        [8814] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8838,
+        },
+        [8815] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8832,
+        },
+        [8816] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8840,
+        },
+        [8817] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8842,
+        },
+        [8818] = { -- One Commendation Signet
+            [questKeys.nextQuestInChain] = 8844,
+        },
+        [8819] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8831,
+        },
+        [8820] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8835,
+        },
+        [8821] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8837,
+        },
+        [8822] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8839,
+        },
+        [8823] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8833,
+        },
+        [8824] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8841,
+        },
+        [8825] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8843,
+        },
+        [8826] = { -- Ten Commendation Signets
+            [questKeys.nextQuestInChain] = 8845,
         },
         [8829] = { -- The Ultimate Deception
             [questKeys.specialFlags] = specialFlags.REPEATABLE,
@@ -6273,6 +6629,7 @@ function QuestieQuestFixes:Load()
         },
         [9319] = { -- A Light in Dark Places
             [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.nextQuestInChain] = 9386,
         },
         [9320] = { -- Major Mana Potion
             [questKeys.requiredLevel] = 50,
