@@ -101,6 +101,13 @@ local questsToBlacklistByPhase = {
         [95252] = true,
     },
     [3] = { -- Phase 3 - T6 (Hyjal, BT)
+        -- DMF Decks
+        [10938] = true,
+        [10939] = true,
+        [10940] = true,
+        [10941] = true,
+
+        -- BT chain
         [10948] = true,
         [10949] = true,
         [10957] = true,
