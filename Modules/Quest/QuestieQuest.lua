@@ -117,18 +117,20 @@ function QuestieQuest.ToggleAvailableQuests(showIcons)
     )
 end
 
-function QuestieQuest:ToggleNotes(showIcons)
+---@param showIcons boolean
+---@param miniMapIcon? boolean @When set, only update world map (false) or minimap (true) icons
+function QuestieQuest:ToggleNotes(showIcons, miniMapIcon)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleNotes] showIcons:", showIcons)
 
     ThreadLib.ThreadInstant(function()
         QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
         if showIcons then
-            QuestieQuest:ShowQuestIcons()
-            _QuestieQuest:ShowManualIcons()
+            QuestieQuest:ShowQuestIcons(miniMapIcon)
+            _QuestieQuest:ShowManualIcons(miniMapIcon)
         else
-            QuestieQuest:HideQuestIcons()
-            _QuestieQuest:HideManualIcons()
+            QuestieQuest:HideQuestIcons(miniMapIcon)
+            _QuestieQuest:HideManualIcons(miniMapIcon)
         end
     end)
 end
@@ -150,7 +152,8 @@ function QuestieQuest.ToggleQuestNotes(showIcons)
 end
 
 --- Shows all quest icons. Needs to be called from a coroutine.
-function QuestieQuest:ShowQuestIcons()
+---@param miniMapIcon? boolean @When set, only update world map (false) or minimap (true) icons
+function QuestieQuest:ShowQuestIcons(miniMapIcon)
     assert(coroutine.running(), "ShowQuestIcons must be called from a coroutine")
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
@@ -160,15 +163,17 @@ function QuestieQuest:ShowQuestIcons()
             for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 ---@type IconFrame
                 local icon = _G[frameName];
-                local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
-                    if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                        icon:FakeShow()
-                    end
-                    if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
-                        icon:FadeOut()
-                    else
-                        icon:FadeIn()
+                if miniMapIcon == nil or icon.miniMapIcon == miniMapIcon then
+                    local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
+                    if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
+                        if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
+                            icon:FakeShow()
+                        end
+                        if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                            icon:FadeOut()
+                        else
+                            icon:FadeIn()
+                        end
                     end
                 end
             end
@@ -182,13 +187,32 @@ function QuestieQuest:ShowQuestIcons()
     end
 end
 
-function _QuestieQuest:ShowManualIcons()
+---@param icon IconFrame
+---@return boolean
+local function _ShouldShowManualIcon(icon)
+    local profile = Questie.db.profile
+    if not profile.enabled then
+        return false
+    end
+
+    if icon.miniMapIcon then
+        return profile.enableMiniMapIcons
+    end
+
+    return profile.enableMapIcons
+end
+
+---@param miniMapIcon? boolean @When set, only update world map (false) or minimap (true) icons
+function _QuestieQuest:ShowManualIcons(miniMapIcon)
     for _, townsfolk in pairs(QuestieMap.manualFrames) do
         for _, frameList in pairs(townsfolk) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and icon.hidden then
-                    icon:FakeShow()
+                if icon ~= nil then
+                    local matchesMap = miniMapIcon == nil or icon.miniMapIcon == miniMapIcon
+                    if icon.hidden and matchesMap and _ShouldShowManualIcon(icon) then
+                        icon:FakeShow()
+                    end
                 end
             end
         end
@@ -196,21 +220,24 @@ function _QuestieQuest:ShowManualIcons()
 end
 
 --- Hides all quest icons. Needs to be called from a coroutine
-function QuestieQuest:HideQuestIcons()
+---@param miniMapIcon? boolean @When set, only update world map (false) or minimap (true) icons
+function QuestieQuest:HideQuestIcons(miniMapIcon)
     assert(coroutine.running(), "HideQuestIcons must be called from a coroutine")
 
     local questCount = 0
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
-            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
-                -- Hides Objective Icons
-                icon:FakeHide()
-            end
-            if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
-                icon:FadeOut()
-            else
-                icon:FadeIn()
+            if miniMapIcon == nil or icon.miniMapIcon == miniMapIcon then
+                if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
+                    -- Hides Objective Icons
+                    icon:FakeHide()
+                end
+                if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                    icon:FadeOut()
+                else
+                    icon:FadeIn()
+                end
             end
         end
 
@@ -222,12 +249,13 @@ function QuestieQuest:HideQuestIcons()
     end
 end
 
-function _QuestieQuest:HideManualIcons()
+---@param miniMapIcon? boolean @When set, only update world map (false) or minimap (true) icons
+function _QuestieQuest:HideManualIcons(miniMapIcon)
     for _, townsfolk in pairs(QuestieMap.manualFrames) do
         for _, frameList in pairs(townsfolk) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and (not icon.hidden) then
+                if icon ~= nil and (not icon.hidden) and (miniMapIcon == nil or icon.miniMapIcon == miniMapIcon) then
                     icon:FakeHide()
                 end
             end

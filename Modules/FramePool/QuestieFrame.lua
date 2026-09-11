@@ -400,7 +400,7 @@ function _QuestieFrame.FadeOut(self)
         self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         if self.data.lineFrames then
             for _, lineFrame in pairs(self.data.lineFrames) do
-                local line = lineFrame.line
+                local line = lineFrame.iconFrame == self and lineFrame.line
                 if line then
                     line:SetColorTexture(line.dR, line.dG, line.dB, Questie.db.global.iconFadeLevel)
                 end
@@ -419,7 +419,7 @@ function _QuestieFrame.FadeIn(self)
         self.glowTexture:SetVertexColor(r, g, b, 1)
         if self.data.lineFrames then
             for _, lineFrame in pairs(self.data.lineFrames) do
-                local line = lineFrame.line
+                local line = lineFrame.iconFrame == self and lineFrame.line
                 if line then
                     line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
                 end
@@ -440,7 +440,9 @@ function _QuestieFrame.FakeHide(self)
         self:Hide();
         if self.data.lineFrames then
             for _, line in pairs(self.data.lineFrames) do
-                line:FakeHide()
+                if line.iconFrame == self then
+                    line:FakeHide()
+                end
             end
         end
         self._hide = self.Hide;
@@ -464,7 +466,9 @@ function _QuestieFrame.FakeShow(self)
             self:Show();
             if self.data.lineFrames then
                 for _, line in pairs(self.data.lineFrames) do
-                    line:FakeShow()
+                    if line.iconFrame == self then
+                        line:FakeShow()
+                    end
                 end
             end
         end

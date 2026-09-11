@@ -366,4 +366,78 @@ describe("QuestieFrame", function()
             assert.is_false(result)
         end)
     end)
+
+    describe("route visibility", function()
+        local function CreateFrameWithRoute(miniMapIcon, routeOwner)
+            local frame = {
+                hidden = false,
+                miniMapIcon = miniMapIcon,
+                IsShown = function() return true end,
+                Show = spy.new(function() end),
+                Hide = spy.new(function() end),
+                texture = {
+                    GetVertexColor = function() return 1, 1, 1 end,
+                    SetVertexColor = function() end,
+                },
+                glowTexture = {
+                    GetVertexColor = function() return 1, 1, 1 end,
+                    SetVertexColor = function() end,
+                },
+            }
+            local route = {
+                iconFrame = routeOwner or frame,
+                FakeShow = spy.new(function() end),
+                FakeHide = spy.new(function() end),
+                line = {
+                    dR = 1,
+                    dG = 1,
+                    dB = 1,
+                    dA = 1,
+                    SetColorTexture = spy.new(function() end),
+                },
+            }
+            frame.data = {lineFrames = {route}}
+            return frame, route
+        end
+
+        it("should hide and show routes owned by a world map icon", function()
+            local frame, route = CreateFrameWithRoute(false)
+
+            QuestieFrame.private.FakeHide(frame)
+            QuestieFrame.private.FakeShow(frame)
+
+            assert.spy(route.FakeHide).was.called()
+            assert.spy(route.FakeShow).was.called()
+        end)
+
+        it("should not hide or show a world map route through its minimap icon", function()
+            local mapFrame = {}
+            local frame, route = CreateFrameWithRoute(true, mapFrame)
+
+            QuestieFrame.private.FakeHide(frame)
+            QuestieFrame.private.FakeShow(frame)
+
+            assert.spy(route.FakeHide).was.not_called()
+            assert.spy(route.FakeShow).was.not_called()
+        end)
+
+        it("should fade routes owned by a world map icon", function()
+            local frame, route = CreateFrameWithRoute(false)
+
+            QuestieFrame.private.FadeOut(frame)
+            QuestieFrame.private.FadeIn(frame)
+
+            assert.spy(route.line.SetColorTexture).was.called(2)
+        end)
+
+        it("should not fade a world map route through its minimap icon", function()
+            local mapFrame = {}
+            local frame, route = CreateFrameWithRoute(true, mapFrame)
+
+            QuestieFrame.private.FadeOut(frame)
+            QuestieFrame.private.FadeIn(frame)
+
+            assert.spy(route.line.SetColorTexture).was.not_called()
+        end)
+    end)
 end)
