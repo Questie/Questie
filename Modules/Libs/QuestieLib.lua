@@ -398,14 +398,15 @@ function QuestieLib:GetClassString(classMask)
     end
 end
 
----Polls every 0.1 seconds, up to 20 attempts. Calls back once only if every objective has loaded text and type.
----The callback is asynchronous and is not called on exhaustion or cancellation. Loaded quests may have zero objectives.
+---Polls every 0.2 seconds, up to 20 attempts. Calls onSuccess once only if every objective has loaded text and type.
+---If the load times out, calls onFailure (if provided).
 ---@param questId QuestId
----@param callback fun(objectives: QuestObjectiveInfo[])
----@param tickSpeed? number @Optional, defaults to 0.1 seconds
+---@param onSuccess fun(objectives: QuestObjectiveInfo[])
+---@param onFailure? fun() @Optional callback when load times out
+---@param tickSpeed? number @Optional, defaults to 0.2 seconds
 ---@return Ticker timer @Call timer:Cancel() if the consumer no longer needs the result
 ---@return thread thread
-function QuestieLib.ContinueOnQuestObjectivesLoad(questId, callback, tickSpeed)
+function QuestieLib.ContinueOnQuestObjectivesLoad(questId, onSuccess, onFailure, tickSpeed)
     return ThreadLib.Thread(function()
         local attempts = 0
         local objectives
@@ -433,9 +434,11 @@ function QuestieLib.ContinueOnQuestObjectivesLoad(questId, callback, tickSpeed)
         until ready or attempts >= 20
 
         if ready then
-            callback(objectives)
+            onSuccess(objectives)
+        elseif onFailure then
+            onFailure()
         end
-    end, tickSpeed or 0.1)
+    end, tickSpeed or 0.2)
 end
 
 function QuestieLib:CacheItemNames(questId)

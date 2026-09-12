@@ -34,9 +34,6 @@ local MAX_GROUP_SIZE = 5
 local MAX_PARTY_ICONS = 500
 -- How many quests we redraw per frame when spreading a large refresh across frames.
 local CHUNK_SIZE = 50
--- How many times we re-poll the client for a party member's quest objective data (for the
--- Blizzard objective text) before giving up, when it isn't cached yet on the first draw.
-local MAX_PREFETCH_RETRIES = 5
 
 -- The single-character objective types used in the QuestieComms packets, mapped to the
 -- full type names used by the drawing pipeline and the database ObjectiveData.
@@ -53,12 +50,11 @@ local drawnByQuest = {}
 -- spawnListCache[questId][objectiveIndex] = spawnList. Spawn data is static (DB + the
 -- objective's icon, both constant per questId+objectiveIndex), so it is built once and reused.
 local spawnListCache = {}
+-- apiObjectivesCache[questId] = objectives table from ContinueOnQuestObjectivesLoad.
+-- Cached after async load completes so subsequent objectives on the same quest are instant.
+local apiObjectivesCache = {}
 -- Running total of party map-icons currently drawn, compared against MAX_PARTY_ICONS.
 local drawnIconCount = 0
--- prefetchedQuests[questId] = { attempts = number, pending = boolean }. Tracks our bounded poll
--- for a party member's quest objective data so a cache miss is retried a few times (not forever)
--- and only one retry timer is in flight per quest.
-local prefetchedQuests = {}
 
 -- Scheduling state.
 local dirtyQuests = {}
@@ -94,43 +90,34 @@ local function _GetObjectiveName(objType, objId)
     end
 end
 
--- A flagged objective's database name is meaningless (kill-credit, event, etc.). The Blizzard API
--- returns the real objective text for quests we don't have, once the client has cached the quest
--- data (same pattern as Link.lua _AddQuestRequirements).
----@param questId number
+-- When the objective's live API type (first char, from comms) differs from the database's
+-- compiled type (kill-credit, events, invisible "bunny" NPCs), the id/type no longer map to a
+-- meaningful name, so the Blizzard objective text must be used instead of the name-based
+-- fallback. Derived here rather than transmitted so it works for every comms path, including
+-- the full quest list received on login/join.
+---@param objData table? @quest.ObjectiveData[objectiveIndex]
+---@param remoteObjective table @QuestieComms objective at the same index
+---@return boolean
+local function _NeedsApiObjectiveText(objData, remoteObjective)
+    return objData ~= nil and remoteObjective.type ~= nil and string.sub(objData.Type, 1, 1) ~= remoteObjective.type
+end
+
+---@param objectives table?
 ---@param objectiveIndex number
 ---@return string?
-local function _GetApiObjectiveText(questId, objectiveIndex)
-    if not HaveQuestData(questId) then
-        C_QuestLog.GetQuestObjectives(questId) -- prime the client cache
-        -- The data arrives asynchronously and QUEST_DATA_LOAD_RESULT isn't available on Classic
-        -- clients, so poll with a bounded number of delayed redraws until it's cached (a server
-        -- round-trip can take a few seconds on login). One timer in flight per quest so multiple
-        -- objectives don't multiply retries; gives up after MAX_PREFETCH_RETRIES so it can't loop.
-        local state = prefetchedQuests[questId]
-        if not state then
-            state = {attempts = 0, pending = false}
-            prefetchedQuests[questId] = state
-        end
-        if (not state.pending) and state.attempts < MAX_PREFETCH_RETRIES then
-            state.pending = true
-            C_Timer.After(1.5, function()
-                state.pending = false
-                state.attempts = state.attempts + 1
-                QuestiePartyObjectives:ScheduleUpdate(questId)
-            end)
-        end
-        return nil
-    end
-    local objectives = C_QuestLog.GetQuestObjectives(questId)
+local function _GetApiObjectiveText(objectives, objectiveIndex)
     local objective = objectives and objectives[objectiveIndex]
-    local text = objective and objective.text
-    if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
+    if (not objective) then
         return nil
     end
 
-    -- Strip the counter from the objective text; the tooltip prepends fulfilled/required separately
-    return QuestieLib.GetFullObjectiveText(text) or text
+    local text = objective.text
+
+    if text and text ~= "" and string.byte(text, 1) ~= 32 and objective.type then
+        return QuestieLib.GetFullObjectiveText(text) or text
+    end
+
+    return nil
 end
 
 -- The tooltips prefer FullDescription (the objective text including "slain", see
@@ -312,60 +299,92 @@ local function _DrawQuest(questId)
         end)
     end
 
+    -- Draw the standard (comms-driven) objectives using the given API objectives table (nil if
+    -- none of them need it). Only invoked once entry is known to still be the current draw --
+    -- either synchronously below, or from the ContinueOnQuestObjectivesLoad callback once loaded.
+    ---@param apiObjectives table?
+    local function _DrawObjectives(apiObjectives)
+        for objectiveIndex, remoteObjective in pairs(neededIndices) do
+            if drawnIconCount + entry.iconCount >= MAX_PARTY_ICONS then
+                break
+            end
+
+            -- Prefer the database ObjectiveData (canonical Type/Id). It only misses an entry at
+            -- this index when the party members' databases disagree (e.g. different Questie
+            -- versions); in that case fall back to the comms data as a whole, to not mix sources.
+            local objData = quest.ObjectiveData[objectiveIndex]
+            local objType, objId
+            if objData then
+                objType = objData.Type
+                objId = objData.Id
+            else
+                objType = typeCharToFull[remoteObjective.type]
+                objId = remoteObjective.id
+            end
+
+            if objType and objId then
+                local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
+                local useApiObjectiveText = _NeedsApiObjectiveText(objData, remoteObjective)
+                local apiText = useApiObjectiveText and _GetApiObjectiveText(apiObjectives, objectiveIndex) or nil
+                local description = apiText or (objData and objData.Text) or (not useApiObjectiveText and _GetObjectiveName(objType, objId)) or ""
+                local objective = {
+                    Id = objId,
+                    Type = objType,
+                    Index = objectiveIndex,
+                    questId = questId,
+                    Description = description,
+                    FullDescription = (not useApiObjectiveText) and _GetFullDescription(objType, description) or nil,
+                    Icon = objData and objData.Icon,
+                    Completed = false,
+                    -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.
+                    spawnList = cachedSpawnList or {},
+                    AlreadySpawned = {},
+                    Update = NOP_FUNCTION,
+                    -- Marks this as a party member's objective (the local player does not have the
+                    -- quest), so the map tooltip doesn't label it with the local player's name.
+                    IsPartyObjective = true,
+                    -- Skip in-world unit/item tooltip registration; the map icon tooltip already
+                    -- shows party members via QuestieComms, and this avoids leaking tooltip entries.
+                    hasRegisteredTooltips = true,
+                    registeredItemTooltips = true,
+                }
+
+                -- Only ask for caching when this objective had no cached spawn list to start with.
+                _ScheduleObjectiveDraw(objective, objectiveIndex, (not cachedSpawnList) and objectiveIndex or nil)
+            end
+        end
+    end
+
+    -- Does any objective actually need Blizzard API text? Only then is a fetch worth starting;
+    -- most quests never hit this (their DB type matches the live comms type).
+    local needsApiObjectives = false
     for objectiveIndex, remoteObjective in pairs(neededIndices) do
-        if drawnIconCount + entry.iconCount >= MAX_PARTY_ICONS then
+        if _NeedsApiObjectiveText(quest.ObjectiveData[objectiveIndex], remoteObjective) then
+            needsApiObjectives = true
             break
         end
+    end
 
-        -- Prefer the database ObjectiveData (canonical Type/Id). It only misses an entry at this
-        -- index when the party members' databases disagree (e.g. different Questie versions);
-        -- in that case fall back to the comms data as a whole, to not mix the two sources.
-        local objData = quest.ObjectiveData[objectiveIndex]
-        local objType, objId
-        if objData then
-            objType = objData.Type
-            objId = objData.Id
-        else
-            objType = typeCharToFull[remoteObjective.type]
-            objId = remoteObjective.id
-        end
-
-        if objType and objId then
-            local cachedSpawnList = spawnListCache[questId] and spawnListCache[questId][objectiveIndex]
-            -- When the objective's live API type (first char, from comms) differs from the
-            -- database's compiled type (kill-credit, events, invisible "bunny" NPCs), the id/type
-            -- no longer map to a meaningful name, so use the Blizzard objective text and skip the
-            -- name-based fallback. Derived here rather than transmitted so it works for every comms
-            -- path, including the full quest list received on login/join.
-            local useApiObjectiveText = objData ~= nil and remoteObjective.type ~= nil
-                and string.sub(objData.Type, 1, 1) ~= remoteObjective.type
-            local apiText = useApiObjectiveText and _GetApiObjectiveText(questId, objectiveIndex) or nil
-            local description = apiText or (objData and objData.Text) or (not useApiObjectiveText and _GetObjectiveName(objType, objId)) or ""
-            local objective = {
-                Id = objId,
-                Type = objType,
-                Index = objectiveIndex,
-                questId = questId,
-                Description = description,
-                FullDescription = (not useApiObjectiveText) and _GetFullDescription(objType, description) or nil,
-                Icon = objData and objData.Icon,
-                Completed = false,
-                -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.
-                spawnList = cachedSpawnList or {},
-                AlreadySpawned = {},
-                Update = NOP_FUNCTION,
-                -- Marks this as a party member's objective (the local player does not have the
-                -- quest), so the map tooltip doesn't label it with the local player's name.
-                IsPartyObjective = true,
-                -- Skip in-world unit/item tooltip registration; the map icon tooltip already
-                -- shows party members via QuestieComms, and this avoids leaking tooltip entries.
-                hasRegisteredTooltips = true,
-                registeredItemTooltips = true,
-            }
-
-            -- Only ask for caching when this objective had no cached spawn list to start with.
-            _ScheduleObjectiveDraw(objective, objectiveIndex, (not cachedSpawnList) and objectiveIndex or nil)
-        end
+    if (not needsApiObjectives) then
+        _DrawObjectives(nil)
+    elseif apiObjectivesCache[questId] then
+        _DrawObjectives(apiObjectivesCache[questId])
+    else
+        -- Not cached yet: fetch once, then draw when it resolves. _IsStale() guards against the
+        -- quest having been cleared/redrawn (or no longer eligible) since the fetch started.
+        QuestieLib.ContinueOnQuestObjectivesLoad(questId, function(loadedObjectives)
+            if _IsStale() then
+                return
+            end
+            apiObjectivesCache[questId] = loadedObjectives
+            _DrawObjectives(loadedObjectives)
+        end, function()
+            -- Objective loading failed, fallback to the default objectives
+            if _IsStale() then
+                return
+            end
+            _DrawObjectives(nil)
+        end)
     end
 
     -- Also draw the quest's extra/special objectives (DB-defined, e.g. "use item" custom spawns
@@ -496,7 +515,7 @@ function QuestiePartyObjectives:Clear()
     end
     drawnByQuest = {}
     drawnIconCount = 0
-    prefetchedQuests = {}
+    apiObjectivesCache = {}
 end
 
 -- Immediate full refresh, used by the options toggle.
