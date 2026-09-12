@@ -527,5 +527,25 @@ describe("QuestieTracker", function()
 
             assert.spy(QuestieTracker.Show).was.not_called()
         end)
+
+        it("should not clear instance-hidden state when disabling hide-in-combat while still hidden by an instance", function()
+            Questie.db.profile.hideTrackerInInstances = true
+            _G.IsInInstance = function() return true end
+            QuestieTracker.HandleZoneChanged() -- legitimately hidden by the instance
+
+            Questie.db.profile.hideTrackerInCombat = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.OnHideInCombatChanged(true) -- also hidden by combat now
+
+            QuestieTracker.OnHideInCombatChanged(false) -- toggling combat-hide off mid-fight, still inside the instance
+
+            -- The instance-hide should still be in effect: leaving the instance afterwards
+            -- should still show the tracker, proving hiddenByInstance was not cleared above.
+            _G.IsInInstance = function() return false end
+            QuestieTracker.Show = spy.new(function() end)
+            QuestieTracker.HandleZoneChanged()
+
+            assert.spy(QuestieTracker.Show).was.called()
+        end)
     end)
 end)
