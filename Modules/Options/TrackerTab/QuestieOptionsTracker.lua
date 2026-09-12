@@ -7,8 +7,6 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type EventHandler
-local EventHandler = QuestieLoader:ImportModule("EventHandler")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerLinePool
@@ -445,7 +443,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             if value then
                                 Questie.db.profile.hideTrackerInCombat = false
                             end
-                            EventHandler.OnMinimizeInCombatChanged(value)
+                            QuestieTracker.OnMinimizeInCombatChanged(value)
                         end
                     },
                     minimizeInInstances = {
