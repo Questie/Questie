@@ -588,6 +588,43 @@ function QuestieTracker.HandleZoneChanged()
     end
 end
 
+-- Called when the "Minimize In Instances" setting is toggled by the user, so an already
+-- collapsed/expanded state can be applied or reversed immediately without waiting for the
+-- next zone change. Uses the same ownership rules as HandleZoneChanged().
+function QuestieTracker.OnMinimizeInInstancesChanged(enabled)
+    if enabled then
+        if IsInInstance() and Questie.db.profile.trackerEnabled and Questie.db.char.isTrackerExpanded then
+            minimizedByInstance = true
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Collapse()
+            end)
+        end
+    else
+        if minimizedByInstance then
+            minimizedByInstance = false
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Expand()
+            end)
+        end
+    end
+end
+
+-- Called when the "Hide In Instances" setting is toggled by the user, mirroring
+-- OnMinimizeInInstancesChanged() above.
+function QuestieTracker.OnHideInInstancesChanged(enabled)
+    if enabled then
+        if IsInInstance() and Questie.db.profile.trackerEnabled then
+            hiddenByInstance = true
+            QuestieTracker:Hide()
+        end
+    else
+        if hiddenByInstance then
+            hiddenByInstance = false
+            QuestieTracker:Show()
+        end
+    end
+end
+
 -- Toggles the QuestieTracker (Expand/Collapse)
 function QuestieTracker.ToggleTracker()
     if (not Questie.db.profile.trackerEnabled) then

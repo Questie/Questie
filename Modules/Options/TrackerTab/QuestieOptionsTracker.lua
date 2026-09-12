@@ -463,12 +463,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             -- Disable the hide option when minimize is enabled
                             if value then
                                 Questie.db.profile.hideTrackerInInstances = false
+                                QuestieTracker.OnHideInInstancesChanged(false)
                             end
-                            if value and IsInInstance() then
-                                QuestieTracker:Collapse()
-                            else
-                                QuestieTracker:Expand()
-                            end
+                            QuestieTracker.OnMinimizeInInstancesChanged(value)
                         end
                     },
                     hideInCombat = {
@@ -499,8 +496,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             Questie.db.profile.hideTrackerInInstances = value
                             if value then
                                 Questie.db.profile.minimizeTrackerInInstances = false
+                                QuestieTracker.OnMinimizeInInstancesChanged(false)
                             end
-                            toggleTrackerVisibility(value, IsInInstance)
+                            QuestieTracker.OnHideInInstancesChanged(value)
                         end
                     },
                     hideInPetBattles = {

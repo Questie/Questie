@@ -253,4 +253,89 @@ describe("QuestieTracker", function()
             assert.spy(QuestieTracker.Show).was.not_called()
         end)
     end)
+
+    describe("OnMinimizeInInstancesChanged", function()
+        it("should collapse the tracker when enabled while in an instance and expanded", function()
+            Questie.db.char.isTrackerExpanded = true
+            _G.IsInInstance = function() return true end
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInInstancesChanged(true)
+
+            assert.spy(QuestieTracker.Collapse).was.called()
+        end)
+
+        it("should not collapse the tracker when enabled while not in an instance", function()
+            _G.IsInInstance = function() return false end
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInInstancesChanged(true)
+
+            assert.spy(QuestieTracker.Collapse).was.not_called()
+        end)
+
+        it("should expand the tracker when disabled after it claimed ownership of the collapse", function()
+            Questie.db.char.isTrackerExpanded = true
+            _G.IsInInstance = function() return true end
+            QuestieTracker.OnMinimizeInInstancesChanged(true) -- claims ownership
+
+            Questie.db.char.isTrackerExpanded = false
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInInstancesChanged(false)
+
+            assert.spy(QuestieTracker.Expand).was.called()
+        end)
+
+        it("should not expand the tracker when disabled if it never claimed ownership (manually minimized)", function()
+            Questie.db.char.isTrackerExpanded = false -- already manually minimized
+            _G.IsInInstance = function() return true end
+            QuestieTracker.OnMinimizeInInstancesChanged(true) -- does not claim ownership
+
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInInstancesChanged(false)
+
+            assert.spy(QuestieTracker.Expand).was.not_called()
+        end)
+    end)
+
+    describe("OnHideInInstancesChanged", function()
+        it("should hide the tracker when enabled while in an instance", function()
+            _G.IsInInstance = function() return true end
+            QuestieTracker.Hide = spy.new(function() end)
+
+            QuestieTracker.OnHideInInstancesChanged(true)
+
+            assert.spy(QuestieTracker.Hide).was.called()
+        end)
+
+        it("should not hide the tracker when enabled while not in an instance", function()
+            _G.IsInInstance = function() return false end
+            QuestieTracker.Hide = spy.new(function() end)
+
+            QuestieTracker.OnHideInInstancesChanged(true)
+
+            assert.spy(QuestieTracker.Hide).was.not_called()
+        end)
+
+        it("should show the tracker when disabled after it claimed ownership of the hide", function()
+            _G.IsInInstance = function() return true end
+            QuestieTracker.OnHideInInstancesChanged(true) -- claims ownership
+
+            QuestieTracker.Show = spy.new(function() end)
+
+            QuestieTracker.OnHideInInstancesChanged(false)
+
+            assert.spy(QuestieTracker.Show).was.called()
+        end)
+
+        it("should not show the tracker when disabled if it never claimed ownership", function()
+            QuestieTracker.Show = spy.new(function() end)
+
+            QuestieTracker.OnHideInInstancesChanged(false)
+
+            assert.spy(QuestieTracker.Show).was.not_called()
+        end)
+    end)
 end)
