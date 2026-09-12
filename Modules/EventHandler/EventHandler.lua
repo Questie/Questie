@@ -556,6 +556,24 @@ end
 
 local trackerMinimizedByCombat, trackerHiddenByCombat = false, false
 local optionsHiddenByCombat, journeyHiddenByCombat = false, false
+
+-- Called when the "Minimize In Combat" setting is toggled by the user, so an already
+-- collapsed/expanded state can be applied or reversed immediately, using the same
+-- ownership rules as PlayerRegenDisabled/PlayerRegenEnabled below.
+function EventHandler.OnMinimizeInCombatChanged(enabled)
+    if enabled then
+        if InCombatLockdown() and Questie.db.char.isTrackerExpanded then
+            trackerMinimizedByCombat = true
+            QuestieTracker:Collapse()
+        end
+    else
+        if trackerMinimizedByCombat then
+            trackerMinimizedByCombat = false
+            QuestieTracker:Expand()
+        end
+    end
+end
+
 function _EventHandler:PlayerRegenDisabled()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
 
