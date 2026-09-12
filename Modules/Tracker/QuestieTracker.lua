@@ -540,7 +540,13 @@ end
 
 -- Shows the QuestieTracker
 function QuestieTracker:Show()
-    hiddenByInstance = false
+    -- If an instance- or combat-based hide is still legitimately active, ignore this call
+    -- instead of clearing that ownership - some callers (e.g. pet battle events, or toggling
+    -- one hide setting off while another is still active) invoke Show() independently of
+    -- those transitions and must not be able to override them.
+    if hiddenByInstance or hiddenByCombat then
+        return
+    end
 
     if trackerBaseFrame and Questie.db.profile.trackerEnabled then
         if not trackerBaseFrame:IsShown() then
