@@ -338,4 +338,155 @@ describe("QuestieTracker", function()
             assert.spy(QuestieTracker.Show).was.not_called()
         end)
     end)
+
+    describe("HandleCombatChanged", function()
+        it("should collapse the tracker when entering combat with minimize enabled and expanded", function()
+            Questie.db.profile.minimizeTrackerInCombat = true
+            Questie.db.char.isTrackerExpanded = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieTracker.Collapse).was.called()
+        end)
+
+        it("should hide the tracker when entering combat with hide enabled", function()
+            Questie.db.profile.hideTrackerInCombat = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.Hide = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieTracker.Hide).was.called()
+        end)
+
+        it("should re-collapse when entering combat while already in an instance with minimize enabled", function()
+            Questie.db.profile.minimizeTrackerInInstances = true
+            _G.InCombatLockdown = function() return true end
+            _G.IsInInstance = function() return true end
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieTracker.Collapse).was.called()
+        end)
+
+        it("should expand the tracker when leaving combat after it was minimized due to combat", function()
+            Questie.db.profile.minimizeTrackerInCombat = true
+            Questie.db.char.isTrackerExpanded = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.HandleCombatChanged() -- entered combat, claims ownership
+
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieTracker.Expand).was.called()
+        end)
+
+        it("should not expand when leaving combat while still in an instance that also wants it minimized", function()
+            Questie.db.profile.minimizeTrackerInCombat = true
+            Questie.db.profile.minimizeTrackerInInstances = true
+            Questie.db.char.isTrackerExpanded = true
+            _G.InCombatLockdown = function() return true end
+            _G.IsInInstance = function() return true end
+            QuestieTracker.HandleCombatChanged() -- entered combat, claims ownership
+
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieTracker.Expand).was.not_called()
+        end)
+
+        it("should show the tracker when leaving combat after it was hidden due to combat", function()
+            Questie.db.profile.hideTrackerInCombat = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.HandleCombatChanged() -- entered combat, claims ownership
+
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.Show = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieTracker.Show).was.called()
+        end)
+
+        it("should not show when leaving combat while still in an instance that also wants it hidden", function()
+            Questie.db.profile.hideTrackerInCombat = true
+            Questie.db.profile.hideTrackerInInstances = true
+            _G.InCombatLockdown = function() return true end
+            _G.IsInInstance = function() return true end
+            QuestieTracker.HandleCombatChanged() -- entered combat, claims ownership
+
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.Show = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieTracker.Show).was.not_called()
+        end)
+
+        it("should queue an Update when leaving combat after minimize was active due to combat", function()
+            Questie.db.profile.minimizeTrackerInCombat = true
+            Questie.db.char.isTrackerExpanded = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.HandleCombatChanged()
+
+            _G.InCombatLockdown = function() return false end
+            QuestieCombatQueue.Queue = spy.new(function() end)
+
+            QuestieTracker.HandleCombatChanged()
+
+            assert.spy(QuestieCombatQueue.Queue).was.called()
+        end)
+    end)
+
+    describe("OnMinimizeInCombatChanged", function()
+        it("should collapse the tracker when enabled while in combat and expanded", function()
+            Questie.db.char.isTrackerExpanded = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInCombatChanged(true)
+
+            assert.spy(QuestieTracker.Collapse).was.called()
+        end)
+
+        it("should not collapse the tracker when enabled while not in combat", function()
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInCombatChanged(true)
+
+            assert.spy(QuestieTracker.Collapse).was.not_called()
+        end)
+
+        it("should expand the tracker when disabled after it claimed ownership of the collapse", function()
+            Questie.db.char.isTrackerExpanded = true
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.OnMinimizeInCombatChanged(true) -- claims ownership
+
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInCombatChanged(false)
+
+            assert.spy(QuestieTracker.Expand).was.called()
+        end)
+
+        it("should not expand the tracker when disabled if it never claimed ownership (manually minimized)", function()
+            Questie.db.char.isTrackerExpanded = false -- already manually minimized
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.OnMinimizeInCombatChanged(true) -- does not claim ownership, tracker was not expanded
+
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.OnMinimizeInCombatChanged(false)
+
+            assert.spy(QuestieTracker.Expand).was.not_called()
+        end)
+    end)
 end)

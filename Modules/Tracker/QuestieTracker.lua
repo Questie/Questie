@@ -84,6 +84,8 @@ local isFirstRun = true
 local allowFormattingUpdate = false
 local minimizedByInstance = false
 local hiddenByInstance = false
+local minimizedByCombat = false
+local hiddenByCombat = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
@@ -621,6 +623,60 @@ function QuestieTracker.OnHideInInstancesChanged(enabled)
         if hiddenByInstance then
             hiddenByInstance = false
             QuestieTracker:Show()
+        end
+    end
+end
+
+-- Single entry point for EventHandler to notify the tracker that the player's combat status
+-- may have changed (entering or leaving combat). Checks InCombatLockdown() itself and applies
+-- (or reverses) minimize/hide accordingly. Mirrors HandleZoneChanged() above, and takes the
+-- current instance-based minimize/hide state into account so leaving combat while still inside
+-- an instance that wants the tracker minimized/hidden doesn't prematurely reverse it.
+function QuestieTracker.HandleCombatChanged()
+    if InCombatLockdown() then
+        if Questie.db.profile.minimizeTrackerInCombat and Questie.db.char.isTrackerExpanded and (not minimizedByCombat) then
+            minimizedByCombat = true
+            QuestieTracker:Collapse()
+        elseif Questie.db.profile.hideTrackerInCombat and (not hiddenByCombat) then
+            hiddenByCombat = true
+            QuestieTracker:Hide()
+        end
+
+        if IsInInstance() and Questie.db.profile.minimizeTrackerInInstances then
+            QuestieTracker:Collapse()
+        end
+    else
+        if Questie.db.profile.minimizeTrackerInCombat and minimizedByCombat then
+            if (not Questie.db.profile.minimizeTrackerInInstances) or (not IsInInstance()) then
+                minimizedByCombat = false
+                QuestieTracker:Expand()
+            end
+
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        elseif Questie.db.profile.hideTrackerInCombat and hiddenByCombat then
+            if (not Questie.db.profile.hideTrackerInInstances) or (not IsInInstance()) then
+                hiddenByCombat = false
+                QuestieTracker:Show()
+            end
+        end
+    end
+end
+
+-- Called when the "Minimize In Combat" setting is toggled by the user, so an already
+-- collapsed/expanded state can be applied or reversed immediately, using the same
+-- ownership rules as HandleCombatChanged() above.
+function QuestieTracker.OnMinimizeInCombatChanged(enabled)
+    if enabled then
+        if InCombatLockdown() and Questie.db.char.isTrackerExpanded then
+            minimizedByCombat = true
+            QuestieTracker:Collapse()
+        end
+    else
+        if minimizedByCombat then
+            minimizedByCombat = false
+            QuestieTracker:Expand()
         end
     end
 end
