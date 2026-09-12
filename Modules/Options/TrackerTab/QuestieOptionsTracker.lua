@@ -442,6 +442,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             -- Disable the hide option when minimize is enabled
                             if value then
                                 Questie.db.profile.hideTrackerInCombat = false
+                                QuestieTracker.OnHideInCombatChanged(false)
                             end
                             QuestieTracker.OnMinimizeInCombatChanged(value)
                         end
@@ -476,8 +477,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                             Questie.db.profile.hideTrackerInCombat = value
                             if value then
                                 Questie.db.profile.minimizeTrackerInCombat = false
+                                QuestieTracker.OnMinimizeInCombatChanged(false)
                             end
-                            toggleTrackerVisibility(value, InCombatLockdown)
+                            QuestieTracker.OnHideInCombatChanged(value)
                         end
                     },
                     hideInInstances = {
