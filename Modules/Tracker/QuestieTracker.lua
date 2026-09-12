@@ -561,10 +561,12 @@ function QuestieTracker.HandleZoneChanged()
 
     if IsInInstance() then
         if Questie.db.profile.minimizeTrackerInInstances then
-            minimizedByInstance = true
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Collapse()
-            end)
+            if Questie.db.char.isTrackerExpanded then
+                minimizedByInstance = true
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Collapse()
+                end)
+            end
         elseif Questie.db.profile.hideTrackerInInstances then
             hiddenByInstance = true
             QuestieTracker:Hide()

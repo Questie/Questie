@@ -103,6 +103,23 @@ describe("QuestieTracker", function()
             assert.spy(QuestieTracker.Collapse).was.called()
         end)
 
+        it("should not claim ownership of an already-manually-minimized tracker when entering an instance, so it is not auto-expanded on leaving", function()
+            Questie.db.profile.minimizeTrackerInInstances = true
+            Questie.db.char.isTrackerExpanded = false -- manually minimized by the player before entering
+            _G.IsInInstance = function() return true end
+            QuestieTracker.Collapse = spy.new(function() end)
+
+            QuestieTracker.HandleZoneChanged() -- entering the instance
+
+            _G.IsInInstance = function() return false end
+            _G.UnitIsGhost = function() return false end
+            QuestieTracker.Expand = spy.new(function() end)
+
+            QuestieTracker.HandleZoneChanged() -- leaving the instance
+
+            assert.spy(QuestieTracker.Expand).was.not_called()
+        end)
+
         it("should queue the collapse via QuestieCombatQueue instead of calling it directly", function()
             Questie.db.profile.minimizeTrackerInInstances = true
             _G.IsInInstance = function() return true end
