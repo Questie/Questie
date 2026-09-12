@@ -681,6 +681,22 @@ function QuestieTracker.OnMinimizeInCombatChanged(enabled)
     end
 end
 
+-- Called when the "Hide In Combat" setting is toggled by the user, mirroring
+-- OnMinimizeInCombatChanged() above.
+function QuestieTracker.OnHideInCombatChanged(enabled)
+    if enabled then
+        if InCombatLockdown() then
+            hiddenByCombat = true
+            QuestieTracker:Hide()
+        end
+    else
+        if hiddenByCombat then
+            hiddenByCombat = false
+            QuestieTracker:Show()
+        end
+    end
+end
+
 -- Toggles the QuestieTracker (Expand/Collapse)
 function QuestieTracker.ToggleTracker()
     if (not Questie.db.profile.trackerEnabled) then

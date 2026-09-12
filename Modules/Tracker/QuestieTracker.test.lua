@@ -489,4 +489,43 @@ describe("QuestieTracker", function()
             assert.spy(QuestieTracker.Expand).was.not_called()
         end)
     end)
+
+    describe("OnHideInCombatChanged", function()
+        it("should hide the tracker when enabled while in combat", function()
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.Hide = spy.new(function() end)
+
+            QuestieTracker.OnHideInCombatChanged(true)
+
+            assert.spy(QuestieTracker.Hide).was.called()
+        end)
+
+        it("should not hide the tracker when enabled while not in combat", function()
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.Hide = spy.new(function() end)
+
+            QuestieTracker.OnHideInCombatChanged(true)
+
+            assert.spy(QuestieTracker.Hide).was.not_called()
+        end)
+
+        it("should show the tracker when disabled after it claimed ownership of the hide", function()
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.OnHideInCombatChanged(true) -- claims ownership
+
+            QuestieTracker.Show = spy.new(function() end)
+
+            QuestieTracker.OnHideInCombatChanged(false)
+
+            assert.spy(QuestieTracker.Show).was.called()
+        end)
+
+        it("should not show the tracker when disabled if it never claimed ownership", function()
+            QuestieTracker.Show = spy.new(function() end)
+
+            QuestieTracker.OnHideInCombatChanged(false)
+
+            assert.spy(QuestieTracker.Show).was.not_called()
+        end)
+    end)
 end)
