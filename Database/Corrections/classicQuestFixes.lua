@@ -4936,6 +4936,11 @@ function QuestieQuestFixes:Load()
         },
         [8233] = { -- A Simple Request
             [questKeys.startedBy] = {{918, 3328, 4163, 4583, 5165, 5167}},
+            [questKeys.breadcrumbForQuestId] = 8234,
+        },
+        [8234] = { -- Sealed Azure Bag
+            [questKeys.preQuestSingle] = {},
+            [questKeys.breadcrumbs] = {8233},
         },
         [8238] = { -- Gurubashi, Vilebranch, and Witherbark Coins
             [questKeys.zoneOrSort] = zoneIDs.ZUL_GURUB,
@@ -7188,11 +7193,6 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8233] = { -- A Simple Request
             [questKeys.startedBy] = {{918, 4163, 5165, 5167}},
-            [questKeys.breadcrumbForQuestId] = 8234,
-        },
-        [8234] = { -- Sealed Azure Bag
-            [questKeys.preQuestSingle] = {},
-            [questKeys.breadcrumbs] = {8233},
         },
         [8250] = { -- Magecraft
             [questKeys.startedBy] = {{331, 7312}},
