@@ -119,6 +119,8 @@ function MapIconTooltip:Show()
 
     local usedText = {}
     local npcAndObjectOrder = {};
+    -- [quest title] = set of dungeon spawn names that offer it, see _MapIconTooltip.CollapseDungeonSources
+    local dungeonSourceNames = {};
     local questOrder = {};
     local manualOrder = {}
 
@@ -159,6 +161,13 @@ function MapIconTooltip:Show()
 
                     local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
                     npcAndObjectOrder[iconData.Name][tip.title] = tip
+
+                    if iconData.DungeonEntrance then
+                        if not dungeonSourceNames[tip.title] then
+                            dungeonSourceNames[tip.title] = {};
+                        end
+                        dungeonSourceNames[tip.title][iconData.Name] = true
+                    end
                 elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
                     local key = iconData.Id
                     if not questOrder[key] then
@@ -194,6 +203,8 @@ function MapIconTooltip:Show()
             handleMapIcon(pin.icon)
         end
     end
+
+    _MapIconTooltip.CollapseDungeonSources(npcAndObjectOrder, dungeonSourceNames)
 
     Tooltip.npcAndObjectOrder = npcAndObjectOrder
     Tooltip.questOrder = questOrder
@@ -546,6 +557,47 @@ local function _GetQuestTag(quest)
             return l10n("(") .. l10n("Rune") .. l10n(")");
         else
             return l10n("(") .. l10n("Available") .. l10n(")");
+        end
+    end
+end
+
+-- Every quest starter or finisher that spawns inside a dungeon is drawn on the dungeon entrance,
+-- so an item dropped by a dozen different trash mobs repeats the same quest line a dozen times,
+-- once under each mob name. Move any such quest under a single "Multiple Sources" heading instead.
+---@param npcAndObjectOrder table<string, table<string, table>> @[spawn name] = [quest title] = tooltip
+---@param dungeonSourceNames table<string, table<string, boolean>> @[quest title] = set of dungeon spawn names
+function _MapIconTooltip.CollapseDungeonSources(npcAndObjectOrder, dungeonSourceNames)
+    local multipleSourcesName = l10n("Multiple Sources")
+
+    for title, sourceNames in pairs(dungeonSourceNames) do
+        local sourceCount = 0
+        for _ in pairs(sourceNames) do
+            sourceCount = sourceCount + 1
+            if sourceCount > 1 then
+                break
+            end
+        end
+
+        if sourceCount > 1 then
+            -- All sources share the same quest, so any one of their tooltips will do.
+            local tip
+            for name in pairs(sourceNames) do
+                local quests = npcAndObjectOrder[name]
+                if quests then
+                    tip = tip or quests[title]
+                    quests[title] = nil
+                    if not next(quests) then
+                        npcAndObjectOrder[name] = nil
+                    end
+                end
+            end
+
+            if tip then
+                if not npcAndObjectOrder[multipleSourcesName] then
+                    npcAndObjectOrder[multipleSourcesName] = {};
+                end
+                npcAndObjectOrder[multipleSourcesName][title] = tip
+            end
         end
     end
 end
