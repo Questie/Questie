@@ -282,6 +282,58 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("GetLoadedQuestObjectives", function()
+        local originalHaveQuestData
+        local originalGetQuestObjectives
+        local objectives
+
+        before_each(function()
+            originalHaveQuestData = _G.HaveQuestData
+            originalGetQuestObjectives = C_QuestLog.GetQuestObjectives
+            objectives = {{text = "Wolf slain: 0/1", type = "monster"}}
+            _G.HaveQuestData = function() return true end
+            C_QuestLog.GetQuestObjectives = spy.new(function() return objectives end)
+        end)
+
+        after_each(function()
+            _G.HaveQuestData = originalHaveQuestData
+            C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
+        end)
+
+        it("should return the loaded array without modifying it", function()
+            local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+            assert.equals(objectives, result)
+            assert.same({{text = "Wolf slain: 0/1", type = "monster"}}, result)
+            assert.spy(C_QuestLog.GetQuestObjectives).was.called_with(QUEST_ID)
+        end)
+
+        it("should prime missing quest data and return nil", function()
+            _G.HaveQuestData = function() return false end
+
+            assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+            assert.spy(C_QuestLog.GetQuestObjectives).was.called_with(QUEST_ID)
+        end)
+
+        it("should return nil when the objective array is unavailable", function()
+            objectives = nil
+
+            assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+        end)
+
+        it("should return nil rather than a partially loaded array", function()
+            objectives[2] = {text = " : 0/1", type = "item"}
+
+            assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+        end)
+
+        it("should accept a loaded quest with no objectives", function()
+            objectives = {}
+
+            assert.same({}, QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+        end)
+    end)
+
     describe("ContinueOnQuestObjectivesLoad", function()
         local ThreadLib
         local originalThread
@@ -321,17 +373,36 @@ describe("QuestieLib", function()
             _G.C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
         end)
 
-        it("should asynchronously deliver the loaded array once and return the thread handles", function()
+        it("should deliver ready data on the first tick, not synchronously", function()
             local returnedTimer, returnedThread = QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
 
-            assert.are.equal(timer, returnedTimer)
-            assert.are.equal(thread, returnedThread)
+            assert.equals(timer, returnedTimer)
+            assert.equals(thread, returnedThread)
             assert.spy(callback).was.not_called()
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
+
             Tick()
 
             assert.spy(callback).was.called(1)
             assert.spy(callback).was.called_with(objectives)
             assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called_with(QUEST_ID)
+            assert.equals("dead", coroutine.status(thread))
+        end)
+
+        it("should return cancellation handles while loading and deliver the result once ready", function()
+            objectives = nil
+            local returnedTimer, returnedThread = QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+
+            assert.are.equal(timer, returnedTimer)
+            assert.are.equal(thread, returnedThread)
+            Tick()
+            assert.spy(callback).was.not_called()
+
+            objectives = {{text = "Wolf slain: 0/1", type = "monster"}}
+            Tick()
+
+            assert.spy(callback).was.called(1)
+            assert.spy(callback).was.called_with(objectives)
             assert.are_same("dead", coroutine.status(thread))
         end)
 
@@ -566,6 +637,16 @@ describe("QuestieLib", function()
     end)
 
     describe("GetFullObjectiveText", function()
+        local originalTrimObjectiveText
+
+        before_each(function()
+            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
+        end)
+
+        after_each(function()
+            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
+        end)
+
         it("should return the full objective description if trimObjectiveText is disabled", function()
             Questie.db.profile.trimObjectiveText = false
             local rawObjectiveText = "Defeat Hogger: 0/1"
@@ -577,20 +658,45 @@ describe("QuestieLib", function()
 
         it("should return the full objective description for Chinese clients if trimObjectiveText is disabled", function()
             Questie.db.profile.trimObjectiveText = false
-            local rawObjectiveText = "击败霍格: 0/1"
+            local rawObjectiveText = "击败霍格：0/1"
 
             local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
 
             assert.are_same("击败霍格", result)
         end)
 
-        it("should return nil if trimObjectiveText is enabled", function()
+        it("should still return full wording when trimObjectiveText is enabled", function()
             Questie.db.profile.trimObjectiveText = true
-            local rawObjectiveText = "Defeat Hogger: 0/1"
 
-            local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
+            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveText("Wolf slain: 0/1"))
+        end)
 
-            assert.is_nil(result)
+        it("should retain the nil result for text without a trailing counter", function()
+            assert.is_nil(QuestieLib.GetFullObjectiveText("Speak to: Thrall"))
+        end)
+    end)
+
+    describe("GetFullObjectiveTextConditional", function()
+        local originalTrimObjectiveText
+
+        before_each(function()
+            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
+        end)
+
+        after_each(function()
+            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
+        end)
+
+        it("should return full wording when trimObjectiveText is disabled", function()
+            Questie.db.profile.trimObjectiveText = false
+
+            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveTextConditional("Wolf slain: 0/1"))
+        end)
+
+        it("should return nil when trimObjectiveText is enabled", function()
+            Questie.db.profile.trimObjectiveText = true
+
+            assert.is_nil(QuestieLib.GetFullObjectiveTextConditional("Wolf slain: 0/1"))
         end)
     end)
 end)
