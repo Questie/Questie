@@ -552,6 +552,26 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     end
 end
 
+---Existing quest starters need a texture refresh when the player levels up: a gray ! can become yellow
+---once the quest's level requirement is met. Update those icons without redrawing their locations.
+---Only touch starter frames; party objectives sharing the quest ID must keep their own textures.
+---@param questId QuestId
+---@return boolean hasAvailableFrames @True even when the existing starter textures need no update.
+local function _UpdateDrawnAvailableIcons(questId)
+    local hasAvailableFrames = false
+    for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
+        if frame and frame.data and frame.data.Type == "available" and frame.data.QuestData then
+            hasAvailableFrames = true
+            local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
+
+            if newIcon ~= frame.data.Icon then
+                frame:UpdateTexture(Questie.usedIcons[newIcon])
+            end
+        end
+    end
+    return hasAvailableFrames
+end
+
 _CalculateAndDrawAvailableQuests = function()
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.profile.debugEnabled
@@ -660,10 +680,8 @@ _CalculateAndDrawAvailableQuests = function()
 
     yieldCount = 0
     for questId in pairs(availableQuests) do
-        if QuestieMap.questIdFrames[questId] then
-            -- We already drew this quest so we might need to update the icon (config changed/level up)
-            QuestieMap.UpdateDrawnIcons(questId)
-        else
+        -- Party objectives can exist without starter frames for the same quest.
+        if not _UpdateDrawnAvailableIcons(questId) then
             _DrawAvailableQuest(questId)
         end
 
