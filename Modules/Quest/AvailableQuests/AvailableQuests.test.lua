@@ -367,8 +367,19 @@ describe("AvailableQuests", function()
     end)
 
     describe("CalculateAndDrawAll", function()
-        it("should name its calculation and draw jobs for profiling", function()
-            local submittedJobs = {}
+        local submittedJobs
+        local originalGetFramesForQuest
+        local originalGetQuestIcon
+        local originalUsedIcons
+
+        before_each(function()
+            submittedJobs = {}
+            originalGetFramesForQuest = QuestieMap.GetFramesForQuest
+            originalGetQuestIcon = QuestieLib.GetQuestIcon
+            originalUsedIcons = Questie.usedIcons
+            QuestieMap.GetFramesForQuest = spy.new(function() return {} end)
+            QuestieLib.GetQuestIcon = spy.new(function() return 6 end)
+            Questie.usedIcons = {[6] = "available-texture"}
             ThreadLib.Thread = function(threadFunction, delay, errorMessage, callbackFunction, errorCallback, threadName)
                 table.insert(submittedJobs, {
                     threadFunction = threadFunction,
@@ -385,12 +396,82 @@ describe("AvailableQuests", function()
             IsleOfQuelDanas.quests = {}
             QuestieMap.questIdFrames = {}
             AvailableQuests.__availableQuests[QUEST_ID] = true
+        end)
 
+        after_each(function()
+            QuestieMap.GetFramesForQuest = originalGetFramesForQuest
+            QuestieLib.GetQuestIcon = originalGetQuestIcon
+            Questie.usedIcons = originalUsedIcons
+        end)
+
+        it("should name its calculation and draw jobs for profiling", function()
             AvailableQuests.CalculateAndDrawAll()
             submittedJobs[1].threadFunction()
 
             assert.are_same("AvailableQuests.CalculateAndDrawAll", submittedJobs[1].threadName)
             assert.are_same("_DrawAvailableQuest", submittedJobs[2].threadName)
+            assert.spy(QuestieLib.GetQuestIcon).was.not_called()
+        end)
+
+        it("should draw missing starters without changing existing party objective icons", function()
+            local objectiveFrame = {
+                data = {QuestData = {Id = QUEST_ID}, Type = "item", Icon = 2, ObjectiveData = {IsPartyObjective = true}},
+                UpdateTexture = spy.new(function() end),
+            }
+            QuestieMap.GetFramesForQuest = spy.new(function() return {objectiveFrame} end)
+            local quest = {Id = QUEST_ID, tagInfoWasCached = true}
+            QuestieDB.GetQuest = function() return quest end
+            AvailableQuests.DrawAvailableQuest = spy.new(function() end)
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.spy(QuestieMap.GetFramesForQuest).was.called_with(QuestieMap, QUEST_ID)
+            assert.spy(objectiveFrame.UpdateTexture).was.not_called()
+            assert.spy(QuestieLib.GetQuestIcon).was.not_called()
+            assert.are_equal(2, #submittedJobs)
+            submittedJobs[2].threadFunction()
+            assert.spy(AvailableQuests.DrawAvailableQuest).was.called_with(quest)
+        end)
+
+        it("should not redraw existing starters when their textures are unchanged", function()
+            local starterFrame = {
+                data = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 6},
+                UpdateTexture = spy.new(function() end),
+            }
+            QuestieMap.GetFramesForQuest = function() return {starterFrame} end
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.spy(starterFrame.UpdateTexture).was.not_called()
+            assert.are_equal(1, #submittedJobs)
+        end)
+
+        it("should refresh both starter textures without changing other icons for the same quest", function()
+            local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
+            local mapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
+            local minimapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
+            local objectiveFrame = {
+                data = {QuestData = {Id = QUEST_ID}, Type = "monster", Icon = 1, ObjectiveData = {IsPartyObjective = true}},
+                UpdateTexture = spy.new(function() end),
+            }
+            local finisherFrame = {
+                data = {QuestData = {Id = QUEST_ID}, Type = "complete", Icon = 5},
+                UpdateTexture = spy.new(function() end),
+            }
+            QuestieMap.GetFramesForQuest = function()
+                return {mapStarterFrame, minimapStarterFrame, objectiveFrame, finisherFrame}
+            end
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.spy(mapStarterFrame.UpdateTexture).was.called_with(mapStarterFrame, "available-texture")
+            assert.spy(minimapStarterFrame.UpdateTexture).was.called_with(minimapStarterFrame, "available-texture")
+            assert.spy(objectiveFrame.UpdateTexture).was.not_called()
+            assert.spy(finisherFrame.UpdateTexture).was.not_called()
+            assert.are_equal(1, #submittedJobs)
         end)
     end)
 
