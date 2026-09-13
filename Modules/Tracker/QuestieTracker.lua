@@ -518,6 +518,8 @@ function QuestieTracker:Collapse()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:Collapse]")
     if trackerHeaderFrame and trackerHeaderFrame.trackedQuests and Questie.db.char.isTrackerExpanded then
         trackerHeaderFrame.trackedQuests:Click()
+        -- Guarantee this render isn't silently dropped by the throttle due to an unrelated Update() call moments earlier
+        lastTrackerUpdate = 0
         QuestieTracker:Update()
     end
 end
@@ -527,6 +529,8 @@ function QuestieTracker:Expand()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:Expand]")
     if trackerHeaderFrame and trackerHeaderFrame.trackedQuests and (not Questie.db.char.isTrackerExpanded) then
         trackerHeaderFrame.trackedQuests:Click()
+        -- Guarantee this render isn't silently dropped by the throttle due to an unrelated Update() call moments earlier
+        lastTrackerUpdate = 0
         QuestieTracker:Update()
     end
 end
