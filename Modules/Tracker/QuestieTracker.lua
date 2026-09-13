@@ -694,8 +694,15 @@ function QuestieTracker.OnMinimizeInCombatChanged(enabled)
         end
     else
         if minimizedByCombat then
-            minimizedByCombat = false
-            QuestieTracker:Expand()
+            if Questie.db.profile.minimizeTrackerInInstances and IsInInstance() then
+                -- Still minimized due to the instance; transfer ownership instead of
+                -- expanding a tracker the instance still wants collapsed.
+                minimizedByCombat = false
+                minimizedByInstance = true
+            else
+                minimizedByCombat = false
+                QuestieTracker:Expand()
+            end
         end
     end
 end
@@ -710,8 +717,15 @@ function QuestieTracker.OnHideInCombatChanged(enabled)
         end
     else
         if hiddenByCombat then
-            hiddenByCombat = false
-            QuestieTracker:Show()
+            if Questie.db.profile.hideTrackerInInstances and IsInInstance() then
+                -- Still hidden due to the instance; transfer ownership instead of
+                -- showing a tracker the instance still wants hidden.
+                hiddenByCombat = false
+                hiddenByInstance = true
+            else
+                hiddenByCombat = false
+                QuestieTracker:Show()
+            end
         end
     end
 end
