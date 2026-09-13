@@ -52,6 +52,55 @@ describe("TrackerUtils", function()
         rePositionLineMock = spy.new(function() end)
     end)
 
+    describe("IsVoiceOverLoaded", function()
+        local originalIsAddOnLoaded
+        local originalIsVoiceOverLoaded
+        local loadedAddons
+
+        before_each(function()
+            originalIsAddOnLoaded = C_AddOns.IsAddOnLoaded
+            originalIsVoiceOverLoaded = TrackerUtils.IsVoiceOverLoaded
+            loadedAddons = {}
+            C_AddOns.IsAddOnLoaded = function(name) return loadedAddons[name] == true end
+            dofile("Modules/Tracker/TrackerUtils.lua")
+        end)
+
+        after_each(function()
+            C_AddOns.IsAddOnLoaded = originalIsAddOnLoaded
+            TrackerUtils.IsVoiceOverLoaded = originalIsVoiceOverLoaded
+        end)
+
+        it("should recognize the original VoiceOver player", function()
+            loadedAddons.AI_VoiceOver = true
+            loadedAddons.AI_VoiceOverData_Vanilla = true
+
+            assert.is_true(TrackerUtils:IsVoiceOverLoaded())
+        end)
+
+        it("should recognize Redux before any audio packs have loaded", function()
+            loadedAddons.VoiceOverRedux = true
+
+            assert.is_true(TrackerUtils:IsVoiceOverLoaded())
+        end)
+
+        it("should not require a particular audio pack for the original player", function()
+            loadedAddons.AI_VoiceOver = true
+
+            assert.is_true(TrackerUtils:IsVoiceOverLoaded())
+        end)
+
+        it("should reject audio packs without a player", function()
+            loadedAddons.AI_VoiceOverData_Vanilla = true
+            loadedAddons.VoiceOverReduxAudioAlliance = true
+
+            assert.is_false(TrackerUtils:IsVoiceOverLoaded())
+        end)
+
+        it("should return false when neither player is loaded", function()
+            assert.is_false(TrackerUtils:IsVoiceOverLoaded())
+        end)
+    end)
+
     describe("AddQuestItemButtons", function()
         it("should add sourceItemId as primary button", function()
             C_ItemMock.GetItemSpell.returns(111)

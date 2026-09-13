@@ -921,12 +921,11 @@ function TrackerUtils:GetSortedQuestIds()
     return sortedQuestIds, questDetails
 end
 
+---@return boolean
 function TrackerUtils:IsVoiceOverLoaded()
-    if (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla")) then
-        return true
-    end
-
-    return false
+    -- Both players expose the same VoiceOver interface. Redux loads audio packs after login,
+    -- so don't gate button creation on a pack being loaded. PrepareSound checks audio per quest.
+    return IsAddOnLoaded("AI_VoiceOver") or IsAddOnLoaded("VoiceOverRedux")
 end
 
 function TrackerUtils:ShowVoiceOverPlayButtons()
