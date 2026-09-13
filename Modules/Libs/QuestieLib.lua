@@ -398,44 +398,49 @@ function QuestieLib:GetClassString(classMask)
     end
 end
 
----Polls every 0.2 seconds, up to 20 attempts. Calls onSuccess once only if every objective has loaded text and type.
----If the load times out, calls onFailure (if provided).
+---Synchronously reads Blizzard's cache, including quests outside the local log, and primes missing data.
+---Returns nil rather than a partially loaded array. An empty array is valid for a quest with no objectives.
 ---@param questId QuestId
----@param onSuccess fun(objectives: QuestObjectiveInfo[])
+---@return QuestObjectiveInfo[]? objectives @Do not modify the returned table
+function QuestieLib.GetLoadedQuestObjectives(questId)
+    local haveQuestData = HaveQuestData(questId)
+    -- Query even when quest data is missing: this also requests objective data from the client.
+    local objectives = C_QuestLog.GetQuestObjectives(questId)
+    if (not haveQuestData) or (not objectives) then
+        return nil
+    end
+    -- HaveQuestData can be true while individual objective rows still contain loading placeholders.
+    for _, objective in ipairs(objectives) do
+        local text = objective.text
+        if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
+            return nil
+        end
+    end
+    return objectives
+end
+
+---Polls up to 20 times. Even cache hits are delivered asynchronously on a ticker resume.
+---Calls onSuccess once when all rows are ready, or onFailure on timeout. Cancellation calls neither.
+---Use GetLoadedQuestObjectives when the caller needs a synchronous result.
+---@param questId QuestId
+---@param onSuccess fun(objectives: QuestObjectiveInfo[]) @Receives the read-only loaded array
 ---@param onFailure? fun() @Optional callback when load times out
 ---@param tickSpeed? number @Optional, defaults to 0.2 seconds
----@return Ticker timer @Call timer:Cancel() if the consumer no longer needs the result
+---@return Ticker timer @Call timer:Cancel() to stop loading
 ---@return thread thread
 function QuestieLib.ContinueOnQuestObjectivesLoad(questId, onSuccess, onFailure, tickSpeed)
     return ThreadLib.Thread(function()
-        local attempts = 0
-        local objectives
-        local ready
-        repeat
-            attempts = attempts + 1
-            local haveQuestData = HaveQuestData(questId)
-            -- Fetch even when quest data is missing: this also requests objective data from the client.
-            objectives = C_QuestLog.GetQuestObjectives(questId)
-            ready = haveQuestData and objectives ~= nil
-            if ready then
-                for objectiveIndex = 1, #objectives do
-                    local objective = objectives[objectiveIndex]
-                    local text = objective.text
-                    if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
-                        ready = false
-                        break
-                    end
-                end
+        for attempt = 1, 20 do
+            local objectives = QuestieLib.GetLoadedQuestObjectives(questId)
+            if objectives then
+                onSuccess(objectives)
+                return
             end
-
-            if (not ready) and attempts < 20 then
+            if attempt < 20 then
                 coroutine.yield()
             end
-        until ready or attempts >= 20
-
-        if ready then
-            onSuccess(objectives)
-        elseif onFailure then
+        end
+        if onFailure then
             onFailure()
         end
     end, tickSpeed or 0.2)
@@ -779,16 +784,23 @@ function QuestieLib.FormatDate(timeStamp)
     return date(weekDay .. ", " .. monthName .. " %d, %Y at %H:%M", timeStamp)
 end
 
---- Returns the full objective text without progress numbers if trimObjectiveText is disabled, otherwise returns nil
---- (e.g. "Kill Hogger: 0/1" -> "Kill Hogger")
+---Returns full wording without trailing progress numbers, independently of display settings.
+---For example, "Wolf slain: 0/1" becomes "Wolf slain".
 ---@param rawObjectiveText string
----@return string|nil
+---@return string? description @Nil if no trailing progress counter matches
 function QuestieLib.GetFullObjectiveText(rawObjectiveText)
+    -- Chinese clients can use a full-width colon.
+    return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$")
+end
+
+---Populates optional FullDescription fields only when full wording is enabled in the profile.
+---Use GetFullObjectiveText instead for extraction that must not depend on display settings.
+---For example, "Wolf slain: 0/1" becomes "Wolf slain".
+---@param rawObjectiveText string
+---@return string? description @Nil when trimObjectiveText is enabled or no trailing counter matches
+function QuestieLib.GetFullObjectiveTextConditional(rawObjectiveText)
     if Questie.db.profile.trimObjectiveText then
         return nil
     end
-
-    -- Grab the entire objective text including "slain".
-    -- First regex is for non-Chinese clients, second is for Chinese clients where the colon is a different character
-    return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$")
+    return QuestieLib.GetFullObjectiveText(rawObjectiveText)
 end

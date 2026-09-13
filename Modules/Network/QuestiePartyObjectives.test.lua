@@ -101,40 +101,10 @@ describe("QuestiePartyObjectives", function()
         givenPartyQuests({[QUEST_ID] = spawnCount})
     end
 
-    -- Build a party quest where the DB objective type (e.g. "monster") differs from the
-    -- comms type (e.g. "m" -> "monster" would match; use "object" to force a mismatch
-    -- so the API text path is taken). DB type "monster" vs comms "object" triggers
-    -- _NeedsApiObjectiveText to return true.
-    local function givenMismatchedPartyQuest()
-        QuestieComms.remoteQuestLogs = {}
-        QuestieComms.remoteQuestLogs[QUEST_ID] = {
-            ["Partymember"] = {
-                [1] = {finished = false, type = "o", id = 100}, -- comms says "object"
-            },
-        }
-
-        QuestieDB.GetQuest = function(questId)
-            return {
-                Id = questId,
-                Color = {1, 1, 1},
-                ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}}, -- DB says "monster"
-                SpecialObjectives = {},
-            }
-        end
-
-        QuestieQuest.PopulateObjective = function(_, _, _, objective)
-            spawnListPrefilled[#spawnListPrefilled + 1] = next(objective.spawnList) ~= nil
-            objective.spawnList[1] = {Name = "spawn", Spawns = {}}
-
-            local mapRefs = {}
-            local minimapRefs = {}
-            for i = 1, 1 do
-                mapRefs[i] = {data = objective}
-                minimapRefs[i] = {data = objective}
-            end
-            objective.AlreadySpawned[1] = {data = objective, mapRefs = mapRefs, minimapRefs = minimapRefs}
-            drawnObjectives[#drawnObjectives + 1] = objective
-        end
+    -- Same DB/comms type, but the API wording can differ from the target name.
+    local function givenPartyQuestWithUnloadedText()
+        givenPartyQuest(1)
+        QuestieLib.ContinueOnQuestObjectivesLoad = mockContinueOnQuestObjectivesLoad()
     end
 
     before_each(function()
@@ -157,6 +127,7 @@ describe("QuestiePartyObjectives", function()
         QuestieComms = QuestieLoader:ImportModule("QuestieComms")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        dofile("Modules/Libs/QuestieLib.lua")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
@@ -167,11 +138,10 @@ describe("QuestiePartyObjectives", function()
         QuestiePlayer.GetGroupType = function() return "party" end
         CommsVisibility.ShouldShowPartyObjective = function() return true end
         QuestieLib.ColorWheel = function() return {1, 1, 1} end
-        -- Mock GetFullObjectiveText to strip the counter portion (": X/Y") like the real function
-        QuestieLib.GetFullObjectiveText = function(text)
-            return string.match(text, "^(.*):%s*%d+/%d+$") or string.match(text, "^(.*)：%s*%d+/%d+$") or text
+        -- Drawing/lifetime tests do not wait on API data. Loading tests capture callbacks explicitly.
+        QuestieLib.ContinueOnQuestObjectivesLoad = function(_, onSuccess)
+            onSuccess({})
         end
-        QuestieLib.ContinueOnQuestObjectivesLoad = mockContinueOnQuestObjectivesLoad()
         QuestieFramePool.UnloadFrame = spy.new(function() end)
         QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
@@ -410,15 +380,23 @@ describe("QuestiePartyObjectives", function()
         end)
     end)
 
-    describe("API objective text (type mismatch)", function()
-        it("should use cached API objectives when available", function()
-            -- Trigger the path that would have cached it: first draw with mismatch
-            -- (which starts the load), then resolve the load, then draw again.
-            -- So we test the full sequence: draw -> load -> redraw with cache.
+    describe("API objective text", function()
+        it("should preserve full API wording even when local objective trimming is enabled", function()
+            givenPartyQuestWithUnloadedText()
+            Questie.db.profile.trimObjectiveText = true
 
-            givenMismatchedPartyQuest()
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            pendingObjectiveLoadSuccess({{text = "Wolf slain: 1/1", type = "monster"}})
+            runPendingThreads()
 
-            -- First draw: mismatch detected, cache empty -> ContinueOnQuestObjectivesLoad called
+            assert.equals("Wolf slain", drawnObjectives[1].Description)
+            assert.is_nil(drawnObjectives[1].FullDescription)
+        end)
+
+        it("should use API wording for matching types and request current wording on redraw", function()
+            givenPartyQuestWithUnloadedText()
+
+            -- First draw: cache empty -> ContinueOnQuestObjectivesLoad called
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
 
@@ -428,27 +406,34 @@ describe("QuestiePartyObjectives", function()
 
             -- Simulate the async load resolving with API objectives
             pendingObjectiveLoadSuccess({
-                [1] = {text = "API says: Slay 5 wolves: 0/5", type = "monster"},
+                [1] = {text = "Fallen Sky Ridge Revitalized: 0/1", type = "monster"},
             })
             runPendingThreads()
 
             -- Now the quest should be drawn with the API text as Description (counter stripped)
             assert.is_equal(1, #drawnObjectives)
-            assert.is_equal("API says: Slay 5 wolves", drawnObjectives[1].Description)
+            assert.is_equal("Fallen Sky Ridge Revitalized", drawnObjectives[1].Description)
+            assert.is_nil(drawnObjectives[1].FullDescription)
+            assert.equals("monster", drawnObjectives[1].Type)
+            assert.equals(100, drawnObjectives[1].Id)
 
-            -- Second draw (redraw): cache hit, should use cached API text immediately
+            -- The fetcher owns readiness. A ready result on redraw must not be hidden by a second cache.
+            QuestieLib.ContinueOnQuestObjectivesLoad = function(_, onSuccess)
+                onSuccess({{text = "Protect the ritual: 0/1", type = "monster"}})
+            end
             drawnObjectives = {}
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
 
             assert.is_equal(1, #drawnObjectives)
-            assert.is_equal("API says: Slay 5 wolves", drawnObjectives[1].Description)
+            assert.is_equal("Protect the ritual", drawnObjectives[1].Description)
             -- Spawn list should be reused on second draw
             assert.same({false, true}, spawnListPrefilled)
         end)
 
-        it("should not draw objectives until API load callback resolves", function()
-            givenMismatchedPartyQuest()
+        it("should still use API wording when DB and comms types differ", function()
+            givenPartyQuestWithUnloadedText()
+            QuestieComms.remoteQuestLogs[QUEST_ID].Partymember[1].type = "o"
 
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
@@ -469,7 +454,7 @@ describe("QuestiePartyObjectives", function()
         end)
 
         it("should not redraw if quest was cleared before load callback", function()
-            givenMismatchedPartyQuest()
+            givenPartyQuestWithUnloadedText()
 
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
@@ -493,8 +478,9 @@ describe("QuestiePartyObjectives", function()
             assert.is_equal(0, #drawnObjectives)
         end)
 
-        it("should draw with default/DB text when load times out (onFailure)", function()
-            givenMismatchedPartyQuest()
+        it("should omit full fallback text on timeout when trimming is enabled", function()
+            givenPartyQuestWithUnloadedText()
+            Questie.db.profile.trimObjectiveText = true
 
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
@@ -509,6 +495,19 @@ describe("QuestiePartyObjectives", function()
             -- Should draw with default text (from DB, since no API text available)
             assert.is_equal(1, #drawnObjectives)
             assert.is_equal("Kill things", drawnObjectives[1].Description)
+            assert.is_nil(drawnObjectives[1].FullDescription)
+        end)
+
+        it("should include full fallback text on timeout when trimming is disabled", function()
+            givenPartyQuestWithUnloadedText()
+            Questie.db.profile.trimObjectiveText = false
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            pendingObjectiveLoadFailure()
+            runPendingThreads()
+
+            assert.equals("Kill things", drawnObjectives[1].Description)
+            assert.equals("Kill things slain", drawnObjectives[1].FullDescription)
         end)
     end)
 end)

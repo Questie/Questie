@@ -1382,7 +1382,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         questId = quest.Id,
                         _lastUpdate = 0,
                         Description = objective.text,
-                        FullDescription = QuestieLib.GetFullObjectiveText(objective.raw_text),
+                        FullDescription = QuestieLib.GetFullObjectiveTextConditional(objective.raw_text),
                         spawnList = {},
                         AlreadySpawned = {},
                         Update = _QuestieQuest.ObjectiveUpdate,
@@ -1455,7 +1455,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
 
             self.Type = obj.type;
             self.Description = obj.text
-            self.FullDescription = QuestieLib.GetFullObjectiveText(obj.raw_text)
+            self.FullDescription = QuestieLib.GetFullObjectiveTextConditional(obj.raw_text)
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
             self.Completed = (self.Needed == self.Collected and self.Needed > 0) or

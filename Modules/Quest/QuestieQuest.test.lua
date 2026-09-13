@@ -130,6 +130,47 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("PopulateQuestLogInfo", function()
+        local originalGetQuest
+        local originalGetLeaderBoardDetails
+        local originalTrimObjectiveText
+
+        before_each(function()
+            originalGetQuest = QuestLogCache.GetQuest
+            originalGetLeaderBoardDetails = QuestieQuest.GetAllLeaderBoardDetails
+            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
+            dofile("Modules/Libs/QuestieLib.lua")
+            QuestLogCache.GetQuest = function() return {} end
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "monster", text = "Wolf", raw_text = "Wolf slain: 0/1", numFulfilled = 0, numRequired = 1}}
+            end
+        end)
+
+        after_each(function()
+            QuestLogCache.GetQuest = originalGetQuest
+            QuestieQuest.GetAllLeaderBoardDetails = originalGetLeaderBoardDetails
+            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
+        end)
+
+        it("should preserve conditional full descriptions when creating and updating objectives", function()
+            local quest = {Id = 42, ObjectiveData = {{Id = 100}}, Objectives = {}, SpecialObjectives = {}}
+            Questie.db.profile.trimObjectiveText = false
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            local objective = quest.Objectives[1]
+            assert.equals("Wolf slain", objective.FullDescription)
+            assert.equals("Wolf", objective.Description)
+
+            Questie.db.profile.trimObjectiveText = true
+            objective.isUpdated = false
+            objective:Update()
+
+            assert.is_nil(objective.FullDescription)
+            assert.equals("Wolf", objective.Description)
+        end)
+    end)
+
     describe("PopulateObjective", function()
         it("should not throw an error when called from a coroutine", function()
             local quest = {ObjectiveData = {}}
