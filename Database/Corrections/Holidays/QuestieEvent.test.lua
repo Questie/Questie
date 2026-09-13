@@ -30,6 +30,7 @@ describe("QuestieEvent", function()
         _G.SetCVar = function() end
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
+        QuestieCorrections.questNPCBlacklist = {}
 
         Expansions = QuestieLoader:ImportModule("Expansions")
 
