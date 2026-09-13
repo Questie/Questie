@@ -548,4 +548,26 @@ describe("QuestieTracker", function()
             assert.spy(QuestieTracker.Show).was.called()
         end)
     end)
+
+    describe("Collapse and Expand", function()
+        it("should guard against calling when conditions are not met", function()
+            -- Test that Collapse does nothing when tracker is already collapsed
+            Questie.db.char.isTrackerExpanded = false
+            _G.InCombatLockdown = function() return false end
+
+            -- This should be a no-op since isTrackerExpanded is false (guard fails)
+            QuestieTracker:Collapse()
+            assert.is_false(Questie.db.char.isTrackerExpanded)
+        end)
+
+        it("should guard against calling when conditions are not met (expand)", function()
+            -- Test that Expand does nothing when tracker is already expanded
+            Questie.db.char.isTrackerExpanded = true
+            _G.InCombatLockdown = function() return false end
+
+            -- This should be a no-op since isTrackerExpanded is true (guard fails)
+            QuestieTracker:Expand()
+            assert.is_true(Questie.db.char.isTrackerExpanded)
+        end)
+    end)
 end)
