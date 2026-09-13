@@ -443,6 +443,97 @@ describe("QuestieTracker", function()
 
             assert.spy(QuestieCombatQueue.Queue).was.called()
         end)
+
+        it(
+        "should transfer minimize ownership from combat to instance when entering an instance while minimized by combat, so leaving the instance later still expands",
+            function()
+                Questie.db.profile.minimizeTrackerInCombat = true
+                Questie.db.profile.minimizeTrackerInInstances = true
+                Questie.db.char.isTrackerExpanded = true
+                _G.InCombatLockdown = function() return true end
+                _G.IsInInstance = function() return false end
+                QuestieTracker.Collapse = spy.new(function() Questie.db.char.isTrackerExpanded = false end)
+
+                QuestieTracker.HandleCombatChanged() -- combat starts outside the instance, claims ownership via minimizedByCombat
+
+                _G.IsInInstance = function() return true end
+                QuestieTracker.HandleZoneChanged() -- zones into the instance while still collapsed/in combat
+
+                _G.InCombatLockdown = function() return false end
+                QuestieTracker.HandleCombatChanged() -- combat ends while still in the instance; ownership should transfer to minimizedByInstance
+
+                _G.IsInInstance = function() return false end
+                _G.UnitIsGhost = function() return false end
+                QuestieTracker.Expand = spy.new(function() end)
+                QuestieTracker.HandleZoneChanged() -- leaves the instance
+
+                assert.spy(QuestieTracker.Expand).was.called()
+            end)
+
+        it("should keep minimize ownership with instance when entering combat while minimized by instance, so leaving the instance still expands", function()
+            Questie.db.profile.minimizeTrackerInCombat = true
+            Questie.db.profile.minimizeTrackerInInstances = true
+            Questie.db.char.isTrackerExpanded = true
+            _G.IsInInstance = function() return true end
+            QuestieTracker.Collapse = spy.new(function() Questie.db.char.isTrackerExpanded = false end)
+
+            QuestieTracker.HandleZoneChanged() -- enters the instance, claims ownership via minimizedByInstance
+
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.HandleCombatChanged() -- combat starts while already minimized by the instance
+
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.HandleCombatChanged() -- combat ends while still in the instance
+
+            _G.IsInInstance = function() return false end
+            _G.UnitIsGhost = function() return false end
+            QuestieTracker.Expand = spy.new(function() end)
+            QuestieTracker.HandleZoneChanged() -- leaves the instance
+
+            assert.spy(QuestieTracker.Expand).was.called()
+        end)
+
+        it("should transfer hide ownership from combat to instance when entering an instance while hidden by combat, so leaving the instance later still shows",
+            function()
+                Questie.db.profile.hideTrackerInCombat = true
+                Questie.db.profile.hideTrackerInInstances = true
+                _G.InCombatLockdown = function() return true end
+                _G.IsInInstance = function() return false end
+
+                QuestieTracker.HandleCombatChanged() -- combat starts outside the instance, claims ownership via hiddenByCombat
+
+                _G.IsInInstance = function() return true end
+                QuestieTracker.HandleZoneChanged() -- zones into the instance while still hidden/in combat
+
+                _G.InCombatLockdown = function() return false end
+                QuestieTracker.HandleCombatChanged() -- combat ends while still in the instance; ownership should transfer to hiddenByInstance
+
+                _G.IsInInstance = function() return false end
+                QuestieTracker.Show = spy.new(function() end)
+                QuestieTracker.HandleZoneChanged() -- leaves the instance
+
+                assert.spy(QuestieTracker.Show).was.called()
+            end)
+
+        it("should keep hide ownership with instance when entering combat while hidden by instance, so leaving the instance still shows", function()
+            Questie.db.profile.hideTrackerInCombat = true
+            Questie.db.profile.hideTrackerInInstances = true
+            _G.IsInInstance = function() return true end
+
+            QuestieTracker.HandleZoneChanged() -- enters the instance, claims ownership via hiddenByInstance
+
+            _G.InCombatLockdown = function() return true end
+            QuestieTracker.HandleCombatChanged() -- combat starts while already hidden by the instance
+
+            _G.InCombatLockdown = function() return false end
+            QuestieTracker.HandleCombatChanged() -- combat ends while still in the instance
+
+            _G.IsInInstance = function() return false end
+            QuestieTracker.Show = spy.new(function() end)
+            QuestieTracker.HandleZoneChanged() -- leaves the instance
+
+            assert.spy(QuestieTracker.Show).was.called()
+        end)
     end)
 
     describe("OnMinimizeInCombatChanged", function()
