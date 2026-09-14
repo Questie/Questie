@@ -1,4 +1,4 @@
-# Questie: object-hover tooltips without a database scan
+# Questie: object-hover tooltips without a Questie database scan
 
 Implementation guide for the Questie side of
 [QuestieTDB ADR 0008](https://github.com/Questie/QuestieTDB/blob/82a2d1088631c724ae8cebd936be221b7d92af41/docs/adr/0008-name-index.md).
@@ -17,15 +17,17 @@ that name, and they have different owners:
 | Question | Source | Cost |
 | --- | --- | --- |
 | Which objects with this name have quest tooltip data? | `QuestieTooltips.objectIdsByName`, filled when Questie registers an `o_` tooltip | O(1) per registration; nothing at boot |
-| Which database Objects currently have this name? This supplies the optional contributor-facing Object ID line. | `LibQuestieDB.Object.IdsByName(name)` | One full provider pass on first use; 23 ms on Vanilla measured live |
+| Is this name unique across all database Objects, and which IDs carry it? This controls zone disambiguation and supplies the optional contributor-facing Object ID line. | `LibQuestieDB.Object.IdsByName(name)` | One full provider pass when the index is cold; 23 ms on Vanilla measured live |
 
 `QuestieTooltips.GetTooltip("o_" .. id)` reads `lookupByKey`, the same table populated by the
 registration functions. Indexing those registrations by name therefore gives the hover exactly the
 IDs that can have quest tooltip data. The old full scan produced a superset that the hover reduced
 again by calling `GetTooltip` for every matching ID.
 
-The database-wide answer remains necessary for the optional Object ID line, which contributors use
-to identify IDs for Corrections. QuestieTDB owns that composed entity truth.
+The database-wide answer is also necessary when Object IDs are hidden. A globally unique name can
+safely use tooltip data from any zone; a shared name must stay filtered to the player's zone. The
+optional Object ID line uses the same answer to help contributors identify IDs for Corrections.
+QuestieTDB owns that composed entity truth.
 
 ## Step 1: index `o_` registrations by name
 
@@ -108,11 +110,10 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         return
     end
 
+    -- Name ambiguity depends on every composed Object, even when the ID line is hidden.
+    local ids = LibQuestieDB.Object.IdsByName(name)
+    local count = ids and #ids or 0
     if Questie.db.profile.enableTooltipsObjectID then
-        -- Contributors need every composed Object with this name, not only Objects whose quest
-        -- tooltip data is currently registered.
-        local ids = LibQuestieDB.Object.IdsByName(name)
-        local count = ids and #ids or 0
         if count == 1 then
             GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. "|r")
         elseif count > 10 and (not Questie.db.profile.debugEnabled) then
@@ -122,16 +123,18 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         end
     end
 
-    -- Quest lines come only from Objects for which Questie registered tooltip data. An append-only
-    -- set entry with no remaining tooltip data costs one `GetTooltip` call that returns nil.
+    -- Quest lines still come only from Objects for which Questie registered tooltip data.
+    local registeredIds = QuestieTooltips.objectIdsByName[name] or {}
+    local zoneFilter = count == 1 and 0 or playerZone
+
     local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
-    for gameObjectId in pairs(QuestieTooltips.objectIdsByName[name] or {}) do
+    for gameObjectId in pairs(registeredIds) do
         if addedObjects >= 10 then
             break
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone)
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, zoneFilter)
         if tooltipData then
             for _, line in pairs(tooltipData) do
                 if not alreadyAddedObjectiveLines[line] then
@@ -148,22 +151,23 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
 end
 ```
 
-The Object ID line preserves its existing one, `(n)`, and `(10+)` presentation plus the debug-mode
-exception. Never derive that count from `objectIdsByName`: the registration set is append-only and
+The provider lookup always runs because its count controls zone disambiguation. A unique name uses
+zone filter `0`; a shared or unknown name uses `playerZone`. Only the Object ID line depends on
+`enableTooltipsObjectID`. Its one, `(n)`, and `(10+)` presentation and debug-mode exception remain
+unchanged. Never derive the count from `objectIdsByName`: the registration set is append-only and
 answers a different question.
 
-The quest-line loop preserves line deduplication and the ten-Object cap. The old provider-result
-`count > 10` guard does not belong here: `addedObjects >= 10` alone caps the independent registration
-set. Because the set uses `pairs`, no test may assume which ten IDs are visited when more than ten
-are registered.
+The quest-line loop still reads only registered IDs and preserves line deduplication and the
+ten-Object cap. Because the set uses `pairs`, no test may assume which ten IDs are visited when more
+than ten are registered.
 
 Nothing in this path reads from `l10n` except the Questie-owned `"Object ID"` UI label.
 
 ## Step 3: warm the provider index where the stall is invisible
 
 `LibQuestieDB.Object.IdsByName` builds its provider-owned index on first use. QuestieTDB drops the
-index on every Correction apply, locale change, and explicit cache invalidation, then rebuilds it
-from scratch on the next lookup. This prevents stale names and duplicate IDs by construction.
+index after Object Corrections, locale changes, and explicit Object cache invalidation, then rebuilds
+it from scratch on the next lookup. This prevents stale names and duplicate IDs by construction.
 
 The measured cold build is 23 ms for Vanilla's 6,666 Objects, approximately 3.5 microseconds per ID,
 with about 2.2 MB retained for the warmed name cache and index. Mists has roughly three times as many
@@ -175,14 +179,13 @@ File: `Modules/QuestieInit.lua`, Stage 2, after Questie's owner Corrections were
 Stage 1:
 
 ```lua
-if Questie.db.profile.enableTooltipsObjectID then
-    -- Contributors keep this option enabled; warm the provider index during initialization instead
-    -- of making their first hover pay the synchronous build cost.
-    LibQuestieDB.Object.BuildNameIndex()
-end
+-- Object tooltips need database-wide name uniqueness even when Object IDs are hidden.
+LibQuestieDB.Object.BuildNameIndex()
 ```
 
-The call is synchronous and cannot yield. Do not recreate the old coroutine-based Questie scan.
+Stage 2 always warms the index after Stage 1 has established the locale and applied Questie's policy
+Corrections. The call is synchronous and cannot yield. Do not recreate the old coroutine-based
+Questie scan.
 
 ### When enabling the Object ID setting
 
@@ -199,10 +202,10 @@ end
 
 Turning the option off does not discard the index. QuestieTDB owns invalidation.
 
-Accepted residual: with the setting enabled, the first hover after a later Correction apply or
-runtime locale change may synchronously rebuild the provider index once. If measurements later show
-that hitch matters, rewarm after Questie's own apply and from `LibQuestieDB.l10n.onLocaleChanged`.
-Do not add those callbacks preemptively.
+Accepted residual: the first hover after a later Object Correction apply or runtime locale change
+may synchronously rebuild the provider index once. If measurements later show that hitch matters,
+rewarm after Questie's own apply and from `LibQuestieDB.l10n.onLocaleChanged`. Do not add those
+callbacks preemptively.
 
 ## Step 4: remove the legacy index completely
 
@@ -220,22 +223,17 @@ The implementation must leave:
 
 ### `Modules/Tooltips/TooltipHandler.test.lua`
 
-Retain the existing five behavior cases with these changes:
-
-- Quest-line cases seed sets:
-
-  ```lua
-  QuestieTooltips.objectIdsByName[name] = {[1] = true, [2] = true}
-  ```
-
-- Object ID cases stub `LibQuestieDB.Object.IdsByName` with the exact ascending provider result for
-  each case: one ID, two IDs, or eleven IDs.
-- Reset `Questie.db.profile.enableTooltipsObjectID = false` in `before_each` so quest-line tests do
-  not leak into the provider-ID path.
+- Quest-line cases seed `QuestieTooltips.objectIdsByName` sets and stub
+  `LibQuestieDB.Object.IdsByName`, which is called regardless of the Object ID setting.
+- Verify a provider-wide unique name passes zone filter `0`, while a shared name passes the player's
+  zone with Object IDs both enabled and disabled.
+- Object ID cases use the exact ascending provider result for one ID, two IDs, and eleven IDs.
+- Reset `Questie.db.profile.enableTooltipsObjectID = false` in `before_each` so ID-line behavior does
+  not leak between tests.
 - For the `10+` quest-line cap, seed eleven IDs and assert ten calls. Do not assert that a particular
   ID was skipped because set iteration order is undefined.
-- Remove any legacy `objectNameLookup` fixture setup, whether it was owned by `l10n` or
-  `QuestieTooltips`. Keep `l10n` only when the test needs the translated `"Object ID"` label.
+- Remove any legacy `objectNameLookup` fixture setup. Keep `l10n` only for the translated
+  `"Object ID"` label.
 
 ### `Modules/Tooltips/Tooltip.test.lua`
 
@@ -262,11 +260,11 @@ QuestieTDB owns tests proving that `IdsByName`:
 
 ## Acceptance
 
-- Object-hover tooltips still show deduplicated quest and objective lines.
-- Quest-line discovery performs no database-wide scan at boot or hover.
+- Object-hover tooltips still show deduplicated quest and objective lines from registered IDs only.
+- The provider-wide result controls zone disambiguation regardless of the Object ID setting.
 - The optional Object ID line preserves one, `(n)`, `(10+)`, and debug-mode presentation.
-- The optional provider index is warmed during initialization only when the setting is already on,
-  and when the setting is toggled on.
+- The provider index is always warmed in Stage 2 after locale and policy setup, and is also warmed
+  when the Object ID setting is toggled on.
 - `objectIdsByName` cannot accumulate duplicate IDs.
 - Locale reload recreates the registration index under the active locale.
 - Provider invalidation keeps the database-wide name answer current.

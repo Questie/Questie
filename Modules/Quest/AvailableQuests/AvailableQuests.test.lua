@@ -1486,11 +1486,13 @@ describe("AvailableQuests", function()
     describe("composed Quest enumeration", function()
         local originalIsClassic
         local originalIsSoD
+        local originalGetFramesForQuest
         local submittedJobs
 
         before_each(function()
             originalIsClassic = Questie.IsClassic
             originalIsSoD = Questie.IsSoD
+            originalGetFramesForQuest = QuestieMap.GetFramesForQuest
 
             -- The availability pass captures these at load, so this describe loads AvailableQuests again.
             QuestieDB.IsDoable = function() return true end
@@ -1525,6 +1527,7 @@ describe("AvailableQuests", function()
             QuestiePlayer.currentQuestlog = {}
             QuestiePlayer.GetPlayerLevel = function() return 60 end
             QuestieMap.questIdFrames = {}
+            QuestieMap.GetFramesForQuest = function() return {} end
 
             submittedJobs = {}
             ThreadLib.Thread = function(threadFunction, _, _, _, _, threadName)
@@ -1536,6 +1539,7 @@ describe("AvailableQuests", function()
         after_each(function()
             Questie.IsClassic = originalIsClassic
             Questie.IsSoD = originalIsSoD
+            QuestieMap.GetFramesForQuest = originalGetFramesForQuest
         end)
 
         it("marks every doable Quest from the provider-backed QuestPointers as available", function()

@@ -170,13 +170,9 @@ end
 QuestieInit.Stages[2] = function()
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
 
-    if Questie.db.profile.enableTooltipsObjectID then
-        -- Contributors keep this option on; warm the provider Object name index here instead of on
-        -- their first hover. Only an Object-datatype Correction write or a locale change drops the
-        -- index (QuestieTDB ADR 0009), and no production write touches Objects after this point, so
-        -- the warm-up holds for the session.
-        LibQuestieDB.Object.BuildNameIndex()
-    end
+    -- Object tooltips use database-wide name uniqueness for zone filtering even when Object IDs
+    -- are hidden. Warm the provider index after locale and policy setup, not on the first hover.
+    LibQuestieDB.Object.BuildNameIndex()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] QuestiePlayer initializing.")
     QuestiePlayer:Initialize()

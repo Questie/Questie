@@ -4,7 +4,20 @@ How the cutover was delivered, with pointers into git. Current state and open wo
 `TDB-STATUS.md`; decisions in `docs/adr/`. The planning documents that drove each step were
 deleted once executed; `git log --all -- 'TDB-*.md'` finds them.
 
-## Branch stack
+## Current branch stack
+
+The stack was rebuilt bottom-up on `origin/master` at `215b0c757`:
+
+1. `QuestieTDB-remove-baseline` at `6d86dbd22`.
+2. `QuestieTDB-remove-baseline-dependencies` at `fa263b64a`.
+3. `QuestieTDB-implementation`, including rebase resolutions that preserve master's newer behavior.
+4. `QuestieTDB-implementation-support`, retaining its two support-only commits.
+
+The pre-restack branches shared base `fde81078a`. Their four tips remain recoverable under
+`backup/tdb-stack-20260914/` using the same branch names. Historical hashes and validation results
+below describe those earlier revisions unless explicitly marked current.
+
+## Historical branch stack
 
 - Source `master` commit for the baseline: `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57`.
 - `QuestieTDB-remove-baseline`: extraction, then deletion, then cleanup. Never merges alone.
@@ -13,7 +26,7 @@ deleted once executed; `git log --all -- 'TDB-*.md'` finds them.
   registrar-based implementation on `origin/QuestieTDB` (`bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5`)
   was consulted for behavior only and never merged or ported.
 
-## Baseline commits
+## Historical baseline commits
 
 1. `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1` moves the Questie-owned Darkmoon and TBC Content
    Phase producers out of the mixed provider correction files into
@@ -39,11 +52,18 @@ constants. Objective Order was never extracted back; it stays provider-owned.
 
 ## Support payload removal
 
-The baseline also removes the 24 provider-owned support payloads under `Database/QuestXP/DB/`,
-`Database/DropTables/data/`, `Database/FactionTemplates/`, and `Database/Zones/data/`, plus their
-51 flavor TOC entries. Questie's wrappers and calculations remain; tests use focused inline zone
-fixtures instead of loading the deleted payloads. The implementation branch binds those wrappers
-to QuestieTDB support data rather than restoring local copies.
+Current baseline tip `6d86dbd22` also removes the 24 provider-owned support payloads under
+`Database/QuestXP/DB/`, `Database/DropTables/data/`, `Database/FactionTemplates/`, and
+`Database/Zones/data/`, plus their 51 flavor TOC entries. Questie's wrappers and calculations remain;
+tests use focused inline zone fixtures instead of loading deleted payloads. The implementation binds
+those wrappers to QuestieTDB support data rather than restoring local copies.
+
+## Restack conflict disposition
+
+Retained Questie policy updates were resolved into the Questie layers. The source Zone-data map
+conflict changed comments only. Changes from current `master` in ten deleted provider-owned
+Correction files still require a provider sync; `TDB-STATUS.md` lists the files and exact recovery
+command.
 
 ## Implementation commits
 
@@ -54,18 +74,17 @@ and Available Quests verification. Then the write-through simplification (provid
 QuestieTDB ADR 0009) and the EntityLocale removal on 2026-09-02. These Contract Version 1 entries
 describe the original migration revisions and remain historical.
 
-## Contract Version 2 consumer integration
+## Historical Contract Version 2 consumer integration
 
-The integration built on revision `cb986af34` in checkout
-`/home/logon/projects/Questie-clones/Questie-tdb-claude`, branch `QuestieTDB-implementation`, moves
-Questie to Contract Version 2. It publishes external entity translations through provider
-localization slots and binds Zone, Quest XP, drop, and faction-template payloads through
-`LibQuestieDB.Support`. The local support payload files remain in the checkout but are no longer
-loaded by flavor TOCs; Questie's wrappers remain consumer-owned.
+The pre-restack integration at `4bec86a82`, built on `cb986af34`, moved Questie to Contract Version 2. It published external
+entity translations through provider localization slots and bound Zone, Quest XP, drop, and
+faction-template payloads through `LibQuestieDB.Support`. At that revision, local support payloads
+remained present but unloaded. The restacked baseline now deletes them as described above.
 
-Offline validation passed: 1,609 consumer tests with real-provider conformance, production lint,
-loader validation, and support-wrapper checks for all five flavors and both factions. These are
-not live smoke results or evidence of a released Questie revision.
+That revision passed 1,609 consumer tests with real-provider conformance, production lint, loader
+validation, and support-wrapper checks for all five flavors and both factions. This is historical
+offline evidence, not the current result, a live smoke result, or evidence of a released Questie
+revision. Current validation lives in `TDB-STATUS.md`.
 
 ## Review findings and what was done
 
