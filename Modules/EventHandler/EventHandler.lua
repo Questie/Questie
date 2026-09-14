@@ -99,6 +99,11 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_ALIVE", function(...)
         QuestieTracker:UpdateDurabilityFrame()
         QuestieTracker:UpdateVoiceOverFrame()
+
+        -- HandleZoneChanged() defers minimizedByInstance's expand while the player is a ghost.
+        -- Re-run it on resurrection so the tracker restores if the player released/left the
+        -- instance while dead and only became alive again after already leaving it.
+        QuestieTracker.HandleZoneChanged()
     end)
 
     -- Events to update a players professions and reputations
