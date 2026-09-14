@@ -139,12 +139,12 @@ describe("QuestieInit", function()
             assert.are_same(1, mock.nameIndexBuilds.Object)
         end)
 
-        it("leaves the provider Object name index cold when the setting is disabled", function()
+        it("warms the provider Object name index for zone filtering even when Object IDs are hidden", function()
             Questie.db.profile.enableTooltipsObjectID = false
 
             _RunStage(2)
 
-            assert.are_same(0, mock.nameIndexBuilds.Object)
+            assert.are_same(1, mock.nameIndexBuilds.Object)
         end)
     end)
 end)
