@@ -20,6 +20,9 @@ This document is the source of truth for the work packet. Update it whenever an 
   `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; the commit containing the finalized baseline replay
   evidence completes WP-09 and is the exact branch point for `implementation`. The baseline remains
   intentionally nonfunctional until `implementation` restores the provider-backed runtime
+- Support payload cleanup: the baseline also removes 24 support payloads and their 51 flavor TOC
+  entries. Consumer wrappers remain unchanged; focused inline zone fixtures replace production
+  data loads in tests. TDB-11 provider integration and issue #15 parity validation are still pending
 - Distribution and release packaging: deferred
 
 The next implementation packet starts fresh from the recorded subtractive baseline, Contract
@@ -148,7 +151,7 @@ Before editing, an agent must claim an item and list the files it owns. Agents m
 | TDB-08 | Remove compiler controls, state, popups, and SavedVariables payloads | not started | - | TDB-03 | Include migration cleanup. |
 | TDB-09 | Remove compiler and raw entity files from runtime TOCs | done | baseline deletion | WP-00 | All five TOCs require QuestieTDB and no longer load provider raw data, provider corrections, generated entity localization, compiler/storage/schema/cleanup files, or Questie-side entity validators. The retained QuestiePolicy matrix is 5 Classic / 4 TBC; Objective Order remains provider-owned through `LibQuestieDB.ObjectiveFirst`. Evidence starts at `99493b08a5b35aabf7e4ca93d438bf58baf3c08a`. |
 | TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | done | baseline deletion | TDB-09 | The subtraction ends at `14bb2681f8a349a0470c8deb1f37c238ea72ae80`: 281 tracked files and 5,042,232 deleted-file lines. The baseline is intentionally nonfunctional; full runtime validation gates the combined merge after `implementation`. |
-| TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Keep Questie's behavior wrappers. Do not switch to known-stale support copies. |
+| TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Baseline support payload deletion is complete, but provider integration is not started. Keep Questie's behavior wrappers and validate flavor-correct provider data before the combined merge. |
 | TDB-12 | Replace database validation CI with a pinned integration check | in progress | baseline deletion / implementation | TDB-10, TDB-11, QuestieTDB #19 | The old `db-validation` matrix is removed and loader-usage validation remains in the unit-test job. The pinned Database Integration Check is not implemented; data validation belongs in QuestieTDB and consumer behavior still needs integration coverage. |
 | TDB-13 | Bundle QuestieTDB and update release packaging | deferred | - | Runtime cutover | The hard TOC dependency is already declared. Bundling and release automation remain separate distribution work. |
 | TDB-14 | Expose QuestieTDB source-mode status in Questie diagnostics | not started | - | TDB-02 | Do after the main cutover works. |

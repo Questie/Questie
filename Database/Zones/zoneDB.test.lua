@@ -1,12 +1,5 @@
 dofile("setupTests.lua")
 
-dofile("Database/Zones/data/dungeons.lua")
-dofile("Database/Zones/data/zoneIds.lua")
-dofile("Database/Zones/data/areaIdToUiMapId.lua")
-dofile("Database/Zones/data/uiMapIdToAreaId.lua")
-dofile("Database/Zones/data/subZoneToParentZone.lua")
-
-
 describe("ZoneDB", function()
     ---@type ZoneDB
     local ZoneDB
@@ -21,6 +14,19 @@ describe("ZoneDB", function()
 
         dofile("Database/Zones/zoneDB.lua")
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
+        -- Focused inputs for the existing loadstring-based wrapper, not a copy of the zone database.
+        -- Recreate mutable dungeon data for each test so added alternative IDs cannot leak between cases.
+        ZoneDB.private.areaIdToUiMapId = "return {[1] = 1426}"
+        ZoneDB.private.areaIdToUiMapIdOverride = "return {}"
+        ZoneDB.private.uiMapIdToAreaId = "return {[1426] = 1, [113] = 3979}"
+        ZoneDB.private.uiMapIdToAreaIdOverride = "return {[1414] = 10073, [1415] = 10074, [113] = 0, [1945] = 0}"
+        ZoneDB.private.subZoneToParentZone = "return {}"
+        ZoneDB.private.subZoneToParentZoneOverride = "return {}"
+        ZoneDB.private.dungeons = {
+            [2557] = {"Dire Maul", nil, 357, {{357, 59.2, 45.1}}},
+            [1584] = {"Blackrock Depths", {1585}, 51, {{51, 34.8, 85.3}, {46, 29.4, 38.3}}},
+        }
         ZoneDB.Initialize()
     end)
 

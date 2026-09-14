@@ -667,6 +667,7 @@ All five flavor TOC manifests must:
 - remove `Database/QuestieDBStorage.lua`;
 - remove `Modules/QuestieCleanup.lua`;
 - remove `Modules/Libs/RamerDouglasPeucker.lua` on the baseline; WP-04 gates the combined merge;
+- remove the support payload entries listed below, retaining their consumer wrappers;
 - keep Questie policy, UI localization, Zone/Category Lookups, and semantic modules.
 
 The seven-line fallback `Questie.toc` is unaffected.
@@ -700,21 +701,28 @@ runtime modules around them, but it must not reconstruct the extracted data from
 | WoW API quest-tag corrections | `questTagInfoCorrections.lua` | Questie API compatibility |
 | UI translations and Zone/Category Lookups | `Localization/Translations/`, shared lookup files | Questie localization |
 
-## Deferred support-data migration
+## Support payload removal
 
-Do not remove these as part of `baseline` unless the separate
-support-data packet is explicitly included and QuestieTDB issue #15 is complete:
+The baseline now includes support payload cleanup. Delete all 24 tracked payloads in these paths
+and their entries from all five flavor TOCs:
 
 ```text
-Database/Zones/
-Database/QuestXP/
-Database/DropTables/
-Database/FactionTemplates/
+Database/QuestXP/DB/         (5 XP payloads)
+Database/DropTables/data/   (5 flavor payloads and itemDropCorrections.lua)
+Database/FactionTemplates/ (5 faction-template payloads)
+Database/Zones/data/        (8 zone payloads, including the two MoP map tables)
 ```
 
-Questie should eventually consume their data through `LibQuestieDB.Support`, while retaining the
-Questie modules that interpret that data. Until provider parity is proven, these files are **Keep**
-for this delivery.
+Keep all production consumer wrappers and calculations unchanged on `baseline`, including
+`QuestieXP.lua`, `dropDB.lua`, `zoneDB.lua`, and faction-template consumers. The baseline remains
+intentionally nonfunctional; this deletion does not claim provider parity or complete TDB-11.
+`implementation` must bind support reads through `LibQuestieDB.Support` and validate QuestieTDB
+issue #15's flavor-correct Source/Baked data before the combined merge.
+
+Tests use explicit, focused fixtures inline in `setupTests.lua` and `Database/Zones/zoneDB.test.lua`.
+Neither file ships in releases. The bootstrap keeps only zone constants needed by the retained
+zone, tracker, policy, and QuestieDB-loading tests. The ZoneDB suite supplies fresh private inputs
+for its existing wrapper without loading production payloads or introducing a provider mock.
 
 ## Review scale
 
@@ -796,7 +804,7 @@ Expected results:
 - generated entity localization has no TOC entries;
 - the only production `GetRegistrar` call is inside `QuestieCorrections`;
 - the dependency loop passes for all five flavor TOCs;
-- support-data matches may remain only as allowed by the deferred section.
+- support payload files and TOC entries are absent; their Questie-owned consumer wrappers remain.
 
 ## Final validation
 
@@ -827,7 +835,7 @@ Also run:
 - Source Questie commit: `ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57`
 - Database Addon import commit: not recorded
 - Pre-merge Database Addon sync commit: not recorded
-- `baseline` branch: `QuestieTDB-remove-baseline`; subtractive code tip
+- `baseline` branch: `QuestieTDB-remove-baseline`; initial subtractive code tip
   `14bb2681f8a349a0470c8deb1f37c238ea72ae80`
 - `implementation` branch: not created
 - Branch history: documentation-only commits `ad1ef9a5261c9cd2f3c05da57fc4dc9fa42a837f`
@@ -887,11 +895,19 @@ Also run:
   - All five flavor TOCs require QuestieTDB. The Classic policy file remains in all five TOCs; the
     TBC policy file remains in the four TBC-and-later TOCs and is absent from Classic
   - QuestiePolicy, `titanReforgedQuestTags.lua`, blacklists, Event Quest data, Content Phase state,
-    UI localization, Zone/Category lookups, QuestieStream, and deferred support data remain intact
+    UI localization, Zone/Category lookups, and QuestieStream remain intact; the subsequent support
+    cleanup removes only the 24 support payloads and their TOC entries, not their consumer wrappers
   - Objective Order was not extracted back into Questie; ownership remains with
     `LibQuestieDB.ObjectiveFirst`
   - Ignored generated `cli/output/` was removed locally
-- Expected baseline state: intentionally nonfunctional. Full Busted reports 2 successes and 65
+- Support cleanup validation: full Busted before and after cleanup reports 2 successes, 0 failures,
+  and 66 identical error records, all at the pre-existing missing `Database/itemDB.lua` bootstrap
+  dependency. ZoneDB, tracker, and TOC tests pass with 45 successes using a temporary validation-only
+  helper that skips the missing `itemDB.lua` and `questDB.lua` bootstrap loads; no helper or entity
+  replacement is added to the repository. Production luacheck passes across 297 files, loader-usage
+  validation passes, and `git diff --check` passes. Static checks confirm the exact 24-file deletion
+  set, unchanged consumer wrappers, original values for all 12 fixture constants, and release exclusion.
+- Expected baseline state: intentionally nonfunctional. Full Busted reports 2 successes and 66
   errors; every affected suite errors at `setupTests.lua:5` because the deleted
   `Database/itemDB.lua` cannot be opened. Mixed-runtime compiler, raw-table, and provider references
   are retained as implementation-branch rewrite inputs, not as a compiler fallback
