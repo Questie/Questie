@@ -42,6 +42,8 @@ describe("QuestEventHandler", function()
     local AvailableQuests
     ---@type QuestEventHandler
     local QuestEventHandler
+    ---@type BreadcrumbQuests
+    local BreadcrumbQuests
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
@@ -49,6 +51,8 @@ describe("QuestEventHandler", function()
         QuestieLib.CacheItemNames = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
+        BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
+        BreadcrumbQuests.CheckQuestBreadcrumbs = spy.new(function() end)
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
@@ -305,68 +309,6 @@ describe("QuestEventHandler", function()
 
         assert.spy(WatchFrameHook.Hide).was.called()
         assert.spy(AutoCompleteFrame.ShowAutoComplete).was.called_with(QUEST_ID)
-    end)
-
-    it("should abandon the quest only once using the last incomplete breadcrumb when it has multiple", function()
-        Questie.db.profile.questAnnounceIncompleteBreadcrumb = false
-        Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = true
-        Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
-
-        QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
-            if questId == QUEST_ID and key == "breadcrumbs" then
-                return {101, 102, 103}
-            end
-            return nil
-        end)
-        QuestiePlayer.HasRequiredRace = function() return true end
-        QuestiePlayer.HasRequiredClass = function() return true end
-
-        local linkedQuestIds = {}
-        QuestieLoader:ImportModule("QuestieLink").GetQuestHyperLink = function(...)
-            for i = 1, select("#", ...) do
-                local arg = select(i, ...)
-                if type(arg) ~= "table" then
-                    table.insert(linkedQuestIds, arg)
-                end
-            end
-            return "link"
-        end
-
-        local abandonCalls = 0
-        _G.GetQuestLogIndexByID = function(questId) return questId == QUEST_ID and 1 or 0 end
-        _G.SelectQuestLogEntry = function() end
-        _G.SetAbandonQuest = function() end
-        _G.AbandonQuest = function() abandonCalls = abandonCalls + 1 end
-
-        QuestEventHandler.CheckExistingQuestBreadcrumbs()
-
-        assert.are.equal(1, abandonCalls)
-        assert.are.same({QUEST_ID, 103}, linkedQuestIds)
-    end)
-
-    it("should announce every incomplete breadcrumb", function()
-        Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
-        Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
-        Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
-
-        QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
-            if questId == QUEST_ID and key == "breadcrumbs" then
-                return {101, 102, 103}
-            end
-            return nil
-        end)
-        QuestiePlayer.HasRequiredRace = function() return true end
-        QuestiePlayer.HasRequiredClass = function() return true end
-        QuestieAnnounce.IncompleteBreadcrumbQuest = spy.new(function() end)
-
-        QuestEventHandler.CheckExistingQuestBreadcrumbs()
-
-        assert.spy(QuestieAnnounce.IncompleteBreadcrumbQuest).was.called(3)
-        assert.spy(QuestieAnnounce.IncompleteBreadcrumbQuest).was.called_with(QUEST_ID, 101)
-        assert.spy(QuestieAnnounce.IncompleteBreadcrumbQuest).was.called_with(QUEST_ID, 102)
-        assert.spy(QuestieAnnounce.IncompleteBreadcrumbQuest).was.called_with(QUEST_ID, 103)
     end)
 
     it("should update all quests on PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function()

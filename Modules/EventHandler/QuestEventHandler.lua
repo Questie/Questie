@@ -27,8 +27,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestLifecycle
 local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
 ---@type QuestieCombatQueue
@@ -47,6 +45,8 @@ local QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type BreadcrumbQuests
+local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
 
 local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
@@ -192,63 +192,6 @@ function QuestEventHandler.InitQuestLogStates(changes)
     end
 end
 
-local _AbandonQuest = function(questId, breadcrumbQuestId)
-    local questLogIndex = GetQuestLogIndexByID(questId)
-    if questLogIndex and questLogIndex > 0 then
-        SelectQuestLogEntry(questLogIndex)
-        SetAbandonQuest()
-        AbandonQuest()
-        local questLink = QuestieLink:GetQuestHyperLink(questId)
-        local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
-        Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s is not completed.", questLink, breadcrumbLink))
-        return true
-    end
-    return false
-end
-
---- Checks if a quest has incomplete breadcrumbs and announces/abandons accordingly.
----@param questId number
-local _CheckBreadcrumbs = function(questId)
-    if not (Questie.db.profile.questAnnounceIncompleteBreadcrumb or Questie.db.profile.autoAccept.abandonBreadcrumbFollowup) then
-        return
-    end
-
-    local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
-    if breadcrumbs then
-        local lastIncompleteBreadcrumbId = nil
-        for _, breadcrumbQuestId in ipairs(breadcrumbs) do
-            -- We want to let users know when they picked up a quest without finishing its breadcrumb
-            if (not Questie.db.char.complete[breadcrumbQuestId]) and (not QuestiePlayer.currentQuestlog[breadcrumbQuestId]) then
-                local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredRaces")
-                local requiredClasses = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredClasses")
-                local availableUntilCompleted = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "availableUntilCompleted")
-
-                local exclusiveQuests = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "exclusiveTo")
-                local exclusiveQuestCompleted = false
-                if exclusiveQuests then
-                    for _, exclusiveQuestId in pairs(exclusiveQuests) do
-                        if Questie.db.char.complete[exclusiveQuestId] or QuestiePlayer.currentQuestlog[exclusiveQuestId] then
-                            exclusiveQuestCompleted = true
-                            break
-                        end
-                    end
-                end
-
-                if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses) and (not exclusiveQuestCompleted) and (not Questie.db.char.complete[availableUntilCompleted]) then
-                    if Questie.db.profile.questAnnounceIncompleteBreadcrumb then
-                        QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
-                    end
-                    lastIncompleteBreadcrumbId = breadcrumbQuestId
-                end
-            end
-        end
-
-        if lastIncompleteBreadcrumbId and Questie.db.profile.autoAccept.abandonBreadcrumbFollowup then
-            _AbandonQuest(questId, lastIncompleteBreadcrumbId)
-        end
-    end
-end
-
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
@@ -277,15 +220,7 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
     QuestieLib:CacheItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
 
-    _CheckBreadcrumbs(questId)
-end
-
---- Checks all existing quests in the quest log for incomplete breadcrumbs.
---- Called during login initialization since QUEST_ACCEPTED does not fire for quests already in the log.
-function QuestEventHandler.CheckExistingQuestBreadcrumbs()
-    for questId, _ in pairs(QuestiePlayer.currentQuestlog) do
-        _CheckBreadcrumbs(questId)
-    end
+    BreadcrumbQuests.CheckQuestBreadcrumbs(questId)
 end
 
 ---@param questId number

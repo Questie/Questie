@@ -136,6 +136,9 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 
+        local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
+        BreadcrumbQuests.CheckQuestBreadcrumbs = function() end
+
         dofile("Modules/Network/QuestiePartyObjectives.lua")
         dofile("Public/Enums.lua")
         dofile("Public/RegisterForQuestUpdates.lua")
