@@ -1049,7 +1049,7 @@ describe("QuestieProfilerReport", function()
 
         it("groups files by directory", function()
             Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 20
-            Profiler.fileLoadTime["Database/Classic/classicItemDB.lua"] = 30
+            Profiler.fileLoadTime["Database/Corrections/QuestiePolicy/classicPolicyCorrections.lua"] = 30
 
             local database = FindChild(BuildTree(), "Database")
 
@@ -1058,16 +1058,16 @@ describe("QuestieProfilerReport", function()
         end)
 
         it("rolls a subtree's time into every ancestor", function()
-            Profiler.fileLoadTime["Database/Corrections/Automatic/one.lua"] = 10
-            Profiler.fileLoadTime["Database/Corrections/Automatic/two.lua"] = 15
+            Profiler.fileLoadTime["Database/Corrections/QuestiePolicy/classicPolicyCorrections.lua"] = 10
+            Profiler.fileLoadTime["Database/Corrections/QuestiePolicy/tbcPolicyCorrections.lua"] = 15
 
             local database = FindChild(BuildTree(), "Database")
             local corrections = FindChild(database, "Corrections")
-            local automatic = FindChild(corrections, "Automatic")
+            local questiePolicy = FindChild(corrections, "QuestiePolicy")
 
             assert.are_same(25, database.cost)
             assert.are_same(25, corrections.cost)
-            assert.are_same(25, automatic.cost)
+            assert.are_same(25, questiePolicy.cost)
         end)
 
         it("groups functions by module path", function()

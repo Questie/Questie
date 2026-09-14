@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
-dofile("Database/npcDB.lua")
 dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
+local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
 
 describe("QuestieTBCPolicyCorrections", function()
     ---@type QuestieTBCPolicyCorrections
@@ -18,6 +18,9 @@ describe("QuestieTBCPolicyCorrections", function()
     local phaseThreeAndLaterCorrections
 
     before_each(function()
+        LoadQuestieTDBMetaMock()
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
         dofile("Database/Corrections/QuestiePolicy/tbcPolicyCorrections.lua")
         QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
         ContentPhases = QuestieLoader:ImportModule("ContentPhases")
@@ -25,7 +28,6 @@ describe("QuestieTBCPolicyCorrections", function()
         originalExpansion = Expansions.Current
         originalTBCPhase = ContentPhases.activePhases.TBC
 
-        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         local npcKeys = QuestieDB.npcKeys
         local questKeys = QuestieDB.questKeys

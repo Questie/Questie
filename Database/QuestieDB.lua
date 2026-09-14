@@ -22,12 +22,6 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type QuestieDBStorage
-local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
@@ -208,10 +202,168 @@ QuestieDB.classKeys = {
     DRUID = 1024
 }
 
-QuestieDB.specialFlags = {
-    NONE = 0,
-    REPEATABLE = 1,
+-- Questie-owned semantic constants retained independently of provider schema metadata.
+QuestieDB.factionIDs = {
+    BOOTY_BAY = 21,
+    IRONFORGE = 47,
+    GNOMEREGAN_EXILES = 54,
+    THORIUM_BROTHERHOOD = 59,
+    HORDE = 67,
+    UNDERCITY = 68,
+    DARNASSUS = 69,
+    SYNDICATE = 70,
+    STORMWIND = 72,
+    ORGRIMMAR = 76,
+    THUNDER_BLUFF = 81,
+    BLOODSAIL_BUCCANEERS = 87,
+    GELKIS_CLAN_CENTAUR = 92,
+    MAGRAM_CLAN_CENTAUR = 93,
+    STEAMWHEEDLE_CARTEL = 169,
+    ZANDALAR_TRIBE = 270,
+    RAVENHOLDT = 349,
+    GADGETZAN = 369,
+    ALLIANCE = 469,
+    RATCHET = 470,
+    THE_LEAGUE_OF_ARATHOR = 509,
+    THE_DEFILERS = 510,
+    ARGENT_DAWN = 529,
+    DARKSPEAR_TROLLS = 530,
+    TIMBERMAW_HOLD = 576,
+    EVERLOOK = 577,
+    WINTERSABER_TRAINERS = 589,
+    CENARION_CIRCLE = 609,
+    FROSTWOLF_CLAN = 729,
+    STORMPIKE_GUARD = 730,
+    HYDRAXIAN_WATERLORDS = 749,
+    SHEN_DRALAR = 809,
+    WARSONG_OUTRIDERS = 889,
+    SILVERWING_SENTINELS = 890,
+    ALLIANCE_FORCES = 891,
+    HORDE_FORCES = 892,
+    DARKMOON_FAIRE = 909,
+    BROOD_OF_NOZDORMU = 910,
+    SILVERMOON_CITY = 911,
+    TRANQUILLIEN = 922,
+    EXODAR = 930,
+    THE_ALDOR = 932,
+    THE_CONSORTIUM = 933,
+    THE_SCRYERS = 934,
+    THE_SHATAR = 935,
+    SHATTRATH_CITY = 936,
+    THE_MAGHAR = 941,
+    CENARION_EXPEDITION = 942,
+    HONOR_HOLD = 946,
+    THRALLMAR = 947,
+    THE_VIOLET_EYE = 967,
+    SPOREGGAR = 970,
+    KURENAI = 978,
+    THE_BURNING_CRUSADE = 980,
+    KEEPERS_OF_TIME = 989,
+    THE_SCALE_OF_THE_SANDS = 990,
+    LOWER_CITY = 1011,
+    ASHTONGUE_DEATHSWORN = 1012,
+    NETHERWING = 1015,
+    SHATARI_SKYGUARD = 1031,
+    ALLIANCE_VANGUARD = 1037,
+    OGRILA = 1038,
+    VALIANCE_EXPEDITION = 1050,
+    HORDE_EXPEDITION = 1052,
+    THE_TAUNKA = 1064,
+    THE_HAND_OF_VENGEANCE = 1067,
+    EXPLORERS_LEAGUE = 1068,
+    THE_KALUAK = 1073,
+    SHATTERED_SUN_OFFENSIVE = 1077,
+    WARSONG_OFFENSIVE = 1085,
+    KIRIN_TOR = 1090,
+    THE_WYRMREST_ACCORD = 1091,
+    THE_SILVER_COVENANT = 1094,
+    WRATH_OF_THE_LICH_KING = 1097,
+    KNIGHTS_OF_THE_EBON_BLADE = 1098,
+    FRENZYHEART_TRIBE = 1104,
+    THE_ORACLES = 1105,
+    ARGENT_CRUSADE = 1106,
+    SHOLAZAR_BASIN = 1117,
+    THE_SONS_OF_HODIR = 1119,
+    THE_SUNREAVERS = 1124,
+    THE_FROSTBORN = 1126,
+    BILGEWATER_CARTEL = 1133,
+    GILNEAS = 1134,
+    THE_EARTHEN_RING = 1135,
+    THE_ASHEN_VERDICT = 1156,
+    GUARDIANS_OF_HYJAL = 1158,
+    THERAZANE = 1171,
+    DRAGONMAW_CLAN = 1172,
+    RAMKAHEN = 1173,
+    WILDHAMMER_CLAN = 1174,
+    BARADINS_WARDENS = 1177,
+    HELLSCREAMS_REACH = 1178,
+    AVENGERS_OF_HYJAL = 1204,
+    SHANG_XIS_ACADEMY = 1216,
+    FOREST_HOZEN = 1228,
+    PEARLFIN_JINYU = 1242,
+    GOLDEN_LOTUS = 1269,
+    SHADO_PAN = 1270,
+    ORDER_OF_THE_CLOUD_SERPENT = 1271,
+    THE_TILLERS = 1272,
+    JOGU_THE_DRUNK = 1273,
+    ELLA = 1275,
+    OLD_HILLPAW = 1276,
+    CHEE_CHEE = 1277,
+    SHO = 1278,
+    HAOHAN_MUDCLAW = 1279,
+    TINA_MUDCLAW = 1280,
+    GINA_MUDCLAW = 1281,
+    FISH_FELLREED = 1282,
+    FARMER_FUNG = 1283,
+    THE_ANGLERS = 1302,
+    THE_KLAXXI = 1337,
+    THE_AUGUST_CELESTIALS = 1341,
+    THE_LOREWALKERS = 1345,
+    THE_BREWMASTERS = 1351,
+    HUOJIN_PANDAREN = 1352,
+    TUSHUI_PANDAREN = 1353,
+    NOMI = 1357, -- hidden faction
+    NAT_PAGLE = 1358,
+    THE_BLACK_PRINCE = 1359,
+    BRAWLGAR_ARENA_SEASON_1 = 1374,
+    DOMINANCE_OFFENSIVE = 1375,
+    OPERATION_SHIELDWALL = 1376,
+    KIRIN_TOR_OFFENSIVE = 1387,
+    SUNREAVER_ONSLAUGHT = 1388,
+    AKAMAS_TRUST = 1416,
+    BIZMOS_BRAWLPUB_SEASON_1 = 1419,
+    SHADO_PAN_ASSAULT = 1435,
+    DARKSPEAR_REBELLION = 1440,
 }
+
+
+---@enum NpcFlags
+QuestieDB.npcFlags = {
+    NONE = 0,
+    GOSSIP = 1,
+    QUEST_GIVER = 2,
+    VENDOR = Questie.IsClassic and 4 or 128,
+    FLIGHT_MASTER = Questie.IsClassic and 8 or 8192,
+    TRAINER = 16,
+    SPIRIT_HEALER = Questie.IsClassic and 32 or 16384,
+    SPIRIT_GUIDE = Questie.IsClassic and 64 or 32768,
+    INNKEEPER = Questie.IsClassic and 128 or 65536,
+    BANKER = Questie.IsClassic and 256 or 131072,
+    PETITIONER = Questie.IsClassic and 512 or 262144,
+    TABARD_DESIGNER = Questie.IsClassic and 1024 or 524288,
+    BATTLEMASTER = Questie.IsClassic and 2048 or 1048576,
+    AUCTIONEER = Questie.IsClassic and 4096 or 2097152,
+    STABLEMASTER = Questie.IsClassic and 8192 or 4194304,
+    REPAIR = Questie.IsClassic and 16384 or 4096,
+    BARBER = (Expansions.Current >= Expansions.Wotlk) and 33554432 or nil,
+    ARCANE_REFORGER = Expansions.Current >= Expansions.Cata and 134217728 or nil,
+    TRANSMOGRIFIER = Expansions.Current >= Expansions.Cata and 268435456 or nil,
+}
+
+QuestieDB.itemClasses = {
+    QUEST = 12,
+}
+
 
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
 _QuestieDB.itemCache = {};
@@ -235,93 +387,30 @@ local QuestieCorrectionshiddenQuests
 ---Questie.db.char.hidden
 local Questiedbcharhidden
 
-QuestieDB.itemDataOverrides = {}
-QuestieDB.npcDataOverrides = {}
-QuestieDB.objectDataOverrides = {}
-QuestieDB.questDataOverrides = {}
-
 QuestieDB.activeChildQuests = {}
 
+-- QuestieTDB owns Objective Order. Fresh QuestieDB initialization replaces these empty
+-- compatibility maps with `LibQuestieDB.ObjectiveFirst` before rich Quest projections run.
+QuestieDB.killCreditObjectiveFirst = {}
+QuestieDB.objectObjectiveFirst = {}
+QuestieDB.itemObjectiveFirst = {}
+QuestieDB.eventObjectiveFirst = {}
+QuestieDB.spellObjectiveFirst = {}
 
-function QuestieDB:Initialize()
-
-    StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-        text = l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."),
-        button1 = l10n("Recompile Database"),
-        button2 = l10n("Don't show again"),
-        OnAccept = function()
-            QuestieDBStorage.InvalidateActiveStorage()
-            ReloadUI()
-        end,
-        OnDecline = function()
-            Questie.db.profile.disableDatabaseWarnings = true
-        end,
-        OnShow = function(self)
-            self:SetFrameStrata("TOOLTIP")
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = false,
-        preferredIndex = 3
-    }
-
+---Initializes Questie-owned semantic state after fresh provider query bindings are installed.
+---@return nil
+function QuestieDB.Initialize()
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
-    local activeStorage = QuestieDBStorage.GetActiveStorage()
+    -- Provider locale and Policy Corrections are already applied when these semantic caches become visible.
+    _QuestieDB.questCache = {}
+    _QuestieDB.itemCache = {}
+    _QuestieDB.npcCache = {}
+    _QuestieDB.objectCache = {}
+    _QuestieDB.zoneCache = {}
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Begin GetDBHandles")
-    local npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
-    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(activeStorage.npcBin, activeStorage.npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] NPC GetDBHandles Complete")
-
-    local questSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder)
-    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(activeStorage.questBin, activeStorage.questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Quest GetDBHandles Complete")
-
-    local objectSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder)
-    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(activeStorage.objBin, activeStorage.objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Object GetDBHandles Complete")
-
-    local itemSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder)
-    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(activeStorage.itemBin, activeStorage.itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Item GetDBHandles Complete")
-
-    QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
-    QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
-    QuestieDB._QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
-    QuestieDB._QueryItemSingle = QuestieDB.QueryItem.QuerySingle
-
-    QuestieDB.NPCPointers = QuestieDB.QueryNPC.pointers
-    QuestieDB.QuestPointers = QuestieDB.QueryQuest.pointers
-    QuestieDB.ObjectPointers = QuestieDB.QueryObject.pointers
-    QuestieDB.ItemPointers = QuestieDB.QueryItem.pointers
-
-    QuestieDB._QueryNPC = QuestieDB.QueryNPC.Query
-    QuestieDB._QueryQuest = QuestieDB.QueryQuest.Query
-    QuestieDB._QueryObject = QuestieDB.QueryObject.Query
-    QuestieDB._QueryItem = QuestieDB.QueryItem.Query
-
-    QuestieDB.QueryNPC = QuestieDB._QueryNPC
-    QuestieDB.QueryQuest = QuestieDB._QueryQuest
-    QuestieDB.QueryObject = QuestieDB._QueryObject
-    QuestieDB.QueryItem = QuestieDB._QueryItem
-
-    QuestieDB.QueryQuestSingle = QuestieDB._QueryQuestSingle
-    QuestieDB.QueryNPCSingle = QuestieDB._QueryNPCSingle
-    QuestieDB.QueryObjectSingle = QuestieDB._QueryObjectSingle
-    QuestieDB.QueryItemSingle = QuestieDB._QueryItemSingle
-
-    -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
-    _QuestieDB.questCache = {};
-    _QuestieDB.itemCache = {};
-    _QuestieDB.npcCache = {};
-    _QuestieDB.objectCache = {};
-    _QuestieDB.zoneCache = {};
-
-    --? This improves performance a lot, the regular functions still work but this is much faster because i caches
-    checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
+    checkRace = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
     checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
-    --? Set the localized versions of these.
     QuestieCorrectionshiddenQuests = QuestieCorrections.hiddenQuests
     Questiedbcharhidden = Questie.db.char.hidden
 end
@@ -336,7 +425,6 @@ function QuestieDB:GetObject(objectId)
         return _QuestieDB.objectCache[objectId];
     end
 
-    --local rawdata = QuestieDB.objectData[objectId];
     local rawdata = QuestieDB.QueryObject(objectId, QuestieDB._objectAdapterQueryOrder)
 
     if not rawdata then
@@ -1561,7 +1649,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
-                    if QuestieCorrections.objectObjectiveFirst[questId] then
+                    if QuestieDB.objectObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, objectObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
@@ -1582,7 +1670,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
-                    if QuestieCorrections.itemObjectiveFirst[questId] then
+                    if QuestieDB.itemObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, itemObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
@@ -1614,7 +1702,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
                 --? There are quest(s) which have the killCredit first so we need to switch them
                 -- Place the kill credit objective first
-                if QuestieCorrections.killCreditObjectiveFirst[questId] then
+                if QuestieDB.killCreditObjectiveFirst[questId] then
                     tinsert(QO.ObjectiveData, 1, killCreditObjective)
                 else
                     QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
@@ -1635,7 +1723,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
                     --? There are quest(s) which have the spellObjective first so we need to switch them
                     -- Place the spell objective first
-                    if QuestieCorrections.spellObjectiveFirst[questId] then
+                    if QuestieDB.spellObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, spellObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
@@ -1654,7 +1742,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
-        if QuestieCorrections.eventObjectiveFirst[questId] then
+        if QuestieDB.eventObjectiveFirst[questId] then
             tinsert(QO.ObjectiveData, 1, triggerEndObjective)
         else
             QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective
@@ -1856,21 +1944,6 @@ function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
     end
 
     return false
-end
-
----------------------------------------------------------------------------------------------------
--- Modifications to objectDB
-function _QuestieDB:DeleteGatheringNodes()
-    local prune = { -- gathering nodes
-        1617,1618,1619,1620,1621,1622,1623,1624,1628, -- herbs
-
-        1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
-    }
-    local objectSpawnsKey = QuestieDB.objectKeys.spawns
-    for i=1, #prune do
-        local id = prune[i]
-        QuestieDB.objectData[id][objectSpawnsKey] = nil
-    end
 end
 
 ---------------------------------------------------------------------------------------------------
@@ -2078,26 +2151,6 @@ function _QuestieDB:CheckAchievementRequirements(questId)
     end
 end
 
-function _QuestieDB:HideClassAndRaceQuests()
-    local questKeys = QuestieDB.questKeys
-    for _, entry in pairs(QuestieDB.questData) do
-        -- check requirements, set hidden flag if not met
-        local requiredClasses = entry[questKeys.requiredClasses]
-        if (requiredClasses) and (requiredClasses ~= 0) then
-            if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
-                entry.hidden = true
-            end
-        end
-        local requiredRaces = entry[questKeys.requiredRaces]
-        if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
-            if (not QuestiePlayer.HasRequiredRace(requiredRaces)) then
-                entry.hidden = true
-            end
-        end
-    end
-    Questie.Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
-end
-
 -- This function is intended for usage with Gossip and Greeting frames, where there's a list of quests but no QuestIDs are
 -- obtainable until entering the specific quest dialog.
 -- This is a bruteforce method for obtaining a QuestID with no input other than a quest name, and the ID of the questgiver.
@@ -2148,9 +2201,3 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
     end
     return questID;
 end
-
-QuestieDB.waypointPresets = {
-    ORGRIMS_HAMMER = {[ZoneDB.zoneIDs.ICECROWN]={{{62.37,30.60},{61.93,30.93},{61.48,31.24},{61.08,31.55},{60.74,31.92},{60.46,32.44},{60.26,33.11},{60.14,33.85},{60.11,34.63},{60.17,35.35},{60.31,36.01},{60.56,36.66},{60.84,37.33},{61.15,38.00},{61.44,38.67},{61.71,39.28},{62.00,39.92},{62.31,40.55},{62.60,41.20},{62.90,41.83},{63.05,42.20},{63.33,42.85},{63.58,43.53},{63.85,44.19},{64.08,44.86},{64.33,45.50},{64.45,45.87},{64.69,46.56},{64.94,47.21},{65.16,47.87},{65.43,48.51},{65.71,49.15},{66.03,49.77},{66.36,50.46},{66.72,51.10},{67.07,51.67},{67.41,52.08},{67.82,52.37},{68.31,52.47},{68.80,52.38},{69.23,51.98},{69.45,51.56},{69.57,51.13},{69.67,50.59},{69.73,49.96},{69.77,49.26},{69.79,48.48},{69.80,47.62},{69.79,46.68},{69.79,45.68},{69.78,44.90},{69.78,44.25},{69.76,43.55},{69.75,42.80},{69.72,42.01},{69.70,41.20},{69.67,40.38},{69.64,39.54},{69.61,38.71},{69.58,37.88},{69.55,37.07},{69.52,36.28},{69.49,35.54},{69.46,34.83},{69.45,34.18},{69.42,33.50},{69.41,32.46},{69.42,31.52},{69.45,30.67},{69.47,29.92},{69.48,29.25},{69.46,28.65},{69.42,28.12},{69.35,27.83},{69.11,27.19},{68.71,26.77},{68.23,26.54},{67.71,26.51},{67.24,26.55},{66.81,26.76},{66.35,27.09},{65.90,27.52},{65.44,27.95},{65.01,28.39},{64.58,28.73},{64.16,29.10},{63.74,29.43},{63.34,29.79},{62.94,30.11},{62.65,30.37},{62.37,30.60}}}},
-    THE_SKYBREAKER = {[ZoneDB.zoneIDs.ICECROWN]={{{63.59,52.34},{63.44,51.88},{63.30,51.52},{63.15,51.19},{63.01,50.85},{62.85,50.52},{62.68,50.17},{62.50,49.78},{62.31,49.36},{62.09,48.88},{61.86,48.33},{61.81,48.20},{61.67,47.88},{61.52,47.52},{61.37,47.13},{61.19,46.74},{61.02,46.32},{60.84,45.88},{60.65,45.44},{60.46,44.99},{60.28,44.53},{60.09,44.08},{59.90,43.63},{59.72,43.18},{59.54,42.75},{59.36,42.34},{59.20,41.94},{59.04,41.56},{58.89,41.22},{58.75,40.87},{58.52,40.30},{58.32,39.77},{58.14,39.27},{57.97,38.80},{57.81,38.39},{57.65,38.03},{57.49,37.72},{57.31,37.50},{57.12,37.34},{56.87,37.29},{56.57,37.39},{56.27,37.60},{55.97,37.88},{55.72,38.23},{55.53,38.61},{55.43,38.95},{55.43,39.09},{55.46,39.49},{55.52,39.92},{55.62,40.39},{55.76,40.88},{55.89,41.38},{56.02,41.85},{56.17,42.25},{56.33,42.68},{56.51,43.13},{56.70,43.56},{56.88,43.99},{57.05,44.39},{57.22,44.74},{57.42,45.15},{57.64,45.52},{57.83,45.81},{58.03,46.14},{58.23,46.56},{58.41,46.90},{58.60,47.25},{58.80,47.62},{59.00,48.03},{59.19,48.46},{59.36,48.84},{59.53,49.22},{59.69,49.63},{59.86,50.04},{60.03,50.46},{60.19,50.90},{60.36,51.32},{60.51,51.74},{60.65,52.17},{60.79,52.59},{60.94,53.02},{61.07,53.46},{61.23,53.89},{61.39,54.30},{61.55,54.72},{61.70,55.18},{61.88,55.65},{62.05,56.14},{62.23,56.58},{62.43,56.95},{62.65,57.21},{62.87,57.30},{62.95,57.27},{63.22,57.16},{63.52,56.97},{63.81,56.68},{64.07,56.32},{64.26,55.91},{64.33,55.47},{64.30,55.11},{64.25,54.72},{64.16,54.30},{64.04,53.84},{63.91,53.36},{63.76,52.88},{63.59,52.34}}}},
-    ALLIANCE_GUNSHIP = {[ZoneDB.zoneIDs.DEEPHOLM]={{{61.79,46.28},{61.68,45.72},{61.55,45.10},{61.45,44.56},{61.34,43.97},{61.22,43.46},{61.13,42.90},{61.06,42.23},{60.98,41.63},{60.90,40.98},{60.84,40.28},{60.81,39.59},{60.84,38.98},{60.99,38.55},{61.33,38.23},{61.75,38.04},{62.21,38.04},{62.62,38.33},{62.82,38.82},{62.95,39.32},{63.07,39.93},{63.19,40.61},{63.30,41.31},{63.40,41.98},{63.49,42.57},{63.60,43.23},{63.69,43.90},{63.77,44.48},{63.85,44.98},{63.95,45.61},{64.05,46.15},{64.22,46.69},{64.31,47.26},{64.40,47.87},{64.47,48.40},{64.54,49.02},{64.62,49.71},{64.69,50.29},{64.76,50.96},{64.82,51.65},{64.84,52.29},{64.77,52.81},{64.59,53.41},{64.29,53.74},{63.93,53.82},{63.58,53.79},{63.15,53.70},{62.72,53.51},{62.42,53.16},{62.32,52.68},{62.27,52.08},{62.23,51.41},{62.20,50.75},{62.18,50.12},{62.22,49.50},{62.23,48.90},{62.19,48.31},{62.09,47.73},{61.97,47.12},{61.83,46.50},{61.79,46.28}}}},
-}

@@ -101,7 +101,6 @@ Database\Corrections\titanReforgedQuestTags.lua
 # Item Drops
 Database\DropTables\dropDB.lua
 
-# Compiler
 
 # Localization
 Localization\l10n.lua

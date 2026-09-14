@@ -16,13 +16,17 @@ This document is the source of truth for the work packet. Update it whenever an 
   `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5`; dirty and untracked Dynamic Corrections work in
   sibling workspace `../Questie-tdb-claude` is optional behavioral archaeology, not an
   implementation source or prerequisite
-- Subtractive baseline: TDB-09 and TDB-10 complete at code tip
-  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`; the commit containing the finalized baseline replay
-  evidence completes WP-09 and is the exact branch point for `implementation`. The baseline remains
-  intentionally nonfunctional until `implementation` restores the provider-backed runtime
-- Support payload cleanup: the baseline also removes 24 support payloads and their 51 flavor TOC
-  entries. Consumer wrappers remain unchanged; focused inline zone fixtures replace production
-  data loads in tests. TDB-11 provider integration and issue #15 parity validation are still pending
+- Subtractive baseline: historical pre-rebase whole-file deletion ended at
+  `14bb2681f8a349a0470c8deb1f37c238ea72ae80`, clean mixed-runtime subtraction ended at
+  `8b63c04beadef59b648cb558247609651e1f19e1`, and reviewed clean-baseline code ended at
+  `cf4349e9f647f3c1b077421863fc53ef6031da44`. The commit containing the finalized rebased evidence
+  completes WP-09 and is the branch point for `implementation`. Runtime Contract, query, and
+  Correction integration remains fresh implementation work
+- Support payload cleanup: the rebased baseline also removes 24 support payloads and their 51 flavor
+  TOC entries. Consumer wrappers remain; focused inline zone fixtures replace production data loads
+  in tests. TDB-11 provider integration and issue #15 parity validation are still pending
+- Historical validation: the reviewed clean-baseline tip recorded a green local suite. That result
+  was not rerun against the current rebased stack with support cleanup
 - Distribution and release packaging: deferred
 
 The next implementation packet starts fresh from the recorded subtractive baseline, Contract
@@ -145,13 +149,13 @@ Before editing, an agent must claim an item and list the files it owns. Agents m
 | TDB-02 | Bind `QuestieDB` queries, keys, ID maps, Objective Order Corrections, and caches to `LibQuestieDB` | not started | fresh implementation | TDB-01, QuestieTDB #17 | Implement fresh on the subtractive baseline; historical seam tests may clarify behavior but do not define architecture. |
 | TDB-03 | Replace compiler-driven Login Initialization with the target startup order | not started | - | TDB-02, TDB-04, TDB-05, QuestieTDB #16 | No compile checks or fallback. |
 | TDB-04 | Convert Questie-owned policy to Dynamic Corrections | not started | fresh implementation | TDB-01 | Implement the final owner-scoped registrar directly from the authoritative contract and retained QuestiePolicy producers. Historical Dynamic Corrections work is optional behavioral archaeology only. |
-| TDB-05 | Forward entity locale to QuestieTDB and remove raw entity localization writes | not started | fresh implementation | TDB-01, TDB-02, QuestieTDB #14 | Design the provider/external locale path fresh. Built-in lookup deletion remains combined-merge gated on QuestieTDB #14. Keep UI translation behavior. |
-| TDB-06 | Adapt raw entity-table consumers | not started | - | TDB-02 | Townsfolk, Available Quests, search, and pointer fallbacks. |
+| TDB-05 | Forward entity locale to QuestieTDB and remove raw entity localization writes | not started | fresh implementation | TDB-01, TDB-02, QuestieTDB #14 | Raw/generated entity localization is removed and `l10n` now owns UI strings only. Design provider/external entity-locale orchestration fresh outside `l10n`; built-in lookup deletion remains combined-merge gated on QuestieTDB #14. |
+| TDB-06 | Adapt raw entity-table consumers | in progress | clean baseline / fresh implementation | TDB-02 | Raw traversals and fallbacks are removed. Fresh provider bindings must still verify Townsfolk policy, character filtering, Manual Notes, non-empty Available Quest enumeration, and the RuntimeItemRepair seam. |
 | TDB-07 | Convert Darkmoon and asynchronous Item updates | not started | fresh implementation | TDB-02, TDB-04 | Implement from the final behavior contract: generic Darkmoon policy correction and name-only runtime Item repair. Prior code and tests are optional evidence, not porting sources. |
-| TDB-08 | Remove compiler controls, state, popups, and SavedVariables payloads | not started | - | TDB-03 | Include migration cleanup. |
+| TDB-08 | Remove compiler controls, state, popups, and SavedVariables payloads | done | clean baseline | TDB-03 | Compiler lifecycle, controls, recovery, profiler residue, translations, defaults, and storage references are removed; Migration 38 clears all former payload scopes and warning state. |
 | TDB-09 | Remove compiler and raw entity files from runtime TOCs | done | baseline deletion | WP-00 | All five TOCs require QuestieTDB and no longer load provider raw data, provider corrections, generated entity localization, compiler/storage/schema/cleanup files, or Questie-side entity validators. The retained QuestiePolicy matrix is 5 Classic / 4 TBC; Objective Order remains provider-owned through `LibQuestieDB.ObjectiveFirst`. Evidence starts at `99493b08a5b35aabf7e4ca93d438bf58baf3c08a`. |
-| TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | done | baseline deletion | TDB-09 | The subtraction ends at `14bb2681f8a349a0470c8deb1f37c238ea72ae80`: 281 tracked files and 5,042,232 deleted-file lines. The baseline is intentionally nonfunctional; full runtime validation gates the combined merge after `implementation`. |
-| TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Baseline support payload deletion is complete, but provider integration is not started. Keep Questie's behavior wrappers and validate flavor-correct provider data before the combined merge. |
+| TDB-10 | Delete dead compiler, raw data, generated lookups, and validators | done | baseline deletion | TDB-09 | Historical pre-rebase whole-file subtraction ended at `14bb2681f8a349a0470c8deb1f37c238ea72ae80`: 281 tracked files and 5,042,232 deleted-file lines. Clean mixed-runtime subtraction ended at `8b63c04beadef59b648cb558247609651e1f19e1`, with reviewed clean-baseline fixes ending at `cf4349e9f647f3c1b077421863fc53ef6031da44`; full runtime validation still gates the combined merge after `implementation`. |
+| TDB-11 | Read Zone, XP, Drop, and faction-template data from `Support` | not started | - | TDB-02, QuestieTDB #15 | Baseline deletion of 24 payloads and 51 TOC entries is complete, but provider integration is not started. Keep Questie's behavior wrappers, do not restore known-stale support copies, and validate flavor-correct provider data before the combined merge. |
 | TDB-12 | Replace database validation CI with a pinned integration check | in progress | baseline deletion / implementation | TDB-10, TDB-11, QuestieTDB #19 | The old `db-validation` matrix is removed and loader-usage validation remains in the unit-test job. The pinned Database Integration Check is not implemented; data validation belongs in QuestieTDB and consumer behavior still needs integration coverage. |
 | TDB-13 | Bundle QuestieTDB and update release packaging | deferred | - | Runtime cutover | The hard TOC dependency is already declared. Bundling and release automation remain separate distribution work. |
 | TDB-14 | Expose QuestieTDB source-mode status in Questie diagnostics | not started | - | TDB-02 | Do after the main cutover works. |
@@ -264,13 +268,19 @@ Do not register tables through a new abstraction. Use the QuestieTDB registrar d
 
 ### TDB-05: localization
 
-In `Localization/l10n.lua`:
+In `Localization/l10n.lua`, keep only UI translations, zone names, categories, and UI locale
+selection. A fresh focused entity-locale seam outside `l10n` must:
 
-- keep UI translations, zone names, categories, and locale selection
-- remove writes into raw entity tables
 - forward the effective locale to `LibQuestieDB.l10n.SetLocale`
-- rebuild `objectNameLookup` from Object IDs and queries
-- clear locale-derived Questie caches when the locale changes
+- apply withdrawal-first external entity locale Policy Corrections
+- clear locale-derived Questie caches when the entity locale changes
+
+Object-hover lookup follows QuestieTDB ADR 0008 and `QUESTIE-OBJECT-NAME-INDEX.md`:
+
+- index registered `o_` tooltip keys incrementally in `QuestieTooltips.objectIdsByName`
+- use `LibQuestieDB.Object.IdsByName(name)` for the optional Object-ID line
+- warm `BuildNameIndex()` during initialization only when that option is enabled and when toggled on
+- never build or rebuild a full Object-name index inside Questie
 
 QuestieTDB stores `extraObjectives[3]` as the enUS localization key and does not translate that
 structured field. TDB-02 owns the `QuestieDB.lua` projection change; this item owns locale selection
@@ -280,24 +290,19 @@ Open decision: external locale addons can currently provide entity lookups. Ques
 
 ### TDB-06: raw consumers
 
-Known direct consumers:
-
-- `Modules/QuestieMenu/Townsfolk.lua`
-- `Modules/Quest/AvailableQuests/AvailableQuests.lua`
-- `Modules/Libs/QuestieLib.lua`
-- `Localization/l10n.lua`
-
-Replace raw table traversal with ID enumeration and field queries. Do not build full compatibility copies.
-
-Townsfolk should use ID maps plus query functions. Its local faction-template data may remain until TDB-11.
+The clean baseline converts Townsfolk and Available Quests to composed ID maps and queries, removes
+raw pointer fallbacks, removes the invalid missing-Item raw writer, and strips entity behavior from
+`l10n`. Fresh implementation must bind the composed query interface and restore RuntimeItemRepair;
+do not build full compatibility copies. Townsfolk's local faction-template data may remain until
+TDB-11.
 
 ### TDB-07: runtime updates
 
-Completed by the Dynamic Corrections packet; `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` is the
-authoritative record. `ApplyParameterized` no longer exists in QuestieTDB and must not be
-reintroduced; earlier guidance in this section that instructed calling it is obsolete.
+Historical Dynamic Corrections work demonstrated the behavior below, but the clean baseline removes
+its executable placement. Implement it fresh from `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md` and
+`TDB-IMPLEMENTATION-ISSUES.md`. `ApplyParameterized` does not exist and must not be reintroduced.
 
-Darkmoon correction, as implemented:
+Required Darkmoon correction behavior:
 
 - `QuestieEvent` keeps location selection and calls the existing Era/TBC `LoadDarkmoonFixes`
   table producers, then hands the result to `QuestieCorrections.SetDarkmoonNpcCorrections()`
@@ -306,7 +311,7 @@ Darkmoon correction, as implemented:
 - the shared apply path refreshes Questie's ID maps and semantic caches when
   `QuestieDB.IsInitialized`
 
-Asynchronous Item names, as implemented:
+Required asynchronous Item behavior:
 
 - the old `{questId}`-in-`npcDrops` write was verified invalid and dropped; the repair is a
   name-only Item Correction through `QuestieCorrections.RepairMissingItem(itemId, itemName)`
@@ -524,4 +529,4 @@ QuestieTDB contract:
 - TOC dependency: all five Questie flavor manifests now declare `## RequiredDeps: QuestieTDB`. Bundling and release packaging remain deferred.
 - Baseline/implementation branch strategy: the remaining delivery uses a stacked-MR model. `baseline` is cut from `master`; after two documentation-only planning commits, its first code-changing commit extracts the Questie-owned Classic/TBC policy producers from mixed provider files into expansion-split files, then later commits apply `TDB-DELETION-MANIFEST.md` (~5.04 million lines: entity lookups, raw DB data, static fixes, compiler, residue). `implementation` starts fresh from that subtractive baseline and implements the final shape in `TDB-RELAND-HANDOVER.md` without merging, cherry-picking, or mechanically porting historical work. Gated items (QuestieTDB #13, #14) are deleted and tracked as work packets; QuestieTDB's master-data sync transfers data fixes before the merge. This supersedes this document's TDB-03 detail text and any instruction to retain legacy paths until TDB-03.
 - Historical Dynamic Corrections packet evidence (TDB-04, TDB-07, part of TDB-05): prior work demonstrated the owner-scoped registrar behaviors described in `TDB-DYNAMIC-CORRECTIONS-HANDOVER.md`, with 1,526 tests and clean luacheck recorded at the time. Committed `origin/QuestieTDB` at `bc9ad9bfa6ddd06e75933fd3f37b7dbeba32bdf5` contains TDB-01/TDB-02 only; dirty and untracked later work in `../Questie-tdb-claude` is optional behavioral archaeology. The new implementation must be designed fresh from the final contract and must not mechanically port that compatibility-era code or tests.
-- Subtractive baseline completion: WP-00 extracted the retained Classic/TBC Questie policy producers at `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1`; push-triggered CI run 33496726477 passed for that exact SHA, and evidence was recorded at `09e0178e79775782cdabd75f506dccd6e8ec0698`. Six deletion commits `99493b08` through `14bb2681f8a349a0470c8deb1f37c238ea72ae80`, measured by `09e0178e..14bb2681f`, removed 281 tracked files and 5,042,232 deleted-file lines while retaining QuestiePolicy, Titan quest tags, blacklists, event/content-phase state, UI and Zone/Category localization, QuestieStream, and deferred support data. Objective Order was not extracted. Full Busted now reports 2 successes and 65 errors because affected suites cannot load the intentionally deleted `Database/itemDB.lua` at `setupTests.lua:5`; mixed-runtime rewrites and the pinned Database Integration Check belong to `implementation`.
+- Subtractive baseline completion: WP-00 extracted the retained Classic/TBC Questie policy producers at `a85d6c5a2ad1e77f431907ef70d4163f623c1bd1`; push-triggered CI run 33496726477 passed for that exact SHA, and evidence was recorded at `09e0178e79775782cdabd75f506dccd6e8ec0698`. Six deletion commits `99493b08` through `14bb2681f8a349a0470c8deb1f37c238ea72ae80`, measured by `09e0178e..14bb2681f`, removed 281 tracked files and 5,042,232 deleted-file lines while retaining QuestiePolicy, Titan quest tags, blacklists, event/content-phase state, UI and Zone/Category localization, QuestieStream, and support consumer wrappers. The rebased stack also removes 24 support payloads and 51 TOC entries while keeping those wrappers and using focused inline zone fixtures. Nine pre-rebase cleanup commits `0b02060c` through `8b63c04beadef59b648cb558247609651e1f19e1` removed mixed-runtime compiler/entity residue, converted raw consumers, retained semantic constants, added Migration 38, and restored a focused provider metadata test seam. Review fixes at `cf4349e9f647f3c1b077421863fc53ef6031da44` restored NPC flag semantics, bound QuestiePolicy tests to provider metadata, and kept WP-06 verification open. Objective Order was not extracted. That reviewed tip recorded 1,424 Busted successes, clean production luacheck across 322 files, passing loader-usage and diff checks, and empty production retirement greps. These historical checks were not rerun for the current rebased stack. Runtime Contract/query/Correction integration, support bindings, and the pinned Database Integration Check belong to `implementation`; focused open seams are recorded in `TDB-IMPLEMENTATION-ISSUES.md`.

@@ -110,7 +110,7 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         return
     end
 
-    local lookup = l10n.objectNameLookup[name] or {}
+    local lookup = QuestieTooltips.objectNameLookup[name] or {}
     local count = table.getn(lookup)
 
     if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then

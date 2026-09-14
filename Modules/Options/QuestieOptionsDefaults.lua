@@ -239,9 +239,6 @@ function QuestieOptionsDefaults:Load()
             questieLocale = "enUS",
             questieLocaleDiff = false,
             journeyKeybindDefaultApplied = false,
-            -- Conditional corrections change pointer maps, so each flavor owns separate compiled bins.
-            sod = {},
-            titanReforged = {}
         }
     }
 end

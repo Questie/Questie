@@ -11,8 +11,6 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBStorage
-local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 ---@type MeetingStones
 local MeetingStones = QuestieLoader:ImportModule("MeetingStones")
 ---@type QuestieProfessions
@@ -397,11 +395,7 @@ function QuestieMenu:Show(hideDelay)
         end)
     end})
 
-    if Questie.db.profile.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
-        tinsert(menuTable, { text= l10n('Recompile Database'), func=function()
-            QuestieDBStorage.InvalidateActiveStorage()
-            ReloadUI()
-        end})
+    if Questie.db.profile.debugEnabled then
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
     tinsert(menuTable, {text= CANCEL, func=function() end})
