@@ -103,8 +103,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
----Adds Questie's lines to a hovered world object's tooltip. The provider resolves name ambiguity
----and the optional Object ID line; quest lines come only from Objects with registered tooltip data.
+---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
 ---@param name string
 ---@param playerZone AreaId
 ---@return nil
@@ -127,15 +126,13 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         end
     end
 
-    -- Quest lines come only from Objects for which Questie registered tooltip data. An append-only
-    -- set entry with no remaining tooltip data costs one GetTooltip call that returns nil.
-    local registeredIds = QuestieTooltips.objectIdsByName[name] or {}
     -- Only a provider-wide unique name can bypass zone disambiguation (0 = any zone).
     local zoneFilter = count == 1 and 0 or playerZone
 
     local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
-    for gameObjectId in pairs(registeredIds) do
+    -- GetTooltip checks local and Comms registrations; party-only Objects need no local registration.
+    for _, gameObjectId in ipairs(ids or {}) do
         if addedObjects >= 10 then
             break
         end
