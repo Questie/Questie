@@ -62,7 +62,20 @@ describe("Migration", function()
         assert.are_same(expectedScope, Questie.db.global)
         assert.is_nil(Questie.db.profile.disableDatabaseWarnings)
         assert.is_nil(Questie.db.char.townsfolkVersion)
-        assert.are_same(38, Questie.db.profile.migrationVersion)
+        assert.are_same(39, Questie.db.profile.migrationVersion)
+    end)
+
+    it("removes the Townsfolk lookups that used to live in SavedVariables", function()
+        Questie.db.global.townsfolk = {Repair = {1001}}
+        Questie.db.global.professionTrainers = {[1] = {2001}}
+        Questie.db.global.classSpecificTownsfolk = {WARRIOR = {}}
+        Questie.db.global.factionSpecificTownsfolk = {Horde = {}}
+        Questie.db.global.petFoodVendorTypes = {Meat = {7001}}
+        Questie.db.global.retained = "keep"
+
+        Migration:Migrate()
+
+        assert.are_same({retained = "keep"}, Questie.db.global)
     end)
 
     it("handles Saved Variables without former seasonal compiler scopes", function()
@@ -71,6 +84,6 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_true(Questie.db.global.retained)
-        assert.are_same(38, Questie.db.profile.migrationVersion)
+        assert.are_same(39, Questie.db.profile.migrationVersion)
     end)
 end)

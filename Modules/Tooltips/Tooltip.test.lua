@@ -86,11 +86,13 @@ describe("Tooltip", function()
             assert.are_same({}, tooltip)
         end)
 
-        it("should return nil when no tooltip is registered", function()
+        it("should skip spawn reads when neither local nor party tooltip data is registered", function()
             QuestieTooltips.lookupByKey = {}
+            QuestieDB.QueryObjectSingle = spy.new(function() return {[440] = {{10, 10}}} end)
 
-            local tooltip = QuestieTooltips.GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", 440)
 
+            assert.spy(QuestieDB.QueryObjectSingle).was.not_called()
             assert.spy(QuestieLib.GetColoredQuestName).was.not_called()
             assert.is_nil(tooltip)
         end)

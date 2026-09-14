@@ -1,0 +1,209 @@
+---@meta _
+
+--------------------------------------------------------------------------------
+-- Metadata vocabulary
+--------------------------------------------------------------------------------
+
+---@alias QuestieTDBMetadataStorageType "number"|"string"|"table"
+---@alias QuestieTDBMetadataStructure "questgivers"|"stringarray"|"trigger"|"objectives"|"idarray"|"pair"|"pairs"|"extraobjectives"|"spawnlist"|"waypointlist"
+---@alias QuestieTDBMetadataCompilerType "u8string"|"questgivers"|"u8"|"s16"|"u32"|"u16"|"u8u16stringarray"|"trigger"|"objectives"|"u24"|"u8s24array"|"u8u24array"|"u12pair"|"s24pair"|"u8s24pairs"|"extraobjectives"|"s24"|"spawnlist"|"waypointlist"|"faction"|"u16u24array"
+---@alias QuestieTDBMetadataNormalizer "faction"
+
+--------------------------------------------------------------------------------
+-- Positional field keys
+--------------------------------------------------------------------------------
+
+---@class QuestieTDBQuestKeys
+---@field name integer Localized quest name.
+---@field startedBy integer Quest starters: NPCs, objects, and items.
+---@field finishedBy integer Quest finishers: NPCs and objects.
+---@field requiredLevel integer Minimum player level.
+---@field questLevel integer Quest level.
+---@field requiredRaces integer Allowed-race bitmask.
+---@field requiredClasses integer Allowed-class bitmask.
+---@field objectivesText integer Localized quest objective text lines.
+---@field triggerEnd integer Completion trigger text and spawn coordinates.
+---@field objectives integer Creature, object, item, reputation, kill-credit, and spell objectives.
+---@field sourceItemId integer Item provided by the quest starter.
+---@field preQuestGroup integer Grouped prerequisite quests.
+---@field preQuestSingle integer Alternative single prerequisite quests.
+---@field childQuests integer Quests unlocked by this quest.
+---@field inGroupWith integer Quests in the same quest group.
+---@field exclusiveTo integer Mutually exclusive quests.
+---@field zoneOrSort integer Positive AreaTable ID or negative QuestSort ID.
+---@field requiredSkill integer Required profession and skill value.
+---@field requiredMinRep integer Minimum faction reputation requirement.
+---@field requiredMaxRep integer Maximum faction reputation requirement.
+---@field requiredSourceItems integer Non-objective items still needed for the quest.
+---@field nextQuestInChain integer Quest that makes this quest unavailable once active or completed.
+---@field questFlags integer Quest flag bitmask.
+---@field specialFlags integer Repeatable, event-gated, and monthly-reset flags.
+---@field parentQuest integer Quest that must be active for this quest to be available.
+---@field reputationReward integer Faction reputation rewards.
+---@field breadcrumbForQuestId integer Quest this optional breadcrumb leads to.
+---@field breadcrumbs integer Breadcrumb quests that lead to this quest.
+---@field extraObjectives integer Hidden objectives with locations, icons, text, and references.
+---@field requiredSpell integer Spell the character must know.
+---@field requiredSpecialization integer Required profession or specialization ID.
+---@field requiredMaxLevel integer Maximum player level for availability.
+---@field availableUntilCompleted integer Quest that must remain uncompleted for continued availability.
+---@field availableStartingWith integer Quest that starts availability while active or completed.
+---@field requiredRanks integer Alternative profession rank requirements.
+---@field disabledByQuest integer Quest that temporarily disables this quest while active.
+
+---@class QuestieTDBNpcKeys
+---@field name integer Localized NPC name.
+---@field minLevelHealth integer Deprecated health field with compatibility placeholder `0`.
+---@field maxLevelHealth integer Deprecated health field with compatibility placeholder `1`.
+---@field minLevel integer Minimum NPC level.
+---@field maxLevel integer Maximum NPC level.
+---@field rank integer NPC rank.
+---@field spawns integer Spawn coordinates grouped by zone.
+---@field waypoints integer Movement paths grouped by zone.
+---@field zoneID integer Best estimate of the NPC's most common zone.
+---@field questStarts integer Quests started by this NPC.
+---@field questEnds integer Quests finished at this NPC.
+---@field factionID integer FactionTemplate ID.
+---@field friendlyToFaction integer Friendly player factions: A, H, AH, or nil when hostile to both.
+---@field subName integer Localized NPC title or function.
+---@field npcFlags integer NPC function bitmask, such as vendor, trainer, or flight master.
+
+---@class QuestieTDBItemKeys
+---@field name integer Localized item name.
+---@field npcDrops integer NPCs that can drop this item.
+---@field objectDrops integer Objects that can drop this item.
+---@field itemDrops integer Containers that can contain this item.
+---@field startQuest integer Quest started by this item.
+---@field questRewards integer Quests that reward this item.
+---@field flags integer Item flag bitmask.
+---@field foodType integer Food category.
+---@field itemLevel integer Item level.
+---@field requiredLevel integer Player level required to equip or use this item.
+---@field ammoType integer Ammo category for projectile items.
+---@field class integer Item class ID.
+---@field subClass integer Item subclass ID within the item class.
+---@field vendors integer NPCs that sell this item.
+---@field relatedQuests integer Quests related to this item.
+---@field teachesSpell integer Spell taught when this item is used.
+
+---@class QuestieTDBObjectKeys
+---@field name integer Localized object name.
+---@field questStarts integer Quests started by this object.
+---@field questEnds integer Quests finished at this object.
+---@field spawns integer Spawn coordinates grouped by zone.
+---@field zoneID integer Best estimate of the object's most common zone.
+---@field factionID integer Faction restriction mask used by spawn data.
+---@field waypoints integer Movement paths for objects attached to transports.
+
+--------------------------------------------------------------------------------
+-- Complete generated schemas
+--------------------------------------------------------------------------------
+
+---@class QuestieTDBQuestSchema
+---@field entity "Quest" Canonical entity type.
+---@field metaPrefix "Quest-" Metadata key prefix for quest fields.
+---@field fieldCount integer Number of positional fields.
+---@field keys QuestieTDBQuestKeys Canonical field name to positional index.
+---@field names table<integer, QuestieTDBQuestField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field emptyIsNil table<integer, true> Fields whose empty table normalizes to nil.
+---@field zeroPairIsNil table<integer, true> Pair fields whose `{0, 0}` normalizes to nil.
+---@field normalize table<integer, QuestieTDBMetadataNormalizer> Sparse named-normalizer map.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@class QuestieTDBNpcSchema
+---@field entity "Npc" Canonical entity type.
+---@field metaPrefix "Npc-" Metadata key prefix for NPC fields.
+---@field fieldCount integer Number of positional fields.
+---@field keys QuestieTDBNpcKeys Canonical field name to positional index.
+---@field names table<integer, QuestieTDBNpcField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field emptyIsNil table<integer, true> Fields whose empty table normalizes to nil.
+---@field zeroPairIsNil table<integer, true> Pair fields whose `{0, 0}` normalizes to nil.
+---@field normalize table<integer, QuestieTDBMetadataNormalizer> Sparse named-normalizer map.
+---@field constantValues table<integer, number> Deprecated health placeholders returned without per-entity metadata.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@class QuestieTDBItemSchema
+---@field entity "Item" Canonical entity type.
+---@field metaPrefix "Item-" Metadata key prefix for item fields.
+---@field fieldCount integer Number of positional fields.
+---@field keys QuestieTDBItemKeys Canonical field name to positional index.
+---@field names table<integer, QuestieTDBItemField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field emptyIsNil table<integer, true> Fields whose empty table normalizes to nil.
+---@field zeroPairIsNil table<integer, true> Pair fields whose `{0, 0}` normalizes to nil.
+---@field normalize table<integer, QuestieTDBMetadataNormalizer> Sparse named-normalizer map.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@class QuestieTDBObjectSchema
+---@field entity "Object" Canonical entity type.
+---@field metaPrefix "Object-" Metadata key prefix for object fields.
+---@field fieldCount integer Number of positional fields.
+---@field keys QuestieTDBObjectKeys Canonical field name to positional index.
+---@field names table<integer, QuestieTDBObjectField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field emptyIsNil table<integer, true> Fields whose empty table normalizes to nil.
+---@field zeroPairIsNil table<integer, true> Pair fields whose `{0, 0}` normalizes to nil.
+---@field normalize table<integer, QuestieTDBMetadataNormalizer> Sparse named-normalizer map.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@alias QuestieTDBEntitySchema QuestieTDBQuestSchema|QuestieTDBNpcSchema|QuestieTDBItemSchema|QuestieTDBObjectSchema
+
+--------------------------------------------------------------------------------
+-- Public schema wrappers
+--------------------------------------------------------------------------------
+
+---@class QuestieTDBQuestMeta
+---@field questKeys QuestieTDBQuestKeys Canonical field name to positional index, shared with `Meta.Quest.keys`.
+---@field names table<integer, QuestieTDBQuestField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field fieldCount integer Number of positional fields.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@class QuestieTDBNpcMeta
+---@field npcKeys QuestieTDBNpcKeys Canonical field name to positional index, shared with `Meta.Npc.keys`.
+---@field names table<integer, QuestieTDBNpcField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field fieldCount integer Number of positional fields.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@class QuestieTDBItemMeta
+---@field itemKeys QuestieTDBItemKeys Canonical field name to positional index, shared with `Meta.Item.keys`.
+---@field names table<integer, QuestieTDBItemField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field fieldCount integer Number of positional fields.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@class QuestieTDBObjectMeta
+---@field objectKeys QuestieTDBObjectKeys Canonical field name to positional index, shared with `Meta.Object.keys`.
+---@field names table<integer, QuestieTDBObjectField> Positional index to canonical field name.
+---@field types table<integer, QuestieTDBMetadataStorageType> Positional index to stored value type.
+---@field structures table<integer, QuestieTDBMetadataStructure> Sparse structural shape map for table fields.
+---@field compilerTypes table<integer, QuestieTDBMetadataCompilerType> Positional index to the originating Questie compiler type.
+---@field fieldCount integer Number of positional fields.
+---@field l10nFields integer[] Field indices carrying translations.
+
+---@class QuestieTDBMeta
+---@field Quest QuestieTDBQuestSchema Complete generated quest schema.
+---@field Npc QuestieTDBNpcSchema Complete generated NPC schema.
+---@field Item QuestieTDBItemSchema Complete generated item schema.
+---@field Object QuestieTDBObjectSchema Complete generated object schema.
+---@field QuestMeta QuestieTDBQuestMeta Public quest wrapper reusing members of `Quest`.
+---@field NpcMeta QuestieTDBNpcMeta Public NPC wrapper reusing members of `Npc`.
+---@field ItemMeta QuestieTDBItemMeta Public item wrapper reusing members of `Item`.
+---@field ObjectMeta QuestieTDBObjectMeta Public object wrapper reusing members of `Object`.

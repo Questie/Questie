@@ -1,0 +1,54 @@
+---@meta _
+
+---@class QuestDB
+---@field name fun(id: QuestId): string? Quest name.
+---@field startedBy fun(id: QuestId): QuestieTDBStartedBy? Quest starters. Existing quests return a table, even when empty.
+---@field finishedBy fun(id: QuestId): QuestieTDBFinishedBy? Quest finishers. Existing quests return a table, even when empty.
+---@field requiredLevel fun(id: QuestId): number? Minimum player level.
+---@field questLevel fun(id: QuestId): number? Quest level.
+---@field requiredRaces fun(id: QuestId): number? Race bitmask.
+---@field requiredClasses fun(id: QuestId): number? Class bitmask.
+---@field objectivesText fun(id: QuestId): string[]? Objective text lines.
+---@field triggerEnd fun(id: QuestId): QuestieTDBTrigger? Completion trigger.
+---@field objectives fun(id: QuestId): QuestieTDBObjectives? Objective tuples. Existing quests return a table, even when empty.
+---@field sourceItemId fun(id: QuestId): ItemId? Item provided by the quest starter.
+---@field preQuestGroup fun(id: QuestId): QuestId[]? Group prerequisites.
+---@field preQuestSingle fun(id: QuestId): QuestId[]? Alternative single prerequisites.
+---@field childQuests fun(id: QuestId): QuestId[]? Quests unlocked by this quest.
+---@field inGroupWith fun(id: QuestId): QuestId[]? Quests in the same group.
+---@field exclusiveTo fun(id: QuestId): QuestId[]? Mutually exclusive quests.
+---@field zoneOrSort fun(id: QuestId): number? Positive area ID or negative quest-sort ID.
+---@field requiredSkill fun(id: QuestId): QuestieTDBSkillPair? Required profession and skill value.
+---@field requiredMinRep fun(id: QuestId): QuestieTDBReputationPair? Minimum reputation requirement.
+---@field requiredMaxRep fun(id: QuestId): QuestieTDBReputationPair? Maximum reputation requirement.
+---@field requiredSourceItems fun(id: QuestId): ItemId[]? Items needed to start the quest.
+---@field nextQuestInChain fun(id: QuestId): QuestId? Next quest in the chain.
+---@field questFlags fun(id: QuestId): number? Quest flag bitmask.
+---@field specialFlags fun(id: QuestId): number? Special flag bitmask.
+---@field parentQuest fun(id: QuestId): QuestId? Parent quest.
+---@field reputationReward fun(id: QuestId): QuestieTDBReputationPair[]? Reputation rewards.
+---@field breadcrumbForQuestId fun(id: QuestId): QuestId? Quest this breadcrumb leads to.
+---@field breadcrumbs fun(id: QuestId): QuestId[]? Breadcrumbs that lead to this quest.
+---@field extraObjectives fun(id: QuestId): QuestieTDBExtraObjective[]? Hidden special objectives.
+---@field requiredSpell fun(id: QuestId): number? Required spell ID.
+---@field requiredSpecialization fun(id: QuestId): number? Required profession specialization.
+---@field requiredMaxLevel fun(id: QuestId): number? Maximum player level.
+---@field availableUntilCompleted fun(id: QuestId): QuestId? Quest that ends availability when completed.
+---@field availableStartingWith fun(id: QuestId): QuestId? Quest that starts availability while active or completed.
+---@field requiredRanks fun(id: QuestId): QuestieTDBSkillRankPair[]? Alternative profession rank requirements.
+---@field disabledByQuest fun(id: QuestId): QuestId? Quest that temporarily disables this quest while active.
+---@field GetByIndex fun(id: QuestId, fieldIndex: integer): any Read a field by positional index.
+---@field Get fun(id: QuestId, key: QuestieTDBQuestField|integer): any Read a field by canonical name or index.
+---@field GetAll fun(id: QuestId, keys: (QuestieTDBQuestField|integer)[]): QuestieTDBPackedValues? Read fields into a packed table, or nil for an unknown ID.
+---@field GetRaw fun(id: QuestId, key: QuestieTDBQuestField|integer): any Read base data without Corrections or localization.
+---@field Exists fun(id: QuestId): boolean Test the composed view.
+---@field InvalidateCache fun(id?: QuestId) Drop cached fields for one quest or every quest.
+---@field BuildNameIndex fun() Build the Name index now (a no-op when it exists) instead of on the first IdsByName call; a full pass over every quest name.
+---@field IdsByName fun(name: string): QuestId[]? Every composed quest ID whose current name equals `name` exactly, ascending, or nil; shared and read-only.
+QuestDB = {}
+
+---Returns the composed ID list, or a read-only lookup map when `hashmap` is true.
+---@param hashmap? false
+---@return QuestId[] ids
+---@overload fun(hashmap: true): table<QuestId, true>
+function QuestDB.GetAllIds(hashmap) end

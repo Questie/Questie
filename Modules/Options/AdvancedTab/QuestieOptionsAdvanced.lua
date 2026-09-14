@@ -389,6 +389,12 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function() return Questie.db.profile.enableTooltipsObjectID; end,
                 set = function(_, value)
                     Questie.db.profile.enableTooltipsObjectID = value
+                    if value then
+                        -- Warm the provider Object name index here, where the synchronous build is
+                        -- invisible, instead of on the first hover. Turning the option off keeps the
+                        -- index; QuestieTDB owns its invalidation.
+                        LibQuestieDB.Object.BuildNameIndex()
+                    end
                 end
             },
             showQuestIDs = {

@@ -3,6 +3,10 @@ local QuestieCorrections = QuestieLoader:CreateModule("QuestieCorrections")
 
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieTBCPolicyCorrections
+local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieNPCBlacklist
@@ -23,24 +27,150 @@ QuestieCorrections.questNPCBlacklist = {}
 ---@type table<QuestId, boolean|string>
 QuestieCorrections.hiddenQuests = {}
 
+---------------------------------------------------------------------------------------------------
+-- Questie Policy Corrections
+--
 -- QuestieTDB composes provider-owned entity corrections cumulatively: Classic on every flavor,
 -- followed by TBC, WotLK, Cata, and MoP where applicable. SoD applies only during its active
--- season; Titan applies only on the WotLK client during season 109. These layers are available
--- before Questie registers its Policy Corrections, so Questie must not register duplicate copies.
+-- season; Titan applies only on the WotLK client during season 109. Those layers exist before
+-- Questie writes anything, so Questie publishes no faction, class, race, expansion, SoD, or
+-- Titan copies.
+--
+-- Questie owns a Correction only when choosing it depends on Questie state or policy. Each one
+-- is a named data slot written through `SetCorrection` below: the write publishes immediately
+-- (the provider recomposes only the written datatype), writing again replaces the slot's rows,
+-- and nil withdraws the slot so the layers underneath show through again. There is no separate
+-- registration or apply step.
+--
+-- Slots and the modules that own their state:
+--   Npc    DarkmoonFaire               QuestieEvent — calendar state selects the location
+--   Object GatheringNodeDisplayPolicy  Initialize below — static display policy
+--   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
+--   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads, published once per frame
+--
+-- External translation addons do not go through here: `l10n` forwards their entity lookups to the
+-- provider under the `QuestieLocalesOverride` owner while resolving the UI locale.
+---------------------------------------------------------------------------------------------------
 
--- Questie-owned Policy Corrections register and apply in this order:
--- 100 DarkmoonFaire; 200 GatheringNodeDisplayPolicy; 300 ContentPhasePolicy;
--- 400 RuntimeItemRepair; 500 ExternalLocaleItem; 501 ExternalLocaleQuest;
--- 502 ExternalLocaleNpc; 503 ExternalLocaleObject.
--- The initial owner apply happens before QuestieDB initialization. Later Darkmoon, Content Phase,
--- runtime Item, and external locale changes reapply the owner and refresh Questie's composed views.
+local QUESTIE_OWNER = "Questie"
 
--- GatheringNodeDisplayPolicy clears Object spawns for exactly these 24 IDs:
--- 1617, 1618, 1619, 1620, 1621, 1622, 1623, 1624, 1628,
--- 1731, 1732, 1733, 1734, 1735, 123848, 150082, 175404, 176643,
--- 177388, 324, 150079, 176645, 2040, 123310.
+---@alias PolicyCorrectionRows table<number, table<integer, unknown>> Entity ID to Database Key Enum index to value.
 
----Builds Questie-owned blacklist policy for the active flavor, season, and Content Phase.
+-- Entity IDs each slot last touched, so a replace or withdrawal evicts exactly the entities
+-- whose composed rows can have changed.
+---@type table<string, table<number, true>>
+local lastCorrectionIds = {}
+
+-- "datatype:name" -> "file:line" of the last writer, for debugging who published a slot.
+---@type table<string, string>
+QuestieCorrections.correctionSources = {}
+
+-- Frames that sit between a writer and `SetCorrection` without being the writer: the profiler's
+-- hook wrappers, the tail-call slot those wrappers leave behind, and C frames such as the
+-- bridge's pcall. This file's own writers (`Initialize`) are legitimate callers and stay recorded.
+local WRAPPER_FRAME_PATTERNS = {"QuestieProfiler%.lua", "^%(tail call%)", "^%[C%]"}
+
+---The nearest stack frame above `SetCorrection` that is not a known wrapper: WoW's debugstack in
+---the client, a placeholder under busted.
+---@return string
+local function _CallerSource()
+    if type(debugstack) ~= "function" then
+        return "test"
+    end
+    local fallback = string.trim(debugstack(3, 1, 0) or "")
+    for level = 3, 12 do
+        local frame = string.trim(debugstack(level, 1, 0) or "")
+        if frame == "" then
+            break
+        end
+        local isWrapper = false
+        for _, pattern in ipairs(WRAPPER_FRAME_PATTERNS) do
+            if frame:find(pattern) then
+                isWrapper = true
+                break
+            end
+        end
+        if not isWrapper then
+            return frame
+        end
+    end
+    return fallback
+end
+
+---Publishes one Questie-owned Policy Correction slot and refreshes Questie's composed views.
+---
+---Write-through: the provider recomposes the written datatype immediately — no separate apply.
+---Pass the slot's full replacement rows every time; nil (or `{}`, which normalizes to it)
+---withdraws the slot. Withdrawing a slot that was never published is a no-op, so callers do not
+---need their own "was anything active" bookkeeping.
+---
+---Slot names are plain strings: a typo on the withdrawal side creates a second slot and leaves the
+---original published, so keep the name in one place at the owning module and use it at both ends.
+---@param datatype "Quest"|"Npc"|"Item"|"Object"
+---@param name string Slot name, unique per datatype within owner "Questie".
+---@param rows PolicyCorrectionRows|nil
+---@return nil
+function QuestieCorrections.SetCorrection(datatype, name, rows)
+    if rows ~= nil and next(rows) == nil then
+        rows = nil
+    end
+
+    local slot = datatype .. ":" .. name
+    local previousIds = lastCorrectionIds[slot]
+    if rows == nil and previousIds == nil then
+        return
+    end
+
+    LibQuestieDB.Corrections.Set(QUESTIE_OWNER, datatype, name, rows)
+    QuestieCorrections.correctionSources[slot] = _CallerSource()
+
+    -- The union of old and new row IDs is exactly the set of entities whose composed rows can
+    -- have changed: everything outside it is untouched by construction, and an unchanged row
+    -- inside it re-reads identically.
+    local changedIds = {}
+    for id in pairs(previousIds or {}) do
+        changedIds[id] = true
+    end
+    local currentIds
+    if rows ~= nil then
+        currentIds = {}
+        for id in pairs(rows) do
+            currentIds[id] = true
+            changedIds[id] = true
+        end
+    end
+    lastCorrectionIds[slot] = currentIds
+
+    QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)
+end
+
+-- Gathering nodes have thousands of spawns that Questie never displays. Exactly these 24 Objects.
+---@type ObjectId[]
+local GATHERING_NODE_OBJECT_IDS = {
+    1617, 1618, 1619, 1620, 1621, 1622, 1623, 1624, 1628,
+    1731, 1732, 1733, 1734, 1735, 123848, 150082, 175404, 176643,
+    177388, 324, 150079, 176645, 2040, 123310,
+}
+
+---Rows clearing the spawns of the 24 gathering-node Objects; `{}` as a field value clears it.
+---@return PolicyCorrectionRows
+local function _GatheringNodeDisplayRows()
+    local spawnsKey = QuestieDB.objectKeys.spawns
+    local rows = {}
+    for _, objectId in ipairs(GATHERING_NODE_OBJECT_IDS) do
+        rows[objectId] = {[spawnsKey] = {}}
+    end
+    return rows
+end
+
+---------------------------------------------------------------------------------------------------
+-- Blacklist policy plus the static Policy Correction slots. Both express what Questie shows:
+-- blacklists by hiding quests Questie-side, Correction slots by changing composed entity rows.
+---------------------------------------------------------------------------------------------------
+
+---Builds Questie-owned blacklist policy for the active flavor, season, and Content Phase, and
+---publishes the Policy Correction slots that need no runtime state beyond this point. Darkmoon,
+---Item repair, and external locale slots are written later by the modules that own their state.
 ---@return nil
 function QuestieCorrections.Initialize()
     QuestieCorrections.questItemBlacklist = BlacklistFilter.filterExpansion(QuestieItemBlacklist:Load())
@@ -78,5 +208,14 @@ function QuestieCorrections.Initialize()
         for questId in pairs(HardcoreBlacklist:Load()) do
             QuestieCorrections.hiddenQuests[questId] = true
         end
+    end
+
+    QuestieCorrections.SetCorrection("Object", "GatheringNodeDisplayPolicy", _GatheringNodeDisplayRows())
+
+    -- TBC attunement prerequisites that follow Questie's Content Phase. The Era gate is required:
+    -- the rows reference Quests that only exist from TBC on. The active phases are constants
+    -- today; a live phase switch would simply re-publish this slot with the producer's new rows.
+    if Expansions.Current >= Expansions.Tbc then
+        QuestieCorrections.SetCorrection("Quest", "ContentPhasePolicy", QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
     end
 end
