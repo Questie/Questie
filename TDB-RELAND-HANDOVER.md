@@ -138,7 +138,7 @@ code disagrees with them, the baseline and authoritative handovers win.
 
 ## Baseline replay evidence
 
-The subtractive code ends at
+The initial subtractive code series ends at
 `14bb2681f8a349a0470c8deb1f37c238ea72ae80` on branch
 `QuestieTDB-remove-baseline`. The commit containing this finalized evidence section completes WP-09
 and is the exact branch point for `implementation`; the code tip alone omits the handoff record. The
@@ -179,9 +179,23 @@ including `QuestieDB.IsInitialized`, `QuestieDB.RefreshAfterCorrectionApply`, th
 Login Initialization order. The eight Policy Correction names, API datatypes, and load orders in
 `TDB-DELETION-MANIFEST.md` remain exact requirements. QuestiePolicy, Titan quest tags, blacklists,
 Event Quest data, Content Phase state, UI localization, Zone/Category lookups, QuestieStream, and
-deferred support data remain on the baseline.
+the support consumer wrappers remain on the baseline.
 
-The baseline is intentionally nonfunctional: full Busted reports 2 successes and 65 errors, with
+The subsequent support cleanup removes all 24 payloads under `Database/QuestXP/DB`,
+`Database/DropTables/data`, `Database/FactionTemplates`, and `Database/Zones/data`, plus their
+51 entries across the five flavor TOCs. Production wrappers and calculations are unchanged.
+Inline fixtures in `setupTests.lua` and `Database/Zones/zoneDB.test.lua` replace real zone-data
+loads without adding a provider fake or packaging test data. In particular, the bootstrap retains
+`ICECROWN` and `DEEPHOLM` for QuestieDB's file-scope routes, in addition to the constants used by
+zone, tracker, and Classic/TBC policy tests.
+
+Replay must include this cleanup as well as the initial deletion series. TDB-11 still needs
+provider bindings for zones, XP, drops, drop corrections, and faction templates, with QuestieTDB
+issue #15 parity validation before the combined merge. Adapt the focused ZoneDB fixtures to that
+final input contract rather than restoring the deleted payloads or preserving loadstring plumbing.
+
+The baseline is intentionally nonfunctional: full Busted before and after support cleanup reports
+2 successes and 66 errors, with
 every affected suite erroring at `setupTests.lua:5` because the deleted `Database/itemDB.lua` cannot
 be opened. Mixed-runtime compiler, raw-table, and provider references remain as implementation
 rewrite inputs; they are not a fallback. Ignored generated `cli/output/` was removed locally. The
@@ -219,4 +233,7 @@ deleted provider-owned data.
   tracker rows and change log remain the historical record.
 - Any instruction to delete the mixed correction files and re-add their Questie-owned producers on
   `implementation`: superseded. WP-00 extracts and retains them on `baseline` before deletion.
+- Older instructions to keep support payloads until TDB-11: superseded by the explicit baseline
+  support cleanup. Keep their consumer wrappers; provider integration and issue #15 parity remain
+  combined-merge requirements.
 - Anything, anywhere, instructing use of `ApplyParameterized`: obsolete; the API does not exist.
