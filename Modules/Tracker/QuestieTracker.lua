@@ -637,55 +637,50 @@ function QuestieTracker.OnHideInInstancesChanged(enabled)
     end
 end
 
--- Single entry point for EventHandler to notify the tracker that the player's combat status
--- may have changed (entering or leaving combat). Checks InCombatLockdown() itself and applies
--- (or reverses) minimize/hide accordingly. Mirrors HandleZoneChanged() above, and takes the
--- current instance-based minimize/hide state into account so leaving combat while still inside
--- an instance that wants the tracker minimized/hidden doesn't prematurely reverse it.
-function QuestieTracker.HandleCombatChanged()
-    if InCombatLockdown() then
-        if Questie.db.profile.minimizeTrackerInCombat and Questie.db.char.isTrackerExpanded and (not minimizedByCombat) then
-            minimizedByCombat = true
-            QuestieTracker:Collapse()
-        elseif Questie.db.profile.hideTrackerInCombat and (not hiddenByCombat) then
-            hiddenByCombat = true
-            QuestieTracker:Hide()
+function QuestieTracker.HandleCombatStarted()
+    if Questie.db.profile.minimizeTrackerInCombat and Questie.db.char.isTrackerExpanded and (not minimizedByCombat) then
+        minimizedByCombat = true
+        QuestieTracker:Collapse()
+    elseif Questie.db.profile.hideTrackerInCombat and (not hiddenByCombat) then
+        hiddenByCombat = true
+        QuestieTracker:Hide()
+    end
+
+    if IsInInstance() and Questie.db.profile.minimizeTrackerInInstances then
+        QuestieTracker:Collapse()
+    end
+end
+
+function QuestieTracker.HandleCombatEnded()
+    if Questie.db.profile.minimizeTrackerInCombat and minimizedByCombat then
+        if Questie.db.profile.minimizeTrackerInInstances and IsInInstance() then
+            -- Still minimized due to the instance; transfer ownership instead of leaving minimizedByCombat stuck.
+            -- Otherwise it would prevent HandleZoneChanged from ever expanding the tracker again after leaving the instance.
+            minimizedByCombat = false
+            minimizedByInstance = true
+        else
+            minimizedByCombat = false
+            QuestieTracker:Expand()
         end
 
-        if IsInInstance() and Questie.db.profile.minimizeTrackerInInstances then
-            QuestieTracker:Collapse()
-        end
-    else
-        if Questie.db.profile.minimizeTrackerInCombat and minimizedByCombat then
-            if Questie.db.profile.minimizeTrackerInInstances and IsInInstance() then
-                -- Still minimized due to the instance; transfer ownership instead of leaving minimizedByCombat stuck.
-                -- Otherwise it would prevent HandleZoneChanged from ever expanding the tracker again after leaving the instance.
-                minimizedByCombat = false
-                minimizedByInstance = true
-            else
-                minimizedByCombat = false
-                QuestieTracker:Expand()
-            end
-
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        elseif Questie.db.profile.hideTrackerInCombat and hiddenByCombat then
-            if Questie.db.profile.hideTrackerInInstances and IsInInstance() then
-                -- Still hidden due to the instance; transfer ownership instead of leaving hiddenByCombat stuck.
-                hiddenByCombat = false
-                hiddenByInstance = true
-            else
-                hiddenByCombat = false
-                QuestieTracker:Show()
-            end
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    elseif Questie.db.profile.hideTrackerInCombat and hiddenByCombat then
+        if Questie.db.profile.hideTrackerInInstances and IsInInstance() then
+            -- Still hidden due to the instance; transfer ownership instead of leaving hiddenByCombat stuck.
+            hiddenByCombat = false
+            hiddenByInstance = true
+        else
+            hiddenByCombat = false
+            QuestieTracker:Show()
         end
     end
 end
 
 -- Called when the "Minimize In Combat" setting is toggled by the user, so an already
 -- collapsed/expanded state can be applied or reversed immediately, using the same
--- ownership rules as HandleCombatChanged() above.
+-- ownership rules as HandleCombatStarted()/HandleCombatEnded() above.
 function QuestieTracker.OnMinimizeInCombatChanged(enabled)
     if enabled then
         if InCombatLockdown() and Questie.db.char.isTrackerExpanded then
@@ -1382,7 +1377,7 @@ function QuestieTracker:Update()
                             -- Achievements with number criteria
                             for objCriteria = 1, numCriteria do
                                 local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(
-                                achieve.Id, objCriteria)
+                                    achieve.Id, objCriteria)
                                 if ((Questie.db.profile.hideCompletedAchieveObjectives) and (not completed)) or (not Questie.db.profile.hideCompletedAchieveObjectives) then
                                     local achievementCopy = achieve
                                     if refId and select(2, GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB.GetQuest(refId)))) then
@@ -1415,7 +1410,7 @@ function QuestieTracker:Update()
 
                                         -- Set Objective text
                                         line.label:SetText(QuestieLib:GetRGBForObjective({Collected = quantityProgress, Needed = quantityNeeded}) ..
-                                        objDesc .. ": " .. lineEnding)
+                                            objDesc .. ": " .. lineEnding)
 
                                         -- Check and measure Objective text width and update tracker width
                                         QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
@@ -1427,7 +1422,7 @@ function QuestieTracker:Update()
                                         if (trackerLineWidth < line.label:GetUnboundedStringWidth() + objectiveMarginLeft) and (line.label:GetWidth() < line.label:GetUnboundedStringWidth() + 5) then
                                             -- Set Objective text
                                             line.label:SetText(QuestieLib:GetRGBForObjective({Collected = quantityProgress, Needed = quantityNeeded}) ..
-                                            objDesc .. ": ")
+                                                objDesc .. ": ")
 
                                             -- Check and measure Objective text width and update tracker width
                                             QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
@@ -1451,7 +1446,7 @@ function QuestieTracker:Update()
 
                                             -- Set Objective text
                                             line.label:SetText(QuestieLib:GetRGBForObjective({Collected = quantityProgress, Needed = quantityNeeded}) ..
-                                            "    > " .. lineEnding)
+                                                "    > " .. lineEnding)
 
                                             -- Check and measure Objective text width and update tracker width
                                             QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
