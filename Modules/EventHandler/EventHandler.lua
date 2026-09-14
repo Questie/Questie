@@ -561,7 +561,7 @@ function _EventHandler:PlayerRegenDisabled()
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
     if QuestieTracker then
-        QuestieTracker.HandleCombatChanged()
+        QuestieTracker.HandleCombatStarted()
     end
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
@@ -584,7 +584,7 @@ end
 function _EventHandler:PlayerRegenEnabled()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
 
-    QuestieTracker.HandleCombatChanged()
+    QuestieTracker.HandleCombatEnded()
 
     if optionsHiddenByCombat then
         QuestieConfigFrame:Show()
