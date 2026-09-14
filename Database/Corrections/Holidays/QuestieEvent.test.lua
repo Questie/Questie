@@ -5,10 +5,10 @@ describe("QuestieEvent", function()
     local QuestieEvent
     ---@type QuestieCorrections
     local QuestieCorrections
-    ---@type QuestieNPCFixes
-    local QuestieNPCFixes
-    ---@type QuestieTBCNpcFixes
-    local QuestieTBCNpcFixes
+    ---@type QuestieClassicPolicyCorrections
+    local QuestieClassicPolicyCorrections
+    ---@type QuestieTBCPolicyCorrections
+    local QuestieTBCPolicyCorrections
     ---@type ContentPhases
     local ContentPhases
     ---@type Expansions
@@ -33,10 +33,10 @@ describe("QuestieEvent", function()
 
         Expansions = QuestieLoader:ImportModule("Expansions")
 
-        QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
-        QuestieNPCFixes.LoadDarkmoonFixes = function() return {} end
-        QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
-        QuestieTBCNpcFixes.LoadDarkmoonFixes = function() return {} end
+        QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
+        QuestieClassicPolicyCorrections.LoadDarkmoonFixes = function() return {} end
+        QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
+        QuestieTBCPolicyCorrections.LoadDarkmoonFixes = function() return {} end
 
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
         ContentPhases = QuestieLoader:ImportModule("ContentPhases")
@@ -524,7 +524,7 @@ describe("QuestieEvent", function()
                 end
             }
 
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
+            QuestieTBCPolicyCorrections.LoadDarkmoonFixes = spy.new(function() return {} end)
 
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -534,7 +534,7 @@ describe("QuestieEvent", function()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_true(QuestieEvent.activeQuests[7926] == true)
             assert.is_nil(QuestieEvent.activeQuests[7905])
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, true, false)
+            assert.spy(QuestieTBCPolicyCorrections.LoadDarkmoonFixes).was.called_with(QuestieTBCPolicyCorrections, true, false)
         end)
 
         it("should load for TBC servers when faire is in Elwynn Forest", function()
@@ -560,7 +560,7 @@ describe("QuestieEvent", function()
                 end
             }
 
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
+            QuestieTBCPolicyCorrections.LoadDarkmoonFixes = spy.new(function() return {} end)
 
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -570,7 +570,7 @@ describe("QuestieEvent", function()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
             assert.is_true(QuestieEvent.activeQuests[7905] == true)
             assert.is_nil(QuestieEvent.activeQuests[7926])
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, false)
+            assert.spy(QuestieTBCPolicyCorrections.LoadDarkmoonFixes).was.called_with(QuestieTBCPolicyCorrections, false, false)
         end)
 
         it("should load for TBC servers when faire is in Terokkar Forest and activate both announcement quests", function()
@@ -596,7 +596,7 @@ describe("QuestieEvent", function()
                 end
             }
 
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
+            QuestieTBCPolicyCorrections.LoadDarkmoonFixes = spy.new(function() return {} end)
 
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
@@ -606,7 +606,7 @@ describe("QuestieEvent", function()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
             assert.is_true(QuestieEvent.activeQuests[7905] == true)
             assert.is_true(QuestieEvent.activeQuests[7926] == true)
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, true)
+            assert.spy(QuestieTBCPolicyCorrections.LoadDarkmoonFixes).was.called_with(QuestieTBCPolicyCorrections, false, true)
         end)
 
         it("should not load for TBC servers when faire is not active", function()
