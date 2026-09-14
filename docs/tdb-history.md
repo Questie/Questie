@@ -74,6 +74,11 @@ and Available Quests verification. Then the write-through simplification (provid
 QuestieTDB ADR 0009) and the EntityLocale removal on 2026-09-02. These Contract Version 1 entries
 describe the original migration revisions and remain historical.
 
+The Object-hover entry above describes its original local registration-index shape. The subsequent
+simplification supersedes that index: the hover iterates the existing
+`LibQuestieDB.Object.IdsByName` result, while `GetTooltip` rejects IDs with neither local nor party
+data before reading spawns.
+
 ## Historical Contract Version 2 consumer integration
 
 The pre-restack integration at `4bec86a82`, built on `cb986af34`, moved Questie to Contract Version 2. It published external
