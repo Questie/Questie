@@ -5661,7 +5661,7 @@ function QuestieQuestFixes:Load()
         [8604] = { -- The Horde Needs Wool Bandages!
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.nextQuestInChain] = 8604,
+            [questKeys.nextQuestInChain] = 8605,
         },
         [8605] = { -- The Horde Needs More Wool Bandages!
             [questKeys.requiredLevel] = 1,
