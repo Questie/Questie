@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+dofile("Localization/l10n.lua")
 
 _G.GetQuestTimers = function() return nil end
 
@@ -41,6 +42,8 @@ describe("QuestEventHandler", function()
     local AvailableQuests
     ---@type QuestEventHandler
     local QuestEventHandler
+    ---@type BreadcrumbQuests
+    local BreadcrumbQuests
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
@@ -48,6 +51,8 @@ describe("QuestEventHandler", function()
         QuestieLib.CacheItemNames = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
+        BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
+        BreadcrumbQuests.CheckQuestBreadcrumbs = spy.new(function() end)
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
@@ -91,6 +96,8 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(QuestLifecycle.AcceptQuest).was.called_with(QuestLifecycle, QUEST_ID)
+        assert.spy(BreadcrumbQuests.CheckQuestBreadcrumbs).was.called(1)
+        assert.spy(BreadcrumbQuests.CheckQuestBreadcrumbs).was.called_with(QUEST_ID)
     end)
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
