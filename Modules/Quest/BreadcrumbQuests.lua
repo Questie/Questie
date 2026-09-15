@@ -61,7 +61,7 @@ function BreadcrumbQuests.CheckQuestBreadcrumbs(questId)
                 if QuestiePlayer.HasRequiredRace(requiredRaces)
                     and QuestiePlayer.HasRequiredClass(requiredClasses)
                     and (not exclusiveQuestCompleted)
-                    and (not Questie.db.char.complete[availableUntilCompleted]) then
+                    and (not availableUntilCompleted or not Questie.db.char.complete[availableUntilCompleted]) then
                     if Questie.db.profile.questAnnounceIncompleteBreadcrumb then
                         QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
                     end

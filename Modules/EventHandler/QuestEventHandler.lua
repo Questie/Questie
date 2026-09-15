@@ -461,7 +461,6 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
                 end
             end
 
-            --Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
             Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
 

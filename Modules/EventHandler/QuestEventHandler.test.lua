@@ -96,6 +96,8 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(QuestLifecycle.AcceptQuest).was.called_with(QuestLifecycle, QUEST_ID)
+        assert.spy(BreadcrumbQuests.CheckQuestBreadcrumbs).was.called(1)
+        assert.spy(BreadcrumbQuests.CheckQuestBreadcrumbs).was.called_with(QUEST_ID)
     end)
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
