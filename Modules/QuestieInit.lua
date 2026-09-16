@@ -141,14 +141,14 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- This needs to happen after ADDON_LOADED.
     l10n.InitializeUILocale()
 
-    -- QuestieTDB Contract gate: a hard error before any entity read, locale forwarding, or Correction work.
+    -- QuestieDB Contract gate: a hard error before any entity read, locale forwarding, or Correction work.
     local contractSupported, contractError = LibQuestieDB.RequireContract(2)
     if not contractSupported then
         error(contractError, 0)
     end
 
     if type(LibQuestieDB.l10n.SetCorrection) ~= "function" then
-        error("Questie requires QuestieTDB localization corrections. Update QuestieTDB.", 0)
+        error("Questie requires QuestieDB localization corrections. Update QuestieDB.", 0)
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity locale forwarding.")

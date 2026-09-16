@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("DropDB support data", function()
     local mock, DropDB, Expansions
@@ -23,7 +23,7 @@ describe("DropDB support data", function()
         originalLoadstring = _G.loadstring
         dofile("Database/SupportValidation.lua")
         QuestieLoader:ImportModule("SupportValidation").ValidateDropTables = function() return true end
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         Expansions = QuestieLoader:ImportModule("Expansions")
         SelectExpansion(Expansions.Era)
         mock.supportModules.QuestieItemDropCorrections = {

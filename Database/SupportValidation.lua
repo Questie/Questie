@@ -47,11 +47,11 @@ local function _Result(failures, dataset, expansion)
     if #failures == 0 then return true end
     local metadata = (C_AddOns and C_AddOns.GetAddOnMetadata) or GetAddOnMetadata
     local questieVersion = metadata and metadata("Questie", "Version") or "unknown"
-    local tdbVersion = metadata and metadata("QuestieTDB", "Version") or "unknown"
+    local tdbVersion = metadata and metadata("QuestieDB", "Version") or "unknown"
     return false, "Questie support-data validation failed. Initialization stopped.\n" ..
         "Dataset: " .. dataset .. "; consumer flavor: " .. (flavors[expansion] or tostring(expansion)) ..
         "; provider readMode: " .. tostring(LibQuestieDB and LibQuestieDB.readMode or "unknown") ..
-        "; Questie version: " .. questieVersion .. "; QuestieTDB version: " .. tdbVersion .. "\n" ..
+        "; Questie version: " .. questieVersion .. "; QuestieDB version: " .. tdbVersion .. "\n" ..
         table.concat(failures, "\n")
 end
 

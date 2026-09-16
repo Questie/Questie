@@ -1,4 +1,4 @@
-# QuestieTDB cutover history
+# QuestieDB cutover history
 
 How the cutover was delivered, with pointers into git. Current state and open work live in
 `TDB-STATUS.md`; decisions in `docs/adr/`. The planning documents that drove each step were
@@ -56,7 +56,7 @@ Current baseline tip `6d86dbd22` also removes the 24 provider-owned support payl
 `Database/QuestXP/DB/`, `Database/DropTables/data/`, `Database/FactionTemplates/`, and
 `Database/Zones/data/`, plus their 51 flavor TOC entries. Questie's wrappers and calculations remain;
 tests use focused inline zone fixtures instead of loading deleted payloads. The implementation binds
-those wrappers to QuestieTDB support data rather than restoring local copies.
+those wrappers to QuestieDB support data rather than restoring local copies.
 
 ## Restack conflict disposition
 
@@ -71,7 +71,7 @@ In order: Contract Version 1 test double; `QuestieDB` binding; Policy Correction
 `Questie`; entity locale seam; compiler-free Login Initialization; Darkmoon and runtime-Item
 callers; Object-hover split between tooltip registrations and the provider name index; Townsfolk
 and Available Quests verification. Then the write-through simplification (provider `Corrections.Set`,
-QuestieTDB ADR 0009) and the EntityLocale removal on 2026-09-02. These Contract Version 1 entries
+QuestieDB ADR 0009) and the EntityLocale removal on 2026-09-02. These Contract Version 1 entries
 describe the original migration revisions and remain historical.
 
 The Object-hover entry above describes its original local registration-index shape. The subsequent

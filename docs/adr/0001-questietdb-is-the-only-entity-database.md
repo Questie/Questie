@@ -1,4 +1,4 @@
-# 1. QuestieTDB is the only entity database
+# 1. QuestieDB is the only entity database
 
 Date: 2026-08-25. Status: accepted.
 
@@ -8,7 +8,7 @@ That was about five million lines that changed with every data fix and had to be
 every locale or version change.
 
 Entity data, static corrections, entity localization, support data, and Objective Order now belong
-to the QuestieTDB addon, declared as a hard `RequiredDeps` in every flavor TOC. Questie requires
+to the QuestieDB addon, declared as a hard `RequiredDeps` in every flavor TOC. Questie requires
 Contract Version 2 at Login Initialization and separately checks for
 `LibQuestieDB.l10n.SetCorrection` before forwarding a locale or publishing external entity
 translations. The `QuestieDB` module stays as Questie's interface: rich projections, availability

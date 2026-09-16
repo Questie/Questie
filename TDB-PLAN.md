@@ -1,4 +1,4 @@
-# QuestieTDB cutover: Questie-side work plan
+# QuestieDB cutover: Questie-side work plan
 
 Work for an agent on branch `QuestieTDB-implementation`. Read `TDB-STATUS.md`, `TDB-FINDINGS.md`,
 `docs/adr/0002-questie-policy-corrections.md`, and `AGENTS.md` first. This repo is the Questie
@@ -35,7 +35,7 @@ and SoD runs list them) and append a runs row plus any new findings there.
 ## Step 6. Close out
 
 1. Move whatever is still open into `TDB-STATUS.md`, delete this file.
-2. Confirm `TDB-STATUS.md` merge gates are current against the QuestieTDB issue tracker
+2. Confirm `TDB-STATUS.md` merge gates are current against the QuestieDB issue tracker
    (#1, #13, #14, #17, #19, #20).
-3. Commit the QuestieTDB `docs/questie-handover.md` "External translation addons" section in that
+3. Commit the QuestieDB `docs/questie-handover.md` "External translation addons" section in that
    repo if it is still uncommitted; leave the other modified files there alone.

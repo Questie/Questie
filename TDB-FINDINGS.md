@@ -1,4 +1,4 @@
-# QuestieTDB live smoke findings
+# QuestieDB live smoke findings
 
 Everything found while running the `QuestieTDB-implementation` branch in a real client through
 the Lua bridge. One entry per finding: what was observed, the evidence, who owns the fix, and the
@@ -7,7 +7,7 @@ Current state and merge gates: `TDB-STATUS.md`.
 
 ## Runs
 
-| Date | Flavor | Client | Locale | Provider mode | QuestieTDB | Character |
+| Date | Flavor | Client | Locale | Provider mode | QuestieDB | Character |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-09-02 | Era | 1.15.9 (69547) | enUS | baked | `eaea07d` | level 5 |
 | 2026-09-02 | SoD season 2 | 1.15.9 (69547) | enUS | baked | `eaea07d` | level 2 |
@@ -20,7 +20,7 @@ What passed on both, so it need not be re-probed unless the code changes:
   12,220, 21,657, 7,043).
 - Gathering nodes: composed `spawns` nil, `GetRaw` keeps 11 zones, provenance `Questie`.
 - Content Phase: quests 10944 and 11007 absent on Era and SoD, no `ContentPhasePolicy` slot.
-- Questie publishes only `Object:GatheringNodeDisplayPolicy` at rest. Owners: `QuestieTDB`,
+- Questie publishes only `Object:GatheringNodeDisplayPolicy` at rest. Owners: `QuestieDB`,
   `Questie`. No SoD, faction, or Titan copies from Questie.
 - Write-through probe: publishing an NPC slot changes the composed read, evicts the cached NPC
   object, swaps `NPCPointers` identity while `QuestPointers` keeps identity, makes a
@@ -37,14 +37,14 @@ What passed on both, so it need not be re-probed unless the code changes:
 - Townsfolk builds every category; the pet-food crash from the provider's `0`-not-nil number
   default is fixed against the real provider.
 - Missing entity reads: `QueryItemSingle(999999, "name")` nil, not in `ItemPointers`.
-- SoD: 1,234 SoD quests present with provenance `QuestieTDB`, rune Items readable,
+- SoD: 1,234 SoD quests present with provenance `QuestieDB`, rune Items readable,
   `eventObjectiveFirst` carries the three SoD event quests that exist on SoD.
 
 ## Findings
 
 ### F1. Provider: consumer slot writes rebuild the whole datatype overlay
 
-**Owner:** QuestieTDB. **Severity:** performance, blocks nothing, hurts SoD logins.
+**Owner:** QuestieDB. **Severity:** performance, blocks nothing, hurts SoD logins.
 
 Best of five in the SoD client, `LibQuestieDB.Corrections.Set` alone with a one-row slot:
 
@@ -61,7 +61,7 @@ rebuilds it from every dynamic entry of every applied owner, re-normalizing each
 Item datatype has 6,874 dynamic rows, so a one-row Questie write re-merges all of them. ADR 0009's
 memoization removed the re-materialization of provider functions, not the merge.
 
-Tracked as QuestieTDB #20. Proposed action: incremental overlay. Keep the composed map and provenance per datatype; on a
+Tracked as QuestieDB #20. Proposed action: incremental overlay. Keep the composed map and provenance per datatype; on a
 slot write, remove the slot's previous IDs from the composed map, re-merge only the entries that
 touch those IDs plus the new rows, and publish. Consumer writes become proportional to the rows
 written. Questie-side mitigation in the meantime is F2.
@@ -84,13 +84,13 @@ the write count in `QuestieCorrections.correctionSources` timing.
 
 ### F3. Provider: `requiredRaces` inference — withdrawn on Era, open on SoD
 
-**Owner:** QuestieTDB, issue #13 for SoD. **Severity:** none on Era; SoD unmeasured.
+**Owner:** QuestieDB, issue #13 for SoD. **Severity:** none on Era; SoD unmeasured.
 
 First reading (wrong): composed `requiredRaces` equalled raw for every quest, and applying
 upstream's starter-faction rule to composed data flagged 16 Era quests (35 plus 5 on SoD) as
 "should have been inferred". Concluded the inference was inactive.
 
-What is actually true: QuestieTDB runs the inference as a bake-time Derived Pass
+What is actually true: QuestieDB runs the inference as a bake-time Derived Pass
 (`src/derived/requiredRaces.lua`, registered in `src/derived/_end.lua`, ADR 0004), so the baked
 base rows already carry it and `GetRaw` equals composed by design. The Era histogram shows it
 working: 1,370 quests at `ALL_ALLIANCE` (77) and 1,216 at `ALL_HORDE` (178). Re-running
@@ -114,7 +114,7 @@ rule over `GetRaw` rows, never over composed rows on a faction-specific characte
 
 ### F4. Provider: `eventObjectiveFirst` carries SoD quest IDs on plain Era
 
-**Owner:** QuestieTDB, issue #17 territory. **Severity:** low.
+**Owner:** QuestieDB, issue #17 territory. **Severity:** low.
 
 On Era in baked mode, `LibQuestieDB.ObjectiveFirst.eventObjectiveFirst` holds 85304, 85386, and
 89567, which upstream set only in `sodQuestFixes.lua`. The IDs do not exist on Era, so nothing
@@ -145,9 +145,9 @@ collect before each run reads 0.03 ms. Time provider and Questie calls best-of-N
 
 **Owner:** Questie test double. **Severity:** none in production; found by the conformance run.
 
-The provider answers `"QuestieTDB"` for any field no Dynamic Correction won, including an
+The provider answers `"QuestieDB"` for any field no Dynamic Correction won, including an
 entity that does not exist. The mock returned nil. No Questie code reads provenance outside
-tests. Resolved: the mock returns `"QuestieTDB"` whenever no layer set the field.
+tests. Resolved: the mock returns `"QuestieDB"` whenever no layer set the field.
 
 ### F8. Mock: ID maps swapped identity on every publish
 
@@ -170,12 +170,12 @@ accepts it. Both can only fail a test loudly. Not modeled and not compared: the 
 write-time normalization (constant fields dropped, a table on a scalar field refused, `""` and
 `{0, 0}` reading nil); Questie tests seed normalized values.
 
-The conformance run itself: `test/QuestieTDBMock.conformance.test.lua` loads the provider in
-Source mode from `../Questie-toc/QuestieTDB` (override with `QUESTIE_TDB_PATH`) in about one
+The conformance run itself: `test/QuestieDBMock.conformance.test.lua` loads the provider in
+Source mode from `../QuestieDB` (override with `QUESTIE_DB_PATH`) in about one
 second, seeds the mock from the provider's composed rows for a fixed set of Era entities, and
-runs every behavioral case of `test/QuestieTDBMock.test.lua` against both. It pends with the
+runs every behavioral case of `test/QuestieDBMock.test.lua` against both. It pends with the
 path in the message when the checkout is absent. The Database Key Enums and field types of
-`test/QuestieTDBMetaMock.lua` match the provider's exactly.
+`test/QuestieDBMetaMock.lua` match the provider's exactly.
 
 ## Not yet run
 

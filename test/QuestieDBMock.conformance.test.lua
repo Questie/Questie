@@ -2,9 +2,9 @@ dofile("setupTests.lua")
 
 -- Mock-versus-provider conformance.
 --
--- Every other Questie test runs against `test/QuestieTDBMock.lua`, a hand-written double of
+-- Every other Questie test runs against `test/QuestieDBMock.lua`, a hand-written double of
 -- `LibQuestieDB`. This file runs the double's behavioral cases a second time against the real
--- provider, loaded headless in Source mode from the QuestieTDB checkout, and asserts that both
+-- provider, loaded headless in Source mode from the QuestieDB checkout, and asserts that both
 -- report the same observations for the same inputs. When they disagree, the mock is wrong.
 --
 -- Each case is a function of the library under test; it reads real entity IDs from `FIXTURE`,
@@ -16,7 +16,7 @@ dofile("setupTests.lua")
 -- every write goes through recording wrappers and is withdrawn after each case; owner ranks
 -- persist in the provider, which is why `OwnersOf` filters `GetOwners` to the case's owners.
 --
--- Skipped, with the reason printed, when the checkout is absent. Point `QUESTIE_TDB_PATH` at
+-- Skipped, with the reason printed, when the checkout is absent. Point `QUESTIE_DB_PATH` at
 -- another checkout to run it elsewhere.
 --
 -- Deliberately not compared: the mock raises on an unknown field name and on a lowercase
@@ -25,10 +25,10 @@ dofile("setupTests.lua")
 -- at all: the provider's write-time normalization (constant fields dropped, a table refused on
 -- a scalar field, `""` and `{0, 0}` reading nil). Questie tests seed normalized values.
 
-local PROVIDER_PATH = os.getenv("QUESTIE_TDB_PATH") or "../Questie-toc/QuestieTDB"
-local PROVIDER_TOC = PROVIDER_PATH .. "/QuestieTDB.toc"
+local PROVIDER_PATH = os.getenv("QUESTIE_DB_PATH") or "../QuestieDB"
+local PROVIDER_TOC = PROVIDER_PATH .. "/QuestieDB.toc"
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 -- Classic Era entities every case reads. Names are what the provider ships for them.
 local FIXTURE = {
@@ -86,7 +86,7 @@ local function LoadProvider()
         local emulator = dofile("emulator/metadata.lua")
         client.reset()
         client.install({expansion = "Classic"})
-        return emulator.loadAddon("QuestieTDB.toc", "QuestieTDB", ".")
+        return emulator.loadAddon("QuestieDB.toc", "QuestieDB", ".")
     end)
     assert(lfs.chdir(previousDirectory))
 
@@ -135,7 +135,7 @@ end
 ---its own default rule rather than through the seed. Every seeded scalar must also read the same
 ---raw and composed, otherwise a provider-owned Dynamic Correction on a fixture entity would make
 ---the mock's `GetRaw` disagree for a reason that is a fixture choice, not a mock bug.
----@param mock QuestieTDBMock
+---@param mock QuestieDBMock
 ---@param provider table
 ---@param ids table<string, number[]>
 local function SeedMock(mock, provider, ids)
@@ -234,7 +234,7 @@ end
 local function OwnersOf(lib, ownerPrefix)
     local owners = {}
     for _, owner in ipairs(lib.GetOwners()) do
-        if owner == "QuestieTDB" or owner:sub(1, #ownerPrefix) == ownerPrefix then
+        if owner == "QuestieDB" or owner:sub(1, #ownerPrefix) == ownerPrefix then
             table.insert(owners, owner)
         end
     end
@@ -252,16 +252,16 @@ local function IsAscending(list)
     return true
 end
 
-describe("QuestieTDBMock conformance with LibQuestieDB", function()
+describe("QuestieDBMock conformance with LibQuestieDB", function()
     if not ProviderCheckoutPresent() then
         it("is skipped without the provider checkout", function()
-            pending("QuestieTDB checkout not found at " .. PROVIDER_TOC .. "; set QUESTIE_TDB_PATH to run the conformance cases")
+            pending("QuestieDB checkout not found at " .. PROVIDER_TOC .. "; set QUESTIE_DB_PATH to run the conformance cases")
         end)
         return
     end
 
     local provider, cleanupProvider, fixtureIds
-    ---@type QuestieTDBMock
+    ---@type QuestieDBMock
     local mock
     local caseNumber = 0
 
@@ -272,7 +272,7 @@ describe("QuestieTDBMock conformance with LibQuestieDB", function()
     end)
 
     before_each(function()
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         SeedMock(mock, provider, fixtureIds)
         caseNumber = caseNumber + 1
     end)
@@ -481,7 +481,7 @@ describe("QuestieTDBMock conformance with LibQuestieDB", function()
                     provenance = lib.Corrections.GetProvenance("Npc", FIXTURE.Npc.gelvas, "zoneID"),
                 }
             end)
-            assert.are_same("QuestieTDB", seen.provenance)
+            assert.are_same("QuestieDB", seen.provenance)
         end)
 
         it("clears a field with {} while GetRaw still returns base data", function()

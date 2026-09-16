@@ -392,7 +392,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     if value then
                         -- Warm the provider Object name index here, where the synchronous build is
                         -- invisible, instead of on the first hover. Turning the option off keeps the
-                        -- index; QuestieTDB owns its invalidation.
+                        -- index; QuestieDB owns its invalidation.
                         LibQuestieDB.Object.BuildNameIndex()
                     end
                 end

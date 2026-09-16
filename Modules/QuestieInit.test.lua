@@ -1,11 +1,11 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieInit", function()
     ---@type QuestieInit
     local QuestieInit
-    ---@type QuestieTDBMock
+    ---@type QuestieDBMock
     local mock
 
     ---@type string[]
@@ -33,7 +33,7 @@ describe("QuestieInit", function()
     end
 
     before_each(function()
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         callOrder = {}
         Questie.db.profile.enableTooltipsObjectID = false
 
@@ -96,7 +96,7 @@ describe("QuestieInit", function()
         it("rejects an older contract-2 provider missing translation slots before forwarding", function()
             mock.lib.l10n.SetCorrection = nil
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieTDB localization corrections. Update QuestieTDB.")
+                "Questie requires QuestieDB localization corrections. Update QuestieDB.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
             assert.are_same({}, mock.setLocaleCalls)
         end)
@@ -107,7 +107,7 @@ describe("QuestieInit", function()
 
             assert.has_error(function()
                 _RunStage(1)
-            end, "QuestieTDB contract mismatch: this consumer needs version 2, the installed QuestieTDB provides 1 " ..
+            end, "QuestieDB contract mismatch: this consumer needs version 2, the installed QuestieDB provides 1 " ..
                 "(supporting consumers back to 1). Update whichever is older.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
         end)

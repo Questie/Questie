@@ -1,6 +1,6 @@
 # Runtime support-data validation
 
-Questie validates a small set of independently authored controls in the QuestieTDB support data it consumes. This catches incompatible or unexpectedly changed support payloads before Questie reports itself ready. It is a consumer-side compatibility check, not a provider data audit.
+Questie validates a small set of independently authored controls in the QuestieDB support data it consumes. This catches incompatible or unexpectedly changed support payloads before Questie reports itself ready. It is a consumer-side compatibility check, not a provider data audit.
 
 ## Checkpoints
 
@@ -22,7 +22,7 @@ A failed checkpoint stops subsequent initialization, so `Questie.started` and `Q
 - the failed dataset and all failed controls from that validator pass;
 - the consumer flavor;
 - the provider `readMode`, or `unknown` when unavailable;
-- the Questie and QuestieTDB addon versions, or `unknown` when metadata is unavailable.
+- the Questie and QuestieDB addon versions, or `unknown` when metadata is unavailable.
 
 Initialization stops at the first failed dataset checkpoint. Within that checkpoint, the validator aggregates its failed controls. Validation does not depend on Questie's debug setting.
 
@@ -39,4 +39,4 @@ lua cli/validate-loader-usage.lua
 luacheck -q Database Localization Modules Public Questie.lua
 ```
 
-See [QuestieTDB cutover status](../TDB-STATUS.md) for integration gates and validation history.
+See [QuestieDB cutover status](../TDB-STATUS.md) for integration gates and validation history.

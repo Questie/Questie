@@ -1,13 +1,13 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("SupportValidation", function()
     local validation, mock
     local originalMetadata, originalAddOns
 
     before_each(function()
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         originalMetadata, originalAddOns = _G.GetAddOnMetadata, _G.C_AddOns
         _G.GetAddOnMetadata = nil
         _G.C_AddOns = nil
@@ -202,17 +202,17 @@ describe("SupportValidation", function()
             local _, report = validation.ValidateQuestXP({}, 5)
             assert.matches("Questie support-data validation failed. Initialization stopped.", report, 1, true)
             assert.matches("Dataset: QuestXP; consumer flavor: MoP; provider readMode: " .. mode, report, 1, true)
-            assert.matches("Questie version: unknown; QuestieTDB version: unknown", report, 1, true)
+            assert.matches("Questie version: unknown; QuestieDB version: unknown", report, 1, true)
         end)
     end
 
     it("uses modern addon version metadata when available", function()
         _G.C_AddOns = {GetAddOnMetadata = function(addon, key)
             assert.are_equal("Version", key)
-            return ({Questie = "v11", QuestieTDB = "v2"})[addon]
+            return ({Questie = "v11", QuestieDB = "v2"})[addon]
         end}
         local _, report = validation.ValidateQuestXP({}, 1)
-        assert.matches("Questie version: v11; QuestieTDB version: v2", report, 1, true)
+        assert.matches("Questie version: v11; QuestieDB version: v2", report, 1, true)
     end)
 
     it("uses legacy addon metadata and handles a missing provider version", function()
@@ -220,7 +220,7 @@ describe("SupportValidation", function()
             return ({Questie = "v11"})[addon]
         end
         local _, report = validation.ValidateQuestXP({}, 1)
-        assert.matches("Questie version: v11; QuestieTDB version: unknown", report, 1, true)
+        assert.matches("Questie version: v11; QuestieDB version: unknown", report, 1, true)
     end)
     it("reports malformed drop rows with their actual types", function()
         local valid, report = validation.ValidateDropTables({[981] = false}, {[182] = "bad"}, {[725] = false}, "cmangos", 1)

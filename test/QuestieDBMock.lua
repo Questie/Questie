@@ -1,6 +1,6 @@
 -- Focused Contract Version 2 test double for LibQuestieDB.
 --
--- It reproduces only what Questie consumes from QuestieTDB: the Contract check, composed entity
+-- It reproduces only what Questie consumes from QuestieDB: the Contract check, composed entity
 -- reads, shared ID maps that swap identity only when a republish adds or withdraws an entity,
 -- the owner-scoped Correction registrar, the data-shaped Correction slots (`Corrections.Set`),
 -- provenance, provider locale forwarding, Objective Order tables, and the entity Name index.
@@ -10,49 +10,49 @@
 -- provider's nil rules: number fields of an existing entity read 0, `{}` reads nil, and the
 -- never-nil Quest structures read `{}`. Correction values are stored as written: the provider's
 -- write-time normalization (constant fields, tables on scalar fields, `""`, `{0, 0}`) is not
--- modeled, so tests seed normalized values. `test/QuestieTDBMock.conformance.test.lua` runs the
+-- modeled, so tests seed normalized values. `test/QuestieDBMock.conformance.test.lua` runs the
 -- same cases against the real provider; the intentional differences are listed there.
-local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
+local LoadQuestieDBMetaMock = dofile("test/QuestieDBMetaMock.lua")
 
 local ENTITY_TYPES = {"Quest", "Npc", "Item", "Object"}
 -- The provider's own layer sits below every registered owner.
-local BASE_OWNER = "QuestieTDB"
+local BASE_OWNER = "QuestieDB"
 
----@alias QuestieTDBMockDatatype "Quest"|"Npc"|"Item"|"Object"
----@alias QuestieTDBMockRow table<integer, unknown> Field values keyed by Database Key Enum index.
----@alias QuestieTDBMockRows table<number, QuestieTDBMockRow> Correction or base rows keyed by entity ID.
+---@alias QuestieDBMockDatatype "Quest"|"Npc"|"Item"|"Object"
+---@alias QuestieDBMockRow table<integer, unknown> Field values keyed by Database Key Enum index.
+---@alias QuestieDBMockRows table<number, QuestieDBMockRow> Correction or base rows keyed by entity ID.
 
----@class QuestieTDBMockRegistration
----@field datatype QuestieTDBMockDatatype
+---@class QuestieDBMockRegistration
+---@field datatype QuestieDBMockDatatype
 ---@field name string
----@field provider (fun(): QuestieTDBMockRows)? Function-shaped registration; absent on a data slot.
----@field rows QuestieTDBMockRows? Data slot written through `Corrections.Set`; absent on a function entry.
+---@field provider (fun(): QuestieDBMockRows)? Function-shaped registration; absent on a data slot.
+---@field rows QuestieDBMockRows? Data slot written through `Corrections.Set`; absent on a function entry.
 ---@field loadOrder number? Explicit order as passed by the caller, when any.
 ---@field order number Effective order: loadOrder, or a registration-sequence fraction mirroring the provider.
 ---@field sequence integer Creation order, breaking order ties.
 
----@class QuestieTDBMock
+---@class QuestieDBMock
 ---@field lib table The installed `LibQuestieDB` fake, also reachable as `_G.LibQuestieDB`.
----@field base table<QuestieTDBMockDatatype, QuestieTDBMockRows> Base rows; seed them through `SetBaseRow`.
----@field registrations table<string, QuestieTDBMockRegistration[]> Function entries and data slots per owner, in creation order.
+---@field base table<QuestieDBMockDatatype, QuestieDBMockRows> Base rows; seed them through `SetBaseRow`.
+---@field registrations table<string, QuestieDBMockRegistration[]> Function entries and data slots per owner, in creation order.
 ---@field applyCount table<string, number> `Apply()` calls per owner.
----@field publishCounts table<QuestieTDBMockDatatype, number> How often each datatype's composed view was republished.
+---@field publishCounts table<QuestieDBMockDatatype, number> How often each datatype's composed view was republished.
 ---@field setLocaleCalls string[] Locales forwarded through `l10n.SetLocale`, in call order.
----@field nameIndexBuilds table<QuestieTDBMockDatatype, number> Name index builds per datatype.
+---@field nameIndexBuilds table<QuestieDBMockDatatype, number> Name index builds per datatype.
 ---@field supportModules table<string, table> Shared support modules; tests seed literal provider-shaped values.
 ---@field contractVersion number Highest Contract Version the fake provides.
 ---@field minSupportedContract number Lowest Contract Version the fake still accepts.
----@field SetBaseRow fun(datatype: QuestieTDBMockDatatype, id: number, row: QuestieTDBMockRow): nil
+---@field SetBaseRow fun(datatype: QuestieDBMockDatatype, id: number, row: QuestieDBMockRow): nil
 
 ---Installs a fresh `LibQuestieDB` fake as a global, binds the Database Key Enums onto QuestieDB,
 ---and returns the inspection handle. Call it in `before_each` so registrar, overlay, provenance,
 ---and call history never leak between tests.
----@return QuestieTDBMock mock
-local function LoadQuestieTDBMock()
-    local keys = LoadQuestieTDBMetaMock.keys
-    local types = LoadQuestieTDBMetaMock.types
+---@return QuestieDBMock mock
+local function LoadQuestieDBMock()
+    local keys = LoadQuestieDBMetaMock.keys
+    local types = LoadQuestieDBMetaMock.types
 
-    ---@type QuestieTDBMock
+    ---@type QuestieDBMock
     local mock = {
         base = {Quest = {}, Npc = {}, Item = {}, Object = {}},
         registrations = {},
@@ -89,7 +89,7 @@ local function LoadQuestieTDBMock()
     local translationSlots, translationOwnerOrder = {}, {}
 
     -- Correction Overlay state: one layer per owner, owners ranked by their first apply or Set.
-    ---@type table<string, table<QuestieTDBMockDatatype, QuestieTDBMockRows>>
+    ---@type table<string, table<QuestieDBMockDatatype, QuestieDBMockRows>>
     local layers = {}
     ---@type string[]
     local ownerOrder = {}
@@ -101,7 +101,7 @@ local function LoadQuestieTDBMock()
     local registrationSequence = 0
 
     -- Highest Database Key Enum index per datatype; a write outside the schema is dropped.
-    ---@type table<QuestieTDBMockDatatype, integer>
+    ---@type table<QuestieDBMockDatatype, integer>
     local fieldCounts = {}
     for _, datatype in ipairs(ENTITY_TYPES) do
         local fieldCount = 0
@@ -113,7 +113,7 @@ local function LoadQuestieTDBMock()
 
     -- Quest `startedBy`, `finishedBy`, and `objectives` read `{}` rather than nil for an entity that
     -- exists; Questie's Quest projection indexes them unconditionally.
-    ---@type table<QuestieTDBMockDatatype, table<integer, true>>
+    ---@type table<QuestieDBMockDatatype, table<integer, true>>
     local neverNilFields = {
         Quest = {
             [keys.Quest.startedBy] = true,
@@ -129,11 +129,11 @@ local function LoadQuestieTDBMock()
     -- The composed map is dropped per datatype on publish and rebuilt on the next read; when no
     -- Correction adds an entity it is the base map itself, so its identity survives a publish
     -- that only edits fields, exactly as in the provider.
-    ---@type table<QuestieTDBMockDatatype, {map: table<number, true>, list: number[]}>
+    ---@type table<QuestieDBMockDatatype, {map: table<number, true>, list: number[]}>
     local baseIdMaps = {}
-    ---@type table<QuestieTDBMockDatatype, {map: table<number, true>, list: number[]}>
+    ---@type table<QuestieDBMockDatatype, {map: table<number, true>, list: number[]}>
     local idMaps = {}
-    ---@type table<QuestieTDBMockDatatype, table<string, number[]>>
+    ---@type table<QuestieDBMockDatatype, table<string, number[]>>
     local nameIndexes = {}
 
     ---@return nil
@@ -162,15 +162,15 @@ local function LoadQuestieTDBMock()
         return copy
     end
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@return nil
     local function AssertDatatype(datatype)
         if not keys[datatype] then
-            error(("QuestieTDBMock: unknown datatype %q; use Quest, Npc, Item, or Object"):format(tostring(datatype)), 3)
+            error(("QuestieDBMock: unknown datatype %q; use Quest, Npc, Item, or Object"):format(tostring(datatype)), 3)
         end
     end
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param key string|integer Field name or Database Key Enum index.
     ---@return integer fieldIndex
     local function FieldIndex(datatype, key)
@@ -179,7 +179,7 @@ local function LoadQuestieTDBMock()
         end
         local fieldIndex = keys[datatype][key]
         if not fieldIndex then
-            error(("QuestieTDBMock: unknown %s field %q"):format(datatype, tostring(key)), 3)
+            error(("QuestieDBMock: unknown %s field %q"):format(datatype, tostring(key)), 3)
         end
         return fieldIndex
     end
@@ -188,7 +188,7 @@ local function LoadQuestieTDBMock()
     -- Composition: base row, then every owner layer in first-apply order; the last writer wins.
     -------------------------------------------------------------------------------------------
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param id number
     ---@return boolean
     local function Exists(datatype, id)
@@ -203,11 +203,11 @@ local function LoadQuestieTDBMock()
         return false
     end
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param id number
     ---@param fieldIndex integer
     ---@return unknown value Entity value before translations and read defaults.
-    ---@return string|nil owner Entity correction owner, `"QuestieTDB"` for base data, nil when no layer set the field.
+    ---@return string|nil owner Entity correction owner, `"QuestieDB"` for base data, nil when no layer set the field.
     local function EntityValue(datatype, id, fieldIndex)
         local value, owner
         local baseRow = mock.base[datatype][id]
@@ -223,7 +223,7 @@ local function LoadQuestieTDBMock()
         return value, owner
     end
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param id number
     ---@param fieldIndex integer
     ---@return unknown value Composed value; `{}` from any layer reads back as nil.
@@ -268,7 +268,7 @@ local function LoadQuestieTDBMock()
         return {map = map, list = list}
     end
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@return {map: table<number, true>, list: number[]} ids Shared until the datatype is republished.
     local function ComposedIds(datatype)
         if idMaps[datatype] then
@@ -296,7 +296,7 @@ local function LoadQuestieTDBMock()
     end
 
     ---Builds the reverse `name` index from composed reads; a no-op while an index exists.
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@return nil
     local function BuildNameIndex(datatype)
         if nameIndexes[datatype] then
@@ -320,7 +320,7 @@ local function LoadQuestieTDBMock()
     -- Entity globals: LibQuestieDB.Quest / Npc / Item / Object
     -------------------------------------------------------------------------------------------
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@return table entity
     local function CreateEntity(datatype)
         local entity = {}
@@ -435,7 +435,7 @@ local function LoadQuestieTDBMock()
         if type(required) == "number" and required >= mock.minSupportedContract and required <= mock.contractVersion then
             return true
         end
-        return false, ("QuestieTDB contract mismatch: this consumer needs version %s, the installed QuestieTDB provides %s " ..
+        return false, ("QuestieDB contract mismatch: this consumer needs version %s, the installed QuestieDB provides %s " ..
             "(supporting consumers back to %s). Update whichever is older.")
             :format(tostring(required), tostring(mock.contractVersion), tostring(mock.minSupportedContract))
     end
@@ -454,9 +454,9 @@ local function LoadQuestieTDBMock()
     ---Snapshot a locale-scoped translation slot without rerunning entity corrections.
     ---@param owner string
     ---@param locale string
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param name string
-    ---@param rows QuestieTDBMockRows?
+    ---@param rows QuestieDBMockRows?
     ---@return boolean changed
     function lib.l10n.SetCorrection(owner, locale, datatype, name, rows)
         AssertDatatype(datatype)
@@ -534,7 +534,7 @@ local function LoadQuestieTDBMock()
             if rows == nil then
                 rows = registration.provider()
                 if type(rows) ~= "table" then
-                    error(("QuestieTDBMock: correction %q must return a table"):format(registration.name), 2)
+                    error(("QuestieDBMock: correction %q must return a table"):format(registration.name), 2)
                 end
             end
             local datatypeLayer = layer[registration.datatype]
@@ -557,7 +557,7 @@ local function LoadQuestieTDBMock()
 
     ---Drops the shared ID map and Name index of exactly the given datatypes, as the provider's
     ---per-datatype publish does. Untouched datatypes keep both.
-    ---@param datatypes table<QuestieTDBMockDatatype, true>
+    ---@param datatypes table<QuestieDBMockDatatype, true>
     ---@return nil
     local function PublishDatatypes(datatypes)
         for datatype in pairs(datatypes) do
@@ -571,27 +571,27 @@ local function LoadQuestieTDBMock()
     ---@return table registrar `{RegisterRuntimeCorrection = fun(...), Apply = fun(), Set = fun(...)}`
     function lib.GetRegistrar(owner)
         if type(owner) ~= "string" or owner == "" then
-            error("QuestieTDBMock: registrar owner must be a non-empty string", 2)
+            error("QuestieDBMock: registrar owner must be a non-empty string", 2)
         end
         EnsureOwnerState(owner)
         local registrar = {}
 
         ---Append-only, like the provider: registering one name twice keeps both entries.
-        ---@param datatype QuestieTDBMockDatatype
+        ---@param datatype QuestieDBMockDatatype
         ---@param name string
-        ---@param provider fun(): QuestieTDBMockRows
+        ---@param provider fun(): QuestieDBMockRows
         ---@param loadOrder number? Sequence within this owner; later values overwrite earlier ones.
         ---@return nil
         function registrar.RegisterRuntimeCorrection(datatype, name, provider, loadOrder)
             AssertDatatype(datatype)
             if type(name) ~= "string" then
-                error("QuestieTDBMock: correction name must be a string", 2)
+                error("QuestieDBMock: correction name must be a string", 2)
             end
             if type(provider) ~= "function" then
-                error(("QuestieTDBMock: correction %q must be registered as a provider function"):format(name), 2)
+                error(("QuestieDBMock: correction %q must be registered as a provider function"):format(name), 2)
             end
             if loadOrder ~= nil and type(loadOrder) ~= "number" then
-                error(("QuestieTDBMock: correction %q needs a numeric loadOrder or none"):format(name), 2)
+                error(("QuestieDBMock: correction %q needs a numeric loadOrder or none"):format(name), 2)
             end
             registrationSequence = registrationSequence + 1
             table.insert(mock.registrations[owner], {
@@ -619,9 +619,9 @@ local function LoadQuestieTDBMock()
             PublishDatatypes(touched)
         end
 
-        ---@param datatype QuestieTDBMockDatatype
+        ---@param datatype QuestieDBMockDatatype
         ---@param name string
-        ---@param rows QuestieTDBMockRows?
+        ---@param rows QuestieDBMockRows?
         ---@return boolean changed
         function registrar.Set(datatype, name, rows)
             return lib.Corrections.Set(owner, datatype, name, rows)
@@ -636,20 +636,20 @@ local function LoadQuestieTDBMock()
     ---name) holds one rows table; writing replaces it, nil removes it, and only the written
     ---datatype is republished. A name registered as a function correction is refused.
     ---@param owner string
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param name string
-    ---@param rows QuestieTDBMockRows?
+    ---@param rows QuestieDBMockRows?
     ---@return boolean changed False only when removing a slot that does not exist.
     function lib.Corrections.Set(owner, datatype, name, rows)
         if type(owner) ~= "string" or owner == "" then
-            error("QuestieTDBMock: Set owner must be a non-empty string", 2)
+            error("QuestieDBMock: Set owner must be a non-empty string", 2)
         end
         AssertDatatype(datatype)
         if type(name) ~= "string" or name == "" then
-            error("QuestieTDBMock: Set name must be a non-empty string", 2)
+            error("QuestieDBMock: Set name must be a non-empty string", 2)
         end
         if rows ~= nil and type(rows) ~= "table" then
-            error(("QuestieTDBMock: Set rows for %q must be a table or nil"):format(name), 2)
+            error(("QuestieDBMock: Set rows for %q must be a table or nil"):format(name), 2)
         end
         EnsureOwnerState(owner)
 
@@ -657,7 +657,7 @@ local function LoadQuestieTDBMock()
         for index, registration in ipairs(mock.registrations[owner]) do
             if registration.datatype == datatype and registration.name == name then
                 if registration.provider then
-                    error(("QuestieTDBMock: %q is a function-shaped correction; update its captured state and Apply instead"):format(name), 2)
+                    error(("QuestieDBMock: %q is a function-shaped correction; update its captured state and Apply instead"):format(name), 2)
                 end
                 entryIndex = index
                 break
@@ -688,10 +688,10 @@ local function LoadQuestieTDBMock()
         return true
     end
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param id number
     ---@param key string|integer
-    ---@return string owner Entity correction owner, ignoring translations; `"QuestieTDB"` when no Correction won.
+    ---@return string owner Entity correction owner, ignoring translations; `"QuestieDB"` when no Correction won.
     function lib.Corrections.GetProvenance(datatype, id, key)
         AssertDatatype(datatype)
         local fieldIndex = FieldIndex(datatype, key)
@@ -699,10 +699,10 @@ local function LoadQuestieTDBMock()
         return owner or BASE_OWNER
     end
 
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param id number
     ---@param key string|integer
-    ---@return string owner Owner whose value a reader receives, including translations; `"QuestieTDB"` when none won.
+    ---@return string owner Owner whose value a reader receives, including translations; `"QuestieDB"` when none won.
     function lib.GetProvenance(datatype, id, key)
         AssertDatatype(datatype)
         local fieldIndex = FieldIndex(datatype, key)
@@ -711,7 +711,7 @@ local function LoadQuestieTDBMock()
     end
     lib.SetCorrection = lib.Corrections.Set
 
-    ---@return string[] owners `"QuestieTDB"` followed by registered owners in first-apply order.
+    ---@return string[] owners `"QuestieDB"` followed by registered owners in first-apply order.
     function lib.GetOwners()
         local owners = {BASE_OWNER}
         for _, owner in ipairs(ownerOrder) do
@@ -725,9 +725,9 @@ local function LoadQuestieTDBMock()
     -------------------------------------------------------------------------------------------
 
     ---Seeds or replaces one base row and drops the derived ID maps and Name indexes.
-    ---@param datatype QuestieTDBMockDatatype
+    ---@param datatype QuestieDBMockDatatype
     ---@param id number
-    ---@param row QuestieTDBMockRow
+    ---@param row QuestieDBMockRow
     ---@return nil
     function mock.SetBaseRow(datatype, id, row)
         AssertDatatype(datatype)
@@ -738,9 +738,9 @@ local function LoadQuestieTDBMock()
 
     mock.lib = lib
     _G.LibQuestieDB = lib
-    LoadQuestieTDBMetaMock()
+    LoadQuestieDBMetaMock()
 
     return mock
 end
 
-return LoadQuestieTDBMock
+return LoadQuestieDBMock

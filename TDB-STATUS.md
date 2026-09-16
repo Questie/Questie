@@ -1,7 +1,7 @@
-# QuestieTDB cutover status
+# QuestieDB cutover status
 
-Questie reads entity data from the QuestieTDB addon instead of a runtime compiler. Decisions:
-`docs/adr/0001` to `0003` here, ADR 0007 to 0009 in QuestieTDB. Object-hover lookup:
+Questie reads entity data from the QuestieDB addon instead of a runtime compiler. Decisions:
+`docs/adr/0001` to `0003` here, ADR 0007 to 0009 in QuestieDB. Object-hover lookup:
 `QUESTIE-OBJECT-NAME-INDEX.md`. Runtime support-data controls and failure behavior:
 [`docs/support-validation.md`](docs/support-validation.md). How the cutover was delivered, with commit pointers and review findings:
 `docs/tdb-history.md`. Live client findings: `TDB-FINDINGS.md`. How the pieces fit is documented in the code: the header of
@@ -31,47 +31,52 @@ Their common base was `fde81078a`; do not confuse those historical tips with the
 
 ## Merge gates
 
-Provider issues, all in the QuestieTDB repo:
+Provider status checked against the sibling `QuestieDB` checkout at `60f0527`. The project,
+addon identity, and dependency declarations now use `QuestieDB`.
+The statuses below describe implementation evidence, not current GitHub issue closure.
+
+Provider issues, all in the QuestieDB repo:
 
 | Issue | What it gates |
 | --- | --- |
-| #1 / #13 | `requiredRaces` inference for SoD quests composed at runtime. The bake-time pass already matches upstream on Era (`TDB-FINDINGS.md` F3). |
+| #1 / #13 | Active-SoD `requiredRaces` parity is implemented with 25 provider-owned Dynamic Correction rows. The provider handover records comparisons matching all 5,534 SoD quests for both factions. Replacing the temporary base-flavor inference remains a provider follow-up. |
 | #14 | Built-in lookup overrides and Titan zhCN entity localization. Implemented in the provider; Questie consumes translation slots, including custom locales. Offline validation passed. |
 | #15 | Support data sync and Source-mode flavor selection. Questie reads Zones, QuestXP, DropTables, and faction templates through `LibQuestieDB.Support`. All five flavors and both factions passed the offline real-provider wrapper checks. Questie also applies [bounded runtime controls](docs/support-validation.md) to the support tables it consumes. |
-| #17 | `ObjectiveFirst` flavor scoping in Source mode. |
+| #17 | `ObjectiveFirst` flavor and season scoping is implemented. The provider records parity across Source, Baked, and packages with Static Corrections stripped. |
 | #19 | Differential coverage proving `classicQuestReputationFixes`, `itemStartFixes`, `AutoTableUpdates` NPC flags, static fixes, and SoD side channels are represented in provider data. |
 
 Questie-side gates:
 
-- Provider data sync remains pending. `origin/master` at `215b0c757` contains changes in ten files
-  that this stack deletes and that have not been ported to QuestieTDB:
-  `cataObjectFixes.lua`, `classicObjectFixes.lua`, `classicQuestFixes.lua`, `mopObjectFixes.lua`,
-  `sodItemFixes.lua`, `sodQuestFixes.lua`, `tbcItemFixes.lua`, `tbcNPCFixes.lua`,
-  `tbcQuestFixes.lua`, and `titanReforgedQuestFixes.lua`. Recover the exact post-pin changes with:
-
-  ```bash
-  git diff 92ab8206f..backup/tdb-stack-20260914/master -- Database/Corrections/
-  ```
-
-  Port provider-owned data changes to QuestieTDB before the combined merge. Retained policy updates
-  stay in Questie. The source Zone-data map conflict changed comments only and needs no data port.
-- Pinned Database Integration Check in CI. The old `db-validation` matrix is gone; the provider
-  pins Questie through its own `QUESTIE_COMMIT` and documents no consumer-side command, so this
-  waits for the final provider revision.
-- Live smoke matrix (Era and SoD done, `TDB-FINDINGS.md`): TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
+- Provider data sync is complete through `215b0c757`. Provider commit `be3e7f6` advanced
+  `QUESTIE_COMMIT` from `92ab8206f` and ported all ten changed Correction files, plus the
+  comments-only Zone-data map change. Retained policy updates stay in Questie. The provider's
+  `docs/questie-handover.md` records all-five-flavor validation and reviewed Golden updates for
+  this sync; those full gates were not rerun during this status update. Any later changes to
+  provider-owned data on Questie master still need reconciliation before merge.
+- Pinned Database Integration Check in CI remains open. `.github/workflows/ci.yml` does not check
+  out the provider, so real-provider conformance can pend while the unit suite passes. Pin a
+  provider revision and set `QUESTIE_DB_PATH` explicitly; the provider's own `QUESTIE_COMMIT`
+  pins its legacy Questie inputs, not this consumer integration.
+- Current Contract Version 2 live smoke matrix: Era, SoD, TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
   one built-in non-English locale, one external locale addon. Check gathering-node suppression,
   Darkmoon, Content Phase prerequisites, Townsfolk, Available Quests, Objective Order, Special
   Objective text, and runtime missing-Item repair.
-- Coordinate normalization, QuestieTDB #3: ADR 0006 stores raw coordinates where the compiler used to
-  round. Decide whether the differences need caller changes or are accepted as-is, and record it.
+- Coordinate acceptance: provider ADR 0006 resolves QuestieDB #3 by preserving raw coordinates;
+  only the migration compiler comparison adapts base values to the legacy grid. Record consumer
+  acceptance or any necessary caller changes during the live checks, rather than reopening the
+  provider storage decision.
 - Mock-versus-provider conformance: the harness runs the double's cases against the real provider
-  in Source mode (`TDB-FINDINGS.md` F7, F8) and pends when the QuestieTDB checkout is absent. It covers
+  in Source mode (`TDB-FINDINGS.md` F7, F8) and pends when the QuestieDB checkout is absent. It covers
   Contract Version 2 translation slots. Support wrapper checks cover all five flavors and both
-  factions.
+  factions. From this Questie checkout, run the conformance cases against the sibling provider with:
+
+  ```bash
+  QUESTIE_DB_PATH=../QuestieDB busted test/QuestieDBMock.conformance.test.lua
+  ```
 
 ## Provider type declarations
 
-`.types/QuestieTDB/` is a verbatim copy of QuestieTDB `src/types/*.t.lua` (provider commit
+`.types/QuestieDB/` is a verbatim copy of QuestieDB `src/types/*.t.lua` (provider commit
 `fdf740d`), the LuaLS declarations for `LibQuestieDB` and the Database Key Enums. WoW never
 loads them. Refresh by copying the seven files again when the provider schema changes; the ID
 aliases (`QuestId`, `NpcId`, ...) are defined on both sides by design.
@@ -92,13 +97,18 @@ None block the merge. Numbered items came from the simplification review.
 - Townsfolk rebuilds every login into module tables (`Townsfolk.townsfolk` and friends);
   Migration 39 drops the five former `Questie.db.global` keys. Caching across sessions waits
   for a provider data revision.
-- Distribution: bundle QuestieTDB in release packaging. Diagnostics: surface provider Source or
+- Distribution: bundle QuestieDB in release packaging. Diagnostics: surface provider Source or
   Baked mode in Questie's debug output.
 - Pre-existing, noted during review: the Isle of Quel'Danas phase option writes
   `Questie.db.profile` while the blacklist merge reads `global`; the Event and QuestieLib test
   suites leak `Expansions.Current` and `C_Calendar` stubs between cases.
 
 ## Validation
+
+The full-suite results below are historical; they are not a fresh full-suite run against provider
+`60f0527`. Focused checks during the current workspace inspection passed, including 34 real-provider
+Source-mode conformance cases and loader-usage validation. No Baked artifacts were generated and
+no live client was accessed.
 
 After the bottom-up restack, the implementation passed the full suite with
 `QUESTIE_TDB_PATH=/home/david/private/questietdb`: 1,665 successes, 0 failures, 0 errors, and 0 pending. Luacheck passed across 304 files; loader-usage validation and `git diff --check` also passed.
@@ -110,5 +120,6 @@ test, build, push, or provider change was made.
 
 Era and SoD passed on 2026-09-02 for the historical Contract Version 1 revision. Every finding,
 with evidence and proposed action, is in `TDB-FINDINGS.md`. The current Contract Version 2
-integration has not completed live validation. Still to run: TBC before and after phase 3, WotLK
-season 109, Cata, MoP, a Darkmoon week, an external locale addon, and a non-English client locale.
+integration has not completed live validation. Recheck Era and SoD against the current contract,
+then cover TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP, a Darkmoon week,
+an external locale addon, and a non-English client locale.

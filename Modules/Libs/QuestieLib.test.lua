@@ -1,5 +1,5 @@
 dofile("setupTests.lua")
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieLib", function()
     ---@type QuestieDB
@@ -13,7 +13,7 @@ describe("QuestieLib", function()
 
     before_each(function()
         -- QuestieDB binds the provider schema and queries at file load.
-        LoadQuestieTDBMock()
+        LoadQuestieDBMock()
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetQuestTagInfo = function() end

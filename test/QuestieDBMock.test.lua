@@ -1,15 +1,15 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
-describe("QuestieTDBMock", function()
-    ---@type QuestieTDBMock
+describe("QuestieDBMock", function()
+    ---@type QuestieDBMock
     local mock
     local LibQuestieDB
     local questKeys, npcKeys, itemKeys, objectKeys
 
     before_each(function()
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         LibQuestieDB = mock.lib
         questKeys = LibQuestieDB.Meta.QuestMeta.questKeys
         npcKeys = LibQuestieDB.Meta.NpcMeta.npcKeys
@@ -33,7 +33,7 @@ describe("QuestieTDBMock", function()
 
             assert.is_false(ok)
             assert.are_same(
-                "QuestieTDB contract mismatch: this consumer needs version 1, the installed QuestieTDB provides 2 " ..
+                "QuestieDB contract mismatch: this consumer needs version 1, the installed QuestieDB provides 2 " ..
                 "(supporting consumers back to 2). Update whichever is older.",
                 message)
         end)
@@ -64,7 +64,7 @@ describe("QuestieTDBMock", function()
             assert.is_nil(LibQuestieDB.Npc.GetAll(31, {"name", "zoneID"}))
             assert.is_false(LibQuestieDB.Npc.Exists(31))
             assert.is_nil(LibQuestieDB.Npc.Get(nil, "name"))
-            assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Npc", 31, "name"))
+            assert.are_same("QuestieDB", LibQuestieDB.Corrections.GetProvenance("Npc", 31, "name"))
         end)
 
         it("packs bulk reads with n so nil slots survive unpack", function()
@@ -115,7 +115,7 @@ describe("QuestieTDBMock", function()
         it("fails fast on an unknown field name instead of returning nil", function()
             assert.has_error(function()
                 LibQuestieDB.Npc.Get(30, "healthPool")
-            end, "QuestieTDBMock: unknown Npc field \"healthPool\"")
+            end, "QuestieDBMock: unknown Npc field \"healthPool\"")
         end)
     end)
 
@@ -199,7 +199,7 @@ describe("QuestieTDBMock", function()
             registrar.Apply()
 
             assert.are_same(1, LibQuestieDB.Npc.Get(14828, "zoneID"))
-            assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
+            assert.are_same("QuestieDB", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
         end)
 
         it("clears a field with {} while GetRaw still returns base data", function()
@@ -291,13 +291,13 @@ describe("QuestieTDBMock", function()
 
             assert.are_same(99, LibQuestieDB.Npc.Get(14828, "zoneID"))
             assert.are_same("ThirdParty", LibQuestieDB.GetProvenance("Npc", 14828, "zoneID"))
-            assert.are_same({"QuestieTDB", "Questie", "ThirdParty"}, LibQuestieDB.GetOwners())
+            assert.are_same({"QuestieDB", "Questie", "ThirdParty"}, LibQuestieDB.GetOwners())
         end)
 
         it("rejects datatypes outside Quest, Npc, Item, and Object", function()
             assert.has_error(function()
                 registrar.RegisterRuntimeCorrection("npc", "lowercase", function() return {} end, 1)
-            end, "QuestieTDBMock: unknown datatype \"npc\"; use Quest, Npc, Item, or Object")
+            end, "QuestieDBMock: unknown datatype \"npc\"; use Quest, Npc, Item, or Object")
         end)
 
         it("republishes only the datatypes the owner has entries in", function()
@@ -330,7 +330,7 @@ describe("QuestieTDBMock", function()
             assert.are_same(215, LibQuestieDB.Npc.Get(14828, "zoneID"))
             assert.are_same(1, LibQuestieDB.Npc.GetRaw(14828, "zoneID"))
             assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
-            assert.are_same({"QuestieTDB", "Questie"}, LibQuestieDB.GetOwners())
+            assert.are_same({"QuestieDB", "Questie"}, LibQuestieDB.GetOwners())
         end)
 
         it("replaces a slot in place and removes it with nil", function()
@@ -364,7 +364,7 @@ describe("QuestieTDBMock", function()
 
             assert.has_error(function()
                 registrar.Set("Npc", "DarkmoonFaire", {})
-            end, "QuestieTDBMock: \"DarkmoonFaire\" is a function-shaped correction; update its captured state and Apply instead")
+            end, "QuestieDBMock: \"DarkmoonFaire\" is a function-shaped correction; update its captured state and Apply instead")
         end)
 
         it("fixes owner precedence at the first write", function()
@@ -374,7 +374,7 @@ describe("QuestieTDBMock", function()
             LibQuestieDB.Corrections.Set("Questie", "Npc", "slotA", {[14828] = {[npcKeys.zoneID] = 300}})
 
             assert.are_same(99, LibQuestieDB.Npc.Get(14828, "zoneID"))
-            assert.are_same({"QuestieTDB", "Questie", "ThirdParty"}, LibQuestieDB.GetOwners())
+            assert.are_same({"QuestieDB", "Questie", "ThirdParty"}, LibQuestieDB.GetOwners())
         end)
     end)
 

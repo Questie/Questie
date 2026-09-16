@@ -2,7 +2,7 @@ dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 
--- Entity schemas come from the QuestieTDB seam in tests that need database metadata.
+-- Entity schemas come from the QuestieDB seam in tests that need database metadata.
 
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
@@ -72,7 +72,7 @@ _G.wipe = function(t)
     return t
 end
 
--- QuestieTDB is installed per test file by test/QuestieTDBMock.lua; never inherit another file's fake.
+-- QuestieDB is installed per test file by test/QuestieDBMock.lua; never inherit another file's fake.
 _G.LibQuestieDB = nil
 
 _G.Enum = {

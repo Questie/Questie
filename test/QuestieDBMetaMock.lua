@@ -1,6 +1,6 @@
 -- Focused Contract Version 1 metadata fixture for QuestieDB semantic tests.
 -- It intentionally omits compiler metadata, raw entity tables, and storage behavior.
--- `test/QuestieTDBMock.lua` builds the full LibQuestieDB fake on these same key enums.
+-- `test/QuestieDBMock.lua` builds the full LibQuestieDB fake on these same key enums.
 
 local questKeys = {
     ["name"] = 1, -- string
@@ -126,11 +126,11 @@ local objectTypes = {
 }
 
 ---Key enums and field types per Contract datatype, shared with the full LibQuestieDB fake in
----`test/QuestieTDBMock.lua`.
----@class QuestieTDBMetaMock
+---`test/QuestieDBMock.lua`.
+---@class QuestieDBMetaMock
 ---@field keys table<"Quest"|"Npc"|"Item"|"Object", table<string, integer>>
 ---@field types table<"Quest"|"Npc"|"Item"|"Object", table<integer, "string"|"number"|"table">>
-local QuestieTDBMetaMock = {
+local QuestieDBMetaMock = {
     keys = {
         Quest = questKeys,
         Npc = npcKeys,
@@ -146,8 +146,8 @@ local QuestieTDBMetaMock = {
 }
 
 ---Calling the fixture binds the four provider Database Key Enums onto QuestieDB, as the schema
----adapters do at Addon Load: `LoadQuestieTDBMetaMock()`.
-setmetatable(QuestieTDBMetaMock, {
+---adapters do at Addon Load: `LoadQuestieDBMetaMock()`.
+setmetatable(QuestieDBMetaMock, {
     __call = function()
         ---@type QuestieDB
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -159,4 +159,4 @@ setmetatable(QuestieTDBMetaMock, {
     end,
 })
 
-return QuestieTDBMetaMock
+return QuestieDBMetaMock

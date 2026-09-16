@@ -1,13 +1,13 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestXP support data", function()
     local QuestXP, mock, playerLevel
 
     before_each(function()
         QuestieLoader:ImportModule("SupportValidation").ValidateQuestXP = function() return true end
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         mock.supportModules.QuestXP.db = {[101] = {20, 1000}, [102] = {-1, 1000}, [103] = {20, 0}}
         playerLevel = 20
         _G.UnitLevel = function() return playerLevel end

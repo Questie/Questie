@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("TooltipHandler", function()
     ---@type l10n
@@ -57,7 +57,7 @@ describe("TooltipHandler", function()
             _G.C_Timer = {After = function() end}
             C_QuestLog.GetQuestObjectives = function() return {} end
 
-            mock = LoadQuestieTDBMock()
+            mock = LoadQuestieDBMock()
             objectKeys = mock.lib.Meta.ObjectMeta.objectKeys
             mock.SetBaseRow("Object", 1001, {
                 [objectKeys.name] = OBJECT_NAME,

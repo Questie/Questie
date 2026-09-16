@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieCorrections", function()
     ---@type QuestieCorrections
@@ -11,7 +11,7 @@ describe("QuestieCorrections", function()
     local ContentPhases
     ---@type QuestieDB
     local QuestieDB
-    ---@type QuestieTDBMock
+    ---@type QuestieDBMock
     local mock
     local LibQuestieDB
 
@@ -21,7 +21,7 @@ describe("QuestieCorrections", function()
     local originalTBCPhase
 
     before_each(function()
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         LibQuestieDB = mock.lib
 
         Expansions = QuestieLoader:ImportModule("Expansions")
@@ -106,7 +106,7 @@ describe("QuestieCorrections", function()
             assert.are_same(215, LibQuestieDB.Npc.Get(14828, "zoneID"))
             assert.are_same(1519, LibQuestieDB.Npc.GetRaw(14828, "zoneID"))
             assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
-            assert.are_same({"QuestieTDB", "Questie"}, LibQuestieDB.GetOwners())
+            assert.are_same({"QuestieDB", "Questie"}, LibQuestieDB.GetOwners())
         end)
 
         it("replaces the slot's rows on the next write", function()
@@ -128,7 +128,7 @@ describe("QuestieCorrections", function()
             QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
 
             assert.are_same(1519, LibQuestieDB.Npc.Get(14828, "zoneID"))
-            assert.are_same("QuestieTDB", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
+            assert.are_same("QuestieDB", LibQuestieDB.Corrections.GetProvenance("Npc", 14828, "zoneID"))
         end)
 
         it("normalizes empty rows to a withdrawal", function()

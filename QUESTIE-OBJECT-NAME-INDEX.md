@@ -1,12 +1,12 @@
 # Questie object-hover name resolution
 
-Questie resolves world-object hover names through QuestieTDB's composed Object name index. This is
+Questie resolves world-object hover names through QuestieDB's composed Object name index. This is
 the Questie-side behavior for the interface defined by
-[QuestieTDB ADR 0008](https://github.com/Questie/QuestieTDB/blob/82a2d1088631c724ae8cebd936be221b7d92af41/docs/adr/0008-name-index.md).
+[QuestieDB ADR 0008](https://github.com/Questie/QuestieDB/blob/82a2d1088631c724ae8cebd936be221b7d92af41/docs/adr/0008-name-index.md).
 
 ## Ownership
 
-QuestieTDB owns Object names, name uniqueness, and the reverse name index:
+QuestieDB owns Object names, name uniqueness, and the reverse name index:
 
 - `LibQuestieDB.Object.IdsByName(name)` returns every composed Object ID with that exact name, in
   ascending order, or `nil` when there is no match. Callers must treat the returned bucket as
@@ -69,5 +69,5 @@ registration-to-rendering path. Those Comms-path cases also cover party removal,
 parent-zone matching, and a corrected local Object name.
 
 `Modules/Tooltips/Tooltip.test.lua` covers the early registration check and confirms that absent
-local and party data avoids spawn reads. QuestieTDB's provider tests and Questie's provider
+local and party data avoids spawn reads. QuestieDB's provider tests and Questie's provider
 conformance tests own `IdsByName` ordering, composed-name, invalidation, and cache behavior.

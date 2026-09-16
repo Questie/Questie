@@ -1,17 +1,17 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("l10n", function()
     ---@type l10n
     local l10n
-    ---@type QuestieTDBMock
+    ---@type QuestieDBMock
     local mock
 
     local originalGetLocale
 
     before_each(function()
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         originalGetLocale = _G.GetLocale
         _G.QUESTIE_LOCALES_OVERRIDE = nil
         Questie.db.global.questieLocaleDiff = false
@@ -171,7 +171,7 @@ describe("l10n", function()
             assert.is_false(LibQuestieDB.Quest.Exists(4))
             assert.is_false(LibQuestieDB.Npc.Exists(99))
             assert.is_false(LibQuestieDB.Object.Exists(32))
-            assert.are_same({"QuestieTDB"}, LibQuestieDB.GetOwners())
+            assert.are_same({"QuestieDB"}, LibQuestieDB.GetOwners())
         end)
 
         it("keeps UI initialization free of entity reads and publication", function()

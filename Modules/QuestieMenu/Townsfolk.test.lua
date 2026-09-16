@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("Townsfolk", function()
     ---@type Townsfolk
@@ -11,7 +11,7 @@ describe("Townsfolk", function()
     local QuestieProfessions
     ---@type Expansions
     local Expansions
-    ---@type QuestieTDBMock
+    ---@type QuestieDBMock
     local mock
     local LibQuestieDB
     local npcKeys, itemKeys, objectKeys
@@ -58,7 +58,7 @@ describe("Townsfolk", function()
     end
 
     before_each(function()
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         LibQuestieDB = mock.lib
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         npcKeys, itemKeys, objectKeys = QuestieDB.npcKeys, QuestieDB.itemKeys, QuestieDB.objectKeys

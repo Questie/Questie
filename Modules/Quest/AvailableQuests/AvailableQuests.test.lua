@@ -1,7 +1,7 @@
 local TestUtils = dofile("setupTests.lua")
 
 local match = require("luassert.match")
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("AvailableQuests", function()
     ---@type ZoneDB
@@ -1505,7 +1505,7 @@ describe("AvailableQuests", function()
             TestUtils.clearTable(AvailableQuests.__availableQuestsByNpc)
             TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)
 
-            local mock = LoadQuestieTDBMock()
+            local mock = LoadQuestieDBMock()
             local questKeys = mock.lib.Meta.QuestMeta.questKeys
             mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Sharptalon's Claw"})
             mock.SetBaseRow("Quest", 3, {[questKeys.name] = "Webwood Venom"})

@@ -1,5 +1,5 @@
 dofile("setupTests.lua")
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieReputation", function()
     ---@type QuestieReputation
@@ -37,7 +37,7 @@ describe("QuestieReputation", function()
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
 
         -- QuestieDB binds the provider schema and queries at file load.
-        LoadQuestieTDBMock()
+        LoadQuestieDBMock()
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.raceKeys = {HUMAN = 1}

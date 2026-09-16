@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("ZoneDB", function()
     ---@type ZoneDB
@@ -24,7 +24,7 @@ describe("ZoneDB", function()
             GetAreaInfo = function() return nil end,
         }
 
-        local mock = LoadQuestieTDBMock()
+        local mock = LoadQuestieDBMock()
         -- Focused provider-shaped inputs, not a copy of the zone database.
         -- Fresh tables keep dungeon mutations and alternative IDs isolated between tests.
         zoneData = {

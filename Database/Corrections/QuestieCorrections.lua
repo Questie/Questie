@@ -30,7 +30,7 @@ QuestieCorrections.hiddenQuests = {}
 ---------------------------------------------------------------------------------------------------
 -- Questie Policy Corrections
 --
--- QuestieTDB composes provider-owned entity corrections cumulatively: Classic on every flavor,
+-- QuestieDB composes provider-owned entity corrections cumulatively: Classic on every flavor,
 -- followed by TBC, WotLK, Cata, and MoP where applicable. SoD applies only during its active
 -- season; Titan applies only on the WotLK client during season 109. Those layers exist before
 -- Questie writes anything, so Questie publishes no faction, class, race, expansion, SoD, or

@@ -77,7 +77,7 @@ Questie uses `luacheck` for linting. You can run it locally with:
 
 ### Entity database validation
 
-Entity database validation is owned by QuestieTDB. Questie retains loader-usage validation, which you can run with:
+Entity database validation is owned by QuestieDB. Questie retains loader-usage validation, which you can run with:
 
 `lua cli/validate-loader-usage.lua`
 

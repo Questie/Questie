@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-local LoadQuestieTDBMock = dofile("test/QuestieTDBMock.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
@@ -11,7 +11,7 @@ describe("QuestieDB", function()
     local QuestieCorrections
     ---@type QuestieDB
     local QuestieDB
-    ---@type QuestieTDBMock
+    ---@type QuestieDBMock
     local mock
 
     ---@type Quest
@@ -19,7 +19,7 @@ describe("QuestieDB", function()
 
     before_each(function()
         QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = function() return true end
-        mock = LoadQuestieTDBMock()
+        mock = LoadQuestieDBMock()
         Questie.db.char.complete = {}
         Questie.IsTitanReforged = false
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")

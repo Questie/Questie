@@ -7,8 +7,8 @@
 ---@field minLevel fun(id: NpcId): number? Minimum NPC level.
 ---@field maxLevel fun(id: NpcId): number? Maximum NPC level.
 ---@field rank fun(id: NpcId): number? NPC rank.
----@field spawns fun(id: NpcId): QuestieTDBSpawnList? Spawn coordinates grouped by zone.
----@field waypoints fun(id: NpcId): QuestieTDBWaypointList? Waypoint paths grouped by zone.
+---@field spawns fun(id: NpcId): QuestieDBSpawnList? Spawn coordinates grouped by zone.
+---@field waypoints fun(id: NpcId): QuestieDBWaypointList? Waypoint paths grouped by zone.
 ---@field zoneID fun(id: NpcId): AreaId? Most common zone.
 ---@field questStarts fun(id: NpcId): QuestId[]? Quests started by this NPC.
 ---@field questEnds fun(id: NpcId): QuestId[]? Quests finished at this NPC.
@@ -17,9 +17,9 @@
 ---@field subName fun(id: NpcId): string? NPC subname.
 ---@field npcFlags fun(id: NpcId): number? NPC flag bitmask.
 ---@field GetByIndex fun(id: NpcId, fieldIndex: integer): any Read a field by positional index.
----@field Get fun(id: NpcId, key: QuestieTDBNpcField|integer): any Read a field by canonical name or index.
----@field GetAll fun(id: NpcId, keys: (QuestieTDBNpcField|integer)[]): QuestieTDBPackedValues? Read fields into a packed table, or nil for an unknown ID.
----@field GetRaw fun(id: NpcId, key: QuestieTDBNpcField|integer): any Read base data without Corrections or localization.
+---@field Get fun(id: NpcId, key: QuestieDBNpcField|integer): any Read a field by canonical name or index.
+---@field GetAll fun(id: NpcId, keys: (QuestieDBNpcField|integer)[]): QuestieDBPackedValues? Read fields into a packed table, or nil for an unknown ID.
+---@field GetRaw fun(id: NpcId, key: QuestieDBNpcField|integer): any Read base data without Corrections or localization.
 ---@field Exists fun(id: NpcId): boolean Test the composed view.
 ---@field InvalidateCache fun(id?: NpcId) Drop cached fields for one NPC or every NPC.
 ---@field BuildNameIndex fun() Build the Name index now (a no-op when it exists) instead of on the first IdsByName call; a full pass over every NPC name.

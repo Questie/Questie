@@ -1,8 +1,8 @@
 ---@class QuestieDB : QuestieModule
----@field questKeys QuestieTDBQuestKeys
----@field npcKeys QuestieTDBNpcKeys
----@field itemKeys QuestieTDBItemKeys
----@field objectKeys QuestieTDBObjectKeys
+---@field questKeys QuestieDBQuestKeys
+---@field npcKeys QuestieDBNpcKeys
+---@field itemKeys QuestieDBItemKeys
+---@field objectKeys QuestieDBObjectKeys
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 
 ---@type SupportValidation
@@ -399,12 +399,12 @@ QuestieDB.activeChildQuests = {}
 QuestieDB._CreatureLevelCache = {}
 
 -------------------------------------------------------------------------------------------------
--- Provider binding, at file load. QuestieTDB is a required dependency, so `LibQuestieDB` exists
+-- Provider binding, at file load. QuestieDB is a required dependency, so `LibQuestieDB` exists
 -- before this file runs; only the ID maps and caches wait for `Initialize`, because they follow
 -- the composed view Questie's own Policy Corrections change during Login Initialization.
 -------------------------------------------------------------------------------------------------
 
--- Database Key Enums per datatype (declared in `.types/QuestieTDB/Meta.t.lua`, a copy of the
+-- Database Key Enums per datatype (declared in `.types/QuestieDB/Meta.t.lua`, a copy of the
 -- provider's declarations), and the field names in enum order. Rich projections request every
 -- field through `QueryNPC(id, QuestieDB._npcAdapterQueryOrder)` and friends, so the packed result
 -- lines up with the matching key enum.
@@ -431,14 +431,14 @@ QuestieDB.QueryObject = LibQuestieDB.Object.GetAll
 -- Shared support data is read-only; faction filtering remains in Questie.
 QuestieDB.factionTemplate = LibQuestieDB.Support.Get("QuestieDB").factionTemplate
 
--- QuestieTDB owns Objective Order. These are provider tables that consumers must not mutate.
+-- QuestieDB owns Objective Order. These are provider tables that consumers must not mutate.
 QuestieDB.killCreditObjectiveFirst = LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst
 QuestieDB.objectObjectiveFirst = LibQuestieDB.ObjectiveFirst.objectObjectiveFirst
 QuestieDB.itemObjectiveFirst = LibQuestieDB.ObjectiveFirst.itemObjectiveFirst
 QuestieDB.eventObjectiveFirst = LibQuestieDB.ObjectiveFirst.eventObjectiveFirst
 QuestieDB.spellObjectiveFirst = LibQuestieDB.ObjectiveFirst.spellObjectiveFirst
 
----Rebinds the composed ID maps. QuestieTDB replaces a shared read-only map when a Correction
+---Rebinds the composed ID maps. QuestieDB replaces a shared read-only map when a Correction
 ---write touches its datatype, so a retained reference can hide an added entity or keep a
 ---withdrawn one.
 ---@return nil

@@ -1,14 +1,14 @@
-# CI against released and developing QuestieTDB
+# CI against released and developing QuestieDB
 
 Status: proposal. This document does not change CI.
 
-Questie should run focused integration tests against real QuestieTDB checkouts, not only its test mock. The checks should protect compatibility with the provider users can install while warning about changes developing on QuestieTDB master.
+Questie should run focused integration tests against real QuestieDB checkouts, not only its test mock. The checks should protect compatibility with the provider users can install while warning about changes developing on QuestieDB master.
 
 ## Two independent checks
 
 Run the same integration checks against both targets on every Questie change. The jobs can run in parallel.
 
-| QuestieTDB target | Purpose | Merge policy |
+| QuestieDB target | Purpose | Merge policy |
 | --- | --- | --- |
 | Supported release | Prove compatibility with the released provider Questie promises to support | Required |
 | `master` | Detect upcoming integration or contract changes | Advisory; report failures as warnings |
@@ -45,7 +45,7 @@ Keep ordinary unit tests fast and mock-backed. Both provider jobs should run the
 - Support-wrapper initialization with real zone, XP, faction-template, and drop data, including runtime controls and Mists' mixed drop sources.
 - Contract checks and initialization ordering at the provider interface.
 
-Questie already has mock-versus-provider conformance tests. Downloading QuestieTDB does not automatically make every test exercise the real provider. The jobs must explicitly select its path and fail if the provider is absent or the intended integration tests are skipped.
+Questie already has mock-versus-provider conformance tests. Downloading QuestieDB does not automatically make every test exercise the real provider. The jobs must explicitly select its path and fail if the provider is absent or the intended integration tests are skipped.
 
 Promote the local real-provider support-wrapper checks into a committed test entry point before relying on them in CI. A temporary local script is not a CI gate.
 
@@ -53,9 +53,9 @@ Source-mode tests exercise the interface, but do not prove that a generated rele
 
 ## Coordinating a contract change
 
-1. QuestieTDB master introduces the change. Questie's advisory check warns if integration breaks.
+1. QuestieDB master introduces the change. Questie's advisory check warns if integration breaks.
 2. Prepare the corresponding consumer change and test it against the proposed provider revision.
-3. Publish the supporting QuestieTDB release.
+3. Publish the supporting QuestieDB release.
 4. Update Questie's required provider reference and compatibility declaration with the consumer change.
 5. Merge when the required release check and other required checks pass.
 
