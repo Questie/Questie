@@ -27,11 +27,12 @@ tinsert(eventQuests, {"Darkmoon Faire", 7901, nil, nil, nil, nil, Questie.IsSoD 
 tinsert(eventQuests, {"Darkmoon Faire", 7902, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Vibrant Plumes
 tinsert(eventQuests, {"Darkmoon Faire", 7903, nil, nil, nil, nil, Questie.IsSoD or Expansions.Current >= Expansions.Cata}) -- Evil Bat Eyes
 tinsert(eventQuests, {"Darkmoon Faire", 7905}) -- The Darkmoon Faire
-tinsert(eventQuests, {"Darkmoon Faire", 7907}) -- Darkmoon Beast Deck
+-- SoD replaces the original decks with 86760-86763, registered in the SoD section below.
+tinsert(eventQuests, {"Darkmoon Faire", 7907, nil, nil, nil, nil, Questie.IsSoD}) -- Darkmoon Beast Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7926}) -- The Darkmoon Faire
-tinsert(eventQuests, {"Darkmoon Faire", 7927}) -- Darkmoon Portals Deck
-tinsert(eventQuests, {"Darkmoon Faire", 7928}) -- Darkmoon Warlords Deck
-tinsert(eventQuests, {"Darkmoon Faire", 7929}) -- Darkmoon Elementals Deck
+tinsert(eventQuests, {"Darkmoon Faire", 7927, nil, nil, nil, nil, Questie.IsSoD}) -- Darkmoon Portals Deck
+tinsert(eventQuests, {"Darkmoon Faire", 7928, nil, nil, nil, nil, Questie.IsSoD}) -- Darkmoon Warlords Deck
+tinsert(eventQuests, {"Darkmoon Faire", 7929, nil, nil, nil, nil, Questie.IsSoD}) -- Darkmoon Elementals Deck
 tinsert(eventQuests, {"Darkmoon Faire", 7930, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Darkmoon Flower
 tinsert(eventQuests, {"Darkmoon Faire", 7931, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 5 Tickets - Minor Darkmoon Prize
 tinsert(eventQuests, {"Darkmoon Faire", 7932, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 12 Tickets - Lesser Darkmoon Prize
@@ -66,6 +67,10 @@ tinsert(eventQuests, {"Darkmoon Faire", 80417}) -- Soft Bushy Tails
 tinsert(eventQuests, {"Darkmoon Faire", 80421}) -- Green Iron Bracers
 tinsert(eventQuests, {"Darkmoon Faire", 80422}) -- Green Fireworks
 tinsert(eventQuests, {"Darkmoon Faire", 80423}) -- The World's Largest Gnome!
+tinsert(eventQuests, {"Darkmoon Faire", 82055}) -- Darkmoon Dunes Deck
+tinsert(eventQuests, {"Darkmoon Faire", 82056}) -- Darkmoon Nightmares Deck
+tinsert(eventQuests, {"Darkmoon Faire", 82057}) -- Darkmoon Plagues Deck
+tinsert(eventQuests, {"Darkmoon Faire", 82058}) -- Darkmoon Wilds Deck
 tinsert(eventQuests, {"Darkmoon Faire", 82323}) -- Vibrant Plumes
 tinsert(eventQuests, {"Darkmoon Faire", 82271}) -- More Glowing Scorpid Blood
 tinsert(eventQuests, {"Darkmoon Faire", 82272}) -- Glowing Scorpid Blood
@@ -80,6 +85,10 @@ tinsert(eventQuests, {"Darkmoon Faire", 82280}) -- Mechanical Repair Kits
 tinsert(eventQuests, {"Darkmoon Faire", 82281}) -- More Armor Kits
 tinsert(eventQuests, {"Darkmoon Faire", 82282}) -- Armor Kits
 tinsert(eventQuests, {"Darkmoon Faire", 82283}) -- Crocolisk Boy and the Bearded Murloc
+tinsert(eventQuests, {"Darkmoon Faire", 86760}) -- Darkmoon Beast Deck
+tinsert(eventQuests, {"Darkmoon Faire", 86761}) -- Darkmoon Warlords Deck
+tinsert(eventQuests, {"Darkmoon Faire", 86762}) -- Darkmoon Elementals Deck
+tinsert(eventQuests, {"Darkmoon Faire", 86763}) -- Darkmoon Portals Deck
 
 -- TBC quests
 tinsert(eventQuests, {"Darkmoon Faire", 9249, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- 40 Tickets - Schematic: Steam Tonk Controller

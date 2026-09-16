@@ -245,6 +245,19 @@ describe("QuestieCompat", function()
     end)
 
     describe("GetCurrentCalendarTime", function()
+        local originalDateAndTime, originalGetGameTime
+
+        before_each(function()
+            originalDateAndTime = _G.C_DateAndTime
+            originalGetGameTime = _G.GetGameTime
+            _G.GetGameTime = nil
+        end)
+
+        after_each(function()
+            _G.C_DateAndTime = originalDateAndTime
+            _G.GetGameTime = originalGetGameTime
+        end)
+
         it("should error when no known function is available", function()
             _G.C_DateAndTime = {}
 
@@ -271,7 +284,31 @@ describe("QuestieCompat", function()
             assert.are_same(expected, currentTime)
         end)
 
-        it("should map values from C_DateAndTime.GetTodaysDate", function()
+        it("should preserve an actual native midnight timestamp", function()
+            local expected = {
+                monthDay = 2,
+                month = 12,
+                year = 2025,
+                weekday = 3,
+                hour = 0,
+                minute = 0,
+            }
+            _G.C_DateAndTime = {
+                GetCurrentCalendarTime = function() return expected end,
+                GetTodaysDate = spy.new(function() end),
+            }
+            _G.GetGameTime = spy.new(function() return 8, 47 end)
+
+            local currentTime = QuestieCompat.GetCurrentCalendarTime()
+
+            assert.are.equal(expected, currentTime)
+            assert.equals(0, currentTime.hour)
+            assert.equals(0, currentTime.minute)
+            assert.spy(_G.C_DateAndTime.GetTodaysDate).was.not_called()
+            assert.spy(_G.GetGameTime).was.not_called()
+        end)
+
+        it("should combine the legacy calendar date with the in-game clock", function()
             _G.C_DateAndTime = {
                 GetTodaysDate = function()
                     return {
@@ -283,6 +320,7 @@ describe("QuestieCompat", function()
                 end
             }
 
+            _G.GetGameTime = function() return 8, 47 end
             local currentTime = QuestieCompat.GetCurrentCalendarTime()
 
             assert.are_same({
@@ -290,9 +328,23 @@ describe("QuestieCompat", function()
                 month = 12,
                 year = 2025,
                 weekday = 3,
-                hour = 0,
-                minute = 0,
+                hour = 8,
+                minute = 47,
             }, currentTime)
+
+            _G.GetGameTime = function() return 0, 0 end
+            currentTime = QuestieCompat.GetCurrentCalendarTime()
+            assert.equals(0, currentTime.hour)
+            assert.equals(0, currentTime.minute)
+        end)
+
+        it("should error rather than return a partial timestamp when the legacy clock is unavailable", function()
+            _G.C_DateAndTime = {GetTodaysDate = spy.new(function() return {} end)}
+
+            assert.has_error(function()
+                QuestieCompat.GetCurrentCalendarTime()
+            end, "Questie tried to call a blizzard API function that does not exist...")
+            assert.spy(_G.C_DateAndTime.GetTodaysDate).was.not_called()
         end)
     end)
 end)

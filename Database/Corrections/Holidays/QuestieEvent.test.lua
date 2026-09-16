@@ -1,857 +1,442 @@
-dofile("setupTests.lua")
+local TestUtils = dofile("setupTests.lua")
 
 describe("QuestieEvent", function()
-    ---@type QuestieEvent
-    local QuestieEvent
-    ---@type QuestieCorrections
-    local QuestieCorrections
-    ---@type QuestieNPCFixes
-    local QuestieNPCFixes
-    ---@type QuestieTBCNpcFixes
-    local QuestieTBCNpcFixes
-    ---@type ContentPhases
-    local ContentPhases
-    ---@type Expansions
-    local Expansions
+    local QuestieEvent, QuestieCorrections, QuestieDB, DarkmoonFaire, DarkmoonFaireFixes, Expansions
+    local state, timers, originalGlobals
+    local initializationThread
 
-    ---@type luassert.spy
-    local printMock
+    ---@return nil
+    local function resumeInitialization()
+        local ok, err = coroutine.resume(initializationThread)
+        assert.is_true(ok, err)
+    end
+
+    ---@return nil
+    local function startInitialization()
+        initializationThread = coroutine.create(QuestieEvent.Initialize)
+        resumeInitialization()
+    end
 
     before_each(function()
-        Questie.IsClassic = false
-        Questie.IsAnniversaryEra = false
-        Questie.IsAnniversaryHardcore = false
-        Questie.IsTBC = false
+        originalGlobals = {}
+        for _, name in ipairs({"QuestieCompat", "C_Calendar", "C_Timer", "C_Seasons", "GetCVarBool", "SetCVar", "print", "Enum"}) do
+            originalGlobals[name] = _G[name]
+        end
+        _G.Enum = {SeasonID = {
+            SeasonOfMastery = 1, SeasonOfDiscovery = 2, Hardcore = 3, Fresh = 11, FreshHardcore = 12, TitanReforged = 109,
+        }}
+        TestUtils.resetEvents()
+        Questie.IsTitanReforged = false
+        Questie.IsSoD = false
         Questie.db.profile.showEventQuests = true
-        _G.Questie.Colorize = function(_, str) return str end
-        printMock = spy.new(function() end)
-        _G.print = printMock
+        Questie.Colorize = function(_, text) return text end
+        Questie.Warning = spy.new(function() end)
+        _G.print = spy.new(function() end)
+        _G.QuestieCompat = {GetCurrentCalendarTime = function()
+            return {year = 2026, month = 8, monthDay = 2, hour = 12, minute = 0}
+        end}
+        _G.C_Seasons = nil
         _G.GetCVarBool = function() return true end
         _G.SetCVar = function() end
-        QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
-        QuestieCorrections.hiddenQuests = {}
+        _G.C_Calendar = {OpenCalendar = spy.new(function() end), SetMonth = spy.new(function() end)}
+        timers = {}
+        ---@param seconds number
+        ---@param callback function
+        ---@return table
+        local function newTimer(seconds, callback)
+            local timer = {seconds = seconds, callback = callback, cancelled = false}
+            timer.Cancel = function() timer.cancelled = true end
+            table.insert(timers, timer)
+            return timer
+        end
+        _G.C_Timer = {NewTimer = newTimer, NewTicker = newTimer}
 
         Expansions = QuestieLoader:ImportModule("Expansions")
-
-        QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
-        QuestieNPCFixes.LoadDarkmoonFixes = function() return {} end
-        QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
-        QuestieTBCNpcFixes.LoadDarkmoonFixes = function() return {} end
-
-        dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
-        ContentPhases = QuestieLoader:ImportModule("ContentPhases")
+        Expansions.Current = Expansions.Wotlk
+        QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+        QuestieCorrections.hiddenQuests = {[7881] = true, [7905] = true, [7926] = true, [29433] = true}
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.npcDataOverrides = {}
+        DarkmoonFaire = QuestieLoader:ImportModule("DarkmoonFaire")
+        state = {status = "inactive"}
+        DarkmoonFaire.GetCurrentState = spy.new(function() return state end)
+        DarkmoonFaireFixes = QuestieLoader:ImportModule("DarkmoonFaireFixes")
+        DarkmoonFaireFixes.GetNpcFixes = spy.new(function(location)
+            if location == "DARKMOON_ISLAND" then return nil end
+            return {[14828] = {"location correction"}}
+        end)
         dofile("Localization/l10n.lua")
-
         dofile("Database/Corrections/Holidays/QuestieEvent.lua")
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
-        QuestieEvent.eventQuests = {} -- This is done on top level in QuestieEvent.lua
-        QuestieEvent.activeQuests = {} -- This is done on top level in QuestieEvent.lua
-        dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
+        QuestieEvent.eventDates = {}
+        QuestieEvent.lunarFestival = {DEFAULT = {}, TITAN = {}}
+        QuestieEvent.eventDateCorrections = {CLASSIC = {}, TBC = {}}
+        QuestieEvent.eventQuests = {
+            {"Darkmoon Faire", 7881},
+            {"Darkmoon Faire", 7905},
+            {"Darkmoon Faire", 7926},
+            {"Darkmoon Faire", 29433, nil, nil, nil, nil, true},
+        }
     end)
 
-    describe("Darkmoon Faire", function()
-        it("should not load for Anniversary servers in P1", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 11,
-                        month = 12,
-                        year = 2024,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
+    after_each(function()
+        TestUtils.resetEvents()
+        for _, name in ipairs({"QuestieCompat", "C_Calendar", "C_Timer", "C_Seasons", "GetCVarBool", "SetCVar", "print", "Enum"}) do
+            _G[name] = originalGlobals[name]
+        end
+    end)
+
+    describe("Darkmoon Faire activation", function()
+        it("applies each rotating location once and selects the correct announcement quests", function()
+            local cases = {
+                {"MULGORE", "Mulgore", false, true},
+                {"ELWYNN_FOREST", "Elwynn Forest", true, false},
+                {"TEROKKAR_FOREST", "Terokkar Forest", true, true},
             }
-            ContentPhases.activePhases.Anniversary = 1
-
-            Questie.IsClassic = true
-            Questie.IsAnniversaryEra = true
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            for _, case in ipairs(cases) do
+                -- Each case represents a fresh startup snapshot, not a live location transition.
+                QuestieEvent.initialized = false
+                QuestieDB.npcDataOverrides[14828] = {"previous location correction"}
+                QuestieEvent.eventQuests = {{"Darkmoon Faire", 7881}, {"Darkmoon Faire", 29433, nil, nil, nil, nil, true}}
+                QuestieEvent:Load({status = "active", location = case[1]})
+                assert.is_true(QuestieEvent.activeQuests[7881])
+                assert.is_nil(QuestieCorrections.hiddenQuests[7881])
+                assert.is_nil(QuestieEvent.activeQuests[29433])
+                assert.is_true(QuestieCorrections.hiddenQuests[29433])
+                assert.equals(case[3], QuestieEvent.activeQuests[7905] == true)
+                assert.equals(case[4], QuestieEvent.activeQuests[7926] == true)
+                assert.equals(not case[3], QuestieCorrections.hiddenQuests[7905] == true)
+                assert.equals(not case[4], QuestieCorrections.hiddenQuests[7926] == true)
+                assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with(case[1])
+                assert.same({"location correction"}, QuestieDB.npcDataOverrides[14828])
+                assert.spy(print).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in " .. case[2] .. "!")
+            end
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(3)
         end)
 
-        it("should not load for Anniversary HC servers in P1", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 11,
-                        month = 12,
-                        year = 2024,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
-            }
-            ContentPhases.activePhases.Anniversary = 1
-
-            Questie.IsClassic = true
-            Questie.IsAnniversaryEra = false
-            Questie.IsAnniversaryHardcore = true
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+        it("applies location corrections even when no event quests are visible", function()
+            QuestieEvent.eventQuests = {}
+            Questie.db.profile.showEventQuests = false
+            QuestieEvent:Load({status = "active", location = "MULGORE"})
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(1)
+            assert.same({"location correction"}, QuestieDB.npcDataOverrides[14828])
+            assert.spy(print).was.not_called()
         end)
 
-        it("should not load for Anniversary servers in P2", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 11,
-                        month = 12,
-                        year = 2024,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
-            }
-            ContentPhases.activePhases.Anniversary = 2
+        for _, expansion in ipairs({"Cata", "MoP"}) do
+            it("keeps island spawns and both faction announcement quests in " .. expansion, function()
+                Expansions.Current = Expansions[expansion]
+                QuestieEvent.eventQuests = {}
+                dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
+                QuestieDB.npcDataOverrides[14828] = {"existing island correction"}
+                QuestieEvent:Load({status = "active", location = "DARKMOON_ISLAND"})
+                assert.is_true(QuestieEvent.activeQuests[29506])
+                assert.is_true(QuestieEvent.activeQuests[7905])
+                assert.is_true(QuestieEvent.activeQuests[7926])
+                assert.is_nil(QuestieCorrections.hiddenQuests[7905])
+                assert.is_nil(QuestieCorrections.hiddenQuests[7926])
+                assert.is_nil(QuestieEvent.activeQuests[7881])
+                assert.same({"existing island correction"}, QuestieDB.npcDataOverrides[14828])
+                assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(1)
+                assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("DARKMOON_ISLAND")
+                assert.spy(print).was.called(1)
+                assert.spy(print).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Darkmoon Island!")
+            end)
+        end
 
-            Questie.IsClassic = true
-            Questie.IsAnniversaryEra = true
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+        it("retains pending event data without activating or announcing anything", function()
+            state = {status = "pending"}
+            assert.is_false(QuestieEvent:Load())
+            assert.is_false(QuestieEvent.initialized)
+            assert.is_table(QuestieEvent.eventQuests)
+            assert.same({}, QuestieEvent.activeQuests)
+            assert.spy(print).was.not_called()
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.not_called()
         end)
 
-        it("should not load for Anniversary servers in P2", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 11,
-                        month = 12,
-                        year = 2024,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
-            }
-            ContentPhases.activePhases.Anniversary = 2
-
-            Questie.IsClassic = true
-            Questie.IsAnniversaryEra = false
-            Questie.IsAnniversaryHardcore = true
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
+        it("keeps inactive DMF hidden while preserving event names and turn-in exceptions", function()
+            assert.is_true(QuestieEvent:Load())
+            assert.is_true(QuestieEvent.initialized)
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.same({}, QuestieEvent.activeQuests)
+            assert.is_true(QuestieCorrections.hiddenQuests[7881])
+            assert.equals("Darkmoon Faire", QuestieEvent.GetEventNameFor(7881))
+            assert.is_true(QuestieEvent.IsEventQuest(7881))
+            assert.is_false(QuestieEvent.IsEventActiveForQuest(7881))
+            assert.is_true(QuestieEvent.CanQuestBeTurnedInOutsideOfEvent(7937))
+            assert.spy(print).was.not_called()
         end)
 
-        it("should load for Anniversary servers in P3", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 11,
-                        month = 12,
-                        year = 2024,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
-            }
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2024, month = 12}
-                    else
-                        return {firstWeekday = 1}
-                    end
-                end
-            }
-            ContentPhases.activePhases.Anniversary = 3
-
-            Questie.IsClassic = true
-            Questie.IsAnniversaryEra = true
-
+        it("loads only once even if called again with an active result", function()
             QuestieEvent:Load()
+            assert.is_true(QuestieEvent:Load({status = "active", location = "MULGORE"}))
+            assert.same({}, QuestieEvent.activeQuests)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.not_called()
+        end)
+    end)
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+    describe("calendar startup lifecycle", function()
+        before_each(function() state = {status = "pending"} end)
+
+        it("waits for notification before resolving, then cancels every callback", function()
+            DarkmoonFaire.GetCurrentState = spy.new(function(ready)
+                return ready and {status = "active", location = "ELWYNN_FOREST"} or {status = "pending"}
+            end)
+            startInitialization()
+            QuestieEvent.Initialize()
+            assert.is_false(QuestieEvent.initialized)
+            assert.equals(2, #timers)
+            assert.spy(C_Calendar.OpenCalendar).was.called(1)
+            timers[2].callback()
+            resumeInitialization()
+            assert.is_false(QuestieEvent.initialized)
+            TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+            assert.is_false(QuestieEvent.initialized)
+            resumeInitialization()
+            assert.is_true(QuestieEvent.initialized)
+            assert.is_true(QuestieEvent.activeQuests[7905])
+            assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
+            assert.is_true(timers[1].cancelled)
+            assert.is_true(timers[2].cancelled)
+            timers[1].callback()
+            timers[2].callback()
+            TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(1)
+            assert.spy(Questie.Warning).was.not_called()
         end)
 
-        it("should load for Anniversary HC servers in P3", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 11,
-                        month = 12,
-                        year = 2024,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
-            }
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2024, month = 12}
-                    else
-                        return {firstWeekday = 1}
-                    end
-                end
-            }
-            ContentPhases.activePhases.Anniversary = 3
-
-            Questie.IsClassic = true
-            Questie.IsAnniversaryEra = false
-            Questie.IsAnniversaryHardcore = true
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        it("retries incomplete timestamps after notification without discarding event data", function()
+            startInitialization()
+            TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+            resumeInitialization()
+            assert.is_table(QuestieEvent.eventQuests)
+            state = {status = "active", location = "MULGORE"}
+            timers[2].callback()
+            resumeInitialization()
+            assert.is_true(QuestieEvent.initialized)
+            assert.is_true(QuestieEvent.activeQuests[7926])
+            assert.spy(DarkmoonFaire.GetCurrentState).was.called_with(true)
         end)
 
-        it("should load for Classic servers", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 11,
-                        month = 12,
-                        year = 2024,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
-            }
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2024, month = 12}
-                    else
-                        return {firstWeekday = 1}
-                    end
-                end
-            }
-
-            Questie.IsClassic = true
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+        it("bounds missing calendar data without guessing or suppressing other holidays", function()
+            QuestieEvent.eventDates = {Other = {startDate = "1/8", endDate = "5/8"}}
+            table.insert(QuestieEvent.eventQuests, {"Other", 123})
+            startInitialization()
+            assert.equals(5, timers[1].seconds)
+            timers[1].callback()
+            resumeInitialization()
+            assert.is_true(QuestieEvent.initialized)
+            assert.is_true(QuestieEvent.activeQuests[123])
+            assert.is_nil(QuestieEvent.activeQuests[7881])
+            assert.is_true(QuestieCorrections.hiddenQuests[7881])
+            assert.is_true(timers[2].cancelled)
+            assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
+            assert.spy(Questie.Warning).was.called(1)
+            assert.spy(Questie.Warning).was.called_with(
+                "Darkmoon Faire calendar data is unavailable; event availability could not be determined. Reload to retry.")
         end)
 
-        it("should not be active at 02:30 on start Monday for Era (hour gating)", function()
-            -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 2,
-                        monthDay = 8,
-                        month = 2,
-                        year = 2025,
-                        hour = 2,
-                        minute = 30,
-                    }
-                end
-            }
+        it("finishes immediately when calendar requests are unavailable or fail", function()
+            C_Calendar.OpenCalendar = function() error("native calendar failure") end
+            startInitialization()
+            assert.is_true(QuestieEvent.initialized)
+            assert.is_true(timers[1].cancelled)
+            assert.is_true(timers[2].cancelled)
+            assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
+            assert.spy(Questie.Warning).was.called(1)
+        end)
 
-            Questie.IsClassic = true
+        it("ignores reentrant list notifications caused by filter changes", function()
+            DarkmoonFaire.GetCurrentState = spy.new(function(ready)
+                if not ready then return {status = "pending"} end
+                TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+                return {status = "active", location = "TEROKKAR_FOREST"}
+            end)
+            startInitialization()
+            TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+            resumeInitialization()
+            assert.is_true(QuestieEvent.initialized)
+            assert.spy(DarkmoonFaire.GetCurrentState).was.called(2)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(1)
+        end)
+
+        it("propagates application failures through the owning coroutine after cleaning up callbacks", function()
+            startInitialization()
+            state = {status = "active", location = "MULGORE"}
+            DarkmoonFaireFixes.GetNpcFixes = function() error("correction failure") end
+            TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+            local ok, err = coroutine.resume(initializationThread)
+            assert.is_false(ok)
+            assert.matches("correction failure", err)
+            assert.equals("dead", coroutine.status(initializationThread))
+            assert.is_false(QuestieEvent.initialized)
+            assert.is_true(timers[1].cancelled)
+            assert.is_true(timers[2].cancelled)
+            assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
+        end)
+
+        it("does not request calendar data for an already-resolved calculated schedule", function()
+            state = {status = "active", location = "MULGORE"}
+            C_Calendar = nil
+            QuestieEvent.Initialize()
+            assert.is_true(QuestieEvent.initialized)
+            assert.equals(0, #timers)
+            assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
+        end)
+    end)
+
+    describe("resolver integration", function()
+        it("uses Era civil dates without depending on a calendar API", function()
             Expansions.Current = Expansions.Era
-
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 2}
-                    else
-                        return {firstWeekday = 2}
-                    end
-                end
-            }
-
-            QuestieEvent:Load()
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            QuestieCompat.GetCurrentCalendarTime = function()
+                return {year = 2026, month = 8, monthDay = 10, hour = 3, minute = 0}
+            end
+            C_Calendar = nil
+            dofile("Database/Corrections/Holidays/DarkmoonFaire.lua")
+            QuestieEvent.Initialize()
+            assert.is_true(QuestieEvent.initialized)
+            assert.is_true(QuestieEvent.activeQuests[7926])
+            assert.same({"location correction"}, QuestieDB.npcDataOverrides[14828])
         end)
 
-        it("should be active at 03:00 on start Monday for Era (hour gating)", function()
-            -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 2,
-                        monthDay = 8,
-                        month = 2,
-                        year = 2025,
-                        hour = 3,
-                        minute = 0,
-                    }
-                end
-            }
-
-            Questie.IsClassic = true
-            Expansions.Current = Expansions.Era
-
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 2}
-                    else
-                        return {firstWeekday = 2}
-                    end
-                end
-            }
-
-            QuestieEvent:Load()
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-        end)
-
-        it("should not be active on the following Monday at 03:00 for Era (end hour gating)", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 2,
-                        monthDay = 15,
-                        month = 3,
-                        year = 2025,
-                        hour = 3,
-                        minute = 0,
-                    }
-                end
-            }
-
-            Questie.IsClassic = true
-            Expansions.Current = Expansions.Era
-
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 3}
-                    else
-                        return {firstWeekday = 2}
-                    end
-                end
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
-        end)
-
-        it("should be active on the following Monday at 02:59 for Era (end hour gating)", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 2,
-                        monthDay = 15,
-                        month = 3,
-                        year = 2025,
-                        hour = 2,
-                        minute = 59,
-                    }
-                end
-            }
-
-            Questie.IsClassic = true
-            Expansions.Current = Expansions.Era
-
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 3}
-                    else
-                        return {firstWeekday = 2}
-                    end
-                end
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-        end)
-
-        it("should load for MoP servers on days with DMF texture for 'start'", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekDay = 4,
-                        monthDay = 3,
-                        month = 12,
-                        year = 2025,
-                        hour = 12,
-                        minute = 0,
-                    }
-                end
-            }
-            local getNumDayEventsMock = spy.new(function() return 1 end)
-            Expansions.Current = Expansions.MoP
-            _G.C_Calendar = {
-                GetNumDayEvents = getNumDayEventsMock,
-                GetHolidayInfo = function() return {texture = 235447, calendarType = "HOLIDAY"} end
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-            assert.spy(getNumDayEventsMock).was.called_with(0, 3)
-        end)
-
-        it("should load for MoP servers on days with DMF texture for 'ongoing'", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekDay = 4,
-                        monthDay = 3,
-                        month = 12,
-                        year = 2025,
-                        hour = 12,
-                        minute = 0,
-                    }
-                end
-            }
-            local getNumDayEventsMock = spy.new(function() return 1 end)
-            Expansions.Current = Expansions.MoP
-            _G.C_Calendar = {
-                GetNumDayEvents = getNumDayEventsMock,
-                GetHolidayInfo = function() return {texture = 235448, calendarType = "HOLIDAY"} end
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-            assert.spy(getNumDayEventsMock).was.called_with(0, 3)
-        end)
-
-        it("should load for MoP servers on days with DMF texture for 'end'", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekDay = 4,
-                        monthDay = 3,
-                        month = 12,
-                        year = 2025,
-                        hour = 12,
-                        minute = 0,
-                    }
-                end
-            }
-            local getNumDayEventsMock = spy.new(function() return 1 end)
-            Expansions.Current = Expansions.MoP
-            _G.C_Calendar = {
-                GetNumDayEvents = getNumDayEventsMock,
-                GetHolidayInfo = function() return {texture = 235446, calendarType = "HOLIDAY"} end
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-            assert.spy(getNumDayEventsMock).was.called_with(0, 3)
-        end)
-
-        it("should not load for MoP servers on days where DMF is inactive", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekDay = 1,
-                        monthDay = 23,
-                        month = 11,
-                        year = 2025,
-                        hour = 12,
-                        minute = 0,
-                    }
-                end
-            }
-            local getNumDayEventsMock = spy.new(function() return 1 end)
-            Expansions.Current = Expansions.MoP
-            _G.C_Calendar = {
-                GetNumDayEvents = getNumDayEventsMock,
-                GetHolidayInfo = function() return {texture = 235458, calendarType = "HOLIDAY"} end
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
-            assert.spy(getNumDayEventsMock).was.called_with(0, 23)
-        end)
-
-        it("should load for TBC servers when faire is in Mulgore and activate Horde announcement quest", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 12,
-                        month = 1,
-                        year = 2025,
-                        hour = 12,
-                        minute = 0,
-                    }
-                end
-            }
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 1}
-                    else
-                        return {firstWeekday = 7}
-                    end
-                end
-            }
-
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
-
-            Questie.IsTBC = true
-            Expansions.Current = Expansions.Tbc
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
-            assert.is_true(QuestieEvent.activeQuests[7926] == true)
+        it("uses the tester-captured Titan September dates and Mulgore artwork", function()
+            QuestieCompat.GetCurrentCalendarTime = function()
+                return {year = 2026, month = 9, monthDay = 8, hour = 0, minute = 4}
+            end
+            C_Seasons = {HasActiveSeason = function() return true end, GetActiveSeason = function() return 109 end}
+            C_Calendar.GetMonthInfo = function() return {year = 2026, month = 9} end
+            C_Calendar.SetAbsMonth = spy.new(function() end)
+            C_Calendar.GetNumDayEvents = function() return 1 end
+            C_Calendar.GetDayEvent = function()
+                return {calendarType = "HOLIDAY", eventID = 375, sequenceType = "ONGOING", iconTexture = 235450}
+            end
+            C_Calendar.GetHolidayInfo = function()
+                return {texture = 235450,
+                    startTime = {year = 2026, month = 9, monthDay = 6, hour = 0, minute = 1},
+                    endTime = {year = 2026, month = 9, monthDay = 12, hour = 23, minute = 59}}
+            end
+            dofile("Database/Corrections/Holidays/DarkmoonFaire.lua")
+            startInitialization()
+            TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+            resumeInitialization()
+            assert.is_true(QuestieEvent.initialized)
+            assert.is_true(QuestieEvent.activeQuests[7926])
             assert.is_nil(QuestieEvent.activeQuests[7905])
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, true, false)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("MULGORE")
         end)
 
-        it("should load for TBC servers when faire is in Elwynn Forest", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 10,
-                        month = 2,
-                        year = 2025,
-                        hour = 12,
-                        minute = 0,
-                    }
-                end
-            }
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 2}
-                    else
-                        return {firstWeekday = 2}
-                    end
-                end
-            }
-
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
-
-            Questie.IsTBC = true
-            Expansions.Current = Expansions.Tbc
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
-            assert.is_true(QuestieEvent.activeQuests[7905] == true)
-            assert.is_nil(QuestieEvent.activeQuests[7926])
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, false)
-        end)
-
-        it("should load for TBC servers when faire is in Terokkar Forest and activate both announcement quests", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 4,
-                        monthDay = 10,
-                        month = 3,
-                        year = 2025,
-                        hour = 12,
-                        minute = 0,
-                    }
-                end
-            }
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 3}
-                    else
-                        return {firstWeekday = 2}
-                    end
-                end
-            }
-
-            QuestieTBCNpcFixes.LoadDarkmoonFixes = spy.new(function() return {} end)
-
-            Questie.IsTBC = true
-            Expansions.Current = Expansions.Tbc
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
-            assert.is_true(QuestieEvent.activeQuests[7905] == true)
-            assert.is_true(QuestieEvent.activeQuests[7926] == true)
-            assert.spy(QuestieTBCNpcFixes.LoadDarkmoonFixes).was.called_with(QuestieTBCNpcFixes, false, true)
-        end)
-
-        it("should not load for TBC servers when faire is not active", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        weekday = 3,
-                        monthDay = 1,
-                        month = 4,
-                        year = 2025,
-                        hour = 0,
-                        minute = 0,
-                    }
-                end
-            }
-            _G.C_Calendar = {
-                GetMonthInfo = function(offset)
-                    if offset == nil then
-                        return {year = 2025, month = 4}
-                    else
-                        return {firstWeekday = 7}
-                    end
-                end
-            }
-
-            Questie.IsTBC = true
-            Expansions.Current = Expansions.Tbc
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
-        end)
-
-        it("should not activate DMF for MoP servers when GetNumDayEvents returns 0 events", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {
-                        minute = 0,
-                        hour = 12,
-                        weekDay = 1,
-                        monthDay = 23,
-                        month = 11,
-                        year = 2025
-                    }
-                end
-            }
-            local getNumDayEventsMock = spy.new(function() return 0 end)
+        it("handles synchronous OpenCalendar and nested month-selection notifications before applying corrections", function()
             Expansions.Current = Expansions.MoP
-            _G.C_Calendar = {
-                GetNumDayEvents = getNumDayEventsMock,
-                GetHolidayInfo = function() return nil end
-            }
+            QuestieCompat.GetCurrentCalendarTime = function()
+                return {year = 2026, month = 9, monthDay = 7, hour = 17, minute = 44}
+            end
+            local selectedMonth = 10
+            local visible, cached = false, false
+            _G.GetCVarBool = function() return visible end
+            _G.SetCVar = function(_, value) visible = value == "1" end
+            C_Calendar.GetMonthInfo = function() return {year = 2026, month = selectedMonth} end
+            C_Calendar.SetAbsMonth = spy.new(function(month, year)
+                assert.equals(2026, year)
+                selectedMonth = month
+                TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+                assert.is_false(QuestieEvent.initialized)
+            end)
+            C_Calendar.GetNumDayEvents = spy.new(function(offset, day)
+                if not cached then return nil end
+                if selectedMonth ~= 9 or offset ~= 0 or day ~= 7 or not visible then return 0 end
+                return 1
+            end)
+            C_Calendar.GetDayEvent = function()
+                return {calendarType = "HOLIDAY", eventID = 479, sequenceType = "ONGOING", iconTexture = 235447}
+            end
+            C_Calendar.GetHolidayInfo = function()
+                return {texture = 235447,
+                    startTime = {year = 2026, month = 9, monthDay = 6, hour = 0, minute = 1},
+                    endTime = {year = 2026, month = 9, monthDay = 12, hour = 23, minute = 59}}
+            end
+            C_Calendar.OpenCalendar = function()
+                -- Cache population, filter visibility and list notification are independent state changes.
+                cached = true
+                assert.equals(0, C_Calendar.GetNumDayEvents(0, 7))
+                TestUtils.triggerMockEvent("CALENDAR_UPDATE_EVENT_LIST")
+                assert.is_false(QuestieEvent.initialized)
+            end
+            dofile("Database/Corrections/Holidays/DarkmoonFaire.lua")
 
-            QuestieEvent:Load()
+            startInitialization()
 
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_nil(next(QuestieEvent.activeQuests))
-        end)
-
-        it("should hide DMF events if user had them hidden before", function()
-            local getCvarBoolMock = spy.new(function() return false end)
-            _G.GetCVarBool = getCvarBoolMock
-            local setCvarMock = spy.new(function() end)
-            _G.SetCVar = setCvarMock
-
-            QuestieEvent:Load()
-
-            assert.spy(getCvarBoolMock).was.called_with("calendarShowDarkmoon")
-            assert.spy(setCvarMock).was.called_with("calendarShowDarkmoon", "0")
+            assert.is_true(QuestieEvent.initialized)
+            assert.is_true(QuestieEvent.activeQuests[7905])
+            assert.is_true(QuestieEvent.activeQuests[7926])
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called(1)
+            assert.spy(DarkmoonFaireFixes.GetNpcFixes).was.called_with("DARKMOON_ISLAND")
+            assert.equals(10, selectedMonth)
+            assert.is_false(visible)
+            assert.spy(C_Calendar.SetAbsMonth).was.called(2)
+            assert.spy(C_Calendar.SetMonth).was.not_called()
+            assert.is_false(TestUtils.isEventRegistered("CALENDAR_UPDATE_EVENT_LIST"))
+            assert.is_true(timers[1].cancelled)
+            assert.is_true(timers[2].cancelled)
         end)
     end)
 
-    describe("General event HH:MM gating", function()
-        before_each(function()
-            Expansions.Current = Expansions.Tbc
-
-            QuestieEvent.lunarFestival = {DEFAULT = {}, TITAN = {}}
-            -- Clear corrections so tests fully control eventDates without expansion overrides
-            QuestieEvent.eventDateCorrections = {TBC = {}}
-        end)
-
-        it("should not activate an event before its start hour", function()
-            -- Event starts 10:00 on 9 Feb, ends 10:00 on 23 Feb
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 9, month = 2, year = 2025, hour = 9, minute = 59}
+    describe("general event HH:MM gating", function()
+        local cases = {
+            {"before opening", 2025, 2, 9, 9, 59, "9/2", "23/2", false},
+            {"at opening", 2025, 2, 9, 10, 0, "9/2", "23/2", true},
+            {"after closing", 2025, 2, 23, 10, 1, "9/2", "23/2", false},
+            {"cross-year December", 2025, 12, 20, 12, 0, "15/12", "2/1", true},
+            {"cross-year January", 2026, 1, 1, 12, 0, "15/12", "2/1", true},
+            {"outside cross-year window", 2025, 6, 15, 12, 0, "15/12", "2/1", false},
+        }
+        for _, case in ipairs(cases) do
+            it(case[1], function()
+                QuestieCompat.GetCurrentCalendarTime = function()
+                    return {year = case[2], month = case[3], monthDay = case[4], hour = case[5], minute = case[6]}
                 end
-            }
-            QuestieEvent.eventDates = {
-                ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
-            }
+                QuestieEvent.eventDates = {Other = {
+                    startDate = case[7], endDate = case[8], startHour = 10, startMinute = 0, endHour = 10, endMinute = 0,
+                }}
+                QuestieEvent.eventQuests = {{"Other", 123}}
+                QuestieEvent:Load()
+                assert.equals(case[9], QuestieEvent.activeQuests[123] == true)
+                if case[9] then
+                    assert.spy(print).was.called(1)
+                else
+                    assert.spy(print).was.not_called()
+                end
+            end)
+        end
+
+        it("keeps a quest hidden until tomorrow even though its event is already active", function()
+            QuestieCompat.GetCurrentCalendarTime = function()
+                return {year = 2026, month = 8, monthDay = 2, hour = 12, minute = 0}
+            end
+            QuestieEvent.eventDates = {Other = {startDate = "1/8", endDate = "5/8"}}
             QuestieEvent.eventQuests = {
-                {"Love is in the Air", 9032},
+                {"Other", 123, "3/8", "5/8"},
+                {"Other", 456, "2/8", "5/8"},
             }
+            QuestieCorrections.hiddenQuests[123] = true
+            QuestieCorrections.hiddenQuests[456] = true
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(next(QuestieEvent.activeQuests))
+            assert.is_nil(QuestieEvent.activeQuests[123])
+            assert.is_true(QuestieCorrections.hiddenQuests[123])
+            assert.is_true(QuestieEvent.activeQuests[456])
+            assert.is_nil(QuestieCorrections.hiddenQuests[456])
         end)
 
-        it("should activate an event at exactly its start hour", function()
-            -- Event starts 10:00 on 9 Feb, ends 10:00 on 23 Feb
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 9, month = 2, year = 2025, hour = 10, minute = 0}
-                end
-            }
-            QuestieEvent.eventDates = {
-                ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
-            }
+        it("honors quest-specific windows within an active event", function()
+            QuestieEvent.eventDates = {Other = {startDate = "1/8", endDate = "5/8"}}
             QuestieEvent.eventQuests = {
-                {"Love is in the Air", 9032},
+                {"Other", 123, "2/8", "3/8", "13:00", "10:00"},
+                {"Other", 456, "2/8", "3/8", "10:00", "10:00"},
             }
-
             QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Love is in the Air' world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-        end)
-
-        it("should not activate an event after its end hour on the end day", function()
-            -- Event ends at 10:00 on 23 Feb; 10:01 should be inactive
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 23, month = 2, year = 2025, hour = 10, minute = 1}
-                end
-            }
-            QuestieEvent.eventDates = {
-                ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
-            }
-            QuestieEvent.eventQuests = {
-                {"Love is in the Air", 9032},
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(next(QuestieEvent.activeQuests))
-        end)
-
-        it("should activate a cross-year event in December (Winter Veil)", function()
-            -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Dec 20
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 6, monthDay = 20, month = 12, year = 2025, hour = 12, minute = 0}
-                end
-            }
-            QuestieEvent.eventDates = {
-                ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
-            }
-            QuestieEvent.eventQuests = {
-                {"Winter Veil", 8763},
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Winter Veil' world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-        end)
-
-        it("should activate a cross-year event in January (Winter Veil)", function()
-            -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Jan 1
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 3, monthDay = 1, month = 1, year = 2026, hour = 12, minute = 0}
-                end
-            }
-            QuestieEvent.eventDates = {
-                ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
-            }
-            QuestieEvent.eventQuests = {
-                {"Winter Veil", 8763},
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Winter Veil' world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
-        end)
-
-        it("should not activate a cross-year event outside its window (Winter Veil)", function()
-            -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Jun 15
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 15, month = 6, year = 2025, hour = 12, minute = 0}
-                end
-            }
-            QuestieEvent.eventDates = {
-                ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
-            }
-            QuestieEvent.eventQuests = {
-                {"Winter Veil", 8763},
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.not_called()
-            assert.is_nil(next(QuestieEvent.activeQuests))
-        end)
-
-        it("should not activate a quest outside its own HH:MM window during an active event", function()
-            -- Event is active for the whole day; quest has its own narrower window
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 5, month = 4, year = 2025, hour = 14, minute = 0}
-                end
-            }
-            QuestieEvent.eventDates = {
-                ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
-            }
-            -- Quest has its own date/time sub-window: 6 Apr 10:00 - 10 Apr 10:00 (quest is NOT active on Apr 5)
-            QuestieEvent.eventQuests = {
-                {"Noblegarden", 13479, "6/4", "10/4", "10:00", "10:00"},
-            }
-
-            QuestieEvent:Load()
-
-            -- Event itself prints active
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Noblegarden' world event is active!")
-            -- But quest sub-window (Apr 6-10) does not include Apr 5, so quest should not be active
-            assert.is_nil(next(QuestieEvent.activeQuests))
-        end)
-
-        it("should activate a quest with its own HH:MM window when inside the sub-window", function()
-            -- Event is active; quest sub-window also covers the current date/time
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 8, month = 4, year = 2025, hour = 14, minute = 0}
-                end
-            }
-            QuestieEvent.eventDates = {
-                ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
-            }
-            QuestieEvent.eventQuests = {
-                {"Noblegarden", 13479, "6/4", "10/4", "10:00", "10:00"},
-            }
-
-            QuestieEvent:Load()
-
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Noblegarden' world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_nil(QuestieEvent.activeQuests[123])
+            assert.is_true(QuestieEvent.activeQuests[456])
         end)
     end)
 end)
