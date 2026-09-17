@@ -103,6 +103,8 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type VersionCheckDB
+local VersionCheckDB = QuestieLoader:ImportModule("VersionCheckDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type Townsfolk
@@ -141,13 +143,13 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- This needs to happen after ADDON_LOADED.
     l10n.InitializeUILocale()
 
-    -- QuestieDB Contract gate: a hard error before any entity read, locale forwarding, or Correction work.
-    local contractSupported, contractError = LibQuestieDB.RequireContract(2)
+    -- This gates login work, not the provider bindings already made during TOC file loading.
+    local contractSupported, contractError = VersionCheckDB.Check()
     if not contractSupported then
         error(contractError, 0)
     end
 
-    if type(LibQuestieDB.l10n.SetCorrection) ~= "function" then
+    if type(LibQuestieDB.l10n) ~= "table" or type(LibQuestieDB.l10n.SetCorrection) ~= "function" then
         error("Questie requires QuestieDB localization corrections. Update QuestieDB.", 0)
     end
 

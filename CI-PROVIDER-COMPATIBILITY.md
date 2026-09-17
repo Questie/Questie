@@ -1,6 +1,6 @@
 # CI against released and developing QuestieDB
 
-Status: proposal. This document does not change CI.
+Status: provider integration checks remain a proposal. CI now validates the TOC contract declarations and the build preflight, but does not yet select or download a supported provider release.
 
 Questie should run focused integration tests against real QuestieDB checkouts, not only its test mock. The checks should protect compatibility with the provider users can install while warning about changes developing on QuestieDB master.
 
@@ -29,6 +29,10 @@ The original idea was to test master first and try a release only if master fail
 Always running the release check prevents merging a consumer that only works with unreleased provider code. The advisory master check still lets the two repositories develop independently.
 
 ## Selecting the required target
+
+Every supported Questie TOC declares `## X-QuestieDB-Contract: 2`. Build preflight and CI reject missing, malformed, duplicate, or inconsistent declarations. The runtime initialization check reads the active TOC rather than hardcoding the requirement. It still runs after file-load provider bindings; moving that gate earlier is tracked in `PLAN-release-bundles.md`.
+
+QuestieDB's release manifest now includes the actual baked `version` and supported contract range. A candidate must satisfy `minSupportedContract <= required <= contractVersion`. A range match is only eligibility, not proof that all APIs Questie uses work; integration checks and the remaining contract/API audit must establish that promise.
 
 Keep an explicit supported release reference in the Questie repository and update it deliberately. Prefer a published, non-prerelease version rather than whichever tag happens to be newest. Record the resolved commit SHA in CI output for both targets.
 

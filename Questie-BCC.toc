@@ -22,6 +22,7 @@
 ## Category-zhTW: 任務
 ## Version: 11.38.0
 ## RequiredDeps: QuestieDB
+## X-QuestieDB-Contract: 2
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: QuestieConfig, QuestieProfilerEnabled
@@ -43,6 +44,7 @@ Modules\QuestieCompat.lua
 embeds.xml
 
 Modules\VersionCheck.lua
+Modules\VersionCheckDB.lua
 
 Modules\Expansions.lua
 

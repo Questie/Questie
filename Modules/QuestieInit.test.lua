@@ -10,6 +10,7 @@ describe("QuestieInit", function()
 
     ---@type string[]
     local callOrder
+    local originalGetMetadata
 
     ---@param name string
     ---@return fun(): nil
@@ -33,6 +34,12 @@ describe("QuestieInit", function()
     end
 
     before_each(function()
+        originalGetMetadata = C_AddOns.GetAddOnMetadata
+        C_AddOns.GetAddOnMetadata = function(addon, field)
+            if addon == "Questie" and field == "X-QuestieDB-Contract" then return "2" end
+            if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
+        end
+        dofile("Modules/VersionCheckDB.lua")
         mock = LoadQuestieDBMock()
         callOrder = {}
         Questie.db.profile.enableTooltipsObjectID = false
@@ -70,6 +77,10 @@ describe("QuestieInit", function()
         QuestieInit = QuestieLoader:ImportModule("QuestieInit")
     end)
 
+    after_each(function()
+        C_AddOns.GetAddOnMetadata = originalGetMetadata
+    end)
+
     describe("Stage 1", function()
         it("runs Login Initialization in the compiler-free order", function()
             _RunStage(1)
@@ -93,6 +104,36 @@ describe("QuestieInit", function()
             assert.are_same({"deDE"}, mock.setLocaleCalls)
         end)
 
+        it("uses the TOC requirement instead of a hardcoded contract", function()
+            C_AddOns.GetAddOnMetadata = function(addon, field)
+                if addon == "Questie" and field == "X-QuestieDB-Contract" then return "3" end
+                if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
+            end
+
+            assert.has_error(function() _RunStage(1) end,
+                "Questie requires QuestieDB contract 3; installed QuestieDB version: 1.1.1. " ..
+                "QuestieDB contract mismatch: this consumer needs version 3, the installed QuestieDB provides 2 " ..
+                "(supporting consumers back to 1). Update whichever is older.")
+            assert.are_same({}, mock.setLocaleCalls)
+        end)
+
+        it("stops before provider work when the TOC requirement is missing", function()
+            C_AddOns.GetAddOnMetadata = function() return nil end
+
+            assert.has_error(function() _RunStage(1) end,
+                "Questie's TOC has a missing or invalid X-QuestieDB-Contract. Reinstall Questie.")
+            assert.are_same({"l10n.InitializeUILocale"}, callOrder)
+        end)
+
+        it("stops with an actionable error when the provider contract API is unavailable", function()
+            mock.lib.RequireContract = nil
+
+            assert.has_error(function() _RunStage(1) end,
+                "Questie requires QuestieDB contract 2; installed QuestieDB version: 1.1.1. " ..
+                "The provider contract API is unavailable. Install or update QuestieDB and reload.")
+            assert.are_same({"l10n.InitializeUILocale"}, callOrder)
+        end)
+
         it("rejects an older contract-2 provider missing translation slots before forwarding", function()
             mock.lib.l10n.SetCorrection = nil
             assert.has_error(function() _RunStage(1) end,
@@ -107,7 +148,8 @@ describe("QuestieInit", function()
 
             assert.has_error(function()
                 _RunStage(1)
-            end, "QuestieDB contract mismatch: this consumer needs version 2, the installed QuestieDB provides 1 " ..
+            end, "Questie requires QuestieDB contract 2; installed QuestieDB version: 1.1.1. " ..
+                "QuestieDB contract mismatch: this consumer needs version 2, the installed QuestieDB provides 1 " ..
                 "(supporting consumers back to 1). Update whichever is older.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
         end)

@@ -41,6 +41,10 @@ describe("QuestieDBMock", function()
         it("rejects a non-numeric version", function()
             assert.is_false((LibQuestieDB.RequireContract("1")))
         end)
+
+        it("rejects a fractional version inside the supported range", function()
+            assert.is_false((LibQuestieDB.RequireContract(1.5)))
+        end)
     end)
 
     describe("entity reads", function()

@@ -432,7 +432,8 @@ local function LoadQuestieDBMock()
     ---@return boolean ok
     ---@return string? message
     function lib.RequireContract(required)
-        if type(required) == "number" and required >= mock.minSupportedContract and required <= mock.contractVersion then
+        if type(required) == "number" and required > 0 and required % 1 == 0
+            and required >= mock.minSupportedContract and required <= mock.contractVersion then
             return true
         end
         return false, ("QuestieDB contract mismatch: this consumer needs version %s, the installed QuestieDB provides %s " ..
