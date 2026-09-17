@@ -41,6 +41,48 @@ if not TooltipBackdropTemplateMixin then
     TooltipBackdropTemplateMixin = BackdropTemplateMixin
 end
 
+--------------------------------------------------
+-- WoW: Forever compatibility (modern quest log API)
+--------------------------------------------------
+
+-- Forever dropped the index based quest log API in favour of C_QuestLog. Questie reads the quest
+-- log in roughly 40 places, so the missing globals are restored here instead of at every call site.
+-- Questie.IsForever can not be used for the check, this file loads before VersionCheck.lua.
+if not GetNumQuestLogEntries then
+    function GetNumQuestLogEntries()
+        return C_QuestLog.GetNumQuestLogEntries()
+    end
+end
+
+if not GetQuestLogIndexByID then
+    function GetQuestLogIndexByID(questId)
+        return C_QuestLog.GetLogIndexForQuestID(questId)
+    end
+end
+
+if not GetQuestLogTitle then
+    function GetQuestLogTitle(questLogIndex)
+        local info = C_QuestLog.GetInfo(questLogIndex)
+        if not info then
+            return nil -- Callers break out of their loop once the title is nil
+        end
+
+        -- Questie expects the number the old API returned: -1 = failed, nil = not complete, 1 = complete.
+        -- Headers have a questID of 0 and no completion state.
+        local isComplete
+        if info.questID > 0 then
+            if C_QuestLog.IsFailed(info.questID) then
+                isComplete = -1
+            elseif C_QuestLog.IsComplete(info.questID) then
+                isComplete = 1
+            end
+        end
+
+        return info.title, info.level, info.suggestedGroup, info.isHeader, info.isCollapsed,
+            isComplete, info.frequency, info.questID
+    end
+end
+
 -------------------------------------------
 -- API difference compatibility (Era/Wotlk)
 -------------------------------------------
