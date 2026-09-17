@@ -10,7 +10,7 @@ local battlegroundsLocales = {
         ["esES"] = "Garganta Grito de Guerra",
         ["esMX"] = "Garganta Grito de Guerra",
         ["frFR"] = (Expansions.Current == Expansions.Era and "Goulet des Warsong") or "Goulet des Chanteguerres",
-        ["itIT"] = (Expansions.Current == Expansions.Era and true) or "Forra dei Cantaguerra",
+        ["itIT"] = "Forra dei Cantaguerra",
         ["koKR"] = "전쟁노래 협곡",
         ["ptBR"] = "Ravina Brado Guerreiro",
         ["ruRU"] = "Ущелье Песни Войны",
