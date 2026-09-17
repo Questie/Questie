@@ -54,6 +54,11 @@ Questie.db = {profile = {minimap = {hide = false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
+--- Addon is running on World of Warcraft: Forever client
+--- There is no WOW_PROJECT_ID for it yet, so the interface version (e.g. 16001) is used instead
+---@type boolean
+Questie.IsForever = string.sub(select(4, GetBuildInfo()), 1, 2) == "16"
+
 --- Addon is running on Classic MoP client
 ---@type boolean
 Questie.IsMoP = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
