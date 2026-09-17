@@ -89,6 +89,10 @@ describe("l10n", function()
         assert.are_same("deDE", l10n:GetUILocale())
     end)
 
+    it("should return itIT as a supported fallback UI locale", function()
+        assert.are_same("itIT", l10n:GetFallbackLocale("itIT"))
+    end)
+
     it("should return locale override locales as supported fallbacks", function()
         Questie.db.global.questieLocaleDiff = false
         _G.QUESTIE_LOCALES_OVERRIDE = {

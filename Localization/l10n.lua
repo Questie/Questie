@@ -35,6 +35,7 @@ local supportedLocals = {
     ['esES'] = true,
     ['esMX'] = true,
     ['frFR'] = true,
+    ['itIT'] = true,
     ['koKR'] = true,
     ['ptBR'] = true,
     ['ruRU'] = true,

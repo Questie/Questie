@@ -8,6 +8,7 @@ local moonwellLocales = {
         ["esES"] = "Poza de la Luna",
         ["esMX"] = "Poza de la Luna",
         ["frFR"] = "Puits de lune",
+        ["itIT"] = "Pozzo Lunare",
         ["koKR"] = "달샘",
         ["ptBR"] = "Poço Lunar",
         ["ruRU"] = "Лунный колодец",

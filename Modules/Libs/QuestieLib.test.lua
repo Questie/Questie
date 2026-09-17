@@ -584,6 +584,16 @@ describe("QuestieLib", function()
             assert.are_same("Mercredi 18 Février 2026 à 19:35", formattedDate)
         end)
 
+        it("should format date for itIT", function()
+            l10n.GetUILocale = function() return "itIT" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Mercoledì 18 Febbraio 2026 alle 19:35", formattedDate)
+        end)
+
         it("should format date for koKR", function()
             l10n.GetUILocale = function() return "koKR" end
             _G.CALENDAR_WEEKDAY_NAMES = {"일요일","월요일","화요일","수요일","목요일","금요일","토요일"}

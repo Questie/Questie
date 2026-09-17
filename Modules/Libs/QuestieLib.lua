@@ -771,6 +771,8 @@ function QuestieLib.FormatDate(timeStamp)
         return date(weekDay .. ", %d de " .. monthName .. " de %Y a las %H:%M", timeStamp)
     elseif langCode == "frFR" then
         return date(weekDay .. " %d " .. monthName .. " %Y à %H:%M", timeStamp)
+    elseif langCode == "itIT" then
+        return date(weekDay .. " %d " .. monthName .. " %Y alle %H:%M", timeStamp)
     elseif langCode == "koKR" then
         return date("%Y년 " .. monthName .. " %d일" .. " " .. weekDay .. " %H:%M", timeStamp)
     elseif langCode == "ptBR" then
