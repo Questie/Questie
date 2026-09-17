@@ -76,7 +76,11 @@ local bindTruthTable = {
     ["disabled"] = function() return false end,
 }
 
-local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
+-- WoW: Forever does not have the Classic quest log frame, so there is no scroll bar to grab
+local _QuestLogScrollBar
+if not Questie.IsForever then
+    _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
+end
 
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
@@ -87,8 +91,10 @@ function TrackerUtils:ShowQuestLog(quest)
     SelectQuestLogEntry(questLogIndex)
 
     -- Scroll to the quest in the quest log
-    local scrollSteps = _QuestLogScrollBar:GetValueStep()
-    _QuestLogScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3)
+    if _QuestLogScrollBar then
+        local scrollSteps = _QuestLogScrollBar:GetValueStep()
+        _QuestLogScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3)
+    end
 
     if not questFrame:IsShown() then
         if not InCombatLockdown() then

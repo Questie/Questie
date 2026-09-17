@@ -142,6 +142,10 @@ function TrackerBaseFrame.Initialize()
                 TrackerBaseFrame:SetSafePoint()
             end
         end
+    elseif Questie.IsForever then
+        -- WoW: Forever has no Classic WatchFrame to inherit a position from
+        Questie.db.profile.trackerSetpoint = "TOPLEFT"
+        TrackerBaseFrame:SetSafePoint()
     else
         local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ QuestieCompat.GetWatchFramePoint() }))
         Questie.db.profile.trackerSetpoint = "TOPLEFT"
