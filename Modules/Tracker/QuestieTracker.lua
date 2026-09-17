@@ -70,7 +70,16 @@ if VoiceOverFrame then
     voiceOverInitialPosition = {VoiceOverFrame:GetPoint()}
 end
 
-local questsWatched = GetNumQuestWatches()
+local function _GetNumQuestWatches()
+    -- WoW: Forever does not provide the Classic quest watch API.
+    if Questie.IsForever then
+        return 0
+    end
+
+    return GetNumQuestWatches()
+end
+
+local questsWatched = _GetNumQuestWatches()
 
 local trackedAchievements
 local trackedAchievementIds
@@ -474,7 +483,7 @@ end
 function QuestieTracker:Enable()
     -- Update the questsWatched var before we re-enable
     if questsWatched == 0 then
-        questsWatched = GetNumQuestWatches()
+        questsWatched = _GetNumQuestWatches()
     end
 
     Questie.db.profile.trackerEnabled = true
