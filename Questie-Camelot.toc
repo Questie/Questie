@@ -1,4 +1,4 @@
-## Interface: 11508, 11509, 16001
+## Interface: 16001
 ## Title: Questie|cFF00FF00 v11.38.0|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Sommos/Everyone else
 ## Notes: A standalone Classic QuestHelper
