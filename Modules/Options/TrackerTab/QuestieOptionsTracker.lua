@@ -160,7 +160,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             -- Update Quest Log and mark tracked Quests
                             local questLogFrame = QuestieCompat.GetQuestLogFrame()
                             if questLogFrame:IsShown() then
-                                QuestLog_Update()
+                                QuestieCompat.QuestLog_Update()
                             end
 
                             QuestieTracker:Update()

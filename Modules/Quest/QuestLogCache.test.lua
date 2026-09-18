@@ -16,7 +16,7 @@ describe("QuestLogCache", function()
         questObjectives = {}
 
         _G.HaveQuestData = function() return true end
-        _G.GetQuestLogTitle = function(index)
+        QuestieCompat.GetQuestLogTitle = function(index)
             local entry = questLogTitles[index]
             if entry then
                 return table.unpack(entry)

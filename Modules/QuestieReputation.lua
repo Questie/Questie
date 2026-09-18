@@ -14,7 +14,6 @@ local playerReputations = {}
 local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
 
 -- Fast local references
-local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
 local tinsert, floor = table.insert, math.floor
 
 --- Updates all factions a player already discovered and checks if any of these
@@ -22,13 +21,13 @@ local tinsert, floor = table.insert, math.floor
 ---@param isInit boolean? @
 function QuestieReputation:Update(isInit)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieReputation: Update")
-    ExpandFactionHeader(0) -- Expand all header
+    QuestieCompat.ExpandFactionHeader(0) -- Expand all header
 
     local factionChanged = false
     local newFaction = false
 
-    for i=1, GetNumFactions() do
-        local name, description, standingId, _, _, barValue, _, _, _, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
+    for i=1, QuestieCompat.GetNumFactions() do
+        local name, description, standingId, _, _, barValue, _, _, _, _, _, _, _, factionID, _, _ = QuestieCompat.GetFactionInfo(i)
         if factionID and description then -- we use description instead of isHeader because some factions are header (e.g. The Tillers)
             local previousValues = playerReputations[factionID]
             if (not previousValues) then
@@ -302,7 +301,7 @@ function QuestieReputation.GetReputationReward(questId)
         if reward then
             reward = reward * (reward > 0 and reputationMultiplier or 1)
             -- faction bonus commendation check
-            if select(15, GetFactionInfoByID(factionId)) == true then
+            if select(15, QuestieCompat.GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
             end
 
@@ -337,7 +336,7 @@ end
 _GetBuffMultiplier = function()
     local buffMultiplier = 0
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
+        local _, _, _, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then
             break
         end
@@ -394,7 +393,7 @@ function QuestieReputation.GetFactionName(factionId)
         return friendReputation.name
     end
 
-    return select(1, GetFactionInfoByID(factionId))
+    return select(1, QuestieCompat.GetFactionInfoByID(factionId))
 end
 
 ---@param reputationReward ReputationPair[]

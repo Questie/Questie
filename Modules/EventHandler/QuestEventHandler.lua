@@ -48,7 +48,6 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type BreadcrumbQuests
 local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
@@ -83,7 +82,7 @@ function QuestEventHandler:Initialize()
             end
 
             for questLogIndex = 1, 75 do
-                local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
+                local title, _, _, isHeader, _, _, _, questId = QuestieCompat.GetQuestLogTitle(questLogIndex)
 
                 if (not title) then
                     break
@@ -98,14 +97,14 @@ function QuestEventHandler:Initialize()
                         local reqSourceItemId, reqSoureItemName
 
                         if sourceItemId then
-                            sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(sourceItemId)
+                            sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = QuestieCompat.GetItemInfo(sourceItemId)
                         end
 
                         if quest.requiredSourceItems then
                             reqSourceItemId = quest.requiredSourceItems[1]
 
                             if reqSourceItemId then
-                                reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(reqSourceItemId)
+                                reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = QuestieCompat.GetItemInfo(reqSourceItemId)
                             end
                         end
 
@@ -159,7 +158,7 @@ function QuestEventHandler:Initialize()
                             text:SetFormattedText(updateText, text_arg1, questName)
                             text.text_arg1 = updateText
 
-                            StaticPopup_Resize(frame, which)
+                            QuestieCompat.StaticPopup_Resize(frame, which)
                             deletedQuestItem = true
 
                             Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
@@ -222,7 +221,7 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
 
     -- Timed quests do not need a full Quest Log Update.
     -- TODO: Add achievement timers later.
-    local questTimers = GetQuestTimers(questId)
+    local questTimers = QuestieCompat.GetQuestTimers(questId)
     if type(questTimers) == "number" then
         lastMarkerQuestEventTime = GetTime()
     end
@@ -236,7 +235,7 @@ end
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- The quest may have been abandoned (e.g. auto-abandon for incomplete breadcrumb) while waiting for the cache
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if not questLogIndex or questLogIndex == 0 then
         Questie.Debug(Questie.DEBUG_INFO, "Quest", questId, "is no longer in the quest log, skipping accept logic")
         return

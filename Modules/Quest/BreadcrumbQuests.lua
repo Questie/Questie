@@ -17,11 +17,11 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@param breadcrumbQuestId number
 ---@return boolean @Whether the quest was abandoned
 function BreadcrumbQuests.AbandonQuest(questId, breadcrumbQuestId)
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if questLogIndex and questLogIndex > 0 then
-        SelectQuestLogEntry(questLogIndex)
-        SetAbandonQuest()
-        AbandonQuest()
+        QuestieCompat.SelectQuestLogEntry(questLogIndex)
+        QuestieCompat.SetAbandonQuest()
+        QuestieCompat.AbandonQuest()
         local questLink = QuestieLink:GetQuestHyperLink(questId)
         local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
         Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s is not completed.", questLink, breadcrumbLink))

@@ -60,6 +60,7 @@ globals = {
     "AddChatWindowChannel",
     "AddChatWindowMessages",
     "AddQuestWatch",
+    "AddTrackedAchievement",
     "AddTradeMoney",
     "Ambiguate",
     "AntiAliasingSupported",

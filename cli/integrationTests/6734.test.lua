@@ -61,7 +61,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             [1] = {"Feralas", nil, nil, true, false, false, nil, nil},
             [2] = {"The Mark of Quality", 46, nil, false, false, nil, nil, 2822},
         }
-        _G.GetQuestLogTitle = function(index)
+        QuestieCompat.GetQuestLogTitle = function(index)
             return table.unpack(mockedQuestLogTitle[index] or {nil, nil, nil, false, nil, false, nil, nil})
         end
         local mockedQuestObjectives = {

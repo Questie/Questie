@@ -49,7 +49,7 @@ function AutoCompleteFrame.Initialize(baseFrame)
     autoCompleteFrame.hintText:SetPoint("TOP", 0, -25)
 
     autoCompleteFrame:SetScript("OnClick", function()
-        ShowQuestComplete(GetQuestLogIndexByID(autoCompleteFrame.questId))
+        ShowQuestComplete(QuestieCompat.GetQuestLogIndexByID(autoCompleteFrame.questId))
         autoCompleteFrame:Hide()
     end)
 
@@ -60,7 +60,7 @@ end
 
 ---@param questId number @The questId to show the auto complete frame for
 function AutoCompleteFrame.ShowAutoComplete(questId)
-    local questTitle = GetQuestLogTitle(GetQuestLogIndexByID(questId))
+    local questTitle = QuestieCompat.GetQuestLogTitle(QuestieCompat.GetQuestLogIndexByID(questId))
     autoCompleteFrame.questTitle:SetText(questTitle)
     autoCompleteFrame.questId = questId
 

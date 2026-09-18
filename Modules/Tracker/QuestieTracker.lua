@@ -52,7 +52,6 @@ local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -70,13 +69,13 @@ if VoiceOverFrame then
     voiceOverInitialPosition = {VoiceOverFrame:GetPoint()}
 end
 
-local questsWatched = GetNumQuestWatches()
+local questsWatched = QuestieCompat.GetNumQuestWatches()
 
 local trackedAchievements
 local trackedAchievementIds
 
 if Expansions.Current >= Expansions.Wotlk then
-    trackedAchievements = {GetTrackedAchievements()}
+    trackedAchievements = {QuestieCompat.GetTrackedAchievements()}
     trackedAchievementIds = {}
 end
 
@@ -177,9 +176,9 @@ function QuestieTracker.Initialize()
             -- the entire list and build a temp table with QuestIDs instead to ensure we remove them all.
             local tempQuestIDs = {}
             for i = 1, questsWatched do
-                local questIndex = GetQuestIndexForWatch(i)
+                local questIndex = QuestieCompat.GetQuestIndexForWatch(i)
                 if questIndex then
-                    local questId = select(8, GetQuestLogTitle(questIndex))
+                    local questId = select(8, QuestieCompat.GetQuestLogTitle(questIndex))
                     if questId then
                         tempQuestIDs[i] = questId
                     end
@@ -188,7 +187,7 @@ function QuestieTracker.Initialize()
 
             -- Remove quest from the Blizzard Quest Watch and populate the tracker.
             for _, questId in pairs(tempQuestIDs) do
-                local questIndex = GetQuestLogIndexByID(questId)
+                local questIndex = QuestieCompat.GetQuestLogIndexByID(questId)
                 if questIndex then
                     QuestieTracker:AQW_Insert(questIndex, QUEST_WATCH_NO_EXPIRE)
                 end
@@ -220,20 +219,20 @@ function QuestieTracker.Initialize()
                 -- Remove achievement from the Blizzard Quest Watch and populate the tracker.
                 for _, achieveId in pairs(tempAchieves) do
                     if achieveId then
-                        RemoveTrackedAchievement(achieveId)
+                        QuestieCompat.RemoveTrackedAchievement(achieveId)
                         Questie.db.char.trackedAchievementIds[achieveId] = true
 
                         if (not AchievementFrame) then
                             AchievementFrame_LoadUI()
                         end
 
-                        AchievementFrameAchievements_ForceUpdate()
+                        QuestieCompat.AchievementFrameAchievements_ForceUpdate()
                     end
                 end
             end
 
-            trackedAchievements = {GetTrackedAchievements()}
-            WatchFrame_Update()
+            trackedAchievements = {QuestieCompat.GetTrackedAchievements()}
+            QuestieCompat.WatchFrame_Update()
 
             -- Sync and populate QuestieTrackers achievement cache
             if Questie.db.char.trackedAchievementIds ~= trackedAchievementIds then
@@ -244,10 +243,10 @@ function QuestieTracker.Initialize()
                 end
             end
         else
-            WatchFrame_Update()
+            QuestieCompat.WatchFrame_Update()
         end
 
-        if QuestLogFrame and QuestLogFrame:IsShown() then QuestLog_Update() end
+        if QuestLogFrame and QuestLogFrame:IsShown() then QuestieCompat.QuestLog_Update() end
         QuestieTracker:Update()
         trackerBaseFrame:Hide()
     end)
@@ -438,7 +437,7 @@ function QuestieTracker:QuestItemLooted(text)
     local itemId = tonumber(string.match(text, "item:(%d+)"))
 
     if playerLoot and itemId then
-        local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
+        local _, _, _, _, _, itemType, _, _, _, _, _, classID = QuestieCompat.GetItemInfo(itemId)
         local usableItem = TrackerUtils:IsQuestItemUsable(itemId)
 
         if (itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12) and usableItem then
@@ -449,10 +448,10 @@ function QuestieTracker:QuestItemLooted(text)
                 Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
             end)
 
-            if GetItemCount(itemId) == 0 then
+            if QuestieCompat.GetItemCount(itemId) == 0 then
                 -- If the item is not fully in the bag yet, we need to wait for it to be added
                 Questie:RegisterEvent("BAG_UPDATE_DELAYED", function()
-                    if GetItemCount(itemId) > 0 then
+                    if QuestieCompat.GetItemCount(itemId) > 0 then
                         -- API recognizes the item is in the bag now
                         Questie:UnregisterEvent("BAG_UPDATE_DELAYED")
                         QuestieCombatQueue:Queue(function()
@@ -474,7 +473,7 @@ end
 function QuestieTracker:Enable()
     -- Update the questsWatched var before we re-enable
     if questsWatched == 0 then
-        questsWatched = GetNumQuestWatches()
+        questsWatched = QuestieCompat.GetNumQuestWatches()
     end
 
     Questie.db.profile.trackerEnabled = true
@@ -1264,7 +1263,7 @@ function QuestieTracker:Update()
                         else
                             line.expandZone:SetMode(1)
                             local text = zoneName == "Achievements" and l10n("Achievements") or zoneName
-                            line.label:SetText("|cFFC0C0C0" .. text .. ": " .. GetNumTrackedAchievements(true) .. "/10|r")
+                            line.label:SetText("|cFFC0C0C0" .. text .. ": " .. (GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements)(true) .. "/10|r")
                         end
 
                         -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
@@ -1993,13 +1992,21 @@ function QuestieTracker:HookBaseTracker()
             hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
         end
 
-        hooksecurefunc("AddQuestWatch", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
-        hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
+        if AddQuestWatch then
+            hooksecurefunc("AddQuestWatch", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
+        end
+        if RemoveQuestWatch then
+            hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
+        end
 
         -- Achievement secure hooks
         if Expansions.Current >= Expansions.Wotlk then
-            hooksecurefunc("AddTrackedAchievement", function(achieveId) QuestieTracker:TrackAchieve(achieveId) end)
-            hooksecurefunc("RemoveTrackedAchievement", QuestieTracker.RemoveTrackedAchievement)
+            if AddTrackedAchievement then
+                hooksecurefunc("AddTrackedAchievement", function(achieveId) QuestieTracker:TrackAchieve(achieveId) end)
+            end
+            if RemoveTrackedAchievement then
+                hooksecurefunc("RemoveTrackedAchievement", QuestieTracker.RemoveTrackedAchievement)
+            end
         end
 
         QuestieTracker.alreadyHookedSecure = true
@@ -2009,13 +2016,16 @@ function QuestieTracker:HookBaseTracker()
 
     -- Quest Hooks
     if not QuestieTracker.IsQuestWatched then
-        QuestieTracker.IsQuestWatched = IsQuestWatched
-        QuestieTracker.GetNumQuestWatches = GetNumQuestWatches
+        -- Bare IsQuestWatched/GetNumQuestWatches may never have existed on this client (no legacy
+        -- global, no prior hook), so fall back to QuestieCompat rather than capturing nil as "the
+        -- original" to restore on Unhook.
+        QuestieTracker.IsQuestWatched = IsQuestWatched or QuestieCompat.IsQuestWatched
+        QuestieTracker.GetNumQuestWatches = GetNumQuestWatches or QuestieCompat.GetNumQuestWatches
     end
 
     -- Intercept and return a Questie boolean value
     IsQuestWatched = function(index)
-        local questId = select(8, GetQuestLogTitle(index))
+        local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
         if questId == 0 then
             -- When an objective progresses in TBC "index" is the questId, but when a quest is manually added to the quest watch
             -- (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
@@ -2052,7 +2062,9 @@ function QuestieTracker:HookBaseTracker()
     if Expansions.Current >= Expansions.Wotlk then
         if not QuestieTracker.IsTrackedAchievement then
             QuestieTracker.IsTrackedAchievement = IsTrackedAchievement
-            QuestieTracker.GetNumTrackedAchievements = GetNumTrackedAchievements
+            -- Bare GetNumTrackedAchievements may never have existed on this client, so fall back to
+            -- QuestieCompat instead of capturing nil as "the original" to restore on Unhook.
+            QuestieTracker.GetNumTrackedAchievements = GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements
         end
 
         -- Intercept and return a Questie boolean value
@@ -2118,7 +2130,7 @@ function QuestieTracker.RemoveQuestWatch(index, isQuestie)
 
     if not isQuestie then
         if index then
-            local questId = select(8, GetQuestLogTitle(index))
+            local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
             if questId == 0 then
                 -- When an objective progresses in TBC "index" is the questId, but when a quest is manually removed from
                 --  the quest watch (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
@@ -2166,7 +2178,7 @@ function QuestieTracker:AQW_Insert(index, expire)
         return
     end
 
-    local questId = select(8, GetQuestLogTitle(index))
+    local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
     if (not QuestiePlayer.currentQuestlog[questId]) then
         -- AQW_Insert is called before QUEST_ACCEPTED
         return
@@ -2183,7 +2195,9 @@ function QuestieTracker:AQW_Insert(index, expire)
 
     -- This removes quests from the Blizzard QuestWatchFrame so when the option "Show Blizzard Timer" is enabled,
     -- that is all the player will see. This also prevents hitting the Blizzard Quest Watch Limit.
-    RemoveQuestWatch(index, true)
+    -- Calls QuestieCompat directly (not the hooked bare global) so this does not recursively re-trigger
+    -- QuestieTracker's own RemoveQuestWatch hook.
+    QuestieCompat.RemoveQuestWatch(index)
 
     if questId == 0 then
         -- TODO: Is this still needed?
@@ -2315,13 +2329,13 @@ function QuestieTracker:TrackAchieve(achieveId)
     -- If an achievement is already tracked in the Achievement UI then untrack it (Mimicks a Toggle effect).
     if Questie.db.char.trackedAchievementIds[achieveId] then
         QuestieTracker:UntrackAchieveId(achieveId)
-        RemoveTrackedAchievement(achieveId, true)
+        QuestieCompat.RemoveTrackedAchievement(achieveId)
         return
     end
 
     -- Prevents tracking more than 10 Achievements
-    if (GetNumTrackedAchievements(true) == 10) then
-        RemoveTrackedAchievement(achieveId, true)
+    if ((GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements)(true) == 10) then
+        QuestieCompat.RemoveTrackedAchievement(achieveId)
         UIErrorsFrame:AddMessage(format(l10n("You may only track 10 achievements at a time."), 10), 1.0, 0.1, 0.1, 1.0)
         return
     end
@@ -2337,7 +2351,7 @@ function QuestieTracker:TrackAchieve(achieveId)
 
     -- This removes achievements from the Blizzard QuestWatchFrame so when the
     -- option "Show Blizzard Timer" is enabled, that is all the player will see.
-    RemoveTrackedAchievement(achieveId, true)
+    QuestieCompat.RemoveTrackedAchievement(achieveId)
 
     if achieveId > 0 then
         -- This handles the Track check box in the Achievement UI

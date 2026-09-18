@@ -29,7 +29,7 @@ end
 ---@return boolean
 local function HasDiscoverersDelight()
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId = UnitAura("player", i, "HELPFUL")
+        local _, _, _, _, _, _, _, _, _, spellId = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then break end
         if spellId == 436412 then return true end
     end
@@ -113,7 +113,7 @@ end
 _GetBuffMultiplier = function()
     local buffMultiplier = 0
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
+        local _, _, _, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then
             break
         end

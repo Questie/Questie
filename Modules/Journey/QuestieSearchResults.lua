@@ -38,7 +38,6 @@ if Questie.IsHardcore then
     TICKS_PER_YIELD = 15
 end
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local stringrep = string.rep
 local stringsub = string.sub
 
@@ -669,7 +668,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
         if searchBox:GetText() ~= "" then
             local searchText = searchBox:GetText()
 
-            local itemName = GetItemInfo(searchText)
+            local itemName = QuestieCompat.GetItemInfo(searchText)
             if stringsub(searchText, 1, 4) == "|cff" and itemName then
                 -- An itemLink was added to the searchBox
                 searchBox:SetText(itemName)

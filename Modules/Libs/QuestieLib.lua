@@ -56,7 +56,7 @@ function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEvent
         return "|cFFFF8040" .. text .. "|r" -- Orange
     elseif (levelDiff >= -2) then
         return "|cFFFFFF00" .. text .. "|r" -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange()) then
         return "|cFF40C040" .. text .. "|r" -- Green
     else
         return "|cFFC0C0C0" .. text .. "|r" -- Grey
@@ -76,7 +76,7 @@ function QuestieLib:GetDifficultyColorPercent(level)
     elseif (levelDiff >= -2) then
         -- return "|cFFFFFF00"..text.."|r"; -- Yellow
         return 1, 1, 0
-    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange()) then
         -- return "|cFF40C040"..text.."|r"; -- Green
         return 0.251, 0.753, 0.251
     else
@@ -754,7 +754,7 @@ end
 function QuestieLib.UpdateLastKnownDailyReset()
     local realmName = GetRealmName()
 
-    Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + GetQuestResetTime()
+    Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + QuestieCompat.GetQuestResetTime()
 end
 
 ---@param timeStamp number

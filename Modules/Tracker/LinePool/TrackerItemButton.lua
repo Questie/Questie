@@ -61,7 +61,7 @@ function TrackerItemButton.New(buttonName)
 
         if validTexture and self.itemId then
             self.questID = questId
-            self.charges = GetItemCount(self.itemId, nil, true)
+            self.charges = QuestieCompat.GetItemCount(self.itemId, nil, true)
             self.rangeTimer = -1
 
             self:SetNormalTexture(validTexture)
@@ -129,7 +129,7 @@ function TrackerItemButton.New(buttonName)
             cooldown:Hide()
         end
 
-        local charges = GetItemCount(self.itemId, nil, true)
+        local charges = QuestieCompat.GetItemCount(self.itemId, nil, true)
         if (not charges or charges ~= self.charges) then
             self.count:Hide()
             self.charges = charges

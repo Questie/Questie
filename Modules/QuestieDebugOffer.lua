@@ -19,7 +19,6 @@ local DebugInformation = {} -- stores text of debug data dump per session
 local debugIndex = 0 -- current debug index, used so we can still retrieve info from previous offers
 local openDebugWindows = {} -- determines if existing debug window is already open, prevents duplicates
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
 local strsplit, tContains, tostring, tonumber = strsplit, tContains, tostring, tonumber
@@ -303,7 +302,7 @@ local function filterItem(itemID, itemInfo, containerGUID)
         end
         local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType,
         itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID, bindType,
-        expacID, setID, isCraftingReagent = GetItemInfo(itemID)
+        expacID, setID, isCraftingReagent = QuestieCompat.GetItemInfo(itemID)
         local containerID = tonumber(containerGUID:match("-(%d+)-%x+$"), 10)
         local containerType = strsplit("-", containerGUID)
 
@@ -547,8 +546,8 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
         return
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
-        for i=1, GetNumQuestLogEntries() do
-            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
+        for i=1, QuestieCompat.GetNumQuestLogEntries() do
+            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = QuestieCompat.GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
 
             if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text

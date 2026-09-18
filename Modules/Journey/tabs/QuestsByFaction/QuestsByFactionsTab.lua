@@ -11,8 +11,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
-local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
-
 local RESET = -1000
 
 local _CreateExpansionDropdown, _CreateFactionDropdown
@@ -75,16 +73,10 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
 end
 
 _GetWatchedFactionId = function()
-    if not GetNumFactions or not GetFactionInfo then
-        return nil
-    end
+    QuestieCompat.ExpandFactionHeader(0)
 
-    if ExpandFactionHeader then
-        ExpandFactionHeader(0)
-    end
-
-    for i = 1, GetNumFactions() do
-        local _, _, _, _, _, _, _, _, isHeader, _, _, isWatched, _, factionID = GetFactionInfo(i)
+    for i = 1, QuestieCompat.GetNumFactions() do
+        local _, _, _, _, _, _, _, _, isHeader, _, _, isWatched, _, factionID = QuestieCompat.GetFactionInfo(i)
         if not isHeader and isWatched and factionID then
             return factionID
         end

@@ -31,6 +31,7 @@ describe("AvailableQuests", function()
     local originalThreadCallbackInstant
     local originalGetPlayerLevel
     local originalGetQuestGreenRange
+    local originalQuestieCompat
     local originalIsleOfQuelDanasQuests
     local originalQuestPointers
     local originalQuestIdFrames
@@ -79,6 +80,7 @@ describe("AvailableQuests", function()
         originalQuestIdFrames = QuestieMap.questIdFrames
         originalGetQuestGreenRange = _G.GetQuestGreenRange
         _G.GetQuestGreenRange = function() return 5 end
+        originalQuestieCompat = _G.QuestieCompat
 
         Questie.db.profile.availableIconLimit = 10
 
@@ -90,7 +92,7 @@ describe("AvailableQuests", function()
         TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)
 
         NPC_ID = NPC_ID + 1 -- We want to make sure `lastNpcGuid` is different between tests
-        for i = 1, MAX_NUM_QUESTS do
+        for i = 1, QuestieCompat.MAX_NUM_QUESTS do
             _G["QuestTitleButton" .. i] = nil
         end
     end)
@@ -102,6 +104,7 @@ describe("AvailableQuests", function()
         QuestieDB.QuestPointers = originalQuestPointers
         IsleOfQuelDanas.quests = originalIsleOfQuelDanasQuests
         _G.GetQuestGreenRange = originalGetQuestGreenRange
+        _G.QuestieCompat = originalQuestieCompat
         QuestieMap.questIdFrames = originalQuestIdFrames
     end)
 

@@ -93,8 +93,8 @@ function TrackerUtils:ShowQuestLog(quest)
     -- Classic path
     local questFrame = QuestieCompat.GetQuestLogFrame()
     --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
-    local questLogIndex = GetQuestLogIndexByID(quest.Id)
-    SelectQuestLogEntry(questLogIndex)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(quest.Id)
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
 
     -- Scroll to the quest in the quest log
     local scrollSteps = _QuestLogScrollBar:GetValueStep()
@@ -113,8 +113,8 @@ function TrackerUtils:ShowQuestLog(quest)
         end
     end
 
-    QuestLog_UpdateQuestDetails()
-    QuestLog_Update()
+    QuestieCompat.QuestLog_UpdateQuestDetails()
+    QuestieCompat.QuestLog_Update()
 end
 
 ---@param title string The name of the WayPoint
@@ -366,7 +366,7 @@ end
 function TrackerUtils:GetCompletionText(quest)
     local completionText
     if GetQuestLogCompletionText then
-        local questIndex = GetQuestLogIndexByID(quest.Id)
+        local questIndex = QuestieCompat.GetQuestLogIndexByID(quest.Id)
         completionText = GetQuestLogCompletionText(questIndex)
     end
 
@@ -942,7 +942,7 @@ end
 function TrackerUtils:ShowVoiceOverPlayButtons()
     if self:IsVoiceOverLoaded() then
         if Questie.db.char.isTrackerExpanded then
-            if IsShiftKeyDown() and MouseIsOver(Questie_BaseFrame) then
+            if IsShiftKeyDown() and QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                 if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
                     Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils:ShowVoiceOverPlayButtons]")
                 else
@@ -951,7 +951,7 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
             end
 
             if IsShiftKeyDown() then
-                if MouseIsOver(Questie_BaseFrame) then
+                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                     TrackerLinePool.SetAllPlayButtonAlpha(1)
                     TrackerFadeTicker.Fade()
 
@@ -964,7 +964,7 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
                     end
                 end
             else
-                if MouseIsOver(Questie_BaseFrame) then
+                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                     TrackerLinePool.SetAllPlayButtonAlpha(0)
                     TrackerFadeTicker.Unfade()
                 else
@@ -993,7 +993,7 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
         end
 
         for i = 1, 75 do
-            local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
+            local title, _, _, isHeader, _, _, _, questId = QuestieCompat.GetQuestLogTitle(i)
 
             if not (title and questId) then
                 break
@@ -1022,18 +1022,18 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
     local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
+    if sourceItemId and QuestieCompat.GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
         tinsert(usableQuestItems, sourceItemId)
     end
 
     for _, itemId in pairs(quest.requiredSourceItems or {}) do
-        if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
+        if QuestieCompat.GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
             tinsert(usableQuestItems, itemId)
         end
     end
 
     for _, objective in pairs(quest.ObjectiveData) do
-        if objective.Type == "item" and GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
+        if objective.Type == "item" and QuestieCompat.GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
             tinsert(usableQuestItems, objective.Id)
         end
     end
@@ -1136,9 +1136,11 @@ end
 function TrackerUtils.HasQuest()
     local hasQuest
 
-    if (GetNumQuestWatches(true) == 0) then
+    -- GetNumQuestWatches may be hijacked by QuestieTracker's own hook (see QuestieTracker.lua HookBaseTracker)
+    -- to accept an "isQuestie" argument; fall back to the real API if it was never hooked or polyfilled.
+    if ((GetNumQuestWatches or QuestieCompat.GetNumQuestWatches)(true) == 0) then
         if Expansions.Current >= Expansions.Wotlk then
-            if (GetNumTrackedAchievements(true) == 0) then
+            if ((GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements)(true) == 0) then
                 hasQuest = false
             else
                 hasQuest = true
@@ -1151,7 +1153,7 @@ function TrackerUtils.HasQuest()
             local isTrackingIncompleteQuest = false
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
                 if not quest then break end
-                if IsQuestWatched(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                if (IsQuestWatched or QuestieCompat.IsQuestWatched)(QuestieCompat.GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
                     isTrackingIncompleteQuest = true
                     break
                 end

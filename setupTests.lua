@@ -53,7 +53,7 @@ _G.Enum = {
     UIMapType = {Cosmic = 0, World = 1, Continent = 2, Zone = 3, Dungeon = 4, Micro = 5, Orphan = 6},
 }
 
-_G.MAX_NUM_QUESTS = 25
+QuestieCompat.MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
@@ -82,9 +82,9 @@ _G.C_Item = {
 }
 _G.ItemRefTooltip = {}
 _G.GetNumQuestWatches = function() return 0 end
-_G.GetQuestLogTitle = function() return "Test Quest" end
+QuestieCompat.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
-_G.ExpandFactionHeader = EMTPY_FUNC
+QuestieCompat.ExpandFactionHeader = EMTPY_FUNC
 _G.InCombatLockdown = function() return false end
 _G.IsControlKeyDown = function() return false end
 _G.IsEquippableItem = function() return false end

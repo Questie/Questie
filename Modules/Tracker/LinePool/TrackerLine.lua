@@ -211,7 +211,7 @@ _OnClickQuest = function(self, button)
             QuestieTracker:UntrackQuestId(self.Quest.Id)
             local questLogFrame = QuestieCompat.GetQuestLogFrame()
             if questLogFrame:IsShown() then
-                QuestLog_Update()
+                QuestieCompat.QuestLog_Update()
             end
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
@@ -245,7 +245,7 @@ _OnClickAchieve = function(self, button)
                     AchievementFrame_LoadUI()
                 end
 
-                AchievementFrameAchievements_ForceUpdate()
+                QuestieCompat.AchievementFrameAchievements_ForceUpdate()
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
@@ -261,11 +261,11 @@ _OnClickAchieve = function(self, button)
         end
 
         if (not AchievementFrame:IsShown()) then
-            AchievementFrame_ToggleAchievementFrame()
-            AchievementFrame_SelectAchievement(self.Quest.Id)
+            QuestieCompat.AchievementFrame_ToggleAchievementFrame()
+            QuestieCompat.AchievementFrame_SelectAchievement(self.Quest.Id)
         else
             if (AchievementFrameAchievements.selection ~= self.Quest.Id) then
-                AchievementFrame_SelectAchievement(self.Quest.Id)
+                QuestieCompat.AchievementFrame_SelectAchievement(self.Quest.Id)
             end
         end
     elseif button == "RightButton" then

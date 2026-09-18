@@ -18,10 +18,10 @@ local specializationNames
 local alternativeProfessionNames = {}
 
 -- Fast local references
-local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
+local IsSpellKnown = QuestieCompat.IsSpellKnown
 
 if AbandonSkill then hooksecurefunc("AbandonSkill", function(skillIndex)
-    local skillName = GetSkillLineInfo(skillIndex)
+    local skillName = QuestieCompat.GetSkillLineInfo(skillIndex)
     if skillName and professionTable[skillName] then
         if playerProfessions[professionTable[skillName]] then
             Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
@@ -59,7 +59,7 @@ end
 ---@return boolean HasNewProfession @Returns true if the player has learned a new profession
 function QuestieProfessions:Update()
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
-    ExpandSkillHeader(0)
+    QuestieCompat.ExpandSkillHeader(0)
     local hasProfessionUpdate = false
     local hasNewProfession = false
 
@@ -68,10 +68,10 @@ function QuestieProfessions:Update()
 
     -- Since MoP introduced "Ways of Cooking" those show up as separate skills and we need to check more lines
     local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
-    for i=1, GetNumSkillLines() do
+    for i=1, QuestieCompat.GetNumSkillLines() do
         if i > maxSkillLineToCheck then break; end -- We don't have to go through all the weapon skills
 
-        local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
+        local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = QuestieCompat.GetSkillLineInfo(i)
         if (not isHeader) and professionTable[skillName] then
             temporaryPlayerProfessions[professionTable[skillName]] = {skillName, skillRank}
         end

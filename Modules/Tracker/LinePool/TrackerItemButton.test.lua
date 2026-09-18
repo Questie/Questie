@@ -9,6 +9,9 @@ _G.QuestieCompat = {
     end,
     GetContainerItemInfo = function()
         return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123
+    end,
+    GetItemCount = function()
+        return 0
     end
 }
 
@@ -95,6 +98,9 @@ describe("TrackerItemButton", function()
         it("should set itemId when item is equipped", function()
             _G.QuestieCompat = {
                 GetContainerNumSlots = function()
+                    return 0
+                end,
+                GetItemCount = function()
                     return 0
                 end,
             }

@@ -556,13 +556,13 @@ function QuestieDB.GetQuestTagInfo(questId)
     if questTagCorrections[questId] then
         questTagId, questTagName = questTagCorrections[questId][1], questTagCorrections[questId][2]
     else
-        questTagId, questTagName = GetQuestTagInfo(questId)
+        questTagId, questTagName = QuestieCompat.GetQuestTagInfo(questId)
 
         if questTagId == nil and questTagName == nil then
             -- Retry the API call after a short delay, as the API tends to incorrectly return nil on the first call.
             -- Doing it here asserts, we only call the API twice per quest at most.
             C_Timer.After(1, function()
-                local retryQuestTagId, retryQuestTagName = GetQuestTagInfo(questId)
+                local retryQuestTagId, retryQuestTagName = QuestieCompat.GetQuestTagInfo(questId)
                 questTagInfoCache[questId] = {retryQuestTagId, retryQuestTagName}
             end)
         end
@@ -1416,7 +1416,7 @@ function QuestieDB.IsTrivial(questLevel)
         return false -- Orange
     elseif (levelDiff >= -2) then
         return false -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange()) then
         return false -- Green
     else
         return true -- Grey

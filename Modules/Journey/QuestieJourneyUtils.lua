@@ -10,9 +10,6 @@ local WrappedText = QuestieLoader:ImportModule("WrappedText")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
-local GetItemIcon = C_Item.GetItemIconByID or GetItemIcon
-
 local AceGUI = LibStub("AceGUI-3.0")
 
 function QuestieJourneyUtils:GetSortedZoneKeys(zones)
@@ -147,17 +144,17 @@ end
 ---@param itemId ItemId
 ---@return AceIcon
 function QuestieJourneyUtils.GetItemIcon(itemId)
-    local itemLink = select(2, GetItemInfo(itemId))
+    local itemLink = select(2, QuestieCompat.GetItemInfo(itemId))
 
     ---@class AceIcon
     local itemIcon = AceGUI:Create("Icon")
     itemIcon:SetWidth(25)
     itemIcon:SetHeight(25)
-    itemIcon:SetImage(GetItemIcon(itemId))
+    itemIcon:SetImage(QuestieCompat.GetItemIcon(itemId))
     itemIcon:SetImageSize(25, 25)
     itemIcon:SetCallback("OnEnter", function()
         if (not itemLink) then
-            itemLink = select(2, GetItemInfo(itemId))
+            itemLink = select(2, QuestieCompat.GetItemInfo(itemId))
         end
         GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
         GameTooltip:SetHyperlink(itemLink)
@@ -168,7 +165,7 @@ function QuestieJourneyUtils.GetItemIcon(itemId)
     end)
     itemIcon:SetCallback("OnClick", function()
         if (not itemLink) then
-            itemLink = select(2, GetItemInfo(itemId))
+            itemLink = select(2, QuestieCompat.GetItemInfo(itemId))
         end
         if IsShiftKeyDown() then
             if (not ChatFrame1EditBox:IsVisible()) then

@@ -8,7 +8,6 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
 --[i_1337][playerName][questId] = objective
 local commsTooltipLookup = {}
@@ -78,7 +77,7 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                             row.text = dbItem.name;
                         else
                             -- Missing or hidden DB item: try the client cache, then request its name.
-                            local itemName = GetItemInfo(objective.id)
+                            local itemName = QuestieCompat.GetItemInfo(objective.id)
                             if(itemName) then
                                 row.text = itemName;
                             else
