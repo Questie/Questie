@@ -63,6 +63,15 @@ function ZoneDB.Initialize()
         subZoneToParentZone[areaId] = parentZoneId
     end
 
+    -- Client overlays add or replace reviewed DBC relationships without discarding authored dungeon mappings.
+    for areaId, uiMapId in pairs(ZoneDB.private.clientAreaIdToUiMapId or {}) do
+        areaIdToUiMapId[areaId] = uiMapId
+        uiMapIdToAreaId[uiMapId] = areaId
+    end
+    for areaId, parentZoneId in pairs(ZoneDB.private.clientSubZoneToParentZone or {}) do
+        subZoneToParentZone[areaId] = parentZoneId
+    end
+
     -- Run tests if debug enabled
     if Questie.db.profile.debugEnabled then
         _ZoneDB:RunTests()
