@@ -915,41 +915,45 @@ end
 
 -- Abandoning a quest. Questie calls these from its tracker's right-click menu
 -- and from the breadcrumb handling, both without a nil check.
-if not SetAbandonQuest then
-    SetAbandonQuest = function()
-        if C_QuestLog and C_QuestLog.SetAbandonQuest then
-            return C_QuestLog.SetAbandonQuest()
-        end
+function QuestieCompat.SetAbandonQuest()
+    if SetAbandonQuest then
+        return SetAbandonQuest()
+    end
+    if C_QuestLog and C_QuestLog.SetAbandonQuest then
+        return C_QuestLog.SetAbandonQuest()
     end
 end
 
-if not GetAbandonQuestName then
-    GetAbandonQuestName = function()
-        if C_QuestLog and C_QuestLog.GetAbandonQuestName then
-            return C_QuestLog.GetAbandonQuestName()
-        end
-        -- Fall back to the title of whatever quest is currently selected.
-        if C_QuestLog and C_QuestLog.GetSelectedQuest and C_QuestLog.GetTitleForQuestID then
-            return C_QuestLog.GetTitleForQuestID(C_QuestLog.GetSelectedQuest())
-        end
-        return ""
+function QuestieCompat.GetAbandonQuestName()
+    if GetAbandonQuestName then
+        return GetAbandonQuestName()
     end
+    if C_QuestLog and C_QuestLog.GetAbandonQuestName then
+        return C_QuestLog.GetAbandonQuestName()
+    end
+    -- Fall back to the title of whatever quest is currently selected.
+    if C_QuestLog and C_QuestLog.GetSelectedQuest and C_QuestLog.GetTitleForQuestID then
+        return C_QuestLog.GetTitleForQuestID(C_QuestLog.GetSelectedQuest())
+    end
+    return ""
 end
 
-if not GetAbandonQuestItems then
-    GetAbandonQuestItems = function()
-        if C_QuestLog and C_QuestLog.GetAbandonQuestItems then
-            return C_QuestLog.GetAbandonQuestItems()
-        end
-        return nil
+function QuestieCompat.GetAbandonQuestItems()
+    if GetAbandonQuestItems then
+        return GetAbandonQuestItems()
     end
+    if C_QuestLog and C_QuestLog.GetAbandonQuestItems then
+        return C_QuestLog.GetAbandonQuestItems()
+    end
+    return nil
 end
 
-if not AbandonQuest then
-    AbandonQuest = function()
-        if C_QuestLog and C_QuestLog.AbandonQuest then
-            return C_QuestLog.AbandonQuest()
-        end
+function QuestieCompat.AbandonQuest()
+    if AbandonQuest then
+        return AbandonQuest()
+    end
+    if C_QuestLog and C_QuestLog.AbandonQuest then
+        return C_QuestLog.AbandonQuest()
     end
 end
 

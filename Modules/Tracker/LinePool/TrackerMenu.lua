@@ -246,15 +246,15 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
             LibDropDown:CloseDropDownMenus()
             local lastQuest = QuestieCompat.GetQuestLogSelection()
             QuestieCompat.SelectQuestLogEntry(GetQuestLogIndexByID(quest.Id))
-            SetAbandonQuest()
+            QuestieCompat.SetAbandonQuest()
 
-            local items = GetAbandonQuestItems()
+            local items = QuestieCompat.GetAbandonQuestItems()
             if items then
                 StaticPopup_Hide("ABANDON_QUEST")
-                StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", GetAbandonQuestName(), items)
+                StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", QuestieCompat.GetAbandonQuestName(), items)
             else
                 StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS")
-                StaticPopup_Show("ABANDON_QUEST", GetAbandonQuestName())
+                StaticPopup_Show("ABANDON_QUEST", QuestieCompat.GetAbandonQuestName())
             end
 
             QuestieCompat.SelectQuestLogEntry(lastQuest)
