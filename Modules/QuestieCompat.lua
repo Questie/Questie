@@ -336,7 +336,8 @@ function QuestieCompat.ShowWatchFrame()
 end
 
 function QuestieCompat.GetWatchFramePoint()
-    return WatchFrame:GetPoint()
+    local watchFrame = GetWatchFrame()
+    return watchFrame:GetPoint()
 end
 
 
