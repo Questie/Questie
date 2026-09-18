@@ -428,8 +428,14 @@ function QuestieCompat.GetQuestLogSelection()
     error(errorMsg, 2)
 end
 
-if not UnitAura and C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
-    UnitAura = function(unit, index, filter)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitAura)
+---Returns information about a buff/debuff on a unit by index.
+---@param unit string
+---@param index number
+---@param filter string|nil
+---TODO: C_UnitAuras.GetAuraDataByIndex already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.UnitAura(unit, index, filter)
+    if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
         -- Aura data is refused outright once the execution is tainted, which it
         -- always is when called from an addon, so this must not be allowed to
         -- raise. Questie only reads these to spot XP/reputation buffs.
@@ -438,7 +444,10 @@ if not UnitAura and C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
         return aura.name, aura.icon, aura.applications, aura.dispelName,
             aura.duration, aura.expirationTime, aura.sourceUnit,
             aura.isStealable, aura.nameplateShowPersonal, aura.spellId
+    elseif UnitAura then
+        return UnitAura(unit, index, filter)
     end
+    error(errorMsg, 2)
 end
 
 if not GetSpellInfo and C_Spell and C_Spell.GetSpellInfo then
