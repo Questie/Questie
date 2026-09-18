@@ -82,7 +82,7 @@ _G.C_Item = {
 }
 _G.ItemRefTooltip = {}
 _G.GetNumQuestWatches = function() return 0 end
-_G.GetQuestLogTitle = function() return "Test Quest" end
+QuestieCompat.GetQuestLogTitle = function() return "Test Quest" end
 _G.GetQuestLogIndexByID = function() return 1 end
 _G.ExpandFactionHeader = EMTPY_FUNC
 _G.InCombatLockdown = function() return false end

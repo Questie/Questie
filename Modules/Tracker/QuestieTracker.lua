@@ -179,7 +179,7 @@ function QuestieTracker.Initialize()
             for i = 1, questsWatched do
                 local questIndex = GetQuestIndexForWatch(i)
                 if questIndex then
-                    local questId = select(8, GetQuestLogTitle(questIndex))
+                    local questId = select(8, QuestieCompat.GetQuestLogTitle(questIndex))
                     if questId then
                         tempQuestIDs[i] = questId
                     end
@@ -2015,7 +2015,7 @@ function QuestieTracker:HookBaseTracker()
 
     -- Intercept and return a Questie boolean value
     IsQuestWatched = function(index)
-        local questId = select(8, GetQuestLogTitle(index))
+        local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
         if questId == 0 then
             -- When an objective progresses in TBC "index" is the questId, but when a quest is manually added to the quest watch
             -- (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
@@ -2118,7 +2118,7 @@ function QuestieTracker.RemoveQuestWatch(index, isQuestie)
 
     if not isQuestie then
         if index then
-            local questId = select(8, GetQuestLogTitle(index))
+            local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
             if questId == 0 then
                 -- When an objective progresses in TBC "index" is the questId, but when a quest is manually removed from
                 --  the quest watch (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
@@ -2166,7 +2166,7 @@ function QuestieTracker:AQW_Insert(index, expire)
         return
     end
 
-    local questId = select(8, GetQuestLogTitle(index))
+    local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
     if (not QuestiePlayer.currentQuestlog[questId]) then
         -- AQW_Insert is called before QUEST_ACCEPTED
         return

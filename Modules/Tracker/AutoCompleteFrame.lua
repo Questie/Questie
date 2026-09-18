@@ -60,7 +60,7 @@ end
 
 ---@param questId number @The questId to show the auto complete frame for
 function AutoCompleteFrame.ShowAutoComplete(questId)
-    local questTitle = GetQuestLogTitle(GetQuestLogIndexByID(questId))
+    local questTitle = QuestieCompat.GetQuestLogTitle(GetQuestLogIndexByID(questId))
     autoCompleteFrame.questTitle:SetText(questTitle)
     autoCompleteFrame.questId = questId
 

@@ -83,7 +83,7 @@ function QuestEventHandler:Initialize()
             end
 
             for questLogIndex = 1, 75 do
-                local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
+                local title, _, _, isHeader, _, _, _, questId = QuestieCompat.GetQuestLogTitle(questLogIndex)
 
                 if (not title) then
                     break

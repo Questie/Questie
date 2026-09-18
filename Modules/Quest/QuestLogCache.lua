@@ -13,7 +13,7 @@ local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
 local stringByte = string.byte
-local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
+local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance

@@ -367,8 +367,12 @@ function QuestieCompat.GetNumQuestLogEntries()
     error(errorMsg, 2)
 end
 
-if not GetQuestLogTitle and C_QuestLog and C_QuestLog.GetInfo then
-    GetQuestLogTitle = function(questLogIndex)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogTitle)
+---Returns information about an entry in the player's quest log.
+---@param questLogIndex number
+---TODO: C_QuestLog.GetInfo already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetQuestLogTitle(questLogIndex)
+    if C_QuestLog and C_QuestLog.GetInfo then
         local info = C_QuestLog.GetInfo(questLogIndex)
         if not info then return nil end
 
@@ -387,7 +391,10 @@ if not GetQuestLogTitle and C_QuestLog and C_QuestLog.GetInfo then
             isComplete, info.frequency, info.questID, info.startEvent,
             info.questID, info.isOnMap, info.hasLocalPOI, info.isTask,
             info.isBounty, info.isStory, info.isHidden, info.isScaling
+    elseif GetQuestLogTitle then
+        return GetQuestLogTitle(questLogIndex)
     end
+    error(errorMsg, 2)
 end
 
 if not SelectQuestLogEntry and C_QuestLog and C_QuestLog.SetSelectedQuest then

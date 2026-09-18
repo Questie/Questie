@@ -993,7 +993,7 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
         end
 
         for i = 1, 75 do
-            local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
+            local title, _, _, isHeader, _, _, _, questId = QuestieCompat.GetQuestLogTitle(i)
 
             if not (title and questId) then
                 break

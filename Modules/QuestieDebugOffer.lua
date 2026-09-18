@@ -14,8 +14,6 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 local DebugInformation = {} -- stores text of debug data dump per session
 local debugIndex = 0 -- current debug index, used so we can still retrieve info from previous offers
@@ -550,7 +548,7 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
         for i=1, QuestieCompat.GetNumQuestLogEntries() do
-            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
+            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = QuestieCompat.GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
 
             if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text
