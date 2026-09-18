@@ -508,18 +508,32 @@ function QuestieCompat.GetQuestIndexForWatch(watchIndex)
     error(errorMsg, 2)
 end
 
-if not AddQuestWatch and C_QuestLog and C_QuestLog.AddQuestWatch then
-    AddQuestWatch = function(questLogIndex)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_AddQuestWatch)
+---Adds a quest log entry to the tracked quest watches.
+---@param questLogIndex number
+function QuestieCompat.AddQuestWatch(questLogIndex)
+    if C_QuestLog and C_QuestLog.AddQuestWatch and C_QuestLog.GetInfo then
         local info = C_QuestLog.GetInfo(questLogIndex)
         if info then C_QuestLog.AddQuestWatch(info.questID) end
+        return
+    elseif AddQuestWatch then
+        return AddQuestWatch(questLogIndex)
     end
+    error(errorMsg, 2)
 end
 
-if not RemoveQuestWatch and C_QuestLog and C_QuestLog.RemoveQuestWatch then
-    RemoveQuestWatch = function(questLogIndex)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_RemoveQuestWatch)
+---Removes a quest log entry from the tracked quest watches.
+---@param questLogIndex number
+function QuestieCompat.RemoveQuestWatch(questLogIndex)
+    if C_QuestLog and C_QuestLog.RemoveQuestWatch and C_QuestLog.GetInfo then
         local info = C_QuestLog.GetInfo(questLogIndex)
         if info then C_QuestLog.RemoveQuestWatch(info.questID) end
+        return
+    elseif RemoveQuestWatch then
+        return RemoveQuestWatch(questLogIndex)
     end
+    error(errorMsg, 2)
 end
 
 -- Only used to tint quest levels. A fixed spread matches Classic's own value.

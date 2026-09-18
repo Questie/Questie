@@ -2185,7 +2185,9 @@ function QuestieTracker:AQW_Insert(index, expire)
 
     -- This removes quests from the Blizzard QuestWatchFrame so when the option "Show Blizzard Timer" is enabled,
     -- that is all the player will see. This also prevents hitting the Blizzard Quest Watch Limit.
-    RemoveQuestWatch(index, true)
+    -- Calls QuestieCompat directly (not the hooked bare global) so this does not recursively re-trigger
+    -- QuestieTracker's own RemoveQuestWatch hook.
+    QuestieCompat.RemoveQuestWatch(index)
 
     if questId == 0 then
         -- TODO: Is this still needed?
