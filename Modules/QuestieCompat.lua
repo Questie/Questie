@@ -467,11 +467,18 @@ function QuestieCompat.IsQuestFlaggedCompleted(questID)
     error(errorMsg, 2)
 end
 
-if not GetNumQuestLeaderBoards and C_QuestLog and C_QuestLog.GetNumQuestObjectives then
-    GetNumQuestLeaderBoards = function(questLogIndex)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumQuestLeaderBoards)
+---Returns the number of objectives for a quest log entry.
+---@param questLogIndex number|nil
+---@return number numObjectives
+function QuestieCompat.GetNumQuestLeaderBoards(questLogIndex)
+    if C_QuestLog and C_QuestLog.GetNumQuestObjectives then
         local info = C_QuestLog.GetInfo(questLogIndex or C_QuestLog.GetLogIndexForQuestID(C_QuestLog.GetSelectedQuest()))
         return info and C_QuestLog.GetNumQuestObjectives(info.questID) or 0
+    elseif GetNumQuestLeaderBoards then
+        return GetNumQuestLeaderBoards(questLogIndex)
     end
+    error(errorMsg, 2)
 end
 
 if not GetNumQuestWatches and C_QuestLog and C_QuestLog.GetNumQuestWatches then
