@@ -194,6 +194,46 @@ describe("Questie", function()
         assert.is_truthy(string.find(reportedErrors[1][3], "expected load close failure", 1, true))
     end)
 
+    describe("Forever tracker lifecycle", function()
+        local originalForever
+        local originalShowWatchFrame
+        local originalHideWatchFrame
+        local originalExpansion
+        local originalProfile
+        local expansions
+
+        before_each(function()
+            originalForever = Questie.IsForever
+            originalShowWatchFrame = QuestieCompat.ShowWatchFrame
+            originalHideWatchFrame = QuestieCompat.HideWatchFrame
+            originalProfile = Questie.db.profile
+            expansions = QuestieLoader:ImportModule("Expansions")
+            originalExpansion = expansions.Current
+            Questie.IsForever = true
+            expansions.Current = expansions.Era
+            Questie.db.profile = {trackerEnabled = true, showBlizzardQuestTimer = false}
+            QuestieCompat.HideWatchFrame = spy.new(function() end)
+            QuestieCompat.ShowWatchFrame = spy.new(function() end)
+            dofile("Questie.lua")
+        end)
+
+        after_each(function()
+            Questie.IsForever = originalForever
+            QuestieCompat.ShowWatchFrame = originalShowWatchFrame
+            QuestieCompat.HideWatchFrame = originalHideWatchFrame
+            Questie.db.profile = originalProfile
+            expansions.Current = originalExpansion
+        end)
+
+        it("releases and reacquires the modern tracker despite using Era content", function()
+            Questie:OnDisable()
+            assert.spy(QuestieCompat.ShowWatchFrame).was.called(1)
+
+            Questie:OnEnable()
+            assert.spy(QuestieCompat.HideWatchFrame).was.called(1)
+        end)
+    end)
+
     describe("Colorize", function()
         before_each(function()
             dofile("Questie.lua")

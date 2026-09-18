@@ -453,9 +453,37 @@ _InitObjectiveTexts = function(objectivesText, objectiveIndex, playerName)
     return objectivesText
 end
 
+---@return nil
 function QuestieTooltips:Initialize()
+    ---@param tooltip GameTooltip
+    ---@return nil
+    local function AddUnitData(tooltip)
+        if tooltip ~= GameTooltip or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+            -- The processor also runs for other tooltip frames; unit rendering below owns GameTooltip only.
+            return
+        end
+        _QuestieTooltips.AddUnitDataToTooltip(tooltip)
+    end
+
+    -- Modern clients removed the tooltip-set scripts. Restrict their global callbacks to the frames
+    -- supported by the existing handlers, which also reject forbidden tooltips and disabled tooltips.
+    if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall then
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item,
+            ---@param tooltip GameTooltip
+            ---@return nil
+            function(tooltip)
+                if tooltip == GameTooltip or tooltip == ItemRefTooltip then
+                    _QuestieTooltips.AddItemDataToTooltip(tooltip)
+                end
+            end)
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, AddUnitData)
+    else
+        ItemRefTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
+        GameTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
+        GameTooltip:HookScript("OnTooltipSetUnit", AddUnitData)
+    end
+
     -- For the clicked item frame.
-    ItemRefTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     ItemRefTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
@@ -468,15 +496,6 @@ function QuestieTooltips:Initialize()
     end)
 
     -- For the hover frame.
-    GameTooltip:HookScript("OnTooltipSetUnit", function(self)
-        if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
-            -- When in a raid, we want as little code running as possible
-            return
-        end
-
-        _QuestieTooltips.AddUnitDataToTooltip(self)
-    end)
-    GameTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     GameTooltip:HookScript("OnShow", function(self)
         if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- When in a raid, we want as little code running as possible

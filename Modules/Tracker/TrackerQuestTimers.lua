@@ -91,6 +91,16 @@ end
 ---@return string? timeRemainingString @Format is "4 Mins 45 Secs"
 ---@return number? timeRemaining
 function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
+    if C_QuestLog.GetQuestTimers then
+        -- Modern timers carry their quest ID, so there is no need to change quest-log selection.
+        for _, questTimer in ipairs(C_QuestLog.GetQuestTimers()) do
+            if questTimer.questID == questId then
+                return SecondsToTime(questTimer.questTimer, false, false), questTimer.questTimer
+            end
+        end
+        return nil
+    end
+
     local questLogIndex = GetQuestLogIndexByID(questId)
     if (not questLogIndex) then
         return nil

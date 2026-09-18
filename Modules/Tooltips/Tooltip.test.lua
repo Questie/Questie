@@ -65,6 +65,81 @@ describe("Tooltip", function()
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
     end)
 
+    describe("Initialize", function()
+        local savedGlobals
+        local originalItemHandler
+        local originalUnitHandler
+        local gameScripts
+        local itemScripts
+
+        before_each(function()
+            savedGlobals = {
+                GameTooltip = _G.GameTooltip,
+                ItemRefTooltip = _G.ItemRefTooltip,
+                TooltipDataProcessor = _G.TooltipDataProcessor,
+                Enum = _G.Enum,
+            }
+            gameScripts = {}
+            itemScripts = {}
+            _G.GameTooltip = {HookScript = function(_, name, callback) gameScripts[name] = callback end}
+            _G.ItemRefTooltip = {HookScript = function(_, name, callback) itemScripts[name] = callback end}
+            originalItemHandler = QuestieTooltips.private.AddItemDataToTooltip
+            originalUnitHandler = QuestieTooltips.private.AddUnitDataToTooltip
+            QuestieTooltips.private.AddItemDataToTooltip = spy.new(function() end)
+            QuestieTooltips.private.AddUnitDataToTooltip = spy.new(function() end)
+        end)
+
+        after_each(function()
+            _G.GameTooltip = savedGlobals.GameTooltip
+            _G.ItemRefTooltip = savedGlobals.ItemRefTooltip
+            _G.TooltipDataProcessor = savedGlobals.TooltipDataProcessor
+            _G.Enum = savedGlobals.Enum
+            QuestieTooltips.private.AddItemDataToTooltip = originalItemHandler
+            QuestieTooltips.private.AddUnitDataToTooltip = originalUnitHandler
+        end)
+
+        it("routes modern callbacks only to supported tooltips and skips unit work in raids", function()
+            local callbacks = {}
+            _G.Enum = {TooltipDataType = {Item = 0, Unit = 2}}
+            _G.TooltipDataProcessor = {
+                AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
+            }
+
+            QuestieTooltips:Initialize()
+            callbacks[0](GameTooltip)
+            callbacks[0](ItemRefTooltip)
+            callbacks[0]({})
+            callbacks[2](GameTooltip)
+            callbacks[2](ItemRefTooltip)
+            callbacks[2]({})
+            QuestiePlayer.numberOfGroupMembers = 7
+            callbacks[2](GameTooltip)
+
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+            assert.is_nil(gameScripts.OnTooltipSetItem)
+            assert.is_nil(gameScripts.OnTooltipSetUnit)
+            assert.is_nil(itemScripts.OnTooltipSetItem)
+        end)
+
+        it("retains the Classic tooltip-set scripts when the modern processor is absent", function()
+            _G.TooltipDataProcessor = nil
+
+            QuestieTooltips:Initialize()
+            gameScripts.OnTooltipSetItem(GameTooltip)
+            itemScripts.OnTooltipSetItem(ItemRefTooltip)
+            gameScripts.OnTooltipSetUnit(GameTooltip)
+
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+        end)
+    end)
+
     describe("GetTooltip", function()
         it("should return quest name when tooltip has name set and showQuestsInNpcTooltip is active", function()
             Questie.db.profile.showQuestsInNpcTooltip = true

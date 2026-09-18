@@ -87,7 +87,7 @@ local hiddenByInstance = false
 local minimizedByCombat = false
 local hiddenByCombat = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
-local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame or _G.QuestMapFrame
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 local WatchFrame_Update = QuestWatch_Update or WatchFrame_Update
 local GetItemCount = C_Item.GetItemCount or GetItemCount
@@ -243,11 +243,11 @@ function QuestieTracker.Initialize()
                     end
                 end
             end
-        else
+        elseif WatchFrame_Update then
             WatchFrame_Update()
         end
 
-        if QuestLogFrame:IsShown() then QuestLog_Update() end
+        if QuestLogFrame and QuestLogFrame:IsShown() and QuestLog_Update then QuestLog_Update() end
         QuestieTracker:Update()
         trackerBaseFrame:Hide()
     end)
@@ -1984,15 +1984,42 @@ function QuestieTracker:HookBaseTracker()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:HookBaseTracker] - Secure hooks")
 
         -- Durability Frame hook
-        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.UpdateDurabilityFrame)
-
-        -- QuestWatch secure hook
-        if AutoQuestWatch_Insert then
-            hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
+        if _G.UIParent_ManageFramePositions then
+            hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.UpdateDurabilityFrame)
+        elseif _G.ManageFramePositions then
+            hooksecurefunc("ManageFramePositions", QuestieTracker.UpdateDurabilityFrame)
         end
 
-        hooksecurefunc("AddQuestWatch", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
-        hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
+        -- Forever's quest log calls the namespaced API with IDs, bypassing the legacy index wrappers.
+        if Questie.IsForever then
+            hooksecurefunc(C_QuestLog, "AddQuestWatch", function(questId)
+                if QuestieTracker.disableHooks or not Questie.db.profile.trackerEnabled then
+                    return
+                end
+                if C_QuestLog.GetQuestWatchType(questId) ~= nil then
+                    QuestieTracker:AQW_Insert(GetQuestLogIndexByID(questId), QUEST_WATCH_NO_EXPIRE)
+                end
+            end)
+            hooksecurefunc(C_QuestLog, "RemoveQuestWatch", function(questId)
+                if QuestieTracker.disableHooks or not Questie.db.profile.trackerEnabled then
+                    return
+                end
+                -- Questie's own untrack path updates its state before removing the native watch.
+                -- Only process a native removal if it still changes Questie's state, avoiding recursion.
+                local autoTrack = Questie.db.profile.autoTrackQuests
+                local isTracked = (autoTrack and not Questie.db.char.AutoUntrackedQuests[questId])
+                    or (not autoTrack and Questie.db.char.TrackedQuests[questId])
+                if isTracked and C_QuestLog.GetQuestWatchType(questId) == nil then
+                    QuestieTracker:UntrackQuestId(questId)
+                end
+            end)
+        else
+            if AutoQuestWatch_Insert then
+                hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
+            end
+            hooksecurefunc("AddQuestWatch", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
+            hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
+        end
 
         -- Achievement secure hooks
         if Expansions.Current >= Expansions.Wotlk then
@@ -2141,6 +2168,11 @@ function QuestieTracker:UntrackQuestId(questId)
         Questie.db.char.AutoUntrackedQuests[questId] = true
     end
 
+    if Questie.IsForever and C_QuestLog.GetQuestWatchType(questId) ~= nil then
+        -- Keep the modern quest log's track checkbox consistent when untracking from Questie's menu.
+        C_QuestLog.RemoveQuestWatch(questId)
+    end
+
     if Questie.db.profile.hideUntrackedQuestsMapIcons then
         ThreadLib.ThreadInstant(function()
             -- Hides objective icons for untracked quests. We don't want to hide townsfolk icons.
@@ -2172,16 +2204,18 @@ function QuestieTracker:AQW_Insert(index, expire)
 
     -- This prevents double calling this function
     local now = GetTime()
-    if index and index == QuestieTracker.last_aqw and (now - lastAQW) < 0.1 then
+    if not Questie.IsForever and index and index == QuestieTracker.last_aqw and (now - lastAQW) < 0.1 then
         return
     end
 
     lastAQW = now
     QuestieTracker.last_aqw = index
 
-    -- This removes quests from the Blizzard QuestWatchFrame so when the option "Show Blizzard Timer" is enabled,
-    -- that is all the player will see. This also prevents hitting the Blizzard Quest Watch Limit.
-    RemoveQuestWatch(index, true)
+    -- Classic removes native watches to leave only Blizzard timers and avoid its watch limit.
+    -- Forever keeps native state: removing here would trigger the modern untrack callback and undo this add.
+    if not Questie.IsForever then
+        RemoveQuestWatch(index, true)
+    end
 
     if questId == 0 then
         -- TODO: Is this still needed?
@@ -2193,7 +2227,14 @@ function QuestieTracker:AQW_Insert(index, expire)
     if questId > 0 then
         -- These checks makes sure the only way to track a quest is through the Blizzard Quest Log
         -- or another Addon hooked into the Blizzard Quest Log that replaces the default Quest Log.
-        if not Questie.db.profile.autoTrackQuests then
+        if Questie.IsForever then
+            -- Modern AddQuestWatch is an idempotent add, not the legacy shift-click toggle.
+            if Questie.db.profile.autoTrackQuests then
+                Questie.db.char.AutoUntrackedQuests[questId] = nil
+            else
+                Questie.db.char.TrackedQuests[questId] = true
+            end
+        elseif not Questie.db.profile.autoTrackQuests then
             if Questie.db.char.TrackedQuests[questId] then
                 Questie.db.char.TrackedQuests[questId] = nil
             else
@@ -2205,7 +2246,7 @@ function QuestieTracker:AQW_Insert(index, expire)
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
 
                 -- Add quest to the tracker
-            elseif IsShiftKeyDown() and QuestLogFrame:IsShown() then
+            elseif IsShiftKeyDown() and QuestLogFrame and QuestLogFrame:IsShown() then
                 Questie.db.char.AutoUntrackedQuests[questId] = true
             end
         end
