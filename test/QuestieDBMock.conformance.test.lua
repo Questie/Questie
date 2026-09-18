@@ -16,8 +16,8 @@ dofile("setupTests.lua")
 -- every write goes through recording wrappers and is withdrawn after each case; owner ranks
 -- persist in the provider, which is why `OwnersOf` filters `GetOwners` to the case's owners.
 --
--- Skipped, with the reason printed, when the checkout is absent. Point `QUESTIE_DB_PATH` at
--- another checkout to run it elsewhere.
+-- Local runs skip when the default sibling checkout is absent. An explicit `QUESTIE_DB_PATH`
+-- must exist: CI sets it so a missing provider fails instead of silently skipping conformance.
 --
 -- Deliberately not compared: the mock raises on an unknown field name and on a lowercase
 -- datatype where the provider returns nil or accepts the spelling. Both are guards that can
@@ -254,8 +254,12 @@ end
 
 describe("QuestieDBMock conformance with LibQuestieDB", function()
     if not ProviderCheckoutPresent() then
-        it("is skipped without the provider checkout", function()
-            pending("QuestieDB checkout not found at " .. PROVIDER_TOC .. "; set QUESTIE_DB_PATH to run the conformance cases")
+        it("finds the provider checkout", function()
+            local message = "QuestieDB checkout not found at " .. PROVIDER_TOC
+            if os.getenv("QUESTIE_DB_PATH") then
+                error(message, 0)
+            end
+            pending(message .. "; set QUESTIE_DB_PATH to run the conformance cases")
         end)
         return
     end

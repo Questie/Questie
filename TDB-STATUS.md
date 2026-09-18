@@ -53,10 +53,13 @@ Questie-side gates:
   `docs/questie-handover.md` records all-five-flavor validation and reviewed Golden updates for
   this sync; those full gates were not rerun during this status update. Any later changes to
   provider-owned data on Questie master still need reconciliation before merge.
-- Pinned Database Integration Check in CI remains open. `.github/workflows/ci.yml` does not check
-  out the provider, so real-provider conformance can pend while the unit suite passes. Pin a
-  provider revision and set `QUESTIE_DB_PATH` explicitly; the provider's own `QUESTIE_COMMIT`
-  pins its legacy Questie inputs, not this consumer integration.
+- Temporary Source-mode conformance is defined in `.github/workflows/provider-conformance.yml`.
+  The `QuestieDB master conformance` check follows provider `master`, logs the resolved SHA,
+  and sets `QUESTIE_DB_PATH`; a missing configured checkout fails rather than pending.
+  Provider changes can change the result without a Questie commit. Branch protection is
+  configured separately. Supported-release/Baked coverage, the release-required/master-advisory
+  split, and committed real-provider support-wrapper integration tests remain open;
+  see `CI-PROVIDER-COMPATIBILITY.md`.
 - Current Contract Version 2 live smoke matrix: Era, SoD, TBC before and after phase 3, WotLK, Titan season 109, Cata, MoP,
   one built-in non-English locale, one external locale addon. Check gathering-node suppression,
   Darkmoon, Content Phase prerequisites, Townsfolk, Available Quests, Objective Order, Special
@@ -66,7 +69,8 @@ Questie-side gates:
   acceptance or any necessary caller changes during the live checks, rather than reopening the
   provider storage decision.
 - Mock-versus-provider conformance: the harness runs the double's cases against the real provider
-  in Source mode (`TDB-FINDINGS.md` F7, F8) and pends when the QuestieDB checkout is absent. It covers
+  in Source mode (`TDB-FINDINGS.md` F7, F8). Local runs pend when the default sibling checkout is
+  absent; an explicit missing `QUESTIE_DB_PATH` fails. It covers
   Contract Version 2 translation slots. Support wrapper checks cover all five flavors and both
   factions. From this Questie checkout, run the conformance cases against the sibling provider with:
 

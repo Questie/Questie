@@ -1,6 +1,8 @@
 # CI against released and developing QuestieDB
 
-Status: provider integration checks remain a proposal. CI now validates the TOC contract declarations and the build preflight, but does not yet select or download a supported provider release.
+Status: `.github/workflows/provider-conformance.yml` runs the existing mock-versus-provider conformance suite against QuestieDB `master` in Source mode. An explicitly configured missing checkout fails instead of skipping. This is a temporary migration check, not released-provider compatibility or the full integration coverage proposed below. CI also validates the TOC contract declarations and build preflight.
+
+The `QuestieDB master conformance` check follows provider development and logs the resolved SHA. The same Questie revision can therefore pass or fail as the provider changes. Failures currently fail this job; the supported-release-required/master-advisory split below remains a proposal. Branch-protection settings are managed separately and are not changed by the workflow.
 
 Questie should run focused integration tests against real QuestieDB checkouts, not only its test mock. The checks should protect compatibility with the provider users can install while warning about changes developing on QuestieDB master.
 
@@ -36,7 +38,7 @@ QuestieDB's release manifest now includes the actual baked `version` and support
 
 Keep an explicit supported release reference in the Questie repository and update it deliberately. Prefer a published, non-prerelease version rather than whichever tag happens to be newest. Record the resolved commit SHA in CI output for both targets.
 
-If no usable release exists during migration, pin a known-working provider commit as a temporary required target. Label that limitation clearly: a commit-based check is not proof of compatibility with a published release.
+During migration, the temporary check follows `master` to catch integration drift between the developing repositories. Once a supported release is selected, add the required release check and make the master check advisory. A passing master check is not proof of compatibility with a published release.
 
 When a consumer begins requiring a newer provider, update its declared requirement, CI target, and vendored type declarations together. Older provider releases still advertised as supported need coverage too; moving the test target alone must not silently drop that promise.
 
