@@ -973,16 +973,23 @@ if not ActionStatus_DisplayMessage then
 end
 
 -- No achievement UI on this client. These are reached from tracker clicks.
-if not AchievementFrame_ToggleAchievementFrame then
-    AchievementFrame_ToggleAchievementFrame = function() end
+function QuestieCompat.AchievementFrame_ToggleAchievementFrame()
+    if AchievementFrame_ToggleAchievementFrame then
+        return AchievementFrame_ToggleAchievementFrame()
+    end
 end
 
-if not AchievementFrame_SelectAchievement then
-    AchievementFrame_SelectAchievement = function() end
+---@param achievementId number
+function QuestieCompat.AchievementFrame_SelectAchievement(achievementId)
+    if AchievementFrame_SelectAchievement then
+        return AchievementFrame_SelectAchievement(achievementId)
+    end
 end
 
-if not AchievementFrameAchievements_ForceUpdate then
-    AchievementFrameAchievements_ForceUpdate = function() end
+function QuestieCompat.AchievementFrameAchievements_ForceUpdate()
+    if AchievementFrameAchievements_ForceUpdate then
+        return AchievementFrameAchievements_ForceUpdate()
+    end
 end
 
 -- Returns a varargs list; Questie packs it into a table, so returning nothing

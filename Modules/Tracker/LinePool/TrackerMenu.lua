@@ -482,11 +482,11 @@ TrackerMenu.addShowInAchievementsOption = function(menu, achieve)
             end
 
             if (not AchievementFrame:IsShown()) then
-                AchievementFrame_ToggleAchievementFrame()
-                AchievementFrame_SelectAchievement(achieve.Id)
+                QuestieCompat.AchievementFrame_ToggleAchievementFrame()
+                QuestieCompat.AchievementFrame_SelectAchievement(achieve.Id)
             else
                 if (AchievementFrameAchievements.selection ~= achieve.Id) then
-                    AchievementFrame_SelectAchievement(achieve.Id)
+                    QuestieCompat.AchievementFrame_SelectAchievement(achieve.Id)
                 end
             end
         end
@@ -505,7 +505,7 @@ TrackerMenu.addUntrackAchieveOption = function(menu, achieve)
                 AchievementFrame_LoadUI()
             end
 
-            AchievementFrameAchievements_ForceUpdate()
+            QuestieCompat.AchievementFrameAchievements_ForceUpdate()
 
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
