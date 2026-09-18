@@ -1,6 +1,6 @@
 # Questie and QuestieDB bundle releases
 
-Status: in progress. Phase 1's metadata foundation and phase 2's TOC declarations, build validation, and existing initialization check are implemented locally. The early file-load compatibility guard, provider integration CI, and bundle release flow are still pending. CurseForge/Wago workflow upload steps remain hard-disabled.
+Status: in progress. Phase 1's metadata foundation and phase 2's TOC declarations, build validation, and existing initialization check are implemented locally. The early file-load compatibility guard, supported-release integration CI, and bundle release flow are still pending. CurseForge/Wago workflow upload steps remain hard-disabled.
 
 ## Publishing lock during preparation
 
@@ -44,7 +44,7 @@ Asset: Questie-v11.11.11+v1.1.1.zip
 - QuestieDB packaging now writes the actual baked `version`, `contractVersion`, and `minSupportedContract` alongside commit provenance and artifact checksums. No release containing these changes has been published as part of this work.
 - QuestieDB's `preview` release is mutable. Full versions are normally fixed but have an existing explicit override mechanism.
 - Existing ZIP builders do not promise byte-identical archives across independent builds.
-- `CI-PROVIDER-COMPATIBILITY.md` is a proposal, not implemented CI.
+- [QuestieDB integration](docs/questiedb-integration.md#planned-release-compatibility-checks) separates the implemented Source-mode conformance job against provider master from the still-proposed supported-release compatibility checks.
 
 Paths below are relative to the named repository. QuestieDB distribution tools currently live in `tools/distribution/`; tooling is being reorganized in parallel. Recheck paths and preserve unrelated changes before implementation.
 
@@ -113,7 +113,7 @@ Owner: Questie, with provider metadata from phase 1.
 
 CI:
 
-- Implement the required real-provider integration check described in `CI-PROVIDER-COMPATIBILITY.md` and an advisory provider-master check.
+- Implement the [planned release compatibility checks](docs/questiedb-integration.md#planned-release-compatibility-checks): a required supported-release check and an advisory provider-master check. The current master conformance job is only the temporary migration check.
 - Distinguish the contract declaration from a concrete CI reference. Keep a deliberately selected supported release as the repeatable required CI baseline; release packaging additionally tests whichever compatible artifact it resolves.
 - Exercise the relevant actual provider APIs and baked packaging, not only the existing mock. A missing provider or skipped integration suite must fail the required check.
 - If Questie promises support for an older contract/provider baseline, test that promise rather than only the newest provider.
@@ -218,7 +218,7 @@ Key end-to-end cases, simulated without publishing:
 | Mutable provider assets change during download | Reject mixed content |
 | Concurrent creation/publication or interrupted upload | No silent overwrite or blind duplicate upload |
 
-Update `CI-PROVIDER-COMPATIBILITY.md`, build/release instructions, provider docs, and release recovery instructions alongside implementation. No live publishing, tag changes, or daily-driver installation during development without explicit authorization.
+Update [QuestieDB integration](docs/questiedb-integration.md), build/release instructions, provider docs, and release recovery instructions alongside implementation. No live publishing, tag changes, or daily-driver installation during development without explicit authorization.
 
 ## Remaining investigation
 

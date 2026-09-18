@@ -20,6 +20,6 @@ a hard error, not a degraded mode. Keeping a fallback would have meant keeping t
 which is the thing being removed.
 
 Questie reads Zone, Quest XP, drop, and faction-template payloads through
-`LibQuestieDB.Support`. The local payload files remain in the source tree for now but are no longer
-loaded by the flavor TOCs. Questie owns the wrappers and any decoded or merged tables it mutates.
+`LibQuestieDB.Support`. The local payload files and their flavor TOC entries have been removed.
+Questie owns the wrappers and any decoded or merged tables it mutates.
 Mists keeps the established mixed drop sources: Mists Wowhead data and Cata private-server data.

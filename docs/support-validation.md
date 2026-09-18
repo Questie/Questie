@@ -26,7 +26,9 @@ A failed checkpoint stops subsequent initialization, so `Questie.started` and `Q
 
 Initialization stops at the first failed dataset checkpoint. Within that checkpoint, the validator aggregates its failed controls. Validation does not depend on Questie's debug setting.
 
-This validation does not prove that every support-data entry is correct. Entries outside the controls are deliberately unverified, and malformed Lua source that fails during `loadstring` compilation or execution still follows the existing Lua error path before validation. Do not describe this as catching all corruption or as live-client verification.
+DropDB checks selected support containers before reading their encoded fields. ZoneDB guards its file-load bindings and checks its support containers during initialization. Both use `SupportValidation.DecodeTables` to report missing/non-string payloads, compilation failures, execution errors, and non-table results through the same failure path before merging decoded data. Quest XP similarly guards its support container before reading `.db`.
+
+This does not prove that every support-data entry is correct. Entries outside the controls remain unverified. Protected decoding handles malformed trusted data, not untrusted code. Missing provider APIs, exceptions thrown inside `Support.Get`, and other modules' early provider accesses are outside these guards. Do not describe this as catching all corruption, an early contract gate, or live-client verification.
 
 ## Updating controls
 
@@ -39,4 +41,4 @@ lua cli/validate-loader-usage.lua
 luacheck -q Database Localization Modules Public Questie.lua
 ```
 
-See [QuestieDB cutover status](../TDB-STATUS.md) for integration gates and validation history.
+See [QuestieDB integration](questiedb-integration.md) for ownership, test commands, and unfinished validation, and [the cutover history](tdb-history.md) for earlier evidence.
