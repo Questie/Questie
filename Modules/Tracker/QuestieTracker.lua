@@ -177,7 +177,7 @@ function QuestieTracker.Initialize()
             -- the entire list and build a temp table with QuestIDs instead to ensure we remove them all.
             local tempQuestIDs = {}
             for i = 1, questsWatched do
-                local questIndex = GetQuestIndexForWatch(i)
+                local questIndex = QuestieCompat.GetQuestIndexForWatch(i)
                 if questIndex then
                     local questId = select(8, QuestieCompat.GetQuestLogTitle(questIndex))
                     if questId then

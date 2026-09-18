@@ -494,11 +494,18 @@ function QuestieCompat.GetNumQuestWatches(arg)
     error(errorMsg, 2)
 end
 
-if not GetQuestIndexForWatch and C_QuestLog and C_QuestLog.GetQuestIDForQuestWatchIndex then
-    GetQuestIndexForWatch = function(watchIndex)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestIndexForWatch)
+---Returns the quest log index of a watched quest.
+---@param watchIndex number
+---@return number questLogIndex
+function QuestieCompat.GetQuestIndexForWatch(watchIndex)
+    if C_QuestLog and C_QuestLog.GetQuestIDForQuestWatchIndex and C_QuestLog.GetLogIndexForQuestID then
         local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(watchIndex)
         return questID and C_QuestLog.GetLogIndexForQuestID(questID)
+    elseif GetQuestIndexForWatch then
+        return GetQuestIndexForWatch(watchIndex)
     end
+    error(errorMsg, 2)
 end
 
 if not AddQuestWatch and C_QuestLog and C_QuestLog.AddQuestWatch then
