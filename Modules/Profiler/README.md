@@ -266,7 +266,7 @@ is unsafe, or if overhead is materially worse.
 ## Measuring something new
 
 The question "is X slow?" is usually answerable ad hoc in a few lines rather than by building anything - that
-is how every number above was produced. A live client and the WoWDevBridge CLI are enough:
+is how every number above was produced. A live client is enough:
 
 - Wrap a library table temporarily from a `/run` snippet, drive the workload, read the counters, restore
   ownership-safely: only put the original back if the slot still holds your wrapper.
