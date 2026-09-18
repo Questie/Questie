@@ -77,7 +77,7 @@ Questie 使用 `luacheck`进行代码规范检查。你可以在本地运行此�
 
 ### 实体数据库验证
 
-实体数据库验证由 QuestieTDB 负责。Questie 保留了加载器使用验证，可通过以下命令运行：
+实体数据库验证由 QuestieDB 负责。Questie 保留了加载器使用验证，可通过以下命令运行：
 
 `lua cli/validate-loader-usage.lua`
 

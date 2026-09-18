@@ -32,11 +32,6 @@ QuestieTooltips.lookupKeysByQuestId = {
     --["questId"] = {"u_Grell", ... }
 }
 
--- QuestieTooltips owns this derived index; QuestieTDB supplies the composed Object reads used to rebuild it.
--- See TDB-IMPLEMENTATION-ISSUES.md for the pending initialization and refresh wiring.
----@type table<string, ObjectId[]>
-QuestieTooltips.objectNameLookup = {}
-
 local MAX_GROUP_MEMBER_COUNT = 6
 
 local _InitObjectiveTexts
@@ -229,6 +224,12 @@ function QuestieTooltips.GetTooltip(key, playerZone)
 
     -- Something calls this method with table, perhaps a bad interaction with Plater? /tanoh 2024-08-29
     if type(key) ~= "string" then
+        return nil
+    end
+
+    -- Most provider name matches have no quest lines. Avoid reading their spawn tables just to
+    -- discover that neither the local registry nor Comms has anything to show.
+    if not QuestieTooltips.lookupByKey[key] and not (IsInGroup() and QuestieComms.data:KeyExists(key)) then
         return nil
     end
 

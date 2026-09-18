@@ -76,7 +76,7 @@ Questie usa `luacheck` para linting. Puedes ejecutarlo localmente con:
 
 ### Validación de la base de datos de entidades
 
-QuestieTDB se encarga de validar la base de datos de entidades. Questie conserva la validación del uso del cargador, que puedes ejecutar con:
+QuestieDB se encarga de validar la base de datos de entidades. Questie conserva la validación del uso del cargador, que puedes ejecutar con:
 
 `lua cli/validate-loader-usage.lua`
 

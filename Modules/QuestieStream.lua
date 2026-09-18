@@ -242,7 +242,7 @@ function QuestieStreamLib:_ReadShort_raw()
     self._pointer = p + 2
     local a,b = stringbyte(self._bin, p, p+1)
     if not a or not b then
-        -- Stream decoding reports malformed payloads; entity database recovery belongs to QuestieTDB.
+        -- Stream decoding reports malformed payloads; entity database recovery belongs to QuestieDB.
         Questie.Error("QuestieStreamLib: Unexpected end of raw stream while reading a short.")
         return
     end

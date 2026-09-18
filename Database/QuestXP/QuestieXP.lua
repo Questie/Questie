@@ -2,11 +2,16 @@
 ---@class QuestXP
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
 
+---@type SupportValidation
+local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
+
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
----@type table<QuestId,table<Level,XP>> -- { questId={level, xp}, ..... }
-QuestXP.db = {}
+local support = LibQuestieDB.Support.Get("QuestXP")
+-- Shared, read-only base XP; invalid support stays nil for Init's validation report.
+---@type table<QuestId,table<Level,XP>>? -- { questId={level, xp}, ..... }
+QuestXP.db = type(support) == "table" and support.db or nil
 
 local floor = floor
 local UnitLevel = UnitLevel
@@ -15,7 +20,12 @@ local globalXPMultiplier = 1
 
 local _GetBuffMultiplier
 
+---@return false|nil valid @Nil on success; false stops initialization.
+---@return string? report
 function QuestXP.Init()
+    local valid, report = SupportValidation.ValidateQuestXP(QuestXP.db, Expansions.Current)
+    if not valid then return false, report end
+
     if Expansions.Current >= Expansions.Wotlk then
         -- Handle Fast Track "Guild Perk"
         -- We don't check for Rank 1, because Blizzard made Rank 2 active for all characters

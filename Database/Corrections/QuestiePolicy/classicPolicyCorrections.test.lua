@@ -1,5 +1,5 @@
 dofile("setupTests.lua")
-local LoadQuestieTDBMetaMock = dofile("test/QuestieTDBMetaMock.lua")
+local LoadQuestieDBMetaMock = dofile("test/QuestieDBMetaMock.lua")
 
 describe("QuestieClassicPolicyCorrections", function()
     ---@type QuestieClassicPolicyCorrections
@@ -8,7 +8,7 @@ describe("QuestieClassicPolicyCorrections", function()
     local mulgoreCorrections
 
     before_each(function()
-        LoadQuestieTDBMetaMock()
+        LoadQuestieDBMetaMock()
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
         dofile("Database/Corrections/QuestiePolicy/classicPolicyCorrections.lua")

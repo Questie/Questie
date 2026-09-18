@@ -103,42 +103,44 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
+---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
 ---@param name string
 ---@param playerZone AreaId
+---@return nil
 function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
     if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end
 
-    local lookup = QuestieTooltips.objectNameLookup[name] or {}
-    local count = table.getn(lookup)
-
-    if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then
+    -- Name ambiguity depends on all provider Objects, even when the Object ID line is disabled.
+    -- Login Initialization warms the provider index.
+    local ids = LibQuestieDB.Object.IdsByName(name)
+    local count = ids and #ids or 0
+    if Questie.db.profile.enableTooltipsObjectID then
         if count == 1 then
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. "|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. "|r")
         elseif count > 10 and (not Questie.db.profile.debugEnabled) then
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (10+)|r")
-        else
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. " (10+)|r")
+        elseif count > 1 then
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. " (" .. count .. ")|r")
         end
     end
 
-    -- The zone filter in GetTooltip only exists to pick the right object when several share a name.
-    -- A unique name has nothing to disambiguate, so skip the filter for it (0 = any zone).
-    local zoneFilter = count > 1 and playerZone or 0
+    -- Only a provider-wide unique name can bypass zone disambiguation (0 = any zone).
+    local zoneFilter = count == 1 and 0 or playerZone
 
     local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
-    for _, gameObjectId in pairs(lookup) do
-        if count > 10 and addedObjects >= 10 then
-            -- only show 10 tooltips
+    -- GetTooltip checks local and Comms registrations; party-only Objects need no local registration.
+    for _, gameObjectId in ipairs(ids or {}) do
+        if addedObjects >= 10 then
             break
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, zoneFilter);
-        if tooltipData then
-            for _, line in pairs (tooltipData) do
-                if (not alreadyAddedObjectiveLines[line]) then
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, zoneFilter)
+        if tooltipData and next(tooltipData) then
+            for _, line in pairs(tooltipData) do
+                if not alreadyAddedObjectiveLines[line] then
                     alreadyAddedObjectiveLines[line] = true
                     GameTooltip:AddLine(line)
                 end
@@ -146,8 +148,9 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
             addedObjects = addedObjects + 1
         end
     end
+
     GameTooltip:Show()
-    QuestieTooltips.lastGametooltipType = "object";
+    QuestieTooltips.lastGametooltipType = "object"
 end
 
 function _QuestieTooltips:CountTooltip()
