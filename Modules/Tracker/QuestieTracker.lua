@@ -226,7 +226,7 @@ function QuestieTracker.Initialize()
                             AchievementFrame_LoadUI()
                         end
 
-                        AchievementFrameAchievements_ForceUpdate()
+                        QuestieCompat.AchievementFrameAchievements_ForceUpdate()
                     end
                 end
             end
