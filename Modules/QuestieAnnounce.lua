@@ -9,7 +9,6 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
 local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
@@ -125,7 +124,7 @@ end
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceItems then
         local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
-        local itemLink = select(2, GetItemInfo(itemId))
+        local itemLink = select(2, QuestieCompat.GetItemInfo(itemId))
         local message = l10n("Picked up %s which starts %s!", itemLink, questLink)
 
         local localMessage
@@ -144,7 +143,7 @@ end
 ---@param itemId ItemId
 function _QuestieAnnounce:AnnounceSelf(questId, itemId)
     local questHyperLink = QuestieLink:GetQuestHyperLink(questId);
-    local itemLink = select(2, GetItemInfo(itemId));
+    local itemLink = select(2, QuestieCompat.GetItemInfo(itemId));
 
     Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questHyperLink));
 end

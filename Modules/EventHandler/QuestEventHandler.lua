@@ -48,7 +48,6 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type BreadcrumbQuests
 local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
@@ -98,14 +97,14 @@ function QuestEventHandler:Initialize()
                         local reqSourceItemId, reqSoureItemName
 
                         if sourceItemId then
-                            sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(sourceItemId)
+                            sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = QuestieCompat.GetItemInfo(sourceItemId)
                         end
 
                         if quest.requiredSourceItems then
                             reqSourceItemId = quest.requiredSourceItems[1]
 
                             if reqSourceItemId then
-                                reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(reqSourceItemId)
+                                reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = QuestieCompat.GetItemInfo(reqSourceItemId)
                             end
                         end
 

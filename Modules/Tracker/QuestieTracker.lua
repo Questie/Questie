@@ -52,7 +52,6 @@ local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -438,7 +437,7 @@ function QuestieTracker:QuestItemLooted(text)
     local itemId = tonumber(string.match(text, "item:(%d+)"))
 
     if playerLoot and itemId then
-        local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
+        local _, _, _, _, _, itemType, _, _, _, _, _, classID = QuestieCompat.GetItemInfo(itemId)
         local usableItem = TrackerUtils:IsQuestItemUsable(itemId)
 
         if (itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12) and usableItem then

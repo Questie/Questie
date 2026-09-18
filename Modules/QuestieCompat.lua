@@ -448,10 +448,16 @@ if not GetSpellInfo and C_Spell and C_Spell.GetSpellInfo then
     end
 end
 
-if not GetItemInfo and C_Item and C_Item.GetItemInfo then
-    GetItemInfo = function(item)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemInfo)
+---Returns information about an item.
+---@param item ItemId|string
+function QuestieCompat.GetItemInfo(item)
+    if C_Item and C_Item.GetItemInfo then
         return C_Item.GetItemInfo(item)
+    elseif GetItemInfo then
+        return GetItemInfo(item)
     end
+    error(errorMsg, 2)
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestFlaggedCompleted)
