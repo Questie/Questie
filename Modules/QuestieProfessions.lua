@@ -20,7 +20,7 @@ local alternativeProfessionNames = {}
 -- Fast local references
 local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
 
-hooksecurefunc("AbandonSkill", function(skillIndex)
+if AbandonSkill then hooksecurefunc("AbandonSkill", function(skillIndex)
     local skillName = GetSkillLineInfo(skillIndex)
     if skillName and professionTable[skillName] then
         if playerProfessions[professionTable[skillName]] then
@@ -31,7 +31,7 @@ hooksecurefunc("AbandonSkill", function(skillIndex)
             AvailableQuests.CalculateAndDrawAll()
         end
     end
-end)
+end) end
 
 function QuestieProfessions:Init()
 

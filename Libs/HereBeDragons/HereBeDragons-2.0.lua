@@ -22,6 +22,13 @@ local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
+-- An unrecognised project id leaves every flag false, which silently selects the
+-- retail transform and world map constants further down and misplaces pins.
+-- Vanilla is the correct fallback for a 1.x client.
+if not (WoWClassic or WoWBC or WoWWrath or WoWCata or WoWMists or WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+    WoWClassic = true
+end
+
 -- Data Constants
 local COSMIC_MAP_ID = 946
 local WORLD_MAP_ID = 947

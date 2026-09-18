@@ -50,7 +50,11 @@ local function Fix1_3_1Buttons()
 end
 
 local function Fix1_4_3Buttons()
-	if lib.HasNoOverlay then
+	-- HasNoOverlay comes from the major version alone, so a 1.x client that does
+	-- have overlayFrames still lands here. Reparenting Blizzard's own tracking
+	-- buttons off WorldMapFrame breaks their self:GetParent():GetMapID() and
+	-- :TriggerEvent() calls, so only apply this when there is genuinely no overlay.
+	if lib.HasNoOverlay and WorldMapFrame.overlayFrames == nil then
 		for _, button in next, lib.Buttons do
 			button:SetParent(WorldMapFrame.ScrollContainer);
 			button:SetFrameStrata("TOOLTIP");
