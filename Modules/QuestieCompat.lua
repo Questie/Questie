@@ -481,10 +481,17 @@ function QuestieCompat.GetNumQuestLeaderBoards(questLogIndex)
     error(errorMsg, 2)
 end
 
-if not GetNumQuestWatches and C_QuestLog and C_QuestLog.GetNumQuestWatches then
-    GetNumQuestWatches = function()
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumQuestWatches)
+---Returns the number of quests currently being watched.
+---@param arg any|nil Legacy-only argument, ignored by the modern C_QuestLog API.
+---@return number numQuestWatches
+function QuestieCompat.GetNumQuestWatches(arg)
+    if C_QuestLog and C_QuestLog.GetNumQuestWatches then
         return C_QuestLog.GetNumQuestWatches()
+    elseif GetNumQuestWatches then
+        return GetNumQuestWatches(arg)
     end
+    error(errorMsg, 2)
 end
 
 if not GetQuestIndexForWatch and C_QuestLog and C_QuestLog.GetQuestIDForQuestWatchIndex then

@@ -70,7 +70,7 @@ if VoiceOverFrame then
     voiceOverInitialPosition = {VoiceOverFrame:GetPoint()}
 end
 
-local questsWatched = GetNumQuestWatches()
+local questsWatched = QuestieCompat.GetNumQuestWatches()
 
 local trackedAchievements
 local trackedAchievementIds
@@ -474,7 +474,7 @@ end
 function QuestieTracker:Enable()
     -- Update the questsWatched var before we re-enable
     if questsWatched == 0 then
-        questsWatched = GetNumQuestWatches()
+        questsWatched = QuestieCompat.GetNumQuestWatches()
     end
 
     Questie.db.profile.trackerEnabled = true
@@ -2010,7 +2010,9 @@ function QuestieTracker:HookBaseTracker()
     -- Quest Hooks
     if not QuestieTracker.IsQuestWatched then
         QuestieTracker.IsQuestWatched = IsQuestWatched
-        QuestieTracker.GetNumQuestWatches = GetNumQuestWatches
+        -- Bare GetNumQuestWatches may never have existed on this client (no legacy global, no prior hook),
+        -- so fall back to the real API rather than capturing nil as "the original" to restore on Unhook.
+        QuestieTracker.GetNumQuestWatches = GetNumQuestWatches or QuestieCompat.GetNumQuestWatches
     end
 
     -- Intercept and return a Questie boolean value

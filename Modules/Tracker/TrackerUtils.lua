@@ -1136,7 +1136,9 @@ end
 function TrackerUtils.HasQuest()
     local hasQuest
 
-    if (GetNumQuestWatches(true) == 0) then
+    -- GetNumQuestWatches may be hijacked by QuestieTracker's own hook (see QuestieTracker.lua HookBaseTracker)
+    -- to accept an "isQuestie" argument; fall back to the real API if it was never hooked or polyfilled.
+    if ((GetNumQuestWatches or QuestieCompat.GetNumQuestWatches)(true) == 0) then
         if Expansions.Current >= Expansions.Wotlk then
             if (GetNumTrackedAchievements(true) == 0) then
                 hasQuest = false
