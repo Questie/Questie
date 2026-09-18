@@ -10,8 +10,17 @@ describe("QuestieProfessions", function()
     local QuestieProfessions
 
     local mockedProfessionSkill
+    local savedGlobals
+    local globalNames = {
+        "ExpandSkillHeader", "GetNumSkillLines", "GetSkillLineInfo", "GetProfessions", "GetProfessionInfo",
+        "AbandonSkill", "hooksecurefunc",
+    }
 
     before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do
+            savedGlobals[name] = _G[name]
+        end
         _G.ExpandSkillHeader = function() end
         _G.GetNumSkillLines = function()
             return 1
@@ -50,7 +59,53 @@ describe("QuestieProfessions", function()
         QuestieProfessions:Init()
     end)
 
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = savedGlobals[name]
+        end
+    end)
+
     describe("Update", function()
+        it("keeps secondary professions when modern primary-profession slots are empty", function()
+            _G.GetSkillLineInfo = nil
+            _G.AbandonSkill = nil
+            _G.GetProfessions = function() return nil, nil, nil, 4, 5 end
+            local professions = {
+                [4] = {name = "Fishing", rank = 25, id = 356},
+                [5] = {name = "Cooking", rank = 50, id = 185},
+            }
+            _G.GetProfessionInfo = function(index)
+                local profession = professions[index]
+                return profession.name, nil, profession.rank, nil, nil, nil, profession.id
+            end
+            dofile("Modules/QuestieProfessions.lua")
+
+            local updated, learned = QuestieProfessions:Update()
+
+            assert.is_true(updated)
+            assert.is_true(learned)
+            assert.are.same({[356] = {"Fishing", 25}, [185] = {"Cooking", 50}}, QuestieProfessions:GetPlayerProfessions())
+        end)
+
+        it("reports modern profession removal and resets skill-gated quest availability", function()
+            _G.GetSkillLineInfo = nil
+            _G.AbandonSkill = nil
+            _G.GetProfessions = function() return nil, nil, nil, nil, 5 end
+            _G.GetProfessionInfo = function() return "Cooking", nil, 50, nil, nil, nil, 185 end
+            dofile("Modules/QuestieProfessions.lua")
+            QuestieProfessions:Update()
+            QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
+            _G.GetProfessions = function() end
+
+            local updated, learned = QuestieProfessions:Update()
+
+            assert.is_true(updated)
+            assert.is_false(learned)
+            assert.are.same({}, QuestieProfessions:GetPlayerProfessions())
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called(1)
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
+        end)
+
         it("should detect when a player learned a new profession", function()
 
             local hasProfessionUpdate, hasNewProfession = QuestieProfessions:Update()

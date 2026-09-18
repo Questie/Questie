@@ -108,6 +108,10 @@ function EventHandler:RegisterLateEvents()
 
     -- Events to update a players professions and reputations
     Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
+    if not GetSkillLineInfo then
+        -- Modern unlearning need not print CHAT_MSG_SKILL and has no legacy AbandonSkill hook.
+        Questie:RegisterBucketEvent("SKILL_LINES_CHANGED", 2, _EventHandler.ChatMsgSkill)
+    end
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, function()
         QuestEventHandler.ReputationChange()
         _EventHandler:ChatMsgCompatFactionChange()
@@ -134,6 +138,11 @@ function EventHandler:RegisterLateEvents()
         end
     end)
     Questie:RegisterEvent("QUEST_ACCEPTED", function(_, questLogIndex, questId)
+        if Questie.IsForever then
+            -- Forever sends only the quest ID; Classic sends the log index followed by the ID.
+            questId = questLogIndex
+            questLogIndex = GetQuestLogIndexByID(questId)
+        end
         QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
@@ -528,11 +537,11 @@ function _EventHandler:ModifierStateChanged(key, down)
     end
 end
 
---- Fires when some chat messages about skills are displayed
+---Refreshes skill-gated quests after skill chat or modern skill-line changes.
 function _EventHandler:ChatMsgSkill()
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_SKILL")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] Profession skills changed")
 
-    -- This needs to be done to draw new quests that just came available
+    -- Redraw for professions gained or lost as well as skill thresholds crossed.
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     if isProfUpdate or isNewProfession then
         AvailableQuests.CalculateAndDrawAll()
