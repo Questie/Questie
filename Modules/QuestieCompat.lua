@@ -689,53 +689,68 @@ end
 -- The indexed skill-line API is gone. Questie walks it purely to learn which
 -- professions the player has and at what rank, so rebuild that list from
 -- whichever modern source this client provides and present it in the old shape.
-if not GetNumSkillLines or not GetSkillLineInfo then
-    local lines = {}
+local skillLines = {}
 
-    local function collect()
-        wipe(lines)
+local function collectSkillLines()
+    wipe(skillLines)
 
-        if GetProfessions and GetProfessionInfo then
-            local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
-            for _, index in ipairs({prof1 or false, prof2 or false, archaeology or false,
-                fishing or false, cooking or false}) do
-                if index then
-                    local name, _, rank = GetProfessionInfo(index)
-                    if name then
-                        lines[#lines + 1] = {name = name, rank = rank or 0}
-                    end
-                end
-            end
-        end
-
-        if #lines == 0 and C_TradeSkillUI and C_TradeSkillUI.GetAllProfessionTradeSkillLines
-            and C_TradeSkillUI.GetTradeSkillLineInfoByID then
-            for _, skillLineID in ipairs(C_TradeSkillUI.GetAllProfessionTradeSkillLines()) do
-                local info = C_TradeSkillUI.GetTradeSkillLineInfoByID(skillLineID)
-                local name = info and (info.professionName or info.displayName)
+    if GetProfessions and GetProfessionInfo then
+        local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
+        for _, index in ipairs({prof1 or false, prof2 or false, archaeology or false,
+            fishing or false, cooking or false}) do
+            if index then
+                local name, _, rank = GetProfessionInfo(index)
                 if name then
-                    lines[#lines + 1] = {name = name, rank = info.skillLevel or 0}
+                    skillLines[#skillLines + 1] = {name = name, rank = rank or 0}
                 end
             end
         end
-
-        return #lines
     end
 
-    GetNumSkillLines = function()
-        return collect()
+    if #skillLines == 0 and C_TradeSkillUI and C_TradeSkillUI.GetAllProfessionTradeSkillLines
+        and C_TradeSkillUI.GetTradeSkillLineInfoByID then
+        for _, skillLineID in ipairs(C_TradeSkillUI.GetAllProfessionTradeSkillLines()) do
+            local info = C_TradeSkillUI.GetTradeSkillLineInfoByID(skillLineID)
+            local name = info and (info.professionName or info.displayName)
+            if name then
+                skillLines[#skillLines + 1] = {name = name, rank = info.skillLevel or 0}
+            end
+        end
     end
 
-    GetSkillLineInfo = function(index)
-        local line = lines[index]
-        if not line then return nil end
-        -- name, isHeader, isExpanded, rank
-        return line.name, false, false, line.rank
-    end
+    return #skillLines
 end
 
-if not ExpandSkillHeader then
-    ExpandSkillHeader = function() end
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumSkillLines)
+---Returns the number of skill line entries (professions) known by the player.
+---@return number numSkillLines
+function QuestieCompat.GetNumSkillLines()
+    if GetNumSkillLines then
+        return GetNumSkillLines()
+    end
+    return collectSkillLines()
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetSkillLineInfo)
+---Returns information about a skill line entry (profession) by index.
+---@param index number
+---TODO: this reconstructs a legacy tuple from an internally cached table; once all callers are migrated, expose that table directly instead.
+function QuestieCompat.GetSkillLineInfo(index)
+    if GetSkillLineInfo then
+        return GetSkillLineInfo(index)
+    end
+    local line = skillLines[index]
+    if not line then return nil end
+    -- name, isHeader, isExpanded, rank
+    return line.name, false, false, line.rank
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ExpandSkillHeader)
+---Expands a skill line header. No modern UI equivalent exists; this is a no-op.
+function QuestieCompat.ExpandSkillHeader()
+    if ExpandSkillHeader then
+        return ExpandSkillHeader()
+    end
 end
 
 -- OnTooltipSetItem / OnTooltipSetUnit are no longer script types; the modern
