@@ -228,6 +228,8 @@ end
 function QuestieCompat.GetItemCooldown(itemID)
     if C_Container and C_Container.GetItemCooldown then
         return C_Container.GetItemCooldown(itemID)
+    elseif C_Item and C_Item.GetItemCooldown then
+        return C_Item.GetItemCooldown(itemID)
     else
         return GetItemCooldown(itemID)
     end
@@ -962,20 +964,6 @@ if not IsQuestWatched then
             return questID ~= nil and C_QuestLog.GetQuestWatchType(questID) ~= nil
         end
         return false
-    end
-end
-
-if not GetItemCooldown and C_Item and C_Item.GetItemCooldown then
-    GetItemCooldown = function(itemID)
-        return C_Item.GetItemCooldown(itemID)
-    end
-end
-
--- Replaced by GetMouseFoci, which returns a list instead of a single frame.
-if not GetMouseFocus and GetMouseFoci then
-    GetMouseFocus = function()
-        local foci = GetMouseFoci()
-        return foci and foci[1]
     end
 end
 
