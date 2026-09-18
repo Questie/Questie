@@ -817,7 +817,7 @@ describe("QuestieEvent", function()
             QuestieEvent:Load()
 
             assert.are_same(0, #setCorrectionCalls)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
     end)
 

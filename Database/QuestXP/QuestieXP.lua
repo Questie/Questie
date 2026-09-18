@@ -8,9 +8,10 @@ local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
--- Shared, read-only base XP; level and buff adjustments stay in this wrapper.
----@type table<QuestId,table<Level,XP>> -- { questId={level, xp}, ..... }
-QuestXP.db = LibQuestieDB.Support.Get("QuestXP").db
+local support = LibQuestieDB.Support.Get("QuestXP")
+-- Shared, read-only base XP; invalid support stays nil for Init's validation report.
+---@type table<QuestId,table<Level,XP>>? -- { questId={level, xp}, ..... }
+QuestXP.db = type(support) == "table" and support.db or nil
 
 local floor = floor
 local UnitLevel = UnitLevel

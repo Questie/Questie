@@ -110,9 +110,11 @@ Two fresh reviewers per risky step. Findings that changed the design:
   mock now swaps map identity like the provider; the tests fail when the rebinds are removed.
 - **`LibQuestieDB` leaked between test files.** Isolated in the Contract fake.
 
-Deferred by the reviewers and still open in TDB-STATUS: per-Item repair coalescing, Townsfolk's
-per-login SavedVariables writes, the dead `objectCache`, the Isle of Quel'Danas profile-versus-global
-split, and the `Expansions.Current` and `C_Calendar` leaks in the Event and QuestieLib suites.
+The reviewers originally deferred per-Item repair coalescing, Townsfolk's per-login SavedVariables
+writes, the dead `objectCache`, the Isle of Quel'Danas profile-versus-global split, and the
+`Expansions.Current` and `C_Calendar` leaks in the Event and QuestieLib suites. This is a historical
+list, not the current backlog; see `TDB-STATUS.md`. Item repair coalescing and Townsfolk persistence
+removal are now complete.
 Stage 1 has no coroutine harness; `Modules/QuestieInit.test.lua` pins the order by stubbing the
 stages.
 

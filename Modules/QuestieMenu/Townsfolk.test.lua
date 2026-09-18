@@ -19,6 +19,7 @@ describe("Townsfolk", function()
 
     local originalExpansion
     local originalIsClassic
+    local originalIsSoD
     local originalUnitLevel
 
     -- Classic-client NPC flag values, mirroring QuestieDB.npcFlags on Era.
@@ -68,6 +69,7 @@ describe("Townsfolk", function()
         Expansions = QuestieLoader:ImportModule("Expansions")
         originalExpansion = Expansions.Current
         originalIsClassic = Questie.IsClassic
+        originalIsSoD = Questie.IsSoD
         originalUnitLevel = _G.UnitLevel
         Expansions.Current = Expansions.Era
         Questie.IsClassic = true
@@ -134,6 +136,7 @@ describe("Townsfolk", function()
     after_each(function()
         Expansions.Current = originalExpansion
         Questie.IsClassic = originalIsClassic
+        Questie.IsSoD = originalIsSoD
         _G.UnitLevel = originalUnitLevel
     end)
 

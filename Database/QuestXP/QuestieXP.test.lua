@@ -30,6 +30,34 @@ describe("QuestXP support data", function()
         assert.are_same({20, 1000}, mock.supportModules.QuestXP.db[101])
     end)
 
+    it("reports missing support during initialization instead of failing to load", function()
+        mock.supportModules.QuestXP = nil
+        local validator = spy.new(function() return false, "Missing QuestXP support" end)
+        QuestieLoader:ImportModule("SupportValidation").ValidateQuestXP = validator
+
+        dofile("Database/QuestXP/QuestieXP.lua")
+        local valid, report = QuestXP.Init()
+
+        assert.is_nil(QuestXP.db)
+        assert.is_false(valid)
+        assert.are_equal("Missing QuestXP support", report)
+        assert.spy(validator).was.called_with(nil, QuestieLoader:ImportModule("Expansions").Era)
+    end)
+
+    it("reports non-table support during initialization instead of failing to load", function()
+        mock.supportModules.QuestXP = 42
+        local validator = spy.new(function() return false, "Invalid QuestXP support" end)
+        QuestieLoader:ImportModule("SupportValidation").ValidateQuestXP = validator
+
+        dofile("Database/QuestXP/QuestieXP.lua")
+        local valid, report = QuestXP.Init()
+
+        assert.is_nil(QuestXP.db)
+        assert.is_false(valid)
+        assert.are_equal("Invalid QuestXP support", report)
+        assert.spy(validator).was.called_with(nil, QuestieLoader:ImportModule("Expansions").Era)
+    end)
+
     it("preserves max-level suppression and the ignorePlayerLevel option", function()
         playerLevel = 60
         assert.are_equal(0, QuestXP:GetQuestLogRewardXP(101))

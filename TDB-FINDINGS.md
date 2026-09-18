@@ -1,9 +1,10 @@
 # QuestieDB live smoke findings
 
-Everything found while running the `QuestieTDB-implementation` branch in a real client through
-the Lua bridge. One entry per finding: what was observed, the evidence, who owns the fix, and the
-proposed action. Resolved entries stay here with their resolution so the same probe is not rerun.
-Current state and merge gates: `TDB-STATUS.md`.
+Historical Contract Version 1 smoke results from running the `QuestieTDB-implementation` branch
+in Era and SoD clients through the Lua bridge. These runs do not establish current Contract Version 2
+compatibility; live validation for that version remains incomplete. One entry per finding records
+what was observed, the evidence, who owns the fix, and the proposed action. Resolved entries retain
+their resolutions. Current validation requirements and merge gates: `TDB-STATUS.md`.
 
 ## Runs
 
@@ -12,7 +13,7 @@ Current state and merge gates: `TDB-STATUS.md`.
 | 2026-09-02 | Era | 1.15.9 (69547) | enUS | baked | `eaea07d` | level 5 |
 | 2026-09-02 | SoD season 2 | 1.15.9 (69547) | enUS | baked | `eaea07d` | level 2 |
 
-What passed on both, so it need not be re-probed unless the code changes:
+What passed on both clients at the historical revision:
 
 - `RequireContract(1)` true; Login Initialization completes; no Lua errors surfaced; tracker,
   map, and minimap render.
