@@ -1992,13 +1992,21 @@ function QuestieTracker:HookBaseTracker()
             hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
         end
 
-        hooksecurefunc("AddQuestWatch", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
-        hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
+        if AddQuestWatch then
+            hooksecurefunc("AddQuestWatch", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
+        end
+        if RemoveQuestWatch then
+            hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
+        end
 
         -- Achievement secure hooks
         if Expansions.Current >= Expansions.Wotlk then
-            hooksecurefunc("AddTrackedAchievement", function(achieveId) QuestieTracker:TrackAchieve(achieveId) end)
-            hooksecurefunc("RemoveTrackedAchievement", QuestieTracker.RemoveTrackedAchievement)
+            if AddTrackedAchievement then
+                hooksecurefunc("AddTrackedAchievement", function(achieveId) QuestieTracker:TrackAchieve(achieveId) end)
+            end
+            if RemoveTrackedAchievement then
+                hooksecurefunc("RemoveTrackedAchievement", QuestieTracker.RemoveTrackedAchievement)
+            end
         end
 
         QuestieTracker.alreadyHookedSecure = true

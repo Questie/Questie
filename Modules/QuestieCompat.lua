@@ -847,22 +847,6 @@ function QuestieCompat.GetQuestTagInfo(questID)
     error(errorMsg, 2)
 end
 
--- Questie hooks a number of Blizzard functions by name, several of which no
--- longer exist here. Each one raises and aborts whatever file it is in, so
--- skip the hook instead of letting a missing target take the module with it.
-do
-    local original = hooksecurefunc
-    hooksecurefunc = function(arg1, arg2, arg3)
-        if type(arg1) == "string" and type(_G[arg1]) ~= "function" then
-            return
-        end
-        if arg3 ~= nil then
-            return original(arg1, arg2, arg3)
-        end
-        return original(arg1, arg2)
-    end
-end
-
 -- Blizzard constant; Questie uses it as a "for" limit, so a nil aborts the loop.
 QuestieCompat.MAX_NUM_QUESTS = (Constants and Constants.QuestLogConsts and Constants.QuestLogConsts.MAXIMUM_NUM_QUESTS_LOG_CAN_ACCEPT) or MAX_NUM_QUESTS
 
