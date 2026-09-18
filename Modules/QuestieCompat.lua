@@ -454,10 +454,17 @@ if not GetItemInfo and C_Item and C_Item.GetItemInfo then
     end
 end
 
-if not IsQuestFlaggedCompleted and C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted then
-    IsQuestFlaggedCompleted = function(questID)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestFlaggedCompleted)
+---Returns whether the given quest has been completed by the player.
+---@param questID QuestId
+---@return boolean isComplete
+function QuestieCompat.IsQuestFlaggedCompleted(questID)
+    if C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted then
         return C_QuestLog.IsQuestFlaggedCompleted(questID)
+    elseif IsQuestFlaggedCompleted then
+        return IsQuestFlaggedCompleted(questID)
     end
+    error(errorMsg, 2)
 end
 
 if not GetNumQuestLeaderBoards and C_QuestLog and C_QuestLog.GetNumQuestObjectives then

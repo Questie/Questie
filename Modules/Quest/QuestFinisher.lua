@@ -14,9 +14,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
---- COMPATIBILITY ---
-local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
-
 local pairs, ipairs, tostring = pairs, ipairs, tostring
 local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap
 
@@ -26,7 +23,7 @@ function QuestFinisher.AddFinisher(quest)
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
     if (not QuestiePlayer.currentQuestlog[questId]) or
-        IsQuestFlaggedCompleted(questId) or
+        QuestieCompat.IsQuestFlaggedCompleted(questId) or
         quest:IsComplete() == -1 or
         Questie.db.char.complete[questId] then
         -- We don't add finisher for quests that are not in the quest log or are already completed
