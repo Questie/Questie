@@ -63,7 +63,8 @@ function _QuestieTooltips:AddItemDataToTooltip()
     local name, link = self:GetItem()
     local itemId
     if link then
-        itemId = select(3, string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"))
+        -- Read the payload independently of legacy hex colors or modern named colors such as |cnIQ1:.
+        itemId = string.match(link, "item:(%d+)")
     end
     if name and itemId and (
         name ~= QuestieTooltips.lastGametooltipItem or

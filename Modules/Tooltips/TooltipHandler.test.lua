@@ -21,6 +21,52 @@ describe("TooltipHandler", function()
         _QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips").private
     end)
 
+    describe("AddItemDataToTooltip", function()
+        local originalTooltip
+        local originalGetTooltip
+        local originalQueryItem
+        local originalItemIDSetting
+        local QuestieDB
+
+        before_each(function()
+            originalTooltip = _G.GameTooltip
+            originalGetTooltip = QuestieTooltips.GetTooltip
+            originalItemIDSetting = Questie.db.profile.enableTooltipsItemID
+            Questie.db.profile.enableTooltipsItemID = false
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            originalQueryItem = QuestieDB.QueryItemSingle
+            QuestieDB.QueryItemSingle = function() return nil end
+            QuestieTooltips.GetTooltip = spy.new(function() return {"Wolves Across the Border", "0/8 Tough Wolf Meat"} end)
+        end)
+
+        after_each(function()
+            _G.GameTooltip = originalTooltip
+            QuestieTooltips.GetTooltip = originalGetTooltip
+            QuestieDB.QueryItemSingle = originalQueryItem
+            Questie.db.profile.enableTooltipsItemID = originalItemIDSetting
+        end)
+
+        local links = {
+            {name = "Classic hex-colored links", link = "|cffffffff|Hitem:750::::::::1:::::::::|h[Tough Wolf Meat]|h|r"},
+            {name = "Forever named-color links", link = "|cnIQ1:|Hitem:750::::::::1:1488:::::::::|h[Tough Wolf Meat]|h|r"},
+        }
+        for _, case in ipairs(links) do
+            it("adds objective text to " .. case.name, function()
+                _G.GameTooltip = {
+                    GetItem = function() return "Tough Wolf Meat", case.link end,
+                    GetName = function() return "GameTooltip" end,
+                    NumLines = function() return 0 end,
+                    AddLine = spy.new(function() end),
+                }
+
+                _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+                assert.spy(QuestieTooltips.GetTooltip).was.called_with("i_750")
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/8 Tough Wolf Meat")
+            end)
+        end
+    end)
+
     describe("AddObjectDataToTooltip", function()
         it("should show a quest title with objective", function()
             local name = "test"
