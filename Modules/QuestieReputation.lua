@@ -301,7 +301,7 @@ function QuestieReputation.GetReputationReward(questId)
         if reward then
             reward = reward * (reward > 0 and reputationMultiplier or 1)
             -- faction bonus commendation check
-            if select(15, GetFactionInfoByID(factionId)) == true then
+            if select(15, QuestieCompat.GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
             end
 
@@ -393,7 +393,7 @@ function QuestieReputation.GetFactionName(factionId)
         return friendReputation.name
     end
 
-    return select(1, GetFactionInfoByID(factionId))
+    return select(1, QuestieCompat.GetFactionInfoByID(factionId))
 end
 
 ---@param reputationReward ReputationPair[]

@@ -649,8 +649,12 @@ if not SetDesaturation then
     end
 end
 
-if not GetFactionInfoByID and C_Reputation and C_Reputation.GetFactionDataByID then
-    GetFactionInfoByID = function(factionID)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfoByID)
+---Returns information about a reputation entry by faction ID.
+---@param factionID number
+---TODO: C_Reputation.GetFactionDataByID already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetFactionInfoByID(factionID)
+    if C_Reputation and C_Reputation.GetFactionDataByID then
         local d = C_Reputation.GetFactionDataByID(factionID)
         if not d then return nil end
         return d.name, d.description, d.reaction, d.currentReactionThreshold,
@@ -658,7 +662,10 @@ if not GetFactionInfoByID and C_Reputation and C_Reputation.GetFactionDataByID t
             d.canToggleAtWar, d.isHeader, d.isCollapsed, d.isHeaderWithRep,
             d.isWatched, d.isChild, d.factionID, d.hasBonusRepGain,
             d.canSetInactive
+    elseif GetFactionInfoByID then
+        return GetFactionInfoByID(factionID)
     end
+    error(errorMsg, 2)
 end
 
 if not GetQuestLogIndexByID and C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
