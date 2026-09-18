@@ -189,6 +189,29 @@ end
 
 Constants: `Era=1, Tbc=2, Wotlk=3, Cata=4, MoP=5`. Boolean flags on `Questie`: `IsSoD`, `IsEra`, `IsTBC`, `IsWotlk`, `IsCata`, `IsMoP`, `IsHardcore`.
 
+### Client API Compatibility (QuestieCompat)
+
+`Modules/QuestieCompat.lua` bridges differences between the classic global WoW API and the modern `C_*` namespaced API across client versions.
+
+**Never define or overwrite global functions/tables** (e.g. `GetQuestLogTitle = function() ... end`, `UnitAura = function() ... end`) to patch a missing API. Globals are shared with every other addon running in the client; overwriting or injecting one affects the whole game, not just Questie.
+
+Instead, every compatibility shim must be a wrapper function on the `QuestieCompat` table that resolves the most recent available API first, and falls back to older/global APIs only when the modern one is unavailable:
+
+```lua
+---Returns the number of entries in the player's quest log.
+---@return number
+function QuestieCompat.GetNumQuestLogEntries()
+    if C_QuestLog and C_QuestLog.GetNumQuestLogEntries then
+        return C_QuestLog.GetNumQuestLogEntries()
+    elseif GetNumQuestLogEntries then
+        return GetNumQuestLogEntries()
+    end
+    error(errorMsg, 2)
+end
+```
+
+Callers must use `QuestieCompat.GetNumQuestLogEntries()` instead of referencing a bare global. `QuestieCompat.GetAvailableQuests()` in the same file is the reference example to follow.
+
 ### Settings
 
 Questie comes with a lot of settings a user can adjust to their liking. All the default values are stored in `Modules/Options/QuestieOptionsDefaults.lua`.
