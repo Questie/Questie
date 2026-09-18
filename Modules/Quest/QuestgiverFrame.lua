@@ -53,8 +53,8 @@ end
 -- 9.0.0 API GOSSIP
 local function updateGossipFrame()
     Questie.Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 9.0-")
-    local numAvailable = GetNumGossipAvailableQuests()
-    local numActive = GetNumGossipActiveQuests()
+    local numAvailable = QuestieCompat.GetNumGossipAvailableQuests()
+    local numActive = QuestieCompat.GetNumGossipActiveQuests()
     local availQuests = QuestieCompat.GetAvailableQuests()
     local activeQuests = QuestieCompat.GetActiveQuests()
     local index = 0 -- this variable tracks the GossipTitleButton we should be targeting for icon changes

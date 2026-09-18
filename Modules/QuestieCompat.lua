@@ -149,7 +149,7 @@ function QuestieCompat.SelectAvailableQuest(index)
         local questId = C_GossipInfo.GetAvailableQuests()[index].questID
         return C_GossipInfo.SelectAvailableQuest(questId)
     elseif SelectGossipAvailableQuest then
-        return SelectGossipAvailableQuest(index)
+        return QuestieCompat.SelectGossipAvailableQuest(index)
     end
     error(errorMsg, 2)
 end
@@ -162,7 +162,7 @@ function QuestieCompat.SelectActiveQuest(index)
         local questId = C_GossipInfo.GetActiveQuests()[index].questID
         return C_GossipInfo.SelectActiveQuest(questId)
     elseif SelectGossipActiveQuest then
-        return SelectGossipActiveQuest(index)
+        return QuestieCompat.SelectGossipActiveQuest(index)
     end
     error(errorMsg, 2)
 end
@@ -873,28 +873,44 @@ if not MouseIsOver then
 end
 
 -- Gossip quest lists moved under C_GossipInfo.
-if not GetNumGossipActiveQuests and C_GossipInfo and C_GossipInfo.GetNumActiveQuests then
-    GetNumGossipActiveQuests = function()
+---@return number numActiveQuests
+function QuestieCompat.GetNumGossipActiveQuests()
+    if C_GossipInfo and C_GossipInfo.GetNumActiveQuests then
         return C_GossipInfo.GetNumActiveQuests()
+    elseif GetNumGossipActiveQuests then
+        return GetNumGossipActiveQuests()
     end
+    error(errorMsg, 2)
 end
 
-if not GetNumGossipAvailableQuests and C_GossipInfo and C_GossipInfo.GetNumAvailableQuests then
-    GetNumGossipAvailableQuests = function()
+---@return number numAvailableQuests
+function QuestieCompat.GetNumGossipAvailableQuests()
+    if C_GossipInfo and C_GossipInfo.GetNumAvailableQuests then
         return C_GossipInfo.GetNumAvailableQuests()
+    elseif GetNumGossipAvailableQuests then
+        return GetNumGossipAvailableQuests()
     end
+    error(errorMsg, 2)
 end
 
-if not SelectGossipActiveQuest and C_GossipInfo and C_GossipInfo.SelectActiveQuest then
-    SelectGossipActiveQuest = function(index)
+---@param index number
+function QuestieCompat.SelectGossipActiveQuest(index)
+    if C_GossipInfo and C_GossipInfo.SelectActiveQuest then
         return C_GossipInfo.SelectActiveQuest(index)
+    elseif SelectGossipActiveQuest then
+        return SelectGossipActiveQuest(index)
     end
+    error(errorMsg, 2)
 end
 
-if not SelectGossipAvailableQuest and C_GossipInfo and C_GossipInfo.SelectAvailableQuest then
-    SelectGossipAvailableQuest = function(index)
+---@param index number
+function QuestieCompat.SelectGossipAvailableQuest(index)
+    if C_GossipInfo and C_GossipInfo.SelectAvailableQuest then
         return C_GossipInfo.SelectAvailableQuest(index)
+    elseif SelectGossipAvailableQuest then
+        return SelectGossipAvailableQuest(index)
     end
+    error(errorMsg, 2)
 end
 
 -- Abandoning a quest. Questie calls these from its tracker's right-click menu
