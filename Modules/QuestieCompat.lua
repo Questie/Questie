@@ -615,16 +615,28 @@ function QuestieCompat.GetFactionInfo(index)
     error(errorMsg, 2)
 end
 
-if not ExpandFactionHeader and C_Reputation and C_Reputation.ExpandFactionHeader then
-    ExpandFactionHeader = function(index)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ExpandFactionHeader)
+---Expands a reputation list header.
+---@param index number
+function QuestieCompat.ExpandFactionHeader(index)
+    if C_Reputation and C_Reputation.ExpandFactionHeader then
         return C_Reputation.ExpandFactionHeader(index)
+    elseif ExpandFactionHeader then
+        return ExpandFactionHeader(index)
     end
+    error(errorMsg, 2)
 end
 
-if not CollapseFactionHeader and C_Reputation and C_Reputation.CollapseFactionHeader then
-    CollapseFactionHeader = function(index)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_CollapseFactionHeader)
+---Collapses a reputation list header.
+---@param index number
+function QuestieCompat.CollapseFactionHeader(index)
+    if C_Reputation and C_Reputation.CollapseFactionHeader then
         return C_Reputation.CollapseFactionHeader(index)
+    elseif CollapseFactionHeader then
+        return CollapseFactionHeader(index)
     end
+    error(errorMsg, 2)
 end
 
 

@@ -14,7 +14,6 @@ local playerReputations = {}
 local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
 
 -- Fast local references
-local ExpandFactionHeader = ExpandFactionHeader
 local tinsert, floor = table.insert, math.floor
 
 --- Updates all factions a player already discovered and checks if any of these
@@ -22,7 +21,7 @@ local tinsert, floor = table.insert, math.floor
 ---@param isInit boolean? @
 function QuestieReputation:Update(isInit)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieReputation: Update")
-    ExpandFactionHeader(0) -- Expand all header
+    QuestieCompat.ExpandFactionHeader(0) -- Expand all header
 
     local factionChanged = false
     local newFaction = false
