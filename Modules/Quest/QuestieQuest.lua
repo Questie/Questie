@@ -120,17 +120,20 @@ end
 function QuestieQuest:ToggleNotes(showIcons)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleNotes] showIcons:", showIcons)
 
-    ThreadLib.ThreadInstant(function()
-        QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-
-        if showIcons then
-            QuestieQuest:ShowQuestIcons()
-            _QuestieQuest:ShowManualIcons()
-        else
-            QuestieQuest:HideQuestIcons()
-            _QuestieQuest:HideManualIcons()
+    ThreadLib.ThreadCallbackInstant(
+        function()
+            QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+        end,
+        function()
+            if showIcons then
+                QuestieQuest:ShowQuestIcons()
+                _QuestieQuest:ShowManualIcons()
+            else
+                QuestieQuest:HideQuestIcons()
+                _QuestieQuest:HideManualIcons()
+            end
         end
-    end)
+    )
 end
 
 ---Updates all quest icons to ensure they are correctly shown/hidden
@@ -138,15 +141,18 @@ end
 function QuestieQuest.ToggleQuestNotes(showIcons)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest.ToggleQuestNotes] showIcons:", showIcons)
 
-    ThreadLib.ThreadInstant(function()
-        QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-
-        if showIcons then
-            QuestieQuest:ShowQuestIcons()
-        else
-            QuestieQuest:HideQuestIcons()
+    ThreadLib.ThreadCallbackInstant(
+        function()
+            QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+        end,
+        function()
+            if showIcons then
+                QuestieQuest:ShowQuestIcons()
+            else
+                QuestieQuest:HideQuestIcons()
+            end
         end
-    end)
+    )
 end
 
 --- Shows all quest icons. Needs to be called from a coroutine.
