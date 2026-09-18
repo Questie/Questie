@@ -536,11 +536,15 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex)
     error(errorMsg, 2)
 end
 
--- Only used to tint quest levels. A fixed spread matches Classic's own value.
-if not GetQuestGreenRange then
-    GetQuestGreenRange = function()
-        return 5
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestGreenRange)
+---Returns the level spread at which a quest is considered "green" (trivial) relative to the player.
+---No modern API replacement exists; falls back to a fixed spread matching Classic's own value.
+---@return number range
+function QuestieCompat.GetQuestGreenRange()
+    if GetQuestGreenRange then
+        return GetQuestGreenRange("player")
     end
+    return 5
 end
 
 if not GetItemCount and C_Item and C_Item.GetItemCount then

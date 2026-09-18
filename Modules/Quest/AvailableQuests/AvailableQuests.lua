@@ -26,7 +26,6 @@ local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
 ---@type DailyQuestCommsBlacklist
 local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
 
-local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
 local tinsert = table.insert
 
@@ -579,7 +578,7 @@ _CalculateAndDrawAvailableQuests = function()
     local questData = QuestieDB.QuestPointers or QuestieDB.questData
 
     local playerLevel = QuestiePlayer.GetPlayerLevel()
-    local minLevel = playerLevel - GetQuestGreenRange("player")
+    local minLevel = playerLevel - QuestieCompat.GetQuestGreenRange()
     local maxLevel = playerLevel
 
     if Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE then

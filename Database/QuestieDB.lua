@@ -1416,7 +1416,7 @@ function QuestieDB.IsTrivial(questLevel)
         return false -- Orange
     elseif (levelDiff >= -2) then
         return false -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange()) then
         return false -- Green
     else
         return true -- Grey
