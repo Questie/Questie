@@ -2,9 +2,33 @@ dofile("Modules/Libs/QuestieLoader.lua")
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 
-dofile("Database/itemDB.lua")
-dofile("Database/questDB.lua")
-dofile("Database/Zones/data/zoneIds.lua")
+-- Entity schemas come from the QuestieDB seam in tests that need database metadata.
+
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
+-- Only constants used by test cases and their loaded modules belong in this fixture.
+-- Keep unknown names nil so missing setup cannot silently change a test's behavior.
+---@type table<string, AreaId>
+ZoneDB.zoneIDs = {
+    -- ZoneDB and tracker tests.
+    DUN_MOROGH = 1,
+    DUROTAR = 14,
+    BURNING_STEPPES = 46,
+    SEARING_GORGE = 51,
+    ZUL_DRAK = 66,
+    FERALAS = 357,
+    DIRE_MAUL = 2557,
+
+    -- Retained Classic/TBC Darkmoon policy producers.
+    ELWYNN_FOREST = 12,
+    MULGORE = 215,
+    TEROKKAR_FOREST = 3519,
+
+    -- QuestieDB's file-scope transport routes, also loaded by QuestieLib and l10n tests.
+    ICECROWN = 210,
+    DEEPHOLM = 5042,
+}
 
 local EMTPY_FUNC = function() end
 
@@ -47,6 +71,9 @@ _G.wipe = function(t)
     end
     return t
 end
+
+-- QuestieDB is installed per test file by test/QuestieDBMock.lua; never inherit another file's fake.
+_G.LibQuestieDB = nil
 
 _G.Enum = {
     ItemQuality = {Poor = 0, Standard = 1},

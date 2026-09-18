@@ -1,16 +1,12 @@
 ---@class QuestieCorrections
 local QuestieCorrections = QuestieLoader:CreateModule("QuestieCorrections")
 
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type RamerDouglasPeucker
-local RamerDouglasPeucker = QuestieLoader:ImportModule("RamerDouglasPeucker")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieTBCPolicyCorrections
+local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieNPCBlacklist
@@ -19,455 +15,207 @@ local QuestieNPCBlacklist = QuestieLoader:ImportModule("QuestieNPCBlacklist")
 local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
 ---@type HardcoreBlacklist
 local HardcoreBlacklist = QuestieLoader:ImportModule("HardcoreBlacklist")
----@type SeasonOfDiscovery
-local SeasonOfDiscovery = QuestieLoader:ImportModule("SeasonOfDiscovery")
 ---@type BlacklistFilter
 local BlacklistFilter = QuestieLoader:ImportModule("BlacklistFilter")
----@type TitanReforgedQuestFixes
-local TitanReforgedQuestFixes = QuestieLoader:ImportModule("TitanReforgedQuestFixes")
----@type TitanReforgedNpcFixes
-local TitanReforgedNpcFixes = QuestieLoader:ImportModule("TitanReforgedNpcFixes")
----@type TitanReforgedItemFixes
-local TitanReforgedItemFixes = QuestieLoader:ImportModule("TitanReforgedItemFixes")
----@type TitanReforgedObjectFixes
-local TitanReforgedObjectFixes = QuestieLoader:ImportModule("TitanReforgedObjectFixes")
-
----@type QuestieQuestFixes
-local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
----@type QuestieClassicQuestReputationFixes
-local QuestieClassicQuestReputationFixes = QuestieLoader:ImportModule("QuestieClassicQuestReputationFixes")
----@type QuestieNPCFixes
-local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
----@type QuestieItemFixes
-local QuestieItemFixes = QuestieLoader:ImportModule("QuestieItemFixes")
----@type QuestieObjectFixes
-local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
-
----@type QuestieTBCQuestFixes
-local QuestieTBCQuestFixes = QuestieLoader:ImportModule("QuestieTBCQuestFixes")
----@type QuestieTBCNpcFixes
-local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
----@type QuestieTBCItemFixes
-local QuestieTBCItemFixes = QuestieLoader:ImportModule("QuestieTBCItemFixes")
----@type QuestieTBCObjectFixes
-local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes")
-
----@type QuestieWotlkQuestFixes
-local QuestieWotlkQuestFixes = QuestieLoader:ImportModule("QuestieWotlkQuestFixes")
----@type QuestieWotlkNpcFixes
-local QuestieWotlkNpcFixes = QuestieLoader:ImportModule("QuestieWotlkNpcFixes")
----@type QuestieWotlkItemFixes
-local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes")
----@type QuestieWotlkObjectFixes
-local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
-
----@type CataQuestFixes
-local CataQuestFixes = QuestieLoader:ImportModule("CataQuestFixes")
----@type CataNpcFixes
-local CataNpcFixes = QuestieLoader:ImportModule("CataNpcFixes")
----@type CataItemFixes
-local CataItemFixes = QuestieLoader:ImportModule("CataItemFixes")
----@type CataObjectFixes
-local CataObjectFixes = QuestieLoader:ImportModule("CataObjectFixes")
-
----@type MopQuestFixes
-local MopQuestFixes = QuestieLoader:ImportModule("MopQuestFixes")
----@type MopNpcFixes
-local MopNpcFixes = QuestieLoader:ImportModule("MopNpcFixes")
----@type MopItemFixes
-local MopItemFixes = QuestieLoader:ImportModule("MopItemFixes")
----@type MopObjectFixes
-local MopObjectFixes = QuestieLoader:ImportModule("MopObjectFixes")
-
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
---- Automatic corrections
-local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes")
+---@type table<ItemId, boolean>
+QuestieCorrections.questItemBlacklist = {}
+---@type table<NpcId, boolean>
+QuestieCorrections.questNPCBlacklist = {}
+---@type table<QuestId, boolean|string>
+QuestieCorrections.hiddenQuests = {}
 
---[[
-    This file load the corrections of the database files.
+---------------------------------------------------------------------------------------------------
+-- Questie Policy Corrections
+--
+-- QuestieDB composes provider-owned entity corrections cumulatively: Classic on every flavor,
+-- followed by TBC, WotLK, Cata, and MoP where applicable. SoD applies only during its active
+-- season; Titan applies only on the WotLK client during season 109. Those layers exist before
+-- Questie writes anything, so Questie publishes no faction, class, race, expansion, SoD, or
+-- Titan copies.
+--
+-- Questie owns a Correction only when choosing it depends on Questie state or policy. Each one
+-- is a named data slot written through `SetCorrection` below: the write publishes immediately
+-- (the provider recomposes only the written datatype), writing again replaces the slot's rows,
+-- and nil withdraws the slot so the layers underneath show through again. There is no separate
+-- registration or apply step.
+--
+-- Slots and the modules that own their state:
+--   Npc    DarkmoonFaire               QuestieEvent — calendar state selects the location
+--   Object GatheringNodeDisplayPolicy  Initialize below — static display policy
+--   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
+--   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads, published once per frame
+--
+-- External translation addons do not go through here: `l10n` forwards their entity lookups to the
+-- provider under the `QuestieLocalesOverride` owner while resolving the UI locale.
+---------------------------------------------------------------------------------------------------
 
-    It is a separate file so we can upstream those changes easier to cmangos and can still
-    update the database files with a script.
+local QUESTIE_OWNER = "Questie"
 
-    Most of the corrections can be done by accessing a specific key instead of copying the
-    whole object over and change it.
-    You can find the keys at the beginning of each file (e.g. 'questKeys' are at the beginning of 'questDB.lua').
+---@alias PolicyCorrectionRows table<number, table<integer, unknown>> Entity ID to Database Key Enum index to value.
 
-    Further information on how to use this can be found at the wiki
-    https://github.com/Questie/Questie/wiki/Corrections
-]] --
+-- Entity IDs each slot last touched, so a replace or withdrawal evicts exactly the entities
+-- whose composed rows can have changed.
+---@type table<string, table<number, true>>
+local lastCorrectionIds = {}
 
-local filterExpansion = BlacklistFilter.filterExpansion
+-- "datatype:name" -> "file:line" of the last writer, for debugging who published a slot.
+---@type table<string, string>
+QuestieCorrections.correctionSources = {}
 
-QuestieCorrections.killCreditObjectiveFirst = {}
-QuestieCorrections.objectObjectiveFirst = {}
-QuestieCorrections.itemObjectiveFirst = {}
-QuestieCorrections.eventObjectiveFirst = {}
-QuestieCorrections.spellObjectiveFirst = {}
+-- Frames that sit between a writer and `SetCorrection` without being the writer: the profiler's
+-- hook wrappers, the tail-call slot those wrappers leave behind, and C frames such as the
+-- bridge's pcall. This file's own writers (`Initialize`) are legitimate callers and stay recorded.
+local WRAPPER_FRAME_PATTERNS = {"QuestieProfiler%.lua", "^%(tail call%)", "^%[C%]"}
 
-do
-    local type, assert = type, assert
-    --- Add runtime overrides for the database
-    ---@param override_table table<number, table<number, string|table|number>>
-    ---@param new_overrides table<number, table<number, string|table|number>>
-    local function addOverride(override_table, new_overrides)
-        assert(type(override_table) == "table", "Override table must be a table!")
-        assert(type(new_overrides) == "table", "New overrides must be a table!")
-        for id, data in pairs(new_overrides) do
-            assert(type(id) == "number", "Override id must be a number!")
-            assert(type(data) == "table", "Override data must be a table!")
-            -- If no override exist assign it
-            if not override_table[id] then
-                override_table[id] = data
-            else
-                -- Override already exists, merge the new data
-                for key, value in pairs(data) do
-                    override_table[id][key] = value
-                end
+---The nearest stack frame above `SetCorrection` that is not a known wrapper: WoW's debugstack in
+---the client, a placeholder under busted.
+---@return string
+local function _CallerSource()
+    if type(debugstack) ~= "function" then
+        return "test"
+    end
+    local fallback = string.trim(debugstack(3, 1, 0) or "")
+    for level = 3, 12 do
+        local frame = string.trim(debugstack(level, 1, 0) or "")
+        if frame == "" then
+            break
+        end
+        local isWrapper = false
+        for _, pattern in ipairs(WRAPPER_FRAME_PATTERNS) do
+            if frame:find(pattern) then
+                isWrapper = true
+                break
             end
+        end
+        if not isWrapper then
+            return frame
         end
     end
-
-    function QuestieCorrections:MinimalInit() -- db already compiled
-        -- Classic Era Corrections
-        addOverride(QuestieDB.itemDataOverrides, QuestieItemFixes:LoadFactionFixes())
-        addOverride(QuestieDB.npcDataOverrides, QuestieNPCFixes:LoadFactionFixes())
-        addOverride(QuestieDB.objectDataOverrides, QuestieObjectFixes:LoadFactionFixes())
-        addOverride(QuestieDB.questDataOverrides, QuestieQuestFixes:LoadFactionFixes())
-
-        -- TBC Corrections
-        if (Expansions.Current >= Expansions.Tbc) then
-            addOverride(QuestieDB.itemDataOverrides, QuestieTBCItemFixes:LoadFactionFixes())
-            addOverride(QuestieDB.npcDataOverrides, QuestieTBCNpcFixes:LoadFactionFixes())
-            addOverride(QuestieDB.objectDataOverrides, QuestieTBCObjectFixes:LoadFactionFixes())
-            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadFactionFixes())
-
-            addOverride(QuestieDB.questDataOverrides, QuestieTBCQuestFixes:LoadContentPhaseFixes())
-        end
-
-        -- WOTLK Corrections
-        if (Expansions.Current >= Expansions.Wotlk) then
-            addOverride(QuestieDB.npcDataOverrides, QuestieWotlkNpcFixes:LoadFactionFixes())
-            addOverride(QuestieDB.itemDataOverrides, QuestieWotlkItemFixes:LoadFactionFixes())
-            addOverride(QuestieDB.objectDataOverrides, QuestieWotlkObjectFixes:LoadFactionFixes())
-            addOverride(QuestieDB.questDataOverrides, QuestieWotlkQuestFixes:LoadFactionFixes())
-            -- Runtime overlays modify inherited WotLK records without changing which records belong in the compiled Titan storage.
-            if Questie.IsTitanReforged then
-                addOverride(QuestieDB.npcDataOverrides, TitanReforgedNpcFixes.LoadNPCOverrides())
-                addOverride(QuestieDB.npcDataOverrides, TitanReforgedNpcFixes.LoadFactionNPCOverrides())
-                addOverride(QuestieDB.questDataOverrides, TitanReforgedQuestFixes.LoadQuestOverrides())
-                addOverride(QuestieDB.itemDataOverrides, TitanReforgedItemFixes.LoadItemOverrides())
-                -- TO DO: improve this
-                -- this must be behind locale check to prevent empty table return error
-                if GetLocale() == "zhCN" then
-                    addOverride(QuestieDB.questDataOverrides, Questie.LoadTitanQuestLookupOverrides())
-                end
-            end
-        end
-
-        -- CATA Corrections
-        if (Expansions.Current >= Expansions.Cata) then
-            addOverride(QuestieDB.questDataOverrides, CataQuestFixes:LoadFactionFixes())
-            addOverride(QuestieDB.npcDataOverrides, CataNpcFixes:LoadFactionFixes())
-            addOverride(QuestieDB.itemDataOverrides, CataItemFixes:LoadFactionFixes())
-            addOverride(QuestieDB.objectDataOverrides, CataObjectFixes:LoadFactionFixes())
-        end
-
-        -- MOP Corrections
-        if (Expansions.Current >= Expansions.MoP) then
-            addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadFactionFixes())
-            addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadFactionFixes())
-            addOverride(QuestieDB.objectDataOverrides, MopObjectFixes:LoadFactionFixes())
-
-            addOverride(QuestieDB.questDataOverrides, MopQuestFixes:LoadContentPhaseFixes())
-            addOverride(QuestieDB.npcDataOverrides, MopNpcFixes:LoadContentPhaseFixes())
-            addOverride(QuestieDB.objectDataOverrides, MopObjectFixes:LoadContentPhaseFixes())
-        end
-
-        -- Season of Discovery Corrections
-        if Questie.IsSoD then
-            addOverride(QuestieDB.questDataOverrides, SeasonOfDiscovery:LoadFactionQuestFixes())
-        end
-
-        QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
-        QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
-        QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
-
-        -- TBC Quel Danas Blacklist
-        if Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
-            for id, hide in pairs(IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]) do
-                -- This has to be a nil-check, because the value could be false
-                if (QuestieCorrections.hiddenQuests[id] == nil) then
-                    QuestieCorrections.hiddenQuests[id] = hide
-                end
-            end
-        end
-
-        -- Wotlk Blacklist
-        if (Expansions.Current >= Expansions.Wotlk) then
-            -- We only add blacklist if no blacklist entry for the quest already exists
-            for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
-                -- This has to be a nil-check, because the value could be false
-                if (QuestieCorrections.hiddenQuests[id] == nil) then
-                    QuestieCorrections.hiddenQuests[id] = hide
-                end
-            end
-            -- Also do TitanReforged blacklists
-            if Questie.IsTitanReforged then
-                for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()) do
-                    -- This has to be a nil-check, because the value could be false
-                    if (QuestieCorrections.hiddenQuests[id] == nil) then
-                        QuestieCorrections.hiddenQuests[id] = hide
-                    end
-                end
-            end
-        end
-
-        -- Hardcore Blacklist
-        if (Questie.IsHardcore) then
-            for id, _ in pairs(HardcoreBlacklist:Load()) do
-                QuestieCorrections.hiddenQuests[id] = true
-            end
-        end
-    end
+    return fallback
 end
 
----@param databaseTableName string The name of the QuestieDB field that should be manipulated (e.g. "itemData", "questData")
----@param corrections table All corrections for the given databaseTableName (e.g. all quest corrections)
----@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
----@param validationTables table Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
----@param noOverwrites true? Do not overwrite existing values
----@param noNewEntries true? Do not create new entries in the database, unless the entry has a name field (key 1)
-local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables, noOverwrites, noNewEntries)
-    for id, data in pairs(corrections) do
-        for key, value in pairs(data) do
-            -- Create a new entry if missing unless noNewEntries is set.
-            -- Entries with a name field (key 1) are always created, as they define something entirely missing
-            if (not QuestieDB[databaseTableName][id]) and ((not noNewEntries) or data[1] ~= nil) then
-                QuestieDB[databaseTableName][id] = {}
-            end
-            if validationTables and QuestieDB[databaseTableName][id] then
-                if value and QuestieLib.equals(QuestieDB[databaseTableName][id][key], value) and validationTables[databaseTableName][id] and
-                    QuestieLib.equals(validationTables[databaseTableName][id][key], value) then
-                    Questie.Warning("Correction of " ..
-                        databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
-                end
-            end
-            if QuestieDB[databaseTableName][id] then
-                if noOverwrites and QuestieDB[databaseTableName][id][key] == nil then
-                    QuestieDB[databaseTableName][id][key] = value
-                elseif not noOverwrites then
-                    QuestieDB[databaseTableName][id][key] = value
-                end
-            end
+---Publishes one Questie-owned Policy Correction slot and refreshes Questie's composed views.
+---
+---Write-through: the provider recomposes the written datatype immediately — no separate apply.
+---Pass the slot's full replacement rows every time; nil (or `{}`, which normalizes to it)
+---withdraws the slot. Withdrawing a slot that was never published is a no-op, so callers do not
+---need their own "was anything active" bookkeeping.
+---
+---Slot names are plain strings: a typo on the withdrawal side creates a second slot and leaves the
+---original published, so keep the name in one place at the owning module and use it at both ends.
+---@param datatype "Quest"|"Npc"|"Item"|"Object"
+---@param name string Slot name, unique per datatype within owner "Questie".
+---@param rows PolicyCorrectionRows|nil
+---@return nil
+function QuestieCorrections.SetCorrection(datatype, name, rows)
+    if rows ~= nil and next(rows) == nil then
+        rows = nil
+    end
+
+    local slot = datatype .. ":" .. name
+    local previousIds = lastCorrectionIds[slot]
+    if rows == nil and previousIds == nil then
+        return
+    end
+
+    LibQuestieDB.Corrections.Set(QUESTIE_OWNER, datatype, name, rows)
+    QuestieCorrections.correctionSources[slot] = _CallerSource()
+
+    -- The union of old and new row IDs is exactly the set of entities whose composed rows can
+    -- have changed: everything outside it is untouched by construction, and an unchanged row
+    -- inside it re-reads identically.
+    local changedIds = {}
+    for id in pairs(previousIds or {}) do
+        changedIds[id] = true
+    end
+    local currentIds
+    if rows ~= nil then
+        currentIds = {}
+        for id in pairs(rows) do
+            currentIds[id] = true
+            changedIds[id] = true
         end
     end
+    lastCorrectionIds[slot] = currentIds
+
+    QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)
 end
 
----@param validationTables table? Only used by the CI validation scripts to validate the corrections against the original database values and find irrelevant corrections
-function QuestieCorrections:Initialize(validationTables)
-    -- Classic Corrections
-    if Questie.IsClassic then
-        -- This data is only correct for Era/SoX, for the other expansions we trust the base DB
-        _LoadCorrections("questData", QuestieClassicQuestReputationFixes:Load(), QuestieDB.questKeysReversed, validationTables)
-    end
-
-    local classicNoNewEntries = Expansions.Current > Expansions.Era or nil
-    _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables, nil, classicNoNewEntries)
-    _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables, nil, classicNoNewEntries)
-    _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables, nil, classicNoNewEntries)
-    _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables, nil, classicNoNewEntries)
-
-    if Expansions.Current >= Expansions.Tbc then
-        local tbcNoNewEntries = Expansions.Current > Expansions.Tbc or nil
-        _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables, nil, tbcNoNewEntries)
-        _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables, nil, tbcNoNewEntries)
-        _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables, nil, tbcNoNewEntries)
-        _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables, nil, tbcNoNewEntries)
-    end
-
-    if Expansions.Current >= Expansions.Wotlk then
-        local wotlkNoNewEntries = Expansions.Current > Expansions.Wotlk or nil
-        _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables, nil, wotlkNoNewEntries)
-        _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables, nil, wotlkNoNewEntries)
-        _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables, nil, wotlkNoNewEntries)
-        _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables, nil, wotlkNoNewEntries)
-        _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables, nil, wotlkNoNewEntries)
-
-        -- Titan-only records and relationship fields belong in compiled flavor data so standard WotLK never gains them.
-        if Questie.IsTitanReforged then
-            _LoadCorrections("questData", TitanReforgedQuestFixes.LoadQuests(), QuestieDB.questKeysReversed, validationTables)
-            _LoadCorrections("npcData", TitanReforgedNpcFixes.LoadNPCs(), QuestieDB.npcKeysReversed, validationTables)
-            _LoadCorrections("itemData", TitanReforgedItemFixes.LoadItems(), QuestieDB.itemKeysReversed, validationTables)
-            _LoadCorrections("objectData", TitanReforgedObjectFixes.LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
-        end
-    end
-
-    if Expansions.Current >= Expansions.Cata then
-        local cataNoNewEntries = Expansions.Current > Expansions.Cata or nil
-        _LoadCorrections("questData", CataQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables, nil, cataNoNewEntries)
-        _LoadCorrections("npcData", CataNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables, nil, cataNoNewEntries)
-        _LoadCorrections("itemData", CataItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables, nil, cataNoNewEntries)
-        _LoadCorrections("objectData", CataObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables, nil, cataNoNewEntries)
-    end
-
-    if Expansions.Current >= Expansions.MoP then
-        _LoadCorrections("questData", MopQuestFixes.Load(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("npcData", MopNpcFixes.Load(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("itemData", MopItemFixes.Load(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("objectData", MopObjectFixes.Load(), QuestieDB.objectKeysReversed, validationTables)
-    end
-
-    if Questie.IsSoD then
-        _LoadCorrections("questData", SeasonOfDiscovery:LoadBaseQuests(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("questData", SeasonOfDiscovery:LoadQuests(), QuestieDB.questKeysReversed, validationTables)
-        _LoadCorrections("npcData", SeasonOfDiscovery:LoadBaseNPCs(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("npcData", SeasonOfDiscovery:LoadNPCs(), QuestieDB.npcKeysReversed, validationTables)
-        _LoadCorrections("itemData", SeasonOfDiscovery:LoadBaseItems(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("itemData", SeasonOfDiscovery:LoadItems(), QuestieDB.itemKeysReversed, validationTables)
-        _LoadCorrections("objectData", SeasonOfDiscovery:LoadBaseObjects(), QuestieDB.objectKeysReversed, validationTables)
-        _LoadCorrections("objectData", SeasonOfDiscovery:LoadObjects(), QuestieDB.objectKeysReversed, validationTables)
-    end
-
-    _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)
-
-    local patchCount = 0
-    for _, quest in pairs(QuestieDB.questData) do
-        if (not quest[QuestieDB.questKeys.requiredRaces]) or quest[QuestieDB.questKeys.requiredRaces] == 0 then
-            -- check against questgiver
-            local canHorde = false
-            local canAlliance = false
-            local starts = quest[QuestieDB.questKeys.startedBy]
-            if starts then
-                starts = starts[1]
-                if starts then
-                    for _, id in pairs(starts) do
-                        local npc = QuestieDB.npcData[id]
-                        if npc then
-                            local friendly = npc[QuestieDB.npcKeys.friendlyToFaction]
-                            if friendly then
-                                if friendly == "H" then
-                                    canHorde = true
-                                elseif friendly == "A" then
-                                    canAlliance = true
-                                elseif friendly == "AH" then
-                                    canAlliance = true
-                                    canHorde = true
-                                end
-                            end
-                        end
-                    end
-                end
-                if canAlliance ~= canHorde then
-                    patchCount = patchCount + 1
-                    if canAlliance then
-                        quest[QuestieDB.questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_ALLIANCE
-                    else
-                        quest[QuestieDB.questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_HORDE
-                    end
-                end
-            end
-        end
-    end
-
-    QuestieCorrections:MinimalInit()
-
-end
-
-local WAYPOINT_MIN_DISTANCE = 1.5 -- todo: make this a config value maybe?
-local ZONE_SCALES = {
-    [ZoneDB.zoneIDs.STORMWIND_CITY] = 0.5,
-    [ZoneDB.zoneIDs.IRONFORGE] = 0.5,
-    [ZoneDB.zoneIDs.TELDRASSIL] = 0.5,
-
-    [ZoneDB.zoneIDs.ORGRIMMAR] = 0.5,
-    [ZoneDB.zoneIDs.THUNDER_BLUFF] = 0.5,
-    [ZoneDB.zoneIDs.UNDERCITY] = 0.5,
+-- Gathering nodes have thousands of spawns that Questie never displays. Exactly these 24 Objects.
+---@type ObjectId[]
+local GATHERING_NODE_OBJECT_IDS = {
+    1617, 1618, 1619, 1620, 1621, 1622, 1623, 1624, 1628,
+    1731, 1732, 1733, 1734, 1735, 123848, 150082, 175404, 176643,
+    177388, 324, 150079, 176645, 2040, 123310,
 }
 
-
-local abs, sqrt = math.abs, math.sqrt
-local function euclid(x, y, i, e)
-    local xd = abs(x - i)
-    local yd = abs(y - e)
-    return sqrt(xd * xd + yd * yd)
+---Rows clearing the spawns of the 24 gathering-node Objects; `{}` as a field value clears it.
+---@return PolicyCorrectionRows
+local function _GatheringNodeDisplayRows()
+    local spawnsKey = QuestieDB.objectKeys.spawns
+    local rows = {}
+    for _, objectId in ipairs(GATHERING_NODE_OBJECT_IDS) do
+        rows[objectId] = {[spawnsKey] = {}}
+    end
+    return rows
 end
 
-function QuestieCorrections:OptimizeWaypoints(waypointData)
-    local newWaypointZones = {}
-    for zone, waypointList in pairs(waypointData) do
-        local newWaypointList = {}
-        if waypointList[1] and type(waypointList[1][1]) == "number" then
-            waypointList = {waypointList} -- corrections support both {{x,y}, ...} and {{{x,y}, ...}, {{x,y}, ...}, ...}
-        end
-        for _, waypoints in pairs(waypointList) do
-            -- apply RDP algorithm
-            local minDist = WAYPOINT_MIN_DISTANCE * (ZONE_SCALES[zone] or 1)
-            local newWaypoints = RamerDouglasPeucker(waypoints, 0.1, true)
+---------------------------------------------------------------------------------------------------
+-- Blacklist policy plus the static Policy Correction slots. Both express what Questie shows:
+-- blacklists by hiding quests Questie-side, Correction slots by changing composed entity rows.
+---------------------------------------------------------------------------------------------------
 
-            waypoints = newWaypoints
-            newWaypoints = {}
+---Builds Questie-owned blacklist policy for the active flavor, season, and Content Phase, and
+---publishes the Policy Correction slots that need no runtime state beyond this point. Darkmoon,
+---Item repair, and external locale slots are written later by the modules that own their state.
+---@return nil
+function QuestieCorrections.Initialize()
+    QuestieCorrections.questItemBlacklist = BlacklistFilter.filterExpansion(QuestieItemBlacklist:Load())
+    QuestieCorrections.questNPCBlacklist = BlacklistFilter.filterExpansion(QuestieNPCBlacklist:Load())
+    QuestieCorrections.hiddenQuests = BlacklistFilter.filterExpansion(QuestieQuestBlacklist:Load())
 
-            -- subdivide waypoints where needed
-            -- We do this because the clickable area of waypoint lines can only be a square, so lines need to be broken up in some places
-            local lastWay
-            for _, way in pairs(waypoints) do
-                if lastWay then
-                    local dist = euclid(way[1], way[2], lastWay[1], lastWay[2])
-                    if dist > minDist then
-                        local divs = math.ceil(dist/minDist)
-                        for i=1,divs do
-                            local mul0 = i/divs
-                            local mul1 = 1-mul0
-                            newWaypoints[#newWaypoints+1] = {way[1] * mul0 + lastWay[1] * mul1, way[2] * mul0 + lastWay[2] * mul1}
-                        end
-                    else
-                        newWaypoints[#newWaypoints+1] = way
-                    end
-                else
-                    newWaypoints[#newWaypoints+1] = way
-                end
-                lastWay = way
+    -- At the completed Isle state, merge its final quest visibility without overriding explicit policy.
+    if Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
+        for questId, hide in pairs(IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]) do
+            if QuestieCorrections.hiddenQuests[questId] == nil then
+                QuestieCorrections.hiddenQuests[questId] = hide
             end
-            newWaypointList[#newWaypointList+1] = newWaypoints
         end
-        newWaypointZones[zone] = newWaypointList
-    end
-    return newWaypointZones
-end
-
-function QuestieCorrections:PreCompile() -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
-    local yieldLimit = 500 -- 500 seems like a good number
-    local waypointKey = QuestieDB.npcKeys["waypoints"]
-    local npcData = QuestieDB.npcData
-
-    local count = 0
-    for id, data in pairs(npcData) do
-        local way = data[waypointKey]
-        if way then
-            npcData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
-        end
-
-        if count > yieldLimit then
-            count = 0
-            coroutine.yield()
-        end
-        count = count + 1
     end
 
-    waypointKey = QuestieDB.objectKeys["waypoints"]
-    local objData = QuestieDB.objectData
-    for id, data in pairs(objData) do
-        local way = data[waypointKey]
-        if way then
-            objData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
+    -- WotLK and Titan add policy blacklists after the shared expansion-filtered list.
+    if Expansions.Current >= Expansions.Wotlk then
+        for questId, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
+            if QuestieCorrections.hiddenQuests[questId] == nil then
+                QuestieCorrections.hiddenQuests[questId] = hide
+            end
         end
 
-        if count > yieldLimit then
-             count = 0
-             coroutine.yield()
+        if Questie.IsTitanReforged then
+            for questId, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()) do
+                if QuestieCorrections.hiddenQuests[questId] == nil then
+                    QuestieCorrections.hiddenQuests[questId] = hide
+                end
+            end
         end
+    end
+
+    -- Hardcore hides battleground and other unavailable quests regardless of earlier policy.
+    if Questie.IsHardcore then
+        for questId in pairs(HardcoreBlacklist:Load()) do
+            QuestieCorrections.hiddenQuests[questId] = true
+        end
+    end
+
+    QuestieCorrections.SetCorrection("Object", "GatheringNodeDisplayPolicy", _GatheringNodeDisplayRows())
+
+    -- TBC attunement prerequisites that follow Questie's Content Phase. The Era gate is required:
+    -- the rows reference Quests that only exist from TBC on. The active phases are constants
+    -- today; a live phase switch would simply re-publish this slot with the producer's new rows.
+    if Expansions.Current >= Expansions.Tbc then
+        QuestieCorrections.SetCorrection("Quest", "ContentPhasePolicy", QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
     end
 end

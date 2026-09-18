@@ -80,18 +80,16 @@ local alwaysTurnInAbleQuests = {
     [7945] = true, -- Your Fortune Awaits You...
 }
 
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieClassicPolicyCorrections
+local QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
+---@type QuestieTBCPolicyCorrections
+local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieNPCFixes
-local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
----@type QuestieTBCNpcFixes
-local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -382,18 +380,21 @@ end
 --- The faire ends the sunday after it has begun.
 _LoadDarkmoonFaire = function()
     local eventLocation = _GetDarkmoonFaireLocation()
-    if (eventLocation == DMF_LOCATIONS.NONE) then
+    if eventLocation == DMF_LOCATIONS.NONE then
+        -- nil withdraws the slot; an inactive faire must not keep stale NPC coordinates.
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
         return
     end
 
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
     local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    local npcFixes
+    -- The NPC Policy Correction slot is written exactly once per load, outside the Event Quest loop
+    -- below: the number of visible Event Quests must not control entity Correction application.
     if Questie.IsTBC then
-        npcFixes = QuestieTBCNpcFixes:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
     else
-        npcFixes = QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
     end
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
@@ -402,11 +403,6 @@ _LoadDarkmoonFaire = function()
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
-
-            -- Update the NPC spawns based on the place of the faire
-            for id, data in pairs(npcFixes) do
-                QuestieDB.npcDataOverrides[id] = data
-            end
         end
     end
 

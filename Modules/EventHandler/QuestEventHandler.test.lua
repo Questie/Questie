@@ -6,8 +6,6 @@ _G.GetQuestTimers = function() return nil end
 local QUEST_ID = 123
 
 describe("QuestEventHandler", function()
-    ---@type QuestieLib
-    local QuestieLib
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
     ---@type QuestLogCache
@@ -40,6 +38,8 @@ describe("QuestEventHandler", function()
     local QuestiePartyObjectives
     ---@type AvailableQuests
     local AvailableQuests
+    ---@type QuestieLib
+    local QuestieLib
     ---@type QuestEventHandler
     local QuestEventHandler
     ---@type BreadcrumbQuests
@@ -47,8 +47,6 @@ describe("QuestEventHandler", function()
 
     before_each(function()
         Questie.db.profile.autoAccept = {enabled = false}
-        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-        QuestieLib.CacheItemNames = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
         BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
@@ -73,13 +71,26 @@ describe("QuestEventHandler", function()
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.ResetLastNpcGuid = spy.new(function() end)
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.RepairMissingItemNames = spy.new(function() end)
 
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
     end)
 
+    it("should request missing Item names for every quest already in the quest log at login", function()
+        QuestieLib.RepairMissingItemNames:clear()
+
+        QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true, [456] = true})
+
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called(2)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called_with(QUEST_ID)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called_with(456)
+    end)
+
     it("should handle quest accept", function()
+        QuestieLib.RepairMissingItemNames:clear()
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
@@ -91,13 +102,14 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
-        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(QuestLifecycle.AcceptQuest).was.called_with(QuestLifecycle, QUEST_ID)
         assert.spy(BreadcrumbQuests.CheckQuestBreadcrumbs).was.called(1)
         assert.spy(BreadcrumbQuests.CheckQuestBreadcrumbs).was.called_with(QUEST_ID)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called(1)
+        assert.spy(QuestieLib.RepairMissingItemNames).was.called_with(QUEST_ID)
     end)
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
@@ -116,7 +128,6 @@ describe("QuestEventHandler", function()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
         assert.spy(QuestieAPI.PropagateQuestUpdate).was.not_called()
-        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.not_called()
         assert.spy(QuestieJourney.AcceptQuest).was.not_called()
         assert.spy(QuestieAnnounce.AcceptedQuest).was.not_called()
@@ -200,7 +211,6 @@ describe("QuestEventHandler", function()
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
-        assert.spy(QuestieLib.CacheItemNames).was.called_with(QuestieLib, QUEST_ID)
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called(2)
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)

@@ -53,11 +53,14 @@ jobs:
               releases/${{github.ref_name}}/release.json
           fi
 
-      - name: Upload CurseForge
-        run: sh upload-cf.sh ${{github.ref_name}}
+      # External publishing is hard-disabled while the bundle release flow is prepared.
+      # Keep disabled until explicitly approved; see PLAN-release-bundles.md.
+      # Upload jobs will need their own scoped credentials when enabled.
+      # - name: Upload CurseForge
+      #   run: sh upload-cf.sh ${{github.ref_name}}
 
-      - name: Upload WAGO
-        run: sh upload-wago.sh ${{github.ref_name}}
+      # - name: Upload WAGO
+      #   run: sh upload-wago.sh ${{github.ref_name}}
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0

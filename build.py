@@ -45,6 +45,8 @@ tocs = ["", "Questie-Classic.toc", "Questie-BCC.toc", "Questie-WOTLKC.toc", "Que
 
 
 def main():
+    # Reject declaration drift before naming or replacing any build outputs.
+    get_required_db_contract(tocs[1:])
     isReleaseBuild = False
     versionOverride = ""
     if len(sys.argv) > 1:
@@ -152,6 +154,25 @@ def main():
 }""" % (zip_name, flavorString[:-1]))
 
     print("New release '%s' created successfully" % release_dir)
+
+
+def get_required_db_contract(toc_paths: list[str]) -> int:
+    """Return the shared provider requirement, rejecting missing, duplicate, or inconsistent declarations."""
+    required = None
+    for path in toc_paths:
+        with open(path, encoding="utf-8") as source:
+            declarations = re.findall(
+                r"^##[ \t]*X-QuestieDB-Contract:[ \t]*(.*)$", source.read(), re.MULTILINE | re.IGNORECASE
+            )
+        if len(declarations) != 1 or not re.fullmatch(r"[1-9][0-9]*", declarations[0].strip()):
+            raise ValueError(f"{path}: expected one positive integer X-QuestieDB-Contract")
+        value = int(declarations[0].strip())
+        if required is not None and value != required:
+            raise ValueError(f"{path}: X-QuestieDB-Contract {value} differs from {required} in the other TOCs")
+        required = value
+    if required is None:
+        raise ValueError("No Questie TOCs supplied for contract validation")
+    return required
 
 
 def get_version_dir(is_release_build, versionOverride):

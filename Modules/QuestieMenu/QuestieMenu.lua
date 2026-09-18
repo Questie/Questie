@@ -11,8 +11,6 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBStorage
-local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
 ---@type MeetingStones
 local MeetingStones = QuestieLoader:ImportModule("MeetingStones")
 ---@type QuestieProfessions
@@ -131,9 +129,9 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
         return
     end
 
-    local ids = Questie.db.global.townsfolk[key] or
+    local ids = Townsfolk.townsfolk[key] or
             Questie.db.char.townsfolk[key] or
-            Questie.db.global.professionTrainers[key] or
+            Townsfolk.professionTrainers[key] or
             Questie.db.char.vendorList[key]
 
     if (not ids) then
@@ -279,7 +277,7 @@ function QuestieMenu.buildProfessionMenu()
     local profMenuSorted = {}
     local secondaryProfMenuSorted = {}
     local profMenuData = {}
-    for key, _ in pairs(Questie.db.global.professionTrainers) do
+    for key, _ in pairs(Townsfolk.professionTrainers) do
         local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
         profMenuData[localizedKey] = buildLocalized(key, localizedKey)
         if secondaryProfessions[key] then
@@ -319,7 +317,7 @@ end
 function QuestieMenu.buildTownsfolkMenu()
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
-        if Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] then
+        if Townsfolk.townsfolk[key] or Questie.db.char.townsfolk[key] then
             tinsert(townsfolkMenu, build(key))
         end
     end
@@ -397,11 +395,7 @@ function QuestieMenu:Show(hideDelay)
         end)
     end})
 
-    if Questie.db.profile.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
-        tinsert(menuTable, { text= l10n('Recompile Database'), func=function()
-            QuestieDBStorage.InvalidateActiveStorage()
-            ReloadUI()
-        end})
+    if Questie.db.profile.debugEnabled then
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
     tinsert(menuTable, {text= CANCEL, func=function() end})

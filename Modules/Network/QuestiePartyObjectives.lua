@@ -69,8 +69,8 @@ local function _PlayerHasQuest(questId)
 end
 
 -- The objective needs a non-nil Description or the map icon tooltip skips it entirely
--- (see MapIconTooltip "iconData.ObjectiveData.Description" check). The compiled database
--- objective text is often empty, so fall back to the target's name.
+-- (see MapIconTooltip "iconData.ObjectiveData.Description" check). Provider objective text
+-- is often empty, so fall back to the target's name.
 ---@param objType string
 ---@param objId number
 ---@return string?

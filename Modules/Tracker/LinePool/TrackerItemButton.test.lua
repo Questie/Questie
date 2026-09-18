@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 _G.QuestieCompat = {
     GetContainerNumSlots = function(bag)
@@ -30,6 +31,9 @@ describe("TrackerItemButton", function()
         Questie.db.profile = {}
         CreateFrame.resetMockedFrames()
 
+        -- QuestieDB binds the provider schema and queries at file load.
+        LoadQuestieDBMock()
+        dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
         dofile("Modules/Tracker/LinePool/TrackerItemButton.lua")

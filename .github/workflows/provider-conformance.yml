@@ -1,0 +1,67 @@
+name: Provider conformance
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provider-conformance:
+    name: QuestieDB master conformance
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+    env:
+      QUESTIE_DB_PATH: ${{ github.workspace }}/QuestieDB
+    defaults:
+      run:
+        working-directory: Questie
+
+    steps:
+      - name: Checkout Questie
+        uses: actions/checkout@v7.0.1
+        with:
+          path: Questie
+          persist-credentials: false
+
+      - name: Checkout QuestieDB master
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: Questie/QuestieDB
+          # Track integration drift during migration; this is not released-provider coverage.
+          ref: master
+          path: QuestieDB
+          persist-credentials: false
+
+      - name: Report provider revision
+        run: |
+          revision=$(git -C "$QUESTIE_DB_PATH" rev-parse HEAD)
+          printf 'QuestieDB Source-mode conformance against master at `%s` (temporary migration check, not a released artifact).\n' "$revision" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v13.0.0
+        with:
+          luaVersion: "5.1"
+
+      - name: Install LuaRocks
+        uses: leafo/gh-actions-luarocks@v6.1.0
+        with:
+          luaRocksVersion: "3.13.0"
+
+      - name: Install test dependencies
+        run: |
+          luarocks install bit32 5.3.5.1-1
+          luarocks install busted 2.2.0-1
+          luarocks install luafilesystem 1.8.0-1
+
+      - name: Run real-provider conformance
+        run: busted test/QuestieDBMock.conformance.test.lua
