@@ -1153,7 +1153,7 @@ function TrackerUtils.HasQuest()
             local isTrackingIncompleteQuest = false
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
                 if not quest then break end
-                if IsQuestWatched(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                if (IsQuestWatched or QuestieCompat.IsQuestWatched)(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
                     isTrackingIncompleteQuest = true
                     break
                 end

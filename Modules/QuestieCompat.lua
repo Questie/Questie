@@ -1031,14 +1031,19 @@ function QuestieCompat.GetStablePetFoodTypes(index)
     error(errorMsg, 2)
 end
 
-if not IsQuestWatched then
-    IsQuestWatched = function(questLogIndex)
-        if C_QuestLog and C_QuestLog.GetQuestWatchType and C_QuestLog.GetQuestIDForLogIndex then
-            local questID = C_QuestLog.GetQuestIDForLogIndex(questLogIndex)
-            return questID ~= nil and C_QuestLog.GetQuestWatchType(questID) ~= nil
-        end
-        return false
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestWatched)
+---Returns whether a quest log entry is currently being watched.
+---@param questLogIndex number
+---@return boolean isWatched
+function QuestieCompat.IsQuestWatched(questLogIndex)
+    if IsQuestWatched then
+        return IsQuestWatched(questLogIndex)
     end
+    if C_QuestLog and C_QuestLog.GetQuestWatchType and C_QuestLog.GetQuestIDForLogIndex then
+        local questID = C_QuestLog.GetQuestIDForLogIndex(questLogIndex)
+        return questID ~= nil and C_QuestLog.GetQuestWatchType(questID) ~= nil
+    end
+    return false
 end
 
 

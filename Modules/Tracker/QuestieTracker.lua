@@ -2008,9 +2008,10 @@ function QuestieTracker:HookBaseTracker()
 
     -- Quest Hooks
     if not QuestieTracker.IsQuestWatched then
-        QuestieTracker.IsQuestWatched = IsQuestWatched
-        -- Bare GetNumQuestWatches may never have existed on this client (no legacy global, no prior hook),
-        -- so fall back to the real API rather than capturing nil as "the original" to restore on Unhook.
+        -- Bare IsQuestWatched/GetNumQuestWatches may never have existed on this client (no legacy
+        -- global, no prior hook), so fall back to QuestieCompat rather than capturing nil as "the
+        -- original" to restore on Unhook.
+        QuestieTracker.IsQuestWatched = IsQuestWatched or QuestieCompat.IsQuestWatched
         QuestieTracker.GetNumQuestWatches = GetNumQuestWatches or QuestieCompat.GetNumQuestWatches
     end
 
