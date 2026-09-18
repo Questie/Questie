@@ -9,7 +9,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local _G = _G
 local tinsert = tinsert
-local MAX_NUM_QUESTS = MAX_NUM_QUESTS
+local MAX_NUM_QUESTS = QuestieCompat.MAX_NUM_QUESTS
 
 -- This is the logic used for determining which icon we should show for a quest
 -- This just determines the "type" of icon shown, not the exact icon file - see Questie.icons

@@ -855,9 +855,7 @@ do
 end
 
 -- Blizzard constant; Questie uses it as a "for" limit, so a nil aborts the loop.
-if not MAX_NUM_QUESTS then
-    MAX_NUM_QUESTS = 32
-end
+QuestieCompat.MAX_NUM_QUESTS = (Constants and Constants.QuestLogConsts and Constants.QuestLogConsts.MAXIMUM_NUM_QUESTS_LOG_CAN_ACCEPT) or MAX_NUM_QUESTS
 
 -- The old default quest-log/watch UI is gone. Questie calls these purely to ask
 -- Blizzard's own frames to redraw, so doing nothing is correct here.

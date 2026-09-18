@@ -491,7 +491,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
     local availableQuestsInGreeting = {}
     local unresolvedQuestInGreeting = false
-    for i = 1, MAX_NUM_QUESTS do
+    for i = 1, QuestieCompat.MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         if (not titleLine) then
             break

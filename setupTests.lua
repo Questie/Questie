@@ -53,7 +53,7 @@ _G.Enum = {
     UIMapType = {Cosmic = 0, World = 1, Continent = 2, Zone = 3, Dungeon = 4, Micro = 5, Orphan = 6},
 }
 
-_G.MAX_NUM_QUESTS = 25
+QuestieCompat.MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""

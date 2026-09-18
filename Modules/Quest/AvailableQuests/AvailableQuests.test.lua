@@ -92,7 +92,7 @@ describe("AvailableQuests", function()
         TestUtils.clearTable(AvailableQuests.__unavailableQuestsDeterminedByTalking)
 
         NPC_ID = NPC_ID + 1 -- We want to make sure `lastNpcGuid` is different between tests
-        for i = 1, MAX_NUM_QUESTS do
+        for i = 1, QuestieCompat.MAX_NUM_QUESTS do
             _G["QuestTitleButton" .. i] = nil
         end
     end)
