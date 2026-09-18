@@ -859,11 +859,18 @@ QuestieCompat.MAX_NUM_QUESTS = (Constants and Constants.QuestLogConsts and Const
 
 -- The old default quest-log/watch UI is gone. Questie calls these purely to ask
 -- Blizzard's own frames to redraw, so doing nothing is correct here.
-if not WatchFrame_Update and not QuestWatch_Update then
-    WatchFrame_Update = function() end
+function QuestieCompat.WatchFrame_Update()
+    if WatchFrame_Update then
+        return WatchFrame_Update()
+    elseif QuestWatch_Update then
+        return QuestWatch_Update()
+    end
 end
-if not QuestLog_Update then
-    QuestLog_Update = function() end
+
+function QuestieCompat.QuestLog_Update()
+    if QuestLog_Update then
+        return QuestLog_Update()
+    end
 end
 
 -- Questie only uses this as a "does this quest have a timer" gate; the value it

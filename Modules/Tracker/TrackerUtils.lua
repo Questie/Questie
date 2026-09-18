@@ -114,7 +114,7 @@ function TrackerUtils:ShowQuestLog(quest)
     end
 
     QuestieCompat.QuestLog_UpdateQuestDetails()
-    QuestLog_Update()
+    QuestieCompat.QuestLog_Update()
 end
 
 ---@param title string The name of the WayPoint

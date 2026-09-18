@@ -211,7 +211,7 @@ _OnClickQuest = function(self, button)
             QuestieTracker:UntrackQuestId(self.Quest.Id)
             local questLogFrame = QuestieCompat.GetQuestLogFrame()
             if questLogFrame:IsShown() then
-                QuestLog_Update()
+                QuestieCompat.QuestLog_Update()
             end
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then

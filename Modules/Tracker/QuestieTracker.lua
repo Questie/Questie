@@ -232,7 +232,7 @@ function QuestieTracker.Initialize()
             end
 
             trackedAchievements = {QuestieCompat.GetTrackedAchievements()}
-            WatchFrame_Update()
+            QuestieCompat.WatchFrame_Update()
 
             -- Sync and populate QuestieTrackers achievement cache
             if Questie.db.char.trackedAchievementIds ~= trackedAchievementIds then
@@ -243,10 +243,10 @@ function QuestieTracker.Initialize()
                 end
             end
         else
-            WatchFrame_Update()
+            QuestieCompat.WatchFrame_Update()
         end
 
-        if QuestLogFrame and QuestLogFrame:IsShown() then QuestLog_Update() end
+        if QuestLogFrame and QuestLogFrame:IsShown() then QuestieCompat.QuestLog_Update() end
         QuestieTracker:Update()
         trackerBaseFrame:Hide()
     end)

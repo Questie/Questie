@@ -261,7 +261,7 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
             local questLogFrame = QuestieCompat.GetQuestLogFrame()
 
             if questLogFrame:IsShown() then
-                QuestLog_Update()
+                QuestieCompat.QuestLog_Update()
             end
         end
     })
@@ -276,7 +276,7 @@ TrackerMenu.addUntrackOption = function(menu, quest)
             local questLogFrame = QuestieCompat.GetQuestLogFrame()
 
             if questLogFrame:IsShown() then
-                QuestLog_Update()
+                QuestieCompat.QuestLog_Update()
             end
         end
     })
