@@ -681,16 +681,29 @@ function QuestieCompat.GetQuestLogIndexByID(questID)
     error(errorMsg, 2)
 end
 
-if not GetQuestLink and C_QuestLog and C_QuestLog.GetQuestLink then
-    GetQuestLink = function(arg)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLink)
+---Returns a quest hyperlink.
+---@param arg QuestId|string
+---@return string questLink
+function QuestieCompat.GetQuestLink(arg)
+    if C_QuestLog and C_QuestLog.GetQuestLink then
         return C_QuestLog.GetQuestLink(arg)
+    elseif GetQuestLink then
+        return GetQuestLink(arg)
     end
+    error(errorMsg, 2)
 end
 
-if not GetQuestResetTime and C_DateAndTime and C_DateAndTime.GetSecondsUntilDailyReset then
-    GetQuestResetTime = function()
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestResetTime)
+---Returns the number of seconds until the daily quest reset.
+---@return number secondsUntilReset
+function QuestieCompat.GetQuestResetTime()
+    if C_DateAndTime and C_DateAndTime.GetSecondsUntilDailyReset then
         return C_DateAndTime.GetSecondsUntilDailyReset()
+    elseif GetQuestResetTime then
+        return GetQuestResetTime()
     end
+    error(errorMsg, 2)
 end
 
 -- The indexed skill-line API is gone. Questie walks it purely to learn which
@@ -795,24 +808,34 @@ end
 
 -- Returned a [questID] = true map. The modern call returns a plain array, and
 -- Questie indexes the result by quest id, so convert rather than pass through.
-if not GetQuestsCompleted and C_QuestLog and C_QuestLog.GetAllCompletedQuestIDs then
-    GetQuestsCompleted = function(target)
+---@param target table|nil
+---@return table<QuestId, boolean>
+function QuestieCompat.GetQuestsCompleted(target)
+    if C_QuestLog and C_QuestLog.GetAllCompletedQuestIDs then
         local completed = target or {}
         for _, questID in ipairs(C_QuestLog.GetAllCompletedQuestIDs()) do
             completed[questID] = true
         end
         return completed
+    elseif GetQuestsCompleted then
+        return GetQuestsCompleted(target)
     end
+    error(errorMsg, 2)
 end
 
 -- Old signature returned (tagId, tagName) directly; the modern call returns a
 -- table, and Questie destructures two values from it.
-if not GetQuestTagInfo and C_QuestLog and C_QuestLog.GetQuestTagInfo then
-    GetQuestTagInfo = function(questID)
+---@param questID QuestId
+---TODO: C_QuestLog.GetQuestTagInfo already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetQuestTagInfo(questID)
+    if C_QuestLog and C_QuestLog.GetQuestTagInfo then
         local info = C_QuestLog.GetQuestTagInfo(questID)
         if not info then return nil end
         return info.tagID, info.tagName
+    elseif GetQuestTagInfo then
+        return GetQuestTagInfo(questID)
     end
+    error(errorMsg, 2)
 end
 
 -- Questie hooks a number of Blizzard functions by name, several of which no

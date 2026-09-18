@@ -121,7 +121,7 @@ _ScheduleDailyResetTimer = function()
         delay = lastKnownReset - now + 5 -- +5 seconds safety margin
     else
         -- First login, calculate delay to next reset from current time
-        delay = GetQuestResetTime() + 5
+        delay = QuestieCompat.GetQuestResetTime() + 5
     end
 
     if delay < 0 then

@@ -80,7 +80,7 @@ end
 
 function QuestieQuest:Initialize()
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
-    Questie.db.char.complete = GetQuestsCompleted()
+    Questie.db.char.complete = QuestieCompat.GetQuestsCompleted()
 
     QuestieProfessions:Update()
     QuestieReputation:Update(true)
@@ -381,7 +381,7 @@ function QuestieQuest:SmoothReset()
             QuestieDB.autoBlacklist = {}
 
             -- make sure complete db is correct
-            Questie.db.char.complete = GetQuestsCompleted()
+            Questie.db.char.complete = QuestieCompat.GetQuestsCompleted()
             QuestieProfessions:Update()
             QuestieReputation:Update(true)
 

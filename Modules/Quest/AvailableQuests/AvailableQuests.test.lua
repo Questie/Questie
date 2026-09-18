@@ -31,6 +31,7 @@ describe("AvailableQuests", function()
     local originalThreadCallbackInstant
     local originalGetPlayerLevel
     local originalGetQuestGreenRange
+    local originalQuestieCompat
     local originalIsleOfQuelDanasQuests
     local originalQuestPointers
     local originalQuestIdFrames
@@ -79,6 +80,7 @@ describe("AvailableQuests", function()
         originalQuestIdFrames = QuestieMap.questIdFrames
         originalGetQuestGreenRange = _G.GetQuestGreenRange
         _G.GetQuestGreenRange = function() return 5 end
+        originalQuestieCompat = _G.QuestieCompat
 
         Questie.db.profile.availableIconLimit = 10
 
@@ -102,6 +104,7 @@ describe("AvailableQuests", function()
         QuestieDB.QuestPointers = originalQuestPointers
         IsleOfQuelDanas.quests = originalIsleOfQuelDanasQuests
         _G.GetQuestGreenRange = originalGetQuestGreenRange
+        _G.QuestieCompat = originalQuestieCompat
         QuestieMap.questIdFrames = originalQuestIdFrames
     end)
 

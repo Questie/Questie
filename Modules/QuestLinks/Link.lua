@@ -56,11 +56,9 @@ end
 ---@param questId QuestId
 ---@return string
 function QuestieLink.GetNativeQuestLinkStringById(questId)
-    if GetQuestLink then
-        local link = GetQuestLink(questId)
-        if link then
-            return link
-        end
+    local ok, link = pcall(QuestieCompat.GetQuestLink, questId)
+    if ok and link then
+        return link
     end
 
     return QuestieLink.GetQuestLinkStringById(questId)
