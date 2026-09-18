@@ -33,7 +33,7 @@ luacheck -q -- Database Localization Modules Public Questie.lua
 
 ### Loader usage validation
 
-Entity database validation is owned by QuestieTDB. Validate Questie's loader usage with:
+Entity database validation is owned by QuestieDB. Validate Questie's loader usage with:
 
 ```bash
 lua cli/validate-loader-usage.lua

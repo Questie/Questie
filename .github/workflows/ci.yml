@@ -59,6 +59,9 @@ jobs:
           luarocks install busted 2.2.0-1
           luarocks install luafilesystem 1.8.0-1
 
+      - name: Validate build metadata
+        run: python3 build.test.py
+
       - name: Validate QuestieLoader usage
         run: lua cli/validate-loader-usage.lua
 

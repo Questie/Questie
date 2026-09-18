@@ -227,6 +227,12 @@ function QuestieTooltips.GetTooltip(key, playerZone)
         return nil
     end
 
+    -- Most provider name matches have no quest lines. Avoid reading their spawn tables just to
+    -- discover that neither the local registry nor Comms has anything to show.
+    if not QuestieTooltips.lookupByKey[key] and not (IsInGroup() and QuestieComms.data:KeyExists(key)) then
+        return nil
+    end
+
     local isObjectTooltip = key:sub(1, 2) == "o_"
     if isObjectTooltip then
         -- We want to only show object tooltips for objects that are in the current player zone.

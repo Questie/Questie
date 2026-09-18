@@ -27,20 +27,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBStorage
-local QuestieDBStorage = QuestieLoader:ImportModule("QuestieDBStorage")
----@type Cleanup
-local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
----@type Townsfolk
-local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type BreadcrumbQuests
@@ -87,8 +75,6 @@ local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type Tutorial
@@ -115,33 +101,33 @@ local DropDB = QuestieLoader:ImportModule("DropDB")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type CommsEncoding
 local CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type VersionCheckDB
+local VersionCheckDB = QuestieLoader:ImportModule("VersionCheckDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 local coYield = coroutine.yield
+local supportValidationFailed = false
 
-local function loadFullDatabase()
-    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. l10n("..."))
-
-    QuestieInit:LoadBaseDB()
-
-    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. l10n("..."))
-
-    coYield()
-    QuestieCorrections:Initialize()
-
-    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townsfolk") .. l10n("..."))
-    coYield()
-    Townsfolk.Initialize()
-
-    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. l10n("..."))
-    coYield()
-    l10n:Initialize()
-
-    coYield()
-    QuestieDB.private:DeleteGatheringNodes()
-
-    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. l10n("..."))
-    coYield()
-    QuestieCorrections:PreCompile()
+---Latch failures for this addon instance; yielding stages retain the normal ThreadError path for unrelated errors.
+---@param valid boolean|nil @Only explicit false means validation failed.
+---@param report string?
+---@return boolean stopped
+local function _StopOnSupportFailure(valid, report)
+    if valid == false then
+        if not supportValidationFailed then
+            supportValidationFailed = true
+            Questie.Error(report)
+        end
+        return true
+    end
+    return supportValidationFailed
 end
 
 -- ********************************************************************************
@@ -154,58 +140,60 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] UI Locale initializing.")
-    -- This needs to happen after ADDON_LOADED
+    -- This needs to happen after ADDON_LOADED.
     l10n.InitializeUILocale()
 
-    local activeStorage = QuestieDBStorage.GetActiveStorage()
-
-    -- Check if the DB needs to be recompiled
-    if (not activeStorage.dbIsCompiled) or (QuestieLib:GetAddonVersionString() ~= activeStorage.dbCompiledOnVersion) or
-        (l10n:GetUILocale() ~= activeStorage.dbCompiledLang) or (Questie.db.global.dbCompiledExpansion ~= WOW_PROJECT_ID) then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile beginning...")
-        print("\124cFFAAEEFF" ..
-            l10n("Questie DB is updating — ") .. "\124r\124cFFFF6F22" .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
-        loadFullDatabase()
-        QuestieDBCompiler:Compile()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] DB compile completed.")
-    else
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loading...")
-        l10n:Initialize()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Localizations initialized.")
-        coYield()
-        QuestieCorrections:MinimalInit()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Cached DB loaded.")
+    -- This gates login work, not the provider bindings already made during TOC file loading.
+    local contractSupported, contractError = VersionCheckDB.Check()
+    if not contractSupported then
+        error(contractError, 0)
     end
 
-    local dbCompiledCount = activeStorage.dbCompiledCount
-
-    -- For townsfolkClass we use UnitClassBase so it works across locales
-    if (not Questie.db.char.townsfolk) or (dbCompiledCount ~= Questie.db.char.townsfolkVersion) or (Questie.db.char.townsfolkClass ~= UnitClassBase("player")) then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Townsfolk building.")
-        Questie.db.char.townsfolkVersion = dbCompiledCount
-        coYield()
-        Townsfolk:BuildCharacterTownsfolk()
+    if type(LibQuestieDB.l10n) ~= "table" or type(LibQuestieDB.l10n.SetCorrection) ~= "function" then
+        error("Questie requires QuestieDB localization corrections. Update QuestieDB.", 0)
     end
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieEvent initializing.")
-    QuestieEvent.Initialize()
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity locale forwarding.")
+    -- Entity localization is provider-owned; the effective UI locale is forwarded outside l10n.
+    local effectiveLocale = l10n:GetUILocale()
+    LibQuestieDB.l10n.SetLocale(effectiveLocale)
+    l10n.PublishLocaleOverrideEntityNames()
+    coYield()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Questie policy initializing.")
+    -- Blacklists plus the static Policy Correction slots (gathering nodes, Content Phase).
+    QuestieCorrections.Initialize()
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieDB initializing.")
-    QuestieDB:Initialize()
+    -- Binds the ID maps and resets the caches against the applied composed view; queries and
+    -- Objective Order were bound when QuestieDB.lua loaded.
+    if _StopOnSupportFailure(QuestieDB.Initialize()) then return false end
+    coYield()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Townsfolk building.")
+    -- Rebuilt from composed reads on every login until the provider exposes a stable data revision.
+    Townsfolk.Initialize()
+    Townsfolk:BuildCharacterTownsfolk()
+    coYield()
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieEvent initializing.")
+    -- After QuestieDB, so the calendar callback's Darkmoon apply refreshes bound pointers and caches.
+    QuestieEvent.Initialize()
+    coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
     Tutorial.Initialize()
     coYield()
-
-    QuestieCleanup:Run()
 end
 
 QuestieInit.Stages[2] = function()
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
-    -- We do this while we wait for the Quest Cache anyway.
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] Localization PostBoot running.")
-    l10n:PostBoot()
+
+    -- Object tooltips use database-wide name uniqueness for zone filtering even when Object IDs
+    -- are hidden. Warm the provider index after locale and policy setup, not on the first hover.
+    LibQuestieDB.Object.BuildNameIndex()
+
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] QuestiePlayer initializing.")
     QuestiePlayer:Initialize()
     coYield()
@@ -240,7 +228,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieLink.Initialize()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] DropDB initializing.")
-    DropDB:Initialize()
+    if _StopOnSupportFailure(DropDB:Initialize()) then return false end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Timers initializing.")
     TrackerQuestTimers:Initialize()
@@ -347,7 +335,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     EventHandler:RegisterLateEvents()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Drawing available quests.")
-    -- We do this last because it will run for a while and we don't want to block the rest of the init
+    -- Last, because it runs for a while and must not block the rest of the init.
     AvailableQuests.CalculateAndDrawAll()
 
     -- Let other addons know that Questie is ready
@@ -361,41 +349,33 @@ end
 -- ********************************************************************************
 
 
-
-function QuestieInit:LoadDatabase(key)
-    if QuestieDB[key] then
-        coYield()
-        local func, err = loadstring(QuestieDB[key]) -- load the table from string (returns a function)
-        if (not func) then
-            Questie.Error("Failed to load database: ", key, err)
-            return
-        end
-        QuestieDB[key] = func
-        coYield()
-        QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
-    else
-        Questie.Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
-    end
-end
-
-function QuestieInit:LoadBaseDB()
-    QuestieInit:LoadDatabase("npcData")
-    QuestieInit:LoadDatabase("objectData")
-    QuestieInit:LoadDatabase("questData")
-    QuestieInit:LoadDatabase("itemData")
-end
-
+---@async
+---@return false|nil stopped
 function _QuestieInit.StartStageCoroutine()
     for i = 1, #QuestieInit.Stages do
-        QuestieInit.Stages[i]()
+        if supportValidationFailed or QuestieInit.Stages[i]() == false then return false end
         Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
         coYield()
     end
 end
 
 -- The UI elements might not be loaded at this point, so we must only initialize modules that do not rely on the UI
+---@return false|nil stopped
 function QuestieInit.OnAddonLoaded()
-    -- Loading everything for that it is totally irrelevant when exactly it is done
+    if supportValidationFailed then return false end
+
+    MinimapIcon:Init()
+
+    Questie.SetIcons()
+
+    Migration:Migrate()
+
+    if _StopOnSupportFailure(ZoneDB.Initialize()) then return false end
+    AvailableQuests.Initialize()
+    QuestieProfessions:Init()
+    if _StopOnSupportFailure(QuestXP.Init()) then return false end
+
+    -- This block still runs on a later frame. Submit it only after synchronous support checks pass.
     ThreadLib.ThreadError(function()
         HBDHooks:Init()
         QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
@@ -406,16 +386,6 @@ function QuestieInit.OnAddonLoaded()
         QuestieOptions.Initialize()
     end, 0, "Error during AddonLoaded initialization!")
 
-    MinimapIcon:Init()
-
-    Questie.SetIcons()
-
-    Migration:Migrate()
-
-    ZoneDB.Initialize()
-    AvailableQuests.Initialize()
-    QuestieProfessions:Init()
-    QuestXP.Init()
     Phasing.Initialize()
 
     if Questie.IsSoD then
@@ -424,7 +394,9 @@ function QuestieInit.OnAddonLoaded()
 end
 
 -- called by the PLAYER_LOGIN event handler
+---@return false|nil stopped
 function QuestieInit:Init()
+    if supportValidationFailed then return false end
     ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 
     if Questie.db.profile.trackerEnabled then
