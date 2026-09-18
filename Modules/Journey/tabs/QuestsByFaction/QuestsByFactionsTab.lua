@@ -83,7 +83,7 @@ _GetWatchedFactionId = function()
         ExpandFactionHeader(0)
     end
 
-    for i = 1, GetNumFactions() do
+    for i = 1, QuestieCompat.GetNumFactions() do
         local _, _, _, _, _, _, _, _, isHeader, _, _, isWatched, _, factionID = GetFactionInfo(i)
         if not isHeader and isWatched and factionID then
             return factionID

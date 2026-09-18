@@ -27,7 +27,7 @@ function QuestieReputation:Update(isInit)
     local factionChanged = false
     local newFaction = false
 
-    for i=1, GetNumFactions() do
+    for i=1, QuestieCompat.GetNumFactions() do
         local name, description, standingId, _, _, barValue, _, _, _, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
         if factionID and description then -- we use description instead of isHeader because some factions are header (e.g. The Tillers)
             local previousValues = playerReputations[factionID]

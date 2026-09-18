@@ -584,10 +584,16 @@ function QuestieCompat.GetItemIcon(item)
     error(errorMsg, 2)
 end
 
-if not GetNumFactions and C_Reputation and C_Reputation.GetNumFactions then
-    GetNumFactions = function()
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumFactions)
+---Returns the number of entries (including headers) in the player's reputation list.
+---@return number numFactions
+function QuestieCompat.GetNumFactions()
+    if C_Reputation and C_Reputation.GetNumFactions then
         return C_Reputation.GetNumFactions()
+    elseif GetNumFactions then
+        return GetNumFactions()
     end
+    error(errorMsg, 2)
 end
 
 if not GetFactionInfo and C_Reputation and C_Reputation.GetFactionDataByIndex then
