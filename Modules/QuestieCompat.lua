@@ -1018,9 +1018,17 @@ function QuestieCompat.RemoveTrackedAchievement(achieveId, isQuestie)
     end
 end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_StableInfo.GetStablePetFoodTypes)
 -- Same pattern: packed into a table by the townsfolk menu.
-if not GetStablePetFoodTypes then
-    GetStablePetFoodTypes = function() end
+---@param index number
+---@return ...
+function QuestieCompat.GetStablePetFoodTypes(index)
+    if C_StableInfo and C_StableInfo.GetStablePetFoodTypes then
+        return C_StableInfo.GetStablePetFoodTypes(index)
+    elseif GetStablePetFoodTypes then
+        return GetStablePetFoodTypes(index)
+    end
+    error(errorMsg, 2)
 end
 
 if not IsQuestWatched then

@@ -521,7 +521,7 @@ end
 local function _UpdatePetFood() -- call on change pet
     Questie.db.char.vendorList["Pet Food"] = {}
     -- detect petfood vendors for player's pet
-    for _, key in pairs({GetStablePetFoodTypes(0)}) do
+    for _, key in pairs({QuestieCompat.GetStablePetFoodTypes(0)}) do
         if Questie.db.global.petFoodVendorTypes[key] then
             Townsfolk:PopulateVendors(Questie.db.global.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"], true)
         end
