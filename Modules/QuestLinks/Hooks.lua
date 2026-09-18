@@ -9,6 +9,11 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
 function Hooks:HookQuestLogTitle()
+    -- The modern quest log handles links itself and tracks through C_QuestLog, not these title buttons.
+    if not QuestLogTitleButton_OnClick then
+        return
+    end
+
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Hooks] Hooking Quest Log Title")
     local baseQLTB_OnClick = QuestLogTitleButton_OnClick
 
