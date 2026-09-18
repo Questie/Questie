@@ -16,6 +16,13 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local WatchFrame = QuestWatchFrame or WatchFrame
 
+---Returns the quest log frame for the current client.
+--- If all of these are nil it's fine to crash so users report it.
+---@return frame
+function QuestieCompat.GetQuestLogFrame()
+    return QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+end
+
 ------------------------------------------
 -- Older client compatibility (pre 1.14.1)
 ------------------------------------------
@@ -340,7 +347,6 @@ function QuestieCompat.GetWatchFramePoint()
     return watchFrame:GetPoint()
 end
 
-
 ------------------------------------------
 -- Newer client compatibility (1.16+)
 ------------------------------------------
@@ -561,12 +567,12 @@ if not GetNumSkillLines or not GetSkillLineInfo then
 
         if GetProfessions and GetProfessionInfo then
             local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
-            for _, index in ipairs({ prof1 or false, prof2 or false, archaeology or false,
-                                     fishing or false, cooking or false }) do
+            for _, index in ipairs({prof1 or false, prof2 or false, archaeology or false,
+                fishing or false, cooking or false}) do
                 if index then
                     local name, _, rank = GetProfessionInfo(index)
                     if name then
-                        lines[#lines + 1] = { name = name, rank = rank or 0 }
+                        lines[#lines + 1] = {name = name, rank = rank or 0}
                     end
                 end
             end
@@ -578,7 +584,7 @@ if not GetNumSkillLines or not GetSkillLineInfo then
                 local info = C_TradeSkillUI.GetTradeSkillLineInfoByID(skillLineID)
                 local name = info and (info.professionName or info.displayName)
                 if name then
-                    lines[#lines + 1] = { name = name, rank = info.skillLevel or 0 }
+                    lines[#lines + 1] = {name = name, rank = info.skillLevel or 0}
                 end
             end
         end
@@ -625,7 +631,7 @@ function QuestieCompat.HookTooltipScript(frame, script, handler)
             -- inside Blizzard's secure tooltip call taints it, and on this beta
             -- client Blizzard_PTRFeedback then fails reading a protected string
             -- ("secret string value") from that same tainted execution.
-            local args = { ... }
+            local args = {...}
             C_Timer.After(0, function()
                 if tooltip:IsShown() then
                     handler(tooltip, unpack(args))

@@ -81,7 +81,7 @@ local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
-    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+    local questFrame = QuestieCompat.GetQuestLogFrame()
     --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
     local questLogIndex = GetQuestLogIndexByID(quest.Id)
     SelectQuestLogEntry(questLogIndex)
