@@ -904,11 +904,13 @@ function QuestieCompat.GetQuestTimers(questID)
 end
 
 -- Removed global helper; the equivalent is now a method on the frame itself.
-if not MouseIsOver then
-    MouseIsOver = function(frame, top, bottom, left, right)
-        if not frame or not frame.IsMouseOver then return false end
-        return frame:IsMouseOver(top, bottom, left, right)
+---@param frame frame
+function QuestieCompat.MouseIsOver(frame, top, bottom, left, right)
+    if MouseIsOver then
+        return MouseIsOver(frame, top, bottom, left, right)
     end
+    if not frame or not frame.IsMouseOver then return false end
+    return frame:IsMouseOver(top, bottom, left, right)
 end
 
 -- Gossip quest lists moved under C_GossipInfo.

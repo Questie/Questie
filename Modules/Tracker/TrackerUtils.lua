@@ -942,7 +942,7 @@ end
 function TrackerUtils:ShowVoiceOverPlayButtons()
     if self:IsVoiceOverLoaded() then
         if Questie.db.char.isTrackerExpanded then
-            if IsShiftKeyDown() and MouseIsOver(Questie_BaseFrame) then
+            if IsShiftKeyDown() and QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                 if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
                     Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils:ShowVoiceOverPlayButtons]")
                 else
@@ -951,7 +951,7 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
             end
 
             if IsShiftKeyDown() then
-                if MouseIsOver(Questie_BaseFrame) then
+                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                     TrackerLinePool.SetAllPlayButtonAlpha(1)
                     TrackerFadeTicker.Fade()
 
@@ -964,7 +964,7 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
                     end
                 end
             else
-                if MouseIsOver(Questie_BaseFrame) then
+                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                     TrackerLinePool.SetAllPlayButtonAlpha(0)
                     TrackerFadeTicker.Unfade()
                 else
