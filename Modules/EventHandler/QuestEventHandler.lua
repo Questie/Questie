@@ -196,6 +196,16 @@ end
 ---@param questLogIndex number
 ---@param questId number
 function QuestEventHandler.QuestAccepted(questLogIndex, questId)
+    -- Newer clients fire QUEST_ACCEPTED with the quest id alone, so what arrives
+    -- as questLogIndex is really the id and questId is nil.
+    if questId == nil and questLogIndex ~= nil then
+        questId = questLogIndex
+        questLogIndex = C_QuestLog and C_QuestLog.GetLogIndexForQuestID
+            and C_QuestLog.GetLogIndexForQuestID(questId) or questLogIndex
+    end
+    if questId == nil then
+        return
+    end
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then

@@ -167,7 +167,6 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     return line
 end
 
-
 ---@param mode string
 _SetMode = function(self, mode)
     if mode ~= self.mode then
@@ -210,7 +209,7 @@ _OnClickQuest = function(self, button)
             ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(self.Quest.Id))
         else
             QuestieTracker:UntrackQuestId(self.Quest.Id)
-            local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+            local questLogFrame = QuestieCompat.GetQuestLogFrame()
             if questLogFrame:IsShown() then
                 QuestLog_Update()
             end

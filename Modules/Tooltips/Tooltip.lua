@@ -455,7 +455,7 @@ end
 
 function QuestieTooltips:Initialize()
     -- For the clicked item frame.
-    ItemRefTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
+    QuestieCompat.HookTooltipScript(ItemRefTooltip, "OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     ItemRefTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
@@ -468,7 +468,7 @@ function QuestieTooltips:Initialize()
     end)
 
     -- For the hover frame.
-    GameTooltip:HookScript("OnTooltipSetUnit", function(self)
+    QuestieCompat.HookTooltipScript(GameTooltip, "OnTooltipSetUnit", function(self)
         if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- When in a raid, we want as little code running as possible
             return
@@ -476,7 +476,7 @@ function QuestieTooltips:Initialize()
 
         _QuestieTooltips.AddUnitDataToTooltip(self)
     end)
-    GameTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
+    QuestieCompat.HookTooltipScript(GameTooltip, "OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     GameTooltip:HookScript("OnShow", function(self)
         if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- When in a raid, we want as little code running as possible
@@ -517,17 +517,19 @@ function QuestieTooltips:Initialize()
             local uName, unit = self:GetUnit()
             local iName, link = self:GetItem()
             local sName, spell = self:GetSpell()
+            local leftText = QuestieCompat.GetTooltipText(GameTooltipTextLeft1, self)
+            if leftText == nil then return end
             if (uName == nil and unit == nil and iName == nil and link == nil and sName == nil and spell == nil) and (
-                    QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
+                    QuestieTooltips.lastGametooltip ~= leftText or
                     (not QuestieTooltips.lastGametooltipCount) or
                     _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                     or QuestieTooltips.lastGametooltipType ~= "object"
                 ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds its own tooltip
                 local playerZone = QuestiePlayer:GetCurrentZoneId()
-                _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText(), playerZone)
+                _QuestieTooltips.AddObjectDataToTooltip(leftText, playerZone)
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
             end
-            QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
+            QuestieTooltips.lastGametooltip = leftText
         end
     end)
 end

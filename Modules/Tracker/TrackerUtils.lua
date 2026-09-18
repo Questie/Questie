@@ -76,12 +76,22 @@ local bindTruthTable = {
     ["disabled"] = function() return false end,
 }
 
-local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
+local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.ScrollBar) or QuestLogListScrollFrameScrollBar
 
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
-    -- Priority order first check if addon exist otherwise default to original
-    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+    if Questie.IsForever then
+        -- Forever uses the retail API
+        if not InCombatLockdown() then
+            QuestMapFrame_OpenToQuestDetails(quest.Id)
+        else
+            Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
+        end
+        return
+    end
+
+    -- Classic path
+    local questFrame = QuestieCompat.GetQuestLogFrame()
     --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
     local questLogIndex = GetQuestLogIndexByID(quest.Id)
     SelectQuestLogEntry(questLogIndex)

@@ -432,6 +432,11 @@ end
 
 -- Missing itemID when looting
 function QuestieDebugOffer.LootWindow()
+    if Questie.IsForever then
+        -- TODO: This needs forever support
+        return
+    end
+
     local lootInfo = GetLootInfo()
     local debugContainer, _ = GetLootSourceInfo(1) -- happens early in case the rest of the code is so slow that the container closes before we're ready
     local inInstance, _ = IsInInstance()
@@ -490,6 +495,11 @@ end
 
 -- Missing questID when conversing
 function QuestieDebugOffer.QuestDialog()
+    if Questie.IsForever then
+        -- TODO: This needs forever support
+        return
+    end
+
     local questID = GetQuestID() -- obtain quest ID from dialog
     if questID <= 0 or questID == nil then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - QuestDialog - Invalid quest ID from API, ignoring")
@@ -527,6 +537,11 @@ end
 -- Missing questID when tracking
 ---@param questID number
 function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker during update
+    if Questie.IsForever then
+        -- TODO: This needs forever support
+        return
+    end
+
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - QuestTracking - Player does not meet level threshold for debug offers, ignoring")
         return
@@ -559,6 +574,11 @@ local timeoutDurationOverworld = 120 -- how many seconds to ignore re-passes out
 local timeoutDurationInstance = 600 -- how many seconds to ignore re-passes outside of instances
 -- Missing NPC ID when targeting
 function QuestieDebugOffer.NPCTarget()
+    if Questie.IsForever then
+        -- TODO: This needs forever support
+        return
+    end
+
     if UnitLevel(player) < minLevelForDebugOffers then -- if player level is below our threshold, ignore it
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDebugOffer] - NPCTarget - Player does not meet level threshold for debug offers, ignoring")
         return

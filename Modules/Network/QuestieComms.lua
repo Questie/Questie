@@ -542,7 +542,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
                     if not Questie.IsSoD then
-                        Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        Questie.Debug(Questie.DEBUG_DEVELOP, l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                             tostring(questId)))
                     end
                     Questie._sessionWarnings[questId] = true
@@ -662,7 +662,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
                     if not Questie.IsSoD then
-                        Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        Questie.Debug(Questie.DEBUG_DEVELOP, l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                             tostring(questId)))
                     end
                     Questie._sessionWarnings[questId] = true
@@ -813,7 +813,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
                     req = objective.numRequired,
                 }
             else
-                Questie.Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
+                Questie.Debug(Questie.DEBUG_DEVELOP, l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
             end
         end
     end

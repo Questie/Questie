@@ -54,6 +54,10 @@ Questie.db = {profile = {minimap = {hide = false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
+--- Addon is running on Forever client
+---@type boolean
+Questie.IsForever = string.sub(select(4, GetBuildInfo()), 1, 2) == "16" -- TODO: Replace with proper WOW_PROJECT_X once that is available/not 1
+
 --- Addon is running on Classic MoP client
 ---@type boolean
 Questie.IsMoP = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
@@ -72,7 +76,12 @@ Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 
 --- Addon is running on Classic "Vanilla" client: Means Classic Era and its seasons like SoM
 ---@type boolean
-Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+Questie.IsClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+    -- An unrecognised project id left every expansion flag false and sent the
+    -- race/class tables down their "unknown expansion" path. Treat it as vanilla.
+    or not (Questie.IsCata or Questie.IsWotlk or Questie.IsTBC
+        or WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
+        or WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 
 --- Addon is running on Classic "Vanilla" client and on Era realm (non-seasonal)
 ---@type boolean
