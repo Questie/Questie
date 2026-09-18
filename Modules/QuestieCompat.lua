@@ -348,16 +348,23 @@ function QuestieCompat.GetWatchFramePoint()
 end
 
 ------------------------------------------
--- Newer client compatibility (1.16+)
+-- Newer client compatibility (1.60+)
 ------------------------------------------
 -- The globals below were removed once the Classic clients moved onto the modern
 -- UI code. Each is only defined when missing, so nothing here changes behaviour
 -- on a client that still provides them.
 
-if not GetNumQuestLogEntries and C_QuestLog and C_QuestLog.GetNumQuestLogEntries then
-    GetNumQuestLogEntries = function()
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumQuestLogEntries)
+---Returns the number of entries (including headers) in the player's quest log.
+---@return number numEntries
+---@return number numQuests
+function QuestieCompat.GetNumQuestLogEntries()
+    if C_QuestLog and C_QuestLog.GetNumQuestLogEntries then
         return C_QuestLog.GetNumQuestLogEntries()
+    elseif GetNumQuestLogEntries then
+        return GetNumQuestLogEntries()
     end
+    error(errorMsg, 2)
 end
 
 if not GetQuestLogTitle and C_QuestLog and C_QuestLog.GetInfo then
