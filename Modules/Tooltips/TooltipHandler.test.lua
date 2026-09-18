@@ -227,6 +227,28 @@ describe("TooltipHandler", function()
                 assert.spy(QuestieTooltips.GetTooltip).was.called(10)
             end)
 
+            it("should show quest lines after ten empty Object tooltip results", function()
+                local tooltips = {
+                    o_1 = {}, o_2 = {}, o_3 = {}, o_4 = {}, o_5 = {},
+                    o_6 = {}, o_7 = {}, o_8 = {}, o_9 = {}, o_10 = {},
+                    o_11 = {"Quest Name"},
+                }
+                LibQuestieDB.Object.IdsByName = spy.new(function()
+                    return {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+                end)
+                ---@param key string
+                ---@return string[]?
+                QuestieTooltips.GetTooltip = spy.new(function(key)
+                    return tooltips[key]
+                end)
+
+                _QuestieTooltips.AddObjectDataToTooltip(OBJECT_NAME, PLAYER_ZONE)
+
+                assert.spy(QuestieTooltips.GetTooltip).was.called_with("o_11", PLAYER_ZONE)
+                assert.spy(GameTooltip.AddLine).was.called(1)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name")
+            end)
+
             it("should add nothing for an unknown name", function()
                 _QuestieTooltips.AddObjectDataToTooltip("Unknown Object", PLAYER_ZONE)
 

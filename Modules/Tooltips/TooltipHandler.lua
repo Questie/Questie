@@ -138,7 +138,7 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         end
 
         local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, zoneFilter)
-        if tooltipData then
+        if tooltipData and next(tooltipData) then
             for _, line in pairs(tooltipData) do
                 if not alreadyAddedObjectiveLines[line] then
                     alreadyAddedObjectiveLines[line] = true
