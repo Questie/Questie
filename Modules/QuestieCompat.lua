@@ -987,16 +987,28 @@ end
 
 -- Returns a varargs list; Questie packs it into a table, so returning nothing
 -- yields an empty table rather than an error.
-if not GetTrackedAchievements then
-    GetTrackedAchievements = function() end
+---@return ...
+function QuestieCompat.GetTrackedAchievements()
+    if GetTrackedAchievements then
+        return GetTrackedAchievements()
+    end
 end
 
-if not GetNumTrackedAchievements then
-    GetNumTrackedAchievements = function() return 0 end
+---@param isQuestie boolean|nil
+---@return number
+function QuestieCompat.GetNumTrackedAchievements(isQuestie)
+    if GetNumTrackedAchievements then
+        return GetNumTrackedAchievements(isQuestie)
+    end
+    return 0
 end
 
-if not RemoveTrackedAchievement then
-    RemoveTrackedAchievement = function() end
+---@param achieveId number
+---@param isQuestie boolean|nil
+function QuestieCompat.RemoveTrackedAchievement(achieveId, isQuestie)
+    if RemoveTrackedAchievement then
+        return RemoveTrackedAchievement(achieveId, isQuestie)
+    end
 end
 
 -- Same pattern: packed into a table by the townsfolk menu.

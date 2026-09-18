@@ -75,7 +75,7 @@ local trackedAchievements
 local trackedAchievementIds
 
 if Expansions.Current >= Expansions.Wotlk then
-    trackedAchievements = {GetTrackedAchievements()}
+    trackedAchievements = {QuestieCompat.GetTrackedAchievements()}
     trackedAchievementIds = {}
 end
 
@@ -219,7 +219,7 @@ function QuestieTracker.Initialize()
                 -- Remove achievement from the Blizzard Quest Watch and populate the tracker.
                 for _, achieveId in pairs(tempAchieves) do
                     if achieveId then
-                        RemoveTrackedAchievement(achieveId)
+                        QuestieCompat.RemoveTrackedAchievement(achieveId)
                         Questie.db.char.trackedAchievementIds[achieveId] = true
 
                         if (not AchievementFrame) then
@@ -231,7 +231,7 @@ function QuestieTracker.Initialize()
                 end
             end
 
-            trackedAchievements = {GetTrackedAchievements()}
+            trackedAchievements = {QuestieCompat.GetTrackedAchievements()}
             WatchFrame_Update()
 
             -- Sync and populate QuestieTrackers achievement cache
@@ -1263,7 +1263,7 @@ function QuestieTracker:Update()
                         else
                             line.expandZone:SetMode(1)
                             local text = zoneName == "Achievements" and l10n("Achievements") or zoneName
-                            line.label:SetText("|cFFC0C0C0" .. text .. ": " .. GetNumTrackedAchievements(true) .. "/10|r")
+                            line.label:SetText("|cFFC0C0C0" .. text .. ": " .. (GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements)(true) .. "/10|r")
                         end
 
                         -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
@@ -2053,7 +2053,9 @@ function QuestieTracker:HookBaseTracker()
     if Expansions.Current >= Expansions.Wotlk then
         if not QuestieTracker.IsTrackedAchievement then
             QuestieTracker.IsTrackedAchievement = IsTrackedAchievement
-            QuestieTracker.GetNumTrackedAchievements = GetNumTrackedAchievements
+            -- Bare GetNumTrackedAchievements may never have existed on this client, so fall back to
+            -- QuestieCompat instead of capturing nil as "the original" to restore on Unhook.
+            QuestieTracker.GetNumTrackedAchievements = GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements
         end
 
         -- Intercept and return a Questie boolean value
@@ -2318,13 +2320,13 @@ function QuestieTracker:TrackAchieve(achieveId)
     -- If an achievement is already tracked in the Achievement UI then untrack it (Mimicks a Toggle effect).
     if Questie.db.char.trackedAchievementIds[achieveId] then
         QuestieTracker:UntrackAchieveId(achieveId)
-        RemoveTrackedAchievement(achieveId, true)
+        QuestieCompat.RemoveTrackedAchievement(achieveId)
         return
     end
 
     -- Prevents tracking more than 10 Achievements
-    if (GetNumTrackedAchievements(true) == 10) then
-        RemoveTrackedAchievement(achieveId, true)
+    if ((GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements)(true) == 10) then
+        QuestieCompat.RemoveTrackedAchievement(achieveId)
         UIErrorsFrame:AddMessage(format(l10n("You may only track 10 achievements at a time."), 10), 1.0, 0.1, 0.1, 1.0)
         return
     end
@@ -2340,7 +2342,7 @@ function QuestieTracker:TrackAchieve(achieveId)
 
     -- This removes achievements from the Blizzard QuestWatchFrame so when the
     -- option "Show Blizzard Timer" is enabled, that is all the player will see.
-    RemoveTrackedAchievement(achieveId, true)
+    QuestieCompat.RemoveTrackedAchievement(achieveId)
 
     if achieveId > 0 then
         -- This handles the Track check box in the Achievement UI

@@ -1140,7 +1140,7 @@ function TrackerUtils.HasQuest()
     -- to accept an "isQuestie" argument; fall back to the real API if it was never hooked or polyfilled.
     if ((GetNumQuestWatches or QuestieCompat.GetNumQuestWatches)(true) == 0) then
         if Expansions.Current >= Expansions.Wotlk then
-            if (GetNumTrackedAchievements(true) == 0) then
+            if ((GetNumTrackedAchievements or QuestieCompat.GetNumTrackedAchievements)(true) == 0) then
                 hasQuest = false
             else
                 hasQuest = true
