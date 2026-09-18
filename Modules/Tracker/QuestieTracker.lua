@@ -70,16 +70,7 @@ if VoiceOverFrame then
     voiceOverInitialPosition = {VoiceOverFrame:GetPoint()}
 end
 
-local function _GetNumQuestWatches()
-    -- WoW: Forever does not provide the Classic quest watch API.
-    if Questie.IsForever then
-        return 0
-    end
-
-    return GetNumQuestWatches()
-end
-
-local questsWatched = _GetNumQuestWatches()
+local questsWatched = GetNumQuestWatches()
 
 local trackedAchievements
 local trackedAchievementIds
@@ -256,7 +247,7 @@ function QuestieTracker.Initialize()
             WatchFrame_Update()
         end
 
-        if QuestLogFrame:IsShown() then QuestLog_Update() end
+        if QuestLogFrame and QuestLogFrame:IsShown() then QuestLog_Update() end
         QuestieTracker:Update()
         trackerBaseFrame:Hide()
     end)
@@ -483,7 +474,7 @@ end
 function QuestieTracker:Enable()
     -- Update the questsWatched var before we re-enable
     if questsWatched == 0 then
-        questsWatched = _GetNumQuestWatches()
+        questsWatched = GetNumQuestWatches()
     end
 
     Questie.db.profile.trackerEnabled = true
@@ -2214,7 +2205,7 @@ function QuestieTracker:AQW_Insert(index, expire)
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
 
                 -- Add quest to the tracker
-            elseif IsShiftKeyDown() and QuestLogFrame:IsShown() then
+            elseif IsShiftKeyDown() and QuestLogFrame and QuestLogFrame:IsShown() then
                 Questie.db.char.AutoUntrackedQuests[questId] = true
             end
         end

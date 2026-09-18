@@ -20,21 +20,18 @@ local alternativeProfessionNames = {}
 -- Fast local references
 local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
 
--- WoW: Forever does not provide AbandonSkill, so it can only be hooked on other clients
-if not Questie.IsForever then
-    hooksecurefunc("AbandonSkill", function(skillIndex)
-        local skillName = GetSkillLineInfo(skillIndex)
-        if skillName and professionTable[skillName] then
-            if playerProfessions[professionTable[skillName]] then
-                Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
-                playerProfessions[professionTable[skillName]] = nil
-                --? Reset all autoBlacklisted quests if a skill is abandoned
-                QuestieQuest.ResetAutoblacklistCategory("skill")
-                AvailableQuests.CalculateAndDrawAll()
-            end
+hooksecurefunc("AbandonSkill", function(skillIndex)
+    local skillName = GetSkillLineInfo(skillIndex)
+    if skillName and professionTable[skillName] then
+        if playerProfessions[professionTable[skillName]] then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
+            playerProfessions[professionTable[skillName]] = nil
+            --? Reset all autoBlacklisted quests if a skill is abandoned
+            QuestieQuest.ResetAutoblacklistCategory("skill")
+            AvailableQuests.CalculateAndDrawAll()
         end
-    end)
-end
+    end
+end)
 
 function QuestieProfessions:Init()
 

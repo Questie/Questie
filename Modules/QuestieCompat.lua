@@ -41,46 +41,72 @@ if not TooltipBackdropTemplateMixin then
     TooltipBackdropTemplateMixin = BackdropTemplateMixin
 end
 
---------------------------------------------------
--- WoW: Forever compatibility (modern quest log API)
---------------------------------------------------
+------------------------------------------
+-- Tooltip API compatibility
+------------------------------------------
 
--- Forever dropped the index based quest log API in favour of C_QuestLog. Questie reads the quest
--- log in roughly 40 places, so the missing globals are restored here instead of at every call site.
--- Questie.IsForever can not be used for the check, this file loads before VersionCheck.lua.
-if not GetNumQuestLogEntries then
-    function GetNumQuestLogEntries()
-        return C_QuestLog.GetNumQuestLogEntries()
+-- OnTooltipSetItem / OnTooltipSetUnit are no longer script types; the modern
+-- client routes them through TooltipDataProcessor. Hook whichever exists so the
+-- tooltip additions keep working instead of being silently dropped.
+local tooltipDataType = {
+    OnTooltipSetItem = Enum and Enum.TooltipDataType and Enum.TooltipDataType.Item,
+    OnTooltipSetUnit = Enum and Enum.TooltipDataType and Enum.TooltipDataType.Unit,
+}
+
+function QuestieCompat.HookTooltipScript(frame, script, handler)
+    if not frame then return end
+
+    if frame.HasScript and frame:HasScript(script) then
+        return frame:HookScript(script, handler)
+    end
+
+    local dataType = tooltipDataType[script]
+    if dataType and TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall then
+        return TooltipDataProcessor.AddTooltipPostCall(dataType, function(tooltip, ...)
+            if tooltip ~= frame then return end
+            -- Run on the next frame rather than inline. Executing addon code
+            -- inside Blizzard's secure tooltip call taints it, and on this beta
+            -- client Blizzard_PTRFeedback then fails reading a protected string
+            -- ("secret string value") from that same tainted execution.
+            local args = { ... }
+            C_Timer.After(0, function()
+                if tooltip:IsShown() then
+                    handler(tooltip, unpack(args))
+                end
+            end)
+        end)
     end
 end
 
-if not GetQuestLogIndexByID then
-    function GetQuestLogIndexByID(questId)
-        return C_QuestLog.GetLogIndexForQuestID(questId)
-    end
+-- This client can hand back "secret" strings from tooltip font strings.
+-- Comparing or converting one raises, so probe it once and return nil when it
+-- cannot be used. Callers then skip the text-driven path instead of erroring.
+local function usableString(text)
+    if text == nil then return false end
+    return pcall(function() return text == "" end)
 end
 
-if not GetQuestLogTitle then
-    function GetQuestLogTitle(questLogIndex)
-        local info = C_QuestLog.GetInfo(questLogIndex)
-        if not info then
-            return nil -- Callers break out of their loop once the title is nil
+function QuestieCompat.GetTooltipText(fontString, tooltip)
+    if fontString and fontString.GetText then
+        local ok, text = pcall(fontString.GetText, fontString)
+        if ok and usableString(text) then
+            return text
         end
+    end
 
-        -- Questie expects the number the old API returned: -1 = failed, nil = not complete, 1 = complete.
-        -- Headers have a questID of 0 and no completion state.
-        local isComplete
-        if info.questID > 0 then
-            if C_QuestLog.IsFailed(info.questID) then
-                isComplete = -1
-            elseif C_QuestLog.IsComplete(info.questID) then
-                isComplete = 1
+    -- The font string is protected on this client. The structured tooltip data
+    -- carries the same first line and is not, so fall back to that.
+    if tooltip and tooltip.GetTooltipData then
+        local ok, data = pcall(tooltip.GetTooltipData, tooltip)
+        if ok and data and data.lines and data.lines[1] then
+            local text = data.lines[1].leftText
+            if usableString(text) then
+                return text
             end
         end
-
-        return info.title, info.level, info.suggestedGroup, info.isHeader, info.isCollapsed,
-            isComplete, info.frequency, info.questID
     end
+
+    return nil
 end
 
 -------------------------------------------
