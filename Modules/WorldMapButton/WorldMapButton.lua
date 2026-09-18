@@ -12,6 +12,11 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 
 local KButtons = LibStub("Krowi_WorldMapButtons-1.4")
+if Questie.IsForever then
+    -- Krowi classifies version 1.x as the old Classic map. Forever has modern overlay buttons;
+    -- its old-map workaround reparents them away from the map and breaks GetMapID/TriggerEvent.
+    KButtons.HasNoOverlay = false
+end
 
 ---@type AceConfigDialog-3.0
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
