@@ -450,15 +450,6 @@ function QuestieCompat.UnitAura(unit, index, filter)
     error(errorMsg, 2)
 end
 
-if not GetSpellInfo and C_Spell and C_Spell.GetSpellInfo then
-    GetSpellInfo = function(spell)
-        local info = C_Spell.GetSpellInfo(spell)
-        if not info then return nil end
-        return info.name, nil, info.iconID, info.castTime,
-            info.minRange, info.maxRange, info.spellID
-    end
-end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemInfo)
 ---Returns information about an item.
 ---@param item ItemId|string
@@ -648,8 +639,10 @@ function QuestieCompat.CollapseFactionHeader(index)
     error(errorMsg, 2)
 end
 
-
 -- Global SetDesaturation was removed; the method on the texture remains.
+-- Exception: kept as a global polyfill (not a QuestieCompat.* wrapper) because
+-- vendored Libs/AceGUI-3.0 widgets call the bare global SetDesaturation
+-- directly and cannot be changed to call QuestieCompat.
 if not SetDesaturation then
     SetDesaturation = function(texture, desaturate)
         if texture and texture.SetDesaturated then
@@ -1112,7 +1105,6 @@ function QuestieCompat.IsQuestWatched(questLogIndex)
     end
     return false
 end
-
 
 -- This client can hand back "secret" strings from tooltip font strings.
 -- Comparing or converting one raises, so probe it once and return nil when it
