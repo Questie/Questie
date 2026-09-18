@@ -563,10 +563,17 @@ function QuestieCompat.GetItemCount(item, includeBank, includeCharges, includeRe
     error(errorMsg, 2)
 end
 
-if not GetItemIcon and C_Item and C_Item.GetItemIconByID then
-    GetItemIcon = function(item)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemIcon)
+---Returns the icon texture for an item.
+---@param item ItemId|string
+---@return number|string texture
+function QuestieCompat.GetItemIcon(item)
+    if C_Item and C_Item.GetItemIconByID then
         return C_Item.GetItemIconByID(item)
+    elseif GetItemIcon then
+        return GetItemIcon(item)
     end
+    error(errorMsg, 2)
 end
 
 if not GetNumFactions and C_Reputation and C_Reputation.GetNumFactions then
