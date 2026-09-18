@@ -214,6 +214,17 @@ local migrationFunctions = {
         -- Reserved for the former Titan compiler-storage invalidation migration.
     end,
     [38] = function()
+        -- Preserve previous dungeon hide & minimize preference for both new flags
+        local previousMinimizeInInstances = Questie.db.profile.minimizeTrackerInDungeons
+        local previousHideInInstances = Questie.db.profile.hideTrackerInDungeons
+
+        Questie.db.profile.minimizeTrackerInInstances = previousMinimizeInInstances
+        Questie.db.profile.hideTrackerInInstances = previousHideInInstances
+
+        Questie.db.profile.minimizeTrackerInDungeons = nil
+        Questie.db.profile.hideTrackerInDungeons = nil
+    end,
+    [39] = function()
         -- Compiler payloads existed in the ordinary, SoD, and Titan global scopes.
         local compilerPayloadKeys = {
             "dbIsCompiled",
@@ -236,7 +247,7 @@ local migrationFunctions = {
             Questie.db.global.titanReforged,
         }
 
-        for _, scope in ipairs(compilerScopes) do
+        for _, scope in pairs(compilerScopes) do
             if scope then
                 for _, key in ipairs(compilerPayloadKeys) do
                     scope[key] = nil
@@ -246,17 +257,6 @@ local migrationFunctions = {
 
         Questie.db.profile.disableDatabaseWarnings = nil
         Questie.db.char.townsfolkVersion = nil
-    end,
-    [38] = function()
-        -- Preserve previous dungeon hide & minimize preference for both new flags
-        local previousMinimizeInInstances = Questie.db.profile.minimizeTrackerInDungeons
-        local previousHideInInstances = Questie.db.profile.hideTrackerInDungeons
-
-        Questie.db.profile.minimizeTrackerInInstances = previousMinimizeInInstances
-        Questie.db.profile.hideTrackerInInstances = previousHideInInstances
-
-        Questie.db.profile.minimizeTrackerInDungeons = nil
-        Questie.db.profile.hideTrackerInDungeons = nil
     end,
 }
 
