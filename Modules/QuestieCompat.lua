@@ -235,7 +235,9 @@ function QuestieCompat.GetItemCooldown(itemID)
     end
 end
 
---- Returns the frame that is currently under the mouse cursor.
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetMouseFocus)
+---Returns the frame that is currently under the mouse cursor.
+---@return frame|nil
 function QuestieCompat.GetMouseFocus()
     if GetMouseFoci then
         return GetMouseFoci()[1]
@@ -299,6 +301,7 @@ end
 -- fighting those Show calls every frame.
 local hiddenParent
 
+---Hides the quest watch frame by parenting it to a hidden frame or setting alpha to 0.
 function QuestieCompat.HideWatchFrame()
     local watchFrame = GetWatchFrame()
     if not watchFrame then return end
@@ -324,6 +327,7 @@ function QuestieCompat.HideWatchFrame()
     end
 end
 
+---Shows the quest watch frame by restoring its parent or setting alpha to 1.
 function QuestieCompat.ShowWatchFrame()
     local watchFrame = GetWatchFrame()
     if not watchFrame then return end
@@ -344,6 +348,12 @@ function QuestieCompat.ShowWatchFrame()
     end
 end
 
+---Returns the point, relativeTo, relativePoint, xOfs, yOfs of the quest watch frame.
+---@return string point
+---@return frame relativeTo
+---@return string relativePoint
+---@return number xOfs
+---@return number yOfs
 function QuestieCompat.GetWatchFramePoint()
     local watchFrame = GetWatchFrame()
     return watchFrame:GetPoint()
@@ -453,6 +463,23 @@ end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemInfo)
 ---Returns information about an item.
 ---@param item ItemId|string
+---@return string name
+---@return string itemLink
+---@return number quality
+---@return number level
+---@return number minLevel
+---@return string type
+---@return string subType
+---@return number stackCount
+---@return number equipLoc
+---@return number texture
+---@return number vendorPrice
+---@return number classID
+---@return number subClassID
+---@return number bindType
+---@return number expacID
+---@return number setID
+---@return boolean isCraftingReagent
 function QuestieCompat.GetItemInfo(item)
     if C_Item and C_Item.GetItemInfo then
         return C_Item.GetItemInfo(item)
@@ -544,15 +571,14 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex)
     error(errorMsg, 2)
 end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestGreenRange)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
 ---Returns the level spread at which a quest is considered "green" (trivial) relative to the player.
----No modern API replacement exists; falls back to a fixed spread matching Classic's own value.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
     if GetQuestGreenRange then
         return GetQuestGreenRange("player")
     end
-    return 5
+    return UnitQuestTrivialLevelRange("player")
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemCount)
@@ -783,6 +809,10 @@ local tooltipDataType = {
     OnTooltipSetUnit = Enum and Enum.TooltipDataType and Enum.TooltipDataType.Unit,
 }
 
+---Hooks a tooltip script, falling back to TooltipDataProcessor on modern clients.
+---@param frame frame
+---@param script string
+---@param handler function
 function QuestieCompat.HookTooltipScript(frame, script, handler)
     if not frame then return end
 
@@ -845,6 +875,7 @@ QuestieCompat.MAX_NUM_QUESTS = (Constants and Constants.QuestLogConsts and Const
 
 -- The old default quest-log/watch UI is gone. Questie calls these purely to ask
 -- Blizzard's own frames to redraw, so doing nothing is correct here.
+---Redraws the quest watch frame (no-op on modern clients where the frame no longer exists).
 function QuestieCompat.WatchFrame_Update()
     if WatchFrame_Update then
         return WatchFrame_Update()
@@ -853,6 +884,7 @@ function QuestieCompat.WatchFrame_Update()
     end
 end
 
+---Redraws the quest log frame (no-op on modern clients where the frame no longer exists).
 function QuestieCompat.QuestLog_Update()
     if QuestLog_Update then
         return QuestLog_Update()
@@ -890,7 +922,14 @@ function QuestieCompat.GetQuestTimers(questID)
 end
 
 -- Removed global helper; the equivalent is now a method on the frame itself.
+---[Documentation](https://warcraft.wiki.gg/wiki/API_MouseIsOver)
+---Returns whether the mouse is over a frame.
 ---@param frame frame
+---@param top number|nil
+---@param bottom number|nil
+---@param left number|nil
+---@param right number|nil
+---@return boolean
 function QuestieCompat.MouseIsOver(frame, top, bottom, left, right)
     if MouseIsOver then
         return MouseIsOver(frame, top, bottom, left, right)
@@ -940,8 +979,10 @@ function QuestieCompat.SelectGossipAvailableQuest(index)
     error(errorMsg, 2)
 end
 
--- Abandoning a quest. Questie calls these from its tracker's right-click menu
--- and from the breadcrumb handling, both without a nil check.
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SetAbandonQuest)
+---Sets the quest to be abandoned.
+---Questie calls these from its tracker's right-click menu
+---and from the breadcrumb handling, both without a nil check.
 function QuestieCompat.SetAbandonQuest()
     if SetAbandonQuest then
         return SetAbandonQuest()
@@ -951,6 +992,9 @@ function QuestieCompat.SetAbandonQuest()
     end
 end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAbandonQuestName)
+---Returns the name of the quest set for abandonment.
+---@return string name
 function QuestieCompat.GetAbandonQuestName()
     if GetAbandonQuestName then
         return GetAbandonQuestName()
@@ -965,6 +1009,9 @@ function QuestieCompat.GetAbandonQuestName()
     return ""
 end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAbandonQuestItems)
+---Returns the items that will be destroyed when abandoning the quest.
+---@return table|nil items
 function QuestieCompat.GetAbandonQuestItems()
     if GetAbandonQuestItems then
         return GetAbandonQuestItems()
@@ -975,6 +1022,8 @@ function QuestieCompat.GetAbandonQuestItems()
     return nil
 end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_AbandonQuest)
+---Abandons the currently selected quest.
 function QuestieCompat.AbandonQuest()
     if AbandonQuest then
         return AbandonQuest()
@@ -1009,12 +1058,14 @@ function QuestieCompat.QuestLog_SetSelection(questLogIndex)
 end
 
 -- Redraw helpers for the old quest log window, which no longer exists.
+---Redraws the quest log details frame (no-op on modern clients).
 function QuestieCompat.QuestLog_UpdateQuestDetails()
     if QuestLog_UpdateQuestDetails then
         return QuestLog_UpdateQuestDetails()
     end
 end
 
+---Resizes a static popup dialog.
 function QuestieCompat.StaticPopup_Resize(...)
     if StaticPopup_Resize then
         return StaticPopup_Resize(...)
@@ -1033,6 +1084,7 @@ function QuestieCompat.ActionStatus_DisplayMessage(message)
 end
 
 -- No achievement UI on this client. These are reached from tracker clicks.
+---Toggles the achievement frame.
 function QuestieCompat.AchievementFrame_ToggleAchievementFrame()
     if AchievementFrame_ToggleAchievementFrame then
         return AchievementFrame_ToggleAchievementFrame()
@@ -1046,6 +1098,7 @@ function QuestieCompat.AchievementFrame_SelectAchievement(achievementId)
     end
 end
 
+---Forces an update of the achievement frame.
 function QuestieCompat.AchievementFrameAchievements_ForceUpdate()
     if AchievementFrameAchievements_ForceUpdate then
         return AchievementFrameAchievements_ForceUpdate()
@@ -1114,6 +1167,10 @@ local function usableString(text)
     return pcall(function() return text == "" end)
 end
 
+---Returns the tooltip text from a font string, falling back to tooltip data.
+---@param fontString FontString
+---@param tooltip GameTooltip
+---@return string|nil
 function QuestieCompat.GetTooltipText(fontString, tooltip)
     if fontString and fontString.GetText then
         local ok, text = pcall(fontString.GetText, fontString)
