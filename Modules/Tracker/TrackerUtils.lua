@@ -94,7 +94,7 @@ function TrackerUtils:ShowQuestLog(quest)
     local questFrame = QuestieCompat.GetQuestLogFrame()
     --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
     local questLogIndex = GetQuestLogIndexByID(quest.Id)
-    SelectQuestLogEntry(questLogIndex)
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
 
     -- Scroll to the quest in the quest log
     local scrollSteps = _QuestLogScrollBar:GetValueStep()

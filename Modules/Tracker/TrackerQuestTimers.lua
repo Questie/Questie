@@ -102,11 +102,11 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
     end
 
     local currentQuestLogSelection = GetQuestLogSelection()
-    SelectQuestLogEntry(questLogIndex)
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
     -- We can't use GetQuestTimers because we don't know for which quest the timer is.
     -- GetQuestLogTimeLeft returns the correct value though.
     local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
-    SelectQuestLogEntry(currentQuestLogSelection)
+    QuestieCompat.SelectQuestLogEntry(currentQuestLogSelection)
 
     if timeRemaining ~= nil then
         local timeRemainingString = SecondsToTime(timeRemaining, false, false)

@@ -397,13 +397,20 @@ function QuestieCompat.GetQuestLogTitle(questLogIndex)
     error(errorMsg, 2)
 end
 
-if not SelectQuestLogEntry and C_QuestLog and C_QuestLog.SetSelectedQuest then
-    SelectQuestLogEntry = function(questLogIndex)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SelectQuestLogEntry)
+---Sets the selected entry in the quest log.
+---@param questLogIndex number
+function QuestieCompat.SelectQuestLogEntry(questLogIndex)
+    if C_QuestLog and C_QuestLog.SetSelectedQuest and C_QuestLog.GetInfo then
         local info = C_QuestLog.GetInfo(questLogIndex)
         if info then
             C_QuestLog.SetSelectedQuest(info.questID)
         end
+        return
+    elseif SelectQuestLogEntry then
+        return SelectQuestLogEntry(questLogIndex)
     end
+    error(errorMsg, 2)
 end
 
 if not GetQuestLogSelection and C_QuestLog and C_QuestLog.GetSelectedQuest then

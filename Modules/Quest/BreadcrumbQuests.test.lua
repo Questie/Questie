@@ -37,7 +37,7 @@ describe("BreadcrumbQuests", function()
 
         local abandonCalls = 0
         _G.GetQuestLogIndexByID = function() return 1 end
-        _G.SelectQuestLogEntry = function() end
+        QuestieCompat.SelectQuestLogEntry = function() end
         _G.SetAbandonQuest = function() end
         _G.AbandonQuest = function() abandonCalls = abandonCalls + 1 end
 
@@ -74,7 +74,7 @@ describe("BreadcrumbQuests", function()
 
         local abandonCalls = 0
         _G.GetQuestLogIndexByID = function(questId) return questId == QUEST_ID and 1 or 0 end
-        _G.SelectQuestLogEntry = function() end
+        QuestieCompat.SelectQuestLogEntry = function() end
         _G.SetAbandonQuest = function() end
         _G.AbandonQuest = function() abandonCalls = abandonCalls + 1 end
 

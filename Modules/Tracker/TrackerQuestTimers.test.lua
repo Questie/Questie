@@ -44,7 +44,7 @@ describe("TrackerQuestTimers", function()
             _G.GetQuestLogSelection = function()
                 return 2
             end
-            _G.SelectQuestLogEntry = function()end
+            QuestieCompat.SelectQuestLogEntry = function()end
             _G.GetQuestLogTimeLeft = function()
                 return nil
             end
@@ -64,7 +64,7 @@ describe("TrackerQuestTimers", function()
             _G.GetQuestLogSelection = function()
                 return 456
             end
-            _G.SelectQuestLogEntry = spy.new(function() end)
+            QuestieCompat.SelectQuestLogEntry = spy.new(function() end)
             _G.GetQuestLogTimeLeft = function()
                 return 81
             end
@@ -77,8 +77,8 @@ describe("TrackerQuestTimers", function()
             assert.is_equal("2 |4Min:Mins; 21 |4Sec:Secs;", timeRemainingString)
             assert.is_equal(81, timeRemaining)
 
-            assert.spy(_G.SelectQuestLogEntry).was.called_with(123)
-            assert.spy(_G.SelectQuestLogEntry).was.called_with(456)
+            assert.spy(QuestieCompat.SelectQuestLogEntry).was.called_with(123)
+            assert.spy(QuestieCompat.SelectQuestLogEntry).was.called_with(456)
         end)
     end)
 end)

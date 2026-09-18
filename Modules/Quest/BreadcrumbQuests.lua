@@ -19,7 +19,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 function BreadcrumbQuests.AbandonQuest(questId, breadcrumbQuestId)
     local questLogIndex = GetQuestLogIndexByID(questId)
     if questLogIndex and questLogIndex > 0 then
-        SelectQuestLogEntry(questLogIndex)
+        QuestieCompat.SelectQuestLogEntry(questLogIndex)
         SetAbandonQuest()
         AbandonQuest()
         local questLink = QuestieLink:GetQuestHyperLink(questId)
