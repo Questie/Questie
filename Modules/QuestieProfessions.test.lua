@@ -98,7 +98,8 @@ describe("QuestieProfessions", function()
     end)
 
     describe("AbandonSkill", function()
-        it("should reset the skill blacklist and recalculate available quests when a profession is abandoned", function()
+        ---Loads a fresh QuestieProfessions module and captures its AbandonSkill hook callback
+        local function loadWithCapturedAbandonHook()
             _G.AbandonSkill = function() end
             local abandonSkillCallback
             _G.hooksecurefunc = function(name, callback)
@@ -110,18 +111,76 @@ describe("QuestieProfessions", function()
             local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
             AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
 
-            -- Force a fresh load so the hooksecurefunc("AbandonSkill", ...) registration re-runs and is captured
+            local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+            ProfessionStations.HideUnlearned = spy.new(function() end)
+
             dofile("Modules/QuestieProfessions.lua")
             QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
             QuestieProfessions:Init()
 
-            -- Register the profession so the abandon hook acts on it
+            return abandonSkillCallback, AvailableQuests, ProfessionStations
+        end
+
+        it("should reset the skill blacklist and recalculate available quests when a profession is abandoned", function()
+            -- The skill line must disappear from the skill window once abandoned
+            local abandoned = false
+            _G.GetSkillLineInfo = function()
+                if abandoned then return nil end
+                return "Cooking", nil, nil, mockedProfessionSkill
+            end
+
+            _G.C_Timer = {After = function() end}
+            local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
+
             QuestieProfessions:Update()
 
+            abandoned = true
             abandonSkillCallback(1)
 
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+            assert.spy(ProfessionStations.HideUnlearned).was.called()
+        end)
+
+        it("should not recalculate quests when no known profession was removed", function()
+            _G.C_Timer = {After = function() end}
+            local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
+
+            abandonSkillCallback(1)
+
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+            assert.spy(ProfessionStations.HideUnlearned).was.not_called()
+        end)
+
+        it("should clean up when the skill window updates after the abandon event", function()
+            -- Some clients only remove the skill line from the skill window
+            -- after the abandon event was processed
+            local abandoned = false
+            _G.GetSkillLineInfo = function()
+                if abandoned then return nil end
+                return "Cooking", nil, nil, mockedProfessionSkill
+            end
+
+            local timerCallbacks = {}
+            _G.C_Timer = {After = function(_, callback) table.insert(timerCallbacks, callback) end}
+
+            local abandonSkillCallback, AvailableQuests, ProfessionStations = loadWithCapturedAbandonHook()
+
+            QuestieProfessions:Update()
+
+            abandonSkillCallback(1)
+
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+
+            abandoned = true
+            for _, callback in ipairs(timerCallbacks) do
+                callback()
+            end
+
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+            assert.spy(ProfessionStations.HideUnlearned).was.called()
         end)
     end)
 end)
