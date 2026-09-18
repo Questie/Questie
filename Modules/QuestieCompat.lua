@@ -876,27 +876,31 @@ end
 -- Questie only uses this as a "does this quest have a timer" gate; the value it
 -- actually displays comes from GetQuestLogTimeLeft, which still exists. Report
 -- the real remaining time so timed quests keep working.
-if not GetQuestTimers then
-    GetQuestTimers = function(questID)
-        if not questID then return nil end
+---@param questID QuestId
+---@return number|nil secondsRemaining
+function QuestieCompat.GetQuestTimers(questID)
+    if not questID then return nil end
 
-        if C_QuestLog and C_QuestLog.GetTimeAllowed then
-            local total, elapsed = C_QuestLog.GetTimeAllowed(questID)
-            if total and total > 0 then
-                return total - (elapsed or 0)
-            end
+    if C_QuestLog and C_QuestLog.GetTimeAllowed then
+        local total, elapsed = C_QuestLog.GetTimeAllowed(questID)
+        if total and total > 0 then
+            return total - (elapsed or 0)
         end
-
-        if GetQuestLogTimeLeft and C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
-            local questLogIndex = C_QuestLog.GetLogIndexForQuestID(questID)
-            local remaining = questLogIndex and GetQuestLogTimeLeft(questLogIndex)
-            if remaining and remaining > 0 then
-                return remaining
-            end
-        end
-
-        return nil
     end
+
+    if GetQuestLogTimeLeft and C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
+        local questLogIndex = C_QuestLog.GetLogIndexForQuestID(questID)
+        local remaining = questLogIndex and GetQuestLogTimeLeft(questLogIndex)
+        if remaining and remaining > 0 then
+            return remaining
+        end
+    end
+
+    if GetQuestTimers then
+        return GetQuestTimers(questID)
+    end
+
+    return nil
 end
 
 -- Removed global helper; the equivalent is now a method on the frame itself.

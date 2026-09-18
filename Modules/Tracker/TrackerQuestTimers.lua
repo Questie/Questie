@@ -96,7 +96,7 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
         return nil
     end
 
-    local questTimers = GetQuestTimers(questId)
+    local questTimers = QuestieCompat.GetQuestTimers(questId)
     if (not questTimers) then
         return nil
     end
