@@ -14,7 +14,7 @@ local playerReputations = {}
 local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
 
 -- Fast local references
-local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+local ExpandFactionHeader = ExpandFactionHeader
 local tinsert, floor = table.insert, math.floor
 
 --- Updates all factions a player already discovered and checks if any of these
@@ -28,7 +28,7 @@ function QuestieReputation:Update(isInit)
     local newFaction = false
 
     for i=1, QuestieCompat.GetNumFactions() do
-        local name, description, standingId, _, _, barValue, _, _, _, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
+        local name, description, standingId, _, _, barValue, _, _, _, _, _, _, _, factionID, _, _ = QuestieCompat.GetFactionInfo(i)
         if factionID and description then -- we use description instead of isHeader because some factions are header (e.g. The Tillers)
             local previousValues = playerReputations[factionID]
             if (not previousValues) then

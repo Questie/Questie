@@ -596,8 +596,12 @@ function QuestieCompat.GetNumFactions()
     error(errorMsg, 2)
 end
 
-if not GetFactionInfo and C_Reputation and C_Reputation.GetFactionDataByIndex then
-    GetFactionInfo = function(index)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfo)
+---Returns information about a reputation list entry.
+---@param index number
+---TODO: C_Reputation.GetFactionDataByIndex already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetFactionInfo(index)
+    if C_Reputation and C_Reputation.GetFactionDataByIndex then
         local d = C_Reputation.GetFactionDataByIndex(index)
         if not d then return nil end
         return d.name, d.description, d.reaction, d.currentReactionThreshold,
@@ -605,7 +609,10 @@ if not GetFactionInfo and C_Reputation and C_Reputation.GetFactionDataByIndex th
             d.canToggleAtWar, d.isHeader, d.isCollapsed, d.isHeaderWithRep,
             d.isWatched, d.isChild, d.factionID, d.hasBonusRepGain,
             d.canSetInactive
+    elseif GetFactionInfo then
+        return GetFactionInfo(index)
     end
+    error(errorMsg, 2)
 end
 
 if not ExpandFactionHeader and C_Reputation and C_Reputation.ExpandFactionHeader then
