@@ -413,11 +413,17 @@ function QuestieCompat.SelectQuestLogEntry(questLogIndex)
     error(errorMsg, 2)
 end
 
-if not GetQuestLogSelection and C_QuestLog and C_QuestLog.GetSelectedQuest then
-    GetQuestLogSelection = function()
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogSelection)
+---Returns the index of the currently selected quest log entry.
+---@return number questLogIndex
+function QuestieCompat.GetQuestLogSelection()
+    if C_QuestLog and C_QuestLog.GetSelectedQuest and C_QuestLog.GetLogIndexForQuestID then
         local questID = C_QuestLog.GetSelectedQuest()
         return questID and C_QuestLog.GetLogIndexForQuestID(questID)
+    elseif GetQuestLogSelection then
+        return GetQuestLogSelection()
     end
+    error(errorMsg, 2)
 end
 
 if not UnitAura and C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then

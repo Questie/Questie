@@ -101,7 +101,7 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
         return nil
     end
 
-    local currentQuestLogSelection = GetQuestLogSelection()
+    local currentQuestLogSelection = QuestieCompat.GetQuestLogSelection()
     QuestieCompat.SelectQuestLogEntry(questLogIndex)
     -- We can't use GetQuestTimers because we don't know for which quest the timer is.
     -- GetQuestLogTimeLeft returns the correct value though.

@@ -244,7 +244,7 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
         text = l10n("Abandon Quest"),
         func = function()
             LibDropDown:CloseDropDownMenus()
-            local lastQuest = GetQuestLogSelection()
+            local lastQuest = QuestieCompat.GetQuestLogSelection()
             QuestieCompat.SelectQuestLogEntry(GetQuestLogIndexByID(quest.Id))
             SetAbandonQuest()
 
