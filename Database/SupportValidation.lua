@@ -73,6 +73,38 @@ function SupportValidation.ValidateTableShapes(inputs, dataset, expansion)
     return _Result(failures, dataset, expansion)
 end
 
+---Decodes provider Lua payloads before consumers merge them. This catches malformed data, not untrusted code.
+---@param inputs SupportValidationTableInput[] @Diagnostic paths and encoded Lua strings.
+---@param dataset string
+---@param expansion number
+---@return table<string, table>|false decoded
+---@return string? report
+function SupportValidation.DecodeTables(inputs, dataset, expansion)
+    local decoded, failures = {}, {}
+    for _, input in ipairs(inputs) do
+        local path, source = input[1], input[2]
+        if type(source) ~= "string" then
+            _Check(failures, path, type(source), "string")
+        else
+            local chunk, compileError = loadstring(source, "=" .. dataset .. "." .. path)
+            if not chunk then
+                failures[#failures + 1] = path .. ": compilation failed: " .. tostring(compileError)
+            else
+                local ok, value = pcall(chunk)
+                if not ok then
+                    failures[#failures + 1] = path .. ": execution failed: " .. tostring(value)
+                else
+                    _Check(failures, path, type(value), "table")
+                    decoded[path] = value
+                end
+            end
+        end
+    end
+    local valid, report = _Result(failures, dataset, expansion)
+    if not valid then return false, report end
+    return decoded
+end
+
 ---@class SupportValidationZones
 ---@field zoneIDs table
 ---@field instanceIdToAreaId table

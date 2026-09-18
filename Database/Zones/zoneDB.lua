@@ -7,23 +7,6 @@ local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
 local _ZoneDB = ZoneDB.private
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
-
--- Keep the wrapper and its private functions consumer-owned. Static support tables are read-only;
--- Initialize decodes the source strings into owned maps before applying overrides.
-local zoneData = LibQuestieDB.Support.Get("ZoneDB")
-ZoneDB.zoneIDs = zoneData.zoneIDs
-ZoneDB.instanceIdToAreaId = zoneData.instanceIdToAreaId
-_ZoneDB.areaIdToUiMapId = zoneData.private.areaIdToUiMapId
-_ZoneDB.areaIdToUiMapIdOverride = zoneData.private.areaIdToUiMapIdOverride
-_ZoneDB.uiMapIdToAreaId = zoneData.private.uiMapIdToAreaId
-_ZoneDB.uiMapIdToAreaIdOverride = zoneData.private.uiMapIdToAreaIdOverride
-_ZoneDB.subZoneToParentZone = zoneData.private.subZoneToParentZone
-_ZoneDB.subZoneToParentZoneOverride = zoneData.private.subZoneToParentZoneOverride
-_ZoneDB.dungeons = zoneData.private.dungeons
-
--------------------------
---Import modules.
--------------------------
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
@@ -39,10 +22,33 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- Provider-owned support: bind at file load because other modules already need the zone IDs.
+-- Keep these tables read-only and leave malformed containers for Initialize to report.
+local zoneData = LibQuestieDB.Support.Get("ZoneDB")
+local zonePrivate
+if type(zoneData) == "table" then
+    ZoneDB.zoneIDs = zoneData.zoneIDs
+    ZoneDB.instanceIdToAreaId = zoneData.instanceIdToAreaId
+    zonePrivate = zoneData.private
+
+    if type(zonePrivate) == "table" then
+        _ZoneDB.areaIdToUiMapId = zonePrivate.areaIdToUiMapId
+        _ZoneDB.areaIdToUiMapIdOverride = zonePrivate.areaIdToUiMapIdOverride
+
+        _ZoneDB.uiMapIdToAreaId = zonePrivate.uiMapIdToAreaId
+        _ZoneDB.uiMapIdToAreaIdOverride = zonePrivate.uiMapIdToAreaIdOverride
+
+        _ZoneDB.subZoneToParentZone = zonePrivate.subZoneToParentZone
+        _ZoneDB.subZoneToParentZoneOverride = zonePrivate.subZoneToParentZoneOverride
+        _ZoneDB.dungeons = zonePrivate.dungeons
+    end
+end
+
+-- Initialize decodes the mapping strings into Questie-owned maps before applying overrides.
 local areaIdToUiMapId
 local uiMapIdToAreaId
-local dungeons
 local subZoneToParentZone
+local dungeons -- Shared provider data; unlike the maps, this table is not modified.
 
 -- Generated from alternativeAreaId in dungeons
 -- [alternativeDungeonAreaId] = dungeonZone
@@ -57,37 +63,47 @@ local HIDE_ON_MAP
 ---@return string? report
 function ZoneDB.Initialize()
     HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
-    -- Decode once, then check every merge source and target before applying any overrides.
-    areaIdToUiMapId = loadstring(ZoneDB.private.areaIdToUiMapId)()
-    local areaIdToUiMapIdOverride = loadstring(ZoneDB.private.areaIdToUiMapIdOverride)()
-    uiMapIdToAreaId = loadstring(ZoneDB.private.uiMapIdToAreaId)()
-    local uiMapIdToAreaIdOverride = loadstring(ZoneDB.private.uiMapIdToAreaIdOverride)()
-    subZoneToParentZone = loadstring(ZoneDB.private.subZoneToParentZone)()
-    local subZoneToParentZoneOverride = loadstring(ZoneDB.private.subZoneToParentZoneOverride)()
-    dungeons = ZoneDB.private.dungeons
-
     local valid, report = SupportValidation.ValidateTableShapes({
-        {"areaIdToUiMapId", areaIdToUiMapId},
-        {"areaIdToUiMapIdOverride", areaIdToUiMapIdOverride},
-        {"uiMapIdToAreaId", uiMapIdToAreaId},
-        {"uiMapIdToAreaIdOverride", uiMapIdToAreaIdOverride},
-        {"subZoneToParentZone", subZoneToParentZone},
-        {"subZoneToParentZoneOverride", subZoneToParentZoneOverride},
+        {"ZoneDB", zoneData},
+        {"ZoneDB.private", zonePrivate},
     }, "Zones", Expansions.Current)
     if not valid then return false, report end
 
-    -- Apply manual overrides only to the owned decoded maps.
+    -- Decode every merge source before applying any overrides.
+    local decoded
+    decoded, report = SupportValidation.DecodeTables({
+        {"areaIdToUiMapId", _ZoneDB.areaIdToUiMapId},
+        {"areaIdToUiMapIdOverride", _ZoneDB.areaIdToUiMapIdOverride},
+        {"uiMapIdToAreaId", _ZoneDB.uiMapIdToAreaId},
+        {"uiMapIdToAreaIdOverride", _ZoneDB.uiMapIdToAreaIdOverride},
+        {"subZoneToParentZone", _ZoneDB.subZoneToParentZone},
+        {"subZoneToParentZoneOverride", _ZoneDB.subZoneToParentZoneOverride},
+    }, "Zones", Expansions.Current)
+    if not decoded then return false, report end
+
+    -- Area IDs to UI map IDs.
+    areaIdToUiMapId = decoded.areaIdToUiMapId
+    local areaIdToUiMapIdOverride = decoded.areaIdToUiMapIdOverride
     for areaId, uiMapId in pairs(areaIdToUiMapIdOverride) do
         areaIdToUiMapId[areaId] = uiMapId
     end
+
+    -- UI map IDs back to area IDs.
+    uiMapIdToAreaId = decoded.uiMapIdToAreaId
+    local uiMapIdToAreaIdOverride = decoded.uiMapIdToAreaIdOverride
     for uiMapId, areaId in pairs(uiMapIdToAreaIdOverride) do
         uiMapIdToAreaId[uiMapId] = areaId
     end
+
+    -- Subzones to their parent zones.
+    subZoneToParentZone = decoded.subZoneToParentZone
+    local subZoneToParentZoneOverride = decoded.subZoneToParentZoneOverride
     for areaId, parentZoneId in pairs(subZoneToParentZoneOverride) do
         subZoneToParentZone[areaId] = parentZoneId
     end
 
     -- Validate the effective maps before dungeon indexing or optional debug checks.
+    dungeons = _ZoneDB.dungeons
     valid, report = SupportValidation.ValidateZones({
         zoneIDs = ZoneDB.zoneIDs,
         instanceIdToAreaId = ZoneDB.instanceIdToAreaId,

@@ -19,6 +19,44 @@ describe("SupportValidation", function()
         _G.GetAddOnMetadata, _G.C_AddOns = originalMetadata, originalAddOns
     end)
 
+    describe("DecodeTables", function()
+        it("decodes fresh tables without changing the encoded sources", function()
+            local inputs = {{"base", "return {[12] = 1429}"}, {"override", "return {}"}}
+            local decoded, report = validation.DecodeTables(inputs, "Zones", 1)
+            assert.are_same({base = {[12] = 1429}, override = {}}, decoded)
+            assert.is_nil(report)
+            decoded.base[12] = 0
+            assert.are_same({base = {[12] = 1429}, override = {}}, validation.DecodeTables(inputs, "Zones", 1))
+            assert.are_equal("return {[12] = 1429}", inputs[1][2])
+        end)
+
+        for _, case in ipairs({
+            {name = "missing source", expected = "expected string, actual nil"},
+            {name = "non-string source", source = 42, expected = "expected string, actual number"},
+            {name = "syntax error", source = "return {", expected = "compilation failed:"},
+            {name = "runtime error", source = "error('broken payload')", expected = "execution failed:"},
+            {name = "missing result", source = "return nil", expected = "expected table, actual nil"},
+            {name = "scalar result", source = "return 42", expected = "expected table, actual number"},
+        }) do
+            it("reports a " .. case.name .. " through the validation failure path", function()
+                local decoded, report = validation.DecodeTables({{"base", case.source}}, "Zones", 1)
+                assert.is_false(decoded)
+                assert.matches("base: " .. case.expected, report, 1, true)
+                assert.matches("Dataset: Zones; consumer flavor: Era", report, 1, true)
+            end)
+        end
+
+        it("aggregates decode failures instead of exposing partial decoded data", function()
+            local decoded, report = validation.DecodeTables({
+                {"base", "return {"}, {"override", "error('bad override')"}, {"other", "return {}"},
+            }, "Zones", 1)
+            assert.is_false(decoded)
+            assert.matches("base: compilation failed:", report, 1, true)
+            assert.matches("override: execution failed:", report, 1, true)
+            assert.matches("bad override", report, 1, true)
+        end)
+    end)
+
     ---Small independent fixture; no provider exports or legacy data files supply expected values.
     ---@return SupportValidationZones
     local function EraZones()

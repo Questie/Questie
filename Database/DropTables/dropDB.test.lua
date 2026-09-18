@@ -82,6 +82,46 @@ describe("DropDB support data", function()
         assert.are_same({[1] = 10, [2] = 15}, mock.supportModules.QuestieItemDropCorrections.Era[100])
     end)
 
+    it("reports missing selected support before reading its fields", function()
+        local valid, report = DropDB:Initialize()
+        assert.is_false(valid)
+        assert.matches("QuestieClassicItemDrops: expected table, actual nil", report, 1, true)
+    end)
+
+    it("reports non-table selected support before reading its fields", function()
+        mock.supportModules.QuestieClassicItemDrops = 42
+        local valid, report = DropDB:Initialize()
+        assert.is_false(valid)
+        assert.matches("QuestieClassicItemDrops: expected table, actual number", report, 1, true)
+    end)
+
+    it("requires Cata support for the MoP private-server source", function()
+        SelectExpansion(Expansions.MoP)
+        mock.supportModules.QuestieMopItemDrops = {wowheadData = "return {}"}
+        local valid, report = DropDB:Initialize()
+        assert.is_false(valid)
+        assert.matches("QuestieCataItemDrops: expected table, actual nil", report, 1, true)
+    end)
+
+    it("reports missing encoded fields without passing them to loadstring", function()
+        mock.supportModules.QuestieClassicItemDrops = {}
+        _G.loadstring = spy.new(originalLoadstring)
+        local valid, report = DropDB:Initialize()
+        assert.is_false(valid)
+        assert.matches("Wowhead: expected string, actual nil", report, 1, true)
+        assert.matches("Pserver: expected string, actual nil", report, 1, true)
+        assert.spy(_G.loadstring).was.not_called()
+    end)
+
+    it("reports compile and execution failures before merging corrections", function()
+        mock.supportModules.QuestieClassicItemDrops = {wowheadData = "return {", cmangosData = "error('bad drops')"}
+        local valid, report = DropDB:Initialize()
+        assert.is_false(valid)
+        assert.matches("Wowhead: compilation failed:", report, 1, true)
+        assert.matches("Pserver: execution failed:", report, 1, true)
+        assert.is_nil(DropDB.tableCorrections)
+    end)
+
     it("preserves correction sentinels, zero and invalid-reference fallback", function()
         mock.supportModules.QuestieClassicItemDrops = {
             wowheadData = "return {[100] = {[1] = 45, [2] = 46}}",
@@ -175,14 +215,12 @@ describe("DropDB support data", function()
         end)
     end
 
-    it("aggregates invalid decoded maps with a missing correction parent", function()
+    it("reports a missing correction parent before merging", function()
         dofile("Database/SupportValidation.lua")
-        mock.supportModules.QuestieClassicItemDrops = {wowheadData = "return false", cmangosData = "return nil"}
+        mock.supportModules.QuestieClassicItemDrops = {wowheadData = "return {}", cmangosData = "return {}"}
         mock.supportModules.QuestieItemDropCorrections = nil
         local valid, report = DropDB:Initialize()
         assert.is_false(valid)
-        assert.matches("Wowhead: expected table, actual boolean", report, 1, true)
-        assert.matches("Pserver: expected table, actual nil", report, 1, true)
         assert.matches("QuestieItemDropCorrections: expected table, actual nil", report, 1, true)
     end)
 

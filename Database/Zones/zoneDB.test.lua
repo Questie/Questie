@@ -5,7 +5,7 @@ local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 describe("ZoneDB", function()
     ---@type ZoneDB
     local ZoneDB
-    local zoneData
+    local zoneData, mock
 
     local originalLoadstring
 
@@ -24,7 +24,7 @@ describe("ZoneDB", function()
             GetAreaInfo = function() return nil end,
         }
 
-        local mock = LoadQuestieDBMock()
+        mock = LoadQuestieDBMock()
         -- Focused provider-shaped inputs, not a copy of the zone database.
         -- Fresh tables keep dungeon mutations and alternative IDs isolated between tests.
         zoneData = {
@@ -58,13 +58,57 @@ describe("ZoneDB", function()
         ZoneDB.Initialize()
     end)
 
-    it("binds static tables without replacing the wrapper or its private functions", function()
+    it("binds shared support at file load without replacing the wrapper or its private functions", function()
+        dofile("Database/Zones/zoneDB.lua")
         assert.are_not_equal(zoneData, ZoneDB)
         assert.are_not_equal(zoneData.private, ZoneDB.private)
         assert.are_equal(zoneData.zoneIDs, ZoneDB.zoneIDs)
         assert.are_equal(zoneData.instanceIdToAreaId, ZoneDB.instanceIdToAreaId)
-        assert.are_equal(zoneData.private.dungeons, ZoneDB:GetDungeons())
+        assert.are_equal(zoneData.private.subZoneToParentZoneOverride, ZoneDB.private.subZoneToParentZoneOverride)
         assert.is_function(ZoneDB.private.RunTests)
+
+        ZoneDB.Initialize()
+        assert.are_equal(zoneData.private.dungeons, ZoneDB:GetDungeons())
+    end)
+
+    for _, case in ipairs({
+        {name = "missing", expected = "nil"},
+        {name = "non-table", value = 42, expected = "number"},
+    }) do
+        it("loads safely and reports " .. case.name .. " ZoneDB support during initialization", function()
+            mock.supportModules.ZoneDB = case.value
+            dofile("Database/Zones/zoneDB.lua")
+            local valid, report = ZoneDB.Initialize()
+            assert.is_false(valid)
+            assert.matches("ZoneDB: expected table, actual " .. case.expected, report, 1, true)
+        end)
+
+        it("loads safely and reports a " .. case.name .. " private support table during initialization", function()
+            zoneData.private = case.value
+            dofile("Database/Zones/zoneDB.lua")
+            local valid, report = ZoneDB.Initialize()
+            assert.is_false(valid)
+            assert.matches("ZoneDB.private: expected table, actual " .. case.expected, report, 1, true)
+            assert.are_equal(zoneData.zoneIDs, ZoneDB.zoneIDs)
+        end)
+    end
+
+    it("reports missing encoded fields before decoding or merging", function()
+        ZoneDB.private.areaIdToUiMapId = nil
+        ZoneDB.private.subZoneToParentZoneOverride = 42
+        local valid, report = ZoneDB.Initialize()
+        assert.is_false(valid)
+        assert.matches("areaIdToUiMapId: expected string, actual nil", report, 1, true)
+        assert.matches("subZoneToParentZoneOverride: expected string, actual number", report, 1, true)
+    end)
+
+    it("reports compile and execution failures before applying overrides", function()
+        ZoneDB.private.areaIdToUiMapId = "return {"
+        ZoneDB.private.uiMapIdToAreaIdOverride = "error('bad zones')"
+        local valid, report = ZoneDB.Initialize()
+        assert.is_false(valid)
+        assert.matches("areaIdToUiMapId: compilation failed:", report, 1, true)
+        assert.matches("uiMapIdToAreaIdOverride: execution failed:", report, 1, true)
     end)
 
     it("decodes maps and applies overrides without changing the provider sources", function()

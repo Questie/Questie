@@ -28,39 +28,48 @@ DropDB.correctionKeys = { -- all keys must be negative or they'll be parsed as r
 ---@return string? report
 function DropDB:Initialize()
     local QuestieItemDropCorrections = LibQuestieDB.Support.Get("QuestieItemDropCorrections")
+    local wowheadModule, pserverModule, pserverField
     if Questie.IsClassic then
-        local QuestieClassicItemDrops = LibQuestieDB.Support.Get("QuestieClassicItemDrops")
-        -- Wowhead Classic data was gathered with the SoD QuestieDB, so SoD IDs are included as well;
-        -- this should not affect Era players because the Era DB will never reference those IDs
-        DropDB.tableWowhead = loadstring(QuestieClassicItemDrops.wowheadData)()
-        DropDB.tablePserver = loadstring(QuestieClassicItemDrops.cmangosData)()
-        DropDB.sourcePserver = "cmangos"
+        -- Classic Wowhead data includes SoD IDs, which Era quests never reference.
+        wowheadModule, pserverModule = "QuestieClassicItemDrops", "QuestieClassicItemDrops"
+        pserverField, DropDB.sourcePserver = "cmangosData", "cmangos"
     elseif Questie.IsTBC then
-        local QuestieTBCItemDrops = LibQuestieDB.Support.Get("QuestieTBCItemDrops")
-        DropDB.tableWowhead = loadstring(QuestieTBCItemDrops.wowheadData)()
-        DropDB.tablePserver = loadstring(QuestieTBCItemDrops.cmangosData)()
-        DropDB.sourcePserver = "cmangos"
+        wowheadModule, pserverModule = "QuestieTBCItemDrops", "QuestieTBCItemDrops"
+        pserverField, DropDB.sourcePserver = "cmangosData", "cmangos"
     elseif Questie.IsWotlk then
-        local QuestieWotlkItemDrops = LibQuestieDB.Support.Get("QuestieWotlkItemDrops")
-        DropDB.tableWowhead = loadstring(QuestieWotlkItemDrops.wowheadData)()
-        DropDB.tablePserver = loadstring(QuestieWotlkItemDrops.cmangosData)()
-        DropDB.sourcePserver = "cmangos"
+        wowheadModule, pserverModule = "QuestieWotlkItemDrops", "QuestieWotlkItemDrops"
+        pserverField, DropDB.sourcePserver = "cmangosData", "cmangos"
     elseif Questie.IsCata then
-        local QuestieCataItemDrops = LibQuestieDB.Support.Get("QuestieCataItemDrops")
-        DropDB.tableWowhead = loadstring(QuestieCataItemDrops.wowheadData)()
-        DropDB.tablePserver = loadstring(QuestieCataItemDrops.mangos3Data)()
-        DropDB.sourcePserver = "mangos3"
+        wowheadModule, pserverModule = "QuestieCataItemDrops", "QuestieCataItemDrops"
+        pserverField, DropDB.sourcePserver = "mangos3Data", "mangos3"
     elseif Questie.IsMoP then
-        local QuestieMopItemDrops = LibQuestieDB.Support.Get("QuestieMopItemDrops")
-        local QuestieCataItemDrops = LibQuestieDB.Support.Get("QuestieCataItemDrops")
-        DropDB.tableWowhead = loadstring(QuestieMopItemDrops.wowheadData)()
-        DropDB.tablePserver = loadstring(QuestieCataItemDrops.mangos3Data)()
-        DropDB.sourcePserver = "mangos3"
-        -- we use cata mangos3 data for mop instead because mop DBs are so spotty;
-        -- this means mop-only quests will use wowhead data exclusively
+        -- MoP private-server data is sparse; MoP-only quests use Wowhead instead.
+        wowheadModule, pserverModule = "QuestieMopItemDrops", "QuestieCataItemDrops"
+        pserverField, DropDB.sourcePserver = "mangos3Data", "mangos3"
     else
         Questie.Error("ItemDrops: Unknown Expansion!")
+        return false, "ItemDrops: Unknown Expansion!"
     end
+
+    local wowheadSupport = LibQuestieDB.Support.Get(wowheadModule)
+    local pserverSupport = wowheadSupport
+    if pserverModule ~= wowheadModule then
+        pserverSupport = LibQuestieDB.Support.Get(pserverModule)
+    end
+    local valid, report = SupportValidation.ValidateTableShapes({
+        {wowheadModule, wowheadSupport},
+        {pserverModule, pserverSupport},
+    }, "DropTables", Expansions.Current)
+    if not valid then return false, report end
+
+    local decoded
+    decoded, report = SupportValidation.DecodeTables({
+        {"Wowhead", wowheadSupport.wowheadData},
+        {"Pserver", pserverSupport[pserverField]},
+    }, "DropTables", Expansions.Current)
+    if not decoded then return false, report end
+    DropDB.tableWowhead = decoded.Wowhead
+    DropDB.tablePserver = decoded.Pserver
 
     -- Only selected correction sources participate; later/unused flavors need not exist.
     local mergeInputs = {
@@ -75,7 +84,7 @@ function DropDB:Initialize()
             end
         end
     end
-    local valid, report = SupportValidation.ValidateTableShapes(mergeInputs, "DropTables", Expansions.Current)
+    valid, report = SupportValidation.ValidateTableShapes(mergeInputs, "DropTables", Expansions.Current)
     if not valid then return false, report end
 
     -- Corrections are loaded starting from Era; this means Era corrections are still
