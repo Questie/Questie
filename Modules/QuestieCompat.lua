@@ -547,10 +547,20 @@ function QuestieCompat.GetQuestGreenRange()
     return 5
 end
 
-if not GetItemCount and C_Item and C_Item.GetItemCount then
-    GetItemCount = function(item, includeBank, includeCharges, includeReagentBank)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemCount)
+---Returns the number of a given item in the player's inventory (and optionally bank).
+---@param item ItemId|string
+---@param includeBank boolean|nil
+---@param includeCharges boolean|nil
+---@param includeReagentBank boolean|nil
+---@return number itemCount
+function QuestieCompat.GetItemCount(item, includeBank, includeCharges, includeReagentBank)
+    if C_Item and C_Item.GetItemCount then
         return C_Item.GetItemCount(item, includeBank, includeCharges, includeReagentBank)
+    elseif GetItemCount then
+        return GetItemCount(item, includeBank, includeCharges, includeReagentBank)
     end
+    error(errorMsg, 2)
 end
 
 if not GetItemIcon and C_Item and C_Item.GetItemIconByID then

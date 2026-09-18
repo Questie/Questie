@@ -1022,18 +1022,18 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
     local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
     local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
+    if sourceItemId and QuestieCompat.GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
         tinsert(usableQuestItems, sourceItemId)
     end
 
     for _, itemId in pairs(quest.requiredSourceItems or {}) do
-        if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
+        if QuestieCompat.GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
             tinsert(usableQuestItems, itemId)
         end
     end
 
     for _, objective in pairs(quest.ObjectiveData) do
-        if objective.Type == "item" and GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
+        if objective.Type == "item" and QuestieCompat.GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
             tinsert(usableQuestItems, objective.Id)
         end
     end

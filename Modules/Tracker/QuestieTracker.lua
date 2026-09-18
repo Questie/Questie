@@ -449,10 +449,10 @@ function QuestieTracker:QuestItemLooted(text)
                 Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
             end)
 
-            if GetItemCount(itemId) == 0 then
+            if QuestieCompat.GetItemCount(itemId) == 0 then
                 -- If the item is not fully in the bag yet, we need to wait for it to be added
                 Questie:RegisterEvent("BAG_UPDATE_DELAYED", function()
-                    if GetItemCount(itemId) > 0 then
+                    if QuestieCompat.GetItemCount(itemId) > 0 then
                         -- API recognizes the item is in the bag now
                         Questie:UnregisterEvent("BAG_UPDATE_DELAYED")
                         QuestieCombatQueue:Queue(function()
