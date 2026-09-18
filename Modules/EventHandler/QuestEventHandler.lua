@@ -158,7 +158,7 @@ function QuestEventHandler:Initialize()
                             text:SetFormattedText(updateText, text_arg1, questName)
                             text.text_arg1 = updateText
 
-                            StaticPopup_Resize(frame, which)
+                            QuestieCompat.StaticPopup_Resize(frame, which)
                             deletedQuestItem = true
 
                             Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")

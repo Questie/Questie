@@ -957,38 +957,51 @@ function QuestieCompat.AbandonQuest()
     end
 end
 
-if not GetQuestIDFromLogIndex and C_QuestLog and C_QuestLog.GetQuestIDForLogIndex then
-    GetQuestIDFromLogIndex = function(questLogIndex)
+---@param questLogIndex number
+---@return QuestId questID
+function QuestieCompat.GetQuestIDFromLogIndex(questLogIndex)
+    if C_QuestLog and C_QuestLog.GetQuestIDForLogIndex then
         return C_QuestLog.GetQuestIDForLogIndex(questLogIndex)
+    elseif GetQuestIDFromLogIndex then
+        return GetQuestIDFromLogIndex(questLogIndex)
     end
+    error(errorMsg, 2)
 end
 
-if not QuestLog_SetSelection then
-    QuestLog_SetSelection = function(questLogIndex)
-        if C_QuestLog and C_QuestLog.SetSelectedQuest and C_QuestLog.GetQuestIDForLogIndex then
-            local questID = C_QuestLog.GetQuestIDForLogIndex(questLogIndex)
-            if questID then
-                return C_QuestLog.SetSelectedQuest(questID)
-            end
+---@param questLogIndex number
+function QuestieCompat.QuestLog_SetSelection(questLogIndex)
+    if C_QuestLog and C_QuestLog.SetSelectedQuest and C_QuestLog.GetQuestIDForLogIndex then
+        local questID = C_QuestLog.GetQuestIDForLogIndex(questLogIndex)
+        if questID then
+            return C_QuestLog.SetSelectedQuest(questID)
         end
+        return
+    elseif QuestLog_SetSelection then
+        return QuestLog_SetSelection(questLogIndex)
     end
 end
 
 -- Redraw helpers for the old quest log window, which no longer exists.
-if not QuestLog_UpdateQuestDetails then
-    QuestLog_UpdateQuestDetails = function() end
+function QuestieCompat.QuestLog_UpdateQuestDetails()
+    if QuestLog_UpdateQuestDetails then
+        return QuestLog_UpdateQuestDetails()
+    end
 end
 
-if not StaticPopup_Resize then
-    StaticPopup_Resize = function() end
+function QuestieCompat.StaticPopup_Resize(...)
+    if StaticPopup_Resize then
+        return StaticPopup_Resize(...)
+    end
 end
 
 -- Questie uses this only for "Copied URL to clipboard" feedback.
-if not ActionStatus_DisplayMessage then
-    ActionStatus_DisplayMessage = function(message)
-        if UIErrorsFrame and message then
-            UIErrorsFrame:AddMessage(message, 1, 1, 1)
-        end
+---@param message string
+function QuestieCompat.ActionStatus_DisplayMessage(message)
+    if ActionStatus_DisplayMessage then
+        return ActionStatus_DisplayMessage(message)
+    end
+    if UIErrorsFrame and message then
+        UIErrorsFrame:AddMessage(message, 1, 1, 1)
     end
 end
 

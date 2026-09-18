@@ -384,7 +384,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
             if key == "C" and IsControlKeyDown() then
                 C_Timer.After(0.1, function()
                     editBox:GetParent():Hide()
-                    ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
+                    QuestieCompat.ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
                 end)
             end
         end)
@@ -547,7 +547,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
             if key == "C" and IsControlKeyDown() then
                 C_Timer.After(0.1, function()
                     editBox:GetParent():Hide()
-                    ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
+                    QuestieCompat.ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
                 end)
             end
         end)

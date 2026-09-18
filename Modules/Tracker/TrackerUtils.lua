@@ -113,7 +113,7 @@ function TrackerUtils:ShowQuestLog(quest)
         end
     end
 
-    QuestLog_UpdateQuestDetails()
+    QuestieCompat.QuestLog_UpdateQuestDetails()
     QuestLog_Update()
 end
 
