@@ -93,7 +93,7 @@ function TrackerUtils:ShowQuestLog(quest)
     -- Classic path
     local questFrame = QuestieCompat.GetQuestLogFrame()
     --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
-    local questLogIndex = GetQuestLogIndexByID(quest.Id)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(quest.Id)
     QuestieCompat.SelectQuestLogEntry(questLogIndex)
 
     -- Scroll to the quest in the quest log
@@ -366,7 +366,7 @@ end
 function TrackerUtils:GetCompletionText(quest)
     local completionText
     if GetQuestLogCompletionText then
-        local questIndex = GetQuestLogIndexByID(quest.Id)
+        local questIndex = QuestieCompat.GetQuestLogIndexByID(quest.Id)
         completionText = GetQuestLogCompletionText(questIndex)
     end
 
@@ -1153,7 +1153,7 @@ function TrackerUtils.HasQuest()
             local isTrackingIncompleteQuest = false
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
                 if not quest then break end
-                if (IsQuestWatched or QuestieCompat.IsQuestWatched)(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                if (IsQuestWatched or QuestieCompat.IsQuestWatched)(QuestieCompat.GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
                     isTrackingIncompleteQuest = true
                     break
                 end

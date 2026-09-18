@@ -187,7 +187,7 @@ function QuestieTracker.Initialize()
 
             -- Remove quest from the Blizzard Quest Watch and populate the tracker.
             for _, questId in pairs(tempQuestIDs) do
-                local questIndex = GetQuestLogIndexByID(questId)
+                local questIndex = QuestieCompat.GetQuestLogIndexByID(questId)
                 if questIndex then
                     QuestieTracker:AQW_Insert(questIndex, QUEST_WATCH_NO_EXPIRE)
                 end

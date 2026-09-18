@@ -17,7 +17,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@param breadcrumbQuestId number
 ---@return boolean @Whether the quest was abandoned
 function BreadcrumbQuests.AbandonQuest(questId, breadcrumbQuestId)
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if questLogIndex and questLogIndex > 0 then
         QuestieCompat.SelectQuestLogEntry(questLogIndex)
         QuestieCompat.SetAbandonQuest()

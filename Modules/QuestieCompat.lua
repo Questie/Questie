@@ -668,10 +668,17 @@ function QuestieCompat.GetFactionInfoByID(factionID)
     error(errorMsg, 2)
 end
 
-if not GetQuestLogIndexByID and C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
-    GetQuestLogIndexByID = function(questID)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogIndexByID)
+---Returns the quest log index for a given quest ID.
+---@param questID QuestId
+---@return number questLogIndex
+function QuestieCompat.GetQuestLogIndexByID(questID)
+    if C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
         return C_QuestLog.GetLogIndexForQuestID(questID)
+    elseif GetQuestLogIndexByID then
+        return GetQuestLogIndexByID(questID)
     end
+    error(errorMsg, 2)
 end
 
 if not GetQuestLink and C_QuestLog and C_QuestLog.GetQuestLink then

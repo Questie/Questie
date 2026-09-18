@@ -91,7 +91,7 @@ end
 ---@return string? timeRemainingString @Format is "4 Mins 45 Secs"
 ---@return number? timeRemaining
 function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if (not questLogIndex) then
         return nil
     end

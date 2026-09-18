@@ -43,7 +43,7 @@ function VoiceOverPlayButton.New(index, parent)
                 if button then
                     if not VoiceOver.QuestOverlayUI.questPlayButtons[self.mode].soundData then
                         local type, id = VoiceOver.DataModules:GetQuestLogQuestGiverTypeAndID(self.mode)
-                        local title = QuestieCompat.GetQuestLogTitle(GetQuestLogIndexByID(self.mode))
+                        local title = QuestieCompat.GetQuestLogTitle(QuestieCompat.GetQuestLogIndexByID(self.mode))
                         VoiceOver.QuestOverlayUI.questPlayButtons[self.mode].soundData = {
                             event = VoiceOver.Enums.SoundEvent.QuestAccept,
                             questID = self.mode,

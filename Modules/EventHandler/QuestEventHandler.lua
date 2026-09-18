@@ -235,7 +235,7 @@ end
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- The quest may have been abandoned (e.g. auto-abandon for incomplete breadcrumb) while waiting for the cache
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if not questLogIndex or questLogIndex == 0 then
         Questie.Debug(Questie.DEBUG_INFO, "Quest", questId, "is no longer in the quest log, skipping accept logic")
         return
