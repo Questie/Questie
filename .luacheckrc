@@ -2851,6 +2851,18 @@ globals = {
     "EXPANSION_NAME4",
     "FACTION_STANDING_CHANGED",
     "RESET",
+    -- Forever globals
+    "AuraUtil.UnpackAuraData",
+    "C_Reputation.ExpandFactionHeader",
+    "C_Reputation.GetFactionDataByID",
+    "C_Reputation.GetFactionDataByIndex",
+    "C_Reputation.GetNumFactions",
+    "C_Spell.GetSpellInfo",
+    "C_UnitAuras.GetAuraDataByIndex",
+    "GetProfessions",
+    "ObjectiveTrackerFrame",
+    "SetDesaturation",
+    "TooltipDataProcessor.AddTooltipPostCall",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
     "Krowi_WorldMapButtons1",
