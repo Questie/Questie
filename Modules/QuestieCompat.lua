@@ -20,7 +20,7 @@ local WatchFrame = QuestWatchFrame or WatchFrame
 --- If all of these are nil it's fine to crash so users report it.
 ---@return frame
 function QuestieCompat.GetQuestLogFrame()
-    return QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+    return QuestLogExFrame or ClassicQuestLog or QuestLogFrame or QuestMapFrame
 end
 
 ------------------------------------------
