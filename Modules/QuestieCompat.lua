@@ -14,7 +14,7 @@ local tinsert = table.insert
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local WatchFrame = QuestWatchFrame or WatchFrame
+local WatchFrame = QuestWatchFrame or WatchFrame or ObjectiveTrackerFrame
 
 ------------------------------------------
 -- Older client compatibility (pre 1.14.1)
@@ -321,11 +321,6 @@ function QuestieCompat.IsSpellKnown(spellID)
 end
 
 function QuestieCompat.HideWatchFrame()
-    if Questie.IsForever then
-        -- WoW: Forever has no Classic WatchFrame to hide
-        return
-    end
-
     if Questie.IsTitanReforged then
         -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
         -- details: https://github.com/Questie/Questie/issues/7497
@@ -336,11 +331,6 @@ function QuestieCompat.HideWatchFrame()
 end
 
 function QuestieCompat.ShowWatchFrame()
-    if Questie.IsForever then
-        -- WoW: Forever has no Classic WatchFrame to show
-        return
-    end
-
     if Questie.IsTitanReforged then
         -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
         -- details: https://github.com/Questie/Questie/issues/7497
@@ -351,9 +341,5 @@ function QuestieCompat.ShowWatchFrame()
 end
 
 function QuestieCompat.GetWatchFramePoint()
-    if Questie.IsForever then
-        return
-    end
-
     return WatchFrame:GetPoint()
 end
