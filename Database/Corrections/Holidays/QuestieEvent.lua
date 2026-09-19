@@ -532,7 +532,7 @@ QuestieEvent.eventDates = {
         endHour = 10,
         endMinute = 0,
     },
-    ["Midsummer"] = 
+    ["Midsummer"] =
         -- Fixed calendar days: 21 Jun 4 AM - 4 Jul 4 AM
         not Questie.IsTitanReforged and { -- regular servers
             startDate = "21/6",
@@ -557,13 +557,22 @@ QuestieEvent.eventDates = {
         endHour = 10,
         endMinute = 0,
     },
-    ["Brewfest"] = { -- TODO: This might be different (retail date)
+    ["Brewfest"] =
+    -- TODO: This might be different (retail date)
+    not Questie.IsTitanReforged and { -- regular servers
+            startDate = "20/9",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "6/10",
+            endHour = 10,
+            endMinute = 0,
+        } or { -- Titan servers
         startDate = "20/9",
-        startHour = 10,
-        startMinute = 0,
-        endDate = "6/10",
-        endHour = 10,
-        endMinute = 0,
+        startHour = 0,
+        startMinute = 1,
+        endDate = "5/10",
+        endHour = 23,
+        endMinute = 59,
     },
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "21/9",
@@ -573,13 +582,21 @@ QuestieEvent.eventDates = {
         endHour = 23,
         endMinute = 59,
     },
-    ["Hallow's End"] = { -- WARNING THIS DATE VARIES!!!!
+    ["Hallow's End"] =  -- WARNING THIS DATE VARIES!!!!
+        not Questie.IsTitanReforged and { -- regular servers
+            startDate = "18/10",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "1/11",
+            endHour = 11,
+            endMinute = 0,
+        } or { -- Titan servers
         startDate = "18/10",
-        startHour = 10,
+        startHour = 1,
         startMinute = 0,
-        endDate = "1/11",
-        endHour = 11,
-        endMinute = 0,
+        endDate = "31/10",
+        endHour = 23,
+        endMinute = 59,
     },
     ["Day of the Dead"] = {
         startDate = "1/11",
