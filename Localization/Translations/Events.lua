@@ -340,6 +340,18 @@ local eventsLocales = {
         ["zhCN"] = "泰坦重铸服务器",
         ["zhTW"] = true,
     },
+    ["Pirates' Day"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = true,
+        ["koKR"] = true,
+        ["ptBR"] = true,
+        ["ruRU"] = true,
+        ["zhCN"] = "海盗日",
+        ["zhTW"] = true,
+    },
 }
 
 for k, v in pairs(eventsLocales) do
