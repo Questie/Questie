@@ -13,6 +13,8 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type CommsVisibility
@@ -648,7 +650,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         name = function() return l10n("Sticky VoiceOver Frame") end,
                         desc = function() return l10n("If checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        hidden = function() return not (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla")) end,
+                        hidden = function() return not TrackerUtils:IsVoiceOverLoaded() end,
                         get = function() return Questie.db.profile.stickyVoiceOverFrame end,
                         set = function(_, value)
                             Questie.db.profile.stickyVoiceOverFrame = value

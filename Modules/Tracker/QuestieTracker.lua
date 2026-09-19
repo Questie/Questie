@@ -66,9 +66,6 @@ local lastAchieveId = GetTime()
 local durabilityInitialPosition
 
 local voiceOverInitialPosition
-if VoiceOverFrame then
-    voiceOverInitialPosition = {VoiceOverFrame:GetPoint()}
-end
 
 local questsWatched = GetNumQuestWatches()
 
@@ -385,6 +382,11 @@ function QuestieTracker:UpdateVoiceOverFrame()
     if TrackerUtils:IsVoiceOverLoaded() then
         if QuestieTracker.started and Questie.db.profile.trackerEnabled and Questie.db.profile.stickyVoiceOverFrame then
             if Questie.db.char.isTrackerExpanded and TrackerUtils.HasQuest() then
+                -- Redux can load after Questie. Save its position before we first move it, not at file load.
+                if not voiceOverInitialPosition then
+                    voiceOverInitialPosition = {VoiceOverFrame:GetPoint()}
+                end
+
                 -- screen width accounting for scale
                 local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
                 -- middle of the frame, first return is x value, second return is the y value
@@ -1005,7 +1007,7 @@ function QuestieTracker:Update()
                     -- Adds 4 pixels between Quest Title and first Objective
                     line:SetHeight(line.label:GetHeight() + 4)
 
-                    -- Adds the AI_VoiceOver Play Buttons
+                    -- Adds the VoiceOver play buttons
                     line.playButton:SetPlayButton(questId)
 
                     local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerBaseFrame, isMinimizable,
