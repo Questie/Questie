@@ -342,15 +342,15 @@ local eventsLocales = {
     },
     ["Pirates' Day"] = {
         ["enUS"] = true,
-        ["deDE"] = true,
-        ["esES"] = true,
-        ["esMX"] = true,
-        ["frFR"] = true,
-        ["koKR"] = true,
-        ["ptBR"] = true,
-        ["ruRU"] = true,
+        ["deDE"] = "Piratentag",
+        ["esES"] = "Día de los Piratas",
+        ["esMX"] = "Día de los Piratas",
+        ["frFR"] = "Jour des pirates",
+        ["koKR"] = "해적의 날",
+        ["ptBR"] = "Dia dos Piratas",
+        ["ruRU"] = "День пирата",
         ["zhCN"] = "海盗日",
-        ["zhTW"] = true,
+        ["zhTW"] = "海盜節",
     },
 }
 
