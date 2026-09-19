@@ -95,9 +95,10 @@ def main():
         shutil.rmtree("releases/%s" % release_dir)
 
     release_folder_path = "releases/%s" % release_dir
-    release_addon_folder_path = release_folder_path + ("/%s" % addonDir)
+    release_addon_folder_path = release_folder_path + ("/tmp/%s" % addonDir)
 
     copy_content_to(release_addon_folder_path)
+    copy_db_content_to(release_folder_path + "/tmp")
 
     if versionOverride != "":
         for tocN in includedExpansions:
@@ -111,7 +112,7 @@ def main():
                         print(line, end="")
 
     zip_name = "%s-%s" % (addonDir, release_dir)
-    zip_release_folder(zip_name, release_dir, addonDir)
+    zip_release_folder(zip_name, release_dir)
 
     interface_classic = get_interface_versions()
     interface_bcc = get_interface_versions("BCC")
@@ -217,12 +218,23 @@ def copy_content_to(release_folder_path):
                 shutil.copy2(file, "%s/%s" % (release_folder_path, file))
         break
 
+def copy_db_content_to(release_folder_path, useLocal=False):
+    if useLocal:
+        dbPath = "../QuestieDB"
+        # TODO add manual file copy from local repo
+    else:
+        from urllib.request import urlretrieve
+        zipPath = release_folder_path + '/QuestieDB-all.zip'
+        urlretrieve('https://github.com/Questie/QuestieDB/releases/latest/download/QuestieDB-all.zip', zipPath)
+        shutil.unpack_archive(zipPath, release_folder_path)
+        os.remove(zipPath)
 
-def zip_release_folder(zip_name, version_dir, addon_dir):
+def zip_release_folder(zip_name, version_dir):
     root = os.getcwd()
     os.chdir("releases/%s" % version_dir)
     print("Zipping %s" % zip_name)
-    shutil.make_archive(zip_name, "zip", ".", addon_dir)
+    shutil.make_archive(zip_name, "zip", "tmp", ".")
+    shutil.rmtree("tmp")
     os.chdir(root)
 
 
