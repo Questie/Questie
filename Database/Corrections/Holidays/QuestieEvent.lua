@@ -605,6 +605,7 @@ QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
+        ["Pirates' Day"] = false,
         ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
             -- Date is set for 2027. Please update this every year.
             startDate = "28/3",
