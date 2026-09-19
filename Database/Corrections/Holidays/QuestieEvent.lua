@@ -500,12 +500,20 @@ end
 
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
-    ["Winter Veil"] = {
+    ["Winter Veil"] =
+        not Questie.IsTitanReforged and { -- regular servers
+            startDate = "15/12",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "2/1",
+            endHour = 10,
+            endMinute = 0,
+        } or { -- Titan servers
         startDate = "15/12",
-        startHour = 10,
+        startHour = 6,
         startMinute = 0,
         endDate = "2/1",
-        endHour = 10,
+        endHour = 6,
         endMinute = 0,
     },
     ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
