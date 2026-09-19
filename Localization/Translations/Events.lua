@@ -13,7 +13,7 @@ local eventsLocales = {
         ["koKR"] = "월드 이벤트 '%s' 활성화",
         ["ptBR"] = "O evento mundial '%s' está ativo!",
         ["ruRU"] = "Игровое событие '%s' активно!",
-        ["zhCN"] = "世界任务'%s'已开始！",
+        ["zhCN"] = "世界事件'%s'已开始！",
         ["zhTW"] = "世界事件'%s'已開始！",
     },
     ["The Darkmoon Faire is up in %s!"] = {
