@@ -4,7 +4,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local eventsLocales = {
-    ["The '%s' world event is active!"] = {
+    ["The \"%s\" world event is active!"] = {
         ["enUS"] = true,
         ["deDE"] = "Das '%s' Feiertag-Event ist aktiv!",
         ["esES"] = "¡El evento del mundo '%s' está activo!",

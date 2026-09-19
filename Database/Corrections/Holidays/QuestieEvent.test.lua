@@ -406,7 +406,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Darkmoon Faire\" world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
@@ -434,7 +434,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Darkmoon Faire\" world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
@@ -462,7 +462,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Darkmoon Faire' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Darkmoon Faire\" world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
@@ -866,7 +866,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Love is in the Air' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Love is in the Air\" world event is active!")
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
@@ -906,7 +906,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Winter Veil' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Winter Veil\" world event is active!")
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
@@ -926,7 +926,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Winter Veil' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Winter Veil\" world event is active!")
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
@@ -968,7 +968,7 @@ describe("QuestieEvent", function()
             QuestieEvent:Load()
 
             -- Event itself prints active
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Noblegarden' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Noblegarden\" world event is active!")
             -- But quest sub-window (Apr 6-10) does not include Apr 5, so quest should not be active
             assert.is_nil(next(QuestieEvent.activeQuests))
         end)
@@ -989,7 +989,7 @@ describe("QuestieEvent", function()
 
             QuestieEvent:Load()
 
-            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The 'Noblegarden' world event is active!")
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Noblegarden\" world event is active!")
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
     end)

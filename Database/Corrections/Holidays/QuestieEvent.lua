@@ -182,7 +182,7 @@ function QuestieEvent:Load()
 
         if _WithinDates(startDay, startMonth, startHour, startMinute, endDay, endMonth, endHour, endMinute) and (eventCorrections[eventName] ~= false) then
             if Questie.db.profile.showEventQuests then
-                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
+                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The \"%s\" world event is active!", l10n(eventName)))
             end
             activeEvents[eventName] = true
         end
@@ -245,7 +245,7 @@ function QuestieEvent:Load()
 
     if dmfIsActive then
         if Questie.db.profile.showEventQuests then
-            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The \"%s\" world event is active!", l10n("Darkmoon Faire")))
         end
     end
 
