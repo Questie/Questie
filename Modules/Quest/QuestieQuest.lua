@@ -18,6 +18,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type MapDrawQueue
+local MapDrawQueue = QuestieLoader:ImportModule("MapDrawQueue")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieLib
@@ -351,7 +353,7 @@ function QuestieQuest:SmoothReset()
             return QuestLogCache.TestGameCache()
         end,
         function()
-            return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
+            return MapDrawQueue.IsEmpty() -- wait until draw queue is finished
         end,
         function()
             QuestieQuest._clearAllNotesDone = false
@@ -371,7 +373,7 @@ function QuestieQuest:SmoothReset()
             return true
         end,
         function()
-            return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
+            return MapDrawQueue.IsEmpty() -- wait until draw queue is finished
         end,
         function()
             -- reset quest log
@@ -417,7 +419,7 @@ function QuestieQuest:SmoothReset()
             return not QuestieQuest._nextRestQuest
         end,
         function()
-            return (not QuestieQuest._resetNeedsAvailables) and #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0
+            return (not QuestieQuest._resetNeedsAvailables) and MapDrawQueue.IsEmpty()
         end,
         function()
             QuestieQuest._isResetting = nil

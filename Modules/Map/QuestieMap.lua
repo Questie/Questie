@@ -22,6 +22,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
 ---@type Phasing
 local Phasing = QuestieLoader:ImportModule("Phasing")
+---@type MapDrawQueue
+local MapDrawQueue = QuestieLoader:ImportModule("MapDrawQueue")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -69,8 +71,7 @@ if Questie.IsHardcore then
 end
 
 
-local drawTimer
-local drawQueueTickRate
+local fadeTicker
 local fadeLogicCoroutine
 
 local _MinimapIconSetFade, _MinimapIconFadeLogic
@@ -196,26 +197,54 @@ function QuestieMap:RescaleTownsfolkIcons()
     end
 end
 
-local mapDrawQueue = {};
-local minimapDrawQueue = {};
+-- What drawing one queued icon means. Handed to MapDrawQueue rather than written inside it: the queue's
+-- business is ordering and budget, while this is HereBeDragons, icon scale and frame lifecycle, which is
+-- QuestieMap's. Named to pair with QueueDraw above - queued on the way in, drawn on the way out. File-scope
+-- rather than closures rebuilt per cycle, so a cycle allocates nothing.
 
-QuestieMap._mapDrawQueue = mapDrawQueue
-QuestieMap._minimapDrawQueue = minimapDrawQueue
+---@param drawCall table
+---@param scaleValue number
+local function DrawQueuedWorldIcon(drawCall, scaleValue)
+    local frame = drawCall[2];
+    HBDPins:AddWorldMapIconMap(tunpack(drawCall));
+
+    --? If you ever chanage this logic, make sure you change the logic in QuestieMap.utils:RescaleIcon function too!
+    -- Use globalTownsfolkScale for townsfolk icons, globalScale for quest icons
+    local scaleProfile = frame.isManualIcon and Questie.db.profile.globalTownsfolkScale or Questie.db.profile.globalScale
+    local size = (16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7)) * scaleValue;
+    frame:SetSize(size, size)
+
+    QuestieMap.utils.SetDrawOrder(frame);
+
+    frame._loaded = true
+    if frame._needsUnload then
+        QuestieFramePool:UnloadFrame(frame)
+    end
+end
+
+---@param drawCall table
+local function DrawQueuedMinimapIcon(drawCall)
+    local frame = drawCall[2];
+    HBDPins:AddMinimapIconMap(tunpack(drawCall));
+
+    QuestieMap.utils.SetDrawOrder(frame);
+
+    frame._loaded = true
+    if frame._needsUnload then
+        QuestieFramePool:UnloadFrame(frame)
+    end
+end
 
 function QuestieMap:InitializeQueue() -- now called on every loading screen
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
-    local isInInstance, instanceType = IsInInstance()
+    -- GetScaleValue rather than its result: it reaches through HBD into C_Map and is read once per cycle.
+    MapDrawQueue.Start(DrawQueuedWorldIcon, DrawQueuedMinimapIcon, QuestieMap.GetScaleValue)
 
-    if isInInstance and instanceType == "raid" then
-        drawQueueTickRate = 0.4 -- slower update rate in raids
-    else
-        drawQueueTickRate = 0.2
-    end
-
-    if not drawTimer then
-        drawTimer = C_Timer.NewTicker(drawQueueTickRate, QuestieMap.ProcessQueue)
+    -- Minimap fading is a separate subsystem that merely starts in the same place. It has nothing to do with
+    -- the draw queue beyond both being work this addon spreads over time.
+    if not fadeTicker then
         -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
-        C_Timer.NewTicker(0.1, function()
+        fadeTicker = C_Timer.NewTicker(0.1, function()
             if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
                 local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
                 if (not success) then
@@ -327,51 +356,9 @@ end
 
 function QuestieMap:QueueDraw(drawType, ...)
     if (drawType == QuestieMap.ICON_MAP_TYPE) then
-        tinsert(mapDrawQueue, {...});
+        MapDrawQueue.PushWorld({...});
     elseif (drawType == QuestieMap.ICON_MINIMAP_TYPE) then
-        tinsert(minimapDrawQueue, {...});
-    end
-end
-
-function QuestieMap.ProcessQueue()
-    if (not next(mapDrawQueue) and (not next(minimapDrawQueue))) then
-        -- Nothing to process
-        return
-    end
-
-    local scaleValue = QuestieMap.GetScaleValue()
-    for _ = 1, math.min(24, math.max(#mapDrawQueue, #minimapDrawQueue)) do
-        local mapDrawCall = tremove(mapDrawQueue, 1);
-        if mapDrawCall then
-            local frame = mapDrawCall[2];
-            HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-
-            --? If you ever chanage this logic, make sure you change the logic in QuestieMap.utils:RescaleIcon function too!
-            -- Use globalTownsfolkScale for townsfolk icons, globalScale for quest icons
-            local scaleProfile = frame.isManualIcon and Questie.db.profile.globalTownsfolkScale or Questie.db.profile.globalScale
-            local size = (16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7)) * scaleValue;
-            frame:SetSize(size, size)
-
-            QuestieMap.utils.SetDrawOrder(frame)
-
-            mapDrawCall[2]._loaded = true
-            if mapDrawCall[2]._needsUnload then
-                QuestieFramePool:UnloadFrame(mapDrawCall[2])
-            end
-        end
-
-        local minimapDrawCall = tremove(minimapDrawQueue, 1);
-        if minimapDrawCall then
-            local frame = minimapDrawCall[2];
-            HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-
-            QuestieMap.utils.SetDrawOrder(frame)
-
-            minimapDrawCall[2]._loaded = true
-            if minimapDrawCall[2]._needsUnload then
-                QuestieFramePool:UnloadFrame(minimapDrawCall[2])
-            end
-        end
+        MapDrawQueue.PushMinimap({...});
     end
 end
 
