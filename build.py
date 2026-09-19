@@ -29,7 +29,7 @@ This program accepts optional command line options:
     -ca
     --cata
         Include Cata files
-        
+
     -m
     --mop
         Include MoP files
@@ -102,7 +102,7 @@ def main():
     if versionOverride != "":
         for tocN in includedExpansions:
             toc = tocs[tocN]
-            questie_toc_path = release_addon_folder_path + toc
+            questie_toc_path = release_addon_folder_path + "/" + toc
             with fileinput.FileInput(questie_toc_path, inplace=True) as file:
                 for line in file:
                     if line[:10] == "## Version":
