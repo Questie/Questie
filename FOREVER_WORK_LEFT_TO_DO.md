@@ -9,6 +9,7 @@ Keep Classic behavior intact unless a separate, tested change is justified. Do n
 - **Finding 1, Object-tooltip scanning:** implemented, pending the documented manual validation. Forever uses structured Object callbacks; Classic retains its scanner. Unit/Item tooltip text and count handling remains separate work. Do not expand or reopen the tooltip implementation as part of the items below without agreement.
 - **Findings 2–5:** audit the retained watch globals, confirmation-popup mutations, aura inspection, and secure item/map behavior.
 - **Finding 6, QuestieAuto:** review automatic quest interaction as a complete event-driven workflow, not just individual API names.
+- **Finding 7, legacy API and fallback audit:** complete; see the [audit report](LEGACY_API_AUDIT.md). Implementation awaits review and selection of follow-up changes.
 - **SavedVariables:** parked as a known beta-client problem. Do not add persistence workarounds under this audit.
 
 References:
@@ -231,6 +232,49 @@ Start with explicit tests for selection contracts, modifier policy, exclusions, 
 
 **Done when:** normal configured automation works on Forever, the user's override consistently wins where intended, stale events cannot act on another interaction, native restrictions do not create retry loops or blocked-action spam, and any unsupported step falls back to ordinary manual interaction. Preserve separately tested Classic behavior.
 
+## 7. Legacy API and redundant fallback audit
+
+**Status: audit complete.** The [legacy API audit report](LEGACY_API_AUDIT.md) contains the findings, skeptical review, supported-build caveats, and proposed implementation order. Proposed simplifications are not approved or implemented changes.
+
+### Goal and scope
+
+Identify legacy API calls and compatibility branches whose modern replacements already exist across supported Classic clients and Forever. Namespaced APIs are not necessarily Retail-only. For example:
+
+```lua
+local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
+local GetItemIcon = C_Item.GetItemIconByID or QuestieCompat.GetItemIcon
+```
+
+The [Classic API availability reference](docs/classic-api-availability.md) marks both namespaced functions available across its sampled Classic and Retail builds. That makes these useful audit candidates, not automatic permission to remove their fallbacks. The reference has no Forever column and does not establish Questie's minimum supported build.
+
+The audit divided functions into API families across seven read-only investigators. Each investigator traced its assigned functions through all consumers, including [QuestieCompat](Modules/QuestieCompat.lua), rather than reviewing isolated folders. Families cover items/inventory, quest logs/watches, gossip/quest interactions, reputation/spells/auras/professions, tooltips/UI, and maps/units/group APIs.
+
+Look for:
+
+- Legacy calls with supported modern replacements.
+- Obsolete fallbacks and consumer-side API selection duplicated by QuestieCompat.
+- Inconsistent selection between consumers.
+- Deprecated Blizzard UI globals or frame assumptions.
+- Wrappers that must remain because they preserve meaningful behavior rather than merely rename an API.
+
+### Evidence and deliverable
+
+Compare arguments, defaults, tuple/table returns, nil/false/zero semantics, IDs versus indices, cache behavior, event/hook effects, load order, and restricted-data rules. Some Forever legacy globals exist but fail internally; symbol presence alone does not prove compatibility.
+
+Use the saved reference as availability evidence, with matching Blizzard source where needed. Blank cells and missing rows are not proof of absence. Make removal recommendations conditional when the supported-build policy is unclear.
+
+The report should group findings by function/contract, list affected callers and source evidence, and classify them as:
+
+- Safe simplification candidate.
+- Conditional on supported-build policy.
+- Requires contract adaptation.
+- Keep: meaningful compatibility behavior.
+- Insufficient evidence.
+
+A separate skeptical reviewer challenged the strongest simplification recommendations. The report records remaining verification and a proposed implementation order. No production code changed, and the scoped tooltip migration was not reopened.
+
+**Audit done when:** the consolidated, reviewed report identifies actionable candidates, justified retained wrappers, support-policy decisions, and coverage gaps. Audit completion does not mean those changes are implemented; track approved follow-up work separately.
+
 ## Recommended order and completion record
 
 1. Audit Forever's watch-global replacements and their internal callers.
@@ -238,6 +282,8 @@ Start with explicit tests for selection contracts, modifier policy, exclusions, 
 3. Define aura/reputation behavior when data is inaccessible.
 4. Validate secure quest-item buttons and map actions through real combat transitions.
 5. Audit QuestieAuto's full interaction lifecycle.
+
+Review the [completed legacy API audit](LEGACY_API_AUDIT.md) before scheduling implementation; coordinate overlapping watch, aura, and quest-interaction changes with the items above.
 
 The existing tooltip review recipe remains a separate merge-validation requirement, not an invitation to expand that implementation.
 
