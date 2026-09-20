@@ -12,16 +12,15 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 
 local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
 -- === Below code borrowed from ShutUp to implement Questie logo swapping for chat messages ===
 
--- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter/RemoveMessageEventFilter instead of ChatFrame_AddMessageEventFilter/RemoveMessageEventFilter
+-- Compatibility: newer clients expose the chat filter registration through ChatFrameUtil.
 local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
-local ChatFrameRemoveMessageEventFilter = ChatFrameUtil and ChatFrameUtil.RemoveMessageEventFilter or ChatFrame_RemoveMessageEventFilter
 
 -- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
 local function SafeAddMessageEventFilter(event, filter)

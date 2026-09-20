@@ -55,7 +55,7 @@ local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
-local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -93,7 +93,7 @@ local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame or _G.QuestMapFrame
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 local WatchFrame_Update = QuestWatch_Update or QuestieCompat.WatchFrame_Update
-local GetItemCount = C_Item.GetItemCount or QuestieCompat.GetItemCount
+local GetItemCount = QuestieCompat.GetItemCount
 
 function QuestieTracker.Initialize()
     assert(coroutine.running(), "QuestieTracker.Initialize must be called from a coroutine")

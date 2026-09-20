@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
@@ -25,10 +26,12 @@ describe("TrackerItemButton", function()
     local QuestieDB
     ---@type TrackerItemButton
     local TrackerItemButton
+    local getItemCountMock
 
     before_each(function()
         Questie.db.profile = {}
         CreateFrame.resetMockedFrames()
+        getItemCountMock = stub(QuestieCompat, "GetItemCount", function() return 3 end)
 
         -- QuestieDB binds the provider schema and queries at file load.
         LoadQuestieDBMock()
@@ -37,6 +40,10 @@ describe("TrackerItemButton", function()
 
         dofile("Modules/Tracker/LinePool/TrackerItemButton.lua")
         TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
+    end)
+
+    after_each(function()
+        getItemCountMock:revert()
     end)
 
     it("should return an item button", function()
@@ -74,7 +81,8 @@ describe("TrackerItemButton", function()
             assert.is_true(trackerItemButton:IsVisible())
             assert.is_equal(123, trackerItemButton.itemId)
             assert.is_equal(1, trackerItemButton.questID)
-            assert.is_equal(0, trackerItemButton.charges)
+            assert.is_equal(3, trackerItemButton.charges)
+            assert.spy(getItemCountMock).was.called_with(123, nil, true)
             assert.is_equal(-1, trackerItemButton.rangeTimer)
 
             assert.is_equal(11111, trackerItemButton:GetNormalTexture():GetTexture())

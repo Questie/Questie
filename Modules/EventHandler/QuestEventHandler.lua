@@ -51,7 +51,7 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type BreadcrumbQuests
 local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
 
-local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",

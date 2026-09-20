@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 _G.GetQuestTimers = function() return nil end
 
@@ -39,6 +40,54 @@ describe("QuestieTracker", function()
 
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+    end)
+
+    describe("QuestItemLooted", function()
+        local getItemInfoMock, getItemCountMock, usableItemMock, afterMock, registerEventMock
+        local originalTimer
+
+        before_each(function()
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            getItemInfoMock = stub(compat, "GetItemInfo")
+            getItemInfoMock.returns(nil, nil, nil, nil, nil, "Quest")
+            getItemCountMock = stub(compat, "GetItemCount", function() return 1 end)
+            usableItemMock = stub(TrackerUtils, "IsQuestItemUsable", function() return true end)
+            originalTimer = _G.C_Timer
+            afterMock = spy.new(function() end)
+            _G.C_Timer = {After = afterMock}
+            registerEventMock = stub(Questie, "RegisterEvent")
+            dofile("Modules/Tracker/QuestieTracker.lua")
+        end)
+
+        after_each(function()
+            getItemInfoMock:revert()
+            getItemCountMock:revert()
+            usableItemMock:revert()
+            _G.C_Timer = originalTimer
+            registerEventMock:revert()
+        end)
+
+        it("schedules a tracker refresh when the looted quest item is already in the bag", function()
+            QuestieTracker:QuestItemLooted("You receive loot: |Hitem:123|h[A Letter]|h")
+
+            assert.spy(getItemInfoMock).was.called_with(123)
+            assert.spy(getItemCountMock).was.called_with(123)
+            assert.spy(afterMock).was.called(2)
+            assert.equal(0.25, afterMock.calls[1].vals[1])
+            assert.equal(0.5, afterMock.calls[2].vals[1])
+            assert.spy(registerEventMock).was.not_called()
+        end)
+
+        it("waits for a bag update when the looted quest item is not in the bag yet", function()
+            getItemCountMock.returns(0)
+
+            QuestieTracker:QuestItemLooted("You receive loot: |Hitem:123|h[A Letter]|h")
+
+            assert.spy(getItemCountMock).was.called_with(123)
+            assert.spy(registerEventMock).was.called(1)
+            assert.equal("BAG_UPDATE_DELAYED", registerEventMock.calls[1].vals[2])
+            assert.spy(afterMock).was.called(1)
+        end)
     end)
 
     describe("legacy watch hook ownership", function()

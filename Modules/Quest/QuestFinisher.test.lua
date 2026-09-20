@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 describe("QuestFinisher", function()
     ---@type QuestieDB
@@ -19,6 +20,7 @@ describe("QuestFinisher", function()
 
     local match = require("luassert.match")
     local _ = match._ -- any match
+    local isQuestFlaggedCompletedMock
 
     before_each(function()
         Questie.db.char.complete = {}
@@ -29,7 +31,8 @@ describe("QuestFinisher", function()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
-        _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = false
+        isQuestFlaggedCompletedMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsQuestFlaggedCompleted",
+            function() return false end)
         QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
         QuestieDB.IsActiveEventQuest = function() return false end
         QuestieDB.IsPvPQuest = function() return false end
@@ -47,6 +50,10 @@ describe("QuestFinisher", function()
 
         dofile("Modules/Quest/QuestFinisher.lua")
         QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
+    end)
+
+    after_each(function()
+        isQuestFlaggedCompletedMock:revert()
     end)
 
     it("should add NPC finisher", function()
@@ -285,7 +292,7 @@ describe("QuestFinisher", function()
 
     it("should not add finisher when IsQuestFlaggedCompleted is true", function()
         QuestiePlayer.currentQuestlog[1] = true
-        _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = true
+        isQuestFlaggedCompletedMock.returns(true)
         local quest = {
             Id = 1,
         }

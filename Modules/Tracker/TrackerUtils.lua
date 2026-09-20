@@ -41,7 +41,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
-local GetItemCount = C_Item.GetItemCount or QuestieCompat.GetItemCount
+local GetItemCount = QuestieCompat.GetItemCount
 local GetItemSpell = C_Item.GetItemSpell or GetItemSpell
 local IsEquippableItem = C_Item.IsEquippableItem or IsEquippableItem
 

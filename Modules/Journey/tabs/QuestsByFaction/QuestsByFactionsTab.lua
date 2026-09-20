@@ -78,13 +78,7 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
 end
 
 _GetWatchedFactionId = function()
-    if not GetNumFactions or not GetFactionInfo then
-        return nil
-    end
-
-    if ExpandFactionHeader then
-        ExpandFactionHeader(0)
-    end
+    ExpandFactionHeader(0)
 
     for i = 1, GetNumFactions() do
         local _, _, _, _, _, _, _, _, isHeader, _, _, isWatched, _, factionID = GetFactionInfo(i)

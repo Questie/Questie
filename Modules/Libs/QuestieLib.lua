@@ -1,7 +1,7 @@
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
-local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or QuestieCompat.GetAddOnMetadata
+local GetAddOnMetadata = QuestieCompat.GetAddOnMetadata
 
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")

@@ -7,6 +7,9 @@ describe("QuestieCommsData", function()
     ---@type QuestieDB
     local QuestieDB
 
+    ---@type QuestieCompat
+    local QuestieCompat
+
     local originalData
     local originalGetItem
     local originalGetNpc
@@ -73,6 +76,7 @@ describe("QuestieCommsData", function()
     before_each(function()
         QuestieComms = QuestieLoader:ImportModule("QuestieComms")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
         originalData = QuestieComms.data
         originalGetItem = QuestieDB.GetItem
@@ -83,9 +87,9 @@ describe("QuestieCommsData", function()
         originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
         originalTimer = _G.C_Timer
         originalItem = _G.Item
-        originalGetItemInfo = C_Item.GetItemInfo
+        originalGetItemInfo = QuestieCompat.GetItemInfo
         _G.C_Timer = {After = function() end}
-        C_Item.GetItemInfo = function() return nil end
+        QuestieCompat.GetItemInfo = function() return nil end
         itemCallback = nil
         itemCancel = nil
         loadedItemName = "Server item name"
@@ -121,7 +125,7 @@ describe("QuestieCommsData", function()
         C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
         ThreadLib.Thread = originalThread
         _G.C_Timer = originalTimer
-        C_Item.GetItemInfo = originalGetItemInfo
+        QuestieCompat.GetItemInfo = originalGetItemInfo
         _G.Item = originalItem
         Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
     end)
