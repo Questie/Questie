@@ -4,7 +4,7 @@ Status: in progress. Phase 1's metadata foundation and phase 2's TOC declaration
 
 ## Publishing lock during preparation
 
-Implement the refactor as completely as possible, including upload code and offline tests, but keep CurseForge and Wago publishing hard-disabled in every workflow until David explicitly approves enabling them. A manual confirmation checkbox is part of the eventual flow, not permission to remove this preparation lock. Enabling external publishing must be a separate, deliberate change after review. Do not push or publish as part of implementation without authorization.
+Implement the refactor as completely as possible, including upload code and offline tests, but keep CurseForge and Wago publishing hard-disabled in every workflow until the project lead explicitly approves enabling them. A manual confirmation checkbox is part of the eventual flow, not permission to remove this preparation lock. Enabling external publishing must be a separate, deliberate change after review. Do not push or publish as part of implementation without authorization.
 
 ## Agreed behavior
 
