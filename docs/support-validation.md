@@ -11,6 +11,8 @@ Questie validates a small set of independently authored controls in the QuestieD
 - `ValidateFactionTemplates` checks faction-template values before QuestieDB binds its composed entity ID maps.
 - `ValidateDropTables` checks the selected private-server source, a usable Wowhead percentage, and authored correction rows after the drop wrapper decodes and merges them. The Wowhead control accepts any numeric percentage greater than zero and at most 100 because that rate changes over time.
 
+Forever uses Era content rules but has independent native zone maps. When `Questie.IsForever` is set for Era content, zone validation checks Forever's continent override and reviewed Skyborne starting-zone relationships instead of the legacy Northrend suppression entry. Other zone controls remain active, and reports identify the consumer as Forever. Ordinary Era retains its original controls.
+
 The validators receive the tables already bound or decoded by the existing wrappers. They do not fetch the support payload again, initialize entity payloads, scan a complete dataset, mutate the inputs, or retain a copy.
 
 Zone and XP validation run during addon-load initialization. A failure there prevents deferred addon-load work and prevents `PLAYER_LOGIN` from scheduling the staged initialization. Faction-template validation runs in Stage 1. Drop validation remains in Stage 3 at the normal `DropDB` initialization point.

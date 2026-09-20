@@ -2,6 +2,8 @@
 
 This is a backlog, not implemented behavior. It records recurring failure modes exposed by the Forever work, including cases whose immediate compatibility fix is already in place. Completed fixes and live evidence are in [the development log](forever-development.md).
 
+The current provider migration and compatibility-wrapper integration do not implement this broader backlog. Zone data is now owned by QuestieDB; runtime recovery remains a consumer concern. Source-mode startup, tracking, tooltips, and map checks passed on build `69913`; their limits are recorded in [integration validation](forever-development.md#integration-validation). Historical failures below explain the proposals, not guarantees that these fallbacks exist.
+
 Goal: missing support for one zone, quest, or optional feature should not make the rest of Questie unusable. Missing data must also not turn into fabricated coordinates, incorrect eligibility, or silently corrupted state.
 
 ## First: unknown zones must not throw from tooltip updates
@@ -100,6 +102,19 @@ Future behavior:
 
 The current item-link parser fix is likely a one-time migration. Separating identity from presentation and isolating optional enrichment are the reusable improvements.
 
+## Combat tooltip restrictions need live reproduction
+
+See the [Forever tooltip reference](forever-tooltips.md#security-combat-and-restricted-data) for observed payloads, source-backed access boundaries, and the [focused test matrix](forever-tooltips.md#open-questions-and-focused-tests). Its proposed callback migration is not implemented yet.
+
+The outsider's updated 303 zip attributes combat taint to the `GameTooltip` object-hover `OnUpdate` scanner. Its combat early-return, deferred modern callbacks, protected-text fallback, and blanket aura `pcall` were not adopted. The integrated client passed non-combat item-tooltip and aura checks, but real combat was not exercised. The scanner attribution therefore remains unverified; successful non-combat reads do not establish combat safety.
+
+Next checks:
+
+- Reproduce the exact failing read/call in and out of combat, recording client build and stack before selecting a workaround.
+- If object scanning must stop in combat, document that loss of augmentation explicitly. An early-return is not proof that other taint paths are fixed.
+- If a callback must be deferred, verify that the tooltip still represents the same entity when it runs, not merely that it is shown.
+- Protect only demonstrated restricted-value operations. Preserve unexpected programming errors instead of wrapping all aura or tooltip work in `pcall`.
+
 ## Validate map geometry and UI assumptions without fabricating fallbacks
 
 **Observed:**
@@ -119,13 +134,13 @@ Some of this is already addressed by the current HBD and Krowi fixes. The remain
 
 ## Reject unsupported serialized data before it damages a cache
 
-**Evidence, not an observed overflow:** Skyborne masks use bits 32/33, while the compiled quest `requiredRaces` field remains `u32`. The new metadata cannot simply be copied into that field.
+**Historical evidence, not an observed overflow:** Skyborne masks use bits 32/33, while the former consumer compiler stored `requiredRaces` as `u32`. That compiler was removed by the QuestieDB migration. This is no longer a claim about the active storage schema; validate high-bit values against the provider's actual Source/Baked and correction contracts.
 
 Future behavior:
 
-- Validate imported values against the storage contract before compilation or cache replacement.
+- Validate imported values against the provider storage/read contract before generation, correction publication, or cache replacement.
 - Report the record ID, field, unsupported value, and schema/build involved.
-- A wider representation needs a deliberate schema and cache migration. Preserve existing usable data if an update cannot be compiled safely.
+- If the provider contract needs a wider representation, update its readers, writers, and caches together. Preserve existing usable data when an update cannot be encoded safely.
 
 **Guardrail:** never truncate high bits, silently widen one side of the reader/writer contract, or reset unrelated user settings to hide a data failure.
 
