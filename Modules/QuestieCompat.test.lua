@@ -300,9 +300,12 @@ end)
 describe("QuestieCompat modern quest log boundary", function()
     local QuestieCompat
     local originalQuestLog
+    local originalGetCVarBool
 
     before_each(function()
         originalQuestLog = _G.C_QuestLog
+        originalGetCVarBool = _G.GetCVarBool
+        _G.GetCVarBool = spy.new(function() return false end)
         dofile("Modules/QuestieCompat.lua")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
         _G.C_QuestLog = {
@@ -319,6 +322,7 @@ describe("QuestieCompat modern quest log boundary", function()
 
     after_each(function()
         _G.C_QuestLog = originalQuestLog
+        _G.GetCVarBool = originalGetCVarBool
     end)
 
     it("registers through the loader without publishing a global", function()
@@ -332,6 +336,35 @@ describe("QuestieCompat modern quest log boundary", function()
         assert.are.equal(-1, complete)
         assert.are.equal(783, questID)
         assert.spy(C_QuestLog.IsComplete).was.not_called()
+    end)
+
+    it("keeps the quest ID display flag false without shifting the other return values", function()
+        C_QuestLog.GetInfo = function()
+            return {
+                title = "A Threat Within", level = 1, isHeader = false, isCollapsed = false,
+                frequency = 1, questID = 783, startEvent = false, isOnMap = true,
+                hasLocalPOI = false, isTask = true, isBounty = false, isStory = true,
+                isHidden = false, isScaling = true,
+            }
+        end
+
+        local info = {QuestieCompat.GetQuestLogTitle(2)}
+
+        assert.are.same({
+            "A Threat Within", 1, "Group", false, false, -1, 1, 783,
+            false, false, true, false, true, false, true, false, true,
+        }, info)
+        assert.spy(GetCVarBool).was.called_with("displayQuestID")
+    end)
+
+    it("sets the quest ID display flag when the setting is enabled", function()
+        _G.GetCVarBool = spy.new(function() return true end)
+
+        local info = {QuestieCompat.GetQuestLogTitle(2)}
+
+        assert.are.equal(783, info[8])
+        assert.is_true(info[10])
+        assert.spy(GetCVarBool).was.called_with("displayQuestID")
     end)
 
     it("does not query quest-only fields, select a header or remove its watch", function()
@@ -506,7 +539,7 @@ describe("QuestieCompat Forever paths", function()
     local dependencies = {
         "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "C_Spell", "Enum", "CreateFrame",
         "ObjectiveTrackerFrame", "InCombatLockdown", "GetBuildInfo", "Questie", "C_UnitAuras", "AuraUtil",
-        "UnitQuestTrivialLevelRange",
+        "UnitQuestTrivialLevelRange", "GetCVarBool",
     }
     local savedGlobals
     local questInfo
@@ -525,6 +558,7 @@ describe("QuestieCompat Forever paths", function()
         -- Compatibility must work at TOC load, before Questie and VersionCheck exist.
         _G.Questie = nil
         _G.GetBuildInfo = function() return "1.60.1", "69913", "", 16001 end
+        _G.GetCVarBool = function() return false end
         dofile("Modules/Libs/QuestieLoader.lua")
         _G.C_Reputation = {}
         _G.C_Spell = {}
