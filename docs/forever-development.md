@@ -8,7 +8,7 @@ The [SavedVariables timing investigation](saved-variables-investigation.md) incl
 
 `feature/forever` is rebased onto `origin/master` at `bd177929e`. The previous tip is preserved as `backup/forever-before-db-integration-20260919` (`71e88ae11`). Local investigation notes were restored; their stash and `.scratch/integration-backup/` copies remain. The consumer integration checkpoint is commit `9c5e723c7`; the provider parent-mapping checkpoint is `fe85e10`. Neither was pushed as part of this checkpoint.
 
-Questie now uses the external provider described in [QuestieDB integration](questiedb-integration.md), not a local compiler or entity fallback. The intended provider checkout is `~/projects/Questie-clones/QuestieDB`, on `forever` at `fe85e10` (parent `eb31833`), with existing Baked artifacts. The Source-mode live results below were collected earlier using the separate `~/projects/QuestieDB` checkout at `f1567bd3`; its tracked tree matched `eb31833` before the parent-mapping checkpoint. The original beta symlink has since been restored. Live validation against that restored checkout's Baked setup remains outstanding.
+Questie now uses the external provider described in [QuestieDB integration](questiedb-integration.md), not a local compiler or entity fallback. The intended provider checkout is `~/projects/Questie-clones/QuestieDB`, on `forever` at `fe85e10` (parent `eb31833`), with existing Baked artifacts. The Source-mode live results below were collected earlier using the separate `~/projects/QuestieDB` checkout at `f1567bd3`; its tracked tree matched `eb31833` before the parent-mapping checkpoint. The original beta symlink has since been restored. Startup and compatibility probes against that checkout's Baked setup passed during the consolidation below; the earlier broader Source-mode checks do not establish full Baked coverage.
 
 Only the temporary runtime data edit remains in the intended provider: 64 additional relationships in `support/Forever/Zones/subZoneToParentZone.lua`. The supporting emulator, test, and documentation edits were removed at David's request; the full patch is backed up under `.scratch/provider-patch-transfer.TAjbTB/forever-provider.patch`. The unchanged focused provider suites passed 185 checks after this reduction. No generation, reload, staging, or commit accompanied it.
 
@@ -19,11 +19,21 @@ Provider native TOC conditions select Forever despite project ID 1. Its independ
 ### Integration decisions
 
 - Keep this branch's tracker ownership/combat deferral, native-watch synchronization, quest-ID timer lookup, event normalization, profession refresh, named-color item parsing, HBD 34 geometry, and Skyborne eligibility handling. The donor zip would regress several of these paths.
-- Adopt the `compat-fixes` wrapper approach, but register `QuestieCompat` with QuestieLoader rather than publishing a global. First-party consumers import it; the Camelot adapter overrides its methods before consumers cache them.
+- Adopt the `compat-fixes` wrapper approach, but register `QuestieCompat` with QuestieLoader rather than publishing a global. First-party consumers import it. All client conversions now live in `Modules/QuestieCompat.lua`, with no separate Forever module or late method overrides.
 - Preserve legacy return contracts at wrapper boundaries: quest tags occupy title-tuple slot 3, failed quests return `-1`, missing indices return `0`, abandonment items become names or nil, and stable food types return varargs. Header and missing-index guards avoid invalid modern API calls.
 - Guard absent legacy hooks and quest-log frames rather than suppressing unrelated errors. This includes scroll-range, item-reference, popup, and cursor-item hooks, plus tracker menu/line/options refreshes.
 - Keep zone facts in QuestieDB. The consumer overlay was removed, and 64 missing reviewed parent relationships were added to the provider alongside its existing Valley of Bones relationship.
 - Defer the zip's combat tooltip early-return, deferred tooltip callbacks, protected-text fallback, and blanket aura `pcall` until live failures establish the needed boundary. These are not adopted fixes; see the [hardening backlog](forever-hardening-backlog.md#combat-tooltip-restrictions-need-live-reproduction).
+
+### Compatibility consolidation
+
+The separate `QuestieForever` module duplicated conversions already implemented in `QuestieCompat`. Its wrappers and tracker-visibility handling now live beside their shared counterparts in `Modules/QuestieCompat.lua`; the old source/test files and Camelot TOC entry are removed. The existing Forever tests moved into the shared module's test file.
+
+Capability-based branches explain the conversion back to Classic contracts. Explicit Forever branches remain where legacy globals exist but are broken, where native watch state must bypass Questie's legacy interception, and where modern tracker visibility needs combat deferral. This file loads before `VersionCheck`, so its early Forever detection uses the same interface range, not the shared Retail project ID. Only Forever installs the two missing AceGUI global bridges before embedded libraries load.
+
+Validation: 45 focused compatibility tests and 1,938 full-suite tests passed; lint and loader-usage checks passed. Coverage includes early loading without `Questie`, Classic/Titan visibility, Forever combat deferral, existing broken globals, full aura/tag tuples, and library shims. Review identified a possible self-call through the spell bridge if the native API disappeared; the wrapper now excludes that fallback on Forever, with a focused test.
+
+A beta reload on build `69913` with the restored Baked provider completed with Contract 2, `Questie.started` and `API.isReady` true, no visible error dialog, no global `QuestieCompat`, and no registered `QuestieForever` module. Quest 747's title/watch lookup, timer query, spell tuple, mouse-over method, aura query, tracker anchor, and both early library bridges were checked. No installation links or provider files changed. This consolidation does not change tooltip scanning or establish additional combat-taint safety.
 
 ### Beta deployment
 
@@ -100,17 +110,17 @@ The subsequent Skyborne zone/race fixes passed local tests and review. The integ
 | Area | Implementation and reason |
 | --- | --- |
 | Content detection | `Modules/VersionCheck.lua` detects Forever using interface range `16000–16999`; `IsClassic` includes Forever. `Modules/Expansions.lua` maps only that flag to Era. Actual Retail and unknown project IDs stay unmapped. |
-| Early API translations | `QuestieLoader.lua` precedes the `QuestieCompat` module. `Modules/Compat/QuestieForever.lua` loads only through `Questie-Camelot.toc`, before embedded libraries and first-party consumers. It installs module-owned translations and the two AceGUI bridges described below. |
+| Early API translations | `QuestieLoader.lua` precedes `Modules/QuestieCompat.lua` on every client. That single module owns the client conversions and installs the two AceGUI bridges only on Forever, before embedded libraries and first-party consumers load. |
 | Quest acceptance | `Modules/EventHandler/EventHandler.lua` translates Forever's single quest-ID event argument into the existing index-plus-ID handler contract. A missing timer API had previously interrupted acceptance after an empty quest state was created. |
 | Professions | `Modules/QuestieProfessions.lua` uses modern profession indices when skill-line APIs are absent. Sparse results preserve secondary professions; removals refresh availability through `SKILL_LINES_CHANGED`. A missing legacy hook no longer aborts the module before its constants are defined. |
 | Tracker | Modern watch hooks use quest IDs and retain native watches. Classic retains its prior behavior. Modern additions are idempotent, not toggles. Namespaced watch-count functions retain their native meaning. |
-| Native tracker visibility | The Camelot adapter owns suppression only while requested, defers changes during combat, and releases through Blizzard's content-aware `Update()`. Enable/disable handles Forever despite its Era content mapping. |
+| Native tracker visibility | `QuestieCompat` owns Forever suppression only while requested, defers changes during combat, and releases through Blizzard's content-aware `Update()`. Classic retains its legacy WatchFrame handling, including Titan's alpha workaround. |
 | Quest timers | Modern timer records are matched by quest ID without changing selected quests. `QuestieCompat.GetQuestTimers` exposes seconds as varargs for remaining callers. |
 | Tooltips | `Tooltip.lua` uses `TooltipDataProcessor` when available; Classic retains script hooks. `TooltipHandler.lua` extracts `item:<ID>` independently of color prefixes, including Forever's `|cnIQ1:`. |
 | World-map buttons | `WorldMapButton.lua` corrects Krowi's `HasNoOverlay` flag on Forever. The library mistakes version `1.x` for the old Classic map and otherwise reparents Blizzard buttons to `ScrollContainer`, breaking parent `GetMapID`/`TriggerEvent` calls. Krowi's source is unchanged. |
 | World-map geometry | HBD version 34 recognizes Forever as Classic map content and derives Era/Forever world transforms from native continent rectangles, with legacy fallback. See the measurements below. |
 
-Prefer API capability checks in shared code. First-party code imports `QuestieCompat`; normal loading does not publish that module globally. The Camelot adapter retains only `GetSpellInfo` and `SetDesaturation` global bridges for embedded AceGUI. Shared compatibility still supplies missing pre-1.14 season/backdrop globals, and the tracker retains intentional legacy watch-function interception with restoration on disable. Some Forever legacy functions existed but failed internally, so presence alone was insufficient for watch count, aura, and mouse-over APIs.
+Prefer API capability checks in shared code. First-party code imports `QuestieCompat`; normal loading does not publish that module globally. On Forever, `QuestieCompat` supplies only the missing `GetSpellInfo` and `SetDesaturation` global bridges for embedded AceGUI. Shared compatibility still supplies missing pre-1.14 season/backdrop globals, and the tracker retains intentional legacy watch-function interception with restoration on disable. Some Forever legacy functions existed but failed internally, so presence alone was insufficient for watch count, aura, and mouse-over APIs.
 
 Blizzard source used for the historical baseline: Gethe's `forever` branch, commit `4d5d706b8e01c5ebe01c8dd9b7a07151d8d37069`, subject `1.60.1 (69893)`. It matched the initial client but is older than the final observed build `69913`. Runtime checks remain the authority for availability.
 
@@ -192,7 +202,7 @@ The user requested reverting this trial. The manifest again declares `QuestieCon
 
 ## Packaging and validation
 
-`Questie-Camelot.toc` declares interface `16001`, `RequiredDeps: QuestieDB`, and Contract 2. It follows the current Classic file list, with the Forever adapter before embedded libraries and no local entity or zone payloads. `LoadSavedVariablesFirst: 1` and the account/per-character declarations are preserved.
+`Questie-Camelot.toc` declares interface `16001`, `RequiredDeps: QuestieDB`, and Contract 2. It follows the current Classic file list, with `QuestieCompat` before embedded libraries and no separate Forever adapter or local entity/zone payloads. `LoadSavedVariablesFirst: 1` and the account/per-character declarations are preserved.
 
 The manifest does not load the ignored `cli/forever/Capture.lua` recorder. Use local development tooling to inject diagnostics when needed; do not make tracked manifests depend on ignored files. Automated Questie release packaging still needs Camelot support. Provider Baked generation/localization and broader live acceptance remain separate work; generate in a disposable copy rather than silently changing the linked checkout's mode.
 

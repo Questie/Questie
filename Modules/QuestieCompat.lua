@@ -8,9 +8,12 @@ local INDIZES_ACTIVE = 6
 
 local tinsert = table.insert
 
--- QuestieDB loads later in the TOC, but ImportModule hands back the table CreateModule will populate, so this
--- reference is the real module by the time any function below runs. This file is only able to import at all
--- because QuestieLoader now loads ahead of it; it used to run first, when the global did not yet exist.
+-- Compatibility loads before VersionCheck and embedded libraries, so Questie.IsForever is not available yet.
+-- Forever shares Retail's project ID; use the same interface range as VersionCheck instead.
+local _, _, _, interfaceVersion = GetBuildInfo()
+local isForever = interfaceVersion >= 16000 and interfaceVersion < 17000
+
+-- QuestieDB loads later; the loader returns the module table that its owning file will populate.
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
@@ -280,27 +283,83 @@ function QuestieCompat.IsSpellKnown(spellID)
     end
 end
 
+-- Forever's objective tracker can show itself during content updates. Own suppression only while requested,
+-- and defer protected visibility changes until combat ends. Classic keeps its existing WatchFrame policy.
+local hideObjectiveTracker = false
+local objectiveTrackerHooked = false
+local visibilityFrame
+
+---@return nil
+local function ApplyObjectiveTrackerVisibility()
+    if InCombatLockdown() then
+        visibilityFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+        return
+    end
+    visibilityFrame:UnregisterEvent("PLAYER_REGEN_ENABLED")
+    if ObjectiveTrackerFrame then
+        if hideObjectiveTracker then
+            ObjectiveTrackerFrame:Hide()
+        else
+            -- Forever: let Blizzard decide whether content/edit mode requires a visible tracker.
+            ObjectiveTrackerFrame:Update()
+        end
+    end
+end
+
+if isForever then
+    visibilityFrame = CreateFrame("Frame")
+    visibilityFrame:SetScript("OnEvent", ApplyObjectiveTrackerVisibility)
+end
+
+---@return nil
 function QuestieCompat.HideWatchFrame()
-    if Questie.IsTitanReforged then
+    if isForever then
+        -- Forever: keep later native OnShow calls suppressed, without reparenting protected frames.
+        hideObjectiveTracker = true
+        if ObjectiveTrackerFrame and not objectiveTrackerHooked then
+            ObjectiveTrackerFrame:HookScript("OnShow", function()
+                if hideObjectiveTracker then
+                    ApplyObjectiveTrackerVisibility()
+                end
+            end)
+            objectiveTrackerHooked = true
+        end
+        ApplyObjectiveTrackerVisibility()
+    elseif Questie.IsTitanReforged then
         -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
         -- details: https://github.com/Questie/Questie/issues/7497
         WatchFrame:SetAlpha(0)
     else
+        -- Classic: the legacy tracker can be hidden directly.
         WatchFrame:Hide()
     end
 end
 
+---@return nil
 function QuestieCompat.ShowWatchFrame()
-    if Questie.IsTitanReforged then
+    if isForever then
+        -- Forever: release only suppression we own; a release requested in combat is deferred too.
+        if hideObjectiveTracker then
+            hideObjectiveTracker = false
+            ApplyObjectiveTrackerVisibility()
+        end
+    elseif Questie.IsTitanReforged then
         -- On titan reforged realms, the WatchFrame somehow behaves differently when hidden.
         -- details: https://github.com/Questie/Questie/issues/7497
         WatchFrame:SetAlpha(1)
     else
+        -- Classic: restore the legacy tracker directly.
         WatchFrame:Show()
     end
 end
 
+---@return any ... Frame anchor tuple.
 function QuestieCompat.GetWatchFramePoint()
+    if isForever then
+        -- Forever: anchor to the modern objective tracker.
+        return ObjectiveTrackerFrame:GetPoint()
+    end
+    -- Classic: anchor to the legacy watch frame captured at load time.
     return WatchFrame:GetPoint()
 end
 
@@ -311,8 +370,10 @@ end
 ---@return number numQuests
 function QuestieCompat.GetNumQuestLogEntries()
     if C_QuestLog and C_QuestLog.GetNumQuestLogEntries then
+        -- Forever / modern Classic: same entry/count tuple, moved to the namespace.
         return C_QuestLog.GetNumQuestLogEntries()
     elseif GetNumQuestLogEntries then
+        -- Classic: native legacy counts.
         return GetNumQuestLogEntries()
     end
     error(errorMsg, 2)
@@ -321,10 +382,12 @@ end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogTitle)
 ---Returns information about an entry in the player's quest log.
 ---@param questLogIndex number
----TODO: C_QuestLog.GetInfo already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+---@return any ... Legacy title tuple, or nil when the entry is absent.
 function QuestieCompat.GetQuestLogTitle(questLogIndex)
     if not questLogIndex or questLogIndex <= 0 then return nil end
     if C_QuestLog and C_QuestLog.GetInfo then
+        -- Forever / modern Classic: expand the record into the legacy tuple consumed by QuestLogCache.
+        -- Slot 3 is the quest tag, not suggestedGroup; incomplete stays nil, complete is 1, failed is -1.
         local info = C_QuestLog.GetInfo(questLogIndex)
         if not info then return nil end
 
@@ -348,6 +411,7 @@ function QuestieCompat.GetQuestLogTitle(questLogIndex)
             info.questID, info.isOnMap, info.hasLocalPOI, info.isTask,
             info.isBounty, info.isStory, info.isHidden, info.isScaling
     elseif GetQuestLogTitle then
+        -- Classic: the native global already returns the expected tuple.
         return GetQuestLogTitle(questLogIndex)
     end
     error(errorMsg, 2)
@@ -359,12 +423,14 @@ end
 function QuestieCompat.SelectQuestLogEntry(questLogIndex)
     if not questLogIndex or questLogIndex <= 0 then return end
     if C_QuestLog and C_QuestLog.SetSelectedQuest and C_QuestLog.GetInfo then
+        -- Forever / modern Classic: callers pass a log index, but selection takes a quest ID. Headers are not quests.
         local info = C_QuestLog.GetInfo(questLogIndex)
         if info and not info.isHeader then
             C_QuestLog.SetSelectedQuest(info.questID)
         end
         return
     elseif SelectQuestLogEntry then
+        -- Classic: selection takes the log index directly.
         return SelectQuestLogEntry(questLogIndex)
     end
     error(errorMsg, 2)
@@ -375,9 +441,11 @@ end
 ---@return number questLogIndex
 function QuestieCompat.GetQuestLogSelection()
     if C_QuestLog and C_QuestLog.GetSelectedQuest and C_QuestLog.GetLogIndexForQuestID then
+        -- Forever / modern Classic: convert the selected ID back to an index; Classic uses 0 for no selection.
         local questID = C_QuestLog.GetSelectedQuest()
         return (questID and C_QuestLog.GetLogIndexForQuestID(questID)) or 0
     elseif GetQuestLogSelection then
+        -- Classic: already an index, including the absent-selection sentinel.
         return GetQuestLogSelection()
     end
     error(errorMsg, 2)
@@ -388,15 +456,22 @@ end
 ---@param unit string
 ---@param index number
 ---@param filter string|nil
----TODO: C_UnitAuras.GetAuraDataByIndex already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+---@return any ... Legacy aura tuple, or nil when the index has no aura.
 function QuestieCompat.UnitAura(unit, index, filter)
     if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
         local aura = C_UnitAuras.GetAuraDataByIndex(unit, index, filter)
         if not aura then return nil end
+        if isForever then
+            -- Forever: the existing UnitAura global can fail internally. Preserve the full legacy tuple,
+            -- including spell ID in slot 10 and the trailing flags/points supplied by AuraUtil.
+            return AuraUtil.UnpackAuraData(aura)
+        end
+        -- Modern Classic: preserve the tuple used by the existing compatibility path.
         return aura.name, aura.icon, aura.applications, aura.dispelName,
             aura.duration, aura.expirationTime, aura.sourceUnit,
             aura.isStealable, aura.nameplateShowPersonal, aura.spellId
     elseif UnitAura then
+        -- Classic: native legacy aura tuple.
         return UnitAura(unit, index, filter)
     end
     error(errorMsg, 2)
@@ -466,8 +541,10 @@ end
 ---@return number numQuestWatches
 function QuestieCompat.GetNumQuestWatches(arg)
     if C_QuestLog and C_QuestLog.GetNumQuestWatches then
+        -- Forever / modern Classic: native count, not the tracker's synthetic legacy count.
         return C_QuestLog.GetNumQuestWatches()
     elseif GetNumQuestWatches then
+        -- Classic: preserve the caller's internal-count argument for legacy tracker interception.
         return GetNumQuestWatches(arg)
     end
     error(errorMsg, 2)
@@ -476,12 +553,14 @@ end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestIndexForWatch)
 ---Returns the quest log index of a watched quest.
 ---@param watchIndex number
----@return number questLogIndex
+---@return number? questLogIndex
 function QuestieCompat.GetQuestIndexForWatch(watchIndex)
     if C_QuestLog and C_QuestLog.GetQuestIDForQuestWatchIndex and C_QuestLog.GetLogIndexForQuestID then
+        -- Forever / modern Classic: watch position -> quest ID -> quest-log position.
         local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(watchIndex)
         return questID and C_QuestLog.GetLogIndexForQuestID(questID)
     elseif GetQuestIndexForWatch then
+        -- Classic: native helper already returns a log index.
         return GetQuestIndexForWatch(watchIndex)
     end
     error(errorMsg, 2)
@@ -493,10 +572,14 @@ end
 function QuestieCompat.AddQuestWatch(questLogIndex)
     if not questLogIndex or questLogIndex <= 0 then return end
     if C_QuestLog and C_QuestLog.AddQuestWatch and C_QuestLog.GetInfo then
+        -- Forever / modern Classic: translate the log index and add a manual watch, never a toggle.
         local info = C_QuestLog.GetInfo(questLogIndex)
-        if info and not info.isHeader then return C_QuestLog.AddQuestWatch(info.questID, Enum.QuestWatchType.Manual) end
+        if info and not info.isHeader then
+            return C_QuestLog.AddQuestWatch(info.questID, Enum.QuestWatchType.Manual)
+        end
         return
     elseif AddQuestWatch then
+        -- Classic: native watch API takes the log index.
         return AddQuestWatch(questLogIndex)
     end
     error(errorMsg, 2)
@@ -509,10 +592,14 @@ end
 function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
     if not questLogIndex or questLogIndex <= 0 then return end
     if C_QuestLog and C_QuestLog.RemoveQuestWatch and C_QuestLog.GetInfo then
+        -- Forever / modern Classic: removal takes a quest ID and must not change quest selection.
         local info = C_QuestLog.GetInfo(questLogIndex)
-        if info and not info.isHeader then return C_QuestLog.RemoveQuestWatch(info.questID) end
+        if info and not info.isHeader then
+            return C_QuestLog.RemoveQuestWatch(info.questID)
+        end
         return
     elseif RemoveQuestWatch then
+        -- Classic: forward the internal-removal flag so tracker hooks do not treat it as a user action.
         return RemoveQuestWatch(questLogIndex, isQuestie)
     end
     error(errorMsg, 2)
@@ -522,6 +609,11 @@ end
 ---Returns the level spread at which a quest is considered "green" (trivial) relative to the player.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
+    if isForever then
+        -- Forever: the replacement is unit-based rather than a quest-log helper.
+        return UnitQuestTrivialLevelRange("player")
+    end
+    -- Classic: preserve the legacy helper when available.
     if GetQuestGreenRange then
         return GetQuestGreenRange("player")
     end
@@ -562,8 +654,10 @@ end
 ---@return number numFactions
 function QuestieCompat.GetNumFactions()
     if C_Reputation and C_Reputation.GetNumFactions then
+        -- Forever / modern Classic: same count, moved to the namespace.
         return C_Reputation.GetNumFactions()
     elseif GetNumFactions then
+        -- Classic: native legacy count.
         return GetNumFactions()
     end
     error(errorMsg, 2)
@@ -572,9 +666,10 @@ end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfo)
 ---Returns information about a reputation list entry.
 ---@param index number
----TODO: C_Reputation.GetFactionDataByIndex already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+---@return any ... Legacy faction tuple, including header/bonus flags, or nil when absent.
 function QuestieCompat.GetFactionInfo(index)
     if C_Reputation and C_Reputation.GetFactionDataByIndex then
+        -- Forever / modern Classic: flatten the named fields into Classic's positional faction contract.
         local d = C_Reputation.GetFactionDataByIndex(index)
         if not d then return nil end
         return d.name, d.description, d.reaction, d.currentReactionThreshold,
@@ -583,6 +678,7 @@ function QuestieCompat.GetFactionInfo(index)
             d.isWatched, d.isChild, d.factionID, d.hasBonusRepGain,
             d.canSetInactive
     elseif GetFactionInfo then
+        -- Classic: native legacy tuple.
         return GetFactionInfo(index)
     end
     error(errorMsg, 2)
@@ -593,8 +689,10 @@ end
 ---@param index number
 function QuestieCompat.ExpandFactionHeader(index)
     if C_Reputation and C_Reputation.ExpandFactionHeader then
+        -- Forever / modern Classic: indices keep their meaning in the namespaced API.
         return C_Reputation.ExpandFactionHeader(index)
     elseif ExpandFactionHeader then
+        -- Classic: native legacy expansion.
         return ExpandFactionHeader(index)
     end
     error(errorMsg, 2)
@@ -615,9 +713,10 @@ end
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfoByID)
 ---Returns information about a reputation entry by faction ID.
 ---@param factionID number
----TODO: C_Reputation.GetFactionDataByID already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+---@return any ... Legacy faction tuple, including header/bonus flags, or nil when absent.
 function QuestieCompat.GetFactionInfoByID(factionID)
     if C_Reputation and C_Reputation.GetFactionDataByID then
+        -- Forever / modern Classic: preserve the same tuple as the index-based query above.
         local d = C_Reputation.GetFactionDataByID(factionID)
         if not d then return nil end
         return d.name, d.description, d.reaction, d.currentReactionThreshold,
@@ -626,6 +725,7 @@ function QuestieCompat.GetFactionInfoByID(factionID)
             d.isWatched, d.isChild, d.factionID, d.hasBonusRepGain,
             d.canSetInactive
     elseif GetFactionInfoByID then
+        -- Classic: native legacy tuple.
         return GetFactionInfoByID(factionID)
     end
     error(errorMsg, 2)
@@ -637,8 +737,10 @@ end
 ---@return number questLogIndex
 function QuestieCompat.GetQuestLogIndexByID(questID)
     if C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
+        -- Forever / modern Classic: normalize an absent ID from nil to Classic's 0 sentinel.
         return C_QuestLog.GetLogIndexForQuestID(questID) or 0
     elseif GetQuestLogIndexByID then
+        -- Classic: native legacy lookup.
         return GetQuestLogIndexByID(questID)
     end
     error(errorMsg, 2)
@@ -669,33 +771,36 @@ function QuestieCompat.GetQuestResetTime()
     error(errorMsg, 2)
 end
 
--- Returned a [questID] = true map. The modern call returns a plain array, and
--- Questie indexes the result by quest id, so convert rather than pass through.
+---Returns a completed-quest set, optionally adding to an existing set.
 ---@param target table|nil
 ---@return table<QuestId, boolean>
 function QuestieCompat.GetQuestsCompleted(target)
     if C_QuestLog and C_QuestLog.GetAllCompletedQuestIDs then
+        -- Forever / modern Classic: convert the ID array to Classic's [questID] = true set.
         local completed = target or {}
         for _, questID in ipairs(C_QuestLog.GetAllCompletedQuestIDs()) do
             completed[questID] = true
         end
         return completed
     elseif GetQuestsCompleted then
+        -- Classic: native helper fills the caller's set.
         return GetQuestsCompleted(target)
     end
     error(errorMsg, 2)
 end
 
--- Old signature returned (tagId, tagName) directly; the modern call returns a
--- table, and Questie destructures two values from it.
+---Returns the legacy quest-tag tuple, including optional world-quest fields.
 ---@param questID QuestId
----TODO: C_QuestLog.GetQuestTagInfo already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+---@return any ... Tag ID/name followed by world-quest type, quality, elite, profession, and expiration fields.
 function QuestieCompat.GetQuestTagInfo(questID)
     if C_QuestLog and C_QuestLog.GetQuestTagInfo then
         local info = C_QuestLog.GetQuestTagInfo(questID)
         if not info then return nil end
-        return info.tagID, info.tagName
+        -- Forever / modern Classic: expand the record rather than dropping the optional tuple fields.
+        return info.tagID, info.tagName, info.worldQuestType, info.quality, info.isElite,
+            info.tradeskillLineID, info.displayExpiration
     elseif GetQuestTagInfo then
+        -- Classic: native legacy tuple.
         return GetQuestTagInfo(questID)
     end
     error(errorMsg, 2)
@@ -725,7 +830,16 @@ end
 ---@param questID QuestId?
 ---@return number? ... Legacy timer seconds.
 function QuestieCompat.GetQuestTimers(questID)
-    if GetQuestTimers then
+    if isForever then
+        -- Forever: the native array contains {questID, questTimer} records; callers here expect seconds as varargs.
+        -- Do not change quest selection to inspect timers. TrackerQuestTimers matches the native records by ID.
+        local timers = {}
+        for _, info in ipairs(C_QuestLog.GetQuestTimers()) do
+            timers[#timers + 1] = info.questTimer
+        end
+        return unpack(timers)
+    elseif GetQuestTimers then
+        -- Classic: keep the native timer contract, including clients with no timer API.
         return GetQuestTimers(questID)
     end
 end
@@ -740,6 +854,11 @@ end
 ---@param right number|nil
 ---@return boolean
 function QuestieCompat.MouseIsOver(frame, top, bottom, left, right)
+    if isForever then
+        -- Forever: the legacy global can exist but call removed internals. Use the frame method even then.
+        return frame:IsMouseOver(top, bottom, left, right)
+    end
+    -- Classic: keep the legacy offset behavior; use the method only when the global is absent.
     if MouseIsOver then
         return MouseIsOver(frame, top, bottom, left, right)
     end
@@ -834,13 +953,15 @@ function QuestieCompat.AbandonQuest()
 end
 
 ---@param questLogIndex number
----@return QuestId questID
+---@return QuestId? questID
 function QuestieCompat.GetQuestIDFromLogIndex(questLogIndex)
     if not questLogIndex or questLogIndex <= 0 then return end
     if C_QuestLog and C_QuestLog.GetInfo then
+        -- Forever / modern Classic: headers have no selectable quest ID, even if the record contains 0.
         local info = C_QuestLog.GetInfo(questLogIndex)
         return info and not info.isHeader and info.questID or nil
     elseif GetQuestIDFromLogIndex then
+        -- Classic: native legacy lookup.
         return GetQuestIDFromLogIndex(questLogIndex)
     end
     error(errorMsg, 2)
@@ -953,6 +1074,12 @@ end
 ---@return boolean isWatched
 function QuestieCompat.IsQuestWatched(questLogIndex)
     if not questLogIndex or questLogIndex <= 0 then return false end
+    if isForever then
+        -- Forever: query native state by quest ID, not Questie's synthetic legacy global. Watch type 0 is valid.
+        local questID = QuestieCompat.GetQuestIDFromLogIndex(questLogIndex)
+        return questID ~= nil and C_QuestLog.GetQuestWatchType(questID) ~= nil
+    end
+    -- Classic: retain the existing legacy watch interception and fallback behavior.
     if IsQuestWatched then
         return IsQuestWatched(questLogIndex)
     end
@@ -964,17 +1091,37 @@ function QuestieCompat.IsQuestWatched(questLogIndex)
 end
 
 
+------------------------------------------
+-- Spell data and early library bridges
+------------------------------------------
+
 ---@param spell number|string
 ---@return any ... Legacy spell-info tuple.
 function QuestieCompat.GetSpellInfo(spell)
     if C_Spell and C_Spell.GetSpellInfo then
+        -- Forever / modern Classic: callers expect the legacy tuple, including its unused rank slot.
         local info = C_Spell.GetSpellInfo(spell)
         if info then
             return info.name, nil, info.iconID, info.castTime, info.minRange, info.maxRange, info.spellID, info.originalIconID
         end
-    elseif GetSpellInfo then
+    elseif not isForever and GetSpellInfo then
+        -- Classic: native legacy tuple. On Forever this global can be our own bridge, so never call it back.
         return GetSpellInfo(spell)
     end
+end
+
+---@param texture Texture
+---@param desaturated boolean
+---@return nil
+function QuestieCompat.SetDesaturation(texture, desaturated)
+    texture:SetDesaturated(desaturated)
+end
+
+if isForever then
+    -- Forever: embedded AceGUI still calls these globals and loads immediately after this file.
+    -- First-party code imports QuestieCompat; do not install these bridges on Classic or replace existing globals.
+    GetSpellInfo = GetSpellInfo or QuestieCompat.GetSpellInfo
+    SetDesaturation = SetDesaturation or QuestieCompat.SetDesaturation
 end
 
 ---@param addon string

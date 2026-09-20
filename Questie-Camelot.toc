@@ -39,9 +39,8 @@ Modules\Libs\QuestieLoader.lua
 # Does nothing unless QuestieProfilerEnabled is set.
 Modules\Profiler\QuestieProfilerPreHook.lua
 
+# Compatibility includes Forever's library bridges, so it must precede embedded libraries.
 Modules\QuestieCompat.lua
-# Forever library bridges must exist before the embedded libraries load.
-Modules\Compat\QuestieForever.lua
 
 embeds.xml
 
