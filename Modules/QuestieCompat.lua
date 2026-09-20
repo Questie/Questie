@@ -566,25 +566,6 @@ function QuestieCompat.GetQuestIndexForWatch(watchIndex)
     error(errorMsg, 2)
 end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_AddQuestWatch)
----Adds a quest log entry to the tracked quest watches.
----@param questLogIndex number
-function QuestieCompat.AddQuestWatch(questLogIndex)
-    if not questLogIndex or questLogIndex <= 0 then return end
-    if C_QuestLog and C_QuestLog.AddQuestWatch and C_QuestLog.GetInfo then
-        -- Forever / modern Classic: translate the log index and add a manual watch, never a toggle.
-        local info = C_QuestLog.GetInfo(questLogIndex)
-        if info and not info.isHeader then
-            return C_QuestLog.AddQuestWatch(info.questID, Enum.QuestWatchType.Manual)
-        end
-        return
-    elseif AddQuestWatch then
-        -- Classic: native watch API takes the log index.
-        return AddQuestWatch(questLogIndex)
-    end
-    error(errorMsg, 2)
-end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_RemoveQuestWatch)
 ---Removes a quest log entry from the tracked quest watches.
 ---@param questLogIndex number
@@ -694,18 +675,6 @@ function QuestieCompat.ExpandFactionHeader(index)
     elseif ExpandFactionHeader then
         -- Classic: native legacy expansion.
         return ExpandFactionHeader(index)
-    end
-    error(errorMsg, 2)
-end
-
----[Documentation](https://warcraft.wiki.gg/wiki/API_CollapseFactionHeader)
----Collapses a reputation list header.
----@param index number
-function QuestieCompat.CollapseFactionHeader(index)
-    if C_Reputation and C_Reputation.CollapseFactionHeader then
-        return C_Reputation.CollapseFactionHeader(index)
-    elseif CollapseFactionHeader then
-        return CollapseFactionHeader(index)
     end
     error(errorMsg, 2)
 end
@@ -1036,15 +1005,6 @@ function QuestieCompat.GetTrackedAchievements()
     if GetTrackedAchievements then
         return GetTrackedAchievements()
     end
-end
-
----@param isQuestie boolean|nil
----@return number
-function QuestieCompat.GetNumTrackedAchievements(isQuestie)
-    if GetNumTrackedAchievements then
-        return GetNumTrackedAchievements(isQuestie)
-    end
-    return 0
 end
 
 ---@param achieveId number

@@ -311,7 +311,6 @@ describe("QuestieCompat modern quest log boundary", function()
             IsComplete = spy.new(function() return false end),
             IsFailed = spy.new(function() return true end),
             SetSelectedQuest = spy.new(function() end),
-            AddQuestWatch = spy.new(function() end),
             RemoveQuestWatch = spy.new(function() end),
             GetLogIndexForQuestID = function() return nil end,
             GetSelectedQuest = function() return 783 end,
@@ -335,18 +334,16 @@ describe("QuestieCompat modern quest log boundary", function()
         assert.spy(C_QuestLog.IsComplete).was.not_called()
     end)
 
-    it("does not query quest-only fields or select and watch a header", function()
+    it("does not query quest-only fields, select a header or remove its watch", function()
         C_QuestLog.GetInfo = function() return {title = "Elwynn", isHeader = true, questID = 0} end
         local _, _, tag, _, _, complete = QuestieCompat.GetQuestLogTitle(1)
         assert.is_nil(tag)
         assert.is_nil(complete)
         QuestieCompat.SelectQuestLogEntry(1)
-        QuestieCompat.AddQuestWatch(1)
         QuestieCompat.RemoveQuestWatch(1)
         assert.spy(C_QuestLog.GetQuestTagInfo).was.not_called()
         assert.spy(C_QuestLog.IsFailed).was.not_called()
         assert.spy(C_QuestLog.SetSelectedQuest).was.not_called()
-        assert.spy(C_QuestLog.AddQuestWatch).was.not_called()
         assert.spy(C_QuestLog.RemoveQuestWatch).was.not_called()
     end)
 
@@ -355,7 +352,6 @@ describe("QuestieCompat modern quest log boundary", function()
         assert.are.equal(0, QuestieCompat.GetQuestLogSelection())
         assert.is_nil(QuestieCompat.GetQuestLogTitle(nil))
         QuestieCompat.SelectQuestLogEntry(0)
-        QuestieCompat.AddQuestWatch(nil)
         QuestieCompat.RemoveQuestWatch(0)
         assert.spy(C_QuestLog.GetInfo).was.not_called()
     end)
@@ -717,18 +713,15 @@ describe("QuestieCompat Forever paths", function()
         C_QuestLog.GetLogIndexForQuestID = spy.new(function() return 2 end)
         C_QuestLog.GetQuestWatchType = spy.new(function() return 0 end)
         _G.IsQuestWatched = function() error("synthetic legacy watch state must not be queried") end
-        C_QuestLog.AddQuestWatch = spy.new(function() return true end)
         C_QuestLog.RemoveQuestWatch = spy.new(function() return true end)
 
         assert.are.equal(2, QuestieCompat.GetQuestIndexForWatch(1))
         assert.is_true(QuestieCompat.IsQuestWatched(2))
-        assert.is_true(QuestieCompat.AddQuestWatch(2))
         assert.is_true(QuestieCompat.RemoveQuestWatch(2))
 
         assert.spy(C_QuestLog.GetQuestIDForQuestWatchIndex).was.called_with(1)
         assert.spy(C_QuestLog.GetLogIndexForQuestID).was.called_with(783)
         assert.spy(C_QuestLog.GetQuestWatchType).was.called_with(783)
-        assert.spy(C_QuestLog.AddQuestWatch).was.called_with(783, 1)
         assert.spy(C_QuestLog.RemoveQuestWatch).was.called_with(783)
     end)
 
