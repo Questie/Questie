@@ -30,38 +30,33 @@ jobs:
         run: git fetch --prune --unshallow --tags
 
       - name: Build ZIP
-        run: python build.py -r
+        run: python build.py -r --combined
 
       - name: Generate Changelog
         id: changelog
         env:
           RELEASE_TAG: ${{ github.ref_name }}
-        run: python changelog.py --questiedb-manifest "releases/$RELEASE_TAG/questiedb-release.json" >> CHANGELOG.md
+        run: python changelog.py --release-manifest "releases/$RELEASE_TAG/release.json" >> CHANGELOG.md
 
       - name: Create GitHub release
         env:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           release_dir="releases/$RELEASE_TAG"
-          standalone_zip=$(jq -r '.standalone_zip' "$release_dir/build-result.json")
-          combined_zip=$(jq -r '.combined_zip' "$release_dir/build-result.json")
+          combined_zip=$(jq -r '.releases[0].filename' "$release_dir/release.json")
           if [[ "$RELEASE_TAG" == *"-b"* ]]; then
             gh release create "$RELEASE_TAG" \
               --verify-tag \
               --prerelease \
               -F CHANGELOG.md \
-              "$release_dir/$standalone_zip" \
               "$release_dir/$combined_zip" \
-              "$release_dir/release.json" \
-              "$release_dir/questiedb-release.json"
+              "$release_dir/release.json"
           else
             gh release create "$RELEASE_TAG" \
               --verify-tag \
               -F CHANGELOG.md \
-              "$release_dir/$standalone_zip" \
               "$release_dir/$combined_zip" \
-              "$release_dir/release.json" \
-              "$release_dir/questiedb-release.json"
+              "$release_dir/release.json"
           fi
 
       # External publishing is hard-disabled while the bundle release flow is prepared.

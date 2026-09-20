@@ -215,7 +215,8 @@ failures. Build/test jobs must not have publishing credentials or access live in
 For a contract change, develop against the proposed provider revision, publish the supporting
 provider release, then update the consumer's required target before merging. A temporary PR/commit
 check does not replace released-provider validation. Distribution and release selection are covered
-by the separate [release-bundling plan](../PLAN-release-bundles.md).
+by the separate [release-bundling plan](../PLAN-release-bundles.md). The agreed
+[release metadata structure](release-format.md) describes component ownership and bundling.
 
 ## Outstanding integration validation
 
@@ -259,3 +260,21 @@ Other recorded follow-ups:
 - Surface provider Source/Baked mode in debug output; retain the support-validation report's mode.
 - Pre-existing review notes: Isle of Quel'Danas profile/global setting disagreement, and shared-state
   leaks involving `Expansions.Current` and `C_Calendar` in the Event/QuestieLib test suites.
+
+## Building standalone or combined packages
+
+`python3 build.py --standalone` builds only Questie and makes no provider
+download. QuestieDB remains a required dependency and must be installed separately.
+`python3 build.py --combined` includes QuestieDB; combined is the default.
+Existing flavor switches and `--release` still apply.
+
+Each mode writes one ZIP and a matching `release.json`. Standalone metadata contains
+`releases` and `questie`; combined metadata also copies the selected `questiedb` section
+unchanged, including its upstream artifacts and extensions. There are no separate
+build-result or provider metadata files. The combined downloader requires QuestieDB's
+wrapped manifest format; older flat manifests are not supported.
+
+Use `python3 changelog.py --release-manifest releases/<build>/release.json`
+to render the retained Questie changes first and database changes second, without Git
+or network access. The publication workflow builds and uploads only the combined ZIP
+and its manifest. CF/Wago uploads remain disabled.
