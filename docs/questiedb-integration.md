@@ -261,21 +261,21 @@ Other recorded follow-ups:
 - Pre-existing review notes: Isle of Quel'Danas profile/global setting disagreement, and shared-state
   leaks involving `Expansions.Current` and `C_Calendar` in the Event/QuestieLib test suites.
 
-## Building standalone or combined packages
+## Building standalone or bundled packages
 
-`python3 build.py --standalone` builds only Questie and makes no provider
+`python3 build.py --standalone` (or `-s`) builds only Questie and makes no provider
 download. QuestieDB remains a required dependency and must be installed separately.
 Standalone is the default when neither mode is specified.
-`python3 build.py --combined` includes QuestieDB.
+`python3 build.py --bundled` (or `-b`) includes QuestieDB.
 Existing flavor switches and `--release` still apply.
 
 Each mode writes one ZIP and a matching `release.json`. Standalone metadata contains
-`releases` and `questie`; combined metadata also copies the selected `questiedb` section
+`releases` and `questie`; bundled metadata also copies the selected `questiedb` section
 unchanged, including its upstream artifacts and extensions. There are no separate
-build-result or provider metadata files. The combined downloader requires QuestieDB's
+build-result or provider metadata files. The bundled downloader requires QuestieDB's
 wrapped manifest format; older flat manifests are not supported.
 
 Use `python3 changelog.py --release-manifest releases/<build>/release.json`
 to render the retained Questie changes first and database changes second, without Git
-or network access. The publication workflow builds and uploads only the combined ZIP
+or network access. The publication workflow builds and uploads only the bundled ZIP
 and its manifest. CF/Wago uploads remain disabled.

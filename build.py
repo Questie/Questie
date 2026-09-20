@@ -2,13 +2,15 @@
 
 """
 Each build writes one ZIP and a matching release.json with component metadata.
-Standalone builds (the default) do not download QuestieDB; combined builds include it.
+Standalone builds (the default) do not download QuestieDB; bundled builds include it.
 
 This program accepts optional command line options:
 
+    -s
     --standalone
         Build Questie only (default); QuestieDB must be installed separately
-    --combined
+    -b
+    --bundled
         Build Questie and QuestieDB together
 
     -r
@@ -107,9 +109,7 @@ def main():
     # Reject declaration drift before naming or replacing any build outputs.
     get_required_db_contract(tocs.values())
     isReleaseBuild = False
-    if "--standalone" in sys.argv and "--combined" in sys.argv:
-        raise ValueError("Choose either --standalone or --combined")
-    combined = "--combined" in sys.argv
+    bundled = None
     includedExpansions.clear()
     versionOverride = ""
     if len(sys.argv) > 1:
@@ -118,6 +118,11 @@ def main():
             if expect_version:
                 versionOverride = arg
                 expect_version = False
+            elif arg in ["-s", "--standalone", "-b", "--bundled"]:
+                requested_bundled = arg in ["-b", "--bundled"]
+                if bundled is not None and bundled != requested_bundled:
+                    raise ValueError("Choose either --standalone or --bundled")
+                bundled = requested_bundled
             elif arg in ["-r", "--release"]:
                 isReleaseBuild = True
                 print("Creating a release build")
@@ -131,6 +136,8 @@ def main():
                 for number, expansion in EXPANSIONS.items():
                     if arg in expansion["flags"] and number not in includedExpansions:
                         includedExpansions.append(number)
+    if bundled is None:
+        bundled = False
     if not includedExpansions:
         for number, expansion in EXPANSIONS.items():
             if expansion["default"]:
@@ -148,10 +155,10 @@ def main():
 
     copy_content_to(release_addon_folder_path)
 
-    # Standalone builds need no download. Combined builds verify the provider before bundling.
+    # Standalone builds need no download. Bundled builds verify the provider before packaging.
     dbManifest = None
     dbVersion, dbHash = None, None
-    if combined:
+    if bundled:
         dbManifest = copy_db_content_to(release_folder_path + "/tmp")
         dbVersion, dbHash = get_db_version(release_folder_path + "/tmp/QuestieDB/")
         # Names and notes must describe the provider that was actually extracted.
@@ -202,7 +209,7 @@ def main():
         "releases": [{"filename": filename, "nolib": False, "metadata": metadata}],
         "questie": questie,
     }
-    if combined:
+    if bundled:
         # Preserve upstream extensions and original artifact records without rewriting them.
         release["questiedb"] = dbManifest
     with open(release_folder_path + "/release.json", "w", encoding="utf-8") as result:
@@ -323,7 +330,7 @@ def copy_db_content_to(release_folder_path):
 def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion=None, dbHash=None):
     """Write one ZIP, remove successful staging, and restore the caller's working directory.
 
-    A database version selects the combined two-addon layout; otherwise Questie's
+    A database version selects the bundled two-addon layout; otherwise Questie's
     files remain at the archive root, matching the existing standalone layout.
     """
     root = os.getcwd()

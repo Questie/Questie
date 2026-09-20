@@ -30,7 +30,7 @@ jobs:
         run: git fetch --prune --unshallow --tags
 
       - name: Build ZIP
-        run: python build.py -r --combined
+        run: python build.py --release --bundled
 
       - name: Generate Changelog
         id: changelog
@@ -43,19 +43,19 @@ jobs:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           release_dir="releases/$RELEASE_TAG"
-          combined_zip=$(jq -r '.releases[0].filename' "$release_dir/release.json")
+          bundled_zip=$(jq -r '.releases[0].filename' "$release_dir/release.json")
           if [[ "$RELEASE_TAG" == *"-b"* ]]; then
             gh release create "$RELEASE_TAG" \
               --verify-tag \
               --prerelease \
               -F CHANGELOG.md \
-              "$release_dir/$combined_zip" \
+              "$release_dir/$bundled_zip" \
               "$release_dir/release.json"
           else
             gh release create "$RELEASE_TAG" \
               --verify-tag \
               -F CHANGELOG.md \
-              "$release_dir/$combined_zip" \
+              "$release_dir/$bundled_zip" \
               "$release_dir/release.json"
           fi
 
