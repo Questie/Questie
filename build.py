@@ -6,8 +6,15 @@ import subprocess
 import sys
 import fileinput
 import re
+import json
+import hashlib
+import changelog
 
 """
+Successful builds also write build-result.json beside the ZIPs, containing
+packaged component versions and ZIP filenames relative to that directory.
+The verified provider manifest is retained there as questiedb-release.json for release notes.
+
 This program accepts optional command line options:
 
     -r
@@ -98,8 +105,16 @@ def main():
     release_addon_folder_path = release_folder_path + ("/tmp/%s" % addonDir)
 
     copy_content_to(release_addon_folder_path)
-    copy_db_content_to(release_folder_path + "/tmp")
+    dbManifest = copy_db_content_to(release_folder_path + "/tmp", release_folder_path + "/questiedb-release.json")
     dbVersion, dbHash = get_db_version(release_folder_path + "/tmp/QuestieDB/")
+    # Notes and archive names must describe the provider that was actually extracted.
+    for tocN in includedExpansions:
+        with open(release_folder_path + "/tmp/QuestieDB/" + dbTocs[tocN], encoding="utf-8") as toc:
+            contents = toc.read()
+        versions = re.findall(r"^## Version: (.*?)$", contents, re.MULTILINE)
+        commits = re.findall(r"^## X-BUILD-COMMIT: (.*?)$", contents, re.MULTILINE)
+        if versions != [dbManifest["version"]] or commits != [dbManifest["producerCommit"]]:
+            raise ValueError("QuestieDB TOC does not match the downloaded manifest: " + dbTocs[tocN])
     print("DB version:", dbVersion, dbHash)
 
     if versionOverride != "":
@@ -113,8 +128,11 @@ def main():
                     else:
                         print(line, end="")
 
+    with open(release_addon_folder_path + "/" + tocs[includedExpansions[0]], encoding="utf-8") as toc:
+        questieVersion = re.search(r"^## Version: (.*?)$", toc.read(), re.MULTILINE).group(1)
+
     zip_name = "%s-%s" % (addonDir, release_dir)
-    zip_release_folder(zip_name, release_dir, isReleaseBuild, dbVersion, dbHash)
+    combined_zip = zip_release_folder(zip_name, release_dir, isReleaseBuild, dbVersion, dbHash)
 
     interface_classic = get_interface_versions()
     interface_bcc = get_interface_versions("TBC")
@@ -148,13 +166,23 @@ def main():
         rf.write("""{
     "releases": [
         {
-            "filename": "%s.zip",
+            "filename": "%s",
             "nolib": false,
             "metadata": [%s
             ]
         }
     ]
-}""" % (zip_name, flavorString[:-1]))
+}""" % (combined_zip, flavorString[:-1]))
+
+    # Build handoff, separate from addon-manager release.json. ZIP names are relative to this file.
+    with open(release_folder_path + "/build-result.json", "w", encoding="utf-8") as result:
+        json.dump({
+            "questie_version": questieVersion,
+            "questiedb_version": dbVersion,
+            "standalone_zip": zip_name + ".zip",
+            "combined_zip": combined_zip,
+        }, result, indent=4)
+        result.write("\n")
 
     print("New release '%s' created successfully" % release_dir)
 
@@ -224,16 +252,34 @@ def copy_content_to(release_folder_path):
                 shutil.copy2(file, "%s/%s" % (release_folder_path, file))
         break
 
-def copy_db_content_to(release_folder_path, useLocal=False):
-    if useLocal:
-        dbPath = "../QuestieDB"
-        # TODO add manual file copy from local repo
-    else:
-        from urllib.request import urlretrieve
-        zipPath = release_folder_path + '/QuestieDB-all.zip'
-        urlretrieve('https://github.com/Questie/QuestieDB/releases/latest/download/QuestieDB-all.zip', zipPath)
-        shutil.unpack_archive(zipPath, release_folder_path)
-        os.remove(zipPath)
+def copy_db_content_to(release_folder_path, manifest_path):
+    """Keep latest-stable selection, but verify its ZIP against one retained manifest."""
+    from urllib.request import urlretrieve
+    release_url = 'https://github.com/Questie/QuestieDB/releases/latest/download/'
+    urlretrieve(release_url + 'release.json', manifest_path)
+    manifest = changelog.load_questiedb_manifest(manifest_path)
+    # Only this fixed filename is downloaded; unrelated artifact records are not consumed.
+    artifacts = manifest["artifacts"]
+    if not isinstance(artifacts, list):
+        raise ValueError("QuestieDB manifest needs an artifacts array")
+    archives = [artifact for artifact in artifacts
+                if isinstance(artifact, dict) and artifact.get("file") == "QuestieDB-all.zip"]
+    if len(archives) != 1:
+        raise ValueError("Expected exactly one QuestieDB-all.zip artifact")
+    archive = archives[0]
+    zipPath = release_folder_path + '/QuestieDB-all.zip'
+    urlretrieve(release_url + 'QuestieDB-all.zip', zipPath)
+
+    # A release can change between downloads. Reject mixed generations before extraction.
+    checksum = hashlib.sha256()
+    with open(zipPath, "rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            checksum.update(block)
+    if os.path.getsize(zipPath) != archive["bytes"] or checksum.hexdigest() != archive["sha256"].lower():
+        raise ValueError("QuestieDB archive checksum or size does not match its manifest")
+    shutil.unpack_archive(zipPath, release_folder_path)
+    os.remove(zipPath)
+    return manifest
 
 def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion, dbHash):
     root = os.getcwd()
@@ -247,10 +293,8 @@ def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion, dbHas
     shutil.make_archive(dbZipName, "zip", "tmp", ".")
     shutil.rmtree("tmp")
     os.chdir(root)
-    # only this print goes to stdout so it can be saved with $(./build.py) in the CI/CD pipeline
-    sys.stdout = sys.__stdout__
-    print(dbZipName)
-    sys.stdout = sys.__stderr__
+    return dbZipName + ".zip"
+
 
 def get_git_information():
     if is_tool("git"):
@@ -287,6 +331,4 @@ def is_tool(name):
 
 
 if __name__ == "__main__":
-    # switch all prints to stderr by default, so only one of them goes to stdout and can be saved with $(./build.py)
-    sys.stdout = sys.__stderr__
     main()

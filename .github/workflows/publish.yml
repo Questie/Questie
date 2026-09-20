@@ -29,38 +29,49 @@ jobs:
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
 
+      - name: Build ZIP
+        run: python build.py -r
+
       - name: Generate Changelog
         id: changelog
-        run: python changelog.py >> CHANGELOG.md
-
-      - name: Build ZIPs
-        run: echo "QUESTIE_ZIP=$(python build.py -r)" >> $GITHUB_ENV
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python changelog.py --questiedb-manifest "releases/$RELEASE_TAG/questiedb-release.json" >> CHANGELOG.md
 
       - name: Create GitHub release
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          if [[ "${{github.ref_name}}" == *"-b"* ]]; then
-            gh release create ${{github.ref_name}} \
+          release_dir="releases/$RELEASE_TAG"
+          standalone_zip=$(jq -r '.standalone_zip' "$release_dir/build-result.json")
+          combined_zip=$(jq -r '.combined_zip' "$release_dir/build-result.json")
+          if [[ "$RELEASE_TAG" == *"-b"* ]]; then
+            gh release create "$RELEASE_TAG" \
               --verify-tag \
               --prerelease \
               -F CHANGELOG.md \
-              releases/${{github.ref_name}}/*.zip \
-              releases/${{github.ref_name}}/release.json
+              "$release_dir/$standalone_zip" \
+              "$release_dir/$combined_zip" \
+              "$release_dir/release.json" \
+              "$release_dir/questiedb-release.json"
           else
-            gh release create ${{github.ref_name}} \
+            gh release create "$RELEASE_TAG" \
               --verify-tag \
               -F CHANGELOG.md \
-              releases/${{github.ref_name}}/*.zip \
-              releases/${{github.ref_name}}/release.json
+              "$release_dir/$standalone_zip" \
+              "$release_dir/$combined_zip" \
+              "$release_dir/release.json" \
+              "$release_dir/questiedb-release.json"
           fi
 
       # External publishing is hard-disabled while the bundle release flow is prepared.
       # Keep disabled until explicitly approved; see PLAN-release-bundles.md.
       # Upload jobs will need their own scoped credentials when enabled.
       # - name: Upload CurseForge
-      #   run: sh upload-cf.sh $QUESTIE_ZIP
+      #   run: sh upload-cf.sh ${{github.ref_name}}
 
       # - name: Upload WAGO
-      #   run: sh upload-wago.sh $QUESTIE_ZIP
+      #   run: sh upload-wago.sh ${{github.ref_name}}
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0

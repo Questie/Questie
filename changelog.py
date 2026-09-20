@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+import argparse
+import html
+import json
+import re
 import os
 import subprocess
 import sys
@@ -148,6 +152,72 @@ def get_changelog_string(categories, contributors):
     return changelog
 
 
-if __name__ == "__main__":
+def load_questiedb_manifest(path):
+    """Read the retained provider manifest used for both ZIP verification and notes."""
+    with open(path, encoding="utf-8") as source:
+        manifest = json.load(source)
+    if not isinstance(manifest, dict):
+        raise ValueError("QuestieDB manifest must be an object")
+
+    # These fields become package filenames and build links. Other metadata is checked only when used.
+    version = manifest.get("version")
+    if not isinstance(version, str) or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:[.-][A-Za-z0-9]+)*", version):
+        raise ValueError("QuestieDB manifest has an invalid version")
+    producer = manifest.get("producerCommit")
+    if not isinstance(producer, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", producer):
+        raise ValueError("QuestieDB manifest has an invalid producerCommit")
+    return manifest
+
+
+def _escape_markdown(text):
+    # Credits are display text, not Markdown, HTML, or GitHub usernames.
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("QuestieDB notes need nonempty display text")
+    text = html.escape(text, quote=False).replace("\r", " ").replace("\n", " ")
+    return re.sub(r"([\\`*_\[\]()~])", r"\\\1", text)
+
+
+def get_questiedb_changelog(manifest):
+    """Render a loaded provider manifest in its supplied order, without Questie's wording transforms."""
+    commit_url = "https://github.com/Questie/QuestieDB/commit/"
+    producer = manifest["producerCommit"]
+    result = f"## QuestieDB {manifest['version']}\n\n"
+    result += f"Database build: [{producer[:7]}]({commit_url}{producer})\n\n"
+    headings = dict(commit_keys_and_header)
+    previous_category = None
+    # Missing or empty entries leave version/build information, not a claim that nothing changed.
+    entries = manifest.get("changelog", [])
+    if not isinstance(entries, list):
+        raise ValueError("QuestieDB changelog must be an array")
+    for entry in entries:
+        category = entry["category"]
+        heading = headings[category]
+        if category != previous_category:
+            result += "#" + heading
+            previous_category = category
+        commit = entry["commit"]
+        if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", commit):
+            raise ValueError("QuestieDB changelog has an invalid commit")
+        coauthors = entry["coAuthors"]
+        if not isinstance(coauthors, list):
+            raise ValueError("QuestieDB changelog coAuthors must be an array")
+        credits = []
+        for name in [entry["author"], *coauthors]:
+            credits.append(f"[{_escape_markdown(name)}]({commit_url}{commit})")
+        result += f"- {_escape_markdown(entry['text'])} ({', '.join(credits)})\n\n"
+    return result
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Generate Questie notes, optionally followed by the bundled database's changes.")
+    parser.add_argument("--questiedb-manifest", help="Retained questiedb-release.json from this build; never fetched here")
+    args = parser.parse_args(argv)
+    database = load_questiedb_manifest(args.questiedb_manifest) if args.questiedb_manifest else None
     show_contributors_section = not is_running_in_github_actions()
     print(get_commit_changelog(show_contributors_section))
+    if database is not None:
+        print("\n" + get_questiedb_changelog(database))
+
+
+if __name__ == "__main__":
+    main()

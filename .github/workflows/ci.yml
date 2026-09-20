@@ -60,7 +60,9 @@ jobs:
           luarocks install luafilesystem 1.8.0-1
 
       - name: Validate build metadata
-        run: python3 build.test.py
+        run: |
+          python3 build.test.py
+          python3 changelog.test.py
 
       - name: Validate QuestieLoader usage
         run: lua cli/validate-loader-usage.lua
