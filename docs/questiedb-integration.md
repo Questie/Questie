@@ -265,7 +265,8 @@ Other recorded follow-ups:
 
 `python3 build.py --standalone` builds only Questie and makes no provider
 download. QuestieDB remains a required dependency and must be installed separately.
-`python3 build.py --combined` includes QuestieDB; combined is the default.
+Standalone is the default when neither mode is specified.
+`python3 build.py --combined` includes QuestieDB.
 Existing flavor switches and `--release` still apply.
 
 Each mode writes one ZIP and a matching `release.json`. Standalone metadata contains

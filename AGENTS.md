@@ -42,8 +42,8 @@ lua cli/validate-loader-usage.lua
 ### Build (release packaging)
 
 ```bash
-python3 build.py --combined    # Questie + QuestieDB (default)
-python3 build.py --standalone  # Questie only; install QuestieDB separately
+python3 build.py --standalone  # Questie only (default); install QuestieDB separately
+python3 build.py --combined    # Questie + QuestieDB
 python3 build.py --all         # all expansions
 python3 build.py --classic     # era only
 python3 build.py --release     # omit commit hash from name

@@ -2,14 +2,14 @@
 
 """
 Each build writes one ZIP and a matching release.json with component metadata.
-Combined builds (the default) include QuestieDB; standalone builds do not download it.
+Standalone builds (the default) do not download QuestieDB; combined builds include it.
 
 This program accepts optional command line options:
 
     --standalone
-        Build Questie only; QuestieDB must be installed separately
+        Build Questie only (default); QuestieDB must be installed separately
     --combined
-        Build Questie and QuestieDB together (default)
+        Build Questie and QuestieDB together
 
     -r
     --release
@@ -109,7 +109,7 @@ def main():
     isReleaseBuild = False
     if "--standalone" in sys.argv and "--combined" in sys.argv:
         raise ValueError("Choose either --standalone or --combined")
-    combined = "--standalone" not in sys.argv
+    combined = "--combined" in sys.argv
     includedExpansions.clear()
     versionOverride = ""
     if len(sys.argv) > 1:

@@ -158,8 +158,18 @@ class BuildModeTests(unittest.TestCase):
             self.assertNotIn(build.tocs[2], archive.namelist())
             self.assertFalse(any(name.startswith("QuestieDB/") for name in archive.namelist()))
 
-    def test_combined_is_default_and_preserves_the_complete_provider_section(self):
+    def test_standalone_is_default_without_a_provider_download(self):
         output, manifest = self.run_build("-r")
+        self.downloads.assert_not_called()
+        self.assertEqual({"releases", "questie"}, set(manifest))
+        filename = manifest["releases"][0]["filename"]
+        self.assertEqual("Questie-v11.38.0.zip", filename)
+        with zipfile.ZipFile(output / filename) as archive:
+            self.assertIn(build.tocs[1], archive.namelist())
+            self.assertFalse(any(name.startswith("QuestieDB/") for name in archive.namelist()))
+
+    def test_combined_preserves_the_complete_provider_section(self):
+        output, manifest = self.run_build("--combined", "-r")
         self.assertEqual(self.database, manifest["questiedb"])
         self.assertEqual("11.39.0", manifest["questie"]["version"])
         filename = manifest["releases"][0]["filename"]
@@ -219,7 +229,7 @@ class BuildModeTests(unittest.TestCase):
     def test_flat_provider_manifest_is_not_silently_accepted(self):
         self.provider_manifest = self.database
         with self.assertRaisesRegex(KeyError, "questiedb"):
-            self.run_build("-r")
+            self.run_build("--combined", "-r")
         self.assertEqual(1, self.downloads.call_count)
 
     def test_modes_preserve_development_naming_and_explicit_versions(self):
@@ -259,7 +269,7 @@ class BuildModeTests(unittest.TestCase):
                 self.database["artifacts"] = artifacts
                 self.downloads.reset_mock()
                 with self.assertRaisesRegex(ValueError, "exactly one QuestieDB-all.zip"):
-                    self.run_build("-r")
+                    self.run_build("--combined", "-r")
                 self.assertEqual(1, self.downloads.call_count)
 
     def test_checksum_or_size_mismatch_is_rejected_before_extraction_or_packaging(self):
@@ -268,17 +278,17 @@ class BuildModeTests(unittest.TestCase):
             with self.subTest(field=field, value=value), patch.dict(archive, {field: value}):
                 with patch.object(build.shutil, "unpack_archive") as extract:
                     with self.assertRaisesRegex(ValueError, "checksum or size"):
-                        self.run_build("-r")
+                        self.run_build("--combined", "-r")
                     extract.assert_not_called()
                 self.assertFalse((self.root / "releases/v11.38.0/release.json").exists())
 
     def test_packaged_toc_must_agree_with_manifest_producer(self):
         self.database["producerCommit"] = "d" * 40
         with self.assertRaisesRegex(ValueError, "TOC does not match"):
-            self.run_build("-r")
+            self.run_build("--combined", "-r")
 
     def test_notes_use_copied_metadata_after_latest_changes(self):
-        _, retained = self.run_build("-r")
+        _, retained = self.run_build("--combined", "-r")
         self.database["version"] = "9.0.0"
         self.database["changelog"][0]["text"] = "An unrelated later release."
         notes = changelog.get_addon_changelog("QuestieDB", retained["questiedb"])
