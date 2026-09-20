@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -156,8 +159,8 @@ function QuestieOptions.tabs.tracker:Initialize()
 
                             -- Update Quest Log and mark tracked Quests
                             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-                            if questLogFrame:IsShown() then
-                                QuestLog_Update()
+                            if questLogFrame and questLogFrame:IsShown() then
+                                QuestieCompat.QuestLog_Update()
                             end
 
                             QuestieTracker:Update()

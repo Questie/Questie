@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestgiverFrame
 local QuestgiverFrame = QuestieLoader:CreateModule("QuestgiverFrame")
 
@@ -9,7 +12,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local _G = _G
 local tinsert = tinsert
-local MAX_NUM_QUESTS = MAX_NUM_QUESTS
 
 -- This is the logic used for determining which icon we should show for a quest
 -- This just determines the "type" of icon shown, not the exact icon file - see Questie.icons
@@ -53,8 +55,8 @@ end
 -- 9.0.0 API GOSSIP
 local function updateGossipFrame()
     Questie.Debug(Questie.DEBUG_DEVELOP, "Updating Gossip frame 9.0-")
-    local numAvailable = GetNumGossipAvailableQuests()
-    local numActive = GetNumGossipActiveQuests()
+    local numAvailable = QuestieCompat.GetNumGossipAvailableQuests()
+    local numActive = QuestieCompat.GetNumGossipActiveQuests()
     local availQuests = QuestieCompat.GetAvailableQuests()
     local activeQuests = QuestieCompat.GetActiveQuests()
     local index = 0 -- this variable tracks the GossipTitleButton we should be targeting for icon changes
@@ -90,7 +92,7 @@ local function updateGreetingFrame()
     Questie.Debug(Questie.DEBUG_DEVELOP, "Updating Greeting frame.")
     local titleLines = {}
     local questIconTextures = {}
-    for i = 1, MAX_NUM_QUESTS do
+    for i = 1, QuestieCompat.MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         if titleLine then
             tinsert(titleLines, titleLine)

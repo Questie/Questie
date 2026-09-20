@@ -1,6 +1,7 @@
 dofile("setupTests.lua")
 
 describe("Forever API translations", function()
+    local QuestieCompat
     local aliases = {
         "GetQuestGreenRange", "GetQuestsCompleted", "GetQuestLogTitle", "GetNumQuestLogEntries",
         "GetQuestLogIndexByID", "GetQuestIDFromLogIndex", "SelectQuestLogEntry", "GetQuestLogSelection",
@@ -27,7 +28,7 @@ describe("Forever API translations", function()
             savedGlobals[name] = _G[name]
         end
         dofile("Modules/Libs/QuestieLoader.lua")
-        _G.QuestieCompat = {}
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
         _G.C_Reputation = {}
         _G.C_Spell = {}
         _G.Enum = {QuestWatchType = {Manual = 1}}
@@ -46,6 +47,7 @@ describe("Forever API translations", function()
         questInfo = {title = "A Threat Within", level = 1, suggestedGroup = 0, questID = 783, isHeader = false}
         _G.C_QuestLog = {
             GetInfo = spy.new(function() return questInfo end),
+            GetQuestTagInfo = function() return {tagName = "Group"} end,
             IsFailed = spy.new(function() return false end),
             IsComplete = spy.new(function() return false end),
             GetNumQuestWatches = function() return 1 end,
@@ -60,6 +62,22 @@ describe("Forever API translations", function()
         for _, name in ipairs(dependencies) do
             _G[name] = savedGlobals[name]
         end
+    end)
+
+    it("uses frame mouse-over even when the broken legacy global is present", function()
+        _G.MouseIsOver = function() error("removed legacy dependency") end
+        local frame = {IsMouseOver = spy.new(function() return true end)}
+        assert.is_true(QuestieCompat.MouseIsOver(frame, 1, 2, 3, 4))
+        assert.spy(frame.IsMouseOver).was.called_with(frame, 1, 2, 3, 4)
+        assert.has_error(function() MouseIsOver(frame) end, "removed legacy dependency")
+    end)
+
+    it("leaves Blizzard quest and watch globals untouched", function()
+        assert.is_nil(_G.GetQuestLogTitle)
+        assert.is_nil(_G.GetQuestTimers)
+        assert.is_nil(_G.AddQuestWatch)
+        assert.is_nil(_G.GetNumQuestWatches)
+        assert.are.equal(1, QuestieCompat.GetNumQuestWatches())
     end)
 
     it("does not take ownership of Blizzard visibility when the tracker was never hidden", function()
@@ -86,11 +104,11 @@ describe("Forever API translations", function()
     end)
 
     it("keeps the legacy tuple positions and nil completion for an incomplete quest", function()
-        local title, level, group, header, _, complete, _, questID = GetQuestLogTitle(2)
+        local title, level, group, header, _, complete, _, questID = QuestieCompat.GetQuestLogTitle(2)
 
         assert.are.equal("A Threat Within", title)
         assert.are.equal(1, level)
-        assert.are.equal(0, group)
+        assert.are.equal("Group", group)
         assert.is_false(header)
         assert.is_nil(complete)
         assert.are.equal(783, questID)
@@ -101,18 +119,18 @@ describe("Forever API translations", function()
 
     it("translates completed and failed states to the legacy numeric values", function()
         C_QuestLog.IsComplete = function() return true end
-        assert.are.equal(1, select(6, GetQuestLogTitle(2)))
+        assert.are.equal(1, select(6, QuestieCompat.GetQuestLogTitle(2)))
 
         C_QuestLog.IsFailed = function() return true end
-        assert.are.equal(-1, select(6, GetQuestLogTitle(2)))
+        assert.are.equal(-1, select(6, QuestieCompat.GetQuestLogTitle(2)))
     end)
 
     it("does not query completion for headers or missing entries", function()
         questInfo = {title = "Elwynn Forest", isHeader = true, questID = 0}
-        assert.is_nil(select(6, GetQuestLogTitle(1)))
+        assert.is_nil(select(6, QuestieCompat.GetQuestLogTitle(1)))
 
         questInfo = nil
-        assert.is_nil(GetQuestLogTitle(99))
+        assert.is_nil(QuestieCompat.GetQuestLogTitle(99))
         assert.spy(C_QuestLog.IsComplete).was.not_called()
         assert.spy(C_QuestLog.IsFailed).was.not_called()
     end)
@@ -124,10 +142,10 @@ describe("Forever API translations", function()
         C_QuestLog.AddQuestWatch = spy.new(function() return true end)
         C_QuestLog.RemoveQuestWatch = spy.new(function() return true end)
 
-        assert.are.equal(2, GetQuestIndexForWatch(1))
-        assert.is_true(IsQuestWatched(2))
-        assert.is_true(AddQuestWatch(2))
-        assert.is_true(RemoveQuestWatch(2))
+        assert.are.equal(2, QuestieCompat.GetQuestIndexForWatch(1))
+        assert.is_true(QuestieCompat.IsQuestWatched(2))
+        assert.is_true(QuestieCompat.AddQuestWatch(2))
+        assert.is_true(QuestieCompat.RemoveQuestWatch(2))
 
         assert.spy(C_QuestLog.GetQuestIDForQuestWatchIndex).was.called_with(1)
         assert.spy(C_QuestLog.GetLogIndexForQuestID).was.called_with(783)
@@ -141,10 +159,10 @@ describe("Forever API translations", function()
         C_QuestLog.GetSelectedQuest = function() return 783 end
         C_QuestLog.GetLogIndexForQuestID = spy.new(function() return nil end)
 
-        SelectQuestLogEntry(2)
+        QuestieCompat.SelectQuestLogEntry(2)
         assert.spy(C_QuestLog.SetSelectedQuest).was.called_with(783)
-        assert.are.equal(0, GetQuestLogSelection())
-        assert.are.equal(0, GetQuestLogIndexByID(999))
+        assert.are.equal(0, QuestieCompat.GetQuestLogSelection())
+        assert.are.equal(0, QuestieCompat.GetQuestLogIndexByID(999))
         assert.spy(C_QuestLog.GetLogIndexForQuestID).was.called_with(783)
         assert.spy(C_QuestLog.GetLogIndexForQuestID).was.called_with(999)
     end)
@@ -153,18 +171,18 @@ describe("Forever API translations", function()
         C_QuestLog.GetQuestTimers = function()
             return {{questID = 33, questTimer = 81}, {questID = 783, questTimer = 120}}
         end
-        assert.are.same({81, 120}, {GetQuestTimers()})
+        assert.are.same({81, 120}, {QuestieCompat.GetQuestTimers()})
 
         C_QuestLog.GetQuestTimers = function() return {} end
-        assert.is_nil(GetQuestTimers())
+        assert.is_nil(QuestieCompat.GetQuestTimers())
     end)
 
     it("converts completed IDs into a set and populates a caller-provided table", function()
         C_QuestLog.GetAllCompletedQuestIDs = function() return {783, 7} end
         local completed = {[42] = true}
 
-        assert.are.same({[783] = true, [7] = true}, GetQuestsCompleted())
-        assert.are.equal(completed, GetQuestsCompleted(completed))
+        assert.are.same({[783] = true, [7] = true}, QuestieCompat.GetQuestsCompleted())
+        assert.are.equal(completed, QuestieCompat.GetQuestsCompleted(completed))
         assert.are.same({[42] = true, [783] = true, [7] = true}, completed)
     end)
 
@@ -183,8 +201,8 @@ describe("Forever API translations", function()
             false, true, true, false, true, false, false, 469, true, false,
         }
 
-        assert.are.same(expected, {GetFactionInfo(1)})
-        assert.are.same(expected, {GetFactionInfoByID(469)})
+        assert.are.same(expected, {QuestieCompat.GetFactionInfo(1)})
+        assert.are.same(expected, {QuestieCompat.GetFactionInfoByID(469)})
         assert.spy(C_Reputation.GetFactionDataByIndex).was.called_with(1)
         assert.spy(C_Reputation.GetFactionDataByID).was.called_with(469)
     end)

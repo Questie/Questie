@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 describe("Questie", function()
     local startupCalls

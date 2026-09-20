@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:CreateModule("TrackerQuestTimers")
 
@@ -101,22 +104,22 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
         return nil
     end
 
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if (not questLogIndex) then
         return nil
     end
 
-    local questTimers = GetQuestTimers(questId)
+    local questTimers = QuestieCompat.GetQuestTimers(questId)
     if (not questTimers) then
         return nil
     end
 
-    local currentQuestLogSelection = GetQuestLogSelection()
-    SelectQuestLogEntry(questLogIndex)
+    local currentQuestLogSelection = QuestieCompat.GetQuestLogSelection()
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
     -- We can't use GetQuestTimers because we don't know for which quest the timer is.
     -- GetQuestLogTimeLeft returns the correct value though.
     local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
-    SelectQuestLogEntry(currentQuestLogSelection)
+    QuestieCompat.SelectQuestLogEntry(currentQuestLogSelection)
 
     if timeRemaining ~= nil then
         local timeRemainingString = SecondsToTime(timeRemaining, false, false)

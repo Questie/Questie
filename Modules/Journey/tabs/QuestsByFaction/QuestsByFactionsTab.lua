@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
@@ -11,7 +14,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
-local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+local ExpandFactionHeader, GetNumFactions, GetFactionInfo = QuestieCompat.ExpandFactionHeader, QuestieCompat.GetNumFactions, QuestieCompat.GetFactionInfo
 
 local RESET = -1000
 

@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerHeaderFrame
 local TrackerHeaderFrame = QuestieLoader:CreateModule("TrackerHeaderFrame")
 -------------------------

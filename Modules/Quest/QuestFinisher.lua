@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestFinisher
 local QuestFinisher = QuestieLoader:CreateModule("QuestFinisher")
 
@@ -15,7 +18,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 --- COMPATIBILITY ---
-local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+local IsQuestFlaggedCompleted = QuestieCompat.IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
 local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap

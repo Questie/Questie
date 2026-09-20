@@ -81,6 +81,7 @@ _G.Enum = {
 }
 
 _G.MAX_NUM_QUESTS = 25
+QuestieLoader:ImportModule("QuestieCompat").MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""

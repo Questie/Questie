@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 --[[
 Flow:
 -> QuestieValidateGameCache.StartCheck()
@@ -16,7 +19,7 @@ local QuestieValidateGameCache = QuestieLoader:CreateModule("QuestieValidateGame
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 
 local stringByte, tremove = string.byte, table.remove
-local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = GetNumQuestLogEntries, GetQuestLogTitle, C_QuestLog.GetQuestObjectives
+local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = QuestieCompat.GetNumQuestLogEntries, QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 local tpack =  QuestieLib.tpack
 local tunpack = QuestieLib.tunpack

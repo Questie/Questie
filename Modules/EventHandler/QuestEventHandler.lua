@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestEventHandler
 local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
 ---@class QuestEventHandlerPrivate
@@ -48,7 +51,7 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type BreadcrumbQuests
 local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
 
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
@@ -68,118 +71,122 @@ function QuestEventHandler:Initialize()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Initialize")
 
     -- StaticPopup dialog hooks. Deleting Quest items do not always trigger a Quest Log Update.
-    hooksecurefunc("StaticPopup_Show", function(...)
-        -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
-        local which, text_arg1 = ...
-        if which == "DELETE_ITEM" then
-            local quest
-            local questName
-            local foundQuestItem = false
+    if StaticPopup_Show then
+        hooksecurefunc("StaticPopup_Show", function(...)
+            -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
+            local which, text_arg1 = ...
+            if which == "DELETE_ITEM" then
+                local quest
+                local questName
+                local foundQuestItem = false
 
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Item Name: ", text_arg1)
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Item Name: ", text_arg1)
 
-            if deletedQuestItem == true then
-                deletedQuestItem = false
-            end
-
-            for questLogIndex = 1, 75 do
-                local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
-
-                if (not title) then
-                    break
+                if deletedQuestItem == true then
+                    deletedQuestItem = false
                 end
 
-                if (not isHeader) then
-                    quest = QuestieDB.GetQuest(questId)
+                for questLogIndex = 1, 75 do
+                    local title, _, _, isHeader, _, _, _, questId = QuestieCompat.GetQuestLogTitle(questLogIndex)
 
-                    if quest then
-                        local sourceItemId = quest.sourceItemId
-                        local sourceItemName
-                        local reqSourceItemId, reqSoureItemName
+                    if (not title) then
+                        break
+                    end
 
-                        if sourceItemId then
-                            sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(sourceItemId)
-                        end
+                    if (not isHeader) then
+                        quest = QuestieDB.GetQuest(questId)
 
-                        if quest.requiredSourceItems then
-                            reqSourceItemId = quest.requiredSourceItems[1]
+                        if quest then
+                            local sourceItemId = quest.sourceItemId
+                            local sourceItemName
+                            local reqSourceItemId, reqSoureItemName
 
-                            if reqSourceItemId then
-                                reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(reqSourceItemId)
+                            if sourceItemId then
+                                sourceItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(sourceItemId)
                             end
-                        end
 
-                        if sourceItemId and sourceItemName and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == sourceItemName then
-                            questName = quest.name
-                            foundQuestItem = true
-                            break
-                        elseif reqSourceItemId and reqSoureItemName and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
-                            questName = quest.name
-                            foundQuestItem = true
-                            break
-                        else
-                            if quest.Objectives and #quest.Objectives > 0 then
-                                for _, objective in pairs(quest.Objectives) do
-                                    if text_arg1 == objective.Description then
-                                        questName = quest.name
-                                        foundQuestItem = true
-                                        break
+                            if quest.requiredSourceItems then
+                                reqSourceItemId = quest.requiredSourceItems[1]
+
+                                if reqSourceItemId then
+                                    reqSoureItemName, _, _, _, _, _, _, _, _, _, _, _ = GetItemInfo(reqSourceItemId)
+                                end
+                            end
+
+                            if sourceItemId and sourceItemName and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == sourceItemName then
+                                questName = quest.name
+                                foundQuestItem = true
+                                break
+                            elseif reqSourceItemId and reqSoureItemName and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
+                                questName = quest.name
+                                foundQuestItem = true
+                                break
+                            else
+                                if quest.Objectives and #quest.Objectives > 0 then
+                                    for _, objective in pairs(quest.Objectives) do
+                                        if text_arg1 == objective.Description then
+                                            questName = quest.name
+                                            foundQuestItem = true
+                                            break
+                                        end
                                     end
                                 end
                             end
                         end
                     end
                 end
-            end
 
-            if foundQuestItem and quest and questName then
-                if StaticPopup_ForEachShownDialog then
-                    -- MoP+
-                    StaticPopup_ForEachShownDialog(function(dialog)
-                        if dialog.Text.text_arg1 == text_arg1 then
-                            local text = dialog.Text
-                            local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                            text:SetFormattedText(updateText, text_arg1, questName)
-                            text.text_arg1 = updateText
+                if foundQuestItem and quest and questName then
+                    if StaticPopup_ForEachShownDialog then
+                        -- MoP+
+                        StaticPopup_ForEachShownDialog(function(dialog)
+                            if dialog.Text.text_arg1 == text_arg1 then
+                                local text = dialog.Text
+                                local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                                text:SetFormattedText(updateText, text_arg1, questName)
+                                text.text_arg1 = updateText
 
-                            StaticPopup_ResizeShownDialogs()
-                            deletedQuestItem = true
+                                StaticPopup_ResizeShownDialogs()
+                                deletedQuestItem = true
 
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
-                        end
-                    end)
-                else
-                    -- Pre-MoP
-                    for i = 1, STATICPOPUP_NUMDIALOGS do
-                        local frame = _G["StaticPopup" .. i]
-                        if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
-                            local text = _G[frame:GetName() .. "Text"]
+                                Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
+                            end
+                        end)
+                    else
+                        -- Pre-MoP
+                        for i = 1, STATICPOPUP_NUMDIALOGS do
+                            local frame = _G["StaticPopup" .. i]
+                            if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
+                                local text = _G[frame:GetName() .. "Text"]
 
-                            local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                            text:SetFormattedText(updateText, text_arg1, questName)
-                            text.text_arg1 = updateText
+                                local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                                text:SetFormattedText(updateText, text_arg1, questName)
+                                text.text_arg1 = updateText
 
-                            StaticPopup_Resize(frame, which)
-                            deletedQuestItem = true
+                                QuestieCompat.StaticPopup_Resize(frame, which)
+                                deletedQuestItem = true
 
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
-                            break
+                                Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
+                                break
+                            end
                         end
                     end
                 end
             end
-        end
-    end)
+        end)
+    end
 
-    hooksecurefunc("DeleteCursorItem", function()
-        -- Hook DeleteCursorItem so we know when the player clicks the Accept button
-        if deletedQuestItem then
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] DeleteCursorItem: Quest Item deleted. Update all quests.")
+    if DeleteCursorItem then
+        hooksecurefunc("DeleteCursorItem", function()
+            -- Hook DeleteCursorItem so we know when the player clicks the Accept button
+            if deletedQuestItem then
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] DeleteCursorItem: Quest Item deleted. Update all quests.")
 
-            _QuestEventHandler:UpdateAllQuests(true)
-            deletedQuestItem = false
-        end
-    end)
+                _QuestEventHandler:UpdateAllQuests(true)
+                deletedQuestItem = false
+            end
+        end)
+    end
 end
 
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
@@ -212,7 +219,7 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
 
     -- Timed quests do not need a full Quest Log Update.
     -- TODO: Add achievement timers later.
-    local questTimers = GetQuestTimers(questId)
+    local questTimers = QuestieCompat.GetQuestTimers(questId)
     if type(questTimers) == "number" then
         lastMarkerQuestEventTime = GetTime()
     end
@@ -226,7 +233,7 @@ end
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     -- The quest may have been abandoned (e.g. auto-abandon for incomplete breadcrumb) while waiting for the cache
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if not questLogIndex or questLogIndex == 0 then
         Questie.Debug(Questie.DEBUG_INFO, "Quest", questId, "is no longer in the quest log, skipping accept logic")
         return

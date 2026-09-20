@@ -48,8 +48,9 @@ local function _Result(failures, dataset, expansion)
     local metadata = (C_AddOns and C_AddOns.GetAddOnMetadata) or GetAddOnMetadata
     local questieVersion = metadata and metadata("Questie", "Version") or "unknown"
     local tdbVersion = metadata and metadata("QuestieDB", "Version") or "unknown"
+    local consumerFlavor = expansion == 1 and Questie and Questie.IsForever and "Forever" or flavors[expansion]
     return false, "Questie support-data validation failed. Initialization stopped.\n" ..
-        "Dataset: " .. dataset .. "; consumer flavor: " .. (flavors[expansion] or tostring(expansion)) ..
+        "Dataset: " .. dataset .. "; consumer flavor: " .. (consumerFlavor or tostring(expansion)) ..
         "; provider readMode: " .. tostring(LibQuestieDB and LibQuestieDB.readMode or "unknown") ..
         "; Questie version: " .. questieVersion .. "; QuestieDB version: " .. tdbVersion .. "\n" ..
         table.concat(failures, "\n")
@@ -133,6 +134,12 @@ function SupportValidation.ValidateZones(zones, expansion)
     local continentMap = expansion == 5 and 12 or 1414
     local reverseOverrideKey = expansion == 5 and 12 or 113
     local reverseOverrideValue = expansion == 5 and 10073 or 0
+    local isForever = expansion == 1 and Questie and Questie.IsForever
+    if isForever then
+        -- Forever shares Era content, but its native map data has no Northrend suppression entry.
+        -- Validate its actual continent override instead of requiring a synthetic legacy mapping.
+        reverseOverrideKey, reverseOverrideValue = 1414, 10073
+    end
     _Probe(failures, "zoneIDs.ELWYNN_FOREST", zones, {"zoneIDs", "ELWYNN_FOREST"}, 12)
     _Probe(failures, "zoneIDs.STORMWIND_CITY", zones, {"zoneIDs", "STORMWIND_CITY"}, 1519)
     _Probe(failures, "zoneIDs.DUN_MOROGH", zones, {"zoneIDs", "DUN_MOROGH"}, 1)
@@ -148,6 +155,13 @@ function SupportValidation.ValidateZones(zones, expansion)
     _Probe(failures, "subZoneToParentZone[2]", zones, {"subZoneToParentZone", 2}, 40)
     _Probe(failures, "subZoneToParentZoneOverride[133]", zones, {"subZoneToParentZoneOverride", 133}, 1)
     _Probe(failures, "subZoneToParentZone[133]", zones, {"subZoneToParentZone", 133}, 1)
+
+    if isForever then
+        -- Reviewed Skyborne starting-zone controls distinguish Forever support from the Era payload.
+        _Probe(failures, "areaIdToUiMapId[16593]", zones, {"areaIdToUiMapId", 16593}, 2521)
+        _Probe(failures, "uiMapIdToAreaId[2521]", zones, {"uiMapIdToAreaId", 2521}, 16593)
+        _Probe(failures, "subZoneToParentZone[16622]", zones, {"subZoneToParentZone", 16622}, 16593)
+    end
 
     -- Utgarde Keep has the same entrance for both factions in every supported flavor.
     _Check(failures, "dungeons[206].alternativeAreas type", type(_Value(zones, {"dungeons", 206, 2})), "table")

@@ -4,10 +4,12 @@ local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("SupportValidation", function()
     local validation, mock
-    local originalMetadata, originalAddOns
+    local originalMetadata, originalAddOns, originalQuestie
 
     before_each(function()
         mock = LoadQuestieDBMock()
+        originalQuestie = _G.Questie
+        _G.Questie = {IsForever = false}
         originalMetadata, originalAddOns = _G.GetAddOnMetadata, _G.C_AddOns
         _G.GetAddOnMetadata = nil
         _G.C_AddOns = nil
@@ -16,6 +18,7 @@ describe("SupportValidation", function()
     end)
 
     after_each(function()
+        _G.Questie = originalQuestie
         _G.GetAddOnMetadata, _G.C_AddOns = originalMetadata, originalAddOns
     end)
 
@@ -89,6 +92,50 @@ describe("SupportValidation", function()
             assert.is_true(validation.ValidateZones(zones, case.expansion))
         end)
     end
+
+    describe("Forever zone controls", function()
+        local zones
+
+        before_each(function()
+            Questie.IsForever = true
+            zones = EraZones()
+            zones.areaIdToUiMapId[16593] = 2521
+            zones.uiMapIdToAreaId = {[1429] = 12, [1414] = 10073, [2521] = 16593}
+            zones.uiMapIdToAreaIdOverride = {[1414] = 10073}
+            zones.subZoneToParentZone[16622] = 16593
+        end)
+
+        it("accepts native Forever maps without a Northrend suppression entry", function()
+            local valid, report = validation.ValidateZones(zones, 1)
+            assert.is_true(valid)
+            assert.is_nil(report)
+        end)
+
+        for _, case in ipairs({
+            {name = "continent override", field = "uiMapIdToAreaIdOverride", key = 1414, expected = 10073},
+            {name = "effective continent", field = "uiMapIdToAreaId", key = 1414, expected = 10073},
+            {name = "Zephras Isle map", field = "areaIdToUiMapId", key = 16593, expected = 2521},
+            {name = "Zephras Isle reverse map", field = "uiMapIdToAreaId", key = 2521, expected = 16593},
+            {name = "Thendal Grove parent", field = "subZoneToParentZone", key = 16622, expected = 16593},
+        }) do
+            it("rejects an incorrect " .. case.name .. " with a Forever diagnostic", function()
+                zones[case.field][case.key] = 999
+                local valid, report = validation.ValidateZones(zones, 1)
+                assert.is_false(valid)
+                assert.matches("Dataset: Zones; consumer flavor: Forever", report, 1, true)
+                assert.matches(case.field .. "[" .. case.key .. "]: expected " .. case.expected .. ", actual 999", report, 1, true)
+            end)
+        end
+
+        it("still rejects missing legacy suppression on ordinary Era", function()
+            Questie.IsForever = false
+            local valid, report = validation.ValidateZones(zones, 1)
+            assert.is_false(valid)
+            assert.matches("consumer flavor: Era", report, 1, true)
+            assert.matches("uiMapIdToAreaIdOverride[113]: expected 0, actual nil", report, 1, true)
+            assert.matches("uiMapIdToAreaId[113]: expected 0, actual nil", report, 1, true)
+        end)
+    end)
 
     for _, field in ipairs({"zoneIDs", "instanceIdToAreaId", "areaIdToUiMapId", "areaIdToUiMapIdOverride",
         "uiMapIdToAreaId", "uiMapIdToAreaIdOverride", "subZoneToParentZone", "subZoneToParentZoneOverride", "dungeons"}) do

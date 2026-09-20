@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieReputation
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 ---@type QuestiePlayer
@@ -14,7 +17,7 @@ local playerReputations = {}
 local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
 
 -- Fast local references
-local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+local ExpandFactionHeader, GetNumFactions, GetFactionInfo = QuestieCompat.ExpandFactionHeader, QuestieCompat.GetNumFactions, QuestieCompat.GetFactionInfo
 local tinsert, floor = table.insert, math.floor
 
 --- Updates all factions a player already discovered and checks if any of these
@@ -302,7 +305,7 @@ function QuestieReputation.GetReputationReward(questId)
         if reward then
             reward = reward * (reward > 0 and reputationMultiplier or 1)
             -- faction bonus commendation check
-            if select(15, GetFactionInfoByID(factionId)) == true then
+            if select(15, QuestieCompat.GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
             end
 
@@ -337,7 +340,7 @@ end
 _GetBuffMultiplier = function()
     local buffMultiplier = 0
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
+        local _, _, _, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then
             break
         end
@@ -394,7 +397,7 @@ function QuestieReputation.GetFactionName(factionId)
         return friendReputation.name
     end
 
-    return select(1, GetFactionInfoByID(factionId))
+    return select(1, QuestieCompat.GetFactionInfoByID(factionId))
 end
 
 ---@param reputationReward ReputationPair[]

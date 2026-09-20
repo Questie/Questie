@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerItemButton
 local TrackerItemButton = QuestieLoader:CreateModule("TrackerItemButton")
 
@@ -11,7 +14,7 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
-local GetItemCount = C_Item.GetItemCount or GetItemCount
+local GetItemCount = C_Item.GetItemCount or QuestieCompat.GetItemCount
 local IsItemInRange = C_Item.IsItemInRange or IsItemInRange
 
 ---@param buttonName string

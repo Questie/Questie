@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
 ---@type QuestieDB

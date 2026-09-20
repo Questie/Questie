@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieOptions
 local QuestieOptions = QuestieLoader:CreateModule("QuestieOptions");
 -------------------------

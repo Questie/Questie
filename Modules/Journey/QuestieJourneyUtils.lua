@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils")
 
@@ -10,8 +13,8 @@ local WrappedText = QuestieLoader:ImportModule("WrappedText")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
-local GetItemIcon = C_Item.GetItemIconByID or GetItemIcon
+local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
+local GetItemIcon = C_Item.GetItemIconByID or QuestieCompat.GetItemIcon
 
 local AceGUI = LibStub("AceGUI-3.0")
 

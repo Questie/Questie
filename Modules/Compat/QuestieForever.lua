@@ -1,24 +1,30 @@
--- Loaded only by the Camelot TOC, before consumers cache legacy APIs and before embedded libraries load.
--- These translations keep the existing Classic contracts; modern Blizzard UI keeps using its namespaced APIs.
+-- Loaded only by Camelot, before consumers cache compatibility methods and embedded libraries load.
+-- First-party translations stay on QuestieCompat; only AceGUI spell/texture calls need global bridges.
 ---@class QuestieForever
 local QuestieForever = QuestieLoader:CreateModule("QuestieForever")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 ---@param index number Quest-log index, not quest ID.
 ---@return any ... Legacy GetQuestLogTitle tuple; incomplete quests return nil, not zero, for completion.
 function QuestieForever.GetQuestLogTitle(index)
+    if not index or index <= 0 then return nil end
     local info = C_QuestLog.GetInfo(index)
     if not info then
         return nil
     end
     local complete
+    local questTag
     if not info.isHeader then
+        local tag = C_QuestLog.GetQuestTagInfo and C_QuestLog.GetQuestTagInfo(info.questID)
+        questTag = tag and tag.tagName
         if C_QuestLog.IsFailed(info.questID) then
             complete = -1
         elseif C_QuestLog.IsComplete(info.questID) then
             complete = 1
         end
     end
-    return info.title, info.level, info.suggestedGroup, info.isHeader, info.isCollapsed, complete,
+    return info.title, info.level, questTag, info.isHeader, info.isCollapsed, complete,
         info.frequency, info.questID, info.startEvent, info.questID, info.isOnMap, info.hasLocalPOI,
         info.isTask, info.isBounty, info.isStory, info.isHidden, info.isScaling
 end
@@ -51,6 +57,7 @@ end
 ---@param index number
 ---@return number? questID
 local function QuestIDFromIndex(index)
+    if not index or index <= 0 then return nil end
     local info = C_QuestLog.GetInfo(index)
     return info and not info.isHeader and info.questID or nil
 end
@@ -66,7 +73,8 @@ end
 
 ---@return number
 function QuestieForever.GetQuestLogSelection()
-    return C_QuestLog.GetLogIndexForQuestID(C_QuestLog.GetSelectedQuest()) or 0
+    local questID = C_QuestLog.GetSelectedQuest()
+    return (questID and C_QuestLog.GetLogIndexForQuestID(questID)) or 0
 end
 
 ---@param watchIndex number
@@ -164,30 +172,31 @@ function QuestieForever.SetDesaturation(texture, desaturated)
     texture:SetDesaturated(desaturated)
 end
 
-GetQuestTimers = QuestieForever.GetQuestTimers
-GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
-GetQuestsCompleted = GetQuestsCompleted or QuestieForever.GetQuestsCompleted
-GetQuestLogTitle = GetQuestLogTitle or QuestieForever.GetQuestLogTitle
-GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-GetQuestLogIndexByID = GetQuestLogIndexByID or QuestieForever.GetQuestLogIndexByID
-GetQuestIDFromLogIndex = GetQuestIDFromLogIndex or QuestIDFromIndex
-SelectQuestLogEntry = SelectQuestLogEntry or QuestieForever.SelectQuestLogEntry
-GetQuestLogSelection = GetQuestLogSelection or QuestieForever.GetQuestLogSelection
-GetQuestIndexForWatch = GetQuestIndexForWatch or QuestieForever.GetQuestIndexForWatch
-IsQuestWatched = IsQuestWatched or QuestieForever.IsQuestWatched
-AddQuestWatch = AddQuestWatch or QuestieForever.AddQuestWatch
-RemoveQuestWatch = RemoveQuestWatch or QuestieForever.RemoveQuestWatch
-GetQuestTagInfo = GetQuestTagInfo or QuestieForever.GetQuestTagInfo
--- The legacy global exists on Forever but calls a removed function internally, so presence is insufficient here.
-GetNumQuestWatches = C_QuestLog.GetNumQuestWatches
-UnitAura = QuestieForever.UnitAura
-MouseIsOver = QuestieForever.MouseIsOver
-GetFactionInfo = GetFactionInfo or QuestieForever.GetFactionInfo
-GetFactionInfoByID = GetFactionInfoByID or QuestieForever.GetFactionInfoByID
-GetNumFactions = GetNumFactions or C_Reputation.GetNumFactions
-ExpandFactionHeader = ExpandFactionHeader or C_Reputation.ExpandFactionHeader
+-- First-party consumers import these wrappers; Blizzard globals remain untouched.
+QuestieCompat.GetQuestTimers = QuestieForever.GetQuestTimers
+QuestieCompat.GetQuestGreenRange = UnitQuestTrivialLevelRange
+QuestieCompat.GetQuestsCompleted = QuestieForever.GetQuestsCompleted
+QuestieCompat.GetQuestLogTitle = QuestieForever.GetQuestLogTitle
+QuestieCompat.GetNumQuestLogEntries = C_QuestLog.GetNumQuestLogEntries
+QuestieCompat.GetQuestLogIndexByID = QuestieForever.GetQuestLogIndexByID
+QuestieCompat.GetQuestIDFromLogIndex = QuestIDFromIndex
+QuestieCompat.SelectQuestLogEntry = QuestieForever.SelectQuestLogEntry
+QuestieCompat.GetQuestLogSelection = QuestieForever.GetQuestLogSelection
+QuestieCompat.GetQuestIndexForWatch = QuestieForever.GetQuestIndexForWatch
+QuestieCompat.IsQuestWatched = QuestieForever.IsQuestWatched
+QuestieCompat.AddQuestWatch = QuestieForever.AddQuestWatch
+QuestieCompat.RemoveQuestWatch = QuestieForever.RemoveQuestWatch
+QuestieCompat.GetQuestTagInfo = QuestieForever.GetQuestTagInfo
+QuestieCompat.GetNumQuestWatches = C_QuestLog.GetNumQuestWatches
+QuestieCompat.UnitAura = QuestieForever.UnitAura
+QuestieCompat.MouseIsOver = QuestieForever.MouseIsOver
+QuestieCompat.GetFactionInfo = QuestieForever.GetFactionInfo
+QuestieCompat.GetFactionInfoByID = QuestieForever.GetFactionInfoByID
+QuestieCompat.GetNumFactions = C_Reputation.GetNumFactions
+QuestieCompat.ExpandFactionHeader = C_Reputation.ExpandFactionHeader
+
+-- Embedded AceGUI widgets still call the legacy spell and texture globals.
 GetSpellInfo = GetSpellInfo or QuestieForever.GetSpellInfo
-GetAddOnMetadata = GetAddOnMetadata or C_AddOns.GetAddOnMetadata
 SetDesaturation = SetDesaturation or QuestieForever.SetDesaturation
 
 -- The modern tracker can show itself on every content update. Keep suppression owned and reversible,

@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class AchievementEventHandler
 local AchievementEventHandler = QuestieLoader:CreateModule("AchievementEventHandler")
 
@@ -16,7 +19,7 @@ function AchievementEventHandler.AchievementEarned(achievementID)
         AchievementFrame_LoadUI()
     end
 
-    AchievementFrameAchievements_ForceUpdate()
+    QuestieCompat.AchievementFrameAchievements_ForceUpdate()
 
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()

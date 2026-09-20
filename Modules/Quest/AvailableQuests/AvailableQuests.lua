@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class AvailableQuests
 local AvailableQuests = QuestieLoader:CreateModule("AvailableQuests")
 
@@ -26,7 +29,7 @@ local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
 ---@type DailyQuestCommsBlacklist
 local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
 
-local GetQuestGreenRange = GetQuestGreenRange
+local GetQuestGreenRange = QuestieCompat.GetQuestGreenRange
 local yield = coroutine.yield
 local tinsert = table.insert
 
@@ -122,7 +125,7 @@ _ScheduleDailyResetTimer = function()
         delay = lastKnownReset - now + 5 -- +5 seconds safety margin
     else
         -- First login, calculate delay to next reset from current time
-        delay = GetQuestResetTime() + 5
+        delay = QuestieCompat.GetQuestResetTime() + 5
     end
 
     if delay < 0 then
@@ -492,7 +495,7 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
 
     local availableQuestsInGreeting = {}
     local unresolvedQuestInGreeting = false
-    for i = 1, MAX_NUM_QUESTS do
+    for i = 1, QuestieCompat.MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         if (not titleLine) then
             break

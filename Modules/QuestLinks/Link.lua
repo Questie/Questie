@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieLink
 local QuestieLink = QuestieLoader:CreateModule("QuestieLink")
 -------------------------
@@ -57,7 +60,7 @@ end
 ---@return string
 function QuestieLink.GetNativeQuestLinkStringById(questId)
     if GetQuestLink then
-        local link = GetQuestLink(questId)
+        local link = QuestieCompat.GetQuestLink(questId)
         if link then
             return link
         end

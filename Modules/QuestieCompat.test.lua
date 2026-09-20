@@ -15,7 +15,7 @@ describe("QuestieCompat", function()
         _G.GetGossipActiveQuests = nil
 
         dofile("Modules/QuestieCompat.lua")
-        QuestieCompat = _G.QuestieCompat
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end)
 
     describe("GetAvailableQuests", function()
@@ -294,5 +294,128 @@ describe("QuestieCompat", function()
                 minute = 0,
             }, currentTime)
         end)
+    end)
+end)
+
+describe("QuestieCompat modern quest log boundary", function()
+    local QuestieCompat
+    local originalQuestLog
+
+    before_each(function()
+        originalQuestLog = _G.C_QuestLog
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+        _G.C_QuestLog = {
+            GetInfo = spy.new(function() return {questID = 783, title = "A Threat Within"} end),
+            GetQuestTagInfo = spy.new(function() return {tagName = "Group"} end),
+            IsComplete = spy.new(function() return false end),
+            IsFailed = spy.new(function() return true end),
+            SetSelectedQuest = spy.new(function() end),
+            AddQuestWatch = spy.new(function() end),
+            RemoveQuestWatch = spy.new(function() end),
+            GetLogIndexForQuestID = function() return nil end,
+            GetSelectedQuest = function() return 783 end,
+        }
+    end)
+
+    after_each(function()
+        _G.C_QuestLog = originalQuestLog
+    end)
+
+    it("registers through the loader without publishing a global", function()
+        assert.is_nil(_G.QuestieCompat)
+        assert.are.equal(QuestieLoader:ImportModule("QuestieCompat"), QuestieCompat)
+    end)
+
+    it("keeps the quest tag and failed status in the legacy tuple", function()
+        local _, _, tag, _, _, complete, _, questID = QuestieCompat.GetQuestLogTitle(2)
+        assert.are.equal("Group", tag)
+        assert.are.equal(-1, complete)
+        assert.are.equal(783, questID)
+        assert.spy(C_QuestLog.IsComplete).was.not_called()
+    end)
+
+    it("does not query quest-only fields or select and watch a header", function()
+        C_QuestLog.GetInfo = function() return {title = "Elwynn", isHeader = true, questID = 0} end
+        local _, _, tag, _, _, complete = QuestieCompat.GetQuestLogTitle(1)
+        assert.is_nil(tag)
+        assert.is_nil(complete)
+        QuestieCompat.SelectQuestLogEntry(1)
+        QuestieCompat.AddQuestWatch(1)
+        QuestieCompat.RemoveQuestWatch(1)
+        assert.spy(C_QuestLog.GetQuestTagInfo).was.not_called()
+        assert.spy(C_QuestLog.IsFailed).was.not_called()
+        assert.spy(C_QuestLog.SetSelectedQuest).was.not_called()
+        assert.spy(C_QuestLog.AddQuestWatch).was.not_called()
+        assert.spy(C_QuestLog.RemoveQuestWatch).was.not_called()
+    end)
+
+    it("preserves zero for an absent log index and refuses invalid indices", function()
+        assert.are.equal(0, QuestieCompat.GetQuestLogIndexByID(999))
+        assert.are.equal(0, QuestieCompat.GetQuestLogSelection())
+        assert.is_nil(QuestieCompat.GetQuestLogTitle(nil))
+        QuestieCompat.SelectQuestLogEntry(0)
+        QuestieCompat.AddQuestWatch(nil)
+        QuestieCompat.RemoveQuestWatch(0)
+        assert.spy(C_QuestLog.GetInfo).was.not_called()
+    end)
+end)
+
+describe("QuestieCompat legacy return shapes", function()
+    local QuestieCompat
+    local originals
+
+    before_each(function()
+        originals = {
+            C_QuestLog = _G.C_QuestLog,
+            C_StableInfo = _G.C_StableInfo,
+            C_Item = _G.C_Item,
+            GetAbandonQuestItems = _G.GetAbandonQuestItems,
+            GetStablePetFoodTypes = _G.GetStablePetFoodTypes,
+        }
+        _G.GetAbandonQuestItems = nil
+        _G.GetStablePetFoodTypes = nil
+        _G.C_QuestLog = {GetAbandonQuestItems = function() return {} end}
+        _G.C_StableInfo = {GetStablePetFoodTypes = function() return {} end}
+        _G.C_Item = {GetItemInfo = function(id) return ({[10] = "Letter", [20] = "Key"})[id] end}
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        _G.C_QuestLog = originals.C_QuestLog
+        _G.C_StableInfo = originals.C_StableInfo
+        _G.C_Item = originals.C_Item
+        _G.GetAbandonQuestItems = originals.GetAbandonQuestItems
+        _G.GetStablePetFoodTypes = originals.GetStablePetFoodTypes
+    end)
+
+    it("returns nil for no abandonment items so the ordinary popup is selected", function()
+        assert.is_nil(QuestieCompat.GetAbandonQuestItems())
+    end)
+
+    it("formats modern item IDs as names for the destruction warning", function()
+        C_QuestLog.GetAbandonQuestItems = function() return {10, 20} end
+        assert.are.equal("Letter, Key", QuestieCompat.GetAbandonQuestItems())
+    end)
+
+    it("omits uncached item names as Blizzard's abandonment dialog does", function()
+        C_QuestLog.GetAbandonQuestItems = function() return {10, 99, 20} end
+        assert.are.equal("Letter, Key", QuestieCompat.GetAbandonQuestItems())
+    end)
+
+    it("retains the legacy abandonment string unchanged", function()
+        _G.GetAbandonQuestItems = function() return "Legacy letter" end
+        assert.are.equal("Legacy letter", QuestieCompat.GetAbandonQuestItems())
+    end)
+
+    it("returns food types as varargs for the townsfolk menu", function()
+        C_StableInfo.GetStablePetFoodTypes = spy.new(function() return {"Meat", "Fish"} end)
+        assert.are.same({"Meat", "Fish"}, {QuestieCompat.GetStablePetFoodTypes(2)})
+        assert.spy(C_StableInfo.GetStablePetFoodTypes).was.called_with(2)
+    end)
+
+    it("returns no food types for an empty modern array", function()
+        assert.are.equal(0, select("#", QuestieCompat.GetStablePetFoodTypes(2)))
     end)
 end)

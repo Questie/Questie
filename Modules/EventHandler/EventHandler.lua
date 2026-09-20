@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class EventHandler
 local EventHandler = QuestieLoader:CreateModule("EventHandler")
 local _EventHandler = {}
@@ -141,7 +144,7 @@ function EventHandler:RegisterLateEvents()
         if Questie.IsForever then
             -- Forever sends only the quest ID; Classic sends the log index followed by the ID.
             questId = questLogIndex
-            questLogIndex = GetQuestLogIndexByID(questId)
+            questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
         end
         QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
@@ -472,7 +475,7 @@ function _EventHandler:ModifierStateChanged(key, down)
         -- getting reset properly and getting stuck to the Mouse Cursor.
 
         -- Questie Map Icons
-        if MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or MouseIsOver(Minimap) then
+        if QuestieCompat.MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or QuestieCompat.MouseIsOver(Minimap) then
             if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
                 GameTooltip:Hide()
                 GameTooltip:ClearLines()
@@ -485,7 +488,7 @@ function _EventHandler:ModifierStateChanged(key, down)
 
         -- Questie Tracker Sizer
         if QuestieTracker.started then
-            if MouseIsOver(Questie_BaseFrame.sizer) then
+            if QuestieCompat.MouseIsOver(Questie_BaseFrame.sizer) then
                 if down == 1 then
                     if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
                         GameTooltip:Hide()

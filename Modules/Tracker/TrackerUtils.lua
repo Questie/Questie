@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
@@ -38,7 +41,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
-local GetItemCount = C_Item.GetItemCount or GetItemCount
+local GetItemCount = C_Item.GetItemCount or QuestieCompat.GetItemCount
 local GetItemSpell = C_Item.GetItemSpell or GetItemSpell
 local IsEquippableItem = C_Item.IsEquippableItem or IsEquippableItem
 
@@ -93,8 +96,8 @@ function TrackerUtils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
     --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
-    local questLogIndex = GetQuestLogIndexByID(quest.Id)
-    SelectQuestLogEntry(questLogIndex)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(quest.Id)
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
 
     -- Scroll to the quest in the quest log
     local scrollSteps = _QuestLogScrollBar:GetValueStep()
@@ -113,8 +116,8 @@ function TrackerUtils:ShowQuestLog(quest)
         end
     end
 
-    QuestLog_UpdateQuestDetails()
-    QuestLog_Update()
+    QuestieCompat.QuestLog_UpdateQuestDetails()
+    QuestieCompat.QuestLog_Update()
 end
 
 ---@param title string The name of the WayPoint
@@ -366,7 +369,7 @@ end
 function TrackerUtils:GetCompletionText(quest)
     local completionText
     if GetQuestLogCompletionText then
-        local questIndex = GetQuestLogIndexByID(quest.Id)
+        local questIndex = QuestieCompat.GetQuestLogIndexByID(quest.Id)
         completionText = GetQuestLogCompletionText(questIndex)
     end
 
@@ -942,7 +945,7 @@ end
 function TrackerUtils:ShowVoiceOverPlayButtons()
     if self:IsVoiceOverLoaded() then
         if Questie.db.char.isTrackerExpanded then
-            if IsShiftKeyDown() and MouseIsOver(Questie_BaseFrame) then
+            if IsShiftKeyDown() and QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                 if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
                     Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils:ShowVoiceOverPlayButtons]")
                 else
@@ -951,7 +954,7 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
             end
 
             if IsShiftKeyDown() then
-                if MouseIsOver(Questie_BaseFrame) then
+                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                     TrackerLinePool.SetAllPlayButtonAlpha(1)
                     TrackerFadeTicker.Fade()
 
@@ -964,7 +967,7 @@ function TrackerUtils:ShowVoiceOverPlayButtons()
                     end
                 end
             else
-                if MouseIsOver(Questie_BaseFrame) then
+                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
                     TrackerLinePool.SetAllPlayButtonAlpha(0)
                     TrackerFadeTicker.Unfade()
                 else
@@ -993,7 +996,7 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
         end
 
         for i = 1, 75 do
-            local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
+            local title, _, _, isHeader, _, _, _, questId = QuestieCompat.GetQuestLogTitle(i)
 
             if not (title and questId) then
                 break
@@ -1151,7 +1154,7 @@ function TrackerUtils.HasQuest()
             local isTrackingIncompleteQuest = false
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
                 if not quest then break end
-                if IsQuestWatched(GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                if IsQuestWatched(QuestieCompat.GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
                     isTrackingIncompleteQuest = true
                     break
                 end

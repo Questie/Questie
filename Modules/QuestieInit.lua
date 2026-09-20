@@ -403,7 +403,7 @@ function QuestieInit:Init()
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
         WatchFrameHook.Hide()
 
-        if Expansions.Current < Expansions.Wotlk then
+        if Expansions.Current < Expansions.Wotlk and ScrollFrame_OnScrollRangeChanged then
             -- Need to hook this ASAP otherwise the scroll bars show up
             hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
                 if TrackedQuestsScrollFrame then

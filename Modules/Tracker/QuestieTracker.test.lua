@@ -41,6 +41,45 @@ describe("QuestieTracker", function()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
     end)
 
+    describe("legacy watch hook ownership", function()
+        local originalIsWatched, originalCount, originalExpansion
+        local Expansions
+
+        before_each(function()
+            Expansions = QuestieLoader:ImportModule("Expansions")
+            originalExpansion = Expansions.Current
+            originalIsWatched = _G.IsQuestWatched
+            originalCount = _G.GetNumQuestWatches
+            Expansions.Current = Expansions.Era
+            local timers = QuestieLoader:ImportModule("TrackerQuestTimers")
+            timers.HideBlizzardTimer = function() end
+            timers.ShowBlizzardTimer = function() end
+            QuestieTracker.alreadyHooked = nil
+            QuestieTracker.alreadyHookedSecure = true
+        end)
+
+        after_each(function()
+            _G.IsQuestWatched = originalIsWatched
+            _G.GetNumQuestWatches = originalCount
+            Expansions.Current = originalExpansion
+        end)
+
+        it("restores absent legacy APIs after disabling and re-enabling", function()
+            _G.IsQuestWatched = nil
+            _G.GetNumQuestWatches = nil
+            QuestieTracker:HookBaseTracker()
+            assert.is_function(_G.IsQuestWatched)
+            assert.is_function(_G.GetNumQuestWatches)
+            QuestieTracker:Unhook()
+            assert.is_nil(_G.IsQuestWatched)
+            assert.is_nil(_G.GetNumQuestWatches)
+            QuestieTracker:HookBaseTracker()
+            QuestieTracker:Unhook()
+            assert.is_nil(_G.IsQuestWatched)
+            assert.is_nil(_G.GetNumQuestWatches)
+        end)
+    end)
+
     describe("RemoveQuest", function()
         it("should not unfocus when the removed quest id is only a prefix of the focused quest id", function()
             Questie.db.char.TrackerFocus = tostring(COLLECTING_KELP_ID) .. " " .. tostring(COLLECTING_KELP_OBJECTIVE_INDEX)

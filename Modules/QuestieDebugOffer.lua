@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieDebugOffer
 local QuestieDebugOffer = QuestieLoader:CreateModule("QuestieDebugOffer")
 
@@ -19,7 +22,7 @@ local DebugInformation = {} -- stores text of debug data dump per session
 local debugIndex = 0 -- current debug index, used so we can still retrieve info from previous offers
 local openDebugWindows = {} -- determines if existing debug window is already open, prevents duplicates
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
 local GetBestMapForUnit = C_Map.GetBestMapForUnit
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
 local strsplit, tContains, tostring, tonumber = strsplit, tContains, tostring, tonumber
@@ -532,8 +535,8 @@ function QuestieDebugOffer.QuestTracking(questID) -- ID supplied by tracker duri
         return
     end
     if QuestieDB.QueryQuestSingle(questID, "name") == nil then -- if ID not in our DB
-        for i=1, GetNumQuestLogEntries() do
-            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = GetQuestLogTitle(i)
+        for i=1, QuestieCompat.GetNumQuestLogEntries() do
+            local questTitle, questLevel, suggestedGroup, _, _, _, frequency, questLogId = QuestieCompat.GetQuestLogTitle(i)
             local questText, objectiveText = GetQuestLogQuestText(i)
 
             if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text
@@ -623,12 +626,14 @@ local LINK_CODE = "addon:questie:offer";
 local LINK_LENGTHS = LINK_CODE:len();
 
 -- handles clicking on link
-hooksecurefunc("SetItemRef", function(link)
-    local linkType = link:sub(1, LINK_LENGTHS);
-    if linkType == LINK_CODE then
-        QuestieDebugOffer.ShowOffer(link)
-    end
-end);
+if SetItemRef then
+    hooksecurefunc("SetItemRef", function(link)
+        local linkType = link:sub(1, LINK_LENGTHS);
+        if linkType == LINK_CODE then
+            QuestieDebugOffer.ShowOffer(link)
+        end
+    end)
+end
 
 ---@param popupText string --@A string containing the lines of text to be displayed in the popup
 ---@param discordURL string --@A string containing the URL to the Questie Discord

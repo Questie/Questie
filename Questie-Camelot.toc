@@ -1,6 +1,6 @@
 ## Interface: 16001
-## Title: Questie|cFF00FF00 v11.38.0|r
-## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Everyone else
+## Title: Questie|cFF00FF00 v12.0.0|r
+## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Yttrium/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-esES: Un asistente de misiones
 ## Notes-esMX: Un asistente de misiones
@@ -20,8 +20,9 @@
 ## Category-ruRU: Задания
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
-## Version: 11.38.0
-## RequiredDeps:
+## Version: 12.0.0
+## RequiredDeps: QuestieDB
+## X-QuestieDB-Contract: 2
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: QuestieConfig, QuestieProfilerEnabled
@@ -39,11 +40,13 @@ Modules\Libs\QuestieLoader.lua
 Modules\Profiler\QuestieProfilerPreHook.lua
 
 Modules\QuestieCompat.lua
+# Forever library bridges must exist before the embedded libraries load.
 Modules\Compat\QuestieForever.lua
 
 embeds.xml
 
 Modules\VersionCheck.lua
+Modules\VersionCheckDB.lua
 
 Modules\Expansions.lua
 
@@ -51,40 +54,23 @@ Modules\Expansions.lua
 Modules\Libs\ThreadLib.lua
 
 #Quest XP
+Database\SupportValidation.lua
 Database\QuestXP\QuestieXP.lua
-Database\QuestXP\DB\xpDB-classic.lua
 
 # Database storage and stream modules
-Database\QuestieDBStorage.lua
 Modules\QuestieStream.lua
 
 # Zones
-Database\Zones\data\areaIdToUiMapId.lua
-Database\Zones\data\dungeons.lua
-Database\Zones\data\subZoneToParentZone.lua
-Database\Zones\data\uiMapIdToAreaId.lua
-Database\Zones\data\zoneIds.lua
-Database\Zones\data\instanceIdToAreaId.lua
-Database\Zones\data\Forever\zoneData.lua
 Database\Zones\zoneDB.lua
 
 # Databases
-Database\Classic\classicItemDB.lua
-Database\Classic\classicNpcDB.lua
-Database\Classic\classicObjectDB.lua
-Database\Classic\classicQuestDB.lua
 Database\QuestieDB.lua
-Database\questDB.lua
-Database\objectDB.lua
-Database\npcDB.lua
-Database\itemDB.lua
 Database\Constants.lua
 Database\MeetingStones.lua
-Database\FactionTemplates\factionTemplateClassic.lua
 
 # Corrections
-Database\Corrections\AutoTableUpdates.lua
 Database\Corrections\BlacklistFilter.lua
+Database\Corrections\QuestiePolicy\classicPolicyCorrections.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
@@ -107,34 +93,16 @@ Database\Corrections\Holidays\quests\Midsummer.lua
 Database\Corrections\Holidays\quests\WinterVeil.lua
 
 # Automatic General Corrections
-Database\Corrections\Automatic\itemStartFixes.lua
-Database\Corrections\Automatic\classicQuestReputationFixes.lua
 
 # SoD base entries - the data in there is generated
-Database\Corrections\Automatic\sodBaseItems.lua
-Database\Corrections\Automatic\sodBaseNPCs.lua
-Database\Corrections\Automatic\sodBaseObjects.lua
-Database\Corrections\Automatic\sodBaseQuests.lua
 
 # Classic Corrections
-Database\Corrections\classicQuestFixes.lua
-Database\Corrections\classicNPCFixes.lua
-Database\Corrections\classicItemFixes.lua
-Database\Corrections\classicObjectFixes.lua
 
 # SoD Corrections
-Database\Corrections\sodQuestFixes.lua
-Database\Corrections\sodNPCFixes.lua
-Database\Corrections\sodItemFixes.lua
-Database\Corrections\sodObjectFixes.lua
 
 # Item Drops
 Database\DropTables\dropDB.lua
-Database\DropTables\data\itemDropCorrections.lua
-Database\DropTables\data\classicItemDrops.lua
 
-# Compiler
-Database\compiler.lua
 
 # Localization
 Localization\l10n.lua
@@ -142,10 +110,6 @@ Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
-Localization\lookups\Classic\lookupItems\lookupItems.xml
-Localization\lookups\Classic\lookupNpcs\lookupNpcs.xml
-Localization\lookups\Classic\lookupObjects\lookupObjects.xml
-Localization\lookups\Classic\lookupQuests\lookupQuests.xml
 
 # Libs
 Modules\Libs\DistanceUtils.lua
@@ -154,7 +118,6 @@ Modules\Libs\WrappedText.lua
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
-Modules\Libs\RamerDouglasPeucker.lua
 
 # Modules
 Modules\QuestieValidateGameCache.lua
@@ -300,7 +263,6 @@ Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 
 # Cleanup
-Modules\QuestieCleanup.lua
 
 # Profiler
 Modules\Profiler\QuestieProfiler.lua

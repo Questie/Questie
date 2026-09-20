@@ -1,17 +1,16 @@
 dofile("setupTests.lua")
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
-_G.QuestieCompat = {
-    GetContainerNumSlots = function(bag)
+QuestieCompat.GetContainerNumSlots = function(bag)
         if bag == -2 then
             return 1
         end
         return 0
-    end,
-    GetContainerItemInfo = function()
+    end
+QuestieCompat.GetContainerItemInfo = function()
         return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123
     end
-}
 
 _G.GetInventoryItemID = function()
     return 123
@@ -97,11 +96,9 @@ describe("TrackerItemButton", function()
         end)
 
         it("should set itemId when item is equipped", function()
-            _G.QuestieCompat = {
-                GetContainerNumSlots = function()
+            QuestieCompat.GetContainerNumSlots = function()
                     return 0
-                end,
-            }
+                end
             QuestieDB.QueryItemSingle = function()
                 return QuestieDB.itemClasses.QUEST
             end

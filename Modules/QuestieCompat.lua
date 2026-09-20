@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global, return-type-mismatch, undefined-field
 ---@class QuestieCompat
-QuestieCompat = {}
+local QuestieCompat = QuestieLoader:CreateModule("QuestieCompat")
 
 local errorMsg = "Questie tried to call a blizzard API function that does not exist..."
 local INDIZES_AVAILABLE = 7
@@ -221,6 +221,8 @@ end
 function QuestieCompat.GetItemCooldown(itemID)
     if C_Container and C_Container.GetItemCooldown then
         return C_Container.GetItemCooldown(itemID)
+    elseif C_Item and C_Item.GetItemCooldown then
+        return C_Item.GetItemCooldown(itemID)
     else
         return GetItemCooldown(itemID)
     end
@@ -300,4 +302,687 @@ end
 
 function QuestieCompat.GetWatchFramePoint()
     return WatchFrame:GetPoint()
+end
+
+-- Shared wrappers preserve legacy tuples while selecting available client APIs.
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumQuestLogEntries)
+---Returns the number of entries (including headers) in the player's quest log.
+---@return number numEntries
+---@return number numQuests
+function QuestieCompat.GetNumQuestLogEntries()
+    if C_QuestLog and C_QuestLog.GetNumQuestLogEntries then
+        return C_QuestLog.GetNumQuestLogEntries()
+    elseif GetNumQuestLogEntries then
+        return GetNumQuestLogEntries()
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogTitle)
+---Returns information about an entry in the player's quest log.
+---@param questLogIndex number
+---TODO: C_QuestLog.GetInfo already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetQuestLogTitle(questLogIndex)
+    if not questLogIndex or questLogIndex <= 0 then return nil end
+    if C_QuestLog and C_QuestLog.GetInfo then
+        local info = C_QuestLog.GetInfo(questLogIndex)
+        if not info then return nil end
+
+        local questTag
+        if not info.isHeader and C_QuestLog.GetQuestTagInfo then
+            local tagInfo = C_QuestLog.GetQuestTagInfo(info.questID)
+            questTag = tagInfo and tagInfo.tagName
+        end
+
+        local isComplete
+        if not info.isHeader then
+            if C_QuestLog.IsFailed and C_QuestLog.IsFailed(info.questID) then
+                isComplete = -1
+            elseif C_QuestLog.IsComplete and C_QuestLog.IsComplete(info.questID) then
+                isComplete = 1
+            end
+        end
+
+        return info.title, info.level, questTag, info.isHeader, info.isCollapsed,
+            isComplete, info.frequency, info.questID, info.startEvent,
+            info.questID, info.isOnMap, info.hasLocalPOI, info.isTask,
+            info.isBounty, info.isStory, info.isHidden, info.isScaling
+    elseif GetQuestLogTitle then
+        return GetQuestLogTitle(questLogIndex)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SelectQuestLogEntry)
+---Sets the selected entry in the quest log.
+---@param questLogIndex number
+function QuestieCompat.SelectQuestLogEntry(questLogIndex)
+    if not questLogIndex or questLogIndex <= 0 then return end
+    if C_QuestLog and C_QuestLog.SetSelectedQuest and C_QuestLog.GetInfo then
+        local info = C_QuestLog.GetInfo(questLogIndex)
+        if info and not info.isHeader then
+            C_QuestLog.SetSelectedQuest(info.questID)
+        end
+        return
+    elseif SelectQuestLogEntry then
+        return SelectQuestLogEntry(questLogIndex)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogSelection)
+---Returns the index of the currently selected quest log entry.
+---@return number questLogIndex
+function QuestieCompat.GetQuestLogSelection()
+    if C_QuestLog and C_QuestLog.GetSelectedQuest and C_QuestLog.GetLogIndexForQuestID then
+        local questID = C_QuestLog.GetSelectedQuest()
+        return (questID and C_QuestLog.GetLogIndexForQuestID(questID)) or 0
+    elseif GetQuestLogSelection then
+        return GetQuestLogSelection()
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitAura)
+---Returns information about a buff/debuff on a unit by index.
+---@param unit string
+---@param index number
+---@param filter string|nil
+---TODO: C_UnitAuras.GetAuraDataByIndex already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.UnitAura(unit, index, filter)
+    if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
+        local aura = C_UnitAuras.GetAuraDataByIndex(unit, index, filter)
+        if not aura then return nil end
+        return aura.name, aura.icon, aura.applications, aura.dispelName,
+            aura.duration, aura.expirationTime, aura.sourceUnit,
+            aura.isStealable, aura.nameplateShowPersonal, aura.spellId
+    elseif UnitAura then
+        return UnitAura(unit, index, filter)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemInfo)
+---Returns information about an item.
+---@param item ItemId|string
+---@return string name
+---@return string itemLink
+---@return number quality
+---@return number level
+---@return number minLevel
+---@return string type
+---@return string subType
+---@return number stackCount
+---@return number equipLoc
+---@return number texture
+---@return number vendorPrice
+---@return number classID
+---@return number subClassID
+---@return number bindType
+---@return number expacID
+---@return number setID
+---@return boolean isCraftingReagent
+function QuestieCompat.GetItemInfo(item)
+    if C_Item and C_Item.GetItemInfo then
+        return C_Item.GetItemInfo(item)
+    elseif GetItemInfo then
+        return GetItemInfo(item)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestFlaggedCompleted)
+---Returns whether the given quest has been completed by the player.
+---@param questID QuestId
+---@return boolean isComplete
+function QuestieCompat.IsQuestFlaggedCompleted(questID)
+    if C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted then
+        return C_QuestLog.IsQuestFlaggedCompleted(questID)
+    elseif IsQuestFlaggedCompleted then
+        return IsQuestFlaggedCompleted(questID)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumQuestLeaderBoards)
+---Returns the number of objectives for a quest log entry.
+---@param questLogIndex number|nil
+---@return number numObjectives
+function QuestieCompat.GetNumQuestLeaderBoards(questLogIndex)
+    if C_QuestLog and C_QuestLog.GetNumQuestObjectives then
+        local index = questLogIndex or C_QuestLog.GetLogIndexForQuestID(C_QuestLog.GetSelectedQuest())
+        if not index or index <= 0 then return 0 end
+        local info = C_QuestLog.GetInfo(index)
+        return info and not info.isHeader and C_QuestLog.GetNumQuestObjectives(info.questID) or 0
+    elseif GetNumQuestLeaderBoards then
+        return GetNumQuestLeaderBoards(questLogIndex)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumQuestWatches)
+---Returns the number of quests currently being watched.
+---@param arg any|nil Legacy-only argument, ignored by the modern C_QuestLog API.
+---@return number numQuestWatches
+function QuestieCompat.GetNumQuestWatches(arg)
+    if C_QuestLog and C_QuestLog.GetNumQuestWatches then
+        return C_QuestLog.GetNumQuestWatches()
+    elseif GetNumQuestWatches then
+        return GetNumQuestWatches(arg)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestIndexForWatch)
+---Returns the quest log index of a watched quest.
+---@param watchIndex number
+---@return number questLogIndex
+function QuestieCompat.GetQuestIndexForWatch(watchIndex)
+    if C_QuestLog and C_QuestLog.GetQuestIDForQuestWatchIndex and C_QuestLog.GetLogIndexForQuestID then
+        local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(watchIndex)
+        return questID and C_QuestLog.GetLogIndexForQuestID(questID)
+    elseif GetQuestIndexForWatch then
+        return GetQuestIndexForWatch(watchIndex)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_AddQuestWatch)
+---Adds a quest log entry to the tracked quest watches.
+---@param questLogIndex number
+function QuestieCompat.AddQuestWatch(questLogIndex)
+    if not questLogIndex or questLogIndex <= 0 then return end
+    if C_QuestLog and C_QuestLog.AddQuestWatch and C_QuestLog.GetInfo then
+        local info = C_QuestLog.GetInfo(questLogIndex)
+        if info and not info.isHeader then return C_QuestLog.AddQuestWatch(info.questID, Enum.QuestWatchType.Manual) end
+        return
+    elseif AddQuestWatch then
+        return AddQuestWatch(questLogIndex)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_RemoveQuestWatch)
+---Removes a quest log entry from the tracked quest watches.
+---@param questLogIndex number
+---@param isQuestie boolean? Legacy hook bypass for Questie-owned removals.
+function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
+    if not questLogIndex or questLogIndex <= 0 then return end
+    if C_QuestLog and C_QuestLog.RemoveQuestWatch and C_QuestLog.GetInfo then
+        local info = C_QuestLog.GetInfo(questLogIndex)
+        if info and not info.isHeader then return C_QuestLog.RemoveQuestWatch(info.questID) end
+        return
+    elseif RemoveQuestWatch then
+        return RemoveQuestWatch(questLogIndex, isQuestie)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
+---Returns the level spread at which a quest is considered "green" (trivial) relative to the player.
+---@return number range
+function QuestieCompat.GetQuestGreenRange()
+    if GetQuestGreenRange then
+        return GetQuestGreenRange("player")
+    end
+    return UnitQuestTrivialLevelRange("player")
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemCount)
+---Returns the number of a given item in the player's inventory (and optionally bank).
+---@param item ItemId|string
+---@param includeBank boolean|nil
+---@param includeCharges boolean|nil
+---@param includeReagentBank boolean|nil
+---@return number itemCount
+function QuestieCompat.GetItemCount(item, includeBank, includeCharges, includeReagentBank)
+    if C_Item and C_Item.GetItemCount then
+        return C_Item.GetItemCount(item, includeBank, includeCharges, includeReagentBank)
+    elseif GetItemCount then
+        return GetItemCount(item, includeBank, includeCharges, includeReagentBank)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemIcon)
+---Returns the icon texture for an item.
+---@param item ItemId|string
+---@return number|string texture
+function QuestieCompat.GetItemIcon(item)
+    if C_Item and C_Item.GetItemIconByID then
+        return C_Item.GetItemIconByID(item)
+    elseif GetItemIcon then
+        return GetItemIcon(item)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumFactions)
+---Returns the number of entries (including headers) in the player's reputation list.
+---@return number numFactions
+function QuestieCompat.GetNumFactions()
+    if C_Reputation and C_Reputation.GetNumFactions then
+        return C_Reputation.GetNumFactions()
+    elseif GetNumFactions then
+        return GetNumFactions()
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfo)
+---Returns information about a reputation list entry.
+---@param index number
+---TODO: C_Reputation.GetFactionDataByIndex already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetFactionInfo(index)
+    if C_Reputation and C_Reputation.GetFactionDataByIndex then
+        local d = C_Reputation.GetFactionDataByIndex(index)
+        if not d then return nil end
+        return d.name, d.description, d.reaction, d.currentReactionThreshold,
+            d.nextReactionThreshold, d.currentStanding, d.atWarWith,
+            d.canToggleAtWar, d.isHeader, d.isCollapsed, d.isHeaderWithRep,
+            d.isWatched, d.isChild, d.factionID, d.hasBonusRepGain,
+            d.canSetInactive
+    elseif GetFactionInfo then
+        return GetFactionInfo(index)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_ExpandFactionHeader)
+---Expands a reputation list header.
+---@param index number
+function QuestieCompat.ExpandFactionHeader(index)
+    if C_Reputation and C_Reputation.ExpandFactionHeader then
+        return C_Reputation.ExpandFactionHeader(index)
+    elseif ExpandFactionHeader then
+        return ExpandFactionHeader(index)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_CollapseFactionHeader)
+---Collapses a reputation list header.
+---@param index number
+function QuestieCompat.CollapseFactionHeader(index)
+    if C_Reputation and C_Reputation.CollapseFactionHeader then
+        return C_Reputation.CollapseFactionHeader(index)
+    elseif CollapseFactionHeader then
+        return CollapseFactionHeader(index)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetFactionInfoByID)
+---Returns information about a reputation entry by faction ID.
+---@param factionID number
+---TODO: C_Reputation.GetFactionDataByID already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetFactionInfoByID(factionID)
+    if C_Reputation and C_Reputation.GetFactionDataByID then
+        local d = C_Reputation.GetFactionDataByID(factionID)
+        if not d then return nil end
+        return d.name, d.description, d.reaction, d.currentReactionThreshold,
+            d.nextReactionThreshold, d.currentStanding, d.atWarWith,
+            d.canToggleAtWar, d.isHeader, d.isCollapsed, d.isHeaderWithRep,
+            d.isWatched, d.isChild, d.factionID, d.hasBonusRepGain,
+            d.canSetInactive
+    elseif GetFactionInfoByID then
+        return GetFactionInfoByID(factionID)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLogIndexByID)
+---Returns the quest log index for a given quest ID.
+---@param questID QuestId
+---@return number questLogIndex
+function QuestieCompat.GetQuestLogIndexByID(questID)
+    if C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
+        return C_QuestLog.GetLogIndexForQuestID(questID) or 0
+    elseif GetQuestLogIndexByID then
+        return GetQuestLogIndexByID(questID)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestLink)
+---Returns a quest hyperlink.
+---@param arg QuestId|string
+---@return string questLink
+function QuestieCompat.GetQuestLink(arg)
+    if C_QuestLog and C_QuestLog.GetQuestLink then
+        return C_QuestLog.GetQuestLink(arg)
+    elseif GetQuestLink then
+        return GetQuestLink(arg)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestResetTime)
+---Returns the number of seconds until the daily quest reset.
+---@return number secondsUntilReset
+function QuestieCompat.GetQuestResetTime()
+    if C_DateAndTime and C_DateAndTime.GetSecondsUntilDailyReset then
+        return C_DateAndTime.GetSecondsUntilDailyReset()
+    elseif GetQuestResetTime then
+        return GetQuestResetTime()
+    end
+    error(errorMsg, 2)
+end
+
+-- Returned a [questID] = true map. The modern call returns a plain array, and
+-- Questie indexes the result by quest id, so convert rather than pass through.
+---@param target table|nil
+---@return table<QuestId, boolean>
+function QuestieCompat.GetQuestsCompleted(target)
+    if C_QuestLog and C_QuestLog.GetAllCompletedQuestIDs then
+        local completed = target or {}
+        for _, questID in ipairs(C_QuestLog.GetAllCompletedQuestIDs()) do
+            completed[questID] = true
+        end
+        return completed
+    elseif GetQuestsCompleted then
+        return GetQuestsCompleted(target)
+    end
+    error(errorMsg, 2)
+end
+
+-- Old signature returned (tagId, tagName) directly; the modern call returns a
+-- table, and Questie destructures two values from it.
+---@param questID QuestId
+---TODO: C_QuestLog.GetQuestTagInfo already returns a table; once all callers are migrated, return that table directly instead of flattening it into this legacy tuple.
+function QuestieCompat.GetQuestTagInfo(questID)
+    if C_QuestLog and C_QuestLog.GetQuestTagInfo then
+        local info = C_QuestLog.GetQuestTagInfo(questID)
+        if not info then return nil end
+        return info.tagID, info.tagName
+    elseif GetQuestTagInfo then
+        return GetQuestTagInfo(questID)
+    end
+    error(errorMsg, 2)
+end
+
+-- Blizzard constant; Questie uses it as a "for" limit, so a nil aborts the loop.
+QuestieCompat.MAX_NUM_QUESTS = (Constants and Constants.QuestLogConsts and Constants.QuestLogConsts.MAXIMUM_NUM_QUESTS_LOG_CAN_ACCEPT) or MAX_NUM_QUESTS
+
+-- The old default quest-log/watch UI is gone. Questie calls these purely to ask
+-- Blizzard's own frames to redraw, so doing nothing is correct here.
+---Redraws the quest watch frame (no-op on modern clients where the frame no longer exists).
+function QuestieCompat.WatchFrame_Update()
+    if WatchFrame_Update then
+        return WatchFrame_Update()
+    elseif QuestWatch_Update then
+        return QuestWatch_Update()
+    end
+end
+
+---Redraws the quest log frame (no-op on modern clients where the frame no longer exists).
+function QuestieCompat.QuestLog_Update()
+    if QuestLog_Update then
+        return QuestLog_Update()
+    end
+end
+
+---@param questID QuestId?
+---@return number? ... Legacy timer seconds.
+function QuestieCompat.GetQuestTimers(questID)
+    if GetQuestTimers then
+        return GetQuestTimers(questID)
+    end
+end
+
+-- Removed global helper; the equivalent is now a method on the frame itself.
+---[Documentation](https://warcraft.wiki.gg/wiki/API_MouseIsOver)
+---Returns whether the mouse is over a frame.
+---@param frame frame
+---@param top number|nil
+---@param bottom number|nil
+---@param left number|nil
+---@param right number|nil
+---@return boolean
+function QuestieCompat.MouseIsOver(frame, top, bottom, left, right)
+    if MouseIsOver then
+        return MouseIsOver(frame, top, bottom, left, right)
+    end
+    if not frame or not frame.IsMouseOver then return false end
+    return frame:IsMouseOver(top, bottom, left, right)
+end
+
+-- Gossip quest lists moved under C_GossipInfo.
+---@return number numActiveQuests
+function QuestieCompat.GetNumGossipActiveQuests()
+    if C_GossipInfo and C_GossipInfo.GetNumActiveQuests then
+        return C_GossipInfo.GetNumActiveQuests()
+    elseif GetNumGossipActiveQuests then
+        return GetNumGossipActiveQuests()
+    end
+    error(errorMsg, 2)
+end
+
+---@return number numAvailableQuests
+function QuestieCompat.GetNumGossipAvailableQuests()
+    if C_GossipInfo and C_GossipInfo.GetNumAvailableQuests then
+        return C_GossipInfo.GetNumAvailableQuests()
+    elseif GetNumGossipAvailableQuests then
+        return GetNumGossipAvailableQuests()
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_SetAbandonQuest)
+---Sets the quest to be abandoned.
+---Questie calls these from its tracker's right-click menu
+---and from the breadcrumb handling, both without a nil check.
+function QuestieCompat.SetAbandonQuest()
+    if SetAbandonQuest then
+        return SetAbandonQuest()
+    end
+    if C_QuestLog and C_QuestLog.SetAbandonQuest then
+        return C_QuestLog.SetAbandonQuest()
+    end
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAbandonQuestName)
+---Returns the name of the quest set for abandonment.
+---@return string name
+function QuestieCompat.GetAbandonQuestName()
+    if GetAbandonQuestName then
+        return GetAbandonQuestName()
+    end
+    if C_QuestLog and C_QuestLog.GetAbandonQuestName then
+        return C_QuestLog.GetAbandonQuestName()
+    end
+    -- Fall back to the title of whatever quest is currently selected.
+    if C_QuestLog and C_QuestLog.GetSelectedQuest and C_QuestLog.GetTitleForQuestID then
+        return C_QuestLog.GetTitleForQuestID(C_QuestLog.GetSelectedQuest())
+    end
+    return ""
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetAbandonQuestItems)
+---Returns the item names used by the abandonment confirmation dialog.
+---@return string|nil items
+function QuestieCompat.GetAbandonQuestItems()
+    if GetAbandonQuestItems then
+        return GetAbandonQuestItems()
+    end
+    if C_QuestLog and C_QuestLog.GetAbandonQuestItems then
+        -- Modern APIs return IDs; legacy popup formatting expects comma-separated names.
+        -- Like Blizzard's dialog, omit names that are not cached yet.
+        local names = {}
+        for _, itemID in ipairs(C_QuestLog.GetAbandonQuestItems() or {}) do
+            local name = QuestieCompat.GetItemInfo(itemID)
+            if name then
+                tinsert(names, name)
+            end
+        end
+        if #names > 0 then
+            return table.concat(names, ", ")
+        end
+    end
+    return nil
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_AbandonQuest)
+---Abandons the currently selected quest.
+function QuestieCompat.AbandonQuest()
+    if AbandonQuest then
+        return AbandonQuest()
+    end
+    if C_QuestLog and C_QuestLog.AbandonQuest then
+        return C_QuestLog.AbandonQuest()
+    end
+end
+
+---@param questLogIndex number
+---@return QuestId questID
+function QuestieCompat.GetQuestIDFromLogIndex(questLogIndex)
+    if not questLogIndex or questLogIndex <= 0 then return end
+    if C_QuestLog and C_QuestLog.GetInfo then
+        local info = C_QuestLog.GetInfo(questLogIndex)
+        return info and not info.isHeader and info.questID or nil
+    elseif GetQuestIDFromLogIndex then
+        return GetQuestIDFromLogIndex(questLogIndex)
+    end
+    error(errorMsg, 2)
+end
+
+---@param questLogIndex number
+function QuestieCompat.QuestLog_SetSelection(questLogIndex)
+    if not questLogIndex or questLogIndex <= 0 then return end
+    if C_QuestLog and C_QuestLog.SetSelectedQuest and C_QuestLog.GetInfo then
+        local questID = QuestieCompat.GetQuestIDFromLogIndex(questLogIndex)
+        if questID then
+            return C_QuestLog.SetSelectedQuest(questID)
+        end
+        return
+    elseif QuestLog_SetSelection then
+        return QuestLog_SetSelection(questLogIndex)
+    end
+end
+
+-- Redraw helpers for the old quest log window, which no longer exists.
+---Redraws the quest log details frame (no-op on modern clients).
+function QuestieCompat.QuestLog_UpdateQuestDetails()
+    if QuestLog_UpdateQuestDetails then
+        return QuestLog_UpdateQuestDetails()
+    end
+end
+
+---Resizes a static popup dialog.
+function QuestieCompat.StaticPopup_Resize(...)
+    if StaticPopup_Resize then
+        return StaticPopup_Resize(...)
+    end
+end
+
+-- Questie uses this only for "Copied URL to clipboard" feedback.
+---@param message string
+function QuestieCompat.ActionStatus_DisplayMessage(message)
+    if ActionStatus_DisplayMessage then
+        return ActionStatus_DisplayMessage(message)
+    end
+    if UIErrorsFrame and message then
+        UIErrorsFrame:AddMessage(message, 1, 1, 1)
+    end
+end
+
+-- No achievement UI on this client. These are reached from tracker clicks.
+---Toggles the achievement frame.
+function QuestieCompat.AchievementFrame_ToggleAchievementFrame()
+    if AchievementFrame_ToggleAchievementFrame then
+        return AchievementFrame_ToggleAchievementFrame()
+    end
+end
+
+---@param achievementId number
+function QuestieCompat.AchievementFrame_SelectAchievement(achievementId)
+    if AchievementFrame_SelectAchievement then
+        return AchievementFrame_SelectAchievement(achievementId)
+    end
+end
+
+---Forces an update of the achievement frame.
+function QuestieCompat.AchievementFrameAchievements_ForceUpdate()
+    if AchievementFrameAchievements_ForceUpdate then
+        return AchievementFrameAchievements_ForceUpdate()
+    end
+end
+
+-- Returns a varargs list; Questie packs it into a table, so returning nothing
+-- yields an empty table rather than an error.
+---@return ...
+function QuestieCompat.GetTrackedAchievements()
+    if GetTrackedAchievements then
+        return GetTrackedAchievements()
+    end
+end
+
+---@param isQuestie boolean|nil
+---@return number
+function QuestieCompat.GetNumTrackedAchievements(isQuestie)
+    if GetNumTrackedAchievements then
+        return GetNumTrackedAchievements(isQuestie)
+    end
+    return 0
+end
+
+---@param achieveId number
+---@param isQuestie boolean|nil
+function QuestieCompat.RemoveTrackedAchievement(achieveId, isQuestie)
+    if RemoveTrackedAchievement then
+        return RemoveTrackedAchievement(achieveId, isQuestie)
+    end
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_StableInfo.GetStablePetFoodTypes)
+-- Preserve legacy varargs: the townsfolk menu packs these into its own array.
+---@param index number
+---@return ...
+function QuestieCompat.GetStablePetFoodTypes(index)
+    if C_StableInfo and C_StableInfo.GetStablePetFoodTypes then
+        return unpack(C_StableInfo.GetStablePetFoodTypes(index) or {})
+    elseif GetStablePetFoodTypes then
+        return GetStablePetFoodTypes(index)
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestWatched)
+---Returns whether a quest log entry is currently being watched.
+---@param questLogIndex number
+---@return boolean isWatched
+function QuestieCompat.IsQuestWatched(questLogIndex)
+    if not questLogIndex or questLogIndex <= 0 then return false end
+    if IsQuestWatched then
+        return IsQuestWatched(questLogIndex)
+    end
+    if C_QuestLog and C_QuestLog.GetQuestWatchType and C_QuestLog.GetQuestIDForLogIndex then
+        local questID = C_QuestLog.GetQuestIDForLogIndex(questLogIndex)
+        return questID ~= nil and C_QuestLog.GetQuestWatchType(questID) ~= nil
+    end
+    return false
+end
+
+
+---@param spell number|string
+---@return any ... Legacy spell-info tuple.
+function QuestieCompat.GetSpellInfo(spell)
+    if C_Spell and C_Spell.GetSpellInfo then
+        local info = C_Spell.GetSpellInfo(spell)
+        if info then
+            return info.name, nil, info.iconID, info.castTime, info.minRange, info.maxRange, info.spellID, info.originalIconID
+        end
+    elseif GetSpellInfo then
+        return GetSpellInfo(spell)
+    end
+end
+
+---@param addon string
+---@param field string
+---@return string?
+function QuestieCompat.GetAddOnMetadata(addon, field)
+    if C_AddOns and C_AddOns.GetAddOnMetadata then
+        return C_AddOns.GetAddOnMetadata(addon, field)
+    end
+    return GetAddOnMetadata(addon, field)
 end
