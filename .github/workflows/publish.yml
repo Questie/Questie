@@ -29,28 +29,34 @@ jobs:
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
 
+      - name: Build ZIP
+        run: python build.py --release --bundled
+
       - name: Generate Changelog
         id: changelog
-        run: python changelog.py >> CHANGELOG.md
-
-      - name: Build ZIP
-        run: python build.py -r
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python changelog.py --release-manifest "releases/$RELEASE_TAG/release.json" >> CHANGELOG.md
 
       - name: Create GitHub release
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          if [[ "${{github.ref_name}}" == *"-b"* ]]; then
-            gh release create ${{github.ref_name}} \
+          release_dir="releases/$RELEASE_TAG"
+          bundled_zip=$(jq -r '.releases[0].filename' "$release_dir/release.json")
+          if [[ "$RELEASE_TAG" == *"-b"* ]]; then
+            gh release create "$RELEASE_TAG" \
               --verify-tag \
               --prerelease \
               -F CHANGELOG.md \
-              releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip \
-              releases/${{github.ref_name}}/release.json
+              "$release_dir/$bundled_zip" \
+              "$release_dir/release.json"
           else
-            gh release create ${{github.ref_name}} \
+            gh release create "$RELEASE_TAG" \
               --verify-tag \
               -F CHANGELOG.md \
-              releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip \
-              releases/${{github.ref_name}}/release.json
+              "$release_dir/$bundled_zip" \
+              "$release_dir/release.json"
           fi
 
       # External publishing is hard-disabled while the bundle release flow is prepared.

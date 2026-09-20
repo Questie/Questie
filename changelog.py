@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+import argparse
+import html
+import json
+import re
 import os
 import subprocess
 import sys
@@ -30,6 +34,31 @@ def get_commit_changelog(include_contributors):
     contributors = get_contributors(last_tag) if include_contributors else []
 
     return get_changelog_string(categories, contributors)
+
+
+def get_changelog_entries():
+    """Capture current Questie changes and author credits for the packaged manifest."""
+    last_tag = get_last_git_tag()
+    revision = f"{last_tag}..HEAD" if last_tag else "HEAD"
+    # NUL-separated fields preserve multiline commit bodies and author display names.
+    log = subprocess.check_output(
+        ["git", "log", "--reverse", "-z", "--format=%H%x00%an%x00%s%x00%b", revision], text=True
+    )
+    fields = log.split("\0")[:-1]
+    entries = []
+    for offset in range(0, len(fields), 4):
+        commit, author, subject, body = fields[offset:offset + 4]
+        coauthors = re.findall(r"^Co-authored-by:[ \t]*(.*?)[ \t]*<[^>\r\n]+>[ \t]*$", body, re.MULTILINE | re.IGNORECASE)
+        # Reuse Questie's marked categories and wording transforms, not rendered Markdown.
+        for category, texts in get_sorted_categories([subject]).items():
+            for text in texts:
+                entries.append({
+                    "category": category, "text": text, "commit": commit,
+                    "author": author or "Contributor", "coAuthors": coauthors,
+                })
+    order = [category for category, _ in commit_keys_and_header]
+    entries.sort(key=lambda entry: (order.index(entry["category"]), entry["text"]))
+    return entries
 
 
 def get_last_git_tag():
@@ -148,6 +177,69 @@ def get_changelog_string(categories, contributors):
     return changelog
 
 
+def _escape_markdown(text):
+    # Credits are display text, not Markdown, HTML, or GitHub usernames.
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("Release notes need nonempty display text")
+    text = html.escape(text, quote=False).replace("\r", " ").replace("\n", " ")
+    return re.sub(r"([\\`*_\[\]()~])", r"\\\1", text)
+
+
+def get_addon_changelog(name, manifest):
+    """Render retained addon changes in their supplied order, without rewriting their wording."""
+    repository = manifest["repository"]
+    # Repositories form Markdown link targets. Reject credentials, query strings and markup.
+    if not re.fullmatch(r"https://[A-Za-z0-9.-]+/[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)+", repository):
+        raise ValueError("Expected a canonical HTTPS repository URL without a trailing slash")
+    commit_url = repository + "/commit/"
+    producer = manifest["producerCommit"]
+    if not isinstance(producer, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", producer):
+        raise ValueError("Release metadata has an invalid producerCommit")
+    result = f"## {name} {_escape_markdown(manifest['version'])}\n\n"
+    if producer == "0" * 40:
+        result += "Build commit unavailable (local build without Git history).\n\n"
+    else:
+        result += f"Build: [{producer[:7]}]({commit_url}{producer})\n\n"
+    headings = dict(commit_keys_and_header)
+    previous_category = None
+    # Missing or empty entries leave version/build information, not a claim that nothing changed.
+    entries = manifest.get("changelog", [])
+    if not isinstance(entries, list):
+        raise ValueError("Addon changelog must be an array")
+    for entry in entries:
+        category = entry["category"]
+        heading = headings[category]
+        if category != previous_category:
+            result += "#" + heading
+            previous_category = category
+        commit = entry["commit"]
+        if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", commit) or commit == "0" * 40:
+            raise ValueError("Addon changelog has an invalid commit")
+        coauthors = entry["coAuthors"]
+        if not isinstance(coauthors, list):
+            raise ValueError("Addon changelog coAuthors must be an array")
+        credits = []
+        for name in [entry["author"], *coauthors]:
+            credits.append(f"[{_escape_markdown(name)}]({commit_url}{commit})")
+        result += f"- {_escape_markdown(entry['text'])} ({', '.join(credits)})\n\n"
+    return result
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Generate Questie notes or render a packaged release.json.")
+    parser.add_argument("--release-manifest", help="Render retained component metadata without Git or network access")
+    args = parser.parse_args(argv)
+    if args.release_manifest:
+        with open(args.release_manifest, encoding="utf-8") as source:
+            manifest = json.load(source)
+        # The two components keep independent identities. Questie's changes always come first.
+        print(get_addon_changelog("Questie", manifest["questie"]))
+        if "questiedb" in manifest:
+            print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
+    else:
+        show_contributors_section = not is_running_in_github_actions()
+        print(get_commit_changelog(show_contributors_section))
+
+
 if __name__ == "__main__":
-    show_contributors_section = not is_running_in_github_actions()
-    print(get_commit_changelog(show_contributors_section))
+    main()
