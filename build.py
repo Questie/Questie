@@ -12,7 +12,7 @@ This program accepts optional command line options:
 
     -r
     --release
-        Do not include commit hash in directory/zip/version names
+        Do not include commit hash and branch name in directory/zip/version names
     -a
     --all
         Included files for all expansions
@@ -41,8 +41,8 @@ This program accepts optional command line options:
 """
 addonDir = "Questie"
 includedExpansions = []
-tocs = ["", "Questie-Classic.toc", "Questie-BCC.toc", "Questie-WOTLKC.toc", "Questie-Cata.toc", "Questie-Mists.toc"]
-
+tocs = ["", "Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc", "Questie_Cata.toc", "Questie_Mists.toc"]
+dbTocs = ["", "QuestieDB_Vanilla.toc", "QuestieDB_TBC.toc", "QuestieDB_Wrath.toc", "QuestieDB_Cata.toc", "QuestieDB_Mists.toc"]
 
 def main():
     # Reject declaration drift before naming or replacing any build outputs.
@@ -99,6 +99,8 @@ def main():
 
     copy_content_to(release_addon_folder_path)
     copy_db_content_to(release_folder_path + "/tmp")
+    dbVersion, dbHash = get_db_version(release_folder_path + "/tmp/QuestieDB/")
+    print("DB version:", dbVersion, dbHash)
 
     if versionOverride != "":
         for tocN in includedExpansions:
@@ -112,11 +114,11 @@ def main():
                         print(line, end="")
 
     zip_name = "%s-%s" % (addonDir, release_dir)
-    zip_release_folder(zip_name, release_dir)
+    zip_release_folder(zip_name, release_dir, isReleaseBuild, dbVersion, dbHash)
 
     interface_classic = get_interface_versions()
-    interface_bcc = get_interface_versions("BCC")
-    interface_wotlk = get_interface_versions("WOTLKC")
+    interface_bcc = get_interface_versions("TBC")
+    interface_wotlk = get_interface_versions("Wrath")
     interface_cata = get_interface_versions("Cata")
     interface_mop = get_interface_versions("Mists")
 
@@ -189,12 +191,16 @@ def get_version_dir(is_release_build, versionOverride):
     print("Number of commits since tag: " + nr_of_commits)
     print("Most Recent commit: " + recent_commit)
     branch = get_branch()
-    if branch != "master" and branch != "HEAD":
+    if branch != "master" and branch != "HEAD" and versionOverride == "" and not is_release_build:
         release_dir += "-%s" % branch
     print("Current branch: " + branch)
 
     return release_dir
 
+def get_db_version(dbPath):
+    with open(dbPath + dbTocs[includedExpansions[0]], "r") as toc:
+        match = re.search("## Version: (.*?)\n.*?## X-BUILD-COMMIT: (.*?)\n", toc.read(), re.DOTALL)
+        return match.group(1), match.group(2)
 
 directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Public"]
 filesToInclude = ["Bindings.xml", "embeds.xml", "Questie.lua", "Questie.toc", "README.md", "README_ES.md", "README_CN.md"]
@@ -229,11 +235,16 @@ def copy_db_content_to(release_folder_path, useLocal=False):
         shutil.unpack_archive(zipPath, release_folder_path)
         os.remove(zipPath)
 
-def zip_release_folder(zip_name, version_dir):
+def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion, dbHash):
     root = os.getcwd()
     os.chdir("releases/%s" % version_dir)
-    print("Zipping %s" % zip_name)
-    shutil.make_archive(zip_name, "zip", "tmp", ".")
+    print("Creating %s.zip" % zip_name)
+    shutil.make_archive(zip_name, "zip", "tmp/Questie", ".")
+    dbZipName = "%s+v%s" % (zip_name, dbVersion)
+    if not is_release_build:
+        dbZipName += "-%s" % dbHash[:9]
+    print("Creating %s.zip" % dbZipName)
+    shutil.make_archive(dbZipName, "zip", "tmp", ".")
     shutil.rmtree("tmp")
     os.chdir(root)
 
@@ -261,8 +272,8 @@ def get_branch():
         return branch
 
 
-def get_interface_versions(expansion="Classic"):
-    with open("Questie-%s.toc" % expansion, "r") as toc:
+def get_interface_versions(expansion="Vanilla"):
+    with open("Questie_%s.toc" % expansion, "r") as toc:
         match = re.match("## Interface: (.*?)\n", toc.read(), re.DOTALL)
         return [v.strip() for v in match.group(1).split(",")]
 
