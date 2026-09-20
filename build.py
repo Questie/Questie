@@ -247,7 +247,10 @@ def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion, dbHas
     shutil.make_archive(dbZipName, "zip", "tmp", ".")
     shutil.rmtree("tmp")
     os.chdir(root)
-
+    # only this print goes to stdout so it can be saved with $(./build.py) in the CI/CD pipeline
+    sys.stdout = sys.__stdout__
+    print(dbZipName)
+    sys.stdout = sys.__stderr__
 
 def get_git_information():
     if is_tool("git"):
@@ -284,4 +287,6 @@ def is_tool(name):
 
 
 if __name__ == "__main__":
+    # switch all prints to stderr by default, so only one of them goes to stdout and can be saved with $(./build.py)
+    sys.stdout = sys.__stderr__
     main()
