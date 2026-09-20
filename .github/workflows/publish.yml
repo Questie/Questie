@@ -33,8 +33,8 @@ jobs:
         id: changelog
         run: python changelog.py >> CHANGELOG.md
 
-      - name: Build ZIP
-        run: python build.py -r
+      - name: Build ZIPs
+        run: echo "QUESTIE_ZIP=$(python build.py -r)" >> $GITHUB_ENV
 
       - name: Create GitHub release
         run: |
@@ -43,13 +43,13 @@ jobs:
               --verify-tag \
               --prerelease \
               -F CHANGELOG.md \
-              releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip \
+              releases/${{github.ref_name}}/*.zip \
               releases/${{github.ref_name}}/release.json
           else
             gh release create ${{github.ref_name}} \
               --verify-tag \
               -F CHANGELOG.md \
-              releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip \
+              releases/${{github.ref_name}}/*.zip \
               releases/${{github.ref_name}}/release.json
           fi
 
@@ -57,10 +57,10 @@ jobs:
       # Keep disabled until explicitly approved; see PLAN-release-bundles.md.
       # Upload jobs will need their own scoped credentials when enabled.
       # - name: Upload CurseForge
-      #   run: sh upload-cf.sh ${{github.ref_name}}
+      #   run: sh upload-cf.sh $QUESTIE_ZIP
 
       # - name: Upload WAGO
-      #   run: sh upload-wago.sh ${{github.ref_name}}
+      #   run: sh upload-wago.sh $QUESTIE_ZIP
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0
