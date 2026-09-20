@@ -73,7 +73,17 @@ A final fresh reload also completed with Source Contract 2, Questie and tracker 
 
 That repeated reset message does not establish a fix for the [SavedVariables limitation](saved-variables-investigation.md). Real combat, active quest acceptance/progress/turn-in, live Skyborne identity, timed quests, and party synchronization remain untested in this integration.
 
-### Structured tooltip probes
+### Object tooltip migration
+
+Forever's structured Object path now uses a primary `GameTooltip` post-call instead of the object `OnUpdate` scanner. It preserves provider name/zone resolution, rejects secret inputs, and tracks augmentation until `OnTooltipCleared` rather than reading FontStrings to detect duplicates. Classic retains object polling and native Item/Unit scripts. Processor presence alone is insufficient: the frame must expose `GetPrimaryTooltipData` to select structured callbacks. Unit/Item rendering and their existing FontString reads remain unchanged.
+
+The [tooltip reference](forever-tooltips.md#implemented-object-callback-path) describes the capability boundary, showing/resizing ownership, and validation limits. Recorded checks: 62 focused tooltip tests and 1,958 full-suite tests passed, with focused source lint clean. Review found no production issue.
+
+Live Classic checks used 2.5.6, build `69795`, interface `20506`, project ID 5, matching `classic_anniversary` source `1463c686270b6c64e2c5c228f447c4597c0f8ba6`. Native setters fired legacy scripts but no processor callbacks before the change. After reload, Questie was ready; Item and Unit augmentation executed, `ClearLines()` fired `OnTooltipCleared`, and a short synthetic object-caption probe produced one Object ID line. Settings were restored; installation links and provider files were untouched. Evidence is ignored under `cli/output/forever/tooltip-migration/`.
+
+These checks were out of combat and used setters/synthetic text, not physical world-object hovering. Era was not separately live-tested. The new Forever implementation still needs live clear/rebuild, hover, refresh, and combat validation; earlier Forever captures do not establish those results.
+
+### Structured tooltip probes before migration
 
 The [Forever tooltip reference](forever-tooltips.md) documents the data model, callback/update lifecycle, payload examples, current Questie consumers, and remaining tests. This section retains the session findings.
 
@@ -116,7 +126,7 @@ The subsequent Skyborne zone/race fixes passed local tests and review. The integ
 | Tracker | Modern watch hooks use quest IDs and retain native watches. Classic retains its prior behavior. Modern additions are idempotent, not toggles. Namespaced watch-count functions retain their native meaning. |
 | Native tracker visibility | `QuestieCompat` owns Forever suppression only while requested, defers changes during combat, and releases through Blizzard's content-aware `Update()`. Classic retains its legacy WatchFrame handling, including Titan's alpha workaround. |
 | Quest timers | Modern timer records are matched by quest ID without changing selected quests. `QuestieCompat.GetQuestTimers` exposes seconds as varargs for remaining callers. |
-| Tooltips | `Tooltip.lua` uses `TooltipDataProcessor` when available; Classic retains script hooks. `TooltipHandler.lua` extracts `item:<ID>` independently of color prefixes, including Forever's `|cnIQ1:`. |
+| Tooltips | `Tooltip.lua` requires the frame's structured-data getter as well as the processor for Forever callbacks. Its Object path no longer polls; Classic retains available native scripts and object polling. Unit/Item handlers still use existing getter/count logic and named-color-compatible item parsing. See the [tooltip reference](forever-tooltips.md#implemented-object-callback-path). |
 | World-map buttons | `WorldMapButton.lua` corrects Krowi's `HasNoOverlay` flag on Forever. The library mistakes version `1.x` for the old Classic map and otherwise reparents Blizzard buttons to `ScrollContainer`, breaking parent `GetMapID`/`TriggerEvent` calls. Krowi's source is unchanged. |
 | World-map geometry | HBD version 34 recognizes Forever as Classic map content and derives Era/Forever world transforms from native continent rectangles, with legacy fallback. See the measurements below. |
 

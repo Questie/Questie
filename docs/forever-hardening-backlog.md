@@ -104,14 +104,15 @@ The current item-link parser fix is likely a one-time migration. Separating iden
 
 ## Combat tooltip restrictions need live reproduction
 
-See the [Forever tooltip reference](forever-tooltips.md#security-combat-and-restricted-data) for observed payloads, source-backed access boundaries, and the [focused test matrix](forever-tooltips.md#open-questions-and-focused-tests). Its proposed callback migration is not implemented yet.
+See the [Forever tooltip reference](forever-tooltips.md#security-combat-and-restricted-data) for observed payloads, source-backed access boundaries, and the [focused test matrix](forever-tooltips.md#open-questions-and-focused-tests). The narrow [Object callback replacement](forever-tooltips.md#implemented-object-callback-path) is implemented: Forever no longer installs the object scanner, while Classic retains polling. Public primary Object data feeds the existing provider resolver; a per-clear flag replaces FontString-based duplicate detection on this path.
 
-The outsider's updated 303 zip attributes combat taint to the `GameTooltip` object-hover `OnUpdate` scanner. Its combat early-return, deferred modern callbacks, protected-text fallback, and blanket aura `pcall` were not adopted. The integrated client passed non-combat item-tooltip and aura checks, but real combat was not exercised. The scanner attribution therefore remains unverified; successful non-combat reads do not establish combat safety.
+The outsider's updated 303 zip attributes combat taint to the former Forever `GameTooltip` object-hover `OnUpdate` scanner. Its combat early-return, deferred modern callbacks, protected-text fallback, and blanket aura `pcall` were not adopted. The replacement rejects secret Object inputs without disabling all enrichment in combat. Classic setter/synthetic-caption checks passed out of combat; the new Forever callback has not yet been live-validated. The original scanner attribution remains unverified, and Unit/Item `CountTooltip()` reads plus aura inspection remain separate risks.
 
 Next checks:
 
-- Reproduce the exact failing read/call in and out of combat, recording client build and stack before selecting a workaround.
-- If object scanning must stop in combat, document that loss of augmentation explicitly. An early-return is not proof that other taint paths are fixed.
+- Validate actual Forever Object hovers, clear/rebuild delivery, stationary updates, and appended blocks. Mocked per-clear tests and Classic clear events do not establish Forever coverage.
+- Reproduce remaining failing reads/calls in and out of combat, recording client build and stack before selecting a workaround.
+- If any enrichment must stop in combat, document that loss explicitly. Removing Forever's scanner is not proof that Unit/Item, aura, or other taint paths are fixed.
 - If a callback must be deferred, verify that the tooltip still represents the same entity when it runs, not merely that it is shown.
 - Protect only demonstrated restricted-value operations. Preserve unexpected programming errors instead of wrapping all aura or tooltip work in `pcall`.
 

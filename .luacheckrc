@@ -2317,6 +2317,8 @@ globals = {
     "hooksecurefunc",
     "issecure",
     "issecurevariable",
+    "issecretvalue",
+    "issecrettable",
     "scrub",
     "securecall",
     "seterrorhandler",

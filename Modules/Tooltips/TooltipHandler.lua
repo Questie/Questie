@@ -105,6 +105,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
 end
 
 ---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
+---The caller owns showing/resizing the tooltip after its native render pass.
 ---@param name string
 ---@param playerZone AreaId
 ---@return nil
@@ -150,7 +151,6 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         end
     end
 
-    GameTooltip:Show()
     QuestieTooltips.lastGametooltipType = "object"
 end
 

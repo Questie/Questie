@@ -2,7 +2,7 @@
 
 Forever exposes structured tooltip data through `C_TooltipInfo` and renders it through template mixins and `TooltipDataProcessor`. Our live probes confirm that Unit callbacks can include quest IDs and objective progress, and Object callbacks can identify the displayed object text. These are useful alternatives to reading rendered FontStrings every frame.
 
-**This document records observations and candidate changes, not a completed tooltip refactor.** Questie already uses modern Item and Unit callbacks when available. Its object-hover path still scans `GameTooltip` on `OnUpdate`. Combat behavior and complete update coverage remain unverified.
+**The narrow Object callback migration is implemented; broader tooltip refactoring remains pending.** Forever now uses primary Object post-calls instead of the per-frame object scanner. Classic retains native Item/Unit scripts and object polling. The historical Forever experiments below preceded this change; the new implementation has been live-tested only on Classic, out of combat. See [implementation and validation](#implemented-object-callback-path).
 
 For integration status, see [Forever development](forever-development.md). Broader recovery work remains in [the hardening backlog](forever-hardening-backlog.md). Provider-owned name lookup is described in [QuestieDB integration](questiedb-integration.md#object-hover-name-resolution).
 
@@ -12,7 +12,7 @@ For integration status, see [Forever development](forever-development.md). Broad
 
 - Live client: Forever `1.60.1`, build `69913`, interface `16001`.
 - The client reports `WOW_PROJECT_ID = 1`, but uses Classic-family content. API capability and content family are separate decisions.
-- All tooltip captures described here were **out of combat** and used English text.
+- All tooltip captures described here were **out of combat** and used English text. The Classic migration checks have a separate build/source record [below](#classic-validation).
 - Questie and its Source-mode QuestieDB provider were running. ForeverClassicUI was also loaded; this was not an isolated-addon test.
 - Diagnostics ran through WoWDevBridge, with callbacks/timers executing in the session. No new tooltip frames were created by the probes.
 - Matching Blizzard source: Gethe's `forever` branch, refreshed at commit `70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e`, subject `1.60.1 (69913)`.
@@ -337,17 +337,17 @@ accessible object name
 
 [TooltipHandler.lua](../Modules/Tooltips/TooltipHandler.lua) uses zone filter `0` only for a provider-wide unique name. Ambiguous names use the player's area/parent relationship. No matches or no relevant registrations are valid results, not reasons to invent an ID.
 
-An Object post-call can plausibly replace the modern path's per-frame “not a unit/item/spell” classification. It cannot by itself solve unknown zones, missing provider content, localization gaps, or ambiguous names.
+The implemented Object post-call replaces Forever's per-frame “not a unit/item/spell” classification. It does not solve unknown zones, missing provider content, localization gaps, or ambiguous names.
 
 ## Current Questie implementation
 
 | Area | Current behavior | Consequence for migration |
 | --- | --- | --- |
-| [Tooltip initialization](../Modules/Tooltips/Tooltip.lua) | Registers Item/Unit post-calls when available; older clients retain `OnTooltipSetItem`/`OnTooltipSetUnit` hooks. | Modern support already exists, but callbacks do not yet consume their data argument. |
+| [Tooltip initialization](../Modules/Tooltips/Tooltip.lua) | Requires both the processor and the frame's `GetPrimaryTooltipData` pipeline for post-calls. Classic retains available tooltip-set scripts, checked with `HasScript`. Initialization registers hooks only once. | Processor presence alone does not prove native callback delivery. Unit/Item handlers still do not consume callback data. |
 | [Unit handler](../Modules/Tooltips/TooltipHandler.lua) | Calls frame `GetUnit`, queries GUID, falls back to mouseover, and appends registry-derived lines. | Structured identity could avoid re-reading mutable frame/token state. |
 | Item handler | Calls frame `GetItem`, extracts `item:<ID>`, and performs quest-start/registered-objective lookup. | Preserve named-color support and quest-start behavior if switching to callback IDs. |
-| Object scanner | `GameTooltip:HookScript("OnUpdate", ...)` reads frame getters and `GameTooltipTextLeft1:GetText()`, then resolves the current zone. | Still active on modern clients; no combat/secret-value guard was added by these probes. |
-| Duplicate detection | Shared last-name/type/frame/count state and `CountTooltip()` FontString reads. | Event-driven identity alone does not prove rebuild idempotence; audit these reads too. |
+| Object frontend | Forever handles public text from primary Object post-calls. Classic retains the frame-getter/FontString `OnUpdate` scanner. Both use the existing provider-backed name/zone resolver. | No Object polling or `CountTooltip()` reads on the structured path; its live Forever coverage remains to be verified. |
+| Duplicate detection | Forever Object callbacks use a per-clear flag. Unit/Item and Classic paths retain shared last-name/type/frame/count state and `CountTooltip()` reads. | Same-payload rebuilds are covered by tests; actual Forever clears/refreshes and the remaining FontString readers still need validation. |
 | Custom row layout | [TooltipLayout](../Modules/Tooltips/TooltipLayout.lua) measures and renders Questie-owned rows, with a template-based gap-measurement tooltip. | This is presentation measurement, not native entity scanning. Structured retrieval does not replace it. |
 | Journey item pre-cache | [QuestieSearchResults](../Modules/Journey/QuestieSearchResults.lua) creates `QuestieScanningTooltip` with `GameTooltipTemplate`, calls `SetItemByID`, and waits for cached item data. | Do not remove the scanner based only on warm direct-query success; its cache/layout purpose needs separate validation. |
 
@@ -356,6 +356,41 @@ Unit/Item handlers reject forbidden frames and disabled tooltip settings. Severa
 The live scanner check confirmed `SetItemByID`, `GetTooltipData`, and `TOOLTIP_DATA_UPDATE` registration. The inspected other custom tooltip constructors also specify `GameTooltipTemplate`. No missing-template fix was demonstrated or applied.
 
 The older migration notice lists removed tooltip-set script handlers. It does not imply a one-to-one tooltip-type replacement for every behavior: for example, the matching Blizzard rules handle sell-price money through a `SellPrice` line post-call. Preserve the intended behavior rather than mechanically translating script names.
+
+## Implemented Object callback path
+
+[Tooltip.lua](../Modules/Tooltips/Tooltip.lua) selects structured callbacks only when `GameTooltip.GetPrimaryTooltipData`, processor registration, and tooltip enums are available. The Object callback additionally requires its enum. Classic exposes some of these shared APIs without using the structured rendering pipeline, so neither project ID nor processor presence alone selects this path.
+
+The Forever Object callback:
+
+- Accepts only `GameTooltip` and its primary data block, not appended blocks, scanning frames, or comparison frames.
+- Preserves forbidden-frame, enabled-tooltip, group-size, and map-icon exclusions.
+- Rejects secret values and tables with secret contents before inspecting payloads, line containers, the title row, or its text. Missing, empty, or non-string names add nothing. These conservative checks do not attempt to recover restricted data.
+- Uses the public first-line name with the existing provider name/zone resolver. Object IDs are not guessed; captions with no matching registrations add no quest lines.
+- Marks augmentation before rendering and resets that flag on `OnTooltipCleared`, not `OnShow`. A repeated callback adds once; clearing permits the same payload and `dataInstanceID` to be rendered again.
+
+The Object renderer now only appends lines. Classic's scanner explicitly calls `Show()` afterward to resize; Forever leaves the final `Show()` to Blizzard's processing pass. Initialization is idempotent because processor callbacks cannot be unregistered.
+
+This change does not migrate Unit/Item identity handling, remove their `CountTooltip()` reads, alter native-versus-Questie objective duplication, or change the public `GetTooltip`/Comms contracts. It adds no blanket combat early-return. Unknown-zone lookup remains an independent failure boundary.
+
+### Classic validation
+
+The tested Classic client was **2.5.6, build 69795, interface 20506, project ID 5**. Matching refreshed source was `classic_anniversary` commit `1463c686270b6c64e2c5c228f447c4597c0f8ba6`. Era was not separately live-tested. The earlier Forever source remains pinned to build `69913`; no new Forever implementation run was performed in this phase.
+
+Before reloading the change, Classic exposed processor registration and Item/Unit/Object enums, but lacked `C_TooltipInfo`, `GetPrimaryTooltipData`, `GetTooltipData`, and `RefreshData`. A disposable `GameTooltipTemplate` probe produced one native Item script and one native Unit script, **zero modern callbacks**, and no probe errors. This demonstrated why the former processor-only selection was wrong for Classic.
+
+After reloading the change:
+
+- Questie reported started and API ready, with no visible error dialog.
+- A native item setter rendered Questie's Item ID line; a player-unit setter reached Questie's Unit handler.
+- Explicit `ClearLines()` on a temporary template fired one `OnTooltipCleared` event.
+- A public synthetic caption, taken from provider Object 2843 and displayed for 0.2 seconds, exercised Classic polling and produced one Object ID line without duplicates.
+
+These were out-of-combat setter/synthetic-caption probes, not physical world-object hover or combat tests. Temporary tooltip settings were restored. No installation links or provider data changed.
+
+Recorded automated validation: 62 focused tooltip tests and 1,958 full-suite tests passed. Focused source lint passed. Review found no production issue; its secret-text test concern was addressed by marking a nonempty string secret in the mock, so ordinary type rejection cannot satisfy that test. Mocks do not reproduce native secret-value enforcement.
+
+Local, ignored evidence is under `cli/output/forever/tooltip-migration/`: `classic-capabilities.json`, `classic-delivery.json`, `classic-reload.json`, `classic-native-render.json`, `classic-clear-lifecycle.json`, and `classic-object-render.json`. The new Forever callback still needs live primary/append, clear/rebuild, stationary-update, physical-hover, and combat checks.
 
 ## Security, combat, and restricted data
 
@@ -378,7 +413,7 @@ Rendering and inspecting are also different capabilities. The handler's secure s
 
 The outsider's updated 303 zip attributed combat taint to the object `OnUpdate` scanner and proposed an early return in combat. That workaround, deferred callbacks, protected-text fallback, and blanket aura `pcall` were not adopted.
 
-The current scanner has concrete risky operations to test: repeated frame getter calls, text comparisons, FontString counting, zone lookup, and optional augmentation. The evidence does not yet identify which operation fails in ordinary addon execution during combat.
+The removed Forever scanner combined repeated frame getter calls, text comparisons, FontString counting, zone lookup, and optional augmentation. Classic still uses that scanner. Forever's new Object callback avoids those scans and rejects secret inputs, but the evidence does not yet identify the original combat failure or establish combat safety. Unit/Item FontString reads and aura inspection remain separate risks.
 
 Avoid two unsupported conclusions:
 
@@ -393,12 +428,12 @@ The recorders use `issecretvalue` to replace observed secret values with a marke
 
 Zero recorder errors means no error reached the recorder's guarded operations in those windows. It is not a complete game-error audit, taint-log analysis, or proof of secure hardware execution.
 
-## Candidate migration, not yet implemented
+## Remaining migration and validation
 
-1. **Keep the capability boundary.** Use structured callbacks on clients that provide them; preserve existing older-client script paths until tested replacements exist there.
-2. **Replace modern object polling first.** Filter to `GameTooltip`, handle accessible Object payload text, and call existing provider-backed resolution. Verify refreshes and transitions before removing the old scanner on this client.
+1. **Validate the implemented capability boundary.** Classic rendering was checked on the build above; verify other supported clients separately.
+2. **Validate the implemented Object replacement on Forever.** The structured path no longer installs the old scanner. Check physical hovers, primary versus appended blocks, clears, refreshes, and transitions before treating replacement coverage as established.
 3. **Use callback identity for Unit and Item.** Prefer accessible GUID/ID fields over frame getter/text recovery, with explicit handling of absent identity.
-4. **Make augmentation idempotent.** Test same-entity rebuilds, appended blocks, hidden/reused frames, and rapid entity changes. Do not assume name equality or `dataInstanceID` alone covers every case.
+4. **Verify Object idempotence live and extend it deliberately.** Tests cover per-clear behavior, including reused payloads. Exercise native rebuilds, appended blocks, hidden/reused frames, and rapid entity changes; Unit/Item deduplication remains unchanged.
 5. **Choose a duplicate-content policy.** Native quest lines already overlap Questie's. Decide whether to retain both or add only information missing from native rendering. Preserve drop rates, party attribution, quest-start/turn-in markers, and user settings.
 6. **Define restricted-data behavior from evidence.** Identify a narrow skip/defer boundary rather than disabling every tooltip in combat or swallowing every exception.
 
@@ -408,7 +443,7 @@ Do not change `GetTooltip` key/return contracts casually: the existing source no
 
 ## Open questions and focused tests
 
-All rows below are future checks, not completed validation. Use physical hovering and the ordinary addon path where security matters. Agree on combat testing before starting; no inventory destruction, quest abandonment, purchases, or binding changes are needed for this matrix.
+The live scenarios below remain future checks. Unit tests cover several Object branches, and Classic synthetic probes establish only the narrower behavior recorded above. Use physical hovering and the ordinary addon path where security matters. Agree on combat testing before starting; no inventory destruction, quest abandonment, purchases, or binding changes are needed for this matrix.
 
 | Priority | Question | Smallest useful scenario | Evidence to retain and cleanup |
 | --- | --- | --- | --- |
@@ -480,11 +515,11 @@ Keep raw player GUIDs/names and unrelated tooltip contents local. Sanitize share
 
 ## Conclusions and next step
 
-The evidence supports an event-driven modern tooltip frontend, especially replacing object `OnUpdate` classification and using callback identity directly. It also shows that native quest progress is richer than a plain string scanner suggests.
+The narrow event-driven Object frontend is implemented, and Classic fallback rendering has been checked on the recorded client. The earlier Forever evidence also shows that native quest progress is richer than a plain string scanner suggests; Unit/Item identity and objective-content policy remain future work.
 
 The remaining work is not another API rename. It is defining ownership of overlapping native/Questie content, proving update and identity behavior, preserving provider/party enrichment, and establishing the narrow boundary for inaccessible data.
 
-The next useful session is a bounded combat comparison followed by stationary-tooltip refresh and same-entity rebuild checks. Keep the existing implementation until those observations and focused tests justify replacing its behavior.
+The next useful session is live Forever validation of the Object callback, including clears, stationary refreshes, same-entity rebuilds, and a bounded combat comparison. Do not generalize the Classic checks or mocked restrictions into a Forever combat-safety claim.
 
 ## Pinned Blizzard references
 
