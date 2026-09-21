@@ -1,290 +1,201 @@
-# Forever work left to do
-
-This is the remaining compatibility and combat-safety audit, not a list of confirmed failures. The behaviors below still exist after the QuestieDB integration, QuestieCompat consolidation, and scoped Forever Object-tooltip migration.
-
-Keep Classic behavior intact unless a separate, tested change is justified. Do not equate Forever's modern API surface with identical Retail restrictions, or describe every insecure addon call as prohibited.
-
-## Scope and current status
-
-- **Finding 1, Object-tooltip scanning:** implemented, pending the documented manual validation. Forever uses structured Object callbacks; Classic retains its scanner. Unit/Item tooltip text and count handling remains separate work. Do not expand or reopen the tooltip implementation as part of the items below without agreement.
-- **Findings 2–5:** audit the retained watch globals, confirmation-popup mutations, aura inspection, and secure item/map behavior.
-- **Finding 6, QuestieAuto:** review automatic quest interaction as a complete event-driven workflow, not just individual API names.
-- **Finding 7, legacy API and fallback audit:** complete; see the [audit report](LEGACY_API_AUDIT.md). Implementation awaits review and selection of follow-up changes.
-- **SavedVariables:** parked as a known beta-client problem. Do not add persistence workarounds under this audit.
-
-References:
-
-- [Forever development and live evidence](docs/forever-development.md)
-- [Tooltip implementation, evidence, and validation limits](docs/forever-tooltips.md)
-- [Broader hardening backlog](docs/forever-hardening-backlog.md)
-- [Required tooltip review recipe on PR #7848](https://github.com/Questie/Questie/pull/7848#discussion_r4055873073)
-
-Historical Forever evidence used client `1.60.1 (69913)`. Record the actual build for each new test. The later Classic `2.5.6 (69795)` tooltip checks do not establish Era or Forever behavior.
-
-## Security distinctions and validation rules
-
-Keep three different mechanisms separate:
-
-1. **Protected actions and frame changes:** an operation may require a secure hardware path or may not be permitted from insecure code during combat. A correctly configured secure item button is different from calling its action through a bridge.
-2. **Taint and shared-state ownership:** replacing a Blizzard global or modifying a Blizzard-owned frame can affect subsequent native or addon execution. A write can succeed initially and cause trouble later.
-3. **Restricted or secret data:** a getter can exist and return a value that cannot safely be compared, concatenated, or used as a table key in the current context. `IsForbidden()` on a frame does not establish that all associated data is accessible.
-
-`hooksecurefunc` preserves the original function's execution boundary. It does not make arbitrary writes inside its callback secure. Similarly, `pcall` is not permission to read restricted data or perform a protected action.
-
-For each item:
-
-- Trace the ordinary addon caller, not only the compatibility wrapper.
-- Separate source declarations, observed runtime results, and hypotheses.
-- Use focused tests for return contracts, state ownership, and queued work. Mocks cannot prove the client's security rules.
-- Validate through normal events and physical clicks where relevant. Bridge-injected code can have a different taint identity.
-- Record the client build, addon/provider revisions, enabled UI addons, settings, combat state, and exact error/stack.
-- Redact secret values before diagnostic serialization. Do not attempt to expose them.
-- Preserve and restore settings and UI state. Do not change installation links, bindings, or other clients to run these checks without permission.
-
-## 2. Replacing Blizzard watch globals
-
-### Current behavior
-
-[Modules/Tracker/QuestieTracker.lua](Modules/Tracker/QuestieTracker.lua), especially `HookBaseTracker()` and `Unhook()`, still replaces:
-
-```lua
-IsQuestWatched
-GetNumQuestWatches
-```
-
-`IsQuestWatched` reports Questie's tracking policy. The replacement `GetNumQuestWatches(isQuestie)` counts Questie's tracked quests when passed its private truthy argument, but returns zero to ordinary callers without that argument. These are not transparent translations of Blizzard's API contracts.
-
-The replacements are installed on Forever even though that client already has namespaced `C_QuestLog.AddQuestWatch` and `RemoveQuestWatch` post-hooks. Those hooks translate quest IDs to the existing tracker interface and synchronize native watch changes with Questie state.
-
-Original globals are saved once and restored when unhooking. The implementation now restores nil too, which matters when Forever did not originally expose those legacy globals. Restoration is working behavior to preserve, not proof that installing the replacements is harmless.
-
-### Why this needs investigation
-
-Every addon calling those globals sees Questie's replacement, not just Questie. The zero count can mislead another addon even without a combat error. The writes also introduce a taint and ownership boundary around names Blizzard or another addon may use later.
-
-There is a further lifecycle question: restoring the value captured at initial installation could overwrite a replacement another addon installed afterward. Establish whether that can happen and what ownership policy is appropriate before changing teardown.
-
-### Proposed direction
-
-Investigate whether Forever can avoid installing these replacements entirely:
-
-- Keep native watch state and native API return values intact.
-- Keep Questie's own tracking count/query as explicit module functions for its consumers.
-- Use the existing namespaced watch hooks for synchronization.
-- Use QuestieCompat's explicit, combat-deferred native-tracker visibility handling instead of falsifying watch counts to suppress native UI.
-
-This is a direction, not permission to delete the assignments immediately. First find every consumer of the synthetic boolean/count, including the special `GetNumQuestWatches(true)` convention. Removing the global without migrating those callers would break Questie's tracker.
-
-### Focused checks
-
-- Compare native and Questie counts with automatic tracking on and off.
-- Add a native watch twice: the second addition must remain an idempotent add, not toggle tracking off.
-- Remove and re-add through the native log, Questie's menu, and another addon/API consumer.
-- Exercise initially absent legacy globals, tracker enable/disable, and repeated initialization.
-- Enter and leave combat while changing watches; verify the native and Questie trackers do not both disappear.
-- Check interoperability with an addon that reads the legacy watch APIs or installs its own wrapper.
-
-**Done when:** Forever no longer needs shared-global interception, all internal consumers use the intended count/state, native watches remain synchronized, and Classic's existing behavior passes separate checks. If interception is still necessary, document the exact caller and reason rather than retaining it by default.
-
-## 3. Mutating Blizzard confirmation popups
-
-### Current behavior
-
-[Modules/EventHandler/QuestEventHandler.lua](Modules/EventHandler/QuestEventHandler.lua), in `Initialize()`, post-hooks `StaticPopup_Show`. For `DELETE_ITEM`, it searches the quest log and provider data to decide whether the named item is quest-related.
-
-When it finds a match, it locates a shown dialog by its text argument, changes the displayed warning, writes `text.text_arg1`, and resizes the dialog. It supports both the newer dialog iterator and the older numbered popup frames. There is no combat guard around these mutations.
-
-A separate `DeleteCursorItem` post-hook uses the shared `deletedQuestItem` flag to refresh quests after deletion, because deleting quest items does not always produce the expected quest-log update.
-
-### Why this needs investigation
-
-This combines two concerns: presenting an extra warning and detecting a later inventory change. Both depend on Blizzard-owned popup state and on identity surviving across callbacks.
-
-Questions to resolve:
-
-- Does the matched text argument identify the intended `DELETE_ITEM` dialog, or could another shown/reused dialog share it?
-- Does writing `text.text_arg1` affect native formatting or later dialog reuse?
-- What happens when the user cancels, opens another popup, or moves to another item before a later deletion?
-- Does `deletedQuestItem` still describe the item actually deleted, or only a previously displayed warning?
-- Are the text/resize operations permitted in combat on the active Forever build?
-
-These are audit questions, not established security failures. Guarding the existence of `StaticPopup_Show` only prevents calling a missing API; it does not answer them.
-
-### Investigation and acceptance
-
-Trace the native deletion-popup lifecycle and its accept/cancel handlers. Check ownership and identity before selecting a replacement. If native mutation is unsafe, consider a separate Questie-owned notice that does not change Blizzard's confirmation action or arguments.
-
-Preserve the user's explicit confirmation. Do not implement automatic deletion, delayed replay of a deletion, or a replacement secure-action flow merely to show a warning.
-
-Test quest and non-quest items, cancelled warnings, sequential/reused dialogs, uncached item names, and combat transitions. Unit tests can exercise cancellation and stale flags without deleting anything. Live tests should cancel the dialog unless deletion of a disposable test item was explicitly agreed.
-
-**Done when:** the warning applies only to the intended item/dialog, native confirmation behavior is unchanged, cancellation leaves no stale deletion state, and the quest refresh follows the relevant completed deletion without taint or blocked-action errors.
-
-## 4. Aura inspection for reputation bonuses
-
-### Current behavior
-
-[Modules/QuestieReputation.lua](Modules/QuestieReputation.lua), in `_GetBuffMultiplier()`, scans up to 40 helpful player auras through `QuestieCompat.UnitAura`. It unpacks the legacy tuple and compares spell IDs to recognize reputation buffs.
-
-[Modules/QuestieCompat.lua](Modules/QuestieCompat.lua) translates modern aura data back into that tuple. On Forever it avoids the legacy global, which can exist but fail internally.
-
-The resulting buff multiplier contributes to displayed reputation rewards alongside other modifiers. This is optional reward enrichment, not a prerequisite for showing a quest title or objective.
-
-### Evidence and remaining risk
-
-The matching Forever source declares `GetAuraDataByIndex` with `RequiresUnitAuraAccess` and `SecretWhenUnitAuraRestricted`:
-
-[UnitAuraDocumentation.lua, build 69913](https://github.com/Gethe/wow-ui-source/blob/70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e/Interface/AddOns/Blizzard_APIDocumentationGenerated/UnitAuraDocumentation.lua#L206-L223)
-
-Our out-of-combat Mark of the Wild query succeeded. It proves that one aura could be read in that context, not that every aura field remains inspectable during combat or under every caller's taint identity.
-
-The risky operations include field access/unpacking and the later spell-ID comparisons. Changing the API name alone does not make the consumer restriction-aware. Also, an inaccessible aura list must not silently be treated as proof that no reputation buff is active.
-
-### Proposed investigation
-
-- Trace when reward calculation runs, including map/quest tooltip display during combat.
-- Compare accessible aura data before, during, and after combat through the ordinary Questie path.
-- Determine which fields are needed and whether an allowed alternative can establish the modifier reliably.
-- Choose an explicit presentation policy when the modifier is unknown: omit the uncertain adjusted value or identify a base estimate. Do not present an unverified value as exact.
-- If caching is considered, define invalidation for aura changes and expiry. A stale last-known multiplier is not automatically safer than omission.
-
-We deliberately did not adopt the donor zip's blanket `pcall`. Catching an exception could preserve the rest of a tooltip, but it would still need a defined result contract and useful diagnostics. It must not hide unrelated programming errors or silently return a fabricated multiplier.
-
-**Done when:** inaccessible aura information cannot abort unrelated quest rendering; uncertainty is represented deliberately; accessible buff calculations remain correct; and live combat transitions are tested. There is no basis for disabling all aura access on all clients.
-
-## 5. Secure item buttons and map actions
-
-### Secure quest-item buttons
-
-[Modules/Tracker/LinePool/TrackerItemButton.lua](Modules/Tracker/LinePool/TrackerItemButton.lua) creates `SecureActionButtonTemplate` buttons. `SetItem` configures item actions using `type1` and `item1`, registers click edges, changes geometry, and shows or hides the button. `FakeHide` clears secure attributes and click handling.
-
-These are secure **item actions**, not dynamic macro execution. The main tracker update path is combat-gated, and [QuestieCombatQueue](Modules/Libs/QuestieCombatQueue.lua) defers work until combat permits it. That is the intended architecture.
-
-The individual button methods rely on their callers to honor those boundaries. Audit all callers, including pooled-frame reuse, option changes, item depletion, tracker hiding, and disable/enable. Do not assume that one guarded entry point covers every future call path.
-
-The button's ongoing update code also reads cooldown, charges, and range, then compares those values. It already skips friendly-target range queries during combat. That guard does not establish unrestricted access for every other return value or target category.
-
-### Map actions
-
-[Modules/Tracker/TrackerUtils.lua](Modules/Tracker/TrackerUtils.lua) guards modern `ShowQuestLog` during combat. In contrast, `ShowObjectiveOnMap` and `ShowFinisherOnMap` call `WorldMapFrame:Show()` and `SetMapID()` directly, without that guard.
-
-This is an inconsistent boundary to investigate, not proof that those map calls are prohibited. Determine the native supported opening path, whether its secure descendants or layout are affected, and how other UI addons change that flow.
-
-### Focused checks
-
-- Physically click a configured quest-item button before and during combat. A bridge `Click()` is not equivalent to a hardware action.
-- Observe cooldown/range/charge updates with hostile, friendly, and absent targets.
-- Deplete or remove an item only in an agreed disposable-item scenario; verify queued work does not mutate secure attributes during combat.
-- Exercise tracker settings, frame reuse, and disable/enable around combat transitions.
-- Start a new combat before previously queued work executes; the execution path must recheck its current restrictions.
-- Open objectives, finishers, and quest details from tracker actions before/during/after combat; check errors, map selection, and native layout.
-
-**Done when:** protected configuration stays outside combat, queued work cannot apply stale or newly forbidden changes, valid hardware item use still works, optional indicators handle inaccessible data, and map actions have an evidence-backed policy. Do not disable working item buttons merely because their optional range indicator needs a fallback.
-
-## 6. QuestieAuto: automatic quest interaction
-
-“QuestieAuto” here means the `AutoQuesting` module in [Modules/Auto/AutoQuesting.lua](Modules/Auto/AutoQuesting.lua), its [tests](Modules/Auto/AutoQuesting.test.lua), [disallowed IDs](Modules/Auto/DisallowedIDs.lua), and event registration in [EventHandler](Modules/EventHandler/EventHandler.lua). It needs a separate audit; the tooltip work did not validate it.
-
-### Current behavior
-
-The module drives a chain of native quest interactions:
-
-| Entry point | Action |
-| --- | --- |
-| `OnGossipShow` | Select a completed or available quest through QuestieCompat. |
-| `OnQuestGreeting` | Select through the distinct native quest-greeting APIs. |
-| `OnQuestDetail` | Apply accept filters, then call `AcceptQuest`; optionally decline certain shared quests. |
-| `OnQuestAcceptConfirm` | Call `ConfirmAcceptQuest` when autoaccept is enabled. |
-| `OnQuestProgress` | Call `CompleteQuest` when the displayed quest is completable and policy allows it. |
-| `OnQuestComplete` | Claim reward 1 when policy permits and there is at most one reward choice. |
-| Close/finish handlers | Schedule a 0.5-second check that may reset the interaction's `shouldRunAuto` state. |
-
-Most handlers check settings, the modifier override, NPC/quest exclusions, and interaction state. `OnQuestAcceptConfirm` currently checks only whether autoaccept is enabled. Review whether that difference is intentional for shared quests rather than assuming all handlers enforce the same policy.
-
-There is no blanket combat guard around the interaction chain. This does **not** establish that all automatic quest actions are forbidden on Retail or Forever. Determine availability and restrictions per API, event, and client.
-
-### Questions to answer
-
-**API and identity contracts**
-
-- Keep gossip selection and quest-greeting selection distinct. An index into the current gossip list must become the right quest ID for the namespaced API; it is not itself a quest ID.
-- Confirm that the selected quest is still the intended quest when the next event arrives. Reordered lists, unavailable data, and closed dialogs must not select a different quest.
-- `_IsAllowedNPC` reads the target GUID. Verify that the target is the interaction owner on Forever, including shared quests and interactions where the target changes. Do not confuse `target`, `questnpc`, and the quest sharer.
-
-**User policy and control**
-
-- Verify modifier suppression across the whole interaction, including confirmation events.
-- Preserve disallowed NPC/quest rules and trivial, repeatable, and PvP filtering.
-- Check provider-missing quests: do not crash or guess that an unknown quest is eligible merely because the client can display it.
-- Preserve manual choice when multiple rewards exist. Test zero, one, and multiple choices and reward/inventory failure handling.
-
-**Lifecycle and restrictions**
-
-- Trace the actual accept, progress, reward, and close event order on Forever. Capability wrappers do not prove that the complete workflow is correct.
-- Check whether repeated events can accept/select/claim twice or continue after a cancelled interaction.
-- Exercise the delayed reset when dialogs briefly close between steps and when a different NPC interaction begins before the timer fires.
-- Establish combat and hardware requirements through ordinary user interactions. Do not automatically queue blocked accept/turn-in/reward actions for after combat: by then the dialog or quest identity may have changed.
-- Verify continued compatibility with supported alternate quest-dialog addons without treating their frame visibility as native quest identity.
-
-### Validation and acceptance
-
-Start with explicit tests for selection contracts, modifier policy, exclusions, repeated events, stale timers, and missing provider records. Then use a beta test character for an agreed accept/progress/turn-in cycle, including manual reward choice and cancellation. Accepting and turning in quests changes character state; record which quests are used and do not substitute destructive inventory tests.
-
-**Done when:** normal configured automation works on Forever, the user's override consistently wins where intended, stale events cannot act on another interaction, native restrictions do not create retry loops or blocked-action spam, and any unsupported step falls back to ordinary manual interaction. Preserve separately tested Classic behavior.
-
-## 7. Legacy API and redundant fallback audit
-
-**Status: audit complete.** The [legacy API audit report](LEGACY_API_AUDIT.md) contains the findings, skeptical review, supported-build caveats, and proposed implementation order. Proposed simplifications are not approved or implemented changes.
-
-### Goal and scope
-
-Identify legacy API calls and compatibility branches whose modern replacements already exist across supported Classic clients and Forever. Namespaced APIs are not necessarily Retail-only. For example:
-
-```lua
-local GetItemInfo = C_Item.GetItemInfo or QuestieCompat.GetItemInfo
-local GetItemIcon = C_Item.GetItemIconByID or QuestieCompat.GetItemIcon
-```
-
-The [Classic API availability reference](docs/classic-api-availability.md) marks both namespaced functions available across its sampled Classic and Retail builds. That makes these useful audit candidates, not automatic permission to remove their fallbacks. The reference has no Forever column and does not establish Questie's minimum supported build.
-
-The audit divided functions into API families across seven read-only investigators. Each investigator traced its assigned functions through all consumers, including [QuestieCompat](Modules/QuestieCompat.lua), rather than reviewing isolated folders. Families cover items/inventory, quest logs/watches, gossip/quest interactions, reputation/spells/auras/professions, tooltips/UI, and maps/units/group APIs.
-
-Look for:
-
-- Legacy calls with supported modern replacements.
-- Obsolete fallbacks and consumer-side API selection duplicated by QuestieCompat.
-- Inconsistent selection between consumers.
-- Deprecated Blizzard UI globals or frame assumptions.
-- Wrappers that must remain because they preserve meaningful behavior rather than merely rename an API.
-
-### Evidence and deliverable
-
-Compare arguments, defaults, tuple/table returns, nil/false/zero semantics, IDs versus indices, cache behavior, event/hook effects, load order, and restricted-data rules. Some Forever legacy globals exist but fail internally; symbol presence alone does not prove compatibility.
-
-Use the saved reference as availability evidence, with matching Blizzard source where needed. Blank cells and missing rows are not proof of absence. Make removal recommendations conditional when the supported-build policy is unclear.
-
-The report should group findings by function/contract, list affected callers and source evidence, and classify them as:
-
-- Safe simplification candidate.
-- Conditional on supported-build policy.
-- Requires contract adaptation.
-- Keep: meaningful compatibility behavior.
-- Insufficient evidence.
-
-A separate skeptical reviewer challenged the strongest simplification recommendations. The report records remaining verification and a proposed implementation order. No production code changed, and the scoped tooltip migration was not reopened.
-
-**Audit done when:** the consolidated, reviewed report identifies actionable candidates, justified retained wrappers, support-policy decisions, and coverage gaps. Audit completion does not mean those changes are implemented; track approved follow-up work separately.
-
-## Recommended order and completion record
-
-1. Audit Forever's watch-global replacements and their internal callers.
-2. Audit deletion-popup ownership and cancellation state.
-3. Define aura/reputation behavior when data is inaccessible.
-4. Validate secure quest-item buttons and map actions through real combat transitions.
-5. Audit QuestieAuto's full interaction lifecycle.
-
-Review the [completed legacy API audit](LEGACY_API_AUDIT.md) before scheduling implementation; coordinate overlapping watch, aura, and quest-interaction changes with the items above.
-
-The existing tooltip review recipe remains a separate merge-validation requirement, not an invitation to expand that implementation.
-
-For each completed item, add the chosen behavior, rejected alternatives, affected files, focused tests, live build/results, and remaining limitations to [forever-development.md](docs/forever-development.md). Mark an item complete only for the scope actually validated. No single clean startup, passing mock suite, or out-of-combat probe establishes whole-addon combat safety.
+# Forever remaining work
+
+This is the single current work list, consolidated from the compatibility audit, temporary review notes, manual checklist, tooltip reference, development log, and hardening backlog. It contains only unfinished work. Older status lists in those documents are historical; use this document to decide what remains.
+
+Baseline: checkout through `57df4c3ad`. No new gameplay validation accompanied this consolidation. **Pending validation** means no completed result is recorded here, not proof that nobody has tried the scenario elsewhere.
+
+The first beta requires ordinary gameplay to work without errors on native Forever UI. Deferred refactors and exploratory tests are not automatically release blockers. A finding below is not necessarily a reproduced bug, and listing it does not authorize implementation or live testing.
+
+## 1. Release verification and missing regression tests
+
+Use the steps in [MANUAL_TESTS_REQUIRED.md](MANUAL_TESTS_REQUIRED.md). That file is currently local-only and Git-ignored; sharing it is tracked in section 7.
+
+| Item | Status | Remaining check |
+|---|---|---|
+| Native Forever baseline | Pending validation | Run with Blizzard's normal UI, Questie, and QuestieDB, without ForeverClassicUI. Check normal login, quest log, settings, map, tracker, and objective counts. Record the actual build and addon revisions. |
+| Tracking and tracker visibility | Pending combined-release validation | Track/untrack through the native log and Questie menu; repeat with automatic tracking on/off and tracker disable/enable. Check repeated additions, combat transitions, and unintended duplicate/missing trackers. See manual §2 and behavior work below. |
+| Native Forever quest greetings | Partial: implementation present, live acceptance pending | Use a genuine quest-greeting NPC, ideally with available and accepted quests. Check correct icons on initial opening, reopening, acceptance/completion refreshes, and no incorrectly disappearing map markers. Gossip-only NPCs do not exercise this path. See manual §3 and commit `f2222741a`: native list-based availability, pooled/numbered button adapters, and both XML-bound and explicit rebuild hooks. Unresolved list entries must not cause negative availability broadcasts. |
+| Mixed Classic greeting buttons | Missing automated test | Cover active and available numbered buttons together, including the correct list indices and completion icons. Current tests do not cover this combination. Target: `Modules/Quest/QuestgiverFrame.test.lua`. |
+| Classic greeting display/rebuild | Missing automated test | Cover initial XML-bound OnShow and subsequent native rebuilds with numbered buttons, ensuring Questie's icons survive both. Pooled-button coverage does not establish the Classic layout. Same test file as above. |
+| Ordinary quest progression | Pending release-candidate validation | Accept a non-first quest where possible, progress objectives, loot quest items, finish quests, and choose rewards manually. Compare native and Questie state. Manual §3. |
+| Forever Object tooltip callbacks | Partial: implementation present, live acceptance pending | Check physical object hovers, leaving/re-entering, repeated hovers, clear/rebuild, stationary progress updates, primary/appended data, and stale/duplicate additions. Existing Classic checks do not establish this behavior on Forever. Manual §4; [tooltip test matrix](docs/forever-tooltips.md#open-questions-and-focused-tests). |
+| Item/Unit tooltips and combat | Pending combined-release validation | Check creature, player, bag-item and linked-item tooltips before/during/after combat, including progress updates and repeated hovers. Capture the actual failing call before selecting a restriction workaround. Manual §4; [tooltip restrictions](docs/forever-tooltips.md#security-combat-and-restricted-data). |
+| Quest-item buttons and map actions | Pending gameplay validation | Use physical clicks on suitable quest items. Check charges, range, cooldown, allowed combat use, tracker changes, and recovery after combat. Open objectives, finishers and quest details from the tracker. Manual §5. |
+| Journey and item information | Pending gameplay validation | Check item names/icons/details and first-time loading, plus faction-tab selection for a watched reputation. Manual §6. |
+| Automatic questing | Pending gameplay validation and workflow review | Check eligible acceptance/turn-in, modifier suppression, zero/one/multiple reward choices, and cancellation. Use only quests the tester intends to accept/finish. Manual §7; section 3 below. |
+| Deletion warnings | Pending cancel-only validation | Check the expected quest-item warning, cancellation, then an unrelated item's dialog. Confirm text does not carry over and no item is deleted. This does not validate actual deletion. Manual §8. |
+| Timed quests, party progress and reward displays | Pending when scenarios are available | Check Blizzard's timer with Questie enabled, shared progress/announcements, and XP/reputation tooltips with known bonus buffs. Manual §9. |
+| Classic gameplay regression | Pending for the combined release | Run a short ordinary-questing, tracker, greeting and tooltip check on supported Classic clients. Read-only Era getter probes are not equivalent. |
+| Skyborne eligibility and starting zones | Partial: rules/data present, live eligibility pending | Verify race-specific and faction-wide quest eligibility on a Skyborne character, plus new-zone navigation and supported quest content. Do not treat missing provider content as an API failure. [Development limits](docs/forever-development.md#remaining-limits). |
+| Profession refresh | Not exhaustively live-validated | Observe normal profession acquisition/change and availability refresh where an agreed test scenario exists. Do not unlearn professions merely to test it. [Development boundaries](docs/forever-development.md#compatibility-boundaries). |
+| Results and release limitations | Pending as checks run | Record pass/fail/skipped scenarios, build/revision, UI addons, combat state, and useful screenshots/stacks. Document incomplete Forever content and the known SavedVariables limitation without claiming they are fixed. Keep historical results in the development log; remove completed tasks from this list. |
+
+## 2. Deferred simplification candidates
+
+These are the remaining cleanup favorites and related opportunities. Preserve native returns, cache misses, event/hook behavior, and meaningful identity conversions. Do not replace every wrapper or introduce a generic compatibility framework.
+
+| Item | Status | Next step and reference |
+|---|---|---|
+| Supported client/build floor | Decision required | Decide whether support means current Blizzard channels, all manifest versions, or additional historical/private clients. Confirm older Cata, Era and Mists coverage before removing fallbacks. Wiki snapshot versions are not policy; see the evidence baseline below. |
+| Unnecessary local aliases | Deferred; removal not approved | Classify actual call paths before replacing aliases with direct Compat calls. **Keep useful hot-path aliases**, with a short comment identifying the hot path where helpful. Also preserve intentional function capture around hooks. Centralizing API selection is not permission to remove all aliases. |
+| Container information converter | Proposed, not implemented | In `Modules/Tracker/LinePool/TrackerItemButton.lua`, read guarded `iconFileID`/`itemID` from `C_Container.GetContainerItemInfo`. In `Modules/Quest/QuestieQuest.lua`, use `C_Container.GetContainerItemID`. Preserve empty-slot behavior, bag ranges and equipped-item fallback, then remove the eleven-value converter if the build floor permits. |
+| Thin item/addon/date/completion fallbacks | Conditional on build floor | Consider direct APIs for item information/icons/counts, bag slot counts, item spell/equippability/range, addon loading/metadata, completed-quest flags and daily reset. Calendar fallback fabricates midnight, while `Database/Corrections/Holidays/QuestieEvent.lua` uses hours/minutes. Preserve missing-API diagnostics in `Modules/VersionCheckDB.lua` and `Database/SupportValidation.lua`, item cache misses, nil range results, charge counting, and both addon loading flags. |
+| Presentation fallbacks | Conditional on build floor and loading | Review old resize implementations, including `Modules/Profiler/QuestieProfilerUI.lua`; mouse-over globals; chat-filter naming fallbacks; numbered popups and the legacy resize helper in `Modules/EventHandler/QuestEventHandler.lua`; tooltip-backdrop shim; and `QuestTimerFrame or WatchFrame` in `Modules/Tracker/TrackerQuestTimers.lua`. Preserve top/bottom/left/right offset order, optional bounds and chat retries. The profiler tolerates individually missing resize methods; Compat's old path errors, so they are not interchangeable on partial environments. |
+| Gossip selection by quest ID | Proposed, not implemented | `Modules/Auto/AutoQuesting.lua` is the consumer of Compat's index-based selectors. Pass `quest.questID` to `C_GossipInfo.SelectAvailableQuest`/`SelectActiveQuest` instead of fetching lists again. Review old tuple/count fallbacks and numbered gossip UI in `Modules/Quest/QuestgiverFrame.lua` against the floor. Keep `GetActiveQuests` enrichment: native false/nil can become complete through `QuestieDB.IsComplete`. Greeting and automation policy are separate. |
+| Watched-faction lookup | Proposed, not implemented | In `Modules/Journey/tabs/QuestsByFaction/QuestsByFactionsTab.lua`, consider `C_Reputation.GetWatchedFactionData` instead of expanding/scanning all headers. Preserve nil/zero and the current exclusion of header factions; deliberately decide to remove the native header-expansion side effect. |
+| Seasons and trivial-range fallbacks | Insufficient evidence for removal | Establish native Forever seasons support without mistaking Questie's installed shim for a native API. Classic source still uses `GetQuestGreenRange`; Forever uses `UnitQuestTrivialLevelRange("player")`. Establish cross-client support before removing either boundary in `Modules/QuestieCompat.lua`; consumers include VersionCheck, QuestieDB, QuestieLib and AvailableQuests. |
+| Profession enumeration simplification | Deferred; equivalence unproven | In `Modules/QuestieProfessions.lua` and `Modules/EventHandler/EventHandler.lua`, establish Riding/skill-ID coverage, sparse secondary-profession handling, and learn/unlearn event behavior before replacing skill-line enumeration. |
+| Ace3 update and desaturation shim | Waiting on upstream; GitHub issue open | Update embedded Ace3 when a Forever-supporting release is available. Review/remove `QuestieCompat.SetDesaturation` and its global installation once updated widgets no longer need them, with tests/docs updated. Keep the current library and shim until then. [Questie #7864](https://github.com/Questie/Questie/issues/7864) is the upstream-follow-up record. |
+
+## 3. Open contract and lifecycle findings
+
+Do not treat API existence, a passing mock, or an out-of-combat probe as proof of contract equivalence or combat safety.
+
+### Small contract questions
+
+| Item | Status | Next step and reference |
+|---|---|---|
+| Cooldown enabled flag | Open latent mismatch | `C_Item.GetItemCooldown` returns a boolean while `Modules/Tracker/LinePool/TrackerItemButton.lua` expects numeric `1`. Current container-first selection avoids that fallback on inspected builds. Normalize it or establish a floor permitting only the container API. Forever declarations: `ContainerDocumentation.lua:337–352` versus `ItemDocumentation.lua:434–448`. |
+| `ExpandFactionHeader(0)` | Unverified modern contract | Callers in `Modules/QuestieReputation.lua` and Journey's faction tab use zero to expand all headers. Determine whether modern `ExpandFactionHeader` preserves that convention or adapt explicitly to `ExpandAllFactionHeaders`. Forever `ReputationInfoDocumentation.lua:33–45` declares them separately. |
+| Action-status force-show argument | Open argument loss | Compat drops the second argument supplied by `Modules/Tracker/LinePool/TrackerMenu.lua`. Preserve it if retaining the native status helper: Classic `Blizzard_UIParent/Classic/WorldFrame.lua:105–112` uses it to bypass `showNewbieTips`. |
+| XP spell-known query | Open semantic choice | `Database/QuestXP/QuestieXP.lua` uses legacy `IsSpellKnown` for Fast Track (78632). Blizzard's `Blizzard_DeprecatedSpellBook/Deprecated_SpellBook.lua:11–26` maps that to `C_SpellBook.IsSpellInSpellBook`, but maps `IsPlayerSpell` to `C_SpellBook.IsSpellKnown`. Choose exact spellbook membership or Questie's broader Compat check deliberately. This consumer runs for WotLK+ content, not Forever's Era content. |
+| Watch-redraw selection | Unresolved precedence | `Modules/Tracker/QuestieTracker.lua` and `Modules/QuestLinks/Hooks.lua` prefer `QuestWatch_Update`; Compat prefers `WatchFrame_Update`. Choose behavior before consolidating, especially when another UI addon exposes both. |
+| Mouse focus | Open consumer assumption | Preserve first-element extraction from `GetMouseFoci`; account for an empty list or unnamed frame before `GetName`/text matching in `Modules/Tracker/QuestieTracker.lua`. |
+| Quest-link capability selection | Insufficient replacement evidence | `Modules/QuestLinks/Link.lua` checks global `GetQuestLink` before calling Compat, whose namespaced probe is not established by inspected declarations. Native Forever UI still calls the global. Retain the consumer's Questie-link fallback: Compat itself errors if neither API exists. |
+| Map-scale capability guard | Still present; not corrected | `QuestieMap.GetScaleValue` checks `C_Map.GetAreaInfo` but calls `GetMapInfo`. Check the actual capability and handle a missing map record. Original investigator finding; `Modules/Map/QuestieMap.lua:234–248`. |
+| Quest-specific timer detection | Behavioral question, not changed | Acceptance checks for any numeric timer although the Forever wrapper ignores the supplied quest ID. Decide whether this should identify the accepted quest specifically; do not hide that change inside an API rename. Original investigator finding; `Modules/EventHandler/QuestEventHandler.lua` and `QuestieCompat.GetQuestTimers`. |
+
+### Watch ownership and timers
+
+**Status: deferred refactor with open validation questions.** Consumers: `Modules/Tracker/QuestieTracker.lua`, `TrackerUtils.lua`, `TrackerQuestTimers.lua`, and the watch/timer adapters in `Modules/QuestieCompat.lua`.
+
+- Separate Questie's own count/state queries from native watch globals before considering removal of Forever interception. `TrackerUtils` uses synthetic `GetNumQuestWatches(true)` and `IsQuestWatched`; ordinary callers of the intercepted count receive zero. Compat's modern count ignores the private argument, so it is not a substitute.
+- Preserve native watches, repeated-add idempotency, manual untracking, index/ID conversion, and combat-deferred visibility. Do not simply delete hook assignments.
+- Define teardown ownership: restoring a captured global can overwrite another addon's later replacement. Inter-addon behavior remains unverified.
+- Resolve conflicting progression-Classic evidence: loaded Mists `Blizzard_UIPanels_Game/Wrath/QuestMapFrame.lua:207–208` uses namespaced watches, but generated declarations do not confirm them and Questie's namespace hooks are Forever-only. Check the real call path before generalizing the Forever behavior. Modern watch type 0 is valid; test absence with nil, not truthiness of the enum.
+- Observe a timed quest with Blizzard timers enabled. Forever's `Blizzard_QuestTimer/Mainline/Blizzard_QuestTimer.xml:3` parents the timer to the objective tracker, so showing it cannot overcome a hidden parent. Keep timer record-to-varargs conversion and legacy selection restoration unless consumers migrate together.
+
+### Deletion popup ownership
+
+**Status: open investigation, not a proven universal combat failure.** Consumer: `Modules/EventHandler/QuestEventHandler.lua`. Forever `Blizzard_StaticPopup_Game/GameDialogDefs.lua:1552–1574` describes native deletion and cancellation paths.
+
+- Match the actual deletion dialog/item rather than relying only on a shared text argument; assess writes to Blizzard-owned text and resizing.
+- Check cancellation, dialog reuse, sequential quest/non-quest items, and whether `deletedQuestItem` still identifies a relevant deletion.
+- Account for native `C_Item.DeleteItem(itemGUID)` as well as `DeleteCursorItem`; the current hook covers only the latter.
+- Preserve explicit user confirmation. Cancel live test dialogs unless deletion of a disposable item is separately approved. Never queue or automate deletion as a workaround.
+
+### Aura-dependent rewards and secure UI
+
+**Status: pending evidence and targeted behavior decisions.** Consumers: `Modules/QuestieReputation.lua`, `Database/QuestXP/QuestieXP.lua`, `Modules/Tracker/LinePool/TrackerItemButton.lua`, and `Modules/Tracker/TrackerUtils.lua`. See [tooltip restrictions](docs/forever-tooltips.md#security-combat-and-restricted-data).
+
+- Trace reputation and XP/money aura consumers through ordinary tooltip calls before/during/after combat. A returned aura or non-forbidden frame does not guarantee its fields are safe to compare.
+- Define how unavailable bonus information is presented: omit/qualify the uncertain detail rather than silently assuming no buff. Any cache needs expiry/invalidation rules; blanket `pcall` is not a result policy.
+- Audit every path configuring/reusing/hiding secure item buttons, including option changes, depletion and disable/enable. Queued work must recheck combat and current state when it executes.
+- Check range/count/charge/cooldown indicators independently of the secure item action. Physical clicks are required to validate hardware actions.
+- Establish the supported map-opening path per client. Raw `WorldMapFrame:Show()` is not equivalent to `HandleUserActionOpenSelf`/`ShowUIPanel`; preserve always-open rather than toggle behavior. Inconsistent combat guards alone do not prove a forbidden action.
+
+### Automatic questing workflow
+
+**Status: API names inspected; complete event-driven behavior remains unvalidated.** Sources: `Modules/Auto/AutoQuesting.lua`, event registration in `Modules/EventHandler/EventHandler.lua`, and manual §7.
+
+- Keep gossip IDs, greeting indices, quest-log indices and quest IDs distinct. Verify list changes and missing provider records cannot select the wrong quest.
+- Establish the interaction owner: `target`, `questnpc`, and a quest sharer are not automatically the same entity.
+- Review confirmation events, which currently check less policy than other handlers. Preserve modifier suppression and NPC/quest/trivial/repeatable/PvP exclusions where intended.
+- Test zero/one/multiple reward choices, inventory/reward failure, repeated events, cancellation, and delayed resets crossing into a new interaction.
+- Establish combat/hardware restrictions through ordinary interactions. Do not replay blocked accept/turn-in/reward actions later against potentially changed quest identity.
+- Verify supported alternate quest-dialog addons separately from the native-UI baseline.
+
+### Other lifecycle/dependency questions
+
+| Item | Status | Next step and reference |
+|---|---|---|
+| Chat-filter retry after disabling | Unverified pre-existing concern | A delayed add retry could re-register a disabled ShutUp filter. Check cancellation/current-setting ownership without changing error propagation blindly. Consumer: `Modules/QuestieShutUp.lua`; registration delegates to `QuestieCompat.AddMessageEventFilter`. |
+| Embedded dropdown mouse fallback | Old-client dependency concern | Its locally named `GetMouseFocus` fallback appears self-recursive when `GetMouseFoci` is absent. Check supported old-client exposure before an upstream fix. Original investigator finding; `Libs/LibUIDropDownMenu/LibUIDropDownMenu.lua:126–130`. |
+| AceComm addon-prefix fallback | Low-priority upstream cleanup candidate | Review old `RegisterAddonMessagePrefix` selection against the library's other modern dependencies. Do not fork embedded code solely to remove this fallback. Original investigator finding; `Libs/AceComm-3.0/AceComm-3.0.lua:64–68`. |
+
+## 4. Future tooltip work and exploratory checks
+
+These are separate from the release checks in section 1. Do not reopen the Object implementation or change public tooltip/Comms contracts without a concrete need. Sources: [remaining tooltip work](docs/forever-tooltips.md#remaining-migration-and-validation) and [test matrix](docs/forever-tooltips.md#open-questions-and-focused-tests).
+
+| Item | Status | Remaining work |
+|---|---|---|
+| Structured Unit/Item identity | Future proposal | Use accessible callback GUID/ID fields instead of re-reading mutable frame/token/link state. Preserve absent/restricted-data behavior, quest-start logic and provider/party enrichment. |
+| Unit/Item duplicate handling | Future work | Evaluate remaining FontString/count-based detection. Verify rebuilds, appended blocks, hidden/reused frames and rapid entity changes before extending the Object approach. |
+| Native versus Questie quest lines | Policy decision | Decide whether to retain both or avoid duplicate native content without losing drop rates, party attribution, settings or quest markers. |
+| Multiple quests and party context | Pending targeted tests | Verify line association without assuming positional objective identity, and distinguish native party data from Questie's additions. |
+| Eligible tooltip frames | Pending targeted tests | Check bag/link/comparison/Journey tooltips and ensure scanning or unrelated frames are not augmented accidentally. |
+| Item query/cache equivalence | Pending evidence | Compare ID, hyperlink and bag-slot contexts, including cold-cache completion and rendered layout readiness. Do not remove Journey's scanning tooltip based on warm-cache results. |
+| Object identity and localization | Pending broader evidence | Check interactable categories, same-name objects and non-English clients. Keep provider name/zone resolution where payloads lack stable identity. |
+| Restricted data and deferred callbacks | Pending evidence before design | Reproduce actual failures through ordinary addon callbacks. If deferral is needed, recheck entity identity, not just frame visibility. Do not blanket-disable all combat enrichment. |
+| Additional tooltip coverage | Optional research | Achievement, quest, party-progress, aura and other types; failed/completed/timed quests; PvP-restricted units; settings combinations and other client flavors. Enum presence alone does not establish a usable scenario. |
+| Performance measurement | Optional research | Measure real update cost rather than inferring CPU improvement from callback counts. |
+
+## 5. Broader resilience proposals
+
+These are deferred design work, not implemented recovery guarantees. Detailed rationale remains in [docs/forever-hardening-backlog.md](docs/forever-hardening-backlog.md).
+
+| Item | Status | Remaining work |
+|---|---|---|
+| Unknown-zone recovery | Future proposal | Provide a non-throwing runtime lookup while retaining strict validation. Handle missing map records, skip only unsupported enrichment/placement, retry appropriately and report once. Do not substitute area 0 or guess by ambiguous names. |
+| Missing quest/entity data | Known coverage gap; recovery proposal | Distinguish missing provider records from cache misses and unavailable quests. Retain reliable native title/progress where dependencies allow, without inventing spawns, rewards or prerequisites. Keep other quests working. |
+| Optional initialization isolation | Future hardening | Prevent optional hooks/UI failures from leaving core data or modules half-initialized. Track partial feature availability and leave Blizzard's tracker usable if Questie's tracker fails. Do not indiscriminately catch every startup error. |
+| Quest-event recovery | Future hardening | Validate event identities, avoid half-written state, make optional timer failures nonfatal, and reconcile retryable failures without duplicate announcements, sounds or breadcrumb actions. |
+| Unknown client/race metadata | General policy deferred | Diagnose unsupported identity without silently defaulting to Era/Human or broadening faction eligibility. Keep race IDs separate from playable-race bits and preserve reliable active-quest information. |
+| Independent optional tooltip details | Future resilience work | Preserve title/objectives when optional reward enrichment fails. Keep errors diagnosable and avoid presenting guessed values as exact. Overlaps the aura policy in section 3. |
+| Unsupported geometry and UI layouts | Partial safeguards; broader validation deferred | Omit unsupported world placement rather than fabricating coordinates. Validate transforms and optional UI parent/method assumptions; retain supported zone/minimap behavior. |
+| Provider storage/import safeguards | Verification pending | Check high-bit race masks against actual Source/Baked/read/correction contracts before importing new records. Preserve usable data and never truncate bits or widen only one side of a format. Do not carry the removed consumer compiler's limitation forward as a provider claim. |
+| Support-gap reporting | Future proposal | Show bounded, deduplicated notices describing what is unavailable and what is verified to work. Retain the first useful diagnostic and counts without collecting unrelated player/chat data or hiding unexpected errors. |
+
+## 6. Provider, upstream and parked work
+
+| Item | Status | Reference/next step |
+|---|---|---|
+| New Forever quest/NPC/object/spawn content | Known incomplete provider coverage | Map/race metadata alone cannot supply quest pins. Keep this separate from API defects and disclose limitations. [Development limits](docs/forever-development.md#remaining-limits). |
+| Zone-parent exporter handoff | Deferred provider/exporter work | Replace temporary reviewed relationships only when the reviewed exporter output supplies them. Preserve existing relationships; do not regenerate over the protected handoff or alter the linked provider casually. [Integration status](docs/forever-development.md#current-integration-status). |
+| Provider Baked/localization coverage | Separate validation work | Consumer tests and earlier Source-mode runs do not establish complete Baked behavior/content. Generate/test in an agreed disposable copy, not the linked checkout. [Packaging/validation notes](docs/forever-development.md#packaging-and-validation). |
+| Camelot release packaging | Handled in other branches | Outside this workstream; completion elsewhere has not been verified here. Coordinate rather than starting a duplicate change. |
+| SavedVariables cold-start issue | Known beta-client limitation; parked | Record limitations. No new persistence workaround is approved; reload-only success is insufficient. [SavedVariables investigation](docs/saved-variables-investigation.md). |
+| Reported 5% XP cooking buff | Unidentified, nonblocking follow-up | Identify food/buff name and spell ID; determine quest XP versus kill XP applicability before adding a multiplier. A missing displayed bonus alone does not prove aura access failed. Originally recorded in local `MEMORY.md`. |
+
+## 7. Documentation and handoff cleanup
+
+| Item | Status | Next step |
+|---|---|---|
+| Share the manual checklist | Pending | `MANUAL_TESTS_REQUIRED.md` is Git-ignored. Decide how to distribute it, preferably as a tracked teammate-facing guide. This consolidation does not change local excludes or stage it. |
+| Retire competing status lists | Pending | Keep development/tooltip material as evidence, not independent backlogs. Add pointers to this work list and retire temporary `MEMORY.md` after preserving any useful rationale. Do not delete evidence or claim old observations establish current validation. |
+| Old greeting patch | Local caution | Ignored `forever-quest-greeting.patch` contains the older tracer-inclusive snapshot. Do not reapply it blindly or ship its diagnostics. Any cleanup/removal of the patch is a separate decision. |
+
+## Evidence baseline for unfinished compatibility work
+
+The [saved API availability reference](docs/classic-api-availability.md) records Wiki revision `6802278`: Era 1.15.9 (69109), Anniversary 2.5.6 (69110), progression Classic 5.5.4 (69155), and Retail 12.1.0 (69189). It has no Forever column. Blank cells and absent rows are not negative evidence.
+
+The audit inspected these cached Blizzard sources without refreshing them. They are evidence snapshots, not minimum supported builds or guarantees about the currently installed client:
+
+| Branch | Commit | Version/build |
+|---|---|---|
+| `classic_era` | `33e177d9bf38d76d5c6c6e05d5da78db1899659a` | 1.15.9 / 69722 |
+| `classic_anniversary` | `1463c686270b6c64e2c5c228f447c4597c0f8ba6` | 2.5.6 / 69795 |
+| `classic` | `ecadf9d3326fa87828cacca7f13c0ab5f41840a6` | 5.5.4 / 69585 |
+| `classic_titan` | `84ef503f0d2617494db84cc9c7e7b530e976f6e7` | 3.80.2 / 69874 |
+| `forever` | `70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e` | 1.60.1 / 69913 |
+
+Resolve Blizzard paths against `https://github.com/Gethe/wow-ui-source/blob/<commit>/Interface/AddOns/`; unqualified declaration filenames are under `Blizzard_APIDocumentationGenerated/`. Inspect the relevant loaded UI path too, rather than treating declarations as runtime proof.
+
+Manifests at the audit baseline included Era `11508,11509`, BCC `20506`, WotLK/Titan `38002`, Cata `40402`, Mists `50503,50504`, and Forever `16001`. Those declarations do not by themselves settle minimum support. Matching historical Cata/Era/Mists validation and external UI/widget overrides remain outside the evidence gathered. The original detailed audit and completed-work history remain available in Git history through `57df4c3ad`.
+
+Additional source locations supporting remaining decisions:
+
+- Container records and empty slots: Classic `ContainerDocumentation.lua:139–170`, Forever `:175–208`. Consumers need record fields, not a function-name substitution.
+- Gossip IDs versus indices: Classic `GossipInfoDocumentation.lua:154–171`, Forever `:177–195`; loaded buttons store `questInfo.questID`.
+- Watched faction: Classic `ReputationInfoDocumentation.lua:40–47`; Forever's loaded `Blizzard_StatusTrackingBar/Shared/ReputationBar.lua:51–55,77–81` handles nil and faction ID zero.
+- Presentation: Classic's loaded `Blizzard_UIParent/Shared/UIParent.lua:530–532` forwards mouse offsets in top/bottom/left/right order; `SimpleFrameAPIDocumentation.lua:1252–1263` declares modern resize bounds. The inspected Classic/Era/Anniversary branches already contain modern chat and popup helpers; expansion labels alone are not reliable cutoffs.
+- Aura access: Forever `UnitAuraDocumentation.lua:207–223` declares access requirements and potentially secret results. Map opening: `Blizzard_WorldMap/QuestLogOwnerMixin.lua:101–107` calls `ShowUIPanel`, not just frame `Show`.
+
+## Working rules
+
+- Keep meaningful quest/faction/aura/stable return conversions, native/Questie watch distinctions, load-order guards and data-quality fallbacks unless their actual consumers are deliberately adapted. Preserve quest IDs versus indices, nil/zero/failed sentinels, abandonment item-name formatting and selection restoration. Legacy UI selection and plain native selection have different side effects.
+- Keep item-cache and nil-result semantics. `C_Item.GetItemIconByID` accepts item identifiers; `C_Item.GetItemIcon` takes an ItemLocation. `GetNumQuestWatches(true)` is private Questie policy, not native watch state. Stable-food arrays cannot replace varargs without adapting the caller. `SetCVar` also performs conversions that a direct native call may not preserve.
+- Blank reference cells are not proof of API absence. A modern namespace or Retail project ID does not prove Forever contracts or restrictions.
+- Preserve Classic behavior and unrelated changes. No live client, installation, provider, character or settings changes without an agreed test scope. Use test characters, physical clicks where required, and restore temporary settings.
+- No destructive inventory tests, quest abandonment, profession unlearning, or persistence workarounds merely to exercise a path.
+- Keep current status here. Link evidence and detailed test instructions rather than maintaining another overlapping work list. Remove finished entries; keep their results in commit history or the development log.

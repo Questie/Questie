@@ -3,7 +3,7 @@
 local QuestieCompat = QuestieLoader:CreateModule("QuestieCompat")
 
 -- Source baselines: Era 1.15.9 (69722), Anniversary 2.5.6 (69795), Mists 5.5.4 (69585),
--- Titan 3.80.2 (69874), Forever 1.60.1 (69913). See LEGACY_API_AUDIT.md for pinned sources and caveats.
+-- Titan 3.80.2 (69874), Forever 1.60.1 (69913). See FOREVER_WORK_LEFT_TO_DO.md for pinned sources and caveats.
 -- These are inspected builds, not minimum supported versions. API selection is generally capability-based;
 -- explicit Forever and Titan branches preserve client-specific behavior. Namespaces also exist on Classic,
 -- and older fallback cutoffs are not established.
