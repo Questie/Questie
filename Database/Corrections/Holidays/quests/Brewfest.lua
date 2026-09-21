@@ -21,9 +21,9 @@ tinsert(eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(eventQuests, {"Brewfest", 11412}) -- There and Back Again
 -- tinsert(eventQuests, {"Brewfest", 11419, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Brewfest Riding Rams -- was not able to find it on TBC Anniversary
 -- tinsert(eventQuests, {"Brewfest", 11431, nil, nil, nil, nil, Questie.IsEURegion}) -- Catch the Wild Wolpertinger! -- apparently not available anymore on US servers either
-tinsert(eventQuests, {"Brewfest", 11441, nil, nil, nil, nil, Expansions.Current >= Expansions.Tbc}) -- Brewfest! -- was not able to find it on TBC Anniversary
+tinsert(eventQuests, {"Brewfest", 11441, nil, nil, nil, nil, Expansions.Current == Expansions.Tbc}) -- Brewfest! -- was not able to find it on TBC Anniversary
 tinsert(eventQuests, {"Brewfest", 11442}) -- Welcome to Brewfest!
-tinsert(eventQuests, {"Brewfest", 11446, nil, nil, nil, nil, Expansions.Current >= Expansions.Tbc}) -- Brewfest! -- was not able to find it on TBC Anniversary
+tinsert(eventQuests, {"Brewfest", 11446, nil, nil, nil, nil, Expansions.Current == Expansions.Tbc}) -- Brewfest! -- was not able to find it on TBC Anniversary
 tinsert(eventQuests, {"Brewfest", 11447}) -- Welcome to Brewfest!
 tinsert(eventQuests, {"Brewfest", 12020}) -- This One Time, When I Was Drunk...
 tinsert(eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
@@ -32,11 +32,11 @@ tinsert(eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 tinsert(eventQuests, {"Brewfest", 12192}) -- This One Time, When I Was Drunk...
 tinsert(eventQuests, {"Brewfest", 12193, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(eventQuests, {"Brewfest", 12194, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
-tinsert(eventQuests, {"Brewfest", 12278, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Brew of the Month Club
-tinsert(eventQuests, {"Brewfest", 12306, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Brew of the Month Club
+tinsert(eventQuests, {"Brewfest", 12278}) -- Brew of the Month Club  -- available in MoP
+tinsert(eventQuests, {"Brewfest", 12306}) -- Brew of the Month Club -- available in MoP
 tinsert(eventQuests, {"Brewfest", 12318}) -- Save Brewfest!
-tinsert(eventQuests, {"Brewfest", 12420, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club
-tinsert(eventQuests, {"Brewfest", 12421, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club
+-- tinsert(eventQuests, {"Brewfest", 12420, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club -- not present in MoP
+-- tinsert(eventQuests, {"Brewfest", 12421, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club -- not present in MoP
 tinsert(eventQuests, {"Brewfest", 12491}) -- Direbrew's Dire Brew
 tinsert(eventQuests, {"Brewfest", 12492}) -- Direbrew's Dire Brew
 
