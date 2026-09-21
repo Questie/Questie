@@ -710,8 +710,10 @@ function QuestieQuestBlacklist:Load()
         [14065] = true,
 
         --- Brewfest
-        [12193] = true,
-        [12194] = true,
+        [11486] = true,
+        [11487] = true,
+        [12193] = Expansions.Current >= Expansions.Wotlk,
+        [12194] = Expansions.Current >= Expansions.Wotlk,
         [12491] = true,
         [12492] = true,
         [13931] = true,
