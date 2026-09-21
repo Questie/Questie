@@ -713,7 +713,7 @@ describe("QuestieCompat Classic paths", function()
     local originals
     local names = {
         "GetBuildInfo", "Questie", "QuestWatchFrame", "WatchFrame", "CreateFrame",
-        "GetSpellInfo", "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "GetQuestGreenRange",
+        "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "GetQuestGreenRange",
     }
     local watchFrame
 
@@ -730,7 +730,6 @@ describe("QuestieCompat Classic paths", function()
         }
         _G.QuestWatchFrame = watchFrame
         _G.CreateFrame = spy.new(function() error("Classic must not allocate the Forever visibility frame") end)
-        _G.GetSpellInfo = nil
         _G.SetDesaturation = nil
         dofile("Modules/QuestieCompat.lua")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
@@ -740,14 +739,13 @@ describe("QuestieCompat Classic paths", function()
         for _, name in ipairs(names) do _G[name] = originals[name] end
     end)
 
-    it("retains direct legacy tracker visibility and anchors without installing Forever bridges", function()
+    it("retains direct legacy tracker visibility and anchors without installing the Forever bridge", function()
         QuestieCompat.HideWatchFrame()
         QuestieCompat.ShowWatchFrame()
         assert.spy(watchFrame.Hide).was.called(1)
         assert.spy(watchFrame.Show).was.called(1)
         assert.are.same({"TOP", "parent", "BOTTOM", 1, 2}, {QuestieCompat.GetWatchFramePoint()})
         assert.spy(CreateFrame).was.not_called()
-        assert.is_nil(GetSpellInfo)
         assert.is_nil(SetDesaturation)
     end)
 
@@ -781,7 +779,6 @@ describe("QuestieCompat Classic paths", function()
         _G.GetBuildInfo = function() return "12.0.0", "0", "", 120000 end
         dofile("Modules/QuestieCompat.lua")
         assert.spy(CreateFrame).was.not_called()
-        assert.is_nil(GetSpellInfo)
         assert.is_nil(SetDesaturation)
     end)
 end)
@@ -793,10 +790,10 @@ describe("QuestieCompat Forever paths", function()
         "GetQuestLogIndexByID", "GetQuestIDFromLogIndex", "SelectQuestLogEntry", "GetQuestLogSelection",
         "GetQuestIndexForWatch", "IsQuestWatched", "AddQuestWatch", "RemoveQuestWatch", "GetQuestTagInfo",
         "GetNumQuestWatches", "GetFactionInfo", "GetFactionInfoByID", "GetNumFactions", "ExpandFactionHeader",
-        "GetSpellInfo", "GetAddOnMetadata", "SetDesaturation", "UnitAura", "MouseIsOver", "GetQuestTimers",
+        "GetAddOnMetadata", "SetDesaturation", "UnitAura", "MouseIsOver", "GetQuestTimers",
     }
     local dependencies = {
-        "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "C_Spell", "Enum", "CreateFrame",
+        "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "Enum", "CreateFrame",
         "ObjectiveTrackerFrame", "InCombatLockdown", "GetBuildInfo", "Questie", "C_UnitAuras", "AuraUtil",
         "UnitQuestTrivialLevelRange", "GetCVarBool",
     }
@@ -820,7 +817,6 @@ describe("QuestieCompat Forever paths", function()
         _G.GetCVarBool = function() return false end
         dofile("Modules/Libs/QuestieLoader.lua")
         _G.C_Reputation = {}
-        _G.C_Spell = {}
         _G.Enum = {QuestWatchType = {Manual = 1}}
         visibilityFrame = {
             RegisterEvent = spy.new(function() end),
@@ -855,29 +851,16 @@ describe("QuestieCompat Forever paths", function()
         end
     end)
 
-    it("installs only the missing AceGUI bridges before Questie exists", function()
+    it("installs the missing AceGUI desaturation bridge before Questie exists", function()
         assert.is_nil(_G.Questie)
         assert.is_nil(_G.QuestieCompat)
-        C_Spell.GetSpellInfo = function() return {name = "Fireball", spellID = 133, iconID = 1, castTime = 1500} end
-        local name, rank, icon, castTime, _, _, spellID = GetSpellInfo(133)
-        assert.are.equal("Fireball", name)
-        assert.is_nil(rank)
-        assert.are.equal(1, icon)
-        assert.are.equal(1500, castTime)
-        assert.are.equal(133, spellID)
         local texture = {SetDesaturated = spy.new(function() end)}
         SetDesaturation(texture, true)
         assert.spy(texture.SetDesaturated).was.called_with(texture, true)
 
-        local spellBridge, textureBridge = GetSpellInfo, SetDesaturation
+        local textureBridge = SetDesaturation
         dofile("Modules/QuestieCompat.lua")
-        assert.are.equal(spellBridge, GetSpellInfo)
         assert.are.equal(textureBridge, SetDesaturation)
-    end)
-
-    it("does not recurse through its spell bridge when the native API is unavailable", function()
-        assert.is_nil(C_Spell.GetSpellInfo)
-        assert.is_nil(GetSpellInfo(133))
     end)
 
     it("uses the unit-based trivial range rather than an existing legacy helper", function()

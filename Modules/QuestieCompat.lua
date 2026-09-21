@@ -1161,24 +1161,8 @@ end
 
 
 ------------------------------------------
--- Spell data and early library bridges
+-- Early library bridge
 ------------------------------------------
-
----Returns information about a spell as separate return values.
----@param spell number|string Spell ID, name, or link; spellbook-slot/bank arguments are unsupported.
----@return any ... Legacy spell-info tuple, or no values when unknown.
-function QuestieCompat.GetSpellInfo(spell)
-    if C_Spell and C_Spell.GetSpellInfo then
-        -- Convert the record to legacy return positions; position 2 remains nil for rank.
-        local info = C_Spell.GetSpellInfo(spell)
-        if info then
-            return info.name, nil, info.iconID, info.castTime, info.minRange, info.maxRange, info.spellID, info.originalIconID
-        end
-    elseif not isForever and GetSpellInfo then
-        -- Classic: native legacy tuple. On Forever this global can be our own bridge, so never call it back.
-        return GetSpellInfo(spell)
-    end
-end
 
 ---Makes a texture grayscale, or restores its original colors.
 ---@param texture Texture
@@ -1188,10 +1172,7 @@ function QuestieCompat.SetDesaturation(texture, desaturated)
 end
 
 if isForever then
-    -- Install before embedded libraries, without replacing native globals. Checkboxes still need SetDesaturation.
-    -- Spell widgets prefer C_Spell.GetSpellName on the inspected build; GetSpellInfo serves only their legacy
-    -- fallback, whose slot/bank overload this bridge does not fully emulate. First-party code imports Compat.
-    GetSpellInfo = GetSpellInfo or QuestieCompat.GetSpellInfo
+    -- AceGUI checkboxes still call this global. Install before embedded libraries without replacing a native helper.
     SetDesaturation = SetDesaturation or QuestieCompat.SetDesaturation
 end
 

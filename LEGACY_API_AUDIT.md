@@ -18,7 +18,7 @@ These are the preferred cleanup candidates, not a requirement to finish every re
 | 2 | Make item API usage consistent | **Partly implemented.** Eleven item selectors now use Compat without repeating its API choice. Local aliases and the existing fallbacks remain. Migrating the two container-info consumers to records/item IDs, then deleting their tuple adapter, is still proposed (§4.1). Direct-native calls and fallback deletion need a supported-build decision. |
 | 3 | Remove historical presentation branches | **Deferred pending supported-build evidence.** Candidates are resize, mouse-over, chat-filter, numbered-popup, and tooltip-backdrop fallbacks (§3.2). Do not combine this with popup ownership or combat-policy changes. |
 | 4 | Simplify gossip selection around quest IDs | **Not implemented.** Use IDs from the records AutoQuesting already inspected; then remove redundant list fetches and eligible historical paths (§4.3). Preserve completion enrichment and keep acceptance/reward workflow changes separate. |
-| 5 | Remove the unnecessary spell bridge if confirmed | **Not implemented.** Bundled AceGUI widgets prefer `C_Spell.GetSpellName`, but minimum Forever support and other addons' widget overrides need checking (§3.3). Keep the desaturation bridge, which still has callers. |
+| 5 | Remove the unnecessary spell bridge if confirmed | **Implemented locally.** Removed `QuestieCompat.GetSpellInfo` and its Forever global shim. Bundled AceGUI spell widgets already prefer `C_Spell.GetSpellName` on the inspected Forever build. The library version and required desaturation shim are unchanged. |
 
 **API selection centralized:** all 11 remaining consumer selectors for `IsAddOnLoaded`, `GetItemSpell`, `IsEquippableItem`, and chat filter add/remove now use Compat. Its five new functions retain modern-first selection, legacy fallbacks, native return values, and error propagation. Existing local aliases and consumer chat initialization retries remain unchanged. Removing unnecessary aliases is a separate, still-deferred step.
 
@@ -49,7 +49,7 @@ The follow-up reviewed 65 functions individually. Its comment changes and confir
 | Reputation tuple slot 16 might need a different field | **Resolved: retain `canSetInactive`.** Evidence did not justify changing it based on older `canBeLFGBonus` terminology. |
 | `C_Item.GetItemCooldown` boolean versus the consumer's numeric enabled flag | **Still open** (§4.2). Comments clarify the difference; runtime behavior was not fixed. |
 | Modern `ExpandFactionHeader(0)` versus the legacy expand-all convention | **Still open** (§4.5). Do not infer equivalent zero handling from the function name. |
-| Spell bridge does not preserve the legacy spellbook-slot/bank overload | **Still open** (§3.3). No runtime change to the bridge. |
+| Spell bridge does not preserve the legacy spellbook-slot/bank overload | **Removed with the unused wrapper.** Questie no longer supplies global `GetSpellInfo`. Bundled AceGUI uses its existing modern path on Forever and retains its native legacy fallback for other clients. |
 | `ActionStatus_DisplayMessage` wrapper drops its caller's second argument | **Still open** (§4.8). No runtime correction yet. |
 
 ### Review of the five new API-selection functions
@@ -63,6 +63,7 @@ Each new function received a separate source-backed investigation after centrali
 
 ### Validation recorded so far
 
+- Spell-shim removal: **2,003 tests passed**, lint and loader checks passed. Removed the obsolete spell-bridge test and retained desaturation startup coverage. No library update or live-client validation was performed; external widget overrides remain outside this check.
 - API-selection cleanup: **2,004 tests passed**, lint and loader checks passed, and focused review found no actionable issues. No live-client validation was performed. This preserves the local aliases and does not remove historical fallbacks.
 - First cleanup: **1,964 tests passed**, lint and loader checks passed, and focused review found no actionable issues. No live client was touched for that cleanup.
 - Comment/quest-title follow-up: **1,966 tests passed**, lint and loader checks passed, and reviewer assessment completed.
