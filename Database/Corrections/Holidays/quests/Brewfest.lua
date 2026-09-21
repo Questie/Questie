@@ -35,8 +35,8 @@ tinsert(eventQuests, {"Brewfest", 12194, nil, nil, nil, nil, Expansions.Current 
 tinsert(eventQuests, {"Brewfest", 12278}) -- Brew of the Month Club  -- available in MoP
 tinsert(eventQuests, {"Brewfest", 12306}) -- Brew of the Month Club -- available in MoP
 tinsert(eventQuests, {"Brewfest", 12318}) -- Save Brewfest!
--- tinsert(eventQuests, {"Brewfest", 12420, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club -- not present in MoP
--- tinsert(eventQuests, {"Brewfest", 12421, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club -- not present in MoP
+-- tinsert(eventQuests, {"Brewfest", 12420, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club -- not present in TBC
+-- tinsert(eventQuests, {"Brewfest", 12421, nil, nil, nil, nil, Expansions.Current < Expansions.Wotlk}) -- Brew of the Month Club -- not present in TBC
 tinsert(eventQuests, {"Brewfest", 12491}) -- Direbrew's Dire Brew
 tinsert(eventQuests, {"Brewfest", 12492}) -- Direbrew's Dire Brew
 
