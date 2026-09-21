@@ -54,14 +54,14 @@ echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to CurseForge"
 # You can do so by opening the API in your browser and manually add the X-API-TOKEN Header with an API-Token to the request (https://authors-old.curseforge.com/account/api-tokens).
 # Check the answer for the required version (e.g. name = "1.14.4") and take the "id" field for the gameVersions.
 
-# The order of the "gameVersions" below is: WotLK (3.80.1), Era/SoD, TBC, MoP
+# The order of the "gameVersions" below is: Classic Era, Forever, TBC, Wrath (3.80.1), MoP
 CF_METADATA=$(cat <<-EOF
 {
     "displayName": "$LATEST_GIT_TAG",
     "releaseType": "$RELEASE_TYPE",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",
-    "gameVersions": [16785, 16630, 16533, 16168],
+    "gameVersions": [16630, 17053, 16533, 16785, 16168],
     "relations": {
         "projects": [
             {slug: "Ace3", type: "embeddedLibrary"},
