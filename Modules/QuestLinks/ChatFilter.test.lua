@@ -1,8 +1,10 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 describe("ChatFilter", function()
     ---@type ChatFilter
     local ChatFilter
+    local addFilterMock
 
     ---@type QuestieLink
     local QuestieLink
@@ -10,6 +12,7 @@ describe("ChatFilter", function()
     local QuestieDB
 
     before_each(function()
+        addFilterMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "AddMessageEventFilter")
         Questie.started = true
         Questie.db.profile = {
             trackerShowQuestLevel = true,
@@ -44,6 +47,19 @@ describe("ChatFilter", function()
         _G.HaveQuestData = function() return true end
         _G.C_QuestLog = {GetQuestObjectives = function() return {} end}
         _G.BNGetFriendInfoByID = function() return "TestPlayer" end
+    end)
+
+    after_each(function()
+        addFilterMock:revert()
+    end)
+
+    it("registers its link filter for the supported chat events", function()
+        ChatFilter:RegisterEvents()
+
+        assert.spy(addFilterMock).was.called(18)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_PARTY", ChatFilter.Filter)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_WHISPER", ChatFilter.Filter)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_EMOTE", ChatFilter.Filter)
     end)
 
     describe("Filter", function()

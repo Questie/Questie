@@ -1,6 +1,8 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 describe("tracker automatic tracking option", function()
+    local isAddOnLoadedMock
     local originals
     local options, tracker, compat, visibility
 
@@ -26,6 +28,7 @@ describe("tracker automatic tracking option", function()
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.Update = spy.new(function() end)
         compat = QuestieLoader:ImportModule("QuestieCompat")
+        isAddOnLoadedMock = stub(compat, "IsAddOnLoaded", function() return false end)
         compat.QuestLog_Update = spy.new(function() end)
         visibility = QuestieLoader:ImportModule("CommsVisibility")
         visibility.ScheduleSnapshot = spy.new(function() end)
@@ -33,11 +36,22 @@ describe("tracker automatic tracking option", function()
     end)
 
     after_each(function()
+        isAddOnLoadedMock:revert()
         _G.LibStub = originals.LibStub
         _G.QuestLogExFrame = originals.QuestLogExFrame
         _G.ClassicQuestLog = originals.ClassicQuestLog
         _G.QuestLogFrame = originals.QuestLogFrame
         _G.QuestMapFrame = originals.QuestMapFrame
+    end)
+
+    it("shows TomTom integration options only when the addon is loaded", function()
+        local settings = options.tabs.tracker:Initialize()
+        local tomTom = settings.args.group_tracker.args.setTomTom
+
+        assert.is_true(tomTom.hidden())
+        isAddOnLoadedMock.returns(true)
+        assert.is_false(tomTom.hidden())
+        assert.spy(isAddOnLoadedMock).was.called_with("TomTom")
     end)
 
     it("updates the tracker and publishes visibility when only the modern log exists", function()

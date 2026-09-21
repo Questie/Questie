@@ -91,7 +91,7 @@ local minimizedByCombat = false
 local hiddenByCombat = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame or _G.QuestMapFrame
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 local WatchFrame_Update = QuestWatch_Update or QuestieCompat.WatchFrame_Update
 local GetItemCount = QuestieCompat.GetItemCount
 

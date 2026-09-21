@@ -685,6 +685,27 @@ function QuestieCompat.GetItemIcon(item)
     error(errorMsg, 2)
 end
 
+---Returns an item's spell name and ID, or no values when unavailable.
+---@param item ItemId|string Item ID, name, item string, or hyperlink.
+---@return string? spellName
+---@return number? spellID
+function QuestieCompat.GetItemSpell(item)
+    if C_Item and C_Item.GetItemSpell then
+        return C_Item.GetItemSpell(item)
+    end
+    return GetItemSpell(item)
+end
+
+---Returns whether an item is equippable, not whether it is currently equipped.
+---@param item ItemId|string Item ID, name, or link.
+---@return boolean isEquippable
+function QuestieCompat.IsEquippableItem(item)
+    if C_Item and C_Item.IsEquippableItem then
+        return C_Item.IsEquippableItem(item)
+    end
+    return IsEquippableItem(item)
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetNumFactions)
 ---Returns the number of entries (including headers) in the player's reputation list.
 ---@return number numFactions
@@ -1174,6 +1195,17 @@ if isForever then
     SetDesaturation = SetDesaturation or QuestieCompat.SetDesaturation
 end
 
+---Returns whether an addon is loaded or loading, and whether loading has finished.
+---@param addon string|number Addon folder name or 1-based addon-list index; use names for Blizzard addons.
+---@return boolean loadedOrLoading
+---@return boolean? loaded Whether ADDON_LOADED has fired, when supplied by the client.
+function QuestieCompat.IsAddOnLoaded(addon)
+    if C_AddOns and C_AddOns.IsAddOnLoaded then
+        return C_AddOns.IsAddOnLoaded(addon)
+    end
+    return IsAddOnLoaded(addon)
+end
+
 ---Returns an addon's metadata field, such as its version.
 ---@param addon string|number Addon name or index.
 ---@param field string
@@ -1183,4 +1215,26 @@ function QuestieCompat.GetAddOnMetadata(addon, field)
         return C_AddOns.GetAddOnMetadata(addon, field)
     end
     return GetAddOnMetadata(addon, field)
+end
+
+---Registers a callback that can hide or rewrite chat messages before display.
+---The callback receives (chatFrame, event, ...). Return true to hide a message,
+---false plus replacement arguments to rewrite it, or nil to leave it unchanged.
+---@param event string Chat event name, such as "CHAT_MSG_PARTY".
+---@param filter function
+function QuestieCompat.AddMessageEventFilter(event, filter)
+    if ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter then
+        return ChatFrameUtil.AddMessageEventFilter(event, filter)
+    end
+    return ChatFrame_AddMessageEventFilter(event, filter)
+end
+
+---Stops applying a filter to messages from the specified chat event.
+---@param event string The event used when registering the filter.
+---@param filter function The original callback function passed during registration.
+function QuestieCompat.RemoveMessageEventFilter(event, filter)
+    if ChatFrameUtil and ChatFrameUtil.RemoveMessageEventFilter then
+        return ChatFrameUtil.RemoveMessageEventFilter(event, filter)
+    end
+    return ChatFrame_RemoveMessageEventFilter(event, filter)
 end

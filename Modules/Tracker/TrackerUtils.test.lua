@@ -21,10 +21,9 @@ describe("TrackerUtils", function()
 
     local rePositionLineMock
     local match = require("luassert.match")
-    local mock = require("luassert.mock")
     local _ = match._ -- any match
 
-    local C_ItemMock
+    local getItemSpellMock, isEquippableItemMock, isAddOnLoadedMock
     local getItemCountMock
 
     before_each(function()
@@ -36,7 +35,10 @@ describe("TrackerUtils", function()
             collapsedZones = {},
         }
         CreateFrame.resetMockedFrames()
-        C_ItemMock = mock(_G.C_Item, true)
+        local compat = QuestieLoader:ImportModule("QuestieCompat")
+        getItemSpellMock = stub(compat, "GetItemSpell")
+        isEquippableItemMock = stub(compat, "IsEquippableItem", function() return false end)
+        isAddOnLoadedMock = stub(compat, "IsAddOnLoaded", function() return false end)
         getItemCountMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetItemCount", function() return 0 end)
 
         Expansions = QuestieLoader:ImportModule("Expansions")
@@ -57,11 +59,45 @@ describe("TrackerUtils", function()
 
     after_each(function()
         getItemCountMock:revert()
+        getItemSpellMock:revert()
+        isEquippableItemMock:revert()
+        isAddOnLoadedMock:revert()
+    end)
+
+    describe("IsQuestItemUsable", function()
+        it("accepts equippable quest items without an associated spell", function()
+            isEquippableItemMock.returns(true)
+
+            assert.is_true(TrackerUtils:IsQuestItemUsable(123))
+            assert.spy(getItemSpellMock).was.called_with(123)
+            assert.spy(isEquippableItemMock).was.called_with(123)
+        end)
+
+        it("rejects items without either a spell or an equipment slot", function()
+            assert.is_false(TrackerUtils:IsQuestItemUsable(123))
+        end)
+    end)
+
+    describe("IsVoiceOverLoaded", function()
+        it("requires both the addon and its Vanilla data", function()
+            local loaded = {AI_VoiceOver = true}
+            isAddOnLoadedMock:revert()
+            isAddOnLoadedMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsAddOnLoaded", function(addon)
+                return loaded[addon] == true
+            end)
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            assert.is_false(TrackerUtils:IsVoiceOverLoaded())
+            loaded.AI_VoiceOverData_Vanilla = true
+            assert.is_true(TrackerUtils:IsVoiceOverLoaded())
+            assert.spy(isAddOnLoadedMock).was.called_with("AI_VoiceOver")
+            assert.spy(isAddOnLoadedMock).was.called_with("AI_VoiceOverData_Vanilla")
+        end)
     end)
 
     describe("AddQuestItemButtons", function()
         it("should add sourceItemId as primary button", function()
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
@@ -94,7 +130,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should add single requiredSourceItems entry as primary button", function()
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
@@ -128,7 +164,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should add single objective item entry as primary button", function()
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
@@ -166,7 +202,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
@@ -213,7 +249,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should add sourceItemId as primary button and single objective item as secondary button", function()
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
@@ -264,7 +300,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
@@ -311,7 +347,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
@@ -376,7 +412,7 @@ describe("TrackerUtils", function()
 
         it("should show expandQuest button and hide item buttons when quest is collapsed", function()
             Questie.db.char.collapsedQuests[1] = true
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
@@ -417,7 +453,7 @@ describe("TrackerUtils", function()
 
         it("should show expandQuest button when no primary button is added", function()
             Questie.db.char.collapsedQuests[1] = true
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
@@ -448,7 +484,7 @@ describe("TrackerUtils", function()
         it("should hide expandQuest button and hide item buttons when quest is collapsed and collapseCompletedQuests is true", function()
             Questie.db.char.collapsedQuests[1] = true
             Questie.db.profile.collapseCompletedQuests = true
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123
@@ -489,7 +525,7 @@ describe("TrackerUtils", function()
 
         it("should hide item buttons when zone is collapsed", function()
             Questie.db.char.collapsedZones["Durotar"] = true
-            C_ItemMock.GetItemSpell.returns(111)
+            getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return 123

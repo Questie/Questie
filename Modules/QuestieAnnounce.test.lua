@@ -7,7 +7,7 @@ describe("QuestieAnnounce", function()
 
     ---@type QuestieLink
     local QuestieLink
-    local getItemInfoMock
+    local getItemInfoMock, addFilterMock
 
     before_each(function()
         _G.SendChatMessage = spy.new(function() end)
@@ -23,6 +23,7 @@ describe("QuestieAnnounce", function()
         }
 
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+        addFilterMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "AddMessageEventFilter")
         getItemInfoMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetItemInfo")
 
         dofile("Localization/l10n.lua")
@@ -32,6 +33,15 @@ describe("QuestieAnnounce", function()
 
     after_each(function()
         getItemInfoMock:revert()
+        addFilterMock:revert()
+    end)
+
+    it("registers the logo filter for group chat", function()
+        QuestieAnnounce:InitializeLogoFilter()
+
+        assert.spy(addFilterMock).was.called(6)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_PARTY", QuestieAnnounce.LogoFilter)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieAnnounce.LogoFilter)
     end)
 
     it("should announce a quest-starting item using its item hyperlink", function()

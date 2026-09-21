@@ -19,16 +19,16 @@ local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
 -- === Below code borrowed from ShutUp to implement Questie logo swapping for chat messages ===
 
--- Compatibility: newer clients expose the chat filter registration through ChatFrameUtil.
-local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
+local ChatFrameAddMessageEventFilter = QuestieCompat.AddMessageEventFilter
 
--- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
+---Registers a chat filter, retrying CreateSecureFiltersArray errors after a delay.
+---@param event string
+---@param filter function
 local function SafeAddMessageEventFilter(event, filter)
     local success, err = pcall(function()
         ChatFrameAddMessageEventFilter(event, filter)
     end)
     if not success then
-        -- If ChatFrameUtil isn't ready yet, retry after a short delay
         if err and string.find(err, "CreateSecureFiltersArray") then
             C_Timer.After(0.1, function()
                 SafeAddMessageEventFilter(event, filter)

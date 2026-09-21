@@ -90,6 +90,45 @@ describe("QuestieTracker", function()
         end)
     end)
 
+    describe("achievement UI integration", function()
+        local loadedMock, focusMock, countMock, removeMock, timeMock, shiftMock
+        local originalAchievementFrame
+
+        before_each(function()
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            loadedMock = stub(compat, "IsAddOnLoaded", function() return true end)
+            focusMock = stub(compat, "GetMouseFocus")
+            countMock = stub(_G, "GetNumTrackedAchievements", function() return 0 end)
+            removeMock = stub(_G, "RemoveTrackedAchievement")
+            timeMock = stub(_G, "GetTime", function() return 0 end)
+            shiftMock = stub(_G, "IsShiftKeyDown", function() return false end)
+            originalAchievementFrame = _G.AchievementFrame
+            _G.AchievementFrame = {IsShown = function() return false end}
+            Questie.db.char.trackedAchievementIds = {}
+            Questie.db.char.collapsedZones = {}
+            dofile("Modules/Tracker/QuestieTracker.lua")
+            timeMock.returns(1)
+        end)
+
+        after_each(function()
+            loadedMock:revert()
+            focusMock:revert()
+            countMock:revert()
+            removeMock:revert()
+            timeMock:revert()
+            shiftMock:revert()
+            _G.AchievementFrame = originalAchievementFrame
+        end)
+
+        it("does not inspect Blizzard's tracked checkbox when Krowi is loaded", function()
+            QuestieTracker:TrackAchieve(123)
+
+            assert.spy(loadedMock).was.called_with("Krowi_AchievementFilter")
+            assert.spy(focusMock).was.not_called()
+            assert.spy(removeMock).was.called_with(123, true)
+        end)
+    end)
+
     describe("legacy watch hook ownership", function()
         local originalIsWatched, originalCount, originalExpansion
         local Expansions

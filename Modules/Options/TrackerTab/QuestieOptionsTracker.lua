@@ -30,7 +30,7 @@ local _GetShortcuts
 local trackerOptions = {}
 
 local SharedMedia = LibStub("LibSharedMedia-3.0")
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 ---Toggle tracker visibility based on a condition
 ---@param shouldHide boolean Whether to hide (true) or show (false) the tracker

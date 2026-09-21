@@ -412,6 +412,150 @@ describe("QuestieCompat", function()
     end)
 end)
 
+describe("QuestieCompat shared API selection", function()
+    local QuestieCompat
+    local originals
+    local globalNames = {
+        "C_AddOns", "IsAddOnLoaded", "C_Item", "GetItemSpell", "IsEquippableItem",
+        "ChatFrameUtil", "ChatFrame_AddMessageEventFilter", "ChatFrame_RemoveMessageEventFilter",
+    }
+
+    before_each(function()
+        originals = {}
+        for _, name in ipairs(globalNames) do
+            originals[name] = _G[name]
+            _G[name] = nil
+        end
+        -- Compat loads early; resolve these APIs when called, not when the module is loaded.
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = originals[name]
+        end
+    end)
+
+    it("prefers the namespaced addon query and preserves both loading flags", function()
+        _G.C_AddOns = {IsAddOnLoaded = spy.new(function() return true, false end)}
+        _G.IsAddOnLoaded = spy.new(function() return false end)
+
+        assert.are.same({true, false}, {QuestieCompat.IsAddOnLoaded("TomTom")})
+        assert.spy(C_AddOns.IsAddOnLoaded).was.called_with("TomTom")
+        assert.spy(IsAddOnLoaded).was.not_called()
+    end)
+
+    it("does not fall back when the namespaced addon query returns false", function()
+        _G.C_AddOns = {IsAddOnLoaded = function() return false, false end}
+        _G.IsAddOnLoaded = spy.new(function() return true end)
+
+        assert.are.same({false, false}, {QuestieCompat.IsAddOnLoaded("TomTom")})
+        assert.spy(IsAddOnLoaded).was.not_called()
+    end)
+
+    it("uses the legacy addon query without inventing a second return value", function()
+        _G.IsAddOnLoaded = spy.new(function() return true end)
+
+        assert.are.same({true}, {QuestieCompat.IsAddOnLoaded(2)})
+        assert.are.equal(1, select("#", QuestieCompat.IsAddOnLoaded(2)))
+        assert.spy(IsAddOnLoaded).was.called_with(2)
+    end)
+
+    it("preserves the item spell name and ID from the namespaced API", function()
+        _G.C_Item = {GetItemSpell = spy.new(function() return "Shoot", 123 end)}
+        _G.GetItemSpell = spy.new(function() return "Legacy spell", 456 end)
+
+        assert.are.same({"Shoot", 123}, {QuestieCompat.GetItemSpell(789)})
+        assert.spy(C_Item.GetItemSpell).was.called_with(789)
+        assert.spy(GetItemSpell).was.not_called()
+    end)
+
+    it("preserves no return values without falling back when item spell information is unavailable", function()
+        _G.C_Item = {GetItemSpell = function() end}
+        _G.GetItemSpell = spy.new(function() return "Legacy spell", 456 end)
+
+        assert.are.equal(0, select("#", QuestieCompat.GetItemSpell(789)))
+        assert.spy(GetItemSpell).was.not_called()
+    end)
+
+    it("uses the legacy item spell query when the namespace lacks the function", function()
+        _G.C_Item = {}
+        _G.GetItemSpell = spy.new(function() return "Heal", 2050 end)
+
+        assert.are.same({"Heal", 2050}, {QuestieCompat.GetItemSpell("item:789")})
+        assert.spy(GetItemSpell).was.called_with("item:789")
+    end)
+
+    it("preserves a false namespaced equippability result without falling back", function()
+        _G.C_Item = {IsEquippableItem = spy.new(function() return false end)}
+        _G.IsEquippableItem = spy.new(function() return true end)
+
+        assert.is_false(QuestieCompat.IsEquippableItem(789))
+        assert.spy(C_Item.IsEquippableItem).was.called_with(789)
+        assert.spy(IsEquippableItem).was.not_called()
+    end)
+
+    it("uses legacy equippability when the item namespace is absent", function()
+        _G.IsEquippableItem = spy.new(function() return true end)
+
+        assert.is_true(QuestieCompat.IsEquippableItem("item:789"))
+        assert.spy(IsEquippableItem).was.called_with("item:789")
+    end)
+
+    it("passes the same event and filter to modern registration and removal", function()
+        local filter = function() return true end
+        _G.ChatFrameUtil = {
+            AddMessageEventFilter = spy.new(function() end),
+            RemoveMessageEventFilter = spy.new(function() end),
+        }
+        _G.ChatFrame_AddMessageEventFilter = spy.new(function() end)
+        _G.ChatFrame_RemoveMessageEventFilter = spy.new(function() end)
+
+        QuestieCompat.AddMessageEventFilter("CHAT_MSG_PARTY", filter)
+        QuestieCompat.RemoveMessageEventFilter("CHAT_MSG_PARTY", filter)
+
+        assert.spy(ChatFrameUtil.AddMessageEventFilter).was.called_with("CHAT_MSG_PARTY", filter)
+        assert.spy(ChatFrameUtil.RemoveMessageEventFilter).was.called_with("CHAT_MSG_PARTY", filter)
+        assert.spy(ChatFrame_AddMessageEventFilter).was.not_called()
+        assert.spy(ChatFrame_RemoveMessageEventFilter).was.not_called()
+    end)
+
+    it("uses legacy chat registration and removal when ChatFrameUtil is absent", function()
+        local filter = function() return true end
+        _G.ChatFrame_AddMessageEventFilter = spy.new(function() end)
+        _G.ChatFrame_RemoveMessageEventFilter = spy.new(function() end)
+
+        QuestieCompat.AddMessageEventFilter("CHAT_MSG_PARTY", filter)
+        QuestieCompat.RemoveMessageEventFilter("CHAT_MSG_PARTY", filter)
+
+        assert.spy(ChatFrame_AddMessageEventFilter).was.called_with("CHAT_MSG_PARTY", filter)
+        assert.spy(ChatFrame_RemoveMessageEventFilter).was.called_with("CHAT_MSG_PARTY", filter)
+    end)
+
+    it("selects chat registration and removal capabilities independently", function()
+        local filter = function() return true end
+        _G.ChatFrameUtil = {AddMessageEventFilter = spy.new(function() end)}
+        _G.ChatFrame_RemoveMessageEventFilter = spy.new(function() end)
+
+        QuestieCompat.AddMessageEventFilter("CHAT_MSG_PARTY", filter)
+        QuestieCompat.RemoveMessageEventFilter("CHAT_MSG_PARTY", filter)
+
+        assert.spy(ChatFrameUtil.AddMessageEventFilter).was.called_with("CHAT_MSG_PARTY", filter)
+        assert.spy(ChatFrame_RemoveMessageEventFilter).was.called_with("CHAT_MSG_PARTY", filter)
+    end)
+
+    it("leaves chat initialization errors visible to the consumer's retry handler", function()
+        _G.ChatFrameUtil = {AddMessageEventFilter = function() error("CreateSecureFiltersArray", 0) end}
+        _G.ChatFrame_AddMessageEventFilter = spy.new(function() end)
+
+        assert.has_error(function()
+            QuestieCompat.AddMessageEventFilter("CHAT_MSG_PARTY", function() end)
+        end, "CreateSecureFiltersArray")
+        assert.spy(ChatFrame_AddMessageEventFilter).was.not_called()
+    end)
+end)
+
 describe("QuestieCompat modern quest log boundary", function()
     local QuestieCompat
     local originalQuestLog

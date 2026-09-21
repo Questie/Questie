@@ -4,7 +4,88 @@
 
 **The highest-confidence simplification is removing duplicated API selection, not deleting QuestieCompat wholesale.** Several wrappers preserve essential contracts; others merely forward calls and can disappear once the supported-build floor is explicit.
 
-Seven API-family investigations and a separate skeptical review completed. No fixes, tests, client probes, commits, or source-cache refreshes were performed during the audit. This document records its findings; proposed changes are not implemented or approved by this report.
+Seven API-family investigations and a separate skeptical review completed the original read-only audit. Implementation and additional validation followed in separate sessions. The status below records the completed follow-up, including the greeting fix in `f2222741a` and API-selection cleanup; remaining proposals still require review before implementation.
+
+## Priorities and current status
+
+### Favorites for the first Forever release
+
+These are the preferred cleanup candidates, not a requirement to finish every refactor before release.
+
+| Priority | Candidate | Status and next decision |
+|---|---|---|
+| 1 | Remove unused compatibility surface and dead checks | **Implemented.** The three unused wrappers, Journey wrapper-presence checks, QuestFinisher fallback, and unused Announce chat-filter alias are removed. See the completed work below. |
+| 2 | Make item API usage consistent | **Partly implemented.** Eleven item selectors now use Compat without repeating its API choice. Local aliases and the existing fallbacks remain. Migrating the two container-info consumers to records/item IDs, then deleting their tuple adapter, is still proposed (§4.1). Direct-native calls and fallback deletion need a supported-build decision. |
+| 3 | Remove historical presentation branches | **Deferred pending supported-build evidence.** Candidates are resize, mouse-over, chat-filter, numbered-popup, and tooltip-backdrop fallbacks (§3.2). Do not combine this with popup ownership or combat-policy changes. |
+| 4 | Simplify gossip selection around quest IDs | **Not implemented.** Use IDs from the records AutoQuesting already inspected; then remove redundant list fetches and eligible historical paths (§4.3). Preserve completion enrichment and keep acceptance/reward workflow changes separate. |
+| 5 | Remove the unnecessary spell bridge if confirmed | **Not implemented.** Bundled AceGUI widgets prefer `C_Spell.GetSpellName`, but minimum Forever support and other addons' widget overrides need checking (§3.3). Keep the desaturation bridge, which still has callers. |
+
+**API selection centralized:** all 11 remaining consumer selectors for `IsAddOnLoaded`, `GetItemSpell`, `IsEquippableItem`, and chat filter add/remove now use Compat. Its five new functions retain modern-first selection, legacy fallbacks, native return values, and error propagation. Existing local aliases and consumer chat initialization retries remain unchanged. Removing unnecessary aliases is a separate, still-deferred step.
+
+Compatibility selection and local caching are separate decisions. **Keep useful hot-path aliases.** Add a short nearby comment naming the actual reason, such as a per-frame item-button update, when that explains why an alias remains. Also preserve intentional function capture around hooks. Do not remove every local alias or introduce a generic compatibility framework.
+
+**Keep outside the mechanical cleanup:** watch-global interception/teardown, aura restrictions, popup cancellation/deletion ownership, profession enumeration, and tooltip/cache timing. They need behavior-focused work and validation, not name replacement. Manual Forever checks remain necessary regardless of how much cleanup ships.
+
+### Completed work
+
+| Commit | Change | Scope |
+|---|---|---|
+| `16d1231d3` | Removed unused `QuestieCompat.AddQuestWatch`, `GetNumTrackedAchievements`, and `CollapseFactionHeader` | No replacement functions were needed: there were no production callers. Native watch hooks, `AQW_Insert`, and the tracker's separate achievement-count global remain. Tests of surviving contracts were retained. |
+| `8afca4893` | Removed duplicated consumer selection and dead checks | Eleven item aliases and QuestieLib metadata now use Compat directly. Removed QuestFinisher's unreachable alternative, Journey's dead wrapper checks, and Announce's unused remove-filter alias. Historical fallbacks remain. |
+| `3074adaf4` | Clarified compatibility comments and fixed quest-title return slot 10 | Purpose-first function comments, localized explanations of meaningful differences, corrected annotations/links, and removal of implicit `---@return nil` annotations. Modern `GetQuestLogTitle` now returns `GetCVarBool("displayQuestID")` in slot 10 instead of repeating the quest ID. Slots 11–17 were not shifted. Two focused tests cover the display-ID setting. |
+
+The first cleanup reduced production code by 48 lines. Local aliases were deliberately retained in that pass; further alias cleanup is still a discussion item.
+
+**Master-history check:** neither cached `origin/master` at `180c8cb13` nor shared ancestor `bd177929e` contained the three removed Compat wrappers. They entered this branch in `9c5e723c7` without production callers. Earlier Forever work did install an `AddQuestWatch` global shim; that arrangement had already changed during integration. The deletion did not remove an active master call path. External addons importing undocumented Compat methods were not ruled out.
+
+### Findings from the later function-by-function review
+
+The follow-up reviewed 65 functions individually. Its comment changes and confirmed runtime correction are in `3074adaf4`.
+
+| Finding | Disposition |
+|---|---|
+| Modern quest-title slot 10 contained a duplicate quest ID rather than the display-ID boolean | **Fixed** in `3074adaf4`, with enabled/disabled-setting tests. This is an addition to the original audit's quest-title analysis (§5.1). |
+| `GetItemIcon` might be selecting the wrong modern function | **Resolved: keep `C_Item.GetItemIconByID`.** It accepts the item identifiers used by callers; no caller migration was needed. |
+| Reputation tuple slot 16 might need a different field | **Resolved: retain `canSetInactive`.** Evidence did not justify changing it based on older `canBeLFGBonus` terminology. |
+| `C_Item.GetItemCooldown` boolean versus the consumer's numeric enabled flag | **Still open** (§4.2). Comments clarify the difference; runtime behavior was not fixed. |
+| Modern `ExpandFactionHeader(0)` versus the legacy expand-all convention | **Still open** (§4.5). Do not infer equivalent zero handling from the function name. |
+| Spell bridge does not preserve the legacy spellbook-slot/bank overload | **Still open** (§3.3). No runtime change to the bridge. |
+| `ActionStatus_DisplayMessage` wrapper drops its caller's second argument | **Still open** (§4.8). No runtime correction yet. |
+
+### Review of the five new API-selection functions
+
+Each new function received a separate source-backed investigation after centralization: `GetItemSpell`, `IsEquippableItem`, `IsAddOnLoaded`, `AddMessageEventFilter`, and `RemoveMessageEventFilter`. Investigators checked consumers, the five cached Blizzard baselines listed below, and immutable online source copies. No dispatch correction was indicated; this was not live-client validation or a new minimum-support decision.
+
+- Item-spell results preserve both values and the no-values case. Equippability is not a query for whether the item is currently equipped. See Forever [ItemDocumentation.lua](https://github.com/Gethe/wow-ui-source/blob/70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e/Interface/AddOns/Blizzard_APIDocumentationGenerated/ItemDocumentation.lua), lines 970–984 and 1324–1336.
+- Addon-load results distinguish loaded-or-loading from completed loading. The comment now identifies folder names/list indices and the second result's `ADDON_LOADED` meaning. See Forever [AddOnsDocumentation.lua:322–335](https://github.com/Gethe/wow-ui-source/blob/70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e/Interface/AddOns/Blizzard_APIDocumentationGenerated/AddOnsDocumentation.lua#L322-L335) and [EventUtil.lua:67–75](https://github.com/Gethe/wow-ui-source/blob/70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e/Interface/AddOns/Blizzard_SharedXML/EventUtil.lua#L67-L75).
+- Chat comments now describe callback arguments, hide/rewrite behavior, and removal using the original callback object for the same event. Registration/removal errors remain visible to consumers. See Forever [ChatFrameFilters.lua:96–170](https://github.com/Gethe/wow-ui-source/blob/70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e/Interface/AddOns/Blizzard_ChatFrameBase/Shared/ChatFrameFilters.lua#L96-L170).
+- Consumer retry comments no longer claim that every `CreateSecureFiltersArray` error proves the namespace is not ready. Retry behavior is unchanged. A pre-existing delayed-add retry could re-register a ShutUp filter after it is disabled; this remains an unverified lifecycle concern for separate work, not a defect introduced by centralization.
+
+### Validation recorded so far
+
+- API-selection cleanup: **2,004 tests passed**, lint and loader checks passed, and focused review found no actionable issues. No live-client validation was performed. This preserves the local aliases and does not remove historical fallbacks.
+- First cleanup: **1,964 tests passed**, lint and loader checks passed, and focused review found no actionable issues. No live client was touched for that cleanup.
+- Comment/quest-title follow-up: **1,966 tests passed**, lint and loader checks passed, and reviewer assessment completed.
+- Read-only Era checks used **1.15.9, build 69722**. They covered item icons/counts/cooldowns, the 18-field item-information tuple, reputation getters, quest selection/counts/IDs, and native versus Questie watch counts. No new live errors, reloads, or character/UI/tracking/settings changes were recorded.
+- Those Era results do **not** establish Forever restrictions, full Forever workflow correctness, or historical client support. The modern quest-title correction has focused automated coverage; the Era checks are not proof of that modern branch in live Forever.
+- Use [MANUAL_TESTS_REQUIRED.md](MANUAL_TESTS_REQUIRED.md) for teammate-facing checks. Existing tooltip evidence and outstanding cases remain in [docs/forever-tooltips.md](docs/forever-tooltips.md); this cleanup does not reopen the Object migration.
+
+### Greeting fix committed; live verification pending
+
+The numbered-frame incompatibility in §4.4 is addressed in `f2222741a` (`[fix] Support native Forever quest greetings`). Recorded live verification remains pending:
+
+- `AvailableQuests` reads the native active/available greeting lists, not rendered frames. Unresolved entries prevent negative availability broadcasts and leave the NPC retryable; known positive entries can still be restored.
+- `QuestieCompat` resolves native greeting IDs with Classic title lookup as a fallback, and visits pooled Forever or numbered Classic buttons without creating frames.
+- `QuestgiverFrame` decorates after both the XML-bound OnShow script and explicit Blizzard rebuild calls. Stale button indices are skipped until the native list is rebuilt.
+- Runtime source and manifests contain no explicit ForeverClassicUI dependency. Earlier live tests did have that separate addon enabled; those observations are not a native-UI acceptance test. Native Blizzard UI is the baseline, and the [manual checklist](MANUAL_TESTS_REQUIRED.md) now states that explicitly.
+- Source comparison used cached Forever `70ef1b2fd78061a73f886c4a1e79dc5b5cff6d5e` (69913) and Era `33e177d9bf38d76d5c6c6e05d5da78db1899659a` (69722). Relevant Blizzard files are `Blizzard_UIPanels_Game/Mainline/QuestFrame.lua:304–410`, `Mainline/QuestFrame.xml:279–280`, and the Classic equivalents.
+- Validation: **1,984 tests passed**, lint and loader checks passed. Review caught and corrected the distinction between XML-bound OnShow and global-function hooks; the final focused review found no further issue. No client interaction, installation changes, or provider changes accompanied implementation. The temporary chat tracer and its two tests were removed before committing; the actual regression tests remain.
+
+Further discussion notes are in [MEMORY.md](MEMORY.md). Broader behavior work remains in [FOREVER_WORK_LEFT_TO_DO.md](FOREVER_WORK_LEFT_TO_DO.md).
+
+## Original audit snapshot
+
+Sections 1–7 below preserve the original findings, evidence, recommendations, and line references. Statements about unimplemented changes or unperformed tests there describe the audit at that time. Use the status above for subsequent work; old line numbers may no longer match current files.
 
 ## 1. Safe simplification candidates
 
