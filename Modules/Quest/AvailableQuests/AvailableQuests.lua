@@ -475,7 +475,7 @@ end
 --- Called on QUEST_GREETING to hide all quests that are not available from the NPC.
 --- This is relevant on NPCs which offer random quests each day and especially a different number of quests.
 function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
-    local npcGuid = UnitGUID("target")
+    local npcGuid = UnitGUID("npc")
     if (not npcGuid) then
         return
     end
@@ -491,34 +491,24 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
         return
     end
 
-    lastNpcGuid = npcGuid
-
+    -- Read the greeting lists, not their rendered buttons: Forever uses an unnamed button pool.
     local availableQuestsInGreeting = {}
     local unresolvedQuestInGreeting = false
-    for i = 1, QuestieCompat.MAX_NUM_QUESTS do
-        local titleLine = _G["QuestTitleButton" .. i]
-        if (not titleLine) then
-            break
-        elseif titleLine:IsVisible() then
-            local title
-            local isActive = titleLine.isActive == 1
-            if isActive then
-                -- Active quests are relevant, because the API can fire QUEST_GREETING before QUEST_ACCEPTED.
-                -- So we need to check active quests to not hide them incorrectly for the day.
-                title = GetActiveTitle(titleLine:GetID())
-            else
-                title = GetAvailableTitle(titleLine:GetID())
-            end
-            local questId = QuestieDB.GetQuestIDFromName(title, npcGuid, (not isActive))
-            if questId > 0 then
-                availableQuestsInGreeting[questId] = true
-            else
-                -- A visible quest in the frame could not be resolved to an ID, so we cannot know which quest it is.
-                -- Keep all quests available instead of hiding any, to not hide an available quest that we simply failed
-                -- to identify. This is also a problem when users use a different WoW client locale than they set their
-                -- Questie to (API names ~= lookup names)
-                unresolvedQuestInGreeting = true
-            end
+    -- Active quests can appear here before QUEST_ACCEPTED updates Questie's quest log.
+    for i = 1, GetNumActiveQuests() do
+        local questId = QuestieCompat.GetQuestGreetingQuestID(i, true, npcGuid)
+        if questId > 0 then
+            availableQuestsInGreeting[questId] = true
+        else
+            unresolvedQuestInGreeting = true
+        end
+    end
+    for i = 1, GetNumAvailableQuests() do
+        local questId = QuestieCompat.GetQuestGreetingQuestID(i, false, npcGuid)
+        if questId > 0 then
+            availableQuestsInGreeting[questId] = true
+        else
+            unresolvedQuestInGreeting = true
         end
     end
 
@@ -538,8 +528,10 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     end
 
     if unresolvedQuestInGreeting then
+        -- An incomplete list cannot prove absence. Leave this NPC retryable when more data arrives.
         return
     end
+    lastNpcGuid = npcGuid
 
     local unavailableQuestsToBroadcast = {}
     for questId in pairs(availableQuestsByNpc[npcId] or {}) do

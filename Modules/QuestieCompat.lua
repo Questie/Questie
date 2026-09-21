@@ -181,6 +181,36 @@ function QuestieCompat.SelectActiveQuest(index)
     error(errorMsg, 2)
 end
 
+---Returns a quest ID from the current quest-greeting list, or 0 if it cannot be resolved.
+---@param index number Position within the active or available list, not a quest-log index.
+---@param isActive boolean True for an accepted quest, false for an available quest.
+---@param npcGuid string? GUID of the NPC whose greeting is open.
+---@return QuestId questID
+function QuestieCompat.GetQuestGreetingQuestID(index, isActive, npcGuid)
+    local questID
+    if isActive and _G.GetActiveQuestID then
+        questID = _G.GetActiveQuestID(index)
+    elseif not isActive and _G.GetAvailableQuestInfo then
+        -- Forever includes the quest ID in position 5; older Classic tuples end before it.
+        questID = select(5, _G.GetAvailableQuestInfo(index))
+    end
+    if questID and questID > 0 then
+        return questID
+    end
+
+    -- Classic greeting APIs expose titles rather than IDs. Keep the NPC and starter/finisher context.
+    local title
+    if isActive then
+        title = GetActiveTitle(index)
+    else
+        title = GetAvailableTitle(index)
+    end
+    if not title or title == "" then
+        return 0
+    end
+    return QuestieDB.GetQuestIDFromName(title, npcGuid, not isActive) or 0
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetContainerNumSlots)
 ---Returns the total number of slots in a bag, including empty slots.
 ---@param bagID number Bag identifier; 0 is the backpack.
@@ -794,9 +824,36 @@ function QuestieCompat.GetQuestTagInfo(questID)
     error(errorMsg, 2)
 end
 
--- Legacy greeting callers use this as a numbered-button loop limit, not just a player quest-cap value.
--- The modern constant avoids nil on Forever, but does not adapt its pooled greeting-frame layout.
+-- Only the numbered greeting layout uses this limit; pooled buttons are enumerated directly.
 QuestieCompat.MAX_NUM_QUESTS = (Constants and Constants.QuestLogConsts and Constants.QuestLogConsts.MAXIMUM_NUM_QUESTS_LOG_CAN_ACCEPT) or MAX_NUM_QUESTS
+
+---Visits shown quest-greeting buttons and their icons, without creating or acquiring frames.
+---@param callback fun(button: Button, icon: Texture)
+function QuestieCompat.ForEachQuestGreetingButton(callback)
+    local pool = QuestFrameGreetingPanel and QuestFrameGreetingPanel.titleButtonPool
+    if pool then
+        -- Native Forever buttons are unnamed and reused whenever Blizzard rebuilds the greeting.
+        for button in pool:EnumerateActive() do
+            if button:IsShown() and button.Icon then
+                callback(button, button.Icon)
+            end
+        end
+        return
+    end
+
+    for i = 1, QuestieCompat.MAX_NUM_QUESTS or 0 do
+        local button = _G["QuestTitleButton" .. i]
+        if not button then
+            break
+        end
+        if button:IsShown() then
+            local icon = _G["QuestTitleButton" .. i .. "QuestIcon"]
+            if icon then
+                callback(button, icon)
+            end
+        end
+    end
+end
 
 -- Requests native legacy UI refresh, preserving Blizzard's helper side effects (including quest selection).
 -- Classic retains these frames; absent helpers make the wrappers no-ops.

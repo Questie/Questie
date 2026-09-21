@@ -244,6 +244,121 @@ describe("QuestieCompat", function()
         end)
     end)
 
+    describe("quest greeting", function()
+        local originals
+        local originalResolveName, originalButtonLimit
+        local globalNames = {
+            "GetActiveQuestID", "GetAvailableQuestInfo", "GetActiveTitle", "GetAvailableTitle",
+            "QuestFrameGreetingPanel", "QuestTitleButton1", "QuestTitleButton2",
+            "QuestTitleButton1QuestIcon", "QuestTitleButton2QuestIcon",
+        }
+        local npcGuid = "Creature-0-0-0-0-123-0"
+
+        before_each(function()
+            originals = {}
+            for _, name in ipairs(globalNames) do
+                originals[name] = _G[name]
+                _G[name] = nil
+            end
+            originalResolveName = QuestieDB.GetQuestIDFromName
+            originalButtonLimit = QuestieCompat.MAX_NUM_QUESTS
+            QuestieCompat.MAX_NUM_QUESTS = 2
+            QuestieDB.GetQuestIDFromName = spy.new(function() return 456 end)
+            _G.GetActiveTitle = spy.new(function() return "Accepted Quest" end)
+            _G.GetAvailableTitle = spy.new(function() return "Offered Quest" end)
+        end)
+
+        after_each(function()
+            for _, name in ipairs(globalNames) do
+                _G[name] = originals[name]
+            end
+            QuestieDB.GetQuestIDFromName = originalResolveName
+            QuestieCompat.MAX_NUM_QUESTS = originalButtonLimit
+        end)
+
+        it("uses native IDs without depending on quest names or rendered buttons", function()
+            _G.GetActiveQuestID = spy.new(function() return 783 end)
+            _G.GetAvailableQuestInfo = spy.new(function() return false, 0, false, false, 33 end)
+
+            assert.are.equal(783, QuestieCompat.GetQuestGreetingQuestID(2, true, npcGuid))
+            assert.are.equal(33, QuestieCompat.GetQuestGreetingQuestID(3, false, npcGuid))
+            assert.spy(_G.GetActiveQuestID).was.called_with(2)
+            assert.spy(_G.GetAvailableQuestInfo).was.called_with(3)
+            assert.spy(GetActiveTitle).was.not_called()
+            assert.spy(GetAvailableTitle).was.not_called()
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
+        end)
+
+        it("resolves Classic available titles when the native tuple has no quest ID", function()
+            _G.GetAvailableQuestInfo = function() return false, false, false, false end
+
+            assert.are.equal(456, QuestieCompat.GetQuestGreetingQuestID(3, false, npcGuid))
+            assert.spy(GetAvailableTitle).was.called_with(3)
+            assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Offered Quest", npcGuid, true)
+        end)
+
+        it("resolves Classic active titles in the finisher context", function()
+            assert.are.equal(456, QuestieCompat.GetQuestGreetingQuestID(2, true, npcGuid))
+            assert.spy(GetActiveTitle).was.called_with(2)
+            assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Accepted Quest", npcGuid, false)
+        end)
+
+        it("returns zero when neither a native ID nor a resolvable title is available", function()
+            _G.GetActiveQuestID = function() return 0 end
+            QuestieDB.GetQuestIDFromName = function() return 0 end
+
+            assert.are.equal(0, QuestieCompat.GetQuestGreetingQuestID(1, true, npcGuid))
+        end)
+
+        it("does not resolve missing or empty titles", function()
+            _G.GetActiveTitle = function() return nil end
+            _G.GetAvailableTitle = function() return "" end
+
+            assert.are.equal(0, QuestieCompat.GetQuestGreetingQuestID(1, true, npcGuid))
+            assert.are.equal(0, QuestieCompat.GetQuestGreetingQuestID(1, false, npcGuid))
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
+        end)
+
+        it("visits unnamed pooled buttons without acquiring frames or using legacy globals", function()
+            local button = {Icon = {}, IsShown = function() return true end}
+            local hiddenButton = {Icon = {}, IsShown = function() return false end}
+            local buttons = {[button] = true, [hiddenButton] = true}
+            _G.QuestFrameGreetingPanel = {titleButtonPool = {
+                EnumerateActive = function() return next, buttons end,
+                Acquire = spy.new(function() error("Must not acquire native buttons") end),
+            }}
+            _G.QuestTitleButton1 = {IsShown = function() error("Must prefer the pool") end}
+            local visit = spy.new(function() end)
+
+            QuestieCompat.ForEachQuestGreetingButton(visit)
+
+            assert.spy(visit).was.called(1)
+            assert.spy(visit).was.called_with(button, button.Icon)
+            assert.spy(QuestFrameGreetingPanel.titleButtonPool.Acquire).was.not_called()
+        end)
+
+        it("visits only shown Classic buttons with their named icon textures", function()
+            _G.QuestTitleButton1 = {IsShown = function() return true end}
+            _G.QuestTitleButton2 = {IsShown = function() return false end}
+            _G.QuestTitleButton1QuestIcon = {}
+            _G.QuestTitleButton2QuestIcon = {}
+            local visit = spy.new(function() end)
+
+            QuestieCompat.ForEachQuestGreetingButton(visit)
+
+            assert.spy(visit).was.called(1)
+            assert.spy(visit).was.called_with(_G.QuestTitleButton1, _G.QuestTitleButton1QuestIcon)
+        end)
+
+        it("does nothing when the greeting layout is unavailable", function()
+            local visit = spy.new(function() end)
+
+            QuestieCompat.ForEachQuestGreetingButton(visit)
+
+            assert.spy(visit).was.not_called()
+        end)
+    end)
+
     describe("GetCurrentCalendarTime", function()
         it("should error when no known function is available", function()
             _G.C_DateAndTime = {}

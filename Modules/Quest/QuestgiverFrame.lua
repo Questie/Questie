@@ -11,7 +11,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local _G = _G
-local tinsert = tinsert
 
 -- This is the logic used for determining which icon we should show for a quest
 -- This just determines the "type" of icon shown, not the exact icon file - see Questie.icons
@@ -87,43 +86,20 @@ local function updateGossipFrame()
     end
 end
 
--- GREETING FRAMES (API independent)
+---Updates quest-greeting icons using each button's list index and active/available status.
 local function updateGreetingFrame()
-    Questie.Debug(Questie.DEBUG_DEVELOP, "Updating Greeting frame.")
-    local titleLines = {}
-    local questIconTextures = {}
-    for i = 1, QuestieCompat.MAX_NUM_QUESTS do
-        local titleLine = _G["QuestTitleButton" .. i]
-        if titleLine then
-            tinsert(titleLines, titleLine)
-            tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
-        else
-            Questie.Error("Frame error! Could not obtain Greeting's QuestTitleButton object. Please report this on Github or Discord!")
-            Questie.Error("Questgiver is: " .. UnitGUID("npc"))
-            Questie.Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+    local npcGuid = UnitGUID("npc")
+    QuestieCompat.ForEachQuestGreetingButton(function(button, icon)
+        local isActive = button.isActive == 1
+        local index = button:GetID()
+        local count = isActive and GetNumActiveQuests() or GetNumAvailableQuests()
+        -- An event can arrive before Blizzard releases buttons from the previous greeting.
+        if index < 1 or index > count then
             return
         end
-    end
-    for i, titleLine in ipairs(titleLines) do
-        if (titleLine:IsVisible()) then
-            local lineIcon = questIconTextures[i]
-            -- determining if the current line is a "Current" quest or "Available" quest is important
-            -- because we have to use different API calls to obtain their quest titles
-            if (titleLine.isActive == 1) then
-                lineIcon:SetTexture(Questie.icons["incomplete"]) -- fallback icon in case any of the logic below fails
-                local title = GetActiveTitle(titleLine:GetID()) -- obtain plaintext name of quest
-                local questID = QuestieDB.GetQuestIDFromName(title, UnitGUID("npc"), false)
-                local icon = determineAppropriateQuestIcon(questID, true)
-                lineIcon:SetTexture(icon)
-            else
-                lineIcon:SetTexture(Questie.icons["available"]) -- fallback icon in case any of the logic below fails
-                local title = GetAvailableTitle(titleLine:GetID())
-                local questID = QuestieDB.GetQuestIDFromName(title, UnitGUID("npc"), true)
-                local icon = determineAppropriateQuestIcon(questID, false)
-                lineIcon:SetTexture(icon)
-            end
-        end
-    end
+        local questID = QuestieCompat.GetQuestGreetingQuestID(index, isActive, npcGuid)
+        icon:SetTexture(determineAppropriateQuestIcon(questID, isActive))
+    end)
 end
 
 -- This function is called for QUEST_LOG_UPDATE events.
@@ -150,15 +126,23 @@ function QuestgiverFrame.GossipMark()
     end
 end
 
+---Applies Questie's icons to populated greeting buttons once Questie is ready and icons are enabled.
 function QuestgiverFrame.GreetingMark()
-    if Questie.db.profile.enableQuestFrameIcons == true then
+    if Questie.started and Questie.db.profile.enableQuestFrameIcons == true then
         updateGreetingFrame()
     end
 end
 
--- 10.0.0 API GOSSIP
--- Boy, this code is clean... these DF Gossip APIs sure are great!
--- What a shame that the greeting API hasn't been touched in two decades.
+-- XML keeps its original OnShow reference; quest-log updates call the global rebuild helper.
+-- Run after both paths so Blizzard cannot overwrite our icons when its event handler runs last.
+if QuestFrameGreetingPanel then
+    QuestFrameGreetingPanel:HookScript("OnShow", QuestgiverFrame.GreetingMark)
+end
+if _G.QuestFrameGreetingPanel_OnShow then
+    hooksecurefunc("QuestFrameGreetingPanel_OnShow", QuestgiverFrame.GreetingMark)
+end
+
+-- Gossip uses a separate list and its own button mixins.
 if GossipAvailableQuestButtonMixin then
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
     function GossipAvailableQuestButtonMixin:Setup(...)
