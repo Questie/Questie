@@ -30,8 +30,8 @@ tinsert(eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
 tinsert(eventQuests, {"Brewfest", 12062, nil, nil, nil, nil, Expansions.Current >= Expansions.Cata}) -- Insult Coren Direbrew
 tinsert(eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 tinsert(eventQuests, {"Brewfest", 12192}) -- This One Time, When I Was Drunk...
-tinsert(eventQuests, {"Brewfest", 12193}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
-tinsert(eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
+tinsert(eventQuests, {"Brewfest", 12193, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
+tinsert(eventQuests, {"Brewfest", 12194, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(eventQuests, {"Brewfest", 12278, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Brew of the Month Club
 tinsert(eventQuests, {"Brewfest", 12306, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Brew of the Month Club
 tinsert(eventQuests, {"Brewfest", 12318}) -- Save Brewfest!
