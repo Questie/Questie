@@ -1,5 +1,8 @@
 ---@meta _
 
+---@class QuestieDBEnums
+---@field phases table<string, integer> Shared phase names to Blizzard or Questie-defined fake IDs; read-only by contract for consumers.
+
 ---@class LibQuestieDB
 ---@field Quest QuestDB Quest entity reads.
 ---@field Npc NpcDB NPC entity reads.
@@ -19,6 +22,7 @@
 ---@field GetOwners fun(): string[] Return owners in applied precedence order.
 ---@field Corrections QuestieDBCorrectionsAPI Correction registration, application, and provenance API.
 ---@field Meta QuestieDBMeta Schema names, indices, storage types, and structures.
+---@field Enum QuestieDBEnums Shared constants exposed to consumers.
 ---@field ObjectiveFirst QuestieDBObjectiveFirst Shared objective-ordering hints; read-only for consumers.
 ---@field l10n QuestieDBL10n Localization controls and state.
 ---@field Support table Whole-table support data.
