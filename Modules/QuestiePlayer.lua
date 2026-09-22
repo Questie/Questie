@@ -21,8 +21,8 @@ local playerIsSkyborne = false
 -- ChrRaces in Forever build 69893 uses PlayableRaceBit 32/33, not race ID minus one.
 ---@type table<number, number>
 local skyborneRaceFlags = {
-    [95] = 4294967296, -- High Order Skyborne
-    [96] = 8589934592, -- Windshaper Skyborne
+    [95] = 4294967296, -- High Order Skyborne (Alliance)
+    [96] = 8589934592, -- Windshaper Skyborne (Horde)
 }
 local playerClassName = ""
 local playerClassFlag = 255 -- dummy default value to always return class not matching, corrected in init
