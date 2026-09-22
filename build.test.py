@@ -3,6 +3,7 @@ import json
 import hashlib
 import shutil
 import os
+import subprocess
 from pathlib import Path
 import tempfile
 import unittest
@@ -77,6 +78,25 @@ class ContractRequirementTests(unittest.TestCase):
                 self.assertLess(lines.index("Modules\\VersionCheckDB.lua"), lines.index("Modules\\QuestieInit.lua"))
 
 
+class SourceTagTests(unittest.TestCase):
+    def test_build_version_ignores_a_newer_bundle_tag(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            def git(*args):
+                return subprocess.check_output(["git", "-C", temporary, "-c", "user.name=Test",
+                                                "-c", "user.email=test@example.org", *args], text=True).strip()
+
+            git("init", "-q")
+            git("commit", "--allow-empty", "-qm", "Source release")
+            git("tag", "v12.0.0")
+            git("commit", "--allow-empty", "-qm", "Later work")
+            git("tag", "-am", "Bundle", "bundle/v12.0.0+v1.0.0")
+            with patch.object(build, "__file__", str(Path(temporary) / "build.py")):
+                version, count, commit = build.get_git_information()
+            self.assertEqual("v12.0.0", version)
+            self.assertEqual("1", count)
+            self.assertEqual(git("rev-parse", "--short", "HEAD"), commit)
+
+
 class BuildModeTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
@@ -87,7 +107,7 @@ class BuildModeTests(unittest.TestCase):
         self.addCleanup(os.chdir, original_directory)
         for name in build.tocs.values():
             (self.root / name).write_text(
-                "## Interface: 11508, 11509\n## Version: 11.39.0\n## X-QuestieDB-Contract: 2\n",
+                "## Interface: 11508, 11509\n## Version: 11.38.0\n## X-QuestieDB-Contract: 2\n",
                 encoding="utf-8",
             )
         (self.root / "Modules").mkdir()
@@ -142,11 +162,31 @@ class BuildModeTests(unittest.TestCase):
         self.assertEqual({"release.json", manifest["releases"][0]["filename"]}, {p.name for p in output.iterdir()})
         return output, manifest
 
+    def test_release_uses_toc_version_without_needing_a_matching_git_tag(self):
+        for name in build.tocs.values():
+            path = self.root / name
+            path.write_text(path.read_text().replace("11.38.0", "12.0.0"))
+        _, manifest = self.run_build("--bundled", "-r", directory="v12.0.0")
+        self.assertEqual("Questie-v12.0.0+v1.0.0.zip", manifest["releases"][0]["filename"])
+        self.assertEqual("12.0.0", manifest["questie"]["version"])
+
+    def test_invalid_release_versions_fail_before_replacing_output_or_downloading(self):
+        path = self.root / build.tocs[2]
+        for version_lines in ("", "## Version: v12.0.0\n", "## Version: 12.0.0\n",
+                              "## Version: 11.38.0\n## Version: 11.38.0\n"):
+            with self.subTest(version_lines=version_lines):
+                path.write_text("## X-QuestieDB-Contract: 2\n" + version_lines)
+                with patch.object(build.shutil, "rmtree") as remove:
+                    with self.assertRaises(ValueError):
+                        self.run_build("--bundled", "-r")
+                    remove.assert_not_called()
+                self.downloads.assert_not_called()
+
     def test_standalone_has_matching_metadata_without_a_provider_download(self):
         output, manifest = self.run_build("--standalone", "-r")
         self.downloads.assert_not_called()
         self.assertEqual({"releases", "questie"}, set(manifest))
-        self.assertEqual("11.39.0", manifest["questie"]["version"])
+        self.assertEqual("11.38.0", manifest["questie"]["version"])
         self.assertEqual("e" * 40, manifest["questie"]["producerCommit"])
         self.assertEqual(self.questie_entries, manifest["questie"]["changelog"])
         release = manifest["releases"][0]
@@ -171,7 +211,7 @@ class BuildModeTests(unittest.TestCase):
     def test_bundled_preserves_the_complete_provider_section(self):
         output, manifest = self.run_build("--bundled", "-r")
         self.assertEqual(self.database, manifest["questiedb"])
-        self.assertEqual("11.39.0", manifest["questie"]["version"])
+        self.assertEqual("11.38.0", manifest["questie"]["version"])
         filename = manifest["releases"][0]["filename"]
         self.assertEqual("Questie-v11.38.0+v1.0.0.zip", filename)
         with zipfile.ZipFile(output / filename) as archive:

@@ -1,0 +1,58 @@
+name: Upload existing bundle to Wago
+
+on:
+  workflow_call:
+    inputs:
+      release_tag:
+        description: Existing GitHub bundle release tag
+        type: string
+        required: true
+    secrets:
+      WAGO_API_TOKEN:
+        required: true
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing bundle tag, or latest for the latest stable release
+        type: string
+        required: true
+        default: latest
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ${{ inputs.release_tag }}
+      RELEASE_DIR: releases/upload
+    steps:
+      - name: Clone project
+        uses: actions/checkout@v7.0.1
+
+      - name: Download GitHub bundle
+        run: |
+          # Resolve latest once so the artifact, notes and upload reservation use the same release.
+          if [[ "$RELEASE_TAG" == "latest" ]]; then
+            RELEASE_TAG=$(gh api "repos/$GH_REPO/releases/latest" --jq '.tag_name')
+          fi
+          echo "RELEASE_TAG=$RELEASE_TAG" >> "$GITHUB_ENV"
+
+          # Publish the existing GitHub artifact and notes, without rebuilding either component.
+          gh release download --pattern release.json --dir "$RELEASE_DIR" -- "$RELEASE_TAG"
+          BUNDLED_ZIP=$(jq -er '.releases[0].filename' "$RELEASE_DIR/release.json")
+          gh release download --pattern "$BUNDLED_ZIP" --dir "$RELEASE_DIR" -- "$RELEASE_TAG"
+          gh release view --json body --jq '.body' -- "$RELEASE_TAG" > CHANGELOG.md
+          echo "BUNDLED_ZIP=$BUNDLED_ZIP" >> "$GITHUB_ENV"
+
+          echo '::notice::Wago uploading remains disabled pending approval.'
+
+      # Preparation lock: enabling uploads requires separate, explicit approval.
+      - name: Upload Wago
+        if: ${{ false }}
+        env:
+          WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+        run: sh upload-wago.sh "$RELEASE_TAG"

@@ -49,6 +49,50 @@ missing changelogs do not mean "nothing changed."
 Addon-specific fields, such as contract ranges and import baselines, remain
 extensions and travel unchanged with the shared fields.
 
+## Release notes and announcements
+
+GitHub bundle notes include both components' full current-release changelogs.
+Questie's baseline excludes tags on the current source commit, so database-only
+bundles retain the same Questie notes. QuestieDB's supplied notes are copied unchanged.
+
+`release_notes.py` generates delta Markdown for announcements such as Discord posts.
+It works only against GitHub releases, not local JSON files, and is separate from
+build-time release notes. It requires the GitHub CLI (`gh`) with authentication configured:
+
+```sh
+python3 release_notes.py 'bundle/v12.0.0+v1.0.0' latest
+# Omitting the second tag also selects latest stable.
+```
+
+Both GitHub releases must have `release.json` assets with matching addon sections. The script
+compares each component's repository and `producerCommit`, skips unchanged components,
+and reads the complete commit range, including skipped versions. It preserves supplied
+changelog entries from the ending manifest; marked commit subjects fill gaps from older
+releases. Unmarked commits remain available through the generated comparison links.
+Reverse or diverged ranges fail rather than produce a misleading forward changelog.
+`--repo OWNER/REPO` selects a different release repository. Nothing is published or modified.
+
+Run its offline tests with `python3 release_notes.test.py`.
+
+## External distribution
+
+The **Build and publish bundle** workflow has **Also upload to CurseForge** and
+**Also upload to Wago** checkboxes, both unchecked by default. Selected jobs run only
+after successful GitHub publication, and never during a dry run. They pass the exact
+bundle tag to the **Upload existing bundle to CurseForge** or
+**Upload existing bundle to Wago** reusable workflow.
+
+Both upload workflows also accept a bundle tag through **Run workflow**, so an
+existing GitHub release can be distributed separately. Manual runs default to `latest`,
+resolved once to the latest stable release tag; an exact tag can be supplied instead.
+They download its manifest, ZIP, and release notes without rebuilding or selecting
+another database version.
+
+**Actual uploads remain hard-disabled pending explicit approval.** For now, selected
+workflows only download the bundle and report the lock. Once enabled, the existing
+upload scripts reserve their platform tags before uploading; uncertain failures
+require manual reconciliation before retrying.
+
 ## Bundling and verification
 
 A component update does not change another component's version. Use the same retained
