@@ -121,7 +121,19 @@ local tutorialLocals = {
         ["ruRU"] = "На поле боя Questie может автоматически отменять задания,\nкоторыми поделились с вами.\n\n\nХотите ли вы включить это?",
         ["zhCN"] = "当你在战场中，Questie 可以\n自动拒绝分享给你的任务。\n\n\n是否要启用此功能？",
         ["zhTW"] = "當你在戰場中，Questie 可以\n自動拒絕分享給你的任務。\n\n\n是否要啟用這個功能?",
-    }
+    },
+    ["With WoW Forever Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(tutorialLocals) do

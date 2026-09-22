@@ -181,10 +181,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- After QuestieDB, so the calendar callback's Darkmoon apply refreshes bound pointers and caches.
     QuestieEvent.Initialize()
     coYield()
-
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
-    Tutorial.Initialize()
-    coYield()
 end
 
 QuestieInit.Stages[2] = function()
@@ -325,6 +321,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     if Questie.db.profile.debugEnabled then
         QuestieLoader:PopulateGlobals()
     end
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
+    Tutorial.Initialize()
+    coYield()
 
     Questie.started = true
 

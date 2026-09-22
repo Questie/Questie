@@ -460,11 +460,13 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
                 -- If quests are not in the cache right after login (e.g. the API is really slow), they are not added to the player's quest log.
                 -- We then add them to the player's quest log so they can be updated.
                 local quest = QuestieDB.GetQuest(questId)
-                if quest then
-                    Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is not in the player's quest log, but is in the questLog of QuestEventHandler")
-                    QuestiePlayer.currentQuestlog[questId] = quest
-                else
-                    Questie.Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
+                if not (Questie.IsSoD or Questie.IsForever) then
+                    if quest then
+                        Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is not in the player's quest log, but is in the questLog of QuestEventHandler")
+                        QuestiePlayer.currentQuestlog[questId] = quest
+                    else
+                        Questie.Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
+                    end
                 end
             end
 

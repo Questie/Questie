@@ -242,7 +242,7 @@ Modules\Tracker\LinePool\TrackerLine.lua
 Modules\Tracker\LinePool\TrackerLinePool.lua
 
 # Tutorial
-Modules\Tutorial\ShowRunes.lua
+Modules\Tutorial\ChooseObjectiveType.lua
 Modules\Tutorial\RejectInBattlegrounds.lua
 Modules\Tutorial\Tutorial.lua
 
