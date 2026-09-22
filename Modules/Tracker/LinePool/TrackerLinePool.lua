@@ -400,7 +400,8 @@ function TrackerLinePool.SetAllPlayButtonAlpha(alpha)
             local line = linePool[i]
             local questId = line.playButton.mode
             local button = VoiceOver.QuestOverlayUI.questPlayButtons[questId]
-            local sound = VoiceOver.DataModules:PrepareSound({event = 1, questID = questId})
+            -- Zone headers and objective lines have no quest assigned to their play button.
+            local sound = questId and VoiceOver.DataModules:PrepareSound({event = 1, questID = questId})
 
             if button then
                 local isPlaying = button.soundData and VoiceOver.SoundQueue:Contains(button.soundData)

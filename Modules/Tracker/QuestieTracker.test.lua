@@ -61,6 +61,81 @@ describe("QuestieTracker", function()
         end)
     end)
 
+    describe("UpdateVoiceOverFrame", function()
+        local originalVoiceOver
+        local originalVoiceOverFrame
+        local originalGetScreenWidth
+        local originalStarted
+        local stubs
+
+        before_each(function()
+            originalVoiceOver = _G.VoiceOver
+            originalVoiceOverFrame = _G.VoiceOverFrame
+            originalGetScreenWidth = _G.GetScreenWidth
+            originalStarted = QuestieTracker.started
+            _G.VoiceOverFrame = nil
+            _G.GetScreenWidth = function() return 1920 end
+            QuestieTracker.started = false
+            dofile("Modules/Tracker/QuestieTracker.lua")
+
+            local baseFrame = {GetCenter = function() return 100 end}
+            stubs = {
+                stub(QuestieTracker, "SetupKeybinding", function() end),
+                stub(QuestieTracker, "HookBaseTracker", function() end),
+                stub(TrackerUtils, "IsVoiceOverLoaded", function() return VoiceOverFrame ~= nil end),
+                stub(TrackerUtils, "HasQuest", function() return true end),
+                stub(QuestieLoader:ImportModule("TrackerBaseFrame"), "Initialize", function() return baseFrame end),
+                stub(QuestieLoader:ImportModule("TrackerHeaderFrame"), "Initialize", function() return {} end),
+                stub(QuestieLoader:ImportModule("TrackerQuestFrame"), "Initialize", function() return {} end),
+                stub(QuestieLoader:ImportModule("TrackerLinePool"), "Initialize", function() end),
+                stub(QuestieLoader:ImportModule("TrackerFadeTicker"), "Initialize", function() end),
+                stub(QuestieLoader:ImportModule("AutoCompleteFrame"), "Initialize", function() end),
+                stub(QuestieLoader:ImportModule("QuestieCombatQueue"), "Queue", function() end),
+            }
+            assert.is_true(coroutine.resume(coroutine.create(QuestieTracker.Initialize)))
+        end)
+
+        after_each(function()
+            for _, mockedFunction in ipairs(stubs) do
+                mockedFunction:revert()
+            end
+            QuestieTracker.started = originalStarted
+            _G.VoiceOver = originalVoiceOver
+            _G.VoiceOverFrame = originalVoiceOverFrame
+            _G.GetScreenWidth = originalGetScreenWidth
+        end)
+
+        it("should restore the original position when VoiceOver loads after Questie", function()
+            local position = {"CENTER", UIParent, "CENTER", 200, 100}
+            _G.VoiceOverFrame = {
+                GetPoint = function() return unpack(position) end,
+                SetPoint = function(_, ...) position = {...} end,
+                ClearAllPoints = function() end,
+                SetClampedToScreen = function() end,
+                SetFrameStrata = function() end,
+                SetFrameLevel = function() end,
+                SetWidth = function() end,
+                SetHeight = function() end,
+                IsShown = function() return false end,
+            }
+            _G.VoiceOver = {
+                Addon = {db = {profile = {SoundQueueUI = {LockFrame = false}}}},
+                SoundQueueUI = {RefreshConfig = function() end, UpdateSoundQueueDisplay = function() end},
+            }
+            Questie.db.profile.stickyVoiceOverFrame = true
+
+            QuestieTracker:UpdateVoiceOverFrame()
+            assert.are_equal("TOPLEFT", position[1])
+            assert.is_true(VoiceOver.Addon.db.profile.SoundQueueUI.LockFrame)
+
+            QuestieTracker:UpdateVoiceOverFrame()
+            QuestieTracker:ResetVoiceOverFrame()
+
+            assert.are_same({"CENTER", UIParent, "CENTER", 200, 100}, position)
+            assert.is_false(VoiceOver.Addon.db.profile.SoundQueueUI.LockFrame)
+        end)
+    end)
+
     describe("ToggleTracker", function()
         it("should collapse when tracker is expanded", function()
             Questie.db.char.isTrackerExpanded = true
