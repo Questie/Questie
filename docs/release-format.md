@@ -74,6 +74,25 @@ Reverse or diverged ranges fail rather than produce a misleading forward changel
 
 Run its offline tests with `python3 release_notes.test.py`.
 
+## External distribution
+
+The **Build and publish bundle** workflow has **Also upload to CurseForge** and
+**Also upload to Wago** checkboxes, both unchecked by default. Selected jobs run only
+after successful GitHub publication, and never during a dry run. They pass the exact
+bundle tag to the **Upload existing bundle to CurseForge** or
+**Upload existing bundle to Wago** reusable workflow.
+
+Both upload workflows also accept a bundle tag through **Run workflow**, so an
+existing GitHub release can be distributed separately. Manual runs default to `latest`,
+resolved once to the latest stable release tag; an exact tag can be supplied instead.
+They download its manifest, ZIP, and release notes without rebuilding or selecting
+another database version.
+
+**Actual uploads remain hard-disabled pending explicit approval.** For now, selected
+workflows only download the bundle and report the lock. Once enabled, the existing
+upload scripts reserve their platform tags before uploading; uncertain failures
+require manual reconciliation before retrying.
+
 ## Bundling and verification
 
 A component update does not change another component's version. Use the same retained

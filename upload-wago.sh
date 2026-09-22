@@ -9,6 +9,15 @@ case "$LATEST_GIT_TAG" in
 esac
 git check-ref-format "refs/tags/$LATEST_GIT_TAG"
 UPLOAD_TAG="bundle/wago/${LATEST_GIT_TAG#bundle/}"
+RETRY_HINT="Check Wago and the previous workflow run before retrying.
+Only if no upload was accepted and no attempt is still running, remove the remote reservation tag:
+  git push origin --delete \"$UPLOAD_TAG\"
+Then rerun the upload workflow."
+
+fail_upload() {
+  printf '%s\n' "$RETRY_HINT" >&2
+  exit "$1"
+}
 
 # Fetch the bundle commit, but check the remote directly so stale local tags cannot mislead us.
 git fetch --tags origin
@@ -18,8 +27,8 @@ if ! printf '%s\n' "$remote_tags" | grep -Fq "refs/tags/$LATEST_GIT_TAG"; then
   exit 1
 fi
 if printf '%s\n' "$remote_tags" | grep -Fq "refs/tags/$UPLOAD_TAG"; then
-  echo "$UPLOAD_TAG already exists; check the previous upload manually" >&2
-  exit 1
+  echo "$UPLOAD_TAG already exists; refusing another upload" >&2
+  fail_upload 1
 fi
 bundle_commit=$(git rev-parse "refs/tags/$LATEST_GIT_TAG^{commit}")
 
@@ -52,11 +61,11 @@ EOF
 
 # Reserve before uploading and keep the marker even if uploading fails.
 # Only a newly created remote ref grants permission; an up-to-date push means another run reserved it.
-echo "Reserving $UPLOAD_TAG; failures require manual verification before retrying"
-reservation=$(git push --porcelain --no-follow-tags origin "$bundle_commit:refs/tags/$UPLOAD_TAG")
+echo "Reserving $UPLOAD_TAG"
+reservation=$(git push --porcelain --no-follow-tags origin "$bundle_commit:refs/tags/$UPLOAD_TAG") || fail_upload "$?"
 if ! printf '%s\n' "$reservation" | grep -q '^\*'; then
   echo "Upload reservation was not newly created; refusing to upload" >&2
-  exit 1
+  fail_upload 1
 fi
 
 response=$(curl -sS \
@@ -66,14 +75,14 @@ response=$(curl -sS \
     -H "accept: application/json" \
     -F "metadata=$WAGO_METADATA" \
     -F "file=@$RELEASE_DIR/$BUNDLED_ZIP" \
-    "https://addons.wago.io/api/projects/qv634BKb/version")
+    "https://addons.wago.io/api/projects/qv634BKb/version") || fail_upload "$?"
 
-http_status=$(echo "$response" | tail -n1)
+http_status=$(echo "$response" | tail -n1) || fail_upload "$?"
 
 if [ "$http_status" -eq 201 ]; then
   echo "Wago upload successful"
 else
   echo "Wago upload failed, HTTP-code: $http_status"
-  cat response.txt
-  exit 1
+  cat response.txt || fail_upload "$?"
+  fail_upload 1
 fi

@@ -85,6 +85,7 @@ exit "$UPLOAD_EXIT"
         self.assertEqual("", self.git("tag", "--list", self.tag))
         result = self.run_upload()
         self.assertEqual(0, result.returncode, result.stderr)
+        self.assertNotIn("git push origin --delete", result.stderr)
         self.assertTrue(self.has_remote_marker())
         self.assertEqual("upload\n", self.calls.read_text())
         arguments = Path(str(self.calls) + ".args").read_text()
@@ -98,13 +99,16 @@ exit "$UPLOAD_EXIT"
         result = self.run_upload()
         self.assertNotEqual(0, result.returncode)
         self.assertIn("already exists", result.stderr)
+        self.assertIn(f'git push origin --delete "{self.marker}"', result.stderr)
+        self.assertIn("Only if no upload was accepted", result.stderr)
         self.assertEqual("upload\n", self.calls.read_text())
 
     def test_failed_http_upload_keeps_reservation_and_blocks_retry(self):
         self.publish_bundle_tag()
         self.env["UPLOAD_STATUS"] = "500"
         result = self.run_upload()
-        self.assertNotEqual(0, result.returncode)
+        self.assertEqual(1, result.returncode)
+        self.assertIn(f'git push origin --delete "{self.marker}"', result.stderr)
         self.assertTrue(self.has_remote_marker())
         self.assertNotEqual(0, self.run_upload().returncode)
         self.assertEqual("upload\n", self.calls.read_text())
@@ -112,7 +116,9 @@ exit "$UPLOAD_EXIT"
     def test_transport_failure_keeps_reservation(self):
         self.publish_bundle_tag()
         self.env["UPLOAD_EXIT"] = "7"
-        self.assertNotEqual(0, self.run_upload().returncode)
+        result = self.run_upload()
+        self.assertEqual(7, result.returncode)
+        self.assertIn(f'git push origin --delete "{self.marker}"', result.stderr)
         self.assertTrue(self.has_remote_marker())
 
     def test_fetch_failure_does_not_reserve_or_upload(self):
@@ -120,6 +126,21 @@ exit "$UPLOAD_EXIT"
         self.stub("git", '#!/bin/sh\nif [ "$1" = fetch ]; then exit 128; fi\nexec "$REAL_GIT" "$@"\n')
         self.assertNotEqual(0, self.run_upload().returncode)
         self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
+
+    def test_push_failure_after_acceptance_keeps_marker_and_prints_recovery(self):
+        self.publish_bundle_tag()
+        self.stub("git", '''#!/bin/sh
+if [ "$1" = push ]; then
+  "$REAL_GIT" "$@" >&2 || exit "$?"
+  exit 128
+fi
+exec "$REAL_GIT" "$@"
+''')
+        result = self.run_upload()
+        self.assertEqual(128, result.returncode)
+        self.assertIn(f'git push origin --delete "{self.marker}"', result.stderr)
+        self.assertTrue(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
     def test_concurrent_same_commit_reservation_cannot_upload_twice(self):
@@ -133,6 +154,7 @@ exec "$REAL_GIT" "$@"
         result = self.run_upload()
         self.assertNotEqual(0, result.returncode)
         self.assertIn("not newly created", result.stderr)
+        self.assertIn(f'git push origin --delete "{self.marker}"', result.stderr)
         self.assertTrue(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
