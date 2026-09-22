@@ -27,9 +27,9 @@ AddonDialog.Show("MY_ADDON_CONFIRM", "this operation", nil, {
 - `Show(key, arg1, arg2, data)`, `FindVisible(key)`, `Hide(key)`, `IsShown(key)`, `IsAnyDialogShown()`.
 - Body text, optional warning icon (`showAlert`), and `button1`/`button2`.
 - `OnShow(dialog, data)`, `OnAccept(dialog, data)`, and `OnCancel(dialog, data, reason)`.
-- A truthy accept/cancel return keeps a clicked decision open. Programmatic Hide never invokes OnCancel. Escape closes the most recently shown eligible dialog, with cancellation reason `"clicked"`.
+- A truthy accept/cancel return keeps a clicked decision open. Programmatic Hide never invokes OnCancel. The current `TOGGLEGAMEMENU` binding (Escape by default) closes the most recently shown eligible dialog, with cancellation reason `"clicked"`. Other keys propagate, including Escape when it is unbound or assigned another action.
 - Showing the same key replaces its current instance. Cancellation receives `"override"` unless `noCancelOnReuse` is true. Data and formatting arguments are available before OnShow, including `Text.text_arg1`/`text_arg2`.
-- `hasEditBox`, `editBoxWidth`, `EditBoxOnEnterPressed(editBox)`, and `EditBoxOnEscapePressed(editBox)`. Use OnShow to set text, focus, and selection. Without custom handlers, Enter hides and Escape follows `hideOnEscape`.
+- `hasEditBox`, `editBoxWidth`, `EditBoxOnEnterPressed(editBox)`, and `EditBoxOnEscapePressed(editBox)`. Use OnShow to set text, focus, and selection. Without custom handlers, Enter hides and Escape uses the same binding-aware dismissal. Custom edit-box handlers retain control of their own behavior.
 - `whileDead` and `hideOnEscape` retain their familiar meanings.
 - The frame exposes `Text`, `EditBox`, `Button1`, `Button2`, `GetEditBox()`, `GetEditBoxText()`, `GetButton1()`, and `GetButton2()`.
 

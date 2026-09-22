@@ -68,6 +68,10 @@ local function Install(env)
   env.UIParent:SetSize(1000, 800)
   env.GameFontHighlight, env.GameFontNormal, env.GameFontDisable = {}, {}, {}
   env.BACKDROP_DIALOG_32_32 = {}
+  env.GetBindingFromClick = function(key)
+    if key == "ESCAPE" then return "TOGGLEGAMEMENU" end
+    return ""
+  end
   env.CreateFrame = function(_, name, parent, template)
     local frame = NewRegion()
     frame.name, frame.parent = name, parent

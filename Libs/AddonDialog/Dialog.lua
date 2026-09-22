@@ -1,4 +1,4 @@
--- luacheck: globals AddonDialog AddonDialogMixin C_Texture BACKDROP_DIALOG_32_32 GameFontDisable
+-- luacheck: globals AddonDialog AddonDialogMixin C_Texture BACKDROP_DIALOG_32_32 GameFontDisable GetBindingFromClick
 -- luacheck: globals UserScaledFontGameHighlight UserScaledFontGameNormal UserScaledFontGameDisable
 
 -- Independent of the older, full AddonPopup library while consumers migrate.
@@ -17,7 +17,7 @@ end
 ---@field hasEditBox boolean?
 ---@field editBoxWidth number?
 ---@field whileDead boolean?
----@field hideOnEscape boolean?
+---@field hideOnEscape boolean? Dismiss with the game-menu binding (Escape by default).
 ---@field noCancelOnReuse boolean?
 ---@field OnShow fun(dialog: DialogFrame, data: any)?
 ---@field OnAccept (fun(dialog: DialogFrame, data: any): any)? Truthy return keeps the decision open.
@@ -185,10 +185,11 @@ function Dialogs.IsShown(which) return Dialogs.FindVisible(which) ~= nil end
 ---@return boolean
 function Dialogs.IsAnyDialogShown() return #active > 0 end
 
---- The most recently shown decision consumes Escape; ordinary keys propagate.
+--- The most recently shown decision consumes the game-menu binding; other keys propagate.
 ---@param key string
 function FrameMixin:OnKeyDown(key)
-  local handled = key == "ESCAPE" and active[#active] == self and self.definition.hideOnEscape and not self.handlingChoice
+  local handled = GetBindingFromClick(key) == "TOGGLEGAMEMENU"
+    and active[#active] == self and self.definition.hideOnEscape and not self.handlingChoice
   self:SetPropagateKeyboardInput(not handled)
   if not handled then return end
   local generation = self.generation
@@ -197,7 +198,7 @@ function FrameMixin:OnKeyDown(key)
   self.handlingChoice = false
   if self.generation == generation then self:Hide() end
   -- Reopening during the callback resets input propagation. Consume this key
-  -- after the callback so the same Escape cannot reach another window/binding.
+  -- after the callback so the same key cannot reach another window/binding.
   self:SetPropagateKeyboardInput(false)
 end
 

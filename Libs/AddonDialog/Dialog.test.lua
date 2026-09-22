@@ -95,7 +95,7 @@ describe("small addon dialogs", function()
     assert.is_true(frame:IsShown())
   end)
 
-  it("consumes Escape after a cancellation callback reopens the decision", function()
+  it("consumes a rebound menu key even when cancellation reopens the decision", function()
     local calls = {}
     dialogs.Dialogs.A.hideOnEscape = true
     dialogs.Dialogs.A.OnCancel = function(_, data, reason)
@@ -103,11 +103,33 @@ describe("small addon dialogs", function()
       dialogs.Show("A", "replacement", nil, 2)
     end
     local frame = dialogs.Show("A", "original", nil, 1)
-    frame:OnKeyDown("ESCAPE")
+    -- Resolve the current binding at keypress time, not when the dialog was shown.
+    env.GetBindingFromClick = function(key)
+      if key == "F10" then return "TOGGLEGAMEMENU" end
+      return ""
+    end
+    frame:OnKeyDown("F10")
     assert.are.same({ { 1, "clicked" } }, calls)
     assert.are.equal(2, frame.data)
     assert.is_true(frame:IsShown())
     assert.is_false(frame.propagate)
+  end)
+
+  it("propagates Escape when it is assigned another action or unbound", function()
+    dialogs.Dialogs.A.hideOnEscape = true
+    dialogs.Dialogs.A.OnCancel = function() error("Must not cancel for an unrelated key") end
+    local frame = dialogs.Show("A", "this")
+    env.GetBindingFromClick = function() return "JUMP" end
+
+    frame:OnKeyDown("ESCAPE")
+    assert.is_true(frame:IsShown())
+    assert.is_true(frame.propagate)
+
+    env.GetBindingFromClick = function() return "" end
+    frame:OnKeyDown("ESCAPE")
+    assert.is_true(frame:IsShown())
+    assert.is_true(frame.propagate)
+    assert.are.same({}, errors)
   end)
 
   it("only lets the most recently shown eligible dialog consume Escape", function()
