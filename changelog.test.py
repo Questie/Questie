@@ -100,6 +100,9 @@ class QuestieDBChangelogTests(unittest.TestCase):
         self.assertLess(notes.index("### New Features"), notes.index("### Database Fixes"))
         self.assertLess(notes.index("Zebra entry"), notes.index("Alphabetical entry"))
         self.assertEqual(1, notes.count("### Database Fixes"))
+        self.assertRegex(notes, r"- Add a new location\.[^\n]*\n\n### Database Fixes")
+        self.assertRegex(notes, r"- Zebra entry first\.[^\n]*\n- Alphabetical entry second\.")
+        self.assertTrue(notes.endswith("\n\n"))
 
     def test_empty_and_older_changelogs_keep_only_version_and_producer_information(self):
         for entries in ([], None):

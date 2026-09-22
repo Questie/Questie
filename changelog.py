@@ -198,6 +198,8 @@ def get_addon_changelog(name, manifest):
         category = entry["category"]
         heading = headings[category]
         if category != previous_category:
+            if previous_category is not None:
+                result += "\n"
             result += "#" + heading
             previous_category = category
         commit = entry["commit"]
@@ -209,7 +211,9 @@ def get_addon_changelog(name, manifest):
         credits = []
         for name in [entry["author"], *coauthors]:
             credits.append(f"[{_escape_markdown(name)}]({commit_url}{commit})")
-        result += f"- {_escape_markdown(entry['text'])} ({', '.join(credits)})\n\n"
+        result += f"- {_escape_markdown(entry['text'])} ({', '.join(credits)})\n"
+    if entries:
+        result += "\n"
     return result
 
 
