@@ -4,19 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       release:
-        description: Publish a normal release instead of a prerelease
+        description: (--release) Publish a normal release instead of a prerelease
         type: boolean
         default: false
       dry_run:
-        description: Preview release notes and metadata without publishing
+        description: (--dry-run) Preview release notes and metadata without publishing
         type: boolean
         default: false
       publish_curseforge:
-        description: Also upload to CurseForge
+        description: Upload to CurseForge
         type: boolean
         default: false
       publish_wago:
-        description: Also upload to Wago
+        description: Upload to Wago
         type: boolean
         default: false
 
