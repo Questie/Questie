@@ -1,4 +1,5 @@
 name: Upload existing bundle to Wago
+run-name: "Upload to Wago (${{ inputs.release_tag }})"
 
 on:
   workflow_call:
@@ -23,6 +24,7 @@ permissions:
 
 jobs:
   publish:
+    name: Upload
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
