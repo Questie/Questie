@@ -21,8 +21,12 @@ describe("QuestFinisher", function()
     local match = require("luassert.match")
     local _ = match._ -- any match
     local isQuestFlaggedCompletedMock
+    local originalWarning
+    local originalError
 
     before_each(function()
+        originalWarning = Questie.Warning
+        originalError = Questie.Error
         Questie.db.char.complete = {}
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
@@ -54,6 +58,8 @@ describe("QuestFinisher", function()
 
     after_each(function()
         isQuestFlaggedCompletedMock:revert()
+        Questie.Warning = originalWarning
+        Questie.Error = originalError
     end)
 
     it("should add NPC finisher", function()
@@ -396,9 +402,10 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWaypoints).was.not_called()
     end)
 
-    it("should not add finisher when finisher NPC is missing in DB", function()
+    it("should warn and not add a finisher when its NPC is missing in DB", function()
         QuestiePlayer.currentQuestlog[1] = true
-        _G.Questie.Error = spy.new(function() end)
+        Questie.Warning = spy.new(function() end)
+        Questie.Error = spy.new(function() end)
         QuestieDB.GetNPC = spy.new(function() return nil end)
         QuestieDB.GetObject = spy.new(function() end)
         local quest = {
@@ -418,6 +425,7 @@ describe("QuestFinisher", function()
         assert.spy(QuestieDB.GetObject).was.not_called()
         assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
         assert.spy(QuestieMap.DrawWaypoints).was.not_called()
-        assert.spy(_G.Questie.Error).was.called_with("Finisher NPC", 123, "for quest:", 1, "is not in the DB")
+        assert.spy(Questie.Warning).was.called_with("Finisher NPC", 123, "for quest:", 1, "is not in the DB")
+        assert.spy(Questie.Error).was.not_called()
     end)
 end)

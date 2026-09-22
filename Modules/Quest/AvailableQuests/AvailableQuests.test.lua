@@ -475,6 +475,48 @@ describe("AvailableQuests", function()
     end)
 
     describe("DrawAvailableQuest", function()
+        local originalWarning
+        local originalGetItem
+        local originalGetObject
+
+        before_each(function()
+            originalWarning = Questie.Warning
+            originalGetItem = QuestieDB.GetItem
+            originalGetObject = QuestieDB.GetObject
+            Questie.Warning = spy.new(function() end)
+        end)
+
+        after_each(function()
+            Questie.Warning = originalWarning
+            QuestieDB.GetItem = originalGetItem
+            QuestieDB.GetObject = originalGetObject
+        end)
+
+        it("should warn when a quest-starting item is missing", function()
+            QuestieDB.GetItem = function() return nil end
+
+            AvailableQuests.DrawAvailableQuest({Id = 123, Starts = {Item = {456}}})
+
+            assert.spy(Questie.Warning).was.called_with("Item not found for quest", 123, "Item ID:", 456,
+                "- Please report this on Github or Discord!")
+        end)
+
+        it("should warn when a quest-starting object is missing", function()
+            QuestieDB.GetObject = function() return nil end
+
+            AvailableQuests.DrawAvailableQuest({Id = 123, Starts = {GameObject = {456}}})
+
+            assert.spy(Questie.Warning).was.called_with("Object not found for quest", 123, "Object ID:", 456,
+                "- Please report this on Github or Discord!")
+        end)
+
+        it("should warn when a quest-starting NPC is missing", function()
+            AvailableQuests.DrawAvailableQuest({Id = 123, Starts = {NPC = {456}}})
+
+            assert.spy(Questie.Warning).was.called_with("NPC not found for quest", 123, "NPC ID:", 456,
+                "- Please report this on Github or Discord!")
+        end)
+
         it("should add a quest started by an NPC", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.GetNPC = spy.new(function() return {id = NPC_ID, name = "Test NPC"} end)

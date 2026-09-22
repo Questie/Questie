@@ -223,7 +223,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not item) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie.Error("Item not found for quest", quest.Id, "Item ID:", items[i], "- Please report this on Github or Discord!")
+                Questie.Warning("Item not found for quest", quest.Id, "Item ID:", items[i], "- Please report this on Github or Discord!")
                 return
             end
 
@@ -256,7 +256,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not obj) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie.Error("Object not found for quest", quest.Id, "Object ID:", gameObjects[i], "- Please report this on Github or Discord!")
+                Questie.Warning("Object not found for quest", quest.Id, "Object ID:", gameObjects[i], "- Please report this on Github or Discord!")
                 return
             end
 
@@ -274,7 +274,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
             if (not npc) then
                 -- TODO: This check can be removed once the DB is fixed
-                Questie.Error("NPC not found for quest", quest.Id, "NPC ID:", npcs[i], "- Please report this on Github or Discord!")
+                Questie.Warning("NPC not found for quest", quest.Id, "NPC ID:", npcs[i], "- Please report this on Github or Discord!")
                 return
             end
 

@@ -626,9 +626,9 @@ function QuestieQuest:GetAllQuestIds()
     local yieldCounter = 0
     for questId, title in pairs(questTitles) do
         if (not QuestieDB.QuestPointers[questId]) then
-            if not Questie._sessionWarnings[questId] then
+            if Questie.db.profile.debugEnabled and not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then
-                    Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                    Questie.Warning(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                         tostring(questId)))
                 end
                 Questie._sessionWarnings[questId] = true
@@ -806,9 +806,9 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
 
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
-            if not Questie._sessionWarnings[questId] then
+            if Questie.db.profile.debugEnabled and not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then
-                    Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                    Questie.Warning(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                         tostring(questId)))
                 end
                 Questie._sessionWarnings[questId] = true
@@ -1376,7 +1376,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
-                Questie.Error(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
+                Questie.Warning(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
             else
                 if not quest.Objectives[objectiveIndex] then
                     quest.Objectives[objectiveIndex] = {

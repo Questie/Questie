@@ -656,7 +656,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
         end
 
         if (not parentMapId) then
-            Questie.Error("No UiMapID or fitting parentAreaId for areaId : " .. areaID .. " - " .. tostring(data.Name))
+            Questie.Warning("No UiMapID or fitting parentAreaId for areaId : " .. areaID .. " - " .. tostring(data.Name))
             return nil, nil
         else
             areaID = parentMapId

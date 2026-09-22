@@ -540,9 +540,9 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
 
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
             if (not QuestieDB.QuestPointers[questId]) then
-                if not Questie._sessionWarnings[questId] then
+                if Questie.db.profile.debugEnabled and not Questie._sessionWarnings[questId] then
                     if not Questie.IsSoD then
-                        Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        Questie.Warning(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                             tostring(questId)))
                     end
                     Questie._sessionWarnings[questId] = true
@@ -660,9 +660,9 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
 
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
             if (not QuestieDB.QuestPointers[questId]) then
-                if not Questie._sessionWarnings[questId] then
+                if Questie.db.profile.debugEnabled and not Questie._sessionWarnings[questId] then
                     if not Questie.IsSoD then
-                        Questie.Error(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
+                        Questie.Warning(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
                             tostring(questId)))
                     end
                     Questie._sessionWarnings[questId] = true
@@ -813,7 +813,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
                     req = objective.numRequired,
                 }
             else
-                Questie.Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
+                Questie.Warning(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
             end
         end
     end

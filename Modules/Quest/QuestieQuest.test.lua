@@ -130,12 +130,66 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("Missing quest warnings", function()
+        local originalSessionWarnings
+        local originalDebugEnabled
+        local originalIsSoD
+        local originalWarning
+        local originalQuestPointers
+        local originalQuestLog
+
+        before_each(function()
+            originalSessionWarnings = Questie._sessionWarnings
+            originalDebugEnabled = Questie.db.profile.debugEnabled
+            originalIsSoD = Questie.IsSoD
+            originalWarning = Questie.Warning
+            originalQuestPointers = QuestieDB.QuestPointers
+            originalQuestLog = QuestLogCache.questLog_DO_NOT_MODIFY
+            Questie._sessionWarnings = {}
+            Questie.db.profile.debugEnabled = false
+            Questie.IsSoD = false
+            Questie.Warning = spy.new(function() end)
+            QuestieDB.QuestPointers = {}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[42] = {title = "Missing quest"}}
+            dofile("Localization/l10n.lua")
+        end)
+
+        after_each(function()
+            Questie._sessionWarnings = originalSessionWarnings
+            Questie.db.profile.debugEnabled = originalDebugEnabled
+            Questie.IsSoD = originalIsSoD
+            Questie.Warning = originalWarning
+            QuestieDB.QuestPointers = originalQuestPointers
+            QuestLogCache.questLog_DO_NOT_MODIFY = originalQuestLog
+        end)
+
+        it("should not consume the once-per-session warning before debug mode is enabled", function()
+            QuestieQuest:GetAllQuestIdsNoObjectives()
+            coroutine.wrap(function() QuestieQuest:GetAllQuestIds() end)()
+
+            assert.spy(Questie.Warning).was.not_called()
+            assert.is_nil(Questie._sessionWarnings[42])
+
+            Questie.db.profile.debugEnabled = true
+            QuestieQuest:GetAllQuestIdsNoObjectives()
+            coroutine.wrap(function() QuestieQuest:GetAllQuestIds() end)()
+
+            assert.spy(Questie.Warning).was.called(1)
+            assert.spy(Questie.Warning).was.called_with(
+                "The quest 42 is missing from Questie's database. Please report this on GitHub or Discord!")
+            assert.is_true(Questie._sessionWarnings[42])
+        end)
+    end)
+
     describe("PopulateQuestLogInfo", function()
         local originalGetQuest
         local originalGetLeaderBoardDetails
         local originalTrimObjectiveText
+        local originalWarning
 
         before_each(function()
+            originalWarning = Questie.Warning
+            Questie.Warning = spy.new(function() end)
             originalGetQuest = QuestLogCache.GetQuest
             originalGetLeaderBoardDetails = QuestieQuest.GetAllLeaderBoardDetails
             originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
@@ -150,6 +204,16 @@ describe("QuestieQuest", function()
             QuestLogCache.GetQuest = originalGetQuest
             QuestieQuest.GetAllLeaderBoardDetails = originalGetLeaderBoardDetails
             Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
+            Questie.Warning = originalWarning
+        end)
+
+        it("should warn with the quest ID and text when objective data is missing", function()
+            local quest = {Id = 42, ObjectiveData = {}, Objectives = {}, SpecialObjectives = {}}
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.spy(Questie.Warning).was.called_with("Missing objective data for quest ", 42, " ", "Wolf")
+            assert.are_same({}, quest.Objectives)
         end)
 
         it("should preserve conditional full descriptions when creating and updating objectives", function()

@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 describe("QuestieMap", function()
 
@@ -13,6 +14,43 @@ describe("QuestieMap", function()
         dofile("Modules/Map/QuestieMap.lua")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.questIdFrames = {}
+    end)
+
+    describe("DrawWorldIcon", function()
+        local originalCMap
+        local warning
+        local getUiMapId
+        local getParentZoneId
+        local isSpawnVisible
+
+        before_each(function()
+            originalCMap = _G.C_Map
+            _G.C_Map = {GetMapInfo = function() return nil end}
+            ---@type ZoneDB
+            local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+            ---@type Phasing
+            local Phasing = QuestieLoader:ImportModule("Phasing")
+            warning = stub(Questie, "Warning")
+            getUiMapId = stub(ZoneDB, "GetUiMapIdByAreaId", function() return nil end)
+            getParentZoneId = stub(ZoneDB, "GetParentZoneId", function() return nil end)
+            isSpawnVisible = stub(Phasing, "IsSpawnVisible", function() return true end)
+        end)
+
+        after_each(function()
+            _G.C_Map = originalCMap
+            warning:revert()
+            getUiMapId:revert()
+            getParentZoneId:revert()
+            isSpawnVisible:revert()
+        end)
+
+        it("should warn and skip the icon when no map or parent area exists", function()
+            local worldIcon, minimapIcon = QuestieMap:DrawWorldIcon({Name = "Missing location"}, 123, 50, 50)
+
+            assert.is_nil(worldIcon)
+            assert.is_nil(minimapIcon)
+            assert.spy(Questie.Warning).was.called_with("No UiMapID or fitting parentAreaId for areaId : 123 - Missing location")
+        end)
     end)
 
     describe("UnloadQuestFrames", function()
