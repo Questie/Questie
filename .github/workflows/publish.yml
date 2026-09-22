@@ -136,7 +136,7 @@ jobs:
           # GitHub creates a missing release tag at the commit used for this build.
           if [[ "$PRERELEASE" == "true" ]]; then
             gh release create "$RELEASE_TAG" \
-              --title "Questie-${RELEASE_TAG#bundle/}" \
+              --title "${RELEASE_TAG#bundle/}" \
               --target "$GITHUB_SHA" \
               --prerelease \
               -F CHANGELOG.md \
@@ -144,7 +144,7 @@ jobs:
               "$RELEASE_DIR/release.json"
           else
             gh release create "$RELEASE_TAG" \
-              --title "Questie-${RELEASE_TAG#bundle/}" \
+              --title "${RELEASE_TAG#bundle/}" \
               --target "$GITHUB_SHA" \
               -F CHANGELOG.md \
               "$RELEASE_DIR/$BUNDLED_ZIP" \
