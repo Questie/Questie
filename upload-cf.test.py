@@ -80,6 +80,16 @@ exit "$UPLOAD_EXIT"
         self.assertFalse(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
+    def test_missing_zip_fails_without_reserving_or_uploading(self):
+        self.publish_bundle_tag()
+        self.zip.unlink()
+        result = self.run_upload()
+        self.assertEqual(1, result.returncode)
+        self.assertIn(f"Artifact releases/v12.0.0/{self.zip.name} not found", result.stderr)
+        self.assertNotIn("git push origin --delete", result.stderr)
+        self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
+
     def test_fetches_bundle_and_reserves_before_uploading_the_workflow_zip(self):
         self.publish_bundle_tag()
         self.assertEqual("", self.git("tag", "--list", self.tag))

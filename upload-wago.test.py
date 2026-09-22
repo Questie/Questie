@@ -80,6 +80,16 @@ exit "$UPLOAD_EXIT"
         self.assertFalse(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
+    def test_missing_zip_fails_without_reserving_or_uploading(self):
+        self.publish_bundle_tag()
+        self.zip.unlink()
+        result = self.run_upload()
+        self.assertEqual(1, result.returncode)
+        self.assertIn(f"Artifact releases/v12.0.0/{self.zip.name} not found", result.stderr)
+        self.assertNotIn("git push origin --delete", result.stderr)
+        self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
+
     def test_fetches_bundle_and_reserves_before_uploading_the_workflow_zip(self):
         self.publish_bundle_tag()
         self.assertEqual("", self.git("tag", "--list", self.tag))
@@ -94,6 +104,16 @@ exit "$UPLOAD_EXIT"
         self.assertIn("authorization: Bearer test-token", arguments)
         self.assertIn("https://addons.wago.io/api/projects/qv634BKb/version", arguments)
         self.assertIn(self.commit, self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
+
+    def test_http_200_is_success_and_keeps_reservation(self):
+        self.publish_bundle_tag()
+        self.env["UPLOAD_STATUS"] = "200"
+        result = self.run_upload()
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn("Wago upload successful", result.stdout)
+        self.assertNotIn("git push origin --delete", result.stderr)
+        self.assertTrue(self.has_remote_marker())
+        self.assertEqual("upload\n", self.calls.read_text())
 
     def test_curseforge_reservation_does_not_block_wago(self):
         self.publish_bundle_tag()

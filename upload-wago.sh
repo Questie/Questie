@@ -34,6 +34,10 @@ bundle_commit=$(git rev-parse "refs/tags/$LATEST_GIT_TAG^{commit}")
 
 # Use the artifact already selected by the workflow.
 : "${RELEASE_DIR:?}" "${BUNDLED_ZIP:?}" "${WAGO_API_TOKEN:?}"
+if [ ! -f "$RELEASE_DIR/$BUNDLED_ZIP" ]; then
+  echo "Artifact $RELEASE_DIR/$BUNDLED_ZIP not found" >&2
+  exit 1
+fi
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
 case "$LATEST_GIT_TAG" in
@@ -79,7 +83,7 @@ response=$(curl -sS \
 
 http_status=$(echo "$response" | tail -n1) || fail_upload "$?"
 
-if [ "$http_status" -eq 201 ]; then
+if [ "$http_status" -eq 200 ] || [ "$http_status" -eq 201 ]; then
   echo "Wago upload successful"
 else
   echo "Wago upload failed, HTTP-code: $http_status"
