@@ -185,7 +185,7 @@ class ReleaseTagTests(unittest.TestCase):
 
             git("tag", "bundle/v11.0.0+v1.1.0")
             git("commit", "--allow-empty", "-qm", "[fix] Fix new issue")
-            git("tag", "bundle/v12.0.0+v1.1.0-pre.abc1234")
+            git("tag", "bundle/v12.0.0-pre.abc1234+v1.1.0")
             git("commit", "--allow-empty", "-qm", "Prepare release")
             self.assertEqual("bundle/v11.0.0+v1.1.0", changelog.get_last_git_tag())
             entries = changelog.get_changelog_entries()

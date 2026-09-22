@@ -64,13 +64,14 @@ jobs:
         id: metadata
         run: |
           # Name the release from the packaged component versions, not the selected Git branch.
-          RELEASE_TAG=$(jq -r '"bundle/v" + .questie.version + "+v" + .questiedb.version' "$RELEASE_DIR/release.json")
+          RELEASE_TAG=$(jq -r '"bundle/v" + .questie.version' "$RELEASE_DIR/release.json")
           BUNDLED_ZIP=$(jq -r '.releases[0].filename' "$RELEASE_DIR/release.json")
 
-          # Separate prereleases from normal releases and distinguish Questie source commits.
+          # Mark Questie prereleases before appending the independent database version.
           if [[ "$PRERELEASE" == "true" ]]; then
             RELEASE_TAG+="-pre.${GITHUB_SHA:0:7}"
           fi
+          RELEASE_TAG+="+v$(jq -r '.questiedb.version' "$RELEASE_DIR/release.json")"
 
           echo "RELEASE_TAG=$RELEASE_TAG" >> "$GITHUB_ENV"
           echo "BUNDLED_ZIP=$BUNDLED_ZIP" >> "$GITHUB_ENV"

@@ -169,8 +169,8 @@ exec "$REAL_GIT" "$@"
         self.assertFalse(self.calls.exists())
 
     def test_prerelease_has_its_own_reservation_and_beta_upload_type(self):
-        self.tag += "-pre." + self.commit[:7]
-        self.marker += "-pre." + self.commit[:7]
+        self.tag = f"bundle/v12.0.0-pre.{self.commit[:7]}+v1.0.0"
+        self.marker = f"bundle/curse/v12.0.0-pre.{self.commit[:7]}+v1.0.0"
         self.env["EXPECTED_MARKER"] = self.marker
         self.publish_bundle_tag()
         result = self.run_upload()

@@ -22,7 +22,7 @@ Run again with **(--dry-run) unchecked**.
 A separate GitHub job publishes the exact built files. Release titles look like:
 ```text
 v12.0.0+v1.0.3
-v12.0.0+v1.0.3-pre.abc1234
+v12.0.0-pre.abc1234+v1.0.3
 ```
 
 Git tags retain the `bundle/` prefix. Existing releases aren't overwritten.
