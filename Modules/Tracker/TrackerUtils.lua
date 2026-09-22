@@ -83,7 +83,9 @@ local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.
 
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
-    if _G.QuestMapFrame_OpenToQuestDetails and not (QuestLogExFrame or ClassicQuestLog) then
+    -- Classic can expose both interfaces; preserve its standalone log and addon replacements.
+    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+    if _G.QuestMapFrame_OpenToQuestDetails and not questFrame then
         -- The modern quest log owns selection and scrolling, and takes a quest ID rather than a log index.
         if not InCombatLockdown() then
             _G.QuestMapFrame_OpenToQuestDetails(quest.Id)
@@ -93,8 +95,6 @@ function TrackerUtils:ShowQuestLog(quest)
         return
     end
 
-    -- Priority order first check if addon exist otherwise default to original
-    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
     --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
     local questLogIndex = QuestieCompat.GetQuestLogIndexByID(quest.Id)
     QuestieCompat.SelectQuestLogEntry(questLogIndex)

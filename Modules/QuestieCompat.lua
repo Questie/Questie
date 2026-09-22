@@ -1070,10 +1070,10 @@ end
 
 ---Shows a short status message.
 ---@param message string
-function QuestieCompat.ActionStatus_DisplayMessage(message)
+---@param ignoreNewbieTooltipSetting boolean? Show native feedback even when newbie tips are disabled.
+function QuestieCompat.ActionStatus_DisplayMessage(message, ignoreNewbieTooltipSetting)
     if ActionStatus_DisplayMessage then
-        -- Callers' second force-show argument is ignored; the native helper can suppress this message.
-        return ActionStatus_DisplayMessage(message)
+        return ActionStatus_DisplayMessage(message, ignoreNewbieTooltipSetting)
     end
     if UIErrorsFrame and message then
         -- Use plain white error-frame text when the native status helper is absent.

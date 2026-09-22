@@ -556,6 +556,41 @@ describe("QuestieCompat shared API selection", function()
     end)
 end)
 
+describe("QuestieCompat status messages", function()
+    local QuestieCompat, originalDisplayMessage, originalErrorsFrame
+
+    before_each(function()
+        originalDisplayMessage = _G.ActionStatus_DisplayMessage
+        originalErrorsFrame = _G.UIErrorsFrame
+        _G.ActionStatus_DisplayMessage = nil
+        _G.UIErrorsFrame = {AddMessage = spy.new(function() end)}
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        _G.ActionStatus_DisplayMessage = originalDisplayMessage
+        _G.UIErrorsFrame = originalErrorsFrame
+    end)
+
+    it("forwards the caller's force-show choice to the native status helper", function()
+        _G.ActionStatus_DisplayMessage = spy.new(function() end)
+
+        QuestieCompat.ActionStatus_DisplayMessage("Copied URL", true)
+        QuestieCompat.ActionStatus_DisplayMessage("Normal feedback", false)
+
+        assert.spy(ActionStatus_DisplayMessage).was.called_with("Copied URL", true)
+        assert.spy(ActionStatus_DisplayMessage).was.called_with("Normal feedback", false)
+        assert.spy(UIErrorsFrame.AddMessage).was.not_called()
+    end)
+
+    it("retains white error-frame feedback when the native helper is absent", function()
+        QuestieCompat.ActionStatus_DisplayMessage("Copied URL", true)
+
+        assert.spy(UIErrorsFrame.AddMessage).was.called_with(UIErrorsFrame, "Copied URL", 1, 1, 1)
+    end)
+end)
+
 describe("QuestieCompat modern quest log boundary", function()
     local QuestieCompat
     local originalQuestLog

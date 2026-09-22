@@ -195,26 +195,72 @@ describe("Tooltip", function()
             assert.is_nil(itemScripts.OnTooltipSetItem)
         end)
 
-        it("keeps Classic object polling and shows the tooltip after adding lines", function()
-            _G.TooltipDataProcessor = nil
-            GameTooltip.GetUnit = function() end
-            GameTooltip.GetItem = function() end
-            GameTooltip.GetSpell = function() end
-            GameTooltip.NumLines = function() return 1 end
-            _G.GameTooltipTextLeft1 = {GetText = function() return "Battered Chest" end}
-            dofile("Modules/Tooltips/TooltipHandler.lua")
-            QuestieTooltips.private.AddObjectDataToTooltip = spy.new(function()
-                assert.spy(GameTooltip.Show).was.not_called()
-                QuestieTooltips.lastGametooltipType = "object"
+        describe("Classic object polling", function()
+            local originalProvider, originalGetTooltip
+            local caption
+
+            before_each(function()
+                originalProvider = _G.LibQuestieDB
+                originalGetTooltip = QuestieTooltips.GetTooltip
+                _G.LibQuestieDB = {Object = {IdsByName = spy.new(function() return {1001} end)}}
+                QuestieTooltips.GetTooltip = spy.new(function() return {"Quest objective"} end)
+                _G.TooltipDataProcessor = nil
+                GameTooltip.GetUnit = spy.new(function() end)
+                GameTooltip.GetItem = spy.new(function() end)
+                GameTooltip.GetSpell = spy.new(function() end)
+                GameTooltip.NumLines = function() return 1 end
+                GameTooltip.AddLine = spy.new(function()
+                    assert.spy(GameTooltip.Show).was.not_called()
+                end)
+                caption = "Battered Chest"
+                _G.GameTooltipTextLeft1 = {GetText = spy.new(function() return caption end)}
+                -- Keep the real handler so its early exits and Object state participate in polling.
+                dofile("Modules/Tooltips/TooltipHandler.lua")
+                QuestieTooltips:Initialize()
             end)
 
-            QuestieTooltips:Initialize()
-            gameScripts.OnUpdate(GameTooltip)
-            gameScripts.OnUpdate(GameTooltip)
+            after_each(function()
+                _G.LibQuestieDB = originalProvider
+                QuestieTooltips.GetTooltip = originalGetTooltip
+            end)
 
-            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Battered Chest", 440)
-            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(1)
-            assert.spy(GameTooltip.Show).was.called(1)
+            it("shows the tooltip after adding lines without repeating unchanged work", function()
+                gameScripts.OnUpdate(GameTooltip)
+                gameScripts.OnUpdate(GameTooltip)
+
+                assert.spy(LibQuestieDB.Object.IdsByName).was.called_with("Battered Chest")
+                assert.spy(LibQuestieDB.Object.IdsByName).was.called(1)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest objective")
+                assert.spy(GameTooltip.Show).was.called(1)
+            end)
+
+            it("does not inspect or change the native tooltip while augmentation is disabled", function()
+                Questie.db.profile.enableTooltips = false
+
+                gameScripts.OnUpdate(GameTooltip)
+                gameScripts.OnUpdate(GameTooltip)
+
+                assert.spy(GameTooltip.GetUnit).was.not_called()
+                assert.spy(GameTooltip.GetItem).was.not_called()
+                assert.spy(GameTooltip.GetSpell).was.not_called()
+                assert.spy(GameTooltipTextLeft1.GetText).was.not_called()
+                assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
+                assert.spy(LibQuestieDB.Object.IdsByName).was.not_called()
+                assert.spy(GameTooltip.AddLine).was.not_called()
+                assert.spy(GameTooltip.Show).was.not_called()
+            end)
+
+            it("does not show or augment a tooltip without a caption", function()
+                caption = nil
+
+                gameScripts.OnUpdate(GameTooltip)
+                gameScripts.OnUpdate(GameTooltip)
+
+                assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
+                assert.spy(LibQuestieDB.Object.IdsByName).was.not_called()
+                assert.spy(GameTooltip.AddLine).was.not_called()
+                assert.spy(GameTooltip.Show).was.not_called()
+            end)
         end)
 
         describe("structured Object callbacks", function()

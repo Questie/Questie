@@ -596,6 +596,8 @@ function QuestieTooltips:Initialize()
     -- Forever receives Object post-calls on rebuild. Only Classic still needs per-frame object discovery.
     if not usesTooltipData then
         GameTooltip:HookScript("OnUpdate", function(self)
+            if not Questie.db.profile.enableTooltips then return end
+
             if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
                 -- When in a raid, we want as little code running as possible
                 return
@@ -606,18 +608,20 @@ function QuestieTooltips:Initialize()
                 local uName, unit = self:GetUnit()
                 local iName, link = self:GetItem()
                 local sName, spell = self:GetSpell()
-                if (uName == nil and unit == nil and iName == nil and link == nil and sName == nil and spell == nil) and (
-                        QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
+                local objectName = GameTooltipTextLeft1:GetText()
+                if objectName
+                    and (uName == nil and unit == nil and iName == nil and link == nil and sName == nil and spell == nil) and (
+                        QuestieTooltips.lastGametooltip ~= objectName or
                         (not QuestieTooltips.lastGametooltipCount) or
                         _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                         or QuestieTooltips.lastGametooltipType ~= "object"
                     ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds its own tooltip
                     local playerZone = QuestiePlayer:GetCurrentZoneId()
-                    _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText(), playerZone)
+                    _QuestieTooltips.AddObjectDataToTooltip(objectName, playerZone)
                     GameTooltip:Show() -- Classic must resize after appending lines outside the native render pass.
                     QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
                 end
-                QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
+                QuestieTooltips.lastGametooltip = objectName
             end
         end)
     end

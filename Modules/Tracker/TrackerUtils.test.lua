@@ -64,6 +64,72 @@ describe("TrackerUtils", function()
         isAddOnLoadedMock:revert()
     end)
 
+    describe("ShowQuestLog", function()
+        local originals, legacyFrame, scrollBar
+        local getIndexMock, selectMock, detailsMock, updateMock
+        local globalNames = {
+            "QuestLogFrame", "QuestLogExFrame", "ClassicQuestLog", "QuestLogEx", "QuestLogListScrollFrame",
+            "QuestLogListScrollFrameScrollBar", "QuestMapFrame_OpenToQuestDetails", "ShowUIPanel", "InCombatLockdown",
+        }
+
+        before_each(function()
+            originals = {}
+            for _, name in ipairs(globalNames) do
+                originals[name] = _G[name]
+                _G[name] = nil
+            end
+            legacyFrame = {IsShown = function() return false end}
+            scrollBar = {GetValueStep = function() return 10 end, SetValue = spy.new(function() end)}
+            _G.QuestLogFrame = legacyFrame
+            _G.QuestLogListScrollFrame = {ScrollBar = scrollBar}
+            _G.QuestMapFrame_OpenToQuestDetails = spy.new(function() end)
+            _G.ShowUIPanel = spy.new(function() end)
+            _G.InCombatLockdown = function() return false end
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            getIndexMock = stub(compat, "GetQuestLogIndexByID", function() return 5 end)
+            selectMock = stub(compat, "SelectQuestLogEntry")
+            detailsMock = stub(compat, "QuestLog_UpdateQuestDetails")
+            updateMock = stub(compat, "QuestLog_Update")
+            dofile("Modules/Tracker/TrackerUtils.lua")
+        end)
+
+        after_each(function()
+            getIndexMock:revert()
+            selectMock:revert()
+            detailsMock:revert()
+            updateMock:revert()
+            for _, name in ipairs(globalNames) do _G[name] = originals[name] end
+        end)
+
+        it("opens and selects the Classic quest log when the map-details helper also exists", function()
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(getIndexMock).was.called_with(783)
+            assert.spy(selectMock).was.called_with(5)
+            assert.spy(scrollBar.SetValue).was.called_with(scrollBar, 20)
+            assert.spy(ShowUIPanel).was.called_with(legacyFrame)
+            assert.spy(detailsMock).was.called(1)
+            assert.spy(updateMock).was.called(1)
+            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.not_called()
+        end)
+
+        it("uses the modern quest ID route when no standalone quest log exists", function()
+            _G.QuestLogFrame = nil
+            _G.QuestLogListScrollFrame = nil
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.called_with(783)
+            assert.spy(getIndexMock).was.not_called()
+            assert.spy(selectMock).was.not_called()
+            assert.spy(scrollBar.SetValue).was.not_called()
+            assert.spy(ShowUIPanel).was.not_called()
+            assert.spy(detailsMock).was.not_called()
+            assert.spy(updateMock).was.not_called()
+        end)
+    end)
+
     describe("IsQuestItemUsable", function()
         it("accepts equippable quest items without an associated spell", function()
             isEquippableItemMock.returns(true)
