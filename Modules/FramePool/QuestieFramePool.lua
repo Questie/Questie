@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@class QuestieFramePool
 local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool")
 -------------------------
@@ -9,10 +12,6 @@ local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type MapIconTooltip
 local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -32,18 +31,12 @@ local usedFrames = {};
 
 local _ReinitFrame
 
-StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
-    text = "", -- set before showing
-    questID = 0, -- set before showing
+Popup.Dialogs["QUESTIE_CONFIRMHIDE"] = {
+    text = "%s",
     button1 = YES,
     button2 = NO,
-    OnAccept = function()
-        QuestieQuest:HideQuest(StaticPopupDialogs["QUESTIE_CONFIRMHIDE"].questID)
-    end,
-    SetQuest = function(self, id)
-        self.questID = id
-        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!",
-            QuestieLib:GetColoredQuestName(id, Questie.db.profile.enableTooltipsQuestLevel, false))
+    OnAccept = function(self)
+        QuestieQuest:HideQuest(self.data)
     end,
     OnShow = function(self)
         self:SetFrameStrata("TOOLTIP")
@@ -51,7 +44,6 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3
 }
 
 -- Global Functions --

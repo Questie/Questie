@@ -1,0 +1,5 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file="Dialog.lua"/>
+    <Script file="PopupPosition.lua"/>
+    <Include file="Dialog.xml"/>
+</Ui>

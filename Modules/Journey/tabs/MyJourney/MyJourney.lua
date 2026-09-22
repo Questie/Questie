@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
@@ -78,10 +81,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     deleteButton:SetText(l10n('Delete Note'));
                     deleteButton:SetWidth(150);
                     deleteButton:SetCallback("OnClick", function()
-                        local popup = StaticPopup_Show("QUESTIE_DELETE_NOTE_CONFIRM");
-                        if popup then
-                            popup.data = tonumber(e);
-                        end
+                        Popup.Show("QUESTIE_DELETE_NOTE_CONFIRM", nil, nil, tonumber(e));
                     end);
                     f:AddChild(deleteButton);
 

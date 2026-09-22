@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
@@ -138,7 +141,7 @@ function QuestieJourney:ShowCharacterBrowserFrame()
             return
         end
         _pendingJourneyImport = journey
-        StaticPopup_Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
+        Popup.Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
     end)
 
     frame:AddChild(dropdown)
@@ -149,8 +152,10 @@ function QuestieJourney:ShowCharacterBrowserFrame()
 end
 
 ---Popup dialog for confirming journey import
----@type StaticPopupDialog
-StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
+---@type DialogDefinition
+Popup.Dialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
+    -- Reopening confirms the latest selection without cancelling its pending data.
+    noCancelOnReuse = true,
     text = "",
     button1 = YES,
     button2 = NO,
@@ -173,5 +178,4 @@ StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }

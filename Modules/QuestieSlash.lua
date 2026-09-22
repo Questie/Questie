@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@class QuestieSlash
 local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
 
@@ -297,7 +300,7 @@ function QuestieSlash.HandleCommands(input)
 
         local output = table.concat(data, ",") -- generate a string list of the items, comma-separated (for json syntax)
 
-        StaticPopupDialogs["QUESTIE_ITEMDROPOUTPUT"] = {
+        Popup.Dialogs["QUESTIE_ITEMDROPOUTPUT"] = {
             text = "Questie Item Drop Output",
             button2 = CLOSE,
             hasEditBox = true,
@@ -312,7 +315,7 @@ function QuestieSlash.HandleCommands(input)
             end,
 
             OnShow = function(self)
-                local editBox = _G[self:GetName() .. "WideEditBox"] or _G[self:GetName() .. "EditBox"] -- this is new as of midnight??? editBox isn't instantiated anymore for some reason
+                local editBox = self.EditBox
                 editBox:SetText(output);
                 editBox:SetFocus();
                 editBox:HighlightText();
@@ -322,7 +325,7 @@ function QuestieSlash.HandleCommands(input)
             hideOnEscape = true
         }
 
-        StaticPopup_Show("QUESTIE_ITEMDROPOUTPUT") -- display a popup with a copyable text field so we can get the list out of the game
+        Popup.Show("QUESTIE_ITEMDROPOUTPUT") -- display a popup with a copyable text field so we can get the list out of the game
         return
     end
 

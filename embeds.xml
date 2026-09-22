@@ -5,6 +5,7 @@
 
     <Script file="Libs\LibStub\LibStub.lua"/>
     <Script file="Libs\LibDeflate\LibDeflate.lua"/>
+    <Include file="Libs\AddonDialog\AddonDialog.xml"/>
     <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
     <!-- The order of Ace imports matter as they reference each other -->
     <Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>
@@ -31,4 +32,7 @@
     <Script file="Libs\HereBeDragons\HereBeDragons-2.0.lua"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-Migrate.lua"/>
+
+    <!-- Close the library timing interval only after all embedded libraries load. -->
+    <Script file="Modules\Libs\QuestiePopup.lua"/>
 </Ui>

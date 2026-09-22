@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -255,7 +258,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
 
                     pendingLocaleSelection = lang
-                    StaticPopup_Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
+                    Popup.Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -280,7 +283,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Reset Questie"); end,
                 desc = function() return l10n("Reset Questie to the default values for all settings."); end,
                 func = function()
-                    StaticPopup_Show("QUESTIE_RESET_CONFIRM")
+                    Popup.Show("QUESTIE_RESET_CONFIRM")
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
@@ -290,7 +293,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Reset Questie Journey"); end,
                 desc = function() return l10n("Clear the Journey of the current character"); end,
                 func = function(_, _)
-                    StaticPopup_Show("QUESTIE_JOURNEY_RESET_CONFIRM")
+                    Popup.Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
             Spacer_Browse = QuestieOptionsUtils:Spacer(4.4),
@@ -468,7 +471,7 @@ function QuestieOptions.tabs.advanced:Initialize()
     }
 end
 
-StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_RESET_CONFIRM"] = {
     text = "",
     button1 = YES,
     button2 = NO,
@@ -502,10 +505,9 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }
 
-StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     text = "", -- we set it in OnShow
     button1 = YES,
     button2 = NO,
@@ -522,10 +524,11 @@ StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }
 
-StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+    -- Reopening confirms the latest selection without cancelling its pending value.
+    noCancelOnReuse = true,
     text = "", -- we set it in OnShow
     button1 = YES,
     button2 = NO,
@@ -555,7 +558,6 @@ StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }
 
 _GetLanguages = function()

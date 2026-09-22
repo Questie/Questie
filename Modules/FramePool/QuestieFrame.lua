@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@class QuestieFrame
 local QuestieFrame = QuestieLoader:CreateModule("QuestieFrame")
 local _QuestieFrame = QuestieFrame.private
@@ -12,6 +15,11 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -194,8 +202,9 @@ function _QuestieFrame.OnClick(self, button)
                 ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(frameData.Id))
             else
                 if frameData.Type == "available" and IsShiftKeyDown() then
-                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(frameData.Id)
-                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
+                    local questName = QuestieLib:GetColoredQuestName(frameData.Id, Questie.db.profile.enableTooltipsQuestLevel, false)
+                    local confirmText = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", questName)
+                    Popup.Show("QUESTIE_CONFIRMHIDE", confirmText, nil, frameData.Id)
                 elseif frameData.Type == "manual" and IsShiftKeyDown() and (not frameData.ManualTooltipData.disableShiftToRemove) then
                     QuestieMap:UnloadManualFrames(frameData.id)
                 end
