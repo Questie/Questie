@@ -86,10 +86,10 @@ Do not treat API existence, a passing mock, or an out-of-combat probe as proof o
 
 ### Aura-dependent rewards and secure UI
 
-**Status: pending evidence and targeted behavior decisions.** Consumers: `Modules/QuestieReputation.lua`, `Database/QuestXP/QuestieXP.lua`, `Modules/Tracker/LinePool/TrackerItemButton.lua`, and `Modules/Tracker/TrackerUtils.lua`. See [tooltip restrictions](docs/forever-tooltips.md#security-combat-and-restricted-data).
+**Status: conservative reward-buff fallback implemented, live validation pending; secure UI questions remain open.** Consumers: `Modules/QuestieReputation.lua`, `Database/QuestXP/QuestieXP.lua`, `Modules/Tracker/LinePool/TrackerItemButton.lua`, and `Modules/Tracker/TrackerUtils.lua`. See [tooltip restrictions](docs/forever-tooltips.md#security-combat-and-restricted-data).
 
-- Trace reputation and XP/money aura consumers through ordinary tooltip calls before/during/after combat. A returned aura or non-forbidden frame does not guarantee its fields are safe to compare.
-- Define how unavailable bonus information is presented: omit/qualify the uncertain detail rather than silently assuming no buff. Any cache needs expiry/invalidation rules; blanket `pcall` is not a result policy.
+- Validate reward estimates before/during/after combat. Each reward-buff calculation returns zero bonus (or false for the money-buff check) before reading auras during Forever combat. The original `QuestieCompat.UnitAura` loops remain; there is no shared search helper, cache, new error handling, or forced tooltip refresh. Classic/SoD combat calculations are unchanged.
+- Check accepted estimate limitations: Forever combat displays omit temporary aura bonuses, not base rewards, racial bonuses or other non-aura modifiers. Actual rewards and quest eligibility are unchanged. Non-combat aura restrictions remain unresolved; see [Questie #7868](https://github.com/Questie/Questie/issues/7868). This combat guard does not establish general aura access or tooltip safety.
 - Audit every path configuring/reusing/hiding secure item buttons, including option changes, depletion and disable/enable. Queued work must recheck combat and current state when it executes.
 - Check range/count/charge/cooldown indicators independently of the secure item action. Physical clicks are required to validate hardware actions.
 - Establish the supported map-opening path per client. Raw `WorldMapFrame:Show()` is not equivalent to `HandleUserActionOpenSelf`/`ShowUIPanel`; preserve always-open rather than toggle behavior. Inconsistent combat guards alone do not prove a forbidden action.
