@@ -3,6 +3,7 @@ import contextlib
 import copy
 import io
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -159,6 +160,39 @@ class QuestieDBChangelogTests(unittest.TestCase):
                 manifest["changelog"][0][field] = value
                 with self.assertRaises(ValueError):
                     changelog.get_addon_changelog("QuestieDB", self.load(manifest))
+
+
+class ReleaseTagTests(unittest.TestCase):
+    def test_full_questie_notes_survive_database_only_bundle_releases(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            original_directory = Path.cwd()
+            self.addCleanup(os.chdir, original_directory)
+            os.chdir(temporary)
+
+            def git(*args):
+                subprocess.run(["git", "-c", "user.name=Test", "-c", "user.email=test@example.org", *args],
+                               check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+            git("init", "-q")
+            git("commit", "--allow-empty", "-qm", "Previous release")
+            git("tag", "v11.0.0")
+            git("commit", "--allow-empty", "-qm", "[fix] Fix old issue")
+            self.assertEqual("v11.0.0", changelog.get_last_git_tag())
+            self.assertEqual(["Fixed old issue"], [entry["text"] for entry in changelog.get_changelog_entries()])
+
+            git("tag", "bundle/v11.0.0+v1.1.0")
+            git("commit", "--allow-empty", "-qm", "[fix] Fix new issue")
+            git("tag", "bundle/v12.0.0+v1.1.0-pre.abc1234")
+            git("commit", "--allow-empty", "-qm", "Prepare release")
+            self.assertEqual("bundle/v11.0.0+v1.1.0", changelog.get_last_git_tag())
+            entries = changelog.get_changelog_entries()
+            self.assertEqual(["Fixed new issue"], [entry["text"] for entry in entries])
+
+            git("tag", "bundle/v12.0.0+v1.1.0")
+            self.assertEqual(entries, changelog.get_changelog_entries())
+            git("tag", "bundle/v12.0.0+v1.2.0")
+            self.assertEqual(entries, changelog.get_changelog_entries())
+            os.chdir(original_directory)
 
 
 class QuestieEntriesTests(unittest.TestCase):

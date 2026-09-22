@@ -1,9 +1,16 @@
 name: Publish
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Publish a normal release instead of a prerelease
+        type: boolean
+        default: false
+      dry_run:
+        description: Preview release notes and metadata without publishing
+        type: boolean
+        default: false
 
 jobs:
   tests:
@@ -14,11 +21,14 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: [ tests ]
+    permissions:
+      contents: write
 
     env:
       GH_TOKEN: ${{ github.token }}
       CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
       WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+      PRERELEASE: ${{ !inputs.release }}
 
     steps:
       - name: Clone project
@@ -30,33 +40,47 @@ jobs:
         run: git fetch --prune --unshallow --tags
 
       - name: Build ZIP
-        run: python build.py --release --bundled
+        run: |
+          # --release controls package naming; the checkbox controls GitHub prerelease status.
+          python build.py --release --bundled
+
+          echo "RELEASE_DIR=$(dirname releases/*/release.json)" >> "$GITHUB_ENV"
 
       - name: Generate Changelog
         id: changelog
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
-        run: python changelog.py --release-manifest "releases/$RELEASE_TAG/release.json" >> CHANGELOG.md
+        run: python changelog.py --release-manifest "$RELEASE_DIR/release.json" >> CHANGELOG.md
+
+      - name: Read release metadata
+        run: |
+          # Name the release from the packaged component versions, not the selected Git branch.
+          RELEASE_TAG=$(jq -r '"bundle/v" + .questie.version + "+v" + .questiedb.version' "$RELEASE_DIR/release.json")
+          BUNDLED_ZIP=$(jq -r '.releases[0].filename' "$RELEASE_DIR/release.json")
+
+          # Separate prereleases from normal releases and distinguish Questie source commits.
+          if [[ "$PRERELEASE" == "true" ]]; then
+            RELEASE_TAG+="-pre.${GITHUB_SHA:0:7}"
+          fi
+
+          echo "RELEASE_TAG=$RELEASE_TAG" >> "$GITHUB_ENV"
+          echo "BUNDLED_ZIP=$BUNDLED_ZIP" >> "$GITHUB_ENV"
 
       - name: Create GitHub release
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
+        if: ${{ !inputs.dry_run }}
         run: |
-          release_dir="releases/$RELEASE_TAG"
-          bundled_zip=$(jq -r '.releases[0].filename' "$release_dir/release.json")
-          if [[ "$RELEASE_TAG" == *"-b"* ]]; then
+          # GitHub creates a missing release tag at the commit used for this build.
+          if [[ "$PRERELEASE" == "true" ]]; then
             gh release create "$RELEASE_TAG" \
-              --verify-tag \
+              --target "$GITHUB_SHA" \
               --prerelease \
               -F CHANGELOG.md \
-              "$release_dir/$bundled_zip" \
-              "$release_dir/release.json"
+              "$RELEASE_DIR/$BUNDLED_ZIP" \
+              "$RELEASE_DIR/release.json"
           else
             gh release create "$RELEASE_TAG" \
-              --verify-tag \
+              --target "$GITHUB_SHA" \
               -F CHANGELOG.md \
-              "$release_dir/$bundled_zip" \
-              "$release_dir/release.json"
+              "$RELEASE_DIR/$BUNDLED_ZIP" \
+              "$RELEASE_DIR/release.json"
           fi
 
       # External publishing is hard-disabled while the bundle release flow is prepared.
@@ -67,6 +91,20 @@ jobs:
 
       # - name: Upload WAGO
       #   run: sh upload-wago.sh ${{github.ref_name}}
+
+      - name: Preview artifact
+        if: ${{ inputs.dry_run }}
+        run: |
+          {
+            echo "# Dry run: $RELEASE_TAG"
+            echo
+            cat CHANGELOG.md
+            echo
+            echo '## release.json'
+            echo '```json'
+            cat "$RELEASE_DIR/release.json"
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1.0.0

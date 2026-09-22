@@ -238,11 +238,27 @@ def get_required_db_contract(toc_paths: Iterable[str]) -> int:
     return required
 
 
+def get_release_version():
+    """Validate the committed flavor versions before creating release output."""
+    versions = set()
+    for toc in tocs.values():
+        with open(toc, encoding="utf-8") as source:
+            matches = re.findall(r"^## Version: (.+)$", source.read(), re.MULTILINE)
+        if len(matches) != 1 or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:[.-][A-Za-z0-9]+)*", matches[0]):
+            raise ValueError(f"{toc}: expected one version such as 12.0.0 or 12.0.0-b1 (without v)")
+        versions.add(matches[0])
+    if len(versions) != 1:
+        raise ValueError("TOC versions disagree")
+    return versions.pop()
+
+
 def get_version_dir(is_release_build, versionOverride):
-    """Choose the output name from Git or an override, adding source details for development builds."""
+    """Use the TOC version for releases; retain Git-based development names and explicit overrides."""
     version, nr_of_commits, recent_commit = get_git_information()
     if versionOverride != "":
         version = versionOverride
+    elif is_release_build:
+        version = "v" + get_release_version()
     print("Tag: " + version)
     if is_release_build:
         release_dir = "%s" % version
@@ -354,7 +370,7 @@ def get_git_information():
     """Return the nearest tag, commit count, and short SHA. Git is required; no fallback is implemented."""
     if is_tool("git"):
         script_dir = os.path.dirname(os.path.realpath(__file__))
-        output = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=script_dir, stderr=subprocess.STDOUT)
+        output = subprocess.check_output(["git", "describe", "--tags", "--match", "v*", "--long"], cwd=script_dir, stderr=subprocess.STDOUT)
         tag_string = str(output).rstrip("\\n'").lstrip("b'")
 
         # Split from the right because version tags themselves can contain hyphens.

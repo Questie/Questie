@@ -63,6 +63,9 @@ jobs:
         run: |
           python3 build.test.py
           python3 changelog.test.py
+          python3 release_notes.test.py
+          python3 upload-cf.test.py
+          python3 upload-wago.test.py
 
       - name: Validate QuestieLoader usage
         run: lua cli/validate-loader-usage.lua

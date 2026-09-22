@@ -62,24 +62,12 @@ def get_changelog_entries():
 
 
 def get_last_git_tag():
-    # get the tag this changelog is meant for
-    latest_tag = subprocess.run(
-        ["git", "describe", "--tags", "--abbrev=0", "HEAD"],
+    # Tags on this source commit must not erase its notes when rebundling with a newer database.
+    # Start before HEAD and ignore prereleases; legacy v* releases remain valid baselines.
+    return subprocess.run(
+        ["git", "describe", "--tags", "--match", "bundle/v*", "--match", "v*", "--exclude", "*-pre.*", "--abbrev=0", "HEAD^"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
-
-    if "-b" in latest_tag:
-        # If the latest tag is a beta release, get the previous tag
-        return subprocess.run(
-            ["git", "describe", "--tags", "--abbrev=0", f"{latest_tag}^"],
-            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-        ).stdout.decode().strip('\n')
-    else:
-        # If the latest tag is a stable release, get the previous non-beta tag
-        return subprocess.run(
-            ["git", "describe", "--tags", "--abbrev=0", "--exclude", "*-b*", "HEAD^"],
-            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-        ).stdout.decode().strip('\n')
 
 
 def get_chronological_git_log(last_tag):
