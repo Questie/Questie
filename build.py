@@ -16,6 +16,10 @@ This program accepts optional command line options:
     -r
     --release
         Do not include commit hash and branch name in directory/zip/version names
+    -v <versionString>
+    --version <versionString>
+        Disregard git and toc versions, and use <versionString> instead
+
     -a
     --all
         Included files for all expansions
@@ -28,19 +32,15 @@ This program accepts optional command line options:
     -w
     --wotlk
         Include WotLK files
-
     -ca
     --cata
         Include Cata files
-
     -m
     --mop
         Include MoP files
-
-    -v <versionString>
-    --version <versionString>
-        Disregard git and toc versions, and use <versionString> instead
-
+    -f
+    --forever
+        Include Forever files
 """
 
 import fileinput
@@ -90,6 +90,12 @@ EXPANSIONS = {
         "flags": ("-m", "--mop"),
         "toc_suffix": "Mists",
         "flavor": "mists",
+        "default": True,
+    },
+    160: { # weird value here because Blizzard broke their versioning scheme with Forever (1.60) and we have to represent it somehow
+        "flags": ("-f", "--forever"),
+        "toc_suffix": "Camelot",
+        "flavor": "forever",
         "default": True,
     },
 }
