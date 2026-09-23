@@ -205,6 +205,17 @@ def main():
         "producerCommit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=script_dir, text=True).strip(),
         "changelog": changelog.get_changelog_entries(),
     }
+
+    # Add Questie commit to toc files
+    for expansion_id in includedExpansions:
+        toc = tocs[expansion_id]
+        with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
+            for line in file:
+                if line == "## X-Wago-ID: qv634BKb\n":
+                    print(line + "## X-BUILD-COMMIT: %s" % questie["producerCommit"])
+                else:
+                    print(line, end="")
+
     # Archive creation removes staging. Write release metadata only after the ZIP succeeds.
     zip_name = "%s-%s" % (addonDir, release_dir)
     filename = zip_release_folder(zip_name, release_dir, isReleaseBuild, dbVersion, dbHash)
