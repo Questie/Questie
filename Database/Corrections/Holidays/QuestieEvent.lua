@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 --[[
 Feast of Winter Veil    1.2.0    18 December 2004
 Noblegarden    1.3.0    7 March 2005    X

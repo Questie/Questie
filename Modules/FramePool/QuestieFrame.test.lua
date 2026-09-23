@@ -47,6 +47,7 @@ describe("QuestieFrame", function()
 
         QuestieLoader:ImportModule("DailyQuests")
 
+        dofile("Localization/l10n.lua")
         dofile("Modules/FramePool/QuestieFrame.lua")
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
         QuestieFrameInstance = {
@@ -55,6 +56,26 @@ describe("QuestieFrame", function()
                 Id = 123,
             }
         }
+    end)
+
+    it("passes the clicked quest name and ID to the hide confirmation", function()
+        local Popup = QuestieLoader:ImportModule("QuestiePopup")
+        Popup.Show = spy.new(function() end)
+        local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.GetColoredQuestName = function(_, id)
+            return "Quest " .. id
+        end
+        _G.WorldMapFrame = {IsShown = function() return false end}
+        _G.ChatEdit_GetActiveWindow = function() return nil end
+        _G.IsShiftKeyDown = function() return true end
+        _G.IsControlKeyDown = function() return false end
+        QuestieFrameInstance.UiMapID = 1
+        QuestieFrameInstance.data.Type = "available"
+
+        QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
+
+        assert.spy(Popup.Show).was.called_with("QUESTIE_CONFIRMHIDE",
+            "Are you sure you want to hide the quest 'Quest 123'?\nIf this quest isn't actually available, please report it to us!", nil, 123)
     end)
 
     describe("ShouldBeHidden", function()

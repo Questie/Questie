@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 local band = bit.band
 
 -------------------------
@@ -38,7 +41,7 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnEnable()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Questie.IsForever or Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is enabled
         if (Questie.db.profile.trackerEnabled and not Questie.db.profile.showBlizzardQuestTimer) then
             QuestieCompat.HideWatchFrame()
@@ -47,7 +50,7 @@ function Questie:OnEnable()
 end
 
 function Questie:OnDisable()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Questie.IsForever or Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is disabled
         QuestieCompat.ShowWatchFrame()
     end

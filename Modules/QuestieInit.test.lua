@@ -94,7 +94,6 @@ describe("QuestieInit", function()
                 "Townsfolk.Initialize",
                 "Townsfolk:BuildCharacterTownsfolk",
                 "QuestieEvent.Initialize",
-                "Tutorial.Initialize",
             }, callOrder)
         end)
 

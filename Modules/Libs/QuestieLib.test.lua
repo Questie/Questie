@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieLib", function()
@@ -23,6 +24,27 @@ describe("QuestieLib", function()
 
         dofile("Modules/Libs/QuestieLib.lua")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+    end)
+
+    describe("addon version", function()
+        local getMetadataMock
+
+        before_each(function()
+            getMetadataMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetAddOnMetadata",
+                function() return "11.2.3" end)
+            dofile("Modules/Libs/QuestieLib.lua")
+        end)
+
+        after_each(function()
+            getMetadataMock:revert()
+        end)
+
+        it("shares cached metadata between the displayed version and numeric version", function()
+            assert.are.equal("v11.2.3", QuestieLib:GetAddonVersionString())
+            assert.are.same({11, 2, 3}, {QuestieLib:GetAddonVersionInfo()})
+            assert.spy(getMetadataMock).was.called_with("Questie", "Version")
+            assert.spy(getMetadataMock).was.called(1)
+        end)
     end)
 
     describe("GetLevelString", function()

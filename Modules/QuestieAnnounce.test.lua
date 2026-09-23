@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 describe("QuestieAnnounce", function()
     ---@type QuestieAnnounce
@@ -6,6 +7,7 @@ describe("QuestieAnnounce", function()
 
     ---@type QuestieLink
     local QuestieLink
+    local getItemInfoMock, addFilterMock
 
     before_each(function()
         _G.SendChatMessage = spy.new(function() end)
@@ -21,10 +23,39 @@ describe("QuestieAnnounce", function()
         }
 
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+        addFilterMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "AddMessageEventFilter")
+        getItemInfoMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetItemInfo")
 
         dofile("Localization/l10n.lua")
         dofile("Modules/QuestieAnnounce.lua")
         QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+    end)
+
+    after_each(function()
+        getItemInfoMock:revert()
+        addFilterMock:revert()
+    end)
+
+    it("registers the logo filter for group chat", function()
+        QuestieAnnounce:InitializeLogoFilter()
+
+        assert.spy(addFilterMock).was.called(6)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_PARTY", QuestieAnnounce.LogoFilter)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieAnnounce.LogoFilter)
+    end)
+
+    it("should announce a quest-starting item using its item hyperlink", function()
+        _G.IsInGroup = function() return true end
+        Questie.db.profile.questAnnounceItems = true
+        QuestieLink.GetNativeQuestLinkStringById = function() return "[The Quest]" end
+        getItemInfoMock.returns("A Letter", "|Hitem:123|h[A Letter]|h")
+
+        local announced = QuestieAnnounce:AnnounceQuestItemLootedToChannel(1, 123)
+
+        assert.is_true(announced)
+        assert.spy(getItemInfoMock).was.called_with(123)
+        assert.spy(_G.SendChatMessage).was.called_with(
+            "{rt1} Questie: Picked up |Hitem:123|h[A Letter]|h which starts [The Quest]!", "INSTANCE_CHAT")
     end)
 
     describe("AnnounceObjectiveToChannel", function()

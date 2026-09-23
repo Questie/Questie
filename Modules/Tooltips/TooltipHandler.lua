@@ -63,7 +63,8 @@ function _QuestieTooltips:AddItemDataToTooltip()
     local name, link = self:GetItem()
     local itemId
     if link then
-        itemId = select(3, string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"))
+        -- Read the payload independently of legacy hex colors or modern named colors such as |cnIQ1:.
+        itemId = string.match(link, "item:(%d+)")
     end
     if name and itemId and (
         name ~= QuestieTooltips.lastGametooltipItem or
@@ -104,6 +105,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
 end
 
 ---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
+---The caller owns showing/resizing the tooltip after its native render pass.
 ---@param name string
 ---@param playerZone AreaId
 ---@return nil
@@ -149,7 +151,6 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
         end
     end
 
-    GameTooltip:Show()
     QuestieTooltips.lastGametooltipType = "object"
 end
 

@@ -90,7 +90,7 @@ monster = function(npcId, objective)
 
     local name = QuestieDB.QueryNPCSingle(npcId, "name")
     if (not name) then
-        Questie.Error("Name missing for NPC:", npcId, "- Please report this error on Discord or GitHub.")
+        Questie.Warning("Name missing for NPC:", npcId, "- Please report this error on Discord or GitHub.")
         return nil
     end
 
@@ -139,7 +139,7 @@ object = function(objectId, objective)
 
     local name = QuestieDB.QueryObjectSingle(objectId, "name")
     if (not name) then
-        Questie.Error("Name missing for object:", objectId, "- Please report this error on Discord or GitHub.")
+        Questie.Warning("Name missing for object:", objectId, "- Please report this error on Discord or GitHub.")
         return nil
     end
 
@@ -174,7 +174,7 @@ end
 event = function(eventId, objective)
     local spawns = objective.Coordinates
     if (not spawns) then
-        Questie.Error("Missing event data for Objective:", objective.Description, "id:", eventId)
+        Questie.Warning("Missing event data for Objective:", objective.Description, "id:", eventId)
         spawns = {}
     end
 
@@ -214,7 +214,7 @@ item = function(itemId, objective)
             if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
                 local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective)
                 if not sourceList then
-                    Questie.Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
+                    Questie.Warning("Missing objective data for", source.Type, "'", objective, "'", source.Id)
                 else
                     for id, sourceData in pairs(sourceList) do
                         if (not ret[id]) then

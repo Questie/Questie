@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerMenu
 local TrackerMenu = QuestieLoader:CreateModule("TrackerMenu")
 -------------------------
@@ -244,24 +247,24 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
         text = l10n('Abandon Quest'),
         func = function()
             LibDropDown:CloseDropDownMenus()
-            local lastQuest = GetQuestLogSelection()
-            SelectQuestLogEntry(GetQuestLogIndexByID(quest.Id))
-            SetAbandonQuest()
+            local lastQuest = QuestieCompat.GetQuestLogSelection()
+            QuestieCompat.SelectQuestLogEntry(QuestieCompat.GetQuestLogIndexByID(quest.Id))
+            QuestieCompat.SetAbandonQuest()
 
-            local items = GetAbandonQuestItems()
+            local items = QuestieCompat.GetAbandonQuestItems()
             if items then
                 StaticPopup_Hide("ABANDON_QUEST")
-                StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", GetAbandonQuestName(), items)
+                StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", QuestieCompat.GetAbandonQuestName(), items)
             else
                 StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS")
-                StaticPopup_Show("ABANDON_QUEST", GetAbandonQuestName())
+                StaticPopup_Show("ABANDON_QUEST", QuestieCompat.GetAbandonQuestName())
             end
 
-            SelectQuestLogEntry(lastQuest)
+            QuestieCompat.SelectQuestLogEntry(lastQuest)
             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 
-            if questLogFrame:IsShown() then
-                QuestLog_Update()
+            if questLogFrame and questLogFrame:IsShown() then
+                QuestieCompat.QuestLog_Update()
             end
         end
     })
@@ -275,8 +278,8 @@ TrackerMenu.addUntrackOption = function(menu, quest)
             QuestieTracker:UntrackQuestId(quest.Id)
             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 
-            if questLogFrame:IsShown() then
-                QuestLog_Update()
+            if questLogFrame and questLogFrame:IsShown() then
+                QuestieCompat.QuestLog_Update()
             end
         end
     })
@@ -384,7 +387,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
             if key == "C" and IsControlKeyDown() then
                 C_Timer.After(0.1, function()
                     editBox:GetParent():Hide()
-                    ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
+                    QuestieCompat.ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
                 end)
             end
         end)
@@ -482,11 +485,11 @@ TrackerMenu.addShowInAchievementsOption = function(menu, achieve)
             end
 
             if (not AchievementFrame:IsShown()) then
-                AchievementFrame_ToggleAchievementFrame()
-                AchievementFrame_SelectAchievement(achieve.Id)
+                QuestieCompat.AchievementFrame_ToggleAchievementFrame()
+                QuestieCompat.AchievementFrame_SelectAchievement(achieve.Id)
             else
                 if (AchievementFrameAchievements.selection ~= achieve.Id) then
-                    AchievementFrame_SelectAchievement(achieve.Id)
+                    QuestieCompat.AchievementFrame_SelectAchievement(achieve.Id)
                 end
             end
         end
@@ -505,7 +508,7 @@ TrackerMenu.addUntrackAchieveOption = function(menu, achieve)
                 AchievementFrame_LoadUI()
             end
 
-            AchievementFrameAchievements_ForceUpdate()
+            QuestieCompat.AchievementFrameAchievements_ForceUpdate()
 
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
@@ -547,7 +550,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
             if key == "C" and IsControlKeyDown() then
                 C_Timer.After(0.1, function()
                     editBox:GetParent():Hide()
-                    ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
+                    QuestieCompat.ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
                 end)
             end
         end)

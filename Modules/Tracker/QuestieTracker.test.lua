@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 _G.GetQuestTimers = function() return nil end
 
@@ -39,6 +40,132 @@ describe("QuestieTracker", function()
 
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+    end)
+
+    describe("QuestItemLooted", function()
+        local getItemInfoMock, getItemCountMock, usableItemMock, afterMock, registerEventMock
+        local originalTimer
+
+        before_each(function()
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            getItemInfoMock = stub(compat, "GetItemInfo")
+            getItemInfoMock.returns(nil, nil, nil, nil, nil, "Quest")
+            getItemCountMock = stub(compat, "GetItemCount", function() return 1 end)
+            usableItemMock = stub(TrackerUtils, "IsQuestItemUsable", function() return true end)
+            originalTimer = _G.C_Timer
+            afterMock = spy.new(function() end)
+            _G.C_Timer = {After = afterMock}
+            registerEventMock = stub(Questie, "RegisterEvent")
+            dofile("Modules/Tracker/QuestieTracker.lua")
+        end)
+
+        after_each(function()
+            getItemInfoMock:revert()
+            getItemCountMock:revert()
+            usableItemMock:revert()
+            _G.C_Timer = originalTimer
+            registerEventMock:revert()
+        end)
+
+        it("schedules a tracker refresh when the looted quest item is already in the bag", function()
+            QuestieTracker:QuestItemLooted("You receive loot: |Hitem:123|h[A Letter]|h")
+
+            assert.spy(getItemInfoMock).was.called_with(123)
+            assert.spy(getItemCountMock).was.called_with(123)
+            assert.spy(afterMock).was.called(2)
+            assert.equal(0.25, afterMock.calls[1].vals[1])
+            assert.equal(0.5, afterMock.calls[2].vals[1])
+            assert.spy(registerEventMock).was.not_called()
+        end)
+
+        it("waits for a bag update when the looted quest item is not in the bag yet", function()
+            getItemCountMock.returns(0)
+
+            QuestieTracker:QuestItemLooted("You receive loot: |Hitem:123|h[A Letter]|h")
+
+            assert.spy(getItemCountMock).was.called_with(123)
+            assert.spy(registerEventMock).was.called(1)
+            assert.equal("BAG_UPDATE_DELAYED", registerEventMock.calls[1].vals[2])
+            assert.spy(afterMock).was.called(1)
+        end)
+    end)
+
+    describe("achievement UI integration", function()
+        local loadedMock, focusMock, countMock, removeMock, timeMock, shiftMock
+        local originalAchievementFrame
+
+        before_each(function()
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            loadedMock = stub(compat, "IsAddOnLoaded", function() return true end)
+            focusMock = stub(compat, "GetMouseFocus")
+            countMock = stub(_G, "GetNumTrackedAchievements", function() return 0 end)
+            removeMock = stub(_G, "RemoveTrackedAchievement")
+            timeMock = stub(_G, "GetTime", function() return 0 end)
+            shiftMock = stub(_G, "IsShiftKeyDown", function() return false end)
+            originalAchievementFrame = _G.AchievementFrame
+            _G.AchievementFrame = {IsShown = function() return false end}
+            Questie.db.char.trackedAchievementIds = {}
+            Questie.db.char.collapsedZones = {}
+            dofile("Modules/Tracker/QuestieTracker.lua")
+            timeMock.returns(1)
+        end)
+
+        after_each(function()
+            loadedMock:revert()
+            focusMock:revert()
+            countMock:revert()
+            removeMock:revert()
+            timeMock:revert()
+            shiftMock:revert()
+            _G.AchievementFrame = originalAchievementFrame
+        end)
+
+        it("does not inspect Blizzard's tracked checkbox when Krowi is loaded", function()
+            QuestieTracker:TrackAchieve(123)
+
+            assert.spy(loadedMock).was.called_with("Krowi_AchievementFilter")
+            assert.spy(focusMock).was.not_called()
+            assert.spy(removeMock).was.called_with(123, true)
+        end)
+    end)
+
+    describe("legacy watch hook ownership", function()
+        local originalIsWatched, originalCount, originalExpansion
+        local Expansions
+
+        before_each(function()
+            Expansions = QuestieLoader:ImportModule("Expansions")
+            originalExpansion = Expansions.Current
+            originalIsWatched = _G.IsQuestWatched
+            originalCount = _G.GetNumQuestWatches
+            Expansions.Current = Expansions.Era
+            local timers = QuestieLoader:ImportModule("TrackerQuestTimers")
+            timers.HideBlizzardTimer = function() end
+            timers.ShowBlizzardTimer = function() end
+            QuestieTracker.alreadyHooked = nil
+            QuestieTracker.alreadyHookedSecure = true
+        end)
+
+        after_each(function()
+            _G.IsQuestWatched = originalIsWatched
+            _G.GetNumQuestWatches = originalCount
+            Expansions.Current = originalExpansion
+        end)
+
+        it("restores absent legacy APIs after disabling and re-enabling", function()
+            _G.IsQuestWatched = nil
+            _G.GetNumQuestWatches = nil
+            QuestieTracker:HookBaseTracker()
+            assert.is_function(_G.IsQuestWatched)
+            assert.is_function(_G.GetNumQuestWatches)
+            QuestieTracker:Unhook()
+            assert.is_nil(_G.IsQuestWatched)
+            assert.is_nil(_G.GetNumQuestWatches)
+            QuestieTracker:HookBaseTracker()
+            QuestieTracker:Unhook()
+            assert.is_nil(_G.IsQuestWatched)
+            assert.is_nil(_G.GetNumQuestWatches)
+        end)
     end)
 
     describe("RemoveQuest", function()

@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestFinisher
 local QuestFinisher = QuestieLoader:CreateModule("QuestFinisher")
 
@@ -14,8 +17,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
---- COMPATIBILITY ---
-local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+local IsQuestFlaggedCompleted = QuestieCompat.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
 local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap
@@ -50,7 +52,7 @@ function QuestFinisher.AddFinisher(quest)
             if finisher then
                 _AddFinisherToMap(finisher, quest, "m_" .. finisher.id)
             else
-                Questie.Error("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
+                Questie.Warning("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
             end
         end
     end

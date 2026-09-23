@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class ChatFilter
 local ChatFilter = QuestieLoader:CreateModule("ChatFilter")
 ---@type QuestieLink
@@ -5,8 +8,7 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
--- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter instead of ChatFrame_AddMessageEventFilter
-local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
+local ChatFrameAddMessageEventFilter = QuestieCompat.AddMessageEventFilter
 
 -- Tracks quest IDs for which we have already triggered a data prefetch, to avoid spamming the server
 ---@type table<QuestId, boolean>

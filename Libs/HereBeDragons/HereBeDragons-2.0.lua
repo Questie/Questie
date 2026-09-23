@@ -1,6 +1,6 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
-local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 33
+local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 34
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
@@ -16,7 +16,10 @@ HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.instanceZones    = HereBeDragons.instanceZones or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
-local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+-- Embedded libraries load before Questie's client flags. Forever shares Retail's project ID,
+-- but its map hierarchy and instance transforms belong to Classic.
+local interfaceVersion = select(4, GetBuildInfo())
+local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or (interfaceVersion >= 16000 and interfaceVersion < 17000)
 local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
@@ -86,7 +89,7 @@ local function overrideInstance(instance) return instanceIDOverrides[instance] o
 HereBeDragons.___DIIDO = dynamicInstanceIDOverrides
 
 -- gather map info, but only if this isn't an upgrade (or the upgrade version forces a re-map)
-if not oldversion or oldversion < 32 then
+if not oldversion or oldversion < 34 then
     -- wipe old data, if required, otherwise the upgrade path isn't triggered
     if oldversion then
         wipe(mapData)
@@ -240,6 +243,23 @@ if not oldversion or oldversion < 32 then
         end
     end
 
+    ---Derives an instance's Azeroth bounds from its continent bounds and Blizzard's displayed rectangle.
+    ---@param continentMapID number
+    ---@return nil
+    local function updateClassicWorldMapData(continentMapID)
+        if not C_Map.GetMapRectOnMap then return end
+        local data = mapData[continentMapID]
+        if not data or data[1] <= 0 or data[2] <= 0 then return end
+
+        local minX, maxX, minY, maxY = C_Map.GetMapRectOnMap(continentMapID, WORLD_MAP_ID)
+        if not (minX and maxX and minY and maxY and maxX > minX and maxY > minY) then return end
+
+        -- Rectangles may extend outside 0..1; that is valid for continent maps and must not be clamped.
+        local width = data[1] / (maxX - minX)
+        local height = data[2] / (maxY - minY)
+        worldMapData[data.instance] = {width, height, data[3] + width * minX, data[4] + height * minY}
+    end
+
     local function fixupZones()
         local cosmic = C_Map.GetMapInfo(COSMIC_MAP_ID)
         if cosmic then
@@ -253,6 +273,9 @@ if not oldversion or oldversion < 32 then
         if WoWClassic then
             worldMapData[0] = { 44688.53, 29795.11, 32601.04,  9894.93 }
             worldMapData[1] = { 44878.66, 29916.10,  8723.96, 14824.53 }
+            -- Calibrate Era and Forever independently. Retain the legacy bounds only when the API has no usable rectangle.
+            updateClassicWorldMapData(1415) -- Eastern Kingdoms
+            updateClassicWorldMapData(1414) -- Kalimdor
         elseif WoWBC then
             worldMapData[0] = { 44688.53, 29791.24, 32681.47, 11479.44 }
             worldMapData[1] = { 44878.66, 29916.10,  8723.96, 14824.53 }

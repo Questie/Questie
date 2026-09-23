@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults")
 -------------------------
@@ -38,7 +41,7 @@ if Questie.IsHardcore then
     TICKS_PER_YIELD = 15
 end
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 local stringrep = string.rep
 local stringsub = string.sub
 

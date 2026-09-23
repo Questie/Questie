@@ -1,17 +1,17 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
-_G.QuestieCompat = {
-    GetContainerNumSlots = function(bag)
+QuestieCompat.GetContainerNumSlots = function(bag)
         if bag == -2 then
             return 1
         end
         return 0
-    end,
-    GetContainerItemInfo = function()
+    end
+QuestieCompat.GetContainerItemInfo = function()
         return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123
     end
-}
 
 _G.GetInventoryItemID = function()
     return 123
@@ -26,10 +26,12 @@ describe("TrackerItemButton", function()
     local QuestieDB
     ---@type TrackerItemButton
     local TrackerItemButton
+    local getItemCountMock
 
     before_each(function()
         Questie.db.profile = {}
         CreateFrame.resetMockedFrames()
+        getItemCountMock = stub(QuestieCompat, "GetItemCount", function() return 3 end)
 
         -- QuestieDB binds the provider schema and queries at file load.
         LoadQuestieDBMock()
@@ -38,6 +40,10 @@ describe("TrackerItemButton", function()
 
         dofile("Modules/Tracker/LinePool/TrackerItemButton.lua")
         TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
+    end)
+
+    after_each(function()
+        getItemCountMock:revert()
     end)
 
     it("should return an item button", function()
@@ -75,7 +81,8 @@ describe("TrackerItemButton", function()
             assert.is_true(trackerItemButton:IsVisible())
             assert.is_equal(123, trackerItemButton.itemId)
             assert.is_equal(1, trackerItemButton.questID)
-            assert.is_equal(0, trackerItemButton.charges)
+            assert.is_equal(3, trackerItemButton.charges)
+            assert.spy(getItemCountMock).was.called_with(123, nil, true)
             assert.is_equal(-1, trackerItemButton.rangeTimer)
 
             assert.is_equal(11111, trackerItemButton:GetNormalTexture():GetTexture())
@@ -97,11 +104,9 @@ describe("TrackerItemButton", function()
         end)
 
         it("should set itemId when item is equipped", function()
-            _G.QuestieCompat = {
-                GetContainerNumSlots = function()
+            QuestieCompat.GetContainerNumSlots = function()
                     return 0
-                end,
-            }
+                end
             QuestieDB.QueryItemSingle = function()
                 return QuestieDB.itemClasses.QUEST
             end

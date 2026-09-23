@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 --Contains functions to fetch the Quest Experiance for quests.
 ---@class QuestXP
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
@@ -36,10 +39,13 @@ function QuestXP.Init()
     end
 end
 
+---Skips aura reads during Forever combat; other clients retain their normal money-bonus check.
 ---@return boolean
 local function HasDiscoverersDelight()
+    if Questie.IsForever and InCombatLockdown() then return false end
+
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId = UnitAura("player", i, "HELPFUL")
+        local _, _, _, _, _, _, _, _, _, spellId = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then break end
         if spellId == 436412 then return true end
     end
@@ -110,6 +116,9 @@ local exclusions = {
     [80309] = true,
 }
 
+---Estimates money rewards; temporary aura bonuses are omitted during Forever combat.
+---@param questId QuestId
+---@return number money Copper.
 function QuestXP.GetQuestRewardMoney(questId)
     local modifier = 1
     if Questie.IsSoD and HasDiscoverersDelight() and (not exclusions[questId]) then
@@ -118,12 +127,15 @@ function QuestXP.GetQuestRewardMoney(questId)
     return floor(GetQuestLogRewardMoney(questId) * modifier)
 end
 
----Check for temporary buffs being active that give XP bonuses.
+---Returns the temporary XP bonus, omitting aura bonuses during Forever combat.
+---This changes only the displayed estimate; normal level scaling and guild perks still apply.
 ---@return number
 _GetBuffMultiplier = function()
+    if Questie.IsForever and InCombatLockdown() then return 0 end
+
     local buffMultiplier = 0
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
+        local _, _, _, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then
             break
         end

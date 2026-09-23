@@ -7,7 +7,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
 function Tutorial.Initialize()
-    if (Expansions.Current >= Expansions.Wotlk) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
+    if ((Expansions.Current >= Expansions.Wotlk) or Questie.IsForever) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
         QuestieCombatQueue:Queue(function()
             Tutorial.CreateChooseObjectiveTypeFrame()
         end)
@@ -19,7 +19,7 @@ function Tutorial.Initialize()
         end)
     end
 
-    if (not Questie.db.profile.tutorialRejectInBattlegroundsDone) then
+    if (not Questie.db.profile.tutorialRejectInBattlegroundsDone) and not Questie.IsForever then
         QuestieCombatQueue:Queue(function()
             Tutorial.AutoRejectInBattlegroundsFrame()
         end)

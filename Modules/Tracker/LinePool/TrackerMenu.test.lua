@@ -51,6 +51,74 @@ describe("TrackerMenu", function()
         TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
     end)
 
+    describe("quest actions without a legacy quest log", function()
+        local originals
+        local compat
+        local tracker
+
+        before_each(function()
+            originals = {
+                QuestLogExFrame = _G.QuestLogExFrame,
+                ClassicQuestLog = _G.ClassicQuestLog,
+                QuestLogFrame = _G.QuestLogFrame,
+                QuestMapFrame = _G.QuestMapFrame,
+                StaticPopup_Show = _G.StaticPopup_Show,
+                StaticPopup_Hide = _G.StaticPopup_Hide,
+            }
+            _G.QuestLogExFrame = nil
+            _G.ClassicQuestLog = nil
+            _G.QuestLogFrame = nil
+            _G.QuestMapFrame = {IsShown = function() return true end}
+            _G.StaticPopup_Show = spy.new(function() end)
+            _G.StaticPopup_Hide = function() end
+            compat = QuestieLoader:ImportModule("QuestieCompat")
+            compat.QuestLog_Update = spy.new(function() end)
+            tracker = QuestieLoader:ImportModule("QuestieTracker")
+            tracker.UntrackQuestId = spy.new(function() end)
+        end)
+
+        after_each(function()
+            _G.QuestLogExFrame = originals.QuestLogExFrame
+            _G.ClassicQuestLog = originals.ClassicQuestLog
+            _G.QuestLogFrame = originals.QuestLogFrame
+            _G.QuestMapFrame = originals.QuestMapFrame
+            _G.StaticPopup_Show = originals.StaticPopup_Show
+            _G.StaticPopup_Hide = originals.StaticPopup_Hide
+        end)
+
+        it("untracks a quest without trying to refresh the missing legacy frame", function()
+            local menu = {}
+            TrackerMenu.addUntrackOption(menu, {Id = 783})
+            menu[1].func()
+            assert.spy(tracker.UntrackQuestId).was.called_with(tracker, 783)
+            assert.spy(compat.QuestLog_Update).was.not_called()
+        end)
+
+        it("opens abandonment confirmation and restores selection on the modern client", function()
+            compat.GetQuestLogSelection = function() return 3 end
+            compat.GetQuestLogIndexByID = function() return 2 end
+            compat.SelectQuestLogEntry = spy.new(function() end)
+            compat.SetAbandonQuest = spy.new(function() end)
+            compat.GetAbandonQuestItems = function() return nil end
+            compat.GetAbandonQuestName = function() return "A Threat Within" end
+            local menu = {}
+            TrackerMenu.addAbandonedQuest(menu, {Id = 783})
+            menu[1].func()
+            assert.spy(StaticPopup_Show).was.called_with("ABANDON_QUEST", "A Threat Within")
+            assert.spy(compat.SelectQuestLogEntry).was.called_with(2)
+            assert.spy(compat.SelectQuestLogEntry).was.called_with(3)
+            assert.spy(compat.QuestLog_Update).was.not_called()
+        end)
+
+        it("still refreshes a visible third-party quest log", function()
+            _G.QuestLogExFrame = {IsShown = function() return true end}
+            local menu = {}
+            TrackerMenu.addUntrackOption(menu, {Id = 783})
+            menu[1].func()
+            assert.spy(compat.QuestLog_Update).was.called(1)
+        end)
+    end)
+
     describe("addShowHideObjectivesOption", function()
         it("should add 'Hide Icons' option and call ToggleQuestNotes(false) when icons are visible", function()
             local quest = {Id = 100}

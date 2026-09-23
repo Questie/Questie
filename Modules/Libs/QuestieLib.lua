@@ -1,4 +1,7 @@
-local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
+local GetAddOnMetadata = QuestieCompat.GetAddOnMetadata
 
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
@@ -58,7 +61,7 @@ function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEvent
         return "|cFFFF8040" .. text .. "|r" -- Orange
     elseif (levelDiff >= -2) then
         return "|cFFFFFF00" .. text .. "|r" -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange("player")) then
         return "|cFF40C040" .. text .. "|r" -- Green
     else
         return "|cFFC0C0C0" .. text .. "|r" -- Grey
@@ -78,7 +81,7 @@ function QuestieLib:GetDifficultyColorPercent(level)
     elseif (levelDiff >= -2) then
         -- return "|cFFFFFF00"..text.."|r"; -- Yellow
         return 1, 1, 0
-    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange("player")) then
         -- return "|cFF40C040"..text.."|r"; -- Green
         return 0.251, 0.753, 0.251
     else
@@ -793,7 +796,7 @@ end
 function QuestieLib.UpdateLastKnownDailyReset()
     local realmName = GetRealmName()
 
-    Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + GetQuestResetTime()
+    Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + QuestieCompat.GetQuestResetTime()
 end
 
 ---@param timeStamp number

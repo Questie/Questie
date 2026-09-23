@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieCoords
 local QuestieCoords = QuestieLoader:CreateModule("QuestieCoords");
 
@@ -17,7 +20,7 @@ local GetMinimapZoneText = GetMinimapZoneText;
 local IsInInstance = IsInInstance;
 local format = format;
 
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 
 local function GetMapTitleText()

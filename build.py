@@ -16,6 +16,10 @@ This program accepts optional command line options:
     -r
     --release
         Do not include commit hash and branch name in directory/zip/version names
+    -v <versionString>
+    --version <versionString>
+        Disregard git and toc versions, and use <versionString> instead
+
     -a
     --all
         Included files for all expansions
@@ -28,19 +32,15 @@ This program accepts optional command line options:
     -w
     --wotlk
         Include WotLK files
-
     -ca
     --cata
         Include Cata files
-
     -m
     --mop
         Include MoP files
-
-    -v <versionString>
-    --version <versionString>
-        Disregard git and toc versions, and use <versionString> instead
-
+    -f
+    --forever
+        Include Forever files
 """
 
 import fileinput
@@ -90,6 +90,12 @@ EXPANSIONS = {
         "flags": ("-m", "--mop"),
         "toc_suffix": "Mists",
         "flavor": "mists",
+        "default": True,
+    },
+    160: { # weird value here because Blizzard broke their versioning scheme with Forever (1.60) and we have to represent it somehow
+        "flags": ("-f", "--forever"),
+        "toc_suffix": "Camelot",
+        "flavor": "forever",
         "default": True,
     },
 }
@@ -144,7 +150,8 @@ def main():
                 includedExpansions.append(number)
 
     # Rebuild this output directory from fresh staging; previous outputs are replaced.
-    release_dir = get_version_dir(isReleaseBuild, versionOverride)
+    version, nr_of_commits, recent_commit = get_git_information()
+    release_dir = get_version_dir(isReleaseBuild, versionOverride, version, nr_of_commits, recent_commit)
 
     if os.path.isdir("releases/%s" % release_dir):
         print("Warning: Folder already exists, removing!")
@@ -173,13 +180,17 @@ def main():
 
     # Stamp only staged Questie TOCs; source files and the provider version remain unchanged.
     if versionOverride != "":
+        vs = versionOverride
+        if not isReleaseBuild:
+            vs += "-%s" % recent_commit
         for expansion_id in includedExpansions:
             toc = tocs[expansion_id]
-            questie_toc_path = release_addon_folder_path + "/" + toc
-            with fileinput.FileInput(questie_toc_path, inplace=True) as file:
+            with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
                 for line in file:
                     if line[:10] == "## Version":
-                        print("## Version: " + versionOverride)
+                        print("## Version: " + vs)
+                    elif line[:8] == '## Title':
+                        print('## Title: Questie|cFF00FF00 ' + vs + '|r')
                     else:
                         print(line, end="")
 
@@ -194,6 +205,17 @@ def main():
         "producerCommit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=script_dir, text=True).strip(),
         "changelog": changelog.get_changelog_entries(),
     }
+
+    # Add Questie commit to toc files
+    for expansion_id in includedExpansions:
+        toc = tocs[expansion_id]
+        with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
+            for line in file:
+                if line == "## X-Wago-ID: qv634BKb\n":
+                    print(line + "## X-BUILD-COMMIT: %s" % questie["producerCommit"])
+                else:
+                    print(line, end="")
+
     # Archive creation removes staging. Write release metadata only after the ZIP succeeds.
     zip_name = "%s-%s" % (addonDir, release_dir)
     filename = zip_release_folder(zip_name, release_dir, isReleaseBuild, dbVersion, dbHash)
@@ -252,9 +274,8 @@ def get_release_version():
     return versions.pop()
 
 
-def get_version_dir(is_release_build, versionOverride):
+def get_version_dir(is_release_build, versionOverride, version, nr_of_commits, recent_commit):
     """Use the TOC version for releases; retain Git-based development names and explicit overrides."""
-    version, nr_of_commits, recent_commit = get_git_information()
     if versionOverride != "":
         version = versionOverride
     elif is_release_build:

@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 describe("QuestieEvent", function()
     ---@type QuestieEvent
@@ -46,8 +47,7 @@ describe("QuestieEvent", function()
 
     describe("Darkmoon Faire", function()
         it("should not load for Anniversary servers in P1", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 11,
@@ -57,7 +57,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             ContentPhases.activePhases.Anniversary = 1
 
             Questie.IsClassic = true
@@ -71,8 +70,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for Anniversary HC servers in P1", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 11,
@@ -82,7 +80,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             ContentPhases.activePhases.Anniversary = 1
 
             Questie.IsClassic = true
@@ -97,8 +94,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for Anniversary servers in P2", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 11,
@@ -108,7 +104,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             ContentPhases.activePhases.Anniversary = 2
 
             Questie.IsClassic = true
@@ -122,8 +117,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for Anniversary servers in P2", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 11,
@@ -133,7 +127,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             ContentPhases.activePhases.Anniversary = 2
 
             Questie.IsClassic = true
@@ -148,8 +141,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for Anniversary servers in P3", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 11,
@@ -159,7 +151,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -182,8 +173,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for Anniversary HC servers in P3", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 11,
@@ -193,7 +183,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -217,8 +206,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for Classic servers", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 11,
@@ -228,7 +216,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -250,8 +237,7 @@ describe("QuestieEvent", function()
 
         it("should not be active at 02:30 on start Monday for Era (hour gating)", function()
             -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 2,
                         monthDay = 8,
@@ -261,7 +247,6 @@ describe("QuestieEvent", function()
                         minute = 30,
                     }
                 end
-            }
 
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
@@ -284,8 +269,7 @@ describe("QuestieEvent", function()
 
         it("should be active at 03:00 on start Monday for Era (hour gating)", function()
             -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 2,
                         monthDay = 8,
@@ -295,7 +279,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
 
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
@@ -317,8 +300,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should not be active on the following Monday at 03:00 for Era (end hour gating)", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 2,
                         monthDay = 15,
@@ -328,7 +310,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
 
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
@@ -351,8 +332,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should be active on the following Monday at 02:59 for Era (end hour gating)", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 2,
                         monthDay = 15,
@@ -362,7 +342,6 @@ describe("QuestieEvent", function()
                         minute = 59,
                     }
                 end
-            }
 
             Questie.IsClassic = true
             Expansions.Current = Expansions.Era
@@ -385,8 +364,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for MoP servers on days with DMF texture for 'start'", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekDay = 4,
                         monthDay = 3,
@@ -396,7 +374,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             local getNumDayEventsMock = spy.new(function() return 1 end)
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
@@ -413,8 +390,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for MoP servers on days with DMF texture for 'ongoing'", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekDay = 4,
                         monthDay = 3,
@@ -424,7 +400,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             local getNumDayEventsMock = spy.new(function() return 1 end)
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
@@ -441,8 +416,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for MoP servers on days with DMF texture for 'end'", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekDay = 4,
                         monthDay = 3,
@@ -452,7 +426,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             local getNumDayEventsMock = spy.new(function() return 1 end)
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
@@ -469,8 +442,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for MoP servers on days where DMF is inactive", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekDay = 1,
                         monthDay = 23,
@@ -480,7 +452,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             local getNumDayEventsMock = spy.new(function() return 1 end)
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
@@ -497,8 +468,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for TBC servers when faire is in Mulgore and activate Horde announcement quest", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 12,
@@ -508,7 +478,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -531,8 +500,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for TBC servers when faire is in Elwynn Forest", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 10,
@@ -542,7 +510,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -565,8 +532,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should load for TBC servers when faire is in Terokkar Forest and activate both announcement quests", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 4,
                         monthDay = 10,
@@ -576,7 +542,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -599,8 +564,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should not load for TBC servers when faire is not active", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 3,
                         monthDay = 1,
@@ -610,7 +574,6 @@ describe("QuestieEvent", function()
                         minute = 0,
                     }
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -632,8 +595,7 @@ describe("QuestieEvent", function()
         end)
 
         it("should not activate DMF for MoP servers when GetNumDayEvents returns 0 events", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         minute = 0,
                         hour = 12,
@@ -643,7 +605,6 @@ describe("QuestieEvent", function()
                         year = 2025
                     }
                 end
-            }
             local getNumDayEventsMock = spy.new(function() return 0 end)
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
@@ -687,11 +648,9 @@ describe("QuestieEvent", function()
         ---@param firstWeekday number
         ---@return nil
         local function _MockCalendar(year, month, monthDay, hour, firstWeekday)
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 1, monthDay = monthDay, month = month, year = year, hour = hour, minute = 0}
                 end
-            }
             _G.C_Calendar = {
                 GetMonthInfo = function(offset)
                     if offset == nil then
@@ -803,11 +762,9 @@ describe("QuestieEvent", function()
         end)
 
         it("leaves the NPC Policy Correction untouched on MoP, where the faire is not relocated", function()
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekDay = 4, monthDay = 3, month = 12, year = 2025, hour = 12, minute = 0}
                 end
-            }
             Expansions.Current = Expansions.MoP
             _G.C_Calendar = {
                 GetNumDayEvents = function() return 1 end,
@@ -832,11 +789,9 @@ describe("QuestieEvent", function()
 
         it("should not activate an event before its start hour", function()
             -- Event starts 10:00 on 9 Feb, ends 10:00 on 23 Feb
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 1, monthDay = 9, month = 2, year = 2025, hour = 9, minute = 59}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
             }
@@ -852,11 +807,9 @@ describe("QuestieEvent", function()
 
         it("should activate an event at exactly its start hour", function()
             -- Event starts 10:00 on 9 Feb, ends 10:00 on 23 Feb
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 1, monthDay = 9, month = 2, year = 2025, hour = 10, minute = 0}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
             }
@@ -872,11 +825,9 @@ describe("QuestieEvent", function()
 
         it("should not activate an event after its end hour on the end day", function()
             -- Event ends at 10:00 on 23 Feb; 10:01 should be inactive
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 1, monthDay = 23, month = 2, year = 2025, hour = 10, minute = 1}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Love is in the Air"] = {startDate = "9/2", startHour = 10, startMinute = 0, endDate = "23/2", endHour = 10, endMinute = 0},
             }
@@ -892,11 +843,9 @@ describe("QuestieEvent", function()
 
         it("should activate a cross-year event in December (Winter Veil)", function()
             -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Dec 20
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 6, monthDay = 20, month = 12, year = 2025, hour = 12, minute = 0}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
             }
@@ -912,11 +861,9 @@ describe("QuestieEvent", function()
 
         it("should activate a cross-year event in January (Winter Veil)", function()
             -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Jan 1
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 3, monthDay = 1, month = 1, year = 2026, hour = 12, minute = 0}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
             }
@@ -932,11 +879,9 @@ describe("QuestieEvent", function()
 
         it("should not activate a cross-year event outside its window (Winter Veil)", function()
             -- Winter Veil: Dec 15 10:00 - Jan 2 10:00; date is Jun 15
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 1, monthDay = 15, month = 6, year = 2025, hour = 12, minute = 0}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Winter Veil"] = {startDate = "15/12", startHour = 10, startMinute = 0, endDate = "2/1", endHour = 10, endMinute = 0},
             }
@@ -952,11 +897,9 @@ describe("QuestieEvent", function()
 
         it("should not activate a quest outside its own HH:MM window during an active event", function()
             -- Event is active for the whole day; quest has its own narrower window
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 1, monthDay = 5, month = 4, year = 2025, hour = 14, minute = 0}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
             }
@@ -975,11 +918,9 @@ describe("QuestieEvent", function()
 
         it("should activate a quest with its own HH:MM window when inside the sub-window", function()
             -- Event is active; quest sub-window also covers the current date/time
-            _G.QuestieCompat = {
-                GetCurrentCalendarTime = function()
+            QuestieCompat.GetCurrentCalendarTime = function()
                     return {weekday = 1, monthDay = 8, month = 4, year = 2025, hour = 14, minute = 0}
                 end
-            }
             QuestieEvent.eventDates = {
                 ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
             }

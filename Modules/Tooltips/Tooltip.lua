@@ -459,9 +459,100 @@ _InitObjectiveTexts = function(objectivesText, objectiveIndex, playerName)
     return objectivesText
 end
 
+---Object lookup only accepts public data, even when the client can render restricted tooltip content.
+---@param value any
+---@return boolean
+local function _IsPublicTooltipTable(value)
+    if issecretvalue and issecretvalue(value) then return false end
+    return type(value) == "table" and (not issecrettable or not issecrettable(value))
+end
+
+---@return nil
+local function _RegisterObjectTooltipCallback()
+    local objectAugmented = false
+    GameTooltip:HookScript("OnTooltipCleared", function()
+        -- A rebuild can reuse the same name and dataInstanceID. The rendered content, not identity, resets our work.
+        objectAugmented = false
+    end)
+
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Object,
+        ---@param tooltip GameTooltip
+        ---@param data table
+        ---@return nil
+        function(tooltip, data)
+            if tooltip ~= GameTooltip or objectAugmented or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
+                or not Questie.db.profile.enableTooltips or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+                return
+            end
+
+            -- Appended blocks and scanning frames do not describe the hovered world object.
+            if not _IsPublicTooltipTable(data) then return end
+            local primaryData = tooltip:GetPrimaryTooltipData()
+            if not _IsPublicTooltipTable(primaryData) or data ~= primaryData then return end
+            if not _IsPublicTooltipTable(data.lines) then return end
+            local titleLine = data.lines[1]
+            if not _IsPublicTooltipTable(titleLine) then return end
+            local name = titleLine.leftText
+            if (issecretvalue and issecretvalue(name)) or type(name) ~= "string" or name == "" then return end
+
+            -- Object payloads also include location captions and do not reliably supply an ID.
+            -- Keep provider name/zone resolution; unmatched captions simply add no quest lines.
+            local playerZone = QuestiePlayer:GetCurrentZoneId()
+            objectAugmented = true
+            _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
+            -- Blizzard calls Show after post-calls. Calling it here would run OnShow in the middle of its rebuild.
+        end)
+end
+
+local initialized = false
+
+---@return nil
 function QuestieTooltips:Initialize()
+    -- Processor callbacks cannot be unregistered; settings are checked when each callback runs.
+    if initialized then return end
+    initialized = true
+
+    ---@param tooltip GameTooltip
+    ---@return nil
+    local function AddUnitData(tooltip)
+        if tooltip ~= GameTooltip or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+            -- The processor also runs for other tooltip frames; unit rendering below owns GameTooltip only.
+            return
+        end
+        _QuestieTooltips.AddUnitDataToTooltip(tooltip)
+    end
+
+    -- Classic exposes the processor but its native tooltips only fire legacy scripts. Check the frame's data pipeline too.
+    local usesTooltipData = type(GameTooltip.GetPrimaryTooltipData) == "function"
+        and TooltipDataProcessor and type(TooltipDataProcessor.AddTooltipPostCall) == "function"
+        and Enum and Enum.TooltipDataType
+    if usesTooltipData then
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item,
+            ---@param tooltip GameTooltip
+            ---@return nil
+            function(tooltip)
+                if tooltip == GameTooltip or tooltip == ItemRefTooltip then
+                    _QuestieTooltips.AddItemDataToTooltip(tooltip)
+                end
+            end)
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, AddUnitData)
+        if Enum.TooltipDataType.Object then
+            _RegisterObjectTooltipCallback()
+        end
+    else
+        -- Classic native tooltips still own these scripts. Never install a removed script on an unfamiliar client.
+        if ItemRefTooltip:HasScript("OnTooltipSetItem") then
+            ItemRefTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
+        end
+        if GameTooltip:HasScript("OnTooltipSetItem") then
+            GameTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
+        end
+        if GameTooltip:HasScript("OnTooltipSetUnit") then
+            GameTooltip:HookScript("OnTooltipSetUnit", AddUnitData)
+        end
+    end
+
     -- For the clicked item frame.
-    ItemRefTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     ItemRefTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
@@ -474,15 +565,6 @@ function QuestieTooltips:Initialize()
     end)
 
     -- For the hover frame.
-    GameTooltip:HookScript("OnTooltipSetUnit", function(self)
-        if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
-            -- When in a raid, we want as little code running as possible
-            return
-        end
-
-        _QuestieTooltips.AddUnitDataToTooltip(self)
-    end)
-    GameTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     GameTooltip:HookScript("OnShow", function(self)
         if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- When in a raid, we want as little code running as possible
@@ -511,29 +593,36 @@ function QuestieTooltips:Initialize()
         end
     end)
 
-    -- Fired whenever the cursor hovers something with a tooltip. And then on every frame
-    GameTooltip:HookScript("OnUpdate", function(self)
-        if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
-            -- When in a raid, we want as little code running as possible
-            return
-        end
+    -- Forever receives Object post-calls on rebuild. Only Classic still needs per-frame object discovery.
+    if not usesTooltipData then
+        GameTooltip:HookScript("OnUpdate", function(self)
+            if not Questie.db.profile.enableTooltips then return end
 
-        if (not self.IsForbidden) or (not self:IsForbidden()) then
-            --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
-            local uName, unit = self:GetUnit()
-            local iName, link = self:GetItem()
-            local sName, spell = self:GetSpell()
-            if (uName == nil and unit == nil and iName == nil and link == nil and sName == nil and spell == nil) and (
-                    QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
-                    (not QuestieTooltips.lastGametooltipCount) or
-                    _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
-                    or QuestieTooltips.lastGametooltipType ~= "object"
-                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds its own tooltip
-                local playerZone = QuestiePlayer:GetCurrentZoneId()
-                _QuestieTooltips.AddObjectDataToTooltip(GameTooltipTextLeft1:GetText(), playerZone)
-                QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
+            if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+                -- When in a raid, we want as little code running as possible
+                return
             end
-            QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
-        end
-    end)
+
+            if (not self.IsForbidden) or (not self:IsForbidden()) then
+                --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
+                local uName, unit = self:GetUnit()
+                local iName, link = self:GetItem()
+                local sName, spell = self:GetSpell()
+                local objectName = GameTooltipTextLeft1:GetText()
+                if objectName
+                    and (uName == nil and unit == nil and iName == nil and link == nil and sName == nil and spell == nil) and (
+                        QuestieTooltips.lastGametooltip ~= objectName or
+                        (not QuestieTooltips.lastGametooltipCount) or
+                        _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
+                        or QuestieTooltips.lastGametooltipType ~= "object"
+                    ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds its own tooltip
+                    local playerZone = QuestiePlayer:GetCurrentZoneId()
+                    _QuestieTooltips.AddObjectDataToTooltip(objectName, playerZone)
+                    GameTooltip:Show() -- Classic must resize after appending lines outside the native render pass.
+                    QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
+                end
+                QuestieTooltips.lastGametooltip = objectName
+            end
+        end)
+    end
 end

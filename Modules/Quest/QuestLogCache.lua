@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 --- Contains last known valid state of each quest in game's quest log, per quest.
 --- I.E. All data related to a quest is valid.
 --- Includes a "hack" to have correct objectives' progress while quest isComplete = 1. Otherwise it would need to be done everywhere else in code
@@ -13,7 +16,7 @@ local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
 local stringByte = string.byte
-local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
+local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance

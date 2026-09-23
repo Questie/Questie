@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class WatchFrameHook
 local WatchFrameHook = QuestieLoader:CreateModule("WatchFrameHook")
 

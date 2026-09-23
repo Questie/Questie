@@ -1,9 +1,11 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 dofile("Localization/l10n.lua")
 
 _G.GetQuestTimers = function() return nil end
 
 local QUEST_ID = 123
+local match = require("luassert.match")
 
 describe("QuestEventHandler", function()
     ---@type QuestieCombatQueue
@@ -77,6 +79,65 @@ describe("QuestEventHandler", function()
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
+    end)
+
+    describe("quest item deletion warning", function()
+        local getItemInfoMock, getQuestLogTitleMock, getQuestMock, queryItemMock
+        local showPopupMock, hookMock, forEachDialogMock, resizeMock
+        local hooks, dialog
+
+        before_each(function()
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            getItemInfoMock = stub(compat, "GetItemInfo", function() return "A Letter" end)
+            getQuestLogTitleMock = stub(compat, "GetQuestLogTitle", function(index)
+                if index == 1 then
+                    return "Deliver the Letter", nil, nil, false, nil, nil, nil, QUEST_ID
+                end
+            end)
+            getQuestMock = stub(QuestieDB, "GetQuest", function()
+                return {name = "Deliver the Letter", sourceItemId = 456}
+            end)
+            queryItemMock = stub(QuestieDB, "QueryItemSingle", function() return 12 end)
+            hooks = {}
+            showPopupMock = stub(_G, "StaticPopup_Show")
+            hookMock = stub(_G, "hooksecurefunc", function(name, callback) hooks[name] = callback end)
+            dialog = {Text = {text_arg1 = "A Letter", SetFormattedText = spy.new(function() end)}}
+            forEachDialogMock = stub(_G, "StaticPopup_ForEachShownDialog", function(callback) callback(dialog) end)
+            resizeMock = stub(_G, "StaticPopup_ResizeShownDialogs")
+            dofile("Modules/EventHandler/QuestEventHandler.lua")
+            QuestEventHandler:Initialize()
+        end)
+
+        after_each(function()
+            getItemInfoMock:revert()
+            getQuestLogTitleMock:revert()
+            getQuestMock:revert()
+            queryItemMock:revert()
+            showPopupMock:revert()
+            hookMock:revert()
+            forEachDialogMock:revert()
+            resizeMock:revert()
+        end)
+
+        it("matches a cached source item name to the deletion dialog", function()
+            hooks.StaticPopup_Show("DELETE_ITEM", "A Letter")
+
+            assert.spy(getItemInfoMock).was.called_with(456)
+            assert.spy(dialog.Text.SetFormattedText).was.called_with(match._,
+                "Quest Item %s might be needed for the quest %s. \n\nAre you sure you want to delete this?",
+                "A Letter", "Deliver the Letter")
+            assert.spy(resizeMock).was.called(1)
+        end)
+
+        it("leaves the dialog unchanged when the source item name is not cached", function()
+            getItemInfoMock.returns(nil)
+
+            hooks.StaticPopup_Show("DELETE_ITEM", "A Letter")
+
+            assert.spy(getItemInfoMock).was.called_with(456)
+            assert.spy(dialog.Text.SetFormattedText).was.not_called()
+            assert.spy(resizeMock).was.not_called()
+        end)
     end)
 
     it("should request missing Item names for every quest already in the quest log at login", function()

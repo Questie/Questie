@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -27,7 +30,7 @@ local _GetShortcuts
 local trackerOptions = {}
 
 local SharedMedia = LibStub("LibSharedMedia-3.0")
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 ---Toggle tracker visibility based on a condition
 ---@param shouldHide boolean Whether to hide (true) or show (false) the tracker
@@ -156,8 +159,8 @@ function QuestieOptions.tabs.tracker:Initialize()
 
                             -- Update Quest Log and mark tracked Quests
                             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-                            if questLogFrame:IsShown() then
-                                QuestLog_Update()
+                            if questLogFrame and questLogFrame:IsShown() then
+                                QuestieCompat.QuestLog_Update()
                             end
 
                             QuestieTracker:Update()

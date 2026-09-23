@@ -181,10 +181,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- After QuestieDB, so the calendar callback's Darkmoon apply refreshes bound pointers and caches.
     QuestieEvent.Initialize()
     coYield()
-
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
-    Tutorial.Initialize()
-    coYield()
 end
 
 QuestieInit.Stages[2] = function()
@@ -326,6 +322,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         QuestieLoader:PopulateGlobals()
     end
 
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Tutorial initializing.")
+    Tutorial.Initialize()
+    coYield()
+
     Questie.started = true
 
     -- We only update this if Questie fully loads to make sure we don't update it on crashes/fast reloads
@@ -403,7 +403,7 @@ function QuestieInit:Init()
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
         WatchFrameHook.Hide()
 
-        if Expansions.Current < Expansions.Wotlk then
+        if Expansions.Current < Expansions.Wotlk and ScrollFrame_OnScrollRangeChanged then
             -- Need to hook this ASAP otherwise the scroll bars show up
             hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
                 if TrackedQuestsScrollFrame then

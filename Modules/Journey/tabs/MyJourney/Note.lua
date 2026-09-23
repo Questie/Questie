@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
@@ -142,7 +145,7 @@ _DeleteNote = function(noteIndex)
 end
 
 
-StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
     text = "",
     button1 = YES,
     button2 = NO,
@@ -166,5 +169,4 @@ StaticPopupDialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }

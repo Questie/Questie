@@ -1,6 +1,6 @@
 dofile("setupTests.lua")
 
-_G.QuestieCompat = {}
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 ---@param override GossipQuestUIInfo
 local function getAvailableTestQuest(override)
@@ -50,10 +50,10 @@ describe("AutoQuesting", function()
         }
         Questie.db.profile.autoModifier = "disabled"
         Questie.Print = spy.new(function() end)
-        _G.QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
-        _G.QuestieCompat.SelectAvailableQuest = spy.new(function() end)
-        _G.QuestieCompat.GetActiveQuests = spy.new(function() return {} end)
-        _G.QuestieCompat.SelectActiveQuest = spy.new(function() end)
+        QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
+        QuestieCompat.SelectAvailableQuest = spy.new(function() end)
+        QuestieCompat.GetActiveQuests = spy.new(function() return {} end)
+        QuestieCompat.SelectActiveQuest = spy.new(function() end)
 
         _G.GossipFrame = nil
         _G.GossipFrameGreetingPanel = nil
@@ -422,43 +422,43 @@ describe("AutoQuesting", function()
     describe("OnGossipShow", function()
         it("should accept available quest", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(1)
         end)
 
         it("should accept available quest when active quests are not complete", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
-            _G.QuestieCompat.GetActiveQuests = function()
+            QuestieCompat.GetActiveQuests = function()
                 return {getActiveTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not accept available quest when auto accept is disabled", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
             Questie.db.profile.autoAccept.enabled = false
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should not accept available quest when auto modifier is held", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
             Questie.db.profile.autoModifier = "shift"
@@ -466,144 +466,144 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should not accept available quest when NPC is not allowed to accept quests from", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should accept trivial quest when setting is enabled", function()
             Questie.db.profile.autoAccept.trivial = true
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({isTrivial = true})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(1)
         end)
 
         it("should not accept trivial quest when setting is disabled", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({isTrivial = true})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should skip trivial quest when setting is disabled and accept non-trivial", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({isTrivial = true}), getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
         it("should accept repeatable quest when setting is enabled", function()
             Questie.db.profile.autoAccept.repeatable = true
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({repeatable = true})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(1)
         end)
 
         it("should not accept repeatable quest when setting is disabled", function()
             Questie.db.profile.autoAccept.repeatable = false
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({repeatable = true})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should skip repeatable quest when setting is disabled and accept non-repeatable", function()
             Questie.db.profile.autoAccept.repeatable = false
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({repeatable = true}), getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
         it("should accept PvP quest when setting is enabled", function()
             Questie.db.profile.autoAccept.pvp = true
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
             QuestieDB.IsPvPQuest = spy.new(function() return true end)
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(1)
         end)
 
         it("should not accept PvP quest when setting is disabled", function()
             Questie.db.profile.autoAccept.pvp = false
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
             QuestieDB.IsPvPQuest = spy.new(function() return true end)
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
 
         it("should skip PvP quest when setting is disabled and accept non-PvP", function()
             Questie.db.profile.autoAccept.pvp = false
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({questID = 1}), getAvailableTestQuest({questID = 2})}
             end
             QuestieDB.IsPvPQuest = spy.new(function(questId) return questId == 1 end)
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
         it("should skip PvP quest when trivial and repeatable settings are enabled", function()
             Questie.db.profile.autoAccept.trivial = true
             Questie.db.profile.autoAccept.repeatable = true
             Questie.db.profile.autoAccept.pvp = false
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({questID = 1}), getAvailableTestQuest({questID = 2})}
             end
             QuestieDB.IsPvPQuest = spy.new(function(questId) return questId == 1 end)
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called_with(1)
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.called_with(2)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called_with(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
         it("should not turn in quest when no quest is complete", function()
-            _G.QuestieCompat.GetActiveQuests = function()
+            QuestieCompat.GetActiveQuests = function()
                 return {getActiveTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not turn in quest when auto turn in is disabled", function()
@@ -611,8 +611,8 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
+            assert.spy(QuestieCompat.GetActiveQuests).was.not_called()
+            assert.spy(QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not turn in quest when auto modifier is held", function()
@@ -621,9 +621,9 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
-            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
+            assert.spy(QuestieCompat.GetActiveQuests).was.not_called()
+            assert.spy(QuestieCompat.GetAvailableQuests).was.not_called()
+            assert.spy(QuestieCompat.SelectActiveQuest).was.not_called()
         end)
 
         it("should not turn in or accept quest when auto accept and turn in are disabled", function()
@@ -632,9 +632,9 @@ describe("AutoQuesting", function()
 
             AutoQuesting.OnGossipShow()
 
-            assert.spy(_G.QuestieCompat.GetActiveQuests).was.not_called()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.not_called()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.GetActiveQuests).was.not_called()
+            assert.spy(QuestieCompat.SelectActiveQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
     end)
 
@@ -1014,32 +1014,32 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept available quest from gossip when coming from progress and auto modifier was held", function()
-            _G.QuestieCompat.GetAvailableQuests = function()
+            QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
             Questie.db.profile.autoModifier = "shift"
             _G.IsShiftKeyDown = function() return true end
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
 
             _G.IsShiftKeyDown = function() return false end
             AutoQuesting.OnQuestProgress()
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectAvailableQuest).was.not_called()
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
         end)
     end)
 
     describe("Turn-in Flow", function()
         it("should turn in quest from gossip show", function()
-            _G.QuestieCompat.GetActiveQuests = function()
+            QuestieCompat.GetActiveQuests = function()
                 return {getActiveTestQuest({isComplete = true})}
             end
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(1)
-            assert.spy(_G.QuestieCompat.GetAvailableQuests).was.not_called()
+            assert.spy(QuestieCompat.SelectActiveQuest).was.called_with(1)
+            assert.spy(QuestieCompat.GetAvailableQuests).was.not_called()
 
             AutoQuesting.OnQuestProgress()
             assert.spy(_G.CompleteQuest).was.called()
@@ -1049,12 +1049,12 @@ describe("AutoQuesting", function()
         end)
 
         it("should turn in second quest from gossip show when first is not complete", function()
-            _G.QuestieCompat.GetActiveQuests = function()
+            QuestieCompat.GetActiveQuests = function()
                 return {getActiveTestQuest({}), getActiveTestQuest({isComplete = true})}
             end
 
             AutoQuesting.OnGossipShow()
-            assert.spy(_G.QuestieCompat.SelectActiveQuest).was.called_with(2)
+            assert.spy(QuestieCompat.SelectActiveQuest).was.called_with(2)
 
             AutoQuesting.OnQuestProgress()
             assert.spy(_G.CompleteQuest).was.called()

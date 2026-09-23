@@ -1,19 +1,22 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieShutUp
 local QuestieShutUp = QuestieLoader:CreateModule("QuestieShutUp")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
--- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter/RemoveMessageEventFilter instead of ChatFrame_AddMessageEventFilter/RemoveMessageEventFilter
-local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
-local ChatFrameRemoveMessageEventFilter = ChatFrameUtil and ChatFrameUtil.RemoveMessageEventFilter or ChatFrame_RemoveMessageEventFilter
+local ChatFrameAddMessageEventFilter = QuestieCompat.AddMessageEventFilter
+local ChatFrameRemoveMessageEventFilter = QuestieCompat.RemoveMessageEventFilter
 
--- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
+---Registers a chat filter, retrying CreateSecureFiltersArray errors after a delay.
+---@param event string
+---@param filter function
 local function SafeAddMessageEventFilter(event, filter)
     local success, err = pcall(function()
         ChatFrameAddMessageEventFilter(event, filter)
     end)
     if not success then
-        -- If ChatFrameUtil isn't ready yet, retry after a short delay
         if err and string.find(err, "CreateSecureFiltersArray") then
             C_Timer.After(0.1, function()
                 SafeAddMessageEventFilter(event, filter)
@@ -24,13 +27,14 @@ local function SafeAddMessageEventFilter(event, filter)
     end
 end
 
--- Safe wrapper for ChatFrameRemoveMessageEventFilter
+---Removes a chat filter, retrying CreateSecureFiltersArray errors after a delay.
+---@param event string
+---@param filter function
 local function SafeRemoveMessageEventFilter(event, filter)
     local success, err = pcall(function()
         ChatFrameRemoveMessageEventFilter(event, filter)
     end)
     if not success then
-        -- If ChatFrameUtil isn't ready yet, retry after a short delay
         if err and string.find(err, "CreateSecureFiltersArray") then
             C_Timer.After(0.1, function()
                 SafeRemoveMessageEventFilter(event, filter)

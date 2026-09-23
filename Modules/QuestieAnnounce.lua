@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 local Questie = _G.Questie
 ---@class QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
@@ -9,24 +12,23 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 
 local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
 -- === Below code borrowed from ShutUp to implement Questie logo swapping for chat messages ===
 
--- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter/RemoveMessageEventFilter instead of ChatFrame_AddMessageEventFilter/RemoveMessageEventFilter
-local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
-local ChatFrameRemoveMessageEventFilter = ChatFrameUtil and ChatFrameUtil.RemoveMessageEventFilter or ChatFrame_RemoveMessageEventFilter
+local ChatFrameAddMessageEventFilter = QuestieCompat.AddMessageEventFilter
 
--- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
+---Registers a chat filter, retrying CreateSecureFiltersArray errors after a delay.
+---@param event string
+---@param filter function
 local function SafeAddMessageEventFilter(event, filter)
     local success, err = pcall(function()
         ChatFrameAddMessageEventFilter(event, filter)
     end)
     if not success then
-        -- If ChatFrameUtil isn't ready yet, retry after a short delay
         if err and string.find(err, "CreateSecureFiltersArray") then
             C_Timer.After(0.1, function()
                 SafeAddMessageEventFilter(event, filter)

@@ -30,6 +30,64 @@ describe("QuestXP support data", function()
         assert.are_same({20, 1000}, mock.supportModules.QuestXP.db[101])
     end)
 
+    describe("temporary reward buffs", function()
+        local originalInCombatLockdown, originalRewardMoney, originalUnitAura, originalIsForever
+
+        before_each(function()
+            originalInCombatLockdown = _G.InCombatLockdown
+            originalRewardMoney = _G.GetQuestLogRewardMoney
+            originalUnitAura = _G.UnitAura
+            originalIsForever = Questie.IsForever
+            Questie.IsForever = true
+            _G.InCombatLockdown = function() return false end
+            _G.UnitAura = spy.new(function(_, index)
+                if index == 1 then return nil, nil, nil, nil, nil, nil, nil, nil, nil, 46668 end
+            end)
+        end)
+
+        after_each(function()
+            _G.InCombatLockdown = originalInCombatLockdown
+            _G.GetQuestLogRewardMoney = originalRewardMoney
+            _G.UnitAura = originalUnitAura
+            Questie.IsForever = originalIsForever
+        end)
+
+        it("omits XP buff bonuses during Forever combat and reads buffs again afterward", function()
+            assert.are.equal(1100, QuestXP:GetQuestLogRewardXP(101))
+            _G.UnitAura:clear()
+            _G.InCombatLockdown = function() return true end
+
+            assert.are.equal(1000, QuestXP:GetQuestLogRewardXP(101))
+            assert.spy(UnitAura).was.not_called()
+
+            _G.InCombatLockdown = function() return false end
+            assert.are.equal(1100, QuestXP:GetQuestLogRewardXP(101))
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
+        end)
+
+        it("keeps Classic XP buff calculations active during combat", function()
+            Questie.IsForever = false
+            _G.InCombatLockdown = function() return true end
+
+            assert.are.equal(1100, QuestXP:GetQuestLogRewardXP(101))
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
+        end)
+
+        it("preserves SoD combat bonuses and quest exclusions", function()
+            Questie.IsForever = false
+            Questie.IsSoD = true
+            _G.InCombatLockdown = function() return true end
+            _G.GetQuestLogRewardMoney = function() return 100 end
+            _G.UnitAura = function(_, index)
+                if index == 1 then return nil, nil, nil, nil, nil, nil, nil, nil, nil, 436412 end
+            end
+
+            assert.are.equal(2500, QuestXP:GetQuestLogRewardXP(101))
+            assert.are.equal(300, QuestXP.GetQuestRewardMoney(101))
+            assert.are.equal(100, QuestXP.GetQuestRewardMoney(78612))
+        end)
+    end)
+
     it("reports missing support during initialization instead of failing to load", function()
         mock.supportModules.QuestXP = nil
         local validator = spy.new(function() return false, "Missing QuestXP support" end)

@@ -9,6 +9,89 @@ describe("QuestiePlayer", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
     end)
 
+    describe("HasRequiredRace", function()
+        local globalNames = {"UnitLevel", "UnitRace", "UnitClass", "UnitFactionGroup"}
+        local savedGlobals
+        local originalForever
+        local originalFaction
+        local originalLevel
+
+        before_each(function()
+            savedGlobals = {}
+            for _, name in ipairs(globalNames) do
+                savedGlobals[name] = _G[name]
+            end
+            originalForever = Questie.IsForever
+            originalFaction = QuestiePlayer.faction
+            originalLevel = QuestiePlayer.private.playerLevel
+            Questie.IsForever = true
+            _G.UnitLevel = function() return 1 end
+            _G.UnitRace = function() return "High Order Skyborne", "Skyborne", 95 end
+            _G.UnitClass = function() return "Mage", "MAGE", 8 end
+            _G.UnitFactionGroup = function() return "Alliance" end
+        end)
+
+        after_each(function()
+            for _, name in ipairs(globalNames) do
+                _G[name] = savedGlobals[name]
+            end
+            Questie.IsForever = originalForever
+            QuestiePlayer.faction = originalFaction
+            QuestiePlayer.private.playerLevel = originalLevel
+        end)
+
+        it("uses the High Order Skyborne bit in single and mixed masks", function()
+            QuestiePlayer:Initialize()
+
+            assert.is_true(QuestiePlayer.HasRequiredRace(4294967296))
+            assert.is_true(QuestiePlayer.HasRequiredRace(4294967297))
+            assert.is_false(QuestiePlayer.HasRequiredRace(8589934592))
+            assert.is_true(QuestiePlayer.HasRequiredRace(nil))
+            assert.is_true(QuestiePlayer.HasRequiredRace(0))
+        end)
+
+        it("allows Alliance-wide restrictions without granting Human-only quests to Skyborne", function()
+            QuestiePlayer:Initialize()
+
+            assert.is_true(QuestiePlayer.HasRequiredRace(77))
+            assert.is_false(QuestiePlayer.HasRequiredRace(178))
+            assert.is_false(QuestiePlayer.HasRequiredRace(1))
+            assert.is_false(QuestiePlayer.HasRequiredRace(5))
+        end)
+
+        it("uses the Windshaper bit and only the Horde-wide faction exception", function()
+            _G.UnitRace = function() return "Windshaper Skyborne", "Skyborne", 96 end
+            _G.UnitFactionGroup = function() return "Horde" end
+            QuestiePlayer:Initialize()
+
+            assert.is_true(QuestiePlayer.HasRequiredRace(8589934592))
+            assert.is_true(QuestiePlayer.HasRequiredRace(8589934594))
+            assert.is_false(QuestiePlayer.HasRequiredRace(4294967296))
+            assert.is_true(QuestiePlayer.HasRequiredRace(178))
+            assert.is_false(QuestiePlayer.HasRequiredRace(77))
+            assert.is_false(QuestiePlayer.HasRequiredRace(2))
+            assert.is_true(QuestiePlayer.HasRequiredRace(nil))
+            assert.is_true(QuestiePlayer.HasRequiredRace(0))
+        end)
+
+        local ordinaryClients = {
+            {name = "Classic", isForever = false},
+            {name = "Forever", isForever = true},
+        }
+        for _, client in ipairs(ordinaryClients) do
+            it("preserves Human race restrictions on " .. client.name, function()
+                Questie.IsForever = client.isForever
+                _G.UnitRace = function() return "Human", "Human", 1 end
+                QuestiePlayer:Initialize()
+
+                assert.is_true(QuestiePlayer.HasRequiredRace(1))
+                assert.is_true(QuestiePlayer.HasRequiredRace(77))
+                assert.is_false(QuestiePlayer.HasRequiredRace(178))
+                assert.is_false(QuestiePlayer.HasRequiredRace(4294967296))
+            end)
+        end
+    end)
+
     describe("GetCurrentZoneId", function()
         ---@type ZoneDB
         local ZoneDB

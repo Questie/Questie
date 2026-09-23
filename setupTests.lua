@@ -1,4 +1,5 @@
 dofile("Modules/Libs/QuestieLoader.lua")
+_G.GetBuildInfo = function() return "5.5.3", "0", "", 50503 end
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 
@@ -81,6 +82,7 @@ _G.Enum = {
 }
 
 _G.MAX_NUM_QUESTS = 25
+QuestieLoader:ImportModule("QuestieCompat").MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
