@@ -186,6 +186,8 @@ def main():
                 for line in file:
                     if line[:10] == "## Version":
                         print("## Version: " + versionOverride)
+                    elif line[:8] == '## Title':
+                        print('## Title: Questie|cFF00FF00 ' + versionOverride + '|r')
                     else:
                         print(line, end="")
 
