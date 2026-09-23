@@ -160,24 +160,84 @@ jobs:
 
   curseforge:
     name: "CurseForge: ${{ needs.build.outputs.release_tag }}"
+    runs-on: ubuntu-latest
     needs: [ build, github ]
     if: ${{ inputs.publish_curseforge && !inputs.dry_run }}
     permissions:
       contents: write
-    uses: ./.github/workflows/publish-curseforge.yml
-    with:
-      release_tag: ${{ needs.build.outputs.release_tag }}
-    secrets:
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ${{ needs.build.outputs.release_tag }}
+      RELEASE_DIR: releases/upload
       CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+    steps:
+      - name: Clone project
+        uses: actions/checkout@v7.0.1
+
+      - name: Download GitHub bundle
+        run: |
+          # Resolve latest once so the artifact, notes and upload reservation use the same release.
+          if [[ "$RELEASE_TAG" == "latest" ]]; then
+            RELEASE_TAG=$(gh api "repos/$GH_REPO/releases/latest" --jq '.tag_name')
+          fi
+          echo "RELEASE_TAG=$RELEASE_TAG" >> "$GITHUB_ENV"
+
+          # Publish the existing GitHub artifact and notes, without rebuilding either component.
+          gh release download --pattern release.json --dir "$RELEASE_DIR" -- "$RELEASE_TAG"
+          BUNDLED_ZIP=$(jq -er '.releases[0].filename' "$RELEASE_DIR/release.json")
+          gh release download --pattern "$BUNDLED_ZIP" --dir "$RELEASE_DIR" -- "$RELEASE_TAG"
+          gh release view --json body --jq '.body' -- "$RELEASE_TAG" > CHANGELOG.md
+          echo "BUNDLED_ZIP=$BUNDLED_ZIP" >> "$GITHUB_ENV"
+
+      - name: Upload to CurseForge
+        run: sh upload-cf.sh "$RELEASE_TAG"
+
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1.0.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
 
   wago:
     name: "Wago: ${{ needs.build.outputs.release_tag }}"
+    runs-on: ubuntu-latest
     needs: [ build, github ]
     if: ${{ inputs.publish_wago && !inputs.dry_run }}
     permissions:
       contents: write
-    uses: ./.github/workflows/publish-wago.yml
-    with:
-      release_tag: ${{ needs.build.outputs.release_tag }}
-    secrets:
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ${{ needs.build.outputs.release_tag }}
+      RELEASE_DIR: releases/upload
       WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+    steps:
+      - name: Clone project
+        uses: actions/checkout@v7.0.1
+
+      - name: Download GitHub bundle
+        run: |
+          # Resolve latest once so the artifact, notes and upload reservation use the same release.
+          if [[ "$RELEASE_TAG" == "latest" ]]; then
+            RELEASE_TAG=$(gh api "repos/$GH_REPO/releases/latest" --jq '.tag_name')
+          fi
+          echo "RELEASE_TAG=$RELEASE_TAG" >> "$GITHUB_ENV"
+
+          # Publish the existing GitHub artifact and notes, without rebuilding either component.
+          gh release download --pattern release.json --dir "$RELEASE_DIR" -- "$RELEASE_TAG"
+          BUNDLED_ZIP=$(jq -er '.releases[0].filename' "$RELEASE_DIR/release.json")
+          gh release download --pattern "$BUNDLED_ZIP" --dir "$RELEASE_DIR" -- "$RELEASE_TAG"
+          gh release view --json body --jq '.body' -- "$RELEASE_TAG" > CHANGELOG.md
+          echo "BUNDLED_ZIP=$BUNDLED_ZIP" >> "$GITHUB_ENV"
+
+      - name: Upload to Wago
+        run: sh upload-wago.sh "$RELEASE_TAG"
+
+      - name: Send CI failure to Discord
+        uses: nebularg/actions-discord-webhook@v1.0.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
