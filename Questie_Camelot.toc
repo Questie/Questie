@@ -291,5 +291,10 @@ Public\GetQuestObjectiveIconForUnit.lua
 Public\RegisterForQuestUpdates.lua
 Public\RegisterOnReady.lua
 
+# Local Blob prototype (ignored work area; not release-ready)
+Blob\BlobHitscan.lua
+Blob\BlobExtractor.lua
+Blob\BlobHitscanUI.lua
+
 # Main - Always load Questie.lua last
 Questie.lua
