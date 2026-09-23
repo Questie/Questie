@@ -222,7 +222,7 @@ class BuildModeTests(unittest.TestCase):
     def test_all_flavors_advertise_every_declared_interface(self):
         output, manifest = self.run_build("--bundled", "--all", "-r")
         expected = [{"flavor": flavor, "interface": interface}
-                    for flavor in ("classic", "bcc", "wrath", "cata", "mists")
+                    for flavor in ("classic", "bcc", "wrath", "cata", "mists", "forever")
                     for interface in (11508, 11509)]
         self.assertEqual(expected, manifest["releases"][0]["metadata"])
         with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
@@ -231,9 +231,9 @@ class BuildModeTests(unittest.TestCase):
 
     def test_default_selection_excludes_cata_even_after_an_all_flavor_build(self):
         for selection, expected_flavors in (
-            ((), ["classic", "bcc", "wrath", "mists"]),
-            (("--all",), ["classic", "bcc", "wrath", "cata", "mists"]),
-            ((), ["classic", "bcc", "wrath", "mists"]),
+            ((), ["classic", "bcc", "wrath", "mists", "forever"]),
+            (("--all",), ["classic", "bcc", "wrath", "cata", "mists", "forever"]),
+            ((), ["classic", "bcc", "wrath", "mists", "forever"]),
         ):
             with self.subTest(selection=selection):
                 output, manifest = self.run_build("--standalone", "-r", selection=selection)
