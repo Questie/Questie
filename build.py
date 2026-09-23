@@ -16,6 +16,9 @@ This program accepts optional command line options:
     -r
     --release
         Do not include commit hash and branch name in directory/zip/version names
+    -pr
+    --prerelease
+        Use release packaging with -pre.<Questie commit> in the ZIP name
     -v <versionString>
     --version <versionString>
         Disregard git and toc versions, and use <versionString> instead
@@ -115,6 +118,7 @@ def main():
     # Reject declaration drift before naming or replacing any build outputs.
     get_required_db_contract(tocs.values())
     isReleaseBuild = False
+    isPrereleaseBuild = False
     bundled = None
     includedExpansions.clear()
     versionOverride = ""
@@ -132,6 +136,10 @@ def main():
             elif arg in ["-r", "--release"]:
                 isReleaseBuild = True
                 print("Creating a release build")
+            elif arg in ["-pr", "--prerelease"]:
+                isReleaseBuild = True
+                isPrereleaseBuild = True
+                print("Creating a prerelease build")
             elif arg in ["-v", "--version"]:
                 expect_version = True
             elif arg in ["-a", "--all"]:
@@ -218,6 +226,8 @@ def main():
 
     # Archive creation removes staging. Write release metadata only after the ZIP succeeds.
     zip_name = "%s-%s" % (addonDir, release_dir)
+    if isPrereleaseBuild:
+        zip_name += "-pre." + questie["producerCommit"][:7]
     filename = zip_release_folder(zip_name, release_dir, isReleaseBuild, dbVersion, dbHash)
 
     # Advertise every declared interface for each selected flavor.

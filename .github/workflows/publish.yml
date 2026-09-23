@@ -51,8 +51,11 @@ jobs:
 
       - name: Build ZIP
         run: |
-          # --release controls package naming; the checkbox controls GitHub prerelease status.
-          python build.py --release --bundled
+          if [[ "$PRERELEASE" == "true" ]]; then
+            python build.py --prerelease --bundled
+          else
+            python build.py --release --bundled
+          fi
 
           echo "RELEASE_DIR=$(dirname releases/*/release.json)" >> "$GITHUB_ENV"
 

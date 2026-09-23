@@ -95,6 +95,11 @@ require manual reconciliation before retrying.
 
 ## Bundling and verification
 
+Use `python3 build.py --prerelease --bundled` for a prerelease archive, for example
+`Questie-v12.0.0-pre.abc1234+v1.0.3.zip`. The suffix identifies the Questie source
+commit; component versions and source TOCs stay unchanged. The manifest records the
+actual ZIP filename. `--release` continues to produce names without the prerelease suffix.
+
 A component update does not change another component's version. Use the same retained
 metadata for archive verification and release notes. Reject checksum mismatches rather
 than fetching newer metadata when rendering notes.

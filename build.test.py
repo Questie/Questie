@@ -219,6 +219,34 @@ class BuildModeTests(unittest.TestCase):
             self.assertEqual({"Questie", "QuestieDB"}, roots)
         self.assertEqual(2, self.downloads.call_count)
 
+    def test_bundled_prerelease_names_zip_without_changing_component_versions(self):
+        source_toc = (self.root / build.tocs[1]).read_text()
+        _, stable = self.run_build("--bundled", "--release")
+        output, manifest = self.run_build("--bundled", "--prerelease")
+        filename = manifest["releases"][0]["filename"]
+        self.assertEqual("Questie-v11.38.0-pre.eeeeeee+v1.0.0.zip", filename)
+        self.assertEqual(stable["questie"], manifest["questie"])
+        self.assertEqual(stable["questiedb"], manifest["questiedb"])
+        self.assertEqual(source_toc, (self.root / build.tocs[1]).read_text())
+        with zipfile.ZipFile(output / filename) as archive:
+            self.assertIn("## Version: 11.38.0\n", archive.read("Questie/" + build.tocs[1]).decode())
+            self.assertIn("## Version: 1.0.0\n", archive.read("QuestieDB/" + build.dbTocs[1]).decode())
+
+    def test_prerelease_short_flag_matches_long_flag(self):
+        _, short = self.run_build("--bundled", "-pr")
+        _, long = self.run_build("--bundled", "--prerelease")
+        self.assertEqual(short, long)
+        self.assertEqual("Questie-v11.38.0-pre.eeeeeee+v1.0.0.zip", short["releases"][0]["filename"])
+
+    def test_standalone_prerelease_names_zip_without_downloading_provider(self):
+        output, manifest = self.run_build("--standalone", "--prerelease")
+        filename = manifest["releases"][0]["filename"]
+        self.assertEqual("Questie-v11.38.0-pre.eeeeeee.zip", filename)
+        self.assertEqual("11.38.0", manifest["questie"]["version"])
+        self.downloads.assert_not_called()
+        with zipfile.ZipFile(output / filename) as archive:
+            self.assertIn(build.tocs[1], archive.namelist())
+
     def test_all_flavors_advertise_every_declared_interface(self):
         output, manifest = self.run_build("--bundled", "--all", "-r")
         expected = [{"flavor": flavor, "interface": interface}
