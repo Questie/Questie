@@ -831,8 +831,11 @@ end
 ---@param rawObjectiveText string
 ---@return string? description @Nil if no trailing progress counter matches
 function QuestieLib.GetFullObjectiveText(rawObjectiveText)
-    -- Chinese clients can use a full-width colon.
-    return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$")
+    -- This supports three different input syntax:
+    -- Classic clients: "Wolf slain: 0/1"
+    -- Chinese Classic clients: "Wolf slain： 0/1" (full-width colon)
+    -- Forever clients: "0/1 Wolf slain"
+    return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$") or string.match(rawObjectiveText, "^%d+/%d+%s*(.*)$")
 end
 
 ---Populates optional FullDescription fields only when full wording is enabled in the profile.
