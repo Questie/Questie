@@ -637,13 +637,12 @@ end
 
 local TooltipLineType = Enum.TooltipDataLineType
 local TooltipType = Enum.TooltipDataType
--- Line types that carry quest-helper information
-local BLOCKED_NAMES = { "QuestObjective", "QuestTitle", "QuestPlayer" }
-local blocked = {}
+
+local BLOCKED_NAMES = { "QuestObjective", "QuestTitle", "QuestPlayer" } -- Line types that carry quest-helper information
 
 ---@param tooltip table
 ---@return table|nil
---- Returns the type (unit, object, item, spell, etc) of this tooltip.
+-- Returns the type (unit, object, item, spell, etc) of this tooltip.
 local function _GetTooltipKind(tooltip)
     local info = tooltip.processingInfo
     local data = info and info.tooltipData
@@ -652,8 +651,8 @@ end
 
 ---@param tooltip table
 ---@return boolean|nil
---- Returns true/false/nil (fallback) based upon whether we should be filtering this type of tooltip.
---- This is also where we enable/disable filtering based on whether Questie tooltips are currently shown.
+-- Returns true/false/nil (fallback) based upon whether we should be filtering this type of tooltip.
+-- This is also where we enable/disable filtering based on whether Questie tooltips are currently shown.
 local function _ShouldBlock(tooltip)
     if not Questie.db.profile.enableTooltips then return false end
     local kind = _GetTooltipKind(tooltip)
@@ -668,6 +667,7 @@ function QuestieTooltips:InitBlizzardTooltips()
         Questie.Debug(Questie.DEBUG_INFO, "TooltipDataProcessor not found on this client. Skipping hooks.")
         return
     else
+        local blocked = {}
         for _, name in ipairs(BLOCKED_NAMES) do
             if TooltipLineType[name] then blocked[TooltipLineType[name]] = name end
         end
