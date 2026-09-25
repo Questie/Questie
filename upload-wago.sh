@@ -38,6 +38,22 @@ if [ ! -f "$RELEASE_DIR/$BUNDLED_ZIP" ]; then
   echo "Artifact $RELEASE_DIR/$BUNDLED_ZIP not found" >&2
   exit 1
 fi
+# Reject mislabeled bundles before reserving an upload, including beta builds from another commit.
+if ! jq -es --arg tag "$LATEST_GIT_TAG" --arg commit "$bundle_commit" --arg zip "$BUNDLED_ZIP" '
+    (if length == 1 then .[0] else error("Expected one release manifest") end) |
+    .questie.version as $questie | .questiedb.version as $database |
+    ("bundle/v" + $questie + "+v" + $database) as $stable |
+    ("bundle/v" + $questie + "-pre." + $commit[:7] + "+v" + $database) as $beta |
+    ($questie | type == "string" and length > 0) and
+    ($database | type == "string" and length > 0) and
+    (.questie.producerCommit == $commit) and
+    ($tag == $stable or $tag == $beta) and
+    (.releases[0].filename == $zip) and
+    ($zip == ("Questie-" + ($tag | ltrimstr("bundle/")) + ".zip"))
+' "$RELEASE_DIR/release.json" >/dev/null; then
+  echo "Bundle validation failed: $LATEST_GIT_TAG, its commit and $BUNDLED_ZIP must match release.json" >&2
+  exit 1
+fi
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
 case "$LATEST_GIT_TAG" in

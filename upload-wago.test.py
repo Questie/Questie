@@ -1,5 +1,6 @@
 """Offline uploader tests using temporary Git remotes and a fake curl. Run: python3 upload-wago.test.py."""
 
+import json
 import os
 from pathlib import Path
 import shutil
@@ -32,6 +33,13 @@ class WagoUploadTests(unittest.TestCase):
         self.release_dir.mkdir(parents=True)
         self.zip = self.release_dir / "Questie-v12.0.0+v1.0.0.zip"
         self.zip.write_bytes(b"test artifact")
+        self.manifest = {
+            "questie": {"version": "12.0.0", "producerCommit": self.commit},
+            "questiedb": {"version": "1.0.0"},
+            "releases": [{"filename": self.zip.name}],
+        }
+        self.manifest_path = self.release_dir / "release.json"
+        self.manifest_path.write_text(json.dumps(self.manifest))
         (self.work / "CHANGELOG.md").write_text("Test release notes\n")
         self.calls = self.root / "uploads"
         self.env = dict(os.environ, PATH=str(self.bin) + os.pathsep + os.environ["PATH"],
@@ -123,6 +131,46 @@ exit "$UPLOAD_EXIT"
         self.assertTrue(self.has_remote_marker())
         self.assertEqual("upload\n", self.calls.read_text())
 
+    def test_manifest_mismatches_fail_without_reserving_or_uploading(self):
+        self.publish_bundle_tag()
+        for section, field, value in (
+            ("questie", "version", "11.0.0"),
+            ("questiedb", "version", "0.9.0"),
+            ("questie", "producerCommit", "0" * 40),
+        ):
+            with self.subTest(section=section, field=field):
+                manifest = json.loads(json.dumps(self.manifest))
+                manifest[section][field] = value
+                self.manifest_path.write_text(json.dumps(manifest))
+                result = self.run_upload()
+                self.assertEqual(1, result.returncode, result.stderr)
+                self.assertIn("Bundle validation failed", result.stderr)
+                self.assertFalse(self.has_remote_marker())
+                self.assertFalse(self.calls.exists())
+
+    def test_missing_or_invalid_manifest_fails_without_reserving_or_uploading(self):
+        self.publish_bundle_tag()
+        for contents in (None, "", "not json", "{}", json.dumps(self.manifest) * 2):
+            with self.subTest(contents=contents):
+                if contents is None:
+                    self.manifest_path.unlink()
+                else:
+                    self.manifest_path.write_text(contents)
+                result = self.run_upload()
+                self.assertEqual(1, result.returncode, result.stderr)
+                self.assertIn("Bundle validation failed", result.stderr)
+                self.assertFalse(self.has_remote_marker())
+                self.assertFalse(self.calls.exists())
+
+    def test_zip_must_match_manifest_filename(self):
+        self.publish_bundle_tag()
+        self.manifest["releases"][0]["filename"] = "Questie-v11.0.0+v1.0.0.zip"
+        self.manifest_path.write_text(json.dumps(self.manifest))
+        result = self.run_upload()
+        self.assertEqual(1, result.returncode, result.stderr)
+        self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
+
     def test_existing_reservation_blocks_a_second_upload(self):
         self.publish_bundle_tag()
         self.assertEqual(0, self.run_upload().returncode)
@@ -188,11 +236,41 @@ exec "$REAL_GIT" "$@"
         self.assertTrue(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
+    def test_beta_suffix_must_match_the_tag_commit_prefix(self):
+        for suffix in ("0000000", self.commit[:8]):
+            with self.subTest(suffix=suffix):
+                self.tag = f"bundle/v12.0.0-pre.{suffix}+v1.0.0"
+                self.marker = f"bundle/wago/v12.0.0-pre.{suffix}+v1.0.0"
+                self.env["EXPECTED_MARKER"] = self.marker
+                filename = f"Questie-v12.0.0-pre.{suffix}+v1.0.0.zip"
+                (self.release_dir / filename).write_bytes(b"test artifact")
+                self.env["BUNDLED_ZIP"] = filename
+                self.manifest["releases"][0]["filename"] = filename
+                self.manifest_path.write_text(json.dumps(self.manifest))
+                self.publish_bundle_tag()
+                result = self.run_upload()
+                self.assertEqual(1, result.returncode, result.stderr)
+                self.assertIn("Bundle validation failed", result.stderr)
+                self.assertFalse(self.has_remote_marker())
+                self.assertFalse(self.calls.exists())
+
     def test_prerelease_has_its_own_reservation_and_beta_upload_type(self):
         self.tag = f"bundle/v12.0.0-pre.{self.commit[:7]}+v1.0.0"
         self.marker = f"bundle/wago/v12.0.0-pre.{self.commit[:7]}+v1.0.0"
         self.env["EXPECTED_MARKER"] = self.marker
         self.publish_bundle_tag()
+
+        # A beta tag must not silently upload the stable archive.
+        result = self.run_upload()
+        self.assertEqual(1, result.returncode, result.stderr)
+        self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
+
+        beta_zip = f"Questie-v12.0.0-pre.{self.commit[:7]}+v1.0.0.zip"
+        self.zip.rename(self.release_dir / beta_zip)
+        self.env["BUNDLED_ZIP"] = beta_zip
+        self.manifest["releases"][0]["filename"] = beta_zip
+        self.manifest_path.write_text(json.dumps(self.manifest))
         result = self.run_upload()
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertTrue(self.has_remote_marker())
