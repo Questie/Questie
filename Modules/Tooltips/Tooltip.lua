@@ -654,7 +654,7 @@ end
 -- Returns true/false/nil (fallback) based upon whether we should be filtering this type of tooltip.
 -- This is also where we enable/disable filtering based on whether Questie tooltips are currently shown.
 local function _ShouldBlock(tooltip)
-    if not Questie.db.profile.enableTooltips then return false end
+    if (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then return false end
     local kind = _GetTooltipKind(tooltip)
     if kind == TooltipType.Unit or kind == TooltipType.Object then return true end
     -- Unknown context: blizzard quest objective lines only appear on units/objects anyway
