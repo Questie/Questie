@@ -2869,6 +2869,9 @@ globals = {
     "GetProfessions",
     "ObjectiveTrackerFrame",
     "SetDesaturation",
+    "TooltipDataProcessor.AddLinePreCall",
+    "TooltipDataProcessor.AddLinePostCall",
+    "TooltipDataProcessor.AddTooltipPreCall",
     "TooltipDataProcessor.AddTooltipPostCall",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
