@@ -88,9 +88,14 @@ resolved once to the latest stable release tag; an exact tag can be supplied ins
 They download its manifest, ZIP, and release notes without rebuilding or selecting
 another database version.
 
-**Actual uploads remain hard-disabled pending explicit approval.** For now, selected
-workflows only download the bundle and report the lock. Once enabled, the existing
-upload scripts reserve their platform tags before uploading; uncertain failures
+Before reserving an upload, both scripts validate the bundle tag against the manifest's
+Questie and QuestieDB versions. Questie's `producerCommit` must match the tag's commit;
+beta tags must include its seven-character prefix. The selected ZIP filename must match
+both the manifest and the tag. Missing or mismatched metadata stops the upload without
+creating a reservation. These checks do not inspect ZIP contents or reject an older
+release whose metadata agrees.
+
+The upload scripts reserve their platform tags before uploading; uncertain failures
 require manual reconciliation before retrying.
 
 ## Bundling and verification

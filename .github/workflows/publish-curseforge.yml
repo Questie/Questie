@@ -50,11 +50,8 @@ jobs:
           gh release view --json body --jq '.body' -- "$RELEASE_TAG" > CHANGELOG.md
           echo "BUNDLED_ZIP=$BUNDLED_ZIP" >> "$GITHUB_ENV"
 
-          echo '::notice::CurseForge uploading remains disabled pending approval.'
-
       # Preparation lock: enabling uploads requires separate, explicit approval.
       - name: Upload CurseForge
-        if: ${{ false }}
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
         run: sh upload-cf.sh "$RELEASE_TAG"

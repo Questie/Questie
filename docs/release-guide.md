@@ -28,15 +28,17 @@ v12.0.0-pre.abc1234+v1.0.3
 Git tags retain the `bundle/` prefix. Existing releases aren't overwritten.
 
 ### CurseForge and Wago
-**External uploads are currently disabled pending approval.**
-
-Once enabled, select **Upload to CurseForge/Wago** in the main workflow, or run either separately:
+Select **Upload to CurseForge/Wago** in the main workflow, or run either separately:
 - **Upload existing bundle to CurseForge**
 - **Upload existing bundle to Wago**
 
 They download the published GitHub bundle without rebuilding. Manual runs default to `latest` stable. Enter the exact bundle tag for a prerelease or older release.
 
 Prereleases upload as **beta** on both platforms.
+
+Before reserving or uploading, both scripts check the tag's component versions against `release.json`, verify Questie's source commit against the tag, and require the ZIP filename to match the manifest and tag. Beta tags must include that commit's seven-character prefix.
+
+This rejects mislabeled bundles, not older releases whose metadata agrees. It does not inspect the ZIP's contents.
 
 ### Failed external uploads
 Reservation tags prevent duplicate attempts. Check the platform and previous workflow before retrying.
