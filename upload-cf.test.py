@@ -229,6 +229,27 @@ exec "$REAL_GIT" "$@"
         self.assertTrue(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
+    def test_component_version_cannot_hide_a_beta_suffix_from_validation(self):
+        for component in ("questie", "questiedb"):
+            with self.subTest(component=component):
+                manifest = json.loads(json.dumps(self.manifest))
+                manifest[component]["version"] += "-pre.0000000"
+                self.tag = f"bundle/v{manifest['questie']['version']}+v{manifest['questiedb']['version']}"
+                self.marker = self.tag.replace("bundle/", "bundle/curse/", 1)
+                self.env["EXPECTED_MARKER"] = self.marker
+                filename = f"Questie-{self.tag.removeprefix('bundle/')}.zip"
+                (self.release_dir / filename).write_bytes(b"test artifact")
+                self.env["BUNDLED_ZIP"] = filename
+                manifest["releases"][0]["filename"] = filename
+                self.manifest_path.write_text(json.dumps(manifest))
+                self.publish_bundle_tag()
+
+                result = self.run_upload()
+                self.assertEqual(1, result.returncode, result.stderr)
+                self.assertIn(f"{component}.version must not contain a -pre. suffix", result.stderr)
+                self.assertFalse(self.has_remote_marker())
+                self.assertFalse(self.calls.exists())
+
     def test_beta_suffix_must_match_the_tag_commit_prefix(self):
         for suffix in ("0000000", self.commit[:8]):
             with self.subTest(suffix=suffix):

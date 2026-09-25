@@ -32,6 +32,15 @@ if [ "$manifest_commit" != "$bundle_commit" ]; then
   fail_validation "Manifest commit $manifest_commit does not match tag commit $bundle_commit"
 fi
 
+# The -pre.<commit> suffix belongs to the bundle tag, not either component version.
+# Otherwise a beta-shaped tag could pass the stable-tag check below.
+case "$questie_version" in
+  *-pre.*) fail_validation "questie.version must not contain a -pre. suffix" ;;
+esac
+case "$database_version" in
+  *-pre.*) fail_validation "questiedb.version must not contain a -pre. suffix" ;;
+esac
+
 short_commit=$(printf '%.7s' "$bundle_commit")
 stable_tag="bundle/v$questie_version+v$database_version"
 beta_tag="bundle/v$questie_version-pre.$short_commit+v$database_version"
