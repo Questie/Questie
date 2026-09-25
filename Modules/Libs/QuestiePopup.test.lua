@@ -1,9 +1,9 @@
 dofile("setupTests.lua")
 
 describe("QuestiePopup consumers", function()
-    local Popup, externalPopup, visible, widgets, nativeButtons, options
+    local Popup, externalPopup, visible, widgets, nativeButtons, options, addon
     local savedGlobals, exportedGlobals
-    local globalNames = {"AddonDialog", "QuestiePopup", "YES", "NO", "CLOSE", "GetLocale", "QUESTIE_LOCALES_OVERRIDE",
+    local globalNames = {"QuestiePopup", "YES", "NO", "CLOSE", "GetLocale", "QUESTIE_LOCALES_OVERRIDE",
         "ReloadUI", "UISpecialFrames", "LibStub", "CreateFrame", "QuestieConfig"}
 
     -- UI-only fixture: consumer definitions and callbacks are loaded from production files.
@@ -44,7 +44,7 @@ describe("QuestiePopup consumers", function()
 
         -- Mock the external popup API, including cancellation on reuse and data-before-OnShow.
         externalPopup = {Dialogs = {}}
-        _G.AddonDialog = externalPopup
+        addon = { Dialog = externalPopup }
         function externalPopup.FindVisible(key) return visible[key] end
         function externalPopup.Hide(key) visible[key] = nil end
         function externalPopup.Show(key, arg1, arg2, data)
@@ -60,7 +60,7 @@ describe("QuestiePopup consumers", function()
             if info.OnShow then info.OnShow(frame, data) end
             return frame
         end
-        dofile("Modules/Libs/QuestiePopup.lua")
+        assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", addon)
         Popup = QuestieLoader:ImportModule("QuestiePopup")
 
         local aceGUI = {}
@@ -94,7 +94,7 @@ describe("QuestiePopup consumers", function()
         exportedGlobals = {}
         for name in pairs(QuestieLoader._modules) do exportedGlobals[name] = {_G[name]} end
         QuestieLoader:PopulateGlobals()
-        assert.equals(externalPopup, _G.AddonDialog)
+        assert.equals(externalPopup, addon.Dialog)
         assert.equals(Popup, _G.QuestiePopup)
     end)
 
@@ -107,9 +107,8 @@ describe("QuestiePopup consumers", function()
 
     it("runs locale reuse, cancellation and acceptance through the real dialog", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
-        local env, errors = fixture.NewEnvironment()
-        _G.AddonDialog = env.AddonDialog
-        dofile("Modules/Libs/QuestiePopup.lua")
+        local _, errors, _, private = fixture.NewEnvironment()
+        assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
         dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
         local args = options.tabs.advanced:Initialize().args
         args.locale_dropdown.set(nil, "deDE")
@@ -127,11 +126,10 @@ describe("QuestiePopup consumers", function()
         assert.same({}, errors)
     end)
 
-    it("uses the real named edit box and keeps styles separate between dialog purposes", function()
+    it("uses direct edit-box references and keeps styles separate between dialog purposes", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
-        local env, errors = fixture.NewEnvironment()
-        _G.AddonDialog = env.AddonDialog
-        dofile("Modules/Libs/QuestiePopup.lua")
+        local _, errors, _, private = fixture.NewEnvironment()
+        assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
         dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
         options.tabs.advanced:Initialize().args.questieReset.func()
         local first = Popup.FindVisible("QUESTIE_RESET_CONFIRM")
@@ -151,7 +149,8 @@ describe("QuestiePopup consumers", function()
         assert.equals("17", frame:GetEditBoxText())
         assert.is_true(frame:GetEditBox().focused)
         assert.is_true(frame:GetEditBox().highlighted)
-        assert.equals(frame:GetEditBox(), env[frame:GetName() .. "EditBox"])
+        assert.is_nil(frame:GetName())
+        assert.equals(frame:GetEditBox(), frame.EditBox)
         assert.same({}, errors)
         assert.spy(ReloadUI).was.not_called()
     end)
@@ -269,9 +268,8 @@ describe("QuestiePopup consumers", function()
 
     it("accepts only the current hide confirmation when its dedicated frame is reopened", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
-        local env, errors = fixture.NewEnvironment()
-        _G.AddonDialog = env.AddonDialog
-        dofile("Modules/Libs/QuestiePopup.lua")
+        local _, errors, _, private = fixture.NewEnvironment()
+        assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
         dofile("Modules/FramePool/QuestieFramePool.lua")
         local quest = QuestieLoader:ImportModule("QuestieQuest")
         quest.HideQuest = spy.new(function() end)

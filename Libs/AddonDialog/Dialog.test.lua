@@ -1,10 +1,10 @@
 local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
 
 describe("small addon dialogs", function()
-  local env, errors, harness, dialogs
+  local env, errors, harness, dialogs, private
   before_each(function()
-    env, errors, harness = fixture.NewEnvironment()
-    dialogs = env.AddonDialog
+    env, errors, harness, private = fixture.NewEnvironment()
+    dialogs = private.Dialog
     dialogs.Dialogs.A = { text = "Confirm %s", button1 = "Yes", button2 = "No", whileDead = true }
     dialogs.Dialogs.B = { text = "Another decision", button2 = "Close", whileDead = true }
   end)
@@ -160,7 +160,8 @@ describe("small addon dialogs", function()
     dialogs.Dialogs.B.EditBoxOnEscapePressed = dialogs.Dialogs.B.EditBoxOnEnterPressed
     local frame = dialogs.Show("B")
     assert.are.equal("https://example.test", frame:GetEditBoxText())
-    assert.are.equal(frame.EditBox, env[frame:GetName() .. "EditBox"])
+    assert.is_nil(frame:GetName())
+    assert.are.equal(frame.EditBox, frame:GetEditBox())
     assert.is_true(frame.EditBox.focused)
     assert.is_true(frame.EditBox.highlighted)
     frame.EditBox:GetScript("OnEnterPressed")(frame.EditBox)
@@ -202,22 +203,81 @@ describe("small addon dialogs", function()
     assert.is_false(frame:IsShown())
   end)
 
-  it("shares identical lean installations without touching the older full namespace", function()
-    local full = { marker = "older full library" }
-    env.AddonPopup = full
-    local frame = dialogs.Show("A", "first")
-    local chunk = assert(loadfile("Libs/AddonDialog/Dialog.lua"))
-    setfenv(chunk, env)()
-    assert.are.equal(dialogs, env.AddonDialog)
-    assert.are.equal(frame, dialogs.FindVisible("A"))
-    assert.are.equal(full, env.AddonPopup)
+  it("keeps implementations and definitions private while sharing only frame positioning", function()
+    local otherPrivate = {}
+    local other = fixture.LoadDialog(env, otherPrivate)
+    assert.are_not.equal(dialogs, other)
+    assert.are_not.equal(dialogs.Dialogs, other.Dialogs)
+    other.Dialogs.A = { text = "Other addon", button2 = "Close", whileDead = true }
+    local first = dialogs.Show("A", "first")
+    local second = other.Show("A")
+    harness.stack.driver.OnUpdate(harness.stack.driver, 0)
+    assert.are_not.equal(first, second)
+    assert.are.equal("Confirm first", first.Text:GetText())
+    assert.are.equal("Other addon", second.Text:GetText())
+    assert.are.equal(first.points[1][5] - first:GetHeight() - 10, second.points[1][5])
+    assert.is_nil(rawget(env, "AddonDialog"))
+    assert.is_nil(rawget(env, "AddonDialogMixin"))
+    dialogs.Hide("A")
+    assert.is_true(second:IsShown())
   end)
 
-  it("scans immediately and at 0.1 seconds, stopping when the last dialog closes", function()
-    local calls = 0
-    dialogs.PositionDialogs = function() calls = calls + 1 end
+  it("relayouts after first-show text measurements settle without rewriting stable geometry", function()
     local frame = dialogs.Show("A", "this")
     local driver = harness.lastCreatedFrame
+    local setHeight, writes = frame.SetHeight, 0
+    frame.SetHeight = function(self, height) writes = writes + 1; setHeight(self, height) end
+    frame.Text.GetStringHeight = function() return 100 end
+
+    driver.OnUpdate(driver, 0.01)
+
+    assert.are.equal(-125, frame.Button1.points[1][5])
+    assert.are.equal(16, frame:GetHeight() - (125 + frame.Button1:GetHeight()))
+    assert.are.equal(1, writes)
+    driver.OnUpdate(driver, 0.1)
+    assert.are.equal(1, writes, "Unchanged font measurements must not repeat layout writes")
+  end)
+
+  it("adapts button size and frame height when visible font metrics change", function()
+    local frame = dialogs.Show("A", "this")
+    local driver = harness.lastCreatedFrame
+    driver.OnUpdate(driver, 0.01)
+    local initialHeight = frame:GetHeight()
+    frame.Button1.GetTextWidth = function() return 230 end
+    frame.Button1:GetFontString().GetStringHeight = function() return 30 end
+
+    driver.OnUpdate(driver, 0.1)
+
+    assert.are.equal(250, frame.Button1:GetWidth())
+    assert.are.equal(250, frame.Button2:GetWidth())
+    assert.are.equal(38, frame.Button1:GetHeight())
+    assert.is_true(frame:GetHeight() > initialHeight)
+    assert.are.equal(16, frame:GetHeight() + frame.Button1.points[1][5] - frame.Button1:GetHeight())
+  end)
+
+  it("repositions the shared stack after one addon's private dialog grows", function()
+    local first = dialogs.Show("A", "first")
+    local driver = harness.lastCreatedFrame
+    local other = fixture.LoadDialog(env, {})
+    other.Dialogs.B = { text = "Other addon", button2 = "Close", whileDead = true }
+    local second = other.Show("B")
+    harness.stack.driver.OnUpdate(harness.stack.driver, 0)
+    local oldTop = second.points[1][5]
+    first.Text.GetStringHeight = function() return 150 end
+
+    driver.OnUpdate(driver, 0.01)
+    harness.stack.driver.OnUpdate(harness.stack.driver, 0)
+
+    assert.is_true(second.points[1][5] < oldTop)
+    assert.are.equal(first.points[1][5] - first:GetHeight() - 10, second.points[1][5])
+  end)
+
+  it("checks layout next frame then every 0.1 seconds and stops when closed", function()
+    local frame = dialogs.Show("A", "this")
+    local driver = harness.lastCreatedFrame
+    local resize, calls = frame.Resize, 0
+    frame.Resize = function(self) calls = calls + 1; resize(self) end
+    driver.OnUpdate(driver, 0.01)
     assert.are.equal(1, calls)
     driver.OnUpdate(driver, 0.05)
     assert.are.equal(1, calls)
@@ -225,5 +285,7 @@ describe("small addon dialogs", function()
     assert.are.equal(2, calls)
     frame:Hide()
     assert.is_false(driver:IsShown())
+    harness.stack.driver.OnUpdate(harness.stack.driver, 0)
+    assert.is_false(harness.stack.driver:IsShown())
   end)
 end)
