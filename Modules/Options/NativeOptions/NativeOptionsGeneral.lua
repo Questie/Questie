@@ -252,12 +252,24 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                     minimapButtonEnabled = {
                         type = "checkbox",
                         order = 5.3,
-                        title = "Enable Minimap Button",
+                        title = "Show Minimap Button",
                         tooltip = "Enable or disable the Questie minimap button. You can still access the options menu with /questie.",
                         width = "half",
                         get = function() return not Questie.db.profile.minimap.hide; end,
                         set = function(info, value)
                             MinimapIcon.Toggle(value)
+                        end,
+                    },
+                    compartmentButtonEnabled = {
+                        type = "checkbox",
+                        order = 5.35,
+                        title = "Show Questie in addon compartment",
+                        tooltip = "Enable or disable the Questie button in the addon compartment. You can still access the options menu with /questie.",
+                        width = "half",
+                        visible = _G.AddonCompartmentFrame ~= nil,
+                        get = function() return Questie.db.profile.minimap.showInCompartment; end,
+                        set = function(info, value)
+                            MinimapIcon.ToggleCompartment(value)
                         end,
                     },
                     mapCoordinatesEnabled = {
