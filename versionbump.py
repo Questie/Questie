@@ -5,6 +5,8 @@ Usage example:
 
 python versionbump.py 12.0.0
 
+Add --no-git after the version to update TOCs without staging, committing or tagging.
+
 This is a helper script that will:
 
 1. Update the "Version" and "Title" fields in all the toc files except
@@ -22,12 +24,12 @@ import sys
 if not len(sys.argv) > 1:
     print('ERROR: Needs new version number provided as argument')
     print(helptext)
-    exit()
+    exit(1)
 version = sys.argv[1]
 if version[0] == "v":
     print('ERROR: Please omit the "v" prefix. The script will add it')
     print(helptext)
-    exit()
+    exit(1)
 if version in ["-h", "--help"]:
     print(helptext[1:]) # skip first char (a \n)
     exit()
@@ -43,7 +45,13 @@ for number, expansion in EXPANSIONS.items():
             else:
                 print(line, end='')
 
-# commit and tag changes
-subprocess.run(['git', 'add', '*.toc'])
-subprocess.run(['git', 'commit', '-mBump version to v' + version])
-subprocess.run(['git', 'tag', 'v' + version])
+if '--no-git' in sys.argv[2:]:
+    exit()
+
+# commit and tag changes; stop on failure so a failed commit cannot tag the old HEAD
+if subprocess.run(['git', 'add', '*.toc']).returncode != 0:
+    exit(1)
+if subprocess.run(['git', 'commit', '-mBump version to v' + version]).returncode != 0:
+    exit(1)
+if subprocess.run(['git', 'tag', 'v' + version]).returncode != 0:
+    exit(1)
