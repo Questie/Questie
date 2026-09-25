@@ -266,6 +266,11 @@ local migrationFunctions = {
         Questie.db.global.factionSpecificTownsfolk = nil
         Questie.db.global.petFoodVendorTypes = nil
     end,
+    [41] = function()
+        -- New setting: show Questie in the addon compartment by default, mirroring DBM.
+        Questie.db.profile.minimap = Questie.db.profile.minimap or {hide = false}
+        Questie.db.profile.minimap.showInCompartment = true
+    end,
 }
 
 function Migration:Migrate()

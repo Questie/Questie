@@ -15,7 +15,12 @@ describe("MinimapIcon", function()
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
 
-    local LibDBIconMock = {Hide = spy.new(function() end)}
+    local LibDBIconMock = {
+        Hide = spy.new(function() end),
+        Show = spy.new(function() end),
+        AddButtonToCompartment = spy.new(function() end),
+        RemoveButtonFromCompartment = spy.new(function() end),
+    }
 
     local match = require("luassert.match")
     local _ = match._ -- any match
@@ -23,7 +28,12 @@ describe("MinimapIcon", function()
     before_each(function()
         Questie.started = true
         Questie.db.profile.enabled = true
-        Questie.db.profile.minimap = {hide = false}
+        Questie.db.profile.minimap = {hide = false, showInCompartment = false}
+
+        LibDBIconMock.Hide:clear()
+        LibDBIconMock.Show:clear()
+        LibDBIconMock.AddButtonToCompartment:clear()
+        LibDBIconMock.RemoveButtonFromCompartment:clear()
 
         _G.IsControlKeyDown = function() return false end
         _G.IsShiftKeyDown = function() return false end
@@ -146,5 +156,21 @@ describe("MinimapIcon", function()
 
         assert.is_true(Questie.db.profile.minimap.hide)
         assert.spy(LibDBIconMock.Hide).was.called_with(_, "Questie")
+    end)
+
+    it("should add the button to the compartment when toggled on", function()
+        MinimapIcon.ToggleCompartment(true)
+
+        assert.is_true(Questie.db.profile.minimap.showInCompartment)
+        assert.spy(LibDBIconMock.AddButtonToCompartment).was.called_with(_, "Questie")
+        assert.spy(LibDBIconMock.RemoveButtonFromCompartment).was.not_called()
+    end)
+
+    it("should remove the button from the compartment when toggled off", function()
+        MinimapIcon.ToggleCompartment(false)
+
+        assert.is_false(Questie.db.profile.minimap.showInCompartment)
+        assert.spy(LibDBIconMock.RemoveButtonFromCompartment).was.called_with(_, "Questie")
+        assert.spy(LibDBIconMock.AddButtonToCompartment).was.not_called()
     end)
 end)
