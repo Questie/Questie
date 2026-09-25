@@ -1,0 +1,93 @@
+name: Bump version
+run-name: "Bump to v${{ inputs.version }} on ${{ github.ref_name }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version without the v prefix (for example 12.0.1)
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: versionbump-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  bump:
+    name: Update TOCs, commit and tag
+    if: ${{ github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    environment: version-bump
+    env:
+      VERSION: ${{ inputs.version }}
+      TARGET_BRANCH: ${{ github.ref_name }}
+    steps:
+      # Environment approval is required before this job receives the private key.
+      # Limit each short-lived token to this repository and Contents write access.
+      - name: Create app token
+        id: app-token
+        uses: actions/create-github-app-token@v3.2.0
+        with:
+          client-id: ${{ vars.VERSION_BUMP_APP_CLIENT_ID }}
+          private-key: ${{ secrets.VERSION_BUMP_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+
+      - name: Checkout selected commit
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Update versions
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9]+)*$ ]]; then
+            echo "Enter a version such as 12.0.1 or 12.0.1-b1, without a v prefix." >&2
+            exit 1
+          fi
+          python3 versionbump.py "$VERSION" --no-git
+
+      - name: Commit, tag and push
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          AUTHOR_LOGIN: ${{ github.actor }}
+          AUTHOR_ID: ${{ github.actor_id }}
+        run: |
+          existing_tag=$(git tag --list "v$VERSION")
+          if [[ -n "$existing_tag" ]]; then
+            echo "Tag v$VERSION already exists; refusing to replace it." >&2
+            exit 1
+          fi
+
+          bot_id=$(gh api "/users/${APP_SLUG}[bot]" --jq '.id')
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${bot_id}+${APP_SLUG}[bot]@users.noreply.github.com"
+          git add -- 'Questie_*.toc'
+          # Credit the original initiator; the app remains the authenticated committer.
+          git commit --author "$AUTHOR_LOGIN <$AUTHOR_ID+$AUTHOR_LOGIN@users.noreply.github.com>" \
+            -m "Bump version to v$VERSION"
+          git tag "v$VERSION"
+
+          # Publish both refs together. A rejected branch or tag must leave neither
+          # change on origin. Do not force pushes or bypass branch protection.
+          git push --atomic origin "HEAD:refs/heads/$TARGET_BRANCH" "refs/tags/v$VERSION"
+
+      - name: Summarize
+        run: |
+          commit=$(git rev-parse HEAD)
+          {
+            printf 'Updated flavor TOCs to %s on branch %s.\n\n' "$VERSION" "$TARGET_BRANCH"
+            printf 'Created commit %s and tag v%s.\n\n' "$commit" "$VERSION"
+            printf 'No GitHub release or platform upload was created.\n'
+          } >> "$GITHUB_STEP_SUMMARY"
