@@ -68,7 +68,7 @@ jobs:
           git push --tags
 
       - name: Bump version dry run (no git actions)
-        if: if: ${{ inputs.dry_run }}
+        if: ${{ inputs.dry_run }}
         run: |
           versionbump.py ${{ inputs.version }} --no-git; echo $?
           cat Questie_Vanilla.toc | grep "## Version:"
