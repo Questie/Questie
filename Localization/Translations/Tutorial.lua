@@ -124,16 +124,16 @@ local tutorialLocals = {
     },
     ["With WoW Forever Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"] = {
         ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-    },
+        ["deDE"] = "Mit WoW Forever hat Blizzard sein eigenes Questziel-System eingeführt.\n\nBitte wähle den Questziel-Stil, den du verwenden möchtest:",
+        ["esES"] = "Con WoW Forever, Blizzard introdujo su propio sistema de objetivos de misión.\n\nElige el estilo de objetivos que quieres usar:",
+        ["esMX"] = "Con WoW Forever, Blizzard introdujo su propio sistema de objetivos de misión.\n\nElige el estilo de objetivos que quieres usar:",
+        ["frFR"] = "Avec WoW Forever, Blizzard a introduit son propre système d’objectifs de quête.\n\nVeuillez choisir le style d’objectifs que vous souhaitez utiliser :",
+        ["koKR"] = "월드 오브 워크래프트: 포에버에서 Blizzard는 자체 퀘스트 목표 시스템을 도입했습니다.\n\n사용할 목표 스타일을 선택하세요:",
+        ["ptBR"] = "Com WoW Forever, a Blizzard introduziu seu próprio sistema de objetivos de missão.\n\nEscolha o estilo de objetivos que deseja usar:",
+        ["ruRU"] = "В WoW Forever Blizzard представила собственную систему целей для заданий\n\nПожалуйста, выберите стиль значков, который вы хотите использовать",
+        ["zhCN"] = "在魔兽世界：无限中，暴雪推出了自己的任务目标系统\n\n请选择你想使用的目标样式：",
+        ["zhTW"] = "在魔​獸​世界：​永恆中，暴雪推出了自己的任務目標系統\n\n請選擇你想使用的目標樣式：",
+},
 }
 
 for k, v in pairs(tutorialLocals) do
