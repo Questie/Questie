@@ -1,9 +1,27 @@
 ## Questie release guide
 
 ### Prepare
-Bump the Questie version in all flavor TOCs and commit it first. Workflows never bump versions or create commits.
+Run the manual **Bump version** workflow on `master` and enter a version without the `v` prefix, for example `12.0.1`. A reviewer must approve the `version-bump` environment before the job starts, even when the reviewer started the run. Other branches and tags are skipped.
+
+It updates the Version and Title fields in all supported flavor TOCs, leaves the unsupported-client `Questie.toc` unchanged, commits as `Bump version to v12.0.1`, and creates tag `v12.0.1`. The branch commit and tag are pushed together; a rejected push publishes neither. Existing tags and unchanged versions fail rather than being overwritten or retagged. Branch protection still applies.
+
+This only prepares the source version. It does not create a GitHub release or upload to CurseForge/Wago. The workflow must exist on the default branch before GitHub offers **Run workflow**. Then select the prepared tag in **Build and publish bundle** to build that exact source commit.
+
+For a local bump, run `uv run --no-project versionbump.py 12.0.1` from a clean checkout root. This creates a local commit and tag but does not push. Add `--no-git` to only edit the TOCs. Failed Git commands stop the script; successful earlier steps are not rolled back.
 
 Builds include the latest stable QuestieDB. For database-only updates, reuse the same Questie source revision.
+
+### Version-bump permissions
+
+The `version-bump` environment must allow only branch `master`, require maintainer approval, and contain:
+- Variable `VERSION_BUMP_APP_CLIENT_ID`: the app's Client ID.
+- Secret `VERSION_BUMP_APP_PRIVATE_KEY`: its complete PEM private key.
+
+Install the app only on Questie with Contents read/write permission. The workflow requests a short-lived token limited to that repository and permission; it does not use the initiating user's credentials. The original workflow initiator (`github.actor`) is recorded as the commit author using their GitHub noreply address; the app's bot account is the committer. Reruns keep the original author, and environment approvals remain in GitHub's deployment audit history.
+
+Allow the app to push to `master`, but leave branch deletion and force pushes blocked. For `v*` tags, give the app bypass only on a creation-only ruleset. A separate ruleset must still block updates, deletion and force pushes without app bypass. Exclude `v*` from any older creation rule that would otherwise block the app. Maintainer bypass entries remain independent of the app.
+
+The workflow does not change these settings. If authentication or a protection rule rejects the atomic push, neither the branch commit nor the tag is published.
 
 ### Preview
 Open [GitHub Actions](https://github.com/Questie/Questie/actions) → **Build and publish bundle**.
