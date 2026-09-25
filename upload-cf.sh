@@ -99,7 +99,7 @@ echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to CurseForge"
 # The order of the "gameVersions" below is: Classic Era, Forever, TBC, Wrath (3.80.1), MoP
 CF_METADATA=$(cat <<-EOF
 {
-    "displayName": "$LATEST_GIT_TAG",
+    "displayName": "${LATEST_GIT_TAG#bundle/}",
     "releaseType": "$RELEASE_TYPE",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",

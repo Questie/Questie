@@ -94,7 +94,7 @@ echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to Wago"
 
 WAGO_METADATA=$(cat <<-EOF
 {
-   "label": "$LATEST_GIT_TAG",
+   "label": "${LATEST_GIT_TAG#bundle/}",
    "stability": "$RELEASE_TYPE",
    "changelog": $CHANGELOG,
    "supported_classic_patch": "1.15.9",

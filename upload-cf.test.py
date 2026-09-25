@@ -109,6 +109,7 @@ exit "$UPLOAD_EXIT"
         arguments = Path(str(self.calls) + ".args").read_text()
         self.assertIn(f"file=@releases/v12.0.0/{self.zip.name}", arguments)
         self.assertIn('"releaseType": "release"', arguments)
+        self.assertIn('"displayName": "v12.0.0+v1.0.0"', arguments)
         self.assertIn(self.commit, self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
 
     def test_manifest_mismatches_fail_without_reserving_or_uploading(self):
@@ -288,7 +289,9 @@ exec "$REAL_GIT" "$@"
         result = self.run_upload()
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertTrue(self.has_remote_marker())
-        self.assertIn('"releaseType": "beta"', Path(str(self.calls) + ".args").read_text())
+        arguments = Path(str(self.calls) + ".args").read_text()
+        self.assertIn('"releaseType": "beta"', arguments)
+        self.assertIn(f'"displayName": "v12.0.0-pre.{self.commit[:7]}+v1.0.0"', arguments)
 
 
 if __name__ == "__main__":

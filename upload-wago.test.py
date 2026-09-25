@@ -109,6 +109,7 @@ exit "$UPLOAD_EXIT"
         arguments = Path(str(self.calls) + ".args").read_text()
         self.assertIn(f"file=@releases/v12.0.0/{self.zip.name}", arguments)
         self.assertIn('"stability": "stable"', arguments)
+        self.assertIn('"label": "v12.0.0+v1.0.0"', arguments)
         self.assertIn("authorization: Bearer test-token", arguments)
         self.assertIn("https://addons.wago.io/api/projects/qv634BKb/version", arguments)
         self.assertIn(self.commit, self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
@@ -308,7 +309,9 @@ exec "$REAL_GIT" "$@"
         result = self.run_upload()
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertTrue(self.has_remote_marker())
-        self.assertIn('"stability": "beta"', Path(str(self.calls) + ".args").read_text())
+        arguments = Path(str(self.calls) + ".args").read_text()
+        self.assertIn('"stability": "beta"', arguments)
+        self.assertIn(f'"label": "v12.0.0-pre.{self.commit[:7]}+v1.0.0"', arguments)
 
 
 if __name__ == "__main__":
