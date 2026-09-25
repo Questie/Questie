@@ -3,6 +3,10 @@ name: Build and publish bundle
 on:
   workflow_dispatch:
     inputs:
+      version:
+        description: The new version number to use, e.g. 12.0.0
+        type: string
+        required: true
       release:
         description: (--release) Publish a normal release instead of a prerelease
         type: boolean
@@ -48,6 +52,27 @@ jobs:
 
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
+
+      - name: Bump version
+        if: ${{ !inputs.dry_run }}
+        run: |
+          existing_tag=$(git tag --list "v$VERSION")
+          if [[ -n "$existing_tag" ]]; then
+            echo "Tag v$VERSION already exists; refusing to replace it." >&2
+            exit 1
+          fi
+          git config user.name "github-actions[bot]" &&\
+          git config user.email "github-actions[bot]@users.noreply.github.com" &&\
+          versionbump.py ${{ inputs.version }} &&\
+          git push &&\
+          git push --tags
+
+      - name: Bump version dry run (no git actions)
+        if: if: ${{ inputs.dry_run }}
+        run: |
+          versionbump.py ${{ inputs.version }} --no-git; echo $?
+          cat Questie_Vanilla.toc | grep "## Version:"
+          cat Questie_Vanilla.toc | grep "## Title:"
 
       - name: Build ZIP
         run: |
