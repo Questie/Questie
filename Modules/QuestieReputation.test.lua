@@ -26,6 +26,9 @@ describe("QuestieReputation", function()
         _G.IsPlayerSpell = spy.new(function()
             return false
         end)
+        _G.IsInInstance = spy.new(function()
+            return false
+        end)
         _G.UnitAura = spy.new(function()
             return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
         end)

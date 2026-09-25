@@ -14,6 +14,7 @@ describe("QuestXP support data", function()
         _G.GetMaxPlayerLevel = function() return 60 end
         _G.UnitAura = function() return nil end
         _G.IsSpellKnown = function() return false end
+        _G.IsInInstance = function() return false end
         _G.floor = math.floor
         Questie.IsSoD = false
         local Expansions = QuestieLoader:ImportModule("Expansions")

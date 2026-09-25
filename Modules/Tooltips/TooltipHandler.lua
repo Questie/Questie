@@ -10,7 +10,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local lastGuid
 
 function _QuestieTooltips:AddUnitDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then
         return
     end
 

@@ -42,7 +42,7 @@ end
 ---Skips aura reads during Forever combat; other clients retain their normal money-bonus check.
 ---@return boolean
 local function HasDiscoverersDelight()
-    if Questie.IsForever and InCombatLockdown() then return false end
+    if Questie.IsForever and (InCombatLockdown() or IsInInstance()) then return false end
 
     for i = 1, 40 do
         local _, _, _, _, _, _, _, _, _, spellId = QuestieCompat.UnitAura("player", i, "HELPFUL")
@@ -131,7 +131,7 @@ end
 ---This changes only the displayed estimate; normal level scaling and guild perks still apply.
 ---@return number
 _GetBuffMultiplier = function()
-    if Questie.IsForever and InCombatLockdown() then return 0 end
+    if Questie.IsForever and (InCombatLockdown() or IsInInstance()) then return 0 end
 
     local buffMultiplier = 0
     for i = 1, 40 do
