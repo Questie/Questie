@@ -212,6 +212,41 @@ describe("BlobExtractor", function()
         assert.is_nil(job.thread)
     end)
 
+    it("keeps overall timings and phase query counts without detailed timing by default", function()
+        local time = 0
+        local job = finish(new(function(x, y)
+            return (x - 0.5)^2 + (y - 0.5)^2 < 0.04
+        end, {clock = function() time = time + 0.000001; return time end}))
+        assert.are.same({}, job.phaseSeconds)
+        assert.is_true(job.activeSeconds > 0)
+        assert.is_true(job.wallSeconds > 0)
+        assert.is_true(job.maxSliceSeconds > 0)
+        assert.is_true(job.phaseQueries.discovery > 0)
+        assert.is_true(job.phaseQueries.refinement > 0)
+    end)
+
+    it("can enable detailed phase timings without changing geometry or query counts", function()
+        local function circle(x, y) return (x - 0.5)^2 + (y - 0.5)^2 < 0.04 end
+        local plain = finish(new(circle))
+        local time = 0
+        local profiled = finish(new(circle, {
+            profilePhases = true,
+            clock = function() time = time + 0.000001; return time end,
+        }))
+        assert.are.same(plain.contours, profiled.contours)
+        assert.are.equal(plain.queries, profiled.queries)
+        assert.are.same(plain.phaseQueries, profiled.phaseQueries)
+        assert.is_true(profiled.phaseSeconds.discovery > 0)
+        assert.is_true(profiled.phaseSeconds.assembly > 0)
+        assert.is_true(profiled.phaseSeconds.simplification > 0)
+    end)
+
+    it("rejects non-boolean profiling options", function()
+        local job, err = Extractor.New(function() return false end, {clock = os.clock, profilePhases = "yes"})
+        assert.is_nil(job)
+        assert.are.equal("profilePhases must be a boolean", err)
+    end)
+
     it("rejects a non-dyadic lattice before starting", function()
         local job, err = Extractor.New(function() return false end, {clock = os.clock, discoveryCells = 8, boundaryCells = 80})
         assert.is_nil(job)

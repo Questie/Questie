@@ -37,12 +37,15 @@ Options:
 - `edgeTolerance`: normalized edge-crossing precision, default 1/32768; range 1/16777216 through 1/boundaryCells.
 - `budgetSeconds`: cooperative Step budget, default 0.001, range 0.0001–0.002.
 - `clock`: defaults to GetTimePreciseSec; an injected monotonic seconds clock permits offline testing.
+- `profilePhases`: defaults to false. Set true for detailed per-resume phase timing; overall timings and phase query counts are always collected.
 
 `New` returns `nil, error` for invalid inputs. Status is `running`, `complete`, `cancelled` or `error`. Extraction errors are returned as `job.reason`; the library does not print or invoke the game's error handler. Cancelled/error jobs publish no partial contours. Completed and cancelled jobs are inert and release their oracle/coroutine references and working state for garbage collection.
 
 Completed `job.contours` is an array of cyclic rings, each an array of normalized `{x, y}` pairs. The last point connects to the first; the first point is not repeated. Render with **even-odd fill semantics** so discovered inner rings remain holes. Rings are deterministic for a fixed oracle/configuration, but no semantic outer/hole labels or original native blob IDs are assigned.
 
-Metrics include `queries`, `crossings`, `discoveryVisited`, `boundaryVisited`, `rawVertices`, `vertices`, `activeSeconds`, `wallSeconds`, `maxSliceSeconds`, `slices`, `phaseQueries` and `phaseSeconds`. Active time includes all Step bookkeeping; phase time measures resumed phase work and therefore does not sum to the full active duration.
+Metrics include `queries`, `crossings`, `discoveryVisited`, `boundaryVisited`, `rawVertices`, `vertices`, `activeSeconds`, `wallSeconds`, `maxSliceSeconds`, `slices`, `phaseQueries` and `phaseSeconds`. Active time includes all Step bookkeeping. `phaseSeconds` is empty by default; with `profilePhases = true`, it measures resumed phase work and therefore does not sum to the full active duration.
+
+The [micro-optimization measurements](performance/micro-optimizations/README.md) retained only this optional profiling change. Fresh paired medians improved from 13.804 to 12.009 ms for quest 7 and from 37.057 to 34.509 ms for quest 33. Query order/count, geometry, yield points and budget checks remain unchanged. Query batching had real total-time gains but was deferred after slice outliers; table reuse and broad aliases were not retained.
 
 ## Algorithm
 
