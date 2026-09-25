@@ -6,6 +6,7 @@ local BlobExtractor = QuestieLoader:CreateModule("BlobExtractor")
 ---@field edgeTolerance? number Normalized crossing precision; defaults to 1/32768.
 ---@field budgetSeconds? number Cooperative Step budget, 0.0001-0.002; defaults to 0.001.
 ---@field clock? fun():number Defaults to GetTimePreciseSec; inject a clock for offline use.
+---@field profilePhases? boolean Enable detailed per-resume timing; defaults to false. Overall timing is always collected.
 
 ---@class BlobExtractionJob
 ---@field status "running"|"complete"|"cancelled"|"error"
@@ -18,7 +19,7 @@ local BlobExtractor = QuestieLoader:CreateModule("BlobExtractor")
 ---@field activeSeconds number Total time inside Step, including bookkeeping.
 ---@field wallSeconds number Elapsed time since New.
 ---@field maxSliceSeconds number Largest measured Step duration.
----@field phaseSeconds table<string,number> Time within resumed phase work, excluding Step bookkeeping.
+---@field phaseSeconds table<string,number> Empty unless profilePhases=true; resumed phase time excludes Step bookkeeping.
 ---@field phaseQueries table<string,integer>
 local Job = {}
 Job.__index = Job
@@ -196,6 +197,9 @@ function BlobExtractor.New(contains, options)
     local tolerance, budget = options.edgeTolerance or 1 / 32768, options.budgetSeconds or 0.001
     local clock = options.clock or GetTimePreciseSec
     if type(contains) ~= "function" or type(clock) ~= "function" then return nil, "A membership function and clock are required" end
+    if options.profilePhases ~= nil and type(options.profilePhases) ~= "boolean" then
+        return nil, "profilePhases must be a boolean"
+    end
     if type(coarse) ~= "number" or coarse < 2 or coarse > 128 or coarse % 1 ~= 0
         or type(fine) ~= "number" or fine < coarse * 2 or fine > 4096 or fine % coarse ~= 0 then
         return nil, "Use integer discovery cells 2-128 and a boundary grid up to 4096 with a power-of-two ratio"
@@ -213,7 +217,7 @@ function BlobExtractor.New(contains, options)
         edgeTolerance = tolerance, budgetSeconds = budget, maxQueries = 250000, maxCells = 250000,
         phase = "discovery", status = "running", queries = 0, crossings = 0, discoveryVisited = 0, boundaryVisited = 0,
         rawVertices = 0, vertices = 0, activeSeconds = 0, wallSeconds = 0, maxSliceSeconds = 0, slices = 0,
-        phaseSeconds = {}, phaseQueries = {}, startedAt = clock()}, Job)
+        phaseSeconds = {}, phaseQueries = {}, profilePhases = options.profilePhases == true, startedAt = clock()}, Job)
     job.thread = coroutine.create(function() _Extract(job) end)
     return job
 end
@@ -230,12 +234,15 @@ function Job:Step()
     if self.status ~= "running" then return end
     local start, units = self.clock(), 0
     while self.status == "running" and units < 512 and self.clock() - start < self.budgetSeconds do
-        local before = self.clock()
+        -- Detailed profiling adds two timer reads per resume; normal jobs only time the slice and its budget.
+        local before = self.profilePhases and self.clock()
         local ok, err = coroutine.resume(self.thread)
         -- The oracle may cancel and release the thread before returning or throwing.
         if self.status ~= "running" then break end
-        local elapsed = self.clock() - before
-        self.phaseSeconds[self.phase] = (self.phaseSeconds[self.phase] or 0) + elapsed
+        if before then
+            local elapsed = self.clock() - before
+            self.phaseSeconds[self.phase] = (self.phaseSeconds[self.phase] or 0) + elapsed
+        end
         units = units + 1
         if not ok then
             self.status, self.reason, self.contours = "error", tostring(err), nil

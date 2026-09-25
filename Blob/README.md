@@ -4,6 +4,8 @@ Local experiments and findings for Forever quest POI/blob rendering, hit-testing
 
 ## Start here
 
+- [Native world-map prototype](WORLD_MAP.md): `/blobmap [all|questID|off]` draws loaded Blizzard blobs at map locations, following canvas zoom/pan without hover, tooltips or click handlers.
+- [Micro-optimization decisions](performance/micro-optimizations/README.md): paired live measurements of all five candidates; only optional phase profiling was retained. Includes combined tests, outlier analysis and exact-output checks.
 - [One-time outline extractor](EXTRACTOR.md): sparse discovery, boundary following and precise edge bisection; compact cyclic rings, budgeted jobs, golden validation and native timings. Separate from the grid scanner.
 - [Golden reference and performance](performance/README.md): 3.15-million-sample native capture, live query/timing benchmarks, and an offline accuracy/query-budget test. Experimental strategies are not wired into `/blob`.
 - [Local hitscan library and workbench](HITSCAN_PROTOTYPE.md): `/blob` now has **Grid hits** and **Outline** modes, objective filtering, background budgets, native blue previews with squares or closed contours, and timing metrics. Loaded locally by the Camelot TOC only.

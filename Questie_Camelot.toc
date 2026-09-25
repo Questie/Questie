@@ -295,6 +295,7 @@ Public\RegisterOnReady.lua
 Blob\BlobHitscan.lua
 Blob\BlobExtractor.lua
 Blob\BlobHitscanUI.lua
+Blob\BlobWorldMap.lua
 
 # Main - Always load Questie.lua last
 Questie.lua
