@@ -1,4 +1,44 @@
 #!/bin/sh
+# Manual upload to Wago:
+# First publish the bundle on GitHub with "Build and publish bundle". This script
+# distributes that existing release; it does not build or create a GitHub release.
+# Run from the checkout root with git, gh, jq and curl installed, gh authenticated,
+# and permission to push tags to origin. Continue only when each step succeeds.
+#
+# 1. Choose an existing release (replace these example values). Use a fresh download
+#    directory so files from another release cannot be reused accidentally.
+#    RELEASE_TAG="bundle/v12.0.0+v1.0.3"
+#    export BUNDLED_ZIP="Questie-v12.0.0+v1.0.3.zip"
+#    export RELEASE_DIR="$(mktemp -d)"
+#
+#    For a beta, use these values instead BEFORE downloading:
+#    RELEASE_TAG="bundle/v12.0.0-pre.c24dba5+v1.0.3"
+#    export BUNDLED_ZIP="Questie-v12.0.0-pre.c24dba5+v1.0.3.zip"
+#
+# 2. Download the manifest and ZIP from that same GitHub release:
+#    gh release download "$RELEASE_TAG" --repo Questie/Questie --pattern release.json --dir "$RELEASE_DIR"
+#
+#    Optional: read the ZIP filename with jq instead of entering it manually:
+#    export BUNDLED_ZIP="$(jq -er '.releases[0].filename' "$RELEASE_DIR/release.json")"
+#
+#    gh release download "$RELEASE_TAG" --repo Questie/Questie --pattern "$BUNDLED_ZIP" --dir "$RELEASE_DIR"
+#
+# 3. Fetch the published notes, just as the upload workflow does. This overwrites
+#    CHANGELOG.md in the checkout root; save any local edits to that file first.
+#    gh release view "$RELEASE_TAG" --repo Questie/Questie --json body --template '{{.body}}' > CHANGELOG.md
+#
+#    Alternatively, render notes from the downloaded manifest with Python via uv
+#    (no gh needed for this step; later edits to the GitHub release notes are not included):
+#    uv run --no-project changelog.py --release-manifest "$RELEASE_DIR/release.json" > CHANGELOG.md
+#
+# 4. Check the downloaded files and notes, then export WAGO_API_TOKEN securely in
+#    your shell. Do not commit the token or paste it here. Start the upload:
+#    sh upload-wago.sh "$RELEASE_TAG"
+#
+# Tags containing -pre.<commit> upload as beta; other tags upload as stable.
+# "latest" is not accepted here. The script still requires jq with a manual ZIP name.
+# This performs a REAL upload and pushes a reservation tag to origin. There is no
+# dry-run mode. If it fails, check Wago before following the printed retry steps.
 set -eu
 
 command -v git >/dev/null 2>&1 || { echo "Git is required to reserve a Wago upload" >&2; exit 1; }
