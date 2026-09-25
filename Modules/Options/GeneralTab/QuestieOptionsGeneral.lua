@@ -283,7 +283,7 @@ function QuestieOptions.tabs.general:Initialize()
                     compartmentButtonEnabled = {
                         type = "toggle",
                         order = 5.35,
-                        name = function() return l10n("Show compartment button"); end,
+                        name = function() return l10n("Show Questie in addon compartment"); end,
                         desc = function() return l10n("Enable or disable the Questie button in the addon compartment. You can still access the options menu with /questie."); end,
                         width = 1.55,
                         hidden = function() return _G.AddonCompartmentFrame == nil end,
