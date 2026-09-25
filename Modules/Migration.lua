@@ -299,6 +299,11 @@ local migrationFunctions = {
     [47] = function()
         Questie.db.profile.trackerFollowSuperTracking = false
     end,
+    [48] = function()
+        -- New setting: show Questie in the addon compartment by default, mirroring DBM.
+        Questie.db.profile.minimap = Questie.db.profile.minimap or {hide = false}
+        Questie.db.profile.minimap.showInCompartment = true
+    end,
 }
 
 function Migration:Migrate()
