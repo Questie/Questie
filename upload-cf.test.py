@@ -113,10 +113,10 @@ exit "$UPLOAD_EXIT"
 
     def test_manifest_mismatches_fail_without_reserving_or_uploading(self):
         self.publish_bundle_tag()
-        for section, field, value in (
-            ("questie", "version", "11.0.0"),
-            ("questiedb", "version", "0.9.0"),
-            ("questie", "producerCommit", "0" * 40),
+        for section, field, value, message in (
+            ("questie", "version", "11.0.0", "Release tag"),
+            ("questiedb", "version", "0.9.0", "Release tag"),
+            ("questie", "producerCommit", "0" * 40, "Manifest commit"),
         ):
             with self.subTest(section=section, field=field):
                 manifest = json.loads(json.dumps(self.manifest))
@@ -124,7 +124,19 @@ exit "$UPLOAD_EXIT"
                 self.manifest_path.write_text(json.dumps(manifest))
                 result = self.run_upload()
                 self.assertEqual(1, result.returncode, result.stderr)
-                self.assertIn("Bundle validation failed", result.stderr)
+                self.assertIn(f"Bundle validation failed: {message}", result.stderr)
+                self.assertFalse(self.has_remote_marker())
+                self.assertFalse(self.calls.exists())
+
+    def test_manifest_strings_are_not_coerced_or_trimmed(self):
+        self.publish_bundle_tag()
+        for value in (None, 12, {}, [], "", "12.0.0\n", "12.0.0\u0000"):
+            with self.subTest(value=value):
+                self.manifest["questie"]["version"] = value
+                self.manifest_path.write_text(json.dumps(self.manifest))
+                result = self.run_upload()
+                self.assertEqual(1, result.returncode, result.stderr)
+                self.assertIn(".questie.version must be a nonempty string", result.stderr)
                 self.assertFalse(self.has_remote_marker())
                 self.assertFalse(self.calls.exists())
 
@@ -148,6 +160,7 @@ exit "$UPLOAD_EXIT"
         self.manifest_path.write_text(json.dumps(self.manifest))
         result = self.run_upload()
         self.assertEqual(1, result.returncode, result.stderr)
+        self.assertIn(f"Selected ZIP {self.zip.name} does not match manifest ZIP", result.stderr)
         self.assertFalse(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
