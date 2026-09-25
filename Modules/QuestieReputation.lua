@@ -340,7 +340,7 @@ end
 ---This changes only the displayed estimate; racial and other non-aura modifiers still apply.
 ---@return number
 _GetBuffMultiplier = function()
-    if Questie.IsForever and InCombatLockdown() then return 0 end
+    if Questie.IsForever and (InCombatLockdown() or IsInInstance()) then return 0 end
 
     local buffMultiplier = 0
     for i = 1, 40 do

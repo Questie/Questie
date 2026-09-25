@@ -19,7 +19,7 @@ local activeTargetFrame
 function QuestieNameplate:NameplateCreated(token)
     Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
     -- if nameplates are disabled, don't create new nameplates.
-    if (not Questie.db.profile.nameplateEnabled) then
+    if (not Questie.db.profile.nameplateEnabled) or (Questie.IsForever and IsInInstance()) then
         return
     end
 
@@ -57,7 +57,7 @@ end
 function QuestieNameplate:NameplateDestroyed(token)
     Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
 
-    if (not Questie.db.profile.nameplateEnabled) then
+    if (not Questie.db.profile.nameplateEnabled) or (Questie.IsForever and IsInInstance()) then
         return
     end
 
@@ -166,7 +166,7 @@ end
 function QuestieNameplate:DrawTargetFrame()
     Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
-    if (not Questie.db.profile.nameplateTargetFrameEnabled) then
+    if (not Questie.db.profile.nameplateTargetFrameEnabled) or (Questie.IsForever and IsInInstance()) then
         return
     end
 
