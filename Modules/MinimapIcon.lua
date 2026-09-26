@@ -134,6 +134,17 @@ function MinimapIcon.Toggle(shouldShow)
     end
 end
 
+---@param shouldShow boolean
+function MinimapIcon.ToggleCompartment(shouldShow)
+    Questie.db.profile.minimap.showInCompartment = shouldShow;
+
+    if shouldShow then
+        _LibDBIcon:AddButtonToCompartment("Questie")
+    else
+        _LibDBIcon:RemoveButtonFromCompartment("Questie")
+    end
+end
+
 function _MinimapIcon.RepositionIcon()
     local button = _LibDBIcon:GetMinimapButton("Questie")
     if button then
