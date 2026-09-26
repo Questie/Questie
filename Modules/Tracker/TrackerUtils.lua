@@ -1139,7 +1139,7 @@ end
 function TrackerUtils.HasQuest()
     local hasQuest
 
-    if (GetNumQuestWatches(true) == 0) then
+    if (QuestieTracker.GetNumTrackedQuests() == 0) then
         if Expansions.Current >= Expansions.Wotlk then
             if (GetNumTrackedAchievements(true) == 0) then
                 hasQuest = false
@@ -1154,7 +1154,7 @@ function TrackerUtils.HasQuest()
             local isTrackingIncompleteQuest = false
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
                 if not quest then break end
-                if IsQuestWatched(QuestieCompat.GetQuestLogIndexByID(quest.Id)) and quest:IsComplete() == 0 then
+                if QuestieTracker.IsTrackedByQuestie(quest.Id) and quest:IsComplete() == 0 then
                     isTrackingIncompleteQuest = true
                     break
                 end

@@ -129,42 +129,51 @@ describe("QuestieTracker", function()
         end)
     end)
 
-    describe("legacy watch hook ownership", function()
-        local originalIsWatched, originalCount, originalExpansion
-        local Expansions
-
-        before_each(function()
-            Expansions = QuestieLoader:ImportModule("Expansions")
-            originalExpansion = Expansions.Current
-            originalIsWatched = _G.IsQuestWatched
-            originalCount = _G.GetNumQuestWatches
-            Expansions.Current = Expansions.Era
-            local timers = QuestieLoader:ImportModule("TrackerQuestTimers")
-            timers.HideBlizzardTimer = function() end
-            timers.ShowBlizzardTimer = function() end
-            QuestieTracker.alreadyHooked = nil
-            QuestieTracker.alreadyHookedSecure = true
+    describe("IsTrackedByQuestie", function()
+        it("should return false when questId is nil", function()
+            assert.is_false(QuestieTracker.IsTrackedByQuestie(nil))
         end)
 
-        after_each(function()
-            _G.IsQuestWatched = originalIsWatched
-            _G.GetNumQuestWatches = originalCount
-            Expansions.Current = originalExpansion
+        it("should return true when manual tracking has the quest in TrackedQuests", function()
+            Questie.db.profile.autoTrackQuests = false
+            Questie.db.char.TrackedQuests[RIVERPAW_GNOLL_BOUNTY_ID] = true
+            assert.is_true(QuestieTracker.IsTrackedByQuestie(RIVERPAW_GNOLL_BOUNTY_ID))
         end)
 
-        it("restores absent legacy APIs after disabling and re-enabling", function()
-            _G.IsQuestWatched = nil
-            _G.GetNumQuestWatches = nil
-            QuestieTracker:HookBaseTracker()
-            assert.is_function(_G.IsQuestWatched)
-            assert.is_function(_G.GetNumQuestWatches)
-            QuestieTracker:Unhook()
-            assert.is_nil(_G.IsQuestWatched)
-            assert.is_nil(_G.GetNumQuestWatches)
-            QuestieTracker:HookBaseTracker()
-            QuestieTracker:Unhook()
-            assert.is_nil(_G.IsQuestWatched)
-            assert.is_nil(_G.GetNumQuestWatches)
+        it("should return false when manual tracking does not have the quest in TrackedQuests", function()
+            Questie.db.profile.autoTrackQuests = false
+            assert.is_false(QuestieTracker.IsTrackedByQuestie(RIVERPAW_GNOLL_BOUNTY_ID))
+        end)
+
+        it("should return true when auto-tracking has the quest in the current questlog and not auto-untracked", function()
+            Questie.db.profile.autoTrackQuests = true
+            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+            QuestiePlayer.currentQuestlog = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
+            assert.is_true(QuestieTracker.IsTrackedByQuestie(RIVERPAW_GNOLL_BOUNTY_ID))
+        end)
+
+        it("should return false when auto-tracking has the quest auto-untracked", function()
+            Questie.db.profile.autoTrackQuests = true
+            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+            QuestiePlayer.currentQuestlog = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
+            Questie.db.char.AutoUntrackedQuests[RIVERPAW_GNOLL_BOUNTY_ID] = true
+            assert.is_false(QuestieTracker.IsTrackedByQuestie(RIVERPAW_GNOLL_BOUNTY_ID))
+        end)
+    end)
+
+    describe("GetNumTrackedQuests", function()
+        it("should count TrackedQuests when auto-tracking is disabled", function()
+            Questie.db.profile.autoTrackQuests = false
+            Questie.db.char.TrackedQuests = {[RIVERPAW_GNOLL_BOUNTY_ID] = true, [COLLECTING_KELP_ID] = true}
+            assert.are.equal(2, QuestieTracker.GetNumTrackedQuests())
+        end)
+
+        it("should subtract auto-untracked quests from the quest log count when auto-tracking is enabled", function()
+            Questie.db.profile.autoTrackQuests = true
+            Questie.db.char.AutoUntrackedQuests = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
+            local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+            QuestLogCache.GetQuestCount = function() return 5 end
+            assert.are.equal(4, QuestieTracker.GetNumTrackedQuests())
         end)
     end)
 
