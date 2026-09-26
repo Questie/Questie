@@ -173,8 +173,8 @@ function QuestieTracker.Initialize()
         -- Sync and populate the QuestieTracker - this should only run when a player has loaded
         -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
 
-        -- The questsWatched variable is populated by the Unhooked GetNumQuestWatches(). If Questie
-        -- is enabled, this is always 0 unless it's run with a true var RE:GetNumQuestWatches(true).
+        -- The questsWatched variable holds the native (Blizzard) watch count captured before Questie
+        -- takes over quest watching, so any pre-existing native watches can be migrated into the tracker.
         if questsWatched > 0 then
             -- When a quest is removed from the Watch Frame, the questIndex can change so we need to snag
             -- the entire list and build a temp table with QuestIDs instead to ensure we remove them all.
@@ -1948,8 +1948,38 @@ function QuestieTracker:UpdateHeight()
     end
 end
 
--- A missing legacy API is a valid original value on Forever; still restore it on disable.
-local questWatchHooksSaved = false
+---@param questId QuestId
+---@return boolean @true if Questie is tracking the quest, false if not
+function QuestieTracker.IsTrackedByQuestie(questId)
+    if not questId then
+        return false
+    end
+
+    if not Questie.db.profile.autoTrackQuests then
+        return not not Questie.db.char.TrackedQuests[questId]
+    else
+        return not not (QuestiePlayer.currentQuestlog[questId] and (not Questie.db.char.AutoUntrackedQuests[questId]))
+    end
+end
+
+---@return number @the number of quests Questie is currently tracking
+function QuestieTracker.GetNumTrackedQuests()
+    if Questie.db.profile.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
+        local autoUnTrackedQuests = 0
+        for _ in pairs(Questie.db.char.AutoUntrackedQuests) do
+            autoUnTrackedQuests = autoUnTrackedQuests + 1
+        end
+        return QuestLogCache.GetQuestCount() - autoUnTrackedQuests
+    elseif Questie.db.char.TrackedQuests then
+        local autoTrackedQuests = 0
+        for _ in pairs(Questie.db.char.TrackedQuests) do
+            autoTrackedQuests = autoTrackedQuests + 1
+        end
+        return autoTrackedQuests
+    else
+        return 0
+    end
+end
 
 function QuestieTracker:Unhook()
     if (not QuestieTracker.alreadyHooked) then
@@ -1961,12 +1991,6 @@ function QuestieTracker:Unhook()
     QuestieTracker.disableHooks = true
 
     TrackerQuestTimers:ShowBlizzardTimer()
-
-    -- Quest Hooks
-    if questWatchHooksSaved then
-        IsQuestWatched = QuestieTracker.IsQuestWatched
-        GetNumQuestWatches = QuestieTracker.GetNumQuestWatches
-    end
 
     -- Achievement Hooks
     if Expansions.Current >= Expansions.Wotlk then
@@ -2037,48 +2061,6 @@ function QuestieTracker:HookBaseTracker()
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:HookBaseTracker] - Non-secure hooks")
-
-    -- Quest Hooks
-    if not questWatchHooksSaved then
-        questWatchHooksSaved = true
-        QuestieTracker.IsQuestWatched = IsQuestWatched
-        QuestieTracker.GetNumQuestWatches = GetNumQuestWatches
-    end
-
-    -- Intercept and return a Questie boolean value
-    IsQuestWatched = function(index)
-        local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
-        if questId == 0 then
-            -- When an objective progresses in TBC "index" is the questId, but when a quest is manually added to the quest watch
-            -- (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
-            questId = index
-        end
-
-        if not Questie.db.profile.autoTrackQuests then
-            return Questie.db.char.TrackedQuests[questId or -1]
-        else
-            return questId and QuestiePlayer.currentQuestlog[questId] and (not Questie.db.char.AutoUntrackedQuests[questId])
-        end
-    end
-
-    -- Intercept and return only what Questie is tracking
-    GetNumQuestWatches = function(isQuestie)
-        if isQuestie and Questie.db.profile.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
-            local autoUnTrackedQuests = 0
-            for _ in pairs(Questie.db.char.AutoUntrackedQuests) do
-                autoUnTrackedQuests = autoUnTrackedQuests + 1
-            end
-            return QuestLogCache.GetQuestCount() - autoUnTrackedQuests
-        elseif isQuestie and Questie.db.char.TrackedQuests then
-            local autoTrackedQuests = 0
-            for _ in pairs(Questie.db.char.TrackedQuests) do
-                autoTrackedQuests = autoTrackedQuests + 1
-            end
-            return autoTrackedQuests
-        else
-            return 0
-        end
-    end
 
     -- Achievement Hooks
     if Expansions.Current >= Expansions.Wotlk then

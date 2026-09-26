@@ -18,6 +18,8 @@ describe("TrackerUtils", function()
     local TrackerUtils
     ---@type Expansions
     local Expansions
+    ---@type QuestieTracker
+    local QuestieTracker
 
     local rePositionLineMock
     local match = require("luassert.match")
@@ -48,6 +50,9 @@ describe("TrackerUtils", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+        QuestieTracker.GetNumTrackedQuests = function() return 0 end
+        QuestieTracker.IsTrackedByQuestie = function() return false end
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         QuestieLoader:ImportModule("TrackerItemButton")
 
@@ -650,7 +655,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should return true when a quest is tracked", function()
-            _G.GetNumQuestWatches = function() return 1 end
+            QuestieTracker.GetNumTrackedQuests = function() return 1 end
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -658,7 +663,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should return true when no quest is tracked but an achievement for Cata", function()
-            _G.GetNumQuestWatches = function() return 0 end
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 1 end
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
@@ -669,7 +674,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should return true when no quest is tracked but an achievement for WotLK", function()
-            _G.GetNumQuestWatches = function() return 0 end
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 1 end
             Questie.IsWotlk = true
             Expansions.Current = Expansions.Wotlk
@@ -680,7 +685,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should return false when no quest and achievement is tracked for Cata", function()
-            _G.GetNumQuestWatches = function() return 0 end
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 0 end
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
@@ -691,7 +696,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should return false when no quest and achievement is tracked for WotLK", function()
-            _G.GetNumQuestWatches = function() return 0 end
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
             _G.GetNumTrackedAchievements = function() return 0 end
             Questie.IsWotlk = true
             Expansions.Current = Expansions.Wotlk
@@ -702,7 +707,7 @@ describe("TrackerUtils", function()
         end)
 
         it("should return false when no quest is tracked", function()
-            _G.GetNumQuestWatches = function() return 0 end
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
 
             local hasQuest = TrackerUtils.HasQuest()
 
@@ -710,11 +715,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should return true when a single quest is tracked and it is not complete and complete quests should not show", function()
-            _G.GetNumQuestWatches = function() return 1 end
-            _G.GetQuestLogIndexByID = function()
-                return 1
-            end
-            _G.IsQuestWatched = function() return true end
+            QuestieTracker.GetNumTrackedQuests = function() return 1 end
+            QuestieTracker.IsTrackedByQuestie = function() return true end
             Questie.db.profile.trackerShowCompleteQuests = false
             QuestiePlayer.currentQuestlog = {
                 [1] = {
@@ -728,15 +730,9 @@ describe("TrackerUtils", function()
         end)
 
         it("should return true when a single quest is tracked and it is not complete but another is and complete quests should not show", function()
-            _G.GetNumQuestWatches = function() return 1 end
-            _G.GetQuestLogIndexByID = function(questId)
-                return questId -- This is enough for the test case
-            end
-            _G.IsQuestWatched = function(index)
-                if index == 1 then
-                    return true
-                end
-                return false
+            QuestieTracker.GetNumTrackedQuests = function() return 1 end
+            QuestieTracker.IsTrackedByQuestie = function(questId)
+                return questId == 1
             end
             Questie.db.profile.trackerShowCompleteQuests = false
             QuestiePlayer.currentQuestlog = {
@@ -756,11 +752,8 @@ describe("TrackerUtils", function()
         end)
 
         it("should return false when a quest is tracked and it is complete and complete quests should not show", function()
-            _G.GetNumQuestWatches = function() return 1 end
-            _G.GetQuestLogIndexByID = function()
-                return 1
-            end
-            _G.IsQuestWatched = function() return true end
+            QuestieTracker.GetNumTrackedQuests = function() return 1 end
+            QuestieTracker.IsTrackedByQuestie = function() return true end
             Questie.db.profile.trackerShowCompleteQuests = false
             QuestiePlayer.currentQuestlog = {
                 [1] = {
