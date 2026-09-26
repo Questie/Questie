@@ -66,11 +66,10 @@ Do not treat API existence, a passing mock, or an out-of-combat probe as proof o
 
 ### Watch ownership and timers
 
-**Status: deferred refactor with open validation questions.** Consumers: `Modules/Tracker/QuestieTracker.lua`, `TrackerUtils.lua`, `TrackerQuestTimers.lua`, and the watch/timer adapters in `Modules/QuestieCompat.lua`.
+**Status: count/state separation done; timer question still open.** Consumers: `Modules/Tracker/QuestieTracker.lua`, `TrackerUtils.lua`, `TrackerQuestTimers.lua`, and the watch/timer adapters in `Modules/QuestieCompat.lua`.
 
-- Separate Questie's own count/state queries from native watch globals before considering removal of Forever interception. `TrackerUtils` uses synthetic `GetNumQuestWatches(true)` and `IsQuestWatched`; ordinary callers of the intercepted count receive zero. Compat's modern count ignores the private argument, so it is not a substitute.
-- Preserve native watches, repeated-add idempotency, manual untracking, index/ID conversion, and combat-deferred visibility. Do not simply delete hook assignments.
-- Define teardown ownership: restoring a captured global can overwrite another addon's later replacement. Inter-addon behavior remains unverified.
+- Done: `GetNumQuestWatches(true)` is not private Questie policy anymore; it is a watch-visibility/lifecycle query and should not be used to describe Questie’s own tracked-quest count. For Questie’s tracked-quest count, use `QuestieTracker.GetNumTrackedQuests()` (and `QuestieTracker.IsTrackedByQuestie(questId)` for per-quest state). `TrackerUtils.HasQuest` now uses those explicit Questie APIs instead of assuming `GetNumQuestWatches(true)` represents the tracker’s private policy. `QuestieCompat.IsQuestWatched`/`GetNumQuestWatches` remain the native watch-state API (used for startup migration of pre-existing Blizzard watches and the QuestLinks hook) and are unaffected.
+- Preserve native watches, repeated-add idempotency, manual untracking, index/ID conversion, and combat-deferred visibility. The secure `AddQuestWatch`/`RemoveQuestWatch` hooks (unconditional ownership mechanism) were not touched by this change.
 - Resolve conflicting progression-Classic evidence: loaded Mists `Blizzard_UIPanels_Game/Wrath/QuestMapFrame.lua:207–208` uses namespaced watches, but generated declarations do not confirm them and Questie's namespace hooks are Forever-only. Check the real call path before generalizing the Forever behavior. Modern watch type 0 is valid; test absence with nil, not truthiness of the enum.
 - Observe a timed quest with Blizzard timers enabled. Forever's `Blizzard_QuestTimer/Mainline/Blizzard_QuestTimer.xml:3` parents the timer to the objective tracker, so showing it cannot overcome a hidden parent. Keep timer record-to-varargs conversion and legacy selection restoration unless consumers migrate together.
 
