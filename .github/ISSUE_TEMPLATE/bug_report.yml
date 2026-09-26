@@ -1,7 +1,7 @@
 name: Bug Report
 description: >
   Create a report about any bug you might encounter. Maybe you've got some error message showing up?
-labels: ["Bug"]
+labels: [ "Bug" ]
 
 body:
   - type: markdown
@@ -52,6 +52,7 @@ body:
       options:
         - Era/HC
         - Season of Discovery
+        - Forever
         - TBC
         - WotLK
         - Cata
