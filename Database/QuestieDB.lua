@@ -1604,9 +1604,14 @@ local function _IsComplete(self)
     return QuestieDB.IsComplete(self.Id)
 end
 
----@param questLevel number the level of the quest
+---@param questLevel number? the level of the quest
 ---@return boolean @Returns true if the quest should be grey, false otherwise
 function QuestieDB.IsTrivial(questLevel)
+    if questLevel == nil then
+        -- We assume unknown quests are not trivial
+        return false
+    end
+
     if questLevel == -1 then
         return false -- Scaling quests are never trivial
     end

@@ -267,6 +267,10 @@ describe("QuestieDB", function()
     end)
 
     describe("IsTrivial", function()
+        it("should return false for nil quest level", function()
+            assert.is_false(QuestieDB.IsTrivial(nil))
+        end)
+
         it("should return false for scaling quests", function()
             QuestiePlayer.GetPlayerLevel = spy.new(function() return 60 end)
 
