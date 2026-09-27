@@ -13,6 +13,8 @@ local TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
 local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
 
 local coYield = coroutine.yield
 
@@ -482,20 +484,22 @@ function TrackerLinePool.AddQuestLine(questId, line)
 end
 
 ---@param questId QuestId
-function TrackerLinePool.UpdateQuestLines(questId)
+---@param quest TrackerQuest
+function TrackerLinePool.UpdateQuestLines(questId, quest)
     if not linesByQuest[questId] then
         return
     end
 
-    local lines = linesByQuest[questId]
-    for _, line in pairs(lines) do
+    for _, line in pairs(linesByQuest[questId]) do
         if line.Objective then
-            ---@type QuestObjective
-            local objective = line.Objective
-            local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
-
-            local objDesc = QuestieLib:GetObjectiveDescription(objective)
-            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+            -- A changed objective list can leave an old row until the next out-of-combat layout.
+            local objective = quest.Objectives[line.Objective.Index]
+            if objective then
+                line.Objective = objective
+                line.label:SetText(TrackerData.GetObjectiveText(objective))
+            else
+                line.label:SetText("")
+            end
         end
     end
 end
