@@ -62,41 +62,35 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
     quest.sourceItemId = enriched and enriched.sourceItemId or 0
     quest.requiredSourceItems = enriched and enriched.requiredSourceItems or {}
 
-    -- QuestLogCache owns normalized progress and its loading-screen regression protection. A cache miss
-    -- must not erase a previous snapshot. The existing synchronous reader also primes client data on first load.
+    -- Try to get the last valid quest snapshot. A missing entry is expected while loading;
+    -- unlike GetQuest, this read-only lookup does not report it as an error. Never modify the entry.
     local cached = QuestLogCache.questLog_DO_NOT_MODIFY[questId]
-    local objectives = cached and cached.objectives or QuestieLib.GetLoadedQuestObjectives(questId)
-    local ready = objectives ~= nil
-    local objectiveIndices = {}
-    for index, objective in pairs(objectives or {}) do
-        objectiveIndices[#objectiveIndices + 1] = index
-        local text = objective.raw_text or objective.text
-        if not text or text == "" or string.byte(text, 1) == 32 or not objective.type then
-            ready = false
-            break
-        end
-    end
+    local previousObjectives = quest.Objectives
+    quest.Objectives = {}
+    quest.ObjectiveData = {}
+    quest.SpecialObjectives = {}
+    quest.objectivesLoaded = cached ~= nil
 
-    if ready then
-        quest.objectivesLoaded = true
-        quest.completionState = cached and QuestieDB.IsComplete(questId) or nativeComplete or 0
-        local previousObjectives = quest.Objectives
-        quest.Objectives = {}
-        quest.ObjectiveData = {}
+    if cached then
+        quest.completionState = QuestieDB.IsComplete(questId)
         local allObjectivesMatched = enriched ~= nil
+        local objectiveIndices = {}
+        for index in pairs(cached.objectives) do
+            objectiveIndices[#objectiveIndices + 1] = index
+        end
 
         -- QuestLogCache can omit invalid empty rows. Keep native ordering without letting a hole
         -- discard later objectives; display indices stay dense for the line pool's incremental updates.
         table.sort(objectiveIndices)
         for displayIndex, index in ipairs(objectiveIndices) do
-            local live = objectives[index]
+            local live = cached.objectives[index]
             local objective = previousObjectives[displayIndex] or {}
             local rawText = live.raw_text or live.text
             objective.Index = displayIndex
             objective.NativeIndex = index
             objective.questId = questId
             objective.Type = live.type
-            objective.Description = live.raw_text and live.text or QuestieLib.TrimObjectiveText(rawText, live.type)
+            objective.Description = live.text
             objective.FullDescription = QuestieLib.GetFullObjectiveTextConditional(rawText)
             objective.Collected = tonumber(live.numFulfilled) or 0
             objective.Needed = tonumber(live.numRequired) or 0
@@ -164,29 +158,9 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
         quest.isComplete = quest.completionState ~= -1 and (quest.completionState == 1
             or (allObjectivesMatched and enriched.isComplete == true)) or false
     else
-        -- Keep display progress on a cache miss, but never retain map references whose owner disappeared.
-        local retainedEnrichment = enriched ~= nil
-        for _, objective in ipairs(quest.Objectives) do
-            local original = objective.enrichment
-            if original and (not enriched or not enriched.Objectives or enriched.Objectives[objective.NativeIndex or objective.Index] ~= original) then
-                objective.enrichment = nil
-                objective.Id = nil
-                objective.spawnList = {}
-                objective.AlreadySpawned = {}
-                objective.Icon = nil
-                retainedEnrichment = false
-            end
-        end
-        if not retainedEnrichment then
-            quest.ObjectiveData = {}
-            quest.SpecialObjectives = {}
-            quest.isComplete = quest.completionState == 1
-        end
-        if nativeComplete == -1 then
-            -- Failure is authoritative even while objective text is still loading.
-            quest.completionState = -1
-            quest.isComplete = false
-        end
+        -- Do not infer completion from an initial cache miss. Native failure can still be shown.
+        quest.completionState = nativeComplete == -1 and -1 or 0
+        quest.isComplete = false
     end
     return quest
 end
