@@ -10,8 +10,10 @@ describe("QuestLogCache", function()
 
     local questLogTitles = {}
     local questObjectives = {}
+    local originalHaveQuestData, originalGetQuestLogTitle, originalQuestLog
 
     before_each(function()
+        originalHaveQuestData, originalGetQuestLogTitle, originalQuestLog = _G.HaveQuestData, _G.GetQuestLogTitle, _G.C_QuestLog
         questLogTitles = {}
         questObjectives = {}
 
@@ -25,7 +27,7 @@ describe("QuestLogCache", function()
         end
         _G.C_QuestLog = {
             GetQuestObjectives = function(questId)
-                return questObjectives[questId] or {}
+                return questObjectives[questId]
             end
         }
 
@@ -40,7 +42,76 @@ describe("QuestLogCache", function()
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
     end)
 
+    after_each(function()
+        _G.HaveQuestData, _G.GetQuestLogTitle, _G.C_QuestLog = originalHaveQuestData, originalGetQuestLogTitle, originalQuestLog
+    end)
+
     describe("CheckForChanges", function()
+        it("retries a nil objective response without publishing an empty completed quest", function()
+            questLogTitles[1] = {"Return the book", 2, nil, false, false, nil, nil, QUEST_ID}
+
+            local cacheMiss, changes, checked = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_true(cacheMiss)
+            assert.are.same({}, changes)
+            assert.are.same({[QUEST_ID] = true}, checked)
+            assert.is_nil(QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID])
+
+            questObjectives[QUEST_ID] = {{text = "Return the book.", type = "log", numFulfilled = 0, numRequired = 1, finished = false}}
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+        end)
+
+        it("retains the last valid snapshot when a row loses its type and publishes it when ready", function()
+            questLogTitles[1] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "Item: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+            local previous = QuestLogCache.GetQuest(QUEST_ID)
+            questObjectives[QUEST_ID] = {{text = "Item: 3/5", numFulfilled = 3, numRequired = 5, finished = false}}
+
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_true(cacheMiss)
+            assert.are.same({}, changes)
+            assert.are.equal(previous, QuestLogCache.GetQuest(QUEST_ID))
+            assert.are.equal(2, previous.objectives[1].numFulfilled)
+            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+
+            questObjectives[QUEST_ID][1].type = "item"
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.equal(3, QuestLogCache.GetQuest(QUEST_ID).objectives[1].numFulfilled)
+        end)
+
+        it("does not play progress sounds when a later objective is missing its type", function()
+            questLogTitles[1] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {
+                {text = "Item: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false},
+                {text = "Wolf slain: 0/3", type = "monster", numFulfilled = 0, numRequired = 3, finished = false},
+            }
+            QuestLogCache.CheckForChanges(nil)
+            local previous = QuestLogCache.GetQuest(QUEST_ID)
+            questObjectives[QUEST_ID][1].text = "Item: 3/5"
+            questObjectives[QUEST_ID][1].numFulfilled = 3
+            questObjectives[QUEST_ID][2].type = nil
+
+            assert.is_true(QuestLogCache.CheckForChanges(nil))
+            assert.is_true(QuestLogCache.CheckForChanges(nil))
+            assert.are.equal(previous, QuestLogCache.GetQuest(QUEST_ID))
+            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+
+            questObjectives[QUEST_ID][2].type = "monster"
+            assert.is_false(QuestLogCache.CheckForChanges(nil))
+            assert.are.equal(3, QuestLogCache.GetQuest(QUEST_ID).objectives[1].numFulfilled)
+            assert.spy(Sounds.PlayObjectiveProgress).was.called(1)
+        end)
+
         it("should add a new quest to the cache on first scan without playing any sounds", function()
             questLogTitles = {
                 [1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID},
