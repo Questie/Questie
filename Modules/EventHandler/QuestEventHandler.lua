@@ -216,22 +216,25 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end
 
     questLog[questId] = {}
-
-    -- Timed quests do not need a full Quest Log Update.
-    -- TODO: Add achievement timers later.
-    local questTimers = QuestieCompat.GetQuestTimers(questId)
-    if type(questTimers) == "number" then
-        lastMarkerQuestEventTime = GetTime()
-    end
+    lastMarkerQuestEventTime = GetTime()
 
     QuestieLib.RepairMissingItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
+    -- The title can be displayed before objective data finishes loading.
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
 
     BreadcrumbQuests.CheckQuestBreadcrumbs(questId)
 end
 
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
+    local pending = questLog[questId]
+    if not pending or pending.state then
+        return
+    end
+
     -- The quest may have been abandoned (e.g. auto-abandon for incomplete breadcrumb) while waiting for the cache
     local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if not questLogIndex or questLogIndex == 0 then
@@ -246,7 +249,10 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
         Questie.Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
         if (not isRetry) then
             C_Timer.After(0.5, function()
-                _QuestEventHandler:HandleQuestAccepted(questId, true)
+                -- A removed/re-accepted quest has a different lifecycle, even with the same ID.
+                if questLog[questId] == pending then
+                    _QuestEventHandler:HandleQuestAccepted(questId, true)
+                end
             end)
         end
         return
@@ -357,7 +363,7 @@ end
 ---@param questId number
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
-    if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
+    if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
 
         QuestLogCache.RemoveQuest(questId)
@@ -380,14 +386,21 @@ end
 function QuestEventHandler.QuestLogUpdate()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE")
 
-    local now = GetTime()
-    -- We skip this QUEST_LOG_UPDATE if there was no marker event in the last MARKER_EVENT_TIMEFRAME seconds
-    if lastMarkerQuestEventTime > 0 and (now - lastMarkerQuestEventTime) > MARKER_EVENT_TIMEFRAME then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE - No marker event in the last", MARKER_EVENT_TIMEFRAME, "seconds - skipping")
-        return
+    -- Pending accepts must keep retrying after the initial timer, including beyond the marker window.
+    for questId, data in pairs(questLog) do
+        if not data.state then
+            _QuestEventHandler:HandleQuestAccepted(questId, true)
+        end
     end
 
-    _QuestEventHandler:UpdateAllQuests(true)
+    local now = GetTime()
+    if lastMarkerQuestEventTime > 0 and (now - lastMarkerQuestEventTime) > MARKER_EVENT_TIMEFRAME then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE - No recent marker; skipping objective scan")
+    else
+        _QuestEventHandler:UpdateAllQuests(true)
+    end
+
+    -- Native membership and loading titles can change even when no objective scan is needed.
 
     -- Don't update tracker if we're in a pet battle
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
