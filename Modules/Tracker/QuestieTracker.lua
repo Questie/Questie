@@ -102,21 +102,52 @@ local GetItemCount = QuestieCompat.GetItemCount
 -- map in sync live by re-applying the filter whenever the watch list changes. Mirrors the
 -- enabled path's refresh (UntrackQuestId): repopulate so a newly watched quest's icons get
 -- created (Show/HideQuestIcons only toggle existing frames), apply visibility, prune tooltips.
-local _disabledWatchRefreshPending = false
-local function DisabledWatchRefresh()
-    if Questie.db.profile.trackerEnabled or (not Questie.db.profile.hideUntrackedQuestsMapIcons) then
+-- Coalescing: a refresh may be queued (combat queue) or running. The refresh is threaded and
+-- Show/HideQuestIcons + PopulateObjectiveNotes yield across frames, so we keep the guard set for
+-- that whole window -- otherwise a burst of watch events (bulk accept/abandon, login population)
+-- would enqueue overlapping full refreshes. If the watch list changes while a refresh runs, we
+-- record it and run exactly one more pass on completion.
+local _disabledWatchRefreshPending = false  -- a refresh is queued or running
+local _disabledWatchRefreshAgain = false    -- watch list changed mid-run; needs one final pass
+local DisabledWatchRefresh                   -- forward decl (the completion path re-enters it)
+
+local function DisabledWatchShouldRefresh()
+    return (not Questie.db.profile.trackerEnabled) and Questie.db.profile.hideUntrackedQuestsMapIcons
+end
+
+-- Release the guard when the threaded refresh finishes; if the watch list changed during the run,
+-- schedule the single follow-up pass. Used for both the success and error paths (an errored pass
+-- must not leave the guard stuck on, which would wedge all future refreshes).
+local function DisabledWatchRefreshDone()
+    _disabledWatchRefreshPending = false
+    if _disabledWatchRefreshAgain then
+        _disabledWatchRefreshAgain = false
+        DisabledWatchRefresh()
+    end
+end
+
+DisabledWatchRefresh = function()
+    if not DisabledWatchShouldRefresh() then
         return
     end
     if _disabledWatchRefreshPending then
+        -- A refresh is already queued/running; note the extra change so the in-flight pass does
+        -- one more when it completes, rather than stacking a concurrent refresh.
+        _disabledWatchRefreshAgain = true
         return
     end
     _disabledWatchRefreshPending = true
     QuestieCombatQueue:Queue(function()
-        _disabledWatchRefreshPending = false
-        if Questie.db.profile.trackerEnabled or (not Questie.db.profile.hideUntrackedQuestsMapIcons) then
+        if not DisabledWatchShouldRefresh() then
+            _disabledWatchRefreshPending = false
+            _disabledWatchRefreshAgain = false
             return
         end
-        ThreadLib.ThreadInstant(function()
+        _disabledWatchRefreshAgain = false
+        -- ThreadLib.Thread (not ThreadInstant) so the guard is released only on completion --
+        -- callbackFunction on success, errorCallback on failure -- keeping the coalescing intact
+        -- across the threaded, multi-frame refresh.
+        ThreadLib.Thread(function()
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
                 -- currentQuestlog holds a quest object, or a bare ID when the DB has no object.
                 if type(quest) == "table" then
@@ -130,6 +161,9 @@ local function DisabledWatchRefresh()
                     QuestieTooltips:RemoveQuest(quest.Id)
                 end
             end
+        end, 0, "QuestieTracker: disabled-watch map refresh failed", DisabledWatchRefreshDone, function()
+            _disabledWatchRefreshPending = false
+            _disabledWatchRefreshAgain = false
         end)
     end)
 end
