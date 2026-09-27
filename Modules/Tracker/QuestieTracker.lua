@@ -475,16 +475,8 @@ function QuestieTracker:QuestItemLooted(text)
 end
 
 function QuestieTracker:Enable()
-    -- Update the questsWatched var before we re-enable
-    if questsWatched == 0 then
-        questsWatched = QuestieCompat.GetNumQuestWatches()
-    end
-
     Questie.db.profile.trackerEnabled = true
-    QuestieTracker.started = false
-    ThreadLib.ThreadCallbackInstant(function()
-        QuestieTracker.Initialize()
-    end, ReloadUI)
+    ReloadUI()
 end
 
 function QuestieTracker:Disable()
@@ -496,11 +488,8 @@ function QuestieTracker:Disable()
 
     if Expansions.Current >= Expansions.Wotlk then
         Questie.db.char.trackedAchievementIds = {}
-        trackedAchievementIds = {}
     end
 
-    QuestieTracker:Unhook()
-    QuestieTracker:Update()
     ReloadUI()
 end
 
