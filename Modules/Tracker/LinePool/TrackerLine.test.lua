@@ -12,6 +12,8 @@ describe("TrackerLine untrack click", function()
             ClassicQuestLog = _G.ClassicQuestLog,
             QuestLogFrame = _G.QuestLogFrame,
             QuestMapFrame = _G.QuestMapFrame,
+            ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow,
+            ChatEdit_InsertLink = _G.ChatEdit_InsertLink,
         }
         _G.QuestLogExFrame = nil
         _G.ClassicQuestLog = nil
@@ -55,6 +57,24 @@ describe("TrackerLine untrack click", function()
         _G.ClassicQuestLog = originals.ClassicQuestLog
         _G.QuestLogFrame = originals.QuestLogFrame
         _G.QuestMapFrame = originals.QuestMapFrame
+        _G.ChatEdit_GetActiveWindow = originals.ChatEdit_GetActiveWindow
+        _G.ChatEdit_InsertLink = originals.ChatEdit_InsertLink
+    end)
+
+    it("links a Blizzard-only quest through its display data", function()
+        local quest = {Id = 91741, name = "Nibbled-On Book"}
+        local data = QuestieLoader:ImportModule("TrackerData")
+        data.GetQuestLink = spy.new(function() return "[Nibbled-On Book]" end)
+        _G.IsModifiedClick = function() return true end
+        _G.ChatEdit_GetActiveWindow = function() return {} end
+        _G.ChatEdit_InsertLink = spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest(quest)
+        line:SetOnClick("quest")
+        line.scripts.OnClick(line, "LeftButton")
+        assert.spy(data.GetQuestLink).was.called_with(quest)
+        assert.spy(ChatEdit_InsertLink).was.called_with("[Nibbled-On Book]")
+        assert.spy(tracker.UntrackQuestId).was.not_called()
     end)
 
     it("untracks without a legacy quest-log frame", function()

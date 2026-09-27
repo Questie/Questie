@@ -30,6 +30,9 @@ describe("TrackerItemButton", function()
 
     before_each(function()
         Questie.db.profile = {}
+        QuestieCompat.GetContainerNumSlots = function(bag) return bag == -2 and 1 or 0 end
+        QuestieCompat.GetContainerItemInfo = function() return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123 end
+        _G.GetInventoryItemID = function() return 123 end
         CreateFrame.resetMockedFrames()
         getItemCountMock = stub(QuestieCompat, "GetItemCount", function() return 3 end)
 
@@ -68,6 +71,32 @@ describe("TrackerItemButton", function()
     end)
 
     describe("SetItem", function()
+        it("accepts a Blizzard-designated quest item missing from the database", function()
+            QuestieDB.QueryItemSingle = spy.new(function() return nil end)
+            local button = TrackerItemButton.New("NativeQuestItem")
+            assert.is_true(button:SetItem(123, 91741, 15, true))
+            assert.are.equal("item:123", button.attributes.item1)
+            assert.spy(QuestieDB.QueryItemSingle).was.not_called()
+        end)
+
+        it("still requires database classification for non-native candidates", function()
+            QuestieDB.QueryItemSingle = function() return nil end
+            local button = TrackerItemButton.New("UnverifiedItem")
+            assert.is_false(button:SetItem(123, 91741, 15))
+            assert.is_nil(button.attributes.item1)
+        end)
+
+        it("clears pooled identity when its next item is absent", function()
+            local button = TrackerItemButton.New("ReusedItem")
+            assert.is_true(button:SetItem(123, 91741, 15, true))
+            assert.is_false(button:SetItem(456, 100, 15, true))
+            assert.is_nil(button.itemId)
+            assert.is_nil(button.questID)
+            assert.is_nil(button.attributes.item1)
+            assert.is_nil(button.attributes.type1)
+            assert.is_false(button:IsVisible())
+        end)
+
         it("should set itemId", function()
             QuestieDB.QueryItemSingle = function()
                 return QuestieDB.itemClasses.QUEST

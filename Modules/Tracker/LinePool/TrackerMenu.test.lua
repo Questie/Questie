@@ -7,8 +7,10 @@ describe("TrackerMenu", function()
     local QuestieQuest
     ---@type TrackerUtils
     local TrackerUtils
+    local originalLibStub, originalDialogs
 
     before_each(function()
+        originalLibStub, originalDialogs = _G.LibStub, _G.StaticPopupDialogs
         QuestieLoader:ImportModule("QuestieTracker")
         QuestieLoader:ImportModule("TrackerBaseFrame")
 
@@ -39,6 +41,7 @@ describe("TrackerMenu", function()
             char = {
                 TrackerHiddenObjectives = {},
                 TrackerHiddenQuests = {},
+                collapsedQuests = {},
             },
             profile = {
                 debugEnabled = false,
@@ -49,6 +52,80 @@ describe("TrackerMenu", function()
 
         dofile("Modules/Tracker/LinePool/TrackerMenu.lua")
         TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
+    end)
+
+    after_each(function()
+        _G.LibStub, _G.StaticPopupDialogs = originalLibStub, originalDialogs
+    end)
+
+    describe("Blizzard-first quest menus", function()
+        local TrackerData
+
+        before_each(function()
+            TrackerData = QuestieLoader:ImportModule("TrackerData")
+            TrackerData.GetColoredQuestName = function(quest) return quest.name end
+        end)
+
+        it("keeps ordinary actions for an unknown quest without map actions or an empty submenu", function()
+            local quest = {
+                Id = 91741, name = "Nibbled-On Book", Objectives = {}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+            local labels = {}
+            for _, entry in ipairs(menu) do
+                labels[#labels + 1] = entry.text
+            end
+            assert.are.same({
+                "Nibbled-On Book", "Minimize Quest", "Show in Quest Log", "Link Quest to chat",
+                "Untrack Quest", "Abandon Quest", "|cFF39c0edWoWHead URL|r", "Lock Tracker", CANCEL,
+            }, labels)
+        end)
+
+        it("mutates the original verified objective when hiding map icons", function()
+            local originalObjective = {Index = 2, spawnList = {{Spawns = {}}}}
+            local originalQuest = {Id = 100, Objectives = {originalObjective}, IsComplete = function() return 0 end}
+            local objective = {Index = 1, Description = "Wolf", enrichment = originalObjective}
+            local quest = {
+                Id = 100, name = "Wolves", Objectives = {objective}, SpecialObjectives = {}, enrichment = originalQuest,
+                IsComplete = function() return 0 end,
+            }
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+            assert.are.equal("Objectives", menu[2].text)
+            local objectiveMenu = menu[2].menuList[1].menuList
+            assert.are.equal("Hide Icons", objectiveMenu[3].text)
+            objectiveMenu[3].func()
+            assert.is_true(originalObjective.HideIcons)
+            assert.is_nil(objective.HideIcons)
+            assert.is_true(Questie.db.char.TrackerHiddenObjectives["100 2"])
+        end)
+
+        it("does not offer quest-wide focus when a live objective lacks verified enrichment", function()
+            local originalObjective = {Index = 1, spawnList = {{Spawns = {}}}}
+            local quest = {
+                Id = 100, name = "Changed quest", SpecialObjectives = {},
+                Objectives = {{Description = "Wolf", enrichment = originalObjective}, {Description = "New task"}},
+                enrichment = {Id = 100}, IsComplete = function() return 0 end,
+            }
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+            for _, entry in ipairs(menu) do
+                assert.are_not.equal("Focus Quest", entry.text)
+                assert.are_not.equal("Hide Icons", entry.text)
+            end
+            assert.are.equal("Objectives", menu[2].text)
+            assert.are.equal(1, #menu[2].menuList)
+        end)
+    end)
+
+    it("does not hide map notes if the quest loses focus eligibility while its menu is open", function()
+        TrackerUtils.FocusQuest = function() return false end
+        QuestieQuest.ToggleNotes = spy.new(function() end)
+        local menu = {}
+        TrackerMenu.addFocusUnfocusOption(menu, {Id = 54})
+
+        menu[1].func()
+
+        assert.spy(QuestieQuest.ToggleNotes).was.not_called()
     end)
 
     describe("quest actions without a legacy quest log", function()
@@ -243,7 +320,7 @@ describe("TrackerMenu", function()
             TrackerMenu.addShowObjectivesOnMapOption(menu, quest, objective)
             menu[1].func()
 
-            assert.spy(toggleSpy).was_not.called()
+            assert.spy(toggleSpy).was.not_called()
         end)
     end)
 end)

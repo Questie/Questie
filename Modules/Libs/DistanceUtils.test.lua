@@ -344,6 +344,34 @@ describe("DistanceUtils", function()
     end)
 
     describe("GetNearestSpawnForQuest", function()
+        it("uses the finisher for additional Questie completion", function()
+            local quest = {
+                IsComplete = function() return 0 end,
+                isComplete = true,
+                Finisher = {NPC = {123}},
+            }
+            DistanceUtils.GetNearestFinisherOrStarter = spy.new(function()
+                return {60, 60}, 2, "Finisher", 100
+            end)
+
+            local spawn = DistanceUtils.GetNearestSpawnForQuest(quest)
+
+            assert.same({60, 60}, spawn)
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was.called_with(quest.Finisher)
+        end)
+
+        it("does not route a failed quest to its finisher from a stale completion flag", function()
+            local quest = {
+                IsComplete = function() return -1 end,
+                isComplete = true,
+                Finisher = {}, Objectives = {}, SpecialObjectives = {},
+            }
+            DistanceUtils.GetNearestFinisherOrStarter = spy.new(function() end)
+
+            assert.is_nil(DistanceUtils.GetNearestSpawnForQuest(quest))
+            assert.spy(DistanceUtils.GetNearestFinisherOrStarter).was.not_called()
+        end)
+
         it("should return finisher when quest is complete", function()
             local quest = {
                 IsComplete = function() return 1 end,
