@@ -17,14 +17,10 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type QuestiePopup
@@ -58,8 +54,9 @@ TrackerMenu.addFocusOption = function(menu, quest, objective)
             text = l10n('Focus Objective'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
-                TrackerUtils:FocusObjective(quest.Id, objective.Index)
-                QuestieQuest:ToggleNotes(false)
+                if TrackerUtils:FocusObjective(quest.Id, objective.Index) then
+                    QuestieQuest:ToggleNotes(false)
+                end
             end
         })
     end
@@ -202,7 +199,7 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
 end
 
 TrackerMenu.addShowFinisherOnMapOption = function(menu, quest)
-    if quest:IsComplete() == 1 then
+    if quest:IsComplete() == 1 or quest.isComplete then
         tinsert(menu, {
             text = l10n('Show on Map'),
             func = function()
@@ -214,7 +211,7 @@ TrackerMenu.addShowFinisherOnMapOption = function(menu, quest)
 end
 
 TrackerMenu.addObjectiveOption = function(menu, subMenu, quest)
-    if quest:IsComplete() == 0 then
+    if quest:IsComplete() == 0 and not quest.isComplete and #subMenu > 0 then
         tinsert(menu, { text = l10n('Objectives'), hasArrow = true, menuList = subMenu })
     end
 end
@@ -226,9 +223,9 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
             LibDropDown:CloseDropDownMenus()
 
             if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(QuestieLink.GetQuestLinkStringById(quest.Id))
+                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
             else
-                ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
+                ChatEdit_InsertLink(TrackerData.GetQuestLink(quest))
             end
         end
     })
@@ -302,8 +299,9 @@ TrackerMenu.addFocusUnfocusOption = function(menu, quest)
             text = l10n('Focus Quest'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
-                TrackerUtils:FocusQuest(quest.Id)
-                QuestieQuest:ToggleNotes(false)
+                if TrackerUtils:FocusQuest(quest.Id) then
+                    QuestieQuest:ToggleNotes(false)
+                end
             end
         })
     end
@@ -415,7 +413,7 @@ Popup.Dialogs["QUESTIE_WOWHEAD_URL"] = {
     end,
     OnShow = function(dialog)
         local questId = dialog.Text.text_arg1
-        local quest = QuestieDB.GetQuest(questId)
+        local quest = TrackerData.GetQuest(tonumber(questId))
         -- all expansions follow this system as of 2024 start of Cata
         _ShowWowheadLink(dialog, quest and quest.name, _GetWowheadLinkForLanguage() .. "quest=" .. questId)
     end,
@@ -428,40 +426,66 @@ function TrackerMenu:GetMenuForQuest(quest)
     local menu = {}
     local subMenu = {}
 
+    local enrichedQuest = quest.enrichment
+    local allObjectivesMatched = true
+    local hasObjectiveLocations = false
     for _, objective in pairs(quest.Objectives) do
-        local objectiveMenu = {}
-
-        TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-        TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
-        TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
-        TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
-
-        tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
-    end
-
-    if next(quest.SpecialObjectives) then
-        for _, objective in pairs(quest.SpecialObjectives) do
+        local enrichedObjective = objective.enrichment
+        if not enrichedObjective then
+            allObjectivesMatched = false
+        elseif enrichedQuest and enrichedObjective.spawnList and next(enrichedObjective.spawnList) then
             local objectiveMenu = {}
+            hasObjectiveLocations = true
 
-            TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
-            TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
-            TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
+            -- Map actions mutate the original objective, never the display snapshot.
+            TrackerMenu.addFocusOption(objectiveMenu, enrichedQuest, enrichedObjective)
+            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedObjective)
+            TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, enrichedObjective)
+            TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, enrichedQuest, enrichedObjective)
 
             tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
         end
     end
 
-    local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.enableTooltipsQuestLevel, true)
+    -- TrackerData exposes special objectives only when the live objectives matched.
+    if enrichedQuest then
+        for _, objective in pairs(quest.SpecialObjectives) do
+            if objective.spawnList and next(objective.spawnList) then
+                local objectiveMenu = {}
+                hasObjectiveLocations = true
+
+                TrackerMenu.addFocusOption(objectiveMenu, enrichedQuest, objective)
+                TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
+                TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, objective)
+                TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, enrichedQuest, objective)
+
+                tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
+            end
+        end
+    end
+
+    local complete = quest:IsComplete() == 1 or quest.isComplete
+    local finisher = enrichedQuest and enrichedQuest.Finisher
+    local hasFinisher = finisher and ((finisher.NPC and next(finisher.NPC)) or (finisher.GameObject and next(finisher.GameObject)))
+    local canFocusQuest = enrichedQuest and ((complete and hasFinisher) or (not complete and allObjectivesMatched and hasObjectiveLocations))
+    local coloredQuestName = TrackerData.GetColoredQuestName(quest, Questie.db.profile.enableTooltipsQuestLevel, true)
 
     tinsert(menu, { text = coloredQuestName, isTitle = true })
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
-    TrackerMenu.addFocusUnfocusOption(menu, quest)
-    TrackerMenu.addTomTomOptionForQuest(menu, quest, nil)
+    if canFocusQuest then
+        TrackerMenu.addFocusUnfocusOption(menu, enrichedQuest)
+    end
+    if (complete and hasFinisher) or (not complete and hasObjectiveLocations) then
+        TrackerMenu.addTomTomOptionForQuest(menu, quest)
+    end
     TrackerMenu.minMaxQuestOption(menu, quest)
-    TrackerMenu.addShowHideQuestsOption(menu, quest)
-    TrackerMenu.addShowFinisherOnMapOption(menu, quest)
+    if canFocusQuest then
+        TrackerMenu.addShowHideQuestsOption(menu, enrichedQuest)
+    end
+    if complete and hasFinisher then
+        TrackerMenu.addShowFinisherOnMapOption(menu, enrichedQuest)
+    end
     TrackerMenu.addShowInQuestLogOption(menu, quest)
     TrackerMenu.addLinkToChatOption(menu, quest)
     TrackerMenu.addUntrackOption(menu, quest)
