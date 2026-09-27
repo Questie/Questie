@@ -26,8 +26,8 @@ local ExpandQuestButton = QuestieLoader:ImportModule("ExpandQuestButton")
 local ExpandZoneButton = QuestieLoader:ImportModule("ExpandZoneButton")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type l10n
@@ -210,7 +210,7 @@ _OnClickQuest = function(self, button)
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(self.Quest.Id))
+            ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
         else
             QuestieTracker:UntrackQuestId(self.Quest.Id)
             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame

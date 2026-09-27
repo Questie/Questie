@@ -7,6 +7,7 @@ describe("TrackerMenu", function()
     local QuestieQuest
     ---@type TrackerUtils
     local TrackerUtils
+    local originalLibStub, originalDialogs
     ---@type QuestiePopup
     local Popup
     local dialogErrors
@@ -17,6 +18,7 @@ describe("TrackerMenu", function()
     local getQuestOriginal
 
     before_each(function()
+        originalLibStub, originalDialogs = _G.LibStub, _G.StaticPopupDialogs
         globalOriginals = {
             C_Timer = _G.C_Timer,
             IsControlKeyDown = _G.IsControlKeyDown,
@@ -50,9 +52,9 @@ describe("TrackerMenu", function()
         QuestieLoader:ImportModule("QuestieLink")
         QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieLoader:ImportModule("QuestieLib")
-        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        getQuestOriginal = QuestieDB.GetQuest
-        QuestieDB.GetQuest = function(id) return {name = "Quest " .. id} end
+        local TrackerData = QuestieLoader:ImportModule("TrackerData")
+        getQuestOriginal = TrackerData.GetQuest
+        TrackerData.GetQuest = function(id) return {name = "Quest " .. id} end
         QuestieLoader:ImportModule("DistanceUtils")
 
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -72,6 +74,7 @@ describe("TrackerMenu", function()
             char = {
                 TrackerHiddenObjectives = {},
                 TrackerHiddenQuests = {},
+                collapsedQuests = {},
             },
             profile = {
                 debugEnabled = false,
@@ -85,11 +88,82 @@ describe("TrackerMenu", function()
     end)
 
     after_each(function()
+        _G.LibStub, _G.StaticPopupDialogs = originalLibStub, originalDialogs
         for name, value in pairs(globalOriginals) do
             _G[name] = value
         end
         Questie.Colorize = colorizeOriginal
-        QuestieLoader:ImportModule("QuestieDB").GetQuest = getQuestOriginal
+        QuestieLoader:ImportModule("TrackerData").GetQuest = getQuestOriginal
+    end)
+
+    describe("Blizzard-first quest menus", function()
+        local TrackerData
+
+        before_each(function()
+            TrackerData = QuestieLoader:ImportModule("TrackerData")
+            TrackerData.GetColoredQuestName = function(quest) return quest.name end
+        end)
+
+        it("keeps ordinary actions for an unknown quest without map actions or an empty submenu", function()
+            local quest = {
+                Id = 91741, name = "Nibbled-On Book", Objectives = {}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+            local labels = {}
+            for _, entry in ipairs(menu) do
+                labels[#labels + 1] = entry.text
+            end
+            assert.are.same({
+                "Nibbled-On Book", "Minimize Quest", "Show in Quest Log", "Link Quest to chat",
+                "Untrack Quest", "Abandon Quest", "|cFF39c0edWoWHead URL|r", "Lock Tracker", CANCEL,
+            }, labels)
+        end)
+
+        it("mutates the original verified objective when hiding map icons", function()
+            local originalObjective = {Index = 2, spawnList = {{Spawns = {}}}}
+            local originalQuest = {Id = 100, Objectives = {originalObjective}, IsComplete = function() return 0 end}
+            local objective = {Index = 1, Description = "Wolf", enrichment = originalObjective}
+            local quest = {
+                Id = 100, name = "Wolves", Objectives = {objective}, SpecialObjectives = {}, enrichment = originalQuest,
+                IsComplete = function() return 0 end,
+            }
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+            assert.are.equal("Objectives", menu[2].text)
+            local objectiveMenu = menu[2].menuList[1].menuList
+            assert.are.equal("Hide Icons", objectiveMenu[3].text)
+            objectiveMenu[3].func()
+            assert.is_true(originalObjective.HideIcons)
+            assert.is_nil(objective.HideIcons)
+            assert.is_true(Questie.db.char.TrackerHiddenObjectives["100 2"])
+        end)
+
+        it("does not offer quest-wide focus when a live objective lacks verified enrichment", function()
+            local originalObjective = {Index = 1, spawnList = {{Spawns = {}}}}
+            local quest = {
+                Id = 100, name = "Changed quest", SpecialObjectives = {},
+                Objectives = {{Description = "Wolf", enrichment = originalObjective}, {Description = "New task"}},
+                enrichment = {Id = 100}, IsComplete = function() return 0 end,
+            }
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+            for _, entry in ipairs(menu) do
+                assert.are_not.equal("Focus Quest", entry.text)
+                assert.are_not.equal("Hide Icons", entry.text)
+            end
+            assert.are.equal("Objectives", menu[2].text)
+            assert.are.equal(1, #menu[2].menuList)
+        end)
+    end)
+
+    it("does not hide map notes if the quest loses focus eligibility while its menu is open", function()
+        TrackerUtils.FocusQuest = function() return false end
+        QuestieQuest.ToggleNotes = spy.new(function() end)
+        local menu = {}
+        TrackerMenu.addFocusUnfocusOption(menu, {Id = 54})
+
+        menu[1].func()
+
+        assert.spy(QuestieQuest.ToggleNotes).was.not_called()
     end)
 
     describe("quest actions without a legacy quest log", function()
@@ -284,7 +358,7 @@ describe("TrackerMenu", function()
             TrackerMenu.addShowObjectivesOnMapOption(menu, quest, objective)
             menu[1].func()
 
-            assert.spy(toggleSpy).was_not.called()
+            assert.spy(toggleSpy).was.not_called()
         end)
     end)
 
@@ -306,6 +380,10 @@ describe("TrackerMenu", function()
         local function pressKey(frame, key)
             local editBox = frame:GetEditBox()
             editBox:GetScript("OnKeyDown")(editBox, key)
+        end
+
+        local function _TrackerQuest(questId)
+            return {Id = questId, Objectives = {}, SpecialObjectives = {}, IsComplete = function() return 0 end}
         end
 
         local function runTimers()
@@ -330,20 +408,20 @@ describe("TrackerMenu", function()
                 "addShowInAchievementsOption", "addUntrackAchieveOption"}) do
                 TrackerMenu[name] = noop
             end
-            local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-            originalGetColoredQuestName = QuestieLib.GetColoredQuestName
-            QuestieLib.GetColoredQuestName = function() return "Quest" end
+            local TrackerData = QuestieLoader:ImportModule("TrackerData")
+            originalGetColoredQuestName = TrackerData.GetColoredQuestName
+            TrackerData.GetColoredQuestName = function() return "Quest" end
             Questie.db.char.trackedAchievementIds = {}
         end)
 
         after_each(function()
             _G.StaticPopup_Show = originalStaticPopupShow
             compat.ActionStatus_DisplayMessage = originalDisplayMessage
-            QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = originalGetColoredQuestName
+            QuestieLoader:ImportModule("TrackerData").GetColoredQuestName = originalGetColoredQuestName
         end)
 
         it("opens Questie's dialog from the quest menu instead of a Blizzard popup", function()
-            local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+            local menu = TrackerMenu:GetMenuForQuest(_TrackerQuest(783))
             findEntry(menu).func()
 
             assert.spy(_G.StaticPopup_Show).was.not_called()
@@ -388,7 +466,7 @@ describe("TrackerMenu", function()
             end)
 
             local function openQuestDialog()
-                local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+                local menu = TrackerMenu:GetMenuForQuest(_TrackerQuest(783))
                 findEntry(menu).func()
                 local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
                 assert.is_not_nil(frame)
@@ -441,7 +519,7 @@ describe("TrackerMenu", function()
                 Questie.IsForever = false
                 setSmartNavigationShown(true)
 
-                local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+                local menu = TrackerMenu:GetMenuForQuest(_TrackerQuest(783))
                 findEntry(menu).func()
                 local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
                 assert.is_not_nil(frame)
@@ -485,7 +563,7 @@ describe("TrackerMenu", function()
             end
 
             it("opens the quest dialog after combat", function()
-                local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+                local menu = TrackerMenu:GetMenuForQuest(_TrackerQuest(783))
                 findEntry(menu).func()
 
                 assert.is_nil(Popup.FindVisible("QUESTIE_WOWHEAD_URL"))
@@ -517,7 +595,7 @@ describe("TrackerMenu", function()
         end)
 
         it("still opens for a quest missing from the database", function()
-            QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return nil end
+            QuestieLoader:ImportModule("TrackerData").GetQuest = function() return nil end
             Popup.Show("QUESTIE_WOWHEAD_URL", 999999)
 
             local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
