@@ -62,6 +62,7 @@ describe("QuestEventHandler", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+        QuestieTracker.Update = spy.new(function() end)
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
         WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
@@ -193,7 +194,7 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieJourney.AcceptQuest).was.not_called()
         assert.spy(QuestieAnnounce.AcceptedQuest).was.not_called()
         assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
-        assert.spy(QuestieTracker.Update).was.not_called()
+        assert.spy(QuestieTracker.Update).was.called(1)
 
         QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
         callbacks[1]()
@@ -404,4 +405,82 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieTracker.UpdateQuestLines).was.called_with(QUEST_ID)
         assert.spy(QuestieTracker.Update).was.called()
     end)
+
+    describe("pending objective loading", function()
+        local originalTimer, originalTime
+        local callbacks, now, indexMock
+
+        before_each(function()
+            originalTimer, originalTime = _G.C_Timer, _G.GetTime
+            callbacks, now = {}, 100
+            _G.GetTime = function() return now end
+            _G.C_Timer = {
+                After = function(_, callback) callbacks[#callbacks + 1] = callback end,
+                NewTicker = function() return {Cancel = function() end} end,
+            }
+            indexMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetQuestLogIndexByID", function() return 2 end)
+            QuestLogCache.CheckForChanges = spy.new(function() return true, {} end)
+            QuestLifecycle.AcceptQuest = spy.new(function() end)
+            QuestieJourney.AcceptQuest = spy.new(function() end)
+            QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+            QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+            QuestieTracker.Update = spy.new(function() end)
+        end)
+
+        after_each(function()
+            indexMock:revert()
+            _G.C_Timer, _G.GetTime = originalTimer, originalTime
+        end)
+
+        it("finishes a pending accept after both initial reads miss and the marker expires", function()
+            QuestEventHandler.QuestAccepted(2, QUEST_ID)
+            callbacks[1]()
+            assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
+
+            now = 130
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            QuestEventHandler.QuestLogUpdate()
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
+            assert.spy(QuestieJourney.AcceptQuest).was.called(1)
+            assert.spy(QuestieAnnounce.AcceptedQuest).was.called(1)
+            assert.are.equal("QUEST_ACCEPTED", QuestEventHandler.GetQuestLogStates()[QUEST_ID].state)
+        end)
+
+        it("ignores the delayed read after an event already completed acceptance", function()
+            QuestEventHandler.QuestAccepted(2, QUEST_ID)
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            QuestEventHandler.QuestLogUpdate()
+            callbacks[1]()
+
+            assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
+            assert.spy(QuestieJourney.AcceptQuest).was.called(1)
+        end)
+
+        it("does not resurrect an abandoned pending quest", function()
+            QuestEventHandler.QuestAccepted(2, QUEST_ID)
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            indexMock.returns(0)
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            callbacks[1]()
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
+            assert.spy(QuestieJourney.AcceptQuest).was.not_called()
+            assert.are.equal("QUEST_REMOVED", QuestEventHandler.GetQuestLogStates()[QUEST_ID].state)
+        end)
+
+        it("refreshes tracker membership even outside the objective-scan marker window", function()
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            now = 130
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.not_called()
+            assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+    end)
+
 end)
