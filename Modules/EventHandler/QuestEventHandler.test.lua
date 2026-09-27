@@ -46,8 +46,17 @@ describe("QuestEventHandler", function()
     local QuestEventHandler
     ---@type BreadcrumbQuests
     local BreadcrumbQuests
+    local originalTimer, originalTime, newTimerMock, retryTimers
 
     before_each(function()
+        originalTimer, originalTime = _G.C_Timer, _G.GetTime
+        retryTimers = {}
+        newTimerMock = spy.new(function(delay, callback)
+            local timer = {delay = delay, callback = callback, Cancel = spy.new(function() end)}
+            retryTimers[#retryTimers + 1] = timer
+            return timer
+        end)
+        _G.C_Timer = {NewTimer = newTimerMock}
         Questie.db.profile.autoAccept = {enabled = false}
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
@@ -80,6 +89,10 @@ describe("QuestEventHandler", function()
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
         QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true})
+    end)
+
+    after_each(function()
+        _G.C_Timer, _G.GetTime = originalTimer, originalTime
     end)
 
     describe("quest item deletion warning", function()
@@ -176,7 +189,7 @@ describe("QuestEventHandler", function()
 
     it("should handle accept on QLU when quest is initially missing in game cache", function()
         local callbacks = {}
-        _G.C_Timer = {After = function(_, callback) table.insert(callbacks, callback) end}
+        _G.C_Timer = {After = function(_, callback) table.insert(callbacks, callback) end, NewTimer = newTimerMock}
         QuestLogCache.CheckForChanges = spy.new(function() return true, nil end)
         QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
@@ -407,16 +420,15 @@ describe("QuestEventHandler", function()
     end)
 
     describe("pending objective loading", function()
-        local originalTimer, originalTime
         local callbacks, now, indexMock
 
         before_each(function()
-            originalTimer, originalTime = _G.C_Timer, _G.GetTime
             callbacks, now = {}, 100
             _G.GetTime = function() return now end
             _G.C_Timer = {
                 After = function(_, callback) callbacks[#callbacks + 1] = callback end,
                 NewTicker = function() return {Cancel = function() end} end,
+                NewTimer = newTimerMock,
             }
             indexMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetQuestLogIndexByID", function() return 2 end)
             QuestLogCache.CheckForChanges = spy.new(function() return true, {} end)
@@ -424,28 +436,93 @@ describe("QuestEventHandler", function()
             QuestieJourney.AcceptQuest = spy.new(function() end)
             QuestieAnnounce.AcceptedQuest = spy.new(function() end)
             QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieNameplate.UpdateNameplate = spy.new(function() end)
+            QuestieTracker.UpdateQuestLines = spy.new(function() end)
             QuestieTracker.Update = spy.new(function() end)
         end)
 
         after_each(function()
             indexMock:revert()
-            _G.C_Timer, _G.GetTime = originalTimer, originalTime
         end)
 
-        it("finishes a pending accept after both initial reads miss and the marker expires", function()
+        it("finishes a pending accept when the fallback fires without another event", function()
             QuestEventHandler.QuestAccepted(2, QUEST_ID)
             callbacks[1]()
             assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
 
+            assert.are.equal(1, #retryTimers)
+            assert.are.equal(20, retryTimers[1].delay)
             now = 130
             QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
-            QuestEventHandler.QuestLogUpdate()
-            QuestEventHandler.QuestLogUpdate()
+            retryTimers[1].callback()
+            callbacks[1]() -- The earlier acceptance callback cannot accept it twice.
 
             assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
             assert.spy(QuestieJourney.AcceptQuest).was.called(1)
             assert.spy(QuestieAnnounce.AcceptedQuest).was.called(1)
             assert.are.equal("QUEST_ACCEPTED", QuestEventHandler.GetQuestLogStates()[QUEST_ID].state)
+        end)
+
+        it("retries a cache miss through the normal notification and tracker update path", function()
+            QuestEventHandler.QuestLogUpdate()
+            assert.spy(retryTimers[1].Cancel).was.called(1)
+            assert.are.equal(2, #retryTimers)
+            QuestiePlayer.currentQuestlog[QUEST_ID] = {}
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {1}} end)
+            now = 130
+
+            retryTimers[2].callback()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
+            assert.spy(QuestieTracker.UpdateQuestLines).was.called_with(QUEST_ID)
+            assert.spy(QuestieAPI.PropagateQuestUpdate).was.called_with(
+                QUEST_ID, {1}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
+            assert.are.equal(2, #retryTimers) -- Success leaves no retry scheduled.
+        end)
+
+        it("cancels the fallback when a natural event completes the scan", function()
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(retryTimers[1].Cancel).was.called(1)
+            assert.are.equal(1, #retryTimers)
+        end)
+
+        it("keeps a fallback for a pending accept even when the accepted-quest scan succeeds", function()
+            QuestLogCache.CheckForChanges = spy.new(function(ids) return ids[QUEST_ID] == true, {} end)
+            QuestEventHandler.QuestAccepted(2, QUEST_ID)
+            callbacks[1]()
+            assert.are.equal(1, #retryTimers)
+
+            now = 130
+            retryTimers[1].callback()
+
+            assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
+            assert.spy(QuestLogCache.CheckForChanges).was.called_with({})
+            assert.are.equal(2, #retryTimers)
+            assert.are.equal(20, retryTimers[2].delay)
+
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            now = 160
+            retryTimers[2].callback()
+            assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
+            assert.are.equal(2, #retryTimers)
+        end)
+
+        it("does not cancel the fallback when an event skips the scan", function()
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            now = 130
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.not_called()
+            assert.spy(retryTimers[1].Cancel).was.not_called()
+            retryTimers[1].callback()
+            assert.spy(QuestLogCache.CheckForChanges).was.called(1)
+            assert.are.equal(1, #retryTimers)
         end)
 
         it("ignores the delayed read after an event already completed acceptance", function()
@@ -464,17 +541,21 @@ describe("QuestEventHandler", function()
             indexMock.returns(0)
             QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
             callbacks[1]()
-            QuestEventHandler.QuestLogUpdate()
+            now = 130
+            retryTimers[1].callback()
 
+            assert.are.equal(1, #retryTimers)
             assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
             assert.spy(QuestieJourney.AcceptQuest).was.not_called()
             assert.are.equal("QUEST_REMOVED", QuestEventHandler.GetQuestLogStates()[QUEST_ID].state)
         end)
 
         it("refreshes tracker membership even outside the objective-scan marker window", function()
-            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
-            now = 130
             QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            QuestEventHandler.QuestLogUpdate() -- Finish the initial cache retry before letting the marker expire.
+            QuestLogCache.CheckForChanges:clear()
+            QuestieTracker.Update:clear()
+            now = 130
 
             QuestEventHandler.QuestLogUpdate()
 
