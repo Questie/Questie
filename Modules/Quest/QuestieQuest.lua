@@ -452,6 +452,17 @@ end
 ---@param questId number
 ---@return boolean @true if the local player is tracking this quest (independent of any option)
 function QuestieQuest:IsQuestTracked(questId)
+    -- When the Questie tracker is disabled the AutoUntrackedQuests / TrackedQuests tables are
+    -- never kept in sync: the AddQuestWatch / RemoveQuestWatch hooks that maintain them live in
+    -- QuestieTracker:HookBaseTracker(), which only runs past the trackerEnabled gate in
+    -- QuestieTracker.Initialize(). With the tracker off those tables go stale (an empty
+    -- AutoUntrackedQuests reads as "everything tracked"), so the "Hide icons of untracked quests"
+    -- map filter stops following what the player is actually watching. In that case the player is
+    -- tracking through the default Blizzard tracker, so defer to the live quest-watch state.
+    if not Questie.db.profile.trackerEnabled then
+        return QuestieCompat.IsQuestWatched(QuestieCompat.GetQuestLogIndexByID(questId)) and true or false
+    end
+
     local autoWatch = Questie.db.profile.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])

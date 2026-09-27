@@ -95,6 +95,63 @@ local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 local WatchFrame_Update = QuestWatch_Update or QuestieCompat.WatchFrame_Update
 local GetItemCount = QuestieCompat.GetItemCount
 
+-- Map-icon refresh used while the tracker UI is DISABLED. In that mode the normal
+-- watch -> map wiring (the AddQuestWatch / RemoveQuestWatch hooks installed by HookBaseTracker)
+-- never runs, so the "Hide icons of untracked quests" filter would only update on an unrelated
+-- redraw. IsQuestTracked already defers to the Blizzard watch list in this mode; this keeps the
+-- map in sync live by re-applying the filter whenever the watch list changes. Mirrors the
+-- enabled path's refresh (UntrackQuestId): repopulate so a newly watched quest's icons get
+-- created (Show/HideQuestIcons only toggle existing frames), apply visibility, prune tooltips.
+local _disabledWatchRefreshPending = false
+local function DisabledWatchRefresh()
+    if Questie.db.profile.trackerEnabled or (not Questie.db.profile.hideUntrackedQuestsMapIcons) then
+        return
+    end
+    if _disabledWatchRefreshPending then
+        return
+    end
+    _disabledWatchRefreshPending = true
+    QuestieCombatQueue:Queue(function()
+        _disabledWatchRefreshPending = false
+        if Questie.db.profile.trackerEnabled or (not Questie.db.profile.hideUntrackedQuestsMapIcons) then
+            return
+        end
+        ThreadLib.ThreadInstant(function()
+            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
+                -- currentQuestlog holds a quest object, or a bare ID when the DB has no object.
+                if type(quest) == "table" then
+                    QuestieQuest:PopulateObjectiveNotes(quest)
+                end
+            end
+            QuestieQuest:ShowQuestIcons()
+            QuestieQuest:HideQuestIcons()
+            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
+                if type(quest) == "table" and (not QuestieQuest:ShouldShowQuestNotes(quest.Id)) then
+                    QuestieTooltips:RemoveQuest(quest.Id)
+                end
+            end
+        end)
+    end)
+end
+
+-- Wired up once from the disabled branch of Initialize. QUEST_WATCH_LIST_CHANGED covers modern
+-- and Forever clients; the C_QuestLog hooks are a fallback for flavors that do not fire it.
+function QuestieTracker.SetupDisabledWatchRefresh()
+    if QuestieTracker._disabledWatchRefreshHooked then
+        return
+    end
+    QuestieTracker._disabledWatchRefreshHooked = true
+
+    local frame = CreateFrame("Frame")
+    if pcall(frame.RegisterEvent, frame, "QUEST_WATCH_LIST_CHANGED") then
+        frame:SetScript("OnEvent", DisabledWatchRefresh)
+    end
+    if C_QuestLog and C_QuestLog.AddQuestWatch then
+        hooksecurefunc(C_QuestLog, "AddQuestWatch", DisabledWatchRefresh)
+        hooksecurefunc(C_QuestLog, "RemoveQuestWatch", DisabledWatchRefresh)
+    end
+end
+
 function QuestieTracker.Initialize()
     assert(coroutine.running(), "QuestieTracker.Initialize must be called from a coroutine")
 
@@ -108,7 +165,10 @@ function QuestieTracker.Initialize()
     QuestieTracker.SetupKeybinding()
 
     if (not Questie.db.profile.trackerEnabled) then
-        -- The Tracker is disabled, no need to continue
+        -- The Tracker is disabled. We still keep the map's "Hide icons of untracked quests"
+        -- filter in sync with the player's Blizzard quest watches (see QuestieQuest:IsQuestTracked),
+        -- since the normal watch -> map refresh below is skipped while the tracker UI is off.
+        QuestieTracker.SetupDisabledWatchRefresh()
         return
     end
 
