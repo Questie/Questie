@@ -169,13 +169,15 @@ QuestieDB.raceKeys = {
     --[[ 5]] TAUREN = 32,
     --[[ 6]] GNOME = 64,
     --[[ 7]] TROLL = 128,
-    --[[ 8]] GOBLIN = 256,                  -- Cata
-    --[[ 9]] BLOOD_ELF = 512,               -- TBC
-    --[[10]] DRAENEI = 1024,                -- TBC
-    --[[21]] WORGEN = 2097152,              -- Cata
-    --[[23]] PANDAREN = 8388608,            -- MoP
-    --[[24]] PANDAREN_ALLIANCE = 16777216,  -- MoP
-    --[[25]] PANDAREN_HORDE = 33554432,     -- MoP
+    --[[ 8]] GOBLIN = 256,                   -- Cata
+    --[[ 9]] BLOOD_ELF = 512,                -- TBC
+    --[[10]] DRAENEI = 1024,                 -- TBC
+    --[[21]] WORGEN = 2097152,               -- Cata
+    --[[23]] PANDAREN = 8388608,             -- MoP
+    --[[24]] PANDAREN_ALLIANCE = 16777216,   -- MoP
+    --[[25]] PANDAREN_HORDE = 33554432,      -- MoP
+    --[[32]] SKYBORNE_ALLIANCE = 4294967296, -- Forever -- High Order Skyborne
+    --[[33]] SKYBORNE_HORDE = 8589934592,    -- Forever -- Windshaper Skyborne
 }
 
 -- Combining these with "and" makes the order matter
