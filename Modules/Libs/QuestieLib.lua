@@ -339,6 +339,7 @@ function QuestieLib:GetRaceString(raceMask)
             l10n("Pandaren"), -- 8388608
             l10n("Pandaren") .. spaceString .. l10n("Alliance"), -- 16777216
             l10n("Pandaren") .. spaceString .. l10n("Horde"), -- 33554432
+            nil, nil, nil, nil, nil, nil, -- 2^26 -> 2^31
             l10n("High Order Skyborne"), -- 4294967296
             l10n("Windshaper Skyborne"), -- 8589934592
         }
@@ -613,8 +614,8 @@ end
 
 function QuestieLib:UnpackBinary(val)
     local ret = {}
-    for q = 0, 25 do
-        if bit.band(bit.rshift(val, q), 1) == 1 then
+    for q = 0, 33 do
+        if math.floor(val / (2 ^ q)) % 2 == 1 then
             tinsert(ret, true)
         else
             tinsert(ret, false)
