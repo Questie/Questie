@@ -3038,6 +3038,7 @@ l10n.zoneCategoryLookup = {
         [3820] = "Eye of the Storm",
         [4384] = "Strand of the Ancients",
         [4710] = "Isle of Conquest",
+        [9999] = "The Ring of Trials",
     },
     [11] = {
         [-61] = "Warlock",
