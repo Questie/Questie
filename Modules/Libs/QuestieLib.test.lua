@@ -369,7 +369,6 @@ describe("QuestieLib", function()
         local callback
         local objectives
 
-        ---@return nil
         local function Tick()
             local success, err = coroutine.resume(thread)
             assert.is_true(success, err)
@@ -867,6 +866,85 @@ describe("QuestieLib", function()
 
         it("should retain the nil result for text without a trailing counter", function()
             assert.is_nil(QuestieLib.GetFullObjectiveText("Speak to: Thrall"))
+        end)
+    end)
+
+    describe("GetClassString", function()
+        local originalRaidClassColors
+
+        local function stubColor(colorStr)
+            return {colorStr = colorStr}
+        end
+
+        before_each(function()
+            originalRaidClassColors = _G.RAID_CLASS_COLORS
+            _G.RAID_CLASS_COLORS = {
+                WARRIOR = stubColor("ffff7d0a"),
+                PALADIN = stubColor("fff58cba"),
+                HUNTER = stubColor("ffaad372"),
+                ROGUE = stubColor("fffff468"),
+                PRIEST = stubColor("ffffffff"),
+                DEATHKNIGHT = stubColor("ffc41e3a"),
+                SHAMAN = stubColor("ff0070dd"),
+                MAGE = stubColor("ff3fc7eb"),
+                WARLOCK = stubColor("ff8788ee"),
+                MONK = stubColor("ff00ff98"),
+                DRUID = stubColor("ffff7c0a"),
+            }
+        end)
+
+        after_each(function()
+            _G.RAID_CLASS_COLORS = originalRaidClassColors
+        end)
+
+        it("should return an empty string for a nil classMask", function()
+            assert.are_same("", QuestieLib:GetClassString(nil))
+        end)
+
+        it("should return an empty string for classKeys.NONE", function()
+            assert.are_same("", QuestieLib:GetClassString(QuestieDB.classKeys.NONE))
+        end)
+
+        it("should return an empty string for classKeys.ALL_CLASSES", function()
+            assert.are_same("", QuestieLib:GetClassString(QuestieDB.classKeys.ALL_CLASSES))
+        end)
+
+        it("should return a colored string for Death Knight", function()
+            local result = QuestieLib:GetClassString(QuestieDB.classKeys.DEATH_KNIGHT)
+
+            assert.are_same("|cffc41e3aDeath Knight|r", result)
+        end)
+
+        it("should return a colored string for Monk", function()
+            local result = QuestieLib:GetClassString(QuestieDB.classKeys.MONK)
+
+            assert.are_same("|cff00ff98Monk|r", result)
+        end)
+
+        it("should combine multiple classes including Death Knight and Monk", function()
+            local classMask = QuestieDB.classKeys.WARRIOR + QuestieDB.classKeys.DEATH_KNIGHT + QuestieDB.classKeys.MONK
+
+            local result = QuestieLib:GetClassString(classMask)
+
+            assert.are_same("|cffff7d0aWarrior|r, |cffc41e3aDeath Knight|r, |cff00ff98Monk|r", result)
+        end)
+
+        -- WoW Forever's RAID_CLASS_COLORS is missing DEATHKNIGHT and MONK entries.
+        -- These document the fallback GetClassString should have instead of erroring.
+        it("should return an empty string for Death Knight when RAID_CLASS_COLORS has no DEATHKNIGHT entry", function()
+            _G.RAID_CLASS_COLORS.DEATHKNIGHT = nil
+
+            local result = QuestieLib:GetClassString(QuestieDB.classKeys.DEATH_KNIGHT)
+
+            assert.are_same("", result)
+        end)
+
+        it("should return an empty string for Monk when RAID_CLASS_COLORS has no MONK entry", function()
+            _G.RAID_CLASS_COLORS.MONK = nil
+
+            local result = QuestieLib:GetClassString(QuestieDB.classKeys.MONK)
+
+            assert.are_same("", result)
         end)
     end)
 

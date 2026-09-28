@@ -358,42 +358,40 @@ function QuestieLib:GetRaceString(raceMask)
     end
 end
 
+-- Some clients (e.g. WoW Forever) don't define RAID_CLASS_COLORS for every class
+-- (missing DEATHKNIGHT/MONK); fall back to "" for those rather than erroring.
+---@param colorKey string
+---@param label string
+---@return string?
+local function _FormatClass(colorKey, label)
+    local color = RAID_CLASS_COLORS[colorKey]
+    return color and ("|c" .. color.colorStr .. label .. "|r") or nil
+end
+
+---@param classMask number
+---@return string
 function QuestieLib:GetClassString(classMask)
     if not classMask or classMask == QuestieDB.classKeys.NONE or classMask == QuestieDB.classKeys.ALL_CLASSES then
         return ""
     else
         local classString = ""
         local classTable = QuestieLib:UnpackBinary(classMask)
-        local classColors = {
-            -- Class colors taken from RAID_CLASS_COLORS["WARRIOR"] etc
-            WARRIOR = "|c" .. RAID_CLASS_COLORS["WARRIOR"].colorStr,
-            PALADIN = "|c" .. RAID_CLASS_COLORS["PALADIN"].colorStr,
-            HUNTER = "|c" .. RAID_CLASS_COLORS["HUNTER"].colorStr,
-            ROGUE = "|c" .. RAID_CLASS_COLORS["ROGUE"].colorStr,
-            PRIEST = "|c" .. RAID_CLASS_COLORS["PRIEST"].colorStr,
-            DEATH_KNIGHT = "|c" .. RAID_CLASS_COLORS["DEATHKNIGHT"].colorStr,
-            SHAMAN = "|c" .. RAID_CLASS_COLORS["SHAMAN"].colorStr,
-            MAGE = "|c" .. RAID_CLASS_COLORS["MAGE"].colorStr,
-            WARLOCK = "|c" .. RAID_CLASS_COLORS["WARLOCK"].colorStr,
-            MONK = "|c" .. RAID_CLASS_COLORS["MONK"].colorStr,
-            DRUID = "|c" .. RAID_CLASS_COLORS["DRUID"].colorStr,
-        }
         local stringTable = {
-            classColors.WARRIOR .. l10n("Warrior") .. "|r", -- 1
-            classColors.PALADIN .. l10n("Paladin") .. "|r", -- 2
-            classColors.HUNTER .. l10n("Hunter") .. "|r", -- 4
-            classColors.ROGUE .. l10n("Rogue") .. "|r", -- 8
-            classColors.PRIEST .. l10n("Priest") .. "|r", -- 16
-            classColors.DEATH_KNIGHT .. l10n("Death Knight") .. "|r", -- 32
-            classColors.SHAMAN .. l10n("Shaman") .. "|r", -- 64
-            classColors.MAGE .. l10n("Mage") .. "|r", -- 128
-            classColors.WARLOCK .. l10n("Warlock") .. "|r", -- 256
-            classColors.MONK .. l10n("Monk") .. "|r", -- 512
-            classColors.DRUID .. l10n("Druid") .. "|r", -- 1024
+            _FormatClass("WARRIOR", l10n("Warrior")), -- 1
+            _FormatClass("PALADIN", l10n("Paladin")), -- 2
+            _FormatClass("HUNTER", l10n("Hunter")), -- 4
+            _FormatClass("ROGUE", l10n("Rogue")), -- 8
+            _FormatClass("PRIEST", l10n("Priest")), -- 16
+            _FormatClass("DEATHKNIGHT", l10n("Death Knight")), -- 32
+            _FormatClass("SHAMAN", l10n("Shaman")), -- 64
+            _FormatClass("MAGE", l10n("Mage")), -- 128
+            _FormatClass("WARLOCK", l10n("Warlock")), -- 256
+            _FormatClass("MONK", l10n("Monk")), -- 512
+            _FormatClass("DRUID", l10n("Druid")), -- 1024
         }
         local firstRun = true
         for k, v in pairs(classTable) do
-            if v then
+            if v and stringTable[k] then
                 if firstRun then
                     firstRun = false
                 else
