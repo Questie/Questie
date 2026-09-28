@@ -2811,10 +2811,10 @@ l10n.zoneLookup = {
         [10089]="Azeroth",
     },
     [947]={
-        [2521]="Zephras Isle",
         [10073]="Kalimdor",
         [10074]="Eastern Kingdoms",
         [10075]="Pandaria",
+        [16593]="Zephras Isle",
     },
     [951]={
         [5786]="The Nexus",
