@@ -219,6 +219,7 @@ QuestieDB.classKeys = {
 }
 
 -- Questie-owned semantic constants retained independently of provider schema metadata.
+---@enum FactionIDs
 QuestieDB.factionIDs = {
     BOOTY_BAY = 21,
     IRONFORGE = 47,
