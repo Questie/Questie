@@ -2791,6 +2791,8 @@ globals = {
     "WorldMapTooltip",
     "WorldMapFrameCloseButton",
     "WorldMapContinentDropDown",
+    "WorldMapTrackingOptionsButtonMixin",
+    "WorldMapTrackingPinButtonMixin",
     "WorldMapQuestShowObjectives",
     "WorldStateScoreFrame",
     "YES",
