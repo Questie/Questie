@@ -129,7 +129,7 @@ QuestieDB.DoableStates = {
 QuestieDB.raceKeys = {
     -- Allow all alliance races
     ALL_ALLIANCE = (function()
-        if Questie.IsClassic then
+        if Questie.IsClassic and not Questie.IsForever then
             return 77
         elseif Questie.IsTBC or Questie.IsWotlk then
             return 1101
@@ -137,6 +137,8 @@ QuestieDB.raceKeys = {
             return 2098253
         elseif Questie.IsMoP then
             return 18875469
+        elseif Questie.IsForever then
+            return 4294967373
         else
             print("Unknown expansion for ALL_ALLIANCE")
             return 77
@@ -144,7 +146,7 @@ QuestieDB.raceKeys = {
     end)(),
     -- Allow all horde races
     ALL_HORDE = (function()
-        if Questie.IsClassic then
+        if Questie.IsClassic and not Questie.IsForever then
             return 178
         elseif Questie.IsTBC or Questie.IsWotlk then
             return 690
@@ -152,6 +154,8 @@ QuestieDB.raceKeys = {
             return 946
         elseif Questie.IsMoP then
             return 33555378
+        elseif Questie.IsForever then
+            return 8589934770
         else
             print("Unknown expansion for ALL_HORDE")
             return 178
