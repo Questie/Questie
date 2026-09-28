@@ -3064,9 +3064,9 @@ l10n.zoneCategoryLookup = {
         [-324] = "First Aid",
         [-371] = "Inscription",
         [-373] = "Jewelcrafting",
-        [-666] = "Skinning", -- Dummy ID
-        [-667] = "Mining", -- Dummy ID
-        [-668] = "Enchanting", -- Dummy ID
+        [-500] = "Skinning", -- Dummy ID
+        [-501] = "Mining", -- Dummy ID
+        [-502] = "Enchanting", -- Dummy ID
     },
     [13] = {
         [-1] = "Epic",
