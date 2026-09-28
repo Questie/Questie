@@ -799,7 +799,7 @@ kalimdor[5994] = "Shores of the Well"
 kalimdor[5995] = "Azshara's Palace"
 
 l10n.zoneLookup[530][3832] = "Vortex Summit"
-l10n.zoneCategoryLookup[8][1477] = "Sunken Temple"
+l10n.zoneCategoryLookup[9][1477] = "Sunken Temple"
 
 if Expansions.Current >= Expansions.MoP then
     local pandaria = l10n.zoneLookup[870]

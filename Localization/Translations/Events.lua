@@ -352,6 +352,18 @@ local eventsLocales = {
         ["zhCN"] = "海盗日",
         ["zhTW"] = "海盜節",
     },
+    ["Camping"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Lager aufschlagen",
+        ["esES"] = "Acampando",
+        ["esMX"] = "Campamento",
+        ["frFR"] = "Campement",
+        ["koKR"] = "야영 중",
+        ["ptBR"] = "Acampamento",
+        ["ruRU"] = "Разбить лагерь",
+        ["zhCN"] = "露营",
+        ["zhTW"] = "紮營",
+    },
 }
 
 for k, v in pairs(eventsLocales) do
