@@ -354,7 +354,7 @@ local eventsLocales = {
     },
     ["Camping"] = {
         ["enUS"] = true,
-        ["deDE"] = "Lager aufschlagen",
+        ["deDE"] = "Zelten",
         ["esES"] = "Acampando",
         ["esMX"] = "Campamento",
         ["frFR"] = "Campement",
