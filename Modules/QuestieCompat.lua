@@ -511,6 +511,11 @@ end
 ---@return any ... Legacy aura tuple, or nil when the index has no aura.
 function QuestieCompat.UnitAura(unit, index, filter)
     if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
+        if C_Secrets and C_Secrets.ShouldAurasBeSecret and C_Secrets.ShouldAurasBeSecret() then
+            -- We need to check for secrets, to prevent errors and taints.
+            return nil
+        end
+
         -- This conversion does not remove aura-access or secret-data restrictions.
         local aura = C_UnitAuras.GetAuraDataByIndex(unit, index, filter)
         if not aura then return nil end
