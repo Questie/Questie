@@ -28,25 +28,25 @@ local mapButton
 -- clearing existing points, which drags them out of place (the Map Pin gets stretched across
 -- the whole map header, and its hit area covers other buttons). Keep them out of Krowi's layout.
 local function ReleaseBlizzardMapButtons()
-   local buttons = KButtons.Buttons
-   if not buttons then
-       return
-   end
-   local pinOnLoad = WorldMapTrackingPinButtonMixin and WorldMapTrackingPinButtonMixin.OnLoad
-   local optionsOnLoad = WorldMapTrackingOptionsButtonMixin and WorldMapTrackingOptionsButtonMixin.OnLoad
-   for i = #buttons, 1, -1 do
-       local onLoad = buttons[i].OnLoad
-       if onLoad and (onLoad == pinOnLoad or onLoad == optionsOnLoad) then
-           table.remove(buttons, i)
-       end
-   end
+    local buttons = KButtons.Buttons
+    if not buttons then
+        return
+    end
+    local pinOnLoad = WorldMapTrackingPinButtonMixin and WorldMapTrackingPinButtonMixin.OnLoad
+    local optionsOnLoad = WorldMapTrackingOptionsButtonMixin and WorldMapTrackingOptionsButtonMixin.OnLoad
+    for i = #buttons, 1, -1 do
+        local onLoad = buttons[i].OnLoad
+        if onLoad and (onLoad == pinOnLoad or onLoad == optionsOnLoad) then
+            table.remove(buttons, i)
+        end
+    end
 end
 
 function WorldMapButton.Initialize()
-   mapButton = KButtons:Add("QuestieWorldMapButtonTemplate", "BUTTON")
-   if Questie.IsForever then
-       ReleaseBlizzardMapButtons()
-   end
+    mapButton = KButtons:Add("QuestieWorldMapButtonTemplate", "BUTTON")
+    if Questie.IsForever then
+        ReleaseBlizzardMapButtons()
+    end
 
     Questie.WorldMap = {
         Button = mapButton
