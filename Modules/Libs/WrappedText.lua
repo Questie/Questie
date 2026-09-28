@@ -207,7 +207,8 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
             lastSpaceIndex = endIndex
         end
 
-        local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
+        local byteEndIndex = utf8.charIndexToByteIndex(line, endIndex)
+        local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, byteEndIndex)
         if (not indexes) then
             local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
             textWrapFontString:SetText(line)
@@ -265,7 +266,9 @@ end
 ---@param remainingLineLength number UTF-8 character length of `remainingLine`.
 ---@return number remainingRows Visual row count, approximated by width if row-span data is unavailable.
 local function _GetRemainingRows(textWrapFontString, remainingLine, lastLine, nextStartIndex, remainingLineLength)
-    local remainingIndexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
+    local byteStartIndex = utf8.charIndexToByteIndex(remainingLine, nextStartIndex)
+    local byteEndIndex = utf8.charIndexToByteIndex(remainingLine, remainingLineLength)
+    local remainingIndexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(byteStartIndex, byteEndIndex)
     if remainingIndexes then
         return #remainingIndexes
     end

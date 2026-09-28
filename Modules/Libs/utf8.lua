@@ -57,3 +57,56 @@ function utf8.strlen(s)
   end
   return count
 end
+
+---Converts a UTF-8 character index to a byte index.
+---WoW's CalculateScreenAreaFromCharacterSpan expects byte indices, not character indices.
+---@param s string UTF-8 encoded string
+---@param charIndex number 1-based UTF-8 character index
+---@return number 1-based byte index
+function utf8.charIndexToByteIndex(s, charIndex)
+  if charIndex <= 1 then
+    return 1
+  end
+
+  local offsets = {}
+  for pos in s:gmatch("()" .. _CHARPAT) do
+    offsets[#offsets + 1] = pos
+  end
+  local n = #offsets
+
+  if charIndex > n then
+    return #s + 1
+  end
+
+  return offsets[charIndex]
+end
+
+---Converts a byte index to a UTF-8 character index.
+---@param s string UTF-8 encoded string
+---@param byteIndex number 1-based byte index
+---@return number 1-based UTF-8 character index
+function utf8.byteIndexToCharIndex(s, byteIndex)
+  if byteIndex <= 1 then
+    return 1
+  end
+
+  local offsets = {}
+  for pos in s:gmatch("()" .. _CHARPAT) do
+    offsets[#offsets + 1] = pos
+  end
+  local n = #offsets
+
+  if byteIndex > #s then
+    return n + 1
+  end
+
+  for i = 1, n do
+    local startByte = offsets[i]
+    local endByte = offsets[i + 1] and (offsets[i + 1] - 1) or #s
+    if byteIndex >= startByte and byteIndex <= endByte then
+      return i
+    end
+  end
+
+  return n
+end
