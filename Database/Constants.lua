@@ -63,5 +63,6 @@ QuestieDB.sortKeys = {
     BLACKROCK_ERUPTION = -644,
     TITAN_REFORGED_REALM = -662,
     CAMPING = -666,
+    NIGHT_ELF = -676,
     SPECIALTEMP = -1000,
 }
