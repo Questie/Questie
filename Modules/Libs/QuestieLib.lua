@@ -339,6 +339,8 @@ function QuestieLib:GetRaceString(raceMask)
             l10n("Pandaren"), -- 8388608
             l10n("Pandaren") .. spaceString .. l10n("Alliance"), -- 16777216
             l10n("Pandaren") .. spaceString .. l10n("Horde"), -- 33554432
+            l10n("High Order Skyborne"), -- 4294967296
+            l10n("Windshaper Skyborne"), -- 8589934592
         }
         local firstRun = true
         for k, v in pairs(raceTable) do

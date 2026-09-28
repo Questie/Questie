@@ -158,6 +158,30 @@ local raceLocales = {
         ["zhCN"] = "熊猫人",
         ["zhTW"] = "熊貓人",
     },
+    ["High Order Skyborne"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Himmelsgeborener des Hohen Ordens",
+        ["esES"] = "Cielonato de la Orden Eminente",
+        ["esMX"] = "Cielonato de la Suma Orden",
+        ["frFR"] = "Éolide de l’Ordre suprême",
+        ["koKR"] = "고등 마법원 스카이본",
+        ["ptBR"] = "Celonato da Alta Ordem",
+        ["ruRU"] = "Небеснорожденный из Высшего ордена",
+        ["zhCN"] = "高阶会天裔",
+        ["zhTW"] = "高天盟天裔精靈",
+    },
+    ["Windshaper Skyborne"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Himmelsgeborener der Windformer",
+        ["esES"] = "Cielonato Formavientos",
+        ["esMX"] = "Cielonato Formavientos",
+        ["frFR"] = "Éolide sculpte-vents",
+        ["koKR"] = "바람구체자 스카이본",
+        ["ptBR"] = "Celonato Moldavento",
+        ["ruRU"] = "Небеснорожденный – Ваятель ветра",
+        ["zhCN"] = "塑风者天裔",
+        ["zhTW"] = "塑風者天裔精靈",
+    },
 }
 
 for k, v in pairs(raceLocales) do
