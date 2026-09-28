@@ -328,4 +328,51 @@ describe("QuestieQuest", function()
             assert.are_equal(66, quest.SpecialObjectives[2].Index) -- 64 + 2
         end)
     end)
+
+    describe("IsQuestTracked", function()
+        local QuestieCompat
+
+        before_each(function()
+            QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            Questie.db.profile = Questie.db.profile or {}
+            Questie.db.char.AutoUntrackedQuests = {}
+            Questie.db.char.TrackedQuests = {}
+        end)
+
+        it("defers to the Blizzard watch state when the Questie tracker is disabled", function()
+            Questie.db.profile.trackerEnabled = false
+            QuestieCompat.GetQuestLogIndexByID = spy.new(function() return 7 end)
+            QuestieCompat.IsQuestWatched = spy.new(function() return false end)
+
+            assert.is_false(QuestieQuest:IsQuestTracked(123))
+            assert.spy(QuestieCompat.GetQuestLogIndexByID).was.called_with(123)
+            assert.spy(QuestieCompat.IsQuestWatched).was.called_with(7)
+
+            QuestieCompat.IsQuestWatched = spy.new(function() return true end)
+            assert.is_true(QuestieQuest:IsQuestTracked(123))
+        end)
+
+        it("normalizes a nil watch result to false when the tracker is disabled", function()
+            Questie.db.profile.trackerEnabled = false
+            QuestieCompat.GetQuestLogIndexByID = spy.new(function() return 0 end)
+            QuestieCompat.IsQuestWatched = spy.new(function() return nil end)
+
+            assert.is_false(QuestieQuest:IsQuestTracked(123))
+        end)
+
+        it("uses Questie's own tables and ignores the watch state when the tracker is enabled", function()
+            Questie.db.profile.trackerEnabled = true
+            Questie.db.profile.autoTrackQuests = true
+            QuestieCompat.IsQuestWatched = spy.new(function() return false end)
+
+            -- autoTrack on and not in AutoUntrackedQuests => tracked
+            assert.is_true(QuestieQuest:IsQuestTracked(123))
+
+            Questie.db.char.AutoUntrackedQuests[123] = true
+            assert.is_false(QuestieQuest:IsQuestTracked(123))
+
+            -- the Blizzard watch state must not be consulted while the tracker is enabled
+            assert.spy(QuestieCompat.IsQuestWatched).was.not_called()
+        end)
+    end)
 end)
