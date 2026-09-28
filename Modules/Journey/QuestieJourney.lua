@@ -49,13 +49,14 @@ local questCategoryKeys = {
     CATACLYSM = 5,
     THE_MAELSTROM = 6,
     PANDARIA = 7,
-    DUNGEONS = 8,
-    BATTLEGROUNDS = 9,
-    CLASS = 10,
-    PROFESSIONS = 11,
-    EVENTS = 12,
-    PET_BATTLES = 13,
-    SCENARIOS = 14,
+    ZEPHRAS_ISLE = 8,
+    DUNGEONS = 9,
+    BATTLEGROUNDS = 10,
+    CLASS = 11,
+    PROFESSIONS = 12,
+    EVENTS = 13,
+    PET_BATTLES = 14,
+    SCENARIOS = 15,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
@@ -81,6 +82,7 @@ function QuestieJourney:Initialize()
             not (questCategoryKeys.CATACLYSM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.PANDARIA == id and Expansions.Current < Expansions.MoP) and
+            not (questCategoryKeys.ZEPHRAS_ISLE == id and not Questie.IsForever) and
             not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) and
             not (questCategoryKeys.SCENARIOS == id and Expansions.Current < Expansions.MoP)
         then

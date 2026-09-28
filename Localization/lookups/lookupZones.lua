@@ -15,13 +15,14 @@ l10n.continentLookup = {
     [5] = "Cataclysm",
     [6] = "The Maelstrom",
     [7] = "Pandaria",
-    [8] = "Dungeons",
-    [9] = "Battlegrounds",
-    [10] = "Class",
-    [11] = "Professions",
-    [12] = "Events",
-    [13] = "Pet Battle",
-    [14] = "Scenarios",
+    [8] = "Zephras Isle",
+    [9] = "Dungeons",
+    [10] = "Battlegrounds",
+    [11] = "Class",
+    [12] = "Professions",
+    [13] = "Events",
+    [14] = "Pet Battle",
+    [15] = "Scenarios",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2810,6 +2811,7 @@ l10n.zoneLookup = {
         [10089]="Azeroth",
     },
     [947]={
+        [2521]="Zephras Isle",
         [10073]="Kalimdor",
         [10074]="Eastern Kingdoms",
         [10075]="Pandaria",
@@ -2922,6 +2924,9 @@ l10n.zoneCategoryLookup = {
     [6] = maelstromZones,
     [7] = l10n.zoneLookup[870],
     [8] = {
+        [16593] = "Zephras Isle",
+    },
+    [9] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
@@ -3025,7 +3030,7 @@ l10n.zoneCategoryLookup = {
         [6622] = "Throne of Thunder",
         [6738] = "Siege of Orgrimmar",
     },
-    [9] = {
+    [10] = {
         [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
@@ -3034,7 +3039,7 @@ l10n.zoneCategoryLookup = {
         [4384] = "Strand of the Ancients",
         [4710] = "Isle of Conquest",
     },
-    [10] = {
+    [11] = {
         [-61] = "Warlock",
         [-81] = "Warrior",
         [-82] = "Shaman",
@@ -3047,7 +3052,7 @@ l10n.zoneCategoryLookup = {
         [-372] = "Death Knight",
         [-395] = "Monk",
     },
-    [11] = {
+    [12] = {
         [-24] = "Herbalism",
         [-101] = "Fishing",
         [-121] = "Blacksmithing",
@@ -3063,7 +3068,7 @@ l10n.zoneCategoryLookup = {
         [-667] = "Mining", -- Dummy ID
         [-668] = "Enchanting", -- Dummy ID
     },
-    [12] = {
+    [13] = {
         [-1] = "Epic",
         [-21] = "Hallow's End",
         [-22] = "Seasonal",
@@ -3090,6 +3095,7 @@ l10n.zoneCategoryLookup = {
         [-641] = "Nightmare Incursions", -- Category added in SoD P3
         [-644] = "Blackrock Eruption", -- Category added in SoD P4
         [-662] = "Titan-Reforged Realm", -- Chinese region
+        [-666] = "Camping", -- Added in Forever
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
@@ -3098,10 +3104,10 @@ l10n.zoneCategoryLookup = {
         [-404] = "Winter Veil",
         [-1000] = "Special", -- for actual "Special" quests that are not part of events
     },
-    [13] = {
+    [14] = {
         [-394] = "Battle Pets",
     },
-    [14] = {
+    [15] = {
         [-391] = "Pandaren Brewmasters", -- Only one quest here and it's scenario type
         [-392] = "Scenario", -- Category added in MoP
         [6040] = "Theramore's Fall", -- H
