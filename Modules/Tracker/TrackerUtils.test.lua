@@ -65,6 +65,7 @@ describe("TrackerUtils", function()
         TrackerData.GetQuests = function() return trackerQuests end
         TrackerData.GetQuest = function(id) return trackerQuests[id] end
         TrackerData.RefreshQuest = spy.new(function(id) return trackerQuests[id] end)
+        dofile("Modules/Tracker/TrackerMapEligibility.lua")
         originalSpecialItemInfo = _G.GetQuestLogSpecialItemInfo
         _G.GetQuestLogSpecialItemInfo = nil
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
@@ -838,10 +839,70 @@ describe("TrackerUtils", function()
             Questie.db.char.TrackerFocus = 11
             trackerQuests[91741] = {
                 Id = 91741, enrichment = {}, Objectives = {{Index = 1}}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
             }
 
             assert.is_false(TrackerUtils:FocusObjective(91741, 1))
             assert.are.equal(11, Questie.db.char.TrackerFocus)
+        end)
+    end)
+
+    describe("map commands recheck current eligibility", function()
+        it("does not focus an objective replaced at the same index while a menu was open", function()
+            local oldObjective = {Index = 3, spawnList = {{}}}
+            local newObjective = {Index = 3, spawnList = {{}}}
+            local originalQuest = {Id = 100}
+            trackerQuests[100] = {
+                Id = 100, enrichment = originalQuest, Objectives = {{enrichment = newObjective}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            Questie.db.char.TrackerFocus = 11
+
+            assert.is_false(TrackerUtils:FocusObjective(100, 3, oldObjective, originalQuest))
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+            assert.is_nil(newObjective.HideIcons)
+            assert.spy(TrackerData.RefreshQuest).was.called_with(100)
+        end)
+
+        it("rejects whole-quest focus when only some live objectives are verified", function()
+            trackerQuests[100] = {
+                Id = 100, enrichment = {Id = 100},
+                Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}, {Description = "Unknown step"}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            Questie.db.char.TrackerFocus = 11
+
+            assert.is_false(TrackerUtils:FocusQuest(100))
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+        end)
+
+        it("navigates using the refreshed display quest and its verified locations", function()
+            local original = {Id = 100}
+            local quest = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            trackerQuests[100] = quest
+            local distance = QuestieLoader:ImportModule("DistanceUtils")
+            distance.GetNearestSpawnForQuest = spy.new(function() return {50, 60}, 12, "Wolf" end)
+            TrackerUtils.SetTomTomTarget = spy.new(function() end)
+
+            assert.is_true(TrackerUtils.SetQuestTomTomTarget(100, original))
+            assert.spy(TrackerData.RefreshQuest).was.called_with(100)
+            assert.spy(distance.GetNearestSpawnForQuest).was.called_with(quest)
+            assert.spy(TrackerUtils.SetTomTomTarget).was.called_with(TrackerUtils, "Wolf", 12, 50, 60)
+        end)
+
+        it("does not navigate a quest whose original enrichment was replaced", function()
+            trackerQuests[100] = {
+                Id = 100, enrichment = {Id = 100}, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            local distance = QuestieLoader:ImportModule("DistanceUtils")
+            distance.GetNearestSpawnForQuest = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.SetQuestTomTomTarget(100, {Id = 100}))
+            assert.spy(distance.GetNearestSpawnForQuest).was.not_called()
         end)
     end)
 
