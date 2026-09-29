@@ -8,6 +8,7 @@ describe("TrackerMenu", function()
     ---@type TrackerUtils
     local TrackerUtils
     local originalLibStub, originalDialogs
+    local TrackerData, displayQuests
 
     before_each(function()
         originalLibStub, originalDialogs = _G.LibStub, _G.StaticPopupDialogs
@@ -49,6 +50,10 @@ describe("TrackerMenu", function()
         }
 
         dofile("Localization/l10n.lua")
+        dofile("Modules/Tracker/TrackerMapEligibility.lua")
+        displayQuests = {}
+        TrackerData = QuestieLoader:ImportModule("TrackerData")
+        TrackerData.RefreshQuest = spy.new(function(id) return displayQuests[id] end)
 
         dofile("Modules/Tracker/LinePool/TrackerMenu.lua")
         TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
@@ -59,8 +64,6 @@ describe("TrackerMenu", function()
     end)
 
     describe("Blizzard-first quest menus", function()
-        local TrackerData
-
         before_each(function()
             TrackerData = QuestieLoader:ImportModule("TrackerData")
             TrackerData.GetColoredQuestName = function(quest) return quest.name end
@@ -91,7 +94,9 @@ describe("TrackerMenu", function()
                 Id = 100, name = "Wolves", Objectives = {objective}, SpecialObjectives = {}, enrichment = originalQuest,
                 IsComplete = function() return 0 end,
             }
+            displayQuests[100] = quest
             local menu = TrackerMenu:GetMenuForQuest(quest)
+            assert.spy(TrackerData.RefreshQuest).was.not_called()
             assert.are.equal("Objectives", menu[2].text)
             local objectiveMenu = menu[2].menuList[1].menuList
             assert.are.equal("Hide Icons", objectiveMenu[3].text)
@@ -121,6 +126,106 @@ describe("TrackerMenu", function()
             end
             assert.are.equal("Objectives", menu[2].text)
             assert.are.equal(1, #menu[2].menuList)
+        end)
+    end)
+
+    describe("stale map menus", function()
+        local originalQuest, originalObjective, display, distance
+
+        before_each(function()
+            originalObjective = {Index = 3, HideIcons = true, spawnList = {{}}}
+            originalQuest = {Id = 100, Objectives = {[3] = originalObjective}, Finisher = {NPC = {240}}}
+            display = {
+                Id = 100, enrichment = originalQuest, Objectives = {{enrichment = originalObjective}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            displayQuests[100] = display
+            Questie.db.char.TrackerFocus = 11
+            QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+            TrackerUtils.UnFocus = spy.new(function() end)
+            TrackerUtils.ShowObjectiveOnMap = spy.new(function() end)
+            TrackerUtils.ShowFinisherOnMap = spy.new(function() end)
+            TrackerUtils.SetTomTomTarget = spy.new(function() end)
+            distance = QuestieLoader:ImportModule("DistanceUtils")
+            distance.GetNearestObjective = spy.new(function() return {50, 50}, 12, "Wolf" end)
+        end)
+
+        it("does not mutate, unfocus or navigate an objective replaced at the same original index", function()
+            local menu = {}
+            TrackerMenu.addShowHideObjectivesOption(menu, originalQuest, originalObjective)
+            TrackerMenu.addShowObjectivesOnMapOption(menu, originalQuest, originalObjective)
+            TrackerMenu.addTomTomOptionForObjective(menu, originalQuest, originalObjective)
+            local replacement = {Index = 3, spawnList = {{}}}
+            display.Objectives[1].enrichment = replacement
+            originalQuest.Objectives[3] = replacement
+
+            menu[1].func()
+            menu[2].func()
+            menu[3].func()
+
+            assert.is_true(originalObjective.HideIcons)
+            assert.is_nil(replacement.HideIcons)
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(TrackerUtils.ShowObjectiveOnMap).was.not_called()
+            assert.spy(distance.GetNearestObjective).was.not_called()
+        end)
+
+        it("rejects old objective actions after the quest completes while its menu is open", function()
+            local menu = {}
+            TrackerMenu.addShowHideObjectivesOption(menu, originalQuest, originalObjective)
+            TrackerMenu.addShowObjectivesOnMapOption(menu, originalQuest, originalObjective)
+            TrackerMenu.addTomTomOptionForObjective(menu, originalQuest, originalObjective)
+            display.IsComplete = function() return 1 end
+
+            menu[1].func()
+            menu[2].func()
+            menu[3].func()
+
+            assert.is_true(originalObjective.HideIcons)
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(TrackerUtils.ShowObjectiveOnMap).was.not_called()
+            assert.spy(distance.GetNearestObjective).was.not_called()
+        end)
+
+        it("does not change icons or show a finisher after the quest is removed", function()
+            display.IsComplete = function() return 1 end
+            local menu = {}
+            TrackerMenu.addShowHideQuestsOption(menu, originalQuest)
+            TrackerMenu.addShowFinisherOnMapOption(menu, originalQuest)
+            displayQuests[100] = nil
+
+            menu[1].func()
+            menu[2].func()
+
+            assert.is_nil(originalQuest.HideIcons)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(TrackerUtils.ShowFinisherOnMap).was.not_called()
+        end)
+
+        it("does not hide the whole quest after one objective loses verified enrichment", function()
+            local menu = {}
+            TrackerMenu.addShowHideQuestsOption(menu, originalQuest)
+            display.Objectives[2] = {Description = "Unmatched new objective"}
+
+            menu[1].func()
+
+            assert.is_nil(originalQuest.HideIcons)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+        end)
+
+        it("retains the original quest identity when a navigation menu outlives its display snapshot", function()
+            TrackerUtils.SetQuestTomTomTarget = spy.new(function() return false end)
+            local menu = {}
+            TrackerMenu.addTomTomOptionForQuest(menu, display)
+            display.enrichment = {Id = 100}
+
+            menu[1].func()
+
+            assert.spy(TrackerUtils.SetQuestTomTomTarget).was.called_with(100, originalQuest)
         end)
     end)
 
@@ -206,7 +311,11 @@ describe("TrackerMenu", function()
     describe("addShowHideObjectivesOption", function()
         it("should add 'Hide Icons' option and call ToggleQuestNotes(false) when icons are visible", function()
             local quest = {Id = 100}
-            local objective = {Index = 1, HideIcons = nil}
+            local objective = {Index = 1, HideIcons = nil, spawnList = {{}}}
+            displayQuests[quest.Id] = {
+                Id = quest.Id, enrichment = quest, Objectives = {{enrichment = objective}}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -226,7 +335,11 @@ describe("TrackerMenu", function()
 
         it("should add 'Show Icons' option and call ToggleQuestNotes(true) when icons are hidden", function()
             local quest = {Id = 100}
-            local objective = {Index = 1, HideIcons = true}
+            local objective = {Index = 1, HideIcons = true, spawnList = {{}}}
+            displayQuests[quest.Id] = {
+                Id = quest.Id, enrichment = quest, Objectives = {{enrichment = objective}}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -248,6 +361,10 @@ describe("TrackerMenu", function()
     describe("addShowHideQuestsOption", function()
         it("should add 'Hide Icons' option and call ToggleQuestNotes(false) when icons are visible", function()
             local quest = {Id = 200, HideIcons = nil}
+            displayQuests[200] = {
+                Id = 200, enrichment = quest, Objectives = {{enrichment = {Index = 1, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -267,6 +384,10 @@ describe("TrackerMenu", function()
 
         it("should add 'Show Icons' option and call ToggleQuestNotes(true) when icons are hidden", function()
             local quest = {Id = 200, HideIcons = true}
+            displayQuests[200] = {
+                Id = 200, enrichment = quest, Objectives = {{enrichment = {Index = 1, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -288,7 +409,11 @@ describe("TrackerMenu", function()
     describe("addShowObjectivesOnMapOption", function()
         it("should call ToggleQuestNotes(true) when objective has HideIcons set", function()
             local quest = {Id = 300, HideIcons = nil}
-            local objective = {Index = 1, HideIcons = true}
+            local objective = {Index = 1, HideIcons = true, spawnList = {{}}}
+            displayQuests[quest.Id] = {
+                Id = quest.Id, enrichment = quest, Objectives = {{enrichment = objective}}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -303,7 +428,11 @@ describe("TrackerMenu", function()
 
         it("should call ToggleQuestNotes(true) when quest has HideIcons set", function()
             local quest = {Id = 300, HideIcons = true}
-            local objective = {Index = 1, HideIcons = nil}
+            local objective = {Index = 1, HideIcons = nil, spawnList = {{}}}
+            displayQuests[quest.Id] = {
+                Id = quest.Id, enrichment = quest, Objectives = {{enrichment = objective}}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -318,7 +447,11 @@ describe("TrackerMenu", function()
 
         it("should not call ToggleQuestNotes when nothing is hidden", function()
             local quest = {Id = 300, HideIcons = nil}
-            local objective = {Index = 1, HideIcons = nil}
+            local objective = {Index = 1, HideIcons = nil, spawnList = {{}}}
+            displayQuests[quest.Id] = {
+                Id = quest.Id, enrichment = quest, Objectives = {{enrichment = objective}}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
