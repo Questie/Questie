@@ -1465,15 +1465,22 @@ function _QuestieQuest.ObjectiveUpdate(self)
             -- fixes for api bug
             local numFulfilled = obj.numFulfilled or 0
             local numRequired = obj.numRequired or 0
-            local finished = obj.finished or false -- ensure its boolean false and not nil (hack)
 
             self.Type = obj.type;
             self.Description = obj.text
             self.FullDescription = QuestieLib.GetFullObjectiveTextConditional(obj.raw_text)
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
-            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or
-                (finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+            self.Finished = obj.finished or false -- ensure its boolean false and not nil (hack)
+            -- In Forever some quest objectives can have Collected=1, Needed=1, but Finished=false.
+            -- Collected being 1 in these cases is most likely a Blizzard bug, as the Finished value
+            -- changes to true when you complete the objective.
+            -- We just turn Collected=0 in these cases to reflect the actual situation.
+            if self.Collected == 1 and self.Needed == 1 and not self.Finished then
+                self.Collected = 0
+            end
+            self.Completed = (self.Needed == self.Collected and self.Needed > 0 and self.Finished) or
+                (self.Finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
             -- Mark objective updated
             self.isUpdated = true
         end

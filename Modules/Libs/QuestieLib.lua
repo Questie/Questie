@@ -123,8 +123,11 @@ function QuestieLib:GetRGBForObjective(objective)
         return FloatRGBToHex(0.937 - float / 1.282, 0.937 + float / 15.873, 0.937 - float / 1.282)
     else
         -- Red to Green
-        if float <= .50 then return FloatRGBToHex(1, 0 + float * 2, 0) end
-        if float > .50 then return FloatRGBToHex(1.843 - float / 0.593, 1, (float * 2 - 1) * 0.157) end
+        if float <= .50 then
+            return FloatRGBToHex(1, 0 + float * 2, 0)
+        else
+            return FloatRGBToHex(1.843 - float / 0.593, 1, (float * 2 - 1) * 0.157)
+        end
     end
 end
 
