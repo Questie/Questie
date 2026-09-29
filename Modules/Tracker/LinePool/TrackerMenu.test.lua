@@ -120,7 +120,8 @@ describe("TrackerMenu", function()
             }, labels)
         end)
 
-        it("mutates the original verified objective when hiding map icons", function()
+        it("uses the original verified objective for hiding and showing map icons", function()
+            TrackerUtils.ShowObjectiveOnMap = spy.new(function() end)
             local originalObjective = {Index = 2, spawnList = {{Spawns = {}}}}
             local originalQuest = {Id = 100, Objectives = {originalObjective}, IsComplete = function() return 0 end}
             local objective = {Index = 1, Description = "Wolf", enrichment = originalObjective}
@@ -136,6 +137,12 @@ describe("TrackerMenu", function()
             assert.is_true(originalObjective.HideIcons)
             assert.is_nil(objective.HideIcons)
             assert.is_true(Questie.db.char.TrackerHiddenObjectives["100 2"])
+
+            assert.are.equal("Show on Map", objectiveMenu[4].text)
+            objectiveMenu[4].func()
+
+            assert.spy(TrackerUtils.ShowObjectiveOnMap).was.called_with(TrackerUtils, originalObjective)
+            assert.is_nil(originalObjective.HideIcons)
         end)
 
         it("does not offer quest-wide focus when a live objective lacks verified enrichment", function()
