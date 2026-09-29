@@ -14,11 +14,13 @@ Tests cover recovery without new events, cancellation by natural scans, delayed 
 
 ## 2. Remove unused map-field copies
 
-- [ ] Remove display-record fields that have no consumer or duplicate data accessed through `enrichment`.
+- [x] Remove unused map-state and raw-text copies from display objectives.
 
-Display objectives retain their original Questie objective through `enrichment`, but also copy fields such as `AlreadySpawned` and `Icon`. Map interactions now operate on the original object. `RawText` is also assigned without a current consumer.
+Removed `AlreadySpawned`, `Icon`, and `RawText` copies from display objectives. Map actions already use the original Questie objective through `enrichment`; they do not need copied icon state. Full objective wording still uses the cached raw text when constructing `FullDescription`.
 
-Audit consumers before removing fields. Keep the display data and original-object reference, plus any fields still required by existing callers. Do not replace original map objects with display copies in actions that mutate map state.
+Retained `spawnList`, which `DistanceUtils` reads for proximity and navigation. Objective identity and index fields are unchanged. Missing-source-item objectives copy their display fields explicitly instead of cloning every original field. Familiar field names remain, but future additions to the original object will not silently introduce map state or behavior into the display record.
+
+Tests verify navigation, source-item wording and counters, and hide/show map actions using original enrichment objects. Loading, completion and map-eligibility rules are unchanged.
 
 ## 3. Make reads and refreshes explicit
 
