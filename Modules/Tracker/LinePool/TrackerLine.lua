@@ -28,8 +28,6 @@ local ExpandZoneButton = QuestieLoader:ImportModule("ExpandZoneButton")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
----@type DistanceUtils
-local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
@@ -204,10 +202,7 @@ _OnClickQuest = function(self, button)
     end
 
     if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
-        local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(self.Quest)
-        if spawn then
-            TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
-        end
+        TrackerUtils.SetQuestTomTomTarget(self.Quest.Id, self.Quest.enrichment)
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))

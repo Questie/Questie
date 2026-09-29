@@ -14,6 +14,8 @@ local Sorter = QuestieLoader:ImportModule("Sorter")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerMapEligibility
+local TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type QuestieCombatQueue
@@ -134,6 +136,24 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
         Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, {title = title, crazy = true, from = "Questie"})
     end
+end
+
+---Quest navigation and ctrl-click use the same eligibility as the menu, evaluated against current data.
+---@param questId QuestId
+---@param expectedQuest Quest? Original quest captured by the initiating row or menu.
+---@return boolean
+function TrackerUtils.SetQuestTomTomTarget(questId, expectedQuest)
+    local quest = TrackerData.RefreshQuest(questId)
+    local capabilities = TrackerMapEligibility.GetCapabilities(quest)
+    if not capabilities.canNavigateQuest or (expectedQuest and capabilities.quest ~= expectedQuest) then
+        return false
+    end
+    local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+    if not spawn then
+        return false
+    end
+    TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+    return true
 end
 
 ---@param objective QuestObjective
@@ -485,23 +505,17 @@ function TrackerUtils:UnFocus()
 end
 
 ---@param questId number Quest ID number
----@param objectiveIndex number Objective Index number
-function TrackerUtils:FocusObjective(questId, objectiveIndex)
+---@param objectiveIndex number Original objective index, not the display index.
+---@param expectedObjective QuestObjective? Original object captured by a menu.
+---@param expectedQuest Quest? Original quest captured by a menu.
+---@return boolean
+function TrackerUtils:FocusObjective(questId, objectiveIndex, expectedObjective, expectedQuest)
+    -- Explicit command-time refresh: a menu may outlive the objective or its original map object.
     local tracked = TrackerData.RefreshQuest(questId)
-    local matched = false
-    for _, objective in pairs(tracked and tracked.Objectives or {}) do
-        if objective.enrichment and objective.enrichment.Index == objectiveIndex then
-            matched = true
-            break
-        end
-    end
-    for _, objective in pairs(tracked and tracked.SpecialObjectives or {}) do
-        if objective.Index == objectiveIndex then
-            matched = true
-            break
-        end
-    end
-    if not matched then
+    local capabilities = TrackerMapEligibility.GetCapabilities(tracked)
+    local original = capabilities.focusObjectives[objectiveIndex]
+    if not original or (expectedObjective and original ~= expectedObjective)
+        or (expectedQuest and capabilities.quest ~= expectedQuest) then
         return false
     end
 
@@ -543,22 +557,13 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex)
 end
 
 ---@param questId number Quest ID number
-function TrackerUtils:FocusQuest(questId)
+---@param expectedQuest Quest? Original quest captured by a menu.
+---@return boolean
+function TrackerUtils:FocusQuest(questId, expectedQuest)
     local tracked = TrackerData.RefreshQuest(questId)
-    if not tracked or not tracked.enrichment then
+    local capabilities = TrackerMapEligibility.GetCapabilities(tracked)
+    if not capabilities.canFocusQuest or (expectedQuest and capabilities.quest ~= expectedQuest) then
         return false
-    end
-    if tracked:IsComplete() == 1 or tracked.isComplete then
-        local finisher = tracked.Finisher
-        if not finisher or not ((finisher.NPC and next(finisher.NPC)) or (finisher.GameObject and next(finisher.GameObject))) then
-            return false
-        end
-    else
-        for _, objective in pairs(tracked.Objectives) do
-            if not objective.enrichment then
-                return false
-            end
-        end
     end
 
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "number" or Questie.db.char.TrackerFocus ~= questId) then
