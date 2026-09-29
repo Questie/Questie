@@ -133,8 +133,7 @@ _DeleteNote = function(noteIndex)
         if entry and entry.Event == "Note" then
             table.remove(Questie.db.char.journey, noteIndex)
             success = true
-            local message = Questie:Colorize('[Questie] ', 'lightBlue') .. l10n('Note deleted successfully')
-            print(message)
+            Questie:Print(l10n('Note deleted successfully'))
             if _QuestieJourney.myJourney and _QuestieJourney.treeCache then
                 _QuestieJourney.myJourney:ManageTree(_QuestieJourney.treeCache)
             end
