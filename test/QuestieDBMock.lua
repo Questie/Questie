@@ -12,6 +12,7 @@
 -- write-time normalization (constant fields, tables on scalar fields, `""`, `{0, 0}`) is not
 -- modeled, so tests seed normalized values. `test/QuestieDBMock.conformance.test.lua` runs the
 -- same cases against the real provider; the intentional differences are listed there.
+-- Table add/remove operation keys are not modeled; this double accepts replacement fields only.
 local LoadQuestieDBMetaMock = dofile("test/QuestieDBMetaMock.lua")
 
 local ENTITY_TYPES = {"Quest", "Npc", "Item", "Object"}
@@ -27,6 +28,7 @@ local BASE_OWNER = "QuestieDB"
 ---@field name string
 ---@field provider (fun(): QuestieDBMockRows)? Function-shaped registration; absent on a data slot.
 ---@field rows QuestieDBMockRows? Data slot written through `Corrections.Set`; absent on a function entry.
+---@field lastSuccessfulRows QuestieDBMockRows? Snapshot restored when a data slot write is rejected.
 ---@field loadOrder number? Explicit order as passed by the caller, when any.
 ---@field order number Effective order: loadOrder, or a registration-sequence fraction mirroring the provider.
 ---@field sequence integer Creation order, breaking order ties.
@@ -100,7 +102,7 @@ local function LoadQuestieDBMock()
     -- sequence fraction, so unnumbered entries apply before explicitly numbered ones.
     local registrationSequence = 0
 
-    -- Highest Database Key Enum index per datatype; a write outside the schema is dropped.
+    -- Highest Database Key Enum index per datatype, used to validate correction writes.
     ---@type table<QuestieDBMockDatatype, integer>
     local fieldCounts = {}
     for _, datatype in ipairs(ENTITY_TYPES) do
@@ -511,10 +513,24 @@ local function LoadQuestieDBMock()
         mock.applyCount[owner] = mock.applyCount[owner] or 0
     end
 
+    ---Validate before retaining Set rows or composing provider rows, so bad keys cannot silently disappear.
+    ---@param datatype QuestieDBMockDatatype
+    ---@param rows QuestieDBMockRows
+    local function ValidateCorrectionFields(datatype, rows)
+        local fieldCount = fieldCounts[datatype]
+        for _, fields in pairs(rows) do
+            for fieldIndex in pairs(fields) do
+                if type(fieldIndex) == "number" and (fieldIndex % 1 ~= 0 or fieldIndex < 1 or fieldIndex > fieldCount) then
+                    error(("QuestieDBMock: unknown field key %s for %s correction"):format(tostring(fieldIndex), datatype), 3)
+                end
+            end
+        end
+    end
+
     ---Rebuilds one owner's layer from its entries: function providers run again, data slots are
     ---used as-is. Nothing accumulates across rebuilds, so an entry returning or holding `{}`
     ---withdraws its earlier rows. As in the provider, a layer row exists only once a field inside
-    ---the schema is written: a row of ignored keys, or an empty one, never invents an entity.
+    ---the schema is written: an empty row never invents an entity. Unknown numeric field keys raise an error.
     ---@param owner string
     ---@return nil
     local function RebuildOwnerLayer(owner)
@@ -538,6 +554,7 @@ local function LoadQuestieDBMock()
                     error(("QuestieDBMock: correction %q must return a table"):format(registration.name), 2)
                 end
             end
+            ValidateCorrectionFields(registration.datatype, rows)
             local datatypeLayer = layer[registration.datatype]
             local fieldCount = fieldCounts[registration.datatype]
             for id, fields in pairs(rows) do
@@ -554,6 +571,11 @@ local function LoadQuestieDBMock()
             end
         end
         layers[owner] = layer
+        for _, registration in ipairs(ordered) do
+            if registration.rows then
+                registration.lastSuccessfulRows = CopyValue(registration.rows)
+            end
+        end
     end
 
     ---Drops the shared ID map and Name index of exactly the given datatypes, as the provider's
@@ -662,6 +684,18 @@ local function LoadQuestieDBMock()
                 end
                 entryIndex = index
                 break
+            end
+        end
+
+        if rows then
+            local ok, message = pcall(ValidateCorrectionFields, datatype, rows)
+            if not ok then
+                -- Callers may have mutated the retained table before Set; restore an independent snapshot.
+                if entryIndex then
+                    local entry = mock.registrations[owner][entryIndex]
+                    entry.rows = CopyValue(entry.lastSuccessfulRows)
+                end
+                error(message, 0)
             end
         end
 

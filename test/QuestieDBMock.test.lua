@@ -239,17 +239,27 @@ describe("QuestieDBMock", function()
             assert.is_nil(LibQuestieDB.Item.GetAllIds(true)[999])
         end)
 
-        it("does not invent an entity from a row that writes no schema field", function()
+        it("does not invent an entity from an empty row", function()
             darkmoonRows[14830] = {}
-            darkmoonRows[14831] = {[999] = "outside the schema", note = "ignored"}
             local beforeApply = LibQuestieDB.Npc.GetAllIds(true)
 
             registrar.Apply()
 
             assert.is_false(LibQuestieDB.Npc.Exists(14830))
-            assert.is_false(LibQuestieDB.Npc.Exists(14831))
             assert.are_equal(beforeApply, LibQuestieDB.Npc.GetAllIds(true))
         end)
+
+        for _, fieldIndex in ipairs({999, 1.5}) do
+            it("rejects invalid field key " .. fieldIndex .. " on apply without publishing", function()
+                darkmoonRows[14830] = {[fieldIndex] = "invalid"}
+
+                assert.has_error(registrar.Apply,
+                    "QuestieDBMock: unknown field key " .. fieldIndex .. " for Npc correction")
+
+                assert.is_false(LibQuestieDB.Npc.Exists(14830))
+                assert.are_same(0, mock.publishCounts.Npc)
+            end)
+        end
 
         it("keeps the ID map identity while an apply adds no entity, and swaps it when one is added", function()
             local beforeApply = LibQuestieDB.Npc.GetAllIds(true)
@@ -347,6 +357,37 @@ describe("QuestieDBMock", function()
             assert.is_true(registrar.Set("Npc", "DarkmoonFaire", nil))
             assert.are_same(1, LibQuestieDB.Npc.Get(14828, "zoneID"))
             assert.is_false(registrar.Set("Npc", "DarkmoonFaire", nil))
+        end)
+
+        for _, fieldIndex in ipairs({999, 1.5}) do
+            it("rejects invalid field key " .. fieldIndex .. " without replacing the stored slot", function()
+                local registrar = LibQuestieDB.GetRegistrar("Questie")
+                registrar.Set("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+
+                assert.has_error(function()
+                    registrar.Set("Npc", "DarkmoonFaire", {[14828] = {[fieldIndex] = "invalid"}})
+                end, "QuestieDBMock: unknown field key " .. fieldIndex .. " for Npc correction")
+
+                assert.are_same(215, LibQuestieDB.Npc.zoneID(14828))
+                assert.are_same(1, mock.publishCounts.Npc)
+                registrar.Apply()
+                assert.are_same(215, LibQuestieDB.Npc.zoneID(14828))
+            end)
+        end
+
+        it("restores the last successful rows after rejecting an in-place mutation", function()
+            local registrar = LibQuestieDB.GetRegistrar("Questie")
+            local rows = {[14828] = {[npcKeys.zoneID] = 215}}
+            registrar.Set("Npc", "DarkmoonFaire", rows)
+            rows[14828][999] = "invalid"
+
+            assert.has_error(function()
+                registrar.Set("Npc", "DarkmoonFaire", rows)
+            end, "QuestieDBMock: unknown field key 999 for Npc correction")
+
+            rows[14828][npcKeys.zoneID] = 99
+            registrar.Apply()
+            assert.are_same(215, LibQuestieDB.Npc.zoneID(14828))
         end)
 
         it("republishes only the written datatype", function()
