@@ -295,7 +295,7 @@ describe("QuestieTracker", function()
             QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
             quest = {Id = 91741, name = "Nibbled-On Book", zoneName = "Northshire Abbey", Objectives = {}}
             TrackerData.ContainsQuest = spy.new(function() return true end)
-            TrackerData.GetQuest = spy.new(function() return quest end)
+            TrackerData.RefreshQuest = spy.new(function() return quest end)
             QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = spy.new(function() end)
             removeWatchMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "RemoveQuestWatch")
             titleMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetQuestLogTitle", function()
@@ -345,7 +345,7 @@ describe("QuestieTracker", function()
             QuestieTracker:AQW_Insert(2)
 
             assert.is_true(Questie.db.char.AutoUntrackedQuests[91741])
-            assert.spy(TrackerData.GetQuest).was.not_called()
+            assert.spy(TrackerData.RefreshQuest).was.not_called()
             assert.spy(QuestieTracker.Update).was.not_called()
         end)
 
@@ -363,12 +363,12 @@ describe("QuestieTracker", function()
 
             QuestieTracker.UpdateQuestLines(91741)
 
-            assert.spy(TrackerData.GetQuest).was.called_with(91741)
+            assert.spy(TrackerData.RefreshQuest).was.called_with(91741)
             assert.spy(pool.UpdateQuestLines).was.called_with(91741, quest)
         end)
 
         it("does not update old rows after the quest leaves the native log", function()
-            TrackerData.GetQuest = function() return nil end
+            TrackerData.RefreshQuest = function() return nil end
             local pool = QuestieLoader:ImportModule("TrackerLinePool")
             pool.UpdateQuestLines = spy.new(function() end)
 
@@ -381,6 +381,139 @@ describe("QuestieTracker", function()
             QuestieTracker:RemoveQuest(91741)
 
             assert.spy(TrackerData.RemoveQuest).was.called_with(91741)
+        end)
+    end)
+
+    describe("explicit display refresh", function()
+        local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
+        local timeMock, combatMock, countMock, instanceMock, infoMock
+        local header, pool
+
+        before_each(function()
+            now, inCombat = 0, false
+            timeMock = stub(_G, "GetTime", function() return now end)
+            combatMock = stub(_G, "InCombatLockdown", function() return inCombat end)
+            instanceMock = stub(_G, "IsInInstance", function() return false end)
+            infoMock = stub(_G, "GetInstanceInfo", function() return "Outside", "none" end)
+            countMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetNumQuestWatches", function() return 0 end)
+            expansion = QuestieLoader:ImportModule("Expansions")
+            originalExpansion = expansion.Current
+            expansion.Current = expansion.Era
+            originalTimer, originalDurability = _G.C_Timer, _G.DurabilityFrame
+            originalBindingLabel = _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER
+            _G.C_Timer = {After = function() end}
+            _G.DurabilityFrame = {GetPoint = function() return "TOPLEFT" end}
+            Questie.db.profile.trackerFontSizeZone = 12
+            Questie.db.profile.trackerFontSizeQuest = 10
+            Questie.db.profile.trackerFontSizeObjective = 10
+
+            TrackerData.Refresh = spy.new(function() return {} end)
+            local base = QuestieLoader:ImportModule("TrackerBaseFrame")
+            base.Initialize = function() return CreateFrame("Frame") end
+            base.Update = function() end
+            header = QuestieLoader:ImportModule("TrackerHeaderFrame")
+            header.Initialize = function() return {} end
+            header.Update = function() assert.spy(TrackerData.Refresh).was.called(1) end
+            local frame = QuestieLoader:ImportModule("TrackerQuestFrame")
+            frame.Initialize = function() return {} end
+            frame.Update = function() end
+            pool = QuestieLoader:ImportModule("TrackerLinePool")
+            pool.Initialize = function() end
+            pool.ResetLinesForChange = function() end
+            pool.ResetButtonsForChange = function() end
+            pool.GetLastLine = function() return nil end
+            QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
+            TrackerUtils.IsVoiceOverLoaded = function() return false end
+            TrackerUtils.GetSortedQuestIds = spy.new(function()
+                assert.spy(TrackerData.Refresh).was.called(1)
+                return {}, {}
+            end)
+
+            dofile("Localization/l10n.lua")
+            dofile("Modules/Tracker/QuestieTracker.lua")
+            QuestieTracker.started = false
+            QuestieTracker.alreadyHooked = nil
+            QuestieTracker.HookBaseTracker = function() end
+            local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+            assert.is_true(initialized, err)
+        end)
+
+        after_each(function()
+            timeMock:revert()
+            combatMock:revert()
+            countMock:revert()
+            instanceMock:revert()
+            infoMock:revert()
+            expansion.Current = originalExpansion
+            _G.C_Timer, _G.DurabilityFrame = originalTimer, originalDurability
+            _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = originalBindingLabel
+        end)
+
+        it("refreshes once before layout and sorting read the snapshot", function()
+            now = 1
+            QuestieTracker:Update()
+            QuestieTracker:Update() -- The throttled call does not rebuild the data again.
+
+            assert.spy(TrackerData.Refresh).was.called(1)
+            assert.spy(TrackerUtils.GetSortedQuestIds).was.called(1)
+        end)
+
+        it("refreshes only the affected quest for combat-safe text updates", function()
+            now, inCombat = 1, true
+            local quest = {Id = 91741, Objectives = {}}
+            TrackerData.RefreshQuest = spy.new(function() return quest end)
+            pool.UpdateQuestLines = spy.new(function() end)
+
+            QuestieTracker:Update()
+            QuestieTracker.UpdateQuestLines(91741)
+
+            assert.spy(TrackerData.Refresh).was.not_called()
+            assert.spy(TrackerData.RefreshQuest).was.called_with(91741)
+            assert.spy(pool.UpdateQuestLines).was.called_with(91741, quest)
+        end)
+
+        describe("saved focus before the first full refresh", function()
+            local original, objective
+
+            before_each(function()
+                objective = {Index = 3, HideIcons = true, spawnList = {{Spawns = {[12] = {{50, 50}}}}}}
+                original = {Id = 11, HideIcons = true, Objectives = {[3] = objective}, SpecialObjectives = {}}
+                QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {[11] = original}
+                QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return original end
+                TrackerData.RefreshQuest = spy.new(function()
+                    return {Id = 11, enrichment = original, Objectives = {{enrichment = objective}},
+                        SpecialObjectives = {}, IsComplete = function() return 0 end}
+                end)
+                dofile("Modules/Tracker/TrackerUtils.lua")
+                TrackerUtils.IsVoiceOverLoaded = function() return false end
+                QuestieTracker.started = false
+            end)
+
+            it("restores quest focus through an explicit single-quest refresh", function()
+                Questie.db.char.TrackerFocus = 11
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+
+                assert.is_true(initialized, err)
+                assert.spy(TrackerData.Refresh).was.not_called()
+                assert.spy(TrackerData.RefreshQuest).was.called_with(11)
+                assert.are.equal(11, Questie.db.char.TrackerFocus)
+                assert.is_nil(original.HideIcons)
+                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+            end)
+
+            it("restores objective focus using the original index before a full refresh", function()
+                Questie.db.char.TrackerFocus = "11 3"
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+
+                assert.is_true(initialized, err)
+                assert.spy(TrackerData.Refresh).was.not_called()
+                assert.spy(TrackerData.RefreshQuest).was.called_with(11)
+                assert.are.equal("11 3", Questie.db.char.TrackerFocus)
+                assert.is_nil(objective.HideIcons)
+                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+            end)
         end)
     end)
 

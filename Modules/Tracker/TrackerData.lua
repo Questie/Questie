@@ -204,10 +204,19 @@ function TrackerData.GetQuests()
     return quests
 end
 
----Refreshes only this quest's objectives. Header discovery reads log metadata, not other quests' progress.
+---Reads the current display snapshot without client queries, refreshes or membership changes.
+---Call Refresh or RefreshQuest from update paths before reading; RemoveQuest invalidates lifecycle removals.
 ---@param questId QuestId
 ---@return TrackerQuest?
 function TrackerData.GetQuest(questId)
+    return quests[questId]
+end
+
+---Refreshes only this quest's objectives. Header discovery reads log metadata, not other quests' progress.
+---Use for incremental updates and commands that must revalidate a possibly stale display record.
+---@param questId QuestId
+---@return TrackerQuest?
+function TrackerData.RefreshQuest(questId)
     local index = QuestieCompat.GetQuestLogIndexByID(questId)
     if not index or index <= 0 then
         quests[questId] = nil
