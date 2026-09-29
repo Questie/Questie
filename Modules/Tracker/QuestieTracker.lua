@@ -907,6 +907,8 @@ function QuestieTracker:Update()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:Update]")
     end
 
+    -- Refresh once before any layout/visibility reads. Sorting and formatting consume this same snapshot.
+    TrackerData.Refresh()
     TrackerHeaderFrame:Update()
     TrackerQuestFrame:Update()
     TrackerBaseFrame:Update()
@@ -2349,7 +2351,7 @@ function QuestieTracker:AQW_Insert(index, _expire)
             end
         end
 
-        local quest = TrackerData.GetQuest(questId)
+        local quest = TrackerData.RefreshQuest(questId)
 
         if quest then
             -- Tracking is independent of map enrichment, including native-only quests.
@@ -2506,8 +2508,8 @@ end
 
 ---@param questId QuestId
 function QuestieTracker.UpdateQuestLines(questId)
-    -- Refresh the shared display records before the combat-safe text-only update.
-    local quest = TrackerData.GetQuest(questId)
+    -- Refresh just the affected quest before the combat-safe text-only update, not the whole layout.
+    local quest = TrackerData.RefreshQuest(questId)
     if quest then
         TrackerLinePool.UpdateQuestLines(questId, quest)
     end
