@@ -42,6 +42,113 @@ local function ReleaseBlizzardMapButtons()
     end
 end
 
+-- ---------------------------------------------------------------------------
+-- Blizzard quest POI pins ("?" toggle button + login restore)
+-- ---------------------------------------------------------------------------
+-- An always-on world-map button that shows/hides Blizzard's native quest POI pins via the questPOI
+-- CVar. Those pins drive native supertracking (and the WaypointUI flare); this client resets the
+-- CVar to 0 each login, so we re-apply the user's choice (questPOIEnabled) on login. Forever-only.
+local poiButton
+
+local function QuestPOIEnabled()
+    return Questie.db.profile.questPOIEnabled == true
+end
+
+-- Reflect the on/off state on the "?" icon.
+function WorldMapButton.UpdatePOIButton()
+    if not (poiButton and poiButton.icon) then return end
+    local on = QuestPOIEnabled()
+    poiButton.icon:SetDesaturated(not on)
+    poiButton.icon:SetAlpha(on and 1 or 0.45)
+end
+
+-- Some questPOI writes taint during combat, so defer the apply to combat end.
+local poiCombatFrame = CreateFrame("Frame")
+poiCombatFrame:SetScript("OnEvent", function(self)
+    self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+    WorldMapButton.ApplyQuestPOI()
+end)
+
+-- Apply the questPOI CVar from the setting and refresh the native pins. Combat-safe: if we're in
+-- lockdown, defer the whole apply until combat ends.
+function WorldMapButton.ApplyQuestPOI()
+    if InCombatLockdown() then
+        poiCombatFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+        WorldMapButton.UpdatePOIButton()
+        return
+    end
+    local desired = QuestPOIEnabled() and "1" or "0"
+    if GetCVar("questPOI") ~= desired then
+        SetCVar("questPOI", desired)
+    end
+    if type(QuestMapFrame_UpdateAll) == "function" then pcall(QuestMapFrame_UpdateAll) end
+    if type(QuestPOIUpdateIcons) == "function" then pcall(QuestPOIUpdateIcons) end
+    if WorldMapFrame and WorldMapFrame.RefreshAllDataProviders then
+        pcall(function() WorldMapFrame:RefreshAllDataProviders() end)
+    end
+    WorldMapButton.UpdatePOIButton()
+end
+
+-- Left-click the "?" button: flip native quest POIs on/off.
+function WorldMapButton.ToggleQuestPOI()
+    Questie.db.profile.questPOIEnabled = not QuestPOIEnabled()
+    WorldMapButton.ApplyQuestPOI()
+    -- Refresh the options UI if it's open, so its toggle reflects the new state.
+    if _G.QuestieConfigFrame and _G.QuestieConfigFrame:IsShown() then
+        AceConfigDialog:Open("Questie", _G.QuestieConfigFrame)
+    end
+end
+
+local function POITooltip(self)
+    GameTooltip:SetOwner(self, "ANCHOR_NONE")
+    GameTooltip:ClearLines()
+    GameTooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0)
+    GameTooltip:AddLine(l10n("Quest POI"))
+    local state = QuestPOIEnabled() and l10n("Shown") or l10n("Hidden")
+    GameTooltip:AddDoubleLine(Questie:Colorize(l10n("Left Click"), 'lightBlue'), Questie:Colorize(state, 'white'))
+    GameTooltip:Show()
+end
+
+-- Build the "?" toggle as a bare Krowi row button styled like Questie's own map button
+-- (frameStrata HIGH so the map canvas can't render over it).
+local function BuildPOIButton()
+    if poiButton then return end
+    poiButton = KButtons:Add(nil, "BUTTON")
+    poiButton:SetSize(32, 32)
+    poiButton:SetFrameStrata("HIGH")
+
+    local bg = poiButton:CreateTexture(nil, "BACKGROUND")
+    bg:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
+    bg:SetSize(25, 25)
+    bg:SetPoint("TOPLEFT", 2, -4)
+
+    local icon = poiButton:CreateTexture(nil, "ARTWORK")
+    icon:SetSize(22, 22)
+    icon:SetPoint("TOPLEFT", 6, -5)
+    -- Prefer the real quest turn-in "?" POI atlas; fall back to the classic gossip "?" texture.
+    if C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo("QuestTurnin") then
+        icon:SetAtlas("QuestTurnin", false)
+    else
+        icon:SetTexture("Interface\\GossipFrame\\ActiveQuestIcon")
+    end
+    poiButton.icon = icon
+
+    local border = poiButton:CreateTexture(nil, "OVERLAY")
+    border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
+    border:SetSize(54, 54)
+    border:SetPoint("TOPLEFT")
+
+    poiButton:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
+    poiButton:RegisterForClicks("LeftButtonUp")
+    poiButton:SetScript("OnClick", WorldMapButton.ToggleQuestPOI)
+    poiButton:SetScript("OnEnter", POITooltip)
+    poiButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    poiButton.Refresh = function() end -- Krowi calls button:Refresh() on map refresh
+
+    poiButton:Show()
+    WorldMapButton.UpdatePOIButton()
+end
+
 function WorldMapButton.Initialize()
     mapButton = KButtons:Add("QuestieWorldMapButtonTemplate", "BUTTON")
     if Questie.IsForever then
@@ -53,6 +160,16 @@ function WorldMapButton.Initialize()
     }
 
     WorldMapButton.Toggle(Questie.db.profile.mapShowHideEnabled)
+
+    -- Forever-only: add the always-on "?" quest POI toggle next to Questie's button. Both buttons
+    -- are added here, back-to-back, so there is no cross-addon row-ordering race.
+    if Questie.IsForever then
+        BuildPOIButton()
+        Questie.WorldMap.POIButton = poiButton
+        if type(KButtons.SetPoints) == "function" then
+            KButtons.SetPoints()
+        end
+    end
 end
 
 ---@param shouldShow boolean
