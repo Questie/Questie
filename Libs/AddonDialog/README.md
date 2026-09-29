@@ -1,11 +1,14 @@
-# AddonDialog
+# Private addon dialogs
 
-A small addon-owned dialog for confirmations and copyable text. It keeps the original popup appearance and avoids Blizzard's shown dialogs without joining their popup manager.
+A small Lua-only dialog for confirmations and copyable text. Each addon owns its implementation, definitions, callbacks, and anonymous frames. Only positioning is shared through `LibPopupStack-1.0`.
 
-Load `Dialog.lua`, `PopupPosition.lua`, then `Dialog.xml`. The module has no addon-core, persistence, or localization dependencies. Callers provide translated strings and actions.
+Load LibStub, `Libs/LibPopupStack-1.0/LibPopupStack-1.0.lua`, then `Libs/AddonDialog/Dialog.lua`. No widget XML or global mixin is required. WoW passes a private table to each addon file; the widget attaches its interface as `addon.Dialog`.
 
 ```lua
-AddonDialog.Dialogs["MY_ADDON_CONFIRM"] = {
+local _, addon = ...
+local Dialog = addon.Dialog
+
+Dialog.Dialogs["CONFIRM_ACTION"] = {
   text = "Continue with %s?",
   button1 = YES,
   button2 = NO,
@@ -16,32 +19,34 @@ AddonDialog.Dialogs["MY_ADDON_CONFIRM"] = {
   end,
 }
 
-AddonDialog.Show("MY_ADDON_CONFIRM", "this operation", nil, {
+Dialog.Show("CONFIRM_ACTION", "this operation", nil, {
   confirm = function() --[[ perform the action ]] end,
 })
 ```
 
-## Supported behavior
+## Interface
 
-- One lazily created frame per definition. Different purposes never share controls.
 - `Show(key, arg1, arg2, data)`, `FindVisible(key)`, `Hide(key)`, `IsShown(key)`, `IsAnyDialogShown()`.
+- One lazily created frame per definition; different purposes never share controls.
 - Body text, optional warning icon (`showAlert`), and `button1`/`button2`.
 - `OnShow(dialog, data)`, `OnAccept(dialog, data)`, and `OnCancel(dialog, data, reason)`.
-- A truthy accept/cancel return keeps a clicked decision open. Programmatic Hide never invokes OnCancel. The current `TOGGLEGAMEMENU` binding (Escape by default) closes the most recently shown eligible dialog, with cancellation reason `"clicked"`. Other keys propagate, including Escape when it is unbound or assigned another action.
-- Showing the same key replaces its current instance. Cancellation receives `"override"` unless `noCancelOnReuse` is true. Data and formatting arguments are available before OnShow, including `Text.text_arg1`/`text_arg2`.
-- `hasEditBox`, `editBoxWidth`, `EditBoxOnEnterPressed(editBox)`, and `EditBoxOnEscapePressed(editBox)`. Use OnShow to set text, focus, and selection. Without custom handlers, Enter hides and Escape uses the same binding-aware dismissal. Custom edit-box handlers retain control of their own behavior.
+- A truthy accept/cancel return keeps a clicked decision open. Programmatic Hide never invokes OnCancel. The most recently shown eligible decision in this addon consumes the game-menu binding (Escape by default).
+- Showing the same key replaces its current instance. Cancellation receives `"override"` unless `noCancelOnReuse` is true. Data and `Text.text_arg1`/`text_arg2` are set before OnShow.
+- `hasEditBox`, `editBoxWidth`, `EditBoxOnEnterPressed(editBox)`, and `EditBoxOnEscapePressed(editBox)`. Set content, focus, and selection in OnShow. Without custom handlers, Enter hides and Escape follows `hideOnEscape`.
 - `whileDead` and `hideOnEscape` retain their familiar meanings.
-- The frame exposes `Text`, `EditBox`, `Button1`, `Button2`, `GetEditBox()`, `GetEditBoxText()`, `GetButton1()`, and `GetButton2()`.
+- Frames expose `Text`, `EditBox`, `Button1`, `Button2`, `GetEditBox()`, `GetEditBoxText()`, `GetButton1()`, and `GetButton2()`. They are anonymous: use these references, not `_G[frame:GetName() .. "EditBox"]`.
 
-Closed dialogs release their data and input text. Reopening the same key increments `generation`; external delayed callbacks must check the captured generation and current visibility before touching that frame. Arbitrary custom hooks are the caller's responsibility. Callback error messages are withheld because they may contain private data.
+Closed dialogs release their data and input text. Reopening the same key increments `generation`; external delayed callbacks must check that generation and visibility before touching the frame. Arbitrary custom hooks remain the caller's responsibility. Callback error details are withheld because they may contain private data.
 
-## Placement and ownership
+## Layout and ownership
 
-One throttled driver checks every 0.1 seconds while dialogs are shown. It reads Blizzard's official popup iterator (or four normal frames on older clients), then moves only owned frames relative to UIParent. It handles different scales, unavailable/secret geometry, and below/above/side placement. When no space fits, it keeps choices visible rather than silently hiding them.
+Each addon rechecks its visible dialogs after the first frame and every 0.1 seconds. It updates geometry only when text/button/input measurements change, then requests positioning from the shared coordinator. Font settling and scale changes therefore update border and controls together.
 
-The widget does not register with Blizzard's popup, focus, or Escape managers. Identical embedded copies share the `AddonDialog` namespace. All consumers of this slim widget share definitions and positioning. Its globals/templates are distinct from the older full `AddonPopup` implementation, so an older embedded copy cannot overwrite it.
+The coordinator stores frame references and registration order, not definitions, text, callbacks, or layout methods. It reads dimensions and Blizzard's visible popup bounds and positions only explicitly registered addon-owned frames relative to UIParent. One coordinator prevents two addons' independent avoidance loops from chasing each other.
 
-There are no queues, frame pools, timers, progress controls, dropdowns, modal covers, extra buttons, or broad StaticPopup compatibility layer. Unlisted definition fields are not supported. Font/display changes may require reopening a dialog for relayout.
+LibStub selects the coordinator implementation. Compatible upgrades preserve registered frames and its single driver. Dialog code is not version-selected globally: updating one addon's widget cannot replace the other addon's implementation or templates. Either addon works independently when the other is absent.
+
+No frame pools, queues, timed decisions, dropdowns, progress bars, modal covers, or extra actions are implemented. The same Blizzard visual assets/fonts are reused without registering dialogs with Blizzard's popup manager.
 
 ## Validation
 
@@ -51,6 +56,6 @@ lua cli/validate-loader-usage.lua
 luacheck -q Modules/Libs/QuestiePopup.lua Modules/Libs/QuestiePopup.test.lua
 ```
 
-Questie's lint configuration excludes vendored libraries. Keep production Lua/XML byte-identical to the source widget; its lint runs there. These tests include the vendored widget and the Questie consumer integration.
+Questie's lint configuration excludes vendored libraries. Validate the private widget and shared coordinator explicitly when modifying them.
 
-Tests run the actual dialog and consent code against native-control stand-ins. In-client checks still cover XML loading, rendering/focus, combat behavior, coexistence, and the original Edit Mode taint reproduction. Use disposable data when testing destructive consumer actions.
+Tests construct the actual Lua hierarchy using native-control stand-ins. They cover independent addon namespaces sharing a stack, late layout changes, input, consumer behavior, geometry, and coordinator upgrades. Native rendering, input, combat, and taint behavior still require client validation. Use disposable data for destructive consumer actions.
