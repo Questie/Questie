@@ -325,12 +325,39 @@ describe("QuestieLib", function()
             C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
         end)
 
-        it("should return the loaded array without modifying it", function()
+        it("should return loaded rows in a new table without modifying Blizzard's table", function()
             local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
 
-            assert.equals(objectives, result)
-            assert.same({{text = "Wolf slain: 0/1", type = "monster"}}, result)
+            assert.are_not.equal(objectives, result)
+            assert.equals(objectives[1], result[1])
+            assert.same({{text = "Wolf slain: 0/1", type = "monster"}}, objectives)
             assert.spy(C_QuestLog.GetQuestObjectives).was.called_with(QUEST_ID)
+        end)
+
+        it("skips empty text regardless of type or counts and preserves the remaining indices", function()
+            objectives = {
+                {text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false},
+                {text = "Wolf slain: 0/1", type = "monster"},
+                {text = "", type = "item", numFulfilled = 3, numRequired = 5, finished = false},
+                {text = "Follow the apparition.", type = "futureType"},
+            }
+
+            local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+            assert.same({
+                [2] = {text = "Wolf slain: 0/1", type = "monster"},
+                [4] = {text = "Follow the apparition.", type = "futureType"},
+            }, result)
+            assert.equals(objectives[2], result[2])
+            assert.equals(objectives[4], result[4])
+            assert.same({text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false}, objectives[1])
+            assert.same({text = "", type = "item", numFulfilled = 3, numRequired = 5, finished = false}, objectives[3])
+        end)
+
+        it("returns a loaded empty result when every row has empty text, even without a type", function()
+            objectives = {{text = "", type = "event", finished = false}, {text = ""}}
+
+            assert.same({}, QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
         end)
 
         it("should prime missing quest data and return nil", function()
@@ -369,7 +396,7 @@ describe("QuestieLib", function()
 
             local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
 
-            assert.equals(objectives, result)
+            assert.are_not.equal(objectives, result)
             assert.same({
                 {text = "0/10 Kobold Vermin slain", type = "monster", objectiveType = 0},
                 {text = "0/1 Garrick's Head", type = "item", objectiveType = 1},
@@ -462,13 +489,13 @@ describe("QuestieLib", function()
 
         local incompleteObjectives = {
             {name = "missing text", objective = {type = "item"}},
-            {name = "empty text", objective = {text = "", type = "item"}},
             {name = "leading-space text", objective = {text = " : 0/1", type = "item"}},
             {name = "missing type", objective = {text = "Item: 0/1"}},
         }
         for _, case in ipairs(incompleteObjectives) do
             it("should refetch all objectives when a later objective has " .. case.name, function()
-                objectives[2] = case.objective
+                objectives[2] = {text = "", type = "event", finished = false}
+                objectives[3] = case.objective
                 QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
                 Tick()
                 assert.spy(callback).was.not_called()
@@ -518,6 +545,36 @@ describe("QuestieLib", function()
             assert.are_same("dead", coroutine.status(thread))
         end)
 
+        it("succeeds on the first tick with empty rows filtered out and original indices intact", function()
+            objectives = {
+                {text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false},
+                {text = "Wolf slain: 0/1", type = "monster"},
+            }
+            local onFailure = spy.new(function() end)
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback, onFailure)
+            assert.spy(callback).was.not_called()
+
+            Tick()
+
+            assert.spy(callback).was.called(1)
+            assert.spy(callback).was.called_with({[2] = {text = "Wolf slain: 0/1", type = "monster"}})
+            assert.spy(onFailure).was.not_called()
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(1)
+            assert.equals("dead", coroutine.status(thread))
+        end)
+
+        it("calls onSuccess with an empty result rather than timing out on permanently empty rows", function()
+            objectives = {{text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false}}
+            local onFailure = spy.new(function() end)
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback, onFailure)
+
+            Tick()
+
+            assert.spy(callback).was.called_with({})
+            assert.spy(onFailure).was.not_called()
+            assert.equals("dead", coroutine.status(thread))
+        end)
+
         it("should retry nil API results", function()
             objectives = nil
             QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
@@ -544,7 +601,7 @@ describe("QuestieLib", function()
         end)
 
         it("should stop after 20 unsuccessful attempts without calling back", function()
-            objectives = {{text = "", type = "event"}}
+            objectives = {{type = "event"}}
             QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
             for _ = 1, 20 do
                 Tick()
@@ -555,8 +612,8 @@ describe("QuestieLib", function()
             assert.are_same("dead", coroutine.status(thread))
         end)
 
-        it("should call onFailure (if provided) and not onSuccess when timing out after 20 attempts", function()
-            objectives = {{text = "", type = "event"}}
+        it("should call onFailure when a non-empty row stays unloaded even alongside ignored empty rows", function()
+            objectives = {{text = "", type = "event"}, {type = "event"}}
             local onFailure = spy.new(function() end)
             QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback, onFailure)
             for _ = 1, 20 do
