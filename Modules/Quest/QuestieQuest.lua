@@ -1479,7 +1479,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
             if self.Collected == 1 and self.Needed == 1 and not self.Finished then
                 self.Collected = 0
             end
-            self.Completed = (self.Needed == self.Collected and self.Needed > 0 and self.Finished) or
+            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or
                 (self.Finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
             -- Mark objective updated
             self.isUpdated = true
