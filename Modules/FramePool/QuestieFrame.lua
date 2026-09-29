@@ -143,7 +143,12 @@ function _QuestieFrame.OnLeave(self)
         GameTooltip._Rebuild = nil
     end
 
-    --Reset highlighting if it exists.
+    QuestieFrame.ResetHoverHighlights(self)
+    GameTooltip.ShownAsMapIcon = false
+end
+
+---@param self IconFrame
+function QuestieFrame.ResetHoverHighlights(self)
     if self.data.lineFrames then
         for _, lineFrame in pairs(self.data.lineFrames) do
             local line = lineFrame.line
@@ -159,7 +164,6 @@ function _QuestieFrame.OnLeave(self)
         end
         self.data.touchedPins = nil;
     end
-    GameTooltip.ShownAsMapIcon = false
 end
 
 ---@param self IconTexture

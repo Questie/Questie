@@ -41,6 +41,8 @@ local EventHandler = QuestieLoader:ImportModule("EventHandler")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type HBDHooks
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
+---@type GamepadMapHover
+local GamepadMapHover = QuestieLoader:ImportModule("GamepadMapHover")
 ---@type ChatFilter
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 ---@type QuestieShutUp
@@ -378,6 +380,9 @@ function QuestieInit.OnAddonLoaded()
     -- This block still runs on a later frame. Submit it only after synchronous support checks pass.
     ThreadLib.ThreadError(function()
         HBDHooks:Init()
+        if Questie.IsForever then
+            GamepadMapHover.Initialize()
+        end
         QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
         QuestieCoords:Initialize()
         QuestieSlash.RegisterSlashCommands()
