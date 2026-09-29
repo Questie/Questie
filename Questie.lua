@@ -210,7 +210,7 @@ Questie.DEBUG_SPAM = 2 ^ 4
 
 function Questie.Debug(msgDebugLevel, ...)
     if (Questie.db.profile.debugEnabled) then
-        local optionsDebugLevel = Questie.db.profile.debugLevel
+        local optionsDebugLevel = Questie.db.profile.debugLevel or 0
 
         if (band(optionsDebugLevel, msgDebugLevel) == 0) or (not Questie.db.profile.debugEnabledPrint) then
             return
