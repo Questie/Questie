@@ -352,6 +352,33 @@ describe("QuestieLib", function()
             assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
         end)
 
+        it("should reject a Forever objective with a missing name after the counter", function()
+            objectives[2] = {text = "0/8  ", type = "item", objectiveType = 1}
+
+            assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+        end)
+
+        it("should preserve loaded Forever text and numeric objective types", function()
+            objectives = {
+                {text = "0/10 Kobold Vermin slain", type = "monster", objectiveType = 0},
+                {text = "0/1 Garrick's Head", type = "item", objectiveType = 1},
+                {text = "0/1 Shut off Main Control Valve", type = "object", objectiveType = 2},
+                {text = "Scout through the Jasperlode Mine", type = "event", objectiveType = 10},
+                {text = "Return the book to Brother Paxton.", type = "log"},
+            }
+
+            local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+            assert.equals(objectives, result)
+            assert.same({
+                {text = "0/10 Kobold Vermin slain", type = "monster", objectiveType = 0},
+                {text = "0/1 Garrick's Head", type = "item", objectiveType = 1},
+                {text = "0/1 Shut off Main Control Valve", type = "object", objectiveType = 2},
+                {text = "Scout through the Jasperlode Mine", type = "event", objectiveType = 10},
+                {text = "Return the book to Brother Paxton.", type = "log"},
+            }, result)
+        end)
+
         it("should accept a loaded quest with no objectives", function()
             objectives = {}
 
@@ -364,6 +391,7 @@ describe("QuestieLib", function()
         local originalThread
         local originalHaveQuestData
         local originalGetQuestObjectives
+        local originalQuestMonstersKilled
         local thread
         local timer
         local callback
@@ -379,6 +407,7 @@ describe("QuestieLib", function()
             originalThread = ThreadLib.Thread
             originalHaveQuestData = _G.HaveQuestData
             originalGetQuestObjectives = _G.C_QuestLog.GetQuestObjectives
+            originalQuestMonstersKilled = _G.QUEST_MONSTERS_KILLED
             timer = {}
             ThreadLib.Thread = spy.new(function(body, delay)
                 assert.are_same(0.2, delay)
@@ -395,6 +424,7 @@ describe("QuestieLib", function()
             ThreadLib.Thread = originalThread
             _G.HaveQuestData = originalHaveQuestData
             _G.C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
+            _G.QUEST_MONSTERS_KILLED = originalQuestMonstersKilled
         end)
 
         it("should deliver ready data on the first tick, not synchronously", function()
@@ -455,6 +485,38 @@ describe("QuestieLib", function()
                 assert.are_same("dead", coroutine.status(thread))
             end)
         end
+
+        it("should wait for a Forever objective name before calling back", function()
+            objectives = {{text = "0/1  ", type = "item", objectiveType = 1}}
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+            Tick()
+            assert.spy(callback).was.not_called()
+
+            objectives = {{text = "0/1 Garrick's Head", type = "item", objectiveType = 1}}
+            Tick()
+
+            assert.spy(callback).was.called(1)
+            assert.spy(callback).was.called_with({{text = "0/1 Garrick's Head", type = "item", objectiveType = 1}})
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(2)
+            assert.are_same("dead", coroutine.status(thread))
+        end)
+
+        it("should wait for a Forever monster name even when the slain suffix is loaded", function()
+            _G.QUEST_MONSTERS_KILLED = "%2$d/%3$d %1$s slain"
+            dofile("Modules/Libs/QuestieLib.lua")
+            objectives = {{text = "0/15   slain", type = "monster", objectiveType = 0}}
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
+            Tick()
+            assert.spy(callback).was.not_called()
+
+            objectives = {{text = "0/15 Defias Trapper slain", type = "monster", objectiveType = 0}}
+            Tick()
+
+            assert.spy(callback).was.called(1)
+            assert.spy(callback).was.called_with({{text = "0/15 Defias Trapper slain", type = "monster", objectiveType = 0}})
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(2)
+            assert.are_same("dead", coroutine.status(thread))
+        end)
 
         it("should retry nil API results", function()
             objectives = nil

@@ -416,9 +416,14 @@ function QuestieLib.GetLoadedQuestObjectives(questId)
         return nil
     end
     -- HaveQuestData can be true while individual objective rows still contain loading placeholders.
+    -- Missing names leave a leading space in Classic (" : 0/1") or a trailing space in Forever ("0/1  ").
     for _, objective in ipairs(objectives) do
         local text = objective.text
-        if (not text) or text == "" or string.byte(text, 1) == 32 or (not objective.type) then
+        if (not text) or text == "" or string.byte(text, 1) == 32 or string.byte(text, -1) == 32 or (not objective.type) then
+            return nil
+        end
+        -- Forever can also return "0/15   slain"; use the client's localized format to check the name itself.
+        if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
             return nil
         end
     end
