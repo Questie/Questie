@@ -196,18 +196,20 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
         return lineEndIndex, nextStartIndex, brokeAtSpace
     end
 
+    local offsets = utf8.computeOffsets(line)
     local endIndex = 1
     local lastSpaceIndex
+    local strLen = strlen(line)
 
     -- Walk until this span would wrap to a second visual row.
     while (endIndex <= lineLength) do
-        local character = utf8.sub(line, endIndex, endIndex)
+        local character = utf8.subWithOffsets(line, offsets, endIndex, endIndex)
         -- Track the last ASCII space so Latin text can break at word boundaries.
         if (character == " ") then
             lastSpaceIndex = endIndex
         end
 
-        local byteEndIndex = utf8.charIndexToByteIndex(line, endIndex)
+        local byteEndIndex = utf8.charIndexToByteIndexWithOffsets(offsets, endIndex, strLen)
         local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, byteEndIndex)
         if (not indexes) then
             local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)

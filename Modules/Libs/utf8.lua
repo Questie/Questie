@@ -58,6 +58,61 @@ function utf8.strlen(s)
   return count
 end
 
+---Computes byte offsets for each UTF-8 character in a string.
+---@param s string UTF-8 encoded string
+---@return table<number, number> offsets 1-based byte start position of each character
+function utf8.computeOffsets(s)
+  local offsets = {}
+  for pos in s:gmatch("()" .. _CHARPAT) do
+    offsets[#offsets + 1] = pos
+  end
+  return offsets
+end
+
+---UTF-8 safe substring using precomputed offsets.
+---@param s string UTF-8 encoded string
+---@param offsets table<number, number> Precomputed offsets from utf8.computeOffsets
+---@param i number Start index in characters (1 = first char; negative = from end)
+---@param j number? End index in characters (inclusive; positive or negative). If nil, defaults to -1 (last character)
+---@return string The UTF-8-safe substring
+function utf8.subWithOffsets(s, offsets, i, j)
+  local n = #offsets
+  if n == 0 then return "" end
+
+  if not j then j = -1 end
+  if i < 0 then i = n + 1 + i end
+  if j < 0 then j = n + 1 + j end
+
+  if i < 1 then i = 1 end
+  if j > n then j = n end
+  if i > j then return "" end
+
+  local start_byte = offsets[i]
+  local end_byte = offsets[j + 1] and (offsets[j + 1] - 1) or #s
+
+  return s:sub(start_byte, end_byte)
+end
+
+---Converts a UTF-8 character index to a byte index using precomputed offsets.
+---WoW's CalculateScreenAreaFromCharacterSpan expects byte indices, not character indices.
+---@param offsets table<number, number> Precomputed offsets from utf8.computeOffsets
+---@param charIndex number 1-based UTF-8 character index
+---@param strLen number String length in bytes
+---@return number 1-based byte index
+function utf8.charIndexToByteIndexWithOffsets(offsets, charIndex, strLen)
+  if charIndex <= 1 then
+    return 1
+  end
+
+  local n = #offsets
+
+  if charIndex > n then
+    return strLen + 1
+  end
+
+  return offsets[charIndex]
+end
+
 ---Converts a UTF-8 character index to a byte index.
 ---WoW's CalculateScreenAreaFromCharacterSpan expects byte indices, not character indices.
 ---@param s string UTF-8 encoded string
