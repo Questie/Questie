@@ -23,6 +23,8 @@ local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 
 QuestieOptions.tabs.tracker = { ... }
 
@@ -122,6 +124,29 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:ResetLocation()
                     QuestieTracker:Update()
                 end
+            },
+            -- Forever-only integration with Blizzard's native quest POI pins + super-tracking.
+            -- Feature branches stack additional toggles into this group (focus <-> super-track).
+            group_blizzardIntegration = {
+                type = "group",
+                order = 5.5,
+                inline = true,
+                name = function() return l10n("Blizzard Integration") end,
+                hidden = function() return not Questie.IsForever end,
+                args = {
+                    questPOIEnabled = {
+                        type = "toggle",
+                        order = 0,
+                        width = 1.5,
+                        name = function() return l10n("Enable Quest POI") end,
+                        desc = function() return l10n("Show Blizzard's native quest POI pins on the world map alongside Questie. This client turns them off each login; Questie re-applies your choice and adds a \"?\" toggle button to the map.") end,
+                        get = function() return Questie.db.profile.questPOIEnabled end,
+                        set = function(_, value)
+                            Questie.db.profile.questPOIEnabled = value
+                            WorldMapButton.ApplyQuestPOI()
+                        end,
+                    },
+                },
             },
             Spacer_S = QuestieOptionsUtils:Spacer(5),
             group_quests = {
