@@ -78,6 +78,39 @@ describe("QuestieFrame", function()
             "Are you sure you want to hide the quest 'Quest 123'?\nIf this quest isn't actually available, please report it to us!", nil, 123)
     end)
 
+    describe("ResetHoverHighlights", function()
+        it("should restore the default color of highlighted route lines", function()
+            local line = {dR = 0.1, dG = 0.2, dB = 0.3, dA = 0.4, SetColorTexture = spy.new(function() end)}
+            QuestieFrameInstance.data.lineFrames = {{line = line}}
+
+            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
+
+            assert.spy(line.SetColorTexture).was.called_with(line, 0.1, 0.2, 0.3, 0.4)
+        end)
+
+        it("should restore touched pins in reverse order and clear them", function()
+            local restored = {}
+            local function CreateTouchedPin(name, color)
+                return {
+                    icon = {texture = {SetVertexColor = function() table.insert(restored, name) end}},
+                    color = color,
+                }
+            end
+            QuestieFrameInstance.data.touchedPins = {CreateTouchedPin("first", {1, 1, 1, 1}), CreateTouchedPin("second", {1, 1, 1, 1})}
+
+            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
+
+            assert.are_same({"second", "first"}, restored)
+            assert.is_nil(QuestieFrameInstance.data.touchedPins)
+        end)
+
+        it("should do nothing without highlights", function()
+            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
+
+            assert.is_nil(QuestieFrameInstance.data.touchedPins)
+        end)
+    end)
+
     describe("ShouldBeHidden", function()
         it("should return true when all icons are disabled", function()
             Questie.db.profile.enabled = false

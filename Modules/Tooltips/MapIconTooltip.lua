@@ -61,18 +61,23 @@ local function FormatLabelWithColon(label)
 end
 
 function MapIconTooltip:Show()
+    MapIconTooltip.ShowOnTooltip(self, GameTooltip)
+end
+
+---@param self IconFrame
+---@param Tooltip GameTooltip The tooltip frame to render into
+function MapIconTooltip.ShowOnTooltip(self, Tooltip)
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Alpha of texture is 0, nothing to show")
         return
     end
-    if GetTime() - lastTooltipShowTimestamp < 0.05 and GameTooltip:IsShown() then
+    if GetTime() - lastTooltipShowTimestamp < 0.05 and Tooltip:IsShown() then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Call has been too fast, not showing again")
         return
     end
     lastTooltipShowTimestamp = GetTime()
 
-    local Tooltip = GameTooltip;
     Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 

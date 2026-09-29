@@ -2863,6 +2863,8 @@ globals = {
     "SetItemRef",
     "ScrollFrame_OnScrollRangeChanged",
     -- Forever globals
+    "InputUtil",
+    "SoftCursor",
     "AuraUtil.UnpackAuraData",
     "C_Reputation.ExpandFactionHeader",
     "C_Reputation.GetFactionDataByID",
