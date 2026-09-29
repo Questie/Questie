@@ -61,9 +61,10 @@ describe("TrackerUtils", function()
         QuestieTracker.IsTrackedByQuestie = function() return false end
         trackerQuests = {}
         TrackerData = QuestieLoader:ImportModule("TrackerData")
-        TrackerData.Refresh = function() return trackerQuests end
+        TrackerData.Refresh = spy.new(function() return trackerQuests end)
         TrackerData.GetQuests = function() return trackerQuests end
         TrackerData.GetQuest = function(id) return trackerQuests[id] end
+        TrackerData.RefreshQuest = spy.new(function(id) return trackerQuests[id] end)
         originalSpecialItemInfo = _G.GetQuestLogSpecialItemInfo
         _G.GetQuestLogSpecialItemInfo = nil
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
@@ -916,6 +917,7 @@ describe("TrackerUtils", function()
             local ids, details = TrackerUtils:GetSortedQuestIds()
 
             assert.are.same({91741}, ids)
+            assert.spy(TrackerData.Refresh).was.not_called()
             assert.are.equal("Northshire Abbey", details[91741].zoneName)
             assert.are.equal(trackerQuests[91741], details[91741].quest)
             assert.is_nil(next(QuestiePlayer.currentQuestlog))

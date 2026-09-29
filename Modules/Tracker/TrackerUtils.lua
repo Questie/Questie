@@ -487,7 +487,7 @@ end
 ---@param questId number Quest ID number
 ---@param objectiveIndex number Objective Index number
 function TrackerUtils:FocusObjective(questId, objectiveIndex)
-    local tracked = TrackerData.GetQuest(questId)
+    local tracked = TrackerData.RefreshQuest(questId)
     local matched = false
     for _, objective in pairs(tracked and tracked.Objectives or {}) do
         if objective.enrichment and objective.enrichment.Index == objectiveIndex then
@@ -544,7 +544,7 @@ end
 
 ---@param questId number Quest ID number
 function TrackerUtils:FocusQuest(questId)
-    local tracked = TrackerData.GetQuest(questId)
+    local tracked = TrackerData.RefreshQuest(questId)
     if not tracked or not tracked.enrichment then
         return false
     end
@@ -670,7 +670,7 @@ function TrackerUtils:GetSortedQuestIds()
     local sortObj = Questie.db.profile.trackerSortObjectives
 
     -- Update quest objectives
-    for questId, quest in pairs(TrackerData.Refresh()) do
+    for questId, quest in pairs(TrackerData.GetQuests()) do
         if quest then
             tinsert(sortedQuestIds, questId)
 

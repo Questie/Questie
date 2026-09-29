@@ -24,17 +24,15 @@ Tests verify navigation, source-item wording and counters, and hide/show map act
 
 ## 3. Make reads and refreshes explicit
 
-- [ ] Separate snapshot getters from full and single-quest refresh operations.
+- [x] Separate snapshot getters from full and single-quest refresh operations.
 
-The current interface mixes behaviors:
+- `GetQuest(id)` and `GetQuests()` only read the current snapshot. They do not query the client or change membership.
+- `Refresh()` updates all display records once at the start of a full tracker layout, before visibility and sorting reads.
+- `RefreshQuest(id)` explicitly refreshes one quest for tracking changes, combat-safe text updates and commands that must revalidate current state.
 
-- `Refresh()` updates all display records.
-- `GetQuests()` reads the snapshot.
-- `GetQuest(id)` refreshes one quest and scans preceding quest-log entries for its header.
+Sorting and menu construction no longer refresh implicitly. Focus restoration uses an explicit single-quest refresh before the first full layout. Snapshot objects retain their existing identity and are updated by refresh operations, not copied on reads.
 
-Make getters read-only and invoke refreshes explicitly from update paths. This should prevent menu and focus reads from unexpectedly fetching or rebuilding data.
-
-Preserve single-quest refreshes for combat-safe progress updates. Check startup and event ordering so consumers do not receive stale or missing records after the change.
+Tests cover side-effect-free getters, explicit metadata/progress updates, layout ordering, combat-safe updates and startup focus restoration.
 
 ## 4. Define map eligibility once
 
