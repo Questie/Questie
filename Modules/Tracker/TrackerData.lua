@@ -1,3 +1,6 @@
+-- Owns native metadata, objective display records and their lifetime for every tracked quest.
+-- TrackerQuestieBehavior owns quest completion, database additions and Questie compatibility exceptions.
+-- Shared formatting at the end of this file affects both known and database-unknown quests.
 ---@class TrackerData
 local TrackerData = QuestieLoader:CreateModule("TrackerData")
 
@@ -7,12 +10,10 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type TrackerQuestieBehavior
+local TrackerQuestieBehavior = QuestieLoader:ImportModule("TrackerQuestieBehavior")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -25,7 +26,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@field Objectives table[] Live display objectives; optional enrichment points to original map objects.
 ---@field enrichment Quest? Never mutate this through the display record.
 ---@field objectivesLoaded boolean Whether a valid objective snapshot has been obtained.
----@field isComplete boolean Additional Questie completion handling, distinct from IsComplete().
+---@field completionState number Numeric quest state resolved by TrackerQuestieBehavior.
+---@field isComplete boolean Additional completion state resolved by TrackerQuestieBehavior, distinct from IsComplete().
 ---@field IsComplete fun(self: TrackerQuest): number
 
 local quests = {}
@@ -37,43 +39,28 @@ end
 
 -- Both bulk rendering and single-quest progress updates retain record identity so existing rows see new state.
 local function _RefreshQuest(questId, title, level, header, nativeComplete)
-    local quest = quests[questId]
-    if not quest then
-        quest = {
-            Id = questId, Objectives = {}, ObjectiveData = {}, SpecialObjectives = {}, Finisher = {},
-            requiredSourceItems = {}, sourceItemId = 0, objectivesLoaded = false,
-            completionState = 0, isComplete = false, IsComplete = _IsComplete,
+    local displayQuest = quests[questId]
+    if not displayQuest then
+        displayQuest = {
+            Id = questId, Objectives = {}, objectivesLoaded = false, IsComplete = _IsComplete,
         }
-        quests[questId] = quest
+        quests[questId] = displayQuest
     end
-    quest.name = title
+    displayQuest.name = title
     -- Older clients use -1 for quests whose effective level follows the player.
-    quest.level = level == -1 and QuestiePlayer.GetPlayerLevel() or level or 0
-    quest.zoneName = header
+    displayQuest.level = level == -1 and QuestiePlayer.GetPlayerLevel() or level or 0
+    displayQuest.zoneName = header
 
-    local enriched = QuestiePlayer.currentQuestlog[questId]
-    if type(enriched) ~= "table" then
-        enriched = nil
-    end
-    quest.enrichment = enriched
-    quest.zoneOrSort = enriched and enriched.zoneOrSort
-    quest.Description = enriched and enriched.Description
-    quest.Finisher = enriched and enriched.Finisher or {}
-    quest.sourceItemId = enriched and enriched.sourceItemId or 0
-    quest.requiredSourceItems = enriched and enriched.requiredSourceItems or {}
-
+    -- Blizzard data: build objective wording and progress for every quest, without database matching.
+    -- Quest-level completion is resolved once by TrackerQuestieBehavior below.
     -- Try to get the last valid quest snapshot. A missing entry is expected while loading;
     -- unlike GetQuest, this read-only lookup does not report it as an error. Never modify the entry.
     local cached = QuestLogCache.questLog_DO_NOT_MODIFY[questId]
-    local previousObjectives = quest.Objectives
-    quest.Objectives = {}
-    quest.ObjectiveData = {}
-    quest.SpecialObjectives = {}
-    quest.objectivesLoaded = cached ~= nil
+    local previousObjectives = displayQuest.Objectives
+    displayQuest.Objectives = {}
+    displayQuest.objectivesLoaded = cached ~= nil
 
     if cached then
-        quest.completionState = QuestieDB.IsComplete(questId)
-        local allObjectivesMatched = enriched ~= nil
         local objectiveIndices = {}
         for index in pairs(cached.objectives) do
             objectiveIndices[#objectiveIndices + 1] = index
@@ -96,76 +83,14 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
             objective.Needed = tonumber(live.numRequired) or 0
             objective.Completed = (counterTypes[live.type] and objective.Needed > 0 and objective.Collected == objective.Needed)
                 or (live.finished == true and (objective.Needed == 0 or not counterTypes[live.type])) or false
-            objective.enrichment = nil
-            objective.Id = nil
-            -- DistanceUtils reads locations from the display record. Map actions use enrichment itself.
-            objective.spawnList = {}
-
-            -- Index/type alone cannot prove entity identity after a quest changes. Match database wording
-            -- or localized entity name as well; otherwise keep live progress but omit entity-dependent actions.
-            local metadata = enriched and enriched.ObjectiveData and enriched.ObjectiveData[index]
-            local original = enriched and enriched.Objectives and enriched.Objectives[index]
-            if metadata and original and metadata.Type == live.type then
-                local expectedText = metadata.Text
-                if not expectedText and metadata.Id then
-                    if metadata.Type == "monster" then
-                        expectedText = QuestieDB.QueryNPCSingle(metadata.Id, "name")
-                    elseif metadata.Type == "item" then
-                        expectedText = QuestieDB.QueryItemSingle(metadata.Id, "name")
-                    elseif metadata.Type == "object" then
-                        expectedText = QuestieDB.QueryObjectSingle(metadata.Id, "name")
-                    end
-                end
-                local liveText = QuestieLib.TrimObjectiveText(rawText, live.type):gsub("%.$", "")
-                local expected = expectedText and QuestieLib.TrimObjectiveText(expectedText, live.type):gsub("%.$", "")
-                if expected and liveText == expected and original.Id == metadata.Id then
-                    objective.enrichment = original
-                    objective.Id = original.Id
-                    objective.spawnList = original.spawnList or {}
-                    quest.ObjectiveData[#quest.ObjectiveData + 1] = metadata
-                end
-            end
-            if not objective.enrichment then
-                allObjectivesMatched = false
-            end
-            quest.Objectives[displayIndex] = objective
+            displayQuest.Objectives[displayIndex] = objective
         end
-
-        -- Preserve the existing missing-source-item objective for zero-objective quests. This is a Questie
-        -- correction, not evidence that an empty Blizzard result by itself means the quest is complete.
-        if #objectiveIndices == 0 and enriched and enriched.Objectives then
-            for _, original in ipairs(enriched.Objectives) do
-                if original.Type == "item" and original.Id == enriched.sourceItemId and original.Completed == false then
-                    -- Copy display data explicitly; icon state and map behavior belong to the original object.
-                    local objective = {
-                        Id = original.Id,
-                        Index = #quest.Objectives + 1,
-                        questId = questId,
-                        Type = original.Type,
-                        Description = original.Description,
-                        FullDescription = original.FullDescription,
-                        Collected = original.Collected,
-                        Needed = original.Needed,
-                        Completed = original.Completed,
-                        spawnList = original.spawnList or {},
-                        enrichment = original,
-                    }
-                    quest.Objectives[objective.Index] = objective
-                    allObjectivesMatched = false
-                end
-            end
-        end
-        quest.SpecialObjectives = allObjectivesMatched and enriched.SpecialObjectives or {}
-        -- The additional completion flag is meaningful only for compatible live objectives. An old
-        -- database quest must not hide newly added objectives, or a synthetic missing-source-item step.
-        quest.isComplete = quest.completionState ~= -1 and (quest.completionState == 1
-            or (allObjectivesMatched and enriched.isComplete == true)) or false
-    else
-        -- Do not infer completion from an initial cache miss. Native failure can still be shown.
-        quest.completionState = nativeComplete == -1 and -1 or 0
-        quest.isComplete = false
     end
-    return quest
+
+    -- Resolve quest completion and apply Questie-specific behavior in one place, including the unloaded case.
+    -- This step never replaces the native title, objective wording or live progress with database values.
+    TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
+    return displayQuest
 end
 
 ---Native membership is independent of both QuestieDB and the last valid objective cache.
@@ -242,38 +167,36 @@ function TrackerData.RemoveQuest(questId)
     quests[questId] = nil
 end
 
----@param quest TrackerQuest
+---@param displayQuest TrackerQuest
 ---@param showLevel boolean
 ---@param showState boolean
 ---@return string
-function TrackerData.GetColoredQuestName(quest, showLevel, showState)
-    local name = quest.name
+function TrackerData.GetColoredQuestName(displayQuest, showLevel, showState)
+    local name = displayQuest.name
     if showLevel then
-        name = QuestieLib:GetLevelString(quest.Id, quest.level) .. name
+        name = QuestieLib:GetLevelString(displayQuest.Id, displayQuest.level) .. name
     end
     if Questie.db.profile.enableTooltipsQuestID then
-        name = name .. " " .. l10n("(") .. quest.Id .. l10n(")")
+        name = name .. " " .. l10n("(") .. displayQuest.Id .. l10n(")")
     end
     if showState then
-        if quest:IsComplete() == -1 then
+        if displayQuest:IsComplete() == -1 then
             name = name .. " " .. Questie:Colorize(l10n("(") .. l10n("Failed") .. l10n(")"), "red")
-        elseif quest:IsComplete() == 1 or quest.isComplete then
+        elseif displayQuest:IsComplete() == 1 or displayQuest.isComplete then
             name = name .. " " .. Questie:Colorize(l10n("(") .. l10n("Complete") .. l10n(")"), "green")
         end
     end
-    local enriched = quest.enrichment
-    return QuestieLib:PrintDifficultyColor(quest.level, name,
-        enriched and enriched.IsRepeatable, enriched and QuestieEvent.IsEventQuest(quest.Id),
-        enriched and QuestieDB.IsPvPQuest(quest.Id))
+    local isRepeatable, isEvent, isPvP = TrackerQuestieBehavior.GetTitleFlags(displayQuest)
+    return QuestieLib:PrintDifficultyColor(displayQuest.level, name, isRepeatable, isEvent, isPvP)
 end
 
 ---Keep Questie's chat-safe bracket format without requiring a database title.
----@param quest TrackerQuest
+---@param displayQuest TrackerQuest
 ---@return string
-function TrackerData.GetQuestLink(quest)
-    local name = quest.name .. " (" .. quest.Id .. ")]"
+function TrackerData.GetQuestLink(displayQuest)
+    local name = displayQuest.name .. " (" .. displayQuest.Id .. ")]"
     if Questie.db.profile.trackerShowQuestLevel then
-        return "[[" .. quest.level .. "] " .. name
+        return "[[" .. displayQuest.level .. "] " .. name
     end
     return "[" .. name
 end

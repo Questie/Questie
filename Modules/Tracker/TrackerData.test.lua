@@ -45,6 +45,7 @@ describe("TrackerData", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetLoadedQuestObjectives = spy.new(function() error("Tracker must not load objectives") end)
         QuestieLib.GetLevelString = function(_, _, level) return "[" .. level .. "] " end
+        dofile("Modules/Tracker/TrackerQuestieBehavior.lua")
         dofile("Modules/Tracker/TrackerData.lua")
         TrackerData = QuestieLoader:ImportModule("TrackerData")
     end)
@@ -55,6 +56,34 @@ describe("TrackerData", function()
         compat.GetQuestLogIndexByID = originalGetIndex
     end)
 
+    it("builds native objective data and delegates quest completion without a temporary result", function()
+        entries[2].complete = 1
+        cached[91741] = {isComplete = 1, objectives = {
+            [3] = {text = "Return the book.", raw_text = "Return the book.", type = "log",
+                numFulfilled = 1, numRequired = 1, finished = true},
+        }}
+        local behavior = QuestieLoader:ImportModule("TrackerQuestieBehavior")
+        behavior.Apply = spy.new(function(displayQuest, snapshot, nativeComplete)
+            assert.are.equal("Nibbled-On Book", displayQuest.name)
+            assert.are.equal("Northshire Abbey", displayQuest.zoneName)
+            assert.is_nil(displayQuest.completionState)
+            assert.is_nil(displayQuest.isComplete)
+            assert.are.equal(1, nativeComplete)
+            assert.are.equal("Return the book.", displayQuest.Objectives[1].Description)
+            assert.are.equal(3, displayQuest.Objectives[1].NativeIndex)
+            assert.are.equal(cached[91741], snapshot)
+        end)
+        QuestieDB.IsComplete = spy.new(function() error("Baseline must not query QuestieDB") end)
+        QuestieDB.QueryNPCSingle = spy.new(function() error("Baseline must not query entities") end)
+
+        local displayQuest = TrackerData.RefreshQuest(91741)
+
+        assert.spy(behavior.Apply).was.called_with(displayQuest, cached[91741], 1)
+        assert.spy(behavior.Apply).was.called(1)
+        assert.spy(QuestieDB.IsComplete).was.not_called()
+        assert.spy(QuestieDB.QueryNPCSingle).was.not_called()
+    end)
+
     it("renders the live Nibbled-On Book objective without a database quest", function()
         cached[91741] = {objectives = {
             {text = "Return the book to Brother Paxton.", raw_text = "Return the book to Brother Paxton.",
@@ -62,15 +91,15 @@ describe("TrackerData", function()
         }}
         completion = 1
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal("Nibbled-On Book", quest.name)
-        assert.are.equal("Northshire Abbey", quest.zoneName)
-        assert.are.equal(2, quest.level)
-        assert.are.equal(1, quest:IsComplete())
-        assert.is_true(quest.isComplete)
-        assert.is_nil(quest.enrichment)
-        assert.are.equal("|cFFEEEEEE" .. "Return the book to Brother Paxton", TrackerData.GetObjectiveText(quest.Objectives[1]))
+        assert.are.equal("Nibbled-On Book", displayQuest.name)
+        assert.are.equal("Northshire Abbey", displayQuest.zoneName)
+        assert.are.equal(2, displayQuest.level)
+        assert.are.equal(1, displayQuest:IsComplete())
+        assert.is_true(displayQuest.isComplete)
+        assert.is_nil(displayQuest.enrichment)
+        assert.are.equal("|cFFEEEEEE" .. "Return the book to Brother Paxton", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
         assert.is_nil(QuestiePlayer.currentQuestlog[91741])
     end)
 
@@ -110,14 +139,14 @@ describe("TrackerData", function()
             Objectives = {[3] = original}, ObjectiveData = {[3] = {Id = 10, Type = "monster"}},
         }
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(2, #quest.Objectives)
-        assert.are.equal(1, quest.Objectives[1].Index)
-        assert.are.equal(3, quest.Objectives[1].NativeIndex)
-        assert.are.equal(original, quest.Objectives[1].enrichment)
-        assert.are.equal("Read the book.", quest.Objectives[2].Description)
-        assert.are.equal(2, quest.Objectives[2].Index)
+        assert.are.equal(2, #displayQuest.Objectives)
+        assert.are.equal(1, displayQuest.Objectives[1].Index)
+        assert.are.equal(3, displayQuest.Objectives[1].NativeIndex)
+        assert.are.equal(original, displayQuest.Objectives[1].enrichment)
+        assert.are.equal("Read the book.", displayQuest.Objectives[2].Description)
+        assert.are.equal(2, displayQuest.Objectives[2].Index)
     end)
 
     it("shows full wording when objective trimming is disabled", function()
@@ -130,43 +159,43 @@ describe("TrackerData", function()
     end)
 
     it("shows the title while the initial cache load is pending", function()
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal("Nibbled-On Book", quest.name)
-        assert.is_false(quest.objectivesLoaded)
-        assert.are.equal(0, quest:IsComplete())
-        assert.are.same({}, quest.Objectives)
+        assert.are.equal("Nibbled-On Book", displayQuest.name)
+        assert.is_false(displayQuest.objectivesLoaded)
+        assert.are.equal(0, displayQuest:IsComplete())
+        assert.are.same({}, displayQuest.Objectives)
     end)
 
     it("uses the first cached objectives without replacing the quest record", function()
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
         cached[91741] = {objectives = {{text = "Inspect the book.", type = "event", numFulfilled = 0, numRequired = 0, finished = false}}}
 
-        assert.are.equal(quest, TrackerData.RefreshQuest(91741))
-        assert.is_true(quest.objectivesLoaded)
-        assert.are.equal("Inspect the book.", quest.Objectives[1].Description)
-        assert.are.equal("|cFFEEEEEEInspect the book", TrackerData.GetObjectiveText(quest.Objectives[1]))
+        assert.are.equal(displayQuest, TrackerData.RefreshQuest(91741))
+        assert.is_true(displayQuest.objectivesLoaded)
+        assert.are.equal("Inspect the book.", displayQuest.Objectives[1].Description)
+        assert.are.equal("|cFFEEEEEEInspect the book", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
     end)
 
     it("preserves row identity when refreshing the same cached objective", function()
         cached[91741] = {objectives = {{text = "Inspect the book.", type = "event", numFulfilled = 0, numRequired = 0, finished = false}}}
-        local quest = TrackerData.RefreshQuest(91741)
-        local objective = quest.Objectives[1]
+        local displayQuest = TrackerData.RefreshQuest(91741)
+        local objective = displayQuest.Objectives[1]
 
         TrackerData.Refresh()
 
-        assert.are.equal(objective, quest.Objectives[1])
-        assert.is_true(quest.objectivesLoaded)
+        assert.are.equal(objective, displayQuest.Objectives[1])
+        assert.is_true(displayQuest.objectivesLoaded)
     end)
 
     it("uses existing completion behavior rather than inferring completion from an empty list", function()
         cached[91741] = {objectives = {}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.is_true(quest.objectivesLoaded)
-        assert.are.equal(0, quest:IsComplete())
-        assert.is_false(quest.isComplete)
+        assert.is_true(displayQuest.objectivesLoaded)
+        assert.are.equal(0, displayQuest:IsComplete())
+        assert.is_false(displayQuest.isComplete)
     end)
 
     it("uses native membership even if a removed quest remains in the objective cache", function()
@@ -197,10 +226,10 @@ describe("TrackerData", function()
         cached[91741] = {objectives = {}}
         QuestiePlayer.currentQuestlog[91741] = {isComplete = true, Objectives = {}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(0, quest:IsComplete())
-        assert.is_true(quest.isComplete)
+        assert.are.equal(0, displayQuest:IsComplete())
+        assert.is_true(displayQuest.isComplete)
     end)
 
     it("gives failure precedence over the additional completion boolean", function()
@@ -208,19 +237,19 @@ describe("TrackerData", function()
         completion = -1
         QuestiePlayer.currentQuestlog[91741] = {isComplete = true, Objectives = {}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(-1, quest:IsComplete())
-        assert.is_false(quest.isComplete)
+        assert.are.equal(-1, displayQuest:IsComplete())
+        assert.is_false(displayQuest.isComplete)
     end)
 
     it("updates failure even while objectives are unavailable", function()
         entries[2].complete = -1
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(-1, quest:IsComplete())
-        assert.is_false(quest.isComplete)
+        assert.are.equal(-1, displayQuest:IsComplete())
+        assert.is_false(displayQuest.isComplete)
     end)
 
     it("retains verified objective enrichment without mutating its original map object", function()
@@ -230,8 +259,8 @@ describe("TrackerData", function()
         }
         cached[91741] = {objectives = {{text = "Wolf", raw_text = "Wolf: 2/5", type = "monster", numFulfilled = 2, numRequired = 5}}}
 
-        local quest = TrackerData.RefreshQuest(91741)
-        local objective = quest.Objectives[1]
+        local displayQuest = TrackerData.RefreshQuest(91741)
+        local objective = displayQuest.Objectives[1]
 
         assert.are.equal(original, objective.enrichment)
         assert.are.equal(original.spawnList, objective.spawnList)
@@ -243,7 +272,7 @@ describe("TrackerData", function()
         local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
         DistanceUtils.GetNearestObjective = spy.new(function() return {10, 20}, 12, "Wolf", 100 end)
 
-        local spawn = DistanceUtils.GetNearestSpawnForQuest(quest)
+        local spawn = DistanceUtils.GetNearestSpawnForQuest(displayQuest)
 
         assert.are.same({10, 20}, spawn)
         assert.spy(DistanceUtils.GetNearestObjective).was.called_with(original.spawnList)
@@ -256,23 +285,23 @@ describe("TrackerData", function()
         }
         cached[91741] = {objectives = {{text = "Boar", type = "monster", numFulfilled = 1, numRequired = 4}}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.is_nil(quest.Objectives[1].enrichment)
-        assert.is_nil(quest.Objectives[1].Id)
-        assert.are.same({}, quest.SpecialObjectives)
-        assert.are.equal("|cFFEEEEEEBoar: 1/4", TrackerData.GetObjectiveText(quest.Objectives[1]))
+        assert.is_nil(displayQuest.Objectives[1].enrichment)
+        assert.is_nil(displayQuest.Objectives[1].Id)
+        assert.are.same({}, displayQuest.SpecialObjectives)
+        assert.are.equal("|cFFEEEEEEBoar: 1/4", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
     end)
 
     it("renders new live objectives absent from an otherwise known database quest", function()
         QuestiePlayer.currentQuestlog[91741] = {Objectives = {}, ObjectiveData = {}}
         cached[91741] = {objectives = {{text = "Read the note.", type = "log", numFulfilled = 0, numRequired = 1}}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(1, #quest.Objectives)
-        assert.is_nil(quest.Objectives[1].enrichment)
-        assert.are.equal("Read the note.", quest.Objectives[1].Description)
+        assert.are.equal(1, #displayQuest.Objectives)
+        assert.is_nil(displayQuest.Objectives[1].enrichment)
+        assert.are.equal("Read the note.", displayQuest.Objectives[1].Description)
     end)
 
     it("preserves the existing missing-source-item synthetic objective", function()
@@ -283,15 +312,15 @@ describe("TrackerData", function()
         QuestiePlayer.currentQuestlog[91741] = {sourceItemId = 44, Objectives = {original}}
         cached[91741] = {objectives = {}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(original, quest.Objectives[1].enrichment)
-        assert.are.equal(1, quest.Objectives[1].Index)
-        assert.are.equal(91741, quest.Objectives[1].questId)
+        assert.are.equal(original, displayQuest.Objectives[1].enrichment)
+        assert.are.equal(1, displayQuest.Objectives[1].Index)
+        assert.are.equal(91741, displayQuest.Objectives[1].questId)
         assert.is_nil(original.Index)
-        assert.are.equal(original.spawnList, quest.Objectives[1].spawnList)
-        assert.is_false(quest.Objectives[1].Completed)
-        assert.are.equal("|cFFEEEEEEVerner's Note: 0/1", TrackerData.GetObjectiveText(quest.Objectives[1]))
+        assert.are.equal(original.spawnList, displayQuest.Objectives[1].spawnList)
+        assert.is_false(displayQuest.Objectives[1].Completed)
+        assert.are.equal("|cFFEEEEEEVerner's Note: 0/1", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
     end)
 
     it("does not infer unfamiliar objective completion from equal numeric fields", function()
@@ -310,11 +339,11 @@ describe("TrackerData", function()
         }
         cached[91741] = {objectives = {{text = "Boar", type = "monster", numFulfilled = 0, numRequired = 4, finished = false}}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(0, quest:IsComplete())
-        assert.is_false(quest.isComplete)
-        assert.is_false(quest.Objectives[1].Completed)
+        assert.are.equal(0, displayQuest:IsComplete())
+        assert.is_false(displayQuest.isComplete)
+        assert.is_false(displayQuest.Objectives[1].Completed)
     end)
 
     it("keeps additional completion for objectives with verified enrichment", function()
@@ -324,16 +353,16 @@ describe("TrackerData", function()
         }
         cached[91741] = {objectives = {{text = "Wolf", type = "monster", numFulfilled = 4, numRequired = 4, finished = true}}}
 
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(0, quest:IsComplete())
-        assert.is_true(quest.isComplete)
+        assert.are.equal(0, displayQuest:IsComplete())
+        assert.is_true(displayQuest.isComplete)
     end)
 
     it("does not report an error for an initial objective cache miss", function()
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.is_false(quest.objectivesLoaded)
+        assert.is_false(displayQuest.objectivesLoaded)
         assert.spy(QuestLogCache.GetQuest).was.not_called()
         assert.spy(QuestieLib.GetLoadedQuestObjectives).was.not_called()
     end)
@@ -341,14 +370,14 @@ describe("TrackerData", function()
     it("reads individual and full snapshots without fetching or checking native membership", function()
         assert.is_nil(TrackerData.GetQuest(91741)) -- A getter does not initialize a native quest.
         local snapshot = TrackerData.Refresh()
-        local quest = snapshot[91741]
+        local displayQuest = snapshot[91741]
         compat.GetNumQuestLogEntries = spy.new(function() return #entries end)
         compat.GetQuestLogTitle = spy.new(compat.GetQuestLogTitle)
         compat.GetQuestLogIndexByID = spy.new(compat.GetQuestLogIndexByID)
         QuestieDB.IsComplete = spy.new(function() return completion end)
         entries = {} -- Only an explicit refresh or lifecycle removal can change the snapshot.
 
-        assert.are.equal(quest, TrackerData.GetQuest(91741))
+        assert.are.equal(displayQuest, TrackerData.GetQuest(91741))
         assert.is_nil(TrackerData.GetQuest(123))
         assert.are.equal(snapshot, TrackerData.GetQuests())
         assert.are.equal(snapshot, TrackerData.GetQuests())
@@ -361,16 +390,16 @@ describe("TrackerData", function()
 
     it("only applies new progress and metadata when explicitly refreshed", function()
         cached[91741] = {objectives = {{text = "Wolf", type = "monster", numFulfilled = 1, numRequired = 5}}}
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
         entries[2].title = "A new chapter"
         cached[91741].objectives[1].numFulfilled = 3
 
-        assert.are.equal(quest, TrackerData.GetQuest(91741))
-        assert.are.equal("Nibbled-On Book", quest.name)
-        assert.are.equal(1, quest.Objectives[1].Collected)
-        assert.are.equal(quest, TrackerData.RefreshQuest(91741))
-        assert.are.equal("A new chapter", quest.name)
-        assert.are.equal(3, quest.Objectives[1].Collected)
+        assert.are.equal(displayQuest, TrackerData.GetQuest(91741))
+        assert.are.equal("Nibbled-On Book", displayQuest.name)
+        assert.are.equal(1, displayQuest.Objectives[1].Collected)
+        assert.are.equal(displayQuest, TrackerData.RefreshQuest(91741))
+        assert.are.equal("A new chapter", displayQuest.name)
+        assert.are.equal(3, displayQuest.Objectives[1].Collected)
     end)
 
     it("refreshes a single quest without refreshing another quest's objectives or completion", function()
@@ -409,17 +438,17 @@ describe("TrackerData", function()
             Objectives = {original}, ObjectiveData = {{Id = 10, Type = "monster"}}, SpecialObjectives = {{Id = 99}},
         }
         cached[91741] = {objectives = {{text = "Wolf", type = "monster", numFulfilled = 2, numRequired = 5}}}
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
         QuestiePlayer.currentQuestlog[91741] = nil
 
         TrackerData.RefreshQuest(91741)
 
-        assert.is_nil(quest.enrichment)
-        assert.is_nil(quest.Objectives[1].enrichment)
-        assert.are.same({}, quest.Objectives[1].spawnList)
-        assert.are.same({}, quest.ObjectiveData)
-        assert.are.same({}, quest.SpecialObjectives)
-        assert.are.equal("|cFFEEEEEEWolf: 2/5", TrackerData.GetObjectiveText(quest.Objectives[1]))
+        assert.is_nil(displayQuest.enrichment)
+        assert.is_nil(displayQuest.Objectives[1].enrichment)
+        assert.are.same({}, displayQuest.Objectives[1].spawnList)
+        assert.are.same({}, displayQuest.ObjectiveData)
+        assert.are.same({}, displayQuest.SpecialObjectives)
+        assert.are.equal("|cFFEEEEEEWolf: 2/5", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
     end)
 
     describe("loading through the real quest cache and event handler", function()
@@ -486,16 +515,16 @@ describe("TrackerData", function()
             assert.is_true(cacheMiss)
             -- Initialization records every checked quest, even when its first cache fill missed.
             QuestEventHandler.InitQuestLogStates(checked)
-            local quest = TrackerData.Refresh()[91741]
-            assert.are.equal("Nibbled-On Book", quest.name)
-            assert.is_false(quest.objectivesLoaded)
+            local displayQuest = TrackerData.Refresh()[91741]
+            assert.are.equal("Nibbled-On Book", displayQuest.name)
+            assert.is_false(displayQuest.objectivesLoaded)
 
             QuestEventHandler.QuestWatchUpdate(91741)
             now = 130 -- Timer delivery may be late; its callback must refresh the expired marker.
             haveData = true
             nativeObjectives = {{text = " ", type = "log", numFulfilled = 0, numRequired = 1, finished = false}}
             retryTimers[1].callback()
-            assert.is_false(quest.objectivesLoaded)
+            assert.is_false(displayQuest.objectivesLoaded)
             assert.are.equal(2, #retryTimers)
 
             now = 160
@@ -503,9 +532,9 @@ describe("TrackerData", function()
             retryTimers[2].callback()
             assert.are.equal(2, #retryTimers)
 
-            assert.is_true(quest.objectivesLoaded)
-            assert.are.equal("|cFFEEEEEERead the book", TrackerData.GetObjectiveText(quest.Objectives[1]))
-            assert.is_nil(quest.enrichment)
+            assert.is_true(displayQuest.objectivesLoaded)
+            assert.are.equal("|cFFEEEEEERead the book", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
+            assert.is_nil(displayQuest.enrichment)
             assert.is_nil(QuestiePlayer.currentQuestlog[91741])
             _G.C_QuestLog.GetQuestObjectives:clear()
             TrackerData.Refresh()
@@ -516,8 +545,8 @@ describe("TrackerData", function()
         it("finishes acceptance after both initial reads miss and the fallback loads the objectives", function()
             QuestEventHandler.QuestAccepted(2, 91741)
             callbacks[1]()
-            local quest = TrackerData.GetQuests()[91741]
-            assert.is_false(quest.objectivesLoaded)
+            local displayQuest = TrackerData.GetQuests()[91741]
+            assert.is_false(displayQuest.objectivesLoaded)
             assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
 
             now = 130
@@ -526,9 +555,9 @@ describe("TrackerData", function()
             retryTimers[1].callback()
             assert.are.equal(1, #retryTimers)
 
-            assert.is_true(quest.objectivesLoaded)
-            assert.are.equal(1, quest:IsComplete())
-            assert.is_true(quest.Objectives[1].Completed)
+            assert.is_true(displayQuest.objectivesLoaded)
+            assert.are.equal(1, displayQuest:IsComplete())
+            assert.is_true(displayQuest.Objectives[1].Completed)
             assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
             assert.is_nil(QuestiePlayer.currentQuestlog[91741])
         end)
@@ -536,34 +565,34 @@ describe("TrackerData", function()
         it("renders cached progress through unavailable responses and loading-screen regressions", function()
             nativeObjectives = {{text = "Wolf slain: 3/5", type = "monster", numFulfilled = 3, numRequired = 5, finished = false}}
             QuestLogCache.CheckForChanges(nil)
-            local quest = TrackerData.Refresh()[91741]
+            local displayQuest = TrackerData.Refresh()[91741]
             local cachedQuest = QuestLogCache.GetQuest(91741)
             QuestLogCache.OnLoadingScreenEnabled()
             nativeObjectives = nil
             assert.is_true(QuestLogCache.CheckForChanges(nil))
             TrackerData.Refresh()
-            assert.are.equal(3, quest.Objectives[1].Collected)
+            assert.are.equal(3, displayQuest.Objectives[1].Collected)
             assert.are.equal(cachedQuest, QuestLogCache.GetQuest(91741))
 
             nativeObjectives = {{text = " ", type = "monster", numFulfilled = 0, numRequired = 5, finished = false}}
             assert.is_true(QuestLogCache.CheckForChanges(nil))
             TrackerData.Refresh()
-            assert.are.equal(3, quest.Objectives[1].Collected)
+            assert.are.equal(3, displayQuest.Objectives[1].Collected)
 
             nativeObjectives = {{text = "Wolf slain: 0/5", numFulfilled = 0, numRequired = 5, finished = false}}
             assert.is_true(QuestLogCache.CheckForChanges(nil))
             TrackerData.Refresh()
-            assert.are.equal(3, quest.Objectives[1].Collected)
+            assert.are.equal(3, displayQuest.Objectives[1].Collected)
 
             nativeObjectives = {{text = "Wolf slain: 0/5", type = "monster", numFulfilled = 0, numRequired = 5, finished = false}}
             assert.is_true(QuestLogCache.CheckForChanges(nil))
             TrackerData.Refresh()
-            assert.are.equal(3, quest.Objectives[1].Collected)
+            assert.are.equal(3, displayQuest.Objectives[1].Collected)
 
             nativeObjectives = {{text = "Wolf slain: 4/5", type = "monster", numFulfilled = 4, numRequired = 5, finished = false}}
             assert.is_false(QuestLogCache.CheckForChanges(nil))
             TrackerData.Refresh()
-            assert.are.equal(4, quest.Objectives[1].Collected)
+            assert.are.equal(4, displayQuest.Objectives[1].Collected)
         end)
 
         it("does not load or redisplay a pending quest removed before its retry", function()
@@ -593,10 +622,10 @@ describe("TrackerData", function()
     end)
 
     it("formats titles and chat links from the live name and level", function()
-        local quest = TrackerData.RefreshQuest(91741)
+        local displayQuest = TrackerData.RefreshQuest(91741)
         Questie.db.profile.trackerShowQuestLevel = true
 
-        assert.are.equal("|cFFFFFF00[2] Nibbled-On Book|r", TrackerData.GetColoredQuestName(quest, true, false))
-        assert.are.equal("[[2] Nibbled-On Book (91741)]", TrackerData.GetQuestLink(quest))
+        assert.are.equal("|cFFFFFF00[2] Nibbled-On Book|r", TrackerData.GetColoredQuestName(displayQuest, true, false))
+        assert.are.equal("[[2] Nibbled-On Book (91741)]", TrackerData.GetQuestLink(displayQuest))
     end)
 end)
