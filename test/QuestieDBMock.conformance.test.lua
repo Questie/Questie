@@ -539,21 +539,39 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             assert.is_false(seen.existsAfter)
         end)
 
-        it("does not invent an entity from a row that writes no schema field", function()
+        it("does not invent an entity from an empty row", function()
             local seen = Conform(function(lib, owner)
                 local mapBefore = lib.Npc.GetAllIds(true)
                 lib.Corrections.Set(owner, "Npc", "EmptyRows", {
                     [ABSENT_ID] = {},
-                    [ABSENT_ID + 1] = {[999] = "outside the schema"},
                 })
                 return {
                     emptyExists = lib.Npc.Exists(ABSENT_ID),
-                    outsideSchemaExists = lib.Npc.Exists(ABSENT_ID + 1),
                     mapKept = mapBefore == lib.Npc.GetAllIds(true),
                 }
             end)
-            assert.are_same({emptyExists = false, outsideSchemaExists = false, mapKept = true}, seen)
+            assert.are_same({emptyExists = false, mapKept = true}, seen)
         end)
+
+        for _, fieldIndex in ipairs({999, 1.5}) do
+            it("rejects invalid field key " .. fieldIndex .. " on apply without publishing", function()
+                local seen = Conform(function(lib, owner)
+                    local registrar = lib.GetRegistrar(owner)
+                    registrar.RegisterRuntimeCorrection("Npc", "InvalidField", function()
+                        return {[ABSENT_ID] = {[fieldIndex] = "invalid"}}
+                    end)
+                    local mapBefore = lib.Npc.GetAllIds(true)
+                    local ok, message = pcall(registrar.Apply)
+                    assert.is_false(ok)
+                    assert.matches("unknown field key", message)
+                    return {
+                        exists = lib.Npc.Exists(ABSENT_ID),
+                        mapKept = mapBefore == lib.Npc.GetAllIds(true),
+                    }
+                end)
+                assert.are_same({exists = false, mapKept = true}, seen)
+            end)
+        end
 
         it("keeps the ID map identity while an apply adds no entity, and swaps it when one is added", function()
             local seen = Conform(function(lib, owner)
@@ -691,6 +709,48 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
                     emptyRowsKeepSlot = registrar.Set("Npc", "DarkmoonFaire", {}),
                 }
             end)
+        end)
+
+        for _, fieldIndex in ipairs({999, 1.5}) do
+            it("rejects invalid field key " .. fieldIndex .. " without replacing the stored slot", function()
+                local seen = Conform(function(lib, owner)
+                    local npcKeys = lib.Meta.NpcMeta.npcKeys
+                    local id = FIXTURE.Npc.gelvas
+                    local registrar = lib.GetRegistrar(owner)
+                    registrar.Set("Npc", "DarkmoonFaire", {[id] = {[npcKeys.zoneID] = 12}})
+                    local mapBefore = lib.Npc.GetAllIds(true)
+                    local ok, message = pcall(registrar.Set, "Npc", "DarkmoonFaire", {[id] = {[fieldIndex] = "invalid"}})
+                    assert.is_false(ok)
+                    assert.matches("unknown field key", message)
+                    local seen = {
+                        zoneID = lib.Npc.zoneID(id),
+                        mapKept = mapBefore == lib.Npc.GetAllIds(true),
+                    }
+                    registrar.Apply()
+                    seen.afterApply = lib.Npc.zoneID(id)
+                    return seen
+                end)
+                assert.are_same({zoneID = 12, mapKept = true, afterApply = 12}, seen)
+            end)
+        end
+
+        it("restores the last successful rows after rejecting an in-place mutation", function()
+            local seen = Conform(function(lib, owner)
+                local npcKeys = lib.Meta.NpcMeta.npcKeys
+                local id = FIXTURE.Npc.gelvas
+                local registrar = lib.GetRegistrar(owner)
+                local rows = {[id] = {[npcKeys.zoneID] = 12}}
+                registrar.Set("Npc", "DarkmoonFaire", rows)
+                rows[id][999] = "invalid"
+                local ok, message = pcall(registrar.Set, "Npc", "DarkmoonFaire", rows)
+                assert.is_false(ok)
+                assert.matches("unknown field key", message)
+
+                rows[id][npcKeys.zoneID] = 99
+                registrar.Apply()
+                return {zoneID = lib.Npc.zoneID(id)}
+            end)
+            assert.are_same({zoneID = 12}, seen)
         end)
 
         it("republishes only the written datatype", function()
