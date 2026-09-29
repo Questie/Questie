@@ -764,14 +764,14 @@ _GetQuestSoundChoices = function()
         ["Zug Zug"]          = l10n("Zug Zug"),
     }
 
-    if Expansions.Current >= Expansions.Tbc then
+    if Expansions.Current >= Expansions.Tbc or Questie.IsForever then
         options["Draenei Male"]     = l10n("Draenei Male")
         options["Draenei Female"]   = l10n("Draenei Female")
         options["Blood Elf Male"]   = l10n("Blood Elf Male")
         options["Blood Elf Female"] = l10n("Blood Elf Female")
     end
 
-    if Expansions.Current >= Expansions.Cata then
+    if Expansions.Current >= Expansions.Cata or Questie.IsForever then
         options["Goblin Male"]    = l10n("Goblin Male")
         options["Goblin Female"]  = l10n("Goblin Female")
         options["Worgen Male"]    = l10n("Worgen Male")
@@ -780,7 +780,7 @@ _GetQuestSoundChoices = function()
         options["Gilnean Female"] = l10n("Gilnean Female")
     end
 
-    if Expansions.Current >= Expansions.MoP then
+    if Expansions.Current >= Expansions.MoP or Questie.IsForever then
         options["Pandaren Male"]    = l10n("Pandaren Male")
         options["Pandaren Female"]  = l10n("Pandaren Female")
     end
@@ -804,7 +804,7 @@ _GetObjectiveSoundChoices = function()
         ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
         ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
-    if Expansions.Current >= Expansions.Tbc then
+    if Expansions.Current >= Expansions.Tbc or Questie.IsForever then
         options["Explosion"] = l10n("Explosion")
         options["Shing!"] = l10n("Shing!")
         options["Wham!"] = l10n("Wham!")
@@ -834,7 +834,7 @@ _GetObjectiveProgressSoundChoices = function()
         ["Bell Toll Alliance"] = l10n("Bell Toll Alliance"),
         ["Bell Toll Horde"]    = l10n("Bell Toll Horde"),
     }
-    if Expansions.Current >= Expansions.Tbc then
+    if Expansions.Current >= Expansions.Tbc or Questie.IsForever then
         options["Explosion"] = l10n("Explosion")
         options["Shing!"] = l10n("Shing!")
         options["Wham!"] = l10n("Wham!")
