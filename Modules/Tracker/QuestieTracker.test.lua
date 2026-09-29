@@ -484,6 +484,7 @@ describe("QuestieTracker", function()
                     return {Id = 11, enrichment = original, Objectives = {{enrichment = objective}},
                         SpecialObjectives = {}, IsComplete = function() return 0 end}
                 end)
+                dofile("Modules/Tracker/TrackerMapEligibility.lua")
                 dofile("Modules/Tracker/TrackerUtils.lua")
                 TrackerUtils.IsVoiceOverLoaded = function() return false end
                 QuestieTracker.started = false

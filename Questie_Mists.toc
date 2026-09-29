@@ -233,6 +233,7 @@ Modules\Journey\QuestieSearchResults.lua
 Modules\Tracker\AutoCompleteFrame.lua
 Modules\Tracker\ChallengeModeTimer.lua
 Modules\Tracker\TrackerData.lua
+Modules\Tracker\TrackerMapEligibility.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\Sorter\Sorter.lua
 Modules\Tracker\Sorter\byComplete.lua

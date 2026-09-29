@@ -77,6 +77,22 @@ describe("TrackerLine untrack click", function()
         assert.spy(tracker.UntrackQuestId).was.not_called()
     end)
 
+    it("routes ctrl-click navigation through the current-eligibility command", function()
+        local utils = QuestieLoader:ImportModule("TrackerUtils")
+        Questie.db.profile.trackerbindSetTomTom = "tomtom"
+        utils.IsBindTrue = function(_, binding) return binding == "tomtom" end
+        utils.SetQuestTomTomTarget = spy.new(function() return false end)
+        local original = {Id = 100}
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest({Id = 100, enrichment = original})
+        line:SetOnClick("quest")
+
+        line.scripts.OnClick(line, "LeftButton")
+
+        assert.spy(utils.SetQuestTomTomTarget).was.called_with(100, original)
+        assert.spy(tracker.UntrackQuestId).was.not_called()
+    end)
+
     it("untracks without a legacy quest-log frame", function()
         local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
         line:SetQuest({Id = 783})

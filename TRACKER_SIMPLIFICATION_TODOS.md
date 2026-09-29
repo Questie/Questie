@@ -36,13 +36,15 @@ Tests cover side-effect-free getters, explicit metadata/progress updates, layout
 
 ## 4. Define map eligibility once
 
-- [ ] Share the rules that decide whether a quest or objective supports focus or navigation.
+- [x] Share the rules that decide whether a quest or objective supports focus or navigation.
 
-`TrackerData`, `TrackerMenu` and `TrackerUtils` currently make related enrichment checks independently. During implementation, the menu could offer focus for a completed quest while the focus function rejected it.
+`TrackerMapEligibility.GetCapabilities(quest)` evaluates a display snapshot without refreshing or mutating it. Menus and commands use this same policy. Whole-quest focus requires every live objective to be matched and some locations, or a completed quest with a known finisher. Navigation can use an individual verified objective even when other objectives are unmatched.
 
-Use the same eligibility rules for menu construction and action execution. Keep any distinction between focus and navigation explicit; they may need different data.
+Commands explicitly refresh the selected quest and recheck eligibility. Menu callbacks also verify the original object identity before changing icons, changing focus or navigating. A removed quest, replaced objective or newly completed quest cannot make an old objective callback act on stale data. Map mutations still use original enrichment objects.
 
-Actions must recheck eligibility because a quest can change or disappear while its menu is open. Continue operating on verified original enrichment objects.
+Direct focus commands now enforce the same location requirements as the menu, including when restoring saved focus. Objectives without an original index cannot invent focus or persisted icon-visibility targets. Existing location-resolution behavior and database matching rules remain unchanged.
+
+Tests cover shared policy, original/native indices, partial enrichment, completion signals, special/source-item objectives and stale menu actions.
 
 ## Constraints
 
