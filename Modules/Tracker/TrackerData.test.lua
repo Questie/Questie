@@ -237,6 +237,15 @@ describe("TrackerData", function()
         assert.are.equal(2, objective.Collected)
         assert.is_nil(original.Collected)
         assert.are.equal("|cFFEEEEEEWolf: 2/5", TrackerData.GetObjectiveText(objective))
+
+        dofile("Modules/Libs/DistanceUtils.lua")
+        local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+        DistanceUtils.GetNearestObjective = spy.new(function() return {10, 20}, 12, "Wolf", 100 end)
+
+        local spawn = DistanceUtils.GetNearestSpawnForQuest(quest)
+
+        assert.are.same({10, 20}, spawn)
+        assert.spy(DistanceUtils.GetNearestObjective).was.called_with(original.spawnList)
     end)
 
     it("does not attach an old same-type database objective to new live wording", function()
@@ -266,7 +275,10 @@ describe("TrackerData", function()
     end)
 
     it("preserves the existing missing-source-item synthetic objective", function()
-        local original = {Id = 44, Type = "item", Description = "Note", Needed = 1, Collected = 0, Completed = false}
+        local original = {
+            Id = 44, Type = "item", Description = "Note", FullDescription = "Verner's Note",
+            Needed = 1, Collected = 0, Completed = false, spawnList = {},
+        }
         QuestiePlayer.currentQuestlog[91741] = {sourceItemId = 44, Objectives = {original}}
         cached[91741] = {objectives = {}}
 
@@ -276,7 +288,9 @@ describe("TrackerData", function()
         assert.are.equal(1, quest.Objectives[1].Index)
         assert.are.equal(91741, quest.Objectives[1].questId)
         assert.is_nil(original.Index)
-        assert.are.equal("|cFFEEEEEENote: 0/1", TrackerData.GetObjectiveText(quest.Objectives[1]))
+        assert.are.equal(original.spawnList, quest.Objectives[1].spawnList)
+        assert.is_false(quest.Objectives[1].Completed)
+        assert.are.equal("|cFFEEEEEEVerner's Note: 0/1", TrackerData.GetObjectiveText(quest.Objectives[1]))
     end)
 
     it("does not infer unfamiliar objective completion from equal numeric fields", function()

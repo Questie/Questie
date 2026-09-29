@@ -96,12 +96,10 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
             objective.Needed = tonumber(live.numRequired) or 0
             objective.Completed = (counterTypes[live.type] and objective.Needed > 0 and objective.Collected == objective.Needed)
                 or (live.finished == true and (objective.Needed == 0 or not counterTypes[live.type])) or false
-            objective.RawText = rawText
             objective.enrichment = nil
             objective.Id = nil
+            -- DistanceUtils reads locations from the display record. Map actions use enrichment itself.
             objective.spawnList = {}
-            objective.AlreadySpawned = {}
-            objective.Icon = nil
 
             -- Index/type alone cannot prove entity identity after a quest changes. Match database wording
             -- or localized entity name as well; otherwise keep live progress but omit entity-dependent actions.
@@ -124,8 +122,6 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
                     objective.enrichment = original
                     objective.Id = original.Id
                     objective.spawnList = original.spawnList or {}
-                    objective.AlreadySpawned = original.AlreadySpawned or {}
-                    objective.Icon = original.Icon
                     quest.ObjectiveData[#quest.ObjectiveData + 1] = metadata
                 end
             end
@@ -140,13 +136,20 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
         if #objectiveIndices == 0 and enriched and enriched.Objectives then
             for _, original in ipairs(enriched.Objectives) do
                 if original.Type == "item" and original.Id == enriched.sourceItemId and original.Completed == false then
-                    local objective = {}
-                    for key, value in pairs(original) do
-                        objective[key] = value
-                    end
-                    objective.Index = #quest.Objectives + 1
-                    objective.questId = questId
-                    objective.enrichment = original
+                    -- Copy display data explicitly; icon state and map behavior belong to the original object.
+                    local objective = {
+                        Id = original.Id,
+                        Index = #quest.Objectives + 1,
+                        questId = questId,
+                        Type = original.Type,
+                        Description = original.Description,
+                        FullDescription = original.FullDescription,
+                        Collected = original.Collected,
+                        Needed = original.Needed,
+                        Completed = original.Completed,
+                        spawnList = original.spawnList or {},
+                        enrichment = original,
+                    }
                     quest.Objectives[objective.Index] = objective
                     allObjectivesMatched = false
                 end
