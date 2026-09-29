@@ -1,7 +1,7 @@
 ## Questie release guide
 
 ### Prepare
-Run the manual **Bump version** workflow on `master` and enter a version without the `v` prefix, for example `12.0.1`. A reviewer must approve the `version-bump` environment before the job starts, even when the reviewer started the run. Other branches and tags are skipped.
+Run the manual **Bump version** workflow on `master` and enter a version without the `v` prefix, for example `12.0.1`. Normally, a reviewer approves the `version-bump` environment before the job starts, even when the reviewer started the run. The current environment allows self-approval and administrator bypass. Other branches and tags are skipped.
 
 It updates the Version and Title fields in all supported flavor TOCs, leaves the unsupported-client `Questie.toc` unchanged, commits as `Bump version to v12.0.1`, and creates tag `v12.0.1`. The branch commit and tag are pushed together; a rejected push publishes neither. Existing tags and unchanged versions fail rather than being overwritten or retagged. Branch protection still applies.
 
@@ -12,6 +12,8 @@ For a local bump, run `uv run --no-project versionbump.py 12.0.1` from a clean c
 Builds include the latest stable QuestieDB. For database-only updates, reuse the same Questie source revision.
 
 ### Version-bump permissions
+
+See [Version-bump setup and troubleshooting](version-bump-setup.md) for the app, team, settings links, exact ruleset relationships, access changes, and debugging checks.
 
 The `version-bump` environment must allow only branch `master`, require maintainer approval, and contain:
 - Variable `VERSION_BUMP_APP_CLIENT_ID`: the app's Client ID.
