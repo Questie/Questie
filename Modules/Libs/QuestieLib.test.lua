@@ -526,6 +526,48 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("client objective wording", function()
+        local originalHaveQuestData, originalGetQuestObjectives, originalItemsNeeded, originalMonstersKilled
+        local objectives
+        local cases = {
+            {name = "Classic item", itemFormat = "%s: %d/%d", monsterFormat = "%s slain: %d/%d",
+                type = "item", missing = " : 0/8", loaded = "item: 0/8", expected = "item"},
+            {name = "Forever item", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "item", missing = "0/8  ", loaded = "0/8 item", expected = "item"},
+            {name = "Forever monster", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "monster", missing = "0/8   slain", loaded = "0/8 Wolf slain", expected = "Wolf"},
+        }
+
+        before_each(function()
+            originalHaveQuestData = _G.HaveQuestData
+            originalGetQuestObjectives = C_QuestLog.GetQuestObjectives
+            originalItemsNeeded, originalMonstersKilled = _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED
+            _G.HaveQuestData = function() return true end
+            C_QuestLog.GetQuestObjectives = function() return objectives end
+        end)
+
+        after_each(function()
+            _G.HaveQuestData = originalHaveQuestData
+            C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
+            _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED = originalItemsNeeded, originalMonstersKilled
+        end)
+
+        for _, case in ipairs(cases) do
+            it("waits for the missing name in " .. case.name .. " wording and extracts it once loaded", function()
+                _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED = case.itemFormat, case.monsterFormat
+                dofile("Modules/Libs/QuestieLib.lua")
+                -- These are literal client responses. Do not trim the placeholder whitespace in the fixture.
+                objectives = {{text = case.missing, type = case.type, numFulfilled = 0, numRequired = 8, finished = false}}
+                assert.are.equal("", QuestieLib.TrimObjectiveText(case.missing, case.type))
+                assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+
+                objectives[1].text = case.loaded
+                assert.are.same(objectives, QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+                assert.are.equal(case.expected, QuestieLib.TrimObjectiveText(case.loaded, case.type))
+            end)
+        end
+    end)
+
     describe("ContinueOnQuestObjectivesLoad", function()
         local ThreadLib
         local originalThread
