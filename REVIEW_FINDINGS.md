@@ -37,6 +37,17 @@ A successful restricted scan excluding A, count recovery, or reload can end the 
 
 **Focused test:** The two-quest loading/recovery/decrease sequence above.
 
+#### Resolution
+
+Implemented after the reviewed revision. The original evidence and pinned reproduction above remain unchanged.
+
+- `QuestLogCache` now tracks loading-screen recovery per quest. A valid, non-regressing snapshot clears that quest's protection even when its objectives are unchanged or another quest is unavailable. Missing or partial data retains protection; removing a quest clears its recovery state.
+- Cache tests cover A's legitimate decrease while B is still unavailable, restricted scans and partial-objective recovery. Integration tests exercise registered events through `QuestEventHandler` into the real cache, including bank-close updates, notification delivery despite another cache miss, retry completion and duplicate-notification prevention.
+- Related tests use client format strings and the verified single-space missing-name placeholder: Classic `" : 0/8"`, Forever item `"0/8  "` and Forever monster `"0/8   slain"`. `QuestLogCache` now rejects these placeholders or retains previously cached rows while retrying. `TestGameCache()` uses `QuestieLib.GetLoadedQuestObjectives` for readiness checks. No QuestieLib parser change was needed.
+- Tests are in `Modules/Quest/QuestLogCache.test.lua`, `Modules/EventHandler/QuestEventHandler.test.lua` and `Modules/Libs/QuestieLib.test.lua`. Post-fix validation: **2,192 successes, 0 failures/errors, 1 pending**; the pending provider-conformance check requires the absent QuestieDB checkout. Scoped luacheck, loader-usage validation and focused reviews passed.
+
+The placeholder strings were verified in-game by David; the fix itself has not had live-client validation. A genuine decrease before a quest's first recovered snapshot remains indistinguishable from stale lower counts. The pre-existing completed-to-incomplete rejection is unchanged.
+
 ### 2. P2: Valid objectives lose enrichment when Questie and client locales differ
 
 **Location:** `Modules/Tracker/TrackerQuestieBehavior.lua:63-76`, consequences at `:112-115`.
