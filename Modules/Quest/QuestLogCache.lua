@@ -80,11 +80,10 @@ local cache = {
 local cache = {}
 local questCount = 0
 
--- Set to true on LOADING_SCREEN_ENABLED. While active, objective regressions are treated as cache
--- misses so stale data from Blizzard's cache rebuild never triggers sounds or announces.
--- Clears only after a scan returns valid data without cache misses. An unavailable response
--- must not allow the following stale progress values through.
-local blizzardQuestCacheStale = false
+-- Loading screens can temporarily lower objective counts. Protect each cached quest until its own
+-- valid, non-regressing snapshot arrives, so an unavailable quest cannot freeze another quest's item decreases.
+---@type table<QuestId, boolean>
+local questsAwaitingRecovery = {}
 
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
 ---@type table<QuestId, QuestLogCacheData>
@@ -213,8 +212,6 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
 
-    local suppressRegressions = blizzardQuestCacheStale
-
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         ----- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questID, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isBounty, isStory, isHidden, isScaling = GetQuestLogTitle(questLogIndex)
 
@@ -238,10 +235,15 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 if blizzardCacheIncorrect then
                     cacheMiss = true
                 else
+                    local suppressRegressions = questsAwaitingRecovery[questId] == true
                     local newObjectives, changedObjIds, isComplete, needsRetry = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
                     cacheMiss = cacheMiss or needsRetry
 
                     if newObjectives then
+                        -- Unchanged valid data confirms recovery too; retained placeholder rows do not.
+                        if not needsRetry then
+                            questsAwaitingRecovery[questId] = nil
+                        end
                         if (not cachedQuest) or (#cachedObjectives == #newObjectives and cachedQuest.isComplete ~= isComplete) then
                             -- Mark all objectives changed to force update those too.
 
@@ -315,22 +317,24 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         end
     end
 
-    if blizzardQuestCacheStale and (not cacheMiss) then
-        blizzardQuestCacheStale = false
-    end
-
     return cacheMiss, changes, questIdsChecked
 end
 
---- Called when LOADING_SCREEN_ENABLED fires. Marks Blizzard's quest cache as stale so objective
---- regressions are suppressed until the cache is confirmed restored.
+---Protects cached quests from stale objective decreases until each quest's data recovers.
+---@return nil
 function QuestLogCache.OnLoadingScreenEnabled()
-    blizzardQuestCacheStale = true
+    questsAwaitingRecovery = {}
+    for questId in pairs(cache) do
+        questsAwaitingRecovery[questId] = true
+    end
 end
 
 
+---@param questId QuestId
+---@return nil
 function QuestLogCache.RemoveQuest(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.RemoveQuest] remove questId:", questId)
+    questsAwaitingRecovery[questId] = nil
     if cache[questId] then
         cache[questId] = nil
         questCount = questCount - 1
