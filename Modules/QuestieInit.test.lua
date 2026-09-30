@@ -155,9 +155,11 @@ describe("QuestieInit", function()
     end)
 
     describe("Stage 2", function()
-        local originalCTimer
+        local originalCTimer, originalIsHardcore
 
         before_each(function()
+            originalIsHardcore = Questie.IsHardcore
+            Questie.IsHardcore = false
             local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
             QuestiePlayer.Initialize = function() end
             local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
@@ -170,7 +172,68 @@ describe("QuestieInit", function()
 
         after_each(function()
             _G.C_Timer = originalCTimer
+            Questie.IsHardcore = originalIsHardcore
         end)
+
+        it("uses 1000-ID batches outside Hardcore and waits for the index before initializing the player", function()
+            QuestieLoader:ImportModule("QuestiePlayer").Initialize = _Record("QuestiePlayer.Initialize")
+            ---@async
+            ---@param iterationsPerCycle integer?
+            ---@return nil
+            mock.lib.Object.BuildNameIndexAsync = function(iterationsPerCycle)
+                assert.are_equal(1000, iterationsPerCycle)
+                table.insert(callOrder, "index started")
+                coroutine.yield()
+                table.insert(callOrder, "index resumed")
+                coroutine.yield()
+                table.insert(callOrder, "index complete")
+            end
+
+            local stage = coroutine.create(QuestieInit.Stages[2])
+            assert.is_true(coroutine.resume(stage))
+            assert.are_equal("suspended", coroutine.status(stage))
+            assert.are_same({"index started"}, callOrder)
+
+            assert.is_true(coroutine.resume(stage))
+            assert.are_equal("suspended", coroutine.status(stage))
+            assert.are_same({"index started", "index resumed"}, callOrder)
+
+            assert.is_true(coroutine.resume(stage))
+            assert.are_same({"index started", "index resumed", "index complete", "QuestiePlayer.Initialize"}, callOrder)
+            assert.is_true(coroutine.resume(stage))
+            assert.are_equal("dead", coroutine.status(stage))
+        end)
+
+        it("uses 250-ID batches on Hardcore without calling the synchronous builder", function()
+            Questie.IsHardcore = true
+            local asyncBuild = spy.new(function() end)
+            ---@param iterationsPerCycle integer?
+            ---@return nil
+            mock.lib.Object.BuildNameIndexAsync = function(iterationsPerCycle)
+                asyncBuild(iterationsPerCycle)
+            end
+            mock.lib.Object.BuildNameIndex = spy.new(function() end)
+
+            _RunStage(2)
+
+            assert.spy(asyncBuild).was.called_with(250)
+            assert.spy(asyncBuild).was.called(1)
+            assert.spy(mock.lib.Object.BuildNameIndex).was.not_called()
+        end)
+
+        for _, isHardcore in ipairs({false, true}) do
+            it("falls back to synchronous indexing with an older provider on " .. (isHardcore and "Hardcore" or "other clients"), function()
+                Questie.IsHardcore = isHardcore
+                mock.lib.Object.BuildNameIndexAsync = nil
+                mock.lib.Object.BuildNameIndex = spy.new(_Record("index complete"))
+                QuestieLoader:ImportModule("QuestiePlayer").Initialize = _Record("QuestiePlayer.Initialize")
+
+                _RunStage(2)
+
+                assert.spy(mock.lib.Object.BuildNameIndex).was.called(1)
+                assert.are_same({"index complete", "QuestiePlayer.Initialize"}, callOrder)
+            end)
+        end
 
         it("warms the provider Object name index when the Object ID tooltip setting is enabled", function()
             Questie.db.profile.enableTooltipsObjectID = true
