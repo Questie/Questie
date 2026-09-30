@@ -118,8 +118,19 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         local oldObj = oldObjectives[objIndex]
         local newObj = objectives[objIndex]
 
-        -- Check if objective.text is in game's cache
-        if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
+        -- Missing names are a single space. Classic leaves a leading space, Forever items a trailing
+        -- space, and Forever monsters keep a loaded "slain" suffix. Validate the parsed name as well.
+        local textLoaded = newObj.text and stringByte(newObj.text, 1) ~= 32 and stringByte(newObj.text, -1) ~= 32
+        local trimmedText
+        if textLoaded and newObj.text ~= "" then
+            if oldObj and oldObj.raw_text == newObj.text and oldObj.type == newObj.type then
+                trimmedText = oldObj.text
+            else
+                trimmedText = QuestieLib.TrimObjectiveText(newObj.text, newObj.type)
+            end
+            textLoaded = trimmedText ~= ""
+        end
+        if textLoaded then
             if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
                 -- Check if objective has changed
                 if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
@@ -162,7 +173,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
                         numRequired = newObj.numRequired,
-                        text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
+                        text = trimmedText,
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
@@ -353,17 +364,8 @@ function QuestLogCache.TestGameCache()
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) then
-            if HaveQuestData(questId) then
-                local objectives = C_QuestLog_GetQuestObjectives(questId)
-
-                for objIndex=1, #objectives do
-                    local text = objectives[objIndex].text
-                    -- Check if objective.text is not in game's cache
-                    if (not text) or (stringByte(text, 1) == 32) then
-                        gameCacheOK = false
-                    end
-                end
-            else
+            -- Use the loader's client-wording checks, including Forever's counter-first placeholders.
+            if not QuestieLib.GetLoadedQuestObjectives(questId) then
                 gameCacheOK = false
             end
         end

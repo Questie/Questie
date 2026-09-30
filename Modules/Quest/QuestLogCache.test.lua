@@ -46,6 +46,78 @@ describe("QuestLogCache", function()
         _G.HaveQuestData, _G.GetQuestLogTitle, _G.C_QuestLog = originalHaveQuestData, originalGetQuestLogTitle, originalQuestLog
     end)
 
+    describe("client objective placeholders", function()
+        local originalItemsNeeded, originalMonstersKilled
+        local cases = {
+            {name = "Classic item", itemFormat = "%s: %d/%d", monsterFormat = "%s slain: %d/%d",
+                type = "item", missing = " : 0/8", loaded = "item: 0/8", progress = "item: 2/8", expected = "item"},
+            {name = "Forever item", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "item", missing = "0/8  ", loaded = "0/8 item", progress = "2/8 item", expected = "item"},
+            {name = "Forever monster", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "monster", missing = "0/8   slain", loaded = "0/8 Wolf slain", progress = "2/8 Wolf slain", expected = "Wolf"},
+        }
+
+        before_each(function()
+            originalItemsNeeded, originalMonstersKilled = _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED
+        end)
+
+        after_each(function()
+            _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED = originalItemsNeeded, originalMonstersKilled
+        end)
+
+        for _, case in ipairs(cases) do
+            it("does not cache missing " .. case.name .. " names and retains loaded rows until the client recovers", function()
+                _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED = case.itemFormat, case.monsterFormat
+                dofile("Modules/Libs/QuestieLib.lua")
+                questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+                -- Missing names are a single space: two spaces after the item counter, three before "slain".
+                questObjectives[QUEST_ID] = {
+                    {text = case.missing, type = case.type, numFulfilled = 0, numRequired = 8, finished = false},
+                }
+                local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+                assert.is_true(cacheMiss)
+                assert.are.same({}, changes)
+                assert.are.equal(0, QuestLogCache.GetQuestCount())
+                assert.is_false(QuestLogCache.TestGameCache())
+
+                questObjectives[QUEST_ID][1].text = case.loaded
+                cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+                assert.is_false(cacheMiss)
+                assert.are.same({[QUEST_ID] = {1}}, changes)
+                local previous = QuestLogCache.GetQuest(QUEST_ID)
+                assert.are.equal(case.expected, previous.objectives[1].text)
+                assert.are.equal(case.loaded, previous.objectives[1].raw_text)
+                assert.are.equal(0, previous.isComplete)
+                assert.is_true(QuestLogCache.TestGameCache())
+
+                -- HaveQuestData stays true and counters stay valid while the client loses the name.
+                questObjectives[QUEST_ID][1].text = case.missing
+                for _ = 1, 2 do
+                    cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+                    assert.is_true(cacheMiss)
+                    assert.are.same({}, changes)
+                    assert.are.equal(previous, QuestLogCache.GetQuest(QUEST_ID))
+                    assert.is_false(QuestLogCache.TestGameCache())
+                end
+                questObjectives[QUEST_ID][1].text = case.loaded
+                cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+                assert.is_false(cacheMiss)
+                assert.are.same({}, changes)
+                assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+                assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+                assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+                questObjectives[QUEST_ID][1].text = case.progress
+                questObjectives[QUEST_ID][1].numFulfilled = 2
+                cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+                assert.is_false(cacheMiss)
+                assert.are.same({[QUEST_ID] = {1}}, changes)
+                assert.are.equal(2, QuestLogCache.GetQuest(QUEST_ID).objectives[1].numFulfilled)
+                assert.spy(Sounds.PlayObjectiveProgress).was.called(1)
+            end)
+        end
+    end)
+
     describe("CheckForChanges", function()
         it("retries a nil objective response without publishing an empty completed quest", function()
             questLogTitles[1] = {"Return the book", 2, nil, false, false, nil, nil, QUEST_ID}
@@ -459,16 +531,67 @@ describe("QuestLogCache", function()
 
             questObjectives[QUEST_ID][1].text = "Item: 4/10"
             questObjectives[QUEST_ID][1].numFulfilled = 4
-            _G.HaveQuestData = function() return true end
 
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_true(cacheMiss)
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.equal(4, QuestLogCache.GetQuest(QUEST_ID).objectives[1].numFulfilled)
+
+            _G.HaveQuestData = function() return true end
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.are.same({}, changes)
+            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+        end)
+
+        it("keeps a partially recovered quest protected until all objective rows recover", function()
+            questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+            local validObjectives = {
+                {text = "Item: 5/10", type = "item", numFulfilled = 5, numRequired = 10, finished = false},
+                {text = "Other Item: 2/10", type = "item", numFulfilled = 2, numRequired = 10, finished = false},
+            }
+            questObjectives[QUEST_ID] = validObjectives
+            QuestLogCache.CheckForChanges(nil)
+            QuestLogCache.OnLoadingScreenEnabled()
+
+            questObjectives[QUEST_ID] = {
+                validObjectives[1],
+                {text = " ", type = "item", numFulfilled = 0, numRequired = 10, finished = false},
+            }
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_true(cacheMiss)
+            assert.are.same({}, changes)
+            assert.are.equal(2, QuestLogCache.GetQuest(QUEST_ID).objectives[2].numFulfilled)
+
+            questObjectives[QUEST_ID] = {
+                {text = "Item: 0/10", type = "item", numFulfilled = 0, numRequired = 10, finished = false},
+                {text = "Other Item: 0/10", type = "item", numFulfilled = 0, numRequired = 10, finished = false},
+            }
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_true(cacheMiss)
+            assert.are.same({}, changes)
+            local cached = QuestLogCache.GetQuest(QUEST_ID)
+            assert.are.equal(5, cached.objectives[1].numFulfilled)
+            assert.are.equal(2, cached.objectives[2].numFulfilled)
+
+            questObjectives[QUEST_ID] = validObjectives
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.are.same({}, changes)
+            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            questObjectives[QUEST_ID] = {
+                {text = "Item: 4/10", type = "item", numFulfilled = 4, numRequired = 10, finished = false},
+                validObjectives[2],
+            }
             cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
             assert.is_false(cacheMiss)
             assert.are.same({[QUEST_ID] = {1}}, changes)
             assert.are.equal(4, QuestLogCache.GetQuest(QUEST_ID).objectives[1].numFulfilled)
-            assert.is_false(QuestLogCache.CheckForChanges(nil))
-            assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
-            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
-            assert.spy(Sounds.PlayQuestComplete).was.not_called()
         end)
 
         for _, missingResponse in ipairs({"quest data", "nil objectives", "placeholder text", "missing type"}) do
