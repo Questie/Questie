@@ -198,3 +198,123 @@ describe("QuestgiverFrame greeting icons", function()
     end)
 
 end)
+
+describe("QuestgiverFrame gossip icons", function()
+    local QuestgiverFrame
+    local originals, mocks, nextFrame
+    local originalAvailableSetup, originalActiveSetup
+    local availableButton, activeButton
+    local globals = {
+        "GossipAvailableQuestButtonMixin", "GossipActiveQuestButtonMixin", "GossipFrame", "C_Timer",
+        "QuestFrameGreetingPanel", "QuestFrameGreetingPanel_OnShow", "UnitGUID",
+    }
+
+    local function GossipButton(elementData)
+        return {
+            Icon = {SetTexture = spy.new(function() end)},
+            GetElementData = function() return elementData end,
+        }
+    end
+
+    before_each(function()
+        originals = {IsForever = Questie.IsForever, started = Questie.started, icons = Questie.icons,
+            enabled = Questie.db.profile.enableQuestFrameIcons}
+        for _, name in ipairs(globals) do
+            originals[name] = _G[name]
+            _G[name] = nil
+        end
+        Questie.icons = {available = "available", incomplete = "incomplete", complete = "complete"}
+        Questie.started = true
+        Questie.db.profile.enableQuestFrameIcons = true
+        mocks = {
+            stub(QuestieDB, "IsComplete", function() return 1 end),
+            stub(QuestieDB, "IsPvPQuest", function() return false end),
+            stub(QuestieDB, "IsActiveEventQuest", function() return false end),
+            stub(QuestieDB, "IsRepeatable", function() return false end),
+        }
+
+        originalAvailableSetup = function() end
+        originalActiveSetup = function() end
+        _G.GossipAvailableQuestButtonMixin = {Setup = originalAvailableSetup}
+        _G.GossipActiveQuestButtonMixin = {Setup = originalActiveSetup}
+        availableButton = GossipButton({availableQuestButton = {}, info = {questID = 783}})
+        activeButton = GossipButton({activeQuestButton = {}, info = {questID = 784}})
+        _G.GossipFrame = {
+            IsShown = function() return true end,
+            GreetingPanel = {ScrollBox = {ForEachFrame = function(_, func)
+                func(availableButton)
+                func(activeButton)
+                func(GossipButton({greetingTextFrame = {}}))
+            end}},
+        }
+        nextFrame = nil
+        _G.C_Timer = {After = function(_, callback) nextFrame = callback end}
+    end)
+
+    after_each(function()
+        for _, mock in ipairs(mocks) do
+            mock:revert()
+        end
+        for _, name in ipairs(globals) do
+            _G[name] = originals[name]
+        end
+        Questie.IsForever = originals.IsForever
+        Questie.started = originals.started
+        Questie.icons = originals.icons
+        Questie.db.profile.enableQuestFrameIcons = originals.enabled
+    end)
+
+    local function Load()
+        dofile("Modules/Quest/QuestgiverFrame.lua")
+        QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
+    end
+
+    it("never replaces Blizzard's gossip button Setup on Forever", function()
+        Questie.IsForever = true
+        Load()
+
+        assert.are.equal(originalAvailableSetup, GossipAvailableQuestButtonMixin.Setup)
+        assert.are.equal(originalActiveSetup, GossipActiveQuestButtonMixin.Setup)
+    end)
+
+    it("sets the icons on the next frame on Forever", function()
+        Questie.IsForever = true
+        Load()
+
+        QuestgiverFrame.GossipMark()
+        assert.spy(availableButton.Icon.SetTexture).was.not_called()
+        nextFrame()
+
+        assert.spy(availableButton.Icon.SetTexture).was.called_with(availableButton.Icon, "available")
+        assert.spy(activeButton.Icon.SetTexture).was.called_with(activeButton.Icon, "complete")
+    end)
+
+    it("re-applies the icons when the quest log changes while the dialog is open on Forever", function()
+        Questie.IsForever = true
+        Load()
+
+        QuestgiverFrame.RecheckGossip()
+        nextFrame()
+
+        assert.spy(availableButton.Icon.SetTexture).was.called(1)
+    end)
+
+    it("leaves the icons alone when the option is disabled", function()
+        Questie.IsForever = true
+        Questie.db.profile.enableQuestFrameIcons = false
+        Load()
+
+        QuestgiverFrame.GossipMark()
+
+        assert.is_nil(nextFrame)
+    end)
+
+    it("keeps the existing Setup decoration on other flavors", function()
+        Questie.IsForever = false
+        Load()
+
+        assert.are_not.equal(originalAvailableSetup, GossipAvailableQuestButtonMixin.Setup)
+        QuestgiverFrame.GossipMark()
+        assert.is_nil(nextFrame)
+    end)
+end)
