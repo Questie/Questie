@@ -222,18 +222,27 @@ describe("QuestieInit", function()
         end)
 
         for _, isHardcore in ipairs({false, true}) do
-            it("falls back to synchronous indexing with an older provider on " .. (isHardcore and "Hardcore" or "other clients"), function()
+            it("requires asynchronous indexing on " .. (isHardcore and "Hardcore" or "other clients"), function()
                 Questie.IsHardcore = isHardcore
                 mock.lib.Object.BuildNameIndexAsync = nil
                 mock.lib.Object.BuildNameIndex = spy.new(_Record("index complete"))
                 QuestieLoader:ImportModule("QuestiePlayer").Initialize = _Record("QuestiePlayer.Initialize")
 
-                _RunStage(2)
-
-                assert.spy(mock.lib.Object.BuildNameIndex).was.called(1)
-                assert.are_same({"index complete", "QuestiePlayer.Initialize"}, callOrder)
+                assert.has_error(function() _RunStage(2) end,
+                    "Questie requires QuestieDB asynchronous Object name indexing. Update QuestieDB.")
+                assert.spy(mock.lib.Object.BuildNameIndex).was.not_called()
+                assert.are_same({}, callOrder)
             end)
         end
+
+        it("reports the required API when the Object provider is unavailable", function()
+            mock.lib.Object = nil
+            QuestieLoader:ImportModule("QuestiePlayer").Initialize = _Record("QuestiePlayer.Initialize")
+
+            assert.has_error(function() _RunStage(2) end,
+                "Questie requires QuestieDB asynchronous Object name indexing. Update QuestieDB.")
+            assert.are_same({}, callOrder)
+        end)
 
         it("warms the provider Object name index when the Object ID tooltip setting is enabled", function()
             Questie.db.profile.enableTooltipsObjectID = true
