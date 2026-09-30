@@ -48,8 +48,10 @@ end
 -- An always-on world-map button that shows/hides Blizzard's native quest POI pins via the questPOI
 -- CVar. Those pins drive native supertracking (and the WaypointUI flare); this client resets the
 -- CVar to 0 each login, so we re-apply the user's choice (questPOIEnabled) on login. Forever-only.
+---@type Button?
 local poiButton
 
+---@return boolean
 local function QuestPOIEnabled()
     return Questie.db.profile.questPOIEnabled == true
 end
@@ -99,6 +101,7 @@ function WorldMapButton.ToggleQuestPOI()
     end
 end
 
+---@param self Button
 local function POITooltip(self)
     GameTooltip:SetOwner(self, "ANCHOR_NONE")
     GameTooltip:ClearLines()
@@ -142,7 +145,9 @@ local function BuildPOIButton()
     poiButton:RegisterForClicks("LeftButtonUp")
     poiButton:SetScript("OnClick", WorldMapButton.ToggleQuestPOI)
     poiButton:SetScript("OnEnter", POITooltip)
-    poiButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    -- Match Questie's own map-button template (OnLeave function="GameTooltip_Hide"); this is a bare
+    -- (non-template) button, so it must clear its own tooltip -- Krowi does not manage GameTooltip.
+    poiButton:SetScript("OnLeave", GameTooltip_Hide)
     poiButton.Refresh = function() end -- Krowi calls button:Refresh() on map refresh
 
     poiButton:Show()
