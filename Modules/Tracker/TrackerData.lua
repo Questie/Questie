@@ -72,17 +72,16 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
         for displayIndex, index in ipairs(objectiveIndices) do
             local live = cached.objectives[index]
             local objective = previousObjectives[displayIndex] or {}
-            local rawText = live.raw_text or live.text
             objective.Index = displayIndex
             objective.NativeIndex = index
             objective.questId = questId
             objective.Type = live.type
-            objective.Description = live.text
-            objective.FullDescription = QuestieLib.GetFullObjectiveTextConditional(rawText)
+            -- The cache validates native text. Keep its accepted wording, counters and punctuation intact.
+            objective.Description = live.raw_text
             objective.Collected = tonumber(live.numFulfilled) or 0
             objective.Needed = tonumber(live.numRequired) or 0
-            objective.Completed = (counterTypes[live.type] and objective.Needed > 0 and objective.Collected == objective.Needed)
-                or (live.finished == true and (objective.Needed == 0 or not counterTypes[live.type])) or false
+            -- Native action objectives can report 1/1 while unfinished. The cache owns completion normalization.
+            objective.Completed = live.finished == true
             displayQuest.Objectives[displayIndex] = objective
         end
     end
@@ -204,12 +203,10 @@ end
 ---@param objective table
 ---@return string
 function TrackerData.GetObjectiveText(objective)
-    local description = QuestieLib:GetObjectiveDescription(objective)
-    local countable = counterTypes[objective.Type] and type(objective.Needed) == "number" and objective.Needed > 0
-        and type(objective.Collected) == "number"
-    local colorObjective = countable and objective or {Collected = objective.Completed and 1 or 0, Needed = 1}
-    if countable then
-        description = description .. ": " .. objective.Collected .. "/" .. objective.Needed
-    end
-    return QuestieLib:GetRGBForObjective(colorObjective) .. description
+    -- Counts provide intermediate progress colors, but must not turn an unfinished 1/1 action green.
+    local hasPartialProgress = counterTypes[objective.Type] and type(objective.Needed) == "number" and objective.Needed > 0
+        and type(objective.Collected) == "number" and objective.Collected < objective.Needed
+    local colorObjective = not objective.Completed and hasPartialProgress and objective
+        or {Collected = objective.Completed and 1 or 0, Needed = 1}
+    return QuestieLib:GetRGBForObjective(colorObjective) .. objective.Description
 end

@@ -46,7 +46,7 @@ describe("TrackerLinePool", function()
 
             TrackerLinePool.UpdateQuestLines(91741, {Objectives = {objective}})
 
-            assert.spy(line.label.SetText).was.called_with(line.label, "|cFFEEEEEERead the book")
+            assert.spy(line.label.SetText).was.called_with(line.label, "|cFFEEEEEERead the book.")
         end)
 
         it("clears a removed objective's text until the next layout", function()
