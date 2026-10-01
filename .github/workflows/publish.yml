@@ -3,14 +3,14 @@ name: Build and publish bundle
 on:
   workflow_dispatch:
     inputs:
-      release:
-        description: (--release) Publish a normal release instead of a prerelease
-        type: boolean
-        default: false
       version:
         description: Enter new version without the v prefix (for example "12.0.1") to bump the Questie version (optional)
         type: string
         default: ""
+      release:
+        description: (--release) Publish a normal release instead of a prerelease
+        type: boolean
+        default: false
       dry_run:
         description: (--dry-run) Preview release notes and metadata without publishing
         type: boolean
