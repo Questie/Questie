@@ -131,12 +131,14 @@ describe("TrackerData", function()
 
     it("keeps objectives after omitted cache rows in native order with their original enrichment", function()
         local original = {Id = 10, Index = 3, Type = "monster", spawnList = {}}
+        local otherOriginal = {Id = 20, Index = 1, Type = "monster", spawnList = {}}
         cached[91741] = {objectives = {
             [3] = {text = "Wolf", type = "monster", numFulfilled = 2, numRequired = 5},
             [5] = {text = "Read the book.", type = "log", finished = false},
         }}
         QuestiePlayer.currentQuestlog[91741] = {
-            Objectives = {[3] = original}, ObjectiveData = {[3] = {Id = 10, Type = "monster"}},
+            Objectives = {[1] = otherOriginal, [3] = original},
+            ObjectiveData = {[1] = {Id = 20, Type = "monster"}, [3] = {Id = 10, Type = "monster"}},
         }
 
         local displayQuest = TrackerData.RefreshQuest(91741)
@@ -252,7 +254,7 @@ describe("TrackerData", function()
         assert.is_false(displayQuest.isComplete)
     end)
 
-    it("retains verified objective enrichment without mutating its original map object", function()
+    it("retains indexed objective enrichment without mutating its original map object", function()
         local original = {Id = 10, Type = "monster", Description = "Wolf", spawnList = {{name = "Wolf"}}}
         QuestiePlayer.currentQuestlog[91741] = {
             Objectives = {original}, ObjectiveData = {{Id = 10, Type = "monster"}}, SpecialObjectives = {},
@@ -278,18 +280,21 @@ describe("TrackerData", function()
         assert.spy(DistanceUtils.GetNearestObjective).was.called_with(original.spawnList)
     end)
 
-    it("does not attach an old same-type database objective to new live wording", function()
+    it("keeps native wording and progress when the indexed database objective has different wording", function()
+        local original = {Id = 10, Type = "monster", Description = "Database wording"}
+        local metadata = {Id = 10, Type = "monster", Text = "Database wording"}
+        local specialObjectives = {{Id = 99}}
         QuestiePlayer.currentQuestlog[91741] = {
-            Objectives = {{Id = 10, Type = "monster"}}, ObjectiveData = {{Id = 10, Type = "monster"}},
-            SpecialObjectives = {{Id = 99}},
+            Objectives = {original}, ObjectiveData = {metadata}, SpecialObjectives = specialObjectives,
         }
         cached[91741] = {objectives = {{text = "Boar", type = "monster", numFulfilled = 1, numRequired = 4}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.is_nil(displayQuest.Objectives[1].enrichment)
-        assert.is_nil(displayQuest.Objectives[1].Id)
-        assert.are.same({}, displayQuest.SpecialObjectives)
+        assert.are.equal(original, displayQuest.Objectives[1].enrichment)
+        assert.are.equal(10, displayQuest.Objectives[1].Id)
+        assert.are.equal(metadata, displayQuest.ObjectiveData[1])
+        assert.are.equal(specialObjectives, displayQuest.SpecialObjectives)
         assert.are.equal("|cFFEEEEEEBoar: 1/4", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
     end)
 
@@ -332,10 +337,10 @@ describe("TrackerData", function()
         assert.are.equal("|cFFEEEEEEFollow the apparition", TrackerData.GetObjectiveText(objective))
     end)
 
-    it("does not let stale additional completion hide a changed live objective", function()
+    it("does not let additional completion hide a live objective whose database metadata is missing", function()
         QuestiePlayer.currentQuestlog[91741] = {
             isComplete = true, Objectives = {{Id = 10, Type = "monster"}},
-            ObjectiveData = {{Id = 10, Type = "monster"}},
+            ObjectiveData = {},
         }
         cached[91741] = {objectives = {{text = "Boar", type = "monster", numFulfilled = 0, numRequired = 4, finished = false}}}
 
@@ -346,7 +351,7 @@ describe("TrackerData", function()
         assert.is_false(displayQuest.Objectives[1].Completed)
     end)
 
-    it("keeps additional completion for objectives with verified enrichment", function()
+    it("keeps additional completion for objectives with indexed enrichment", function()
         QuestiePlayer.currentQuestlog[91741] = {
             isComplete = true, Objectives = {{Id = 10, Type = "monster"}},
             ObjectiveData = {{Id = 10, Type = "monster"}},
