@@ -1380,6 +1380,85 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("French monster progress suffixes", function()
+        local originalMonsterTemplate, originalOptionalTemplate
+
+        before_each(function()
+            originalMonsterTemplate = _G.QUEST_MONSTERS_KILLED
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+            -- https://www.townlong-yak.com/framexml/live/Helix/GlobalStrings.lua/FR
+            -- Exact format, including the non-breaking space before the colon.
+            _G.QUEST_MONSTERS_KILLED = "%1$s\194\160: %2$d/%3$d |4personnage tué:personnages tués;"
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (optionnel)"
+        end)
+
+        after_each(function()
+            _G.QUEST_MONSTERS_KILLED = originalMonsterTemplate
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        it("supports the Classic and Era French format with and without an optional label", function()
+            _G.QUEST_MONSTERS_KILLED = "%s tué\194\160: %d/%d"
+            local text = "Vide-gousset défias tué\194\160: 2/5"
+            local optionalText = "Vide-gousset défias tué\194\160: 2/5 (optionnel)"
+
+            assert.are.equal("Vide-gousset défias tué\194\160: 3/5", QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.are.equal("Vide-gousset défias tué\194\160", QuestieLib.GetFullObjectiveText(text))
+            assert.are.equal("Vide-gousset défias tué\194\160: 3/5 (optionnel)",
+                QuestieLib.ReplaceObjectiveTextProgress(optionalText, 3, 5))
+            assert.are.equal("Vide-gousset défias tué\194\160 (optionnel)", QuestieLib.GetFullObjectiveText(optionalText))
+        end)
+
+        it("preserves plural wording and optional labels while replacing or removing progress", function()
+            local text = "Vide-gousset défias\194\160: 2/5 personnages tués (optionnel)"
+
+            assert.are.equal("Vide-gousset défias\194\160: 3/5 personnages tués (optionnel)",
+                QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.are.equal("Vide-gousset défias\194\160 personnages tués (optionnel)", QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("recognizes the singular expansion without an optional label", function()
+            local text = "Vide-gousset défias\194\160: 0/1 personnage tué"
+
+            assert.are.equal("Vide-gousset défias\194\160: 1/1 personnage tué", QuestieLib.ReplaceObjectiveTextProgress(text, 1, 1))
+            assert.are.equal("Vide-gousset défias\194\160 personnage tué", QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("preserves unexpanded plural markup for the client to render", function()
+            local text = "Vide-gousset défias\194\160: 2/5 |4personnage tué:personnages tués; (optionnel)"
+
+            assert.are.equal("Vide-gousset défias\194\160: 3/5 |4personnage tué:personnages tués; (optionnel)",
+                QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.are.equal("Vide-gousset défias\194\160 |4personnage tué:personnages tués; (optionnel)",
+                QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("only recognizes suffixes declared by the client format", function()
+            local text = "Vide-gousset défias\194\160: 2/5 créatures vaincues (optionnel)"
+
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.is_nil(QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("does not turn an instruction fraction into progress when the suffix matches", function()
+            local text = "Utiliser 1/2 de la potion personnages tués (optionnel)"
+
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.is_nil(QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("does not strip the whole description when a leading-counter row overlaps the suffix", function()
+            assert.are.equal("3/5 personnages tués", QuestieLib.ReplaceObjectiveTextProgress("2/5 personnages tués", 3, 5))
+            assert.are.equal("personnages tués", QuestieLib.GetFullObjectiveText("2/5 personnages tués"))
+        end)
+
+        it("does not change ordinary French item counters", function()
+            assert.are.equal("Étoffe de laine\194\160: 3/5",
+                QuestieLib.ReplaceObjectiveTextProgress("Étoffe de laine\194\160: 2/5", 3, 5))
+            assert.are.equal("Étoffe de laine\194\160", QuestieLib.GetFullObjectiveText("Étoffe de laine\194\160: 2/5"))
+        end)
+    end)
+
     describe("localized NPC objective text", function()
         local originalOptionalTemplate
 
