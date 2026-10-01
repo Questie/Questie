@@ -478,6 +478,112 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("IsObjectiveOptional", function()
+        local originalOptionalDescription
+
+        before_each(function()
+            originalOptionalDescription = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
+        end)
+
+        after_each(function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalDescription
+        end)
+
+        -- Templates: https://www.townlong-yak.com/framexml/live/Helix/GlobalStrings.lua/EN
+        -- Other locale endpoints: CN, BR, DE, ES, FR, IT, KR, MX, RU, TW.
+        -- Counted fixtures use their QUEST_MONSTERS_KILLED formats and the sourced NPC names
+        -- documented in docs/tracker-objective-text.md. These are constructed strings, not live captures.
+        -- French uses a non-breaking space (\194\160) and the expanded plural form of |4...;.
+        local localizedCases = {
+            {locale = "enUS", template = "%s (Optional)",
+                counted = "2/5 Mangy Wolf slain (Optional)", uncounted = "Mangy Wolf slain (Optional)",
+                unlabelled = "2/5 Mangy Wolf slain", misplaced = "(Optional) Mangy Wolf slain"},
+            {locale = "zhCN", template = "%s（可选）",
+                counted = "2/5 消灭长鼻野猪（可选）", uncounted = "消灭长鼻野猪（可选）",
+                unlabelled = "2/5 消灭长鼻野猪", misplaced = "（可选）消灭长鼻野猪"},
+            {locale = "ptBR", template = "%s (Opcional)",
+                counted = "2/5 Fuçalonga (Opcional)", uncounted = "Fuçalonga (Opcional)",
+                unlabelled = "2/5 Fuçalonga", misplaced = "(Opcional) Fuçalonga"},
+            {locale = "deDE", template = "(Optional) %s",
+                counted = "(Optional) Räudiger Wolf getötet: 2/5", uncounted = "(Optional) Räudiger Wolf getötet",
+                unlabelled = "Räudiger Wolf getötet: 2/5", misplaced = "Räudiger Wolf getötet (Optional)"},
+            {locale = "esES", template = "(Opcional) %s",
+                counted = "(Opcional) Jabalí colmillopétreo: 2/5", uncounted = "(Opcional) Jabalí colmillopétreo",
+                unlabelled = "Jabalí colmillopétreo: 2/5", misplaced = "Jabalí colmillopétreo (Opcional)"},
+            {locale = "frFR", template = "%s (optionnel)",
+                counted = "Vide-gousset défias\194\160: 2/5 personnages tués (optionnel)",
+                uncounted = "Vide-gousset défias personnages tués (optionnel)",
+                unlabelled = "Vide-gousset défias\194\160: 2/5 personnages tués", misplaced = "(optionnel) Vide-gousset défias"},
+            {locale = "itIT", template = "%s (Facoltativo)",
+                counted = "2/5 Boccalarga (Facoltativo)", uncounted = "Boccalarga (Facoltativo)",
+                unlabelled = "2/5 Boccalarga", misplaced = "(Facoltativo) Boccalarga"},
+            {locale = "koKR", template = "%s (선택)",
+                counted = "2/5 데피아즈단 소매치기 처치 (선택)", uncounted = "데피아즈단 소매치기 처치 (선택)",
+                unlabelled = "2/5 데피아즈단 소매치기 처치", misplaced = "(선택) 데피아즈단 소매치기 처치"},
+            {locale = "esMX", template = "%s (Opcional)",
+                counted = "2/5 Jabalí Colmipétreo (Opcional)", uncounted = "Jabalí Colmipétreo (Opcional)",
+                unlabelled = "2/5 Jabalí Colmipétreo", misplaced = "(Opcional) Jabalí Colmipétreo"},
+            {locale = "ruRU", template = "%s (необязательно)",
+                counted = "Вепрь-камнеклык – убито: 2/5 (необязательно)", uncounted = "Вепрь-камнеклык – убито (необязательно)",
+                unlabelled = "Вепрь-камнеклык – убито: 2/5", misplaced = "(необязательно) Вепрь-камнеклык – убито"},
+            {locale = "zhTW", template = "%s（非必要）",
+                counted = "2/5 殺死長鼻野豬（非必要）", uncounted = "殺死長鼻野豬（非必要）",
+                unlabelled = "2/5 殺死長鼻野豬", misplaced = "（非必要）殺死長鼻野豬"},
+        }
+        for _, case in ipairs(localizedCases) do
+            it("recognizes the " .. case.locale .. " GlobalStrings label only in its native position", function()
+                _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = case.template
+
+                assert.is_true(QuestieLib.IsObjectiveOptional(case.counted))
+                assert.is_true(QuestieLib.IsObjectiveOptional(case.uncounted))
+                assert.is_false(QuestieLib.IsObjectiveOptional(case.unlabelled))
+                assert.is_false(QuestieLib.IsObjectiveOptional(case.misplaced))
+            end)
+        end
+
+        it("recognizes the optional label with or without progress counts", function()
+            assert.is_true(QuestieLib.IsObjectiveOptional("0/1 Listen to Alvarion Windfield's Story (Optional)"))
+            assert.is_true(QuestieLib.IsObjectiveOptional("Listen to Alvarion Windfield's Story (Optional)"))
+        end)
+
+        it("rejects unlabelled text and a label that does not end the objective", function()
+            assert.is_false(QuestieLib.IsObjectiveOptional("0/1 Listen to Alvarion Windfield's Story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen to the Optional Story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen (Optional) to the story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional(""))
+        end)
+
+        it("matches localized prefix labels only at the start", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "(Optional) %s"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("(Optional) Listen to the story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen (Optional) to the story"))
+        end)
+
+        it("preserves UTF-8 text and full-width punctuation", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s（可选）"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("聆听故事（可选）"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("聆听故事(可选)"))
+        end)
+
+        it("treats Lua pattern characters in the label literally", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s [Optional].()+-*?^$%"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("Listen [Optional].()+-*?^$%"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen [Optional]X()+-*?^$%"))
+        end)
+
+        it("replaces every string placeholder with an arbitrary-text match", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional) %s"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("Listen (Optional) to the story"))
+            assert.is_true(QuestieLib.IsObjectiveOptional(" (Optional) "))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen to the story"))
+        end)
+    end)
+
     describe("client objective wording", function()
         local originalHaveQuestData, originalGetQuestObjectives, originalItemsNeeded, originalMonstersKilled
         local objectives
