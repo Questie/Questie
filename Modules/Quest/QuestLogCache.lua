@@ -15,7 +15,6 @@ local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
-local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 -- 3 * (Max possible number of quests in game quest log)
@@ -118,19 +117,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         local oldObj = oldObjectives[objIndex]
         local newObj = objectives[objIndex]
 
-        -- Missing names are a single space. Classic leaves a leading space, Forever items a trailing
-        -- space, and Forever monsters keep a loaded "slain" suffix. Validate the parsed name as well.
-        local textLoaded = newObj.text and stringByte(newObj.text, 1) ~= 32 and stringByte(newObj.text, -1) ~= 32
-        local trimmedText
-        if textLoaded and newObj.text ~= "" then
-            if oldObj and oldObj.raw_text == newObj.text and oldObj.type == newObj.type then
-                trimmedText = oldObj.text
-            else
-                trimmedText = QuestieLib.TrimObjectiveText(newObj.text, newObj.type)
-            end
-            textLoaded = trimmedText ~= ""
-        end
-        if textLoaded then
+        if QuestieLib.IsObjectiveDataLoaded(newObj) then
             if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
                 -- Check if objective has changed
                 if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
@@ -173,7 +160,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
                         numRequired = newObj.numRequired,
-                        text = trimmedText,
+                        text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
