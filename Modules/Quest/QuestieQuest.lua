@@ -1384,8 +1384,10 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
 
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {} -- DO NOT MODIFY THE RETURNED TABLE
 
+    -- Keep mapped native rows, including "log", at their original indices.
+    -- Completion checks and linked special objectives depend on these rows being present.
     for objectiveIndex, objective in pairs(questObjectives) do
-        if objective.type and string.len(objective.type) > 1 and objective.type ~= "log" then
+        if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
                 Questie.Warning(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
             else

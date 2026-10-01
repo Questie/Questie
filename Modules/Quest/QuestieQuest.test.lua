@@ -186,6 +186,8 @@ describe("QuestieQuest", function()
         local originalGetLeaderBoardDetails
         local originalTrimObjectiveText
         local originalWarning
+        local originalRemoveQuest, originalAddFinisher
+        local QuestFinisher
 
         before_each(function()
             originalWarning = Questie.Warning
@@ -194,7 +196,12 @@ describe("QuestieQuest", function()
             originalGetLeaderBoardDetails = QuestieQuest.GetAllLeaderBoardDetails
             originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
             dofile("Modules/Libs/QuestieLib.lua")
-            QuestLogCache.GetQuest = function() return {} end
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            originalRemoveQuest = AvailableQuests.RemoveQuest
+            QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
+            originalAddFinisher = QuestFinisher.AddFinisher
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
+            QuestFinisher.AddFinisher = spy.new(function() end)
             QuestieQuest.GetAllLeaderBoardDetails = function()
                 return {{type = "monster", text = "Wolf", raw_text = "Wolf slain: 0/1", numFulfilled = 0, numRequired = 1}}
             end
@@ -205,6 +212,63 @@ describe("QuestieQuest", function()
             QuestieQuest.GetAllLeaderBoardDetails = originalGetLeaderBoardDetails
             Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
             Questie.Warning = originalWarning
+            AvailableQuests.RemoveQuest = originalRemoveQuest
+            QuestFinisher.AddFinisher = originalAddFinisher
+        end)
+
+        it("keeps an unfinished log objective instead of treating the quest as empty and adding its finisher", function()
+            local native = {type = "log", text = "Read the note.", raw_text = "Read the note.",
+                numFulfilled = 1, numRequired = 1, finished = false}
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {native} end
+            local quest = {
+                Id = 42, ObjectiveData = {{Id = 100, Type = "event"}}, Objectives = {}, SpecialObjectives = {},
+                Finisher = {NPC = {123}},
+            }
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+            assert.spy(QuestFinisher.AddFinisher).was.not_called()
+            assert.are.equal("log", quest.Objectives[1].Type)
+            assert.are.equal("Read the note.", quest.Objectives[1].Description)
+            assert.is_false(quest.Objectives[1].Completed)
+            assert.are.equal(0, quest.Objectives[1].Collected)
+            assert.are.equal(1, native.numFulfilled)
+        end)
+
+        it("preserves native indices and special-objective completion links when a log row precedes a monster row", function()
+            local native = {
+                {type = "log", text = "Read the note.", raw_text = "Read the note.",
+                    numFulfilled = 1, numRequired = 1, finished = false},
+                {type = "monster", text = "Wolf", raw_text = "Wolf slain: 2/5",
+                    numFulfilled = 2, numRequired = 5, finished = false},
+            }
+            QuestieQuest.GetAllLeaderBoardDetails = function() return native end
+            local special = {RealObjectiveIndex = 1}
+            local quest = {
+                Id = 42, ObjectiveData = {{Id = 100, Type = "event"}, {Id = 101, Type = "monster"}},
+                Objectives = {}, SpecialObjectives = {special},
+            }
+            QuestieDB.GetQuest = function() return quest end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.are.equal(1, quest.Objectives[1].Index)
+            assert.are.equal(100, quest.Objectives[1].Id)
+            assert.are.equal(2, quest.Objectives[2].Index)
+            assert.are.equal(101, quest.Objectives[2].Id)
+            assert.are.equal(2, quest.Objectives[2].Collected)
+            assert.is_false(special.Completed)
+
+            native[1].finished = true
+            QuestieQuest:SetObjectivesDirty(42)
+            quest.Objectives[1]:Update()
+            special:Update()
+
+            assert.is_true(quest.Objectives[1].Completed)
+            assert.is_true(special.Completed)
+            assert.is_false(quest.Objectives[2].Completed)
         end)
 
         it("should warn with the quest ID and text when objective data is missing", function()
