@@ -33,6 +33,8 @@ jobs:
   bump:
     uses: ./.github/workflows/versionbump.yml
     secrets: inherit
+    needs: tests
+    if: ${{ inputs.version != '' }}
     with:
       version: ${{ inputs.version }}
       dry_run: ${{ inputs.dry_run }}
@@ -40,7 +42,13 @@ jobs:
     name: Build bundle
     runs-on: ubuntu-latest
     needs: [ tests, bump ]
+    # A skipped bump is expected only when no version was requested.
+    if: >-
+      ${{ !cancelled() && needs.tests.result == 'success' &&
+          (needs.bump.result == 'success' ||
+           (inputs.version == '' && needs.bump.result == 'skipped')) }}
     outputs:
+      commit_sha: ${{ steps.metadata.outputs.commit_sha }}
       release_tag: ${{ steps.metadata.outputs.release_tag }}
       release_dir: ${{ steps.metadata.outputs.release_dir }}
       bundled_zip: ${{ steps.metadata.outputs.bundled_zip }}
@@ -54,10 +62,15 @@ jobs:
       - name: Clone project
         uses: actions/checkout@v7.0.1
         with:
-          fetch-depth: 100
+          ref: ${{ needs.bump.outputs.commit_sha || github.sha }}
+          fetch-depth: 0
 
-      - name: Fetch tags
-        run: git fetch --prune --unshallow --tags
+      # Dry-run edits from the bump job do not survive into this checkout.
+      - name: Preview requested version
+        if: ${{ inputs.dry_run && inputs.version != '' }}
+        env:
+          VERSION: ${{ inputs.version }}
+        run: python3 versionbump.py "$VERSION" --no-git
 
       - name: Build ZIP
         run: |
@@ -77,17 +90,19 @@ jobs:
         id: metadata
         run: |
           # Name the release from the packaged component versions, not the selected Git branch.
+          BUILD_SHA=$(git rev-parse HEAD)
           RELEASE_TAG=$(jq -r '"bundle/v" + .questie.version' "$RELEASE_DIR/release.json")
           BUNDLED_ZIP=$(jq -r '.releases[0].filename' "$RELEASE_DIR/release.json")
 
           # Mark Questie prereleases before appending the independent database version.
           if [[ "$PRERELEASE" == "true" ]]; then
-            RELEASE_TAG+="-pre.${GITHUB_SHA:0:7}"
+            RELEASE_TAG+="-pre.${BUILD_SHA:0:7}"
           fi
           RELEASE_TAG+="+v$(jq -r '.questiedb.version' "$RELEASE_DIR/release.json")"
 
           echo "RELEASE_TAG=$RELEASE_TAG" >> "$GITHUB_ENV"
           echo "BUNDLED_ZIP=$BUNDLED_ZIP" >> "$GITHUB_ENV"
+          echo "commit_sha=$BUILD_SHA" >> "$GITHUB_OUTPUT"
           echo "release_tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
           echo "release_dir=$RELEASE_DIR" >> "$GITHUB_OUTPUT"
           echo "bundled_zip=$BUNDLED_ZIP" >> "$GITHUB_OUTPUT"
@@ -129,12 +144,13 @@ jobs:
     name: "GitHub: ${{ needs.build.outputs.release_tag }}"
     runs-on: ubuntu-latest
     needs: build
-    if: ${{ !inputs.dry_run }}
+    if: ${{ !cancelled() && needs.build.result == 'success' && !inputs.dry_run }}
     permissions:
       contents: write
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
+      BUILD_SHA: ${{ needs.build.outputs.commit_sha }}
       RELEASE_TAG: ${{ needs.build.outputs.release_tag }}
       RELEASE_DIR: ${{ needs.build.outputs.release_dir }}
       BUNDLED_ZIP: ${{ needs.build.outputs.bundled_zip }}
@@ -151,7 +167,7 @@ jobs:
           if [[ "$PRERELEASE" == "true" ]]; then
             gh release create "$RELEASE_TAG" \
               --title "${RELEASE_TAG#bundle/}" \
-              --target "$GITHUB_SHA" \
+              --target "$BUILD_SHA" \
               --prerelease \
               -F CHANGELOG.md \
               "$RELEASE_DIR/$BUNDLED_ZIP" \
@@ -159,7 +175,7 @@ jobs:
           else
             gh release create "$RELEASE_TAG" \
               --title "${RELEASE_TAG#bundle/}" \
-              --target "$GITHUB_SHA" \
+              --target "$BUILD_SHA" \
               -F CHANGELOG.md \
               "$RELEASE_DIR/$BUNDLED_ZIP" \
               "$RELEASE_DIR/release.json"
@@ -175,7 +191,9 @@ jobs:
   curseforge:
     name: "CurseForge: ${{ needs.build.outputs.release_tag }}"
     needs: [ build, github ]
-    if: ${{ inputs.publish_curseforge && !inputs.dry_run }}
+    if: >-
+      ${{ !cancelled() && needs.build.result == 'success' && needs.github.result == 'success' &&
+          inputs.publish_curseforge && !inputs.dry_run }}
     permissions:
       contents: write
     uses: ./.github/workflows/publish-curseforge.yml
@@ -187,7 +205,9 @@ jobs:
   wago:
     name: "Wago: ${{ needs.build.outputs.release_tag }}"
     needs: [ build, github ]
-    if: ${{ inputs.publish_wago && !inputs.dry_run }}
+    if: >-
+      ${{ !cancelled() && needs.build.result == 'success' && needs.github.result == 'success' &&
+          inputs.publish_wago && !inputs.dry_run }}
     permissions:
       contents: write
     uses: ./.github/workflows/publish-wago.yml
