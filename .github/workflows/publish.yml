@@ -3,10 +3,11 @@ name: Build and publish bundle
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: Enter new version without the v prefix (for example "12.0.1") to bump the Questie version (optional)
-        type: string
-        default: ''
+      # Disabled until publishing checks out the bumped commit and handles an omitted version.
+      # version:
+      #   description: Enter new version without the v prefix (for example "12.0.1") to bump the Questie version (optional)
+      #   type: string
+      #   default: ''
       release:
         description: (--release) Publish a normal release instead of a prerelease
         type: boolean
@@ -30,17 +31,18 @@ jobs:
     with:
       event_name: ${{ github.event_name }}
       repo_full_name: ${{ github.repository }}
-  bump:
-    uses: ./.github/workflows/versionbump.yml
-    needs: tests
-    secrets: inherit
-    with:
-      version: ${{ inputs.version }}
-      dry_run: ${{ inputs.dry_run }}
+  # bump:
+  #   uses: ./.github/workflows/versionbump.yml
+  #   needs: tests
+  #   secrets: inherit
+  #   with:
+  #     version: ${{ inputs.version }}
+  #     dry_run: ${{ inputs.dry_run }}
   build:
     name: Build bundle
     runs-on: ubuntu-latest
-    needs: [ tests, bump ]
+    # needs: [ tests, bump ]
+    needs: tests
     outputs:
       release_tag: ${{ steps.metadata.outputs.release_tag }}
       release_dir: ${{ steps.metadata.outputs.release_dir }}
