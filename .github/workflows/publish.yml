@@ -32,6 +32,7 @@ jobs:
       repo_full_name: ${{ github.repository }}
   bump:
     uses: ./.github/workflows/versionbump.yml
+    needs: tests
     secrets: inherit
     with:
       version: ${{ inputs.version }}
