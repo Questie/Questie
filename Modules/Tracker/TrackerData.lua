@@ -99,6 +99,22 @@ function TrackerData.ContainsQuest(questId)
     return index ~= nil and index > 0
 end
 
+---Collapsed logs can list all headers before their quests, so the preceding header may be unrelated.
+---Use the client's explicit association when available; callers retain sequential fallback for other clients.
+---@param questLogIndex number
+---@return string?
+local function _GetQuestHeader(questLogIndex)
+    if GetQuestSortIndex then
+        local headerIndex = GetQuestSortIndex(questLogIndex)
+        if headerIndex and headerIndex > 0 then
+            local title, _, _, isHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+            if isHeader then
+                return title
+            end
+        end
+    end
+end
+
 ---Refresh once before a full layout; ordinary layout reads use GetQuests without rescanning objectives.
 ---@return table<QuestId, TrackerQuest>
 function TrackerData.Refresh()
@@ -116,7 +132,7 @@ function TrackerData.Refresh()
             header = title
         elseif questId and questId > 0 then
             present[questId] = true
-            _RefreshQuest(questId, title, level, header, complete)
+            _RefreshQuest(questId, title, level, _GetQuestHeader(index) or header, complete)
         end
         index = index + 1
     end
@@ -156,12 +172,14 @@ function TrackerData.RefreshQuest(questId)
     if not title or isHeader or currentId ~= questId then
         return nil
     end
-    local header
-    for headerIndex = index - 1, 1, -1 do
-        local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
-        if entryIsHeader then
-            header = headerTitle
-            break
+    local header = _GetQuestHeader(index)
+    if not header then
+        for headerIndex = index - 1, 1, -1 do
+            local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+            if entryIsHeader then
+                header = headerTitle
+                break
+            end
         end
     end
     return _RefreshQuest(questId, title, level, header, complete)
