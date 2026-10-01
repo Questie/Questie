@@ -7,12 +7,8 @@ on:
         description: (--release) Publish a normal release instead of a prerelease
         type: boolean
         default: false
-      versionbump:
-        description: Bump the Questie version number
-        type: boolean
-        default: false
       version:
-        description: Version without the v prefix (for example 12.0.1)
+        description: Enter new version without the v prefix (for example "12.0.1") to bump the Questie version (optional)
         type: string
         default: ""
       dry_run:
@@ -58,7 +54,7 @@ jobs:
         run: git fetch --prune --unshallow --tags
 
       - name: Version Bump
-        if: ${{ inputs.versionbump && !inputs.dry_run && inputs.version != ""}}
+        if: ${{ !inputs.dry_run && inputs.version != ""}}
         uses: ./.github/workflows/versionbump.yml
         with:
           version: ${{ inputs.version }}
