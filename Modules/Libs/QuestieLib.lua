@@ -393,6 +393,23 @@ function QuestieLib:GetClassString(classMask)
     end
 end
 
+-- An optional label wraps the whole native instruction. Separate only Blizzard's localized
+-- template, so validation can see missing names and formatting can recognize trailing counters.
+-- Literal prefix/suffix comparisons preserve UTF-8 and pattern characters without guessing words.
+local function _SplitOptionalObjectiveText(text)
+    if OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION then
+        -- "%s (Optional)" -> prefix="", suffix=" (Optional)"; "(Optional) %s" -> the reverse.
+        local prefix, suffix = OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION:match("^(.-)%%s(.-)$")
+        if prefix and #text >= #prefix + #suffix and text:sub(1, #prefix) == prefix
+            and (#suffix == 0 or text:sub(-#suffix) == suffix) then
+            -- "Wolf slain: 2/5 (Optional)" -> "Wolf slain: 2/5", "", " (Optional)".
+            return text:sub(#prefix + 1, #text - #suffix), prefix, suffix
+        end
+    end
+    -- No matching label: "Use Walk on Air" -> "Use Walk on Air", "", "".
+    return text, "", ""
+end
+
 ---Shared readiness check for the quest cache, objective loaders, startup validation and quest-link tooltips.
 ---Never modifies the row. Callers own retries, retaining cached data and database fallbacks.
 ---@param objective QuestObjectiveInfo
@@ -406,9 +423,19 @@ function QuestieLib.IsObjectiveDataLoaded(objective)
         return true
     end
     -- HaveQuestData can be true before individual rows have text or a type. Neither is safe to consume yet.
+    if (not text) or (not objective.type) then
+        return false
+    end
+    -- Optional labels can hide a missing name: "2/5 消灭 （可选）" -> "2/5 消灭 ", or
+    -- "(Opcional)  : 2/5" -> " : 2/5". Validate that inner text without changing objective.text.
+    -- Only an originally empty row is skippable; a label around an empty instruction is still pending.
+    text = _SplitOptionalObjectiveText(text)
+    if text == "" then
+        return false
+    end
     -- Missing names leave a leading ASCII space in Classic (" : 0/1") or trailing spaces in Forever ("0/1  ").
-    -- Check the original text: trimming whitespace first would erase this evidence of an incomplete client cache.
-    if (not text) or (not objective.type) or string.byte(text, 1) == 32 or string.byte(text, -1) == 32 then
+    -- Do not trim whitespace: it is evidence of an incomplete client cache, even inside an optional wrapper.
+    if string.byte(text, 1) == 32 or string.byte(text, -1) == 32 then
         return false
     end
     -- Counters and a suffix can load before the name, leaving text such as "0/15   slain" with no edge spaces.
@@ -865,23 +892,6 @@ function QuestieLib.FormatDate(timeStamp)
     end
 
     return date(weekDay .. ", " .. monthName .. " %d, %Y at %H:%M", timeStamp)
-end
-
--- An optional label wraps the whole native instruction. Separate only Blizzard's localized
--- template, so a Classic counter before that label still counts as trailing progress. Literal
--- prefix/suffix comparisons preserve UTF-8 and pattern characters without guessing label words.
-local function _SplitOptionalObjectiveText(text)
-    if OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION then
-        -- "%s (Optional)" -> prefix="", suffix=" (Optional)"; "(Optional) %s" -> the reverse.
-        local prefix, suffix = OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION:match("^(.-)%%s(.-)$")
-        if prefix and #text >= #prefix + #suffix and text:sub(1, #prefix) == prefix
-            and (#suffix == 0 or text:sub(-#suffix) == suffix) then
-            -- "Wolf slain: 2/5 (Optional)" -> "Wolf slain: 2/5", "", " (Optional)".
-            return text:sub(#prefix + 1, #text - #suffix), prefix, suffix
-        end
-    end
-    -- No matching label: "Use Walk on Air" -> "Use Walk on Air", "", "".
-    return text, "", ""
 end
 
 -- Forever's French format puts a localized phrase after progress: "%1$s : %2$d/%3$d |4personnage tué:personnages tués;".
