@@ -421,22 +421,27 @@ describe("QuestieLib", function()
     end)
 
     describe("IsObjectiveDataLoaded", function()
-        local originalMonstersKilled
+        local originalMonstersKilled, originalOptionalTemplate
 
         before_each(function()
             originalMonstersKilled = _G.QUEST_MONSTERS_KILLED
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s（可选）"
             _G.QUEST_MONSTERS_KILLED = "%2$d/%3$d %1$s slain"
             dofile("Modules/Libs/QuestieLib.lua")
         end)
 
         after_each(function()
             _G.QUEST_MONSTERS_KILLED = originalMonstersKilled
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
         end)
 
         local cases = {
             {name = "missing text", type = "monster", loaded = false},
             {name = "missing type", text = "Read the book.", loaded = false},
             {name = "empty placeholder without a type", text = "", loaded = true},
+            {name = "optional label without an instruction", text = "（可选）", type = "event", loaded = false},
+            {name = "loaded optional instruction", text = "Read the book.（可选）", type = "event", loaded = true},
             {name = "leading-space placeholder", text = " : 0/1", type = "item", loaded = false},
             {name = "trailing-space placeholder", text = "0/1  ", type = "item", loaded = false},
             {name = "empty parsed name without triple spaces", text = "0/6 \t slain", type = "monster", loaded = false},
