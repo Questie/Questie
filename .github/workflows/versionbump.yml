@@ -37,7 +37,7 @@ defaults:
 jobs:
   bump:
     name: Update TOCs, commit and tag
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' }} && github.event.inputs.version != ''
     runs-on: ubuntu-latest
     environment: version-bump
     env:

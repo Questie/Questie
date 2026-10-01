@@ -33,21 +33,13 @@ jobs:
   bump:
     uses: ./.github/workflows/versionbump.yml
     secrets: inherit
-    if: github.event.inputs.version != ''
     with:
       version: ${{ inputs.version }}
       dry_run: ${{ inputs.dry_run }}
-  postbump:
-    name: Hack so build job can need bump job even when disabled
-    runs-on: ubuntu-latest
-    needs: bump
-    if: ${{ always() }}
-    steps:
-      - run: echo 0
   build:
     name: Build bundle
     runs-on: ubuntu-latest
-    needs: [ tests, postbump ]
+    needs: [ tests, bump ]
     outputs:
       release_tag: ${{ steps.metadata.outputs.release_tag }}
       release_dir: ${{ steps.metadata.outputs.release_dir }}
