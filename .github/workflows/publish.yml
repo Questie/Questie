@@ -7,6 +7,10 @@ on:
         description: (--release) Publish a normal release instead of a prerelease
         type: boolean
         default: false
+      versionbump:
+        description: Bump the Questie version number
+        type: boolean
+        default: false
       dry_run:
         description: (--dry-run) Preview release notes and metadata without publishing
         type: boolean
@@ -48,6 +52,10 @@ jobs:
 
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
+
+      - name: Version Bump
+        if: ${{ inputs.versionbump }}
+        uses: './.github/workflows/versionbump.yml'
 
       - name: Build ZIP
         run: |

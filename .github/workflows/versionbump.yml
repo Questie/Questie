@@ -8,6 +8,12 @@ on:
         description: Version without the v prefix (for example 12.0.1)
         type: string
         required: true
+  workflow_call:
+    inputs:
+      version:
+        description: Version without the v prefix (for example 12.0.1)
+        type: string
+        required: true
 
 permissions:
   contents: read
