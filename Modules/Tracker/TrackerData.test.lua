@@ -56,6 +56,32 @@ describe("TrackerData", function()
         compat.GetQuestLogIndexByID = originalGetIndex
     end)
 
+    it("enumerates quest titles beyond Titan's underreported entry count", function()
+        -- Reproduce the reported counts (4 entries, 6 quests) without assuming the title API shares that limit.
+        entries = {
+            {title = "Header A", isHeader = true},
+            {title = "Header B", isHeader = true},
+            {title = "Header C", isHeader = true},
+            {title = "Header D", isHeader = true},
+            {title = "First quest", id = 101, level = 2},
+            {title = "Second quest", id = 102, level = 2},
+            {title = "Third quest", id = 103, level = 2},
+            {title = "Fourth quest", id = 104, level = 2},
+            {title = "Fifth quest", id = 105, level = 2},
+            {title = "Sixth quest", id = 106, level = 2},
+        }
+        compat.GetNumQuestLogEntries = function() return 4, 6 end
+
+        local snapshot = TrackerData.Refresh()
+
+        assert.are.equal(6, QuestieLib:Count(snapshot))
+        assert.are.equal("First quest", snapshot[101].name)
+        assert.are.equal("Sixth quest", snapshot[106].name)
+        assert.are.equal("Header D", snapshot[106].zoneName)
+        assert.are.equal(snapshot[101], TrackerData.Refresh()[101])
+        assert.spy(QuestieLib.GetLoadedQuestObjectives).was.not_called()
+    end)
+
     it("builds native objective data and delegates quest completion without a temporary result", function()
         entries[2].complete = 1
         cached[91741] = {isComplete = 1, objectives = {
