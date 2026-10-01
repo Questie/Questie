@@ -7890,7 +7890,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24429] = true, -- A Most Puzzling Circumstance
 
         -- Raid weeklies not yet available on Titan Reforged
-        [96315] = true, -- XT-002 Deconstructor Must Die!
+        -- [96315] = true, -- XT-002 Deconstructor Must Die!
         [96318] = true, -- Shade of Aran Must Die!
 
         -- Black Knight
