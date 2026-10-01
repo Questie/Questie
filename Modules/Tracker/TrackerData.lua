@@ -104,14 +104,21 @@ end
 function TrackerData.Refresh()
     local present = {}
     local header
-    for index = 1, QuestieCompat.GetNumQuestLogEntries() do
+    local index = 1
+    -- Titan's entry count can disagree with title enumeration at login (4 entries, but 6 quests).
+    -- Follow the title API to the end, or valid quests can disappear until the quest log is opened.
+    while true do
         local title, level, _, isHeader, _, complete, _, questId = QuestieCompat.GetQuestLogTitle(index)
+        if not title then
+            break
+        end
         if isHeader then
             header = title
-        elseif title and questId and questId > 0 then
+        elseif questId and questId > 0 then
             present[questId] = true
             _RefreshQuest(questId, title, level, header, complete)
         end
+        index = index + 1
     end
     for questId in pairs(quests) do
         if not present[questId] then
