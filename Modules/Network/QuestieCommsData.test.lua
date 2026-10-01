@@ -20,7 +20,7 @@ describe("QuestieCommsData", function()
     local originalTimer
     local originalItem
     local originalGetItemInfo
-    local originalOptionalTemplate
+    local originalOptionalTemplate, originalMonsterTemplate
     local itemCallback
     local itemCancel
     local loadedItemName
@@ -78,6 +78,7 @@ describe("QuestieCommsData", function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
+        originalMonsterTemplate = _G.QUEST_MONSTERS_KILLED
         originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
         _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
         originalData = QuestieComms.data
@@ -117,6 +118,7 @@ describe("QuestieCommsData", function()
     end)
 
     after_each(function()
+        _G.QUEST_MONSTERS_KILLED = originalMonsterTemplate
         _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
         QuestieComms.data = originalData
         QuestieDB.GetItem = originalGetItem
@@ -229,6 +231,26 @@ describe("QuestieCommsData", function()
 
             assert.same({text = "Deliver the supplies", nativeText = "Deliver the supplies: 1/1",
                 fulfilled = 0, required = 1}, result[questId][playerName][1])
+        end)
+
+        it("extracts French fallback wording for ready and deferred party rows", function()
+            _G.QUEST_MONSTERS_KILLED = "%1$s\194\160: %2$d/%3$d |4personnage tué:personnages tués;"
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (optionnel)"
+            dofile("Modules/Libs/QuestieLib.lua")
+            local nativeText = "Vide-gousset défias\194\160: 2/5 personnages tués (optionnel)"
+            apiObjectives = {{text = nativeText, type = "monster"}}
+            QuestieComms.data:RegisterTooltip(questId, playerName, {{type = "m", id = 100, fulfilled = 3, required = 5}})
+            local readyResult = QuestieComms.data:GetTooltip("m_100")
+
+            apiObjectives = nil
+            local delayedResult = QuestieComms.data:GetTooltip("m_100")
+            apiObjectives = {{text = nativeText, type = "monster"}}
+            local ok, err = coroutine.resume(loadThread)
+            assert.is_true(ok, err)
+
+            assert.are.same({text = "Vide-gousset défias\194\160 personnages tués (optionnel)", nativeText = nativeText,
+                fulfilled = 3, required = 5}, readyResult[questId][playerName][1])
+            assert.are.same(readyResult, delayedResult)
         end)
 
         local formattingCases = {
