@@ -8,7 +8,7 @@ on:
         description: Version without the v prefix (for example 12.0.1)
         type: string
         required: true
-      dry-run:
+      dry_run:
         description: Do not commit/push, just log git diff
         type: boolean
         default: false
@@ -18,7 +18,7 @@ on:
         description: Version without the v prefix (for example 12.0.1)
         type: string
         required: true
-      dry-run:
+      dry_run:
         description: Do not commit/push, just log git diff
         type: boolean
         default: false
