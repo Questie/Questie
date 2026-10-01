@@ -884,6 +884,40 @@ local function _SplitOptionalObjectiveText(text)
     return text, "", ""
 end
 
+-- Forever's French format puts a localized phrase after progress: "%1$s : %2$d/%3$d |4personnage tué:personnages tués;".
+-- Derive the suffix from the client template, accepting its literal plural markup or an expanded form.
+-- Do not accept variable suffixes such as English's "%1$s slain": those contain the objective itself.
+local function _SplitMonsterProgressSuffix(text)
+    -- A leading counter already has a known layout. "2/5 personnages tués" must keep its whole
+    -- description, not become a bare "2/5" after mistaking the description for a trailing phrase.
+    if text:match("^%d+/%d+%s+.+$") then
+        return text, ""
+    end
+
+    -- "%2$d/%3$d |4personnage tué:personnages tués;" -> "%d/%d ..." -> the literal suffix after the counter.
+    local template = (QUEST_MONSTERS_KILLED or ""):gsub("%%%d+%$", "%%")
+    local suffix = template:match("%%d/%%d(.+)$")
+    if not suffix or suffix:find("%", 1, true) then
+        return text, ""
+    end
+
+    -- " |4personnage tué:personnages tués;" -> itself, " personnage tué", " personnages tués".
+    local candidates = {suffix}
+    local prefix, forms, ending = suffix:match("^(.-)|4([^;]+);(.*)$")
+    if forms then
+        for form in forms:gmatch("[^:]+") do
+            candidates[#candidates + 1] = prefix .. form .. ending
+        end
+    end
+    for _, candidate in ipairs(candidates) do
+        if #text > #candidate and text:sub(-#candidate) == candidate then
+            -- "Défias : 2/5 personnages tués" -> "Défias : 2/5", " personnages tués".
+            return text:sub(1, #text - #candidate), candidate
+        end
+    end
+    return text, ""
+end
+
 ---Replaces a recognized native progress counter without rewriting its wording or placement.
 ---Returns nil for unrecognized layouts so callers can retain their existing remote-progress fallback.
 ---@param nativeText string?
@@ -897,17 +931,19 @@ function QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required
 
     -- Try both client layouts, regardless of client version. Anchors avoid replacing fractions inside instructions.
     local text, optionalPrefix, optionalSuffix = _SplitOptionalObjectiveText(nativeText)
+    local progressSuffix
+    text, progressSuffix = _SplitMonsterProgressSuffix(text)
     local suffix = text:match("^%d+/%d+(%s+.+)$")
     if suffix then
         -- "2/5 Wolf slain" -> suffix=" Wolf slain".
         -- For an optional row with remote 3/5 -> "3/5 Wolf slain (Optional)".
-        return optionalPrefix .. fulfilled .. "/" .. required .. suffix .. optionalSuffix
+        return optionalPrefix .. fulfilled .. "/" .. required .. suffix .. progressSuffix .. optionalSuffix
     end
     local prefix = text:match("^(.+:%s*)%d+/%d+$") or text:match("^(.+：%s*)%d+/%d+$")
     if prefix then
         -- "Wolf slain: 2/5" -> prefix="Wolf slain: ".
         -- For an optional row with remote 3/5 -> "Wolf slain: 3/5 (Optional)".
-        return optionalPrefix .. prefix .. fulfilled .. "/" .. required .. optionalSuffix
+        return optionalPrefix .. prefix .. fulfilled .. "/" .. required .. progressSuffix .. optionalSuffix
     end
     -- "Use 1/2 of the potion" -> nil, not "Use 3/5 of the potion"; the caller chooses its fallback.
     return nil
@@ -916,18 +952,21 @@ end
 ---Extracts counter-free fallback wording without shortening the instruction.
 ---Native displays keep the original text; remote/fallback displays may need separate progress.
 ---@param rawObjectiveText string
----@return string? description @Nil if no leading or trailing progress counter matches
+---@return string? description @Nil if no supported progress counter matches
 function QuestieLib.GetFullObjectiveText(rawObjectiveText)
-    -- This supports three different input syntax:
+    -- Optional labels and client-declared trailing phrases are preserved around these counter layouts:
     -- Classic clients: "Wolf slain: 0/1"
     -- Chinese Classic clients: "Wolf slain： 0/1" (full-width colon)
     -- Forever clients: "0/1 Wolf slain"
     local text, optionalPrefix, optionalSuffix = _SplitOptionalObjectiveText(rawObjectiveText)
+    local progressSuffix
+    text, progressSuffix = _SplitMonsterProgressSuffix(text)
     -- "Wolf slain: 2/5" or "2/5 Wolf slain" -> "Wolf slain"; "击败霍格：2/5" -> "击败霍格".
     local description = string.match(text, "^(.*):%s*%d+/%d+$") or string.match(text, "^(.*)：%s*%d+/%d+$")
         or string.match(text, "^%d+/%d+%s*(.*)$")
     if description then
         -- "Wolf slain" + " (Optional)" -> "Wolf slain (Optional)", with no local counter to duplicate.
-        return optionalPrefix .. description .. optionalSuffix
+        -- French also retains " personnages tués" after removing the counter and its colon.
+        return optionalPrefix .. description .. progressSuffix .. optionalSuffix
     end
 end
