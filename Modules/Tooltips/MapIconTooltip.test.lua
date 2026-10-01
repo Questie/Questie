@@ -10,6 +10,7 @@ describe("MapIconTooltip objective wording", function()
             WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, IsShiftKeyDown = _G.IsShiftKeyDown,
             UnitName = _G.UnitName, UnitClassBase = _G.UnitClassBase, GetClassColor = _G.GetClassColor,
             C_CurrencyInfo = _G.C_CurrencyInfo, OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION,
+            QUEST_MONSTERS_KILLED = _G.QUEST_MONSTERS_KILLED,
         }
         now = 0
         _G.GetTime = function() return now end
@@ -75,6 +76,7 @@ describe("MapIconTooltip objective wording", function()
     end)
 
     after_each(function()
+        _G.QUEST_MONSTERS_KILLED = savedGlobals.QUEST_MONSTERS_KILLED
         _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = savedGlobals.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
         _G.C_CurrencyInfo = savedGlobals.C_CurrencyInfo
         _G.LibStub, _G.GetTime, _G.GameTooltip = savedGlobals.LibStub, savedGlobals.GetTime, savedGlobals.GameTooltip
@@ -151,6 +153,22 @@ describe("MapIconTooltip objective wording", function()
         }, RenderObjectiveLines())
         assert.are.equal("Wolf slain (Optional)", objective.Description)
         assert.are.equal("Wolf slain: 2/5 (Optional)", cached[1].objectives[3].text)
+    end)
+
+    it("replaces French party progress without duplicating the local counter or dropping the suffix", function()
+        _G.QUEST_MONSTERS_KILLED = "%1$s\194\160: %2$d/%3$d |4personnage tué:personnages tués;"
+        _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (optionnel)"
+        local nativeText = "Vide-gousset défias\194\160: 2/5 personnages tués (optionnel)"
+        cached[1] = {objectives = {[3] = {text = nativeText}}}
+        objective.Type, objective.Collected, objective.Needed = "monster", 2, 5
+        objective.Description = QuestieLoader:ImportModule("QuestieLib").GetFullObjectiveText(nativeText)
+        QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 5}}} end
+
+        assert.are.same({
+            ["|cFFEEEEEEVide-gousset défias\194\160: 2/5 personnages tués (optionnel) (|cFFFFFFFFLocal|r|cFFEEEEEE)|r"] = true,
+            ["|cFFEEEEEEVide-gousset défias\194\160: 3/5 personnages tués (optionnel) (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
+        }, RenderObjectiveLines())
+        assert.are.equal(nativeText, cached[1].objectives[3].text)
     end)
 
     it("does not show local counters as remote progress when party counts are missing", function()
