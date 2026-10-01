@@ -3,13 +3,15 @@ dofile("setupTests.lua")
 describe("TrackerData", function()
     local TrackerData, QuestieLib, QuestieDB, QuestiePlayer, QuestLogCache, compat
     local entries, cached, completion
-    local originalGetNumEntries, originalGetTitle, originalGetIndex
+    local originalGetNumEntries, originalGetTitle, originalGetIndex, originalGetQuestSortIndex
 
     before_each(function()
         compat = QuestieLoader:ImportModule("QuestieCompat")
         originalGetNumEntries = compat.GetNumQuestLogEntries
         originalGetTitle = compat.GetQuestLogTitle
         originalGetIndex = compat.GetQuestLogIndexByID
+        originalGetQuestSortIndex = _G.GetQuestSortIndex
+        _G.GetQuestSortIndex = nil
         Questie.db.profile = {trackerColorObjectives = "minimal"}
         entries = {
             {title = "Northshire Abbey", isHeader = true},
@@ -54,6 +56,45 @@ describe("TrackerData", function()
         compat.GetNumQuestLogEntries = originalGetNumEntries
         compat.GetQuestLogTitle = originalGetTitle
         compat.GetQuestLogIndexByID = originalGetIndex
+        _G.GetQuestSortIndex = originalGetQuestSortIndex
+    end)
+
+    describe("collapsed native headers", function()
+        before_each(function()
+            -- Observed on MoP: collapsed headers precede every quest, rather than enclosing their own quests.
+            entries = {
+                {title = "Hellfire Peninsula", isHeader = true},
+                {title = "Molten Core", isHeader = true},
+                {title = "Attunement to the Core", id = 7848, level = 60},
+                {title = "The Legion Reborn", id = 10141, level = 61},
+                {title = "Know your Enemy", id = 10160, level = 61},
+            }
+            compat.GetNumQuestLogEntries = function() return 2, 3 end
+            local headerIndices = {[3] = 2, [4] = 1, [5] = 1}
+            _G.GetQuestSortIndex = spy.new(function(index) return headerIndices[index] end)
+        end)
+
+        it("groups all quests under their explicit native header during a full refresh", function()
+            local snapshot = TrackerData.Refresh()
+
+            assert.are.equal("Molten Core", snapshot[7848].zoneName)
+            assert.are.equal("Hellfire Peninsula", snapshot[10141].zoneName)
+            assert.are.equal("Hellfire Peninsula", snapshot[10160].zoneName)
+            assert.spy(_G.GetQuestSortIndex).was.called_with(3)
+            assert.spy(_G.GetQuestSortIndex).was.called_with(4)
+            assert.spy(_G.GetQuestSortIndex).was.called_with(5)
+        end)
+
+        it("preserves the correct header when refreshing one quest after a full layout", function()
+            local snapshot = TrackerData.Refresh()
+            local quest = snapshot[10141]
+
+            local refreshed = TrackerData.RefreshQuest(10141)
+
+            assert.are.equal(quest, refreshed)
+            assert.are.equal("Hellfire Peninsula", refreshed.zoneName)
+            assert.are.equal("Molten Core", snapshot[7848].zoneName)
+        end)
     end)
 
     it("enumerates quest titles beyond Titan's underreported entry count", function()
