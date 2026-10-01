@@ -49,7 +49,7 @@ if '--no-git' in sys.argv[2:]:
     exit()
 
 # commit and tag changes; stop on failure so a failed commit cannot tag the old HEAD
-if subprocess.run(['git', 'add', '*.toc']).returncode != 0:
+if subprocess.run(['git', 'add', 'Questie_*.toc']).returncode != 0:
     exit(1)
 if subprocess.run(['git', 'commit', '-mBump version to v' + version]).returncode != 0:
     exit(1)
