@@ -1131,6 +1131,118 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("optional objective progress wording", function()
+        local originalOptionalTemplate
+
+        before_each(function()
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+        end)
+
+        after_each(function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        local cases = {
+            {name = "Classic suffix", template = "%s (Optional)", text = "Wolf slain: 2/5 (Optional)",
+                remote = "Wolf slain: 3/5 (Optional)", description = "Wolf slain (Optional)"},
+            {name = "Forever suffix", template = "%s (Optional)", text = "2/5 Wolf slain (Optional)",
+                remote = "3/5 Wolf slain (Optional)", description = "Wolf slain (Optional)"},
+
+            {name = "literal pattern characters", template = "[%s]?", text = "[Wolf slain :  2/5]?",
+                remote = "[Wolf slain :  3/5]?", description = "[Wolf slain ]?"},
+        }
+        for _, case in ipairs(cases) do
+            it("preserves the " .. case.name .. " while replacing or removing only progress", function()
+                _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = case.template
+
+                assert.are.equal(case.remote, QuestieLib.ReplaceObjectiveTextProgress(case.text, 3, 5))
+                assert.are.equal(case.description, QuestieLib.GetFullObjectiveText(case.text))
+            end)
+        end
+
+        it("does not mistake an instruction fraction for optional objective progress", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
+
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Use 1/2 of the potion (Optional)", 3, 5))
+            assert.is_nil(QuestieLib.GetFullObjectiveText("Use 1/2 of the potion (Optional)"))
+        end)
+
+        it("still handles ordinary counters on clients without an optional template", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = nil
+
+            assert.are.equal("Wolf slain: 3/5", QuestieLib.ReplaceObjectiveTextProgress("Wolf slain: 2/5", 3, 5))
+            assert.are.equal("Wolf slain", QuestieLib.GetFullObjectiveText("Wolf slain: 2/5"))
+        end)
+    end)
+
+    describe("localized NPC objective text", function()
+        local originalOptionalTemplate
+
+        before_each(function()
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+        end)
+
+        after_each(function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        -- Real NPC names, with constructed counters and the supplied client optional templates.
+        -- Sources and NPC IDs: docs/tracker-objective-text.md, "Localized fixture sources".
+        -- Expected strings stay literal so tests cannot reproduce a formatting bug in their expectations.
+        local cases = {
+            {locale = "zhCN", template = "%s（可选）",
+                classic = "长鼻野猪：2/5（可选）", classicRemote = "长鼻野猪：3/5（可选）",
+                forever = "2/5 长鼻野猪（可选）", foreverRemote = "3/5 长鼻野猪（可选）",
+                description = "长鼻野猪（可选）"},
+            {locale = "ptBR", template = "%s (Opcional)",
+                classic = "Fuçalonga: 2/5 (Opcional)", classicRemote = "Fuçalonga: 3/5 (Opcional)",
+                forever = "2/5 Fuçalonga (Opcional)", foreverRemote = "3/5 Fuçalonga (Opcional)",
+                description = "Fuçalonga (Opcional)"},
+            {locale = "deDE", template = "(Optional) %s",
+                classic = "(Optional) Räudiger Wolf: 2/5", classicRemote = "(Optional) Räudiger Wolf: 3/5",
+                forever = "(Optional) 2/5 Räudiger Wolf", foreverRemote = "(Optional) 3/5 Räudiger Wolf",
+                description = "(Optional) Räudiger Wolf"},
+            {locale = "esES", template = "(Opcional) %s",
+                classic = "(Opcional) Jabalí colmillopétreo: 2/5", classicRemote = "(Opcional) Jabalí colmillopétreo: 3/5",
+                forever = "(Opcional) 2/5 Jabalí colmillopétreo", foreverRemote = "(Opcional) 3/5 Jabalí colmillopétreo",
+                description = "(Opcional) Jabalí colmillopétreo"},
+            {locale = "frFR", template = "%s (optionnel)",
+                classic = "Vide-gousset défias: 2/5 (optionnel)", classicRemote = "Vide-gousset défias: 3/5 (optionnel)",
+                forever = "2/5 Vide-gousset défias (optionnel)", foreverRemote = "3/5 Vide-gousset défias (optionnel)",
+                description = "Vide-gousset défias (optionnel)"},
+            {locale = "itIT", template = "%s (Facoltativo)",
+                classic = "Boccalarga: 2/5 (Facoltativo)", classicRemote = "Boccalarga: 3/5 (Facoltativo)",
+                forever = "2/5 Boccalarga (Facoltativo)", foreverRemote = "3/5 Boccalarga (Facoltativo)",
+                description = "Boccalarga (Facoltativo)"},
+            {locale = "koKR", template = "%s (선택)",
+                classic = "데피아즈단 소매치기: 2/5 (선택)", classicRemote = "데피아즈단 소매치기: 3/5 (선택)",
+                forever = "2/5 데피아즈단 소매치기 (선택)", foreverRemote = "3/5 데피아즈단 소매치기 (선택)",
+                description = "데피아즈단 소매치기 (선택)"},
+            {locale = "esMX", template = "%s (Opcional)",
+                classic = "Jabalí Colmipétreo: 2/5 (Opcional)", classicRemote = "Jabalí Colmipétreo: 3/5 (Opcional)",
+                forever = "2/5 Jabalí Colmipétreo (Opcional)", foreverRemote = "3/5 Jabalí Colmipétreo (Opcional)",
+                description = "Jabalí Colmipétreo (Opcional)"},
+            {locale = "ruRU", template = "%s (необязательно)",
+                classic = "Вепрь-камнеклык: 2/5 (необязательно)", classicRemote = "Вепрь-камнеклык: 3/5 (необязательно)",
+                forever = "2/5 Вепрь-камнеклык (необязательно)", foreverRemote = "3/5 Вепрь-камнеклык (необязательно)",
+                description = "Вепрь-камнеклык (необязательно)"},
+            {locale = "zhTW", template = "%s（非必要）",
+                classic = "長鼻野豬：2/5（非必要）", classicRemote = "長鼻野豬：3/5（非必要）",
+                forever = "2/5 長鼻野豬（非必要）", foreverRemote = "3/5 長鼻野豬（非必要）",
+                description = "長鼻野豬（非必要）"},
+        }
+        for _, case in ipairs(cases) do
+            it("preserves " .. case.locale .. " names and labels in both counter layouts", function()
+                _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = case.template
+
+                assert.are.equal(case.classicRemote, QuestieLib.ReplaceObjectiveTextProgress(case.classic, 3, 5))
+                assert.are.equal(case.foreverRemote, QuestieLib.ReplaceObjectiveTextProgress(case.forever, 3, 5))
+                assert.are.equal(case.description, QuestieLib.GetFullObjectiveText(case.classic))
+                assert.are.equal(case.description, QuestieLib.GetFullObjectiveText(case.forever))
+            end)
+        end
+    end)
+
     describe("GetClassString", function()
         local originalRaidClassColors
 
