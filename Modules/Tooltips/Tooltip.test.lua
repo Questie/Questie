@@ -11,6 +11,7 @@ describe("Tooltip", function()
     local QuestiePlayer
     ---@type QuestieTooltips
     local QuestieTooltips
+    local cached
 
     local objective = {
         hasRegisteredTooltips = true,
@@ -57,6 +58,8 @@ describe("Tooltip", function()
         QuestiePlayer.GetPartyMemberByName = function() return nil end
         QuestiePlayer.currentQuestlog = {}
         QuestiePlayer.numberOfGroupMembers = 0
+        cached = {}
+        QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id) return cached[id] end
         local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.GetParentZoneId = function() return nil end
         dofile("Localization/l10n.lua")
@@ -521,6 +524,79 @@ describe("Tooltip", function()
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are_same({"Quest Name", "   gold3/5 do it"}, tooltip)
+        end)
+
+        describe("native objective wording", function()
+            local liveObjective, originalIsInGroup, originalUnitName
+
+            before_each(function()
+                originalIsInGroup, originalUnitName = _G.IsInGroup, _G.UnitName
+                _G.IsInGroup = function() return false end
+                _G.UnitName = function() return "Local" end
+                liveObjective = {Index = 3, Id = 25, Type = "item", Needed = 15, Collected = 9,
+                    Description = "Windstone Cluster", Update = function() end}
+                QuestieTooltips:RegisterObjectiveTooltip(1, "m_123", liveObjective)
+                QuestiePlayer.currentQuestlog[1] = {}
+            end)
+
+            after_each(function()
+                _G.IsInGroup, _G.UnitName = originalIsInGroup, originalUnitName
+            end)
+
+            it("preserves accepted local text at its native index and keeps the drop rate", function()
+                Questie.db.profile.enableTooltipDroprates = true
+                QuestieDB.GetItemDroprate = function() return {25} end
+                cached[1] = {objectives = {[3] = {raw_text = "9/15 Windstone Cluster."}}}
+
+                local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+                assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster.  |cFF999999[25%]|r"}, tooltip)
+                assert.are.equal("9/15 Windstone Cluster.", cached[1].objectives[3].raw_text)
+            end)
+
+            it("does not invent a counter for a native action instruction", function()
+                liveObjective.Type, liveObjective.Collected, liveObjective.Needed = "object", 1, 1
+                cached[1] = {objectives = {[3] = {raw_text = "Use Walk on Air"}}}
+
+                assert.are.same({"Quest Name", "   goldUse Walk on Air"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+
+            it("keeps a synthetic source item's text even when its index collides with native data", function()
+                liveObjective.IsSourceItem = true
+                liveObjective.Description, liveObjective.Collected, liveObjective.Needed = "Quest item", 0, 1
+                cached[1] = {objectives = {[3] = {raw_text = "9/15 Windstone Cluster"}}}
+
+                assert.are.same({"Quest Name", "   gold0/1 Quest item"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+
+            it("falls back when the accepted snapshot lacks this objective index", function()
+                cached[1] = {objectives = {[1] = {raw_text = "Unrelated objective"}}}
+
+                assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+
+            local remoteCases = {
+                {name = "Forever", text = "9/15 Windstone Cluster", expected = "3/15 Windstone Cluster"},
+                {name = "Classic", text = "Windstone Cluster: 9/15", expected = "Windstone Cluster: 3/15"},
+                {name = "instruction without a counter", text = "Use Walk on Air", expected = "3/15 Fallback wording"},
+            }
+            for _, case in ipairs(remoteCases) do
+                it("uses remote progress for " .. case.name, function()
+                    _G.IsInGroup = function() return true end
+                    QuestieTooltips.lookupByKey = {}
+                    QuestiePlayer.GetPartyMemberByName = function(_, name)
+                        if name == "Bob" then return {colorHex = "FFFFFFFF"} end
+                    end
+                    QuestieComms.data.KeyExists = function() return true end
+                    local remote = {nativeText = case.text, text = "Fallback wording", fulfilled = 3, required = 15}
+                    QuestieComms.data.GetTooltip = function() return {[1] = {Bob = {[3] = remote}}} end
+
+                    local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+                    assert.are.same({"Quest Name", "   gold" .. case.expected .. " (|cFFFFFFFFBob|rgold)|r"}, tooltip)
+                    assert.are.equal(case.text, remote.nativeText)
+                end)
+            end
         end)
 
         it("should return quest name and objective description when tooltip has objective without Needed", function()

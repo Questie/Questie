@@ -363,7 +363,18 @@ function QuestLogCache.TestGameCache()
 end
 
 
---- A wrapper function to add error check instead using exposed table directly.
+---Reads the last accepted snapshot when a cache miss is expected, without reporting an error.
+---Tracker and tooltip rendering can run before the initial snapshot loads or for party-only quests
+---absent from the local cache. Those callers need nil to choose a fallback, not GetQuest's stack trace.
+---This only reads the cache: it never queries Blizzard, starts a retry, or changes cached data.
+---@param questId QuestId
+---@return QuestLogCacheData? @Borrowed snapshot; NEVER modify the returned table or its objectives.
+function QuestLogCache.TryGetQuest(questId)
+    return cache[questId]
+end
+
+---Reads a quest that the caller expects to be cached; reports an error when that invariant is broken.
+---Use TryGetQuest instead when absence is normal and the caller can render a fallback.
 ---@param questId QuestId
 ---@return QuestLogCacheData? @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuest(questId)

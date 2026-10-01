@@ -53,9 +53,8 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
 
     -- Blizzard data: build objective wording and progress for every quest, without database matching.
     -- Quest-level completion is resolved once by TrackerQuestieBehavior below.
-    -- Try to get the last valid quest snapshot. A missing entry is expected while loading;
-    -- unlike GetQuest, this read-only lookup does not report it as an error. Never modify the entry.
-    local cached = QuestLogCache.questLog_DO_NOT_MODIFY[questId]
+    -- Keep rendering while the initial snapshot loads; a cache miss is expected, not an error.
+    local cached = QuestLogCache.TryGetQuest(questId)
     local previousObjectives = displayQuest.Objectives
     displayQuest.Objectives = {}
     displayQuest.objectivesLoaded = cached ~= nil
