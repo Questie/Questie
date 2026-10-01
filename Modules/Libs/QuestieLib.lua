@@ -407,6 +407,35 @@ function QuestieLib:GetClassString(classMask)
     end
 end
 
+---Shared readiness check for the quest cache, objective loaders, startup validation and quest-link tooltips.
+---Never modifies the row. Callers own retries, retaining cached data and database fallbacks.
+---@param objective QuestObjectiveInfo
+---@return boolean readyOrSkippable True allows loading to proceed; it does not imply objective or quest completion.
+function QuestieLib.IsObjectiveDataLoaded(objective)
+    local text = objective.text
+    -- Blizzard sometimes adds permanently empty, unfinished event objectives alongside real objectives.
+    -- Waiting for these would never finish. Ignore exact empty strings regardless of type, counts or finished state.
+    -- Return true before checking the type, but callers must still omit these rows from their objective lists.
+    if text == "" then
+        return true
+    end
+    -- HaveQuestData can be true before individual rows have text or a type. Neither is safe to consume yet.
+    -- Missing names leave a leading ASCII space in Classic (" : 0/1") or trailing spaces in Forever ("0/1  ").
+    -- Check the original text: trimming whitespace first would erase this evidence of an incomplete client cache.
+    if (not text) or (not objective.type) or string.byte(text, 1) == 32 or string.byte(text, -1) == 32 then
+        return false
+    end
+    -- Counters and a suffix can load before the name, leaving text such as "0/15   slain" with no edge spaces.
+    -- Parse the client's localized objective format to detect an empty name; never substitute this parsed text for the original.
+    if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
+        return false
+    end
+    -- The parser cannot recognize every suffix (e.g. "destroyed"). Treat three consecutive ASCII spaces as a final
+    -- missing-name heuristic, independent of language, UTF-8 encoding or word boundaries. This deliberately assumes
+    -- legitimate objective text will not contain triple spaces; if it does, it will also be treated as not loaded.
+    return not string.find(text, "   ", 1, true)
+end
+
 ---Synchronously reads Blizzard's cache, including quests outside the local log, and primes missing data.
 ---Returns nil until all non-empty objective rows are loaded. An empty result is valid, not a quest-completion signal.
 ---Original objective indices are preserved; the result can have holes. Use index lookup or pairs, not ipairs or #.
@@ -420,20 +449,12 @@ function QuestieLib.GetLoadedQuestObjectives(questId)
         return nil
     end
     local loadedObjectives = {}
-    -- Blizzard sometimes adds permanently empty, unfinished event objectives alongside real objectives.
-    -- Like QuestLogCache, ignore exact empty strings regardless of type, counts or finished state.
-    -- Missing names leave a leading space in Classic (" : 0/1") or a trailing space in Forever ("0/1  ").
-    -- These placeholders, nil text and missing types on non-empty rows still mean "not loaded".
     for index, objective in ipairs(objectives) do
-        local text = objective.text
-        if text ~= "" then
-            if (not text) or string.byte(text, 1) == 32 or string.byte(text, -1) == 32 or (not objective.type) then
-                return nil
-            end
-            -- Forever can also return "0/15   slain"; use the client's localized format to check the name itself.
-            if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
-                return nil
-            end
+        if not QuestieLib.IsObjectiveDataLoaded(objective) then
+            return nil
+        end
+        -- Empty client placeholders do not block loading and are not display objectives.
+        if objective.text ~= "" then
             loadedObjectives[index] = objective
         end
     end
