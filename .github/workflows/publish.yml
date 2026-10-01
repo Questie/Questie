@@ -32,15 +32,18 @@ jobs:
       repo_full_name: ${{ github.repository }}
   bump:
     uses: ./.github/workflows/versionbump.yml
+    secrets: inherit
     if: github.event.inputs.version != ''
     with:
       version: ${{ inputs.version }}
       dry_run: ${{ inputs.dry_run }}
+  postbump:
+    needs: bump
+    if: ${{ always() }} # so it runs even if bump wasn't run and build can "need" this job
   build:
     name: Build bundle
     runs-on: ubuntu-latest
-    needs: [ tests, bump ]
-    if: ${{ always() }} # so it runs even if bump wasn't run
+    needs: [ tests, postbump ]
     outputs:
       release_tag: ${{ steps.metadata.outputs.release_tag }}
       release_dir: ${{ steps.metadata.outputs.release_dir }}
