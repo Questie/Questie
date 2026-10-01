@@ -1397,8 +1397,8 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         Index = objectiveIndex,
                         questId = quest.Id,
                         _lastUpdate = 0,
-                        Description = objective.text,
-                        FullDescription = QuestieLib.GetFullObjectiveTextConditional(objective.raw_text),
+                        -- Counter-free fallback wording for consumers that supply their own progress.
+                        Description = QuestieLib.GetFullObjectiveText(objective.text) or objective.text,
                         spawnList = {},
                         AlreadySpawned = {},
                         Update = _QuestieQuest.ObjectiveUpdate,
@@ -1469,8 +1469,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
             local numRequired = obj.numRequired or 0
 
             self.Type = obj.type;
-            self.Description = obj.text
-            self.FullDescription = QuestieLib.GetFullObjectiveTextConditional(obj.raw_text)
+            self.Description = QuestieLib.GetFullObjectiveText(obj.text) or obj.text
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
             self.Finished = obj.finished or false -- ensure its boolean false and not nil (hack)
@@ -1497,10 +1496,10 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
     if (not questObjectives) then return end
 
-    for _, objective in pairs(questObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
+    for objectiveIndex, objective in pairs(questObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
         -- TODO Move this to QuestEventHandler module or QuestieQuest:AcceptQuest( ) + QuestieQuest:UpdateQuest( ) (accept quest one required to register objectives without progress)
         -- TODO After ^^^ moving remove this function and use "QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE" in place of it.
-        QuestieAnnounce:ObjectiveChanged(questId, objective.text, objective.numFulfilled, objective.numRequired)
+        QuestieAnnounce:ObjectiveChanged(questId, objectiveIndex, objective.text, objective.numFulfilled, objective.numRequired)
     end
 
     return questObjectives

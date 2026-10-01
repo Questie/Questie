@@ -149,20 +149,6 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
----Returns the appropriate objective description based on the trimObjectiveText profile setting
----@param objective QuestObjective
----@return string
-function QuestieLib:GetObjectiveDescription(objective)
-    if (not objective) then
-        return ""
-    end
-    local desc = objective.FullDescription or objective.Description
-    if (not desc) then
-        return ""
-    end
-    return desc:gsub("%.$", "")
-end
-
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
@@ -686,8 +672,10 @@ local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 
---- 'FooBar slain: 0/3' --> 'FooBar'
---- 'EpicItem : 0/1' --> 'EpicItem'
+---Extracts the objective name for loading validation, not for display wording.
+---A row such as "0/3   slain" can have valid counters but no loaded name. IsObjectiveDataLoaded
+---uses this parser to detect that case; displays must retain the accepted native text instead.
+--- 'FooBar slain: 0/3' --> 'FooBar'; 'EpicItem : 0/1' --> 'EpicItem'.
 ---@param text string @requires nil check and first character ~= " " check before call
 ---@param objectiveType string
 function QuestieLib.TrimObjectiveText(text, objectiveType)
@@ -947,16 +935,4 @@ function QuestieLib.GetFullObjectiveText(rawObjectiveText)
         -- "Wolf slain" + " (Optional)" -> "Wolf slain (Optional)", with no local counter to duplicate.
         return optionalPrefix .. description .. optionalSuffix
     end
-end
-
----Populates optional FullDescription fields only when full wording is enabled in the profile.
----Use GetFullObjectiveText instead for extraction that must not depend on display settings.
----For example, "Wolf slain: 0/1" becomes "Wolf slain".
----@param rawObjectiveText string
----@return string? description @Nil when trimObjectiveText is enabled or no trailing counter matches
-function QuestieLib.GetFullObjectiveTextConditional(rawObjectiveText)
-    if Questie.db.profile.trimObjectiveText then
-        return nil
-    end
-    return QuestieLib.GetFullObjectiveText(rawObjectiveText)
 end

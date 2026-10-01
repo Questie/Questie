@@ -127,7 +127,7 @@ describe("TrackerMenu", function()
             TrackerUtils.ShowObjectiveOnMap = spy.new(function() end)
             local originalObjective = {Index = 2, spawnList = {{Spawns = {}}}}
             local originalQuest = {Id = 100, Objectives = {originalObjective}, IsComplete = function() return 0 end}
-            local objective = {Index = 1, Description = "Wolf", enrichment = originalObjective}
+            local objective = {Index = 1, Description = "3/5 Wolves slain.", enrichment = originalObjective}
             local quest = {
                 Id = 100, name = "Wolves", Objectives = {objective}, SpecialObjectives = {}, enrichment = originalQuest,
                 IsComplete = function() return 0 end,
@@ -136,6 +136,7 @@ describe("TrackerMenu", function()
             local menu = TrackerMenu:GetMenuForQuest(quest)
             assert.spy(TrackerData.RefreshQuest).was.not_called()
             assert.are.equal("Objectives", menu[2].text)
+            assert.are.equal("3/5 Wolves slain.", menu[2].menuList[1].text)
             local objectiveMenu = menu[2].menuList[1].menuList
             assert.are.equal("Hide Icons", objectiveMenu[3].text)
             objectiveMenu[3].func()

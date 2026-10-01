@@ -23,7 +23,8 @@ local MAX_QUEST_LOG_INDEX = 75
 
 --[[
 Example of data in cache table.
-raw_* are as in game's quest log. Their non-raw versions are corrected/modified for addon's easy use.
+text contains Blizzard's accepted wording unchanged, including any progress counters.
+Only progress and completion have raw_* counterparts alongside normalized values.
 
 local cache = {
     [questId] = {
@@ -32,22 +33,20 @@ local cache = {
         isComplete = nil,
         objectives = {
             {
-                text = "Objective Text"
                 type = "monster",
                 finished = false,
                 numFulfilled = 2,
                 numRequired = 3,
-                raw_Text = "Objective Text slain: 2/3",
+                text = "Objective Text slain: 2/3",
                 raw_finished = false
                 raw_numFulfilled = 2,
             },
             {
-                text = "Objective2"
                 type = "item",
                 finished = false,
                 numFulfilled = 0,
                 numRequired = 5,
-                raw_text = "Objective2 : 0/5",
+                text = "Objective2 : 0/5",
                 raw_finished = false,
                 raw_numFulfilled = 0,
             },
@@ -59,12 +58,11 @@ local cache = {
 
 
 ---@class QuestLogCacheObjectiveData
----@field text string "Objective Text"
 ---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"|string Includes client objective types unknown to Questie.
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number
----@field raw_text string E.g "Objective Text slain: 2/3"
+---@field text string Accepted native wording, unchanged; e.g. "Objective Text slain: 2/3".
 ---@field raw_finished boolean
 ---@field raw_numFulfilled number
 
@@ -120,7 +118,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         if QuestieLib.IsObjectiveDataLoaded(newObj) then
             if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
                 -- Check if objective has changed
-                if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
+                if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
                     -- Not changed
                     newObjectives[objIndex] = oldObj
                     allObjectivesFinished = allObjectivesFinished and oldObj.finished -- if any objective is not finished, whole quest is not complete
@@ -155,12 +153,11 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                     allObjectivesFinished = allObjectivesFinished and newObj.finished -- if any objective is not finished, whole quest is not complete
 
                     newObjectives[objIndex] = {
-                        raw_text = newObj.text,
+                        text = newObj.text,
                         raw_finished = newObj.finished,
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
                         numRequired = newObj.numRequired,
-                        text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
@@ -440,13 +437,13 @@ local function DebugPrintObjective(q, i, o)
         print(" ", i.."/"..#q.objectives..":",
             o.numFulfilled.."/"..o.numRequired.."="..tostring(o.finished),
             o.type,
-            "\""..o.raw_text.."\" \""..o.text.."\"")
+            "\""..o.text.."\"")
     else
         print(" ", i.."/"..#q.objectives..":",
             o.raw_numFulfilled.."/"..o.numRequired.."="..tostring(o.raw_finished),
             "FIX:", o.numFulfilled.."/"..o.numRequired.."="..tostring(o.finished),
             o.type,
-            "\""..o.raw_text.."\" \""..o.text.."\"")
+            "\""..o.text.."\"")
     end
 end
 
