@@ -38,8 +38,12 @@ jobs:
       version: ${{ inputs.version }}
       dry_run: ${{ inputs.dry_run }}
   postbump:
+    name: Hack so build job can need bump job even when disabled
+    runs-on: ubuntu-latest
     needs: bump
-    if: ${{ always() }} # so it runs even if bump wasn't run and build can "need" this job
+    if: ${{ always() }}
+    steps:
+      - run: echo 0
   build:
     name: Build bundle
     runs-on: ubuntu-latest
