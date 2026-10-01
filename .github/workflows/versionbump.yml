@@ -8,12 +8,20 @@ on:
         description: Version without the v prefix (for example 12.0.1)
         type: string
         required: true
+      dry-run:
+        description: Do not commit/push, just log git diff
+        type: boolean
+        default: false
   workflow_call:
     inputs:
       version:
         description: Version without the v prefix (for example 12.0.1)
         type: string
         required: true
+      dry-run:
+        description: Do not commit/push, just log git diff
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -39,6 +47,7 @@ jobs:
       # Environment approval is required before this job receives the private key.
       # Limit each short-lived token to this repository and Contents write access.
       - name: Create app token
+        if: ${{ !inputs.dry_run }}
         id: app-token
         uses: actions/create-github-app-token@v3.2.0
         with:
@@ -63,7 +72,12 @@ jobs:
           fi
           python3 versionbump.py "$VERSION" --no-git
 
+      - name: Log git diff
+        if: ${{ inputs.dry_run }}
+        run: git diff
+
       - name: Commit, tag and push
+        if: ${{ !inputs.dry_run }}
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
@@ -90,6 +104,7 @@ jobs:
           git push --atomic origin "HEAD:refs/heads/$TARGET_BRANCH" "refs/tags/v$VERSION"
 
       - name: Summarize
+        if: ${{ !inputs.dry_run }}
         run: |
           commit=$(git rev-parse HEAD)
           {

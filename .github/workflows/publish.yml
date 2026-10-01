@@ -54,10 +54,11 @@ jobs:
         run: git fetch --prune --unshallow --tags
 
       - name: Version Bump
-        if: ${{ !inputs.dry_run && inputs.version != ""}}
+        if: ${{ inputs.version != ""}}
         uses: ./.github/workflows/versionbump.yml
         with:
           version: ${{ inputs.version }}
+          dry-run: ${{ inputs.dry_run }}
 
       - name: Build ZIP
         run: |
