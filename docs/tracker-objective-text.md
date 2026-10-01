@@ -1,14 +1,16 @@
-# Tracker objective text
+# Objective text ownership
 
 ## Ownership
 
 Blizzard supplies native objective wording. `QuestLogCache` owns the last accepted snapshot, including text validation, loading retries, and protection against temporary loading-screen regressions. The tracker must not bypass that cache by fetching fresh objectives while rendering.
 
-The tracker and both objective tooltip renderers use `QuestLogCache.TryGetQuest(questId)` for optional reads. It returns the same borrowed snapshot as `GetQuest`, or nil without logging when none exists. Initial loading and party-only quests are expected cache misses, not errors. It never fetches data or schedules retries. `GetQuest` remains the reporting getter for callers that require the quest to be cached. Neither getter permits callers to modify the snapshot.
+The tracker, both objective tooltip renderers, and active quest-link progress use `QuestLogCache.TryGetQuest(questId)` for optional reads. It returns the same borrowed snapshot as `GetQuest`, or nil without logging when none exists. Initial loading and party-only quests are expected cache misses, not errors. It never fetches data or schedules retries. `GetQuest` remains the reporting getter for callers that require the quest to be cached. Neither getter permits callers to modify the snapshot.
 
-`TrackerData` copies the accepted `raw_text` into the display objective's single `Description` field. Both full layouts in `QuestieTracker` and incremental updates in `TrackerLinePool` call `TrackerData.GetObjectiveText`, which adds the configured color without changing the text. Native counters, word order, and punctuation are preserved. The tracker does not populate or select a `FullDescription`, strip counters, or append its own counters.
+`TrackerData` copies the accepted `text` into the display objective's single `Description` field. Both full layouts in `QuestieTracker` and incremental updates in `TrackerLinePool` call `TrackerData.GetObjectiveText`, which adds the configured color without changing the text. Native counters, word order, and punctuation are preserved. The tracker does not populate or select a `FullDescription`, strip counters, or append its own counters.
 
-`QuestLogCache.text` still contains shortened wording for other consumers. Its meaning has not changed. Parsing to detect unloaded names also remains necessary, even though the tracker no longer displays the parsed result.
+Cached objectives have one wording field: `text`, containing Blizzard's accepted native text unchanged. It uses the same name and wording as Blizzard's API; there is no shortened copy or duplicate wording field. Parsing to detect unloaded names remains necessary, but its result is not stored as display wording.
+
+Original quest/map objectives retain a single counter-free `Description` for fallback rendering. `GetFullObjectiveText(text) or text` removes recognized counters without shortening the instruction or stripping its punctuation. This is distinct from tracker display objectives, whose `Description` is already a complete native or synthetic line. There is no `FullDescription` choice or trimming preference.
 
 ## Missing-name placeholders
 
@@ -47,7 +49,7 @@ Quest titles, completion instructions, timers, achievements, scenarios, and chal
 
 ## Unit, item, object and map tooltips
 
-`Tooltip.lua` and `MapIconTooltip.lua` prefer accepted `QuestLogCache.raw_text` for local native objective rows, keeping punctuation and counter placement unchanged. Colors, player labels and drop rates are added separately. Missing cache rows, special objectives, and synthetic source-item rows retain the existing description/counter fallback. Source-item rows must not borrow a native row merely because their indices coincide. Native wording also takes precedence over the spell-item label; that label remains a fallback when native data is absent.
+`Tooltip.lua` and `MapIconTooltip.lua` prefer accepted cached objective `text` for local native objective rows, keeping punctuation and counter placement unchanged. Colors, player labels and drop rates are added separately. Missing cache rows, special objectives, and synthetic source-item rows retain the existing description/counter fallback. Source-item rows must not borrow a native row merely because their indices coincide. Native wording also takes precedence over the spell-item label; that label remains a fallback when native data is absent.
 
 Remote progress uses `QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required)`. It recognizes both layouts on every client:
 
@@ -55,9 +57,23 @@ Remote progress uses `QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfil
 - Classic: `Windstone Cluster: 9/15` becomes `Windstone Cluster: 3/15`.
 - The trailing layout also accepts the full-width colon `：`.
 
+Both replacement and counter-free extraction separate a matching `OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION` wrapper before inspecting counters, then restore it unchanged. This supports localized suffixes and prefixes without hardcoded label words. For example, `Wolf slain: 2/5 (Optional)` becomes a remote player's `Wolf slain: 3/5 (Optional)`, while its counter-free fallback is `Wolf slain (Optional)`.
+
 Only the recognized counter changes; surrounding wording and spacing remain intact. A fraction in the middle of an instruction is not replaced. Recognition is a layout heuristic, not semantic proof: a leading fraction followed by wording can still look like a native counter. Unrecognized layouts, instructions without a counter, and unavailable text keep the previous remote-counter formatting. Missing remote counts never cause the local player's embedded counts to be displayed as the party member's progress.
 
 Comms tooltip rows carry validated `nativeText` alongside counter-free fallback `text` and remote progress. Party-only map objectives carry validated `NativeText` alongside their existing descriptions. These fields come from the existing objective-loading paths, including their asynchronous callbacks. They are not new wire-protocol fields. Neither counter replacement nor tooltip rendering modifies the native cache.
+
+## Item-deletion warnings
+
+The deletion dialog supplies the deleted item's name. `QuestEventHandler` resolves item-objective names through `GetItemInfo(objective.Id)` instead of comparing the dialog text with `Description`. Display descriptions may contain instructions, optional labels or whitespace before a removed counter. They are not item identity. Non-item objectives and unavailable item names do not produce a description-based match. Existing source-item and required-source-item handling is unchanged.
+
+## Quest links, menus and announcements
+
+Active quest-link progress prefers accepted native text by the original objective index, including instructions without counters. If the native row is unavailable, it retains the existing description/count fallback. Synthetic source-item rows do not borrow a native row with a coinciding index. Requirement tooltips for unaccepted quests retain their existing validated-native/database fallback.
+
+Tracker objective menus already use the display record's native `Description`. Special objectives retain their supplied description; they have no corresponding native row.
+
+Objective announcements receive complete accepted native text and do not prepend counters. Their bookkeeping uses quest ID plus original objective index, not wording that changes with progress. The existing count-equality trigger and once-per-session policy remain unchanged. The separate message-level `alreadySentBandaid` still suppresses identical final chat messages during the session, even if two objective indices produced them; this cleanup does not redesign announcement lifetime or channel throttling.
 
 ## Remaining text processing
 
@@ -65,26 +81,45 @@ These uses remain deliberately separate from verbatim native wording:
 
 | Location | Remaining use |
 | --- | --- |
-| `Modules/Quest/QuestLogCache.lua`, `GetNewObjectives` | Uses `IsObjectiveDataLoaded` to validate rows, then `TrimObjectiveText` to populate the shared shortened `text` field. Retains accepted original wording in `raw_text`. |
+| `Modules/Quest/QuestLogCache.lua`, `GetNewObjectives` | Uses `IsObjectiveDataLoaded` to validate rows and stores accepted original wording in `text`. No shortened copy is built. |
 | `Modules/Libs/QuestieLib.lua`, `GetLoadedQuestObjectives` | Uses `IsObjectiveDataLoaded` before returning non-empty native rows. Its loading/retry consumers still depend on that validation. |
 | `Modules/QuestieValidateGameCache.lua` | Uses `IsObjectiveDataLoaded` before announcing startup cache readiness. |
-| `Modules/Quest/QuestieQuest.lua`, `PopulateQuestLogInfo` and objective updates | Builds shared quest objectives with `Description` from cache `text` and optional `FullDescription` through `GetFullObjectiveTextConditional`. Also supplies shortened cache text to objective announcements. These are original quest/map objects, not tracker display records. |
+| `Modules/Quest/QuestieQuest.lua`, `PopulateQuestLogInfo` and objective updates | Builds one counter-free fallback `Description` from accepted native text. Sends unchanged native text and original indices to announcements. These are original quest/map objects, not tracker display records. |
 | `Modules/Tooltips/Tooltip.lua` | Prefers accepted native wording locally and replaces recognized native counters for remote rows. Uses shared descriptions/counter-free Comms text plus progress as fallback. Drop rates remain separate. |
-| `Modules/Tooltips/MapIconTooltip.lua` | Prefers accepted native wording locally; uses cached or party-loaded native text for remote counter replacement. Retains `GetObjectiveDescription` and prefixed progress as fallback. |
-| `Modules/QuestLinks/Link.lua` | Uses `GetObjectiveDescription` in quest-link progress output. Requirement tooltips use `IsObjectiveDataLoaded` to choose native text or database fallback, without repairing native sentences. |
-| `Modules/Network/QuestiePartyObjectives.lua` | Preserves native text for remote counter replacement. Also builds optional full descriptions and counter-free wording for fallback displays. |
+| `Modules/Tooltips/MapIconTooltip.lua` | Prefers accepted native wording locally; uses cached or party-loaded native text for remote counter replacement. Retains the shared `Description` and prefixed progress as fallback. |
+| `Modules/QuestLinks/Link.lua` | Prefers accepted native text for active progress; otherwise uses shared descriptions and counts. Requirement tooltips validate native text or use database fallback. |
+| `Modules/Network/QuestiePartyObjectives.lua` | Preserves native text for remote counter replacement and one counter-free `Description` for fallback. If native data is missing, uses database wording or an entity name without reconstructing an instruction. |
 | `Modules/Network/QuestieCommsData.lua` | Preserves native text for remote counter replacement. Still uses `GetFullObjectiveText` to supply counter-free fallback wording separately from remote progress. |
-| `Modules/DebugFunctions.lua` | Uses `TrimObjectiveText` in diagnostic objective data. |
+| `Modules/DebugFunctions.lua` | Builds diagnostic cache records with native `text`, without a shortened copy. |
 
 The helpers remain in `Modules/Libs/QuestieLib.lua`:
 
 - `IsObjectiveDataLoaded`: validates native rows consistently, treating exact empty text as non-blocking.
-- `TrimObjectiveText`: extracts shortened objective wording using client formats and fallback parsing; also used by the validator to detect empty names.
+- `TrimObjectiveText`: used only inside loading validation to detect empty names. Its parsing result is not display text.
 - `ReplaceObjectiveTextProgress`: replaces a recognized leading or trailing counter with remote progress, returning nil when fallback is needed.
 - `GetFullObjectiveText`: removes recognized progress counters while retaining the instruction.
-- `GetFullObjectiveTextConditional`: enables that full description according to the shared trimming setting.
-- `GetObjectiveDescription`: chooses the shared full/short description and removes a trailing period.
 
-The **Trim Objective Text** setting remains in `Modules/Options/GeneralTab/QuestieOptionsGeneral.lua`, with its default in `Modules/Options/QuestieOptionsDefaults.lua` and existing migration in `Modules/Migration.lua`. It still affects shared objective descriptions used by fallback displays and other consumers. It no longer controls native tracker or native tooltip wording. No saved-variable migration is needed because the shared setting and its default are retained.
+`GetFullObjectiveTextConditional` and `GetObjectiveDescription` are removed. The **Trim Objective Text** option and default are removed. Migration 41 clears the retired `trimObjectiveText` value from existing profiles; historical migration 28 remains in place so migration numbering is stable.
 
-Before deleting these helpers or redefining cache `text`, migrate the remaining consumers explicitly. In particular, remote-player progress must not inherit the local player's counters, and loading validation must not accept placeholder names.
+Do not remove loading validation or counter-free remote fallback merely because native rendering no longer shortens wording. Remote-player progress must not inherit the local player's counters, and loading validation must not accept placeholder names.
+
+## Localized fixture sources
+
+`QuestieLib.test.lua` uses the following real NPC names for all ten supplied optional-objective templates. Each locale is tested with both leading and trailing counters, for remote-counter replacement and counter-free extraction. Expected strings are literal, not generated by the formatter being tested.
+
+Nine names come from [QuestieDB's Classic NPC lookups at commit `61c0acab71014fe5d8ad5a4e51d9f1bb31c81243`](https://github.com/Questie/QuestieDB/tree/61c0acab71014fe5d8ad5a4e51d9f1bb31c81243/l10n/Classic/lookupNpcs), in the corresponding `<locale>.lua` file. Italian is absent from those lookups; Blizzard's [Italian patch 6.1.2 hotfix notes](https://worldofwarcraft.blizzard.com/it-it/news/18486735) identify Hogger in Elwynn Forest as Boccalarga.
+
+| Locale | NPC ID | Name |
+| --- | --- | --- |
+| zhCN | 119 | 长鼻野猪 |
+| ptBR | 119 | Fuçalonga |
+| deDE | 525 | Räudiger Wolf |
+| esES | 113 | Jabalí colmillopétreo |
+| frFR | 94 | Vide-gousset défias |
+| itIT | 448 | Boccalarga |
+| koKR | 94 | 데피아즈단 소매치기 |
+| esMX | 113 | Jabalí Colmipétreo |
+| ruRU | 113 | Вепрь-камнеклык |
+| zhTW | 119 | 長鼻野豬 |
+
+The names are sourced, but the surrounding counter-bearing strings are constructed fixtures, not claimed captures from ten live clients. They deliberately combine those names with the supplied optional labels and both supported counter layouts. This tests byte preservation for accents, umlauts, Cyrillic, Hangul, Chinese characters, whitespace and full-width punctuation. It does not prove that every live objective follows those layouts or that every client supports every locale. Existing instruction-fraction and literal-pattern-character cases remain separate.

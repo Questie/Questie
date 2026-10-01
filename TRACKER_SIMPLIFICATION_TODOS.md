@@ -6,7 +6,7 @@ Unchecked items are candidates for follow-up work, not an agreed implementation 
 
 - [x] Make `QuestLogCache` the sole owner of objective loading and last-valid progress for the tracker.
 
-`TrackerData` now uses the existing read-only `QuestLogCache.questLog_DO_NOT_MODIFY` table to obtain the last valid snapshot or nil without logging or fetching. The tracker no longer falls back to objective API reads, validates readiness, or maintains its own last-valid fallback. Native quest-log metadata still supplies titles before objectives load.
+`TrackerData` uses `QuestLogCache.TryGetQuest` to obtain the last valid snapshot or nil without logging or fetching. The tracker no longer falls back to objective API reads, validates readiness, or maintains its own last-valid fallback. Native quest-log metadata still supplies titles before objectives load.
 
 The cache handles unavailable responses and missing objective types. Loading-screen regression protection remains active through incomplete scans. One cancellable 20-second timer provides a fallback when no further event arrives: it resets the marker timestamp and calls `QuestLogUpdate`. Natural full scans cancel it; a cache miss or pending acceptance rearms it. Startup also schedules a fallback when quests are present.
 
@@ -16,7 +16,7 @@ Tests cover recovery without new events, cancellation by natural scans, delayed 
 
 - [x] Remove unused map-state and raw-text copies from display objectives.
 
-Removed `AlreadySpawned`, `Icon`, and `RawText` copies from display objectives. Map actions already use the original Questie objective through `enrichment`; they do not need copied icon state. Full objective wording still uses the cached raw text when constructing `FullDescription`.
+Removed `AlreadySpawned`, `Icon`, and `RawText` copies from display objectives. Map actions already use the original Questie objective through `enrichment`; they do not need copied icon state. Native objective wording is copied unchanged from cached `text` into the display record's single `Description` field. See `docs/tracker-objective-text.md` for wording ownership and fallback consumers.
 
 Retained `spawnList`, which `DistanceUtils` reads for proximity and navigation. Objective identity and index fields are unchanged. Missing-source-item objectives copy their display fields explicitly instead of cloning every original field. Familiar field names remain, but future additions to the original object will not silently introduce map state or behavior into the display record.
 
