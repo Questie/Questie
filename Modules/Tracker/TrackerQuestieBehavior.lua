@@ -7,8 +7,6 @@ local TrackerQuestieBehavior = QuestieLoader:CreateModule("TrackerQuestieBehavio
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
@@ -16,7 +14,7 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---Only the display record is modified; the cache and original map objects remain owned by their modules.
 ---Call after rebuilding baseline objectives so synthetic steps from a previous refresh cannot accumulate.
 ---@param displayQuest TrackerQuest
----@param cached QuestLogCacheData? Read-only source for original-index objective matching.
+---@param cached QuestLogCacheData? Presence confirms objectives have loaded; never modified here.
 ---@param nativeComplete number? Native quest-log state; only failure is authoritative before objectives are loaded.
 function TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
     -- Optional database/map metadata. Missing enrichment must not prevent the baseline from displaying.
@@ -34,7 +32,7 @@ function TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
     displayQuest.SpecialObjectives = {}
 
     for _, objective in ipairs(displayQuest.Objectives) do
-        -- Display rows are reused. A previously known objective can become unmatched or unknown.
+        -- Display rows are reused. Clear references before attaching the current index-based mapping.
         objective.enrichment = nil
         objective.Id = nil
         -- DistanceUtils reads this field; mutations of map state use the original enrichment object.
@@ -51,37 +49,22 @@ function TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
     -- Existing Questie completion semantics apply to every cached quest, including database-unknown ones.
     -- Keep the shared helper (and its source-item checks), rather than inventing a second completion rule.
     displayQuest.completionState = QuestieDB.IsComplete(displayQuest.Id)
-    local allObjectivesMatched = originalQuestieQuest ~= nil
+    local allObjectivesMapped = originalQuestieQuest ~= nil
 
-    -- Database matching affects optional entity identity and locations, never live wording or progress.
+    -- Database corrections own objective ordering, as in QuestieQuest:PopulateQuestLogInfo.
+    -- Use the native index, not the dense display index. Wording and types are not identity checks:
+    -- client languages can differ, and database kill-credit objectives can be native monster objectives.
     for _, objective in ipairs(displayQuest.Objectives) do
         local index = objective.NativeIndex
-        local live = cached.objectives[index]
         local metadata = originalQuestieQuest and originalQuestieQuest.ObjectiveData and originalQuestieQuest.ObjectiveData[index]
         local original = originalQuestieQuest and originalQuestieQuest.Objectives and originalQuestieQuest.Objectives[index]
-        if metadata and original and metadata.Type == live.type then
-            local expectedText = metadata.Text
-            if not expectedText and metadata.Id then
-                if metadata.Type == "monster" then
-                    expectedText = QuestieDB.QueryNPCSingle(metadata.Id, "name")
-                elseif metadata.Type == "item" then
-                    expectedText = QuestieDB.QueryItemSingle(metadata.Id, "name")
-                elseif metadata.Type == "object" then
-                    expectedText = QuestieDB.QueryObjectSingle(metadata.Id, "name")
-                end
-            end
-            -- Index/type alone cannot prove identity after a quest changes. Keep the existing wording check.
-            local liveText = QuestieLib.TrimObjectiveText(live.raw_text or live.text, live.type):gsub("%.$", "")
-            local expected = expectedText and QuestieLib.TrimObjectiveText(expectedText, live.type):gsub("%.$", "")
-            if expected and liveText == expected and original.Id == metadata.Id then
-                objective.enrichment = original
-                objective.Id = original.Id
-                objective.spawnList = original.spawnList or {}
-                displayQuest.ObjectiveData[#displayQuest.ObjectiveData + 1] = metadata
-            end
-        end
-        if not objective.enrichment then
-            allObjectivesMatched = false
+        if metadata and original then
+            objective.enrichment = original
+            objective.Id = original.Id
+            objective.spawnList = original.spawnList or {}
+            displayQuest.ObjectiveData[#displayQuest.ObjectiveData + 1] = metadata
+        else
+            allObjectivesMapped = false
         end
     end
 
@@ -105,14 +88,14 @@ function TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
                     enrichment = original,
                 }
                 displayQuest.Objectives[objective.Index] = objective
-                allObjectivesMatched = false
+                allObjectivesMapped = false
             end
         end
     end
-    displayQuest.SpecialObjectives = allObjectivesMatched and originalQuestieQuest.SpecialObjectives or {}
-    -- A stale additional completion flag must not hide new unmatched objectives or a missing-source-item step.
+    displayQuest.SpecialObjectives = allObjectivesMapped and originalQuestieQuest.SpecialObjectives or {}
+    -- Additional completion must not hide objectives with missing mappings or a missing-source-item step.
     displayQuest.isComplete = displayQuest.completionState ~= -1 and (displayQuest.completionState == 1
-        or (allObjectivesMatched and originalQuestieQuest.isComplete == true)) or false
+        or (allObjectivesMapped and originalQuestieQuest.isComplete == true)) or false
 end
 
 ---Questie-specific title traits are separate from the shared level/name/state formatting.
