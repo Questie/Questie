@@ -1205,18 +1205,7 @@ describe("QuestieLib", function()
     end)
 
     describe("GetFullObjectiveText", function()
-        local originalTrimObjectiveText
-
-        before_each(function()
-            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
-        end)
-
-        after_each(function()
-            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
-        end)
-
-        it("should return the full objective description if trimObjectiveText is disabled", function()
-            Questie.db.profile.trimObjectiveText = false
+        it("extracts fallback wording without the Classic trailing counter", function()
             local rawObjectiveText = "Defeat Hogger: 0/1"
 
             local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
@@ -1224,8 +1213,7 @@ describe("QuestieLib", function()
             assert.are_same("Defeat Hogger", result)
         end)
 
-        it("should return the full objective description for Chinese clients if trimObjectiveText is disabled", function()
-            Questie.db.profile.trimObjectiveText = false
+        it("extracts fallback wording with a full-width colon", function()
             local rawObjectiveText = "击败霍格：0/1"
 
             local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
@@ -1233,13 +1221,11 @@ describe("QuestieLib", function()
             assert.are_same("击败霍格", result)
         end)
 
-        it("should still return full wording when trimObjectiveText is enabled", function()
-            Questie.db.profile.trimObjectiveText = true
-
-            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveText("Wolf slain: 0/1"))
+        it("extracts fallback wording without the Forever leading counter", function()
+            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveText("0/1 Wolf slain"))
         end)
 
-        it("should retain the nil result for text without a trailing counter", function()
+        it("returns nil when the text has no recognized progress counter", function()
             assert.is_nil(QuestieLib.GetFullObjectiveText("Speak to: Thrall"))
         end)
     end)
@@ -1435,27 +1421,4 @@ describe("QuestieLib", function()
         end)
     end)
 
-    describe("GetFullObjectiveTextConditional", function()
-        local originalTrimObjectiveText
-
-        before_each(function()
-            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
-        end)
-
-        after_each(function()
-            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
-        end)
-
-        it("should return full wording when trimObjectiveText is disabled", function()
-            Questie.db.profile.trimObjectiveText = false
-
-            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveTextConditional("Wolf slain: 0/1"))
-        end)
-
-        it("should return nil when trimObjectiveText is enabled", function()
-            Questie.db.profile.trimObjectiveText = true
-
-            assert.is_nil(QuestieLib.GetFullObjectiveTextConditional("Wolf slain: 0/1"))
-        end)
-    end)
 end)

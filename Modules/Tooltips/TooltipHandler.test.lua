@@ -159,7 +159,6 @@ describe("TooltipHandler", function()
             QuestieDB.GetItemDroprate = function() return nil end
             local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
             QuestieLib.GetColoredQuestName = function() return "Local Quest" end
-            QuestieLib.GetObjectiveDescription = function(_, objective) return objective.Description end
             QuestieTooltips:RegisterObjectiveTooltip(7, "o_1001", {
                 Index = 1, Id = 1001, Type = "object", Description = "Open the chest", Update = function() end,
             })

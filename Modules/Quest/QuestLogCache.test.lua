@@ -87,7 +87,7 @@ describe("QuestLogCache", function()
             local result = QuestLogCache.TryGetQuest(QUEST_ID)
 
             assert.are.equal(accepted, result)
-            assert.are.equal("Item: 2/5", result.objectives[1].raw_text)
+            assert.are.equal("Item: 2/5", result.objectives[1].text)
             assert.are.equal(2, result.objectives[1].numFulfilled)
             assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
             assert.spy(_G.HaveQuestData).was.not_called()
@@ -100,18 +100,18 @@ describe("QuestLogCache", function()
         local originalItemsNeeded, originalMonstersKilled
         local cases = {
             {name = "Classic item", itemFormat = "%s: %d/%d", monsterFormat = "%s slain: %d/%d",
-                type = "item", missing = " : 0/8", loaded = "item: 0/8", progress = "item: 2/8", expected = "item"},
+                type = "item", missing = " : 0/8", loaded = "item: 0/8", progress = "item: 2/8"},
             {name = "Forever item", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
-                type = "item", missing = "0/8  ", loaded = "0/8 item", progress = "2/8 item", expected = "item"},
+                type = "item", missing = "0/8  ", loaded = "0/8 item", progress = "2/8 item"},
             {name = "Forever monster", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
-                type = "monster", missing = "0/8   slain", loaded = "0/8 Wolf slain", progress = "2/8 Wolf slain", expected = "Wolf"},
+                type = "monster", missing = "0/8   slain", loaded = "0/8 Wolf slain", progress = "2/8 Wolf slain"},
             -- Constructed unknown-suffix fixtures exercise the literal spacing check, not the localized parser.
             {name = "unknown English suffix", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
                 type = "monster", missing = "0/8   destroyed", loaded = "0/8 Roiling Winds destroyed",
-                progress = "2/8 Roiling Winds destroyed", expected = "0/8 Roiling Winds destroyed"},
+                progress = "2/8 Roiling Winds destroyed"},
             {name = "unknown UTF-8 suffix", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
                 type = "monster", missing = "0/8   已摧毁", loaded = "0/8 烈风已摧毁",
-                progress = "2/8 烈风已摧毁", expected = "0/8 烈风已摧毁"},
+                progress = "2/8 烈风已摧毁"},
         }
 
         before_each(function()
@@ -142,8 +142,7 @@ describe("QuestLogCache", function()
                 assert.is_false(cacheMiss)
                 assert.are.same({[QUEST_ID] = {1}}, changes)
                 local previous = QuestLogCache.GetQuest(QUEST_ID)
-                assert.are.equal(case.expected, previous.objectives[1].text)
-                assert.are.equal(case.loaded, previous.objectives[1].raw_text)
+                assert.are.equal(case.loaded, previous.objectives[1].text)
                 assert.are.equal(0, previous.isComplete)
                 assert.is_true(QuestLogCache.TestGameCache())
 
@@ -170,7 +169,7 @@ describe("QuestLogCache", function()
                 assert.is_false(cacheMiss)
                 assert.are.same({[QUEST_ID] = {1}}, changes)
                 assert.are.equal(2, QuestLogCache.GetQuest(QUEST_ID).objectives[1].numFulfilled)
-                assert.are.equal(case.progress, QuestLogCache.GetQuest(QUEST_ID).objectives[1].raw_text)
+                assert.are.equal(case.progress, QuestLogCache.GetQuest(QUEST_ID).objectives[1].text)
                 assert.spy(Sounds.PlayObjectiveProgress).was.called(1)
             end)
         end
