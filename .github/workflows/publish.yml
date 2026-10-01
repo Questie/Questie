@@ -30,6 +30,12 @@ jobs:
     with:
       event_name: ${{ github.event_name }}
       repo_full_name: ${{ github.repository }}
+  bump:
+    uses: ./.github/workflows/versionbump.yml
+    if: github.event.inputs.version != ''
+    with:
+      version: ${{ inputs.version }}
+      dry_run: ${{ inputs.dry_run }}
   build:
     name: Build bundle
     runs-on: ubuntu-latest
@@ -52,13 +58,6 @@ jobs:
 
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
-
-      - name: Version Bump
-        if: github.event.inputs.version != ''
-        uses: ./.github/workflows/versionbump.yml
-        with:
-          version: ${{ inputs.version }}
-          dry_run: ${{ inputs.dry_run }}
 
       - name: Build ZIP
         run: |
