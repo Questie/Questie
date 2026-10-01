@@ -9,7 +9,7 @@ describe("MapIconTooltip objective wording", function()
             LibStub = _G.LibStub, GetTime = _G.GetTime, GameTooltip = _G.GameTooltip,
             WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, IsShiftKeyDown = _G.IsShiftKeyDown,
             UnitName = _G.UnitName, UnitClassBase = _G.UnitClassBase, GetClassColor = _G.GetClassColor,
-            C_CurrencyInfo = _G.C_CurrencyInfo,
+            C_CurrencyInfo = _G.C_CurrencyInfo, OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION,
         }
         now = 0
         _G.GetTime = function() return now end
@@ -75,6 +75,7 @@ describe("MapIconTooltip objective wording", function()
     end)
 
     after_each(function()
+        _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = savedGlobals.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
         _G.C_CurrencyInfo = savedGlobals.C_CurrencyInfo
         _G.LibStub, _G.GetTime, _G.GameTooltip = savedGlobals.LibStub, savedGlobals.GetTime, savedGlobals.GameTooltip
         _G.WorldMapFrame, _G.C_Map, _G.IsShiftKeyDown = savedGlobals.WorldMapFrame, savedGlobals.C_Map, savedGlobals.IsShiftKeyDown
@@ -93,26 +94,28 @@ describe("MapIconTooltip objective wording", function()
     end
 
     it("uses accepted native text without appending counts or stripping punctuation", function()
-        cached[1] = {objectives = {[3] = {raw_text = "9/15 Windstone Cluster."}}}
+        cached[1] = {objectives = {[3] = {text = "9/15 Windstone Cluster."}}}
 
         assert.are.same({["|cFFEEEEEE9/15 Windstone Cluster."] = true}, RenderObjectiveLines())
-        assert.are.equal("9/15 Windstone Cluster.", cached[1].objectives[3].raw_text)
+        assert.are.equal("9/15 Windstone Cluster.", cached[1].objectives[3].text)
     end)
 
     it("does not invent a counter for a native action objective", function()
         objective.Type, objective.Collected, objective.Needed = "object", 1, 1
-        cached[1] = {objectives = {[3] = {raw_text = "Use Walk on Air"}}}
+        cached[1] = {objectives = {[3] = {text = "Use Walk on Air"}}}
 
         assert.are.same({["|cFFEEEEEEUse Walk on Air"] = true}, RenderObjectiveLines())
     end)
 
-    it("keeps existing formatting when native text is unavailable", function()
-        assert.are.same({["|cFFEEEEEE9/15 Windstone Cluster"] = true}, RenderObjectiveLines())
+    it("keeps fallback wording and punctuation with one progress counter", function()
+        objective.Description = "Collect Windstone Clusters."
+
+        assert.are.same({["|cFFEEEEEE9/15 Collect Windstone Clusters."] = true}, RenderObjectiveLines())
     end)
 
     it("does not borrow native text for synthetic source items", function()
         objective.IsRequiredSourceItem = true
-        cached[1] = {objectives = {[3] = {raw_text = "Unrelated native instruction"}}}
+        cached[1] = {objectives = {[3] = {text = "Unrelated native instruction"}}}
 
         assert.are.same({["|cFFEEEEEE9/15 Windstone Cluster"] = true}, RenderObjectiveLines())
     end)
@@ -126,18 +129,32 @@ describe("MapIconTooltip objective wording", function()
     end)
 
     it("replaces remote counters without changing the local row", function()
-        cached[1] = {objectives = {[3] = {raw_text = "Windstone Cluster: 9/15"}}}
+        cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
         QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
 
         assert.are.same({
             ["|cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal|r|cFFEEEEEE)|r"] = true,
             ["|cFFEEEEEEWindstone Cluster: 3/15 (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
         }, RenderObjectiveLines())
-        assert.are.equal("Windstone Cluster: 9/15", cached[1].objectives[3].raw_text)
+        assert.are.equal("Windstone Cluster: 9/15", cached[1].objectives[3].text)
+    end)
+
+    it("keeps local and remote optional counters separate without duplicating progress", function()
+        _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
+        cached[1] = {objectives = {[3] = {text = "Wolf slain: 2/5 (Optional)"}}}
+        objective.Description = QuestieLoader:ImportModule("QuestieLib").GetFullObjectiveText(cached[1].objectives[3].text)
+        QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 5}}} end
+
+        assert.are.same({
+            ["|cFFEEEEEEWolf slain: 2/5 (Optional) (|cFFFFFFFFLocal|r|cFFEEEEEE)|r"] = true,
+            ["|cFFEEEEEEWolf slain: 3/5 (Optional) (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
+        }, RenderObjectiveLines())
+        assert.are.equal("Wolf slain (Optional)", objective.Description)
+        assert.are.equal("Wolf slain: 2/5 (Optional)", cached[1].objectives[3].text)
     end)
 
     it("does not show local counters as remote progress when party counts are missing", function()
-        cached[1] = {objectives = {[3] = {raw_text = "Windstone Cluster: 9/15"}}}
+        cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
         QuestieComms.GetQuest = function() return {Bob = {[3] = {}}} end
 
         assert.are.same({

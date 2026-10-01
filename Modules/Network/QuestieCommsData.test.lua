@@ -16,11 +16,11 @@ describe("QuestieCommsData", function()
     local originalGetObject
     local originalHaveQuestData
     local originalGetQuestObjectives
-    local originalTrimObjectiveText
     local originalThread
     local originalTimer
     local originalItem
     local originalGetItemInfo
+    local originalOptionalTemplate
     local itemCallback
     local itemCancel
     local loadedItemName
@@ -78,13 +78,14 @@ describe("QuestieCommsData", function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
+        originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+        _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
         originalData = QuestieComms.data
         originalGetItem = QuestieDB.GetItem
         originalGetNpc = QuestieDB.GetNPC
         originalGetObject = QuestieDB.GetObject
         originalHaveQuestData = _G.HaveQuestData
         originalGetQuestObjectives = C_QuestLog.GetQuestObjectives
-        originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
         originalTimer = _G.C_Timer
         originalItem = _G.Item
         originalGetItemInfo = QuestieCompat.GetItemInfo
@@ -103,7 +104,6 @@ describe("QuestieCommsData", function()
             return {}, loadThread
         end
         apiObjectives = nil
-        Questie.db.profile.trimObjectiveText = false
         _G.HaveQuestData = function() return true end
         C_QuestLog.GetQuestObjectives = spy.new(function() return apiObjectives end)
         -- Use the real fetcher/formatter; tests control when the loading coroutine resumes.
@@ -117,6 +117,7 @@ describe("QuestieCommsData", function()
     end)
 
     after_each(function()
+        _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
         QuestieComms.data = originalData
         QuestieDB.GetItem = originalGetItem
         QuestieDB.GetNPC = originalGetNpc
@@ -127,7 +128,6 @@ describe("QuestieCommsData", function()
         _G.C_Timer = originalTimer
         QuestieCompat.GetItemInfo = originalGetItemInfo
         _G.Item = originalItem
-        Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
     end)
 
     describe("GetTooltip", function()
@@ -232,16 +232,15 @@ describe("QuestieCommsData", function()
         end)
 
         local formattingCases = {
-            {name = "local trimming disabled", trim = false, text = "Wolf slain: 1/1", type = "monster", expected = "Wolf slain"},
-            {name = "local trimming enabled", trim = true, text = "Wolf slain: 1/1", type = "monster", expected = "Wolf slain"},
-            {name = "event counters", trim = true, text = "Ritual completed: 1/1", type = "event", expected = "Ritual completed"},
-            {name = "Chinese counters", trim = true, text = "仪式完成：1/1", type = "event", expected = "仪式完成"},
-            {name = "Forever counters", trim = true, text = "9/15 Windstone Cluster", type = "item", expected = "Windstone Cluster"},
-            {name = "no progress counter", trim = false, text = "Speak to: Thrall", type = "event", expected = "Speak to: Thrall"},
+            {name = "Classic counters", text = "Wolf slain: 1/1", type = "monster", expected = "Wolf slain"},
+            {name = "event counters", text = "Ritual completed: 1/1", type = "event", expected = "Ritual completed"},
+            {name = "Classic optional counters", text = "Wolf slain: 1/1 (Optional)", type = "monster", expected = "Wolf slain (Optional)"},
+            {name = "Chinese counters", text = "仪式完成：1/1", type = "event", expected = "仪式完成"},
+            {name = "Forever counters", text = "9/15 Windstone Cluster", type = "item", expected = "Windstone Cluster"},
+            {name = "no progress counter", text = "Speak to: Thrall", type = "event", expected = "Speak to: Thrall"},
         }
         for _, case in ipairs(formattingCases) do
             it("should preserve full wording in ready and delayed results with " .. case.name, function()
-                Questie.db.profile.trimObjectiveText = case.trim
                 apiObjectives = {{text = case.text, type = case.type}}
                 QuestieComms.data:RegisterTooltip(questId, playerName, {objective("m", 100)})
                 local readyResult = QuestieComms.data:GetTooltip("m_100")

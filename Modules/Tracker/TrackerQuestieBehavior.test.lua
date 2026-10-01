@@ -5,7 +5,7 @@ describe("TrackerQuestieBehavior", function()
     local displayQuest, cached, originalQuestieQuest, originalObjective
 
     before_each(function()
-        Questie.db.profile = {trimObjectiveText = true}
+        Questie.db.profile = {}
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
@@ -25,7 +25,7 @@ describe("TrackerQuestieBehavior", function()
                 Collected = 2, Needed = 5, Completed = false}},
         }
         cached = {isComplete = 0, objectives = {
-            [3] = {text = "Wolf", raw_text = "Wolf slain: 2/5", type = "monster", numFulfilled = 2, numRequired = 5},
+            [3] = {text = "Wolf slain: 2/5", type = "monster", numFulfilled = 2, numRequired = 5},
         }}
         dofile("Modules/Tracker/TrackerQuestieBehavior.lua")
         Behavior = QuestieLoader:ImportModule("TrackerQuestieBehavior")

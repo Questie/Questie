@@ -10,6 +10,8 @@ local QuestieLink = QuestieLoader:CreateModule("QuestieLink")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type TrackerUtils
@@ -391,12 +393,17 @@ _AddPlayerQuestProgress = function(tooltip, quest, starterName, starterZoneName,
         if (QuestieDB.IsComplete(quest.Id) == 0) then
             _AddTooltipLine(tooltip, " ")
             _AddColoredTooltipLine(tooltip, l10n("Your progress") .. l10n(": "), "gold")
+            local cached = QuestLogCache.TryGetQuest(quest.Id)
             for _, objective in pairs(quest.Objectives) do
-                local objDesc = QuestieLib:GetObjectiveDescription(objective)
-
-                if objective.Needed > 0 then
+                -- Use the same accepted native text as the tracker, including counter-free action instructions.
+                local native = cached and not objective.IsSourceItem and not objective.IsRequiredSourceItem
+                    and cached.objectives[objective.Index]
+                if native then
+                    _AddTooltipLine(tooltip, " - " .. QuestieLib:GetRGBForObjective(objective) .. native.text .. "|r")
+                elseif objective.Needed and objective.Needed > 0 then
                     local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
-                    _AddTooltipLine(tooltip, " - " .. QuestieLib:GetRGBForObjective(objective) .. objDesc .. l10n(": ") .. lineEnding .. "|r")
+                    _AddTooltipLine(tooltip, " - " .. QuestieLib:GetRGBForObjective(objective) .. (objective.Description or "")
+                        .. l10n(": ") .. lineEnding .. "|r")
                 end
             end
         else

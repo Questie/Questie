@@ -87,17 +87,15 @@ _GetAnnounceMarker = function()
 end
 
 ---@param questId QuestId
----@param objectiveText string
----@param objectiveProgress string
-function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText, objectiveProgress)
+---@param objectiveText string @Complete accepted native wording, including any native progress counter.
+function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
         local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
-        local objective = objectiveProgress .. " " .. objectiveText
-        local message = l10n("%s for %s!", objective, questLink)
+        local message = l10n("%s for %s!", objectiveText, questLink)
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
-            localMessage = l10n("%s for %s!", objective, QuestieLink:GetQuestHyperLink(questId))
+            localMessage = l10n("%s for %s!", objectiveText, QuestieLink:GetQuestHyperLink(questId))
         end
 
         _QuestieAnnounce:AnnounceToChannel(message, localMessage)
@@ -108,17 +106,20 @@ local _has_seen_incomplete = {}
 local _has_sent_announce = {}
 
 ---@param questId QuestId
----@param text string
+---@param objectiveIndex ObjectiveIndex @Original native index, not a dense display-row index.
+---@param text string @Complete accepted native wording; never used as objective identity.
 ---@param numFulfilled number
 ---@param numRequired number
-function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequired)
-    -- Announce completed objective
+function QuestieAnnounce:ObjectiveChanged(questId, objectiveIndex, text, numFulfilled, numRequired)
+    -- Native text changes with progress and can be identical across quests or objective slots.
+    -- Keep the existing count-based trigger and once-announced policy, keyed by stable identity instead.
+    local objectiveKey = questId .. ":" .. objectiveIndex
     if (numRequired ~= numFulfilled) then
-        _has_seen_incomplete[text] = true
-    elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
-        _has_seen_incomplete[text] = nil
-        _has_sent_announce[text] = true
-        QuestieAnnounce:AnnounceObjectiveToChannel(questId, text, tostring(numFulfilled) .. "/" .. tostring(numRequired))
+        _has_seen_incomplete[objectiveKey] = true
+    elseif _has_seen_incomplete[objectiveKey] and not _has_sent_announce[objectiveKey] then
+        _has_seen_incomplete[objectiveKey] = nil
+        _has_sent_announce[objectiveKey] = true
+        QuestieAnnounce:AnnounceObjectiveToChannel(questId, text)
     end
 end
 

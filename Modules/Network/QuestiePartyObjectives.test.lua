@@ -115,7 +115,6 @@ describe("QuestiePartyObjectives", function()
         pendingObjectiveLoadFailure = nil
 
         Questie.db.profile.showPartyQuestObjectives = true
-        Questie.db.profile.trimObjectiveText = false
 
         _G.UnitIsConnected = function() return true end
         _G.GetNumGroupMembers = function() return 2 end
@@ -381,9 +380,8 @@ describe("QuestiePartyObjectives", function()
     end)
 
     describe("API objective text", function()
-        it("should preserve full API wording even when local objective trimming is enabled", function()
+        it("should preserve native wording and a counter-free fallback description", function()
             givenPartyQuestWithUnloadedText()
-            Questie.db.profile.trimObjectiveText = true
 
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             pendingObjectiveLoadSuccess({{text = "Wolf slain: 1/1", type = "monster"}})
@@ -391,7 +389,6 @@ describe("QuestiePartyObjectives", function()
 
             assert.equals("Wolf slain", drawnObjectives[1].Description)
             assert.equals("Wolf slain: 1/1", drawnObjectives[1].NativeText)
-            assert.is_nil(drawnObjectives[1].FullDescription)
         end)
 
         it("should use API wording for matching types and request current wording on redraw", function()
@@ -415,7 +412,6 @@ describe("QuestiePartyObjectives", function()
             assert.is_equal(1, #drawnObjectives)
             assert.is_equal("Fallen Sky Ridge Revitalized", drawnObjectives[1].Description)
             assert.equals("Fallen Sky Ridge Revitalized: 0/1", drawnObjectives[1].NativeText)
-            assert.is_nil(drawnObjectives[1].FullDescription)
             assert.equals("monster", drawnObjectives[1].Type)
             assert.equals(100, drawnObjectives[1].Id)
 
@@ -481,9 +477,8 @@ describe("QuestiePartyObjectives", function()
             assert.is_equal(0, #drawnObjectives)
         end)
 
-        it("should omit full fallback text on timeout when trimming is enabled", function()
+        it("should use database wording when objective text loading times out", function()
             givenPartyQuestWithUnloadedText()
-            Questie.db.profile.trimObjectiveText = true
 
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
@@ -499,19 +494,7 @@ describe("QuestiePartyObjectives", function()
             assert.is_equal(1, #drawnObjectives)
             assert.is_equal("Kill things", drawnObjectives[1].Description)
             assert.is_nil(drawnObjectives[1].NativeText)
-            assert.is_nil(drawnObjectives[1].FullDescription)
         end)
 
-        it("should include full fallback text on timeout when trimming is disabled", function()
-            givenPartyQuestWithUnloadedText()
-            Questie.db.profile.trimObjectiveText = false
-
-            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
-            pendingObjectiveLoadFailure()
-            runPendingThreads()
-
-            assert.equals("Kill things", drawnObjectives[1].Description)
-            assert.equals("Kill things slain", drawnObjectives[1].FullDescription)
-        end)
     end)
 end)
