@@ -307,6 +307,8 @@ local function _DrawQuest(questId)
                     Index = objectiveIndex,
                     questId = questId,
                     Description = description,
+                    -- Map tooltips replace the native counter with each remote player's progress.
+                    NativeText = apiObjective and apiObjective.text,
                     FullDescription = (not apiText) and _GetFullDescription(objType, description) or nil,
                     Icon = objData and objData.Icon,
                     Completed = false,
