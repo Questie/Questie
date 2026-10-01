@@ -884,6 +884,23 @@ function QuestieLib.FormatDate(timeStamp)
     return date(weekDay .. ", " .. monthName .. " %d, %Y at %H:%M", timeStamp)
 end
 
+-- An optional label wraps the whole native instruction. Separate only Blizzard's localized
+-- template, so a Classic counter before that label still counts as trailing progress. Literal
+-- prefix/suffix comparisons preserve UTF-8 and pattern characters without guessing label words.
+local function _SplitOptionalObjectiveText(text)
+    if OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION then
+        -- "%s (Optional)" -> prefix="", suffix=" (Optional)"; "(Optional) %s" -> the reverse.
+        local prefix, suffix = OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION:match("^(.-)%%s(.-)$")
+        if prefix and #text >= #prefix + #suffix and text:sub(1, #prefix) == prefix
+            and (#suffix == 0 or text:sub(-#suffix) == suffix) then
+            -- "Wolf slain: 2/5 (Optional)" -> "Wolf slain: 2/5", "", " (Optional)".
+            return text:sub(#prefix + 1, #text - #suffix), prefix, suffix
+        end
+    end
+    -- No matching label: "Use Walk on Air" -> "Use Walk on Air", "", "".
+    return text, "", ""
+end
+
 ---Replaces a recognized native progress counter without rewriting its wording or placement.
 ---Returns nil for unrecognized layouts so callers can retain their existing remote-progress fallback.
 ---@param nativeText string?
@@ -896,27 +913,40 @@ function QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required
     end
 
     -- Try both client layouts, regardless of client version. Anchors avoid replacing fractions inside instructions.
-    local suffix = nativeText:match("^%d+/%d+(%s+.+)$")
+    local text, optionalPrefix, optionalSuffix = _SplitOptionalObjectiveText(nativeText)
+    local suffix = text:match("^%d+/%d+(%s+.+)$")
     if suffix then
-        return fulfilled .. "/" .. required .. suffix
+        -- "2/5 Wolf slain" -> suffix=" Wolf slain".
+        -- For an optional row with remote 3/5 -> "3/5 Wolf slain (Optional)".
+        return optionalPrefix .. fulfilled .. "/" .. required .. suffix .. optionalSuffix
     end
-    local prefix = nativeText:match("^(.+:%s*)%d+/%d+$") or nativeText:match("^(.+：%s*)%d+/%d+$")
+    local prefix = text:match("^(.+:%s*)%d+/%d+$") or text:match("^(.+：%s*)%d+/%d+$")
     if prefix then
-        return prefix .. fulfilled .. "/" .. required
+        -- "Wolf slain: 2/5" -> prefix="Wolf slain: ".
+        -- For an optional row with remote 3/5 -> "Wolf slain: 3/5 (Optional)".
+        return optionalPrefix .. prefix .. fulfilled .. "/" .. required .. optionalSuffix
     end
+    -- "Use 1/2 of the potion" -> nil, not "Use 3/5 of the potion"; the caller chooses its fallback.
     return nil
 end
 
----Returns full wording without trailing progress numbers, independently of display settings.
----For example, "Wolf slain: 0/1" becomes "Wolf slain".
+---Extracts counter-free fallback wording without shortening the instruction.
+---Native displays keep the original text; remote/fallback displays may need separate progress.
 ---@param rawObjectiveText string
----@return string? description @Nil if no trailing progress counter matches
+---@return string? description @Nil if no leading or trailing progress counter matches
 function QuestieLib.GetFullObjectiveText(rawObjectiveText)
     -- This supports three different input syntax:
     -- Classic clients: "Wolf slain: 0/1"
     -- Chinese Classic clients: "Wolf slain： 0/1" (full-width colon)
     -- Forever clients: "0/1 Wolf slain"
-    return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$") or string.match(rawObjectiveText, "^%d+/%d+%s*(.*)$")
+    local text, optionalPrefix, optionalSuffix = _SplitOptionalObjectiveText(rawObjectiveText)
+    -- "Wolf slain: 2/5" or "2/5 Wolf slain" -> "Wolf slain"; "击败霍格：2/5" -> "击败霍格".
+    local description = string.match(text, "^(.*):%s*%d+/%d+$") or string.match(text, "^(.*)：%s*%d+/%d+$")
+        or string.match(text, "^%d+/%d+%s*(.*)$")
+    if description then
+        -- "Wolf slain" + " (Optional)" -> "Wolf slain (Optional)", with no local counter to duplicate.
+        return optionalPrefix .. description .. optionalSuffix
+    end
 end
 
 ---Populates optional FullDescription fields only when full wording is enabled in the profile.
