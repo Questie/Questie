@@ -14,7 +14,9 @@ Original quest/map objectives retain a single counter-free `Description` for fal
 
 ## Missing-name placeholders
 
-`QuestieLib.IsObjectiveDataLoaded(objective)` owns the shared validation chain: missing text or type, leading/trailing ASCII spaces, an empty parsed name, and finally three consecutive literal ASCII spaces anywhere in native text. It returns a boolean and never modifies the row. Exact empty text returns true because these permanent client placeholders must not block loading; objective consumers still omit those rows.
+`QuestieLib.IsObjectiveDataLoaded(objective)` owns the shared validation chain: missing text or type, leading/trailing ASCII spaces, an empty parsed name, and finally three consecutive literal ASCII spaces in the instruction. It returns a boolean and never modifies the row. Exact empty native text returns true because these permanent client placeholders must not block loading; objective consumers still omit those rows.
+
+A matching localized optional wrapper is removed only from the validation's local string. It can otherwise hide a missing name: `2/5 消灭 （可选）` hides a trailing space, while `(Opcional)  : 2/5` hides a leading space. The same checks then apply to the inner instruction. A wrapper around an empty instruction is pending, not the skippable exact-empty native row. Accepted text, including its optional label, remains unchanged.
 
 As a final heuristic, three consecutive literal ASCII spaces mean "not loaded". This catches missing names before unrecognized suffixes, without splitting words or interpreting UTF-8 bytes. For example, the constructed placeholders `0/6   destroyed` and `0/6   已摧毁` are rejected; `4/6 Roiling Winds destroyed` and `4/6 烈风已摧毁` remain unchanged.
 
@@ -59,6 +61,10 @@ Remote progress uses `QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfil
 
 Both replacement and counter-free extraction separate a matching `OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION` wrapper before inspecting counters, then restore it unchanged. This supports localized suffixes and prefixes without hardcoded label words. For example, `Wolf slain: 2/5 (Optional)` becomes a remote player's `Wolf slain: 3/5 (Optional)`, while its counter-free fallback is `Wolf slain (Optional)`.
 
+The inspected [Era French GlobalStrings](https://www.townlong-yak.com/framexml/era/Helix/GlobalStrings.lua/FR) snapshot uses `QUEST_MONSTERS_KILLED = "%s tué : %d/%d"`, with a non-breaking space before the colon. It follows the existing trailing-counter path: `Vide-gousset défias tué : 2/5` becomes `Vide-gousset défias tué : 3/5`. Tests cover this exact format both with and without an optional label.
+
+Forever's French `QUEST_MONSTERS_KILLED` in [live French GlobalStrings](https://www.townlong-yak.com/framexml/live/Helix/GlobalStrings.lua/FR) places a phrase after the counter: `%1$s : %2$d/%3$d |4personnage tué:personnages tués;`. Both helpers derive that suffix from the client template, recognize either the literal `|4...;` markup or one of its expanded forms, and preserve it around counter processing. For example, `Vide-gousset défias : 2/5 personnages tués (optionnel)` becomes `Vide-gousset défias : 3/5 personnages tués (optionnel)` for remote progress. Counter-free extraction retains the phrase and optional label without the local counter. The non-breaking space before the colon is preserved. This is not a general grammar engine: already-expanded wording stays as supplied, and unknown suffixes are not guessed.
+
 Only the recognized counter changes; surrounding wording and spacing remain intact. A fraction in the middle of an instruction is not replaced. Recognition is a layout heuristic, not semantic proof: a leading fraction followed by wording can still look like a native counter. Unrecognized layouts, instructions without a counter, and unavailable text keep the previous remote-counter formatting. Missing remote counts never cause the local player's embedded counts to be displayed as the party member's progress.
 
 Comms tooltip rows carry validated `nativeText` alongside counter-free fallback `text` and remote progress. Party-only map objectives carry validated `NativeText` alongside their existing descriptions. These fields come from the existing objective-loading paths, including their asynchronous callbacks. They are not new wire-protocol fields. Neither counter replacement nor tooltip rendering modifies the native cache.
@@ -102,6 +108,28 @@ The helpers remain in `Modules/Libs/QuestieLib.lua`:
 `GetFullObjectiveTextConditional` and `GetObjectiveDescription` are removed. The **Trim Objective Text** option and default are removed. Migration 41 clears the retired `trimObjectiveText` value from existing profiles; historical migration 28 remains in place so migration numbering is stable.
 
 Do not remove loading validation or counter-free remote fallback merely because native rendering no longer shortens wording. Remote-player progress must not inherit the local player's counters, and loading validation must not accept placeholder names.
+
+## Era and Forever compatibility audit
+
+The inspected snapshots of [Era GlobalStrings](https://www.townlong-yak.com/framexml/era/Helix/GlobalStrings.lua/EN) and [live/Forever GlobalStrings](https://www.townlong-yak.com/framexml/live/Helix/GlobalStrings.lua/EN) cover 21 client/locale combinations: ten Era and eleven Forever, with no Era Italian file supplied. Each fixture links its specific locale URL; these URLs track current sources, while the test constants remain frozen. All 84 values of `OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION`, `QUEST_MONSTERS_KILLED`, `QUEST_ITEMS_NEEDED`, and `QUEST_OBJECTS_FOUND` were compared byte-for-byte with the frozen fixture in `test/fixtures/objectiveTextLocales.lua`.
+
+`Modules/Libs/QuestieLib.objectiveText.test.lua` runs the real helpers for all 63 monster/item/object cases. It covers plain and optional text, remote counters, counter-free fallback, label detection, and valid versus missing names. The missing-name checks also wrap each placeholder with its client-specific optional label. Globals are installed before loading QuestieLib and restored after each test. The test suite does not require the ignored dumps.
+
+| Locale | Era to Forever differences |
+| --- | --- |
+| enUS | Progress moves from trailing to leading; monster wording still contains `slain`. Optional label unchanged. |
+| ptBR | Progress becomes leading. Optional suffix changes from English `(Optional)` to `(Opcional)`. |
+| zhCN | Progress becomes leading; monster wording changes from `已消灭` to `消灭`. Era uses full-width colons. Optional label unchanged. |
+| deDE | Progress formats are identical. Optional label changes from lowercase suffix `(optional)` to capitalized prefix `(Optional)`. |
+| esES | Progress remains trailing, with positional placeholders in Forever. Optional label changes from suffix `(opcional)` to prefix `(Opcional)`. |
+| esMX | Progress becomes leading. Optional suffix capitalization changes from `(opcional)` to `(Opcional)`. |
+| frFR | Era monster `tué` precedes progress; Forever uses a pluralized phrase after progress. Both monster formats use NBSP before the colon; item/object formats change from ASCII space to NBSP. Optional label unchanged. |
+| koKR | Progress becomes leading; `처치` remains after the name. Optional label unchanged. |
+| ruRU | Displayed ordering is unchanged; Forever adds positional placeholders. The en dash and optional suffix are unchanged. |
+| zhTW | Progress becomes leading; `殺死` remains before the monster name. Era item/object formats use full-width colons, but its monster format uses ASCII colon. Optional suffix changes from `(選擇性)` to `（非必要）`. |
+| itIT | Forever-only in the supplied files. No Era behavior is inferred. |
+
+The matrix originally checked only undecorated missing-name strings. Independent verification found eleven Forever cases where optional decoration incorrectly made a missing name appear loaded: all three types in zhCN, esES and zhTW, plus items/objects in deDE. Validation now inspects the inner instruction, and all 63 decorated missing-name cases are tested.
 
 ## Localized fixture sources
 
