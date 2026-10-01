@@ -507,14 +507,14 @@ describe("Tooltip", function()
             assert.are_same({"Quest Name", "   goldItem Name"}, tooltip)
         end)
 
-        it("should return quest name and objective when tooltip has objective and Needed", function()
+        it("keeps fallback wording and punctuation with one progress counter", function()
             QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
                     Needed = 5,
                     Collected = 3,
-                    Description = "do it",
+                    Description = "Collect Windstone Clusters.",
                     Update = function() end,
                 }
             }}}
@@ -523,7 +523,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are_same({"Quest Name", "   gold3/5 do it"}, tooltip)
+            assert.are_same({"Quest Name", "   gold3/5 Collect Windstone Clusters."}, tooltip)
         end)
 
         describe("native objective wording", function()
@@ -546,17 +546,17 @@ describe("Tooltip", function()
             it("preserves accepted local text at its native index and keeps the drop rate", function()
                 Questie.db.profile.enableTooltipDroprates = true
                 QuestieDB.GetItemDroprate = function() return {25} end
-                cached[1] = {objectives = {[3] = {raw_text = "9/15 Windstone Cluster."}}}
+                cached[1] = {objectives = {[3] = {text = "9/15 Windstone Cluster."}}}
 
                 local tooltip = QuestieTooltips.GetTooltip("m_123")
 
                 assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster.  |cFF999999[25%]|r"}, tooltip)
-                assert.are.equal("9/15 Windstone Cluster.", cached[1].objectives[3].raw_text)
+                assert.are.equal("9/15 Windstone Cluster.", cached[1].objectives[3].text)
             end)
 
             it("does not invent a counter for a native action instruction", function()
                 liveObjective.Type, liveObjective.Collected, liveObjective.Needed = "object", 1, 1
-                cached[1] = {objectives = {[3] = {raw_text = "Use Walk on Air"}}}
+                cached[1] = {objectives = {[3] = {text = "Use Walk on Air"}}}
 
                 assert.are.same({"Quest Name", "   goldUse Walk on Air"}, QuestieTooltips.GetTooltip("m_123"))
             end)
@@ -564,13 +564,13 @@ describe("Tooltip", function()
             it("keeps a synthetic source item's text even when its index collides with native data", function()
                 liveObjective.IsSourceItem = true
                 liveObjective.Description, liveObjective.Collected, liveObjective.Needed = "Quest item", 0, 1
-                cached[1] = {objectives = {[3] = {raw_text = "9/15 Windstone Cluster"}}}
+                cached[1] = {objectives = {[3] = {text = "9/15 Windstone Cluster"}}}
 
                 assert.are.same({"Quest Name", "   gold0/1 Quest item"}, QuestieTooltips.GetTooltip("m_123"))
             end)
 
             it("falls back when the accepted snapshot lacks this objective index", function()
-                cached[1] = {objectives = {[1] = {raw_text = "Unrelated objective"}}}
+                cached[1] = {objectives = {[1] = {text = "Unrelated objective"}}}
 
                 assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster"}, QuestieTooltips.GetTooltip("m_123"))
             end)

@@ -576,11 +576,11 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
     local cached = QuestLogCache.TryGetQuest(iconData.Id)
     local native = cached and not objective.IsPartyObjective and not objective.IsSourceItem and not objective.IsRequiredSourceItem
         and cached.objectives[iconData.ObjectiveIndex]
-    local nativeText = native and native.raw_text or objective.NativeText
-    local text = QuestieLib:GetObjectiveDescription(objective)
+    local nativeText = native and native.text or objective.NativeText
+    local text = objective.Description or ""
     local color = QuestieLib:GetRGBForObjective(objective)
     if native then
-        text = color .. native.raw_text
+        text = color .. native.text
     elseif iconData.ObjectiveData.Needed then
         if iconData.ObjectiveData.Type == "spell" and iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId then
             text = color .. tostring(QuestieDB.QueryItemSingle(iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId, "name"))
@@ -618,7 +618,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
                     local colorizedPlayerName = " " .. l10n("(") .. playerColor .. playerName .. "|r" .. remoteColor .. l10n(")") .. "|r" .. playerType
-                    local remoteText = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
+                    local remoteText = objective.Description or ""
 
                     if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
                         local fulfilled = objectiveEntry.fulfilled;

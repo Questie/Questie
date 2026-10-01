@@ -76,7 +76,7 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
             objective.questId = questId
             objective.Type = live.type
             -- The cache validates native text. Keep its accepted wording, counters and punctuation intact.
-            objective.Description = live.raw_text
+            objective.Description = live.text
             objective.Collected = tonumber(live.numFulfilled) or 0
             objective.Needed = tonumber(live.numRequired) or 0
             -- Native action objectives can report 1/1 while unfinished. The cache owns completion normalization.
