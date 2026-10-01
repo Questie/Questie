@@ -176,7 +176,7 @@ describe("TrackerQuestieBehavior", function()
         Behavior.Apply(displayQuest, cached)
 
         assert.are.equal(1, #displayQuest.Objectives)
-        assert.are.equal("Note", displayQuest.Objectives[1].Description)
+        assert.are.equal("Note: 0/1", displayQuest.Objectives[1].Description)
         assert.are.equal(1, displayQuest.Objectives[1].Index)
         assert.are.equal(note, displayQuest.Objectives[1].enrichment)
         assert.is_nil(displayQuest.Objectives[1].HideIcons)
