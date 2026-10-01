@@ -11,6 +11,10 @@ on:
         description: Bump the Questie version number
         type: boolean
         default: false
+      version:
+        description: Version without the v prefix (for example 12.0.1)
+        type: string
+        default: ""
       dry_run:
         description: (--dry-run) Preview release notes and metadata without publishing
         type: boolean
@@ -54,8 +58,10 @@ jobs:
         run: git fetch --prune --unshallow --tags
 
       - name: Version Bump
-        if: ${{ inputs.versionbump }}
-        uses: './.github/workflows/versionbump.yml'
+        if: ${{ inputs.versionbump && !inputs.dry_run && inputs.version != ""}}
+        uses: ./.github/workflows/versionbump.yml
+        with:
+          version: ${{ inputs.version }}
 
       - name: Build ZIP
         run: |
