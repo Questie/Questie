@@ -17,6 +17,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type TooltipLayout
 local TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
 ---@type QuestieComms
@@ -563,9 +565,18 @@ end
 function _MapIconTooltip:GetObjectiveTooltip(icon)
     local tooltips = {}
     local iconData = icon.data
-    local text = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
-    local color = QuestieLib:GetRGBForObjective(iconData.ObjectiveData)
-    if iconData.ObjectiveData.Needed then
+    -- Local wording comes from the accepted cache. Party-only objectives carry validated API wording
+    -- from their loading path; it is a template for remote progress, never a local progress line.
+    local objective = iconData.ObjectiveData
+    local cached = QuestLogCache.TryGetQuest(iconData.Id)
+    local native = cached and not objective.IsPartyObjective and not objective.IsSourceItem and not objective.IsRequiredSourceItem
+        and cached.objectives[iconData.ObjectiveIndex]
+    local nativeText = native and native.raw_text or objective.NativeText
+    local text = QuestieLib:GetObjectiveDescription(objective)
+    local color = QuestieLib:GetRGBForObjective(objective)
+    if native then
+        text = color .. native.raw_text
+    elseif iconData.ObjectiveData.Needed then
         if iconData.ObjectiveData.Type == "spell" and iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId then
             text = color .. tostring(QuestieDB.QueryItemSingle(iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId, "name"))
         else
@@ -607,7 +618,9 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
                         local fulfilled = objectiveEntry.fulfilled;
                         local required = objectiveEntry.required;
-                        remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                        local replacedText = QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required)
+                        remoteText = remoteColor .. (replacedText or (tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText))
+                            .. colorizedPlayerName
                     else
                         remoteText = remoteColor .. remoteText .. colorizedPlayerName;
                     end

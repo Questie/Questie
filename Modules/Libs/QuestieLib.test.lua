@@ -1056,6 +1056,41 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("ReplaceObjectiveTextProgress", function()
+        local cases = {
+            {name = "leading Forever counter", text = "9/15 Windstone Cluster", expected = "3/12 Windstone Cluster"},
+            {name = "trailing Classic counter", text = "Wolf slain: 9/15", expected = "Wolf slain: 3/12"},
+            {name = "localized wording and spacing", text = "Wölfe besiegt :  9/15", expected = "Wölfe besiegt :  3/12"},
+            {name = "full-width colon", text = "击败霍格：9/15", expected = "击败霍格：3/12"},
+            {name = "UTF-8 leading wording", text = "9/15 击败霍格", expected = "3/12 击败霍格"},
+            {name = "fraction inside Classic instruction", text = "Mix 1/2 potion: 9/15", expected = "Mix 1/2 potion: 3/12"},
+            {name = "fraction inside Forever instruction", text = "9/15 Mix 1/2 potion.", expected = "3/12 Mix 1/2 potion."},
+        }
+        for _, case in ipairs(cases) do
+            it("replaces only the " .. case.name, function()
+                assert.equals(case.expected, QuestieLib.ReplaceObjectiveTextProgress(case.text, 3, 12))
+            end)
+        end
+
+        it("supports zero progress without removing the instruction", function()
+            assert.equals("0/1 Use the beacon", QuestieLib.ReplaceObjectiveTextProgress("1/1 Use the beacon", 0, 1))
+        end)
+
+        it("does not guess counters from instruction fractions or unrecognized layouts", function()
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Use 1/2 of the potion", 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Potion 1/2", 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Use Walk on Air", 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("1/2", 3, 12))
+        end)
+
+        it("requires native text and numeric remote progress", function()
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress(nil, 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("9/15 Cluster", nil, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("9/15 Cluster", 3, nil))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("9/15 Cluster", "3", 12))
+        end)
+    end)
+
     describe("GetFullObjectiveText", function()
         local originalTrimObjectiveText
 

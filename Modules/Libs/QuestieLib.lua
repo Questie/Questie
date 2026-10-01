@@ -865,6 +865,29 @@ function QuestieLib.FormatDate(timeStamp)
     return date(weekDay .. ", " .. monthName .. " %d, %Y at %H:%M", timeStamp)
 end
 
+---Replaces a recognized native progress counter without rewriting its wording or placement.
+---Returns nil for unrecognized layouts so callers can retain their existing remote-progress fallback.
+---@param nativeText string?
+---@param fulfilled number?
+---@param required number?
+---@return string?
+function QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required)
+    if type(nativeText) ~= "string" or type(fulfilled) ~= "number" or type(required) ~= "number" then
+        return nil
+    end
+
+    -- Try both client layouts, regardless of client version. Anchors avoid replacing fractions inside instructions.
+    local suffix = nativeText:match("^%d+/%d+(%s+.+)$")
+    if suffix then
+        return fulfilled .. "/" .. required .. suffix
+    end
+    local prefix = nativeText:match("^(.+:%s*)%d+/%d+$") or nativeText:match("^(.+：%s*)%d+/%d+$")
+    if prefix then
+        return prefix .. fulfilled .. "/" .. required
+    end
+    return nil
+end
+
 ---Returns full wording without trailing progress numbers, independently of display settings.
 ---For example, "Wolf slain: 0/1" becomes "Wolf slain".
 ---@param rawObjectiveText string
