@@ -143,6 +143,45 @@ describe("QuestEventHandler", function()
             assert.spy(resizeMock).was.called(1)
         end)
 
+        it("matches an item objective by its ID when display wording has a trailing space", function()
+            getQuestMock.returns({name = "Collect Cloth", Objectives = {
+                {Type = "item", Id = 789, Description = "Étoffe de laine "},
+            }})
+            getItemInfoMock.returns("Étoffe de laine")
+            dialog.Text.text_arg1 = "Étoffe de laine"
+
+            hooks.StaticPopup_Show("DELETE_ITEM", "Étoffe de laine")
+
+            assert.spy(getItemInfoMock).was.called_with(789)
+            assert.spy(dialog.Text.SetFormattedText).was.called_with(match._,
+                "Quest Item %s might be needed for the quest %s. \n\nAre you sure you want to delete this?",
+                "Étoffe de laine", "Collect Cloth")
+            assert.spy(resizeMock).was.called(1)
+        end)
+
+        it("does not mistake another objective type's description for an item name", function()
+            getQuestMock.returns({name = "Deliver the Letter", Objectives = {
+                {Type = "monster", Id = 789, Description = "A Letter"},
+            }})
+
+            hooks.StaticPopup_Show("DELETE_ITEM", "A Letter")
+
+            assert.spy(getItemInfoMock).was.not_called()
+            assert.spy(dialog.Text.SetFormattedText).was.not_called()
+        end)
+
+        it("does not fall back to display wording when the objective item name is unavailable", function()
+            getQuestMock.returns({name = "Deliver the Letter", Objectives = {
+                {Type = "item", Id = 789, Description = "A Letter"},
+            }})
+            getItemInfoMock.returns(nil)
+
+            hooks.StaticPopup_Show("DELETE_ITEM", "A Letter")
+
+            assert.spy(getItemInfoMock).was.called_with(789)
+            assert.spy(dialog.Text.SetFormattedText).was.not_called()
+        end)
+
         it("leaves the dialog unchanged when the source item name is not cached", function()
             getItemInfoMock.returns(nil)
 
