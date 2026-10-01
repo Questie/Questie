@@ -6,13 +6,10 @@ describe("TrackerQuestieBehavior", function()
 
     before_each(function()
         Questie.db.profile = {trimObjectiveText = true}
-        dofile("Localization/l10n.lua")
-        dofile("Modules/Libs/QuestieLib.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieDB.IsComplete = spy.new(function() return 0 end)
-        QuestieDB.QueryNPCSingle = function() return "Wolf" end
         QuestieDB.IsPvPQuest = spy.new(function() return true end)
         QuestieEvent.IsEventQuest = spy.new(function() return false end)
         originalObjective = {Id = 10, Index = 3, Description = "Database wording", spawnList = {{Name = "Wolf"}}}
@@ -34,11 +31,15 @@ describe("TrackerQuestieBehavior", function()
         Behavior = QuestieLoader:ImportModule("TrackerQuestieBehavior")
     end)
 
-    it("attaches original-index map data without replacing live title, wording or progress", function()
+    it("attaches map data by native index despite differing IDs without replacing live display data", function()
+        originalQuestieQuest.ObjectiveData[3].Id = 11
+
         Behavior.Apply(displayQuest, cached)
 
         assert.are.equal(originalQuestieQuest, displayQuest.enrichment)
         assert.are.equal(originalObjective, displayQuest.Objectives[1].enrichment)
+        assert.are.equal(10, displayQuest.Objectives[1].Id)
+        assert.are.equal(11, displayQuest.ObjectiveData[1].Id)
         assert.are.equal(originalObjective.spawnList, displayQuest.Objectives[1].spawnList)
         assert.are.equal(originalQuestieQuest.SpecialObjectives, displayQuest.SpecialObjectives)
         assert.are.equal(originalQuestieQuest.Finisher, displayQuest.Finisher)
@@ -94,18 +95,74 @@ describe("TrackerQuestieBehavior", function()
         assert.spy(QuestieDB.IsComplete).was.not_called()
     end)
 
-    it("does not let an unmatched objective inherit a stale completion flag or special objectives", function()
+    it("clears enrichment and additional completion when the indexed original objective disappears", function()
         originalQuestieQuest.isComplete = true
-        cached.objectives[3].raw_text = "Boar slain: 2/5"
-        displayQuest.Objectives[1].Description = "Boar"
+        Behavior.Apply(displayQuest, cached)
+        assert.are.equal(originalObjective, displayQuest.Objectives[1].enrichment)
+        assert.is_true(displayQuest.isComplete)
+        originalQuestieQuest.Objectives[3] = nil
 
         Behavior.Apply(displayQuest, cached)
 
         assert.is_nil(displayQuest.Objectives[1].enrichment)
+        assert.is_nil(displayQuest.Objectives[1].Id)
+        assert.are.same({}, displayQuest.Objectives[1].spawnList)
         assert.are.same({}, displayQuest.ObjectiveData)
         assert.are.same({}, displayQuest.SpecialObjectives)
         assert.is_false(displayQuest.isComplete)
-        assert.are.equal("Boar", displayQuest.Objectives[1].Description)
+        assert.are.equal("Wolf", displayQuest.Objectives[1].Description)
+        assert.are.equal(2, displayQuest.Objectives[1].Collected)
+    end)
+
+    it("uses the indexed mapping when database wording differs from the native language", function()
+        originalQuestieQuest.ObjectiveData[3].Text = "Wölfe besiegt"
+        originalObjective.Description = "Wölfe besiegt"
+        originalQuestieQuest.isComplete = true
+
+        Behavior.Apply(displayQuest, cached)
+
+        assert.are.equal(originalObjective, displayQuest.Objectives[1].enrichment)
+        assert.are.equal("Wolf", displayQuest.Objectives[1].Description)
+        assert.are.equal(2, displayQuest.Objectives[1].Collected)
+        assert.are.equal(originalQuestieQuest.SpecialObjectives, displayQuest.SpecialObjectives)
+        assert.is_true(displayQuest.isComplete)
+    end)
+
+    it("attaches kill-credit locations to the native monster objective at the same index", function()
+        local metadata = {Type = "killcredit", IdList = {10, 11}, RootId = 10}
+        originalQuestieQuest.ObjectiveData[3] = metadata
+        originalObjective.Id = nil
+        originalObjective.Type = "monster"
+
+        Behavior.Apply(displayQuest, cached)
+
+        assert.are.equal(originalObjective, displayQuest.Objectives[1].enrichment)
+        assert.are.equal(originalObjective.spawnList, displayQuest.Objectives[1].spawnList)
+        assert.are.equal("monster", displayQuest.Objectives[1].Type)
+        assert.is_nil(displayQuest.Objectives[1].Id)
+        assert.are.equal(metadata, displayQuest.ObjectiveData[1])
+        assert.are.equal(originalQuestieQuest.SpecialObjectives, displayQuest.SpecialObjectives)
+    end)
+
+    it("retains special objectives for an indexed reputation objective with no database text", function()
+        local metadata = {Type = "reputation", Id = 529, RequiredRepValue = 9000}
+        originalQuestieQuest.ObjectiveData[3] = metadata
+        originalObjective.Id = 529
+        originalObjective.Type = "reputation"
+        originalObjective.spawnList = {}
+        cached.objectives[3] = {text = "Argent Dawn", type = "reputation", numFulfilled = 3000, numRequired = 9000}
+        displayQuest.Objectives[1].Type = "reputation"
+        displayQuest.Objectives[1].Description = "Argent Dawn"
+        displayQuest.Objectives[1].Collected = 3000
+        displayQuest.Objectives[1].Needed = 9000
+
+        Behavior.Apply(displayQuest, cached)
+
+        assert.are.equal(originalObjective, displayQuest.Objectives[1].enrichment)
+        assert.are.equal(metadata, displayQuest.ObjectiveData[1])
+        assert.are.equal(originalQuestieQuest.SpecialObjectives, displayQuest.SpecialObjectives)
+        assert.are.equal(3000, displayQuest.Objectives[1].Collected)
+        assert.are.equal(9000, displayQuest.Objectives[1].Needed)
     end)
 
     it("keeps the source-item exception explicit and separate from an empty native objective list", function()
