@@ -99,21 +99,23 @@ describe("TrackerData", function()
         assert.are.equal(1, displayQuest:IsComplete())
         assert.is_true(displayQuest.isComplete)
         assert.is_nil(displayQuest.enrichment)
-        assert.are.equal("|cFFEEEEEE" .. "Return the book to Brother Paxton", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
+        assert.are.equal("|cFFEEEEEE" .. "Return the book to Brother Paxton.", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
         assert.is_nil(QuestiePlayer.currentQuestlog[91741])
     end)
 
     it("keeps unfamiliar objective types readable rather than treating their numbers as counters", function()
-        cached[91741] = {objectives = {{text = "Follow the apparition.", type = "futureType", numFulfilled = 0, numRequired = 100, finished = false}}}
+        cached[91741] = {objectives = {{text = "Follow the apparition.", raw_text = "Follow the apparition.",
+            type = "futureType", numFulfilled = 0, numRequired = 100, finished = false}}}
 
         local objective = TrackerData.RefreshQuest(91741).Objectives[1]
 
         assert.are.equal("futureType", objective.Type)
-        assert.are.equal("|cFFEEEEEEFollow the apparition", TrackerData.GetObjectiveText(objective))
+        assert.are.equal("|cFFEEEEEEFollow the apparition.", TrackerData.GetObjectiveText(objective))
     end)
 
     it("respects completion for unfamiliar types without interpreting their numeric fields", function()
-        cached[91741] = {objectives = {{text = "Follow the apparition.", type = "futureType", numFulfilled = 0, numRequired = 100, finished = true}}}
+        cached[91741] = {objectives = {{text = "Follow the apparition.", raw_text = "Follow the apparition.",
+            type = "futureType", numFulfilled = 0, numRequired = 100, finished = true}}}
 
         local objective = TrackerData.RefreshQuest(91741).Objectives[1]
 
@@ -133,8 +135,8 @@ describe("TrackerData", function()
         local original = {Id = 10, Index = 3, Type = "monster", spawnList = {}}
         local otherOriginal = {Id = 20, Index = 1, Type = "monster", spawnList = {}}
         cached[91741] = {objectives = {
-            [3] = {text = "Wolf", type = "monster", numFulfilled = 2, numRequired = 5},
-            [5] = {text = "Read the book.", type = "log", finished = false},
+            [3] = {text = "Wolf", raw_text = "Wolf slain: 2/5", type = "monster", numFulfilled = 2, numRequired = 5},
+            [5] = {text = "Read the book.", raw_text = "Read the book.", type = "log", finished = false},
         }}
         QuestiePlayer.currentQuestlog[91741] = {
             Objectives = {[1] = otherOriginal, [3] = original},
@@ -151,13 +153,39 @@ describe("TrackerData", function()
         assert.are.equal(2, displayQuest.Objectives[2].Index)
     end)
 
-    it("shows full wording when objective trimming is disabled", function()
-        Questie.db.profile.trimObjectiveText = false
-        cached[91741] = {objectives = {{text = "Wolf", raw_text = "Wolf slain: 3/5", type = "monster", numFulfilled = 3, numRequired = 5}}}
+    for _, trimObjectiveText in ipairs({true, false}) do
+        it("preserves native counter placement and punctuation with trimObjectiveText = " .. tostring(trimObjectiveText), function()
+            Questie.db.profile.trimObjectiveText = trimObjectiveText
+            cached[91741] = {objectives = {{text = "Windstone Cluster", raw_text = "9/15 Windstone Cluster.",
+                type = "item", numFulfilled = 9, numRequired = 15, finished = false}}}
+
+            local objective = TrackerData.RefreshQuest(91741).Objectives[1]
+
+            assert.are.equal("9/15 Windstone Cluster.", objective.Description)
+            assert.are.equal("|cFFEEEEEE9/15 Windstone Cluster.", TrackerData.GetObjectiveText(objective))
+            assert.are.equal("Windstone Cluster", cached[91741].objectives[1].text)
+        end)
+    end
+
+    it("keeps partial-progress colors without rebuilding the text from counts", function()
+        Questie.db.profile.trackerColorObjectives = "redToGreen"
+        cached[91741] = {objectives = {{text = "Wolf", raw_text = "Wolf slain: 1/4", type = "monster",
+            numFulfilled = 1, numRequired = 4, finished = false}}}
 
         local objective = TrackerData.RefreshQuest(91741).Objectives[1]
 
-        assert.are.equal("|cFFEEEEEEWolf slain: 3/5", TrackerData.GetObjectiveText(objective))
+        assert.are.equal("|cFFfe7f00Wolf slain: 1/4", TrackerData.GetObjectiveText(objective))
+    end)
+
+    it("uses cached completion for counted objectives even when their counts disagree", function()
+        Questie.db.profile.trackerColorObjectives = "whiteAndGreen"
+        cached[91741] = {objectives = {{text = "Wolf", raw_text = "Wolf slain: 3/5", type = "monster",
+            numFulfilled = 3, numRequired = 5, finished = true, raw_finished = false}}}
+
+        local objective = TrackerData.RefreshQuest(91741).Objectives[1]
+
+        assert.is_true(objective.Completed)
+        assert.are.equal("|cFF28ff28Wolf slain: 3/5", TrackerData.GetObjectiveText(objective))
     end)
 
     it("shows the title while the initial cache load is pending", function()
@@ -171,23 +199,29 @@ describe("TrackerData", function()
 
     it("uses the first cached objectives without replacing the quest record", function()
         local displayQuest = TrackerData.RefreshQuest(91741)
-        cached[91741] = {objectives = {{text = "Inspect the book.", type = "event", numFulfilled = 0, numRequired = 0, finished = false}}}
+        cached[91741] = {objectives = {{text = "Inspect the book.", raw_text = "Inspect the book.",
+            type = "event", numFulfilled = 0, numRequired = 0, finished = false}}}
 
         assert.are.equal(displayQuest, TrackerData.RefreshQuest(91741))
         assert.is_true(displayQuest.objectivesLoaded)
         assert.are.equal("Inspect the book.", displayQuest.Objectives[1].Description)
-        assert.are.equal("|cFFEEEEEEInspect the book", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
+        assert.are.equal("|cFFEEEEEEInspect the book.", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
     end)
 
-    it("preserves row identity when refreshing the same cached objective", function()
-        cached[91741] = {objectives = {{text = "Inspect the book.", type = "event", numFulfilled = 0, numRequired = 0, finished = false}}}
+    it("refreshes native text and progress without replacing the display row", function()
+        cached[91741] = {objectives = {{text = "Windstone Cluster", raw_text = "9/15 Windstone Cluster", type = "item",
+            numFulfilled = 9, numRequired = 15, finished = false}}}
         local displayQuest = TrackerData.RefreshQuest(91741)
         local objective = displayQuest.Objectives[1]
+        cached[91741].objectives[1] = {text = "Windstone Cluster", raw_text = "10/15 Windstone Cluster", type = "item",
+            numFulfilled = 10, numRequired = 15, finished = false}
 
         TrackerData.Refresh()
 
         assert.are.equal(objective, displayQuest.Objectives[1])
         assert.is_true(displayQuest.objectivesLoaded)
+        assert.are.equal(10, objective.Collected)
+        assert.are.equal("|cFFEEEEEE10/15 Windstone Cluster", TrackerData.GetObjectiveText(objective))
     end)
 
     it("uses existing completion behavior rather than inferring completion from an empty list", function()
@@ -211,7 +245,7 @@ describe("TrackerData", function()
     end)
 
     it("forgets an explicitly removed snapshot before the quest is accepted again", function()
-        cached[91741] = {objectives = {{text = "Inspect the book.", type = "event", finished = true}}}
+        cached[91741] = {objectives = {{text = "Inspect the book.", raw_text = "Inspect the book.", type = "event", finished = true}}}
         local previous = TrackerData.RefreshQuest(91741)
         TrackerData.RemoveQuest(91741)
         assert.is_nil(TrackerData.GetQuest(91741))
@@ -287,7 +321,7 @@ describe("TrackerData", function()
         QuestiePlayer.currentQuestlog[91741] = {
             Objectives = {original}, ObjectiveData = {metadata}, SpecialObjectives = specialObjectives,
         }
-        cached[91741] = {objectives = {{text = "Boar", type = "monster", numFulfilled = 1, numRequired = 4}}}
+        cached[91741] = {objectives = {{text = "Boar", raw_text = "Boar: 1/4", type = "monster", numFulfilled = 1, numRequired = 4}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
@@ -300,7 +334,7 @@ describe("TrackerData", function()
 
     it("renders new live objectives absent from an otherwise known database quest", function()
         QuestiePlayer.currentQuestlog[91741] = {Objectives = {}, ObjectiveData = {}}
-        cached[91741] = {objectives = {{text = "Read the note.", type = "log", numFulfilled = 0, numRequired = 1}}}
+        cached[91741] = {objectives = {{text = "Read the note.", raw_text = "Read the note.", type = "log", numFulfilled = 0, numRequired = 1}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
@@ -325,16 +359,17 @@ describe("TrackerData", function()
         assert.is_nil(original.Index)
         assert.are.equal(original.spawnList, displayQuest.Objectives[1].spawnList)
         assert.is_false(displayQuest.Objectives[1].Completed)
-        assert.are.equal("|cFFEEEEEEVerner's Note: 0/1", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
+        assert.are.equal("|cFFEEEEEENote: 0/1", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
     end)
 
     it("does not infer unfamiliar objective completion from equal numeric fields", function()
-        cached[91741] = {objectives = {{text = "Follow the apparition.", type = "futureType", numFulfilled = 1, numRequired = 1, finished = false}}}
+        cached[91741] = {objectives = {{text = "Follow the apparition.", raw_text = "Follow the apparition.",
+            type = "futureType", numFulfilled = 1, numRequired = 1, finished = false}}}
 
         local objective = TrackerData.RefreshQuest(91741).Objectives[1]
 
         assert.is_false(objective.Completed)
-        assert.are.equal("|cFFEEEEEEFollow the apparition", TrackerData.GetObjectiveText(objective))
+        assert.are.equal("|cFFEEEEEEFollow the apparition.", TrackerData.GetObjectiveText(objective))
     end)
 
     it("does not let additional completion hide a live objective whose database metadata is missing", function()
@@ -342,7 +377,7 @@ describe("TrackerData", function()
             isComplete = true, Objectives = {{Id = 10, Type = "monster"}},
             ObjectiveData = {},
         }
-        cached[91741] = {objectives = {{text = "Boar", type = "monster", numFulfilled = 0, numRequired = 4, finished = false}}}
+        cached[91741] = {objectives = {{text = "Boar", raw_text = "Boar: 0/4", type = "monster", numFulfilled = 0, numRequired = 4, finished = false}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
@@ -356,7 +391,7 @@ describe("TrackerData", function()
             isComplete = true, Objectives = {{Id = 10, Type = "monster"}},
             ObjectiveData = {{Id = 10, Type = "monster"}},
         }
-        cached[91741] = {objectives = {{text = "Wolf", type = "monster", numFulfilled = 4, numRequired = 4, finished = true}}}
+        cached[91741] = {objectives = {{text = "Wolf", raw_text = "Wolf: 4/4", type = "monster", numFulfilled = 4, numRequired = 4, finished = true}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
@@ -394,7 +429,7 @@ describe("TrackerData", function()
     end)
 
     it("only applies new progress and metadata when explicitly refreshed", function()
-        cached[91741] = {objectives = {{text = "Wolf", type = "monster", numFulfilled = 1, numRequired = 5}}}
+        cached[91741] = {objectives = {{text = "Wolf", raw_text = "Wolf: 1/5", type = "monster", numFulfilled = 1, numRequired = 5}}}
         local displayQuest = TrackerData.RefreshQuest(91741)
         entries[2].title = "A new chapter"
         cached[91741].objectives[1].numFulfilled = 3
@@ -409,8 +444,8 @@ describe("TrackerData", function()
 
     it("refreshes a single quest without refreshing another quest's objectives or completion", function()
         entries[3] = {title = "Another quest", id = 123, level = 2}
-        cached[91741] = {objectives = {{text = "Read the book.", type = "log", finished = false}}}
-        cached[123] = {objectives = {{text = "Speak to the librarian.", type = "log", finished = false}}}
+        cached[91741] = {objectives = {{text = "Read the book.", raw_text = "Read the book.", type = "log", finished = false}}}
+        cached[123] = {objectives = {{text = "Speak to the librarian.", raw_text = "Speak to the librarian.", type = "log", finished = false}}}
         TrackerData.Refresh()
         QuestieDB.IsComplete = spy.new(function() return 0 end)
         compat.GetNumQuestLogEntries = spy.new(function() return #entries end)
@@ -442,7 +477,7 @@ describe("TrackerData", function()
         QuestiePlayer.currentQuestlog[91741] = {
             Objectives = {original}, ObjectiveData = {{Id = 10, Type = "monster"}}, SpecialObjectives = {{Id = 99}},
         }
-        cached[91741] = {objectives = {{text = "Wolf", type = "monster", numFulfilled = 2, numRequired = 5}}}
+        cached[91741] = {objectives = {{text = "Wolf", raw_text = "Wolf: 2/5", type = "monster", numFulfilled = 2, numRequired = 5}}}
         local displayQuest = TrackerData.RefreshQuest(91741)
         QuestiePlayer.currentQuestlog[91741] = nil
 
@@ -514,6 +549,29 @@ describe("TrackerData", function()
             _G.C_Timer, _G.GetTime, Questie.IsForever = originalTimer, originalTime, originalForever
         end)
 
+        it("keeps Falling With Style unfinished at 1/1 until the cached finished flag changes", function()
+            entries[2] = {title = "Falling With Style", id = 92474, level = 2}
+            Questie.db.profile.trackerColorObjectives = "whiteAndGreen"
+            nativeObjectives = {{text = "Use Walk on Air", type = "object", numFulfilled = 1, numRequired = 1, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+
+            local displayQuest = TrackerData.RefreshQuest(92474)
+            local objective = displayQuest.Objectives[1]
+
+            assert.is_false(objective.Completed)
+            assert.are.equal(0, displayQuest:IsComplete())
+            assert.are.equal("|cFFedededUse Walk on Air", TrackerData.GetObjectiveText(objective))
+            assert.is_false(QuestLogCache.GetQuest(92474).objectives[1].finished)
+
+            nativeObjectives[1].finished = true
+            QuestLogCache.CheckForChanges(nil)
+            TrackerData.RefreshQuest(92474)
+
+            assert.are.equal(objective, displayQuest.Objectives[1])
+            assert.is_true(objective.Completed)
+            assert.are.equal("|cFF28ff28Use Walk on Air", TrackerData.GetObjectiveText(objective))
+        end)
+
         it("recovers an unknown login quest without another Blizzard event", function()
             haveData = false
             local cacheMiss, _, checked = QuestLogCache.CheckForChanges(nil)
@@ -538,7 +596,7 @@ describe("TrackerData", function()
             assert.are.equal(2, #retryTimers)
 
             assert.is_true(displayQuest.objectivesLoaded)
-            assert.are.equal("|cFFEEEEEERead the book", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
+            assert.are.equal("|cFFEEEEEERead the book.", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
             assert.is_nil(displayQuest.enrichment)
             assert.is_nil(QuestiePlayer.currentQuestlog[91741])
             _G.C_QuestLog.GetQuestObjectives:clear()
@@ -578,6 +636,7 @@ describe("TrackerData", function()
             TrackerData.Refresh()
             assert.are.equal(3, displayQuest.Objectives[1].Collected)
             assert.are.equal(cachedQuest, QuestLogCache.GetQuest(91741))
+            assert.are.equal("|cFFEEEEEEWolf slain: 3/5", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
 
             nativeObjectives = {{text = " ", type = "monster", numFulfilled = 0, numRequired = 5, finished = false}}
             assert.is_true(QuestLogCache.CheckForChanges(nil))
@@ -593,11 +652,13 @@ describe("TrackerData", function()
             assert.is_true(QuestLogCache.CheckForChanges(nil))
             TrackerData.Refresh()
             assert.are.equal(3, displayQuest.Objectives[1].Collected)
+            assert.are.equal("|cFFEEEEEEWolf slain: 3/5", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
 
             nativeObjectives = {{text = "Wolf slain: 4/5", type = "monster", numFulfilled = 4, numRequired = 5, finished = false}}
             assert.is_false(QuestLogCache.CheckForChanges(nil))
             TrackerData.Refresh()
             assert.are.equal(4, displayQuest.Objectives[1].Collected)
+            assert.are.equal("|cFFEEEEEEWolf slain: 4/5", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
         end)
 
         it("does not load or redisplay a pending quest removed before its retry", function()

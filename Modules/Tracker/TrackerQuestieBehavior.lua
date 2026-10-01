@@ -79,8 +79,8 @@ function TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
                     Index = #displayQuest.Objectives + 1,
                     questId = displayQuest.Id,
                     Type = original.Type,
-                    Description = original.Description,
-                    FullDescription = original.FullDescription,
+                    -- This synthetic step has no native text. Build its complete display string here.
+                    Description = original.Description .. ": " .. original.Collected .. "/" .. original.Needed,
                     Collected = original.Collected,
                     Needed = original.Needed,
                     Completed = original.Completed,
