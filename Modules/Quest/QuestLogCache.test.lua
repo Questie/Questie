@@ -46,6 +46,56 @@ describe("QuestLogCache", function()
         _G.HaveQuestData, _G.GetQuestLogTitle, _G.C_QuestLog = originalHaveQuestData, originalGetQuestLogTitle, originalQuestLog
     end)
 
+    describe("TryGetQuest", function()
+        local originalPrint, originalError
+
+        before_each(function()
+            originalPrint, originalError = Questie.Print, Questie.Error
+            Questie.Print = spy.new(function() end)
+            Questie.Error = spy.new(function() end)
+            _G.HaveQuestData = spy.new(function() return true end)
+            _G.C_QuestLog.GetQuestObjectives = spy.new(_G.C_QuestLog.GetQuestObjectives)
+            -- The cache captures the client function at load time.
+            dofile("Modules/Quest/QuestLogCache.lua")
+            QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        end)
+
+        after_each(function()
+            Questie.Print, Questie.Error = originalPrint, originalError
+        end)
+
+        it("returns nil silently without requesting missing quest data", function()
+            assert.is_nil(QuestLogCache.TryGetQuest(QUEST_ID))
+
+            assert.spy(Questie.Print).was.not_called()
+            assert.spy(Questie.Error).was.not_called()
+            assert.spy(_G.HaveQuestData).was.not_called()
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
+            assert.are.equal(0, QuestLogCache.GetQuestCount())
+        end)
+
+        it("returns the same accepted snapshot as GetQuest without refreshing it", function()
+            questLogTitles[1] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "Item: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+            local accepted = QuestLogCache.GetQuest(QUEST_ID)
+            questObjectives[QUEST_ID][1].text = "Item: 3/5"
+            questObjectives[QUEST_ID][1].numFulfilled = 3
+            _G.C_QuestLog.GetQuestObjectives:clear()
+            _G.HaveQuestData:clear()
+
+            local result = QuestLogCache.TryGetQuest(QUEST_ID)
+
+            assert.are.equal(accepted, result)
+            assert.are.equal("Item: 2/5", result.objectives[1].raw_text)
+            assert.are.equal(2, result.objectives[1].numFulfilled)
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
+            assert.spy(_G.HaveQuestData).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
+            assert.spy(Questie.Error).was.not_called()
+        end)
+    end)
+
     describe("client objective placeholders", function()
         local originalItemsNeeded, originalMonstersKilled
         local cases = {

@@ -142,8 +142,10 @@ describe("QuestieCommsData", function()
             C_QuestLog.GetQuestObjectives = spy.new(function() return apiObjectives end)
             local result = QuestieComms.data:GetTooltip("m_19305")
 
-            assert.same({text = "Fallen Sky Ridge Revitalized", fulfilled = 0, required = 1}, result[questId][playerName][1])
-            assert.same({text = "Fallen Sky Ridge Revitalized", fulfilled = 2, required = 3}, result[questId].AnotherPlayer[1])
+            assert.same({text = "Fallen Sky Ridge Revitalized", nativeText = "Fallen Sky Ridge Revitalized: 1/1",
+                fulfilled = 0, required = 1}, result[questId][playerName][1])
+            assert.same({text = "Fallen Sky Ridge Revitalized", nativeText = "Fallen Sky Ridge Revitalized: 1/1",
+                fulfilled = 2, required = 3}, result[questId].AnotherPlayer[1])
             assert.spy(QuestieDB.GetNPC).was.not_called()
         end)
 
@@ -170,6 +172,7 @@ describe("QuestieCommsData", function()
             local firstResult = QuestieComms.data:GetTooltip("m_19305")
 
             assert.equals("Goliathon", firstResult[questId][playerName][1].text)
+            assert.is_nil(firstResult[questId][playerName][1].nativeText)
 
             _G.HaveQuestData = function() return true end
             apiObjectives = {{text = "Fallen Sky Ridge Revitalized: 1/1", type = "monster"}}
@@ -178,7 +181,8 @@ describe("QuestieCommsData", function()
             local loadedResult = QuestieComms.data:GetTooltip("m_19305")
 
             assert.equals("Fallen Sky Ridge Revitalized", loadedResult[questId][playerName][1].text)
-            assert.same({text = "Fallen Sky Ridge Revitalized", fulfilled = 0, required = 1}, firstResult[questId][playerName][1])
+            assert.same({text = "Fallen Sky Ridge Revitalized", nativeText = "Fallen Sky Ridge Revitalized: 1/1",
+                fulfilled = 0, required = 1}, firstResult[questId][playerName][1])
         end)
 
         it("should safely fall back when both API wording and entity data are missing", function()
@@ -192,6 +196,8 @@ describe("QuestieCommsData", function()
 
             assert.equals("", monsterResult[questId][playerName][1].text)
             assert.equals("", objectResult[questId][playerName][2].text)
+            assert.is_nil(monsterResult[questId][playerName][1].nativeText)
+            assert.is_nil(objectResult[questId][playerName][2].nativeText)
         end)
 
         it("should cancel a pending item fallback when delayed API text replaces it", function()
@@ -221,7 +227,8 @@ describe("QuestieCommsData", function()
             local ok, err = coroutine.resume(loadThread)
             assert.is_true(ok, err)
 
-            assert.same({text = "Deliver the supplies", fulfilled = 0, required = 1}, result[questId][playerName][1])
+            assert.same({text = "Deliver the supplies", nativeText = "Deliver the supplies: 1/1",
+                fulfilled = 0, required = 1}, result[questId][playerName][1])
         end)
 
         local formattingCases = {
@@ -229,6 +236,7 @@ describe("QuestieCommsData", function()
             {name = "local trimming enabled", trim = true, text = "Wolf slain: 1/1", type = "monster", expected = "Wolf slain"},
             {name = "event counters", trim = true, text = "Ritual completed: 1/1", type = "event", expected = "Ritual completed"},
             {name = "Chinese counters", trim = true, text = "仪式完成：1/1", type = "event", expected = "仪式完成"},
+            {name = "Forever counters", trim = true, text = "9/15 Windstone Cluster", type = "item", expected = "Windstone Cluster"},
             {name = "no progress counter", trim = false, text = "Speak to: Thrall", type = "event", expected = "Speak to: Thrall"},
         }
         for _, case in ipairs(formattingCases) do
@@ -245,6 +253,7 @@ describe("QuestieCommsData", function()
                 assert.is_true(ok, err)
 
                 assert.equals(case.expected, readyResult[questId][playerName][1].text)
+                assert.equals(case.text, readyResult[questId][playerName][1].nativeText)
                 assert.same(readyResult, delayedResult)
             end)
         end

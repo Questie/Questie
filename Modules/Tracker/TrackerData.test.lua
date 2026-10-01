@@ -29,7 +29,7 @@ describe("TrackerData", function()
             end
         end
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
-        QuestLogCache.questLog_DO_NOT_MODIFY = cached
+        QuestLogCache.TryGetQuest = function(id) return cached[id] end
         QuestLogCache.GetQuest = spy.new(function() error("Reporting getter must not be used for optional reads") end)
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
