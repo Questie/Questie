@@ -653,6 +653,20 @@ local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 
+local optionalObjectivePattern
+
+---Detects Blizzard's localized optional label, not objective or quest completion.
+---@param objectiveText string
+---@return boolean
+function QuestieLib.IsObjectiveOptional(objectiveText)
+    if not optionalObjectivePattern then
+        -- Escape the template before introducing wildcards; the client locale is fixed for the session.
+        local escaped = stringGsub(OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION, "([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1")
+        optionalObjectivePattern = "^" .. stringGsub(escaped, "%%%%s", ".*") .. "$"
+    end
+    return smatch(objectiveText, optionalObjectivePattern) ~= nil
+end
+
 ---Extracts the objective name for loading validation, not for display wording.
 ---A row such as "0/3   slain" can have valid counters but no loaded name. IsObjectiveDataLoaded
 ---uses this parser to detect that case; displays must retain the accepted native text instead.
