@@ -6,7 +6,7 @@ on:
       version:
         description: Enter new version without the v prefix (for example "12.0.1") to bump the Questie version (optional)
         type: string
-        default: ""
+        default: ''
       release:
         description: (--release) Publish a normal release instead of a prerelease
         type: boolean
@@ -54,7 +54,7 @@ jobs:
         run: git fetch --prune --unshallow --tags
 
       - name: Version Bump
-        if: ${{ inputs.version != ""}}
+        if: github.event.inputs.version != ''
         uses: ./.github/workflows/versionbump.yml
         with:
           version: ${{ inputs.version }}
