@@ -1391,6 +1391,7 @@ globals = {
     "GetQuestPortraitTurnIn",
     "GetQuestResetTime",
     "GetQuestReward",
+    "GetQuestSortIndex",
     "GetQuestSpellLink",
     "GetQuestTagInfo",
     "GetQuestText",
