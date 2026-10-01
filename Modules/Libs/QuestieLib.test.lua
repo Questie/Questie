@@ -307,6 +307,44 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("IsObjectiveDataLoaded", function()
+        local originalMonstersKilled
+
+        before_each(function()
+            originalMonstersKilled = _G.QUEST_MONSTERS_KILLED
+            _G.QUEST_MONSTERS_KILLED = "%2$d/%3$d %1$s slain"
+            dofile("Modules/Libs/QuestieLib.lua")
+        end)
+
+        after_each(function()
+            _G.QUEST_MONSTERS_KILLED = originalMonstersKilled
+        end)
+
+        local cases = {
+            {name = "missing text", type = "monster", loaded = false},
+            {name = "missing type", text = "Read the book.", loaded = false},
+            {name = "empty placeholder without a type", text = "", loaded = true},
+            {name = "leading-space placeholder", text = " : 0/1", type = "item", loaded = false},
+            {name = "trailing-space placeholder", text = "0/1  ", type = "item", loaded = false},
+            {name = "empty parsed name without triple spaces", text = "0/6 \t slain", type = "monster", loaded = false},
+            {name = "unknown English suffix", text = "0/6   destroyed", type = "monster", loaded = false},
+            {name = "unknown UTF-8 suffix", text = "0/6   已摧毁", type = "monster", loaded = false},
+            {name = "triple spaces without a counter", text = "Destroy   objects", type = "event", loaded = false},
+            {name = "loaded English wording", text = "4/6 Roiling Winds destroyed", type = "monster", loaded = true},
+            {name = "loaded UTF-8 wording", text = "4/6 烈风已摧毁", type = "monster", loaded = true},
+            {name = "double interior spaces", text = "4/6 Roiling  Winds destroyed", type = "monster", loaded = true},
+            {name = "unknown objective type", text = "Read the book.", type = "futureType", loaded = true},
+        }
+        for _, case in ipairs(cases) do
+            it("validates " .. case.name .. " without modifying the row", function()
+                local objective = {text = case.text, type = case.type}
+
+                assert.are.equal(case.loaded, QuestieLib.IsObjectiveDataLoaded(objective))
+                assert.are.same({text = case.text, type = case.type}, objective)
+            end)
+        end
+    end)
+
     describe("GetLoadedQuestObjectives", function()
         local originalHaveQuestData
         local originalGetQuestObjectives
@@ -383,6 +421,33 @@ describe("QuestieLib", function()
             objectives[2] = {text = "0/8  ", type = "item", objectiveType = 1}
 
             assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+        end)
+
+        local unknownSuffixes = {
+            {name = "English", missing = "0/6   destroyed", loaded = "4/6 Roiling Winds destroyed"},
+            {name = "UTF-8", missing = "0/6   已摧毁", loaded = "4/6 烈风已摧毁"},
+        }
+        for _, case in ipairs(unknownSuffixes) do
+            it("rejects triple-space placeholders with an unknown " .. case.name .. " suffix until the name loads", function()
+                objectives = {{text = case.missing, type = "monster"}}
+
+                assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+                assert.are.equal(case.missing, objectives[1].text)
+
+                objectives[1].text = case.loaded
+                local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+                assert.are.equal(objectives[1], result[1])
+                assert.are.equal(case.loaded, result[1].text)
+            end)
+        end
+
+        it("preserves single and double spaces in loaded text", function()
+            objectives = {{text = "4/6 Roiling  Winds destroyed", type = "monster"}}
+
+            local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+            assert.are.equal("4/6 Roiling  Winds destroyed", result[1].text)
         end)
 
         it("should preserve loaded Forever text and numeric objective types", function()
@@ -533,6 +598,7 @@ describe("QuestieLib", function()
             {name = "missing text", objective = {type = "item"}},
             {name = "leading-space text", objective = {text = " : 0/1", type = "item"}},
             {name = "missing type", objective = {text = "Item: 0/1"}},
+            {name = "triple-space text with an unknown suffix", objective = {text = "0/6   destroyed", type = "monster"}},
         }
         for _, case in ipairs(incompleteObjectives) do
             it("should refetch all objectives when a later objective has " .. case.name, function()
