@@ -9,7 +9,7 @@ on:
         type: string
         required: true
       dry_run:
-        description: Do not commit/push, just log git diff
+        description: (--dry_run) Do not commit/push, just log git diff
         type: boolean
         default: false
   workflow_call:
@@ -19,7 +19,7 @@ on:
         type: string
         required: true
       dry_run:
-        description: Do not commit/push, just log git diff
+        description: (--dry_run) Do not commit/push, just log git diff
         type: boolean
         default: false
 

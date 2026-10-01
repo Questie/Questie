@@ -12,7 +12,7 @@ on:
         type: boolean
         default: false
       dry_run:
-        description: (--dry-run) Preview release notes and metadata without publishing
+        description: (--dry_run) Preview release notes and metadata without publishing
         type: boolean
         default: false
       publish_curseforge:
@@ -58,7 +58,7 @@ jobs:
         uses: ./.github/workflows/versionbump.yml
         with:
           version: ${{ inputs.version }}
-          dry-run: ${{ inputs.dry_run }}
+          dry_run: ${{ inputs.dry_run }}
 
       - name: Build ZIP
         run: |
