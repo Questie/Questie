@@ -111,6 +111,12 @@ function QuestieNameplate:UpdateNameplate()
             end
         end
     end
+
+    if UnitExists("target") then
+        QuestieNameplate:DrawTargetFrame()
+    else
+        QuestieNameplate:HideCurrentTargetFrame()
+    end
 end
 
 ---@param xPos number
