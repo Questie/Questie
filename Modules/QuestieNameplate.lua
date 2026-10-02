@@ -14,7 +14,6 @@ local npFramesCount = 0
 
 local activeTargetFrame
 
-
 ---@param token string
 function QuestieNameplate:NameplateCreated(token)
     Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
@@ -41,7 +40,12 @@ function QuestieNameplate:NameplateCreated(token)
         return
     end
 
-    local icon = QuestieNameplate.GetIcon(unitGUID)
+    -- Extract npcId and tooltips once to eliminate duplicate string splitting and table lookups.
+    local _, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
+    local tooltips = npcId and QuestieTooltips.lookupByKey["m_" .. npcId] or nil
+    
+    -- Fetch icon and count in a single call to prevent objective desync.
+    local icon, countText = _QuestieNameplate.GetIconAndCount(tooltips)
 
     if icon then
         activeGUIDs[unitGUID] = token
@@ -49,6 +53,12 @@ function QuestieNameplate:NameplateCreated(token)
         local f = _QuestieNameplate.GetFrame(unitGUID)
         f.Icon:SetTexture(icon)
         f.lastIcon = icon -- this is used to prevent updating the texture when it's already what it needs to be
+        
+        -- Apply synchronized count text on frame creation.
+        if f.CountText then
+            f.CountText:SetText(countText)
+        end
+        
         f:Show()
     end
 end
@@ -75,7 +85,12 @@ function QuestieNameplate:UpdateNameplate()
     for guid, token in pairs(activeGUIDs) do
         local unitName, _ = UnitName(token)
         if unitName then
-            local icon = QuestieNameplate.GetIcon(guid)
+            -- Extracted string splitting out of the icon check to prevent duplicate parsing overhead on updates.
+            local _, _, _, _, _, npcId, _ = strsplit("-", guid)
+            local tooltips = npcId and QuestieTooltips.lookupByKey["m_" .. npcId] or nil
+            
+            -- Fetch both icon and count in one pass.
+            local icon, countText = _QuestieNameplate.GetIconAndCount(tooltips)
 
             if icon then
                 local frame = _QuestieNameplate.GetFrame(guid)
@@ -83,6 +98,11 @@ function QuestieNameplate:UpdateNameplate()
                 if frame.lastIcon ~= icon then
                     frame.lastIcon = icon
                     frame.Icon:SetTexture(icon)
+                end
+                
+                -- Update text with the synchronized count during update cycles.
+                if frame.CountText then
+                    frame.CountText:SetText(countText)
                 end
             else
                 -- tooltip removed but we still have the frame active, remove it
@@ -138,6 +158,12 @@ function QuestieNameplate:RedrawIcons()
         frame:SetPoint("LEFT", Questie.db.profile.nameplateX, Questie.db.profile.nameplateY)
         frame:SetWidth(16 * iconScale)
         frame:SetHeight(16 * iconScale)
+        
+        -- Dynamically update font size based on scale changes to maintain UI proportionality.
+        if frame.CountText then
+            local font, _, _ = NumberFontNormal:GetFont()
+            frame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
+        end
     end
 end
 
@@ -160,7 +186,9 @@ function QuestieNameplate.GetIcon(guid)
         return nil
     end
 
-    return _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    -- Legacy wrapper that now delegates to GetIconAndCount to avoid redundant parsing logic.
+    local icon, _ = _QuestieNameplate.GetIconAndCount(QuestieTooltips.lookupByKey["m_" .. npcId])
+    return icon
 end
 
 function QuestieNameplate:DrawTargetFrame()
@@ -173,6 +201,10 @@ function QuestieNameplate:DrawTargetFrame()
     -- always remove the previous frame if it exists
     if activeTargetFrame ~= nil then
         activeTargetFrame.Icon:SetTexture(nil)
+        -- Clear text when resetting the previous target frame.
+        if activeTargetFrame.CountText then
+            activeTargetFrame.CountText:SetText("")
+        end
         activeTargetFrame:Hide()
     end
 
@@ -190,7 +222,11 @@ function QuestieNameplate:DrawTargetFrame()
         return
     end
 
-    local icon = QuestieNameplate.GetIcon(unitGUID)
+    -- Parse and fetch synchronized target icon and count text.
+    local _, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
+    local tooltips = npcId and QuestieTooltips.lookupByKey["m_" .. npcId] or nil
+    local icon, countText = _QuestieNameplate.GetIconAndCount(tooltips)
+
     if (not icon) then
         return
     end
@@ -200,6 +236,12 @@ function QuestieNameplate:DrawTargetFrame()
     end
 
     activeTargetFrame.Icon:SetTexture(icon)
+    
+    -- Populate text on the target frame icon.
+    if activeTargetFrame.CountText then
+        activeTargetFrame.CountText:SetText(countText)
+    end
+    
     activeTargetFrame:Show()
 end
 
@@ -209,6 +251,10 @@ function QuestieNameplate:HideCurrentTargetFrame()
     end
 
     activeTargetFrame.Icon:SetTexture(nil)
+    -- Clear text when hiding target frame.
+    if activeTargetFrame.CountText then
+        activeTargetFrame.CountText:SetText("")
+    end
     activeTargetFrame:Hide()
     activeTargetFrame = nil
 end
@@ -222,6 +268,12 @@ function QuestieNameplate:RedrawFrameIcon()
     activeTargetFrame:SetWidth(16 * iconScale)
     activeTargetFrame:SetHeight(16 * iconScale)
     activeTargetFrame:SetPoint("RIGHT", Questie.db.profile.nameplateTargetFrameX, Questie.db.profile.nameplateTargetFrameY)
+    
+    -- Scale target frame font size proportionally.
+    if activeTargetFrame.CountText then
+        local font, _, _ = NumberFontNormal:GetFont()
+        activeTargetFrame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
+    end
 end
 
 ---@param guid string
@@ -252,6 +304,16 @@ function _QuestieNameplate.GetFrame(guid)
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")
     frame.Icon:ClearAllPoints()
     frame.Icon:SetAllPoints(frame)
+    
+    -- Create FontString for text counter on standard nameplate frames with an OUTLINE for high legibility.
+    if not frame.CountText then
+        frame.CountText = frame:CreateFontString(nil, "OVERLAY")
+        local font, _, _ = NumberFontNormal:GetFont()
+        frame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
+        frame.CountText:SetTextColor(1, 1, 1, 1)
+        frame.CountText:SetPoint("RIGHT", frame, "LEFT", -2, 0)
+        frame.CountText:SetJustifyH("RIGHT")
+    end
 
     npFrames[guid] = frame
 
@@ -298,6 +360,16 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")
     frame.Icon:ClearAllPoints()
     frame.Icon:SetAllPoints(frame)
+    
+    -- Create FontString for text counter on target frame icon with OUTLINE formatting.
+    if not frame.CountText then
+        frame.CountText = frame:CreateFontString(nil, "OVERLAY")
+        local font, _, _ = NumberFontNormal:GetFont()
+        frame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
+        frame.CountText:SetTextColor(1, 1, 1, 1)
+        frame.CountText:SetPoint("LEFT", frame, "RIGHT", 0, 0)
+        frame.CountText:SetJustifyH("LEFT")
+    end
 
     return frame
 end
@@ -310,48 +382,77 @@ function _QuestieNameplate.RemoveFrame(guid)
 
     table.insert(npUnusedFrames, npFrames[guid])
     npFrames[guid].Icon:SetTexture(nil) -- fix for overlapping icons
+    -- Clear text when recycling frames to prevent visual ghosting.
+    if npFrames[guid].CountText then
+        npFrames[guid].CountText:SetText("")
+    end
     npFrames[guid]:Hide()
     npFrames[guid] = nil
 end
 
+-- Computes both icon and count in a single synchronized pass.
 ---@param tooltips table<string, table>
-function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
+---@return string | nil, string
+function _QuestieNameplate.GetIconAndCount(tooltips)
     if (not tooltips) then
-        return
+        return nil, ""
     end
 
     for _, tooltip in pairs(tooltips) do
         if tooltip.objective and tooltip.objective.Update then
             tooltip.objective:Update() -- get latest qlog data if its outdated
             if (not tooltip.objective.Completed) and tooltip.objective.Icon then
-                -- If the tooltip icon is Questie.ICON_TYPE_OBJECT we use Questie.ICON_TYPE_LOOT because NPCs should never show
-                -- a cogwheel icon (for pfquest only).
+                
+                -- Determine Icon mapping
                 local iconType = tooltip.objective.Icon
+                local icon = nil
+                
                 if iconType == Questie.ICON_TYPE_LOOT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
                 elseif iconType == Questie.ICON_TYPE_OBJECT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["loot"] or Questie.db.profile.ICON_LOOT or Questie.icons["loot"]
                 elseif iconType == Questie.ICON_TYPE_SLAY then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["slay"] or Questie.db.profile.ICON_SLAY or Questie.icons["slay"]
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["slay"] or Questie.db.profile.ICON_SLAY or Questie.icons["slay"]
                 elseif iconType == Questie.ICON_TYPE_EVENT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["event"] or Questie.db.profile.ICON_EVENT or Questie.icons["event"]
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["event"] or Questie.db.profile.ICON_EVENT or Questie.icons["event"]
                 elseif iconType == Questie.ICON_TYPE_TALK then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["talk"] or Questie.db.profile.ICON_TALK or Questie.icons["talk"]
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["talk"] or Questie.db.profile.ICON_TALK or Questie.icons["talk"]
                 elseif iconType == Questie.ICON_TYPE_INTERACT then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["interact"] or Questie.db.profile.ICON_INTERACT or Questie.icons["interact"]
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["interact"] or Questie.db.profile.ICON_INTERACT or Questie.icons["interact"]
                 elseif iconType == Questie.ICON_TYPE_MOUNT_UP then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["mount_up"] or Questie.db.profile.MOUNT_UP or Questie.icons["mount_up"]
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["mount_up"] or Questie.db.profile.MOUNT_UP or Questie.icons["mount_up"]
                 elseif iconType == Questie.ICON_TYPE_PET_BATTLE then
-                    return Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["petbattle"] or Questie.db.profile.ICON_TYPE_PET_BATTLE or Questie.icons["petbattle"]
-                --? icon types below here are never reached or just not used on nameplates ?
+                    icon = Questie.db.profile.iconTheme == 'pfquest' and Questie.icons["petbattle"] or Questie.db.profile.ICON_TYPE_PET_BATTLE or Questie.icons["petbattle"]
                 elseif iconType == Questie.ICON_TYPE_AVAILABLE or iconType == Questie.ICON_TYPE_AVAILABLE_GRAY then
-                    return Questie.icons["available"]
+                    icon = Questie.icons["available"]
                 elseif iconType == Questie.ICON_TYPE_REPEATABLE then
-                    return Questie.icons["repeatable"]
+                    icon = Questie.icons["repeatable"]
                 elseif iconType == Questie.ICON_TYPE_COMPLETE then
-                    return Questie.icons["complete"]
+                    icon = Questie.icons["complete"]
+                end
+
+                -- Determine Count String for this exact matching objective (suppressing single requirements to avoid clutter)
+                local countText = ""
+                local collected = tooltip.objective.Collected or tooltip.objective.collected
+                local needed = tooltip.objective.Needed or tooltip.objective.needed
+
+                if type(collected) == "number" and type(needed) == "number" then
+                    if needed > 1 then
+                        countText = tostring(needed - collected)
+                    end
+                elseif tooltip.objective.Description then
+                    local have, need = string.match(tooltip.objective.Description, "(%d+)/(%d+)")
+                    if have and need and tonumber(need) > 1 then
+                        countText = tostring(tonumber(need) - tonumber(have))
+                    end
+                end
+
+                if icon then
+                    return icon, countText
                 end
             end
         end
     end
+    
+    return nil, ""
 end
