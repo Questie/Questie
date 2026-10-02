@@ -440,12 +440,12 @@ function _QuestieNameplate.GetIconAndCount(tooltips) -- Computes both icon and c
 
                 if type(collected) == "number" and type(needed) == "number" and needed > 0 then
                     if needed > 1 then
-                        countText = tostring(needed - collected)
+                        countText = tostring(math.max(needed - collected, 0))
                     end
                 elseif tooltip.objective.Description then
                     local have, need = string.match(tooltip.objective.Description, "(%d+)/(%d+)")
                     if have and need and tonumber(need) > 0 and tonumber(need) > 1 then
-                        countText = tostring(tonumber(need) - tonumber(have))
+                        countText = tostring(math.max(tonumber(need) - tonumber(have), 0))
                     end
                 end
 
