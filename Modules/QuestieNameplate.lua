@@ -308,12 +308,13 @@ function _QuestieNameplate.GetFrame(guid)
     -- Create FontString for text counter on standard nameplate frames with an OUTLINE for high legibility.
     if not frame.CountText then
         frame.CountText = frame:CreateFontString(nil, "OVERLAY")
-        local font, _, _ = NumberFontNormal:GetFont()
-        frame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
         frame.CountText:SetTextColor(1, 1, 1, 1)
         frame.CountText:SetPoint("RIGHT", frame, "LEFT", -2, 0)
         frame.CountText:SetJustifyH("RIGHT")
     end
+
+    local font, _, _ = NumberFontNormal:GetFont()
+    frame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
 
     npFrames[guid] = frame
 
@@ -364,12 +365,13 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     -- Create FontString for text counter on target frame icon with OUTLINE formatting.
     if not frame.CountText then
         frame.CountText = frame:CreateFontString(nil, "OVERLAY")
-        local font, _, _ = NumberFontNormal:GetFont()
-        frame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
         frame.CountText:SetTextColor(1, 1, 1, 1)
         frame.CountText:SetPoint("LEFT", frame, "RIGHT", 0, 0)
         frame.CountText:SetJustifyH("LEFT")
     end
+
+    local font, _, _ = NumberFontNormal:GetFont()
+    frame.CountText:SetFont(font, 12 * iconScale, "OUTLINE")
 
     return frame
 end
@@ -390,10 +392,10 @@ function _QuestieNameplate.RemoveFrame(guid)
     npFrames[guid] = nil
 end
 
--- Computes both icon and count in a single synchronized pass.
+
 ---@param tooltips table<string, table>
----@return string | nil, string
-function _QuestieNameplate.GetIconAndCount(tooltips)
+---@return string?, string
+function _QuestieNameplate.GetIconAndCount(tooltips) -- Computes both icon and count in a single synchronized pass.
     if (not tooltips) then
         return nil, ""
     end
@@ -436,13 +438,13 @@ function _QuestieNameplate.GetIconAndCount(tooltips)
                 local collected = tooltip.objective.Collected or tooltip.objective.collected
                 local needed = tooltip.objective.Needed or tooltip.objective.needed
 
-                if type(collected) == "number" and type(needed) == "number" then
+                if type(collected) == "number" and type(needed) == "number" and needed > 0 then
                     if needed > 1 then
                         countText = tostring(needed - collected)
                     end
                 elseif tooltip.objective.Description then
                     local have, need = string.match(tooltip.objective.Description, "(%d+)/(%d+)")
-                    if have and need and tonumber(need) > 1 then
+                    if have and need and tonumber(need) > 0 and tonumber(need) > 1 then
                         countText = tostring(tonumber(need) - tonumber(have))
                     end
                 end
