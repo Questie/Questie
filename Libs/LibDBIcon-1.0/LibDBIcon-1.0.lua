@@ -6,7 +6,7 @@
 --
 
 local DBICON10 = "LibDBIcon-1.0"
-local DBICON10_MINOR = 55 -- Bump on changes
+local DBICON10_MINOR = 56 -- Bump on changes
 if not LibStub then error(DBICON10 .. " requires LibStub.") end
 local ldb = LibStub("LibDataBroker-1.1", true)
 if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end
@@ -252,51 +252,35 @@ local function createButton(name, object, db, customCompartmentIcon)
 	local button = CreateFrame("Button", "LibDBIcon10_"..name, Minimap)
 	button.dataObject = object
 	button.db = db
+	lib.objects[name] = button
+
 	button:SetFrameStrata("MEDIUM")
 	button:SetFixedFrameStrata(true)
 	button:SetFrameLevel(8)
 	button:SetFixedFrameLevel(true)
-	button:SetSize(31, 31)
 	button:RegisterForClicks("anyUp")
 	button:RegisterForDrag("LeftButton")
-	button:SetHighlightTexture(136477) --"Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight"
-	if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-		local overlay = button:CreateTexture(nil, "OVERLAY")
-		overlay:SetSize(50, 50)
-		overlay:SetTexture(136430) --"Interface\\Minimap\\MiniMap-TrackingBorder"
-		overlay:SetPoint("TOPLEFT", button, "TOPLEFT")
-		local background = button:CreateTexture(nil, "BACKGROUND")
-		background:SetSize(24, 24)
-		background:SetTexture(136467) --"Interface\\Minimap\\UI-Minimap-Background"
-		background:SetPoint("CENTER", button, "CENTER")
-		local icon = button:CreateTexture(nil, "ARTWORK")
-		icon:SetSize(18, 18)
-		icon:SetTexture(object.icon)
-		icon:SetPoint("CENTER", button, "CENTER")
-		button.icon = icon
-	else
-		local overlay = button:CreateTexture(nil, "OVERLAY")
-		overlay:SetSize(53, 53)
-		overlay:SetTexture(136430) --"Interface\\Minimap\\MiniMap-TrackingBorder"
-		overlay:SetPoint("TOPLEFT")
-		local background = button:CreateTexture(nil, "BACKGROUND")
-		background:SetSize(20, 20)
-		background:SetTexture(136467) --"Interface\\Minimap\\UI-Minimap-Background"
-		background:SetPoint("TOPLEFT", 7, -5)
-		local icon = button:CreateTexture(nil, "ARTWORK")
-		icon:SetSize(17, 17)
-		icon:SetTexture(object.icon)
-		icon:SetPoint("TOPLEFT", 7, -6)
-		button.icon = icon
-	end
+	lib:ResetButtonHighlightTexture(name)
+	lib:ResetButtonSize(name)
+
+	local border = button:CreateTexture(nil, "OVERLAY")
+	button.border = border
+	lib:ResetButtonBorder(name)
+
+	local background = button:CreateTexture(nil, "BACKGROUND")
+	button.background = background
+	lib:ResetButtonBackground(name)
+
+	local icon = button:CreateTexture(nil, "ARTWORK")
+	icon:SetTexture(object.icon)
+	local r, g, b = icon:GetVertexColor()
+	icon:SetVertexColor(object.iconR or r, object.iconG or g, object.iconB or b)
+	icon.UpdateCoord = updateCoord
+	icon:UpdateCoord()
+	button.icon = icon
+	lib:ResetButtonIcon(name)
 
 	button.isMouseDown = false
-	local r, g, b = button.icon:GetVertexColor()
-	button.icon:SetVertexColor(object.iconR or r, object.iconG or g, object.iconB or b)
-
-	button.icon.UpdateCoord = updateCoord
-	button.icon:UpdateCoord()
-
 	button:SetScript("OnEnter", onEnter)
 	button:SetScript("OnLeave", onLeave)
 	button:SetScript("OnClick", onClick)
@@ -315,8 +299,6 @@ local function createButton(name, object, db, customCompartmentIcon)
 	animOut:SetToAlpha(0)
 	animOut:SetStartDelay(1)
 	button.fadeOut:SetToFinalAlpha(true)
-
-	lib.objects[name] = button
 
 	if lib.loggedIn then
 		updatePosition(button, db and db.minimapPos)
@@ -485,6 +467,153 @@ end
 
 function lib:SetButtonToPosition(button, position)
 	updatePosition(lib.objects[button] or button, position)
+end
+
+-- Button Configuration
+function lib:SetButtonSize(name, size)
+	local button = lib:GetMinimapButton(name)
+	if button and type(size) == "number" then
+		button:SetSize(size, size)
+	end
+end
+
+function lib:ResetButtonSize(name)
+	local button = lib:GetMinimapButton(name)
+	if button then
+		button:SetSize(31, 31)
+	end
+end
+
+function lib:SetButtonHighlightTexture(name, highlightTexture)
+	local button = lib:GetMinimapButton(name)
+	if button and (type(highlightTexture) == "number" or type(highlightTexture) == "string") then
+		button:SetHighlightTexture(highlightTexture)
+	end
+end
+
+function lib:ResetButtonHighlightTexture(name)
+	local button = lib:GetMinimapButton(name)
+	if button then
+		button:SetHighlightTexture(136477) --"Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight"
+	end
+end
+
+-- Border configuration
+function lib:RemoveButtonBorder(name)
+	local button = lib:GetMinimapButton(name)
+	if button.border then
+		button.border:Hide()
+	end
+end
+
+function lib:SetButtonBorder(name, borderTexture, size, framePoint, offsetX, offsetY)
+	local button = lib:GetMinimapButton(name)
+	if button.border then
+		lib:ResetButtonBorder(name)
+		if type(borderTexture) == "number" or type(borderTexture) == "string" then
+			button.border:SetTexture(borderTexture)
+		end
+		if type(size) == "number" then
+			button.border:SetSize(size, size)
+		end
+		if type(framePoint) == "string" then
+			button.border:ClearAllPoints()
+			button.border:SetPoint(framePoint, type(offsetX) == "number" and offsetX or 0, type(offsetY) == "number" and offsetY or 0)
+		end
+	end
+end
+
+function lib:ResetButtonBorder(name)
+	local button = lib:GetMinimapButton(name)
+	if button.border then
+		button.border:Show()
+		button.border:ClearAllPoints()
+		button.border:SetPoint("TOPLEFT", 0, 0)
+		button.border:SetTexture(136430) --"Interface\\Minimap\\MiniMap-TrackingBorder"
+		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+			button.border:SetSize(50, 50)
+		else
+			button.border:SetSize(53, 53)
+		end
+	end
+end
+
+-- Background configuration
+function lib:RemoveButtonBackground(name)
+	local button = lib:GetMinimapButton(name)
+	if button.background then
+		button.background:Hide()
+	end
+end
+
+function lib:SetButtonBackground(name, backgroundTexture, size, framePoint, offsetX, offsetY)
+	local button = lib:GetMinimapButton(name)
+	if button.background then
+		lib:ResetButtonBackground(name)
+		if type(backgroundTexture) == "number" or type(backgroundTexture) == "string" then
+			button.background:SetTexture(backgroundTexture)
+		end
+		if type(size) == "number" then
+			button.background:SetSize(size, size)
+		end
+		if type(framePoint) == "string" then
+			button.background:ClearAllPoints()
+			button.background:SetPoint(framePoint, type(offsetX) == "number" and offsetX or 0, type(offsetY) == "number" and offsetY or 0)
+		end
+	end
+end
+
+function lib:ResetButtonBackground(name)
+	local button = lib:GetMinimapButton(name)
+	if button.background then
+		button.background:Show()
+		button.background:ClearAllPoints()
+		button.background:SetTexture(136467) --"Interface\\Minimap\\UI-Minimap-Background"
+		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+			button.background:SetSize(24, 24)
+			button.background:SetPoint("CENTER", 0, 0)
+		else
+			button.background:SetSize(20, 20)
+			button.background:SetPoint("TOPLEFT", 7, -5)
+		end
+	end
+end
+
+-- Icon Configuration
+function lib:SetButtonIcon(name, iconTexture, size, framePoint, offsetX, offsetY)
+	local button = lib:GetMinimapButton(name)
+	if button.icon then
+		lib:ResetButtonIcon(name)
+		if type(iconTexture) == "number" or type(iconTexture) == "string" then
+			button.icon:SetTexture(iconTexture)
+		end
+		if type(size) == "number" then
+			button.icon:SetSize(size, size)
+		end
+		if type(framePoint) == "string" then
+			button.icon:ClearAllPoints()
+			button.icon:SetPoint(framePoint, type(offsetX) == "number" and offsetX or 0, type(offsetY) == "number" and offsetY or 0)
+		end
+	end
+end
+
+function lib:ResetButtonIcon(name)
+	local button = lib:GetMinimapButton(name)
+	if button.icon then
+		button.icon:SetTexture(button.dataObject.icon)
+		button.icon:UpdateCoord()
+		local r, g, b = button.icon:GetVertexColor()
+		button.icon:SetVertexColor(button.dataObject.iconR or r, button.dataObject.iconG or g, button.dataObject.iconB or b)
+		if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+			button.icon:SetSize(18, 18)
+			button.icon:ClearAllPoints()
+			button.icon:SetPoint("CENTER")
+		else
+			button.icon:SetSize(17, 17)
+			button.icon:ClearAllPoints()
+			button.icon:SetPoint("TOPLEFT", 7, -6)
+		end
+	end
 end
 
 --------------------------------------------------------------------------------
