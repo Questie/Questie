@@ -36,7 +36,6 @@ describe("QuestieQuestBlacklist", function()
     it("keeps unreleased Titan raid weeklies in the Titan blacklist", function()
         local titanBlacklist = QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
 
-        assert.is_true(titanBlacklist[96315])
         assert.is_true(titanBlacklist[96318])
     end)
 

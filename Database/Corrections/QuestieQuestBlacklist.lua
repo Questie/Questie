@@ -7890,7 +7890,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24429] = true, -- A Most Puzzling Circumstance
 
         -- Raid weeklies not yet available on Titan Reforged
-        [96315] = true, -- XT-002 Deconstructor Must Die!
+        -- [96315] = true, -- XT-002 Deconstructor Must Die!
         [96318] = true, -- Shade of Aran Must Die!
 
         -- Black Knight
@@ -7972,20 +7972,20 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- [24801] = true, -- A Victory For The Sunreavers (H)
 
         -- Ulduar
-        [13604] = true,
+        -- [13604] = true, -- Archivum Data Disc
         [13606] = true,
         [13607] = true,
         [13609] = true,
         [13610] = true,
         [13611] = true,
         [13614] = true,
-        [13622] = true,
+        -- [13622] = true, -- Ancient History
         [13629] = true,
-        [13631] = true,
+        -- [13631] = true, -- All Is Well That Ends Well
         [13816] = true,
-        [13817] = true,
+        -- [13817] = true, -- Heroic: Archivum Data Disc
         [13818] = true,
-        [13819] = true,
+        -- [13819] = true, -- Heroic: All Is Well That Ends Well
         [13821] = true,
         [13822] = true,
         [13823] = true,
