@@ -156,11 +156,13 @@ function QuestieOptions.tabs.nameplate:Initialize()
                         order = 1.6,
                         name = function() return l10n("Objective Tracker Text Format"); end,
                         desc = function() return l10n("Choose the format for the objective tracker text on nameplates."); end,
-                        values = {
-                            [0] = "Disabled",
-                            [1] = "Current / Required (e.g. 3/5)",
-                            [2] = "Remaining Only (e.g. 2)",
-                        },
+                        values = function()
+                            return {
+                                [0] = l10n("Disabled"),
+                                [1] = l10n("Current / Required (e.g. 3/5)"),
+                                [2] = l10n("Remaining Only (e.g. 2)"),
+                            }
+                        end,
                         width = 2.7,
                         disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
@@ -307,11 +309,13 @@ function QuestieOptions.tabs.nameplate:Initialize()
                         order = 2.6,
                         name = function() return l10n("Objective Tracker Text Format"); end,
                         desc = function() return l10n("Choose the format for the objective tracker text on target frame."); end,
-                        values = {
-                            [0] = "Disabled",
-                            [1] = "Current / Required (e.g. 3/5)",
-                            [2] = "Remaining Only (e.g. 2)",
-                        },
+                        values = function()
+                            return {
+                                [0] = l10n("Disabled"),
+                                [1] = l10n("Current / Required (e.g. 3/5)"),
+                                [2] = l10n("Remaining Only (e.g. 2)"),
+                            }
+                        end,
                         width = 2.7,
                         disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
                         get = function(info) return QuestieOptions:GetProfileValue(info); end,
