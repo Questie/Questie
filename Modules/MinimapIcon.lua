@@ -136,7 +136,21 @@ end
 
 function _MinimapIcon.RepositionIcon()
     local button = _LibDBIcon:GetMinimapButton("Questie")
-    if button then
+    if not button then
+        return
+    end
+
+    if Questie.IsForever then
+        -- Forever: the ring's hole is off-center and wider than LibDBIcon's square icon,
+        -- so grow the icon, nudge it into the hole and mask it round to hide the corners
+        button.icon:ClearAllPoints()
+        button.icon:SetSize(20, 20)
+        button.icon:SetPoint("CENTER", button, "CENTER", 1, -0.35)
+        local mask = button:CreateMaskTexture()
+        mask:SetTexture(130924, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE") -- Interface\CharacterFrame\TempPortraitAlphaMask
+        mask:SetAllPoints(button.icon)
+        button.icon:AddMaskTexture(mask)
+    else
         -- Slightly adjust the size and position of the icon to not overlap with the minimap button border
         button.icon:ClearAllPoints()
         button.icon:SetSize(17, 17)
