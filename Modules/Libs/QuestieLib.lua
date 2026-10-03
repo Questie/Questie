@@ -73,12 +73,13 @@ local function _GetDifficultyColor(level, questId)
     end
 end
 
----@param level Level
+---Colors text by difficulty unless event, PvP, or repeatable coloring applies, in that order.
+---@param level Level Fallback quest level; -1 uses the player's level.
 ---@param text string
 ---@param isRepeatableQuest boolean?
 ---@param isEventQuest boolean?
 ---@param isPvPQuest boolean?
----@param questId QuestId? Enables native difficulty coloring on Forever when quest data is cached.
+---@param questId QuestId? Uses native difficulty on Forever when cached and supported; otherwise uses level.
 ---@return string
 function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEventQuest, isPvPQuest, questId)
     if isEventQuest == true then
@@ -94,8 +95,8 @@ function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEvent
     return _GetDifficultyColor(level, questId).hex .. text .. "|r"
 end
 
----@param level Level
----@param questId QuestId? Enables native difficulty coloring on Forever when quest data is cached.
+---@param level Level Fallback quest level; -1 uses the player's level.
+---@param questId QuestId? Uses native difficulty on Forever when cached and supported; otherwise uses level.
 ---@return number r
 ---@return number g
 ---@return number b

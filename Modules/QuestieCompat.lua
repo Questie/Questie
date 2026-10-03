@@ -662,7 +662,8 @@ function QuestieCompat.GetQuestGreenRange()
 end
 
 ---Returns Forever's quest-ID difficulty for coloring, not for triviality or availability checks.
----Classic and uncached quests use the caller's level-based fallback. This does not request quest data.
+---Returns nil on Classic or when the ID, cached data, or API is unavailable; callers choose the fallback.
+---Does not request quest data or schedule a redraw when data becomes available.
 ---@param questId QuestId?
 ---@return number? difficulty Enum.RelativeContentDifficulty, or nil when unavailable.
 function QuestieCompat.GetQuestDifficulty(questId)
