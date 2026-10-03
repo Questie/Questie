@@ -324,7 +324,9 @@ function QuestieMenu.buildTownsfolkMenu()
     return townsfolkMenu
 end
 
-function QuestieMenu:Show(hideDelay)
+---@param hideDelay number?
+---@param anchorFrame Frame? Opens the menu below the right edge of this frame instead of at the cursor
+function QuestieMenu:Show(hideDelay, anchorFrame)
     if not Questie.db.profile.townsfolkConfig then
         Questie.db.profile.townsfolkConfig = {}
     end
@@ -399,7 +401,14 @@ function QuestieMenu:Show(hideDelay)
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
     tinsert(menuTable, {text= CANCEL, func=function() end})
-    LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, -15, "MENU", hideDelay or 2)
+    if anchorFrame then
+        -- Menu top left on the frame's bottom right, so it never covers the frame's tooltip on its bottom left
+        QuestieMenu.menu.relativePoint = "BOTTOMRIGHT"
+        LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, anchorFrame, 0, 0, "MENU", hideDelay or 2)
+    else
+        QuestieMenu.menu.relativePoint = nil
+        LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, -15, "MENU", hideDelay or 2)
+    end
 end
 
 function QuestieMenu:Hide()

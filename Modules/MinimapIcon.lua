@@ -41,6 +41,11 @@ function _MinimapIcon:CreateDataBrokerObject()
 
         ---@param tooltip any
         OnTooltipShow = function (tooltip)
+            if minimapButton and tooltip:GetOwner() == minimapButton then
+                -- Tooltip top right on the button's bottom left, so it never overlaps the menu on its bottom right
+                tooltip:ClearAllPoints()
+                tooltip:SetPoint("TOPRIGHT", minimapButton, "BOTTOMLEFT")
+            end
             tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
             tooltip:AddLine(" ")
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle My Journey'), 'white'))
@@ -113,7 +118,7 @@ function _MinimapIcon.OnClick(_, button)
             return
         end
 
-        QuestieMenu:Show()
+        QuestieMenu:Show(nil, minimapButton)
     end
 end
 
