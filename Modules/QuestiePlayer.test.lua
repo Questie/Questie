@@ -9,24 +9,31 @@ describe("QuestiePlayer", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
     end)
 
-    describe("HasRequiredRace", function()
-        local globalNames = {"UnitLevel", "UnitRace", "UnitClass", "UnitFactionGroup"}
+    describe("race requirements", function()
+        -- Independent test values; the provider's encoding inventory is tested in QuestieDB.
+        local RACE_ID = {HUMAN = 1, SKYBORNE_ALLIANCE = 95, SKYBORNE_HORDE = 96}
+        local RACE_MASK = {HUMAN = 1, ORC = 2, SKYBORNE_ALLIANCE = 4294967296, SKYBORNE_HORDE = 8589934592}
+        local globalNames = {"LibQuestieDB", "UnitLevel", "UnitRace", "UnitClass", "UnitFactionGroup"}
         local savedGlobals
-        local originalForever
         local originalFaction
         local originalLevel
+        local raceId
 
         before_each(function()
             savedGlobals = {}
             for _, name in ipairs(globalNames) do
                 savedGlobals[name] = _G[name]
             end
-            originalForever = Questie.IsForever
             originalFaction = QuestiePlayer.faction
             originalLevel = QuestiePlayer.private.playerLevel
-            Questie.IsForever = true
+            raceId = RACE_ID.HUMAN
+            _G.LibQuestieDB = {Enum = {raceMaskById = {
+                [RACE_ID.HUMAN] = RACE_MASK.HUMAN,
+                [RACE_ID.SKYBORNE_ALLIANCE] = RACE_MASK.SKYBORNE_ALLIANCE,
+                [RACE_ID.SKYBORNE_HORDE] = RACE_MASK.SKYBORNE_HORDE,
+            }}}
             _G.UnitLevel = function() return 1 end
-            _G.UnitRace = function() return "High Order Skyborne", "Skyborne", 95 end
+            _G.UnitRace = function() return "Test Race", "TestRace", raceId end
             _G.UnitClass = function() return "Mage", "MAGE", 8 end
             _G.UnitFactionGroup = function() return "Alliance" end
         end)
@@ -35,61 +42,67 @@ describe("QuestiePlayer", function()
             for _, name in ipairs(globalNames) do
                 _G[name] = savedGlobals[name]
             end
-            Questie.IsForever = originalForever
             QuestiePlayer.faction = originalFaction
             QuestiePlayer.private.playerLevel = originalLevel
         end)
 
-        it("uses the High Order Skyborne bit in single and mixed masks", function()
-            QuestiePlayer:Initialize()
+        describe("Initialize", function()
+            it("uses the provider mapping instead of assuming an encoding", function()
+                -- Deliberately remap a known ID so a hardcoded mask cannot pass this test.
+                LibQuestieDB.Enum.raceMaskById[RACE_ID.HUMAN] = RACE_MASK.ORC
 
-            assert.is_true(QuestiePlayer.HasRequiredRace(4294967296))
-            assert.is_true(QuestiePlayer.HasRequiredRace(4294967297))
-            assert.is_false(QuestiePlayer.HasRequiredRace(8589934592))
-            assert.is_true(QuestiePlayer.HasRequiredRace(nil))
-            assert.is_true(QuestiePlayer.HasRequiredRace(0))
-        end)
-
-        it("allows Alliance-wide restrictions without granting Human-only quests to Skyborne", function()
-            QuestiePlayer:Initialize()
-
-            assert.is_true(QuestiePlayer.HasRequiredRace(77))
-            assert.is_false(QuestiePlayer.HasRequiredRace(178))
-            assert.is_false(QuestiePlayer.HasRequiredRace(1))
-            assert.is_false(QuestiePlayer.HasRequiredRace(5))
-        end)
-
-        it("uses the Windshaper bit and only the Horde-wide faction exception", function()
-            _G.UnitRace = function() return "Windshaper Skyborne", "Skyborne", 96 end
-            _G.UnitFactionGroup = function() return "Horde" end
-            QuestiePlayer:Initialize()
-
-            assert.is_true(QuestiePlayer.HasRequiredRace(8589934592))
-            assert.is_true(QuestiePlayer.HasRequiredRace(8589934594))
-            assert.is_false(QuestiePlayer.HasRequiredRace(4294967296))
-            assert.is_true(QuestiePlayer.HasRequiredRace(178))
-            assert.is_false(QuestiePlayer.HasRequiredRace(77))
-            assert.is_false(QuestiePlayer.HasRequiredRace(2))
-            assert.is_true(QuestiePlayer.HasRequiredRace(nil))
-            assert.is_true(QuestiePlayer.HasRequiredRace(0))
-        end)
-
-        local ordinaryClients = {
-            {name = "Classic", isForever = false},
-            {name = "Forever", isForever = true},
-        }
-        for _, client in ipairs(ordinaryClients) do
-            it("preserves Human race restrictions on " .. client.name, function()
-                Questie.IsForever = client.isForever
-                _G.UnitRace = function() return "Human", "Human", 1 end
                 QuestiePlayer:Initialize()
 
-                assert.is_true(QuestiePlayer.HasRequiredRace(1))
-                assert.is_true(QuestiePlayer.HasRequiredRace(77))
-                assert.is_false(QuestiePlayer.HasRequiredRace(178))
-                assert.is_false(QuestiePlayer.HasRequiredRace(4294967296))
+                assert.is_true(QuestiePlayer.HasRequiredRace(RACE_MASK.ORC))
+                assert.is_false(QuestiePlayer.HasRequiredRace(RACE_MASK.HUMAN))
             end)
-        end
+
+            it("rejects a race ID missing from the provider mapping", function()
+                LibQuestieDB.Enum.raceMaskById[RACE_ID.HUMAN] = nil
+
+                assert.has_error(function() QuestiePlayer:Initialize() end,
+                    "QuestieDB has no race mask for race ID 1. Update QuestieDB and reload.")
+            end)
+        end)
+
+        describe("HasRequiredRace", function()
+            it("allows unrestricted masks", function()
+                QuestiePlayer:Initialize()
+
+                assert.is_true(QuestiePlayer.HasRequiredRace(nil))
+                assert.is_true(QuestiePlayer.HasRequiredRace(0))
+            end)
+
+            it("matches the player's bit and rejects other races", function()
+                QuestiePlayer:Initialize()
+
+                assert.is_true(QuestiePlayer.HasRequiredRace(RACE_MASK.HUMAN))
+                assert.is_false(QuestiePlayer.HasRequiredRace(RACE_MASK.ORC))
+            end)
+
+            it("matches a mixed mask only when it contains the player's bit", function()
+                QuestiePlayer:Initialize()
+
+                assert.is_true(QuestiePlayer.HasRequiredRace(RACE_MASK.HUMAN + RACE_MASK.ORC))
+                assert.is_false(QuestiePlayer.HasRequiredRace(RACE_MASK.ORC + RACE_MASK.SKYBORNE_ALLIANCE))
+            end)
+
+            it("preserves bit 32 when mixed with lower bits", function()
+                raceId = RACE_ID.SKYBORNE_ALLIANCE
+                QuestiePlayer:Initialize()
+
+                assert.is_true(QuestiePlayer.HasRequiredRace(RACE_MASK.SKYBORNE_ALLIANCE + RACE_MASK.HUMAN))
+                assert.is_false(QuestiePlayer.HasRequiredRace(RACE_MASK.SKYBORNE_HORDE + RACE_MASK.HUMAN))
+            end)
+
+            it("preserves bit 33 when mixed with lower bits", function()
+                raceId = RACE_ID.SKYBORNE_HORDE
+                QuestiePlayer:Initialize()
+
+                assert.is_true(QuestiePlayer.HasRequiredRace(RACE_MASK.SKYBORNE_HORDE + RACE_MASK.HUMAN))
+                assert.is_false(QuestiePlayer.HasRequiredRace(RACE_MASK.SKYBORNE_ALLIANCE + RACE_MASK.HUMAN))
+            end)
+        end)
     end)
 
     describe("GetCurrentZoneId", function()
