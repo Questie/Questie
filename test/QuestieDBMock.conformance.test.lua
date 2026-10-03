@@ -872,6 +872,13 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
     end)
 
     describe("Object name index", function()
+        it("provides the asynchronous Object name index required by login", function()
+            -- Check the real checkout directly; a method present only in the mock must not pass CI.
+            assert.is_table(provider.Object)
+            assert.is_function(provider.Object.BuildNameIndexAsync,
+                "QuestieDB master must provide Object.BuildNameIndexAsync for login initialization.")
+        end)
+
         it("returns ascending IDs sharing the current name, or nil when no Object has it", function()
             local seen = Conform(function(lib)
                 return {
