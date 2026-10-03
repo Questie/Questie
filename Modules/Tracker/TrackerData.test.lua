@@ -3,7 +3,7 @@ dofile("setupTests.lua")
 describe("TrackerData", function()
     local TrackerData, QuestieLib, QuestieDB, QuestiePlayer, QuestLogCache, compat
     local entries, cached, completion
-    local originalGetNumEntries, originalGetTitle, originalGetIndex, originalGetQuestSortIndex
+    local originalGetNumEntries, originalGetTitle, originalGetIndex, originalGetQuestSortIndex, originalGetInfo
 
     before_each(function()
         compat = QuestieLoader:ImportModule("QuestieCompat")
@@ -11,7 +11,9 @@ describe("TrackerData", function()
         originalGetTitle = compat.GetQuestLogTitle
         originalGetIndex = compat.GetQuestLogIndexByID
         originalGetQuestSortIndex = _G.GetQuestSortIndex
+        originalGetInfo = C_QuestLog.GetInfo
         _G.GetQuestSortIndex = nil
+        C_QuestLog.GetInfo = nil
         Questie.db.profile = {trackerColorObjectives = "minimal"}
         entries = {
             {title = "Northshire Abbey", isHeader = true},
@@ -57,6 +59,58 @@ describe("TrackerData", function()
         compat.GetQuestLogTitle = originalGetTitle
         compat.GetQuestLogIndexByID = originalGetIndex
         _G.GetQuestSortIndex = originalGetQuestSortIndex
+        C_QuestLog.GetInfo = originalGetInfo
+    end)
+
+    describe("modern native headers", function()
+        local originalGetCVarBool
+
+        before_each(function()
+            originalGetCVarBool = _G.GetCVarBool
+            _G.GetCVarBool = function() return false end
+            -- Forever report: legacy sort index 3 names Zephras in the modern list, not the Shaman header at 6.
+            entries = {
+                {title = "Mulgore", isHeader = true},
+                {title = "The Longwalkers", id = 98430},
+                {title = "Zephras Isle", isHeader = true},
+                {title = "The Anchors of Zephras", id = 94414},
+                {title = "The Earthen Ring", id = 95349},
+                {title = "Shaman", isHeader = true},
+                {title = "Call of Earth", id = 1521},
+                {title = "Call of Fire", id = 1523},
+            }
+            C_QuestLog.GetInfo = function(index)
+                local entry = entries[index]
+                if entry then
+                    return {title = entry.title, questID = entry.id or 0, isHeader = entry.isHeader, level = 10}
+                end
+            end
+            -- Exercise the real compatibility wrapper's modern API selection.
+            compat.GetQuestLogTitle = originalGetTitle
+            _G.GetQuestSortIndex = spy.new(function() return 3 end)
+        end)
+
+        after_each(function()
+            _G.GetCVarBool = originalGetCVarBool
+        end)
+
+        it("does not interpret legacy sort indices as modern headers in a full refresh", function()
+            local snapshot = TrackerData.Refresh()
+
+            assert.are.equal("Shaman", snapshot[1521].zoneName)
+            assert.are.equal("Shaman", snapshot[1523].zoneName)
+            assert.are.equal("Mulgore", snapshot[98430].zoneName)
+            assert.are.equal("Zephras Isle", snapshot[94414].zoneName)
+            assert.spy(_G.GetQuestSortIndex).was.not_called()
+        end)
+
+        it("uses the modern preceding header for a single quest refresh", function()
+            local quest = TrackerData.RefreshQuest(1523)
+
+            assert.are.equal("Call of Fire", quest.name)
+            assert.are.equal("Shaman", quest.zoneName)
+            assert.spy(_G.GetQuestSortIndex).was.not_called()
+        end)
     end)
 
     describe("collapsed native headers", function()

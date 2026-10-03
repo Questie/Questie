@@ -99,12 +99,13 @@ function TrackerData.ContainsQuest(questId)
     return index ~= nil and index > 0
 end
 
----Collapsed logs can list all headers before their quests, so the preceding header may be unrelated.
----Use the client's explicit association when available; callers retain sequential fallback for other clients.
+---Collapsed legacy logs can list all headers before their quests, so the preceding header may be unrelated.
+---GetQuestSortIndex uses legacy indices: never mix it with QuestieCompat's C_QuestLog.GetInfo path.
+---Modern clients retain their ordered-header lookup; legacy clients use the explicit association when available.
 ---@param questLogIndex number
 ---@return string?
 local function _GetQuestHeader(questLogIndex)
-    if GetQuestSortIndex then
+    if not (C_QuestLog and C_QuestLog.GetInfo) and GetQuestSortIndex then
         local headerIndex = GetQuestSortIndex(questLogIndex)
         if headerIndex and headerIndex > 0 then
             local title, _, _, isHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
