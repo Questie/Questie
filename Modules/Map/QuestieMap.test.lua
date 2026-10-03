@@ -7,13 +7,23 @@ describe("QuestieMap", function()
     local QuestieMap
     ---@type QuestieFramePool
     local QuestieFramePool
+    local unloadedFrames
 
     before_each(function()
         QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
-        QuestieFramePool.UnloadFrame = spy.new(function() end)
+        unloadedFrames = {}
+        QuestieFramePool.UnloadFrame = spy.new(function(_, frame)
+            table.insert(unloadedFrames, frame)
+            frame.data = nil
+        end)
         dofile("Modules/Map/QuestieMap.lua")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.questIdFrames = {}
+    end)
+
+    after_each(function()
+        _G.QuestieFrame1 = nil
+        _G.QuestieFrame2 = nil
     end)
 
     describe("DrawWorldIcon", function()
@@ -66,25 +76,18 @@ describe("QuestieMap", function()
             local thread = coroutine.create(function()
                 QuestieMap:UnloadQuestFrames(1)
             end)
-            coroutine.resume(thread)
+            assert.is_true(coroutine.resume(thread))
 
             assert.are_same({}, objective.AlreadySpawned)
             assert.is_nil(QuestieMap.questIdFrames[1])
-            assert.spy(QuestieFramePool.UnloadFrame).was.called_with(QuestieFramePool, _G.QuestieFrame1)
-            assert.spy(QuestieFramePool.UnloadFrame).was.called_with(QuestieFramePool, _G.QuestieFrame2)
+            assert.are.equal(2, #unloadedFrames)
+            local seen = {}
+            for _, frame in ipairs(unloadedFrames) do seen[frame] = true end
+            assert.is_true(seen[_G.QuestieFrame1])
+            assert.is_true(seen[_G.QuestieFrame2])
 
             _G.QuestieFrame1 = nil
             _G.QuestieFrame2 = nil
-        end)
-
-        it("should not throw an error when called from a coroutine", function()
-            QuestieMap.questIdFrames[1] = {QuestieFrame1 = "QuestieFrame1"}
-
-            local co = coroutine.create(function()
-                QuestieMap:UnloadQuestFrames(1)
-            end)
-
-            assert.is_true(coroutine.resume(co))
         end)
 
         it("should throw an error when not called from a coroutine", function()

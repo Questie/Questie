@@ -135,12 +135,18 @@ describe("QuestieProfilerPreHook", function()
             assert.are_same("worked", aliased())
         end)
 
-        it("reports the current target through the slot, so ownership checks work", function()
+        it("preserves a foreign slot replacement when the engine stops", function()
             local target = TargetFor("PreHookAlpha", "Work")
-            local override = function() end
-            target.slot[target.functionName] = override
+            local alias = QuestieLoader._modules.PreHookAlpha.Work
+            local profiler = LoadProfiler()
+            assert.is_true(profiler:Start(false))
+            local foreign = function() return "foreign" end
+            target.slot.Work = foreign
 
-            assert.are_equal(override, target.slot[target.functionName])
+            profiler:Stop()
+
+            assert.are_equal(foreign, target.slot.Work)
+            assert.are_same("foreign", alias())
         end)
 
         it("preserves arguments and nil-bearing returns exactly", function()
@@ -177,8 +183,15 @@ describe("QuestieProfilerPreHook", function()
         end)
 
         it("never wraps its own wrapper, however many sweeps run", function()
+            local wrapper = QuestieLoader._modules.PreHookAlpha.Work
+            QuestieLoader:ImportModule("PreHookAlpha").Second = function() return "second" end
             QuestieLoader:CreateModule("PreHookSweepTwo")
+            QuestieLoader:ImportModule("PreHookAlpha").Third = function() return "third" end
             QuestieLoader:CreateModule("PreHookSweepThree")
+
+            assert.is_not_nil(TargetFor("PreHookAlpha", "Second"))
+            assert.is_not_nil(TargetFor("PreHookAlpha", "Third"))
+            assert.are_equal(wrapper, QuestieLoader._modules.PreHookAlpha.Work)
 
             local matches = 0
             for _, target in ipairs(PreHook.targets) do
@@ -317,6 +330,22 @@ describe("QuestieProfilerPreHook", function()
     end)
 
     describe("finishing", function()
+        it("wraps a final definition even when its module is no longer dirty", function()
+            local module = GivenModule("PreHookFinal", {First = function() end})
+            LoadPreHook(true)
+            QuestieLoader:CreateModule("PreHookFinalTrigger")
+            local final = function() return "final" end
+            module.Last = final
+
+            PreHook.Finish()
+
+            local target = TargetFor("PreHookFinal", "Last")
+            assert.is_not_nil(target)
+            assert.are_equal(final, target.original)
+            assert.are_equal(target.wrapper, module.Last)
+            assert.are_same("final", module.Last())
+        end)
+
         it("stops sweeping once addon load is over", function()
             GivenModule("PreHookBefore", {Work = function() end})
             LoadPreHook(true)

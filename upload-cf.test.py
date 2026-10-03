@@ -49,7 +49,7 @@ class CurseForgeUploadTests(unittest.TestCase):
         self.stub("curl", '''#!/bin/sh
 "$REAL_GIT" ls-remote --exit-code --tags origin "refs/tags/$EXPECTED_MARKER" >/dev/null || exit 33
 printf 'upload\\n' >> "$UPLOAD_LOG"
-printf '%s\\n' "$@" > "$UPLOAD_LOG.args"
+printf '%s\\0' "$@" > "$UPLOAD_LOG.args"
 printf '{"id":123}' > response.txt
 printf '%s' "$UPLOAD_STATUS"
 exit "$UPLOAD_EXIT"
@@ -72,6 +72,12 @@ exit "$UPLOAD_EXIT"
 
     def has_remote_marker(self):
         return bool(self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
+
+    def upload_metadata(self):
+        arguments = Path(str(self.calls) + ".args").read_bytes().split(b"\0")
+        metadata = [arg.removeprefix(b"metadata=") for arg in arguments if arg.startswith(b"metadata=")]
+        self.assertEqual(1, len(metadata))
+        return json.loads(metadata[0])
 
     def test_requires_git_before_doing_anything(self):
         self.env["PATH"] = str(self.root / "empty-path")
@@ -99,6 +105,8 @@ exit "$UPLOAD_EXIT"
         self.assertFalse(self.calls.exists())
 
     def test_fetches_bundle_and_reserves_before_uploading_the_workflow_zip(self):
+        notes = 'A "quoted" change with \\paths.\nSecond line.\n'
+        (self.work / "CHANGELOG.md").write_text(notes)
         self.publish_bundle_tag()
         self.assertEqual("", self.git("tag", "--list", self.tag))
         result = self.run_upload()
@@ -108,8 +116,24 @@ exit "$UPLOAD_EXIT"
         self.assertEqual("upload\n", self.calls.read_text())
         arguments = Path(str(self.calls) + ".args").read_text()
         self.assertIn(f"file=@releases/v12.0.0/{self.zip.name}", arguments)
-        self.assertIn('"releaseType": "release"', arguments)
-        self.assertIn('"displayName": "v12.0.0+v1.0.0"', arguments)
+        self.assertIn("X-API-TOKEN: test-token", arguments)
+        self.assertIn("https://wow.curseforge.com/api/projects/334372/upload-file", arguments)
+        metadata = self.upload_metadata()
+        self.assertEqual("release", metadata["releaseType"])
+        self.assertEqual("v12.0.0+v1.0.0", metadata["displayName"])
+        self.assertEqual("markdown", metadata["changelogType"])
+        self.assertEqual(notes, metadata["changelog"])
+        self.assertEqual([
+            {"slug": "Ace3", "type": "embeddedLibrary"},
+            {"slug": "CallbackHandler", "type": "embeddedLibrary"},
+            {"slug": "HereBeDragons", "type": "embeddedLibrary"},
+            {"slug": "LibCompress", "type": "embeddedLibrary"},
+            {"slug": "LibDataBroker-1-1", "type": "embeddedLibrary"},
+            {"slug": "LibDBIcon-1-0", "type": "embeddedLibrary"},
+            {"slug": "LibSharedMedia-3-0", "type": "embeddedLibrary"},
+            {"slug": "LibStub", "type": "embeddedLibrary"},
+            {"slug": "LibUIDropDownMenu", "type": "embeddedLibrary"},
+        ], metadata["relations"]["projects"])
         self.assertIn(self.commit, self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
 
     def test_manifest_mismatches_fail_without_reserving_or_uploading(self):
@@ -289,9 +313,9 @@ exec "$REAL_GIT" "$@"
         result = self.run_upload()
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertTrue(self.has_remote_marker())
-        arguments = Path(str(self.calls) + ".args").read_text()
-        self.assertIn('"releaseType": "beta"', arguments)
-        self.assertIn(f'"displayName": "v12.0.0-pre.{self.commit[:7]}+v1.0.0"', arguments)
+        metadata = self.upload_metadata()
+        self.assertEqual("beta", metadata["releaseType"])
+        self.assertEqual(f"v12.0.0-pre.{self.commit[:7]}+v1.0.0", metadata["displayName"])
 
 
 if __name__ == "__main__":

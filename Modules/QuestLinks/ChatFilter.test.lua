@@ -11,7 +11,14 @@ describe("ChatFilter", function()
     ---@type QuestieDB
     local QuestieDB
 
+    local originalGlobals
+
     before_each(function()
+        originalGlobals = {}
+        for _, name in ipairs({"HaveQuestData", "C_QuestLog", "BNGetFriendInfoByID"}) do
+            originalGlobals[name] = _G[name]
+        end
+
         addFilterMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "AddMessageEventFilter")
         Questie.started = true
         Questie.db.profile = {
@@ -50,6 +57,9 @@ describe("ChatFilter", function()
     end)
 
     after_each(function()
+        for _, name in ipairs({"HaveQuestData", "C_QuestLog", "BNGetFriendInfoByID"}) do
+            _G[name] = originalGlobals[name]
+        end
         addFilterMock:revert()
     end)
 
@@ -91,7 +101,7 @@ describe("ChatFilter", function()
         it("should process a quest link with specific sender GUID", function()
             local msg = "Quest: |cffffff00|Hquest:74:28|h[The Legend of Stalvan]|h|r"
             local chatFrame = {historyBuffer = {elements = {1}}}
-            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, nil, "TEST_GUID_123",
+            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, "TEST_GUID_123",
                 nil)
 
             assert.is_not_nil(filteredMsg)
@@ -203,7 +213,7 @@ describe("ChatFilter", function()
             local msg = "Check out this quest: |cffffff00|Hquest:74:28|h[The Legend of Stalvan]|h|r"
             local chatFrame = {historyBuffer = {elements = {1}}}
 
-            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, nil,
+            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil,
                 "PLAYER_GUID_456", nil)
 
             assert.is_not_nil(filteredMsg)
@@ -214,7 +224,7 @@ describe("ChatFilter", function()
             local msg = "Check out this quest: |cffffff00|Hquest:74:28|h[The Legend of Stalvan]|h|r"
             local chatFrame = {historyBuffer = {elements = {1}}}
 
-            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, nil,
+            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil,
                 "PLAYER_GUID_456", "BN_SENDER_123")
 
             assert.is_not_nil(filteredMsg)

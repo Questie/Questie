@@ -4,9 +4,16 @@ describe("DailyQuestCommsBlacklist", function()
     ---@type DailyQuestCommsBlacklist
     local DailyQuestCommsBlacklist
 
+    local originalIsSoD
+
     before_each(function()
+        originalIsSoD = Questie.IsSoD
         dofile("Modules/Network/DailyQuestComms/DailyQuestCommsBlacklist.lua")
         DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
+    end)
+
+    after_each(function()
+        Questie.IsSoD = originalIsSoD
     end)
 
     describe("FilterQuestIds", function()

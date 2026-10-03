@@ -24,6 +24,8 @@ dofile("setupTests.lua")
 -- only fail a test loudly, never hide a provider behavior, so the mock keeps them. Not modeled
 -- at all: the provider's write-time normalization (constant fields dropped, a table refused on
 -- a scalar field, `""` and `{0, 0}` reading nil). Questie tests seed normalized values.
+-- Provider dirty/pending retries and no-argument Apply are also outside this double's scope;
+-- rejected publications keep successful function snapshots until explicit owner Apply.
 
 local PROVIDER_PATH = os.getenv("QUESTIE_DB_PATH") or "../QuestieDB"
 local PROVIDER_TOC = PROVIDER_PATH .. "/QuestieDB.toc"
@@ -275,13 +277,17 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
         fixtureIds = FixtureIds(provider)
     end)
 
+    local originalLibQuestieDB
+
     before_each(function()
+        originalLibQuestieDB = _G.LibQuestieDB
         mock = LoadQuestieDBMock()
         SeedMock(mock, provider, fixtureIds)
         caseNumber = caseNumber + 1
     end)
 
     after_each(function()
+        _G.LibQuestieDB = originalLibQuestieDB
         cleanupProvider()
     end)
 
@@ -298,6 +304,240 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
         assert.are_same(fromProvider, fromMock)
         return fromProvider
     end
+
+    it("supplies raw numeric defaults without inventing missing entities", function()
+        local seen = Conform(function(lib)
+            return {
+                rank = lib.Npc.GetRaw(FIXTURE.Npc.forestSpider, "rank"),
+                requiredClasses = lib.Quest.GetRaw(FIXTURE.Quest.sharptalonsClaw, "requiredClasses"),
+                startQuest = lib.Item.GetRaw(FIXTURE.Item.tinyIronKey, "startQuest"),
+                factionID = lib.Object.GetRaw(FIXTURE.Object.oldLionStatue, "factionID"),
+                missing = lib.Npc.GetRaw(ABSENT_ID, "rank"),
+            }
+        end)
+        assert.are_same({rank = 0, requiredClasses = 0, startQuest = 0, factionID = 0}, seen)
+    end)
+
+    for _, field in ipairs({"startedBy", "finishedBy", "objectives"}) do
+        it("returns independent raw Quest " .. field .. " tables", function()
+            local seen = Conform(function(lib)
+                local id = FIXTURE.Quest.sharptalonsClaw
+                local first = lib.Quest.GetRaw(id, field)
+                local second = lib.Quest.GetRaw(id, field)
+                local original = lib.Quest.GetRaw(id, lib.Meta.QuestMeta.questKeys[field])
+                first[1] = {999999}
+                return {
+                    original = original,
+                    independent = first ~= second,
+                    unchanged = second,
+                    reread = lib.Quest.GetRaw(id, field),
+                    missing = lib.Quest.GetRaw(ABSENT_ID, field),
+                }
+            end)
+            assert.is_true(seen.independent)
+            assert.are_same(seen.original, seen.unchanged)
+            assert.are_same(seen.original, seen.reread)
+            assert.is_nil(seen.missing)
+        end)
+    end
+
+    it("supplies the absent raw Quest objectives as an empty table", function()
+        local seen = Conform(function(lib)
+            return {objectives = lib.Quest.GetRaw(FIXTURE.Quest.sharptalonsClaw, "objectives")}
+        end)
+        assert.are_same({objectives = {}}, seen)
+    end)
+
+    it("materializes same-owner functions on first Set and refreshes them only on Apply", function()
+        Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local registrar = lib.GetRegistrar(owner)
+            local calls, coordinate = 0, 10
+            registrar.RegisterRuntimeCorrection("Npc", "Spawn", function()
+                calls = calls + 1
+                return {[ABSENT_ID] = {[keys.spawns] = {[12] = {{coordinate, 20}}}}}
+            end)
+            assert.are_equal(0, calls)
+            registrar.Set("Npc", "Name", {[ABSENT_ID] = {[keys.name] = "First"}})
+            assert.are_equal(1, calls)
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            coordinate = 99
+            registrar.Set("Npc", "Name", {[ABSENT_ID] = {[keys.name] = "Second"}})
+            assert.are_equal(1, calls)
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            registrar.Apply()
+            assert.are_equal(2, calls)
+            assert.are_same({[12] = {{99, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            assert.are_equal("Second", lib.Npc.name(ABSENT_ID))
+            return {}
+        end)
+    end)
+
+    it("Apply rereads other owners' data while retaining their function snapshots", function()
+        Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local first, second = lib.GetRegistrar(owner), lib.GetRegistrar(owner .. "Other")
+            local rows = {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+            local callsA, callsB, zone = 0, 0, 10
+            first.RegisterRuntimeCorrection("Npc", "Zone", function()
+                callsA = callsA + 1
+                return {[ABSENT_ID] = {[keys.zoneID] = zone}}
+            end)
+            first.Set("Npc", "Spawn", rows)
+            second.RegisterRuntimeCorrection("Npc", "Name", function()
+                callsB = callsB + 1
+                return {[ABSENT_ID] = {[keys.name] = "Other"}}
+            end)
+            second.Apply()
+            rows[ABSENT_ID][keys.spawns][12][1][1], zone = 99, 99
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            second.Apply()
+            assert.are_same({[12] = {{99, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            assert.are_equal(10, lib.Npc.zoneID(ABSENT_ID))
+            assert.are_same({1, 2}, {callsA, callsB})
+            assert.are_equal("Other", lib.Npc.name(ABSENT_ID))
+            first.Apply()
+            assert.are_equal(99, lib.Npc.zoneID(ABSENT_ID))
+            assert.are_same({2, 2}, {callsA, callsB})
+            return {}
+        end)
+    end)
+
+    it("restores the target snapshot when another owner's invalid data rejects withdrawal", function()
+        Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local first, second = lib.GetRegistrar(owner), lib.GetRegistrar(owner .. "Other")
+            local target = {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+            local other = {[ABSENT_ID] = {[keys.name] = "Other"}}
+            first.Set("Npc", "Spawn", target)
+            second.Set("Npc", "Name", other)
+            target[ABSENT_ID][keys.spawns][12][1][1] = 99
+            other[ABSENT_ID][999] = true
+            local ok = pcall(first.Set, "Npc", "Spawn", nil)
+            assert.is_false(ok)
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            assert.are_equal(owner, lib.Corrections.GetProvenance("Npc", ABSENT_ID, "spawns"))
+            other[ABSENT_ID][999] = nil
+            second.Set("Npc", "Name", other)
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            target[ABSENT_ID][keys.spawns][12][1][1] = 77
+            first.Apply()
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.spawns(ABSENT_ID))
+            assert.are_equal("Other", lib.Npc.name(ABSENT_ID))
+            return {}
+        end)
+    end)
+
+    it("retains function materializations through same-datatype Set until owner Apply", function()
+        Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local calls = 0
+            local rows = {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+            local registrar = lib.GetRegistrar(owner)
+            registrar.RegisterRuntimeCorrection("Npc", "Spawn", function()
+                calls = calls + 1
+                return rows
+            end)
+            assert.are_same(0, calls)
+            registrar.Apply()
+            assert.are_same(1, calls)
+            rows[ABSENT_ID][keys.spawns][12][1][1] = 99
+            registrar.Set("Npc", "Name", {[ABSENT_ID] = {[keys.name] = "Renamed"}})
+            assert.are_same("Renamed", lib.Npc.Get(ABSENT_ID, "name"))
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(ABSENT_ID, "spawns"))
+            assert.are_same(1, calls)
+            lib.Corrections.Set(owner .. "Other", "Npc", "Name", {[ABSENT_ID] = {[keys.name] = "Other"}})
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(ABSENT_ID, "spawns"))
+            assert.are_same(1, calls)
+            registrar.Apply()
+            assert.are_same({[12] = {{99, 20}}}, lib.Npc.Get(ABSENT_ID, "spawns"))
+            assert.are_same(2, calls)
+            assert.are_same("Other", lib.Npc.Get(ABSENT_ID, "name"))
+            return {}
+        end)
+    end)
+
+    it("recomposes other applied owners' data slots on same-datatype Set", function()
+        Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local rows = {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}, [keys.name] = "First"}}
+            local registrar = lib.GetRegistrar(owner)
+            registrar.Set("Npc", "Spawn", rows)
+            rows[ABSENT_ID][keys.spawns][12][1][1] = 99
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(ABSENT_ID, "spawns"))
+            lib.Corrections.Set(owner .. "Other", "Npc", "Name", {[ABSENT_ID] = {[keys.name] = "Other"}})
+            assert.are_same({[12] = {{99, 20}}}, lib.Npc.Get(ABSENT_ID, "spawns"))
+            assert.are_same("Other", lib.Npc.Get(ABSENT_ID, "name"))
+            assert.are_same(owner, lib.Corrections.GetProvenance("Npc", ABSENT_ID, "spawns"))
+            registrar.Apply()
+            assert.are_same({[12] = {{99, 20}}}, lib.Npc.Get(ABSENT_ID, "spawns"))
+            assert.are_same("Other", lib.Npc.Get(ABSENT_ID, "name"))
+            lib.Corrections.Set(owner .. "Other", "Npc", "Name", nil)
+            assert.are_same("First", lib.Npc.Get(ABSENT_ID, "name"))
+            return {}
+        end)
+    end)
+
+    it("does not run an unpublished owner's function registrations during Set", function()
+        Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local calls = 0
+            local registrar = lib.GetRegistrar(owner .. "Unpublished")
+            registrar.RegisterRuntimeCorrection("Npc", "Spawn", function()
+                calls = calls + 1
+                return {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+            end)
+            lib.Corrections.Set(owner, "Npc", "Name", {[ABSENT_ID] = {[keys.name] = "Name"}})
+            assert.are_same(0, calls)
+            assert.is_nil(lib.Npc.Get(ABSENT_ID, "spawns"))
+            registrar.Apply()
+            assert.are_same(1, calls)
+            assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(ABSENT_ID, "spawns"))
+            return {}
+        end)
+    end)
+
+    it("keeps NPC snapshots across an Item publication by the same owner", function()
+        local seen = Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local rows = {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+            lib.Corrections.Set(owner, "Npc", "Spawn", rows)
+            rows[ABSENT_ID][keys.spawns][12][1][1] = 99
+            lib.Corrections.Set(owner, "Item", "Item", {[ABSENT_ID] = {[lib.Meta.ItemMeta.itemKeys.name] = "Key"}})
+            local before = lib.Npc.Get(ABSENT_ID, "spawns")
+            lib.Corrections.Set(owner, "Npc", "Spawn", rows)
+            return {before = before, after = lib.Npc.Get(ABSENT_ID, "spawns"), item = lib.Item.Get(ABSENT_ID, "name")}
+        end)
+        assert.are_same({before = {[12] = {{10, 20}}}, after = {[12] = {{99, 20}}}, item = "Key"}, seen)
+    end)
+
+    it("snapshots nested data slots until explicitly published again", function()
+        local seen = Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local rows = {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+            lib.Corrections.Set(owner, "Npc", "Spawn", rows)
+            rows[ABSENT_ID][keys.spawns][12][1][1] = 99
+            local before = lib.Npc.Get(ABSENT_ID, "spawns")
+            lib.Corrections.Set(owner, "Npc", "Spawn", rows)
+            return {before = before, after = lib.Npc.Get(ABSENT_ID, "spawns")}
+        end)
+        assert.are_same({before = {[12] = {{10, 20}}}, after = {[12] = {{99, 20}}}}, seen)
+    end)
+
+    it("snapshots nested function-provider results until Apply", function()
+        local seen = Conform(function(lib, owner)
+            local keys = lib.Meta.NpcMeta.npcKeys
+            local rows = {[ABSENT_ID] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+            local registrar = lib.GetRegistrar(owner)
+            registrar.RegisterRuntimeCorrection("Npc", "Spawn", function() return rows end)
+            registrar.Apply()
+            rows[ABSENT_ID][keys.spawns][12][1][1] = 99
+            local before = lib.Npc.Get(ABSENT_ID, "spawns")
+            registrar.Apply()
+            return {before = before, after = lib.Npc.Get(ABSENT_ID, "spawns")}
+        end)
+        assert.are_same({before = {[12] = {{10, 20}}}, after = {[12] = {{99, 20}}}}, seen)
+    end)
 
     describe("schema", function()
         it("carries the provider's Database Key Enums and field types", function()
@@ -662,6 +902,9 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
                 registrar.RegisterRuntimeCorrection("Object", "AddedObject", function()
                     return {[ABSENT_ID] = {[objectKeys.name] = "Added"}}
                 end, 200)
+                lib.Corrections.Set(owner .. "Untouched", "Npc", "AddedNpc", {
+                    [ABSENT_ID] = {[lib.Meta.NpcMeta.npcKeys.name] = "Untouched NPC"},
+                })
                 local npcMapBefore = lib.Npc.GetAllIds(true)
                 local objectMapBefore = lib.Object.GetAllIds(true)
                 registrar.Apply()
@@ -758,6 +1001,9 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
                 local npcKeys = lib.Meta.NpcMeta.npcKeys
                 local objectKeys = lib.Meta.ObjectMeta.objectKeys
                 lib.Corrections.Set(owner, "Npc", "DarkmoonFaire", {[FIXTURE.Npc.gelvas] = {[npcKeys.zoneID] = 12}})
+                lib.Corrections.Set(owner .. "Untouched", "Npc", "AddedNpc", {
+                    [ABSENT_ID] = {[lib.Meta.NpcMeta.npcKeys.name] = "Untouched NPC"},
+                })
                 local npcMapBefore = lib.Npc.GetAllIds(true)
                 local objectMapBefore = lib.Object.GetAllIds(true)
                 lib.Corrections.Set(owner, "Object", "AddedObject", {[ABSENT_ID] = {[objectKeys.name] = "Added"}})

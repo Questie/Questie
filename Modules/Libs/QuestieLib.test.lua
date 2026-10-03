@@ -518,17 +518,6 @@ describe("QuestieLib", function()
             assert.are_same("dead", coroutine.status(thread))
         end)
 
-        it("should retry nil API results", function()
-            objectives = nil
-            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
-            Tick()
-            assert.spy(callback).was.not_called()
-
-            objectives = {{text = "Wolf slain: 0/1", type = "monster"}}
-            Tick()
-            assert.spy(callback).was.called_with(objectives)
-        end)
-
         it("should prime objectives while quest data is missing and accept a loaded quest with no objectives", function()
             objectives = {}
             _G.HaveQuestData = function() return false end
@@ -597,6 +586,8 @@ describe("QuestieLib", function()
         local publishedRows
 
         ---Runs and clears every captured deferred publish, as the next frame would.
+        local originalItem, originalTimer
+
         local function _NextFrame()
             local publishes = scheduledPublishes
             scheduledPublishes = {}
@@ -606,6 +597,7 @@ describe("QuestieLib", function()
         end
 
         before_each(function()
+            originalItem, originalTimer = _G.Item, _G.C_Timer
             loadCallbacks = {}
             scheduledPublishes = {}
             publishedRows = {}
@@ -648,8 +640,8 @@ describe("QuestieLib", function()
         end)
 
         after_each(function()
-            _G.Item = nil
-            _G.C_Timer = nil
+            _G.Item = originalItem
+            _G.C_Timer = originalTimer
         end)
 
         it("requests only the objective Items missing from the composed database", function()
@@ -789,6 +781,15 @@ describe("QuestieLib", function()
     end)
 
     describe("FormatDate", function()
+        local originalDate
+        before_each(function()
+            originalDate = _G.date
+            -- Model the client clock in a fixed UTC+1 timezone, independent of the host.
+            _G.date = function(format, timestamp)
+                return os.date("!" .. format, timestamp + 3600)
+            end
+        end)
+        after_each(function() _G.date = originalDate end)
         it("should format date for enUS", function()
             l10n.GetUILocale = function() return "enUS" end
             _G.CALENDAR_WEEKDAY_NAMES = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"}

@@ -1,7 +1,6 @@
 dofile("setupTests.lua")
 local stub = require("luassert.stub")
 
-_G.GetQuestTimers = function() return nil end
 
 -- Real Classic Alliance Elwynn Forest quests: 11 = Riverpaw Gnoll Bounty, 112 = Collecting Kelp.
 local RIVERPAW_GNOLL_BOUNTY_ID = 11
@@ -18,7 +17,18 @@ describe("QuestieTracker", function()
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
 
+    local savedGlobals, savedForever
+    local globalNames = {"IsInInstance", "InCombatLockdown", "UnitIsGhost", "GetQuestTimers", "GetQuestLogTitle"}
+
     before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do savedGlobals[name] = _G[name] end
+        savedForever = Questie.IsForever
+        _G.IsInInstance = function() return false end
+        _G.InCombatLockdown = function() return false end
+        _G.UnitIsGhost = function() return false end
+        _G.GetQuestTimers = function() return nil end
+        Questie.IsForever = false
         Questie.db.char = {
             collapsedQuests = {},
             AutoUntrackedQuests = {},
@@ -40,11 +50,20 @@ describe("QuestieTracker", function()
 
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+        QuestieTracker.started = nil
+        QuestieTracker.alreadyHooked = nil
+        QuestieTracker.alreadyHookedSecure = nil
+    end)
+
+    after_each(function()
+        for _, name in ipairs(globalNames) do _G[name] = savedGlobals[name] end
+        Questie.IsForever = savedForever
     end)
 
     describe("QuestItemLooted", function()
         local getItemInfoMock, getItemCountMock, usableItemMock, afterMock, registerEventMock
         local originalTimer
+        local refreshMock, updateMock, unregisterMock
 
         before_each(function()
             local compat = QuestieLoader:ImportModule("QuestieCompat")
@@ -57,6 +76,9 @@ describe("QuestieTracker", function()
             _G.C_Timer = {After = afterMock}
             registerEventMock = stub(Questie, "RegisterEvent")
             dofile("Modules/Tracker/QuestieTracker.lua")
+            refreshMock = stub(QuestieLoader:ImportModule("QuestEventHandler").private, "UpdateAllQuests")
+            updateMock = stub(QuestieTracker, "Update")
+            unregisterMock = stub(Questie, "UnregisterEvent")
         end)
 
         after_each(function()
@@ -65,6 +87,9 @@ describe("QuestieTracker", function()
             usableItemMock:revert()
             _G.C_Timer = originalTimer
             registerEventMock:revert()
+            refreshMock:revert()
+            updateMock:revert()
+            unregisterMock:revert()
         end)
 
         it("schedules a tracker refresh when the looted quest item is already in the bag", function()
@@ -76,6 +101,13 @@ describe("QuestieTracker", function()
             assert.equal(0.25, afterMock.calls[1].vals[1])
             assert.equal(0.5, afterMock.calls[2].vals[1])
             assert.spy(registerEventMock).was.not_called()
+            assert.spy(refreshMock).was.not_called()
+            assert.spy(updateMock).was.not_called()
+            afterMock.calls[1].vals[2]()
+            assert.spy(refreshMock).was.called_with(QuestieLoader:ImportModule("QuestEventHandler").private, false)
+            assert.spy(updateMock).was.not_called()
+            afterMock.calls[2].vals[2]()
+            assert.spy(updateMock).was.called(1)
         end)
 
         it("waits for a bag update when the looted quest item is not in the bag yet", function()
@@ -87,6 +119,19 @@ describe("QuestieTracker", function()
             assert.spy(registerEventMock).was.called(1)
             assert.equal("BAG_UPDATE_DELAYED", registerEventMock.calls[1].vals[2])
             assert.spy(afterMock).was.called(1)
+            local onBagUpdate = registerEventMock.calls[1].vals[3]
+            onBagUpdate()
+            assert.spy(unregisterMock).was.not_called()
+            assert.spy(updateMock).was.not_called()
+
+            getItemCountMock.returns(1)
+            QuestieCombatQueue.Queue = spy.new(function() end)
+            onBagUpdate()
+            assert.spy(unregisterMock).was.called_with(Questie, "BAG_UPDATE_DELAYED")
+            assert.spy(updateMock).was.not_called()
+            assert.spy(QuestieCombatQueue.Queue).was.called(1)
+            QuestieCombatQueue.Queue.calls[1].vals[2]()
+            assert.spy(updateMock).was.called(1)
         end)
     end)
 
@@ -339,6 +384,8 @@ describe("QuestieTracker", function()
 
             assert.spy(QuestieCombatQueue.Queue).was.called()
             assert.spy(QuestieTracker.Collapse).was.not_called()
+            QuestieCombatQueue.Queue.calls[1].vals[2]()
+            assert.spy(QuestieTracker.Collapse).was.called(1)
         end)
 
         it("should hide the tracker directly when entering an instance with hide enabled", function()
@@ -634,10 +681,14 @@ describe("QuestieTracker", function()
             QuestieTracker.HandleCombatStarted()
 
             QuestieCombatQueue.Queue = spy.new(function() end)
+            QuestieTracker.Update = spy.new(function() end)
 
             QuestieTracker.HandleCombatEnded()
 
-            assert.spy(QuestieCombatQueue.Queue).was.called()
+            assert.spy(QuestieCombatQueue.Queue).was.called(1)
+            assert.spy(QuestieTracker.Update).was.not_called()
+            QuestieCombatQueue.Queue.calls[1].vals[2]()
+            assert.spy(QuestieTracker.Update).was.called(1)
         end)
 
         it(
@@ -879,24 +930,55 @@ describe("QuestieTracker", function()
     end)
 
     describe("Collapse and Expand", function()
-        it("should guard against calling when conditions are not met", function()
-            -- Test that Collapse does nothing when tracker is already collapsed
-            Questie.db.char.isTrackerExpanded = false
-            _G.InCombatLockdown = function() return false end
+        local trackedQuests, frameMocks, originalDurability
 
-            -- This should be a no-op since isTrackerExpanded is false (guard fails)
-            QuestieTracker:Collapse()
-            assert.is_false(Questie.db.char.isTrackerExpanded)
+        before_each(function()
+            trackedQuests = {Click = spy.new(function() end)}
+            originalDurability = _G.DurabilityFrame
+            _G.DurabilityFrame = {GetPoint = function() return "TOP" end}
+            frameMocks = {
+                stub(QuestieTracker, "SetupKeybinding"),
+                stub(QuestieLoader:ImportModule("TrackerBaseFrame"), "Initialize", function() return {} end),
+                stub(QuestieLoader:ImportModule("TrackerHeaderFrame"), "Initialize", function()
+                    return {trackedQuests = trackedQuests}
+                end),
+                -- Stop initialization after the real header assignment, before unrelated tracker startup work.
+                stub(QuestieLoader:ImportModule("TrackerQuestFrame"), "Initialize", function() coroutine.yield() end),
+            }
+            QuestieTracker.started = nil
+            local initialize = coroutine.create(QuestieTracker.Initialize)
+            assert.is_true(coroutine.resume(initialize))
+            assert.are.equal("suspended", coroutine.status(initialize))
+            QuestieTracker.Update = spy.new(function() end)
         end)
 
-        it("should guard against calling when conditions are not met (expand)", function()
-            -- Test that Expand does nothing when tracker is already expanded
-            Questie.db.char.isTrackerExpanded = true
-            _G.InCombatLockdown = function() return false end
+        after_each(function()
+            for _, mock in ipairs(frameMocks) do mock:revert() end
+            _G.DurabilityFrame = originalDurability
+        end)
 
-            -- This should be a no-op since isTrackerExpanded is true (guard fails)
+        it("does not click an already collapsed header", function()
+            Questie.db.char.isTrackerExpanded = false
+            QuestieTracker:Collapse()
+            assert.spy(trackedQuests.Click).was.not_called()
+            assert.spy(QuestieTracker.Update).was.not_called()
+
+            Questie.db.char.isTrackerExpanded = true
+            QuestieTracker:Collapse()
+            assert.spy(trackedQuests.Click).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+
+        it("does not click an already expanded header", function()
+            Questie.db.char.isTrackerExpanded = true
             QuestieTracker:Expand()
-            assert.is_true(Questie.db.char.isTrackerExpanded)
+            assert.spy(trackedQuests.Click).was.not_called()
+            assert.spy(QuestieTracker.Update).was.not_called()
+
+            Questie.db.char.isTrackerExpanded = false
+            QuestieTracker:Expand()
+            assert.spy(trackedQuests.Click).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called(1)
         end)
     end)
 end)

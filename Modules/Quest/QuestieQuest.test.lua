@@ -22,11 +22,14 @@ describe("QuestieQuest", function()
     ---@type l10n
     local l10n
 
+    local originalQuestPointers
+
     before_each(function()
         Questie.db.char = {}
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.GetDungeons = function() return {} end
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        originalQuestPointers = QuestieDB.QuestPointers
         QuestieDB.GetQuest = spy.new(function() return {} end)
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
@@ -43,6 +46,10 @@ describe("QuestieQuest", function()
 
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+    end)
+
+    after_each(function()
+        QuestieDB.QuestPointers = originalQuestPointers
     end)
 
     describe("UnhideQuest", function()
@@ -77,14 +84,25 @@ describe("QuestieQuest", function()
     end)
 
     describe("ShowQuestIcons", function()
-        it("should not throw an error when called from a coroutine", function()
-            QuestieMap.questIdFrames = {}
+        it("should show an eligible icon from a coroutine", function()
+            local icon = {
+                hidden = true, data = {QuestData = {}, ObjectiveIndex = 1},
+                ShouldBeHidden = function() return false end,
+                FakeShow = spy.new(function() end),
+                FadeIn = spy.new(function() end),
+            }
+            local previous = _G.QuestieAuditIcon
+            _G.QuestieAuditIcon = icon
+            QuestieMap.questIdFrames = {[123] = {"QuestieAuditIcon"}}
 
-            local co = coroutine.create(function()
+            local success, message = coroutine.resume(coroutine.create(function()
                 QuestieQuest:ShowQuestIcons()
-            end)
+            end))
+            _G.QuestieAuditIcon = previous
 
-            assert.is_true(coroutine.resume(co))
+            assert.is_true(success, message)
+            assert.spy(icon.FakeShow).was.called_with(icon)
+            assert.spy(icon.FadeIn).was.called_with(icon)
         end)
 
         it("should throw an error when not called from a coroutine", function()
@@ -95,14 +113,25 @@ describe("QuestieQuest", function()
     end)
 
     describe("HideQuestIcons", function()
-        it("should not throw an error when called from a coroutine", function()
-            QuestieMap.questIdFrames = {}
+        it("should hide an eligible icon from a coroutine", function()
+            local icon = {
+                hidden = false, data = {QuestData = {}, ObjectiveIndex = 1},
+                ShouldBeHidden = function() return true end,
+                FakeHide = spy.new(function() end),
+                FadeIn = spy.new(function() end),
+            }
+            local previous = _G.QuestieAuditIcon
+            _G.QuestieAuditIcon = icon
+            QuestieMap.questIdFrames = {[123] = {"QuestieAuditIcon"}}
 
-            local co = coroutine.create(function()
+            local success, message = coroutine.resume(coroutine.create(function()
                 QuestieQuest:HideQuestIcons()
-            end)
+            end))
+            _G.QuestieAuditIcon = previous
 
-            assert.is_true(coroutine.resume(co))
+            assert.is_true(success, message)
+            assert.spy(icon.FakeHide).was.called_with(icon)
+            assert.spy(icon.FadeIn).was.called_with(icon)
         end)
 
         it("should throw an error when not called from a coroutine", function()
@@ -113,14 +142,17 @@ describe("QuestieQuest", function()
     end)
 
     describe("GetAllQuestIds", function()
-        it("should not throw an error when called from a coroutine", function()
-            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+        it("should retain and refresh a failed logged quest from a coroutine", function()
+            local quest = {IsComplete = function() return -1 end}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[123] = {title = "Failed quest"}}
+            QuestieDB.QuestPointers = {[123] = true}
+            QuestieDB.GetQuest = function() return quest end
+            QuestieQuest.UpdateQuest = spy.new(function() end)
 
-            local co = coroutine.create(function()
-                QuestieQuest:GetAllQuestIds()
-            end)
+            coroutine.wrap(function() QuestieQuest:GetAllQuestIds() end)()
 
-            assert.is_true(coroutine.resume(co))
+            assert.are_same({[123] = quest}, QuestiePlayer.currentQuestlog)
+            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, 123)
         end)
 
         it("should throw an error when not called from a coroutine", function()
@@ -236,15 +268,23 @@ describe("QuestieQuest", function()
     end)
 
     describe("PopulateObjective", function()
-        it("should not throw an error when called from a coroutine", function()
-            local quest = {ObjectiveData = {}}
-            local objective = {Description = "test"}
+        it("should unload completed objective icons from a coroutine", function()
+            local icon = {}
+            local pool = QuestieLoader:ImportModule("QuestieFramePool")
+            pool.UnloadFrame = spy.new(function() end)
+            local objective = {
+                Index = 1, Description = "Wolf", Completed = true,
+                Update = spy.new(function() end), spawnList = {[456] = {}},
+                AlreadySpawned = {[456] = {mapRefs = {icon}, minimapRefs = {}}},
+            }
 
-            local co = coroutine.create(function()
-                QuestieQuest:PopulateObjective(quest, 1, objective, false)
-            end)
+            coroutine.wrap(function()
+                QuestieQuest:PopulateObjective({Id = 123, ObjectiveData = {}}, 1, objective, false)
+            end)()
 
-            assert.is_true(coroutine.resume(co))
+            assert.spy(objective.Update).was.called(1)
+            assert.spy(pool.UnloadFrame).was.called_with(pool, icon)
+            assert.are_same({}, objective.AlreadySpawned)
         end)
 
         it("should throw an error when not called from a coroutine", function()
@@ -259,33 +299,38 @@ describe("QuestieQuest", function()
             QuestieQuest.private.objectiveSpawnListCallTable = {}
         end)
 
-        it("should not crash when objectives have nil spawnList (guard against nil in next())", function()
-            -- The bug was that RegisterObjectiveTooltips called next(objective.spawnList) without checking if spawnList was nil first
-            -- This should complete without error (not crash on "bad argument #1 to next")
-            local quest = {
-                Id = 123,
-                Objectives = {},
-                SpecialObjectives = {},
-                ObjectiveData = {}
-            }
+        it("should populate and register a regular objective with a nil spawnList", function()
+            local objective = {Id = 456, Type = "monster", Description = "Wolf"}
+            local quest = {Id = 123, Objectives = {objective}, SpecialObjectives = {}, ObjectiveData = {}}
+            QuestieQuest.private.objectiveSpawnListCallTable.monster = function() return {{TooltipKey = "m_456"}} end
+            local tooltips = QuestieLoader:ImportModule("QuestieTooltips")
+            local registered
+            tooltips.RegisterObjectiveTooltip = spy.new(function(_, questId, key, value)
+                registered = {questId, key, value}
+            end)
 
-            -- Should not throw an error
             QuestieQuest.RegisterObjectiveTooltips(quest)
-            assert.is_true(true)
+
+            assert.are_equal(1, objective.Index)
+            assert.are_same({123, "m_456", objective}, registered)
+            assert.spy(tooltips.RegisterObjectiveTooltip).was.called(1)
         end)
 
-        it("should not crash when special objectives have nil spawnList", function()
-            -- Same check for SpecialObjectives path
-            local quest = {
-                Id = 123,
-                Objectives = {},
-                SpecialObjectives = {},
-                ObjectiveData = {}
-            }
+        it("should populate and register a special objective with a nil spawnList", function()
+            local objective = {Id = 789, Type = "object", Description = "Portal"}
+            local quest = {Id = 123, Objectives = {}, SpecialObjectives = {objective}, ObjectiveData = {}}
+            QuestieQuest.private.objectiveSpawnListCallTable.object = function() return {{TooltipKey = "o_789"}} end
+            local tooltips = QuestieLoader:ImportModule("QuestieTooltips")
+            local registered
+            tooltips.RegisterObjectiveTooltip = spy.new(function(_, questId, key, value)
+                registered = {questId, key, value}
+            end)
 
-            -- Should not throw an error
             QuestieQuest.RegisterObjectiveTooltips(quest)
-            assert.is_true(true)
+
+            assert.are_equal(65, objective.Index)
+            assert.are_same({123, "o_789", objective}, registered)
+            assert.spy(tooltips.RegisterObjectiveTooltip).was.called(1)
         end)
 
         it("should assign Index to regular objectives if not already set", function()

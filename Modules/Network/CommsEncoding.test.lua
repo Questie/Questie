@@ -26,7 +26,17 @@ describe("CommsEncoding", function()
         originalDecodeForAddonChannel = LibDeflate.DecodeForWoWAddonChannel
     end
 
+    local originalLibStub, originalEncoding, originalEnums, originalError
+    local originalL10nMetatable
+
     before_each(function()
+        originalLibStub = _G.LibStub
+        originalEncoding = _G.C_EncodingUtil
+        originalEnums = _G.Enum
+        originalError = Questie.Error
+        originalL10nMetatable = getmetatable(QuestieLoader:ImportModule("l10n"))
+        _G.Enum = {CompressionMethod = {Deflate = 0}, CompressionLevel = {Default = 0}}
+        Questie.Error = spy.new(function() end)
         loadRealLibDeflate()
 
         l10n = QuestieLoader:ImportModule("l10n")
@@ -34,25 +44,14 @@ describe("CommsEncoding", function()
 
         dofile("Modules/Network/CommsEncoding.lua")
         CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
-
-        -- Simulate a successful Init so the encode/decode guards pass.
-        CommsEncoding.hasCodecSupport = true
-
-        _G.Enum.CompressionMethod = {Deflate = 0}
-        _G.Enum.CompressionLevel = {Default = 0}
     end)
 
-    it("should raise an error on Init when codec support is unavailable", function()
-        _G.LibStub = nil
-        _G.Questie.Error = spy.new(function() end)
-        dofile("Libs/LibStub/LibStub.lua")
-
-        dofile("Modules/Network/CommsEncoding.lua")
-        CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
-
-        CommsEncoding.Init()
-
-        assert.spy(Questie.Error).was.called()
+    after_each(function()
+        _G.LibStub = originalLibStub
+        _G.C_EncodingUtil = originalEncoding
+        _G.Enum = originalEnums
+        Questie.Error = originalError
+        setmetatable(l10n, originalL10nMetatable)
     end)
 
     describe("real LibDeflate addon-channel codec", function()
@@ -80,52 +79,48 @@ describe("CommsEncoding", function()
             calls = {}
             decodedPayload = {QuestieH1 = true}
             _G.C_EncodingUtil = {
-                SerializeCBOR = spy.new(function(payload)
+                SerializeCBOR = spy.new(function()
                     calls[#calls + 1] = "serialize"
-                    assert.are_same({QuestieV1 = true}, payload)
                     return "cbor"
                 end),
-                CompressString = spy.new(function(payload, method, level)
+                CompressString = spy.new(function()
                     calls[#calls + 1] = "compress"
-                    assert.are_equal("cbor", payload)
-                    assert.are_equal(Enum.CompressionMethod.Deflate, method)
-                    assert.are_equal(Enum.CompressionLevel.Default, level)
                     return "compressed\000payload"
                 end),
-                DecompressString = spy.new(function(payload, method)
+                DecompressString = spy.new(function()
                     calls[#calls + 1] = "decompress"
-                    assert.are_equal("compressed\000payload", payload)
-                    assert.are_equal(Enum.CompressionMethod.Deflate, method)
                     return "cbor"
                 end),
-                DeserializeCBOR = spy.new(function(payload)
+                DeserializeCBOR = spy.new(function()
                     calls[#calls + 1] = "deserialize"
-                    assert.are_equal("cbor", payload)
                     return decodedPayload
                 end),
             }
 
             LibDeflate.EncodeForWoWAddonChannel = spy.new(function(libDeflate, payload)
                 calls[#calls + 1] = "addonEncode"
-                assert.are_equal(LibDeflate, libDeflate)
-                assert.are_equal("compressed\000payload", payload)
                 return originalEncodeForAddonChannel(libDeflate, payload)
             end)
             LibDeflate.DecodeForWoWAddonChannel = spy.new(function(libDeflate, payload)
                 calls[#calls + 1] = "addonDecode"
-                assert.are_equal(LibDeflate, libDeflate)
                 return originalDecodeForAddonChannel(libDeflate, payload)
             end)
         end
 
         before_each(function()
             setupBlizzardCodec()
+            CommsEncoding.Init()
         end)
 
         it("encodes payload tables through CBOR, Blizzard Deflate, and LibDeflate addon-safe encoding", function()
             local wire = CommsEncoding:EncodePayload({QuestieV1 = true})
 
+            assert.is_true(CommsEncoding.hasCodecSupport)
+            assert.spy(Questie.Error).was.not_called()
             assert.are_same({"serialize", "compress", "addonEncode"}, calls)
+            assert.spy(C_EncodingUtil.SerializeCBOR).was.called_with({QuestieV1 = true})
+            assert.spy(C_EncodingUtil.CompressString).was.called_with("cbor", 0, 0)
+            assert.spy(LibDeflate.EncodeForWoWAddonChannel).was.called_with(LibDeflate, "compressed\000payload")
             assert.are_equal("compressed\000payload", originalDecodeForAddonChannel(LibDeflate, wire))
             assert.is_nil(wire:find("\000", 1, true))
         end)
@@ -136,6 +131,9 @@ describe("CommsEncoding", function()
             local payload = CommsEncoding:DecodePayload(wire)
 
             assert.are_same({"addonDecode", "decompress", "deserialize"}, calls)
+            assert.spy(LibDeflate.DecodeForWoWAddonChannel).was.called_with(LibDeflate, wire)
+            assert.spy(C_EncodingUtil.DecompressString).was.called_with("compressed\000payload", 0)
+            assert.spy(C_EncodingUtil.DeserializeCBOR).was.called_with("cbor")
             assert.are_equal(decodedPayload, payload)
         end)
 
@@ -165,10 +163,8 @@ describe("CommsEncoding", function()
 
         it("decodes a wire payload that fits exactly three AceComm messages", function()
             local maxPayloadBytes = CommsEncoding.MAX_ENCODED_PAYLOAD_BYTES
-            LibDeflate.DecodeForWoWAddonChannel = spy.new(function(libDeflate, payload)
+            LibDeflate.DecodeForWoWAddonChannel = spy.new(function()
                 calls[#calls + 1] = "addonDecode"
-                assert.are_equal(LibDeflate, libDeflate)
-                assert.are_equal(maxPayloadBytes, #payload)
                 return "compressed\000payload"
             end)
 
@@ -191,16 +187,56 @@ describe("CommsEncoding", function()
 
         it("returns nil when Blizzard codec support is unavailable", function()
             _G.C_EncodingUtil = nil
+            CommsEncoding.Init()
 
+            assert.is_false(CommsEncoding.hasCodecSupport)
+            assert.spy(Questie.Error).was.called(1)
             assert.is_nil(CommsEncoding:EncodePayload({}))
             assert.is_nil(CommsEncoding:DecodePayload("wire"))
         end)
 
-        it("returns nil when LibDeflate support is unavailable", function()
-            LibDeflate.EncodeForWoWAddonChannel = nil
+        it("reports unavailable support when LibDeflate is not installed", function()
+            _G.LibStub = nil
+            dofile("Libs/LibStub/LibStub.lua")
+            dofile("Modules/Network/CommsEncoding.lua")
+            CommsEncoding = QuestieLoader:ImportModule("CommsEncoding")
 
-            assert.is_nil(CommsEncoding:EncodePayload({}))
-            assert.is_nil(CommsEncoding:DecodePayload("wire"))
+            CommsEncoding.Init()
+
+            assert.is_false(CommsEncoding.hasCodecSupport)
+            assert.spy(Questie.Error).was.called(1)
+        end)
+
+        it("disables both directions on Init when the addon encoder is missing", function()
+            local wire = originalEncodeForAddonChannel(LibDeflate, "compressed\000payload")
+            LibDeflate.EncodeForWoWAddonChannel = nil
+            CommsEncoding.Init()
+
+            assert.is_false(CommsEncoding.hasCodecSupport)
+            assert.is_nil(CommsEncoding:EncodePayload({QuestieV1 = true}))
+            assert.is_nil(CommsEncoding:DecodePayload(wire))
+            assert.are_same({}, calls)
+            assert.spy(Questie.Error).was.called(1)
+        end)
+
+        it("disables both directions on Init when the addon decoder is missing", function()
+            local wire = originalEncodeForAddonChannel(LibDeflate, "compressed\000payload")
+            LibDeflate.DecodeForWoWAddonChannel = nil
+            CommsEncoding.Init()
+
+            assert.is_false(CommsEncoding.hasCodecSupport)
+            assert.is_nil(CommsEncoding:EncodePayload({QuestieV1 = true}))
+            assert.is_nil(CommsEncoding:DecodePayload(wire))
+            assert.are_same({}, calls)
+            assert.spy(Questie.Error).was.called(1)
+        end)
+
+        it("requires the compression enums during Init", function()
+            Enum.CompressionMethod.Deflate = nil
+            CommsEncoding.Init()
+
+            assert.is_false(CommsEncoding.hasCodecSupport)
+            assert.spy(Questie.Error).was.called(1)
         end)
 
         it("returns nil when decode fails or CBOR does not produce a table", function()

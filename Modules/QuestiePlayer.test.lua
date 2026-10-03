@@ -4,9 +4,22 @@ describe("QuestiePlayer", function()
     ---@type QuestiePlayer
     local QuestiePlayer
 
+    local savedGlobals
+    local globalNames = {"C_Map", "GetRealZoneText", "UnitInParty", "UnitInRaid", "UnitClass", "GetClassColor"}
+
     before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do
+            savedGlobals[name] = _G[name]
+        end
         dofile("Modules/QuestiePlayer.lua")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+    end)
+
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = savedGlobals[name]
+        end
     end)
 
     describe("HasRequiredRace", function()
@@ -154,6 +167,17 @@ describe("QuestiePlayer", function()
                 b = 0.73,
                 colorHex = "fff58cba"
             }, player)
+        end)
+
+        it("should return a raid-only member", function()
+            _G.UnitInParty = function() return false end
+            _G.UnitInRaid = function(name) return name == "Raider-Realm" and 7 or nil end
+            _G.UnitClass = function(name) if name == "Raider-Realm" then return nil, "MAGE" end end
+            _G.GetClassColor = function() return 0.25, 0.78, 0.92, "ff40c7eb" end
+
+            assert.are_same({
+                name = "Raider-Realm", class = "MAGE", r = 0.25, g = 0.78, b = 0.92, colorHex = "ff40c7eb",
+            }, QuestiePlayer:GetPartyMemberByName("Raider-Realm"))
         end)
 
         it("should return party member for cross-realm", function()

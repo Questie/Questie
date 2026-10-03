@@ -20,7 +20,14 @@ describe("QuestieLink", function()
     local tooltipLines
     local originalItemSetHyperlink
 
+    local originalGlobals
+
     before_each(function()
+        originalGlobals = {}
+        for _, name in ipairs({"ItemRefTooltip", "HaveQuestData", "GetQuestLink", "C_QuestLog"}) do
+            originalGlobals[name] = _G[name]
+        end
+
         Questie.started = true
         Questie.db.profile = {}
         Questie.db.char = {
@@ -43,7 +50,7 @@ describe("QuestieLink", function()
 
         _G.HaveQuestData = function() return false end
         _G.GetQuestLink = nil
-        _G.C_QuestLog.GetQuestObjectives = function() return nil end
+        _G.C_QuestLog = {GetQuestObjectives = function() return nil end}
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.DoableStates = {AVAILABLE = "AVAILABLE"}
@@ -76,6 +83,12 @@ describe("QuestieLink", function()
         dofile("Modules/QuestLinks/Link.lua")
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
         QuestieLink.Initialize()
+    end)
+
+    after_each(function()
+        for _, name in ipairs({"ItemRefTooltip", "HaveQuestData", "GetQuestLink", "C_QuestLog"}) do
+            _G[name] = originalGlobals[name]
+        end
     end)
 
     describe("GetQuestLinkStringById", function()
@@ -514,6 +527,10 @@ describe("QuestieLink", function()
             QuestieDB.IsDoableVerbose = function()
                 return "You are on this quest", nil, "AVAILABLE"
             end
+            QuestieDB.GetNPC = function(_, npcId)
+                if npcId == 500 then return {name = "Quest Giver", zoneID = 0} end
+            end
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
             QuestiePlayer.currentQuestlog = {[1234] = true}
 
             QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)

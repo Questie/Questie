@@ -8,7 +8,10 @@ describe("RegisterForQuestUpdates", function()
     ---@type QuestieAPI
     local QuestieAPI
 
+    local originalErrorHandler
+
     before_each(function()
+        originalErrorHandler = _G.CallErrorHandler
         dofile("Public/Enums.lua")
         _G.Questie.API.isReady = true
 
@@ -20,6 +23,10 @@ describe("RegisterForQuestUpdates", function()
 
         dofile("Public/RegisterForQuestUpdates.lua")
         QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
+    end)
+
+    after_each(function()
+        _G.CallErrorHandler = originalErrorHandler
     end)
 
     it("should error when callback is not a function", function()
@@ -59,5 +66,23 @@ describe("RegisterForQuestUpdates", function()
 
         assert.spy(callbackSpy).was.called(1)
         assert.spy(callbackSpy).was.called_with(5678, nil, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ACCEPTED)
+    end)
+
+    it("reports subscriber errors and still delivers each objective to independent subscribers", function()
+        local errors = spy.new(function() end)
+        _G.CallErrorHandler = function(err) errors(err) end
+        local healthy = spy.new(function() end)
+        Questie.API.RegisterForQuestUpdates(function() error("update failure", 0) end)
+        Questie.API.RegisterForQuestUpdates(function(...) healthy(...) end)
+
+        QuestieAPI.PropagateQuestUpdate(1234, {1, 2}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
+        QuestieAPI.PropagateQuestUpdate(5678, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ACCEPTED)
+
+        assert.spy(healthy).was.called(3)
+        assert.spy(healthy).was.called_with(1234, 1, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
+        assert.spy(healthy).was.called_with(1234, 2, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
+        assert.spy(healthy).was.called_with(5678, nil, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ACCEPTED)
+        assert.spy(errors).was.called(3)
+        assert.spy(errors).was.called_with("update failure")
     end)
 end)

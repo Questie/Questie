@@ -12,11 +12,13 @@ describe("DistanceUtils", function()
     local DistanceUtils
 
     local HBDMock = {}
+    local originalLibStubMetatable
 
     local match = require("luassert.match")
     local _ = match._ -- any match
 
     before_each(function()
+        originalLibStubMetatable = getmetatable(_G.LibStub)
         HBDMock.GetPlayerWorldPosition = function() end
         HBDMock.GetWorldCoordinatesFromZone = function() end
         setmetatable(_G.LibStub, {
@@ -31,6 +33,10 @@ describe("DistanceUtils", function()
         DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
     end)
 
+    after_each(function()
+        setmetatable(_G.LibStub, originalLibStubMetatable)
+    end)
+
     describe("GetNearestSpawn", function()
         it("should return the nearest spawn", function()
             HBDMock.GetPlayerWorldPosition = spy.new(function()
@@ -40,7 +46,7 @@ describe("DistanceUtils", function()
                 if uiMapId == 200 then
                     return 123, 456, 1
                 end
-                return 0, 0, 2
+                return 0, 0, 1
             end)
             QuestieLib.Euclid = spy.new(function(_, _, dX)
                 return dX == 123 and 0 or 100
@@ -157,7 +163,7 @@ describe("DistanceUtils", function()
                 if uiMapId == 300 then
                     return 123, 456, 2
                 end
-                return 0, 0, 1
+                return 0, 0, 2
             end)
             QuestieLib.Euclid = spy.new(function(_, _, dX)
                 return dX == 123 and 0 or 100
@@ -212,7 +218,7 @@ describe("DistanceUtils", function()
                 if uiMapId == 300 then
                     return 123, 456, 2
                 end
-                return 0, 0, 1
+                return 0, 0, 2
             end)
             QuestieLib.Euclid = spy.new(function(_, _, dX)
                 return dX == 123 and 0 or 100
@@ -248,7 +254,7 @@ describe("DistanceUtils", function()
                 if uiMapId == 300 then
                     return 123, 456, 2
                 end
-                return 0, 0, 1
+                return 0, 0, 2
             end)
             QuestieLib.Euclid = spy.new(function(_, _, dX)
                 return dX == 123 and 0 or 100
@@ -297,7 +303,7 @@ describe("DistanceUtils", function()
                 if uiMapId == 400 then
                     return 123, 456, 4
                 end
-                return 0, 0, 1
+                return 0, 0, 4
             end
             QuestieLib.Euclid = function(_, _, dX)
                 return dX == 123 and 0 or 100
@@ -326,11 +332,11 @@ describe("DistanceUtils", function()
             ZoneDB.GetUiMapIdByAreaId = function()
                 return 100
             end
-            HBDMock.GetWorldCoordinatesFromZone = function()
-                return 123, 456, 1
+            HBDMock.GetWorldCoordinatesFromZone = function(_, x)
+                return x, 0, 2
             end
-            QuestieLib.Euclid = function()
-                return 0
+            QuestieLib.Euclid = function(_, _, x)
+                return x == 0.6 and 0 or 100
             end
             local finisher = {NPC = {123,456}}
 
@@ -339,7 +345,7 @@ describe("DistanceUtils", function()
             assert.same({50,50}, bestSpawn)
             assert.is_equal(1, bestSpawnZone)
             assert.is_equal("Finisher NPC 1", bestSpawnName)
-            assert.is_equal(500000, bestDistance)
+            assert.is_equal(100, bestDistance)
         end)
     end)
 

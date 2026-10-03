@@ -112,6 +112,7 @@ class BuildModeTests(unittest.TestCase):
             )
         (self.root / "Modules").mkdir()
         (self.root / "Modules/example.lua").write_text("return {}\n", encoding="utf-8")
+        (self.root / "Modules/example.test.lua").write_text('error("tests must not ship")\n', encoding="utf-8")
         for name, value in (
             ("includedExpansions", []),
             ("filesToInclude", list(build.filesToInclude)),
@@ -171,6 +172,9 @@ class BuildModeTests(unittest.TestCase):
         self.assertEqual("12.0.0", manifest["questie"]["version"])
 
     def test_invalid_release_versions_fail_before_replacing_output_or_downloading(self):
+        previous_output = self.root / "releases/v11.38.0/previous.zip"
+        previous_output.parent.mkdir(parents=True)
+        previous_output.write_bytes(b"previous release")
         path = self.root / build.tocs[2]
         for version_lines in ("", "## Version: v12.0.0\n", "## Version: 12.0.0\n",
                               "## Version: 11.38.0\n## Version: 11.38.0\n"):
@@ -181,6 +185,7 @@ class BuildModeTests(unittest.TestCase):
                         self.run_build("--bundled", "-r")
                     remove.assert_not_called()
                 self.downloads.assert_not_called()
+                self.assertEqual(b"previous release", previous_output.read_bytes())
 
     def test_standalone_has_matching_metadata_without_a_provider_download(self):
         output, manifest = self.run_build("--standalone", "-r")
@@ -196,6 +201,8 @@ class BuildModeTests(unittest.TestCase):
         with zipfile.ZipFile(output / release["filename"]) as archive:
             self.assertIn(build.tocs[1], archive.namelist())
             self.assertNotIn(build.tocs[2], archive.namelist())
+            self.assertIn("Modules/example.lua", archive.namelist())
+            self.assertNotIn("Modules/example.test.lua", archive.namelist())
             self.assertFalse(any(name.startswith("QuestieDB/") for name in archive.namelist()))
 
     def test_standalone_is_default_without_a_provider_download(self):
@@ -279,6 +286,7 @@ class BuildModeTests(unittest.TestCase):
             (("-w", "--wotlk"), "Wrath", "wrath"),
             (("-ca", "--cata"), "Cata", "cata"),
             (("-m", "--mop"), "Mists", "mists"),
+            (("-f", "--forever"), "Camelot", "forever"),
         )
         for flags, suffix, flavor in cases:
             for flag in flags:
@@ -346,6 +354,9 @@ class BuildModeTests(unittest.TestCase):
         self.downloads.assert_not_called()
 
     def test_conflicting_modes_do_not_delete_existing_output(self):
+        previous_output = self.root / "releases/v11.38.0-abc123def-staticdb-cd/previous.zip"
+        previous_output.parent.mkdir(parents=True)
+        previous_output.write_bytes(b"previous release")
         for standalone in ("-s", "--standalone"):
             for bundled in ("-b", "--bundled"):
                 for flags in ((standalone, bundled), (bundled, standalone)):
@@ -354,6 +365,7 @@ class BuildModeTests(unittest.TestCase):
                             with self.assertRaisesRegex(ValueError, "either"):
                                 build.main()
                             remove.assert_not_called()
+                    self.assertEqual(b"previous release", previous_output.read_bytes())
         self.downloads.assert_not_called()
 
     def test_selected_archive_must_be_unambiguous_before_download(self):

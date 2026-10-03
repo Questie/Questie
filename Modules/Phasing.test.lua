@@ -276,6 +276,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 1 when quest 14159 is complete", function()
+            Questie.db.char.complete[14078] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_1))
+
             Questie.db.char.complete[14159] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_1))
@@ -288,6 +291,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 2 when quest 14293 is complete", function()
+            Questie.db.char.complete[14159] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_2))
+
             Questie.db.char.complete[14293] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_2))
@@ -300,6 +306,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 3 when quest 14221 is complete", function()
+            Questie.db.char.complete[14293] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_3))
+
             Questie.db.char.complete[14221] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_3))
@@ -312,6 +321,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 4 when quest 14375 is complete", function()
+            Questie.db.char.complete[14221] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_4))
+
             Questie.db.char.complete[14375] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_4))
@@ -324,6 +336,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 5 when quest 14321 is complete", function()
+            Questie.db.char.complete[14375] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_5))
+
             Questie.db.char.complete[14321] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_5))
@@ -336,6 +351,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 6 when quest 14386 is complete", function()
+            Questie.db.char.complete[14321] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_6))
+
             Questie.db.char.complete[14386] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_6))
@@ -348,6 +366,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 7 when quest 14402, 14405 or 14463 is complete", function()
+            Questie.db.char.complete[14386] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_7))
+
             Questie.db.char.complete[14402] = true
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_7))
 
@@ -376,6 +397,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 8 when quest 14467 is complete", function()
+            Questie.db.char.complete[14402] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_8))
+
             Questie.db.char.complete[14467] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_8))
@@ -388,6 +412,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 9 when quest 24676 is complete", function()
+            Questie.db.char.complete[14467] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_9))
+
             Questie.db.char.complete[24676] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_9))
@@ -400,6 +427,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 10 when quest 24902 is complete", function()
+            Questie.db.char.complete[24676] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_10))
+
             Questie.db.char.complete[24902] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_10))
@@ -412,6 +442,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 11 when quest 24679 is complete", function()
+            Questie.db.char.complete[24902] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_11))
+
             Questie.db.char.complete[24679] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.GILNEAS_CHAPTER_11))
@@ -500,6 +533,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for Hyjal Twilight chapter when 25531 is complete", function()
+            Questie.db.char.complete[25274] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.HYJAL_TWILIGHT_CHAPTER))
+
             Questie.db.char.complete[25531] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.HYJAL_TWILIGHT_CHAPTER))
@@ -541,34 +577,6 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
         end)
-
-        --[[it("should return true for Legions Rest when 25966 is complete", function()
-            Questie.db.char.complete[25958] = true
-            Questie.db.char.complete[25959] = true
-            Questie.db.char.complete[25960] = true
-            Questie.db.char.complete[25962] = true
-            Questie.db.char.complete[25966] = true
-            Questie.db.char.complete[26191] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE_WEST))
-        end)
-
-        it("should return true for Legions Rest when 25755 is complete", function()
-            Questie.db.char.complete[25747] = true
-            Questie.db.char.complete[25748] = true
-            Questie.db.char.complete[25749] = true
-            Questie.db.char.complete[25751] = true
-            Questie.db.char.complete[25755] = true
-            Questie.db.char.complete[26191] = true
-
-            assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_LEGIONS_REST))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NORTHERN_GARDEN))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE))
-            assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_NAR_SHOLA_TERRACE_WEST))
-        end)]]
 
         it("should return true for Nar'Shola Terrace and Northern Garden when 25959, 25960 and 25962 are complete", function()
             Questie.db.char.complete[25958] = true
@@ -616,6 +624,7 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
             assert.is_false(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_PROMONTORY_POINT))
 
+            Questie.db.char.complete[25988] = true
             Questie.db.char.complete[26143] = true
 
             assert.is_true(Phasing.IsSpawnVisible(phases.VASHJIR_ERANUK_AT_CAVERN))
@@ -699,6 +708,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 3 when 26709 is complete", function()
+            Questie.db.char.complete[26971] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_3))
+
             Questie.db.char.complete[26709] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.TEMPLE_OF_EARTH_CHAPTER_3))
@@ -871,6 +883,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for chapter 3 when 26830 is complete Dragonmaw Port", function()
+            Questie.db.char.complete[26622] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
+
             Questie.db.char.complete[26830] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.DRAGONMAW_PORT_CHAPTER_3))
@@ -897,6 +912,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for Twilight Gate when 27301 is complete", function()
+            Questie.db.char.complete[28249] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+
             Questie.db.char.complete[27301] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
@@ -909,6 +927,9 @@ describe("Phasing", function()
         end)
 
         it("should return false for Twilight Gate when 27301 is not complete", function()
+            Questie.db.char.complete[28249] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE_PRE_INVASION))
+
             assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_GATE))
         end)
 
@@ -923,12 +944,15 @@ describe("Phasing", function()
         end)
 
         it("should return false for Twilight Ambush Alliance when 28101 is complete", function()
+            Questie.db.char.complete[27509] = true
+            assert.is_true(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
+
             Questie.db.char.complete[28101] = true
 
             assert.is_false(Phasing.IsSpawnVisible(phases.TWILIGHT_CARAVAN_AMBUSH_ALLIANCE))
         end)
 
-        it("should return true for Grim Batol Attack Horde when any objective of 28090 or 28091 is complete or one of the quests", function()
+        it("should return true for Grim Batol Attack Horde when 28092 or 28094 is complete or ready for turn-in", function()
             Questie.db.char.complete[28092] = false
             Questie.db.char.complete[28094] = false
             assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
@@ -948,6 +972,8 @@ describe("Phasing", function()
             Questie.db.char.complete[28092] = false
             Questie.db.char.complete[28094] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {[28092]={isComplete=0}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
+
             QuestLogCache.questLog_DO_NOT_MODIFY = {[28094]={isComplete=0}}
             assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
 
@@ -958,7 +984,7 @@ describe("Phasing", function()
             assert.is_true(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_HORDE))
         end)
 
-        it("should return true for Grim Batol Attack Alliance when any objective of 28103 or 28104 is complete or one of the quests", function()
+        it("should return true for Grim Batol Attack Alliance when 28103 or 28104 is complete or ready for turn-in", function()
             Questie.db.char.complete[28103] = false
             Questie.db.char.complete[28104] = false
             assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
@@ -978,6 +1004,8 @@ describe("Phasing", function()
             Questie.db.char.complete[28103] = false
             Questie.db.char.complete[28104] = false
             QuestLogCache.questLog_DO_NOT_MODIFY = {[28103]={isComplete=0}}
+            assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
+
             QuestLogCache.questLog_DO_NOT_MODIFY = {[28104]={isComplete=0}}
             assert.is_false(Phasing.IsSpawnVisible(phases.GRIM_BATOL_ATTACK_ALLIANCE))
 

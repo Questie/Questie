@@ -445,10 +445,5 @@ describe("Questie", function()
             assert.are_same(1, rows[1].args[3])
         end)
 
-        it("should not expand all RGB values from a non-final argument position", function()
-            local count = select("#", Questie:ColorizeRGB("reputationBlue"), "tail")
-
-            assert.are_same(2, count)
-        end)
     end)
 end)

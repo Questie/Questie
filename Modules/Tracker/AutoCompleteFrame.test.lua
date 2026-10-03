@@ -1,17 +1,29 @@
 dofile("setupTests.lua")
 
 local screenWidth = 1920
-_G.GetScreenWidth = function() return screenWidth end
+local stub = require("luassert.stub")
 
 ---@type AutoCompleteFrame
 dofile("Modules/Tracker/AutoCompleteFrame.lua")
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 
 describe("AutoCompleteFrame", function()
+    local screenMock, indexMock, titleMock
+
     before_each(function()
+        screenMock = stub(_G, "GetScreenWidth", function() return screenWidth end)
+        local compat = QuestieLoader:ImportModule("QuestieCompat")
+        indexMock = stub(compat, "GetQuestLogIndexByID", function() return 7 end)
+        titleMock = stub(compat, "GetQuestLogTitle", function() return "Test Quest" end)
         CreateFrame.resetMockedFrames()
 
         Questie.db.profile.trackerBackdropColor = {r = 0, g = 0, b = 0, a = 1}
+    end)
+
+    after_each(function()
+        screenMock:revert()
+        indexMock:revert()
+        titleMock:revert()
     end)
 
     describe("ShowAutoComplete", function()
@@ -27,6 +39,8 @@ describe("AutoCompleteFrame", function()
 
             AutoCompleteFrame.ShowAutoComplete(1)
 
+            assert.spy(indexMock).was.called_with(1)
+            assert.spy(titleMock).was.called_with(7)
             assert.spy(frame.questTitle.SetText).was.called_with(frame.questTitle, "Test Quest")
             assert.is_equal(1, frame.questId)
             assert.spy(frame.Show).was.called()

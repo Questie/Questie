@@ -18,9 +18,14 @@ describe("QuestieCorrections", function()
     local originalExpansion
     local originalIsHardcore
     local originalIsTitanReforged
+    local originalLibQuestieDB
+    local originalDebugstack, originalIslePhase
     local originalTBCPhase
 
     before_each(function()
+        originalLibQuestieDB = _G.LibQuestieDB
+        originalDebugstack = _G.debugstack
+        originalIslePhase = Questie.db.global.isleOfQuelDanasPhase
         mock = LoadQuestieDBMock()
         LibQuestieDB = mock.lib
 
@@ -77,6 +82,9 @@ describe("QuestieCorrections", function()
     end)
 
     after_each(function()
+        _G.LibQuestieDB = originalLibQuestieDB
+        _G.debugstack = originalDebugstack
+        Questie.db.global.isleOfQuelDanasPhase = originalIslePhase
         Expansions.Current = originalExpansion
         Questie.IsHardcore = originalIsHardcore
         Questie.IsTitanReforged = originalIsTitanReforged
@@ -93,11 +101,6 @@ describe("QuestieCorrections", function()
                 [npcKeys.spawns] = {[1519] = {{60, 60}}},
                 [npcKeys.zoneID] = 1519,
             })
-        end)
-
-        after_each(function()
-            -- The caller-source test stubs WoW's debugstack; busted has none of its own.
-            _G.debugstack = nil
         end)
 
         it("publishes rows under owner Questie immediately, leaving GetRaw untouched", function()
@@ -162,21 +165,14 @@ describe("QuestieCorrections", function()
         end)
 
         it("keeps independent slots independent", function()
-            local objectKeys = QuestieDB.objectKeys
-            mock.SetBaseRow("Object", 1617, {[objectKeys.name] = "Silverleaf", [objectKeys.spawns] = {[1] = {{10, 10}}}})
-            QuestieCorrections.SetCorrection("Object", "GatheringNodeDisplayPolicy", {[1617] = {[objectKeys.spawns] = {}}})
             QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
+            QuestieCorrections.SetCorrection("Npc", "OtherPolicy", {[14829] = {[npcKeys.name] = "Other NPC"}})
 
             QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
 
-            assert.is_nil(LibQuestieDB.Object.Get(1617, "spawns"))
-            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Object", 1617, "spawns"))
-        end)
-
-        it("records where each slot was last written", function()
-            QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", {[14828] = {[npcKeys.zoneID] = 215}})
-
-            assert.are_same("string", type(QuestieCorrections.correctionSources["Npc:DarkmoonFaire"]))
+            assert.are_same(1519, LibQuestieDB.Npc.Get(14828, "zoneID"))
+            assert.are_same("Other NPC", LibQuestieDB.Npc.Get(14829, "name"))
+            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Npc", 14829, "name"))
         end)
 
         it("records the writer's frame, not the pcall, profiler wrapper, or tail-call slot between them", function()

@@ -190,9 +190,12 @@ describe("QuestieInit", function()
     end)
     describe("support validation failure lifecycle", function()
         local originalError, originalHook, originalAPI, originalStarted, originalSetIcons
+        local originalForever, originalSoD
         local threads, errors, watchFrame
 
         before_each(function()
+            originalForever, originalSoD = Questie.IsForever, Questie.IsSoD
+            Questie.IsForever = false
             originalError, originalHook = Questie.Error, _G.hooksecurefunc
             originalAPI, originalStarted, originalSetIcons = Questie.API, Questie.started, Questie.SetIcons
             errors = spy.new(function() end)
@@ -218,6 +221,7 @@ describe("QuestieInit", function()
         end)
 
         after_each(function()
+            Questie.IsForever, Questie.IsSoD = originalForever, originalSoD
             Questie.Error, _G.hooksecurefunc = originalError, originalHook
             Questie.API, Questie.started, Questie.SetIcons = originalAPI, originalStarted, originalSetIcons
         end)
@@ -249,12 +253,27 @@ describe("QuestieInit", function()
             assert.spy(watchFrame).was.not_called()
         end)
 
-        it("preserves synchronous addon-load order and schedules the same deferred UI on success", function()
+        it("preserves addon-load order and initializes UI only when the deferred callback runs", function()
+            local deferredUI
+            QuestieLoader:ImportModule("ThreadLib").ThreadError = spy.new(function(callback) deferredUI = callback end)
+            threads = QuestieLoader:ImportModule("ThreadLib").ThreadError
+            QuestieLoader:ImportModule("HBDHooks").Init = _Record("HBDHooks")
+            QuestieLoader:ImportModule("GamepadMapHover").Initialize = _Record("GamepadMapHover")
+            QuestieLoader:ImportModule("QuestieShutUp").ToggleFilters = _Record("ShutUp")
+            QuestieLoader:ImportModule("QuestieCoords").Initialize = _Record("Coords")
+            QuestieLoader:ImportModule("QuestieSlash").RegisterSlashCommands = _Record("Slash")
+            QuestieLoader:ImportModule("IsleOfQuelDanas").Initialize = _Record("IsleOfQuelDanas")
+            QuestieLoader:ImportModule("QuestieOptions").Initialize = _Record("Options")
+
             QuestieInit.OnAddonLoaded()
             assert.are_same({"MinimapIcon", "SetIcons", "Migration", "ZoneDB", "AvailableQuests", "Professions",
                 "QuestXP", "Phasing"}, callOrder)
             assert.spy(threads).was.called(1)
             assert.spy(errors).was.not_called()
+            assert.is_function(deferredUI)
+            deferredUI()
+            assert.are_same({"MinimapIcon", "SetIcons", "Migration", "ZoneDB", "AvailableQuests", "Professions",
+                "QuestXP", "Phasing", "HBDHooks", "ShutUp", "Coords", "Slash", "IsleOfQuelDanas", "Options"}, callOrder)
         end)
 
         it("stops stage 1 before Townsfolk and later consumer initialization", function()

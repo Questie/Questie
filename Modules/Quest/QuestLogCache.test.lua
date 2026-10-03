@@ -279,7 +279,7 @@ describe("QuestLogCache", function()
 
             cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
             assert.is_true(cacheMiss)
-            assert.is_equal(0, #changes)
+            assert.are_same({}, changes)
             -- isComplete must NOT be downgraded to 0
             assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
             assert.spy(Sounds.PlayQuestComplete).was.not_called()
@@ -298,7 +298,7 @@ describe("QuestLogCache", function()
 
             cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
             assert.is_false(cacheMiss)
-            assert.is_equal(0, #changes)
+            assert.are_same({}, changes)
             assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
             assert.spy(Sounds.PlayQuestComplete).was.not_called()
             assert.spy(Sounds.PlayObjectiveComplete).was.not_called()

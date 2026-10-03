@@ -412,16 +412,35 @@ describe("WrappedText", function()
             assert.are_same(text, table.concat(lines, ""))
         end)
 
+        it("passes literal UTF-8 byte positions to native geometry", function()
+            local fontString = CreateTextWrapFontStringMock()
+            local spans = {}
+            local rowsByEndByte = {[1] = {{}}, [3] = {{}}, [7] = {{}}, [8] = {{}, {}}}
+            fontString.CalculateScreenAreaFromCharacterSpan = function(_, first, last)
+                spans[#spans + 1] = {first, last}
+                return rowsByEndByte[last]
+            end
+            _G.UIParent.CreateFontString = function() return fontString end
+            dofile("Modules/Libs/WrappedText.lua")
+            assert.same({"ä😀 ", "你好z"}, WrappedText:TextWrap("ä😀 你好z", "", false, 3))
+            assert.same({{1, 1}, {1, 3}, {1, 7}, {1, 8}}, spans)
+        end)
+
+        it("falls back to width measurements when native geometry is unavailable", function()
+            local fontString = CreateTextWrapFontStringMock()
+            fontString.CalculateScreenAreaFromCharacterSpan = spy.new(function() return nil end)
+            _G.UIParent.CreateFontString = function() return fontString end
+            dofile("Modules/Libs/WrappedText.lua")
+            assert.same({"ä😀 ", "你好z"}, WrappedText:TextWrap("ä😀 你好z", "", false, 3))
+            assert.spy(fontString.CalculateScreenAreaFromCharacterSpan).was.called()
+        end)
+
         it("should wrap German text with umlauts without splitting multi-byte characters", function()
             -- "Holt 5 Säcke" - "ä" is 2 bytes (c3 a4) in UTF-8
             local text = "Holt 5 Säcke Vorräte"
             local lines = WrappedText:TextWrap(text, "", false, 10)
 
-            assert.are_same(text, table.concat(lines, ""))
-            for _, line in ipairs(lines) do
-                -- Verify no line ends with a partial multi-byte character
-                assert.is_nil(string.find(line, "[\194-\244]$"))
-            end
+            assert.are_same({"Holt 5 ", "Säcke ", "Vorräte"}, lines)
         end)
 
         it("should wrap Korean text without splitting multi-byte characters", function()
@@ -429,21 +448,14 @@ describe("WrappedText", function()
             local text = "야생의 눈 퀘스트"
             local lines = WrappedText:TextWrap(text, "", false, 5)
 
-            assert.are_same(text, table.concat(lines, ""))
-            for _, line in ipairs(lines) do
-                -- Verify no line ends with a partial multi-byte character
-                assert.is_nil(string.find(line, "[\194-\244]$"))
-            end
+            assert.are_same({"야생의 눈 ", "퀘스트"}, lines)
         end)
 
         it("should wrap mixed ASCII and multi-byte UTF-8 text correctly", function()
             local text = "Quest: 5 Säcke sammeln"
             local lines = WrappedText:TextWrap(text, "", false, 10)
 
-            assert.are_same(text, table.concat(lines, ""))
-            for _, line in ipairs(lines) do
-                assert.is_nil(string.find(line, "[\194-\244]$"))
-            end
+            assert.are_same({"Quest: 5 ", "Säcke ", "sammeln"}, lines)
         end)
 
         it("should wrap Chinese text with color escapes without splitting multi-byte characters", function()

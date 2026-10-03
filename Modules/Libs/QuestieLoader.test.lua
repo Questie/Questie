@@ -3,6 +3,7 @@ dofile("setupTests.lua")
 describe("QuestieLoader", function()
     local originalProfilerEnabled
     local originalGetTimePreciseSec
+    local originalDebugProfileStop
     local originalDebugStack
     local originalCollectGarbage
     local clockSeconds
@@ -22,6 +23,7 @@ describe("QuestieLoader", function()
     before_each(function()
         originalProfilerEnabled = _G.QuestieProfilerEnabled
         originalGetTimePreciseSec = _G.GetTimePreciseSec
+        originalDebugProfileStop = _G.debugprofilestop
         originalDebugStack = _G.debugstack
         originalCollectGarbage = _G.collectgarbage
 
@@ -31,7 +33,8 @@ describe("QuestieLoader", function()
             return clockSeconds
         end
         -- WoW renders the path bracketed, which is what the loader parses.
-        _G.debugstack = function()
+        _G.debugstack = function(...)
+            assert.same({3, 1, 0}, {...})
             return "[Interface/AddOns/Questie/" .. currentSourceFile .. "]:3: in main chunk\n"
         end
     end)
@@ -39,6 +42,7 @@ describe("QuestieLoader", function()
     after_each(function()
         _G.QuestieProfilerEnabled = originalProfilerEnabled
         _G.GetTimePreciseSec = originalGetTimePreciseSec
+        _G.debugprofilestop = originalDebugProfileStop
         _G.debugstack = originalDebugStack
         _G.collectgarbage = originalCollectGarbage
         -- Leave a clean, uninstrumented loader behind for any test file that runs after this one.
@@ -96,16 +100,6 @@ describe("QuestieLoader", function()
             QuestieLoader:ImportModule("ObserverNamedImport")
 
             assert.are_same({"ObserverNamedCreate", "ObserverNamedImport"}, seen)
-        end)
-
-        it("fires on both CreateModule and ImportModule", function()
-            local calls = 0
-            QuestieLoader:SetModuleCallObserver(function() calls = calls + 1 end)
-
-            QuestieLoader:CreateModule("ObserverCreate")
-            QuestieLoader:ImportModule("ObserverImport")
-
-            assert.are_same(2, calls)
         end)
 
         it("fires before the caller can reach the module it is registering", function()
@@ -297,13 +291,15 @@ describe("QuestieLoader", function()
             QuestieLoader:ImportModule("l10n")
             AdvanceClock(3)
 
-            _G.debugstack = function()
+            _G.debugstack = function(...)
+                assert.same({3, 1, 0}, {...})
                 return "[Interface/AddOns/Questie/Modules/Foo.lua]:10: in function DoWork\n"
             end
             QuestieLoader:StampLoadBoundary()
             AdvanceClock(4)
 
-            _G.debugstack = function()
+            _G.debugstack = function(...)
+                assert.same({3, 1, 0}, {...})
                 return "[Interface/AddOns/Questie/Modules/Beta.lua]:3: in main chunk\n"
             end
             QuestieLoader:CreateModule("Beta")
@@ -335,7 +331,8 @@ describe("QuestieLoader", function()
         end)
 
         it("falls back to a named bucket when a main chunk yields no usable path", function()
-            _G.debugstack = function()
+            _G.debugstack = function(...)
+                assert.same({3, 1, 0}, {...})
                 return "[string \"a loaded chunk\"]:1: in main chunk\n"
             end
             QuestieLoader:CreateModule("Alpha")
@@ -406,7 +403,8 @@ describe("QuestieLoader", function()
 
             -- An init routine or lazy import resolving a module at runtime, rather than a file registering
             -- itself. Stamping here would close Alpha's interval and charge what follows to the caller.
-            _G.debugstack = function()
+            _G.debugstack = function(...)
+                assert.same({3, 1, 0}, {...})
                 return "[Interface/AddOns/Questie/Modules/Beta.lua]:120: in function 'Initialize'\n"
             end
             QuestieLoader:ImportModule("Beta")
@@ -418,7 +416,8 @@ describe("QuestieLoader", function()
             currentSourceFile = "Modules/Alpha.lua"
             QuestieLoader:CreateModule("Alpha")
             AdvanceClock(40)
-            _G.debugstack = function()
+            _G.debugstack = function(...)
+                assert.same({3, 1, 0}, {...})
                 return "[Interface/AddOns/Questie/Modules/Beta.lua]:120: in function 'Initialize'\n"
             end
             QuestieLoader:ImportModule("Beta")
@@ -434,7 +433,8 @@ describe("QuestieLoader", function()
             currentSourceFile = "Modules/Alpha.lua"
             QuestieLoader:CreateModule("Alpha")
             AdvanceClock(30)
-            _G.debugstack = function()
+            _G.debugstack = function(...)
+                assert.same({3, 1, 0}, {...})
                 return "[tail call]: ?\n"
             end
             QuestieLoader:ImportModule("Beta")

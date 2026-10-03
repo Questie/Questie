@@ -8,7 +8,14 @@ describe("HandleSetHyperlink", function()
     ---@type QuestieLink
     local QuestieLink
 
+    local originalGlobals
+
     before_each(function()
+        originalGlobals = {}
+        for _, name in ipairs({"ItemRefTooltip", "ShowUIPanel", "UIParent"}) do
+            originalGlobals[name] = _G[name]
+        end
+
         Questie.started = true
 
         _G.ItemRefTooltip = {
@@ -22,15 +29,21 @@ describe("HandleSetHyperlink", function()
         _G.UIParent = {}
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        QuestieDB.GetQuest = function(questId)
-            return {Id = questId}
-        end
+        QuestieDB.GetQuest = spy.new(function(questId)
+            if questId == 74 or questId == 75 then return {Id = questId} end
+        end)
 
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
         QuestieLink.CreateQuestTooltip = spy.new(function() end)
 
         dofile("Modules/QuestLinks/HandleSetHyperlink.lua")
         HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
+    end)
+
+    after_each(function()
+        for _, name in ipairs({"ItemRefTooltip", "ShowUIPanel", "UIParent"}) do
+            _G[name] = originalGlobals[name]
+        end
     end)
 
     it("should delegate to the fallback handler when Questie is not started", function()
@@ -70,8 +83,8 @@ describe("HandleSetHyperlink", function()
         HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
 
         assert.spy(fallbackHandler).was.not_called()
-        assert.spy(QuestieLink.CreateQuestTooltip).was.called()
-        assert.are_same(link, QuestieLink.CreateQuestTooltip.calls[1].vals[2])
+        assert.spy(QuestieDB.GetQuest).was.called_with(74)
+        assert.spy(QuestieLink.CreateQuestTooltip).was.called_with(QuestieLink, link, ItemRefTooltip)
         assert.spy(ItemRefTooltip.Show).was.called()
     end)
 
@@ -82,8 +95,8 @@ describe("HandleSetHyperlink", function()
         HandleSetHyperlink.Run(ItemRefTooltip, fallbackHandler, link)
 
         assert.spy(fallbackHandler).was.not_called()
-        assert.spy(QuestieLink.CreateQuestTooltip).was.called()
-        assert.are_same("questie:74:0", QuestieLink.CreateQuestTooltip.calls[1].vals[2])
+        assert.spy(QuestieDB.GetQuest).was.called_with(74)
+        assert.spy(QuestieLink.CreateQuestTooltip).was.called_with(QuestieLink, "questie:74:0", ItemRefTooltip)
         assert.spy(ItemRefTooltip.Show).was.called()
     end)
 

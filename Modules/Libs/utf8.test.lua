@@ -5,15 +5,26 @@ describe("utf8", function()
     local utf8
 
     before_each(function()
-        package.loaded["Modules.Libs.utf8"] = nil
         dofile("Modules/Libs/utf8.lua")
         utf8 = QuestieLoader:ImportModule("utf8")
     end)
 
-    it("should return the module table", function()
-        assert.is_table(utf8)
-        assert.is_function(utf8.sub)
-        assert.is_function(utf8.strlen)
+    it("converts character and byte positions across two- and four-byte characters", function()
+        local text = "aä😀z"
+        assert.same({1, 2, 4, 8}, utf8.computeOffsets(text))
+        assert.equals(4, utf8.strlen(text))
+        assert.equals("ä😀", utf8.sub(text, 2, 3))
+        assert.equals("ä😀", utf8.subWithOffsets(text, {1, 2, 4, 8}, 2, 3))
+        assert.equals(4, utf8.charIndexToByteIndex(text, 3))
+        assert.equals(8, utf8.charIndexToByteIndexWithOffsets({1, 2, 4, 8}, 4, 8))
+        assert.equals(9, utf8.charIndexToByteIndex(text, 5))
+        assert.equals(1, utf8.charIndexToByteIndex(text, 0))
+        assert.equals(2, utf8.byteIndexToCharIndex(text, 3))
+        assert.equals(3, utf8.byteIndexToCharIndex(text, 4))
+        assert.equals(3, utf8.byteIndexToCharIndex(text, 7))
+        assert.equals(4, utf8.byteIndexToCharIndex(text, 8))
+        assert.equals(5, utf8.byteIndexToCharIndex(text, 9))
+        assert.equals(1, utf8.byteIndexToCharIndex(text, 0))
     end)
 
     describe("strlen", function()

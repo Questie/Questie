@@ -185,10 +185,8 @@ describe("AvailableQuests", function()
 
             local result = AvailableQuests.GetUnavailableDailyQuests()
 
-            assert.is_not_nil(result[NPC_ID])
-            assert.are_equal(2, #result[NPC_ID])
-            assert.is_true(result[NPC_ID][1] == QUEST_ID or result[NPC_ID][1] == questId2)
-            assert.is_true(result[NPC_ID][2] == QUEST_ID or result[NPC_ID][2] == questId2)
+            table.sort(result[NPC_ID])
+            assert.are_same({QUEST_ID, questId2}, result[NPC_ID])
         end)
 
         it("should return quests for multiple NPCs", function()
@@ -219,12 +217,14 @@ describe("AvailableQuests", function()
             Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {[QUEST_ID] = true}
             Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
 
+            AvailableQuests.Initialize()
+            Questie.db.global.unavailableQuestsDeterminedByTalking.OtherRealm = {[999] = true}
             AvailableQuests.ClearUnavailableDailyQuests()
+            assert.are_same({[999] = true}, Questie.db.global.unavailableQuestsDeterminedByTalking.OtherRealm)
 
             assert.are_same({}, Questie.db.global.unavailableQuestsDeterminedByTalking[realmName])
             assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
-            assert.are_same({}, AvailableQuests.__unavailableQuestsDeterminedByTalking)
-            assert.are_same({}, AvailableQuests.__unavailableDailyQuestsByNpc)
+            assert.are_same({}, AvailableQuests.GetUnavailableDailyQuests())
         end)
     end)
 
@@ -330,6 +330,8 @@ describe("AvailableQuests", function()
 
             assert.is_not_nil(capturedCallback)
             capturedCallback()
+            assert.spy(_G.C_Timer.After).was.called(2)
+            assert.spy(_G.C_Timer.After).was.called_with(89005, match.is_function())
 
             assert.are_same({}, Questie.db.global.unavailableQuestsDeterminedByTalking[realmName])
             assert.are_same({}, Questie.db.global.unavailableDailyQuestsByNpc[realmName])
@@ -632,6 +634,8 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide unavailable one-time quests", function()
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.IsDailyQuest = function() return false end
             QuestieTooltips.RemoveQuest = spy.new(function() end)
@@ -863,6 +867,8 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide unavailable one-time quests", function()
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.IsDailyQuest = function() return false end
             _G.GetQuestID = function() return QUEST_ID + 1 end
@@ -878,6 +884,8 @@ describe("AvailableQuests", function()
         end)
 
         it("should not hide any quest when dialog was closed", function()
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
             QuestieDB.IsDailyQuest = function() return true end
             _G.GetQuestID = spy.new(function() return 0 end)
@@ -1546,21 +1554,24 @@ describe("AvailableQuests", function()
         end)
 
         it("should start queued pass even if callback errors", function()
-            local passCount = 0
-
-            Questie.Error = function() end
-
-            ThreadLib.Thread = function(_, _, _, cb)
-                passCount = passCount + 1
-                if passCount == 1 then
-                    cb() -- first pass completes, callback errors
-                end
+            local callbacks = {}
+            Questie.Error = spy.new(function() end)
+            ThreadLib.Thread = function(_, _, _, callback)
+                table.insert(callbacks, callback)
             end
 
             AvailableQuests.CalculateAndDrawAll(function() error("callback error") end)
-            AvailableQuests.CalculateAndDrawAll() -- queued
+            AvailableQuests.CalculateAndDrawAll()
+            assert.are_equal(1, #callbacks)
 
-            assert.are_equal(2, passCount)
+            callbacks[1]()
+
+            assert.spy(Questie.Error).was.called(1)
+            assert.are_equal(2, #callbacks)
+            callbacks[2]()
+            local running, queued = AvailableQuests.__getPassState()
+            assert.is_false(running)
+            assert.is_false(queued)
         end)
     end)
     describe("composed Quest enumeration", function()

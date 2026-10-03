@@ -13,7 +13,11 @@ describe("QuestieFrame", function()
     ---@type IconFrame
     local QuestieFrameInstance
 
+    local originalIsSoD
+
     before_each(function()
+        originalIsSoD = Questie.IsSoD
+        Questie.IsSoD = false
         Questie.db.profile = {
             enabled = true,
             enableMapIcons = true,
@@ -76,6 +80,10 @@ describe("QuestieFrame", function()
 
         assert.spy(Popup.Show).was.called_with("QUESTIE_CONFIRMHIDE",
             "Are you sure you want to hide the quest 'Quest 123'?\nIf this quest isn't actually available, please report it to us!", nil, 123)
+    end)
+
+    after_each(function()
+        Questie.IsSoD = originalIsSoD
     end)
 
     describe("ResetHoverHighlights", function()
@@ -413,6 +421,7 @@ describe("QuestieFrame", function()
 
         it("should return false for available icons when not SoD", function()
             Questie.IsSoD = false
+            QuestieDB.IsRuneAndShouldBeHidden = function() return true end
             QuestieFrameInstance.data.Type = "available"
 
             local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)

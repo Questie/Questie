@@ -10,10 +10,6 @@ describe("QuestieProfilerReport", function()
     ---@return table profilerStub
     local function NewProfilerStub()
         return {
-            active = true,
-            hookedFunctionCount = 0,
-            highestMS = 0,
-            highestCalls = 0,
             hookCallCount = {},
             hookTimeCount = {},
             hookSelfTime = {},
@@ -24,29 +20,6 @@ describe("QuestieProfilerReport", function()
             lowerCaseLookup = {},
             threadJobCallCount = {},
             threadJobResumeCount = {},
-            Stop = function(self)
-                self.active = false
-            end,
-            Start = function(self)
-                self.active = true
-                return true
-            end,
-            HasResults = function(self)
-                return self.active == true or next(self.hookCallCount) ~= nil
-            end,
-            ResetMeasurements = function(self)
-                for lookupKey in pairs(self.hookCallCount) do
-                    self.hookCallCount[lookupKey] = 0
-                    self.hookTimeCount[lookupKey] = 0
-                    self.hookSelfTime[lookupKey] = 0
-                end
-                for lookupKey in pairs(self.threadJobCallCount) do
-                    self.threadJobCallCount[lookupKey] = 0
-                    self.threadJobResumeCount[lookupKey] = 0
-                end
-                self.callerCallCount = {}
-                self.callerTimeCount = {}
-            end,
         }
     end
 
@@ -158,7 +131,7 @@ describe("QuestieProfilerReport", function()
             assert.are_same("0.76 us", FormatDuration(0.00076))
         end)
 
-        it("holds three significant figures across the whole range", function()
+        it("holds three significant figures around microsecond digit boundaries", function()
             assert.are_same("99.0 us", FormatDuration(0.099))
             assert.are_same("100 us", FormatDuration(0.100))
             assert.are_same("9.99 us", FormatDuration(0.00999))
@@ -250,16 +223,30 @@ describe("QuestieProfilerReport", function()
             assert.are_same(1, report.matchedCount)
         end)
 
-        it("leaves the profiler tables untouched", function()
-            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+        it("leaves all profiler state untouched", function()
+            AddFunctionEntry("QuestieDB.private.GetQuest", 200, 4, 125)
             AddThreadJobEntry("ThreadLib job: Draw", 600, 3, 40)
+            AddCallerEntry("QuestieDB.private.GetQuest", "ThreadLib job: Draw", 4, 200)
+            Profiler.fileLoadTime["Questie.lua"] = 50
+            Profiler.fileLoadMemory["Questie.lua"] = 70
+            local before = {
+                hookCallCount = {["QuestieDB.private.GetQuest"] = 4, ["ThreadLib job: Draw"] = 3},
+                hookTimeCount = {["QuestieDB.private.GetQuest"] = 200, ["ThreadLib job: Draw"] = 600},
+                hookSelfTime = {["QuestieDB.private.GetQuest"] = 125, ["ThreadLib job: Draw"] = 0},
+                threadJobCallCount = {["ThreadLib job: Draw"] = 3},
+                threadJobResumeCount = {["ThreadLib job: Draw"] = 40},
+                callerCallCount = {["QuestieDB.private.GetQuest"] = {["ThreadLib job: Draw"] = 4}},
+                callerTimeCount = {["QuestieDB.private.GetQuest"] = {["ThreadLib job: Draw"] = 200}},
+                lowerCaseLookup = {
+                    ["QuestieDB.private.GetQuest"] = "questiedb.private.getquest",
+                    ["ThreadLib job: Draw"] = "threadlib job: draw",
+                },
+                fileLoadTime = {["Questie.lua"] = 50}, fileLoadMemory = {["Questie.lua"] = 70},
+            }
 
             BuildReport({filter = "questie", grouped = true, sortKey = "calls", descending = false})
 
-            assert.are_same({["QuestieDB.GetQuest"] = 4, ["ThreadLib job: Draw"] = 3}, Profiler.hookCallCount)
-            assert.are_same({["QuestieDB.GetQuest"] = 200, ["ThreadLib job: Draw"] = 600}, Profiler.hookTimeCount)
-            assert.are_same({["ThreadLib job: Draw"] = 3}, Profiler.threadJobCallCount)
-            assert.are_same({["ThreadLib job: Draw"] = 40}, Profiler.threadJobResumeCount)
+            assert.are_same(before, Profiler)
         end)
     end)
 
@@ -316,12 +303,12 @@ describe("QuestieProfilerReport", function()
     end)
 
     describe("heat scaling", function()
-        ---@return number share @0-1 of the row's own species maximum for the active sort metric
+        ---@return number share @0-1 of the visible maximum for the active sort metric
         local function HeatShare(report, lookupKey, sortKey)
             return ProfilerReport.HeatShare(FindRow(report, lookupKey), report, sortKey or "total")
         end
 
-        it("never draws a bar longer than the row above it, whatever the species mix", function()
+        it("scales mixed file, function and job heat against the same maximum", function()
             -- The staircase: sorted by cost, bar length has to agree with row order. A per-species scale was
             -- tried and broke exactly this, drawing a mid-sized file longer than a larger function above it.
             Profiler.fileLoadTime["Localization/lookups/lookupZones.lua"] = 200
@@ -332,12 +319,11 @@ describe("QuestieProfilerReport", function()
 
             local report = BuildReport({sortKey = "total", descending = true})
 
-            local previous = 1
-            for _, row in ipairs(report.rows) do
-                local share = ProfilerReport.HeatShare(row, report, "total")
-                assert.is_true(share <= previous)
-                previous = share
-            end
+            assert.are_same(1, HeatShare(report, "ThreadLib job: _DrawAvailableQuest"))
+            assert.are_same(2 / 3, HeatShare(report, "Localization/lookups/lookupZones.lua"))
+            assert.are_same(0.3, HeatShare(report, "QuestieDB.GetQuest"))
+            assert.are_same(76 / 300, HeatShare(report, "Questie.lua"))
+            assert.are_same(62 / 300, HeatShare(report, "QuestieDB.GetNPC"))
         end)
 
         it("gives the most expensive visible row a full bar and scales the rest against it", function()
@@ -433,7 +419,7 @@ describe("QuestieProfilerReport", function()
             assert.are_same(1, FindRow(report, "ThreadLib job: _DrawAvailableQuest").share)
         end)
 
-        it("recomputes against what is left when a species is filtered out", function()
+        it("recomputes against what is left after text filtering", function()
             AddFunctionEntry("Alpha.Work", 100, 1, 100)
             AddFunctionEntry("Beta.Work", 100, 1, 100)
 
@@ -560,14 +546,17 @@ describe("QuestieProfilerReport", function()
             assert.are_same({}, BuildCalleeList(FindRow(BuildReport(), "QuestieDB.GetQuest")))
         end)
 
-        it("does not mistake a caller for a callee", function()
-            AddFunctionEntry("AvailableQuests.Draw", 200, 4)
-            AddFunctionEntry("QuestieDB.GetQuest", 150, 3)
-            AddCallerEntry("QuestieDB.GetQuest", "AvailableQuests.Draw", 3, 150)
+        it("distinguishes incoming and outgoing edges of a three-node chain", function()
+            AddFunctionEntry("Chain.Parent", 200, 4)
+            AddFunctionEntry("Chain.Middle", 150, 3)
+            AddFunctionEntry("Chain.Child", 40, 2)
+            AddCallerEntry("Chain.Middle", "Chain.Parent", 3, 150)
+            AddCallerEntry("Chain.Child", "Chain.Middle", 2, 40)
 
-            local callers = BuildCallerList(FindRow(BuildReport(), "AvailableQuests.Draw"))
+            local middle = FindRow(BuildReport(), "Chain.Middle")
 
-            assert.are_same({}, callers)
+            assert.are_same({{callerKey = "Chain.Parent", calls = 3, totalTime = 150}}, BuildCallerList(middle))
+            assert.are_same({{calleeKey = "Chain.Child", calls = 2, totalTime = 40}}, BuildCalleeList(middle))
         end)
 
         it("lists what a ThreadLib job scheduled", function()
@@ -739,11 +728,11 @@ describe("QuestieProfilerReport", function()
 
         it("recalculates the average from the aggregated totals", function()
             AddFunctionEntry("QuestieDB.private.GetQuest", 40, 2)
-            AddFunctionEntry("QuestieDB.GetQuest", 60, 3)
+            AddFunctionEntry("QuestieDB.GetQuest", 90, 3)
 
             local row = FindRow(BuildReport({grouped = true}), "QuestieDB.GetQuest")
 
-            assert.are_same(20, row.averageTime)
+            assert.are_same(26, row.averageTime)
         end)
 
         it("records the full paths that were merged", function()
@@ -807,12 +796,16 @@ describe("QuestieProfilerReport", function()
         end)
 
         it("keeps ThreadLib job and resume counts when folding", function()
-            AddThreadJobEntry("ThreadLib job: Draw", 600, 3, 40)
+            AddThreadJobEntry("ThreadLib job: Module.private.Draw", 600, 3, 40)
+            AddThreadJobEntry("ThreadLib job: Module.Draw", 100, 2, 7)
 
-            local row = FindRow(BuildReport({grouped = true}), "ThreadLib job: Draw")
+            local report = BuildReport({grouped = true})
+            local row = FindRow(report, "ThreadLib job: Module.Draw")
 
-            assert.are_same(3, row.jobCalls)
-            assert.are_same(40, row.resumeCount)
+            assert.are_same({"ThreadLib job: Module.Draw"}, RowKeys(report))
+            assert.are_same(5, row.jobCalls)
+            assert.are_same(47, row.resumeCount)
+            assert.are_same(700, row.totalTime)
         end)
     end)
 

@@ -13,7 +13,15 @@ describe("QuestieReputation", function()
     ---@type Expansions
     local Expansions
 
+    local originalExpansion, originalIsCata
+    local savedGlobals
+    local globalNames = {"GetNumFactions", "GetFactionInfo", "GetFactionInfoByID", "IsPlayerSpell", "IsInInstance", "UnitAura", "C_GossipInfo"}
+
     before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do
+            savedGlobals[name] = _G[name]
+        end
         _G.GetNumFactions = spy.new(function()
             return 1
         end)
@@ -34,6 +42,10 @@ describe("QuestieReputation", function()
         end)
 
         Expansions = QuestieLoader:ImportModule("Expansions")
+        originalExpansion, originalIsCata = Expansions.Current, Questie.IsCata
+        Expansions.Current = Expansions.Wotlk
+        Questie.IsCata = false
+        _G.C_GossipInfo = {GetFriendshipReputation = function() return {} end}
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.HasRequiredRace = spy.new(function() return false end)
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -47,6 +59,13 @@ describe("QuestieReputation", function()
 
         dofile("Modules/QuestieReputation.lua")
         QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+    end)
+
+    after_each(function()
+        Expansions.Current, Questie.IsCata = originalExpansion, originalIsCata
+        for _, name in ipairs(globalNames) do
+            _G[name] = savedGlobals[name]
+        end
     end)
 
     describe("HasFactionAndReputationLevel", function()
@@ -449,6 +468,7 @@ describe("QuestieReputation", function()
         end)
 
         it("should respect DMF buff bonus", function()
+            Expansions.Current = Expansions.Cata
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)
@@ -467,6 +487,7 @@ describe("QuestieReputation", function()
         end)
 
         it("should respect Hallow's End Alliance buff bonus", function()
+            Expansions.Current = Expansions.Cata
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)
@@ -484,6 +505,7 @@ describe("QuestieReputation", function()
         end)
 
         it("should respect Hallow's End Horde buff bonus", function()
+            Expansions.Current = Expansions.Cata
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)
@@ -501,6 +523,7 @@ describe("QuestieReputation", function()
         end)
 
         it("should respect DMF + Hallow's End buff bonus", function()
+            Expansions.Current = Expansions.Cata
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return {{909, 3}}
             end)

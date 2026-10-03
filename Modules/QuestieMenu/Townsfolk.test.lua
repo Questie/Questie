@@ -169,6 +169,8 @@ describe("Townsfolk", function()
         end)
 
         it("keeps only class trainers present in the database and adds the class-specific extras", function()
+            local trainers = {WARRIOR = {4001, 4999}, DRUID = {4002}, MAGE = {}, HUNTER = {}}
+            Townsfolk.GetClassTrainers = function() return trainers end
             _RunInitialize()
 
             local classSpecific = Townsfolk.classSpecificTownsfolk
@@ -176,6 +178,7 @@ describe("Townsfolk", function()
             assert.are_same({4002}, classSpecific.DRUID["Class Trainer"])
             assert.is_true(#classSpecific.MAGE["Portal Trainer"] > 0)
             assert.are_same({}, classSpecific.HUNTER["Stable Master"])
+            assert.are_same({WARRIOR = {4001, 4999}, DRUID = {4002}, MAGE = {}, HUNTER = {}}, trainers)
         end)
 
         it("assigns spirit healers and neutral mailboxes to both factions", function()
@@ -220,9 +223,14 @@ describe("Townsfolk", function()
         end)
 
         it("restricts Items to the player's level window when asked", function()
-            local vendors = Townsfolk:PopulateVendors({159, 9999}, {}, true)
+            mock.SetBaseRow("Item", 9001, {[itemKeys.vendors] = {8005}, [itemKeys.requiredLevel] = 39})
+            mock.SetBaseRow("Item", 9002, {[itemKeys.vendors] = {8006}, [itemKeys.requiredLevel] = 40})
+            mock.SetBaseRow("Npc", 8005, {[npcKeys.npcFlags] = NPC_FLAGS.VENDOR, [npcKeys.friendlyToFaction] = "AH"})
+            mock.SetBaseRow("Npc", 8006, {[npcKeys.npcFlags] = NPC_FLAGS.VENDOR, [npcKeys.friendlyToFaction] = "AH"})
+            _BindComposedReads()
+            local vendors = Townsfolk:PopulateVendors({159, 9999, 9001, 9002}, {}, true)
 
-            assert.are_same({[8001] = true}, vendors)
+            assert.are_same({[8001] = true, [8006] = true}, vendors)
         end)
     end)
 

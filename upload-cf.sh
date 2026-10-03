@@ -106,15 +106,15 @@ CF_METADATA=$(cat <<-EOF
     "gameVersions": [16630, 17053, 16533, 16785, 16168],
     "relations": {
         "projects": [
-            {slug: "Ace3", type: "embeddedLibrary"},
-            {slug: "CallbackHandler", type: "embeddedLibrary"},
-            {slug: "HereBeDragons", type: "embeddedLibrary"},
-            {slug: "LibCompress", type: "embeddedLibrary"},
-            {slug: "LibDataBroker-1-1", type: "embeddedLibrary"},
-            {slug: "LibDBIcon-1-0", type: "embeddedLibrary"},
-            {slug: "LibSharedMedia-3-0", type: "embeddedLibrary"},
-            {slug: "LibStub", type: "embeddedLibrary"},
-            {slug: "LibUIDropDownMenu", type: "embeddedLibrary"}
+            {"slug": "Ace3", "type": "embeddedLibrary"},
+            {"slug": "CallbackHandler", "type": "embeddedLibrary"},
+            {"slug": "HereBeDragons", "type": "embeddedLibrary"},
+            {"slug": "LibCompress", "type": "embeddedLibrary"},
+            {"slug": "LibDataBroker-1-1", "type": "embeddedLibrary"},
+            {"slug": "LibDBIcon-1-0", "type": "embeddedLibrary"},
+            {"slug": "LibSharedMedia-3-0", "type": "embeddedLibrary"},
+            {"slug": "LibStub", "type": "embeddedLibrary"},
+            {"slug": "LibUIDropDownMenu", "type": "embeddedLibrary"}
         ]
     }
 }

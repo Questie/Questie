@@ -5,7 +5,22 @@ local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 describe("QuestXP support data", function()
     local QuestXP, mock, playerLevel
 
+    local originalExpansion
+    local savedGlobals, savedQuestie
+    local ownedGlobals = {"UnitLevel", "GetMaxPlayerLevel", "UnitAura", "IsSpellKnown", "IsInInstance", "floor", "LibQuestieDB"}
+    local ownedQuestieFields = {"IsSoD"}
+
+    after_each(function()
+        QuestieLoader:ImportModule("Expansions").Current = originalExpansion
+        for _, key in ipairs(ownedGlobals) do _G[key] = savedGlobals[key] end
+        for _, key in ipairs(ownedQuestieFields) do Questie[key] = savedQuestie[key] end
+    end)
+
     before_each(function()
+        originalExpansion = QuestieLoader:ImportModule("Expansions").Current
+        savedGlobals, savedQuestie = {}, {}
+        for _, key in ipairs(ownedGlobals) do savedGlobals[key] = _G[key] end
+        for _, key in ipairs(ownedQuestieFields) do savedQuestie[key] = Questie[key] end
         QuestieLoader:ImportModule("SupportValidation").ValidateQuestXP = function() return true end
         mock = LoadQuestieDBMock()
         mock.supportModules.QuestXP.db = {[101] = {20, 1000}, [102] = {-1, 1000}, [103] = {20, 0}}
@@ -62,6 +77,26 @@ describe("QuestXP support data", function()
             assert.spy(UnitAura).was.not_called()
 
             _G.InCombatLockdown = function() return false end
+            assert.are.equal(1100, QuestXP:GetQuestLogRewardXP(101))
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
+        end)
+
+        it("omits XP buffs inside a Forever instance outside combat and restores them on exit", function()
+            assert.are.equal(1100, QuestXP:GetQuestLogRewardXP(101))
+            _G.UnitAura:clear()
+            _G.IsInInstance = function() return true end
+
+            assert.are.equal(1000, QuestXP:GetQuestLogRewardXP(101))
+            assert.spy(UnitAura).was.not_called()
+
+            _G.IsInInstance = function() return false end
+            assert.are.equal(1100, QuestXP:GetQuestLogRewardXP(101))
+            assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
+        end)
+
+        it("keeps Classic XP buffs active inside an instance outside combat", function()
+            Questie.IsForever = false
+            _G.IsInInstance = function() return true end
             assert.are.equal(1100, QuestXP:GetQuestLogRewardXP(101))
             assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
         end)
