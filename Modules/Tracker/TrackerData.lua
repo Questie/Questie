@@ -53,9 +53,8 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
 
     -- Blizzard data: build objective wording and progress for every quest, without database matching.
     -- Quest-level completion is resolved once by TrackerQuestieBehavior below.
-    -- Try to get the last valid quest snapshot. A missing entry is expected while loading;
-    -- unlike GetQuest, this read-only lookup does not report it as an error. Never modify the entry.
-    local cached = QuestLogCache.questLog_DO_NOT_MODIFY[questId]
+    -- Keep rendering while the initial snapshot loads; a cache miss is expected, not an error.
+    local cached = QuestLogCache.TryGetQuest(questId)
     local previousObjectives = displayQuest.Objectives
     displayQuest.Objectives = {}
     displayQuest.objectivesLoaded = cached ~= nil
@@ -72,17 +71,16 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
         for displayIndex, index in ipairs(objectiveIndices) do
             local live = cached.objectives[index]
             local objective = previousObjectives[displayIndex] or {}
-            local rawText = live.raw_text or live.text
             objective.Index = displayIndex
             objective.NativeIndex = index
             objective.questId = questId
             objective.Type = live.type
+            -- The cache validates native text. Keep its accepted wording, counters and punctuation intact.
             objective.Description = live.text
-            objective.FullDescription = QuestieLib.GetFullObjectiveTextConditional(rawText)
             objective.Collected = tonumber(live.numFulfilled) or 0
             objective.Needed = tonumber(live.numRequired) or 0
-            objective.Completed = (counterTypes[live.type] and objective.Needed > 0 and objective.Collected == objective.Needed)
-                or (live.finished == true and (objective.Needed == 0 or not counterTypes[live.type])) or false
+            -- Native action objectives can report 1/1 while unfinished. The cache owns completion normalization.
+            objective.Completed = live.finished == true
             displayQuest.Objectives[displayIndex] = objective
         end
     end
@@ -101,19 +99,43 @@ function TrackerData.ContainsQuest(questId)
     return index ~= nil and index > 0
 end
 
+---Collapsed legacy logs can list all headers before their quests, so the preceding header may be unrelated.
+---GetQuestSortIndex uses legacy indices: never mix it with QuestieCompat's C_QuestLog.GetInfo path.
+---Modern clients retain their ordered-header lookup; legacy clients use the explicit association when available.
+---@param questLogIndex number
+---@return string?
+local function _GetQuestHeader(questLogIndex)
+    if not (C_QuestLog and C_QuestLog.GetInfo) and GetQuestSortIndex then
+        local headerIndex = GetQuestSortIndex(questLogIndex)
+        if headerIndex and headerIndex > 0 then
+            local title, _, _, isHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+            if isHeader then
+                return title
+            end
+        end
+    end
+end
+
 ---Refresh once before a full layout; ordinary layout reads use GetQuests without rescanning objectives.
 ---@return table<QuestId, TrackerQuest>
 function TrackerData.Refresh()
     local present = {}
     local header
-    for index = 1, QuestieCompat.GetNumQuestLogEntries() do
+    local index = 1
+    -- Titan's entry count can disagree with title enumeration at login (4 entries, but 6 quests).
+    -- Follow the title API to the end, or valid quests can disappear until the quest log is opened.
+    while true do
         local title, level, _, isHeader, _, complete, _, questId = QuestieCompat.GetQuestLogTitle(index)
+        if not title then
+            break
+        end
         if isHeader then
             header = title
-        elseif title and questId and questId > 0 then
+        elseif questId and questId > 0 then
             present[questId] = true
-            _RefreshQuest(questId, title, level, header, complete)
+            _RefreshQuest(questId, title, level, _GetQuestHeader(index) or header, complete)
         end
+        index = index + 1
     end
     for questId in pairs(quests) do
         if not present[questId] then
@@ -151,12 +173,14 @@ function TrackerData.RefreshQuest(questId)
     if not title or isHeader or currentId ~= questId then
         return nil
     end
-    local header
-    for headerIndex = index - 1, 1, -1 do
-        local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
-        if entryIsHeader then
-            header = headerTitle
-            break
+    local header = _GetQuestHeader(index)
+    if not header then
+        for headerIndex = index - 1, 1, -1 do
+            local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+            if entryIsHeader then
+                header = headerTitle
+                break
+            end
         end
     end
     return _RefreshQuest(questId, title, level, header, complete)
@@ -204,12 +228,10 @@ end
 ---@param objective table
 ---@return string
 function TrackerData.GetObjectiveText(objective)
-    local description = QuestieLib:GetObjectiveDescription(objective)
-    local countable = counterTypes[objective.Type] and type(objective.Needed) == "number" and objective.Needed > 0
-        and type(objective.Collected) == "number"
-    local colorObjective = countable and objective or {Collected = objective.Completed and 1 or 0, Needed = 1}
-    if countable then
-        description = description .. ": " .. objective.Collected .. "/" .. objective.Needed
-    end
-    return QuestieLib:GetRGBForObjective(colorObjective) .. description
+    -- Counts provide intermediate progress colors, but must not turn an unfinished 1/1 action green.
+    local hasPartialProgress = counterTypes[objective.Type] and type(objective.Needed) == "number" and objective.Needed > 0
+        and type(objective.Collected) == "number" and objective.Collected < objective.Needed
+    local colorObjective = not objective.Completed and hasPartialProgress and objective
+        or {Collected = objective.Completed and 1 or 0, Needed = 1}
+    return QuestieLib:GetRGBForObjective(colorObjective) .. objective.Description
 end

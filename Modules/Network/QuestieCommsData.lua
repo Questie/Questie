@@ -33,9 +33,10 @@ end
 
 ---Builds remote objective rows for an entity key; callers must check KeyExists first.
 ---Returns available wording immediately. Loading callbacks can update the returned rows later,
----but do not refresh strings a tooltip has already rendered.
+---but do not refresh strings a tooltip has already rendered. Rows retain counter-free text for fallback
+---and optional nativeText for native-layout rendering with the remote fulfilled/required values.
 ---@param tooltipKey string @A key in the form of "i_1337"
----@return table @tooltipData[questId][playerName][objectiveIndex].text
+---@return table @tooltipData[questId][playerName][objectiveIndex]
 function QuestieComms.data:GetTooltip(tooltipKey)
     local tooltipData = {}
     for playerName, questData in pairs(commsTooltipLookup[tooltipKey]) do
@@ -57,9 +58,10 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                 local row = tooltipData[questId][playerName][objectiveIndex]
                 local questObjective = questObjectives and questObjectives[objectiveIndex]
                 if questObjective then
-                    -- Keep the full instruction; only remove the API's local-player progress counters.
+                    -- Preserve native layout for counter replacement; keep counter-free wording for fallback renderers.
                     local text = QuestieLib.GetFullObjectiveText(questObjective.text) or questObjective.text
                     row.text = text ~= "" and text or nil
+                    row.nativeText = questObjective.text ~= "" and questObjective.text or nil
                 end
                 row.fulfilled = objective.fulfilled
                 row.required = objective.required
@@ -105,6 +107,7 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                                     itemCallbackCancel()
                                 end
                                 row.text = text
+                                row.nativeText = questObjective.text
                             end
                         end
                     end)

@@ -15,7 +15,6 @@ local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
-local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 -- 3 * (Max possible number of quests in game quest log)
@@ -24,7 +23,8 @@ local MAX_QUEST_LOG_INDEX = 75
 
 --[[
 Example of data in cache table.
-raw_* are as in game's quest log. Their non-raw versions are corrected/modified for addon's easy use.
+text contains Blizzard's accepted wording unchanged, including any progress counters.
+Only progress and completion have raw_* counterparts alongside normalized values.
 
 local cache = {
     [questId] = {
@@ -33,22 +33,20 @@ local cache = {
         isComplete = nil,
         objectives = {
             {
-                text = "Objective Text"
                 type = "monster",
                 finished = false,
                 numFulfilled = 2,
                 numRequired = 3,
-                raw_Text = "Objective Text slain: 2/3",
+                text = "Objective Text slain: 2/3",
                 raw_finished = false
                 raw_numFulfilled = 2,
             },
             {
-                text = "Objective2"
                 type = "item",
                 finished = false,
                 numFulfilled = 0,
                 numRequired = 5,
-                raw_text = "Objective2 : 0/5",
+                text = "Objective2 : 0/5",
                 raw_finished = false,
                 raw_numFulfilled = 0,
             },
@@ -60,12 +58,11 @@ local cache = {
 
 
 ---@class QuestLogCacheObjectiveData
----@field text string "Objective Text"
 ---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"|string Includes client objective types unknown to Questie.
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number
----@field raw_text string E.g "Objective Text slain: 2/3"
+---@field text string Accepted native wording, unchanged; e.g. "Objective Text slain: 2/3".
 ---@field raw_finished boolean
 ---@field raw_numFulfilled number
 
@@ -118,22 +115,10 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         local oldObj = oldObjectives[objIndex]
         local newObj = objectives[objIndex]
 
-        -- Missing names are a single space. Classic leaves a leading space, Forever items a trailing
-        -- space, and Forever monsters keep a loaded "slain" suffix. Validate the parsed name as well.
-        local textLoaded = newObj.text and stringByte(newObj.text, 1) ~= 32 and stringByte(newObj.text, -1) ~= 32
-        local trimmedText
-        if textLoaded and newObj.text ~= "" then
-            if oldObj and oldObj.raw_text == newObj.text and oldObj.type == newObj.type then
-                trimmedText = oldObj.text
-            else
-                trimmedText = QuestieLib.TrimObjectiveText(newObj.text, newObj.type)
-            end
-            textLoaded = trimmedText ~= ""
-        end
-        if textLoaded then
+        if QuestieLib.IsObjectiveDataLoaded(newObj) then
             if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
                 -- Check if objective has changed
-                if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
+                if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
                     -- Not changed
                     newObjectives[objIndex] = oldObj
                     allObjectivesFinished = allObjectivesFinished and oldObj.finished -- if any objective is not finished, whole quest is not complete
@@ -168,12 +153,11 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                     allObjectivesFinished = allObjectivesFinished and newObj.finished -- if any objective is not finished, whole quest is not complete
 
                     newObjectives[objIndex] = {
-                        raw_text = newObj.text,
+                        text = newObj.text,
                         raw_finished = newObj.finished,
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
                         numRequired = newObj.numRequired,
-                        text = trimmedText,
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
@@ -376,7 +360,18 @@ function QuestLogCache.TestGameCache()
 end
 
 
---- A wrapper function to add error check instead using exposed table directly.
+---Reads the last accepted snapshot when a cache miss is expected, without reporting an error.
+---Tracker and tooltip rendering can run before the initial snapshot loads or for party-only quests
+---absent from the local cache. Those callers need nil to choose a fallback, not GetQuest's stack trace.
+---This only reads the cache: it never queries Blizzard, starts a retry, or changes cached data.
+---@param questId QuestId
+---@return QuestLogCacheData? @Borrowed snapshot; NEVER modify the returned table or its objectives.
+function QuestLogCache.TryGetQuest(questId)
+    return cache[questId]
+end
+
+---Reads a quest that the caller expects to be cached; reports an error when that invariant is broken.
+---Use TryGetQuest instead when absence is normal and the caller can render a fallback.
 ---@param questId QuestId
 ---@return QuestLogCacheData? @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuest(questId)
@@ -442,13 +437,13 @@ local function DebugPrintObjective(q, i, o)
         print(" ", i.."/"..#q.objectives..":",
             o.numFulfilled.."/"..o.numRequired.."="..tostring(o.finished),
             o.type,
-            "\""..o.raw_text.."\" \""..o.text.."\"")
+            "\""..o.text.."\"")
     else
         print(" ", i.."/"..#q.objectives..":",
             o.raw_numFulfilled.."/"..o.numRequired.."="..tostring(o.raw_finished),
             "FIX:", o.numFulfilled.."/"..o.numRequired.."="..tostring(o.finished),
             o.type,
-            "\""..o.raw_text.."\" \""..o.text.."\"")
+            "\""..o.text.."\"")
     end
 end
 

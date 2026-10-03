@@ -131,20 +131,6 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
----Returns the appropriate objective description based on the trimObjectiveText profile setting
----@param objective QuestObjective
----@return string
-function QuestieLib:GetObjectiveDescription(objective)
-    if (not objective) then
-        return ""
-    end
-    local desc = objective.FullDescription or objective.Description
-    if (not desc) then
-        return ""
-    end
-    return desc:gsub("%.$", "")
-end
-
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
@@ -407,6 +393,62 @@ function QuestieLib:GetClassString(classMask)
     end
 end
 
+-- An optional label wraps the whole native instruction. Separate only Blizzard's localized
+-- template, so validation can see missing names and formatting can recognize trailing counters.
+-- Literal prefix/suffix comparisons preserve UTF-8 and pattern characters without guessing words.
+local function _SplitOptionalObjectiveText(text)
+    if OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION then
+        -- "%s (Optional)" -> prefix="", suffix=" (Optional)"; "(Optional) %s" -> the reverse.
+        local prefix, suffix = OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION:match("^(.-)%%s(.-)$")
+        if prefix and #text >= #prefix + #suffix and text:sub(1, #prefix) == prefix
+            and (#suffix == 0 or text:sub(-#suffix) == suffix) then
+            -- "Wolf slain: 2/5 (Optional)" -> "Wolf slain: 2/5", "", " (Optional)".
+            return text:sub(#prefix + 1, #text - #suffix), prefix, suffix
+        end
+    end
+    -- No matching label: "Use Walk on Air" -> "Use Walk on Air", "", "".
+    return text, "", ""
+end
+
+---Shared readiness check for the quest cache, objective loaders, startup validation and quest-link tooltips.
+---Never modifies the row. Callers own retries, retaining cached data and database fallbacks.
+---@param objective QuestObjectiveInfo
+---@return boolean readyOrSkippable True allows loading to proceed; it does not imply objective or quest completion.
+function QuestieLib.IsObjectiveDataLoaded(objective)
+    local text = objective.text
+    -- Blizzard sometimes adds permanently empty, unfinished event objectives alongside real objectives.
+    -- Waiting for these would never finish. Ignore exact empty strings regardless of type, counts or finished state.
+    -- Return true before checking the type, but callers must still omit these rows from their objective lists.
+    if text == "" then
+        return true
+    end
+    -- HaveQuestData can be true before individual rows have text or a type. Neither is safe to consume yet.
+    if (not text) or (not objective.type) then
+        return false
+    end
+    -- Optional labels can hide a missing name: "2/5 消灭 （可选）" -> "2/5 消灭 ", or
+    -- "(Opcional)  : 2/5" -> " : 2/5". Validate that inner text without changing objective.text.
+    -- Only an originally empty row is skippable; a label around an empty instruction is still pending.
+    text = _SplitOptionalObjectiveText(text)
+    if text == "" then
+        return false
+    end
+    -- Missing names leave a leading ASCII space in Classic (" : 0/1") or trailing spaces in Forever ("0/1  ").
+    -- Do not trim whitespace: it is evidence of an incomplete client cache, even inside an optional wrapper.
+    if string.byte(text, 1) == 32 or string.byte(text, -1) == 32 then
+        return false
+    end
+    -- Counters and a suffix can load before the name, leaving text such as "0/15   slain" with no edge spaces.
+    -- Parse the client's localized objective format to detect an empty name; never substitute this parsed text for the original.
+    if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
+        return false
+    end
+    -- The parser cannot recognize every suffix (e.g. "destroyed"). Treat three consecutive ASCII spaces as a final
+    -- missing-name heuristic, independent of language, UTF-8 encoding or word boundaries. This deliberately assumes
+    -- legitimate objective text will not contain triple spaces; if it does, it will also be treated as not loaded.
+    return not string.find(text, "   ", 1, true)
+end
+
 ---Synchronously reads Blizzard's cache, including quests outside the local log, and primes missing data.
 ---Returns nil until all non-empty objective rows are loaded. An empty result is valid, not a quest-completion signal.
 ---Original objective indices are preserved; the result can have holes. Use index lookup or pairs, not ipairs or #.
@@ -420,20 +462,12 @@ function QuestieLib.GetLoadedQuestObjectives(questId)
         return nil
     end
     local loadedObjectives = {}
-    -- Blizzard sometimes adds permanently empty, unfinished event objectives alongside real objectives.
-    -- Like QuestLogCache, ignore exact empty strings regardless of type, counts or finished state.
-    -- Missing names leave a leading space in Classic (" : 0/1") or a trailing space in Forever ("0/1  ").
-    -- These placeholders, nil text and missing types on non-empty rows still mean "not loaded".
     for index, objective in ipairs(objectives) do
-        local text = objective.text
-        if text ~= "" then
-            if (not text) or string.byte(text, 1) == 32 or string.byte(text, -1) == 32 or (not objective.type) then
-                return nil
-            end
-            -- Forever can also return "0/15   slain"; use the client's localized format to check the name itself.
-            if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
-                return nil
-            end
+        if not QuestieLib.IsObjectiveDataLoaded(objective) then
+            return nil
+        end
+        -- Empty client placeholders do not block loading and are not display objectives.
+        if objective.text ~= "" then
             loadedObjectives[index] = objective
         end
     end
@@ -646,8 +680,24 @@ local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 
---- 'FooBar slain: 0/3' --> 'FooBar'
---- 'EpicItem : 0/1' --> 'EpicItem'
+local optionalObjectivePattern
+
+---Detects Blizzard's localized optional label, not objective or quest completion.
+---@param objectiveText string
+---@return boolean
+function QuestieLib.IsObjectiveOptional(objectiveText)
+    if not optionalObjectivePattern then
+        -- Escape the template before introducing wildcards; the client locale is fixed for the session.
+        local escaped = stringGsub(OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION, "([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1")
+        optionalObjectivePattern = "^" .. stringGsub(escaped, "%%%%s", ".*") .. "$"
+    end
+    return smatch(objectiveText, optionalObjectivePattern) ~= nil
+end
+
+---Extracts the objective name for loading validation, not for display wording.
+---A row such as "0/3   slain" can have valid counters but no loaded name. IsObjectiveDataLoaded
+---uses this parser to detect that case; displays must retain the accepted native text instead.
+--- 'FooBar slain: 0/3' --> 'FooBar'; 'EpicItem : 0/1' --> 'EpicItem'.
 ---@param text string @requires nil check and first character ~= " " check before call
 ---@param objectiveType string
 function QuestieLib.TrimObjectiveText(text, objectiveType)
@@ -844,26 +894,89 @@ function QuestieLib.FormatDate(timeStamp)
     return date(weekDay .. ", " .. monthName .. " %d, %Y at %H:%M", timeStamp)
 end
 
----Returns full wording without trailing progress numbers, independently of display settings.
----For example, "Wolf slain: 0/1" becomes "Wolf slain".
+-- Forever's French format puts a localized phrase after progress: "%1$s : %2$d/%3$d |4personnage tué:personnages tués;".
+-- Derive the suffix from the client template, accepting its literal plural markup or an expanded form.
+-- Do not accept variable suffixes such as English's "%1$s slain": those contain the objective itself.
+local function _SplitMonsterProgressSuffix(text)
+    -- A leading counter already has a known layout. "2/5 personnages tués" must keep its whole
+    -- description, not become a bare "2/5" after mistaking the description for a trailing phrase.
+    if text:match("^%d+/%d+%s+.+$") then
+        return text, ""
+    end
+
+    -- "%2$d/%3$d |4personnage tué:personnages tués;" -> "%d/%d ..." -> the literal suffix after the counter.
+    local template = (QUEST_MONSTERS_KILLED or ""):gsub("%%%d+%$", "%%")
+    local suffix = template:match("%%d/%%d(.+)$")
+    if not suffix or suffix:find("%", 1, true) then
+        return text, ""
+    end
+
+    -- " |4personnage tué:personnages tués;" -> itself, " personnage tué", " personnages tués".
+    local candidates = {suffix}
+    local prefix, forms, ending = suffix:match("^(.-)|4([^;]+);(.*)$")
+    if forms then
+        for form in forms:gmatch("[^:]+") do
+            candidates[#candidates + 1] = prefix .. form .. ending
+        end
+    end
+    for _, candidate in ipairs(candidates) do
+        if #text > #candidate and text:sub(-#candidate) == candidate then
+            -- "Défias : 2/5 personnages tués" -> "Défias : 2/5", " personnages tués".
+            return text:sub(1, #text - #candidate), candidate
+        end
+    end
+    return text, ""
+end
+
+---Replaces a recognized native progress counter without rewriting its wording or placement.
+---Returns nil for unrecognized layouts so callers can retain their existing remote-progress fallback.
+---@param nativeText string?
+---@param fulfilled number?
+---@param required number?
+---@return string?
+function QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required)
+    if type(nativeText) ~= "string" or type(fulfilled) ~= "number" or type(required) ~= "number" then
+        return nil
+    end
+
+    -- Try both client layouts, regardless of client version. Anchors avoid replacing fractions inside instructions.
+    local text, optionalPrefix, optionalSuffix = _SplitOptionalObjectiveText(nativeText)
+    local progressSuffix
+    text, progressSuffix = _SplitMonsterProgressSuffix(text)
+    local suffix = text:match("^%d+/%d+(%s+.+)$")
+    if suffix then
+        -- "2/5 Wolf slain" -> suffix=" Wolf slain".
+        -- For an optional row with remote 3/5 -> "3/5 Wolf slain (Optional)".
+        return optionalPrefix .. fulfilled .. "/" .. required .. suffix .. progressSuffix .. optionalSuffix
+    end
+    local prefix = text:match("^(.+:%s*)%d+/%d+$") or text:match("^(.+：%s*)%d+/%d+$")
+    if prefix then
+        -- "Wolf slain: 2/5" -> prefix="Wolf slain: ".
+        -- For an optional row with remote 3/5 -> "Wolf slain: 3/5 (Optional)".
+        return optionalPrefix .. prefix .. fulfilled .. "/" .. required .. progressSuffix .. optionalSuffix
+    end
+    -- "Use 1/2 of the potion" -> nil, not "Use 3/5 of the potion"; the caller chooses its fallback.
+    return nil
+end
+
+---Extracts counter-free fallback wording without shortening the instruction.
+---Native displays keep the original text; remote/fallback displays may need separate progress.
 ---@param rawObjectiveText string
----@return string? description @Nil if no trailing progress counter matches
+---@return string? description @Nil if no supported progress counter matches
 function QuestieLib.GetFullObjectiveText(rawObjectiveText)
-    -- This supports three different input syntax:
+    -- Optional labels and client-declared trailing phrases are preserved around these counter layouts:
     -- Classic clients: "Wolf slain: 0/1"
     -- Chinese Classic clients: "Wolf slain： 0/1" (full-width colon)
     -- Forever clients: "0/1 Wolf slain"
-    return string.match(rawObjectiveText, "^(.*):%s*%d+/%d+$") or string.match(rawObjectiveText, "^(.*)：%s*%d+/%d+$") or string.match(rawObjectiveText, "^%d+/%d+%s*(.*)$")
-end
-
----Populates optional FullDescription fields only when full wording is enabled in the profile.
----Use GetFullObjectiveText instead for extraction that must not depend on display settings.
----For example, "Wolf slain: 0/1" becomes "Wolf slain".
----@param rawObjectiveText string
----@return string? description @Nil when trimObjectiveText is enabled or no trailing counter matches
-function QuestieLib.GetFullObjectiveTextConditional(rawObjectiveText)
-    if Questie.db.profile.trimObjectiveText then
-        return nil
+    local text, optionalPrefix, optionalSuffix = _SplitOptionalObjectiveText(rawObjectiveText)
+    local progressSuffix
+    text, progressSuffix = _SplitMonsterProgressSuffix(text)
+    -- "Wolf slain: 2/5" or "2/5 Wolf slain" -> "Wolf slain"; "击败霍格：2/5" -> "击败霍格".
+    local description = string.match(text, "^(.*):%s*%d+/%d+$") or string.match(text, "^(.*)：%s*%d+/%d+$")
+        or string.match(text, "^%d+/%d+%s*(.*)$")
+    if description then
+        -- "Wolf slain" + " (Optional)" -> "Wolf slain (Optional)", with no local counter to duplicate.
+        -- French also retains " personnages tués" after removing the counter and its colon.
+        return optionalPrefix .. description .. progressSuffix .. optionalSuffix
     end
-    return QuestieLib.GetFullObjectiveText(rawObjectiveText)
 end

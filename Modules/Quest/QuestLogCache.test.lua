@@ -46,15 +46,72 @@ describe("QuestLogCache", function()
         _G.HaveQuestData, _G.GetQuestLogTitle, _G.C_QuestLog = originalHaveQuestData, originalGetQuestLogTitle, originalQuestLog
     end)
 
+    describe("TryGetQuest", function()
+        local originalPrint, originalError
+
+        before_each(function()
+            originalPrint, originalError = Questie.Print, Questie.Error
+            Questie.Print = spy.new(function() end)
+            Questie.Error = spy.new(function() end)
+            _G.HaveQuestData = spy.new(function() return true end)
+            _G.C_QuestLog.GetQuestObjectives = spy.new(_G.C_QuestLog.GetQuestObjectives)
+            -- The cache captures the client function at load time.
+            dofile("Modules/Quest/QuestLogCache.lua")
+            QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        end)
+
+        after_each(function()
+            Questie.Print, Questie.Error = originalPrint, originalError
+        end)
+
+        it("returns nil silently without requesting missing quest data", function()
+            assert.is_nil(QuestLogCache.TryGetQuest(QUEST_ID))
+
+            assert.spy(Questie.Print).was.not_called()
+            assert.spy(Questie.Error).was.not_called()
+            assert.spy(_G.HaveQuestData).was.not_called()
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
+            assert.are.equal(0, QuestLogCache.GetQuestCount())
+        end)
+
+        it("returns the same accepted snapshot as GetQuest without refreshing it", function()
+            questLogTitles[1] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "Item: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+            local accepted = QuestLogCache.GetQuest(QUEST_ID)
+            questObjectives[QUEST_ID][1].text = "Item: 3/5"
+            questObjectives[QUEST_ID][1].numFulfilled = 3
+            _G.C_QuestLog.GetQuestObjectives:clear()
+            _G.HaveQuestData:clear()
+
+            local result = QuestLogCache.TryGetQuest(QUEST_ID)
+
+            assert.are.equal(accepted, result)
+            assert.are.equal("Item: 2/5", result.objectives[1].text)
+            assert.are.equal(2, result.objectives[1].numFulfilled)
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
+            assert.spy(_G.HaveQuestData).was.not_called()
+            assert.spy(Questie.Print).was.not_called()
+            assert.spy(Questie.Error).was.not_called()
+        end)
+    end)
+
     describe("client objective placeholders", function()
         local originalItemsNeeded, originalMonstersKilled
         local cases = {
             {name = "Classic item", itemFormat = "%s: %d/%d", monsterFormat = "%s slain: %d/%d",
-                type = "item", missing = " : 0/8", loaded = "item: 0/8", progress = "item: 2/8", expected = "item"},
+                type = "item", missing = " : 0/8", loaded = "item: 0/8", progress = "item: 2/8"},
             {name = "Forever item", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
-                type = "item", missing = "0/8  ", loaded = "0/8 item", progress = "2/8 item", expected = "item"},
+                type = "item", missing = "0/8  ", loaded = "0/8 item", progress = "2/8 item"},
             {name = "Forever monster", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
-                type = "monster", missing = "0/8   slain", loaded = "0/8 Wolf slain", progress = "2/8 Wolf slain", expected = "Wolf"},
+                type = "monster", missing = "0/8   slain", loaded = "0/8 Wolf slain", progress = "2/8 Wolf slain"},
+            -- Constructed unknown-suffix fixtures exercise the literal spacing check, not the localized parser.
+            {name = "unknown English suffix", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "monster", missing = "0/8   destroyed", loaded = "0/8 Roiling Winds destroyed",
+                progress = "2/8 Roiling Winds destroyed"},
+            {name = "unknown UTF-8 suffix", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "monster", missing = "0/8   已摧毁", loaded = "0/8 烈风已摧毁",
+                progress = "2/8 烈风已摧毁"},
         }
 
         before_each(function()
@@ -85,8 +142,7 @@ describe("QuestLogCache", function()
                 assert.is_false(cacheMiss)
                 assert.are.same({[QUEST_ID] = {1}}, changes)
                 local previous = QuestLogCache.GetQuest(QUEST_ID)
-                assert.are.equal(case.expected, previous.objectives[1].text)
-                assert.are.equal(case.loaded, previous.objectives[1].raw_text)
+                assert.are.equal(case.loaded, previous.objectives[1].text)
                 assert.are.equal(0, previous.isComplete)
                 assert.is_true(QuestLogCache.TestGameCache())
 
@@ -113,6 +169,7 @@ describe("QuestLogCache", function()
                 assert.is_false(cacheMiss)
                 assert.are.same({[QUEST_ID] = {1}}, changes)
                 assert.are.equal(2, QuestLogCache.GetQuest(QUEST_ID).objectives[1].numFulfilled)
+                assert.are.equal(case.progress, QuestLogCache.GetQuest(QUEST_ID).objectives[1].text)
                 assert.spy(Sounds.PlayObjectiveProgress).was.called(1)
             end)
         end

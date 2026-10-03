@@ -184,7 +184,6 @@ describe("QuestieQuest", function()
     describe("PopulateQuestLogInfo", function()
         local originalGetQuest
         local originalGetLeaderBoardDetails
-        local originalTrimObjectiveText
         local originalWarning
         local originalRemoveQuest, originalAddFinisher
         local QuestFinisher
@@ -194,7 +193,6 @@ describe("QuestieQuest", function()
             Questie.Warning = spy.new(function() end)
             originalGetQuest = QuestLogCache.GetQuest
             originalGetLeaderBoardDetails = QuestieQuest.GetAllLeaderBoardDetails
-            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
             dofile("Modules/Libs/QuestieLib.lua")
             QuestLogCache.GetQuest = function() return {isComplete = 0} end
             originalRemoveQuest = AvailableQuests.RemoveQuest
@@ -203,21 +201,20 @@ describe("QuestieQuest", function()
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
             QuestFinisher.AddFinisher = spy.new(function() end)
             QuestieQuest.GetAllLeaderBoardDetails = function()
-                return {{type = "monster", text = "Wolf", raw_text = "Wolf slain: 0/1", numFulfilled = 0, numRequired = 1}}
+                return {{type = "monster", text = "Wolf slain: 0/1", numFulfilled = 0, numRequired = 1}}
             end
         end)
 
         after_each(function()
             QuestLogCache.GetQuest = originalGetQuest
             QuestieQuest.GetAllLeaderBoardDetails = originalGetLeaderBoardDetails
-            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
             Questie.Warning = originalWarning
             AvailableQuests.RemoveQuest = originalRemoveQuest
             QuestFinisher.AddFinisher = originalAddFinisher
         end)
 
         it("keeps an unfinished log objective instead of treating the quest as empty and adding its finisher", function()
-            local native = {type = "log", text = "Read the note.", raw_text = "Read the note.",
+            local native = {type = "log", text = "Read the note.",
                 numFulfilled = 1, numRequired = 1, finished = false}
             QuestieQuest.GetAllLeaderBoardDetails = function() return {native} end
             local quest = {
@@ -239,9 +236,9 @@ describe("QuestieQuest", function()
 
         it("preserves native indices and special-objective completion links when a log row precedes a monster row", function()
             local native = {
-                {type = "log", text = "Read the note.", raw_text = "Read the note.",
+                {type = "log", text = "Read the note.",
                     numFulfilled = 1, numRequired = 1, finished = false},
-                {type = "monster", text = "Wolf", raw_text = "Wolf slain: 2/5",
+                {type = "monster", text = "Wolf slain: 2/5",
                     numFulfilled = 2, numRequired = 5, finished = false},
             }
             QuestieQuest.GetAllLeaderBoardDetails = function() return native end
@@ -276,26 +273,38 @@ describe("QuestieQuest", function()
 
             QuestieQuest:PopulateQuestLogInfo(quest)
 
-            assert.spy(Questie.Warning).was.called_with("Missing objective data for quest ", 42, " ", "Wolf")
+            assert.spy(Questie.Warning).was.called_with("Missing objective data for quest ", 42, " ", "Wolf slain: 0/1")
             assert.are_same({}, quest.Objectives)
         end)
 
-        it("should preserve conditional full descriptions when creating and updating objectives", function()
+        it("keeps counter-free native wording when creating and updating shared objectives", function()
             local quest = {Id = 42, ObjectiveData = {{Id = 100}}, Objectives = {}, SpecialObjectives = {}}
-            Questie.db.profile.trimObjectiveText = false
 
             QuestieQuest:PopulateQuestLogInfo(quest)
 
             local objective = quest.Objectives[1]
-            assert.equals("Wolf slain", objective.FullDescription)
-            assert.equals("Wolf", objective.Description)
+            assert.equals("Wolf slain", objective.Description)
 
-            Questie.db.profile.trimObjectiveText = true
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "monster", text = "2/5 Timber Wolves slain", numFulfilled = 2, numRequired = 5}}
+            end
             objective.isUpdated = false
             objective:Update()
 
-            assert.is_nil(objective.FullDescription)
-            assert.equals("Wolf", objective.Description)
+            assert.equals("Timber Wolves slain", objective.Description)
+            assert.are.equal(2, objective.Collected)
+        end)
+    end)
+
+    describe("GetAllLeaderBoardDetails", function()
+        it("announces accepted native text using the original objective index", function()
+            local objectives = {[3] = {text = "Wolf slain: 2/5", numFulfilled = 2, numRequired = 5}}
+            QuestLogCache.GetQuestObjectives = function() return objectives end
+            local announce = QuestieLoader:ImportModule("QuestieAnnounce")
+            announce.ObjectiveChanged = spy.new(function() end)
+
+            assert.are.equal(objectives, QuestieQuest:GetAllLeaderBoardDetails(42))
+            assert.spy(announce.ObjectiveChanged).was.called_with(announce, 42, 3, "Wolf slain: 2/5", 2, 5)
         end)
     end)
 
