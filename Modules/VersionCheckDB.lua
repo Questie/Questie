@@ -14,7 +14,7 @@ function VersionCheckDB.GetRequiredContract()
     return required
 end
 
----Checks the declared consumer contract against the provider's supported range, not version equality.
+---Checks the required contract against the provider's supported range and verifies race-mask capabilities.
 ---This does not stop TOC file loading; callers must stop their own initialization on failure.
 ---@return boolean supported
 ---@return string? message
@@ -36,6 +36,7 @@ function VersionCheckDB.Check()
     if supported ~= true then
         return false, context .. (contractError or "The installed provider does not support this contract. Update Questie or QuestieDB.")
     end
+    -- A supported contract must also expose the tables consumed during player and database initialization.
     if type(LibQuestieDB.Enum) ~= "table" or type(LibQuestieDB.Enum.raceMaskById) ~= "table" then
         return false, context .. "The provider race-ID mapping is unavailable. Update QuestieDB and reload."
     end

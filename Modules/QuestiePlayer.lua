@@ -88,7 +88,6 @@ end
 function QuestiePlayer.HasRequiredRace(requiredRaces)
     -- Faction-wide masks already include their races in the provider. Do not widen subsets here.
     -- Arithmetic preserves Skyborne bits above the range of 32-bit bitwise operations.
-    -- test a bit flag: (value % (2*flag) >= flag)
     return (not requiredRaces) or (requiredRaces == 0) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)
 end
 
