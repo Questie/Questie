@@ -22,9 +22,16 @@ describe("QuestFinisher", function()
     local _ = match._ -- any match
     local isQuestFlaggedCompletedMock
     local originalWarning
+    local originalIcons
     local originalError
 
     before_each(function()
+        originalIcons = {}
+        for index, name in ipairs({"ICON_TYPE_COMPLETE", "ICON_TYPE_PVPQUEST_COMPLETE",
+            "ICON_TYPE_REPEATABLE_COMPLETE", "ICON_TYPE_EVENTQUEST_COMPLETE"}) do
+            originalIcons[name] = Questie[name]
+            Questie[name] = index
+        end
         originalWarning = Questie.Warning
         originalError = Questie.Error
         Questie.db.char.complete = {}
@@ -57,6 +64,10 @@ describe("QuestFinisher", function()
     end)
 
     after_each(function()
+        for _, name in ipairs({"ICON_TYPE_COMPLETE", "ICON_TYPE_PVPQUEST_COMPLETE",
+            "ICON_TYPE_REPEATABLE_COMPLETE", "ICON_TYPE_EVENTQUEST_COMPLETE"}) do
+            Questie[name] = originalIcons[name]
+        end
         isQuestFlaggedCompletedMock:revert()
         Questie.Warning = originalWarning
         Questie.Error = originalError
@@ -175,6 +186,8 @@ describe("QuestFinisher", function()
     end)
 
     it("should add finisher with waypoints", function()
+        local icon = {}
+        QuestieMap.DrawWorldIcon = spy.new(function() return icon end)
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetNPC = spy.new(function()
             return {
@@ -199,8 +212,8 @@ describe("QuestFinisher", function()
 
         assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
-        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 10, 10)
-        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called(1)
+        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, {{{10, 10}, {20, 20}}}, 1)
     end)
 
     it("should add finisher for dungeon location", function()

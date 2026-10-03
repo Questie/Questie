@@ -4,13 +4,20 @@ describe("CommsRouting", function()
     ---@type CommsRouting
     local CommsRouting
 
+    local originalUnitName, originalUnitInParty, originalUnitInRaid
+
     before_each(function()
+        originalUnitName, originalUnitInParty, originalUnitInRaid = _G.UnitName, _G.UnitInParty, _G.UnitInRaid
         _G.UnitName = function() return "Player" end
         _G.UnitInParty = function(unit) return unit == "PartyFriend" end
         _G.UnitInRaid = function(unit) return unit == "RaidFriend" end
 
         dofile("Modules/Network/CommsRouting.lua")
         CommsRouting = QuestieLoader:ImportModule("CommsRouting")
+    end)
+
+    after_each(function()
+        _G.UnitName, _G.UnitInParty, _G.UnitInRaid = originalUnitName, originalUnitInParty, originalUnitInRaid
     end)
 
     describe("GetGroupBroadcastDistribution", function()

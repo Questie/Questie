@@ -419,19 +419,20 @@ describe("TrackerUtils", function()
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
             getItemSpellMock.returns("Use Quest Item", 111)
-            getItemCountMock.returns(1)
+            getItemCountMock.invokes(function(itemId)
+                return itemId == 456 and 1 or 0
+            end)
             QuestieDB.QueryQuestSingle = spy.new(function()
                 return nil
             end)
-            local primaryButton = CreateFrame("Button")
-
-            TrackerLinePool.GetNextItemButton = function()
-                primaryButton.SetItem = spy.new(function()
-                    return true
-                end)
-                primaryButton:Hide() -- initially item buttons are hidden
-                return primaryButton
-            end
+            local buttons = {}
+            TrackerLinePool.GetNextItemButton = spy.new(function()
+                local button = CreateFrame("Button")
+                button.SetItem = spy.new(function() return true end)
+                button:Hide()
+                table.insert(buttons, button)
+                return button
+            end)
             local quest = {
                 Id = 1,
                 requiredSourceItems = {123,456},
@@ -442,6 +443,8 @@ describe("TrackerUtils", function()
 
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
+            assert.spy(TrackerLinePool.GetNextItemButton).was.called(1)
+            local primaryButton = buttons[1]
             assert.is_true(shouldContinue)
             assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
             assert.spy(primaryButton.SetItem).was.called_with(_, 456, 1, 12)
@@ -648,10 +651,22 @@ describe("TrackerUtils", function()
     end)
 
     describe("HasQuest", function()
+        local originalExpansion, originalCata, originalWotlk, originalAchievements
 
         before_each(function()
+            originalExpansion = Expansions.Current
+            originalCata, originalWotlk = Questie.IsCata, Questie.IsWotlk
+            originalAchievements = _G.GetNumTrackedAchievements
+            Expansions.Current = Expansions.Era
             Questie.IsCata = false
             Questie.IsWotlk = false
+            _G.GetNumTrackedAchievements = function() return 0 end
+        end)
+
+        after_each(function()
+            Expansions.Current = originalExpansion
+            Questie.IsCata, Questie.IsWotlk = originalCata, originalWotlk
+            _G.GetNumTrackedAchievements = originalAchievements
         end)
 
         it("should return true when a quest is tracked", function()

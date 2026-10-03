@@ -4,9 +4,11 @@ describe("ThreadLib", function()
     ---@type ThreadLib
     local ThreadLib
 
+    local originalTimer, originalStack, originalError
     local tickerFn
 
     before_each(function()
+        originalTimer, originalStack, originalError = _G.C_Timer, _G.debugstack, Questie.Error
         -- Stub C_Timer.NewTicker so we can drive the ticker synchronously in tests.
         _G.C_Timer = {
             NewTicker = function(_, fn)
@@ -18,6 +20,10 @@ describe("ThreadLib", function()
 
         dofile("Modules/Libs/ThreadLib.lua")
         ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+    end)
+
+    after_each(function()
+        _G.C_Timer, _G.debugstack, Questie.Error = originalTimer, originalStack, originalError
     end)
 
     local function tick()
@@ -35,7 +41,7 @@ describe("ThreadLib", function()
             tick() -- coroutine runs to completion -> status "dead" -> callback
             tick() -- second tick fires the "dead" branch
 
-            assert.spy(callback).was.called()
+            assert.spy(callback).was.called(1)
         end)
 
         it("should call errorCallback when the coroutine errors", function()
@@ -43,11 +49,13 @@ describe("ThreadLib", function()
 
             Questie.Error = function() end -- suppress output
 
-            ThreadLib.Thread(function() error("boom") end, 0, nil, nil, errorCallback)
+            ThreadLib.Thread(function() error("boom", 0) end, 0, nil, nil, errorCallback)
 
             tick() -- coroutine resumes and errors -> errorCallback fires
 
-            assert.spy(errorCallback).was.called()
+            tick()
+            assert.spy(errorCallback).was.called(1)
+            assert.spy(errorCallback).was.called_with("boom")
         end)
 
         it("should not call callbackFunction when the coroutine errors", function()
@@ -86,16 +94,16 @@ describe("ThreadLib profiling callbacks", function()
     local ThreadLib
     local tickerCallbacks
     local cancelledTickers
-    local originalTimerAPI = _G.C_Timer
-    local originalQuestieError = _G.Questie.Error
-    local originalDebugStack = _G.debugstack
+    local originalTimerAPI, originalQuestieError, originalDebugStack
 
     before_each(function()
+        originalTimerAPI, originalQuestieError, originalDebugStack = _G.C_Timer, Questie.Error, _G.debugstack
         tickerCallbacks = {}
         cancelledTickers = {}
         _G.C_Timer = {
-            NewTicker = function(_, callback)
+            NewTicker = function(delay, callback)
                 local ticker = {
+                    delay = delay,
                     Cancel = function(self)
                         self.cancelled = true
                     end,
@@ -298,21 +306,28 @@ describe("ThreadLib profiling callbacks", function()
         end, "ThreadLib:Thread: threadName is not a string")
     end)
 
-    it("does not add explicit job names to convenience API forwarding", function()
-        local forwardedCalls = {}
-        local threadFunction = function() end
-        local callbackFunction = function() end
-        ThreadLib.Thread = function(...)
-            table.insert(forwardedCalls, {n = select("#", ...), ...})
-        end
-
-        ThreadLib.ThreadCallback(threadFunction, 1, callbackFunction, "ignored")
-        ThreadLib.ThreadError(threadFunction, 2, "error", "ignored")
-        ThreadLib.ThreadSimple(threadFunction, 3, "ignored")
-
-        assert.are_same({n = 4, threadFunction, 1, nil, callbackFunction}, forwardedCalls[1])
-        assert.are_same({n = 3, threadFunction, 2, "error"}, forwardedCalls[2])
-        assert.are_same({n = 2, threadFunction, 3}, forwardedCalls[3])
+    it("runs convenience jobs only when their ticker fires and returns cancellable handles", function()
+        local jobs = {}
+        local completion = spy.new(function() end)
+        local timer, thread = ThreadLib.ThreadCallback(function() jobs[#jobs + 1] = "callback" end, 1, completion)
+        local simpleTimer, simpleThread = ThreadLib.ThreadSimple(function() jobs[#jobs + 1] = "simple" end, 3)
+        assert.equals(cancelledTickers[1], timer)
+        assert.equals(cancelledTickers[2], simpleTimer)
+        assert.equals("suspended", coroutine.status(thread))
+        assert.equals("suspended", coroutine.status(simpleThread))
+        assert.equals(1, timer.delay)
+        assert.equals(3, simpleTimer.delay)
+        assert.same({}, jobs)
+        assert.spy(completion).was.not_called()
+        tickerCallbacks[1]()
+        tickerCallbacks[2]()
+        assert.same({"callback", "simple"}, jobs)
+        assert.spy(completion).was.not_called()
+        tickerCallbacks[1]()
+        tickerCallbacks[2]()
+        assert.spy(completion).was.called(1)
+        assert.is_true(timer.cancelled)
+        assert.is_true(simpleTimer.cancelled)
     end)
 
     it("creates and resumes profiled jobs when debugstack is unavailable", function()

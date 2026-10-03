@@ -1,8 +1,8 @@
 dofile("setupTests.lua")
 
 describe("QuestiePopup consumers", function()
-    local Popup, externalPopup, visible, widgets, nativeButtons, options, addon
-    local savedGlobals, exportedGlobals
+    local Popup, externalPopup, widgets, nativeButtons, options, addon
+    local savedGlobals, exportedGlobals, dialogErrors
     local globalNames = {"QuestiePopup", "YES", "NO", "CLOSE", "GetLocale", "QUESTIE_LOCALES_OVERRIDE",
         "ReloadUI", "UISpecialFrames", "LibStub", "CreateFrame", "QuestieConfig"}
 
@@ -40,26 +40,13 @@ describe("QuestiePopup consumers", function()
         _G.UISpecialFrames = {}
         Questie.Colorize = function(_, text) return text end
         Questie.started = true
-        visible, widgets, nativeButtons = {}, {}, {}
+        widgets, nativeButtons = {}, {}
 
-        -- Mock the external popup API, including cancellation on reuse and data-before-OnShow.
-        externalPopup = {Dialogs = {}}
-        addon = { Dialog = externalPopup }
-        function externalPopup.FindVisible(key) return visible[key] end
-        function externalPopup.Hide(key) visible[key] = nil end
-        function externalPopup.Show(key, arg1, arg2, data)
-            local info = externalPopup.Dialogs[key]
-            local previous = visible[key]
-            if previous and info.OnCancel and not info.noCancelOnReuse then
-                info.OnCancel(previous, previous.data, "override")
-            end
-            local frame = Widget()
-            frame.data, frame.Text, frame.EditBox = data, Widget(), Widget()
-            frame.Text:SetText(arg1 and string.format(info.text, arg1, arg2) or info.text)
-            visible[key] = frame
-            if info.OnShow then info.OnShow(frame, data) end
-            return frame
-        end
+        local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
+        local _, errors, _, private = fixture.NewEnvironment()
+        dialogErrors = errors
+        addon = private
+        externalPopup = private.Dialog
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", addon)
         Popup = QuestieLoader:ImportModule("QuestiePopup")
 
@@ -88,6 +75,7 @@ describe("QuestiePopup consumers", function()
     after_each(function()
         for name, previous in pairs(exportedGlobals or {}) do _G[name] = previous[1] end
         for _, name in ipairs(globalNames) do _G[name] = savedGlobals[name] end
+        assert.same({}, dialogErrors)
     end)
 
     it("does not replace the library when debug globals are populated", function()
@@ -164,7 +152,7 @@ describe("QuestiePopup consumers", function()
         assert.spy(ReloadUI).was.not_called()
 
         local key = "QUESTIE_LOCALE_CHANGE_CONFIRM"
-        Popup.Dialogs[key].OnAccept(Popup.FindVisible(key))
+        Popup.FindVisible(key):GetButton1():Click()
         assert.equals("frFR", Questie.db.global.questieLocale)
         assert.is_true(Questie.db.global.questieLocaleDiff)
         assert.spy(ReloadUI).was.called(1)
@@ -173,9 +161,8 @@ describe("QuestiePopup consumers", function()
     it("cancels locale changes without writing settings or reloading", function()
         dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
         options.tabs.advanced:Initialize().args.locale_dropdown.set(nil, "deDE")
-        local info = Popup.Dialogs.QUESTIE_LOCALE_CHANGE_CONFIRM
-        info.OnCancel()
-        info.OnAccept()
+        Popup.FindVisible("QUESTIE_LOCALE_CHANGE_CONFIRM"):GetButton2():Click()
+        assert.is_nil(Popup.FindVisible("QUESTIE_LOCALE_CHANGE_CONFIRM"))
         assert.is_nil(Questie.db.global.questieLocale)
         assert.spy(ReloadUI).was.not_called()
     end)
@@ -189,7 +176,7 @@ describe("QuestiePopup consumers", function()
         options.tabs.advanced:Initialize().args.questieReset.func()
         assert.is_false(Questie.db.profile.enabled)
         assert.spy(ReloadUI).was.not_called()
-        Popup.Dialogs.QUESTIE_RESET_CONFIRM.OnAccept()
+        Popup.FindVisible("QUESTIE_RESET_CONFIRM"):GetButton1():Click()
         assert.is_true(Questie.db.profile.enabled)
         assert.is_nil(Questie.db.profile.migrationVersion)
         assert.is_nil(Questie.db.char.hidden)
@@ -199,12 +186,15 @@ describe("QuestiePopup consumers", function()
 
     it("resets only the current character journey after acceptance", function()
         dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
+        local otherJourney = {{Event = "Note", Title = "Other character"}}
+        _G.QuestieConfig = {char = {["Other - Realm"] = {journey = otherJourney}}}
         Questie.db.char.journey = {{Event = "Note"}}
         options.tabs.advanced:Initialize().args.questieJourneyReset.func()
         assert.equals(1, #Questie.db.char.journey)
         assert.spy(ReloadUI).was.not_called()
-        Popup.Dialogs.QUESTIE_JOURNEY_RESET_CONFIRM.OnAccept()
+        Popup.FindVisible("QUESTIE_JOURNEY_RESET_CONFIRM"):GetButton1():Click()
         assert.is_nil(Questie.db.char.journey)
+        assert.same({{Event = "Note", Title = "Other character"}}, QuestieConfig.char["Other - Realm"].journey)
         assert.spy(ReloadUI).was.called(1)
     end)
 
@@ -219,7 +209,7 @@ describe("QuestiePopup consumers", function()
         widgets.Dropdown.callbacks.OnValueChanged(nil, nil, "Bob - Realm")
         nativeButtons[1].callbacks.OnClick()
         assert.same({}, Questie.db.char.journey)
-        Popup.Dialogs.QUESTIE_JOURNEY_IMPORT_CONFIRM.OnAccept()
+        Popup.FindVisible("QUESTIE_JOURNEY_IMPORT_CONFIRM"):GetButton1():Click()
         assert.equals(second, Questie.db.char.journey)
         assert.is_true(widgets.Frame.hidden)
         assert.spy(ReloadUI).was.not_called()
@@ -232,7 +222,7 @@ describe("QuestiePopup consumers", function()
         dofile("Modules/Journey/QuestieJourneyShare.lua")
         QuestieLoader:ImportModule("QuestieJourney"):ShowCharacterBrowserFrame()
         nativeButtons[1].callbacks.OnClick()
-        Popup.Dialogs.QUESTIE_JOURNEY_IMPORT_CONFIRM.OnCancel()
+        Popup.FindVisible("QUESTIE_JOURNEY_IMPORT_CONFIRM"):GetButton2():Click()
         assert.equals(original, Questie.db.char.journey)
         nativeButtons[1].callbacks.OnClick()
         Popup.Hide("QUESTIE_JOURNEY_IMPORT_CONFIRM")
@@ -261,7 +251,7 @@ describe("QuestiePopup consumers", function()
         assert.equals(2, popup.data)
         assert.equals("Are you sure you want to delete this note?\n\nSecond", popup.Text.text)
         assert.equals(2, #Questie.db.char.journey)
-        Popup.Dialogs.QUESTIE_DELETE_NOTE_CONFIRM.OnAccept(popup)
+        popup:GetButton1():Click()
         assert.equals(1, #Questie.db.char.journey)
         assert.equals("First", Questie.db.char.journey[1].Title)
     end)
@@ -300,6 +290,6 @@ describe("QuestiePopup consumers", function()
         assert.is_true(popup.EditBox.highlighted)
         popup.EditBox.GetParent = function() return popup end
         Popup.Dialogs.QUESTIE_ITEMDROPOUTPUT.EditBoxOnEscapePressed(popup.EditBox)
-        assert.is_true(popup.hidden)
+        assert.is_false(popup:IsShown())
     end)
 end)

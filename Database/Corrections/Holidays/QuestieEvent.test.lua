@@ -14,7 +14,28 @@ describe("QuestieEvent", function()
     ---@type luassert.spy
     local printMock
 
+    local originalExpansion, originalCalendarTime, originalShowEventQuests, originalPhases
+    local savedGlobals, savedQuestie
+    local ownedGlobals = {"print", "GetCVarBool", "SetCVar", "C_Calendar"}
+    local ownedQuestieFields = {"IsClassic", "IsAnniversaryEra", "IsAnniversaryHardcore", "IsTBC", "IsSoD", "Colorize"}
+
+    after_each(function()
+        Expansions.Current = originalExpansion
+        QuestieCompat.GetCurrentCalendarTime = originalCalendarTime
+        Questie.db.profile.showEventQuests = originalShowEventQuests
+        ContentPhases.activePhases = originalPhases
+        for _, key in ipairs(ownedGlobals) do _G[key] = savedGlobals[key] end
+        for _, key in ipairs(ownedQuestieFields) do Questie[key] = savedQuestie[key] end
+    end)
+
     before_each(function()
+        originalExpansion = QuestieLoader:ImportModule("Expansions").Current
+        originalCalendarTime = QuestieCompat.GetCurrentCalendarTime
+        originalShowEventQuests = Questie.db.profile.showEventQuests
+        originalPhases = QuestieLoader:ImportModule("ContentPhases").activePhases
+        savedGlobals, savedQuestie = {}, {}
+        for _, key in ipairs(ownedGlobals) do savedGlobals[key] = _G[key] end
+        for _, key in ipairs(ownedQuestieFields) do savedQuestie[key] = Questie[key] end
         Questie.IsClassic = false
         Questie.IsAnniversaryEra = false
         Questie.IsAnniversaryHardcore = false
@@ -33,6 +54,12 @@ describe("QuestieEvent", function()
         QuestieLoader:ImportModule("QuestieTBCPolicyCorrections").LoadDarkmoonFixes = function() return {} end
 
         Expansions = QuestieLoader:ImportModule("Expansions")
+        Expansions.Current = Expansions.Era
+        Questie.IsSoD = false
+        QuestieCompat.GetCurrentCalendarTime = function()
+            return {weekday = 1, monthDay = 23, month = 11, year = 2025, hour = 12, minute = 0}
+        end
+        _G.C_Calendar = {GetNumDayEvents = function() return 0 end, GetHolidayInfo = function() end}
 
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
         ContentPhases = QuestieLoader:ImportModule("ContentPhases")
@@ -42,7 +69,6 @@ describe("QuestieEvent", function()
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieEvent.eventQuests = {} -- This is done on top level in QuestieEvent.lua
         QuestieEvent.activeQuests = {} -- This is done on top level in QuestieEvent.lua
-        dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
     end)
 
     describe("Darkmoon Faire", function()
@@ -62,11 +88,13 @@ describe("QuestieEvent", function()
             Questie.IsClassic = true
             Questie.IsAnniversaryEra = true
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
         end)
 
         it("should not load for Anniversary HC servers in P1", function()
@@ -86,11 +114,13 @@ describe("QuestieEvent", function()
             Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
         end)
 
         it("should not load for Anniversary servers in P2", function()
@@ -109,11 +139,13 @@ describe("QuestieEvent", function()
             Questie.IsClassic = true
             Questie.IsAnniversaryEra = true
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
         end)
 
         it("should not load for Anniversary servers in P2", function()
@@ -133,11 +165,13 @@ describe("QuestieEvent", function()
             Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
         end)
 
         it("should load for Anniversary servers in P3", function()
@@ -165,11 +199,13 @@ describe("QuestieEvent", function()
             Questie.IsClassic = true
             Questie.IsAnniversaryEra = true
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should load for Anniversary HC servers in P3", function()
@@ -198,11 +234,13 @@ describe("QuestieEvent", function()
             Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should load for Classic servers", function()
@@ -228,11 +266,13 @@ describe("QuestieEvent", function()
 
             Questie.IsClassic = true
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should not be active at 02:30 on start Monday for Era (hour gating)", function()
@@ -261,10 +301,12 @@ describe("QuestieEvent", function()
                 end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
         end)
 
         it("should be active at 03:00 on start Monday for Era (hour gating)", function()
@@ -293,10 +335,12 @@ describe("QuestieEvent", function()
                 end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should not be active on the following Monday at 03:00 for Era (end hour gating)", function()
@@ -324,11 +368,13 @@ describe("QuestieEvent", function()
                 end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
         end)
 
         it("should be active on the following Monday at 02:59 for Era (end hour gating)", function()
@@ -356,11 +402,13 @@ describe("QuestieEvent", function()
                 end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should load for MoP servers on days with DMF texture for 'start'", function()
@@ -381,11 +429,13 @@ describe("QuestieEvent", function()
                 GetHolidayInfo = function() return {texture = 235447, calendarType = "HOLIDAY"} end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Darkmoon Faire\" world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
         end)
 
@@ -407,11 +457,13 @@ describe("QuestieEvent", function()
                 GetHolidayInfo = function() return {texture = 235448, calendarType = "HOLIDAY"} end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Darkmoon Faire\" world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
         end)
 
@@ -433,11 +485,13 @@ describe("QuestieEvent", function()
                 GetHolidayInfo = function() return {texture = 235446, calendarType = "HOLIDAY"} end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Darkmoon Faire\" world event is active!")
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
             assert.spy(getNumDayEventsMock).was.called_with(0, 3)
         end)
 
@@ -459,11 +513,13 @@ describe("QuestieEvent", function()
                 GetHolidayInfo = function() return {texture = 235458, calendarType = "HOLIDAY"} end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
             assert.spy(getNumDayEventsMock).was.called_with(0, 23)
         end)
 
@@ -492,6 +548,8 @@ describe("QuestieEvent", function()
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Mulgore!")
@@ -524,6 +582,8 @@ describe("QuestieEvent", function()
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Elwynn Forest!")
@@ -556,6 +616,8 @@ describe("QuestieEvent", function()
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The Darkmoon Faire is up in Terokkar Forest!")
@@ -587,11 +649,13 @@ describe("QuestieEvent", function()
             Questie.IsTBC = true
             Expansions.Current = Expansions.Tbc
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
             assert.is_nil(QuestieEvent.eventQuests)
-            assert.is_equal(0, #QuestieEvent.activeQuests)
+            assert.are_same({}, QuestieEvent.activeQuests)
         end)
 
         it("should not activate DMF for MoP servers when GetNumDayEvents returns 0 events", function()
@@ -612,6 +676,8 @@ describe("QuestieEvent", function()
                 GetHolidayInfo = function() return nil end
             }
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(printMock).was.not_called()
@@ -620,11 +686,14 @@ describe("QuestieEvent", function()
         end)
 
         it("should hide DMF events if user had them hidden before", function()
+            Expansions.Current = Expansions.MoP
             local getCvarBoolMock = spy.new(function() return false end)
             _G.GetCVarBool = getCvarBoolMock
             local setCvarMock = spy.new(function() end)
             _G.SetCVar = setCvarMock
 
+            QuestieEvent.eventQuests = {}
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.spy(getCvarBoolMock).was.called_with("calendarShowDarkmoon")
@@ -771,10 +840,11 @@ describe("QuestieEvent", function()
                 GetHolidayInfo = function() return {texture = 235447, calendarType = "HOLIDAY"} end
             }
 
+            dofile("Database/Corrections/Holidays/quests/DarkmoonFaire.lua")
             QuestieEvent:Load()
 
             assert.are_same(0, #setCorrectionCalls)
-            assert.is_not_nil(next(QuestieEvent.activeQuests))
+            assert.is_true(QuestieEvent.activeQuests[7905])
         end)
     end)
 
@@ -820,7 +890,7 @@ describe("QuestieEvent", function()
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Love is in the Air\" world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should not activate an event after its end hour on the end day", function()
@@ -856,7 +926,7 @@ describe("QuestieEvent", function()
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Winter Veil\" world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should activate a cross-year event in January (Winter Veil)", function()
@@ -874,7 +944,7 @@ describe("QuestieEvent", function()
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Winter Veil\" world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.is_not_nil(next(QuestieEvent.activeQuests))
         end)
 
         it("should not activate a cross-year event outside its window (Winter Veil)", function()
@@ -898,40 +968,58 @@ describe("QuestieEvent", function()
         it("should not activate a quest outside its own HH:MM window during an active event", function()
             -- Event is active for the whole day; quest has its own narrower window
             QuestieCompat.GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 5, month = 4, year = 2025, hour = 14, minute = 0}
+                    return {weekday = 1, monthDay = 6, month = 4, year = 2025, hour = 10, minute = 29}
                 end
             QuestieEvent.eventDates = {
                 ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
             }
-            -- Quest has its own date/time sub-window: 6 Apr 10:00 - 10 Apr 10:00 (quest is NOT active on Apr 5)
+            -- One minute before the quest starts on the same day.
             QuestieEvent.eventQuests = {
-                {"Noblegarden", 13479, "6/4", "10/4", "10:00", "10:00"},
+                {"Noblegarden", 13479, "6/4", "10/4", "10:30", "10:00"},
             }
 
             QuestieEvent:Load()
 
             -- Event itself prints active
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Noblegarden\" world event is active!")
-            -- But quest sub-window (Apr 6-10) does not include Apr 5, so quest should not be active
+            -- The event is active, but the quest starts at 10:30.
             assert.is_nil(next(QuestieEvent.activeQuests))
         end)
 
-        it("should activate a quest with its own HH:MM window when inside the sub-window", function()
-            -- Event is active; quest sub-window also covers the current date/time
+        it("does not activate a quest after its end minute while the event remains active", function()
             QuestieCompat.GetCurrentCalendarTime = function()
-                    return {weekday = 1, monthDay = 8, month = 4, year = 2025, hour = 14, minute = 0}
-                end
+                return {weekday = 1, monthDay = 10, month = 4, year = 2025, hour = 10, minute = 31}
+            end
             QuestieEvent.eventDates = {
-                ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
+                ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1,
+                    endDate = "11/4", endHour = 23, endMinute = 59},
             }
             QuestieEvent.eventQuests = {
-                {"Noblegarden", 13479, "6/4", "10/4", "10:00", "10:00"},
+                {"Noblegarden", 13479, "6/4", "10/4", "10:00", "10:30"},
             }
 
             QuestieEvent:Load()
 
             assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Noblegarden\" world event is active!")
-            assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
+            assert.are_same({}, QuestieEvent.activeQuests)
+        end)
+
+        it("should activate a quest with its own HH:MM window when inside the sub-window", function()
+            -- Event is active; quest sub-window also covers the current date/time
+            QuestieCompat.GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 6, month = 4, year = 2025, hour = 10, minute = 30}
+                end
+            QuestieEvent.eventDates = {
+                ["Noblegarden"] = {startDate = "5/4", startHour = 0, startMinute = 1, endDate = "11/4", endHour = 23, endMinute = 59},
+            }
+            QuestieEvent.eventQuests = {
+                {"Noblegarden", 13479, "6/4", "10/4", "10:30", "10:00"},
+            }
+
+            QuestieEvent:Load()
+
+            assert.spy(printMock).was.called_with("[Questie]", "|cFF6ce314The \"Noblegarden\" world event is active!")
+            assert.are_same({[13479] = true}, QuestieEvent.activeQuests)
         end)
     end)
 end)

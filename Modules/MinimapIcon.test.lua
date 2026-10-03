@@ -20,7 +20,19 @@ describe("MinimapIcon", function()
     local match = require("luassert.match")
     local _ = match._ -- any match
 
+    local originalStarted, originalEnabled, originalMinimap
+    local savedGlobals
+    local globalNames = {"IsControlKeyDown", "IsShiftKeyDown", "InCombatLockdown", "LibStub"}
+
     before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do
+            savedGlobals[name] = _G[name]
+        end
+        originalStarted = Questie.started
+        originalEnabled, originalMinimap = Questie.db.profile.enabled, Questie.db.profile.minimap
+        LibDBIconMock.Hide:clear()
+        _G.InCombatLockdown = function() return false end
         Questie.started = true
         Questie.db.profile.enabled = true
         Questie.db.profile.minimap = {hide = false}
@@ -54,6 +66,14 @@ describe("MinimapIcon", function()
 
         dofile("Modules/MinimapIcon.lua")
         MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+    end)
+
+    after_each(function()
+        Questie.started = originalStarted
+        Questie.db.profile.enabled, Questie.db.profile.minimap = originalEnabled, originalMinimap
+        for _, name in ipairs(globalNames) do
+            _G[name] = savedGlobals[name]
+        end
     end)
 
     it("should not do anything when Questie is not started yet", function()
@@ -91,10 +111,17 @@ describe("MinimapIcon", function()
         local button = "LeftButton"
         _G.IsShiftKeyDown = function() return true end
         _G.InCombatLockdown = function() return true end
+        local queuedCallback
+        QuestieCombatQueue.Queue = spy.new(function(_, callback) queuedCallback = callback end)
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieOptions.ToggleConfigWindow).was.called()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was.not_called()
+        assert.spy(QuestieCombatQueue.Queue).was.called(1)
+        assert.is_function(queuedCallback)
+        _G.InCombatLockdown = function() return false end
+        queuedCallback()
+        assert.spy(QuestieOptions.ToggleConfigWindow).was.called(1)
     end)
 
     it("should reset Questie on left click with CTRL key down", function()

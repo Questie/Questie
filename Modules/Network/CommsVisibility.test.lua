@@ -22,17 +22,16 @@ describe("CommsVisibility", function()
     ---@type QuestiePlayer
     local QuestiePlayer
 
-    -- Fires the timer immediately, simulating C_Timer with zero delay.
-    local function _createInstantTimerMock()
-        return {
-            NewTimer = function(_, callback)
-                callback()
-                return {Cancel = function() end}
-            end
-        }
-    end
+    local timers
+    local originalGlobals, originalRandom, originalDb, originalRegister, originalSend, originalMaxQuests
 
     before_each(function()
+        originalGlobals = {C_Timer = _G.C_Timer, GetNumGroupMembers = _G.GetNumGroupMembers,
+            UnitInParty = _G.UnitInParty, UnitInRaid = _G.UnitInRaid}
+        originalRandom = math.random
+        originalDb, originalRegister, originalSend = Questie.db, Questie.RegisterComm, Questie.SendCommMessage
+        originalMaxQuests = C_QuestLog.GetMaxNumQuestsCanAccept
+        timers = {}
         _G.math.random = function() return 0 end
 
         _G.C_Timer = {
@@ -42,10 +41,12 @@ describe("CommsVisibility", function()
                 timer.Cancel = function(self)
                     self.cancelled = true
                 end
+                timers[#timers + 1] = timer
                 return timer
             end
         }
 
+        Questie.SendCommMessage = spy.new(function() end)
         Questie.RegisterComm = function() end
         Questie.db = {char = {}}
 
@@ -57,7 +58,7 @@ describe("CommsVisibility", function()
         CommsRouting = QuestieLoader:ImportModule("CommsRouting")
         CommsRouting.IsSelf = function() return false end
         CommsRouting.IsMessageFromGroupMember = function() return true end
-        CommsRouting.GetGroupBroadcastDistribution = function() return "" end
+        CommsRouting.GetGroupBroadcastDistribution = function() return "PARTY" end
 
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.questLog_DO_NOT_MODIFY = {}
@@ -79,6 +80,17 @@ describe("CommsVisibility", function()
         -- ResetAll resets the initialized guard so Initialize can be exercised per-test.
         CommsVisibility:ResetAll()
         CommsVisibility:Initialize()
+    end)
+
+    after_each(function()
+        CommsVisibility:ResetAll()
+        _G.C_Timer = originalGlobals.C_Timer
+        _G.GetNumGroupMembers = originalGlobals.GetNumGroupMembers
+        _G.UnitInParty = originalGlobals.UnitInParty
+        _G.UnitInRaid = originalGlobals.UnitInRaid
+        math.random = originalRandom
+        Questie.db, Questie.RegisterComm, Questie.SendCommMessage = originalDb, originalRegister, originalSend
+        C_QuestLog.GetMaxNumQuestsCanAccept = originalMaxQuests
     end)
 
     describe("Initialize", function()
@@ -160,9 +172,11 @@ describe("CommsVisibility", function()
         it("should not send when no broadcast distribution is available", function()
             CommsRouting.GetGroupBroadcastDistribution = function() return nil end
             Questie.SendCommMessage = spy.new(function() end)
-            _G.C_Timer = _createInstantTimerMock()
 
             CommsVisibility:ScheduleSnapshot("test")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1].callback()
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
@@ -170,9 +184,11 @@ describe("CommsVisibility", function()
         it("should not send when encoding fails", function()
             CommsEncoding.EncodePayload = function() return nil end
             Questie.SendCommMessage = spy.new(function() end)
-            _G.C_Timer = _createInstantTimerMock()
 
             CommsVisibility:ScheduleSnapshot("test")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1].callback()
 
             assert.spy(Questie.SendCommMessage).was.not_called()
         end)
@@ -183,9 +199,11 @@ describe("CommsVisibility", function()
             CommsEncoding.EncodePayload = function() return "encodedPayload" end
             CommsRouting.GetGroupBroadcastDistribution = function() return "PARTY" end
             Questie.SendCommMessage = spy.new(function() end)
-            _G.C_Timer = _createInstantTimerMock()
 
             CommsVisibility:ScheduleSnapshot("test")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1].callback()
 
             assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "encodedPayload", "PARTY")
         end)
@@ -198,9 +216,11 @@ describe("CommsVisibility", function()
                 capturedPayload = payload
                 return "encodedPayload"
             end
-            _G.C_Timer = _createInstantTimerMock()
 
             CommsVisibility:ScheduleSnapshot("test")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1].callback()
 
             assert.is_false(capturedPayload[100])
         end)
@@ -214,9 +234,11 @@ describe("CommsVisibility", function()
                 capturedPayload = payload
                 return "encodedPayload"
             end
-            _G.C_Timer = _createInstantTimerMock()
 
             CommsVisibility:ScheduleSnapshot("test")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1].callback()
 
             assert.is_true(capturedPayload[100])
         end)
@@ -228,33 +250,35 @@ describe("CommsVisibility", function()
                 capturedPayload = payload
                 return "encodedPayload"
             end
-            _G.C_Timer = _createInstantTimerMock()
 
             CommsVisibility:ScheduleSnapshot("test")
+
+            assert.spy(Questie.SendCommMessage).was.not_called()
+            timers[1].callback()
 
             assert.is_nil(capturedPayload["notAQuestId"])
             assert.is_not_nil(capturedPayload[100])
         end)
 
-        it("should cancel the previous timer when scheduling a new snapshot", function()
-            local firstTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
-            local firstTimerMock = spy.new(function() return firstTimer end)
-            local secondTimer = {cancelled = false, Cancel = function(self) self.cancelled = true end}
-            local secondTimerMock = spy.new(function() return secondTimer end)
-
-            _G.C_Timer = {
-                NewTimer = firstTimerMock
-            }
+        it("cancels the previous timer and sends only the replacement snapshot", function()
             CommsVisibility:ScheduleSnapshot("first")
-
-            _G.C_Timer = {
-                NewTimer = secondTimerMock
-            }
             CommsVisibility:ScheduleSnapshot("second")
 
-            assert.is_true(firstTimer.cancelled)
-            assert.spy(firstTimerMock).was.called()
-            assert.spy(secondTimerMock).was.called()
+            assert.is_true(timers[1].cancelled)
+            assert.is_false(timers[2].cancelled)
+            assert.spy(Questie.SendCommMessage).was.not_called()
+
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[200] = true}
+            CommsEncoding.EncodePayload = spy.new(function() return "latestPayload" end)
+            timers[2].callback()
+
+            assert.spy(CommsEncoding.EncodePayload).was.called_with(CommsEncoding, {[200] = true})
+            assert.spy(Questie.SendCommMessage).was.called(1)
+            assert.spy(Questie.SendCommMessage).was.called_with(Questie, "QuestieV1", "latestPayload", "PARTY")
+
+            CommsVisibility:ScheduleSnapshot("third")
+            assert.is_false(timers[2].cancelled) -- Completed handles must not remain pending.
+            assert.are_equal(3, #timers)
         end)
     end)
 
@@ -397,7 +421,7 @@ describe("CommsVisibility", function()
             assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called()
         end)
 
-        it("should atomically replace prior snapshot for sender", function()
+        it("should replace the entire prior snapshot for sender", function()
             CommsVisibility.remoteQuestVisibility["FriendName"] = {[100] = true, [200] = true}
             local newSnapshot = {[300] = true}
             CommsEncoding.DecodePayload = function() return newSnapshot end
@@ -406,6 +430,18 @@ describe("CommsVisibility", function()
 
             assert.are_same(newSnapshot, CommsVisibility.remoteQuestVisibility["FriendName"])
         end)
+    end)
+
+    it("retains the complete prior snapshot when a replacement contains an invalid entry", function()
+        local prior = {[100] = true, [200] = false}
+        CommsVisibility.remoteQuestVisibility.FriendName = prior
+        CommsEncoding.DecodePayload = function() return {[100] = false, [300] = true, [400] = "invalid"} end
+
+        CommsVisibility.OnCommReceived("QuestieV1", "msg", "PARTY", "FriendName")
+
+        assert.are_equal(prior, CommsVisibility.remoteQuestVisibility.FriendName)
+        assert.are_same({[100] = true, [200] = false}, prior)
+        assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
     end)
 
     describe("ShouldShowPartyObjective", function()

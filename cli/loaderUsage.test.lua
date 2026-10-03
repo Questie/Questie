@@ -148,9 +148,18 @@ function Something.Update()
             local findings = LoaderUsage.ScanBindingsXml("Bindings.xml")
 
             assert.are_same(2, #findings)
-            assert.are_same(3, findings[1].lineNumber)
-            -- Exempted with a reason rather than invisible: a binding body has no file scope to hoist to.
-            assert.is_true(findings[1].known)
+            assert.are_same('QuestieLoader:ImportModule("QuestieJourney"):ToggleJourneyWindow()', findings[1].text)
+            assert.are_same('QuestieLoader:ImportModule("QuestieTracker").ToggleTracker()', findings[2].text)
+            local sourceLines = {}
+            for line in io.lines("Bindings.xml") do
+                table.insert(sourceLines, line)
+            end
+            for _, finding in ipairs(findings) do
+                assert.are_same("Bindings.xml", finding.path)
+                assert.are_same(finding.text, string.match(sourceLines[finding.lineNumber], "^%s*(.*)$"))
+                -- Binding bodies run only at keypress, so both findings need the explicit exemption.
+                assert.is_true(finding.known)
+            end
         end)
     end)
 
@@ -167,6 +176,28 @@ function Something.Update()
         end)
     end)
 
+    describe("file and TOC scanning", function()
+        it("reports the runtime import but not the file-scope module declaration", function()
+            assert.are_same({{
+                path = "cli/testData/loaderUsage/runtime.lua",
+                lineNumber = 4,
+                text = 'local Dependency = QuestieLoader:ImportModule("Dependency")',
+                known = false,
+                enclosingBlocks = {"function"},
+            }}, LoaderUsage.ScanFile("cli/testData/loaderUsage/runtime.lua"))
+        end)
+
+        it("reports forbidden imports once across repeated manifest entries and manifests", function()
+            assert.are_same({{
+                path = "cli/testData/loaderUsage/runtime.lua",
+                lineNumber = 4,
+                text = 'local Dependency = QuestieLoader:ImportModule("Dependency")',
+                known = false,
+                enclosingBlocks = {"function"},
+            }}, LoaderUsage.ScanTocs({"cli/testData/loaderUsage/addon.toc", "cli/testData/loaderUsage/addon.toc"}))
+        end)
+    end)
+
     describe("the shipped codebase", function()
         local ALL_TOCS = {
             "Questie_Vanilla.toc",
@@ -174,6 +205,7 @@ function Something.Update()
             "Questie_Wrath.toc",
             "Questie_Cata.toc",
             "Questie_Mists.toc",
+            "Questie_Camelot.toc",
         }
 
         it("has no runtime call outside the reviewed files", function()

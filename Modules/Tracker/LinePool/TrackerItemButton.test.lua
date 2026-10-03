@@ -3,34 +3,40 @@ local stub = require("luassert.stub")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
-QuestieCompat.GetContainerNumSlots = function(bag)
-        if bag == -2 then
-            return 1
-        end
-        return 0
-    end
-QuestieCompat.GetContainerItemInfo = function()
-        return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123
-    end
-
-_G.GetInventoryItemID = function()
-    return 123
-end
-
-_G.GetInventoryItemTexture = function()
-    return 11111
-end
-
 describe("TrackerItemButton", function()
     ---@type QuestieDB
     local QuestieDB
     ---@type TrackerItemButton
     local TrackerItemButton
     local getItemCountMock
+    local originalCreateFrame, originalInventoryId, originalInventoryTexture
+    local originalSlots, originalItemInfo
 
     before_each(function()
+        originalCreateFrame = _G.CreateFrame
+        originalInventoryId = _G.GetInventoryItemID
+        originalInventoryTexture = _G.GetInventoryItemTexture
+        originalSlots = QuestieCompat.GetContainerNumSlots
+        originalItemInfo = QuestieCompat.GetContainerItemInfo
+        QuestieCompat.GetContainerNumSlots = function(bag) return bag == -2 and 1 or 0 end
+        QuestieCompat.GetContainerItemInfo = function()
+            return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123
+        end
+        _G.GetInventoryItemID = function() return 123 end
+        _G.GetInventoryItemTexture = function() return 11111 end
         Questie.db.profile = {}
         CreateFrame.resetMockedFrames()
+        _G.CreateFrame = function(...)
+            local frame = originalCreateFrame(...)
+            frame.HookScript = function(self, event, callback)
+                local previous = self.scripts[event]
+                self.scripts[event] = function(...)
+                    if previous then previous(...) end
+                    callback(...)
+                end
+            end
+            return frame
+        end
         getItemCountMock = stub(QuestieCompat, "GetItemCount", function() return 3 end)
 
         -- QuestieDB binds the provider schema and queries at file load.
@@ -44,6 +50,11 @@ describe("TrackerItemButton", function()
 
     after_each(function()
         getItemCountMock:revert()
+        _G.CreateFrame = originalCreateFrame
+        _G.GetInventoryItemID = originalInventoryId
+        _G.GetInventoryItemTexture = originalInventoryTexture
+        QuestieCompat.GetContainerNumSlots = originalSlots
+        QuestieCompat.GetContainerItemInfo = originalItemInfo
     end)
 
     it("should return an item button", function()
@@ -52,12 +63,12 @@ describe("TrackerItemButton", function()
         assert.is_not_nil(trackerItemButton)
         assert.is_equal("Button", trackerItemButton:GetObjectType())
         assert.is_equal("TestButton", trackerItemButton:GetName())
-        assert.is_equal("Cooldown", CreateFrame.mockedFrames[2]:GetObjectType())
+        assert.is_equal("Cooldown", originalCreateFrame.mockedFrames[2]:GetObjectType())
 
         assert.is_equal(1, trackerItemButton:GetAlpha())
 
-        assert.is_equal(0, table.getn(trackerItemButton.scripts))
-        assert.is_equal(0, table.getn(trackerItemButton.attributes))
+        assert.is_function(trackerItemButton.scripts.OnUpdate)
+        assert.are.same({}, trackerItemButton.attributes)
     end)
 
     it("should set alpha to 0 when trackerFadeQuestItemButtons is true", function()
@@ -122,6 +133,7 @@ describe("TrackerItemButton", function()
         end)
 
         it("should return false when item is not found", function()
+            QuestieCompat.GetContainerNumSlots = function() return 0 end
             _G.GetInventoryItemID = function()
                 return 0
             end
@@ -135,8 +147,8 @@ describe("TrackerItemButton", function()
 
             assert.is_false(isValid)
             assert.is_false(trackerItemButton:IsVisible())
-            assert.is_equal(0, table.getn(trackerItemButton.scripts))
-            assert.is_equal(0, table.getn(trackerItemButton.attributes))
+            assert.is_function(trackerItemButton.scripts.OnUpdate)
+            assert.are.same({}, trackerItemButton.attributes)
         end)
     end)
 end)

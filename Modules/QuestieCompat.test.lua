@@ -7,7 +7,14 @@ describe("QuestieCompat", function()
     ---@type QuestieCompat
     local QuestieCompat
 
+    local savedGlobals
+    local globalNames = {"C_GossipInfo", "GetGossipAvailableQuests", "GetGossipActiveQuests", "C_DateAndTime", "GetGameTime"}
+
     before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do
+            savedGlobals[name] = _G[name]
+        end
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
         _G.C_GossipInfo = nil
@@ -16,6 +23,12 @@ describe("QuestieCompat", function()
 
         dofile("Modules/QuestieCompat.lua")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = savedGlobals[name]
+        end
     end)
 
     describe("GetAvailableQuests", function()
@@ -65,8 +78,34 @@ describe("QuestieCompat", function()
                     isMeta = false,
                 },
             }
+            local apiQuests = {
+                {
+                    title = "Test Quest",
+                    questLevel = 1,
+                    questID = 0,
+                    isTrivial = false,
+                    frequency = 1,
+                    repeatable = false,
+                    isLegendary = false,
+                    isIgnored = false,
+                    isImportant = false,
+                    isMeta = false,
+                },
+                {
+                    title = "Test Quest 2",
+                    questLevel = 2,
+                    questID = 0,
+                    isTrivial = true,
+                    frequency = 1,
+                    repeatable = true,
+                    isLegendary = false,
+                    isIgnored = false,
+                    isImportant = false,
+                    isMeta = false,
+                },
+            }
             _G.C_GossipInfo = {
-                GetAvailableQuests = spy.new(function() return expected end)
+                GetAvailableQuests = spy.new(function() return apiQuests end)
             }
 
             local availableQuests = QuestieCompat.GetAvailableQuests()
@@ -168,8 +207,36 @@ describe("QuestieCompat", function()
                     questID = 456,
                 },
             }
+            local apiQuests = {
+                {
+                    title = "Test Quest",
+                    questLevel = 1,
+                    isTrivial = true,
+                    frequency = 1,
+                    repeatable = false,
+                    isComplete = false,
+                    isLegendary = false,
+                    isIgnored = false,
+                    isImportant = false,
+                    isMeta = false,
+                    questID = 123,
+                },
+                {
+                    title = "Test Quest",
+                    questLevel = 1,
+                    isTrivial = false,
+                    frequency = 1,
+                    repeatable = true,
+                    isComplete = true,
+                    isLegendary = false,
+                    isIgnored = false,
+                    isImportant = false,
+                    isMeta = false,
+                    questID = 456,
+                },
+            }
             _G.C_GossipInfo = {
-                GetActiveQuests = spy.new(function() return expected end)
+                GetActiveQuests = spy.new(function() return apiQuests end)
             }
 
             local activeQuests = QuestieCompat.GetActiveQuests()

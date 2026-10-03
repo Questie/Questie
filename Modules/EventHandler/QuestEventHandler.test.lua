@@ -331,6 +331,7 @@ describe("QuestEventHandler", function()
     end)
 
     it("should handle quest turn in of quests which are not in the quest log", function()
+        QuestEventHandler.InitQuestLogStates({})
         _G.GetNumQuestLogRewards = function() return 1 end
         _G.GetQuestLogRewardInfo = function() return nil, nil, nil, 0, nil, 5 end
         QuestLogCache.RemoveQuest = spy.new(function() end)
@@ -349,7 +350,7 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieAnnounce.CompletedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
     end)
 
-    it("should do full quest log scan after QUEST_WATCH_UPDATE", function()
+    it("should update the watched quest after QUEST_WATCH_UPDATE", function()
         _G.C_Timer = {After = function(_, callback) callback() end}
         QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
         QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
@@ -359,7 +360,6 @@ describe("QuestEventHandler", function()
         QuestieQuest.UpdateQuest = spy.new(function() end)
         QuestieTracker.Update = spy.new(function() end)
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
-        QuestieTracker.UpdateQuestLines = spy.new()
 
         QuestEventHandler.QuestWatchUpdate(QUEST_ID)
         QuestEventHandler.QuestLogUpdate()
@@ -385,9 +385,10 @@ describe("QuestEventHandler", function()
     end)
 
     it("should update all quests on PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function()
+        QuestEventHandler.InitQuestLogStates({[QUEST_ID] = true, [456] = true})
         _G.C_Timer = {After = function(_, callback) callback() end}
-        QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
-        QuestiePlayer.currentQuestlog[QUEST_ID] = {}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}, [456] = {}} end)
+        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}, [456] = {}}
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
         QuestieQuest.UpdateQuest = spy.new(function() end)
@@ -397,11 +398,13 @@ describe("QuestEventHandler", function()
 
         QuestEventHandler.PlayerInteractionManagerFrameHide(bankframeClosedEvent)
 
-        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
+        assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true, [456] = true})
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieNameplate.UpdateNameplate).was.called()
         assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestieTracker.UpdateQuestLines).was.called_with(QUEST_ID)
+        assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, 456)
+        assert.spy(QuestieTracker.UpdateQuestLines).was.called_with(456)
         assert.spy(QuestieTracker.Update).was.called()
     end)
 end)

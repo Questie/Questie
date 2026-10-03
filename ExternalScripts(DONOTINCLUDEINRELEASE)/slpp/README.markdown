@@ -1,6 +1,13 @@
 #### SLPP
 SLPP is a simple lua-python data structures parser.
 
+This vendored copy and its `stripItemData.py` consumer are legacy Python 2 tools,
+not supported by Questie's current Python 3 test workflow. The obsolete doctest
+suite has been retired; its custom comparisons could miss extra keys and list
+entries. Reusing this tool requires porting the parser and adding executable
+literal-input/output tests. The examples below are historical usage, not verified
+current behavior.
+
 Lua data check:
 
 ```lua

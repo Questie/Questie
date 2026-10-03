@@ -107,7 +107,14 @@ describe("QuestiePartyObjectives", function()
         QuestieLib.ContinueOnQuestObjectivesLoad = mockContinueOnQuestObjectivesLoad()
     end
 
+    local originalTimer, originalConnected, originalGroupMembers, originalHaveQuestData
+    local originalShowObjectives, originalTrimText
+
     before_each(function()
+        originalTimer, originalConnected = _G.C_Timer, _G.UnitIsConnected
+        originalGroupMembers, originalHaveQuestData = _G.GetNumGroupMembers, _G.HaveQuestData
+        originalShowObjectives = Questie.db.profile.showPartyQuestObjectives
+        originalTrimText = Questie.db.profile.trimObjectiveText
         pendingThreads = {}
         drawnObjectives = {}
         spawnListPrefilled = {}
@@ -155,6 +162,14 @@ describe("QuestiePartyObjectives", function()
         QuestiePartyObjectives:Clear()
     end)
 
+    after_each(function()
+        QuestiePartyObjectives:Clear()
+        _G.C_Timer, _G.UnitIsConnected = originalTimer, originalConnected
+        _G.GetNumGroupMembers, _G.HaveQuestData = originalGroupMembers, originalHaveQuestData
+        Questie.db.profile.showPartyQuestObjectives = originalShowObjectives
+        Questie.db.profile.trimObjectiveText = originalTrimText
+    end)
+
     describe("Update", function()
         it("should record what it drew so Clear can unload it", function()
             givenPartyQuest(3)
@@ -193,6 +208,7 @@ describe("QuestiePartyObjectives", function()
             QuestiePartyObjectives:Clear()
             runPendingThreads()
 
+            assert.are_same({}, drawnObjectives)
             -- The pre-draw staleness check means no frames are created, so none need releasing.
             assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
 
@@ -230,6 +246,8 @@ describe("QuestiePartyObjectives", function()
             _G.GetNumGroupMembers = function() return 12 end
 
             runPendingThreads()
+            assert.are_same({}, drawnObjectives)
+            assert.spy(QuestieFramePool.UnloadFrame).was.not_called()
 
             QuestieFramePool.UnloadFrame = spy.new(function() end)
             QuestiePartyObjectives:Clear()
@@ -335,6 +353,10 @@ describe("QuestiePartyObjectives", function()
 
             -- 2 minimap + 1 remaining map frame; the reused one is left alone.
             assert.spy(QuestieFramePool.UnloadFrame).was.called(3)
+            assert.spy(QuestieFramePool.UnloadFrame).was.not_called_with(QuestieFramePool, spawn.mapRefs[1])
+            assert.spy(QuestieFramePool.UnloadFrame).was.called_with(QuestieFramePool, spawn.mapRefs[2])
+            assert.spy(QuestieFramePool.UnloadFrame).was.called_with(QuestieFramePool, spawn.minimapRefs[1])
+            assert.spy(QuestieFramePool.UnloadFrame).was.called_with(QuestieFramePool, spawn.minimapRefs[2])
         end)
 
         it("should cache a standard objective's spawn list and reuse it on redraw", function()

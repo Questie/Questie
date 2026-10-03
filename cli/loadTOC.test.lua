@@ -39,6 +39,7 @@ describe("loadTOC", function()
             "Questie_Vanilla.toc",
             "Questie_Mists.toc",
             "Questie_Wrath.toc",
+            "Questie_Camelot.toc",
         }
 
         for _, tocPath in ipairs(tocPaths) do
@@ -50,12 +51,7 @@ describe("loadTOC", function()
         -- The client only recognizes # as a comment in the first column, so this line names a file
         -- rather than a comment - one that does not exist, which the replay reports as a load error.
         local tocPath = "cli/testData/loadTOC/leadingWhitespaceComment.toc"
-        local tocFile = assert(io.open(tocPath, "w"))
-        tocFile:write("  # foo.lua\n")
-        tocFile:close()
-
         local loaded, loadError = pcall(loadTOC, tocPath)
-        os.remove(tocPath)
 
         assert.is_false(loaded)
         assert.matches("Error loading cli/testData/loadTOC/# foo.lua", loadError, 1, true)

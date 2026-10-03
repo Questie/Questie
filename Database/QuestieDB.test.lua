@@ -17,7 +17,28 @@ describe("QuestieDB", function()
     ---@type Quest
     local testQuest
 
+    local originalComplete, originalHidden, originalDebugEnabled, originalFaction
+    local savedGlobals, savedQuestie
+    local ownedGlobals = {"GetQuestTagInfo", "C_Timer", "GetQuestGreenRange", "LibQuestieDB"}
+    local ownedQuestieFields = {"IsTitanReforged"}
+
+    after_each(function()
+        Questie.db.char.complete = originalComplete
+        Questie.db.char.hidden = originalHidden
+        Questie.db.profile.debugEnabled = originalDebugEnabled
+        QuestiePlayer.faction = originalFaction
+        for _, key in ipairs(ownedGlobals) do _G[key] = savedGlobals[key] end
+        for _, key in ipairs(ownedQuestieFields) do Questie[key] = savedQuestie[key] end
+    end)
+
     before_each(function()
+        originalComplete = Questie.db.char.complete
+        originalHidden = Questie.db.char.hidden
+        originalDebugEnabled = Questie.db.profile.debugEnabled
+        originalFaction = QuestieLoader:ImportModule("QuestiePlayer").faction
+        savedGlobals, savedQuestie = {}, {}
+        for _, key in ipairs(ownedGlobals) do savedGlobals[key] = _G[key] end
+        for _, key in ipairs(ownedQuestieFields) do savedQuestie[key] = Questie[key] end
         QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = function() return true end
         mock = LoadQuestieDBMock()
         Questie.db.char.complete = {}
@@ -52,7 +73,7 @@ describe("QuestieDB", function()
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_HORDE,
             [questKeys.requiredClasses] = QuestieDB.classKeys.MAGE,
-            [questKeys.objectivesText] = "Finish him!",
+            [questKeys.objectivesText] = {"Finish him!"},
             [questKeys.objectives] = {{{1000}}}
         }
     end)
@@ -80,7 +101,7 @@ describe("QuestieDB", function()
             assert.are_same(60, quest.questLevel)
             assert.are_same(QuestieDB.raceKeys.ALL_HORDE, quest.requiredRaces)
             assert.are_same(QuestieDB.classKeys.MAGE, quest.requiredClasses)
-            assert.are_same("Finish him!", quest.Description)
+            assert.are_same({"Finish him!"}, quest.Description)
 
             assert.are_same({{Type = "monster", Id = 1000}}, quest.ObjectiveData)
         end)
@@ -383,8 +404,10 @@ describe("QuestieDB", function()
         end)
 
         it("should return false for unfulfilled preQuestGroup when ID is negative and exclusiveTo is not checked", function()
-            Questie.db.char.complete = {[1] = true, [2] = true}
+            Questie.db.char.complete = {[1] = true, [2] = true, [4] = true}
+            QuestieDB.QueryQuestSingle = spy.new(function() return {4} end)
             assert.is_false(QuestieDB:IsPreQuestGroupFulfilled({1, -2, -3}))
+            assert.spy(QuestieDB.QueryQuestSingle).was.not_called()
         end)
 
         it("should return true for fulfilled preQuestGroup when ID is negative", function()
@@ -404,12 +427,12 @@ describe("QuestieDB", function()
 
         it("should return true for fulfilled preQuestSingle", function()
             Questie.db.char.complete = {[1] = true}
-            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled({1}))
+            assert.is_true(QuestieDB:IsPreQuestSingleFulfilled({3, 1}))
         end)
 
         it("should return false for unfulfilled preQuestSingle", function()
             Questie.db.char.complete = {[2] = true}
-            assert.is_false(QuestieDB:IsPreQuestSingleFulfilled({1}))
+            assert.is_false(QuestieDB:IsPreQuestSingleFulfilled({3, 1}))
         end)
     end)
 

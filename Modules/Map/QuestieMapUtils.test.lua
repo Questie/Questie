@@ -95,13 +95,17 @@ describe("QuestieMapUtils", function()
 
         it("should call SetFixedFrameLevel before and after setting frame level", function()
             local frame = CreateMockFrameWithData(6, false)
-            local setFixedSpy = spy.on(frame, "SetFixedFrameLevel")
+            local operations = {}
+            frame.SetFixedFrameLevel = function(_, fixed)
+                table.insert(operations, {"fixed", fixed})
+            end
+            frame.SetFrameLevel = function(_, level)
+                table.insert(operations, {"level", level})
+            end
 
             QuestieMap.utils.SetDrawOrder(frame)
 
-            assert.spy(setFixedSpy).was.called(2)
-            assert.spy(setFixedSpy).was.called_with(frame, false)
-            assert.spy(setFixedSpy).was.called_with(frame, true)
+            assert.are.same({{"fixed", false}, {"level", 2021}, {"fixed", true}}, operations)
         end)
 
         it("should handle frames with no data gracefully", function()
@@ -182,40 +186,16 @@ describe("QuestieMapUtils", function()
         end)
 
         it("should handle all valid icon type indices", function()
-            -- Test indices 1-24 (all icon types in DRAW_ORDER_BY_ICON_TYPE_LOOKUP)
-            for iconIndex = 1, 24 do
+            local levels = {2020, 2020, 2020, 2020, 2020, 2021, 2020, 2023, 2020, 2022, 2023, 2020,
+                2022, 2023, 2022, 2023, 2020, 2023, 2020, 2020, 2020, 2020, 2020, 2020}
+            for iconIndex, level in ipairs(levels) do
                 local frame = CreateMockFrameWithData(iconIndex, false)
                 local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
                 QuestieMap.utils.SetDrawOrder(frame)
 
-                -- Just verify it's called without errors for all valid indices
-                assert.spy(SetFrameLevelSpy).was.called(1)
+                assert.spy(SetFrameLevelSpy).was.called_with(frame, level)
             end
-        end)
-
-        it("should correctly order icons from lowest to highest priority", function()
-            -- Create frames with different priorities
-            local lowPriorityFrame = CreateMockFrameWithData(1, false) -- ICON_TYPE_SLAY (0)
-            local mediumPriorityFrame = CreateMockFrameWithData(10, false) -- ICON_TYPE_REPEATABLE (2)
-            local highPriorityFrame = CreateMockFrameWithData(6, false) -- ICON_TYPE_AVAILABLE (1)
-            local completionFrame = CreateMockFrameWithData(8, true) -- Complete (2024)
-
-            local lowSpy = spy.on(lowPriorityFrame, "SetFrameLevel")
-            local mediumSpy = spy.on(mediumPriorityFrame, "SetFrameLevel")
-            local highSpy = spy.on(highPriorityFrame, "SetFrameLevel")
-            local completionSpy = spy.on(completionFrame, "SetFrameLevel")
-
-            QuestieMap.utils.SetDrawOrder(lowPriorityFrame)
-            QuestieMap.utils.SetDrawOrder(mediumPriorityFrame)
-            QuestieMap.utils.SetDrawOrder(highPriorityFrame)
-            QuestieMap.utils.SetDrawOrder(completionFrame)
-
-            -- Verify ordering: completion > medium > high > low
-            assert.spy(lowSpy).was.called_with(lowPriorityFrame, 2020)
-            assert.spy(highSpy).was.called_with(highPriorityFrame, 2021)
-            assert.spy(mediumSpy).was.called_with(mediumPriorityFrame, 2022)
-            assert.spy(completionSpy).was.called_with(completionFrame, 2024)
         end)
 
         it("should handle manual icons with varying priorities correctly", function()
@@ -256,6 +236,36 @@ describe("QuestieMapUtils", function()
     end)
 
     describe("MapExplorationUpdate", function()
+        local originalFrame, originalFrames, originalIsExplored
+
+        before_each(function()
+            originalFrame = _G.QuestieMapUtilsTestFrame
+            originalFrames = QuestieMap.questIdFrames
+            originalIsExplored = QuestieMap.utils.IsExplored
+        end)
+
+        after_each(function()
+            _G.QuestieMapUtilsTestFrame = originalFrame
+            QuestieMap.questIdFrames = originalFrames
+            QuestieMap.utils.IsExplored = originalIsExplored
+        end)
+
+        it("shows an eligible hidden icon after its position is explored", function()
+            local frame = {
+                x = 50, y = 50, UiMapID = 1, hidden = true,
+                FakeShow = spy.new(function(self) self.hidden = false end),
+                ShouldBeHidden = function() return false end,
+            }
+            _G.QuestieMapUtilsTestFrame = frame
+            QuestieMap.questIdFrames = {[1] = {"QuestieMapUtilsTestFrame"}}
+            QuestieMap.utils.IsExplored = function() return true end
+
+            QuestieMap.utils.MapExplorationUpdate()
+
+            assert.spy(frame.FakeShow).was.called(1)
+            assert.is_false(frame.hidden)
+        end)
+
         it("should keep map icons hidden when settings hide them", function()
             local frame = {
                 x = 50,

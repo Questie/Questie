@@ -18,46 +18,54 @@ describe("ContentPhases", function()
         it("should blacklist correct quests for phase 1", function()
             local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 1)
 
+            assert.is_true(questToBlacklist[1193]) -- Phase 2
+
             assert.is_true(questToBlacklist[7761]) -- Phase 3
-            assert.is_true(questToBlacklist[8411]) -- Phase 4
+            assert.is_true(questToBlacklist[8411]) -- Phase 3
             assert.is_true(questToBlacklist[8286]) -- Phase 5
-            assert.is_true(questToBlacklist[9250]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 2", function()
             local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 2)
 
+            assert.is_nil(questToBlacklist[1193]) -- Phase 2
+
             assert.is_true(questToBlacklist[7761]) -- Phase 3
-            assert.is_true(questToBlacklist[8411]) -- Phase 4
+            assert.is_true(questToBlacklist[8411]) -- Phase 3
             assert.is_true(questToBlacklist[8286]) -- Phase 5
-            assert.is_true(questToBlacklist[9250]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 3", function()
             local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 3)
 
+            assert.is_true(questToBlacklist[8056]) -- Phase 4
+
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
             assert.is_nil(questToBlacklist[8411]) -- Phase 3
             assert.is_true(questToBlacklist[8286]) -- Phase 5
-            assert.is_true(questToBlacklist[9250]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 4", function()
             local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 4)
 
+            assert.is_nil(questToBlacklist[8056]) -- Phase 4
+
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
-            assert.is_nil(questToBlacklist[8411]) -- Phase 4
+            assert.is_nil(questToBlacklist[8411]) -- Phase 3
             assert.is_true(questToBlacklist[8286]) -- Phase 5
-            assert.is_true(questToBlacklist[9250]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 5", function()
             local questToBlacklist = ContentPhases.BlacklistAnniversaryQuestsByPhase({}, 5)
 
             assert.is_nil(questToBlacklist[7761]) -- Phase 3
-            assert.is_nil(questToBlacklist[8411]) -- Phase 4
+            assert.is_nil(questToBlacklist[8411]) -- Phase 3
             assert.is_nil(questToBlacklist[8286]) -- Phase 5
-            assert.is_true(questToBlacklist[9250]) -- Phase 7
+            assert.is_true(questToBlacklist[9250]) -- Phase 6
         end)
 
         it("should blacklist correct quests for phase 6", function()

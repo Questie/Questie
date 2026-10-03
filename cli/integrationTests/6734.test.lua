@@ -32,27 +32,34 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     ---@type QuestieDB
     local QuestieDB
 
-    _G.HaveQuestData = function()
-        return true
-    end
-    _G.GetQuestTimers = function()
-        return nil
-    end
-    _G.C_Timer = {
-        NewTicker = function()
-            return {
-                Cancel = function() end
-            }
-        end
+    local globalNames = {
+        "HaveQuestData", "GetQuestTimers", "C_Timer", "GetNumQuestLogRewards",
+        "GetQuestLogRewardInfo", "GetQuestLogTitle", "C_QuestLog",
     }
-    _G.GetNumQuestLogRewards = function()
-        return 0
-    end
-    _G.GetQuestLogRewardInfo = function()
-        return nil
-    end
+    local savedGlobals
+    local originalAutoAccept
 
-    it("should work", function()
+    before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do
+            savedGlobals[name] = _G[name]
+        end
+        originalAutoAccept = Questie.db.profile.autoAccept
+        _G.HaveQuestData = function() return true end
+        _G.GetQuestTimers = function() return nil end
+        _G.C_Timer = {NewTicker = function() return {Cancel = function() end} end}
+        _G.GetNumQuestLogRewards = function() return 0 end
+        _G.GetQuestLogRewardInfo = function() return nil end
+    end)
+
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = savedGlobals[name]
+        end
+        Questie.db.profile.autoAccept = originalAutoAccept
+    end)
+
+    it("keeps cache entries consistent through acceptance, progress, turn-in, and follow-up quests", function()
         Questie.db.profile.autoAccept = {
             enabled = false,
             trivial = false,
@@ -84,26 +91,22 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         dofile("Modules/Quest/QuestLogCache.lua")
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
-        dofile("Modules/QuestieNameplate.lua")
         QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
 
-        dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieQuest.UpdateQuest = spy.new(function() end)
 
-        dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
         QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
             QuestiePlayer.currentQuestlog[questId] = {}
         end)
         QuestLifecycle.CompleteQuest = spy.new(function() end)
 
-        dofile("Modules/QuestiePlayer.lua")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        QuestiePlayer.currentQuestlog = {}
 
-        dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.UpdateQuestLines = spy.new(function() end)
 
@@ -111,21 +114,18 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.CacheItemNames = spy.new(function() end)
 
-        dofile("Modules/Libs/QuestieCombatQueue.lua")
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
 
-        dofile("Modules/Sounds.lua")
         Sounds = QuestieLoader:ImportModule("Sounds")
         Sounds.PlayObjectiveComplete = spy.new(function() end)
+        Sounds.PlayObjectiveProgress = spy.new(function() end)
         Sounds.PlayQuestComplete = spy.new(function() end)
 
-        dofile("Modules/Journey/QuestieJourney.lua")
         QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
         QuestieJourney.AcceptQuest = spy.new(function() end)
         QuestieJourney.CompleteQuest = spy.new(function() end)
 
-        dofile("Modules/QuestieAnnounce.lua")
         QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
         QuestieAnnounce.CompletedQuest = spy.new(function() end)
@@ -145,7 +145,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
         BreadcrumbQuests.CheckQuestBreadcrumbs = function() end
 
-        dofile("Modules/Network/QuestiePartyObjectives.lua")
+        local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+        QuestiePartyObjectives.ScheduleUpdate = function() end
         dofile("Public/Enums.lua")
         dofile("Public/RegisterForQuestUpdates.lua")
 

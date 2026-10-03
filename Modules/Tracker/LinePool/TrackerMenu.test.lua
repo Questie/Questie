@@ -8,7 +8,11 @@ describe("TrackerMenu", function()
     ---@type TrackerUtils
     local TrackerUtils
 
+    local originalLibStub, originalDialogs
+
     before_each(function()
+        originalLibStub = _G.LibStub
+        originalDialogs = _G.StaticPopupDialogs
         QuestieLoader:ImportModule("QuestieTracker")
         QuestieLoader:ImportModule("TrackerBaseFrame")
 
@@ -49,6 +53,11 @@ describe("TrackerMenu", function()
 
         dofile("Modules/Tracker/LinePool/TrackerMenu.lua")
         TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
+    end)
+
+    after_each(function()
+        _G.LibStub = originalLibStub
+        _G.StaticPopupDialogs = originalDialogs
     end)
 
     describe("quest actions without a legacy quest log", function()
@@ -95,15 +104,19 @@ describe("TrackerMenu", function()
         end)
 
         it("opens abandonment confirmation and restores selection on the modern client", function()
-            compat.GetQuestLogSelection = function() return 3 end
+            local selection = 3
+            local selectionAtAbandon
+            compat.GetQuestLogSelection = function() return selection end
             compat.GetQuestLogIndexByID = function() return 2 end
-            compat.SelectQuestLogEntry = spy.new(function() end)
-            compat.SetAbandonQuest = spy.new(function() end)
+            compat.SelectQuestLogEntry = spy.new(function(index) selection = index end)
+            compat.SetAbandonQuest = spy.new(function() selectionAtAbandon = selection end)
             compat.GetAbandonQuestItems = function() return nil end
             compat.GetAbandonQuestName = function() return "A Threat Within" end
             local menu = {}
             TrackerMenu.addAbandonedQuest(menu, {Id = 783})
             menu[1].func()
+            assert.are.equal(2, selectionAtAbandon)
+            assert.are.equal(3, selection)
             assert.spy(StaticPopup_Show).was.called_with("ABANDON_QUEST", "A Threat Within")
             assert.spy(compat.SelectQuestLogEntry).was.called_with(2)
             assert.spy(compat.SelectQuestLogEntry).was.called_with(3)
@@ -143,6 +156,7 @@ describe("TrackerMenu", function()
         it("should add 'Show Icons' option and call ToggleQuestNotes(true) when icons are hidden", function()
             local quest = {Id = 100}
             local objective = {Index = 1, HideIcons = true}
+            Questie.db.char.TrackerHiddenObjectives["100 1"] = true
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -183,6 +197,7 @@ describe("TrackerMenu", function()
 
         it("should add 'Show Icons' option and call ToggleQuestNotes(true) when icons are hidden", function()
             local quest = {Id = 200, HideIcons = true}
+            Questie.db.char.TrackerHiddenQuests[200] = true
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
@@ -243,7 +258,7 @@ describe("TrackerMenu", function()
             TrackerMenu.addShowObjectivesOnMapOption(menu, quest, objective)
             menu[1].func()
 
-            assert.spy(toggleSpy).was_not.called()
+            assert.spy(toggleSpy).was.not_called()
         end)
     end)
 end)

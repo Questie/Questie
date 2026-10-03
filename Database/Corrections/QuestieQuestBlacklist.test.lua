@@ -10,9 +10,29 @@ dofile("Database/Corrections/QuestieQuestBlacklist.lua")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
 describe("QuestieQuestBlacklist", function()
+    local originalSoMPhase, originalAnniversaryPhase
+    local savedGlobals, savedQuestie
+    local ownedGlobals = {"GetLocale"}
+    local ownedQuestieFields = {"IsSoD", "IsSoM", "IsTBC", "IsMoP", "IsTitanReforged", "IsAnniversaryEra", "IsAnniversaryHardcore"}
+
+    after_each(function()
+        ContentPhases.activePhases.SoM = originalSoMPhase
+        ContentPhases.activePhases.Anniversary = originalAnniversaryPhase
+        for _, key in ipairs(ownedGlobals) do _G[key] = savedGlobals[key] end
+        for _, key in ipairs(ownedQuestieFields) do Questie[key] = savedQuestie[key] end
+    end)
+
     before_each(function()
+        originalSoMPhase = ContentPhases.activePhases.SoM
+        originalAnniversaryPhase = ContentPhases.activePhases.Anniversary
+        savedGlobals, savedQuestie = {}, {}
+        for _, key in ipairs(ownedGlobals) do savedGlobals[key] = _G[key] end
+        for _, key in ipairs(ownedQuestieFields) do savedQuestie[key] = Questie[key] end
         _G.GetLocale = function() return "enUS" end
         Questie.IsSoD = false
+        Questie.IsSoM = false
+        Questie.IsAnniversaryEra = false
+        Questie.IsAnniversaryHardcore = false
         Questie.IsTBC = false
         Questie.IsMoP = false
         Questie.IsTitanReforged = false
@@ -92,6 +112,7 @@ describe("QuestieQuestBlacklist", function()
         local questToBlacklist = QuestieQuestBlacklist:Load()
 
         assert.is_nil(questToBlacklist[7761]) -- Phase 3
+        assert.is_true(questToBlacklist[8411]) -- SoM phase 4, Anniversary phase 3
         assert.is_true(questToBlacklist[8056]) -- Phase 4
         assert.is_true(questToBlacklist[8277]) -- Phase 5
         assert.is_true(questToBlacklist[9085]) -- Phase 6

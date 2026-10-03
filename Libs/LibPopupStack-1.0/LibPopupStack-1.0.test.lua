@@ -152,14 +152,11 @@ describe("LibPopupStack-1.0", function()
     stack:Register(second)
     Tick()
     local registry, anchors, driver = stack.frames, stack.anchors, drivers[1]
-    -- Simulate a higher-minor release of this same compatible implementation.
-    local file = assert(io.open(SOURCE))
-    local source = file:read("*a")
-    file:close()
-    source = source:gsub('NewLibrary%("LibPopupStack%-1%.0", 1%)', 'NewLibrary("LibPopupStack-1.0", 2)')
-    setfenv(assert(loadstring(source)), env)()
-    Load(SOURCE, env) -- Older copies must not replace the upgrade.
-    assert.equals(2, env.LibStub.minors["LibPopupStack-1.0"])
+    -- Keep the live state but mark the registry as an older compatible release.
+    env.LibStub.minors["LibPopupStack-1.0"] = 0
+    Load(SOURCE, env)
+    Load(SOURCE, env) -- Equal versions must not create another driver either.
+    assert.equals(1, env.LibStub.minors["LibPopupStack-1.0"])
     assert.equals(stack, env.LibStub("LibPopupStack-1.0"))
     assert.equals(registry, stack.frames)
     assert.equals(anchors, stack.anchors)

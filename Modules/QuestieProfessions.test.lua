@@ -173,6 +173,9 @@ describe("QuestieProfessions", function()
             -- Register the profession so the abandon hook acts on it
             QuestieProfessions:Update()
 
+            QuestieQuest.ResetAutoblacklistCategory:clear()
+            AvailableQuests.CalculateAndDrawAll:clear()
+
             abandonSkillCallback(1)
 
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")

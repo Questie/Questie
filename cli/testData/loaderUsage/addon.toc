@@ -1,0 +1,4 @@
+## Interface: 11509
+# Duplicate references must not duplicate findings.
+cli\testData\loaderUsage\runtime.lua
+cli/testData/loaderUsage/runtime.lua

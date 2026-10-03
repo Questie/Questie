@@ -14,10 +14,28 @@ describe("QuestieProfilerUI", function()
     local originalGetCursorPosition
     local originalTimerAPI
     local frameRegistry
+    local tickers
+    local originalSlashCommand
+    local originalSlashAlias
+    local originalPreHookInstalled
+    local originalModules
 
-    -- The profiler UI touches far more of the frame API than setupTests.lua mocks, and none of the assertions
-    -- below care about geometry. This mock tracks only the state the behaviour depends on - visibility, text,
-    -- scripts and registered events - and auto-stubs every other frame method.
+    -- Only presentation methods are no-ops. Unknown fields must remain nil.
+    local presentationMethods = {}
+    for _, name in ipairs({
+        "SetPoint", "ClearAllPoints", "SetAllPoints", "SetTextColor", "SetFontObject", "SetJustifyH",
+        "SetWordWrap", "SetNonSpaceWrap", "SetTexture", "SetColorTexture", "SetVertexColor",
+        "SetDesaturated", "SetDrawLayer", "SetBackdrop", "SetBackdropColor", "SetBackdropBorderColor",
+        "SetNormalTexture", "SetNormalFontObject", "SetHighlightFontObject", "SetDisabledFontObject",
+        "SetFrameStrata", "SetClampedToScreen", "SetMovable", "SetResizable", "SetResizeBounds",
+        "SetMinResize", "SetMaxResize", "EnableMouse", "EnableMouseWheel", "RegisterForDrag",
+        "StartMoving", "StartSizing", "StopMovingOrSizing", "SetAutoFocus", "SetCursorPosition",
+        "ClearFocus", "HighlightText",
+    }) do
+        presentationMethods[name] = function() end
+    end
+
+    -- Local native-control seam: visibility, scripts, text and checkbox state, not a WoW emulator.
     local function CreateFrameMock(frameType, frameName, parent)
         local scripts = {}
         local registeredEvents = {}
@@ -25,6 +43,8 @@ describe("QuestieProfilerUI", function()
         local text = ""
         local enabled = true
         local height = 200
+        local width = 680
+        local checked = false
 
         local frame
         frame = {
@@ -40,7 +60,11 @@ describe("QuestieProfilerUI", function()
                 return scripts[scriptName]
             end,
             HookScript = function(_, scriptName, callback)
-                scripts[scriptName] = callback
+                local previous = scripts[scriptName]
+                scripts[scriptName] = function(...)
+                    if previous then previous(...) end
+                    callback(...)
+                end
             end,
             RegisterEvent = function(_, eventName)
                 registeredEvents[eventName] = true
@@ -68,11 +92,24 @@ describe("QuestieProfilerUI", function()
                 return isShown
             end,
             IsVisible = function()
-                return isShown
+                return isShown and (not parent or not parent.IsVisible or parent:IsVisible())
             end,
-            SetText = function(_, value)
+            Click = function(self)
+                if not enabled then return end
+                if frameType == "CheckButton" then checked = not checked end
+                if scripts.OnClick then scripts.OnClick(self, "LeftButton") end
+            end,
+            SetChecked = function(_, value) checked = value == true end,
+            GetChecked = function() return checked end,
+            SetText = function(self, value)
                 text = value
+                if scripts.OnTextChanged then scripts.OnTextChanged(self, false) end
             end,
+            GetParent = function() return parent end,
+            SetHighlightTexture = function(self)
+                self.highlightTexture = CreateFrameMock("Texture", nil, self)
+            end,
+            GetHighlightTexture = function(self) return self.highlightTexture end,
             GetText = function()
                 return text
             end,
@@ -98,8 +135,10 @@ describe("QuestieProfilerUI", function()
                 return CreateFrameMock("Texture", nil, self)
             end,
             GetWidth = function()
-                return 680
+                return width
             end,
+            SetWidth = function(_, value) width = value end,
+            SetSize = function(_, w, h) width, height = w, h end,
             SetHeight = function(_, value)
                 height = value
             end,
@@ -121,16 +160,7 @@ describe("QuestieProfilerUI", function()
         }
         frame.fontString = frameType ~= "FontString" and CreateFrameMock("FontString", nil, frame) or nil
 
-        -- Any frame method the UI calls that this mock does not model is a no-op; the tests assert behaviour,
-        -- not layout, so silently accepting those keeps the mock honest about what it actually verifies.
-        setmetatable(frame, {
-            __index = function(_, key)
-                if type(key) == "string" then
-                    return function() end
-                end
-                return nil
-            end,
-        })
+        setmetatable(frame, {__index = presentationMethods})
 
         table.insert(frameRegistry, frame)
         return frame
@@ -153,6 +183,40 @@ describe("QuestieProfilerUI", function()
             end
         end
         return nil
+    end
+
+    local function FindControl(field, value)
+        for _, frame in ipairs(frameRegistry) do
+            if frame[field] == value then return frame end
+        end
+        error("Missing control: " .. field .. " = " .. value)
+    end
+
+    local function FindRenderedRow(lookupKey)
+        for _, frame in ipairs(frameRegistry) do
+            if frame.reportRow and frame.reportRow.lookupKey == lookupKey and frame:IsVisible() then
+                return frame
+            end
+        end
+        error("Missing rendered row: " .. lookupKey)
+    end
+
+    local function FindRelation(identity)
+        for _, frame in ipairs(frameRegistry) do
+            if frame.relationSummary and frame.nameText:GetText() == identity and frame:IsVisible() then
+                return frame
+            end
+        end
+        error("Missing relation: " .. identity)
+    end
+
+    local function FindCheckbox(label)
+        for _, frame in ipairs(frameRegistry) do
+            if frame.frameType == "CheckButton" and frame.label and frame.label:GetText():find(label, 1, true) == 1 then
+                return frame
+            end
+        end
+        error("Missing checkbox: " .. label)
     end
 
     local function FireEvent(eventName)
@@ -223,16 +287,6 @@ describe("QuestieProfilerUI", function()
         Profiler.callerTimeCount[calleeKey][callerKey] = totalTime
     end
 
-    ---@return ProfilerCallerEntry[]
-    local function BuildCallerList(reportRow, grouped)
-        return ProfilerReport.BuildCallerList(Profiler, reportRow, grouped == true)
-    end
-
-    ---@return ProfilerCalleeEntry[]
-    local function BuildCalleeList(reportRow, grouped)
-        return ProfilerReport.BuildCalleeList(Profiler, reportRow, grouped == true)
-    end
-
     ---Registers one ThreadLib job measurement on the profiler stub.
     ---Self time stays zero as in production: only function epilogues add to a key's self slot, and a job is
     ---a scheduling unit with no epilogue of its own.
@@ -250,25 +304,13 @@ describe("QuestieProfilerUI", function()
         return ProfilerReport.BuildReport(Profiler, options or {})
     end
 
-    ---@return string[] lookupKeys
-    local function RowKeys(report)
-        local keys = {}
-        for _, row in ipairs(report.rows) do
-            table.insert(keys, row.lookupKey)
-        end
-        return keys
-    end
-
-    ---Reads the list rows the window is actually displaying, unlike RowKeys(BuildReport()) which reads the
-    ---profiler stub and would report the same thing whether or not Refresh ever ran. RenderRows stamps each
-    ---pooled row frame with the report row it shows, so this observes retained UI state through the mock.
+    ---Reads retained rendered rows, rather than rebuilding a report from the fixture.
     ---@return string[] lookupKeys @Top to bottom, as rendered
     local function RenderedRowKeys()
         local keys = {}
         for _, frame in ipairs(frameRegistry) do
-            -- rawget: the mock auto-stubs every unknown key with a function, which reads as truthy.
-            local reportRow = rawget(frame, "reportRow")
-            if reportRow and frame.IsShown() then
+            local reportRow = frame.reportRow
+            if reportRow and frame:IsVisible() then
                 table.insert(keys, reportRow.lookupKey)
             end
         end
@@ -287,6 +329,15 @@ describe("QuestieProfilerUI", function()
 
     before_each(function()
         frameRegistry = {}
+        tickers = {}
+        originalSlashCommand = _G.SlashCmdList.QUESTIEPROFILER
+        originalSlashAlias = _G.SLASH_QUESTIEPROFILER1
+        originalPreHookInstalled = QuestieLoader:ImportModule("ProfilerPreHook").installed
+        originalModules = {
+            Profiler = QuestieLoader._modules.Profiler,
+            ProfilerUI = QuestieLoader._modules.ProfilerUI,
+            ProfilerReport = QuestieLoader._modules.ProfilerReport,
+        }
         originalCreateFrame = _G.CreateFrame
         originalGameTooltip = _G.GameTooltip
         originalUISpecialFrames = _G.UISpecialFrames
@@ -301,13 +352,15 @@ describe("QuestieProfilerUI", function()
         _G.GetCursorPosition = function() return 0, 0 end
         _G.C_Timer = {
             NewTicker = function(interval, callback)
-                return {
+                local ticker = {
                     interval = interval,
                     callback = callback,
-                    Cancel = function(self)
+                    Cancel = spy.new(function(self)
                         self.cancelled = true
-                    end,
+                    end),
                 }
+                table.insert(tickers, ticker)
+                return ticker
             end,
         }
 
@@ -332,22 +385,12 @@ describe("QuestieProfilerUI", function()
         _G.BackdropTemplateMixin = originalBackdropTemplateMixin
         _G.GetCursorPosition = originalGetCursorPosition
         _G.C_Timer = originalTimerAPI
-        QuestieLoader._modules.Profiler = nil
-        QuestieLoader._modules.ProfilerUI = nil
-        QuestieLoader._modules.ProfilerReport = nil
-    end)
-
-    describe("profiler entry points", function()
-        it("exposes the functions the profiler engine calls", function()
-            assert.are_same("function", type(ProfilerUI.Create))
-            assert.are_same("function", type(ProfilerUI.Show))
-            assert.are_same("function", type(ProfilerUI.Hide))
-            assert.are_same("function", type(ProfilerUI.Refresh))
-        end)
-
-        it("registers under the module name the profiler excludes from hooking", function()
-            assert.are_equal(ProfilerUI, QuestieLoader._modules.ProfilerUI)
-        end)
+        _G.SlashCmdList.QUESTIEPROFILER = originalSlashCommand
+        _G.SLASH_QUESTIEPROFILER1 = originalSlashAlias
+        QuestieLoader:ImportModule("ProfilerPreHook").installed = originalPreHookInstalled
+        QuestieLoader._modules.Profiler = originalModules.Profiler
+        QuestieLoader._modules.ProfilerUI = originalModules.ProfilerUI
+        QuestieLoader._modules.ProfilerReport = originalModules.ProfilerReport
     end)
 
     describe("the selection detail line", function()
@@ -406,14 +449,10 @@ describe("QuestieProfilerUI", function()
     end)
 
     describe("hiding files after a measurement reset", function()
-        local function HideFiles()
-            ProfilerUI.private.HideFilesAfterMeasurementReset()
-        end
-
         it("unticks files, because a reset leaves them above everything being measured", function()
             ProfilerUI.private.displayState.showFiles = true
 
-            HideFiles()
+            ProfilerUI.private.HideFilesAfterMeasurementReset()
 
             assert.is_false(ProfilerUI.private.displayState.showFiles)
         end)
@@ -422,7 +461,7 @@ describe("QuestieProfilerUI", function()
             ProfilerUI.private.displayState.showFunctions = true
             ProfilerUI.private.displayState.showJobs = true
 
-            HideFiles()
+            ProfilerUI.private.HideFilesAfterMeasurementReset()
 
             assert.is_true(ProfilerUI.private.displayState.showFunctions)
             assert.is_true(ProfilerUI.private.displayState.showJobs)
@@ -433,7 +472,7 @@ describe("QuestieProfilerUI", function()
             ProfilerUI.private.displayState.showJobs = false
             ProfilerUI.private.displayState.showFiles = true
 
-            HideFiles()
+            ProfilerUI.private.HideFilesAfterMeasurementReset()
 
             assert.is_true(ProfilerUI.private.displayState.showFiles)
         end)
@@ -444,9 +483,8 @@ describe("QuestieProfilerUI", function()
             Profiler.fileLoadTime["Database/Zones/zoneDB.lua"] = 50
             Profiler.fileLoadMemory["Database/Zones/zoneDB.lua"] = 1000
             ProfilerUI:Show()
-            ProfilerUI.private.displayState.sortKey = "memory"
-            ProfilerUI.private.displayState.descending = false
-            ProfilerUI:Refresh()
+            FindControl("sortKey", "memory"):Click()
+            FindControl("sortKey", "memory"):Click()
 
             local resetButton = FindFrameByText("Reset")
             resetButton.scripts.OnClick(resetButton)
@@ -465,10 +503,8 @@ describe("QuestieProfilerUI", function()
         it("keeps the always-visible Name sort", function()
             AddFunctionEntry("Zulu.Slow", 100, 1)
             AddFunctionEntry("Alpha.Fast", 10, 1)
-            ProfilerUI.private.displayState.sortKey = "name"
-            ProfilerUI.private.displayState.descending = false
-
             ProfilerUI:Show()
+            FindControl("sortKey", "name"):Click()
 
             assert.are_same("name", ProfilerUI.private.displayState.sortKey)
             assert.are_same({"Alpha.Fast", "Zulu.Slow"}, RenderedRowKeys())
@@ -478,11 +514,10 @@ describe("QuestieProfilerUI", function()
             AddFunctionEntry("QuestieDB.GetQuest", 50, 1)
             AddThreadJobEntry("ThreadLib job: Alpha.Fast", 10, 1, 1)
             AddThreadJobEntry("ThreadLib job: Zulu.Slow", 100, 1, 1)
-            ProfilerUI.private.displayState.sortKey = "self"
-            ProfilerUI.private.displayState.showFunctions = false
-            ProfilerUI.private.displayState.showFiles = false
-
             ProfilerUI:Show()
+            FindControl("sortKey", "self"):Click()
+            FindCheckbox("Functions"):Click()
+            FindCheckbox("Files"):Click()
 
             assert.are_same("total", ProfilerUI.private.displayState.sortKey)
             assert.are_same({"ThreadLib job: Zulu.Slow", "ThreadLib job: Alpha.Fast"}, RenderedRowKeys())
@@ -592,7 +627,10 @@ describe("QuestieProfilerUI", function()
             ProfilerUI:Refresh()
             local stopButton = FindFrameByText("Stop")
             assert.is_not_nil(stopButton, "the session button should read Stop while a session is active")
-            return stopButton.tooltipLines or {}
+            local lines = {}
+            _G.GameTooltip.AddLine = function(_, line) table.insert(lines, line) end
+            stopButton.scripts.OnEnter(stopButton)
+            return lines
         end
 
         ---@param lines string[]
@@ -718,7 +756,7 @@ describe("QuestieProfilerUI", function()
         it("is shown while the session is active", function()
             ProfilerUI:Hide()
 
-            ProfilerUI.private.UpdateIndicator()
+            tickers[1].callback()
 
             assert.is_true(ProfilerUI.private.IsIndicatorShown())
         end)
@@ -727,18 +765,19 @@ describe("QuestieProfilerUI", function()
             ProfilerUI:Hide()
             Profiler.active = false
 
-            ProfilerUI.private.UpdateIndicator()
+            tickers[1].callback()
 
-            assert.is_false(ProfilerUI.private.IsIndicatorShown())
+            assert.is_false(FindFrameByName("QuestieProfilerIndicator"):IsShown())
+            assert.spy(tickers[1].Cancel).was.not_called()
         end)
 
         it("returns when a stopped session is started again", function()
             ProfilerUI:Hide()
             Profiler.active = false
-            ProfilerUI.private.UpdateIndicator()
+            tickers[1].callback()
 
             Profiler.active = true
-            ProfilerUI.private.UpdateIndicator()
+            tickers[1].callback()
 
             assert.is_true(ProfilerUI.private.IsIndicatorShown())
         end)
@@ -748,7 +787,7 @@ describe("QuestieProfilerUI", function()
             ProfilerUI:Hide()
 
             Profiler.active = false
-            ProfilerUI.private.UpdateIndicator()
+            tickers[1].callback()
 
             assert.is_false(ProfilerUI.private.IsIndicatorShown())
         end)
@@ -821,27 +860,59 @@ describe("QuestieProfilerUI", function()
     end)
 
     describe("refresh activity", function()
-        it("refreshes automatically while shown and active", function()
+        it("renders new measurements from the automatic ticker", function()
             ProfilerUI:Show()
+            assert.are_equal(2, #tickers) -- indicator poll, then window refresh
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            assert.are_same({}, RenderedRowKeys())
 
-            assert.is_true(ProfilerUI.private.IsRefreshTickerActive())
+            tickers[2].callback()
+
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
         end)
 
-        it("stops refreshing when hidden", function()
+        it("cancels refresh on hide and creates a working replacement on reopen", function()
             ProfilerUI:Show()
+            local refreshTicker = tickers[2]
 
             ProfilerUI:Hide()
 
-            assert.is_false(ProfilerUI.private.IsRefreshTickerActive())
+            assert.spy(refreshTicker.Cancel).was.called(1)
+            assert.is_true(refreshTicker.cancelled)
+            assert.spy(tickers[1].Cancel).was.not_called()
+            ProfilerUI:Show()
+            assert.are_equal(3, #tickers)
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            tickers[3].callback()
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
         end)
 
-        it("stops refreshing when the session is stopped", function()
+        it("cancels refresh on Stop and resumes on Start", function()
             ProfilerUI:Show()
+            local refreshTicker = tickers[2]
 
+            FindFrameByText("Stop"):Click()
+
+            assert.is_false(Profiler.active)
+            assert.spy(refreshTicker.Cancel).was.called(1)
+            assert.is_true(refreshTicker.cancelled)
+            FindFrameByText("Start"):Click()
+            assert.is_true(Profiler.active)
+            assert.are_equal(3, #tickers)
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            tickers[3].callback()
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+        end)
+
+        it("cancels refresh when polling discovers an externally stopped session", function()
+            ProfilerUI:Show()
             Profiler.active = false
-            ProfilerUI:Refresh()
 
-            assert.is_false(ProfilerUI.private.IsRefreshTickerActive())
+            tickers[2].callback()
+
+            assert.spy(tickers[2].Cancel).was.called(1)
+            assert.is_true(tickers[2].cancelled)
+            assert.are_equal("Start", FindFrameByText("Start"):GetText())
         end)
 
         it("keeps results available after the session stops", function()
@@ -859,43 +930,50 @@ describe("QuestieProfilerUI", function()
     end)
 
     describe("freezing the display", function()
-        it("stops automatic refresh without stopping the session", function()
+        it("cancels automatic refresh on Freeze without stopping measurement", function()
             ProfilerUI:Show()
 
-            ProfilerUI.private.displayState.frozen = true
-            ProfilerUI:Refresh()
+            FindFrameByText("Freeze"):Click()
 
-            assert.is_false(ProfilerUI.private.IsRefreshTickerActive())
+            assert.spy(tickers[2].Cancel).was.called(1)
+            assert.is_true(tickers[2].cancelled)
             assert.is_true(Profiler.active)
-        end)
-
-        it("resumes automatic refresh when unfrozen", function()
-            ProfilerUI:Show()
-            ProfilerUI.private.displayState.frozen = true
-            ProfilerUI:Refresh()
-
-            ProfilerUI.private.displayState.frozen = false
-            ProfilerUI:Refresh()
-
-            assert.is_true(ProfilerUI.private.IsRefreshTickerActive())
-        end)
-
-        it("still refreshes manually while frozen", function()
-            ProfilerUI:Show()
-            ProfilerUI.private.displayState.frozen = true
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            assert.are_same({}, RenderedRowKeys())
+            assert.are_equal(2, #tickers)
+        end)
 
-            ProfilerUI:Refresh()
+        it("renders new measurements from the replacement ticker after Unfreeze", function()
+            ProfilerUI:Show()
+            FindFrameByText("Freeze"):Click()
 
-            -- The measurement arrived after Show's render, so only the manual refresh can have put this row
-            -- on screen - the assertion fails if Refresh is a no-op while frozen.
+            FindFrameByText("Unfreeze"):Click()
+
+            assert.are_equal(3, #tickers)
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            tickers[3].callback()
             assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+            assert.spy(tickers[3].Cancel).was.not_called()
+        end)
+
+        it("refreshes once through the manual control while frozen", function()
+            ProfilerUI:Show()
+            FindFrameByText("Freeze"):Click()
+            AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
+            assert.are_same({}, RenderedRowKeys())
+
+            local refreshButton = FindFrameByText("Refresh")
+            assert.is_true(refreshButton:IsVisible())
+            refreshButton:Click()
+
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+            assert.are_equal(2, #tickers)
         end)
 
         it("rerenders hierarchy rows when the frozen window is resized", function()
             AddFunctionEntry("QuestieDB.GetQuest", 200, 4)
             ProfilerUI:Show()
-            ProfilerUI.private.displayState.frozen = true
+            FindFrameByText("Freeze"):Click()
 
             local treeRow
             local sizer
@@ -929,7 +1007,7 @@ describe("QuestieProfilerUI", function()
             local texts = {}
             for _, frame in ipairs(frameRegistry) do
                 local value = frame.GetText and frame:GetText()
-                if type(value) == "string" and value ~= "" then
+                if frame:IsVisible() and type(value) == "string" and value ~= "" then
                     table.insert(texts, value)
                 end
             end
@@ -941,11 +1019,20 @@ describe("QuestieProfilerUI", function()
             AddThreadJobEntry("ThreadLib job: Draw", 600, 3, 40)
             ProfilerUI:Show()
 
-            -- The search excludes the job, as if the user filtered while inspecting the function and then
-            -- clicked the job in its relations panel.
-            ProfilerUI.private.displayState.filter = "GetQuest"
-            ProfilerUI.private.displayState.selectedKey = "ThreadLib job: Draw"
-            ProfilerUI:Refresh()
+            AddCallerEntry("QuestieDB.GetQuest", "ThreadLib job: Draw", 4, 200)
+            FindRenderedRow("QuestieDB.GetQuest"):Click()
+            -- The search edit box is the only edit control without a copy-text focus handler.
+            local searchBox
+            for _, frame in ipairs(frameRegistry) do
+                if frame.frameType == "EditBox" and not frame.scripts.OnEditFocusGained then searchBox = frame end
+            end
+            searchBox:SetText("GetQuest")
+            assert.are_same({"QuestieDB.GetQuest"}, RenderedRowKeys())
+
+            FindRelation("Draw"):Click()
+
+            assert.are_equal("ThreadLib job: Draw", ProfilerUI.private.displayState.selectedKey)
+            assert.is_true(FindControl("copyText", "Draw"):IsVisible())
 
             assert.is_truthy(string.find(ShownTexts(), "600.000 ms total", 1, true))
         end)
@@ -966,27 +1053,19 @@ describe("QuestieProfilerUI", function()
             AddFunctionEntry("QuestieMap.DrawWorldIcon", 50, 1)
             ProfilerUI:Show()
 
-            ProfilerUI.private.displayState.selectedKey = "QuestieDB.GetQuest"
-            ProfilerUI:Refresh()
+            FindRenderedRow("QuestieDB.GetQuest"):Click()
 
-            local rootEntry, callerEntry
-            for _, frame in ipairs(frameRegistry) do
-                -- Only relation entries carry a relationSummary; the list rows share the same names.
-                local nameText = rawget(frame, "nameText")
-                if nameText and rawget(frame, "relationSummary") then
-                    if nameText:GetText() == "(root)" then
-                        rootEntry = frame
-                    elseif nameText:GetText() == "QuestieMap.DrawWorldIcon" then
-                        callerEntry = frame
-                    end
-                end
-            end
-            -- No report row answers to "(root)", so clicking it could only clear the selection.
-            assert.is_truthy(rootEntry)
-            assert.is_nil(rawget(rootEntry, "identity"))
-            -- A real caller in the same list keeps its drill-down.
-            assert.is_truthy(callerEntry)
-            assert.are_same("QuestieMap.DrawWorldIcon", rawget(callerEntry, "identity"))
+            local rootEntry = FindRelation("(root)")
+            assert.is_nil(rootEntry.identity)
+            rootEntry:Click()
+            assert.are_equal("QuestieDB.GetQuest", ProfilerUI.private.displayState.selectedKey)
+            assert.is_truthy(string.find(ShownTexts(), "200.000 ms total", 1, true))
+
+            FindRelation("QuestieMap.DrawWorldIcon"):Click()
+
+            assert.are_equal("QuestieMap.DrawWorldIcon", ProfilerUI.private.displayState.selectedKey)
+            assert.is_truthy(string.find(ShownTexts(), "50.000 ms total", 1, true))
+            assert.is_true(FindControl("copyText", "QuestieMap.DrawWorldIcon"):IsVisible())
         end)
     end)
 

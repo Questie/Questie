@@ -80,9 +80,16 @@ describe("QuestLifecycle", function()
         it("should add a new quest to currentQuestlog and populate it", function()
             local quest = {IsComplete = function() return 0 end}
             QuestieDB.GetQuest = spy.new(function() return quest end)
-            AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
+            local finishRemoval
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) finishRemoval = callback end)
 
             QuestLifecycle:AcceptQuest(100)
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.not_called()
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+            assert.spy(Questie.SendMessage).was.not_called()
+            assert.is_function(finishRemoval)
+            finishRemoval()
 
             assert.are_equal(quest, QuestiePlayer.currentQuestlog[100])
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
@@ -337,14 +344,14 @@ describe("QuestLifecycle", function()
 
         it("should call AvailableQuests.RemoveQuest with callback that calls CalculateAndDrawAll", function()
             local questId = 100
-            AvailableQuests.RemoveQuest = spy.new(function(_questId, callback)
-                if callback then
-                    callback()
-                end
-            end)
+            local finishRemoval
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) finishRemoval = callback end)
 
             QuestLifecycle:CompleteQuest(questId)
 
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+            assert.is_function(finishRemoval)
+            finishRemoval()
             assert.spy(AvailableQuests.RemoveQuest).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)

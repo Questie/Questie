@@ -38,8 +38,22 @@ describe("AutoQuesting", function()
     local AutoQuesting
     ---@type QuestieDB
     local QuestieDB
+    local originalGlobals
+    local ownedGlobals = {
+        "AcceptQuest", "C_Timer", "CompleteQuest", "ConfirmAcceptQuest", "DeclineQuest",
+        "GetActiveTitle", "GetNumActiveQuests", "GetNumAvailableQuests", "GetNumQuestChoices", "GetQuestID", "GetQuestReward",
+        "GossipFrame", "GossipFrameGreetingPanel", "ImmersionContentFrame", "ImmersionFrame",
+        "IsAltKeyDown", "IsControlKeyDown", "IsQuestCompletable", "IsShiftKeyDown",
+        "QuestFrameDetailPanel", "QuestFrameGreetingPanel", "QuestFrameProgressPanel", "QuestFrameRewardPanel",
+        "SelectActiveQuest", "SelectAvailableQuest", "UnitGUID", "UnitInBattleground",
+    }
 
     before_each(function()
+        originalGlobals = {}
+        for _, name in ipairs(ownedGlobals) do
+            originalGlobals[name] = _G[name]
+        end
+
         Questie.db.profile.autocomplete = true
         Questie.db.profile.autoAccept = {
             enabled = true,
@@ -95,7 +109,19 @@ describe("AutoQuesting", function()
         AutoQuesting.Reset()
     end)
 
+    after_each(function()
+        for _, name in ipairs(ownedGlobals) do
+            _G[name] = originalGlobals[name]
+        end
+    end)
+
     describe("OnQuestDetail", function()
+        before_each(function()
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.QueryQuestSingle = function() return 10 end
+            QuestieDB.IsTrivial = function() return false end
+        end)
+
         it("should accept quest", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             _G.GetQuestID = function() return 123 end
@@ -379,6 +405,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should turn in second quest when first is not complete", function()
+            _G.GetNumActiveQuests = function() return 2 end
             local isFirst = true
             _G.GetActiveTitle = function()
                 if isFirst then
@@ -409,7 +436,9 @@ describe("AutoQuesting", function()
         it("should not turn in quest when NPC not allowed", function()
             _G.UnitGUID = function() return "0-0-0-0-0-123" end
             AutoQuesting.private.disallowedNPCs[123] = true
-            _G.SelectAvailableQuest = spy.new()
+            _G.GetNumActiveQuests = function() return 2 end
+            _G.GetActiveTitle = function() return "Test Quest", true end
+            _G.SelectActiveQuest = spy.new()
             Questie.db.profile.autoAccept.enabled = false
             Questie.db.profile.autocomplete = true
 
@@ -948,6 +977,12 @@ describe("AutoQuesting", function()
     end)
 
     describe("Accept Flow", function()
+        before_each(function()
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.QueryQuestSingle = function() return 10 end
+            QuestieDB.IsTrivial = function() return false end
+        end)
+
         it("should not accept quest from details when coming from greetings and auto modifier was held", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autoModifier = "shift"

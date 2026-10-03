@@ -12,16 +12,12 @@ describe("Tooltip", function()
     ---@type QuestieTooltips
     local QuestieTooltips
 
-    local objective = {
-        hasRegisteredTooltips = true,
-        registeredItemTooltips = true,
-    }
-    local specialObjective = {
-        hasRegisteredTooltips = true,
-        registeredItemTooltips = true,
-    }
+    local objective
+    local specialObjective
 
     before_each(function()
+        objective = {hasRegisteredTooltips = true, registeredItemTooltips = true}
+        specialObjective = {hasRegisteredTooltips = true, registeredItemTooltips = true}
         Questie.db.profile = {}
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -708,7 +704,7 @@ describe("Tooltip", function()
                     objective = {
                         Index = 1,
                         Needed = 5,
-                        Collected = 3,
+                        Collected = 5,
                         Description = "do it",
                         Update = function() end,
                     }
@@ -719,7 +715,7 @@ describe("Tooltip", function()
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are_same({"Quest Name", "   gold3/5 do it"}, tooltip)
+            assert.are_same({"Quest Name", "   gold5/5 do it"}, tooltip)
         end)
 
         it("should return multiple objectives for same key", function()
@@ -837,6 +833,21 @@ describe("Tooltip", function()
 
             assert.are_same({}, QuestieTooltips.lookupByKey)
             assert.are_same({}, QuestieTooltips.lookupKeysByQuestId)
+        end)
+
+        it("should preserve another quest's tooltip on a shared key", function()
+            QuestieTooltips.lookupKeysByQuestId = {[1] = {"key"}, [2] = {"key"}}
+            QuestieTooltips.lookupByKey = {key = {
+                ["1 test 2"] = {questId = 1, name = "test", starterId = 2},
+                ["2 other 3"] = {questId = 2, name = "other", starterId = 3},
+            }}
+
+            QuestieTooltips:RemoveQuest(1)
+
+            assert.are_same({key = {
+                ["2 other 3"] = {questId = 2, name = "other", starterId = 3},
+            }}, QuestieTooltips.lookupByKey)
+            assert.are_same({[2] = {"key"}}, QuestieTooltips.lookupKeysByQuestId)
         end)
 
         it("should do nothing when tooltip is already removed", function()
