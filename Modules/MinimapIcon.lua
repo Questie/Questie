@@ -66,7 +66,8 @@ function _MinimapIcon:CreateDataBrokerObject()
     return LDBDataObject
 end
 
-function _MinimapIcon.OnClick(_, button)
+---@param displayFrame Frame The LDB display that was clicked (minimap button, addon compartment, broker bar, ...)
+function _MinimapIcon.OnClick(displayFrame, button)
     if (not Questie.started) then
         return
     end
@@ -118,7 +119,8 @@ function _MinimapIcon.OnClick(_, button)
             return
         end
 
-        QuestieMenu:Show(nil, minimapButton)
+        -- Anchor to the minimap button only; other LDB displays open the menu at the cursor
+        QuestieMenu:Show(nil, displayFrame == minimapButton and minimapButton or nil)
     end
 end
 
