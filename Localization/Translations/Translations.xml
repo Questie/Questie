@@ -10,6 +10,7 @@
     <Script file="ExtraObjectives\TbcObjectives.lua"/>
     <Script file="ExtraObjectives\WotlkObjectives.lua"/>
     <Script file="ExtraObjectives\MopObjectives.lua"/>
+    <Script file="ExtraObjectives\ForeverObjectives.lua"/>
 
     <Script file="Journey\MyJourney.lua"/>
     <Script file="Journey\QuestsByZone.lua"/>
