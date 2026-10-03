@@ -108,7 +108,6 @@ Do not treat API existence, a passing mock, or an out-of-combat probe as proof o
 | Item | Status | Next step and reference |
 |---|---|---|
 | Chat-filter retry after disabling | Unverified pre-existing concern | A delayed add retry could re-register a disabled ShutUp filter. Check cancellation/current-setting ownership without changing error propagation blindly. Consumer: `Modules/QuestieShutUp.lua`; registration delegates to `QuestieCompat.AddMessageEventFilter`. |
-| Embedded dropdown mouse fallback | Old-client dependency concern | Its locally named `GetMouseFocus` fallback appears self-recursive when `GetMouseFoci` is absent. Check supported old-client exposure before an upstream fix. Original investigator finding; `Libs/LibUIDropDownMenu/LibUIDropDownMenu.lua:126–130`. |
 | AceComm addon-prefix fallback | Low-priority upstream cleanup candidate | Review old `RegisterAddonMessagePrefix` selection against the library's other modern dependencies. Do not fork embedded code solely to remove this fallback. Original investigator finding; `Libs/AceComm-3.0/AceComm-3.0.lua:64–68`. |
 
 ## 4. Future tooltip work and exploratory checks

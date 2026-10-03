@@ -1,7 +1,7 @@
 --@curseforge-project-slug: libsharedmedia-3-0@
 --[[
 Name: LibSharedMedia-3.0
-Revision: $Revision: 164 $
+Revision: $Revision$
 Author: Elkano (elkano@gmx.de)
 Inspired By: SurfaceLib by Haste/Otravi (troeks@gmail.com)
 Website: https://www.curseforge.com/wow/addons/libsharedmedia-3-0
@@ -10,7 +10,7 @@ Dependencies: LibStub, CallbackHandler-1.0
 License: LGPL v2.1
 ]]
 
-local MAJOR, MINOR = "LibSharedMedia-3.0", 12000001 -- 12.0.0 v1 / increase manually on changes
+local MAJOR, MINOR = "LibSharedMedia-3.0", 12000002 -- 12.0.0 v2 / increase manually on changes
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then return end
@@ -236,40 +236,47 @@ local function updateMediaList(mediatype, value)
     table_insert(mlist, s, value)
 end
 
-function lib:Register(mediatype, key, data, langmask)
-    if type(mediatype) ~= "string" then
-        error(MAJOR..":Register(mediatype, key, data, langmask) - mediatype must be string, got "..type(mediatype))
-    end
-    if type(key) ~= "string" then
-        error(MAJOR..":Register(mediatype, key, data, langmask) - key must be string, got "..type(key))
-    end
-    mediatype = mediatype:lower()
-    if mediatype == lib.MediaType.FONT and ((langmask and band(langmask, LOCALE_MASK) == 0) or not (langmask or locale_is_western)) then
-        -- ignore fonts that aren't flagged as supporting local glyphs on non-western clients
-        return false
-    end
-    if type(data) == "string" and (mediatype == lib.MediaType.BACKGROUND or mediatype == lib.MediaType.BORDER or mediatype == lib.MediaType.STATUSBAR or mediatype == lib.MediaType.SOUND) then
-        local path = data:lower()
-        if not path:find("^interface") then
-            -- files accessed via path only allowed from interface folder
+do
+    local IsKnownFile = C_UIFileAsset.IsKnownFile
+    function lib:Register(mediatype, key, data, langmask)
+        if type(mediatype) ~= "string" then
+            error(MAJOR..":Register(mediatype, key, data, langmask) - mediatype must be string, got "..type(mediatype))
+        end
+        if type(key) ~= "string" then
+            error(MAJOR..":Register(mediatype, key, data, langmask) - key must be string, got "..type(key))
+        end
+        mediatype = mediatype:lower()
+        if mediatype == lib.MediaType.FONT and (not IsKnownFile(data) or (langmask and band(langmask, LOCALE_MASK) == 0) or not (langmask or locale_is_western)) then
+            -- ignore fonts that don't exist, or aren't flagged as supporting local glyphs on non-western clients
             return false
         end
-        if mediatype == lib.MediaType.SOUND and not (path:find(".ogg", nil, true) or path:find(".mp3", nil, true)) then
-            -- only ogg and mp3 are valid sounds
+        if type(data) == "string" and (mediatype == lib.MediaType.BACKGROUND or mediatype == lib.MediaType.BORDER or mediatype == lib.MediaType.STATUSBAR or mediatype == lib.MediaType.SOUND) then
+            if not IsKnownFile(data) then
+                -- ignore files that don't exist
+                return false
+            end
+            local path = data:lower()
+            if not path:find("^interface") then
+                -- files accessed via path only allowed from interface folder
+                return false
+            end
+            if mediatype == lib.MediaType.SOUND and not (path:find(".ogg", nil, true) or path:find(".mp3", nil, true)) then
+                -- only ogg and mp3 are valid sounds
+                return false
+            end
+        end
+        if not mediaTable[mediatype] then mediaTable[mediatype] = {} end
+        local mtable = mediaTable[mediatype]
+        if mtable[key] then
+            -- key already registered
             return false
         end
-    end
-    if not mediaTable[mediatype] then mediaTable[mediatype] = {} end
-    local mtable = mediaTable[mediatype]
-    if mtable[key] then
-        -- key already registered
-        return false
-    end
 
-    mtable[key] = data
-    updateMediaList(mediatype, key)
-    self.callbacks:Fire("LibSharedMedia_Registered", mediatype, key)
-    return true
+        mtable[key] = data
+        updateMediaList(mediatype, key)
+        self.callbacks:Fire("LibSharedMedia_Registered", mediatype, key)
+        return true
+    end
 end
 
 function lib:Fetch(mediatype, key, noDefault)
