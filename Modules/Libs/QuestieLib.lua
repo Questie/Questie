@@ -32,14 +32,55 @@ local strim = string.trim
 local smatch = string.match
 local tonumber = tonumber
 
---[[
-    Red: 5+ level above player
-    Orange: 3 - 4 level above player
-    Yellow: max 2 level below/above player
-    Green: 3 - GetQuestGreenRange() level below player (GetQuestGreenRange() changes on specific player levels)
-    Gray: More than GetQuestGreenRange() below player
---]]
-function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEventQuest, isPvPQuest)
+-- Keep Questie's palette while allowing the client to choose the difficulty category.
+local difficultyColors = {
+    Trivial = {hex = "|cFFC0C0C0", r = 0.753, g = 0.753, b = 0.753},
+    Easy = {hex = "|cFF40C040", r = 0.251, g = 0.753, b = 0.251},
+    Fair = {hex = "|cFFFFFF00", r = 1, g = 1, b = 0},
+    Difficult = {hex = "|cFFFF8040", r = 1, g = 0.502, b = 0.251},
+    Impossible = {hex = "|cFFFF1A1A", r = 1, g = 0.102, b = 0.102},
+}
+local nativeDifficultyColors = {}
+if Enum and Enum.RelativeContentDifficulty then
+    for name, color in pairs(difficultyColors) do
+        nativeDifficultyColors[Enum.RelativeContentDifficulty[name]] = color
+    end
+end
+
+local function _GetDifficultyColor(level, questId)
+    local difficulty = QuestieCompat.GetQuestDifficulty(questId)
+    local color = nativeDifficultyColors[difficulty]
+    if color then
+        return color
+    end
+
+    -- Classic and uncached Forever quests retain the level-based fallback.
+    -- Do not copy Forever's generic GetQuestDifficultyColor: its thresholds differ from the quest-ID API.
+    local playerLevel = QuestiePlayer.GetPlayerLevel()
+    if level == -1 then level = playerLevel end
+    local levelDiff = level - playerLevel
+
+    if levelDiff >= 5 then
+        return difficultyColors.Impossible
+    elseif levelDiff >= 3 then
+        return difficultyColors.Difficult
+    elseif levelDiff >= -2 then
+        return difficultyColors.Fair
+    elseif -levelDiff <= QuestieCompat.GetQuestGreenRange() then
+        return difficultyColors.Easy
+    else
+        return difficultyColors.Trivial
+    end
+end
+
+---@param level Level
+---@param text string
+---@param isRepeatableQuest boolean?
+---@param isEventQuest boolean?
+---@param isPvPQuest boolean?
+---@param questId QuestId? Enables native difficulty coloring on Forever when quest data is cached.
+---@return string
+function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEventQuest, isPvPQuest, questId)
     if isEventQuest == true then
         return "|cFF6ce314" .. text .. "|r" -- Lime
     end
@@ -50,44 +91,17 @@ function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEvent
         return "|cFF21CCE7" .. text .. "|r" -- Blue
     end
 
-    if level == -1 then
-        level = QuestiePlayer.GetPlayerLevel()
-    end
-    local levelDiff = level - QuestiePlayer.GetPlayerLevel()
-
-    if (levelDiff >= 5) then
-        return "|cFFFF1A1A" .. text .. "|r" -- Red
-    elseif (levelDiff >= 3) then
-        return "|cFFFF8040" .. text .. "|r" -- Orange
-    elseif (levelDiff >= -2) then
-        return "|cFFFFFF00" .. text .. "|r" -- Yellow
-    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange("player")) then
-        return "|cFF40C040" .. text .. "|r" -- Green
-    else
-        return "|cFFC0C0C0" .. text .. "|r" -- Grey
-    end
+    return _GetDifficultyColor(level, questId).hex .. text .. "|r"
 end
 
-function QuestieLib:GetDifficultyColorPercent(level)
-    if level == -1 then level = QuestiePlayer.GetPlayerLevel() end
-    local levelDiff = level - QuestiePlayer.GetPlayerLevel()
-
-    if (levelDiff >= 5) then
-        -- return "|cFFFF1A1A"..text.."|r"; -- Red
-        return 1, 0.102, 0.102
-    elseif (levelDiff >= 3) then
-        -- return "|cFFFF8040"..text.."|r"; -- Orange
-        return 1, 0.502, 0.251
-    elseif (levelDiff >= -2) then
-        -- return "|cFFFFFF00"..text.."|r"; -- Yellow
-        return 1, 1, 0
-    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange("player")) then
-        -- return "|cFF40C040"..text.."|r"; -- Green
-        return 0.251, 0.753, 0.251
-    else
-        -- return "|cFFC0C0C0"..text.."|r"; -- Grey
-        return 0.753, 0.753, 0.753
-    end
+---@param level Level
+---@param questId QuestId? Enables native difficulty coloring on Forever when quest data is cached.
+---@return number r
+---@return number g
+---@return number b
+function QuestieLib:GetDifficultyColorPercent(level, questId)
+    local color = _GetDifficultyColor(level, questId)
+    return color.r, color.g, color.b
 end
 
 -- 1.12 color logic
@@ -174,7 +188,8 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
         end
     end
 
-    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
+    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId),
+        QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId), questId)
 end
 
 -- The order of these colors is important for the ColorWheel function.

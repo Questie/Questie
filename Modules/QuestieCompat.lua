@@ -646,7 +646,8 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
----Returns how many levels below the player a quest can be before becoming gray.
+---Returns the inclusive level offset used for triviality and available-quest filtering.
+---Forever's quest difficulty colors can turn gray before this triviality boundary.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
     if isForever then
@@ -658,6 +659,18 @@ function QuestieCompat.GetQuestGreenRange()
         return GetQuestGreenRange("player")
     end
     return UnitQuestTrivialLevelRange("player")
+end
+
+---Returns Forever's quest-ID difficulty for coloring, not for triviality or availability checks.
+---Classic and uncached quests use the caller's level-based fallback. This does not request quest data.
+---@param questId QuestId?
+---@return number? difficulty Enum.RelativeContentDifficulty, or nil when unavailable.
+function QuestieCompat.GetQuestDifficulty(questId)
+    if isForever and questId and questId > 0 and C_PlayerInfo and C_PlayerInfo.GetContentDifficultyQuestForPlayer
+        and HaveQuestData(questId) then
+        -- Uncached IDs can report Fair regardless of their actual difficulty.
+        return C_PlayerInfo.GetContentDifficultyQuestForPlayer(questId)
+    end
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemCount)

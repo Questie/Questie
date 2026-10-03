@@ -536,6 +536,7 @@ globals = {
     "C_PartyInfo.GetInviteConfirmationInvalidQueues",
     "C_PetBattles",
     "C_PlayerInfo.GetClass",
+    "C_PlayerInfo.GetContentDifficultyQuestForPlayer",
     "C_PlayerInfo.GetName",
     "C_PlayerInfo.GetRace",
     "C_PlayerInfo.GetSex",
