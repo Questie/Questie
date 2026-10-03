@@ -14,8 +14,13 @@ describe("MinimapIcon", function()
     local QuestieOptions
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
+    ---@type QuestieLib
+    local QuestieLib
 
-    local LibDBIconMock = {Hide = spy.new(function() end)}
+    local LibDBIconMock = {}
+    local dataBrokerObject
+    local minimapButtonMock
+    local minimapOnEnter
 
     local match = require("luassert.match")
     local _ = match._ -- any match
@@ -23,7 +28,33 @@ describe("MinimapIcon", function()
     before_each(function()
         Questie.started = true
         Questie.db.profile.enabled = true
+        Questie.db.profile.enableMapIcons = true
+        Questie.db.profile.enableMiniMapIcons = true
         Questie.db.profile.minimap = {hide = false}
+
+        dataBrokerObject = nil
+        minimapOnEnter = spy.new(function() end)
+        minimapButtonMock = {
+            IsMouseOver = function() return true end,
+            GetScript = function(_, scriptName)
+                if scriptName == "OnEnter" then
+                    return minimapOnEnter
+                end
+            end,
+            icon = {
+                ClearAllPoints = function() end,
+                SetSize = function() end,
+                SetPoint = function() end,
+            },
+        }
+        LibDBIconMock.Hide = spy.new(function() end)
+        LibDBIconMock.Show = spy.new(function() end)
+        LibDBIconMock.Register = spy.new(function() end)
+        LibDBIconMock.GetMinimapButton = function() return minimapButtonMock end
+        LibDBIconMock.NewDataObject = function(_, _, data)
+            dataBrokerObject = data
+            return data
+        end
 
         _G.IsControlKeyDown = function() return false end
         _G.IsShiftKeyDown = function() return false end
@@ -32,7 +63,8 @@ describe("MinimapIcon", function()
         QuestieJourney.ToggleJourneyWindow = spy.new(function() end)
 
         QuestieLoader:ImportModule("QuestieProfessions")
-        QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.GetAddonVersionString = function() return "test" end
 
         QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
         QuestieMenu.Show = spy.new(function() end)
@@ -50,6 +82,8 @@ describe("MinimapIcon", function()
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
         _G.LibStub = function() return LibDBIconMock end
+        _G.GameTooltip = {Hide = spy.new(function() end)}
+        Questie.Colorize = function(_, value) return value end
         dofile("Localization/l10n.lua")
 
         dofile("Modules/MinimapIcon.lua")
@@ -138,13 +172,75 @@ describe("MinimapIcon", function()
         assert.spy(QuestieMenu.Show).was.not_called()
     end)
 
-    it("should hide minimap icon on right click with CTRL key down", function()
+    it("should hide minimap notes on right click with CTRL key down", function()
         local button = "RightButton"
         _G.IsControlKeyDown = function() return true end
 
         MinimapIcon.private:OnClick(button)
 
-        assert.is_true(Questie.db.profile.minimap.hide)
-        assert.spy(LibDBIconMock.Hide).was.called_with(_, "Questie")
+        assert.is_false(Questie.db.profile.enableMiniMapIcons)
+        assert.is_true(Questie.db.profile.enableMapIcons)
+        assert.is_true(Questie.db.profile.enabled)
+        assert.is_false(Questie.db.profile.minimap.hide)
+        assert.spy(QuestieQuest.ToggleNotes).was.called_with(_, false, true)
+        assert.spy(QuestieOptions.HideFrame).was.called()
+        assert.spy(LibDBIconMock.Hide).was.not_called()
+    end)
+
+    it("should show minimap notes on right click with CTRL key down", function()
+        Questie.db.profile.enableMiniMapIcons = false
+        local button = "RightButton"
+        _G.IsControlKeyDown = function() return true end
+
+        MinimapIcon.private:OnClick(button)
+
+        assert.is_true(Questie.db.profile.enableMiniMapIcons)
+        assert.is_true(Questie.db.profile.enableMapIcons)
+        assert.is_true(Questie.db.profile.enabled)
+        assert.is_false(Questie.db.profile.minimap.hide)
+        assert.spy(QuestieQuest.ToggleNotes).was.called_with(_, true, true)
+        assert.spy(QuestieOptions.HideFrame).was.called()
+        assert.spy(LibDBIconMock.Hide).was.not_called()
+    end)
+
+    it("should show only minimap notes when Questie icons are disabled globally", function()
+        Questie.db.profile.enabled = false
+        local button = "RightButton"
+        _G.IsControlKeyDown = function() return true end
+
+        MinimapIcon.private:OnClick(button)
+
+        assert.is_true(Questie.db.profile.enabled)
+        assert.is_true(Questie.db.profile.enableMiniMapIcons)
+        assert.is_false(Questie.db.profile.enableMapIcons)
+        assert.spy(QuestieQuest.ToggleNotes).was.called_with(_, true, true)
+    end)
+
+    it("should refresh the tooltip after toggling minimap notes", function()
+        MinimapIcon:Init()
+        _G.IsControlKeyDown = function() return true end
+
+        MinimapIcon.private:OnClick("RightButton")
+
+        assert.spy(GameTooltip.Hide).was.called()
+        assert.spy(minimapOnEnter).was.called_with(minimapButtonMock)
+    end)
+
+    it("should describe the effective minimap icon action in its tooltip", function()
+        MinimapIcon:Init()
+        local tooltipLines = {}
+        local tooltip = {
+            AddLine = function() end,
+            AddDoubleLine = function(_, left, right)
+                table.insert(tooltipLines, {left, right})
+            end,
+        }
+
+        dataBrokerObject.OnTooltipShow(tooltip)
+        assert.are_equal("Hide Minimap Icons", tooltipLines[6][2])
+
+        Questie.db.profile.enabled = false
+        dataBrokerObject.OnTooltipShow(tooltip)
+        assert.are_equal("Show Minimap Icons", tooltipLines[13][2])
     end)
 end)
