@@ -8,13 +8,172 @@ describe("QuestieDBMock", function()
     local LibQuestieDB
     local questKeys, npcKeys, itemKeys, objectKeys
 
+    local originalLibQuestieDB
+
     before_each(function()
+        originalLibQuestieDB = _G.LibQuestieDB
         mock = LoadQuestieDBMock()
         LibQuestieDB = mock.lib
         questKeys = LibQuestieDB.Meta.QuestMeta.questKeys
         npcKeys = LibQuestieDB.Meta.NpcMeta.npcKeys
         itemKeys = LibQuestieDB.Meta.ItemMeta.itemKeys
         objectKeys = LibQuestieDB.Meta.ObjectMeta.objectKeys
+    end)
+
+    after_each(function()
+        _G.LibQuestieDB = originalLibQuestieDB
+    end)
+
+    it("stages all owners before publishing and rolls back a rejected first Set's rank", function()
+        local first = LibQuestieDB.GetRegistrar("First")
+        local rows = {[30] = {[npcKeys.zoneID] = 10}}
+        first.Set("Npc", "Zone", rows)
+        local ids = LibQuestieDB.Npc.GetAllIds(true)
+        rows[30][npcKeys.zoneID] = 99
+        local rejected = LibQuestieDB.GetRegistrar("Rejected")
+        rejected.RegisterRuntimeCorrection("Npc", "Invalid", function()
+            return {[30] = {[999] = true}}
+        end)
+        assert.has_error(function()
+            rejected.Set("Npc", "Name", {[30] = {[npcKeys.name] = "Rejected"}})
+        end)
+        assert.are_equal(10, LibQuestieDB.Npc.zoneID(30))
+        assert.are_equal(ids, LibQuestieDB.Npc.GetAllIds(true))
+        assert.are_equal(1, mock.publishCounts.Npc)
+        assert.are_same({"QuestieDB", "First"}, LibQuestieDB.GetOwners())
+        assert.are_equal(1, #mock.registrations.Rejected)
+        assert.are_equal(10, mock.registrations.First[1].lastSuccessfulRows[30][npcKeys.zoneID])
+        assert.is_nil(mock.registrations.Rejected[1].materialized)
+        first.Apply()
+        assert.are_equal(99, LibQuestieDB.Npc.zoneID(30))
+    end)
+
+    it("does not commit any selected datatype or function snapshot when Apply fails", function()
+        local registrar = LibQuestieDB.GetRegistrar("Questie")
+        local zone, invalid = 10, false
+        registrar.RegisterRuntimeCorrection("Npc", "Zone", function()
+            return {[30] = {[npcKeys.zoneID] = zone}}
+        end)
+        registrar.RegisterRuntimeCorrection("Item", "Item", function()
+            return {[5518] = invalid and {[999] = true} or {[itemKeys.name] = "Key"}}
+        end)
+        registrar.Apply()
+        zone, invalid = 99, true
+        assert.has_error(registrar.Apply)
+        assert.are_equal(10, LibQuestieDB.Npc.zoneID(30))
+        assert.are_equal("Key", LibQuestieDB.Item.name(5518))
+        assert.are_equal(1, mock.publishCounts.Npc)
+        assert.are_equal(1, mock.publishCounts.Item)
+        assert.are_equal(10, mock.registrations.Questie[1].materialized[30][npcKeys.zoneID])
+        invalid = false
+        registrar.Apply()
+        assert.are_equal(99, LibQuestieDB.Npc.zoneID(30))
+    end)
+
+    it("supplies raw numeric defaults only for existing base entities", function()
+        mock.SetBaseRow("Npc", 30, {[npcKeys.name] = "Forest Spider"})
+        mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Quest"})
+        mock.SetBaseRow("Item", 5518, {[itemKeys.name] = "Key"})
+        mock.SetBaseRow("Object", 31, {[objectKeys.name] = "Statue"})
+        assert.are_same(0, LibQuestieDB.Quest.GetRaw(2, "requiredClasses"))
+        assert.are_same(0, LibQuestieDB.Item.GetRaw(5518, "startQuest"))
+        assert.are_same(0, LibQuestieDB.Object.GetRaw(31, "factionID"))
+        assert.are_same(0, LibQuestieDB.Npc.GetRaw(30, "rank"))
+        assert.is_nil(LibQuestieDB.Npc.GetRaw(999999, "rank"))
+        assert.is_nil(LibQuestieDB.Npc.GetRaw(30, "spawns"))
+    end)
+
+    for _, field in ipairs({"startedBy", "finishedBy", "objectives"}) do
+        it("supplies fresh raw Quest " .. field .. " defaults only for base entities", function()
+            mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Quest"})
+            local first = LibQuestieDB.Quest.GetRaw(2, field)
+            assert.are_same({}, first)
+            first[1] = {99}
+            assert.are_same({}, LibQuestieDB.Quest.GetRaw(2, field))
+            assert.are_same({}, LibQuestieDB.Quest.GetRaw(2, questKeys[field]))
+            LibQuestieDB.Corrections.Set("Questie", "Quest", "Added", {[999999] = {[questKeys.name] = "Added"}})
+            assert.is_nil(LibQuestieDB.Quest.GetRaw(999999, field))
+        end)
+    end
+
+    it("retains function materializations through same-datatype Set until owner Apply", function()
+        local lib, owner, keys = LibQuestieDB, "Questie", npcKeys
+        local calls = 0
+        local rows = {[30] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+        local registrar = lib.GetRegistrar(owner)
+        registrar.RegisterRuntimeCorrection("Npc", "Spawn", function()
+            calls = calls + 1
+            return rows
+        end)
+        assert.are_same(0, calls)
+        registrar.Apply()
+        assert.are_same(1, calls)
+        rows[30][keys.spawns][12][1][1] = 99
+        registrar.Set("Npc", "Name", {[30] = {[keys.name] = "Renamed"}})
+        assert.are_same("Renamed", lib.Npc.Get(30, "name"))
+        assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(30, "spawns"))
+        assert.are_same(1, calls)
+        lib.Corrections.Set(owner .. "Other", "Npc", "Name", {[30] = {[keys.name] = "Other"}})
+        assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(30, "spawns"))
+        assert.are_same(1, calls)
+        registrar.Apply()
+        assert.are_same({[12] = {{99, 20}}}, lib.Npc.Get(30, "spawns"))
+        assert.are_same(2, calls)
+        assert.are_same("Other", lib.Npc.Get(30, "name"))
+    end)
+
+    it("recomposes other applied owners' data slots on same-datatype Set", function()
+        local lib, owner, keys = LibQuestieDB, "Questie", npcKeys
+        local rows = {[30] = {[keys.spawns] = {[12] = {{10, 20}}}, [keys.name] = "First"}}
+        local registrar = lib.GetRegistrar(owner)
+        registrar.Set("Npc", "Spawn", rows)
+        rows[30][keys.spawns][12][1][1] = 99
+        assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(30, "spawns"))
+        lib.Corrections.Set(owner .. "Other", "Npc", "Name", {[30] = {[keys.name] = "Other"}})
+        assert.are_same({[12] = {{99, 20}}}, lib.Npc.Get(30, "spawns"))
+        assert.are_same("Other", lib.Npc.Get(30, "name"))
+        assert.are_same(owner, lib.Corrections.GetProvenance("Npc", 30, "spawns"))
+        registrar.Apply()
+        assert.are_same({[12] = {{99, 20}}}, lib.Npc.Get(30, "spawns"))
+        assert.are_same("Other", lib.Npc.Get(30, "name"))
+        lib.Corrections.Set(owner .. "Other", "Npc", "Name", nil)
+        assert.are_same("First", lib.Npc.Get(30, "name"))
+    end)
+
+    it("does not run an unpublished owner's function registrations during Set", function()
+        local lib, owner, keys = LibQuestieDB, "Questie", npcKeys
+        local calls = 0
+        local registrar = lib.GetRegistrar(owner .. "Unpublished")
+        registrar.RegisterRuntimeCorrection("Npc", "Spawn", function()
+            calls = calls + 1
+            return {[30] = {[keys.spawns] = {[12] = {{10, 20}}}}}
+        end)
+        lib.Corrections.Set(owner, "Npc", "Name", {[30] = {[keys.name] = "Name"}})
+        assert.are_same(0, calls)
+        assert.is_nil(lib.Npc.Get(30, "spawns"))
+        registrar.Apply()
+        assert.are_same(1, calls)
+        assert.are_same({[12] = {{10, 20}}}, lib.Npc.Get(30, "spawns"))
+    end)
+
+    it("keeps NPC snapshots across an Item publication by the same owner", function()
+        local rows = {[30] = {[npcKeys.spawns] = {[12] = {{10, 20}}}}}
+        LibQuestieDB.Corrections.Set("Questie", "Npc", "Spawn", rows)
+        rows[30][npcKeys.spawns][12][1][1] = 99
+        LibQuestieDB.Corrections.Set("Questie", "Item", "Item", {[5518] = {[itemKeys.name] = "Key"}})
+        assert.are_same("Key", LibQuestieDB.Item.Get(5518, "name"))
+        assert.are_same({[12] = {{10, 20}}}, LibQuestieDB.Npc.Get(30, "spawns"))
+        LibQuestieDB.Corrections.Set("Questie", "Npc", "Spawn", rows)
+        assert.are_same({[12] = {{99, 20}}}, LibQuestieDB.Npc.Get(30, "spawns"))
+    end)
+
+    it("snapshots nested correction values until the next publication", function()
+        local rows = {[30] = {[npcKeys.spawns] = {[12] = {{10, 20}}}}}
+        LibQuestieDB.Corrections.Set("Questie", "Npc", "Spawn", rows)
+        rows[30][npcKeys.spawns][12][1][1] = 99
+        assert.are_same({[12] = {{10, 20}}}, LibQuestieDB.Npc.Get(30, "spawns"))
+        LibQuestieDB.Corrections.Set("Questie", "Npc", "Spawn", rows)
+        assert.are_same({[12] = {{99, 20}}}, LibQuestieDB.Npc.Get(30, "spawns"))
     end)
 
     describe("RequireContract", function()

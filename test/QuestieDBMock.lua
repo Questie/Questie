@@ -13,6 +13,8 @@
 -- modeled, so tests seed normalized values. `test/QuestieDBMock.conformance.test.lua` runs the
 -- same cases against the real provider; the intentional differences are listed there.
 -- Table add/remove operation keys are not modeled; this double accepts replacement fields only.
+-- Failed publications retain successful function snapshots; provider dirty/pending retries and
+-- no-argument Apply are not modeled. Explicit owner Apply retries that owner's datatypes.
 local LoadQuestieDBMetaMock = dofile("test/QuestieDBMetaMock.lua")
 
 local ENTITY_TYPES = {"Quest", "Npc", "Item", "Object"}
@@ -28,7 +30,8 @@ local BASE_OWNER = "QuestieDB"
 ---@field name string
 ---@field provider (fun(): QuestieDBMockRows)? Function-shaped registration; absent on a data slot.
 ---@field rows QuestieDBMockRows? Data slot written through `Corrections.Set`; absent on a function entry.
----@field lastSuccessfulRows QuestieDBMockRows? Snapshot restored when a data slot write is rejected.
+---@field materialized QuestieDBMockRows? Independent function result from first publication or the owner's last successful Apply.
+---@field lastSuccessfulRows QuestieDBMockRows? Snapshot restored when a slot replacement or withdrawal is rejected.
 ---@field loadOrder number? Explicit order as passed by the caller, when any.
 ---@field order number Effective order: loadOrder, or a registration-sequence fraction mirroring the provider.
 ---@field sequence integer Creation order, breaking order ties.
@@ -379,7 +382,14 @@ local function LoadQuestieDBMock()
             if not row then
                 return nil
             end
-            return CopyValue(row[fieldIndex])
+            local value = row[fieldIndex]
+            if value == nil and types[datatype][fieldIndex] == "number" then
+                return 0
+            end
+            if value == nil and neverNilFields[datatype][fieldIndex] then
+                return {}
+            end
+            return CopyValue(value)
         end
 
         ---@param name string
@@ -503,6 +513,7 @@ local function LoadQuestieDBMock()
         if not ownerRank[owner] then
             table.insert(ownerOrder, owner)
             ownerRank[owner] = #ownerOrder
+            layers[owner] = {Quest = {}, Npc = {}, Item = {}, Object = {}}
         end
     end
 
@@ -513,7 +524,7 @@ local function LoadQuestieDBMock()
         mock.applyCount[owner] = mock.applyCount[owner] or 0
     end
 
-    ---Validate before retaining Set rows or composing provider rows, so bad keys cannot silently disappear.
+    ---Validate staged rows before committing publication, so bad keys cannot silently disappear.
     ---@param datatype QuestieDBMockDatatype
     ---@param rows QuestieDBMockRows
     local function ValidateCorrectionFields(datatype, rows)
@@ -527,54 +538,70 @@ local function LoadQuestieDBMock()
         end
     end
 
-    ---Rebuilds one owner's layer from its entries: function providers run again, data slots are
-    ---used as-is. Nothing accumulates across rebuilds, so an entry returning or holding `{}`
-    ---withdraws its earlier rows. As in the provider, a layer row exists only once a field inside
-    ---the schema is written: an empty row never invents an entity. Unknown numeric field keys raise an error.
-    ---@param owner string
+    ---Stage selected datatypes across all ranked owners. Data slots are reread; function results
+    ---initialize on first publication and refresh only for the applying owner. Commit nothing
+    ---until every selected row validates, so a failed owner cannot partially publish another.
+    ---@param datatypes table<QuestieDBMockDatatype, true>
+    ---@param refreshOwner string? Owner whose existing function snapshots must be refreshed.
     ---@return nil
-    local function RebuildOwnerLayer(owner)
-        local ordered = {}
-        for index, registration in ipairs(mock.registrations[owner]) do
-            ordered[index] = registration
-        end
-        table.sort(ordered, function(a, b)
-            if a.order ~= b.order then
-                return a.order < b.order
+    local function Recompose(datatypes, refreshOwner)
+        local stagedLayers, materializations, dataSnapshots = {}, {}, {}
+        for _, owner in ipairs(ownerOrder) do
+            local layer, ordered = {}, {}
+            for _, datatype in ipairs(ENTITY_TYPES) do
+                layer[datatype] = datatypes[datatype] and {} or layers[owner][datatype]
             end
-            return a.sequence < b.sequence
-        end)
-
-        local layer = {Quest = {}, Npc = {}, Item = {}, Object = {}}
-        for _, registration in ipairs(ordered) do
-            local rows = registration.rows
-            if rows == nil then
-                rows = registration.provider()
-                if type(rows) ~= "table" then
-                    error(("QuestieDBMock: correction %q must return a table"):format(registration.name), 2)
+            for _, registration in ipairs(mock.registrations[owner]) do
+                if datatypes[registration.datatype] then
+                    table.insert(ordered, registration)
                 end
             end
-            ValidateCorrectionFields(registration.datatype, rows)
-            local datatypeLayer = layer[registration.datatype]
-            local fieldCount = fieldCounts[registration.datatype]
-            for id, fields in pairs(rows) do
-                for fieldIndex, value in pairs(fields) do
-                    if type(fieldIndex) == "number" and fieldIndex <= fieldCount then
-                        local row = datatypeLayer[id]
-                        if not row then
-                            row = {}
-                            datatypeLayer[id] = row
+            table.sort(ordered, function(a, b)
+                if a.order ~= b.order then
+                    return a.order < b.order
+                end
+                return a.sequence < b.sequence
+            end)
+
+            for _, registration in ipairs(ordered) do
+                local rows
+                if registration.rows then
+                    rows = CopyValue(registration.rows)
+                    dataSnapshots[registration] = rows
+                else
+                    rows = registration.materialized
+                    if rows == nil or owner == refreshOwner then
+                        rows = CopyValue(registration.provider())
+                        if type(rows) ~= "table" then
+                            error(("QuestieDBMock: correction %q must return a table"):format(registration.name), 2)
                         end
-                        row[fieldIndex] = value
+                        materializations[registration] = rows
+                    end
+                end
+                ValidateCorrectionFields(registration.datatype, rows)
+                local datatypeLayer = layer[registration.datatype]
+                local fieldCount = fieldCounts[registration.datatype]
+                for id, fields in pairs(rows) do
+                    for fieldIndex, value in pairs(fields) do
+                        if type(fieldIndex) == "number" and fieldIndex <= fieldCount then
+                            local row = datatypeLayer[id]
+                            if not row then
+                                row = {}
+                                datatypeLayer[id] = row
+                            end
+                            row[fieldIndex] = CopyValue(value)
+                        end
                     end
                 end
             end
+            stagedLayers[owner] = layer
         end
-        layers[owner] = layer
-        for _, registration in ipairs(ordered) do
-            if registration.rows then
-                registration.lastSuccessfulRows = CopyValue(registration.rows)
-            end
+        layers = stagedLayers
+        for registration, rows in pairs(materializations) do
+            registration.materialized = rows
+        end
+        for registration, rows in pairs(dataSnapshots) do
+            registration.lastSuccessfulRows = rows
         end
     end
 
@@ -627,19 +654,19 @@ local function LoadQuestieDBMock()
             })
         end
 
-        ---Runs every provider again and rebuilds this owner's layer from scratch, then republishes
-        ---the datatypes this owner has entries in — other datatypes keep their ID maps and indexes.
+        ---Refreshes this owner's functions and recomposes its datatypes across every ranked owner.
+        ---Other owners retain function snapshots; unrelated datatypes keep their published views.
         ---@return nil
         function registrar.Apply()
-            RebuildOwnerLayer(owner)
             RankOwner(owner)
-            mock.applyCount[owner] = mock.applyCount[owner] + 1
 
             local touched = {}
             for _, registration in ipairs(mock.registrations[owner]) do
                 touched[registration.datatype] = true
             end
+            Recompose(touched, owner)
             PublishDatatypes(touched)
+            mock.applyCount[owner] = mock.applyCount[owner] + 1
         end
 
         ---@param datatype QuestieDBMockDatatype
@@ -687,22 +714,13 @@ local function LoadQuestieDBMock()
             end
         end
 
-        if rows then
-            local ok, message = pcall(ValidateCorrectionFields, datatype, rows)
-            if not ok then
-                -- Callers may have mutated the retained table before Set; restore an independent snapshot.
-                if entryIndex then
-                    local entry = mock.registrations[owner][entryIndex]
-                    entry.rows = CopyValue(entry.lastSuccessfulRows)
-                end
-                error(message, 0)
-            end
+        if rows == nil and not entryIndex then
+            return false
         end
 
+        local entry = entryIndex and mock.registrations[owner][entryIndex]
+        local wasRanked = ownerRank[owner] ~= nil
         if rows == nil then
-            if not entryIndex then
-                return false
-            end
             table.remove(mock.registrations[owner], entryIndex)
         elseif entryIndex then
             mock.registrations[owner][entryIndex].rows = rows
@@ -717,8 +735,25 @@ local function LoadQuestieDBMock()
             })
         end
 
-        RebuildOwnerLayer(owner)
         RankOwner(owner)
+        local ok, message = pcall(Recompose, {[datatype] = true})
+        if not ok then
+            -- Restore the targeted slot even when another owner's retained rows rejected a withdrawal.
+            if entry then
+                entry.rows = CopyValue(entry.lastSuccessfulRows)
+                if rows == nil then
+                    table.insert(mock.registrations[owner], entryIndex, entry)
+                end
+            else
+                table.remove(mock.registrations[owner])
+            end
+            if not wasRanked then
+                table.remove(ownerOrder)
+                ownerRank[owner] = nil
+                layers[owner] = nil
+            end
+            error(message, 0)
+        end
         PublishDatatypes({[datatype] = true})
         return true
     end
