@@ -51,6 +51,21 @@ describe("QuestiePlayer", function()
                 -- Deliberately remap a known ID so a hardcoded mask cannot pass this test.
                 LibQuestieDB.Enum.raceMaskById[RACE_ID.HUMAN] = RACE_MASK.ORC
 
+            assert.is_true(QuestiePlayer.HasRequiredRace(4294967296))
+            assert.is_true(QuestiePlayer.HasRequiredRace(4294967297))
+            assert.is_false(QuestiePlayer.HasRequiredRace(8589934592))
+            assert.is_true(QuestiePlayer.HasRequiredRace(nil))
+            assert.is_true(QuestiePlayer.HasRequiredRace(0))
+        end)
+
+        local ordinaryClients = {
+            {name = "Classic", isForever = false},
+            {name = "Forever", isForever = true},
+        }
+        for _, client in ipairs(ordinaryClients) do
+            it("preserves Human race restrictions on " .. client.name, function()
+                Questie.IsForever = client.isForever
+                _G.UnitRace = function() return "Human", "Human", 1 end
                 QuestiePlayer:Initialize()
 
                 assert.is_true(QuestiePlayer.HasRequiredRace(RACE_MASK.ORC))
