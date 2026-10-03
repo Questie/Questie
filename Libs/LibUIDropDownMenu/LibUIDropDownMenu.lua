@@ -53,8 +53,10 @@ local isAnniversaryTBC = PROJECT_TBC ~= nil and projectID == PROJECT_TBC
 local isCataclysmClassic = PROJECT_CATA ~= nil and projectID == PROJECT_CATA
 local isMistsClassic = PROJECT_MISTS ~= nil and projectID == PROJECT_MISTS
 local isProgressionClassic = isCataclysmClassic or isMistsClassic
-local isClassicForever = isForeverBeta
-local isAnyClassic = isClassicEra or isAnniversaryTBC or isProgressionClassic
+-- Questie: keep Forever on the classic code paths like rev 117 did (it saw the 1.x interface as Classic Era).
+-- The retail paths break checkbox toggles in sub-menus (Vendor / Profession Trainers) on Forever.
+local isClassicForever = false
+local isAnyClassic = isClassicEra or isAnniversaryTBC or isProgressionClassic or isForeverBeta
 
 if isRetail or isClassicForever then
 	GetValueOrCallFunction = _G.GetValueOrCallFunction
