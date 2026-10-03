@@ -394,6 +394,17 @@ local function LoadQuestieDBMock()
             BuildNameIndex(datatype)
         end
 
+        ---The default fake completes in one batch; scheduling tests replace this with a yielding build.
+        ---@param iterationsPerCycle integer? Positive batch size; defaults to 250.
+        ---@return nil
+        function entity.BuildNameIndexAsync(iterationsPerCycle)
+            if iterationsPerCycle == nil then iterationsPerCycle = 250 end
+            assert(type(iterationsPerCycle) == "number" and iterationsPerCycle >= 1
+                and iterationsPerCycle < math.huge and iterationsPerCycle % 1 == 0,
+                "BuildNameIndexAsync requires a positive integer batch size")
+            BuildNameIndex(datatype)
+        end
+
         -- Named getters mirror the provider's schema-generated accessors, e.g. `Object.name(id)`.
         for fieldName in pairs(keys[datatype]) do
             entity[fieldName] = function(id)

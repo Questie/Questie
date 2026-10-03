@@ -185,12 +185,21 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     coYield()
 end
 
+---@async
+---@return nil
 QuestieInit.Stages[2] = function()
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
 
     -- Object tooltips use database-wide name uniqueness for zone filtering even when Object IDs
     -- are hidden. Warm the provider index after locale and policy setup, not on the first hover.
-    LibQuestieDB.Object.BuildNameIndex()
+    -- Smaller Hardcore batches address the reported script timeout. Async builds return only
+    -- when ready; older providers retain the synchronous path so releases need not be coupled.
+    local objectDB = LibQuestieDB.Object
+    if type(objectDB.BuildNameIndexAsync) == "function" then
+        objectDB.BuildNameIndexAsync(Questie.IsHardcore and 250 or 1000)
+    else
+        objectDB.BuildNameIndex()
+    end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage2] QuestiePlayer initializing.")
     QuestiePlayer:Initialize()
