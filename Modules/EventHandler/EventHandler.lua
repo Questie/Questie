@@ -58,6 +58,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -72,6 +74,11 @@ function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function(event, isInitialLogin, isReloadingUi)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
         if not questPOIHandled then
+            -- Forever resets questPOI to 0 every login; re-apply the user's pin choice before the
+            -- map-hide check below (ApplyQuestPOI is combat-safe and defers itself if in lockdown).
+            if Questie.IsForever then
+                WorldMapButton.ApplyQuestPOI()
+            end
             if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
                 -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
                 -- Don't use WorldMapFrame:Hide() that will cause taint issues
