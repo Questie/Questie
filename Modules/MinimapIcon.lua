@@ -41,6 +41,11 @@ function _MinimapIcon:CreateDataBrokerObject()
 
         ---@param tooltip any
         OnTooltipShow = function (tooltip)
+            if minimapButton and tooltip:GetOwner() == minimapButton then
+                -- Tooltip top right on the button's bottom left, so it never overlaps the menu on its bottom right
+                tooltip:ClearAllPoints()
+                tooltip:SetPoint("TOPRIGHT", minimapButton, "BOTTOMLEFT")
+            end
             tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
             tooltip:AddLine(" ")
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle My Journey'), 'white'))
@@ -61,7 +66,8 @@ function _MinimapIcon:CreateDataBrokerObject()
     return LDBDataObject
 end
 
-function _MinimapIcon.OnClick(_, button)
+---@param displayFrame Frame The LDB display that was clicked (minimap button, addon compartment, broker bar, ...)
+function _MinimapIcon.OnClick(displayFrame, button)
     if (not Questie.started) then
         return
     end
@@ -113,7 +119,8 @@ function _MinimapIcon.OnClick(_, button)
             return
         end
 
-        QuestieMenu:Show()
+        -- Anchor to the minimap button only; other LDB displays open the menu at the cursor
+        QuestieMenu:Show(nil, displayFrame == minimapButton and minimapButton or nil)
     end
 end
 
