@@ -39,5 +39,10 @@ function VersionCheckDB.Check()
     if type(LibQuestieDB.Enum) ~= "table" or type(LibQuestieDB.Enum.raceMaskById) ~= "table" then
         return false, context .. "The provider race-ID mapping is unavailable. Update QuestieDB and reload."
     end
+    local factionRaceMasks = LibQuestieDB.Enum.factionRaceMasks
+    if type(factionRaceMasks) ~= "table" or type(factionRaceMasks.Alliance) ~= "number"
+        or type(factionRaceMasks.Horde) ~= "number" then
+        return false, context .. "The provider faction race masks are unavailable. Update QuestieDB and reload."
+    end
     return true
 end

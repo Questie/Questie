@@ -308,6 +308,11 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             assert.is_nil(provider.Enum.raceMaskById[94])
         end)
 
+        it("carries the Classic provider's active faction masks", function()
+            assert.are_same({Alliance = 77, Horde = 178}, provider.Enum.factionRaceMasks)
+            assert.are_same(provider.Enum.factionRaceMasks, mock.lib.Enum.factionRaceMasks)
+        end)
+
         it("carries the provider's Database Key Enums and field types", function()
             for _, metaName in ipairs({"QuestMeta", "NpcMeta", "ItemMeta", "ObjectMeta"}) do
                 local keysName = metaName:sub(1, 1):lower() .. metaName:sub(2, -5) .. "Keys"
@@ -917,6 +922,7 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             assert.are_same(8589934770, hordeMask)
             assert.are_same(QuestieDB.raceKeys.SKYBORNE_ALLIANCE, foreverProvider.Enum.raceMaskById[95])
             assert.are_same(QuestieDB.raceKeys.ALL_ALLIANCE, allianceMask)
+            assert.are_same(foreverProvider.Enum.factionRaceMasks.Alliance, allianceMask)
             assert.is_true(QuestiePlayer.HasRequiredRace(allianceMask))
             assert.is_false(QuestiePlayer.HasRequiredRace(hordeMask))
             assert.are_same("|cFF1E90FFAlliance|r", QuestieLib:GetRaceString(allianceMask))
@@ -931,6 +937,7 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
 
             assert.are_same(QuestieDB.raceKeys.SKYBORNE_HORDE, foreverProvider.Enum.raceMaskById[96])
             assert.are_same(QuestieDB.raceKeys.ALL_HORDE, hordeMask)
+            assert.are_same(foreverProvider.Enum.factionRaceMasks.Horde, hordeMask)
             assert.is_true(QuestiePlayer.HasRequiredRace(hordeMask))
             assert.is_false(QuestiePlayer.HasRequiredRace(allianceMask))
             assert.are_same("|cFFDA4450Horde|r", QuestieLib:GetRaceString(hordeMask))

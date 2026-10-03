@@ -143,6 +143,26 @@ describe("QuestieInit", function()
             assert.are_same({}, mock.setLocaleCalls)
         end)
 
+        it("rejects missing faction masks before forwarding or publishing corrections", function()
+            mock.lib.Enum.factionRaceMasks = nil
+
+            assert.has_error(function() _RunStage(1) end,
+                "Questie requires QuestieDB contract 3; installed QuestieDB version: 1.1.1. " ..
+                "The provider faction race masks are unavailable. Update QuestieDB and reload.")
+            assert.are_same({"l10n.InitializeUILocale"}, callOrder)
+            assert.are_same({}, mock.setLocaleCalls)
+        end)
+
+        it("rejects an incomplete faction mask table before forwarding or publishing corrections", function()
+            mock.lib.Enum.factionRaceMasks.Horde = nil
+
+            assert.has_error(function() _RunStage(1) end,
+                "Questie requires QuestieDB contract 3; installed QuestieDB version: 1.1.1. " ..
+                "The provider faction race masks are unavailable. Update QuestieDB and reload.")
+            assert.are_same({"l10n.InitializeUILocale"}, callOrder)
+            assert.are_same({}, mock.setLocaleCalls)
+        end)
+
         it("rejects a malformed provider missing translation slots before forwarding", function()
             mock.lib.l10n.SetCorrection = nil
             assert.has_error(function() _RunStage(1) end,

@@ -121,46 +121,19 @@ QuestieDB.DoableStates = {
     ARENA_RATING = 32,
 }
 
--- * race bitmask data, for easy access
--- ? The PlayableRaceBit can be found in ChrRaces.dbc
--- ? https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
--- ? The values below are calculated by 2^PlayableRaceBit
+-- Individual race masks use 2^PlayableRaceBit from ChrRaces, not 2^(raceID-1).
+-- https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
+-- The provider selects faction membership for its active content flavor. Missing capability
+-- stays unset here so VersionCheckDB can report it during startup, rather than guessing Classic masks.
+local factionRaceMasks = LibQuestieDB.Enum and LibQuestieDB.Enum.factionRaceMasks
+if type(factionRaceMasks) ~= "table" then
+    factionRaceMasks = nil
+end
+
 ---@class RaceKeys
 QuestieDB.raceKeys = {
-    -- Allow all alliance races
-    ALL_ALLIANCE = (function()
-        if Questie.IsClassic and not Questie.IsForever then
-            return 77
-        elseif Questie.IsTBC or Questie.IsWotlk then
-            return 1101
-        elseif Questie.IsCata then
-            return 2098253
-        elseif Questie.IsMoP then
-            return 18875469
-        elseif Questie.IsForever then
-            return 4294967373
-        else
-            print("Unknown expansion for ALL_ALLIANCE")
-            return 77
-        end
-    end)(),
-    -- Allow all horde races
-    ALL_HORDE = (function()
-        if Questie.IsClassic and not Questie.IsForever then
-            return 178
-        elseif Questie.IsTBC or Questie.IsWotlk then
-            return 690
-        elseif Questie.IsCata then
-            return 946
-        elseif Questie.IsMoP then
-            return 33555378
-        elseif Questie.IsForever then
-            return 8589934770
-        else
-            print("Unknown expansion for ALL_HORDE")
-            return 178
-        end
-    end)(),
+    ALL_ALLIANCE = factionRaceMasks and factionRaceMasks.Alliance,
+    ALL_HORDE = factionRaceMasks and factionRaceMasks.Horde,
     -- Allow all races (No limit on allowed races)
     NONE = 0,
 

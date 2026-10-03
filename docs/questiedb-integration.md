@@ -52,9 +52,12 @@ API used during file loading can still fail before the compatibility message. Mo
 earlier is unfinished work in the [release-bundling plan](../PLAN-release-bundles.md).
 
 Player race encoding comes from the provider's read-only `LibQuestieDB.Enum.raceMaskById`.
+Faction-wide masks come from `LibQuestieDB.Enum.factionRaceMasks.Alliance` and `.Horde`.
+The provider calculates them once from explicit flavor-specific race membership; Questie binds
+those values to `QuestieDB.raceKeys.ALL_ALLIANCE` and `.ALL_HORDE` without selecting a flavor again.
 Actual race IDs are not bit positions: Skyborne IDs 95/96 use bits 32/33. `VersionCheckDB.Check()`
-requires the mapping before login work proceeds; unknown player IDs stop player initialization
-rather than guessing an encoding. Contract 3 guarantees this mapping. Update both projects
+requires both tables before login work proceeds; unknown player IDs stop player initialization
+rather than guessing an encoding. Contract 3 guarantees both the mapping and the active faction masks. Update both projects
 together; contract-2 providers fail the version check, while the updated provider still supports
 older contract-1 and contract-2 consumers. Provider conversion supplies extended Forever faction masks,
 so Questie's membership check no longer widens legacy `77`/`178` subsets.

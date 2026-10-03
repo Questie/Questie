@@ -421,6 +421,7 @@ local function LoadQuestieDBMock()
 
     -- Literal fixture checked against the real provider by the conformance suite.
     lib.Enum = {
+        factionRaceMasks = {Alliance = 77, Horde = 178}, -- Classic provider, independent of the mocked client flags.
         raceMaskById = {
             [1] = 1, [2] = 2, [3] = 4, [4] = 8, [5] = 16, [6] = 32, [7] = 64, [8] = 128,
             [9] = 256, [10] = 512, [11] = 1024, [22] = 2097152,
