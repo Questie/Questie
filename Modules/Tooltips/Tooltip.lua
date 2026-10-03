@@ -314,7 +314,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         elseif QuestieDB.IsRepeatable(questId) then
                             colorText = ":33:204:231"
                         else -- normal quest, use leveled colors
-                            local r, g, b = QuestieLib:GetDifficultyColorPercent(level)
+                            local r, g, b = QuestieLib:GetDifficultyColorPercent(level, questId)
                             colorText = ":" .. tostring(math.floor(r * 255)) .. ":" .. tostring(math.floor(g * 255)) .. ":" .. tostring(math.floor(b * 255))
                         end
                         if tooltip.type == "NPC" then

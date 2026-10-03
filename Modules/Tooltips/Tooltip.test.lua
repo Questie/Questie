@@ -410,6 +410,23 @@ describe("Tooltip", function()
     end)
 
     describe("GetTooltip", function()
+        it("uses the quest ID when coloring the starter icon", function()
+            Questie.db.profile.showQuestsInNpcTooltip = true
+            QuestieLib.GetEffectiveQuestLevel = function() return 2 end
+            QuestieLib.GetDifficultyColorPercent = spy.new(function() return 0.753, 0.753, 0.753 end)
+            QuestieLoader:ImportModule("QuestieEvent").IsEventQuest = function() return false end
+            QuestieDB.IsPvPQuest = function() return false end
+            QuestieDB.IsRepeatable = function() return false end
+            QuestieTooltips:RegisterQuestStartTooltip(94414, "Quest giver", 123, "m_123", "NPC")
+
+            local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+            assert.spy(QuestieLib.GetDifficultyColorPercent).was.called_with(QuestieLib, 2, 94414)
+            assert.are.same({
+                "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32:192:192:192|tQuest Name",
+            }, tooltip)
+        end)
+
         it("should return quest name when tooltip has name set and showQuestsInNpcTooltip is active", function()
             Questie.db.profile.showQuestsInNpcTooltip = true
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}

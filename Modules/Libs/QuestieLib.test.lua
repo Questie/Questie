@@ -26,6 +26,119 @@ describe("QuestieLib", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
     end)
 
+    describe("difficulty colors", function()
+        local QuestieCompat, originalEnum
+        local getDifficultyMock, getGreenRangeMock, getPlayerLevelMock
+        local nativeDifficulty
+
+        before_each(function()
+            originalEnum = _G.Enum
+            _G.Enum = {RelativeContentDifficulty = {Trivial = 0, Easy = 1, Fair = 2, Difficult = 3, Impossible = 4}}
+            QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            nativeDifficulty = nil
+            getDifficultyMock = stub(QuestieCompat, "GetQuestDifficulty", function() return nativeDifficulty end)
+            getGreenRangeMock = stub(QuestieCompat, "GetQuestGreenRange", function() return 5 end)
+            getPlayerLevelMock = stub(QuestieLoader:ImportModule("QuestiePlayer"), "GetPlayerLevel", function() return 7 end)
+            dofile("Modules/Libs/QuestieLib.lua")
+        end)
+
+        after_each(function()
+            getDifficultyMock:revert()
+            getGreenRangeMock:revert()
+            getPlayerLevelMock:revert()
+            _G.Enum = originalEnum
+        end)
+
+        it("colors the Forever boundary gray without making the quest trivial", function()
+            -- Forever 1.60.1 (70205): quest 94414 is level 2 for a level-7 player.
+            nativeDifficulty = 0
+
+            assert.are.equal("|cFFC0C0C0Anchors|r", QuestieLib:PrintDifficultyColor(2, "Anchors", false, false, false, 94414))
+            assert.are.same({0.753, 0.753, 0.753}, {QuestieLib:GetDifficultyColorPercent(2, 94414)})
+            assert.spy(getDifficultyMock).was.called_with(94414)
+            assert.is_false(QuestieDB.IsTrivial(2))
+        end)
+
+        local nativeColors = {
+            {name = "Easy", difficulty = 1, text = "|cFF40C040Quest|r", rgb = {0.251, 0.753, 0.251}},
+            {name = "Fair", difficulty = 2, text = "|cFFFFFF00Quest|r", rgb = {1, 1, 0}},
+            {name = "Difficult", difficulty = 3, text = "|cFFFF8040Quest|r", rgb = {1, 0.502, 0.251}},
+            {name = "Impossible", difficulty = 4, text = "|cFFFF1A1AQuest|r", rgb = {1, 0.102, 0.102}},
+        }
+        for _, case in ipairs(nativeColors) do
+            it("uses native " .. case.name .. " difficulty instead of the database level", function()
+                nativeDifficulty = case.difficulty
+
+                assert.are.equal(case.text, QuestieLib:PrintDifficultyColor(1, "Quest", false, false, false, QUEST_ID))
+                assert.are.same(case.rgb, {QuestieLib:GetDifficultyColorPercent(1, QUEST_ID)})
+                assert.spy(getGreenRangeMock).was.not_called()
+            end)
+        end
+
+        local fallbackColors = {
+            {name = "gray below the green range", level = 1, text = "|cFFC0C0C0Quest|r", rgb = {0.753, 0.753, 0.753}},
+            {name = "green at the inclusive boundary", level = 2, text = "|cFF40C040Quest|r", rgb = {0.251, 0.753, 0.251}},
+            {name = "green three levels below", level = 4, text = "|cFF40C040Quest|r", rgb = {0.251, 0.753, 0.251}},
+            {name = "yellow two levels below", level = 5, text = "|cFFFFFF00Quest|r", rgb = {1, 1, 0}},
+            {name = "yellow two levels above", level = 9, text = "|cFFFFFF00Quest|r", rgb = {1, 1, 0}},
+            {name = "orange three levels above", level = 10, text = "|cFFFF8040Quest|r", rgb = {1, 0.502, 0.251}},
+            {name = "red five levels above", level = 12, text = "|cFFFF1A1AQuest|r", rgb = {1, 0.102, 0.102}},
+            {name = "yellow for player-level quests", level = -1, text = "|cFFFFFF00Quest|r", rgb = {1, 1, 0}},
+        }
+        for _, case in ipairs(fallbackColors) do
+            it("falls back to " .. case.name .. " without native difficulty", function()
+                assert.are.equal(case.text, QuestieLib:PrintDifficultyColor(case.level, "Quest", false, false, false, QUEST_ID))
+                assert.are.same(case.rgb, {QuestieLib:GetDifficultyColorPercent(case.level, QUEST_ID)})
+            end)
+        end
+
+        it("keeps level-only callers working on clients without difficulty enums", function()
+            _G.Enum = nil
+            dofile("Modules/Libs/QuestieLib.lua")
+
+            assert.are.equal("|cFF40C040Quest|r", QuestieLib:PrintDifficultyColor(2, "Quest"))
+            assert.are.same({0.251, 0.753, 0.251}, {QuestieLib:GetDifficultyColorPercent(2)})
+        end)
+
+        it("keeps event, PvP and repeatable colors ahead of native difficulty", function()
+            nativeDifficulty = 0
+
+            assert.are.equal("|cFF6ce314Quest|r", QuestieLib:PrintDifficultyColor(2, "Quest", true, true, true, QUEST_ID))
+            assert.are.equal("|cFFE35639Quest|r", QuestieLib:PrintDifficultyColor(2, "Quest", true, false, true, QUEST_ID))
+            assert.are.equal("|cFF21CCE7Quest|r", QuestieLib:PrintDifficultyColor(2, "Quest", true, false, false, QUEST_ID))
+            assert.spy(getDifficultyMock).was.not_called()
+        end)
+
+        describe("GetColoredQuestName", function()
+            local queryMock, repeatableMock, pvpMock, eventMock
+
+            before_each(function()
+                queryMock = stub(QuestieDB, "QueryQuestSingle", function(_, key)
+                    return ({name = "Anchors", questLevel = 2, requiredLevel = 1, requiredMaxLevel = 0})[key]
+                end)
+                repeatableMock = stub(QuestieDB, "IsRepeatable", function() return false end)
+                pvpMock = stub(QuestieDB, "IsPvPQuest", function() return false end)
+                eventMock = stub(QuestieLoader:ImportModule("QuestieEvent"), "IsEventQuest", function() return false end)
+            end)
+
+            after_each(function()
+                queryMock:revert()
+                repeatableMock:revert()
+                pvpMock:revert()
+                eventMock:revert()
+            end)
+
+            it("uses the quest ID when formatting a colored quest name", function()
+                nativeDifficulty = 0
+
+                local result = QuestieLib:GetColoredQuestName(94414, false, false)
+
+                assert.are.equal("|cFFC0C0C0Anchors|r", result)
+                assert.spy(getDifficultyMock).was.called_with(94414)
+            end)
+        end)
+    end)
+
     describe("addon version", function()
         local getMetadataMock
 
