@@ -36,5 +36,8 @@ function VersionCheckDB.Check()
     if supported ~= true then
         return false, context .. (contractError or "The installed provider does not support this contract. Update Questie or QuestieDB.")
     end
+    if type(LibQuestieDB.Enum) ~= "table" or type(LibQuestieDB.Enum.raceMaskById) ~= "table" then
+        return false, context .. "The provider race-ID mapping is unavailable. Update QuestieDB and reload."
+    end
     return true
 end

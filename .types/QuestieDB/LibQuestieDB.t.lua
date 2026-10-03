@@ -1,6 +1,7 @@
 ---@meta _
 
 ---@class QuestieDBEnums
+---@field raceMaskById table<integer, integer?> Actual race ID to requiredRaces mask; unknown IDs return nil. Encoding, not playability; read-only by contract.
 ---@field phases table<string, integer> Shared phase names to Blizzard or Questie-defined fake IDs; read-only by contract for consumers.
 
 ---@class LibQuestieDB

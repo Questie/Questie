@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestiePlayer", function()
     ---@type QuestiePlayer
@@ -10,7 +11,7 @@ describe("QuestiePlayer", function()
     end)
 
     describe("HasRequiredRace", function()
-        local globalNames = {"UnitLevel", "UnitRace", "UnitClass", "UnitFactionGroup"}
+        local globalNames = {"LibQuestieDB", "UnitLevel", "UnitRace", "UnitClass", "UnitFactionGroup"}
         local savedGlobals
         local originalForever
         local originalFaction
@@ -21,6 +22,7 @@ describe("QuestiePlayer", function()
             for _, name in ipairs(globalNames) do
                 savedGlobals[name] = _G[name]
             end
+            LoadQuestieDBMock()
             originalForever = Questie.IsForever
             originalFaction = QuestiePlayer.faction
             originalLevel = QuestiePlayer.private.playerLevel
@@ -50,16 +52,19 @@ describe("QuestiePlayer", function()
             assert.is_true(QuestiePlayer.HasRequiredRace(0))
         end)
 
-        it("allows Alliance-wide restrictions without granting Human-only quests to Skyborne", function()
+        it("uses the extended Alliance mask without widening legacy race subsets", function()
             QuestiePlayer:Initialize()
 
-            assert.is_true(QuestiePlayer.HasRequiredRace(77))
+            assert.is_true(QuestiePlayer.HasRequiredRace(4294967373))
+            assert.is_false(QuestiePlayer.HasRequiredRace(8589934770))
+            assert.is_false(QuestiePlayer.HasRequiredRace(77))
             assert.is_false(QuestiePlayer.HasRequiredRace(178))
+            assert.is_false(QuestiePlayer.HasRequiredRace(255))
             assert.is_false(QuestiePlayer.HasRequiredRace(1))
             assert.is_false(QuestiePlayer.HasRequiredRace(5))
         end)
 
-        it("uses the Windshaper bit and only the Horde-wide faction exception", function()
+        it("uses the Windshaper bit and the extended Horde mask", function()
             _G.UnitRace = function() return "Windshaper Skyborne", "Skyborne", 96 end
             _G.UnitFactionGroup = function() return "Horde" end
             QuestiePlayer:Initialize()
@@ -67,11 +72,42 @@ describe("QuestiePlayer", function()
             assert.is_true(QuestiePlayer.HasRequiredRace(8589934592))
             assert.is_true(QuestiePlayer.HasRequiredRace(8589934594))
             assert.is_false(QuestiePlayer.HasRequiredRace(4294967296))
-            assert.is_true(QuestiePlayer.HasRequiredRace(178))
+            assert.is_true(QuestiePlayer.HasRequiredRace(8589934770))
+            assert.is_false(QuestiePlayer.HasRequiredRace(4294967373))
+            assert.is_false(QuestiePlayer.HasRequiredRace(178))
             assert.is_false(QuestiePlayer.HasRequiredRace(77))
             assert.is_false(QuestiePlayer.HasRequiredRace(2))
             assert.is_true(QuestiePlayer.HasRequiredRace(nil))
             assert.is_true(QuestiePlayer.HasRequiredRace(0))
+        end)
+
+        it("uses the provider mapping instead of deriving a bit from the race ID", function()
+            LibQuestieDB.Enum.raceMaskById[97] = 16
+            _G.UnitRace = function() return "Mapped Race", "MappedRace", 97 end
+            QuestiePlayer:Initialize()
+
+            assert.is_true(QuestiePlayer.HasRequiredRace(16))
+            assert.is_false(QuestiePlayer.HasRequiredRace(1))
+        end)
+
+        it("stops on an unknown race rather than guessing a bit or treating it as unrestricted", function()
+            _G.UnitRace = function() return "Unknown", "Unknown", 94 end
+
+            assert.has_error(function() QuestiePlayer:Initialize() end,
+                "QuestieDB has no race mask for race ID 94. Update QuestieDB and reload.")
+        end)
+
+        it("preserves Worgen and Pandaren encodings for non-contiguous race IDs", function()
+            Questie.IsForever = false
+            _G.UnitRace = function() return "Worgen", "Worgen", 22 end
+            QuestiePlayer:Initialize()
+            assert.is_true(QuestiePlayer.HasRequiredRace(2097152))
+            assert.is_false(QuestiePlayer.HasRequiredRace(16777216))
+
+            _G.UnitRace = function() return "Pandaren", "Pandaren", 25 end
+            QuestiePlayer:Initialize()
+            assert.is_true(QuestiePlayer.HasRequiredRace(16777216))
+            assert.is_false(QuestiePlayer.HasRequiredRace(2097152))
         end)
 
         local ordinaryClients = {

@@ -14,16 +14,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type table<QuestId, Quest>
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
-local playerRaceId = -1
 local playerRaceFlag = 255 -- dummy default value to always return race not matching, corrected in init
 local playerRaceFlagX2 = 1 -- dummy default value to always return race not matching, corrected in init
-local playerIsSkyborne = false
--- ChrRaces in Forever build 69893 uses PlayableRaceBit 32/33, not race ID minus one.
----@type table<number, number>
-local skyborneRaceFlags = {
-    [95] = 4294967296, -- High Order Skyborne (Alliance)
-    [96] = 8589934592, -- Windshaper Skyborne (Horde)
-}
 local playerClassName = ""
 local playerClassFlag = 255 -- dummy default value to always return class not matching, corrected in init
 local playerClassFlagX2 = 1 -- dummy default value to always return class not matching, corrected in init
@@ -36,9 +28,12 @@ QuestiePlayer.numberOfGroupMembers = 0
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
 
-    playerRaceId = select(3, UnitRace("player"))
-    playerIsSkyborne = Questie.IsForever == true and skyborneRaceFlags[playerRaceId] ~= nil
-    playerRaceFlag = playerIsSkyborne and skyborneRaceFlags[playerRaceId] or 2 ^ (playerRaceId - 1)
+    -- The provider owns the encoding used by its quest masks. Race IDs are not bit positions.
+    local playerRaceId = select(3, UnitRace("player"))
+    playerRaceFlag = LibQuestieDB.Enum.raceMaskById[playerRaceId]
+    if not playerRaceFlag then
+        error("QuestieDB has no race mask for race ID " .. tostring(playerRaceId) .. ". Update QuestieDB and reload.")
+    end
     playerRaceFlagX2 = 2 * playerRaceFlag
 
     playerClassName = select(1, UnitClass("player"))
@@ -91,16 +86,7 @@ end
 ---@param requiredRaces number? Race mask; nil and zero are unrestricted.
 ---@return boolean
 function QuestiePlayer.HasRequiredRace(requiredRaces)
-    if playerIsSkyborne then
-        -- The Classic database encodes faction-wide restrictions as 77/178. Only these complete masks
-        -- include new races; race-specific subsets must still match their actual bits.
-        if requiredRaces == 77 then
-            return QuestiePlayer.faction == "Alliance"
-        elseif requiredRaces == 178 then
-            return QuestiePlayer.faction == "Horde"
-        end
-    end
-
+    -- Faction-wide masks already include their races in the provider. Do not widen subsets here.
     -- Arithmetic preserves Skyborne bits above the range of 32-bit bitwise operations.
     -- test a bit flag: (value % (2*flag) >= flag)
     return (not requiredRaces) or (requiredRaces == 0) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)

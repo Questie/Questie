@@ -24,7 +24,7 @@ are recorded in [ADR 0001](adr/0001-questietdb-is-the-only-entity-database.md),
 
 ## Initialization and compatibility
 
-Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 2`. Build preflight
+Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 3`. Build preflight
 checks that contract declarations are valid and consistent. At runtime,
 [`VersionCheckDB.Check`](../Modules/VersionCheckDB.lua) reads the active TOC's requirement.
 
@@ -36,7 +36,7 @@ TOC file loading
 ADDON_LOADED
   -> run migrations, initialize and validate Zones and Quest XP
 Login Stage 1
-  -> select UI locale, check provider contract and localization-correction capability
+  -> select UI locale, check provider contract, race-ID mapping, and localization-correction capability
   -> forward entity locale and publish external entity translations
   -> initialize Questie policy, validate faction templates, bind composed ID maps
   -> build Townsfolk, then initialize calendar events
@@ -50,6 +50,14 @@ Login Stage 3
 The Stage 1 check gates login work, **not earlier TOC-file bindings**. A provider that lacks an
 API used during file loading can still fail before the compatibility message. Moving that gate
 earlier is unfinished work in the [release-bundling plan](../PLAN-release-bundles.md).
+
+Player race encoding comes from the provider's read-only `LibQuestieDB.Enum.raceMaskById`.
+Actual race IDs are not bit positions: Skyborne IDs 95/96 use bits 32/33. `VersionCheckDB.Check()`
+requires the mapping before login work proceeds; unknown player IDs stop player initialization
+rather than guessing an encoding. Contract 3 guarantees this mapping. Update both projects
+together; contract-2 providers fail the version check, while the updated provider still supports
+older contract-1 and contract-2 consumers. Provider conversion supplies extended Forever faction masks,
+so Questie's membership check no longer widens legacy `77`/`178` subsets.
 
 Questie forwards the effective UI locale through `LibQuestieDB.l10n.SetLocale`. External entity
 lookups are adapted into localization slots under owner `QuestieLocalesOverride`, rather than
@@ -172,6 +180,11 @@ QuestieDB `master`, sets that path explicitly, and logs the resolved SHA. The jo
 errors; it is not currently an advisory job. Provider changes can alter the result for an unchanged
 Questie revision. Branch-protection settings are managed separately from the workflow.
 
+The conformance file also loads Forever in Source mode to check real quest masks through
+Questie's player eligibility and faction display. It compares the double's literal race-ID
+mapping with the provider's mapping. Provider storage tests cover high-bit Source/Baked reads;
+these consumer tests do not generate or validate a released Baked artifact.
+
 Conformance proves only the covered behavior. The double intentionally rejects some invalid
 inputs more strictly and omits provider write-time normalization, encoding, and storage/cache
 behavior. Its ownership is tracked in
@@ -232,7 +245,7 @@ These are unfinished checks, not guarantees established by the historical smoke 
   [#19](https://github.com/Questie/QuestieDB/issues/19). Recorded implementation evidence is in the
   [history](tdb-history.md#provider-handoff-evidence), not a claim that those issues are closed.
 - Complete the early file-load compatibility gate and the release compatibility checks above.
-- Complete the current Contract Version 2 live matrix below. Historical Contract Version 1 Era/SoD
+- Complete the current Contract Version 3 live matrix below. Historical Contract Version 1/2
   results do not satisfy it. Record both addon revisions, client build, flavor/season, locale, provider
   mode, and observations for each run. Coordinate client changes with the user; do not repoint a
   daily-driver installation without permission.

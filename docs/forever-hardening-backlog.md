@@ -77,6 +77,10 @@ Future behavior:
 - Project ID 1 selected an unmapped expansion before Forever detection existed, causing number-versus-nil comparisons in options and database corrections.
 - Skyborne race ID 95 did not use bit 94. The old `2^(raceID-1)` formula rejected its actual bit-32 mask and legacy Alliance-wide masks without raising an error.
 
+**Current encoding fix:** Questie now looks up all player race masks in QuestieDB's explicit
+`Enum.raceMaskById` table. Missing provider capability or an unknown race stops initialization
+with an update message. The partial-support behavior proposed below is not implemented.
+
 Future behavior:
 
 - Validate content-family detection before entering expansion-dependent initialization. Unknown content should produce one clear unsupported-client diagnostic, not unrelated comparison errors.

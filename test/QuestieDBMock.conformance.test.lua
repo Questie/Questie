@@ -66,8 +66,9 @@ end
 
 ---Loads the provider in Source mode the way its own suite does, then restores every global the
 ---emulator replaced so the rest of this file, and the mock, keep Questie's test environment.
+---@param expansion string? Provider content flavor; defaults to Classic.
 ---@return table lib The provider's `LibQuestieDB`
-local function LoadProvider()
+local function LoadProvider(expansion)
     local snapshot = {}
     for key, value in pairs(_G) do
         snapshot[key] = value
@@ -85,7 +86,7 @@ local function LoadProvider()
         local client = dofile("emulator/client.lua")
         local emulator = dofile("emulator/metadata.lua")
         client.reset()
-        client.install({expansion = "Classic"})
+        client.install({expansion = expansion or "Classic"})
         return emulator.loadAddon("QuestieDB.toc", "QuestieDB", ".")
     end)
     assert(lfs.chdir(previousDirectory))
@@ -300,6 +301,13 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
     end
 
     describe("schema", function()
+        it("carries the provider's actual race-ID encodings", function()
+            assert.are_same(provider.Enum.raceMaskById, mock.lib.Enum.raceMaskById)
+            assert.are_same(4294967296, provider.Enum.raceMaskById[95])
+            assert.are_same(8589934592, provider.Enum.raceMaskById[96])
+            assert.is_nil(provider.Enum.raceMaskById[94])
+        end)
+
         it("carries the provider's Database Key Enums and field types", function()
             for _, metaName in ipairs({"QuestMeta", "NpcMeta", "ItemMeta", "ObjectMeta"}) do
                 local keysName = metaName:sub(1, 1):lower() .. metaName:sub(2, -5) .. "Keys"
@@ -308,13 +316,16 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             end
         end)
 
-        it("answers RequireContract(1) the same way", function()
+        it("supports the race-mapping contract and older consumer contracts", function()
             local seen = Conform(function(lib)
-                local ok, message = lib.RequireContract(1)
-                local nonNumeric = lib.RequireContract("1")
-                return {ok = ok, message = message, nonNumeric = nonNumeric}
+                local ok, message = lib.RequireContract(3)
+                return {
+                    ok = ok, message = message,
+                    contract1 = lib.RequireContract(1), contract2 = lib.RequireContract(2),
+                    future = lib.RequireContract(4), nonNumeric = lib.RequireContract("3"),
+                }
             end)
-            assert.is_true(seen.ok)
+            assert.are_same({ok = true, contract1 = true, contract2 = true, future = false, nonNumeric = false}, seen)
         end)
     end)
 
@@ -850,6 +861,103 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
                 assert.are_same("Corrected", seen.Item.withdrawn)
             end)
         end
+    end)
+
+    describe("Forever race encoding across provider and consumer", function()
+        local foreverProvider, QuestiePlayer, QuestieDB, QuestieLib
+        local savedGlobals, savedFlags
+        local globals = {"LibQuestieDB", "UnitRace", "UnitClass", "UnitLevel", "UnitFactionGroup"}
+        local flags = {"IsForever", "IsClassic", "IsTBC", "IsWotlk", "IsCata", "IsMoP"}
+
+        setup(function()
+            foreverProvider = LoadProvider("Forever")
+        end)
+
+        before_each(function()
+            savedGlobals, savedFlags = {}, {}
+            for _, name in ipairs(globals) do
+                savedGlobals[name] = _G[name]
+            end
+            for _, name in ipairs(flags) do
+                savedFlags[name] = Questie[name]
+                Questie[name] = false
+            end
+            Questie.IsForever, Questie.IsClassic = true, true
+            _G.LibQuestieDB = foreverProvider
+            _G.UnitRace = function() return "High Order Skyborne", "Skyborne", 95 end
+            _G.UnitFactionGroup = function() return "Alliance" end
+            _G.UnitClass = function() return "Mage", "MAGE", 8 end
+            _G.UnitLevel = function() return 1 end
+
+            dofile("Database/QuestieDB.lua")
+            dofile("Localization/l10n.lua")
+            QuestieLoader:ImportModule("l10n").GetUILocale = function() return "enUS" end
+            dofile("Modules/Libs/QuestieLib.lua")
+            dofile("Modules/QuestiePlayer.lua")
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+            QuestiePlayer:Initialize()
+        end)
+
+        after_each(function()
+            for _, name in ipairs(globals) do
+                _G[name] = savedGlobals[name]
+            end
+            for _, name in ipairs(flags) do
+                Questie[name] = savedFlags[name]
+            end
+        end)
+
+        it("uses the same Alliance encoding for player identity, converted quests and faction display", function()
+            local allianceMask = QuestieDB.QueryQuestSingle(7162, "requiredRaces")
+            local hordeMask = QuestieDB.QueryQuestSingle(2, "requiredRaces")
+
+            assert.are_same(4294967373, allianceMask)
+            assert.are_same(8589934770, hordeMask)
+            assert.are_same(QuestieDB.raceKeys.SKYBORNE_ALLIANCE, foreverProvider.Enum.raceMaskById[95])
+            assert.are_same(QuestieDB.raceKeys.ALL_ALLIANCE, allianceMask)
+            assert.is_true(QuestiePlayer.HasRequiredRace(allianceMask))
+            assert.is_false(QuestiePlayer.HasRequiredRace(hordeMask))
+            assert.are_same("|cFF1E90FFAlliance|r", QuestieLib:GetRaceString(allianceMask))
+        end)
+
+        it("uses the same Horde encoding for player identity, converted quests and faction display", function()
+            _G.UnitRace = function() return "Windshaper Skyborne", "Skyborne", 96 end
+            _G.UnitFactionGroup = function() return "Horde" end
+            QuestiePlayer:Initialize()
+            local allianceMask = QuestieDB.QueryQuestSingle(7162, "requiredRaces")
+            local hordeMask = QuestieDB.QueryQuestSingle(2, "requiredRaces")
+
+            assert.are_same(QuestieDB.raceKeys.SKYBORNE_HORDE, foreverProvider.Enum.raceMaskById[96])
+            assert.are_same(QuestieDB.raceKeys.ALL_HORDE, hordeMask)
+            assert.is_true(QuestiePlayer.HasRequiredRace(hordeMask))
+            assert.is_false(QuestiePlayer.HasRequiredRace(allianceMask))
+            assert.are_same("|cFFDA4450Horde|r", QuestieLib:GetRaceString(hordeMask))
+        end)
+
+        it("preserves a Skyborne-only restriction through composed reads without allowing Humans", function()
+            local mask = QuestieDB.QueryQuestSingle(94006, "requiredRaces")
+
+            assert.are_same(12884901888, mask)
+            assert.is_true(QuestiePlayer.HasRequiredRace(mask))
+            assert.matches("High Order Skyborne", QuestieLib:GetRaceString(mask), 1, true)
+            assert.matches("Windshaper Skyborne", QuestieLib:GetRaceString(mask), 1, true)
+
+            _G.UnitRace = function() return "Human", "Human", 1 end
+            QuestiePlayer:Initialize()
+            assert.is_false(QuestiePlayer.HasRequiredRace(mask))
+        end)
+
+        it("keeps unrestricted quests available and explicitly race-restricted quests excluded", function()
+            local unrestricted = QuestieDB.QueryQuestSingle(94004, "requiredRaces")
+            local undeadOnly = QuestieDB.QueryQuestSingle(90902, "requiredRaces")
+
+            assert.are_same(0, unrestricted)
+            assert.are_same(16, undeadOnly)
+            assert.is_true(QuestiePlayer.HasRequiredRace(unrestricted))
+            assert.is_false(QuestiePlayer.HasRequiredRace(undeadOnly))
+        end)
     end)
 
     -- Source mode ships no translations, so these cases cover the locale plumbing, not the translated text.
