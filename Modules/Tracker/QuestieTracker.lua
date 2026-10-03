@@ -20,6 +20,8 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 ---@type ChallengeModeTimer
@@ -44,10 +46,6 @@ local _QuestEventHandler = QuestEventHandler.private
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestLogCache
-local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
----@type QuestieDebugOffer
-local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
@@ -247,8 +245,11 @@ function QuestieTracker.Initialize()
     if Questie.db.char.TrackerFocus then
         local focusType = type(Questie.db.char.TrackerFocus)
         if focusType == "number" then
-            TrackerUtils:FocusQuest(Questie.db.char.TrackerFocus)
-            QuestieQuest:ToggleNotes(false)
+            if TrackerUtils:FocusQuest(Questie.db.char.TrackerFocus) then
+                QuestieQuest:ToggleNotes(false)
+            else
+                TrackerUtils:UnFocus()
+            end
         elseif focusType == "string" then
             local questId, objectiveIndex = string.match(Questie.db.char.TrackerFocus, "(%d+) (%d+)")
             questId = tonumber(questId)
@@ -256,8 +257,11 @@ function QuestieTracker.Initialize()
 
             ---@cast questId number
             ---@cast objectiveIndex number
-            TrackerUtils:FocusObjective(questId, objectiveIndex)
-            QuestieQuest:ToggleNotes(false)
+            if TrackerUtils:FocusObjective(questId, objectiveIndex) then
+                QuestieQuest:ToggleNotes(false)
+            else
+                TrackerUtils:UnFocus()
+            end
         end
     end
 
@@ -296,13 +300,13 @@ function QuestieTracker.Initialize()
         -- the Questie.db.char.AutoUntrackedQuests tables. They can get out of sync.
         if Questie.db.profile.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
             for untrackedQuestId in pairs(Questie.db.char.AutoUntrackedQuests) do
-                if not QuestiePlayer.currentQuestlog[untrackedQuestId] then
+                if not TrackerData.ContainsQuest(untrackedQuestId) then
                     Questie.db.char.AutoUntrackedQuests[untrackedQuestId] = nil
                 end
             end
         elseif Questie.db.char.TrackedQuests then
             for trackedQuestId in pairs(Questie.db.char.TrackedQuests) do
-                if not QuestiePlayer.currentQuestlog[trackedQuestId] then
+                if not TrackerData.ContainsQuest(trackedQuestId) then
                     Questie.db.char.TrackedQuests[trackedQuestId] = nil
                 end
             end
@@ -903,6 +907,8 @@ function QuestieTracker:Update()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:Update]")
     end
 
+    -- Refresh once before any layout/visibility reads. Sorting and formatting consume this same snapshot.
+    TrackerData.Refresh()
     TrackerHeaderFrame:Update()
     TrackerQuestFrame:Update()
     TrackerBaseFrame:Update()
@@ -934,13 +940,13 @@ function QuestieTracker:Update()
 
     -- Begin populating the Tracker with Quests
     local _UpdateQuests = function()
-        for _, questId in pairs(sortedQuestIds) do
+        for _, questId in ipairs(sortedQuestIds) do
             if not questId then break end
 
             -- reset objectiveMarginLeft for each quest, it can be increased if there are quest items
             objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
 
-            ---@type Quest
+            ---@type TrackerQuest
             local quest = questDetails[questId].quest
             local complete = quest:IsComplete()
             local zoneName = questDetails[questId].zoneName
@@ -948,9 +954,9 @@ function QuestieTracker:Update()
             TrackerQuestTimers:UpdateAndGetRemainingTime(quest, nil, true)
             local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
 
-            if (complete ~= 1 or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
-                and (Questie.db.profile.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId])
-                or (not Questie.db.profile.autoTrackQuests and Questie.db.char.TrackedQuests[questId]) then
+            if ((complete ~= 1 and not quest.isComplete) or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
+                and ((Questie.db.profile.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId])
+                or (not Questie.db.profile.autoTrackQuests and Questie.db.char.TrackedQuests[questId])) then
                 -- Add Quest Zones
                 if zoneCheck ~= zoneName then
                     firstQuestInZone = true
@@ -1070,9 +1076,9 @@ function QuestieTracker:Update()
 
                     if timedQuest then
                         local showTimedState = isMinimizable and (Questie.db.profile.collapseCompletedQuests or Questie.db.char.collapsedQuests[quest.Id] ~= nil)
-                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel, showTimedState)
+                        coloredQuestName = TrackerData.GetColoredQuestName(quest, Questie.db.profile.trackerShowQuestLevel, showTimedState)
                     else
-                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.trackerShowQuestLevel,
+                        coloredQuestName = TrackerData.GetColoredQuestName(quest, Questie.db.profile.trackerShowQuestLevel,
                             ((isMinimizable and Questie.db.profile.collapseCompletedQuests) or Questie.db.char.collapsedQuests[quest.Id] ~= nil))
                     end
 
@@ -1209,23 +1215,17 @@ function QuestieTracker:Update()
                     if (not Questie.db.char.collapsedQuests[quest.Id]) then
                         -- Add incomplete Quest Objectives
                         if complete == 0 and quest.isComplete ~= true then
-                            for _, objective in pairs(quest.Objectives) do
-                                if (not Questie.db.profile.hideCompletedQuestObjectives or (Questie.db.profile.hideCompletedQuestObjectives and objective.Needed ~= objective.Collected)) then
+                            for _, objective in ipairs(quest.Objectives) do
+                                if not Questie.db.profile.hideCompletedQuestObjectives or not objective.Completed then
                                     line = TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidthQBC)
                                     if not line then break end
 
                                     line.questHasSecondaryQIB = secondaryButton
 
-                                    -- Set Objective based on states
-                                    local objDesc = QuestieLib:GetObjectiveDescription(objective)
-
                                     -- Sometimes the API returns messy objective data (finished=false, but numRequired==numFulfilled)
                                     local questIsIncompleteButObjectiveIsComplete = ((not quest.isComplete) and objective.Completed == true and #quest.Objectives == 1)
                                     if (objective.Completed ~= true or (objective.Completed == true and #quest.Objectives > 1) or questIsIncompleteButObjectiveIsComplete) then
-                                        local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
-
-                                        -- Set Objective text
-                                        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+                                        line.label:SetText(TrackerData.GetObjectiveText(objective))
                                         _UpdateLineWidth(line, objectiveMarginLeft)
 
                                         -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
@@ -2041,7 +2041,7 @@ function QuestieTracker.IsTrackedByQuestie(questId)
     if not Questie.db.profile.autoTrackQuests then
         return Questie.db.char.TrackedQuests[questId] ~= nil
     else
-        return QuestiePlayer.currentQuestlog[questId] ~= nil and (not Questie.db.char.AutoUntrackedQuests[questId])
+        return TrackerData.ContainsQuest(questId) and (not Questie.db.char.AutoUntrackedQuests[questId])
     end
 end
 
@@ -2050,15 +2050,18 @@ function QuestieTracker.GetNumTrackedQuests()
     if Questie.db.profile.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
         local autoUnTrackedQuests = 0
         for questId in pairs(Questie.db.char.AutoUntrackedQuests) do
-            if QuestiePlayer.currentQuestlog[questId] then
+            if TrackerData.ContainsQuest(questId) then
                 autoUnTrackedQuests = autoUnTrackedQuests + 1
             end
         end
-        return QuestLogCache.GetQuestCount() - autoUnTrackedQuests
+        local _, totalQuests = QuestieCompat.GetNumQuestLogEntries()
+        return math.max(0, totalQuests - autoUnTrackedQuests)
     elseif Questie.db.char.TrackedQuests then
         local autoTrackedQuests = 0
-        for _ in pairs(Questie.db.char.TrackedQuests) do
-            autoTrackedQuests = autoTrackedQuests + 1
+        for questId in pairs(Questie.db.char.TrackedQuests) do
+            if TrackerData.ContainsQuest(questId) then
+                autoTrackedQuests = autoTrackedQuests + 1
+            end
         end
         return autoTrackedQuests
     else
@@ -2206,6 +2209,7 @@ function QuestieTracker:HookBaseTracker()
 end
 
 function QuestieTracker:RemoveQuest(questId)
+    TrackerData.RemoveQuest(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:RemoveQuest] - ", questId)
     if Questie.db.char.collapsedQuests then
         Questie.db.char.collapsedQuests[questId] = nil
@@ -2287,15 +2291,14 @@ function QuestieTracker:UntrackQuestId(questId)
     end)
 end
 
-function QuestieTracker:AQW_Insert(index, expire)
+function QuestieTracker:AQW_Insert(index, _expire)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:AQW_Insert]")
     if (not Questie.db.profile.trackerEnabled) or (index == 0) or (index == nil) then
         return
     end
 
     local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
-    if (not QuestiePlayer.currentQuestlog[questId]) then
-        -- AQW_Insert is called before QUEST_ACCEPTED
+    if not questId or not TrackerData.ContainsQuest(questId) then
         return
     end
 
@@ -2348,11 +2351,11 @@ function QuestieTracker:AQW_Insert(index, expire)
             end
         end
 
-        local quest = QuestieDB.GetQuest(questId)
+        local quest = TrackerData.RefreshQuest(questId)
 
         if quest then
-            -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
-            local zoneId = quest.zoneOrSort
+            -- Tracking is independent of map enrichment, including native-only quests.
+            local zoneId = quest.zoneName or quest.zoneOrSort
             if Questie.db.char.collapsedQuests[questId] == true then
                 Questie.db.char.collapsedQuests[questId] = nil
             end
@@ -2362,20 +2365,11 @@ function QuestieTracker:AQW_Insert(index, expire)
             end
 
             -- Unhide quest icons when retracking quests.
-            if Questie.db.profile.hideUntrackedQuestsMapIcons then
+            if Questie.db.profile.hideUntrackedQuestsMapIcons and quest.enrichment then
                 ThreadLib.ThreadInstant(function()
-                    -- Shows objective icons for tracked quests.
                     QuestieQuest:ShowQuestIcons()
-
-                    -- Read objective tooltips for tracked quests.
-                    QuestieQuest:PopulateObjectiveNotes(quest)
+                    QuestieQuest:PopulateObjectiveNotes(quest.enrichment)
                 end)
-            end
-        else
-            if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
-                QuestieDebugOffer.QuestTracking(questId)
-            else
-                Questie.Error("Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
             end
         end
     end
@@ -2514,7 +2508,11 @@ end
 
 ---@param questId QuestId
 function QuestieTracker.UpdateQuestLines(questId)
-    TrackerLinePool.UpdateQuestLines(questId)
+    -- Refresh just the affected quest before the combat-safe text-only update, not the whole layout.
+    local quest = TrackerData.RefreshQuest(questId)
+    if quest then
+        TrackerLinePool.UpdateQuestLines(questId, quest)
+    end
 end
 
 ---@param criteriaIndex number

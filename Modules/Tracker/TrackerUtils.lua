@@ -12,6 +12,10 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local Sorter = QuestieLoader:ImportModule("Sorter")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerMapEligibility
+local TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type QuestieCombatQueue
@@ -132,6 +136,24 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
         Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, {title = title, crazy = true, from = "Questie"})
     end
+end
+
+---Quest navigation and ctrl-click use the same eligibility as the menu, evaluated against current data.
+---@param questId QuestId
+---@param expectedQuest Quest? Original quest captured by the initiating row or menu.
+---@return boolean
+function TrackerUtils.SetQuestTomTomTarget(questId, expectedQuest)
+    local quest = TrackerData.RefreshQuest(questId)
+    local capabilities = TrackerMapEligibility.GetCapabilities(quest)
+    if not capabilities.canNavigateQuest or (expectedQuest and capabilities.quest ~= expectedQuest) then
+        return false
+    end
+    local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+    if not spawn then
+        return false
+    end
+    TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+    return true
 end
 
 ---@param objective QuestObjective
@@ -483,8 +505,20 @@ function TrackerUtils:UnFocus()
 end
 
 ---@param questId number Quest ID number
----@param objectiveIndex number Objective Index number
-function TrackerUtils:FocusObjective(questId, objectiveIndex)
+---@param objectiveIndex number Original objective index, not the display index.
+---@param expectedObjective QuestObjective? Original object captured by a menu.
+---@param expectedQuest Quest? Original quest captured by a menu.
+---@return boolean
+function TrackerUtils:FocusObjective(questId, objectiveIndex, expectedObjective, expectedQuest)
+    -- Explicit command-time refresh: a menu may outlive the objective or its original map object.
+    local tracked = TrackerData.RefreshQuest(questId)
+    local capabilities = TrackerMapEligibility.GetCapabilities(tracked)
+    local original = capabilities.focusObjectives[objectiveIndex]
+    if not original or (expectedObjective and original ~= expectedObjective)
+        or (expectedQuest and capabilities.quest ~= expectedQuest) then
+        return false
+    end
+
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "string" or Questie.db.char.TrackerFocus ~= tostring(questId) .. " " .. tostring(objectiveIndex)) then
         TrackerUtils:UnFocus()
     end
@@ -519,10 +553,19 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex)
             end
         end
     end
+    return true
 end
 
 ---@param questId number Quest ID number
-function TrackerUtils:FocusQuest(questId)
+---@param expectedQuest Quest? Original quest captured by a menu.
+---@return boolean
+function TrackerUtils:FocusQuest(questId, expectedQuest)
+    local tracked = TrackerData.RefreshQuest(questId)
+    local capabilities = TrackerMapEligibility.GetCapabilities(tracked)
+    if not capabilities.canFocusQuest or (expectedQuest and capabilities.quest ~= expectedQuest) then
+        return false
+    end
+
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "number" or Questie.db.char.TrackerFocus ~= questId) then
         TrackerUtils:UnFocus()
     end
@@ -539,6 +582,7 @@ function TrackerUtils:FocusQuest(questId)
             end
         end
     end
+    return true
 end
 
 ---@return table|nil position Returns Players current X/Y coordinates or nil if a Players postion can't be determined
@@ -583,15 +627,15 @@ end
 ---@param questId QuestId
 ---@return string zoneName Returns the zone name for a quest based on the quests zoneOrSort value and the current tracker sorting method. If the quest has no explicit zone or category, it will return "Unknown Zone".
 --- If the sorting method is not byZone, it will return a custom zone name based on the sorting type.
-local function _GetZoneName(zoneOrSort, questId)
-    if (not zoneOrSort) then
-        return "Unknown Zone"
-    end
-
+local function _GetZoneName(zoneOrSort, questId, nativeHeader)
     local zoneName
     local sortObj = Questie.db.profile.trackerSortObjectives
     if sortObj == "byZone" or sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
-        if (zoneOrSort) > 0 then
+        if nativeHeader then
+            return nativeHeader
+        elseif not zoneOrSort then
+            return l10n("Unknown Zone")
+        elseif zoneOrSort > 0 then
             -- Valid ZoneID
             zoneName = TrackerUtils:GetZoneNameByID(zoneOrSort)
         elseif (zoneOrSort) < 0 then
@@ -622,7 +666,7 @@ local function _GetZoneName(zoneOrSort, questId)
 end
 
 ---@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
----@return table questDetails Table with raw quest table from QuestiePlayer.currentQuestLog, percentage completed value per quest, and a "translated" zoneName
+---@return table questDetails Display records, completion fractions and grouping labels.
 function TrackerUtils:GetSortedQuestIds()
     ---@type QuestId[]
     local sortedQuestIds = {}
@@ -631,25 +675,27 @@ function TrackerUtils:GetSortedQuestIds()
     local sortObj = Questie.db.profile.trackerSortObjectives
 
     -- Update quest objectives
-    for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
+    for questId, quest in pairs(TrackerData.GetQuests()) do
         if quest then
             tinsert(sortedQuestIds, questId)
 
             local percent = 0
-            if quest:IsComplete() == 1 or (not next(quest.Objectives)) then
+            if quest:IsComplete() == 1 or quest.isComplete then
                 percent = 1
-            else
-                local count = 0
-                for _, Objective in pairs(quest.Objectives) do
-                    percent = percent + (Objective.Collected / Objective.Needed)
-                    count = count + 1
+            elseif #quest.Objectives > 0 then
+                for _, objective in ipairs(quest.Objectives) do
+                    if objective.Completed then
+                        percent = percent + 1
+                    elseif objective.Needed and objective.Needed > 0 and objective.Collected then
+                        percent = percent + math.min(1, math.max(0, objective.Collected / objective.Needed))
+                    end
                 end
-                percent = percent / count
+                percent = percent / #quest.Objectives
             end
 
             questDetails[questId] = {
                 quest = quest,
-                zoneName = _GetZoneName(quest.zoneOrSort, questId),
+                zoneName = _GetZoneName(quest.zoneOrSort, questId, quest.zoneName),
                 questCompletePercent = percent,
             }
         end
@@ -1022,26 +1068,39 @@ end
 ---@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
 function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
     local usableQuestItems = {}
+    local nativeItemId
+    local questComplete = complete == 1 or quest.isComplete == true
 
-    local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
-    local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
-        tinsert(usableQuestItems, sourceItemId)
+    -- Blizzard identifies the primary quest action even when neither the quest nor item is in QuestieDB.
+    if _G.GetQuestLogSpecialItemInfo then
+        local index = QuestieCompat.GetQuestLogIndexByID(quest.Id)
+        if index and index > 0 then
+            local link, _, _, showWhenComplete = _G.GetQuestLogSpecialItemInfo(index)
+            nativeItemId = link and tonumber(link:match("item:(%d+)"))
+            if nativeItemId and (not questComplete or showWhenComplete) then
+                tinsert(usableQuestItems, nativeItemId)
+            end
+        end
     end
 
-    for _, itemId in pairs(quest.requiredSourceItems or {}) do
-        if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
+    local function AddDatabaseItem(itemId)
+        if not questComplete and itemId and not tContains(usableQuestItems, itemId)
+            and GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
             tinsert(usableQuestItems, itemId)
         end
     end
 
+    AddDatabaseItem(quest.sourceItemId)
+    for _, itemId in pairs(quest.requiredSourceItems or {}) do
+        AddDatabaseItem(itemId)
+    end
     for _, objective in pairs(quest.ObjectiveData) do
-        if objective.Type == "item" and GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
-            tinsert(usableQuestItems, objective.Id)
+        if objective.Type == "item" then
+            AddDatabaseItem(objective.Id)
         end
     end
 
-    if complete ~= 1 and #usableQuestItems > 0 then
+    if #usableQuestItems > 0 then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
         if not button then
@@ -1050,7 +1109,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
         local questId = quest.Id
 
-        local primaryButtonAdded = button:SetItem(usableQuestItems[1], questId, questItemButtonSize)
+        local primaryButtonAdded = button:SetItem(usableQuestItems[1], questId, questItemButtonSize, usableQuestItems[1] == nativeItemId)
 
         -- Setup button and set attributes
         if primaryButtonAdded then
@@ -1096,7 +1155,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 line.altButton = secondaryButton
 
                 -- TODO: Handle more than 2 buttons if required
-                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], questId, questItemButtonSize)
+                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], questId, questItemButtonSize, usableQuestItems[2] == nativeItemId)
 
                 if secondaryButtonAdded then
                     height = 0
@@ -1152,9 +1211,9 @@ function TrackerUtils.HasQuest()
     else
         if not Questie.db.profile.trackerShowCompleteQuests then
             local isTrackingIncompleteQuest = false
-            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                if not quest then break end
-                if QuestieTracker.IsTrackedByQuestie(quest.Id) and quest:IsComplete() == 0 then
+            for _, quest in pairs(TrackerData.GetQuests()) do
+                if QuestieTracker.IsTrackedByQuestie(quest.Id)
+                    and ((quest:IsComplete() ~= 1 and not quest.isComplete) or quest.trackTimedQuest or quest.timedBlizzardQuest) then
                     isTrackingIncompleteQuest = true
                     break
                 end

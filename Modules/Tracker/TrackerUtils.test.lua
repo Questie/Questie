@@ -4,8 +4,6 @@ local stub = require("luassert.stub")
 local _GetMockedLine
 
 describe("TrackerUtils", function()
-    ---@type QuestieDB
-    local QuestieDB
     ---@type ZoneIDs
     local ZoneIDs
     ---@type QuestieLib
@@ -21,6 +19,11 @@ describe("TrackerUtils", function()
     ---@type QuestieTracker
     local QuestieTracker
 
+    local TrackerData, trackerQuests
+    local originalSpecialItemInfo
+    local originalGlobals, originalExpansion, originalIsCata, originalIsWotlk
+    local globalNames = {"C_Map", "GetNumQuestWatches", "GetNumTrackedAchievements", "GetQuestLogIndexByID",
+        "IsQuestWatched", "GetQuestLogCompletionText"}
     local rePositionLineMock
     local match = require("luassert.match")
     local _ = match._ -- any match
@@ -29,6 +32,10 @@ describe("TrackerUtils", function()
     local getItemCountMock
 
     before_each(function()
+        originalGlobals = {}
+        for _, name in ipairs(globalNames) do originalGlobals[name] = _G[name] end
+        originalExpansion = QuestieLoader:ImportModule("Expansions").Current
+        originalIsCata, originalIsWotlk = Questie.IsCata, Questie.IsWotlk
         Questie.db.profile = {
             trackerShowCompleteQuests = true
         }
@@ -44,7 +51,6 @@ describe("TrackerUtils", function()
         getItemCountMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetItemCount", function() return 0 end)
 
         Expansions = QuestieLoader:ImportModule("Expansions")
-        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         ZoneIDs = QuestieLoader:ImportModule("ZoneDB").zoneIDs
         dofile("Modules/Libs/QuestieLib.lua")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
@@ -53,6 +59,15 @@ describe("TrackerUtils", function()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end
         QuestieTracker.IsTrackedByQuestie = function() return false end
+        trackerQuests = {}
+        TrackerData = QuestieLoader:ImportModule("TrackerData")
+        TrackerData.Refresh = spy.new(function() return trackerQuests end)
+        TrackerData.GetQuests = function() return trackerQuests end
+        TrackerData.GetQuest = function(id) return trackerQuests[id] end
+        TrackerData.RefreshQuest = spy.new(function(id) return trackerQuests[id] end)
+        dofile("Modules/Tracker/TrackerMapEligibility.lua")
+        originalSpecialItemInfo = _G.GetQuestLogSpecialItemInfo
+        _G.GetQuestLogSpecialItemInfo = nil
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         QuestieLoader:ImportModule("TrackerItemButton")
 
@@ -63,6 +78,10 @@ describe("TrackerUtils", function()
     end)
 
     after_each(function()
+        for _, name in ipairs(globalNames) do _G[name] = originalGlobals[name] end
+        Expansions.Current = originalExpansion
+        Questie.IsCata, Questie.IsWotlk = originalIsCata, originalIsWotlk
+        _G.GetQuestLogSpecialItemInfo = originalSpecialItemInfo
         getItemCountMock:revert()
         getItemSpellMock:revert()
         isEquippableItemMock:revert()
@@ -170,9 +189,6 @@ describe("TrackerUtils", function()
         it("should add sourceItemId as primary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
             local button = CreateFrame("Button")
             TrackerLinePool.GetNextItemButton = function()
                 button.SetItem = spy.new(function()
@@ -183,6 +199,7 @@ describe("TrackerUtils", function()
             end
             local quest = {
                 Id = 1,
+                sourceItemId = 123,
                 Objectives = {},
                 ObjectiveData = {},
             }
@@ -191,8 +208,7 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(button.SetItem).was.called_with(_, 123, 1, 12)
+            assert.spy(button.SetItem).was.called_with(_, 123, 1, 12, false)
             assert.is_true(button:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
@@ -203,9 +219,6 @@ describe("TrackerUtils", function()
         it("should add single requiredSourceItems entry as primary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return nil
-            end)
             local button = CreateFrame("Button")
             TrackerLinePool.GetNextItemButton = function()
                 button.SetItem = spy.new(function()
@@ -225,8 +238,7 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(button.SetItem).was.called_with(_, 456, 1, 12)
+            assert.spy(button.SetItem).was.called_with(_, 456, 1, 12, false)
             assert.is_true(button:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
@@ -237,9 +249,6 @@ describe("TrackerUtils", function()
         it("should add single objective item entry as primary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return nil
-            end)
             local button = CreateFrame("Button")
             TrackerLinePool.GetNextItemButton = function()
                 button.SetItem = spy.new(function()
@@ -263,8 +272,7 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(button.SetItem).was.called_with(_, 123, 1, 12)
+            assert.spy(button.SetItem).was.called_with(_, 123, 1, 12, false)
             assert.is_true(button:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
@@ -275,9 +283,6 @@ describe("TrackerUtils", function()
         it("should add sourceItemId as primary button and single requiredSourceItems as secondary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
             local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
             local buttonIndex = 0
 
@@ -299,6 +304,7 @@ describe("TrackerUtils", function()
             end
             local quest = {
                 Id = 1,
+                sourceItemId = 123,
                 requiredSourceItems = {456},
                 Objectives = {},
                 ObjectiveData = {},
@@ -308,9 +314,8 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12)
-            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12)
+            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12, false)
+            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12, false)
             assert.is_true(primaryButton:IsVisible())
             assert.is_true(secondaryButton:IsVisible())
 
@@ -322,9 +327,6 @@ describe("TrackerUtils", function()
         it("should add sourceItemId as primary button and single objective item as secondary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
             local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
             local buttonIndex = 0
 
@@ -346,6 +348,7 @@ describe("TrackerUtils", function()
             end
             local quest = {
                 Id = 1,
+                sourceItemId = 123,
                 Objectives = {},
                 ObjectiveData = {
                     [1] = {
@@ -359,9 +362,8 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12)
-            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12)
+            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12, false)
+            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12, false)
             assert.is_true(primaryButton:IsVisible())
             assert.is_true(secondaryButton:IsVisible())
 
@@ -373,9 +375,6 @@ describe("TrackerUtils", function()
         it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return nil
-            end)
             local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
             local buttonIndex = 0
 
@@ -406,9 +405,8 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12)
-            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12)
+            assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12, false)
+            assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12, false)
             assert.is_true(primaryButton:IsVisible())
             assert.is_true(secondaryButton:IsVisible())
 
@@ -419,10 +417,11 @@ describe("TrackerUtils", function()
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
             getItemSpellMock.returns("Use Quest Item", 111)
-            getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return nil
+            getItemCountMock:revert()
+            getItemCountMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetItemCount", function(itemId)
+                return itemId == 456 and 1 or 0
             end)
+            dofile("Modules/Tracker/TrackerUtils.lua")
             local primaryButton = CreateFrame("Button")
 
             TrackerLinePool.GetNextItemButton = function()
@@ -443,8 +442,7 @@ describe("TrackerUtils", function()
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
-            assert.spy(QuestieDB.QueryQuestSingle).was.called_with(1, "sourceItemId")
-            assert.spy(primaryButton.SetItem).was.called_with(_, 456, 1, 12)
+            assert.spy(primaryButton.SetItem).was.called_with(_, 456, 1, 12, false)
             assert.is_true(primaryButton:IsVisible())
 
             assert.is_false(line.expandQuest:IsVisible())
@@ -485,9 +483,6 @@ describe("TrackerUtils", function()
             Questie.db.char.collapsedQuests[1] = true
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
             local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
             local buttonIndex = 0
 
@@ -509,6 +504,7 @@ describe("TrackerUtils", function()
             end
             local quest = {
                 Id = 1,
+                sourceItemId = 123,
                 requiredSourceItems = {456},
                 Objectives = {},
                 ObjectiveData = {},
@@ -526,9 +522,6 @@ describe("TrackerUtils", function()
             Questie.db.char.collapsedQuests[1] = true
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
             local primaryButton = CreateFrame("Button")
 
             TrackerLinePool.GetNextItemButton = function()
@@ -540,6 +533,7 @@ describe("TrackerUtils", function()
             end
             local quest = {
                 Id = 1,
+                sourceItemId = 123,
                 requiredSourceItems = {456},
                 Objectives = {},
                 ObjectiveData = {},
@@ -557,9 +551,6 @@ describe("TrackerUtils", function()
             Questie.db.profile.collapseCompletedQuests = true
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
             local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
             local buttonIndex = 0
 
@@ -581,6 +572,7 @@ describe("TrackerUtils", function()
             end
             local quest = {
                 Id = 1,
+                sourceItemId = 123,
                 requiredSourceItems = {456},
                 Objectives = {},
                 ObjectiveData = {},
@@ -598,9 +590,6 @@ describe("TrackerUtils", function()
             Questie.db.char.collapsedZones["Durotar"] = true
             getItemSpellMock.returns("Use Quest Item", 111)
             getItemCountMock.returns(1)
-            QuestieDB.QueryQuestSingle = spy.new(function()
-                return 123
-            end)
             local primaryButton, secondaryButton = CreateFrame("Button"), CreateFrame("Button")
             local buttonIndex = 0
 
@@ -622,6 +611,7 @@ describe("TrackerUtils", function()
             end
             local quest = {
                 Id = 1,
+                sourceItemId = 123,
                 requiredSourceItems = {456},
                 Objectives = {},
                 ObjectiveData = {},
@@ -633,6 +623,60 @@ describe("TrackerUtils", function()
             assert.is_false(primaryButton:IsVisible())
             assert.is_false(secondaryButton:IsVisible())
             assert.is_false(line.expandQuest:IsVisible())
+        end)
+
+        describe("native quest items", function()
+            local indexMock, button, quest
+
+            before_each(function()
+                indexMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetQuestLogIndexByID", function() return 2 end)
+                button = CreateFrame("Button")
+                button.SetItem = spy.new(function() return true end)
+                TrackerLinePool.GetNextItemButton = spy.new(function() return button end)
+                quest = {Id = 91741, Objectives = {}, ObjectiveData = {}}
+                _G.GetQuestLogSpecialItemInfo = spy.new(function() return "|Hitem:90001|h[Book]|h", nil, 1, false end)
+            end)
+
+            after_each(function()
+                indexMock:revert()
+            end)
+
+            it("uses Blizzard's quest item without database metadata", function()
+                TrackerUtils.AddQuestItemButtons(quest, 0, _GetMockedLine(), 12, {}, false, rePositionLineMock)
+
+                assert.spy(_G.GetQuestLogSpecialItemInfo).was.called_with(2)
+                assert.spy(button.SetItem).was.called_with(button, 90001, 91741, 12, true)
+                assert.spy(getItemSpellMock).was.not_called()
+            end)
+
+            it("deduplicates a native item also listed as a source and objective item", function()
+                getItemCountMock.returns(1)
+                getItemSpellMock.returns("Use Book")
+                quest.sourceItemId = 90001
+                quest.requiredSourceItems = {90001}
+                quest.ObjectiveData = {{Type = "item", Id = 90001}}
+
+                TrackerUtils.AddQuestItemButtons(quest, 0, _GetMockedLine(), 12, {}, false, rePositionLineMock)
+
+                assert.spy(TrackerLinePool.GetNextItemButton).was.called(1)
+                assert.spy(button.SetItem).was.called_with(button, 90001, 91741, 12, true)
+            end)
+
+            it("keeps a native action explicitly allowed after completion", function()
+                _G.GetQuestLogSpecialItemInfo = function() return "|Hitem:90001|h[Book]|h", nil, 1, true end
+
+                TrackerUtils.AddQuestItemButtons(quest, 1, _GetMockedLine(), 12, {}, true, rePositionLineMock)
+
+                assert.spy(button.SetItem).was.called_with(button, 90001, 91741, 12, true)
+            end)
+
+            it("hides a native action on additional Questie completion unless Blizzard allows it", function()
+                quest.isComplete = true
+
+                TrackerUtils.AddQuestItemButtons(quest, 0, _GetMockedLine(), 12, {}, true, rePositionLineMock)
+
+                assert.spy(TrackerLinePool.GetNextItemButton).was.not_called()
+            end)
         end)
 
         _GetMockedLine = function()
@@ -718,7 +762,7 @@ describe("TrackerUtils", function()
             QuestieTracker.GetNumTrackedQuests = function() return 1 end
             QuestieTracker.IsTrackedByQuestie = function() return true end
             Questie.db.profile.trackerShowCompleteQuests = false
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {
                     IsComplete = function() return 0 end
                 }
@@ -735,7 +779,7 @@ describe("TrackerUtils", function()
                 return questId == 1
             end
             Questie.db.profile.trackerShowCompleteQuests = false
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {
                     Id = 1,
                     IsComplete = function() return 0 end
@@ -755,7 +799,7 @@ describe("TrackerUtils", function()
             QuestieTracker.GetNumTrackedQuests = function() return 1 end
             QuestieTracker.IsTrackedByQuestie = function() return true end
             Questie.db.profile.trackerShowCompleteQuests = false
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {
                     IsComplete = function() return 1 end
                 }
@@ -764,6 +808,101 @@ describe("TrackerUtils", function()
             local hasQuest = TrackerUtils.HasQuest()
 
             assert.is_false(hasQuest)
+        end)
+    end)
+
+    describe("focus without verified enrichment", function()
+        it("does not change existing focus when an unknown quest is selected", function()
+            Questie.db.char.TrackerFocus = 11
+            trackerQuests[91741] = {Id = 91741, Objectives = {}, SpecialObjectives = {}}
+
+            assert.is_false(TrackerUtils:FocusQuest(91741))
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+        end)
+
+        it("can focus a known finisher even when the completed quest has a new log objective", function()
+            local original = {Id = 54, Objectives = {}, Finisher = {NPC = {240}}}
+            QuestiePlayer.currentQuestlog[54] = original
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieDB.GetQuest = function() return original end
+            trackerQuests[54] = {
+                Id = 54, enrichment = original, Finisher = original.Finisher,
+                Objectives = {{Index = 1, Type = "log"}}, IsComplete = function() return 1 end,
+            }
+
+            assert.is_true(TrackerUtils:FocusQuest(54))
+            assert.are.equal(54, Questie.db.char.TrackerFocus)
+            assert.is_nil(original.FadeIcons)
+        end)
+
+        it("does not focus an unmatched live objective", function()
+            Questie.db.char.TrackerFocus = 11
+            trackerQuests[91741] = {
+                Id = 91741, enrichment = {}, Objectives = {{Index = 1}}, SpecialObjectives = {},
+                IsComplete = function() return 0 end,
+            }
+
+            assert.is_false(TrackerUtils:FocusObjective(91741, 1))
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+        end)
+    end)
+
+    describe("map commands recheck current eligibility", function()
+        it("does not focus an objective replaced at the same index while a menu was open", function()
+            local oldObjective = {Index = 3, spawnList = {{}}}
+            local newObjective = {Index = 3, spawnList = {{}}}
+            local originalQuest = {Id = 100}
+            trackerQuests[100] = {
+                Id = 100, enrichment = originalQuest, Objectives = {{enrichment = newObjective}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            Questie.db.char.TrackerFocus = 11
+
+            assert.is_false(TrackerUtils:FocusObjective(100, 3, oldObjective, originalQuest))
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+            assert.is_nil(newObjective.HideIcons)
+            assert.spy(TrackerData.RefreshQuest).was.called_with(100)
+        end)
+
+        it("rejects whole-quest focus when only some live objectives are verified", function()
+            trackerQuests[100] = {
+                Id = 100, enrichment = {Id = 100},
+                Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}, {Description = "Unknown step"}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            Questie.db.char.TrackerFocus = 11
+
+            assert.is_false(TrackerUtils:FocusQuest(100))
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+        end)
+
+        it("navigates using the refreshed display quest and its verified locations", function()
+            local original = {Id = 100}
+            local quest = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            trackerQuests[100] = quest
+            local distance = QuestieLoader:ImportModule("DistanceUtils")
+            distance.GetNearestSpawnForQuest = spy.new(function() return {50, 60}, 12, "Wolf" end)
+            TrackerUtils.SetTomTomTarget = spy.new(function() end)
+
+            assert.is_true(TrackerUtils.SetQuestTomTomTarget(100, original))
+            assert.spy(TrackerData.RefreshQuest).was.called_with(100)
+            assert.spy(distance.GetNearestSpawnForQuest).was.called_with(quest)
+            assert.spy(TrackerUtils.SetTomTomTarget).was.called_with(TrackerUtils, "Wolf", 12, 50, 60)
+        end)
+
+        it("does not navigate a quest whose original enrichment was replaced", function()
+            trackerQuests[100] = {
+                Id = 100, enrichment = {Id = 100}, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            local distance = QuestieLoader:ImportModule("DistanceUtils")
+            distance.GetNearestSpawnForQuest = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.SetQuestTomTomTarget(100, {Id = 100}))
+            assert.spy(distance.GetNearestSpawnForQuest).was.not_called()
         end)
     end)
 
@@ -809,8 +948,9 @@ describe("TrackerUtils", function()
 
     describe("GetSortedQuestIds", function()
         before_each(function()
-            QuestiePlayer.currentQuestlog = {}
+            trackerQuests = {}
             Questie.db.profile.trackerSortObjectives = "byZone"
+            QuestieLib.GetQuestTypeSuffix = function() return "" end
 
             dofile("Modules/Tracker/Sorter/Sorter.lua")
             dofile("Modules/Tracker/Sorter/byComplete.lua")
@@ -830,9 +970,40 @@ describe("TrackerUtils", function()
             }
         end)
 
+        it("uses native headers for quests absent from the database", function()
+            trackerQuests = {
+                [91741] = {Id = 91741, level = 2, zoneName = "Northshire Abbey", Objectives = {}, IsComplete = function() return 1 end},
+            }
+
+            local ids, details = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({91741}, ids)
+            assert.spy(TrackerData.Refresh).was.not_called()
+            assert.are.equal("Northshire Abbey", details[91741].zoneName)
+            assert.are.equal(trackerQuests[91741], details[91741].quest)
+            assert.is_nil(next(QuestiePlayer.currentQuestlog))
+        end)
+
+        it("does not treat pending or zero-total objectives as completed", function()
+            trackerQuests = {
+                [1] = {Id = 1, level = 2, zoneName = "Northshire Abbey", Objectives = {}, objectivesLoaded = false,
+                    IsComplete = function() return 0 end},
+                [2] = {Id = 2, level = 2, zoneName = "Northshire Abbey", Objectives = {{Collected = 0, Needed = 0, Completed = false}},
+                    IsComplete = function() return 0 end},
+                [3] = {Id = 3, level = 2, zoneName = "Northshire Abbey", Objectives = {{Collected = 0, Needed = 0, Completed = true}},
+                    IsComplete = function() return 0 end},
+            }
+
+            local _, details = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.equal(0, details[1].questCompletePercent)
+            assert.are.equal(0, details[2].questCompletePercent)
+            assert.are.equal(1, details[3].questCompletePercent)
+        end)
+
         it("should return quest IDs correctly sorted for 'byZone' sorting", function()
             Questie.db.profile.trackerSortObjectives = "byZone"
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {Id = 1, level = 10, zoneOrSort = ZoneIDs.DUROTAR, IsComplete = function() return 1 end},
                 [2] = {Id = 2, level = 5, zoneOrSort = ZoneIDs.ELWYNN_FOREST, IsComplete = function() return 1 end},
                 [3] = {Id = 3, level = 80, zoneOrSort = ZoneIDs.ZUL_DRAK, IsComplete = function() return 1 end},
@@ -863,7 +1034,7 @@ describe("TrackerUtils", function()
 
         it("should return quest IDs correctly sorted for 'byComplete' sorting", function()
             Questie.db.profile.trackerSortObjectives = "byComplete"
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 0, Needed = 1}}},
                 [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
                 [3] = {Id = 3, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
@@ -890,7 +1061,7 @@ describe("TrackerUtils", function()
 
         it("should return quest IDs correctly sorted for 'byCompleteReversed' sorting", function()
             Questie.db.profile.trackerSortObjectives = "byCompleteReversed"
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 0, Needed = 1}}},
                 [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
                 [3] = {Id = 3, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 5, Needed = 10}}},
@@ -917,7 +1088,7 @@ describe("TrackerUtils", function()
 
         it("should return quest IDs correctly sorted for 'byLevel' sorting", function()
             Questie.db.profile.trackerSortObjectives = "byLevel"
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
                 [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
                 [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
@@ -941,7 +1112,7 @@ describe("TrackerUtils", function()
 
         it("should return quest IDs correctly sorted for 'byLevelReversed' sorting", function()
             Questie.db.profile.trackerSortObjectives = "byLevelReversed"
-            QuestiePlayer.currentQuestlog = {
+            trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
                 [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
                 [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},

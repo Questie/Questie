@@ -61,11 +61,11 @@ local cache = {
 
 ---@class QuestLogCacheObjectiveData
 ---@field text string "Objective Text"
----@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"
+---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"|string Includes client objective types unknown to Questie.
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number
----@field raw_Text string E.g "Objective Text slain: 2/3",
+---@field raw_text string E.g "Objective Text slain: 2/3"
 ---@field raw_finished boolean
 ---@field raw_numFulfilled number
 
@@ -80,11 +80,10 @@ local cache = {
 local cache = {}
 local questCount = 0
 
--- Set to true on LOADING_SCREEN_ENABLED. While active, objective regressions are treated as cache
--- misses so stale data from Blizzard's cache rebuild never triggers sounds or announces.
--- Auto-clears the first time CheckForChanges completes a full scan with no regression suppressions,
--- confirming Blizzard's cache has been fully restored.
-local blizzardQuestCacheStale = false
+-- Loading screens can temporarily lower objective counts. Protect each cached quest until its own
+-- valid, non-regressing snapshot arrives, so an unavailable quest cannot freeze another quest's item decreases.
+---@type table<QuestId, boolean>
+local questsAwaitingRecovery = {}
 
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
 ---@type table<QuestId, QuestLogCacheData>
@@ -95,19 +94,43 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 ---@param oldObjectives QuestLogCacheObjectiveData[]
 ---@param isCompleteAccordingToBlizzard number @ -1 = failed, nil = not complete, 1 = complete
 ---@param suppressRegressions boolean @ when true, treat numFulfilled decreases as cache misses (zone transition)
----@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean suppressedRegression @nil == cache miss. suppressedRegression = true when a regression caused the nil.
+---@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean needsRetry @Nil objectives or retained placeholder rows need another scan.
 local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
     local changedObjIds -- not assigning {} for easier nil when nothing changed
     local allObjectivesFinished = true -- default to true for easier handling
+    local needsRetry = false
     local objectives = C_QuestLog_GetQuestObjectives(questId)
+    if not objectives then
+        return nil, nil, isCompleteAccordingToBlizzard, false
+    end
+
+    -- HaveQuestData can be true before individual rows have their type. Validate before processing
+    -- progress so a rejected snapshot cannot play sounds on each retry. Empty text rows are
+    -- intentionally omitted below, preserving the existing client workaround.
+    for _, objective in ipairs(objectives) do
+        if not objective.type and objective.text ~= "" then
+            return nil, nil, isCompleteAccordingToBlizzard, false
+        end
+    end
 
     for objIndex=1, #objectives do -- iterate manually to be sure getting those in order
         local oldObj = oldObjectives[objIndex]
         local newObj = objectives[objIndex]
 
-        -- Check if objective.text is in game's cache
-        if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
+        -- Missing names are a single space. Classic leaves a leading space, Forever items a trailing
+        -- space, and Forever monsters keep a loaded "slain" suffix. Validate the parsed name as well.
+        local textLoaded = newObj.text and stringByte(newObj.text, 1) ~= 32 and stringByte(newObj.text, -1) ~= 32
+        local trimmedText
+        if textLoaded and newObj.text ~= "" then
+            if oldObj and oldObj.raw_text == newObj.text and oldObj.type == newObj.type then
+                trimmedText = oldObj.text
+            else
+                trimmedText = QuestieLib.TrimObjectiveText(newObj.text, newObj.type)
+            end
+            textLoaded = trimmedText ~= ""
+        end
+        if textLoaded then
             if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
                 -- Check if objective has changed
                 if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
@@ -150,7 +173,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
                         numRequired = newObj.numRequired,
-                        text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
+                        text = trimmedText,
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
@@ -158,6 +181,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
             end
         else -- objective text not in game's cache
             if oldObj then
+                needsRetry = true
                 Questie.Debug(Questie.DEBUG_INFO, "[GetNewObjectives] objective not in game's cache. Using addon's cache. questID, objIndex:", questId, objIndex)
                 -- Extremely unlikely that the objective has changed from cached version as a change SHOULD trigger fetching data into game cache.
                 -- Possible bug point if there comes desync issues.
@@ -181,7 +205,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         isComplete = allObjectivesFinished and 1 or 0
     end
 
-    return newObjectives, changedObjIds, isComplete, false
+    return newObjectives, changedObjIds, isComplete, needsRetry
 end
 
 -- For profiling
@@ -198,9 +222,6 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
-
-    local suppressRegressions = blizzardQuestCacheStale
-    local hadRegressionCacheMiss = false
 
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         ----- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questID, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isBounty, isStory, isHidden, isScaling = GetQuestLogTitle(questLogIndex)
@@ -225,9 +246,15 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 if blizzardCacheIncorrect then
                     cacheMiss = true
                 else
-                    local newObjectives, changedObjIds, isComplete, suppressedRegression = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
+                    local suppressRegressions = questsAwaitingRecovery[questId] == true
+                    local newObjectives, changedObjIds, isComplete, needsRetry = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
+                    cacheMiss = cacheMiss or needsRetry
 
                     if newObjectives then
+                        -- Unchanged valid data confirms recovery too; retained placeholder rows do not.
+                        if not needsRetry then
+                            questsAwaitingRecovery[questId] = nil
+                        end
                         if (not cachedQuest) or (#cachedObjectives == #newObjectives and cachedQuest.isComplete ~= isComplete) then
                             -- Mark all objectives changed to force update those too.
 
@@ -269,9 +296,6 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                             changes[questId] = changedObjIds
                         end
                     else
-                        if suppressedRegression then
-                            hadRegressionCacheMiss = true
-                        end
                         cacheMiss = true
                     end
                 end
@@ -304,22 +328,24 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         end
     end
 
-    if blizzardQuestCacheStale and (not hadRegressionCacheMiss) then
-        blizzardQuestCacheStale = false
-    end
-
     return cacheMiss, changes, questIdsChecked
 end
 
---- Called when LOADING_SCREEN_ENABLED fires. Marks Blizzard's quest cache as stale so objective
---- regressions are suppressed until the cache is confirmed restored.
+---Protects cached quests from stale objective decreases until each quest's data recovers.
+---@return nil
 function QuestLogCache.OnLoadingScreenEnabled()
-    blizzardQuestCacheStale = true
+    questsAwaitingRecovery = {}
+    for questId in pairs(cache) do
+        questsAwaitingRecovery[questId] = true
+    end
 end
 
 
+---@param questId QuestId
+---@return nil
 function QuestLogCache.RemoveQuest(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.RemoveQuest] remove questId:", questId)
+    questsAwaitingRecovery[questId] = nil
     if cache[questId] then
         cache[questId] = nil
         questCount = questCount - 1
@@ -338,17 +364,8 @@ function QuestLogCache.TestGameCache()
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) then
-            if HaveQuestData(questId) then
-                local objectives = C_QuestLog_GetQuestObjectives(questId)
-
-                for objIndex=1, #objectives do
-                    local text = objectives[objIndex].text
-                    -- Check if objective.text is not in game's cache
-                    if (not text) or (stringByte(text, 1) == 32) then
-                        gameCacheOK = false
-                    end
-                end
-            else
+            -- Use the loader's client-wording checks, including Forever's counter-first placeholders.
+            if not QuestieLib.GetLoadedQuestObjectives(questId) then
                 gameCacheOK = false
             end
         end

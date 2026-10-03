@@ -408,9 +408,10 @@ function QuestieLib:GetClassString(classMask)
 end
 
 ---Synchronously reads Blizzard's cache, including quests outside the local log, and primes missing data.
----Returns nil rather than a partially loaded array. An empty array is valid for a quest with no objectives.
+---Returns nil until all non-empty objective rows are loaded. An empty result is valid, not a quest-completion signal.
+---Original objective indices are preserved; the result can have holes. Use index lookup or pairs, not ipairs or #.
 ---@param questId QuestId
----@return QuestObjectiveInfo[]? objectives @Do not modify the returned table
+---@return table<ObjectiveIndex, QuestObjectiveInfo>? objectives @Sparse, read-only rows; iterate with pairs only, never ipairs or #.
 function QuestieLib.GetLoadedQuestObjectives(questId)
     local haveQuestData = HaveQuestData(questId)
     -- Query even when quest data is missing: this also requests objective data from the client.
@@ -418,26 +419,34 @@ function QuestieLib.GetLoadedQuestObjectives(questId)
     if (not haveQuestData) or (not objectives) then
         return nil
     end
-    -- HaveQuestData can be true while individual objective rows still contain loading placeholders.
+    local loadedObjectives = {}
+    -- Blizzard sometimes adds permanently empty, unfinished event objectives alongside real objectives.
+    -- Like QuestLogCache, ignore exact empty strings regardless of type, counts or finished state.
     -- Missing names leave a leading space in Classic (" : 0/1") or a trailing space in Forever ("0/1  ").
-    for _, objective in ipairs(objectives) do
+    -- These placeholders, nil text and missing types on non-empty rows still mean "not loaded".
+    for index, objective in ipairs(objectives) do
         local text = objective.text
-        if (not text) or text == "" or string.byte(text, 1) == 32 or string.byte(text, -1) == 32 or (not objective.type) then
-            return nil
-        end
-        -- Forever can also return "0/15   slain"; use the client's localized format to check the name itself.
-        if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
-            return nil
+        if text ~= "" then
+            if (not text) or string.byte(text, 1) == 32 or string.byte(text, -1) == 32 or (not objective.type) then
+                return nil
+            end
+            -- Forever can also return "0/15   slain"; use the client's localized format to check the name itself.
+            if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
+                return nil
+            end
+            loadedObjectives[index] = objective
         end
     end
-    return objectives
+    return loadedObjectives
 end
 
 ---Polls up to 20 times. Even cache hits are delivered asynchronously on a ticker resume.
----Calls onSuccess once when all rows are ready, or onFailure on timeout. Cancellation calls neither.
+---Calls onSuccess once when all non-empty rows are ready, or onFailure on timeout. Cancellation calls neither.
+---Empty-text rows are skipped by GetLoadedQuestObjectives, so they cannot force a timeout.
 ---Use GetLoadedQuestObjectives when the caller needs a synchronous result.
 ---@param questId QuestId
----@param onSuccess fun(objectives: QuestObjectiveInfo[]) @Receives the read-only loaded array
+---@param onSuccess fun(objectives: table<ObjectiveIndex, QuestObjectiveInfo>) @Sparse, read-only objectives; iterate with pairs only.
+---Do not use ipairs or # on the callback's objective table; original indices can have holes.
 ---@param onFailure? fun() @Optional callback when load times out
 ---@param tickSpeed? number @Optional, defaults to 0.2 seconds
 ---@return Ticker timer @Call timer:Cancel() to stop loading

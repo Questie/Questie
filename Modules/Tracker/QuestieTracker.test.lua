@@ -17,6 +17,7 @@ describe("QuestieTracker", function()
     local QuestieQuest
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
+    local TrackerData
 
     before_each(function()
         Questie.db.char = {
@@ -31,6 +32,9 @@ describe("QuestieTracker", function()
             hideTrackerInInstances = false,
         }
 
+        TrackerData = QuestieLoader:ImportModule("TrackerData")
+        TrackerData.RemoveQuest = spy.new(function() end)
+        TrackerData.ContainsQuest = function() return false end
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = spy.new(function() end)
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -145,23 +149,33 @@ describe("QuestieTracker", function()
             assert.is_false(QuestieTracker.IsTrackedByQuestie(RIVERPAW_GNOLL_BOUNTY_ID))
         end)
 
-        it("should return true when auto-tracking has the quest in the current questlog and not auto-untracked", function()
+        it("should auto-track native quests without requiring database enrichment", function()
             Questie.db.profile.autoTrackQuests = true
-            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-            QuestiePlayer.currentQuestlog = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
-            assert.is_true(QuestieTracker.IsTrackedByQuestie(RIVERPAW_GNOLL_BOUNTY_ID))
+            TrackerData.ContainsQuest = function(id) return id == 91741 end
+            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
+            assert.is_true(QuestieTracker.IsTrackedByQuestie(91741))
         end)
 
         it("should return false when auto-tracking has the quest auto-untracked", function()
             Questie.db.profile.autoTrackQuests = true
-            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-            QuestiePlayer.currentQuestlog = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
+            TrackerData.ContainsQuest = function() return true end
             Questie.db.char.AutoUntrackedQuests[RIVERPAW_GNOLL_BOUNTY_ID] = true
             assert.is_false(QuestieTracker.IsTrackedByQuestie(RIVERPAW_GNOLL_BOUNTY_ID))
         end)
     end)
 
     describe("GetNumTrackedQuests", function()
+        local countMock
+
+        before_each(function()
+            TrackerData.ContainsQuest = function() return true end
+            countMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetNumQuestLogEntries", function() return 6, 5 end)
+        end)
+
+        after_each(function()
+            countMock:revert()
+        end)
+
         it("should count TrackedQuests when auto-tracking is disabled", function()
             Questie.db.profile.autoTrackQuests = false
             Questie.db.char.TrackedQuests = {[RIVERPAW_GNOLL_BOUNTY_ID] = true, [COLLECTING_KELP_ID] = true}
@@ -171,20 +185,14 @@ describe("QuestieTracker", function()
         it("should subtract auto-untracked quests from the quest log count when auto-tracking is enabled", function()
             Questie.db.profile.autoTrackQuests = true
             Questie.db.char.AutoUntrackedQuests = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
-            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-            QuestiePlayer.currentQuestlog = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
-            local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
-            QuestLogCache.GetQuestCount = function() return 5 end
+            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
             assert.are.equal(4, QuestieTracker.GetNumTrackedQuests())
         end)
 
         it("should not subtract auto-untracked quests that are no longer in the quest log", function()
             Questie.db.profile.autoTrackQuests = true
             Questie.db.char.AutoUntrackedQuests = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
-            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-            QuestiePlayer.currentQuestlog = {}
-            local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
-            QuestLogCache.GetQuestCount = function() return 5 end
+            TrackerData.ContainsQuest = function() return false end
             assert.are.equal(5, QuestieTracker.GetNumTrackedQuests())
         end)
     end)
@@ -267,6 +275,246 @@ describe("QuestieTracker", function()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
             assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+        end)
+    end)
+
+    describe("native-only quest tracking", function()
+        local originalForever, originalQuestLog
+        local titleMock, removeWatchMock, quest
+
+        before_each(function()
+            originalForever = Questie.IsForever
+            originalQuestLog = _G.C_QuestLog
+            Questie.IsForever = true
+            _G.C_QuestLog = {
+                GetQuestWatchType = function() return 1 end,
+                RemoveQuestWatch = spy.new(function() end),
+            }
+            Questie.db.profile.autoTrackQuests = true
+            Questie.db.char.collapsedZones = {}
+            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
+            quest = {Id = 91741, name = "Nibbled-On Book", zoneName = "Northshire Abbey", Objectives = {}}
+            TrackerData.ContainsQuest = spy.new(function() return true end)
+            TrackerData.RefreshQuest = spy.new(function() return quest end)
+            QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = spy.new(function() end)
+            removeWatchMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "RemoveQuestWatch")
+            titleMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetQuestLogTitle", function()
+                return "Nibbled-On Book", 2, nil, false, false, 1, nil, 91741
+            end)
+            QuestieTracker.Update = spy.new(function() end)
+        end)
+
+        after_each(function()
+            Questie.IsForever = originalForever
+            _G.C_QuestLog = originalQuestLog
+            titleMock:revert()
+            removeWatchMock:revert()
+        end)
+
+        it("keeps Classic's watch migration when tracking a quest without database enrichment", function()
+            Questie.IsForever = false
+            Questie.db.profile.autoTrackQuests = false
+            QuestieTracker.last_aqw = nil
+
+            QuestieTracker:AQW_Insert(2)
+
+            assert.spy(removeWatchMock).was.called_with(2, true)
+            assert.is_true(Questie.db.char.TrackedQuests[91741])
+            assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("retracks and expands an unknown native quest", function()
+            Questie.db.char.AutoUntrackedQuests[91741] = true
+            Questie.db.char.collapsedQuests[91741] = true
+            Questie.db.char.collapsedZones["Northshire Abbey"] = true
+
+            QuestieTracker:AQW_Insert(2)
+
+            assert.spy(TrackerData.ContainsQuest).was.called_with(91741)
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[91741])
+            assert.is_nil(Questie.db.char.collapsedQuests[91741])
+            assert.is_nil(Questie.db.char.collapsedZones["Northshire Abbey"])
+            assert.spy(removeWatchMock).was.not_called()
+            assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("ignores a stale add after the native quest was removed", function()
+            TrackerData.ContainsQuest = function() return false end
+            Questie.db.char.AutoUntrackedQuests[91741] = true
+
+            QuestieTracker:AQW_Insert(2)
+
+            assert.is_true(Questie.db.char.AutoUntrackedQuests[91741])
+            assert.spy(TrackerData.RefreshQuest).was.not_called()
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
+        it("untracks the native watch without requiring a database object", function()
+            QuestieTracker:UntrackQuestId(91741)
+
+            assert.is_true(Questie.db.char.AutoUntrackedQuests[91741])
+            assert.spy(_G.C_QuestLog.RemoveQuestWatch).was.called_with(91741)
+            assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("passes refreshed data to text-only updates", function()
+            local pool = QuestieLoader:ImportModule("TrackerLinePool")
+            pool.UpdateQuestLines = spy.new(function() end)
+
+            QuestieTracker.UpdateQuestLines(91741)
+
+            assert.spy(TrackerData.RefreshQuest).was.called_with(91741)
+            assert.spy(pool.UpdateQuestLines).was.called_with(91741, quest)
+        end)
+
+        it("does not update old rows after the quest leaves the native log", function()
+            TrackerData.RefreshQuest = function() return nil end
+            local pool = QuestieLoader:ImportModule("TrackerLinePool")
+            pool.UpdateQuestLines = spy.new(function() end)
+
+            QuestieTracker.UpdateQuestLines(91741)
+
+            assert.spy(pool.UpdateQuestLines).was.not_called()
+        end)
+
+        it("invalidates display data when a quest is removed", function()
+            QuestieTracker:RemoveQuest(91741)
+
+            assert.spy(TrackerData.RemoveQuest).was.called_with(91741)
+        end)
+    end)
+
+    describe("explicit display refresh", function()
+        local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
+        local timeMock, combatMock, countMock, instanceMock, infoMock
+        local header, pool
+
+        before_each(function()
+            now, inCombat = 0, false
+            timeMock = stub(_G, "GetTime", function() return now end)
+            combatMock = stub(_G, "InCombatLockdown", function() return inCombat end)
+            instanceMock = stub(_G, "IsInInstance", function() return false end)
+            infoMock = stub(_G, "GetInstanceInfo", function() return "Outside", "none" end)
+            countMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetNumQuestWatches", function() return 0 end)
+            expansion = QuestieLoader:ImportModule("Expansions")
+            originalExpansion = expansion.Current
+            expansion.Current = expansion.Era
+            originalTimer, originalDurability = _G.C_Timer, _G.DurabilityFrame
+            originalBindingLabel = _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER
+            _G.C_Timer = {After = function() end}
+            _G.DurabilityFrame = {GetPoint = function() return "TOPLEFT" end}
+            Questie.db.profile.trackerFontSizeZone = 12
+            Questie.db.profile.trackerFontSizeQuest = 10
+            Questie.db.profile.trackerFontSizeObjective = 10
+
+            TrackerData.Refresh = spy.new(function() return {} end)
+            local base = QuestieLoader:ImportModule("TrackerBaseFrame")
+            base.Initialize = function() return CreateFrame("Frame") end
+            base.Update = function() end
+            header = QuestieLoader:ImportModule("TrackerHeaderFrame")
+            header.Initialize = function() return {} end
+            header.Update = function() assert.spy(TrackerData.Refresh).was.called(1) end
+            local frame = QuestieLoader:ImportModule("TrackerQuestFrame")
+            frame.Initialize = function() return {} end
+            frame.Update = function() end
+            pool = QuestieLoader:ImportModule("TrackerLinePool")
+            pool.Initialize = function() end
+            pool.ResetLinesForChange = function() end
+            pool.ResetButtonsForChange = function() end
+            pool.GetLastLine = function() return nil end
+            QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
+            TrackerUtils.IsVoiceOverLoaded = function() return false end
+            TrackerUtils.GetSortedQuestIds = spy.new(function()
+                assert.spy(TrackerData.Refresh).was.called(1)
+                return {}, {}
+            end)
+
+            dofile("Localization/l10n.lua")
+            dofile("Modules/Tracker/QuestieTracker.lua")
+            QuestieTracker.started = false
+            QuestieTracker.alreadyHooked = nil
+            QuestieTracker.HookBaseTracker = function() end
+            local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+            assert.is_true(initialized, err)
+        end)
+
+        after_each(function()
+            timeMock:revert()
+            combatMock:revert()
+            countMock:revert()
+            instanceMock:revert()
+            infoMock:revert()
+            expansion.Current = originalExpansion
+            _G.C_Timer, _G.DurabilityFrame = originalTimer, originalDurability
+            _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = originalBindingLabel
+        end)
+
+        it("refreshes once before layout and sorting read the snapshot", function()
+            now = 1
+            QuestieTracker:Update()
+            QuestieTracker:Update() -- The throttled call does not rebuild the data again.
+
+            assert.spy(TrackerData.Refresh).was.called(1)
+            assert.spy(TrackerUtils.GetSortedQuestIds).was.called(1)
+        end)
+
+        it("refreshes only the affected quest for combat-safe text updates", function()
+            now, inCombat = 1, true
+            local quest = {Id = 91741, Objectives = {}}
+            TrackerData.RefreshQuest = spy.new(function() return quest end)
+            pool.UpdateQuestLines = spy.new(function() end)
+
+            QuestieTracker:Update()
+            QuestieTracker.UpdateQuestLines(91741)
+
+            assert.spy(TrackerData.Refresh).was.not_called()
+            assert.spy(TrackerData.RefreshQuest).was.called_with(91741)
+            assert.spy(pool.UpdateQuestLines).was.called_with(91741, quest)
+        end)
+
+        describe("saved focus before the first full refresh", function()
+            local original, objective
+
+            before_each(function()
+                objective = {Index = 3, HideIcons = true, spawnList = {{Spawns = {[12] = {{50, 50}}}}}}
+                original = {Id = 11, HideIcons = true, Objectives = {[3] = objective}, SpecialObjectives = {}}
+                QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {[11] = original}
+                QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return original end
+                TrackerData.RefreshQuest = spy.new(function()
+                    return {Id = 11, enrichment = original, Objectives = {{enrichment = objective}},
+                        SpecialObjectives = {}, IsComplete = function() return 0 end}
+                end)
+                dofile("Modules/Tracker/TrackerMapEligibility.lua")
+                dofile("Modules/Tracker/TrackerUtils.lua")
+                TrackerUtils.IsVoiceOverLoaded = function() return false end
+                QuestieTracker.started = false
+            end)
+
+            it("restores quest focus through an explicit single-quest refresh", function()
+                Questie.db.char.TrackerFocus = 11
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+
+                assert.is_true(initialized, err)
+                assert.spy(TrackerData.Refresh).was.not_called()
+                assert.spy(TrackerData.RefreshQuest).was.called_with(11)
+                assert.are.equal(11, Questie.db.char.TrackerFocus)
+                assert.is_nil(original.HideIcons)
+                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+            end)
+
+            it("restores objective focus using the original index before a full refresh", function()
+                Questie.db.char.TrackerFocus = "11 3"
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+
+                assert.is_true(initialized, err)
+                assert.spy(TrackerData.Refresh).was.not_called()
+                assert.spy(TrackerData.RefreshQuest).was.called_with(11)
+                assert.are.equal("11 3", Questie.db.char.TrackerFocus)
+                assert.is_nil(objective.HideIcons)
+                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+            end)
         end)
     end)
 
