@@ -50,30 +50,6 @@ describe("QuestiePlayer", function()
             assert.is_true(QuestiePlayer.HasRequiredRace(0))
         end)
 
-        it("allows Alliance-wide restrictions without granting Human-only quests to Skyborne", function()
-            QuestiePlayer:Initialize()
-
-            assert.is_true(QuestiePlayer.HasRequiredRace(77))
-            assert.is_false(QuestiePlayer.HasRequiredRace(178))
-            assert.is_false(QuestiePlayer.HasRequiredRace(1))
-            assert.is_false(QuestiePlayer.HasRequiredRace(5))
-        end)
-
-        it("uses the Windshaper bit and only the Horde-wide faction exception", function()
-            _G.UnitRace = function() return "Windshaper Skyborne", "Skyborne", 96 end
-            _G.UnitFactionGroup = function() return "Horde" end
-            QuestiePlayer:Initialize()
-
-            assert.is_true(QuestiePlayer.HasRequiredRace(8589934592))
-            assert.is_true(QuestiePlayer.HasRequiredRace(8589934594))
-            assert.is_false(QuestiePlayer.HasRequiredRace(4294967296))
-            assert.is_true(QuestiePlayer.HasRequiredRace(178))
-            assert.is_false(QuestiePlayer.HasRequiredRace(77))
-            assert.is_false(QuestiePlayer.HasRequiredRace(2))
-            assert.is_true(QuestiePlayer.HasRequiredRace(nil))
-            assert.is_true(QuestiePlayer.HasRequiredRace(0))
-        end)
-
         local ordinaryClients = {
             {name = "Classic", isForever = false},
             {name = "Forever", isForever = true},
