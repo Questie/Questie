@@ -51,12 +51,14 @@ local function _GetDifficultyColor(level, questId)
     local difficulty = QuestieCompat.GetQuestDifficulty(questId)
     local color = nativeDifficultyColors[difficulty]
     if color then
+        -- Prefer the client's quest-specific difficulty; level-based estimates can disagree.
         return color
     end
 
-    -- Classic and uncached Forever quests retain the level-based fallback.
+    -- Use the level estimate when native difficulty is unavailable or unrecognized.
     -- Do not copy Forever's generic GetQuestDifficultyColor: its thresholds differ from the quest-ID API.
     local playerLevel = QuestiePlayer.GetPlayerLevel()
+    -- Scaling quests use the player's level for the fallback estimate.
     if level == -1 then level = playerLevel end
     local levelDiff = level - playerLevel
 
@@ -95,6 +97,7 @@ function QuestieLib:PrintDifficultyColor(level, text, isRepeatableQuest, isEvent
     return _GetDifficultyColor(level, questId).hex .. text .. "|r"
 end
 
+---Returns difficulty RGB only; quest-type color overrides belong to PrintDifficultyColor.
 ---@param level Level Fallback quest level; -1 uses the player's level.
 ---@param questId QuestId? Uses native difficulty on Forever when cached and supported; otherwise uses level.
 ---@return number r

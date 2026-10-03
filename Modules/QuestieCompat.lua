@@ -667,9 +667,9 @@ end
 ---@param questId QuestId?
 ---@return number? difficulty Enum.RelativeContentDifficulty, or nil when unavailable.
 function QuestieCompat.GetQuestDifficulty(questId)
+    -- Require cached quest data: uncached IDs can report Fair regardless of their actual difficulty.
     if isForever and questId and questId > 0 and C_PlayerInfo and C_PlayerInfo.GetContentDifficultyQuestForPlayer
         and HaveQuestData(questId) then
-        -- Uncached IDs can report Fair regardless of their actual difficulty.
         return C_PlayerInfo.GetContentDifficultyQuestForPlayer(questId)
     end
 end
