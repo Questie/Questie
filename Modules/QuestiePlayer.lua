@@ -91,16 +91,6 @@ end
 ---@param requiredRaces number? Race mask; nil and zero are unrestricted.
 ---@return boolean
 function QuestiePlayer.HasRequiredRace(requiredRaces)
-    if playerIsSkyborne then
-        -- The Classic database encodes faction-wide restrictions as 77/178. Only these complete masks
-        -- include new races; race-specific subsets must still match their actual bits.
-        if requiredRaces == 77 then
-            return QuestiePlayer.faction == "Alliance"
-        elseif requiredRaces == 178 then
-            return QuestiePlayer.faction == "Horde"
-        end
-    end
-
     -- Arithmetic preserves Skyborne bits above the range of 32-bit bitwise operations.
     -- test a bit flag: (value % (2*flag) >= flag)
     return (not requiredRaces) or (requiredRaces == 0) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)
