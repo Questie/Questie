@@ -163,15 +163,17 @@ HBD already discovers these maps, including IDs above 2500. Zephras Isle and Dar
 
 ### Race masks
 
-Skyborne race IDs 95/96 use playable-race bits 32/33, with masks `4294967296` and `8589934592`. `QuestiePlayer.Initialize()` now uses those documented masks on Forever instead of `2^(raceID-1)`. Arithmetic mask checks preserve the high bits.
+Skyborne race IDs 95/96 use playable-race bits 32/33, with masks `4294967296` and `8589934592`. QuestieDB owns the shared `LibQuestieDB.Enum.raceMaskById` encoding table. Its correction constants and Questie's player initialization use that same mapping. No player race falls back to `2^(raceID-1)`; an unknown ID stops initialization with an update message. Arithmetic membership checks preserve the high bits.
 
-Only for these races on Forever, exact legacy faction-wide masks `77`/`178` follow Alliance/Horde membership. Race-specific subsets still require the actual race bit; Human-only quests are not granted to Skyborne.
+The provider calculates faction-wide masks by adding distinct member-race bits, with Forever using Classic membership plus the matching Skyborne race. It publishes these as `Enum.factionRaceMasks` and converts inherited faction-wide quest masks to `4294967373` (Alliance) and `8589934770` (Horde). Questie reads the provider's active masks rather than duplicating the calculation or selecting another flavor. Questie no longer interprets `77`/`178` as faction exceptions for Skyborne: those numbers contain only legacy race bits. Race-specific subsets remain unchanged. Provider inference from quest-giver friendliness is separate and was not changed by this encoding work.
+
+This consumer requires Contract 3, the provider's race-ID mapping, and its active faction masks even on non-Forever clients. `VersionCheckDB.Check()` rejects contract-2 providers before locale forwarding and policy publication. The updated provider still supports older contract-1 and contract-2 consumers. Update the provider and consumer together. Cross-project tests exercise actual Forever Source rows through Questie's eligibility and faction display; provider tests also preserve the high bits through in-memory Baked reads. No live reload or release artifact generation accompanied this change.
 
 ### Remaining limits
 
 - Live Skyborne race/faction eligibility remains pending. The Tauren integration run confirmed area 16593, all five map lookups, and continent/world navigation, not behavior on a Skyborne character.
 - The original DBC support export excludes quest/NPC/object payloads and spawn locations. Provider Forever data is now independent of Classic, but still lacks complete new Forever content; map metadata alone cannot supply quest pins.
-- The old consumer compiler stored `requiredRaces` as `u32`; that compiler no longer exists here. Do not carry its schema limitation forward as a claim about QuestieDB. Verify high-bit entity masks and race-policy behavior through the provider's read/storage contracts before importing new records. The consumer retains its reviewed Skyborne and exact faction-wide-mask rules.
+- The old consumer compiler stored `requiredRaces` as `u32`; that compiler no longer exists here. Current Source and in-memory Baked tests preserve Skyborne masks. Storage fidelity does not establish quest eligibility: the provider's inference can still narrow an authored unrestricted mask, including quest 97286. That policy issue remains separate.
 
 ## Map navigation and coordinate validation
 
@@ -213,7 +215,7 @@ The user requested reverting this trial. The manifest again declares `QuestieCon
 
 ## Packaging and validation
 
-`Questie-Camelot.toc` declares interface `16001`, `RequiredDeps: QuestieDB`, and Contract 2. It follows the current Classic file list, with `QuestieCompat` before embedded libraries and no separate Forever adapter or local entity/zone payloads. `LoadSavedVariablesFirst: 1` and the account/per-character declarations are preserved.
+`Questie_Camelot.toc` declares interface `16001`, `RequiredDeps: QuestieDB`, and Contract 3. It follows the current Classic file list, with `QuestieCompat` before embedded libraries and no separate Forever adapter or local entity/zone payloads. `LoadSavedVariablesFirst: 1` and the account/per-character declarations are preserved.
 
 The manifest does not load the ignored `cli/forever/Capture.lua` recorder. Use local development tooling to inject diagnostics when needed; do not make tracked manifests depend on ignored files. Automated Questie release packaging still needs Camelot support. Provider Baked generation/localization and broader live acceptance remain separate work; generate in a disposable copy rather than silently changing the linked checkout's mode.
 

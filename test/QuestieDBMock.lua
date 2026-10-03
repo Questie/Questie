@@ -1,4 +1,4 @@
--- Focused Contract Version 2 test double for LibQuestieDB.
+-- Focused Contract Version 3 test double for LibQuestieDB.
 --
 -- It reproduces only what Questie consumes from QuestieDB: the Contract check, composed entity
 -- reads, shared ID maps that swap identity only when a republish adds or withdraws an entity,
@@ -62,7 +62,7 @@ local function LoadQuestieDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 2,
+        contractVersion = 3,
         minSupportedContract = 1,
     }
     local lib = {}
@@ -417,6 +417,17 @@ local function LoadQuestieDBMock()
         NpcMeta = {npcKeys = keys.Npc, types = types.Npc},
         ItemMeta = {itemKeys = keys.Item, types = types.Item},
         ObjectMeta = {objectKeys = keys.Object, types = types.Object},
+    }
+
+    -- Literal fixture checked against the real provider by the conformance suite.
+    lib.Enum = {
+        factionRaceMasks = {Alliance = 77, Horde = 178}, -- Classic provider, independent of the mocked client flags.
+        raceMaskById = {
+            [1] = 1, [2] = 2, [3] = 4, [4] = 8, [5] = 16, [6] = 32, [7] = 64, [8] = 128,
+            [9] = 256, [10] = 512, [11] = 1024, [22] = 2097152,
+            [24] = 8388608, [25] = 16777216, [26] = 33554432,
+            [95] = 4294967296, [96] = 8589934592,
+        },
     }
 
     -- Provider-owned Objective Order hints; tests seed IDs directly.
