@@ -6,6 +6,10 @@ local QuestDetailsFrame = QuestieLoader:CreateModule("QuestDetailsFrame")
 -------------------------
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieReputation
@@ -244,7 +248,12 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
             link:SetUserData("id", id)
             link:SetUserData("type", linkType)
             link:SetUserData("name", name)
-            link:SetCallback("OnClick", function() end) -- No-op; could be used for navigation
+            link:SetCallback("OnClick", function()
+                QuestieJourneyUtils.HideJourneyTooltip()
+                -- Zone and faction details can be opened before the search widgets exist.
+                QuestieJourney.tabGroup:SelectTab("search")
+                QuestieSearchResults:SetSearch(linkType, id)
+            end)
             link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
             link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
             group:AddChild(link)
