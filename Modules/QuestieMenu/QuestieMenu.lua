@@ -98,6 +98,7 @@ local _townsfolk_order = {
 }
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
+local _spawnTickers = {} -- pending spawn ticker per townsfolk key, cancelled when the key is untracked
 
 ---@param id NpcId
 ---@param key string
@@ -179,6 +180,9 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             local timer
             local e = 1
             local max = (#ids)+1
+            if _spawnTickers[key] then
+                _spawnTickers[key]:Cancel()
+            end
             timer = C_Timer.NewTicker(0.01, function()
                 local start = e
                 while e < max and e-start < 32 do
@@ -196,9 +200,18 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                 end
                 if e == max then
                     timer:Cancel()
+                    if _spawnTickers[key] == timer then
+                        _spawnTickers[key] = nil
+                    end
                 end
             end)
+            _spawnTickers[key] = timer
         else
+            -- Stop a spawn still in progress, or it keeps drawing icons after they were removed
+            if _spawnTickers[key] then
+                _spawnTickers[key]:Cancel()
+                _spawnTickers[key] = nil
+            end
             for _, id in pairs(ids) do
                 QuestieMap:UnloadManualFrames(id, key)
                 _spawned[id] = nil
@@ -230,9 +243,13 @@ local function buildProfession(key, localizedText, profMenu)
     return {
         text = localizedText,
         func = function(button)
-            Questie.db.profile.townsfolkConfig[key] = not Questie.db.profile.townsfolkConfig[key]
-            toggle(key)
-            -- Unchecking a known profession leaves it tracked through "Known Professions", so it turns gray
+            -- Locked rows still get clicks forwarded from their icon, which bypasses the disabled button
+            if not isTrackedAsKnownProfession(key) then
+                Questie.db.profile.townsfolkConfig[key] = not Questie.db.profile.townsfolkConfig[key]
+                toggle(key)
+            end
+            -- Unchecking a known profession leaves it tracked through "Known Professions", so it turns gray.
+            -- This also restores the check the dropdown flipped before calling us on a locked row.
             refreshProfessionButtons(profMenu, button:GetParent())
         end,
         arg1=key,
@@ -289,7 +306,7 @@ function QuestieMenu.RefreshKnownProfessionTrainers()
     for key in pairs(Townsfolk.professionTrainers) do
         if (not Questie.db.profile.townsfolkConfig[key]) then
             local shownFrames = QuestieMap.manualFrames[key]
-            if isTracked(key) or (shownFrames and next(shownFrames)) then
+            if isTracked(key) or _spawnTickers[key] or (shownFrames and next(shownFrames)) then
                 toggle(key)
             end
         end
