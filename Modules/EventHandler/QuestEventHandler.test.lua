@@ -526,6 +526,7 @@ describe("QuestEventHandler", function()
             QuestieTracker.UpdateQuestLines = spy.new(function() end)
             QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}, [OTHER_QUEST_ID] = {}}
             QuestieLoader:ImportModule("QuestgiverFrame").RecheckGreeting = function() end
+            QuestieLoader:ImportModule("QuestgiverFrame").RecheckGossip = function() end
             dofile("Modules/EventHandler/EventHandler.lua")
             QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
         end)
