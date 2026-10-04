@@ -24,11 +24,16 @@ function CommsRouting:GetGroupBroadcastDistribution(input)
     return groupBroadcastByInput[input]
 end
 
----AceComm calls Ambiguate(sender, "none"), so our own sender is the short player name.
+---AceComm calls Ambiguate(sender, "none"), which usually makes our own sender the short player name.
+---Realms whose display name differs from the normalized one (e.g. "Classic Beta PvE") can keep the
+---realm suffix, so also resolve the name as a unit before treating it as another player.
 ---@param sender string
 ---@return boolean
 function CommsRouting:IsSelf(sender)
-    return sender == UnitName("player")
+    if type(sender) ~= "string" or sender == "" then
+        return false
+    end
+    return sender == UnitName("player") or UnitIsUnit(sender, "player") == true
 end
 
 ---Returns true when the addon message arrived over a grouped distribution from a grouped sender.

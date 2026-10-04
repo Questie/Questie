@@ -24,6 +24,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+---@type CommsRouting
+local CommsRouting = QuestieLoader:ImportModule("CommsRouting")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -825,7 +827,7 @@ end
 ---@param playerName string @The player said package should be added to.
 function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
     --We don't want to insert our own quest data.
-    if questPacket and playerName ~= UnitName("player") then
+    if questPacket and (not CommsRouting:IsSelf(playerName)) then
         --Does it contain id and objectives?
         if (questPacket.objectives and questPacket.id) then
             -- Create empty quest.
@@ -1038,7 +1040,7 @@ end
 function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
     --print("[" .. distribution .."][" .. sender .. "] " .. message)
     Questie.Debug(Questie.DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:", string.len(message))
-    if message and sender and sender ~= UnitName("player") then
+    if message and sender and (not CommsRouting:IsSelf(sender)) then
         local decompressedData
         if distribution == "YELL" then
             --print("Decompressing YELL data")
