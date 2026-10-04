@@ -121,6 +121,8 @@ describe("QuestieQuest", function()
         local originalThreadInstant
         local ThreadLib
 
+        ---@param miniMapIcon boolean
+        ---@return {miniMapIcon: boolean, hidden: boolean, FakeHide: luassert.spy, FakeShow: luassert.spy}
         local function _CreateIcon(miniMapIcon)
             return {
                 miniMapIcon = miniMapIcon,
