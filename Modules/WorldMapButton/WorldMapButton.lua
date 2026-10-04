@@ -99,8 +99,16 @@ function WorldMapButton.ApplyQuestPOI(afterApply)
     end
     if type(QuestMapFrame_UpdateAll) == "function" then pcall(QuestMapFrame_UpdateAll) end
     if type(QuestPOIUpdateIcons) == "function" then pcall(QuestPOIUpdateIcons) end
-    if WorldMapFrame and WorldMapFrame.RefreshAllDataProviders then
-        pcall(function() WorldMapFrame:RefreshAllDataProviders() end)
+    -- Refresh the world-map data providers so pins appear/disappear immediately -- but only on the
+    -- next frame and only while the map is shown. Refreshing a hidden or not-yet-sized canvas (e.g.
+    -- on login) throws inside Blizzard's MapCanvas providers (division by zero / ipairs on nil), and
+    -- those escape our pcall because RefreshAllDataProviders iterates via secureexecuterange.
+    if WorldMapFrame and WorldMapFrame.RefreshAllDataProviders and C_Timer and C_Timer.After then
+        C_Timer.After(0, function()
+            if WorldMapFrame:IsShown() then
+                pcall(function() WorldMapFrame:RefreshAllDataProviders() end)
+            end
+        end)
     end
     WorldMapButton.UpdatePOIButton()
     if afterApply then
