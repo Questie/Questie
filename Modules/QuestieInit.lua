@@ -114,22 +114,45 @@ local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
-local coYield = coroutine.yield
-local supportValidationFailed = false
+---@type QuestieStatus
+local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
+---@type SourceModeStatus
+local SourceModeStatus = QuestieLoader:ImportModule("SourceModeStatus")
 
----Latch failures for this addon instance; yielding stages retain the normal ThreadError path for unrelated errors.
+local coYield = coroutine.yield
+local startupFailed = false
+local addonLoadedTicker, loginTicker
+
+---Latch the first failure and stop both startup jobs, including one suspended inside a yielding dependency.
+local function _StopStartup(id, report, action)
+    if startupFailed then return end
+    startupFailed = true
+    Questie.started = false
+    if Questie.API then Questie.API.isReady = false end
+    if addonLoadedTicker then addonLoadedTicker:Cancel() end
+    if loginTicker then loginTicker:Cancel() end
+    -- Lua errors can be nil or mutable objects; capture text before tooltip formatting.
+    QuestieStatus.Set(id, {
+        severity = QuestieStatus.Severity.Error,
+        message = "Questie could not start: %s",
+        args = {tostring(report)},
+        action = action or "Update Questie and QuestieDB, then reload the UI.",
+    })
+end
+
+---Support checks return diagnostics instead of throwing; retain their once-only chat report.
 ---@param valid boolean|nil @Only explicit false means validation failed.
 ---@param report string?
 ---@return boolean stopped
 local function _StopOnSupportFailure(valid, report)
     if valid == false then
-        if not supportValidationFailed then
-            supportValidationFailed = true
+        if not startupFailed then
+            _StopStartup("startup.support-validation", report)
             Questie.Error(report)
         end
         return true
     end
-    return supportValidationFailed
+    return startupFailed
 end
 
 -- ********************************************************************************
@@ -139,6 +162,7 @@ end
 QuestieInit.Stages = {}
 
 QuestieInit.Stages[1] = function() -- run as a coroutine
+    if startupFailed then return false end
     Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] UI Locale initializing.")
@@ -148,11 +172,14 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     -- This gates login work, not the provider bindings already made during TOC file loading.
     local contractSupported, contractError = VersionCheckDB.Check()
     if not contractSupported then
+        _StopStartup("startup.provider-contract", contractError)
         error(contractError, 0)
     end
 
     if type(LibQuestieDB.l10n) ~= "table" or type(LibQuestieDB.l10n.SetCorrection) ~= "function" then
-        error("Questie requires QuestieDB localization corrections. Update QuestieDB.", 0)
+        local report = "Questie requires QuestieDB localization corrections. Update QuestieDB."
+        _StopStartup("startup.provider-localization", report)
+        error(report, 0)
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity locale forwarding.")
@@ -186,13 +213,16 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 end
 
 ---@async
----@return nil
+---@return false|nil stopped
 QuestieInit.Stages[2] = function()
+    if startupFailed then return false end
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage2] Stage 2 start.")
 
     local objectDB = LibQuestieDB.Object
     if type(objectDB) ~= "table" or type(objectDB.BuildNameIndexAsync) ~= "function" then
-        error("Questie requires QuestieDB asynchronous Object name indexing. Update QuestieDB.", 0)
+        local report = "Questie requires QuestieDB asynchronous Object name indexing. Update QuestieDB."
+        _StopStartup("startup.provider-object-index", report)
+        error(report, 0)
     end
 
     -- Object tooltips use database-wide name uniqueness for zone filtering even when Object IDs
@@ -226,6 +256,7 @@ QuestieInit.Stages[2] = function()
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
+    if startupFailed then return false end
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 3 start.")
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieTooltips initializing.")
@@ -337,6 +368,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     Tutorial.Initialize()
     coYield()
 
+    if startupFailed then return false end
     Questie.started = true
 
     -- We only update this if Questie fully loads to make sure we don't update it on crashes/fast reloads
@@ -350,6 +382,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     AvailableQuests.CalculateAndDrawAll()
 
     -- Let other addons know that Questie is ready
+    if startupFailed then return false end
     Questie.API.isReady = true
     QuestieAPI.PropagateOnReady()
 
@@ -364,7 +397,7 @@ end
 ---@return false|nil stopped
 function _QuestieInit.StartStageCoroutine()
     for i = 1, #QuestieInit.Stages do
-        if supportValidationFailed or QuestieInit.Stages[i]() == false then return false end
+        if startupFailed or QuestieInit.Stages[i]() == false then return false end
         Questie.Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
         coYield()
     end
@@ -373,9 +406,16 @@ end
 -- The UI elements might not be loaded at this point, so we must only initialize modules that do not rely on the UI
 ---@return false|nil stopped
 function QuestieInit.OnAddonLoaded()
-    if supportValidationFailed then return false end
+    if startupFailed then return false end
 
-    MinimapIcon:Init()
+    local sourceMode = SourceModeStatus.Update()
+
+    -- Keep the provider banner unless Questie's replacement UI has registered successfully.
+    local statusUIReady = MinimapIcon:Init() == true
+    local modeIndicator = LibQuestieDB and LibQuestieDB.ModeIndicator
+    if sourceMode and statusUIReady and modeIndicator and type(modeIndicator.Hide) == "function" then
+        modeIndicator.Hide()
+    end
 
     Questie.SetIcons()
 
@@ -387,7 +427,8 @@ function QuestieInit.OnAddonLoaded()
     if _StopOnSupportFailure(QuestXP.Init()) then return false end
 
     -- This block still runs on a later frame. Submit it only after synchronous support checks pass.
-    ThreadLib.ThreadError(function()
+    addonLoadedTicker = ThreadLib.Thread(function()
+        if startupFailed then return end
         HBDHooks:Init()
         if Questie.IsForever then
             GamepadMapHover.Initialize()
@@ -398,7 +439,9 @@ function QuestieInit.OnAddonLoaded()
 
         IsleOfQuelDanas.Initialize() -- This has to happen before option init
         QuestieOptions.Initialize()
-    end, 0, "Error during AddonLoaded initialization!")
+    end, 0, "Error during AddonLoaded initialization!", nil, function(err)
+        _StopStartup("startup.addon-loaded", err, "Reload the UI. If the problem persists, report this error.")
+    end)
 
     Phasing.Initialize()
 
@@ -410,8 +453,10 @@ end
 -- called by the PLAYER_LOGIN event handler
 ---@return false|nil stopped
 function QuestieInit:Init()
-    if supportValidationFailed then return false end
-    ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
+    if startupFailed then return false end
+    loginTicker = ThreadLib.Thread(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"), nil, function(err)
+        _StopStartup("startup.login", err, "Reload the UI. If the problem persists, report this error.")
+    end)
 
     if Questie.db.profile.trackerEnabled then
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
