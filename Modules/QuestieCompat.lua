@@ -337,15 +337,15 @@ function QuestieCompat.IsSpellKnown(spellID)
     end
 end
 
--- Forever's objective tracker can show itself during content updates. Own suppression only while requested,
--- and defer protected visibility changes until combat ends. Classic keeps its existing WatchFrame policy.
+-- Forever's objective tracker can show itself during combat updates. Suppress it while requested;
+-- only protected hiding and restoring Blizzard's layout need to wait until combat ends.
 local hideObjectiveTracker = false
 local objectiveTrackerHooked = false
 local visibilityFrame
 
 ---Hides Blizzard's tracker when requested, or lets Blizzard restore its normal visibility.
 local function ApplyObjectiveTrackerVisibility()
-    if InCombatLockdown() then
+    if InCombatLockdown() and (not hideObjectiveTracker or (ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsProtected())) then
         -- Retry after combat using the latest request, not the state when combat began.
         visibilityFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
         return
@@ -366,7 +366,7 @@ if isForever then
     visibilityFrame:SetScript("OnEvent", ApplyObjectiveTrackerVisibility)
 end
 
----Hides Blizzard's quest tracker, waiting until combat ends on Forever.
+---Hides Blizzard's quest tracker, deferring protected frames until combat ends on Forever.
 function QuestieCompat.HideWatchFrame()
     if isForever then
         -- Forever: keep later native OnShow calls suppressed, without reparenting protected frames.
