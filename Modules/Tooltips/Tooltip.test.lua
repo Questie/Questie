@@ -233,11 +233,29 @@ describe("Tooltip", function()
                 Questie.IsForever, _G.IsInInstance = originalForever, originalIsInInstance
             end)
 
-            it("accepts public unit identity inside instances and retains existing native-line filtering", function()
+            it("uses Questie lines inside instances when unit identity is public", function()
                 assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
                 callbacks[2](GameTooltip, unit)
                 assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip, unit.guid)
                 assert.spy(GameTooltip.Show).was.not_called()
+            end)
+
+            it("uses Questie lines outside instances when unit identity is public", function()
+                _G.IsInInstance = function() return false end
+
+                assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
+            end)
+
+            it("still filters Blizzard quest lines on other clients", function()
+                Questie.IsForever = false
+
+                assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
             end)
 
             it("adds units once per clear, including a rebuild reusing the same payload", function()
@@ -421,24 +439,39 @@ describe("Tooltip", function()
         end)
 
         describe("structured Object callbacks", function()
-            local callbacks
+            local callbacks, lineCallbacks
             local registration
             local primaryData
+            local originalForever
 
             before_each(function()
-                callbacks = {}
+                originalForever = Questie.IsForever
+                Questie.IsForever = true
+                callbacks, lineCallbacks = {}, {}
                 primaryData = {type = 4, dataInstanceID = 12, lines = {{leftText = "Battered Chest"}}}
-                _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+                _G.Enum = {
+                    TooltipDataType = {Item = 0, Unit = 2, Object = 4},
+                    TooltipDataLineType = {QuestTitle = 17, QuestObjective = 8, QuestPlayer = 18},
+                }
                 registration = spy.new(function(kind, callback) callbacks[kind] = callback end)
                 _G.TooltipDataProcessor = {
                     AddTooltipPostCall = function(kind, callback) registration(kind, callback) end,
+                    AddLinePreCall = function(kind, callback) lineCallbacks[kind] = callback end,
                 }
                 GameTooltip.GetPrimaryTooltipData = function() return primaryData end
+                GameTooltip.processingInfo = {tooltipData = primaryData}
                 QuestieTooltips:Initialize()
+            end)
+
+            after_each(function()
+                Questie.IsForever = originalForever
             end)
 
             it("resolves public primary Object text without touching legacy getters or FontStrings", function()
                 -- None of the legacy getters or FontStrings exist on this frame.
+                assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
 
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Battered Chest", 440)
@@ -488,15 +521,18 @@ describe("Tooltip", function()
 
             it("skips disabled tooltips without consuming a later enabled render", function()
                 Questie.db.profile.enableTooltips = false
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
                 Questie.db.profile.enableTooltips = true
+                assert.is_true(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(1)
             end)
 
             it("leaves forbidden tooltips untouched", function()
                 GameTooltip.IsForbidden = function() return true end
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
@@ -504,9 +540,11 @@ describe("Tooltip", function()
 
             it("leaves map-icon and raid tooltip policy unchanged", function()
                 GameTooltip.ShownAsMapIcon = true
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 GameTooltip.ShownAsMapIcon = nil
                 QuestiePlayer.numberOfGroupMembers = 7
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
             end)
@@ -534,16 +572,21 @@ describe("Tooltip", function()
                 local inaccessible = setmetatable({}, {__index = function() error("restricted read") end})
                 _G.issecrettable = function(value) return value == inaccessible end
                 primaryData.lines = inaccessible
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 primaryData.lines = {inaccessible}
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
             end)
 
-            it("does not send restricted text to provider name lookup", function()
+            it("falls back to Blizzard quest lines instead of looking up a secret object name", function()
                 local secretText = "Restricted object name"
                 _G.issecretvalue = function(value) return value == secretText end
                 primaryData.lines[1].leftText = secretText
+                assert.is_false(lineCallbacks[17](GameTooltip))
+                assert.is_false(lineCallbacks[8](GameTooltip))
+                assert.is_false(lineCallbacks[18](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()

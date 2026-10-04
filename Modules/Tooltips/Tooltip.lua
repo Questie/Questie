@@ -717,7 +717,7 @@ end
 
 ------------------------------------------------------------
 -- The following code was modified from https://www.curseforge.com/wow/addons/noquesttooltips (MIT license)
--- It hides Blizzard's objective tooltips when ours are enabled
+-- It hides Blizzard's objective lines only when Questie's corresponding tooltip handler can run.
 -- This is only relevant for Forever and MoP+ (where these tooltips exist)
 ------------------------------------------------------------
 
@@ -741,8 +741,8 @@ local function _GetProcessingTooltipData(tooltip)
     return data.type, data
 end
 
----Keep native quest lines when our corresponding handler cannot access the hovered identity.
----This preserves the existing suppression policy, not a guarantee of replacement quest content.
+---Fall back to native rendering when identity is restricted or tooltip augmentation is disabled.
+---Public identity permits our handler to run; it does not guarantee matching quest data in our database.
 local function _ShouldBlock(tooltip)
     if not Questie.db.profile.enableTooltips then
         return false
@@ -760,6 +760,8 @@ local function _ShouldBlock(tooltip)
         if tooltipType ~= types.Unit and tooltipType ~= types.Object then
             return false
         end
+        -- Use the same eligibility and identity checks as the post-call that adds Questie's lines.
+        -- Instances and combat need no blanket exclusion when these values remain public.
         if not _CanAddTooltipData(tooltip, data, tooltipType) then
             return false
         end
