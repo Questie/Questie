@@ -83,6 +83,12 @@ local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.
 
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
+    -- Opening it from addon code taints Forever's gamepad bindings, which leads to a crash
+    if Questie.IsForever and InputUtil and InputUtil.IsGamepadUIEnabled() then
+        Questie:Print(l10n("Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."))
+        return
+    end
+
     -- Classic can expose both interfaces; preserve its standalone log and addon replacements.
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
     if _G.QuestMapFrame_OpenToQuestDetails and not questFrame then

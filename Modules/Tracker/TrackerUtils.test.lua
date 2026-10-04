@@ -71,10 +71,12 @@ describe("TrackerUtils", function()
 
     describe("ShowQuestLog", function()
         local originals, legacyFrame, scrollBar
-        local getIndexMock, selectMock, detailsMock, updateMock
+        local getIndexMock, selectMock, detailsMock, updateMock, printMock
+        local originalIsForever
         local globalNames = {
             "QuestLogFrame", "QuestLogExFrame", "ClassicQuestLog", "QuestLogEx", "QuestLogListScrollFrame",
             "QuestLogListScrollFrameScrollBar", "QuestMapFrame_OpenToQuestDetails", "ShowUIPanel", "InCombatLockdown",
+            "InputUtil",
         }
 
         before_each(function()
@@ -95,6 +97,9 @@ describe("TrackerUtils", function()
             selectMock = stub(compat, "SelectQuestLogEntry")
             detailsMock = stub(compat, "QuestLog_UpdateQuestDetails")
             updateMock = stub(compat, "QuestLog_Update")
+            printMock = stub(Questie, "Print")
+            originalIsForever = Questie.IsForever
+            dofile("Localization/l10n.lua")
             dofile("Modules/Tracker/TrackerUtils.lua")
         end)
 
@@ -103,6 +108,8 @@ describe("TrackerUtils", function()
             selectMock:revert()
             detailsMock:revert()
             updateMock:revert()
+            printMock:revert()
+            Questie.IsForever = originalIsForever
             for _, name in ipairs(globalNames) do _G[name] = originals[name] end
         end)
 
@@ -132,6 +139,44 @@ describe("TrackerUtils", function()
             assert.spy(ShowUIPanel).was.not_called()
             assert.spy(detailsMock).was.not_called()
             assert.spy(updateMock).was.not_called()
+        end)
+
+        it("opens nothing and prints a hint on Forever with the gamepad UI", function()
+            Questie.IsForever = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return true end}
+            _G.QuestLogFrame = nil
+            _G.QuestLogListScrollFrame = nil
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.not_called()
+            assert.spy(ShowUIPanel).was.not_called()
+            assert.spy(selectMock).was.not_called()
+            assert.spy(printMock).was.called(1)
+        end)
+
+        it("still opens the quest log on Forever without the gamepad UI", function()
+            Questie.IsForever = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
+            _G.QuestLogFrame = nil
+            _G.QuestLogListScrollFrame = nil
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.called_with(783)
+            assert.spy(printMock).was.not_called()
+        end)
+
+        it("ignores the gamepad UI on other flavors", function()
+            Questie.IsForever = false
+            _G.InputUtil = {IsGamepadUIEnabled = function() return true end}
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(ShowUIPanel).was.called_with(legacyFrame)
+            assert.spy(printMock).was.not_called()
         end)
     end)
 
