@@ -446,7 +446,7 @@ local dungeonLocales = {
         ["ptBR"] = "Salões Despedaçados",
         ["ruRU"] = "Разрушенные залы",
         ["zhCN"] = "破碎大厅",
-        ["zhTW"] = "地獄火堡壘",
+        ["zhTW"] = "破碎大廳",
     },
     ["Blackrock Depths"] = {
         ["enUS"] = true,
