@@ -64,18 +64,32 @@ function WorldMapButton.UpdatePOIButton()
     poiButton.icon:SetAlpha(on and 1 or 0.45)
 end
 
--- Some questPOI writes taint during combat, so defer the apply to combat end.
+-- Some questPOI writes taint during combat, so defer the apply to combat end. Any afterApply
+-- callbacks handed to ApplyQuestPOI while deferred run once the write actually lands.
 local poiCombatFrame = CreateFrame("Frame")
+---@type function[]
+local poiApplyCallbacks = {}
 poiCombatFrame:SetScript("OnEvent", function(self)
     self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+    local callbacks = poiApplyCallbacks
+    poiApplyCallbacks = {}
     WorldMapButton.ApplyQuestPOI()
+    for i = 1, #callbacks do
+        callbacks[i]()
+    end
 end)
 
 -- Apply the questPOI CVar from the setting and refresh the native pins. Combat-safe: if we're in
--- lockdown, defer the whole apply until combat ends.
-function WorldMapButton.ApplyQuestPOI()
+-- lockdown, defer the whole apply until combat ends. afterApply (optional) runs right after the
+-- CVar write, including when the apply was deferred -- so callers that must read questPOI post-write
+-- (e.g. the login map-hide check) stay correct in combat.
+---@param afterApply function? Runs after the questPOI write lands (immediately or post-combat).
+function WorldMapButton.ApplyQuestPOI(afterApply)
     if InCombatLockdown() then
         poiCombatFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+        if afterApply then
+            poiApplyCallbacks[#poiApplyCallbacks + 1] = afterApply
+        end
         WorldMapButton.UpdatePOIButton()
         return
     end
@@ -89,6 +103,9 @@ function WorldMapButton.ApplyQuestPOI()
         pcall(function() WorldMapFrame:RefreshAllDataProviders() end)
     end
     WorldMapButton.UpdatePOIButton()
+    if afterApply then
+        afterApply()
+    end
 end
 
 -- Left-click the "?" button: flip native quest POIs on/off.
