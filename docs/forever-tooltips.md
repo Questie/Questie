@@ -2,7 +2,11 @@
 
 Forever exposes structured tooltip data through `C_TooltipInfo` and renders it through template mixins and `TooltipDataProcessor`. Our live probes confirm that Unit callbacks can include quest IDs and objective progress, and Object callbacks can identify the displayed object text. These are useful alternatives to reading rendered FontStrings every frame.
 
-**The narrow Object callback migration is implemented; broader tooltip refactoring remains pending.** Forever now uses primary Object post-calls instead of the per-frame object scanner. Classic retains native Item/Unit scripts and object polling. The historical Forever experiments below preceded this change; the new implementation has been live-tested only on Classic, out of combat. See [implementation and validation](#implemented-object-callback-path).
+**Unit, Item and Object now use primary structured callbacks on Forever.** Unit callbacks supply a public GUID, Item callbacks supply a public item ID, and Objects retain public-name/provider lookup. All three still use Questie's existing quest content and formatting; native quest rows are not parsed or restyled. Duplicate protection resets per frame on `OnTooltipCleared`, without legacy getter or FontString reads on this path.
+
+Public identities are accepted inside instances. Restricted or missing identities skip Questie's additions and leave native quest lines visible. Native-line suppression still follows the existing policy when identity is accessible; it does not guarantee that Questie has replacement quest content. Classic retains its native Item/Unit scripts and object polling.
+
+The live experiments below predate the Unit/Item migration. The new path has automated coverage, but has not been validated in a running Forever client. The earlier Object-only implementation was live-tested only on Classic, out of combat. See [implementation and validation](#implemented-object-callback-path).
 
 For integration status, see [Forever development](forever-development.md). Broader recovery work remains in [the hardening backlog](forever-hardening-backlog.md). Provider-owned name lookup is described in [QuestieDB integration](questiedb-integration.md#object-hover-name-resolution).
 
@@ -237,7 +241,7 @@ A simplified player callback looked like this:
 
 A separate direct player query returned the same kind of structure with `unitToken = "player"`. NPC Grull Hawkwind returned matching Unit data from `GetWorldCursor()` and `GetUnit("mouseover")` in one sample.
 
-Questie currently parses Creature/Vehicle GUIDs to resolve NPC IDs. A future callback consumer can use the supplied GUID rather than recovering it through the frame and a mutable `mouseover` token. It must still distinguish Players, Creatures, Vehicles, absent data, and inaccessible values.
+Questie's structured callback now validates the supplied GUID before passing it to the existing Unit handler, which parses Creature/Vehicle GUIDs to resolve NPC IDs. Classic retains frame/token recovery. Missing or inaccessible GUIDs skip the structured handler.
 
 ### Quest-objective mobs
 
@@ -299,7 +303,7 @@ The hover callback and generic-ID query were not identical contexts or synchroni
 
 For quest item 4739, the direct query returned ItemName “Plainstrider Meat” and ItemBinding “Quest Item”. It did not contain Questie's appended quest title/progress. Use structured data for native facts, not as a readback of every addon-rendered line.
 
-Using callback `data.id` could remove the modern item path's need to parse a hyperlink just to identify an item. Legacy clients and existing presentation behavior still need explicit handling.
+The structured Item callback now validates and uses `data.id`, without parsing a hyperlink. Classic retains link parsing. Both paths retain quest-start item registration and the existing presentation.
 
 ### Spells and macros
 
@@ -343,11 +347,11 @@ The implemented Object post-call replaces Forever's per-frame “not a unit/item
 
 | Area | Current behavior | Consequence for migration |
 | --- | --- | --- |
-| [Tooltip initialization](../Modules/Tooltips/Tooltip.lua) | Requires both the processor and the frame's `GetPrimaryTooltipData` pipeline for post-calls. Classic retains available tooltip-set scripts, checked with `HasScript`. Initialization registers hooks only once. | Processor presence alone does not prove native callback delivery. Unit/Item handlers still do not consume callback data. |
-| [Unit handler](../Modules/Tooltips/TooltipHandler.lua) | Calls frame `GetUnit`, queries GUID, falls back to mouseover, and appends registry-derived lines. | Structured identity could avoid re-reading mutable frame/token state. |
-| Item handler | Calls frame `GetItem`, extracts `item:<ID>`, and performs quest-start/registered-objective lookup. | Preserve named-color support and quest-start behavior if switching to callback IDs. |
+| [Tooltip initialization](../Modules/Tooltips/Tooltip.lua) | Requires both the processor and the frame's `GetPrimaryTooltipData` pipeline for post-calls. Classic retains available tooltip-set scripts, checked with `HasScript`. Initialization registers hooks only once. | Processor presence alone does not prove native callback delivery. |
+| [Unit handler](../Modules/Tooltips/TooltipHandler.lua) | Uses the callback's validated GUID on the structured path; Classic retains frame/token recovery. Both append registry-derived lines. | No blanket instance exclusion on the guarded structured path. |
+| Item handler | Uses the callback's validated ID on the structured path; Classic retains `GetItem` and link parsing. Both perform quest-start/registered-objective lookup. | Item ID annotations target the actual tooltip frame, including clicked item links. |
 | Object frontend | Forever handles public text from primary Object post-calls. Classic retains the frame-getter/FontString `OnUpdate` scanner. Both use the existing provider-backed name/zone resolver. | No Object polling or `CountTooltip()` reads on the structured path; its live Forever coverage remains to be verified. |
-| Duplicate detection | Forever Object callbacks use a per-clear flag. Unit/Item and Classic paths retain shared last-name/type/frame/count state and `CountTooltip()` reads. | Same-payload rebuilds are covered by tests; actual Forever clears/refreshes and the remaining FontString readers still need validation. |
+| Duplicate detection | All structured callbacks use per-frame, per-clear flags. Classic retains last-name/type/frame/count state and `CountTooltip()` reads. | Same-payload rebuilds and independent item frames are covered by tests; live Forever clears/refreshes still need validation. |
 | Custom row layout | [TooltipLayout](../Modules/Tooltips/TooltipLayout.lua) measures and renders Questie-owned rows, with a template-based gap-measurement tooltip. | This is presentation measurement, not native entity scanning. Structured retrieval does not replace it. |
 | Journey item pre-cache | [QuestieSearchResults](../Modules/Journey/QuestieSearchResults.lua) creates `QuestieScanningTooltip` with `GameTooltipTemplate`, calls `SetItemByID`, and waits for cached item data. | Do not remove the scanner based only on warm direct-query success; its cache/layout purpose needs separate validation. |
 
@@ -371,7 +375,7 @@ The Forever Object callback:
 
 The Object renderer now only appends lines. Classic's scanner explicitly calls `Show()` afterward to resize; Forever leaves the final `Show()` to Blizzard's processing pass. Initialization is idempotent because processor callbacks cannot be unregistered.
 
-This change does not migrate Unit/Item identity handling, remove their `CountTooltip()` reads, alter native-versus-Questie objective duplication, or change the public `GetTooltip`/Comms contracts. It adds no blanket combat early-return. Unknown-zone lookup remains an independent failure boundary.
+The original Object-only change did not migrate Unit/Item identity handling. The subsequent callback migration described above does, while keeping the public `GetTooltip`/Comms contracts and quest rendering unchanged. No blanket combat early-return was added. Unknown-zone lookup remains an independent failure boundary.
 
 ### Classic validation
 
@@ -413,7 +417,7 @@ Rendering and inspecting are also different capabilities. The handler's secure s
 
 The outsider's updated 303 zip attributed combat taint to the object `OnUpdate` scanner and proposed an early return in combat. That workaround, deferred callbacks, protected-text fallback, and blanket aura `pcall` were not adopted.
 
-The removed Forever scanner combined repeated frame getter calls, text comparisons, FontString counting, zone lookup, and optional augmentation. Classic still uses that scanner. Forever's new Object callback avoids those scans and rejects secret inputs, but the evidence does not yet identify the original combat failure or establish combat safety. Unit/Item FontString reads and aura inspection remain separate risks.
+The removed Forever scanner combined repeated frame getter calls, text comparisons, FontString counting, zone lookup, and optional augmentation. Classic still uses that scanner. Forever's new Object callback avoids those scans and rejects secret inputs, but the evidence does not yet identify the original combat failure or establish combat safety. Classic's remaining FontString reads and aura inspection are separate from the structured tooltip path.
 
 Avoid two unsupported conclusions:
 
@@ -432,9 +436,9 @@ Zero recorder errors means no error reached the recorder's guarded operations in
 
 1. **Validate the implemented capability boundary.** Classic rendering was checked on the build above; verify other supported clients separately.
 2. **Validate the implemented Object replacement on Forever.** The structured path no longer installs the old scanner. Check physical hovers, primary versus appended blocks, clears, refreshes, and transitions before treating replacement coverage as established.
-3. **Use callback identity for Unit and Item.** Prefer accessible GUID/ID fields over frame getter/text recovery, with explicit handling of absent identity.
-4. **Verify Object idempotence live and extend it deliberately.** Tests cover per-clear behavior, including reused payloads. Exercise native rebuilds, appended blocks, hidden/reused frames, and rapid entity changes; Unit/Item deduplication remains unchanged.
-5. **Choose a duplicate-content policy.** Native quest lines already overlap Questie's. Decide whether to retain both or add only information missing from native rendering. Preserve drop rates, party attribution, quest-start/turn-in markers, and user settings.
+3. **Validate the implemented Unit/Item callback identity path live.** Check public and restricted GUID/ID fields inside and outside instances through ordinary addon execution.
+4. **Verify per-frame idempotence live.** Tests cover per-clear behavior for Unit, Item and Object, including reused payloads and independent clicked-item tooltips. Exercise native rebuilds, appended blocks, hidden/reused frames, and rapid entity changes.
+5. **Revisit duplicate-content policy separately.** Existing native-line suppression is retained for accessible Unit/Object identities. It does not check replacement-content coverage. Any future native-row styling or merging must preserve drop rates, party attribution, quest-start/turn-in markers, and user settings.
 6. **Define restricted-data behavior from evidence.** Identify a narrow skip/defer boundary rather than disabling every tooltip in combat or swallowing every exception.
 
 A native quest-title/progress fallback could help display an active quest absent from the provider. It would not establish spawn coordinates, item drops, prerequisites, stable objective IDs, or complete Questie tracking. That remains the [partial-support proposal](forever-hardening-backlog.md#missing-entity-data-should-be-an-explicit-partial-support-state), not functionality supplied by these samples.
@@ -515,11 +519,11 @@ Keep raw player GUIDs/names and unrelated tooltip contents local. Sanitize share
 
 ## Conclusions and next step
 
-The narrow event-driven Object frontend is implemented, and Classic fallback rendering has been checked on the recorded client. The earlier Forever evidence also shows that native quest progress is richer than a plain string scanner suggests; Unit/Item identity and objective-content policy remain future work.
+Structured identity handling is implemented for Unit, Item and Object; Classic fallback rendering was checked on the recorded client before the Unit/Item migration. The earlier Forever evidence also shows richer native quest progress, but consuming those quest rows remains separate future work.
 
 The remaining work is not another API rename. It is defining ownership of overlapping native/Questie content, proving update and identity behavior, preserving provider/party enrichment, and establishing the narrow boundary for inaccessible data.
 
-The next useful session is live Forever validation of the Object callback, including clears, stationary refreshes, same-entity rebuilds, and a bounded combat comparison. Do not generalize the Classic checks or mocked restrictions into a Forever combat-safety claim.
+The next useful session is live Forever validation of all three structured callbacks, including instance hovers, clears, stationary refreshes, same-entity rebuilds, and a bounded combat comparison. Do not generalize the Classic checks or mocked restrictions into a Forever combat-safety claim.
 
 ## Pinned Blizzard references
 

@@ -222,6 +222,111 @@ describe("TooltipHandler", function()
         end
     end)
 
+    describe("client identity paths", function()
+        local originalProfile, originalForever, originalIsInInstance, originalUnitGUID
+        local originalCountTooltip, originalQueryItem, originalRegisterQuestStart
+        local QuestieDB
+
+        before_each(function()
+            originalProfile, originalForever = Questie.db.profile, Questie.IsForever
+            originalIsInInstance, originalUnitGUID = _G.IsInInstance, _G.UnitGUID
+            originalCountTooltip = _QuestieTooltips.CountTooltip
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            originalQueryItem = QuestieDB.QueryItemSingle
+            originalRegisterQuestStart = QuestieTooltips.RegisterQuestStartTooltip
+            Questie.db.profile = {enableTooltips = true, enableTooltipsNPCID = true, enableTooltipsItemID = true}
+            Questie.IsForever = true
+            _G.IsInInstance = function() return true end
+            _G.UnitGUID = function() error("Structured tooltips must not re-query mutable unit tokens") end
+            _QuestieTooltips.CountTooltip = function() error("Structured tooltips must not read FontStrings") end
+            QuestieTooltips.GetTooltip = spy.new(function() return {"Quest title", "0/8 Tough Wolf Meat"} end)
+            QuestieDB.QueryItemSingle = function() return nil end
+            -- Frames intentionally have no GetUnit, GetItem, GetName or NumLines methods.
+        end)
+
+        after_each(function()
+            Questie.db.profile, Questie.IsForever = originalProfile, originalForever
+            _G.IsInInstance, _G.UnitGUID = originalIsInInstance, originalUnitGUID
+            _QuestieTooltips.CountTooltip = originalCountTooltip
+            QuestieDB.QueryItemSingle = originalQueryItem
+            QuestieTooltips.RegisterQuestStartTooltip = originalRegisterQuestStart
+        end)
+
+        it("renders existing NPC quest content from a public GUID inside an instance", function()
+            _QuestieTooltips.AddUnitDataToTooltip(GameTooltip, "Creature-0-0-0-0-2955-0")
+
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("m_2955")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/8 Tough Wolf Meat")
+            assert.spy(GameTooltip.AddDoubleLine).was.called_with(GameTooltip, l10n("NPC ID"), "|cFFFFFFFF2955|r")
+        end)
+
+        it("renders item content and the item ID on the actual clicked-link frame", function()
+            local itemRef = {AddLine = spy.new(function() end), AddDoubleLine = spy.new(function() end)}
+
+            _QuestieTooltips.AddItemDataToTooltip(itemRef, 750)
+
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("i_750")
+            assert.spy(itemRef.AddLine).was.called_with(itemRef, "0/8 Tough Wolf Meat")
+            assert.spy(itemRef.AddDoubleLine).was.called_with(itemRef, l10n("Item ID"), "|cFFFFFFFF750|r")
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(GameTooltip.AddDoubleLine).was.not_called()
+        end)
+
+        it("keeps legacy unit-token lookup and redraws only when native lines are rebuilt", function()
+            Questie.IsForever = false
+            GameTooltip.GetUnit = function() return "Plainstrider", "mouseover" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-2955-0" end
+            local lineCount = 3
+            _QuestieTooltips.CountTooltip = function() return lineCount end
+
+            _QuestieTooltips.AddUnitDataToTooltip(GameTooltip)
+            _QuestieTooltips.AddUnitDataToTooltip(GameTooltip)
+            assert.spy(QuestieTooltips.GetTooltip).was.called(1)
+
+            lineCount = 1
+            _QuestieTooltips.AddUnitDataToTooltip(GameTooltip)
+
+            assert.spy(QuestieTooltips.GetTooltip).was.called(2)
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("m_2955")
+            assert.spy(GameTooltip.AddLine).was.called(4)
+        end)
+
+        it("keeps legacy item-link lookup and redraws only when native lines are rebuilt", function()
+            GameTooltip.GetItem = function() return "Tough Wolf Meat", "item:750" end
+            GameTooltip.GetName = function() return "GameTooltip" end
+            local lineCount = 3
+            _QuestieTooltips.CountTooltip = function() return lineCount end
+
+            _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+            _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+            assert.spy(QuestieTooltips.GetTooltip).was.called(1)
+
+            lineCount = 1
+            _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+            assert.spy(QuestieTooltips.GetTooltip).was.called(2)
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("i_750")
+            assert.spy(GameTooltip.AddLine).was.called(4)
+        end)
+
+        it("registers quest-start items once while rendering supplied IDs repeatedly", function()
+            QuestieDB.QueryItemSingle = spy.new(function(_, field)
+                if field == "startQuest" then return 42 end
+                if field == "name" then return "Quest starter" end
+            end)
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            _QuestieTooltips.AddItemDataToTooltip(GameTooltip, 123)
+            _QuestieTooltips.AddItemDataToTooltip(GameTooltip, 123)
+
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called(1)
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(
+                QuestieTooltips, 42, "Quest starter", 123, "i_123", "itemFromMonster")
+            assert.spy(QuestieDB.QueryItemSingle).was.called(2)
+            assert.spy(GameTooltip.AddLine).was.called(4)
+        end)
+    end)
+
     describe("AddObjectDataToTooltip", function()
         describe("quest lines for provider-matched Objects", function()
             it("should show objectives without a zone filter for a provider-wide unique name", function()
