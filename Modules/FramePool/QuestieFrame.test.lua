@@ -111,6 +111,85 @@ describe("QuestieFrame", function()
         end)
     end)
 
+    describe("route visibility", function()
+        local mapIcon
+        local minimapIcon
+        local route
+
+        local function _CreateIcon(data, miniMapIcon)
+            local icon = CreateFrame("Frame")
+            icon.IsShown = icon.IsVisible
+            icon.data = data
+            icon.miniMapIcon = miniMapIcon
+            icon.FakeHide = QuestieFrame.private.FakeHide
+            icon.FakeShow = QuestieFrame.private.FakeShow
+            return icon
+        end
+
+        before_each(function()
+            local data = {Type = "manual", Id = 550}
+            mapIcon = _CreateIcon(data, false)
+            minimapIcon = _CreateIcon(data, true)
+            route = {
+                iconFrame = mapIcon,
+                hidden = false,
+                FakeHide = function(line) line.hidden = true end,
+                FakeShow = function(line) line.hidden = false end,
+            }
+            data.lineFrames = {route}
+        end)
+
+        it("should keep the world-map route visible when hiding its minimap marker", function()
+            minimapIcon:FakeHide()
+
+            assert.is_false(minimapIcon:IsShown())
+            assert.is_true(mapIcon:IsShown())
+            assert.is_false(route.hidden)
+        end)
+
+        it("should not restore a hidden world-map route when showing its minimap marker", function()
+            mapIcon:FakeHide()
+            minimapIcon:FakeHide()
+
+            minimapIcon:FakeShow()
+
+            assert.is_true(minimapIcon:IsShown())
+            assert.is_false(mapIcon:IsShown())
+            assert.is_true(route.hidden)
+        end)
+
+        it("should hide and restore the route with its owning map icon", function()
+            mapIcon:FakeHide()
+            assert.is_false(mapIcon:IsShown())
+            assert.is_true(route.hidden)
+
+            mapIcon:FakeShow()
+            assert.is_true(mapIcon:IsShown())
+            assert.is_false(route.hidden)
+        end)
+
+        it("should release route suppression when its map pin is no longer shown", function()
+            mapIcon:FakeHide()
+            -- The map provider releases pins when changing maps.
+            mapIcon:Hide()
+
+            mapIcon:FakeShow()
+
+            assert.is_false(mapIcon:IsShown())
+            assert.is_false(route.hidden)
+        end)
+
+        it("should not change a route owned by another map icon sharing its data", function()
+            local otherMapIcon = _CreateIcon(mapIcon.data, false)
+            otherMapIcon:FakeHide()
+            assert.is_false(route.hidden)
+
+            mapIcon:FakeHide()
+            otherMapIcon:FakeShow()
+            assert.is_true(route.hidden)
+        end)
+    end)
+
     describe("ShouldBeHidden", function()
         it("should return true when all icons are disabled", function()
             Questie.db.profile.enabled = false

@@ -185,12 +185,27 @@ function QuestieQuest:ShowQuestIcons()
     end
 end
 
+-- Manual notes follow map visibility and tracker focus without quest-specific filters.
+---@param icon IconFrame
+---@return boolean
+local function _ShouldShowManualIcon(icon)
+    local profile = Questie.db.profile
+    if (not profile.enabled) or Questie.db.char.TrackerFocus then
+        return false
+    end
+
+    if icon.miniMapIcon then
+        return profile.enableMiniMapIcons
+    end
+    return profile.enableMapIcons
+end
+
 function _QuestieQuest:ShowManualIcons()
     for _, townsfolk in pairs(QuestieMap.manualFrames) do
         for _, frameList in pairs(townsfolk) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and icon.hidden then
+                if icon ~= nil and icon.hidden and _ShouldShowManualIcon(icon) then
                     icon:FakeShow()
                 end
             end
@@ -230,7 +245,7 @@ function _QuestieQuest:HideManualIcons()
         for _, frameList in pairs(townsfolk) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and (not icon.hidden) then
+                if icon ~= nil and (not icon.hidden) and (not _ShouldShowManualIcon(icon)) then
                     icon:FakeHide()
                 end
             end
