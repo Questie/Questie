@@ -28,18 +28,22 @@ describe("QuestieStatus", function()
         _G.geterrorhandler = originalGetErrorHandler
     end)
 
-    it("records before UI exists and replays current state to the single observer", function()
+    it("replays pre-UI state and notifies the single observer when an issue is replaced", function()
         QuestieStatus.Set("startup", {severity = 1, message = "Startup failed"})
         local observed
         local firstObserver = spy.new(function() observed = QuestieStatus.GetIssues() end)
         assert.is_true(QuestieStatus.SetOnChange(firstObserver))
         assert.are.same({{id = "startup", severity = 1, message = "Startup failed"}}, observed)
+        QuestieStatus.Set("startup", {severity = 2, message = "Partially recovered", icon = {texture = "warning"}})
+        assert.are.same({{
+            id = "startup", severity = 2, message = "Partially recovered", icon = {texture = "warning"},
+        }}, observed)
 
         local replacement = spy.new(function() observed = QuestieStatus.GetIssues() end)
         assert.is_true(QuestieStatus.SetOnChange(replacement))
         QuestieStatus.Clear("startup")
         assert.are.same({}, observed)
-        assert.spy(firstObserver).was.called(1)
+        assert.spy(firstObserver).was.called(2)
         assert.spy(replacement).was.called(2)
         assert.is_true(QuestieStatus.SetOnChange(nil))
         QuestieStatus.Set("later", {severity = 3, message = "Later"})
@@ -47,7 +51,10 @@ describe("QuestieStatus", function()
     end)
 
     it("replaces stable IDs without reordering and clears only the named issue", function()
-        QuestieStatus.Set("first", {severity = 2, message = "First"})
+        QuestieStatus.Set("first", {
+            severity = 2, message = "First", args = {"old"}, action = "Old action", icon = {texture = "old"},
+            details = {{message = "Old details", args = {1}}},
+        })
         QuestieStatus.Set("second", {severity = 2, message = "Second"})
         QuestieStatus.Set("error", {severity = 1, message = "Error"})
         QuestieStatus.Set("first", {severity = 2, message = "Updated"})
@@ -83,19 +90,22 @@ describe("QuestieStatus", function()
         assert.is_nil(QuestieStatus.GetBadgeIssue())
     end)
 
-    it("uses the first active custom badge unless a same-severity default overrides it", function()
-        QuestieStatus.Set("first", {severity = 1, message = "First", icon = {atlas = "first"}})
-        QuestieStatus.Set("second", {severity = 1, message = "Second", icon = {texture = "second"}})
-        QuestieStatus.Set("first", {severity = 1, message = "Updated", icon = {atlas = "updated"}})
-        assert.are.equal("first", QuestieStatus.GetBadgeIssue().id)
-        QuestieStatus.Set("plain", {severity = 1, message = "Plain error"})
-        assert.are.equal("plain", QuestieStatus.GetBadgeIssue().id)
-        QuestieStatus.Clear("plain")
-        assert.are.equal("first", QuestieStatus.GetBadgeIssue().id)
-        QuestieStatus.Clear("first")
-        QuestieStatus.Set("first", {severity = 1, message = "Reactivated", icon = {atlas = "first"}})
-        assert.are.equal("second", QuestieStatus.GetBadgeIssue().id)
-    end)
+    local severities = {{name = "error", value = 1}, {name = "warning", value = 2}, {name = "info", value = 3}}
+    for _, severity in ipairs(severities) do
+        it("prefers a default " .. severity.name .. " badge over customs, otherwise the earliest custom", function()
+            QuestieStatus.Set("first", {severity = severity.value, message = "First", icon = {atlas = "first"}})
+            QuestieStatus.Set("second", {severity = severity.value, message = "Second", icon = {texture = "second"}})
+            QuestieStatus.Set("first", {severity = severity.value, message = "Updated", icon = {atlas = "updated"}})
+            assert.are.equal("first", QuestieStatus.GetBadgeIssue().id)
+            QuestieStatus.Set("plain", {severity = severity.value, message = "Plain notice"})
+            assert.are.equal("plain", QuestieStatus.GetBadgeIssue().id)
+            QuestieStatus.Clear("plain")
+            assert.are.equal("first", QuestieStatus.GetBadgeIssue().id)
+            QuestieStatus.Clear("first")
+            QuestieStatus.Set("first", {severity = severity.value, message = "Reactivated", icon = {atlas = "first"}})
+            assert.are.equal("second", QuestieStatus.GetBadgeIssue().id)
+        end)
+    end
 
     it("owns input fields and returns independent list and badge snapshots", function()
         local input = {

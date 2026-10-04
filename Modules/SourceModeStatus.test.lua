@@ -57,6 +57,8 @@ describe("SourceModeStatus", function()
 
         local issues = QuestieStatus.GetIssues()
         assert.are_same("questiedb.source-mode", issues[1].id)
+        assert.are_same(QuestieStatus.Severity.Info, issues[1].severity)
+        assert.are_same("QuestieDB is running in Source mode.", issues[1].message)
         assert.are_same({
             {message = "Client: %s (build %s, %s)", args = {"1.60.1", "70205", "Sep 29 2026"}},
             {message = "Interface: %s", args = {"16001"}},
@@ -74,6 +76,8 @@ describe("SourceModeStatus", function()
             {message = "Region flags: %s", args = {"IsChinaRegion=false, IsEURegion=true"}},
         }, issues[1].details)
         assert.are_same("questiedb.source-load", issues[2].id)
+        assert.are_same(QuestieStatus.Severity.Info, issues[2].severity)
+        assert.are_same("QuestieDB Source load information.", issues[2].message)
         assert.are_same({
             {message = "Provider version: %s", args = {"1.0.4"}},
             {message = "Data expansion: %s", args = {"Forever"}},
@@ -142,6 +146,27 @@ describe("SourceModeStatus", function()
         local details = QuestieStatus.GetIssues()[2].details
         assert.are_same({message = "Provider diagnostics unavailable: %s", args = {"diagnostic failure"}}, details[5])
         assert.are_same({"source"}, details[3].args)
+    end)
+
+    it("keeps reporting when a client season getter fails even with no active season", function()
+        C_Seasons.GetActiveSeason = function() error("season API failed", 0) end
+
+        assert.is_true(SourceModeStatus.Update())
+
+        local issues = QuestieStatus.GetIssues()
+        assert.are_same({{message = "Client diagnostics unavailable: %s", args = {"season API failed"}}}, issues[1].details)
+        assert.are_same({"Forever"}, issues[2].details[2].args)
+        assert.are_same(QuestieStatus.Severity.Info, issues[1].severity)
+    end)
+
+    it("keeps client diagnostics when provider metadata collection fails", function()
+        QuestieCompat.GetAddOnMetadata = function() error("metadata API failed", 0) end
+
+        assert.is_true(SourceModeStatus.Update())
+
+        local issues = QuestieStatus.GetIssues()
+        assert.are_same({"16001"}, issues[1].details[2].args)
+        assert.are_same({{message = "Provider diagnostics unavailable: %s", args = {"metadata API failed"}}}, issues[2].details)
     end)
 
     it("updates its two notices in place and clears only those notices outside Source mode", function()

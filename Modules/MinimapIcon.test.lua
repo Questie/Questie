@@ -65,9 +65,10 @@ describe("MinimapIcon", function()
         local badge, button, badgeIssue, issues, dataObject, changed
         local shown, selectedIcon, textureCoords
         local originalTextureAPI, originalColorize, originalVersion
-        local originalRegister, originalGetButton
+        local originalRegister, originalGetButton, originalGetErrorHandler
 
         before_each(function()
+            originalGetErrorHandler = _G.geterrorhandler
             originalTextureAPI = _G.C_Texture
             originalColorize = Questie.Colorize
             originalVersion = QuestieLoader:ImportModule("QuestieLib").GetAddonVersionString
@@ -114,6 +115,7 @@ describe("MinimapIcon", function()
         end)
 
         after_each(function()
+            _G.geterrorhandler = originalGetErrorHandler
             _G.C_Texture = originalTextureAPI
             Questie.Colorize = originalColorize
             QuestieLoader:ImportModule("QuestieLib").GetAddonVersionString = originalVersion
@@ -126,10 +128,40 @@ describe("MinimapIcon", function()
             assert.is_true(MinimapIcon:Init())
 
             assert.spy(button.CreateTexture).was.called_with(button, nil, "OVERLAY", nil, 1)
+            assert.spy(badge.SetSize).was.called_with(badge, 10, 10)
             assert.spy(badge.SetPoint).was.called_with(badge, "TOPRIGHT", button, "TOPRIGHT", -1, -1)
             assert.are_same({atlas = "common-icon-redx"}, selectedIcon)
             assert.is_true(shown)
             assert.are_same("Interface\\Addons\\Questie\\Icons\\questie.png", dataObject.icon)
+        end)
+
+        it("uses the warning image and yellow tooltip styling for warnings", function()
+            badgeIssue = {severity = QuestieStatus.Severity.Warning, message = "Warning preview"}
+            issues = {badgeIssue}
+
+            assert.is_true(MinimapIcon:Init())
+
+            assert.are_same({texture = "Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew"}, selectedIcon)
+            assert.is_true(shown)
+            local tooltip = {AddLine = spy.new(function() end), AddDoubleLine = function() end}
+            dataObject.OnTooltipShow(tooltip)
+            assert.spy(tooltip.AddLine).was.called_with(tooltip, "Warning: Warning preview", 1, 0.82, 0, true)
+        end)
+
+        it("does not claim the UI is ready when the real observer fails to render its initial badge", function()
+            local reportError = spy.new(function() end)
+            _G.geterrorhandler = function() return function(message) reportError(message) end end
+            _G.C_Texture = nil
+            badge.SetTexture = function() return false end
+            dofile("Modules/QuestieStatus.lua")
+            QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
+            QuestieStatus.Set("startup", {severity = QuestieStatus.Severity.Error, message = "Startup failed"})
+
+            assert.is_false(MinimapIcon:Init())
+
+            assert.is_false(shown)
+            assert.are_same("startup", QuestieStatus.GetBadgeIssue().id)
+            assert.spy(reportError).was.called(1)
         end)
 
         it("resets atlas coordinates for a custom texture and hides the badge when cleared", function()

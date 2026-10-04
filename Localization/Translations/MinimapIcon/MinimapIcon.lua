@@ -218,6 +218,18 @@ local minimapIconLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Client diagnostics unavailable: %s"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Provider diagnostics unavailable: %s"] = {
         ["enUS"] = true,
         ["deDE"] = false,

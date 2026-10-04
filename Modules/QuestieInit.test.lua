@@ -10,7 +10,7 @@ describe("QuestieInit", function()
 
     ---@type string[]
     local callOrder
-    local originalGetMetadata
+    local originalGetMetadata, originalGetBuildInfo
     local QuestieStatus
     local originalStarted, originalReady, originalProvider, originalProfile, originalIsSoD
 
@@ -42,6 +42,7 @@ describe("QuestieInit", function()
         dofile("Modules/QuestieStatus.lua")
         QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
         originalGetMetadata = C_AddOns.GetAddOnMetadata
+        originalGetBuildInfo = _G.GetBuildInfo
         C_AddOns.GetAddOnMetadata = function(addon, field)
             if addon == "Questie" and field == "X-QuestieDB-Contract" then return "3" end
             if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
@@ -88,6 +89,7 @@ describe("QuestieInit", function()
 
     after_each(function()
         C_AddOns.GetAddOnMetadata = originalGetMetadata
+        _G.GetBuildInfo = originalGetBuildInfo
         Questie.started, Questie.API.isReady = originalStarted, originalReady
         _G.LibQuestieDB, Questie.db.profile, Questie.IsSoD = originalProvider, originalProfile, originalIsSoD
     end)
@@ -391,10 +393,22 @@ describe("QuestieInit", function()
             assert.spy(threads).was.called(1)
         end)
 
-        it("clears the source notice without hiding the banner in compiled mode", function()
+        it("creates the status UI and continues startup when client diagnostics fail", function()
+            mock.lib.readMode = "source"
+            _G.GetBuildInfo = function() error("client API failed", 0) end
+
+            QuestieInit.OnAddonLoaded()
+
+            assert.are_same("MinimapIcon", callOrder[1])
+            assert.spy(threads).was.called(1)
+            assert.are_same({{message = "Client diagnostics unavailable: %s", args = {"client API failed"}}},
+                QuestieStatus.GetIssues()[1].details)
+        end)
+
+        it("clears the source notice without hiding the banner in Baked mode", function()
             mock.lib.readMode = "source"
             QuestieInit.OnAddonLoaded()
-            mock.lib.readMode = "compiled"
+            mock.lib.readMode = "baked"
             mock.lib.ModeIndicator = {Hide = spy.new(function() end)}
             QuestieLoader:ImportModule("MinimapIcon").Init = function() return true end
             QuestieInit.OnAddonLoaded()

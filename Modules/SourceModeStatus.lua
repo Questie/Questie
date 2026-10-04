@@ -108,6 +108,14 @@ local function _ProviderDetails(provider)
     return details
 end
 
+-- Diagnostic APIs can be absent or broken on a client. Their failure must not stop startup
+-- before the status UI and the real compatibility checks have had a chance to run.
+local function _CollectDetails(collect, failureMessage, ...)
+    local ok, details = pcall(collect, ...)
+    if ok then return details end
+    return {{message = failureMessage, args = {tostring(details)}}}
+end
+
 ---Captures load-time diagnostics before startup can fail; performs no entity reads or timing inference.
 ---Only these two notices are owned here. Both use the custom Source badge so an info default cannot replace it.
 ---@return boolean sourceMode
@@ -122,13 +130,13 @@ function SourceModeStatus.Update()
     QuestieStatus.Set("questiedb.source-mode", {
         severity = QuestieStatus.Severity.Info,
         message = "QuestieDB is running in Source mode.",
-        details = _ClientDetails(),
+        details = _CollectDetails(_ClientDetails, "Client diagnostics unavailable: %s"),
         icon = SOURCE_ICON,
     })
     QuestieStatus.Set("questiedb.source-load", {
         severity = QuestieStatus.Severity.Info,
         message = "QuestieDB Source load information.",
-        details = _ProviderDetails(provider),
+        details = _CollectDetails(_ProviderDetails, "Provider diagnostics unavailable: %s", provider),
         icon = SOURCE_ICON,
     })
     return true
