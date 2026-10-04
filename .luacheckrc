@@ -2866,6 +2866,7 @@ globals = {
     "ScrollFrame_OnScrollRangeChanged",
     -- Forever globals
     "InputUtil",
+    "SmartNavigation",
     "SoftCursor",
     "AuraUtil.UnpackAuraData",
     "C_Reputation.ExpandFactionHeader",

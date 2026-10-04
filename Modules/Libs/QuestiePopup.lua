@@ -14,3 +14,6 @@ Popup.Dialogs = Dialog.Dialogs
 Popup.Show = Dialog.Show
 Popup.FindVisible = Dialog.FindVisible
 Popup.Hide = Dialog.Hide
+
+-- A function, because Questie.IsForever is set after this file loads
+Dialog.UseGamePadClose = function() return Questie.IsForever end
