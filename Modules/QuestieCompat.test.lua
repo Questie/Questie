@@ -863,6 +863,7 @@ describe("QuestieCompat Forever paths", function()
         _G.ObjectiveTrackerFrame = {
             HookScript = function() end,
             Hide = spy.new(function() end),
+            SetAlpha = spy.new(function() end),
             Update = spy.new(function() end),
         }
         questInfo = {title = "A Threat Within", level = 1, suggestedGroup = 0, questID = 783, isHeader = false}
@@ -947,6 +948,7 @@ describe("QuestieCompat Forever paths", function()
 
         assert.spy(visibilityFrame.RegisterEvent).was.not_called()
         assert.spy(ObjectiveTrackerFrame.Hide).was.not_called()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.not_called()
         assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
     end)
 
@@ -956,6 +958,7 @@ describe("QuestieCompat Forever paths", function()
 
         _G.InCombatLockdown = function() return true end
         QuestieCompat.ShowWatchFrame()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.called_with(ObjectiveTrackerFrame, 1)
         assert.spy(visibilityFrame.RegisterEvent).was.called_with(visibilityFrame, "PLAYER_REGEN_ENABLED")
         assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
 
@@ -971,6 +974,7 @@ describe("QuestieCompat Forever paths", function()
         _G.InCombatLockdown = function() return true end
         QuestieCompat.HideWatchFrame()
         assert.spy(ObjectiveTrackerFrame.Hide).was.not_called()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.called_with(ObjectiveTrackerFrame, 0)
         assert.spy(visibilityFrame.RegisterEvent).was.called_with(visibilityFrame, "PLAYER_REGEN_ENABLED")
         onRegen()
         assert.spy(ObjectiveTrackerFrame.Hide).was.not_called()
