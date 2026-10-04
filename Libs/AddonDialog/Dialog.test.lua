@@ -149,6 +149,115 @@ describe("small addon dialogs", function()
     assert.is_true(first.propagate)
   end)
 
+  it("ignores controller buttons unless the consumer opts in", function()
+    local frame = dialogs.Show("A", "this")
+    assert.is_nil(frame.gamePadButton)
+    assert.is_nil(frame:GetScript("OnGamePadButtonDown"))
+
+    dialogs.UseGamePadClose = function() return false end
+    frame = dialogs.Show("B")
+    assert.is_nil(frame.gamePadButton)
+  end)
+
+  describe("controller close", function()
+    before_each(function()
+      dialogs.UseGamePadClose = function() return true end
+    end)
+
+    it("closes with the controller B button through the cancel button", function()
+      local calls = {}
+      dialogs.Dialogs.A.OnCancel = function(_, data, reason) calls[#calls + 1] = { data, reason } end
+      local frame = dialogs.Show("A", "this", nil, 1)
+      assert.is_true(frame.gamePadButton)
+      assert.are.equal(frame.OnGamePadButtonDown, frame:GetScript("OnGamePadButtonDown"))
+
+      assert.is_false(frame:OnGamePadButtonDown("PAD2"))
+      assert.are.same({ { 1, "clicked" } }, calls)
+      assert.is_false(frame:IsShown())
+      assert.are.same({}, errors)
+    end)
+
+    it("skips controller buttons on clients without the gamepad frame API", function()
+      env.CreateFrame = (function(createFrame)
+        return function(...)
+          local frame = createFrame(...)
+          frame.EnableGamePadButton = nil
+          return frame
+        end
+      end)(env.CreateFrame)
+      local frame = dialogs.Show("A", "this")
+      assert.is_nil(frame:GetScript("OnGamePadButtonDown"))
+      assert.are.same({}, errors)
+    end)
+
+    it("lets other controller buttons and older dialogs pass B through to the game", function()
+      local first = dialogs.Show("A", "first")
+      local second = dialogs.Show("B")
+      assert.is_true(second:OnGamePadButtonDown("PAD1"))
+      assert.is_true(second:OnGamePadButtonDown("PADDUP"))
+      assert.is_true(first:OnGamePadButtonDown("PAD2"))
+      assert.is_true(first:IsShown())
+      assert.is_true(second:IsShown())
+      assert.is_false(second:OnGamePadButtonDown("PAD2"))
+      assert.is_false(second:IsShown())
+      assert.is_true(first:IsShown())
+    end)
+
+    it("closes a dialog without a cancel button with B only when it allows the game-menu key", function()
+      dialogs.Dialogs.C = { text = "Accept only", button1 = "OK", whileDead = true }
+      local frame = dialogs.Show("C")
+      assert.is_true(frame:OnGamePadButtonDown("PAD2"))
+      assert.is_true(frame:IsShown())
+
+      local reasons = {}
+      dialogs.Dialogs.C.hideOnEscape = true
+      dialogs.Dialogs.C.OnCancel = function(_, _, reason) reasons[#reasons + 1] = reason end
+      assert.is_false(frame:OnGamePadButtonDown("PAD2"))
+      assert.are.same({ "clicked" }, reasons)
+      assert.is_false(frame:IsShown())
+    end)
+
+    it("uses the game-menu path when the cancel button is disabled", function()
+      dialogs.Dialogs.A.hideOnEscape = true
+      local frame = dialogs.Show("A", "this")
+      frame.Button2:Disable()
+      assert.is_false(frame:OnGamePadButtonDown("PAD2"))
+      assert.is_false(frame:IsShown())
+
+      dialogs.Dialogs.A.hideOnEscape = nil
+      frame = dialogs.Show("A", "again")
+      frame.Button2:Disable()
+      assert.is_true(frame:OnGamePadButtonDown("PAD2"))
+      assert.is_true(frame:IsShown())
+    end)
+
+    it("ignores B while a choice callback runs", function()
+      local frame
+      local results = {}
+      dialogs.Dialogs.A.OnCancel = function() results[#results + 1] = frame:OnGamePadButtonDown("PAD2") end
+      frame = dialogs.Show("A", "this")
+      frame:OnGamePadButtonDown("PAD2")
+      assert.are.same({ true }, results)
+      assert.is_false(frame:IsShown())
+    end)
+
+    it("keeps a decision that the cancel callback reopens", function()
+      dialogs.Dialogs.C = { text = "No cancel button", whileDead = true, hideOnEscape = true }
+      dialogs.Dialogs.C.OnCancel = function() dialogs.Show("C", nil, nil, "replacement") end
+      local frame = dialogs.Show("C", nil, nil, "original")
+      assert.is_false(frame:OnGamePadButtonDown("PAD2"))
+      assert.is_true(frame:IsShown())
+      assert.are.equal("replacement", frame.data)
+    end)
+
+    it("does not touch keyboard propagation when B closes it, because that is blocked in combat", function()
+      local frame = dialogs.Show("B")
+      frame.propagate = "unchanged"
+      frame:OnGamePadButtonDown("PAD2")
+      assert.are.equal("unchanged", frame.propagate)
+    end)
+  end)
+
   it("supports copyable input with explicit focus and Enter/Escape handlers", function()
     dialogs.Dialogs.B.hasEditBox, dialogs.Dialogs.B.editBoxWidth = true, 280
     dialogs.Dialogs.B.OnShow = function(frame)

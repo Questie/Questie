@@ -7,8 +7,39 @@ describe("TrackerMenu", function()
     local QuestieQuest
     ---@type TrackerUtils
     local TrackerUtils
+    ---@type QuestiePopup
+    local Popup
+    local dialogErrors
+    local timers
+    local ctrlDown
+    local globalOriginals
+    local colorizeOriginal
+    local getQuestOriginal
 
     before_each(function()
+        globalOriginals = {
+            C_Timer = _G.C_Timer,
+            IsControlKeyDown = _G.IsControlKeyDown,
+            CLOSE = _G.CLOSE,
+            GetLocale = _G.GetLocale,
+            GetAchievementInfo = _G.GetAchievementInfo,
+        }
+        timers = {}
+        ctrlDown = false
+        _G.C_Timer = {After = function(_, fn) timers[#timers + 1] = fn end}
+        _G.IsControlKeyDown = function() return ctrlDown end
+        _G.CLOSE = "Close"
+        _G.GetLocale = function() return "enUS" end
+        _G.GetAchievementInfo = function(id) return id, "Achievement " .. id end
+        colorizeOriginal = Questie.Colorize
+        Questie.Colorize = function(_, text) return text end
+
+        local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
+        local _, errors, _, private = fixture.NewEnvironment()
+        dialogErrors = errors
+        assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
+        Popup = QuestieLoader:ImportModule("QuestiePopup")
+
         QuestieLoader:ImportModule("QuestieTracker")
         QuestieLoader:ImportModule("TrackerBaseFrame")
 
@@ -19,7 +50,9 @@ describe("TrackerMenu", function()
         QuestieLoader:ImportModule("QuestieLink")
         QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieLoader:ImportModule("QuestieLib")
-        QuestieLoader:ImportModule("QuestieDB")
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        getQuestOriginal = QuestieDB.GetQuest
+        QuestieDB.GetQuest = function(id) return {name = "Quest " .. id} end
         QuestieLoader:ImportModule("DistanceUtils")
 
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -49,6 +82,14 @@ describe("TrackerMenu", function()
 
         dofile("Modules/Tracker/LinePool/TrackerMenu.lua")
         TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
+    end)
+
+    after_each(function()
+        for name, value in pairs(globalOriginals) do
+            _G[name] = value
+        end
+        Questie.Colorize = colorizeOriginal
+        QuestieLoader:ImportModule("QuestieDB").GetQuest = getQuestOriginal
     end)
 
     describe("quest actions without a legacy quest log", function()
@@ -244,6 +285,307 @@ describe("TrackerMenu", function()
             menu[1].func()
 
             assert.spy(toggleSpy).was_not.called()
+        end)
+    end)
+
+    describe("WoWHead URL dialog", function()
+        local originalStaticPopupShow
+        local compat
+        local originalDisplayMessage
+        local originalGetColoredQuestName
+
+        local function findEntry(menu)
+            for _, entry in ipairs(menu) do
+                if entry.text and entry.text:find("WoWHead URL", 1, true) then
+                    return entry
+                end
+            end
+            error("WoWHead URL entry not found")
+        end
+
+        local function pressKey(frame, key)
+            local editBox = frame:GetEditBox()
+            editBox:GetScript("OnKeyDown")(editBox, key)
+        end
+
+        local function runTimers()
+            local pending = timers
+            timers = {}
+            for _, fn in ipairs(pending) do
+                fn()
+            end
+        end
+
+        before_each(function()
+            originalStaticPopupShow = _G.StaticPopup_Show
+            _G.StaticPopup_Show = spy.new(function() end)
+            compat = QuestieLoader:ImportModule("QuestieCompat")
+            originalDisplayMessage = compat.ActionStatus_DisplayMessage
+            compat.ActionStatus_DisplayMessage = spy.new(function() end)
+
+            local noop = function() end
+            for _, name in ipairs({"addObjectiveOption", "addFocusUnfocusOption", "addTomTomOptionForQuest", "minMaxQuestOption",
+                "addShowHideQuestsOption", "addShowFinisherOnMapOption", "addShowInQuestLogOption", "addLinkToChatOption",
+                "addUntrackOption", "addAbandonedQuest", "addLockUnlockOption", "addAchieveLinkToChatOption",
+                "addShowInAchievementsOption", "addUntrackAchieveOption"}) do
+                TrackerMenu[name] = noop
+            end
+            local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            originalGetColoredQuestName = QuestieLib.GetColoredQuestName
+            QuestieLib.GetColoredQuestName = function() return "Quest" end
+            Questie.db.char.trackedAchievementIds = {}
+        end)
+
+        after_each(function()
+            _G.StaticPopup_Show = originalStaticPopupShow
+            compat.ActionStatus_DisplayMessage = originalDisplayMessage
+            QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = originalGetColoredQuestName
+        end)
+
+        it("opens Questie's dialog from the quest menu instead of a Blizzard popup", function()
+            local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+            findEntry(menu).func()
+
+            assert.spy(_G.StaticPopup_Show).was.not_called()
+            assert.is_nil(_G.StaticPopupDialogs.QUESTIE_WOWHEAD_URL)
+            local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+            assert.is_not_nil(frame)
+            assert.equals("https://www.wowhead.com/mop-classic/quest=783", frame:GetEditBoxText())
+            assert.is_truthy(frame.Text:GetText():find("Quest 783", 1, true))
+            assert.is_true(frame:GetEditBox().focused)
+            assert.is_true(frame:GetEditBox().highlighted)
+            assert.same({}, dialogErrors)
+        end)
+
+        it("opens Questie's dialog from the achievement menu instead of a Blizzard popup", function()
+            local menu = TrackerMenu:GetMenuForAchievement({Id = 42})
+            findEntry(menu).func()
+
+            assert.spy(_G.StaticPopup_Show).was.not_called()
+            assert.is_nil(_G.StaticPopupDialogs.QUESTIE_WOWHEAD_AURL)
+            local frame = Popup.FindVisible("QUESTIE_WOWHEAD_AURL")
+            assert.is_not_nil(frame)
+            assert.equals("https://www.wowhead.com/mop-classic/achievement=42", frame:GetEditBoxText())
+            assert.is_truthy(frame.Text:GetText():find("Achievement 42", 1, true))
+            assert.same({}, dialogErrors)
+        end)
+
+        describe("focus", function()
+            local originalSmartNavigation
+            local originalIsForever
+
+            before_each(function()
+                originalSmartNavigation = _G.SmartNavigation
+                originalIsForever = Questie.IsForever
+            end)
+
+            after_each(function()
+                _G.SmartNavigation = originalSmartNavigation
+                Questie.IsForever = originalIsForever
+            end)
+
+            local function openQuestDialog()
+                local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+                findEntry(menu).func()
+                local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+                assert.is_not_nil(frame)
+                assert.equals("https://www.wowhead.com/mop-classic/quest=783", frame:GetEditBoxText())
+                assert.same({}, dialogErrors)
+                return frame:GetEditBox()
+            end
+
+            local function setSmartNavigationShown(shown)
+                _G.SmartNavigation = {IsShown = function() return shown end}
+            end
+
+            it("selects the URL on Forever while Blizzard's controller navigation is hidden", function()
+                Questie.IsForever = true
+                setSmartNavigationShown(false)
+
+                local editBox = openQuestDialog()
+
+                assert.is_true(editBox.focused)
+                assert.is_true(editBox.highlighted)
+                assert.is_nil(editBox:GetScript("OnEditFocusGained"))
+            end)
+
+            it("selects the URL on the first click instead while Blizzard's controller navigation is shown", function()
+                Questie.IsForever = true
+                setSmartNavigationShown(true)
+
+                local editBox = openQuestDialog()
+                assert.is_falsy(editBox.focused)
+                assert.is_falsy(editBox.highlighted)
+
+                editBox:GetScript("OnEditFocusGained")(editBox)
+                assert.is_true(editBox.highlighted)
+            end)
+
+            it("clears the click handler when a later dialog can select the URL itself", function()
+                Questie.IsForever = true
+                setSmartNavigationShown(true)
+                openQuestDialog()
+                Popup.Hide("QUESTIE_WOWHEAD_URL")
+
+                setSmartNavigationShown(false)
+                local editBox = openQuestDialog()
+                assert.is_true(editBox.focused)
+                assert.is_nil(editBox:GetScript("OnEditFocusGained"))
+            end)
+
+            it("always selects the URL on other flavors", function()
+                Questie.IsForever = false
+                setSmartNavigationShown(true)
+
+                local editBox = openQuestDialog()
+
+                assert.is_true(editBox.focused)
+                assert.is_true(editBox.highlighted)
+            end)
+        end)
+
+        describe("in combat", function()
+            local QuestieCombatQueue
+            local originalQueue
+            local originalInCombatLockdown
+            local queued
+
+            before_each(function()
+                QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+                originalQueue = QuestieCombatQueue.Queue
+                originalInCombatLockdown = _G.InCombatLockdown
+                queued = {}
+                QuestieCombatQueue.Queue = function(self, func, ...)
+                    assert.equals(QuestieCombatQueue, self)
+                    queued[#queued + 1] = {func = func, args = {...}}
+                end
+                _G.InCombatLockdown = function() return true end
+            end)
+
+            after_each(function()
+                QuestieCombatQueue.Queue = originalQueue
+                _G.InCombatLockdown = originalInCombatLockdown
+            end)
+
+            local function runQueue()
+                _G.InCombatLockdown = function() return false end
+                for _, entry in ipairs(queued) do
+                    entry.func(unpack(entry.args))
+                end
+            end
+
+            it("opens the quest dialog after combat", function()
+                local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+                findEntry(menu).func()
+
+                assert.is_nil(Popup.FindVisible("QUESTIE_WOWHEAD_URL"))
+                assert.equals(1, #queued)
+
+                runQueue()
+
+                local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+                assert.is_not_nil(frame)
+                assert.equals("https://www.wowhead.com/mop-classic/quest=783", frame:GetEditBoxText())
+                assert.spy(_G.StaticPopup_Show).was.not_called()
+                assert.same({}, dialogErrors)
+            end)
+
+            it("opens the achievement dialog after combat", function()
+                local menu = TrackerMenu:GetMenuForAchievement({Id = 42})
+                findEntry(menu).func()
+
+                assert.is_nil(Popup.FindVisible("QUESTIE_WOWHEAD_AURL"))
+                assert.equals(1, #queued)
+
+                runQueue()
+
+                local frame = Popup.FindVisible("QUESTIE_WOWHEAD_AURL")
+                assert.is_not_nil(frame)
+                assert.equals("https://www.wowhead.com/mop-classic/achievement=42", frame:GetEditBoxText())
+                assert.same({}, dialogErrors)
+            end)
+        end)
+
+        it("still opens for a quest missing from the database", function()
+            QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return nil end
+            Popup.Show("QUESTIE_WOWHEAD_URL", 999999)
+
+            local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+            assert.is_not_nil(frame)
+            assert.equals("https://www.wowhead.com/mop-classic/quest=999999", frame:GetEditBoxText())
+            assert.same({}, dialogErrors)
+        end)
+
+        it("closes after the delay on Ctrl+C and reports once for a double press", function()
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+            ctrlDown = true
+            pressKey(frame, "C")
+            pressKey(frame, "C")
+
+            assert.equals(2, #timers)
+            assert.is_not_nil(Popup.FindVisible("QUESTIE_WOWHEAD_URL"))
+            runTimers()
+            assert.is_nil(Popup.FindVisible("QUESTIE_WOWHEAD_URL"))
+            assert.spy(compat.ActionStatus_DisplayMessage).was.called(1)
+        end)
+
+        it("does not let an old Ctrl+C timer close a reopened dialog", function()
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            ctrlDown = true
+            pressKey(Popup.FindVisible("QUESTIE_WOWHEAD_URL"), "C")
+            Popup.Hide("QUESTIE_WOWHEAD_URL")
+            Popup.Show("QUESTIE_WOWHEAD_URL", 784)
+            runTimers()
+
+            local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+            assert.is_not_nil(frame)
+            assert.is_truthy(frame:GetEditBoxText():find("quest=784$"))
+            assert.spy(compat.ActionStatus_DisplayMessage).was.not_called()
+        end)
+
+        it("does not let an old Ctrl+C timer close a dialog reopened without hiding it", function()
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            ctrlDown = true
+            pressKey(Popup.FindVisible("QUESTIE_WOWHEAD_URL"), "C")
+            Popup.Show("QUESTIE_WOWHEAD_URL", 784)
+            runTimers()
+
+            local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+            assert.is_not_nil(frame)
+            assert.is_truthy(frame:GetEditBoxText():find("quest=784$"))
+            assert.spy(compat.ActionStatus_DisplayMessage).was.not_called()
+        end)
+
+        it("does not stack key handlers when the dialog is shown again", function()
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            Popup.Hide("QUESTIE_WOWHEAD_URL")
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            ctrlDown = true
+            pressKey(Popup.FindVisible("QUESTIE_WOWHEAD_URL"), "C")
+
+            assert.equals(1, #timers)
+        end)
+
+        it("ignores C without Ctrl", function()
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            ctrlDown = false
+            pressKey(Popup.FindVisible("QUESTIE_WOWHEAD_URL"), "C")
+
+            assert.equals(0, #timers)
+        end)
+
+        it("closes on Enter and on Escape", function()
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            local editBox = Popup.FindVisible("QUESTIE_WOWHEAD_URL"):GetEditBox()
+            editBox:GetScript("OnEnterPressed")(editBox)
+            assert.is_nil(Popup.FindVisible("QUESTIE_WOWHEAD_URL"))
+
+            Popup.Show("QUESTIE_WOWHEAD_URL", 783)
+            editBox = Popup.FindVisible("QUESTIE_WOWHEAD_URL"):GetEditBox()
+            editBox:GetScript("OnEscapePressed")(editBox)
+            assert.is_nil(Popup.FindVisible("QUESTIE_WOWHEAD_URL"))
+            assert.same({}, dialogErrors)
         end)
     end)
 end)

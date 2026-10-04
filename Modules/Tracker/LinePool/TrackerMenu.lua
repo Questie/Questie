@@ -27,6 +27,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -353,44 +355,67 @@ local function _GetWowheadLinkForLanguage()
     return "https://www.wowhead.com/".. xpac .. langShort
 end
 
+-- The generation check stops an old Ctrl+C timer from closing a reopened dialog (#7867)
+---@param dialog DialogFrame
+---@param name string?
+---@param link string
+local function _ShowWowheadLink(dialog, name, link)
+    if name then
+        dialog.Text:SetText(dialog.Text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
+    end
+
+    local editBox = dialog:GetEditBox()
+    editBox:SetText(link)
+    -- Focusing from addon code while SmartNavigation is shown taints Blizzard's controller bindings
+    if Questie.IsForever and SmartNavigation and SmartNavigation:IsShown() then
+        editBox:SetScript("OnEditFocusGained", editBox.HighlightText)
+    else
+        editBox:SetScript("OnEditFocusGained", nil)
+        editBox:SetFocus()
+        editBox:HighlightText()
+    end
+
+    editBox:SetScript("OnKeyDown", function(_, key)
+        if key == "C" and IsControlKeyDown() then
+            local generation = dialog.generation
+            C_Timer.After(0.1, function()
+                if dialog.generation == generation and dialog.active and dialog:IsShown() then
+                    dialog:Hide()
+                    QuestieCompat.ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
+                end
+            end)
+        end
+    end)
+end
+
+-- Showing the dialog in combat is blocked (SetPropagateKeyboardInput), so it opens after combat
+---@param key string
+---@param id number
+local function _ShowWowheadDialog(key, id)
+    if InCombatLockdown() then
+        QuestieCombatQueue:Queue(Popup.Show, key, id)
+    else
+        Popup.Show(key, id)
+    end
+end
+
 -- Register the WoWHead Quest popup dialog
-StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
+Popup.Dialogs["QUESTIE_WOWHEAD_URL"] = {
     text = "WoWHead URL",
     button2 = CLOSE,
     hasEditBox = true,
     editBoxWidth = 280,
-    EditBoxOnEnterPressed = function(self)
-        self:GetParent():Hide()
+    EditBoxOnEnterPressed = function(editBox)
+        editBox:GetParent():Hide()
     end,
-    EditBoxOnEscapePressed = function(self)
-        self:GetParent():Hide()
+    EditBoxOnEscapePressed = function(editBox)
+        editBox:GetParent():Hide()
     end,
-    OnShow = function(self)
-        -- The MoP client now needs self.Text, while older clients need self.text
-        local textFrame = self.Text or self.text
-        local editBox = self.EditBox or self.editBox
-
-        local questID = textFrame.text_arg1
-        local quest_wow = QuestieDB.GetQuest(questID)
-        local name = quest_wow.name
-
-        textFrame:SetFont(GameFontNormal:GetFont(), 12)
-        textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
-
-        local wowheadLink = _GetWowheadLinkForLanguage() .. "quest=" .. questID -- all expansions follow this system as of 2024 start of Cata
-
-        editBox:SetText(wowheadLink)
-        editBox:SetFocus()
-        editBox:HighlightText()
-
-        editBox:SetScript("OnKeyDown", function(_, key)
-            if key == "C" and IsControlKeyDown() then
-                C_Timer.After(0.1, function()
-                    editBox:GetParent():Hide()
-                    QuestieCompat.ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
-                end)
-            end
-        end)
+    OnShow = function(dialog)
+        local questId = dialog.Text.text_arg1
+        local quest = QuestieDB.GetQuest(questId)
+        -- all expansions follow this system as of 2024 start of Cata
+        _ShowWowheadLink(dialog, quest and quest.name, _GetWowheadLinkForLanguage() .. "quest=" .. questId)
     end,
     whileDead = true,
     hideOnEscape = true
@@ -443,7 +468,7 @@ function TrackerMenu:GetMenuForQuest(quest)
     tinsert(menu, {
         text = "|cFF39c0edWoWHead URL|r",
         func = function()
-            StaticPopup_Show("QUESTIE_WOWHEAD_URL", quest.Id)
+            _ShowWowheadDialog("QUESTIE_WOWHEAD_URL", quest.Id)
         end
     })
 
@@ -518,42 +543,21 @@ TrackerMenu.addUntrackAchieveOption = function(menu, achieve)
 end
 
 -- Register the WoWHead Achievement popup dialog
-StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
+Popup.Dialogs["QUESTIE_WOWHEAD_AURL"] = {
     text = "WoWHead URL",
     button2 = CLOSE,
     hasEditBox = true,
     editBoxWidth = 280,
-    EditBoxOnEnterPressed = function(self)
-        self:GetParent():Hide()
+    EditBoxOnEnterPressed = function(editBox)
+        editBox:GetParent():Hide()
     end,
-    EditBoxOnEscapePressed = function(self)
-        self:GetParent():Hide()
+    EditBoxOnEscapePressed = function(editBox)
+        editBox:GetParent():Hide()
     end,
-    OnShow = function(self)
-        -- The MoP client now needs self.Text, while older clients need self.text
-        local textFrame = self.Text or self.text
-        local editBox = self.EditBox or self.editBox
-
-        local achieveID = textFrame.text_arg1
-        local name = select(2, GetAchievementInfo(achieveID))
-
-        textFrame:SetFont(GameFontNormal:GetFont(), 12)
-        textFrame:SetText(textFrame:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
-
-        local wowheadLink = _GetWowheadLinkForLanguage() .. "achievement=" .. achieveID
-
-        editBox:SetText(wowheadLink)
-        editBox:SetFocus()
-        editBox:HighlightText()
-
-        editBox:SetScript("OnKeyDown", function(_, key)
-            if key == "C" and IsControlKeyDown() then
-                C_Timer.After(0.1, function()
-                    editBox:GetParent():Hide()
-                    QuestieCompat.ActionStatus_DisplayMessage(l10n("Copied URL to clipboard"), true)
-                end)
-            end
-        end)
+    OnShow = function(dialog)
+        local achieveId = dialog.Text.text_arg1
+        local name = select(2, GetAchievementInfo(achieveId))
+        _ShowWowheadLink(dialog, name, _GetWowheadLinkForLanguage() .. "achievement=" .. achieveId)
     end,
     whileDead = true,
     hideOnEscape = true
@@ -576,7 +580,7 @@ function TrackerMenu:GetMenuForAchievement(achieve)
     tinsert(menu, {
         text = "|cFF39c0edWoWHead URL|r",
         func = function()
-            StaticPopup_Show("QUESTIE_WOWHEAD_AURL", achieve.Id)
+            _ShowWowheadDialog("QUESTIE_WOWHEAD_AURL", achieve.Id)
         end
     })
 
