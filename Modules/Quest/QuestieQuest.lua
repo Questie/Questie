@@ -576,7 +576,8 @@ function QuestieQuest:UpdateQuest(questId)
                         end
                     end
 
-                    if numCompleteObjectives == #quest.Objectives then
+                    -- Sequenced quests can finish a visible stage before the next objectives appear.
+                    if numCompleteObjectives == #quest.Objectives and not QuestieCompat.IsQuestSequenced(questId) then
                         Questie.Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
 
@@ -595,7 +596,7 @@ function QuestieQuest:UpdateQuest(questId)
                             "[QuestieQuest:UpdateQuest] Quest Objective Status is: " ..
                             numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
 
-                        -- Update objective notes only when quest is genuinely in-progress (not all objectives complete)
+                        -- Keep in-progress notes current, including a finished stage of an incomplete sequenced quest.
                         if QuestieQuest:ShouldShowQuestNotes(questId) then
                             QuestieQuest:UpdateObjectiveNotes(quest)
                         end
@@ -1442,10 +1443,12 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
     end
 
-    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and (quest.Finisher.NPC or quest.Finisher.GameObject))) then
-        -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil. This
-        -- check assumes the Quest should have been flagged questLogEngtry.isComplete == 1. We're specifically looking for a quest.triggerEnd or
-        -- a quest.Finisher because this might throw an error if there is nothing to populate when we call QuestFinisher.AddFinisher().
+    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0
+        and (questLogEntry.isComplete == 1 or not QuestieCompat.IsQuestSequenced(quest.Id))
+        and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and (quest.Finisher.NPC or quest.Finisher.GameObject))) then
+        -- Legacy quests can need a finisher despite an incomplete native flag and no mapped objectives.
+        -- An empty sequenced stage (or missing database mappings) cannot justify this completion override.
+        -- Keep a known finisher/triggerEnd as a prerequisite for creating its map notes.
         AvailableQuests.RemoveQuest(quest.Id, function()
             QuestFinisher.AddFinisher(quest)
         end)

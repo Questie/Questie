@@ -45,6 +45,139 @@ describe("QuestieQuest", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
     end)
 
+    describe("sequenced completion overrides", function()
+        local quest, compat, originalIsSequenced, finisher
+        local originalSendMessage, originalThreadCallback
+
+        before_each(function()
+            compat = QuestieLoader:ImportModule("QuestieCompat")
+            originalIsSequenced = compat.IsQuestSequenced
+            compat.IsQuestSequenced = function() return true end
+            Questie.db.char.complete = {}
+            quest = {
+                Id = 93927, sourceItemId = 0, Objectives = {{Completed = true}},
+                ObjectiveData = {}, SpecialObjectives = {}, Finisher = {NPC = {100}},
+                IsComplete = function() return 0 end,
+            }
+            QuestieDB.GetQuest = function() return quest end
+            finisher = QuestieLoader:ImportModule("QuestFinisher")
+            finisher.AddFinisher = spy.new(function() end)
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) if callback then callback() end end)
+            originalThreadCallback = QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(work, callback)
+                work()
+                callback()
+            end
+            QuestieMap.UnloadQuestFrames = function() end
+            originalSendMessage = Questie.SendMessage
+            Questie.SendMessage = spy.new(function() end)
+            QuestieQuest.UpdateObjectiveNotes = spy.new(function() end)
+            QuestieQuest.ShouldShowQuestNotes = function() return true end
+        end)
+
+        after_each(function()
+            compat.IsQuestSequenced = originalIsSequenced
+            Questie.SendMessage = originalSendMessage
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = originalThreadCallback
+        end)
+
+        it("updates a finished visible stage without promoting the whole quest to complete", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+            assert.spy(QuestieQuest.UpdateObjectiveNotes).was.called_with(QuestieQuest, quest)
+        end)
+
+        it("keeps the legacy all-objectives-complete workaround for unclassified quests", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.is_true(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        it("shows the finisher when the accepted quest state is complete", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+            quest.IsComplete = function() return 1 end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        it("does not infer completion from absent objective mappings even when a finisher exists", function()
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "item", text = "Read note: 0/1"}}
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("does not infer completion from an empty stage or a trigger-end location", function()
+            quest.Objectives = {}
+            quest.triggerEnd = {1}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("retains the legacy empty-objective finisher workaround for unclassified quests", function()
+            compat.IsQuestSequenced = function() return false end
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_true(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.called(1)
+        end)
+
+        it("still requests source-item reconstruction without promoting a sequenced quest", function()
+            quest.sourceItemId = 254871
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 93927, true)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("preserves accepted completion when no database objectives exist", function()
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 1} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_true(quest.isComplete)
+        end)
+    end)
+
     describe("UnhideQuest", function()
         it("should unhide a quest", function()
             local questId = 123
