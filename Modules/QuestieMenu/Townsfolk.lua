@@ -10,6 +10,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local playerClass = UnitClassBase("player")
 local playerFaction = UnitFactionGroup("player")
@@ -69,11 +71,134 @@ local function _PopulateTownsfolkTypes(folkTypes) -- populate the table with all
 end
 
 
+local classTrainerTitles = {
+    ["Warrior Trainer"] = "WARRIOR",
+    ["Paladin Trainer"] = "PALADIN",
+    ["Hunter Trainer"] = "HUNTER",
+    ["Pet Trainer"] = "HUNTER",
+    ["Rogue Trainer"] = "ROGUE",
+    ["Priest Trainer"] = "PRIEST",
+    ["Death Knight Trainer"] = "DEATHKNIGHT",
+    ["Shaman Trainer"] = "SHAMAN",
+    ["Mage Trainer"] = "MAGE",
+    ["Warlock Trainer"] = "WARLOCK",
+    ["Demon Trainer"] = "WARLOCK",
+    ["Druid Trainer"] = "DRUID",
+    ["Monk Trainer"] = "MONK",
+}
+
+-- Older NPC titles use occupations rather than skill names, e.g. "Artisan Alchemist".
+local professionTrainerOccupations = {
+    ["Alchemist"] = professionKeys.ALCHEMY,
+    ["Blacksmith"] = professionKeys.BLACKSMITHING,
+    ["Cook"] = professionKeys.COOKING,
+    ["Enchanter"] = professionKeys.ENCHANTING,
+    ["Engineer"] = professionKeys.ENGINEERING,
+    ["Herbalist"] = professionKeys.HERBALISM,
+    ["Leatherworker"] = professionKeys.LEATHERWORKING,
+    ["Miner"] = professionKeys.MINING,
+    ["Skinner"] = professionKeys.SKINNING,
+    ["Tailor"] = professionKeys.TAILORING,
+}
+
+local function _InsertUnique(list, id)
+    for _, existingId in ipairs(list) do
+        if existingId == id then
+            return
+        end
+    end
+    tinsert(list, id)
+end
+
+local function _AddTrainerByTitle(id, title, townfolk, professionTrainers, classSpecificTownsfolk, titleAliases)
+    if not title then
+        return
+    end
+
+    local class = classTrainerTitles[title]
+    if class and classSpecificTownsfolk[class] then
+        _InsertUnique(classSpecificTownsfolk[class]["Class Trainer"], id)
+        return
+    end
+    if title == "Portal Trainer" or title == l10n("Portal Trainer") then
+        _InsertUnique(classSpecificTownsfolk["MAGE"]["Portal Trainer"], id)
+        return
+    end
+    if townfolk["Weapon Master"] and (title == "Weapon Master" or title == l10n("Weapon Master")) then
+        _InsertUnique(townfolk["Weapon Master"], id)
+        return
+    end
+    if townfolk["Battle Pet Trainer"] and (title == "Battle Pet Trainer" or title == l10n("Battle Pet Trainer")) then
+        _InsertUnique(townfolk["Battle Pet Trainer"], id)
+        return
+    end
+
+    if titleAliases[title] then
+        _InsertUnique(titleAliases[title], id)
+        return
+    end
+
+    for name, professionId in pairs(QuestieProfessions.professionTable) do
+        if professionTrainers[professionId] and string.find(title, name, 1, true) then
+            _InsertUnique(professionTrainers[professionId], id)
+        end
+    end
+    for occupation, professionId in pairs(professionTrainerOccupations) do
+        if professionTrainers[professionId] and string.match(title, "%f[%a]" .. occupation .. "%f[%A]") then
+            _InsertUnique(professionTrainers[professionId], id)
+        end
+    end
+end
+
+---Known trainers teach us localized titles without bypassing provider corrections or changing locale.
+---A title shared by different categories is ambiguous and must not classify new NPCs.
+local function _AddTrainerTitleAliases(titleAliases, trainers)
+    for _, id in ipairs(trainers) do
+        local flags = QuestieDB.QueryNPCSingle(id, "npcFlags")
+        if flags and bitband(flags, QuestieDB.npcFlags.TRAINER) ~= 0 then
+            local title = QuestieDB.QueryNPCSingle(id, "subName")
+            if title and title ~= "" then
+                if titleAliases[title] == nil then
+                    titleAliases[title] = trainers
+                elseif titleAliases[title] ~= trainers then
+                    titleAliases[title] = false
+                end
+            end
+        end
+    end
+end
+
+---Supplement curated exceptions with flagged trainers from the composed database.
+local function _AddDiscoveredTrainers(trainerIds, townfolk, professionTrainers, classSpecificTownsfolk)
+    local titleAliases = {}
+    for _, categories in pairs(classSpecificTownsfolk) do
+        _AddTrainerTitleAliases(titleAliases, categories["Class Trainer"])
+    end
+    _AddTrainerTitleAliases(titleAliases, classSpecificTownsfolk.MAGE["Portal Trainer"])
+    _AddTrainerTitleAliases(titleAliases, townfolk["Weapon Master"] or {})
+    for _, trainers in pairs(professionTrainers) do
+        _AddTrainerTitleAliases(titleAliases, trainers)
+    end
+
+    for index, id in ipairs(trainerIds) do
+        local title = QuestieDB.QueryNPCSingle(id, "subName")
+        _AddTrainerByTitle(id, title, townfolk, professionTrainers, classSpecificTownsfolk, titleAliases)
+        if index % 100 == 0 then
+            coroutine.yield()
+        end
+    end
+end
+
 function Townsfolk.Initialize()
 
     --? This datastructure is used in PopulateTownsfolkTypes to fetch multiple townfolk data in the same npc loop cycle
     ---@type table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
     local townsfolkData = {
+        ["Trainer"] = {
+            mask = QuestieDB.npcFlags.TRAINER,
+            requireSubname = true,
+            data = {}
+        },
         ["Repair"] = {
             mask = QuestieDB.npcFlags.REPAIR,
             requireSubname = false,
@@ -442,6 +567,8 @@ function Townsfolk.Initialize()
         classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
     end
     classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705,29156,45139,47253}
+
+    _AddDiscoveredTrainers(townsfolkData["Trainer"].data, townfolk, professionTrainers, classSpecificTownsfolk)
 
     factionSpecificTownsfolk["Horde"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
     factionSpecificTownsfolk["Alliance"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
