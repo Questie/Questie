@@ -36,7 +36,7 @@ The registry owns private, in-memory state. Inputs and returned snapshots copy t
 
 An optional `icon = {atlas = "...", texture = "..."}` overrides the severity image. Either field may be omitted; `texture` accepts a path or numeric file ID. The renderer tries an available atlas first, then the supplied texture, then the severity default if the custom image cannot be loaded.
 
-The Source-mode notice uses QuestieDB's own PNG:
+The Source-mode notice uses Questie's bundled green plus. `Icons/green_plus.png` is a transparent, user-supplied crop from Blizzard's [ObjectIconsAtlas sheet](https://static.wikia.nocookie.net/wowpedia/images/4/4a/ObjectIconsAtlas.png), resized from 20 x 20 to 32 x 32 with nearest-neighbor sampling:
 
 ```lua
 local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
@@ -44,7 +44,7 @@ local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
 QuestieStatus.Set("questiedb.source-mode", {
     severity = QuestieStatus.Severity.Info,
     message = "QuestieDB is running in Source mode.",
-    icon = {texture = "Interface\\AddOns\\QuestieDB\\icons\\QuestieTDB_64x64.png"},
+    icon = {texture = "Interface\\AddOns\\Questie\\Icons\\green_plus.png"},
 })
 ```
 
@@ -80,7 +80,7 @@ Startup failures require a reload; clearing a notice alone does not restart init
 
 ## Remaining validation
 
-The read-only probes below establish existing library layers and atlas availability, not feature rendering. The latest bridge marker was missing, so there was no live feature validation. No new badge has been deployed or rendered anywhere.
+A live startup check on Forever build 70205 confirmed the Source-mode notice. Temporarily requiring contract 4 against provider contract 3 then stopped startup, selected the error notice over Source mode, and showed the `common-icon-redx` overlay. The client reported no unexpected Lua errors and one expected startup error in chat. The TOC requirement was restored immediately; another reload recovers. The green-plus replacement has not yet been checked live. The read-only probes below establish the original library layers and atlas availability.
 
 Visually check badge legibility and hover layering, dragging, minimap/UI scale, hidden and mouseover-only settings, and transitions between error, warning, information, and no notices. Check ordinary addon updates during combat and tooltip behavior on supporting brokers. Skin compatibility and behavior across all Questie clients remain unverified.
 
@@ -143,3 +143,22 @@ A read-only atlas lookup on Forever `1.60.1 (70205)` confirmed two existing cand
 The live `READY_CHECK_NOT_READY_TEXTURE` value is `UI-LFG-DeclineMark`. Classic Era's ready-check implementation also declares that atlas and the legacy texture path `Interface\\RaidFrame\\ReadyCheck-NotReady`: [declarations](https://github.com/Gethe/wow-ui-source/blob/8165d4cd6e48d606369336cc3a7977902310e81e/Interface/AddOns/Blizzard_ReadyCheck/Classic/ReadyCheck.lua#L1-L15), [load path](https://github.com/Gethe/wow-ui-source/blob/8165d4cd6e48d606369336cc3a7977902310e81e/Interface/AddOns/Blizzard_ReadyCheck/Blizzard_ReadyCheck_Classic.toc#L1-L9). Forever's character-creation UI uses `common-icon-redx` as a normal/highlight texture: [XML](https://github.com/Gethe/wow-ui-source/blob/e3ecc27b64d30fdc735a3f6579b866858f9f9df1/Interface/AddOns/Blizzard_CharacterCreate/Camelot/Blizzard_CharacterCreate.xml#L653-L654), [Camelot load selection](https://github.com/Gethe/wow-ui-source/blob/e3ecc27b64d30fdc735a3f6579b866858f9f9df1/Interface/AddOns/Blizzard_CharacterCreate/Blizzard_CharacterCreate.toc#L1-L11).
 
 Prefer a built-in red cross over recoloring an unrelated gold asset. The atlas lookup confirms availability on the running Forever client; badge-size legibility and other clients still need visual/runtime checks. No texture was created or changed for these probes.
+
+## Built-in S asset search
+
+No literal gold/white **S** asset was verified. The shop-button lead produced these exact candidates, not a confirmed match:
+
+| Candidate | Source evidence and limits |
+| --- | --- |
+| `UI-HUD-MicroMenu-Shop-Up` (atlas) | Forever 70205 constructs this name for `StoreMicroButton`; `-Down`, `-Disabled`, and `-Mouseover` are sibling states. Camelot includes the store button, gated by `Enum.GameRule.StoreDisabled`. Source establishes its shop role, not whether its pixels depict S, $, or another logo. Preview still needed. |
+| `Interface\Buttons\UI-MicroButton-BStore-Up` (texture) | Era 70003's Classic micro-menu uses this path, cropping UVs to `(0, 1, 0.359375, 1)`. A historical texture preview shows a gold **W in a circle**, not S or $. Current-client pixels/availability are unverified. |
+| `store-icon-wowstore-small` (XML texture template, **not an established atlas**) | Era 70003 defines a 21 x 20 crop of `Interface\Store\Store-Main`, UVs `(0.97460938, 0.99511719, 0.27148438, 0.29101563)`. The same crop in the historical preview is a gold **W in a circle**, not S or $. Using the full sheet as the badge would be incorrect. |
+
+Source/load-path references:
+
+- Forever: [atlas-name construction](https://github.com/Gethe/wow-ui-source/blob/e3ecc27b64d30fdc735a3f6579b866858f9f9df1/Interface/AddOns/Blizzard_MicroMenu/Mainline/MainMenuBarMicroButtons.lua#L32-L38), [Shop selection](https://github.com/Gethe/wow-ui-source/blob/e3ecc27b64d30fdc735a3f6579b866858f9f9df1/Interface/AddOns/Blizzard_MicroMenu/Mainline/MainMenuBarMicroButtons.lua#L1824-L1835), [TOC](https://github.com/Gethe/wow-ui-source/blob/e3ecc27b64d30fdc735a3f6579b866858f9f9df1/Interface/AddOns/Blizzard_MicroMenu/Blizzard_MicroMenu.toc#L4-L18), [Camelot button list](https://github.com/Gethe/wow-ui-source/blob/e3ecc27b64d30fdc735a3f6579b866858f9f9df1/Interface/AddOns/Blizzard_MicroMenu/Camelot/MicroMenuContainerOverrides.lua#L2-L18).
+- Era: [BStore selection](https://github.com/Gethe/wow-ui-source/blob/8165d4cd6e48d606369336cc3a7977902310e81e/Interface/AddOns/Blizzard_MicroMenu/Classic/MainMenuBarMicroButtons.lua#L903-L919), [path/crop construction](https://github.com/Gethe/wow-ui-source/blob/8165d4cd6e48d606369336cc3a7977902310e81e/Interface/AddOns/Blizzard_MicroMenu/Classic/MainMenuBarMicroButtons.lua#L22-L38), [micro-menu TOC](https://github.com/Gethe/wow-ui-source/blob/8165d4cd6e48d606369336cc3a7977902310e81e/Interface/AddOns/Blizzard_MicroMenu/Blizzard_MicroMenu_Classic.toc#L1-L10), [store crop](https://github.com/Gethe/wow-ui-source/blob/8165d4cd6e48d606369336cc3a7977902310e81e/Interface/AddOns/Blizzard_StoreUI/Classic/Blizzard_StoreUIPatchwerk.xml#L63-L66), [store TOC](https://github.com/Gethe/wow-ui-source/blob/8165d4cd6e48d606369336cc3a7977902310e81e/Interface/AddOns/Blizzard_StoreUI/Blizzard_StoreUI.toc#L8-L15).
+
+Visual evidence is from Gethe's converted Blizzard textures at `d23deaf8f44a7d280dc974a5c9d5321c013db59b`, **Retail 9.2.7 (45114), not either target build**: [BStore image](https://github.com/Gethe/wow-ui-textures/blob/d23deaf8f44a7d280dc974a5c9d5321c013db59b/Buttons/UI-MicroButton-BStore-Up.PNG), [Store-Main image](https://github.com/Gethe/wow-ui-textures/blob/d23deaf8f44a7d280dc974a5c9d5321c013db59b/Store/Store-Main.PNG), [conversion provenance](https://github.com/Gethe/wow-ui-textures/blob/d23deaf8f44a7d280dc974a5c9d5321c013db59b/README.md). It rules out those historical images as literal S artwork, not future replacements.
+
+Suggested read-only follow-up: call `C_Texture.GetAtlasInfo("UI-HUD-MicroMenu-Shop-Up")` and the three sibling states. A non-nil result establishes atlas availability and gives its file ID/UVs, **not its appearance**. No file IDs were inferred, no live calls were made, and no UI was created during this search. The supplied cached source revisions were rechecked, not refreshed. If preview does not identify the remembered S, a gold/white FontString `S` is an unambiguous fallback, but needs renderer support rather than an invented atlas name.

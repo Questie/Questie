@@ -411,7 +411,7 @@ function QuestieInit.OnAddonLoaded()
         QuestieStatus.Set("questiedb.source-mode", {
             severity = QuestieStatus.Severity.Info,
             message = "QuestieDB is running in Source mode.",
-            icon = {texture = "Interface\\AddOns\\QuestieDB\\icons\\QuestieTDB_64x64.png"},
+            icon = {texture = "Interface\\AddOns\\Questie\\Icons\\green_plus.png"},
         })
     else
         QuestieStatus.Clear("questiedb.source-mode")

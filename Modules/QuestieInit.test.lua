@@ -361,7 +361,7 @@ describe("QuestieInit", function()
                 assert.are_same({{
                     id = "questiedb.source-mode", severity = QuestieStatus.Severity.Info,
                     message = "QuestieDB is running in Source mode.",
-                    icon = {texture = "Interface\\AddOns\\QuestieDB\\icons\\QuestieTDB_64x64.png"},
+                    icon = {texture = "Interface\\AddOns\\Questie\\Icons\\green_plus.png"},
                 }}, QuestieStatus.GetIssues())
                 table.insert(callOrder, "UI registered")
                 return true
