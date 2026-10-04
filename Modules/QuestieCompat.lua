@@ -345,6 +345,11 @@ local visibilityFrame
 
 ---Hides Blizzard's tracker when requested, or lets Blizzard restore its normal visibility.
 local function ApplyObjectiveTrackerVisibility()
+    if ObjectiveTrackerFrame then
+        -- Alpha is not protected, so suppression takes effect immediately even when Blizzard
+        -- shows the tracker mid-combat (e.g. on quest progress updates).
+        ObjectiveTrackerFrame:SetAlpha(hideObjectiveTracker and 0 or 1)
+    end
     if InCombatLockdown() then
         -- Retry after combat using the latest request, not the state when combat began.
         visibilityFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -369,7 +374,7 @@ end
 ---Hides Blizzard's quest tracker, waiting until combat ends on Forever.
 function QuestieCompat.HideWatchFrame()
     if isForever then
-        -- Forever: keep later native OnShow calls suppressed, without reparenting protected frames.
+        -- Forever: keep later native OnShow calls suppressed (invisible in combat, hidden after), without reparenting protected frames.
         hideObjectiveTracker = true
         if ObjectiveTrackerFrame and not objectiveTrackerHooked then
             ObjectiveTrackerFrame:HookScript("OnShow", function()
