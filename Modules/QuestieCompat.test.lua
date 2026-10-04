@@ -774,12 +774,19 @@ describe("QuestieCompat Classic paths", function()
         for _, name in ipairs(names) do _G[name] = originals[name] end
     end)
 
-    it("retains direct legacy tracker visibility and anchors without installing the Forever bridge", function()
-        QuestieCompat.HideWatchFrame()
-        QuestieCompat.ShowWatchFrame()
-        assert.spy(watchFrame.Hide).was.called(1)
-        assert.spy(watchFrame.Show).was.called(1)
-        assert.are.same({"TOP", "parent", "BOTTOM", 1, 2}, {QuestieCompat.GetWatchFramePoint()})
+    it("retains legacy tracker visibility and anchors across Classic expansions", function()
+        -- Era, TBC, Wrath, Cataclysm and Mists must not use Forever's visibility policy.
+        for index, interfaceVersion in ipairs({11509, 20505, 30403, 40402, 50500}) do
+            _G.GetBuildInfo = function() return "", "0", "", interfaceVersion end
+            dofile("Modules/QuestieCompat.lua")
+            ---@type QuestieCompat
+            QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            QuestieCompat.HideWatchFrame()
+            QuestieCompat.ShowWatchFrame()
+            assert.spy(watchFrame.Hide).was.called(index)
+            assert.spy(watchFrame.Show).was.called(index)
+            assert.are.same({"TOP", "parent", "BOTTOM", 1, 2}, {QuestieCompat.GetWatchFramePoint()})
+        end
         assert.spy(CreateFrame).was.not_called()
         assert.is_nil(SetDesaturation)
     end)
@@ -862,6 +869,7 @@ describe("QuestieCompat Forever paths", function()
         _G.InCombatLockdown = function() return false end
         _G.ObjectiveTrackerFrame = {
             HookScript = function() end,
+            IsProtected = function() return false end,
             Hide = spy.new(function() end),
             Update = spy.new(function() end),
         }
@@ -965,8 +973,62 @@ describe("QuestieCompat Forever paths", function()
         assert.spy(visibilityFrame.UnregisterEvent).was.called_with(visibilityFrame, "PLAYER_REGEN_ENABLED")
     end)
 
-    it("defers combat-time hiding and reuses one OnShow hook", function()
+    it("keeps the unprotected tracker hidden when Blizzard shows it during combat", function()
+        local shown = true
         local onShow
+        ObjectiveTrackerFrame.HookScript = spy.new(function(_, _, callback) onShow = callback end)
+        ObjectiveTrackerFrame.Hide = function() shown = false end
+        ObjectiveTrackerFrame.Show = function()
+            shown = true
+            onShow()
+        end
+
+        QuestieCompat.HideWatchFrame()
+        assert.is_false(shown)
+        _G.InCombatLockdown = function() return true end
+        ObjectiveTrackerFrame:Show()
+        assert.is_false(shown)
+        ObjectiveTrackerFrame:Show()
+        assert.is_false(shown)
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
+        assert.spy(visibilityFrame.RegisterEvent).was.not_called()
+
+        _G.InCombatLockdown = function() return false end
+        QuestieCompat.ShowWatchFrame()
+        ObjectiveTrackerFrame:Show()
+        assert.is_true(shown)
+        assert.spy(ObjectiveTrackerFrame.Update).was.called(1)
+        assert.spy(ObjectiveTrackerFrame.HookScript).was.called(1)
+    end)
+
+    it("hides an unprotected tracker when suppression is first requested in combat", function()
+        _G.InCombatLockdown = function() return true end
+        QuestieCompat.HideWatchFrame()
+
+        assert.spy(ObjectiveTrackerFrame.Hide).was.called(1)
+        assert.spy(visibilityFrame.RegisterEvent).was.not_called()
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
+    end)
+
+    it("cancels a deferred release when hiding is requested again during combat", function()
+        local waitingForCombat = false
+        visibilityFrame.RegisterEvent = function() waitingForCombat = true end
+        visibilityFrame.UnregisterEvent = function() waitingForCombat = false end
+
+        QuestieCompat.HideWatchFrame()
+        _G.InCombatLockdown = function() return true end
+        QuestieCompat.ShowWatchFrame()
+        assert.is_true(waitingForCombat)
+        QuestieCompat.HideWatchFrame()
+
+        assert.is_false(waitingForCombat)
+        assert.spy(ObjectiveTrackerFrame.Hide).was.called(2)
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
+    end)
+
+    it("defers hiding a protected tracker in combat and reuses one OnShow hook", function()
+        local onShow
+        ObjectiveTrackerFrame.IsProtected = function() return true end
         ObjectiveTrackerFrame.HookScript = spy.new(function(_, _, callback) onShow = callback end)
         _G.InCombatLockdown = function() return true end
         QuestieCompat.HideWatchFrame()
