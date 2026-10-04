@@ -11,6 +11,8 @@ describe("QuestieInit", function()
     ---@type string[]
     local callOrder
     local originalGetMetadata
+    local QuestieStatus
+    local originalStarted, originalReady, originalProvider, originalProfile, originalIsSoD
 
     ---@param name string
     ---@return fun(): nil
@@ -34,6 +36,11 @@ describe("QuestieInit", function()
     end
 
     before_each(function()
+        originalStarted, originalReady = Questie.started, Questie.API.isReady
+        originalProvider, originalProfile, originalIsSoD = LibQuestieDB, Questie.db.profile, Questie.IsSoD
+        Questie.db.profile = {}
+        dofile("Modules/QuestieStatus.lua")
+        QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
         originalGetMetadata = C_AddOns.GetAddOnMetadata
         C_AddOns.GetAddOnMetadata = function(addon, field)
             if addon == "Questie" and field == "X-QuestieDB-Contract" then return "3" end
@@ -44,6 +51,7 @@ describe("QuestieInit", function()
         callOrder = {}
         Questie.db.profile.enableTooltipsObjectID = false
 
+        dofile("Localization/l10n.lua")
         local l10n = QuestieLoader:ImportModule("l10n")
         l10n.InitializeUILocale = _Record("l10n.InitializeUILocale")
         l10n.PublishLocaleOverrideEntityNames = _Record("l10n.PublishLocaleOverrideEntityNames")
@@ -79,7 +87,21 @@ describe("QuestieInit", function()
 
     after_each(function()
         C_AddOns.GetAddOnMetadata = originalGetMetadata
+        Questie.started, Questie.API.isReady = originalStarted, originalReady
+        _G.LibQuestieDB, Questie.db.profile, Questie.IsSoD = originalProvider, originalProfile, originalIsSoD
     end)
+
+    local function _AssertFatalIssue(id, report)
+        assert.are_same({{
+            id = id,
+            severity = QuestieStatus.Severity.Error,
+            message = "Questie could not start: %s",
+            args = {report},
+            action = "Update Questie and QuestieDB, then reload the UI.",
+        }}, QuestieStatus.GetIssues())
+        assert.is_false(Questie.started)
+        assert.is_false(Questie.API.isReady)
+    end
 
     describe("Stage 1", function()
         it("runs Login Initialization in the compiler-free order", function()
@@ -122,6 +144,8 @@ describe("QuestieInit", function()
             assert.has_error(function() _RunStage(1) end,
                 "Questie's TOC has a missing or invalid X-QuestieDB-Contract. Reinstall Questie.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
+            _AssertFatalIssue("startup.provider-contract",
+                "Questie's TOC has a missing or invalid X-QuestieDB-Contract. Reinstall Questie.")
         end)
 
         it("stops with an actionable error when the provider contract API is unavailable", function()
@@ -165,7 +189,10 @@ describe("QuestieInit", function()
 
         it("rejects a malformed provider missing translation slots before forwarding", function()
             mock.lib.l10n.SetCorrection = nil
+            Questie.started, Questie.API.isReady = true, true
             assert.has_error(function() _RunStage(1) end,
+                "Questie requires QuestieDB localization corrections. Update QuestieDB.")
+            _AssertFatalIssue("startup.provider-localization",
                 "Questie requires QuestieDB localization corrections. Update QuestieDB.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
             assert.are_same({}, mock.setLocaleCalls)
@@ -260,6 +287,8 @@ describe("QuestieInit", function()
 
                 assert.has_error(function() _RunStage(2) end,
                     "Questie requires QuestieDB asynchronous Object name indexing. Update QuestieDB.")
+                _AssertFatalIssue("startup.provider-object-index",
+                    "Questie requires QuestieDB asynchronous Object name indexing. Update QuestieDB.")
                 assert.spy(mock.lib.Object.BuildNameIndex).was.not_called()
                 assert.are_same({}, callOrder)
             end)
@@ -300,7 +329,7 @@ describe("QuestieInit", function()
             errors = spy.new(function() end)
             Questie.Error = errors
             threads = spy.new(function() end)
-            QuestieLoader:ImportModule("ThreadLib").ThreadError = threads
+            QuestieLoader:ImportModule("ThreadLib").Thread = threads
             watchFrame = spy.new(function() end)
             QuestieLoader:ImportModule("WatchFrameHook").Hide = watchFrame
             _G.hooksecurefunc = spy.new(function() end)
@@ -324,6 +353,53 @@ describe("QuestieInit", function()
             Questie.API, Questie.started, Questie.SetIcons = originalAPI, originalStarted, originalSetIcons
         end)
 
+        it("hands the source banner over only after status UI registration", function()
+            mock.lib.readMode = "source"
+            mock.lib.ModeIndicator = {Hide = _Record("Hide banner")}
+            QuestieLoader:ImportModule("MinimapIcon").Init = function()
+                assert.are_same({}, callOrder)
+                assert.are_same({{
+                    id = "questiedb.source-mode", severity = QuestieStatus.Severity.Info,
+                    message = "QuestieDB is running in Source mode.",
+                    icon = {texture = "Interface\\AddOns\\QuestieDB\\icons\\QuestieTDB_64x64.png"},
+                }}, QuestieStatus.GetIssues())
+                table.insert(callOrder, "UI registered")
+                return true
+            end
+            QuestieInit.OnAddonLoaded()
+            assert.are_equal("UI registered", callOrder[1])
+            assert.are_equal("Hide banner", callOrder[2])
+        end)
+
+        it("keeps the source banner when the status UI is unavailable", function()
+            mock.lib.readMode = "source"
+            mock.lib.ModeIndicator = {Hide = spy.new(function() end)}
+            QuestieLoader:ImportModule("MinimapIcon").Init = function() return false end
+            QuestieInit.OnAddonLoaded()
+            assert.spy(mock.lib.ModeIndicator.Hide).was.not_called()
+            assert.are_equal("questiedb.source-mode", QuestieStatus.GetBadgeIssue().id)
+        end)
+
+        it("accepts a source provider without the optional Hide API", function()
+            mock.lib.readMode = "source"
+            mock.lib.ModeIndicator = {}
+            QuestieLoader:ImportModule("MinimapIcon").Init = function() return true end
+            QuestieInit.OnAddonLoaded()
+            assert.are_equal("questiedb.source-mode", QuestieStatus.GetBadgeIssue().id)
+            assert.spy(threads).was.called(1)
+        end)
+
+        it("clears the source notice without hiding the banner in compiled mode", function()
+            mock.lib.readMode = "source"
+            QuestieInit.OnAddonLoaded()
+            mock.lib.readMode = "compiled"
+            mock.lib.ModeIndicator = {Hide = spy.new(function() end)}
+            QuestieLoader:ImportModule("MinimapIcon").Init = function() return true end
+            QuestieInit.OnAddonLoaded()
+            assert.are_same({}, QuestieStatus.GetIssues())
+            assert.spy(mock.lib.ModeIndicator.Hide).was.not_called()
+        end)
+
         it("stops at ZoneDB, reports once and schedules neither deferred UI nor login work", function()
             local zones = spy.new(function() return false, "zone report" end)
             QuestieLoader:ImportModule("ZoneDB").Initialize = zones
@@ -333,6 +409,7 @@ describe("QuestieInit", function()
             assert.are_same({"MinimapIcon", "SetIcons", "Migration"}, callOrder)
             assert.spy(zones).was.called(1)
             assert.spy(errors).was.called_with("zone report")
+            _AssertFatalIssue("startup.support-validation", "zone report")
             assert.spy(errors).was.called(1)
             assert.spy(threads).was.not_called()
             assert.spy(watchFrame).was.not_called()
@@ -347,6 +424,7 @@ describe("QuestieInit", function()
             assert.is_false(QuestieInit:Init())
             assert.are_same({"MinimapIcon", "SetIcons", "Migration", "ZoneDB", "AvailableQuests", "Professions"}, callOrder)
             assert.spy(errors).was.called_with("XP report")
+            _AssertFatalIssue("startup.support-validation", "XP report")
             assert.spy(threads).was.not_called()
             assert.spy(watchFrame).was.not_called()
         end)
@@ -365,6 +443,7 @@ describe("QuestieInit", function()
             assert.are_same({"l10n.InitializeUILocale", "LibQuestieDB.l10n.SetLocale:deDE",
                 "l10n.PublishLocaleOverrideEntityNames", "QuestieCorrections.Initialize"}, callOrder)
             assert.spy(errors).was.called_with("faction report")
+            _AssertFatalIssue("startup.support-validation", "faction report")
             assert.is_false(QuestieInit:Init())
             assert.spy(threads).was.not_called()
             assert.is_false(Questie.started)
@@ -384,8 +463,204 @@ describe("QuestieInit", function()
             assert.are_same({"Tooltips", "QuestieLink", "DropDB"}, callOrder)
             assert.spy(timers).was.not_called()
             assert.spy(errors).was.called_with("drop report")
+            _AssertFatalIssue("startup.support-validation", "drop report")
             assert.is_false(Questie.started)
             assert.is_false(Questie.API.isReady)
+        end)
+
+        describe("real startup thread failures", function()
+            local originalCTimer, originalDebugstack, originalThread
+            local tickers
+
+            local function _TickUntilDrawing()
+                for _ = 1, 40 do
+                    if Questie.started then return end
+                    assert.is_false(tickers[2].cancelled)
+                    tickers[2].callback()
+                end
+                error("Login did not reach available-quest drawing")
+            end
+
+            before_each(function()
+                originalCTimer, originalDebugstack = _G.C_Timer, _G.debugstack
+                originalThread = QuestieLoader:ImportModule("ThreadLib").Thread
+                tickers = {}
+                _G.C_Timer = {
+                    After = function() end,
+                    NewTicker = function(_, callback)
+                        local ticker = {callback = callback, cancelled = false}
+                        function ticker:Cancel() self.cancelled = true end
+                        table.insert(tickers, ticker)
+                        return ticker
+                    end,
+                }
+                _G.debugstack = function() return "startup stack" end
+                dofile("Modules/Libs/ThreadLib.lua")
+                Questie.db.profile.trackerEnabled = false
+                Questie.IsSoD = true
+                QuestieLoader:ImportModule("SeasonOfDiscovery").Initialize = function() end
+
+                -- Keep the real final stage and scheduler; stub unrelated consumers, not readiness transitions.
+                QuestieInit.Stages = {QuestieInit.Stages[3]}
+                local consumers = {
+                    QuestieTooltips = "Initialize", QuestieLink = "Initialize", DropDB = "Initialize",
+                    TrackerQuestTimers = "Initialize", ChallengeModeTimer = "Initialize", QuestieMap = "InitializeQueue",
+                    QuestieCombatQueue = "Initialize", QuestieTracker = "Initialize", Hooks = "HookQuestLogTitle",
+                    BreadcrumbQuests = "CheckAllQuestBreadcrumbs", CommsEncoding = "Init", CommsVisibility = "Initialize",
+                    QuestieComms = "Initialize", WorldMapButton = "Initialize", Townsfolk = "PostBoot",
+                    QuestieAnnounce = "InitializeLogoFilter", ChatFilter = "RegisterEvents", QuestieMenu = "OnLogin",
+                    DailyQuests = "Initialize", QuestieLib = "UpdateLastKnownDailyReset",
+                }
+                for module, method in pairs(consumers) do
+                    QuestieLoader:ImportModule(module)[method] = function() end
+                end
+                local quests = QuestieLoader:ImportModule("QuestieQuest")
+                quests.Initialize, quests.GetAllQuestIds = function() end, function() end
+                local events = QuestieLoader:ImportModule("QuestEventHandler")
+                events.Initialize, events.InitQuestLogStates = function() end, function() end
+                QuestieLoader:ImportModule("EventHandler").RegisterLateEvents = function() end
+                local dailies = QuestieLoader:ImportModule("DailyQuestComms")
+                dailies.Initialize, dailies.RequestUnavailableDailyQuests = function() end, function() end
+                QuestieLoader:ImportModule("QuestLogCache").CheckForChanges = function() return false, nil, {} end
+                QuestieLoader:ImportModule("QuestieAPI").PropagateOnReady = spy.new(function() end)
+            end)
+
+            after_each(function()
+                _G.C_Timer, _G.debugstack = originalCTimer, originalDebugstack
+                QuestieLoader:ImportModule("ThreadLib").Thread = originalThread
+            end)
+
+            it("keeps a nil Lua error renderable in the status tooltip", function()
+                QuestieLoader:ImportModule("HBDHooks").Init = function() error(nil, 0) end
+                QuestieInit.OnAddonLoaded()
+
+                tickers[1].callback()
+
+                local issue = QuestieStatus.GetBadgeIssue()
+                dofile("Localization/l10n.lua")
+                local l10n = QuestieLoader:ImportModule("l10n")
+                assert.are_same("Questie could not start: nil", l10n(issue.message, unpack(issue.args)))
+                assert.is_false(Questie.started)
+                assert.is_true(tickers[1].cancelled)
+            end)
+
+            it("captures a non-string Lua error as stable tooltip text", function()
+                local report = setmetatable({message = "structured error"}, {
+                    __tostring = function(value) return value.message end,
+                })
+                QuestieLoader:ImportModule("HBDHooks").Init = function() error(report, 0) end
+                QuestieInit.OnAddonLoaded()
+
+                tickers[1].callback()
+                report.message = "later mutation"
+
+                local issue = QuestieStatus.GetBadgeIssue()
+                dofile("Localization/l10n.lua")
+                local l10n = QuestieLoader:ImportModule("l10n")
+                assert.are_same("Questie could not start: structured error", l10n(issue.message, unpack(issue.args)))
+            end)
+
+            it("revokes already-announced readiness when deferred UI fails afterwards", function()
+                QuestieLoader:ImportModule("HBDHooks").Init = function()
+                    coroutine.yield()
+                    error("deferred UI failed after login", 0)
+                end
+                QuestieLoader:ImportModule("AvailableQuests").CalculateAndDrawAll = function() end
+                QuestieInit.OnAddonLoaded()
+                QuestieInit:Init()
+                tickers[1].callback()
+                _TickUntilDrawing()
+                assert.is_true(Questie.started)
+                assert.is_true(Questie.API.isReady)
+                assert.spy(QuestieLoader:ImportModule("QuestieAPI").PropagateOnReady).was.called(1)
+
+                tickers[1].callback()
+
+                assert.is_false(Questie.started)
+                assert.is_false(Questie.API.isReady)
+                assert.is_true(tickers[2].cancelled)
+                assert.are_same("startup.addon-loaded", QuestieStatus.GetBadgeIssue().id)
+                assert.is_false(QuestieInit:Init())
+                assert.spy(QuestieLoader:ImportModule("QuestieAPI").PropagateOnReady).was.called(1)
+            end)
+
+            it("revokes late login readiness when the yielding addon-loaded job fails and cancels login", function()
+                QuestieLoader:ImportModule("HBDHooks").Init = function()
+                    coroutine.yield()
+                    error("deferred UI failed", 0)
+                end
+                local drawingFinished = spy.new(function() end)
+                QuestieLoader:ImportModule("AvailableQuests").CalculateAndDrawAll = function()
+                    coroutine.yield()
+                    drawingFinished()
+                end
+                QuestieInit.OnAddonLoaded()
+                QuestieInit:Init()
+                tickers[1].callback()
+                _TickUntilDrawing()
+                assert.is_true(Questie.started)
+                assert.is_false(Questie.API.isReady)
+
+                tickers[1].callback()
+
+                assert.are_same({{
+                    id = "startup.addon-loaded", severity = QuestieStatus.Severity.Error,
+                    message = "Questie could not start: %s", args = {"deferred UI failed"},
+                    action = "Reload the UI. If the problem persists, report this error.",
+                }}, QuestieStatus.GetIssues())
+                assert.is_false(Questie.started)
+                assert.is_false(Questie.API.isReady)
+                assert.is_true(tickers[1].cancelled)
+                assert.is_true(tickers[2].cancelled)
+                assert.spy(drawingFinished).was.not_called()
+                assert.spy(QuestieLoader:ImportModule("QuestieAPI").PropagateOnReady).was.not_called()
+                assert.spy(errors).was.called(1)
+                assert.is_false(QuestieInit:Init())
+                assert.is_false(QuestieInit.OnAddonLoaded())
+            end)
+
+            it("revokes started on a yielding late login failure and cancels deferred UI", function()
+                local uiFinished = spy.new(function() end)
+                QuestieLoader:ImportModule("HBDHooks").Init = function()
+                    coroutine.yield()
+                    uiFinished()
+                end
+                QuestieLoader:ImportModule("AvailableQuests").CalculateAndDrawAll = function()
+                    coroutine.yield()
+                    error("available quests failed", 0)
+                end
+                QuestieInit.OnAddonLoaded()
+                QuestieInit:Init()
+                tickers[1].callback()
+                _TickUntilDrawing()
+                assert.is_true(Questie.started)
+                tickers[2].callback()
+
+                assert.are_same({{
+                    id = "startup.login", severity = QuestieStatus.Severity.Error,
+                    message = "Questie could not start: %s", args = {"available quests failed"},
+                    action = "Reload the UI. If the problem persists, report this error.",
+                }}, QuestieStatus.GetIssues())
+                assert.is_false(Questie.started)
+                assert.is_false(Questie.API.isReady)
+                assert.is_true(tickers[1].cancelled)
+                assert.is_true(tickers[2].cancelled)
+                assert.spy(uiFinished).was.not_called()
+                assert.spy(QuestieLoader:ImportModule("QuestieAPI").PropagateOnReady).was.not_called()
+                assert.spy(errors).was.called(1)
+            end)
+
+            it("retains the classified provider error without adding a generic login error", function()
+                dofile("Modules/QuestieInit.lua")
+                QuestieInit = QuestieLoader:ImportModule("QuestieInit")
+                C_AddOns.GetAddOnMetadata = function() return nil end
+                QuestieInit:Init()
+                tickers[1].callback()
+                _AssertFatalIssue("startup.provider-contract",
+                    "Questie's TOC has a missing or invalid X-QuestieDB-Contract. Reinstall Questie.")
+                assert.spy(errors).was.called(1)
+                assert.is_true(tickers[1].cancelled)
+            end)
         end)
 
         it("ends the stage coroutine normally on false instead of running the next stage", function()

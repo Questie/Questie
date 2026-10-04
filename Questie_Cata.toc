@@ -44,6 +44,7 @@ Modules\QuestieCompat.lua
 embeds.xml
 
 Modules\VersionCheck.lua
+Modules\QuestieStatus.lua
 Modules\VersionCheckDB.lua
 
 Modules\Expansions.lua

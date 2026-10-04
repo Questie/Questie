@@ -593,6 +593,7 @@ globals = {
     "C_StorePublic.IsEnabled",
     "C_TaxiMap.GetAllTaxiNodes",
     "C_TaxiMap.GetTaxiNodesForMap",
+    "C_Texture.GetAtlasInfo",
     "C_Timer.After",
     "C_UI.Reload",
     "C_UIWidgetManager.GetAllWidgetsBySetID",

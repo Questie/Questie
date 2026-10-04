@@ -18,17 +18,87 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieStatus
+local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
 
 local _LibDBIcon = LibStub("LibDBIcon-1.0")
 
 local minimapButton
+local statusBadge
 
+local statusStyles = {
+    [QuestieStatus.Severity.Error] = {
+        label = "Error", r = 1, g = 0.2, b = 0.2,
+        icon = {atlas = "common-icon-redx", texture = "Interface\\RaidFrame\\ReadyCheck-NotReady"},
+    },
+    [QuestieStatus.Severity.Warning] = {
+        label = "Warning", r = 1, g = 0.82, b = 0,
+        icon = {texture = "Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew"},
+    },
+    [QuestieStatus.Severity.Info] = {
+        label = "Information", r = 0.4, g = 0.75, b = 1,
+        icon = {texture = "Interface\\FriendsFrame\\InformationIcon"},
+    },
+}
+
+---@param icon QuestieStatusIcon
+---@return boolean loaded
+local function _SetStatusTexture(icon)
+    -- SetAtlas changes UVs; a later standalone texture must use its whole image.
+    statusBadge:SetTexCoord(0, 1, 0, 1)
+    if icon.atlas and C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(icon.atlas) then
+        statusBadge:SetAtlas(icon.atlas)
+        return true
+    end
+    if icon.texture then
+        return statusBadge:SetTexture(icon.texture)
+    end
+    return false
+end
+
+local function _UpdateStatusBadge()
+    local issue = QuestieStatus.GetBadgeIssue()
+    if not issue then
+        statusBadge:Hide()
+        return
+    end
+
+    if not (issue.icon and _SetStatusTexture(issue.icon)) then
+        assert(_SetStatusTexture(statusStyles[issue.severity].icon), "Questie minimap status icon could not be loaded")
+    end
+    statusBadge:Show()
+end
+
+local function _AddStatusLines(tooltip)
+    for _, issue in ipairs(QuestieStatus.GetIssues()) do
+        local style = statusStyles[issue.severity]
+        tooltip:AddLine(" ")
+        local message = l10n(issue.message, unpack(issue.args or {}))
+        tooltip:AddLine(l10n(style.label) .. l10n(": ") .. message, style.r, style.g, style.b, true)
+        if issue.action then
+            tooltip:AddLine(l10n(issue.action), 1, 1, 1, true)
+        end
+    end
+end
+
+---@return boolean statusUIReady Whether a status badge was installed and its initial state rendered.
 function MinimapIcon:Init()
     _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap)
 
     minimapButton = _LibDBIcon:GetMinimapButton("Questie")
 
     _MinimapIcon.RepositionIcon()
+    if not minimapButton then
+        return false
+    end
+
+    -- This texture belongs to Questie, not LibDBIcon's icon/border machinery. Parent visibility,
+    -- scale, and dragging carry it along without replacing any of the library's input scripts.
+    statusBadge = minimapButton:CreateTexture(nil, "OVERLAY", nil, 1)
+    statusBadge:SetSize(10, 10)
+    statusBadge:SetPoint("TOPRIGHT", minimapButton, "TOPRIGHT", -1, -1)
+    statusBadge:Hide()
+    return QuestieStatus.SetOnChange(_UpdateStatusBadge)
 end
 
 function _MinimapIcon:CreateDataBrokerObject()
@@ -42,6 +112,10 @@ function _MinimapIcon:CreateDataBrokerObject()
         ---@param tooltip any
         OnTooltipShow = function (tooltip)
             tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
+            _AddStatusLines(tooltip)
+            if not Questie.started then
+                return
+            end
             tooltip:AddLine(" ")
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle My Journey'), 'white'))
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
