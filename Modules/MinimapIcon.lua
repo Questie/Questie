@@ -75,6 +75,10 @@ local function _AddStatusLines(tooltip)
         tooltip:AddLine(" ")
         local message = l10n(issue.message, unpack(issue.args or {}))
         tooltip:AddLine(l10n(style.label) .. l10n(": ") .. message, style.r, style.g, style.b, true)
+        for _, detail in ipairs(issue.details or {}) do
+            local detailMessage = l10n(detail.message, unpack(detail.args or {}))
+            tooltip:AddLine("  " .. detailMessage, 0.8, 0.8, 0.8, true)
+        end
         if issue.action then
             tooltip:AddLine(l10n(issue.action), 1, 1, 1, true)
         end

@@ -9,11 +9,16 @@ QuestieStatus.Severity = {Error = 1, Warning = 2, Info = 3}
 ---@field atlas string?
 ---@field texture string|number? Fallback when the atlas is unavailable.
 
+---@class QuestieStatusDetail
+---@field message string English localization key.
+---@field args (string|number)[]?
+
 ---@class QuestieStatusIssue
 ---@field severity 1|2|3
 ---@field message string English localization key.
 ---@field args (string|number)[]?
 ---@field action string? English localization key.
+---@field details QuestieStatusDetail[]? Ordered diagnostic lines displayed before the action.
 ---@field icon QuestieStatusIcon? Omit to use the severity's default badge.
 
 ---@class QuestieStatusSnapshot : QuestieStatusIssue
@@ -26,17 +31,26 @@ local nextOrder = 0
 ---@type fun()?
 local onChange
 
-local function _CopyIssue(issue, id)
-    local copy = {
-        id = id,
-        severity = issue.severity,
-        message = issue.message,
-        action = issue.action,
-    }
-    if issue.args then
+local function _CopyText(text)
+    local copy = {message = text.message}
+    if text.args then
         copy.args = {}
-        for index, value in ipairs(issue.args) do
+        for index, value in ipairs(text.args) do
             copy.args[index] = value
+        end
+    end
+    return copy
+end
+
+local function _CopyIssue(issue, id)
+    local copy = _CopyText(issue)
+    copy.id = id
+    copy.severity = issue.severity
+    copy.action = issue.action
+    if issue.details then
+        copy.details = {}
+        for index, detail in ipairs(issue.details) do
+            copy.details[index] = _CopyText(detail)
         end
     end
     if issue.icon then

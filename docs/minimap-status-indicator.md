@@ -18,7 +18,7 @@ QuestieStatus.Set("example.startup", {
 QuestieStatus.Clear("example.startup")
 ```
 
-`message` and optional `action` are English localization keys. `args` is an optional array of strings or numbers for the message format. Actions are explanatory text, not clickable callbacks. Add new keys through the usual localization files.
+`message` and optional `action` are English localization keys. `args` is an optional array of strings or numbers for the message format. Optional `details` is an ordered array of `{message = "...", args = {...}}` records. Details appear as indented, wrapped lines between the main message and action, and are also localized on hover. Actions are explanatory text, not clickable callbacks. Add new keys through the usual localization files.
 
 | Severity | Value | Meaning |
 | --- | --- | --- |
@@ -30,7 +30,7 @@ QuestieStatus.Clear("example.startup")
 
 `GetIssues()` returns snapshots sorted by ascending severity value, then activation order. `GetBadgeIssue()` returns the winning snapshot or `nil`: the lowest severity value wins. Within that severity, a notice without an icon override wins over custom icons; otherwise the earliest active notice wins.
 
-The registry owns private, in-memory state. Inputs and returned snapshots copy the issue fields, argument array, and icon descriptor, so caller mutations do not change stored notices.
+The registry owns private, in-memory state. Inputs and returned snapshots copy the issue fields, argument array, detail records and their arguments, and icon descriptor, so caller mutations do not change stored notices.
 
 ### Custom icons
 
@@ -72,7 +72,16 @@ There is no broker badge-rendering pipeline: the LDB `icon` stays unchanged. Sup
 
 ## Source mode and startup failures
 
-[QuestieInit](../Modules/QuestieInit.lua) records Source mode as information, not a failure. It hides QuestieDB's `ModeIndicator` banner only after `MinimapIcon:Init()` returns `true`, meaning the badge was installed and its initial render succeeded. Missing UI or a missing `ModeIndicator.Hide` leaves the provider fallback in place. Successful installation still respects hidden and mouseover-only preferences; hiding the icon does not restore the banner.
+[QuestieInit](../Modules/QuestieInit.lua) calls [SourceModeStatus.Update](../Modules/SourceModeStatus.lua) before creating the minimap UI. Source mode produces two informational notices with the same custom green-plus icon:
+
+- `questiedb.source-mode`: client version/build/date, interface version, raw project constant name and ID, Questie's content expansion name and ID, season name/ID/active state, region name/ID, client locale, and all flags set by `VersionCheck`.
+- `questiedb.source-load`: provider addon version, selected data expansion from `ModeIndicator.GetStatus()`, read mode, supported contract range, and the contract required by Questie's active TOC.
+
+For example, Forever can report `WOW_PROJECT_MAINLINE (1)` alongside Questie expansion `Era (1)` and provider data expansion `Forever`. These are separate namespaces, not conflicting answers. Unknown numeric IDs remain visible as `unknown (ID)`; absent values read `unavailable`. Diagnostic identifiers and boolean values remain technical strings while row labels are localized. This reports existing detection results rather than calculating replacement flags.
+
+The details are startup snapshots, not live polling. Provider metadata describes the selected Source configuration, not successful materialization of every entity table. Reporting makes no entity queries and does not infer load durations or a Git revision. An absent optional provider diagnostics API yields unavailable fields; a throwing getter adds its error as a detail without preventing the real compatibility check. Outside Source mode, both owned notices are cleared without affecting failures from other producers.
+
+Questie hides the provider's `ModeIndicator` banner only after `MinimapIcon:Init()` returns `true`, meaning the badge was installed and its initial render succeeded. Missing UI or a missing `ModeIndicator.Hide` leaves the provider fallback in place. Successful installation still respects hidden and mouseover-only preferences; hiding the icon does not restore the banner.
 
 Known provider contract, localization-correction, asynchronous object-indexing, and support-validation failures record an error. Errors from either startup coroutine (AddonLoaded or login stages) also record an error. The first failure latches startup stopped, cancels both startup tickers when present, resets `Questie.started` and API readiness, and preserves existing once-only chat diagnostics. Reports pass through `tostring`, including `error(nil)`, so the tooltip formatter retains its argument.
 
@@ -81,6 +90,8 @@ Startup failures require a reload; clearing a notice alone does not restart init
 ## Remaining validation
 
 A live startup check on Forever build 70205 confirmed the Source-mode notice. Temporarily requiring contract 4 against provider contract 3 then stopped startup, selected the error notice over Source mode, and showed the `common-icon-redx` overlay. The client reported no unexpected Lua errors and one expected startup error in chat. The TOC requirement was restored immediately; another reload recovers. The green-plus replacement has not yet been checked live. The read-only probes below establish the original library layers and atlas availability.
+
+The diagnostics extension passed 2,184 consumer tests against an isolated contract-3 provider snapshot, full lint, loader validation, and focused review. Its expanded tooltip has not been checked live; verify height and wrapping, especially the detection-flag lines.
 
 Visually check badge legibility and hover layering, dragging, minimap/UI scale, hidden and mouseover-only settings, and transitions between error, warning, information, and no notices. Check ordinary addon updates during combat and tooltip behavior on supporting brokers. Skin compatibility and behavior across all Questie clients remain unverified.
 

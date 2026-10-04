@@ -181,7 +181,10 @@ describe("MinimapIcon", function()
         it("localizes every notice on hover and omits unusable controls before startup completes", function()
             Questie.started = false
             issues = {
-                {severity = QuestieStatus.Severity.Error, message = "Cannot load %s.", args = {"QuestieDB"}, action = "Try again."},
+                {
+                    severity = QuestieStatus.Severity.Error, message = "Cannot load %s.", args = {"QuestieDB"}, action = "Try again.",
+                    details = {{message = "Loaded %s (%d)", args = {"QuestieDB", 42}}, {message = "Source mode"}},
+                },
                 {severity = QuestieStatus.Severity.Info, message = "Source mode"},
             }
             MinimapIcon:Init()
@@ -189,6 +192,7 @@ describe("MinimapIcon", function()
             l10n.translations["Error"] = {deDE = "Fehler"}
             l10n.translations["Cannot load %s."] = {deDE = "%s konnte nicht geladen werden."}
             l10n.translations["Try again."] = {deDE = "Erneut versuchen."}
+            l10n.translations["Loaded %s (%d)"] = {deDE = "%s geladen (%d)"}
             l10n.translations["Source mode"] = {deDE = "Quellmodus"}
             l10n:SetUILocale("deDE")
             local lines = {}
@@ -199,9 +203,13 @@ describe("MinimapIcon", function()
 
             dataObject.OnTooltipShow(tooltip)
 
-            assert.are_same({" ", "Fehler: QuestieDB konnte nicht geladen werden.", "Erneut versuchen.",
+            assert.are_same({" ", "Fehler: QuestieDB konnte nicht geladen werden.",
+                "  QuestieDB geladen (42)", "  Quellmodus", "Erneut versuchen.",
                 " ", "Information: Quellmodus"}, lines)
             assert.spy(tooltip.AddLine).was.called_with(tooltip, lines[2], 1, 0.2, 0.2, true)
+            assert.spy(tooltip.AddLine).was.called_with(tooltip, lines[3], 0.8, 0.8, 0.8, true)
+            assert.spy(tooltip.AddLine).was.called_with(tooltip, lines[4], 0.8, 0.8, 0.8, true)
+            assert.spy(tooltip.AddLine).was.called_with(tooltip, lines[5], 1, 1, 1, true)
             assert.spy(tooltip.AddDoubleLine).was.called(1)
         end)
 

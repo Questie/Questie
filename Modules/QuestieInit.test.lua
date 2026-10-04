@@ -81,6 +81,7 @@ describe("QuestieInit", function()
         local Tutorial = QuestieLoader:ImportModule("Tutorial")
         Tutorial.Initialize = _Record("Tutorial.Initialize")
 
+        dofile("Modules/SourceModeStatus.lua")
         dofile("Modules/QuestieInit.lua")
         QuestieInit = QuestieLoader:ImportModule("QuestieInit")
     end)
@@ -358,11 +359,12 @@ describe("QuestieInit", function()
             mock.lib.ModeIndicator = {Hide = _Record("Hide banner")}
             QuestieLoader:ImportModule("MinimapIcon").Init = function()
                 assert.are_same({}, callOrder)
-                assert.are_same({{
-                    id = "questiedb.source-mode", severity = QuestieStatus.Severity.Info,
-                    message = "QuestieDB is running in Source mode.",
-                    icon = {texture = "Interface\\AddOns\\Questie\\Icons\\green_plus.png"},
-                }}, QuestieStatus.GetIssues())
+                local issues = QuestieStatus.GetIssues()
+                assert.are_same(2, #issues)
+                assert.are_same("questiedb.source-mode", issues[1].id)
+                assert.are_same("questiedb.source-load", issues[2].id)
+                assert.are_same("Client: %s (build %s, %s)", issues[1].details[1].message)
+                assert.are_same("Interface\\AddOns\\Questie\\Icons\\green_plus.png", QuestieStatus.GetBadgeIssue().icon.texture)
                 table.insert(callOrder, "UI registered")
                 return true
             end

@@ -116,6 +116,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 ---@type QuestieStatus
 local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
+---@type SourceModeStatus
+local SourceModeStatus = QuestieLoader:ImportModule("SourceModeStatus")
 
 local coYield = coroutine.yield
 local startupFailed = false
@@ -406,16 +408,7 @@ end
 function QuestieInit.OnAddonLoaded()
     if startupFailed then return false end
 
-    local sourceMode = LibQuestieDB and LibQuestieDB.readMode == "source"
-    if sourceMode then
-        QuestieStatus.Set("questiedb.source-mode", {
-            severity = QuestieStatus.Severity.Info,
-            message = "QuestieDB is running in Source mode.",
-            icon = {texture = "Interface\\AddOns\\Questie\\Icons\\green_plus.png"},
-        })
-    else
-        QuestieStatus.Clear("questiedb.source-mode")
-    end
+    local sourceMode = SourceModeStatus.Update()
 
     -- Keep the provider banner unless Questie's replacement UI has registered successfully.
     local statusUIReady = MinimapIcon:Init() == true

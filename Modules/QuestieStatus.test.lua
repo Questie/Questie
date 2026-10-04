@@ -101,24 +101,35 @@ describe("QuestieStatus", function()
         local input = {
             severity = 1, message = "Missing %s (%d)", args = {"data", 7},
             action = "Reload", icon = {atlas = "status", texture = 123},
+            details = {{message = "Loaded %s (%d)", args = {"quests", 42}}, {message = "Source mode"}},
         }
         QuestieStatus.Set("owned", input)
         input.message = "Changed"
         input.args[1] = "changed"
         input.icon.texture = 999
+        input.details[1].message = "Changed"
+        input.details[1].args[1] = "changed"
+        input.details[2] = {message = "Changed"}
 
         local list = QuestieStatus.GetIssues()
         list[1].severity = 3
         list[1].args[2] = 0
         list[1].icon.atlas = "changed"
+        list[1].details[1].message = "Changed"
+        list[1].details[1].args[2] = 0
+        list[1].details[2] = nil
         list[2] = {id = "injected"}
         local badge = QuestieStatus.GetBadgeIssue()
         badge.message = "Changed"
         badge.args[1] = "changed"
         badge.icon.texture = 999
+        badge.details[1].message = "Changed"
+        badge.details[1].args[1] = "changed"
+        badge.details[2] = nil
         assert.are.same({{
             id = "owned", severity = 1, message = "Missing %s (%d)", args = {"data", 7},
             action = "Reload", icon = {atlas = "status", texture = 123},
+            details = {{message = "Loaded %s (%d)", args = {"quests", 42}}, {message = "Source mode"}},
         }}, QuestieStatus.GetIssues())
     end)
 
