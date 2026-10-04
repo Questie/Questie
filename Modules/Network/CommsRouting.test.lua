@@ -6,6 +6,9 @@ describe("CommsRouting", function()
 
     before_each(function()
         _G.UnitName = function() return "Player" end
+        _G.UnitFullName = function() return "Player", "ClassicBetaPvE" end
+        _G.GetNormalizedRealmName = function() return "ClassicBetaPvE" end
+        _G.GetRealmName = function() return "Classic Beta PvE" end
         _G.UnitInParty = function(unit) return unit == "PartyFriend" end
         _G.UnitInRaid = function(unit) return unit == "RaidFriend" end
 
@@ -38,6 +41,25 @@ describe("CommsRouting", function()
         it("uses AceComm's short-name sender normalization", function()
             assert.is_true(CommsRouting:IsSelf("Player"))
             assert.is_false(CommsRouting:IsSelf("Player-OtherRealm"))
+        end)
+
+        it("recognizes our own sender when AceComm keeps the realm suffix", function()
+            assert.is_true(CommsRouting:IsSelf("Player-ClassicBetaPvE"))
+            assert.is_true(CommsRouting:IsSelf("Player-Classic Beta PvE"))
+            assert.is_true(CommsRouting:IsSelf("Player-classicbetapve"))
+        end)
+
+        it("falls back to the realm APIs before UnitFullName has a realm", function()
+            _G.UnitFullName = function() return "Player", nil end
+            assert.is_true(CommsRouting:IsSelf("Player-ClassicBetaPvE"))
+        end)
+
+        it("rejects other players and invalid senders", function()
+            assert.is_false(CommsRouting:IsSelf("Other"))
+            assert.is_false(CommsRouting:IsSelf("Other-ClassicBetaPvE"))
+            assert.is_false(CommsRouting:IsSelf("Players"))
+            assert.is_false(CommsRouting:IsSelf(""))
+            assert.is_false(CommsRouting:IsSelf(nil))
         end)
     end)
 
