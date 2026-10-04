@@ -18,6 +18,35 @@ describe("QuestieCompat", function()
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end)
 
+    describe("IsQuestSequenced", function()
+        local originalIsQuestSequenced
+
+        before_each(function()
+            originalIsQuestSequenced = _G.IsQuestSequenced
+        end)
+
+        after_each(function()
+            _G.IsQuestSequenced = originalIsQuestSequenced
+        end)
+
+        it("forwards the quest ID and returns a positive native classification", function()
+            local classify = spy.new(function() return true end)
+            _G.IsQuestSequenced = function(questId) return classify(questId) end
+            assert.is_true(QuestieCompat.IsQuestSequenced(93927))
+            assert.spy(classify).was.called_with(93927)
+        end)
+
+        it("returns false for a negative classification", function()
+            _G.IsQuestSequenced = function() return false end
+            assert.is_false(QuestieCompat.IsQuestSequenced(93927))
+        end)
+
+        it("returns false when the client has no sequencing API", function()
+            _G.IsQuestSequenced = nil
+            assert.is_false(QuestieCompat.IsQuestSequenced(93927))
+        end)
+    end)
+
     describe("GetAvailableQuests", function()
         it("should error when no function is available", function()
             _G.C_GossipInfo = nil

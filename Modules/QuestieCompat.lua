@@ -565,6 +565,14 @@ function QuestieCompat.GetItemInfo(item)
     error(errorMsg, 2)
 end
 
+---Classifies quests whose objectives can change; true does not mean another stage remains.
+---Clients without this API retain legacy completion handling, not a guarantee of exhaustive objectives.
+---@param questId QuestId
+---@return boolean
+function QuestieCompat.IsQuestSequenced(questId)
+    return type(IsQuestSequenced) == "function" and IsQuestSequenced(questId) == true
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestFlaggedCompleted)
 ---Returns whether the game currently flags this quest as completed for the character.
 ---@param questID QuestId

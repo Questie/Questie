@@ -1721,6 +1721,7 @@ globals = {
     "IsQuestCompletable",
     "IsQuestComplete",
     "IsQuestFlaggedCompleted",
+    "IsQuestSequenced",
     "IsQuestHardWatched",
     "IsQuestItemHidden",
     "IsQuestWatched",
