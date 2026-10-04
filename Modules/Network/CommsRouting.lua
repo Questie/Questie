@@ -24,16 +24,38 @@ function CommsRouting:GetGroupBroadcastDistribution(input)
     return groupBroadcastByInput[input]
 end
 
+---Realm names differ between APIs only by spaces, dashes and case ("Classic Beta PvE" vs "ClassicBetaPvE").
+---@param realm string?
+---@return string?
+local function _NormalizeRealm(realm)
+    if type(realm) ~= "string" or realm == "" then
+        return nil
+    end
+    return realm:gsub("[%s%-]", ""):lower()
+end
+
 ---AceComm calls Ambiguate(sender, "none"), which usually makes our own sender the short player name.
 ---Realms whose display name differs from the normalized one (e.g. "Classic Beta PvE") can keep the
----realm suffix, so also resolve the name as a unit before treating it as another player.
+---realm suffix, so compare the full name with both realms normalized the same way.
 ---@param sender string
 ---@return boolean
 function CommsRouting:IsSelf(sender)
     if type(sender) ~= "string" or sender == "" then
         return false
     end
-    return sender == UnitName("player") or UnitIsUnit(sender, "player") == true
+    local playerName, playerRealm = UnitFullName("player")
+    -- Character names never contain dashes or spaces, so the first one starts the realm suffix.
+    local senderName, senderRealm = sender:match("^([^%-%s]+)[%-%s]?(.*)$")
+    if (not senderName) or senderName ~= playerName then
+        return false
+    end
+    senderRealm = _NormalizeRealm(senderRealm)
+    if not senderRealm then
+        return true
+    end
+    return senderRealm == _NormalizeRealm(playerRealm)
+        or senderRealm == _NormalizeRealm(GetNormalizedRealmName and GetNormalizedRealmName())
+        or senderRealm == _NormalizeRealm(GetRealmName())
 end
 
 ---Returns true when the addon message arrived over a grouped distribution from a grouped sender.
