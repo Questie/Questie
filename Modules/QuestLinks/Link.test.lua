@@ -64,7 +64,7 @@ describe("QuestieLink", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetEffectiveQuestLevel = function() return 10 end
         QuestieLib.GetLevelString = function() return "[10] " end
-        QuestieLib.PrintDifficultyColor = function(_, _, ...) return "|cffffffff" end
+        QuestieLib.PrintDifficultyColor = spy.new(function() return "|cffffffff" end)
 
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieEvent.IsEventQuest = function() return false end
@@ -105,6 +105,17 @@ describe("QuestieLink", function()
             local result = QuestieLink.GetQuestLinkStringById(1234)
 
             assert.are_same("[Test Quest (1234)]", result)
+        end)
+    end)
+
+    describe("GetQuestHyperLink", function()
+        it("colors both brackets using the linked quest ID", function()
+            QuestieLib.GetColoredQuestName = function() return "Test Quest" end
+
+            QuestieLink:GetQuestHyperLink(1234, "Player-1234")
+
+            assert.spy(QuestieLib.PrintDifficultyColor).was.called_with(QuestieLib, 10, "[", false, false, false, 1234)
+            assert.spy(QuestieLib.PrintDifficultyColor).was.called_with(QuestieLib, 10, "]", false, false, false, 1234)
         end)
     end)
 
@@ -217,6 +228,7 @@ describe("QuestieLink", function()
                 " - Fierce Boar",
                 " - Argent Dawn",
             }, tooltipLines)
+            assert.spy(QuestieLib.PrintDifficultyColor).was.called_with(QuestieLib, 10, "", false, false, false, 1234)
             assert.spy(QuestieDB.QueryNPCSingle).was.called_with(101, "name")
             assert.spy(QuestieReputation.GetFactionName).was.called_with(201)
         end)

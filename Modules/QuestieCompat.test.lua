@@ -749,6 +749,7 @@ describe("QuestieCompat Classic paths", function()
     local names = {
         "GetBuildInfo", "Questie", "QuestWatchFrame", "WatchFrame", "CreateFrame",
         "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "GetQuestGreenRange",
+        "C_PlayerInfo", "HaveQuestData",
     }
     local watchFrame
 
@@ -817,6 +818,15 @@ describe("QuestieCompat Classic paths", function()
         assert.spy(GetQuestGreenRange).was.called_with("player")
     end)
 
+    it("leaves Classic difficulty coloring level-based even when the native API exists", function()
+        _G.C_PlayerInfo = {GetContentDifficultyQuestForPlayer = spy.new(function() return 0 end)}
+        _G.HaveQuestData = spy.new(function() return true end)
+
+        assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+        assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.not_called()
+        assert.spy(HaveQuestData).was.not_called()
+    end)
+
     it("does not treat Retail's interface version as Forever", function()
         _G.GetBuildInfo = function() return "12.0.0", "0", "", 120000 end
         dofile("Modules/QuestieCompat.lua")
@@ -837,7 +847,7 @@ describe("QuestieCompat Forever paths", function()
     local dependencies = {
         "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "Enum", "CreateFrame",
         "ObjectiveTrackerFrame", "InCombatLockdown", "GetBuildInfo", "Questie", "C_UnitAuras", "AuraUtil",
-        "UnitQuestTrivialLevelRange", "GetCVarBool",
+        "UnitQuestTrivialLevelRange", "GetCVarBool", "C_PlayerInfo", "HaveQuestData",
     }
     local savedGlobals
     local questInfo
@@ -911,6 +921,47 @@ describe("QuestieCompat Forever paths", function()
         _G.GetQuestGreenRange = function() error("legacy helper") end
         assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
         assert.spy(UnitQuestTrivialLevelRange).was.called_with("player")
+    end)
+
+    describe("GetQuestDifficulty", function()
+        before_each(function()
+            _G.C_PlayerInfo = {GetContentDifficultyQuestForPlayer = spy.new(function() return 0 end)}
+            _G.HaveQuestData = spy.new(function() return true end)
+        end)
+
+        it("returns the quest-ID difficulty including the zero-valued Trivial category", function()
+            assert.are.equal(0, QuestieCompat.GetQuestDifficulty(94414))
+            assert.spy(HaveQuestData).was.called_with(94414)
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.called_with(94414)
+        end)
+
+        it("falls back while data is uncached and reads native difficulty once it is cached", function()
+            _G.HaveQuestData = function() return false end
+
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.not_called()
+
+            _G.HaveQuestData = function() return true end
+
+            assert.are.equal(0, QuestieCompat.GetQuestDifficulty(94414))
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.called_with(94414)
+        end)
+
+        it("does not query native data without a valid quest ID", function()
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(nil))
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(0))
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(-1))
+            assert.spy(HaveQuestData).was.not_called()
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.not_called()
+        end)
+
+        it("falls back when the native difficulty API is unavailable", function()
+            _G.C_PlayerInfo = {}
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+
+            _G.C_PlayerInfo = nil
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+        end)
     end)
 
     it("keeps the full Forever aura tuple without calling an existing legacy global", function()
