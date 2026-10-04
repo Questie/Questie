@@ -1,6 +1,7 @@
 dofile("setupTests.lua")
 
 describe("SourceModeStatus", function()
+    local GOLD, GREEN, RED, GREY = "|cffffd100", "|cff40ff40", "|cffff8080", "|cff909090"
     local SourceModeStatus, QuestieStatus, Expansions, QuestieCompat
     local savedGlobals, originalExpansion, originalMetadata
     local globalNames = {
@@ -60,32 +61,50 @@ describe("SourceModeStatus", function()
         assert.are_same(QuestieStatus.Severity.Info, issues[1].severity)
         assert.are_same("QuestieDB is running in Source mode.", issues[1].message)
         assert.are_same({
-            {message = "Client: %s (build %s, %s)", args = {"1.60.1", "70205", "Sep 29 2026"}},
-            {message = "Interface: %s", args = {"16001"}},
-            {message = "Project: %s (%s)", args = {"WOW_PROJECT_MAINLINE", "1"}},
-            {message = "Questie expansion: %s (%s)", args = {"Era", "1"}},
-            {message = "Season: %s (%s), active: %s", args = {"None", "0", "false"}},
-            {message = "Region: %s (%s), locale: %s", args = {"EU", "3", "enUS"}},
+            {message = "Client: %s (build %s, %s)", args = {GOLD .. "1.60.1|r", GOLD .. "70205|r", GOLD .. "Sep 29 2026|r"}},
+            {message = "Interface: %s", args = {GOLD .. "16001|r"}},
+            {message = "Project: %s (%s)", args = {GOLD .. "WOW_PROJECT_MAINLINE|r", GOLD .. "1|r"}},
+            {message = "Questie expansion: %s (%s)", args = {GOLD .. "Era|r", GOLD .. "1|r"}},
+            {message = "Season: %s (%s), active: %s", args = {GOLD .. "None|r", GOLD .. "0|r", RED .. "false|r"}},
+            {message = "Region: %s (%s), locale: %s", args = {GOLD .. "EU|r", GOLD .. "3|r", GOLD .. "enUS|r"}},
             {message = "Client flags: %s", args = {
-                "IsForever=true, IsClassic=true, IsEra=true, IsTBC=false, IsWotlk=false, IsCata=false, IsMoP=false",
+                "IsForever: " .. GREEN .. "true|r, IsClassic: " .. GREEN .. "true|r, IsEra: " .. GREEN .. "true|r, " ..
+                "IsTBC: " .. RED .. "false|r, IsWotlk: " .. RED .. "false|r, IsCata: " .. RED .. "false|r, IsMoP: " .. RED .. "false|r",
             }},
             {message = "Realm flags: %s", args = {
-                "IsSoM=false, IsSoD=false, IsTitanReforged=false, IsAnniversaryEra=false, " ..
-                "IsAnniversaryTBC=false, IsAnniversaryHardcore=false, IsHardcore=false",
+                "IsSoM: " .. RED .. "false|r, IsSoD: " .. RED .. "false|r, IsTitanReforged: " .. RED .. "false|r, " ..
+                "IsAnniversaryEra: " .. RED .. "false|r, IsAnniversaryTBC: " .. RED .. "false|r, " ..
+                "IsAnniversaryHardcore: " .. RED .. "false|r, IsHardcore: " .. RED .. "false|r",
             }},
-            {message = "Region flags: %s", args = {"IsChinaRegion=false, IsEURegion=true"}},
+            {message = "Region flags: %s", args = {"IsChinaRegion: " .. RED .. "false|r, IsEURegion: " .. GREEN .. "true|r"}},
         }, issues[1].details)
         assert.are_same("questiedb.source-load", issues[2].id)
         assert.are_same(QuestieStatus.Severity.Info, issues[2].severity)
         assert.are_same("QuestieDB Source load information.", issues[2].message)
         assert.are_same({
-            {message = "Provider version: %s", args = {"1.0.4"}},
-            {message = "Data expansion: %s", args = {"Forever"}},
-            {message = "Read mode: %s", args = {"source"}},
-            {message = "Provider contracts: %s to %s; Questie requires %s", args = {"1", "3", "3"}},
+            {message = "Provider version: %s", args = {GOLD .. "1.0.4|r"}},
+            {message = "Data expansion: %s", args = {GOLD .. "Forever|r"}},
+            {message = "Read mode: %s", args = {GOLD .. "source|r"}},
+            {message = "Provider contracts: %s to %s; Questie requires %s", args = {GOLD .. "1|r", GOLD .. "3|r", GOLD .. "3|r"}},
         }, issues[2].details)
         assert.are_same("Interface\\AddOns\\Questie\\Icons\\green_plus.png", QuestieStatus.GetBadgeIssue().icon.texture)
         assert.are_same(issues[1].icon, issues[2].icon)
+    end)
+
+    it("preserves value colors when detail labels are translated on hover", function()
+        Questie.db = {profile = {}}
+        dofile("Localization/l10n.lua")
+        local l10n = QuestieLoader:ImportModule("l10n")
+        l10n.translations["Project: %s (%s)"] = {deDE = "Projekt: %s (%s)"}
+        l10n.translations["Client flags: %s"] = {deDE = "Client-Flags: %s"}
+        l10n:SetUILocale("deDE")
+        SourceModeStatus.Update()
+        local details = QuestieStatus.GetIssues()[1].details
+
+        assert.are_same("Projekt: " .. GOLD .. "WOW_PROJECT_MAINLINE|r (" .. GOLD .. "1|r)",
+            l10n(details[3].message, unpack(details[3].args)))
+        assert.matches("Client-Flags: IsForever: " .. GREEN .. "true|r",
+            l10n(details[7].message, unpack(details[7].args)), 1, true)
     end)
 
     it("reports Classic seasonal identity without using the season as the content expansion", function()
@@ -99,10 +118,10 @@ describe("SourceModeStatus", function()
         SourceModeStatus.Update()
 
         local issues = QuestieStatus.GetIssues()
-        assert.are_same({"WOW_PROJECT_CLASSIC", "2"}, issues[1].details[3].args)
-        assert.are_same({"Era", "1"}, issues[1].details[4].args)
-        assert.are_same({"SeasonOfDiscovery", "2", "true"}, issues[1].details[5].args)
-        assert.are_same({"Classic"}, issues[2].details[2].args)
+        assert.are_same({GOLD .. "WOW_PROJECT_CLASSIC|r", GOLD .. "2|r"}, issues[1].details[3].args)
+        assert.are_same({GOLD .. "Era|r", GOLD .. "1|r"}, issues[1].details[4].args)
+        assert.are_same({GOLD .. "SeasonOfDiscovery|r", GOLD .. "2|r", GREEN .. "true|r"}, issues[1].details[5].args)
+        assert.are_same({GOLD .. "Classic|r"}, issues[2].details[2].args)
     end)
 
     it("names Titan's explicit season ID even when Blizzard has no enum entry", function()
@@ -114,9 +133,9 @@ describe("SourceModeStatus", function()
         SourceModeStatus.Update()
 
         local details = QuestieStatus.GetIssues()[1].details
-        assert.are_same({"WOW_PROJECT_WRATH_CLASSIC", "11"}, details[3].args)
-        assert.are_same({"Wotlk", "3"}, details[4].args)
-        assert.are_same({"TitanReforged", "109", "true"}, details[5].args)
+        assert.are_same({GOLD .. "WOW_PROJECT_WRATH_CLASSIC|r", GOLD .. "11|r"}, details[3].args)
+        assert.are_same({GOLD .. "Wotlk|r", GOLD .. "3|r"}, details[4].args)
+        assert.are_same({GOLD .. "TitanReforged|r", GOLD .. "109|r", GREEN .. "true|r"}, details[5].args)
     end)
 
     it("preserves unknown IDs and marks missing diagnostics instead of guessing a flavor", function()
@@ -130,12 +149,12 @@ describe("SourceModeStatus", function()
         SourceModeStatus.Update()
 
         local issues = QuestieStatus.GetIssues()
-        assert.are_same({"unknown", "999"}, issues[1].details[3].args)
-        assert.are_same({"unavailable", "unavailable"}, issues[1].details[4].args)
-        assert.are_same({"unknown", "777", "false"}, issues[1].details[5].args)
-        assert.are_same({"unavailable"}, issues[2].details[1].args)
-        assert.are_same({"unavailable"}, issues[2].details[2].args)
-        assert.are_same({"unavailable", "3", "unavailable"}, issues[2].details[4].args)
+        assert.are_same({GREY .. "unknown|r", GOLD .. "999|r"}, issues[1].details[3].args)
+        assert.are_same({GREY .. "unavailable|r", GREY .. "unavailable|r"}, issues[1].details[4].args)
+        assert.are_same({GREY .. "unknown|r", GOLD .. "777|r", RED .. "false|r"}, issues[1].details[5].args)
+        assert.are_same({GREY .. "unavailable|r"}, issues[2].details[1].args)
+        assert.are_same({GREY .. "unavailable|r"}, issues[2].details[2].args)
+        assert.are_same({GREY .. "unavailable|r", GOLD .. "3|r", GREY .. "unavailable|r"}, issues[2].details[4].args)
     end)
 
     it("records an optional provider diagnostics failure without aborting startup reporting", function()
@@ -145,7 +164,7 @@ describe("SourceModeStatus", function()
 
         local details = QuestieStatus.GetIssues()[2].details
         assert.are_same({message = "Provider diagnostics unavailable: %s", args = {"diagnostic failure"}}, details[5])
-        assert.are_same({"source"}, details[3].args)
+        assert.are_same({GOLD .. "source|r"}, details[3].args)
     end)
 
     it("keeps reporting when a client season getter fails even with no active season", function()
@@ -155,7 +174,7 @@ describe("SourceModeStatus", function()
 
         local issues = QuestieStatus.GetIssues()
         assert.are_same({{message = "Client diagnostics unavailable: %s", args = {"season API failed"}}}, issues[1].details)
-        assert.are_same({"Forever"}, issues[2].details[2].args)
+        assert.are_same({GOLD .. "Forever|r"}, issues[2].details[2].args)
         assert.are_same(QuestieStatus.Severity.Info, issues[1].severity)
     end)
 
@@ -165,7 +184,7 @@ describe("SourceModeStatus", function()
         assert.is_true(SourceModeStatus.Update())
 
         local issues = QuestieStatus.GetIssues()
-        assert.are_same({"16001"}, issues[1].details[2].args)
+        assert.are_same({GOLD .. "16001|r"}, issues[1].details[2].args)
         assert.are_same({{message = "Provider diagnostics unavailable: %s", args = {"metadata API failed"}}}, issues[2].details)
     end)
 
@@ -174,7 +193,7 @@ describe("SourceModeStatus", function()
         LibQuestieDB.contractVersion = 4
         SourceModeStatus.Update()
         assert.are_same(2, #QuestieStatus.GetIssues())
-        assert.are_same({"1", "4", "3"}, QuestieStatus.GetIssues()[2].details[4].args)
+        assert.are_same({GOLD .. "1|r", GOLD .. "4|r", GOLD .. "3|r"}, QuestieStatus.GetIssues()[2].details[4].args)
         QuestieStatus.Set("startup", {severity = QuestieStatus.Severity.Error, message = "Startup failed"})
         LibQuestieDB.readMode = "baked"
 

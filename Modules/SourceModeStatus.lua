@@ -19,9 +19,19 @@ local REALM_FLAGS = {
     "IsSoM", "IsSoD", "IsTitanReforged", "IsAnniversaryEra", "IsAnniversaryTBC", "IsAnniversaryHardcore", "IsHardcore",
 }
 
--- Preserve false and zero, and keep missing values from creating holes in format arguments.
+-- Source diagnostics use %s placeholders, so value-only color markup survives localization.
+-- Labels and separators retain the tooltip's grey; missing values must not create argument holes.
 local function _Value(value)
-    return value == nil and "unavailable" or tostring(value)
+    local text = value == nil and "unavailable" or tostring(value)
+    local color = "|cffffd100"
+    if value == true then
+        color = "|cff40ff40"
+    elseif value == false then
+        color = "|cffff8080"
+    elseif text == "unknown" or text == "unavailable" then
+        color = "|cff909090"
+    end
+    return color .. text .. "|r"
 end
 
 local function _ConstantName(value, constants, names)
@@ -48,7 +58,7 @@ end
 local function _Flags(names)
     local values = {}
     for _, name in ipairs(names) do
-        values[#values + 1] = name .. "=" .. _Value(Questie[name])
+        values[#values + 1] = name .. ": " .. _Value(Questie[name])
     end
     return table.concat(values, ", ")
 end
@@ -68,12 +78,14 @@ local function _ClientDetails()
     return {
         {message = "Client: %s (build %s, %s)", args = {_Value(version), _Value(build), _Value(buildDate)}},
         {message = "Interface: %s", args = {_Value(interfaceVersion)}},
-        {message = "Project: %s (%s)", args = {_ConstantName(WOW_PROJECT_ID, _G, PROJECT_NAMES), _Value(WOW_PROJECT_ID)}},
-        {message = "Questie expansion: %s (%s)", args = {
-            _ConstantName(Expansions.Current, Expansions, EXPANSION_NAMES), _Value(Expansions.Current),
+        {message = "Project: %s (%s)", args = {
+            _Value(_ConstantName(WOW_PROJECT_ID, _G, PROJECT_NAMES)), _Value(WOW_PROJECT_ID),
         }},
-        {message = "Season: %s (%s), active: %s", args = {_SeasonName(seasonId), _Value(seasonId), _Value(hasSeason)}},
-        {message = "Region: %s (%s), locale: %s", args = {REGION_NAMES[region] or "unknown", _Value(region), _Value(locale)}},
+        {message = "Questie expansion: %s (%s)", args = {
+            _Value(_ConstantName(Expansions.Current, Expansions, EXPANSION_NAMES)), _Value(Expansions.Current),
+        }},
+        {message = "Season: %s (%s), active: %s", args = {_Value(_SeasonName(seasonId)), _Value(seasonId), _Value(hasSeason)}},
+        {message = "Region: %s (%s), locale: %s", args = {_Value(REGION_NAMES[region] or "unknown"), _Value(region), _Value(locale)}},
         {message = "Client flags: %s", args = {_Flags(CLIENT_FLAGS)}},
         {message = "Realm flags: %s", args = {_Flags(REALM_FLAGS)}},
         {message = "Region flags: %s", args = {_Flags({"IsChinaRegion", "IsEURegion"})}},
