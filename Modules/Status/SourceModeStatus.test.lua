@@ -41,9 +41,9 @@ describe("SourceModeStatus", function()
             readMode = "source", contractVersion = 3, minSupportedContract = 1,
             ModeIndicator = {GetStatus = function() return {mode = "source", expansion = "Forever", contractVersion = 3} end},
         }
-        dofile("Modules/QuestieStatus.lua")
+        dofile("Modules/Status/QuestieStatus.lua")
         QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
-        dofile("Modules/SourceModeStatus.lua")
+        dofile("Modules/Status/SourceModeStatus.lua")
         SourceModeStatus = QuestieLoader:ImportModule("SourceModeStatus")
     end)
 

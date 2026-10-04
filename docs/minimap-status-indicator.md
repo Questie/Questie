@@ -4,7 +4,7 @@ Questie displays active notices as a badge on its native minimap button and as t
 
 ## Recording notices
 
-Use [QuestieStatus](../Modules/QuestieStatus.lua) with a stable producer-owned ID. Producers explicitly set and clear their own notices; there is no persistence, automatic `Questie.Error()` capture, or global error hook.
+Use [QuestieStatus](../Modules/Status/QuestieStatus.lua) with a stable producer-owned ID. Producers explicitly set and clear their own notices; there is no persistence, automatic `Questie.Error()` capture, or global error hook.
 
 ```lua
 local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
@@ -72,7 +72,7 @@ There is no broker badge-rendering pipeline: the LDB `icon` stays unchanged. Sup
 
 ## Source mode and startup failures
 
-[QuestieInit](../Modules/QuestieInit.lua) calls [SourceModeStatus.Update](../Modules/SourceModeStatus.lua) before creating the minimap UI. Source mode produces two informational notices with the same custom green-plus icon:
+[QuestieInit](../Modules/QuestieInit.lua) calls [SourceModeStatus.Update](../Modules/Status/SourceModeStatus.lua) before creating the minimap UI. Source mode produces two informational notices with the same custom green-plus icon:
 
 - `questiedb.source-mode`: client version/build/date, interface version, raw project constant name and ID, Questie's content expansion name and ID, season name/ID/active state, region name/ID, client locale, and all flags set by `VersionCheck`.
 - `questiedb.source-load`: provider addon version, selected data expansion from `ModeIndicator.GetStatus()`, read mode, supported contract range, and the contract required by Questie's active TOC.

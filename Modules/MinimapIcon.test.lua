@@ -153,7 +153,7 @@ describe("MinimapIcon", function()
             _G.geterrorhandler = function() return function(message) reportError(message) end end
             _G.C_Texture = nil
             badge.SetTexture = function() return false end
-            dofile("Modules/QuestieStatus.lua")
+            dofile("Modules/Status/QuestieStatus.lua")
             QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
             QuestieStatus.Set("startup", {severity = QuestieStatus.Severity.Error, message = "Startup failed"})
 

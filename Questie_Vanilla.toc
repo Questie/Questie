@@ -44,11 +44,11 @@ Modules\QuestieCompat.lua
 embeds.xml
 
 Modules\VersionCheck.lua
-Modules\QuestieStatus.lua
+Modules\Status\QuestieStatus.lua
 Modules\VersionCheckDB.lua
 
 Modules\Expansions.lua
-Modules\SourceModeStatus.lua
+Modules\Status\SourceModeStatus.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua

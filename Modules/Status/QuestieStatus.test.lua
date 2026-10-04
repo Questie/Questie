@@ -17,7 +17,7 @@ describe("QuestieStatus", function()
         _G.geterrorhandler = function()
             return function(message) reportError(message) end
         end
-        dofile("Modules/QuestieStatus.lua")
+        dofile("Modules/Status/QuestieStatus.lua")
         QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
     end)
 

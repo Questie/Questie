@@ -39,7 +39,7 @@ describe("QuestieInit", function()
         originalStarted, originalReady = Questie.started, Questie.API.isReady
         originalProvider, originalProfile, originalIsSoD = LibQuestieDB, Questie.db.profile, Questie.IsSoD
         Questie.db.profile = {}
-        dofile("Modules/QuestieStatus.lua")
+        dofile("Modules/Status/QuestieStatus.lua")
         QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
         originalGetMetadata = C_AddOns.GetAddOnMetadata
         originalGetBuildInfo = _G.GetBuildInfo
@@ -82,7 +82,7 @@ describe("QuestieInit", function()
         local Tutorial = QuestieLoader:ImportModule("Tutorial")
         Tutorial.Initialize = _Record("Tutorial.Initialize")
 
-        dofile("Modules/SourceModeStatus.lua")
+        dofile("Modules/Status/SourceModeStatus.lua")
         dofile("Modules/QuestieInit.lua")
         QuestieInit = QuestieLoader:ImportModule("QuestieInit")
     end)
