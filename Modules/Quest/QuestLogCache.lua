@@ -184,9 +184,9 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
 
     local isComplete = isCompleteAccordingToBlizzard
     if (not isCompleteAccordingToBlizzard) then
-        -- if quest is not complete, check if all objectives are finished.
-        -- Blizzard keeps adding invalid empty objectives to quests and therefore not marking them as complete, so we need to work around that.
-        isComplete = allObjectivesFinished and 1 or 0
+        -- A finished visible stage is not a finished sequenced quest. Premature completion would also
+        -- make the recovery guard reject the next stage. Keep the legacy empty-row workaround otherwise.
+        isComplete = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished and 1 or 0
     end
 
     return newObjectives, changedObjIds, isComplete, needsRetry
@@ -239,26 +239,20 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                         if not needsRetry then
                             questsAwaitingRecovery[questId] = nil
                         end
-                        if (not cachedQuest) or (#cachedObjectives == #newObjectives and cachedQuest.isComplete ~= isComplete) then
-                            -- Mark all objectives changed to force update those too.
-
-                            -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
+                        if (not cachedQuest) or cachedQuest.isComplete ~= isComplete then
+                            -- Publish completion changes even when the final stage removes objective rows.
+                            -- An empty change list still notifies consumers of the new quest-wide status.
                             changedObjIds = {}
-                            for i=1, #newObjectives do
-                                changedObjIds[i] = i
-                            end
-
-                            if isComplete == 1 then
-                                -- Set all objectives finished if whole quest isComplete.
-                                -- Because of: Game API returns "event" type objectives as unfinished while whole quest isComplete.
-
-                                local o
-                                for i=1, #newObjectives do
-                                    o = newObjectives[i]
-                                    o.finished = true
-                                    o.numFulfilled = o.numRequired
+                            -- Empty native rows are omitted. Preserve sparse indices in ordered notifications.
+                            for index, objective in pairs(newObjectives) do
+                                changedObjIds[#changedObjIds + 1] = index
+                                if isComplete == 1 then
+                                    -- Event objectives can remain unfinished when the whole quest is complete.
+                                    objective.finished = true
+                                    objective.numFulfilled = objective.numRequired
                                 end
                             end
+                            table.sort(changedObjIds)
                         end
 
                         if cachedQuest and cachedQuest.isComplete == 0 and isComplete == 1 then

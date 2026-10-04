@@ -46,6 +46,124 @@ describe("QuestLogCache", function()
         _G.HaveQuestData, _G.GetQuestLogTitle, _G.C_QuestLog = originalHaveQuestData, originalGetQuestLogTitle, originalQuestLog
     end)
 
+    describe("sequenced quest completion", function()
+        local compat, originalIsSequenced
+
+        before_each(function()
+            compat = QuestieLoader:ImportModule("QuestieCompat")
+            originalIsSequenced = compat.IsQuestSequenced
+            compat.IsQuestSequenced = function() return true end
+            questLogTitles[1] = {"A Last Request", 8, nil, false, false, nil, nil, QUEST_ID}
+        end)
+
+        after_each(function()
+            compat.IsQuestSequenced = originalIsSequenced
+        end)
+
+        it("accepts later stages without announcing completion until the native quest completes", function()
+            questObjectives[QUEST_ID] = {
+                {text = "Read note: 0/1", type = "item", numFulfilled = 0, numRequired = 1, finished = false},
+            }
+            QuestLogCache.CheckForChanges(nil)
+            questObjectives[QUEST_ID][1] = {
+                text = "Read note: 1/1", type = "item", numFulfilled = 1, numRequired = 1, finished = true,
+            }
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.is_true(QuestLogCache.GetQuest(QUEST_ID).objectives[1].finished)
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            questObjectives[QUEST_ID][2] = {
+                text = "Aanders slain: 0/1", type = "monster", numFulfilled = 0, numRequired = 1, finished = false,
+            }
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.are.equal(2, #QuestLogCache.GetQuest(QUEST_ID).objectives)
+            assert.is_false(QuestLogCache.GetQuest(QUEST_ID).objectives[2].finished)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            questLogTitles[1][6] = 1
+            questObjectives[QUEST_ID][2] = {
+                text = "Aanders slain: 1/1", type = "monster", numFulfilled = 1, numRequired = 1, finished = true,
+            }
+            QuestLogCache.CheckForChanges(nil)
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+
+            local completed = QuestLogCache.GetQuest(QUEST_ID)
+            QuestLogCache.OnLoadingScreenEnabled()
+            questLogTitles[1][6] = nil
+            questObjectives[QUEST_ID] = {}
+            QuestLogCache.CheckForChanges(nil)
+            assert.are.equal(completed, QuestLogCache.GetQuest(QUEST_ID))
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
+        it("publishes native completion when the final stage removes visible objectives", function()
+            questObjectives[QUEST_ID] = {
+                {text = "Read note: 1/1", type = "item", numFulfilled = 1, numRequired = 1, finished = true},
+            }
+            QuestLogCache.CheckForChanges(nil)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+
+            questLogTitles[1][6] = 1
+            questObjectives[QUEST_ID] = {}
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {}}, changes)
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.are.same({}, QuestLogCache.GetQuest(QUEST_ID).objectives)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            assert.is_false(cacheMiss)
+            assert.are.same({}, changes)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
+        it("preserves native indices when completion exposes rows around an omitted empty objective", function()
+            questObjectives[QUEST_ID] = {
+                {text = "Read note: 1/1", type = "item", numFulfilled = 1, numRequired = 1, finished = true},
+            }
+            QuestLogCache.CheckForChanges(nil)
+            questLogTitles[1][6] = 1
+            questObjectives[QUEST_ID] = {
+                questObjectives[QUEST_ID][1],
+                {text = "", type = "event", numFulfilled = 0, numRequired = 1, finished = false},
+                {text = "Visit the shrine", type = "event", numFulfilled = 0, numRequired = 1, finished = false},
+                {text = "Return to camp", type = "event", numFulfilled = 0, numRequired = 1, finished = false},
+            }
+
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+            local cached = QuestLogCache.GetQuest(QUEST_ID)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {1, 3, 4}}, changes)
+            assert.are.equal(1, cached.isComplete)
+            assert.is_nil(cached.objectives[2])
+            assert.is_true(cached.objectives[3].finished)
+            assert.is_true(cached.objectives[4].finished)
+            assert.are.equal(1, cached.objectives[3].numFulfilled)
+            assert.is_false(cached.objectives[3].raw_finished)
+            assert.are.equal(0, cached.objectives[3].raw_numFulfilled)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
+        it("does not infer completion from an empty initial stage and retains native failure", function()
+            questObjectives[QUEST_ID] = {}
+            QuestLogCache.CheckForChanges(nil)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+
+            questLogTitles[1][6] = -1
+            QuestLogCache.CheckForChanges(nil)
+            assert.are.equal(-1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+        end)
+    end)
+
     describe("TryGetQuest", function()
         local originalPrint, originalError
 
