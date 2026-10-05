@@ -132,6 +132,7 @@ jobs:
       commit_sha: ${{ steps.commit.outputs.commit_sha }}
     env:
       COMMIT_SHA: ${{ needs.bump.outputs.commit_sha }}
+      GITHUB_SHA: ${{ github.sha }}
     steps:
       - name: Save commit sha
         id: commit
