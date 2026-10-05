@@ -51,25 +51,48 @@ local function _GetCurrentMapCapabilities(expectedQuest, expectedObjective)
     return current, capabilities
 end
 
+-- Recovery actions: Unfocus and quest Show Icons. They only clear state the quest already has, so they skip
+-- the map checks above. Otherwise a quest that loses eligibility while focused or hidden, e.g. by completing
+-- with no finisher in the database, would stay that way.
+
+---True when the saved focus is this quest or one of its objectives.
+---Saved focus is a quest ID, or a "questId objectiveIndex" string for objective focus.
+---@param questId QuestId
+---@return boolean
+local function _IsFocusedOnQuest(questId)
+    local focus = Questie.db.char.TrackerFocus
+    if type(focus) == "number" then
+        return focus == questId
+    elseif type(focus) == "string" then
+        return tonumber(focus:match("^(%d+) ")) == questId
+    end
+    return false
+end
+
+---@param menu table
+---@param isStillFocused fun(): boolean Rechecked on click; an open menu can outlive the focus it showed.
+local function _AddUnfocusEntry(menu, isStillFocused)
+    tinsert(menu, {
+        text = l10n('Unfocus'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+            if not isStillFocused() then
+                return
+            end
+            TrackerUtils:UnFocus()
+            QuestieQuest:ToggleNotes(true)
+        end
+    })
+end
+
 -- Create local Quest Menu functions
 ---@param menu table
 ---@param quest Quest
 ---@param objective QuestObjective
 TrackerMenu.addFocusOption = function(menu, quest, objective)
-    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-        tinsert(menu, {
-            text = l10n('Unfocus'),
-            func = function()
-                LibDropDown:CloseDropDownMenus()
-                local _, capabilities = _GetCurrentMapCapabilities(quest, objective)
-                if not capabilities or capabilities.focusObjectives[objective.Index] ~= objective
-                    or Questie.db.char.TrackerFocus ~= tostring(quest.Id) .. " " .. tostring(objective.Index) then
-                    return
-                end
-                TrackerUtils:UnFocus()
-                QuestieQuest:ToggleNotes(true)
-            end
-        })
+    local focusKey = tostring(quest.Id) .. " " .. tostring(objective.Index)
+    if Questie.db.char.TrackerFocus == focusKey then
+        _AddUnfocusEntry(menu, function() return Questie.db.char.TrackerFocus == focusKey end)
     else
         tinsert(menu, {
             text = l10n('Focus Objective'),
@@ -149,6 +172,8 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
             text = l10n('Show Icons'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
+                -- Unlike quest Show Icons, keep the identity check. The saved key is the original index, which
+                -- a replacement objective can reuse; a stale menu must not clear the replacement's state.
                 local _, capabilities = _GetCurrentMapCapabilities(quest, objective)
                 if not capabilities or capabilities.focusObjectives[objective.Index] ~= objective then
                     return
@@ -180,10 +205,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
         tinsert(menu, {
             text = l10n('Show Icons'),
             func = function()
-                local _, capabilities = _GetCurrentMapCapabilities(quest)
-                if not capabilities or not capabilities.canFocusQuest then
-                    return
-                end
+                -- Recovery action: clearing hidden state needs no eligibility check.
                 quest.HideIcons = nil
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
                 QuestieQuest.ToggleQuestNotes(true)
@@ -328,19 +350,8 @@ TrackerMenu.addUntrackOption = function(menu, quest)
 end
 
 TrackerMenu.addFocusUnfocusOption = function(menu, quest)
-    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
-        tinsert(menu, {
-            text = l10n('Unfocus'),
-            func = function()
-                LibDropDown:CloseDropDownMenus()
-                local _, capabilities = _GetCurrentMapCapabilities(quest)
-                if not capabilities or not capabilities.canFocusQuest or Questie.db.char.TrackerFocus ~= quest.Id then
-                    return
-                end
-                TrackerUtils:UnFocus()
-                QuestieQuest:ToggleNotes(true)
-            end
-        })
+    if Questie.db.char.TrackerFocus == quest.Id then
+        _AddUnfocusEntry(menu, function() return Questie.db.char.TrackerFocus == quest.Id end)
     else
         tinsert(menu, {
             text = l10n('Focus Quest'),
@@ -521,12 +532,16 @@ function TrackerMenu:GetMenuForQuest(quest)
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
     if capabilities.canFocusQuest then
         TrackerMenu.addFocusUnfocusOption(menu, enrichedQuest)
+    elseif _IsFocusedOnQuest(quest.Id) then
+        -- Lost eligibility while focused. A completed quest has no objective menus, so objective focus is cleared here too.
+        _AddUnfocusEntry(menu, function() return _IsFocusedOnQuest(quest.Id) end)
     end
     if capabilities.canNavigateQuest then
         TrackerMenu.addTomTomOptionForQuest(menu, quest)
     end
     TrackerMenu.minMaxQuestOption(menu, quest)
-    if capabilities.canFocusQuest then
+    -- An ineligible hidden quest still gets Show Icons; it never gets Hide Icons.
+    if capabilities.canFocusQuest or (enrichedQuest and enrichedQuest.HideIcons) then
         TrackerMenu.addShowHideQuestsOption(menu, enrichedQuest)
     end
     if capabilities.canShowFinisher then

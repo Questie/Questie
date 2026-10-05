@@ -256,6 +256,76 @@ describe("TrackerMenu", function()
             assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
         end)
 
+        describe("recovery after losing eligibility", function()
+            local function _Labels(menu)
+                local labels = {}
+                for _, entry in ipairs(menu) do
+                    if entry.text then
+                        labels[entry.text] = entry
+                    end
+                end
+                return labels
+            end
+
+            before_each(function()
+                TrackerData.GetColoredQuestName = function() return "Wolves" end
+                -- Complete with no finisher in the database: no map action is eligible any more.
+                display.IsComplete = function() return 1 end
+                originalQuest.Finisher = nil
+            end)
+
+            it("unfocuses the quest from an open menu and offers Unfocus in a rebuilt one", function()
+                Questie.db.char.TrackerFocus = 100
+                QuestieQuest.ToggleNotes = spy.new(function() end)
+                local openMenu = {}
+                TrackerMenu.addFocusUnfocusOption(openMenu, originalQuest)
+
+                openMenu[1].func()
+
+                assert.spy(TrackerUtils.UnFocus).was.called(1)
+                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+                assert.is_not_nil(_Labels(TrackerMenu:GetMenuForQuest(display))["Unfocus"])
+            end)
+
+            it("offers Unfocus for a focused objective once the objective menus are gone", function()
+                Questie.db.char.TrackerFocus = "100 3"
+                QuestieQuest.ToggleNotes = spy.new(function() end)
+                local openMenu = {}
+                TrackerMenu.addFocusOption(openMenu, originalQuest, originalObjective)
+                openMenu[1].func()
+                assert.spy(TrackerUtils.UnFocus).was.called(1)
+
+                local labels = _Labels(TrackerMenu:GetMenuForQuest(display))
+                assert.is_nil(labels["Objectives"])
+                labels["Unfocus"].func()
+                assert.spy(TrackerUtils.UnFocus).was.called(2)
+            end)
+
+            it("does not clear a newer focus from an open menu", function()
+                Questie.db.char.TrackerFocus = 100
+                local openMenu = {}
+                TrackerMenu.addFocusUnfocusOption(openMenu, originalQuest)
+                Questie.db.char.TrackerFocus = 200
+
+                openMenu[1].func()
+
+                assert.spy(TrackerUtils.UnFocus).was.not_called()
+            end)
+
+            it("shows hidden quest icons from a rebuilt menu but does not offer hiding them", function()
+                originalQuest.HideIcons = true
+                Questie.db.char.TrackerHiddenQuests[100] = true
+
+                local labels = _Labels(TrackerMenu:GetMenuForQuest(display))
+                labels["Show Icons"].func()
+
+                assert.is_nil(originalQuest.HideIcons)
+                assert.is_nil(Questie.db.char.TrackerHiddenQuests[100])
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+                assert.is_nil(_Labels(TrackerMenu:GetMenuForQuest(display))["Hide Icons"])
+            end)
+        end)
+
         it("retains the original quest identity when a navigation menu outlives its display snapshot", function()
             TrackerUtils.SetQuestTomTomTarget = spy.new(function() return false end)
             local menu = {}
