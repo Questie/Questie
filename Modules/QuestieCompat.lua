@@ -188,11 +188,11 @@ end
 ---@return QuestId questID
 function QuestieCompat.GetQuestGreetingQuestID(index, isActive, npcGuid)
     local questID
-    if isActive and _G.GetActiveQuestID then
-        questID = _G.GetActiveQuestID(index)
-    elseif not isActive and _G.GetAvailableQuestInfo then
+    if isActive and GetActiveQuestID then
+        questID = GetActiveQuestID(index)
+    elseif not isActive and GetAvailableQuestInfo then
         -- Forever includes the quest ID in position 5; older Classic tuples end before it.
-        questID = select(5, _G.GetAvailableQuestInfo(index))
+        questID = select(5, GetAvailableQuestInfo(index))
     end
     if questID and questID > 0 then
         return questID

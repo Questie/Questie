@@ -89,10 +89,10 @@ local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.
 function TrackerUtils:ShowQuestLog(quest)
     -- Classic can expose both interfaces; preserve its standalone log and addon replacements.
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-    if _G.QuestMapFrame_OpenToQuestDetails and not questFrame then
+    if QuestMapFrame_OpenToQuestDetails and not questFrame then
         -- The modern quest log owns selection and scrolling, and takes a quest ID rather than a log index.
         if not InCombatLockdown() then
-            _G.QuestMapFrame_OpenToQuestDetails(quest.Id)
+            QuestMapFrame_OpenToQuestDetails(quest.Id)
         else
             Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
         end
@@ -1074,10 +1074,10 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     -- Blizzard identifies the primary quest action even when neither the quest nor item is in QuestieDB.
     -- It skips only the button's database item-class check. It must still be owned like other candidates:
     -- a primary button that fails to set up stops the rest, so an unowned native item would hide owned database items.
-    if _G.GetQuestLogSpecialItemInfo then
+    if GetQuestLogSpecialItemInfo then
         local index = QuestieCompat.GetQuestLogIndexByID(quest.Id)
         if index and index > 0 then
-            local link, _, _, showWhenComplete = _G.GetQuestLogSpecialItemInfo(index)
+            local link, _, _, showWhenComplete = GetQuestLogSpecialItemInfo(index)
             nativeItemId = link and tonumber(link:match("item:(%d+)"))
             if nativeItemId and (not questComplete or showWhenComplete) and GetItemCount(nativeItemId) > 0 then
                 tinsert(usableQuestItems, nativeItemId)
