@@ -68,6 +68,23 @@ local lastMarkerQuestEventTime = 0
 local MARKER_EVENT_TIMEFRAME = 20 -- seconds
 local questLogRetryTimer
 
+-- QUEST_LOG_UPDATE can fire every second and the combat queue does not drain in combat.
+-- Keep at most one queued rebuild; it reads current data when it runs.
+local trackerUpdateQueued = false
+
+---Queues one tracker rebuild unless one is already waiting in the combat queue.
+local function _QueueTrackerUpdate()
+    if trackerUpdateQueued then
+        return
+    end
+    trackerUpdateQueued = true
+    QuestieCombatQueue:Queue(function()
+        -- Clear first so events during the rebuild can queue the next one.
+        trackerUpdateQueued = false
+        QuestieTracker:Update()
+    end)
+end
+
 -- One fallback for the whole quest log, not one timer per quest. Repeated requests keep the existing deadline.
 -- Re-enter the normal update path so cache reconciliation, notifications and combat-queued rendering stay together.
 -- UpdateAllQuests cancels the fallback when it runs and rearms it only while loading remains unresolved.
@@ -251,9 +268,7 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
     QuestieLib.RepairMissingItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
     -- The title can be displayed before objective data finishes loading.
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
+    _QueueTrackerUpdate()
 
     BreadcrumbQuests.CheckQuestBreadcrumbs(questId)
 end
@@ -442,9 +457,7 @@ function QuestEventHandler.QuestLogUpdate()
         return
     end
 
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
+    _QueueTrackerUpdate()
 end
 
 --- Fires whenever a quest objective progressed
