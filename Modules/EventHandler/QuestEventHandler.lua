@@ -493,6 +493,15 @@ function QuestEventHandler.UnitQuestLogChanged(unitTarget)
     lastMarkerQuestEventTime = GetTime()
 end
 
+---True once Questie has finished accepting the quest: objectives loaded and accept side effects ran.
+---Quests in the native log at login count as accepted. Independent of QuestieDB.
+---@param questId QuestId
+---@return boolean
+function QuestEventHandler.IsQuestAccepted(questId)
+    local entry = questLog[questId]
+    return entry ~= nil and entry.state == QUEST_LOG_STATES.QUEST_ACCEPTED
+end
+
 --- This is for debugging of #6734
 function QuestEventHandler.GetQuestLogStates()
     return questLog
