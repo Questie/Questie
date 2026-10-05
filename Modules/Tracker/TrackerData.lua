@@ -99,41 +99,31 @@ function TrackerData.ContainsQuest(questId)
     return index ~= nil and index > 0
 end
 
----Collapsed legacy logs can list all headers before their quests, so the preceding header may be unrelated.
----GetQuestSortIndex uses legacy indices: never mix it with QuestieCompat's C_QuestLog.GetInfo path.
----Modern clients retain their ordered-header lookup; legacy clients use the explicit association when available.
----@param questLogIndex number
----@return string?
-local function _GetQuestHeader(questLogIndex)
-    if not (C_QuestLog and C_QuestLog.GetInfo) and GetQuestSortIndex then
-        local headerIndex = GetQuestSortIndex(questLogIndex)
-        if headerIndex and headerIndex > 0 then
-            local title, _, _, isHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
-            if isHeader then
-                return title
-            end
-        end
-    end
-end
-
 ---Refresh once before a full layout; ordinary layout reads use GetQuests without rescanning objectives.
 ---@return table<QuestId, TrackerQuest>
 function TrackerData.Refresh()
     local present = {}
-    local header
+    local headers = {}
+    local modernLog = C_QuestLog and C_QuestLog.GetInfo
+    local numEntries = not modernLog and QuestieCompat.GetNumQuestLogEntries()
     local index = 1
-    -- Titan's entry count can disagree with title enumeration at login (4 entries, but 6 quests).
-    -- Follow the title API to the end, or valid quests can disappear until the quest log is opened.
+    -- Legacy logs put collapsed quests after the visible entry count. Enumerate to the first absent title.
     while true do
         local title, level, _, isHeader, _, complete, _, questId = QuestieCompat.GetQuestLogTitle(index)
         if not title then
             break
         end
         if isHeader then
-            header = title
+            headers[#headers + 1] = title
         elseif questId and questId > 0 then
+            local header = headers[#headers]
+            if not modernLog and index > numEntries then
+                -- GetQuestSortIndex is a header ordinal, not a log index. Hidden quests have no preceding-header fallback.
+                local headerOrdinal = GetQuestSortIndex and GetQuestSortIndex(index)
+                header = headers[headerOrdinal] or (quests[questId] and quests[questId].zoneName)
+            end
             present[questId] = true
-            _RefreshQuest(questId, title, level, _GetQuestHeader(index) or header, complete)
+            _RefreshQuest(questId, title, level, header, complete)
         end
         index = index + 1
     end
@@ -173,8 +163,8 @@ function TrackerData.RefreshQuest(questId)
     if not title or isHeader or currentId ~= questId then
         return nil
     end
-    local header = _GetQuestHeader(index)
-    if not header then
+    local header
+    if (C_QuestLog and C_QuestLog.GetInfo) or index <= QuestieCompat.GetNumQuestLogEntries() then
         for headerIndex = index - 1, 1, -1 do
             local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
             if entryIsHeader then
@@ -182,6 +172,23 @@ function TrackerData.RefreshQuest(questId)
                 break
             end
         end
+    else
+        -- Count native headers to translate the hidden quest's ordinal without reading other quests' objectives.
+        local headerOrdinal = GetQuestSortIndex and GetQuestSortIndex(index)
+        if headerOrdinal then
+            local ordinal = 0
+            for headerIndex = 1, index - 1 do
+                local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+                if entryIsHeader then
+                    ordinal = ordinal + 1
+                    if ordinal == headerOrdinal then
+                        header = headerTitle
+                        break
+                    end
+                end
+            end
+        end
+        header = header or (quests[questId] and quests[questId].zoneName)
     end
     return _RefreshQuest(questId, title, level, header, complete)
 end

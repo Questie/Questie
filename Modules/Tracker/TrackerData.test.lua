@@ -113,6 +113,84 @@ describe("TrackerData", function()
         end)
     end)
 
+    describe("Era header ordinals", function()
+        local captures = dofile("test/fixtures/eraQuestHeaders.lua")
+        local expectedGroups = {
+            [317] = "Dun Morogh", [313] = "Dun Morogh", [2158] = "Elwynn Forest",
+            [54] = "Northshire Valley", [332] = "Stormwind City",
+        }
+
+        local function UseCapture(capture)
+            entries = capture.entries
+            compat.GetNumQuestLogEntries = function() return capture.numEntries, 5 end
+            _G.GetQuestSortIndex = function(index) return entries[index].sortOrdinal end
+        end
+
+        for _, case in ipairs({
+            {name = "expanded", capture = captures.expanded},
+            {name = "middle collapsed", capture = captures.middleCollapsed},
+            {name = "first and last collapsed", capture = captures.firstAndLastCollapsed},
+            {name = "all collapsed", capture = captures.allCollapsed},
+        }) do
+            it("groups the " .. case.name .. " log using header ordinals, not log indices", function()
+                UseCapture(case.capture)
+
+                local snapshot = TrackerData.Refresh()
+
+                assert.are.equal(5, QuestieLib:Count(snapshot))
+                for id, zone in pairs(expectedGroups) do
+                    assert.are.equal(zone, snapshot[id].zoneName)
+                end
+            end)
+
+            it("resolves single quests in the " .. case.name .. " log before any bulk refresh", function()
+                UseCapture(case.capture)
+
+                for id, zone in pairs(expectedGroups) do
+                    assert.are.equal(zone, TrackerData.RefreshQuest(id).zoneName)
+                end
+            end)
+        end
+
+        it("does not need a sort ordinal for quests inside the visible entry count", function()
+            UseCapture(captures.expanded)
+            _G.GetQuestSortIndex = spy.new(function() error("Expanded quests use their preceding header") end)
+
+            assert.are.equal("Stormwind City", TrackerData.Refresh()[332].zoneName)
+            assert.are.equal("Stormwind City", TrackerData.RefreshQuest(332).zoneName)
+            assert.spy(_G.GetQuestSortIndex).was.not_called()
+        end)
+
+        it("keeps a hidden quest's known header when the sort API is unavailable", function()
+            UseCapture(captures.expanded)
+            local quest = TrackerData.Refresh()[332]
+            UseCapture(captures.firstAndLastCollapsed)
+            _G.GetQuestSortIndex = nil
+
+            assert.are.equal(quest, TrackerData.Refresh()[332])
+            assert.are.equal("Stormwind City", quest.zoneName)
+            assert.are.equal("Stormwind City", TrackerData.RefreshQuest(332).zoneName)
+        end)
+
+        it("keeps a hidden quest's known header when the ordinal is out of range", function()
+            UseCapture(captures.expanded)
+            TrackerData.Refresh()
+            UseCapture(captures.firstAndLastCollapsed)
+            _G.GetQuestSortIndex = function() return 99 end
+
+            assert.are.equal("Stormwind City", TrackerData.RefreshQuest(332).zoneName)
+            assert.are.equal("Stormwind City", TrackerData.Refresh()[332].zoneName)
+        end)
+
+        it("does not assign an unrelated preceding header to a new hidden quest without an ordinal", function()
+            UseCapture(captures.firstAndLastCollapsed)
+            _G.GetQuestSortIndex = function() return nil end
+
+            assert.is_nil(TrackerData.RefreshQuest(332).zoneName)
+            assert.is_nil(TrackerData.Refresh()[332].zoneName)
+        end)
+    end)
+
     describe("collapsed native headers", function()
         before_each(function()
             -- Observed on MoP: collapsed headers precede every quest, rather than enclosing their own quests.
@@ -124,8 +202,8 @@ describe("TrackerData", function()
                 {title = "Know your Enemy", id = 10160, level = 61},
             }
             compat.GetNumQuestLogEntries = function() return 2, 3 end
-            local headerIndices = {[3] = 2, [4] = 1, [5] = 1}
-            _G.GetQuestSortIndex = spy.new(function(index) return headerIndices[index] end)
+            local headerOrdinals = {[3] = 2, [4] = 1, [5] = 1}
+            _G.GetQuestSortIndex = spy.new(function(index) return headerOrdinals[index] end)
         end)
 
         it("groups all quests under their explicit native header during a full refresh", function()
@@ -172,7 +250,8 @@ describe("TrackerData", function()
         assert.are.equal(6, QuestieLib:Count(snapshot))
         assert.are.equal("First quest", snapshot[101].name)
         assert.are.equal("Sixth quest", snapshot[106].name)
-        assert.are.equal("Header D", snapshot[106].zoneName)
+        -- Membership remains readable even when the hidden quest's header association is unavailable.
+        assert.is_nil(snapshot[106].zoneName)
         assert.are.equal(snapshot[101], TrackerData.Refresh()[101])
         assert.spy(QuestieLib.GetLoadedQuestObjectives).was.not_called()
     end)
@@ -580,7 +659,6 @@ describe("TrackerData", function()
         assert.spy(QuestieDB.IsComplete).was.called(1)
         assert.spy(QuestieDB.IsComplete).was.called_with(91741)
         assert.spy(QuestieLib.GetLoadedQuestObjectives).was.not_called()
-        assert.spy(compat.GetNumQuestLogEntries).was.not_called()
         assert.are.equal(otherObjective, TrackerData.GetQuests()[123].Objectives[1])
     end)
 
