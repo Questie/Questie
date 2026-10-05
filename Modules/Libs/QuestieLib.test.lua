@@ -660,6 +660,12 @@ describe("QuestieLib", function()
             end)
         end
 
+        it("matches nothing on clients without the optional label", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = nil
+
+            assert.is_false(QuestieLib.IsObjectiveOptional("Mangy Wolf slain (Optional)"))
+        end)
+
         it("recognizes the optional label with or without progress counts", function()
             assert.is_true(QuestieLib.IsObjectiveOptional("0/1 Listen to Alvarion Windfield's Story (Optional)"))
             assert.is_true(QuestieLib.IsObjectiveOptional("Listen to Alvarion Windfield's Story (Optional)"))
