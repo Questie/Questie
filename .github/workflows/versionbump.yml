@@ -22,6 +22,10 @@ on:
         description: (--dry_run) Do not commit/push, just log git diff
         type: boolean
         default: false
+    outputs:
+      commit_sha:
+        description: Bumped commit, or the current commit for a dry run/empty version
+        value: ${{ jobs.sha.outputs.commit_sha }}
 
 permissions:
   contents: read
@@ -59,7 +63,6 @@ jobs:
       - name: Checkout selected commit
         uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ github.sha }}
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Update versions
@@ -110,3 +113,13 @@ jobs:
             printf 'Created commit %s and tag v%s.\n\n' "$commit" "$VERSION"
             printf 'No GitHub release or platform upload was created.\n'
           } >> "$GITHUB_STEP_SUMMARY"
+  sha:
+    name: Output git sha to other workflows
+    needs: bump
+    if: ${{ always() }} # run even for empty version string
+    outputs:
+      commit_sha: ${{ steps.commitsha.outputs.commit_sha }}
+    steps:
+      - name: Save commit sha
+        id: commitsha
+        run: echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"

@@ -3,11 +3,10 @@ name: Build and publish bundle
 on:
   workflow_dispatch:
     inputs:
-      # Disabled until publishing checks out the bumped commit and handles an omitted version.
-      # version:
-      #   description: Enter new version without the v prefix (for example "12.0.1") to bump the Questie version (optional)
-      #   type: string
-      #   default: ''
+      version:
+        description: Enter new version without the v prefix (for example "12.0.1") to bump the Questie version (optional)
+        type: string
+        default: ''
       release:
         description: (--release) Publish a normal release instead of a prerelease
         type: boolean
@@ -31,18 +30,17 @@ jobs:
     with:
       event_name: ${{ github.event_name }}
       repo_full_name: ${{ github.repository }}
-  # bump:
-  #   uses: ./.github/workflows/versionbump.yml
-  #   needs: tests
-  #   secrets: inherit
-  #   with:
-  #     version: ${{ inputs.version }}
-  #     dry_run: ${{ inputs.dry_run }}
+  bump:
+    uses: ./.github/workflows/versionbump.yml
+    needs: tests
+    secrets: inherit
+    with:
+      version: ${{ inputs.version }}
+      dry_run: ${{ inputs.dry_run }}
   build:
     name: Build bundle
     runs-on: ubuntu-latest
-    # needs: [ tests, bump ]
-    needs: tests
+    needs: [ tests, bump ]
     outputs:
       release_tag: ${{ steps.metadata.outputs.release_tag }}
       release_dir: ${{ steps.metadata.outputs.release_dir }}
@@ -52,12 +50,13 @@ jobs:
 
     env:
       PRERELEASE: ${{ !inputs.release }}
+      COMMIT_SHA: ${{ needs.bump.outputs.commit_sha }}
 
     steps:
       - name: Clone project
         uses: actions/checkout@v7.0.1
         with:
-          fetch-depth: 100
+          ref: $COMMIT_SHA
 
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
@@ -85,7 +84,7 @@ jobs:
 
           # Mark Questie prereleases before appending the independent database version.
           if [[ "$PRERELEASE" == "true" ]]; then
-            RELEASE_TAG+="-pre.${GITHUB_SHA:0:7}"
+            RELEASE_TAG+="-pre.${COMMIT_SHA:0:7}"
           fi
           RELEASE_TAG+="+v$(jq -r '.questiedb.version' "$RELEASE_DIR/release.json")"
 
@@ -142,6 +141,7 @@ jobs:
       RELEASE_DIR: ${{ needs.build.outputs.release_dir }}
       BUNDLED_ZIP: ${{ needs.build.outputs.bundled_zip }}
       PRERELEASE: ${{ !inputs.release }}
+      COMMIT_SHA: ${{ needs.bump.outputs.commit_sha }}
     steps:
       - name: Download bundle artifact
         uses: actions/download-artifact@v8
@@ -154,7 +154,7 @@ jobs:
           if [[ "$PRERELEASE" == "true" ]]; then
             gh release create "$RELEASE_TAG" \
               --title "${RELEASE_TAG#bundle/}" \
-              --target "$GITHUB_SHA" \
+              --target "$COMMIT_SHA" \
               --prerelease \
               -F CHANGELOG.md \
               "$RELEASE_DIR/$BUNDLED_ZIP" \
@@ -162,7 +162,7 @@ jobs:
           else
             gh release create "$RELEASE_TAG" \
               --title "${RELEASE_TAG#bundle/}" \
-              --target "$GITHUB_SHA" \
+              --target "$COMMIT_SHA" \
               -F CHANGELOG.md \
               "$RELEASE_DIR/$BUNDLED_ZIP" \
               "$RELEASE_DIR/release.json"
