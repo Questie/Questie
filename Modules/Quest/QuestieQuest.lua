@@ -1391,7 +1391,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
                 -- Log objectives are just empty.
-                if source.Type ~= "log" then
+                if objective.type ~= "log" then
                     Questie.Warning(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
                 end
             else

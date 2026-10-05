@@ -401,7 +401,31 @@ describe("QuestieQuest", function()
             assert.is_false(quest.Objectives[2].Completed)
         end)
 
-        it("should warn with the quest ID and text when objective data is missing", function()
+        it("does not warn for a log objective with no objective data table", function()
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "log", text = "Read the note."}}
+            end
+            local quest = {Id = 42, Objectives = {}, SpecialObjectives = {}}
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.spy(Questie.Warning).was.not_called()
+            assert.are_same({}, quest.Objectives)
+        end)
+
+        it("does not warn for a log objective with no mapped objective data entry", function()
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "log", text = "Read the note."}}
+            end
+            local quest = {Id = 42, ObjectiveData = {}, Objectives = {}, SpecialObjectives = {}}
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.spy(Questie.Warning).was.not_called()
+            assert.are_same({}, quest.Objectives)
+        end)
+
+        it("warns with the quest ID and text when non-log objective data is missing", function()
             local quest = {Id = 42, ObjectiveData = {}, Objectives = {}, SpecialObjectives = {}}
 
             QuestieQuest:PopulateQuestLogInfo(quest)
