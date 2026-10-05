@@ -812,8 +812,6 @@ function QuestieComms:CreateQuestDataPacket(questId)
                     ful = objective.numFulfilled,
                     req = objective.numRequired,
                 }
-            else
-                Questie.Warning(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
             end
         end
     end
