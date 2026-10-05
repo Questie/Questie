@@ -15,7 +15,7 @@ describe("TrackerMenu", function()
     local ctrlDown
     local globalOriginals
     local colorizeOriginal
-    local getQuestOriginal
+    local getQuestOriginal, getColoredQuestNameOriginal
     local TrackerData, displayQuests
 
     before_each(function()
@@ -55,6 +55,8 @@ describe("TrackerMenu", function()
         QuestieLoader:ImportModule("QuestieLib")
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         getQuestOriginal = TrackerData.GetQuest
+        -- Nested blocks stub this per test; after_each restores it for the whole file.
+        getColoredQuestNameOriginal = TrackerData.GetColoredQuestName
         TrackerData.GetQuest = function(id) return {name = "Quest " .. id} end
         QuestieLoader:ImportModule("DistanceUtils")
 
@@ -99,6 +101,7 @@ describe("TrackerMenu", function()
         end
         Questie.Colorize = colorizeOriginal
         TrackerData.GetQuest = getQuestOriginal
+        TrackerData.GetColoredQuestName = getColoredQuestNameOriginal
     end)
 
     describe("Blizzard-first quest menus", function()
@@ -577,7 +580,6 @@ describe("TrackerMenu", function()
         local originalStaticPopupShow
         local compat
         local originalDisplayMessage
-        local originalGetColoredQuestName
 
         local function findEntry(menu)
             for _, entry in ipairs(menu) do
@@ -619,7 +621,6 @@ describe("TrackerMenu", function()
                 "addShowInAchievementsOption", "addUntrackAchieveOption"}) do
                 TrackerMenu[name] = noop
             end
-            originalGetColoredQuestName = TrackerData.GetColoredQuestName
             TrackerData.GetColoredQuestName = function() return "Quest" end
             Questie.db.char.trackedAchievementIds = {}
         end)
@@ -627,7 +628,6 @@ describe("TrackerMenu", function()
         after_each(function()
             _G.StaticPopup_Show = originalStaticPopupShow
             compat.ActionStatus_DisplayMessage = originalDisplayMessage
-            TrackerData.GetColoredQuestName = originalGetColoredQuestName
         end)
 
         it("opens Questie's dialog from the quest menu instead of a Blizzard popup", function()

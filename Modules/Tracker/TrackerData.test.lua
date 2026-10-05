@@ -255,9 +255,14 @@ describe("TrackerData", function()
     it("keeps objectives after omitted cache rows in native order with their original enrichment", function()
         local original = {Id = 10, Index = 3, Type = "monster", spawnList = {}}
         local otherOriginal = {Id = 20, Index = 1, Type = "monster", spawnList = {}}
+        -- Empty native rows are omitted from the cache. Lua 5.1's pairs visits these sparse keys as 1, 5, 9, 7, 3,
+        -- so this fails unless the native indices are sorted.
         cached[91741] = {objectives = {
+            [1] = {text = "Bear slain: 0/2", type = "monster", numFulfilled = 0, numRequired = 2},
             [3] = {text = "Wolf slain: 2/5", type = "monster", numFulfilled = 2, numRequired = 5},
             [5] = {text = "Read the book.", type = "log", finished = false},
+            [7] = {text = "Boar slain: 1/4", type = "monster", numFulfilled = 1, numRequired = 4},
+            [9] = {text = "Return to Marshal Dughan.", type = "log", finished = false},
         }}
         QuestiePlayer.currentQuestlog[91741] = {
             Objectives = {[1] = otherOriginal, [3] = original},
@@ -266,12 +271,14 @@ describe("TrackerData", function()
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.are.equal(2, #displayQuest.Objectives)
-        assert.are.equal(1, displayQuest.Objectives[1].Index)
-        assert.are.equal(3, displayQuest.Objectives[1].NativeIndex)
-        assert.are.equal(original, displayQuest.Objectives[1].enrichment)
-        assert.are.equal("Read the book.", displayQuest.Objectives[2].Description)
-        assert.are.equal(2, displayQuest.Objectives[2].Index)
+        local nativeIndices = {}
+        for displayIndex, displayObjective in ipairs(displayQuest.Objectives) do
+            assert.are.equal(displayIndex, displayObjective.Index)
+            nativeIndices[displayIndex] = displayObjective.NativeIndex
+        end
+        assert.are.same({1, 3, 5, 7, 9}, nativeIndices)
+        assert.are.equal(original, displayQuest.Objectives[2].enrichment)
+        assert.are.equal("Read the book.", displayQuest.Objectives[3].Description)
     end)
 
     it("preserves native counter placement and punctuation", function()

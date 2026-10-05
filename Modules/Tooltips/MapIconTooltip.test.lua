@@ -191,6 +191,17 @@ describe("MapIconTooltip objective wording", function()
         assert.are.equal("9/15 Windstone Cluster", objective.NativeText)
     end)
 
+    it("ignores a local cached row at the same index for a party-only objective", function()
+        -- The local player has the same quest ID cached with a different objective at index 3.
+        cached[1] = {objectives = {[3] = {text = "1/1 Local objective"}}}
+        objective.IsPartyObjective = true
+        objective.NativeText = "9/15 Windstone Cluster"
+        objective.Needed, objective.Collected = nil, nil
+        QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 0, required = 15}}} end
+
+        assert.are.same({["|cFFEEEEEE0/15 Windstone Cluster (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true}, RenderObjectiveLines())
+    end)
+
     it("keeps remote fallback for an instruction without a recognized counter", function()
         objective.IsPartyObjective = true
         objective.NativeText = "Use Walk on Air"
