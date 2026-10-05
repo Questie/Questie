@@ -47,6 +47,8 @@ jobs:
     env:
       VERSION: ${{ inputs.version }}
       TARGET_BRANCH: ${{ github.ref_name }}
+    outputs:
+      commit_sha: ${{ steps.commitsha.outputs.commit_sha }}
     steps:
       - name: Validate version number
         run: |
@@ -118,14 +120,19 @@ jobs:
             printf 'Created commit %s and tag v%s.\n\n' "$commit" "$VERSION"
             printf 'No GitHub release or platform upload was created.\n'
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Save commit sha for later
+        id: commitsha
+        run: echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
   sha:
     name: Output git sha to other workflows
     runs-on: ubuntu-latest
     needs: bump
     if: ${{ always() }} # run even for empty version string
     outputs:
-      commit_sha: ${{ steps.commitsha.outputs.commit_sha }}
+      commit_sha: ${{ steps.commit.outputs.commit_sha }}
+    env:
+      COMMIT_SHA: ${{ needs.bump.outputs.commit_sha || GITHUB_SHA }}
     steps:
       - name: Save commit sha
-        id: commitsha
-        run: echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+        id: commit
+        run: echo "commit_sha=$COMMIT_SHA" >> "$GITHUB_OUTPUT"
