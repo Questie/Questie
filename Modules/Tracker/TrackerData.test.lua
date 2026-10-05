@@ -151,6 +151,32 @@ describe("TrackerData", function()
         end)
     end)
 
+    describe("legacy header association", function()
+        it("uses the preceding header for quests under expanded headers without asking for a sort index", function()
+            _G.GetQuestSortIndex = spy.new(function() return 99 end)
+
+            local snapshot = TrackerData.Refresh()
+
+            assert.are.equal("Northshire Abbey", snapshot[91741].zoneName)
+            assert.spy(_G.GetQuestSortIndex).was.not_called()
+        end)
+
+        it("keeps the header seen while expanded when a collapsed quest has no explicit header", function()
+            entries[3] = {title = "Elwynn Forest", isHeader = true}
+            TrackerData.Refresh()
+            -- Collapsing Northshire Abbey lists its quest after every visible entry, below an unrelated header.
+            entries = {
+                {title = "Northshire Abbey", isHeader = true},
+                {title = "Elwynn Forest", isHeader = true},
+                {title = "Nibbled-On Book", id = 91741, level = 2},
+            }
+            compat.GetNumQuestLogEntries = function() return 2, 1 end
+
+            assert.are.equal("Northshire Abbey", TrackerData.Refresh()[91741].zoneName)
+            assert.are.equal("Northshire Abbey", TrackerData.RefreshQuest(91741).zoneName)
+        end)
+    end)
+
     it("enumerates quest titles beyond Titan's underreported entry count", function()
         -- Reproduce the reported counts (4 entries, 6 quests) without assuming the title API shares that limit.
         entries = {
@@ -572,7 +598,6 @@ describe("TrackerData", function()
         cached[123] = {objectives = {{text = "Speak to the librarian.", type = "log", finished = false}}}
         TrackerData.Refresh()
         QuestieDB.IsComplete = spy.new(function() return 0 end)
-        compat.GetNumQuestLogEntries = spy.new(function() return #entries end)
         local otherObjective = TrackerData.GetQuests()[123].Objectives[1]
 
         TrackerData.RefreshQuest(91741)
@@ -580,7 +605,6 @@ describe("TrackerData", function()
         assert.spy(QuestieDB.IsComplete).was.called(1)
         assert.spy(QuestieDB.IsComplete).was.called_with(91741)
         assert.spy(QuestieLib.GetLoadedQuestObjectives).was.not_called()
-        assert.spy(compat.GetNumQuestLogEntries).was.not_called()
         assert.are.equal(otherObjective, TrackerData.GetQuests()[123].Objectives[1])
     end)
 

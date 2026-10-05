@@ -99,13 +99,30 @@ function TrackerData.ContainsQuest(questId)
     return index ~= nil and index > 0
 end
 
----Collapsed legacy logs can list all headers before their quests, so the preceding header may be unrelated.
----GetQuestSortIndex uses legacy indices: never mix it with QuestieCompat's C_QuestLog.GetInfo path.
----Modern clients retain their ordered-header lookup; legacy clients use the explicit association when available.
+-- Quest headers. Expanded headers precede their quests. Legacy clients list the quests of collapsed headers
+-- after every visible entry, past the entry count (observed on Wrath Titan and MoP), so the preceding header there
+-- is unrelated. Only those quests ask GetQuestSortIndex for their real header. Its indices are legacy indices:
+-- QuestieCompat's C_QuestLog.GetInfo path uses another list, so modern clients keep the preceding header.
+
 ---@param questLogIndex number
+---@return boolean
+local function _IsListedUnderCollapsedHeader(questLogIndex)
+    if C_QuestLog and C_QuestLog.GetInfo then
+        return false
+    end
+    local numEntries = QuestieCompat.GetNumQuestLogEntries()
+    return numEntries ~= nil and questLogIndex > numEntries
+end
+
+---@param questId QuestId
+---@param questLogIndex number
+---@param precedingHeader string? Nearest header above the quest in the native list.
 ---@return string?
-local function _GetQuestHeader(questLogIndex)
-    if not (C_QuestLog and C_QuestLog.GetInfo) and GetQuestSortIndex then
+local function _GetQuestHeader(questId, questLogIndex, precedingHeader)
+    if not _IsListedUnderCollapsedHeader(questLogIndex) then
+        return precedingHeader
+    end
+    if GetQuestSortIndex then
         local headerIndex = GetQuestSortIndex(questLogIndex)
         if headerIndex and headerIndex > 0 then
             local title, _, _, isHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
@@ -114,6 +131,9 @@ local function _GetQuestHeader(questLogIndex)
             end
         end
     end
+    -- No explicit header: keep the one seen while the header was expanded rather than the unrelated preceding one.
+    local knownQuest = quests[questId]
+    return knownQuest and knownQuest.zoneName or precedingHeader
 end
 
 ---Refresh once before a full layout; ordinary layout reads use GetQuests without rescanning objectives.
@@ -122,8 +142,7 @@ function TrackerData.Refresh()
     local present = {}
     local header
     local index = 1
-    -- Titan's entry count can disagree with title enumeration at login (4 entries, but 6 quests).
-    -- Follow the title API to the end, or valid quests can disappear until the quest log is opened.
+    -- Follow the title API to the end, not the entry count: quests under collapsed headers are listed past it.
     while true do
         local title, level, _, isHeader, _, complete, _, questId = QuestieCompat.GetQuestLogTitle(index)
         if not title then
@@ -133,7 +152,7 @@ function TrackerData.Refresh()
             header = title
         elseif questId and questId > 0 then
             present[questId] = true
-            _RefreshQuest(questId, title, level, _GetQuestHeader(index) or header, complete)
+            _RefreshQuest(questId, title, level, _GetQuestHeader(questId, index, header), complete)
         end
         index = index + 1
     end
@@ -173,17 +192,15 @@ function TrackerData.RefreshQuest(questId)
     if not title or isHeader or currentId ~= questId then
         return nil
     end
-    local header = _GetQuestHeader(index)
-    if not header then
-        for headerIndex = index - 1, 1, -1 do
-            local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
-            if entryIsHeader then
-                header = headerTitle
-                break
-            end
+    local precedingHeader
+    for headerIndex = index - 1, 1, -1 do
+        local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+        if entryIsHeader then
+            precedingHeader = headerTitle
+            break
         end
     end
-    return _RefreshQuest(questId, title, level, header, complete)
+    return _RefreshQuest(questId, title, level, _GetQuestHeader(questId, index, precedingHeader), complete)
 end
 
 ---@param questId QuestId
