@@ -56,7 +56,7 @@ jobs:
       - name: Clone project
         uses: actions/checkout@v7.0.1
         with:
-          ref: $COMMIT_SHA
+          ref: ${{ COMMIT_SHA }}
 
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
