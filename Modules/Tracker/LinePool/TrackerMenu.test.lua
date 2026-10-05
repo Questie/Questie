@@ -372,15 +372,18 @@ describe("TrackerMenu", function()
 
         describe("focus", function()
             local originalSmartNavigation
+            local originalIsMoP
             local originalIsForever
 
             before_each(function()
                 originalSmartNavigation = _G.SmartNavigation
+                originalIsMoP = Questie.IsMoP
                 originalIsForever = Questie.IsForever
             end)
 
             after_each(function()
                 _G.SmartNavigation = originalSmartNavigation
+                Questie.IsMoP = originalIsMoP
                 Questie.IsForever = originalIsForever
             end)
 
@@ -389,7 +392,7 @@ describe("TrackerMenu", function()
                 findEntry(menu).func()
                 local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
                 assert.is_not_nil(frame)
-                assert.equals("https://www.wowhead.com/mop-classic/quest=783", frame:GetEditBoxText())
+                assert.equals("https://www.wowhead.com/forever/quest=783", frame:GetEditBoxText())
                 assert.same({}, dialogErrors)
                 return frame:GetEditBox()
             end
@@ -434,10 +437,17 @@ describe("TrackerMenu", function()
             end)
 
             it("always selects the URL on other flavors", function()
+                Questie.IsMoP = true
                 Questie.IsForever = false
                 setSmartNavigationShown(true)
 
-                local editBox = openQuestDialog()
+                local menu = TrackerMenu:GetMenuForQuest({Id = 783, Objectives = {}, SpecialObjectives = {}})
+                findEntry(menu).func()
+                local frame = Popup.FindVisible("QUESTIE_WOWHEAD_URL")
+                assert.is_not_nil(frame)
+                assert.equals("https://www.wowhead.com/mop-classic/quest=783", frame:GetEditBoxText())
+                assert.same({}, dialogErrors)
+                local editBox = frame:GetEditBox()
 
                 assert.is_true(editBox.focused)
                 assert.is_true(editBox.highlighted)
