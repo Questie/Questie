@@ -17,14 +17,12 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerMapEligibility
+local TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type DistanceUtils
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type QuestiePopup
@@ -39,27 +37,69 @@ TrackerMenu.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFra
 
 local tinsert = table.insert
 
+-- Commands recheck the snapshot and original-object identity before any map mutation. A menu can
+-- stay open across quest removal, objective replacement or a change in verified enrichment.
+local function _GetCurrentMapCapabilities(expectedQuest, expectedObjective)
+    if not expectedQuest then
+        return
+    end
+    local current, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(expectedQuest.Id, expectedQuest)
+    if not capabilities or (expectedObjective and not capabilities.objectives[expectedObjective]) then
+        return
+    end
+    return current, capabilities
+end
+
+-- Recovery actions: Unfocus and quest Show Icons. They only clear state the quest already has, so they skip
+-- the map checks above. Otherwise a quest that loses eligibility while focused or hidden, e.g. by completing
+-- with no finisher in the database, would stay that way.
+
+---True when the saved focus is this quest or one of its objectives.
+---Saved focus is a quest ID, or a "questId objectiveIndex" string for objective focus.
+---@param questId QuestId
+---@return boolean
+local function _IsFocusedOnQuest(questId)
+    local focus = Questie.db.char.TrackerFocus
+    if type(focus) == "number" then
+        return focus == questId
+    elseif type(focus) == "string" then
+        return tonumber(focus:match("^(%d+) ")) == questId
+    end
+    return false
+end
+
+---@param menu table
+---@param isStillFocused fun(): boolean Rechecked on click; an open menu can outlive the focus it showed.
+local function _AddUnfocusEntry(menu, isStillFocused)
+    tinsert(menu, {
+        text = l10n('Unfocus'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+            if not isStillFocused() then
+                return
+            end
+            TrackerUtils:UnFocus()
+            QuestieQuest:ToggleNotes(true)
+        end
+    })
+end
+
 -- Create local Quest Menu functions
 ---@param menu table
 ---@param quest Quest
 ---@param objective QuestObjective
 TrackerMenu.addFocusOption = function(menu, quest, objective)
-    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-        tinsert(menu, {
-            text = l10n('Unfocus'),
-            func = function()
-                LibDropDown:CloseDropDownMenus()
-                TrackerUtils:UnFocus()
-                QuestieQuest:ToggleNotes(true)
-            end
-        })
+    local focusKey = tostring(quest.Id) .. " " .. tostring(objective.Index)
+    if Questie.db.char.TrackerFocus == focusKey then
+        _AddUnfocusEntry(menu, function() return Questie.db.char.TrackerFocus == focusKey end)
     else
         tinsert(menu, {
             text = l10n('Focus Objective'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
-                TrackerUtils:FocusObjective(quest.Id, objective.Index)
-                QuestieQuest:ToggleNotes(false)
+                if TrackerUtils:FocusObjective(quest.Id, objective.Index, objective, quest) then
+                    QuestieQuest:ToggleNotes(false)
+                end
             end
         })
     end
@@ -68,27 +108,29 @@ end
 ---@param menu table
 ---@param quest Quest
 TrackerMenu.addTomTomOptionForQuest = function(menu, quest)
+    local expectedQuest = quest.enrichment
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
-            if spawn then
-                TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
-            end
+            TrackerUtils.SetQuestTomTomTarget(quest.Id, expectedQuest)
         end
     })
 end
 
 ---@param menu table
+---@param quest Quest Original enriched quest.
 ---@param objective QuestObjective
-TrackerMenu.addTomTomOptionForObjective = function(menu, objective)
+TrackerMenu.addTomTomOptionForObjective = function(menu, quest, objective)
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
         func = function()
             LibDropDown:CloseDropDownMenus()
 
+            if not _GetCurrentMapCapabilities(quest, objective) then
+                return
+            end
             local spawn, zone, name = DistanceUtils.GetNearestObjective(objective.spawnList)
             if spawn then
                 TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
@@ -129,6 +171,12 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
             text = l10n('Show Icons'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
+                -- Unlike quest Show Icons, keep the identity check. The saved key is the original index, which
+                -- a replacement objective can reuse; a stale menu must not clear the replacement's state.
+                local _, capabilities = _GetCurrentMapCapabilities(quest, objective)
+                if not capabilities or capabilities.focusObjectives[objective.Index] ~= objective then
+                    return
+                end
                 objective.HideIcons = nil
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
                 QuestieQuest.ToggleQuestNotes(true)
@@ -139,6 +187,10 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
             text = l10n('Hide Icons'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
+                local _, capabilities = _GetCurrentMapCapabilities(quest, objective)
+                if not capabilities or capabilities.focusObjectives[objective.Index] ~= objective then
+                    return
+                end
                 objective.HideIcons = true
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
                 QuestieQuest.ToggleQuestNotes(false)
@@ -152,6 +204,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
         tinsert(menu, {
             text = l10n('Show Icons'),
             func = function()
+                -- Recovery action: clearing hidden state needs no eligibility check.
                 quest.HideIcons = nil
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
                 QuestieQuest.ToggleQuestNotes(true)
@@ -161,6 +214,10 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
         tinsert(menu, {
             text = l10n('Hide Icons'),
             func = function()
+                local _, capabilities = _GetCurrentMapCapabilities(quest)
+                if not capabilities or not capabilities.canFocusQuest then
+                    return
+                end
                 quest.HideIcons = true
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = true
                 QuestieQuest.ToggleQuestNotes(false)
@@ -175,6 +232,9 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
+            if not _GetCurrentMapCapabilities(quest, objective) then
+                return
+            end
             local needHiddenUpdate = false
             if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(quest.Id) .. " " .. tostring(objective.Index))
                 or (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus ~= quest.Id) then
@@ -202,19 +262,20 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
 end
 
 TrackerMenu.addShowFinisherOnMapOption = function(menu, quest)
-    if quest:IsComplete() == 1 then
-        tinsert(menu, {
-            text = l10n('Show on Map'),
-            func = function()
-                LibDropDown:CloseDropDownMenus()
+    tinsert(menu, {
+        text = l10n('Show on Map'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+            local _, capabilities = _GetCurrentMapCapabilities(quest)
+            if capabilities and capabilities.canShowFinisher then
                 TrackerUtils:ShowFinisherOnMap(quest)
             end
-        })
-    end
+        end
+    })
 end
 
 TrackerMenu.addObjectiveOption = function(menu, subMenu, quest)
-    if quest:IsComplete() == 0 then
+    if quest:IsComplete() == 0 and not quest.isComplete and #subMenu > 0 then
         tinsert(menu, { text = l10n('Objectives'), hasArrow = true, menuList = subMenu })
     end
 end
@@ -226,9 +287,9 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
             LibDropDown:CloseDropDownMenus()
 
             if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(QuestieLink.GetQuestLinkStringById(quest.Id))
+                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
             else
-                ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
+                ChatEdit_InsertLink(TrackerData.GetQuestLink(quest))
             end
         end
     })
@@ -288,22 +349,16 @@ TrackerMenu.addUntrackOption = function(menu, quest)
 end
 
 TrackerMenu.addFocusUnfocusOption = function(menu, quest)
-    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
-        tinsert(menu, {
-            text = l10n('Unfocus'),
-            func = function()
-                LibDropDown:CloseDropDownMenus()
-                TrackerUtils:UnFocus()
-                QuestieQuest:ToggleNotes(true)
-            end
-        })
+    if Questie.db.char.TrackerFocus == quest.Id then
+        _AddUnfocusEntry(menu, function() return Questie.db.char.TrackerFocus == quest.Id end)
     else
         tinsert(menu, {
             text = l10n('Focus Quest'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
-                TrackerUtils:FocusQuest(quest.Id)
-                QuestieQuest:ToggleNotes(false)
+                if TrackerUtils:FocusQuest(quest.Id, quest) then
+                    QuestieQuest:ToggleNotes(false)
+                end
             end
         })
     end
@@ -415,7 +470,7 @@ Popup.Dialogs["QUESTIE_WOWHEAD_URL"] = {
     end,
     OnShow = function(dialog)
         local questId = dialog.Text.text_arg1
-        local quest = QuestieDB.GetQuest(questId)
+        local quest = TrackerData.GetQuest(tonumber(questId))
         -- all expansions follow this system as of 2024 start of Cata
         _ShowWowheadLink(dialog, quest and quest.name, _GetWowheadLinkForLanguage() .. "quest=" .. questId)
     end,
@@ -428,40 +483,69 @@ function TrackerMenu:GetMenuForQuest(quest)
     local menu = {}
     local subMenu = {}
 
+    local capabilities = TrackerMapEligibility.GetCapabilities(quest)
+    local enrichedQuest = capabilities.quest
     for _, objective in pairs(quest.Objectives) do
-        local objectiveMenu = {}
-
-        TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-        TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
-        TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
-        TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
-
-        tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
-    end
-
-    if next(quest.SpecialObjectives) then
-        for _, objective in pairs(quest.SpecialObjectives) do
+        local enrichedObjective = objective.enrichment
+        if capabilities.objectives[enrichedObjective] then
             local objectiveMenu = {}
 
-            TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
-            TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
-            TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
+            -- Map actions mutate the original objective, never the display snapshot.
+            if capabilities.focusObjectives[enrichedObjective.Index] == enrichedObjective then
+                TrackerMenu.addFocusOption(objectiveMenu, enrichedQuest, enrichedObjective)
+            end
+            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, enrichedObjective)
+            if capabilities.focusObjectives[enrichedObjective.Index] == enrichedObjective then
+                TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, enrichedObjective)
+            end
+            TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, enrichedQuest, enrichedObjective)
 
             tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
         end
     end
 
-    local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.enableTooltipsQuestLevel, true)
+    -- TrackerData exposes special objectives only when the live objectives matched.
+    if enrichedQuest then
+        for _, objective in pairs(quest.SpecialObjectives) do
+            if capabilities.objectives[objective] then
+                local objectiveMenu = {}
+
+                if capabilities.focusObjectives[objective.Index] == objective then
+                    TrackerMenu.addFocusOption(objectiveMenu, enrichedQuest, objective)
+                end
+                TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, objective)
+                if capabilities.focusObjectives[objective.Index] == objective then
+                    TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, objective)
+                end
+                TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, enrichedQuest, objective)
+
+                tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
+            end
+        end
+    end
+
+    local coloredQuestName = TrackerData.GetColoredQuestName(quest, Questie.db.profile.enableTooltipsQuestLevel, true)
 
     tinsert(menu, { text = coloredQuestName, isTitle = true })
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
-    TrackerMenu.addFocusUnfocusOption(menu, quest)
-    TrackerMenu.addTomTomOptionForQuest(menu, quest, nil)
+    if capabilities.canFocusQuest then
+        TrackerMenu.addFocusUnfocusOption(menu, enrichedQuest)
+    elseif _IsFocusedOnQuest(quest.Id) then
+        -- Lost eligibility while focused. A completed quest has no objective menus, so objective focus is cleared here too.
+        _AddUnfocusEntry(menu, function() return _IsFocusedOnQuest(quest.Id) end)
+    end
+    if capabilities.canNavigateQuest then
+        TrackerMenu.addTomTomOptionForQuest(menu, quest)
+    end
     TrackerMenu.minMaxQuestOption(menu, quest)
-    TrackerMenu.addShowHideQuestsOption(menu, quest)
-    TrackerMenu.addShowFinisherOnMapOption(menu, quest)
+    -- An ineligible hidden quest still gets Show Icons; it never gets Hide Icons.
+    if capabilities.canFocusQuest or (enrichedQuest and enrichedQuest.HideIcons) then
+        TrackerMenu.addShowHideQuestsOption(menu, enrichedQuest)
+    end
+    if capabilities.canShowFinisher then
+        TrackerMenu.addShowFinisherOnMapOption(menu, enrichedQuest)
+    end
     TrackerMenu.addShowInQuestLogOption(menu, quest)
     TrackerMenu.addLinkToChatOption(menu, quest)
     TrackerMenu.addUntrackOption(menu, quest)

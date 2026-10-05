@@ -18,7 +18,7 @@ local QuestieValidateGameCache = QuestieLoader:CreateModule("QuestieValidateGame
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 
-local stringByte, tremove = string.byte, table.remove
+local tremove = table.remove
 local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = QuestieCompat.GetNumQuestLogEntries, QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 local tpack =  QuestieLib.tpack
@@ -97,12 +97,13 @@ local function OnQuestLogUpdate()
                     -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
                     -- I guess older code queried data before HaveQuestData() was true.
                     Questie.Error("REPORT THIS ERROR! Quest objectives aren't a table. This may stop Questie from loading. questId =", questId)
+                    isQuestLogGood = false
                     hasInvalidObjective = true
                     objectiveList = {}
                 end
 
                 for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
-                    if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
+                    if not QuestieLib.IsObjectiveDataLoaded(objective) then
                         -- Game hasn't cached the quest fully yet
                         isQuestLogGood = false
                         hasInvalidObjective = true

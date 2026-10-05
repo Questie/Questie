@@ -1,0 +1,119 @@
+{
+  "questId": 93927,
+  "title": "A Last Request",
+  "client": {"version": "1.60.1", "build": "70205", "interface": 16001},
+  "source": {
+    "description": "Extracted from five read-only live snapshots. Timestamps are client-reported UTC; null represents Lua nil. Not an event trace."
+  },
+  "fieldSources": {
+    "nativeComplete": "C_QuestLog.IsComplete(93927)",
+    "readyForTurnIn": "C_QuestLog.ReadyForTurnIn(93927)",
+    "compatCompletion": "Sixth return from QuestieCompat.GetQuestLogTitle(index)",
+    "questieComplete": ["cache.isComplete", "QuestieDB.IsComplete(93927)", "enrichedQuest:IsComplete()"],
+    "enrichedOverride": "enrichedQuest.isComplete",
+    "objectives": "C_QuestLog.GetQuestObjectives(93927), with explicit native indices"
+  },
+  "constantResults": {
+    "IsQuestSequenced": true,
+    "C_QuestLog.IsFailed": false,
+    "C_QuestLog.IsQuestFlaggedCompleted": false,
+    "C_QuestLog.IsQuestFlaggedCompletedOnAccount": false,
+    "TrackerData.GetQuestAvailable": false
+  },
+  "unavailableAPIs": ["IsQuestComplete", "IsQuestFlaggedCompleted", "GetQuestLogTitle"],
+  "verifiedAcrossAllSnapshots": {
+    "leaderboardMatchesNativeTextTypeAndFinished": true,
+    "cacheMatchesNativeTypeFinishedAndCounts": true,
+    "cacheRawTextMatchesNativeText": true,
+    "cacheRawFinishedAndProgressMatchNative": true,
+    "enrichedTypeCompletedFinishedAndCountsMatchNative": true,
+    "enrichedIdsMatchMetadataAtSameNativeIndex": true,
+    "questieCompleteSourcesAgree": true,
+    "databaseObjectiveDataUnchanged": true
+  },
+  "databaseObjectiveData": [
+    {"index": 1, "Type": "monster", "Id": 256966},
+    {"index": 2, "Type": "item", "Id": 254871},
+    {"index": 3, "Type": "item", "Id": 263415},
+    {"index": 4, "Type": "item", "Id": 263418}
+  ],
+  "snapshots": [
+    {
+      "stage": "initial",
+      "sourceFile": "baseline-full.json",
+      "capturedAt": "2026-10-04T01:06:36Z",
+      "nativeComplete": false,
+      "readyForTurnIn": false,
+      "compatCompletion": null,
+      "questieComplete": 0,
+      "enrichedOverride": null,
+      "objectives": [
+        {"index": 1, "text": "0/1 Collect and read the note", "type": "item", "objectiveType": 1, "finished": false, "numFulfilled": 0, "numRequired": 1}
+      ]
+    },
+    {
+      "stage": "note read; book reported open",
+      "sourceFile": "stage-1-book-open.json",
+      "capturedAt": "2026-10-04T01:10:19Z",
+      "nativeComplete": false,
+      "readyForTurnIn": false,
+      "compatCompletion": null,
+      "questieComplete": 0,
+      "enrichedOverride": null,
+      "objectives": [
+        {"index": 1, "text": "1/1 Collect and read the note", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 2, "text": "0/1 Skypriest Aanders slain", "type": "monster", "objectiveType": 0, "finished": false, "numFulfilled": 0, "numRequired": 1},
+        {"index": 3, "text": "0/1 Raani's Favorite Feather", "type": "item", "objectiveType": 1, "finished": false, "numFulfilled": 0, "numRequired": 1},
+        {"index": 4, "text": "0/1 Shadowsong Family Signet", "type": "item", "objectiveType": 1, "finished": false, "numFulfilled": 0, "numRequired": 1}
+      ]
+    },
+    {
+      "stage": "feather collected",
+      "sourceFile": "next-objective-done.json",
+      "capturedAt": "2026-10-04T01:24:01Z",
+      "nativeComplete": false,
+      "readyForTurnIn": false,
+      "compatCompletion": null,
+      "questieComplete": 0,
+      "enrichedOverride": null,
+      "objectives": [
+        {"index": 1, "text": "1/1 Collect and read the note", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 2, "text": "0/1 Skypriest Aanders slain", "type": "monster", "objectiveType": 0, "finished": false, "numFulfilled": 0, "numRequired": 1},
+        {"index": 3, "text": "1/1 Raani's Favorite Feather", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 4, "text": "0/1 Shadowsong Family Signet", "type": "item", "objectiveType": 1, "finished": false, "numFulfilled": 0, "numRequired": 1}
+      ]
+    },
+    {
+      "stage": "signet collected",
+      "sourceFile": "another-objective-done.json",
+      "capturedAt": "2026-10-04T01:24:41Z",
+      "nativeComplete": false,
+      "readyForTurnIn": false,
+      "compatCompletion": null,
+      "questieComplete": 0,
+      "enrichedOverride": null,
+      "objectives": [
+        {"index": 1, "text": "1/1 Collect and read the note", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 2, "text": "0/1 Skypriest Aanders slain", "type": "monster", "objectiveType": 0, "finished": false, "numFulfilled": 0, "numRequired": 1},
+        {"index": 3, "text": "1/1 Raani's Favorite Feather", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 4, "text": "1/1 Shadowsong Family Signet", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1}
+      ]
+    },
+    {
+      "stage": "Aanders slain; ready for turn-in",
+      "sourceFile": "corpse-state.json",
+      "capturedAt": "2026-10-04T01:30:30Z",
+      "nativeComplete": true,
+      "readyForTurnIn": true,
+      "compatCompletion": 1,
+      "questieComplete": 1,
+      "enrichedOverride": true,
+      "objectives": [
+        {"index": 1, "text": "1/1 Collect and read the note", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 2, "text": "1/1 Skypriest Aanders slain", "type": "monster", "objectiveType": 0, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 3, "text": "1/1 Raani's Favorite Feather", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1},
+        {"index": 4, "text": "1/1 Shadowsong Family Signet", "type": "item", "objectiveType": 1, "finished": true, "numFulfilled": 1, "numRequired": 1}
+      ]
+    }
+  ]
+}

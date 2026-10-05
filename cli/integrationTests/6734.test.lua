@@ -164,8 +164,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 10,
             raw_finished = false,
             raw_numFulfilled = 0,
-            raw_text = "Thick Yeti Hide: 0/10",
-            text = "Thick Yeti Hide",
+            text = "Thick Yeti Hide: 0/10",
             type = "item"
         }, cachedQuest.objectives[1])
 
@@ -191,8 +190,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 10,
             raw_finished = true,
             raw_numFulfilled = 10,
-            raw_text = "Thick Yeti Hide: 10/10",
-            text = "Thick Yeti Hide",
+            text = "Thick Yeti Hide: 10/10",
             type = "item"
         }, cachedQuest.objectives[1])
         assert.spy(Sounds.PlayObjectiveComplete).was.called(1)
@@ -229,8 +227,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 10,
             raw_finished = false,
             raw_numFulfilled = 0,
-            raw_text = "Rage Scar Yeti Hide: 0/10",
-            text = "Rage Scar Yeti Hide",
+            text = "Rage Scar Yeti Hide: 0/10",
             type = "item"
         }, cachedQuest.objectives[1])
 
@@ -256,8 +253,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 5,
             raw_finished = false,
             raw_numFulfilled = 0,
-            raw_text = "Woodpaw Alpha slain: 0/5",
-            text = "Woodpaw Alpha",
+            text = "Woodpaw Alpha slain: 0/5",
             type = "monster"
         }, cachedQuest.objectives[1])
 
@@ -282,8 +278,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 5,
             raw_finished = false,
             raw_numFulfilled = 1,
-            raw_text = "Woodpaw Alpha slain: 1/5",
-            text = "Woodpaw Alpha",
+            text = "Woodpaw Alpha slain: 1/5",
             type = "monster"
         }, cachedQuest.objectives[1])
     end)

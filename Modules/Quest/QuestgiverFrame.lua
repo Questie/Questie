@@ -160,7 +160,7 @@ end
 if QuestFrameGreetingPanel then
     QuestFrameGreetingPanel:HookScript("OnShow", QuestgiverFrame.GreetingMark)
 end
-if _G.QuestFrameGreetingPanel_OnShow then
+if QuestFrameGreetingPanel_OnShow then
     hooksecurefunc("QuestFrameGreetingPanel_OnShow", QuestgiverFrame.GreetingMark)
 end
 

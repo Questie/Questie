@@ -62,10 +62,63 @@ local QUEST_LOG_STATES = {
 local questLog = {}
 local deletedQuestItem = false
 
--- We store the timestamp of the last quest related "marker event" (e.g. QWU, UQLC), to check for objective changes at
--- all following QUEST_LOG_UPDATE events within MARKER_EVENT_TIMEFRAME seconds
+-- Marker events (e.g. QWU, UQLC) allow subsequent QUEST_LOG_UPDATE events to scan objectives for this window.
+-- The timestamp only gates event-driven scans; it cannot recover missing data if Blizzard stops sending events.
 local lastMarkerQuestEventTime = 0
 local MARKER_EVENT_TIMEFRAME = 20 -- seconds
+local questLogRetryTimer
+-- The fallback doubles its delay each time it fires without resolving loading, so a quest that never
+-- loads costs one scan every few minutes instead of every 20s for the whole session.
+local QUEST_LOG_RETRY_MAX_DELAY = 320 -- seconds; 20, 40, 80, 160, then 320
+local questLogRetryDelay = MARKER_EVENT_TIMEFRAME
+
+-- QUEST_LOG_UPDATE can fire every second and the combat queue does not drain in combat.
+-- Keep at most one queued rebuild; it reads current data when it runs.
+local trackerUpdateQueued = false
+
+---Queues one tracker rebuild unless one is already waiting in the combat queue.
+local function _QueueTrackerUpdate()
+    if trackerUpdateQueued then
+        return
+    end
+    trackerUpdateQueued = true
+    QuestieCombatQueue:Queue(function()
+        -- Clear first so events during the rebuild can queue the next one.
+        trackerUpdateQueued = false
+        QuestieTracker:Update()
+    end)
+end
+
+-- One fallback for the whole quest log, not one timer per quest. Repeated requests keep the existing deadline.
+-- Re-enter the normal update path so cache reconciliation, notifications and combat-queued rendering stay together.
+-- UpdateAllQuests cancels the fallback when it runs and rearms it only while loading remains unresolved.
+local function _ScheduleQuestLogRetry()
+    if questLogRetryTimer then
+        return
+    end
+    questLogRetryTimer = C_Timer.NewTimer(questLogRetryDelay, function()
+        -- Release ownership before updating so another cache miss can schedule the next retry.
+        questLogRetryTimer = nil
+        -- Firing means no event resolved loading in time. If this scan still misses, wait longer next time.
+        questLogRetryDelay = math.min(questLogRetryDelay * 2, QUEST_LOG_RETRY_MAX_DELAY)
+        -- Timer delivery can be late. Refresh the marker or QuestLogUpdate could skip this recovery scan.
+        lastMarkerQuestEventTime = GetTime()
+        QuestEventHandler.QuestLogUpdate()
+    end)
+end
+
+---Returns a backed-off fallback to its shortest delay, rearming a waiting timer so it uses that delay.
+local function _ResetQuestLogRetryBackoff()
+    if questLogRetryDelay == MARKER_EVENT_TIMEFRAME then
+        return -- Not backed off: keep any existing deadline.
+    end
+    questLogRetryDelay = MARKER_EVENT_TIMEFRAME
+    if questLogRetryTimer then
+        questLogRetryTimer:Cancel()
+        questLogRetryTimer = nil
+        _ScheduleQuestLogRetry()
+    end
+end
 
 function QuestEventHandler:Initialize()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Initialize")
@@ -124,10 +177,17 @@ function QuestEventHandler:Initialize()
                             else
                                 if quest.Objectives and #quest.Objectives > 0 then
                                     for _, objective in pairs(quest.Objectives) do
-                                        if text_arg1 == objective.Description then
-                                            questName = quest.name
-                                            foundQuestItem = true
-                                            break
+                                        -- Display wording can include verbs, punctuation or counters. The popup
+                                        -- supplies an item name, so resolve it from the item objective's identity.
+                                        -- Description="Étoffe de laine " -> ignored, rather than compared with "Étoffe de laine".
+                                        if objective.Type == "item" and objective.Id then
+                                            -- Item ID -> GetItemInfo -> "Étoffe de laine"; popup "Étoffe de laine" -> match.
+                                            local itemName = GetItemInfo(objective.Id)
+                                            if itemName and text_arg1 == itemName then
+                                                questName = quest.name
+                                                foundQuestItem = true
+                                                break
+                                            end
                                         end
                                     end
                                 end
@@ -191,6 +251,10 @@ end
 
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 function QuestEventHandler.InitQuestLogStates(changes)
+    -- Startup may proceed before every objective loads; do not depend on another quest event.
+    if next(changes) then
+        _ScheduleQuestLogRetry()
+    end
     for questId, _ in pairs(changes) do
         questLog[questId] = {
             state = QUEST_LOG_STATES.QUEST_ACCEPTED
@@ -215,23 +279,29 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
         end)
     end
 
+    -- No state means the client accepted the quest, but Questie's acceptance work is waiting for valid objectives.
+    -- This new table also identifies this particular acceptance to delayed callbacks after removal/reacceptance.
     questLog[questId] = {}
-
-    -- Timed quests do not need a full Quest Log Update.
-    -- TODO: Add achievement timers later.
-    local questTimers = QuestieCompat.GetQuestTimers(questId)
-    if type(questTimers) == "number" then
-        lastMarkerQuestEventTime = GetTime()
-    end
+    lastMarkerQuestEventTime = GetTime()
+    -- A new quest's objectives usually load within seconds. Do not let an older stuck quest's backoff delay it.
+    _ResetQuestLogRetryBackoff()
 
     QuestieLib.RepairMissingItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
+    -- The title can be displayed before objective data finishes loading.
+    _QueueTrackerUpdate()
 
     BreadcrumbQuests.CheckQuestBreadcrumbs(questId)
 end
 
 ---@param questId number
 function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
+    local pending = questLog[questId]
+    -- A natural event may finish acceptance before a retry runs. Do not repeat its notifications or map work.
+    if not pending or pending.state then
+        return
+    end
+
     -- The quest may have been abandoned (e.g. auto-abandon for incomplete breadcrumb) while waiting for the cache
     local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if not questLogIndex or questLogIndex == 0 then
@@ -239,14 +309,20 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
         return
     end
 
-    -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
+    -- Acceptance side effects require valid cached objectives. Events, the quick retry and the shared fallback
+    -- all return here; the state guard above ensures acceptance is completed only once.
     local cacheMiss, _ = QuestLogCache.CheckForChanges({[questId] = true})
     if cacheMiss then
         -- if cacheMiss, no need to check changes as only 1 questId
         Questie.Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
         if (not isRetry) then
+            -- Keep the quick retry for ordinary load delays; the shared fallback covers silence after it fails.
+            _ScheduleQuestLogRetry()
             C_Timer.After(0.5, function()
-                _QuestEventHandler:HandleQuestAccepted(questId, true)
+                -- A removed/re-accepted quest has a different lifecycle, even with the same ID.
+                if questLog[questId] == pending then
+                    _QuestEventHandler:HandleQuestAccepted(questId, true)
+                end
             end)
         end
         return
@@ -357,7 +433,7 @@ end
 ---@param questId number
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
-    if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
+    if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
 
         QuestLogCache.RemoveQuest(questId)
@@ -380,14 +456,21 @@ end
 function QuestEventHandler.QuestLogUpdate()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE")
 
-    local now = GetTime()
-    -- We skip this QUEST_LOG_UPDATE if there was no marker event in the last MARKER_EVENT_TIMEFRAME seconds
-    if lastMarkerQuestEventTime > 0 and (now - lastMarkerQuestEventTime) > MARKER_EVENT_TIMEFRAME then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE - No marker event in the last", MARKER_EVENT_TIMEFRAME, "seconds - skipping")
-        return
+    -- Pending accepts must keep retrying after the initial timer, including beyond the marker window.
+    for questId, data in pairs(questLog) do
+        if not data.state then
+            _QuestEventHandler:HandleQuestAccepted(questId, true)
+        end
     end
 
-    _QuestEventHandler:UpdateAllQuests(true)
+    local now = GetTime()
+    if lastMarkerQuestEventTime > 0 and (now - lastMarkerQuestEventTime) > MARKER_EVENT_TIMEFRAME then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE - No recent marker; skipping objective scan")
+    else
+        _QuestEventHandler:UpdateAllQuests(true)
+    end
+
+    -- Native membership and loading titles can change even when no objective scan is needed.
 
     -- Don't update tracker if we're in a pet battle
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
@@ -395,9 +478,7 @@ function QuestEventHandler.QuestLogUpdate()
         return
     end
 
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
+    _QueueTrackerUpdate()
 end
 
 --- Fires whenever a quest objective progressed
@@ -433,6 +514,15 @@ function QuestEventHandler.UnitQuestLogChanged(unitTarget)
     lastMarkerQuestEventTime = GetTime()
 end
 
+---True once Questie has finished accepting the quest: objectives loaded and accept side effects ran.
+---Quests in the native log at login count as accepted. Independent of QuestieDB.
+---@param questId QuestId
+---@return boolean
+function QuestEventHandler.IsQuestAccepted(questId)
+    local entry = questLog[questId]
+    return entry ~= nil and entry.state == QUEST_LOG_STATES.QUEST_ACCEPTED
+end
+
 --- This is for debugging of #6734
 function QuestEventHandler.GetQuestLogStates()
     return questLog
@@ -443,16 +533,34 @@ end
 ---@param doRetryWithoutChanges boolean @If true, the function will be called again at next QUEST_LOG_UPDATE even if there were no changes
 function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     Questie.Debug(Questie.DEBUG_INFO, "Running full questlog check")
+    -- Cancel only when a scan actually runs. Cancelling on every incoming event would lose recovery when
+    -- QuestLogUpdate skips the scan because its marker expired. This also covers scans started by other callers.
+    if questLogRetryTimer then
+        questLogRetryTimer:Cancel()
+        questLogRetryTimer = nil
+    end
     local questIdsToCheck = {}
+    local pendingAccept = false
 
     -- TODO replace with a ready table so no need to generate at each call
     for questId, data in pairs(questLog) do
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
+        elseif not data.state then
+            -- HandleQuestAccepted owns these entries until their first valid objective load finishes.
+            -- They are excluded from questIdsToCheck, so this scan cannot report their cache misses.
+            pendingAccept = true
         end
     end
 
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
+    -- A successful accepted-quest scan does not mean pending accepts are ready. Keep the fallback for either
+    -- case; otherwise a new quest could remain title-only forever if Blizzard sends no further event.
+    if cacheMiss or pendingAccept then
+        _ScheduleQuestLogRetry()
+    else
+        questLogRetryDelay = MARKER_EVENT_TIMEFRAME
+    end
 
     if next(changes) then
         for questId, objIds in pairs(changes) do

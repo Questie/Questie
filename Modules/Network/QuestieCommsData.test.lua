@@ -16,11 +16,11 @@ describe("QuestieCommsData", function()
     local originalGetObject
     local originalHaveQuestData
     local originalGetQuestObjectives
-    local originalTrimObjectiveText
     local originalThread
     local originalTimer
     local originalItem
     local originalGetItemInfo
+    local originalOptionalTemplate, originalMonsterTemplate
     local itemCallback
     local itemCancel
     local loadedItemName
@@ -78,13 +78,15 @@ describe("QuestieCommsData", function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
+        originalMonsterTemplate = _G.QUEST_MONSTERS_KILLED
+        originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+        _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
         originalData = QuestieComms.data
         originalGetItem = QuestieDB.GetItem
         originalGetNpc = QuestieDB.GetNPC
         originalGetObject = QuestieDB.GetObject
         originalHaveQuestData = _G.HaveQuestData
         originalGetQuestObjectives = C_QuestLog.GetQuestObjectives
-        originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
         originalTimer = _G.C_Timer
         originalItem = _G.Item
         originalGetItemInfo = QuestieCompat.GetItemInfo
@@ -103,7 +105,6 @@ describe("QuestieCommsData", function()
             return {}, loadThread
         end
         apiObjectives = nil
-        Questie.db.profile.trimObjectiveText = false
         _G.HaveQuestData = function() return true end
         C_QuestLog.GetQuestObjectives = spy.new(function() return apiObjectives end)
         -- Use the real fetcher/formatter; tests control when the loading coroutine resumes.
@@ -117,6 +118,8 @@ describe("QuestieCommsData", function()
     end)
 
     after_each(function()
+        _G.QUEST_MONSTERS_KILLED = originalMonsterTemplate
+        _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
         QuestieComms.data = originalData
         QuestieDB.GetItem = originalGetItem
         QuestieDB.GetNPC = originalGetNpc
@@ -127,7 +130,6 @@ describe("QuestieCommsData", function()
         _G.C_Timer = originalTimer
         QuestieCompat.GetItemInfo = originalGetItemInfo
         _G.Item = originalItem
-        Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
     end)
 
     describe("GetTooltip", function()
@@ -142,8 +144,10 @@ describe("QuestieCommsData", function()
             C_QuestLog.GetQuestObjectives = spy.new(function() return apiObjectives end)
             local result = QuestieComms.data:GetTooltip("m_19305")
 
-            assert.same({text = "Fallen Sky Ridge Revitalized", fulfilled = 0, required = 1}, result[questId][playerName][1])
-            assert.same({text = "Fallen Sky Ridge Revitalized", fulfilled = 2, required = 3}, result[questId].AnotherPlayer[1])
+            assert.same({text = "Fallen Sky Ridge Revitalized", nativeText = "Fallen Sky Ridge Revitalized: 1/1",
+                fulfilled = 0, required = 1}, result[questId][playerName][1])
+            assert.same({text = "Fallen Sky Ridge Revitalized", nativeText = "Fallen Sky Ridge Revitalized: 1/1",
+                fulfilled = 2, required = 3}, result[questId].AnotherPlayer[1])
             assert.spy(QuestieDB.GetNPC).was.not_called()
         end)
 
@@ -170,6 +174,7 @@ describe("QuestieCommsData", function()
             local firstResult = QuestieComms.data:GetTooltip("m_19305")
 
             assert.equals("Goliathon", firstResult[questId][playerName][1].text)
+            assert.is_nil(firstResult[questId][playerName][1].nativeText)
 
             _G.HaveQuestData = function() return true end
             apiObjectives = {{text = "Fallen Sky Ridge Revitalized: 1/1", type = "monster"}}
@@ -178,7 +183,8 @@ describe("QuestieCommsData", function()
             local loadedResult = QuestieComms.data:GetTooltip("m_19305")
 
             assert.equals("Fallen Sky Ridge Revitalized", loadedResult[questId][playerName][1].text)
-            assert.same({text = "Fallen Sky Ridge Revitalized", fulfilled = 0, required = 1}, firstResult[questId][playerName][1])
+            assert.same({text = "Fallen Sky Ridge Revitalized", nativeText = "Fallen Sky Ridge Revitalized: 1/1",
+                fulfilled = 0, required = 1}, firstResult[questId][playerName][1])
         end)
 
         it("should safely fall back when both API wording and entity data are missing", function()
@@ -192,6 +198,8 @@ describe("QuestieCommsData", function()
 
             assert.equals("", monsterResult[questId][playerName][1].text)
             assert.equals("", objectResult[questId][playerName][2].text)
+            assert.is_nil(monsterResult[questId][playerName][1].nativeText)
+            assert.is_nil(objectResult[questId][playerName][2].nativeText)
         end)
 
         it("should cancel a pending item fallback when delayed API text replaces it", function()
@@ -221,19 +229,40 @@ describe("QuestieCommsData", function()
             local ok, err = coroutine.resume(loadThread)
             assert.is_true(ok, err)
 
-            assert.same({text = "Deliver the supplies", fulfilled = 0, required = 1}, result[questId][playerName][1])
+            assert.same({text = "Deliver the supplies", nativeText = "Deliver the supplies: 1/1",
+                fulfilled = 0, required = 1}, result[questId][playerName][1])
+        end)
+
+        it("extracts French fallback wording for ready and deferred party rows", function()
+            _G.QUEST_MONSTERS_KILLED = "%1$s\194\160: %2$d/%3$d |4personnage tué:personnages tués;"
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (optionnel)"
+            dofile("Modules/Libs/QuestieLib.lua")
+            local nativeText = "Vide-gousset défias\194\160: 2/5 personnages tués (optionnel)"
+            apiObjectives = {{text = nativeText, type = "monster"}}
+            QuestieComms.data:RegisterTooltip(questId, playerName, {{type = "m", id = 100, fulfilled = 3, required = 5}})
+            local readyResult = QuestieComms.data:GetTooltip("m_100")
+
+            apiObjectives = nil
+            local delayedResult = QuestieComms.data:GetTooltip("m_100")
+            apiObjectives = {{text = nativeText, type = "monster"}}
+            local ok, err = coroutine.resume(loadThread)
+            assert.is_true(ok, err)
+
+            assert.are.same({text = "Vide-gousset défias\194\160 personnages tués (optionnel)", nativeText = nativeText,
+                fulfilled = 3, required = 5}, readyResult[questId][playerName][1])
+            assert.are.same(readyResult, delayedResult)
         end)
 
         local formattingCases = {
-            {name = "local trimming disabled", trim = false, text = "Wolf slain: 1/1", type = "monster", expected = "Wolf slain"},
-            {name = "local trimming enabled", trim = true, text = "Wolf slain: 1/1", type = "monster", expected = "Wolf slain"},
-            {name = "event counters", trim = true, text = "Ritual completed: 1/1", type = "event", expected = "Ritual completed"},
-            {name = "Chinese counters", trim = true, text = "仪式完成：1/1", type = "event", expected = "仪式完成"},
-            {name = "no progress counter", trim = false, text = "Speak to: Thrall", type = "event", expected = "Speak to: Thrall"},
+            {name = "Classic counters", text = "Wolf slain: 1/1", type = "monster", expected = "Wolf slain"},
+            {name = "event counters", text = "Ritual completed: 1/1", type = "event", expected = "Ritual completed"},
+            {name = "Classic optional counters", text = "Wolf slain: 1/1 (Optional)", type = "monster", expected = "Wolf slain (Optional)"},
+            {name = "Chinese counters", text = "仪式完成：1/1", type = "event", expected = "仪式完成"},
+            {name = "Forever counters", text = "9/15 Windstone Cluster", type = "item", expected = "Windstone Cluster"},
+            {name = "no progress counter", text = "Speak to: Thrall", type = "event", expected = "Speak to: Thrall"},
         }
         for _, case in ipairs(formattingCases) do
             it("should preserve full wording in ready and delayed results with " .. case.name, function()
-                Questie.db.profile.trimObjectiveText = case.trim
                 apiObjectives = {{text = case.text, type = case.type}}
                 QuestieComms.data:RegisterTooltip(questId, playerName, {objective("m", 100)})
                 local readyResult = QuestieComms.data:GetTooltip("m_100")
@@ -245,6 +274,7 @@ describe("QuestieCommsData", function()
                 assert.is_true(ok, err)
 
                 assert.equals(case.expected, readyResult[questId][playerName][1].text)
+                assert.equals(case.text, readyResult[questId][playerName][1].nativeText)
                 assert.same(readyResult, delayedResult)
             end)
         end
