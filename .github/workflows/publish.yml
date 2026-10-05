@@ -111,6 +111,7 @@ jobs:
         run: |
           {
             echo "# Dry run: $RELEASE_TAG"
+            echo "# Commit SHA: $COMMIT_SHA"
             echo
             cat CHANGELOG.md
             echo
