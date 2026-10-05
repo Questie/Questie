@@ -422,18 +422,54 @@ describe("QuestieLib", function()
 
     describe("IsObjectiveDataLoaded", function()
         local originalMonstersKilled, originalOptionalTemplate
+        local debugMock
 
         before_each(function()
             originalMonstersKilled = _G.QUEST_MONSTERS_KILLED
             originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
             _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s（可选）"
             _G.QUEST_MONSTERS_KILLED = "%2$d/%3$d %1$s slain"
+            debugMock = stub(Questie, "Debug")
             dofile("Modules/Libs/QuestieLib.lua")
         end)
 
         after_each(function()
+            debugMock:revert()
             _G.QUEST_MONSTERS_KILLED = originalMonstersKilled
             _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        it("diagnoses a trailing-space heuristic rejection with the quoted original optional row", function()
+            local objective = {text = "Read the book. （可选）", type = "event"}
+
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded(objective))
+            assert.spy(debugMock).was.called_with(Questie.DEBUG_DEVELOP,
+                "[QuestieLib.IsObjectiveDataLoaded] Rejected trailing ASCII space:", '"Read the book. （可选）"')
+            assert.spy(debugMock).was.called(1)
+        end)
+
+        it("diagnoses a triple-space heuristic rejection with the quoted original row", function()
+            local objective = {text = "Destroy   objects", type = "event"}
+
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded(objective))
+            assert.spy(debugMock).was.called_with(Questie.DEBUG_DEVELOP,
+                "[QuestieLib.IsObjectiveDataLoaded] Rejected triple ASCII spaces:", '"Destroy   objects"')
+            assert.spy(debugMock).was.called(1)
+        end)
+
+        it("keeps ordinary leading-space missing names quiet even with trailing spaces", function()
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded({text = " : 0/1 ", type = "item"}))
+            assert.spy(debugMock).was.not_called()
+        end)
+
+        it("keeps empty parsed names quiet even with triple and trailing spaces", function()
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded({text = "0/6   slain ", type = "monster"}))
+            assert.spy(debugMock).was.not_called()
+        end)
+
+        it("keeps accepted rows quiet", function()
+            assert.is_true(QuestieLib.IsObjectiveDataLoaded({text = "4/6 Roiling  Winds destroyed", type = "monster"}))
+            assert.spy(debugMock).was.not_called()
         end)
 
         local cases = {

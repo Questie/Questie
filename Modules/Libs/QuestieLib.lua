@@ -454,7 +454,7 @@ function QuestieLib.IsObjectiveDataLoaded(objective)
     end
     -- Missing names leave a leading ASCII space in Classic (" : 0/1") or trailing spaces in Forever ("0/1  ").
     -- Do not trim whitespace: it is evidence of an incomplete client cache, even inside an optional wrapper.
-    if string.byte(text, 1) == 32 or string.byte(text, -1) == 32 then
+    if string.byte(text, 1) == 32 then
         return false
     end
     -- Counters and a suffix can load before the name, leaving text such as "0/15   slain" with no edge spaces.
@@ -462,10 +462,22 @@ function QuestieLib.IsObjectiveDataLoaded(objective)
     if QuestieLib.TrimObjectiveText(text, objective.type) == "" then
         return false
     end
+    -- Diagnose only heuristic rejections with a non-empty parsed name. Quote the original row so edge spaces
+    -- and optional labels remain visible when tracing possible false positives in client wording.
+    if string.byte(text, -1) == 32 then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieLib.IsObjectiveDataLoaded] Rejected trailing ASCII space:",
+            string.format("%q", objective.text))
+        return false
+    end
     -- The parser cannot recognize every suffix (e.g. "destroyed"). Treat three consecutive ASCII spaces as a final
     -- missing-name heuristic, independent of language, UTF-8 encoding or word boundaries. This deliberately assumes
     -- legitimate objective text will not contain triple spaces; if it does, it will also be treated as not loaded.
-    return not string.find(text, "   ", 1, true)
+    if string.find(text, "   ", 1, true) then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieLib.IsObjectiveDataLoaded] Rejected triple ASCII spaces:",
+            string.format("%q", objective.text))
+        return false
+    end
+    return true
 end
 
 ---Synchronously reads Blizzard's cache, including quests outside the local log, and primes missing data.
