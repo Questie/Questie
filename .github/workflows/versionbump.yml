@@ -55,13 +55,6 @@ jobs:
             echo "Enter a version such as 12.0.1 or 12.0.1-b1, without a v prefix." >&2
             exit 1
           fi
-      - name: Ensure version tag doesn't exist
-        run: |
-          existing_tag=$(git ls-remote --tags origin "refs/tags/v$VERSION")
-          if [[ -n "$existing_tag" ]]; then
-            echo "ERROR: Tag v$VERSION already exists; refusing to replace it." >&2
-            exit 2
-          fi
       # Environment approval is required before this job receives the private key.
       # Limit each short-lived token to this repository and Contents write access.
       - name: Create app token
@@ -79,6 +72,14 @@ jobs:
         uses: actions/checkout@v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token || github.token }}
+
+      - name: Ensure version tag doesn't exist
+        run: |
+          existing_tag=$(git ls-remote --tags origin "refs/tags/v$VERSION")
+          if [[ -n "$existing_tag" ]]; then
+            echo "ERROR: Tag v$VERSION already exists; refusing to replace it." >&2
+            exit 2
+          fi
 
       - name: Update versions
         run: python3 versionbump.py "$VERSION" --no-git
