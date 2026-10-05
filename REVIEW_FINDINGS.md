@@ -19,7 +19,7 @@ Severity: P1 means user-visible breakage is likely. P2 means incorrect behavior 
 
 ### E. Collapsed quest-log headers (P2, plausible)
 
-Earlier finding 7. A candidate fix is on branch `tracker-collapsed-headers` (`57715492e`, based on `39f5bebc7`), kept off `tracker-fix` until it is tested in game. The offline answers to the three questions:
+Earlier finding 7. A candidate fix is on branch `tracker-collapsed-headers` (`c5ca7dce4`, rebased onto `277f2ad47`), kept off `tracker-fix` until it is tested in game. The offline answers to the three questions:
 1. *Membership.* `Refresh()` follows `GetQuestLogTitle` until nil. On Wrath Titan and MoP, quests under collapsed headers are listed after every visible entry, past the entry count; the Titan report ("4 entries, but 6 quests") is that layout, not a Titan bug. Classic Era UI source (Gethe `classic_era` `8165d4cd6e48d606369336cc3a7977902310e81e`, `QuestLogFrame.lua:115-170`) only renders up to the entry count, which fits the same layout. No lifecycle-based fallback was added; Era and TBC are still unprobed.
 2. *`GetQuestSortIndex` on Era and TBC.* Its use is now narrowed. Quests within the entry count use the preceding header, as master did, and never call it. Only quests past the entry count (under a collapsed header) ask it. If it gives no header there, the quest keeps the header recorded while it was expanded instead of taking the unrelated preceding one. So a wrong meaning on Era or TBC can only misgroup collapsed quests.
 3. *MoP and `C_QuestLog.GetInfo`.* The wiki API table (`docs/classic-api-availability.md:7260`) marks `C_QuestLog.GetInfo` only for Retail, not Era, TBC Anniversary or MoP Classic. The modern gate therefore applies to Forever only and does not disable the MoP grouping fix.
@@ -37,6 +37,22 @@ Tests in `TrackerData.test.lua`: "uses the preceding header for quests under exp
 **Problem:** Master only rejected missing text or a leading space. The branch also rejects a trailing ASCII space, a missing type, an empty parsed name, and any run of three spaces. A real Blizzard string with any of these counts as "not loaded" forever. With no earlier cached row, `GetNewObjectives` returns nil on every scan (`:174-180`), so the quest never reaches the tracker or map. Startup itself is only delayed, because `QuestieInit.lua:243` has a 3s timeout. `docs/tracker-objective-text.md:27` already notes the triple-space false positive. Real client strings like this have not been shown to exist.
 
 **Fix:** At minimum, log a debug line when a row is rejected only by the trailing-space or triple-space rule, so reports can be traced.
+
+### J. Questie's inferred completion makes its own staleness check reject every scan (P2, follow-up PR)
+
+Not from the seven reviewers; found while analysing G. Pre-existing on master.
+
+**Location:** `Modules/Quest/QuestLogCache.lua`. The inference is at the end of `GetNewObjectives`, and the rejection is the `blizzardCacheIncorrect` check in `CheckForChanges` (`:243-244`).
+
+**Problem:** Some quests have a broken empty objective row, so Blizzard keeps `isComplete` nil after every real objective is finished. Questie's legacy workaround (commit `2c0e402a8`) skips empty rows and infers `isComplete = 1`, which is cached. On the next scan, `blizzardCacheIncorrect` sees Blizzard "not complete" against a cached "complete". That check exists for stale loading-screen data, so it rejects the scan and reports a cache miss. Blizzard keeps reporting nil, so this repeats on every scan until turn-in or abandon.
+
+**Consequences:** The quest's cached progress is frozen, so a real change such as dropping a quest item is never picked up. Every miss also refreshes the marker, so each QUEST_LOG_UPDATE runs a full scan. G's backoff only limits the fallback timer while no events arrive.
+
+**Evidence:** The lifecycle reviewer's constructed repro (`perm-miss.lua`) printed `miss false, true, true`. No live quest has been identified with the empty-row bug.
+
+**Fix:** Record whether cached `isComplete = 1` came from Blizzard or was inferred by Questie. Apply `blizzardCacheIncorrect` only to completion Blizzard reported. Keep G's backoff as a safety net.
+
+**Risks to test:** Loading-screen protection for completions Blizzard reported, and the completed-to-incomplete guard the sequenced-quest work relies on (`IsQuestSequenced` gating).
 
 ## Minor
 
@@ -158,5 +174,6 @@ The earlier constraint about wording-based matching no longer applies: matching 
 5. ~~F and G: sounds after commit, and timer backoff.~~ Done.
 6. ~~Leftover strings and test gaps.~~ Done in `26f131529` and `076f1ddfa`. `IsObjectiveOptional` is kept by decision and now guarded (`8d39b68d8`). Optional: trim about 450 duplicate test lines.
 7. H: debug line when a row is rejected only by the trailing-space or triple-space rule.
+   Follow-up PR, not this branch: J, inferred completion versus `blizzardCacheIncorrect`.
 8. In-game testing of E on `tracker-collapsed-headers` (Era, MoP, Forever), plus the D check on Era and Forever.
 9. Update the PR body, delete this file, then squash-merge.
