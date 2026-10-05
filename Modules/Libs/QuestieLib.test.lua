@@ -420,6 +420,85 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("IsObjectiveDataLoaded", function()
+        local originalMonstersKilled, originalOptionalTemplate
+        local debugMock
+
+        before_each(function()
+            originalMonstersKilled = _G.QUEST_MONSTERS_KILLED
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s（可选）"
+            _G.QUEST_MONSTERS_KILLED = "%2$d/%3$d %1$s slain"
+            debugMock = stub(Questie, "Debug")
+            dofile("Modules/Libs/QuestieLib.lua")
+        end)
+
+        after_each(function()
+            debugMock:revert()
+            _G.QUEST_MONSTERS_KILLED = originalMonstersKilled
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        it("diagnoses a trailing-space heuristic rejection with the quoted original optional row", function()
+            local objective = {text = "Read the book. （可选）", type = "event"}
+
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded(objective))
+            assert.spy(debugMock).was.called_with(Questie.DEBUG_DEVELOP,
+                "[QuestieLib.IsObjectiveDataLoaded] Rejected trailing ASCII space:", '"Read the book. （可选）"')
+            assert.spy(debugMock).was.called(1)
+        end)
+
+        it("diagnoses a triple-space heuristic rejection with the quoted original row", function()
+            local objective = {text = "Destroy   objects", type = "event"}
+
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded(objective))
+            assert.spy(debugMock).was.called_with(Questie.DEBUG_DEVELOP,
+                "[QuestieLib.IsObjectiveDataLoaded] Rejected triple ASCII spaces:", '"Destroy   objects"')
+            assert.spy(debugMock).was.called(1)
+        end)
+
+        it("keeps ordinary leading-space missing names quiet even with trailing spaces", function()
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded({text = " : 0/1 ", type = "item"}))
+            assert.spy(debugMock).was.not_called()
+        end)
+
+        it("keeps empty parsed names quiet even with triple and trailing spaces", function()
+            assert.is_false(QuestieLib.IsObjectiveDataLoaded({text = "0/6   slain ", type = "monster"}))
+            assert.spy(debugMock).was.not_called()
+        end)
+
+        it("keeps accepted rows quiet", function()
+            assert.is_true(QuestieLib.IsObjectiveDataLoaded({text = "4/6 Roiling  Winds destroyed", type = "monster"}))
+            assert.spy(debugMock).was.not_called()
+        end)
+
+        local cases = {
+            {name = "missing text", type = "monster", loaded = false},
+            {name = "missing type", text = "Read the book.", loaded = false},
+            {name = "empty placeholder without a type", text = "", loaded = true},
+            {name = "optional label without an instruction", text = "（可选）", type = "event", loaded = false},
+            {name = "loaded optional instruction", text = "Read the book.（可选）", type = "event", loaded = true},
+            {name = "leading-space placeholder", text = " : 0/1", type = "item", loaded = false},
+            {name = "trailing-space placeholder", text = "0/1  ", type = "item", loaded = false},
+            {name = "empty parsed name without triple spaces", text = "0/6 \t slain", type = "monster", loaded = false},
+            {name = "unknown English suffix", text = "0/6   destroyed", type = "monster", loaded = false},
+            {name = "unknown UTF-8 suffix", text = "0/6   已摧毁", type = "monster", loaded = false},
+            {name = "triple spaces without a counter", text = "Destroy   objects", type = "event", loaded = false},
+            {name = "loaded English wording", text = "4/6 Roiling Winds destroyed", type = "monster", loaded = true},
+            {name = "loaded UTF-8 wording", text = "4/6 烈风已摧毁", type = "monster", loaded = true},
+            {name = "double interior spaces", text = "4/6 Roiling  Winds destroyed", type = "monster", loaded = true},
+            {name = "unknown objective type", text = "Read the book.", type = "futureType", loaded = true},
+        }
+        for _, case in ipairs(cases) do
+            it("validates " .. case.name .. " without modifying the row", function()
+                local objective = {text = case.text, type = case.type}
+
+                assert.are.equal(case.loaded, QuestieLib.IsObjectiveDataLoaded(objective))
+                assert.are.same({text = case.text, type = case.type}, objective)
+            end)
+        end
+    end)
+
     describe("GetLoadedQuestObjectives", function()
         local originalHaveQuestData
         local originalGetQuestObjectives
@@ -438,12 +517,39 @@ describe("QuestieLib", function()
             C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
         end)
 
-        it("should return the loaded array without modifying it", function()
+        it("should return loaded rows in a new table without modifying Blizzard's table", function()
             local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
 
-            assert.equals(objectives, result)
-            assert.same({{text = "Wolf slain: 0/1", type = "monster"}}, result)
+            assert.are_not.equal(objectives, result)
+            assert.equals(objectives[1], result[1])
+            assert.same({{text = "Wolf slain: 0/1", type = "monster"}}, objectives)
             assert.spy(C_QuestLog.GetQuestObjectives).was.called_with(QUEST_ID)
+        end)
+
+        it("skips empty text regardless of type or counts and preserves the remaining indices", function()
+            objectives = {
+                {text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false},
+                {text = "Wolf slain: 0/1", type = "monster"},
+                {text = "", type = "item", numFulfilled = 3, numRequired = 5, finished = false},
+                {text = "Follow the apparition.", type = "futureType"},
+            }
+
+            local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+            assert.same({
+                [2] = {text = "Wolf slain: 0/1", type = "monster"},
+                [4] = {text = "Follow the apparition.", type = "futureType"},
+            }, result)
+            assert.equals(objectives[2], result[2])
+            assert.equals(objectives[4], result[4])
+            assert.same({text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false}, objectives[1])
+            assert.same({text = "", type = "item", numFulfilled = 3, numRequired = 5, finished = false}, objectives[3])
+        end)
+
+        it("returns a loaded empty result when every row has empty text, even without a type", function()
+            objectives = {{text = "", type = "event", finished = false}, {text = ""}}
+
+            assert.same({}, QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
         end)
 
         it("should prime missing quest data and return nil", function()
@@ -471,6 +577,33 @@ describe("QuestieLib", function()
             assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
         end)
 
+        local unknownSuffixes = {
+            {name = "English", missing = "0/6   destroyed", loaded = "4/6 Roiling Winds destroyed"},
+            {name = "UTF-8", missing = "0/6   已摧毁", loaded = "4/6 烈风已摧毁"},
+        }
+        for _, case in ipairs(unknownSuffixes) do
+            it("rejects triple-space placeholders with an unknown " .. case.name .. " suffix until the name loads", function()
+                objectives = {{text = case.missing, type = "monster"}}
+
+                assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+                assert.are.equal(case.missing, objectives[1].text)
+
+                objectives[1].text = case.loaded
+                local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+                assert.are.equal(objectives[1], result[1])
+                assert.are.equal(case.loaded, result[1].text)
+            end)
+        end
+
+        it("preserves single and double spaces in loaded text", function()
+            objectives = {{text = "4/6 Roiling  Winds destroyed", type = "monster"}}
+
+            local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
+
+            assert.are.equal("4/6 Roiling  Winds destroyed", result[1].text)
+        end)
+
         it("should preserve loaded Forever text and numeric objective types", function()
             objectives = {
                 {text = "0/10 Kobold Vermin slain", type = "monster", objectiveType = 0},
@@ -482,7 +615,7 @@ describe("QuestieLib", function()
 
             local result = QuestieLib.GetLoadedQuestObjectives(QUEST_ID)
 
-            assert.equals(objectives, result)
+            assert.are_not.equal(objectives, result)
             assert.same({
                 {text = "0/10 Kobold Vermin slain", type = "monster", objectiveType = 0},
                 {text = "0/1 Garrick's Head", type = "item", objectiveType = 1},
@@ -497,6 +630,160 @@ describe("QuestieLib", function()
 
             assert.same({}, QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
         end)
+    end)
+
+    describe("IsObjectiveOptional", function()
+        local originalOptionalDescription
+
+        before_each(function()
+            originalOptionalDescription = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
+        end)
+
+        after_each(function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalDescription
+        end)
+
+        -- Templates: https://www.townlong-yak.com/framexml/live/Helix/GlobalStrings.lua/EN
+        -- Other locale endpoints: CN, BR, DE, ES, FR, IT, KR, MX, RU, TW.
+        -- Counted fixtures use their QUEST_MONSTERS_KILLED formats and the sourced NPC names
+        -- documented in docs/tracker-objective-text.md. These are constructed strings, not live captures.
+        -- French uses a non-breaking space (\194\160) and the expanded plural form of |4...;.
+        local localizedCases = {
+            {locale = "enUS", template = "%s (Optional)",
+                counted = "2/5 Mangy Wolf slain (Optional)", uncounted = "Mangy Wolf slain (Optional)",
+                unlabelled = "2/5 Mangy Wolf slain", misplaced = "(Optional) Mangy Wolf slain"},
+            {locale = "zhCN", template = "%s（可选）",
+                counted = "2/5 消灭长鼻野猪（可选）", uncounted = "消灭长鼻野猪（可选）",
+                unlabelled = "2/5 消灭长鼻野猪", misplaced = "（可选）消灭长鼻野猪"},
+            {locale = "ptBR", template = "%s (Opcional)",
+                counted = "2/5 Fuçalonga (Opcional)", uncounted = "Fuçalonga (Opcional)",
+                unlabelled = "2/5 Fuçalonga", misplaced = "(Opcional) Fuçalonga"},
+            {locale = "deDE", template = "(Optional) %s",
+                counted = "(Optional) Räudiger Wolf getötet: 2/5", uncounted = "(Optional) Räudiger Wolf getötet",
+                unlabelled = "Räudiger Wolf getötet: 2/5", misplaced = "Räudiger Wolf getötet (Optional)"},
+            {locale = "esES", template = "(Opcional) %s",
+                counted = "(Opcional) Jabalí colmillopétreo: 2/5", uncounted = "(Opcional) Jabalí colmillopétreo",
+                unlabelled = "Jabalí colmillopétreo: 2/5", misplaced = "Jabalí colmillopétreo (Opcional)"},
+            {locale = "frFR", template = "%s (optionnel)",
+                counted = "Vide-gousset défias\194\160: 2/5 personnages tués (optionnel)",
+                uncounted = "Vide-gousset défias personnages tués (optionnel)",
+                unlabelled = "Vide-gousset défias\194\160: 2/5 personnages tués", misplaced = "(optionnel) Vide-gousset défias"},
+            {locale = "itIT", template = "%s (Facoltativo)",
+                counted = "2/5 Boccalarga (Facoltativo)", uncounted = "Boccalarga (Facoltativo)",
+                unlabelled = "2/5 Boccalarga", misplaced = "(Facoltativo) Boccalarga"},
+            {locale = "koKR", template = "%s (선택)",
+                counted = "2/5 데피아즈단 소매치기 처치 (선택)", uncounted = "데피아즈단 소매치기 처치 (선택)",
+                unlabelled = "2/5 데피아즈단 소매치기 처치", misplaced = "(선택) 데피아즈단 소매치기 처치"},
+            {locale = "esMX", template = "%s (Opcional)",
+                counted = "2/5 Jabalí Colmipétreo (Opcional)", uncounted = "Jabalí Colmipétreo (Opcional)",
+                unlabelled = "2/5 Jabalí Colmipétreo", misplaced = "(Opcional) Jabalí Colmipétreo"},
+            {locale = "ruRU", template = "%s (необязательно)",
+                counted = "Вепрь-камнеклык – убито: 2/5 (необязательно)", uncounted = "Вепрь-камнеклык – убито (необязательно)",
+                unlabelled = "Вепрь-камнеклык – убито: 2/5", misplaced = "(необязательно) Вепрь-камнеклык – убито"},
+            {locale = "zhTW", template = "%s（非必要）",
+                counted = "2/5 殺死長鼻野豬（非必要）", uncounted = "殺死長鼻野豬（非必要）",
+                unlabelled = "2/5 殺死長鼻野豬", misplaced = "（非必要）殺死長鼻野豬"},
+        }
+        for _, case in ipairs(localizedCases) do
+            it("recognizes the " .. case.locale .. " GlobalStrings label only in its native position", function()
+                _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = case.template
+
+                assert.is_true(QuestieLib.IsObjectiveOptional(case.counted))
+                assert.is_true(QuestieLib.IsObjectiveOptional(case.uncounted))
+                assert.is_false(QuestieLib.IsObjectiveOptional(case.unlabelled))
+                assert.is_false(QuestieLib.IsObjectiveOptional(case.misplaced))
+            end)
+        end
+
+        it("matches nothing on clients without the optional label", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = nil
+
+            assert.is_false(QuestieLib.IsObjectiveOptional("Mangy Wolf slain (Optional)"))
+        end)
+
+        it("recognizes the optional label with or without progress counts", function()
+            assert.is_true(QuestieLib.IsObjectiveOptional("0/1 Listen to Alvarion Windfield's Story (Optional)"))
+            assert.is_true(QuestieLib.IsObjectiveOptional("Listen to Alvarion Windfield's Story (Optional)"))
+        end)
+
+        it("rejects unlabelled text and a label that does not end the objective", function()
+            assert.is_false(QuestieLib.IsObjectiveOptional("0/1 Listen to Alvarion Windfield's Story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen to the Optional Story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen (Optional) to the story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional(""))
+        end)
+
+        it("matches localized prefix labels only at the start", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "(Optional) %s"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("(Optional) Listen to the story"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen (Optional) to the story"))
+        end)
+
+        it("preserves UTF-8 text and full-width punctuation", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s（可选）"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("聆听故事（可选）"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("聆听故事(可选)"))
+        end)
+
+        it("treats Lua pattern characters in the label literally", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s [Optional].()+-*?^$%"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("Listen [Optional].()+-*?^$%"))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen [Optional]X()+-*?^$%"))
+        end)
+
+        it("replaces every string placeholder with an arbitrary-text match", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional) %s"
+
+            assert.is_true(QuestieLib.IsObjectiveOptional("Listen (Optional) to the story"))
+            assert.is_true(QuestieLib.IsObjectiveOptional(" (Optional) "))
+            assert.is_false(QuestieLib.IsObjectiveOptional("Listen to the story"))
+        end)
+    end)
+
+    describe("client objective wording", function()
+        local originalHaveQuestData, originalGetQuestObjectives, originalItemsNeeded, originalMonstersKilled
+        local objectives
+        local cases = {
+            {name = "Classic item", itemFormat = "%s: %d/%d", monsterFormat = "%s slain: %d/%d",
+                type = "item", missing = " : 0/8", loaded = "item: 0/8", expected = "item"},
+            {name = "Forever item", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "item", missing = "0/8  ", loaded = "0/8 item", expected = "item"},
+            {name = "Forever monster", itemFormat = "%2$d/%3$d %1$s", monsterFormat = "%2$d/%3$d %1$s slain",
+                type = "monster", missing = "0/8   slain", loaded = "0/8 Wolf slain", expected = "Wolf"},
+        }
+
+        before_each(function()
+            originalHaveQuestData = _G.HaveQuestData
+            originalGetQuestObjectives = C_QuestLog.GetQuestObjectives
+            originalItemsNeeded, originalMonstersKilled = _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED
+            _G.HaveQuestData = function() return true end
+            C_QuestLog.GetQuestObjectives = function() return objectives end
+        end)
+
+        after_each(function()
+            _G.HaveQuestData = originalHaveQuestData
+            C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
+            _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED = originalItemsNeeded, originalMonstersKilled
+        end)
+
+        for _, case in ipairs(cases) do
+            it("waits for the missing name in " .. case.name .. " wording and extracts it once loaded", function()
+                _G.QUEST_ITEMS_NEEDED, _G.QUEST_MONSTERS_KILLED = case.itemFormat, case.monsterFormat
+                dofile("Modules/Libs/QuestieLib.lua")
+                -- These are literal client responses. Do not trim the placeholder whitespace in the fixture.
+                objectives = {{text = case.missing, type = case.type, numFulfilled = 0, numRequired = 8, finished = false}}
+                assert.are.equal("", QuestieLib.TrimObjectiveText(case.missing, case.type))
+                assert.is_nil(QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+
+                objectives[1].text = case.loaded
+                assert.are.same(objectives, QuestieLib.GetLoadedQuestObjectives(QUEST_ID))
+                assert.are.equal(case.expected, QuestieLib.TrimObjectiveText(case.loaded, case.type))
+            end)
+        end
     end)
 
     describe("ContinueOnQuestObjectivesLoad", function()
@@ -575,13 +862,14 @@ describe("QuestieLib", function()
 
         local incompleteObjectives = {
             {name = "missing text", objective = {type = "item"}},
-            {name = "empty text", objective = {text = "", type = "item"}},
             {name = "leading-space text", objective = {text = " : 0/1", type = "item"}},
             {name = "missing type", objective = {text = "Item: 0/1"}},
+            {name = "triple-space text with an unknown suffix", objective = {text = "0/6   destroyed", type = "monster"}},
         }
         for _, case in ipairs(incompleteObjectives) do
             it("should refetch all objectives when a later objective has " .. case.name, function()
-                objectives[2] = case.objective
+                objectives[2] = {text = "", type = "event", finished = false}
+                objectives[3] = case.objective
                 QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
                 Tick()
                 assert.spy(callback).was.not_called()
@@ -631,6 +919,36 @@ describe("QuestieLib", function()
             assert.are_same("dead", coroutine.status(thread))
         end)
 
+        it("succeeds on the first tick with empty rows filtered out and original indices intact", function()
+            objectives = {
+                {text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false},
+                {text = "Wolf slain: 0/1", type = "monster"},
+            }
+            local onFailure = spy.new(function() end)
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback, onFailure)
+            assert.spy(callback).was.not_called()
+
+            Tick()
+
+            assert.spy(callback).was.called(1)
+            assert.spy(callback).was.called_with({[2] = {text = "Wolf slain: 0/1", type = "monster"}})
+            assert.spy(onFailure).was.not_called()
+            assert.spy(_G.C_QuestLog.GetQuestObjectives).was.called(1)
+            assert.equals("dead", coroutine.status(thread))
+        end)
+
+        it("calls onSuccess with an empty result rather than timing out on permanently empty rows", function()
+            objectives = {{text = "", type = "event", numFulfilled = 0, numRequired = 0, finished = false}}
+            local onFailure = spy.new(function() end)
+            QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback, onFailure)
+
+            Tick()
+
+            assert.spy(callback).was.called_with({})
+            assert.spy(onFailure).was.not_called()
+            assert.equals("dead", coroutine.status(thread))
+        end)
+
         it("should retry nil API results", function()
             objectives = nil
             QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
@@ -657,7 +975,7 @@ describe("QuestieLib", function()
         end)
 
         it("should stop after 20 unsuccessful attempts without calling back", function()
-            objectives = {{text = "", type = "event"}}
+            objectives = {{type = "event"}}
             QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback)
             for _ = 1, 20 do
                 Tick()
@@ -668,8 +986,8 @@ describe("QuestieLib", function()
             assert.are_same("dead", coroutine.status(thread))
         end)
 
-        it("should call onFailure (if provided) and not onSuccess when timing out after 20 attempts", function()
-            objectives = {{text = "", type = "event"}}
+        it("should call onFailure when a non-empty row stays unloaded even alongside ignored empty rows", function()
+            objectives = {{text = "", type = "event"}, {type = "event"}}
             local onFailure = spy.new(function() end)
             QuestieLib.ContinueOnQuestObjectivesLoad(QUEST_ID, callback, onFailure)
             for _ = 1, 20 do
@@ -1004,19 +1322,43 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("ReplaceObjectiveTextProgress", function()
+        local cases = {
+            {name = "leading Forever counter", text = "9/15 Windstone Cluster", expected = "3/12 Windstone Cluster"},
+            {name = "trailing Classic counter", text = "Wolf slain: 9/15", expected = "Wolf slain: 3/12"},
+            {name = "localized wording and spacing", text = "Wölfe besiegt :  9/15", expected = "Wölfe besiegt :  3/12"},
+            {name = "full-width colon", text = "击败霍格：9/15", expected = "击败霍格：3/12"},
+            {name = "UTF-8 leading wording", text = "9/15 击败霍格", expected = "3/12 击败霍格"},
+            {name = "fraction inside Classic instruction", text = "Mix 1/2 potion: 9/15", expected = "Mix 1/2 potion: 3/12"},
+            {name = "fraction inside Forever instruction", text = "9/15 Mix 1/2 potion.", expected = "3/12 Mix 1/2 potion."},
+        }
+        for _, case in ipairs(cases) do
+            it("replaces only the " .. case.name, function()
+                assert.equals(case.expected, QuestieLib.ReplaceObjectiveTextProgress(case.text, 3, 12))
+            end)
+        end
+
+        it("supports zero progress without removing the instruction", function()
+            assert.equals("0/1 Use the beacon", QuestieLib.ReplaceObjectiveTextProgress("1/1 Use the beacon", 0, 1))
+        end)
+
+        it("does not guess counters from instruction fractions or unrecognized layouts", function()
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Use 1/2 of the potion", 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Potion 1/2", 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Use Walk on Air", 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("1/2", 3, 12))
+        end)
+
+        it("requires native text and numeric remote progress", function()
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress(nil, 3, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("9/15 Cluster", nil, 12))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("9/15 Cluster", 3, nil))
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("9/15 Cluster", "3", 12))
+        end)
+    end)
+
     describe("GetFullObjectiveText", function()
-        local originalTrimObjectiveText
-
-        before_each(function()
-            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
-        end)
-
-        after_each(function()
-            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
-        end)
-
-        it("should return the full objective description if trimObjectiveText is disabled", function()
-            Questie.db.profile.trimObjectiveText = false
+        it("extracts fallback wording without the Classic trailing counter", function()
             local rawObjectiveText = "Defeat Hogger: 0/1"
 
             local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
@@ -1024,8 +1366,7 @@ describe("QuestieLib", function()
             assert.are_same("Defeat Hogger", result)
         end)
 
-        it("should return the full objective description for Chinese clients if trimObjectiveText is disabled", function()
-            Questie.db.profile.trimObjectiveText = false
+        it("extracts fallback wording with a full-width colon", function()
             local rawObjectiveText = "击败霍格：0/1"
 
             local result = QuestieLib.GetFullObjectiveText(rawObjectiveText)
@@ -1033,15 +1374,204 @@ describe("QuestieLib", function()
             assert.are_same("击败霍格", result)
         end)
 
-        it("should still return full wording when trimObjectiveText is enabled", function()
-            Questie.db.profile.trimObjectiveText = true
-
-            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveText("Wolf slain: 0/1"))
+        it("extracts fallback wording without the Forever leading counter", function()
+            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveText("0/1 Wolf slain"))
         end)
 
-        it("should retain the nil result for text without a trailing counter", function()
+        it("returns nil when the text has no recognized progress counter", function()
             assert.is_nil(QuestieLib.GetFullObjectiveText("Speak to: Thrall"))
         end)
+    end)
+
+    describe("optional objective progress wording", function()
+        local originalOptionalTemplate
+
+        before_each(function()
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+        end)
+
+        after_each(function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        local cases = {
+            {name = "Classic suffix", template = "%s (Optional)", text = "Wolf slain: 2/5 (Optional)",
+                remote = "Wolf slain: 3/5 (Optional)", description = "Wolf slain (Optional)"},
+            {name = "Forever suffix", template = "%s (Optional)", text = "2/5 Wolf slain (Optional)",
+                remote = "3/5 Wolf slain (Optional)", description = "Wolf slain (Optional)"},
+
+            {name = "literal pattern characters", template = "[%s]?", text = "[Wolf slain :  2/5]?",
+                remote = "[Wolf slain :  3/5]?", description = "[Wolf slain ]?"},
+        }
+        for _, case in ipairs(cases) do
+            it("preserves the " .. case.name .. " while replacing or removing only progress", function()
+                _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = case.template
+
+                assert.are.equal(case.remote, QuestieLib.ReplaceObjectiveTextProgress(case.text, 3, 5))
+                assert.are.equal(case.description, QuestieLib.GetFullObjectiveText(case.text))
+            end)
+        end
+
+        it("does not mistake an instruction fraction for optional objective progress", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (Optional)"
+
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress("Use 1/2 of the potion (Optional)", 3, 5))
+            assert.is_nil(QuestieLib.GetFullObjectiveText("Use 1/2 of the potion (Optional)"))
+        end)
+
+        it("still handles ordinary counters on clients without an optional template", function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = nil
+
+            assert.are.equal("Wolf slain: 3/5", QuestieLib.ReplaceObjectiveTextProgress("Wolf slain: 2/5", 3, 5))
+            assert.are.equal("Wolf slain", QuestieLib.GetFullObjectiveText("Wolf slain: 2/5"))
+        end)
+    end)
+
+    describe("French monster progress suffixes", function()
+        local originalMonsterTemplate, originalOptionalTemplate
+
+        before_each(function()
+            originalMonsterTemplate = _G.QUEST_MONSTERS_KILLED
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+            -- https://www.townlong-yak.com/framexml/live/Helix/GlobalStrings.lua/FR
+            -- Exact format, including the non-breaking space before the colon.
+            _G.QUEST_MONSTERS_KILLED = "%1$s\194\160: %2$d/%3$d |4personnage tué:personnages tués;"
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = "%s (optionnel)"
+        end)
+
+        after_each(function()
+            _G.QUEST_MONSTERS_KILLED = originalMonsterTemplate
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        it("supports the Classic and Era French format with and without an optional label", function()
+            _G.QUEST_MONSTERS_KILLED = "%s tué\194\160: %d/%d"
+            local text = "Vide-gousset défias tué\194\160: 2/5"
+            local optionalText = "Vide-gousset défias tué\194\160: 2/5 (optionnel)"
+
+            assert.are.equal("Vide-gousset défias tué\194\160: 3/5", QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.are.equal("Vide-gousset défias tué\194\160", QuestieLib.GetFullObjectiveText(text))
+            assert.are.equal("Vide-gousset défias tué\194\160: 3/5 (optionnel)",
+                QuestieLib.ReplaceObjectiveTextProgress(optionalText, 3, 5))
+            assert.are.equal("Vide-gousset défias tué\194\160 (optionnel)", QuestieLib.GetFullObjectiveText(optionalText))
+        end)
+
+        it("preserves plural wording and optional labels while replacing or removing progress", function()
+            local text = "Vide-gousset défias\194\160: 2/5 personnages tués (optionnel)"
+
+            assert.are.equal("Vide-gousset défias\194\160: 3/5 personnages tués (optionnel)",
+                QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.are.equal("Vide-gousset défias\194\160 personnages tués (optionnel)", QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("recognizes the singular expansion without an optional label", function()
+            local text = "Vide-gousset défias\194\160: 0/1 personnage tué"
+
+            assert.are.equal("Vide-gousset défias\194\160: 1/1 personnage tué", QuestieLib.ReplaceObjectiveTextProgress(text, 1, 1))
+            assert.are.equal("Vide-gousset défias\194\160 personnage tué", QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("preserves unexpanded plural markup for the client to render", function()
+            local text = "Vide-gousset défias\194\160: 2/5 |4personnage tué:personnages tués; (optionnel)"
+
+            assert.are.equal("Vide-gousset défias\194\160: 3/5 |4personnage tué:personnages tués; (optionnel)",
+                QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.are.equal("Vide-gousset défias\194\160 |4personnage tué:personnages tués; (optionnel)",
+                QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("only recognizes suffixes declared by the client format", function()
+            local text = "Vide-gousset défias\194\160: 2/5 créatures vaincues (optionnel)"
+
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.is_nil(QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("does not turn an instruction fraction into progress when the suffix matches", function()
+            local text = "Utiliser 1/2 de la potion personnages tués (optionnel)"
+
+            assert.is_nil(QuestieLib.ReplaceObjectiveTextProgress(text, 3, 5))
+            assert.is_nil(QuestieLib.GetFullObjectiveText(text))
+        end)
+
+        it("does not strip the whole description when a leading-counter row overlaps the suffix", function()
+            assert.are.equal("3/5 personnages tués", QuestieLib.ReplaceObjectiveTextProgress("2/5 personnages tués", 3, 5))
+            assert.are.equal("personnages tués", QuestieLib.GetFullObjectiveText("2/5 personnages tués"))
+        end)
+
+        it("does not change ordinary French item counters", function()
+            assert.are.equal("Étoffe de laine\194\160: 3/5",
+                QuestieLib.ReplaceObjectiveTextProgress("Étoffe de laine\194\160: 2/5", 3, 5))
+            assert.are.equal("Étoffe de laine\194\160", QuestieLib.GetFullObjectiveText("Étoffe de laine\194\160: 2/5"))
+        end)
+    end)
+
+    describe("localized NPC objective text", function()
+        local originalOptionalTemplate
+
+        before_each(function()
+            originalOptionalTemplate = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
+        end)
+
+        after_each(function()
+            _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = originalOptionalTemplate
+        end)
+
+        -- Real NPC names, with constructed counters and the supplied client optional templates.
+        -- Sources and NPC IDs: docs/tracker-objective-text.md, "Localized fixture sources".
+        -- Expected strings stay literal so tests cannot reproduce a formatting bug in their expectations.
+        local cases = {
+            {locale = "zhCN", template = "%s（可选）",
+                classic = "长鼻野猪：2/5（可选）", classicRemote = "长鼻野猪：3/5（可选）",
+                forever = "2/5 长鼻野猪（可选）", foreverRemote = "3/5 长鼻野猪（可选）",
+                description = "长鼻野猪（可选）"},
+            {locale = "ptBR", template = "%s (Opcional)",
+                classic = "Fuçalonga: 2/5 (Opcional)", classicRemote = "Fuçalonga: 3/5 (Opcional)",
+                forever = "2/5 Fuçalonga (Opcional)", foreverRemote = "3/5 Fuçalonga (Opcional)",
+                description = "Fuçalonga (Opcional)"},
+            {locale = "deDE", template = "(Optional) %s",
+                classic = "(Optional) Räudiger Wolf: 2/5", classicRemote = "(Optional) Räudiger Wolf: 3/5",
+                forever = "(Optional) 2/5 Räudiger Wolf", foreverRemote = "(Optional) 3/5 Räudiger Wolf",
+                description = "(Optional) Räudiger Wolf"},
+            {locale = "esES", template = "(Opcional) %s",
+                classic = "(Opcional) Jabalí colmillopétreo: 2/5", classicRemote = "(Opcional) Jabalí colmillopétreo: 3/5",
+                forever = "(Opcional) 2/5 Jabalí colmillopétreo", foreverRemote = "(Opcional) 3/5 Jabalí colmillopétreo",
+                description = "(Opcional) Jabalí colmillopétreo"},
+            {locale = "frFR", template = "%s (optionnel)",
+                classic = "Vide-gousset défias: 2/5 (optionnel)", classicRemote = "Vide-gousset défias: 3/5 (optionnel)",
+                forever = "2/5 Vide-gousset défias (optionnel)", foreverRemote = "3/5 Vide-gousset défias (optionnel)",
+                description = "Vide-gousset défias (optionnel)"},
+            {locale = "itIT", template = "%s (Facoltativo)",
+                classic = "Boccalarga: 2/5 (Facoltativo)", classicRemote = "Boccalarga: 3/5 (Facoltativo)",
+                forever = "2/5 Boccalarga (Facoltativo)", foreverRemote = "3/5 Boccalarga (Facoltativo)",
+                description = "Boccalarga (Facoltativo)"},
+            {locale = "koKR", template = "%s (선택)",
+                classic = "데피아즈단 소매치기: 2/5 (선택)", classicRemote = "데피아즈단 소매치기: 3/5 (선택)",
+                forever = "2/5 데피아즈단 소매치기 (선택)", foreverRemote = "3/5 데피아즈단 소매치기 (선택)",
+                description = "데피아즈단 소매치기 (선택)"},
+            {locale = "esMX", template = "%s (Opcional)",
+                classic = "Jabalí Colmipétreo: 2/5 (Opcional)", classicRemote = "Jabalí Colmipétreo: 3/5 (Opcional)",
+                forever = "2/5 Jabalí Colmipétreo (Opcional)", foreverRemote = "3/5 Jabalí Colmipétreo (Opcional)",
+                description = "Jabalí Colmipétreo (Opcional)"},
+            {locale = "ruRU", template = "%s (необязательно)",
+                classic = "Вепрь-камнеклык: 2/5 (необязательно)", classicRemote = "Вепрь-камнеклык: 3/5 (необязательно)",
+                forever = "2/5 Вепрь-камнеклык (необязательно)", foreverRemote = "3/5 Вепрь-камнеклык (необязательно)",
+                description = "Вепрь-камнеклык (необязательно)"},
+            {locale = "zhTW", template = "%s（非必要）",
+                classic = "長鼻野豬：2/5（非必要）", classicRemote = "長鼻野豬：3/5（非必要）",
+                forever = "2/5 長鼻野豬（非必要）", foreverRemote = "3/5 長鼻野豬（非必要）",
+                description = "長鼻野豬（非必要）"},
+        }
+        for _, case in ipairs(cases) do
+            it("preserves " .. case.locale .. " names and labels in both counter layouts", function()
+                _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = case.template
+
+                assert.are.equal(case.classicRemote, QuestieLib.ReplaceObjectiveTextProgress(case.classic, 3, 5))
+                assert.are.equal(case.foreverRemote, QuestieLib.ReplaceObjectiveTextProgress(case.forever, 3, 5))
+                assert.are.equal(case.description, QuestieLib.GetFullObjectiveText(case.classic))
+                assert.are.equal(case.description, QuestieLib.GetFullObjectiveText(case.forever))
+            end)
+        end
     end)
 
     describe("GetClassString", function()
@@ -1123,27 +1653,4 @@ describe("QuestieLib", function()
         end)
     end)
 
-    describe("GetFullObjectiveTextConditional", function()
-        local originalTrimObjectiveText
-
-        before_each(function()
-            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
-        end)
-
-        after_each(function()
-            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
-        end)
-
-        it("should return full wording when trimObjectiveText is disabled", function()
-            Questie.db.profile.trimObjectiveText = false
-
-            assert.equals("Wolf slain", QuestieLib.GetFullObjectiveTextConditional("Wolf slain: 0/1"))
-        end)
-
-        it("should return nil when trimObjectiveText is enabled", function()
-            Questie.db.profile.trimObjectiveText = true
-
-            assert.is_nil(QuestieLib.GetFullObjectiveTextConditional("Wolf slain: 0/1"))
-        end)
-    end)
 end)

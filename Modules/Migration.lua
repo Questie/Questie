@@ -266,6 +266,10 @@ local migrationFunctions = {
         Questie.db.global.factionSpecificTownsfolk = nil
         Questie.db.global.petFoodVendorTypes = nil
     end,
+    [41] = function()
+        -- Native wording and counter-free fallbacks no longer have a shortened/full display preference.
+        Questie.db.profile.trimObjectiveText = nil
+    end,
 }
 
 function Migration:Migrate()

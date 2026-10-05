@@ -87,30 +87,6 @@ local function _GetObjectiveName(objType, objId)
     end
 end
 
--- When API wording is unavailable and trimming is disabled, rebuild a full description
--- from the entity name and the client's objective format.
-local objectiveTypePatterns = {
-    monster = QUEST_MONSTERS_KILLED, -- "%s slain: %d/%d"
-    item = QUEST_ITEMS_NEEDED,
-    object = QUEST_OBJECTS_FOUND,
-}
-
----@param objType string
----@param description string
----@return string?
-local function _GetFullDescription(objType, description)
-    if Questie.db.profile.trimObjectiveText or description == "" then
-        return nil
-    end
-    local pattern = objectiveTypePatterns[objType]
-    if not pattern then
-        return nil
-    end
-    local rawText = string.format(pattern, description, 0, 0)
-
-    return QuestieLib.GetFullObjectiveTextConditional(rawText)
-end
-
 ---@return boolean
 local function _ShouldDraw()
     return Questie.db.profile.showPartyQuestObjectives
@@ -307,7 +283,8 @@ local function _DrawQuest(questId)
                     Index = objectiveIndex,
                     questId = questId,
                     Description = description,
-                    FullDescription = (not apiText) and _GetFullDescription(objType, description) or nil,
+                    -- Map tooltips replace the native counter with each remote player's progress.
+                    NativeText = apiObjective and apiObjective.text,
                     Icon = objData and objData.Icon,
                     Completed = false,
                     -- Pre-fill from cache so PopulateObjective skips rebuilding the spawn list.

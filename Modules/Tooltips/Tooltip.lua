@@ -8,6 +8,8 @@ local _QuestieTooltips = QuestieTooltips.private
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
@@ -194,7 +196,11 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
                         local text;
                         local color = QuestieLib:GetRGBForObjective(objective)
 
-                        if objective.required then
+                        -- Native counters describe this client; replace them before displaying remote progress.
+                        local nativeText = QuestieLib.ReplaceObjectiveTextProgress(objective.nativeText, objective.fulfilled, objective.required)
+                        if nativeText then
+                            text = "   " .. color .. nativeText
+                        elseif objective.required then
                             text = "   " .. color .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
                         else
                             text = "   " .. color .. objective.text;
@@ -349,9 +355,14 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     local text;
                     local color = QuestieLib:GetRGBForObjective(objective)
 
+                    -- Read only accepted cache text. Synthetic source items can reuse a native index,
+                    -- but describe a different step and must keep their own wording and counters.
+                    local cached = QuestLogCache.TryGetQuest(questId)
+                    local native = cached and not objective.IsSourceItem and not objective.IsRequiredSourceItem
+                        and cached.objectives[objectiveIndex]
                     local npcId = tonumber(key:sub(3))
                     local objectiveId = objective.Id
-                    if objective.Type == "spell" and objective.spawnList[npcId].ItemId then
+                    if not native and objective.Type == "spell" and objective.spawnList[npcId].ItemId then
                         text = "   " .. color .. tostring(QuestieDB.QueryItemSingle(objective.spawnList[npcId].ItemId, "name"));
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     else
@@ -371,11 +382,14 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             end
                             dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
                         end
-                        if objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
-                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " ..QuestieLib:GetObjectiveDescription(objective) .. dropRateText;
+                        if native then
+                            text = "   " .. color .. native.text .. dropRateText
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text }
+                        elseif objective.Needed and ((not finishedAndUnacceptedQuests[questId]) or objective.Collected ~= objective.Needed) then
+                            text = "   " .. color .. tostring(objective.Collected) .. "/" .. tostring(objective.Needed) .. " " .. (objective.Description or "") .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         else
-                            text = "   " .. color .. QuestieLib:GetObjectiveDescription(objective) .. dropRateText;
+                            text = "   " .. color .. (objective.Description or "") .. dropRateText;
                             tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                         end
                     end

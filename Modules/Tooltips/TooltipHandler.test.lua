@@ -47,7 +47,7 @@ describe("TooltipHandler", function()
         local QuestieComms, QuestieDB, mock, objectKeys
         local originalIsInGroup, originalUnitName, originalCTimer, originalGetQuestObjectives
         local REMOTE_QUEST_ID = 42
-        local PARTY_LINE = "   gold1/3 Open the chest (|cFFFFFFFFBob|rgold)|r"
+        local PARTY_LINE = "   goldOpen the chest: 1/3 (|cFFFFFFFFBob|rgold)|r"
 
         before_each(function()
             originalIsInGroup, originalUnitName = _G.IsInGroup, _G.UnitName
@@ -66,7 +66,9 @@ describe("TooltipHandler", function()
             QuestieDB = QuestieLoader:ImportModule("QuestieDB")
             QuestieDB.QueryObjectSingle = mock.lib.Object.Get
             QuestieDB.GetQuest = function() return nil end
+            dofile("Modules/Libs/QuestieLib.lua")
             local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function() return nil end
             QuestieLib.GetColoredQuestName = function() return "Party Quest" end
             QuestieLib.GetRGBForObjective = function() return "gold" end
             QuestieLib.GetLoadedQuestObjectives = function()
@@ -157,7 +159,6 @@ describe("TooltipHandler", function()
             QuestieDB.GetItemDroprate = function() return nil end
             local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
             QuestieLib.GetColoredQuestName = function() return "Local Quest" end
-            QuestieLib.GetObjectiveDescription = function(_, objective) return objective.Description end
             QuestieTooltips:RegisterObjectiveTooltip(7, "o_1001", {
                 Index = 1, Id = 1001, Type = "object", Description = "Open the chest", Update = function() end,
             })
