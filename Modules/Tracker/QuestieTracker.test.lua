@@ -515,6 +515,77 @@ describe("QuestieTracker", function()
                 assert.is_nil(objective.HideIcons)
                 assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
             end)
+
+            it("keeps saved focus while its quest is still loading and restores it on a later update", function()
+                local ready = false
+                TrackerData.RefreshQuest = spy.new(function()
+                    return {Id = 11, enrichment = ready and original or nil, Objectives = {{enrichment = objective}},
+                        SpecialObjectives = {}, IsComplete = function() return 0 end}
+                end)
+                TrackerData.ContainsQuest = function() return true end
+                Questie.db.char.TrackerFocus = "11 3"
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+
+                assert.is_true(initialized, err)
+                assert.are.equal("11 3", Questie.db.char.TrackerFocus)
+                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+
+                ready, now = true, 1
+                TrackerUtils.GetSortedQuestIds = function() return {}, {} end
+                QuestieTracker:Update()
+
+                assert.is_nil(objective.HideIcons)
+                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+            end)
+
+            it("clears saved focus that still cannot apply once the restore timeout passes", function()
+                TrackerData.RefreshQuest = spy.new(function()
+                    return {Id = 11, Objectives = {}, SpecialObjectives = {}, IsComplete = function() return 0 end}
+                end)
+                TrackerData.ContainsQuest = function() return true end
+                TrackerUtils.GetSortedQuestIds = function() return {}, {} end
+                TrackerUtils.UnFocus = spy.new(function() Questie.db.char.TrackerFocus = nil end)
+                Questie.db.char.TrackerFocus = 11
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+                assert.is_true(initialized, err)
+
+                now = 30
+                QuestieTracker:Update()
+                assert.are.equal(11, Questie.db.char.TrackerFocus)
+
+                now = 61
+                TrackerData.Refresh:clear() -- The shared header stub asserts one refresh per update.
+                QuestieTracker:Update()
+                assert.spy(TrackerUtils.UnFocus).was.called(1)
+                assert.is_nil(Questie.db.char.TrackerFocus)
+                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            end)
+
+            it("clears a malformed saved objective focus at startup", function()
+                TrackerUtils.UnFocus = spy.new(function() Questie.db.char.TrackerFocus = nil end)
+                Questie.db.char.TrackerFocus = "11 x"
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+
+                assert.is_true(initialized, err)
+                assert.spy(TrackerUtils.UnFocus).was.called(1)
+                assert.spy(TrackerData.RefreshQuest).was.not_called()
+            end)
+
+            it("clears saved focus when its quest is no longer in the quest log", function()
+                TrackerData.RefreshQuest = spy.new(function() return nil end)
+                TrackerData.ContainsQuest = function() return false end
+                TrackerUtils.UnFocus = spy.new(function() Questie.db.char.TrackerFocus = nil end)
+                Questie.db.char.TrackerFocus = 11
+
+                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
+
+                assert.is_true(initialized, err)
+                assert.spy(TrackerUtils.UnFocus).was.called(1)
+                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            end)
         end)
     end)
 

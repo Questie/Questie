@@ -184,6 +184,55 @@ function QuestieTracker.SetupDisabledWatchRefresh()
     end
 end
 
+-- Saved focus restore. Startup can run before the focused quest's data is ready, so Initialize tries once
+-- and Update retries after each refresh. Once the timeout passes, a failed attempt means the target is
+-- invalid and the focus is cleared, as startup did before retries existed.
+local FOCUS_RESTORE_TIMEOUT = 60 -- seconds; outlasts the 20s quest log retry fallback with margin
+---@type number? GetTime() deadline while a restore is pending, nil otherwise.
+local focusRestoreDeadline
+
+---Applies the saved tracker focus, or clears it when it can never apply.
+---@param canWait boolean True while unavailable data may still load; false clears focus on any failure.
+---@return boolean finished True when focus was applied, cleared or never saved; false while waiting for data.
+local function _RestoreSavedFocus(canWait)
+    -- Saved as a quest ID for quest focus, or "questId objectiveIndex" for objective focus.
+    local focus = Questie.db.char.TrackerFocus
+    local questId, objectiveIndex
+    if type(focus) == "number" then
+        questId = focus
+    elseif type(focus) == "string" then
+        local questIdText, objectiveIndexText = string.match(focus, "(%d+) (%d+)")
+        questId, objectiveIndex = tonumber(questIdText), tonumber(objectiveIndexText)
+        if not (questId and objectiveIndex) then
+            -- Malformed saved value: it can never apply.
+            TrackerUtils:UnFocus()
+            return true
+        end
+    end
+    if not questId then
+        return true
+    end
+
+    -- Use the same eligibility checks as menu focus. They fail while spawns or objectives are still loading.
+    local restored
+    if objectiveIndex then
+        restored = TrackerUtils:FocusObjective(questId, objectiveIndex)
+    else
+        restored = TrackerUtils:FocusQuest(questId)
+    end
+
+    if restored then
+        QuestieQuest:ToggleNotes(false)
+        return true
+    end
+    -- Unavailable data is not an invalid target until the wait ends. A quest that left the log never returns.
+    if (not canWait) or (not TrackerData.ContainsQuest(questId)) then
+        TrackerUtils:UnFocus()
+        return true
+    end
+    return false
+end
+
 function QuestieTracker.Initialize()
     assert(coroutine.running(), "QuestieTracker.Initialize must be called from a coroutine")
 
@@ -241,28 +290,10 @@ function QuestieTracker.Initialize()
         DugisGuideViewer:SetDB(true, 1006) -- DGV_CLEAR_FINAL_WAYPOINT
     end
 
-    -- Quest Focus Feature
-    if Questie.db.char.TrackerFocus then
-        local focusType = type(Questie.db.char.TrackerFocus)
-        if focusType == "number" then
-            if TrackerUtils:FocusQuest(Questie.db.char.TrackerFocus) then
-                QuestieQuest:ToggleNotes(false)
-            else
-                TrackerUtils:UnFocus()
-            end
-        elseif focusType == "string" then
-            local questId, objectiveIndex = string.match(Questie.db.char.TrackerFocus, "(%d+) (%d+)")
-            questId = tonumber(questId)
-            objectiveIndex = tonumber(objectiveIndex)
-
-            ---@cast questId number
-            ---@cast objectiveIndex number
-            if TrackerUtils:FocusObjective(questId, objectiveIndex) then
-                QuestieQuest:ToggleNotes(false)
-            else
-                TrackerUtils:UnFocus()
-            end
-        end
+    -- Restore saved focus. Update keeps retrying until the timeout while the focused quest is still loading.
+    focusRestoreDeadline = GetTime() + FOCUS_RESTORE_TIMEOUT
+    if _RestoreSavedFocus(true) then
+        focusRestoreDeadline = nil
     end
 
     QuestieCombatQueue:Queue(function()
@@ -909,6 +940,10 @@ function QuestieTracker:Update()
 
     -- Refresh once before any layout/visibility reads. Sorting and formatting consume this same snapshot.
     TrackerData.Refresh()
+    -- Focus kept at startup while its quest was loading: retry against this fresh snapshot.
+    if focusRestoreDeadline and _RestoreSavedFocus(GetTime() < focusRestoreDeadline) then
+        focusRestoreDeadline = nil
+    end
     TrackerHeaderFrame:Update()
     TrackerQuestFrame:Update()
     TrackerBaseFrame:Update()
