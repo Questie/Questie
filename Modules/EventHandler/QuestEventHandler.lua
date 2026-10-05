@@ -67,6 +67,10 @@ local deletedQuestItem = false
 local lastMarkerQuestEventTime = 0
 local MARKER_EVENT_TIMEFRAME = 20 -- seconds
 local questLogRetryTimer
+-- The fallback doubles its delay each time it fires without resolving loading, so a quest that never
+-- loads costs one scan every few minutes instead of every 20s for the whole session.
+local QUEST_LOG_RETRY_MAX_DELAY = 320 -- seconds; 20, 40, 80, 160, then 320
+local questLogRetryDelay = MARKER_EVENT_TIMEFRAME
 
 -- QUEST_LOG_UPDATE can fire every second and the combat queue does not drain in combat.
 -- Keep at most one queued rebuild; it reads current data when it runs.
@@ -92,13 +96,28 @@ local function _ScheduleQuestLogRetry()
     if questLogRetryTimer then
         return
     end
-    questLogRetryTimer = C_Timer.NewTimer(MARKER_EVENT_TIMEFRAME, function()
+    questLogRetryTimer = C_Timer.NewTimer(questLogRetryDelay, function()
         -- Release ownership before updating so another cache miss can schedule the next retry.
         questLogRetryTimer = nil
+        -- Firing means no event resolved loading in time. If this scan still misses, wait longer next time.
+        questLogRetryDelay = math.min(questLogRetryDelay * 2, QUEST_LOG_RETRY_MAX_DELAY)
         -- Timer delivery can be late. Refresh the marker or QuestLogUpdate could skip this recovery scan.
         lastMarkerQuestEventTime = GetTime()
         QuestEventHandler.QuestLogUpdate()
     end)
+end
+
+---Returns a backed-off fallback to its shortest delay, rearming a waiting timer so it uses that delay.
+local function _ResetQuestLogRetryBackoff()
+    if questLogRetryDelay == MARKER_EVENT_TIMEFRAME then
+        return -- Not backed off: keep any existing deadline.
+    end
+    questLogRetryDelay = MARKER_EVENT_TIMEFRAME
+    if questLogRetryTimer then
+        questLogRetryTimer:Cancel()
+        questLogRetryTimer = nil
+        _ScheduleQuestLogRetry()
+    end
 end
 
 function QuestEventHandler:Initialize()
@@ -264,6 +283,8 @@ function QuestEventHandler.QuestAccepted(questLogIndex, questId)
     -- This new table also identifies this particular acceptance to delayed callbacks after removal/reacceptance.
     questLog[questId] = {}
     lastMarkerQuestEventTime = GetTime()
+    -- A new quest's objectives usually load within seconds. Do not let an older stuck quest's backoff delay it.
+    _ResetQuestLogRetryBackoff()
 
     QuestieLib.RepairMissingItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId, false)
@@ -537,6 +558,8 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     -- case; otherwise a new quest could remain title-only forever if Blizzard sends no further event.
     if cacheMiss or pendingAccept then
         _ScheduleQuestLogRetry()
+    else
+        questLogRetryDelay = MARKER_EVENT_TIMEFRAME
     end
 
     if next(changes) then

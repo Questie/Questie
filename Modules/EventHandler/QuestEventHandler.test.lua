@@ -598,7 +598,7 @@ describe("QuestEventHandler", function()
             _AdvanceTime(20)
             assert.are.equal(1, _PendingRetries())
             unavailable[OTHER_QUEST_ID] = nil
-            _AdvanceTime(20)
+            _AdvanceTime(40) -- The fallback doubled its delay after the first retry still missed.
             assert.are.equal(0, _PendingRetries())
             _AdvanceTime(20)
             assert.are.equal(0, _PendingRetries())
@@ -656,7 +656,7 @@ describe("QuestEventHandler", function()
                 assert.spy(QuestieTracker.UpdateQuestLines).was.not_called()
 
                 questObjectives[QUEST_ID] = validObjectives
-                _AdvanceTime(20)
+                _AdvanceTime(40) -- The fallback doubled its delay after the first retry still missed.
                 assert.are.equal(0, _PendingRetries())
                 assert.spy(QuestieAPI.PropagateQuestUpdate).was.not_called()
                 assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
@@ -760,13 +760,47 @@ describe("QuestEventHandler", function()
             assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
             assert.spy(QuestLogCache.CheckForChanges).was.called_with({})
             assert.are.equal(2, #retryTimers)
-            assert.are.equal(20, retryTimers[2].delay)
+            assert.are.equal(40, retryTimers[2].delay) -- Backed off: the first fallback did not resolve loading.
 
             QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
-            now = 160
+            now = 180
             retryTimers[2].callback()
             assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
             assert.are.equal(2, #retryTimers)
+        end)
+
+        it("backs off a fallback that keeps missing and resets once loading resolves", function()
+            QuestEventHandler.QuestLogUpdate()
+            local delays = {}
+            for i = 1, 6 do
+                delays[i] = retryTimers[#retryTimers].delay
+                now = now + 400
+                retryTimers[#retryTimers].callback()
+            end
+            assert.are.same({20, 40, 80, 160, 320, 320}, delays)
+
+            local timerCount = #retryTimers
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            now = now + 400
+            retryTimers[#retryTimers].callback()
+            assert.are.equal(timerCount, #retryTimers) -- Resolved: nothing rearmed.
+
+            QuestLogCache.CheckForChanges = spy.new(function() return true, {} end)
+            QuestEventHandler.QuestLogUpdate()
+            assert.are.equal(20, retryTimers[#retryTimers].delay)
+        end)
+
+        it("shortens a backed-off fallback when a new quest is accepted", function()
+            QuestEventHandler.QuestLogUpdate()
+            now = now + 400
+            retryTimers[#retryTimers].callback()
+            local backedOff = retryTimers[#retryTimers]
+            assert.are.equal(40, backedOff.delay)
+
+            QuestEventHandler.QuestAccepted(2, QUEST_ID)
+
+            assert.spy(backedOff.Cancel).was.called(1)
+            assert.are.equal(20, retryTimers[#retryTimers].delay)
         end)
 
         it("does not cancel the fallback when an event skips the scan", function()
