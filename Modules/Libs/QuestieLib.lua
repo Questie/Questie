@@ -702,9 +702,13 @@ local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 local optionalObjectivePattern
 
 ---Detects Blizzard's localized optional label, not objective or quest completion.
+---Clients without OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION have no optional label, so nothing matches there.
 ---@param objectiveText string
 ---@return boolean
 function QuestieLib.IsObjectiveOptional(objectiveText)
+    if not OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION then
+        return false
+    end
     if not optionalObjectivePattern then
         -- Escape the template before introducing wildcards; the client locale is fixed for the session.
         local escaped = stringGsub(OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION, "([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1")
