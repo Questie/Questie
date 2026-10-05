@@ -57,15 +57,12 @@ end
 function QuestieNameplate:NameplateDestroyed(token)
     Questie.Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
 
-    if (not Questie.db.profile.nameplateEnabled) or (Questie.IsForever and IsInInstance()) then
-        return
-    end
-
-    local unitGUID = UnitGUID(token)
-
-    if unitGUID and activeGUIDs[unitGUID] then
-        activeGUIDs[unitGUID] = nil
-        _QuestieNameplate.RemoveFrame(unitGUID)
+    -- The removed unit's GUID may be missing or restricted. Clean up the identity we recorded at creation.
+    for guid, activeToken in pairs(activeGUIDs) do
+        if activeToken == token then
+            activeGUIDs[guid] = nil
+            _QuestieNameplate.RemoveFrame(guid)
+        end
     end
 end
 
