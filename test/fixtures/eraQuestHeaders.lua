@@ -1,5 +1,5 @@
 -- Era 1.15.9 (70003), captured 2026-10-05. Only header/membership fields are retained.
--- Source: docs/evidence/era-headers-2026-10-05/closed-raw-{0,8}.json.
+-- Derived from live WoWDevBridge captures; raw snapshots are kept locally, not in this repository.
 return {
     expanded = {
         numEntries = 9,
