@@ -536,6 +536,228 @@ describe("AvailableQuests", function()
         end)
     end)
 
+    describe("NPC GUID restrictions", function()
+        local originalIsSecretValue, originalUnitGUID, originalStrsplit, originalGetQuestID
+        local originalActiveCount, originalAvailableCount, originalAvailableQuests, originalActiveQuests
+        local npcGuid, guidIsSecret
+
+        before_each(function()
+            originalIsSecretValue, originalUnitGUID = _G.issecretvalue, _G.UnitGUID
+            originalStrsplit, originalGetQuestID = _G.strsplit, _G.GetQuestID
+            originalActiveCount, originalAvailableCount = _G.GetNumActiveQuests, _G.GetNumAvailableQuests
+            originalAvailableQuests, originalActiveQuests = QuestieCompat.GetAvailableQuests, QuestieCompat.GetActiveQuests
+
+            npcGuid = "Creature-0-0-0-0-" .. NPC_ID .. "-0"
+            guidIsSecret = true
+            -- This tests guard routing with a public string; native secret restrictions need in-client verification.
+            _G.issecretvalue = function(value) return value == npcGuid and guidIsSecret end
+            _G.UnitGUID = spy.new(function() return npcGuid end)
+            _G.strsplit = spy.new(originalStrsplit)
+            _G.GetQuestID = spy.new(function() return QUEST_ID + 1 end)
+            _G.GetNumActiveQuests = spy.new(function() return 0 end)
+            _G.GetNumAvailableQuests = spy.new(function() return 0 end)
+            QuestieCompat.GetAvailableQuests = spy.new(function() return {} end)
+            QuestieCompat.GetActiveQuests = spy.new(function() return {} end)
+            QuestieDB.IsDailyQuest = function() return true end
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            DailyQuestComms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID + 2] = true
+            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[QUEST_ID + 2] = true}
+        end)
+
+        after_each(function()
+            _G.issecretvalue, _G.UnitGUID = originalIsSecretValue, originalUnitGUID
+            _G.strsplit, _G.GetQuestID = originalStrsplit, originalGetQuestID
+            _G.GetNumActiveQuests, _G.GetNumAvailableQuests = originalActiveCount, originalAvailableCount
+            QuestieCompat.GetAvailableQuests, QuestieCompat.GetActiveQuests = originalAvailableQuests, originalActiveQuests
+        end)
+
+        for _, handler in ipairs({
+            {"ValidateAvailableQuestsFromGossipShow", "npc"},
+            {"ValidateAvailableQuestsFromQuestDetail", "questnpc"},
+            {"ValidateAvailableQuestsFromQuestGreeting", "npc"},
+        }) do
+            local methodName, unit = unpack(handler)
+
+            it(methodName .. " defers absence inference until a later event has a readable giver", function()
+                AvailableQuests[methodName]()
+
+                assert.spy(_G.UnitGUID).was.called_with(unit)
+                assert.spy(_G.strsplit).was.not_called()
+                assert.spy(QuestieCompat.GetActiveQuests).was.not_called()
+                assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+                assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
+                assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.not_called()
+                assert.are_same({[QUEST_ID] = true}, AvailableQuests.__availableQuests)
+                assert.are_same({[NPC_ID] = {[QUEST_ID] = true}}, AvailableQuests.__availableQuestsByNpc)
+                assert.are_same({[QUEST_ID + 2] = true}, AvailableQuests.__unavailableQuestsDeterminedByTalking)
+                assert.are_same({[NPC_ID] = {[QUEST_ID + 2] = true}}, AvailableQuests.__unavailableDailyQuestsByNpc)
+
+                guidIsSecret = false
+                AvailableQuests[methodName]()
+
+                assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+                assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, QUEST_ID)
+                assert.is_nil(AvailableQuests.__availableQuests[QUEST_ID])
+                assert.is_nil(AvailableQuests.__availableQuestsByNpc[NPC_ID][QUEST_ID])
+                assert.is_true(AvailableQuests.__unavailableQuestsDeterminedByTalking[QUEST_ID])
+                assert.is_true(AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID][QUEST_ID])
+                assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
+            end)
+
+            it(methodName .. " works without the secret-value API", function()
+                _G.issecretvalue = nil
+
+                AvailableQuests[methodName]()
+
+                assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+                assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
+            end)
+        end
+
+        it("preserves gossip validation across secret GUIDs before detail for the same NPC", function()
+            local secondQuestId = QUEST_ID + 1
+            guidIsSecret = false
+            QuestieCompat.GetAvailableQuests = spy.new(function()
+                return {{questID = QUEST_ID}, {questID = secondQuestId}}
+            end)
+            AvailableQuests.__availableQuests[secondQuestId] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID][secondQuestId] = true
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+
+            guidIsSecret = true
+            AvailableQuests.ValidateAvailableQuestsFromGossipShow()
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
+            guidIsSecret = false
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
+
+            assert.spy(QuestieCompat.GetAvailableQuests).was.called(2)
+            assert.spy(_G.GetQuestID).was.called(1)
+            assert.are_same({[QUEST_ID] = true, [secondQuestId] = true}, AvailableQuests.__availableQuests)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
+            assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.not_called()
+        end)
+    end)
+
+    describe("quest offers and dialog identity", function()
+        local originalGlobals, originalGreetingQuestID, originalDraw
+        local globalNames = {"UnitGUID", "issecretvalue", "GetQuestID", "GetNumActiveQuests", "GetNumAvailableQuests"}
+        local secretGuid = "RESTRICTED_DIALOG_GUID"
+        local dialogGuid, offeredQuestId, otherNpcId
+
+        before_each(function()
+            originalGlobals = {}
+            for _, name in ipairs(globalNames) do originalGlobals[name] = _G[name] end
+            originalGreetingQuestID = QuestieCompat.GetQuestGreetingQuestID
+            originalDraw = AvailableQuests.DrawAvailableQuest
+            dialogGuid = "Creature-0-0-0-0-" .. NPC_ID .. "-0"
+            offeredQuestId, otherNpcId = QUEST_ID + 2, NPC_ID + 1
+            _G.UnitGUID = spy.new(function(unit)
+                assert.is_not.equal("target", unit, "The selected target is not the dialog giver")
+                return dialogGuid
+            end)
+            _G.issecretvalue = function(value) return value == secretGuid end
+            _G.GetQuestID = function() return offeredQuestId end
+            _G.GetNumActiveQuests = function() return 0 end
+            _G.GetNumAvailableQuests = function() return 1 end
+            QuestieCompat.GetAvailableQuests = function() return {{questID = offeredQuestId}} end
+            QuestieCompat.GetActiveQuests = function() return {} end
+            QuestieCompat.GetQuestGreetingQuestID = function(_, _, guid)
+                assert.is_not.equal(secretGuid, guid)
+                return offeredQuestId
+            end
+            QuestieDB.IsDailyQuest = function() return true end
+            QuestieDB.GetQuest = function(id) return {Id = id, Starts = {NPC = {NPC_ID, otherNpcId}}} end
+            AvailableQuests.DrawAvailableQuest = spy.new(function() end)
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+            QuestieTooltips.RemoveQuest = spy.new(function() end)
+            DailyQuestComms.BroadcastUnavailableDailyQuests = spy.new(function() end)
+            AvailableQuests.__availableQuests[QUEST_ID] = true
+            AvailableQuests.__availableQuestsByNpc[NPC_ID] = {[QUEST_ID] = true}
+            AvailableQuests.__availableQuestsByNpc[otherNpcId] = {[QUEST_ID + 1] = true}
+            AvailableQuests.__unavailableQuestsDeterminedByTalking[offeredQuestId] = true
+            AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID] = {[offeredQuestId] = true}
+            AvailableQuests.__unavailableDailyQuestsByNpc[otherNpcId] = {[offeredQuestId] = true, [QUEST_ID + 3] = true}
+        end)
+
+        after_each(function()
+            for _, name in ipairs(globalNames) do _G[name] = originalGlobals[name] end
+            QuestieCompat.GetQuestGreetingQuestID = originalGreetingQuestID
+            AvailableQuests.DrawAvailableQuest = originalDraw
+        end)
+
+        for _, case in ipairs({
+            {"ValidateAvailableQuestsFromGossipShow", "npc"},
+            {"ValidateAvailableQuestsFromQuestDetail", "questnpc"},
+            {"ValidateAvailableQuestsFromQuestGreeting", "npc"},
+        }) do
+            local methodName, unit = unpack(case)
+            it(methodName .. " validates the dialog giver independently of the selected target", function()
+                AvailableQuests[methodName]()
+
+                assert.spy(_G.UnitGUID).was.called_with(unit)
+                assert.spy(QuestieMap.UnloadQuestFrames).was.called_with(QuestieMap, QUEST_ID)
+                assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.called_with(NPC_ID, {QUEST_ID})
+                assert.is_true(AvailableQuests.__availableQuestsByNpc[otherNpcId][QUEST_ID + 1])
+                assert.is_true(AvailableQuests.__availableQuests[offeredQuestId])
+            end)
+
+            it(methodName .. " restores an explicit offer with secret identity without hiding other quests", function()
+                dialogGuid = secretGuid
+
+                AvailableQuests[methodName]()
+                AvailableQuests[methodName]()
+
+                assert.is_true(AvailableQuests.__availableQuests[offeredQuestId])
+                assert.is_nil(AvailableQuests.__unavailableQuestsDeterminedByTalking[offeredQuestId])
+                assert.is_nil(AvailableQuests.__unavailableDailyQuestsByNpc[NPC_ID][offeredQuestId])
+                assert.is_nil(AvailableQuests.__unavailableDailyQuestsByNpc[otherNpcId][offeredQuestId])
+                assert.is_true(AvailableQuests.__unavailableDailyQuestsByNpc[otherNpcId][QUEST_ID + 3])
+                assert.spy(AvailableQuests.DrawAvailableQuest).was.called(1)
+                assert.is_true(AvailableQuests.__availableQuests[QUEST_ID])
+                assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+                assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.not_called()
+            end)
+        end
+
+        it("restores an item-started offer without an NPC and without treating the target as its giver", function()
+            dialogGuid = nil
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
+
+            assert.is_true(AvailableQuests.__availableQuests[offeredQuestId])
+            assert.spy(AvailableQuests.DrawAvailableQuest).was.called(1)
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.not_called()
+        end)
+
+        it("does not treat an object giver as an NPC with the same numeric ID", function()
+            dialogGuid = "GameObject-0-0-0-0-" .. NPC_ID .. "-0"
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
+
+            assert.is_true(AvailableQuests.__availableQuests[offeredQuestId])
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.spy(DailyQuestComms.BroadcastUnavailableDailyQuests).was.not_called()
+        end)
+
+        it("preserves readable object identity for legacy greeting title resolution", function()
+            dialogGuid = "GameObject-0-0-0-0-" .. NPC_ID .. "-0"
+            QuestieCompat.GetQuestGreetingQuestID = spy.new(function() return offeredQuestId end)
+
+            AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
+
+            assert.spy(QuestieCompat.GetQuestGreetingQuestID).was.called_with(1, false, dialogGuid)
+            assert.is_true(AvailableQuests.__availableQuests[offeredQuestId])
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+        end)
+    end)
+
     describe("ValidateAvailableQuestsFromGossipShow", function()
         it("should hide daily quests that are not available", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end

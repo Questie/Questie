@@ -279,7 +279,7 @@ describe("QuestieCompat", function()
         local globalNames = {
             "GetActiveQuestID", "GetAvailableQuestInfo", "GetActiveTitle", "GetAvailableTitle",
             "QuestFrameGreetingPanel", "QuestTitleButton1", "QuestTitleButton2",
-            "QuestTitleButton1QuestIcon", "QuestTitleButton2QuestIcon",
+            "QuestTitleButton1QuestIcon", "QuestTitleButton2QuestIcon", "issecretvalue",
         }
         local npcGuid = "Creature-0-0-0-0-123-0"
 
@@ -324,6 +324,24 @@ describe("QuestieCompat", function()
             assert.are.equal(456, QuestieCompat.GetQuestGreetingQuestID(3, false, npcGuid))
             assert.spy(GetAvailableTitle).was.called_with(3)
             assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Offered Quest", npcGuid, true)
+        end)
+
+        it("uses native greeting IDs even when NPC identity is secret", function()
+            _G.issecretvalue = function(value) return value == npcGuid end
+            _G.GetAvailableQuestInfo = function() return false, 0, false, false, 33 end
+
+            assert.are.equal(33, QuestieCompat.GetQuestGreetingQuestID(1, false, npcGuid))
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
+        end)
+
+        it("does not guess a quest by title without a readable NPC when native IDs are missing", function()
+            _G.issecretvalue = function(value) return value == npcGuid end
+
+            assert.are.equal(0, QuestieCompat.GetQuestGreetingQuestID(1, false, npcGuid))
+            assert.are.equal(0, QuestieCompat.GetQuestGreetingQuestID(1, true, nil))
+            assert.spy(GetActiveTitle).was.not_called()
+            assert.spy(GetAvailableTitle).was.not_called()
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
         end)
 
         it("resolves Classic active titles in the finisher context", function()

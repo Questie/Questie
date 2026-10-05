@@ -13,7 +13,8 @@ local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuest
 local shouldRunAuto = true
 
 function AutoQuesting.OnQuestDetail()
-    if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) or (not _IsQuestAllowedToAccept()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autoAccept.enabled) or AutoQuesting.IsModifierHeld()
+        or (not _IsAllowedNPC("questnpc")) or (not _IsQuestAllowedToAccept()) then
         return
     end
 
@@ -24,7 +25,8 @@ function AutoQuesting.OnQuestDetail()
     end
 
     if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
-        local unitType = strsplit("-", UnitGUID("questnpc"))
+        local giverGuid = UnitGUID("questnpc")
+        local unitType = giverGuid and strsplit("-", giverGuid)
         if unitType == "Player" then
             DeclineQuest()
             Questie:Print(l10n("Automatically rejected quest shared by player."))
@@ -51,7 +53,7 @@ function AutoQuesting.OnQuestDetail()
 end
 
 function AutoQuesting.OnQuestGreeting()
-    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC("npc")) then
         shouldRunAuto = false
         return
     end
@@ -77,7 +79,7 @@ function AutoQuesting.OnQuestGreeting()
 end
 
 function AutoQuesting.OnGossipShow()
-    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or AutoQuesting.IsModifierHeld() or (not _IsAllowedNPC("npc")) then
         shouldRunAuto = false
         return
     end
@@ -154,7 +156,8 @@ function AutoQuesting.OnQuestFinished()
 end
 
 function AutoQuesting.OnQuestProgress()
-    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or AutoQuesting.IsModifierHeld() or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or AutoQuesting.IsModifierHeld()
+        or (not IsQuestCompletable()) or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC("questnpc")) then
         return
     end
 
@@ -170,7 +173,8 @@ function AutoQuesting.OnQuestAcceptConfirm()
 end
 
 function AutoQuesting.OnQuestComplete()
-    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or AutoQuesting.IsModifierHeld() or GetNumQuestChoices() > 1 or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC()) then
+    if (not shouldRunAuto) or (not Questie.db.profile.autocomplete) or AutoQuesting.IsModifierHeld()
+        or GetNumQuestChoices() > 1 or (not _IsQuestAllowedToTurnIn()) or (not _IsAllowedNPC("questnpc")) then
         return
     end
 
@@ -214,11 +218,18 @@ function AutoQuesting.IsModifierHeld()
     return bindTruthTable[bind]()
 end
 
-_IsAllowedNPC = function()
-    local npcGuid = UnitGUID("target")
+---@param unit string
+---@return boolean
+_IsAllowedNPC = function(unit)
+    -- The selected target can be unrelated to an item offer or the open dialog.
+    local npcGuid = UnitGUID(unit)
+    if issecretvalue and issecretvalue(npcGuid) then
+        -- Leave the interaction manual when the NPC's automation exclusions cannot be checked.
+        return false
+    end
     if npcGuid then
-        local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
-        if npcIDStr then
+        local kind, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
+        if kind == "Creature" or kind == "Vehicle" then
             local npcId = tonumber(npcIDStr)
             if AutoQuesting.private.disallowedNPCs[npcId] then
                 return false

@@ -509,6 +509,11 @@ function QuestieDebugOffer.QuestDialog()
         local objectiveText = GetObjectiveText()
         local rewardText = GetRewardText()
         local rewardXP = GetRewardXP()
+        local giverGuid = UnitGUID(questnpc)
+        if issecretvalue and issecretvalue(giverGuid) then
+            -- Preserve the report even when the client restricts the giver's identity.
+            giverGuid = "<restricted>"
+        end
 
         if questText then questText = questText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from quest text
         if objectiveText then objectiveText = objectiveText:gsub(GetUnitName(player), "<playername>") end -- strip out player name from objective text
@@ -521,7 +526,7 @@ function QuestieDebugOffer.QuestDialog()
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAObjective Text:|r " .. tostring(objectiveText)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward Text:|r " .. tostring(rewardText)
         DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAReward XP:|r " .. tostring(rewardXP)
-        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(UnitGUID(questnpc))
+        DebugInformation[debugIndex] = DebugInformation[debugIndex] .. "\n|cFFAAAAAAQuestgiver:|r " .. tostring(giverGuid)
         DebugInformation[debugIndex] = _AppendUniversalText(DebugInformation[debugIndex])
         Questie:Print(l10n("A quest you just encountered is missing from the Questie database.") .. " " .. l10n("Would you like to help us fix it?") .. " |cff71d5ff|Haddon:questie:offer:" .. debugIndex .. "|h[" .. l10n("More Info") .. "]|h|r")
     end

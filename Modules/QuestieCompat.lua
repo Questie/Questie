@@ -198,6 +198,11 @@ function QuestieCompat.GetQuestGreetingQuestID(index, isActive, npcGuid)
         return questID
     end
 
+    if (issecretvalue and issecretvalue(npcGuid)) or (not npcGuid) then
+        -- Native IDs remain usable, but title lookup needs a readable giver to disambiguate quests.
+        return 0
+    end
+
     -- Classic greeting APIs expose titles rather than IDs. Keep the NPC and starter/finisher context.
     local title
     if isActive then

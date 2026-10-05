@@ -95,9 +95,178 @@ describe("AutoQuesting", function()
         AutoQuesting.Reset()
     end)
 
+    describe("NPC GUID restrictions", function()
+        local originalIsSecretValue, originalUnitGUID, originalStrsplit
+        local originalActiveCount, originalAvailableCount
+        local npcGuid = "Creature-0-0-0-0-456-0"
+        local guidIsSecret
+
+        before_each(function()
+            originalIsSecretValue, originalUnitGUID, originalStrsplit = _G.issecretvalue, _G.UnitGUID, _G.strsplit
+            originalActiveCount, originalAvailableCount = _G.GetNumActiveQuests, _G.GetNumAvailableQuests
+            guidIsSecret = true
+            -- A public string tests guard routing; native secret restrictions require in-client verification.
+            _G.issecretvalue = function(value) return value == npcGuid and guidIsSecret end
+            _G.UnitGUID = function() return npcGuid end
+            _G.strsplit = spy.new(originalStrsplit)
+            _G.GetQuestID = spy.new(function() return 123 end)
+            _G.GetNumActiveQuests = spy.new(function() return 0 end)
+            _G.GetNumAvailableQuests = spy.new(function() return 1 end)
+            QuestieCompat.GetAvailableQuests = spy.new(function() return {getAvailableTestQuest({questID = 123})} end)
+            Questie.db.profile.autoAccept.trivial = true
+        end)
+
+        after_each(function()
+            _G.issecretvalue, _G.UnitGUID, _G.strsplit = originalIsSecretValue, originalUnitGUID, originalStrsplit
+            _G.GetNumActiveQuests, _G.GetNumAvailableQuests = originalActiveCount, originalAvailableCount
+        end)
+
+        for _, case in ipairs({
+            {"OnQuestDetail", true},
+            {"OnGossipShow", true},
+            {"OnGossipShow", false},
+            {"OnQuestGreeting", true},
+            {"OnQuestGreeting", false},
+        }) do
+            local methodName, enabled = unpack(case)
+            it(methodName .. " skips secret NPCs with automation " .. (enabled and "enabled" or "disabled"), function()
+                Questie.db.profile.autoAccept.enabled = enabled
+                Questie.db.profile.autocomplete = enabled
+
+                AutoQuesting[methodName]()
+
+                assert.spy(_G.strsplit).was.not_called()
+                assert.spy(_G.GetQuestID).was.not_called()
+                assert.spy(_G.GetNumActiveQuests).was.not_called()
+                assert.spy(_G.GetNumAvailableQuests).was.not_called()
+                assert.spy(QuestieCompat.GetAvailableQuests).was.not_called()
+                assert.spy(QuestieCompat.GetActiveQuests).was.not_called()
+                assert.spy(_G.AcceptQuest).was.not_called()
+                assert.spy(_G.SelectAvailableQuest).was.not_called()
+                assert.spy(QuestieCompat.SelectAvailableQuest).was.not_called()
+                assert.spy(QuestieCompat.SelectActiveQuest).was.not_called()
+            end)
+        end
+
+        for _, methodName in ipairs({"OnGossipShow", "OnQuestGreeting"}) do
+            it(methodName .. " resumes automation after the secret NPC's dialog closes", function()
+                AutoQuesting[methodName]()
+                guidIsSecret = false
+                AutoQuesting.OnQuestDetail()
+                assert.spy(_G.AcceptQuest).was.not_called()
+
+                AutoQuesting.OnGossipClosed()
+                AutoQuesting.OnQuestDetail()
+
+                assert.spy(_G.AcceptQuest).was.called(1)
+                assert.spy(_G.strsplit).was.called_with("-", npcGuid)
+            end)
+        end
+
+        it("still accepts quests without a target when the secret-value API exists", function()
+            _G.UnitGUID = function() return nil end
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called(1)
+            assert.spy(_G.strsplit).was.not_called()
+        end)
+
+        it("still honors public NPC exclusions without the secret-value API", function()
+            _G.issecretvalue = nil
+
+            AutoQuesting.OnQuestDetail()
+            assert.spy(_G.AcceptQuest).was.called(1)
+
+            AutoQuesting.private.disallowedNPCs[456] = true
+            AutoQuesting.OnQuestDetail()
+            assert.spy(_G.AcceptQuest).was.called(1)
+        end)
+    end)
+
+    describe("dialog giver instead of selected target", function()
+        local originalIsSecretValue, originalActiveCount, originalAvailableCount
+        local secretGuid = "RESTRICTED_TARGET_GUID"
+        local dialogGuid
+
+        before_each(function()
+            originalIsSecretValue = _G.issecretvalue
+            originalActiveCount, originalAvailableCount = _G.GetNumActiveQuests, _G.GetNumAvailableQuests
+            _G.issecretvalue = function(value) return value == secretGuid end
+            dialogGuid = "Creature-0-0-0-0-456-0"
+            _G.UnitGUID = spy.new(function(unit)
+                if unit == "target" then return secretGuid end
+                return dialogGuid
+            end)
+            _G.GetQuestID = function() return 123 end
+            _G.GetNumActiveQuests = function() return 0 end
+            _G.GetNumAvailableQuests = function() return 1 end
+            Questie.db.profile.autoAccept.trivial = true
+            QuestieCompat.GetAvailableQuests = function() return {getAvailableTestQuest({questID = 123})} end
+        end)
+
+        after_each(function()
+            _G.issecretvalue = originalIsSecretValue
+            _G.GetNumActiveQuests, _G.GetNumAvailableQuests = originalActiveCount, originalAvailableCount
+        end)
+
+        for _, case in ipairs({
+            {"OnQuestDetail", "questnpc", "AcceptQuest"},
+            {"OnQuestGreeting", "npc", "SelectAvailableQuest"},
+            {"OnQuestProgress", "questnpc", "CompleteQuest"},
+            {"OnQuestComplete", "questnpc", "GetQuestReward"},
+        }) do
+            local methodName, unit, action = unpack(case)
+            it(methodName .. " retains automation with a readable giver and secret selected target", function()
+                AutoQuesting[methodName]()
+                assert.spy(_G.UnitGUID).was.called_with(unit)
+                assert.spy(_G.UnitGUID).was.not_called_with("target")
+                assert.spy(_G[action]).was.called(1)
+            end)
+
+            it(methodName .. " still honors the actual giver's exclusion", function()
+                AutoQuesting.private.disallowedNPCs[456] = true
+                AutoQuesting[methodName]()
+                assert.spy(_G.UnitGUID).was.called_with(unit)
+                assert.spy(_G[action]).was.not_called()
+            end)
+
+            it(methodName .. " does not substitute a readable target for a secret giver", function()
+                _G.UnitGUID = function(token)
+                    if token == "target" then return dialogGuid end
+                    return secretGuid
+                end
+                AutoQuesting[methodName]()
+                assert.spy(_G[action]).was.not_called()
+            end)
+        end
+
+        it("keeps gossip selection working with a secret selected target", function()
+            AutoQuesting.OnGossipShow()
+            assert.spy(_G.UnitGUID).was.called_with("npc")
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("accepts an item-started quest with no NPC even when the selected target is secret", function()
+            dialogGuid = nil
+            AutoQuesting.OnQuestDetail()
+            assert.spy(_G.AcceptQuest).was.called(1)
+            assert.spy(_G.UnitGUID).was.not_called_with("target")
+        end)
+
+        it("does not apply an NPC exclusion to a quest object with the same numeric ID", function()
+            dialogGuid = "GameObject-0-0-0-0-456-0"
+            AutoQuesting.private.disallowedNPCs[456] = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called(1)
+        end)
+    end)
+
     describe("OnQuestDetail", function()
         it("should accept quest", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             _G.GetQuestID = function() return 123 end
             QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
             QuestieDB.IsTrivial = spy.new(function() return false end)
@@ -125,7 +294,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept quest when NPC is not allowed to accept quests from", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             AutoQuesting.private.disallowedNPCs[123] = true
 
             AutoQuesting.OnQuestDetail()
@@ -261,6 +430,19 @@ describe("AutoQuesting", function()
             assert.spy(QuestieDB.IsPvPQuest).was.not_called()
         end)
 
+        it("should accept an item quest without a giver in a battleground when shared quest rejection is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = function() return true end
+            _G.UnitGUID = function() return nil end
+            Questie.db.profile.autoAccept.trivial = true
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called(1)
+            assert.spy(_G.DeclineQuest).was.not_called()
+        end)
+
         it("should decline quest if player is in battleground and quest was shared by another player when setting is enabled", function()
             _G.GetQuestID = function() return 123 end
             _G.UnitInBattleground = spy.new(function() return true end)
@@ -289,7 +471,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was.not_called()
             assert.spy(Questie.Print).was.not_called()
-            assert.spy(_G.UnitGUID).was.not_called_with("questnpc")
+            assert.spy(_G.UnitGUID).was.called(1)
             assert.spy(_G.UnitInBattleground).was.not_called()
         end)
 
@@ -319,7 +501,7 @@ describe("AutoQuesting", function()
             assert.spy(_G.AcceptQuest).was.called()
             assert.spy(_G.DeclineQuest).was.not_called()
             assert.spy(Questie.Print).was.not_called()
-            assert.spy(_G.UnitGUID).was.not_called_with("questnpc")
+            assert.spy(_G.UnitGUID).was.called(1)
             assert.spy(_G.UnitInBattleground).was.called_with("player")
         end)
     end)
@@ -355,7 +537,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept quest when NPC not allowed", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
             Questie.db.profile.autoAccept.enabled = true
@@ -407,7 +589,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not turn in quest when NPC not allowed", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             AutoQuesting.private.disallowedNPCs[123] = true
             _G.SelectAvailableQuest = spy.new()
             Questie.db.profile.autoAccept.enabled = false
@@ -421,7 +603,7 @@ describe("AutoQuesting", function()
 
     describe("OnGossipShow", function()
         it("should accept available quest", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
@@ -432,7 +614,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should accept available quest when active quests are not complete", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
             end
@@ -470,7 +652,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not accept available quest when NPC is not allowed to accept quests from", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             AutoQuesting.private.disallowedNPCs[123] = true
             QuestieCompat.GetAvailableQuests = function()
                 return {getAvailableTestQuest({})}
@@ -665,7 +847,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not complete quest when NPC is not allowed for quest completion", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             AutoQuesting.private.disallowedNPCs[123] = true
 
             AutoQuesting.OnQuestProgress()
@@ -714,7 +896,7 @@ describe("AutoQuesting", function()
         end)
 
         it("should not complete quest when NPC is not allowed for quest completion", function()
-            _G.UnitGUID = function() return "0-0-0-0-0-123" end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             AutoQuesting.private.disallowedNPCs[123] = true
 
             AutoQuesting.OnQuestComplete()
