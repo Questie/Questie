@@ -70,7 +70,7 @@ Integrate that mechanism with the current provider-owned correction model before
 
 An offline test of the actual cache reproduced this failure: native completion remained nil, but finishing the only visible objective made Questie cache completion as `1`. When the next unfinished objective appeared, the completed-to-incomplete guard rejected the update before reading objectives.
 
-[The completion fix](https://github.com/Questie/Questie/commit/714d70a68) excludes positively classified sequenced quests from visible-objective completion inference in both the cache and enriched quest model. It waits for accepted native completion/failure, preserves source-item handling and genuine-completion loading protection, and publishes status changes even when rows disappear. Sparse cached indices from omitted empty native rows are preserved.
+The completion fix excludes positively classified sequenced quests from visible-objective completion inference in both the cache and enriched quest model. It waits for accepted native completion/failure, preserves source-item handling and genuine-completion loading protection, and publishes status changes even when rows disappear. Sparse cached indices from omitted empty native rows are preserved.
 
 Focused cases live in [QuestLogCache.test.lua](../Modules/Quest/QuestLogCache.test.lua), [QuestieQuest.test.lua](../Modules/Quest/QuestieQuest.test.lua), and [QuestieCompat.test.lua](../Modules/QuestieCompat.test.lua). They cover intermediate stages, final completion, missing mappings, empty/sparse rows, source items, recovery, and classification availability.
 
@@ -80,10 +80,4 @@ See [quest-completion-semantics.md](quest-completion-semantics.md) for the broad
 
 ## Raw provenance
 
-The consolidated JSON is an extract, not an original API dump. It uses JSON null for Lua nil and retains the source filename for every stage. Repeated API return wrappers, unrelated quest metadata, inactive-dialog results, the empty tooltip dump, and one-off capture scripts were removed from the working tree.
-
-The complete originals and capture scripts remain in [commit `0a16fbce9`](https://github.com/Questie/Questie/tree/0a16fbce9f654a0846491c51e925068a88cba61f/docs/evidence/sequence-93927). For example:
-
-```bash
-git show 0a16fbce9:docs/evidence/sequence-93927/baseline-full.json
-```
+The consolidated JSON is an extract, not an original API dump. It uses JSON null for Lua nil and retains the source filename for every stage. Repeated API return wrappers, unrelated quest metadata, inactive-dialog results, the empty tooltip dump, and one-off capture scripts were removed. The original dumps are not kept in the repository.

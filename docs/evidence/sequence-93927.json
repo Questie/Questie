@@ -3,8 +3,6 @@
   "title": "A Last Request",
   "client": {"version": "1.60.1", "build": "70205", "interface": 16001},
   "source": {
-    "commit": "0a16fbce9f654a0846491c51e925068a88cba61f",
-    "directory": "docs/evidence/sequence-93927",
     "description": "Extracted from five read-only live snapshots. Timestamps are client-reported UTC; null represents Lua nil. Not an event trace."
   },
   "fieldSources": {
