@@ -635,6 +635,7 @@ describe("TrackerUtils", function()
                 TrackerLinePool.GetNextItemButton = spy.new(function() return button end)
                 quest = {Id = 91741, Objectives = {}, ObjectiveData = {}}
                 _G.GetQuestLogSpecialItemInfo = spy.new(function() return "|Hitem:90001|h[Book]|h", nil, 1, false end)
+                getItemCountMock.returns(1)
             end)
 
             after_each(function()
@@ -649,8 +650,18 @@ describe("TrackerUtils", function()
                 assert.spy(getItemSpellMock).was.not_called()
             end)
 
+            it("falls back to an owned database item when the native item is not in the inventory", function()
+                getItemCountMock.invokes(function(itemId) return itemId == 456 and 1 or 0 end)
+                getItemSpellMock.returns("Use Item")
+                quest.sourceItemId = 456
+
+                TrackerUtils.AddQuestItemButtons(quest, 0, _GetMockedLine(), 12, {}, false, rePositionLineMock)
+
+                assert.spy(button.SetItem).was.called(1)
+                assert.spy(button.SetItem).was.called_with(button, 456, 91741, 12, false)
+            end)
+
             it("deduplicates a native item also listed as a source and objective item", function()
-                getItemCountMock.returns(1)
                 getItemSpellMock.returns("Use Book")
                 quest.sourceItemId = 90001
                 quest.requiredSourceItems = {90001}

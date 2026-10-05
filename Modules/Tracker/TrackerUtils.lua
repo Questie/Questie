@@ -1072,12 +1072,14 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     local questComplete = complete == 1 or quest.isComplete == true
 
     -- Blizzard identifies the primary quest action even when neither the quest nor item is in QuestieDB.
+    -- It skips only the button's database item-class check. It must still be owned like other candidates:
+    -- a primary button that fails to set up stops the rest, so an unowned native item would hide owned database items.
     if _G.GetQuestLogSpecialItemInfo then
         local index = QuestieCompat.GetQuestLogIndexByID(quest.Id)
         if index and index > 0 then
             local link, _, _, showWhenComplete = _G.GetQuestLogSpecialItemInfo(index)
             nativeItemId = link and tonumber(link:match("item:(%d+)"))
-            if nativeItemId and (not questComplete or showWhenComplete) then
+            if nativeItemId and (not questComplete or showWhenComplete) and GetItemCount(nativeItemId) > 0 then
                 tinsert(usableQuestItems, nativeItemId)
             end
         end
