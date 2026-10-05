@@ -110,10 +110,18 @@ function EventHandler:RegisterLateEvents()
     end)
 
     -- Events to update a players professions and reputations
-    -- Skill chat can be secret; refresh professions without bucketing the message text.
-    Questie:RegisterBucketMessage("QUESTIE_SKILL_UPDATE", 2, _EventHandler.ChatMsgSkill)
+    -- Skill chat can be secret; batch refreshes without retaining the chat arguments.
+    local skillUpdatePending = false
     Questie:RegisterEvent("CHAT_MSG_SKILL", function()
-        Questie:SendMessage("QUESTIE_SKILL_UPDATE")
+        if skillUpdatePending then
+            return
+        end
+
+        skillUpdatePending = true
+        Questie:ScheduleTimer(function()
+            skillUpdatePending = false
+            _EventHandler.ChatMsgSkill()
+        end, 2)
     end)
     if not GetSkillLineInfo then
         -- Modern unlearning need not print CHAT_MSG_SKILL and has no legacy AbandonSkill hook.

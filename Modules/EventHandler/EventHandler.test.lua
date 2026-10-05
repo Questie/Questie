@@ -7,8 +7,7 @@ describe("EventHandler event dispatch", function()
     local originalExpansion
     local callbacks
     local bucketEvents
-    local bucketMessages
-    local sentMessages
+    local scheduledTimers
     local QuestEventHandler
     local Expansions
     local QuestieProfessions
@@ -28,6 +27,7 @@ describe("EventHandler event dispatch", function()
             RegisterBucketEvent = Questie.RegisterBucketEvent,
             RegisterBucketMessage = Questie.RegisterBucketMessage,
             SendMessage = Questie.SendMessage,
+            ScheduleTimer = Questie.ScheduleTimer,
         }
         _G.ERR_QUEST_ACCEPTED_S = "Quest accepted: %s"
         _G.ERR_QUEST_COMPLETE_S = "Quest completed: %s"
@@ -36,17 +36,17 @@ describe("EventHandler event dispatch", function()
         Questie.IsForever = false
         callbacks = {}
         bucketEvents = {}
-        bucketMessages = {}
-        sentMessages = {}
+        scheduledTimers = {}
         Questie.RegisterEvent = function(_, event, callback) callbacks[event] = callback end
         Questie.RegisterBucketEvent = function(_, event, interval, callback)
             bucketEvents[event] = {interval = interval, callback = callback}
         end
-        Questie.RegisterBucketMessage = function(_, message, interval, callback)
-            bucketMessages[message] = {interval = interval, callback = callback}
-        end
-        Questie.SendMessage = function(_, message, ...)
-            table.insert(sentMessages, {message = message, argumentCount = select("#", ...)})
+        Questie.RegisterBucketMessage = spy.new(function() end)
+        Questie.SendMessage = spy.new(function() end)
+        Questie.ScheduleTimer = function(_, callback, delay, ...)
+            local timer = {callback = callback, delay = delay, argumentCount = select("#", ...)}
+            table.insert(scheduledTimers, timer)
+            return timer
         end
 
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -78,6 +78,7 @@ describe("EventHandler event dispatch", function()
         Questie.RegisterBucketEvent = savedQuestieFields.RegisterBucketEvent
         Questie.RegisterBucketMessage = savedQuestieFields.RegisterBucketMessage
         Questie.SendMessage = savedQuestieFields.SendMessage
+        Questie.ScheduleTimer = savedQuestieFields.ScheduleTimer
         QuestEventHandler.QuestAccepted = originalQuestAccepted
         Expansions.Current = originalExpansion
         QuestieProfessions.Update = savedSkillCallbacks.Update
@@ -100,45 +101,54 @@ describe("EventHandler event dispatch", function()
         assert.spy(QuestEventHandler.QuestAccepted).was.called_with(2, 783)
     end)
 
-    it("buckets skill notifications for two seconds without bucketing native chat arguments", function()
+    it("registers skill chat directly without a bucket or message relay", function()
         assert.is_nil(bucketEvents.CHAT_MSG_SKILL)
         assert.is_function(callbacks.CHAT_MSG_SKILL)
-        assert.is_table(bucketMessages.QUESTIE_SKILL_UPDATE)
-        assert.are.equal(2, bucketMessages.QUESTIE_SKILL_UPDATE.interval)
+        assert.spy(Questie.RegisterBucketMessage).was.not_called()
+        assert.spy(Questie.SendMessage).was.not_called()
+        assert.are.equal(0, #scheduledTimers)
     end)
 
-    it("omits ordinary and opaque skill chat arguments from the internal message", function()
-        -- An opaque marker checks argument omission; offline Lua cannot create a native secret value.
-        local opaqueMessage = {}
-        assert.is_function(callbacks.CHAT_MSG_SKILL)
+    it("batches ordinary and opaque skill chat in one fixed two-second window without forwarding arguments", function()
+        -- This ordinary marker cannot reproduce native secret semantics.
+        local opaqueMessage = setmetatable({}, {
+            __index = function() error("Skill chat must not be read") end,
+            __tostring = function() error("Skill chat must not be formatted") end,
+        })
 
         callbacks.CHAT_MSG_SKILL("CHAT_MSG_SKILL", "Your skill in Cooking has increased to 75.", "extra argument")
         callbacks.CHAT_MSG_SKILL("CHAT_MSG_SKILL", opaqueMessage, nil, opaqueMessage)
 
-        assert.are.same({
-            {message = "QUESTIE_SKILL_UPDATE", argumentCount = 0},
-            {message = "QUESTIE_SKILL_UPDATE", argumentCount = 0},
-        }, sentMessages)
+        assert.are.equal(1, #scheduledTimers)
+        assert.are.equal(2, scheduledTimers[1].delay)
+        assert.are.equal(0, scheduledTimers[1].argumentCount)
+        assert.spy(Questie.SendMessage).was.not_called()
         assert.spy(QuestieProfessions.Update).was.not_called()
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+
+        scheduledTimers[1].callback()
+
+        assert.spy(QuestieProfessions.Update).was.called(1)
     end)
 
     it("rereads profession state without redrawing unchanged available quests", function()
-        assert.is_table(bucketMessages.QUESTIE_SKILL_UPDATE)
-
-        bucketMessages.QUESTIE_SKILL_UPDATE.callback()
+        callbacks.CHAT_MSG_SKILL("CHAT_MSG_SKILL")
+        scheduledTimers[1].callback()
 
         assert.spy(QuestieProfessions.Update).was.called_with(QuestieProfessions)
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
     end)
 
     it("redraws available quests for changed skills and newly learned professions", function()
-        assert.is_table(bucketMessages.QUESTIE_SKILL_UPDATE)
-
+        callbacks.CHAT_MSG_SKILL("CHAT_MSG_SKILL")
         QuestieProfessions.Update = function() return true, false end
-        bucketMessages.QUESTIE_SKILL_UPDATE.callback()
+        scheduledTimers[1].callback()
+
+        callbacks.CHAT_MSG_SKILL("CHAT_MSG_SKILL")
+        assert.are.equal(2, #scheduledTimers)
+        assert.are.equal(2, scheduledTimers[2].delay)
         QuestieProfessions.Update = function() return false, true end
-        bucketMessages.QUESTIE_SKILL_UPDATE.callback()
+        scheduledTimers[2].callback()
 
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(2)
     end)
@@ -149,8 +159,10 @@ describe("EventHandler event dispatch", function()
 
         QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
 
-        assert.is_table(bucketMessages.QUESTIE_SKILL_UPDATE)
         assert.are.equal(2, bucketEvents.SKILL_LINES_CHANGED.interval)
-        assert.are.equal(bucketMessages.QUESTIE_SKILL_UPDATE.callback, bucketEvents.SKILL_LINES_CHANGED.callback)
+        bucketEvents.SKILL_LINES_CHANGED.callback()
+
+        assert.spy(QuestieProfessions.Update).was.called_with(QuestieProfessions)
+        assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
     end)
 end)
