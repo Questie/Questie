@@ -340,7 +340,9 @@ local function _GetWowheadLinkForLanguage()
     end
 
     local xpac
-    if Questie.IsMoP then
+    if Questie.IsForever then
+        xpac = "forever/"
+    elseif Questie.IsMoP then
         xpac = "mop-classic/"
     elseif Questie.IsCata then
         xpac = "cata/"
