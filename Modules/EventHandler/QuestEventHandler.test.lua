@@ -827,6 +827,22 @@ describe("QuestEventHandler", function()
             assert.spy(QuestieJourney.AcceptQuest).was.called(1)
         end)
 
+        it("does not let a delayed read from an earlier acceptance act on a re-accepted quest", function()
+            QuestEventHandler.QuestAccepted(2, QUEST_ID)
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            QuestEventHandler.QuestAccepted(2, QUEST_ID)
+            assert.are.equal(2, #callbacks)
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+
+            callbacks[1]() -- Belongs to the abandoned acceptance.
+            assert.spy(QuestLifecycle.AcceptQuest).was.not_called()
+            assert.is_false(QuestEventHandler.IsQuestAccepted(QUEST_ID))
+
+            callbacks[2]()
+            assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
+            assert.is_true(QuestEventHandler.IsQuestAccepted(QUEST_ID))
+        end)
+
         it("does not resurrect an abandoned pending quest", function()
             QuestEventHandler.QuestAccepted(2, QUEST_ID)
             QuestEventHandler.QuestRemoved(QUEST_ID)
