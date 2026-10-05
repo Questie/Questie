@@ -131,8 +131,8 @@ jobs:
     outputs:
       commit_sha: ${{ steps.commit.outputs.commit_sha }}
     env:
-      COMMIT_SHA: ${{ needs.bump.outputs.commit_sha || GITHUB_SHA }}
+      COMMIT_SHA: ${{ needs.bump.outputs.commit_sha }}
     steps:
       - name: Save commit sha
         id: commit
-        run: echo "commit_sha=$COMMIT_SHA" >> "$GITHUB_OUTPUT"
+        run: echo "commit_sha=${COMMIT_SHA:-$GITHUB_SHA}" >> "$GITHUB_OUTPUT"
