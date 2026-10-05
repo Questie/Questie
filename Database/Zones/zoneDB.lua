@@ -250,7 +250,6 @@ do
     ---@return table
     function ZoneDB.GetZonesWithQuests(yield)
         local count = 0
-        local ridingProfession = QuestieProfessions.professionKeys.RIDING
         local hiddenQuests = QuestieCorrections.hiddenQuests
         local _HasRequiredRace = QuestiePlayer.HasRequiredRace
         local _HasRequiredClass = QuestiePlayer.HasRequiredClass
@@ -259,15 +258,8 @@ do
         for questId in pairs(QuestieDB.QuestPointers) do
             if (not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId) then
                 if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
-                    local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")
-                    if requiredSkill and requiredSkill[1] ~= ridingProfession then
-                        zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
-
-                        if (not zoneMap[zoneOrSort]) then
-                            zoneMap[zoneOrSort] = {}
-                        end
-                        zoneMap[zoneOrSort][questId] = true
-                    elseif zoneOrSort > 0 then
+                    local zoneOrSort = _QueryQuestSingle(questId, "zoneOrSort")
+                    if zoneOrSort > 0 then
                         local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
 
                         if parentZoneId then
