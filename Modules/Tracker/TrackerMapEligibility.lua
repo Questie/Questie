@@ -1,6 +1,9 @@
 ---@class TrackerMapEligibility
 local TrackerMapEligibility = QuestieLoader:CreateModule("TrackerMapEligibility")
 
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
+
 ---@class TrackerMapCapabilities
 ---@field quest Quest? Original map object, never a display copy.
 ---@field objectives table<table, boolean> Original objectives with usable location data.
@@ -9,8 +12,22 @@ local TrackerMapEligibility = QuestieLoader:CreateModule("TrackerMapEligibility"
 ---@field canNavigateQuest boolean
 ---@field canShowFinisher boolean
 
----Evaluates a display snapshot without refreshing it or changing map state.
----Commands refresh explicitly before calling this same policy used to construct menus.
+---Records an original objective with map locations as usable for map actions.
+---@param capabilities TrackerMapCapabilities
+---@param original table Original Questie objective.
+local function _AddObjectiveLocations(capabilities, original)
+    if not (original.spawnList and next(original.spawnList)) then
+        return
+    end
+    capabilities.objectives[original] = true
+    -- Synthetic source-item steps may have locations but no original index to focus or persist.
+    if type(original.Index) == "number" then
+        capabilities.focusObjectives[original.Index] = original
+    end
+end
+
+---Evaluates a display snapshot without refreshing it or changing map state. Menus use it on the
+---snapshot they render; commands use RefreshAndGetCapabilities so they act on current data.
 ---@param quest TrackerQuest?
 ---@return TrackerMapCapabilities
 function TrackerMapEligibility.GetCapabilities(quest)
@@ -29,31 +46,24 @@ function TrackerMapEligibility.GetCapabilities(quest)
 
     local completionState = quest:IsComplete()
     local complete = completionState == 1 or (completionState ~= -1 and quest.isComplete == true)
+
+    -- Objective locations. A complete quest points at its finisher instead, so it records none.
     local allObjectivesMatched = true
-    local hasObjectiveLocations = false
     for _, objective in pairs(quest.Objectives) do
         local original = objective.enrichment
         if not original then
             allObjectivesMatched = false
-        elseif not complete and original.spawnList and next(original.spawnList) then
-            capabilities.objectives[original] = true
-            hasObjectiveLocations = true
-            -- Synthetic source-item steps may have locations but no original index to focus or persist.
-            if type(original.Index) == "number" then
-                capabilities.focusObjectives[original.Index] = original
-            end
+        elseif not complete then
+            _AddObjectiveLocations(capabilities, original)
         end
     end
     -- SpecialObjectives already contains only the original objects exposed by verified tracker enrichment.
-    for _, original in pairs(quest.SpecialObjectives or {}) do
-        if not complete and original.spawnList and next(original.spawnList) then
-            capabilities.objectives[original] = true
-            hasObjectiveLocations = true
-            if type(original.Index) == "number" then
-                capabilities.focusObjectives[original.Index] = original
-            end
+    if not complete then
+        for _, original in pairs(quest.SpecialObjectives or {}) do
+            _AddObjectiveLocations(capabilities, original)
         end
     end
+    local hasObjectiveLocations = next(capabilities.objectives) ~= nil
 
     local finisher = originalQuest.Finisher
     local hasFinisher = finisher and ((finisher.NPC and next(finisher.NPC)) or (finisher.GameObject and next(finisher.GameObject)))
@@ -63,4 +73,19 @@ function TrackerMapEligibility.GetCapabilities(quest)
     capabilities.canFocusQuest = capabilities.canShowFinisher or (not complete and allObjectivesMatched and hasObjectiveLocations)
     capabilities.canNavigateQuest = capabilities.canShowFinisher or (not complete and hasObjectiveLocations)
     return capabilities
+end
+
+---Refreshes a quest from the native log, then evaluates it. Commands call this before any map change,
+---because a menu or tracker row can outlive the quest or its original map object.
+---@param questId QuestId
+---@param expectedQuest Quest? Original quest captured by the menu or row. A different current original fails.
+---@return TrackerQuest? quest Refreshed display record; nil when the quest left the log or `expectedQuest` no longer matches.
+---@return TrackerMapCapabilities? capabilities Nil exactly when `expectedQuest` no longer matches.
+function TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    local quest = TrackerData.RefreshQuest(questId)
+    local capabilities = TrackerMapEligibility.GetCapabilities(quest)
+    if expectedQuest and capabilities.quest ~= expectedQuest then
+        return nil, nil
+    end
+    return quest, capabilities
 end
