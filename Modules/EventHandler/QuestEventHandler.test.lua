@@ -819,6 +819,24 @@ describe("QuestEventHandler", function()
             assert.spy(QuestLogCache.CheckForChanges).was.not_called()
             assert.spy(QuestieTracker.Update).was.called(1)
         end)
+
+        it("keeps one tracker update queued while the combat queue is paused", function()
+            local queued = {}
+            QuestieCombatQueue.Queue = function(_, callback) queued[#queued + 1] = callback end
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            QuestieTracker.Update:clear()
+
+            QuestEventHandler.QuestLogUpdate()
+            QuestEventHandler.QuestLogUpdate()
+            QuestEventHandler.QuestAccepted(2, QUEST_ID + 1)
+
+            assert.are.equal(1, #queued)
+            queued[1]()
+            assert.spy(QuestieTracker.Update).was.called(1)
+
+            QuestEventHandler.QuestLogUpdate()
+            assert.are.equal(2, #queued)
+        end)
     end)
 
 end)
