@@ -51,6 +51,7 @@ jobs:
       # Environment approval is required before this job receives the private key.
       # Limit each short-lived token to this repository and Contents write access.
       - name: Create app token
+        if: ${{ !inputs.dry_run }}
         id: app-token
         uses: actions/create-github-app-token@v3.2.0
         with:
@@ -63,7 +64,7 @@ jobs:
       - name: Checkout selected commit
         uses: actions/checkout@v7.0.1
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token || github.token }}
 
       - name: Update versions
         run: |
