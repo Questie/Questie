@@ -297,6 +297,7 @@ describe("QuestieTracker", function()
             QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
             QuestEventHandler.IsQuestAccepted = spy.new(function() return true end)
             TrackerData.RefreshQuest = spy.new(function() return quest end)
+            TrackerUtils.GetQuestGroupName = function(trackerQuest) return trackerQuest.zoneName end
             QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = spy.new(function() end)
             removeWatchMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "RemoveQuestWatch")
             titleMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetQuestLogTitle", function()
@@ -337,6 +338,17 @@ describe("QuestieTracker", function()
             assert.is_nil(Questie.db.char.collapsedZones["Northshire Abbey"])
             assert.spy(removeWatchMock).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("expands the tracker group the quest is listed under on retrack", function()
+            -- Non-zone sort modes list every quest under one group, not under its zone.
+            TrackerUtils.GetQuestGroupName = function() return "Quests (By Level)" end
+            Questie.db.char.AutoUntrackedQuests[91741] = true
+            Questie.db.char.collapsedZones["Quests (By Level)"] = true
+
+            QuestieTracker:AQW_Insert(2)
+
+            assert.is_nil(Questie.db.char.collapsedZones["Quests (By Level)"])
         end)
 
         it("ignores Blizzard's auto-watch before Questie finishes accepting the quest in manual tracking", function()
