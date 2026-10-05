@@ -25,7 +25,8 @@ function AutoQuesting.OnQuestDetail()
     end
 
     if Questie.db.profile.autoAccept.rejectSharedInBattleground and UnitInBattleground("player") then
-        local unitType = strsplit("-", UnitGUID("questnpc"))
+        local giverGuid = UnitGUID("questnpc")
+        local unitType = giverGuid and strsplit("-", giverGuid)
         if unitType == "Player" then
             DeclineQuest()
             Questie:Print(l10n("Automatically rejected quest shared by player."))

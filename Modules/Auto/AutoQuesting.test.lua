@@ -430,6 +430,19 @@ describe("AutoQuesting", function()
             assert.spy(QuestieDB.IsPvPQuest).was.not_called()
         end)
 
+        it("should accept an item quest without a giver in a battleground when shared quest rejection is enabled", function()
+            _G.GetQuestID = function() return 123 end
+            _G.UnitInBattleground = function() return true end
+            _G.UnitGUID = function() return nil end
+            Questie.db.profile.autoAccept.trivial = true
+            Questie.db.profile.autoAccept.rejectSharedInBattleground = true
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called(1)
+            assert.spy(_G.DeclineQuest).was.not_called()
+        end)
+
         it("should decline quest if player is in battleground and quest was shared by another player when setting is enabled", function()
             _G.GetQuestID = function() return 123 end
             _G.UnitInBattleground = spy.new(function() return true end)
