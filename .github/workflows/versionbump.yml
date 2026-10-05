@@ -115,6 +115,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
   sha:
     name: Output git sha to other workflows
+    runs-on: ubuntu-latest
     needs: bump
     if: ${{ always() }} # run even for empty version string
     outputs:
