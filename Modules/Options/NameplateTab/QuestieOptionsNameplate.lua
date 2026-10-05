@@ -140,6 +140,37 @@ function QuestieOptions.tabs.nameplate:Initialize()
                             QuestieNameplate:RedrawIcons()
                         end,
                     },
+                    Spacer_Format = QuestieOptionsUtils:Spacer(1.55),
+                    nameplateSpacerFormatDesc = {
+                        type = "description",
+                        order = 1.56,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.3,
+                        width = 0.3,
+                        func = function() end,
+                    },
+                    nameplateCountFormat = {
+                        type = "select",
+                        order = 1.6,
+                        name = function() return l10n("Objective Tracker Text Format"); end,
+                        desc = function() return l10n("Choose the format for the objective tracker text on nameplates."); end,
+                        values = function()
+                            return {
+                                [0] = l10n("Disabled"),
+                                [1] = l10n("Current / Required (e.g. 3/5)"),
+                                [2] = l10n("Remaining Only (e.g. 2)"),
+                            }
+                        end,
+                        width = 2.7,
+                        disabled = function() return not Questie.db.profile.nameplateEnabled; end,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function(info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+                            QuestieNameplate:RedrawIcons()
+                        end,
+                    },
                 },
             },
             targetframe_options_group = {
@@ -261,11 +292,41 @@ function QuestieOptions.tabs.nameplate:Initialize()
                             QuestieOptions:SetProfileValue(info, value)
                             QuestieNameplate:RedrawFrameIcon()
                         end,
-
+                    },
+                    Spacer_TargetFormat = QuestieOptionsUtils:Spacer(2.55),
+                    targetframeSpacerFormatDesc = {
+                        type = "description",
+                        order = 2.56,
+                        name = "",
+                        desc = "",
+                        image = "",
+                        imageWidth = 0.3,
+                        width = 0.3,
+                        func = function() end,
+                    },
+                    nameplateTargetFrameCountFormat = {
+                        type = "select",
+                        order = 2.6,
+                        name = function() return l10n("Objective Tracker Text Format"); end,
+                        desc = function() return l10n("Choose the format for the objective tracker text on target frame."); end,
+                        values = function()
+                            return {
+                                [0] = l10n("Disabled"),
+                                [1] = l10n("Current / Required (e.g. 3/5)"),
+                                [2] = l10n("Remaining Only (e.g. 2)"),
+                            }
+                        end,
+                        width = 2.7,
+                        disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
+                        get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                        set = function(info, value)
+                            QuestieOptions:SetProfileValue(info, value)
+                            QuestieNameplate:RedrawFrameIcon()
+                        end,
                     },
                 },
             },
-            Spacer_end = QuestieOptionsUtils:Spacer(2.5),
+            Spacer_end = QuestieOptionsUtils:Spacer(2.7),
             resetSpacerPrefix = {
                 type = "description",
                 order = 3,
@@ -289,6 +350,9 @@ function QuestieOptions.tabs.nameplate:Initialize()
                         optionsDefaults.profile.nameplateY,
                         optionsDefaults.profile.nameplateScale
                     )
+
+                    Questie.db.profile.nameplateCountFormat = optionsDefaults.profile.nameplateCountFormat
+                    QuestieNameplate:RedrawIcons()
                 end,
             },
             resetSpacerMid = {
@@ -312,6 +376,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                     Questie.db.profile.nameplateTargetFrameX = optionsDefaults.profile.nameplateTargetFrameX;
                     Questie.db.profile.nameplateTargetFrameY = optionsDefaults.profile.nameplateTargetFrameY;
                     Questie.db.profile.nameplateTargetFrameScale = optionsDefaults.profile.nameplateTargetFrameScale;
+                    Questie.db.profile.nameplateTargetFrameCountFormat = optionsDefaults.profile.nameplateTargetFrameCountFormat;
                     QuestieNameplate:RedrawFrameIcon();
                 end,
             },

@@ -28,6 +28,7 @@ function QuestieOptionsDefaults:Load()
             nameplateY = -7,
             nameplateScale = 1,
             nameplateEnabled = true,
+            nameplateCountFormat = 1, -- this is new for the formatting configuration
             minimapCoordinatesEnabled = false,
             mapCoordinatesEnabled = true,
             mapCoordinatePrecision = 1,
@@ -45,6 +46,7 @@ function QuestieOptionsDefaults:Load()
             nameplateTargetFrameX = -30,
             nameplateTargetFrameY = 25,
             nameplateTargetFrameScale = 1.7,
+            nameplateTargetFrameCountFormat = 1, -- this is new for the formatting configuration
             alwaysGlowMap = true,
             alwaysGlowMinimap = true,
             questObjectiveColors = false,
