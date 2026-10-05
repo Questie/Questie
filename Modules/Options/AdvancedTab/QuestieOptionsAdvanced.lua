@@ -488,6 +488,7 @@ Popup.Dialogs["QUESTIE_RESET_CONFIRM"] = {
         Questie.db.profile.lowLevelStyle = optionsDefaults.profile.lowLevelStyle
         Questie.db.profile.migrationVersion = nil
         Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
+        Questie.db.profile.minimap.showInCompartment = optionsDefaults.profile.minimap.showInCompartment
 
         Questie.db.char.hidden = nil
         Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies

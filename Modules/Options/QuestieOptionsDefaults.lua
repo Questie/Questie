@@ -175,7 +175,8 @@ function QuestieOptionsDefaults:Load()
             iconTheme = "questie",
 
             minimap = {
-                hide = false
+                hide = false,
+                showInCompartment = true
             },
 
             TrackerWidth = 0,
