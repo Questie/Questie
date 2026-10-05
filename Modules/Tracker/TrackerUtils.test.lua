@@ -957,6 +957,20 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("GetQuestGroupName", function()
+        it("uses the native header when sorting by zone", function()
+            Questie.db.profile.trackerSortObjectives = "byZone"
+
+            assert.are.equal("Northshire Abbey", TrackerUtils.GetQuestGroupName({Id = 1, zoneName = "Northshire Abbey", zoneOrSort = 12}))
+        end)
+
+        it("uses the sort mode's single group instead of the zone in other sort modes", function()
+            Questie.db.profile.trackerSortObjectives = "byLevel"
+
+            assert.are.equal("Quests (By Level)", TrackerUtils.GetQuestGroupName({Id = 1, zoneName = "Northshire Abbey", zoneOrSort = 12}))
+        end)
+    end)
+
     describe("GetSortedQuestIds", function()
         before_each(function()
             trackerQuests = {}

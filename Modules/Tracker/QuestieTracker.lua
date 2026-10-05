@@ -2392,7 +2392,8 @@ function QuestieTracker:AQW_Insert(index, _expire)
 
         if quest then
             -- Tracking is independent of map enrichment, including native-only quests.
-            local zoneId = quest.zoneName or quest.zoneOrSort
+            -- Expand the group the tracker lists this quest under, which depends on the sort mode.
+            local zoneId = TrackerUtils.GetQuestGroupName(quest)
             if Questie.db.char.collapsedQuests[questId] == true then
                 Questie.db.char.collapsedQuests[questId] = nil
             end

@@ -665,6 +665,13 @@ local function _GetZoneName(zoneOrSort, questId, nativeHeader)
     return zoneName or "Unknown Zone"
 end
 
+---Returns the tracker group a quest is listed under; `collapsedZones` is keyed by this name.
+---@param quest TrackerQuest
+---@return string groupName The zone or category when sorting by zone, otherwise the sort mode's single group.
+function TrackerUtils.GetQuestGroupName(quest)
+    return _GetZoneName(quest.zoneOrSort, quest.Id, quest.zoneName)
+end
+
 ---@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
 ---@return table questDetails Display records, completion fractions and grouping labels.
 function TrackerUtils:GetSortedQuestIds()
@@ -695,7 +702,7 @@ function TrackerUtils:GetSortedQuestIds()
 
             questDetails[questId] = {
                 quest = quest,
-                zoneName = _GetZoneName(quest.zoneOrSort, questId, quest.zoneName),
+                zoneName = TrackerUtils.GetQuestGroupName(quest),
                 questCompletePercent = percent,
             }
         end
