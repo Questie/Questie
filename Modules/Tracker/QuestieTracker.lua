@@ -88,7 +88,7 @@ local hiddenByInstance = false
 local minimizedByCombat = false
 local hiddenByCombat = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
-local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame or _G.QuestMapFrame
+local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame or QuestMapFrame
 local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 local WatchFrame_Update = QuestWatch_Update or QuestieCompat.WatchFrame_Update
 local GetItemCount = QuestieCompat.GetItemCount
@@ -2142,9 +2142,9 @@ function QuestieTracker:HookBaseTracker()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:HookBaseTracker] - Secure hooks")
 
         -- Durability Frame hook
-        if _G.UIParent_ManageFramePositions then
+        if UIParent_ManageFramePositions then
             hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.UpdateDurabilityFrame)
-        elseif _G.ManageFramePositions then
+        elseif ManageFramePositions then
             hooksecurefunc("ManageFramePositions", QuestieTracker.UpdateDurabilityFrame)
         end
 
