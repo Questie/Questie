@@ -280,7 +280,7 @@ describe("QuestieTracker", function()
 
     describe("native-only quest tracking", function()
         local originalForever, originalQuestLog
-        local titleMock, removeWatchMock, quest
+        local titleMock, removeWatchMock, quest, QuestEventHandler
 
         before_each(function()
             originalForever = Questie.IsForever
@@ -294,7 +294,8 @@ describe("QuestieTracker", function()
             Questie.db.char.collapsedZones = {}
             QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
             quest = {Id = 91741, name = "Nibbled-On Book", zoneName = "Northshire Abbey", Objectives = {}}
-            TrackerData.ContainsQuest = spy.new(function() return true end)
+            QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+            QuestEventHandler.IsQuestAccepted = spy.new(function() return true end)
             TrackerData.RefreshQuest = spy.new(function() return quest end)
             QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = spy.new(function() end)
             removeWatchMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "RemoveQuestWatch")
@@ -330,7 +331,7 @@ describe("QuestieTracker", function()
 
             QuestieTracker:AQW_Insert(2)
 
-            assert.spy(TrackerData.ContainsQuest).was.called_with(91741)
+            assert.spy(QuestEventHandler.IsQuestAccepted).was.called_with(91741)
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[91741])
             assert.is_nil(Questie.db.char.collapsedQuests[91741])
             assert.is_nil(Questie.db.char.collapsedZones["Northshire Abbey"])
@@ -338,8 +339,23 @@ describe("QuestieTracker", function()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
+        it("ignores Blizzard's auto-watch before Questie finishes accepting the quest in manual tracking", function()
+            Questie.IsForever = false
+            Questie.db.profile.autoTrackQuests = false
+            QuestieTracker.last_aqw = nil
+            -- The quest is already in the native log; only Questie's acceptance is still pending.
+            TrackerData.ContainsQuest = function() return true end
+            QuestEventHandler.IsQuestAccepted = function() return false end
+
+            QuestieTracker:AQW_Insert(2)
+
+            assert.is_nil(Questie.db.char.TrackedQuests[91741])
+            assert.spy(removeWatchMock).was.not_called()
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
         it("ignores a stale add after the native quest was removed", function()
-            TrackerData.ContainsQuest = function() return false end
+            QuestEventHandler.IsQuestAccepted = function() return false end
             Questie.db.char.AutoUntrackedQuests[91741] = true
 
             QuestieTracker:AQW_Insert(2)

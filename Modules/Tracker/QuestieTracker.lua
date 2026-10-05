@@ -2333,7 +2333,9 @@ function QuestieTracker:AQW_Insert(index, _expire)
     end
 
     local questId = select(8, QuestieCompat.GetQuestLogTitle(index))
-    if not questId or not TrackerData.ContainsQuest(questId) then
+    -- Blizzard's own auto-watch on accept calls this before Questie finishes accepting the quest.
+    -- Ignore it, or manual tracking mode would track every newly accepted quest.
+    if not questId or not QuestEventHandler.IsQuestAccepted(questId) then
         return
     end
 
