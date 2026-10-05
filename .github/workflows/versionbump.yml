@@ -55,6 +55,13 @@ jobs:
             echo "Enter a version such as 12.0.1 or 12.0.1-b1, without a v prefix." >&2
             exit 1
           fi
+      - name: Ensure version tag doesn't exist
+        run: |
+          existing_tag=$(git ls-remote --tags origin "refs/tags/v$VERSION")
+          if [[ -n "$existing_tag" ]]; then
+            echo "ERROR: Tag v$VERSION already exists; refusing to replace it." >&2
+            exit 2
+          fi
       # Environment approval is required before this job receives the private key.
       # Limit each short-lived token to this repository and Contents write access.
       - name: Create app token
@@ -88,12 +95,6 @@ jobs:
           AUTHOR_LOGIN: ${{ github.actor }}
           AUTHOR_ID: ${{ github.actor_id }}
         run: |
-          existing_tag=$(git tag --list "v$VERSION")
-          if [[ -n "$existing_tag" ]]; then
-            echo "Tag v$VERSION already exists; refusing to replace it." >&2
-            exit 1
-          fi
-
           bot_id=$(gh api "/users/${APP_SLUG}[bot]" --jq '.id')
           git config user.name "${APP_SLUG}[bot]"
           git config user.email "${bot_id}+${APP_SLUG}[bot]@users.noreply.github.com"
