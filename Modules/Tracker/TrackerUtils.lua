@@ -143,9 +143,8 @@ end
 ---@param expectedQuest Quest? Original quest captured by the initiating row or menu.
 ---@return boolean
 function TrackerUtils.SetQuestTomTomTarget(questId, expectedQuest)
-    local quest = TrackerData.RefreshQuest(questId)
-    local capabilities = TrackerMapEligibility.GetCapabilities(quest)
-    if not capabilities.canNavigateQuest or (expectedQuest and capabilities.quest ~= expectedQuest) then
+    local quest, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    if not (capabilities and capabilities.canNavigateQuest) then
         return false
     end
     local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
@@ -510,12 +509,9 @@ end
 ---@param expectedQuest Quest? Original quest captured by a menu.
 ---@return boolean
 function TrackerUtils:FocusObjective(questId, objectiveIndex, expectedObjective, expectedQuest)
-    -- Explicit command-time refresh: a menu may outlive the objective or its original map object.
-    local tracked = TrackerData.RefreshQuest(questId)
-    local capabilities = TrackerMapEligibility.GetCapabilities(tracked)
-    local original = capabilities.focusObjectives[objectiveIndex]
-    if not original or (expectedObjective and original ~= expectedObjective)
-        or (expectedQuest and capabilities.quest ~= expectedQuest) then
+    local _, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    local original = capabilities and capabilities.focusObjectives[objectiveIndex]
+    if not original or (expectedObjective and original ~= expectedObjective) then
         return false
     end
 
@@ -560,9 +556,8 @@ end
 ---@param expectedQuest Quest? Original quest captured by a menu.
 ---@return boolean
 function TrackerUtils:FocusQuest(questId, expectedQuest)
-    local tracked = TrackerData.RefreshQuest(questId)
-    local capabilities = TrackerMapEligibility.GetCapabilities(tracked)
-    if not capabilities.canFocusQuest or (expectedQuest and capabilities.quest ~= expectedQuest) then
+    local _, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    if not (capabilities and capabilities.canFocusQuest) then
         return false
     end
 

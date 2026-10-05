@@ -100,4 +100,39 @@ describe("TrackerMapEligibility", function()
         assert.is_true(capabilities.objectives[special])
         assert.are.equal(special, capabilities.focusObjectives[65])
     end)
+
+    describe("RefreshAndGetCapabilities", function()
+        local TrackerData
+
+        before_each(function()
+            TrackerData = QuestieLoader:ImportModule("TrackerData")
+            TrackerData.RefreshQuest = spy.new(function() return quest end)
+        end)
+
+        it("refreshes the quest before evaluating it", function()
+            local current, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(100, original)
+
+            assert.spy(TrackerData.RefreshQuest).was.called_with(100)
+            assert.are.equal(quest, current)
+            assert.is_true(capabilities.canFocusQuest)
+        end)
+
+        it("returns nothing when the quest's original changed since the menu captured it", function()
+            quest.enrichment = {Id = 100, Objectives = {}}
+
+            local current, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(100, original)
+
+            assert.is_nil(current)
+            assert.is_nil(capabilities)
+        end)
+
+        it("still returns capabilities without a captured original, even after the quest left the log", function()
+            TrackerData.RefreshQuest = function() return nil end
+
+            local current, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(100)
+
+            assert.is_nil(current)
+            assert.is_false(capabilities.canFocusQuest)
+        end)
+    end)
 end)

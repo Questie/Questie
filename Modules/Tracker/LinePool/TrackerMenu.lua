@@ -43,9 +43,8 @@ local function _GetCurrentMapCapabilities(expectedQuest, expectedObjective)
     if not expectedQuest then
         return
     end
-    local current = TrackerData.RefreshQuest(expectedQuest.Id)
-    local capabilities = TrackerMapEligibility.GetCapabilities(current)
-    if capabilities.quest ~= expectedQuest or (expectedObjective and not capabilities.objectives[expectedObjective]) then
+    local current, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(expectedQuest.Id, expectedQuest)
+    if not capabilities or (expectedObjective and not capabilities.objectives[expectedObjective]) then
         return
     end
     return current, capabilities
