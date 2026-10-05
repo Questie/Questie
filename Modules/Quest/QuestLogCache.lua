@@ -97,14 +97,16 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     local changedObjIds -- not assigning {} for easier nil when nothing changed
     local allObjectivesFinished = true -- default to true for easier handling
     local needsRetry = false
+    -- Sounds wait until the whole snapshot is accepted. A later row can still reject it, and the
+    -- retry would then play the same progress sound again.
+    local playObjectiveComplete, playObjectiveProgress = false, false
     local objectives = C_QuestLog_GetQuestObjectives(questId)
     if not objectives then
         return nil, nil, isCompleteAccordingToBlizzard, false
     end
 
-    -- HaveQuestData can be true before individual rows have their type. Validate before processing
-    -- progress so a rejected snapshot cannot play sounds on each retry. Empty text rows are
-    -- intentionally omitted below, preserving the existing client workaround.
+    -- HaveQuestData can be true before individual rows have their type. Reject those snapshots before
+    -- reading any progress. Empty text rows are intentionally omitted below, preserving the existing client workaround.
     for _, objective in ipairs(objectives) do
         if not objective.type and objective.text ~= "" then
             return nil, nil, isCompleteAccordingToBlizzard, false
@@ -142,12 +144,16 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         changedObjIds[#changedObjIds+1] = objIndex
                     end
 
-                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired == newObj.numFulfilled then
-                        Sounds.PlayObjectiveComplete()
-                    end
-
-                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled and newObj.numFulfilled > oldObj.raw_numFulfilled then
-                        Sounds.PlayObjectiveProgress()
+                    -- Sounds are only for a cached objective that was still short of its required count.
+                    -- New rows and already-done rows stay silent.
+                    if oldObj and oldObj.numRequired ~= oldObj.numFulfilled then
+                        if newObj.numRequired == newObj.numFulfilled then
+                            -- Reached the required count.
+                            playObjectiveComplete = true
+                        elseif newObj.numFulfilled > oldObj.raw_numFulfilled then
+                            -- Counted up but still short. Decreases and text-only changes stay silent.
+                            playObjectiveProgress = true
+                        end
                     end
 
                     allObjectivesFinished = allObjectivesFinished and newObj.finished -- if any objective is not finished, whole quest is not complete
@@ -187,6 +193,14 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         -- A finished visible stage is not a finished sequenced quest. Premature completion would also
         -- make the recovery guard reject the next stage. Keep the legacy empty-row workaround otherwise.
         isComplete = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished and 1 or 0
+    end
+
+    -- Every row was read without rejection. Recorded sounds imply changedObjIds, so the caller saves this snapshot.
+    if playObjectiveComplete then
+        Sounds.PlayObjectiveComplete()
+    end
+    if playObjectiveProgress then
+        Sounds.PlayObjectiveProgress()
     end
 
     return newObjectives, changedObjIds, isComplete, needsRetry

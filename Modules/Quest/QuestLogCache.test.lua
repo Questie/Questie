@@ -359,6 +359,28 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayObjectiveProgress).was.called(1)
         end)
 
+        it("plays the objective complete sound once when the next stage appears before its names load", function()
+            -- Sequenced quests (e.g. 93927) add rows in the same update that finishes the first one.
+            questLogTitles[1] = {"A Last Request", 2, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {
+                {text = "Note: 0/1", type = "item", numFulfilled = 0, numRequired = 1, finished = false},
+            }
+            QuestLogCache.CheckForChanges(nil)
+            questObjectives[QUEST_ID] = {
+                {text = "Note: 1/1", type = "item", numFulfilled = 1, numRequired = 1, finished = true},
+                {text = " : 0/1", type = "item", numFulfilled = 0, numRequired = 1, finished = false},
+            }
+
+            assert.is_true(QuestLogCache.CheckForChanges(nil))
+            assert.is_true(QuestLogCache.CheckForChanges(nil))
+            assert.spy(Sounds.PlayObjectiveComplete).was.not_called()
+
+            questObjectives[QUEST_ID][2].text = "Feather: 0/1"
+            assert.is_false(QuestLogCache.CheckForChanges(nil))
+            assert.is_false(QuestLogCache.CheckForChanges(nil))
+            assert.spy(Sounds.PlayObjectiveComplete).was.called(1)
+        end)
+
         it("should add a new quest to the cache on first scan without playing any sounds", function()
             questLogTitles = {
                 [1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID},
