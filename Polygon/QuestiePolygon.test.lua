@@ -412,13 +412,81 @@ describe("QuestiePolygon world-map adapter", function()
         map.mapId = 20
         frames[1].parent.shown = false -- HBD did not acquire this marker on the other map.
         map.provider:OnMapChanged()
+        assert.is_nil(frames[1].polygonMarker.entry.hovered)
+        FlushRefresh()
         assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
         map.mapId = 10
         frames[1].parent.shown = true
         map.provider:OnMapChanged()
+        FlushRefresh()
         assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
         assert.is_false(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
         assert.spy(Geometry.Build).was.called(1)
+    end)
+
+    describe("provider refresh coalescing", function()
+        before_each(function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            Polygon.EnterMarker(frames[1])
+            FlushRefresh()
+        end)
+
+        it("shares one deferred draw across marker and provider notifications using the latest map and canvas", function()
+            local drawCount = #renderer.Draw.calls
+            Polygon.ScheduleRefresh() -- Marker OnShow can queue first, before providers run.
+            map.provider:RefreshAllData()
+            map.provider:OnShow()
+            map.mapId = 20
+            map.provider:OnMapChanged()
+            assert.is_nil(frames[1].polygonMarker.entry.hovered)
+            map.provider:OnCanvasSizeChanged()
+            map.GetCanvas = function()
+                return {GetWidth = function() return 800 end, GetHeight = function() return 400 end}
+            end
+            map.provider:OnCanvasSizeChanged()
+
+            assert.are.equal(1, #timers)
+            assert.spy(renderer.Draw).was.called(drawCount)
+            assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
+            FlushRefresh()
+
+            assert.spy(renderer.Draw).was.called(drawCount + 1)
+            assert.spy(renderer.Draw).was.called_with(renderer, drawnShapes, 800, 400, 10)
+            assert.are.equal(1, #drawnShapes)
+            assert.is_false(drawnShapes[1].highlighted)
+            assert.spy(HBD.TranslateZoneCoordinates).was.called_with(HBD, 0.1, 0.1, 10, 20, true)
+            assert.are.equal(0, #timers)
+            assert.spy(Geometry.Build).was.called(1)
+
+            map.provider:OnCanvasSizeChanged()
+            assert.are.equal(1, #timers)
+            FlushRefresh()
+            assert.spy(renderer.Draw).was.called(drawCount + 2)
+        end)
+
+        it("clears immediately on hide and does not redraw when the pending callback runs", function()
+            local drawCount, clearCount = #renderer.Draw.calls, #renderer.Clear.calls
+            map.provider:OnShow()
+            map.shown = false
+            map.provider:OnHide()
+
+            assert.spy(renderer.Clear).was.called(clearCount + 1)
+            assert.is_nil(frames[1].polygonMarker.entry.hovered)
+            assert.is_true(frames[1].polygonMarker.entry.pinned)
+            FlushRefresh()
+            assert.spy(renderer.Draw).was.called(drawCount)
+        end)
+
+        it("clears immediately on removal and leaves pending provider work unable to redraw", function()
+            local drawCount, clearCount = #renderer.Draw.calls, #renderer.Clear.calls
+            map.provider:RefreshAllData()
+            map:RemoveDataProvider(map.provider)
+
+            assert.spy(renderer.Clear).was.called(clearCount + 1)
+            FlushRefresh()
+            assert.spy(renderer.Draw).was.called(drawCount)
+        end)
     end)
 
     describe("polygon projection follows displayed markers", function()
@@ -482,9 +550,11 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.equal(projected, drawnShapes[1].points)
             map.mapId = 10
             map.provider:OnMapChanged()
+            FlushRefresh()
             assert.are.equal(frames[1].polygonMarker.cluster.outline, drawnShapes[1].points)
             map.mapId = 20
             map.provider:OnMapChanged()
+            FlushRefresh()
 
             assert.are.equal(projected, drawnShapes[1].points)
             assert.spy(HBD.TranslateZoneCoordinates).was.called(3)
@@ -675,6 +745,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_nil(frames[1].data)
         assert.spy(FramePool.UnloadFrame).was.called(1)
         assert.spy(renderer.Clear).was.called()
+        assert.spy(renderer.Draw).was.not_called()
     end)
 
     it("reuses renderer and provider pools after repeated mode resets", function()
@@ -852,6 +923,8 @@ describe("QuestiePolygon world-map adapter", function()
             map.provider:OnCanvasSizeChanged()
             assert.are_near(-5.6, meat.point[4], 0.000001)
             assert.are_near(5.6, ribs.point[4], 0.000001)
+            assert.are.equal(1, #timers) -- Drawing is deferred; slot reapplication stays immediate.
+            FlushRefresh()
             assert.are.equal(0, #timers)
             assert.are.same({10, 20, 10}, {meat.x, meat.y, meat.UiMapID})
             assert.spy(calculate).was.not_called()
