@@ -311,14 +311,53 @@ describe("QuestiePolygon world-map adapter", function()
         local shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
         assert.are.equal(1, #shapes)
         assert.are.same({0.2, 0.5, 1, 0.25}, shapes[1].color)
+        assert.is_true(shapes[1].highlighted)
         Polygon.ToggleMarker(frames[1])
         Polygon.LeaveMarker(frames[1])
         FlushRefresh()
         assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.is_false(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
         frames[1].hidden = true
         Polygon.MarkerChanged(frames[1])
         FlushRefresh()
         assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+    end)
+
+    it("highlights only the hovered marker's cluster while previewing the whole objective", function()
+        local firstOutline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}
+        local secondOutline = {{x = 70, y = 70}, {x = 80, y = 70}, {x = 70, y = 80}}
+        objective.spawnList[123].Spawns[1] = {{10, 20}, {70, 80}}
+        Geometry.Build = function(points)
+            return {
+                {uiMapId = 10, x = 10, y = 20, representative = points[1], outline = firstOutline},
+                {uiMapId = 10, x = 70, y = 80, representative = points[2], outline = secondOutline},
+            }
+        end
+        Update()
+        Polygon.EnterMarker(frames[1])
+        FlushRefresh()
+        local shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
+        assert.are.equal(2, #shapes)
+        assert.are.same(firstOutline, shapes[1].points)
+        assert.is_true(shapes[1].highlighted)
+        assert.are.same(secondOutline, shapes[2].points)
+        assert.is_false(shapes[2].highlighted)
+        assert.is_nil(QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2]) -- No native hover readers.
+
+        Polygon.EnterMarker(frames[2])
+        FlushRefresh()
+        shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
+        assert.is_false(shapes[1].highlighted)
+        assert.is_true(shapes[2].highlighted)
+
+        Polygon.ToggleMarker(frames[2])
+        Polygon.LeaveMarker(frames[2])
+        FlushRefresh()
+        shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
+        assert.are.equal(2, #shapes)
+        assert.is_false(shapes[1].highlighted)
+        assert.is_false(shapes[2].highlighted)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called(2)
     end)
 
     it("checks live Questie visibility policy and marker fade alpha before drawing pinned fills", function()
@@ -334,16 +373,19 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
     end)
 
-    it("reuses cached geometry after changing maps but draws only outlines belonging to the selected map", function()
+    it("reuses cached geometry after changing maps but clears marker highlighting", function()
         Update()
         Polygon.ToggleMarker(frames[1])
+        Polygon.EnterMarker(frames[1])
         FlushRefresh()
+        assert.is_true(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
         map.mapId = 20
         map.provider:OnMapChanged()
         assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
         map.mapId = 10
         map.provider:OnMapChanged()
         assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.is_false(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
         assert.spy(Geometry.Build).was.called(1)
     end)
 

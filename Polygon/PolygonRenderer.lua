@@ -6,6 +6,7 @@ local PolygonRenderer = QuestieLoader:CreateModule("PolygonRenderer")
 ---@field points table[] Ordered convex outline in zone percentages, with named x/y fields.
 ---@field color number[] RGB plus optional fill alpha; border opacity is independent.
 ---@field borderAlpha number? Border opacity in [0, 1], default 0.75; callers can apply marker fade.
+---@field highlighted boolean? Highlight this outline through its associated marker, independent of native motion support.
 
 ---@class PolygonCanvasRenderer
 ---@field canvas Frame
@@ -15,7 +16,8 @@ local PolygonRenderer = QuestieLoader:CreateModule("PolygonRenderer")
 ---@field freeBorders Texture[]
 ---@field hoverInput PolygonHoverInput?
 ---@field hoverFrames table<Frame, boolean> Only motion-capable frames in the current draw.
----@field hoveredFrame Frame?
+---@field hoveredFrames table<Frame, boolean> All containing polygons in the current native focus stack.
+---@field highlightedFrames table<Frame, boolean> Union of geometric hover and caller-requested marker highlights.
 ---@field hoverDriver Frame? One shared update driver, retained across draws.
 
 ---@class PolygonHoverInput
@@ -38,7 +40,7 @@ end
 ---@return PolygonCanvasRenderer
 function PolygonRenderer.New(canvas, hoverInput)
     return setmetatable({canvas = canvas, activeFrames = {}, freeFrames = {}, freeFills = {}, freeBorders = {},
-        hoverInput = hoverInput, hoverFrames = {}}, Renderer)
+        hoverInput = hoverInput, hoverFrames = {}, hoveredFrames = {}, highlightedFrames = {}}, Renderer)
 end
 
 -- Border geometry is retained so hover changes neither fills nor pooled ownership.
@@ -54,11 +56,14 @@ local function _RestyleBorders(frame, selected)
     end
 end
 
-local function _SetHoveredFrame(self, frame)
-    if self.hoveredFrame == frame then return end
-    if self.hoveredFrame then _RestyleBorders(self.hoveredFrame, false) end
-    self.hoveredFrame = frame
-    if frame then _RestyleBorders(frame, true) end
+local function _SetHighlightedFrames(self, selected)
+    for frame in pairs(self.highlightedFrames) do
+        if not selected[frame] then _RestyleBorders(frame, false) end
+    end
+    for frame in pairs(selected) do
+        if not self.highlightedFrames[frame] then _RestyleBorders(frame, true) end
+    end
+    self.highlightedFrames = selected
 end
 
 -- Inclusive edges avoid flicker at vertices and shared borders. The renderer receives
@@ -82,23 +87,29 @@ local function _ContainsPoint(points, x, y)
 end
 
 function Renderer:UpdateHover()
-    if not next(self.hoverFrames) then return end
-    local input = self.hoverInput
-    local x, y = input.getCursorPosition()
-    local selected
-    -- Restricted/off-screen cursor data cannot safely participate in geometry comparisons.
-    local secretCursor = issecretvalue and (issecretvalue(x) or issecretvalue(y))
-    if not secretCursor and _IsFinite(x) and _IsFinite(y) and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
-        -- This is the native participation stack, not all overlapping rectangles.
-        -- An opaque UI region stops propagation and excludes obscured polygon frames.
-        for _, region in ipairs(input.getMouseFoci()) do
-            if self.hoverFrames[region] and region:IsShown() and _ContainsPoint(region.polygonOutline, x * 100, y * 100) then
-                selected = region
-                break
+    local hovered, selected = {}, {}
+    if next(self.hoverFrames) then
+        local input = self.hoverInput
+        local x, y = input.getCursorPosition()
+        -- Restricted/off-screen cursor data cannot safely participate in geometry comparisons.
+        local secretCursor = issecretvalue and (issecretvalue(x) or issecretvalue(y))
+        if not secretCursor and _IsFinite(x) and _IsFinite(y) and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
+            -- Highlight every containing polygon in the native participation stack.
+            -- An opaque UI region excludes obscured frames; rectangular overlap alone is insufficient.
+            for _, region in ipairs(input.getMouseFoci()) do
+                if self.hoverFrames[region] and region:IsShown() and _ContainsPoint(region.polygonOutline, x * 100, y * 100) then
+                    hovered[region], selected[region] = true, true
+                end
             end
         end
     end
-    _SetHoveredFrame(self, selected)
+    -- Marker association remains independent of motion propagation and geometric hover.
+    -- Leaving a polygon cannot erase the outline highlight requested by its hovered marker.
+    for _, frame in ipairs(self.activeFrames) do
+        if frame.polygonHighlighted and frame:IsShown() then selected[frame] = true end
+    end
+    self.hoveredFrames = hovered
+    _SetHighlightedFrames(self, selected)
 end
 
 function Renderer:Clear()
@@ -107,14 +118,15 @@ function Renderer:Clear()
         self.hoverDriver:SetScript("OnUpdate", nil)
         self.hoverDriver:Hide()
     end
-    _SetHoveredFrame(self, nil)
+    self.hoveredFrames = {}
+    _SetHighlightedFrames(self, {})
     self.hoverFrames = {}
     for i = #self.activeFrames, 1, -1 do
         local frame = self.activeFrames[i]
         frame:EnableMouse(false)
         if frame.EnableMouseMotion then frame:EnableMouseMotion(false) end
         if frame.SetPropagateMouseMotion then frame:SetPropagateMouseMotion(false) end
-        frame.polygonOutline, frame.polygonColor, frame.polygonBorderAlpha = nil, nil, nil
+        frame.polygonOutline, frame.polygonColor, frame.polygonBorderAlpha, frame.polygonHighlighted = nil, nil, nil, nil
         frame:Hide()
         for j = #frame.fills, 1, -1 do
             local texture = frame.fills[j]
@@ -183,6 +195,7 @@ function Renderer:Draw(shapes, width, height, frameLevel)
                 and (color[4] == nil or _IsFinite(color[4])), "Invalid polygon color")
             local borderAlpha = shape.borderAlpha == nil and 0.75 or shape.borderAlpha
             assert(_IsFinite(borderAlpha) and borderAlpha >= 0 and borderAlpha <= 1, "Invalid polygon border alpha")
+            assert(shape.highlighted == nil or type(shape.highlighted) == "boolean", "Invalid polygon highlight flag")
             local center, minX, minY, maxX, maxY = {x = 0, y = 0}, math.huge, math.huge, -math.huge, -math.huge
             for _, point in ipairs(points) do
                 assert(_IsFinite(point.x) and _IsFinite(point.y), "Invalid polygon coordinate")
@@ -204,6 +217,7 @@ function Renderer:Draw(shapes, width, height, frameLevel)
             frame:EnableMouse(false)
             if frame.EnableMouseMotion then frame:EnableMouseMotion(false) end
             frame.polygonOutline, frame.polygonColor, frame.polygonBorderAlpha = points, color, borderAlpha
+            frame.polygonHighlighted = shape.highlighted == true
             frame:SetFrameLevel(frameLevel)
             frame:SetPoint("TOPLEFT", self.canvas, "TOPLEFT", minX * width / 100, -minY * height / 100)
             frame:SetSize(frameWidth, frameHeight)
@@ -236,33 +250,38 @@ function Renderer:Draw(shapes, width, height, frameLevel)
         -- native input capabilities leave the affected frames completely noninteractive.
         local input = self.hoverInput
         local canReadHover = input and type(input.getCursorPosition) == "function" and type(input.getMouseFoci) == "function"
+        local hasMarkerHighlight = false
         for _, frame in ipairs(self.activeFrames) do
             if canReadHover and type(frame.EnableMouseMotion) == "function" and type(frame.SetPropagateMouseMotion) == "function" then
                 frame:SetPropagateMouseMotion(true)
                 frame:EnableMouseMotion(true) -- EnableMouse(false) above keeps clicks disabled.
                 self.hoverFrames[frame] = true
             end
+            hasMarkerHighlight = hasMarkerHighlight or frame.polygonHighlighted
             frame:Show()
         end
-        if next(self.hoverFrames) then
+        if next(self.hoverFrames) or hasMarkerHighlight then
             if not self.hoverDriver then
                 self.hoverDriver = CreateFrame("Frame", nil, self.canvas)
                 self.hoverDriver:Hide()
                 self.hoverDriver:EnableMouse(false)
                 self.hoverDriver:SetScript("OnHide", function(driver)
                     driver:SetScript("OnUpdate", nil)
-                    _SetHoveredFrame(self, nil)
+                    self.hoveredFrames = {}
+                    _SetHighlightedFrames(self, {})
                 end)
                 self.hoverDriver:SetScript("OnShow", function(driver)
-                    if not next(self.hoverFrames) then return end
-                    local elapsed = 0
-                    driver:SetScript("OnUpdate", function(_, delta)
-                        elapsed = elapsed + delta
-                        if elapsed >= 0.08 then
-                            elapsed = elapsed % 0.08
-                            self:UpdateHover()
-                        end
-                    end)
+                    if #self.activeFrames == 0 then return end
+                    if next(self.hoverFrames) then
+                        local elapsed = 0
+                        driver:SetScript("OnUpdate", function(_, delta)
+                            elapsed = elapsed + delta
+                            if elapsed >= 0.08 then
+                                elapsed = elapsed % 0.08
+                                self:UpdateHover()
+                            end
+                        end)
+                    end
                     self:UpdateHover()
                 end)
             end
