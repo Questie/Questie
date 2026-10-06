@@ -115,9 +115,14 @@ local function _GiftWrap(points, work)
         for i, b in ipairs(unique) do
             local c = unique[nextIndex]
             local cross = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
-            local distance = (b.x - a.x)^2 + (b.y - a.y)^2
-            local nextDistance = (c.x - a.x)^2 + (c.y - a.y)^2
-            if cross < 0 or (cross == 0 and distance > nextDistance) then nextIndex = i end
+            if cross < 0 then
+                nextIndex = i
+            elseif cross == 0 then
+                -- Distances only decide collinear ties; keep the farthest endpoint.
+                local distance = (b.x - a.x)^2 + (b.y - a.y)^2
+                local nextDistance = (c.x - a.x)^2 + (c.y - a.y)^2
+                if distance > nextDistance then nextIndex = i end
+            end
             if not _Checkpoint(work) then return end
         end
         hull[#hull + 1] = a
