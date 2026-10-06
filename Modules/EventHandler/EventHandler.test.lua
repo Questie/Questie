@@ -165,4 +165,156 @@ describe("EventHandler event dispatch", function()
         assert.spy(QuestieProfessions.Update).was.called_with(QuestieProfessions)
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
     end)
+
+    describe("system messages", function()
+        local savedSystemGlobals
+        local savedSystemCallbacks
+        local MinimapIcon
+        local QuestieReputation
+        local QuestieCombatQueue
+        local QuestieTracker
+        local QuestieInit
+        local secretMessage
+
+        before_each(function()
+            savedSystemGlobals = {
+                GetLocale = _G.GetLocale,
+                QuestieConfig = _G.QuestieConfig,
+                FACTION_STANDING_CHANGED = _G.FACTION_STANDING_CHANGED,
+                issecretvalue = _G.issecretvalue,
+            }
+            _G.GetLocale = function() return "enUS" end
+            _G.QuestieConfig = {}
+            _G.FACTION_STANDING_CHANGED = "You are now %s with %s."
+            -- This marker tests dispatch only; native secret semantics require a client probe.
+            secretMessage = {}
+            _G.issecretvalue = function(value) return value == secretMessage end
+
+            MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+            QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+            QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+            QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            QuestieInit = QuestieLoader:ImportModule("QuestieInit")
+            savedSystemCallbacks = {
+                UpdateText = MinimapIcon.UpdateText,
+                UpdateReputation = QuestieReputation.Update,
+                Queue = QuestieCombatQueue.Queue,
+                UpdateTracker = QuestieTracker.Update,
+                Init = QuestieInit.Init,
+            }
+            MinimapIcon.UpdateText = spy.new(function() end)
+            QuestieReputation.Update = spy.new(function() return false, false end)
+            QuestieCombatQueue.Queue = spy.new(function(_, callback) callback() end)
+            QuestieTracker.Update = spy.new(function() end)
+            QuestieInit.Init = function() end
+
+            QuestieLoader:ImportModule("EventHandler"):RegisterEarlyEvents()
+            callbacks.PLAYER_LOGIN("PLAYER_LOGIN")
+        end)
+
+        after_each(function()
+            _G.GetLocale = savedSystemGlobals.GetLocale
+            _G.QuestieConfig = savedSystemGlobals.QuestieConfig
+            _G.FACTION_STANDING_CHANGED = savedSystemGlobals.FACTION_STANDING_CHANGED
+            _G.issecretvalue = savedSystemGlobals.issecretvalue
+            MinimapIcon.UpdateText = savedSystemCallbacks.UpdateText
+            QuestieReputation.Update = savedSystemCallbacks.UpdateReputation
+            QuestieCombatQueue.Queue = savedSystemCallbacks.Queue
+            QuestieTracker.Update = savedSystemCallbacks.UpdateTracker
+            QuestieInit.Init = savedSystemCallbacks.Init
+        end)
+
+        it("preserves accepted and completed quest messages", function()
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "Quest accepted: Test quest")
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "Quest completed: Test quest")
+
+            assert.spy(MinimapIcon.UpdateText).was.called_with(MinimapIcon, "Quest accepted: Test quest")
+            assert.spy(MinimapIcon.UpdateText).was.called_with(MinimapIcon, "Quest completed: Test quest")
+            assert.spy(QuestieReputation.Update).was.not_called()
+        end)
+
+        it("retains ordinary handling on clients without the secret-value API", function()
+            _G.issecretvalue = nil
+
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "Quest accepted: Test quest")
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "You are now Friendly with Stormwind.")
+
+            assert.spy(MinimapIcon.UpdateText).was.called_with(MinimapIcon, "Quest accepted: Test quest")
+            assert.spy(QuestieReputation.Update).was.called_with(QuestieReputation, false)
+        end)
+
+        it("refreshes quests and queues the tracker for a standing change", function()
+            QuestieReputation.Update = spy.new(function() return true, false end)
+
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "You are now Friendly with Stormwind.")
+
+            assert.spy(QuestieReputation.Update).was.called_with(QuestieReputation, false)
+            assert.spy(QuestieCombatQueue.Queue).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker)
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+            assert.spy(MinimapIcon.UpdateText).was.not_called()
+        end)
+
+        it("refreshes quests and the tracker for a newly discovered faction", function()
+            QuestieReputation.Update = spy.new(function() return false, true end)
+
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "You are now Neutral with Stormwind.")
+
+            assert.spy(QuestieReputation.Update).was.called_with(QuestieReputation, false)
+            assert.spy(QuestieCombatQueue.Queue).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called(1)
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+        end)
+
+        it("avoids redraws when a readable reputation message reports no state change", function()
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "You are now Friendly with Stormwind.")
+
+            assert.spy(QuestieReputation.Update).was.called_with(QuestieReputation, false)
+            assert.spy(QuestieCombatQueue.Queue).was.not_called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+        end)
+
+        it("ignores unrelated readable system messages", function()
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "Player has come online.")
+
+            assert.spy(MinimapIcon.UpdateText).was.not_called()
+            assert.spy(QuestieReputation.Update).was.not_called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+        end)
+
+        it("does not parse secret text or forward it to the icon, and handles later readable messages", function()
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", secretMessage)
+
+            assert.spy(QuestieReputation.Update).was.called_with(QuestieReputation, false)
+            assert.spy(MinimapIcon.UpdateText).was.not_called()
+            assert.spy(QuestieCombatQueue.Queue).was.not_called()
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", "Quest accepted: Test quest")
+
+            assert.spy(MinimapIcon.UpdateText).was.called_with(MinimapIcon, "Quest accepted: Test quest")
+        end)
+
+        it("preserves standing changes when system text is secret", function()
+            QuestieReputation.Update = spy.new(function() return true, false end)
+
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", secretMessage)
+
+            assert.spy(QuestieReputation.Update).was.called_with(QuestieReputation, false)
+            assert.spy(QuestieCombatQueue.Queue).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called(1)
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+            assert.spy(MinimapIcon.UpdateText).was.not_called()
+        end)
+
+        it("preserves newly discovered factions when system text is secret", function()
+            QuestieReputation.Update = spy.new(function() return false, true end)
+
+            callbacks.CHAT_MSG_SYSTEM("CHAT_MSG_SYSTEM", secretMessage)
+
+            assert.spy(QuestieCombatQueue.Queue).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called(1)
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+        end)
+    end)
 end)
