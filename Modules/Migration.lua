@@ -299,6 +299,12 @@ local migrationFunctions = {
     [47] = function()
         Questie.db.profile.trackerFollowSuperTracking = false
     end,
+    [48] = function()
+        -- Existing profiles keep their objective style until the player selects Questie blobs.
+        if Questie.db.profile.enableQuestiePolygons == nil then
+            Questie.db.profile.enableQuestiePolygons = false
+        end
+    end,
 }
 
 function Migration:Migrate()
