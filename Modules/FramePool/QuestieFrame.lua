@@ -484,17 +484,6 @@ function _QuestieFrame.ShouldBeHidden(self)
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
 
-    local IsSoD = Questie.IsSoD
-
-    --investigate quest and cache results to minimize DB lookups
-    local repeatable = QuestieDB.IsRepeatable(questId)
-    local event = QuestieDB.IsActiveEventQuest(questId)
-    local dungeon = QuestieDB.IsDungeonQuest(questId)
-    local raid = QuestieDB.IsRaidQuest(questId)
-    local pvp = QuestieDB.IsPvPQuest(questId)
-    local normal = not (repeatable or event or dungeon or raid or pvp)
-    local itemStart = (data.StarterType ~= nil)
-
     if (not profile.enabled) -- all quest icons disabled
         or ((not profile.enableMapIcons) and (not self.miniMapIcon))
         or ((not profile.enableMiniMapIcons) and (self.miniMapIcon))
@@ -504,24 +493,31 @@ function _QuestieFrame.ShouldBeHidden(self)
         or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId)) -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
-        -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
-        -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
-        or (iconType == "available"
-            and (
-                ((not profile.enableAvailable) and normal)
-                or ((not profile.showRepeatableQuests) and repeatable)
-                or ((not profile.showEventQuests) and event)
-                or ((not profile.showDungeonQuests) and dungeon)
-                or ((not profile.showRaidQuests) and raid)
-                or ((not profile.showPvPQuests) and pvp)
-                or ((not profile.enableAvailableItems) and itemStart)
-                or (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))
-            -- this quest group isn't loaded at all while disabled:
-            -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
-            )
-        )
     then
         return true
+    end
+
+    -- Category filters apply only to available quests. Objective/turn-in icons and
+    -- icons already hidden above need no classification lookups.
+    if iconType == "available" then
+        local repeatable = QuestieDB.IsRepeatable(questId)
+        local event = QuestieDB.IsActiveEventQuest(questId)
+        local dungeon = QuestieDB.IsDungeonQuest(questId)
+        local raid = QuestieDB.IsRaidQuest(questId)
+        local pvp = QuestieDB.IsPvPQuest(questId)
+        local normal = not (repeatable or event or dungeon or raid or pvp)
+        local itemStart = (data.StarterType ~= nil)
+
+        if ((not profile.enableAvailable) and normal)
+            or ((not profile.showRepeatableQuests) and repeatable)
+            or ((not profile.showEventQuests) and event)
+            or ((not profile.showDungeonQuests) and dungeon)
+            or ((not profile.showRaidQuests) and raid)
+            or ((not profile.showPvPQuests) and pvp)
+            or ((not profile.enableAvailableItems) and itemStart)
+            or (Questie.IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId)) then
+            return true
+        end
     end
 
     return false

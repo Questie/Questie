@@ -281,6 +281,49 @@ describe("QuestieFrame", function()
     end)
 
     describe("ShouldBeHidden", function()
+        describe("quest category lookups", function()
+            before_each(function()
+                spy.on(QuestieDB, "IsRepeatable")
+                spy.on(QuestieDB, "IsActiveEventQuest")
+                spy.on(QuestieDB, "IsDungeonQuest")
+                spy.on(QuestieDB, "IsRaidQuest")
+                spy.on(QuestieDB, "IsPvPQuest")
+            end)
+
+            for _, iconType in ipairs({"monster", "object", "item", "event", "complete"}) do
+                it("skips category lookups for " .. iconType .. " icons", function()
+                    QuestieFrameInstance.data.Type = iconType
+                    Questie.db.profile.enableAvailable = false
+                    Questie.db.profile.showRepeatableQuests = false
+                    Questie.db.profile.showEventQuests = false
+                    Questie.db.profile.showDungeonQuests = false
+                    Questie.db.profile.showRaidQuests = false
+                    Questie.db.profile.showPvPQuests = false
+
+                    assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+
+                    assert.spy(QuestieDB.IsRepeatable).was.not_called()
+                    assert.spy(QuestieDB.IsActiveEventQuest).was.not_called()
+                    assert.spy(QuestieDB.IsDungeonQuest).was.not_called()
+                    assert.spy(QuestieDB.IsRaidQuest).was.not_called()
+                    assert.spy(QuestieDB.IsPvPQuest).was.not_called()
+                end)
+            end
+
+            it("skips category lookups for available icons already hidden by map settings", function()
+                QuestieFrameInstance.data.Type = "available"
+                Questie.db.profile.enableMapIcons = false
+
+                assert.is_true(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+
+                assert.spy(QuestieDB.IsRepeatable).was.not_called()
+                assert.spy(QuestieDB.IsActiveEventQuest).was.not_called()
+                assert.spy(QuestieDB.IsDungeonQuest).was.not_called()
+                assert.spy(QuestieDB.IsRaidQuest).was.not_called()
+                assert.spy(QuestieDB.IsPvPQuest).was.not_called()
+            end)
+        end)
+
         it("should return true when all icons are disabled", function()
             Questie.db.profile.enabled = false
 

@@ -93,6 +93,23 @@ describe("PolygonGeometry", function()
         assert.are_equal(2, #_Build({a, b}))
     end)
 
+    it("keeps the same outline when collinear edge points precede the farthest corners", function()
+        local a = {x = 10, y = 10, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0}
+        local b = {x = 30, y = 10, worldX = 20, worldY = 0, uiMapId = 1429, instanceId = 0}
+        local c = {x = 30, y = 30, worldX = 20, worldY = 20, uiMapId = 1429, instanceId = 0}
+        local d = {x = 10, y = 30, worldX = 0, worldY = 20, uiMapId = 1429, instanceId = 0}
+        local left = {x = 10, y = 20, worldX = 0, worldY = 10, uiMapId = 1429, instanceId = 0}
+        local bottom = {x = 20, y = 10, worldX = 10, worldY = 0, uiMapId = 1429, instanceId = 0}
+        local right = {x = 30, y = 20, worldX = 20, worldY = 10, uiMapId = 1429, instanceId = 0}
+        local top = {x = 20, y = 30, worldX = 10, worldY = 20, uiMapId = 1429, instanceId = 0}
+
+        local corners = _Build({a, b, c, d})
+        local withEdgePoints = _Build({a, left, d, top, c, right, b, bottom})
+
+        assert.are_same(corners, withEdgePoints)
+        assert.are_equal(a, withEdgePoints[1].representative)
+    end)
+
     it("smooths a convex outline and places its marker at the polygon centroid", function()
         local points = {
             {x = 10, y = 10, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0},

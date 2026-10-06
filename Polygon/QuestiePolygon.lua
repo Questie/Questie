@@ -201,9 +201,11 @@ function Provider:OnRemoved()
     self.owningMap = nil
 end
 
+-- Map opening can send all four notifications in one frame. Share the marker
+-- refresh bucket so drawing sees the final canvas size and HBD visibility state.
 function Provider:RefreshAllData()
     QuestiePolygon.UpdateNudging()
-    QuestiePolygon.Refresh()
+    QuestiePolygon.ScheduleRefresh()
 end
 
 function Provider:OnMapChanged()
@@ -213,17 +215,17 @@ function Provider:OnMapChanged()
             entry.hovered = nil
         end
     end
-    QuestiePolygon.Refresh()
+    QuestiePolygon.ScheduleRefresh()
 end
 
 function Provider:OnCanvasSizeChanged()
     nudging:Reapply()
-    QuestiePolygon.Refresh()
+    QuestiePolygon.ScheduleRefresh()
 end
 
 function Provider:OnShow()
     QuestiePolygon.UpdateNudging()
-    QuestiePolygon.Refresh()
+    QuestiePolygon.ScheduleRefresh()
 end
 
 function Provider:OnHide()
