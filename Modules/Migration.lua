@@ -338,6 +338,12 @@ local migrationFunctions = {
         -- The pfQuest/ClassicCodex icon toggle is gone; the icon theme choice replaced it.
         Questie.db.profile.usePfQuestIcons = nil
     end,
+    [55] = function()
+        -- Existing profiles keep their objective style until the player selects Questie blobs.
+        if Questie.db.profile.enableQuestiePolygons == nil then
+            Questie.db.profile.enableQuestiePolygons = false
+        end
+    end,
 }
 
 function Migration:Migrate()
