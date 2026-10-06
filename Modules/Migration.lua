@@ -308,6 +308,12 @@ local migrationFunctions = {
         -- The Blizzard quest timer is always hidden now; timed quests are shown in the Questie tracker.
         Questie.db.profile.showBlizzardQuestTimer = nil
     end,
+    [50] = function()
+        -- Existing profiles keep their objective style until the player selects Questie blobs.
+        if Questie.db.profile.enableQuestiePolygons == nil then
+            Questie.db.profile.enableQuestiePolygons = false
+        end
+    end,
 }
 
 function Migration:Migrate()
