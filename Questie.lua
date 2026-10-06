@@ -14,6 +14,8 @@ local EventHandler = QuestieLoader:ImportModule("EventHandler")
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieValidateGameCache
@@ -54,6 +56,7 @@ function Questie:OnEnable()
 end
 
 function Questie:OnDisable()
+    QuestiePolygon.Reset()
     if Questie.IsForever or Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is disabled
         QuestieCompat.ShowWatchFrame()

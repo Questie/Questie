@@ -77,6 +77,18 @@ class ContractRequirementTests(unittest.TestCase):
                 self.assertIn("## RequiredDeps: QuestieDB", lines)
                 self.assertLess(lines.index("Modules\\VersionCheckDB.lua"), lines.index("Modules\\QuestieInit.lua"))
 
+    def test_all_flavors_load_polygon_modules_in_dependency_order_before_main(self):
+        root = Path(__file__).resolve().parent
+        for toc in build.tocs.values():
+            with self.subTest(toc=toc):
+                lines = (root / toc).read_text(encoding="utf-8").splitlines()
+                self.assertEqual(1, lines.count("Polygon\\PolygonGeometry.lua"))
+                self.assertEqual(1, lines.count("Polygon\\PolygonRenderer.lua"))
+                self.assertEqual(1, lines.count("Polygon\\QuestiePolygon.lua"))
+                self.assertLess(lines.index("Polygon\\PolygonGeometry.lua"), lines.index("Polygon\\PolygonRenderer.lua"))
+                self.assertLess(lines.index("Polygon\\PolygonRenderer.lua"), lines.index("Polygon\\QuestiePolygon.lua"))
+                self.assertLess(lines.index("Polygon\\QuestiePolygon.lua"), lines.index("Questie.lua"))
+
 
 class SourceTagTests(unittest.TestCase):
     def test_build_version_ignores_a_newer_bundle_tag(self):
@@ -197,6 +209,20 @@ class BuildModeTests(unittest.TestCase):
             self.assertIn(build.tocs[1], archive.namelist())
             self.assertNotIn(build.tocs[2], archive.namelist())
             self.assertFalse(any(name.startswith("QuestieDB/") for name in archive.namelist()))
+
+    def test_polygon_runtime_files_are_packaged_but_adjacent_tests_are_not(self):
+        (self.root / "Polygon").mkdir()
+        for name in ("PolygonGeometry", "PolygonRenderer", "QuestiePolygon"):
+            (self.root / f"Polygon/{name}.lua").write_text("return {}\n", encoding="utf-8")
+            (self.root / f"Polygon/{name}.test.lua").write_text("error('test-only')\n", encoding="utf-8")
+
+        output, manifest = self.run_build("--standalone", "-r")
+
+        with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
+            for name in ("PolygonGeometry", "PolygonRenderer", "QuestiePolygon"):
+                self.assertEqual(b"return {}\n", archive.read(f"Polygon/{name}.lua"))
+                self.assertNotIn(f"Polygon/{name}.test.lua", archive.namelist())
+        self.downloads.assert_not_called()
 
     def test_standalone_is_default_without_a_provider_download(self):
         output, manifest = self.run_build("-r")

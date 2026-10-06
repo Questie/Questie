@@ -24,6 +24,8 @@ local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
 local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -96,6 +98,9 @@ end
 function QuestieMap:UnloadQuestFrames(questId, iconType)
     assert(coroutine.running(), "UnloadQuestFrames must be called from a coroutine")
 
+    if not iconType then
+        QuestiePolygon.RemoveQuest(questId)
+    end
     if QuestieMap.questIdFrames[questId] then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Unloading quest frames for questid:", questId)
         local yieldCount = 0
@@ -624,7 +629,8 @@ end
 --showFlag isn't required but may want to be Modified -- TODO: Can this be removed?
 ---@param data IconData
 ---@return IconFrame, IconFrame
-function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
+---@param destination? "map"|"minimap" @Omit to draw both. Polygon mode retains normal minimap pins independently.
+function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag, destination)
     if type(data) ~= "table" then
         error("Questie" .. ": AddWorldMapIconMap: must have some data")
     end
@@ -665,55 +671,52 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
 
     local floatOnEdge = true
 
-    ---@type IconFrame
-    local iconMap = QuestieFramePool:GetFrame()
-    iconMap.data = data
-    iconMap.x = x
-    iconMap.y = y
-    iconMap.AreaID = areaID
-    iconMap.UiMapID = uiMapId
-    iconMap.miniMapIcon = false;
-    iconMap:UpdateTexture(Questie.usedIcons[data.Icon]);
-
-    ---@type IconFrame
-    local iconMinimap = QuestieFramePool:GetFrame()
-    iconMinimap.data = data
-    iconMinimap.x = x
-    iconMinimap.y = y
-    iconMinimap.AreaID = areaID
-    iconMinimap.UiMapID = uiMapId
-    --data.refMiniMap = iconMinimap -- used for removing
-    --Are we a minimap note?
-    iconMinimap.miniMapIcon = true;
-    iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
-    -- Waypoints drawn for the map icon follow this icon's visibility on the minimap.
-    iconMap.minimapTwin = iconMinimap
-
-    if (not iconMinimap.FadeLogic) then
-        iconMinimap.SetFade = _MinimapIconSetFade
-        iconMinimap.FadeLogic = _MinimapIconFadeLogic
-    end
-
-    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, uiMapId, x / 100, y / 100, true, floatOnEdge)
-    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, uiMapId, x / 100, y / 100, showFlag)
-    local r, g, b = iconMinimap.texture:GetVertexColor()
-    QuestieDBMIntegration:RegisterHudQuestIcon(tostring(iconMap), data.Icon, uiMapId, x, y, r, g, b)
-
-    if (not QuestieMap.questIdFrames[data.Id]) then
+    if not QuestieMap.questIdFrames[data.Id] then
         QuestieMap.questIdFrames[data.Id] = {}
     end
 
-    QuestieMap.questIdFrames[data.Id][iconMap:GetName()] = iconMap:GetName()
-    QuestieMap.questIdFrames[data.Id][iconMinimap:GetName()] = iconMinimap:GetName()
-
-    if iconMap:ShouldBeHidden() then
-        iconMap:FakeHide()
+    ---@type IconFrame?
+    local iconMap
+    if destination ~= "minimap" then
+        iconMap = QuestieFramePool:GetFrame()
+        iconMap.data = data
+        iconMap.x, iconMap.y = x, y
+        iconMap.AreaID, iconMap.UiMapID = areaID, uiMapId
+        iconMap.miniMapIcon = false
+        iconMap:UpdateTexture(Questie.usedIcons[data.Icon])
+        QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, uiMapId, x / 100, y / 100, showFlag)
+        QuestieMap.questIdFrames[data.Id][iconMap:GetName()] = iconMap:GetName()
+        if iconMap:ShouldBeHidden() then
+            iconMap:FakeHide()
+        end
     end
 
-    if iconMinimap:ShouldBeHidden() then
-        iconMinimap:FakeHide()
+    ---@type IconFrame?
+    local iconMinimap
+    if destination ~= "map" then
+        iconMinimap = QuestieFramePool:GetFrame()
+        iconMinimap.data = data
+        iconMinimap.x, iconMinimap.y = x, y
+        iconMinimap.AreaID, iconMinimap.UiMapID = areaID, uiMapId
+        iconMinimap.miniMapIcon = true
+        iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon])
+        if not iconMinimap.FadeLogic then
+            iconMinimap.SetFade = _MinimapIconSetFade
+            iconMinimap.FadeLogic = _MinimapIconFadeLogic
+        end
+        QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, uiMapId, x / 100, y / 100, true, floatOnEdge)
+        QuestieMap.questIdFrames[data.Id][iconMinimap:GetName()] = iconMinimap:GetName()
+        local r, g, b = iconMinimap.texture:GetVertexColor()
+        QuestieDBMIntegration:RegisterHudQuestIcon(tostring(iconMap or iconMinimap), data.Icon, uiMapId, x, y, r, g, b)
+        if iconMinimap:ShouldBeHidden() then
+            iconMinimap:FakeHide()
+        end
     end
 
+    if iconMap and iconMinimap then
+        -- Waypoints drawn for the map icon follow this icon's visibility on the minimap.
+        iconMap.minimapTwin = iconMinimap
+    end
     return iconMap, iconMinimap;
 end
 

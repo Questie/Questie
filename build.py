@@ -108,7 +108,7 @@ for number, expansion in EXPANSIONS.items():
     tocs[number] = f"Questie_{expansion['toc_suffix']}.toc"
     dbTocs[number] = f"QuestieDB_{expansion['toc_suffix']}.toc"
 
-directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Public"]
+directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Polygon", "Public"]
 filesToInclude = ["Bindings.xml", "embeds.xml", "Questie.lua", "Questie.toc", "README.md", "README_ES.md", "README_CN.md"]
 # originals hold texture sources and the scripts that render them; only their output ships.
 ignorePatterns = ["*.test.lua", "originals"]

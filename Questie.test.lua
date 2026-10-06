@@ -234,8 +234,12 @@ describe("Questie", function()
         local originalExpansion
         local originalProfile
         local expansions
+        local originalPolygonReset
 
         before_each(function()
+            local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+            originalPolygonReset = Polygon.Reset
+            Polygon.Reset = spy.new(function() end)
             originalForever = Questie.IsForever
             originalShowWatchFrame = QuestieCompat.ShowWatchFrame
             originalHideWatchFrame = QuestieCompat.HideWatchFrame
@@ -256,11 +260,13 @@ describe("Questie", function()
             QuestieCompat.HideWatchFrame = originalHideWatchFrame
             Questie.db.profile = originalProfile
             expansions.Current = originalExpansion
+            QuestieLoader:ImportModule("QuestiePolygon").Reset = originalPolygonReset
         end)
 
         it("releases and reacquires the modern tracker despite using Era content", function()
             Questie:OnDisable()
             assert.spy(QuestieCompat.ShowWatchFrame).was.called(1)
+            assert.spy(QuestieLoader:ImportModule("QuestiePolygon").Reset).was.called(1)
 
             Questie:OnEnable()
             assert.spy(QuestieCompat.HideWatchFrame).was.called(1)

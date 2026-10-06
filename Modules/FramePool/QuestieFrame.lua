@@ -17,6 +17,8 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
@@ -52,6 +54,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     ---@field isManualIcon boolean
     ---@field data IconData
     ---@field minimapTwin IconFrame? A world map icon's minimap icon; its waypoint paths follow it on the minimap.
+    ---@field polygonMarker PolygonMarker? Owned by the optional world-map polygon adapter.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId
 
@@ -138,6 +141,7 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.OnLeave(self)
+    if self.polygonMarker then QuestiePolygon.LeaveMarker(self) end
     if WorldMapTooltip then
         WorldMapTooltip:Hide()
         WorldMapTooltip._rebuild = nil
@@ -195,6 +199,8 @@ function _QuestieFrame.OnClick(self, button)
         else
             if uiMapId ~= currentMapId then
                 WorldMapFrame:SetMapID(uiMapId);
+            elseif button == "LeftButton" and self.polygonMarker then
+                QuestiePolygon.ToggleMarker(self)
             end
         end
     else
@@ -347,6 +353,7 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.Unload(self)
+    if self.polygonMarker then QuestiePolygon.MarkerRemoved(self) end
     if not self._loaded then
         -- Its paths draw without it, so they go now rather than once the draw queue reaches it.
         QuestieWaypoints.RemoveOwner(self)
@@ -405,6 +412,7 @@ end
 function _QuestieFrame.FadeOut(self)
     if not self.faded then
         self.faded = true
+        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
         local r, g, b = self.texture:GetVertexColor()
         self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         r, g, b = self.glowTexture:GetVertexColor()
@@ -417,6 +425,7 @@ end
 function _QuestieFrame.FadeIn(self)
     if self.faded then
         self.faded = nil
+        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
         local r, g, b = self.texture:GetVertexColor()
         self.texture:SetVertexColor(r, g, b, 1)
         r, g, b = self.glowTexture:GetVertexColor()
@@ -441,6 +450,7 @@ function _QuestieFrame.FakeHide(self)
         end
         self.hidden = true
         QuestieWaypoints.OwnerChanged(self)
+        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
     end
 end
 
@@ -453,6 +463,7 @@ function _QuestieFrame.FakeShow(self)
         self.Hide = self._hide;
         self._show = nil
         self._hide = nil
+        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
         if self.shouldBeShowing then
             self:Show();
         end

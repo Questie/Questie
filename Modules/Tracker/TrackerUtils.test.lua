@@ -56,6 +56,10 @@ describe("TrackerUtils", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+        Polygon.GetObjectiveMarkers = function() return {} end
+        Polygon.ScheduleRefresh = function() end
+        QuestieLoader:ImportModule("QuestieWaypoints").SetSolo = function() end
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end
         QuestieTracker.IsTrackedByQuestie = function() return false end
@@ -196,6 +200,110 @@ describe("TrackerUtils", function()
 
             assert.spy(ShowUIPanel).was.called_with(legacyFrame)
             assert.spy(printMock).was.not_called()
+        end)
+    end)
+
+    describe("polygon objective map highlighting", function()
+        local Polygon, objective, marker, unrelated, originalGlobals, flashTick, quest
+        local QuestieMap, FramePool, originalDraw, originalUnload
+
+        before_each(function()
+            originalGlobals = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
+                CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin,
+                PolygonTrackerMarker = _G.PolygonTrackerMarker, PolygonTrackerOther = _G.PolygonTrackerOther}
+            _G.LibStub = function()
+                return {GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 1 end}
+            end
+            _G.MapCanvasDataProviderMixin = {}
+            _G.CreateFromMixins = function(base, methods)
+                local result = {}
+                for key, value in pairs(base) do result[key] = value end
+                for key, value in pairs(methods) do result[key] = value end
+                return result
+            end
+            _G.C_Timer = {After = function() end, NewTicker = function(_, callback)
+                flashTick = callback
+                return {Cancel = function() end}
+            end}
+            _G.WorldMapFrame = {GetCanvas = function() return {} end,
+                AddDataProvider = function(self, provider) provider:OnAdded(self) end,
+                RemoveDataProvider = function(_, provider) provider:OnRemoved() end,
+                Show = spy.new(function() end), SetMapID = spy.new(function() end)}
+            QuestieLoader:ImportModule("PolygonRenderer").New = function() return {Clear = function() end} end
+            QuestieLoader:ImportModule("PolygonGeometry").Build = function(points)
+                return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}
+            end
+            Questie.db.profile.enableQuestiePolygons = true
+            Questie.db.profile.enableObjectives = true
+            QuestieLoader:ImportModule("ZoneDB").GetUiMapIdByAreaId = function() return 10 end
+            QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
+            QuestieLoader:ImportModule("DistanceUtils").GetNearestObjective = function() return {10, 20}, 1 end
+            objective = {Index = 1, questId = 42, Type = "monster", AlreadySpawned = {[123] = {mapRefs = {}, minimapRefs = {{}}}},
+                spawnList = {[123] = {Id = 123, Name = "Wolf", Icon = 1, GetIconScale = function() return 1 end,
+                    Spawns = {[1] = {{10, 20}}}}}}
+            quest = {Id = 42, Color = {1, 1, 1}}
+            QuestiePlayer.currentQuestlog = {[42] = quest}
+            QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+            originalDraw = QuestieMap.DrawWorldIcon
+            QuestieMap.DrawWorldIcon = function(_, data)
+                marker = CreateFrame("Button", "PolygonTrackerMarker")
+                marker:SetSize(12, 12)
+                marker.IsShown = marker.IsVisible
+                marker.data = data
+                marker.texture = {a = 1}
+                _G.PolygonTrackerMarker = marker
+                return marker
+            end
+            FramePool = QuestieLoader:ImportModule("QuestieFramePool")
+            originalUnload = FramePool.UnloadFrame
+            FramePool.UnloadFrame = function(_, frame) frame.data = nil; frame:Hide() end
+            unrelated = CreateFrame("Button", "PolygonTrackerOther")
+            unrelated:SetSize(12, 12)
+            unrelated.IsShown = unrelated.IsVisible
+            unrelated.data = {}
+            _G.PolygonTrackerOther = unrelated
+            QuestieMap.questIdFrames = {[42] = {"PolygonTrackerMarker"}, [99] = {"PolygonTrackerOther"}}
+            dofile("Polygon/QuestiePolygon.lua")
+            Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+            local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
+            while coroutine.status(thread) ~= "dead" do
+                local ok, err = coroutine.resume(thread)
+                assert.is_true(ok, err)
+            end
+        end)
+
+        after_each(function()
+            Polygon.Reset()
+            QuestieMap.DrawWorldIcon = originalDraw
+            FramePool.UnloadFrame = originalUnload
+            for name, value in pairs(originalGlobals) do _G[name] = value end
+            _G.LibStub, _G.WorldMapFrame, _G.C_Timer = originalGlobals.LibStub, originalGlobals.WorldMapFrame, originalGlobals.C_Timer
+            _G.CreateFromMixins = originalGlobals.CreateFromMixins
+            _G.MapCanvasDataProviderMixin = originalGlobals.MapCanvasDataProviderMixin
+            _G.PolygonTrackerMarker, _G.PolygonTrackerOther = originalGlobals.PolygonTrackerMarker, originalGlobals.PolygonTrackerOther
+        end)
+
+        it("restores and flashes the polygon-owned marker for the actual Show on Map action", function()
+            TrackerUtils:ShowObjectiveOnMap(objective)
+            assert.spy(WorldMapFrame.Show).was.called_with(WorldMapFrame)
+            assert.spy(WorldMapFrame.SetMapID).was.called_with(WorldMapFrame, 10)
+            assert.is_true(marker:IsShown())
+            assert.is_false(unrelated:IsShown())
+            assert.is_nil(marker._hidden_by_flash)
+            assert.are.same({}, objective.AlreadySpawned[123].mapRefs)
+            flashTick()
+            assert.are.equal(13, marker:GetWidth())
+            assert.are.equal(12, unrelated:GetWidth())
+        end)
+
+        it("does not animate a removed polygon marker recycled for another objective", function()
+            TrackerUtils:ShowObjectiveOnMap(objective)
+            Polygon.RemoveQuest(42)
+            marker.data = {ObjectiveData = {Index = 2}}
+            marker:SetSize(24, 24)
+            flashTick()
+            assert.are.equal(24, marker:GetWidth())
+            assert.are.equal(24, marker:GetHeight())
         end)
     end)
 
