@@ -26,6 +26,8 @@ PolygonRenderer.debugRandomColors = true
 ---@field highlightedFrames table<Frame, boolean> Union of geometric hover and caller-requested marker highlights.
 ---@field hoverDriver Frame? One shared update driver, retained across visible-set changes.
 ---@field hoverPolling boolean? Whether the driver currently has its motion-polling callback installed.
+---@field combatDriver Frame? Event-only driver for deferred input setup; no polling.
+---@field combatPending boolean? A combat-end reconciliation is registered.
 
 ---@class PolygonHoverInput
 ---@field getCursorPosition fun(): number?, number? Normalized coordinates against the full canvas extent.
@@ -358,6 +360,40 @@ function Renderer:Configure(frame, shape, width, height, frameLevel)
 end
 
 -- Visibility publication and teardown
+local function _EnableMotion(self, frame)
+    -- Propagation is a lifetime property of our native frame, not of a cached view.
+    -- Hidden/pooled frames disable motion instead of toggling the restricted setter.
+    if not frame:CanPropagateMouseMotion() then
+        -- Read native state rather than trusting a previous setter call. Until
+        -- pass-through is confirmed, the view must not intercept mouse motion.
+        frame:EnableMouseMotion(false)
+        if InCombatLockdown() then
+            if not self.combatDriver then
+                local driver = CreateFrame("Frame")
+                self.combatDriver = driver
+                driver:Hide()
+                driver:SetScript("OnEvent", function()
+                    if InCombatLockdown() then return end
+                    driver:UnregisterEvent("PLAYER_REGEN_ENABLED")
+                    self.combatPending = nil
+                    -- Never replay captured frames: visibility and ownership may
+                    -- have changed, or the map may have closed during combat.
+                    self:SetVisibleFrames(self.activeFrames)
+                end)
+            end
+            if not self.combatPending then
+                self.combatDriver:RegisterEvent("PLAYER_REGEN_ENABLED")
+                self.combatPending = true
+            end
+            return false
+        end
+        frame:SetPropagateMouseMotion(true)
+        if not frame:CanPropagateMouseMotion() then return false end
+    end
+    frame:EnableMouseMotion(true)
+    return true
+end
+
 ---Publishes a complete visible set without releasing absent views. A cached view
 ---from another map stays hidden/inert, with its primitive configuration intact.
 ---@param frames Frame[]
@@ -373,7 +409,6 @@ function Renderer:SetVisibleFrames(frames)
         if not visible[frame] then
             frame:EnableMouse(false)
             if frame.EnableMouseMotion then frame:EnableMouseMotion(false) end
-            if frame.SetPropagateMouseMotion then frame:SetPropagateMouseMotion(false) end
             frame:Hide()
         end
     end
@@ -385,14 +420,11 @@ function Renderer:SetVisibleFrames(frames)
     for _, frame in ipairs(frames) do
         activeFrames[#activeFrames + 1] = frame
         local canParticipate = canReadHover and type(frame.EnableMouseMotion) == "function"
-            and type(frame.SetPropagateMouseMotion) == "function"
-        if canParticipate then hoverFrames[frame] = true end
-        if not self.visibleFrames[frame] then
-            if canParticipate then
-                frame:SetPropagateMouseMotion(true)
-                frame:EnableMouseMotion(true)
-            end
+            and type(frame.SetPropagateMouseMotion) == "function" and type(frame.CanPropagateMouseMotion) == "function"
+        if canParticipate and (not self.hoverFrames[frame] or not frame:CanPropagateMouseMotion()) then
+            canParticipate = _EnableMotion(self, frame)
         end
+        if canParticipate then hoverFrames[frame] = true end
         if not frame:IsShown() then frame:Show() end
     end
     self.visibleFrames, self.activeFrames, self.hoverFrames = visible, activeFrames, hoverFrames
@@ -426,7 +458,6 @@ function Renderer:Release(frame)
     if wasVisible then _SyncHoverDriver(self) end
     frame:EnableMouse(false)
     if frame.EnableMouseMotion then frame:EnableMouseMotion(false) end
-    if frame.SetPropagateMouseMotion then frame:SetPropagateMouseMotion(false) end
     frame.polygonOutline, frame.polygonColor, frame.polygonBorderAlpha, frame.polygonHighlighted = nil, nil, nil, nil
     frame.polygonFrameLevel = nil
     _ReleaseTextures(frame.fills, self.freeFills, 0)
@@ -440,6 +471,8 @@ end
 ---remain reachable for reuse. After all attempts, throws the first cleanup error;
 ---failed views stay owned and can be retried without double-pooling successful ones.
 function Renderer:Clear()
+    if self.combatDriver then self.combatDriver:UnregisterEvent("PLAYER_REGEN_ENABLED") end
+    self.combatPending = nil
     -- Unlike ordinary Hide publication, error cleanup cannot depend on successful
     -- border styling. Remove selections first so the driver's OnHide is harmless.
     local highlighted = self.highlightedFrames
