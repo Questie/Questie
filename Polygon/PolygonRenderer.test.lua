@@ -4,7 +4,7 @@ describe("PolygonRenderer", function()
     local PolygonRenderer
     local originals
     local frames, textures, failTexture
-    local cursorX, cursorY, foci
+    local cursorX, cursorY, foci, inCombat
     local canvas = {}
 
     -- Fresh-view setup for the primitive/hover contract tests. Retention tests below
@@ -76,9 +76,21 @@ describe("PolygonRenderer", function()
             self.scripts = self.scripts or {}
             self.scripts[name] = callback
         end
+        function frame:RegisterEvent(event)
+            self.events = self.events or {}
+            self.events[event] = true
+        end
+        function frame:UnregisterEvent(event)
+            if self.events then self.events[event] = nil end
+        end
         function frame:EnableMouse(value) self.mouse = value end
         function frame:EnableMouseMotion(value) self.motion = value end
-        function frame:SetPropagateMouseMotion(value) self.propagate = value end
+        function frame:SetPropagateMouseMotion(value)
+            if InCombatLockdown() then error("propagation is blocked in combat") end
+            self.propagationCalls = (self.propagationCalls or 0) + 1
+            self.propagate = value
+        end
+        function frame:CanPropagateMouseMotion() return self.propagate == true end
         function frame:SetFrameLevel(value) self.level = value end
         function frame:SetPoint(...) self.anchor = {...} end
         function frame:SetSize(width, height) self.width, self.height = width, height end
@@ -89,13 +101,15 @@ describe("PolygonRenderer", function()
 
     before_each(function()
         frames, textures, failTexture = {}, {}, nil
-        cursorX, cursorY, foci = nil, nil, {}
+        cursorX, cursorY, foci, inCombat = nil, nil, {}, false
         originals = {
             CreateFrame = _G.CreateFrame, DrawLine = _G.DrawLine, issecretvalue = _G.issecretvalue, random = math.random,
+            InCombatLockdown = _G.InCombatLockdown,
             UPPER_LEFT_VERTEX = _G.UPPER_LEFT_VERTEX, UPPER_RIGHT_VERTEX = _G.UPPER_RIGHT_VERTEX,
             LOWER_LEFT_VERTEX = _G.LOWER_LEFT_VERTEX, LOWER_RIGHT_VERTEX = _G.LOWER_RIGHT_VERTEX,
         }
         _G.CreateFrame = _CreateFrame
+        _G.InCombatLockdown = function() return inCombat end
         _G.issecretvalue = nil
         _G.DrawLine = function(texture, parent, startX, startY, endX, endY, thickness, scale, anchor)
             texture.line = {parent, startX, startY, endX, endY, thickness, scale, anchor}
@@ -112,6 +126,7 @@ describe("PolygonRenderer", function()
         math.random = originals.random
         _G.CreateFrame, _G.DrawLine = originals.CreateFrame, originals.DrawLine
         _G.issecretvalue = originals.issecretvalue
+        _G.InCombatLockdown = originals.InCombatLockdown
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX = originals.UPPER_LEFT_VERTEX, originals.UPPER_RIGHT_VERTEX
         _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = originals.LOWER_LEFT_VERTEX, originals.LOWER_RIGHT_VERTEX
     end)
@@ -378,7 +393,7 @@ describe("PolygonRenderer", function()
             renderer:SetVisibleFrames({})
             assert.is_false(view:IsShown())
             assert.is_false(view.motion)
-            assert.is_false(view.propagate)
+            assert.is_true(view.propagate) -- Lifetime setting is inert while motion is disabled.
             assert.is_true(renderer.ownedFrames[view])
             assert.are.same({}, renderer.highlightedFrames)
             assert.are.same({}, renderer.hoverFrames)
@@ -667,6 +682,183 @@ describe("PolygonRenderer", function()
             assert.are.equal(1, #renderer.freeFrames)
             assert.are.equal(4, #renderer.freeBorders)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
+        end)
+    end)
+
+    describe("combat-safe hover setup", function()
+        local shape
+
+        before_each(function()
+            shape = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.2, 0.4, 0.6}}
+        end)
+
+        it("draws during combat and enables direct hover at combat end without rebuilding geometry", function()
+            inCombat = true
+            shape.highlighted = true
+            local renderer = _NewHoverRenderer()
+            local view = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({view})
+            renderer:SetVisibleFrames({view})
+            local offsets = view.fills[1].offsets
+            local configure = spy.on(view.fills[1], "SetVertexOffset")
+            assert.is_true(view:IsShown())
+            assert.is_false(view.mouse)
+            assert.is_false(view.motion)
+            assert.is_nil(view.propagationCalls)
+            assert.are.same({}, renderer.hoverFrames)
+            assert.is_true(renderer.highlightedFrames[view]) -- Marker highlighting still works.
+            assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
+            local driver = renderer.combatDriver
+            assert.is_true(driver.events.PLAYER_REGEN_ENABLED)
+            assert.is_nil(driver.scripts.OnUpdate)
+
+            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED") -- Combat may restart before delivery.
+            assert.is_true(driver.events.PLAYER_REGEN_ENABLED)
+            assert.is_nil(view.propagationCalls)
+            inCombat = false
+            cursorX, cursorY, foci = 0.1, 0.1, {view}
+            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
+
+            assert.is_nil(driver.events.PLAYER_REGEN_ENABLED)
+            assert.is_nil(renderer.combatPending)
+            assert.are.equal(1, view.propagationCalls)
+            assert.is_true(view.propagate)
+            assert.is_true(view.motion)
+            assert.is_true(renderer.hoverFrames[view])
+            assert.is_true(renderer.hoveredFrames[view])
+            assert.is_function(renderer.hoverDriver.scripts.OnUpdate)
+            assert.are.equal(offsets, view.fills[1].offsets)
+            assert.spy(configure).was.not_called()
+            assert.are.equal(5, #textures)
+        end)
+
+        it("keeps hover disabled when a setter silently fails, then retries on a later presentation", function()
+            local renderer = _NewHoverRenderer()
+            local view = renderer:Create(shape, 100, 100, 8)
+            local setter = view.SetPropagateMouseMotion
+            local attempts = 0
+            view.SetPropagateMouseMotion = function() attempts = attempts + 1 end
+            renderer:SetVisibleFrames({view})
+
+            assert.is_true(view:IsShown())
+            assert.is_false(view:CanPropagateMouseMotion())
+            assert.is_false(view.motion)
+            assert.are.same({}, renderer.hoverFrames)
+            assert.is_nil(renderer.hoverDriver)
+            assert.are.equal(1, attempts)
+            view.SetPropagateMouseMotion = setter
+            renderer:SetVisibleFrames({view})
+            assert.is_true(view:CanPropagateMouseMotion())
+            assert.is_true(view.motion)
+            assert.is_true(renderer.hoverFrames[view])
+        end)
+
+        it("detects a native propagation change instead of trusting previous hover readiness", function()
+            local renderer = _NewHoverRenderer()
+            local view = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({view})
+            view:SetPropagateMouseMotion(false)
+            inCombat = true
+            renderer:SetVisibleFrames({view})
+
+            assert.is_false(view.motion)
+            assert.is_false(view:CanPropagateMouseMotion())
+            assert.are.same({}, renderer.hoverFrames)
+            assert.is_true(renderer.combatPending)
+            inCombat = false
+            renderer.combatDriver.scripts.OnEvent(renderer.combatDriver, "PLAYER_REGEN_ENABLED")
+            assert.is_true(view:CanPropagateMouseMotion())
+            assert.is_true(view.motion)
+            assert.is_true(renderer.hoverFrames[view])
+        end)
+
+        it("keeps configured frames combat-safe through hiding, pooling, and reuse", function()
+            local renderer = _NewHoverRenderer()
+            local view = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({view})
+            assert.are.equal(1, view.propagationCalls)
+            inCombat = true
+            renderer:SetVisibleFrames({})
+            assert.is_false(view.motion)
+            renderer:SetVisibleFrames({view})
+            assert.is_true(view.motion)
+            renderer:Release(view)
+            local reused = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({reused})
+
+            assert.are.equal(view, reused)
+            assert.are.equal(1, reused.propagationCalls)
+            assert.is_true(reused.motion)
+            assert.is_true(renderer.hoverFrames[reused])
+            assert.is_nil(renderer.combatDriver)
+            renderer:Clear()
+            assert.is_false(reused.motion)
+        end)
+
+        it("does not enable a view hidden before combat ends, but configures it when shown later", function()
+            inCombat = true
+            local renderer = _NewHoverRenderer()
+            local view = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({view})
+            local driver = renderer.combatDriver
+            renderer:SetVisibleFrames({})
+            inCombat = false
+            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
+
+            assert.is_false(view:IsShown())
+            assert.is_false(view.motion)
+            assert.is_nil(view.propagationCalls)
+            assert.are.same({}, renderer.hoverFrames)
+            assert.is_nil(renderer.hoverDriver)
+            assert.is_nil(driver.events.PLAYER_REGEN_ENABLED)
+            renderer:SetVisibleFrames({view})
+            assert.are.equal(1, view.propagationCalls)
+            assert.is_true(view.motion)
+        end)
+
+        it("reconciles current visible ownership instead of re-enabling a released pooled view", function()
+            inCombat = true
+            local renderer = _NewHoverRenderer()
+            local released = renderer:Create(shape, 100, 100, 8)
+            local current = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({released})
+            local driver = renderer.combatDriver
+            renderer:Release(released)
+            renderer:SetVisibleFrames({current})
+            inCombat = false
+            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
+
+            assert.is_nil(released.propagationCalls)
+            assert.is_false(released.motion)
+            assert.is_false(released:IsShown())
+            assert.are.equal(1, current.propagationCalls)
+            assert.is_true(current.motion)
+            assert.are.same({[current] = true}, renderer.hoverFrames)
+        end)
+
+        it("cancels pending combat setup on clear and reuses its event driver for later views", function()
+            inCombat = true
+            local renderer = _NewHoverRenderer()
+            local view = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({view})
+            local driver = renderer.combatDriver
+            renderer:Clear()
+            assert.is_nil(driver.events.PLAYER_REGEN_ENABLED)
+            assert.is_nil(renderer.combatPending)
+            inCombat = false
+            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
+            assert.is_nil(view.propagationCalls)
+            assert.is_false(view:IsShown())
+            assert.are.same({}, renderer.hoverFrames)
+            inCombat = true
+            local reused = renderer:Create(shape, 100, 100, 8)
+            renderer:SetVisibleFrames({reused})
+            assert.are.equal(driver, renderer.combatDriver)
+            assert.is_true(driver.events.PLAYER_REGEN_ENABLED)
+            inCombat = false
+            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
+            assert.are.equal(1, reused.propagationCalls)
+            assert.is_true(reused.motion)
         end)
     end)
 
@@ -1000,7 +1192,7 @@ describe("PolygonRenderer", function()
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
         end)
 
-        it("clears all highlights, input flags, references, and the driver before pooling", function()
+        it("clears highlights, mouse participation, references, and the driver before pooling", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {
                 {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.2, 0.4, 0.6}, highlighted = true},
@@ -1019,7 +1211,7 @@ describe("PolygonRenderer", function()
             assert.is_false(renderer.hoverDriver.shown)
             assert.is_false(frames[1].mouse)
             assert.is_false(frames[1].motion)
-            assert.is_false(frames[1].propagate)
+            assert.is_true(frames[1].propagate) -- Pool reuse keeps the native pass-through setting.
             assert.is_nil(frames[1].polygonOutline)
             assert.is_nil(frames[1].polygonColor)
             assert.is_nil(frames[1].polygonHighlighted)
@@ -1101,6 +1293,20 @@ describe("PolygonRenderer", function()
             assert.is_false(frames[1].mouse)
             assert.is_false(frames[1].motion)
             assert.is_nil(renderer.hoverDriver)
+        end)
+
+        it("keeps frames inert when native propagation state cannot be read", function()
+            local renderer = _NewHoverRenderer()
+            local view = renderer:Create({points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
+                color = {1, 0, 0}}, 100, 100, 8)
+            view.CanPropagateMouseMotion = nil
+            renderer:SetVisibleFrames({view})
+
+            assert.is_true(view:IsShown())
+            assert.is_false(view.motion)
+            assert.is_nil(view.propagationCalls)
+            assert.is_nil(renderer.hoverDriver)
+            assert.are.same({}, renderer.hoverFrames)
         end)
 
         it("keeps frames inert when separate mouse-motion control is unavailable", function()

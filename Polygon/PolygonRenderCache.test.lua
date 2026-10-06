@@ -395,6 +395,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
             self.motion = enabled
         end
         function frame:SetPropagateMouseMotion(enabled) self.propagate = enabled end
+        function frame:CanPropagateMouseMotion() return self.propagate == true end
         function frame:ClearAllPoints() self.anchor = nil end
         function frame:SetPoint(...) self.anchor = {...} end
         function frame:SetSize(width, height) self.width, self.height = width, height end
