@@ -37,6 +37,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 ---@type QuestieCoords
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 ---@type ZoneDB
@@ -63,6 +65,8 @@ local objectiveFlashTicker
 local FLASH_STEP_SECONDS = 0.065
 ---@type table<number, table> Icons of the running flash, to restore their size when a new flash starts.
 local flashingIcons = {}
+-- The data each flashing icon held when its flash started; a differing icon was recycled meanwhile.
+local flashingIconData = {}
 local zoneCache = {}
 local questProximityTimer
 local questZoneProximityTimer
@@ -284,13 +288,14 @@ local function _StopFlash()
     objectiveFlashTicker:Cancel()
     objectiveFlashTicker = nil
     for _, frame in pairs(flashingIcons) do
-        if frame._size then
+        if frame._size and frame.data == flashingIconData[frame] then
             frame:SetWidth(frame._size)
             frame:SetHeight(frame._size)
             frame._size = nil
         end
     end
     flashingIcons = {}
+    flashingIconData = {}
     _ForEachFlashableIcon(function(icon)
         if icon._hidden_by_flash then
             icon._hidden_by_flash = nil
@@ -298,6 +303,7 @@ local function _StopFlash()
         end
     end)
     QuestieWaypoints.SetSolo(nil)
+    QuestiePolygon.ScheduleRefresh()
 end
 
 ---@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
@@ -308,17 +314,30 @@ end
 ---Flashes the map icons of all given objectives together, hiding every other icon during the flash.
 ---@param objectives table[] Tables provided by QuestieDB.GetQuest(questId).Objectives
 function TrackerUtils:FlashObjectives(objectives)
-    local hasSpawned = false
-    for _, objective in pairs(objectives) do
-        if objective.AlreadySpawned and next(objective.AlreadySpawned) then
-            hasSpawned = true
-            break
+    -- Polygon owns its marker cleanup; borrow references for the same highlight pass
+    -- rather than registering those frames again in AlreadySpawned.
+    local toFlash = {}
+    -- A frame shared by two objectives must be resized once per tick, not twice.
+    local queued = {}
+    local function _QueueFrame(frame)
+        if not queued[frame] then
+            queued[frame] = true
+            tinsert(toFlash, frame)
         end
     end
-    if hasSpawned then
+    for _, objective in pairs(objectives) do
+        for _, frame in ipairs(QuestiePolygon.GetObjectiveMarkers(objective)) do
+            _QueueFrame(frame)
+        end
+        for _, spawn in pairs(objective.AlreadySpawned or {}) do
+            for _, frame in pairs(spawn.mapRefs or {}) do
+                _QueueFrame(frame)
+            end
+        end
+    end
+    if #toFlash > 0 then
         _StopFlash()
         _HideManualIconsForFlash()
-        local toFlash = {}
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
             for _, frameName in pairs(framelist) do
@@ -334,43 +353,37 @@ function TrackerUtils:FlashObjectives(objectives)
         end
 
 
-        -- Only the flashed objectives' patrol paths show during the flash.
-        local flashedData = {}
-        -- A frame shared by two objectives must be resized once per tick, not twice.
-        local queued = {}
-        for _, objective in pairs(objectives) do
-            for _, spawn in pairs(objective.AlreadySpawned or {}) do
-                if spawn.mapRefs then
-                    for _, frame in pairs(spawn.mapRefs) do
-                        if not queued[frame] then
-                            queued[frame] = true
-                            tinsert(toFlash, frame)
-                            if frame._hidden_by_flash then
-                                frame:Show()
-                            end
-
-                            -- todo: move into frame.session
-                            frame._hidden_by_flash = nil
-                            frame._size = frame:GetWidth()
-
-                            if frame.data then
-                                flashedData[frame.data] = true
-                            end
-                        end
-                    end
-                end
+        local flashData = {}
+        for _, frame in ipairs(toFlash) do
+            flashData[frame] = frame.data
+            if frame._hidden_by_flash then
+                frame:Show()
             end
+
+            -- todo: move into frame.session
+            frame._hidden_by_flash = nil
+            frame._size = frame:GetWidth()
         end
-        QuestieWaypoints.SetSolo(flashedData)
+        -- Only the flashed objectives' patrol paths show during the flash, their polygon markers' too.
+        local soloData = {}
+        for _, data in pairs(flashData) do
+            soloData[data] = true
+        end
+        QuestieWaypoints.SetSolo(soloData)
+        QuestiePolygon.ScheduleRefresh()
         local flashW = 1
         local flashB = true
         local flashDone = 0
         flashingIcons = toFlash
+        flashingIconData = flashData
         local ticker
         ticker = C_Timer.NewTicker(FLASH_STEP_SECONDS, function()
             for _, frame in pairs(toFlash) do
-                frame:SetWidth(frame._size + flashW)
-                frame:SetHeight(frame._size + flashW)
+                -- Quest removal or a polygon rebuild can recycle the highlighted frame.
+                if frame.data == flashData[frame] and frame._size then
+                    frame:SetWidth(frame._size + flashW)
+                    frame:SetHeight(frame._size + flashW)
+                end
             end
             if flashB then
                 if flashW < 10 then
@@ -394,9 +407,11 @@ function TrackerUtils:FlashObjectives(objectives)
                                 end
                                 ticker:Cancel()
                                 for _, frame in pairs(toFlash) do
-                                    frame:SetWidth(frame._size)
-                                    frame:SetHeight(frame._size)
-                                    frame._size = nil
+                                    if frame.data == flashData[frame] and frame._size then
+                                        frame:SetWidth(frame._size)
+                                        frame:SetHeight(frame._size)
+                                        frame._size = nil
+                                    end
                                 end
                             end)
                             C_Timer.After(0.5, function()
@@ -439,6 +454,7 @@ function TrackerUtils:FlashFinisher(quest)
                 local icon = _G[frameName]
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
+                    flashingIconData[icon] = icon.data
                     tinsert(toFlash, icon)
                     if icon.data then
                         flashedData[icon.data] = true

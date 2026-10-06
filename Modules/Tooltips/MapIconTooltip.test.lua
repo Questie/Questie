@@ -105,6 +105,27 @@ describe("MapIconTooltip objective wording", function()
         return lines
     end
 
+    it("previews polygon markers even when the tooltip refresh is throttled", function()
+        local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+        Polygon.EnterMarker = spy.new(function() end)
+        icon.polygonMarker = {}
+        now = 0.01
+        GameTooltip.IsShown = function() return true end
+
+        MapIconTooltip.Show(icon)
+
+        assert.spy(Polygon.EnterMarker).was.called_with(icon)
+    end)
+
+    it("does not call polygon preview for ordinary objective icons", function()
+        local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+        Polygon.EnterMarker = spy.new(function() end)
+
+        MapIconTooltip.Show(icon)
+
+        assert.spy(Polygon.EnterMarker).was.not_called()
+    end)
+
     it("uses accepted native text without appending counts or stripping punctuation", function()
         cached[1] = {objectives = {[3] = {text = "9/15 Windstone Cluster."}}}
 
