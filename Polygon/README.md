@@ -21,7 +21,9 @@ Only Polygon marker display anchors move. Markers on the same original UI map jo
 
 Seeds and slot order use quest, objective, map, and original cluster coordinates, not frame allocation order. Two markers sit left/right; three sit left/center/right. Larger groups continue the same horizontal row. Hidden, offscreen, and queued members retain their slots, so scrolling cannot rearrange the remaining icons. Pinning remains objective-wide, not per cluster.
 
-Spacing is **70% of the group's maximum current configured icon width**, measured in UIParent units. Equal 16-unit icons have offsets ±5.6; three have offsets −11.2, 0, +11.2. Applying `storedOffset * UIParentEffectiveScale / iconEffectiveScale` keeps the display displacement constant through map zoom. Membership, original coordinates, or configured widths can change the layout; zoom, pan, viewport edges, and neighboring icons cannot.
+Spacing is **70% of the group's maximum current configured icon width**, in HBD wrapper-local units. Equal 16-unit icons have offsets ±5.6; three have offsets −11.2, 0, +11.2. Applying `storedOffset * wrapperEffectiveScale / iconEffectiveScale` makes separation grow with HBD's zoom sizing instead of keeping the centers a fixed screen distance apart. At presentation scale 1.2, a 16-unit icon displays at 19.2 units and the two-icon gap grows from 11.2 to 13.44.
+
+Base widths exclude Questie's separate world/continent icon-size multiplier, so the displayed gap is not necessarily 70% of icon width on every map type. Membership, original coordinates, or configured widths can change group slots; zoom only reapplies their scale. Panning, viewport edges, and neighboring icons do not change the layout.
 
 There is no layout monitor, collision solver, viewport packing, safety reservation, movement limit, or picker. Map callbacks and HBD's optional child callback reapply stored offsets without regrouping. This deliberately solves coincident locations, not general clutter: unrelated icons may still overlap a stack, and large stacks can extend beyond map edges.
 
@@ -42,7 +44,7 @@ Questie objective.spawnList
 | --- | --- |
 | [PolygonGeometry.lua](PolygonGeometry.lua) | `Build(points, options, isCancelled)` computes clusters in the caller's coroutine. Returns a complete cluster array, or nil on cancellation. |
 | [PolygonRenderer.lua](PolygonRenderer.lua) | `New(canvas, hoverInput?)` creates a renderer with `Draw(shapes, width, height, frameLevel)` and idempotent `Clear()`. Owns reusable frame/texture pools and one shared hover update. |
-| [PolygonNudging.lua](PolygonNudging.lua) | `Calculate(items)` assigns horizontal slots from original map coordinates and configured widths. `New(UIParent)` owns application through `Update(markers, iconScale)`, `Apply`, `Reapply`, `SetEnabled`, `Remove`, and `Clear`. |
+| [PolygonNudging.lua](PolygonNudging.lua) | `Calculate(items)` assigns horizontal slots from original map coordinates and configured widths. `New()` owns application through `Update(markers, iconScale)`, `Apply`, `Reapply`, `SetEnabled`, `Remove`, and `Clear`. |
 | [QuestiePolygon.lua](QuestiePolygon.lua) | Questie adapter: source collection, cache, marker ownership, visibility, layout scheduling, map provider, and cleanup. Keeps Questie-specific policy out of geometry/rendering. |
 
 There is no runtime dependency on `Blob/` or `QuestPOI/`, native geometry extraction, provider writes, or disk cache. Spawn completeness is limited by QuestieDB's data.
@@ -128,20 +130,20 @@ uv run --no-project python build.test.py
 git diff --check
 ```
 
-Adjacent tests cover geometry/cancellation, workload resume limits, rendering/pool failures, geometric hover selection and cleanup, capability fallback, cache identity, waypoint ownership, tracker integration, and marker visibility. Fixed-stack tests cover map-space grouping, deterministic horizontal slots, scale invariance, configured-width changes, queued/reacquired wrappers, library upgrades, hidden-member stability, and pool cleanup. For focused layout checks, run:
+Adjacent tests cover geometry/cancellation, workload resume limits, rendering/pool failures, geometric hover selection and cleanup, capability fallback, cache identity, waypoint ownership, tracker integration, and marker visibility. Fixed-stack tests cover map-space grouping, deterministic horizontal slots, proportional zoom spacing, configured-width changes, queued/reacquired wrappers, library upgrades, hidden-member stability, and pool cleanup. For focused layout checks, run:
 
 ```bash
 busted Polygon/PolygonNudging.test.lua Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
 ```
 
-Validation of the simplified stacks is offline only; they still need a user reload and live review. Earlier user-confirmed behavior concerned the retired screen-space experiment, not this implementation. No agent performed a reload or live test for this replacement. Mocks establish neither native anchoring and input timing nor click/drag pass-through.
+The latest zoom-spacing fix has not been validated in-game; it still needs a user reload and live review. Earlier user-confirmed behavior concerned the retired screen-space experiment, not this implementation. No agent performed a reload or live test for this replacement. Mocks establish neither native anchoring and input timing nor click/drag pass-through.
 
 With separate permission for a development client, verify:
 
 - Popup layout and mode switching at normal and unusual UI scales.
 - Marker preview/pinning, exact marker-to-outline highlighting, simultaneous overlap highlights, UI blockers, and edges.
 - Overlapping markers for quests 317 and 384: visible separation, independent direct-click pin/unpin, and correct marker-to-polygon highlighting.
-- Stable slot order and on-screen spacing through zoom/pan, fractional UI scales, queued/reacquired wrappers, icon-size settings, and disable/re-enable with the map open. Check large stacks and map edges with the deliberate lack of collision avoidance or edge clamping.
+- Stable slot order and spacing that grows with icon zoom size, including fractional UI scales, queued/reacquired wrappers, icon-size settings, and disable/re-enable with the map open. Panning should not rearrange stacks. Check large stacks and map edges with the deliberate lack of collision avoidance or edge clamping.
 - Native motion propagation, unchanged map clicks/dragging, and stationary-cursor focus after redraw.
 - Map navigation, zoom/pan, resizing, and reopening.
 - Progress, completion/removal, untracking/hiding, phase changes, profile changes, and disable/re-enable.

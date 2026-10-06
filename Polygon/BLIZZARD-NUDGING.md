@@ -72,8 +72,8 @@ Load path: [`Blizzard_WorldMap_Mainline.toc`](https://github.com/Gethe/wow-ui-so
 
 - Partition by original UI-map ID and group coordinates within **0.01 percentage points** of a stable seed. Qualification does not use screen positions, zoom, hitboxes, or viewport bounds. Seed grouping is not transitive.
 - Sort by quest, canonical objective, map, and original cluster coordinates, not frame-pool order. Two members occupy left/right slots; three use left/center/right. Larger groups continue the same horizontal row.
-- Use **70% of the group's maximum current configured icon width** for spacing in UIParent units. Equal 16-unit icons receive offsets ±5.6; three receive −11.2, 0, +11.2.
-- Retain hidden, offscreen, and queued members' slots. Recalculate only when membership, original coordinates, or configured widths change. Zoom and pan merely reapply stored offsets.
+- Use **70% of the group's maximum current configured icon width** for spacing in wrapper-local units. Equal 16-unit icons receive offsets ±5.6; three receive −11.2, 0, +11.2. Base widths exclude Questie's separate world/continent size multiplier.
+- Retain hidden, offscreen, and queued members' slots. Recalculate only when membership, original coordinates, or configured widths change. Zoom reapplies stored slots at the wrapper's presentation scale; ordinary panning does no stack work.
 - Leave spawn coordinates, polygon outlines, waypoint geometry, HBD geographic anchors, and navigation targets unchanged.
 
 There is no periodic layout monitor, collision grid, placement search, safety reservation, movement cap, or viewport packing. This deliberately handles coincident markers rather than general clutter. A stack can overlap an unrelated nearby icon; large stacks can extend beyond map edges.
@@ -83,11 +83,13 @@ There is no periodic layout monitor, collision grid, placement search, safety re
 Questie's [HBD world-map implementation](../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) places each icon beneath a MapCanvas wrapper that retains the real geographic position. Fixed stacking changes only the child's horizontal anchor:
 
 ```text
-childOffsetX = storedSlotOffset × UIParentEffectiveScale / iconEffectiveScale
+childOffsetX = storedSlotOffset × wrapperEffectiveScale / iconEffectiveScale
 childOffsetY = 0
 ```
 
-This keeps the physical displacement constant through map zoom. No native `GetCenter()` or rectangle measurement is needed to group markers. Stored offsets are always reapplied from the wrapper anchor, never added to an already-shifted position.
+Separation now scales with the wrapper's icon sizing. For equal 16-unit icons at presentation scale 1.2, displayed width is 19.2 and center separation grows from 11.2 to 13.44. Keeping screen separation constant instead made the growing icons overlap more. The world/continent size multiplier remains outside the base-width calculation, so the exact displayed ratio can differ between map types.
+
+`PolygonNudging.New()` takes no UIParent argument; the wrapper already inherits UI scale. No native `GetCenter()`, rectangle measurement, or animated icon width is needed. Stored offsets are reapplied from the wrapper anchor, never added to an already-shifted position.
 
 HBD now calls optional `icon:OnWorldMapPinUpdated(pin)` after acquisition and inherited scale handling. This also covers reacquiring a still-visible icon without an `OnShow` event. The version-17 upgrade updates those two copied methods on active and inactive pooled wrappers. Ordinary icons without the callback retain their existing behavior.
 
@@ -99,4 +101,4 @@ The implementation remains under root `Polygon/` apart from the narrow HBD callb
 
 The earlier screen-space nudging implementation, tests, and integration notes are preserved in `.scratch/polygon-nudging-experiment/`, excluded through this checkout's local `.git/info/exclude`. Its checksums were verified. This archive is separate from the [original QuestieDev-Master reference package](../Blob/docs/legacy-questie-blobs/README.md).
 
-The user-confirmed live behavior concerned that retired experiment. The current fixed-stack replacement has only offline validation and still needs a user reload and live review. Tests cover map-coordinate grouping, stable horizontal slots, zoom-independent offsets, configured-size changes, queued/reacquired wrappers, HBD pool upgrades, and cleanup. They do not establish native anchoring, focus timing, or click/drag behavior. No agent performed a reload or live test for this replacement.
+The user-confirmed live behavior concerned that retired experiment. The latest zoom-spacing fix has not been validated in-game and still needs a user reload and live review. Tests cover map-coordinate grouping, stable horizontal slots, proportional zoom spacing, configured-size changes, queued/reacquired wrappers, HBD pool upgrades, and cleanup. They do not establish native anchoring, focus timing, or click/drag behavior. No agent performed a reload or live test for this replacement.
