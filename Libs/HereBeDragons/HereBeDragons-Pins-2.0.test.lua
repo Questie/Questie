@@ -29,9 +29,15 @@ describe("HereBeDragons optional world-map child presentation", function()
         _G.UIParent = {GetEffectiveScale = function() return 1 end}
         _G.MapCanvasDataProviderMixin = {}
         _G.MapCanvasPinMixin = {
+            effectiveScale = 1,
+            GetEffectiveScale = function(self) return self.effectiveScale end,
             UseFrameLevelType = function(self, level) self.level = level end,
             SetPosition = function(self, x, y) self.x, self.y = x, y end,
-            OnCanvasScaleChanged = function(self) self.icon.effectiveScale = self.zoomScale end,
+            OnCanvasScaleChanged = function(self)
+                -- Native pin scaling is inherited by its child before HBD notifies presentation code.
+                self.effectiveScale = self.zoomScale
+                self.icon.effectiveScale = self.effectiveScale
+            end,
         }
         _G.WorldMapFrame = {pinPools = {}, GetCanvas = function() return {} end, AddDataProvider = function() end,
             IsShown = function() return false end}
@@ -40,10 +46,11 @@ describe("HereBeDragons optional world-map child presentation", function()
         dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
         pin = CreateFromMixins(library.worldmapProviderPin)
         pin.pinTemplate = "HereBeDragonsPinsTemplateQuestie"
-        icon = {data = {ObjectiveIndex = 1, IconScale = 1}, UiMapID = 1426, x = 50, y = 50, effectiveScale = 1,
+        icon = {data = {ObjectiveIndex = 1, IconScale = 1}, UiMapID = 1426, x = 50, y = 50, effectiveScale = 1, width = 16,
             SetParent = function(self, parent) self.parent = parent end,
             GetParent = function(self) return self.parent end,
             GetEffectiveScale = function(self) return self.effectiveScale end,
+            GetWidth = function(self) return self.width end,
             ClearAllPoints = function(self) self.point = nil end,
             GetPoint = function(self) return unpack(self.point or {}) end,
             SetPoint = function(self, ...) self.point = {...} end,
@@ -160,24 +167,49 @@ describe("HereBeDragons optional world-map child presentation", function()
         assert.spy(icon.OnWorldMapPinUpdated).was.called_with(icon, pin)
     end)
 
-    it("reapplies a registered fixed slot after acquisition, zoom and reacquisition without OnShow", function()
+    it("keeps fixed slots proportional to displayed icon width through acquisition, zoom and reacquisition", function()
         dofile("Polygon/PolygonNudging.lua")
-        local layout = QuestieLoader:ImportModule("PolygonNudging").New(UIParent)
+        local layout = QuestieLoader:ImportModule("PolygonNudging").New()
+        local otherIcon = CreateFromMixins(icon)
+        otherIcon.Show = spy.new(function() end)
+        local otherPin = CreateFromMixins(library.worldmapProviderPin)
+        otherPin.pinTemplate = "HereBeDragonsPinsTemplateQuestie"
         local marker = {frame = icon, entry = {quest = {Id = 317}}}
-        local other = {frame = {data = {ObjectiveIndex = 1, IconScale = 1}, UiMapID = 1426, x = 50, y = 50,
-            GetParent = function() end}, entry = {quest = {Id = 384}}}
-        icon.polygonMarker, other.frame.polygonMarker = marker, other
+        local other = {frame = otherIcon, entry = {quest = {Id = 384}}}
+        icon.polygonMarker, otherIcon.polygonMarker = marker, other
         layout:Update({marker, other}, 1)
+        local slots, signature = layout.offsets, layout.signature
+
+        pin:OnAcquired(icon, 0.5, 0.5)
+        otherPin:OnAcquired(otherIcon, 0.5, 0.5)
+        local separation = otherIcon.point[4] * otherIcon:GetEffectiveScale() - icon.point[4] * icon:GetEffectiveScale()
+        assert.are_near(-5.6, icon.point[4], 0.000001)
+        assert.are_near(11.2, separation, 0.000001)
+        assert.are_near(0.7, separation / (icon:GetWidth() * icon:GetEffectiveScale()), 0.000001)
+
+        -- HBD's normal presentation scale grows both icons by 20%, not their configured width.
+        pin.zoomScale, otherPin.zoomScale = 1.2, 1.2
+        pin:OnCanvasScaleChanged()
+        otherPin:OnCanvasScaleChanged()
+        separation = otherIcon.point[4] * otherIcon:GetEffectiveScale() - icon.point[4] * icon:GetEffectiveScale()
+        assert.are_near(1.2, pin:GetEffectiveScale(), 0.000001)
+        assert.are_near(1.2, icon:GetEffectiveScale(), 0.000001)
+        assert.are_near(-5.6, icon.point[4], 0.000001)
+        assert.are_near(5.6, otherIcon.point[4], 0.000001)
+        assert.are_near(-6.72, icon.point[4] * icon:GetEffectiveScale(), 0.000001)
+        assert.are_near(13.44, separation, 0.000001)
+        assert.are_near(19.2, icon:GetWidth() * icon:GetEffectiveScale(), 0.000001)
+        assert.are_near(0.7, separation / (icon:GetWidth() * icon:GetEffectiveScale()), 0.000001)
+
         pin:OnAcquired(icon, 0.5, 0.5)
         assert.are_near(-5.6, icon.point[4], 0.000001)
-        pin.zoomScale = 2
-        pin:OnCanvasScaleChanged()
-        assert.are_near(-2.8, icon.point[4], 0.000001)
-        assert.are_near(-5.6, icon.point[4] * icon.effectiveScale, 0.000001)
-        pin:OnAcquired(icon, 0.5, 0.5)
-        assert.are_near(-2.8, icon.point[4], 0.000001)
+        assert.are_near(-6.72, icon.point[4] * icon:GetEffectiveScale(), 0.000001)
         assert.are.equal(0, icon.point[5])
         assert.spy(icon.Show).was.called(2)
+        assert.are.equal(slots, layout.offsets)
+        assert.are.equal(signature, layout.signature)
+        assert.are.same({0.5, 0.5, 0.5, 0.5}, {pin.x, pin.y, otherPin.x, otherPin.y})
         assert.are.same({50, 50, 1426}, {icon.x, icon.y, icon.UiMapID})
+        assert.are.same({50, 50, 1426}, {otherIcon.x, otherIcon.y, otherIcon.UiMapID})
     end)
 end)
