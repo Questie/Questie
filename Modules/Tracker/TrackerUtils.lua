@@ -1060,11 +1060,12 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
     end
 end
 
----Resolves button candidates without touching frames. Order determines the primary and secondary buttons.
+---Shared by layout and unchanged-log detection. Selects owned, usable candidates without touching frames.
+---Order determines primary/secondary buttons; selection does not guarantee that SetItem can finish setup.
 ---@param quest TrackerQuest
----@param complete number
+---@param complete number 0 = incomplete, 1 = complete, -1 = failed; quest.isComplete also affects selection.
 ---@return ItemId[] usableQuestItems
----@return ItemId? nativeItemId Bypasses the database item-class check when setting up its button.
+---@return ItemId? nativeItemId Blizzard-designated item, even if filtered out; bypasses its button's database class check.
 function TrackerUtils.GetQuestItemIds(quest, complete)
     local usableQuestItems = {}
     local nativeItemId
@@ -1104,7 +1105,8 @@ function TrackerUtils.GetQuestItemIds(quest, complete)
     return usableQuestItems, nativeItemId
 end
 
----@param quest Quest @The quest to add the quest item buttons for
+---Allocates and positions secure buttons for the shared candidate list. Must run outside combat.
+---@param quest TrackerQuest @The quest to add the quest item buttons for
 ---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
 ---@param line table @The line to add the quest item buttons to
 ---@param questItemButtonSize number @The size of the quest item buttons

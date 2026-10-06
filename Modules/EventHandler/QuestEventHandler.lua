@@ -77,8 +77,8 @@ local questLogRetryDelay = MARKER_EVENT_TIMEFRAME
 local trackerUpdateQueued = false
 local trackerUpdateForced = false
 
----Acceptance forces a rebuild even when an unchanged-log check is already waiting in the combat queue.
----@param onlyIfChanged boolean?
+---Coalesces requests without letting a later log check weaken an acceptance's full-layout request.
+---@param onlyIfChanged boolean? True for log reconciliation; nil/false requests an unconditional layout when allowed.
 local function _QueueTrackerUpdate(onlyIfChanged)
     trackerUpdateForced = trackerUpdateForced or not onlyIfChanged
     if trackerUpdateQueued then
@@ -475,15 +475,14 @@ function QuestEventHandler.QuestLogUpdate()
         _QuestEventHandler:UpdateAllQuests(true)
     end
 
-    -- Reconcile native membership and loading titles even without objective changes.
-    -- Only unchanged display inputs may skip the expensive tracker layout.
-
     -- Don't update tracker if we're in a pet battle
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped tracker update - in pet battle")
         return
     end
 
+    -- Reconcile native membership and loading titles even without objective changes.
+    -- Only unchanged display inputs may skip the expensive tracker layout.
     _QueueTrackerUpdate(true)
 end
 

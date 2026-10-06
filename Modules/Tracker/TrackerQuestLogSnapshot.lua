@@ -1,3 +1,4 @@
+-- Defines when a quest-log refresh can reuse ordinary quest layout. It owns no cached or frame state.
 ---@class TrackerQuestLogSnapshot
 local TrackerQuestLogSnapshot = QuestieLoader:CreateModule("TrackerQuestLogSnapshot")
 
@@ -23,6 +24,8 @@ local supportedSorts = {
 function TrackerQuestLogSnapshot.Capture()
     local profile, char = Questie.db.profile, Questie.db.char
     local _, instanceType, _, difficultyName = GetInstanceInfo()
+
+    -- These modes depend on display inputs beyond the quest records copied below.
     if not supportedSorts[profile.trackerSortObjectives]
         or (char.trackedAchievementIds and next(char.trackedAchievementIds))
         or instanceType == "scenario" or difficultyName == "Challenge Mode"
@@ -33,8 +36,8 @@ function TrackerQuestLogSnapshot.Capture()
     local _, totalQuests = QuestieCompat.GetNumQuestLogEntries()
     local snapshot = {quests = {}, totalQuests = totalQuests, expanded = char.isTrackerExpanded}
     for questId, quest in pairs(TrackerData.GetQuests()) do
-        -- Timers and secure item buttons have additional state resolved during rendering.
-        -- Use the same item selection as the renderer so ordinary, non-usable item objectives remain eligible.
+        -- Include untracked quests in this conservative fallback. Timers and secure buttons resolve more state during layout.
+        -- Shared item selection keeps ordinary collection objectives eligible when their items are not usable.
         if TrackerQuestTimers:GetRemainingTimeByQuestId(questId) ~= nil
             or #TrackerUtils.GetQuestItemIds(quest, quest:IsComplete()) > 0 then
             return nil
@@ -42,22 +45,28 @@ function TrackerQuestLogSnapshot.Capture()
 
         local group = TrackerUtils.GetQuestGroupName(quest)
         local entry = {
+            -- Identity, title appearance and ordering.
             name = quest.name,
             level = quest.level,
             group = group,
             title = TrackerData.GetColoredQuestName(quest, profile.trackerShowQuestLevel, true),
             -- Equal-level sorting uses native tags even when the title hides the level/suffix.
             suffixPriority = QuestieLib.GetQuestTypeSuffixPriority(questId),
+
+            -- Loading and completion can change without different objective text.
             complete = quest:IsComplete(),
             isComplete = quest.isComplete,
             objectivesLoaded = quest.objectivesLoaded,
             completionText = TrackerUtils:GetCompletionText(quest),
+
+            -- Row visibility and expansion state.
             tracked = (profile.autoTrackQuests and not char.AutoUntrackedQuests[questId])
                 or (not profile.autoTrackQuests and char.TrackedQuests[questId]) or false,
             collapsed = char.collapsedQuests[questId],
             zoneCollapsed = char.collapsedZones[group],
             objectives = {},
         }
+        -- Copy values, not row references: incremental text updates reuse and mutate the display records.
         for index, objective in ipairs(quest.Objectives) do
             entry.objectives[index] = {
                 nativeIndex = objective.NativeIndex,
@@ -91,6 +100,7 @@ local function _Equal(left, right)
     return true
 end
 
+---Only a supported candidate and a completed-layout baseline can establish that layout is unchanged.
 ---@param snapshot table?
 ---@param renderedSnapshot table?
 ---@return boolean

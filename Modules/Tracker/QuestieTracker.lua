@@ -897,25 +897,27 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
     end
 end
 
+-- The baseline belongs to the last completed layout, not the latest TrackerData refresh.
 local renderedQuestLogSnapshot
-local questLogRetryPending = false
+local questLogUpdateRetryPending = false
 
--- A throttled reconciliation must still run if no further quest event arrives. Keep one retry through combat.
-local function _RetryQuestLogUpdate(delay)
-    if questLogRetryPending then
+-- Keep the guard through both the timer and combat queue so a quiet log still gets its trailing check.
+---@param delay number Seconds until the throttled update may run again.
+local function _ScheduleQuestLogUpdateRetry(delay)
+    if questLogUpdateRetryPending then
         return
     end
-    questLogRetryPending = true
+    questLogUpdateRetryPending = true
     C_Timer.After(delay, function()
         QuestieCombatQueue:Queue(function()
-            questLogRetryPending = false
+            questLogUpdateRetryPending = false
             QuestieTracker:Update(true)
         end)
     end)
 end
 
----Explicit callers always rebuild. Quest-log reconciliation may skip unchanged ordinary quest layouts.
----@param onlyIfChanged boolean? Reserved for quest-log reconciliation, not settings or other UI changes.
+---Explicit updates bypass snapshot comparison, but still obey startup, combat and throttle guards.
+---@param onlyIfChanged boolean? True for quest-log reconciliation; omit for settings and other explicit UI changes.
 function QuestieTracker:Update(onlyIfChanged)
     -- Even a throttled explicit request invalidates the baseline: a later log event must not hide its changes.
     if not onlyIfChanged then
@@ -928,7 +930,7 @@ function QuestieTracker:Update(onlyIfChanged)
     local now = GetTime()
     if InCombatLockdown() or (now - lastTrackerUpdate) < 0.1 then
         if onlyIfChanged then
-            _RetryQuestLogUpdate(math.max(0.01, 0.1 - (now - lastTrackerUpdate)))
+            _ScheduleQuestLogUpdateRetry(math.max(0.01, 0.1 - (now - lastTrackerUpdate)))
         end
         return
     end
@@ -976,15 +978,17 @@ function QuestieTracker:Update(onlyIfChanged)
         focusRestoreDeadline = nil
     end
 
-    local questLogSnapshot
+    -- Reconcile before touching frames. Startup, interactive geometry and achievement rows always need layout.
+    local candidateSnapshot
     if allowFormattingUpdate and not TrackerBaseFrame.isSizing and not TrackerBaseFrame.isMoving
         and not (trackedAchievementIds and next(trackedAchievementIds)) then
-        questLogSnapshot = TrackerQuestLogSnapshot.Capture()
+        candidateSnapshot = TrackerQuestLogSnapshot.Capture()
     end
-    if onlyIfChanged and TrackerQuestLogSnapshot.IsUnchanged(questLogSnapshot, renderedQuestLogSnapshot) then
+    if onlyIfChanged and TrackerQuestLogSnapshot.IsUnchanged(candidateSnapshot, renderedQuestLogSnapshot) then
         return
     end
-    -- No baseline survives a partial/failed rebuild. Commit the candidate only after final formatting.
+
+    -- Begin layout with no baseline: an error must not leave partially rebuilt frames marked as current.
     renderedQuestLogSnapshot = nil
     lastTrackerUpdate = now
 
@@ -1899,7 +1903,8 @@ function QuestieTracker:Update(onlyIfChanged)
     if line then
         QuestieTracker:UpdateFormatting()
         if allowFormattingUpdate then
-            renderedQuestLogSnapshot = questLogSnapshot
+            -- A text-only refresh or startup pass cannot acknowledge these inputs as fully rendered.
+            renderedQuestLogSnapshot = candidateSnapshot
         end
     end
 
