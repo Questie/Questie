@@ -225,11 +225,15 @@ describe("TrackerUtils", function()
                 flashTick = callback
                 return {Cancel = function() end}
             end}
-            _G.WorldMapFrame = {GetCanvas = function() return {} end,
+            _G.WorldMapFrame = {GetCanvas = function() return {} end, IsShown = function() return false end,
                 AddDataProvider = function(self, provider) provider:OnAdded(self) end,
                 RemoveDataProvider = function(_, provider) provider:OnRemoved() end,
                 Show = spy.new(function() end), SetMapID = spy.new(function() end)}
             QuestieLoader:ImportModule("PolygonRenderer").New = function() return {Clear = function() end} end
+            QuestieLoader:ImportModule("PolygonNudging").New = function()
+                return {Update = function() end, Remove = function() end, Clear = function() end,
+                    SetEnabled = function() end, Reapply = function() end}
+            end
             QuestieLoader:ImportModule("PolygonGeometry").Build = function(points)
                 return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}
             end

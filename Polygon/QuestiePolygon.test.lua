@@ -24,7 +24,12 @@ describe("QuestiePolygon world-map adapter", function()
     before_each(function()
         savedGlobals = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
             CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin,
-            GetMouseFoci = _G.GetMouseFoci}
+            GetMouseFoci = _G.GetMouseFoci, GetCursorPosition = _G.GetCursorPosition, CreateFrame = _G.CreateFrame,
+            UIParent = _G.UIParent, hooksecurefunc = _G.hooksecurefunc}
+        _G.CreateFrame = spy.new(function() error("Nudging must not allocate an update driver") end)
+        _G.UIParent = {GetEffectiveScale = function() return 1 end}
+        dofile("Polygon/PolygonNudging.lua")
+        _G.GetCursorPosition = nil
         _G.GetMouseFoci = nil
         _G.LibStub = function()
             return {GetWorldCoordinatesFromZone = function(_, x, y, uiMapId) return x * 1000, y * 1000, uiMapId end}
@@ -45,7 +50,7 @@ describe("QuestiePolygon world-map adapter", function()
             AddDataProvider = function(self, provider) self.provider = provider; provider:OnAdded(self) end,
             RemoveDataProvider = function(self, provider) provider:OnRemoved(); self.provider = nil end}
         _G.WorldMapFrame = map
-        Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, enabled = true}
+        Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, enabled = true, globalScale = 1}
         Questie.usedIcons = {[1] = "icon"}
         renderer = {Clear = spy.new(function() end), Draw = spy.new(function() end)}
         QuestieLoader:ImportModule("PolygonRenderer").New = spy.new(function() return renderer end)
@@ -64,6 +69,7 @@ describe("QuestiePolygon world-map adapter", function()
         FramePool.UnloadFrame = spy.new(function(_, frame) frame.data = nil end)
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.GetScaleValue = function() return 1 end
+        QuestieMap.RescaleIcons = function() end
         QuestieMap.utils = {RescaleIcon = function() end}
         QuestieMap.DrawWorldIcon = spy.new(function(_, data, areaId, x, y, _phase, _showFlag, destination)
             assert.are.equal("map", destination)
@@ -71,7 +77,23 @@ describe("QuestiePolygon world-map adapter", function()
                 texture = {r = 1, g = 1, b = 1, a = 1, SetVertexColor = function(self, r, g, b, a)
                     self.r, self.g, self.b, self.a = r, g, b, a
                 end}, ShouldBeHidden = function(self) return self.policyHidden end,
-                UpdateTexture = function(self) self.texture.a = 1 end}
+                UpdateTexture = function(self) self.texture.a = 1 end,
+                IsVisible = function(self) return not self.notShown end, GetAlpha = function() return 1 end,
+                GetRect = function(self) return self.x * 10, self.y * 5, 16, 16 end,
+                GetEffectiveScale = function() return 1 end}
+            frame.width, frame.height, frame.effectiveScale = 16, 16, 1
+            local parent = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = frame,
+                centerX = x * 10, centerY = y * 5, effectiveScale = 1,
+                GetCenter = function(self) return self.centerX, self.centerY end,
+                GetRect = function(self) return self.centerX - 0.5, self.centerY - 0.5, 1, 1 end,
+                GetEffectiveScale = function(self) return self.effectiveScale end}
+            frame.parent, frame.point = parent, {"CENTER", parent, "CENTER", 0, 0}
+            frame.GetParent = function(self) return self.parent end
+            frame.GetSize = function(self) return self.width, self.height end
+            frame.GetEffectiveScale = function(self) return self.effectiveScale end
+            frame.GetPoint = function(self) return unpack(self.point) end
+            frame.ClearAllPoints = function() end
+            frame.SetPoint = function(self, ...) self.point = {...} end
             frames[#frames + 1] = frame
             return frame
         end)
@@ -95,6 +117,10 @@ describe("QuestiePolygon world-map adapter", function()
         _G.CreateFromMixins = savedGlobals.CreateFromMixins
         _G.MapCanvasDataProviderMixin = savedGlobals.MapCanvasDataProviderMixin
         _G.GetMouseFoci = savedGlobals.GetMouseFoci
+        _G.GetCursorPosition = savedGlobals.GetCursorPosition
+        _G.CreateFrame = savedGlobals.CreateFrame
+        _G.UIParent = savedGlobals.UIParent
+        _G.hooksecurefunc = savedGlobals.hooksecurefunc
     end)
 
     it("supplies normalized canvas cursor and participating mouse-focus readers for direct hover", function()
@@ -444,6 +470,238 @@ describe("QuestiePolygon world-map adapter", function()
         frames[1]._hidden_by_flash = nil
         Polygon.Refresh()
         assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+    end)
+
+    describe("fixed horizontal marker stacks", function()
+        local meat, ribs, meatObjective
+
+        before_each(function()
+            quest.Id = 317
+            Player.currentQuestlog = {[317] = quest}
+            Update()
+            meat, meatObjective = frames[1], objective
+            objective = {Index = 1, Type = "item", Color = {1, 0.3, 0.1}, spawnList = meatObjective.spawnList}
+            quest = {Id = 384, Color = {1, 1, 1}, Objectives = {objective}}
+            Player.currentQuestlog[384] = quest
+            Update()
+            ribs = frames[2]
+            FlushRefresh()
+        end)
+
+        it("separates coincident boar markers while preserving geometry and independent pinning", function()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            assert.are_near(5.6, ribs.point[4], 0.000001)
+            assert.are.equal(0, meat.point[5])
+            assert.are.equal(0, ribs.point[5])
+            assert.are.same({10, 20, 10}, {meat.x, meat.y, meat.UiMapID})
+            assert.are.same({{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}, meat.polygonMarker.cluster.outline)
+            Polygon.ToggleMarker(meat)
+            Polygon.ToggleMarker(ribs)
+            Polygon.ToggleMarker(meat)
+            assert.is_false(meat.polygonMarker.entry.pinned)
+            assert.is_true(ribs.polygonMarker.entry.pinned)
+            Polygon.EnterMarker(meat)
+            Polygon.LeaveMarker(meat)
+            FlushRefresh()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            assert.are_near(5.6, ribs.point[4], 0.000001)
+            assert.spy(_G.CreateFrame).was.not_called()
+        end)
+
+        it("reserves queued markers and reapplies on HBD acquisition without an OnShow or update driver", function()
+            local wrapper = ribs.parent
+            ribs.parent, ribs.point = {}, {"CENTER", {}, "CENTER", 0, 0}
+            Polygon.UpdateNudging()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            ribs.parent, ribs.point = wrapper, {"CENTER", wrapper, "CENTER", 0, 0}
+            ribs:OnWorldMapPinUpdated(wrapper)
+            assert.are_near(5.6, ribs.point[4], 0.000001)
+            assert.spy(_G.CreateFrame).was.not_called()
+        end)
+
+        it("keeps hidden, offscreen, transparent and tracker-hidden members' slots stable", function()
+            ribs.hidden, ribs.notShown, ribs._hidden_by_flash, ribs.texture.a = true, true, true, 0
+            Polygon.MarkerChanged(ribs)
+            FlushRefresh()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            assert.are_near(5.6, ribs.point[4], 0.000001)
+            ribs.hidden, ribs.notShown, ribs._hidden_by_flash, ribs.texture.a = false, false, nil, 1
+            Polygon.MarkerChanged(ribs)
+            FlushRefresh()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            assert.are_near(5.6, ribs.point[4], 0.000001)
+        end)
+
+        it("partitions original maps and excludes minimap frames rather than merging screen projections", function()
+            ribs.UiMapID = 20
+            Polygon.UpdateNudging()
+            assert.are.equal(0, meat.point[4])
+            assert.are.equal(0, ribs.point[4])
+            ribs.UiMapID, ribs.miniMapIcon = 10, true
+            Polygon.UpdateNudging()
+            assert.are.equal(0, meat.point[4])
+            assert.are.equal(0, ribs.point[4])
+            assert.is_nil(ribs.OnWorldMapPinUpdated)
+        end)
+
+        it("restores the same slots on disable and re-enable without a polling callback", function()
+            Questie.db.profile.enabled = false
+            Polygon.UpdateNudging()
+            assert.are.equal(0, meat.point[4])
+            assert.are.equal(0, ribs.point[4])
+            Questie.db.profile.enabled = true
+            objective.Collected = 3
+            Update()
+            FlushRefresh()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            assert.are_near(5.6, ribs.point[4], 0.000001)
+            meat.point = {"CENTER", meat.parent, "CENTER", 0, 0}
+            meat:OnWorldMapPinUpdated(meat.parent)
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            assert.spy(_G.CreateFrame).was.not_called()
+            assert.spy(Geometry.Build).was.called(2)
+        end)
+
+        it("suspends on map hide, keeps slots on map changes, and cancels deferred work on reset", function()
+            map.shown = false
+            map.provider:OnHide()
+            assert.are.equal(0, meat.point[4])
+            assert.are.equal(0, ribs.point[4])
+            map.shown = true
+            map.provider:OnShow()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            map.mapId = 20
+            map.provider:OnMapChanged()
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            Polygon.ScheduleNudging()
+            Polygon.Reset()
+            FlushRefresh()
+            assert.are.equal(0, meat.point[4])
+            assert.are.equal(0, ribs.point[4])
+            assert.is_nil(meat.polygonMarker)
+            assert.is_nil(meat.OnWorldMapPinUpdated)
+            assert.is_nil(ribs.OnWorldMapPinUpdated)
+            assert.spy(_G.CreateFrame).was.not_called()
+        end)
+
+        it("reapplies stored slots through HBD scale notifications and resize without regrouping or animated-size inputs", function()
+            local nudging = QuestieLoader:ImportModule("PolygonNudging")
+            local calculate = spy.on(nudging, "Calculate")
+            meat.width, meat.height, ribs.width, ribs.height = 48, 48, 48, 48
+            meat.effectiveScale, ribs.effectiveScale = 2, 2
+            meat:OnWorldMapPinUpdated(meat.parent)
+            ribs:OnWorldMapPinUpdated(ribs.parent)
+            assert.are_near(-2.8, meat.point[4], 0.000001)
+            assert.are_near(2.8, ribs.point[4], 0.000001)
+            assert.are_near(11.2, (ribs.point[4] - meat.point[4]) * 2, 0.000001)
+
+            map.provider:OnCanvasSizeChanged()
+            assert.are_near(-2.8, meat.point[4], 0.000001)
+            assert.are_near(2.8, ribs.point[4], 0.000001)
+            assert.are.equal(0, #timers)
+            assert.are.same({10, 20, 10}, {meat.x, meat.y, meat.UiMapID})
+            assert.spy(calculate).was.not_called()
+            assert.spy(Geometry.Build).was.called(2)
+        end)
+
+        it("restores an icon and removes its callback before pooling, then recenters the survivor", function()
+            Polygon.RemoveQuest(317)
+            assert.are.equal(0, meat.point[4])
+            assert.is_nil(meat.polygonMarker)
+            assert.is_nil(meat.OnWorldMapPinUpdated)
+            FlushRefresh()
+            assert.are.equal(0, ribs.point[4])
+        end)
+    end)
+
+    it("observes configured icon-size changes once and reads the new setting after the setter completes", function()
+        local resizeHook
+        _G.hooksecurefunc = spy.new(function(owner, name, callback)
+            assert.are.equal(QuestieMap, owner)
+            assert.are.equal("RescaleIcons", name)
+            resizeHook = callback
+        end)
+        Update()
+        local otherQuest = {Id = 384, Objectives = {}, Color = {1, 1, 1}}
+        quest.Id = 317
+        Player.currentQuestlog = {[317] = quest, [384] = otherQuest}
+        Polygon.Reset()
+        Update()
+        quest = otherQuest
+        Update()
+        FlushRefresh()
+        local meat, ribs = frames[2], frames[3]
+        assert.are_near(-5.6, meat.point[4], 0.000001)
+        resizeHook() -- RescaleIcons runs before SetProfileValue.
+        Questie.db.profile.globalScale = 1.5
+        FlushRefresh()
+        assert.are_near(-8.4, meat.point[4], 0.000001)
+        assert.are_near(8.4, ribs.point[4], 0.000001)
+        assert.spy(_G.hooksecurefunc).was.called(1)
+    end)
+
+    describe("per-icon setting refresh", function()
+        local options, defaults, utils, originalOptions
+
+        before_each(function()
+            options = QuestieLoader:ImportModule("QuestieOptions")
+            defaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
+            utils = QuestieLoader:ImportModule("QuestieOptionsUtils")
+            originalOptions = {tabs = options.tabs, SetProfileValue = options.SetProfileValue, Load = defaults.Load,
+                SetPfQuestIcons = utils.SetPfQuestIcons, DetermineTheme = utils.DetermineTheme,
+                ExecuteTheme = utils.ExecuteTheme, Spacer = utils.Spacer}
+            options.tabs = {}
+            utils.Spacer = function() return {} end
+            defaults.Load = function() return {profile = {}} end
+            options.SetProfileValue = function(_, info, value) Questie.db.profile[info[#info]] = value end
+            dofile("Localization/l10n.lua")
+            dofile("Modules/Options/IconsTab/QuestieOptionsIcons.lua")
+        end)
+
+        after_each(function()
+            options.tabs, options.SetProfileValue = originalOptions.tabs, originalOptions.SetProfileValue
+            defaults.Load = originalOptions.Load
+            utils.Spacer = originalOptions.Spacer
+            utils.SetPfQuestIcons, utils.DetermineTheme, utils.ExecuteTheme =
+                originalOptions.SetPfQuestIcons, originalOptions.DetermineTheme, originalOptions.ExecuteTheme
+        end)
+
+        it("reads the new loot scale after the actual option setter finishes, without refreshing cached geometry", function()
+            Questie.db.profile.lootScale = 1
+            objective.Type = "item"
+            objective.spawnList[123].GetIconScale = function() return Questie.db.profile.lootScale end
+            QuestieMap.RescaleIcons = spy.new(function()
+                assert.are.equal(1, Questie.db.profile.lootScale) -- The setter has not written the new value yet.
+            end)
+            _G.hooksecurefunc = function(owner, name, callback)
+                local original = owner[name]
+                owner[name] = function(...)
+                    original(...)
+                    callback(...)
+                end
+            end
+            quest.Id = 317
+            Player.currentQuestlog = {[317] = quest}
+            Update()
+            quest = {Id = 384, Color = {1, 1, 1}, Objectives = {objective}}
+            Player.currentQuestlog[384] = quest
+            Update()
+            FlushRefresh()
+            assert.are_near(-5.6, frames[1].point[4], 0.000001)
+            assert.are_near(5.6, frames[2].point[4], 0.000001)
+
+            local iconOptions = options.tabs.icons:Initialize()
+            iconOptions.args.icon_scales_group.args.lootScale.set({"lootScale"}, 2)
+            assert.are.equal(2, Questie.db.profile.lootScale)
+            assert.are.equal(1, frames[1].data.IconScale) -- RescaleIcons/geometry cached the old setting.
+            assert.are_near(-5.6, frames[1].point[4], 0.000001) -- Waiting for the scheduled refresh.
+            FlushRefresh()
+
+            assert.are_near(-11.2, frames[1].point[4], 0.000001)
+            assert.are_near(11.2, frames[2].point[4], 0.000001)
+            assert.spy(Geometry.Build).was.called(2)
+            assert.are.equal(2, #frames)
+        end)
     end)
 
     it("keeps party-only objective rendering out of the local polygon cache", function()

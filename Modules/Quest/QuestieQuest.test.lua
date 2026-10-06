@@ -653,11 +653,15 @@ describe("QuestieQuest", function()
                     for key, value in pairs(methods) do result[key] = value end
                     return result
                 end
-                _G.WorldMapFrame = {GetCanvas = function() return {} end,
+                _G.WorldMapFrame = {GetCanvas = function() return {} end, IsShown = function() return false end,
                     AddDataProvider = function(self, provider) provider:OnAdded(self) end,
                     RemoveDataProvider = function(_, provider) provider:OnRemoved() end}
                 QuestieLoader:ImportModule("PolygonRenderer").New = function()
                     return {Clear = function() end}
+                end
+                QuestieLoader:ImportModule("PolygonNudging").New = function()
+                    return {Update = function() end, Remove = function() end, Clear = function() end,
+                        SetEnabled = function() end, Reapply = function() end}
                 end
                 QuestieLoader:ImportModule("PolygonGeometry").Build = spy.new(function(points)
                     return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}
