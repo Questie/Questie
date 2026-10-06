@@ -93,6 +93,7 @@ describe("QuestieFrame", function()
             Polygon.LeaveMarker = spy.new(function() end)
             Polygon.MarkerRemoved = spy.new(function(frame) frame.polygonMarker = nil end)
             Polygon.MarkerChanged = spy.new(function() end)
+            Polygon.ScheduleRefresh = spy.new(function() end)
             saved = {WorldMapFrame = _G.WorldMapFrame, IsModifierKeyDown = _G.IsModifierKeyDown,
                 IsControlKeyDown = _G.IsControlKeyDown, C_Map = _G.C_Map,
                 ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow, IsShiftKeyDown = _G.IsShiftKeyDown,
@@ -150,6 +151,27 @@ describe("QuestieFrame", function()
             assert.spy(Polygon.MarkerRemoved).was.called(1)
             assert.is_nil(QuestieFrameInstance.polygonMarker)
             assert.is_true(QuestieFrameInstance._needsUnload)
+        end)
+
+        it("schedules polygon drawing after native marker show and hide without changing ownership", function()
+            local marker = QuestieFrameInstance.polygonMarker
+            QuestieFrameInstance.glowTexture = {Hide = spy.new(function() end)}
+            QuestieFrame.private.BaseOnShow(QuestieFrameInstance)
+            QuestieFrame.private.BaseOnHide(QuestieFrameInstance)
+
+            assert.spy(Polygon.ScheduleRefresh).was.called(2)
+            assert.are.equal(marker, QuestieFrameInstance.polygonMarker)
+            assert.spy(Polygon.MarkerChanged).was.not_called() -- No redundant nudging work.
+            assert.spy(Polygon.ToggleMarker).was.not_called()
+            assert.spy(QuestieFrameInstance.glowTexture.Hide).was.called(1)
+        end)
+
+        it("does not schedule polygon refreshes for ordinary icon show and hide", function()
+            QuestieFrameInstance.polygonMarker = nil
+            QuestieFrameInstance.glowTexture = {Hide = function() end}
+            QuestieFrame.private.BaseOnShow(QuestieFrameInstance)
+            QuestieFrame.private.BaseOnHide(QuestieFrameInstance)
+            assert.spy(Polygon.ScheduleRefresh).was.not_called()
         end)
 
         it("notifies the adapter when logical visibility changes", function()

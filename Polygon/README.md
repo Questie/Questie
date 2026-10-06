@@ -13,7 +13,7 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 
 The preset enables objective display, applies normal Questie icon preferences, and disables Blizzard quest POIs where available. Selecting another preset, including Custom, exits polygon mode. Customizing individual icon preferences does not itself exit the mode.
 
-Areas appear only on their matching UI map and follow their markers' hidden/tracking policy and fade opacity. Where supported, direct hover highlights all participating polygons whose shapes contain the cursor, including overlaps. Polygon frames accept propagated mouse motion, not clicks. Generic Questie icon propagation, clicks, and tooltips are unchanged; Polygon markers retain direct-click pinning. Direct polygon hover does not extend a marker preview or change pinned visibility.
+Areas can appear on adjacent detailed maps when their owning marker is acquired and visible there, including through its native parent. Queued, released, or hidden markers do not draw areas; pinning does not override that gate. Areas also follow logical hiding/tracking rules and fade opacity. Drawing is limited to Zone, Dungeon, and Micro maps, never World, Continent, Cosmic, or unknown map types. Where supported, direct hover highlights all participating polygons whose shapes contain the cursor, including overlaps. Polygon frames accept propagated mouse motion, not clicks. Generic Questie icon propagation, clicks, and tooltips are unchanged; Polygon markers retain direct-click pinning. Direct polygon hover does not extend a marker preview or change pinned visibility.
 
 ### Fixed horizontal marker stacks
 
@@ -36,7 +36,8 @@ Questie objective.spawnList
   → phase-filtered points with explicit map/world coordinates
   → map/instance-partitioned moving-center clusters
   → convex hull → Catmull-Rom samples → convex envelope → reduction
-  → cached cluster markers and optional outlines
+  → cached cluster markers and optional source-map outlines
+  → visible-marker gate and projection onto the displayed detailed map
   → world-map canvas drawing
 ```
 
@@ -86,6 +87,10 @@ Clear, empty/failed draws, map hide, and reset stop hover updates and clear both
 
 Entries are owned by quest and objective, with map-specific clusters. A sorted signature includes eligible target/location identities and coordinates. Unchanged inputs reuse geometry and markers while refreshing tooltip/icon metadata, map scale, and fade. Changed eligible spawns or phases cause replacement on the next objective update. Map navigation alone does not rebuild geometry.
 
+For adjacent maps, HBD translates the original outline into destination-map percentage coordinates. Successful projections are cached per marker, source-outline identity, source map, and destination map. Source geometry remains unchanged; replacing it invalidates its projected views. Missing, restricted, or nonfinite conversions omit the whole outline and can retry later. Vertices outside 0–100 remain intact for canvas clipping, and geometric hover uses the same projected points. Nudging affects only marker display anchors, not this projection.
+
+Hiding a marker suppresses its area without discarding cached geometry or pinned state. Native marker `BaseOnShow`/`BaseOnHide` schedules a coalesced, next-frame refresh so Polygon can recheck after HBD parenting and draw-queue bookkeeping settle, regardless of provider refresh order. These notifications do not regroup nudges or introduce a per-frame visibility monitor or extra pan work.
+
 Two identities protect asynchronous work:
 
 - **Revision:** superseded collection/build work cannot publish after another update.
@@ -110,7 +115,7 @@ Keep these hooks small when merging changes from Questie:
 | [QuestieQuest](../Modules/Quest/QuestieQuest.lua) | Shared objective/tooltips first; select ordinary minimap versus clustered map drawing, validate waypoint tokens, remove completed/empty objectives, and reset at `SmoothReset`/`ClearAllNotes`. |
 | [QuestieMap](../Modules/Map/QuestieMap.lua) | Optional `DrawWorldIcon(..., destination)` selects `"map"` or `"minimap"`; omitted means the existing paired output. Full quest-frame unload also removes Polygon ownership. Its resize observer refreshes configured stack spacing. |
 | [HBD-Pins](../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) | Optional child callback after acquisition and scale handling reapplies stored presentation offsets; HBD geographic positions remain unchanged. |
-| [QuestieFrame](../Modules/FramePool/QuestieFrame.lua), [MapIconTooltip](../Modules/Tooltips/MapIconTooltip.lua) | Marker enter/leave/click, removal, and visibility/fade notifications; no accumulating per-frame hooks. |
+| [QuestieFrame](../Modules/FramePool/QuestieFrame.lua), [MapIconTooltip](../Modules/Tooltips/MapIconTooltip.lua) | Marker enter/leave/click, removal, and visibility/fade notifications. Native show/hide schedules a deferred polygon refresh; no accumulating per-frame hooks. |
 | [TrackerUtils](../Modules/Tracker/TrackerUtils.lua) | Borrow cluster markers for Show on Map; refresh fill visibility and guard delayed animation against recycled frames. |
 | [Questie.lua](../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
 | [Icon options](../Modules/Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../Modules/Tutorial/ChooseObjectiveType.lua), [defaults](../Modules/Options/QuestieOptionsDefaults.lua), [migration](../Modules/Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 42. |
@@ -136,7 +141,7 @@ Adjacent tests cover geometry/cancellation, workload resume limits, rendering/po
 busted Polygon/PolygonNudging.test.lua Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
 ```
 
-The latest zoom-spacing fix has not been validated in-game; it still needs a user reload and live review. Earlier user-confirmed behavior concerned the retired screen-space experiment, not this implementation. No agent performed a reload or live test for this replacement. Mocks establish neither native anchoring and input timing nor click/drag pass-through.
+Adjacent-map rendering and the latest zoom-spacing fix have not been validated in-game; they still need a user reload and live review. Earlier user-confirmed behavior concerned the retired screen-space experiment, not this implementation. No agent performed a reload or live test for this replacement. Mocks establish neither native anchoring and input timing nor click/drag pass-through.
 
 With separate permission for a development client, verify:
 
@@ -145,7 +150,8 @@ With separate permission for a development client, verify:
 - Overlapping markers for quests 317 and 384: visible separation, independent direct-click pin/unpin, and correct marker-to-polygon highlighting.
 - Stable slot order and spacing that grows with icon zoom size, including fractional UI scales, queued/reacquired wrappers, icon-size settings, and disable/re-enable with the map open. Panning should not rearrange stacks. Check large stacks and map edges with the deliberate lack of collision avoidance or edge clamping.
 - Native motion propagation, unchanged map clicks/dragging, and stationary-cursor focus after redraw.
-- Map navigation, zoom/pan, resizing, and reopening.
+- Map navigation, zoom/pan, resizing, and reopening. On adjacent detailed maps, verify areas align with geography, clip at map edges, and use their projected outlines for hover. World and continent views must show no polygons.
+- Hide an owning marker while its area is pinned, then show it again: the area should disappear and return without reclustering or losing pin state. Check acquisition after map changes and ensure nudging does not move the area.
 - Progress, completion/removal, untracking/hiding, phase changes, profile changes, and disable/re-enable.
 - Tracker Show on Map, waypoint-only zones, unchanged minimap markers, and preserved modifier actions.
 - Dense objectives for responsiveness and repeated resets for stable pooled resource use.

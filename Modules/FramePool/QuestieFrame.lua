@@ -279,11 +279,15 @@ function _QuestieFrame.BaseOnShow(self)
         self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
         self.glowTexture:Show()
     end
+    -- HBD can acquire this marker after Polygon's map provider has refreshed.
+    -- Recheck next frame, after native parenting and draw-queue bookkeeping settle.
+    if self.polygonMarker then QuestiePolygon.ScheduleRefresh() end
 end
 
 ---@param self IconFrame
 function _QuestieFrame.BaseOnHide(self)
     self.glowTexture:Hide()
+    if self.polygonMarker then QuestiePolygon.ScheduleRefresh() end
 end
 
 ---@param self IconFrame

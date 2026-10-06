@@ -1,7 +1,7 @@
 dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
-    local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, map, quest, objective, frames, timers, savedGlobals
+    local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
 
     local function Update(index)
         local icon, zones, work
@@ -31,9 +31,12 @@ describe("QuestiePolygon world-map adapter", function()
         dofile("Polygon/PolygonNudging.lua")
         _G.GetCursorPosition = nil
         _G.GetMouseFoci = nil
-        _G.LibStub = function()
-            return {GetWorldCoordinatesFromZone = function(_, x, y, uiMapId) return x * 1000, y * 1000, uiMapId end}
-        end
+        HBD = {
+            mapData = {[10] = {mapType = Enum.UIMapType.Zone}, [20] = {mapType = Enum.UIMapType.Zone}},
+            GetWorldCoordinatesFromZone = function(_, x, y, uiMapId) return x * 1000, y * 1000, uiMapId end,
+            TranslateZoneCoordinates = spy.new(function(_, x, y) return x - 0.15, y + 0.3 end),
+        }
+        _G.LibStub = function() return HBD end
         _G.MapCanvasDataProviderMixin = {}
         _G.CreateFromMixins = function(base, methods)
             local result = {}
@@ -52,7 +55,7 @@ describe("QuestiePolygon world-map adapter", function()
         _G.WorldMapFrame = map
         Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, enabled = true, globalScale = 1}
         Questie.usedIcons = {[1] = "icon"}
-        renderer = {Clear = spy.new(function() end), Draw = spy.new(function() end)}
+        renderer = {Clear = spy.new(function() end), Draw = spy.new(function(_, shapes) drawnShapes = shapes end)}
         QuestieLoader:ImportModule("PolygonRenderer").New = spy.new(function() return renderer end)
         Geometry = QuestieLoader:ImportModule("PolygonGeometry")
         Geometry.Build = spy.new(function(points)
@@ -73,16 +76,17 @@ describe("QuestiePolygon world-map adapter", function()
         QuestieMap.utils = {RescaleIcon = function() end}
         QuestieMap.DrawWorldIcon = spy.new(function(_, data, areaId, x, y, _phase, _showFlag, destination)
             assert.are.equal("map", destination)
-            local frame = {data = data, AreaID = areaId, UiMapID = areaId * 10, x = x, y = y,
+            local frame = {data = data, AreaID = areaId, UiMapID = areaId * 10, x = x, y = y, _loaded = true,
                 texture = {r = 1, g = 1, b = 1, a = 1, SetVertexColor = function(self, r, g, b, a)
                     self.r, self.g, self.b, self.a = r, g, b, a
                 end}, ShouldBeHidden = function(self) return self.policyHidden end,
                 UpdateTexture = function(self) self.texture.a = 1 end,
-                IsVisible = function(self) return not self.notShown end, GetAlpha = function() return 1 end,
+                IsVisible = function(self) return map.shown and not self.notShown and self.parent and self.parent.shown end,
+                GetAlpha = function() return 1 end,
                 GetRect = function(self) return self.x * 10, self.y * 5, 16, 16 end,
                 GetEffectiveScale = function() return 1 end}
             frame.width, frame.height, frame.effectiveScale = 16, 16, 1
-            local parent = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = frame,
+            local parent = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = frame, shown = true,
                 centerX = x * 10, centerY = y * 5, effectiveScale = 1,
                 GetCenter = function(self) return self.centerX, self.centerY end,
                 GetRect = function(self) return self.centerX - 0.5, self.centerY - 0.5, 1, 1 end,
@@ -406,13 +410,261 @@ describe("QuestiePolygon world-map adapter", function()
         FlushRefresh()
         assert.is_true(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
         map.mapId = 20
+        frames[1].parent.shown = false -- HBD did not acquire this marker on the other map.
         map.provider:OnMapChanged()
         assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
         map.mapId = 10
+        frames[1].parent.shown = true
         map.provider:OnMapChanged()
         assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
         assert.is_false(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
         assert.spy(Geometry.Build).was.called(1)
+    end)
+
+    describe("polygon projection follows displayed markers", function()
+        before_each(function()
+            objective.spawnList[123].Spawns[1][1] = {20, 20}
+            Geometry.Build = spy.new(function(points)
+                local point = points[1]
+                -- Keep the marker at this triangle's centroid, including replacement geometry.
+                return {{uiMapId = point.uiMapId, x = point.x, y = point.y, representative = point,
+                    outline = {{x = point.x - 10, y = point.y - 10}, {x = point.x + 10, y = point.y - 10},
+                        {x = point.x, y = point.y + 20}}}}
+            end)
+        end)
+
+        it("uses the original outline unchanged on its source map", function()
+            Update()
+            local outline = frames[1].polygonMarker.cluster.outline
+            Polygon.ToggleMarker(frames[1])
+            FlushRefresh()
+
+            assert.are.equal(outline, drawnShapes[1].points)
+            assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
+        end)
+
+        it("projects a visible neighboring marker's outline without clamping or moving its source geometry", function()
+            Update()
+            local frame = frames[1]
+            local outline = frame.polygonMarker.cluster.outline
+            Polygon.ToggleMarker(frame)
+            map.mapId = 20
+            Polygon.EnterMarker(frame)
+            frame.point = {"CENTER", frame.parent, "CENTER", 30, 0} -- Display nudging is not geographic input.
+            local markerX, markerY = HBD:TranslateZoneCoordinates(frame.x / 100, frame.y / 100, frame.UiMapID, map.mapId, false)
+            assert.are_near(0.05, markerX, 0.000001)
+            assert.are_near(0.5, markerY, 0.000001) -- HBD can acquire this marker inside the destination map.
+            Polygon.Refresh()
+
+            local shape = renderer.Draw.calls[#renderer.Draw.calls].vals[2][1]
+            assert.is_true(shape.highlighted)
+            assert.are_near(-5, shape.points[1].x, 0.000001)
+            assert.are_near(40, shape.points[1].y, 0.000001)
+            assert.are_near(15, shape.points[2].x, 0.000001)
+            assert.are_near(40, shape.points[2].y, 0.000001)
+            assert.are_near(5, shape.points[3].x, 0.000001)
+            assert.are_near(70, shape.points[3].y, 0.000001)
+            assert.are.same({{x = 10, y = 10}, {x = 30, y = 10}, {x = 20, y = 40}}, outline)
+            assert.are.same({20, 20, 10}, {frame.x, frame.y, frame.UiMapID})
+            assert.spy(HBD.TranslateZoneCoordinates).was.called_with(HBD, 0.1, 0.1, 10, 20, true)
+            assert.spy(Geometry.Build).was.called(1)
+        end)
+
+        it("reuses each destination projection across refreshes and navigation", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            map.mapId = 20
+            Polygon.Refresh()
+            local projected = drawnShapes[1].points
+            Polygon.Refresh()
+            Polygon.EnterMarker(frames[1])
+            FlushRefresh()
+            assert.are.equal(projected, drawnShapes[1].points)
+            map.mapId = 10
+            map.provider:OnMapChanged()
+            assert.are.equal(frames[1].polygonMarker.cluster.outline, drawnShapes[1].points)
+            map.mapId = 20
+            map.provider:OnMapChanged()
+
+            assert.are.equal(projected, drawnShapes[1].points)
+            assert.spy(HBD.TranslateZoneCoordinates).was.called(3)
+            assert.spy(Geometry.Build).was.called(1)
+        end)
+
+        it("reprojects replacement geometry instead of retaining the old view cache", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            map.mapId = 20
+            Polygon.Refresh()
+            local originalProjection = drawnShapes[1].points
+            objective.spawnList[123].Spawns[1][1] = {30, 40}
+            Update()
+            Polygon.Refresh()
+
+            assert.is_nil(frames[1].data)
+            assert.are_not.equal(originalProjection, drawnShapes[1].points)
+            assert.spy(HBD.TranslateZoneCoordinates).was.called(6)
+            assert.spy(Geometry.Build).was.called(2)
+        end)
+
+        local detailedMaps = {
+            {name = "zone", mapType = Enum.UIMapType.Zone},
+            {name = "dungeon", mapType = Enum.UIMapType.Dungeon},
+            {name = "micro", mapType = Enum.UIMapType.Micro},
+        }
+        for _, case in ipairs(detailedMaps) do
+            it("draws on a detailed " .. case.name .. " map when the owning marker is visible", function()
+                HBD.mapData[20].mapType = case.mapType
+                Update()
+                Polygon.ToggleMarker(frames[1])
+                map.mapId = 20
+                Polygon.Refresh()
+                assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            end)
+        end
+
+        local overviewMaps = {
+            {name = "world", mapType = Enum.UIMapType.World},
+            {name = "continent", mapType = Enum.UIMapType.Continent},
+            {name = "cosmic", mapType = Enum.UIMapType.Cosmic},
+            {name = "orphan", mapType = Enum.UIMapType.Orphan},
+        }
+        for _, case in ipairs(overviewMaps) do
+            it("never draws on a " .. case.name .. " map even when the source marker is visible", function()
+                Update()
+                Polygon.ToggleMarker(frames[1])
+                FlushRefresh()
+                HBD.mapData[10].mapType = case.mapType
+                Polygon.Refresh()
+                assert.spy(renderer.Clear).was.called()
+                assert.is_true(frames[1].polygonMarker.entry.pinned)
+                assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
+            end)
+        end
+
+        it("clears drawing when the displayed map has no known metadata", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            FlushRefresh()
+            map.mapId = 999
+            Polygon.Refresh()
+            assert.spy(renderer.Clear).was.called()
+            assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
+        end)
+
+        it("hides pinned geometry when its native marker is hidden, without clearing pinning or projections", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            map.mapId = 20
+            Polygon.Refresh()
+            local projected = drawnShapes[1].points
+            frames[1].notShown = true
+            Polygon.Refresh()
+            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.is_true(frames[1].polygonMarker.entry.pinned)
+            frames[1].notShown = false
+            Polygon.Refresh()
+            assert.are.equal(projected, drawnShapes[1].points)
+            assert.spy(HBD.TranslateZoneCoordinates).was.called(3)
+        end)
+
+        it("does not draw when the marker's native parent is hidden", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            frames[1].parent.shown = false
+            Polygon.Refresh()
+            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        end)
+
+        it("does not draw for a queued marker even if its frame has not yet been hidden", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            frames[1]._loaded = nil
+            Polygon.Refresh()
+            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        end)
+
+        it("does not draw for a marker detached from its HBD map wrapper", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            frames[1].parent = {shown = true} -- UIParent can be visible after the map pin is released.
+            Polygon.Refresh()
+            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        end)
+
+        it("catches up when HBD shows a marker after the polygon provider has already refreshed", function()
+            dofile("Modules/FramePool/QuestieFrame.lua")
+            local handlers = QuestieLoader:ImportModule("QuestieFrame").private
+            Update()
+            local frame, wrapper = frames[1], frames[1].parent
+            frame._loaded, frame.parent = nil, {shown = true}
+            Polygon.ToggleMarker(frame)
+            map.mapId = 20
+            map.provider:OnMapChanged()
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+            assert.is_true(frame.polygonMarker.entry.pinned)
+
+            frame.parent = wrapper
+            handlers.BaseOnShow(frame) -- HBD shows the frame before ProcessQueue marks it loaded.
+            frame._loaded = true
+            FlushRefresh()
+            assert.are.equal(1, #drawnShapes)
+            assert.is_true(frame.polygonMarker.entry.pinned)
+            assert.are.equal(0, #timers)
+
+            frame.notShown = true
+            frame.glowTexture = {Hide = function() end}
+            handlers.BaseOnHide(frame)
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+            assert.is_true(frame.polygonMarker.entry.pinned)
+            assert.are.equal(0, #timers)
+        end)
+
+        it("invalidates a destination cache when the source outline identity changes", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            map.mapId = 20
+            Polygon.Refresh()
+            frames[1].polygonMarker.cluster.outline = {{x = 30, y = 10}, {x = 40, y = 10}, {x = 30, y = 20}}
+            Polygon.Refresh()
+            assert.are_near(15, drawnShapes[1].points[1].x, 0.000001)
+            assert.spy(HBD.TranslateZoneCoordinates).was.called(6)
+            assert.spy(Geometry.Build).was.called(1)
+        end)
+
+        it("skips the entire outline when a vertex cannot be translated, then retries instead of caching a partial view", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            map.mapId = 20
+            HBD.TranslateZoneCoordinates = function(_, x, y)
+                if x == 0.2 then return nil end
+                return x, y
+            end
+            Polygon.Refresh()
+            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            HBD.TranslateZoneCoordinates = spy.new(function(_, x, y) return x, y end)
+            Polygon.Refresh()
+            assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.spy(HBD.TranslateZoneCoordinates).was.called(3)
+        end)
+
+        local invalidCoordinates = {
+            {name = "nonnumeric", x = "restricted"},
+            {name = "infinite", x = math.huge},
+            {name = "NaN", x = 0 / 0},
+        }
+        for _, case in ipairs(invalidCoordinates) do
+            it("does not draw a " .. case.name .. " projected coordinate", function()
+                Update()
+                Polygon.ToggleMarker(frames[1])
+                map.mapId = 20
+                HBD.TranslateZoneCoordinates = function() return case.x, 0.1 end
+                Polygon.Refresh()
+                assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            end)
+        end
     end)
 
     it("clears rendering and releases provider and markers on disable", function()
