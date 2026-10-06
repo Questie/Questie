@@ -1,0 +1,5 @@
+Changed the 
+minDist from 0.1 -> 0.08
+change the clustering from 180
+adding the NPCs in REVERSE order when adding into the spawnlist
+objectiveIcon range from 1 to 35
