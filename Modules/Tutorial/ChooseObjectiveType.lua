@@ -34,7 +34,7 @@ end
 
 function Tutorial.CreateChooseObjectiveTypeFrame()
     local baseFrame = CreateFrame("Frame", "QuestieTutorialChooseObjectiveType", UIParent)
-    baseFrame:SetSize(760, 400)
+    baseFrame:SetSize(800, 400)
     baseFrame:SetPoint("CENTER", 0, 50)
     baseFrame:SetFrameStrata("HIGH")
     baseFrame:EnableMouse(true)
@@ -54,23 +54,32 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     else
         customText:SetText(l10n("With WotLK Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"))
     end
-    customText:SetWidth(700)
+    customText:SetWidth(740)
     customText:SetPoint("TOP", 0, -54)
 
     local onlyQuestieImage = CreateFrame("Button", nil, baseFrame)
     onlyQuestieImage:SetNormalTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyQuestie.blp")
-    onlyQuestieImage:SetSize(220, 220)
+    onlyQuestieImage:SetSize(170, 170)
     onlyQuestieImage:SetPoint("TOPLEFT", 30, -112)
 
     local pdfQuestImage = CreateFrame("Button", nil, baseFrame)
     pdfQuestImage:SetNormalTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\pfQuest.blp")
-    pdfQuestImage:SetSize(220, 220)
-    pdfQuestImage:SetPoint("TOP", 0, -112)
+    pdfQuestImage:SetSize(170, 170)
+    pdfQuestImage:SetPoint("TOPLEFT", 220, -112)
 
     local onlyBlizzardImage = CreateFrame("Button", nil, baseFrame)
     onlyBlizzardImage:SetNormalTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyBlizzard.blp")
-    onlyBlizzardImage:SetSize(220, 220)
-    onlyBlizzardImage:SetPoint("TOPRIGHT", -30, -112)
+    onlyBlizzardImage:SetSize(170, 170)
+    onlyBlizzardImage:SetPoint("TOPLEFT", 410, -112)
+
+    -- Describe the generated areas rather than showing a native-blob screenshot.
+    local polygonPreview = CreateFrame("Button", nil, baseFrame)
+    polygonPreview:SetSize(170, 170)
+    polygonPreview:SetPoint("TOPLEFT", 600, -112)
+    local polygonDescription = polygonPreview:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    polygonDescription:SetText(l10n("Clustered world-map markers.\n\nHover to preview an area.\nClick to keep it visible.\n\nMinimap icons stay unchanged."))
+    polygonDescription:SetWidth(150)
+    polygonDescription:SetPoint("CENTER")
 
     local acceptOnlyQuestieButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
     acceptOnlyQuestieButton:SetText(l10n("Questie Objectives"))
@@ -102,7 +111,18 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
         baseFrame:Hide()
     end)
 
+    local acceptPolygonButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
+    acceptPolygonButton:SetText(l10n("Questie blobs"))
+    acceptPolygonButton:SetSize(180, 28)
+    acceptPolygonButton:SetPoint("TOP", polygonPreview, "BOTTOM", 0, -16)
+    acceptPolygonButton:SetScript("OnClick", function()
+        Questie.db.global.tutorialObjectiveTypeChosen = true
+        QuestieOptionsUtils.ExecuteTheme(nil, "polygon")
+        baseFrame:Hide()
+    end)
+
     _LinkPreviewToButton(onlyQuestieImage, acceptOnlyQuestieButton)
     _LinkPreviewToButton(pdfQuestImage, acceptPfQuestButton)
     _LinkPreviewToButton(onlyBlizzardImage, acceptOnlyBlizzardButton)
+    _LinkPreviewToButton(polygonPreview, acceptPolygonButton)
 end

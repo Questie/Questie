@@ -1336,6 +1336,7 @@ _GetIconThemes = function()
     if Expansions.Current >= Expansions.Wotlk then
         return {
             ["questie"] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
+            ["polygon"] = l10n("Questie blobs"),
             ["blizzard"] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
             ["pfquest"] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
             ["custom"] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
@@ -1343,6 +1344,7 @@ _GetIconThemes = function()
     else
         return {
             ["questie"] = "|T" .. Questie.icons["complete"] .. ":14|t Questie",
+            ["polygon"] = l10n("Questie blobs"),
             ["pfquest"] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
             ["custom"] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
         }
@@ -1353,6 +1355,7 @@ _GetIconThemesSort = function()
     if Expansions.Current >= Expansions.Wotlk then
         return {
             "questie",
+            "polygon",
             "blizzard",
             "pfquest",
             "custom",
@@ -1360,6 +1363,7 @@ _GetIconThemesSort = function()
     else
         return {
             "questie",
+            "polygon",
             "pfquest",
             "custom",
         }
@@ -1367,7 +1371,10 @@ _GetIconThemesSort = function()
 end
 
 function QuestieOptionsUtils.DetermineTheme()
-    if (GetCVar("questPOI") == "1" and Questie.db.profile.enableObjectives == false) then
+    -- Icon customization does not change the selected rendering mode.
+    if Questie.db.profile.enableQuestiePolygons then
+        Questie.db.profile.iconTheme = "polygon"
+    elseif (GetCVar("questPOI") == "1" and Questie.db.profile.enableObjectives == false) then
         Questie.db.profile.iconTheme = "blizzard"
     else
         if (Questie.db.profile.enableObjectives == true and
@@ -1406,7 +1413,8 @@ end
 
 function QuestieOptionsUtils.ExecuteTheme(info, value)
     Questie.db.profile.iconTheme = value
-    if value == "questie" then
+    if value == "questie" or value == "polygon" then
+        Questie.db.profile.enableQuestiePolygons = value == "polygon"
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
         end
@@ -1427,6 +1435,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
         Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "pfquest" then
+        Questie.db.profile.enableQuestiePolygons = false
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
         end
@@ -1447,6 +1456,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = false
         Questie.db.profile.objectiveFilterDistance = 2
     elseif value == "blizzard" then
+        Questie.db.profile.enableQuestiePolygons = false
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "1")
         end
@@ -1467,7 +1477,10 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
         Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "custom" then
-        return
+        if not Questie.db.profile.enableQuestiePolygons then
+            return
+        end
+        Questie.db.profile.enableQuestiePolygons = false
     end
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
