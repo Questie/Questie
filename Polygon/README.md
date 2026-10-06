@@ -5,7 +5,7 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 ## Player behavior
 
 - Local, incomplete quest objectives use representative cluster markers on the world map.
-- Hover a marker to preview that objective's areas on the current map and highlight only its attached cluster outline. Plain left-click on its own map toggles pinned visibility; clicking from another map first navigates there. Existing modifier and right-click actions remain unchanged.
+- Hover a marker to preview that objective's areas on the current map and highlight only its attached cluster outline. Plain left-click on its own map toggles pinned visibility for that objective. Nearly coincident markers are nudged apart visually; there is no picker. Clicking from another map first navigates there. Existing modifier and right-click actions remain unchanged.
 - Leaving clears the preview, not a pinned selection. Map changes and closing the map clear previews; pins remain in memory until objective removal or reset.
 - Isolated, collinear, and small clusters keep a point marker without an area. Rare-only targets are not discarded.
 - Ordinary minimap objective icons remain, including waypoint-only zone fallbacks. Existing world-map waypoint lines attach to cluster markers. This feature adds neither minimap polygons nor minimap waypoint rendering.
@@ -13,7 +13,19 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 
 The preset enables objective display, applies normal Questie icon preferences, and disables Blizzard quest POIs where available. Selecting another preset, including Custom, exits polygon mode. Customizing individual icon preferences does not itself exit the mode.
 
-Areas appear only on their matching UI map and follow their markers' hidden/tracking policy and fade opacity. Where supported, direct hover highlights all participating polygons whose shapes contain the cursor, including overlaps. Polygon frames accept propagated mouse motion, not clicks. Questie icon propagation, click actions, and tooltips are unchanged. Direct polygon hover does not extend a marker preview or change pinned visibility.
+Areas appear only on their matching UI map and follow their markers' hidden/tracking policy and fade opacity. Where supported, direct hover highlights all participating polygons whose shapes contain the cursor, including overlaps. Polygon frames accept propagated mouse motion, not clicks. Generic Questie icon propagation, clicks, and tooltips are unchanged; Polygon markers retain direct-click pinning. Direct polygon hover does not extend a marker preview or change pinned visibility.
+
+### Fixed horizontal marker stacks
+
+Only Polygon marker display anchors move. Markers on the same original UI map join a group when their original coordinates are within **0.01 percentage points** of its stable seed. This is a map-space tolerance, not a screen-pixel distance. Groups do not expand through neighbor chains.
+
+Seeds and slot order use quest, objective, map, and original cluster coordinates, not frame allocation order. Two markers sit left/right; three sit left/center/right. Larger groups continue the same horizontal row. Hidden, offscreen, and queued members retain their slots, so scrolling cannot rearrange the remaining icons. Pinning remains objective-wide, not per cluster.
+
+Spacing is **70% of the group's maximum current configured icon width**, measured in UIParent units. Equal 16-unit icons have offsets ±5.6; three have offsets −11.2, 0, +11.2. Applying `storedOffset * UIParentEffectiveScale / iconEffectiveScale` keeps the display displacement constant through map zoom. Membership, original coordinates, or configured widths can change the layout; zoom, pan, viewport edges, and neighboring icons cannot.
+
+There is no layout monitor, collision solver, viewport packing, safety reservation, movement limit, or picker. Map callbacks and HBD's optional child callback reapply stored offsets without regrouping. This deliberately solves coincident locations, not general clutter: unrelated icons may still overlap a stack, and large stacks can extend beyond map edges.
+
+Stored coordinates, polygon outlines, waypoint geometry, and navigation targets do not move. Other Questie icons, minimap icons, and Blizzard pins are not shifted. The retired screen-space experiment is preserved in `.scratch/polygon-nudging-experiment/`, locally gitignored with verified checksums. That archive is separate from the [original QuestieDev-Master reference package](../Blob/docs/legacy-questie-blobs/README.md).
 
 ## Modules and data flow
 
@@ -30,7 +42,8 @@ Questie objective.spawnList
 | --- | --- |
 | [PolygonGeometry.lua](PolygonGeometry.lua) | `Build(points, options, isCancelled)` computes clusters in the caller's coroutine. Returns a complete cluster array, or nil on cancellation. |
 | [PolygonRenderer.lua](PolygonRenderer.lua) | `New(canvas, hoverInput?)` creates a renderer with `Draw(shapes, width, height, frameLevel)` and idempotent `Clear()`. Owns reusable frame/texture pools and one shared hover update. |
-| [QuestiePolygon.lua](QuestiePolygon.lua) | Questie adapter: source collection, cache, marker ownership, visibility, map provider, and cleanup. Keeps Questie-specific policy out of geometry/rendering. |
+| [PolygonNudging.lua](PolygonNudging.lua) | `Calculate(items)` assigns horizontal slots from original map coordinates and configured widths. `New(UIParent)` owns application through `Update(markers, iconScale)`, `Apply`, `Reapply`, `SetEnabled`, `Remove`, and `Clear`. |
+| [QuestiePolygon.lua](QuestiePolygon.lua) | Questie adapter: source collection, cache, marker ownership, visibility, layout scheduling, map provider, and cleanup. Keeps Questie-specific policy out of geometry/rendering. |
 
 There is no runtime dependency on `Blob/` or `QuestPOI/`, native geometry extraction, provider writes, or disk cache. Spawn completeness is limited by QuestieDB's data.
 
@@ -59,7 +72,7 @@ The adapter supplies these only when the native focus reader and map cursor gett
 
 One shared update checks every 80 ms, including cursor movement within an unchanged rectangular frame. It highlights every participating polygon whose actual outline contains the cursor; edges and vertices count as inside. Rectangular overlap alone is insufficient. The focus stack is not every overlapping frame: UI that stops propagation excludes underlying polygons from direct hover.
 
-The effective highlight set combines these geometric hits with each shape's `highlighted` request. The adapter sets that flag only when its specific marker is hovered, not for every cluster in the objective. Marker highlighting works without native hover APIs, and leaving a polygon cannot erase a still-active marker highlight. No propagation changes are applied to Questie icons.
+The effective highlight set combines these geometric hits with each shape's `highlighted` request. The adapter sets that flag for the specific hovered marker, not for every cluster in the objective. Marker highlighting works without native hover APIs, and leaving a polygon cannot erase a still-active marker highlight. No propagation changes are applied to Questie icons.
 
 Each highlighted border becomes 20% thicker and its RGB increases 25%, capped at 1; border alpha stays unchanged. Borders restyle only when effective selection changes, without rebuilding geometry. Showing a drawing immediately reevaluates highlights, including a stationary cursor; native focus-stack refresh timing still needs live validation.
 
@@ -80,6 +93,10 @@ Two identities protect asynchronous work:
 
 `RemoveObjective`, `RemoveQuest`, and `Reset` invalidate ownership before releasing markers. Reset also cancels deferred refreshes, clears cached/pinned state, and detaches the map provider. The cleared renderer and detached provider are retained for reuse: WoW native regions must not become unreachable on every mode/profile reset.
 
+Fixed stacking owns only icon display anchors, guarded by marker and HBD-wrapper identity. Hiding the map or detaching the provider disables offsets but retains slots. Removal and reset clear owned callbacks and restore centered anchors before pooling. No periodic layout driver is allocated.
+
+HBD calls the optional `icon:OnWorldMapPinUpdated(pin)` after wrapper acquisition and scale handling. This restores the stored offset even when a still-visible icon is reanchored without an `OnShow` event. Zoom reapplication stays per-pin; ordinary panning does not trigger stack work. The version-17 upgrade refreshes these methods on active and inactive cached wrappers. A single retained `QuestieMap.RescaleIcons` observer schedules a configured-width refresh after preference setters finish; it is inert while detached. Width uses the current `data:GetIconScale()` value, with cached/unit fallbacks, rather than animated or zoomed frame dimensions.
+
 `GetObjectiveMarkers(objective)` returns borrowed frame references for tracker highlighting, not a second cleanup owner. Ordinary minimap pins remain in Questie's `AlreadySpawned` references. Polygon owns the cluster map markers; existing waypoint lines follow their owning marker's lifecycle.
 
 ## Integration points outside this directory
@@ -89,13 +106,14 @@ Keep these hooks small when merging changes from Questie:
 | Existing code | Polygon connection |
 | --- | --- |
 | [QuestieQuest](../Modules/Quest/QuestieQuest.lua) | Shared objective/tooltips first; select ordinary minimap versus clustered map drawing, validate waypoint tokens, remove completed/empty objectives, and reset at `SmoothReset`/`ClearAllNotes`. |
-| [QuestieMap](../Modules/Map/QuestieMap.lua) | Optional `DrawWorldIcon(..., destination)` selects `"map"` or `"minimap"`; omitted means the existing paired output. Full quest-frame unload also removes Polygon ownership. |
+| [QuestieMap](../Modules/Map/QuestieMap.lua) | Optional `DrawWorldIcon(..., destination)` selects `"map"` or `"minimap"`; omitted means the existing paired output. Full quest-frame unload also removes Polygon ownership. Its resize observer refreshes configured stack spacing. |
+| [HBD-Pins](../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) | Optional child callback after acquisition and scale handling reapplies stored presentation offsets; HBD geographic positions remain unchanged. |
 | [QuestieFrame](../Modules/FramePool/QuestieFrame.lua), [MapIconTooltip](../Modules/Tooltips/MapIconTooltip.lua) | Marker enter/leave/click, removal, and visibility/fade notifications; no accumulating per-frame hooks. |
 | [TrackerUtils](../Modules/Tracker/TrackerUtils.lua) | Borrow cluster markers for Show on Map; refresh fill visibility and guard delayed animation against recycled frames. |
 | [Questie.lua](../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
 | [Icon options](../Modules/Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../Modules/Tutorial/ChooseObjectiveType.lua), [defaults](../Modules/Options/QuestieOptionsDefaults.lua), [migration](../Modules/Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 42. |
 
-All six flavor TOCs load geometry, renderer, then adapter before `Questie.lua`. [Release packaging](../build.py) includes `Polygon/` and excludes adjacent tests; [CI](../.github/workflows/ci.yml) includes Polygon in linting. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
+All six flavor TOCs load geometry, renderer, nudging, then adapter before `Questie.lua`. [Release packaging](../build.py) includes `Polygon/` and excludes adjacent tests; [CI](../.github/workflows/ci.yml) includes Polygon in linting. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
 
 ## Validation
 
@@ -110,12 +128,20 @@ uv run --no-project python build.test.py
 git diff --check
 ```
 
-Adjacent tests cover geometry/cancellation, workload resume limits, rendering/pool failures, geometric hover selection and cleanup, capability fallback, cache identity, waypoint ownership, tracker integration, and marker visibility. Validation so far is offline; mocks establish neither native focus propagation nor click/drag pass-through. Earlier workbench results do not establish live correctness for this integration.
+Adjacent tests cover geometry/cancellation, workload resume limits, rendering/pool failures, geometric hover selection and cleanup, capability fallback, cache identity, waypoint ownership, tracker integration, and marker visibility. Fixed-stack tests cover map-space grouping, deterministic horizontal slots, scale invariance, configured-width changes, queued/reacquired wrappers, library upgrades, hidden-member stability, and pool cleanup. For focused layout checks, run:
+
+```bash
+busted Polygon/PolygonNudging.test.lua Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
+```
+
+Validation of the simplified stacks is offline only; they still need a user reload and live review. Earlier user-confirmed behavior concerned the retired screen-space experiment, not this implementation. No agent performed a reload or live test for this replacement. Mocks establish neither native anchoring and input timing nor click/drag pass-through.
 
 With separate permission for a development client, verify:
 
 - Popup layout and mode switching at normal and unusual UI scales.
 - Marker preview/pinning, exact marker-to-outline highlighting, simultaneous overlap highlights, UI blockers, and edges.
+- Overlapping markers for quests 317 and 384: visible separation, independent direct-click pin/unpin, and correct marker-to-polygon highlighting.
+- Stable slot order and on-screen spacing through zoom/pan, fractional UI scales, queued/reacquired wrappers, icon-size settings, and disable/re-enable with the map open. Check large stacks and map edges with the deliberate lack of collision avoidance or edge clamping.
 - Native motion propagation, unchanged map clicks/dragging, and stationary-cursor focus after redraw.
 - Map navigation, zoom/pan, resizing, and reopening.
 - Progress, completion/removal, untracking/hiding, phase changes, profile changes, and disable/re-enable.

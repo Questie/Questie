@@ -26,6 +26,8 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 local PolygonGeometry = QuestieLoader:ImportModule("PolygonGeometry")
 ---@type PolygonRenderer
 local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
+---@type PolygonNudging
+local PolygonNudging = QuestieLoader:ImportModule("PolygonNudging")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieFramePool
@@ -40,15 +42,53 @@ local Phasing = QuestieLoader:ImportModule("Phasing")
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 ---@type table<QuestId, table<ObjectiveIndex, PolygonObjectiveEntry>>
 local entries = {}
+-- Presentation objects survive resets; objective entries and pending callbacks do not.
 local provider
 local renderer
-local refreshPending = false
-local epoch = 0
+local nudging
 local Provider = {}
+local refreshPending = false
+local nudgePending = false
+local refreshEpoch = 0
 
 function QuestiePolygon.IsEnabled()
     local profile = Questie.db.profile
     return profile.enableQuestiePolygons == true and profile.enableObjectives ~= false and profile.enabled ~= false
+end
+
+-- Original map locations define the stacks. Hidden, queued, and offscreen members
+-- retain their slots so scrolling and temporary visibility changes cannot rearrange icons.
+function QuestiePolygon.UpdateNudging()
+    if not nudging then return end
+    local currentMarkers = {}
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            if entry.active and not entry.building and not entry.objective.Completed
+                and QuestiePlayer.currentQuestlog[entry.quest.Id] == entry.quest then
+                for _, marker in ipairs(entry.markers) do
+                    local frame = marker.frame
+                    if frame.polygonMarker == marker and frame.data and not frame.miniMapIcon then
+                        currentMarkers[#currentMarkers + 1] = marker
+                    end
+                end
+            end
+        end
+    end
+    local map = provider and provider.owningMap
+    nudging:SetEnabled(map ~= nil and map:IsShown() and QuestiePolygon.IsEnabled())
+    nudging:Update(currentMarkers, Questie.db.profile.globalScale or 0.7)
+end
+
+-- Coalesce membership/size changes; HBD acquisition and zoom callbacks only reapply stored slots.
+function QuestiePolygon.ScheduleNudging()
+    if not nudging or not provider or not provider.owningMap or nudgePending then return end
+    nudgePending = true
+    local scheduledEpoch = refreshEpoch
+    C_Timer.After(0, function()
+        if refreshEpoch ~= scheduledEpoch then return end
+        nudgePending = false
+        QuestiePolygon.UpdateNudging()
+    end)
 end
 
 -- The map provider owns drawing only. Marker visibility remains Questie's policy;
@@ -74,8 +114,12 @@ function QuestiePolygon.Refresh()
                         local alpha = frame.texture.a or 1
                         if alpha > 0 then
                             local color = entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
-                            shapes[#shapes + 1] = {points = outline, color = {color[1], color[2], color[3], 0.25 * alpha},
-                                borderAlpha = 0.75 * alpha, highlighted = entry.hovered == frame}
+                            shapes[#shapes + 1] = {
+                                points = outline,
+                                color = {color[1], color[2], color[3], 0.25 * alpha},
+                                borderAlpha = 0.75 * alpha,
+                                highlighted = entry.hovered == frame,
+                            }
                         end
                     end
                 end
@@ -91,9 +135,9 @@ end
 function QuestiePolygon.ScheduleRefresh()
     if not renderer or not provider or not provider.owningMap or refreshPending then return end
     refreshPending = true
-    local scheduledEpoch = epoch
+    local scheduledEpoch = refreshEpoch
     C_Timer.After(0, function()
-        if epoch ~= scheduledEpoch then return end
+        if refreshEpoch ~= scheduledEpoch then return end
         refreshPending = false
         QuestiePolygon.Refresh()
     end)
@@ -101,18 +145,22 @@ end
 
 function Provider:OnAdded(map)
     self.owningMap = map
+    nudging:SetEnabled(map:IsShown() and QuestiePolygon.IsEnabled())
 end
 
 function Provider:OnRemoved()
+    nudging:SetEnabled(false)
     renderer:Clear()
     self.owningMap = nil
 end
 
 function Provider:RefreshAllData()
+    QuestiePolygon.UpdateNudging()
     QuestiePolygon.Refresh()
 end
 
 function Provider:OnMapChanged()
+    nudging:Reapply()
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
             entry.hovered = nil
@@ -122,14 +170,17 @@ function Provider:OnMapChanged()
 end
 
 function Provider:OnCanvasSizeChanged()
+    nudging:Reapply()
     QuestiePolygon.Refresh()
 end
 
 function Provider:OnShow()
+    QuestiePolygon.UpdateNudging()
     QuestiePolygon.Refresh()
 end
 
 function Provider:OnHide()
+    nudging:SetEnabled(false)
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
             entry.hovered = nil
@@ -144,6 +195,7 @@ local function _ReleaseMarkers(entry)
     local markers = entry.markers
     entry.markers = {}
     for _, marker in ipairs(markers) do
+        if nudging then nudging:Remove(marker.frame) end
         marker.frame.polygonMarker = nil
         QuestieFramePool:UnloadFrame(marker.frame)
     end
@@ -158,6 +210,7 @@ function QuestiePolygon.RemoveObjective(questId, objectiveIndex)
     _ReleaseMarkers(entry)
     if not next(questEntries) then entries[questId] = nil end
     QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
 end
 
 function QuestiePolygon.RemoveQuest(questId)
@@ -169,11 +222,13 @@ function QuestiePolygon.RemoveQuest(questId)
         _ReleaseMarkers(entry)
     end
     QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
 end
 
 function QuestiePolygon.Reset()
-    epoch = epoch + 1
-    refreshPending = false
+    refreshEpoch = refreshEpoch + 1
+    refreshPending, nudgePending = false, false
+    if nudging then nudging:Clear() end
     local oldEntries = entries
     entries = {}
     for _, questEntries in pairs(oldEntries) do
@@ -194,6 +249,7 @@ end
 function QuestiePolygon.MarkerRemoved(frame)
     local marker = frame.polygonMarker
     if not marker then return end
+    if nudging then nudging:Remove(frame) end
     frame.polygonMarker = nil
     marker.entry.hovered = nil
     for i, owned in ipairs(marker.entry.markers) do
@@ -203,10 +259,14 @@ function QuestiePolygon.MarkerRemoved(frame)
         end
     end
     QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
 end
 
 function QuestiePolygon.MarkerChanged(frame)
-    if frame.polygonMarker then QuestiePolygon.ScheduleRefresh() end
+    if frame.polygonMarker then
+        QuestiePolygon.ScheduleRefresh()
+        QuestiePolygon.ScheduleNudging()
+    end
 end
 
 function QuestiePolygon.EnterMarker(frame)
@@ -227,7 +287,8 @@ end
 
 function QuestiePolygon.ToggleMarker(frame)
     local marker = frame.polygonMarker
-    if marker and marker.entry.active and not marker.entry.building and not frame.hidden and not frame:ShouldBeHidden() then
+    if marker and QuestiePolygon.IsEnabled() and marker.entry.active and not marker.entry.building
+        and not marker.entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
         marker.entry.pinned = not marker.entry.pinned
         QuestiePolygon.ScheduleRefresh()
     end
@@ -243,6 +304,7 @@ function QuestiePolygon.IsCurrentObjective(work)
         and not entry.objective.Completed and QuestiePlayer.currentQuestlog[entry.quest.Id] == entry.quest
 end
 
+---Adopts a fallback map marker for this generation, or unloads it when the work is stale.
 ---@param frame IconFrame
 ---@param work PolygonObjectiveWork?
 ---@return boolean accepted
@@ -255,6 +317,7 @@ function QuestiePolygon.OwnWaypointMarker(frame, work)
     local marker = {frame = frame, entry = entry}
     frame.polygonMarker = marker
     entry.markers[#entry.markers + 1] = marker
+    QuestiePolygon.ScheduleNudging()
     return true
 end
 
@@ -285,23 +348,27 @@ end
 ---@param objective QuestObjective
 ---@param objectiveIndex ObjectiveIndex Used only when objective.Index has not been assigned.
 ---@async
----@return table? icon
----@return table iconPerZone
+---@return table? icon Representative metadata for waypoint fallback pins; nil when no new markers were drawn.
+---@return table<AreaId, table> iconPerZone Newly drawn route owners as {frame, x, y}, with original percentage coordinates.
 ---@return PolygonObjectiveWork? waypointWork
 function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
-    local index = objective.Index or objectiveIndex
+    -- Special objectives share the passed index 0; their assigned Index is the cache identity.
+    local canonicalIndex = objective.Index or objectiveIndex
     if not QuestiePolygon.IsEnabled() or objective.IsPartyObjective or objective.Completed
         or QuestiePlayer.currentQuestlog[quest.Id] ~= quest then
-        QuestiePolygon.RemoveObjective(quest.Id, index)
+        QuestiePolygon.RemoveObjective(quest.Id, canonicalIndex)
         return nil, {}
     end
 
     local questEntries = entries[quest.Id]
-    if not questEntries then questEntries = {}; entries[quest.Id] = questEntries end
-    local entry = questEntries[index]
+    if not questEntries then
+        questEntries = {}
+        entries[quest.Id] = questEntries
+    end
+    local entry = questEntries[canonicalIndex]
     if not entry then
         entry = {active = true, markers = {}, revision = 0, generation = 0}
-        questEntries[index] = entry
+        questEntries[canonicalIndex] = entry
     end
     entry.revision = entry.revision + 1
     entry.quest, entry.objective = quest, objective
@@ -311,8 +378,9 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             or objective.Completed or QuestiePlayer.currentQuestlog[quest.Id] ~= quest
     end
 
-    local points, signatures, currentPoints = {}, {}, {}
-    local work = 0
+    -- Collect the full eligible source set before comparing geometry signatures.
+    local points, signatureParts, pointsByKey = {}, {}, {}
+    local collectedSpawnCount = 0
     for targetKey, spawnData in pairs(objective.spawnList or {}) do
         for areaId, spawns in pairs(spawnData.Spawns or {}) do
             for _, spawn in ipairs(spawns) do
@@ -326,21 +394,25 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                         local x, y = location[2], location[3]
                         if uiMapId and type(x) == "number" and type(y) == "number"
                             and x >= 0 and x <= 100 and y >= 0 and y <= 100 then
-                            local wx, wy, instanceId = HBD:GetWorldCoordinatesFromZone(x / 100, y / 100, uiMapId)
-                            if wx and wy and instanceId then
-                                local key = table.concat({tostring(targetKey), location[1], uiMapId, instanceId, x, y, wx, wy}, ":")
-                                local point = {x = x, y = y, worldX = wx, worldY = wy, uiMapId = uiMapId,
-                                    instanceId = instanceId, areaId = location[1], key = key, targetKey = targetKey, spawnData = spawnData}
+                            local worldX, worldY, instanceId = HBD:GetWorldCoordinatesFromZone(x / 100, y / 100, uiMapId)
+                            if worldX and worldY and instanceId then
+                                local key = table.concat({tostring(targetKey), location[1], uiMapId, instanceId,
+                                    x, y, worldX, worldY}, ":")
+                                local point = {
+                                    x = x, y = y, worldX = worldX, worldY = worldY,
+                                    uiMapId = uiMapId, instanceId = instanceId, areaId = location[1],
+                                    key = key, targetKey = targetKey, spawnData = spawnData,
+                                }
                                 points[#points + 1] = point
-                                signatures[#signatures + 1] = key
-                                currentPoints[key] = point
+                                signatureParts[#signatureParts + 1] = key
+                                pointsByKey[key] = point
                             end
                         end
                     end
                 end
-                work = work + 1
-                if work >= 200 then
-                    work = 0
+                collectedSpawnCount = collectedSpawnCount + 1
+                if collectedSpawnCount >= 200 then
+                    collectedSpawnCount = 0
                     coroutine.yield()
                     if isCancelled() then return nil, {} end
                 end
@@ -348,36 +420,40 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         end
     end
     if isCancelled() then return nil, {} end
-    table.sort(signatures)
-    local signature = table.concat(signatures, "|")
+    table.sort(signatureParts)
+    local signature = table.concat(signatureParts, "|")
+
+    -- Progress-only updates refresh marker metadata while retaining geometry and route ownership.
     if entry.signature == signature then
         for _, marker in ipairs(entry.markers) do
-            local data = marker.frame.data
+            local frame = marker.frame
+            local data = frame.data
             if data then
                 data.QuestData, data.ObjectiveData = quest, objective
-                local point = marker.cluster and currentPoints[marker.cluster.representative.key]
+                local point = marker.cluster and pointsByKey[marker.cluster.representative.key]
                 if point then
                     local spawnData = point.spawnData
                     data.Name, data.ObjectiveTargetId = spawnData.Name, spawnData.Id
                     data.Icon, data.IconColor = spawnData.Icon or objective.Icon, quest.Color
                     data.GetIconScale, data.IconScale = spawnData.GetIconScale, spawnData.GetIconScale()
                 end
-                local alpha = marker.frame.texture.a
-                marker.frame:UpdateTexture(Questie.usedIcons[data.Icon])
+                local alpha = frame.texture.a
+                frame:UpdateTexture(Questie.usedIcons[data.Icon])
                 -- UpdateTexture resets the base size; cached markers skip ProcessQueue's map scaling.
-                QuestieMap.utils.RescaleIcon(marker.frame, QuestieMap.GetScaleValue())
+                QuestieMap.utils.RescaleIcon(frame, QuestieMap.GetScaleValue())
                 if alpha then
-                    local texture = marker.frame.texture
+                    local texture = frame.texture
                     texture:SetVertexColor(texture.r, texture.g, texture.b, alpha)
                 end
             end
         end
         QuestiePolygon.ScheduleRefresh()
+        QuestiePolygon.ScheduleNudging()
         return nil, {}, {entry = entry, generation = entry.generation}
     end
 
-    -- Drop old geometry while its replacement is being calculated. No partial batch
-    -- is drawn, and Reset/RemoveObjective invalidate the captured entry before resuming.
+    -- Hide outlines until replacement geometry and markers are ready. Bumping the generation
+    -- invalidates earlier waypoint work before its marker frames can be recycled.
     entry.signature, entry.hovered, entry.building = nil, nil, true
     entry.generation = entry.generation + 1
     local waypointWork = {entry = entry, generation = entry.generation}
@@ -386,6 +462,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     local clusters = PolygonGeometry.Build(points, nil, isCancelled)
     if not clusters or isCancelled() then return nil, {} end
 
+    -- Lazily retain one provider, renderer, layout, and size-change hook across resets.
     if not provider then
         provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
         local scrollContainer = WorldMapFrame.ScrollContainer
@@ -396,16 +473,23 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             end}
         end
         renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), hoverInput)
+        nudging = PolygonNudging.New(UIParent)
+        -- Preference setters resize before writing their new value. Read configured
+        -- widths on the next frame; this single retained hook is inert while detached.
+        hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)
     end
     if not provider.owningMap then WorldMapFrame:AddDataProvider(provider) end
+    -- Allocate markers with generation ownership before publishing this batch for hover or pinning.
     local icon, iconPerZone = nil, {}
     for clusterIndex, cluster in ipairs(clusters) do
-        local point = currentPoints[cluster.representative.key]
+        local point = pointsByKey[cluster.representative.key]
         local spawnData = point.spawnData
-        local data = {Id = quest.Id, ObjectiveIndex = index, QuestData = quest, ObjectiveData = objective,
+        local data = {
+            Id = quest.Id, ObjectiveIndex = canonicalIndex, QuestData = quest, ObjectiveData = objective,
             Icon = spawnData.Icon or objective.Icon, IconColor = quest.Color, Name = spawnData.Name,
-            Type = objective.Type, ObjectiveTargetId = spawnData.Id, GetIconScale = spawnData.GetIconScale,
-            IconScale = spawnData.GetIconScale()}
+            Type = objective.Type, ObjectiveTargetId = spawnData.Id,
+            GetIconScale = spawnData.GetIconScale, IconScale = spawnData.GetIconScale(),
+        }
         local frame = QuestieMap:DrawWorldIcon(data, point.areaId, cluster.x, cluster.y, nil, nil, "map")
         if frame then
             local marker = {frame = frame, entry = entry, cluster = cluster}
@@ -421,6 +505,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     end
     entry.building = nil
     entry.signature = signature
+    QuestiePolygon.ScheduleNudging()
     QuestiePolygon.ScheduleRefresh()
     return icon, iconPerZone, waypointWork
 end
