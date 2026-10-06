@@ -642,7 +642,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
             -- Don't label the objective with the local player's name when it belongs to a
             -- party member and the local player doesn't have the quest themselves.
             if anotherPlayer and (not iconData.ObjectiveData.IsPartyObjective) then
-                local name = UnitName("player");
+                local name = GetUnitName("player", true);
                 local playerClass = UnitClassBase("player")
                 local _, _, _, argbHex = GetClassColor(playerClass)
                 name = " " .. l10n("(") .. "|c" .. argbHex .. name .. "|r" .. color .. l10n(")") .. "|r";

@@ -102,7 +102,7 @@ skip("DailyQuestComms", function()
         it("should reject own HideDailyQuests events", function()
             CommsEncoding.DecodePayload = spy.new(function() end)
 
-            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", UnitName("player"))
+            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", GetUnitName("player", true))
 
             assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()
@@ -111,7 +111,7 @@ skip("DailyQuestComms", function()
         it("should reject own HideDailyQuests events when sender is in realm format", function()
             CommsEncoding.DecodePayload = spy.new(function() end)
 
-            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", UnitName("player") .. "-" .. GetRealmName())
+            DailyQuestComms.OnCommReceived("QuestieDailiesV2", "eventAsSerializedString", "GUILD", GetUnitName("player", true) .. "-" .. GetRealmName())
 
             assert.spy(CommsEncoding.DecodePayload).was.not_called()
             assert.spy(AvailableQuests.RemoveQuestsForToday).was.not_called()

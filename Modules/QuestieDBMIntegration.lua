@@ -19,7 +19,7 @@ local OutlandPoints = {}--Maintains Outland objective list
 local NorthrendPoints = {}--Maintains Northrend Kingdoms objective list
 local PandariaPoints = {}--Maintains Pandaria objective list
 local AddedHudIds = {}--Tracking table of all active hud markers
-local playerName = UnitName("player")
+local playerName = GetUnitName("player", true)
 local QuestieHUDEnabled = false
 
 ----------------------------------------------

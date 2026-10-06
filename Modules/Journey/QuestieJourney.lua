@@ -128,7 +128,7 @@ function QuestieJourney:BuildMainFrame()
                 notesPopupWinIsOpen = false
             end
         end)
-        journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
+        journeyFrame:SetTitle(l10n("%s's Journey", GetUnitName("player", true)))
         journeyFrame:SetLayout("Fill")
         journeyFrame:EnableResize(true)
         journeyFrame:SetWidth(1000)

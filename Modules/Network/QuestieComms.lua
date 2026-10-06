@@ -823,7 +823,7 @@ end
 ---@param playerName string @The player said package should be added to.
 function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
     --We don't want to insert our own quest data.
-    if questPacket and playerName ~= UnitName("player") then
+    if questPacket and playerName ~= GetUnitName("player", true) then
         --Does it contain id and objectives?
         if (questPacket.objectives and questPacket.id) then
             -- Create empty quest.
@@ -933,7 +933,7 @@ _QuestieComms.packets = {
             --else
             --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER") -- player doesnt have new questie, use old packet
             --end
-            if UnitName("Player") ~= self.playerName then
+            if GetUnitName("player", true) ~= self.playerName then
                 local major, _, _ = strsplit(".", self.ver)
                 if tonumber(major) > 5 then
                     _QuestieComms:BroadcastQuestLogV2("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
@@ -1036,7 +1036,7 @@ end
 function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
     --print("[" .. distribution .."][" .. sender .. "] " .. message)
     Questie.Debug(Questie.DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:", string.len(message))
-    if message and sender and sender ~= UnitName("player") then
+    if message and sender and sender ~= GetUnitName("player", true) then
         local decompressedData
         if distribution == "YELL" then
             --print("Decompressing YELL data")

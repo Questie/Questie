@@ -47,7 +47,7 @@ function DailyQuestComms.Initialize()
     -- TODO: Re-enable once we fixed the daily quest comms problems
     -- Questie:RegisterComm(COMM_PREFIX, DailyQuestComms.OnCommReceived)
 
-    playerName = UnitName("player")
+    playerName = GetUnitName("player", true)
     realmName = GetRealmName()
 end
 

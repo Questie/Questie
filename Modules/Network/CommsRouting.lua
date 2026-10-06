@@ -28,7 +28,7 @@ end
 ---@param sender string
 ---@return boolean
 function CommsRouting:IsSelf(sender)
-    return sender == UnitName("player")
+    return sender == GetUnitName("player", true)
 end
 
 ---Returns true when the addon message arrived over a grouped distribution from a grouped sender.

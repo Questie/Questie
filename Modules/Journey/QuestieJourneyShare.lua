@@ -20,7 +20,7 @@ local _validSubTypes = {Accept = true, Complete = true, Abandon = true}
 ---Returns journey data for all other characters on this account that have journey entries
 ---@return table<string, table> charKey -> journeyData
 local function _GetOtherCharactersWithJourney()
-    local currentKey = UnitName("player") .. " - " .. GetRealmName()
+    local currentKey = GetUnitName("player", true) .. " - " .. GetRealmName()
     local results = {}
     for charKey, charData in pairs((QuestieConfig and QuestieConfig.char) or {}) do
         if charKey ~= currentKey and charData.journey and #charData.journey > 0 then
