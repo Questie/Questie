@@ -5,6 +5,7 @@ describe("TrackerQuestLogSnapshot", function()
     local Snapshot, TrackerData, TrackerUtils, entries, cached, completion, completionText
     local titleMock, indexMock, countMock, itemCountMock, itemSpellMock, equippableMock, addonMock
     local instanceMock, specialItemMock, completionTextMock, colorizeMock, originalQuestLog
+    local widthMock, heightMock, legacyTimersMock, selectMock
 
     before_each(function()
         Questie.db.profile = {trackerSortObjectives = "byZone", autoTrackQuests = true}
@@ -35,12 +36,21 @@ describe("TrackerQuestLogSnapshot", function()
         itemSpellMock = stub(compat, "GetItemSpell", function() return nil end)
         equippableMock = stub(compat, "IsEquippableItem", function() return false end)
         addonMock = stub(compat, "IsAddOnLoaded", function() return false end)
+        widthMock = stub(_G, "GetScreenWidth", function() return 2000 end)
+        heightMock = stub(_G, "GetScreenHeight", function() return 1000 end)
+        legacyTimersMock = stub(compat, "GetQuestTimers", function() return nil end)
+        selectMock = stub(compat, "SelectQuestLogEntry")
         instanceMock = stub(_G, "GetInstanceInfo", function() return "Outside", "none" end)
         specialItemMock = stub(_G, "GetQuestLogSpecialItemInfo", function() return nil end)
         completionTextMock = stub(_G, "GetQuestLogCompletionText", function() return completionText end)
         originalQuestLog = _G.C_QuestLog
-        _G.C_QuestLog = {GetInfo = function() end}
+        _G.C_QuestLog = {
+            GetInfo = function() end,
+            GetQuestTimers = spy.new(function() return {} end),
+            GetMaxNumQuestsCanAccept = function() return 25 end,
+        }
         QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id) return cached[id] end
+        QuestieLoader:ImportModule("QuestLogCache").GetQuestCount = function() return 1 end
         QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
         QuestieLoader:ImportModule("QuestieDB").IsComplete = function() return completion end
         local lib = QuestieLoader:ImportModule("QuestieLib")
@@ -54,7 +64,6 @@ describe("TrackerQuestLogSnapshot", function()
         dofile("Modules/Tracker/TrackerQuestLogSnapshot.lua")
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
-        QuestieLoader:ImportModule("TrackerQuestTimers").GetRemainingTimeByQuestId = function() return nil end
         Snapshot = QuestieLoader:ImportModule("TrackerQuestLogSnapshot")
         TrackerData.Refresh()
     end)
@@ -71,6 +80,10 @@ describe("TrackerQuestLogSnapshot", function()
         specialItemMock:revert()
         completionTextMock:revert()
         colorizeMock:revert()
+        widthMock:revert()
+        heightMock:revert()
+        legacyTimersMock:revert()
+        selectMock:revert()
         _G.C_QuestLog = originalQuestLog
     end)
 
@@ -134,6 +147,30 @@ describe("TrackerQuestLogSnapshot", function()
         assert.is_false(Snapshot.IsUnchanged(current, rendered))
     end)
 
+    it("detects changes to screen dimensions used by wrapping and viewport limits", function()
+        local rendered = Snapshot.Capture()
+        widthMock.returns(1000)
+        assert.is_false(Snapshot.IsUnchanged(Snapshot.Capture(), rendered))
+
+        widthMock.returns(2000)
+        heightMock.returns(800)
+        assert.is_false(Snapshot.IsUnchanged(Snapshot.Capture(), rendered))
+    end)
+
+    it("detects a changed cached header count without changed native membership", function()
+        local rendered = Snapshot.Capture()
+        QuestieLoader:ImportModule("QuestLogCache").GetQuestCount = function() return 2 end
+
+        assert.is_false(Snapshot.IsUnchanged(Snapshot.Capture(), rendered))
+    end)
+
+    it("detects a changed quest-log capacity displayed by the header", function()
+        local rendered = Snapshot.Capture()
+        C_QuestLog.GetMaxNumQuestsCanAccept = function() return 35 end
+
+        assert.is_false(Snapshot.IsUnchanged(Snapshot.Capture(), rendered))
+    end)
+
     it("detects a changed native header", function()
         local rendered = Snapshot.Capture()
         entries[1].title = "Elwynn Forest"
@@ -189,6 +226,26 @@ describe("TrackerQuestLogSnapshot", function()
         assert.is_false(Snapshot.IsUnchanged(Snapshot.Capture(), rendered))
     end)
 
+    it("does not query or compare completion instructions hidden by minimal formatting", function()
+        Questie.db.profile.trackerColorObjectives = "minimal"
+        local rendered = Snapshot.Capture()
+        completionText = "Return to the abbey."
+
+        assert.is_true(Snapshot.IsUnchanged(Snapshot.Capture(), rendered))
+        assert.spy(completionTextMock).was.not_called()
+    end)
+
+    it("checks all item candidates before querying display text", function()
+        entries[3] = {title = "Another quest", id = 91742, level = 2}
+        TrackerData.Refresh()
+        TrackerUtils.GetQuestItemIds = function(quest)
+            return quest.Id == 91742 and {90001} or {}
+        end
+
+        assert.is_nil(Snapshot.Capture())
+        assert.spy(completionTextMock).was.not_called()
+    end)
+
     it("detects tracking and collapsed-zone changes", function()
         local rendered = Snapshot.Capture()
         Questie.db.char.AutoUntrackedQuests[91741] = true
@@ -216,10 +273,47 @@ describe("TrackerQuestLogSnapshot", function()
         assert.is_table(Snapshot.Capture())
     end)
 
-    it("keeps full rebuilds while a quest timer is active", function()
-        QuestieLoader:ImportModule("TrackerQuestTimers").GetRemainingTimeByQuestId = function() return "5 Minutes", 300 end
+    it("queries modern timers once for the whole log", function()
+        entries[3] = {title = "Another quest", id = 91742, level = 2}
+        TrackerData.Refresh()
+
+        assert.is_table(Snapshot.Capture())
+        assert.spy(C_QuestLog.GetQuestTimers).was.called(1)
+        assert.spy(selectMock).was.not_called()
+    end)
+
+    it("rejects modern quest timers before querying display text", function()
+        C_QuestLog.GetQuestTimers = spy.new(function() return {{questID = 91741, questTimer = 300}} end)
 
         assert.is_nil(Snapshot.Capture())
+        assert.spy(C_QuestLog.GetQuestTimers).was.called(1)
+        assert.spy(completionTextMock).was.not_called()
+        assert.spy(selectMock).was.not_called()
+    end)
+
+    it("ignores modern timers for quests no longer in the native log", function()
+        C_QuestLog.GetQuestTimers = function() return {{questID = 999, questTimer = 300}} end
+
+        assert.is_table(Snapshot.Capture())
+    end)
+
+    it("queries legacy timer presence once without changing quest-log selection", function()
+        C_QuestLog.GetQuestTimers = nil
+        legacyTimersMock.returns(300, 600)
+
+        assert.is_nil(Snapshot.Capture())
+        assert.spy(legacyTimersMock).was.called(1)
+        assert.spy(legacyTimersMock).was.called_with()
+        assert.spy(selectMock).was.not_called()
+        assert.spy(completionTextMock).was.not_called()
+    end)
+
+    it("allows a timer-free legacy quest log", function()
+        C_QuestLog.GetQuestTimers = nil
+
+        assert.is_table(Snapshot.Capture())
+        assert.spy(legacyTimersMock).was.called(1)
+        assert.spy(selectMock).was.not_called()
     end)
 
     it("keeps full rebuilds for proximity sorting", function()

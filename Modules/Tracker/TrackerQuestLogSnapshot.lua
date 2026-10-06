@@ -6,8 +6,8 @@ local TrackerQuestLogSnapshot = QuestieLoader:CreateModule("TrackerQuestLogSnaps
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
----@type TrackerQuestTimers
-local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type QuestieLib
@@ -16,6 +16,20 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local supportedSorts = {
     byZone = true, byLevel = true, byLevelReversed = true, byComplete = true, byCompleteReversed = true,
 }
+
+-- Capture only needs timer presence, not formatted time or a change to the selected native quest.
+local function _HasQuestTimers(quests)
+    if C_QuestLog.GetQuestTimers then
+        for _, timer in ipairs(C_QuestLog.GetQuestTimers()) do
+            if quests[timer.questID] then
+                return true
+            end
+        end
+        return false
+    end
+    -- Legacy timers have no quest IDs. Any active timer requires the conservative full-layout path.
+    return QuestieCompat.GetQuestTimers() ~= nil
+end
 
 ---Copies ordinary quest layout inputs after TrackerData.Refresh, without measuring or changing frames.
 ---Nil means extra display state is outside this comparison; retain a full rebuild in that case.
@@ -33,17 +47,34 @@ function TrackerQuestLogSnapshot.Capture()
         return nil
     end
 
-    local _, totalQuests = QuestieCompat.GetNumQuestLogEntries()
-    local snapshot = {quests = {}, totalQuests = totalQuests, expanded = char.isTrackerExpanded}
-    for questId, quest in pairs(TrackerData.GetQuests()) do
-        -- Include untracked quests in this conservative fallback. Timers and secure buttons resolve more state during layout.
-        -- Shared item selection keeps ordinary collection objectives eligible when their items are not usable.
-        if TrackerQuestTimers:GetRemainingTimeByQuestId(questId) ~= nil
-            or #TrackerUtils.GetQuestItemIds(quest, quest:IsComplete()) > 0 then
+    -- Reject unsupported logs before allocating records or querying title/completion text, including untracked quests.
+    local quests = TrackerData.GetQuests()
+    if _HasQuestTimers(quests) then
+        return nil
+    end
+    for _, quest in pairs(quests) do
+        if #TrackerUtils.GetQuestItemIds(quest, quest:IsComplete()) > 0 then
             return nil
         end
+    end
 
+    local _, totalQuests = QuestieCompat.GetNumQuestLogEntries()
+    local snapshot = {
+        quests = {},
+        totalQuests = totalQuests, -- Native count also controls tracker visibility.
+        cachedQuestCount = QuestLogCache.GetQuestCount(),
+        maxQuestCount = C_QuestLog.GetMaxNumQuestsCanAccept(),
+        expanded = char.isTrackerExpanded,
+        screenWidth = GetScreenWidth(),
+        screenHeight = GetScreenHeight(),
+    }
+    for questId, quest in pairs(quests) do
         local group = TrackerUtils.GetQuestGroupName(quest)
+        local complete = quest:IsComplete()
+        local completionText
+        if TrackerUtils.ShouldShowCompletionText(complete, false) then
+            completionText = TrackerUtils:GetCompletionText(quest)
+        end
         local entry = {
             -- Identity, title appearance and ordering.
             name = quest.name,
@@ -54,10 +85,10 @@ function TrackerQuestLogSnapshot.Capture()
             suffixPriority = QuestieLib.GetQuestTypeSuffixPriority(questId),
 
             -- Loading and completion can change without different objective text.
-            complete = quest:IsComplete(),
+            complete = complete,
             isComplete = quest.isComplete,
             objectivesLoaded = quest.objectivesLoaded,
-            completionText = TrackerUtils:GetCompletionText(quest),
+            completionText = completionText,
 
             -- Row visibility and expansion state.
             tracked = (profile.autoTrackQuests and not char.AutoUntrackedQuests[questId])

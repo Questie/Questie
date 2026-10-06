@@ -186,6 +186,13 @@ describe("TrackerUtils", function()
     end)
 
     describe("GetQuestItemIds", function()
+        it("does not query inventory for the no-source-item sentinel", function()
+            local quest = {Id = 1, sourceItemId = 0, ObjectiveData = {}}
+
+            assert.are.same({}, TrackerUtils.GetQuestItemIds(quest, 0))
+            assert.spy(getItemCountMock).was.not_called()
+        end)
+
         it("does not select ordinary item objectives without a spell or equipment slot", function()
             getItemCountMock.returns(2)
             local quest = {Id = 1, ObjectiveData = {{Type = "item", Id = 123}}}
@@ -941,6 +948,29 @@ describe("TrackerUtils", function()
             assert.is_false(TrackerUtils.SetQuestTomTomTarget(100, {Id = 100}))
             assert.spy(distance.GetNearestSpawnForQuest).was.not_called()
         end)
+    end)
+
+    describe("ShouldShowCompletionText", function()
+        local cases = {
+            {name = "ordinary instructions", complete = 1, expected = true},
+            {name = "minimal objectives", complete = 1, color = "minimal", expected = false},
+            {name = "explicitly hidden instructions", complete = 1, hide = true, expected = false},
+            {name = "failed quests", complete = -1, expected = false},
+            {name = "incomplete timed quests override minimal formatting", complete = 0,
+                timed = true, color = "minimal", expected = true},
+            {name = "incomplete timed quests override hidden instructions", complete = 0,
+                timed = true, hide = true, expected = true},
+            {name = "completed timed quests respect minimal formatting", complete = 1,
+                timed = true, color = "minimal", expected = false},
+        }
+        for _, case in ipairs(cases) do
+            it(case.name, function()
+                Questie.db.profile.trackerColorObjectives = case.color
+                Questie.db.profile.hideBlizzardCompletionText = case.hide
+
+                assert.are.equal(case.expected, TrackerUtils.ShouldShowCompletionText(case.complete, case.timed))
+            end)
+        end
     end)
 
     describe("GetCompletionText", function()

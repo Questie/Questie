@@ -899,18 +899,26 @@ end
 
 -- The baseline belongs to the last completed layout, not the latest TrackerData refresh.
 local renderedQuestLogSnapshot
-local questLogUpdateRetryPending = false
+local questLogUpdateRetry
 
--- Keep the guard through both the timer and combat queue so a quiet log still gets its trailing check.
+-- A token owns timer and queued delivery. Its generation records newer requests even when they share that delivery.
 ---@param delay number Seconds until the throttled update may run again.
 local function _ScheduleQuestLogUpdateRetry(delay)
-    if questLogUpdateRetryPending then
+    if questLogUpdateRetry then
+        questLogUpdateRetry.generation = questLogUpdateRetry.generation + 1
         return
     end
-    questLogUpdateRetryPending = true
+    local retry = {generation = 1}
+    questLogUpdateRetry = retry
     C_Timer.After(delay, function()
+        if questLogUpdateRetry ~= retry then
+            return
+        end
         QuestieCombatQueue:Queue(function()
-            questLogUpdateRetryPending = false
+            if questLogUpdateRetry ~= retry then
+                return
+            end
+            questLogUpdateRetry = nil
             QuestieTracker:Update(true)
         end)
     end)
@@ -971,6 +979,9 @@ function QuestieTracker:Update(onlyIfChanged)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:Update]")
     end
 
+    -- Retire only the retry that predates this refresh, not a request raised by callbacks during layout.
+    local retryAtStart = questLogUpdateRetry
+    local retryGenerationAtStart = retryAtStart and retryAtStart.generation
     -- Refresh once before any layout/visibility reads. Sorting and formatting consume this same snapshot.
     TrackerData.Refresh()
     -- Focus kept at startup while its quest was loading: retry against this fresh snapshot.
@@ -985,6 +996,9 @@ function QuestieTracker:Update(onlyIfChanged)
         candidateSnapshot = TrackerQuestLogSnapshot.Capture()
     end
     if onlyIfChanged and TrackerQuestLogSnapshot.IsUnchanged(candidateSnapshot, renderedQuestLogSnapshot) then
+        if retryAtStart and questLogUpdateRetry == retryAtStart and retryAtStart.generation == retryGenerationAtStart then
+            questLogUpdateRetry = nil
+        end
         return
     end
 
@@ -1111,12 +1125,9 @@ function QuestieTracker:Update(onlyIfChanged)
                     line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questMarginLeft - 8, 1)
                     line.expandQuest.zoneId = zoneName
 
-                    -- Set Completion Text
-                    local completionText = TrackerUtils:GetCompletionText(quest)
-
-                    -- Clear Blizzard Completion Text
-                    if (Questie.db.profile.hideBlizzardCompletionText or objectiveColor == "minimal") and (not timedQuest or complete ~= 0) or complete == -1 then
-                        completionText = nil
+                    local completionText
+                    if TrackerUtils.ShouldShowCompletionText(complete, timedQuest) then
+                        completionText = TrackerUtils:GetCompletionText(quest)
                     end
 
                     -- This removes any blank lines from Completion Text
@@ -1138,6 +1149,10 @@ function QuestieTracker:Update(onlyIfChanged)
                     if Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest then
                         if not Questie.db.char.collapsedQuests[quest.Id] then
                             Questie.db.char.collapsedQuests[quest.Id] = true
+                            if candidateSnapshot then
+                                -- Acknowledge the state this layout applies, not the pre-layout expansion state.
+                                candidateSnapshot.quests[quest.Id].collapsed = true
+                            end
                         end
                     else
                         -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the Zone header (MouseDown).
@@ -1905,6 +1920,9 @@ function QuestieTracker:Update(onlyIfChanged)
         if allowFormattingUpdate then
             -- A text-only refresh or startup pass cannot acknowledge these inputs as fully rendered.
             renderedQuestLogSnapshot = candidateSnapshot
+            if retryAtStart and questLogUpdateRetry == retryAtStart and retryAtStart.generation == retryGenerationAtStart then
+                questLogUpdateRetry = nil
+            end
         end
     end
 

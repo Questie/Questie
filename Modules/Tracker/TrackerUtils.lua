@@ -385,6 +385,16 @@ function TrackerUtils:IsQuestItemUsable(itemId)
     return false
 end
 
+---Shared by rendering and snapshot capture so hidden instructions neither query the client nor invalidate layout.
+---@param complete number 0 = incomplete, 1 = complete, -1 = failed.
+---@param timedQuest boolean?
+---@return boolean
+function TrackerUtils.ShouldShowCompletionText(complete, timedQuest)
+    local profile = Questie.db.profile
+    return complete ~= -1 and not ((profile.hideBlizzardCompletionText or profile.trackerColorObjectives == "minimal")
+        and (not timedQuest or complete ~= 0))
+end
+
 ---@param quest Quest
 ---@return string|nil completionText Quest Completion text string or nil
 function TrackerUtils:GetCompletionText(quest)
@@ -1086,7 +1096,7 @@ function TrackerUtils.GetQuestItemIds(quest, complete)
     end
 
     local function AddDatabaseItem(itemId)
-        if not questComplete and itemId and not tContains(usableQuestItems, itemId)
+        if not questComplete and itemId and itemId > 0 and not tContains(usableQuestItems, itemId)
             and GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
             tinsert(usableQuestItems, itemId)
         end
