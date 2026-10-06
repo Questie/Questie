@@ -52,6 +52,8 @@ describe("QuestieFrame", function()
 
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
         QuestieWaypoints.SetHighlighted = spy.new(function() end)
+        QuestieWaypoints.OwnerChanged = spy.new(function() end)
+        QuestieWaypoints.RemoveOwner = spy.new(function() end)
 
         dofile("Localization/l10n.lua")
         dofile("Modules/FramePool/QuestieFrame.lua")
@@ -213,6 +215,87 @@ describe("QuestieFrame", function()
             QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
 
             assert.stub(queueMock).was.called(1)
+        end)
+    end)
+
+    describe("polygon marker interaction", function()
+        local Polygon, QuestieCompat, saved
+        before_each(function()
+            Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+            Polygon.ToggleMarker = spy.new(function() end)
+            Polygon.LeaveMarker = spy.new(function() end)
+            Polygon.MarkerRemoved = spy.new(function(frame) frame.polygonMarker = nil end)
+            Polygon.MarkerChanged = spy.new(function() end)
+            QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            saved = {OpenWorldMap = QuestieCompat.OpenWorldMap, WorldMapFrame = _G.WorldMapFrame, IsModifierKeyDown = _G.IsModifierKeyDown,
+                IsControlKeyDown = _G.IsControlKeyDown, C_Map = _G.C_Map,
+                ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow, IsShiftKeyDown = _G.IsShiftKeyDown,
+                GameTooltip = _G.GameTooltip, WorldMapTooltip = _G.WorldMapTooltip}
+            QuestieCompat.OpenWorldMap = spy.new(function() end)
+            _G.IsModifierKeyDown = function() return false end
+            _G.IsControlKeyDown = function() return false end
+            _G.GameTooltip = {Hide = function() end}
+            _G.WorldMapTooltip = nil
+            _G.WorldMapFrame = {IsShown = function() return true end, GetMapID = function() return 10 end,
+                SetMapID = spy.new(function() end)}
+            _G.C_Map = {GetMapInfo = function() return {parentMapID = 20} end}
+            QuestieFrameInstance.UiMapID = 10
+            QuestieFrameInstance.polygonMarker = {}
+        end)
+        after_each(function()
+            QuestieCompat.OpenWorldMap = saved.OpenWorldMap
+            _G.WorldMapFrame, _G.C_Map = saved.WorldMapFrame, saved.C_Map
+            _G.IsModifierKeyDown, _G.IsControlKeyDown = saved.IsModifierKeyDown, saved.IsControlKeyDown
+            _G.ChatEdit_GetActiveWindow, _G.IsShiftKeyDown = saved.ChatEdit_GetActiveWindow, saved.IsShiftKeyDown
+            _G.GameTooltip, _G.WorldMapTooltip = saved.GameTooltip, saved.WorldMapTooltip
+        end)
+
+        it("toggles the blob only for a plain left-click on its own map", function()
+            QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
+            assert.spy(Polygon.ToggleMarker).was.called_with(QuestieFrameInstance)
+        end)
+
+        it("opens another map instead of toggling a blob", function()
+            QuestieFrameInstance.UiMapID = 11
+            QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
+            assert.spy(QuestieCompat.OpenWorldMap).was.called_with(11)
+            assert.spy(Polygon.ToggleMarker).was.not_called()
+        end)
+
+        it("leaves right clicks to the client without toggling a blob", function()
+            QuestieFrame.private.OnClick(QuestieFrameInstance, "RightButton")
+            assert.spy(WorldMapFrame.SetMapID).was.not_called()
+            assert.spy(Polygon.ToggleMarker).was.not_called()
+        end)
+
+        it("does not toggle a blob for modifier clicks", function()
+            _G.IsModifierKeyDown = function() return true end
+            _G.ChatEdit_GetActiveWindow = function() return nil end
+            _G.IsShiftKeyDown = function() return false end
+            QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
+            assert.spy(Polygon.ToggleMarker).was.not_called()
+        end)
+
+        it("clears temporary polygon preview on marker leave", function()
+            QuestieFrame.private.OnLeave(QuestieFrameInstance)
+            assert.spy(Polygon.LeaveMarker).was.called_with(QuestieFrameInstance)
+        end)
+
+        it("releases polygon ownership before a queued icon defers its unload", function()
+            QuestieFrame.private.Unload(QuestieFrameInstance)
+            assert.spy(Polygon.MarkerRemoved).was.called(1)
+            assert.is_nil(QuestieFrameInstance.polygonMarker)
+            assert.is_true(QuestieFrameInstance._needsUnload)
+        end)
+
+        it("notifies the adapter when logical visibility changes", function()
+            QuestieFrameInstance.Show = function() end
+            QuestieFrameInstance.Hide = function() end
+            QuestieFrameInstance.IsShown = function() return true end
+            QuestieFrame.private.FakeHide(QuestieFrameInstance)
+            QuestieFrame.private.FakeShow(QuestieFrameInstance)
+            assert.spy(Polygon.MarkerChanged).was.called(2)
+            assert.is_false(QuestieFrameInstance.hidden)
         end)
     end)
 

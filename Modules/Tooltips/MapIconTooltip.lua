@@ -35,6 +35,8 @@ local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 ---@type QuestieFrame
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 ---@type HBDPins
 local HBDPins = QuestieLoader:ImportModule("HBDPins")
@@ -103,6 +105,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Alpha of texture is 0, nothing to show")
         return
     end
+    if self.polygonMarker then QuestiePolygon.EnterMarker(self) end
     if GetTime() - lastTooltipShowTimestamp < 0.05 and Tooltip:IsShown() then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Call has been too fast, not showing again")
         return
