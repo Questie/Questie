@@ -112,7 +112,7 @@ for number, expansion in EXPANSIONS.items():
     # Extra TOCs are shipped and stamped alongside the primary one.
     allTocs[number] = [tocs[number]] + [f"Questie_{suffix}.toc" for suffix in expansion.get("extra_toc_suffixes", ())]
 
-directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Public"]
+directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Polygon", "Public"]
 filesToInclude = ["Bindings.xml", "embeds.xml", "Questie.lua", "Questie.toc", "README.md", "README_ES.md", "README_CN.md", "LICENSE.md", "gpl-3.0.md"]
 # originals hold texture sources and the scripts that render them; only their output ships.
 ignorePatterns = ["*.test.lua", "originals"]
