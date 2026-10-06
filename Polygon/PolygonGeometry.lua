@@ -263,6 +263,8 @@ local function _ReduceOutline(points, tolerance, work)
     return #reduced >= 3 and reduced or points
 end
 
+-- Offset by one vertex before the signed-area sums to reduce cancellation from
+-- large absolute coordinates; translate the resulting centroid back afterward.
 local function _AreaAndCentroid(points, work)
     local origin, twiceArea, sumX, sumY = points[1], 0, 0, 0
     for i, a in ipairs(points) do
@@ -300,6 +302,7 @@ function PolygonGeometry.Build(points, options, isCancelled)
             and _IsFinite(point.uiMapId) and _IsFinite(point.instanceId), "Polygon points require finite coordinates and map identities")
         if not _Checkpoint(work) then return end
     end
+    -- Stable seed/admission order is part of the moving-center clustering behavior.
     local sorted = _Sort(points, _SpawnBefore, work)
     if not sorted then return end
     local clusters, touched, radiusSquared = {}, {}, radius * radius
@@ -330,6 +333,7 @@ function PolygonGeometry.Build(points, options, isCancelled)
                     for index = partitionFirst, partitionLast do
                         local candidate = sorted[index]
                         if not touched[index] then
+                            -- Preserve exponentiation: x*x can round differently at the strict radius boundary.
                             local distance = (candidate.worldX - centerX)^2 + (candidate.worldY - centerY)^2
                             if distance < radiusSquared then
                                 touched[index] = true

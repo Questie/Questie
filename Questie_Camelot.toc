@@ -300,6 +300,7 @@ Blob\BlobWorldMap.lua
 # Questie-generated world-map areas
 Polygon\PolygonGeometry.lua
 Polygon\PolygonRenderer.lua
+Polygon\PolygonRenderCache.lua
 Polygon\PolygonNudging.lua
 Polygon\QuestiePolygon.lua
 

@@ -1,7 +1,7 @@
 dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
-    local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
+    local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
 
     local function Update(index)
         local icon, zones, work
@@ -55,7 +55,12 @@ describe("QuestiePolygon world-map adapter", function()
         _G.WorldMapFrame = map
         Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, enabled = true, globalScale = 1}
         Questie.usedIcons = {[1] = "icon"}
-        renderer = {Clear = spy.new(function() end), Draw = spy.new(function(_, shapes) drawnShapes = shapes end)}
+        renderer = {}
+        renderCache = {
+            Present = spy.new(function(_, _mapId, shapes) drawnShapes = shapes; return true end),
+            Hide = spy.new(function() end), Clear = spy.new(function() end), Release = spy.new(function() end),
+        }
+        QuestieLoader:ImportModule("PolygonRenderCache").New = spy.new(function() return renderCache end)
         QuestieLoader:ImportModule("PolygonRenderer").New = spy.new(function() return renderer end)
         Geometry = QuestieLoader:ImportModule("PolygonGeometry")
         Geometry.Build = spy.new(function(points)
@@ -242,6 +247,181 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(30, frames[2].x)
     end)
 
+    describe("retained view ownership", function()
+        it("supplies stable objective and marker identities separately from pooled icon frames", function()
+            Update()
+            local frame = frames[1]
+            local marker = frame.polygonMarker
+            Polygon.ToggleMarker(frame)
+            FlushRefresh()
+
+            local shape = drawnShapes[1]
+            assert.are.equal(marker.entry, shape.owner)
+            assert.are.equal(marker, shape.key)
+            assert.are_not.equal(frame, shape.key)
+            assert.are.equal(marker.cluster.outline, shape.source)
+            assert.are.equal(marker.cluster.outline, shape.points)
+            assert.are.equal(10, shape.sourceMapId)
+            assert.spy(QuestieLoader:ImportModule("PolygonRenderCache").New).was.called_with(renderer)
+
+            objective.Collected = 3
+            Update()
+            FlushRefresh()
+            assert.are.equal(shape.owner, drawnShapes[1].owner)
+            assert.are.equal(shape.key, drawnShapes[1].key)
+            assert.are.equal(shape.source, drawnShapes[1].source)
+            assert.spy(renderCache.Release).was.not_called()
+            assert.spy(renderCache.Clear).was.not_called()
+        end)
+
+        it("keeps source identity while presenting a destination-map projection", function()
+            Update()
+            local marker = frames[1].polygonMarker
+            Polygon.ToggleMarker(frames[1])
+            map.mapId = 20
+            FlushRefresh()
+
+            assert.spy(renderCache.Present).was.called_with(renderCache, 20, drawnShapes, 1000, 500, 10)
+            assert.are.equal(marker.entry, drawnShapes[1].owner)
+            assert.are.equal(marker, drawnShapes[1].key)
+            assert.are.equal(marker.cluster.outline, drawnShapes[1].source)
+            assert.are.equal(10, drawnShapes[1].sourceMapId)
+            assert.are_not.equal(drawnShapes[1].source, drawnShapes[1].points)
+        end)
+
+        it("releases objective views before replacement marker frames are recycled", function()
+            Update()
+            local frame, marker = frames[1], frames[1].polygonMarker
+            local events, dataAtRelease, markerAtRelease, releasedOwner = {}, nil, nil, nil
+            renderCache.Release = spy.new(function(_, owner)
+                events[#events + 1] = "release views"
+                dataAtRelease, markerAtRelease, releasedOwner = frame.data, frame.polygonMarker, owner
+            end)
+            FramePool.UnloadFrame = spy.new(function(_, releasedFrame)
+                events[#events + 1] = "recycle marker"
+                releasedFrame.data = nil
+            end)
+            objective.spawnList[123].Spawns[1][1] = {30, 40}
+
+            Update()
+
+            assert.are.same({"release views", "recycle marker"}, events)
+            assert.is_not_nil(dataAtRelease)
+            assert.are.equal(marker, markerAtRelease)
+            assert.are.equal(marker.entry, releasedOwner)
+            assert.is_nil(frame.polygonMarker)
+            assert.are_not.equal(marker, frames[2].polygonMarker)
+            assert.spy(renderCache.Release).was.called(1)
+        end)
+
+        it("releases objective views before removed marker frames are recycled", function()
+            Update()
+            local frame, marker = frames[1], frames[1].polygonMarker
+            local events, dataAtRelease, markerAtRelease, releasedOwner = {}, nil, nil, nil
+            renderCache.Release = spy.new(function(_, owner)
+                events[#events + 1] = "release views"
+                dataAtRelease, markerAtRelease, releasedOwner = frame.data, frame.polygonMarker, owner
+            end)
+            FramePool.UnloadFrame = spy.new(function(_, releasedFrame)
+                events[#events + 1] = "recycle marker"
+                releasedFrame.data = nil
+            end)
+
+            Polygon.RemoveObjective(42, 1)
+
+            assert.are.same({"release views", "recycle marker"}, events)
+            assert.is_not_nil(dataAtRelease)
+            assert.are.equal(marker, markerAtRelease)
+            assert.are.equal(marker.entry, releasedOwner)
+            assert.spy(renderCache.Release).was.called(1)
+            assert.is_nil(frame.data)
+            assert.is_nil(frame.polygonMarker)
+        end)
+
+        it("releases only the removed marker's views before dropping its ownership", function()
+            Update()
+            local frame, marker = frames[1], frames[1].polygonMarker
+            local markerAtRelease, releasedOwner, releasedKey
+            renderCache.Release = spy.new(function(_, owner, key)
+                markerAtRelease, releasedOwner, releasedKey = frame.polygonMarker, owner, key
+            end)
+
+            Polygon.MarkerRemoved(frame)
+
+            assert.spy(renderCache.Release).was.called(1)
+            assert.are.equal(marker.entry, releasedOwner)
+            assert.are.equal(marker, releasedKey)
+            assert.are.equal(marker, markerAtRelease)
+            assert.is_nil(frame.polygonMarker)
+            assert.are.same({}, marker.entry.markers)
+            assert.spy(FramePool.UnloadFrame).was.not_called()
+        end)
+
+        it("retains views through hide and navigation while rechecking live visibility on reopen", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            Polygon.EnterMarker(frames[1])
+            FlushRefresh()
+            local marker, presentCount = frames[1].polygonMarker, #renderCache.Present.calls
+            map.shown = false
+            map.provider:OnHide()
+            assert.spy(renderCache.Hide).was.called(1)
+            assert.is_nil(marker.entry.hovered)
+            assert.is_true(marker.entry.pinned)
+
+            map.shown = true
+            frames[1].policyHidden = true
+            map.provider:OnShow()
+            FlushRefresh()
+            assert.spy(renderCache.Present).was.called(presentCount + 1)
+            assert.are.same({}, drawnShapes)
+            frames[1].policyHidden = false
+            map.mapId = 20
+            map.provider:OnMapChanged()
+            assert.spy(renderCache.Hide).was.called(2)
+            FlushRefresh()
+            assert.are.equal(marker, drawnShapes[1].key)
+            assert.spy(renderCache.Clear).was.not_called()
+            assert.spy(renderCache.Release).was.not_called()
+        end)
+
+        it("clears hidden retained views on reset and rejects old callbacks after reattachment", function()
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            FlushRefresh()
+            local marker, originalProvider = frames[1].polygonMarker, map.provider
+            map.shown = false
+            map.provider:OnHide()
+            Polygon.ScheduleRefresh()
+            local oldCallbacks = timers
+            assert.are.equal(1, #oldCallbacks)
+            timers = {}
+            local releasedOwner
+            renderCache.Release = spy.new(function(_, owner) releasedOwner = owner end)
+
+            Polygon.Reset()
+
+            assert.spy(renderCache.Release).was.called(1)
+            assert.are.equal(marker.entry, releasedOwner)
+            assert.spy(renderCache.Clear).was.called(1)
+            assert.is_nil(map.provider)
+            map.shown = true
+            Update()
+            Polygon.ToggleMarker(frames[2])
+            local presentCount, pendingCount = #renderCache.Present.calls, #timers
+            for _, callback in ipairs(oldCallbacks) do callback() end
+            assert.spy(renderCache.Present).was.called(presentCount)
+            Polygon.ScheduleRefresh()
+            assert.are.equal(pendingCount, #timers) -- Old callbacks must not clear the new batch's pending flag.
+            assert.are.equal(originalProvider, map.provider)
+            assert.spy(QuestieLoader:ImportModule("PolygonRenderer").New).was.called(1)
+            assert.spy(QuestieLoader:ImportModule("PolygonRenderCache").New).was.called(1)
+            FlushRefresh()
+            assert.spy(renderCache.Present).was.called(presentCount + 1)
+            assert.are.equal(frames[2].polygonMarker, drawnShapes[1].key)
+        end)
+    end)
+
     it("keeps special objectives with passed index zero separate by their canonical indexes", function()
         objective.Index = 65
         Update(0)
@@ -281,7 +461,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(30, #frames)
         Polygon.ToggleMarker(frames[1])
         Polygon.Refresh()
-        assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
         Polygon.Reset()
         assert.is_true(coroutine.resume(thread))
         assert.are.equal(30, #frames)
@@ -323,7 +503,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(1, #frames)
         Polygon.EnterMarker(frames[1])
         FlushRefresh()
-        assert.spy(renderer.Draw).was.called_with(renderer, {}, 1000, 500, 10)
+        assert.spy(renderCache.Present).was.called_with(renderCache, 10, {}, 1000, 500, 10)
     end)
 
     it("converts dungeon sentinel spawns to entrance locations instead of invalid hull points", function()
@@ -338,19 +518,19 @@ describe("QuestiePolygon world-map adapter", function()
         Update()
         Polygon.EnterMarker(frames[1])
         FlushRefresh()
-        local shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
+        local shapes = renderCache.Present.calls[#renderCache.Present.calls].vals[3]
         assert.are.equal(1, #shapes)
         assert.are.same({0.2, 0.5, 1, 0.25}, shapes[1].color)
         assert.is_true(shapes[1].highlighted)
         Polygon.ToggleMarker(frames[1])
         Polygon.LeaveMarker(frames[1])
         FlushRefresh()
-        assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
-        assert.is_false(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
+        assert.are.equal(1, #renderCache.Present.calls[#renderCache.Present.calls].vals[3])
+        assert.is_false(renderCache.Present.calls[#renderCache.Present.calls].vals[3][1].highlighted)
         frames[1].hidden = true
         Polygon.MarkerChanged(frames[1])
         FlushRefresh()
-        assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
     end)
 
     it("highlights only the hovered marker's cluster while previewing the whole objective", function()
@@ -366,7 +546,7 @@ describe("QuestiePolygon world-map adapter", function()
         Update()
         Polygon.EnterMarker(frames[1])
         FlushRefresh()
-        local shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
+        local shapes = renderCache.Present.calls[#renderCache.Present.calls].vals[3]
         assert.are.equal(2, #shapes)
         assert.are.same(firstOutline, shapes[1].points)
         assert.is_true(shapes[1].highlighted)
@@ -376,14 +556,14 @@ describe("QuestiePolygon world-map adapter", function()
 
         Polygon.EnterMarker(frames[2])
         FlushRefresh()
-        shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
+        shapes = renderCache.Present.calls[#renderCache.Present.calls].vals[3]
         assert.is_false(shapes[1].highlighted)
         assert.is_true(shapes[2].highlighted)
 
         Polygon.ToggleMarker(frames[2])
         Polygon.LeaveMarker(frames[2])
         FlushRefresh()
-        shapes = renderer.Draw.calls[#renderer.Draw.calls].vals[2]
+        shapes = renderCache.Present.calls[#renderCache.Present.calls].vals[3]
         assert.are.equal(2, #shapes)
         assert.is_false(shapes[1].highlighted)
         assert.is_false(shapes[2].highlighted)
@@ -395,12 +575,12 @@ describe("QuestiePolygon world-map adapter", function()
         Polygon.ToggleMarker(frames[1])
         frames[1].texture.a = 0.4
         FlushRefresh()
-        local shape = renderer.Draw.calls[#renderer.Draw.calls].vals[2][1]
+        local shape = renderCache.Present.calls[#renderCache.Present.calls].vals[3][1]
         assert.are.equal(0.1, shape.color[4])
         assert.are_near(0.3, shape.borderAlpha, 0.000001)
         frames[1].policyHidden = true
         Polygon.Refresh()
-        assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
     end)
 
     it("reuses cached geometry after changing maps but clears marker highlighting", function()
@@ -408,19 +588,19 @@ describe("QuestiePolygon world-map adapter", function()
         Polygon.ToggleMarker(frames[1])
         Polygon.EnterMarker(frames[1])
         FlushRefresh()
-        assert.is_true(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
+        assert.is_true(renderCache.Present.calls[#renderCache.Present.calls].vals[3][1].highlighted)
         map.mapId = 20
         frames[1].parent.shown = false -- HBD did not acquire this marker on the other map.
         map.provider:OnMapChanged()
         assert.is_nil(frames[1].polygonMarker.entry.hovered)
         FlushRefresh()
-        assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
         map.mapId = 10
         frames[1].parent.shown = true
         map.provider:OnMapChanged()
         FlushRefresh()
-        assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
-        assert.is_false(renderer.Draw.calls[#renderer.Draw.calls].vals[2][1].highlighted)
+        assert.are.equal(1, #renderCache.Present.calls[#renderCache.Present.calls].vals[3])
+        assert.is_false(renderCache.Present.calls[#renderCache.Present.calls].vals[3][1].highlighted)
         assert.spy(Geometry.Build).was.called(1)
     end)
 
@@ -432,10 +612,13 @@ describe("QuestiePolygon world-map adapter", function()
             FlushRefresh()
         end)
 
-        it("shares one deferred draw across marker and provider notifications using the latest map and canvas", function()
-            local drawCount = #renderer.Draw.calls
+        it("presents immediately and coalesces later notifications using the latest map and canvas", function()
+            local presentCount = #renderCache.Present.calls
             Polygon.ScheduleRefresh() -- Marker OnShow can queue first, before providers run.
             map.provider:RefreshAllData()
+            assert.spy(renderCache.Present).was.called(presentCount + 1)
+            assert.spy(renderCache.Present).was.called_with(renderCache, 10, drawnShapes, 1000, 500, 10)
+            assert.is_true(drawnShapes[1].highlighted)
             map.provider:OnShow()
             map.mapId = 20
             map.provider:OnMapChanged()
@@ -447,12 +630,12 @@ describe("QuestiePolygon world-map adapter", function()
             map.provider:OnCanvasSizeChanged()
 
             assert.are.equal(1, #timers)
-            assert.spy(renderer.Draw).was.called(drawCount)
+            assert.spy(renderCache.Present).was.called(presentCount + 1)
             assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
             FlushRefresh()
 
-            assert.spy(renderer.Draw).was.called(drawCount + 1)
-            assert.spy(renderer.Draw).was.called_with(renderer, drawnShapes, 800, 400, 10)
+            assert.spy(renderCache.Present).was.called(presentCount + 2)
+            assert.spy(renderCache.Present).was.called_with(renderCache, 20, drawnShapes, 800, 400, 10)
             assert.are.equal(1, #drawnShapes)
             assert.is_false(drawnShapes[1].highlighted)
             assert.spy(HBD.TranslateZoneCoordinates).was.called_with(HBD, 0.1, 0.1, 10, 20, true)
@@ -462,30 +645,36 @@ describe("QuestiePolygon world-map adapter", function()
             map.provider:OnCanvasSizeChanged()
             assert.are.equal(1, #timers)
             FlushRefresh()
-            assert.spy(renderer.Draw).was.called(drawCount + 2)
+            assert.spy(renderCache.Present).was.called(presentCount + 3)
         end)
 
-        it("clears immediately on hide and does not redraw when the pending callback runs", function()
-            local drawCount, clearCount = #renderer.Draw.calls, #renderer.Clear.calls
+        it("hides immediately on hide and does not redraw when the pending callback runs", function()
+            local presentCount, hideCount = #renderCache.Present.calls, #renderCache.Hide.calls
             map.provider:OnShow()
             map.shown = false
             map.provider:OnHide()
 
-            assert.spy(renderer.Clear).was.called(clearCount + 1)
+            assert.spy(renderCache.Hide).was.called(hideCount + 1)
             assert.is_nil(frames[1].polygonMarker.entry.hovered)
             assert.is_true(frames[1].polygonMarker.entry.pinned)
             FlushRefresh()
-            assert.spy(renderer.Draw).was.called(drawCount)
+            assert.spy(renderCache.Present).was.called(presentCount)
+            assert.spy(renderCache.Clear).was.not_called()
+            assert.spy(renderCache.Release).was.not_called()
         end)
 
-        it("clears immediately on removal and leaves pending provider work unable to redraw", function()
-            local drawCount, clearCount = #renderer.Draw.calls, #renderer.Clear.calls
-            map.provider:RefreshAllData()
+        it("hides immediately on removal and leaves pending provider work unable to redraw", function()
+            local presentCount, hideCount = #renderCache.Present.calls, #renderCache.Hide.calls
+            Polygon.ScheduleRefresh()
+            assert.are.equal(1, #timers)
             map:RemoveDataProvider(map.provider)
 
-            assert.spy(renderer.Clear).was.called(clearCount + 1)
+            assert.spy(renderCache.Hide).was.called(hideCount + 1)
             FlushRefresh()
-            assert.spy(renderer.Draw).was.called(drawCount)
+            Polygon.Refresh() -- A detached callback must only hide retained views.
+            assert.spy(renderCache.Present).was.called(presentCount)
+            assert.spy(renderCache.Clear).was.not_called()
+            assert.spy(renderCache.Release).was.not_called()
         end)
     end)
 
@@ -524,7 +713,7 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are_near(0.5, markerY, 0.000001) -- HBD can acquire this marker inside the destination map.
             Polygon.Refresh()
 
-            local shape = renderer.Draw.calls[#renderer.Draw.calls].vals[2][1]
+            local shape = renderCache.Present.calls[#renderCache.Present.calls].vals[3][1]
             assert.is_true(shape.highlighted)
             assert.are_near(-5, shape.points[1].x, 0.000001)
             assert.are_near(40, shape.points[1].y, 0.000001)
@@ -589,7 +778,7 @@ describe("QuestiePolygon world-map adapter", function()
                 Polygon.ToggleMarker(frames[1])
                 map.mapId = 20
                 Polygon.Refresh()
-                assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+                assert.are.equal(1, #renderCache.Present.calls[#renderCache.Present.calls].vals[3])
             end)
         end
 
@@ -606,19 +795,19 @@ describe("QuestiePolygon world-map adapter", function()
                 FlushRefresh()
                 HBD.mapData[10].mapType = case.mapType
                 Polygon.Refresh()
-                assert.spy(renderer.Clear).was.called()
+                assert.spy(renderCache.Hide).was.called()
                 assert.is_true(frames[1].polygonMarker.entry.pinned)
                 assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
             end)
         end
 
-        it("clears drawing when the displayed map has no known metadata", function()
+        it("hides drawing when the displayed map has no known metadata", function()
             Update()
             Polygon.ToggleMarker(frames[1])
             FlushRefresh()
             map.mapId = 999
             Polygon.Refresh()
-            assert.spy(renderer.Clear).was.called()
+            assert.spy(renderCache.Hide).was.called()
             assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
         end)
 
@@ -630,7 +819,7 @@ describe("QuestiePolygon world-map adapter", function()
             local projected = drawnShapes[1].points
             frames[1].notShown = true
             Polygon.Refresh()
-            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
             assert.is_true(frames[1].polygonMarker.entry.pinned)
             frames[1].notShown = false
             Polygon.Refresh()
@@ -643,7 +832,7 @@ describe("QuestiePolygon world-map adapter", function()
             Polygon.ToggleMarker(frames[1])
             frames[1].parent.shown = false
             Polygon.Refresh()
-            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
         end)
 
         it("does not draw for a queued marker even if its frame has not yet been hidden", function()
@@ -651,7 +840,7 @@ describe("QuestiePolygon world-map adapter", function()
             Polygon.ToggleMarker(frames[1])
             frames[1]._loaded = nil
             Polygon.Refresh()
-            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
         end)
 
         it("does not draw for a marker detached from its HBD map wrapper", function()
@@ -659,7 +848,7 @@ describe("QuestiePolygon world-map adapter", function()
             Polygon.ToggleMarker(frames[1])
             frames[1].parent = {shown = true} -- UIParent can be visible after the map pin is released.
             Polygon.Refresh()
-            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
         end)
 
         it("catches up when HBD shows a marker after the polygon provider has already refreshed", function()
@@ -713,10 +902,10 @@ describe("QuestiePolygon world-map adapter", function()
                 return x, y
             end
             Polygon.Refresh()
-            assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
             HBD.TranslateZoneCoordinates = spy.new(function(_, x, y) return x, y end)
             Polygon.Refresh()
-            assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+            assert.are.equal(1, #renderCache.Present.calls[#renderCache.Present.calls].vals[3])
             assert.spy(HBD.TranslateZoneCoordinates).was.called(3)
         end)
 
@@ -732,7 +921,7 @@ describe("QuestiePolygon world-map adapter", function()
                 map.mapId = 20
                 HBD.TranslateZoneCoordinates = function() return case.x, 0.1 end
                 Polygon.Refresh()
-                assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+                assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
             end)
         end
     end)
@@ -744,8 +933,65 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_nil(map.provider)
         assert.is_nil(frames[1].data)
         assert.spy(FramePool.UnloadFrame).was.called(1)
-        assert.spy(renderer.Clear).was.called()
-        assert.spy(renderer.Draw).was.not_called()
+        assert.spy(renderCache.Clear).was.called()
+        assert.spy(renderCache.Present).was.not_called()
+    end)
+
+    describe("render cleanup failures", function()
+        local originalError
+
+        before_each(function()
+            originalError = Questie.Error
+            Questie.Error = spy.new(function() end)
+        end)
+
+        after_each(function()
+            -- Outer cleanup also calls Reset; do not leave injected failures active.
+            renderCache.Clear = function() end
+            renderCache.Release = function() end
+            renderCache.Hide = function() end
+            Questie.Error = originalError
+        end)
+
+        it("invalidates waypoint work and completes reset even when native view cleanup fails", function()
+            local _, _, work = Update()
+            Polygon.ToggleMarker(frames[1])
+            FlushRefresh()
+            local provider = map.provider
+            local presentations = #renderCache.Present.calls
+            Polygon.ScheduleRefresh()
+            local wasCurrentDuringClear
+            renderCache.Clear = function()
+                wasCurrentDuringClear = Polygon.IsCurrentObjective(work)
+                error("clear failed")
+            end
+            renderCache.Release = function() error("release failed") end
+            renderCache.Hide = function() error("hide failed") end
+
+            assert.has_no.errors(function() Polygon.Reset() end)
+
+            assert.is_false(wasCurrentDuringClear)
+            assert.is_false(Polygon.IsCurrentObjective(work))
+            assert.is_nil(frames[1].data)
+            assert.is_nil(frames[1].polygonMarker)
+            assert.is_nil(map.provider)
+            assert.is_nil(provider.owningMap)
+            assert.spy(Questie.Error).was.called(3)
+            FlushRefresh()
+            assert.spy(renderCache.Present).was.called(presentations)
+        end)
+
+        it("drops removed marker ownership even if its retained view cannot be released yet", function()
+            Update()
+            local marker = frames[1].polygonMarker
+            renderCache.Release = function() error("release failed") end
+
+            assert.has_no.errors(function() Polygon.MarkerRemoved(frames[1]) end)
+
+            assert.is_nil(frames[1].polygonMarker)
+            assert.are.same({}, marker.entry.markers)
+            assert.spy(Questie.Error).was.called(1)
+        end)
     end)
 
     it("reuses renderer and provider pools after repeated mode resets", function()
@@ -762,6 +1008,8 @@ describe("QuestiePolygon world-map adapter", function()
         Update()
         assert.are.equal(originalProvider, map.provider)
         assert.spy(QuestieLoader:ImportModule("PolygonRenderer").New).was.called(1)
+        assert.spy(QuestieLoader:ImportModule("PolygonRenderCache").New).was.called_with(renderer)
+        assert.spy(QuestieLoader:ImportModule("PolygonRenderCache").New).was.called(1)
     end)
 
     it("keeps current waypoint work valid on progress updates but invalidates it on replacement", function()
@@ -789,10 +1037,10 @@ describe("QuestiePolygon world-map adapter", function()
         Polygon.ToggleMarker(frames[1])
         frames[1]._hidden_by_flash = true
         Polygon.Refresh()
-        assert.are.same({}, renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
         frames[1]._hidden_by_flash = nil
         Polygon.Refresh()
-        assert.are.equal(1, #renderer.Draw.calls[#renderer.Draw.calls].vals[2])
+        assert.are.equal(1, #renderCache.Present.calls[#renderCache.Present.calls].vals[3])
     end)
 
     describe("fixed horizontal marker stacks", function()

@@ -633,6 +633,7 @@ describe("QuestieQuest", function()
 
         describe("polygon waypoint ownership", function()
             local Polygon, quest, objective, miniFrames, mapFrames, originals
+            local originalRendererNew, originalCacheNew
 
             local function Populate()
                 local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
@@ -656,8 +657,16 @@ describe("QuestieQuest", function()
                 _G.WorldMapFrame = {GetCanvas = function() return {} end, IsShown = function() return false end,
                     AddDataProvider = function(self, provider) provider:OnAdded(self) end,
                     RemoveDataProvider = function(_, provider) provider:OnRemoved() end}
-                QuestieLoader:ImportModule("PolygonRenderer").New = function()
-                    return {Clear = function() end}
+                local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
+                local RenderCache = QuestieLoader:ImportModule("PolygonRenderCache")
+                originalRendererNew, originalCacheNew = Renderer.New, RenderCache.New
+                local renderer = {}
+                Renderer.New = function() return renderer end
+                -- Drawing is outside waypoint ownership; the cache remains a separate dependency.
+                RenderCache.New = function(renderDependency)
+                    assert.are.equal(renderer, renderDependency)
+                    return {Present = function() return true end, Hide = function() end,
+                        Clear = function() end, Release = function() end}
                 end
                 QuestieLoader:ImportModule("PolygonNudging").New = function()
                     return {Update = function() end, Remove = function() end, Clear = function() end,
@@ -704,6 +713,8 @@ describe("QuestieQuest", function()
 
             after_each(function()
                 Polygon.Reset()
+                QuestieLoader:ImportModule("PolygonRenderer").New = originalRendererNew
+                QuestieLoader:ImportModule("PolygonRenderCache").New = originalCacheNew
                 _G.C_Timer = originals.C_Timer
                 _G.WorldMapFrame = originals.WorldMapFrame
                 _G.CreateFromMixins = originals.CreateFromMixins

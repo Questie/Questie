@@ -38,13 +38,15 @@ Questie objective.spawnList
   → convex hull → Catmull-Rom samples → convex envelope → reduction
   → cached cluster markers and optional source-map outlines
   → visible-marker gate and projection onto the displayed detailed map
-  → world-map canvas drawing
+  → retained rendered views per objective, polygon, and destination map
+  → world-map canvas visibility and styling
 ```
 
 | Module | Responsibility and interface |
 | --- | --- |
 | [PolygonGeometry.lua](PolygonGeometry.lua) | `Build(points, options, isCancelled)` computes clusters in the caller's coroutine. Returns a complete cluster array, or nil on cancellation. |
-| [PolygonRenderer.lua](PolygonRenderer.lua) | `New(canvas, hoverInput?)` creates a renderer with `Draw(shapes, width, height, frameLevel)` and idempotent `Clear()`. Owns reusable frame/texture pools and one shared hover update. |
+| [PolygonRenderer.lua](PolygonRenderer.lua) | `New(canvas, hoverInput?)` owns native primitives, pools, and shared hover handling. `Create`, `Configure`, `Style`, `SetVisibleFrames`, `Release`, and `Clear` operate on retained views. |
+| [PolygonRenderCache.lua](PolygonRenderCache.lua) | `New(renderer)` owns uniform, lazy per-map view caching. `Present(mapId, shapes, width, height, frameLevel)` reconciles visibility; `Hide`, `Release(owner, key?)`, and `Clear` separate temporary hiding from deletion. |
 | [PolygonNudging.lua](PolygonNudging.lua) | `Calculate(items)` assigns horizontal slots from original map coordinates and configured widths. `New()` owns application through `Update(markers, iconScale)`, `Apply`, `Reapply`, `SetEnabled`, `Remove`, and `Clear`. |
 | [QuestiePolygon.lua](QuestiePolygon.lua) | Questie adapter: source collection, cache, marker ownership, visibility, layout scheduling, map provider, and cleanup. Keeps Questie-specific policy out of geometry/rendering. |
 
@@ -58,7 +60,9 @@ Each result has `{uiMapId, x, y, outline?, representative}`. Marker coordinates 
 
 `Build` must run through a coroutine-aware caller such as ThreadLib. Work checks cancellation/time every 256 operations, yielding after approximately 2 ms or 32,768 operations. The operation ceiling also applies without a working clock. This is a cooperative budget, not a hard frame-time guarantee; clustering and the first hull still have quadratic worst cases.
 
-Renderer shapes contain `{points = outline, color = {r, g, b, fillAlpha}, borderAlpha = optionalAlpha, highlighted = optionalBoolean}`. `highlighted` requests an outline highlight through marker association, independently of native hover support. Pass the canvas's full logical width/height and a frame level below markers. Outlines must be ordered, convex, and not repeat their closing vertex. `Draw` replaces the visible set and returns counts or `nil, error`; a failed draw clears partial allocations. Ordinary canvas zoom/pan is inherited; logical canvas-size changes trigger reprojection.
+Renderer shapes contain `{points = outline, color = {r, g, b, fillAlpha}, borderAlpha = optionalAlpha, highlighted = optionalBoolean}`. `highlighted` requests an outline highlight through marker association, independently of native hover support. Pass the canvas's full logical width/height and a frame level below markers. Outlines must be ordered, convex, immutable, and not repeat their closing vertex. Replace point-table identity rather than mutating cached geometry in place. Ordinary canvas zoom/pan is inherited; logical canvas-size changes reconfigure the affected view.
+
+The cache adds `{owner = objectiveEntry, key = marker, source = originalOutline, sourceMapId = originalMapId}` to each shape. Owner/key identities are logical records, never recyclable marker frames. `Present` publishes the requested map's visible set after configuration succeeds and returns `true` or `nil, error`. A failed presentation clears cache ownership and attempts to release all native views, including partial allocations. If native cleanup also fails, the error reports that failure and the renderer keeps the affected resources reachable for a later cleanup retry.
 
 Compared with the historical implementation, geometry has explicit units, deterministic ordering, duplicate removal and farthest-collinear hull selection. It omits the unsafe interior-point prefilter, uses an efficient monotone-chain envelope for the spline sample cloud, and measures actual point-to-segment distance during reduction. Rendering retains the two-edge quad fan with independent borders, using client `WHITE8X8` rather than copied addon artwork.
 
@@ -77,11 +81,21 @@ One shared update checks every 80 ms, including cursor movement within an unchan
 
 The effective highlight set combines these geometric hits with each shape's `highlighted` request. The adapter sets that flag for the specific hovered marker, not for every cluster in the objective. Marker highlighting works without native hover APIs, and leaving a polygon cannot erase a still-active marker highlight. No propagation changes are applied to Questie icons.
 
-Each highlighted border becomes 20% thicker and its RGB increases 25%, capped at 1; border alpha stays unchanged. Borders restyle only when effective selection changes, without rebuilding geometry. Showing a drawing immediately reevaluates highlights, including a stationary cursor; native focus-stack refresh timing still needs live validation.
+Each highlighted border becomes 20% thicker and its RGB increases 25%, capped at 1; border alpha stays unchanged. Hover restyles borders only when effective selection changes; color and opacity changes also update their appearance without rebuilding fills. Showing a drawing immediately reevaluates highlights, including a stationary cursor; native focus-stack refresh timing still needs live validation.
 
-Clear, empty/failed draws, map hide, and reset stop hover updates and clear both highlight sets. Clear drops shape references before returning frames/textures to their pools. The shared driver is reused; marker-only highlighting uses its hide/show handling without an `OnUpdate` callback. No per-polygon tickers, accumulating hooks, or global input replacements are installed.
+Empty presentations and map hide stop hover updates and clear both highlight sets without releasing configured views. Release and reset drop shape references and return primitives to their pools. The shared driver is reused without restarting its polling interval for ordinary style updates; marker-only highlighting uses its hide/show handling without an `OnUpdate` callback. Hidden views do not participate in native focus or marker highlighting. No per-polygon tickers, accumulating hooks, or global input replacements are installed.
 
 ## Cache and lifetime
+
+### Retained rendered views
+
+All destination maps use the same policy. The cache creates a polygon's native view only when it is first eligible for display on that map. Switching maps or closing the map hides views, retaining their frames, fills, borders, and configured coordinates. A return visit rechecks the adapter's current marker visibility before showing them. First-time views still require synchronous configuration; retaining drawings does not eliminate cold-render cost.
+
+An unchanged view performs no vertex/UV setup or primitive acquisition. Marker highlighting updates only the affected borders; color and opacity update existing primitives. Preview/pinning changes hide/show the affected views without rebuilding unrelated polygons. The temporary renderer random-color diagnostic remains acquisition-based, so retained primitive colors remain stable through refresh, hover, hide/show, and resizing.
+
+A changed destination projection or canvas size reconfigures that view in place. A changed original outline/source map invalidates all of that polygon's destination views. Marker removal releases its views on every map; objective geometry replacement/removal releases the objective's views before marker recycling. Reset releases hidden as well as visible views. There is no timed eviction, current-map exception, eager all-map rendering, or disk persistence. Native region retention can grow with the live objectives and destination maps actually displayed; pools retain their allocation high-water mark after release.
+
+### Geometry and marker ownership
 
 `UpdateObjective(quest, objective, objectiveIndex)` operates on the **full eligible spawn list**, not `AlreadySpawned`'s incremental icon list. It accepts only the current local quest object, excludes completed/party objectives, and uses canonical `objective.Index` where present. This matters because special objectives can all arrive with passed index `0`.
 
@@ -89,7 +103,7 @@ Entries are owned by quest and objective, with map-specific clusters. A sorted s
 
 For adjacent maps, HBD translates the original outline into destination-map percentage coordinates. Successful projections are cached per marker, source-outline identity, source map, and destination map. Source geometry remains unchanged; replacing it invalidates its projected views. Missing, restricted, or nonfinite conversions omit the whole outline and can retry later. Vertices outside 0–100 remain intact for canvas clipping, and geometric hover uses the same projected points. Nudging affects only marker display anchors, not this projection.
 
-Hiding a marker suppresses its area without discarding cached geometry or pinned state. Native marker `BaseOnShow`/`BaseOnHide` schedules a coalesced, next-frame refresh so Polygon can recheck after HBD parenting and draw-queue bookkeeping settle, regardless of provider refresh order. Provider `RefreshAllData`, `OnShow`, `OnMapChanged`, and `OnCanvasSizeChanged` share that same drawing bucket; the pending callback reads the latest map, canvas dimensions, and marker visibility. Hover clearing and nudging still happen immediately in their existing callbacks, and hide/removal clears drawing immediately. Marker show/hide notifications do not regroup nudges or introduce a per-frame visibility monitor or extra pan work.
+Hiding a marker suppresses its area without discarding cached geometry or pinned state. Native marker `BaseOnShow`/`BaseOnHide` schedules a coalesced, next-frame refresh so Polygon can recheck after HBD parenting and draw-queue bookkeeping settle, regardless of provider refresh order. Provider `RefreshAllData` refreshes immediately. `OnShow`, `OnMapChanged`, and `OnCanvasSizeChanged` share the marker drawing bucket; the pending callback reads the latest map, canvas dimensions, and marker visibility. Hover clearing and nudging still happen immediately in their existing callbacks. Map changes, hide, and provider removal hide the previous drawing immediately without discarding its configured views. Marker show/hide notifications do not regroup nudges or introduce a per-frame visibility monitor or extra pan work.
 
 Two identities protect asynchronous work:
 
@@ -98,7 +112,7 @@ Two identities protect asynchronous work:
 
 `UpdateObjective` returns `representative, iconPerZone, waypointWork`. Cache hits return no new map owners, preventing duplicate routes, but still supply a current `waypointWork` token. Callers use `IsCurrentObjective(waypointWork)` before allocations and after yields. `OwnWaypointMarker(frame, waypointWork)` adopts valid fallback map markers or unloads rejected frames.
 
-`RemoveObjective`, `RemoveQuest`, and `Reset` invalidate ownership before releasing markers. Reset also cancels deferred refreshes, clears cached/pinned state, and detaches the map provider. The cleared renderer and detached provider are retained for reuse: WoW native regions must not become unreachable on every mode/profile reset.
+`RemoveObjective`, `RemoveQuest`, and `Reset` invalidate ownership before releasing markers. Reset also cancels deferred refreshes, clears cached/pinned state, and detaches the map provider. The cleared render cache, renderer, and detached provider are retained for reuse: WoW native regions must not become unreachable on every mode/profile reset.
 
 Fixed stacking owns only icon display anchors, guarded by marker and HBD-wrapper identity. Hiding the map or detaching the provider disables offsets but retains slots. Removal and reset clear owned callbacks and restore centered anchors before pooling. No periodic layout driver is allocated.
 
@@ -120,7 +134,7 @@ Keep these hooks small when merging changes from Questie:
 | [Questie.lua](../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
 | [Icon options](../Modules/Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../Modules/Tutorial/ChooseObjectiveType.lua), [defaults](../Modules/Options/QuestieOptionsDefaults.lua), [migration](../Modules/Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 42. |
 
-All six flavor TOCs load geometry, renderer, nudging, then adapter before `Questie.lua`. [Release packaging](../build.py) includes `Polygon/` and excludes adjacent tests; [CI](../.github/workflows/ci.yml) includes Polygon in linting. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
+All six flavor TOCs load geometry, renderer, render cache, nudging, then adapter before `Questie.lua`. [Release packaging](../build.py) includes `Polygon/` and excludes adjacent tests; [CI](../.github/workflows/ci.yml) includes Polygon in linting. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
 
 ## Validation
 
@@ -141,7 +155,7 @@ Adjacent tests cover geometry/cancellation, workload resume limits, rendering/po
 busted Polygon/PolygonNudging.test.lua Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
 ```
 
-Adjacent-map rendering and the latest zoom-spacing fix have not been validated in-game; they still need a user reload and live review. Earlier user-confirmed behavior concerned the retired screen-space experiment, not this implementation. No agent performed a reload or live test for this replacement. Mocks establish neither native anchoring and input timing nor click/drag pass-through.
+Logon reports that retained rendering removed the observed performance problems in-game. This is qualitative feedback, not a controlled timing measurement or validation across all client flavors. No agent performed a reload or live test of the retained-rendering implementation. Adjacent-map alignment, zoom spacing, native input timing, and click/drag pass-through still need the checks below; offline mocks do not establish those behaviors.
 
 With separate permission for a development client, verify:
 
@@ -154,6 +168,6 @@ With separate permission for a development client, verify:
 - Hide an owning marker while its area is pinned, then show it again: the area should disappear and return without reclustering or losing pin state. Check acquisition after map changes and ensure nudging does not move the area.
 - Progress, completion/removal, untracking/hiding, phase changes, profile changes, and disable/re-enable.
 - Tracker Show on Map, waypoint-only zones, unchanged minimap markers, and preserved modifier actions.
-- Dense objectives for responsiveness and repeated resets for stable pooled resource use.
+- Dense objectives for responsiveness and repeated resets for stable pooled resource use. Revisit several detailed maps, close/reopen, and hover pinned markers: unchanged views should retain primitive identities and debug colors, with no fill geometry setup. Verify first visits, canvas resizing, objective replacement/removal, and reset release the correct views.
 
 Other client flavors and minimap-addon combinations require their own checks. Do not deploy or reload a live installation merely to run these validations.
