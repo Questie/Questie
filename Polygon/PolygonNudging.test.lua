@@ -79,12 +79,13 @@ describe("Polygon fixed horizontal stacks", function()
     end)
 
     describe("stored display anchors", function()
-        local layout, first, second, rootScale
+        local layout, first, second
 
         local function Marker(id)
             local frame = {data = {ObjectiveIndex = 1, IconScale = 1}, UiMapID = 1426, x = 50, y = 50,
                 effectiveScale = 1, anchors = 0, width = 16, height = 16}
-            local parent = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = frame}
+            local parent = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = frame, effectiveScale = 1,
+                GetEffectiveScale = function(self) return self.effectiveScale end}
             frame.parent, frame.point = parent, {"CENTER", parent, "CENTER", 0, 0}
             frame.GetParent = function(self) return self.parent end
             frame.GetEffectiveScale = function(self) return self.effectiveScale end
@@ -100,8 +101,7 @@ describe("Polygon fixed horizontal stacks", function()
         end
 
         before_each(function()
-            rootScale = {scale = 1, GetEffectiveScale = function(self) return self.scale end}
-            layout = Nudging.New(rootScale)
+            layout = Nudging.New()
             first, second = Marker(317), Marker(384)
         end)
 
@@ -122,30 +122,54 @@ describe("Polygon fixed horizontal stacks", function()
             Nudging.Calculate = original
         end)
 
-        it("keeps physical spacing through zoom, root scale changes, and native icon animation without regrouping", function()
-            local original = Nudging.Calculate
-            Nudging.Calculate = spy.new(original)
+        it("keeps separation proportional to icon width through native zoom and UI scale changes without regrouping", function()
+            local calculate = spy.on(Nudging, "Calculate")
             layout:Update({first, second}, 1)
-            first.frame.effectiveScale, second.frame.effectiveScale = 2, 2
-            first.frame.width, second.frame.width = 48, 48
-            layout:Reapply()
-            assert.are_near(-2.8, first.frame.point[4], 0.000001)
-            assert.are_near(2.8, second.frame.point[4], 0.000001)
-            assert.are_near(11.2, (second.frame.point[4] - first.frame.point[4]) * 2, 0.000001)
+            local separation = second.frame.point[4] * second.frame.effectiveScale - first.frame.point[4] * first.frame.effectiveScale
+            assert.are_near(11.2, separation, 0.000001)
+            assert.are_near(0.7, separation / (first.frame.width * first.frame.effectiveScale), 0.000001)
 
-            rootScale.scale = 0.8
-            first.frame.effectiveScale, second.frame.effectiveScale = 1.6, 1.6
+            -- HBD compensates canvas zoom, but its interpolated pin size still grows by 20%.
+            first.frame.parent.effectiveScale, second.frame.parent.effectiveScale = 1.2, 1.2
+            first.frame.effectiveScale, second.frame.effectiveScale = 1.2, 1.2
+            first.frame:OnWorldMapPinUpdated(first.frame.parent)
+            second.frame:OnWorldMapPinUpdated(second.frame.parent)
+            separation = second.frame.point[4] * second.frame.effectiveScale - first.frame.point[4] * first.frame.effectiveScale
+            assert.are_near(13.44, separation, 0.000001)
+            assert.are_near(19.2, first.frame.width * first.frame.effectiveScale, 0.000001)
+            assert.are_near(0.7, separation / (first.frame.width * first.frame.effectiveScale), 0.000001)
+
+            local uiParentScale = 0.8
+            first.frame.parent.effectiveScale, second.frame.parent.effectiveScale = 0.96, 0.96
+            first.frame.effectiveScale, second.frame.effectiveScale = 0.96, 0.96
             layout:Reapply()
-            assert.are_near(-2.8, first.frame.point[4], 0.000001)
-            assert.spy(Nudging.Calculate).was.called(1)
-            Nudging.Calculate = original
+            separation = second.frame.point[4] * second.frame.effectiveScale - first.frame.point[4] * first.frame.effectiveScale
+            assert.are_near(10.752, separation, 0.000001)
+            assert.are_near(13.44, separation / uiParentScale, 0.000001)
+            assert.are_near(0.7, separation / (first.frame.width * first.frame.effectiveScale), 0.000001)
+            assert.spy(calculate).was.called(1)
         end)
 
-        it("applies equal physical spacing with different child scales", function()
-            second.frame.effectiveScale = 2
+        it("ignores tracker size animation while retaining the current wrapper scale", function()
+            local calculate = spy.on(Nudging, "Calculate")
+            first.frame.parent.effectiveScale, second.frame.parent.effectiveScale = 1.2, 1.2
+            first.frame.effectiveScale, second.frame.effectiveScale = 1.2, 1.2
+            layout:Update({first, second}, 1)
+            first.frame.width, second.frame.width = 48, 48
+            layout:Update({first, second}, 1)
+            assert.are_near(-5.6, first.frame.point[4], 0.000001)
+            assert.are_near(5.6, second.frame.point[4], 0.000001)
+            assert.spy(calculate).was.called(1)
+        end)
+
+        it("converts a shared wrapper-space displacement into different child anchor scales", function()
+            first.frame.parent.effectiveScale, second.frame.parent.effectiveScale = 1.2, 1.2
+            first.frame.effectiveScale, second.frame.effectiveScale = 1.2, 2.4
             layout:Update({first, second}, 1)
             assert.are_near(-5.6, first.frame.point[4], 0.000001)
             assert.are_near(2.8, second.frame.point[4], 0.000001)
+            assert.are_near(-6.72, first.frame.point[4] * first.frame.effectiveScale, 0.000001)
+            assert.are_near(6.72, second.frame.point[4] * second.frame.effectiveScale, 0.000001)
         end)
 
         it("reapplies after queued acquisition and reacquisition without an OnShow event or polling", function()
@@ -158,7 +182,8 @@ describe("Polygon fixed horizontal stacks", function()
             first.frame:OnWorldMapPinUpdated(wrapper)
             assert.are_near(-5.6, first.frame.point[4], 0.000001)
 
-            local replacement = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = first.frame}
+            local replacement = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = first.frame,
+                GetEffectiveScale = function() return 1 end}
             first.frame.parent = replacement
             first.frame.point = {"CENTER", replacement, "CENTER", 0, 0}
             first.frame:OnWorldMapPinUpdated(replacement)

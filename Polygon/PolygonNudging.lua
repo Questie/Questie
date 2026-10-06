@@ -6,7 +6,7 @@ local PolygonNudging = QuestieLoader:CreateModule("PolygonNudging")
 ---@field uiMapId number Original UI map; projections never combine different map coordinates.
 ---@field x number Original zone percentage, not a screen position.
 ---@field y number Original zone percentage.
----@field width number Configured icon width in UIParent units, without map zoom or tracker animation.
+---@field width number Base configured icon width in HBD wrapper units, without map-type scaling or tracker animation.
 
 local MAP_TOLERANCE = 0.01 -- Percentage points; normalized equivalent is 0.0001.
 local SPACING_FACTOR = 0.7 -- Slight overlap keeps related markers visually connected.
@@ -23,7 +23,7 @@ end
 ---Only membership, coordinates, or configured widths affect this result. Zoom, viewport,
 ---neighboring hitboxes, and visibility are intentionally not layout inputs.
 ---@param items PolygonNudgeItem[]
----@return table<string, number> offsets Horizontal displacement in UIParent units.
+---@return table<string, number> offsets Horizontal displacement in HBD wrapper units.
 function PolygonNudging.Calculate(items)
     -- Stable identities determine both the group seeds and the left-to-right order.
     local orderedItems = {}
@@ -73,10 +73,9 @@ function PolygonNudging.Calculate(items)
 end
 
 ---Owns child-icon anchors and the optional HBD reanchoring callback, not geographic positions.
----@param scaleFrame Frame UIParent supplies the display scale independently of the map canvas.
 ---@return PolygonNudgeLayout
-function PolygonNudging.New(scaleFrame)
-    local layout = setmetatable({scaleFrame = scaleFrame, owned = {}, offsets = {}, enabled = true}, Layout)
+function PolygonNudging.New()
+    local layout = setmetatable({owned = {}, offsets = {}, enabled = true}, Layout)
     layout.onPinUpdated = function(frame, pin) layout:Apply(frame, pin) end
     return layout
 end
@@ -139,15 +138,16 @@ function Layout:Apply(frame, pin)
     if not parent or parent ~= frame:GetParent() or parent.pinTemplate ~= "HereBeDragonsPinsTemplateQuestie"
         or parent.icon ~= frame then return end
 
-    -- Convert UIParent-space spacing to the child icon's current anchor units.
-    -- HBD keeps the wrapper's geographic position; only this child anchor moves.
+    -- Keep spacing in wrapper units so HBD's zoom sizing scales icons and separation together.
+    -- Convert to child anchor units; UI scale is already inherited by the wrapper.
+    -- Only the child moves, leaving the geographic anchor and configured slots unchanged.
     local offsetX = 0
     if self.enabled then
-        local uiParentScale = self.scaleFrame:GetEffectiveScale()
+        local parentEffectiveScale = parent:GetEffectiveScale()
         local iconEffectiveScale = frame:GetEffectiveScale()
-        if not _IsFinite(uiParentScale) or uiParentScale <= 0
+        if not _IsFinite(parentEffectiveScale) or parentEffectiveScale <= 0
             or not _IsFinite(iconEffectiveScale) or iconEffectiveScale <= 0 then return end
-        offsetX = state.offset * uiParentScale / iconEffectiveScale
+        offsetX = state.offset * parentEffectiveScale / iconEffectiveScale
         if not _IsFinite(offsetX) then return end
     end
     local point, relative, relativePoint, oldX, oldY = frame:GetPoint()

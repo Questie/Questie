@@ -473,7 +473,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             end}
         end
         renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), hoverInput)
-        nudging = PolygonNudging.New(UIParent)
+        nudging = PolygonNudging.New()
         -- Preference setters resize before writing their new value. Read configured
         -- widths on the next frame; this single retained hook is inert while detached.
         hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)

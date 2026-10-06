@@ -584,20 +584,22 @@ describe("QuestiePolygon world-map adapter", function()
             assert.spy(_G.CreateFrame).was.not_called()
         end)
 
-        it("reapplies stored slots through HBD scale notifications and resize without regrouping or animated-size inputs", function()
+        it("keeps spacing proportional through HBD zoom notifications and resize without regrouping", function()
             local nudging = QuestieLoader:ImportModule("PolygonNudging")
             local calculate = spy.on(nudging, "Calculate")
-            meat.width, meat.height, ribs.width, ribs.height = 48, 48, 48, 48
-            meat.effectiveScale, ribs.effectiveScale = 2, 2
+            meat.parent.effectiveScale, ribs.parent.effectiveScale = 1.2, 1.2
+            meat.effectiveScale, ribs.effectiveScale = 1.2, 1.2
             meat:OnWorldMapPinUpdated(meat.parent)
             ribs:OnWorldMapPinUpdated(ribs.parent)
-            assert.are_near(-2.8, meat.point[4], 0.000001)
-            assert.are_near(2.8, ribs.point[4], 0.000001)
-            assert.are_near(11.2, (ribs.point[4] - meat.point[4]) * 2, 0.000001)
+            local separation = ribs.point[4] * ribs.effectiveScale - meat.point[4] * meat.effectiveScale
+            assert.are_near(13.44, separation, 0.000001)
+            assert.are_near(19.2, meat.width * meat.effectiveScale, 0.000001)
+            assert.are_near(0.7, separation / (meat.width * meat.effectiveScale), 0.000001)
 
+            meat.width, meat.height, ribs.width, ribs.height = 48, 48, 48, 48 -- Tracker flash dimensions are not layout inputs.
             map.provider:OnCanvasSizeChanged()
-            assert.are_near(-2.8, meat.point[4], 0.000001)
-            assert.are_near(2.8, ribs.point[4], 0.000001)
+            assert.are_near(-5.6, meat.point[4], 0.000001)
+            assert.are_near(5.6, ribs.point[4], 0.000001)
             assert.are.equal(0, #timers)
             assert.are.same({10, 20, 10}, {meat.x, meat.y, meat.UiMapID})
             assert.spy(calculate).was.not_called()
