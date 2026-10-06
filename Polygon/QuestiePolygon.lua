@@ -75,7 +75,7 @@ function QuestiePolygon.Refresh()
                         if alpha > 0 then
                             local color = entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
                             shapes[#shapes + 1] = {points = outline, color = {color[1], color[2], color[3], 0.25 * alpha},
-                                borderAlpha = 0.75 * alpha}
+                                borderAlpha = 0.75 * alpha, highlighted = entry.hovered == frame}
                         end
                     end
                 end

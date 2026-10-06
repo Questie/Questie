@@ -11,13 +11,13 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 | Gift wrapping, smoothing, and point reduction | Implemented with geometry fixes. The second hull uses a faster algorithm. |
 | Filled polygons with separate outlines | Implemented on the world map using the original quad-fan approach. |
 | Representative cluster icons | Implemented. Small or degenerate clusters retain a point marker. |
-| Hover an icon to preview its areas | Implemented. |
+| Hover an icon to preview its areas | Implemented. Highlights only that icon's attached polygon outline. |
 | Click an icon to keep its areas visible | Implemented. Click again to unpin. |
-| Hover the polygon itself | Implemented where motion propagation is available. One shared 80 ms check selects the topmost participating polygon containing the cursor. |
+| Hover the polygon itself | Implemented where motion propagation is available. One shared 80 ms check highlights all participating polygons whose actual shapes contain the cursor. |
 | Highlight the polygon border on hover | Implemented. Thicker, brighter border; fade opacity is preserved. |
 | Cache calculated areas | Implemented in memory. Progress-only updates reuse geometry; changed eligible spawns rebuild it. |
 | Quest updates and removal | Implemented, with cancellation and pooled-resource cleanup fixes. |
-| World-map waypoints | Existing Questie lines are retained and attached to cluster markers. |
+| World-map waypoints | Existing Questie lines are retained and attached to cluster markers. Waypoint frames propagate motion where supported; clicks are unchanged. |
 
 ## What is still missing
 
@@ -34,8 +34,13 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 - Preserved current tracking, hiding, tooltips, tracker highlighting, and normal minimap icons.
 - Did not copy the unsafe hull prefilter or blanket exclusion of rare NPCs.
 - Historical mean-shift, alternate renderers, and overlap-merging experiments remain reference material, not enabled features.
-- Neither version provides terrain-aware shapes or holes. The new hover path resolves overlaps among polygons in the native mouse-focus stack; it does not select through UI blockers or add polygon clicks/tooltips.
-- Direct hover affects only currently drawn areas and does not extend marker previews or change pinning. Missing motion APIs leave polygons noninteractive. Native POI remains future work.
+- Neither version provides terrain-aware shapes or holes. Overlapping polygons highlight together only when their shapes contain the cursor and they participate in the native focus stack. UI blockers still exclude underlying polygons.
+- Marker-associated and direct-hover highlights combine. Questie icon propagation, clicks, and tooltips are unchanged; no polygon clicks/tooltips were added.
+- Direct hover affects only drawn areas and does not extend previews or change pinning. Missing motion APIs leave polygon frames noninteractive, but marker-associated highlighting still works. Native POI remains future work.
+
+## Follow-up
+
+- Review waypoint frame levels. They likely belong below polygons, but the existing level `2015` is unchanged pending review and in-game checks. Keep motion propagation enabled throughout stacked waypoint and polygon frames regardless of their final order.
 
 **Validation:** offline tests, lint, loader checks, and packaging tests pass. In-game rendering, native motion propagation, and click/drag pass-through remain unvalidated.
 
