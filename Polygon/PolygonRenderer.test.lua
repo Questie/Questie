@@ -224,6 +224,19 @@ describe("PolygonRenderer", function()
         end)
     end
 
+    it("rejects a nonboolean marker-highlight request before allocating primitives", function()
+        local renderer = PolygonRenderer.New(canvas)
+        local counts, err = renderer:Draw({{
+            points = {{x = 0, y = 0}, {x = 30, y = 0}, {x = 15, y = 30}}, color = {1, 0, 0}, highlighted = "yes",
+        }}, 100, 100, 8)
+
+        assert.is_nil(counts)
+        assert.matches("Invalid polygon highlight flag", err)
+        assert.are_equal(0, #frames)
+        assert.are_equal(0, #textures)
+        assert.are_same({}, renderer.highlightedFrames)
+    end)
+
     it("clears idempotently and replaces a previous draw with an empty view", function()
         local renderer = PolygonRenderer.New(canvas)
         renderer:Draw({{points = {{x = 0, y = 0}, {x = 30, y = 0}, {x = 15, y = 30}}, color = {1, 0, 0}}}, 100, 100, 8)
@@ -285,24 +298,28 @@ describe("PolygonRenderer", function()
             assert.is_nil(frames[2].scripts)
         end)
 
-        it("chooses the topmost containing polygon rather than the topmost bounding rectangle", function()
+        it("highlights every containing polygon and restores only the shape the cursor leaves", function()
             local renderer = _NewHoverRenderer()
             renderer:Draw({
                 {points = {{x = 0, y = 0}, {x = 50, y = 0}, {x = 50, y = 50}, {x = 0, y = 50}}, color = {0.2, 0.4, 0.6}},
                 {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.6, 0.4, 0.2}},
             }, 100, 100, 8)
             foci = {frames[2], frames[1]}
-            cursorX, cursorY = 0.3, 0.3
-            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
-            assert.are_equal(1.8, frames[1].borders[1].line[6])
-            assert.are_equal(1.5, frames[2].borders[1].line[6])
-
             cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.are_equal(frames[2], renderer.hoveredFrame)
-            assert.are_equal(1.5, frames[1].borders[1].line[6])
+            assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.hoveredFrames)
+            assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.highlightedFrames)
+            assert.are_equal(1.8, frames[1].borders[1].line[6])
             assert.are_equal(1.8, frames[2].borders[1].line[6])
+
+            local retainedLine = frames[1].borders[1].line
+            cursorX, cursorY = 0.3, 0.3 -- In both rectangles, but no longer in the triangle.
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
+            assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
+            assert.are_equal(retainedLine, frames[1].borders[1].line)
+            assert.are_equal(1.8, frames[1].borders[1].line[6])
+            assert.are_equal(1.5, frames[2].borders[1].line[6])
         end)
 
         it("does not highlight an obscured polygon absent from the native propagation stack", function()
@@ -310,11 +327,11 @@ describe("PolygonRenderer", function()
             renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
             cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
             foci = {{}} -- A nonpropagating UI region excludes the polygon, despite its geometry containing the cursor.
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
             assert.are_equal(1.5, frames[1].borders[1].line[6])
         end)
 
@@ -325,7 +342,7 @@ describe("PolygonRenderer", function()
             cursorX, cursorY, foci = 0.1, 0.1, {overlay, frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
 
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
             assert.are_equal(1.8, frames[1].borders[1].line[6])
         end)
 
@@ -335,13 +352,13 @@ describe("PolygonRenderer", function()
             cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
             local driver = renderer.hoverDriver
             driver.scripts.OnUpdate(driver, 0.04)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
             driver.scripts.OnUpdate(driver, 0.04)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
             cursorX, cursorY = 0.3, 0.3 -- Still in the same rectangle, but no longer in its triangle.
             driver.scripts.OnUpdate(driver, 0.08)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
         end)
 
         it("includes exact edges and vertices in the polygon", function()
@@ -349,14 +366,14 @@ describe("PolygonRenderer", function()
             renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
             cursorX, cursorY, foci = 0.2, 0.2, {frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
             cursorX, cursorY = 0, 0
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
         end)
 
-        it("brightens only the selected border without overriding marker fade, then restores it", function()
+        it("brightens a hovered border without overriding marker fade, then restores it", function()
             local renderer = _NewHoverRenderer()
             renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6, 0.05}, borderAlpha = 0.1875}}, 100, 100, 8)
@@ -383,14 +400,14 @@ describe("PolygonRenderer", function()
             cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
 
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
             assert.are_same({0.25, 0.5, 0.75, 0}, border.color)
             assert.are_equal(1.8, border.line[6])
             assert.are_same({0.2, 0.4, 0.6, 0.05}, frames[1].fills[1].color)
 
             foci = {}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({0.2, 0.4, 0.6, 0}, border.color)
             assert.are_equal(1.5, border.line[6])
         end)
@@ -408,7 +425,7 @@ describe("PolygonRenderer", function()
                     color = {0.2, 0.4, 0.6}, borderAlpha = 0.1875}}, 100, 100, 8)
                 cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
                 renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-                assert.are_equal(frames[1], renderer.hoveredFrame)
+                assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
                 local readMouseFoci = spy.new(function() return foci end)
                 renderer.hoverInput.getMouseFoci = readMouseFoci
@@ -416,7 +433,7 @@ describe("PolygonRenderer", function()
                 renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
 
                 assert.spy(readMouseFoci).was.not_called()
-                assert.is_nil(renderer.hoveredFrame)
+                assert.are_same({}, renderer.hoveredFrames)
                 assert.are_same({0.2, 0.4, 0.6, 0.1875}, frames[1].borders[1].color)
                 assert.are_equal(1.5, frames[1].borders[1].line[6])
             end)
@@ -428,7 +445,7 @@ describe("PolygonRenderer", function()
                 color = {0.2, 0.4, 0.6}, borderAlpha = 0.1875}}, 100, 100, 8)
             cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
             local readMouseFoci = spy.new(function() return foci end)
             renderer.hoverInput.getMouseFoci = readMouseFoci
@@ -437,7 +454,7 @@ describe("PolygonRenderer", function()
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
 
             assert.spy(readMouseFoci).was.not_called()
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({0.2, 0.4, 0.6, 0.1875}, frames[1].borders[1].color)
             assert.are_equal(1.5, frames[1].borders[1].line[6])
         end)
@@ -449,7 +466,7 @@ describe("PolygonRenderer", function()
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             cursorX, cursorY = nil, nil
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
         end)
 
         it("rechecks a stationary cursor against replacement outlines on reused frames", function()
@@ -457,13 +474,109 @@ describe("PolygonRenderer", function()
             renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
             cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
             renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0, 1, 0}}}, 100, 100, 8)
-            assert.are_equal(frames[1], renderer.hoveredFrame) -- Immediate recheck, without any cursor motion.
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames) -- Immediate recheck, without any cursor motion.
             renderer:Draw({{points = {{x = 60, y = 60}, {x = 90, y = 60}, {x = 60, y = 90}}, color = {0, 0, 1}}}, 100, 100, 8)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
             assert.are_equal(2, #frames) -- One reused bounding frame and the shared driver.
+        end)
+
+        it("does not redraw borders while the geometric selection stays unchanged", function()
+            local renderer = _NewHoverRenderer()
+            renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
+                color = {0.2, 0.4, 0.6}}}, 100, 100, 8)
+            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            local highlightedLine = frames[1].borders[1].line
+
+            cursorX, cursorY = 0.15, 0.1
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are_equal(highlightedLine, frames[1].borders[1].line)
+            foci = {}
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            local restoredLine = frames[1].borders[1].line
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are_not.equal(highlightedLine, restoredLine)
+            assert.are_equal(restoredLine, frames[1].borders[1].line)
+        end)
+
+        it("combines direct overlap hits with the separate marker highlight", function()
+            local renderer = _NewHoverRenderer()
+            renderer:Draw({
+                {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
+                    color = {0.2, 0.4, 0.6}, highlighted = true, borderAlpha = 0.1875},
+                {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.6, 0.4, 0.2}},
+            }, 100, 100, 8)
+            local markerLine = frames[1].borders[1].line
+            cursorX, cursorY, foci = 0.1, 0.1, {frames[2], frames[1]}
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.highlightedFrames)
+            assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.hoveredFrames)
+            assert.are_equal(markerLine, frames[1].borders[1].line)
+
+            foci = {}
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are_same({}, renderer.hoveredFrames)
+            assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
+            assert.are_equal(markerLine, frames[1].borders[1].line)
+
+            cursorX, cursorY = nil, nil
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are_same({}, renderer.hoveredFrames)
+            assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
+            assert.are_equal(markerLine, frames[1].borders[1].line)
+            assert.are_same({0.25, 0.5, 0.75, 0.1875}, frames[1].borders[1].color)
+            assert.are_equal(1.5, frames[2].borders[1].line[6])
+        end)
+
+        it("keeps marker-associated highlighting available without native hover readers", function()
+            local renderer = PolygonRenderer.New(canvas)
+            local shapes = {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
+                color = {0.2, 0.4, 0.6}, highlighted = true, borderAlpha = 0.1875}}
+            renderer:Draw(shapes, 100, 100, 8)
+            assert.is_false(frames[1].mouse)
+            assert.is_false(frames[1].motion)
+            assert.are_same({}, renderer.hoveredFrames)
+            assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
+            assert.are_equal(1.8, frames[1].borders[1].line[6])
+            assert.are_same({0.25, 0.5, 0.75, 0.1875}, frames[1].borders[1].color)
+            assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
+
+            renderer.hoverDriver:Hide()
+            assert.are_same({}, renderer.highlightedFrames)
+            assert.are_equal(1.5, frames[1].borders[1].line[6])
+            renderer.hoverDriver:Show()
+            assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
+            assert.are_equal(1.8, frames[1].borders[1].line[6])
+
+            shapes[1].highlighted = false
+            renderer:Draw(shapes, 100, 100, 8)
+            assert.are_same({}, renderer.highlightedFrames)
+            assert.is_false(frames[1].polygonHighlighted)
+            assert.are_equal(1.5, frames[1].borders[1].line[6])
+            assert.are_same({0.2, 0.4, 0.6, 0.1875}, frames[1].borders[1].color)
+            assert.is_false(renderer.hoverDriver.shown)
+            assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
+            assert.are_equal(2, #frames)
+        end)
+
+        it("keeps marker highlights without enabling unavailable motion propagation", function()
+            local nativeCreateFrame = _G.CreateFrame
+            _G.CreateFrame = function(...)
+                local frame = nativeCreateFrame(...)
+                frame.SetPropagateMouseMotion = nil
+                return frame
+            end
+            local renderer = _NewHoverRenderer()
+            renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
+                color = {0.2, 0.4, 0.6}, highlighted = true}}, 100, 100, 8)
+            assert.is_false(frames[1].mouse)
+            assert.is_false(frames[1].motion)
+            assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
+            assert.are_same({}, renderer.hoveredFrames)
+            assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
         end)
 
         it("stops on hide and resumes with an immediate check when its canvas shows again", function()
@@ -474,23 +587,28 @@ describe("PolygonRenderer", function()
             driver.scripts.OnUpdate(driver, 0.08)
             driver:Hide() -- Model the inherited hide of the canvas child driver.
             assert.is_nil(driver.scripts.OnUpdate)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
             assert.are_equal(1.5, frames[1].borders[1].line[6])
 
             driver:Show()
             assert.is_function(driver.scripts.OnUpdate)
-            assert.are_equal(frames[1], renderer.hoveredFrame)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
         end)
 
-        it("clears selection, input flags, references, and the driver before pooling", function()
+        it("clears all highlights, input flags, references, and the driver before pooling", function()
             local renderer = _NewHoverRenderer()
-            renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            renderer:Draw({
+                {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.2, 0.4, 0.6}, highlighted = true},
+                {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.6, 0.4, 0.2}},
+            }, 100, 100, 8)
+            cursorX, cursorY, foci = 0.1, 0.1, {frames[2], frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            local markerBorder, geometricBorder = frames[1].borders[1], frames[2].borders[1]
             renderer:Clear()
             renderer:Clear()
 
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
+            assert.are_same({}, renderer.highlightedFrames)
             assert.are_same({}, renderer.hoverFrames)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
             assert.is_false(renderer.hoverDriver.shown)
@@ -499,13 +617,19 @@ describe("PolygonRenderer", function()
             assert.is_false(frames[1].propagate)
             assert.is_nil(frames[1].polygonOutline)
             assert.is_nil(frames[1].polygonColor)
-            assert.are_equal(1, #renderer.freeFrames)
-            assert.are_equal(3, #renderer.freeBorders)
+            assert.is_nil(frames[1].polygonHighlighted)
+            assert.is_nil(frames[2].polygonHighlighted)
+            assert.are_equal(1.5, markerBorder.line[6])
+            assert.are_equal(1.5, geometricBorder.line[6])
+            assert.are_same({0.2, 0.4, 0.6, 0.75}, markerBorder.color)
+            assert.are_equal(2, #renderer.freeFrames)
+            assert.are_equal(6, #renderer.freeBorders)
         end)
 
-        it("leaves no hover driver running after a replacement draw fails", function()
+        it("leaves no hover driver or marker highlight after a replacement draw fails", function()
             local renderer = _NewHoverRenderer()
-            renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
+            renderer:Draw({{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
+                color = {0.2, 0.4, 0.6}, highlighted = true}}, 100, 100, 8)
             cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             failTexture = 2
@@ -515,7 +639,9 @@ describe("PolygonRenderer", function()
 
             assert.is_nil(counts)
             assert.matches("texture configuration failed", err)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
+            assert.are_same({}, renderer.highlightedFrames)
+            assert.is_nil(frames[1].polygonHighlighted)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
             assert.are_equal(0, #renderer.activeFrames)
             assert.are_same({}, renderer.hoverFrames)
@@ -528,7 +654,8 @@ describe("PolygonRenderer", function()
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             renderer:Draw({}, 100, 100, 8)
 
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
+            assert.are_same({}, renderer.highlightedFrames)
             assert.is_false(renderer.hoverDriver.shown)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
             assert.are_same({}, renderer.hoverFrames)
@@ -541,11 +668,11 @@ describe("PolygonRenderer", function()
             cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
             frames[1]:Hide()
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
 
             renderer:Clear()
             renderer:UpdateHover()
-            assert.is_nil(renderer.hoveredFrame)
+            assert.are_same({}, renderer.hoveredFrames)
             assert.is_nil(frames[1].polygonOutline)
         end)
 

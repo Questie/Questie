@@ -5,7 +5,7 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 ## Player behavior
 
 - Local, incomplete quest objectives use representative cluster markers on the world map.
-- Hover a marker to preview that objective's areas on the current map. Plain left-click on its own map toggles pinned visibility; clicking from another map first navigates there. Existing modifier and right-click actions remain unchanged.
+- Hover a marker to preview that objective's areas on the current map and highlight only its attached cluster outline. Plain left-click on its own map toggles pinned visibility; clicking from another map first navigates there. Existing modifier and right-click actions remain unchanged.
 - Leaving clears the preview, not a pinned selection. Map changes and closing the map clear previews; pins remain in memory until objective removal or reset.
 - Isolated, collinear, and small clusters keep a point marker without an area. Rare-only targets are not discarded.
 - Ordinary minimap objective icons remain, including waypoint-only zone fallbacks. Existing world-map waypoint lines attach to cluster markers. This feature adds neither minimap polygons nor minimap waypoint rendering.
@@ -13,7 +13,7 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 
 The preset enables objective display, applies normal Questie icon preferences, and disables Blizzard quest POIs where available. Selecting another preset, including Custom, exits polygon mode. Customizing individual icon preferences does not itself exit the mode.
 
-Areas appear only on their matching UI map and follow their markers' hidden/tracking policy and fade opacity. Where supported, hovering a drawn polygon highlights its outline. Polygon frames accept propagated mouse motion, not clicks; click actions and tooltips remain with the map and markers. Direct polygon hover does not extend a marker preview or change pinned visibility.
+Areas appear only on their matching UI map and follow their markers' hidden/tracking policy and fade opacity. Where supported, direct hover highlights all participating polygons whose shapes contain the cursor, including overlaps. Polygon frames accept propagated mouse motion, not clicks. Questie icon propagation, click actions, and tooltips are unchanged. Direct polygon hover does not extend a marker preview or change pinned visibility.
 
 ## Modules and data flow
 
@@ -42,7 +42,7 @@ Each result has `{uiMapId, x, y, outline?, representative}`. Marker coordinates 
 
 `Build` must run through a coroutine-aware caller such as ThreadLib. Work checks cancellation/time every 256 operations, yielding after approximately 2 ms or 32,768 operations. The operation ceiling also applies without a working clock. This is a cooperative budget, not a hard frame-time guarantee; clustering and the first hull still have quadratic worst cases.
 
-Renderer shapes contain `{points = outline, color = {r, g, b, fillAlpha}, borderAlpha = optionalAlpha}`. Pass the canvas's full logical width/height and a frame level below markers. Outlines must be ordered, convex, and not repeat their closing vertex. `Draw` replaces the visible set and returns counts or `nil, error`; a failed draw clears partial allocations. Ordinary canvas zoom/pan is inherited; logical canvas-size changes trigger reprojection.
+Renderer shapes contain `{points = outline, color = {r, g, b, fillAlpha}, borderAlpha = optionalAlpha, highlighted = optionalBoolean}`. `highlighted` requests an outline highlight through marker association, independently of native hover support. Pass the canvas's full logical width/height and a frame level below markers. Outlines must be ordered, convex, and not repeat their closing vertex. `Draw` replaces the visible set and returns counts or `nil, error`; a failed draw clears partial allocations. Ordinary canvas zoom/pan is inherited; logical canvas-size changes trigger reprojection.
 
 Compared with the historical implementation, geometry has explicit units, deterministic ordering, duplicate removal and farthest-collinear hull selection. It omits the unsafe interior-point prefilter, uses an efficient monotone-chain envelope for the spline sample cloud, and measures actual point-to-segment distance during reduction. Rendering retains the two-edge quad fan with independent borders, using client `WHITE8X8` rather than copied addon artwork.
 
@@ -57,11 +57,13 @@ Optional `hoverInput` supplies two readers:
 
 The adapter supplies these only when the native focus reader and map cursor getter exist. Frames begin with `EnableMouse(false)`; capable frames then use `SetPropagateMouseMotion(true)` and `EnableMouseMotion(true)`. Clicks remain disabled. Missing readers or frame methods leave polygons fully noninteractive rather than blocking underlying input.
 
-One shared update checks every 80 ms, including cursor movement within an unchanged rectangular frame. It selects the first participating polygon whose actual outline contains the cursor; edges and vertices count as inside. The focus stack is not every overlapping frame: polygons obscured by UI that stops propagation cannot highlight.
+One shared update checks every 80 ms, including cursor movement within an unchanged rectangular frame. It highlights every participating polygon whose actual outline contains the cursor; edges and vertices count as inside. Rectangular overlap alone is insufficient. The focus stack is not every overlapping frame: UI that stops propagation excludes underlying polygons from direct hover.
 
-Only the selected border changes: thickness increases 20%, RGB increases 25% capped at 1, and border alpha stays unchanged. Leaving restores the original style without rebuilding geometry. Showing a new drawing immediately reevaluates the cursor, including a stationary cursor; native focus-stack refresh timing still needs live validation.
+The effective highlight set combines these geometric hits with each shape's `highlighted` request. The adapter sets that flag only when its specific marker is hovered, not for every cluster in the objective. Marker highlighting works without native hover APIs, and leaving a polygon cannot erase a still-active marker highlight. No propagation changes are applied to Questie icons.
 
-Clear, empty/failed draws, map hide, and reset stop hover updates and remove selection. Clear drops shape references before returning frames/textures to their pools. The driver is reused across draws; no per-polygon tickers, accumulating hooks, or global input replacements are installed.
+Each highlighted border becomes 20% thicker and its RGB increases 25%, capped at 1; border alpha stays unchanged. Borders restyle only when effective selection changes, without rebuilding geometry. Showing a drawing immediately reevaluates highlights, including a stationary cursor; native focus-stack refresh timing still needs live validation.
+
+Clear, empty/failed draws, map hide, and reset stop hover updates and clear both highlight sets. Clear drops shape references before returning frames/textures to their pools. The shared driver is reused; marker-only highlighting uses its hide/show handling without an `OnUpdate` callback. No per-polygon tickers, accumulating hooks, or global input replacements are installed.
 
 ## Cache and lifetime
 
@@ -113,7 +115,7 @@ Adjacent tests cover geometry/cancellation, workload resume limits, rendering/po
 With separate permission for a development client, verify:
 
 - Popup layout and mode switching at normal and unusual UI scales.
-- Marker preview/pinning and direct polygon hover, including overlapping shapes, UI blockers, and edges.
+- Marker preview/pinning, exact marker-to-outline highlighting, simultaneous overlap highlights, UI blockers, and edges.
 - Native motion propagation, unchanged map clicks/dragging, and stationary-cursor focus after redraw.
 - Map navigation, zoom/pan, resizing, and reopening.
 - Progress, completion/removal, untracking/hiding, phase changes, profile changes, and disable/re-enable.
