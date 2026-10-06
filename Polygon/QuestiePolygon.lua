@@ -5,7 +5,12 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field frame IconFrame
 ---@field entry PolygonObjectiveEntry
 ---@field cluster PolygonCluster?
----@field projectedViews table? Complete destination-map outlines, scoped to the source geometry identity.
+---@field projectedViews PolygonProjectionCache? Coordinates only; native drawings belong to PolygonRenderCache.
+
+---@class PolygonProjectionCache
+---@field outline table[] Original immutable outline identifying this cache's source geometry.
+---@field sourceMapId number
+---@field maps table<number, table[]> Complete immutable outlines in destination-map percentages.
 
 ---@class PolygonObjectiveEntry
 ---@field active boolean
@@ -27,6 +32,8 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 local PolygonGeometry = QuestieLoader:ImportModule("PolygonGeometry")
 ---@type PolygonRenderer
 local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
+---@type PolygonRenderCache
+local PolygonRenderCache = QuestieLoader:ImportModule("PolygonRenderCache")
 ---@type PolygonNudging
 local PolygonNudging = QuestieLoader:ImportModule("PolygonNudging")
 ---@type QuestieMap
@@ -45,7 +52,9 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local entries = {}
 -- Presentation objects survive resets; objective entries and pending callbacks do not.
 local provider
-local renderer
+---@type PolygonViewCache?
+local renderCache
+---@type PolygonNudgeLayout?
 local nudging
 local Provider = {}
 local refreshPending = false
@@ -57,6 +66,7 @@ function QuestiePolygon.IsEnabled()
     return profile.enableQuestiePolygons == true and profile.enableObjectives ~= false and profile.enabled ~= false
 end
 
+-- Marker layout and visible-set selection
 -- Original map locations define the stacks. Hidden, queued, and offscreen members
 -- retain their slots so scrolling and temporary visibility changes cannot rearrange icons.
 function QuestiePolygon.UpdateNudging()
@@ -92,13 +102,13 @@ function QuestiePolygon.ScheduleNudging()
     end)
 end
 
--- The map provider owns drawing only. Marker visibility remains Questie's policy;
--- a hidden/untracked objective cannot leave behind a pinned area.
+---Selects eligible outlines and appearance; PolygonRenderCache owns native view reuse.
+---Pinning requests visibility but cannot override the owning marker's hiding policy.
 function QuestiePolygon.Refresh()
-    if not renderer then return end
+    if not renderCache then return end
     local map = provider and provider.owningMap
     if not map or not map:IsShown() or not QuestiePolygon.IsEnabled() then
-        renderer:Clear()
+        renderCache:Hide()
         return
     end
 
@@ -107,10 +117,11 @@ function QuestiePolygon.Refresh()
     local mapType = mapData and mapData.mapType
     -- Markers may appear on overview maps, but polygon drawing is only for detailed views.
     if mapType ~= Enum.UIMapType.Zone and mapType ~= Enum.UIMapType.Dungeon and mapType ~= Enum.UIMapType.Micro then
-        renderer:Clear()
+        renderCache:Hide()
         return
     end
 
+    -- Build the complete desired set. Omitted views are hidden, not evicted.
     local shapes = {}
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
@@ -128,6 +139,8 @@ function QuestiePolygon.Refresh()
                         if alpha > 0 then
                             local sourceMapId = marker.cluster.uiMapId
                             local points = outline
+                            -- Source maps borrow the original outline. Other maps cache coordinates
+                            -- separately from the retained frames managed by PolygonRenderCache.
                             if sourceMapId ~= mapId then
                                 local cache = marker.projectedViews
                                 if not cache or cache.outline ~= outline or cache.sourceMapId ~= sourceMapId then
@@ -161,6 +174,7 @@ function QuestiePolygon.Refresh()
                             if points then
                                 local color = entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
                                 shapes[#shapes + 1] = {
+                                    owner = entry, key = marker, source = outline, sourceMapId = sourceMapId,
                                     points = points,
                                     color = {color[1], color[2], color[3], 0.25 * alpha},
                                     borderAlpha = 0.75 * alpha,
@@ -175,12 +189,14 @@ function QuestiePolygon.Refresh()
     end
     local canvas = map:GetCanvas()
     local level = map:GetPinFrameLevelsManager():GetValidFrameLevel("PIN_FRAME_LEVEL_QUEST_BLOB")
-    local _, err = renderer:Draw(shapes, canvas:GetWidth(), canvas:GetHeight(), level)
+    local _, err = renderCache:Present(mapId, shapes, canvas:GetWidth(), canvas:GetHeight(), level)
     if err then Questie.Error("Polygon drawing failed:", err) end
 end
 
+---Coalesces drawing requests until the next frame, when map and marker state is read.
+---The epoch prevents callbacks from an earlier reset from touching a new pending batch.
 function QuestiePolygon.ScheduleRefresh()
-    if not renderer or not provider or not provider.owningMap or refreshPending then return end
+    if not renderCache or not provider or not provider.owningMap or refreshPending then return end
     refreshPending = true
     local scheduledEpoch = refreshEpoch
     C_Timer.After(0, function()
@@ -190,25 +206,29 @@ function QuestiePolygon.ScheduleRefresh()
     end)
 end
 
+-- Map-provider presentation lifecycle
 function Provider:OnAdded(map)
     self.owningMap = map
     nudging:SetEnabled(map:IsShown() and QuestiePolygon.IsEnabled())
 end
 
 function Provider:OnRemoved()
-    nudging:SetEnabled(false)
-    renderer:Clear()
     self.owningMap = nil
+    nudging:SetEnabled(false)
+    local hidden, err = pcall(renderCache.Hide, renderCache)
+    if not hidden then Questie.Error("Polygon hiding failed:", err) end
 end
 
--- Map opening can send all four notifications in one frame. Share the marker
--- refresh bucket so drawing sees the final canvas size and HBD visibility state.
+-- RefreshAllData presents immediately. Other provider and marker notifications
+-- coalesce through ScheduleRefresh to catch later canvas and HBD visibility changes.
 function Provider:RefreshAllData()
     QuestiePolygon.UpdateNudging()
-    QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.Refresh()
 end
 
 function Provider:OnMapChanged()
+    -- Old-map views must stay hidden until deferred visibility/projection checks finish.
+    renderCache:Hide()
     nudging:Reapply()
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
@@ -235,12 +255,17 @@ function Provider:OnHide()
             entry.hovered = nil
         end
     end
-    renderer:Clear()
+    renderCache:Hide()
 end
 
--- Geometry and markers have independent ownership. Invalidate before releasing frames,
--- so a yielding generator or deferred draw cannot republish this objective.
+-- Objective teardown
+-- Callers invalidate the entry or advance its generation before releasing markers.
+-- Release retained views before recycling icon frames; cache keys are marker records.
 local function _ReleaseMarkers(entry)
+    if renderCache then
+        local released, err = pcall(renderCache.Release, renderCache, entry)
+        if not released then Questie.Error("Polygon release failed:", err) end
+    end
     local markers = entry.markers
     entry.markers = {}
     for _, marker in ipairs(markers) do
@@ -280,24 +305,36 @@ function QuestiePolygon.Reset()
     if nudging then nudging:Clear() end
     local oldEntries = entries
     entries = {}
+    -- Invalidate every generation before native cleanup, which can fail. Stale
+    -- waypoint jobs must not stay valid or skip marker teardown after that failure.
     for _, questEntries in pairs(oldEntries) do
-        for _, entry in pairs(questEntries) do
-            entry.active = false
-            _ReleaseMarkers(entry)
-        end
+        for _, entry in pairs(questEntries) do entry.active = false end
     end
-    if renderer then renderer:Clear() end
+    -- Release the whole drawing in one batch; failed native views remain owned by
+    -- the renderer for a later retry, without preventing marker/provider teardown.
+    if renderCache then
+        local cleared, err = pcall(renderCache.Clear, renderCache)
+        if not cleared then Questie.Error("Polygon cleanup failed:", err) end
+    end
+    for _, questEntries in pairs(oldEntries) do
+        for _, entry in pairs(questEntries) do _ReleaseMarkers(entry) end
+    end
     if provider and provider.owningMap then
         provider.owningMap:RemoveDataProvider(provider)
     end
     -- WoW does not destroy native regions when their Lua wrappers become unreachable.
-    -- Keep the detached provider and cleared renderer so later mode/profile resets reuse their pools.
+    -- Keep the detached provider and cleared cache/renderer so later mode/profile resets reuse their pools.
 end
 
+-- Marker interaction and external waypoint ownership
 -- Called by the existing icon lifecycle, never installed as accumulating frame hooks.
 function QuestiePolygon.MarkerRemoved(frame)
     local marker = frame.polygonMarker
     if not marker then return end
+    if renderCache then
+        local released, err = pcall(renderCache.Release, renderCache, marker.entry, marker)
+        if not released then Questie.Error("Polygon release failed:", err) end
+    end
     if nudging then nudging:Remove(frame) end
     frame.polygonMarker = nil
     marker.entry.hovered = nil
@@ -389,6 +426,7 @@ function QuestiePolygon.GetObjectiveMarkers(objective)
     return frames
 end
 
+-- Objective collection and generation publication
 ---Builds from the full phase-filtered spawn list, not the incremental icon list.
 ---Returns newly drawn marker/zone owners for existing waypoint creation; cached updates
 ---return no new owners, preventing duplicate waypoint frames. The third return carries
@@ -511,7 +549,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     local clusters = PolygonGeometry.Build(points, nil, isCancelled)
     if not clusters or isCancelled() then return nil, {} end
 
-    -- Lazily retain one provider, renderer, layout, and size-change hook across resets.
+    -- Lazily retain one provider, render cache/renderer, layout, and size-change hook across resets.
     if not provider then
         provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
         local scrollContainer = WorldMapFrame.ScrollContainer
@@ -521,7 +559,8 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                 return scrollContainer:GetNormalizedCursorPosition()
             end}
         end
-        renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), hoverInput)
+        local renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), hoverInput)
+        renderCache = PolygonRenderCache.New(renderer)
         nudging = PolygonNudging.New()
         -- Preference setters resize before writing their new value. Read configured
         -- widths on the next frame; this single retained hook is inert while detached.
