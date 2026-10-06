@@ -5,6 +5,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field frame IconFrame
 ---@field entry PolygonObjectiveEntry
 ---@field cluster PolygonCluster?
+---@field projectedViews table? Complete destination-map outlines, scoped to the source geometry identity.
 
 ---@class PolygonObjectiveEntry
 ---@field active boolean
@@ -101,25 +102,71 @@ function QuestiePolygon.Refresh()
         return
     end
 
-    local shapes = {}
     local mapId = map:GetMapID()
+    local mapData = HBD.mapData and HBD.mapData[mapId]
+    local mapType = mapData and mapData.mapType
+    -- Markers may appear on overview maps, but polygon drawing is only for detailed views.
+    if mapType ~= Enum.UIMapType.Zone and mapType ~= Enum.UIMapType.Dungeon and mapType ~= Enum.UIMapType.Micro then
+        renderer:Clear()
+        return
+    end
+
+    local shapes = {}
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
             if entry.active and not entry.building and (entry.pinned or entry.hovered) then
                 for _, marker in ipairs(entry.markers) do
                     local frame = marker.frame
                     local outline = marker.cluster and marker.cluster.outline
-                    if outline and frame.data and frame.UiMapID == mapId and not frame.hidden
-                        and not frame._hidden_by_flash and not frame:ShouldBeHidden() then
+                    local parent = frame:GetParent()
+                    -- IsVisible includes native parent visibility. The wrapper check also rejects
+                    -- queued or released icons reparented to UIParent, even while UIParent is shown.
+                    if outline and frame.data and frame._loaded and frame.polygonMarker == marker and frame:IsVisible()
+                        and parent and parent.pinTemplate == "HereBeDragonsPinsTemplateQuestie" and parent.icon == frame
+                        and not frame.hidden and not frame._hidden_by_flash and not frame:ShouldBeHidden() then
                         local alpha = frame.texture.a or 1
                         if alpha > 0 then
-                            local color = entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
-                            shapes[#shapes + 1] = {
-                                points = outline,
-                                color = {color[1], color[2], color[3], 0.25 * alpha},
-                                borderAlpha = 0.75 * alpha,
-                                highlighted = entry.hovered == frame,
-                            }
+                            local sourceMapId = marker.cluster.uiMapId
+                            local points = outline
+                            if sourceMapId ~= mapId then
+                                local cache = marker.projectedViews
+                                if not cache or cache.outline ~= outline or cache.sourceMapId ~= sourceMapId then
+                                    cache = {outline = outline, sourceMapId = sourceMapId, maps = {}}
+                                    marker.projectedViews = cache
+                                end
+                                points = cache.maps[mapId]
+                                if not points then
+                                    -- Project geography, never the nudged marker anchor. Out-of-bounds
+                                    -- vertices remain intact for canvas clipping and geometric hover.
+                                    points = {}
+                                    for i, point in ipairs(outline) do
+                                        local x, y = HBD:TranslateZoneCoordinates(point.x / 100, point.y / 100,
+                                            sourceMapId, mapId, true)
+                                        local secretCoordinates = issecretvalue and (issecretvalue(x) or issecretvalue(y))
+                                        if secretCoordinates or type(x) ~= "number" or type(y) ~= "number" then
+                                            points = nil
+                                            break
+                                        end
+                                        x, y = x * 100, y * 100
+                                        if not (x > -math.huge and x < math.huge and y > -math.huge and y < math.huge) then
+                                            points = nil
+                                            break
+                                        end
+                                        points[i] = {x = x, y = y}
+                                    end
+                                    -- Publish only complete conversions; unavailable views can retry later.
+                                    cache.maps[mapId] = points
+                                end
+                            end
+                            if points then
+                                local color = entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
+                                shapes[#shapes + 1] = {
+                                    points = points,
+                                    color = {color[1], color[2], color[3], 0.25 * alpha},
+                                    borderAlpha = 0.75 * alpha,
+                                    highlighted = entry.hovered == frame,
+                                }
+                            end
                         end
                     end
                 end
