@@ -413,6 +413,12 @@ end
 --- Fires when a System Message (yellow text) is output to the main chat window
 ---@param message string The message value from the CHAT_MSG_SYSTEM event
 function _EventHandler:ChatMsgSystem(message)
+    if issecretvalue and issecretvalue(message) then
+        -- The text cannot identify reputation changes; check the current faction state instead.
+        _EventHandler:ChatMsgCompatFactionChange()
+        return
+    end
+
     -- When a new quest is accepted or completed quest is turned in, update the LibDataBroker text with the appropriate message
     if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
         MinimapIcon:UpdateText(message)
