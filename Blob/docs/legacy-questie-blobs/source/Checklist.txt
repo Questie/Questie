@@ -1,0 +1,40 @@
+Questie
+
+Messaging system, make messages be functions if one needs to input data into the string.
+Accept Quest: Done
+Complete Quest: Done
+Quest Removed: Done
+Abandon Quest:
+
+Meddela att man kan delete:a ett item för ett quest,
+Kör först pre-compile där man loopar igenom alla quests, kollar sourceItemId
+sen lägg in questId i ItemDB på ['relatedQuests'] = 15
+
+Zoom Thickness when zooming in: DONE
+Hide mob spawns where the mob is red or higher
+
+Cleansing the well in mulgore broken
+Första secret note #1 finns inte
+https://classic.wowhead.com/quest=5064/grimtotem-spying
+Disrupt the attacks barrens tooltip fel?
+
+Fixa CalcHotzone så att avg uträkningen sker under själva loopen istället för hela listan varje gång
+
+Drop quests kombinera utroppstecken
+
+Quest objective är klart visas inte i tooltipen? Elixr of Suffering, Creeper Ichor
+https://classic.wowhead.com/item=16408/befouled-water-globe#comments Kräver Stonetalon Standstill
+
+
+De kombinerade Available ikonerna måste rekursivt titta på subNotes giverIds
+
+/run QLAvailable:Initialize()
+/run Quest:CalculateAvailableQuests()
+
+https://discord.com/channels/263036731165638656/263040777658171392/796629606023168022
+[4:52 AM] aero: we gotta replace("$N", UnitName("Player")) in the tooltips
+[5:06 AM] Drejjmit: And <Name>/<name>/<nombre>/<nom>/<имя> from locale
+[5:06 AM] Drejjmit: There are some <class>/<Klasse>/<classe>/<class>/<класс>/<clase> as well.
+[7:41 AM] aero: we should just have a standard :GetQuestText() function
+[9:11 AM] TheCrux: Good idea! :thumbsup:
+[9:11 AM] TheCrux: Also @aero any news on the GitHub Organization?
