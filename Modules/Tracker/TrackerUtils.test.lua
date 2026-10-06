@@ -512,6 +512,7 @@ describe("TrackerUtils", function()
     describe("polygon objective map highlighting", function()
         local Polygon, objective, marker, unrelated, originalGlobals, flashTick, quest
         local QuestieMap, FramePool, QuestieCompat, originalDraw, originalUnload, originalOpenWorldMap
+        local originalRendererNew, originalCacheNew
 
         before_each(function()
             QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
@@ -538,7 +539,17 @@ describe("TrackerUtils", function()
                 AddDataProvider = function(self, provider) provider:OnAdded(self) end,
                 RemoveDataProvider = function(_, provider) provider:OnRemoved() end,
                 Show = spy.new(function() end), SetMapID = spy.new(function() end)}
-            QuestieLoader:ImportModule("PolygonRenderer").New = function() return {Clear = function() end} end
+            local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
+            local RenderCache = QuestieLoader:ImportModule("PolygonRenderCache")
+            originalRendererNew, originalCacheNew = Renderer.New, RenderCache.New
+            local renderer = {}
+            Renderer.New = function() return renderer end
+            -- Tracker highlighting borrows marker frames, not rendered polygon views.
+            RenderCache.New = function(renderDependency)
+                assert.are.equal(renderer, renderDependency)
+                return {Present = function() return true end, Hide = function() end,
+                    Clear = function() end, Release = function() end}
+            end
             QuestieLoader:ImportModule("PolygonNudging").New = function()
                 return {Update = function() end, Remove = function() end, Clear = function() end,
                     SetEnabled = function() end, Reapply = function() end}
@@ -588,6 +599,8 @@ describe("TrackerUtils", function()
         after_each(function()
             Polygon.Reset()
             QuestieCompat.OpenWorldMap = originalOpenWorldMap
+            QuestieLoader:ImportModule("PolygonRenderer").New = originalRendererNew
+            QuestieLoader:ImportModule("PolygonRenderCache").New = originalCacheNew
             QuestieMap.DrawWorldIcon = originalDraw
             FramePool.UnloadFrame = originalUnload
             for name, value in pairs(originalGlobals) do _G[name] = value end
