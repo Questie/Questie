@@ -185,6 +185,32 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("GetQuestItemIds", function()
+        it("does not select ordinary item objectives without a spell or equipment slot", function()
+            getItemCountMock.returns(2)
+            local quest = {Id = 1, ObjectiveData = {{Type = "item", Id = 123}}}
+
+            assert.are.same({}, TrackerUtils.GetQuestItemIds(quest, 0))
+        end)
+
+        it("returns native-first deduplicated candidates without allocating buttons", function()
+            local indexMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetQuestLogIndexByID", function() return 2 end)
+            getItemCountMock.returns(1)
+            getItemSpellMock.returns("Use Item")
+            _G.GetQuestLogSpecialItemInfo = function() return "|Hitem:90001|h[Book]|h", nil, 1, false end
+            TrackerLinePool.GetNextItemButton = spy.new(function() end)
+            local quest = {Id = 91741, sourceItemId = 456, requiredSourceItems = {90001},
+                ObjectiveData = {{Type = "item", Id = 456}}}
+
+            local items, nativeItemId = TrackerUtils.GetQuestItemIds(quest, 0)
+            indexMock:revert()
+
+            assert.are.same({90001, 456}, items)
+            assert.are.equal(90001, nativeItemId)
+            assert.spy(TrackerLinePool.GetNextItemButton).was.not_called()
+        end)
+    end)
+
     describe("AddQuestItemButtons", function()
         it("should add sourceItemId as primary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)

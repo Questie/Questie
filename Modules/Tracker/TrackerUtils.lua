@@ -1060,15 +1060,12 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
     end
 end
 
----@param quest Quest @The quest to add the quest item buttons for
----@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
----@param line table @The line to add the quest item buttons to
----@param questItemButtonSize number @The size of the quest item buttons
----@param trackerQuestFrame table @The tracker quest frame
----@param isMinimizable boolean @true if the quest is minimizable
----@param rePositionLine function @Callback function to reposition the line
----@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
-function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
+---Resolves button candidates without touching frames. Order determines the primary and secondary buttons.
+---@param quest TrackerQuest
+---@param complete number
+---@return ItemId[] usableQuestItems
+---@return ItemId? nativeItemId Bypasses the database item-class check when setting up its button.
+function TrackerUtils.GetQuestItemIds(quest, complete)
     local usableQuestItems = {}
     local nativeItemId
     local questComplete = complete == 1 or quest.isComplete == true
@@ -1104,6 +1101,19 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
         end
     end
 
+    return usableQuestItems, nativeItemId
+end
+
+---@param quest Quest @The quest to add the quest item buttons for
+---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
+---@param line table @The line to add the quest item buttons to
+---@param questItemButtonSize number @The size of the quest item buttons
+---@param trackerQuestFrame table @The tracker quest frame
+---@param isMinimizable boolean @true if the quest is minimizable
+---@param rePositionLine function @Callback function to reposition the line
+---@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
+function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
+    local usableQuestItems, nativeItemId = TrackerUtils.GetQuestItemIds(quest, complete)
     if #usableQuestItems > 0 then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()

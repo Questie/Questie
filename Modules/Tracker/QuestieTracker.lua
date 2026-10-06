@@ -22,6 +22,8 @@ local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerQuestLogSnapshot
+local TrackerQuestLogSnapshot = QuestieLoader:ImportModule("TrackerQuestLogSnapshot")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 ---@type ChallengeModeTimer
@@ -895,17 +897,45 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
     end
 end
 
-function QuestieTracker:Update()
-    -- Prevents calling the tracker too often, especially when the QuestieCombatQueue empties after combat ends
-    local now = GetTime()
-    if (not QuestieTracker.started) or InCombatLockdown() or (now - lastTrackerUpdate) < 0.1 then
+local renderedQuestLogSnapshot
+local questLogRetryPending = false
+
+-- A throttled reconciliation must still run if no further quest event arrives. Keep one retry through combat.
+local function _RetryQuestLogUpdate(delay)
+    if questLogRetryPending then
+        return
+    end
+    questLogRetryPending = true
+    C_Timer.After(delay, function()
+        QuestieCombatQueue:Queue(function()
+            questLogRetryPending = false
+            QuestieTracker:Update(true)
+        end)
+    end)
+end
+
+---Explicit callers always rebuild. Quest-log reconciliation may skip unchanged ordinary quest layouts.
+---@param onlyIfChanged boolean? Reserved for quest-log reconciliation, not settings or other UI changes.
+function QuestieTracker:Update(onlyIfChanged)
+    -- Even a throttled explicit request invalidates the baseline: a later log event must not hide its changes.
+    if not onlyIfChanged then
+        renderedQuestLogSnapshot = nil
+    end
+    if not QuestieTracker.started then
         return
     end
 
-    lastTrackerUpdate = now
+    local now = GetTime()
+    if InCombatLockdown() or (now - lastTrackerUpdate) < 0.1 then
+        if onlyIfChanged then
+            _RetryQuestLogUpdate(math.max(0.01, 0.1 - (now - lastTrackerUpdate)))
+        end
+        return
+    end
 
     -- Check if we're in a pet battle and should hide the tracker
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+        renderedQuestLogSnapshot = nil
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
             QuestieCombatQueue:Queue(function()
                 trackerBaseFrame:Hide()
@@ -916,6 +946,7 @@ function QuestieTracker:Update()
 
     -- Tracker has started but not enabled, hide the frames
     if (not Questie.db.profile.trackerEnabled or QuestieTracker.disableHooks == true) then
+        renderedQuestLogSnapshot = nil
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
             QuestieCombatQueue:Queue(function()
                 if Questie.db.profile.stickyDurabilityFrame then
@@ -944,6 +975,19 @@ function QuestieTracker:Update()
     if focusRestoreDeadline and _RestoreSavedFocus(GetTime() < focusRestoreDeadline) then
         focusRestoreDeadline = nil
     end
+
+    local questLogSnapshot
+    if allowFormattingUpdate and not TrackerBaseFrame.isSizing and not TrackerBaseFrame.isMoving
+        and not (trackedAchievementIds and next(trackedAchievementIds)) then
+        questLogSnapshot = TrackerQuestLogSnapshot.Capture()
+    end
+    if onlyIfChanged and TrackerQuestLogSnapshot.IsUnchanged(questLogSnapshot, renderedQuestLogSnapshot) then
+        return
+    end
+    -- No baseline survives a partial/failed rebuild. Commit the candidate only after final formatting.
+    renderedQuestLogSnapshot = nil
+    lastTrackerUpdate = now
+
     TrackerHeaderFrame:Update()
     TrackerQuestFrame:Update()
     TrackerBaseFrame:Update()
@@ -1854,6 +1898,9 @@ function QuestieTracker:Update()
     -- Update tracker formatting
     if line then
         QuestieTracker:UpdateFormatting()
+        if allowFormattingUpdate then
+            renderedQuestLogSnapshot = questLogSnapshot
+        end
     end
 
     -- First run clean up

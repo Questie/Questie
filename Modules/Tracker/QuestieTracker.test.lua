@@ -437,7 +437,11 @@ describe("QuestieTracker", function()
 
             TrackerData.Refresh = spy.new(function() return {} end)
             local base = QuestieLoader:ImportModule("TrackerBaseFrame")
-            base.Initialize = function() return CreateFrame("Frame") end
+            base.Initialize = function()
+                local frame = CreateFrame("Frame")
+                frame.IsShown = function() return false end
+                return frame
+            end
             base.Update = function() end
             header = QuestieLoader:ImportModule("TrackerHeaderFrame")
             header.Initialize = function() return {} end
@@ -498,6 +502,161 @@ describe("QuestieTracker", function()
             assert.spy(TrackerData.Refresh).was.not_called()
             assert.spy(TrackerData.RefreshQuest).was.called_with(91741)
             assert.spy(pool.UpdateQuestLines).was.called_with(91741, quest)
+        end)
+
+        describe("quest-log reconciliation", function()
+            local callbacks, nativeTitle, quest, layout, entriesMock
+
+            before_each(function()
+                entriesMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetNumQuestLogEntries", function() return 2, 1 end)
+                callbacks, nativeTitle = {}, "Nibbled-On Book"
+                _G.C_Timer.After = function(_, callback) callbacks[#callbacks + 1] = callback end
+                Questie.db.profile.trackerSortObjectives = "byZone"
+                Questie.db.profile.autoTrackQuests = true
+                Questie.db.char.collapsedZones = {}
+                quest = {Id = 91741, name = nativeTitle, level = 2, zoneName = "Northshire Abbey", Objectives = {},
+                    IsComplete = function() return 0 end}
+                TrackerData.Refresh = spy.new(function() quest.name = nativeTitle end)
+                TrackerData.GetQuests = function() return {[91741] = quest} end
+                TrackerData.GetColoredQuestName = function(displayQuest) return displayQuest.name end
+                TrackerUtils.GetQuestGroupName = function(displayQuest) return displayQuest.zoneName end
+                TrackerUtils.GetCompletionText = function() return nil end
+                TrackerUtils.GetQuestItemIds = function() return {} end
+                TrackerUtils.GetSortedQuestIds = spy.new(function() return {}, {} end)
+                QuestieLoader:ImportModule("TrackerQuestTimers").GetRemainingTimeByQuestId = function() return nil end
+                QuestieLoader:ImportModule("QuestieLib").GetQuestTypeSuffixPriority = function() return 1 end
+                dofile("Modules/Tracker/TrackerQuestLogSnapshot.lua")
+                header.Update = spy.new(function() end)
+                pool.ResetLinesForChange = spy.new(function() end)
+                pool.GetLastLine = function() return {} end
+                -- Geometry is outside this test: observe entry into layout after reconciliation and throttle decisions.
+                layout = spy.new(function() end)
+                QuestieTracker.UpdateFormatting = layout
+
+                now = 1
+                QuestieTracker:Update()
+                now = 2
+                callbacks[1]() -- Startup enables formatting and performs the first complete layout.
+                callbacks = {}
+                TrackerData.Refresh:clear()
+                TrackerUtils.GetSortedQuestIds:clear()
+                pool.ResetLinesForChange:clear()
+                header.Update:clear()
+                layout:clear()
+            end)
+
+            after_each(function()
+                entriesMock:revert()
+            end)
+
+            it("reconciles unchanged data without resetting rows, sorting or entering layout", function()
+                now = 3
+                QuestieTracker:Update(true)
+
+                assert.spy(TrackerData.Refresh).was.called(1)
+                assert.spy(pool.ResetLinesForChange).was.not_called()
+                assert.spy(TrackerUtils.GetSortedQuestIds).was.not_called()
+                assert.spy(header.Update).was.not_called()
+                assert.spy(layout).was.not_called()
+            end)
+
+            it("rebuilds once when a late native title arrives", function()
+                nativeTitle, now = "The Book's True Name", 3
+                QuestieTracker:Update(true)
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.are.equal("The Book's True Name", quest.name)
+                assert.spy(TrackerData.Refresh).was.called(2)
+                assert.spy(pool.ResetLinesForChange).was.called(1)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("does not suppress explicit settings or UI updates", function()
+                now = 3
+                QuestieTracker:Update()
+
+                assert.spy(pool.ResetLinesForChange).was.called(1)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("retains one trailing check when a burst hits the throttle", function()
+                nativeTitle, now = "Updated title", 2.05
+                QuestieTracker:Update(true)
+                QuestieTracker:Update(true)
+                assert.are.equal(1, #callbacks)
+                assert.spy(TrackerData.Refresh).was.not_called()
+
+                now = 2.2
+                callbacks[1]()
+
+                assert.are.equal("Updated title", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("keeps the trailing check combat-safe and reads the latest data after combat", function()
+                now = 2.05
+                QuestieTracker:Update(true)
+                local queued = {}
+                QuestieCombatQueue.Queue = function(_, callback) queued[#queued + 1] = callback end
+                now, inCombat = 2.2, true
+                callbacks[1]()
+                nativeTitle = "Changed during combat"
+                QuestieTracker:Update(true)
+
+                assert.are.equal(1, #callbacks)
+                assert.are.equal(1, #queued)
+                assert.spy(layout).was.not_called()
+
+                now, inCombat = 3, false
+                queued[1]()
+                assert.are.equal("Changed during combat", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("does not let reconciliation hide a throttled explicit update", function()
+                now = 2.05
+                QuestieTracker:Update()
+                now = 3
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("does not retain a baseline after a failed layout", function()
+                nativeTitle, now = "New title", 3
+                QuestieTracker.UpdateFormatting = function() error("layout failed") end
+                assert.has_error(function() QuestieTracker:Update(true) end, "layout failed")
+
+                -- Returning to the old input must still repair the partially rebuilt frames.
+                nativeTitle, now = "Nibbled-On Book", 4
+                QuestieTracker.UpdateFormatting = layout
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(1)
+                assert.spy(pool.ResetLinesForChange).was.called(2)
+            end)
+
+            it("continues rebuilding layouts with active quest-item buttons", function()
+                TrackerUtils.GetQuestItemIds = function() return {90001} end
+                now = 3
+                QuestieTracker:Update(true)
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(2)
+            end)
+
+            it("rebuilds after the tracker was disabled and re-enabled", function()
+                Questie.db.profile.trackerEnabled = false
+                now = 3
+                QuestieTracker:Update(true)
+                Questie.db.profile.trackerEnabled = true
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(1)
+            end)
         end)
 
         describe("saved focus before the first full refresh", function()

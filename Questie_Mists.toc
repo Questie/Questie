@@ -234,6 +234,7 @@ Modules\Tracker\AutoCompleteFrame.lua
 Modules\Tracker\ChallengeModeTimer.lua
 Modules\Tracker\TrackerQuestieBehavior.lua
 Modules\Tracker\TrackerData.lua
+Modules\Tracker\TrackerQuestLogSnapshot.lua
 Modules\Tracker\TrackerMapEligibility.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\Sorter\Sorter.lua
