@@ -309,17 +309,20 @@ describe("EventHandler event dispatch", function()
     end)
 
     describe("loading screens", function()
-        local savedGetCVar, savedQueue, savedUpdate
-        local QuestieCombatQueue, QuestieTracker
+        local savedGetCVar, savedQueue, savedUpdate, savedRecheck
+        local QuestieCombatQueue, QuestieTracker, QuestieConditions
 
         before_each(function()
             savedGetCVar = _G.GetCVar
             _G.GetCVar = function() return "1" end
             QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
             QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
             savedQueue, savedUpdate = QuestieCombatQueue.Queue, QuestieTracker.Update
+            savedRecheck = QuestieConditions.RecheckNow
             QuestieCombatQueue.Queue = function(_, callback) callback() end
             QuestieTracker.Update = spy.new(function() end)
+            QuestieConditions.RecheckNow = spy.new(function() end)
 
             QuestieLoader:ImportModule("EventHandler"):RegisterEarlyEvents()
         end)
@@ -328,6 +331,7 @@ describe("EventHandler event dispatch", function()
             _G.GetCVar = savedGetCVar
             QuestieCombatQueue.Queue = savedQueue
             QuestieTracker.Update = savedUpdate
+            QuestieConditions.RecheckNow = savedRecheck
         end)
 
         -- Quest-log checks skip unchanged quests, but leaving an instance must still restart the proximity sort.
@@ -488,5 +492,18 @@ describe("EventHandler event dispatch", function()
             assert.spy(QuestieTracker.Update).was.called(1)
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
         end)
+    end)
+
+    it("re-checks unknown quest conditions when combat ends", function()
+        QuestieLoader:ImportModule("QuestieTracker").HandleCombatEnded = function() end
+        local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
+        QuestieConditions.RecheckNow = spy.new(function() end)
+        local savedTimer = _G.C_Timer
+        _G.C_Timer = { After = function() end } -- Combat end also schedules an options refresh.
+
+        callbacks.PLAYER_REGEN_ENABLED()
+
+        _G.C_Timer = savedTimer
+        assert.spy(QuestieConditions.RecheckNow).was.called(1)
     end)
 end)

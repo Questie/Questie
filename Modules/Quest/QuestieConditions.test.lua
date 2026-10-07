@@ -1,0 +1,158 @@
+dofile("setupTests.lua")
+
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
+
+describe("QuestieConditions", function()
+    ---@type QuestieDBMock
+    local mock
+    ---@type QuestieConditions
+    local QuestieConditions
+
+    local timers, recalculations, originalTimer
+
+    before_each(function()
+        mock = LoadQuestieDBMock()
+        timers = {}
+        originalTimer = _G.C_Timer
+        _G.C_Timer = {After = function(delay, callback) table.insert(timers, {delay = delay, callback = callback}) end}
+        local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+        recalculations = 0
+        AvailableQuests.CalculateAndDrawAll = function() recalculations = recalculations + 1 end
+        QuestieConditions = dofile("Modules/Quest/QuestieConditions.lua")
+    end)
+
+    after_each(function()
+        _G.C_Timer = originalTimer
+    end)
+
+    ---Run the next scheduled re-check, as the client timer would.
+    local function fireTimer()
+        table.remove(timers, 1).callback()
+    end
+
+    describe("IsFulfilled", function()
+        it("keeps the last determinate answer while the condition is unknown", function()
+            local result = false
+            mock.lib.Conditions.EvaluateQuest = function() return result end
+            assert.is_false(QuestieConditions.IsFulfilled(5))
+            assert.are_same({}, timers)
+
+            result = nil
+            assert.is_false(QuestieConditions.IsFulfilled(5))
+            assert.are_equal(1, #timers)
+        end)
+
+        it("allows a quest whose condition has never been readable", function()
+            mock.lib.Conditions.EvaluateQuest = function() return nil end
+
+            assert.is_true(QuestieConditions.IsFulfilled(6))
+        end)
+    end)
+
+    describe("re-checking unknown conditions", function()
+        local results
+
+        before_each(function()
+            results = {}
+            mock.lib.Conditions.EvaluateQuest = function(questId) return results[questId] end
+        end)
+
+        it("keeps re-checking while the condition stays unknown, then stops once it resolves", function()
+            QuestieConditions.IsFulfilled(5)
+            QuestieConditions.IsFulfilled(6)
+            assert.are_equal(1, #timers, "unknown quests share one scheduled re-check")
+
+            fireTimer()
+            assert.are_equal(1, #timers, "an unresolved quest is checked again")
+
+            results[5], results[6] = true, true
+            fireTimer()
+            assert.are_same({}, timers)
+            assert.are_equal(0, recalculations, "unchanged answers do not redraw")
+        end)
+
+        it("recalculates available quests once when resolved answers differ from those shown", function()
+            QuestieConditions.IsFulfilled(5)
+            QuestieConditions.IsFulfilled(6)
+
+            results[5], results[6] = false, false
+            QuestieConditions.RecheckNow()
+
+            assert.are_equal(1, recalculations)
+            assert.is_false(QuestieConditions.IsFulfilled(5), "the resolved answer is now the known one")
+        end)
+
+        it("slows down during a long secret state", function()
+            QuestieConditions.IsFulfilled(5)
+            for _ = 1, 30 do fireTimer() end
+
+            assert.are_equal(5, timers[1].delay)
+        end)
+
+        it("does nothing when no condition is unknown", function()
+            QuestieConditions.RecheckNow()
+
+            assert.are_same({}, timers)
+            assert.are_equal(0, recalculations)
+        end)
+    end)
+
+    describe("Initialize", function()
+        local QuestieDB, QuestiePlayer
+
+        before_each(function()
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+            QuestiePlayer.currentQuestlog = {}
+            QuestiePlayer.GetPlayerLevel = function() return 30 end
+            QuestieConditions.Initialize()
+        end)
+
+        describe("QuestAvailable", function()
+            local levels, doableCalls
+
+            before_each(function()
+                levels = {}
+                doableCalls = {}
+                QuestieDB.QueryQuestSingle = function(questId, key) return (levels[questId] or {})[key] end
+                QuestieDB.IsDoable = function(questId, debugPrint, ignoreManualHide)
+                    table.insert(doableCalls, {questId, debugPrint, ignoreManualHide})
+                    return true
+                end
+            end)
+
+            it("asks IsDoable while ignoring the player's manually hidden quests", function()
+                assert.is_true(mock.conditionFunctions.Questie.QuestAvailable(1))
+                assert.are_same({{1, false, true}}, doableCalls)
+            end)
+
+            it("rejects a quest already in the log", function()
+                QuestiePlayer.currentQuestlog[1] = {}
+
+                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(1))
+            end)
+
+            it("applies the quest's own level limits", function()
+                levels[1] = {requiredLevel = 31}
+                levels[2] = {requiredLevel = 20, requiredMaxLevel = 29}
+                levels[3] = {requiredLevel = 30, requiredMaxLevel = 30}
+
+                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(1))
+                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(2))
+                assert.is_true(mock.conditionFunctions.Questie.QuestAvailable(3))
+            end)
+        end)
+
+        it("maps HasSkill to Questie's profession IDs with a default level of 1", function()
+            local requested
+            QuestieLoader:ImportModule("QuestieProfessions").HasProfessionAndSkillLevel = function(_, requiredSkill)
+                requested = requiredSkill
+                return true, requiredSkill[2] <= 150
+            end
+
+            assert.is_true(mock.conditionFunctions.Questie.HasSkill(129))
+            assert.are_same({129, 1}, requested)
+            assert.is_false(mock.conditionFunctions.Questie.HasSkill(129, 225))
+        end)
+    end)
+end)

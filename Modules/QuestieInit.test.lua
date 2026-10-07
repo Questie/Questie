@@ -531,7 +531,7 @@ describe("QuestieInit", function()
                     BreadcrumbQuests = "CheckAllQuestBreadcrumbs", CommsEncoding = "Init", CommsVisibility = "Initialize",
                     QuestieComms = "Initialize", WorldMapButton = "Initialize", Townsfolk = "PostBoot",
                     QuestieAnnounce = "InitializeLogoFilter", ChatFilter = "RegisterEvents", QuestieMenu = "OnLogin",
-                    DailyQuests = "Initialize", QuestieLib = "UpdateLastKnownDailyReset",
+                    DailyQuests = "Initialize", QuestieLib = "UpdateLastKnownDailyReset", QuestieConditions = "Initialize",
                 }
                 for module, method in pairs(consumers) do
                     QuestieLoader:ImportModule(module)[method] = function() end

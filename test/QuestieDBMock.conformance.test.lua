@@ -691,6 +691,25 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
         end)
     end)
 
+    describe("Quest Conditions", function()
+        it("evaluates Questie's published functions in the provider's shared environment", function()
+            local consumerLib = _G.LibQuestieDB
+            _G.LibQuestieDB = provider
+            Questie.db.char.complete = {[2] = true}
+            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {[3] = {}}
+            dofile("Modules/Quest/QuestieConditions.lua").Initialize()
+            local seen = {
+                rewarded = provider.Conditions.Evaluate("QuestNone(2)"),
+                inLog = provider.Conditions.Evaluate("QuestNone(3)"),
+                untouched = provider.Conditions.Evaluate("QuestNone(4)"),
+            }
+            provider.Conditions.SetFunctions("Questie", nil)
+            _G.LibQuestieDB = consumerLib
+            -- The provider's composite QuestNone must call Questie's QuestRewarded and QuestInLog.
+            assert.are_same({rewarded = false, inLog = false, untouched = true}, seen)
+        end)
+    end)
+
     describe("Corrections.Set", function()
         it("publishes a data slot immediately and composes it over base data", function()
             local seen = Conform(function(lib, owner)
@@ -707,6 +726,19 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             end)
             assert.is_true(seen.changed)
             assert.are_same(215, seen.raw)
+        end)
+
+        it("reads a published condition through Conditions.Get and drops it on withdrawal", function()
+            local seen = Conform(function(lib, owner)
+                local questKeys = lib.Meta.QuestMeta.questKeys
+                local id = FIXTURE.Quest.sharptalonsClaw
+                local before = lib.Conditions.Get(id)
+                lib.Corrections.Set(owner, "Quest", "Conditions", {[id] = {[questKeys.conditions] = "QuestRewarded(1)"}})
+                local published = lib.Conditions.Get(id)
+                lib.Corrections.Set(owner, "Quest", "Conditions", nil)
+                return {before = before, published = published, withdrawn = lib.Conditions.Get(id)}
+            end)
+            assert.are_same({published = "QuestRewarded(1)"}, seen)
         end)
 
         it("replaces a slot in place and removes it with nil", function()
