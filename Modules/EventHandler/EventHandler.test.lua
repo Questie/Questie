@@ -165,4 +165,14 @@ describe("EventHandler event dispatch", function()
         assert.spy(QuestieProfessions.Update).was.called_with(QuestieProfessions)
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
     end)
+
+    it("re-checks unknown quest conditions when combat ends", function()
+        QuestieLoader:ImportModule("QuestieTracker").HandleCombatEnded = function() end
+        local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
+        QuestieConditions.RecheckNow = spy.new(function() end)
+
+        callbacks.PLAYER_REGEN_ENABLED()
+
+        assert.spy(QuestieConditions.RecheckNow).was.called(1)
+    end)
 end)

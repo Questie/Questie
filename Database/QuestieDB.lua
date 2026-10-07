@@ -28,6 +28,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type DailyQuests
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
+---@type QuestieConditions
+local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
@@ -119,6 +121,7 @@ QuestieDB.DoableStates = {
     PROFESSION_RANK = 30,
     DISABLED_BY = 31,
     ARENA_RATING = 32,
+    CONDITIONS_NOT_MET = 33,
 }
 
 -- Individual race masks use 2^PlayableRaceBit from ChrRaces, not 2^(raceID-1).
@@ -842,8 +845,9 @@ end
 
 ---@param questId number
 ---@param debugPrint boolean? -- if true, IsDoable will print conclusions to debug channel
+---@param ignoreManualHide boolean? -- if true, quests the player hid manually still count as doable
 ---@return boolean
-function QuestieDB.IsDoable(questId, debugPrint)
+function QuestieDB.IsDoable(questId, debugPrint, ignoreManualHide)
 
     --!  Before changing any logic in QuestieDB.IsDoable, make sure
     --!  to mirror the same logic to QuestieDB.IsDoableVerbose!
@@ -876,7 +880,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     end
 
     -- Only present in IsDoable, not IsDoableVerbose
-    if Questiedbcharhidden[questId] then
+    if (not ignoreManualHide) and Questiedbcharhidden[questId] then
         if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is hidden manually!") end
         return false
     end
@@ -1090,6 +1094,11 @@ function QuestieDB.IsDoable(questId, debugPrint)
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in!") end
             return false
         end
+    end
+
+    if not QuestieConditions.IsFulfilled(questId) then
+        if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " does not meet its conditions") end
+        return false
     end
 
     -- Invasion quests (Naxxramas launch on Era and Wotlk prepatch)
@@ -1537,6 +1546,14 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             elseif returnText and not returnBrief then
                 return "Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in", true, DoableStates.ENABLING_QUEST_MISSING
             end
+        end
+    end
+
+    if not QuestieConditions.IsFulfilled(questId) then
+        if returnText and returnBrief then
+            return l10n("Unavailable")..l10n(": ")..l10n("Conditions not met"), true, DoableStates.CONDITIONS_NOT_MET
+        elseif returnText and not returnBrief then
+            return "Quest " .. questId .. " does not meet its conditions: " .. LibQuestieDB.Conditions.Get(questId), true, DoableStates.CONDITIONS_NOT_MET
         end
     end
 

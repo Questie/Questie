@@ -710,6 +710,18 @@ local myJourneyLocales = {
         ["zhCN"] = "禁用已提交的任务",
         ["zhTW"] = "禁用已提交的任務",
     },
+    ["Conditions not met"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Enabling quest not active nor turned in"] = {
         ["enUS"] = true,
         ["deDE"] = "Aktivierende Quest ist nicht im Questlog und nicht abgegeben",

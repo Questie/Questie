@@ -477,6 +477,11 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     if not QuestieDB.IsRepeatable(questId) then
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
+                elseif returnReason == DoableStates.CONDITIONS_NOT_MET then -- quest condition expression is false
+                    tinsert(zoneTree[5].children, temp)
+                    if not QuestieDB.IsRepeatable(questId) then
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 end
             end
 
