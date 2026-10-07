@@ -469,19 +469,31 @@ local function LoadQuestieDBMock()
     end
 
     mock.conditionFunctions = {}
+    -- The provider's condition vocabulary; conformance checks that the provider accepts each name.
+    local conditionNames = {}
+    for _, name in ipairs({
+        "QuestRewarded", "QuestInLog", "QuestComplete", "QuestNone", "QuestAvailable", "HasAura", "HasItem",
+        "HasItemOrBank", "HasItemEquipped", "HasSkill", "KnowsSpell", "HasRep", "RepBelow", "IsTeam", "IsRace",
+        "IsClass", "IsRaceClass", "IsLevel", "IsLevelExact", "IsLevelBelow", "HasAchievement",
+    }) do conditionNames[name] = true end
+    -- Evaluation is not modeled: every condition holds, even for a quest seeded with field 37.
+    -- Tests of condition results stub Evaluate/EvaluateQuest themselves.
     lib.Conditions = {
         Get = function(questId) return lib.Quest.Get(questId, keys.Quest.conditions) end,
         Evaluate = function() return true end,
         EvaluateQuest = function() return true end,
         Explain = function() return nil end,
         ExplainQuest = function() return nil end,
-        -- Mirrors the provider's validation, so a wrong owner or value fails here, not at login.
+        -- Mirrors the provider's validation, so a wrong owner, name, or value fails here, not at login.
         SetFunctions = function(owner, functions)
             assert(owner == "Questie", "only Questie may publish condition functions")
+            local copy = {}
             for name, fn in pairs(functions or {}) do
                 assert(type(name) == "string" and type(fn) == "function", "condition functions must be functions")
+                assert(conditionNames[name], "'" .. tostring(name) .. "' is not a condition function")
+                copy[name] = fn
             end
-            mock.conditionFunctions[owner] = functions
+            mock.conditionFunctions[owner] = copy
         end,
     }
 

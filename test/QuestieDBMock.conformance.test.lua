@@ -705,6 +705,29 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             -- The provider's composite QuestNone must call Questie's QuestRewarded and QuestInLog.
             assert.are_same({rewarded = false, inLog = false, untouched = true}, seen)
         end)
+
+        it("validates published condition functions like the provider", function()
+            local vocabulary = provider.ConditionBuilder.vocabulary
+            local seen = Conform(function(lib)
+                local function accepts(owner, functions) return (pcall(lib.Conditions.SetFunctions, owner, functions)) end
+                local result = {
+                    wrongOwner = accepts("SomeAddon", {}),
+                    notAFunction = accepts("Questie", {QuestRewarded = true}),
+                    unknownName = accepts("Questie", {QuestRewared = function() return true end}),
+                    withdraw = accepts("Questie", nil),
+                    vocabulary = {},
+                }
+                for name in pairs(vocabulary) do
+                    result.vocabulary[name] = accepts("Questie", {[name] = function() return true end})
+                end
+                lib.Conditions.SetFunctions("Questie", nil)
+                return result
+            end)
+            assert.are_same({wrongOwner = false, notAFunction = false, unknownName = false, withdraw = true}, {
+                wrongOwner = seen.wrongOwner, notAFunction = seen.notAFunction, unknownName = seen.unknownName, withdraw = seen.withdraw,
+            })
+            assert.is_true(seen.vocabulary.HasAura)
+        end)
     end)
 
     describe("Corrections.Set", function()
