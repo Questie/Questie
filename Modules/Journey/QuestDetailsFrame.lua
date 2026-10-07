@@ -28,6 +28,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieConditionText
+local QuestieConditionText = QuestieLoader:ImportModule("QuestieConditionText")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -483,6 +485,13 @@ function QuestDetailsFrame:Draw(container, quest)
     if shouldShowDoableLabel then
         local eligibilityTextLabel = CreateLabel(Questie:Colorize(l10n("Doable") .. l10n(": "), 'yellow') .. eligibilityText, true)
         container:AddChild(eligibilityTextLabel)
+    end
+
+    -- Quest Condition, with each part colored by whether it holds
+    local conditionText = QuestieConditionText.RenderQuest(quest.Id)
+    if conditionText then
+        QuestieJourneyUtils:Spacer(container)
+        container:AddChild(CreateLabel(Questie:Colorize(l10n("Conditions") .. l10n(": "), 'yellow') .. "\n" .. conditionText, true))
     end
 
     -- Pre Quests - two separate labeled sections

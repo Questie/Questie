@@ -46,6 +46,7 @@ describe("QuestDetailsFrame prerequisite links", function()
         QuestieDB.QueryQuestSingle = function(_, field) return fields[field] end
         QuestieDB.IsRepeatable = function() return false end
         QuestieDB.IsDoableVerbose = function() return nil, false end
+        QuestieLoader:ImportModule("QuestieConditionText").RenderQuest = function() return nil end
         QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests = {}
         QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() end
 
