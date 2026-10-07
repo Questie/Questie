@@ -82,6 +82,44 @@ describe("QuestieConditions", function()
             assert.is_false(QuestieConditions.IsFulfilled(5), "the resolved answer is now the known one")
         end)
 
+        it("redraws when another query resolves a pending quest to a different answer", function()
+            assert.is_true(QuestieConditions.IsFulfilled(5), "an unreadable quest is shown")
+            QuestieConditions.IsFulfilled(6)
+
+            results[5], results[6] = false, true
+            assert.is_false(QuestieConditions.IsFulfilled(5), "a Journey query resolves it first")
+            assert.is_true(QuestieConditions.IsFulfilled(6))
+            fireTimer()
+
+            assert.are_equal(1, recalculations)
+            assert.are_same({}, timers)
+        end)
+
+        it("does not redraw when another query resolves a pending quest to the answer shown", function()
+            QuestieConditions.IsFulfilled(5)
+
+            results[5] = true
+            QuestieConditions.IsFulfilled(5)
+            fireTimer()
+
+            assert.are_equal(0, recalculations)
+        end)
+
+        it("counts a pending quest resolved by another quest's re-check", function()
+            QuestieConditions.IsFulfilled(5)
+            QuestieConditions.IsFulfilled(6)
+            mock.lib.Conditions.EvaluateQuest = function(questId)
+                -- Quest 5's condition asks about quest 6 through QuestAvailable.
+                if questId == 5 then QuestieConditions.IsFulfilled(6) return true end
+                return false
+            end
+
+            fireTimer()
+
+            assert.are_equal(1, recalculations)
+            assert.are_same({}, timers)
+        end)
+
         it("slows down during a long secret state", function()
             QuestieConditions.IsFulfilled(5)
             for _ = 1, 30 do fireTimer() end
