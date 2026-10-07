@@ -126,6 +126,7 @@ _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
 _G.UnitFactionGroup = function() return "Horde" end
 _G.UnitName = function() return "Testi" end
+_G.UnitNameUnmodified = function() return "Testi" end
 _G.GetRealmName = function() return "Ook Ook" end
 _G.GetUnitName = function(unit, fullName)
     if unit == "player" and fullName then
