@@ -18,14 +18,14 @@ describe("QuestieDBMock", function()
     end)
 
     describe("RequireContract", function()
-        it("accepts Contract Version 3 and retains older consumer support", function()
-            local ok, message = LibQuestieDB.RequireContract(3)
+        it("accepts Contract Version 4 and retains older consumer support", function()
+            local ok, message = LibQuestieDB.RequireContract(4)
 
             assert.is_true(ok)
             assert.is_nil(message)
             assert.is_true((LibQuestieDB.RequireContract(1)))
-            assert.is_true((LibQuestieDB.RequireContract(2)))
-            assert.is_false((LibQuestieDB.RequireContract(4)))
+            assert.is_true((LibQuestieDB.RequireContract(3)))
+            assert.is_false((LibQuestieDB.RequireContract(5)))
         end)
 
         it("rejects a consumer version below the provider floor with a specific message", function()

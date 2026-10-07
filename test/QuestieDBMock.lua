@@ -1,9 +1,11 @@
--- Focused Contract Version 3 test double for LibQuestieDB.
+-- Focused Contract Version 4 test double for LibQuestieDB.
 --
 -- It reproduces only what Questie consumes from QuestieDB: the Contract check, composed entity
 -- reads, shared ID maps that swap identity only when a republish adds or withdraws an entity,
 -- the owner-scoped Correction registrar, the data-shaped Correction slots (`Corrections.Set`),
--- provenance, provider locale forwarding, Objective Order tables, and the entity Name index.
+-- provenance, provider locale forwarding, Objective Order tables, the entity Name index, and
+-- the Quest Conditions surface. Conditions evaluate to true and explain as nil (no condition);
+-- tests replace `lib.Conditions` functions as needed. Expression semantics are tested in QuestieDB.
 -- Publication is per datatype, as in the provider: an Item write leaves Quest, Npc, and Object
 -- ID maps and Name indexes untouched. It deliberately omits encoding, Source/Baked storage, and
 -- provider read caches. Tests seed literal rows; reads return fresh copies and apply the
@@ -43,6 +45,7 @@ local BASE_OWNER = "QuestieDB"
 ---@field nameIndexBuilds table<QuestieDBMockDatatype, number> Name index builds per datatype.
 ---@field supportModules table<string, table> Shared support modules; tests seed literal provider-shaped values.
 ---@field contractVersion number Highest Contract Version the fake provides.
+---@field conditionFunctions table<string, table<string, function>> Condition functions published per owner.
 ---@field minSupportedContract number Lowest Contract Version the fake still accepts.
 ---@field SetBaseRow fun(datatype: QuestieDBMockDatatype, id: number, row: QuestieDBMockRow): nil
 
@@ -62,7 +65,7 @@ local function LoadQuestieDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 3,
+        contractVersion = 4,
         minSupportedContract = 1,
     }
     local lib = {}
@@ -464,6 +467,35 @@ local function LoadQuestieDBMock()
             "(supporting consumers back to %s). Update whichever is older.")
             :format(tostring(required), tostring(mock.contractVersion), tostring(mock.minSupportedContract))
     end
+
+    mock.conditionFunctions = {}
+    -- The provider's condition vocabulary; conformance checks that the provider accepts each name.
+    local conditionNames = {}
+    for _, name in ipairs({
+        "QuestRewarded", "QuestInLog", "QuestComplete", "QuestNone", "QuestAvailable", "HasAura", "HasItem",
+        "HasItemOrBank", "HasItemEquipped", "HasSkill", "KnowsSpell", "HasRep", "RepBelow", "IsTeam", "IsRace",
+        "IsClass", "IsRaceClass", "IsLevel", "IsLevelExact", "IsLevelBelow", "HasAchievement",
+    }) do conditionNames[name] = true end
+    -- Evaluation is not modeled: every condition holds, even for a quest seeded with field 37.
+    -- Tests of condition results stub Evaluate/EvaluateQuest themselves.
+    lib.Conditions = {
+        Get = function(questId) return lib.Quest.Get(questId, keys.Quest.conditions) end,
+        Evaluate = function() return true end,
+        EvaluateQuest = function() return true end,
+        Explain = function() return nil end,
+        ExplainQuest = function() return nil end,
+        -- Mirrors the provider's validation, so a wrong owner, name, or value fails here, not at login.
+        SetFunctions = function(owner, functions)
+            assert(owner == "Questie", "only Questie may publish condition functions")
+            local copy = {}
+            for name, fn in pairs(functions or {}) do
+                assert(type(name) == "string" and type(fn) == "function", "condition functions must be functions")
+                assert(conditionNames[name], "'" .. tostring(name) .. "' is not a condition function")
+                copy[name] = fn
+            end
+            mock.conditionFunctions[owner] = copy
+        end,
+    }
 
     lib.l10n = {currentLocale = "enUS"}
 

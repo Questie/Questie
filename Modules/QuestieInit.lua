@@ -118,6 +118,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
 ---@type SourceModeStatus
 local SourceModeStatus = QuestieLoader:ImportModule("SourceModeStatus")
+---@type QuestieConditions
+local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
 
 local coYield = coroutine.yield
 local startupFailed = false
@@ -295,6 +297,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Hydrating quest log for the first time.")
     QuestieQuest:GetAllQuestIds()
     coYield()
+
+    -- Other addons evaluate against Questie's condition functions, so publish them only once
+    -- the quest log and completed quests are loaded.
+    QuestieConditions.Initialize()
 
     -- QUEST_ACCEPTED does not fire for quests already in the log, so check breadcrumbs for them on login.
     BreadcrumbQuests.CheckAllQuestBreadcrumbs()

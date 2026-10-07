@@ -24,7 +24,7 @@ are recorded in [ADR 0001](adr/0001-questietdb-is-the-only-entity-database.md),
 
 ## Initialization and compatibility
 
-Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 3`. Build preflight
+Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 4`. Build preflight
 checks that contract declarations are valid and consistent. At runtime,
 [`VersionCheckDB.Check`](../Modules/VersionCheckDB.lua) reads the active TOC's requirement.
 
@@ -57,9 +57,9 @@ The provider calculates them once from explicit flavor-specific race membership;
 those values to `QuestieDB.raceKeys.ALL_ALLIANCE` and `.ALL_HORDE` without selecting a flavor again.
 Actual race IDs are not bit positions: Skyborne IDs 95/96 use bits 32/33. `VersionCheckDB.Check()`
 requires both tables before login work proceeds; unknown player IDs stop player initialization
-rather than guessing an encoding. Contract 3 guarantees both the mapping and the active faction masks. Update both projects
-together; contract-2 providers fail the version check, while the updated provider still supports
-older contract-1 and contract-2 consumers. Provider conversion supplies extended Forever faction masks,
+rather than guessing an encoding. Contract 3 guarantees both the mapping and the active faction masks, and
+contract 4 adds Quest Conditions. Update both projects together; older providers fail the version
+check, while the updated provider still supports contract-1 through contract-3 consumers. Provider conversion supplies extended Forever faction masks,
 so Questie's membership check no longer widens legacy `77`/`178` subsets.
 
 Questie forwards the effective UI locale through `LibQuestieDB.l10n.SetLocale`. External entity
@@ -103,6 +103,39 @@ Missing-item repair preserves the previous client-name fallback and batches publ
 frame. Uncached Items can still arrive across separate frames. Whether the fallback is still
 needed with current provider data, and whether it should move into the provider, remain review
 questions; do not remove it without evidence.
+
+## Quest Conditions
+
+Some quests carry an availability expression in the provider's Quest `conditions` field, such as
+`"QuestRewarded(1517) and not QuestRewarded(1518)"`. QuestieDB owns the data, the vocabulary,
+and the evaluator, so other consumers can evaluate conditions without Questie. The design is
+recorded in provider ADR 0017.
+
+[`QuestieConditions`](../Modules/Quest/Conditions/QuestieConditions.lua) is Questie's side:
+
+- Stage 3 publishes Questie's condition functions after the quest log is first hydrated, through
+  `LibQuestieDB.Conditions.SetFunctions("Questie", ...)`. Questie is the provider's only trusted
+  owner, so every consumer evaluates with these functions. They answer quest state from Questie's
+  caches and `HasSkill` through `QuestieProfessions`. `QuestAvailable` means the player could
+  accept the quest now: not in the log, within its own level limits, its own condition true, and
+  `QuestieDB.IsDoable` without the player's manual hide list or Questie's display level range.
+  Questie's blacklist applies in full, `HIDE_ON_MAP` included, because it does not record which of
+  those quests can still be accepted. An unknown condition on that quest makes `QuestAvailable`
+  unknown too.
+- `QuestieDB.IsDoable` and `IsDoableVerbose` reject a quest whose condition is false
+  (`DoableStates.CONDITIONS_NOT_MET`). The verbose text names the failing parts.
+- [`QuestieConditionText`](../Modules/Quest/Conditions/QuestieConditionText.lua) renders the provider's
+  `Explain` tree. The Journey quest details show every part of a condition, colored green when
+  it holds, red when it does not, and yellow when it cannot be read right now.
+- An unknown result (nil) means a condition function could not read a hidden value, such as
+  auras behind secret values. That can happen in combat, in instances, or for other reasons.
+  `IsFulfilled` keeps the quest's last determinate answer, or allows a quest that has none, and
+  re-checks that quest every second (every five after 30 checks) until it resolves.
+  Available quests are recalculated only if a resolved answer differs from the one shown.
+  `PLAYER_REGEN_ENABLED` and `PLAYER_ENTERING_WORLD` trigger a re-check immediately.
+
+Conditions are evaluated when availability is recalculated. Aura, item, spell, and reputation
+changes do not trigger a recalculation on their own.
 
 ## Object-hover name resolution
 
@@ -248,7 +281,7 @@ These are unfinished checks, not guarantees established by the historical smoke 
   [#19](https://github.com/Questie/QuestieDB/issues/19). Recorded implementation evidence is in the
   [history](tdb-history.md#provider-handoff-evidence), not a claim that those issues are closed.
 - Complete the early file-load compatibility gate and the release compatibility checks above.
-- Complete the current Contract Version 3 live matrix below. Historical Contract Version 1/2
+- Complete the current Contract Version 4 live matrix below. Historical Contract Version 1/2
   results do not satisfy it. Record both addon revisions, client build, flavor/season, locale, provider
   mode, and observations for each run. Coordinate client changes with the user; do not repoint a
   daily-driver installation without permission.
@@ -260,6 +293,7 @@ These are unfinished checks, not guarantees established by the historical smoke 
 | WotLK and Titan season 109 | Provider-owned Titan corrections, no Questie Titan slot, and retained Titan quest tags. |
 | Cata and MoP | Login, Townsfolk, tracker/map rendering, and the correct flavor TOC; MoP's mixed drop sources. |
 | Darkmoon week and its end | Calendar-driven `Npc:DarkmoonFaire` publication and withdrawal, not only a manual producer probe. |
+| Quest Conditions on Forever | Unfinished Gordok Business (1318, 7703) stays hidden without the King of the Gordok aura and appears with it; the Journey lists it under missing prerequisites. |
 | Built-in non-English locale | Entity names, Object name lookup, and Special Objective text. |
 | External locale addon | `QuestieLocalesOverride` translation provenance, replacement/withdrawal, and unchanged UI-string ownership. |
 

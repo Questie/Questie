@@ -54,6 +54,8 @@ local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type QuestieConditions
+local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
 ---@type WatchFrameHook
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
@@ -86,6 +88,9 @@ function EventHandler:RegisterEarlyEvents()
                 QuestieTracker:Update()
             end)
         end
+
+        -- Entering or leaving an instance can change whether condition state is hidden.
+        QuestieConditions.RecheckNow()
     end)
 end
 
@@ -615,6 +620,9 @@ function _EventHandler:PlayerRegenEnabled()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
 
     QuestieTracker.HandleCombatEnded()
+
+    -- Combat often hides condition state such as auras; check unknown conditions right away.
+    QuestieConditions.RecheckNow()
 
     if optionsHiddenByCombat then
         QuestieConfigFrame:Show()
