@@ -19,6 +19,9 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 -- re-checked on their own until they resolve, rather than on a guessed event.
 local lastKnown = {} -- questId -> last determinate result
 local pending = {} -- questId -> answer shown while its condition is unknown
+-- A pending quest resolved outside RecheckNow to an answer other than the one shown, for example
+-- through a Journey query. The next re-check redraws for it.
+local resolvedDifferently = false
 
 local FAST_RECHECKS, FAST_DELAY, SLOW_DELAY = 30, 1, 5 -- Seconds; slow down during long secret states.
 local recheckScheduled = false
@@ -79,22 +82,33 @@ function QuestieConditions.IsFulfilled(questId)
         return shown
     end
     lastKnown[questId] = result
-    pending[questId] = nil
+    local shown = pending[questId]
+    if shown ~= nil then
+        pending[questId] = nil
+        resolvedDifferently = resolvedDifferently or shown ~= result
+    end
     return result
 end
 
 ---Re-evaluate quests whose condition was unknown. If any now differs from the answer shown,
 ---recalculate available quests once. Events that often end a secret state call this directly.
 function QuestieConditions.RecheckNow()
+    -- Evaluating one quest can query others through QuestAvailable, which adds or resolves
+    -- pending entries. Swap the table so the loop never sees those changes mid-traversal.
+    local toCheck = pending
+    pending = {}
     local changed = false
-    for questId, shown in pairs(pending) do
+    for questId, shown in pairs(toCheck) do
         local result = LibQuestieDB.Conditions.EvaluateQuest(questId)
-        if result ~= nil then
+        if result == nil then
+            if pending[questId] == nil then pending[questId] = shown end
+        else
             lastKnown[questId] = result
-            pending[questId] = nil
             changed = changed or result ~= shown
         end
     end
+    changed = changed or resolvedDifferently
+    resolvedDifferently = false
     if changed then
         AvailableQuests.CalculateAndDrawAll()
     end
