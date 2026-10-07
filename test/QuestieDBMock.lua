@@ -4,8 +4,8 @@
 -- reads, shared ID maps that swap identity only when a republish adds or withdraws an entity,
 -- the owner-scoped Correction registrar, the data-shaped Correction slots (`Corrections.Set`),
 -- provenance, provider locale forwarding, Objective Order tables, the entity Name index, and
--- the Quest Conditions surface. Conditions evaluate to true; tests replace `lib.Conditions`
--- functions to return false or nil (unknown). Expression semantics are tested in QuestieDB.
+-- the Quest Conditions surface. Conditions evaluate to true and explain as nil (no condition);
+-- tests replace `lib.Conditions` functions as needed. Expression semantics are tested in QuestieDB.
 -- Publication is per datatype, as in the provider: an Item write leaves Quest, Npc, and Object
 -- ID maps and Name indexes untouched. It deliberately omits encoding, Source/Baked storage, and
 -- provider read caches. Tests seed literal rows; reads return fresh copies and apply the
@@ -473,6 +473,8 @@ local function LoadQuestieDBMock()
         Get = function(questId) return lib.Quest.Get(questId, keys.Quest.conditions) end,
         Evaluate = function() return true end,
         EvaluateQuest = function() return true end,
+        Explain = function() return nil end,
+        ExplainQuest = function() return nil end,
         -- Mirrors the provider's validation, so a wrong owner or value fails here, not at login.
         SetFunctions = function(owner, functions)
             assert(owner == "Questie", "only Questie may publish condition functions")

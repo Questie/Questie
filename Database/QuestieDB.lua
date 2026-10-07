@@ -30,6 +30,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieConditions
 local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
+---@type QuestieConditionText
+local QuestieConditionText = QuestieLoader:ImportModule("QuestieConditionText")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
@@ -1553,7 +1555,11 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         if returnText and returnBrief then
             return l10n("Unavailable")..l10n(": ")..l10n("Conditions not met"), true, DoableStates.CONDITIONS_NOT_MET
         elseif returnText and not returnBrief then
-            return "Quest " .. questId .. " does not meet its conditions: " .. LibQuestieDB.Conditions.Get(questId), true, DoableStates.CONDITIONS_NOT_MET
+            -- Name the failing parts; a kept answer while the condition is unreadable has none.
+            local tree = LibQuestieDB.Conditions.ExplainQuest(questId)
+            local parts = tree and QuestieConditionText.BlockingParts(tree) or {}
+            local reason = #parts > 0 and table.concat(parts, "; ") or LibQuestieDB.Conditions.Get(questId)
+            return "Quest " .. questId .. " does not meet its conditions: " .. reason, true, DoableStates.CONDITIONS_NOT_MET
         end
     end
 

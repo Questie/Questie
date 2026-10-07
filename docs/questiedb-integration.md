@@ -120,7 +120,10 @@ recorded in provider ADR 0017.
   accept the quest now: not in the log, within its own level limits, and `QuestieDB.IsDoable`
   without the player's manual hide list or Questie's display level range.
 - `QuestieDB.IsDoable` and `IsDoableVerbose` reject a quest whose condition is false
-  (`DoableStates.CONDITIONS_NOT_MET`).
+  (`DoableStates.CONDITIONS_NOT_MET`). The verbose text names the failing parts.
+- [`QuestieConditionText`](../Modules/Quest/QuestieConditionText.lua) renders the provider's
+  `Explain` tree. The Journey quest details show every part of a condition, colored green when
+  it holds, red when it does not, and yellow when it cannot be read right now.
 - An unknown result (nil) means a condition function could not read a hidden value, such as
   auras behind secret values. That can happen in combat, in instances, or for other reasons.
   `IsFulfilled` keeps the quest's last determinate answer, or allows a quest that has none, and

@@ -196,6 +196,7 @@ Modules\Quest\Lifecycle\QuestLifecycle.lua
 Modules\Quest\QuestieQuestPrivates.lua
 Modules\Quest\BreadcrumbQuests.lua
 Modules\Quest\QuestieConditions.lua
+Modules\Quest\QuestieConditionText.lua
 
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
