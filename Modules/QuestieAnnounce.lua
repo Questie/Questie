@@ -206,7 +206,7 @@ end
 local playerNameCache
 ---@return string
 local function _GetPlayerName()
-    playerNameCache = UnitName("player")
+    playerNameCache = GetUnitName("player", true)
     return playerNameCache
 end
 
