@@ -291,7 +291,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
 
     if QuestieTooltips.lookupByKey[key] then
         tooltipLines = {}
-        local playerName = UnitName("player")
+        local playerName = GetUnitName("player", true)
 
         local finishedAndUnacceptedQuests = {}
         if Questie.db.profile.showQuestsInNpcTooltip then
@@ -403,7 +403,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
         anotherPlayer = _FetchTooltipsForGroupMembers(key, tooltipData)
     end
 
-    local playerName = UnitName("player")
+    local playerName = GetUnitName("player", true)
 
     for questId, questData in pairs(tooltipData) do
         local hasObjective = false
