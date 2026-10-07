@@ -659,19 +659,20 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
----Returns the inclusive level offset used for triviality and available-quest filtering.
----Forever's quest difficulty colors can turn gray before this triviality boundary.
+---Returns the exclusive level offset used for triviality and available-quest filtering.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
-    if isForever then
-        -- The unit-based API requires "player"; the legacy helper is already player-specific.
-        return UnitQuestTrivialLevelRange("player")
+    -- Forever
+    if UnitQuestTrivialLevelRange then
+        -- TrivialRange = GreyRange, not GreenRange, so decrement by 1
+        return UnitQuestTrivialLevelRange("player")-1
     end
-    -- Classic: preserve the legacy helper when available.
+    -- Classic to MoP
     if GetQuestGreenRange then
-        return GetQuestGreenRange("player")
+        return GetQuestGreenRange()
     end
-    return UnitQuestTrivialLevelRange("player")
+    print("ERROR: Something went seriously wrong in Questie's GetQuestGreenRange, please tell the devs on Discord or Github.")
+    return 10 -- default to level 50 in case of missing functions
 end
 
 ---Returns Forever's quest-ID difficulty for coloring, not for triviality or availability checks.
