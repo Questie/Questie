@@ -25,7 +25,7 @@
 ---@field Get fun(questId: QuestId): string? Return a quest's condition expression.
 ---@field Evaluate fun(expression: string?): boolean? Evaluate an expression; nil or empty is true, nil means unknown.
 ---@field EvaluateQuest fun(questId: QuestId): boolean? Evaluate a quest's expression; true without one, nil means unknown.
----@field Explain fun(expression: string?): QuestieDBConditionNode? Explain an expression for display, evaluating every leaf; nil without one or outside the builder's grammar.
+---@field Explain fun(expression: string?): QuestieDBConditionNode? Explain an expression for display, evaluating every leaf; the root result equals Evaluate's. Nil without one, outside the builder's grammar, or when a function raised.
 ---@field ExplainQuest fun(questId: QuestId): QuestieDBConditionNode? Explain a quest's expression.
 ---@field SetFunctions fun(owner: string, functions: table<string, QuestieDBConditionFunction>?) Publish a trusted owner's functions for every consumer; nil withdraws them.
 
