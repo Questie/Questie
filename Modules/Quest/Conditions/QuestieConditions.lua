@@ -39,6 +39,8 @@ function QuestieConditions.Initialize()
         end,
         -- Whether the player could accept the quest now. Manual hiding is a display choice, so a
         -- hidden quest still counts; Questie's display level range is likewise not applied.
+        -- Questie's blacklist applies in full, HIDE_ON_MAP included: some of those quests are
+        -- display-only, others cannot be accepted, and the blacklist does not say which.
         QuestAvailable = function(questId)
             if QuestiePlayer.currentQuestlog[questId] then return false end
             local playerLevel = QuestiePlayer.GetPlayerLevel()
@@ -47,6 +49,10 @@ function QuestieConditions.Initialize()
                 (requiredMaxLevel > 0 and playerLevel > requiredMaxLevel) then
                 return false
             end
+            -- Pass an unknown or false condition through rather than IsFulfilled's kept answer,
+            -- so the asking quest is the one that waits for it to become readable.
+            local condition = LibQuestieDB.Conditions.EvaluateQuest(questId)
+            if condition ~= true then return condition end
             return QuestieDB.IsDoable(questId, false, true)
         end,
         -- The client identifies skill lines by localized name; QuestieProfessions maps them to IDs.

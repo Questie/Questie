@@ -126,6 +126,15 @@ describe("QuestieConditions", function()
                 assert.are_same({{1, false, true}}, doableCalls)
             end)
 
+            it("passes the quest's own unknown or false condition through without a kept answer", function()
+                local results = {[1] = nil, [2] = false}
+                mock.lib.Conditions.EvaluateQuest = function(questId) return results[questId] end
+
+                assert.is_nil(mock.conditionFunctions.Questie.QuestAvailable(1))
+                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(2))
+                assert.are_same({}, doableCalls)
+            end)
+
             it("rejects a quest already in the log", function()
                 QuestiePlayer.currentQuestlog[1] = {}
 

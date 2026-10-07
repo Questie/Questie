@@ -117,8 +117,11 @@ recorded in provider ADR 0017.
   `LibQuestieDB.Conditions.SetFunctions("Questie", ...)`. Questie is the provider's only trusted
   owner, so every consumer evaluates with these functions. They answer quest state from Questie's
   caches and `HasSkill` through `QuestieProfessions`. `QuestAvailable` means the player could
-  accept the quest now: not in the log, within its own level limits, and `QuestieDB.IsDoable`
-  without the player's manual hide list or Questie's display level range.
+  accept the quest now: not in the log, within its own level limits, its own condition true, and
+  `QuestieDB.IsDoable` without the player's manual hide list or Questie's display level range.
+  Questie's blacklist applies in full, `HIDE_ON_MAP` included, because it does not record which of
+  those quests can still be accepted. An unknown condition on that quest makes `QuestAvailable`
+  unknown too.
 - `QuestieDB.IsDoable` and `IsDoableVerbose` reject a quest whose condition is false
   (`DoableStates.CONDITIONS_NOT_MET`). The verbose text names the failing parts.
 - [`QuestieConditionText`](../Modules/Quest/Conditions/QuestieConditionText.lua) renders the provider's
