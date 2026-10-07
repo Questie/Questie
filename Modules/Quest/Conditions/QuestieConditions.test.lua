@@ -79,7 +79,8 @@ describe("QuestieConditions", function()
             QuestieConditions.RecheckNow()
 
             assert.are_equal(1, recalculations)
-            assert.is_false(QuestieConditions.IsFulfilled(5), "the resolved answer is now the known one")
+            results[5] = nil
+            assert.is_false(QuestieConditions.IsFulfilled(5), "the re-check remembered the resolved answer")
         end)
 
         it("redraws when another query resolves a pending quest to a different answer", function()
