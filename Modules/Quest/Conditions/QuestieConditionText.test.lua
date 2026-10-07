@@ -3,7 +3,7 @@ dofile("setupTests.lua")
 describe("QuestieConditionText", function()
     ---@type QuestieConditionText
     local QuestieConditionText
-    local originalColorize
+    local originalColorize, originalSpell
 
     local function leaf(call, result, ...)
         return {call = call, args = {...}, result = result}
@@ -13,6 +13,9 @@ describe("QuestieConditionText", function()
         dofile("Localization/l10n.lua")
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.QueryQuestSingle = function(questId) return "Quest " .. questId end
+        QuestieDB.QueryItemSingle = function(itemId) return "Item " .. itemId end
+        originalSpell = _G.C_Spell
+        _G.C_Spell = {GetSpellName = function(spellId) return "Spell " .. spellId end}
         originalColorize = Questie.Colorize
         Questie.Colorize = function(_, text, color) return "<" .. color .. ">" .. text end
         QuestieConditionText = dofile("Modules/Quest/Conditions/QuestieConditionText.lua")
@@ -20,6 +23,8 @@ describe("QuestieConditionText", function()
 
     after_each(function()
         Questie.Colorize = originalColorize
+        _G.C_Spell = originalSpell
+        _G.FACTION_STANDING_LABEL1, _G.FACTION_STANDING_LABEL6 = nil, nil
     end)
 
     describe("BlockingParts", function()
@@ -71,7 +76,7 @@ describe("QuestieConditionText", function()
                 "    <green>Faction: Alliance",
                 "    <red>Not: Turned in: Quest 1518 (1518)",
                 "    <yellow>Any of: ",
-                "        <yellow>HasAura(5)",
+                "        <yellow>Has aura: Spell 5 (5)",
                 "        <red>NewFunction(7, 8)",
             }, "\n"), QuestieConditionText.RenderTree(tree))
         end)
@@ -89,6 +94,24 @@ describe("QuestieConditionText", function()
                 "<green>Any of: ",
                 "    <red>Not: Turned in: Quest 1 (1)",
                 "    <green>In quest log: Quest 2 (2)",
+            }, "\n"), QuestieConditionText.RenderTree(tree))
+        end)
+
+        it("names reputation ranks by the client's labels and shows item counts above one", function()
+            -- Condition rank 0 is the client's label 1, Hated; rank 5 is label 6, Honored.
+            _G.FACTION_STANDING_LABEL1, _G.FACTION_STANDING_LABEL6 = "Hated", "Honored"
+            QuestieLoader:ImportModule("QuestieReputation").GetFactionName = function(factionId) return "Faction " .. factionId end
+            local tree = {op = "and", result = true, children = {
+                leaf("HasRep", true, 1105, 5), leaf("RepBelow", true, 1105, 0),
+                leaf("HasItem", true, 3, 2), leaf("HasItemOrBank", true, 4, 1),
+            }}
+
+            assert.are_same(table.concat({
+                "<green>All of: ",
+                "    <green>Reputation at least Honored: Faction 1105",
+                "    <green>Reputation at most Hated: Faction 1105",
+                "    <green>Has item: Item 3 (3) x2",
+                "    <green>Has item, bank included: Item 4 (4)",
             }, "\n"), QuestieConditionText.RenderTree(tree))
         end)
     end)
