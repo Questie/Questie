@@ -85,24 +85,28 @@ end
 
 ---Render a whole explained condition as indented, colored lines.
 ---Green parts hold, red parts do not, and yellow parts cannot be read right now.
+---A negated group is shown through De Morgan's laws, so players only see "All of", "Any of",
+---and "Not: <part>": `not (A and B)` becomes any of "Not: A", "Not: B".
 ---@param tree QuestieDBConditionNode
 ---@return string
 function QuestieConditionText.RenderTree(tree)
     local lines = {}
-    local function add(node, depth)
+    local function add(node, depth, negated)
+        local result = node.result
+        if negated and result ~= nil then result = not result end
         local indent = string.rep("    ", depth)
         if node.call then
-            lines[#lines + 1] = indent .. Questie:Colorize(describeLeaf(node), colorFor(node.result))
-        elseif node.op == "not" and node.children[1].call then
-            local child = node.children[1]
-            lines[#lines + 1] = indent .. Questie:Colorize(l10n("Not") .. l10n(": ") .. describeLeaf(child), colorFor(node.result))
+            local text = describeLeaf(node)
+            lines[#lines + 1] = indent .. Questie:Colorize(negated and l10n("Not: %s", text) or text, colorFor(result))
+        elseif node.op == "not" then
+            add(node.children[1], depth, not negated)
         else
-            local label = (node.op == "and" and l10n("All of")) or (node.op == "or" and l10n("Any of")) or l10n("Not")
-            lines[#lines + 1] = indent .. Questie:Colorize(label .. l10n(": "), colorFor(node.result))
-            for _, child in ipairs(node.children) do add(child, depth + 1) end
+            local all = (node.op == "and") ~= (negated == true)
+            lines[#lines + 1] = indent .. Questie:Colorize((all and l10n("All of") or l10n("Any of")) .. l10n(": "), colorFor(result))
+            for _, child in ipairs(node.children) do add(child, depth + 1, negated) end
         end
     end
-    add(tree, 0)
+    add(tree, 0, false)
     return table.concat(lines, "\n")
 end
 
@@ -125,7 +129,7 @@ function QuestieConditionText.BlockingParts(tree)
         if node.result ~= (negated and true or false) then return end
         if node.call then
             local text = describeLeaf(node)
-            parts[#parts + 1] = negated and (l10n("Not") .. l10n(": ") .. text) or text
+            parts[#parts + 1] = negated and l10n("Not: %s", text) or text
         elseif node.op == "not" then
             collect(node.children[1], not negated)
         else

@@ -75,5 +75,21 @@ describe("QuestieConditionText", function()
                 "        <red>NewFunction(7, 8)",
             }, "\n"), QuestieConditionText.RenderTree(tree))
         end)
+
+        it("shows a negated group through De Morgan's laws", function()
+            -- not (A and B) is any of "Not: A", "Not: B"; a double negation cancels out.
+            local tree = {op = "not", result = true, children = {
+                {op = "and", result = false, children = {
+                    leaf("QuestRewarded", true, 1),
+                    {op = "not", result = false, children = {leaf("QuestInLog", true, 2)}},
+                }},
+            }}
+
+            assert.are_same(table.concat({
+                "<green>Any of: ",
+                "    <red>Not: Turned in: Quest 1 (1)",
+                "    <green>In quest log: Quest 2 (2)",
+            }, "\n"), QuestieConditionText.RenderTree(tree))
+        end)
     end)
 end)
