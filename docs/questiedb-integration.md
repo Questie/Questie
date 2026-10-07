@@ -290,7 +290,7 @@ These are unfinished checks, not guarantees established by the historical smoke 
 | WotLK and Titan season 109 | Provider-owned Titan corrections, no Questie Titan slot, and retained Titan quest tags. |
 | Cata and MoP | Login, Townsfolk, tracker/map rendering, and the correct flavor TOC; MoP's mixed drop sources. |
 | Darkmoon week and its end | Calendar-driven `Npc:DarkmoonFaire` publication and withdrawal, not only a manual producer probe. |
-| Quest Conditions on Era, TBC, and Wrath | A condition-gated quest stays hidden until its condition holds; the Journey lists it under missing prerequisites. |
+| Quest Conditions on Forever | Unfinished Gordok Business (1318, 7703) stays hidden without the King of the Gordok aura and appears with it; the Journey lists it under missing prerequisites. |
 | Built-in non-English locale | Entity names, Object name lookup, and Special Objective text. |
 | External locale addon | `QuestieLocalesOverride` translation provenance, replacement/withdrawal, and unchanged UI-string ownership. |
 
