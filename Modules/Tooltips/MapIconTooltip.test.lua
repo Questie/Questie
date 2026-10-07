@@ -8,14 +8,19 @@ describe("MapIconTooltip objective wording", function()
         savedGlobals = {
             LibStub = _G.LibStub, GetTime = _G.GetTime, GameTooltip = _G.GameTooltip,
             WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, IsShiftKeyDown = _G.IsShiftKeyDown,
-            UnitName = _G.UnitName, UnitClassBase = _G.UnitClassBase, GetClassColor = _G.GetClassColor,
+            GetUnitName = _G.GetUnitName, UnitClassBase = _G.UnitClassBase, GetClassColor = _G.GetClassColor,
             C_CurrencyInfo = _G.C_CurrencyInfo, OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION,
             QUEST_MONSTERS_KILLED = _G.QUEST_MONSTERS_KILLED,
         }
         now = 0
         _G.GetTime = function() return now end
         _G.IsShiftKeyDown = function() return false end
-        _G.UnitName = function() return "Local" end
+        _G.GetUnitName = function(unit, fullName)
+            if unit == "player" and fullName then
+                return "Local Fullname"
+            end
+            return "Local"
+        end
         _G.UnitClassBase = function() return "MAGE" end
         _G.GetClassColor = function() return 1, 1, 1, "FFFFFFFF" end
         _G.C_CurrencyInfo = {GetCoinTextureString = function() return "" end}
@@ -81,7 +86,7 @@ describe("MapIconTooltip objective wording", function()
         _G.C_CurrencyInfo = savedGlobals.C_CurrencyInfo
         _G.LibStub, _G.GetTime, _G.GameTooltip = savedGlobals.LibStub, savedGlobals.GetTime, savedGlobals.GameTooltip
         _G.WorldMapFrame, _G.C_Map, _G.IsShiftKeyDown = savedGlobals.WorldMapFrame, savedGlobals.C_Map, savedGlobals.IsShiftKeyDown
-        _G.UnitName, _G.UnitClassBase, _G.GetClassColor = savedGlobals.UnitName, savedGlobals.UnitClassBase, savedGlobals.GetClassColor
+        _G.GetUnitName, _G.UnitClassBase, _G.GetClassColor = savedGlobals.GetUnitName, savedGlobals.UnitClassBase, savedGlobals.GetClassColor
     end)
 
     local function RenderObjectiveLines()
@@ -135,7 +140,7 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
 
         assert.are.same({
-            ["|cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal|r|cFFEEEEEE)|r"] = true,
+            ["|cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
             ["|cFFEEEEEEWindstone Cluster: 3/15 (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
         }, RenderObjectiveLines())
         assert.are.equal("Windstone Cluster: 9/15", cached[1].objectives[3].text)
@@ -148,7 +153,7 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 5}}} end
 
         assert.are.same({
-            ["|cFFEEEEEEWolf slain: 2/5 (Optional) (|cFFFFFFFFLocal|r|cFFEEEEEE)|r"] = true,
+            ["|cFFEEEEEEWolf slain: 2/5 (Optional) (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
             ["|cFFEEEEEEWolf slain: 3/5 (Optional) (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
         }, RenderObjectiveLines())
         assert.are.equal("Wolf slain (Optional)", objective.Description)
@@ -165,7 +170,7 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 5}}} end
 
         assert.are.same({
-            ["|cFFEEEEEEVide-gousset défias\194\160: 2/5 personnages tués (optionnel) (|cFFFFFFFFLocal|r|cFFEEEEEE)|r"] = true,
+            ["|cFFEEEEEEVide-gousset défias\194\160: 2/5 personnages tués (optionnel) (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
             ["|cFFEEEEEEVide-gousset défias\194\160: 3/5 personnages tués (optionnel) (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
         }, RenderObjectiveLines())
         assert.are.equal(nativeText, cached[1].objectives[3].text)
@@ -176,7 +181,7 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.GetQuest = function() return {Bob = {[3] = {}}} end
 
         assert.are.same({
-            ["|cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal|r|cFFEEEEEE)|r"] = true,
+            ["|cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
             ["|cFFedededWindstone Cluster (|cFFFFFFFFBob|r|cFFededed)|r"] = true,
         }, RenderObjectiveLines())
     end)
