@@ -120,11 +120,26 @@ describe("QuestieConditions", function()
             assert.are_same({}, timers)
         end)
 
-        it("slows down during a long secret state", function()
+        it("re-checks every second at first, then slows down during a long secret state", function()
+            QuestieConditions.IsFulfilled(5)
+            assert.are_equal(1, timers[1].delay)
+            for _ = 1, 29 do fireTimer() end
+            assert.are_equal(1, timers[1].delay, "the 30th re-check is still fast")
+
+            fireTimer()
+            assert.are_equal(5, timers[1].delay)
+        end)
+
+        it("starts fast again for the next secret state after one resolves", function()
             QuestieConditions.IsFulfilled(5)
             for _ = 1, 30 do fireTimer() end
+            results[5] = true
+            fireTimer()
+            assert.are_same({}, timers)
 
-            assert.are_equal(5, timers[1].delay)
+            results[5] = nil
+            QuestieConditions.IsFulfilled(5)
+            assert.are_equal(1, timers[1].delay)
         end)
 
         it("does nothing when no condition is unknown", function()
@@ -188,6 +203,18 @@ describe("QuestieConditions", function()
                 assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(2))
                 assert.is_true(mock.conditionFunctions.Questie.QuestAvailable(3))
             end)
+        end)
+
+        it("counts QuestComplete only for a quest in the log with its objectives complete", function()
+            local completion = {[1] = 1, [2] = 0, [3] = -1}
+            QuestieDB.IsComplete = function(questId) return completion[questId] end
+            QuestiePlayer.currentQuestlog = {[1] = {}, [2] = {}, [3] = {}}
+
+            assert.is_true(mock.conditionFunctions.Questie.QuestComplete(1))
+            assert.is_false(mock.conditionFunctions.Questie.QuestComplete(2))
+            assert.is_false(mock.conditionFunctions.Questie.QuestComplete(3), "a failed quest is not complete")
+            completion[4] = 1
+            assert.is_false(mock.conditionFunctions.Questie.QuestComplete(4), "a quest outside the log is not complete")
         end)
 
         it("maps HasSkill to Questie's profession IDs with a default level of 1", function()
