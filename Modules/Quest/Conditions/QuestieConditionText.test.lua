@@ -15,7 +15,7 @@ describe("QuestieConditionText", function()
         QuestieDB.QueryQuestSingle = function(questId) return "Quest " .. questId end
         originalColorize = Questie.Colorize
         Questie.Colorize = function(_, text, color) return "<" .. color .. ">" .. text end
-        QuestieConditionText = dofile("Modules/Quest/QuestieConditionText.lua")
+        QuestieConditionText = dofile("Modules/Quest/Conditions/QuestieConditionText.lua")
     end)
 
     after_each(function()
