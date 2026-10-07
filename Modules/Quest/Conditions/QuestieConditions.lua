@@ -20,7 +20,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local lastKnown = {} -- questId -> last determinate result
 local pending = {} -- questId -> answer shown while its condition is unknown
 -- A pending quest resolved outside RecheckNow to an answer other than the one shown, for example
--- through a Journey query. The next re-check redraws for it.
+-- through a Journey query. The next re-check redraws for it. A resolution during an availability
+-- pass already drew its answer, so the flag can cause one redundant redraw; never a missed one.
 local resolvedDifferently = false
 
 local FAST_RECHECKS, FAST_DELAY, SLOW_DELAY = 30, 1, 5 -- Seconds; slow down during long secret states.
