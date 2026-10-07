@@ -18,7 +18,7 @@ describe("QuestieConditions", function()
         local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         recalculations = 0
         AvailableQuests.CalculateAndDrawAll = function() recalculations = recalculations + 1 end
-        QuestieConditions = dofile("Modules/Quest/QuestieConditions.lua")
+        QuestieConditions = dofile("Modules/Quest/Conditions/QuestieConditions.lua")
     end)
 
     after_each(function()

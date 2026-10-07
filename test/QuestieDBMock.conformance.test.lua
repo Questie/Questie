@@ -694,7 +694,7 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             _G.LibQuestieDB = provider
             Questie.db.char.complete = {[2] = true}
             QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {[3] = {}}
-            dofile("Modules/Quest/QuestieConditions.lua").Initialize()
+            dofile("Modules/Quest/Conditions/QuestieConditions.lua").Initialize()
             local seen = {
                 rewarded = provider.Conditions.Evaluate("QuestNone(2)"),
                 inLog = provider.Conditions.Evaluate("QuestNone(3)"),

@@ -111,7 +111,7 @@ Some quests carry an availability expression in the provider's Quest `conditions
 and the evaluator, so other consumers can evaluate conditions without Questie. The design is
 recorded in provider ADR 0017.
 
-[`QuestieConditions`](../Modules/Quest/QuestieConditions.lua) is Questie's side:
+[`QuestieConditions`](../Modules/Quest/Conditions/QuestieConditions.lua) is Questie's side:
 
 - Stage 3 publishes Questie's condition functions after the quest log is first hydrated, through
   `LibQuestieDB.Conditions.SetFunctions("Questie", ...)`. Questie is the provider's only trusted
@@ -121,7 +121,7 @@ recorded in provider ADR 0017.
   without the player's manual hide list or Questie's display level range.
 - `QuestieDB.IsDoable` and `IsDoableVerbose` reject a quest whose condition is false
   (`DoableStates.CONDITIONS_NOT_MET`). The verbose text names the failing parts.
-- [`QuestieConditionText`](../Modules/Quest/QuestieConditionText.lua) renders the provider's
+- [`QuestieConditionText`](../Modules/Quest/Conditions/QuestieConditionText.lua) renders the provider's
   `Explain` tree. The Journey quest details show every part of a condition, colored green when
   it holds, red when it does not, and yellow when it cannot be read right now.
 - An unknown result (nil) means a condition function could not read a hidden value, such as
