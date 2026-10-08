@@ -255,7 +255,7 @@ function QuestieEvent:Load()
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
     -- TODO: Also handle WotLK which has a different starting schedule
-    if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
+    if (not Questie.IsForever) and (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
             or Questie.IsTBC then
         _LoadDarkmoonFaire()
     end
