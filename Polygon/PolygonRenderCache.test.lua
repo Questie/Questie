@@ -365,7 +365,7 @@ end)
 -- Exercise real cache/renderer composition. Only native frame/texture operations
 -- are mocked, so ownership and skipped geometry work cannot be supplied by spies.
 describe("PolygonRenderCache with PolygonRenderer", function()
-    local cache, renderer, nativeFrames, saved, calls, failMotionFrame
+    local cache, renderer, nativeFrames, saved, calls, failAnchorFrame
     local owner, key, source, shape
 
     local function Count(values)
@@ -389,14 +389,10 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         end
         function frame:IsShown() return self.shown end
         function frame:SetScript(event, callback) self.scripts[event] = callback end
-        function frame:EnableMouse(enabled) self.mouse = enabled end
-        function frame:EnableMouseMotion(enabled)
-            if self.id == failMotionFrame then error("native motion failed") end
-            self.motion = enabled
+        function frame:ClearAllPoints()
+            if self.id == failAnchorFrame then error("native anchor failed") end
+            self.anchor = nil
         end
-        function frame:SetPropagateMouseMotion(enabled) self.propagate = enabled end
-        function frame:CanPropagateMouseMotion() return self.propagate == true end
-        function frame:ClearAllPoints() self.anchor = nil end
         function frame:SetPoint(...) self.anchor = {...} end
         function frame:SetSize(width, height) self.width, self.height = width, height end
         function frame:SetFrameLevel(level) self.level = level end
@@ -425,7 +421,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         saved = {CreateFrame = _G.CreateFrame, DrawLine = _G.DrawLine, random = math.random,
             UPPER_LEFT_VERTEX = _G.UPPER_LEFT_VERTEX, LOWER_LEFT_VERTEX = _G.LOWER_LEFT_VERTEX,
             UPPER_RIGHT_VERTEX = _G.UPPER_RIGHT_VERTEX, LOWER_RIGHT_VERTEX = _G.LOWER_RIGHT_VERTEX}
-        nativeFrames, calls, failMotionFrame = {}, {textureSetup = 0, vertexSetup = 0, uvSetup = 0, fillStyle = 0, random = 0}, nil
+        nativeFrames, calls, failAnchorFrame = {}, {textureSetup = 0, vertexSetup = 0, uvSetup = 0, fillStyle = 0, random = 0}, nil
         _G.CreateFrame = CreateFrameMock
         _G.DrawLine = function(texture, _, _, _, _, _, thickness) texture.thickness = thickness end
         _G.UPPER_LEFT_VERTEX, _G.LOWER_LEFT_VERTEX = "UL", "LL"
@@ -435,7 +431,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         dofile("Polygon/PolygonRenderCache.lua")
         local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
         Renderer.debugRandomColors = true
-        renderer = Renderer.New({}, {getCursorPosition = function() return nil end, getMouseFoci = function() return {} end})
+        renderer = Renderer.New({}, {getCursorPosition = function() return nil end, isCursorOnMap = function() return true end})
         cache = QuestieLoader:ImportModule("PolygonRenderCache").New(renderer)
         owner, key = {}, {}
         source = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}
@@ -444,7 +440,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
     end)
 
     after_each(function()
-        failMotionFrame = nil
+        failAnchorFrame = nil
         cache:Clear()
         math.random = saved.random
         _G.CreateFrame, _G.DrawLine = saved.CreateFrame, saved.DrawLine
@@ -509,7 +505,6 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(2, #renderer.freeFrames)
         assert.are_equal(4, #renderer.freeFills)
         assert.are_equal(6, #renderer.freeBorders)
-        assert.are_same({}, renderer.hoverFrames)
         assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
     end)
 
@@ -518,9 +513,9 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.is_true(cache:Present(10, {shape, sibling}, 1000, 500, 8))
         assert.is_true(cache:Present(20, {shape, sibling}, 1000, 500, 8))
         local failedView, siblingView = renderer.activeFrames[1], renderer.activeFrames[2]
-        failMotionFrame = failedView.id
+        failAnchorFrame = failedView.id
 
-        assert.has_error(function() cache:Release(owner) end, "native motion failed")
+        assert.has_error(function() cache:Release(owner) end, "native anchor failed")
 
         assert.is_false(failedView.shown)
         assert.is_false(siblingView.shown)
@@ -533,10 +528,9 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.is_nil(cache.owners[owner][sibling.key])
         assert.are_equal(3, #renderer.freeFrames)
         assert.are_same({}, renderer.activeFrames)
-        assert.are_same({}, renderer.hoverFrames)
         assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
 
-        failMotionFrame = nil
+        failAnchorFrame = nil
         cache:Release(owner)
         cache:Release(owner)
 
@@ -552,9 +546,9 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
         assert.is_true(cache:Present(20, {shape, sibling}, 1000, 500, 8))
         local failedView, siblingView = renderer.activeFrames[1], renderer.activeFrames[2]
-        failMotionFrame = failedView.id
+        failAnchorFrame = failedView.id
 
-        assert.has_error(function() cache:Release(owner, key) end, "native motion failed")
+        assert.has_error(function() cache:Release(owner, key) end, "native anchor failed")
 
         assert.is_false(failedView.shown)
         assert.is_true(siblingView.shown)
@@ -564,7 +558,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(siblingView, cache.owners[owner][sibling.key].maps[20].frame)
         assert.are_equal(1, #renderer.freeFrames)
 
-        failMotionFrame = nil
+        failAnchorFrame = nil
         cache:Release(owner, key)
         cache:Release(owner, key)
 
@@ -582,14 +576,14 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         local failedView = renderer.activeFrames[1]
         assert.is_true(cache:Present(20, {shape}, 1000, 500, 8))
         local projectedView = renderer.activeFrames[1]
-        failMotionFrame = failedView.id
+        failAnchorFrame = failedView.id
         shape.source = {{x = 30, y = 30}, {x = 40, y = 30}, {x = 30, y = 40}}
         shape.points = shape.source
 
         local success, err = cache:Present(20, {shape}, 1000, 500, 8)
 
         assert.is_nil(success)
-        assert.matches("native motion failed", err)
+        assert.matches("native anchor failed", err)
         assert.matches("cleanup failed", err)
         assert.are_same({}, cache.owners)
         assert.is_false(failedView.shown)
@@ -598,7 +592,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.is_true(renderer.ownedFrames[failedView])
         assert.are_equal(1, #renderer.freeFrames)
 
-        failMotionFrame = nil
+        failAnchorFrame = nil
         cache:Clear()
         cache:Clear()
 
@@ -609,19 +603,19 @@ describe("PolygonRenderCache with PolygonRenderer", function()
 
     it("reports creation and cleanup failures without losing native ownership, then retries cleanup", function()
         local sibling = {owner = owner, key = {}, source = source, sourceMapId = 10, points = source, color = {1, 0, 0}}
-        failMotionFrame = 2 -- The second view fails before the batch creates a hover driver.
+        failAnchorFrame = 2 -- The second view fails before the batch creates a hover driver.
 
         local success, err = cache:Present(10, {shape, sibling}, 1000, 500, 8)
 
         assert.is_nil(success)
-        assert.matches("native motion failed", err)
+        assert.matches("native anchor failed", err)
         assert.matches("cleanup failed", err)
         assert.are_same({}, cache.owners)
         assert.are_equal(1, Count(renderer.ownedFrames))
         assert.is_true(renderer.ownedFrames[nativeFrames[2]])
         assert.is_false(nativeFrames[2].shown)
         assert.are_equal(1, #renderer.freeFrames)
-        failMotionFrame = nil
+        failAnchorFrame = nil
         cache:Clear()
         assert.are_equal(0, Count(renderer.ownedFrames))
         assert.are_equal(2, #renderer.freeFrames)

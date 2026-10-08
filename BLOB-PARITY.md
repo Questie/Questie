@@ -13,17 +13,17 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 | Representative cluster icons | Implemented. Small or degenerate clusters retain a point marker. |
 | Hover an icon to preview its areas | Implemented. Highlights only that icon's attached polygon outline. |
 | Show areas on quest accept; click an icon to hide or show them | Implemented. Choices are saved per character and are objective-wide, not per cluster. An option instead shows areas only while the player is nearby. Nearly coincident markers are nudged apart visually. |
-| Hover the polygon itself | Implemented where motion propagation is available. One shared 80 ms check highlights all participating polygons whose actual shapes contain the cursor. |
+| Hover the polygon itself | Implemented. Hover is computed from the cursor and the outlines whenever the cursor's map position changes, and highlights all polygons whose actual shapes contain it. Polygon frames take no mouse input. |
 | Highlight the polygon border on hover | Implemented. Thicker, brighter border; fade opacity is preserved. |
 | Cache calculated areas | Implemented in memory. Progress-only updates reuse geometry and skip spawn collection unless the spawn list or phase visibility changes; changed eligible spawns rebuild it. |
 | Quest updates and removal | Implemented, with cancellation and pooled-resource cleanup fixes. |
-| World-map waypoints | Existing Questie lines are retained and attached to cluster markers. Waypoint frames propagate motion where supported; clicks are unchanged. |
+| World-map waypoints | Existing Questie lines are retained and attached to cluster markers. Hover reaches the areas beneath waypoint lines; their clicks are unchanged. |
 
 ## What is still missing
 
 | Original feature | Current status |
 | --- | --- |
-| Click handling on polygon frames | **Deliberately not ported.** Motion propagates to underlying regions, but polygon clicks stay disabled. Map navigation and marker actions remain with their existing handlers. |
+| Click handling on polygon frames | **Deliberately not ported.** Polygon frames take no mouse input. Map navigation and marker actions remain with their existing handlers. |
 | Minimap polygons | **Not ported.** Ordinary Questie minimap icons remain. |
 | Minimap waypoint lines | **Not ported.** The old outlined-texture waypoint renderer is preserved as reference code only. |
 | Minimap masks and custom HBD scaling | **Not ported.** Needed by the old minimap rendering paths. |
@@ -36,14 +36,14 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 - The retired screen-space nudging experiment is preserved in locally gitignored `.scratch/polygon-nudging-experiment/` with verified checksums. The original historical reference package remains separate.
 - Did not copy the unsafe hull prefilter or blanket exclusion of rare NPCs.
 - Historical mean-shift, alternate renderers, and overlap-merging experiments remain reference material, not enabled features.
-- Neither version provides terrain-aware shapes or holes. Overlapping polygons highlight together only when their shapes contain the cursor and they participate in the native focus stack. UI blockers still exclude underlying polygons.
+- Neither version provides terrain-aware shapes or holes. Overlapping polygons highlight together when their shapes contain the cursor. Questie icons, Blizzard pins and other UI on top of the map exclude the areas beneath them.
 - Marker-associated and direct-hover highlights combine. Generic Questie icon input is unchanged; Polygon markers use direct-click show/hide with no picker. Polygon surfaces still have no clicks/tooltips.
-- Direct hover affects only drawn areas and does not extend previews or change saved visibility. Missing motion APIs leave polygon frames noninteractive, but marker-associated highlighting still works. Native POI remains future work.
+- Direct hover affects only drawn areas and does not extend previews or change saved visibility. Native POI remains future work.
 
 ## Follow-up
 
-- Review waypoint frame levels. They likely belong below polygons, but the existing level `2015` is unchanged pending review and in-game checks. Keep motion propagation enabled throughout stacked waypoint and polygon frames regardless of their final order.
+- Review waypoint frame levels. They likely belong below polygons, but the existing level `2015` is unchanged pending review and in-game checks. Lines sit below Questie's icons (`QuestieMap.utils.SetDrawOrder`) but above Blizzard's pins, so a line's bounding rectangle takes hover and clicks from Blizzard pins beneath it and counts as bare map for area hover. A hit area that follows the line itself would fix both.
 
-**Validation:** automated checks are offline. The latest fixed-stack zoom correction still needs a user reload and in-game review, including spacing and clicking. Earlier user-confirmed nudging behavior applied to the retired experiment, not this replacement. Native motion propagation and click/drag pass-through remain unvalidated.
+**Validation:** automated checks are offline. The latest fixed-stack zoom correction still needs a user reload and in-game review, including spacing and clicking. Earlier user-confirmed nudging behavior applied to the retired experiment, not this replacement. Cursor-based hover under covering UI and unchanged map clicks/dragging still need in-game checks.
 
 See [current implementation details](Polygon/README.md) and [the historical reference package](Blob/docs/legacy-questie-blobs/README.md).

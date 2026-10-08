@@ -10,7 +10,7 @@ PolygonRenderer.debugRandomColors = false
 ---@field points table[] Immutable ordered convex outline in destination-map percentages, with named x/y fields.
 ---@field color number[] RGB plus optional fill alpha; border opacity is independent.
 ---@field borderAlpha number? Border opacity in [0, 1], default 0.75; callers can apply marker fade.
----@field highlighted boolean? Highlight this outline through its associated marker, independent of native motion support.
+---@field highlighted boolean? Highlight this outline through its associated marker, independent of cursor hover.
 
 ---@class PolygonCanvasRenderer
 ---@field canvas Frame
@@ -21,17 +21,18 @@ PolygonRenderer.debugRandomColors = false
 ---@field freeFills Texture[]
 ---@field freeBorders Texture[]
 ---@field hoverInput PolygonHoverInput?
----@field hoverFrames table<Frame, boolean> Only visible motion-capable frames.
----@field hoveredFrames table<Frame, boolean> All containing polygons in the current native focus stack.
+---@field hoveredFrames table<Frame, boolean> Visible polygons whose outlines contain the cursor.
 ---@field highlightedFrames table<Frame, boolean> Union of geometric hover and caller-requested marker highlights.
 ---@field hoverDriver Frame? One shared update driver, retained across visible-set changes.
----@field hoverPolling boolean? Whether the driver currently has its motion-polling callback installed.
----@field combatDriver Frame? Event-only driver for deferred input setup; no polling.
----@field combatPending boolean? A combat-end reconciliation is registered.
+---@field hoverPolling boolean? Whether the driver currently has its cursor-polling callback installed.
+---@field cursorX number? Cursor canvas percentage at the last hover check; nil while unavailable.
+---@field cursorY number?
 
+---Polygon frames never take mouse input, so they cannot block map clicks or dragging and
+---need no protected input setup. Hover is computed from the cursor and the outlines instead.
 ---@class PolygonHoverInput
 ---@field getCursorPosition fun(): number?, number? Normalized coordinates against the full canvas extent.
----@field getMouseFoci fun(): ScriptRegion[] Participating regions in top-to-bottom propagation order.
+---@field isCursorOnMap fun(): boolean False while other UI covers the map under the cursor.
 
 local Renderer = {}
 Renderer.__index = Renderer
@@ -45,11 +46,11 @@ end
 ---Creates a renderer with no registration or map-global side effects. The canvas owns
 ---clipping and zoom/pan; configuration uses its full logical extent, not the viewport size.
 ---@param canvas Frame
----@param hoverInput PolygonHoverInput? Omit to keep drawing fully noninteractive.
+---@param hoverInput PolygonHoverInput? Omit for marker highlighting only, without cursor hover.
 ---@return PolygonCanvasRenderer
 function PolygonRenderer.New(canvas, hoverInput)
     return setmetatable({canvas = canvas, activeFrames = {}, freeFrames = {}, freeFills = {}, freeBorders = {},
-        ownedFrames = {}, visibleFrames = {}, hoverInput = hoverInput, hoverFrames = {}, hoveredFrames = {}, highlightedFrames = {}}, Renderer)
+        ownedFrames = {}, visibleFrames = {}, hoverInput = hoverInput, hoveredFrames = {}, highlightedFrames = {}}, Renderer)
 end
 
 -- Hover selection and border styling
@@ -104,26 +105,43 @@ local function _ContainsPoint(points, x, y)
     return inside
 end
 
----Reconciles native focus hits and marker requests for the published visible set.
----Only changed effective highlights restyle borders; hidden retained views are excluded.
+---Reads the cursor in canvas percentages; nil while it is unavailable, off the canvas, or
+---restricted. Restricted (secret) values cannot even be compared, so they are rejected first.
+---@param input PolygonHoverInput
+---@return number? x
+---@return number? y
+local function _ReadCursor(input)
+    local x, y = input.getCursorPosition()
+    if issecretvalue and (issecretvalue(x) or issecretvalue(y)) then return nil, nil end
+    if _IsFinite(x) and _IsFinite(y) and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
+        return x * 100, y * 100
+    end
+    return nil, nil
+end
+
+---Reconciles cursor hits and marker requests for the published visible set. Hover selects
+---every visible outline containing the cursor, overlaps included, unless other UI covers the
+---map there. Only changed effective highlights restyle borders.
 function Renderer:UpdateHover()
     local hovered, selected = {}, {}
-    if next(self.hoverFrames) then
-        local input = self.hoverInput
-        local x, y = input.getCursorPosition()
-        -- Restricted/off-screen cursor data cannot safely participate in geometry comparisons.
-        local secretCursor = issecretvalue and (issecretvalue(x) or issecretvalue(y))
-        if not secretCursor and _IsFinite(x) and _IsFinite(y) and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
-            -- Highlight every containing polygon in the native participation stack.
-            -- An opaque UI region excludes obscured frames; rectangular overlap alone is insufficient.
-            for _, region in ipairs(input.getMouseFoci()) do
-                if self.hoverFrames[region] and region:IsShown() and _ContainsPoint(region.polygonOutline, x * 100, y * 100) then
-                    hovered[region], selected[region] = true, true
+    local x, y
+    -- Without visible polygons there is nothing to hit, and the map may not be laid out yet:
+    -- Blizzard's cursor normalization divides by the canvas width, which starts at zero.
+    if self.hoverInput and #self.activeFrames > 0 then
+        x, y = _ReadCursor(self.hoverInput)
+        if x and self.hoverInput.isCursorOnMap() then
+            for _, frame in ipairs(self.activeFrames) do
+                -- The outline's bounding box rejects most polygons before the full test.
+                local bounds = frame.polygonBounds
+                if x >= bounds[1] and x <= bounds[3] and y >= bounds[2] and y <= bounds[4]
+                    and frame:IsShown() and _ContainsPoint(frame.polygonOutline, x, y) then
+                    hovered[frame], selected[frame] = true, true
                 end
             end
         end
     end
-    -- Marker association remains independent of motion propagation and geometric hover.
+    self.cursorX, self.cursorY = x, y
+    -- Marker association remains independent of geometric hover.
     -- Leaving a polygon cannot erase the outline highlight requested by its hovered marker.
     for _, frame in ipairs(self.activeFrames) do
         if frame.polygonHighlighted and frame:IsShown() then selected[frame] = true end
@@ -132,15 +150,22 @@ function Renderer:UpdateHover()
     _SetHighlightedFrames(self, selected)
 end
 
--- Motion participation controls polling. Marker-only highlights still need the
--- driver's hide/show lifecycle, but no OnUpdate. Style batches retain the polling interval.
+-- Hover follows cursor movement: the full check runs only when the cursor's canvas position
+-- changes, which also covers panning and zooming under a still cursor.
+local function _PollHover(self)
+    local x, y = _ReadCursor(self.hoverInput)
+    if x ~= self.cursorX or y ~= self.cursorY then self:UpdateHover() end
+end
+
+-- Visible polygons with a hover input need cursor polling. Marker-only highlights still
+-- need the driver's hide/show lifecycle, but no OnUpdate.
 local function _SyncHoverDriver(self)
-    local hasMotion = next(self.hoverFrames) ~= nil
+    local canHover = self.hoverInput ~= nil and #self.activeFrames > 0
     local hasMarkerHighlight = false
     for _, frame in ipairs(self.activeFrames) do
         hasMarkerHighlight = hasMarkerHighlight or frame.polygonHighlighted
     end
-    if not hasMotion and not hasMarkerHighlight then
+    if not canHover and not hasMarkerHighlight then
         if self.hoverDriver then
             self.hoverDriver:SetScript("OnUpdate", nil)
             self.hoverDriver:Hide()
@@ -155,7 +180,6 @@ local function _SyncHoverDriver(self)
         local driver = CreateFrame("Frame", nil, self.canvas)
         self.hoverDriver = driver
         driver:Hide()
-        driver:EnableMouse(false)
         driver:SetScript("OnHide", function(hiddenDriver)
             hiddenDriver:SetScript("OnUpdate", nil)
             self.hoverPolling = false
@@ -167,17 +191,10 @@ local function _SyncHoverDriver(self)
             self:UpdateHover()
         end)
     end
-    if hasMotion and not self.hoverPolling then
-        local elapsed = 0
-        self.hoverDriver:SetScript("OnUpdate", function(_, delta)
-            elapsed = elapsed + delta
-            if elapsed >= 0.08 then
-                elapsed = elapsed % 0.08
-                self:UpdateHover()
-            end
-        end)
+    if canHover and not self.hoverPolling then
+        self.hoverDriver:SetScript("OnUpdate", function() _PollHover(self) end)
         self.hoverPolling = true
-    elseif not hasMotion and self.hoverPolling then
+    elseif not canHover and self.hoverPolling then
         self.hoverDriver:SetScript("OnUpdate", nil)
         self.hoverPolling = false
     end
@@ -198,6 +215,10 @@ end
 
 -- The arithmetic mean is an interior fan anchor for a convex outline, not the
 -- area-weighted objective-marker centroid computed by PolygonGeometry.
+---@return table center
+---@return number[] bounds {minX, minY, maxX, maxY} in map percentages; also the hover hit box.
+---@return number frameWidth
+---@return number frameHeight
 local function _Bounds(points, width, height)
     assert(_IsFinite(width) and width > 0 and _IsFinite(height) and height > 0, "Invalid polygon canvas extent")
     assert(type(points) == "table" and #points >= 3, "Polygon outlines need at least three points")
@@ -211,7 +232,7 @@ local function _Bounds(points, width, height)
     center.x, center.y = center.x / #points, center.y / #points
     local frameWidth, frameHeight = (maxX - minX) * width / 100, (maxY - minY) * height / 100
     assert(frameWidth > 0 and frameHeight > 0, "Polygon outline has empty bounds")
-    return center, minX, minY, frameWidth, frameHeight
+    return center, {minX, minY, maxX, maxY}, frameWidth, frameHeight
 end
 
 local function _AcquireTexture(self, frame, border, index)
@@ -258,7 +279,7 @@ end
 
 ---Updates appearance without geometry setup, comparing scalar values rather than
 ---the caller's color-table identity. Finish each batch with SetVisibleFrames to
----combine staged marker-highlight requests with native hover.
+---combine staged marker-highlight requests with cursor hover.
 ---@param frame Frame Owned view returned by Create.
 ---@param shape PolygonShape
 ---@param frameLevel number
@@ -284,9 +305,10 @@ function Renderer:Style(frame, shape, frameLevel)
     end
 end
 
-local function _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, minX, minY, frameWidth, frameHeight)
+local function _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, bounds, frameWidth, frameHeight)
     local points = shape.points
-    frame.polygonOutline = points
+    local minX, minY = bounds[1], bounds[2]
+    frame.polygonOutline, frame.polygonBounds = points, bounds
     frame:ClearAllPoints()
     frame:SetPoint("TOPLEFT", self.canvas, "TOPLEFT", minX * width / 100, -minY * height / 100)
     frame:SetSize(frameWidth, frameHeight)
@@ -330,17 +352,16 @@ end
 ---@return Frame
 function Renderer:Create(shape, width, height, frameLevel)
     _Appearance(shape)
-    local center, minX, minY, frameWidth, frameHeight = _Bounds(shape.points, width, height)
+    local center, bounds, frameWidth, frameHeight = _Bounds(shape.points, width, height)
     local frame = table.remove(self.freeFrames)
     if not frame then
+        -- New frames take no mouse input, and nothing here ever enables it.
         frame = CreateFrame("Frame", nil, self.canvas)
         frame.fills, frame.borders = {}, {}
     end
     self.ownedFrames[frame] = true
     frame:Hide()
-    frame:EnableMouse(false)
-    if frame.EnableMouseMotion then frame:EnableMouseMotion(false) end
-    _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, minX, minY, frameWidth, frameHeight)
+    _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, bounds, frameWidth, frameHeight)
     return frame
 end
 
@@ -355,45 +376,11 @@ end
 function Renderer:Configure(frame, shape, width, height, frameLevel)
     assert(self.ownedFrames[frame], "Polygon view is not owned by this renderer")
     _Appearance(shape)
-    local center, minX, minY, frameWidth, frameHeight = _Bounds(shape.points, width, height)
-    _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, minX, minY, frameWidth, frameHeight)
+    local center, bounds, frameWidth, frameHeight = _Bounds(shape.points, width, height)
+    _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, bounds, frameWidth, frameHeight)
 end
 
 -- Visibility publication and teardown
-local function _EnableMotion(self, frame)
-    -- Propagation is a lifetime property of our native frame, not of a cached view.
-    -- Hidden/pooled frames disable motion instead of toggling the restricted setter.
-    if not frame:CanPropagateMouseMotion() then
-        -- Read native state rather than trusting a previous setter call. Until
-        -- pass-through is confirmed, the view must not intercept mouse motion.
-        frame:EnableMouseMotion(false)
-        if InCombatLockdown() then
-            if not self.combatDriver then
-                local driver = CreateFrame("Frame")
-                self.combatDriver = driver
-                driver:Hide()
-                driver:SetScript("OnEvent", function()
-                    if InCombatLockdown() then return end
-                    driver:UnregisterEvent("PLAYER_REGEN_ENABLED")
-                    self.combatPending = nil
-                    -- Never replay captured frames: visibility and ownership may
-                    -- have changed, or the map may have closed during combat.
-                    self:SetVisibleFrames(self.activeFrames)
-                end)
-            end
-            if not self.combatPending then
-                self.combatDriver:RegisterEvent("PLAYER_REGEN_ENABLED")
-                self.combatPending = true
-            end
-            return false
-        end
-        frame:SetPropagateMouseMotion(true)
-        if not frame:CanPropagateMouseMotion() then return false end
-    end
-    frame:EnableMouseMotion(true)
-    return true
-end
-
 ---Publishes a complete visible set without releasing absent views. A cached view
 ---from another map stays hidden/inert, with its primitive configuration intact.
 ---@param frames Frame[]
@@ -404,30 +391,15 @@ function Renderer:SetVisibleFrames(frames)
         assert(not visible[frame], "Duplicate polygon view in visible set")
         visible[frame] = true
     end
-    -- Remove input participation before hiding views omitted from this map's set.
     for _, frame in ipairs(self.activeFrames) do
-        if not visible[frame] then
-            frame:EnableMouse(false)
-            if frame.EnableMouseMotion then frame:EnableMouseMotion(false) end
-            frame:Hide()
-        end
+        if not visible[frame] then frame:Hide() end
     end
-
-    -- Publish only motion-capable views to hover tracking; clicks stay disabled.
-    local input = self.hoverInput
-    local canReadHover = input and type(input.getCursorPosition) == "function" and type(input.getMouseFoci) == "function"
-    local hoverFrames, activeFrames = {}, {}
+    local activeFrames = {}
     for _, frame in ipairs(frames) do
         activeFrames[#activeFrames + 1] = frame
-        local canParticipate = canReadHover and type(frame.EnableMouseMotion) == "function"
-            and type(frame.SetPropagateMouseMotion) == "function" and type(frame.CanPropagateMouseMotion) == "function"
-        if canParticipate and (not self.hoverFrames[frame] or not frame:CanPropagateMouseMotion()) then
-            canParticipate = _EnableMotion(self, frame)
-        end
-        if canParticipate then hoverFrames[frame] = true end
         if not frame:IsShown() then frame:Show() end
     end
-    self.visibleFrames, self.activeFrames, self.hoverFrames = visible, activeFrames, hoverFrames
+    self.visibleFrames, self.activeFrames = visible, activeFrames
     local wasShown = self.hoverDriver and self.hoverDriver:IsShown()
     _SyncHoverDriver(self)
     -- OnShow already evaluates a newly started driver. An unchanged active driver
@@ -446,20 +418,18 @@ function Renderer:Release(frame)
         -- failed publication also fails while restoring the unselected border.
         pcall(_RestyleBorders, frame, false)
     end
-    self.highlightedFrames[frame], self.hoveredFrames[frame], self.hoverFrames[frame] = nil, nil, nil
+    self.highlightedFrames[frame], self.hoveredFrames[frame] = nil, nil
     local wasVisible = self.visibleFrames[frame]
     self.visibleFrames[frame] = nil
     for i = #self.activeFrames, 1, -1 do
         if self.activeFrames[i] == frame then table.remove(self.activeFrames, i); break end
     end
-    -- Hide before disabling input: a failing native input call must not leave a
-    -- visible stale view. Ownership stays reachable until every cleanup step succeeds.
+    -- Hide first: a failing native cleanup call must not leave a visible stale view.
+    -- Ownership stays reachable until every cleanup step succeeds.
     frame:Hide()
     if wasVisible then _SyncHoverDriver(self) end
-    frame:EnableMouse(false)
-    if frame.EnableMouseMotion then frame:EnableMouseMotion(false) end
-    frame.polygonOutline, frame.polygonColor, frame.polygonBorderAlpha, frame.polygonHighlighted = nil, nil, nil, nil
-    frame.polygonFrameLevel = nil
+    frame.polygonOutline, frame.polygonBounds, frame.polygonColor, frame.polygonBorderAlpha = nil, nil, nil, nil
+    frame.polygonHighlighted, frame.polygonFrameLevel = nil, nil
     _ReleaseTextures(frame.fills, self.freeFills, 0)
     _ReleaseTextures(frame.borders, self.freeBorders, 0)
     frame:ClearAllPoints()
@@ -471,12 +441,10 @@ end
 ---remain reachable for reuse. After all attempts, throws the first cleanup error;
 ---failed views stay owned and can be retried without double-pooling successful ones.
 function Renderer:Clear()
-    if self.combatDriver then self.combatDriver:UnregisterEvent("PLAYER_REGEN_ENABLED") end
-    self.combatPending = nil
     -- Unlike ordinary Hide publication, error cleanup cannot depend on successful
     -- border styling. Remove selections first so the driver's OnHide is harmless.
     local highlighted = self.highlightedFrames
-    self.highlightedFrames, self.hoveredFrames, self.hoverFrames = {}, {}, {}
+    self.highlightedFrames, self.hoveredFrames = {}, {}
     self.activeFrames, self.visibleFrames = {}, {}
     for frame in pairs(highlighted) do pcall(_RestyleBorders, frame, false) end
     local firstError
