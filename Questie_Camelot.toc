@@ -296,6 +296,7 @@ Blob\BlobHitscan.lua
 Blob\BlobExtractor.lua
 Blob\BlobHitscanUI.lua
 Blob\BlobWorldMap.lua
+Blob\ObjectiveColorPreview.lua
 
 # Questie-generated world-map areas
 Polygon\PolygonGeometry.lua
