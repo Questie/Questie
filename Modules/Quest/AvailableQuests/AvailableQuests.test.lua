@@ -1825,12 +1825,15 @@ describe("AvailableQuests", function()
         local originalIsClassic
         local originalIsSoD
         local originalGetFramesForQuest
+        local originalUnitQuestTrivialLevelRange, originalLowLevelStyle
         local submittedJobs
 
         before_each(function()
             originalIsClassic = Questie.IsClassic
             originalIsSoD = Questie.IsSoD
             originalGetFramesForQuest = QuestieMap.GetFramesForQuest
+            originalUnitQuestTrivialLevelRange = _G.UnitQuestTrivialLevelRange
+            originalLowLevelStyle = Questie.db.profile.lowLevelStyle
 
             -- The availability pass captures these at load, so this describe loads AvailableQuests again.
             QuestieDB.IsDoable = function() return true end
@@ -1878,6 +1881,28 @@ describe("AvailableQuests", function()
             Questie.IsClassic = originalIsClassic
             Questie.IsSoD = originalIsSoD
             QuestieMap.GetFramesForQuest = originalGetFramesForQuest
+            _G.UnitQuestTrivialLevelRange = originalUnitQuestTrivialLevelRange
+            Questie.db.profile.lowLevelStyle = originalLowLevelStyle
+        end)
+
+        it("keeps level-8 quests for a level-13 player when trivial quests are hidden", function()
+            _G.UnitQuestTrivialLevelRange = function() return 5 end
+            QuestiePlayer.GetPlayerLevel = function() return 13 end
+            Questie.db.profile.lowLevelStyle = 1 -- LOWLEVEL_NONE: the default experience-granting quest filter.
+            local questLevels = {[2] = 8, [3] = 7}
+            QuestieLib.GetEffectiveQuestLevel = function(id) return questLevels[id], 4, 0 end
+            QuestieDB.QueryQuestSingle = function() return nil end
+            QuestieLoader:ImportModule("QuestieEvent").activeQuests = {}
+            -- Exercise the real level predicate and compatibility range through the full availability pass.
+            dofile("Modules/Quest/AvailableQuests/IsLevelRequirementFulfilled.lua")
+            dofile("Modules/Quest/AvailableQuests/AvailableQuests.lua")
+            AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+            AvailableQuests.Initialize()
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.are_same({[2] = true}, AvailableQuests.__availableQuests)
         end)
 
         it("marks every doable Quest from the provider-backed QuestPointers as available", function()
