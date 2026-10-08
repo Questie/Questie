@@ -12,7 +12,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 | Filled polygons with separate outlines | Implemented on the world map using the original quad-fan approach. |
 | Representative cluster icons | Implemented. Small or degenerate clusters retain a point marker. |
 | Hover an icon to preview its areas | Implemented. Highlights only that icon's attached polygon outline. |
-| Click an icon to keep its areas visible | Implemented. Each marker toggles its objective directly; nearly coincident markers are nudged apart visually. Pinning is objective-wide, not per cluster. |
+| Show areas on quest accept; click an icon to hide or show them | Implemented. Choices are saved per character and are objective-wide, not per cluster. An option instead shows areas only while the player is nearby. Nearly coincident markers are nudged apart visually. |
 | Hover the polygon itself | Implemented where motion propagation is available. One shared 80 ms check highlights all participating polygons whose actual shapes contain the cursor. |
 | Highlight the polygon border on hover | Implemented. Thicker, brighter border; fade opacity is preserved. |
 | Cache calculated areas | Implemented in memory. Progress-only updates reuse geometry and skip spawn collection unless the spawn list or phase visibility changes; changed eligible spawns rebuild it. |
@@ -37,8 +37,8 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 - Did not copy the unsafe hull prefilter or blanket exclusion of rare NPCs.
 - Historical mean-shift, alternate renderers, and overlap-merging experiments remain reference material, not enabled features.
 - Neither version provides terrain-aware shapes or holes. Overlapping polygons highlight together only when their shapes contain the cursor and they participate in the native focus stack. UI blockers still exclude underlying polygons.
-- Marker-associated and direct-hover highlights combine. Generic Questie icon input is unchanged; Polygon markers use direct-click pinning with no picker. Polygon surfaces still have no clicks/tooltips.
-- Direct hover affects only drawn areas and does not extend previews or change pinning. Missing motion APIs leave polygon frames noninteractive, but marker-associated highlighting still works. Native POI remains future work.
+- Marker-associated and direct-hover highlights combine. Generic Questie icon input is unchanged; Polygon markers use direct-click show/hide with no picker. Polygon surfaces still have no clicks/tooltips.
+- Direct hover affects only drawn areas and does not extend previews or change saved visibility. Missing motion APIs leave polygon frames noninteractive, but marker-associated highlighting still works. Native POI remains future work.
 
 ## Follow-up
 

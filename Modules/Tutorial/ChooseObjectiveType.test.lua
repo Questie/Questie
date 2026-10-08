@@ -87,7 +87,7 @@ describe("objective style tutorial", function()
 
         assert.is_nil(preview.normalTexture)
         assert.are_same(
-            "Clustered world-map markers.\n\nHover to preview an area.\nClick to keep it visible.\n\nMinimap icons stay unchanged.",
+            "Clustered world-map markers.\n\nQuest areas show on accept.\nClick a marker to hide them.\n\nMinimap icons stay unchanged.",
             preview.fonts[1].text
         )
     end)

@@ -46,7 +46,8 @@ describe("PolygonGeometry", function()
         local result = _Build({point})
 
         assert.are_equal(point, result[1].representative)
-        assert.are_same({{uiMapId = 1429, x = 0.2, y = 0.3, representative = point}}, result)
+        assert.are_same({{uiMapId = 1429, instanceId = 0, x = 0.2, y = 0.3, representative = point,
+            worldBounds = {minX = 1000, minY = -200, maxX = 1000, maxY = -200}}}, result)
         assert.is_nil(point.touched)
         assert.is_nil(point.keep)
     end)
@@ -66,11 +67,12 @@ describe("PolygonGeometry", function()
         local a = {x = 10, y = 20, worldX = 50, worldY = 50, uiMapId = 1429, instanceId = 0}
         local b = {x = 10, y = 20, worldX = 50, worldY = 50, uiMapId = 1429, instanceId = 1}
         local c = {x = 10, y = 20, worldX = 50, worldY = 50, uiMapId = 1436, instanceId = 0}
+        local bounds = {minX = 50, minY = 50, maxX = 50, maxY = 50}
 
         assert.are_same({
-            {uiMapId = 1429, x = 10, y = 20, representative = a},
-            {uiMapId = 1429, x = 10, y = 20, representative = b},
-            {uiMapId = 1436, x = 10, y = 20, representative = c},
+            {uiMapId = 1429, instanceId = 0, x = 10, y = 20, representative = a, worldBounds = bounds},
+            {uiMapId = 1429, instanceId = 1, x = 10, y = 20, representative = b, worldBounds = bounds},
+            {uiMapId = 1436, instanceId = 0, x = 10, y = 20, representative = c, worldBounds = bounds},
         }, _Build({c, b, a}))
     end)
 
@@ -79,7 +81,8 @@ describe("PolygonGeometry", function()
         local b = {x = 2, y = 10, worldX = 100, worldY = 0, uiMapId = 1429, instanceId = 0}
         local c = {x = 3, y = 10, worldX = 200, worldY = 0, uiMapId = 1429, instanceId = 0}
 
-        assert.are_same({{uiMapId = 1429, x = 2, y = 10, representative = a}}, _Build({c, a, b}))
+        assert.are_same({{uiMapId = 1429, instanceId = 0, x = 2, y = 10, representative = a,
+            worldBounds = {minX = 0, minY = 0, maxX = 200, maxY = 0}}}, _Build({c, a, b}))
     end)
 
     it("recovers candidates missed before the first-pass center moved", function()
@@ -88,7 +91,8 @@ describe("PolygonGeometry", function()
         local c = {x = 3, y = 10, worldX = 160, worldY = 0, uiMapId = 1429, instanceId = 0}
         local d = {x = 4, y = 10, worldX = 210, worldY = 0, uiMapId = 1429, instanceId = 0}
 
-        assert.are_same({{uiMapId = 1429, x = 2.5, y = 10, representative = a}}, _Build({a, b, c, d}))
+        assert.are_same({{uiMapId = 1429, instanceId = 0, x = 2.5, y = 10, representative = a,
+            worldBounds = {minX = 0, minY = 0, maxX = 210, maxY = 0}}}, _Build({a, b, c, d}))
     end)
 
     it("keeps points exactly at the radius in separate clusters", function()
@@ -163,7 +167,8 @@ describe("PolygonGeometry", function()
         local b = {x = 20, y = 20, worldX = 10, worldY = 10, uiMapId = 1429, instanceId = 0}
         local c = {x = 30, y = 30, worldX = 20, worldY = 20, uiMapId = 1429, instanceId = 0}
 
-        assert.are_same({{uiMapId = 1429, x = 20, y = 20, representative = a}}, _Build({a, b, b, c}))
+        assert.are_same({{uiMapId = 1429, instanceId = 0, x = 20, y = 20, representative = a,
+            worldBounds = {minX = 0, minY = 0, maxX = 20, maxY = 20}}}, _Build({a, b, b, c}))
     end)
 
     it("retains tiny regions as point markers while allowing an explicit zero area cutoff", function()

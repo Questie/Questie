@@ -38,7 +38,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Clustered world-map markers.\n\nHover to preview an area.\nClick to keep it visible.\n\nMinimap icons stay unchanged."] = {
+    ["Clustered world-map markers.\n\nQuest areas show on accept.\nClick a marker to hide them.\n\nMinimap icons stay unchanged."] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
