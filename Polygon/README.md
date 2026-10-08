@@ -50,7 +50,7 @@ Questie objective.spawnList
 | [PolygonRenderer.lua](PolygonRenderer.lua) | `New(canvas, hoverInput?)` owns native primitives, pools, and shared hover handling. `Create`, `Configure`, `Style`, `SetVisibleFrames`, `Release`, and `Clear` operate on retained views. |
 | [PolygonRenderCache.lua](PolygonRenderCache.lua) | `New(renderer)` owns uniform, lazy per-map view caching. `Present(mapId, shapes, width, height, frameLevel)` reconciles visibility; `Hide`, `Release(owner, key?)`, and `Clear` separate temporary hiding from deletion. |
 | [PolygonNudging.lua](PolygonNudging.lua) | `Calculate(items)` assigns horizontal slots from original map coordinates and configured widths. `New()` owns application through `Update(markers, iconScale)`, `Apply`, `Reapply`, `SetEnabled`, `Remove`, and `Clear`. |
-| [QuestiePolygon.lua](QuestiePolygon.lua) | Questie adapter: source collection, cache, marker ownership, visibility, layout scheduling, map provider, and cleanup. Keeps Questie-specific policy out of geometry/rendering. |
+| [QuestiePolygon.lua](QuestiePolygon.lua) | Questie adapter: source collection, cache, marker ownership, visibility, layout scheduling, map provider, and cleanup. Keeps Questie-specific policy out of geometry/rendering. Client-neutral quest log API: `GetObjectiveAreaState`, `SetObjectiveAreaShown`, `SetQuestAreasShown`, `SetObjectivePreview`, and `RegisterVisibilityCallback`, which coalesces changes into one next-frame call. |
 
 There is no runtime dependency on `Blob/` or `QuestPOI/`, native geometry extraction, provider writes, or disk cache. Spawn completeness is limited by QuestieDB's data.
 
