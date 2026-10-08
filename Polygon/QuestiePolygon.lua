@@ -44,6 +44,8 @@ local PolygonNudging = QuestieLoader:ImportModule("PolygonNudging")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type ZoneDB
@@ -793,14 +795,19 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- Lazily retain one provider, render cache/renderer, layout, and size-change hook across resets.
     if not provider then
         provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
-        local scrollContainer = WorldMapFrame.ScrollContainer
-        local hoverInput
-        if type(GetMouseFoci) == "function" and scrollContainer and type(scrollContainer.GetNormalizedCursorPosition) == "function" then
-            hoverInput = {getMouseFoci = GetMouseFoci, getCursorPosition = function()
-                return scrollContainer:GetNormalizedCursorPosition()
-            end}
-        end
-        local renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), hoverInput)
+        -- Area hover counts only over the bare map; waypoint paths take no mouse input. Anything else on
+        -- top, including Questie's icons, Blizzard's pins, and other UI, hides the areas beneath it.
+        local canvas, scrollContainer = WorldMapFrame:GetCanvas(), WorldMapFrame.ScrollContainer
+        local renderer = PolygonRenderer.New(canvas, {
+            -- Blizzard clamps the position to the canvas, so a cursor beside the map art would
+            -- hit outlines along its edge. Off the canvas there is no position at all.
+            getCursorPosition = function()
+                if canvas:IsMouseOver() then return scrollContainer:GetNormalizedCursorPosition() end
+            end,
+            isCursorOnMap = function()
+                return QuestieCompat.GetMouseFocus() == scrollContainer
+            end,
+        })
         renderCache = PolygonRenderCache.New(renderer)
         nudging = PolygonNudging.New()
         -- Preference setters resize before writing their new value. Read configured

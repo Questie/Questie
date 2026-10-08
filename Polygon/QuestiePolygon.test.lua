@@ -2,7 +2,7 @@ dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
-    local tickers, player
+    local tickers, player, savedIsLineFrame
 
     local function Update(index)
         local icon, zones, work
@@ -97,6 +97,7 @@ describe("QuestiePolygon world-map adapter", function()
         zones.GetDungeonLocation = function() return {{1, 5, 6}, {2, 7, 8}} end
         QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function(phase) return phase ~= 2 end
         FramePool = QuestieLoader:ImportModule("QuestieFramePool")
+        savedIsLineFrame = FramePool.IsLineFrame
         FramePool.UnloadFrame = spy.new(function(_, frame) frame.data = nil end)
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.GetScaleValue = function() return 1 end
@@ -155,32 +156,29 @@ describe("QuestiePolygon world-map adapter", function()
         _G.hooksecurefunc = savedGlobals.hooksecurefunc
         _G.GetTimePreciseSec = savedGlobals.GetTimePreciseSec
         Questie.db.char.polygon = nil
+        FramePool.IsLineFrame = savedIsLineFrame
     end)
 
-    it("supplies normalized canvas cursor and participating mouse-focus readers for direct hover", function()
-        local foci = {"participating regions"}
-        _G.GetMouseFoci = function() return foci end
+    it("reads the map cursor and counts only the bare map as uncovered", function()
+        local focus, overCanvas = nil, true
+        _G.GetMouseFoci = function() return {focus} end
+        local canvas = map.GetCanvas()
+        canvas.IsMouseOver = function() return overCanvas end
+        map.GetCanvas = function() return canvas end
         map.ScrollContainer = {GetNormalizedCursorPosition = function() return 0.25, 0.75 end}
         Update()
         local input = QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2]
 
         assert.are.same({0.25, 0.75}, {input.getCursorPosition()})
-        assert.are.equal(foci, input.getMouseFoci())
-        map.ScrollContainer.GetNormalizedCursorPosition = function() return 0.4, 0.6 end
-        assert.are.same({0.4, 0.6}, {input.getCursorPosition()})
-    end)
-
-    it("omits direct hover when the native focus stack is unavailable", function()
-        map.ScrollContainer = {GetNormalizedCursorPosition = function() return 0.25, 0.75 end}
-        Update()
-        assert.is_nil(QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2])
-    end)
-
-    it("omits direct hover when the map cursor reader is unavailable", function()
-        _G.GetMouseFoci = function() return {} end
-        map.ScrollContainer = {}
-        Update()
-        assert.is_nil(QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2])
+        -- Blizzard clamps positions to the canvas; beside the map art there is no position.
+        overCanvas = false
+        assert.are.same({}, {input.getCursorPosition()})
+        focus = map.ScrollContainer
+        assert.is_true(input.isCursorOnMap())
+        focus = {} -- Questie icons, Blizzard pins, and other UI cover the map.
+        assert.is_false(input.isCursorOnMap())
+        focus = nil
+        assert.is_false(input.isCursorOnMap())
     end)
 
     it("uses full phase-filtered spawns even when minimap icons were already populated", function()
@@ -753,7 +751,6 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_true(shapes[1].highlighted)
         assert.are.same(secondOutline, shapes[2].points)
         assert.is_false(shapes[2].highlighted)
-        assert.is_nil(QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2]) -- No native hover readers.
 
         Polygon.EnterMarker(frames[2])
         FlushRefresh()
