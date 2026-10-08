@@ -230,6 +230,96 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(2, #Geometry.Build.calls[2].vals[1])
     end)
 
+    describe("quest log area state", function()
+        it("reads and saves objective state with the marker-click rules", function()
+            Update()
+            FlushRefresh()
+            assert.are.same({false, objective.Color}, {Polygon.GetObjectiveAreaState(42, 1)})
+
+            Polygon.SetObjectiveAreaShown(42, 1, true)
+            FlushRefresh()
+            assert.is_true(SavedVisibility(frames[1].polygonMarker.entry))
+            assert.is_true((Polygon.GetObjectiveAreaState(42, 1)))
+            assert.are.equal(1, #drawnShapes)
+
+            -- Hiding matches nearby mode away from the area, so the saved choice is cleared.
+            Polygon.SetObjectiveAreaShown(42, 1, false)
+            FlushRefresh()
+            assert.is_false((Polygon.GetObjectiveAreaState(42, 1)))
+            assert.is_nil(Questie.db.char.polygon.objectiveVisibility[42])
+            assert.are.same({}, drawnShapes)
+        end)
+
+        it("has no state for point-only objectives or while polygons are disabled", function()
+            Geometry.Build = function(points)
+                return {{uiMapId = 10, instanceId = 10, x = 10, y = 20, representative = points[1]}}
+            end
+            Update()
+            assert.is_nil(Polygon.GetObjectiveAreaState(42, 1))
+            Polygon.SetObjectiveAreaShown(42, 1, true)
+            assert.is_nil(Questie.db.char.polygon.objectiveVisibility[42])
+
+            Geometry.Build = function(points)
+                return {{uiMapId = 10, instanceId = 10, x = 10, y = 20, representative = points[1],
+                    outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}}}
+            end
+            ReplaceFirstSpawn({30, 40})
+            Update()
+            assert.is_not_nil(Polygon.GetObjectiveAreaState(42, 1))
+            Questie.db.profile.enableQuestiePolygons = false
+            assert.is_nil(Polygon.GetObjectiveAreaState(42, 1))
+        end)
+
+        it("previews areas with every cluster highlighted until cleared or hidden by a click", function()
+            Update()
+            FlushRefresh()
+            assert.are.same({}, drawnShapes) -- Nearby mode, away from the area.
+
+            Polygon.SetObjectivePreview(42, 1, true)
+            FlushRefresh()
+            assert.are.equal(1, #drawnShapes)
+            assert.is_true(drawnShapes[1].highlighted)
+            Polygon.SetObjectivePreview(42, 1, false)
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+
+            Polygon.SetObjectiveAreaShown(42, 1, true)
+            Polygon.SetObjectivePreview(42, 1, true)
+            Polygon.SetObjectiveAreaShown(42, 1, false)
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+        end)
+
+        it("applies a quest-wide choice to every objective with areas", function()
+            Update()
+            local second = {Index = 2, Type = "monster", Color = {1, 0, 0}, spawnList = objective.spawnList}
+            local first = objective
+            objective = second
+            Update(2)
+            objective = first
+
+            Polygon.SetQuestAreasShown(42, true)
+            assert.are.same({[1] = true, [2] = true}, Questie.db.char.polygon.objectiveVisibility[42])
+            Polygon.SetQuestAreasShown(42, false)
+            assert.is_nil(Questie.db.char.polygon.objectiveVisibility[42]) -- Matches nearby mode away from both.
+        end)
+
+        it("notifies observers once on the next frame after visibility changes", function()
+            local observer = spy.new(function() end)
+            Polygon.RegisterVisibilityCallback(observer)
+            Update()
+            Polygon.ToggleMarker(frames[1])
+            Polygon.RefreshVisibility()
+            assert.spy(observer).was.not_called()
+            FlushRefresh()
+            assert.spy(observer).was.called(1)
+
+            Polygon.RemoveQuest(42)
+            FlushRefresh()
+            assert.spy(observer).was.called(2)
+        end)
+    end)
+
     describe("automatic area visibility", function()
         it("shows areas from quest accept until a marker click hides them, across resets", function()
             Update()
