@@ -1023,7 +1023,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     end
 
     if (not objective.Color) then
-        objective.Color = QuestieLib:ColorWheel()
+        -- Special objectives arrive with index 0; their canonical Index keeps their colors apart.
+        objective.Color = QuestieLib:GetObjectiveColor(quest.Id, objective.Index or objectiveIndex)
     end
 
     if objective.spawnList and next(objective.spawnList) then

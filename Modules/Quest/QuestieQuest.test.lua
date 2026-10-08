@@ -800,6 +800,26 @@ describe("QuestieQuest", function()
             assert.spy(QuestieLoader:ImportModule("QuestiePolygon").RemoveObjective).was.called_with(42, 65)
         end)
 
+        it("colors special objectives by their canonical index, not the shared index 0", function()
+            local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            local originalGetObjectiveColor = QuestieLib.GetObjectiveColor
+            local color = {0.1, 0.2, 0.3}
+            local getObjectiveColor = spy.new(function() return color end)
+            QuestieLib.GetObjectiveColor = getObjectiveColor
+            local objective = {Index = 65, Description = "Special", Type = "event", Completed = false,
+                Update = function() end, spawnList = {}, AlreadySpawned = {}}
+            local thread = coroutine.create(function()
+                QuestieQuest:PopulateObjective({Id = 42, ObjectiveData = {}}, 0, objective, false)
+            end)
+            local ok, err = coroutine.resume(thread)
+            QuestieLib.GetObjectiveColor = originalGetObjectiveColor
+            assert.is_true(ok, err)
+            assert.spy(getObjectiveColor).was.called(1)
+            local args = getObjectiveColor.calls[1].vals
+            assert.are.same({42, 65}, {args[2], args[3]})
+            assert.are.equal(color, objective.Color)
+        end)
+
         it("should not throw an error when called from a coroutine", function()
             local quest = {ObjectiveData = {}}
             local objective = {Description = "test"}
