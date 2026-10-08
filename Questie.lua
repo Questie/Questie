@@ -24,6 +24,8 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 
 ---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
@@ -63,6 +65,11 @@ end
 ---@param _database AceDBObject-3.0 AceDB database whose new profile data is already active.
 ---@param _profileName string? New or source profile name; absent for profile reset.
 function Questie:RefreshConfig(_event, _database, _profileName)
+    if Questie.IsForever then
+        -- questPOIEnabled is profile-owned; reapply it so the global questPOI CVar follows the
+        -- newly active profile instead of retaining the previous one's pin state.
+        WorldMapButton.ApplyQuestPOI()
+    end
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()

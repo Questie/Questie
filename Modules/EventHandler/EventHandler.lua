@@ -58,6 +58,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -72,11 +74,22 @@ function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function(event, isInitialLogin, isReloadingUi)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
         if not questPOIHandled then
-            if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
-                -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
-                -- Don't use WorldMapFrame:Hide() that will cause taint issues
-                HideUIPanel(WorldMapFrame)
-                tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
+            local function HideWorldMapIfQuestPOIDisabled()
+                if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
+                    -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
+                    -- Don't use WorldMapFrame:Hide() that will cause taint issues
+                    HideUIPanel(WorldMapFrame)
+                    tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
+                end
+            end
+            -- Forever resets questPOI to 0 every login; re-apply the user's pin choice, THEN run the
+            -- map-hide check. ApplyQuestPOI is combat-safe and defers in lockdown, so the check must
+            -- ride its afterApply callback -- otherwise a combat login reads a stale "0" and hides the
+            -- map even when pins are enabled.
+            if Questie.IsForever then
+                WorldMapButton.ApplyQuestPOI(HideWorldMapIfQuestPOIDisabled)
+            else
+                HideWorldMapIfQuestPOIDisabled()
             end
             questPOIHandled = true
         end
