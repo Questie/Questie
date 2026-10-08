@@ -15,7 +15,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 | Click an icon to keep its areas visible | Implemented. Each marker toggles its objective directly; nearly coincident markers are nudged apart visually. Pinning is objective-wide, not per cluster. |
 | Hover the polygon itself | Implemented where motion propagation is available. One shared 80 ms check highlights all participating polygons whose actual shapes contain the cursor. |
 | Highlight the polygon border on hover | Implemented. Thicker, brighter border; fade opacity is preserved. |
-| Cache calculated areas | Implemented in memory. Progress-only updates reuse geometry; changed eligible spawns rebuild it. |
+| Cache calculated areas | Implemented in memory. Progress-only updates reuse geometry and skip spawn collection unless the spawn list or phase visibility changes; changed eligible spawns rebuild it. |
 | Quest updates and removal | Implemented, with cancellation and pooled-resource cleanup fixes. |
 | World-map waypoints | Existing Questie lines are retained and attached to cluster markers. Waypoint frames propagate motion where supported; clicks are unchanged. |
 
