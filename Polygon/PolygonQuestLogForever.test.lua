@@ -58,7 +58,7 @@ describe("PolygonQuestLogForever", function()
             return box
         end
         _G.hooksecurefunc = function(name, callback) hooks[name] = callback end
-        _G.QuestScrollFrame = {IsVisible = function() return true end, titleFramePool = Pool(titles), objectiveFramePool = Pool(rows)}
+        _G.QuestScrollFrame = {titleFramePool = Pool(titles), objectiveFramePool = Pool(rows)}
         _G.GetNumQuestLeaderBoards = function(questLogIndex) return #(leaderboards[questLogIndex] or {}) end
         _G.GetQuestLogLeaderBoard = function(index, questLogIndex) return unpack(leaderboards[questLogIndex][index]) end
         _G.PlaySound = spy.new(function() end)
@@ -130,6 +130,27 @@ describe("PolygonQuestLogForever", function()
         objectiveStates["7:1"] = nil
         QuestLog.Update()
         assert.is_false(rows[1].QuestiePolygonAreaBox.shown)
+    end)
+
+    it("restyles reused rows when Blizzard rebuilds the log before it becomes visible", function()
+        titles[1] = {questID = 7, questLogIndex = 1}
+        leaderboards[1] = {{"0/8 Wolf Meat", "item", false}}
+        rows[1] = Row(7, "0/8 Wolf Meat")
+        objectiveStates["7:1"] = {true, {1, 0, 0}}
+        QuestLog.Update()
+
+        -- Opening the log rebuilds it while still hidden, and no later rebuild is guaranteed.
+        _G.QuestScrollFrame.IsVisible = function() return false end
+        titles[1] = {questID = 8, questLogIndex = 1}
+        leaderboards[1] = {{"0/3 Fang", "item", false}}
+        rows[1].questID, rows[1].text = 8, "0/3 Fang"
+        objectiveStates["8:1"] = {false, {0, 0, 1}}
+        QuestLog.Update()
+
+        local box = rows[1].QuestiePolygonAreaBox
+        assert.are.same({8, 1}, {box.questId, box.objectiveIndex})
+        assert.are.same({true, false}, {box.shown, box.Fill.shown})
+        assert.are.same({0, 0, 1, 0.5}, box.Fill.color)
     end)
 
     it("toggles the opposite state through the shared area API", function()
