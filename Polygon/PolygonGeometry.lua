@@ -17,6 +17,11 @@ local PolygonGeometry = QuestieLoader:CreateModule("PolygonGeometry")
 ---@field outline table[]? Ordered convex percentage-space outline; nil retains a point-only marker.
 ---@field representative PolygonSpawnPoint
 
+---@class PolygonWork
+---@field count number Operations since this job started; only its modulo matters.
+---@field isCancelled (fun(): boolean)?
+---@field clock (fun(): number)? Precise seconds; nil leaves only the operation ceiling.
+
 ---@class PolygonGeometryOptions
 ---@field radius number? World units, default 180.
 ---@field areaCutoff number? Squared zone percentages, default 0.9.
@@ -31,20 +36,56 @@ local function _IsFinite(value)
     return type(value) == "number" and value > -huge and value < huge
 end
 
--- ThreadLib resumes once per frame: small operation batches must not each cost a frame.
--- Check cancellation and elapsed time periodically, yielding after about 2 ms or the
--- operation ceiling. The ceiling also bounds work when the client clock is unavailable.
-local function _Checkpoint(work)
+-- Every objective update runs in its own ThreadLib ticker, and each ticker resumes once per
+-- frame. All polygon jobs therefore share one slice per frame rather than spending 2 ms each.
+-- GetTime() is fixed for a whole frame, so it only identifies the frame; the precise clock
+-- measures work inside it. The operation ceiling also bounds work without a precise clock.
+local slice = {frame = nil, startedAt = 0, operations = 0}
+
+---Starts cooperative work that shares this frame's polygon budget with every other job.
+---@param isCancelled (fun(): boolean)?
+---@return PolygonWork
+function PolygonGeometry.NewWork(isCancelled)
+    local clock = type(GetTimePreciseSec) == "function" and GetTimePreciseSec or nil
+    return {count = 0, isCancelled = isCancelled, clock = clock}
+end
+
+-- The first job to check in during a new frame starts that frame's shared slice.
+local function _SyncSlice(work)
+    local frame = GetTime()
+    if frame ~= slice.frame then
+        slice.frame, slice.startedAt, slice.operations = frame, work.clock and work.clock() or 0, 0
+    end
+end
+
+local function _IsSliceSpent(work)
+    local elapsed = work.clock and work.clock() - slice.startedAt or 0
+    return elapsed >= SLICE_SECONDS or slice.operations >= MAX_OPERATIONS_PER_SLICE
+end
+
+---Counts one operation. Every 256 operations it checks cancellation and the shared slice,
+---yielding while this frame's 2 ms or operation ceiling is spent. Callers must be coroutines
+---resumed at most once per frame, as ThreadLib does; a same-frame drain loop never finishes.
+---@async
+---@param work PolygonWork
+---@return boolean continue False when the job was cancelled.
+function PolygonGeometry.Checkpoint(work)
     work.count = work.count + 1
     if work.count % CHECK_INTERVAL ~= 0 then return true end
     if work.isCancelled and work.isCancelled() then return false end
-    local elapsed = work.clock and work.clock() - work.startedAt or 0
-    if elapsed < SLICE_SECONDS and work.count < MAX_OPERATIONS_PER_SLICE then return true end
-    coroutine.yield()
-    work.count = 0
-    work.startedAt = work.clock and work.clock() or 0
-    return not (work.isCancelled and work.isCancelled())
+    _SyncSlice(work)
+    slice.operations = slice.operations + CHECK_INTERVAL
+
+    -- A job can resume in a frame another job has already spent. Recheck before working,
+    -- so each waiting job does not add another 256 operations past the shared budget.
+    while _IsSliceSpent(work) do
+        coroutine.yield()
+        if work.isCancelled and work.isCancelled() then return false end
+        _SyncSlice(work)
+    end
+    return true
 end
+local _Checkpoint = PolygonGeometry.Checkpoint
 
 -- table.sort cannot yield from its comparator on Lua 5.1. Merge sorting also keeps
 -- equal-coordinate representatives stable without writing ordering fields into caller data.
@@ -294,8 +335,7 @@ function PolygonGeometry.Build(points, options, isCancelled)
     assert(_IsFinite(radius) and radius > 0, "Polygon radius must be positive and finite")
     assert(_IsFinite(areaCutoff) and areaCutoff >= 0, "Polygon area cutoff must be nonnegative and finite")
     assert(_IsFinite(tolerance) and tolerance >= 0, "Polygon tolerance must be nonnegative and finite")
-    local clock = type(GetTimePreciseSec) == "function" and GetTimePreciseSec or nil
-    local work = {count = 0, isCancelled = isCancelled, clock = clock, startedAt = clock and clock() or 0}
+    local work = PolygonGeometry.NewWork(isCancelled)
     if isCancelled and isCancelled() then return end
     for _, point in ipairs(points) do
         assert(_IsFinite(point.x) and _IsFinite(point.y) and _IsFinite(point.worldX) and _IsFinite(point.worldY)

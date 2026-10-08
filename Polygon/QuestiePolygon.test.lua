@@ -25,7 +25,7 @@ describe("QuestiePolygon world-map adapter", function()
         savedGlobals = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
             CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin,
             GetMouseFoci = _G.GetMouseFoci, GetCursorPosition = _G.GetCursorPosition, CreateFrame = _G.CreateFrame,
-            UIParent = _G.UIParent, hooksecurefunc = _G.hooksecurefunc}
+            UIParent = _G.UIParent, hooksecurefunc = _G.hooksecurefunc, GetTimePreciseSec = _G.GetTimePreciseSec}
         _G.CreateFrame = spy.new(function() error("Nudging must not allocate an update driver") end)
         _G.UIParent = {GetEffectiveScale = function() return 1 end}
         dofile("Polygon/PolygonNudging.lua")
@@ -62,6 +62,7 @@ describe("QuestiePolygon world-map adapter", function()
         }
         QuestieLoader:ImportModule("PolygonRenderCache").New = spy.new(function() return renderCache end)
         QuestieLoader:ImportModule("PolygonRenderer").New = spy.new(function() return renderer end)
+        dofile("Polygon/PolygonGeometry.lua") -- Collection uses the real shared work budget.
         Geometry = QuestieLoader:ImportModule("PolygonGeometry")
         Geometry.Build = spy.new(function(points)
             if #points == 0 then return {} end
@@ -130,6 +131,7 @@ describe("QuestiePolygon world-map adapter", function()
         _G.CreateFrame = savedGlobals.CreateFrame
         _G.UIParent = savedGlobals.UIParent
         _G.hooksecurefunc = savedGlobals.hooksecurefunc
+        _G.GetTimePreciseSec = savedGlobals.GetTimePreciseSec
     end)
 
     it("supplies normalized canvas cursor and participating mouse-focus readers for direct hover", function()
@@ -471,8 +473,13 @@ describe("QuestiePolygon world-map adapter", function()
 
     it("checks cancellation while collecting a large spawn list before building geometry", function()
         local spawns = {}
-        for i = 1, 200 do spawns[i] = {10, 20} end
+        for i = 1, 300 do spawns[i] = {10, 20} end
         objective.spawnList[123].Spawns[1] = spawns
+        local now = 0
+        _G.GetTimePreciseSec = function()
+            now = now + 0.003 -- Every budget check finds this frame's slice spent.
+            return now
+        end
         local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
         assert.is_true(coroutine.resume(thread))
         Polygon.RemoveQuest(42)

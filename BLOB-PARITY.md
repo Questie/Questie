@@ -7,7 +7,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 | Part | Current implementation |
 | --- | --- |
 | Generate areas from objective spawn locations | Implemented. Uses Questie's current spawn data and phase filtering. |
-| Cluster nearby spawns | Implemented. Deterministic, separated by map/instance, with budgeted background work. |
+| Cluster nearby spawns | Implemented. Deterministic, separated by map/instance, with background work sharing one per-frame budget. |
 | Gift wrapping, smoothing, and point reduction | Implemented with geometry fixes. The second hull uses a faster algorithm. |
 | Filled polygons with separate outlines | Implemented on the world map using the original quad-fan approach. |
 | Representative cluster icons | Implemented. Small or degenerate clusters retain a point marker. |
