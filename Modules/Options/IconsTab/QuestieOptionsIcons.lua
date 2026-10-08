@@ -22,6 +22,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 QuestieOptions.tabs.icons = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -142,6 +144,32 @@ function QuestieOptions.tabs.icons:Initialize()
                             end
                         end
                     end)
+                end,
+            },
+            polygonSpacer = {
+                type = "description",
+                order = 1.31,
+                name = "",
+                desc = "",
+                image = "",
+                imageWidth = 0.06,
+                width = 0.06,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                func = function() end,
+            },
+            -- Only meaningful for the Questie blobs preset; clicked markers override it per objective.
+            showPolygonsOnAcceptToggle = {
+                type = "toggle",
+                order = 1.32,
+                name = function() return l10n("Show quest areas when accepted"); end,
+                desc = function() return l10n("When unchecked, quest areas only show while you are near them. Click a map marker to always show or hide its areas."); end,
+                width = 1.6,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                disabled = function() return (not Questie.db.profile.enabled); end,
+                get = function() return Questie.db.profile.showPolygonsOnAccept; end,
+                set = function(_, value)
+                    Questie.db.profile.showPolygonsOnAccept = value
+                    QuestiePolygon.RefreshVisibility()
                 end,
             },
             icon_toggles_group = {

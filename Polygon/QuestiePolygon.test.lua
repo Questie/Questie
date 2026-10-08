@@ -2,6 +2,7 @@ dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
+    local tickers, player
 
     local function Update(index)
         local icon, zones, work
@@ -24,6 +25,11 @@ describe("QuestiePolygon world-map adapter", function()
             GetIconScale = old.GetIconScale, Spawns = {[1] = spawns}}}
     end
 
+    local function SavedVisibility(entry)
+        local quests = Questie.db.char.polygon.objectiveVisibility[entry.quest.Id]
+        return quests and quests[entry.index]
+    end
+
     local function FlushRefresh()
         local pending = timers
         timers = {}
@@ -44,7 +50,9 @@ describe("QuestiePolygon world-map adapter", function()
             mapData = {[10] = {mapType = Enum.UIMapType.Zone}, [20] = {mapType = Enum.UIMapType.Zone}},
             GetWorldCoordinatesFromZone = function(_, x, y, uiMapId) return x * 1000, y * 1000, uiMapId end,
             TranslateZoneCoordinates = spy.new(function(_, x, y) return x - 0.15, y + 0.3 end),
+            GetPlayerWorldPosition = function() return player.x, player.y, player.instanceId end,
         }
+        player = {}
         _G.LibStub = function() return HBD end
         _G.MapCanvasDataProviderMixin = {}
         _G.CreateFromMixins = function(base, methods)
@@ -53,8 +61,9 @@ describe("QuestiePolygon world-map adapter", function()
             for k, v in pairs(methods) do result[k] = v end
             return result
         end
-        frames, timers = {}, {}
-        _G.C_Timer = {After = function(_, callback) timers[#timers + 1] = callback end}
+        frames, timers, tickers = {}, {}, {}
+        _G.C_Timer = {After = function(_, callback) timers[#timers + 1] = callback end,
+            NewTicker = function(_, callback) tickers[#tickers + 1] = callback; return {} end}
         map = {mapId = 10, shown = true,
             GetCanvas = function() return {GetWidth = function() return 1000 end, GetHeight = function() return 500 end} end,
             GetMapID = function(self) return self.mapId end, IsShown = function(self) return self.shown end,
@@ -62,7 +71,11 @@ describe("QuestiePolygon world-map adapter", function()
             AddDataProvider = function(self, provider) self.provider = provider; provider:OnAdded(self) end,
             RemoveDataProvider = function(self, provider) provider:OnRemoved(); self.provider = nil end}
         _G.WorldMapFrame = map
-        Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, enabled = true, globalScale = 1}
+        -- Most cases exercise explicit choices, so automatic areas start hidden: nearby mode
+        -- without a player position.
+        Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, enabled = true, globalScale = 1,
+            showPolygonsOnAccept = false}
+        Questie.db.char.polygon = {objectiveVisibility = {}}
         Questie.usedIcons = {[1] = "icon"}
         renderer = {}
         renderCache = {
@@ -141,6 +154,7 @@ describe("QuestiePolygon world-map adapter", function()
         _G.UIParent = savedGlobals.UIParent
         _G.hooksecurefunc = savedGlobals.hooksecurefunc
         _G.GetTimePreciseSec = savedGlobals.GetTimePreciseSec
+        Questie.db.char.polygon = nil
     end)
 
     it("supplies normalized canvas cursor and participating mouse-focus readers for direct hover", function()
@@ -214,6 +228,64 @@ describe("QuestiePolygon world-map adapter", function()
         Update()
         assert.spy(Geometry.Build).was.called(2)
         assert.are.equal(2, #Geometry.Build.calls[2].vals[1])
+    end)
+
+    describe("automatic area visibility", function()
+        it("shows areas from quest accept until a marker click hides them, across resets", function()
+            Update()
+            FlushRefresh()
+            assert.are.same({}, drawnShapes) -- Nearby mode, away from the area.
+            Questie.db.profile.showPolygonsOnAccept = true
+            Polygon.RefreshVisibility()
+            FlushRefresh()
+            assert.are.equal(1, #drawnShapes)
+
+            -- The click arrives while hovering; the preview must not keep the area drawn.
+            Polygon.EnterMarker(frames[1])
+            Polygon.ToggleMarker(frames[1])
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+            assert.is_false(SavedVisibility(frames[1].polygonMarker.entry))
+
+            Polygon.Reset()
+            Update()
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+
+            -- Showing it again matches the automatic mode, so the saved choice is cleared.
+            Polygon.EnterMarker(frames[2])
+            Polygon.ToggleMarker(frames[2])
+            FlushRefresh()
+            assert.are.equal(1, #drawnShapes)
+            assert.is_nil(Questie.db.char.polygon.objectiveVisibility[42])
+        end)
+
+        it("shows every cluster while the player is near one and hides them on leaving", function()
+            Geometry.Build = function(points)
+                local function Cluster(x, minX)
+                    return {uiMapId = 10, instanceId = 10, x = x, y = 20, representative = points[1],
+                        worldBounds = {minX = minX, minY = 0, maxX = minX + 50, maxY = 50},
+                        outline = {{x = x, y = 10}, {x = x + 5, y = 10}, {x = x, y = 15}}}
+                end
+                return {Cluster(10, 0), Cluster(60, 5000)}
+            end
+            -- Within the padding of the first cluster's spawn extent, on the same instance.
+            -- A finished build checks proximity without waiting for the ticker.
+            player.x, player.y, player.instanceId = 120, 25, 10
+            Update()
+            FlushRefresh()
+            assert.are.equal(2, #drawnShapes)
+
+            player.instanceId = 11
+            tickers[1]()
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+
+            -- A saved choice wins over proximity.
+            Polygon.ToggleMarker(frames[2])
+            FlushRefresh()
+            assert.are.equal(2, #drawnShapes)
+        end)
     end)
 
     it("retains a marker's fade opacity while refreshing cached objective metadata", function()
@@ -402,7 +474,7 @@ describe("QuestiePolygon world-map adapter", function()
             map.provider:OnHide()
             assert.spy(renderCache.Hide).was.called(1)
             assert.is_nil(marker.entry.hovered)
-            assert.is_true(marker.entry.pinned)
+            assert.is_true(SavedVisibility(marker.entry))
 
             map.shown = true
             frames[1].policyHidden = true
@@ -441,8 +513,7 @@ describe("QuestiePolygon world-map adapter", function()
             assert.spy(renderCache.Clear).was.called(1)
             assert.is_nil(map.provider)
             map.shown = true
-            Update()
-            Polygon.ToggleMarker(frames[2])
+            Update() -- The saved choice outlives the reset and applies to the rebuilt marker.
             local presentCount, pendingCount = #renderCache.Present.calls, #timers
             for _, callback in ipairs(oldCallbacks) do callback() end
             assert.spy(renderCache.Present).was.called(presentCount)
@@ -482,7 +553,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_nil(map.provider)
     end)
 
-    it("cancels during bounded marker allocation without leaving a partially pinned area", function()
+    it("cancels during bounded marker allocation without leaving a partially shown area", function()
         Geometry.Build = function(points)
             local clusters = {}
             for i = 1, 31 do
@@ -554,7 +625,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same({5, 6, 7, 8}, {points[1].x, points[1].y, points[2].x, points[2].y})
     end)
 
-    it("shows hover geometry, keeps pinned geometry on leave, and follows logical marker hiding", function()
+    it("shows hover geometry, keeps saved geometry on leave, and follows logical marker hiding", function()
         Update()
         Polygon.EnterMarker(frames[1])
         FlushRefresh()
@@ -610,7 +681,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(QuestieMap.DrawWorldIcon).was.called(2)
     end)
 
-    it("checks live Questie visibility policy and marker fade alpha before drawing pinned fills", function()
+    it("checks live Questie visibility policy and marker fade alpha before drawing shown fills", function()
         Update()
         Polygon.ToggleMarker(frames[1])
         frames[1].texture.a = 0.4
@@ -696,7 +767,7 @@ describe("QuestiePolygon world-map adapter", function()
 
             assert.spy(renderCache.Hide).was.called(hideCount + 1)
             assert.is_nil(frames[1].polygonMarker.entry.hovered)
-            assert.is_true(frames[1].polygonMarker.entry.pinned)
+            assert.is_true(SavedVisibility(frames[1].polygonMarker.entry))
             FlushRefresh()
             assert.spy(renderCache.Present).was.called(presentCount)
             assert.spy(renderCache.Clear).was.not_called()
@@ -836,7 +907,7 @@ describe("QuestiePolygon world-map adapter", function()
                 HBD.mapData[10].mapType = case.mapType
                 Polygon.Refresh()
                 assert.spy(renderCache.Hide).was.called()
-                assert.is_true(frames[1].polygonMarker.entry.pinned)
+                assert.is_true(SavedVisibility(frames[1].polygonMarker.entry))
                 assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
             end)
         end
@@ -851,7 +922,7 @@ describe("QuestiePolygon world-map adapter", function()
             assert.spy(HBD.TranslateZoneCoordinates).was.not_called()
         end)
 
-        it("hides pinned geometry when its native marker is hidden, without clearing pinning or projections", function()
+        it("hides shown geometry when its native marker is hidden, without clearing its saved choice or projections", function()
             Update()
             Polygon.ToggleMarker(frames[1])
             map.mapId = 20
@@ -860,7 +931,7 @@ describe("QuestiePolygon world-map adapter", function()
             frames[1].notShown = true
             Polygon.Refresh()
             assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
-            assert.is_true(frames[1].polygonMarker.entry.pinned)
+            assert.is_true(SavedVisibility(frames[1].polygonMarker.entry))
             frames[1].notShown = false
             Polygon.Refresh()
             assert.are.equal(projected, drawnShapes[1].points)
@@ -902,14 +973,14 @@ describe("QuestiePolygon world-map adapter", function()
             map.provider:OnMapChanged()
             FlushRefresh()
             assert.are.same({}, drawnShapes)
-            assert.is_true(frame.polygonMarker.entry.pinned)
+            assert.is_true(SavedVisibility(frame.polygonMarker.entry))
 
             frame.parent = wrapper
             handlers.BaseOnShow(frame) -- HBD shows the frame before ProcessQueue marks it loaded.
             frame._loaded = true
             FlushRefresh()
             assert.are.equal(1, #drawnShapes)
-            assert.is_true(frame.polygonMarker.entry.pinned)
+            assert.is_true(SavedVisibility(frame.polygonMarker.entry))
             assert.are.equal(0, #timers)
 
             frame.notShown = true
@@ -917,7 +988,7 @@ describe("QuestiePolygon world-map adapter", function()
             handlers.BaseOnHide(frame)
             FlushRefresh()
             assert.are.same({}, drawnShapes)
-            assert.is_true(frame.polygonMarker.entry.pinned)
+            assert.is_true(SavedVisibility(frame.polygonMarker.entry))
             assert.are.equal(0, #timers)
         end)
 
@@ -1072,7 +1143,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_nil(allocatedFrame.polygonMarker)
     end)
 
-    it("does not draw pinned areas for markers temporarily hidden by tracker highlighting", function()
+    it("does not draw shown areas for markers temporarily hidden by tracker highlighting", function()
         Update()
         Polygon.ToggleMarker(frames[1])
         frames[1]._hidden_by_flash = true
@@ -1099,7 +1170,7 @@ describe("QuestiePolygon world-map adapter", function()
             FlushRefresh()
         end)
 
-        it("separates coincident boar markers while preserving geometry and independent pinning", function()
+        it("separates coincident boar markers while preserving geometry and independent show/hide", function()
             assert.are_near(-5.6, meat.point[4], 0.000001)
             assert.are_near(5.6, ribs.point[4], 0.000001)
             assert.are.equal(0, meat.point[5])
@@ -1109,8 +1180,8 @@ describe("QuestiePolygon world-map adapter", function()
             Polygon.ToggleMarker(meat)
             Polygon.ToggleMarker(ribs)
             Polygon.ToggleMarker(meat)
-            assert.is_false(meat.polygonMarker.entry.pinned)
-            assert.is_true(ribs.polygonMarker.entry.pinned)
+            assert.is_nil(SavedVisibility(meat.polygonMarker.entry)) -- Back to automatic.
+            assert.is_true(SavedVisibility(ribs.polygonMarker.entry))
             Polygon.EnterMarker(meat)
             Polygon.LeaveMarker(meat)
             FlushRefresh()

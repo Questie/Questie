@@ -14,6 +14,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 
 ---@class PolygonObjectiveEntry
 ---@field active boolean
+---@field index ObjectiveIndex Canonical objective index; also the saved-visibility key.
 ---@field revision number Collection/build identity, invalidated by the next update.
 ---@field generation number Marker/waypoint identity; progress-only updates do not cancel a current route batch.
 ---@field quest Quest
@@ -23,7 +24,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field spawnList table? Source table behind the published geometry.
 ---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
 ---@field hovered IconFrame?
----@field pinned boolean?
+---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
 ---@field building boolean? Replacement geometry is not shown while marker allocation yields.
 
 ---@class PolygonObjectiveWork
@@ -62,10 +63,40 @@ local Provider = {}
 local refreshPending = false
 local nudgePending = false
 local refreshEpoch = 0
+local nearbyTicker
+-- World units added around each cluster's spawn extent, so areas appear slightly before arrival.
+local NEARBY_PADDING = 100
 
 function QuestiePolygon.IsEnabled()
     local profile = Questie.db.profile
     return profile.enableQuestiePolygons == true and profile.enableObjectives ~= false and profile.enabled ~= false
+end
+
+-- Area visibility
+-- Questie.db.char.polygon.objectiveVisibility[questId][objectiveIndex] stores the player's
+-- explicit choice: true shows the objective's areas and false hides them. nil follows the
+-- automatic mode. Choices for finished quests are not pruned; each quest has few keys.
+---@param entry PolygonObjectiveEntry
+---@return boolean?
+local function _SavedVisibility(entry)
+    local quests = Questie.db.char.polygon.objectiveVisibility[entry.quest.Id]
+    if quests then return quests[entry.index] end
+end
+
+---Automatic mode shows every objective's areas from quest accept, or, when the player
+---disables that option, only while they are near one of the objective's clusters.
+---@param entry PolygonObjectiveEntry
+---@return boolean
+local function _IsAutomaticallyShown(entry)
+    return Questie.db.profile.showPolygonsOnAccept ~= false or entry.nearby == true
+end
+
+---@param entry PolygonObjectiveEntry
+---@return boolean
+local function _IsAreaShown(entry)
+    local saved = _SavedVisibility(entry)
+    if saved ~= nil then return saved end
+    return _IsAutomaticallyShown(entry)
 end
 
 -- Marker layout and visible-set selection
@@ -105,7 +136,7 @@ function QuestiePolygon.ScheduleNudging()
 end
 
 ---Selects eligible outlines and appearance; PolygonRenderCache owns native view reuse.
----Pinning requests visibility but cannot override the owning marker's hiding policy.
+---Saved or automatic visibility cannot override the owning marker's hiding policy.
 function QuestiePolygon.Refresh()
     if not renderCache then return end
     local map = provider and provider.owningMap
@@ -127,7 +158,7 @@ function QuestiePolygon.Refresh()
     local shapes = {}
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
-            if entry.active and not entry.building and (entry.pinned or entry.hovered) then
+            if entry.active and not entry.building and (entry.hovered or _IsAreaShown(entry)) then
                 for _, marker in ipairs(entry.markers) do
                     local frame = marker.frame
                     local outline = marker.cluster and marker.cluster.outline
@@ -373,13 +404,74 @@ function QuestiePolygon.LeaveMarker(frame)
     end
 end
 
+---Shows the opposite of what the objective currently shows, ignoring the hover preview,
+---for every cluster. A result matching the automatic mode clears the saved choice, so the
+---objective follows that mode again; any other result is saved.
 function QuestiePolygon.ToggleMarker(frame)
     local marker = frame.polygonMarker
-    if marker and QuestiePolygon.IsEnabled() and marker.entry.active and not marker.entry.building
-        and not marker.entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
-        marker.entry.pinned = not marker.entry.pinned
+    local entry = marker and marker.entry
+    if entry and QuestiePolygon.IsEnabled() and entry.active and not entry.building
+        and not entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
+        local shown = not _IsAreaShown(entry)
+        local visibility = Questie.db.char.polygon.objectiveVisibility
+        local quests = visibility[entry.quest.Id] or {}
+        if shown == _IsAutomaticallyShown(entry) then
+            quests[entry.index] = nil
+        else
+            quests[entry.index] = shown
+        end
+        visibility[entry.quest.Id] = next(quests) and quests or nil
+        -- Clicks arrive while hovering; the preview would otherwise keep a hidden area drawn.
+        if not shown then entry.hovered = nil end
         QuestiePolygon.ScheduleRefresh()
     end
+end
+
+-- Nearby mode
+-- A coarse rectangle test is enough: it only decides whether to show approximate areas.
+-- Clusters without outlines still count, since their spawns are part of the objective.
+-- UnitPosition has no position inside instances, so nothing counts as nearby there.
+---@param entry PolygonObjectiveEntry
+---@param x number? Player world position from HBD.
+---@param y number?
+---@param instanceId number?
+---@return boolean
+local function _IsPlayerNearby(entry, x, y, instanceId)
+    if x == nil or y == nil then return false end
+    for _, marker in ipairs(entry.markers) do
+        local cluster = marker.cluster
+        local bounds = cluster and cluster.worldBounds
+        if bounds and cluster.instanceId == instanceId
+            and x >= bounds.minX - NEARBY_PADDING and x <= bounds.maxX + NEARBY_PADDING
+            and y >= bounds.minY - NEARBY_PADDING and y <= bounds.maxY + NEARBY_PADDING then
+            return true
+        end
+    end
+    return false
+end
+
+---Recomputes which objectives the player is near and redraws when any area enters or leaves.
+---Inert while areas show on accept; saved choices take precedence in _IsAreaShown either way.
+function QuestiePolygon.UpdateNearby()
+    if Questie.db.profile.showPolygonsOnAccept ~= false or not QuestiePolygon.IsEnabled() then return end
+    local x, y, instanceId = HBD:GetPlayerWorldPosition()
+    local changed = false
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            local nearby = _IsPlayerNearby(entry, x, y, instanceId)
+            if entry.nearby ~= nearby then
+                entry.nearby = nearby
+                changed = true
+            end
+        end
+    end
+    if changed then QuestiePolygon.ScheduleRefresh() end
+end
+
+---Applies a changed automatic-mode option without rebuilding geometry.
+function QuestiePolygon.RefreshVisibility()
+    QuestiePolygon.UpdateNearby()
+    QuestiePolygon.ScheduleRefresh()
 end
 
 ---Waypoint work can yield after marker creation. Keep its generation separate from
@@ -501,7 +593,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     end
     local entry = questEntries[canonicalIndex]
     if not entry then
-        entry = {active = true, markers = {}, revision = 0, generation = 0}
+        entry = {active = true, index = canonicalIndex, markers = {}, revision = 0, generation = 0}
         questEntries[canonicalIndex] = entry
     end
     entry.revision = entry.revision + 1
@@ -600,7 +692,11 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)
     end
     if not provider.owningMap then WorldMapFrame:AddDataProvider(provider) end
-    -- Allocate markers with generation ownership before publishing this batch for hover or pinning.
+
+    -- One retained proximity check; it returns immediately unless nearby mode is active.
+    if not nearbyTicker then nearbyTicker = C_Timer.NewTicker(1, QuestiePolygon.UpdateNearby) end
+
+    -- Allocate markers with generation ownership before publishing this batch for hover or saved visibility.
     local icon, iconPerZone = nil, {}
     for clusterIndex, cluster in ipairs(clusters) do
         local point = pointsByKey[cluster.representative.key]
@@ -626,6 +722,10 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     end
     entry.building = nil
     entry.signature, entry.spawnList, entry.phases = signature, objective.spawnList, phases
+    -- Replacement clusters can move; recheck now instead of waiting up to a second for the ticker.
+    if Questie.db.profile.showPolygonsOnAccept == false then
+        entry.nearby = _IsPlayerNearby(entry, HBD:GetPlayerWorldPosition())
+    end
     QuestiePolygon.ScheduleNudging()
     QuestiePolygon.ScheduleRefresh()
     return icon, iconPerZone, waypointWork

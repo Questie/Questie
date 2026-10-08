@@ -12,10 +12,18 @@ local PolygonGeometry = QuestieLoader:CreateModule("PolygonGeometry")
 
 ---@class PolygonCluster
 ---@field uiMapId number
+---@field instanceId number
 ---@field x number Marker position in zone percentages.
 ---@field y number
 ---@field outline table[]? Ordered convex percentage-space outline; nil retains a point-only marker.
+---@field worldBounds PolygonWorldBounds Member spawn extent, for coarse player-proximity checks.
 ---@field representative PolygonSpawnPoint
+
+---@class PolygonWorldBounds
+---@field minX number World units, matching PolygonSpawnPoint.worldX.
+---@field minY number
+---@field maxX number
+---@field maxY number
 
 ---@class PolygonWork
 ---@field count number Operations since this job started; only its modulo matters.
@@ -392,7 +400,9 @@ function PolygonGeometry.Build(points, options, isCancelled)
                     end
                 end
 
-                local cluster = {uiMapId = seed.uiMapId, x = sumX / #members, y = sumY / #members, representative = seed}
+                local cluster = {uiMapId = seed.uiMapId, instanceId = seed.instanceId,
+                    x = sumX / #members, y = sumY / #members, representative = seed,
+                    worldBounds = {minX = minX, minY = minY, maxX = maxX, maxY = maxY}}
                 -- Outlines and markers share clustering, but isolated/collinear/tiny regions
                 -- remain useful point markers instead of being discarded by the area cutoff.
                 local hull = _GiftWrap(members, work)

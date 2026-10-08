@@ -63,6 +63,7 @@ function QuestieOptionsDefaults:Load()
             questMinimapObjectiveColors = false,
             enableObjectives = true,
             enableQuestiePolygons = false,
+            showPolygonsOnAccept = true,
             enableTurnins = true,
             enableAvailable = true,
             enableAvailableItems = true,
@@ -248,6 +249,10 @@ function QuestieOptionsDefaults:Load()
             minAllQuestsInZone = {},
             collapsedQuests = {},
             trackedAchievementIds = {},
+            -- Questie blobs state for this character; see Polygon/QuestiePolygon.lua.
+            polygon = {
+                objectiveVisibility = {},
+            },
         },
         global = {
             questieLocale = "enUS",

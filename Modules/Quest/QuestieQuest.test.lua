@@ -646,7 +646,7 @@ describe("QuestieQuest", function()
             before_each(function()
                 originals = {C_Timer = _G.C_Timer, WorldMapFrame = _G.WorldMapFrame,
                     CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin}
-                _G.C_Timer = {After = function() end}
+                _G.C_Timer = {After = function() end, NewTicker = function() return {} end}
                 _G.MapCanvasDataProviderMixin = {}
                 _G.CreateFromMixins = function(base, methods)
                     local result = {}
