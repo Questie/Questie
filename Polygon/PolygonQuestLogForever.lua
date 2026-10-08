@@ -124,10 +124,13 @@ local function _ObjectiveIndex(title, row, claimed)
     end
 end
 
----Mirrors area state on every visible objective row. Runs after Blizzard rebuilds the rows,
+---Mirrors area state on every active objective row. Runs after Blizzard rebuilds the rows,
 ---and after area visibility changes elsewhere, such as marker clicks.
+---Opening the log rebuilds the rows before the scroll frame is visible, and pooled rows keep
+---their previous box, so this updates hidden rows too; no later rebuild is guaranteed.
+---It only changes Questie's own boxes. Never call Blizzard's quest log updates from here:
+---running them from addon code would taint the quest log.
 function PolygonQuestLogForever.Update()
-    if not QuestScrollFrame:IsVisible() then return end
     local titles = {}
     for title in QuestScrollFrame.titleFramePool:EnumerateActive() do
         titles[title.questID] = title
