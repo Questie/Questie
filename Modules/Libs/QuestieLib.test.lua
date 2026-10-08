@@ -139,6 +139,73 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("objective colors", function()
+        -- The legacy QuestieDev-Master sequence in 0-255 RGB. Saved indexes refer to this order.
+        local LEGACY_PALETTE = {
+            {80, 113, 255}, {128, 120, 217}, {149, 229, 14}, {117, 218, 200}, {255, 144, 160},
+            {0, 166, 152}, {0, 250, 140}, {181, 28, 122}, {149, 55, 255}, {185, 94, 0},
+            {218, 55, 147}, {223, 224, 145}, {255, 167, 0}, {208, 182, 255}, {0, 65, 151},
+            {255, 64, 255}, {254, 251, 0}, {255, 255, 255}, {41, 167, 0}, {0, 169, 255},
+            {0, 150, 0}, {1, 74, 255}, {0, 249, 0}, {0, 252, 255}, {255, 38, 0},
+        }
+        local originalSaved
+
+        local function Rgb255(color)
+            return {math.floor(color[1] * 255 + 0.5), math.floor(color[2] * 255 + 0.5), math.floor(color[3] * 255 + 0.5)}
+        end
+
+        before_each(function()
+            originalSaved = Questie.db.char.objectiveColors
+            Questie.db.char.objectiveColors = {}
+        end)
+
+        after_each(function()
+            Questie.db.char.objectiveColors = originalSaved
+        end)
+
+        it("reuses an objective's color without consuming another palette slot", function()
+            local first = QuestieLib:GetObjectiveColor(QUEST_ID, 1)
+            assert.are.equal(first, QuestieLib:GetObjectiveColor(QUEST_ID, 1))
+            assert.are.same(LEGACY_PALETTE[2], Rgb255(QuestieLib:GetObjectiveColor(QUEST_ID, 2)))
+            assert.are.same({[QUEST_ID] = {[1] = 1, [2] = 2}}, Questie.db.char.objectiveColors)
+        end)
+
+        it("assigns the exact legacy palette in order to separate objectives, then wraps", function()
+            -- Special objectives keep their own canonical indexes instead of sharing 0.
+            local identities = {{QUEST_ID, 1}, {QUEST_ID, 65}, {QUEST_ID, 66}}
+            for questId = 2, 23 do identities[#identities + 1] = {questId, 1} end
+            local assigned = {}
+            for i, identity in ipairs(identities) do
+                assigned[i] = Rgb255(QuestieLib:GetObjectiveColor(identity[1], identity[2]))
+            end
+
+            assert.are.same(LEGACY_PALETTE, assigned)
+            assert.are.same({[1] = 1, [65] = 2, [66] = 3}, Questie.db.char.objectiveColors[QUEST_ID])
+            -- The 26th objective wraps from Scarlet back to Blizzard Polygon-blue.
+            assert.are.same(LEGACY_PALETTE[1], Rgb255(QuestieLib:GetObjectiveColor(99, 1)))
+        end)
+
+        it("keeps saved assignments across a reload, whatever the lookup order", function()
+            Questie.db.char.objectiveColors = {[QUEST_ID] = {[1] = 7}}
+            dofile("Modules/Libs/QuestieLib.lua")
+
+            -- The cursor restarts with the session, but saved objectives keep their entries.
+            assert.are.same(LEGACY_PALETTE[1], Rgb255(QuestieLib:GetObjectiveColor(500, 1)))
+            assert.are.same(LEGACY_PALETTE[7], Rgb255(QuestieLib:GetObjectiveColor(QUEST_ID, 1)))
+            assert.are.same(LEGACY_PALETTE[2], Rgb255(QuestieLib:GetObjectiveColor(QUEST_ID, 2)))
+        end)
+
+        it("initializes missing storage and reassigns invalid saved indexes", function()
+            Questie.db.char.objectiveColors = nil
+            assert.are.same(LEGACY_PALETTE[1], Rgb255(QuestieLib:GetObjectiveColor(QUEST_ID, 1)))
+            assert.are.same({[QUEST_ID] = {[1] = 1}}, Questie.db.char.objectiveColors)
+
+            Questie.db.char.objectiveColors[500] = {[1] = 0, [2] = 26, [3] = 2.5, [4] = "3"}
+            for index = 1, 4 do QuestieLib:GetObjectiveColor(500, index) end
+            assert.are.same({[1] = 2, [2] = 3, [3] = 4, [4] = 5}, Questie.db.char.objectiveColors[500])
+        end)
+    end)
+
     describe("addon version", function()
         local getMetadataMock
 
