@@ -2,10 +2,11 @@ dofile("setupTests.lua")
 
 describe("PolygonQuestLogForever", function()
     local QuestLog, Polygon, savedGlobals, savedPolygon, hooks, titles, rows, leaderboards, objectiveStates, tooltip
+    local markers, enabled, eventFrame
     local GLOBALS = {"CreateFrame", "hooksecurefunc", "QuestScrollFrame", "GetNumQuestLeaderBoards", "GetQuestLogLeaderBoard",
-        "PlaySound", "SOUNDKIT", "GameTooltip", "IsShiftKeyDown"}
+        "PlaySound", "SOUNDKIT", "GameTooltip", "IsShiftKeyDown", "C_Timer"}
     local POLYGON_API = {"RegisterVisibilityCallback", "GetObjectiveAreaState", "SetObjectiveAreaShown", "SetObjectivePreview",
-        "SetQuestAreasShown"}
+        "SetQuestAreasShown", "IsEnabled"}
 
     local function Texture()
         local texture = {shown = true}
@@ -25,6 +26,17 @@ describe("PolygonQuestLogForever", function()
         return row
     end
 
+    -- Blizzard's quest marker on a title row, sized by its template.
+    local function Marker(width)
+        local marker = {width = width, scale = 1, Glow = {scale = 1}}
+        marker.Glow.SetScale = function(self, scale) self.scale = scale end
+        marker.GetWidth = function(self) return self.width end
+        marker.GetScale = function(self) return self.scale end
+        marker.SetScale = function(self, scale) self.scale = scale end
+        marker.SetPoint = function(self, ...) self.point = {...} end
+        return marker
+    end
+
     local function Pool(list)
         return {EnumerateActive = function()
             local i = 0
@@ -40,7 +52,7 @@ describe("PolygonQuestLogForever", function()
         savedGlobals, savedPolygon = {}, {}
         for _, name in ipairs(GLOBALS) do savedGlobals[name] = _G[name] end
         for _, name in ipairs(POLYGON_API) do savedPolygon[name] = Polygon[name] end
-        hooks, titles, rows, leaderboards, objectiveStates = {}, {}, {}, {}, {}
+        hooks, titles, rows, leaderboards, objectiveStates, markers, enabled = {}, {}, {}, {}, {}, {}, true
         _G.CreateFrame = function()
             local box = {shown = true}
             box.SetSize = function() end
@@ -55,10 +67,16 @@ describe("PolygonQuestLogForever", function()
             box.SetScript = function(self, name, handler) self.scripts[name] = handler end
             box.Show = function(self) self.shown = true end
             box.Hide = function(self) self.shown = false end
+            box.RegisterEvent = function(self, event)
+                self.event = event
+                eventFrame = self
+            end
             return box
         end
         _G.hooksecurefunc = function(name, callback) hooks[name] = callback end
-        _G.QuestScrollFrame = {titleFramePool = Pool(titles), objectiveFramePool = Pool(rows)}
+        _G.C_Timer = {After = function(_, callback) callback() end}
+        _G.QuestScrollFrame = {titleFramePool = Pool(titles), objectiveFramePool = Pool(rows),
+            Contents = {FindButtonByQuestID = function(_, questID) return markers[questID] end}}
         _G.GetNumQuestLeaderBoards = function(questLogIndex) return #(leaderboards[questLogIndex] or {}) end
         _G.GetQuestLogLeaderBoard = function(index, questLogIndex) return unpack(leaderboards[questLogIndex][index]) end
         _G.PlaySound = spy.new(function() end)
@@ -73,6 +91,7 @@ describe("PolygonQuestLogForever", function()
         dofile("Localization/l10n.lua")
 
         Polygon.RegisterVisibilityCallback = spy.new(function() end)
+        Polygon.IsEnabled = function() return enabled end
         Polygon.GetObjectiveAreaState = function(questId, index)
             local state = objectiveStates[questId .. ":" .. index]
             if state then return state[1], state[2] end
@@ -151,6 +170,28 @@ describe("PolygonQuestLogForever", function()
         assert.are.same({8, 1}, {box.questId, box.objectiveIndex})
         assert.are.same({true, false}, {box.shown, box.Fill.shown})
         assert.are.same({0, 0, 1, 0.5}, box.Fill.color)
+    end)
+
+    it("fits Blizzard's quest marker into the box column only while areas are enabled", function()
+        local title = {questID = 7, questLogIndex = 1, Text = {}}
+        titles[1], leaderboards[1], markers[7] = title, {}, Marker(20)
+        QuestLog.Update()
+
+        -- Centred on the box column, raised above the text; offsets are in the marker's scaled units.
+        local marker, scale = markers[7], 16 / 20
+        assert.are.equal(scale, marker.scale)
+        assert.are.same({"TOPLEFT", title.Text, "TOPLEFT", -19 / scale, 4 / scale}, marker.point)
+        assert.are.equal(0.75, marker.Glow.scale)
+        -- Selecting a quest restyles its marker without a rebuild, resetting the glow.
+        marker.Glow.scale = 1
+        assert.are.equal("SUPER_TRACKING_CHANGED", eventFrame.event)
+        eventFrame.scripts.OnEvent(eventFrame, "SUPER_TRACKING_CHANGED")
+        assert.are.equal(0.75, marker.Glow.scale)
+
+        enabled = false
+        QuestLog.Update()
+        assert.are.same({1, 1}, {marker.scale, marker.Glow.scale})
+        assert.are.same({"TOPLEFT", title, 6, -4}, marker.point)
     end)
 
     it("toggles the opposite state through the shared area API", function()
