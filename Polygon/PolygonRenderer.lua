@@ -4,7 +4,7 @@ local PolygonRenderer = QuestieLoader:CreateModule("PolygonRenderer")
 
 -- Diagnostic tints are chosen on acquisition, not refresh. Set false for newly
 -- acquired primitives to use objective colors; retained primitives keep their tints.
-PolygonRenderer.debugRandomColors = true
+PolygonRenderer.debugRandomColors = false
 
 ---@class PolygonShape
 ---@field points table[] Immutable ordered convex outline in destination-map percentages, with named x/y fields.
