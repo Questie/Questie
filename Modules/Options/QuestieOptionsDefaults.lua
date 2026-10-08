@@ -249,6 +249,8 @@ function QuestieOptionsDefaults:Load()
             minAllQuestsInZone = {},
             collapsedQuests = {},
             trackedAchievementIds = {},
+            -- Persistent objective color palette indexes; see QuestieLib:GetObjectiveColor.
+            objectiveColors = {},
             -- Questie blobs state for this character; see Polygon/QuestiePolygon.lua.
             polygon = {
                 objectiveVisibility = {},
