@@ -109,6 +109,100 @@ describe("QuestieLib", function()
             assert.spy(getDifficultyMock).was.not_called()
         end)
 
+        describe("GetQuestIcon", function()
+            local originalQuestie, eventMock, pvpMock, runeMock
+            local quest
+
+            before_each(function()
+                originalQuestie = Questie
+                _G.Questie = {
+                    ICON_TYPE_AVAILABLE = 6, ICON_TYPE_AVAILABLE_GRAY = 7, ICON_TYPE_REPEATABLE = 10,
+                    ICON_TYPE_EVENTQUEST = 13, ICON_TYPE_PVPQUEST = 15, ICON_TYPE_SODRUNE = 18,
+                }
+                eventMock = stub(QuestieDB, "IsActiveEventQuest", function() return false end)
+                pvpMock = stub(QuestieDB, "IsPvPQuest", function() return false end)
+                runeMock = stub(QuestieDB, "IsSoDRuneQuest", function() return false end)
+                quest = {Id = 94414, level = 2, requiredLevel = 1}
+            end)
+
+            after_each(function()
+                _G.Questie = originalQuestie
+                eventMock:revert()
+                pvpMock:revert()
+                runeMock:revert()
+            end)
+
+            it("uses a normal icon for native green despite a trivial level estimate", function()
+                quest.level = 1
+                nativeDifficulty = 1
+
+                assert.are.equal(6, QuestieLib.GetQuestIcon(quest))
+                assert.spy(getDifficultyMock).was.called_with(94414)
+                assert.is_true(QuestieDB.IsTrivial(1))
+            end)
+
+            it("uses a gray icon for native trivial without changing eligibility triviality", function()
+                nativeDifficulty = 0
+
+                assert.are.equal(7, QuestieLib.GetQuestIcon(quest))
+                assert.is_false(QuestieDB.IsTrivial(2))
+            end)
+
+            local fallbackIcons = {
+                {name = "below the green range", level = 1, icon = 7},
+                {name = "at the inclusive green boundary", level = 2, icon = 6},
+                {name = "for scaling quests", level = -1, icon = 6},
+                {name = "for unknown quest levels", icon = 6},
+            }
+            for _, case in ipairs(fallbackIcons) do
+                it("keeps the level fallback " .. case.name .. " without native difficulty", function()
+                    quest.level = case.level
+
+                    assert.are.equal(case.icon, QuestieLib.GetQuestIcon(quest))
+                end)
+            end
+
+            it("falls back when the native difficulty category is unrecognized", function()
+                quest.level = 1
+                nativeDifficulty = 99
+
+                assert.are.equal(7, QuestieLib.GetQuestIcon(quest))
+            end)
+
+            it("keeps unavailable quests gray even when native difficulty is not trivial", function()
+                quest.requiredLevel = 8
+                nativeDifficulty = 1
+
+                assert.are.equal(7, QuestieLib.GetQuestIcon(quest))
+                assert.spy(getDifficultyMock).was.not_called()
+            end)
+
+            it("keeps repeatable icons ahead of trivial difficulty", function()
+                quest.IsRepeatable = true
+                nativeDifficulty = 0
+
+                assert.are.equal(10, QuestieLib.GetQuestIcon(quest))
+                assert.spy(getDifficultyMock).was.not_called()
+            end)
+
+            local specialIcons = {
+                {name = "event", predicate = "IsActiveEventQuest", icon = 13},
+                {name = "PvP", predicate = "IsPvPQuest", icon = 15},
+                {name = "rune", predicate = "IsSoDRuneQuest", icon = 18},
+            }
+            for _, case in ipairs(specialIcons) do
+                it("preserves the " .. case.name .. " icon before level restrictions and difficulty", function()
+                    Questie.IsSoD = true
+                    QuestieDB[case.predicate] = function() return true end
+                    quest.requiredLevel = 8
+                    nativeDifficulty = 0
+
+                    assert.are.equal(case.icon, QuestieLib.GetQuestIcon(quest))
+                    assert.spy(getDifficultyMock).was.not_called()
+                end)
+            end
+        end)
+
         describe("GetColoredQuestName", function()
             local queryMock, repeatableMock, pvpMock, eventMock
 

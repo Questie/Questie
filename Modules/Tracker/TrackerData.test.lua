@@ -889,6 +889,52 @@ describe("TrackerData", function()
         assert.are.equal(42, TrackerData.RefreshQuest(91741).level)
     end)
 
+    describe("quest difficulty titles", function()
+        local originalEnum, originalDifficulty, originalGreenRange
+
+        before_each(function()
+            originalEnum, originalDifficulty, originalGreenRange = _G.Enum, compat.GetQuestDifficulty, compat.GetQuestGreenRange
+            _G.Enum = {RelativeContentDifficulty = {Trivial = 0, Easy = 1, Fair = 2, Difficult = 3, Impossible = 4}}
+            compat.GetQuestGreenRange = function() return 5 end
+            QuestiePlayer.GetPlayerLevel = function() return 13 end
+            entries[2] = {title = "Secure the Mountain", id = 98322, level = 8}
+            dofile("Modules/Libs/QuestieLib.lua")
+            QuestieLib.GetLevelString = function(_, _, level) return "[" .. level .. "] " end
+        end)
+
+        after_each(function()
+            _G.Enum, compat.GetQuestDifficulty, compat.GetQuestGreenRange = originalEnum, originalDifficulty, originalGreenRange
+        end)
+
+        it("uses native green even when the level estimate would be gray", function()
+            -- A deliberately conflicting range tests ID forwarding, not the client's level-13 threshold.
+            compat.GetQuestGreenRange = function() return 4 end
+            compat.GetQuestDifficulty = spy.new(function(id)
+                if id == 98322 then return 1 end
+            end)
+            local displayQuest = TrackerData.RefreshQuest(98322)
+
+            assert.are.equal("|cFF40C040[8] Secure the Mountain|r", TrackerData.GetColoredQuestName(displayQuest, true, false))
+            assert.spy(compat.GetQuestDifficulty).was.called_with(98322)
+        end)
+
+        it("uses native gray even when the level estimate would be green", function()
+            compat.GetQuestDifficulty = function(id)
+                if id == 98322 then return 0 end
+            end
+            local displayQuest = TrackerData.RefreshQuest(98322)
+
+            assert.are.equal("|cFFC0C0C0Secure the Mountain|r", TrackerData.GetColoredQuestName(displayQuest, false, false))
+        end)
+
+        it("keeps the inclusive level estimate when native difficulty is unavailable", function()
+            compat.GetQuestDifficulty = function() return nil end
+            local displayQuest = TrackerData.RefreshQuest(98322)
+
+            assert.are.equal("|cFF40C040Secure the Mountain|r", TrackerData.GetColoredQuestName(displayQuest, false, false))
+        end)
+    end)
+
     it("formats titles and chat links from the live name and level", function()
         local displayQuest = TrackerData.RefreshQuest(91741)
         Questie.db.profile.trackerShowQuestLevel = true

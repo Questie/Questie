@@ -369,13 +369,27 @@ describe("AvailableQuests", function()
         local submittedJobs
         local originalGetFramesForQuest
         local originalGetQuestIcon
-        local originalUsedIcons
+        local originalUsedIcons, originalMapUtils, orderedIconTypes
+
+        local function CreateIconFrame(data, texturePath)
+            return {
+                data = data,
+                texture = {
+                    GetTexture = function() return texturePath end,
+                    SetTexture = spy.new(function(_, path) texturePath = path end),
+                },
+                UpdateTexture = spy.new(function() error("Difficulty refresh must not reset alpha or scale") end),
+            }
+        end
 
         before_each(function()
             submittedJobs = {}
             originalGetFramesForQuest = QuestieMap.GetFramesForQuest
             originalGetQuestIcon = QuestieLib.GetQuestIcon
             originalUsedIcons = Questie.usedIcons
+            originalMapUtils = QuestieMap.utils
+            orderedIconTypes = {}
+            QuestieMap.utils = {SetDrawOrder = function(frame) orderedIconTypes[frame] = frame.data.Icon end}
             QuestieMap.GetFramesForQuest = spy.new(function() return {} end)
             QuestieLib.GetQuestIcon = spy.new(function() return 6 end)
             Questie.usedIcons = {[6] = "available-texture"}
@@ -401,6 +415,7 @@ describe("AvailableQuests", function()
             QuestieMap.GetFramesForQuest = originalGetFramesForQuest
             QuestieLib.GetQuestIcon = originalGetQuestIcon
             Questie.usedIcons = originalUsedIcons
+            QuestieMap.utils = originalMapUtils
         end)
 
         it("should name its calculation and draw jobs for profiling", function()
@@ -434,23 +449,22 @@ describe("AvailableQuests", function()
         end)
 
         it("should not redraw existing starters when their textures are unchanged", function()
-            local starterFrame = {
-                data = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 6},
-                UpdateTexture = spy.new(function() end),
-            }
+            local starterFrame = CreateIconFrame(
+                {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 6}, "available-texture")
             QuestieMap.GetFramesForQuest = function() return {starterFrame} end
 
             AvailableQuests.CalculateAndDrawAll()
             submittedJobs[1].threadFunction()
 
+            assert.spy(starterFrame.texture.SetTexture).was.not_called()
             assert.spy(starterFrame.UpdateTexture).was.not_called()
             assert.are_equal(1, #submittedJobs)
         end)
 
         it("should refresh both starter textures without changing other icons for the same quest", function()
             local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
-            local mapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
-            local minimapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
+            local mapStarterFrame = CreateIconFrame(starterData, "gray-texture")
+            local minimapStarterFrame = CreateIconFrame(starterData, "gray-texture")
             local objectiveFrame = {
                 data = {QuestData = {Id = QUEST_ID}, Type = "monster", Icon = 1, ObjectiveData = {IsPartyObjective = true}},
                 UpdateTexture = spy.new(function() end),
@@ -466,11 +480,92 @@ describe("AvailableQuests", function()
             AvailableQuests.CalculateAndDrawAll()
             submittedJobs[1].threadFunction()
 
-            assert.spy(mapStarterFrame.UpdateTexture).was.called_with(mapStarterFrame, "available-texture")
-            assert.spy(minimapStarterFrame.UpdateTexture).was.called_with(minimapStarterFrame, "available-texture")
+            assert.spy(mapStarterFrame.texture.SetTexture).was.called_with(mapStarterFrame.texture, "available-texture")
+            assert.spy(minimapStarterFrame.texture.SetTexture).was.called_with(minimapStarterFrame.texture, "available-texture")
             assert.spy(objectiveFrame.UpdateTexture).was.not_called()
             assert.spy(finisherFrame.UpdateTexture).was.not_called()
             assert.are_equal(1, #submittedJobs)
+        end)
+
+        describe("native quest-data load", function()
+            local originalForever
+
+            before_each(function()
+                originalForever = Questie.IsForever
+                Questie.IsForever = true
+                TestUtils.resetEvents()
+                AvailableQuests.Initialize()
+                Questie.usedIcons[7] = "gray-texture"
+            end)
+
+            after_each(function()
+                Questie.IsForever = originalForever
+                TestUtils.resetEvents()
+            end)
+
+            it("refreshes both starters as cached difficulty changes without redrawing or touching other icons", function()
+                local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
+                local mapStarter = CreateIconFrame(starterData, "gray-texture")
+                local minimapStarter = CreateIconFrame(starterData, "gray-texture")
+                local objective = CreateIconFrame({Type = "monster", QuestData = starterData.QuestData}, "slay-texture")
+                local finisher = CreateIconFrame({Type = "complete", QuestData = starterData.QuestData}, "complete-texture")
+                QuestieMap.GetFramesForQuest = spy.new(function() return {mapStarter, minimapStarter, objective, finisher} end)
+
+                -- The initial fallback was gray; native data now selects the normal available icon.
+                TestUtils.triggerMockEvent("QUEST_DATA_LOAD_RESULT", QUEST_ID, true)
+                TestUtils.triggerMockEvent("QUEST_DATA_LOAD_RESULT", QUEST_ID, true)
+
+                assert.spy(QuestieMap.GetFramesForQuest).was.called_with(QuestieMap, QUEST_ID)
+                assert.are.equal("available-texture", mapStarter.texture:GetTexture())
+                assert.are.equal("available-texture", minimapStarter.texture:GetTexture())
+                assert.are.equal(6, starterData.Icon)
+                assert.are.equal(6, orderedIconTypes[mapStarter])
+                assert.are.equal(6, orderedIconTypes[minimapStarter])
+                assert.spy(mapStarter.texture.SetTexture).was.called(1)
+                assert.spy(minimapStarter.texture.SetTexture).was.called(1)
+
+                -- Each frame must also return to gray artwork and priority, despite sharing IconData.
+                QuestieLib.GetQuestIcon = function() return 7 end
+                TestUtils.triggerMockEvent("QUEST_DATA_LOAD_RESULT", QUEST_ID, true)
+
+                assert.are.equal("gray-texture", mapStarter.texture:GetTexture())
+                assert.are.equal("gray-texture", minimapStarter.texture:GetTexture())
+                assert.spy(mapStarter.texture.SetTexture).was.called(2)
+                assert.spy(minimapStarter.texture.SetTexture).was.called(2)
+                assert.spy(objective.texture.SetTexture).was.not_called()
+                assert.spy(finisher.texture.SetTexture).was.not_called()
+                assert.are.equal(7, starterData.Icon)
+                assert.are.equal(7, orderedIconTypes[mapStarter])
+                assert.are.equal(7, orderedIconTypes[minimapStarter])
+                assert.is_nil(orderedIconTypes[objective])
+                assert.is_nil(orderedIconTypes[finisher])
+                assert.are.equal(0, #submittedJobs)
+            end)
+
+            it("does not inspect or change frames after a failed load", function()
+                TestUtils.triggerMockEvent("QUEST_DATA_LOAD_RESULT", QUEST_ID, false)
+
+                assert.spy(QuestieMap.GetFramesForQuest).was.not_called()
+                assert.spy(QuestieLib.GetQuestIcon).was.not_called()
+                assert.are.equal(0, #submittedJobs)
+            end)
+
+            it("does not recreate icons that were removed before the data loaded", function()
+                TestUtils.triggerMockEvent("QUEST_DATA_LOAD_RESULT", QUEST_ID, true)
+
+                assert.spy(QuestieMap.GetFramesForQuest).was.called_with(QuestieMap, QUEST_ID)
+                assert.spy(QuestieLib.GetQuestIcon).was.not_called()
+                assert.are.equal(0, #submittedJobs)
+            end)
+
+            it("does not register native difficulty refresh on Classic", function()
+                TestUtils.resetEvents()
+                Questie.IsForever = false
+
+                AvailableQuests.Initialize()
+
+                assert.is_false(TestUtils.isEventRegistered("QUEST_DATA_LOAD_RESULT"))
+            end)
         end)
     end)
 
