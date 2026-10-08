@@ -4,7 +4,7 @@ describe("PolygonRenderer", function()
     local PolygonRenderer
     local originals
     local frames, textures, failTexture
-    local cursorX, cursorY, foci, inCombat
+    local cursorX, cursorY, onMap
     local canvas = {}
 
     -- Fresh-view setup for the primitive/hover contract tests. Retention tests below
@@ -31,7 +31,7 @@ describe("PolygonRenderer", function()
     local function _NewHoverRenderer()
         return PolygonRenderer.New(canvas, {
             getCursorPosition = function() return cursorX, cursorY end,
-            getMouseFoci = function() return foci end,
+            isCursorOnMap = function() return onMap end,
         })
     end
 
@@ -84,13 +84,6 @@ describe("PolygonRenderer", function()
             if self.events then self.events[event] = nil end
         end
         function frame:EnableMouse(value) self.mouse = value end
-        function frame:EnableMouseMotion(value) self.motion = value end
-        function frame:SetPropagateMouseMotion(value)
-            if InCombatLockdown() then error("propagation is blocked in combat") end
-            self.propagationCalls = (self.propagationCalls or 0) + 1
-            self.propagate = value
-        end
-        function frame:CanPropagateMouseMotion() return self.propagate == true end
         function frame:SetFrameLevel(value) self.level = value end
         function frame:SetPoint(...) self.anchor = {...} end
         function frame:SetSize(width, height) self.width, self.height = width, height end
@@ -101,15 +94,13 @@ describe("PolygonRenderer", function()
 
     before_each(function()
         frames, textures, failTexture = {}, {}, nil
-        cursorX, cursorY, foci, inCombat = nil, nil, {}, false
+        cursorX, cursorY, onMap = nil, nil, true
         originals = {
             CreateFrame = _G.CreateFrame, DrawLine = _G.DrawLine, issecretvalue = _G.issecretvalue, random = math.random,
-            InCombatLockdown = _G.InCombatLockdown,
             UPPER_LEFT_VERTEX = _G.UPPER_LEFT_VERTEX, UPPER_RIGHT_VERTEX = _G.UPPER_RIGHT_VERTEX,
             LOWER_LEFT_VERTEX = _G.LOWER_LEFT_VERTEX, LOWER_RIGHT_VERTEX = _G.LOWER_RIGHT_VERTEX,
         }
         _G.CreateFrame = _CreateFrame
-        _G.InCombatLockdown = function() return inCombat end
         _G.issecretvalue = nil
         _G.DrawLine = function(texture, parent, startX, startY, endX, endY, thickness, scale, anchor)
             texture.line = {parent, startX, startY, endX, endY, thickness, scale, anchor}
@@ -126,7 +117,6 @@ describe("PolygonRenderer", function()
         math.random = originals.random
         _G.CreateFrame, _G.DrawLine = originals.CreateFrame, originals.DrawLine
         _G.issecretvalue = originals.issecretvalue
-        _G.InCombatLockdown = originals.InCombatLockdown
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX = originals.UPPER_LEFT_VERTEX, originals.UPPER_RIGHT_VERTEX
         _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = originals.LOWER_LEFT_VERTEX, originals.LOWER_RIGHT_VERTEX
     end)
@@ -150,8 +140,6 @@ describe("PolygonRenderer", function()
         assert.are_equal(200, frames[1].width)
         assert.are_equal(150, frames[1].height)
         assert.are_equal(12, frames[1].level)
-        assert.is_false(frames[1].mouse)
-        assert.is_false(frames[1].motion)
         assert.is_true(frames[1].shown)
         assert.are_same({UL = {200, -150}, LL = {100, 75}, UR = {0, 0}, LR = {-200, 150}}, textures[1].offsets)
         assert.are_same({UL = {0, 0}, LL = {100, 75}, UR = {-200, -150}, LR = {0, 0}}, textures[2].offsets)
@@ -184,11 +172,11 @@ describe("PolygonRenderer", function()
         assert.are_same({0.625, 0.6875, 0.75, 0.1875}, frames[1].borders[2].color)
         assert.are_same({0.8125, 0.875, 0.9375, 0.1875}, frames[1].borders[3].color)
 
-        cursorX, cursorY, foci = 0.15, 0.1, {frames[1]}
+        cursorX, cursorY = 0.15, 0.1
         renderer:UpdateHover()
         assert.are_same({0.546875, 0.625, 0.703125, 0.1875}, frames[1].borders[1].color)
         assert.are_equal(1.8, frames[1].borders[1].line[6])
-        foci = {}
+        cursorX, cursorY = 0.9, 0.9
         renderer:UpdateHover()
         assert.are_same({0.4375, 0.5, 0.5625, 0.1875}, frames[1].borders[1].color)
         assert.are_equal(1.5, frames[1].borders[1].line[6])
@@ -382,24 +370,21 @@ describe("PolygonRenderer", function()
             assert.are.equal(5, #textures)
         end)
 
-        it("retains hidden views and excludes them from hover and input until shown again", function()
+        it("retains hidden views and excludes them from hover until shown again", function()
             local renderer = _NewHoverRenderer()
             local view = renderer:Create(triangle, 100, 100, 8)
             renderer:SetVisibleFrames({view})
-            cursorX, cursorY, foci = 0.1, 0.1, {view}
+            cursorX, cursorY = 0.1, 0.1
             renderer:UpdateHover()
             assert.is_true(renderer.highlightedFrames[view])
             local offsets = view.fills[1].offsets
             renderer:SetVisibleFrames({})
             assert.is_false(view:IsShown())
-            assert.is_false(view.motion)
-            assert.is_true(view.propagate) -- Lifetime setting is inert while motion is disabled.
             assert.is_true(renderer.ownedFrames[view])
             assert.are.same({}, renderer.highlightedFrames)
-            assert.are.same({}, renderer.hoverFrames)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
             assert.are.equal(0, #renderer.freeFrames)
-            renderer:UpdateHover() -- The stale native focus list still names this hidden retained view.
+            renderer:UpdateHover() -- The cursor is still inside the outline, but the view is not visible.
             assert.are.same({}, renderer.highlightedFrames)
             renderer:SetVisibleFrames({view})
             assert.is_true(view:IsShown())
@@ -435,16 +420,22 @@ describe("PolygonRenderer", function()
             assert.are.equal(updateCallback, driver.scripts.OnUpdate)
         end)
 
-        it("retains the polling interval through an unchanged visible-set refresh", function()
+        it("checks hover only when the cursor's canvas position changes", function()
             local renderer = _NewHoverRenderer()
             local view = renderer:Create(triangle, 100, 100, 8)
+            cursorX, cursorY = 0.1, 0.1
             renderer:SetVisibleFrames({view})
-            local driver = renderer.hoverDriver
-            driver.scripts.OnUpdate(driver, 0.04)
-            renderer:SetVisibleFrames({view})
-            cursorX, cursorY, foci = 0.1, 0.1, {view}
-            driver.scripts.OnUpdate(driver, 0.04)
             assert.is_true(renderer.hoveredFrames[view])
+            local isCursorOnMap = spy.on(renderer.hoverInput, "isCursorOnMap")
+            local driver = renderer.hoverDriver
+            driver.scripts.OnUpdate(driver, 0.016)
+            assert.spy(isCursorOnMap).was.not_called()
+
+            -- Panning or zooming under a still cursor also changes its canvas position.
+            cursorX = 0.5
+            driver.scripts.OnUpdate(driver, 0.016)
+            assert.spy(isCursorOnMap).was.called(1)
+            assert.are.same({}, renderer.hoveredFrames)
         end)
 
         it("updates color, faded opacity, and frame level without repeating border geometry", function()
@@ -468,7 +459,7 @@ describe("PolygonRenderer", function()
             triangle.highlighted = true
             local view = renderer:Create(triangle, 100, 100, 8)
             renderer:SetVisibleFrames({view})
-            cursorX, cursorY, foci = 0.1, 0.1, {view}
+            cursorX, cursorY = 0.1, 0.1
             renderer:UpdateHover()
             local line = view.borders[1].line
             triangle.highlighted = false
@@ -594,18 +585,17 @@ describe("PolygonRenderer", function()
             local nativeCreateFrame = _G.CreateFrame
             _G.CreateFrame = function(...)
                 local frame = nativeCreateFrame(...)
-                frame.EnableMouseMotion = function() error("native motion failure") end
+                frame.ClearAllPoints = function() error("native anchor failure") end
                 return frame
             end
 
-            assert.has_error(function() renderer:Create(triangle, 100, 100, 8) end, "native motion failure")
+            assert.has_error(function() renderer:Create(triangle, 100, 100, 8) end, "native anchor failure")
             local failed = frames[#frames]
             assert.is_true(renderer.ownedFrames[failed])
-            assert.has_error(function() renderer:Clear() end, "native motion failure")
+            assert.has_error(function() renderer:Clear() end, "native anchor failure")
 
             assert.are.same({[failed] = true}, renderer.ownedFrames)
             assert.are.same({}, renderer.activeFrames)
-            assert.are.same({}, renderer.hoverFrames)
             assert.are.same({}, renderer.highlightedFrames)
             assert.is_false(first:IsShown())
             assert.is_false(second:IsShown())
@@ -617,7 +607,7 @@ describe("PolygonRenderer", function()
             renderer:UpdateHover()
             assert.are.same({}, renderer.hoveredFrames)
 
-            failed.EnableMouseMotion = function(self, value) self.motion = value end
+            failed.ClearAllPoints = function(self) self.anchor = nil end
             renderer:Clear()
             renderer:Clear()
 
@@ -627,27 +617,26 @@ describe("PolygonRenderer", function()
             assert.are.equal(6, #renderer.freeBorders)
         end)
 
-        it("keeps a failed visible release hidden and outside input tracking until cleanup succeeds", function()
+        it("keeps a failed visible release hidden and out of hover until cleanup succeeds", function()
             local renderer = _NewHoverRenderer()
             triangle.highlighted = true
             local view = renderer:Create(triangle, 100, 100, 8)
             renderer:SetVisibleFrames({view})
-            cursorX, cursorY, foci = 0.1, 0.1, {view}
-            view.EnableMouseMotion = function() error("native motion failure") end
+            cursorX, cursorY = 0.1, 0.1
+            view.ClearAllPoints = function() error("native anchor failure") end
 
-            assert.has_error(function() renderer:Release(view) end, "native motion failure")
+            assert.has_error(function() renderer:Release(view) end, "native anchor failure")
 
             assert.is_false(view:IsShown())
             assert.is_true(renderer.ownedFrames[view])
             assert.are.equal(0, #renderer.freeFrames)
             assert.are.same({}, renderer.activeFrames)
-            assert.are.same({}, renderer.hoverFrames)
             assert.are.same({}, renderer.highlightedFrames)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
             renderer:UpdateHover()
             assert.are.same({}, renderer.hoveredFrames)
 
-            view.EnableMouseMotion = function(self, value) self.motion = value end
+            view.ClearAllPoints = function(self) self.anchor = nil end
             renderer:Release(view)
             renderer:Release(view)
             assert.are.same({}, renderer.ownedFrames)
@@ -685,199 +674,15 @@ describe("PolygonRenderer", function()
         end)
     end)
 
-    describe("combat-safe hover setup", function()
-        local shape
-
-        before_each(function()
-            shape = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.2, 0.4, 0.6}}
-        end)
-
-        it("draws during combat and enables direct hover at combat end without rebuilding geometry", function()
-            inCombat = true
-            shape.highlighted = true
-            local renderer = _NewHoverRenderer()
-            local view = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
-            renderer:SetVisibleFrames({view})
-            local offsets = view.fills[1].offsets
-            local configure = spy.on(view.fills[1], "SetVertexOffset")
-            assert.is_true(view:IsShown())
-            assert.is_false(view.mouse)
-            assert.is_false(view.motion)
-            assert.is_nil(view.propagationCalls)
-            assert.are.same({}, renderer.hoverFrames)
-            assert.is_true(renderer.highlightedFrames[view]) -- Marker highlighting still works.
-            assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
-            local driver = renderer.combatDriver
-            assert.is_true(driver.events.PLAYER_REGEN_ENABLED)
-            assert.is_nil(driver.scripts.OnUpdate)
-
-            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED") -- Combat may restart before delivery.
-            assert.is_true(driver.events.PLAYER_REGEN_ENABLED)
-            assert.is_nil(view.propagationCalls)
-            inCombat = false
-            cursorX, cursorY, foci = 0.1, 0.1, {view}
-            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
-
-            assert.is_nil(driver.events.PLAYER_REGEN_ENABLED)
-            assert.is_nil(renderer.combatPending)
-            assert.are.equal(1, view.propagationCalls)
-            assert.is_true(view.propagate)
-            assert.is_true(view.motion)
-            assert.is_true(renderer.hoverFrames[view])
-            assert.is_true(renderer.hoveredFrames[view])
-            assert.is_function(renderer.hoverDriver.scripts.OnUpdate)
-            assert.are.equal(offsets, view.fills[1].offsets)
-            assert.spy(configure).was.not_called()
-            assert.are.equal(5, #textures)
-        end)
-
-        it("keeps hover disabled when a setter silently fails, then retries on a later presentation", function()
-            local renderer = _NewHoverRenderer()
-            local view = renderer:Create(shape, 100, 100, 8)
-            local setter = view.SetPropagateMouseMotion
-            local attempts = 0
-            view.SetPropagateMouseMotion = function() attempts = attempts + 1 end
-            renderer:SetVisibleFrames({view})
-
-            assert.is_true(view:IsShown())
-            assert.is_false(view:CanPropagateMouseMotion())
-            assert.is_false(view.motion)
-            assert.are.same({}, renderer.hoverFrames)
-            assert.is_nil(renderer.hoverDriver)
-            assert.are.equal(1, attempts)
-            view.SetPropagateMouseMotion = setter
-            renderer:SetVisibleFrames({view})
-            assert.is_true(view:CanPropagateMouseMotion())
-            assert.is_true(view.motion)
-            assert.is_true(renderer.hoverFrames[view])
-        end)
-
-        it("detects a native propagation change instead of trusting previous hover readiness", function()
-            local renderer = _NewHoverRenderer()
-            local view = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
-            view:SetPropagateMouseMotion(false)
-            inCombat = true
-            renderer:SetVisibleFrames({view})
-
-            assert.is_false(view.motion)
-            assert.is_false(view:CanPropagateMouseMotion())
-            assert.are.same({}, renderer.hoverFrames)
-            assert.is_true(renderer.combatPending)
-            inCombat = false
-            renderer.combatDriver.scripts.OnEvent(renderer.combatDriver, "PLAYER_REGEN_ENABLED")
-            assert.is_true(view:CanPropagateMouseMotion())
-            assert.is_true(view.motion)
-            assert.is_true(renderer.hoverFrames[view])
-        end)
-
-        it("keeps configured frames combat-safe through hiding, pooling, and reuse", function()
-            local renderer = _NewHoverRenderer()
-            local view = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
-            assert.are.equal(1, view.propagationCalls)
-            inCombat = true
-            renderer:SetVisibleFrames({})
-            assert.is_false(view.motion)
-            renderer:SetVisibleFrames({view})
-            assert.is_true(view.motion)
-            renderer:Release(view)
-            local reused = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({reused})
-
-            assert.are.equal(view, reused)
-            assert.are.equal(1, reused.propagationCalls)
-            assert.is_true(reused.motion)
-            assert.is_true(renderer.hoverFrames[reused])
-            assert.is_nil(renderer.combatDriver)
-            renderer:Clear()
-            assert.is_false(reused.motion)
-        end)
-
-        it("does not enable a view hidden before combat ends, but configures it when shown later", function()
-            inCombat = true
-            local renderer = _NewHoverRenderer()
-            local view = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
-            local driver = renderer.combatDriver
-            renderer:SetVisibleFrames({})
-            inCombat = false
-            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
-
-            assert.is_false(view:IsShown())
-            assert.is_false(view.motion)
-            assert.is_nil(view.propagationCalls)
-            assert.are.same({}, renderer.hoverFrames)
-            assert.is_nil(renderer.hoverDriver)
-            assert.is_nil(driver.events.PLAYER_REGEN_ENABLED)
-            renderer:SetVisibleFrames({view})
-            assert.are.equal(1, view.propagationCalls)
-            assert.is_true(view.motion)
-        end)
-
-        it("reconciles current visible ownership instead of re-enabling a released pooled view", function()
-            inCombat = true
-            local renderer = _NewHoverRenderer()
-            local released = renderer:Create(shape, 100, 100, 8)
-            local current = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({released})
-            local driver = renderer.combatDriver
-            renderer:Release(released)
-            renderer:SetVisibleFrames({current})
-            inCombat = false
-            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
-
-            assert.is_nil(released.propagationCalls)
-            assert.is_false(released.motion)
-            assert.is_false(released:IsShown())
-            assert.are.equal(1, current.propagationCalls)
-            assert.is_true(current.motion)
-            assert.are.same({[current] = true}, renderer.hoverFrames)
-        end)
-
-        it("cancels pending combat setup on clear and reuses its event driver for later views", function()
-            inCombat = true
-            local renderer = _NewHoverRenderer()
-            local view = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
-            local driver = renderer.combatDriver
-            renderer:Clear()
-            assert.is_nil(driver.events.PLAYER_REGEN_ENABLED)
-            assert.is_nil(renderer.combatPending)
-            inCombat = false
-            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
-            assert.is_nil(view.propagationCalls)
-            assert.is_false(view:IsShown())
-            assert.are.same({}, renderer.hoverFrames)
-            inCombat = true
-            local reused = renderer:Create(shape, 100, 100, 8)
-            renderer:SetVisibleFrames({reused})
-            assert.are.equal(driver, renderer.combatDriver)
-            assert.is_true(driver.events.PLAYER_REGEN_ENABLED)
-            inCombat = false
-            driver.scripts.OnEvent(driver, "PLAYER_REGEN_ENABLED")
-            assert.are.equal(1, reused.propagationCalls)
-            assert.is_true(reused.motion)
-        end)
-    end)
-
     describe("direct polygon hover", function()
-        it("enables propagated motion only, with one shared update driver", function()
+        it("follows the cursor with one shared driver and no per-polygon scripts", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {
                 {points = {{x = 0, y = 0}, {x = 30, y = 0}, {x = 0, y = 30}}, color = {0.2, 0.4, 0.6}},
                 {points = {{x = 40, y = 40}, {x = 70, y = 40}, {x = 40, y = 70}}, color = {0.2, 0.4, 0.6}},
             }, 100, 100, 8)
 
-            assert.is_false(frames[1].mouse)
-            assert.is_true(frames[1].motion)
-            assert.is_true(frames[1].propagate)
-            assert.is_false(frames[2].mouse)
-            assert.is_true(frames[2].motion)
-            assert.is_true(frames[2].propagate)
             assert.are_equal(3, #frames)
-            assert.is_false(renderer.hoverDriver.mouse)
             assert.is_function(renderer.hoverDriver.scripts.OnUpdate)
             assert.is_nil(frames[1].scripts)
             assert.is_nil(frames[2].scripts)
@@ -889,7 +694,6 @@ describe("PolygonRenderer", function()
                 {points = {{x = 0, y = 0}, {x = 50, y = 0}, {x = 50, y = 50}, {x = 0, y = 50}}, color = {0.2, 0.4, 0.6}},
                 {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.6, 0.4, 0.2}},
             }, 100, 100, 8)
-            foci = {frames[2], frames[1]}
             cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.hoveredFrames)
@@ -907,53 +711,45 @@ describe("PolygonRenderer", function()
             assert.are_equal(1.5, frames[2].borders[1].line[6])
         end)
 
-        it("does not highlight an obscured polygon absent from the native propagation stack", function()
+        it("does not highlight a polygon while other UI covers the map under the cursor", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
-            foci = {{}} -- A nonpropagating UI region excludes the polygon, despite its geometry containing the cursor.
+            onMap = false -- Covered, despite the outline containing the cursor.
+            cursorX = 0.11
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_equal(1.5, frames[1].borders[1].line[6])
         end)
 
-        it("selects a participating polygon beneath a propagating nonpolygon region", function()
-            local renderer = _NewHoverRenderer()
-            _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.2, 0.4, 0.6}}}, 100, 100, 8)
-            local overlay = {} -- Its propagation is represented by both regions participating in the native focus stack.
-            cursorX, cursorY, foci = 0.1, 0.1, {overlay, frames[1]}
-            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
-
-            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
-            assert.are_equal(1.8, frames[1].borders[1].line[6])
-        end)
-
-        it("updates movement within one frame without enter or leave scripts, throttled to 80 ms", function()
+        it("follows the outline rather than the frame's rectangle, without enter or leave scripts", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             local driver = renderer.hoverDriver
-            driver.scripts.OnUpdate(driver, 0.04)
-            assert.are_same({}, renderer.hoveredFrames)
-            driver.scripts.OnUpdate(driver, 0.04)
+            driver.scripts.OnUpdate(driver, 0.016)
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
             cursorX, cursorY = 0.3, 0.3 -- Still in the same rectangle, but no longer in its triangle.
-            driver.scripts.OnUpdate(driver, 0.08)
+            driver.scripts.OnUpdate(driver, 0.016)
             assert.are_same({}, renderer.hoveredFrames)
         end)
 
         it("includes exact edges and vertices in the polygon", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.2, 0.2, {frames[1]}
+            cursorX, cursorY = 0.2, 0.2
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
             cursorX, cursorY = 0, 0
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
+
+            cursorX, cursorY = 0.4, 0 -- On the outline's bounding-box edge as well.
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
         end)
@@ -963,14 +759,14 @@ describe("PolygonRenderer", function()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6, 0.05}, borderAlpha = 0.1875}}, 100, 100, 8)
             local fill, border = frames[1].fills[1], frames[1].borders[1]
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({0.25, 0.5, 0.75, 0.1875}, border.color)
             assert.are_equal(1.8, border.line[6])
             assert.are_same({0.2, 0.4, 0.6, 0.05}, fill.color)
             assert.are_equal(5, #textures)
 
-            foci = {}
+            cursorX, cursorY = 0.9, 0.9
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({0.2, 0.4, 0.6, 0.1875}, border.color)
             assert.are_equal(1.5, border.line[6])
@@ -982,7 +778,7 @@ describe("PolygonRenderer", function()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6, 0.05}, borderAlpha = 0}}, 100, 100, 8)
             local border = frames[1].borders[1]
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
 
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
@@ -990,7 +786,7 @@ describe("PolygonRenderer", function()
             assert.are_equal(1.8, border.line[6])
             assert.are_same({0.2, 0.4, 0.6, 0.05}, frames[1].fills[1].color)
 
-            foci = {}
+            cursorX, cursorY = 0.9, 0.9
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({0.2, 0.4, 0.6, 0}, border.color)
@@ -1008,16 +804,15 @@ describe("PolygonRenderer", function()
                 local renderer = _NewHoverRenderer()
                 _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                     color = {0.2, 0.4, 0.6}, borderAlpha = 0.1875}}, 100, 100, 8)
-                cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+                cursorX, cursorY = 0.1, 0.1
                 renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
                 assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
-                local readMouseFoci = spy.new(function() return foci end)
-                renderer.hoverInput.getMouseFoci = readMouseFoci
+                local isCursorOnMap = spy.on(renderer.hoverInput, "isCursorOnMap")
                 cursorX, cursorY = case.x, case.y
                 renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
 
-                assert.spy(readMouseFoci).was.not_called()
+                assert.spy(isCursorOnMap).was.not_called()
                 assert.are_same({}, renderer.hoveredFrames)
                 assert.are_same({0.2, 0.4, 0.6, 0.1875}, frames[1].borders[1].color)
                 assert.are_equal(1.5, frames[1].borders[1].line[6])
@@ -1028,17 +823,16 @@ describe("PolygonRenderer", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6}, borderAlpha = 0.1875}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
-            local readMouseFoci = spy.new(function() return foci end)
-            renderer.hoverInput.getMouseFoci = readMouseFoci
+            local isCursorOnMap = spy.on(renderer.hoverInput, "isCursorOnMap")
             cursorY = 0.2
             _G.issecretvalue = function(value) return value == 0.2 end
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
 
-            assert.spy(readMouseFoci).was.not_called()
+            assert.spy(isCursorOnMap).was.not_called()
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({0.2, 0.4, 0.6, 0.1875}, frames[1].borders[1].color)
             assert.are_equal(1.5, frames[1].borders[1].line[6])
@@ -1047,7 +841,7 @@ describe("PolygonRenderer", function()
         it("clears the hover when cursor coordinates become unavailable", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             cursorX, cursorY = nil, nil
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
@@ -1057,7 +851,7 @@ describe("PolygonRenderer", function()
         it("rechecks a stationary cursor against replacement outlines on reused frames", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
 
@@ -1072,14 +866,14 @@ describe("PolygonRenderer", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             local highlightedLine = frames[1].borders[1].line
 
             cursorX, cursorY = 0.15, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_equal(highlightedLine, frames[1].borders[1].line)
-            foci = {}
+            cursorX, cursorY = 0.9, 0.9
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             local restoredLine = frames[1].borders[1].line
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
@@ -1095,13 +889,13 @@ describe("PolygonRenderer", function()
                 {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.6, 0.4, 0.2}},
             }, 100, 100, 8)
             local markerLine = frames[1].borders[1].line
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[2], frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.highlightedFrames)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.hoveredFrames)
             assert.are_equal(markerLine, frames[1].borders[1].line)
 
-            foci = {}
+            cursorX, cursorY = 0.9, 0.9
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
@@ -1116,13 +910,11 @@ describe("PolygonRenderer", function()
             assert.are_equal(1.5, frames[2].borders[1].line[6])
         end)
 
-        it("keeps marker-associated highlighting available without native hover readers", function()
+        it("keeps marker-associated highlighting available without a hover input", function()
             local renderer = PolygonRenderer.New(canvas)
             local shapes = {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6}, highlighted = true, borderAlpha = 0.1875}}
             _Draw(renderer, shapes, 100, 100, 8)
-            assert.is_false(frames[1].mouse)
-            assert.is_false(frames[1].motion)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
             assert.are_equal(1.8, frames[1].borders[1].line[6])
@@ -1147,31 +939,14 @@ describe("PolygonRenderer", function()
             assert.are_equal(2, #frames)
         end)
 
-        it("keeps marker highlights without enabling unavailable motion propagation", function()
-            local nativeCreateFrame = _G.CreateFrame
-            _G.CreateFrame = function(...)
-                local frame = nativeCreateFrame(...)
-                frame.SetPropagateMouseMotion = nil
-                return frame
-            end
-            local renderer = _NewHoverRenderer()
-            _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
-                color = {0.2, 0.4, 0.6}, highlighted = true}}, 100, 100, 8)
-            assert.is_false(frames[1].mouse)
-            assert.is_false(frames[1].motion)
-            assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are_same({}, renderer.hoveredFrames)
-            assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
-        end)
-
         it("stops on inherited hide and resumes while the driver's own shown flag remains set", function()
             local parent = {visible = true, IsVisible = function(self) return self.visible end}
             local renderer = PolygonRenderer.New(parent, {
                 getCursorPosition = function() return cursorX, cursorY end,
-                getMouseFoci = function() return foci end,
+                isCursorOnMap = function() return onMap end,
             })
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             local driver = renderer.hoverDriver
             driver.scripts.OnUpdate(driver, 0.08)
 
@@ -1192,13 +967,13 @@ describe("PolygonRenderer", function()
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
         end)
 
-        it("clears highlights, mouse participation, references, and the driver before pooling", function()
+        it("clears highlights, references, and the driver before pooling", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {
                 {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.2, 0.4, 0.6}, highlighted = true},
                 {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.6, 0.4, 0.2}},
             }, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[2], frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             local markerBorder, geometricBorder = frames[1].borders[1], frames[2].borders[1]
             renderer:Clear()
@@ -1206,13 +981,10 @@ describe("PolygonRenderer", function()
 
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({}, renderer.highlightedFrames)
-            assert.are_same({}, renderer.hoverFrames)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
             assert.is_false(renderer.hoverDriver.shown)
-            assert.is_false(frames[1].mouse)
-            assert.is_false(frames[1].motion)
-            assert.is_true(frames[1].propagate) -- Pool reuse keeps the native pass-through setting.
             assert.is_nil(frames[1].polygonOutline)
+            assert.is_nil(frames[1].polygonBounds)
             assert.is_nil(frames[1].polygonColor)
             assert.is_nil(frames[1].polygonHighlighted)
             assert.is_nil(frames[2].polygonHighlighted)
@@ -1227,7 +999,7 @@ describe("PolygonRenderer", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6}, highlighted = true}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             failTexture = 2
             local counts, err = _Draw(renderer, {{
@@ -1241,13 +1013,12 @@ describe("PolygonRenderer", function()
             assert.is_nil(frames[1].polygonHighlighted)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
             assert.are_equal(0, #renderer.activeFrames)
-            assert.are_same({}, renderer.hoverFrames)
         end)
 
         it("stops the shared driver when a draw has no shapes", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             _Draw(renderer, {}, 100, 100, 8)
 
@@ -1255,14 +1026,29 @@ describe("PolygonRenderer", function()
             assert.are_same({}, renderer.highlightedFrames)
             assert.is_false(renderer.hoverDriver.shown)
             assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
-            assert.are_same({}, renderer.hoverFrames)
             assert.are_equal(0, #renderer.activeFrames)
         end)
 
-        it("ignores hidden or previously pooled frames left in a stale focus list", function()
+        it("does not read the cursor without visible polygons", function()
+            -- Blizzard's normalization divides by the canvas width, zero before the map's first layout.
+            local renderer = PolygonRenderer.New(canvas, {
+                getCursorPosition = function() error("Division by zero") end,
+                isCursorOnMap = function() return onMap end,
+            })
+            renderer:SetVisibleFrames({})
+            renderer:UpdateHover()
+            local view = renderer:Create({points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
+                color = {1, 0, 0}}, 100, 100, 8)
+            renderer:SetVisibleFrames({})
+            renderer:Release(view)
+            renderer:Clear()
+            assert.are_same({}, renderer.hoveredFrames)
+        end)
+
+        it("ignores hidden or pooled frames under the cursor", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            cursorX, cursorY, foci = 0.1, 0.1, {frames[1]}
+            cursorX, cursorY = 0.1, 0.1
             frames[1]:Hide()
             renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
             assert.are_same({}, renderer.hoveredFrames)
@@ -1273,54 +1059,6 @@ describe("PolygonRenderer", function()
             assert.is_nil(frames[1].polygonOutline)
         end)
 
-        it("keeps frames inert when the focus-stack reader is unavailable", function()
-            local renderer = PolygonRenderer.New(canvas, {getCursorPosition = function() return 0.1, 0.1 end})
-            _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            assert.is_false(frames[1].mouse)
-            assert.is_false(frames[1].motion)
-            assert.is_nil(renderer.hoverDriver)
-        end)
-
-        it("keeps frames inert when motion propagation is unavailable", function()
-            local nativeCreateFrame = _G.CreateFrame
-            _G.CreateFrame = function(...)
-                local frame = nativeCreateFrame(...)
-                frame.SetPropagateMouseMotion = nil
-                return frame
-            end
-            local renderer = _NewHoverRenderer()
-            _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            assert.is_false(frames[1].mouse)
-            assert.is_false(frames[1].motion)
-            assert.is_nil(renderer.hoverDriver)
-        end)
-
-        it("keeps frames inert when native propagation state cannot be read", function()
-            local renderer = _NewHoverRenderer()
-            local view = renderer:Create({points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
-                color = {1, 0, 0}}, 100, 100, 8)
-            view.CanPropagateMouseMotion = nil
-            renderer:SetVisibleFrames({view})
-
-            assert.is_true(view:IsShown())
-            assert.is_false(view.motion)
-            assert.is_nil(view.propagationCalls)
-            assert.is_nil(renderer.hoverDriver)
-            assert.are.same({}, renderer.hoverFrames)
-        end)
-
-        it("keeps frames inert when separate mouse-motion control is unavailable", function()
-            local nativeCreateFrame = _G.CreateFrame
-            _G.CreateFrame = function(...)
-                local frame = nativeCreateFrame(...)
-                frame.EnableMouseMotion = nil
-                return frame
-            end
-            local renderer = _NewHoverRenderer()
-            _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
-            assert.is_false(frames[1].mouse)
-            assert.is_nil(renderer.hoverDriver)
-        end)
     end)
 
     it("rejects degenerate bounds before allocating rendering objects", function()

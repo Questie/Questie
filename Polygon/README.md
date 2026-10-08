@@ -16,7 +16,7 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 
 The preset enables objective display, applies normal Questie icon preferences, and disables Blizzard quest POIs where available. Selecting another preset, including Custom, exits polygon mode. Customizing individual icon preferences does not itself exit the mode.
 
-Areas can appear on adjacent detailed maps when their owning marker is acquired and visible there, including through its native parent. Queued, released, or hidden markers do not draw areas; saved or automatic visibility does not override that gate. Areas also follow logical hiding/tracking rules and fade opacity. Drawing is limited to Zone, Dungeon, and Micro maps, never World, Continent, Cosmic, or unknown map types. Where supported, direct hover highlights all participating polygons whose shapes contain the cursor, including overlaps. Polygon frames accept propagated mouse motion, not clicks. Generic Questie icon propagation, clicks, and tooltips are unchanged; Polygon markers retain direct-click show/hide. Direct polygon hover does not extend a marker preview or change saved visibility.
+Areas can appear on adjacent detailed maps when their owning marker is acquired and visible there, including through its native parent. Queued, released, or hidden markers do not draw areas; saved or automatic visibility does not override that gate. Areas also follow logical hiding/tracking rules and fade opacity. Drawing is limited to Zone, Dungeon, and Micro maps, never World, Continent, Cosmic, or unknown map types. Direct hover highlights every shown polygon whose shape contains the cursor, including overlaps, unless other UI covers the map there. Polygon frames take no mouse input. Generic Questie icon clicks and tooltips are unchanged; Polygon markers retain direct-click show/hide. Direct polygon hover does not extend a marker preview or change saved visibility.
 
 ### Fixed horizontal marker stacks
 
@@ -74,22 +74,18 @@ These are smoothed convex approximations, not terrain-aware regions, concave pol
 
 ### Direct polygon hover
 
-Optional `hoverInput` supplies two readers:
+Polygon frames never take mouse input, so they cannot block map clicks or dragging and need no protected setup, in or out of combat. Hover is computed from the cursor instead. Optional `hoverInput` supplies two readers:
 
-- `getCursorPosition()` returns normalized X/Y against the full map canvas.
-- `getMouseFoci()` returns participating regions in top-to-bottom order, using the native `GetMouseFoci()` stack.
+- `getCursorPosition()` returns normalized X/Y against the full map canvas. The adapter returns nothing while the cursor is off the canvas, because Blizzard clamps the position to its edges.
+- `isCursorOnMap()` reports whether the map itself is under the cursor. The adapter accepts only the map's `ScrollContainer` or a Questie waypoint line as the top mouse focus, so Questie icons, Blizzard pins and other UI on top of the map exclude the areas beneath them. A waypoint line's frame is its segment's whole bounding rectangle. Lines sit below Questie's icons but above Blizzard's pins, so inside that rectangle a line counts as bare map, including over a Blizzard pin it covers.
 
-The adapter supplies these only when the native focus reader and map cursor getter exist. Frames begin with `EnableMouse(false)`; capable frames then use `SetPropagateMouseMotion(true)` and `EnableMouseMotion(true)`. Clicks remain disabled. Missing readers or frame methods leave polygons fully noninteractive rather than blocking underlying input.
+One shared driver reads the cursor every frame while areas are shown and runs the full check only when the cursor's canvas position changes, which also covers panning and zooming under a still cursor. The check highlights every visible polygon whose actual outline contains the cursor, including overlaps; edges and vertices count as inside, and each outline's bounding box rejects most polygons before the full test. Secret, non-finite or off-canvas cursor values clear the hover without reading geometry or mouse focus.
 
-Propagation is configured outside combat and retained through hiding/pool reuse. `CanPropagateMouseMotion()` reads the native setting, including after the setter runs; no separate Lua flag claims the operation succeeded. Views stay noninteractive if this getter is unavailable or setup does not take effect, with unsuccessful setup retried on a later presentation. Hidden views disable mouse motion instead of changing propagation. Views first displayed during combat remain drawn and support marker highlighting, but cannot join direct hover until propagation is configured. One event-only driver waits for `PLAYER_REGEN_ENABLED`, rechecks combat, and reconciles the latest visible set without rebuilding geometry. Hidden/released views are not re-enabled, reset unregisters pending work, and already-configured native frames need no propagation changes in combat.
+The effective highlight set combines these geometric hits with each shape's `highlighted` request. The adapter sets that flag for the specific hovered marker, not for every cluster in the objective. Marker highlighting works without a hover input, and leaving a polygon cannot erase a still-active marker highlight.
 
-One shared update checks every 80 ms, including cursor movement within an unchanged rectangular frame. It highlights every participating polygon whose actual outline contains the cursor; edges and vertices count as inside. Rectangular overlap alone is insufficient. The focus stack is not every overlapping frame: UI that stops propagation excludes underlying polygons from direct hover.
+Each highlighted border becomes 20% thicker and its RGB increases 25%, capped at 1; border alpha stays unchanged. Hover restyles borders only when effective selection changes; color and opacity changes also update their appearance without rebuilding fills. Showing a drawing immediately reevaluates highlights, including a stationary cursor. UI that appears over a still cursor is noticed when the cursor next moves.
 
-The effective highlight set combines these geometric hits with each shape's `highlighted` request. The adapter sets that flag for the specific hovered marker, not for every cluster in the objective. Marker highlighting works without native hover APIs, and leaving a polygon cannot erase a still-active marker highlight. No propagation changes are applied to Questie icons.
-
-Each highlighted border becomes 20% thicker and its RGB increases 25%, capped at 1; border alpha stays unchanged. Hover restyles borders only when effective selection changes; color and opacity changes also update their appearance without rebuilding fills. Showing a drawing immediately reevaluates highlights, including a stationary cursor; native focus-stack refresh timing still needs live validation.
-
-Empty presentations and map hide stop hover updates and clear both highlight sets without releasing configured views. Release and reset drop shape references and return primitives to their pools. The shared driver is reused without restarting its polling interval for ordinary style updates; marker-only highlighting uses its hide/show handling without an `OnUpdate` callback. Hidden views do not participate in native focus or marker highlighting. No per-polygon tickers, accumulating hooks, or global input replacements are installed.
+Empty presentations and map hide stop hover updates and clear both highlight sets without releasing configured views. Release and reset drop shape references and return primitives to their pools. The shared driver is reused for ordinary style updates; marker-only highlighting uses its hide/show handling without an `OnUpdate` callback. Hidden views do not participate in hover or marker highlighting. No per-polygon tickers, accumulating hooks, or global input replacements are installed.
 
 ## Cache and lifetime
 
@@ -161,7 +157,7 @@ Adjacent tests cover geometry/cancellation, workload resume limits, rendering/po
 busted Polygon/PolygonNudging.test.lua Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
 ```
 
-Logon reports that retained rendering removed the observed performance problems in-game. This is qualitative feedback, not a controlled timing measurement or validation across all client flavors. No agent performed a reload or live test of the retained-rendering implementation. Adjacent-map alignment, zoom spacing, native input timing, and click/drag pass-through still need the checks below; offline mocks do not establish those behaviors.
+Logon reports that retained rendering removed the observed performance problems in-game. This is qualitative feedback, not a controlled timing measurement or validation across all client flavors. No agent performed a reload or live test of the retained-rendering implementation. Adjacent-map alignment, zoom spacing, and hover under covering UI still need the checks below; offline mocks do not establish those behaviors.
 
 With separate permission for a development client, verify:
 
@@ -169,7 +165,7 @@ With separate permission for a development client, verify:
 - Marker preview, show/hide clicks, exact marker-to-outline highlighting, simultaneous overlap highlights, UI blockers, and edges.
 - Overlapping markers for quests 317 and 384: visible separation, independent direct-click show/hide, and correct marker-to-polygon highlighting.
 - Stable slot order and spacing that grows with icon zoom size, including fractional UI scales, queued/reacquired wrappers, icon-size settings, and disable/re-enable with the map open. Panning should not rearrange stacks. Check large stacks and map edges with the deliberate lack of collision avoidance or edge clamping.
-- Native motion propagation, unchanged map clicks/dragging, and stationary-cursor focus after redraw.
+- Hover over bare map, waypoint lines, Questie icons and Blizzard pins, in and out of combat; unchanged map clicks/dragging; and stationary-cursor hover after redraw.
 - Map navigation, zoom/pan, resizing, and reopening. On adjacent detailed maps, verify areas align with geography, clip at map edges, and use their projected outlines for hover. World and continent views must show no polygons.
 - Areas show on accept by default and a click hides them across `/reload`. With the option off, areas appear and disappear while walking into and out of quest areas, including instance changes; saved choices override proximity.
 - Hide an owning marker while its area is shown, then show it again: the area should disappear and return without reclustering or losing its saved choice. Check acquisition after map changes and ensure nudging does not move the area.
