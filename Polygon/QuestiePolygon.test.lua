@@ -15,6 +15,15 @@ describe("QuestiePolygon world-map adapter", function()
         return icon, zones, work
     end
 
+    -- Questie replaces an objective's spawn list rather than editing it in place.
+    local function ReplaceFirstSpawn(spawn)
+        local old = objective.spawnList[123]
+        local spawns = {spawn}
+        for i = 2, #old.Spawns[1] do spawns[i] = old.Spawns[1][i] end
+        objective.spawnList = {[123] = {Id = old.Id, Name = old.Name, Icon = old.Icon,
+            GetIconScale = old.GetIconScale, Spawns = {[1] = spawns}}}
+    end
+
     local function FlushRefresh()
         local pending = timers
         timers = {}
@@ -183,6 +192,30 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(1, #frames)
     end)
 
+    it("skips spawn collection on progress updates until the spawn list or a phase changes", function()
+        local visiblePhases = {}
+        QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function(phase) return phase ~= 2 or visiblePhases[2] end
+        HBD.GetWorldCoordinatesFromZone = spy.new(HBD.GetWorldCoordinatesFromZone)
+        Update()
+        HBD.GetWorldCoordinatesFromZone:clear()
+
+        objective.Collected = 3
+        Update()
+        assert.spy(HBD.GetWorldCoordinatesFromZone).was.not_called()
+
+        -- An equivalent replacement list is collected but keeps the published geometry.
+        ReplaceFirstSpawn({10, 20})
+        Update()
+        assert.spy(HBD.GetWorldCoordinatesFromZone).was.called()
+        assert.spy(Geometry.Build).was.called(1)
+
+        -- The hidden phase-2 spawn becoming visible changes the eligible set.
+        visiblePhases[2] = true
+        Update()
+        assert.spy(Geometry.Build).was.called(2)
+        assert.are.equal(2, #Geometry.Build.calls[2].vals[1])
+    end)
+
     it("retains a marker's fade opacity while refreshing cached objective metadata", function()
         Update()
         frames[1].texture.a = 0.4
@@ -240,7 +273,7 @@ describe("QuestiePolygon world-map adapter", function()
 
     it("rebuilds and releases old markers when eligible spawn locations change", function()
         Update()
-        objective.spawnList[123].Spawns[1][1] = {30, 40}
+        ReplaceFirstSpawn({30, 40})
         Update()
         assert.spy(Geometry.Build).was.called(2)
         assert.spy(FramePool.UnloadFrame).was.called(1)
@@ -303,7 +336,7 @@ describe("QuestiePolygon world-map adapter", function()
                 events[#events + 1] = "recycle marker"
                 releasedFrame.data = nil
             end)
-            objective.spawnList[123].Spawns[1][1] = {30, 40}
+            ReplaceFirstSpawn({30, 40})
 
             Update()
 
@@ -763,7 +796,7 @@ describe("QuestiePolygon world-map adapter", function()
             map.mapId = 20
             Polygon.Refresh()
             local originalProjection = drawnShapes[1].points
-            objective.spawnList[123].Spawns[1][1] = {30, 40}
+            ReplaceFirstSpawn({30, 40})
             Update()
             Polygon.Refresh()
 
@@ -1024,7 +1057,7 @@ describe("QuestiePolygon world-map adapter", function()
         objective.Collected = 3
         Update()
         assert.is_true(Polygon.IsCurrentObjective(work))
-        objective.spawnList[123].Spawns[1][1] = {30, 40}
+        ReplaceFirstSpawn({30, 40})
         Update()
         assert.is_false(Polygon.IsCurrentObjective(work))
     end)
