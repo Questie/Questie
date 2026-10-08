@@ -20,6 +20,8 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field objective QuestObjective
 ---@field markers PolygonMarker[]
 ---@field signature string? Sorted phase-filtered spawn coordinates; geometry is session-local.
+---@field spawnList table? Source table behind the published geometry.
+---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
 ---@field hovered IconFrame?
 ---@field pinned boolean?
 ---@field building boolean? Replacement geometry is not shown while marker allocation yields.
@@ -427,6 +429,51 @@ function QuestiePolygon.GetObjectiveMarkers(objective)
 end
 
 -- Objective collection and generation publication
+---Refreshes progress-only marker metadata while retaining geometry and route ownership.
+---@param entry PolygonObjectiveEntry
+---@param quest Quest
+---@param objective QuestObjective
+---@param pointsByKey table<string, table>? Points from a repeated collection; nil reuses each cluster's representative.
+local function _RefreshMarkers(entry, quest, objective, pointsByKey)
+    for _, marker in ipairs(entry.markers) do
+        local frame = marker.frame
+        local data = frame.data
+        if data then
+            data.QuestData, data.ObjectiveData = quest, objective
+            local cluster = marker.cluster
+            local point = cluster and (pointsByKey and pointsByKey[cluster.representative.key] or cluster.representative)
+            if point then
+                -- Later fast-path refreshes read the representative, so keep it on the current list.
+                cluster.representative = point
+                local spawnData = point.spawnData
+                data.Name, data.ObjectiveTargetId = spawnData.Name, spawnData.Id
+                data.Icon, data.IconColor = spawnData.Icon or objective.Icon, quest.Color
+                data.GetIconScale, data.IconScale = spawnData.GetIconScale, spawnData.GetIconScale()
+            end
+            local alpha = frame.texture.a
+            frame:UpdateTexture(Questie.usedIcons[data.Icon])
+            -- UpdateTexture resets the base size; cached markers skip ProcessQueue's map scaling.
+            QuestieMap.utils.RescaleIcon(frame, QuestieMap.GetScaleValue())
+            if alpha then
+                local texture = frame.texture
+                texture:SetVertexColor(texture.r, texture.g, texture.b, alpha)
+            end
+        end
+    end
+    QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
+end
+
+---Phase visibility is the only thing that changes an unchanged spawn list's eligible spawns.
+---@param phases table<number, boolean> Visibility recorded while collecting the current geometry.
+---@return boolean
+local function _PhasesUnchanged(phases)
+    for phase, visible in pairs(phases) do
+        if (Phasing.IsSpawnVisible(phase) and true or false) ~= visible then return false end
+    end
+    return true
+end
+
 ---Builds from the full phase-filtered spawn list, not the incremental icon list.
 ---Returns newly drawn marker/zone owners for existing waypoint creation; cached updates
 ---return no new owners, preventing duplicate waypoint frames. The third return carries
@@ -465,14 +512,26 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             or objective.Completed or QuestiePlayer.currentQuestlog[quest.Id] ~= quest
     end
 
+    -- Progress updates keep the objective's spawnList table: Questie replaces spawn lists
+    -- whole and never edits them in place. With unchanged phases the eligible spawns are
+    -- identical, so skip collection, which converts and stringifies every spawn.
+    if entry.signature and entry.spawnList == objective.spawnList and _PhasesUnchanged(entry.phases) then
+        _RefreshMarkers(entry, quest, objective)
+        return nil, {}, {entry = entry, generation = entry.generation}
+    end
+
     -- Collect the full eligible source set before comparing geometry signatures.
     -- Collection shares the frame's polygon budget with every other objective update.
     local work = PolygonGeometry.NewWork(isCancelled)
-    local points, signatureParts, pointsByKey = {}, {}, {}
+    local points, signatureParts, pointsByKey, phases = {}, {}, {}, {}
     for targetKey, spawnData in pairs(objective.spawnList or {}) do
         for areaId, spawns in pairs(spawnData.Spawns or {}) do
             for _, spawn in ipairs(spawns) do
-                if Phasing.IsSpawnVisible(spawn[3]) then
+                local phase = spawn[3]
+                if phase ~= nil and phases[phase] == nil then
+                    phases[phase] = Phasing.IsSpawnVisible(phase) and true or false
+                end
+                if phase == nil or phases[phase] then
                     local locations = {{areaId, spawn[1], spawn[2]}}
                     if spawn[1] == -1 and spawn[2] == -1 then
                         locations = ZoneDB:GetDungeonLocation(areaId) or {}
@@ -506,32 +565,10 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     table.sort(signatureParts)
     local signature = table.concat(signatureParts, "|")
 
-    -- Progress-only updates refresh marker metadata while retaining geometry and route ownership.
+    -- A new spawn list or phase change with the same eligible spawns keeps its geometry.
     if entry.signature == signature then
-        for _, marker in ipairs(entry.markers) do
-            local frame = marker.frame
-            local data = frame.data
-            if data then
-                data.QuestData, data.ObjectiveData = quest, objective
-                local point = marker.cluster and pointsByKey[marker.cluster.representative.key]
-                if point then
-                    local spawnData = point.spawnData
-                    data.Name, data.ObjectiveTargetId = spawnData.Name, spawnData.Id
-                    data.Icon, data.IconColor = spawnData.Icon or objective.Icon, quest.Color
-                    data.GetIconScale, data.IconScale = spawnData.GetIconScale, spawnData.GetIconScale()
-                end
-                local alpha = frame.texture.a
-                frame:UpdateTexture(Questie.usedIcons[data.Icon])
-                -- UpdateTexture resets the base size; cached markers skip ProcessQueue's map scaling.
-                QuestieMap.utils.RescaleIcon(frame, QuestieMap.GetScaleValue())
-                if alpha then
-                    local texture = frame.texture
-                    texture:SetVertexColor(texture.r, texture.g, texture.b, alpha)
-                end
-            end
-        end
-        QuestiePolygon.ScheduleRefresh()
-        QuestiePolygon.ScheduleNudging()
+        entry.spawnList, entry.phases = objective.spawnList, phases
+        _RefreshMarkers(entry, quest, objective, pointsByKey)
         return nil, {}, {entry = entry, generation = entry.generation}
     end
 
@@ -588,7 +625,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         end
     end
     entry.building = nil
-    entry.signature = signature
+    entry.signature, entry.spawnList, entry.phases = signature, objective.spawnList, phases
     QuestiePolygon.ScheduleNudging()
     QuestiePolygon.ScheduleRefresh()
     return icon, iconPerZone, waypointWork
