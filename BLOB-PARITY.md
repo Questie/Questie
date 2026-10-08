@@ -32,7 +32,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 
 - Added an opt-in **Questie blobs** preset and popup choice; most implementation lives in root `Polygon/`.
 - Preserved current tracking, hiding, tooltips, tracker highlighting, and normal minimap icons.
-- Nearly identical locations use fixed horizontal stacks: same original UI map, within 0.01 percentage points of a stable seed, ordered by quest/objective/location. Spacing is 70% of the maximum configured icon width and stays constant through map zoom. Hidden/offscreen markers keep their slots. There is no collision solver, polling, picker, or edge clamping; large stacks can extend beyond map edges. Stored coordinates, polygons, waypoints, and navigation targets stay unchanged.
+- Nearly identical locations use fixed horizontal stacks: same original UI map, within 0.01 percentage points of a stable seed, ordered by quest/objective/location. Base spacing is 70% of the maximum configured icon width; separation now grows with the wrapper's zoom sizing rather than staying fixed on screen. The separate world/continent icon-size multiplier is not included. Hidden/offscreen markers keep their slots. There is no collision solver, polling, picker, or edge clamping; large stacks can extend beyond map edges. Stored coordinates, polygons, waypoints, and navigation targets stay unchanged.
 - The retired screen-space nudging experiment is preserved in locally gitignored `.scratch/polygon-nudging-experiment/` with verified checksums. The original historical reference package remains separate.
 - Did not copy the unsafe hull prefilter or blanket exclusion of rare NPCs.
 - Historical mean-shift, alternate renderers, and overlap-merging experiments remain reference material, not enabled features.
@@ -44,6 +44,6 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 
 - Review waypoint frame levels. They likely belong below polygons, but the existing level `2015` is unchanged pending review and in-game checks. Keep motion propagation enabled throughout stacked waypoint and polygon frames regardless of their final order.
 
-**Validation:** automated checks are offline. The simplified fixed stacks still need a user reload and in-game review, including zoom stability and clicking. Earlier user-confirmed nudging behavior applied to the retired experiment, not this replacement. Native motion propagation and click/drag pass-through remain unvalidated.
+**Validation:** automated checks are offline. The latest fixed-stack zoom correction still needs a user reload and in-game review, including spacing and clicking. Earlier user-confirmed nudging behavior applied to the retired experiment, not this replacement. Native motion propagation and click/drag pass-through remain unvalidated.
 
 See [current implementation details](Polygon/README.md) and [the historical reference package](Blob/docs/legacy-questie-blobs/README.md).
