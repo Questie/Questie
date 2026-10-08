@@ -2,16 +2,19 @@ dofile("setupTests.lua")
 
 describe("PolygonGeometry", function()
     local PolygonGeometry
-    local originalClock
+    local originalClock, originalFrameClock
+    local frame
 
     -- The public geometry call is asynchronous. Tests drain it without depending on
     -- ThreadLib's timers, and preserve the nil result that signals cancellation.
+    -- ThreadLib resumes a ticker at most once per frame, so every resume advances GetTime().
     local function _Build(points, options, isCancelled)
         local thread = coroutine.create(function() return PolygonGeometry.Build(points, options, isCancelled) end)
         local result
         local resumes = 0
         repeat
             local ok
+            frame = frame + 1
             ok, result = coroutine.resume(thread)
             assert.is_true(ok, tostring(result))
             resumes = resumes + 1
@@ -21,14 +24,16 @@ describe("PolygonGeometry", function()
     end
 
     before_each(function()
-        originalClock = _G.GetTimePreciseSec
+        originalClock, originalFrameClock = _G.GetTimePreciseSec, _G.GetTime
         _G.GetTimePreciseSec = nil -- Operation ceilings make scheduling assertions deterministic.
+        frame = 0
+        _G.GetTime = function() return frame end
         dofile("Polygon/PolygonGeometry.lua")
         PolygonGeometry = QuestieLoader:ImportModule("PolygonGeometry")
     end)
 
     after_each(function()
-        _G.GetTimePreciseSec = originalClock
+        _G.GetTimePreciseSec, _G.GetTime = originalClock, originalFrameClock
     end)
 
     it("returns no clusters for an empty objective", function()
@@ -226,6 +231,41 @@ describe("PolygonGeometry", function()
         assert.are_equal(500, #result)
         assert.is_true(resumes > 1, "the operation ceiling must yield even with a frozen clock")
         assert.is_true(resumes <= 20, "isolated-spawn workload took " .. resumes .. " resumes")
+    end)
+
+    it("shares one frame budget between concurrent builds", function()
+        local function _IsolatedSpawns()
+            local points = {}
+            for i = 1, 500 do
+                points[i] = {x = i / 10, y = 20, worldX = i * 200, worldY = 0, uiMapId = 1429, instanceId = 0}
+            end
+            return points
+        end
+        local secondChecks = 0
+        local first = coroutine.create(function() return PolygonGeometry.Build(_IsolatedSpawns()) end)
+        local second = coroutine.create(function()
+            return PolygonGeometry.Build(_IsolatedSpawns(), nil, function()
+                secondChecks = secondChecks + 1
+                return false
+            end)
+        end)
+
+        -- Both tickers resume in one frame; the first spends that frame's operation ceiling.
+        frame = 1
+        assert.is_true(coroutine.resume(first))
+        assert.are_equal("suspended", coroutine.status(first))
+        assert.is_true(coroutine.resume(second))
+        assert.are_equal("suspended", coroutine.status(second))
+        assert.are_equal(2, secondChecks) -- The initial check, then one checkpoint that yields.
+        -- Resuming into the same spent frame yields again before doing more work.
+        assert.is_true(coroutine.resume(second))
+        assert.are_equal("suspended", coroutine.status(second))
+        assert.are_equal(3, secondChecks)
+
+        -- The next frame starts a fresh slice for whichever build checks in first.
+        frame = 2
+        assert.is_true(coroutine.resume(second))
+        assert.is_true(secondChecks > 3)
     end)
 
     it("checks cancellation before a time slice needs to yield", function()

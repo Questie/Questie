@@ -466,8 +466,9 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     end
 
     -- Collect the full eligible source set before comparing geometry signatures.
+    -- Collection shares the frame's polygon budget with every other objective update.
+    local work = PolygonGeometry.NewWork(isCancelled)
     local points, signatureParts, pointsByKey = {}, {}, {}
-    local collectedSpawnCount = 0
     for targetKey, spawnData in pairs(objective.spawnList or {}) do
         for areaId, spawns in pairs(spawnData.Spawns or {}) do
             for _, spawn in ipairs(spawns) do
@@ -497,12 +498,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                         end
                     end
                 end
-                collectedSpawnCount = collectedSpawnCount + 1
-                if collectedSpawnCount >= 200 then
-                    collectedSpawnCount = 0
-                    coroutine.yield()
-                    if isCancelled() then return nil, {} end
-                end
+                if not PolygonGeometry.Checkpoint(work) then return nil, {} end
             end
         end
     end
