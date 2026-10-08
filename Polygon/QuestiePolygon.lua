@@ -24,6 +24,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field spawnList table? Source table behind the published geometry.
 ---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
 ---@field hovered IconFrame?
+---@field previewed boolean? A quest log control is hovered; shows and highlights every cluster.
 ---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
 ---@field building boolean? Replacement geometry is not shown while marker allocation yields.
 
@@ -99,6 +100,48 @@ local function _IsAreaShown(entry)
     return _IsAutomaticallyShown(entry)
 end
 
+---RGB shared by an objective's fills, borders, and quest log controls.
+---@param entry PolygonObjectiveEntry
+---@return number[]
+local function _AreaColor(entry)
+    return entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
+end
+
+-- Quest log controls on each client mirror area visibility. Marker clicks, proximity,
+-- options, rebuilds, and removal coalesce into one next-frame notification.
+---@type fun()[]
+local visibilityCallbacks = {}
+local visibilityNotifyPending = false
+
+local function _NotifyVisibilityChanged()
+    if visibilityNotifyPending or not next(visibilityCallbacks) then return end
+    visibilityNotifyPending = true
+    C_Timer.After(0, function()
+        visibilityNotifyPending = false
+        for _, callback in ipairs(visibilityCallbacks) do callback() end
+    end)
+end
+
+---Saves what the objective should show. A choice matching the automatic mode clears the
+---saved value instead, so the objective follows that mode again.
+---@param entry PolygonObjectiveEntry
+---@param shown boolean
+local function _SaveVisibility(entry, shown)
+    local visibility = Questie.db.char.polygon.objectiveVisibility
+    local quests = visibility[entry.quest.Id] or {}
+    if shown == _IsAutomaticallyShown(entry) then
+        quests[entry.index] = nil
+    else
+        quests[entry.index] = shown
+    end
+    visibility[entry.quest.Id] = next(quests) and quests or nil
+    -- Clicks arrive while hovering a marker or quest log control; that preview would
+    -- otherwise keep a hidden area drawn until the cursor leaves.
+    if not shown then entry.hovered, entry.previewed = nil, nil end
+    QuestiePolygon.ScheduleRefresh()
+    _NotifyVisibilityChanged()
+end
+
 -- Marker layout and visible-set selection
 -- Original map locations define the stacks. Hidden, queued, and offscreen members
 -- retain their slots so scrolling and temporary visibility changes cannot rearrange icons.
@@ -158,7 +201,7 @@ function QuestiePolygon.Refresh()
     local shapes = {}
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
-            if entry.active and not entry.building and (entry.hovered or _IsAreaShown(entry)) then
+            if entry.active and not entry.building and (entry.hovered or entry.previewed or _IsAreaShown(entry)) then
                 for _, marker in ipairs(entry.markers) do
                     local frame = marker.frame
                     local outline = marker.cluster and marker.cluster.outline
@@ -205,13 +248,13 @@ function QuestiePolygon.Refresh()
                                 end
                             end
                             if points then
-                                local color = entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
+                                local color = _AreaColor(entry)
                                 shapes[#shapes + 1] = {
                                     owner = entry, key = marker, source = outline, sourceMapId = sourceMapId,
                                     points = points,
                                     color = {color[1], color[2], color[3], 0.25 * alpha},
                                     borderAlpha = 0.75 * alpha,
-                                    highlighted = entry.hovered == frame,
+                                    highlighted = entry.hovered == frame or entry.previewed == true,
                                 }
                             end
                         end
@@ -285,7 +328,7 @@ function Provider:OnHide()
     nudging:SetEnabled(false)
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
-            entry.hovered = nil
+            entry.hovered, entry.previewed = nil, nil
         end
     end
     renderCache:Hide()
@@ -318,6 +361,7 @@ function QuestiePolygon.RemoveObjective(questId, objectiveIndex)
     if not next(questEntries) then entries[questId] = nil end
     QuestiePolygon.ScheduleRefresh()
     QuestiePolygon.ScheduleNudging()
+    _NotifyVisibilityChanged()
 end
 
 function QuestiePolygon.RemoveQuest(questId)
@@ -330,6 +374,7 @@ function QuestiePolygon.RemoveQuest(questId)
     end
     QuestiePolygon.ScheduleRefresh()
     QuestiePolygon.ScheduleNudging()
+    _NotifyVisibilityChanged()
 end
 
 function QuestiePolygon.Reset()
@@ -355,6 +400,7 @@ function QuestiePolygon.Reset()
     if provider and provider.owningMap then
         provider.owningMap:RemoveDataProvider(provider)
     end
+    _NotifyVisibilityChanged()
     -- WoW does not destroy native regions when their Lua wrappers become unreachable.
     -- Keep the detached provider and cleared cache/renderer so later mode/profile resets reuse their pools.
 end
@@ -379,6 +425,7 @@ function QuestiePolygon.MarkerRemoved(frame)
     end
     QuestiePolygon.ScheduleRefresh()
     QuestiePolygon.ScheduleNudging()
+    _NotifyVisibilityChanged()
 end
 
 function QuestiePolygon.MarkerChanged(frame)
@@ -405,25 +452,13 @@ function QuestiePolygon.LeaveMarker(frame)
 end
 
 ---Shows the opposite of what the objective currently shows, ignoring the hover preview,
----for every cluster. A result matching the automatic mode clears the saved choice, so the
----objective follows that mode again; any other result is saved.
+---for every cluster.
 function QuestiePolygon.ToggleMarker(frame)
     local marker = frame.polygonMarker
     local entry = marker and marker.entry
     if entry and QuestiePolygon.IsEnabled() and entry.active and not entry.building
         and not entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
-        local shown = not _IsAreaShown(entry)
-        local visibility = Questie.db.char.polygon.objectiveVisibility
-        local quests = visibility[entry.quest.Id] or {}
-        if shown == _IsAutomaticallyShown(entry) then
-            quests[entry.index] = nil
-        else
-            quests[entry.index] = shown
-        end
-        visibility[entry.quest.Id] = next(quests) and quests or nil
-        -- Clicks arrive while hovering; the preview would otherwise keep a hidden area drawn.
-        if not shown then entry.hovered = nil end
-        QuestiePolygon.ScheduleRefresh()
+        _SaveVisibility(entry, not _IsAreaShown(entry))
     end
 end
 
@@ -465,13 +500,94 @@ function QuestiePolygon.UpdateNearby()
             end
         end
     end
-    if changed then QuestiePolygon.ScheduleRefresh() end
+    if changed then
+        QuestiePolygon.ScheduleRefresh()
+        _NotifyVisibilityChanged()
+    end
 end
 
 ---Applies a changed automatic-mode option without rebuilding geometry.
 function QuestiePolygon.RefreshVisibility()
     QuestiePolygon.UpdateNearby()
     QuestiePolygon.ScheduleRefresh()
+    _NotifyVisibilityChanged()
+end
+
+-- Quest log controls
+-- Client-neutral area state for quest log UIs. Each client's quest log integration lives in
+-- its own file and reads or writes visibility only through these functions.
+
+---Objectives whose clusters are all point markers have nothing to show or hide.
+---@param entry PolygonObjectiveEntry
+---@return boolean
+local function _HasAreas(entry)
+    for _, marker in ipairs(entry.markers) do
+        if marker.cluster and marker.cluster.outline then return true end
+    end
+    return false
+end
+
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex
+---@return PolygonObjectiveEntry?
+local function _EntryWithAreas(questId, objectiveIndex)
+    local questEntries = entries[questId]
+    local entry = questEntries and questEntries[objectiveIndex]
+    if entry and entry.active and not entry.building and QuestiePolygon.IsEnabled() and _HasAreas(entry) then
+        return entry
+    end
+end
+
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex Questie's canonical objective.Index.
+---@return boolean? shown Saved or automatic visibility, ignoring the hover preview; nil when the objective has no areas.
+---@return number[]? color The objective's area RGB.
+function QuestiePolygon.GetObjectiveAreaState(questId, objectiveIndex)
+    local entry = _EntryWithAreas(questId, objectiveIndex)
+    if entry then return _IsAreaShown(entry), _AreaColor(entry) end
+end
+
+---Applies a quest log choice with the same automatic-mode rule as marker clicks.
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex
+---@param shown boolean
+function QuestiePolygon.SetObjectiveAreaShown(questId, objectiveIndex, shown)
+    local entry = _EntryWithAreas(questId, objectiveIndex)
+    if entry then _SaveVisibility(entry, shown) end
+end
+
+---Applies one quest log choice to every objective of the quest that has areas, including
+---special objectives that the quest log does not list.
+---@param questId QuestId
+---@param shown boolean
+function QuestiePolygon.SetQuestAreasShown(questId, shown)
+    for index, entry in pairs(entries[questId] or {}) do
+        if _EntryWithAreas(questId, index) then _SaveVisibility(entry, shown) end
+    end
+end
+
+---Previews an objective's areas from a quest log control, like hovering its marker, but
+---highlights every cluster. Clearing works even after the objective lost its areas.
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex
+---@param previewing boolean
+function QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
+    local entry
+    if previewing then
+        entry = _EntryWithAreas(questId, objectiveIndex)
+    else
+        entry = entries[questId] and entries[questId][objectiveIndex]
+    end
+    if entry and entry.previewed ~= (previewing or nil) then
+        entry.previewed = previewing or nil
+        QuestiePolygon.ScheduleRefresh()
+    end
+end
+
+---Calls `callback` on the next frame after any change to area state, coalescing bursts.
+---@param callback fun()
+function QuestiePolygon.RegisterVisibilityCallback(callback)
+    visibilityCallbacks[#visibilityCallbacks + 1] = callback
 end
 
 ---Waypoint work can yield after marker creation. Keep its generation separate from
@@ -726,6 +842,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     if Questie.db.profile.showPolygonsOnAccept == false then
         entry.nearby = _IsPlayerNearby(entry, HBD:GetPlayerWorldPosition())
     end
+    _NotifyVisibilityChanged()
     QuestiePolygon.ScheduleNudging()
     QuestiePolygon.ScheduleRefresh()
     return icon, iconPerZone, waypointWork
