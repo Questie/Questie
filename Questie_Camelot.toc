@@ -303,6 +303,8 @@ Polygon\PolygonRenderer.lua
 Polygon\PolygonRenderCache.lua
 Polygon\PolygonNudging.lua
 Polygon\QuestiePolygon.lua
+# Forever-only quest log area boxes; other clients need their own quest log track
+Polygon\PolygonQuestLogForever.lua
 
 # Main - Always load Questie.lua last
 Questie.lua
