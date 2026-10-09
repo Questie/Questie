@@ -105,14 +105,19 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Unloading quest frames for questid:", questId)
         local yieldCount = 0
         if not iconType then
+            -- A frame still queued for drawing defers its unload and keeps its entry here. This
+            -- loop yields, so the deferred unload can finish and the pool can hand the frame to
+            -- another quest first. Only frames still holding their snapshot data are this quest's.
+            local snapshot = {}
             for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
-                -- Capture this before Unload() because it clears frame.data.
-                local objective = frame.data and frame.data.ObjectiveData
-
-                QuestieFramePool:UnloadFrame(frame)
-
-                if objective then
-                    objective.AlreadySpawned = {}
+                snapshot[frame] = frame.data
+            end
+            for frame, data in pairs(snapshot) do
+                if data and frame.data == data then
+                    QuestieFramePool:UnloadFrame(frame)
+                    if data.ObjectiveData then
+                        data.ObjectiveData.AlreadySpawned = {}
+                    end
                 end
 
                 yieldCount = yieldCount + 1

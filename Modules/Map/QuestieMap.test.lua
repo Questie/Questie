@@ -189,6 +189,27 @@ describe("QuestieMap", function()
             _G.QuestieFrame2 = nil
         end)
 
+        it("skips a frame that another quest reused while the unload was under way", function()
+            -- Unloading either frame makes the other look recycled: its deferred unload finished
+            -- and the pool handed it to another quest before this loop reached it.
+            local first, second = {data = {Id = 1}}, {data = {Id = 1}}
+            _G.QuestieFrame1, _G.QuestieFrame2 = first, second
+            QuestieMap.questIdFrames[1] = {QuestieFrame1 = "QuestieFrame1", QuestieFrame2 = "QuestieFrame2"}
+            local unloaded = {}
+            QuestieFramePool.UnloadFrame = spy.new(function(_, frame)
+                unloaded[frame] = true
+                local other = frame == first and second or first
+                other.data = {Id = 99}
+            end)
+
+            assert.is_true(coroutine.resume(coroutine.create(function() QuestieMap:UnloadQuestFrames(1) end)))
+
+            assert.spy(QuestieFramePool.UnloadFrame).was.called(1)
+            local recycled = first.data.Id == 99 and first or second
+            assert.is_nil(unloaded[recycled])
+            _G.QuestieFrame1, _G.QuestieFrame2 = nil, nil
+        end)
+
         it("should not throw an error when called from a coroutine", function()
             QuestieMap.questIdFrames[1] = {QuestieFrame1 = "QuestieFrame1"}
 
