@@ -663,7 +663,7 @@ end
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
     -- Classic to MoP, or fallback when Forever's API is unavailable
-    if GetQuestGreenRange and (not isForever or not UnitQuestTrivialLevelRange) then
+    if GetQuestGreenRange and (not isForever or not C_QuestLog.GetTrivialRange) then
         return GetQuestGreenRange()
     end
     -- Forever
