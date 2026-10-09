@@ -148,7 +148,7 @@ local function _Refresh()
                     for i, point in ipairs(points) do
                         canvasPoints[i] = {x = point.x * shownWidth / 100, y = point.y * shownHeight / 100}
                     end
-                    local view = renderer:Draw(entry and entry.view, WaypointRenderer.Segments(canvasPoints), _Style(path, alpha))
+                    local view = renderer:Draw(entry and entry.view, {canvasPoints}, _Style(path, alpha))
                     entry = {path = path, view = view, mapId = shownMapId, width = shownWidth, height = shownHeight,
                         points = canvasPoints, bounds = WaypointGeometry.Bounds(canvasPoints), alpha = alpha}
                     views[path] = entry

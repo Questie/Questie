@@ -71,7 +71,7 @@ describe("WaypointMinimap", function()
         return point[4] + vertex.x, point[5] - vertex.y
     end
 
-    local function LastSegments()
+    local function LastRuns()
         return renderer.Draw.calls[#renderer.Draw.calls].vals[3]
     end
 
@@ -118,7 +118,7 @@ describe("WaypointMinimap", function()
         player = {1010, 990, 0}
         layer:Update()
 
-        local x, y = DrawnPosition(layer, LastSegments()[1])
+        local x, y = DrawnPosition(layer, LastRuns()[1][1])
         local expectedX, expectedY = PinPosition(point)
         assert.are.near(expectedX, x, 1e-9)
         assert.are.near(expectedY, y, 1e-9)
@@ -134,7 +134,10 @@ describe("WaypointMinimap", function()
         layer:Update()
 
         assert.spy(renderer.Draw).was.called(1)
-        assert.are.equal(4, #LastSegments())
+        -- The segments from 3010 onwards reach the player and stay joined as one run.
+        assert.are.equal(1, #LastRuns())
+        assert.are.equal(3, #LastRuns()[1])
+        assert.are.near(-2010 * 0.7, LastRuns()[1][1].x, 1e-9)
         assert.are.equal(4, renderer.Draw.calls[1].vals[4].thickness)
         assert.is_true(layer.entries[path].view.shown)
     end)

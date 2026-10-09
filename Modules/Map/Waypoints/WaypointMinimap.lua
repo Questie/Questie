@@ -56,35 +56,33 @@ local function _Transform(view)
     return view.halfWidth / view.radius, view.halfHeight / view.radius, math.sin(facing), math.cos(facing)
 end
 
----Projects the segments of a path that come within reach of the projection's origin, as endpoint
----pairs in minimap units relative to it.
+---Projects the parts of a path that come within reach of the projection's origin, in minimap
+---units relative to it. Consecutive segments in reach form one run, so they join.
 ---@param world WaypointWorldPoint[]
 ---@param projection WaypointMinimapProjection
----@return table[] segments
-local function _Segments(world, projection)
+---@return table[][] runs
+local function _Runs(world, projection)
     local reach = projection.radius * CULL_MARGIN
     local originX, originY = projection.originX, projection.originY
     local scaleX, scaleY, sin, cos = _Transform(projection)
-    local segments = {}
-    local previous, previousProjected
+    local runs = {}
+    local previous, run
     for _, point in ipairs(world) do
         if previous and math.max(previous.x, point.x) >= originX - reach and math.min(previous.x, point.x) <= originX + reach
             and math.max(previous.y, point.y) >= originY - reach and math.min(previous.y, point.y) <= originY + reach then
-            if not previousProjected then
+            if not run then
                 local x, y = _ProjectPoint(previous.x, previous.y, originX, originY, scaleX, scaleY, sin, cos)
-                previousProjected = {x = x, y = y}
+                run = {{x = x, y = y}}
+                runs[#runs + 1] = run
             end
             local x, y = _ProjectPoint(point.x, point.y, originX, originY, scaleX, scaleY, sin, cos)
-            local projected = {x = x, y = y}
-            segments[#segments + 1] = previousProjected
-            segments[#segments + 1] = projected
-            previousProjected = projected
+            run[#run + 1] = {x = x, y = y}
         else
-            previousProjected = nil
+            run = nil
         end
         previous = point
     end
-    return segments
+    return runs
 end
 
 -- Minimap shape
@@ -218,10 +216,10 @@ local function _View(layer, path, alpha, projection)
         entry.alpha = alpha
         return entry.view
     end
-    local segments = _Segments(path.world, projection)
+    local runs = _Runs(path.world, projection)
     local view = entry and entry.view
-    if segments[1] then
-        view = layer.renderer:Draw(view, segments, style)
+    if runs[1] then
+        view = layer.renderer:Draw(view, runs, style)
     elseif view then
         layer.renderer:Release(view)
         view = nil
@@ -275,7 +273,7 @@ function Layer:Update()
         self.stale = true
     end
 
-    -- Walking within the drift only moves the container; the drawn segments already cover the view.
+    -- Walking within the drift only moves the container; the drawn runs already cover the view.
     if self.stale then
         self.stale = false
         local views = {}

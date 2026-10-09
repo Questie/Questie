@@ -105,8 +105,8 @@ describe("WaypointMap", function()
             Update()
 
             assert.spy(renderer.Draw).was.called(1)
-            local points, style = renderer.Draw.calls[1].vals[3], renderer.Draw.calls[1].vals[4]
-            assert.are_same({{x = 100, y = 250}, {x = 900, y = 250}}, points)
+            local runs, style = renderer.Draw.calls[1].vals[3], renderer.Draw.calls[1].vals[4]
+            assert.are_same({{{x = 100, y = 250}, {x = 900, y = 250}}}, runs)
             assert.are.equal(4, style.thickness)
             assert.are.equal(2015, style.frameLevel)
 

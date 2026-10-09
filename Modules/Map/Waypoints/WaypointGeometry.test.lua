@@ -85,6 +85,87 @@ describe("WaypointGeometry", function()
         end)
     end)
 
+    describe("Quads", function()
+        -- Quads are start left, start right, end left, end right corners as x, y pairs.
+        local function assertCorners(expected, actual)
+            assert.are.equal(#expected, #actual)
+            for i, value in ipairs(expected) do
+                assert.are.near(value, actual[i], 1e-9)
+            end
+        end
+
+        local function EndOf(quad) return {quad[5], quad[6], quad[7], quad[8]} end
+        local function StartOf(quad) return {quad[1], quad[2], quad[3], quad[4]} end
+
+        it("squares open ends and keeps straight joins square", function()
+            -- Heading +x, whose left normal is +y.
+            local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 20, y = 0}}, 2)
+
+            assertCorners({0, 2, 0, -2, 10, 2, 10, -2}, quads[1])
+            assertCorners({10, 2, 10, -2, 20, 2, 20, -2}, quads[2])
+        end)
+
+        it("joins a right-angle turn on its bisector, lengthening the outer edges and shortening the inner", function()
+            -- +x, then +y: the turn's inside is the left side.
+            local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2)
+
+            assertCorners({8, 2, 12, -2}, EndOf(quads[1]))
+            assertCorners(EndOf(quads[1]), StartOf(quads[2]))
+        end)
+
+        it("caps the outer corner of a sharp turn instead of spiking", function()
+            local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 0, y = 1}}, 2)
+
+            local outerX, outerY = quads[1][7], quads[1][8]
+            assert.are.near(WaypointGeometry.MITER_LIMIT * 2, math.sqrt((outerX - 10) ^ 2 + outerY ^ 2), 1e-9)
+        end)
+
+        it("never pulls an inner corner back past half the shorter segment", function()
+            -- The same hairpin would pull the inner edges back about 38 units without the limit.
+            local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 0, y = 1}}, 2)
+
+            assert.are.near(5, 10 - quads[1][5], 1e-9)
+        end)
+
+        it("keeps quads convex where a short segment meets a sharp turn", function()
+            -- The client splits a quad into two triangles along a fixed diagonal; a concave quad
+            -- would draw outside its outline. Corners in order: start left, end left, end right, start right.
+            local function IsConvex(quad)
+                local corners = {{quad[1], quad[2]}, {quad[5], quad[6]}, {quad[7], quad[8]}, {quad[3], quad[4]}}
+                local sign
+                for i = 1, 4 do
+                    local a, b, c = corners[i], corners[i % 4 + 1], corners[(i + 1) % 4 + 1]
+                    local cross = (b[1] - a[1]) * (c[2] - b[2]) - (b[2] - a[2]) * (c[1] - b[1])
+                    if math.abs(cross) > 1e-9 then
+                        if sign and (cross > 0) ~= sign then return false end
+                        sign = cross > 0
+                    end
+                end
+                return true
+            end
+            -- A 120-degree turn after a segment shorter than the full miter's pull-back, both ways.
+            for _, turn in ipairs({1, -1}) do
+                local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 3, y = 0}, {x = 3 - 5, y = turn * 5 * math.sqrt(3)}}, 2)
+                assert.is_true(IsConvex(quads[1]))
+                assert.is_true(IsConvex(quads[2]))
+            end
+        end)
+
+        it("skips repeated points", function()
+            local expected = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2)
+
+            assert.are_same(expected, WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2))
+            assert.are_same({}, WaypointGeometry.Quads({{x = 1, y = 1}, {x = 1, y = 1}}, 2))
+        end)
+
+        it("joins a closed patrol where it returns to its start", function()
+            local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}, {x = 0, y = 10}, {x = 0, y = 0}}, 2)
+
+            assertCorners({2, 2, -2, -2}, StartOf(quads[1]))
+            assertCorners(StartOf(quads[1]), EndOf(quads[4]))
+        end)
+    end)
+
     describe("SegmentDistanceSq", function()
         it("measures to the segment, not its infinite line", function()
             assert.are.equal(9, WaypointGeometry.SegmentDistanceSq(5, 3, 0, 0, 10, 0))
