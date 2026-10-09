@@ -7,6 +7,7 @@ local PolygonNudging = QuestieLoader:CreateModule("PolygonNudging")
 ---@field x number Original zone percentage, not a screen position.
 ---@field y number Original zone percentage.
 ---@field width number Base configured icon width in HBD wrapper units, without map-type scaling or tracker animation.
+---@field share string? Items in one group with the same share look identical and take one slot, overlapping exactly.
 
 local MAP_TOLERANCE = 0.01 -- Percentage points; normalized equivalent is 0.0001.
 local SPACING_FACTOR = 0.7 -- Slight overlap keeps related markers visually connected.
@@ -30,7 +31,7 @@ function PolygonNudging.Calculate(items)
     for _, item in ipairs(items) do
         if type(item.key) == "string" and _IsFinite(item.uiMapId) and _IsFinite(item.x) and _IsFinite(item.y)
             and item.x >= 0 and item.x <= 100 and item.y >= 0 and item.y <= 100
-            and _IsFinite(item.width) and item.width > 0 then
+            and _IsFinite(item.width) and item.width > 0 and (item.share == nil or type(item.share) == "string") then
             orderedItems[#orderedItems + 1] = item
         end
     end
@@ -60,13 +61,25 @@ function PolygonNudging.Calculate(items)
         group.widestIconWidth = math.max(group.widestIconWidth, item.width)
     end
 
-    -- Center each stack on its original location, using the widest configured icon.
+    -- Center each stack on its original location, using the widest configured icon. Identical
+    -- items share a slot: overlapping them hides nothing, while separate slots would suggest
+    -- markers that differ.
     local offsets = {}
     for _, group in ipairs(groups) do
-        local spacing = group.widestIconWidth * SPACING_FACTOR
-        local centerSlot = (#group.items + 1) / 2
+        local slots, slotOf, itemSlots = 0, {}, {}
         for index, item in ipairs(group.items) do
-            offsets[item.key] = (index - centerSlot) * spacing
+            local slot = item.share and slotOf[item.share]
+            if not slot then
+                slots = slots + 1
+                slot = slots
+                if item.share then slotOf[item.share] = slot end
+            end
+            itemSlots[index] = slot
+        end
+        local spacing = group.widestIconWidth * SPACING_FACTOR
+        local centerSlot = (slots + 1) / 2
+        for index, item in ipairs(group.items) do
+            offsets[item.key] = (itemSlots[index] - centerSlot) * spacing
         end
     end
     return offsets
@@ -101,9 +114,16 @@ function Layout:Update(markers, iconScale)
             and frame.x >= 0 and frame.x <= 100 and frame.y >= 0 and frame.y <= 100 then
             local key = string.format("%010d:%04d:%06d:%.12f:%.12f", marker.entry.quest.Id,
                 data.ObjectiveIndex, frame.UiMapID, frame.x, frame.y)
-            items[#items + 1] = {key = key, uiMapId = frame.UiMapID, x = frame.x, y = frame.y, width = width}
+            -- A marker with an area needs its own slot for hovering and clicking. Markers without
+            -- one, of the same quest and icon, look identical and may overlap.
+            local cluster = marker.cluster
+            local share
+            if not (cluster and cluster.outline) then
+                share = string.format("%d:%s", marker.entry.quest.Id, tostring(data.Icon))
+            end
+            items[#items + 1] = {key = key, uiMapId = frame.UiMapID, x = frame.x, y = frame.y, width = width, share = share}
             currentOwnership[frame] = {marker = marker, key = key}
-            signatureParts[#signatureParts + 1] = table.concat({key, width}, ":")
+            signatureParts[#signatureParts + 1] = table.concat({key, width, share or ""}, ":")
         end
     end
 

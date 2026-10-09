@@ -69,6 +69,26 @@ describe("Polygon fixed horizontal stacks", function()
             assert.are_near(8.4, offsets.small, 0.000001)
         end)
 
+        it("gives identical items one shared slot while every other member keeps its own", function()
+            local offsets = Nudging.Calculate({
+                {key = "d-area", uiMapId = 1426, x = 50, y = 50, width = 16},
+                {key = "b-campfire", uiMapId = 1426, x = 50, y = 50, width = 16, share = "96608:object"},
+                {key = "c-loot", uiMapId = 1426, x = 50, y = 50, width = 16, share = "96608:loot"},
+                {key = "a-campfire", uiMapId = 1426, x = 50, y = 50, width = 16, share = "96608:object"},
+            })
+            -- Three slots, not four: the two campfires overlap exactly.
+            assert.are_near(-11.2, offsets["a-campfire"], 0.000001)
+            assert.are_near(-11.2, offsets["b-campfire"], 0.000001)
+            assert.are.equal(0, offsets["c-loot"])
+            assert.are_near(11.2, offsets["d-area"], 0.000001)
+
+            -- Alone, identical items stay centered on their location.
+            assert.are.same({a = 0, b = 0}, Nudging.Calculate({
+                {key = "a", uiMapId = 1426, x = 50, y = 50, width = 16, share = "same"},
+                {key = "b", uiMapId = 1426, x = 50, y = 50, width = 16, share = "same"},
+            }))
+        end)
+
         it("ignores invalid original coordinates without affecting valid members", function()
             assert.are.same({valid = 0}, Nudging.Calculate({
                 {key = "infinite", uiMapId = 1426, x = math.huge, y = 50, width = 16},
@@ -120,6 +140,32 @@ describe("Polygon fixed horizontal stacks", function()
             assert.spy(Nudging.Calculate).was.called(1)
             assert.are.same({50, 50, 1426}, {first.frame.x, first.frame.y, first.frame.UiMapID})
             Nudging.Calculate = original
+        end)
+
+        it("overlaps a quest's identical markers without areas and stacks every other kind", function()
+            -- The Great Outdoors: two objectives, each marking the same campfire.
+            local function Objective(index, icon, area)
+                local marker = Marker(96608)
+                marker.frame.data.ObjectiveIndex, marker.frame.data.Icon = index, icon
+                if area then marker.cluster = {outline = {}} end
+                return marker
+            end
+            local sit, rest = Objective(1, "object"), Objective(2, "object")
+            layout:Update({sit, rest}, 1)
+            assert.are.same({0, 0}, {sit.frame.point[4], rest.frame.point[4]})
+
+            -- A marker with an area needs its own slot to be hovered and clicked.
+            sit.cluster = {outline = {}}
+            layout:Update({sit, rest}, 1)
+            assert.are_near(-5.6, sit.frame.point[4], 0.000001)
+            assert.are_near(5.6, rest.frame.point[4], 0.000001)
+
+            -- A different icon would be hidden under the other.
+            sit.cluster = nil
+            rest.frame.data.Icon = "loot"
+            layout:Update({sit, rest}, 1)
+            assert.are_near(-5.6, sit.frame.point[4], 0.000001)
+            assert.are_near(5.6, rest.frame.point[4], 0.000001)
         end)
 
         it("keeps separation proportional to icon width through native zoom and UI scale changes without regrouping", function()
