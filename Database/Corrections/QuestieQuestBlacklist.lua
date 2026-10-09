@@ -7981,7 +7981,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [13614] = true,
         -- [13622] = true, -- Ancient History
         [13629] = true,
-        -- [13631] = true, -- All Is Well That Ends Well
+        [13631] = true, -- All Is Well That Ends Well
         [13816] = true,
         -- [13817] = true, -- Heroic: Archivum Data Disc
         [13818] = true,
