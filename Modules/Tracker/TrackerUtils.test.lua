@@ -245,6 +245,9 @@ describe("TrackerUtils", function()
                 return {Update = function() end, Remove = function() end, Clear = function() end,
                     SetEnabled = function() end, Reapply = function() end}
             end
+            QuestieLoader:ImportModule("PolygonMinimap").New = function()
+                return {Invalidate = function() end, Clear = function() end}
+            end
             dofile("Polygon/PolygonGeometry.lua")
             QuestieLoader:ImportModule("PolygonGeometry").Build = function(points)
                 return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}

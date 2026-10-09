@@ -294,6 +294,7 @@ Polygon\PolygonGeometry.lua
 Polygon\PolygonRenderer.lua
 Polygon\PolygonRenderCache.lua
 Polygon\PolygonNudging.lua
+Polygon\PolygonMinimap.lua
 Polygon\QuestiePolygon.lua
 
 # Main - Always load Questie.lua last

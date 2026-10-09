@@ -52,6 +52,10 @@ describe("PolygonRenderer", function()
         function texture:Show() self.shown = true end
         function texture:Hide() self.shown = false end
         function texture:ClearAllPoints() self.allPoints = nil end
+        function texture:AddMaskTexture(mask)
+            self.masks = self.masks or {}
+            self.masks[#self.masks + 1] = mask
+        end
         return texture
     end
 
@@ -232,6 +236,21 @@ describe("PolygonRenderer", function()
         assert.are_equal(10, frames[1].level)
         assert.are_same({0, 1, 0, 0.4}, frames[1].fills[1].color)
         assert.are_same({0, 1, 0, 0.75}, frames[1].borders[1].color)
+    end)
+
+    it("masks every fill and border once, including pooled textures it reuses", function()
+        local shapeMask, playerMask = {}, {}
+        local renderer = PolygonRenderer.New(canvas, nil, {shapeMask, playerMask})
+        local shapes = {{points = {{x = 0, y = 0}, {x = 30, y = 0}, {x = 15, y = 30}}, color = {1, 0, 0, 0.2}}}
+        _Draw(renderer, shapes, 100, 100, 8)
+        _Draw(renderer, shapes, 100, 100, 8)
+
+        assert.are_equal(5, #textures)
+        for _, texture in ipairs(textures) do
+            assert.are_same({shapeMask, playerMask}, texture.masks)
+        end
+        _Draw(PolygonRenderer.New(canvas), shapes, 100, 100, 8)
+        assert.is_nil(textures[6].masks)
     end)
 
     it("uses caller-supplied border opacity independently of fill opacity and resets it on reuse", function()

@@ -3,7 +3,7 @@ dofile("setupTests.lua")
 describe("HereBeDragons optional world-map child presentation", function()
     local library, pin, icon, savedGlobals, oldversion
     local globalNames = {"LibStub", "CreateFrame", "CreateFramePool", "CreateUnsecuredRegionPoolInstance", "CreateFromMixins",
-        "MapCanvasDataProviderMixin", "MapCanvasPinMixin", "WorldMapFrame", "Minimap", "GetCVar", "UIParent", "Mixin",
+        "MapCanvasDataProviderMixin", "MapCanvasPinMixin", "WorldMapFrame", "Minimap", "GetCVar", "UIParent", "Mixin", "C_Minimap",
         "HBD_PINS_WORLDMAP_SHOW_CURRENT", "HBD_PINS_WORLDMAP_SHOW_PARENT", "HBD_PINS_WORLDMAP_SHOW_CONTINENT", "HBD_PINS_WORLDMAP_SHOW_WORLD"}
 
     before_each(function()
@@ -43,6 +43,7 @@ describe("HereBeDragons optional world-map child presentation", function()
             IsShown = function() return false end}
         _G.Minimap = {GetZoom = function() return 0 end}
         _G.GetCVar = function() return "0" end
+        _G.C_Minimap = nil
         dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
         pin = CreateFromMixins(library.worldmapProviderPin)
         pin.pinTemplate = "HereBeDragonsPinsTemplateQuestie"
@@ -211,5 +212,17 @@ describe("HereBeDragons optional world-map child presentation", function()
         assert.are.same({0.5, 0.5, 0.5, 0.5}, {pin.x, pin.y, otherPin.x, otherPin.y})
         assert.are.same({50, 50, 1426}, {icon.x, icon.y, icon.UiMapID})
         assert.are.same({50, 50, 1426}, {otherIcon.x, otherIcon.y, otherIcon.UiMapID})
+    end)
+
+    it("reports the minimap view icons are placed with, with and without the radius API", function()
+        -- Loaded without C_Minimap.GetViewRadius: the outdoor zoom table, halved to a radius.
+        _G.Minimap.GetZoom = function() return 3 end
+        assert.are.same({(266 + 2/6) / 2, false}, {library:GetMinimapView()})
+        _G.Minimap.GetZoom = function() return 9 end
+        assert.is_nil((library:GetMinimapView()))
+
+        _G.C_Minimap = {GetViewRadius = function() return 150 end}
+        dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
+        assert.are.same({150, false}, {library:GetMinimapView()})
     end)
 end)

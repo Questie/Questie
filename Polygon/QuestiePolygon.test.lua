@@ -2,7 +2,7 @@ dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
-    local tickers, player, savedIsLineFrame
+    local tickers, player, savedIsLineFrame, minimapLayer
 
     local function Update(index)
         local icon, zones, work
@@ -74,7 +74,7 @@ describe("QuestiePolygon world-map adapter", function()
         -- Most cases exercise explicit choices, so automatic areas start hidden: nearby mode
         -- without a player position.
         Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, enabled = true, globalScale = 1,
-            showPolygonsOnAccept = false}
+            showPolygonsOnAccept = false, enableMiniMapIcons = true}
         Questie.db.char.polygon = {objectiveVisibility = {}}
         Questie.usedIcons = {[1] = "icon"}
         renderer = {}
@@ -84,6 +84,11 @@ describe("QuestiePolygon world-map adapter", function()
         }
         QuestieLoader:ImportModule("PolygonRenderCache").New = spy.new(function() return renderCache end)
         QuestieLoader:ImportModule("PolygonRenderer").New = spy.new(function() return renderer end)
+        minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end)}
+        QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(_minimap, collect)
+            minimapLayer.collect = collect
+            return minimapLayer
+        end)
         dofile("Polygon/PolygonGeometry.lua") -- Collection uses the real shared work budget.
         Geometry = QuestieLoader:ImportModule("PolygonGeometry")
         Geometry.Build = spy.new(function(points)
@@ -730,6 +735,53 @@ describe("QuestiePolygon world-map adapter", function()
         Polygon.MarkerChanged(frames[1])
         FlushRefresh()
         assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
+    end)
+
+    it("offers the minimap only shown areas, under the markers' hiding rules and the minimap switch", function()
+        Update()
+        local marker = frames[1].polygonMarker
+        -- A hover previews areas on the world map only.
+        Polygon.EnterMarker(frames[1])
+        assert.are.same({}, minimapLayer.collect())
+
+        minimapLayer.Invalidate:clear()
+        Polygon.SetObjectiveAreaShown(42, 1, true)
+        assert.spy(minimapLayer.Invalidate).was.called()
+        assert.are.same({{key = marker, cluster = marker.cluster, color = objective.Color, alpha = 1}},
+            minimapLayer.collect())
+        -- Marker fade, such as tracker focus, applies as on the world map.
+        frames[1].texture.a = 0.4
+        assert.are.equal(0.4, minimapLayer.collect()[1].alpha)
+        frames[1].texture.a = 0
+        assert.are.same({}, minimapLayer.collect())
+        frames[1].texture.a = 1
+
+        -- A closed world map shows no markers, and queued ones load without notice.
+        map.shown, frames[1]._loaded = false, nil
+        assert.are.equal(1, #minimapLayer.collect())
+        frames[1].policyHidden = true
+        assert.are.same({}, minimapLayer.collect())
+        frames[1].policyHidden, frames[1].hidden = false, true
+        assert.are.same({}, minimapLayer.collect())
+        frames[1].hidden = false
+        Questie.db.profile.enableMiniMapIcons = false
+        assert.are.same({}, minimapLayer.collect())
+
+        Polygon.Reset()
+        assert.spy(minimapLayer.Clear).was.called(1)
+    end)
+
+    it("keeps drawing world-map areas when the minimap layer cannot be created", function()
+        local originalError = Questie.Error
+        local reported = spy.new(function() end)
+        Questie.Error = reported
+        QuestieLoader:ImportModule("PolygonMinimap").New = function() error("minimap setup failed") end
+        Update()
+        Polygon.SetObjectiveAreaShown(42, 1, true)
+        FlushRefresh()
+        Questie.Error = originalError
+        assert.are.equal(1, #drawnShapes)
+        assert.spy(reported).was.called(1)
     end)
 
     it("highlights only the hovered marker's cluster while previewing the whole objective", function()

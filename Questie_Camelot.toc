@@ -303,6 +303,7 @@ Polygon\PolygonGeometry.lua
 Polygon\PolygonRenderer.lua
 Polygon\PolygonRenderCache.lua
 Polygon\PolygonNudging.lua
+Polygon\PolygonMinimap.lua
 Polygon\QuestiePolygon.lua
 # Forever-only quest log area boxes; other clients need their own quest log track
 Polygon\PolygonQuestLogForever.lua
