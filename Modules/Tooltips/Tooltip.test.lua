@@ -129,26 +129,33 @@ describe("Tooltip", function()
         it("routes modern callbacks only to supported tooltips and skips unit work in raids", function()
             local callbacks = {}
             _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
-            GameTooltip.GetPrimaryTooltipData = function() return {} end
+            local item = {type = 0, id = 750}
+            local unit = {type = 2, guid = "Creature-0-0-0-0-2955-0"}
+            local primary = item
+            GameTooltip.GetPrimaryTooltipData = function() return primary end
+            ItemRefTooltip.GetPrimaryTooltipData = function() return item end
             _G.TooltipDataProcessor = {
                 AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
             }
 
             QuestieTooltips:Initialize()
-            callbacks[0](GameTooltip)
-            callbacks[0](ItemRefTooltip)
-            callbacks[0]({})
-            callbacks[2](GameTooltip)
-            callbacks[2](ItemRefTooltip)
-            callbacks[2]({})
+            callbacks[0](GameTooltip, item)
+            callbacks[0](ItemRefTooltip, item)
+            callbacks[0]({}, item)
+            gameScripts.OnTooltipCleared(GameTooltip)
+            primary = unit
+            callbacks[2](GameTooltip, unit)
+            callbacks[2](ItemRefTooltip, unit)
+            callbacks[2]({}, unit)
+            gameScripts.OnTooltipCleared(GameTooltip)
             QuestiePlayer.numberOfGroupMembers = 7
-            callbacks[2](GameTooltip)
+            callbacks[2](GameTooltip, unit)
 
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
-            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip)
-            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip, 750)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip, 750)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
-            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip, unit.guid)
             assert.is_nil(gameScripts.OnTooltipSetItem)
             assert.is_nil(gameScripts.OnTooltipSetUnit)
             assert.is_nil(itemScripts.OnTooltipSetItem)
@@ -196,6 +203,174 @@ describe("Tooltip", function()
             assert.is_nil(gameScripts.OnTooltipSetItem)
             assert.is_nil(gameScripts.OnTooltipSetUnit)
             assert.is_nil(itemScripts.OnTooltipSetItem)
+        end)
+
+        describe("structured Unit and Item callbacks", function()
+            local callbacks, lineCallbacks, unit, item
+            local originalForever, originalIsInInstance
+
+            before_each(function()
+                originalForever, originalIsInInstance = Questie.IsForever, _G.IsInInstance
+                Questie.IsForever = true
+                _G.IsInInstance = function() return true end
+                callbacks, lineCallbacks = {}, {}
+                unit = {type = 2, guid = "Creature-0-0-0-0-2955-0"}
+                item = {type = 0, id = 750}
+                _G.Enum = {
+                    TooltipDataType = {Item = 0, Unit = 2, Object = 4},
+                    TooltipDataLineType = {QuestTitle = 17, QuestObjective = 8, QuestPlayer = 18},
+                }
+                GameTooltip.GetPrimaryTooltipData = function(self) return self.primary end
+                ItemRefTooltip.GetPrimaryTooltipData = GameTooltip.GetPrimaryTooltipData
+                GameTooltip.primary = unit
+                ItemRefTooltip.primary = item
+                GameTooltip.processingInfo = {tooltipData = unit}
+                _G.TooltipDataProcessor = {
+                    AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
+                    AddLinePreCall = function(kind, callback) lineCallbacks[kind] = callback end,
+                }
+                QuestieTooltips:Initialize()
+            end)
+
+            after_each(function()
+                Questie.IsForever, _G.IsInInstance = originalForever, originalIsInInstance
+            end)
+
+            it("uses Questie lines inside instances when unit identity is public", function()
+                assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
+                callbacks[2](GameTooltip, unit)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip, unit.guid)
+                assert.spy(GameTooltip.Show).was.not_called()
+            end)
+
+            it("uses Questie lines outside instances when unit identity is public", function()
+                _G.IsInInstance = function() return false end
+
+                assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
+            end)
+
+            it("still filters Blizzard quest lines on other clients", function()
+                Questie.IsForever = false
+
+                assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
+            end)
+
+            it("adds units once per clear, including a rebuild reusing the same payload", function()
+                callbacks[2](GameTooltip, unit)
+                gameScripts.OnShow(GameTooltip)
+                callbacks[2](GameTooltip, unit)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+                gameScripts.OnTooltipCleared(GameTooltip)
+                callbacks[2](GameTooltip, unit)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(2)
+            end)
+
+            it("still sends items to the existing handler in raids for IDs and quest-start registration", function()
+                QuestiePlayer.numberOfGroupMembers = 7
+                GameTooltip.primary = item
+
+                callbacks[0](GameTooltip, item)
+                callbacks[0](ItemRefTooltip, item)
+
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip, 750)
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip, 750)
+            end)
+
+            it("tracks item clears separately for the hover and clicked-link frames", function()
+                GameTooltip.primary = item
+                callbacks[0](GameTooltip, item)
+                callbacks[0](ItemRefTooltip, item)
+                callbacks[0](GameTooltip, item)
+                callbacks[0](ItemRefTooltip, item)
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
+                itemScripts.OnTooltipCleared(ItemRefTooltip)
+                callbacks[0](ItemRefTooltip, item)
+                callbacks[0](GameTooltip, item)
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(3)
+            end)
+
+            it("ignores appended Unit and Item blocks without consuming the primary callback", function()
+                callbacks[2](GameTooltip, {type = 2, guid = unit.guid})
+                callbacks[0](ItemRefTooltip, {type = 0, id = 750})
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.not_called()
+                callbacks[2](GameTooltip, unit)
+                callbacks[0](ItemRefTooltip, item)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(1)
+            end)
+
+            it("leaves secret GUIDs and item IDs untouched without hiding native unit quest lines", function()
+                _G.issecretvalue = function(value) return value == unit.guid or value == item.id end
+                assert.is_false(lineCallbacks[17](GameTooltip))
+                callbacks[2](GameTooltip, unit)
+                callbacks[0](ItemRefTooltip, item)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.not_called()
+            end)
+
+            it("does not inspect secret payload tables or hide their native quest lines", function()
+                local restricted = setmetatable({}, {__index = function() error("restricted read") end})
+                _G.issecrettable = function(value) return value == restricted end
+                GameTooltip.primary = restricted
+                GameTooltip.processingInfo.tooltipData = restricted
+                ItemRefTooltip.primary = restricted
+                assert.is_false(lineCallbacks[17](GameTooltip))
+                callbacks[2](GameTooltip, restricted)
+                callbacks[0](ItemRefTooltip, restricted)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+                assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.not_called()
+            end)
+
+            it("retains native lines for unsupported frames, appended blocks and raids", function()
+                ItemRefTooltip.processingInfo = {tooltipData = unit}
+                assert.is_false(lineCallbacks[17](ItemRefTooltip))
+                GameTooltip.processingInfo = {tooltipData = {type = 2, guid = unit.guid}}
+                assert.is_false(lineCallbacks[17](GameTooltip))
+                GameTooltip.processingInfo.tooltipData = unit
+                QuestiePlayer.numberOfGroupMembers = 7
+                assert.is_false(lineCallbacks[17](GameTooltip))
+            end)
+
+            it("does not inspect forbidden tooltip processing state", function()
+                GameTooltip.IsForbidden = function() return true end
+                GameTooltip.processingInfo = setmetatable({}, {__index = function() error("forbidden read") end})
+                assert.is_false(lineCallbacks[17](GameTooltip))
+                callbacks[2](GameTooltip, unit)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+            end)
+
+            it("allows a public retry after restricted identity without waiting for a clear", function()
+                local guid = unit.guid
+                unit.guid = nil
+                callbacks[2](GameTooltip, unit)
+                assert.is_false(lineCallbacks[17](GameTooltip))
+                unit.guid = guid
+                callbacks[2](GameTooltip, unit)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+            end)
+
+            local invalidIds = {
+                {name = "missing", data = {}},
+                {name = "string", data = {id = "750"}},
+                {name = "zero", data = {id = 0}},
+                {name = "negative", data = {id = -1}},
+                {name = "fractional", data = {id = 750.5}},
+            }
+            for _, case in ipairs(invalidIds) do
+                it("ignores " .. case.name .. " item IDs", function()
+                    ItemRefTooltip.primary = case.data
+                    callbacks[0](ItemRefTooltip, case.data)
+                    assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.not_called()
+                end)
+            end
         end)
 
         describe("Classic object polling", function()
@@ -267,24 +442,39 @@ describe("Tooltip", function()
         end)
 
         describe("structured Object callbacks", function()
-            local callbacks
+            local callbacks, lineCallbacks
             local registration
             local primaryData
+            local originalForever
 
             before_each(function()
-                callbacks = {}
+                originalForever = Questie.IsForever
+                Questie.IsForever = true
+                callbacks, lineCallbacks = {}, {}
                 primaryData = {type = 4, dataInstanceID = 12, lines = {{leftText = "Battered Chest"}}}
-                _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+                _G.Enum = {
+                    TooltipDataType = {Item = 0, Unit = 2, Object = 4},
+                    TooltipDataLineType = {QuestTitle = 17, QuestObjective = 8, QuestPlayer = 18},
+                }
                 registration = spy.new(function(kind, callback) callbacks[kind] = callback end)
                 _G.TooltipDataProcessor = {
                     AddTooltipPostCall = function(kind, callback) registration(kind, callback) end,
+                    AddLinePreCall = function(kind, callback) lineCallbacks[kind] = callback end,
                 }
                 GameTooltip.GetPrimaryTooltipData = function() return primaryData end
+                GameTooltip.processingInfo = {tooltipData = primaryData}
                 QuestieTooltips:Initialize()
+            end)
+
+            after_each(function()
+                Questie.IsForever = originalForever
             end)
 
             it("resolves public primary Object text without touching legacy getters or FontStrings", function()
                 -- None of the legacy getters or FontStrings exist on this frame.
+                assert.is_true(lineCallbacks[17](GameTooltip))
+                assert.is_true(lineCallbacks[8](GameTooltip))
+                assert.is_true(lineCallbacks[18](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
 
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Battered Chest", 440)
@@ -334,15 +524,18 @@ describe("Tooltip", function()
 
             it("skips disabled tooltips without consuming a later enabled render", function()
                 Questie.db.profile.enableTooltips = false
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
                 Questie.db.profile.enableTooltips = true
+                assert.is_true(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(1)
             end)
 
             it("leaves forbidden tooltips untouched", function()
                 GameTooltip.IsForbidden = function() return true end
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
@@ -350,9 +543,11 @@ describe("Tooltip", function()
 
             it("leaves map-icon and raid tooltip policy unchanged", function()
                 GameTooltip.ShownAsMapIcon = true
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 GameTooltip.ShownAsMapIcon = nil
                 QuestiePlayer.numberOfGroupMembers = 7
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
             end)
@@ -380,16 +575,21 @@ describe("Tooltip", function()
                 local inaccessible = setmetatable({}, {__index = function() error("restricted read") end})
                 _G.issecrettable = function(value) return value == inaccessible end
                 primaryData.lines = inaccessible
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 primaryData.lines = {inaccessible}
+                assert.is_false(lineCallbacks[17](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
             end)
 
-            it("does not send restricted text to provider name lookup", function()
+            it("falls back to Blizzard quest lines instead of looking up a secret object name", function()
                 local secretText = "Restricted object name"
                 _G.issecretvalue = function(value) return value == secretText end
                 primaryData.lines[1].leftText = secretText
+                assert.is_false(lineCallbacks[17](GameTooltip))
+                assert.is_false(lineCallbacks[8](GameTooltip))
+                assert.is_false(lineCallbacks[18](GameTooltip))
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()

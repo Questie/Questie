@@ -473,49 +473,146 @@ _InitObjectiveTexts = function(objectivesText, objectiveIndex, playerName)
     return objectivesText
 end
 
----Object lookup only accepts public data, even when the client can render restricted tooltip content.
+-- Structured tooltip callbacks: validate identity, add Questie's existing lines, reset on clear.
+
+---A renderable tooltip can still carry tables or fields that addons must not inspect.
 ---@param value any
 ---@return boolean
 local function _IsPublicTooltipTable(value)
-    if issecretvalue and issecretvalue(value) then return false end
+    if issecretvalue and issecretvalue(value) then
+        return false
+    end
     return type(value) == "table" and (not issecrettable or not issecrettable(value))
 end
 
----@return nil
-local function _RegisterObjectTooltipCallback()
-    local objectAugmented = false
-    GameTooltip:HookScript("OnTooltipCleared", function()
-        -- A rebuild can reuse the same name and dataInstanceID. The rendered content, not identity, resets our work.
-        objectAugmented = false
+---Only identity comes from Blizzard. Quest content still comes from Questie's existing handlers.
+---@param data table
+---@param tooltipType number Enum.TooltipDataType, selected by the caller rather than read from a restricted payload.
+---@return string|number|nil identity Public GUID, item ID or object name.
+local function _GetPublicTooltipIdentity(data, tooltipType)
+    if not _IsPublicTooltipTable(data) then
+        return
+    end
+
+    local types = Enum.TooltipDataType
+    local identity
+    if tooltipType == types.Unit then
+        identity = data.guid
+    elseif tooltipType == types.Item then
+        local itemId = data.id
+        if issecretvalue and issecretvalue(itemId) then
+            return
+        end
+        if type(itemId) ~= "number" then
+            return
+        end
+        if itemId > 0 and itemId < math.huge and itemId % 1 == 0 then
+            return itemId
+        end
+        return
+    elseif tooltipType == types.Object then
+        if not _IsPublicTooltipTable(data.lines) then
+            return
+        end
+        local titleLine = data.lines[1]
+        if not _IsPublicTooltipTable(titleLine) then
+            return
+        end
+        identity = titleLine.leftText
+    end
+
+    -- Unit GUIDs and Object names must be public before comparing, parsing or using them as lookup keys.
+    if issecretvalue and issecretvalue(identity) then
+        return
+    end
+    if type(identity) == "string" and identity ~= "" then
+        return identity
+    end
+end
+
+local function _CanAddTooltipData(tooltip, data, tooltipType)
+    if not Questie.db.profile.enableTooltips then
+        return false
+    end
+    if tooltip.IsForbidden and tooltip:IsForbidden() then
+        return false
+    end
+    if tooltip.ShownAsMapIcon then
+        return false
+    end
+
+    -- Units and Objects skip raid work. Items still need ID annotations and quest-start registration.
+    if tooltipType ~= Enum.TooltipDataType.Item and QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+        return false
+    end
+
+    -- Appended data blocks do not describe the hovered entity. Check accessibility before table identity.
+    if not _IsPublicTooltipTable(data) then
+        return false
+    end
+    local primaryData = tooltip:GetPrimaryTooltipData()
+    return _IsPublicTooltipTable(primaryData) and primaryData == data
+end
+
+local function _RegisterTooltipDataCallbacks()
+    local augmented = {}
+    local types = Enum.TooltipDataType
+
+    -- Rebuilds may reuse a payload or dataInstanceID. Each frame permits additions again only after clearing.
+    for _, frame in ipairs({GameTooltip, ItemRefTooltip}) do
+        frame:HookScript("OnTooltipCleared", function()
+            augmented[frame] = nil
+        end)
+    end
+
+    local function BeginAugmentation(tooltip, data, tooltipType)
+        if augmented[tooltip] or not _CanAddTooltipData(tooltip, data, tooltipType) then
+            return
+        end
+        local identity = _GetPublicTooltipIdentity(data, tooltipType)
+        if not identity then
+            return
+        end
+        augmented[tooltip] = true
+        return identity
+    end
+
+    -- Units belong to the hover frame. The handler uses this GUID, not a mutable mouseover token.
+    TooltipDataProcessor.AddTooltipPostCall(types.Unit, function(tooltip, data)
+        if tooltip ~= GameTooltip then
+            return
+        end
+        local guid = BeginAugmentation(tooltip, data, types.Unit)
+        if guid then
+            _QuestieTooltips.AddUnitDataToTooltip(tooltip, guid)
+        end
     end)
 
-    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Object,
-        ---@param tooltip GameTooltip
-        ---@param data table
-        ---@return nil
-        function(tooltip, data)
-            if tooltip ~= GameTooltip or objectAugmented or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
-                or not Questie.db.profile.enableTooltips or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+    -- Items also appear in the clicked-link frame; each frame has independent clear tracking.
+    TooltipDataProcessor.AddTooltipPostCall(types.Item, function(tooltip, data)
+        if tooltip ~= GameTooltip and tooltip ~= ItemRefTooltip then
+            return
+        end
+        local itemId = BeginAugmentation(tooltip, data, types.Item)
+        if itemId then
+            _QuestieTooltips.AddItemDataToTooltip(tooltip, itemId)
+        end
+    end)
+
+    -- Objects still need provider name/zone lookup. An Object caption is not a database ID.
+    if types.Object then
+        TooltipDataProcessor.AddTooltipPostCall(types.Object, function(tooltip, data)
+            if tooltip ~= GameTooltip then
                 return
             end
-
-            -- Appended blocks and scanning frames do not describe the hovered world object.
-            if not _IsPublicTooltipTable(data) then return end
-            local primaryData = tooltip:GetPrimaryTooltipData()
-            if not _IsPublicTooltipTable(primaryData) or data ~= primaryData then return end
-            if not _IsPublicTooltipTable(data.lines) then return end
-            local titleLine = data.lines[1]
-            if not _IsPublicTooltipTable(titleLine) then return end
-            local name = titleLine.leftText
-            if (issecretvalue and issecretvalue(name)) or type(name) ~= "string" or name == "" then return end
-
-            -- Object payloads also include location captions and do not reliably supply an ID.
-            -- Keep provider name/zone resolution; unmatched captions simply add no quest lines.
-            local playerZone = QuestiePlayer:GetCurrentZoneId()
-            objectAugmented = true
-            _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
-            -- Blizzard calls Show after post-calls. Calling it here would run OnShow in the middle of its rebuild.
+            local name = BeginAugmentation(tooltip, data, types.Object)
+            if name then
+                local playerZone = QuestiePlayer:GetCurrentZoneId()
+                _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
+            end
         end)
+    end
+    -- No callback calls Show(): Blizzard resizes and shows the tooltip after post-calls finish.
 end
 
 local initialized = false
@@ -530,7 +627,7 @@ function QuestieTooltips:Initialize()
     ---@return nil
     local function AddUnitData(tooltip)
         if tooltip ~= GameTooltip or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
-            -- The processor also runs for other tooltip frames; unit rendering below owns GameTooltip only.
+            -- Legacy unit hooks only augment the hover frame and skip raid tooltip work.
             return
         end
         _QuestieTooltips.AddUnitDataToTooltip(tooltip)
@@ -541,18 +638,7 @@ function QuestieTooltips:Initialize()
         and TooltipDataProcessor and type(TooltipDataProcessor.AddTooltipPostCall) == "function"
         and Enum and Enum.TooltipDataType
     if usesTooltipData then
-        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item,
-            ---@param tooltip GameTooltip
-            ---@return nil
-            function(tooltip)
-                if tooltip == GameTooltip or tooltip == ItemRefTooltip then
-                    _QuestieTooltips.AddItemDataToTooltip(tooltip)
-                end
-            end)
-        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, AddUnitData)
-        if Enum.TooltipDataType.Object then
-            _RegisterObjectTooltipCallback()
-        end
+        _RegisterTooltipDataCallbacks()
     else
         -- Classic native tooltips still own these scripts. Never install a removed script on an unfamiliar client.
         if ItemRefTooltip:HasScript("OnTooltipSetItem") then
@@ -645,34 +731,62 @@ end
 
 ------------------------------------------------------------
 -- The following code was modified from https://www.curseforge.com/wow/addons/noquesttooltips (MIT license)
--- It hides Blizzard's objective tooltips when ours are enabled
+-- It hides Blizzard's objective lines only when Questie's corresponding tooltip handler can run.
 -- This is only relevant for Forever and MoP+ (where these tooltips exist)
 ------------------------------------------------------------
 
-local TooltipLineType = Enum.TooltipDataLineType
-local TooltipType = Enum.TooltipDataType
-
 local BLOCKED_NAMES = { "QuestObjective", "QuestTitle", "QuestPlayer" } -- Line types that carry quest-helper information
 
----@param tooltip table
----@return table|nil
--- Returns the type (unit, object, item, spell, etc) of this tooltip.
-local function _GetTooltipKind(tooltip)
+---@param tooltip GameTooltip
+---@return number? tooltipType Enum.TooltipDataType of the block currently being processed.
+---@return table? data Public data for that block.
+local function _GetProcessingTooltipData(tooltip)
     local info = tooltip.processingInfo
-    local data = info and info.tooltipData
-    return data and data.type
+    if not _IsPublicTooltipTable(info) then
+        return
+    end
+    local data = info.tooltipData
+    if not _IsPublicTooltipTable(data) then
+        return
+    end
+    if issecretvalue and issecretvalue(data.type) then
+        return
+    end
+    return data.type, data
 end
 
----@param tooltip table
----@return boolean|nil
--- Returns true/false/nil (fallback) based upon whether we should be filtering this type of tooltip.
--- This is also where we enable/disable filtering based on whether Questie tooltips are currently shown.
+---Fall back to native rendering when identity is restricted or tooltip augmentation is disabled.
+---Public identity permits our handler to run; it does not guarantee matching quest data in our database.
 local function _ShouldBlock(tooltip)
-    if (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then return false end
-    local kind = _GetTooltipKind(tooltip)
-    if kind == TooltipType.Unit or kind == TooltipType.Object then return true end
-    -- Unknown context: blizzard quest objective lines only appear on units/objects anyway
-    return kind == nil
+    if not Questie.db.profile.enableTooltips then
+        return false
+    end
+    if tooltip.IsForbidden and tooltip:IsForbidden() then
+        return false
+    end
+
+    local tooltipType, data = _GetProcessingTooltipData(tooltip)
+    local types = Enum.TooltipDataType
+    if tooltip.GetPrimaryTooltipData then
+        if tooltip ~= GameTooltip then
+            return false
+        end
+        if tooltipType ~= types.Unit and tooltipType ~= types.Object then
+            return false
+        end
+        -- Use the same eligibility and identity checks as the post-call that adds Questie's lines.
+        -- Instances and combat need no blanket exclusion when these values remain public.
+        if not _CanAddTooltipData(tooltip, data, tooltipType) then
+            return false
+        end
+        return _GetPublicTooltipIdentity(data, tooltipType) ~= nil
+    end
+
+    -- Legacy clients retain their original filtering, including the unknown-type fallback.
+    if Questie.IsForever and IsInInstance() then
+        return false
+    end
+    return tooltipType == types.Unit or tooltipType == types.Object or tooltipType == nil
 end
 
 ---@return nil
@@ -681,16 +795,13 @@ function QuestieTooltips:InitBlizzardTooltips()
         Questie.Debug(Questie.DEBUG_INFO, "TooltipDataProcessor not found on this client. Skipping hooks.")
         return
     else
+        local TooltipLineType = Enum.TooltipDataLineType
         local blocked = {}
         for _, name in ipairs(BLOCKED_NAMES) do
             if TooltipLineType[name] then blocked[TooltipLineType[name]] = name end
         end
         for lineType in pairs(blocked) do
-            TooltipDataProcessor.AddLinePreCall(lineType, function(tooltip, lineData)
-                if _ShouldBlock(tooltip) then
-                    return true
-                end
-            end)
+            TooltipDataProcessor.AddLinePreCall(lineType, _ShouldBlock)
         end
     end
 end

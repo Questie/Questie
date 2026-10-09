@@ -7,101 +7,144 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local lastGuid
-
-function _QuestieTooltips:AddUnitDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then
-        return
-    end
-
-    local name, unitToken = self:GetUnit();
-    if not unitToken then return end
-    local guid = UnitGUID(unitToken);
-    if (not guid) then
-        guid = UnitGUID("mouseover");
-    end
-
-    local type, _, _, _, _, npcId, _ = strsplit("-", guid or "");
-
-    if name and (type == "Creature" or type == "Vehicle") and (
-        name ~= QuestieTooltips.lastGametooltipUnit or
-        (not QuestieTooltips.lastGametooltipCount) or
-        _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount or
-        QuestieTooltips.lastGametooltipType ~= "monster" or
-        lastGuid ~= guid
-    ) then
-        QuestieTooltips.lastGametooltipUnit = name
+-- Unit rendering is shared; identity lookup and duplicate protection belong to each client path.
+local function _AddUnitLines(tooltip, guid)
+    local unitType, _, _, _, _, npcId = strsplit("-", guid or "")
+    if unitType == "Creature" or unitType == "Vehicle" then
         if Questie.db.profile.enableTooltipsNPCID then
-            GameTooltip:AddDoubleLine(l10n("NPC ID"), "|cFFFFFFFF" .. npcId .. "|r")
+            tooltip:AddDoubleLine(l10n("NPC ID"), "|cFFFFFFFF" .. npcId .. "|r")
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("m_" .. npcId);
-        if tooltipData then
-            for _, v in pairs (tooltipData) do
-                GameTooltip:AddLine(v)
-            end
+        local lines = QuestieTooltips.GetTooltip("m_" .. npcId)
+        for _, line in pairs(lines or {}) do
+            tooltip:AddLine(line)
         end
-        QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
-    elseif (type == "Player") then
-        local _, serverid, playerid = strsplit("-", guid or "");
-        QuestieTooltips.lastGametooltipUnit = name
-        if Questie.devChars[serverid] and tContains(Questie.devChars[serverid], playerid) then
-            GameTooltip:AddLine("|T" .. "Interface\\AddOns\\Questie\\Icons\\questie.png" .. ":0|t |cnIQ5:" .. l10n("Questie Developer") .. "|r")
+    elseif unitType == "Player" then
+        local _, serverId, playerId = strsplit("-", guid)
+        if Questie.devChars[serverId] and tContains(Questie.devChars[serverId], playerId) then
+            tooltip:AddLine("|TInterface\\AddOns\\Questie\\Icons\\questie.png:0|t |cnIQ5:" .. l10n("Questie Developer") .. "|r")
         end
     end
-    lastGuid = guid;
-    QuestieTooltips.lastGametooltipType = "monster";
 end
 
-local checkedQuestStartItems = {} -- cache item IDs that were already checked if they start a quest
-local lastItemId = 0;
-function _QuestieTooltips:AddItemDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
+local lastGuid
+
+---@param tooltip GameTooltip
+---@param guid string? Public GUID supplied by the structured callback; nil selects the legacy unit-token path.
+function _QuestieTooltips.AddUnitDataToTooltip(tooltip, guid)
+    if tooltip.IsForbidden and tooltip:IsForbidden() then
+        return
+    end
+    if not Questie.db.profile.enableTooltips then
         return
     end
 
-    local name, link = self:GetItem()
-    local itemId
+    -- Structured callbacks already validate identity and add once per clear. Never read native text here.
+    if guid then
+        _AddUnitLines(tooltip, guid)
+        return
+    end
+
+    -- Legacy clients resolve the unit token and detect rebuilds by counting rendered lines.
+    if Questie.IsForever and IsInInstance() then
+        return
+    end
+    local name, unitToken = tooltip:GetUnit()
+    if not unitToken then
+        return
+    end
+    guid = UnitGUID(unitToken) or UnitGUID("mouseover")
+
+    local unitType = strsplit("-", guid or "")
+    if name and (unitType == "Creature" or unitType == "Vehicle") then
+        local needsUpdate = name ~= QuestieTooltips.lastGametooltipUnit
+            or not QuestieTooltips.lastGametooltipCount
+            or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
+            or QuestieTooltips.lastGametooltipType ~= "monster"
+            or lastGuid ~= guid
+
+        if needsUpdate then
+            QuestieTooltips.lastGametooltipUnit = name
+            _AddUnitLines(tooltip, guid)
+            QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
+        end
+    elseif unitType == "Player" then
+        QuestieTooltips.lastGametooltipUnit = name
+        _AddUnitLines(tooltip, guid)
+    end
+    lastGuid = guid
+    QuestieTooltips.lastGametooltipType = "monster"
+end
+
+-- Item rendering retains quest-start registration for both callback and hyperlink identities.
+local checkedQuestStartItems = {}
+
+---@param tooltip GameTooltip
+---@param itemId string Numeric ID, normalized to the same cache key on both client paths.
+local function _AddItemLines(tooltip, itemId)
+    if Questie.db.profile.enableTooltipsItemID then
+        tooltip:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
+    end
+
+    -- Register quest-start items on first encounter, before looking up their quest lines.
+    if not checkedQuestStartItems[itemId] then
+        checkedQuestStartItems[itemId] = true
+        local itemIdAsNumber = tonumber(itemId)
+        if itemIdAsNumber then
+            local startQuestId = QuestieDB.QueryItemSingle(itemIdAsNumber, "startQuest")
+            local itemName = QuestieDB.QueryItemSingle(itemIdAsNumber, "name")
+            if startQuestId and startQuestId ~= 0 and itemName then
+                QuestieTooltips:RegisterQuestStartTooltip(startQuestId, itemName, itemIdAsNumber, "i_" .. itemId, "itemFromMonster")
+            end
+        end
+    end
+
+    local lines = QuestieTooltips.GetTooltip("i_" .. itemId)
+    for _, line in pairs(lines or {}) do
+        tooltip:AddLine(line)
+    end
+end
+
+local lastItemId = 0
+
+---@param tooltip GameTooltip
+---@param itemId ItemId? Public ID supplied by the structured callback; nil selects the legacy hyperlink path.
+function _QuestieTooltips.AddItemDataToTooltip(tooltip, itemId)
+    if tooltip.IsForbidden and tooltip:IsForbidden() then
+        return
+    end
+    if not Questie.db.profile.enableTooltips then
+        return
+    end
+
+    -- Structured callbacks own duplicate protection; only Classic needs getters and line counting.
+    if itemId then
+        _AddItemLines(tooltip, tostring(itemId))
+        return
+    end
+
+    local name, link = tooltip:GetItem()
     if link then
-        -- Read the payload independently of legacy hex colors or modern named colors such as |cnIQ1:.
+        -- Match the link payload independently of legacy hex colors or modern named colors.
         itemId = string.match(link, "item:(%d+)")
     end
-    if name and itemId and (
-        name ~= QuestieTooltips.lastGametooltipItem or
-        (not QuestieTooltips.lastGametooltipCount) or
-        _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount or
-        QuestieTooltips.lastGametooltipType ~= "item" or
-        lastItemId ~= itemId or
-        QuestieTooltips.lastFrameName ~= self:GetName()
-    ) then
-        QuestieTooltips.lastGametooltipItem = name
-        if Questie.db.profile.enableTooltipsItemID then
-            GameTooltip:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
-        end
+    if name and itemId then
+        local needsUpdate = name ~= QuestieTooltips.lastGametooltipItem
+            or not QuestieTooltips.lastGametooltipCount
+            or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
+            or QuestieTooltips.lastGametooltipType ~= "item"
+            or lastItemId ~= itemId
+            or QuestieTooltips.lastFrameName ~= tooltip:GetName()
 
-        if (not checkedQuestStartItems[itemId]) then
-            checkedQuestStartItems[itemId] = true
-            local itemIdAsNumber = tonumber(itemId)
-            if itemIdAsNumber then
-                local startQuestId = QuestieDB.QueryItemSingle(itemIdAsNumber, "startQuest")
-                local itemName = QuestieDB.QueryItemSingle(itemIdAsNumber, "name")
-                if startQuestId and startQuestId ~= 0 and itemName then
-                    QuestieTooltips:RegisterQuestStartTooltip(startQuestId, itemName, itemIdAsNumber, "i_"..itemId, "itemFromMonster")
-                end
-            end
+        if needsUpdate then
+            QuestieTooltips.lastGametooltipItem = name
+            _AddItemLines(tooltip, itemId)
+            QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
         end
-
-        local tooltipData = QuestieTooltips.GetTooltip("i_" .. (itemId or 0));
-        if tooltipData then
-            for _, v in pairs (tooltipData) do
-                self:AddLine(v)
-            end
-        end
-        QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     end
-    lastItemId = itemId;
-    QuestieTooltips.lastGametooltipType = "item";
-    QuestieTooltips.lastFrameName = self:GetName();
+    lastItemId = itemId
+    QuestieTooltips.lastGametooltipType = "item"
+    QuestieTooltips.lastFrameName = tooltip:GetName()
 end
 
 ---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.

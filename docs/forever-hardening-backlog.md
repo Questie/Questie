@@ -106,17 +106,22 @@ Future behavior:
 
 The current item-link parser fix is likely a one-time migration. Separating identity from presentation and isolating optional enrichment are the reusable improvements.
 
-## Combat tooltip restrictions need live reproduction
+## Combat object identity is a known limitation; validate native fallback
 
 See the [Forever tooltip reference](forever-tooltips.md#security-combat-and-restricted-data) for observed payloads, source-backed access boundaries, and the [focused test matrix](forever-tooltips.md#open-questions-and-focused-tests). The narrow [Object callback replacement](forever-tooltips.md#implemented-object-callback-path) is implemented: Forever no longer installs the object scanner, while Classic retains polling. Public primary Object data feeds the existing provider resolver; a per-clear flag replaces FontString-based duplicate detection on this path.
 
-The outsider's updated 303 zip attributes combat taint to the former Forever `GameTooltip` object-hover `OnUpdate` scanner. Its combat early-return, deferred modern callbacks, protected-text fallback, and blanket aura `pcall` were not adopted. The replacement rejects secret Object inputs without disabling all enrichment in combat. Classic setter/synthetic-caption checks passed out of combat; the new Forever callback has not yet been live-validated. The original scanner attribution remains unverified, and Unit/Item `CountTooltip()` reads plus aura inspection remain separate risks.
+[Build-70205 combat probes](forever-tooltips.md#build-70205-combat-findings) found secret Object names and quest fields, no object ID/GUID, and readable NPC data in the same client. Blizzard still rendered the Object's native quest lines. A tooltip `dataInstanceID` is not a stable object identifier, so caching public names does not identify a new combat hover. Treat reliable combat object identification as effectively unavailable with the currently investigated supported APIs; revisit only on concrete API or secrecy changes.
+
+Conditional fallback preserves native lines when identity is restricted/missing or eligibility checks prevent Questie's additions. The code permits augmentation when identity remains public, including inside instances and combat. **Instances were not tested**; the build-70205 captures were open-world only. Plan for instances to be at least as restrictive, potentially stricter, rather than assuming the observed NPC readability carries over. The temporary always-show-native comparison override was removed; automated fallback tests passed, but ordinary-addon post-reload validation remains open.
+
+The outsider's updated 303 zip attributed combat taint to the former Object `OnUpdate` scanner. Its blanket combat return, deferred callbacks, protected-text fallback, and aura `pcall` were not adopted. That original scanner attribution remains unverified. Structured Unit/Item callbacks now also avoid legacy getter/count reads; Classic's remaining `CountTooltip()` reads and aura inspection are separate risks.
 
 Next checks:
 
-- Validate actual Forever Object hovers, clear/rebuild delivery, stationary updates, and appended blocks. Mocked per-clear tests and Classic clear events do not establish Forever coverage.
-- Reproduce remaining failing reads/calls in and out of combat, recording client build and stack before selecting a workaround.
-- If any enrichment must stop in combat, document that loss explicitly. Removing Forever's scanner is not proof that Unit/Item, aura, or other taint paths are fixed.
+- Validate native fallback and recovery through ordinary addon Object callbacks before/during/after combat. Bridge captures with the comparison override do not establish the restored policy's live behavior.
+- Check clear/rebuild delivery, stationary updates, appended blocks, and stale/duplicate additions. Mocked per-clear tests and Classic clear events do not establish Forever coverage.
+- Reproduce other failing reads/calls in and out of combat, recording client build and stack before selecting a workaround. Do not reopen combat object identification as a speculative cache or callback redesign.
+- Preserve usable public NPC/instance enrichment. Removing Forever's scanner is not proof that Unit/Item, aura, or other taint paths are fixed.
 - If a callback must be deferred, verify that the tooltip still represents the same entity when it runs, not merely that it is shown.
 - Protect only demonstrated restricted-value operations. Preserve unexpected programming errors instead of wrapping all aura or tooltip work in `pcall`.
 
