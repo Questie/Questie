@@ -109,6 +109,8 @@ _CreateContinentDropdown = function()
         selectedContinentId = questCategoryKeys.NORTHREND
     elseif currentContinentId == 870 then -- Pandaria
         selectedContinentId = questCategoryKeys.PANDARIA
+    elseif currentContinentId == 947 and Questie.IsForever then -- Azeroth
+        selectedContinentId = questCategoryKeys.ZEPHRAS_ISLE
     elseif l10n.zoneLookup[currentContinentId] then -- Dungeon
         selectedContinentId = questCategoryKeys.DUNGEONS
     end
