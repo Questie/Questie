@@ -54,7 +54,7 @@ function TrackerQuestTimers:ShowBlizzardTimer()
 end
 
 ---@param quest table
----@param frame LineFrame|nil
+---@param frame TrackerLineFrame|nil
 ---@param clear boolean
 ---@return string|nil timeRemainingString, number|nil timeRemaining
 function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)

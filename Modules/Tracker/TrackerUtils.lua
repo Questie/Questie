@@ -41,8 +41,9 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 local GetItemCount = QuestieCompat.GetItemCount
@@ -196,17 +197,14 @@ function TrackerUtils:FlashObjective(objective)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
-                        if icon.data.lineFrames then
-                            for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide() -- Use raw Hide, not FakeHide
-                            end
-                        end
                     end
                 end
             end
         end
 
 
+        -- Only the flashed objective's patrol paths show during the flash.
+        local flashedData = {}
         for _, spawn in pairs(objective.AlreadySpawned) do
             if spawn.mapRefs then
                 for _, frame in pairs(spawn.mapRefs) do
@@ -219,15 +217,13 @@ function TrackerUtils:FlashObjective(objective)
                     frame._hidden_by_flash = nil
                     frame._size = frame:GetWidth()
 
-                    -- Show line frames for the objective being flashed
-                    if frame.data and frame.data.lineFrames then
-                        for _, line in pairs(frame.data.lineFrames) do
-                            line:Show() -- Use raw Show to restore
-                        end
+                    if frame.data then
+                        flashedData[frame.data] = true
                     end
                 end
             end
         end
+        QuestieWaypoints.SetSolo(flashedData)
         local flashW = 1
         local flashB = true
         local flashDone = 0
@@ -267,13 +263,10 @@ function TrackerUtils:FlashObjective(objective)
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
-                                            -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                         end
                                     end
                                 end
-                                -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
-                                HBDPins.worldmapProvider.forceUpdate = true
-                                HBDPins.worldmapProvider:RefreshAllData()
+                                QuestieWaypoints.SetSolo(nil)
                             end)
                         end
                         flashDone = flashDone + 1
@@ -287,6 +280,8 @@ end
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:FlashFinisher(quest)
     local toFlash = {}
+    -- Only the flashed quest's patrol paths show during the flash.
+    local flashedData = {}
     -- ugly code
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
         if questId ~= quest.Id then
@@ -297,11 +292,6 @@ function TrackerUtils:FlashFinisher(quest)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
-                        if icon.data.lineFrames then
-                            for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide() -- Use raw Hide, not FakeHide
-                            end
-                        end
                     end
                 end
             end
@@ -311,10 +301,14 @@ function TrackerUtils:FlashFinisher(quest)
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
                     tinsert(toFlash, icon)
+                    if icon.data then
+                        flashedData[icon.data] = true
+                    end
                 end
             end
         end
     end
+    QuestieWaypoints.SetSolo(flashedData)
 
     local flashW = 1
     local flashB = true
@@ -355,13 +349,10 @@ function TrackerUtils:FlashFinisher(quest)
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
-                                        -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                     end
                                 end
                             end
-                            -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
-                            HBDPins.worldmapProvider.forceUpdate = true
-                            HBDPins.worldmapProvider:RefreshAllData()
+                            QuestieWaypoints.SetSolo(nil)
                         end)
                     end
                     flashDone = flashDone + 1

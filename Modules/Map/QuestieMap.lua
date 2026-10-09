@@ -22,6 +22,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
 ---@type Phasing
 local Phasing = QuestieLoader:ImportModule("Phasing")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -514,21 +516,6 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     end
 end
 
-function QuestieMap:DrawLineIcon(lineFrame, areaID, x, y)
-    if type(areaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error("Questie:DrawLineIcon: 'areaID', 'x' and 'y' must be numbers. Got: " .. tostring(areaID) .. ", " .. tostring(x) .. ", " .. tostring(y))
-    end
-
-    local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
-
-    if type(uiMapId) ~= "number" then
-        Questie.Debug(Questie.DEBUG_CRITICAL, "DrawLineIcon: Invalid uiMapId for areaID:", areaID)
-        return
-    end
-
-    HBDPins:AddWorldMapIconMap(Questie, lineFrame, uiMapId, x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
-end
-
 -- Draw manually added NPC/object notes
 -- TODO: item and custom notes
 ---@param data table<...> @A table created by the calling function, must contain `id`, `Name`, `GetIconScale()`, and `Type`
@@ -601,6 +588,8 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     iconMinimap.texture:SetTexture(texture)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
+    -- Waypoints drawn for the map icon follow this icon's visibility on the minimap.
+    icon.minimapTwin = iconMinimap
 
     if (not iconMinimap.FadeLogic) then
         iconMinimap.SetFade = _MinimapIconSetFade
@@ -697,6 +686,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
+    -- Waypoints drawn for the map icon follow this icon's visibility on the minimap.
+    iconMap.minimapTwin = iconMinimap
 
     if (not iconMinimap.FadeLogic) then
         iconMinimap.SetFade = _MinimapIconSetFade
@@ -726,26 +717,15 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     return iconMap, iconMinimap;
 end
 
-QuestieMap.zoneWaypointColorOverrides = { -- this is used when the default orange color doesn't work well in specific zones. Not needed after 769ea832ff772b10c57351eb199348393625a99b
-    --    [14] = {0,0.1,0.9,0.7}, -- durotar
-    --    [38] = {0,0.1,0.9,0.7} -- loch modan
-}
-
-QuestieMap.zoneWaypointHoverColorOverrides = {
-    --    [14] = {0,0.6,1,1}, -- durotar
-    --    [38] = {0,0.6,1,1} -- loch modan
-}
-
+---Draws an NPC's patrol paths in one zone on the world map and minimap. The paths follow the
+---icon: they show while it does, fade with it, and are released when it unloads.
+---@param icon IconFrame? World map icon of the NPC in this zone; nothing is drawn without one.
+---@param waypoints CoordPair[][] The zone's waypoints, {{{x, y}, ...}, ...} in percentages.
+---@param zone AreaId
+---@param color number[]? {r, g, b, a}; QuestieWaypoints.DEFAULT_COLOR when nil.
 function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
-    if waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
-        local shouldBeHidden = icon:ShouldBeHidden()
-        local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone], zone)
-        for _, lineFrame in ipairs(lineFrames) do
-            QuestieMap:DrawLineIcon(lineFrame, zone, waypoints[1][1][1], waypoints[1][1][2])
-            if shouldBeHidden then
-                lineFrame:FakeHide()
-            end
-        end
+    if icon and waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
+        QuestieWaypoints.Add(icon, waypoints, zone, color)
     end
 end
 
