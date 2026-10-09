@@ -534,6 +534,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         set = function(info, value)
                             Questie.db.profile.enableMiniMapIcons = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestiePolygon.ScheduleRefresh() -- Minimap areas follow this switch.
                         end,
                     },
                     alwaysGlowMinimap = {

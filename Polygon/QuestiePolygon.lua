@@ -40,6 +40,8 @@ local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
 local PolygonRenderCache = QuestieLoader:ImportModule("PolygonRenderCache")
 ---@type PolygonNudging
 local PolygonNudging = QuestieLoader:ImportModule("PolygonNudging")
+---@type PolygonMinimap
+local PolygonMinimap = QuestieLoader:ImportModule("PolygonMinimap")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieFramePool
@@ -62,6 +64,8 @@ local provider
 local renderCache
 ---@type PolygonNudgeLayout?
 local nudging
+---@type PolygonMinimapLayer?
+local minimapLayer
 local Provider = {}
 local refreshPending = false
 local nudgePending = false
@@ -271,9 +275,39 @@ function QuestiePolygon.Refresh()
     if err then Questie.Error("Polygon drawing failed:", err) end
 end
 
+-- Minimap areas
+-- The minimap shows what the world map would show, without hover previews. Only the markers'
+-- hiding rules apply: a closed map shows no markers, and queued markers may load without any
+-- notification while it is closed.
+
+---@return PolygonMinimapArea[]
+local function _CollectMinimapAreas()
+    local areas = {}
+    if not QuestiePolygon.IsEnabled() or not Questie.db.profile.enableMiniMapIcons then return areas end
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            if entry.active and not entry.building and _IsAreaShown(entry) then
+                local color = _AreaColor(entry)
+                for _, marker in ipairs(entry.markers) do
+                    local frame, cluster = marker.frame, marker.cluster
+                    -- Marker fade, such as tracker focus, applies as on the world map.
+                    local alpha = frame.texture and frame.texture.a or 1
+                    if cluster and cluster.outline and frame.data and frame.polygonMarker == marker
+                        and not frame.hidden and not frame:ShouldBeHidden() and alpha > 0 then
+                        areas[#areas + 1] = {key = marker, cluster = cluster, color = color, alpha = alpha}
+                    end
+                end
+            end
+        end
+    end
+    return areas
+end
+
 ---Coalesces drawing requests until the next frame, when map and marker state is read.
 ---The epoch prevents callbacks from an earlier reset from touching a new pending batch.
+---Every caller also marks the minimap's areas stale, whether or not the world map is open.
 function QuestiePolygon.ScheduleRefresh()
+    if minimapLayer then minimapLayer:Invalidate() end
     if not renderCache or not provider or not provider.owningMap or refreshPending then return end
     refreshPending = true
     local scheduledEpoch = refreshEpoch
@@ -395,6 +429,10 @@ function QuestiePolygon.Reset()
     if renderCache then
         local cleared, err = pcall(renderCache.Clear, renderCache)
         if not cleared then Questie.Error("Polygon cleanup failed:", err) end
+    end
+    if minimapLayer then
+        local cleared, err = pcall(minimapLayer.Clear, minimapLayer)
+        if not cleared then Questie.Error("Polygon minimap cleanup failed:", err) end
     end
     for _, questEntries in pairs(oldEntries) do
         for _, entry in pairs(questEntries) do _ReleaseMarkers(entry) end
@@ -813,6 +851,13 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         -- Preference setters resize before writing their new value. Read configured
         -- widths on the next frame; this single retained hook is inert while detached.
         hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)
+        -- The minimap is optional: its failure must not stop world-map drawing.
+        local created, layer = pcall(PolygonMinimap.New, Minimap, _CollectMinimapAreas)
+        if created then
+            minimapLayer = layer
+        else
+            Questie.Error("Polygon minimap setup failed:", layer)
+        end
     end
     if not provider.owningMap then WorldMapFrame:AddDataProvider(provider) end
 
