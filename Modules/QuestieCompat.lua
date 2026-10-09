@@ -667,18 +667,9 @@ function QuestieCompat.GetQuestGreenRange()
         return GetQuestGreenRange()
     end
     -- Forever
-    -- The level bracket 1-9 returns value of 5 instead of expected 4. Most likely a Blizzard bug.
-    -- This changes the trivial threshold for those levels. Changing it to 4 for that bracket.
-    if UnitQuestTrivialLevelRange then
-        local foreverQuestGreenRange = UnitQuestTrivialLevelRange("player")
-        local playerLevel = UnitLevel("player")
-        if (playerLevel < 10) and (foreverQuestGreenRange == 4) then
-            Questie.Warning("Safe to remove the Forever manual correction for UnitQuestTrivialLevelRange")
-        elseif (playerLevel < 10) and (foreverQuestGreenRange == 5) then
-            foreverQuestGreenRange = 4
-        end
+    if C_QuestLog and C_QuestLog.GetTrivialRange then
         -- Blizzard's level-based difficulty check keeps quests green at this offset (<=), despite the API's name.
-        return foreverQuestGreenRange
+        return C_QuestLog.GetTrivialRange()
     end
     print("ERROR: Something went seriously wrong in Questie's GetQuestGreenRange, please tell the devs on Discord or Github.")
     return 10 -- default to level 50 in case of missing functions
