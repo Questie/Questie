@@ -10,8 +10,6 @@ describe("QuestieCompat", function()
     before_each(function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-        local playerLevel = 6
-        _G.UnitLevel = function() return playerLevel end
         _G.C_GossipInfo = nil
         _G.GetGossipAvailableQuests = nil
         _G.GetGossipActiveQuests = nil
@@ -895,7 +893,7 @@ describe("QuestieCompat Forever paths", function()
     local dependencies = {
         "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "Enum", "CreateFrame",
         "ObjectiveTrackerFrame", "InCombatLockdown", "GetBuildInfo", "Questie", "C_UnitAuras", "AuraUtil",
-        "UnitQuestTrivialLevelRange", "GetCVarBool", "C_PlayerInfo", "HaveQuestData",
+        "GetCVarBool", "C_PlayerInfo", "HaveQuestData",
     }
     local savedGlobals
     local questInfo
@@ -962,13 +960,6 @@ describe("QuestieCompat Forever paths", function()
         local textureBridge = SetDesaturation
         dofile("Modules/QuestieCompat.lua")
         assert.are.equal(textureBridge, SetDesaturation)
-    end)
-
-    it("preserves the inclusive unit-based green range rather than using a legacy helper", function()
-        _G.UnitQuestTrivialLevelRange = spy.new(function() return 5 end)
-        _G.GetQuestGreenRange = function() error("legacy helper") end
-        assert.are.equal(4, QuestieCompat.GetQuestGreenRange())
-        assert.spy(UnitQuestTrivialLevelRange).was.called_with("player")
     end)
 
     describe("GetQuestDifficulty", function()
