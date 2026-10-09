@@ -694,6 +694,21 @@ function pins:SetMinimapObject(minimapObject)
     UpdateMinimapPins(true)
 end
 
+--- Questie addition: the view minimap icons are placed with, so other minimap drawings line up
+--- with them. Clients without C_Minimap.GetViewRadius use the indoor/outdoor zoom table.
+-- @return radius Yards from the minimap's center to its edge; nil for an unknown zoom level
+-- @return rotating true while the minimap turns with the player
+function pins:GetMinimapView()
+    local radius
+    if MinimapRadiusAPI then
+        radius = C_Minimap.GetViewRadius()
+    else
+        local size = minimap_size[indoors][pins.Minimap:GetZoom()]
+        radius = size and size / 2
+    end
+    return radius, rotateMinimap
+end
+
 -- world map constants
 -- show worldmap pin only on zone map (Questie modification)
 HBD_PINS_WORLDMAP_SHOW_CURRENT   = -1
