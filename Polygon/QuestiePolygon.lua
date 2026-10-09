@@ -2,10 +2,15 @@
 local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 
 ---@class PolygonMarker
----@field frame IconFrame
+---@field frame IconFrame World-map icon.
 ---@field entry PolygonObjectiveEntry
 ---@field cluster PolygonCluster?
+---@field minimapIcons PolygonMinimapIcon[] Minimap icons: the cluster's marker position, or each of its listed objects.
 ---@field projectedViews PolygonProjectionCache? Coordinates only; native drawings belong to PolygonRenderCache.
+
+---@class PolygonMinimapIcon
+---@field frame IconFrame Points back to its marker through frame.polygonMinimapMarker.
+---@field point table? Spawn point whose metadata it shows; nil for a waypoint fallback sharing the map icon's data.
 
 ---@class PolygonProjectionCache
 ---@field outline table[] Original immutable outline identifying this cache's source geometry.
@@ -276,24 +281,28 @@ function QuestiePolygon.Refresh()
 end
 
 -- Minimap areas
--- The minimap shows what the world map would show, without hover previews. Only the markers'
--- hiding rules apply: a closed map shows no markers, and queued markers may load without any
--- notification while it is closed.
+-- The minimap shows what the world map would show, without hover previews. Areas follow their
+-- minimap icons' hiding rules, so the minimap icon switch governs them. Fade comes from the map
+-- marker, such as tracker focus: minimap icons' own opacity fades with the player's distance.
+-- Visibility is never required: a closed map shows no markers, and queued icons may load
+-- without any notification.
 
 ---@return PolygonMinimapArea[]
 local function _CollectMinimapAreas()
     local areas = {}
-    if not QuestiePolygon.IsEnabled() or not Questie.db.profile.enableMiniMapIcons then return areas end
+    if not QuestiePolygon.IsEnabled() then return areas end
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
             if entry.active and not entry.building and _IsAreaShown(entry) then
                 local color = _AreaColor(entry)
                 for _, marker in ipairs(entry.markers) do
                     local frame, cluster = marker.frame, marker.cluster
-                    -- Marker fade, such as tracker focus, applies as on the world map.
+                    local minimapIcon = marker.minimapIcons[1]
+                    local icon = minimapIcon and minimapIcon.frame
                     local alpha = frame.texture and frame.texture.a or 1
-                    if cluster and cluster.outline and frame.data and frame.polygonMarker == marker
-                        and not frame.hidden and not frame:ShouldBeHidden() and alpha > 0 then
+                    if cluster and cluster.outline and frame.data and frame.polygonMarker == marker and alpha > 0
+                        and icon and icon.data and icon.polygonMinimapMarker == marker
+                        and not icon.hidden and not icon:ShouldBeHidden() then
                         areas[#areas + 1] = {key = marker, cluster = cluster, color = color, alpha = alpha}
                     end
                 end
@@ -373,6 +382,18 @@ end
 -- Objective teardown
 -- Callers invalidate the entry or advance its generation before releasing markers.
 -- Release retained views before recycling icon frames; cache keys are marker records.
+
+---Clearing each back-reference first keeps the icon's unload from notifying its marker again.
+---@param marker PolygonMarker
+local function _UnloadMinimapIcons(marker)
+    local icons = marker.minimapIcons
+    marker.minimapIcons = {}
+    for _, icon in ipairs(icons) do
+        icon.frame.polygonMinimapMarker = nil
+        QuestieFramePool:UnloadFrame(icon.frame)
+    end
+end
+
 local function _ReleaseMarkers(entry)
     if renderCache then
         local released, err = pcall(renderCache.Release, renderCache, entry)
@@ -384,6 +405,7 @@ local function _ReleaseMarkers(entry)
         if nudging then nudging:Remove(marker.frame) end
         marker.frame.polygonMarker = nil
         QuestieFramePool:UnloadFrame(marker.frame)
+        _UnloadMinimapIcons(marker)
     end
 end
 
@@ -463,15 +485,36 @@ function QuestiePolygon.MarkerRemoved(frame)
             break
         end
     end
+    -- The cluster's minimap icons have no owner without it.
+    _UnloadMinimapIcons(marker)
     QuestiePolygon.ScheduleRefresh()
     QuestiePolygon.ScheduleNudging()
     _NotifyVisibilityChanged()
 end
 
+---Drops a minimap icon that Questie's icon lifecycle unloaded; its marker stays.
+---@param frame IconFrame
+function QuestiePolygon.MinimapMarkerRemoved(frame)
+    local marker = frame.polygonMinimapMarker
+    if not marker then return end
+    frame.polygonMinimapMarker = nil
+    for i, icon in ipairs(marker.minimapIcons) do
+        if icon.frame == frame then
+            table.remove(marker.minimapIcons, i)
+            break
+        end
+    end
+    QuestiePolygon.ScheduleRefresh()
+end
+
+---Map markers affect drawing and stacking; minimap icons only decide minimap areas.
+---@param frame IconFrame
 function QuestiePolygon.MarkerChanged(frame)
     if frame.polygonMarker then
         QuestiePolygon.ScheduleRefresh()
         QuestiePolygon.ScheduleNudging()
+    elseif frame.polygonMinimapMarker then
+        QuestiePolygon.ScheduleRefresh()
     end
 end
 
@@ -640,18 +683,25 @@ function QuestiePolygon.IsCurrentObjective(work)
         and not entry.objective.Completed and QuestiePlayer.currentQuestlog[entry.quest.Id] == entry.quest
 end
 
----Adopts a fallback map marker for this generation, or unloads it when the work is stale.
+---Adopts a waypoint fallback marker and its minimap icon for this generation, or unloads
+---both when the work is stale.
 ---@param frame IconFrame
 ---@param work PolygonObjectiveWork?
+---@param minimapFrame IconFrame? Shares the map icon's data.
 ---@return boolean accepted
-function QuestiePolygon.OwnWaypointMarker(frame, work)
+function QuestiePolygon.OwnWaypointMarker(frame, work, minimapFrame)
     if not QuestiePolygon.IsCurrentObjective(work) then
         QuestieFramePool:UnloadFrame(frame)
+        if minimapFrame then QuestieFramePool:UnloadFrame(minimapFrame) end
         return false
     end
     local entry = work.entry
-    local marker = {frame = frame, entry = entry}
+    local marker = {frame = frame, entry = entry, minimapIcons = {}}
     frame.polygonMarker = marker
+    if minimapFrame then
+        minimapFrame.polygonMinimapMarker = marker
+        marker.minimapIcons[1] = {frame = minimapFrame}
+    end
     entry.markers[#entry.markers + 1] = marker
     QuestiePolygon.ScheduleNudging()
     return true
@@ -677,6 +727,30 @@ function QuestiePolygon.GetObjectiveMarkers(objective)
 end
 
 -- Objective collection and generation publication
+
+---Copies one spawn's presentation into icon metadata.
+---@param data table
+---@param quest Quest
+---@param objective QuestObjective
+---@param spawnData table
+local function _SetSpawnData(data, quest, objective, spawnData)
+    data.Name, data.ObjectiveTargetId = spawnData.Name, spawnData.Id
+    data.Icon, data.IconColor = spawnData.Icon or objective.Icon, quest.Color
+    data.GetIconScale, data.IconScale = spawnData.GetIconScale, spawnData.GetIconScale()
+end
+
+---@param quest Quest
+---@param objective QuestObjective
+---@param objectiveIndex ObjectiveIndex Canonical index.
+---@param spawnData table
+---@return table data
+local function _IconData(quest, objective, objectiveIndex, spawnData)
+    local data = {Id = quest.Id, ObjectiveIndex = objectiveIndex, QuestData = quest, ObjectiveData = objective,
+        Type = objective.Type}
+    _SetSpawnData(data, quest, objective, spawnData)
+    return data
+end
+
 ---Refreshes progress-only marker metadata while retaining geometry and route ownership.
 ---@param entry PolygonObjectiveEntry
 ---@param quest Quest
@@ -693,10 +767,7 @@ local function _RefreshMarkers(entry, quest, objective, pointsByKey)
             if point then
                 -- Later fast-path refreshes read the representative, so keep it on the current list.
                 cluster.representative = point
-                local spawnData = point.spawnData
-                data.Name, data.ObjectiveTargetId = spawnData.Name, spawnData.Id
-                data.Icon, data.IconColor = spawnData.Icon or objective.Icon, quest.Color
-                data.GetIconScale, data.IconScale = spawnData.GetIconScale, spawnData.GetIconScale()
+                _SetSpawnData(data, quest, objective, point.spawnData)
             end
             local alpha = frame.texture.a
             frame:UpdateTexture(Questie.usedIcons[data.Icon])
@@ -705,6 +776,25 @@ local function _RefreshMarkers(entry, quest, objective, pointsByKey)
             if alpha then
                 local texture = frame.texture
                 texture:SetVertexColor(texture.r, texture.g, texture.b, alpha)
+            end
+        end
+        for _, minimapIcon in ipairs(marker.minimapIcons) do
+            local iconFrame = minimapIcon.frame
+            local iconData = iconFrame.data
+            if iconData then
+                iconData.QuestData, iconData.ObjectiveData = quest, objective
+                local site = minimapIcon.point
+                site = site and (pointsByKey and pointsByKey[site.key] or site)
+                if site then
+                    minimapIcon.point = site
+                    _SetSpawnData(iconData, quest, objective, site.spawnData)
+                end
+                iconFrame:UpdateTexture(Questie.usedIcons[iconData.Icon])
+                QuestieMap.utils.RescaleIcon(iconFrame)
+                -- UpdateTexture clears a minimap icon's opacity; apply its distance fade at once
+                -- rather than on the next fade tick, so the icon does not blink.
+                iconFrame.lastGlowFade = nil
+                if iconFrame.FadeLogic then iconFrame:FadeLogic() end
             end
         end
     end
@@ -797,6 +887,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                                     x = x, y = y, worldX = worldX, worldY = worldY,
                                     uiMapId = uiMapId, instanceId = instanceId, areaId = location[1],
                                     key = key, targetKey = targetKey, spawnData = spawnData,
+                                    isObject = spawnData.IsObject == true,
                                 }
                                 points[#points + 1] = point
                                 signatureParts[#signatureParts + 1] = key
@@ -865,27 +956,37 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     if not nearbyTicker then nearbyTicker = C_Timer.NewTicker(1, QuestiePolygon.UpdateNearby) end
 
     -- Allocate markers with generation ownership before publishing this batch for hover or saved visibility.
-    local icon, iconPerZone = nil, {}
-    for clusterIndex, cluster in ipairs(clusters) do
+    -- The minimap shows each cluster like the world map, except that object clusters show every
+    -- listed object: those icons sit on the objects themselves.
+    local icon, iconPerZone, drawn = nil, {}, 0
+    for _, cluster in ipairs(clusters) do
         local point = pointsByKey[cluster.representative.key]
-        local spawnData = point.spawnData
-        local data = {
-            Id = quest.Id, ObjectiveIndex = canonicalIndex, QuestData = quest, ObjectiveData = objective,
-            Icon = spawnData.Icon or objective.Icon, IconColor = quest.Color, Name = spawnData.Name,
-            Type = objective.Type, ObjectiveTargetId = spawnData.Id,
-            GetIconScale = spawnData.GetIconScale, IconScale = spawnData.GetIconScale(),
-        }
+        local data = _IconData(quest, objective, canonicalIndex, point.spawnData)
         local frame = QuestieMap:DrawWorldIcon(data, point.areaId, cluster.x, cluster.y, nil, nil, "map")
         if frame then
-            local marker = {frame = frame, entry = entry, cluster = cluster}
+            local marker = {frame = frame, entry = entry, cluster = cluster, minimapIcons = {}}
             frame.polygonMarker = marker
             entry.markers[#entry.markers + 1] = marker
-            icon = {data = data, AlreadySpawnedId = point.targetKey}
+            icon = {data = data}
             iconPerZone[point.areaId] = {frame, cluster.x, cluster.y}
-        end
-        if clusterIndex % 30 == 0 then
-            coroutine.yield()
-            if isCancelled() then return nil, {} end
+            drawn = drawn + 1
+            -- The marker already owns this batch, so cancellation during a yield releases it.
+            for _, site in ipairs(cluster.locations or {point}) do
+                local x, y = site.x, site.y
+                if not cluster.locations then x, y = cluster.x, cluster.y end
+                local _, minimapFrame = QuestieMap:DrawWorldIcon(_IconData(quest, objective, canonicalIndex, site.spawnData),
+                    site.areaId, x, y, nil, nil, "minimap")
+                if minimapFrame then
+                    minimapFrame.polygonMinimapMarker = marker
+                    marker.minimapIcons[#marker.minimapIcons + 1] = {frame = minimapFrame, point = site}
+                end
+                drawn = drawn + 1
+                if drawn >= 30 then
+                    drawn = 0
+                    coroutine.yield()
+                    if isCancelled() then return nil, {} end
+                end
+            end
         end
     end
     entry.building = nil

@@ -629,7 +629,7 @@ end
 --showFlag isn't required but may want to be Modified -- TODO: Can this be removed?
 ---@param data IconData
 ---@return IconFrame, IconFrame
----@param destination? "map"|"minimap" @Omit to draw both. Polygon mode retains normal minimap pins independently.
+---@param destination? "map"|"minimap" @Omit to draw both. Polygon markers draw each map's icons separately.
 function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag, destination)
     if type(data) ~= "table" then
         error("Questie" .. ": AddWorldMapIconMap: must have some data")

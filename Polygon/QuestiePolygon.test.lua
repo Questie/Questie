@@ -2,7 +2,7 @@ dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
-    local tickers, player, savedIsLineFrame, minimapLayer
+    local tickers, player, savedIsLineFrame, minimapLayer, minimapFrames
 
     local function Update(index)
         local icon, zones, work
@@ -108,7 +108,17 @@ describe("QuestiePolygon world-map adapter", function()
         QuestieMap.GetScaleValue = function() return 1 end
         QuestieMap.RescaleIcons = function() end
         QuestieMap.utils = {RescaleIcon = function() end}
+        minimapFrames = {}
         QuestieMap.DrawWorldIcon = spy.new(function(_, data, areaId, x, y, _phase, _showFlag, destination)
+            if destination == "minimap" then
+                local icon = {data = data, AreaID = areaId, x = x, y = y, miniMapIcon = true, texture = {a = 1},
+                    ShouldBeHidden = function(self) return self.policyHidden end,
+                    UpdateTexture = function(self, texture) self.updatedTexture = texture end,
+                    SetSize = function(self, width) self.width = width end, GlowUpdate = function() end,
+                    FadeLogic = function(self) self.fadeApplied = (self.fadeApplied or 0) + 1 end}
+                minimapFrames[#minimapFrames + 1] = icon
+                return nil, icon
+            end
             assert.are.equal("map", destination)
             local frame = {data = data, AreaID = areaId, UiMapID = areaId * 10, x = x, y = y, _loaded = true,
                 texture = {r = 1, g = 1, b = 1, a = 1, SetVertexColor = function(self, r, g, b, a)
@@ -197,10 +207,51 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(1, #frames)
     end)
 
+    it("shows each cluster on the minimap like the world map, except objects, shown on each listed object", function()
+        Questie.usedIcons = {[1] = "wolf", [2] = "crate", [3] = "crate open"}
+        objective.spawnList[456] = {Id = 456, Name = "Crate", Icon = 2, IsObject = true,
+            GetIconScale = function() return 1 end, Spawns = {[1] = {{30, 40}, {31, 40}}}}
+        local outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}
+        Geometry.Build = spy.new(function(points)
+            local byX = {}
+            for _, point in ipairs(points) do byX[point.x] = point end
+            return {
+                {uiMapId = 10, x = 12, y = 22, representative = byX[10], outline = outline},
+                {uiMapId = 10, x = 30, y = 40, representative = byX[30], outline = outline, isObject = true,
+                    locations = {byX[30], byX[31]}},
+            }
+        end)
+        Update()
+
+        -- Spawn lists mark their static objects for the geometry.
+        local flags = {}
+        for _, point in ipairs(Geometry.Build.calls[1].vals[1]) do flags[point.x] = point.isObject end
+        assert.are.same({[10] = false, [30] = true, [31] = true}, flags)
+
+        -- One world-map marker per cluster; on the minimap, the creature cluster's marker position
+        -- and every listed crate, each owned by its cluster's marker.
+        assert.are.equal(2, #frames)
+        local placed = {}
+        for i, icon in ipairs(minimapFrames) do
+            placed[i] = {icon.x, icon.y, icon.data.Name, icon.polygonMinimapMarker == frames[i == 1 and 1 or 2].polygonMarker}
+        end
+        assert.are.same({{12, 22, "Wolf", true}, {30, 40, "Crate", true}, {31, 40, "Crate", true}}, placed)
+
+        -- Progress-only updates refresh their metadata without drawing again.
+        objective.spawnList[456].Icon = 3
+        objective.Collected = 3
+        Update()
+        assert.are.same({2, 3}, {#frames, #minimapFrames})
+        assert.are.same({3, "crate open"}, {minimapFrames[3].data.Icon, minimapFrames[3].updatedTexture})
+        assert.are.equal("wolf", minimapFrames[1].updatedTexture)
+        -- A new texture clears the opacity; the distance fade applies again at once, without a blink.
+        assert.are.same({1, 1, 1}, {minimapFrames[1].fadeApplied, minimapFrames[2].fadeApplied, minimapFrames[3].fadeApplied})
+    end)
+
     it("reuses geometry and markers on progress-only updates without duplicating waypoint owners", function()
         local icon, zones = Update()
         assert.are.equal(frames[1], zones[1][1])
-        assert.are.equal(123, icon.AlreadySpawnedId)
+        assert.are.equal(frames[1].data, icon.data)
         objective.Collected = 3
         local cachedIcon, cachedZones = Update()
         assert.is_nil(cachedIcon)
@@ -441,9 +492,12 @@ describe("QuestiePolygon world-map adapter", function()
         ReplaceFirstSpawn({30, 40})
         Update()
         assert.spy(Geometry.Build).was.called(2)
-        assert.spy(FramePool.UnloadFrame).was.called(1)
+        -- The old marker and its minimap icon.
+        assert.spy(FramePool.UnloadFrame).was.called(2)
         assert.is_nil(frames[1].data)
         assert.is_nil(frames[1].polygonMarker)
+        assert.is_nil(minimapFrames[1].data)
+        assert.is_nil(minimapFrames[1].polygonMinimapMarker)
         assert.are.equal(30, frames[2].x)
     end)
 
@@ -498,14 +552,14 @@ describe("QuestiePolygon world-map adapter", function()
                 dataAtRelease, markerAtRelease, releasedOwner = frame.data, frame.polygonMarker, owner
             end)
             FramePool.UnloadFrame = spy.new(function(_, releasedFrame)
-                events[#events + 1] = "recycle marker"
+                events[#events + 1] = releasedFrame.miniMapIcon and "recycle minimap icon" or "recycle marker"
                 releasedFrame.data = nil
             end)
             ReplaceFirstSpawn({30, 40})
 
             Update()
 
-            assert.are.same({"release views", "recycle marker"}, events)
+            assert.are.same({"release views", "recycle marker", "recycle minimap icon"}, events)
             assert.is_not_nil(dataAtRelease)
             assert.are.equal(marker, markerAtRelease)
             assert.are.equal(marker.entry, releasedOwner)
@@ -523,13 +577,13 @@ describe("QuestiePolygon world-map adapter", function()
                 dataAtRelease, markerAtRelease, releasedOwner = frame.data, frame.polygonMarker, owner
             end)
             FramePool.UnloadFrame = spy.new(function(_, releasedFrame)
-                events[#events + 1] = "recycle marker"
+                events[#events + 1] = releasedFrame.miniMapIcon and "recycle minimap icon" or "recycle marker"
                 releasedFrame.data = nil
             end)
 
             Polygon.RemoveObjective(42, 1)
 
-            assert.are.same({"release views", "recycle marker"}, events)
+            assert.are.same({"release views", "recycle marker", "recycle minimap icon"}, events)
             assert.is_not_nil(dataAtRelease)
             assert.are.equal(marker, markerAtRelease)
             assert.are.equal(marker.entry, releasedOwner)
@@ -554,7 +608,10 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.equal(marker, markerAtRelease)
             assert.is_nil(frame.polygonMarker)
             assert.are.same({}, marker.entry.markers)
-            assert.spy(FramePool.UnloadFrame).was.not_called()
+            -- The caller unloads the marker itself; its minimap icon has no owner left.
+            assert.spy(FramePool.UnloadFrame).was.called(1)
+            assert.is_nil(minimapFrames[1].data)
+            assert.is_nil(minimapFrames[1].polygonMinimapMarker)
         end)
 
         it("retains views through hide and navigation while rechecking live visibility on reopen", function()
@@ -656,16 +713,34 @@ describe("QuestiePolygon world-map adapter", function()
             return clusters
         end
         local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
+        -- Batches hold 30 icons: 15 clusters, each with a map and a minimap icon.
         assert.is_true(coroutine.resume(thread))
-        assert.are.equal(30, #frames)
+        assert.are.same({15, 15}, {#frames, #minimapFrames})
         Polygon.ToggleMarker(frames[1])
         Polygon.Refresh()
         assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
         Polygon.Reset()
         assert.is_true(coroutine.resume(thread))
-        assert.are.equal(30, #frames)
+        assert.are.same({15, 15}, {#frames, #minimapFrames})
         assert.spy(FramePool.UnloadFrame).was.called(30)
         assert.is_nil(map.provider)
+    end)
+
+    it("bounds icon allocation inside one large object cluster and stops once cancelled", function()
+        Geometry.Build = function(points)
+            local locations = {}
+            for i = 1, 40 do locations[i] = points[1] end
+            return {{uiMapId = 10, x = 10, y = 20, representative = points[1], isObject = true, locations = locations,
+                outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}}}
+        end
+        local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
+        -- 30 icons per batch: the marker and the cluster's first 29 objects.
+        assert.is_true(coroutine.resume(thread))
+        assert.are.same({1, 29}, {#frames, #minimapFrames})
+        Polygon.Reset()
+        assert.is_true(coroutine.resume(thread))
+        assert.are.same({1, 29}, {#frames, #minimapFrames})
+        assert.spy(FramePool.UnloadFrame).was.called(30)
     end)
 
     it("checks cancellation while collecting a large spawn list before building geometry", function()
@@ -737,7 +812,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
     end)
 
-    it("offers the minimap only shown areas, under the markers' hiding rules and the minimap switch", function()
+    it("offers the minimap only shown areas, under its minimap icons' hiding rules", function()
         Update()
         local marker = frames[1].polygonMarker
         -- A hover previews areas on the world map only.
@@ -756,15 +831,17 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same({}, minimapLayer.collect())
         frames[1].texture.a = 1
 
-        -- A closed world map shows no markers, and queued ones load without notice.
-        map.shown, frames[1]._loaded = false, nil
+        -- A closed world map shows no markers, and queued ones load without notice. Its own
+        -- hiding rules, such as the map icon switch, do not reach the minimap.
+        map.shown, frames[1]._loaded, frames[1].policyHidden = false, nil, true
         assert.are.equal(1, #minimapLayer.collect())
-        frames[1].policyHidden = true
+        local icon = minimapFrames[1]
+        icon.policyHidden = true
         assert.are.same({}, minimapLayer.collect())
-        frames[1].policyHidden, frames[1].hidden = false, true
+        icon.policyHidden, icon.hidden = false, true
         assert.are.same({}, minimapLayer.collect())
-        frames[1].hidden = false
-        Questie.db.profile.enableMiniMapIcons = false
+        icon.hidden = false
+        Polygon.MinimapMarkerRemoved(icon)
         assert.are.same({}, minimapLayer.collect())
 
         Polygon.Reset()
@@ -817,7 +894,8 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(2, #shapes)
         assert.is_false(shapes[1].highlighted)
         assert.is_false(shapes[2].highlighted)
-        assert.spy(QuestieMap.DrawWorldIcon).was.called(2)
+        -- Each cluster's map marker and minimap icon, drawn once.
+        assert.spy(QuestieMap.DrawWorldIcon).was.called(4)
     end)
 
     it("checks live Questie visibility policy and marker fade alpha before drawing shown fills", function()
@@ -1182,7 +1260,8 @@ describe("QuestiePolygon world-map adapter", function()
         FlushRefresh()
         assert.is_nil(map.provider)
         assert.is_nil(frames[1].data)
-        assert.spy(FramePool.UnloadFrame).was.called(1)
+        assert.is_nil(minimapFrames[1].data)
+        assert.spy(FramePool.UnloadFrame).was.called(2)
         assert.spy(renderCache.Clear).was.called()
         assert.spy(renderCache.Present).was.not_called()
     end)
@@ -1275,11 +1354,14 @@ describe("QuestiePolygon world-map adapter", function()
     it("unloads a waypoint marker when removal invalidated its captured generation", function()
         local _, _, work = Update()
         Polygon.RemoveQuest(42)
-        local allocatedFrame = {data = {Id = 42}}
-        assert.is_false(Polygon.OwnWaypointMarker(allocatedFrame, work))
-        assert.spy(FramePool.UnloadFrame).was.called(2) -- Existing marker, then the rejected allocation.
+        local allocatedFrame, allocatedIcon = {data = {Id = 42}}, {data = {Id = 42}}
+        assert.is_false(Polygon.OwnWaypointMarker(allocatedFrame, work, allocatedIcon))
+        -- The existing marker and its minimap icon, then both rejected allocations.
+        assert.spy(FramePool.UnloadFrame).was.called(4)
         assert.is_nil(allocatedFrame.data)
+        assert.is_nil(allocatedIcon.data)
         assert.is_nil(allocatedFrame.polygonMarker)
+        assert.is_nil(allocatedIcon.polygonMinimapMarker)
     end)
 
     it("does not draw shown areas for markers temporarily hidden by tracker highlighting", function()

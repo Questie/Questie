@@ -40,15 +40,17 @@ end
 
 ---@class SpawnListObject : SpawnListBase, SpawnListTooltip
 ---@field Id ObjectId The ID of the Object
+---@field IsObject true Static game object: its spawn positions are exact, unlike wandering creatures.
 
 ---@class SpawnListNPC : SpawnListBase, SpawnListTooltip
 ---@field Id NpcId The ID of the NPC
 ---@field Waypoints table<AreaId, CoordPair[]>
 ---@field Hostile true|boolean
 
----@class SpawnListItem : SpawnListBase, SpawnListTooltip, SpawnListNPC, SpawnListObject
+---@class SpawnListItem : SpawnListBase, SpawnListTooltip, SpawnListNPC
 ---@field Id ObjectId|NpcId The ID of the Object or Npc
 ---@field ItemId ItemId The ID of the item that the spawn drops
+---@field IsObject true? The item is looted from a game object rather than dropped by a creature.
 
 ---@class SpawnListEvent : SpawnListBase
 ---@field Id number The ID of the Event (Is this even used?)
@@ -160,6 +162,7 @@ object = function(objectId, objective)
         GetIconScale = _GetIconScaleForObject,
         IconScale = _GetIconScaleForObject(),
         TooltipKey = "o_" .. objectId,
+        IsObject = true,
     }
 
     return {
@@ -242,6 +245,7 @@ item = function(itemId, objective)
                                 Icon = icon,
                                 GetIconScale = GetIconScale,
                                 IconScale = GetIconScale(),
+                                IsObject = sourceData.IsObject,
                             }
                         end
                         -- Vendors selling the item aren't fought, also when corrections list them as dropping it.
