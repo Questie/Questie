@@ -15,6 +15,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
@@ -33,6 +35,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field Name string
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
+---@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
 
 ---@class IconTexture : Texture
 ---@field r number
@@ -48,6 +51,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     ---@class IconFrame : Button
     ---@field isManualIcon boolean
     ---@field data IconData
+    ---@field minimapTwin IconFrame? A world map icon's minimap icon; its waypoint paths follow it on the minimap.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId
 
@@ -149,12 +153,7 @@ end
 
 ---@param self IconFrame
 function QuestieFrame.ResetHoverHighlights(self)
-    if self.data.lineFrames then
-        for _, lineFrame in pairs(self.data.lineFrames) do
-            local line = lineFrame.line
-            line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
-        end
-    end
+    QuestieWaypoints.SetHighlighted(self.data, false)
 
     if self.data.touchedPins then
         for i = #self.data.touchedPins, 1, -1 do
@@ -382,12 +381,9 @@ function _QuestieFrame.Unload(self)
     self.texture:SetVertexColor(1, 1, 1, 1)
     self.miniMapIcon = nil;
 
-    --Unload potential waypoint frames that are used for pathing.
-    if self.data and self.data.lineFrames then
-        for _, lineFrame in pairs(self.data.lineFrames) do
-            lineFrame:Unload();
-        end
-    end
+    -- Release the patrol paths this icon owns.
+    QuestieWaypoints.RemoveOwner(self)
+    self.minimapTwin = nil
 
     if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
     self:Hide()
@@ -411,14 +407,7 @@ function _QuestieFrame.FadeOut(self)
         self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
-        if self.data.lineFrames then
-            for _, lineFrame in pairs(self.data.lineFrames) do
-                local line = lineFrame.line
-                if line then
-                    line:SetColorTexture(line.dR, line.dG, line.dB, Questie.db.global.iconFadeLevel)
-                end
-            end
-        end
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 
@@ -430,14 +419,7 @@ function _QuestieFrame.FadeIn(self)
         self.texture:SetVertexColor(r, g, b, 1)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, 1)
-        if self.data.lineFrames then
-            for _, lineFrame in pairs(self.data.lineFrames) do
-                local line = lineFrame.line
-                if line then
-                    line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
-                end
-            end
-        end
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 
@@ -451,16 +433,12 @@ function _QuestieFrame.FakeHide(self)
             self.shouldBeShowing = true;
         end
         self:Hide();
-        if self.data.lineFrames then
-            for _, line in pairs(self.data.lineFrames) do
-                line:FakeHide()
-            end
-        end
         self._hide = self.Hide;
         self.Hide = function()
             self.shouldBeShowing = false;
         end
         self.hidden = true
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 
@@ -475,12 +453,8 @@ function _QuestieFrame.FakeShow(self)
         self._hide = nil
         if self.shouldBeShowing then
             self:Show();
-            if self.data.lineFrames then
-                for _, line in pairs(self.data.lineFrames) do
-                    line:FakeShow()
-                end
-            end
         end
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 

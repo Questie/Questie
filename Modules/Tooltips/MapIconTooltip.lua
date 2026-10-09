@@ -3,8 +3,6 @@ local MapIconTooltip = QuestieLoader:CreateModule("MapIconTooltip");
 local _MapIconTooltip = {}
 local tinsert = table.insert;
 
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
@@ -29,6 +27,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type WaypointMap
+local WaypointMap = QuestieLoader:ImportModule("WaypointMap")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -46,8 +48,6 @@ local BREADCRUMB_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\breadcrumbtoo
 local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
 local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
-local DEFAULT_WAYPOINT_HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
-
 local lastTooltipShowTimestamp = GetTime()
 
 -- helper function to format a label with a colon, respecting localization rules
@@ -63,6 +63,8 @@ local function FormatLabelWithColon(label)
 end
 
 function MapIconTooltip:Show()
+    -- A hovered patrol path opened its NPC's tooltip; that NPC's OnLeave must run before this one.
+    WaypointMap.EndHover(self)
     MapIconTooltip.ShowOnTooltip(self, GameTooltip)
 end
 
@@ -105,11 +107,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
         end
     end
 
-    local r, g, b, a = unpack(QuestieMap.zoneWaypointHoverColorOverrides[self.AreaID] or DEFAULT_WAYPOINT_HOVER_COLOR)
-    --Highlight waypoints if they exist.
-    for _, lineFrame in pairs(self.data.lineFrames or {}) do
-        lineFrame.line:SetColorTexture(r, g, b, a)
-    end
+    QuestieWaypoints.SetHighlighted(self.data, true)
 
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:
     -- https://discordapp.com/channels/263036731165638656/263040777658171392/627808795715960842

@@ -35,7 +35,6 @@ describe("MapIconTooltip objective wording", function()
         dofile("Modules/Libs/QuestieLib.lua")
         local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetColoredQuestName = function() return "Quest Name" end
-        QuestieLoader:ImportModule("QuestieMap").zoneWaypointHoverColorOverrides = {}
         QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return {} end
         QuestieLoader:ImportModule("QuestieDB").QueryItemSingle = function() return "Spell item" end
         QuestieLoader:ImportModule("QuestXP").GetQuestLogRewardXP = function() return 0 end
@@ -54,6 +53,8 @@ describe("MapIconTooltip objective wording", function()
             return {AddLine = function() end, AddDoubleLine = function() end}
         end
         layout.Render = function() end
+        QuestieLoader:ImportModule("QuestieWaypoints").SetHighlighted = function() end
+        QuestieLoader:ImportModule("WaypointMap").EndHover = function() end
 
         objective = {Index = 3, Type = "item", Description = "Windstone Cluster", Collected = 9, Needed = 15,
             Update = function() end}

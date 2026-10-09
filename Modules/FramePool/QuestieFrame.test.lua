@@ -9,6 +9,8 @@ describe("QuestieFrame", function()
     local QuestieQuest
     ---@type QuestieFrame
     local QuestieFrame
+    ---@type QuestieWaypoints
+    local QuestieWaypoints
 
     ---@type IconFrame
     local QuestieFrameInstance
@@ -47,6 +49,9 @@ describe("QuestieFrame", function()
 
         QuestieLoader:ImportModule("DailyQuests")
 
+        QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+        QuestieWaypoints.SetHighlighted = spy.new(function() end)
+
         dofile("Localization/l10n.lua")
         dofile("Modules/FramePool/QuestieFrame.lua")
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
@@ -79,13 +84,10 @@ describe("QuestieFrame", function()
     end)
 
     describe("ResetHoverHighlights", function()
-        it("should restore the default color of highlighted route lines", function()
-            local line = {dR = 0.1, dG = 0.2, dB = 0.3, dA = 0.4, SetColorTexture = spy.new(function() end)}
-            QuestieFrameInstance.data.lineFrames = {{line = line}}
-
+        it("should end the highlight of the NPC's waypoint paths", function()
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
 
-            assert.spy(line.SetColorTexture).was.called_with(line, 0.1, 0.2, 0.3, 0.4)
+            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(QuestieFrameInstance.data, false)
         end)
 
         it("should restore touched pins in reverse order and clear them", function()
@@ -108,6 +110,60 @@ describe("QuestieFrame", function()
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
 
             assert.is_nil(QuestieFrameInstance.data.touchedPins)
+        end)
+    end)
+
+    describe("waypoint paths", function()
+        before_each(function()
+            QuestieWaypoints.OwnerChanged = spy.new(function() end)
+        end)
+
+        it("should redraw the icon's paths when it is fake hidden or shown", function()
+            local shown = true
+            QuestieFrameInstance.IsShown = function() return shown end
+            QuestieFrameInstance.Hide = function() shown = false end
+            QuestieFrameInstance.Show = function() shown = true end
+
+            QuestieFrame.private.FakeHide(QuestieFrameInstance)
+            assert.spy(QuestieWaypoints.OwnerChanged).was.called_with(QuestieFrameInstance)
+            assert.is_true(QuestieFrameInstance.hidden)
+
+            QuestieFrame.private.FakeShow(QuestieFrameInstance)
+            assert.spy(QuestieWaypoints.OwnerChanged).was.called(2)
+            assert.is_false(QuestieFrameInstance.hidden)
+        end)
+
+        it("should release the icon's paths and minimap twin when it unloads", function()
+            local savedLibStub = _G.LibStub
+            _G.LibStub = function() return {RemoveMinimapIcon = function() end, RemoveWorldMapIcon = function() end} end
+            dofile("Modules/FramePool/QuestieFrame.lua")
+            _G.LibStub = savedLibStub
+            QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
+            QuestieMap.questIdFrames = {}
+            QuestieWaypoints.RemoveOwner = spy.new(function() end)
+            local function Region() return {Hide = function() end, SetVertexColor = function() end} end
+            local icon = {_loaded = true, data = {Id = 123}, minimapTwin = {}, texture = Region(), glowTexture = Region(),
+                overlayTexture = Region(), SetScript = function() end, GetName = function() return "QuestieFrame1" end,
+                Hide = function() end}
+
+            QuestieFrame.private.Unload(icon)
+
+            -- Spies copy their arguments, and Unload clears the icon afterwards; compare the reference.
+            assert.spy(QuestieWaypoints.RemoveOwner).was.called(1)
+            assert.are.equal(icon, QuestieWaypoints.RemoveOwner.calls[1].refs[1])
+            assert.is_nil(icon.minimapTwin)
+        end)
+
+        it("should redraw the icon's paths when it fades", function()
+            local function Texture()
+                return {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end}
+            end
+            QuestieFrameInstance.texture, QuestieFrameInstance.glowTexture = Texture(), Texture()
+
+            QuestieFrame.private.FadeOut(QuestieFrameInstance)
+            QuestieFrame.private.FadeIn(QuestieFrameInstance)
+
+            assert.spy(QuestieWaypoints.OwnerChanged).was.called(2)
         end)
     end)
 

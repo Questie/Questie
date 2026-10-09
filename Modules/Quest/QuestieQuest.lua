@@ -21,6 +21,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieLib
@@ -1340,7 +1342,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 local ipz = iconPerZone[zone]
 
                 if ipz then
-                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1, 0.2, 0, 0.7} or nil)
+                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and QuestieWaypoints.HOSTILE_COLOR or nil)
                 end
                 yieldCount = yieldCount + 1
                 if yieldCount >= TICKS_PER_YIELD then
