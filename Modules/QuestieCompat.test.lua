@@ -638,6 +638,93 @@ describe("QuestieCompat status messages", function()
     end)
 end)
 
+describe("QuestieCompat.GetQuestGreenRange", function()
+    local FOREVER_INTERFACE = 16001
+    local MISTS_INTERFACE = 50503
+    local QuestieCompat
+    local originals
+    -- Loading as Forever also creates the tracker visibility frame and installs SetDesaturation.
+    local globalNames = {"GetBuildInfo", "CreateFrame", "SetDesaturation", "C_QuestLog", "GetQuestGreenRange", "print"}
+
+    ---isForever is resolved from the interface version when the module loads.
+    ---@param interfaceVersion number
+    local function loadCompat(interfaceVersion)
+        _G.GetBuildInfo = function() return "", "0", "", interfaceVersion end
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end
+
+    before_each(function()
+        originals = {}
+        for _, name in ipairs(globalNames) do
+            originals[name] = _G[name]
+        end
+        _G.CreateFrame = function() return {SetScript = function() end} end
+        _G.C_QuestLog = {}
+        _G.GetQuestGreenRange = nil
+        _G.print = spy.new(function() end)
+    end)
+
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = originals[name]
+        end
+    end)
+
+    describe("on Forever", function()
+        before_each(function()
+            loadCompat(FOREVER_INTERFACE)
+        end)
+
+        it("returns C_QuestLog.GetTrivialRange unchanged instead of the legacy helper", function()
+            -- Both APIs report the same range on Forever; the spies show which one was read.
+            _G.C_QuestLog.GetTrivialRange = spy.new(function() return 5 end)
+            _G.GetQuestGreenRange = spy.new(function() return 5 end)
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+            assert.spy(C_QuestLog.GetTrivialRange).was.called(1)
+            assert.spy(GetQuestGreenRange).was.not_called()
+        end)
+
+        it("falls back to the legacy helper when C_QuestLog.GetTrivialRange is missing", function()
+            _G.GetQuestGreenRange = spy.new(function() return 5 end)
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+        end)
+
+        it("reports the missing APIs and returns the level 50 green range", function()
+            assert.are.equal(10, QuestieCompat.GetQuestGreenRange())
+            assert.spy(print).was.called(1)
+        end)
+    end)
+
+    describe("on Classic", function()
+        before_each(function()
+            loadCompat(MISTS_INTERFACE)
+        end)
+
+        it("keeps the legacy helper even when C_QuestLog.GetTrivialRange exists", function()
+            _G.C_QuestLog.GetTrivialRange = spy.new(function() return 5 end)
+            _G.GetQuestGreenRange = spy.new(function() return 5 end)
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+            assert.spy(GetQuestGreenRange).was.called(1)
+            assert.spy(C_QuestLog.GetTrivialRange).was.not_called()
+        end)
+
+        it("uses C_QuestLog.GetTrivialRange when the legacy helper is missing", function()
+            _G.C_QuestLog.GetTrivialRange = function() return 5 end
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+        end)
+
+        it("reports the missing APIs and returns the level 50 green range", function()
+            assert.are.equal(10, QuestieCompat.GetQuestGreenRange())
+            assert.spy(print).was.called(1)
+        end)
+    end)
+end)
+
 describe("QuestieCompat modern quest log boundary", function()
     local QuestieCompat
     local originalQuestLog
@@ -795,8 +882,7 @@ describe("QuestieCompat Classic paths", function()
     local originals
     local names = {
         "GetBuildInfo", "Questie", "QuestWatchFrame", "WatchFrame", "CreateFrame",
-        "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "GetQuestGreenRange",
-        "C_PlayerInfo", "HaveQuestData",
+        "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "C_PlayerInfo", "HaveQuestData",
     }
     local watchFrame
 
@@ -849,16 +935,14 @@ describe("QuestieCompat Classic paths", function()
         assert.spy(watchFrame.Show).was.not_called()
     end)
 
-    it("preserves Classic's legacy watch, mouse, timer and trivial-range calls", function()
+    it("preserves Classic's legacy watch, mouse and timer calls", function()
         _G.IsQuestWatched = spy.new(function() return true end)
         _G.MouseIsOver = spy.new(function() return true end)
         _G.GetQuestTimers = spy.new(function() return 80, 120 end)
-        _G.GetQuestGreenRange = spy.new(function() return 4 end)
         local frame = {}
         assert.is_true(QuestieCompat.IsQuestWatched(2))
         assert.is_true(QuestieCompat.MouseIsOver(frame, 1, 2, 3, 4))
         assert.are.same({80, 120}, {QuestieCompat.GetQuestTimers(783)})
-        assert.are.equal(4, QuestieCompat.GetQuestGreenRange())
         assert.spy(IsQuestWatched).was.called_with(2)
         assert.spy(MouseIsOver).was.called_with(frame, 1, 2, 3, 4)
         assert.spy(GetQuestTimers).was.called_with(783)

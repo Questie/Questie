@@ -658,7 +658,8 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
     error(errorMsg, 2)
 end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
+---[GetQuestGreenRange Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestGreenRange)
+---[C_QuestLog.GetTrivialRange Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestLog.GetTrivialRange)
 ---Returns the inclusive green-level offset used for triviality and available-quest filtering.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
@@ -666,7 +667,7 @@ function QuestieCompat.GetQuestGreenRange()
     if GetQuestGreenRange and (not isForever or not C_QuestLog.GetTrivialRange) then
         return GetQuestGreenRange()
     end
-    -- Forever
+    -- Forever, or any client without the legacy helper
     if C_QuestLog and C_QuestLog.GetTrivialRange then
         -- Blizzard's level-based difficulty check keeps quests green at this offset (<=), despite the API's name.
         return C_QuestLog.GetTrivialRange()
