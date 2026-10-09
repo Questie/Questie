@@ -573,7 +573,9 @@ describe("TrackerUtils", function()
             ActiveQuests.Add(42, quest)
             QuestieMap = QuestieLoader:ImportModule("QuestieMap")
             originalDraw = QuestieMap.DrawWorldIcon
-            QuestieMap.DrawWorldIcon = function(_, data)
+            QuestieMap.DrawWorldIcon = function(_, data, _areaId, _x, _y, _phase, _showFlag, destination)
+                -- Tracker highlighting uses world-map markers only.
+                if destination == "minimap" then return nil, nil end
                 marker = CreateFrame("Button", "PolygonTrackerMarker")
                 marker:SetSize(12, 12)
                 marker.IsShown = marker.IsVisible
