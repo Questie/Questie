@@ -55,6 +55,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     ---@field data IconData
     ---@field minimapTwin IconFrame? A world map icon's minimap icon; its waypoint paths follow it on the minimap.
     ---@field polygonMarker PolygonMarker? Owned by the optional world-map polygon adapter.
+    ---@field polygonMinimapMarker PolygonMarker? A polygon cluster's minimap icon, owned by that marker.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId
 
@@ -358,6 +359,7 @@ end
 ---@param self IconFrame
 function _QuestieFrame.Unload(self)
     if self.polygonMarker then QuestiePolygon.MarkerRemoved(self) end
+    if self.polygonMinimapMarker then QuestiePolygon.MinimapMarkerRemoved(self) end
     if not self._loaded then
         -- Its paths draw without it, so they go now rather than once the draw queue reaches it.
         QuestieWaypoints.RemoveOwner(self)
@@ -454,7 +456,7 @@ function _QuestieFrame.FakeHide(self)
         end
         self.hidden = true
         QuestieWaypoints.OwnerChanged(self)
-        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
+        if self.polygonMarker or self.polygonMinimapMarker then QuestiePolygon.MarkerChanged(self) end
     end
 end
 
@@ -467,7 +469,7 @@ function _QuestieFrame.FakeShow(self)
         self.Hide = self._hide;
         self._show = nil
         self._hide = nil
-        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
+        if self.polygonMarker or self.polygonMinimapMarker then QuestiePolygon.MarkerChanged(self) end
         if self.shouldBeShowing then
             self:Show();
         end

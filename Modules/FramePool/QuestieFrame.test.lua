@@ -92,6 +92,7 @@ describe("QuestieFrame", function()
             Polygon.ToggleMarker = spy.new(function() end)
             Polygon.LeaveMarker = spy.new(function() end)
             Polygon.MarkerRemoved = spy.new(function(frame) frame.polygonMarker = nil end)
+            Polygon.MinimapMarkerRemoved = spy.new(function(frame) frame.polygonMinimapMarker = nil end)
             Polygon.MarkerChanged = spy.new(function() end)
             Polygon.ScheduleRefresh = spy.new(function() end)
             saved = {WorldMapFrame = _G.WorldMapFrame, IsModifierKeyDown = _G.IsModifierKeyDown,
@@ -153,6 +154,15 @@ describe("QuestieFrame", function()
             assert.is_true(QuestieFrameInstance._needsUnload)
         end)
 
+        it("releases a polygon minimap icon's ownership before a queued icon defers its unload", function()
+            QuestieFrameInstance.polygonMarker, QuestieFrameInstance.polygonMinimapMarker = nil, {}
+            QuestieFrame.private.Unload(QuestieFrameInstance)
+            assert.spy(Polygon.MinimapMarkerRemoved).was.called(1)
+            assert.spy(Polygon.MarkerRemoved).was.not_called()
+            assert.is_nil(QuestieFrameInstance.polygonMinimapMarker)
+            assert.is_true(QuestieFrameInstance._needsUnload)
+        end)
+
         it("schedules polygon drawing after native marker show and hide without changing ownership", function()
             local marker = QuestieFrameInstance.polygonMarker
             QuestieFrameInstance.glowTexture = {Hide = spy.new(function() end)}
@@ -182,6 +192,12 @@ describe("QuestieFrame", function()
             QuestieFrame.private.FakeShow(QuestieFrameInstance)
             assert.spy(Polygon.MarkerChanged).was.called(2)
             assert.is_false(QuestieFrameInstance.hidden)
+
+            -- A polygon minimap icon's hiding decides whether minimap areas show.
+            QuestieFrameInstance.polygonMarker, QuestieFrameInstance.polygonMinimapMarker = nil, {}
+            QuestieFrame.private.FakeHide(QuestieFrameInstance)
+            QuestieFrame.private.FakeShow(QuestieFrameInstance)
+            assert.spy(Polygon.MarkerChanged).was.called(4)
         end)
     end)
 

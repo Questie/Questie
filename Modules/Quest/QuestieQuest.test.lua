@@ -584,7 +584,7 @@ describe("QuestieQuest", function()
         end)
         after_each(function() _G.LibStub = originalLibStub end)
 
-        it("keeps ordinary minimap objective pins while replacing the map presentation", function()
+        it("leaves both maps to the polygon cluster markers, drawing no ordinary objective icons", function()
             Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, objectiveFilterDistance = 0}
             local Phasing = QuestieLoader:ImportModule("Phasing")
             Phasing.IsSpawnVisible = function() return true end
@@ -602,10 +602,10 @@ describe("QuestieQuest", function()
 
             local ok, err = coroutine.resume(thread)
             assert.is_true(ok, err)
-            assert.spy(QuestieMap.DrawWorldIcon).was.called(1)
-            assert.are.equal("minimap", QuestieMap.DrawWorldIcon.calls[1].vals[8])
-            assert.are.equal(1, #objective.AlreadySpawned[123].minimapRefs)
-            assert.are.same({}, objective.AlreadySpawned[123].mapRefs)
+            assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+            assert.are.same({}, objective.AlreadySpawned)
+            -- Nameplates still read the objective's icon.
+            assert.are.equal(1, objective.Icon)
             assert.spy(Polygon.UpdateObjective).was.called_with(quest, objective, 1)
         end)
 
@@ -697,7 +697,7 @@ describe("QuestieQuest", function()
                         mapFrames[#mapFrames + 1] = mapFrame
                     end
                     if destination ~= "map" then
-                        miniFrame = {data = data, AreaID = areaId, miniMapIcon = true}
+                        miniFrame = {data = data, AreaID = areaId, miniMapIcon = true, UpdateTexture = function() end}
                         miniFrames[#miniFrames + 1] = miniFrame
                     end
                     return mapFrame, miniFrame
@@ -725,14 +725,21 @@ describe("QuestieQuest", function()
                 _G.MapCanvasDataProviderMixin = originals.MapCanvasDataProviderMixin
             end)
 
-            it("keeps the ordinary waypoint-zone minimap pin and caches the polygon map owner separately", function()
+            it("gives a waypoint-only zone one polygon-owned fallback marker on both maps", function()
                 Populate()
+                -- The cluster's marker and minimap icon, then the fallback pair for waypoint zone 2.
                 assert.are.equal(2, #miniFrames)
                 assert.are.equal(2, #mapFrames)
-                assert.are.equal(2, #objective.AlreadySpawned[123].minimapRefs)
-                assert.are.same({}, objective.AlreadySpawned[123].mapRefs)
-                assert.are.equal(2, miniFrames[2].AreaID)
+                assert.are.same({}, objective.AlreadySpawned)
+                assert.are.same({2, 2}, {mapFrames[2].AreaID, miniFrames[2].AreaID})
                 assert.is_not_nil(mapFrames[2].polygonMarker)
+                assert.are.equal(mapFrames[2].polygonMarker, miniFrames[2].polygonMinimapMarker)
+                -- Route lines attach to icon data: each fallback icon has its own, apart from the cluster's.
+                local mapData, minimapData = mapFrames[2].data, miniFrames[2].data
+                assert.are_not.equal(mapData, minimapData)
+                assert.are_not.equal(mapFrames[1].data, mapData)
+                assert.are_not.equal(mapFrames[1].data, minimapData)
+                assert.are.same({42, "Wolf"}, {minimapData.Id, minimapData.Name})
                 assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, mapFrames[2], nil, {{{30, 40}, {40, 50}}}, 2, nil)
 
                 objective.Collected = 3
@@ -754,32 +761,14 @@ describe("QuestieQuest", function()
                 assert.spy(QuestieLoader:ImportModule("PolygonGeometry").Build).was.not_called()
             end)
 
-            it("stops both waypoint passes when removal happens during minimap fallback creation", function()
-                local waypoints = {}
-                for zone = 2, 62 do waypoints[zone] = {{{30, 40}, {40, 50}}} end
-                objective.spawnList[123].Waypoints = waypoints
-                local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
-                local ok, err = coroutine.resume(thread)
-                assert.is_true(ok, err)
-                assert.are.equal(61, #miniFrames)
-                assert.are.equal(1, #mapFrames)
-                Polygon.RemoveQuest(42)
-                ok, err = coroutine.resume(thread)
-                assert.is_true(ok, err)
-                assert.are.equal("dead", coroutine.status(thread))
-                assert.are.equal(61, #miniFrames)
-                assert.are.equal(1, #mapFrames)
-                assert.spy(QuestieMap.DrawWaypoints).was.not_called()
-            end)
-
             it("does not allocate or use recycled map owners after removal during waypoint generation", function()
                 local waypoints = {}
                 for zone = 2, 62 do waypoints[zone] = {{{30, 40}, {40, 50}}} end
                 objective.spawnList[123].Waypoints = waypoints
                 local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
-                assert.is_true(coroutine.resume(thread)) -- Minimap pass yields after sixty routes.
-                assert.is_true(coroutine.resume(thread)) -- Map pass yields after sixty routes.
-                assert.are.equal(62, #miniFrames)
+                assert.is_true(coroutine.resume(thread)) -- Yields after sixty routes.
+                -- The cluster's pair, then a fallback pair per routed zone.
+                assert.are.equal(61, #miniFrames)
                 assert.are.equal(61, #mapFrames)
                 assert.spy(QuestieMap.DrawWaypoints).was.called(60)
                 Polygon.RemoveQuest(42)
@@ -787,7 +776,7 @@ describe("QuestieQuest", function()
                 local ok, err = coroutine.resume(thread)
                 assert.is_true(ok, err)
                 assert.are.equal("dead", coroutine.status(thread))
-                assert.are.equal(61, #mapFrames)
+                assert.are.same({61, 61}, {#mapFrames, #miniFrames})
                 assert.are.equal(99, mapFrames[61].data.Id)
                 assert.spy(QuestieMap.DrawWaypoints).was.called(60)
             end)
@@ -1035,6 +1024,39 @@ describe("QuestieQuest", function()
 
             -- the Blizzard watch state must not be consulted while the tracker is enabled
             assert.spy(QuestieCompat.IsQuestWatched).was.not_called()
+        end)
+    end)
+
+    describe("objective spawn lists", function()
+        local saved, Corrections
+
+        before_each(function()
+            Corrections = QuestieLoader:ImportModule("QuestieCorrections")
+            saved = {QueryObjectSingle = QuestieDB.QueryObjectSingle, QueryNPCSingle = QuestieDB.QueryNPCSingle,
+                GetItem = QuestieDB.GetItem, blacklist = Corrections.questNPCBlacklist}
+            Questie.db.profile = {}
+            Corrections.questNPCBlacklist = {}
+            QuestieDB.QueryObjectSingle = function(_, field) return ({name = "Crate", spawns = {[1] = {{30, 40}}}})[field] end
+            QuestieDB.QueryNPCSingle = function(_, field) return ({name = "Wolf", spawns = {[1] = {{10, 20}}}, rank = 0})[field] end
+            QuestieDB.GetItem = function()
+                return {Id = 7, Sources = {{Type = "object", Id = 456}, {Type = "monster", Id = 123}}}
+            end
+            dofile("Modules/Quest/QuestieQuestPrivates.lua")
+        end)
+
+        after_each(function()
+            QuestieDB.QueryObjectSingle, QuestieDB.QueryNPCSingle, QuestieDB.GetItem = saved.QueryObjectSingle,
+                saved.QueryNPCSingle, saved.GetItem
+            Corrections.questNPCBlacklist = saved.blacklist
+        end)
+
+        it("marks game objects, directly and as item sources, but never creatures", function()
+            local build, objective = QuestieQuest.private.objectiveSpawnListCallTable, {Description = "Crates"}
+            assert.is_true(build.object(456, objective)[456].IsObject)
+            local itemSources = build.item(7, objective)
+            assert.is_true(itemSources[456].IsObject)
+            assert.is_nil(itemSources[123].IsObject)
+            assert.is_nil(build.monster(123, objective)[123].IsObject)
         end)
     end)
 end)

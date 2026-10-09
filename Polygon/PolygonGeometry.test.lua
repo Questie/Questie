@@ -76,6 +76,49 @@ describe("PolygonGeometry", function()
         }, _Build({c, b, a}))
     end)
 
+    describe("object clusters", function()
+        -- World units equal percentages here, so x/y are the same positions as worldX/worldY.
+        local function Spawn(x, y, isObject)
+            return {x = x, y = y, worldX = x, worldY = y, uiMapId = 1429, instanceId = 0, isObject = isObject}
+        end
+
+        it("keeps objects apart from creatures and marks an area's centroid, like creatures", function()
+            local wolf = Spawn(50, 50)
+            -- Crate D stands 3 units from crate B.
+            local crateA, crateB, crateC, crateD = Spawn(50, 50, true), Spawn(56, 50, true), Spawn(53, 58, true),
+                Spawn(56, 53, true)
+            local result = _Build({crateD, wolf, crateC, crateA, crateB}, {objectSpacing = 5})
+
+            assert.are.equal(2, #result)
+            local creatures, objects = result[1], result[2]
+            assert.are.same({wolf}, {creatures.representative})
+            assert.is_nil(creatures.isObject)
+            assert.is_nil(creatures.locations)
+
+            -- The same spawns as creatures produce the same marker and area.
+            local asCreatures = _Build({Spawn(56, 53), Spawn(53, 58), Spawn(50, 50), Spawn(56, 50)})[1]
+            assert.is_true(objects.isObject)
+            assert.is_not_nil(objects.outline)
+            assert.are.same({asCreatures.x, asCreatures.y}, {objects.x, objects.y})
+            assert.are.equal(crateA, objects.representative)
+            -- Locations follow admission order from the seed, skipping crate D, under 5 units from crate B.
+            assert.are.same({crateA, crateC, crateB}, objects.locations)
+        end)
+
+        it("marks an object cluster without an area on the object nearest its middle", function()
+            -- Collinear crates have no area; their mean (54.3, 50) is open ground.
+            local left, middle, right = Spawn(50, 50, true), Spawn(53, 50, true), Spawn(60, 50, true)
+            local objects = _Build({right, left, middle}, {objectSpacing = 5})[1]
+
+            assert.is_nil(objects.outline)
+            assert.are.equal(middle, objects.representative)
+            assert.are.same({53, 50}, {objects.x, objects.y})
+            -- Locations start with that crate; the left one, 3 units from it, is skipped.
+            assert.are.same({middle, right}, {objects.locations[1], objects.locations[2]})
+            assert.are.equal(2, #objects.locations)
+        end)
+    end)
+
     it("moves the admission center instead of using a fixed seed radius", function()
         local a = {x = 1, y = 10, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0}
         local b = {x = 2, y = 10, worldX = 100, worldY = 0, uiMapId = 1429, instanceId = 0}
