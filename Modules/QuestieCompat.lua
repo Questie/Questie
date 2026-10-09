@@ -662,6 +662,10 @@ end
 ---Returns the inclusive green-level offset used for triviality and available-quest filtering.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
+    -- Classic to MoP
+    if GetQuestGreenRange then
+        return GetQuestGreenRange()
+    end
     -- Forever
     -- The level bracket 1-9 returns value of 5 instead of expected 4. Most likely a Blizzard bug.
     -- This changes the trivial threshold for those levels. Changing it to 4 for that bracket.
@@ -675,10 +679,6 @@ function QuestieCompat.GetQuestGreenRange()
         end
         -- Blizzard's level-based difficulty check keeps quests green at this offset (<=), despite the API's name.
         return foreverQuestGreenRange
-    end
-    -- Classic to MoP
-    if GetQuestGreenRange then
-        return GetQuestGreenRange()
     end
     print("ERROR: Something went seriously wrong in Questie's GetQuestGreenRange, please tell the devs on Discord or Github.")
     return 10 -- default to level 50 in case of missing functions
