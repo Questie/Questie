@@ -218,7 +218,7 @@ function TrackerData.GetColoredQuestName(displayQuest, showLevel, showState)
         end
     end
     local isRepeatable, isEvent, isPvP = TrackerQuestieBehavior.GetTitleFlags(displayQuest)
-    return QuestieLib:PrintDifficultyColor(displayQuest.level, name, isRepeatable, isEvent, isPvP)
+    return QuestieLib:PrintDifficultyColor(displayQuest.level, name, isRepeatable, isEvent, isPvP, displayQuest.Id)
 end
 
 ---Keep Questie's chat-safe bracket format without requiring a database title.

@@ -369,13 +369,28 @@ describe("AvailableQuests", function()
         local submittedJobs
         local originalGetFramesForQuest
         local originalGetQuestIcon
-        local originalUsedIcons
+        local originalUsedIcons, originalMapUtils, originalForever, orderedIconTypes
+
+        local function CreateIconFrame(data, texturePath)
+            return {
+                data = data,
+                texture = {
+                    GetTexture = function() return texturePath end,
+                    SetTexture = spy.new(function(_, path) texturePath = path end),
+                },
+                UpdateTexture = spy.new(function() error("Difficulty refresh must not reset alpha or scale") end),
+            }
+        end
 
         before_each(function()
             submittedJobs = {}
             originalGetFramesForQuest = QuestieMap.GetFramesForQuest
             originalGetQuestIcon = QuestieLib.GetQuestIcon
             originalUsedIcons = Questie.usedIcons
+            originalMapUtils = QuestieMap.utils
+            originalForever = Questie.IsForever
+            orderedIconTypes = {}
+            QuestieMap.utils = {SetDrawOrder = function(frame) orderedIconTypes[frame] = frame.data.Icon end}
             QuestieMap.GetFramesForQuest = spy.new(function() return {} end)
             QuestieLib.GetQuestIcon = spy.new(function() return 6 end)
             Questie.usedIcons = {[6] = "available-texture"}
@@ -401,6 +416,9 @@ describe("AvailableQuests", function()
             QuestieMap.GetFramesForQuest = originalGetFramesForQuest
             QuestieLib.GetQuestIcon = originalGetQuestIcon
             Questie.usedIcons = originalUsedIcons
+            QuestieMap.utils = originalMapUtils
+            Questie.IsForever = originalForever
+            TestUtils.resetEvents()
         end)
 
         it("should name its calculation and draw jobs for profiling", function()
@@ -434,23 +452,22 @@ describe("AvailableQuests", function()
         end)
 
         it("should not redraw existing starters when their textures are unchanged", function()
-            local starterFrame = {
-                data = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 6},
-                UpdateTexture = spy.new(function() end),
-            }
+            local starterFrame = CreateIconFrame(
+                {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 6}, "available-texture")
             QuestieMap.GetFramesForQuest = function() return {starterFrame} end
 
             AvailableQuests.CalculateAndDrawAll()
             submittedJobs[1].threadFunction()
 
+            assert.spy(starterFrame.texture.SetTexture).was.not_called()
             assert.spy(starterFrame.UpdateTexture).was.not_called()
             assert.are_equal(1, #submittedJobs)
         end)
 
         it("should refresh both starter textures without changing other icons for the same quest", function()
             local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
-            local mapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
-            local minimapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
+            local mapStarterFrame = CreateIconFrame(starterData, "gray-texture")
+            local minimapStarterFrame = CreateIconFrame(starterData, "gray-texture")
             local objectiveFrame = {
                 data = {QuestData = {Id = QUEST_ID}, Type = "monster", Icon = 1, ObjectiveData = {IsPartyObjective = true}},
                 UpdateTexture = spy.new(function() end),
@@ -466,11 +483,30 @@ describe("AvailableQuests", function()
             AvailableQuests.CalculateAndDrawAll()
             submittedJobs[1].threadFunction()
 
-            assert.spy(mapStarterFrame.UpdateTexture).was.called_with(mapStarterFrame, "available-texture")
-            assert.spy(minimapStarterFrame.UpdateTexture).was.called_with(minimapStarterFrame, "available-texture")
+            assert.spy(mapStarterFrame.texture.SetTexture).was.called_with(mapStarterFrame.texture, "available-texture")
+            assert.spy(minimapStarterFrame.texture.SetTexture).was.called_with(minimapStarterFrame.texture, "available-texture")
             assert.spy(objectiveFrame.UpdateTexture).was.not_called()
             assert.spy(finisherFrame.UpdateTexture).was.not_called()
             assert.are_equal(1, #submittedJobs)
+        end)
+
+        it("refreshes both starter textures and priorities when native quest data loads", function()
+            Questie.IsForever = true
+            AvailableQuests.Initialize()
+            local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
+            local mapStarter = CreateIconFrame(starterData, "gray-texture")
+            local minimapStarter = CreateIconFrame(starterData, "gray-texture")
+            QuestieMap.GetFramesForQuest = spy.new(function() return {mapStarter, minimapStarter} end)
+
+            TestUtils.triggerMockEvent("QUEST_DATA_LOAD_RESULT", QUEST_ID, true)
+
+            assert.spy(QuestieMap.GetFramesForQuest).was.called_with(QuestieMap, QUEST_ID)
+            assert.are.equal("available-texture", mapStarter.texture:GetTexture())
+            assert.are.equal("available-texture", minimapStarter.texture:GetTexture())
+            assert.are.equal(6, orderedIconTypes[mapStarter])
+            assert.are.equal(6, orderedIconTypes[minimapStarter])
+            assert.are.equal(6, starterData.Icon)
+            assert.are.equal(0, #submittedJobs)
         end)
     end)
 
@@ -1789,12 +1825,15 @@ describe("AvailableQuests", function()
         local originalIsClassic
         local originalIsSoD
         local originalGetFramesForQuest
+        local originalUnitQuestTrivialLevelRange, originalLowLevelStyle
         local submittedJobs
 
         before_each(function()
             originalIsClassic = Questie.IsClassic
             originalIsSoD = Questie.IsSoD
             originalGetFramesForQuest = QuestieMap.GetFramesForQuest
+            originalUnitQuestTrivialLevelRange = _G.UnitQuestTrivialLevelRange
+            originalLowLevelStyle = Questie.db.profile.lowLevelStyle
 
             -- The availability pass captures these at load, so this describe loads AvailableQuests again.
             QuestieDB.IsDoable = function() return true end
@@ -1842,6 +1881,28 @@ describe("AvailableQuests", function()
             Questie.IsClassic = originalIsClassic
             Questie.IsSoD = originalIsSoD
             QuestieMap.GetFramesForQuest = originalGetFramesForQuest
+            _G.UnitQuestTrivialLevelRange = originalUnitQuestTrivialLevelRange
+            Questie.db.profile.lowLevelStyle = originalLowLevelStyle
+        end)
+
+        it("keeps level-8 quests for a level-13 player when trivial quests are hidden", function()
+            _G.UnitQuestTrivialLevelRange = function() return 5 end
+            QuestiePlayer.GetPlayerLevel = function() return 13 end
+            Questie.db.profile.lowLevelStyle = 1 -- LOWLEVEL_NONE: the default experience-granting quest filter.
+            local questLevels = {[2] = 8, [3] = 7}
+            QuestieLib.GetEffectiveQuestLevel = function(id) return questLevels[id], 4, 0 end
+            QuestieDB.QueryQuestSingle = function() return nil end
+            QuestieLoader:ImportModule("QuestieEvent").activeQuests = {}
+            -- Exercise the real level predicate and compatibility range through the full availability pass.
+            dofile("Modules/Quest/AvailableQuests/IsLevelRequirementFulfilled.lua")
+            dofile("Modules/Quest/AvailableQuests/AvailableQuests.lua")
+            AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+            AvailableQuests.Initialize()
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.are_same({[2] = true}, AvailableQuests.__availableQuests)
         end)
 
         it("marks every doable Quest from the provider-backed QuestPointers as available", function()

@@ -73,7 +73,7 @@ local QIsComplete, IsLevelRequirementsFulfilled, IsDoable = QuestieDB.IsComplete
 
 local _CalculateAndDrawAvailableQuests, _DrawAvailableQuest, _DrawChildQuests, _AddStarter
 local _GetIconScaleForAvailable, _HasProperDistanceToAlreadyAddedSpawns
-local _ScheduleDailyResetTimer, _MarkQuestAsUnavailableFromNPC, _CanNpcOfferQuestToPlayer
+local _ScheduleDailyResetTimer, _MarkQuestAsUnavailableFromNPC, _CanNpcOfferQuestToPlayer, _UpdateDrawnAvailableIcons
 
 -- Exposed for testing only
 AvailableQuests.__getPassState = function()
@@ -100,6 +100,15 @@ function AvailableQuests.Initialize()
 
     if (not Questie.IsClassic) then
         _ScheduleDailyResetTimer()
+    end
+
+    if Questie.IsForever then
+        -- Starters can be drawn with a level estimate before the client's quest-specific difficulty is cached.
+        Questie:RegisterEvent("QUEST_DATA_LOAD_RESULT", function(_, questId, success)
+            if success then
+                _UpdateDrawnAvailableIcons(questId)
+            end
+        end)
     end
 end
 
@@ -520,20 +529,24 @@ function AvailableQuests.ValidateAvailableQuestsFromQuestGreeting()
     end
 end
 
----Existing quest starters need a texture refresh when the player levels up: a gray ! can become yellow
----once the quest's level requirement is met. Update those icons without redrawing their locations.
----Only touch starter frames; party objectives sharing the quest ID must keep their own textures.
+---Refresh starter difficulty after a level change or native quest-data load without redrawing locations.
+---Only touch starter frames; finishers and party objectives sharing the quest ID keep their own textures.
 ---@param questId QuestId
 ---@return boolean hasAvailableFrames @True even when the existing starter textures need no update.
-local function _UpdateDrawnAvailableIcons(questId)
+_UpdateDrawnAvailableIcons = function(questId)
     local hasAvailableFrames = false
     for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
         if frame and frame.data and frame.data.Type == "available" and frame.data.QuestData then
             hasAvailableFrames = true
             local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
+            local texture = Questie.usedIcons[newIcon]
 
-            if newIcon ~= frame.data.Icon then
-                frame:UpdateTexture(Questie.usedIcons[newIcon])
+            -- IconData can be shared by map/minimap frames. Reapply ordering to each frame even after a sibling changed it.
+            frame.data.Icon = newIcon
+            QuestieMap.utils.SetDrawOrder(frame)
+            -- Change only artwork so minimap alpha, scale and overlays survive.
+            if frame.texture:GetTexture() ~= texture then
+                frame.texture:SetTexture(texture)
             end
         end
     end

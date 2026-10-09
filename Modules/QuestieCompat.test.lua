@@ -962,10 +962,10 @@ describe("QuestieCompat Forever paths", function()
         assert.are.equal(textureBridge, SetDesaturation)
     end)
 
-    it("uses the unit-based trivial range rather than an existing legacy helper", function()
+    it("preserves the inclusive unit-based green range rather than using a legacy helper", function()
         _G.UnitQuestTrivialLevelRange = spy.new(function() return 5 end)
         _G.GetQuestGreenRange = function() error("legacy helper") end
-        assert.are.equal(4, QuestieCompat.GetQuestGreenRange())
+        assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
         assert.spy(UnitQuestTrivialLevelRange).was.called_with("player")
     end)
 

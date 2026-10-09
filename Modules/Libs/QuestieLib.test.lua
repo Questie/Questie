@@ -109,6 +109,42 @@ describe("QuestieLib", function()
             assert.spy(getDifficultyMock).was.not_called()
         end)
 
+        describe("GetQuestIcon", function()
+            local originalQuestie, eventMock, pvpMock
+            local quest
+
+            before_each(function()
+                originalQuestie = Questie
+                _G.Questie = {ICON_TYPE_AVAILABLE = 6, ICON_TYPE_AVAILABLE_GRAY = 7}
+                eventMock = stub(QuestieDB, "IsActiveEventQuest", function() return false end)
+                pvpMock = stub(QuestieDB, "IsPvPQuest", function() return false end)
+                quest = {Id = 94414, level = 2, requiredLevel = 1}
+            end)
+
+            after_each(function()
+                _G.Questie = originalQuestie
+                eventMock:revert()
+                pvpMock:revert()
+            end)
+
+            it("uses a normal icon for native green despite a trivial level estimate", function()
+                quest.level = 1
+                nativeDifficulty = 1
+
+                assert.are.equal(6, QuestieLib.GetQuestIcon(quest))
+                assert.spy(getDifficultyMock).was.called_with(94414)
+                assert.is_true(QuestieDB.IsTrivial(1))
+            end)
+
+            it("uses a gray icon for native trivial without changing eligibility triviality", function()
+                nativeDifficulty = 0
+
+                assert.are.equal(7, QuestieLib.GetQuestIcon(quest))
+                assert.is_false(QuestieDB.IsTrivial(2))
+            end)
+
+        end)
+
         describe("GetColoredQuestName", function()
             local queryMock, repeatableMock, pvpMock, eventMock
 

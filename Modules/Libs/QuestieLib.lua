@@ -876,7 +876,9 @@ function QuestieLib.GetQuestIcon(quest)
     if quest.IsRepeatable then
         return Questie.ICON_TYPE_REPEATABLE
     end
-    if QuestieDB.IsTrivial(quest.level) then
+    -- Match title difficulty without changing the level-based visibility and auto-accept rules.
+    -- Unknown levels use the player's level for the fallback, just like scaling quests.
+    if _GetDifficultyColor(quest.level or -1, quest.Id) == difficultyColors.Trivial then
         return Questie.ICON_TYPE_AVAILABLE_GRAY
     end
     return Questie.ICON_TYPE_AVAILABLE

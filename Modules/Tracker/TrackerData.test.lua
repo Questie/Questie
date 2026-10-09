@@ -893,7 +893,12 @@ describe("TrackerData", function()
         local displayQuest = TrackerData.RefreshQuest(91741)
         Questie.db.profile.trackerShowQuestLevel = true
 
-        assert.are.equal("|cFFFFFF00[2] Nibbled-On Book|r", TrackerData.GetColoredQuestName(displayQuest, true, false))
+        local getDifficulty = spy.on(compat, "GetQuestDifficulty")
+        local title = TrackerData.GetColoredQuestName(displayQuest, true, false)
+        getDifficulty:revert()
+
+        assert.are.equal("|cFFFFFF00[2] Nibbled-On Book|r", title)
+        assert.spy(getDifficulty).was.called_with(91741)
         assert.are.equal("[[2] Nibbled-On Book (91741)]", TrackerData.GetQuestLink(displayQuest))
     end)
 end)
