@@ -8,6 +8,7 @@ local PolygonGeometry = QuestieLoader:CreateModule("PolygonGeometry")
 ---@field worldY number
 ---@field uiMapId number
 ---@field instanceId number Unrelated coordinate spaces never share a cluster.
+---@field isObject boolean? A static game object; objects and creatures never share a cluster.
 -- Extra fields are opaque to geometry. Representatives retain the caller's original point.
 
 ---@class PolygonCluster
@@ -17,7 +18,9 @@ local PolygonGeometry = QuestieLoader:CreateModule("PolygonGeometry")
 ---@field y number
 ---@field outline table[]? Ordered convex percentage-space outline; nil retains a point-only marker.
 ---@field worldBounds PolygonWorldBounds Member spawn extent, for coarse player-proximity checks.
----@field representative PolygonSpawnPoint
+---@field representative PolygonSpawnPoint For an object cluster without an area, the member the marker sits on.
+---@field isObject boolean? A cluster of game objects, which list their own positions.
+---@field locations PolygonSpawnPoint[]? Object members at least objectSpacing apart, starting with the representative.
 
 ---@class PolygonWorldBounds
 ---@field minX number World units, matching PolygonSpawnPoint.worldX.
@@ -34,6 +37,7 @@ local PolygonGeometry = QuestieLoader:CreateModule("PolygonGeometry")
 ---@field radius number? World units, default 180.
 ---@field areaCutoff number? Squared zone percentages, default 0.9.
 ---@field tolerance number? Percentage-space reduction distance, default 0.03.
+---@field objectSpacing number? World units between an object cluster's listed locations, default 10.
 
 local CHECK_INTERVAL = 256
 local MAX_OPERATIONS_PER_SLICE = 32768
@@ -130,6 +134,7 @@ end
 local function _SpawnBefore(a, b)
     if a.uiMapId ~= b.uiMapId then return a.uiMapId < b.uiMapId end
     if a.instanceId ~= b.instanceId then return a.instanceId < b.instanceId end
+    if (a.isObject == true) ~= (b.isObject == true) then return b.isObject == true end
     if a.x ~= b.x then return a.x < b.x end
     if a.y ~= b.y then return a.y < b.y end
     if a.worldX ~= b.worldX then return a.worldX < b.worldX end
@@ -328,6 +333,39 @@ local function _AreaAndCentroid(points, work)
     return abs(twiceArea) / 2, origin.x + sumX / (3 * twiceArea), origin.y + sumY / (3 * twiceArea)
 end
 
+---Objects stand exactly where their spawns say, unlike wandering creatures, so object clusters
+---list their members at least `spacing` apart; closer ones would overlap as icons anyway. A
+---cluster with an area keeps its area-centroid marker, like creatures: the drawn area explains
+---where it points. Without an area, a centroid could stand in empty ground between objects, so
+---the marker sits on the member nearest the members' mean instead.
+---@param cluster PolygonCluster
+---@param members PolygonSpawnPoint[] In admission order, which is deterministic.
+---@return boolean? completed nil on cancellation.
+local function _ListObjects(cluster, members, meanX, meanY, spacing, work)
+    local first = members[1]
+    if not cluster.outline then
+        local nearestDistance = huge
+        for _, member in ipairs(members) do
+            local distance = (member.worldX - meanX)^2 + (member.worldY - meanY)^2
+            if distance < nearestDistance then first, nearestDistance = member, distance end
+            if not _Checkpoint(work) then return end
+        end
+        cluster.representative, cluster.x, cluster.y = first, first.x, first.y
+    end
+    local locations, spacingSquared = {first}, spacing * spacing
+    for _, member in ipairs(members) do
+        local separate = member ~= first
+        for _, kept in ipairs(locations) do
+            if not separate then break end
+            separate = (member.worldX - kept.worldX)^2 + (member.worldY - kept.worldY)^2 >= spacingSquared
+            if not _Checkpoint(work) then return end
+        end
+        if separate then locations[#locations + 1] = member end
+    end
+    cluster.isObject, cluster.locations = true, locations
+    return true
+end
+
 ---Builds complete cluster geometry without mutating inputs. The caller must run in a
 ---coroutine, including when the input is small. Cancellation returns nil, never partial data.
 ---@async
@@ -340,7 +378,9 @@ function PolygonGeometry.Build(points, options, isCancelled)
     local radius = options.radius or 180
     local areaCutoff = options.areaCutoff or 0.9
     local tolerance = options.tolerance or 0.03
+    local objectSpacing = options.objectSpacing or 10
     assert(_IsFinite(radius) and radius > 0, "Polygon radius must be positive and finite")
+    assert(_IsFinite(objectSpacing) and objectSpacing >= 0, "Polygon object spacing must be nonnegative and finite")
     assert(_IsFinite(areaCutoff) and areaCutoff >= 0, "Polygon area cutoff must be nonnegative and finite")
     assert(_IsFinite(tolerance) and tolerance >= 0, "Polygon tolerance must be nonnegative and finite")
     local work = PolygonGeometry.NewWork(isCancelled)
@@ -355,14 +395,16 @@ function PolygonGeometry.Build(points, options, isCancelled)
     if not sorted then return end
     local clusters, touched, radiusSquared = {}, {}, radius * radius
 
-    -- Work within contiguous map/instance partitions. Candidate scans never visit an
-    -- unrelated coordinate space, even when many objectives span multiple maps.
+    -- Work within contiguous map/instance/kind partitions. Candidate scans never visit an
+    -- unrelated coordinate space, even when many objectives span multiple maps, and objects
+    -- never join creature clusters.
     local partitionFirst = 1
     while partitionFirst <= #sorted do
         local partitionLast = partitionFirst
         local firstPoint = sorted[partitionFirst]
         while sorted[partitionLast + 1] and sorted[partitionLast + 1].uiMapId == firstPoint.uiMapId
-            and sorted[partitionLast + 1].instanceId == firstPoint.instanceId do
+            and sorted[partitionLast + 1].instanceId == firstPoint.instanceId
+            and (sorted[partitionLast + 1].isObject == true) == (firstPoint.isObject == true) do
             partitionLast = partitionLast + 1
             if not _Checkpoint(work) then return end
         end
@@ -419,6 +461,8 @@ function PolygonGeometry.Build(points, options, isCancelled)
                     if x and y then cluster.x, cluster.y = x, y end
                     if area > areaCutoff then cluster.outline = outline end
                 end
+                if seed.isObject and not _ListObjects(cluster, members, worldSumX / #members, worldSumY / #members,
+                    objectSpacing, work) then return end
                 clusters[#clusters + 1] = cluster
             end
             if not _Checkpoint(work) then return end
