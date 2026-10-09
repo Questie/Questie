@@ -30,6 +30,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
 ---@field hovered IconFrame?
 ---@field previewed boolean? A quest log control is hovered; shows and highlights every cluster.
+---@field previewSuppressed boolean? A click hid the areas while hovering; no preview until a hover starts again.
 ---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
 ---@field building boolean? Replacement geometry is not shown while marker allocation yields.
 
@@ -146,9 +147,10 @@ local function _SaveVisibility(entry, shown)
         quests[entry.index] = shown
     end
     visibility[entry.quest.Id] = next(quests) and quests or nil
-    -- Clicks arrive while hovering a marker or quest log control; that preview would
-    -- otherwise keep a hidden area drawn until the cursor leaves.
-    if not shown then entry.hovered, entry.previewed = nil, nil end
+    -- Clicks arrive while hovering a marker or quest log control. The hover stays, so showing
+    -- the areas again highlights them at once, but hidden areas are not previewed beneath the
+    -- cursor until the next hover starts.
+    entry.previewSuppressed = not shown or nil
     QuestiePolygon.ScheduleRefresh()
     _NotifyVisibilityChanged()
 end
@@ -212,7 +214,8 @@ function QuestiePolygon.Refresh()
     local shapes = {}
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
-            if entry.active and not entry.building and (entry.hovered or entry.previewed or _IsAreaShown(entry)) then
+            local previewing = (entry.hovered or entry.previewed) and not entry.previewSuppressed
+            if entry.active and not entry.building and (previewing or _IsAreaShown(entry)) then
                 for _, marker in ipairs(entry.markers) do
                     local frame = marker.frame
                     local outline = marker.cluster and marker.cluster.outline
@@ -521,7 +524,7 @@ end
 function QuestiePolygon.EnterMarker(frame)
     local marker = frame.polygonMarker
     if marker and marker.entry.active and not marker.entry.building and not frame.hidden and not frame:ShouldBeHidden() then
-        marker.entry.hovered = frame
+        marker.entry.hovered, marker.entry.previewSuppressed = frame, nil
         QuestiePolygon.ScheduleRefresh()
     end
 end
@@ -663,6 +666,7 @@ function QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
     end
     if entry and entry.previewed ~= (previewing or nil) then
         entry.previewed = previewing or nil
+        if previewing then entry.previewSuppressed = nil end
         QuestiePolygon.ScheduleRefresh()
     end
 end
