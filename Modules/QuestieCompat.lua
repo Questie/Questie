@@ -662,8 +662,8 @@ end
 ---Returns the inclusive green-level offset used for triviality and available-quest filtering.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
-    -- Classic to MoP
-    if GetQuestGreenRange then
+    -- Classic to MoP, or fallback when Forever's API is unavailable
+    if GetQuestGreenRange and (not isForever or not UnitQuestTrivialLevelRange) then
         return GetQuestGreenRange()
     end
     -- Forever
