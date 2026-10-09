@@ -659,13 +659,22 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
----Returns the exclusive level offset used for triviality and available-quest filtering.
+---Returns the inclusive green-level offset used for triviality and available-quest filtering.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
     -- Forever
+    -- The level bracket 1-9 returns value of 5 instead of expected 4. Most likely a Blizzard bug.
+    -- This changes the trivial threshold for those levels. Changing it to 4 for that bracket.
     if UnitQuestTrivialLevelRange then
-        -- TrivialRange = GreyRange, not GreenRange, so decrement by 1
-        return UnitQuestTrivialLevelRange("player")-1
+        local foreverQuestGreenRange = UnitQuestTrivialLevelRange("player")
+        local playerLevel = UnitLevel("player")
+        if (playerLevel < 10) and (foreverQuestGreenRange == 4) then
+            Questie.Warning("Safe to remove the Forever manual correction for UnitQuestTrivialLevelRange")
+        elseif (playerLevel < 10) and (foreverQuestGreenRange == 5) then
+            foreverQuestGreenRange = 4
+        end
+        -- Blizzard's level-based difficulty check keeps quests green at this offset (<=), despite the API's name.
+        return foreverQuestGreenRange
     end
     -- Classic to MoP
     if GetQuestGreenRange then
