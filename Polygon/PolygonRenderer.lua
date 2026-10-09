@@ -21,6 +21,7 @@ PolygonRenderer.debugRandomColors = false
 ---@field freeFills Texture[]
 ---@field freeBorders Texture[]
 ---@field hoverInput PolygonHoverInput?
+---@field maskTextures MaskTexture[] Applied once to every texture this renderer creates.
 ---@field hoveredFrames table<Frame, boolean> Visible polygons whose outlines contain the cursor.
 ---@field highlightedFrames table<Frame, boolean> Union of geometric hover and caller-requested marker highlights.
 ---@field hoverDriver Frame? One shared update driver, retained across visible-set changes.
@@ -47,10 +48,12 @@ end
 ---clipping and zoom/pan; configuration uses its full logical extent, not the viewport size.
 ---@param canvas Frame
 ---@param hoverInput PolygonHoverInput? Omit for marker highlighting only, without cursor hover.
+---@param maskTextures MaskTexture[]? Clip every fill and border, for canvases that do not clip, such as the minimap.
 ---@return PolygonCanvasRenderer
-function PolygonRenderer.New(canvas, hoverInput)
+function PolygonRenderer.New(canvas, hoverInput, maskTextures)
     return setmetatable({canvas = canvas, activeFrames = {}, freeFrames = {}, freeFills = {}, freeBorders = {},
-        ownedFrames = {}, visibleFrames = {}, hoverInput = hoverInput, hoveredFrames = {}, highlightedFrames = {}}, Renderer)
+        ownedFrames = {}, visibleFrames = {}, hoverInput = hoverInput, maskTextures = maskTextures or {},
+        hoveredFrames = {}, highlightedFrames = {}}, Renderer)
 end
 
 -- Hover selection and border styling
@@ -240,9 +243,14 @@ local function _AcquireTexture(self, frame, border, index)
     local owned = border and frame.borders or frame.fills
     local texture = owned[index]
     if texture then return texture end
-    texture = table.remove(free) or frame:CreateTexture(nil, "OVERLAY", nil, border and 1 or 0)
+    local recycled = table.remove(free)
+    texture = recycled or frame:CreateTexture(nil, "OVERLAY", nil, border and 1 or 0)
     -- Record ownership before native configuration, including partial allocations.
     owned[index] = texture
+    -- Pooled textures never leave this renderer, so they already carry its masks.
+    if not recycled then
+        for _, mask in ipairs(self.maskTextures) do texture:AddMaskTexture(mask) end
+    end
     texture:SetParent(frame)
     texture:SetSnapToPixelGrid(false)
     texture:SetTexelSnappingBias(0)
