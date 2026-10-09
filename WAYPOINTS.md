@@ -21,7 +21,7 @@ Everything lives in `Modules/Map/Waypoints/`. The modules are loaded after `Modu
 | Module | Responsibility |
 | --- | --- |
 | `WaypointGeometry` | Pure geometry. Turns DB patrols into polylines in percentages and world yards: consecutive points closer than 0.5 yd merge, and points without a position split a patrol. Also projects onto neighbouring maps (capitals excluded both ways) and does the capsule hover test. |
-| `WaypointRenderer` | One frame per polyline and one pooled `DrawLine` texture per segment, with `Icons/waypoint-line.blp` (= `WHITE32X32BLACKLINES`). Restyling redraws only for a new thickness; a new colour only tints. It can also draw the debug hover area. |
+| `WaypointRenderer` | One frame per path and one pooled texture per segment, with `Icons/waypoint-line.blp` (= `WHITE32X32BLACKLINES`). Each texture is stretched over its segment's [mitered quad](#mitered-joins) with `SetVertexOffset`. Restyling redraws only for a new thickness; a new colour only tints. It can also draw the debug hover area. |
 | `QuestieWaypoints` | The registry and Questie adapter. Each path is owned by its world map icon and shared on `icon.data.waypointPaths` for highlighting. Its world map visibility follows the owner's `hidden`/`faded`, and its minimap visibility follows the owner's `minimapTwin`. `SetSolo` covers the tracker flash. |
 | `WaypointMap` | One `OnUpdate` driver on the world map canvas, with no data provider. It redraws after changes, map switches and canvas resizes. Thickness is divided by the canvas scale. Thickness is redrawn once a smooth zoom settles, or when it drifts more than 25%; meanwhile lines scale with the canvas. Projection onto neighbouring maps is Zone → Zone only, so no dungeon floors or caves. Cursor hover opens the owner icon's tooltip, or only highlights the path when the owner is not on this map. Another icon's tooltip first ends a path hover (`EndHover`), so the path owner's `OnLeave` restores its icon tints. |
 | `WaypointMinimap` | Blob's `PolygonMinimap` adapted for polylines: HBD-aligned projection with rotation, shape and player masks, and clipping. It draws only segments within 2 view radii of the projection origin. Walking moves just the container until the player drifts half a radius; turning a rotating minimap redraws only those nearby segments. It has no hover. |
@@ -79,6 +79,30 @@ DrawLine(texture, frame, sx, sy, ex, ey, thickness, 1, "TOPLEFT")
 - **Short segments:** legacy code dropped closing segments shorter than about 0.1 yards because of "TexCoord errors". `DrawLine` divides by the length, so it produces extreme texcoords when length ≪ thickness. Geometry should merge near-duplicate points before drawing.
 - **Assets:** `WHITE32X32BLACKLINES.blp` (2,580 B) and `.png`, plus a sibling `WHITE32X32NOBORDERS`, are in `.scratch/waypoints-reference/textures/`. Ship the BLP in `Icons/`.
 
+### Mitered joins
+
+The implementation goes past `DrawLine`, which can only place rotated rectangles. Rectangles leave a wedge-shaped gap on the outer side of every turn and overlap on the inner side. In the overlap, one segment's black edge band crosses the next segment's core, and the half-transparent lines render darker.
+
+Instead, consecutive segments meet on the line that halves their angle:
+
+```text
+n1, n2 = unit normals of the incoming and outgoing segment
+m      = normalize(n1 + n2)               -- the bisector
+len    = halfWidth / cos(turn / 2)        -- |n1 + n2| = 2 cos(turn / 2)
+left   = P + m * len,  right = P - m * len
+```
+
+Both segments end at those two points. The outer edges extend to meet and the inner edges shorten to meet, so there is no gap and no overlap.
+
+- **How it is drawn:** each segment is one texture. It is anchored to its quad's bounding box, and `SetVertexOffset` moves each vertex onto a corner.
+- **Why the texture survives:** the image is constant along its length and only changes across the width. Whichever diagonal the client splits the quad on, both triangles keep the black rows on the two long edges, at an even width, and they meet cleanly on the cut line.
+- **Sharp turns:** the outer corner is shared on the bisector, within `MITER_LIMIT` (2) half-widths of the point. Turns up to 120° are exact. Sharper ones taper instead of spiking; the tapered outer edge narrows along its whole segment.
+- **Short segments:** each inner corner stays on its own segment's inner edge, pulled back to where the two inner edges cross. It is pulled back at most half the shorter adjacent segment. Past that, the two segments overlap slightly on the inside instead of sharing the corner.
+- **Why convexity matters:** the client splits every quad into two triangles along a fixed diagonal, and a concave quad would draw outside its outline. With the corners placed as above every quad is convex. An earlier version slid the clamped inner corner along the bisector, which made about 4 in 10 quads concave at tight joins. A fuzz of 738k quads from random polylines (short segments, sharp turns, closed loops) found none concave or non-finite. Repeated points are skipped.
+- **Edge cases:** turning back on itself (within 0.1° of 180°) keeps square ends. A patrol that returns to its first point joins there too.
+- **Hover:** unchanged. The 6-unit capsule covers mitered tips, which reach at most 4 units from the line.
+- **Verified client APIs:** `Texture:SetVertexOffset` and the `UPPER_LEFT_VERTEX` constants (1–4) exist on Era, Anniversary, Mists and Forever, checked against Blizzard's UI source. Blob's polygon fills already use them in game. Offsets point y up like `SetPoint`, as Blizzard's own use in `Blizzard_ArtifactUI/Blizzard_ArtifactPerks.lua` (`live` branch) shows: it nudges upper vertices by −1 and lower vertices by +1 towards the inside.
+
 ## Current implementation (what we replace)
 
 Line numbers refer to this branch (`origin/master`).
@@ -132,7 +156,7 @@ Mirror blob's `Polygon/` split: pure geometry, a native-primitive renderer, and 
    - Merge points closer than a yard tolerance and drop zero-length segments.
    - Handle the loop-closing gap explicitly.
    - Skip spline smoothing at first: patrol points are real positions, and Catmull-Rom can cut corners through walls (YAGNI).
-2. **Renderer.** One `DrawLine` texture per segment with `WHITE32X32BLACKLINES`.
+2. **Renderer.** One texture per segment with `WHITE32X32BLACKLINES`, mitered at joins (implemented with `SetVertexOffset` rather than `DrawLine`; see [Mitered joins](#mitered-joins)).
    - Pool textures, not frames: one container frame per path, or per map.
    - **No mouse input.** Hover is computed from the cursor; see [Line hover](#line-hover).
    - Thickness is divided by the canvas scale on zoom, giving a constant screen width as in the legacy code. Redraw happens only on scale change.
