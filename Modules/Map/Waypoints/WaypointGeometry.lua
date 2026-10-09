@@ -130,6 +130,107 @@ function WaypointGeometry.Project(polyline, destinationMapId, toMap)
     return projected
 end
 
+-- Line outlines
+-- Consecutive segments meet on the line halving their angle (a miter join): the outer edges extend
+-- and the inner edges shorten to the same two points, so joins neither gap nor overlap.
+
+-- A sharp turn's outer corner stays within this many half widths of its point, so the outline
+-- tapers there instead of spiking. 2 keeps turns up to 120 degrees exact.
+WaypointGeometry.MITER_LIMIT = 2
+-- Turning back on itself has no bisector to join on; such segments keep square ends.
+local MIN_JOIN_COS = 1e-3
+
+---Unit directions and lengths of a polyline's segments, which all have a length.
+---@param points table[]
+---@return number[] dirX, number[] dirY, number[] lengths
+local function _Directions(points)
+    local dirX, dirY, lengths = {}, {}, {}
+    for i = 1, #points - 1 do
+        local dx, dy = points[i + 1].x - points[i].x, points[i + 1].y - points[i].y
+        local length = math.sqrt(dx * dx + dy * dy)
+        dirX[i], dirY[i], lengths[i] = dx / length, dy / length, length
+    end
+    return dirX, dirY, lengths
+end
+
+---Left and right outline corners where segment a ends and segment b starts, at point p. Left is
+---the side of a segment's normal (-dy, dx).
+---The outer corner is shared on the bisector. Each inner corner stays on its own segment's inner
+---edge, pulled back from p to where the two inner edges cross. Keeping every corner on its edge or
+---past its end keeps each quad convex, which the client's fixed split into two triangles needs.
+---@return number aLeftX, number aLeftY, number aRightX, number aRightY, number bLeftX, number bLeftY, number bRightX, number bRightY
+local function _Join(p, a, b, dirX, dirY, lengths, halfWidth)
+    local aNormalX, aNormalY = -dirY[a], dirX[a]
+    local bNormalX, bNormalY = -dirY[b], dirX[b]
+    local bisectorX, bisectorY = aNormalX + bNormalX, aNormalY + bNormalY
+    -- Two unit normals at angle t add up to a length of 2 cos(t / 2).
+    local bisectorLength = math.sqrt(bisectorX * bisectorX + bisectorY * bisectorY)
+    local cosHalf = bisectorLength / 2
+    if cosHalf < MIN_JOIN_COS then
+        local ax, ay, bx, by = aNormalX * halfWidth, aNormalY * halfWidth, bNormalX * halfWidth, bNormalY * halfWidth
+        return p.x + ax, p.y + ay, p.x - ax, p.y - ay, p.x + bx, p.y + by, p.x - bx, p.y - by
+    end
+    bisectorX, bisectorY = bisectorX / bisectorLength, bisectorY / bisectorLength
+    local sinHalf = math.sqrt(math.max(0, 1 - cosHalf * cosHalf))
+    -- The polyline turns towards its inner side: where the outgoing direction leaves the incoming one.
+    local turnsLeft = bisectorX * (dirX[b] - dirX[a]) + bisectorY * (dirY[b] - dirY[a]) > 0
+    local outerSide = turnsLeft and -1 or 1
+
+    local outer = outerSide * math.min(halfWidth / cosHalf, WaypointGeometry.MITER_LIMIT * halfWidth)
+    local outerX, outerY = p.x + bisectorX * outer, p.y + bisectorY * outer
+    -- The inner edges cross halfWidth * tan(t / 2) before p. Past half the shorter segment, the other
+    -- end's join could need the same stretch of edge; there the segments overlap a little instead.
+    local pullBack = math.min(halfWidth * sinHalf / cosHalf, math.min(lengths[a], lengths[b]) / 2)
+    local inner = -outerSide * halfWidth
+    local aInnerX, aInnerY = p.x - dirX[a] * pullBack + aNormalX * inner, p.y - dirY[a] * pullBack + aNormalY * inner
+    local bInnerX, bInnerY = p.x + dirX[b] * pullBack + bNormalX * inner, p.y + dirY[b] * pullBack + bNormalY * inner
+    if turnsLeft then
+        return aInnerX, aInnerY, outerX, outerY, bInnerX, bInnerY, outerX, outerY
+    end
+    return outerX, outerY, aInnerX, aInnerY, outerX, outerY, bInnerX, bInnerY
+end
+
+---Outline quads of a polyline drawn halfWidth to each side, mitered where segments meet. A
+---polyline returning to its first point is closed and joins there too. Repeated points are
+---skipped; a polyline without length has no quads.
+---@param polyline table[] Points with named x/y fields.
+---@param halfWidth number
+---@return number[][] quads One per segment: start left x/y, start right x/y, end left x/y, end right x/y.
+function WaypointGeometry.Quads(polyline, halfWidth)
+    local points = {}
+    for _, point in ipairs(polyline) do
+        local last = points[#points]
+        if not last or last.x ~= point.x or last.y ~= point.y then points[#points + 1] = point end
+    end
+    local count = #points - 1
+    if count < 1 then return {} end
+    local dirX, dirY, lengths = _Directions(points)
+    local first, last = points[1], points[#points]
+    local closed = count >= 3 and first.x == last.x and first.y == last.y
+    local quads = {}
+    for k = 1, count do quads[k] = {} end
+
+    for i = 1, #points do
+        local quadIn, quadOut = quads[i - 1], quads[i]
+        local a, b = i - 1, i
+        if i == 1 and closed then
+            a, quadIn = count, quads[count]
+        end
+        if a >= 1 and b <= count then
+            quadIn[5], quadIn[6], quadIn[7], quadIn[8], quadOut[1], quadOut[2], quadOut[3], quadOut[4] =
+                _Join(points[i], a, b, dirX, dirY, lengths, halfWidth)
+        elseif not (i == #points and closed) then
+            -- Open ends are square.
+            local k = quadOut and b or a
+            local normalX, normalY = -dirY[k] * halfWidth, dirX[k] * halfWidth
+            local p, quad, offset = points[i], quads[k], quadOut and 0 or 4
+            quad[offset + 1], quad[offset + 2] = p.x + normalX, p.y + normalY
+            quad[offset + 3], quad[offset + 4] = p.x - normalX, p.y - normalY
+        end
+    end
+    return quads
+end
+
 ---Squared distance from (px, py) to the segment (sx, sy)-(ex, ey). Zero-length segments are
 ---points, so the hover area of any polyline is round at its joins and ends.
 ---@return number
