@@ -20,6 +20,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type TooltipDataDebug
+local TooltipDataDebug = QuestieLoader:ImportModule("TooltipDataDebug")
 
 local tinsert = table.insert
 QuestieTooltips.lastGametooltip = ""
@@ -35,6 +37,10 @@ QuestieTooltips.lookupKeysByQuestId = {
 }
 
 local MAX_GROUP_MEMBER_COUNT = 6
+
+-- Reset on every native rebuild, even when the tooltip reuses its dataInstanceID.
+local nativeQuestLinesPresent = false
+local nativeTooltipHooksInitialized = false
 
 local _InitObjectiveTexts
 
@@ -494,7 +500,7 @@ local function _RegisterObjectTooltipCallback()
         ---@param data table
         ---@return nil
         function(tooltip, data)
-            if tooltip ~= GameTooltip or objectAugmented or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
+            if tooltip ~= GameTooltip or nativeQuestLinesPresent or objectAugmented or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
                 or not Questie.db.profile.enableTooltips or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
                 return
             end
@@ -529,7 +535,7 @@ function QuestieTooltips:Initialize()
     ---@param tooltip GameTooltip
     ---@return nil
     local function AddUnitData(tooltip)
-        if tooltip ~= GameTooltip or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+        if tooltip ~= GameTooltip or nativeQuestLinesPresent or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- The processor also runs for other tooltip frames; unit rendering below owns GameTooltip only.
             return
         end
@@ -643,56 +649,71 @@ function QuestieTooltips:Initialize()
     QuestieTooltips:InitBlizzardTooltips()
 end
 
-------------------------------------------------------------
--- The following code was modified from https://www.curseforge.com/wow/addons/noquesttooltips (MIT license)
--- It hides Blizzard's objective tooltips when ours are enabled
--- This is only relevant for Forever and MoP+ (where these tooltips exist)
-------------------------------------------------------------
-
-local TooltipLineType = Enum.TooltipDataLineType
-local TooltipType = Enum.TooltipDataType
-
-local BLOCKED_NAMES = { "QuestObjective", "QuestTitle", "QuestPlayer" } -- Line types that carry quest-helper information
-
----@param tooltip table
----@return table|nil
--- Returns the type (unit, object, item, spell, etc) of this tooltip.
-local function _GetTooltipKind(tooltip)
-    local info = tooltip.processingInfo
-    local data = info and info.tooltipData
-    return data and data.type
-end
-
----@param tooltip table
----@return boolean|nil
--- Returns true/false/nil (fallback) based upon whether we should be filtering this type of tooltip.
--- This is also where we enable/disable filtering based on whether Questie tooltips are currently shown.
-local function _ShouldBlock(tooltip)
-    if (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then return false end
-    local kind = _GetTooltipKind(tooltip)
-    if kind == TooltipType.Unit or kind == TooltipType.Object then return true end
-    -- Unknown context: blizzard quest objective lines only appear on units/objects anyway
-    return kind == nil
-end
-
----@return nil
-function QuestieTooltips:InitBlizzardTooltips()
-    if not (TooltipDataProcessor and Enum and Enum.TooltipDataLineType and Enum.TooltipDataType) then
-        Questie.Debug(Questie.DEBUG_INFO, "TooltipDataProcessor not found on this client. Skipping hooks.")
+-- Secret strings may be formatted for display, but never parsed, compared, measured or used for lookup.
+-- Native AddLine owns wrapping and sizing; TooltipLayout's public-text measurements must not run here.
+local function _StyleNativeQuestLine(tooltip, lineData, isTitle)
+    if tooltip ~= GameTooltip or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
+        or not Questie.db.profile.enableTooltips then
         return
-    else
-        local blocked = {}
-        for _, name in ipairs(BLOCKED_NAMES) do
-            if TooltipLineType[name] then blocked[TooltipLineType[name]] = name end
+    end
+    -- Even an unstyled fallback line belongs to the native quest block. Do not append a second
+    -- Questie block or run legacy FontString readers over its potentially secret contents.
+    nativeQuestLinesPresent = true
+    if not _IsPublicTooltipTable(lineData) then return end
+    local info = tooltip.processingInfo
+    if not _IsPublicTooltipTable(info) or not _IsPublicTooltipTable(info.tooltipData) then return end
+    local kind = info.tooltipData.type
+    if issecretvalue and issecretvalue(kind) then return end
+    if kind ~= Enum.TooltipDataType.Unit and kind ~= Enum.TooltipDataType.Object then return end
+
+    -- Preserve unfamiliar two-column rows rather than silently discarding native right-hand text.
+    local rightText = lineData.rightText
+    if (issecretvalue and issecretvalue(rightText)) or rightText ~= nil then return end
+    local text = lineData.leftText
+    if not (issecretvalue and issecretvalue(text)) and type(text) ~= "string" then return end
+    if isTitle then
+        local format = "[??] %s"
+        local id = "???"
+        if Questie.db.profile.debugEnabled then
+            format = "[??] %s (%s)"
+            local questId = lineData.id
+            if (issecretvalue and issecretvalue(questId)) or type(questId) == "number" then
+                id = questId
+            end
         end
-        for lineType in pairs(blocked) do
+        tooltip:AddLine(string.format(format, text, id), 1, 0.82, 0, true)
+    else
+        tooltip:AddLine(string.format("   %s", text), 238 / 255, 238 / 255, 238 / 255, true)
+    end
+    return true -- The replacement row is already added; do not draw Blizzard's original row as well.
+end
+
+function QuestieTooltips:InitBlizzardTooltips()
+    if nativeTooltipHooksInitialized or not (TooltipDataProcessor
+        and type(TooltipDataProcessor.AddLinePreCall) == "function"
+        and Enum and Enum.TooltipDataLineType and Enum.TooltipDataType) then
+        return
+    end
+    nativeTooltipHooksInitialized = true
+    if Questie.IsForever then
+        -- Capture the untouched payload before the styling callbacks consume the native lines.
+        TooltipDataDebug.Initialize()
+        GameTooltip:HookScript("OnTooltipCleared", function() nativeQuestLinesPresent = false end)
+    end
+    for _, name in ipairs({"QuestTitle", "QuestObjective", "QuestPlayer"}) do
+        local lineType = Enum.TooltipDataLineType[name]
+        if lineType then
             TooltipDataProcessor.AddLinePreCall(lineType, function(tooltip, lineData)
-                if _ShouldBlock(tooltip) then
-                    return true
+                if Questie.IsForever then
+                    return _StyleNativeQuestLine(tooltip, lineData, name == "QuestTitle")
                 end
+                -- Keep the existing native-line suppression on MoP; this styling experiment is Forever-only.
+                if not Questie.db.profile.enableTooltips then return end
+                local info = tooltip.processingInfo
+                local data = info and info.tooltipData
+                local kind = data and data.type
+                return kind == nil or kind == Enum.TooltipDataType.Unit or kind == Enum.TooltipDataType.Object
             end)
         end
     end
 end
-
--- End Blizzard tooltip hiding code
