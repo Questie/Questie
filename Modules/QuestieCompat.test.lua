@@ -10,6 +10,8 @@ describe("QuestieCompat", function()
     before_each(function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
+        local playerLevel = 6
+        _G.UnitLevel = function() return playerLevel end
         _G.C_GossipInfo = nil
         _G.GetGossipAvailableQuests = nil
         _G.GetGossipActiveQuests = nil
