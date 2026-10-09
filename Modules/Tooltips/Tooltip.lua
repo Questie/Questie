@@ -39,7 +39,7 @@ QuestieTooltips.lookupKeysByQuestId = {
 local MAX_GROUP_MEMBER_COUNT = 6
 
 -- Reset on every native rebuild, even when the tooltip reuses its dataInstanceID.
-local nativeQuestLinesPresent = false
+local nativeQuestFallback = false
 local nativeTooltipHooksInitialized = false
 
 local _InitObjectiveTexts
@@ -500,7 +500,7 @@ local function _RegisterObjectTooltipCallback()
         ---@param data table
         ---@return nil
         function(tooltip, data)
-            if tooltip ~= GameTooltip or nativeQuestLinesPresent or objectAugmented or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
+            if tooltip ~= GameTooltip or nativeQuestFallback or objectAugmented or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
                 or not Questie.db.profile.enableTooltips or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
                 return
             end
@@ -535,7 +535,7 @@ function QuestieTooltips:Initialize()
     ---@param tooltip GameTooltip
     ---@return nil
     local function AddUnitData(tooltip)
-        if tooltip ~= GameTooltip or nativeQuestLinesPresent or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+        if tooltip ~= GameTooltip or nativeQuestFallback or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- The processor also runs for other tooltip frames; unit rendering below owns GameTooltip only.
             return
         end
@@ -649,22 +649,58 @@ function QuestieTooltips:Initialize()
     QuestieTooltips:InitBlizzardTooltips()
 end
 
--- Secret strings may be formatted for display, but never parsed, compared, measured or used for lookup.
--- Native AddLine owns wrapping and sizing; TooltipLayout's public-text measurements must not run here.
-local function _StyleNativeQuestLine(tooltip, lineData, isTitle)
+local function _HasSecretFields(data)
+    if not _IsPublicTooltipTable(data) then return true end
+    if not issecretvalue then return false end
+    for key, value in pairs(data) do
+        if issecretvalue(key) or issecretvalue(value) then return true end
+    end
+    return false
+end
+
+local function _NeedsNativeQuestFallback(data, lineData)
+    if _HasSecretFields(data) or _HasSecretFields(lineData) or not _IsPublicTooltipTable(data.lines) then return true end
+    -- Inspect the whole payload before hiding its first title: a later objective can be secret
+    -- while its title is public. Object captions and Unit GUIDs also matter to legacy lookup.
+    for _, line in ipairs(data.lines) do
+        if _HasSecretFields(line) then return true end
+    end
+    return false
+end
+
+-- Public data uses normal Questie replacement. Secret data uses display-only native rows:
+-- no parsing, comparisons, measurements or ID lookups, and native AddLine owns layout.
+local function _ProcessNativeQuestLine(tooltip, lineData, isTitle)
     if tooltip ~= GameTooltip or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
         or not Questie.db.profile.enableTooltips then
         return
     end
-    -- Even an unstyled fallback line belongs to the native quest block. Do not append a second
-    -- Questie block or run legacy FontString readers over its potentially secret contents.
-    nativeQuestLinesPresent = true
-    if not _IsPublicTooltipTable(lineData) then return end
     local info = tooltip.processingInfo
-    if not _IsPublicTooltipTable(info) or not _IsPublicTooltipTable(info.tooltipData) then return end
-    local kind = info.tooltipData.type
-    if issecretvalue and issecretvalue(kind) then return end
+    if not _IsPublicTooltipTable(info) or not _IsPublicTooltipTable(info.tooltipData) then
+        nativeQuestFallback = true
+        return
+    end
+    local data = info.tooltipData
+    local kind = data.type
+    if issecretvalue and issecretvalue(kind) then
+        nativeQuestFallback = true
+        return
+    end
     if kind ~= Enum.TooltipDataType.Unit and kind ~= Enum.TooltipDataType.Object then return end
+
+    if not _NeedsNativeQuestFallback(data, lineData) then
+        -- Keep native rows when the legacy instance/group policy prevents a Questie replacement.
+        if IsInInstance() or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+            nativeQuestFallback = true
+            return
+        end
+        return true -- Hide Blizzard's public quest lines; the normal Questie post-call replaces them.
+    end
+
+    -- A fallback-only row still owns the native block. Never append legacy Questie rows or
+    -- run their FontString readers over this secret payload.
+    nativeQuestFallback = true
+    if not _IsPublicTooltipTable(lineData) then return end
 
     -- Preserve unfamiliar two-column rows rather than silently discarding native right-hand text.
     local rightText = lineData.rightText
@@ -698,14 +734,14 @@ function QuestieTooltips:InitBlizzardTooltips()
     if Questie.IsForever then
         -- Capture the untouched payload before the styling callbacks consume the native lines.
         TooltipDataDebug.Initialize()
-        GameTooltip:HookScript("OnTooltipCleared", function() nativeQuestLinesPresent = false end)
+        GameTooltip:HookScript("OnTooltipCleared", function() nativeQuestFallback = false end)
     end
     for _, name in ipairs({"QuestTitle", "QuestObjective", "QuestPlayer"}) do
         local lineType = Enum.TooltipDataLineType[name]
         if lineType then
             TooltipDataProcessor.AddLinePreCall(lineType, function(tooltip, lineData)
                 if Questie.IsForever then
-                    return _StyleNativeQuestLine(tooltip, lineData, name == "QuestTitle")
+                    return _ProcessNativeQuestLine(tooltip, lineData, name == "QuestTitle")
                 end
                 -- Keep the existing native-line suppression on MoP; this styling experiment is Forever-only.
                 if not Questie.db.profile.enableTooltips then return end

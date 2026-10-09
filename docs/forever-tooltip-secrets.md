@@ -161,22 +161,26 @@ The display-only styling prototype below does not depend on this idea. It can pr
 
 Snapshots are strings formatted in the ordinary addon callback, not deferred raw payloads. Secret values become `secret`; inaccessible tables are not enumerated. The formatter bounds work to 240 fields, five nested levels and 400 characters per string, handles repeated/cyclic tables and escapes visible text markup. Only sanitized strings reach the next-frame UI update. No history is stored in SavedVariables.
 
-The inspector itself returns false so other callbacks/native rendering can continue. A line pre-call returning true means the line was consumed; false or nil permits ordinary rendering. The styling callback consumes a line only after adding its replacement.
+The inspector itself returns false so other callbacks/native rendering can continue. A line pre-call returning true means the line was consumed; false or nil permits ordinary rendering. For secret-data styling, a line is consumed only after adding its display-only replacement. For readable data, native quest lines are consumed up front and the normal Questie post-call supplies the replacement.
 
 ## Native-row styling prototype
 
-Forever now handles the public QuestTitle, QuestObjective and QuestPlayer line types before native rendering:
+Forever selects the rendering path before handling its QuestTitle, QuestObjective and QuestPlayer lines:
+
+- Readable payloads use the normal Questie path: hide Blizzard's quest rows and let the existing Unit/Object post-call add Questie's richer replacement. Readable NPC data takes this path even during combat.
+- Secret or inaccessible payloads use the native-data fallback described below. The predicate examines the full payload before hiding a public title, because a later objective or the entity identity can be secret. It does not compare or parse secret values.
+- Secrecy, not a blanket combat check, selects styling. Readable native rows stay visible when the legacy instance or group-size policy prevents Questie replacement.
 
 - Titles use fixed yellow and `[??] <native title>`; debug mode displays the native ID through formatting, or `???` when no usable ID was supplied.
 - Objective/player text receives three spaces of indentation and Questie's default near-white color. Text is not parsed, measured or stripped of markup.
 - `GameTooltip:AddLine` receives the formatted value, which can remain secret. Native tooltip code owns wrapping, sizing and the final Show call. This does not use `TooltipLayout`.
-- Unknown two-column rows and inaccessible payloads keep their native rendering. The presence of a native quest block, including fallback rows, prevents a second legacy Questie quest block and its FontString reads.
+- In the secret-data fallback, unknown two-column rows and inaccessible payloads keep their native rendering. Fallback ownership prevents a second legacy Questie quest block and its FontString reads. Public payloads outside the instance/group-size exceptions do not take ownership away from normal Questie augmentation.
 - Ownership resets on OnTooltipCleared, including rebuilds that reuse a dataInstanceID.
 - Other clients retain the previous native-line suppression and legacy augmentation. The inspector starts only on Forever.
 
 A further synthetic live probe formatted a secret string and secret numeric ID together, then successfully passed the result to AddLine on a hidden GameTooltip. It explicitly recorded `inCombat = false`. Actual visible combat styling still requires a reload and a physical hover test; no reload was performed by this implementation task.
 
-This is native-content styling, not full feature parity with Questie's registry-based tooltips. Fixed yellow and `[??]` do not represent a known quest difficulty or level. When the native quest block owns rendering, the legacy block is not appended, so its separate drop-rate, provider, party and ID annotations are not automatically retained. Icon placement was not verified; the prototype deliberately assumes no icon needs stripping and passes native text unchanged apart from its prefix.
+This is a restricted-data fallback, not a replacement for normal Questie tooltips. Fixed yellow and `[??]` do not represent a known quest difficulty or level. When the secret native quest block owns rendering, the legacy block is not appended, so its separate drop-rate, provider, party and ID annotations are not automatically retained. With readable data, the normal replacement and its annotations remain enabled. Icon placement was not verified; the prototype deliberately assumes no icon needs stripping and passes native text unchanged apart from its prefix.
 
 ## Validation and next checks
 
@@ -187,7 +191,7 @@ Recorded automated validation in the original blob workspace after the styling r
 - Focused source lint and loader-usage validation passed.
 - Review fixes preserve non-Forever suppression, prevent the inspector starting on other clients, and keep fallback-only native blocks from also invoking legacy augmentation.
 
-PR-worktree validation on `master` base `ffefa6362` (without the unrelated blob changes): 71 focused tests and 2,782 full-suite tests passed, along with full source lint and loader validation. The inspector is now opt-in. Review found no non-Forever behavior regression; this is code/test coverage, not live certification of every Classic client.
+PR-worktree validation on `master` base `ffefa6362` (without the unrelated blob changes): 77 focused tests and 2,788 full-suite tests passed after restricting styling to secret data, along with full source lint and loader validation. The inspector is opt-in. Review found no non-Forever behavior regression; this is code/test coverage, not live certification of every Classic client.
 
 Still needed before claiming production combat safety:
 
