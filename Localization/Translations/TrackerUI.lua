@@ -413,6 +413,9 @@ local trackerUILocales = {
         ["zhCN"] = "任务失败！",
         ["zhTW"] = "任務失敗！",
     },
+    ["Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."] = {
+        ["enUS"] = true,
+    },
     ["Can't open Quest Log while in combat. Open it manually."] = {
         ["enUS"] = true,
         ["deDE"] = "Das Quest Log kann nicht im Kampf geöffnet werden. Bitte öffne es manuell.",
