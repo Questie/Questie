@@ -12,9 +12,9 @@ local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 -- Line width and hover reach in map UI units: both are divided by the canvas scale, so they keep
--- their size on screen while zooming. The hover area is deliberately wider than the line.
+-- their size on screen while zooming. Hover reaches one unit past the line's edge, tuned in game.
 local LINE_THICKNESS = 4
-local HOVER_RADIUS = math.max(LINE_THICKNESS / 2 + 4, 6)
+local HOVER_RADIUS = LINE_THICKNESS / 2 + 1
 -- Below Questie's icons, which start at 2016 (QuestieMap.utils.SetDrawOrder).
 local FRAME_LEVEL = 2015
 

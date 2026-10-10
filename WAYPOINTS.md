@@ -34,7 +34,7 @@ Integration:
 - The old line frames, the HBD 0–100 registry trick, `DrawLineIcon`, and the empty zone colour-override tables are gone. As a side effect, the fade bug (`global.iconFadeLevel`) is fixed: fade now uses `profile.iconFadeLevel` through frame alpha.
 
 Chosen defaults for the open questions; tell me to change any of them:
-- **Thickness on zoom:** constant on-screen width. Line 4, hover reach 6 map UI units.
+- **Thickness on zoom:** constant on-screen width. Line 4, hover reach 3 map UI units (one past the line's edge), tuned in game.
 - **Minimap scope:** every NPC with waypoints (objectives, quest givers, turn-ins, manual notes), following each icon's minimap twin. That means **Enable Minimap Icons** and hiding apply. No new option.
 - **Smoothing:** none.
 - **Loop closing:** none. A patrol draws open unless its data ends on its first point. Closing it ourselves needs data we don't have, so it waits for cMaNGOS:
@@ -107,7 +107,7 @@ Both segments end at those two points. The outer edges extend to meet and the in
 - **Short segments:** each inner corner stays on its own segment's inner edge, pulled back to where the two inner edges cross. It is pulled back at most half the shorter adjacent segment. Past that, the two segments overlap slightly on the inside instead of sharing the corner.
 - **Why convexity matters:** the client splits every quad into two triangles along a fixed diagonal, and a concave quad would draw outside its outline. With the corners placed as above every quad is convex. An earlier version slid the clamped inner corner along the bisector, which made about 4 in 10 quads concave at tight joins. A fuzz of 738k quads from random polylines (short segments, sharp turns, closed loops) found none concave or non-finite. Repeated points are skipped.
 - **Edge cases:** turning back on itself (within 0.1° of 180°) keeps square ends. A patrol that returns to its first point joins there too.
-- **Hover:** unchanged. The 6-unit capsule covers mitered tips, which reach at most 4 units from the line.
+- **Hover:** unchanged. The 3-unit capsule leaves out the outer tips of turns sharper than about 96°, which reach up to 4 units from the point. They are small, and hovering the line next to them still works.
 - **Verified client APIs:** `Texture:SetVertexOffset` and the `UPPER_LEFT_VERTEX` constants (1–4) exist on Era, Anniversary, Mists and Forever, checked against Blizzard's UI source. Blob's polygon fills already use them in game. Offsets point y up like `SetPoint`, as Blizzard's own use in `Blizzard_ArtifactUI/Blizzard_ArtifactPerks.lua` (`live` branch) shows: it nudges upper vertices by −1 and lower vertices by +1 towards the inside.
 
 ## Current implementation (what we replace)
@@ -224,7 +224,7 @@ local function _SegmentDistanceSq(px, py, sx, sy, ex, ey)
 end
 ```
 
-**Sizing.** *r* is set in screen pixels and is deliberately larger than the drawn line: a generous target is better UX. Start at `max(thickness / 2 + 4, 6)` screen px and tune in game. Like the line thickness, it is converted to canvas units by dividing by the canvas scale.
+**Sizing.** *r* is set in screen pixels and is deliberately larger than the drawn line: a generous target is better UX. Started at `max(thickness / 2 + 4, 6)` screen px; tuned in game to `thickness / 2 + 1` (3 at thickness 4). Like the line thickness, it is converted to canvas units by dividing by the canvas scale.
 
 **Driver.** There are no mouse-enabled line frames, which removes the 1 px trigger problem entirely. Use the pattern from blob's polygon direct hover (`minimap-template/README.md`, "Direct polygon hover"):
 - One driver runs while paths are shown. It does a full check only when the cursor's canvas position changes, which also covers pan and zoom under a still cursor.

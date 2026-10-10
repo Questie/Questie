@@ -175,7 +175,7 @@ describe("WaypointMap", function()
         end)
 
         it("opens the owner's tooltip near the line, and closes it on leaving", function()
-            -- 2.5 canvas units below the line, inside the 6-unit hover reach.
+            -- 2.5 canvas units below the line, inside the 3-unit hover reach.
             cursor = {0.5, 0.505}
             Update()
             assert.spy(path.owner.scripts.OnEnter).was.called_with(path.owner)
