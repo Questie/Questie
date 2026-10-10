@@ -484,6 +484,81 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("no-map dungeon objectives", function()
+        local entrances, draws, replacements
+
+        local function replace(owner, key, value)
+            replacements[#replacements + 1] = {owner, key, owner[key]}
+            owner[key] = value
+        end
+
+        before_each(function()
+            replacements, draws = {}, {}
+            entrances = {{1537, 27.63, 47.83}} -- The Hall of Thanes -> Ironforge
+            replace(_G, "LibStub", function() return {GetWorldCoordinatesFromZone = function() end} end)
+            replace(Questie, "Warning", spy.new(function() end))
+            replace(Questie.db, "profile", {enableObjectives = true, objectiveFilterDistance = 0})
+            replace(ZoneDB, "GetUiMapIdByAreaId", function(_, area) if area == 1537 then return 1455 end end)
+            replace(ZoneDB, "GetDungeonLocation", function() return entrances end)
+            replace(QuestieLoader:ImportModule("Phasing"), "IsSpawnVisible", function() return true end)
+            replace(QuestieLoader:ImportModule("QuestieTooltips"), "RegisterObjectiveTooltip", function() end)
+            replace(QuestieLoader:ImportModule("QuestieLib"), "Euclid", function() return 0 end)
+            replace(QuestieMap, "DrawWorldIcon", function(_, data, area, x, y)
+                draws[#draws + 1] = {area, x, y, data.ObjectiveTargetId}
+                return {}, {}
+            end)
+            dofile("Modules/Quest/QuestieQuest.lua")
+            QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+        end)
+
+        after_each(function()
+            for index = #replacements, 1, -1 do
+                local entry = replacements[index]
+                entry[1][entry[2]] = entry[3]
+            end
+        end)
+
+        local function populate()
+            local objective = {
+                Id = 673474, Index = 1, Type = "object", Description = "Treaty of Understanding",
+                Update = function() end, Color = {}, AlreadySpawned = {},
+                spawnList = {[673474] = {
+                    Id = 673474, Name = "Treaty of Understanding", Spawns = {[16919] = {{-1, -1}}},
+                    GetIconScale = function() return 1 end,
+                }},
+            }
+            local quest = {Id = 96403, ObjectiveData = {objective}, Color = {}}
+            coroutine.wrap(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)()
+            return objective
+        end
+
+        it("draws the entrance without a dungeon UiMap or a 0 override", function()
+            local objective = populate()
+
+            assert.are.same({{1537, 27.63, 47.83, 673474}}, draws)
+            assert.are.equal(1, #objective.AlreadySpawned[673474].mapRefs)
+            assert.spy(Questie.Warning).was.not_called()
+        end)
+
+        it("keeps both entrances and their frame references", function()
+            entrances[2] = {1537, 40, 50}
+            local objective = populate()
+
+            assert.are.same({{1537, 40, 50, 673474}, {1537, 27.63, 47.83, 673474}}, draws)
+            assert.are.equal(2, #objective.AlreadySpawned[673474].mapRefs)
+            assert.are.equal(2, #objective.AlreadySpawned[673474].minimapRefs)
+        end)
+
+        it("reports a missing entrance instead of indexing by nil", function()
+            entrances = nil
+            populate()
+
+            assert.are.same({}, draws)
+            assert.spy(Questie.Warning).was.called_with("[QuestieQuest] Cannot draw quest", 96403, "target", 673474,
+                "area", 16919, "missing dungeon entrance or UiMap mapping")
+        end)
+    end)
+
     describe("RegisterObjectiveTooltips", function()
         before_each(function()
             QuestieQuest.private.objectiveSpawnListCallTable = {}
