@@ -2,7 +2,9 @@
 
 ## Scope and evidence
 
-Client: Forever 1.60.1, build 70291. Matching Gethe `forever` source: `9465cb273b5513495d8ecc12fbb19930dd6b8957`.
+Initial investigation: Forever 1.60.1, build 70291. Matching Gethe `forever` source: `9465cb273b5513495d8ecc12fbb19930dd6b8957`.
+
+A later build-70338 investigation compared two overlapping object-collection quests and checked alternate identity APIs. See [Forever hovered-object quest API audit](forever-object-tooltip-api-audit.md) for the matching source, full field comparison and live results.
 
 This investigation distinguishes native display support from access to values in addon logic. It does not establish that every GameTooltip operation is safe in combat.
 
@@ -14,6 +16,25 @@ The hover observations came from `TooltipDataDebug` running inside Questie's ord
 The inspector retains the last snapshot after mouseout. Combat state queried separately by the bridge describes the moment of that query, not an independently timestamped state attached to the capture.
 
 The operation tests below used `secretwrap("QUESTIE_SECRET_PROBE_70291")`, not hidden game data. They ran through the bridge, which reported an insecure context and no permission to access the synthetic secret. Failure messages identify `ForceTaint_Strong`. This is a bridge-context test, not a normal-addon combat certification. No reload, targeting change, combat-state change, or existing tooltip mutation was performed.
+
+## Build 70338 follow-up
+
+The user physically hovered Cactus Apple and Abandoned Training Weapon out of combat, then the training weapon in combat. These bridge captures recorded combat state and tooltip visibility in the same query:
+
+| Data | Out of combat | Training-weapon combat capture |
+|---|---|---|
+| QuestTitle ID | 4402 for Galgar; 97279 for Wayward Weapons | Secret |
+| Object caption, quest title and objective text | Readable | Secret |
+| Objective counters | 0/10 for Galgar; 0/6 for Wayward Weapons | Secret |
+| Completion, colors and wrapping | Readable | Secret |
+| Tooltip/line types | Object 4; generic 0; QuestTitle 17; QuestObjective 8 | Same public categories |
+| Quest-log objectives | Both public item objectives, objectiveType 1 | Still public, including IDs, text and counters |
+
+Neither tooltip exposed an object GUID/ID, item ID or objective index. Knowing both quest-log objectives does not connect either to a secret hover. The audit's later combat probe also found no mouseover/softinteract unit identity, nameplate or vignette association. Fresh native tooltip data remained secret.
+
+Direct operation probes on the combat Object tooltip confirmed that length, `string.len`, substring, search, pattern matching and comparisons fail. Formatting succeeds but leaves a secret result. Separate synthetic probes also rejected `string.gsub`, including replacement of a known title or just its `[??]` prefix. These operation probes ran through the force-tainted bridge, not a new ordinary-addon diagnostic.
+
+A screenshot showed the active prototype rendering Cactus Apple's yellow `[??]` quest title and indented objective with no objective icon during the combat test sequence. The same sequence recorded combat active and the tooltip visible; no uncaught errors were recorded. The installed prototype commit was not recorded, so this is a narrow presentation smoke check, not certification of every path in PR #8014.
 
 ## Captured fields and identity
 
@@ -178,9 +199,9 @@ Forever selects the rendering path before handling its QuestTitle, QuestObjectiv
 - Ownership resets on OnTooltipCleared, including rebuilds that reuse a dataInstanceID.
 - Other clients retain the previous native-line suppression and legacy augmentation. The inspector starts only on Forever.
 
-A further synthetic live probe formatted a secret string and secret numeric ID together, then successfully passed the result to AddLine on a hidden GameTooltip. It explicitly recorded `inCombat = false`. Actual visible combat styling still requires a reload and a physical hover test; no reload was performed by this implementation task.
+A further synthetic live probe formatted a secret string and secret numeric ID together, then successfully passed the result to AddLine on a hidden GameTooltip. It explicitly recorded `inCombat = false`. At that point, visible combat styling still required a reload and a physical hover test; no reload was performed by that implementation task. The later build-70338 presentation smoke check is recorded above.
 
-This is a restricted-data fallback, not a replacement for normal Questie tooltips. Fixed yellow and `[??]` do not represent a known quest difficulty or level. When the secret native quest block owns rendering, the legacy block is not appended, so its separate drop-rate, provider, party and ID annotations are not automatically retained. With readable data, the normal replacement and its annotations remain enabled. Icon placement was not verified; the prototype deliberately assumes no icon needs stripping and passes native text unchanged apart from its prefix.
+This is a restricted-data fallback, not a replacement for normal Questie tooltips. Fixed yellow and `[??]` do not represent a known quest difficulty or level. When the secret native quest block owns rendering, the legacy block is not appended, so its separate drop-rate, provider, party and ID annotations are not automatically retained. With readable data, the normal replacement and its annotations remain enabled. The later Cactus Apple screenshot had no objective icon; other payloads and locales remain unverified. The prototype deliberately assumes no icon needs stripping and passes native text unchanged apart from its prefix.
 
 ## Validation and next checks
 
@@ -195,7 +216,7 @@ PR-worktree validation on `master` base `ffefa6362` (without the unrelated blob 
 
 Still needed before claiming production combat safety:
 
-1. Reload and physically hover the same quest object before/during/after combat with the styled rows active.
+1. Complete a controlled before/during/after-combat hover sequence with the exact PR commit recorded. The build-70338 captures and screenshot cover only part of this check.
 2. Compare NPC world mouseover with the target-token path during combat.
 3. Exercise multiple quests/objectives, completion and stationary progress refreshes. Verify wrapping, native fallback, ordering and absence of duplicate/stale rows.
 4. Check debug IDs, disabled tooltip settings, party rows, non-English text and any icon markup. Never infer general availability from an unobserved payload shape.
