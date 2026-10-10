@@ -28,12 +28,12 @@ end
 local function _CanSelect()
     return Questie.IsForever and Enum and Enum.CollationStrength and Enum.CollationStrength.Identical
         and Enum.NormalizationForm and Enum.NormalizationForm.Nfc
-        and _G.C_Intl and type(_G.C_Intl.CompareStrings) == "function" and type(_G.C_Intl.IsNormalized) == "function"
-        and _G.C_StringUtil and type(_G.C_StringUtil.TruncateWhenZero) == "function" and type(_G.C_StringUtil.WrapString) == "function"
-        and _G.C_CurveUtil and type(_G.C_CurveUtil.EvaluateColorValueFromBoolean) == "function"
+        and C_Intl and type(C_Intl.CompareStrings) == "function" and type(C_Intl.IsNormalized) == "function"
+        and C_StringUtil and type(C_StringUtil.TruncateWhenZero) == "function" and type(C_StringUtil.WrapString) == "function"
+        and C_CurveUtil and type(C_CurveUtil.EvaluateColorValueFromBoolean) == "function"
         and C_QuestLog and type(C_QuestLog.GetNumQuestLogEntries) == "function" and type(C_QuestLog.GetInfo) == "function"
         and type(C_QuestLog.GetQuestDifficultyLevel) == "function"
-        and type(QuestieLib.GetDifficultyColorPercent) == "function" and type(_G.CreateColor) == "function"
+        and type(QuestieLib.GetDifficultyColorPercent) == "function" and type(CreateColor) == "function"
 end
 
 local function _GetCandidate(questId)
@@ -45,7 +45,7 @@ local function _GetCandidate(questId)
     return {
         idText = string.format("%d", questId),
         level = level,
-        colorMarkup = _G.CreateColor(r, g, b, 1):GenerateHexColorMarkup(),
+        colorMarkup = CreateColor(r, g, b, 1):GenerateHexColorMarkup(),
     }
 end
 
@@ -67,26 +67,26 @@ local function _BuildCandidates()
 end
 
 local function _DisplayFragment(gate, presentation)
-    local token = _G.C_StringUtil.TruncateWhenZero(gate)
+    local token = C_StringUtil.TruncateWhenZero(gate)
     -- A matching "1" completes a glyph-free color code; an empty token suppresses the entire fragment.
-    return _G.C_StringUtil.WrapString(token, "|c0000000", "|r" .. presentation)
+    return C_StringUtil.WrapString(token, "|c0000000", "|r" .. presentation)
 end
 
 local function _SelectTitle(candidates, questId, title)
     local idText = string.format("%d", questId)
     local output, unmatched = "", 1
     for _, candidate in ipairs(candidates) do
-        local comparison = _G.C_Intl.CompareStrings(idText, candidate.idText, Enum.CollationStrength.Identical)
+        local comparison = C_Intl.CompareStrings(idText, candidate.idText, Enum.CollationStrength.Identical)
         if not _IsSecret(comparison) and type(comparison) ~= "number" then
             error("Quest title comparison unavailable")
         end
         -- Equality becomes empty text, which is NFC-normalized. A mismatch retains a decomposed
         -- e + combining acute accent. Native helpers produce the match gate without a Lua branch.
-        local mismatch = _G.C_StringUtil.TruncateWhenZero(comparison)
-        local marker = _G.C_StringUtil.WrapString(mismatch, "e\204\129", "")
-        local matches = _G.C_Intl.IsNormalized(marker, Enum.NormalizationForm.Nfc)
-        local gate = _G.C_CurveUtil.EvaluateColorValueFromBoolean(matches, 1, 0)
-        unmatched = _G.C_CurveUtil.EvaluateColorValueFromBoolean(matches, 0, unmatched)
+        local mismatch = C_StringUtil.TruncateWhenZero(comparison)
+        local marker = C_StringUtil.WrapString(mismatch, "e\204\129", "")
+        local matches = C_Intl.IsNormalized(marker, Enum.NormalizationForm.Nfc)
+        local gate = C_CurveUtil.EvaluateColorValueFromBoolean(matches, 1, 0)
+        unmatched = C_CurveUtil.EvaluateColorValueFromBoolean(matches, 0, unmatched)
         local prefix = Questie.db.profile.enableTooltipsQuestLevel == false and "" or string.format("[%d] ", candidate.level)
         local presentation = candidate.colorMarkup .. _FormatTitle(questId, title, prefix) .. "|r"
         output = output .. _DisplayFragment(gate, presentation)
