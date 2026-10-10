@@ -42,7 +42,7 @@ describe("QuestieWaypoints", function()
     it("draws each patrol for the icon and shares the paths with its data", function()
         local icon = Icon({})
 
-        QuestieWaypoints.Add(icon, PATROLS, 12)
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
 
         assert.are.equal(2, CountPaths())
         assert.are.equal(2, #icon.data.waypointPaths)
@@ -54,11 +54,34 @@ describe("QuestieWaypoints", function()
         assert.spy(WaypointMinimap.Invalidate).was.called()
     end)
 
+    it("gives icons drawing the same entity's patrols the same routes, one per part", function()
+        local first, second, other = Icon({}), Icon({}), Icon({})
+
+        QuestieWaypoints.Add(first, "m_7", PATROLS, 12)
+        QuestieWaypoints.Add(second, "m_7", PATROLS, 12)
+        QuestieWaypoints.Add(other, "m_8", PATROLS, 12)
+
+        local firstPaths, secondPaths = first.data.waypointPaths, second.data.waypointPaths
+        assert.are.equal(firstPaths[1].route, secondPaths[1].route)
+        assert.are.equal(firstPaths[2].route, secondPaths[2].route)
+        assert.are_not.equal(firstPaths[1].route, firstPaths[2].route)
+        assert.are_not.equal(firstPaths[1].route, other.data.waypointPaths[1].route)
+    end)
+
+    it("keeps an icon's paths to itself without an entity", function()
+        local first, second = Icon({}), Icon({})
+
+        QuestieWaypoints.Add(first, nil, PATROLS, 12)
+        QuestieWaypoints.Add(second, nil, PATROLS, 12)
+
+        assert.are_not.equal(first.data.waypointPaths[1].route, second.data.waypointPaths[1].route)
+    end)
+
     it("releases only the unloading icon's paths, also from data other icons share", function()
         local data = {}
         local first, second = Icon(data), Icon(data)
-        QuestieWaypoints.Add(first, PATROLS, 12)
-        QuestieWaypoints.Add(second, {{{50, 50}, {60, 60}}}, 12, QuestieWaypoints.HOSTILE_COLOR)
+        QuestieWaypoints.Add(first, "m_first", PATROLS, 12)
+        QuestieWaypoints.Add(second, "m_second", {{{50, 50}, {60, 60}}}, 12, QuestieWaypoints.HOSTILE_COLOR)
 
         QuestieWaypoints.RemoveOwner(first)
 
@@ -69,7 +92,7 @@ describe("QuestieWaypoints", function()
 
     it("shows a path on the world map while its icon is shown, faded with it", function()
         local icon = Icon({})
-        QuestieWaypoints.Add(icon, PATROLS, 12)
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         local path = icon.data.waypointPaths[1]
 
         assert.are.equal(1, QuestieWaypoints.WorldMapAlpha(path))
@@ -85,7 +108,7 @@ describe("QuestieWaypoints", function()
     it("shows a path on the minimap only with the icon's minimap twin", function()
         local data = {}
         local icon = Icon(data)
-        QuestieWaypoints.Add(icon, PATROLS, 12)
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         local path = data.waypointPaths[1]
         assert.is_nil(QuestieWaypoints.MinimapAlpha(path))
 
@@ -103,8 +126,8 @@ describe("QuestieWaypoints", function()
     it("shows only flashed NPCs' paths on the world map while soloing", function()
         local flashed, other = Icon({}), Icon({})
         other.minimapTwin = {data = other.data}
-        QuestieWaypoints.Add(flashed, PATROLS, 12)
-        QuestieWaypoints.Add(other, PATROLS, 12)
+        QuestieWaypoints.Add(flashed, "m_flashed", PATROLS, 12)
+        QuestieWaypoints.Add(other, "m_other", PATROLS, 12)
 
         QuestieWaypoints.SetSolo({[flashed.data] = true})
         assert.are.equal(1, QuestieWaypoints.WorldMapAlpha(flashed.data.waypointPaths[1]))
@@ -117,7 +140,7 @@ describe("QuestieWaypoints", function()
 
     it("highlights all of an NPC's paths and restyles each once", function()
         local icon = Icon({})
-        QuestieWaypoints.Add(icon, PATROLS, 12)
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         local path = icon.data.waypointPaths[1]
 
         QuestieWaypoints.SetHighlighted(icon.data, true)
@@ -135,7 +158,7 @@ describe("QuestieWaypoints", function()
         assert.spy(WaypointMap.Invalidate).was.not_called()
 
         local icon = Icon({})
-        QuestieWaypoints.Add(icon, PATROLS, 12)
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         QuestieWaypoints.OwnerChanged(icon)
         assert.spy(WaypointMap.Invalidate).was.called(2)
     end)

@@ -38,6 +38,10 @@ Chosen defaults for the open questions; tell me to change any of them:
 - **Minimap scope:** every NPC with waypoints (objectives, quest givers, turn-ins, manual notes), following each icon's minimap twin. That means **Enable Minimap Icons** and hiding apply. No new option.
 - **Smoothing:** none.
 - **Overlapping paths:** the nearest path to the cursor wins. There are no combined tooltips.
+- **Duplicate routes:** an NPC with several quests has an icon per quest, and each would draw his patrol again. Courier Hammerfall's Ironforge route drew three times and stacked to nearly opaque. `DrawWaypoints` takes whose waypoints they are, as Questie's tooltip keys (`"m_<npcId>"`, `"o_<objectId>"`). Each path's `route` is that key, its area and its part of the patrol, and each route draws once:
+  - **World map:** the hovered copy, otherwise the most visible one. A hovered copy takes its route over on the next frame, without a redraw.
+  - **Minimap:** the most visible copy.
+- **Self-overlap:** a patrol that crosses or retraces itself still draws darker there; it marks where the NPC walks twice. Frame buffers can avoid that, but were tried and rejected: see [docs/frame-buffer-group-opacity.md](docs/frame-buffer-group-opacity.md).
 - **Debug view:** `/run QuestieLoader:ImportModule("WaypointMap").debugHover = true`, then change map.
 
 Behaviour changes worth naming in the PR:

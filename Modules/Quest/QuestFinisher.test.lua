@@ -200,7 +200,7 @@ describe("QuestFinisher", function()
         assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 10, 10)
-        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
+        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, _, "m_123", {{{10, 10}, {20, 20}}}, 1)
     end)
 
     it("should add finisher for dungeon location", function()

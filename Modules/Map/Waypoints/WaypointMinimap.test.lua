@@ -38,13 +38,15 @@ describe("WaypointMinimap", function()
         return view
     end
 
-    local function Path(world)
+    -- Each path is its own route unless given one: copies of a patrol drawn by several icons share it.
+    local function Path(world, route)
         local bounds = {math.huge, math.huge, -math.huge, -math.huge}
         for _, point in ipairs(world) do
             bounds = {math.min(bounds[1], point.x), math.min(bounds[2], point.y),
                 math.max(bounds[3], point.x), math.max(bounds[4], point.y)}
         end
         local path = {instanceId = 0, world = world, worldBounds = bounds, color = {1, 0.72, 0, 0.5}, minimapAlpha = 1}
+        path.route = route or tostring(path)
         QuestieWaypoints.paths[path] = true
         return path
     end
@@ -139,7 +141,18 @@ describe("WaypointMinimap", function()
         assert.are.equal(3, #LastRuns()[1])
         assert.are.near(-2010 * 0.7, LastRuns()[1][1].x, 1e-9)
         assert.are.equal(4, renderer.Draw.calls[1].vals[4].thickness)
-        assert.is_true(layer.entries[path].view.shown)
+        assert.is_true(layer.entries[path.route].view.shown)
+    end)
+
+    it("draws a route once however many icons own it, as its most visible copy", function()
+        Path({{x = 950, y = 1000}, {x = 950, y = 1010}}, "route").minimapAlpha = 0.3
+        Path({{x = 950, y = 1000}, {x = 950, y = 1010}}, "route")
+        local layer = Layer()
+
+        layer:Update()
+
+        assert.spy(renderer.Draw).was.called(1)
+        assert.are.equal(1, renderer.Draw.calls[1].vals[4].alpha)
     end)
 
     it("only moves the container while walking, until the player drifts from where paths were projected", function()

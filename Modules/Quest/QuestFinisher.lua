@@ -143,7 +143,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
                     finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                 end
 
-                QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone)
+                QuestieMap:DrawWaypoints(finisherIcons[zone], key, waypoints, zone)
             end
         end
     end

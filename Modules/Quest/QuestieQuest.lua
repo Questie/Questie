@@ -1342,7 +1342,8 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 local ipz = iconPerZone[zone]
 
                 if ipz then
-                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and QuestieWaypoints.HOSTILE_COLOR or nil)
+                    local color = spawnData.Hostile and QuestieWaypoints.HOSTILE_COLOR or nil
+                    QuestieMap:DrawWaypoints(ipz[1], spawnData.TooltipKey, waypoints, zone, color)
                 end
                 yieldCount = yieldCount + 1
                 if yieldCount >= TICKS_PER_YIELD then

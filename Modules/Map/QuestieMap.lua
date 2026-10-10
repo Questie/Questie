@@ -444,7 +444,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
                 if not manualIcons[zone] then
                     manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2], typ)
                 end
-                QuestieMap:DrawWaypoints(manualIcons[zone], waypoints, zone)
+                QuestieMap:DrawWaypoints(manualIcons[zone], "m_" .. npc.id, waypoints, zone)
             end
         end
     end
@@ -510,7 +510,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
                 if not manualIcons[zone] then
                     manualIcons[zone] = QuestieMap:DrawManualIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2], typ)
                 end
-                QuestieMap:DrawWaypoints(manualIcons[zone], waypoints, zone)
+                QuestieMap:DrawWaypoints(manualIcons[zone], "o_" .. object.id, waypoints, zone)
             end
         end
     end
@@ -720,12 +720,14 @@ end
 ---Draws an NPC's patrol paths in one zone on the world map and minimap. The paths follow the
 ---icon: they show while it does, fade with it, and are released when it unloads.
 ---@param icon IconFrame? World map icon of the NPC in this zone; nothing is drawn without one.
+---@param entity string? Whose waypoints these are, as tooltip keys: "m_<npcId>" or "o_<objectId>". Icons
+---drawing the same entity's waypoints, such as one per quest of an NPC, draw them once together.
 ---@param waypoints CoordPair[][] The zone's waypoints, {{{x, y}, ...}, ...} in percentages.
 ---@param zone AreaId
 ---@param color number[]? {r, g, b, a}; QuestieWaypoints.DEFAULT_COLOR when nil.
-function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
+function QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, color)
     if icon and waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
-        QuestieWaypoints.Add(icon, waypoints, zone, color)
+        QuestieWaypoints.Add(icon, entity, waypoints, zone, color)
     end
 end
 
