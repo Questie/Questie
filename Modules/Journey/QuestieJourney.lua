@@ -12,8 +12,8 @@ QuestieJourneyFrame = nil
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type JourneyData
+local JourneyData = QuestieLoader:ImportModule("JourneyData")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
@@ -96,8 +96,8 @@ function QuestieJourney:Initialize()
 
     coroutine.yield()
     self.continents = continents
-    self.zoneMap = ZoneDB.GetZonesWithQuests(true)
-    self.zones = ZoneDB.GetRelevantZones()
+    -- Generate once here; tabs reuse these quest groups and dropdown choices instead of rescanning the database.
+    self.zoneMap, self.zones = JourneyData.Build(true)
     coroutine.yield()
 
     -- Pre-initialize faction data used by the "Quests by Faction" tab so it is ready on first open.

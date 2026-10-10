@@ -210,6 +210,7 @@ Modules\Network\QuestieCommsData.lua
 Modules\Network\QuestiePartyObjectives.lua
 
 # Journey
+Modules\Journey\JourneyData.lua
 Modules\Journey\QuestieJourney.lua
 Modules\Journey\QuestieJourneyPrivates.lua
 Modules\Journey\QuestieJourneyUtils.lua
