@@ -20,10 +20,10 @@ Everything lives in `Modules/Map/Waypoints/`. The modules are loaded after `Modu
 
 | Module | Responsibility |
 | --- | --- |
-| `WaypointGeometry` | Pure geometry. Turns DB patrols into polylines in percentages and world yards: consecutive points closer than 0.5 yd merge, and points without a position split a patrol. Also projects onto neighbouring maps (capitals excluded both ways) and does the capsule hover test. |
+| `WaypointGeometry` | Pure geometry. Turns DB patrols into polylines in percentages and world yards: consecutive points closer than 0.5 yd merge, and points without a position split a patrol. Also does the capsule hover test. |
 | `WaypointRenderer` | One frame per path and one pooled texture per segment, with `Icons/waypoint-line.blp` (= `WHITE32X32BLACKLINES`). Each texture is stretched over its segment's [mitered quad](#mitered-joins) with `SetVertexOffset`. Restyling redraws only for a new thickness; a new colour only tints. It can also draw the debug hover area. |
 | `QuestieWaypoints` | The registry and Questie adapter. Each path is owned by its world map icon and shared on `icon.data.waypointPaths` for highlighting. Its world map visibility follows the owner's `hidden`/`faded`, and its minimap visibility follows the owner's `minimapTwin`. `SetSolo` covers the tracker flash. |
-| `WaypointMap` | One `OnUpdate` driver on the world map canvas, with no data provider. It redraws after changes, map switches and canvas resizes. Thickness is divided by the canvas scale. Thickness is redrawn once a smooth zoom settles, or when it drifts more than 25%; meanwhile lines scale with the canvas. Projection onto neighbouring maps is Zone → Zone only, so no dungeon floors or caves. Cursor hover opens the owner icon's tooltip, or only highlights the path when the owner is not on this map. Another icon's tooltip first ends a path hover (`EndHover`), so the path owner's `OnLeave` restores its icon tints. |
+| `WaypointMap` | One `OnUpdate` driver on the world map canvas, with no data provider. It redraws after changes, map switches and canvas resizes. Thickness is divided by the canvas scale. Thickness is redrawn once a smooth zoom settles, or when it drifts more than 25%; meanwhile lines scale with the canvas. A path draws on its own map only; see [Neighbouring maps](#neighbouring-maps). Cursor hover opens the owner icon's tooltip, or only highlights the path when the owner icon isn't visible. Another icon's tooltip first ends a path hover (`EndHover`), so the path owner's `OnLeave` restores its icon tints. |
 | `WaypointMinimap` | Blob's `PolygonMinimap` adapted for polylines: HBD-aligned projection with rotation, shape and player masks, and clipping. It draws only segments within 2 view radii of the projection origin. Walking moves just the container until the player drifts half a radius; turning a rotating minimap redraws only those nearby segments. It has no hover. |
 
 Integration:
@@ -35,7 +35,6 @@ Integration:
 
 Chosen defaults for the open questions; tell me to change any of them:
 - **Thickness on zoom:** constant on-screen width. Line 4, hover reach 6 map UI units.
-- **Neighbour gate:** the owner icon's logical visibility. A path crossing a border shows on the neighbouring map even when its NPC icon sits outside it. Hovering such a path highlights it, but cannot open a tooltip without a visible icon to anchor to.
 - **Minimap scope:** every NPC with waypoints (objectives, quest givers, turn-ins, manual notes), following each icon's minimap twin. That means **Enable Minimap Icons** and hiding apply. No new option.
 - **Smoothing:** none.
 - **Overlapping paths:** the nearest path to the cursor wins. There are no combined tooltips.
@@ -48,7 +47,6 @@ Behaviour changes worth naming in the PR:
 Not verified in game. To check:
 - The outline look at thickness 4, on the world map and the minimap, at normal and fractional UI scales.
 - Line width while zooming, and frame cost during smooth zoom with dense zones.
-- Neighbouring maps and capitals (Elwynn / Stormwind, Durotar / Orgrimmar).
 - Hover over bare map versus Questie icons and Blizzard pins; moving from a path onto its icon; map clicks and dragging passing through paths, in and out of combat.
 - Minimap alignment with Questie's icons while walking and turning, with `rotateMinimap` on and off; round, square and SexyMap minimaps; the hole over the player arrow.
 - The tracker's Show on Map flash.
@@ -161,7 +159,7 @@ Mirror blob's `Polygon/` split: pure geometry, a native-primitive renderer, and 
    - **No mouse input.** Hover is computed from the cursor; see [Line hover](#line-hover).
    - Thickness is divided by the canvas scale on zoom, giving a constant screen width as in the legacy code. Redraw happens only on scale change.
 3. **World map.** Drop the HBD registry trick and draw through a map data provider.
-   - Lines show on the owning map and on neighbouring detailed maps via HBD projection. See [Neighbouring maps](#neighbouring-maps).
+   - Lines show on the owning map only. Drawing them on neighbouring maps was built and removed; see [Neighbouring maps](#neighbouring-maps).
    - The frame level sits below Questie icons. Above or below blob's polygon areas is decided when the two meet.
    - Fade uses `profile.iconFadeLevel`.
 4. **Minimap.** A master-based minimap path layer built from `PolygonMinimap`'s generic parts: projection, culling, masks and driver.
@@ -241,34 +239,23 @@ Rectangles plus circles are exactly the capsule union, so the overlay shows the 
 
 ## Neighbouring maps
 
-A path draws on its owning map and on neighbouring detailed maps. It is projected through HBD world coordinates the same way blob projects polygon outlines.
+**Removed for now.** A path draws on its own map only, like the old line code. Drawing paths on neighbouring maps was built, then taken out to revisit later.
 
-- **Destinations:** only Zone, Dungeon and Micro maps. Never Continent, World or Cosmic maps, so no paths on Kalimdor or Eastern Kingdoms.
-- **Projection:**
-  - A path is drawn on a destination only when its projected bounds overlap that map.
-  - Vertices outside 0–100 stay intact so the canvas clips them.
-  - Projections are cached per path and destination map, and are invalidated when the source path changes.
-- **Capital cities do not take part in neighbour projection, in either direction.** A capital's paths draw only on the capital's own map, and neighbouring zones' paths are not drawn onto a capital map. City paths are long and dense, and a city occupies a small corner of its zone map, so projecting them would just add clutter.
-
-```lua
-local CAPITAL_MAPS = {
-    [1453] = true, -- Stormwind
-    [1454] = true, -- Orgrimmar
-    [1455] = true, -- Ironforge
-    [1456] = true, -- Thunder Bluff
-    [1457] = true, -- Darnassus
-    [1458] = true, -- Undercity
-}
-```
-
-Questie also supports TBC and later clients. Exodar (1947), Silvermoon (1954), Shattrath (1955) and Dalaran (125, 126) fit the same rule, so the table should probably include them. The repo has no shared capital constant yet; `QuestieComms.lua` (`badYellLocations`) and `QuestieMapUtils.lua` (`IsExplored`) each keep their own ad-hoc list.
+- **Why it was removed:**
+  - On Forever, the redrawn Mulgore artwork draws its eastern edge about 100 yards past the real border, so Barrens paths projected onto Mulgore looked pulled onto its drawn mountains.
+  - Fitting the artwork would make paths disagree with Blizzard's player arrow, and icons from neighbouring zones would have to move with them. See [docs/forever-mulgore-map-art.md](docs/forever-mulgore-map-art.md).
+  - Leaving the feature out kept the code simpler than either option.
+- **How it worked,** for when it returns. The code is in commits `8760bc139` (`WaypointGeometry.Project`, `CanProject`, `CAPITAL_MAPS`) and `6318612dd` (`WaypointMap.PointsOnMap`).
+  - **Projection:** each path's world-yard points went through HBD onto the destination map. It drew there only when its projected bounds overlapped that map. Vertices outside 0–100 stayed intact for the canvas to clip, and results were cached per path and destination map.
+  - **Destinations:** Zone to Zone only. Dungeon floors and micro maps such as caves share world space with the maps around them at other heights, and continents were never drawn on.
+  - **Capitals:** excluded in both directions: 1453–1458, plus 1947, 1954, 1955, 125 and 126 for later clients. City paths are long and dense, and a city is a small corner of its zone's map, so projecting them only cluttered.
 
 ## Decisions
 
 Decided:
 - **Base:** `origin/master`, not `blob`. Code may be duplicated into HBD where useful and reconciled with blob later.
 - **Clicks:** lines are click-through. They take no mouse input, and clicks over them reach the map. Paths have no click handling.
-- **Neighbouring maps:** yes, on detailed maps only, with capitals excluded (see above).
+- **Neighbouring maps:** not for now. Paths draw on their own map only; see [Neighbouring maps](#neighbouring-maps).
 
 Defaults chosen during implementation, pending your review: see [Implementation](#implementation).
 

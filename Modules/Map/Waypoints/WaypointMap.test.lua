@@ -6,9 +6,7 @@ describe("WaypointMap", function()
     local QuestieWaypoints
     local saved
     local driver, renderer
-    local mapId, scale, cursor, focus, tooltipOwner, mapTypes, conversions
-
-    local ZONE, CONTINENT = Enum.UIMapType.Zone, Enum.UIMapType.Continent
+    local mapId, scale, cursor, focus, tooltipOwner
 
     local function NewView()
         local view = {shown = false}
@@ -30,7 +28,7 @@ describe("WaypointMap", function()
     local function Path(uiMapId)
         local data = {}
         local path = {uiMapId = uiMapId or 1, instanceId = 0, points = {{x = 10, y = 50}, {x = 90, y = 50}},
-            world = {{x = 100, y = 500}, {x = 900, y = 500}}, worldBounds = {100, 500, 900, 500}, projections = {},
+            world = {{x = 100, y = 500}, {x = 900, y = 500}}, worldBounds = {100, 500, 900, 500},
             data = data, owner = Owner(data), color = {1, 0.72, 0, 0.5}, alpha = 1}
         QuestieWaypoints.paths[path] = true
         return path
@@ -41,10 +39,8 @@ describe("WaypointMap", function()
     end
 
     before_each(function()
-        saved = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, CreateFrame = _G.CreateFrame,
-            GameTooltip = _G.GameTooltip}
-        mapId, scale, cursor, focus, tooltipOwner, conversions = 1, 1, nil, nil, nil, 0
-        mapTypes = {[1] = ZONE, [2] = CONTINENT, [3] = ZONE, [4] = Enum.UIMapType.Dungeon, [1453] = ZONE}
+        saved = {WorldMapFrame = _G.WorldMapFrame, CreateFrame = _G.CreateFrame, GameTooltip = _G.GameTooltip}
+        mapId, scale, cursor, focus, tooltipOwner = 1, 1, nil, nil, nil
         local canvas = {GetWidth = function() return 1000 end, GetHeight = function() return 500 end,
             IsMouseOver = function() return cursor ~= nil end}
         local scrollContainer = {
@@ -53,24 +49,12 @@ describe("WaypointMap", function()
         }
         _G.WorldMapFrame = {GetMapID = function() return mapId end, GetCanvas = function() return canvas end,
             ScrollContainer = scrollContainer}
-        _G.C_Map = {GetMapInfo = function(id) return mapTypes[id] and {mapType = mapTypes[id]} end}
         _G.CreateFrame = function()
             driver = {scripts = {}}
             function driver:SetScript(name, script) self.scripts[name] = script end
             return driver
         end
         _G.GameTooltip = {GetOwner = function() return tooltipOwner end, Hide = spy.new(function() end)}
-        -- Map 3 lies 500 yards east of map 1; dungeon floor 4 and Stormwind (1453) overlap map 1 exactly.
-        local offsets = {[1] = 0, [3] = 500, [4] = 0, [1453] = 0}
-        _G.LibStub = function()
-            return {
-                GetWorldCoordinatesFromZone = function(_, x, y, id) return x * 1000 + offsets[id], y * 1000, 0 end,
-                GetZoneCoordinatesFromWorld = function(_, x, y, id)
-                    conversions = conversions + 1
-                    return (x - offsets[id]) / 1000, y / 1000
-                end,
-            }
-        end
         QuestieLoader:ImportModule("QuestieCompat").GetMouseFocus = function() return focus end
 
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
@@ -99,7 +83,7 @@ describe("WaypointMap", function()
     end)
 
     describe("drawing", function()
-        it("draws visible paths in canvas units on detailed maps and releases them on continents", function()
+        it("draws visible paths in canvas units on their own map only", function()
             Path()
             WaypointMap.Invalidate()
             Update()
@@ -110,6 +94,7 @@ describe("WaypointMap", function()
             assert.are.equal(4, style.thickness)
             assert.are.equal(2015, style.frameLevel)
 
+            -- Any other map, a neighbouring zone or a continent alike.
             mapId = 2
             Update()
             assert.spy(renderer.Release).was.called(1)
@@ -148,29 +133,6 @@ describe("WaypointMap", function()
             Update()
 
             assert.are.equal(2, renderer.Restyle.calls[1].vals[3].thickness)
-        end)
-    end)
-
-    describe("PointsOnMap", function()
-        it("projects a path onto a neighbouring map once", function()
-            local path = Path()
-
-            assert.are_same({{x = -40, y = 50}, {x = 40, y = 50}}, WaypointMap.PointsOnMap(path, 3))
-            WaypointMap.PointsOnMap(path, 3)
-            assert.are.equal(2, conversions)
-        end)
-
-        it("projects between zones only, never onto dungeon floors", function()
-            assert.is_nil(WaypointMap.PointsOnMap(Path(), 4))
-            assert.is_nil(WaypointMap.PointsOnMap(Path(4), 1))
-        end)
-
-        it("keeps capitals and other instances apart", function()
-            assert.is_nil(WaypointMap.PointsOnMap(Path(), 1453))
-            assert.is_nil(WaypointMap.PointsOnMap(Path(1453), 1))
-            local otherInstance = Path()
-            otherInstance.instanceId = 1
-            assert.is_nil(WaypointMap.PointsOnMap(otherInstance, 3))
         end)
     end)
 

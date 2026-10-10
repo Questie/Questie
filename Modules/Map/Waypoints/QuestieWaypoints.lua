@@ -22,7 +22,6 @@ QuestieWaypoints.HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
 ---@field data IconData The owner's data when added. A pooled owner showing something else has other data.
 ---@field color number[]
 ---@field highlighted boolean? The owner, or the path itself, is hovered.
----@field projections table<number, WaypointPoint[]|false> Points on neighbouring maps, by map.
 
 -- Paths by owner, so unloading an icon releases exactly its own paths. Icon data can be shared
 -- between icons, but each path has one owner.
@@ -64,7 +63,7 @@ function QuestieWaypoints.Add(owner, patrols, areaId, color)
     data.waypointPaths = shared
     for _, path in ipairs(polylines) do
         ---@cast path WaypointPath
-        path.owner, path.data, path.color, path.projections = owner, data, color or QuestieWaypoints.DEFAULT_COLOR, {}
+        path.owner, path.data, path.color = owner, data, color or QuestieWaypoints.DEFAULT_COLOR
         owned[#owned + 1] = path
         shared[#shared + 1] = path
         QuestieWaypoints.paths[path] = true

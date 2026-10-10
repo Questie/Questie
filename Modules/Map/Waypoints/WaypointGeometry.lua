@@ -20,29 +20,9 @@ local WaypointGeometry = QuestieLoader:CreateModule("WaypointGeometry")
 ---Converts map percentages to world yards; HereBeDragons' GetWorldCoordinatesFromZone in 0-1 units.
 ---@alias WaypointToWorld fun(x: number, y: number, uiMapId: number): number?, number?, number?
 
----Converts world yards to map fractions (0-1) of the destination map, out of bounds allowed.
----@alias WaypointToMap fun(worldX: number, worldY: number, uiMapId: number): number?, number?
-
 -- Consecutive points closer than this are one point. Patrol data repeats positions, and
 -- DrawLine needs a length well above zero to compute its texture coordinates.
 WaypointGeometry.MERGE_YARDS = 0.5
-
--- Capitals keep their paths to themselves: their patrols are long and dense, and a city is a small
--- corner of its zone's map, so projected city paths would only clutter. Neighbouring zones' paths
--- are not drawn onto a capital either.
-WaypointGeometry.CAPITAL_MAPS = {
-    [1453] = true, -- Stormwind City
-    [1454] = true, -- Orgrimmar
-    [1455] = true, -- Ironforge
-    [1456] = true, -- Thunder Bluff
-    [1457] = true, -- Darnassus
-    [1458] = true, -- Undercity
-    [1947] = true, -- The Exodar
-    [1954] = true, -- Silvermoon City
-    [1955] = true, -- Shattrath City
-    [125] = true, -- Dalaran
-    [126] = true, -- Dalaran, The Underbelly
-}
 
 local function _IsFinite(value)
     return type(value) == "number" and value > -math.huge and value < math.huge
@@ -101,33 +81,6 @@ function WaypointGeometry.BuildPolylines(patrols, uiMapId, toWorld)
         _Finish()
     end
     return polylines
-end
-
----Whether a polyline owned by sourceMapId may be drawn on destinationMapId other than its own.
----@param sourceMapId number
----@param destinationMapId number
----@return boolean
-function WaypointGeometry.CanProject(sourceMapId, destinationMapId)
-    local capitals = WaypointGeometry.CAPITAL_MAPS
-    return sourceMapId ~= destinationMapId and not capitals[sourceMapId] and not capitals[destinationMapId]
-end
-
----Projects a polyline onto a neighbouring map. Vertices outside the destination stay intact for
----the canvas to clip; nil when any vertex has no position there or no part reaches the map.
----@param polyline WaypointPolyline
----@param destinationMapId number
----@param toMap WaypointToMap
----@return WaypointPoint[]?
-function WaypointGeometry.Project(polyline, destinationMapId, toMap)
-    local projected = {}
-    for i, point in ipairs(polyline.world) do
-        local x, y = toMap(point.x, point.y, destinationMapId)
-        if not (_IsFinite(x) and _IsFinite(y)) then return nil end
-        projected[i] = {x = x * 100, y = y * 100}
-    end
-    local bounds = WaypointGeometry.Bounds(projected)
-    if bounds[3] < 0 or bounds[1] > 100 or bounds[4] < 0 or bounds[2] > 100 then return nil end
-    return projected
 end
 
 -- Line outlines
