@@ -61,6 +61,8 @@ describe("WaypointRenderer", function()
     end
 
     local TURN = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}
+    -- The line spans 12 of the texture's 16 rows; quads also cover the fade beyond it.
+    local QUAD_SCALE = 16 / 12
 
     before_each(function()
         saved = {CreateFrame = _G.CreateFrame, DrawLine = _G.DrawLine}
@@ -80,18 +82,18 @@ describe("WaypointRenderer", function()
         for name, value in pairs(saved) do _G[name] = value end
     end)
 
-    it("stretches the outlined texture over each segment's mitered quad", function()
+    it("stretches the outlined texture over each segment's mitered quad, widened by the fade", function()
         local renderer = WaypointRenderer.New(NewFrame())
 
         local view = renderer:Draw(nil, {TURN}, Style(4))
 
-        local expected = WaypointGeometry.Quads(TURN, 2)
+        local expected = WaypointGeometry.Quads(TURN, 2 * QUAD_SCALE)
         assert.are.equal(2, #view.lines)
         for i, line in ipairs(view.lines) do
             local drawn = DrawnQuad(line)
             for k = 1, 8 do assert.are.near(expected[i][k], drawn[k], 1e-9) end
         end
-        assert.is_truthy(view.lines[1].asset:find("waypoint%-line%.blp$"))
+        assert.is_truthy(view.lines[1].asset:find("waypoint%-line%-aa%.png$"))
         assert.are_same({1, 0.5, 0, 0.5}, view.lines[2].color)
         assert.is_false(view.shown)
     end)
@@ -104,7 +106,7 @@ describe("WaypointRenderer", function()
         -- Unjoined, the first run keeps a square end where the second starts.
         local drawn = DrawnQuad(view.lines[1])
         assert.are.near(10, drawn[5], 1e-9)
-        assert.are.near(2, drawn[6], 1e-9)
+        assert.are.near(2 * QUAD_SCALE, drawn[6], 1e-9)
     end)
 
     it("redraws for a new thickness but only tints for a new color", function()
@@ -117,7 +119,7 @@ describe("WaypointRenderer", function()
         assert.are_same({0, 1, 0, 1}, view.lines[1].color)
 
         renderer:Restyle(view, Style(2, {0, 1, 0, 1}))
-        assert.are.near(1, DrawnQuad(view.lines[1])[2], 1e-9)
+        assert.are.near(QUAD_SCALE, DrawnQuad(view.lines[1])[2], 1e-9)
     end)
 
     it("pools released textures and masks each texture once", function()
