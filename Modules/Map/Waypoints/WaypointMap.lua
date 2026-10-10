@@ -11,8 +11,6 @@ local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
-
 -- Line width and hover reach in map UI units: both are divided by the canvas scale, so they keep
 -- their size on screen while zooming. The hover area is deliberately wider than the line.
 local LINE_THICKNESS = 4
@@ -49,79 +47,6 @@ local hovered
 ---@type IconFrame? Owner whose tooltip the hovered path opened.
 local enteredOwner
 
--- Map geometry
-
----@type table<number, {instanceId: number, bounds: number[]}|false>
-local mapRects = {}
-
----World rectangle of a map, or false without world data.
----@param mapId number
-local function _MapRect(mapId)
-    local rect = mapRects[mapId]
-    if rect == nil then
-        local x1, y1, instanceId = HBD:GetWorldCoordinatesFromZone(0, 0, mapId)
-        local x2, y2 = HBD:GetWorldCoordinatesFromZone(1, 1, mapId)
-        rect = x1 and x2 and {instanceId = instanceId,
-            bounds = {math.min(x1, x2), math.min(y1, y2), math.max(x1, x2), math.max(y1, y2)}} or false
-        mapRects[mapId] = rect
-    end
-    return rect
-end
-
-local function _ToMap(worldX, worldY, mapId)
-    return HBD:GetZoneCoordinatesFromWorld(worldX, worldY, mapId, true)
-end
-
----@type table<number, number|false>
-local mapTypes = {}
-
----@param mapId number?
----@return number|false
-local function _MapType(mapId)
-    if not mapId then return false end
-    local mapType = mapTypes[mapId]
-    if mapType == nil then
-        local info = C_Map.GetMapInfo(mapId)
-        mapType = info and info.mapType or false
-        mapTypes[mapId] = mapType
-    end
-    return mapType
-end
-
--- Paths draw on detailed maps only, never on continents or the world.
----@param mapId number?
----@return boolean
-local function _IsDrawnMap(mapId)
-    local mapType = _MapType(mapId)
-    return mapType == Enum.UIMapType.Zone or mapType == Enum.UIMapType.Dungeon or mapType == Enum.UIMapType.Micro
-end
-
----A path's points on a map in percentages: its own on its owning map, projected on neighbouring
----zones, nil where it does not reach or is not drawn. Dungeon floors and micro maps such as caves
----share world space with the maps around them at other heights, so only zones project.
----@param path WaypointPath
----@param mapId number
----@return WaypointPoint[]?
-function WaypointMap.PointsOnMap(path, mapId)
-    if path.uiMapId == mapId then return path.points end
-    if not WaypointGeometry.CanProject(path.uiMapId, mapId) then return nil end
-    local zone = Enum.UIMapType.Zone
-    if _MapType(path.uiMapId) ~= zone or _MapType(mapId) ~= zone then return nil end
-    local projected = path.projections[mapId]
-    if projected == nil then
-        projected = false
-        local rect = _MapRect(mapId)
-        local bounds = path.worldBounds
-        -- The world rectangles reject paths on other maps before any point is converted.
-        if rect and rect.instanceId == path.instanceId and bounds[1] <= rect.bounds[3] and bounds[3] >= rect.bounds[1]
-            and bounds[2] <= rect.bounds[4] and bounds[4] >= rect.bounds[2] then
-            projected = WaypointGeometry.Project(path, mapId, _ToMap) or false
-        end
-        path.projections[mapId] = projected
-    end
-    return projected or nil
-end
-
 -- Drawing
 
 ---@param path WaypointPath
@@ -132,15 +57,16 @@ local function _Style(path, alpha)
         frameLevel = FRAME_LEVEL, hoverRadius = WaypointMap.debugHover and HOVER_RADIUS / shownScale or nil}
 end
 
----Draws every path that shows on the current map and releases the others' views.
+---Draws every path that shows on the current map and releases the others' views. Paths draw on
+---their own map only.
 local function _Refresh()
     dirty = false
     local drawn = {}
     local list = {}
-    if _IsDrawnMap(shownMapId) and shownWidth > 0 and shownHeight > 0 then
+    if shownWidth > 0 and shownHeight > 0 then
         for path in pairs(QuestieWaypoints.paths) do
-            local alpha = QuestieWaypoints.WorldMapAlpha(path)
-            local points = alpha and WaypointMap.PointsOnMap(path, shownMapId)
+            local alpha = path.uiMapId == shownMapId and QuestieWaypoints.WorldMapAlpha(path)
+            local points = alpha and path.points
             if points then
                 local entry = views[path]
                 if not entry or entry.mapId ~= shownMapId or entry.width ~= shownWidth or entry.height ~= shownHeight then
@@ -191,7 +117,7 @@ local function _IsCursorOnMap()
 end
 
 -- Hovering a path is hovering its NPC: the owner's tooltip opens, which highlights all of the
--- NPC's paths. An owner not shown here, such as on a neighbouring map, cannot anchor a tooltip.
+-- NPC's paths. An owner that is not visible cannot anchor a tooltip.
 ---@param path WaypointPath
 local function _Enter(path)
     local owner = path.owner

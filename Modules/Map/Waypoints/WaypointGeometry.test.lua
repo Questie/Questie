@@ -53,38 +53,6 @@ describe("WaypointGeometry", function()
         end)
     end)
 
-    describe("CanProject", function()
-        it("projects between ordinary zones only", function()
-            assert.is_true(WaypointGeometry.CanProject(1429, 1433))
-            assert.is_false(WaypointGeometry.CanProject(1429, 1429))
-        end)
-
-        it("keeps capitals out of projection in both directions", function()
-            -- Stormwind City and Elwynn Forest.
-            assert.is_false(WaypointGeometry.CanProject(1453, 1429))
-            assert.is_false(WaypointGeometry.CanProject(1429, 1453))
-        end)
-    end)
-
-    describe("Project", function()
-        local polyline
-        before_each(function()
-            polyline = WaypointGeometry.BuildPolylines({{{10, 10}, {90, 10}}}, 1, toWorld)[1]
-        end)
-
-        it("converts to destination percentages and keeps vertices outside the map", function()
-            -- The destination map is the source shifted 500 yards east.
-            local projected = WaypointGeometry.Project(polyline, 2, function(x, y) return (x - 500) / 1000, y / 1000 end)
-
-            assert.are_same({{x = -40, y = 10}, {x = 40, y = 10}}, projected)
-        end)
-
-        it("returns nil when the polyline does not reach the map or a point has no position there", function()
-            assert.is_nil(WaypointGeometry.Project(polyline, 2, function(x, y) return (x + 2000) / 1000, y / 1000 end))
-            assert.is_nil(WaypointGeometry.Project(polyline, 2, function() return nil end))
-        end)
-    end)
-
     describe("Quads", function()
         -- Quads are start left, start right, end left, end right corners as x, y pairs.
         local function assertCorners(expected, actual)
