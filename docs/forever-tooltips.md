@@ -2,7 +2,9 @@
 
 Forever exposes structured tooltip data through `C_TooltipInfo` and renders it through template mixins and `TooltipDataProcessor`. Our live probes confirm that Unit callbacks can include quest IDs and objective progress, and Object callbacks can identify the displayed object text. These are useful alternatives to reading rendered FontStrings every frame.
 
-**The narrow Object callback migration is implemented; broader tooltip refactoring remains pending.** Forever now uses primary Object post-calls instead of the per-frame object scanner. Classic retains native Item/Unit scripts and object polling. The historical Forever experiments below preceded this change; the new implementation has been live-tested only on Classic, out of combat. See [implementation and validation](#implemented-object-callback-path).
+**Latest investigation: [Forever tooltip secrets and native-row styling](forever-tooltip-secrets.md).** That follow-up records build 70291's user-driven combat comparisons, secret formatting/display tests, and the current Forever styling prototype. Visible combat validation of the styled rows remains pending.
+
+This reference records the earlier build 69913 investigation and initial Object callback migration. That migration replaced Forever's per-frame object scanner with primary Object post-calls, while Classic retained native scripts and polling. Its Classic-only validation is recorded [below](#implemented-object-callback-path). Statements about untested combat behavior and implementation status in the historical sections refer to that phase, not to the newer follow-up.
 
 For integration status, see [Forever development](forever-development.md). Broader recovery work remains in [the hardening backlog](forever-hardening-backlog.md). Provider-owned name lookup is described in [QuestieDB integration](questiedb-integration.md#object-hover-name-resolution).
 
@@ -339,9 +341,11 @@ accessible object name
 
 The implemented Object post-call replaces Forever's per-frame “not a unit/item/spell” classification. It does not solve unknown zones, missing provider content, localization gaps, or ambiguous names.
 
-## Current Questie implementation
+## Initial Questie implementation
 
-| Area | Current behavior | Consequence for migration |
+This table describes the original migration. The [newer native-row styling prototype](forever-tooltip-secrets.md#native-row-styling-prototype) takes ownership only when Forever tooltip data is secret or inaccessible. Readable data still uses normal Questie replacement; native lines remain visible where instance/group-size policy prevents that replacement.
+
+| Area | Behavior at the original migration | Consequence for migration |
 | --- | --- | --- |
 | [Tooltip initialization](../Modules/Tooltips/Tooltip.lua) | Requires both the processor and the frame's `GetPrimaryTooltipData` pipeline for post-calls. Classic retains available tooltip-set scripts, checked with `HasScript`. Initialization registers hooks only once. | Processor presence alone does not prove native callback delivery. Unit/Item handlers still do not consume callback data. |
 | [Unit handler](../Modules/Tooltips/TooltipHandler.lua) | Calls frame `GetUnit`, queries GUID, falls back to mouseover, and appends registry-derived lines. | Structured identity could avoid re-reading mutable frame/token state. |
