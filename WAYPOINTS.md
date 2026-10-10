@@ -37,6 +37,11 @@ Chosen defaults for the open questions; tell me to change any of them:
 - **Thickness on zoom:** constant on-screen width. Line 4, hover reach 6 map UI units.
 - **Minimap scope:** every NPC with waypoints (objectives, quest givers, turn-ins, manual notes), following each icon's minimap twin. That means **Enable Minimap Icons** and hiding apply. No new option.
 - **Smoothing:** none.
+- **Loop closing:** none. A patrol draws open unless its data ends on its first point. Closing it ourselves needs data we don't have, so it waits for cMaNGOS:
+  - **Loop or back-and-forth:** the data doesn't say whether the NPC loops or walks back along its route. A wrong closing line shows a route it never takes.
+  - **Return route:** a looping NPC may not walk straight from its last point to its first.
+  - **Zone pieces:** a zone's sub-path may be only the part of a patrol inside that zone, so its ends may not be the patrol's ends.
+  - **Legacy:** never closed loops in practice. Its closing segment needed ends 0.05–0.2 yd apart, and its spline samples never got that close.
 - **Overlapping paths:** the nearest path to the cursor wins. There are no combined tooltips.
 - **Duplicate routes:** an NPC with several quests has an icon per quest, and each would draw his patrol again. Courier Hammerfall's Ironforge route drew three times and stacked to nearly opaque. `DrawWaypoints` takes whose waypoints they are, as Questie's tooltip keys (`"m_<npcId>"`, `"o_<objectId>"`). Each path's `route` is that key, its area and its part of the patrol, and each route draws once:
   - **World map:** the hovered copy, otherwise the most visible one. A hovered copy takes its route over on the next frame, without a redraw.
@@ -78,7 +83,7 @@ DrawLine(texture, frame, sx, sy, ex, ey, thickness, 1, "TOPLEFT")
 
 - **How it works:** `DrawLine`, a client global, sets a bounding-box quad and texcoords that run outside 0–1. `CLAMPTOBLACKADDITIVE` makes everything outside the strip transparent. The texture's vertical axis spans the line's thickness, which is why its black rows become the edges.
 - **Proportions:** thickness *T* gives a black edge of *T*/4 on each side and a coloured core of *T*/2. At small *T*, `NEAREST` sampling can make the edges uneven. If 4–5 px looks wrong in game, a 64-row texture with a different ratio is a cheap tweak.
-- **Short segments:** legacy code dropped closing segments shorter than about 0.1 yards because of "TexCoord errors". `DrawLine` divides by the length, so it produces extreme texcoords when length ≪ thickness. Geometry should merge near-duplicate points before drawing.
+- **Short segments:** legacy code skipped closing segments under 0.05 yards because of "TexCoord errors". `DrawLine` divides by the length, so it produces extreme texcoords when length ≪ thickness. Geometry should merge near-duplicate points before drawing.
 - **Assets:** `WHITE32X32BLACKLINES.blp` (2,580 B) and `.png`, plus a sibling `WHITE32X32NOBORDERS`, are in `.scratch/waypoints-reference/textures/`. Ship the BLP in `Icons/`.
 
 ### Mitered joins
@@ -156,7 +161,7 @@ Mirror blob's `Polygon/` split: pure geometry, a native-primitive renderer, and 
 
 1. **Geometry (pure, tested).** Turn DB paths into per-map polylines with explicit units (percent plus world yards).
    - Merge points closer than a yard tolerance and drop zero-length segments.
-   - Handle the loop-closing gap explicitly.
+   - Keep loops open unless the data closes them; see **Loop closing** under [Implementation](#implementation).
    - Skip spline smoothing at first: patrol points are real positions, and Catmull-Rom can cut corners through walls (YAGNI).
 2. **Renderer.** One texture per segment with `WHITE32X32BLACKLINES`, mitered at joins (implemented with `SetVertexOffset` rather than `DrawLine`; see [Mitered joins](#mitered-joins)).
    - Pool textures, not frames: one container frame per path, or per map.
