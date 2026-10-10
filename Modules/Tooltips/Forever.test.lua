@@ -1,14 +1,16 @@
 dofile("setupTests.lua")
 
 describe("Forever", function()
-    local Forever
-    local saved, entries, levels, levelCalls
+    local Forever, QuestieLib
+    local saved, entries, levels, levelCalls, colorCalls
 
     before_each(function()
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         saved = {
-            C_QuestLog = _G.C_QuestLog, C_PlayerInfo = _G.C_PlayerInfo, C_Intl = _G.C_Intl,
+            C_QuestLog = _G.C_QuestLog, C_Intl = _G.C_Intl,
             C_StringUtil = _G.C_StringUtil, C_CurveUtil = _G.C_CurveUtil,
-            Enum = _G.Enum, CreateColor = _G.CreateColor, GetDifficultyColor = _G.GetDifficultyColor,
+            Enum = _G.Enum, CreateColor = _G.CreateColor,
+            GetDifficultyColorPercent = QuestieLib.GetDifficultyColorPercent,
             issecretvalue = _G.issecretvalue, issecrettable = _G.issecrettable,
             IsForever = Questie.IsForever, profile = Questie.db.profile, format = string.format,
         }
@@ -23,11 +25,11 @@ describe("Forever", function()
             GetInfo = function(index) return entries[index] end,
             GetQuestDifficultyLevel = function(id) return levelCalls(id) end,
         }
-        _G.C_PlayerInfo = {GetContentDifficultyQuestForPlayer = function(id) return id end}
-        _G.GetDifficultyColor = function(id)
-            if id == 4402 then return {r = 0, g = 1, b = 0} end
-            return {r = 1, g = 0.5, b = 0}
-        end
+        colorCalls = spy.new(function(_, id)
+            if id == 4402 then return 0, 1, 0 end
+            return 1, 0.5, 0
+        end)
+        QuestieLib.GetDifficultyColorPercent = function(_, level, id) return colorCalls(level, id) end
         _G.CreateColor = function(r, g, b)
             return {GenerateHexColorMarkup = function()
                 return string.format("|cff%02x%02x%02x", math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5))
@@ -63,9 +65,10 @@ describe("Forever", function()
     end)
 
     after_each(function()
-        _G.C_QuestLog, _G.C_PlayerInfo, _G.C_Intl = saved.C_QuestLog, saved.C_PlayerInfo, saved.C_Intl
+        _G.C_QuestLog, _G.C_Intl = saved.C_QuestLog, saved.C_Intl
         _G.C_StringUtil, _G.C_CurveUtil = saved.C_StringUtil, saved.C_CurveUtil
-        _G.Enum, _G.CreateColor, _G.GetDifficultyColor = saved.Enum, saved.CreateColor, saved.GetDifficultyColor
+        _G.Enum, _G.CreateColor = saved.Enum, saved.CreateColor
+        QuestieLib.GetDifficultyColorPercent = saved.GetDifficultyColorPercent
         _G.issecretvalue, _G.issecrettable = saved.issecretvalue, saved.issecrettable
         Questie.IsForever, Questie.db.profile, string.format = saved.IsForever, saved.profile, saved.format
     end)
@@ -75,6 +78,18 @@ describe("Forever", function()
 
         assert.are.equal("|c00000001|r|cff00ff00[3] Native apple title|r", formatTitle(4402, "Native apple title"))
         assert.are.equal("|c00000001|r|cffff8000[2] Native weapon title|r", formatTitle(97279, "Native weapon title"))
+    end)
+
+    it("uses Questie's title palette with the public candidate level and quest ID", function()
+        QuestieLib.GetDifficultyColorPercent = function(_, level, id)
+            colorCalls(level, id)
+            return 1, 1, 0
+        end
+        local formatTitle = Forever.CreateFormatter()
+
+        assert.are.equal("|c00000001|r|cffffff00[3] Native apple title|r", formatTitle(4402, "Native apple title"))
+        assert.spy(colorCalls).was.called_with(3, 4402)
+        assert.spy(colorCalls).was.called_with(2, 97279)
     end)
 
     it("uses an explicit unknown fallback instead of another quest's presentation", function()

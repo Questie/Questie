@@ -521,7 +521,7 @@ describe("Tooltip", function()
 
             assert.spy(foreverTooltips.CreateFormatter).was.called(1)
             assert.spy(formatTitle).was.called(2)
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Selected native title", 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Selected native title", 1, 0.82, 0, false)
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   Objective", 238 / 255, 238 / 255, 238 / 255, true)
 
             clearTooltip()
@@ -583,7 +583,7 @@ describe("Tooltip", function()
             assert.is_true(preCalls[8](GameTooltip, objectiveLine))
             postCalls[4](GameTooltip, primaryData)
 
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Public title", 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Public title", 1, 0.82, 0, false)
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   Secret objective", 238 / 255, 238 / 255, 238 / 255, true)
             assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
         end)
@@ -596,11 +596,11 @@ describe("Tooltip", function()
             assert.is_true(preCalls[17](GameTooltip, {leftText = "Public title"}))
             postCalls[2](GameTooltip)
 
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Public title", 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Public title", 1, 0.82, 0, false)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
         end)
 
-        it("styles secret object payloads without measuring or mutating native data", function()
+        it("lets native sizing use unwrapped titles while objectives wrap, without inspecting or mutating data", function()
             markObjectCaptionSecret()
             local title = {leftText = "Flintfire's Shipment", id = 98321}
             local objectiveLine = {leftText = "0/8 Flintfire's Shipment", completed = false}
@@ -608,7 +608,7 @@ describe("Tooltip", function()
             assert.is_true(preCalls[17](GameTooltip, title))
             assert.is_true(preCalls[8](GameTooltip, objectiveLine))
 
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Flintfire's Shipment", 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Flintfire's Shipment", 1, 0.82, 0, false)
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   0/8 Flintfire's Shipment", 238 / 255, 238 / 255, 238 / 255, true)
             assert.are.same({leftText = "Flintfire's Shipment", id = 98321}, title)
             assert.are.same({leftText = "0/8 Flintfire's Shipment", completed = false}, objectiveLine)
@@ -621,8 +621,8 @@ describe("Tooltip", function()
             preCalls[17](GameTooltip, {leftText = "Known quest", id = 42})
             preCalls[17](GameTooltip, {leftText = "Unknown quest"})
 
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Known quest (42)", 1, 0.82, 0, true)
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Unknown quest (???)", 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Known quest (42)", 1, 0.82, 0, false)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Unknown quest (???)", 1, 0.82, 0, false)
         end)
 
         it("does not show quest IDs when the setting is disabled, even with debug mode enabled", function()
@@ -632,7 +632,7 @@ describe("Tooltip", function()
 
             assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
 
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Quest", 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Quest", 1, 0.82, 0, false)
         end)
 
         it("passes opaque secret text and IDs only to formatting and native rendering", function()
@@ -655,7 +655,7 @@ describe("Tooltip", function()
 
             assert.is_true(preCalls[17](GameTooltip, {leftText = text, id = id}))
 
-            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, rendered, 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, rendered, 1, 0.82, 0, false)
             assert.spy(QuestieDB.GetQuest).was.not_called()
         end)
 

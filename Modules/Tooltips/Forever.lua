@@ -1,6 +1,9 @@
 ---@class Forever
 local Forever = QuestieLoader:CreateModule("Forever")
 
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+
 ---@alias ForeverFormatter fun(questId: any, title: any): string
 
 local function _IsSecret(value)
@@ -30,22 +33,19 @@ local function _CanSelect()
         and _G.C_CurveUtil and type(_G.C_CurveUtil.EvaluateColorValueFromBoolean) == "function"
         and C_QuestLog and type(C_QuestLog.GetNumQuestLogEntries) == "function" and type(C_QuestLog.GetInfo) == "function"
         and type(C_QuestLog.GetQuestDifficultyLevel) == "function"
-        and C_PlayerInfo and type(C_PlayerInfo.GetContentDifficultyQuestForPlayer) == "function"
-        and type(_G.GetDifficultyColor) == "function" and type(_G.CreateColor) == "function"
+        and type(QuestieLib.GetDifficultyColorPercent) == "function" and type(_G.CreateColor) == "function"
 end
 
 local function _GetCandidate(questId)
-    -- Only public quest-log IDs enter these native lookups. Their secret-ID overloads reject addon calls.
+    -- Resolve level and Questie's normal difficulty palette using only public candidate IDs.
     local level = C_QuestLog.GetQuestDifficultyLevel(questId)
-    local difficulty = C_PlayerInfo.GetContentDifficultyQuestForPlayer(questId)
-    if _IsSecret(level) or type(level) ~= "number" or level <= 0 or _IsSecret(difficulty) then return end
-    local color = _G.GetDifficultyColor(difficulty)
-    if _IsSecret(color) or type(color) ~= "table" or (issecrettable and issecrettable(color)) then return end
-    if _IsSecret(color.r) or _IsSecret(color.g) or _IsSecret(color.b) then return end
+    if _IsSecret(level) or type(level) ~= "number" or level <= 0 then return end
+    local r, g, b = QuestieLib:GetDifficultyColorPercent(level, questId)
+    if _IsSecret(r) or _IsSecret(g) or _IsSecret(b) then return end
     return {
         idText = string.format("%d", questId),
         level = level,
-        colorMarkup = _G.CreateColor(color.r, color.g, color.b, 1):GenerateHexColorMarkup(),
+        colorMarkup = _G.CreateColor(r, g, b, 1):GenerateHexColorMarkup(),
     }
 end
 

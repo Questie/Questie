@@ -711,7 +711,8 @@ local function _ProcessNativeQuestLine(tooltip, lineData, isTitle)
     if not (issecretvalue and issecretvalue(text)) and type(text) ~= "string" then return end
     if isTitle then
         nativeQuestTitleFormatter = nativeQuestTitleFormatter or Forever.CreateFormatter()
-        tooltip:AddLine(nativeQuestTitleFormatter(lineData.id, text), 1, 0.82, 0, true)
+        -- Let native sizing include the full title and optional ID; only objective/player rows should wrap.
+        tooltip:AddLine(nativeQuestTitleFormatter(lineData.id, text), 1, 0.82, 0, false)
     else
         tooltip:AddLine(string.format("   %s", text), 238 / 255, 238 / 255, 238 / 255, true)
     end
