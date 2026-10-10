@@ -831,7 +831,9 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                     starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                     added = added + 1
                 end
-                QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
+                -- By now tooltipKey names the NPC or object, also when the quest starts from an item
+                -- it drops, so every quest of one NPC shares his route.
+                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone)
             end
         end
     end

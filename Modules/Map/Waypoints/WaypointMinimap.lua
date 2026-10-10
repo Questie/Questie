@@ -39,6 +39,7 @@ local FOREVER_MASK_ATLAS = "ui-hud-minimap-frame-generic-mask"
 ---@class WaypointMinimapEntry
 ---@field view WaypointView? nil while no segment is within reach of the projection.
 ---@field projection WaypointMinimapProjection Projection the view was drawn with.
+---@field path WaypointPath The copy of the route the view was styled for.
 ---@field alpha number
 
 -- Projection
@@ -147,8 +148,8 @@ end
 ---@field root Frame Covers the minimap; owns the masks and runs the updates.
 ---@field container Frame Moves with the player; the renderer's canvas.
 ---@field renderer WaypointCanvasRenderer
----@field entries table<WaypointPath, WaypointMinimapEntry> Drawn paths, including those out of view.
----@field paths {path: WaypointPath, alpha: number}[] Paths that should show, wherever they are.
+---@field entries table<string, WaypointMinimapEntry> Drawn routes, including those out of view.
+---@field paths {path: WaypointPath, alpha: number}[] One copy of each route that should show, wherever it is.
 ---@field dirty boolean The collected paths are stale.
 ---@field projection WaypointMinimapProjection?
 ---@field stale boolean The shown views must be chosen again: new paths or a new projection.
@@ -180,40 +181,45 @@ local function _Publish(layer, views)
     layer.shown = views
 end
 
----Collects the paths that should show and releases the views of the others.
+---Collects the routes that should show and releases the views of the others. Icons sharing a
+---patrol, such as an NPC's quests, draw it once, as its most visible copy; the minimap has no hover.
 ---@param layer WaypointMinimapLayer
 local function _Collect(layer)
     layer.stale = true
-    local paths = {}
+    local routes = {}
     for path in pairs(QuestieWaypoints.paths) do
         local alpha = QuestieWaypoints.MinimapAlpha(path)
-        if alpha then paths[#paths + 1] = {path = path, alpha = alpha} end
+        local best = alpha and routes[path.route]
+        if alpha and (not best or alpha > best.alpha) then
+            routes[path.route] = {path = path, alpha = alpha}
+        end
     end
+    local paths = {}
+    for _, item in pairs(routes) do paths[#paths + 1] = item end
     layer.paths = paths
-    local current = {}
-    for _, item in ipairs(paths) do current[item.path] = true end
-    for path, entry in pairs(layer.entries) do
-        if not current[path] then
-            layer.entries[path] = nil
+    for route, entry in pairs(layer.entries) do
+        if not routes[route] then
+            layer.entries[route] = nil
             if entry.view then layer.renderer:Release(entry.view) end
         end
     end
 end
 
----Returns the path's view, drawn for the current projection; nil while no segment is in reach.
+---Returns the view of the path's route, drawn for the current projection; nil while no segment is in reach.
 ---@param layer WaypointMinimapLayer
 ---@param path WaypointPath
 ---@param alpha number
 ---@param projection WaypointMinimapProjection
 ---@return WaypointView?
 local function _View(layer, path, alpha, projection)
-    local entry = layer.entries[path]
+    local entry = layer.entries[path.route]
     local style = {thickness = LINE_THICKNESS, color = path.color, alpha = alpha, frameLevel = layer.container:GetFrameLevel()}
     if entry and entry.projection == projection then
-        if entry.view and entry.alpha ~= alpha then
+        -- Another copy of the route can have another color, such as an NPC hostile in one quest.
+        if entry.view and (entry.alpha ~= alpha or entry.path ~= path) then
             layer.renderer:Restyle(entry.view, style)
         end
-        entry.alpha = alpha
+        entry.path, entry.alpha = path, alpha
         return entry.view
     end
     local runs = _Runs(path.world, projection)
@@ -224,7 +230,7 @@ local function _View(layer, path, alpha, projection)
         layer.renderer:Release(view)
         view = nil
     end
-    layer.entries[path] = {view = view, projection = projection, alpha = alpha}
+    layer.entries[path.route] = {view = view, projection = projection, path = path, alpha = alpha}
     return view
 end
 

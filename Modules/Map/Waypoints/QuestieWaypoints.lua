@@ -20,6 +20,8 @@ QuestieWaypoints.HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
 ---@class WaypointPath : WaypointPolyline
 ---@field owner IconFrame World map icon whose lifetime and visibility the path follows.
 ---@field data IconData The owner's data when added. A pooled owner showing something else has other data.
+---@field route string Whose patrol this is, in which area, and which part of it. Icons drawing the same
+---NPC's patrols, such as one for each of his quests, give their paths the same routes, which draw once.
 ---@field color number[]
 ---@field highlighted boolean? The owner, or the path itself, is hovered.
 
@@ -47,10 +49,12 @@ end
 
 ---Draws an NPC's patrols in one zone for as long as owner is loaded, following its visibility.
 ---@param owner IconFrame World map icon of the NPC in this zone.
+---@param entity string? Whose patrols these are, as Questie's tooltip keys: "m_<npcId>" or "o_<objectId>".
+---Without one, the paths are the owner's alone and never share a route.
 ---@param patrols CoordPair[][] The zone's waypoints, {{{x, y}, ...}, ...} in percentages.
 ---@param areaId AreaId
 ---@param color number[]? {r, g, b, a}; DEFAULT_COLOR when nil.
-function QuestieWaypoints.Add(owner, patrols, areaId, color)
+function QuestieWaypoints.Add(owner, entity, patrols, areaId, color)
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaId)
     local data = owner.data
     if not uiMapId or not data then return end
@@ -61,9 +65,11 @@ function QuestieWaypoints.Add(owner, patrols, areaId, color)
     pathsByOwner[owner] = owned
     local shared = data.waypointPaths or {}
     data.waypointPaths = shared
-    for _, path in ipairs(polylines) do
+    local routePrefix = (entity or tostring(owner)) .. ":" .. areaId .. ":"
+    for i, path in ipairs(polylines) do
         ---@cast path WaypointPath
         path.owner, path.data, path.color = owner, data, color or QuestieWaypoints.DEFAULT_COLOR
+        path.route = routePrefix .. i
         owned[#owned + 1] = path
         shared[#shared + 1] = path
         QuestieWaypoints.paths[path] = true

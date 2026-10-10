@@ -25,11 +25,13 @@ describe("WaypointMap", function()
     end
 
     -- A horizontal patrol across map 1 at 50% height; maps are 1000x1000 yards on instance 0.
-    local function Path(uiMapId)
+    -- Each path is its own route unless given one: copies of a patrol drawn by several icons share it.
+    local function Path(uiMapId, route)
         local data = {}
         local path = {uiMapId = uiMapId or 1, instanceId = 0, points = {{x = 10, y = 50}, {x = 90, y = 50}},
             world = {{x = 100, y = 500}, {x = 900, y = 500}}, worldBounds = {100, 500, 900, 500},
             data = data, owner = Owner(data), color = {1, 0.72, 0, 0.5}, alpha = 1}
+        path.route = route or tostring(path)
         QuestieWaypoints.paths[path] = true
         return path
     end
@@ -106,6 +108,34 @@ describe("WaypointMap", function()
             Update()
 
             assert.spy(renderer.Draw).was.not_called()
+        end)
+
+        it("draws a route once however many icons own it, as its most visible copy", function()
+            Path(1, "route").alpha = 0.3
+            Path(1, "route")
+            Path(1, "route").alpha = nil
+            WaypointMap.Invalidate()
+            Update()
+
+            assert.spy(renderer.Draw).was.called(1)
+            assert.are.equal(1, renderer.Draw.calls[1].vals[4].alpha)
+        end)
+
+        it("lets a hovered copy take its route over without drawing it again", function()
+            Path(1, "route")
+            local hidden = Path(1, "route")
+            hidden.alpha = 0.3
+            WaypointMap.Invalidate()
+            Update()
+
+            hidden.highlighted, hidden.color = true, {0.93, 0.46, 0.13, 0.8}
+            WaypointMap.Restyle(hidden)
+            Update()
+
+            assert.spy(renderer.Draw).was.called(1)
+            local style = renderer.Restyle.calls[#renderer.Restyle.calls].vals[3]
+            assert.are_same({0.93, 0.46, 0.13, 0.8}, style.color)
+            assert.are.equal(0.3, style.alpha)
         end)
 
         it("keeps lines the same width on screen once a zoom settles", function()
