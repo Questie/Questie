@@ -9,7 +9,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 ---How a drawn path looks. Units are the canvas's own, before its scale.
 ---@class WaypointStyle
----@field thickness number Line width; a quarter of it is black outline on each side.
+---@field thickness number Line width; a quarter of it is black outline on each side, with a soft fade beyond.
 ---@field color number[] {r, g, b, a}, tinting only the line's core.
 ---@field alpha number? Whole-path opacity, such as an icon's fade. Default 1.
 ---@field frameLevel number
@@ -35,13 +35,21 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local Renderer = {}
 Renderer.__index = Renderer
 
--- One texture outlines a line: rows 0-7 and 24-31 of this 32x32 image are black and the middle is
--- white, so the vertex color tints only the core. Each segment stretches it over a quad whose long
--- edges run parallel to the segment, so the black rows follow both edges and meet at mitered joins.
-local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-line.blp"
+-- One texture outlines a line. Across it, this 16x16 image has 12 rows of line, a quarter black on
+-- each side of a white core, so the vertex color tints only the core. Two rows on each side fade
+-- the outline out to transparent, so its outer edges stay smooth as lines move by fractions of a
+-- pixel. Each segment stretches it over a quad whose long edges run parallel to the segment, so the
+-- rows follow both edges and meet at mitered joins.
+local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-line-aa.png"
+-- Quads are wider than the line by the fade, so the line keeps its thickness.
+local QUAD_SCALE = 16 / 12
 local WHITE_TEXTURE = "Interface\\BUTTONS\\WHITE8X8"
 local CIRCLE_TEXTURE = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
 local DEBUG_COLOR = {0.2, 0.8, 1, 0.25}
+-- The line texture has about as many rows as a line has pixels, so bilinear filtering blends rows
+-- smoothly without mipmaps. Nearest-neighbor picks one row per pixel, and the bands flicker as
+-- lines move.
+local FILTER = "LINEAR"
 
 -- Lines draw above the debug hover area of their own path. Debug bands are DrawLine strips, whose
 -- texture coordinates run past the image; clamping to black keeps the rest of their box clear.
@@ -79,7 +87,7 @@ local function _Acquire(self, view, kind, index)
         -- Pooled textures never leave this renderer, so they keep these settings and masks.
         texture:SetSnapToPixelGrid(false)
         texture:SetTexelSnappingBias(0)
-        texture:SetTexture(settings.asset, settings.wrap, settings.wrap, "NEAREST")
+        texture:SetTexture(settings.asset, settings.wrap, settings.wrap, FILTER)
         for _, mask in ipairs(self.maskTextures) do texture:AddMaskTexture(mask) end
     end
     owned[index] = texture
@@ -129,7 +137,7 @@ end
 ---@param view WaypointView
 ---@return boolean acquired Some line is new to the view and needs its color.
 local function _DrawLines(self, view)
-    local halfWidth = view.waypointThickness / 2
+    local halfWidth = view.waypointThickness / 2 * QUAD_SCALE
     local acquired, count = false, 0
     for _, run in ipairs(view.waypointRuns) do
         for _, quad in ipairs(WaypointGeometry.Quads(run, halfWidth)) do
