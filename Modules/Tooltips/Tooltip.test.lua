@@ -63,7 +63,7 @@ describe("Tooltip", function()
         local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.GetParentZoneId = function() return nil end
         dofile("Localization/l10n.lua")
-        QuestieLoader:ImportModule("TooltipDataDebug").Initialize = spy.new(function() end)
+        dofile("Modules/Tooltips/Forever.lua")
 
         dofile("Modules/Tooltips/Tooltip.lua")
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
@@ -414,7 +414,7 @@ describe("Tooltip", function()
     end)
 
     describe("native quest line handling", function()
-        local saved, scripts, preCalls, postCalls, primaryData
+        local saved, scripts, preCalls, postCalls, primaryData, registerLinePreCall
         local originalUnitHandler, originalObjectHandler, originalZoneGetter
 
         local function clearTooltip()
@@ -450,8 +450,9 @@ describe("Tooltip", function()
                 TooltipDataType = {Item = 0, Unit = 2, Object = 4},
                 TooltipDataLineType = {QuestTitle = 17, QuestObjective = 8, QuestPlayer = 18},
             }
+            registerLinePreCall = spy.new(function(kind, callback) preCalls[kind] = callback end)
             _G.TooltipDataProcessor = {
-                AddLinePreCall = function(kind, callback) preCalls[kind] = callback end,
+                AddLinePreCall = function(kind, callback) registerLinePreCall(kind, callback) end,
                 AddTooltipPostCall = function(kind, callback) postCalls[kind] = callback end,
             }
             _G.GameTooltip = {
@@ -483,20 +484,19 @@ describe("Tooltip", function()
             QuestiePlayer.GetCurrentZoneId = originalZoneGetter
         end)
 
-        it("initializes the inspector and styling once on Forever", function()
-            local debug = QuestieLoader:ImportModule("TooltipDataDebug")
+        it("registers native styling callbacks and the ownership reset once on Forever", function()
             QuestieTooltips:InitBlizzardTooltips()
 
-            assert.spy(debug.Initialize).was.called(1)
+            assert.spy(registerLinePreCall).was.called(3)
             assert.are.equal(2, #scripts.OnTooltipCleared) -- Object augmentation reset and native quest ownership reset.
         end)
 
-        it("preserves MoP suppression and augmentation without starting the Forever inspector", function()
+        it("preserves MoP suppression and augmentation", function()
             Questie.IsForever = false
-            local debug = QuestieLoader:ImportModule("TooltipDataDebug")
-            debug.Initialize:clear()
             dofile("Modules/Tooltips/Tooltip.lua")
             QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+            local foreverTooltips = QuestieLoader:ImportModule("Forever")
+            foreverTooltips.CreateFormatter = spy.new(function() error("Forever formatter called on another client") end)
             QuestieTooltips:Initialize()
 
             assert.is_true(preCalls[17](GameTooltip, {leftText = "Native title"}))
@@ -504,9 +504,29 @@ describe("Tooltip", function()
             postCalls[2](GameTooltip)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
             assert.spy(GameTooltip.AddLine).was.not_called()
-            assert.spy(debug.Initialize).was.not_called()
+            assert.spy(foreverTooltips.CreateFormatter).was.not_called()
             Questie.db.profile.enableTooltips = false
             assert.is_nil(preCalls[17](GameTooltip, {leftText = "Disabled"}))
+        end)
+
+        it("reuses public title candidates within a rebuild and refreshes them on clear", function()
+            markObjectCaptionSecret()
+            local foreverTooltips = QuestieLoader:ImportModule("Forever")
+            local formatTitle = spy.new(function() return "Selected native title" end)
+            foreverTooltips.CreateFormatter = spy.new(function() return formatTitle end)
+
+            preCalls[17](GameTooltip, {leftText = "First quest", id = 42})
+            preCalls[8](GameTooltip, {leftText = "Objective"})
+            preCalls[17](GameTooltip, {leftText = "Second quest", id = 43})
+
+            assert.spy(foreverTooltips.CreateFormatter).was.called(1)
+            assert.spy(formatTitle).was.called(2)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Selected native title", 1, 0.82, 0, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   Objective", 238 / 255, 238 / 255, 238 / 255, true)
+
+            clearTooltip()
+            preCalls[17](GameTooltip, {leftText = "Refreshed quest", id = 44})
+            assert.spy(foreverTooltips.CreateFormatter).was.called(2)
         end)
 
         it("hides public object quest lines and uses normal Questie augmentation", function()
@@ -595,14 +615,24 @@ describe("Tooltip", function()
             assert.spy(QuestieDB.GetQuest).was.not_called()
         end)
 
-        it("shows the quest ID only in debug mode and uses a placeholder when the ID is missing", function()
+        it("shows the quest ID when Show Quest IDs is enabled and uses a placeholder when the ID is missing", function()
             markObjectCaptionSecret()
-            Questie.db.profile.debugEnabled = true
+            Questie.db.profile.enableTooltipsQuestID = true
             preCalls[17](GameTooltip, {leftText = "Known quest", id = 42})
             preCalls[17](GameTooltip, {leftText = "Unknown quest"})
 
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Known quest (42)", 1, 0.82, 0, true)
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Unknown quest (???)", 1, 0.82, 0, true)
+        end)
+
+        it("does not show quest IDs when the setting is disabled, even with debug mode enabled", function()
+            markObjectCaptionSecret()
+            Questie.db.profile.enableTooltipsQuestID = false
+            Questie.db.profile.debugEnabled = true
+
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
+
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Quest", 1, 0.82, 0, true)
         end)
 
         it("passes opaque secret text and IDs only to formatting and native rendering", function()
@@ -621,7 +651,7 @@ describe("Tooltip", function()
                 end
                 return nativeFormat(format, ...)
             end
-            Questie.db.profile.debugEnabled = true
+            Questie.db.profile.enableTooltipsQuestID = true
 
             assert.is_true(preCalls[17](GameTooltip, {leftText = text, id = id}))
 

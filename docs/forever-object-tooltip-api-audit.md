@@ -6,7 +6,9 @@
 
 This is not an exhaustive proof that no native API can ever identify an object. In particular, Forever has real **GameObject unit/nameplate support**. Whether either collection object supplies a usable `mouseover` token and public identity in ordinary addon combat code remains a targeted runtime question. Do not dismiss that possibility using the old assumption that objects never have unit tokens.
 
-For implementation now: retain native secret display and do not choose a quest from its level, objective type, count, location, or last out-of-combat hover. Only enrich a tooltip when a current identity is independently public and validated. A supported display path is not permission to inspect its text.
+For implementation now: retain native secret display and do not choose a quest from its level, objective type, count, location, or last out-of-combat hover. Only enrich a tooltip when a current identity is independently public and validated, or a secret-preserving display selector has been validated end to end. The later selector passed both a synthetic out-of-combat display check and a bridge-context display check using an actual secret combat tooltip ID. Integration into Questie's ordinary callback remains unvalidated. A supported display path is not permission to inspect its text.
+
+The later parallel investigation below found a plausible native display selector. Failure of direct quest lookup does not prove that every secret-preserving presentation transform is impossible.
 
 ## Scope and provenance
 
@@ -99,6 +101,27 @@ Blizzard uses the global to set up the objective tracker's **usable quest-item b
 
 `C_QuestLog.UnitIsRelatedToActiveQuest(unit) -> boolean` and `UnitIsQuestBoss(unit) -> boolean` provide a relationship flag, not which quest or objective. The former has no concrete callers in this checkout. Even a public true result could fit both item quests. [QuestLog declaration, lines 1286-1300][unit-related], [Unit declaration, lines 2318-2332][quest-boss]
 
+## Quest level and difficulty color from a secret ID
+
+The matching declarations mark both `C_QuestLog.GetQuestDifficultyLevel(questID)` and `C_PlayerInfo.GetContentDifficultyQuestForPlayer(questID)` as `SecretArguments = "AllowedWhenUntainted"`. They are not general secret-ID lookup APIs for addon code. Sources: [QuestLog level declaration](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_APIDocumentationGenerated/QuestLogDocumentation.lua#L379-L395), [PlayerInfo difficulty declaration](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_APIDocumentationGenerated/PlayerInfoDocumentation.lua#L78-L93).
+
+A later bridge probe ran out of combat with no tooltip visible, using synthetic `secretwrap(97279)` and public quest ID 97279 as a control. Both getters worked for the public ID; both rejected the secret ID with "Secret values are only allowed during untainted execution for this argument." This was not a fresh combat hover capture. Raw sanitized results: `/tmp/questie-secret-quest-level-color-probes.json`.
+
+`GetQuestDifficultyColor(level)` is a Lua helper that performs level arithmetic and branches. It succeeded with public level 2 but errored on synthetic `secretwrap(2)`. The native difficulty enum getter above also rejects a secret quest ID, so it does not provide a usable alternative input for the Lua color helper. Sources: [DifficultyUtil](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_FrameXMLUtil/Mainline/DifficultyUtil.lua#L1-L69), [Camelot quest-title color caller](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_FrameXMLUtil/Camelot/QuestUtilsOverrides.lua#L11-L18).
+
+Calling a Blizzard function from addon code does not by itself establish untainted execution. The matching tooltip registration path explicitly wraps insecure addon callbacks with `forceinsecure()`; see [callback context][callback-context]. The bridge probe and declarations support retaining `[??]` and a neutral fixed color when only the secret quest ID is available. These tests did not install an ordinary-addon diagnostic or change tooltip rendering.
+
+## Secure state drivers are not a quest lookup context
+
+Secure handlers can execute restricted snippets during combat. That does not give a snippet Blizzard's unrestricted global API environment. The matching [RestrictedEnvironment.lua](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_RestrictedAddOnEnvironment/RestrictedEnvironment.lua#L21-L169) exports a curated set of primitives, macro-condition functions and selected action/unit helpers. It does not export `C_QuestLog`, `C_PlayerInfo`, `C_TooltipInfo`, the quest-level getter or the quest difficulty-color helper.
+
+Two possible handoff paths are explicitly constrained:
+
+- Restricted `self:GetAttribute(name)` returns the attribute through `scrub`, except for an internal frame handle. The matching `scrub` declaration replaces secrets and non-string/number/boolean values with nil. Passing a secret ID or a function reference through an ordinary attribute does not supply a general lookup capability. Sources: [RestrictedFrames GetAttribute](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_RestrictedAddOnEnvironment/RestrictedFrames.lua#L192-L203), [scrub declaration](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_APIDocumentationGenerated/FrameScriptDocumentation.lua#L390-L405).
+- Restricted `self:CallMethod(...)` deliberately calls `forceinsecure()` before invoking the ordinary frame method. It cannot lend restricted execution permissions to an addon quest lookup. Source: [RestrictedFrames CallMethod](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_RestrictedAddOnEnvironment/RestrictedFrames.lua#L805-L835).
+
+This source review found no supported state-driver/secure-handler route to resolve these secret tooltip IDs. It is not a claim that every conceivable native implementation bug or future API has been ruled out. No secure frames, snippets, handlers, bindings or state drivers were created as a live experiment.
+
 ## Other credible identity paths and their limits
 
 | Path | Matching source evidence | What is still missing for these hovers |
@@ -152,6 +175,81 @@ Blizzard's matching [TutorialRangeManager](https://github.com/Gethe/wow-ui-sourc
 The raw helper includes `pcall`'s success boolean in its return counts. Counts above exclude that boolean. These are bridge-context observations, not a new ordinary-addon callback capture. There were no permanent hooks, targeting changes, interactions, CVar changes or reloads.
 
 **Result:** the legitimate GameObject unit-token lead did not identify this hover in the tested context. Neither legacy objective getter has an extra entity-ID return on this client. No tested alternate API joins the public quest log to the secret world-object tooltip. This does not prove every GameObject category behaves the same or replace an ordinary-addon-context check.
+
+## Parallel workaround investigation
+
+Three independent investigations covered matching local APIs, secure execution boundaries, and online addon implementations. They found no new public hover identity, but did find a plausible **display-only candidate selector**. These investigations began as read-only probes. The string-based selector was subsequently implemented in `Modules/Tooltips/Forever.lua` after the synthetic and actual-combat display checks below; ordinary-addon callback validation is still pending.
+
+### Simple native numeric mappings: tested and rejected on this client
+
+A numeric step curve, color step curve and numeric-rule formatter can represent a public mapping from IDs 4402 and 97279 to the known levels/colors, with explicit unknown-ID gaps. Their declarations contain both `ConstSecretAccessor = true` and `SecretArguments = "AllowedWhenUntainted"`, which online tooling interprets differently.
+
+The later bridge test resolved that ambiguity for build 70338: all public controls worked; `Curve:Evaluate(secretID)`, `ColorCurve:Evaluate(secretID)`, `ColorCurve:EvaluateUnpacked(secretID)` and `NumericFormatter:FormatNumber(secretID)` rejected the synthetic secret input with the untainted-execution argument error. The probe was out of combat, used only local native objects, and installed no frames/hooks. Sanitized results: `/tmp/questie-secret-display-transforms.json`.
+
+Online supporting evidence is not a replacement for this matching runtime test:
+
+- The [wowlua-ls generator](https://github.com/TradeSkillMaster/wowlua-ls/blob/1ae043b196e6b6b3f860b41ba7c1c2bdad6702b0/crates/wowlua_stub_gen/src/stub_gen/secret_stubs.rs#L650-L663) deliberately interprets constant accessors as accepting tainted secrets despite the generated argument restriction. This explains the tooling claim, not the observed native behavior here.
+- [DandersFrames](https://github.com/DanderBot/DandersFrames/blob/d08f4c5c21f8a6f966538f69ad4189bdfbe5dee3/DandersFrames/Frames/AuraContainer.lua#L3095-L3109) documents a different 12.1 formatter refusal. Its client/context differs, so it is supporting evidence only.
+- Inspected Cell/Plater examples construct curves and let specialized native health/aura presentation paths consume them. They do not establish arbitrary quest-ID evaluation on Forever.
+
+### Native string-based selection: promising primitives, unverified composition
+
+These matching APIs explicitly accept tainted secret arguments:
+
+1. `C_Intl.CompareStrings(secretIDText, publicCandidateIDText, Enum.CollationStrength.Identical)` computes a comparison without a Lua branch.
+2. `C_StringUtil.TruncateWhenZero(comparison)` produces an empty mismatch string for equality.
+3. `C_StringUtil.WrapString(mismatch, "e\\204\\129", "")` produces empty text for a match, or a deliberately non-NFC marker for a mismatch.
+4. `C_Intl.IsNormalized(marker, Enum.NormalizationForm.Nfc)` produces a potentially secret match boolean.
+5. `C_CurveUtil.EvaluateColorValueFromBoolean(matches, 1, 0)` converts that boolean to a display gate.
+6. `TruncateWhenZero` and `WrapString` can suppress a nonmatching candidate's presentation entirely. A glyph-free color-code prefix can consume the matching gate token so only the chosen quest-level/title fragment is visible.
+
+Public quest-log IDs supply each candidate's current level and difficulty color. Native comparison and selection results must remain secret throughout; addon Lua must not branch on them, inspect them, use them as keys or derive public identity. Iterate only the bounded active-quest candidates. An explicit secret-preserving unmatched gate is required for `[??]`, rather than assuming a known quest will match.
+
+The synthetic bridge probe **succeeded** for secret `CompareStrings`, `IsNormalized`, `TruncateWhenZero`, `WrapString`, and `C_Intl.Length`; every tested result remained secret. Thus the earlier ordinary Lua string-operation failures do not rule out all native secret-capable transformations. A secret length result is still not public inspectable data.
+
+Sources: [Intl comparison](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_APIDocumentationGenerated/IntlDocumentation.lua#L11-L27), [normalization and length](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_APIDocumentationGenerated/IntlDocumentation.lua#L290-L332), [conditional string helpers](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_APIDocumentationGenerated/StringUtilDocumentation.lua#L188-L220), [secret boolean display gate](https://github.com/Gethe/wow-ui-source/blob/943764493e6b16d63ded3ab304150d1f05e58b57/Interface/AddOns/Blizzard_APIDocumentationGenerated/CurveUtilDocumentation.lua#L49-L63).
+
+### Combined synthetic selector probe
+
+After the user restored the bridge, `/tmp/questie-secret-native-selection.lua` executed on build 70338, out of combat. Public comparison controls returned 0, -1 and 1. Public full-selector controls produced `[3]` for ID 4402, `[2]` for 97279, and `[??]` for unknown ID 99999, with no nonmatching candidate text in the resulting strings.
+
+The same complete pipeline succeeded with synthetic secret IDs and titles. For every candidate in all three cases, comparison, mismatch text, normalization marker, match boolean, numeric gate and selected fragment were secret. Each final output remained secret. These outputs were passed to `print` for display; they were not inspected as public text. Sanitized results: `/tmp/questie-secret-native-selection.json`.
+
+The first attempt had a test-harness error: `GetDifficultyColor` returned a plain RGB table, not a ColorMixin with `GenerateHexColorMarkup`. Wrapping its public RGB fields with `CreateColor` fixed the harness; subsequent runs added no new error-handler entries. No addon code, callbacks or frames were installed.
+
+The first screenshots obscured the chat output behind the map/quest-log panels. After the user exposed chat and requested another print, a capture visibly confirmed `Secret selection: [3] A / [2] B / [??] X /`, with both known candidates green and the unknown fallback yellow. This was the secret-derived output, not a print of the public controls. The glyph-free marker did not add visible characters. Capture: `/tmp/questie-secret-native-selection/wow-capture-3341300730.png`.
+
+This establishes the complete synthetic secret-to-presentation path on build 70338 while out of combat. It does not establish ordinary-addon use of actual combat tooltip IDs.
+
+**Unverified:** performance, locale/edge-case comparison behavior, and ordinary-addon combat use of actual tooltip IDs. The native comparison declaration may return no values, so an unavailable comparison must not silently select a level. This remains an experimental composition of documented primitives, not a supported higher-level quest lookup contract or a production recommendation.
+
+### Actual combat Object-title probe
+
+The user returned to the character holding both collection quests and entered combat while hovering Cactus Apple. A one-shot bridge probe used the currently visible Object tooltip and enumerated all five public quest-log entries as candidates. It did not use the selected Mottled Boar to identify the object or alter the tooltip.
+
+The same response recorded build 70338, combat true, tooltip shown, dataInstanceID 35236, and a QuestTitle row at array position 2. The actual title ID and title text were secret. The complete selector succeeded and its final output remained secret. The printed output visibly read `[3] Galgar's Cactus Apple Surprise`, in yellow, matching the public level/color for quest 4402. No errors were recorded in this client session.
+
+This validates native display selection with an actual combat secret ID, not merely a synthetic secret. No public matched ID was returned to Lua. The script remains a one-shot bridge probe; no addon callback, frame or persistent hook was installed, and the ordinary Questie integration and training-weapon contrast still need testing.
+
+Artifacts: `/tmp/questie-live-secret-title-selection.lua` (readable probe), `/tmp/questie-live-secret-title-selection.compact.lua` (transport copy with leading indentation removed to fit the 3,900-character request limit), `/tmp/questie-live-secret-title-selection.json`, `/tmp/questie-live-secret-title-selection-errors.json`, `/tmp/questie-live-secret-title-selection/wow-capture-3715463557.png`.
+
+### String-format precision
+
+A later out-of-combat synthetic probe accepted `string.format("%.1s", secretString)`, `"%.2s"` and `"%.0s"`; every result remained secret. Public controls for `"abcdef"` produced `"a"`, `"ab"` and `""`. `%1s` was also accepted but is minimum field width, not truncation. Sanitized results: `/tmp/questie-secret-string-precision.json`. The screenshot obscured the printed values behind the map, so actual secret-derived truncated glyphs were not visually confirmed.
+
+String precision truncates a prefix by bytes. It is not arbitrary-position substring extraction and can split UTF-8 characters. It does not produce a public character for Lua inspection or branching.
+
+### Lower-priority presentation alternative
+
+Secret-capable texture selection (`SetSpriteSheetCell` or a secret-formatted texture path) could choose baked level glyphs from a public asset set. It was not live-tested. Sparse quest IDs, asset cost, current/scaled-level correctness and unknown-ID handling make it less attractive than a bounded candidate selector.
+
+## Addon integration
+
+`Forever.CreateFormatter()` now builds public active-quest candidates once per native tooltip rebuild. Its returned function selects the level/color title presentation using the native helpers above, honors Show Quest Levels and Show Quest IDs, and retains yellow unknown text if a candidate/API is unavailable or any helper fails. Candidate IDs are deduplicated. No secret match result enters a Lua branch or public lookup, and no secret input/output survives beyond rendering.
+
+`Tooltip.lua` calls this formatter only from the Forever native quest-title fallback. The formatter is discarded on `OnTooltipCleared`; readable data still uses normal Questie replacement, and objective rows keep the existing native-text rendering. All other clients retain the previous suppression/augmentation paths. The new module loads inertly and installs no handlers of its own. The temporary inspector remains removed.
+
+The bridge captures prove the native composition in insecure synthetic and actual-combat probes, not the just-added ordinary-addon callback. Loading this revision and testing both collection-object hovers in combat remains required.
 
 ## Remaining targeted checks
 

@@ -20,8 +20,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type TooltipDataDebug
-local TooltipDataDebug = QuestieLoader:ImportModule("TooltipDataDebug")
+---@type Forever
+local Forever = QuestieLoader:ImportModule("Forever")
 
 local tinsert = table.insert
 QuestieTooltips.lastGametooltip = ""
@@ -41,6 +41,8 @@ local MAX_GROUP_MEMBER_COUNT = 6
 -- Reset on every native rebuild, even when the tooltip reuses its dataInstanceID.
 local nativeQuestFallback = false
 local nativeTooltipHooksInitialized = false
+---@type ForeverFormatter?
+local nativeQuestTitleFormatter
 
 local _InitObjectiveTexts
 
@@ -669,7 +671,7 @@ local function _NeedsNativeQuestFallback(data, lineData)
 end
 
 -- Public data uses normal Questie replacement. Secret data uses display-only native rows:
--- no parsing, comparisons, measurements or ID lookups, and native AddLine owns layout.
+-- no Lua inspection, measurements or secret-ID lookups. Native helpers may select display text; AddLine owns layout.
 local function _ProcessNativeQuestLine(tooltip, lineData, isTitle)
     if tooltip ~= GameTooltip or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
         or not Questie.db.profile.enableTooltips then
@@ -708,16 +710,8 @@ local function _ProcessNativeQuestLine(tooltip, lineData, isTitle)
     local text = lineData.leftText
     if not (issecretvalue and issecretvalue(text)) and type(text) ~= "string" then return end
     if isTitle then
-        local format = "[??] %s"
-        local id = "???"
-        if Questie.db.profile.debugEnabled then
-            format = "[??] %s (%s)"
-            local questId = lineData.id
-            if (issecretvalue and issecretvalue(questId)) or type(questId) == "number" then
-                id = questId
-            end
-        end
-        tooltip:AddLine(string.format(format, text, id), 1, 0.82, 0, true)
+        nativeQuestTitleFormatter = nativeQuestTitleFormatter or Forever.CreateFormatter()
+        tooltip:AddLine(nativeQuestTitleFormatter(lineData.id, text), 1, 0.82, 0, true)
     else
         tooltip:AddLine(string.format("   %s", text), 238 / 255, 238 / 255, 238 / 255, true)
     end
@@ -732,9 +726,10 @@ function QuestieTooltips:InitBlizzardTooltips()
     end
     nativeTooltipHooksInitialized = true
     if Questie.IsForever then
-        -- Capture the untouched payload before the styling callbacks consume the native lines.
-        TooltipDataDebug.Initialize()
-        GameTooltip:HookScript("OnTooltipCleared", function() nativeQuestFallback = false end)
+        GameTooltip:HookScript("OnTooltipCleared", function()
+            nativeQuestFallback = false
+            nativeQuestTitleFormatter = nil
+        end)
     end
     for _, name in ipairs({"QuestTitle", "QuestObjective", "QuestPlayer"}) do
         local lineType = Enum.TooltipDataLineType[name]

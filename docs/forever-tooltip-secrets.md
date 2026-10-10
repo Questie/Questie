@@ -13,7 +13,7 @@ The hover observations came from `TooltipDataDebug` running inside Questie's ord
 - Flintfire's Shipment's first Object snapshot marked text, quest ID and progress secret. After the user reported hovering it out of combat, the next snapshot exposed quest ID 98321 and progress, and the bridge confirmed combat was false. The first snapshot did not record its own combat flag, so this is a user-driven comparison, not an exhaustive test proving combat is the sole cause of secrecy.
 - Crag Boar's out-of-combat Unit snapshot used `unitToken = "mouseover"`. After the user entered combat with that boar, a new snapshot used `unitToken = "target"`, retained readable GUID/NPC ID 1125, quest ID 384 and progress, and included `100% Threat`. The bridge confirmed combat was true at that read. This does not prove identical combat behavior for the world-mouseover path.
 
-The inspector retains the last snapshot after mouseout. Combat state queried separately by the bridge describes the moment of that query, not an independently timestamped state attached to the capture.
+The temporary inspector retained the last snapshot after mouseout. Combat state queried separately by the bridge describes the moment of that query, not an independently timestamped state attached to the capture.
 
 The operation tests below used `secretwrap("QUESTIE_SECRET_PROBE_70291")`, not hidden game data. They ran through the bridge, which reported an insecure context and no permission to access the synthetic secret. Failure messages identify `ForceTaint_Strong`. This is a bridge-context test, not a normal-addon combat certification. No reload, targeting change, combat-state change, or existing tooltip mutation was performed.
 
@@ -156,7 +156,7 @@ For presentation-specific choices, [C_CurveUtil.EvaluateColorFromBoolean and Eva
 ## Consequences for Questie
 
 - We can potentially improve presentation without first identifying the object. Pass secret text or progress to documented secret-capable widgets, keeping the values secret.
-- A diagnostic view could show a public `secret` label beside a separate FontString rendering the actual value. It must not parse the rendered text or use text measurements as public layout decisions. The current inspector intentionally substitutes markers and is not that renderer.
+- A diagnostic view could show a public `secret` label beside a separate FontString rendering the actual value. It must not parse the rendered text or use text measurements as public layout decisions. The temporary inspector substituted markers and was not that renderer.
 - Do not put secret values into the current generic string dump. Its sorting, truncation and layout measurements are designed for public snapshots. A display-only view needs a separate, bounded layout.
 - Readable Unit GUIDs and quest IDs can support normal addon lookups when public. Secret Object names and quest IDs cannot become database keys simply because `tostring`, concatenation, printing, or a widget setter accepted them.
 - Appending a public or secret line through the exact GameTooltip path still merits an ordinary-addon combat test. The hidden FontString probe does not prove every tooltip helper, measurement, or protected-frame operation is safe.
@@ -176,13 +176,13 @@ This has not been implemented or validated:
 
 The display-only styling prototype below does not depend on this idea. It can present native secret text without knowing which object produced it.
 
-## Inspector operation
+## Temporary inspector (removed)
 
-`Modules/Tooltips/TooltipDataDebug.lua` observes QuestTitle, QuestObjective and QuestPlayer line pre-calls for GameTooltip. It displays `lineData` and the current `processingInfo.tooltipData` in a separate frame. The frame starts hidden and does not format payloads until opened with `/qtooltipdata`. That command toggles the frame; Pause freezes capture; Close stops visible inspection until reopened. These controls affect inspection, not native-row styling.
+`TooltipDataDebug` was an investigation-only inspector that observed native quest line pre-calls without consuming them. It sanitized payloads inside the ordinary addon callback before displaying or retaining a snapshot. Secret values became markers; inaccessible tables were not enumerated. Work was bounded, and no history was stored in SavedVariables.
 
-Snapshots are strings formatted in the ordinary addon callback, not deferred raw payloads. Secret values become `secret`; inaccessible tables are not enumerated. The formatter bounds work to 240 fields, five nested levels and 400 characters per string, handles repeated/cyclic tables and escapes visible text markup. Only sanitized strings reach the next-frame UI update. No history is stored in SavedVariables.
+The inspector, its tests, TOC entries and `/qtooltipdata` command have been removed from the shipping implementation. The findings above remain as evidence; native styling does not depend on the inspector.
 
-The inspector itself returns false so other callbacks/native rendering can continue. A line pre-call returning true means the line was consumed; false or nil permits ordinary rendering. For secret-data styling, a line is consumed only after adding its display-only replacement. For readable data, native quest lines are consumed up front and the normal Questie post-call supplies the replacement.
+A line pre-call returning true means the line was consumed; false or nil permits ordinary rendering. For secret-data styling, a line is consumed only after adding its display-only replacement. For readable data, native quest lines are consumed up front and the normal Questie post-call supplies the replacement.
 
 ## Native-row styling prototype
 
@@ -192,16 +192,18 @@ Forever selects the rendering path before handling its QuestTitle, QuestObjectiv
 - Secret or inaccessible payloads use the native-data fallback described below. The predicate examines the full payload before hiding a public title, because a later objective or the entity identity can be secret. It does not compare or parse secret values.
 - Secrecy, not a blanket combat check, selects styling. Readable native rows stay visible when the legacy instance or group-size policy prevents Questie replacement.
 
-- Titles use fixed yellow and `[??] <native title>`; debug mode displays the native ID through formatting, or `???` when no usable ID was supplied.
+- `Forever` selects a known quest's current level and native difficulty color using public quest-log candidates and secret-capable native helpers. No selected ID or match boolean becomes public. Missing candidates/APIs or native-helper errors retain yellow `[??]` rather than dropping text or guessing.
+- Show Quest Levels (`enableTooltipsQuestLevel`) controls the level prefix. Show Quest IDs (`enableTooltipsQuestID`) displays the supplied native ID through formatting, or `???` when no usable ID was supplied. A secret ID is formatted directly for display without a lookup.
+- Public candidate levels/colors are built lazily once per native tooltip rebuild and discarded on `OnTooltipCleared`. Secret input payloads and outputs are not cached.
 - Objective/player text receives three spaces of indentation and Questie's default near-white color. Text is not parsed, measured or stripped of markup.
 - `GameTooltip:AddLine` receives the formatted value, which can remain secret. Native tooltip code owns wrapping, sizing and the final Show call. This does not use `TooltipLayout`.
 - In the secret-data fallback, unknown two-column rows and inaccessible payloads keep their native rendering. Fallback ownership prevents a second legacy Questie quest block and its FontString reads. Public payloads outside the instance/group-size exceptions do not take ownership away from normal Questie augmentation.
 - Ownership resets on OnTooltipCleared, including rebuilds that reuse a dataInstanceID.
-- Other clients retain the previous native-line suppression and legacy augmentation. The inspector starts only on Forever.
+- Other clients retain the previous native-line suppression and legacy augmentation. No diagnostic UI or callbacks are included.
 
 A further synthetic live probe formatted a secret string and secret numeric ID together, then successfully passed the result to AddLine on a hidden GameTooltip. It explicitly recorded `inCombat = false`. At that point, visible combat styling still required a reload and a physical hover test; no reload was performed by that implementation task. The later build-70338 presentation smoke check is recorded above.
 
-This is a restricted-data fallback, not a replacement for normal Questie tooltips. Fixed yellow and `[??]` do not represent a known quest difficulty or level. When the secret native quest block owns rendering, the legacy block is not appended, so its separate drop-rate, provider, party and ID annotations are not automatically retained. With readable data, the normal replacement and its annotations remain enabled. The later Cactus Apple screenshot had no objective icon; other payloads and locales remain unverified. The prototype deliberately assumes no icon needs stripping and passes native text unchanged apart from its prefix.
+This is a restricted-data fallback, not a replacement for normal Questie tooltips. A selected level/color comes from public quest data through a native secret-preserving selector. Yellow and `[??]` remain the unknown fallback, not a claimed quest difficulty or level. When the secret native quest block owns rendering, the legacy block is not appended, so its separate drop-rate, provider, party and ID annotations are not automatically retained. With readable data, the normal replacement and its annotations remain enabled. The later Cactus Apple screenshot had no objective icon; other payloads and locales remain unverified. The prototype deliberately assumes no icon needs stripping and passes native text unchanged apart from its prefix.
 
 ## Validation and next checks
 
@@ -212,13 +214,17 @@ Recorded automated validation in the original blob workspace after the styling r
 - Focused source lint and loader-usage validation passed.
 - Review fixes preserve non-Forever suppression, prevent the inspector starting on other clients, and keep fallback-only native blocks from also invoking legacy augmentation.
 
-PR-worktree validation on `master` base `ffefa6362` (without the unrelated blob changes): 77 focused tests and 2,788 full-suite tests passed after restricting styling to secret data, along with full source lint and loader validation. The inspector is opt-in. Review found no non-Forever behavior regression; this is code/test coverage, not live certification of every Classic client.
+Before inspector removal, PR-worktree validation on `master` base `ffefa6362` (without the unrelated blob changes): 77 focused tests and 2,788 full-suite tests passed after restricting styling to secret data, along with full source lint and loader validation. At that point the inspector was opt-in. Review found no non-Forever behavior regression; this is code/test coverage, not live certification of every Classic client.
+
+After inspector removal and wiring ID display to Show Quest IDs, 69 tooltip tests and 2,780 full-suite tests passed, along with source lint and loader validation. Focused review of inspector removal found no dangling dependencies or callback-order reliance. The ID-display setting now matches normal Questie tooltips.
+
+The later implementation adds `Forever.CreateFormatter` to the Forever title path. Its focused tests cover public candidate selection, unknown fallback, both display settings, duplicate entries, cache refresh, native failures and opaque-ID forwarding. Unit tests use public native-helper stand-ins; actual secret behavior was established by the synthetic and combat bridge probes in the [API audit](forever-object-tooltip-api-audit.md#actual-combat-object-title-probe). Ordinary-addon callback integration still needs a live hover after loading this revision. Validation of the integrated implementation passed 84 focused tests and 2,795 full-suite tests, full source lint and loader validation. Focused review found no concrete security/correctness issue; follow-up tests cover partially secret candidate metadata and all-unavailable candidates becoming readable on a later rebuild.
 
 Still needed before claiming production combat safety:
 
 1. Complete a controlled before/during/after-combat hover sequence with the exact PR commit recorded. The build-70338 captures and screenshot cover only part of this check.
 2. Compare NPC world mouseover with the target-token path during combat.
 3. Exercise multiple quests/objectives, completion and stationary progress refreshes. Verify wrapping, native fallback, ordering and absence of duplicate/stale rows.
-4. Check debug IDs, disabled tooltip settings, party rows, non-English text and any icon markup. Never infer general availability from an unobserved payload shape.
+4. Check Show Quest IDs, disabled tooltip settings, party rows, non-English text and any icon markup. Never infer general availability from an unobserved payload shape.
 
 Successful synthetic formatting is not proof of every protected UI operation. Combat lockdown, forbidden frames and secret-value access are separate constraints, not a blanket prohibition on rendering addon text.

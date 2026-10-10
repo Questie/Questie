@@ -153,7 +153,7 @@ Modules\QuestLinks\HandleSetHyperlink.lua
 Modules\QuestLinks\Link.lua
 
 # Tooltips
-Modules\Tooltips\TooltipDataDebug.lua
+Modules\Tooltips\Forever.lua
 Modules\Tooltips\Tooltip.lua
 Modules\Tooltips\TooltipLayout.lua
 Modules\Tooltips\MapIconTooltip.lua
