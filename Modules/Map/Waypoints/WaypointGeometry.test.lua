@@ -34,6 +34,38 @@ describe("WaypointGeometry", function()
             assert.are_same({{x = 10, y = 10}, {x = 20, y = 10}}, polylines[1].points)
         end)
 
+        it("drops points a patrol runs straight on through, but keeps where it turns back", function()
+            -- QuestieDB splits long segments into evenly spaced points.
+            local polylines = WaypointGeometry.BuildPolylines({{{10, 10}, {12, 10}, {14, 10}, {20, 10}, {20, 15}, {20, 20}}}, 1, toWorld)
+
+            assert.are_same({{x = 10, y = 10}, {x = 20, y = 10}, {x = 20, y = 20}}, polylines[1].points)
+            assert.are_same({{x = 100, y = 100}, {x = 200, y = 100}, {x = 200, y = 200}}, polylines[1].world)
+
+            local backAndForth = WaypointGeometry.BuildPolylines({{{10, 10}, {20, 10}, {15, 10}}}, 1, toWorld)
+            assert.are.equal(3, #backAndForth[1].points)
+        end)
+
+        it("keeps a slow arc's shape, though it turns too little at each point to count", function()
+            -- Each 10-yard step turns 0.05 degrees, 3 in all: a straight line would miss its middle by 4 yards.
+            local patrol, x, y = {}, 10, 20
+            for i = 0, 60 do
+                patrol[#patrol + 1] = {x, y}
+                local heading = math.rad(0.05 * i)
+                x, y = x + math.cos(heading), y + math.sin(heading)
+            end
+
+            local kept = WaypointGeometry.BuildPolylines({patrol}, 1, toWorld)[1].world
+
+            for _, coords in ipairs(patrol) do
+                local nearestSq = math.huge
+                for i = 2, #kept do
+                    local a, b = kept[i - 1], kept[i]
+                    nearestSq = math.min(nearestSq, WaypointGeometry.SegmentDistanceSq(coords[1] * 10, coords[2] * 10, a.x, a.y, b.x, b.y))
+                end
+                assert.is_true(nearestSq < 0.1 * 0.1)
+            end
+        end)
+
         it("keeps a patrol closed when the data returns to its start", function()
             local polylines = WaypointGeometry.BuildPolylines({{{10, 10}, {20, 10}, {20, 20}, {10, 10}}}, 1, toWorld)
 
@@ -131,6 +163,147 @@ describe("WaypointGeometry", function()
 
             assertCorners({2, 2, -2, -2}, StartOf(quads[1]))
             assertCorners(StartOf(quads[1]), EndOf(quads[4]))
+        end)
+    end)
+
+    describe("Smooth", function()
+        -- Smoothed with a tolerance of 1 for a line 4 wide.
+        local function Smooth(polyline)
+            return WaypointGeometry.Smooth(polyline, 1, 2)
+        end
+
+        local function DistanceTo(polyline, x, y)
+            local nearest = math.huge
+            for i = 2, #polyline do
+                local a, b = polyline[i - 1], polyline[i]
+                nearest = math.min(nearest, WaypointGeometry.SegmentDistanceSq(x, y, a.x, a.y, b.x, b.y))
+            end
+            return math.sqrt(nearest)
+        end
+
+        -- Segments of the given length meeting at the origin, turning by degrees.
+        local function Turn(degrees, length)
+            length = length or 100
+            local turn = math.rad(degrees)
+            return {{x = -length, y = 0}, {x = 0, y = 0}, {x = length * math.cos(turn), y = length * math.sin(turn)}}
+        end
+
+        it("rounds a corner, passing it at the tolerance, and keeps both ends", function()
+            local bend = Turn(60)
+
+            local smoothed = Smooth(bend)
+
+            assert.are.equal(bend[1], smoothed[1])
+            assert.are.equal(bend[3], smoothed[#smoothed])
+            assert.are.near(1, DistanceTo(smoothed, 0, 0), 1e-9)
+        end)
+
+        it("stays within the tolerance of the patrol, and uses it where segments allow", function()
+            for degrees = 10, 80, 10 do
+                for _, length in ipairs({3, 10, 100}) do
+                    local polyline = Turn(degrees, length)
+
+                    local smoothed = Smooth(polyline)
+
+                    for _, point in ipairs(smoothed) do
+                        assert.is_true(DistanceTo(polyline, point.x, point.y) <= 1 + 1e-9)
+                    end
+                    local passes = DistanceTo(smoothed, 0, 0)
+                    assert.is_true(passes <= 1 + 1e-9)
+                    -- Short segments limit the curve to half of each.
+                    if length == 100 then assert.are.near(1, passes, 1e-9) end
+                end
+            end
+        end)
+
+        it("keeps corners sharp where the line cannot follow the curve, so no two pieces overlap, trimmed or not", function()
+            -- A join pulls its inner edges back halfWidth * tan(join / 2). Within half of each
+            -- segment, neighbouring quads meet without overlapping.
+            for _, tolerance in ipairs({0.5, 1, 2, 4}) do
+                for degrees = 10, 170, 10 do
+                    local smoothed = WaypointGeometry.Smooth(Turn(degrees), tolerance, 2)
+                    for _, points in ipairs({smoothed, WaypointGeometry.Trim(smoothed, 0.25)}) do
+                        for i = 2, #points - 1 do
+                            local a, p, b = points[i - 1], points[i], points[i + 1]
+                            local inX, inY, outX, outY = p.x - a.x, p.y - a.y, b.x - p.x, b.y - p.y
+                            local inLength, outLength = math.sqrt(inX * inX + inY * inY), math.sqrt(outX * outX + outY * outY)
+                            local join = math.acos(math.min(1, (inX * outX + inY * outY) / (inLength * outLength)))
+                            assert.is_true(2 * math.tan(join / 2) <= math.min(inLength, outLength) / 2 + 1e-9)
+                        end
+                    end
+                end
+            end
+            assert.are_same(Turn(120), Smooth(Turn(120)))
+        end)
+
+        it("leaves straight runs and corners hidden in the line's join sharp", function()
+            local straight = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 20, y = 0}}
+
+            assert.are_same(straight, Smooth(straight))
+            assert.are_same(Turn(10, 0.5), Smooth(Turn(10, 0.5)))
+        end)
+
+        it("joins curves meeting in a segment's middle at one point", function()
+            -- Both turns take half of the segment between them. Here, their computed ends differ by rounding.
+            local turn = math.rad(30)
+            local p = {x = 471.19, y = 471.19 / 3}
+            local q = {x = p.x + 3.7 * math.cos(turn), y = p.y + 3.7 * math.sin(turn)}
+            local polyline = {{x = p.x - 10, y = p.y}, p, q, {x = q.x + 10 * math.cos(2 * turn), y = q.y + 10 * math.sin(2 * turn)}}
+
+            local smoothed = Smooth(polyline)
+
+            local middleX, middleY = (p.x + q.x) / 2, (p.y + q.y) / 2
+            local middles = 0
+            for i, point in ipairs(smoothed) do
+                if math.abs(point.x - middleX) < 1e-6 and math.abs(point.y - middleY) < 1e-6 then middles = middles + 1 end
+                if i > 1 then
+                    assert.is_true(math.abs(point.x - smoothed[i - 1].x) + math.abs(point.y - smoothed[i - 1].y) > 1e-6)
+                end
+            end
+            assert.are.equal(1, middles)
+        end)
+
+        it("keeps a closed polyline closed, whether its start is rounded or stays sharp", function()
+            -- A hexagon turns 60 degrees at each corner, a triangle more than the line can follow.
+            local hexagon = {}
+            for i = 0, 6 do
+                local angle = math.rad(60 * (i % 6))
+                hexagon[i + 1] = {x = 10 * math.cos(angle), y = 10 * math.sin(angle)}
+            end
+            local triangle = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 5, y = 8}, {x = 0, y = 0}}
+
+            local smoothed = Smooth(hexagon)
+
+            assert.are.equal(smoothed[1], smoothed[#smoothed])
+            assert.are.near(1, DistanceTo(smoothed, hexagon[1].x, hexagon[1].y), 1e-9)
+            assert.are_same(triangle, Smooth(triangle))
+        end)
+    end)
+
+    describe("Trim", function()
+        it("drops points within the tolerance of the line kept around them", function()
+            local slight = {{x = 0, y = 0}, {x = 5, y = 0.2}, {x = 10, y = 0}}
+            local bent = {{x = 0, y = 0}, {x = 5, y = 0.3}, {x = 10, y = 0}}
+
+            assert.are_same({slight[1], slight[3]}, WaypointGeometry.Trim(slight, 0.25))
+            assert.are_same(bent, WaypointGeometry.Trim(bent, 0.25))
+        end)
+
+        it("keeps a patrol's turning point where it walks back along itself", function()
+            -- The turning point lies on the line through its neighbours, but 5 past their segment.
+            local backAndForth = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 5, y = 0}}
+
+            assert.are_same(backAndForth, WaypointGeometry.Trim(backAndForth, 0.25))
+        end)
+
+        it("keeps both ends, so a closed polyline stays closed", function()
+            local square = {{x = 0, y = 0}, {x = 5, y = 0.1}, {x = 10, y = 0}, {x = 10, y = 10}, {x = 0, y = 10}, {x = 0, y = 0}}
+
+            local trimmed = WaypointGeometry.Trim(square, 0.25)
+
+            assert.are_same({square[1], square[3], square[4], square[5], square[6]}, trimmed)
+            assert.are.equal(square[1], trimmed[1])
+            assert.are.equal(square[6], trimmed[#trimmed])
         end)
     end)
 

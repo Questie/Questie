@@ -61,6 +61,7 @@ describe("WaypointRenderer", function()
     end
 
     local TURN = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}
+    local BEND = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 10 + 10 * math.cos(math.rad(45)), y = 10 * math.sin(math.rad(45))}}
     -- The line spans 12 of the texture's 16 rows; quads also cover the fade beyond it.
     local QUAD_SCALE = 16 / 12
 
@@ -71,6 +72,7 @@ describe("WaypointRenderer", function()
         _G.UPPER_RIGHT_VERTEX, _G.LOWER_RIGHT_VERTEX = UPPER_RIGHT, LOWER_RIGHT
         _G.CreateFrame = function() return NewFrame() end
         _G.DrawLine = function(texture, _, _, _, _, _, thickness) table.insert(bands, {texture = texture, thickness = thickness}) end
+        Questie.db.profile.waypointSmoothing = 0.5
         dofile("Modules/Libs/QuestieLib.lua")
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         dofile("Modules/Map/Waypoints/WaypointRenderer.lua")
@@ -82,13 +84,17 @@ describe("WaypointRenderer", function()
         for name, value in pairs(saved) do _G[name] = value end
     end)
 
-    it("stretches the outlined texture over each segment's mitered quad, widened by the fade", function()
+    it("rounds and trims corners, then stretches the outlined texture over each segment's mitered quad, widened by the fade", function()
         local renderer = WaypointRenderer.New(NewFrame())
 
-        local view = renderer:Draw(nil, {TURN}, Style(4))
+        local view = renderer:Draw(nil, {BEND}, Style(4))
 
-        local expected = WaypointGeometry.Quads(TURN, 2 * QUAD_SCALE)
-        assert.are.equal(2, #view.lines)
+        -- The tolerances follow the line's width; the curve fits the quads, fade included.
+        local smoothed = WaypointGeometry.Smooth(BEND, Questie.db.profile.waypointSmoothing * 2, 2 * QUAD_SCALE)
+        local trimmed = WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * 2)
+        local expected = WaypointGeometry.Quads(trimmed, 2 * QUAD_SCALE)
+        assert.is_true(#expected > 2)
+        assert.are.equal(#expected, #view.lines)
         for i, line in ipairs(view.lines) do
             local drawn = DrawnQuad(line)
             for k = 1, 8 do assert.are.near(expected[i][k], drawn[k], 1e-9) end
@@ -152,6 +158,24 @@ describe("WaypointRenderer", function()
         renderer:Restyle(view, Style(4))
         assert.are.equal(0, #view.bands)
         assert.are.equal(0, #view.caps)
+    end)
+
+    it("redraws every drawn path for a new smoothing setting, coloring the new pieces", function()
+        Questie.db.profile.waypointSmoothing = 0
+        local renderer = WaypointRenderer.New(NewFrame())
+        local view = renderer:Draw(nil, {BEND}, Style(4))
+        assert.are.equal(2, #view.lines)
+
+        Questie.db.profile.waypointSmoothing = 0.5
+        WaypointRenderer.RedrawAll()
+
+        local smoothed = WaypointGeometry.Smooth(BEND, 0.5 * 2, 2 * QUAD_SCALE)
+        local expected = WaypointGeometry.Quads(WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * 2), 2 * QUAD_SCALE)
+        assert.is_true(#expected > 2)
+        assert.are.equal(#expected, #view.lines)
+        for _, line in ipairs(view.lines) do
+            assert.are_same({1, 0.5, 0, 0.5}, line.color)
+        end
     end)
 
     it("returns a released view and its textures to the pools", function()

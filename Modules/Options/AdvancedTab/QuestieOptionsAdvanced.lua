@@ -24,6 +24,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
+---@type WaypointRenderer
+local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -477,6 +479,24 @@ function QuestieOptions.tabs.advanced:Initialize()
                     else
                         Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
                     end
+                end,
+            },
+            waypointSmoothing = {
+                type = "range",
+                order = 5.1,
+                name = function() return l10n("Waypoint smoothing"); end,
+                desc = function()
+                    return l10n("Rounds the corners of NPC patrol lines. Higher values round them more; 0 draws sharp corners. (Default: %s)",
+                        optionsDefaults.profile.waypointSmoothing);
+                end,
+                width = 1.5,
+                min = 0,
+                max = 2,
+                step = 0.05,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    WaypointRenderer.RedrawAll()
                 end,
             },
         },

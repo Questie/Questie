@@ -273,6 +273,10 @@ local migrationFunctions = {
     [42] = function()
         Questie.db.profile.enableTooltipsSpellID = false
     end,
+    [43] = function()
+        -- Rounded waypoint line corners, set under Advanced > Developer Options.
+        Questie.db.profile.waypointSmoothing = 0.5
+    end,
 }
 
 function Migration:Migrate()
