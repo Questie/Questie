@@ -415,6 +415,15 @@ local trackerUILocales = {
     },
     ["Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."] = {
         ["enUS"] = true,
+        ["deDE"] = "Das Öffnen des Questlogs über Questie ist im Controller-Modus deaktiviert. Öffne es stattdessen mit deinem Controller.",
+        ["esES"] = "Abrir el registro de misiones desde Questie está desactivado en el modo mando. Ábrelo con tu mando en su lugar.",
+        ["esMX"] = "Abrir el registro de misiones desde Questie está desactivado en el modo de control. Ábrelo con tu control en su lugar.",
+        ["frFR"] = "L'ouverture du journal de quêtes depuis Questie est désactivée en mode manette. Ouvrez-le plutôt avec votre manette.",
+        ["koKR"] = "컨트롤러 모드에서는 Questie에서 퀘스트 로그를 여는 기능이 비활성 화됩니다. 대신 컨트롤러로 여세요.",
+        ["ptBR"] = "Abrir o diário de missões pelo Questie está desativado no modo controle. Abra-o com o seu controle.",
+        ["ruRU"] = "Открытие журнала заданий через Questie отключено в режиме контроллера. Откройте его с помощью контроллера.",
+        ["zhCN"] = "在手柄模式下，无法通过 Questie 打开任务日志。请改用手柄打开。",
+        ["zhTW"] = "在控制器模式下，無法透過 Questie開啟任務日誌。請改用控制器開 啟。",
     },
     ["Can't open Quest Log while in combat. Open it manually."] = {
         ["enUS"] = true,
