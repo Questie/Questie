@@ -218,6 +218,44 @@ describe("TooltipHandler", function()
         end)
     end)
 
+    describe("AddSpellDataToTooltip", function()
+        local tooltip
+
+        before_each(function()
+            Questie.db.profile.enableTooltipsSpellID = true
+            tooltip = {
+                GetSpell = function() return "Fireball", 133 end,
+                AddDoubleLine = spy.new(function() end),
+            }
+        end)
+
+        after_each(function()
+            Questie.db.profile.enableTooltipsSpellID = nil
+        end)
+
+        it("adds the Spell ID to the tooltip showing the spell only while Show Spell IDs is enabled", function()
+            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
+            assert.spy(tooltip.AddDoubleLine).was.called_with(tooltip, "Spell ID", "|cFFFFFFFF133|r")
+
+            Questie.db.profile.enableTooltipsSpellID = false
+            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
+            assert.spy(tooltip.AddDoubleLine).was.called(1)
+        end)
+
+        it("adds nothing without a readable spell ID", function()
+            tooltip.GetSpell = function() return nil end
+            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
+
+            local originalIsSecret = _G.issecretvalue
+            _G.issecretvalue = function(value) return value == 133 end
+            tooltip.GetSpell = function() return "Fireball", 133 end
+            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
+            _G.issecretvalue = originalIsSecret
+
+            assert.spy(tooltip.AddDoubleLine).was.not_called()
+        end)
+    end)
+
     describe("AddItemDataToTooltip", function()
         local originalTooltip
         local originalGetTooltip

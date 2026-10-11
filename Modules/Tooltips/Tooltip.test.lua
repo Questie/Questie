@@ -73,6 +73,7 @@ describe("Tooltip", function()
         local savedGlobals
         local originalItemHandler
         local originalUnitHandler
+        local originalSpellHandler
         local originalObjectHandler
         local originalGetCurrentZoneId
         local gameScripts
@@ -104,8 +105,10 @@ describe("Tooltip", function()
             }
             originalItemHandler = QuestieTooltips.private.AddItemDataToTooltip
             originalUnitHandler = QuestieTooltips.private.AddUnitDataToTooltip
+            originalSpellHandler = QuestieTooltips.private.AddSpellDataToTooltip
             QuestieTooltips.private.AddItemDataToTooltip = spy.new(function() end)
             QuestieTooltips.private.AddUnitDataToTooltip = spy.new(function() end)
+            QuestieTooltips.private.AddSpellDataToTooltip = spy.new(function() end)
             originalObjectHandler = QuestieTooltips.private.AddObjectDataToTooltip
             originalGetCurrentZoneId = QuestiePlayer.GetCurrentZoneId
             QuestieTooltips.private.AddObjectDataToTooltip = spy.new(function() end)
@@ -127,13 +130,14 @@ describe("Tooltip", function()
             Questie.IsForever = savedGlobals.IsForever
             QuestieTooltips.private.AddItemDataToTooltip = originalItemHandler
             QuestieTooltips.private.AddUnitDataToTooltip = originalUnitHandler
+            QuestieTooltips.private.AddSpellDataToTooltip = originalSpellHandler
             QuestieTooltips.private.AddObjectDataToTooltip = originalObjectHandler
             QuestiePlayer.GetCurrentZoneId = originalGetCurrentZoneId
         end)
 
         it("routes modern callbacks only to supported tooltips and skips unit work in raids", function()
             local callbacks = {}
-            _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+            _G.Enum = {TooltipDataType = {Item = 0, Spell = 1, Unit = 2, Object = 4}}
             GameTooltip.GetPrimaryTooltipData = function() return {} end
             _G.TooltipDataProcessor = {
                 AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
@@ -143,6 +147,9 @@ describe("Tooltip", function()
             callbacks[0](GameTooltip)
             callbacks[0](ItemRefTooltip)
             callbacks[0]({})
+            callbacks[1](GameTooltip)
+            callbacks[1](ItemRefTooltip)
+            callbacks[1]({})
             callbacks[2](GameTooltip, {})
             callbacks[2](ItemRefTooltip, {})
             callbacks[2]({}, {})
@@ -154,7 +161,11 @@ describe("Tooltip", function()
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(ItemRefTooltip)
             assert.is_nil(gameScripts.OnTooltipSetItem)
+            assert.is_nil(gameScripts.OnTooltipSetSpell)
             assert.is_nil(gameScripts.OnTooltipSetUnit)
             assert.is_nil(itemScripts.OnTooltipSetItem)
             assert.is_nil(gameScripts.OnUpdate)
@@ -205,11 +216,15 @@ describe("Tooltip", function()
             gameScripts.OnTooltipSetItem(GameTooltip)
             itemScripts.OnTooltipSetItem(ItemRefTooltip)
             gameScripts.OnTooltipSetUnit(GameTooltip)
+            gameScripts.OnTooltipSetSpell(GameTooltip)
+            itemScripts.OnTooltipSetSpell(ItemRefTooltip)
 
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip)
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(ItemRefTooltip)
             assert.is_function(gameScripts.OnUpdate)
         end)
 
@@ -237,7 +252,9 @@ describe("Tooltip", function()
 
             assert.is_nil(gameScripts.OnTooltipSetItem)
             assert.is_nil(gameScripts.OnTooltipSetUnit)
+            assert.is_nil(gameScripts.OnTooltipSetSpell)
             assert.is_nil(itemScripts.OnTooltipSetItem)
+            assert.is_nil(itemScripts.OnTooltipSetSpell)
         end)
 
         describe("Classic object polling", function()

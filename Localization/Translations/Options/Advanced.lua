@@ -506,6 +506,42 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用时，物体的 ID 会显示在提示中。这些仅为猜测，并且只显示 QuestieDB 中第一个匹配的 ID",
         ["zhTW"] = "啟用時，物體的 ID 將顯示在提示中。這些僅為猜測，且只會顯示 QuestieDB 中第一個符合的 ID",
     },
+    ["Spell ID"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Zauber-ID", -- AI 🤖
+        ["esES"] = "ID de hechizo", -- AI 🤖
+        ["esMX"] = "ID de hechizo", -- AI 🤖
+        ["frFR"] = "ID de sort", -- AI 🤖
+        ["koKR"] = "주문 ID", -- AI 🤖
+        ["ptBR"] = "ID de feitiço", -- AI 🤖
+        ["ruRU"] = "ID заклинания", -- AI 🤖
+        ["zhCN"] = "法术 ID", -- AI 🤖
+        ["zhTW"] = "法術 ID", -- AI 🤖
+    },
+    ["Show Spell IDs"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Zauber-IDs anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar ID de hechizo", -- AI 🤖
+        ["esMX"] = "Mostrar ID de hechizo", -- AI 🤖
+        ["frFR"] = "Afficher l'ID des sorts", -- AI 🤖
+        ["koKR"] = "주문 ID 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar IDs de feitiços", -- AI 🤖
+        ["ruRU"] = "Показать ID заклинаний", -- AI 🤖
+        ["zhCN"] = "显示法术 ID", -- AI 🤖
+        ["zhTW"] = "顯示法術 ID", -- AI 🤖
+    },
+    ["If checked, the ID of spells will be shown in tooltips."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Zauber-IDs in den Tooltips angezeigt.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, la ID de los hechizos se mostrará en los tooltips.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, la ID de los hechizos se mostrará en los tooltips.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, l'ID des sorts sera affichée dans les infobulles.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 주문 ID가 툴팁에 표시됩니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, a ID dos feitiços será mostrada nas dicas de ferramentas.", -- AI 🤖
+        ["ruRU"] = "Когда включено, в подсказках будут отображаться ID заклинаний", -- AI 🤖
+        ["zhCN"] = "启用时，法术ID会在悬浮窗中显示", -- AI 🤖
+        ["zhTW"] = "啟用時，會在浮動提示資訊中顯示法術 ID", -- AI 🤖
+    },
     ["NPC ID"] = {
         ["enUS"] = true,
         ["deDE"] = "NPC-ID",
