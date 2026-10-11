@@ -157,40 +157,7 @@ QuestieDB.raceKeys = {
     --[[33]] SKYBORNE_HORDE = 8589934592,    -- Forever -- Windshaper Skyborne
 }
 
--- Combining these with "and" makes the order matter
--- 1 and 2 ~= 2 and 1
-QuestieDB.classKeys = {
-    -- Allow all classes
-    ALL_CLASSES = (function()
-        if Questie.IsClassic then
-            -- alliance 1439, horde 1501, all 1503
-            return 1503
-        elseif Questie.IsTBC then
-            return 1503
-        elseif Questie.IsWotlk or Questie.IsCata then
-            return 1535
-        elseif Questie.IsMoP then
-            return 2047
-        else
-            print("Unknown expansion for ALL_CLASSES")
-            return 1503
-        end
-    end)(),
-
-    NONE = 0,
-    WARRIOR = 1,
-    PALADIN = 2,
-    HUNTER = 4,
-    ROGUE = 8,
-    PRIEST = 16,
-    DEATH_KNIGHT = 32,
-    SHAMAN = 64,
-    MAGE = 128,
-    WARLOCK = 256,
-    MONK = 512,
-    DRUID = 1024
-}
-
+QuestieDB.classKeys = LibQuestieDB.Enum.classKeys
 QuestieDB.factionIDs = LibQuestieDB.Enum.factionIDs
 
 ---@enum NpcFlags
