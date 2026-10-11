@@ -117,18 +117,18 @@ T1 = P - cut·u1,  T2 = P + cut·u2
 B(s) = (1-s)²·T1 + 2s(1-s)·P + s²·T2
 ```
 
-`B(½) = (T1 + 2P + T2) / 4`, so the curve passes `cut · bend / 4` from P: exactly ε, or less where short segments cap it. One tolerance gives gentle bends long curves, where a polyline looks most faceted, and sharper turns tighter ones. At ε = 1 the curve starts 15 units back at a 15° bend (often capped), 7.7 at 30° and 4 at 60°.
+`B(½) = (T1 + 2P + T2) / 4`, so the curve passes `cut · bend / 4` from P: exactly ε, or less where short segments cap it. One tolerance gives gentle bends long curves, where a polyline looks most faceted, and sharper turns tighter ones. At the default ε of 1.5 units the curve starts 23 units back at a 15° bend (usually capped), 11.6 at 30° and 6 at 60°.
 
-The curve is tightest in its middle, with radius `cut · cos²(turn/2) / sin(turn/2)`, which is `2ε · cot²(turn/2)` uncapped. A line can't follow a curve tighter than its half width: its inner edge folds over itself, and the pieces' quads overlap and draw darker. Such corners stay sharp, and the miter join draws them cleanly. The check uses the quads' half width, fade included, so on the 4-unit line turns up to about 80° are rounded. Measured: up to 17 square units drew twice at a 140° corner before this rule, and none at 30–150° and any setting after it.
+The curve is tightest in its middle, with radius `cut · cos²(turn/2) / sin(turn/2)`, which is `2ε · cot²(turn/2)` uncapped. A line can't follow a curve tighter than its half width: its inner edge folds over itself, and the pieces' quads overlap and draw darker. Such corners stay sharp, and the miter join draws them cleanly. The check uses the quads' half width, fade included, so on the 4-unit line turns up to about 90° are rounded at the default: about 80° at a setting of 0.5, and 100° at 1. Measured: up to 17 square units drew twice at a 140° corner before this rule, and none at 30–150° and any setting after it.
 
 Rules ([`WaypointGeometry.Smooth`](../Modules/Map/Waypoints/WaypointGeometry.lua)):
-- **Screen units.** ε is the `waypointSmoothing` setting in half line widths: 0.5 by default, 1 unit on the 4-unit line. A tolerance in yards would be invisible zoomed out and visibly off the path zoomed in. QuestieDB's simplification already moves points 2–4 yd, so a unit or so zoomed out costs no real accuracy.
+- **Screen units.** ε is the `waypointSmoothing` setting in half line widths: 0.75 by default, 1.5 units on the 4-unit line, picked in game between 0.5 and 1. A tolerance in yards would be invisible zoomed out and visibly off the path zoomed in. QuestieDB's simplification already moves points 2–4 yd, so a couple of units zoomed out costs little real accuracy.
 - **Ends stay exact:** open ends, splits where data is missing, and the minimap's culling cuts.
 - **Closed stays closed.** The corner where a patrol returns to its start is rounded too; drawing starts where its curve ends and finishes with that curve.
 - **No overlap between curves:** each takes at most half of each segment. Curves meeting in a segment's middle share that point; points closer than a thousandth of the half width merge, so rounding never leaves a sliver segment.
 - **Hidden corners stay sharp:** a corner whose curve would start less than half the quad half width back is already hidden in the join.
-- **Fewest pieces.** With n equal parameter steps the chords stray at most `deviation / n²` from the curve. A curve takes the fewest even number of pieces, at most 8, that keeps that within an eighth of the half width: 2 at the default. Even, so its middle, nearest P, is always drawn.
-- **Hover stays on the raw points.** At the default setting the drawn line's centre is at most 1.25 units off them, inside the 3-unit hover reach.
+- **Fewest pieces.** With n equal parameter steps the chords stray at most `deviation / n²` from the curve. A curve takes the fewest even number of pieces, at most 8, that keeps that within an eighth of the half width: 2, or 4 for the widest curves, at the default. Curves get 4 pieces once they pass more than half the quad half width from their corner, from a setting of about 0.67, which is why 0.75 costs about as much as 1. Two chords for every curve were tried: a quarter fewer segments zoomed in, but gentle curves looked visibly jaggier there. Even, so its middle, nearest P, is always drawn.
+- **Hover stays on the raw points.** At the default the drawn line's centre is at most 1.75 units off them, inside the 3-unit hover reach. In the middle of a gentle curve the line's inner edge can reach about half a unit past it.
 
 ### Trimming
 
@@ -137,7 +137,7 @@ Smoothing adds curve points that are often too small to see, most of all zoomed 
 - **To the segment, not its line.** A patrol's turning point, where it walks back along itself, lies on the line through its neighbours but past their segment, so it stays.
 - **Ends stay**, so closed patrols stay closed.
 - **Only after smoothing.** Trimming the raw lines at a quarter unit removes 0–9 of 11,448 segments: QuestieDB already simplified them at about 1 unit.
-- **Error budget:** ε + δ = 1.25 units at the default, under the line's 2-unit half width. Up to a setting of 0.875 the true path stays under the line.
+- **Error budget:** ε + δ = 1.75 units at the default, under the line's 2-unit half width. Up to a setting of 0.875 the true path stays under the solid line, and up to about 1.2 under its soft edge, 2.67 units out.
 
 Not used:
 - **Catmull-Rom splines** (the legacy prototypes) pass through every point but bulge between them, with no bound on how far; uneven spacing overshoots most. The prototypes also ran them in stretched map-percent units, sampled 9 points per segment and cut back every patrol's ends.
@@ -146,20 +146,20 @@ Not used:
 
 ### Cost
 
-Over Classic's 579 patrols, at canvas scales 0.5 (zoomed out) to 4 (zoomed in):
+Over Classic's 579 patrols, at canvas scales 0.5 (zoomed out) to 4 (zoomed in), at the default setting:
 
 | | Segments |
 | --- | --- |
 | Stored | 18,690 |
 | After dropping straight points | 11,448 |
-| Smoothed | 22,304–30,257 |
-| Smoothed and trimmed | 14,337–29,148 (19,372 at scale 1) |
+| Smoothed | 23,078–42,694 |
+| Smoothed and trimmed | 14,864–39,237 (20,727 at scale 1) |
 
-Zoomed in, curves are big enough to see and trimming rightly keeps them.
+Zoomed in, curves are big enough to see and trimming rightly keeps them; at scale 4 that's about twice the stored count. Settings up to about 0.65, where the widest curves still take 2 pieces, draw like 0.5: 14,337–29,148. Settings from 0.75 to 1 draw within 1% of each other.
 
-Geometry for every Classic patrol at once, in plain Lua 5.1, takes 21 ms for the sharp quads and 83–86 ms smoothed and trimmed. The smoothed and trimmed time splits into `Smooth` 25–29 ms, `Trim` 27–37 ms and `Quads` 29–32 ms. `Trim` inlines the segment distance test, which took it from 56 ms. Trimming costs about 3 µs of Lua per segment it removes. In return each removed segment saves about 7 texture calls and its rendering on every frame it's shown.
+Geometry for every Classic patrol at once, in plain Lua 5.1, takes 21 ms for the sharp quads and 80–85 ms smoothed and trimmed, split about evenly between `Smooth`, `Trim` and `Quads`. `Trim` inlines the segment distance test, which took it from 56 ms. Trimming costs about 3 µs of Lua per segment it removes. In return each removed segment saves about 7 texture calls and its rendering on every frame it's shown.
 
-Joins where a short segment caps the miter's pull-back already exist in the stored data: 1,407 at scale 1. Smoothing alone raised that to 2,427, by shortening the segments next to sharp corners; with trimming it's 1,561.
+Joins where a short segment caps the miter's pull-back already exist in the stored data: 1,407 at scale 1. Smoothing alone raised that to 2,386, by shortening the segments next to sharp corners; with trimming it's 1,563.
 
 ## World map
 
@@ -197,13 +197,13 @@ The hover shape is the path fattened by radius *r*: the union of capsules around
 - **Culling:** only segments within 2 view radii of the origin are drawn. Everything visible lies within √2 radii of the player, so that covers the view until the player drifts half a radius; then paths are projected again. If culling cuts a closed patrol elsewhere, its last run continues into its first, so its start stays a corner.
 - **Walking** only moves the container. Zoom, minimap size, instance and, on a rotating minimap, facing changes project the paths within reach again.
 - **Masks:** the layer's root clips to the minimap, and every texture gets two masks:
-  - **Shape:** the asset last passed to `Minimap:SetMaskTexture`, post-hooked since Blizzard has no getter. That's how minimap addons such as SexyMap set their shapes.
-  - **Fallback shape:** otherwise `GetMinimapShape()`, a community convention, picks a square mask for square and one-corner shapes. Anything else is round: Forever's own minimap mask atlas, or a round texture.
+  - **Shape:** the asset last passed to `Minimap:SetMaskTexture`, post-hooked since Blizzard has no getter. That's how minimap addons such as SexyMap set their shapes, and how Forever's own skin sets its mask on every Rotate Minimap change.
+  - **Fallback shape:** a mask set before Questie loaded, such as Forever's at login or an addon that loads earlier, can only be read through `GetMinimapShape()`. That is a community convention, not Blizzard's, and it only names the round quarters. A fully square minimap gets the square mask. Any round quarter gets the round mask, so paths stop short in square corners rather than draw past a round edge: Forever's own mask atlas where the client has it, or a round texture.
   - **Player:** a soft 38 px hole over the player arrow.
 - **Layering:** the root sits one level above the minimap, below Questie's minimap icons, the bezel and buttons.
 - **Driver:** one `OnUpdate`, hidden while there are no paths. Errors stop the layer and report once; they never break the addon.
 
-**Measured in game** (Forever, Ironforge, rotating minimap, one 31-segment patrol in reach, a 360° keyboard turn at about 48 fps). Questie's time per tick from `C_AddOnProfiler`:
+**Measured in game** (Forever, Ironforge, rotating minimap, one 31-segment patrol in reach, a 360° keyboard turn at about 48 fps, at the earlier default smoothing of 0.5). Questie's time per tick from `C_AddOnProfiler`:
 
 | | Turning | Standing still |
 | --- | --- | --- |
@@ -253,10 +253,18 @@ When the two meet, these polygon touch points move onto the waypoint API:
 - **Combat handling:** deferring line mouse setup in combat is moot.
 - **Frame levels:** above or below polygon areas is decided then.
 
-## Still to verify in game
-- The outline at fractional UI scales, and line width while zooming.
-- Hover beside Questie's icons and Blizzard's pins, and moving from a path onto its icon.
-- Square and SexyMap minimaps, and alignment with Questie's minimap icons on a north-up minimap.
-- Frame cost during a smooth zoom in a dense zone.
+## Verified in game
+
+On Forever 1.60.1:
+- The smoothing setting, live on the world map and the minimap, and on profile switches.
+- The outline at a fractional UI scale, and line width while zooming.
+- Hover: the NPC's tooltip and highlighted routes, moving from a line onto its icon, and Questie's icons and Blizzard's pins winning over lines.
 - Map clicks and drags passing through lines, in and out of combat.
+- The minimap: alignment with Questie's icons while walking and turning, north-up and rotating, at every zoom; the hole over the player arrow; and the shape mask captured through `Minimap:SetMaskTexture`.
+
+## Still to verify in game
+- Hover on the inner edge of curves at the 0.75 default.
 - The tracker's Show on Map flash.
+- Visibility: hiding Questie's icons, turning off **Enable Minimap Icons**, and hiding one NPC's icon.
+- Other clients (Era, Anniversary, Mists): the minimap's zoom-table path in HereBeDragons, and square and SexyMap minimaps, since SexyMap doesn't run on Forever.
+- Frame cost during a smooth zoom in a dense zone.
