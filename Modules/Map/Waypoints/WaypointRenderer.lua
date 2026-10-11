@@ -150,8 +150,8 @@ local function _DrawLines(self, view)
     local halfWidth = view.waypointThickness / 2
     local quadHalfWidth = halfWidth * QUAD_SCALE
     -- Rounded corners pass a patrol's points at most waypointSmoothing half line widths away, and
-    -- trimming adds TRIMMING more. Within one in all, up to a setting of 0.875, the true path stays
-    -- under the drawn line at every zoom.
+    -- trimming adds TRIMMING more. Up to a setting of 0.875, the default 0.75 included, the true path
+    -- stays under the line at every zoom, and up to about 1.2 under it or its soft edge.
     local smoothing = Questie.db.profile.waypointSmoothing * halfWidth
     local acquired, count = false, 0
     for _, run in ipairs(view.waypointRuns) do
