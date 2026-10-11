@@ -557,6 +557,16 @@ function QuestieTooltips:Initialize()
                     _QuestieTooltips.AddItemDataToTooltip(tooltip)
                 end
             end)
+        if Enum.TooltipDataType.Spell then
+            TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell,
+                ---@param tooltip GameTooltip
+                ---@return nil
+                function(tooltip)
+                    if tooltip == GameTooltip or tooltip == ItemRefTooltip then
+                        _QuestieTooltips.AddSpellDataToTooltip(tooltip)
+                    end
+                end)
+        end
         TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit,
             ---@param tooltip GameTooltip
             ---@param data table
@@ -585,6 +595,12 @@ function QuestieTooltips:Initialize()
         end
         if GameTooltip:HasScript("OnTooltipSetUnit") then
             GameTooltip:HookScript("OnTooltipSetUnit", AddUnitData)
+        end
+        if ItemRefTooltip:HasScript("OnTooltipSetSpell") then
+            ItemRefTooltip:HookScript("OnTooltipSetSpell", _QuestieTooltips.AddSpellDataToTooltip)
+        end
+        if GameTooltip:HasScript("OnTooltipSetSpell") then
+            GameTooltip:HookScript("OnTooltipSetSpell", _QuestieTooltips.AddSpellDataToTooltip)
         end
     end
 

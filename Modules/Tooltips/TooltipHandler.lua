@@ -114,6 +114,19 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
+---Adds the Spell ID line. Forever post-calls and Classic's OnTooltipSetSpell both read it through GetSpell.
+---@return nil
+function _QuestieTooltips:AddSpellDataToTooltip()
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips)
+        or (not Questie.db.profile.enableTooltipsSpellID) then
+        return
+    end
+
+    local _, spellId = self:GetSpell()
+    if _IsSecret(spellId) or type(spellId) ~= "number" then return end
+    self:AddDoubleLine(l10n("Spell ID"), "|cFFFFFFFF" .. spellId .. "|r")
+end
+
 ---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
 ---The caller owns showing/resizing the tooltip after its native render pass.
 ---@param name string

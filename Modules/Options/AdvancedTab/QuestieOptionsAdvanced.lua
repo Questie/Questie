@@ -400,6 +400,18 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end
             },
+            showSpellIDs = {
+                type = "toggle",
+                order = 5.045,
+                name = function() return l10n("Show Spell IDs"); end,
+                desc = function() return l10n("If checked, the ID of spells will be shown in tooltips."); end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
+                width = "full",
+                get = function() return Questie.db.profile.enableTooltipsSpellID; end,
+                set = function(_, value)
+                    Questie.db.profile.enableTooltipsSpellID = value
+                end
+            },
             showQuestIDs = {
                 type = "toggle",
                 order = 5.05,
