@@ -13,6 +13,7 @@ function QuestieOptionsDefaults:Load()
             eventScale = 1.35,
             lootScale = 1,
             iconFadeLevel = 0.3,
+            waypointSmoothing = 0.5,
             trackerLocked = true,
             monsterScale = 1,
             objectScale = 1,

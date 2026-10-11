@@ -270,6 +270,10 @@ local migrationFunctions = {
         -- Native wording and counter-free fallbacks no longer have a shortened/full display preference.
         Questie.db.profile.trimObjectiveText = nil
     end,
+    [42] = function()
+        -- Rounded waypoint line corners, set under Advanced > Developer Options.
+        Questie.db.profile.waypointSmoothing = 0.5
+    end,
 }
 
 function Migration:Migrate()

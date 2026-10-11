@@ -35,6 +35,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local Renderer = {}
 Renderer.__index = Renderer
 
+-- Every renderer, so a new smoothing setting can redraw what they show.
+---@type table<WaypointCanvasRenderer, true>
+local renderers = setmetatable({}, {__mode = "k"})
+
 -- One texture outlines a line. Across it, this 16x16 image has 12 rows of line, a quarter black on
 -- each side of a white core, so the vertex color tints only the core. Two rows on each side fade
 -- the outline out to transparent, so its outer edges stay smooth as lines move by fractions of a
@@ -43,6 +47,10 @@ Renderer.__index = Renderer
 local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-line-aa.png"
 -- Quads are wider than the line by the fade, so the line keeps its thickness.
 local QUAD_SCALE = 16 / 12
+-- Smoothed lines are then trimmed of points within this many half line widths of the line kept
+-- around them: a quarter unit on the 4-unit line, too little to see. Zoomed out, most curves are
+-- that small.
+WaypointRenderer.TRIMMING = 1 / 8
 local WHITE_TEXTURE = "Interface\\BUTTONS\\WHITE8X8"
 local CIRCLE_TEXTURE = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
 local DEBUG_COLOR = {0.2, 0.8, 1, 0.25}
@@ -64,8 +72,10 @@ local KINDS = {
 ---@param maskTextures MaskTexture[]? Applied once to every texture, for canvases that do not clip, such as the minimap.
 ---@return WaypointCanvasRenderer
 function WaypointRenderer.New(canvas, maskTextures)
-    return setmetatable({canvas = canvas, maskTextures = maskTextures or {}, owned = {}, freeViews = {},
+    local renderer = setmetatable({canvas = canvas, maskTextures = maskTextures or {}, owned = {}, freeViews = {},
         free = {lines = {}, bands = {}, caps = {}}}, Renderer)
+    renderers[renderer] = true
+    return renderer
 end
 
 ---@param self WaypointCanvasRenderer
@@ -137,10 +147,18 @@ end
 ---@param view WaypointView
 ---@return boolean acquired Some line is new to the view and needs its color.
 local function _DrawLines(self, view)
-    local halfWidth = view.waypointThickness / 2 * QUAD_SCALE
+    local halfWidth = view.waypointThickness / 2
+    local quadHalfWidth = halfWidth * QUAD_SCALE
+    -- Rounded corners pass a patrol's points at most waypointSmoothing half line widths away, and
+    -- trimming adds TRIMMING more. Within one in all, up to a setting of 0.875, the true path stays
+    -- under the drawn line at every zoom.
+    local smoothing = Questie.db.profile.waypointSmoothing * halfWidth
     local acquired, count = false, 0
     for _, run in ipairs(view.waypointRuns) do
-        for _, quad in ipairs(WaypointGeometry.Quads(run, halfWidth)) do
+        -- Curves are fitted to the quads, fade included, so no two of their pieces overlap.
+        local smoothed = WaypointGeometry.Smooth(run, smoothing, quadHalfWidth)
+        local points = WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * halfWidth)
+        for _, quad in ipairs(WaypointGeometry.Quads(points, quadHalfWidth)) do
             count = count + 1
             local line, new = _Acquire(self, view, "lines", count)
             acquired = acquired or new
@@ -212,7 +230,7 @@ end
 ---Draws a path, reusing view when given. The view starts hidden when new.
 ---@param view WaypointView? A view of this renderer to redraw, or nil for a new one.
 ---@param runs table[][] Polylines in canvas units with y down, each at least two points. Segments
----join within a run; a run returning to its first point is closed.
+---join within a run, and its corners draw rounded; a run returning to its first point is closed.
 ---@param style WaypointStyle
 ---@return WaypointView
 function Renderer:Draw(view, runs, style)
@@ -252,4 +270,16 @@ end
 ---Releases every view.
 function Renderer:Clear()
     for view in pairs(self.owned) do self:Release(view) end
+end
+
+---Redraws every drawn path, after the waypointSmoothing setting changed.
+function WaypointRenderer.RedrawAll()
+    for renderer in pairs(renderers) do
+        for view in pairs(renderer.owned) do
+            if _DrawLines(renderer, view) then
+                local color = view.waypointColor
+                for _, line in ipairs(view.lines) do line:SetVertexColor(color[1], color[2], color[3], color[4]) end
+            end
+        end
+    end
 end

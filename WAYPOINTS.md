@@ -20,11 +20,11 @@ Everything lives in `Modules/Map/Waypoints/`. The modules are loaded after `Modu
 
 | Module | Responsibility |
 | --- | --- |
-| `WaypointGeometry` | Pure geometry. Turns DB patrols into polylines in percentages and world yards: consecutive points closer than 0.5 yd merge, and points without a position split a patrol. Also does the capsule hover test. |
-| `WaypointRenderer` | One frame per path and one pooled texture per segment, with `Icons/waypoint-line-aa.png`: `WHITE32X32BLACKLINES`' proportions over 12 of its 16 rows, plus a two-row fade to transparent on each side, sampled `LINEAR` (`NEAREST` flickers more in game). Quads are 16/12 as wide as the line, so the fade grows outward and the line keeps its thickness. The previous `waypoint-line.blp`, now removed, had broken mipmaps (only its top rows survived below mip 0), so `TRILINEAR` drew just a thin dark edge. Each texture is stretched over its segment's [mitered quad](#mitered-joins) with `SetVertexOffset`. Restyling redraws only for a new thickness; a new colour only tints. It can also draw the debug hover area. |
+| `WaypointGeometry` | Pure geometry. Turns DB patrols into polylines in percentages and world yards: consecutive points closer than 0.5 yd merge, points the patrol runs straight on through are dropped, and points without a position split a patrol. Also rounds corners for drawing ([Smoothing](#smoothing)) and does the capsule hover test. |
+| `WaypointRenderer` | One frame per path and one pooled texture per segment, with `Icons/waypoint-line-aa.png`: `WHITE32X32BLACKLINES`' proportions over 12 of its 16 rows, plus a two-row fade to transparent on each side, sampled `LINEAR` (`NEAREST` flickers more in game). Quads are 16/12 as wide as the line, so the fade grows outward and the line keeps its thickness. The previous `waypoint-line.blp`, now removed, had broken mipmaps (only its top rows survived below mip 0), so `TRILINEAR` drew just a thin dark edge. Each run's corners are rounded and the result trimmed first ([Smoothing](#smoothing)), then each texture is stretched over its segment's [mitered quad](#mitered-joins) with `SetVertexOffset`. Restyling redraws only for a new thickness; a new colour only tints. It can also draw the debug hover area. |
 | `QuestieWaypoints` | The registry and Questie adapter. Each path is owned by its world map icon and shared on `icon.data.waypointPaths` for highlighting. Its world map visibility follows the owner's `hidden`/`faded`, and its minimap visibility follows the owner's `minimapTwin`. `SetSolo` covers the tracker flash. |
 | `WaypointMap` | One `OnUpdate` driver on the world map canvas, with no data provider. It redraws after changes, map switches and canvas resizes. Thickness is divided by the canvas scale. Thickness is redrawn once a smooth zoom settles, or when it drifts more than 25%; meanwhile lines scale with the canvas. A path draws on its own map only; see [Neighbouring maps](#neighbouring-maps). Cursor hover opens the owner icon's tooltip, or only highlights the path when the owner icon isn't visible. Another icon's tooltip first ends a path hover (`EndHover`), so the path owner's `OnLeave` restores its icon tints. |
-| `WaypointMinimap` | Blob's `PolygonMinimap` adapted for polylines: HBD-aligned projection with rotation, shape and player masks, and clipping. It draws only segments within 2 view radii of the projection origin. Walking moves just the container until the player drifts half a radius; turning a rotating minimap redraws only those nearby segments. It has no hover. |
+| `WaypointMinimap` | Blob's `PolygonMinimap` adapted for polylines: HBD-aligned projection with rotation, shape and player masks, and clipping. It draws only segments within 2 view radii of the projection origin; a closed patrol cut there elsewhere stays joined where it returns to its start. Walking moves just the container until the player drifts half a radius; turning a rotating minimap redraws only those nearby segments. It has no hover. |
 
 Integration:
 - `QuestieMap:DrawWaypoints` keeps its signature and calls `QuestieWaypoints.Add`. `DrawWorldIcon`/`DrawManualIcon` link `icon.minimapTwin`.
@@ -36,7 +36,7 @@ Integration:
 Chosen defaults for the open questions; tell me to change any of them:
 - **Thickness on zoom:** constant on-screen width. Line 4, hover reach 3 map UI units (one past the line's edge), tuned in game.
 - **Minimap scope:** every NPC with waypoints (objectives, quest givers, turn-ins, manual notes), following each icon's minimap twin. That means **Enable Minimap Icons** and hiding apply. No new option.
-- **Smoothing:** none.
+- **Smoothing:** corners are rounded, passing each patrol point at most half a half-width away (1 unit on the 4-unit line), so the true path stays under the line. Turns past about 80° stay sharp, as the line cannot follow a tighter curve. The result is then trimmed of points within a quarter unit of the line kept around them. See [Smoothing](#smoothing).
 - **Loop closing:** none. A patrol draws open unless its data ends on its first point. Closing it ourselves needs data we don't have, so it waits for cMaNGOS:
   - **Loop or back-and-forth:** the data doesn't say whether the NPC loops or walks back along its route. A wrong closing line shows a route it never takes.
   - **Return route:** a looping NPC may not walk straight from its last point to its first.
@@ -48,6 +48,7 @@ Chosen defaults for the open questions; tell me to change any of them:
   - **Minimap:** the most visible copy.
 - **Self-overlap:** a patrol that crosses or retraces itself still draws darker there; it marks where the NPC walks twice. Frame buffers can avoid that, but were tried and rejected: see [docs/frame-buffer-group-opacity.md](docs/frame-buffer-group-opacity.md).
 - **Debug view:** `/run QuestieLoader:ImportModule("WaypointMap").debugHover = true`, then change map.
+- **Smoothing setting:** **Advanced → Developer Options → Waypoint smoothing** (`profile.waypointSmoothing`, 0–2, default 0.5) changes the tolerance live on the world map and the minimap through `WaypointRenderer.RedrawAll`; 0 draws sharp corners. It sits with the developer options because players are not expected to change it.
 
 Behaviour changes worth naming in the PR:
 - **Clicks:** lines are click-through. Clicking a line no longer forwards to its icon (map switch, Ctrl-click TomTom, Shift-click hide).
@@ -110,6 +111,71 @@ Both segments end at those two points. The outer edges extend to meet and the in
 - **Hover:** unchanged. The 3-unit capsule leaves out the outer tips of turns sharper than about 96°, which reach up to 4 units from the point. They are small, and hovering the line next to them still works.
 - **Verified client APIs:** `Texture:SetVertexOffset` and the `UPPER_LEFT_VERTEX` constants (1–4) exist on Era, Anniversary, Mists and Forever, checked against Blizzard's UI source. Blob's polygon fills already use them in game. Offsets point y up like `SetPoint`, as Blizzard's own use in `Blizzard_ArtifactUI/Blizzard_ArtifactPerks.lua` (`live` branch) shows: it nudges upper vertices by −1 and lower vertices by +1 towards the inside.
 
+## Smoothing
+
+Patrol points are where the NPC walks, and the data is the best guess of its route, so smoothing is cosmetic and must stay close to it. **The rule: the true path always stays under the drawn line.**
+
+Each corner P becomes a quadratic Bézier curve. It starts on the incoming segment and ends on the outgoing one, with P as its control point, so it is tangent to both and the path turns without a kink. With unit directions *u1* in and *u2* out, and tolerance ε:
+
+```text
+bend = |u2 - u1|                         -- 2 sin(turn / 2)
+cut  = min(4ε / bend, L_in / 2, L_out / 2) -- how far back along each segment the curve starts
+T1 = P - cut·u1,  T2 = P + cut·u2
+B(s) = (1-s)²·T1 + 2s(1-s)·P + s²·T2
+```
+
+`B(½) = (T1 + 2P + T2) / 4`, so the curve passes `cut · bend / 4` from P: exactly ε, or less where short segments cap the curve. That one tolerance gives gentle bends long curves, where a polyline looks most faceted, and sharper turns tighter ones. At ε = 1 the curve starts 15 units back at a 15° bend (often capped), 7.7 at 30° and 4 at 60°.
+
+The curve is tightest in its middle, with radius `cut · cos²(turn/2) / sin(turn/2)`, which is `2ε · cot²(turn/2)` uncapped. A line cannot follow a curve tighter than its half width: its inner edge folds over itself, and the pieces' quads overlap and draw darker at alpha 0.5. Such corners stay sharp, and the miter join draws them cleanly. The check uses the quads' half width, fade included (`2 · 16/12`), so on the 4-unit line turns up to about 80° are rounded. A reviewer's probe measured the double-drawn area at a corner: up to 17 square units at 140° before this rule, none at turns of 30–150° and any setting value after it.
+
+Rules (`WaypointGeometry.Smooth`, called by `WaypointRenderer` before mitering):
+- **Screen units.** ε is the `waypointSmoothing` setting in half line widths (0.5 by default, so 1 unit on the 4-unit line). Yards would be invisible zoomed out and visibly off the path zoomed in. QuestieDB's own simplification already moves points about 2–4 yd on a typical zone (see below), so a unit or so zoomed out costs no real accuracy.
+- **Ends stay exact:** open ends, splits where data is missing, and the minimap's culling cuts. Legacy cut back every patrol's ends.
+- **Closed stays closed.** The corner where a patrol returns to its start is rounded too; drawing starts where its curve ends and finishes with that curve.
+- **No overlap between curves:** each takes at most half of each segment. Curves meeting in a segment's middle share that point; points closer than a thousandth of the half width merge, so rounding never leaves a sliver segment.
+- **Hidden corners stay sharp.** A corner whose curve would start less than half the quad half width back stays sharp, since the join already hides it.
+- **Fewest pieces.** With n equal parameter steps the chords stray at most `deviation / n²` from the curve. A curve takes the fewest even number of pieces, at most 8, that keeps that within an eighth of the half width. Even, so its middle, nearest P, is always drawn and the bound on ε holds for the drawn chords. At the default tolerance that is always 2.
+- **Hover stays on the raw points.** With trimming, the drawn line's centre is at most 1.25 units off them at the default setting, so the 3-unit hover reach covers all of the line but a sliver of a curve's inner edge.
+
+**Trimming** (`WaypointGeometry.Trim`). Smoothing adds curve points that are often too small to see, most of all zoomed out. Ramer-Douglas-Peucker then drops every point within δ of the segment between the points kept around it. δ is `WaypointRenderer.TRIMMING` half line widths (1/8, so 0.25 units on the 4-unit line), the same order as the curves' own chord error. The rules that matter:
+- **Distance, not angle.** Small turns would each pass an angle test and add up, collapsing a slow arc; a distance bound holds however many points go. `_DropStraightPoints` gets away with an angle because QuestieDB's split points are exactly collinear, and it compares with the last point kept.
+- **To the segment, not its line.** A patrol's turning point, where it walks back along itself, lies on the line through its neighbours but past their segment, so it stays.
+- **Ends stay**, so closed patrols stay closed and their seams keep their curves.
+- **Only after smoothing.** Trimming the raw lines at 0.25 removes 0–9 of 11,448 segments: QuestieDB's simplification already left about 1 unit between them.
+- **Error budget:** ε + δ = 1.25 units, still under the line's 2-unit half width.
+
+**Data catch.** QuestieDB (`src/derived/waypoints.lua`) simplifies patrols with Ramer-Douglas-Peucker at 0.1 map-percent, then splits segments longer than 1.5% (0.75% in capitals) into evenly spaced points, which line frames once needed for their square clickable area. Those points are collinear and would cap every curve at half a short piece, so `BuildPolylines` drops points the patrol runs straight on through (within 0.1°), compared with the last point it kept, so a slow arc keeps its shape. Removing the split in QuestieDB is a later cleanup there.
+
+**Cost.** Over Classic's 579 patrols, at canvas scales from 0.5 (zoomed out) to 4 (zoomed in):
+
+| | Segments |
+| --- | --- |
+| Stored | 18,690 |
+| After dropping straight points | 11,448 |
+| Smoothed | 22,304–30,257 |
+| Smoothed and trimmed | 14,337–29,148 (19,372 at scale 1) |
+
+Zoomed in, curves are big enough to see and trimming rightly keeps them. A first version split curves by length into up to 8 pieces, 3.1–4.4× the stored count.
+
+Geometry for every Classic patrol at once, in plain Lua 5.1: 21 ms for the old sharp quads, 86 ms smoothed and trimmed (Smooth 29, Trim 37, Quads 32). Trim inlines `SegmentDistanceSq`, which took it from 56 ms. The world map pays this once per zoom or map change, for the paths on that map. The rotating minimap pays it every frame while turning, for the paths within reach.
+
+**Measured in game** (Forever, Ironforge, rotating minimap, one 31-segment patrol in reach, a 360° keyboard turn at about 48 fps), Questie's time per tick from `C_AddOnProfiler`:
+
+| | Turning | Standing still |
+| --- | --- | --- |
+| Minimap lines shown | 1.70 ms | 0.14 ms |
+| Minimap lines hidden | 0.38 ms | 0.10 ms |
+
+The lines' ~1.3 ms per turning tick splits into Smooth 0.22, Trim 0.18 and Quads 0.28 ms; about 0.36 ms of client texture calls (4.9 µs per segment: 1.7 for the anchors, 2.4 for the four vertex offsets); and about 0.5 ms of projection, renderer Lua and garbage collection. The rest of turning is HereBeDragons moving Questie's minimap icons.
+
+**Decided:** good enough, since few players use a rotating minimap. If it ever matters, two steps would cut it to about a third: cache each path's quads per minimap zoom level, unrotated, and only rotate their corners while turning; and anchor each texture once, moving only its vertex offsets (check in game that the client neither culls nor mis-clips such a texture).
+
+Joins whose miter pull-back is capped by a short segment, so the quads overlap a little on the inside, already exist in the stored data: 1,407 at scale 1. Smoothing alone raised that to 2,427, by shortening the segments next to sharp corners; with trimming it is 1,561.
+
+**Not used:**
+- **Catmull-Rom (legacy):** passes through every point but bulges between them, with no bound on how far; uneven spacing overshoots most. Legacy also ran it in stretched map-percent units, sampled 9 points per segment and trimmed the ends.
+- **Chaikin corner cutting:** cuts a fixed fraction of each segment, so a sharp turn between long segments loses a large chunk. Clamping it becomes the approach above.
+
 ## Current implementation (what we replace)
 
 Line numbers refer to this branch (`origin/master`).
@@ -162,7 +228,7 @@ Mirror blob's `Polygon/` split: pure geometry, a native-primitive renderer, and 
 1. **Geometry (pure, tested).** Turn DB paths into per-map polylines with explicit units (percent plus world yards).
    - Merge points closer than a yard tolerance and drop zero-length segments.
    - Keep loops open unless the data closes them; see **Loop closing** under [Implementation](#implementation).
-   - Skip spline smoothing at first: patrol points are real positions, and Catmull-Rom can cut corners through walls (YAGNI).
+   - Round corners within a tolerance tied to the line width, not with a spline through the points; see [Smoothing](#smoothing).
 2. **Renderer.** One texture per segment with `WHITE32X32BLACKLINES`, mitered at joins (implemented with `SetVertexOffset` rather than `DrawLine`; see [Mitered joins](#mitered-joins)).
    - Pool textures, not frames: one container frame per path, or per map.
    - **No mouse input.** Hover is computed from the cursor; see [Line hover](#line-hover).
