@@ -24,7 +24,7 @@ are recorded in [ADR 0001](adr/0001-questietdb-is-the-only-entity-database.md),
 
 ## Initialization and compatibility
 
-Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 3`. Build preflight
+Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 4`. Build preflight
 checks that contract declarations are valid and consistent. At runtime,
 [`VersionCheckDB.Check`](../Modules/VersionCheckDB.lua) reads the active TOC's requirement.
 
@@ -57,7 +57,9 @@ The provider calculates them once from explicit flavor-specific race membership;
 those values to `QuestieDB.raceKeys.ALL_ALLIANCE` and `.ALL_HORDE` without selecting a flavor again.
 Actual race IDs are not bit positions: Skyborne IDs 95/96 use bits 32/33. `VersionCheckDB.Check()`
 requires both tables before login work proceeds; unknown player IDs stop player initialization
-rather than guessing an encoding. Contract 3 guarantees both the mapping and the active faction masks. Update both projects
+rather than guessing an encoding. Contract 3 guarantees both the mapping and the active faction masks.
+Contract 4 adds the shared `Enum.factionIDs` and the active-flavor `Enum.classKeys`, which
+`QuestieDB.factionIDs` and `QuestieDB.classKeys` alias directly. Update both projects
 together; contract-2 providers fail the version check, while the updated provider still supports
 older contract-1 and contract-2 consumers. Provider conversion supplies extended Forever faction masks,
 so Questie's membership check no longer widens legacy `77`/`178` subsets.

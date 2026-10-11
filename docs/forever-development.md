@@ -215,7 +215,7 @@ The user requested reverting this trial. The manifest again declares `QuestieCon
 
 ## Packaging and validation
 
-`Questie_Camelot.toc` declares interface `16001`, `RequiredDeps: QuestieDB`, and Contract 3. It follows the current Classic file list, with `QuestieCompat` before embedded libraries and no separate Forever adapter or local entity/zone payloads. `LoadSavedVariablesFirst: 1` and the account/per-character declarations are preserved.
+`Questie_Camelot.toc` declares interface `16001`, `RequiredDeps: QuestieDB`, and Contract 4. It follows the current Classic file list, with `QuestieCompat` before embedded libraries and no separate Forever adapter or local entity/zone payloads. `LoadSavedVariablesFirst: 1` and the account/per-character declarations are preserved.
 
 The manifest does not load the ignored `cli/forever/Capture.lua` recorder. Use local development tooling to inject diagnostics when needed; do not make tracked manifests depend on ignored files. Automated Questie release packaging still needs Camelot support. Provider Baked generation/localization and broader live acceptance remain separate work; generate in a disposable copy rather than silently changing the linked checkout's mode.
 

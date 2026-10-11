@@ -62,7 +62,7 @@ local function LoadQuestieDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 3,
+        contractVersion = 4,
         minSupportedContract = 1,
     }
     local lib = {}
@@ -451,6 +451,10 @@ local function LoadQuestieDBMock()
             SHADO_PAN = 1270,
             -- Mists of Pandaria: fishing and cooking
             NOMI = 1357,
+        },
+        classKeys = { -- Classic provider
+            NONE = 0, WARRIOR = 1, PALADIN = 2, HUNTER = 4, ROGUE = 8, PRIEST = 16, DEATH_KNIGHT = 32,
+            SHAMAN = 64, MAGE = 128, WARLOCK = 256, MONK = 512, DRUID = 1024, ALL_CLASSES = 1503,
         },
     }
 

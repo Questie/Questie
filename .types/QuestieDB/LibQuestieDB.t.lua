@@ -13,6 +13,7 @@
 ---@field raceMaskById table<integer, integer?> Actual race ID to requiredRaces mask; unknown IDs return nil. Encoding, not playability; read-only by contract.
 ---@field factionRaceMasks QuestieDBFactionRaceMasks Active provider flavor faction masks; read-only by contract.
 ---@field factionIDs table<string, FactionId> Shared faction IDs by name; read-only by contract.
+---@field classKeys table<string, integer> Active provider flavor's class bitmasks, including ALL_CLASSES; read-only by contract.
 ---@field phases table<string, integer> Shared phase names to Blizzard or Questie-defined fake IDs; read-only by contract for consumers.
 
 ---@class LibQuestieDB
