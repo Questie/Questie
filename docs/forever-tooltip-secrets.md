@@ -184,13 +184,31 @@ The inspector, its tests, TOC entries and `/qtooltipdata` command have been remo
 
 A line pre-call returning true means the line was consumed; false or nil permits ordinary rendering. For secret-data styling, a line is consumed only after adding its display-only replacement. For readable data, native quest lines are consumed up front and the normal Questie post-call supplies the replacement.
 
+## Where tooltip data is secret
+
+Secrecy depends on location more than on combat.
+
+| Location | NPC tooltips | Object tooltips |
+|---|---|---|
+| Outside instances | Readable, even in combat | Secret in combat |
+| Inside instances | Restricted, effectively all secret | Restricted, effectively all secret |
+
+Outside instances, two open-world NPC samples stayed fully readable in combat:
+
+- Crag Boar on build 70291, through the `target` token, as recorded [above](#unit-comparison-crag-boar).
+- Stonetusk Boar on build 70338, through the bridge, with combat true, `IsInInstance()` false and the boar targeted and moused over. `guid`, `healthGUID`, `UnitGUID("target")`, `UnitGUID("mouseover")` and every line field were readable. That tooltip had no native quest rows, and the visible tooltip showed Questie's full block: NPC ID, quest title and objective with drop rate.
+
+The secret open-world samples were all Objects in combat: Flintfire's Shipment, Cactus Apple and Abandoned Training Weapon.
+
+Inside instances, team testing found tooltip data restricted to the point of being effectively all secret. Blizzard's `AddOnRestrictionType` includes `Map` ("a map that applies addon restrictions") and `Encounter`, which fits that observation. No field-level instance capture has been recorded yet. Questie therefore does not rely on readable data there: NPC rows are always styled, and Objects are styled whenever their payload is secret.
+
 ## Native-row styling prototype
 
 Forever selects the rendering path before handling its QuestTitle, QuestObjective and QuestPlayer lines:
 
-- Readable payloads use the normal Questie path: hide Blizzard's quest rows and let the existing Unit/Object post-call add Questie's richer replacement. Readable NPC data takes this path even during combat.
+- Readable payloads use the normal Questie path: hide Blizzard's quest rows and let the existing Unit/Object post-call add Questie's richer replacement. Open-world NPC data stays readable in combat, so it takes this path.
 - Secret or inaccessible payloads use the native-data fallback described below. The predicate examines the full payload before hiding a public title, because a later objective or the entity identity can be secret. It does not compare or parse secret values.
-- Secrecy, not a blanket combat check, selects styling. Instances restrict NPC data even out of combat and the legacy Unit lookup skips them, so NPC rows inside instances are always treated as secret and get display-only styling. Objects follow the same readable/secret rule inside and outside instances. In groups above the size limit, native rows stay visible for readable and secret data alike, so combat does not switch the presentation there.
+- Secrecy, not a blanket combat check, selects styling. Inside instances tooltip data is restricted even out of combat and the legacy Unit lookup skips them, so NPC rows there are always treated as secret and get display-only styling, and the Unit post-call adds nothing. Objects follow the same readable/secret rule inside and outside instances; in practice they are styled in combat outside instances and whenever their payload is secret inside. In groups above the size limit, native rows stay visible for readable and secret data alike, so combat does not switch the presentation there.
 
 - `Forever` selects a known quest's normal Questie title using public quest-log candidates and secret-capable native helpers. Each candidate's title comes from `QuestieLib:GetColoredQuestName`, so it carries the same level suffix, quest-type colors (repeatable, event, PvP), completion state and localized ID brackets as out-of-combat tooltips. No selected ID or match boolean becomes public. For a secret ID, missing candidates/APIs or native-helper errors retain yellow `[??]` with Blizzard's title rather than dropping text or guessing. A readable ID that is not a candidate, such as a party member's quest, or whose selection failed, uses `GetColoredQuestName` directly.
 - Show Quest Levels (`enableTooltipsQuestLevel`) and Show Quest IDs (`enableTooltipsQuestID`) apply through `GetColoredQuestName`. For unknown titles, Show Quest IDs displays the supplied native ID through formatting, or `???` when no usable ID was supplied. A secret ID is formatted directly for display without a lookup.

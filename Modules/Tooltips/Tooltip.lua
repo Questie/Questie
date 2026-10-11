@@ -562,11 +562,12 @@ function QuestieTooltips:Initialize()
             ---@param data table
             ---@return nil
             function(tooltip, data)
-                -- Inside Forever instances NPC data is treated as secret, as in combat: Blizzard's quest rows
-                -- are styled and no lookup runs.
+                -- Inside Forever instances tooltip data is restricted, effectively all secret: Blizzard's quest
+                -- rows are styled and no lookup runs.
                 if Questie.IsForever and IsInInstance() then return end
-                -- Outside, Forever can still hide an NPC's GUID in combat. Questie's lookup needs it, and
-                -- Blizzard's GetUnit would test it in our context, so the native tooltip stays as it is.
+                -- Outside instances NPC data stays readable, even in combat. Should Forever still hide the GUID,
+                -- Questie's lookup cannot run and Blizzard's GetUnit would test it in our context, so the native
+                -- tooltip stays as it is.
                 if _IsPublicTooltipTable(data) and not (issecretvalue and issecretvalue(data.guid)) then
                     AddUnitData(tooltip)
                 end
@@ -738,14 +739,15 @@ local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
         return
     end
 
-    -- Inside instances: NPC data is restricted even out of combat and the legacy Unit lookup skips it,
+    -- Inside instances: tooltip data is restricted even out of combat and the legacy Unit lookup skips it,
     -- so NPC rows are always treated as secret.
     if kind == Enum.TooltipDataType.Unit and IsInInstance() then
         return _StyleNativeQuestLine(tooltip, lineData, lineType)
     end
 
     -- Outside instances, and Objects everywhere: readable data gets Questie's normal replacement, secret
-    -- data is styled. The whole payload decides, because a later objective can be secret while its title is not.
+    -- data is styled. In the open world, Object payloads are the ones that turn secret in combat. The whole
+    -- payload decides, because a later objective can be secret while its title is not.
     if not _NeedsNativeQuestFallback(data, lineData) then
         return true -- Hide Blizzard's public quest lines; the normal Questie post-call replaces them.
     end
