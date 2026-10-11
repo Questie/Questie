@@ -1,6 +1,6 @@
 # Frame buffers for group opacity: investigated and rejected
 
-How WoW's frame buffers (`Frame:SetIsFrameBuffer`) can stop overlapping half-transparent textures from drawing darker, the client quirks we measured getting there, how to work around each one, and why Questie's waypoint lines do not use them.
+How WoW's frame buffers (`Frame:SetIsFrameBuffer`) can stop overlapping half-transparent textures from drawing darker, the client quirks we measured getting there, how to work around each one, and why Questie's [waypoint lines](waypoints.md) do not use them.
 
 ## Synopsis
 
@@ -42,7 +42,7 @@ Questie draws NPC patrols as half-transparent outlined lines (`{1, 0.72, 0, 0.5}
 | `Frame:DoesClipChildren()` | Whether a frame clips its children; needed to avoid the first quirk below. |
 | `Frame:IsFrameBuffer()` | Present on Forever 1.60.1. The wiki dates it to retail 11.2.0. |
 
-Quotes are from the wiki pages mirrored in `WoW-API/reference/methods/Frame/` (`SetIsFrameBuffer.md`, `SetFlattensRenderLayers.md`). The `SetIsFrameBuffer` page also has a runnable example (`FrameBufferTestMixin`) with a checkbox to toggle the flag.
+Quotes are from the wiki pages [API Frame:SetIsFrameBuffer](https://warcraft.wiki.gg/wiki/API:Frame_SetIsFrameBuffer) and [API Frame:SetFlattensRenderLayers](https://warcraft.wiki.gg/wiki/API:Frame_SetFlattensRenderLayers). The `SetIsFrameBuffer` page also has a runnable example (`FrameBufferTestMixin`) with a checkbox to toggle the flag.
 
 **Availability:**
 - **Declared everywhere we need it:** `SetIsFrameBuffer`, `SetFlattensRenderLayers` and `DoesClipChildren` are in `Blizzard_APIDocumentationGenerated/SimpleFrameAPIDocumentation.lua` on `classic_era` 1.15.9, `classic_anniversary` 2.5.6, `classic` 5.5.4 (Mists) and `forever` 1.60.1.
@@ -52,7 +52,7 @@ Quotes are from the wiki pages mirrored in `WoW-API/reference/methods/Frame/` (`
 
 ## Quirks, measured
 
-**Method.** WoWDevBridge test frames on Forever 1.60.1, at 2560×1440 with `UIParent` at an effective scale of 0.64, so 1 `UIParent` unit is 1.2 px. Each test drew solid magenta inside a buffer next to a cyan outline drawn normally where the magenta should land. A script found both colours' pixel bounding boxes in the screenshot. Colours are sampled on a white backing panel.
+**Method.** Test frames created in a running Forever 1.60.1 client through a development Lua bridge, at 2560×1440 with `UIParent` at an effective scale of 0.64, so 1 `UIParent` unit is 1.2 px. Each test drew solid magenta inside a buffer next to a cyan outline drawn normally where the magenta should land. A script found both colours' pixel bounding boxes in the screenshot. Colours are sampled on a white backing panel.
 
 | # | Setup | Result |
 | --- | --- | --- |
@@ -133,7 +133,7 @@ Integration details it needed:
 - frame rate in a dense zone with several opacities shown;
 - any client other than Forever.
 
-The implementation changed `WaypointRenderer`, `WaypointMap` and `WaypointMinimap` on branch `waypoints` and was never committed. The layout and code above are the reference.
+The implementation changed `WaypointRenderer`, `WaypointMap` and `WaypointMinimap` and was never committed. The layout and code above are the reference.
 
 ## What we did instead
 
