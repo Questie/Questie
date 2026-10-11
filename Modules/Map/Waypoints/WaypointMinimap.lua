@@ -58,7 +58,8 @@ local function _Transform(view)
 end
 
 ---Projects the parts of a path that come within reach of the projection's origin, in minimap
----units relative to it. Consecutive segments in reach form one run, so they join.
+---units relative to it. Consecutive segments in reach form one run, so they join; so do a closed
+---path's last and first segments.
 ---@param world WaypointWorldPoint[]
 ---@param projection WaypointMinimapProjection
 ---@return table[][] runs
@@ -68,13 +69,15 @@ local function _Runs(world, projection)
     local scaleX, scaleY, sin, cos = _Transform(projection)
     local runs = {}
     local previous, run
-    for _, point in ipairs(world) do
+    local startsAtFirst = false
+    for i, point in ipairs(world) do
         if previous and math.max(previous.x, point.x) >= originX - reach and math.min(previous.x, point.x) <= originX + reach
             and math.max(previous.y, point.y) >= originY - reach and math.min(previous.y, point.y) <= originY + reach then
             if not run then
                 local x, y = _ProjectPoint(previous.x, previous.y, originX, originY, scaleX, scaleY, sin, cos)
                 run = {{x = x, y = y}}
                 runs[#runs + 1] = run
+                startsAtFirst = startsAtFirst or i == 2
             end
             local x, y = _ProjectPoint(point.x, point.y, originX, originY, scaleX, scaleY, sin, cos)
             run[#run + 1] = {x = x, y = y}
@@ -82,6 +85,14 @@ local function _Runs(world, projection)
             run = nil
         end
         previous = point
+    end
+    -- A closed path cut elsewhere would end where it starts and start again there, as two square
+    -- ends. The last run continues into the first instead, so its start stays a corner.
+    local first, last = world[1], world[#world]
+    if run and startsAtFirst and #runs > 1 and first.x == last.x and first.y == last.y then
+        local firstRun = runs[1]
+        for i = 2, #firstRun do run[#run + 1] = firstRun[i] end
+        runs[1], runs[#runs] = run, nil
     end
     return runs
 end
