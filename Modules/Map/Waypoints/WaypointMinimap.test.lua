@@ -7,6 +7,7 @@ describe("WaypointMinimap", function()
     local saved
     local renderer
     local player, radius, rotating, facing
+    local hooks, masks
 
     local function NewFrame()
         local frame = {shown = true, scripts = {}, level = 5}
@@ -25,7 +26,8 @@ describe("WaypointMinimap", function()
         function frame:GetHeight() return 140 end
         function frame:CreateMaskTexture()
             return {SetAllPoints = function() end, SetPoint = function() end, SetSize = function() end,
-                SetTexture = function() end, SetAtlas = function() end}
+                SetTexture = function(self, asset) self.asset = asset end,
+                SetAtlas = function(self, atlas) self.asset = atlas end}
         end
         return frame
     end
@@ -79,7 +81,11 @@ describe("WaypointMinimap", function()
 
     before_each(function()
         saved = {LibStub = _G.LibStub, CreateFrame = _G.CreateFrame, Minimap = _G.Minimap,
-            GetPlayerFacing = _G.GetPlayerFacing, GetMinimapShape = _G.GetMinimapShape}
+            GetPlayerFacing = _G.GetPlayerFacing, GetMinimapShape = _G.GetMinimapShape,
+            hooksecurefunc = _G.hooksecurefunc, C_Texture = _G.C_Texture}
+        hooks = {}
+        _G.hooksecurefunc = function(_, method, hook) hooks[method] = hook end
+        _G.C_Texture = nil
         player, radius, rotating, facing = {1000, 1000, 0}, 100, false, 0
         _G.CreateFrame = function() return NewFrame() end
         _G.Minimap = NewFrame()
@@ -100,7 +106,10 @@ describe("WaypointMinimap", function()
             Release = spy.new(function(_, view) view:Hide() end),
             Clear = function() end,
         }
-        QuestieLoader:ImportModule("WaypointRenderer").New = function() return renderer end
+        QuestieLoader:ImportModule("WaypointRenderer").New = function(_, maskTextures)
+            masks = maskTextures
+            return renderer
+        end
         dofile("Modules/Libs/QuestieLib.lua")
         dofile("Modules/Map/Waypoints/WaypointMinimap.lua")
         WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
@@ -221,9 +230,32 @@ describe("WaypointMinimap", function()
         assert.spy(renderer.Draw).was.not_called()
     end)
 
-    it("masks with the minimap's shape, square for square minimaps", function()
-        assert.are.equal("Interface\\CharacterFrame\\TempPortraitAlphaMask", (WaypointMinimap.ShapeMask()))
-        _G.GetMinimapShape = function() return "SQUARE" end
-        assert.are.equal("Interface\\BUTTONS\\WHITE8X8", (WaypointMinimap.ShapeMask()))
+    describe("shape", function()
+        local ROUND, SQUARE = "Interface\\CharacterFrame\\TempPortraitAlphaMask", "Interface\\BUTTONS\\WHITE8X8"
+
+        it("masks with the shape a minimap addon sets, also once paths are drawn", function()
+            Layer()
+            assert.are.equal(ROUND, masks[1].asset)
+
+            hooks.SetMaskTexture(_G.Minimap, "Interface\\AddOns\\SomeMinimap\\diamond")
+
+            assert.are.equal("Interface\\AddOns\\SomeMinimap\\diamond", (WaypointMinimap.ShapeMask()))
+            assert.are.equal("Interface\\AddOns\\SomeMinimap\\diamond", masks[1].asset)
+        end)
+
+        it("falls back to GetMinimapShape, with the square mask only for a square minimap", function()
+            assert.are.equal(ROUND, (WaypointMinimap.ShapeMask()))
+            _G.GetMinimapShape = function() return "SQUARE" end
+            assert.are.equal(SQUARE, (WaypointMinimap.ShapeMask()))
+            -- Square but for one round quarter: the round mask never draws past its edge.
+            _G.GetMinimapShape = function() return "CORNER-TOPLEFT" end
+            assert.are.equal(ROUND, (WaypointMinimap.ShapeMask()))
+        end)
+
+        it("uses Forever's own round mask where the client has it", function()
+            _G.C_Texture = {GetAtlasInfo = function(atlas) return atlas == "ui-hud-minimap-frame-generic-mask" and {} or nil end}
+
+            assert.are_same({"ui-hud-minimap-frame-generic-mask", true}, {WaypointMinimap.ShapeMask()})
+        end)
     end)
 end)

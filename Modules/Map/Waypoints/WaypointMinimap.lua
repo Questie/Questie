@@ -110,15 +110,17 @@ local function _IsAtlas(asset)
 end
 
 ---Chooses the minimap's shape mask. An asset seen through Minimap:SetMaskTexture is exact; minimap
----addons such as SexyMap set their shapes that way. Addons that loaded before Questie can only
----be read through GetMinimapShape, a community convention Blizzard does not define. Without
----it the minimap is round. Shapes that are square except for one rounded corner use the square.
+---addons such as SexyMap set their shapes that way, and Forever's own skin on every Rotate Minimap
+---change. A mask set before Questie loaded can only be read through GetMinimapShape, a community
+---convention Blizzard does not define, which only names the round quarters. Any round quarter
+---uses the round mask, so paths stop short in square corners rather than draw past a round edge.
+---Without GetMinimapShape the minimap is round.
 ---@return string|number asset
 ---@return boolean isAtlas
 function WaypointMinimap.ShapeMask()
     if hookedMaskAsset then return hookedMaskAsset, _IsAtlas(hookedMaskAsset) end
     local shape = type(GetMinimapShape) == "function" and GetMinimapShape() or "ROUND"
-    if shape == "SQUARE" or (type(shape) == "string" and shape:find("^CORNER%-")) then return SQUARE_MASK, false end
+    if shape == "SQUARE" then return SQUARE_MASK, false end
     if _IsAtlas(FOREVER_MASK_ATLAS) then return FOREVER_MASK_ATLAS, true end
     return ROUND_MASK, false
 end
