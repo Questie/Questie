@@ -144,6 +144,35 @@ describe("WaypointMinimap", function()
         assert.is_true(layer.entries[path.route].view.shown)
     end)
 
+    it("keeps a closed patrol joined where it returns to its start when reach cuts it elsewhere", function()
+        -- The far side, 600 yards away, is out of reach.
+        Path({{x = 1000, y = 1000}, {x = 1050, y = 1000}, {x = 1050, y = 1600}, {x = 1000, y = 1600}, {x = 1000, y = 1000}})
+        local layer = Layer()
+
+        layer:Update()
+
+        -- One run from the far side's corner, through the start, to the other corner.
+        assert.are.equal(1, #LastRuns())
+        assert.are.equal(4, #LastRuns()[1])
+        assert.are_same({x = 0, y = 0}, LastRuns()[1][2])
+    end)
+
+    it("joins runs only where a closed patrol returns to its start", function()
+        -- Closed, but its first segment is out of reach: its first run starts elsewhere.
+        Path({{x = 1000, y = 1600}, {x = 1500, y = 1600}, {x = 1050, y = 1000}, {x = 1100, y = 1600},
+            {x = 1300, y = 1600}, {x = 1000, y = 1050}, {x = 1000, y = 1600}})
+        local layer = Layer()
+        layer:Update()
+        assert.are.equal(2, #LastRuns())
+
+        -- Starts and ends in reach, but open.
+        QuestieWaypoints.paths = {}
+        Path({{x = 1000, y = 1000}, {x = 1010, y = 1000}, {x = 1010, y = 1600}, {x = 1020, y = 1600}, {x = 1020, y = 1000}})
+        layer = Layer()
+        layer:Update()
+        assert.are.equal(2, #LastRuns())
+    end)
+
     it("draws a route once however many icons own it, as its most visible copy", function()
         Path({{x = 950, y = 1000}, {x = 950, y = 1010}}, "route").minimapAlpha = 0.3
         Path({{x = 950, y = 1000}, {x = 950, y = 1010}}, "route")
