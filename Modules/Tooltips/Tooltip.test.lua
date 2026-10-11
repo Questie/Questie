@@ -105,10 +105,10 @@ describe("Tooltip", function()
             }
             originalItemHandler = QuestieTooltips.private.AddItemDataToTooltip
             originalUnitHandler = QuestieTooltips.private.AddUnitDataToTooltip
-            originalSpellHandler = QuestieTooltips.private.AddSpellDataToTooltip
+            originalSpellHandler = QuestieTooltips.private.AddSpellIdToTooltip
             QuestieTooltips.private.AddItemDataToTooltip = spy.new(function() end)
             QuestieTooltips.private.AddUnitDataToTooltip = spy.new(function() end)
-            QuestieTooltips.private.AddSpellDataToTooltip = spy.new(function() end)
+            QuestieTooltips.private.AddSpellIdToTooltip = spy.new(function() end)
             originalObjectHandler = QuestieTooltips.private.AddObjectDataToTooltip
             originalGetCurrentZoneId = QuestiePlayer.GetCurrentZoneId
             QuestieTooltips.private.AddObjectDataToTooltip = spy.new(function() end)
@@ -130,7 +130,7 @@ describe("Tooltip", function()
             Questie.IsForever = savedGlobals.IsForever
             QuestieTooltips.private.AddItemDataToTooltip = originalItemHandler
             QuestieTooltips.private.AddUnitDataToTooltip = originalUnitHandler
-            QuestieTooltips.private.AddSpellDataToTooltip = originalSpellHandler
+            QuestieTooltips.private.AddSpellIdToTooltip = originalSpellHandler
             QuestieTooltips.private.AddObjectDataToTooltip = originalObjectHandler
             QuestiePlayer.GetCurrentZoneId = originalGetCurrentZoneId
         end)
@@ -147,9 +147,9 @@ describe("Tooltip", function()
             callbacks[0](GameTooltip)
             callbacks[0](ItemRefTooltip)
             callbacks[0]({})
-            callbacks[1](GameTooltip)
-            callbacks[1](ItemRefTooltip)
-            callbacks[1]({})
+            callbacks[1](GameTooltip, {id = 133})
+            callbacks[1](ItemRefTooltip, {id = 116})
+            callbacks[1]({}, {id = 133})
             callbacks[2](GameTooltip, {})
             callbacks[2](ItemRefTooltip, {})
             callbacks[2]({}, {})
@@ -161,9 +161,9 @@ describe("Tooltip", function()
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
-            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called(2)
-            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(GameTooltip)
-            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(ItemRefTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(GameTooltip, 133)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(ItemRefTooltip, 116)
             assert.is_nil(gameScripts.OnTooltipSetItem)
             assert.is_nil(gameScripts.OnTooltipSetSpell)
             assert.is_nil(gameScripts.OnTooltipSetUnit)
@@ -211,6 +211,8 @@ describe("Tooltip", function()
 
         it("retains the Classic tooltip-set scripts when the modern processor is absent", function()
             _G.TooltipDataProcessor = nil
+            GameTooltip.GetSpell = function() return "Fireball", 133 end
+            ItemRefTooltip.GetSpell = function() return "Frostbolt", 116 end
 
             QuestieTooltips:Initialize()
             gameScripts.OnTooltipSetItem(GameTooltip)
@@ -223,8 +225,8 @@ describe("Tooltip", function()
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip)
             assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
-            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(GameTooltip)
-            assert.spy(QuestieTooltips.private.AddSpellDataToTooltip).was.called_with(ItemRefTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(GameTooltip, 133)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(ItemRefTooltip, 116)
             assert.is_function(gameScripts.OnUpdate)
         end)
 

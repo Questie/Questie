@@ -114,17 +114,24 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
----Adds the Spell ID line. Forever post-calls and Classic's OnTooltipSetSpell both read it through GetSpell.
+---Adds the Spell ID line. The ID goes to the tooltip exactly as received: a secret ID from Forever is never
+---read, compared, converted or concatenated, so only the native renderer sees its value.
+---@param tooltip GameTooltip
+---@param spellId any @Possibly secret on Forever
 ---@return nil
-function _QuestieTooltips:AddSpellDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips)
+function _QuestieTooltips.AddSpellIdToTooltip(tooltip, spellId)
+    if (tooltip.IsForbidden and tooltip:IsForbidden()) or (not Questie.db.profile.enableTooltips)
         or (not Questie.db.profile.enableTooltipsSpellID) then
         return
     end
 
-    local _, spellId = self:GetSpell()
-    if _IsSecret(spellId) or type(spellId) ~= "number" then return end
-    self:AddDoubleLine(l10n("Spell ID"), "|cFFFFFFFF" .. spellId .. "|r")
+    -- Colors are arguments rather than markup around the ID: gold label, white value, like the other ID lines.
+    if _IsSecret(spellId) then
+        -- Rendering is the only use of a secret. If the client refuses it, the tooltip simply has no ID line.
+        pcall(tooltip.AddDoubleLine, tooltip, l10n("Spell ID"), spellId, 1, 0.82, 0, 1, 1, 1)
+    elseif type(spellId) == "number" then
+        tooltip:AddDoubleLine(l10n("Spell ID"), spellId, 1, 0.82, 0, 1, 1, 1)
+    end
 end
 
 ---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
