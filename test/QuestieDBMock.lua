@@ -439,6 +439,19 @@ local function LoadQuestieDBMock()
             [24] = 8388608, [25] = 16777216, [26] = 33554432,
             [95] = 4294967296, [96] = 8589934592,
         },
+        factionIDs = {
+            -- Classic: world and dungeon reputations
+            WINTERSABER_TRAINERS = 589,
+            DARKMOON_FAIRE = 909,
+            -- The Burning Crusade: Shattrath factions
+            THE_ALDOR = 932,
+            THE_SCRYERS = 934,
+            THE_SHATAR = 935,
+            -- Mists of Pandaria: world and story reputations
+            SHADO_PAN = 1270,
+            -- Mists of Pandaria: fishing and cooking
+            NOMI = 1357,
+        },
     }
 
     -- Provider-owned Objective Order hints; tests seed IDs directly.
