@@ -868,7 +868,7 @@ describe("QuestEventHandler", function()
             QuestEventHandler.QuestLogUpdate()
 
             assert.spy(QuestLogCache.CheckForChanges).was.not_called()
-            assert.spy(QuestieTracker.Update).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker, true)
         end)
 
         it("keeps one tracker update queued while the combat queue is paused", function()
@@ -884,9 +884,13 @@ describe("QuestEventHandler", function()
             assert.are.equal(1, #queued)
             queued[1]()
             assert.spy(QuestieTracker.Update).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker, false) -- Acceptance must win over log checks.
 
+            QuestieTracker.Update:clear()
             QuestEventHandler.QuestLogUpdate()
             assert.are.equal(2, #queued)
+            queued[2]()
+            assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker, true)
         end)
     end)
 

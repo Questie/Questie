@@ -415,7 +415,7 @@ describe("QuestieTracker", function()
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
         local timeMock, combatMock, countMock, instanceMock, infoMock
-        local header, pool
+        local header, pool, baseFrame
 
         before_each(function()
             now, inCombat = 0, false
@@ -437,13 +437,22 @@ describe("QuestieTracker", function()
 
             TrackerData.Refresh = spy.new(function() return {} end)
             local base = QuestieLoader:ImportModule("TrackerBaseFrame")
-            base.Initialize = function() return CreateFrame("Frame") end
+            base.Initialize = function()
+                local frame = CreateFrame("Frame")
+                frame.IsShown = function() return false end
+                baseFrame = frame
+                return frame
+            end
             base.Update = function() end
             header = QuestieLoader:ImportModule("TrackerHeaderFrame")
-            header.Initialize = function() return {} end
+            header.Initialize = function() return {GetWidth = function() return 100 end} end
             header.Update = function() assert.spy(TrackerData.Refresh).was.called(1) end
             local frame = QuestieLoader:ImportModule("TrackerQuestFrame")
-            frame.Initialize = function() return {} end
+            frame.Initialize = function()
+                local questFrame = CreateFrame("Frame")
+                questFrame.ScrollChildFrame = CreateFrame("Frame")
+                return questFrame
+            end
             frame.Update = function() end
             pool = QuestieLoader:ImportModule("TrackerLinePool")
             pool.Initialize = function() end
@@ -498,6 +507,346 @@ describe("QuestieTracker", function()
             assert.spy(TrackerData.Refresh).was.not_called()
             assert.spy(TrackerData.RefreshQuest).was.called_with(91741)
             assert.spy(pool.UpdateQuestLines).was.called_with(91741, quest)
+        end)
+
+        describe("quest-log reconciliation", function()
+            local callbacks, nativeTitle, quest, layout, entriesMock, widthMock, heightMock, originalQuestLog
+
+            before_each(function()
+                widthMock = stub(_G, "GetScreenWidth", function() return 2000 end)
+                heightMock = stub(_G, "GetScreenHeight", function() return 1000 end)
+                originalQuestLog = _G.C_QuestLog
+                _G.C_QuestLog = {GetQuestTimers = function() return {} end, GetMaxNumQuestsCanAccept = function() return 25 end}
+                QuestieLoader:ImportModule("QuestLogCache").GetQuestCount = function() return 1 end
+                entriesMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetNumQuestLogEntries", function() return 2, 1 end)
+                callbacks, nativeTitle = {}, "Nibbled-On Book"
+                _G.C_Timer.After = function(_, callback) callbacks[#callbacks + 1] = callback end
+                Questie.db.profile.trackerSortObjectives = "byZone"
+                Questie.db.profile.autoTrackQuests = true
+                Questie.db.char.collapsedZones = {}
+                quest = {Id = 91741, name = nativeTitle, level = 2, zoneName = "Northshire Abbey", Objectives = {},
+                    IsComplete = function() return 0 end}
+                TrackerData.Refresh = spy.new(function() quest.name = nativeTitle end)
+                TrackerData.GetQuests = function() return {[91741] = quest} end
+                TrackerData.GetColoredQuestName = function(displayQuest) return displayQuest.name end
+                TrackerUtils.GetQuestGroupName = function(displayQuest) return displayQuest.zoneName end
+                TrackerUtils.GetCompletionText = function() return nil end
+                TrackerUtils.ShouldShowCompletionText = function() return true end
+                TrackerUtils.GetQuestItemIds = function() return {} end
+                TrackerUtils.GetSortedQuestIds = spy.new(function() return {}, {} end)
+                QuestieLoader:ImportModule("TrackerQuestTimers").GetRemainingTimeByQuestId = function() return nil end
+                QuestieLoader:ImportModule("QuestieLib").GetQuestTypeSuffixPriority = function() return 1 end
+                dofile("Modules/Tracker/TrackerQuestLogSnapshot.lua")
+                header.Update = spy.new(function() end)
+                pool.ResetLinesForChange = spy.new(function() end)
+                pool.GetLastLine = function() return {} end
+                -- Geometry is outside this test: observe entry into layout after reconciliation and throttle decisions.
+                layout = spy.new(function() end)
+                QuestieTracker.UpdateFormatting = layout
+
+                now = 1
+                QuestieTracker:Update()
+                now = 2
+                callbacks[1]() -- Startup enables formatting and performs the first complete layout.
+                callbacks = {}
+                TrackerData.Refresh:clear()
+                TrackerUtils.GetSortedQuestIds:clear()
+                pool.ResetLinesForChange:clear()
+                header.Update:clear()
+                layout:clear()
+            end)
+
+            after_each(function()
+                entriesMock:revert()
+                widthMock:revert()
+                heightMock:revert()
+                _G.C_QuestLog = originalQuestLog
+            end)
+
+            it("reconciles unchanged data without resetting rows, sorting or entering layout", function()
+                now = 3
+                QuestieTracker:Update(true)
+
+                assert.spy(TrackerData.Refresh).was.called(1)
+                assert.spy(pool.ResetLinesForChange).was.not_called()
+                assert.spy(TrackerUtils.GetSortedQuestIds).was.not_called()
+                assert.spy(header.Update).was.not_called()
+                assert.spy(layout).was.not_called()
+            end)
+
+            it("rebuilds once when a late native title arrives", function()
+                nativeTitle, now = "The Book's True Name", 3
+                QuestieTracker:Update(true)
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.are.equal("The Book's True Name", quest.name)
+                assert.spy(TrackerData.Refresh).was.called(2)
+                assert.spy(pool.ResetLinesForChange).was.called(1)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("reapplies the real automatic width limit after a screen-size change", function()
+                Questie.db.profile.trackerHeaderEnabled = true
+                Questie.db.profile.trackerFontSizeHeader = 12
+                Questie.db.profile.trackerWidthRatio = 0.25
+                Questie.db.profile.TrackerWidth = 0
+                pool.GetFirstLine = function() return {label = {GetUnboundedStringWidth = function() return 100 end}} end
+                QuestieTracker.UpdateFormatting = function() QuestieTracker:UpdateWidth(1000) end
+                now = 3
+                QuestieTracker:Update()
+                assert.are.equal(500, baseFrame:GetWidth())
+
+                widthMock.returns(1000)
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.are.equal(250, baseFrame:GetWidth())
+            end)
+
+            it("acknowledges auto-collapse applied by the quest population pass", function()
+                Questie.db.profile.collapseCompletedQuests = true
+                Questie.db.profile.trackerShowCompleteQuests = true
+                Questie.db.profile.trackerQuestPadding = 0
+                Questie.db.char.minAllQuestsInZone = {}
+                quest.IsComplete = function() return 1 end
+                TrackerUtils.GetSortedQuestIds = function()
+                    return {91741}, {[91741] = {quest = quest, zoneName = "Northshire Abbey"}}
+                end
+                TrackerUtils.AddQuestItemButtons = function() return true end
+                QuestieLoader:ImportModule("TrackerQuestTimers").UpdateAndGetRemainingTime = function() end
+                QuestieTracker.UpdateWidth = function() baseFrame:SetWidth(500) end
+                local line = CreateFrame("Frame")
+                line.label = CreateFrame("Frame")
+                line.label:SetSize(100, 10)
+                line.label.GetUnboundedStringWidth = function() return 100 end
+                line.label.SetText = function() end
+                line.expandZone = CreateFrame("Button")
+                line.expandZone.SetMode = function() end
+                line.expandQuest = CreateFrame("Button")
+                line.expandQuest.SetMode = function() end
+                line.playButton = {SetPlayButton = function() end}
+                pool.GetZoneLine = function() return line end
+                pool.GetQuestTitleLine = function() return line end
+
+                now = 3
+                QuestieTracker:Update()
+                assert.is_true(Questie.db.char.collapsedQuests[91741])
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("does not suppress explicit settings or UI updates", function()
+                now = 3
+                QuestieTracker:Update()
+
+                assert.spy(pool.ResetLinesForChange).was.called(1)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("retains one trailing check when a burst hits the throttle", function()
+                nativeTitle, now = "Updated title", 2.05
+                QuestieTracker:Update(true)
+                QuestieTracker:Update(true)
+                assert.are.equal(1, #callbacks)
+                assert.spy(TrackerData.Refresh).was.not_called()
+
+                now = 2.2
+                callbacks[1]()
+
+                assert.are.equal("Updated title", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("keeps the trailing check combat-safe and reads the latest data after combat", function()
+                now = 2.05
+                QuestieTracker:Update(true)
+                local queued = {}
+                QuestieCombatQueue.Queue = function(_, callback) queued[#queued + 1] = callback end
+                now, inCombat = 2.2, true
+                callbacks[1]()
+                nativeTitle = "Changed during combat"
+                QuestieTracker:Update(true)
+
+                assert.are.equal(1, #callbacks)
+                assert.are.equal(1, #queued)
+                assert.spy(layout).was.not_called()
+
+                now, inCombat = 3, false
+                queued[1]()
+                assert.are.equal("Changed during combat", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("retires a pending timer after a newer fallback layout completes", function()
+                TrackerUtils.GetQuestItemIds = function() return {90001} end
+                now = 2.05
+                QuestieTracker:Update(true)
+                now = 2.2
+                QuestieTracker:Update()
+                TrackerData.Refresh:clear()
+
+                now = 2.4
+                callbacks[1]()
+
+                assert.spy(TrackerData.Refresh).was.not_called()
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("retires a pending retry after a newer check confirms unchanged data", function()
+                now = 2.05
+                QuestieTracker:Update(true)
+                now = 2.2
+                QuestieTracker:Update(true)
+                TrackerData.Refresh:clear()
+                now = 2.4
+                callbacks[1]()
+
+                assert.spy(TrackerData.Refresh).was.not_called()
+                assert.spy(layout).was.not_called()
+            end)
+
+            it("keeps an earlier retry when the newer layout fails", function()
+                now = 2.05
+                QuestieTracker:Update(true)
+                now = 2.2
+                QuestieTracker.UpdateFormatting = function() error("layout failed") end
+                assert.has_error(function() QuestieTracker:Update() end, "layout failed")
+                QuestieTracker.UpdateFormatting = layout
+                nativeTitle = "Still pending"
+                now = 2.4
+                callbacks[1]()
+
+                assert.are.equal("Still pending", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("does not let an obsolete queued callback consume a newer retry", function()
+                TrackerUtils.GetQuestItemIds = function() return {90001} end
+                now = 2.05
+                QuestieTracker:Update(true)
+                local queued = {}
+                QuestieCombatQueue.Queue = function(_, callback) queued[#queued + 1] = callback end
+                callbacks[1]() -- The old retry is already in the combat queue.
+                now = 2.2
+                QuestieTracker:Update()
+                now = 2.25
+                QuestieTracker:Update(true) -- Owns a new retry token.
+                nativeTitle = "Arrived after the newer layout"
+                now = 2.4
+                queued[1]()
+                assert.spy(layout).was.called(1)
+
+                callbacks[2]()
+                assert.are.equal(2, #queued)
+                queued[2]()
+                assert.are.equal("Arrived after the newer layout", quest.name)
+                assert.spy(layout).was.called(2)
+            end)
+
+            it("preserves a reentrant request that shares an older pending timer", function()
+                now = 2.05
+                QuestieTracker:Update(true)
+                now = 2.2
+                QuestieTracker.UpdateFormatting = function()
+                    nativeTitle = "Changed during layout"
+                    QuestieTracker:Update(true)
+                end
+                QuestieTracker:Update()
+                QuestieTracker.UpdateFormatting = layout
+                assert.are.equal(1, #callbacks)
+
+                now = 2.4
+                callbacks[1]()
+
+                assert.are.equal("Changed during layout", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("preserves a reentrant request that shares an older queued delivery", function()
+                now = 2.05
+                QuestieTracker:Update(true)
+                local queued = {}
+                QuestieCombatQueue.Queue = function(_, callback) queued[#queued + 1] = callback end
+                callbacks[1]()
+                now = 2.2
+                QuestieTracker.UpdateFormatting = function()
+                    nativeTitle = "Changed during layout"
+                    QuestieTracker:Update(true)
+                end
+                QuestieTracker:Update()
+                QuestieTracker.UpdateFormatting = layout
+                assert.are.equal(1, #callbacks)
+                assert.are.equal(1, #queued)
+
+                now = 2.4
+                queued[1]()
+
+                assert.are.equal("Changed during layout", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("preserves a retry requested during a successful layout", function()
+                now = 3
+                QuestieTracker.UpdateFormatting = function()
+                    QuestieTracker:Update(true) -- A callback raises a request after this layout began.
+                end
+                QuestieTracker:Update()
+                assert.are.equal(1, #callbacks)
+                nativeTitle = "New data after layout"
+                QuestieTracker.UpdateFormatting = layout
+                now = 3.2
+                callbacks[1]()
+
+                assert.are.equal("New data after layout", quest.name)
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("does not let reconciliation hide a throttled explicit update", function()
+                now = 2.05
+                QuestieTracker:Update()
+                now = 3
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(1)
+            end)
+
+            it("does not retain a baseline after a failed layout", function()
+                nativeTitle, now = "New title", 3
+                QuestieTracker.UpdateFormatting = function() error("layout failed") end
+                assert.has_error(function() QuestieTracker:Update(true) end, "layout failed")
+
+                -- Returning to the old input must still repair the partially rebuilt frames.
+                nativeTitle, now = "Nibbled-On Book", 4
+                QuestieTracker.UpdateFormatting = layout
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(1)
+                assert.spy(pool.ResetLinesForChange).was.called(2)
+            end)
+
+            it("continues rebuilding layouts with active quest-item buttons", function()
+                TrackerUtils.GetQuestItemIds = function() return {90001} end
+                now = 3
+                QuestieTracker:Update(true)
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(2)
+            end)
+
+            it("rebuilds after the tracker was disabled and re-enabled", function()
+                Questie.db.profile.trackerEnabled = false
+                now = 3
+                QuestieTracker:Update(true)
+                Questie.db.profile.trackerEnabled = true
+                now = 4
+                QuestieTracker:Update(true)
+
+                assert.spy(layout).was.called(1)
+            end)
         end)
 
         describe("saved focus before the first full refresh", function()

@@ -73,19 +73,24 @@ local QUEST_LOG_RETRY_MAX_DELAY = 320 -- seconds; 20, 40, 80, 160, then 320
 local questLogRetryDelay = MARKER_EVENT_TIMEFRAME
 
 -- QUEST_LOG_UPDATE can fire every second and the combat queue does not drain in combat.
--- Keep at most one queued rebuild; it reads current data when it runs.
+-- Keep at most one queued refresh; it reads current data when it runs.
 local trackerUpdateQueued = false
+local trackerUpdateForced = false
 
----Queues one tracker rebuild unless one is already waiting in the combat queue.
-local function _QueueTrackerUpdate()
+---Coalesces requests without letting a later log check weaken an acceptance's full-layout request.
+---@param onlyIfChanged boolean? True for log reconciliation; nil/false requests an unconditional layout when allowed.
+local function _QueueTrackerUpdate(onlyIfChanged)
+    trackerUpdateForced = trackerUpdateForced or not onlyIfChanged
     if trackerUpdateQueued then
         return
     end
     trackerUpdateQueued = true
     QuestieCombatQueue:Queue(function()
-        -- Clear first so events during the rebuild can queue the next one.
+        local checkForChanges = not trackerUpdateForced
+        -- Clear first so events during the refresh can queue the next one.
         trackerUpdateQueued = false
-        QuestieTracker:Update()
+        trackerUpdateForced = false
+        QuestieTracker:Update(checkForChanges)
     end)
 end
 
@@ -470,15 +475,15 @@ function QuestEventHandler.QuestLogUpdate()
         _QuestEventHandler:UpdateAllQuests(true)
     end
 
-    -- Native membership and loading titles can change even when no objective scan is needed.
-
     -- Don't update tracker if we're in a pet battle
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] Skipped tracker update - in pet battle")
         return
     end
 
-    _QueueTrackerUpdate()
+    -- Reconcile native membership and loading titles even without objective changes.
+    -- Only unchanged display inputs may skip the expensive tracker layout.
+    _QueueTrackerUpdate(true)
 end
 
 --- Fires whenever a quest objective progressed
