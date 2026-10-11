@@ -181,11 +181,7 @@ describe("TooltipHandler", function()
         local saved
 
         before_each(function()
-            saved = {
-                issecretvalue = _G.issecretvalue, UnitGUID = _G.UnitGUID,
-                IsInInstance = _G.IsInInstance, GetTooltip = QuestieTooltips.GetTooltip,
-            }
-            _G.IsInInstance = function() return false end
+            saved = {issecretvalue = _G.issecretvalue, UnitGUID = _G.UnitGUID, GetTooltip = QuestieTooltips.GetTooltip}
             _G.UnitGUID = spy.new(function() return "Creature-0-0-0-0-1125-0" end)
             QuestieTooltips.GetTooltip = spy.new(function() return {"Beer Basted Boar Ribs"} end)
             GameTooltip.IsForbidden = function() return false end
@@ -194,7 +190,7 @@ describe("TooltipHandler", function()
         end)
 
         after_each(function()
-            _G.issecretvalue, _G.UnitGUID, _G.IsInInstance = saved.issecretvalue, saved.UnitGUID, saved.IsInInstance
+            _G.issecretvalue, _G.UnitGUID = saved.issecretvalue, saved.UnitGUID
             QuestieTooltips.GetTooltip = saved.GetTooltip
         end)
 

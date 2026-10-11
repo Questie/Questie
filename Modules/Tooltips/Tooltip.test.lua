@@ -87,6 +87,8 @@ describe("Tooltip", function()
                 issecretvalue = _G.issecretvalue,
                 issecrettable = _G.issecrettable,
                 GameTooltipTextLeft1 = _G.GameTooltipTextLeft1,
+                IsInInstance = _G.IsInInstance,
+                IsForever = Questie.IsForever,
             }
             gameScripts = {}
             itemScripts = {}
@@ -121,6 +123,8 @@ describe("Tooltip", function()
             _G.issecretvalue = savedGlobals.issecretvalue
             _G.issecrettable = savedGlobals.issecrettable
             _G.GameTooltipTextLeft1 = savedGlobals.GameTooltipTextLeft1
+            _G.IsInInstance = savedGlobals.IsInInstance
+            Questie.IsForever = savedGlobals.IsForever
             QuestieTooltips.private.AddItemDataToTooltip = originalItemHandler
             QuestieTooltips.private.AddUnitDataToTooltip = originalUnitHandler
             QuestieTooltips.private.AddObjectDataToTooltip = originalObjectHandler
@@ -155,6 +159,26 @@ describe("Tooltip", function()
             assert.is_nil(itemScripts.OnTooltipSetItem)
             assert.is_nil(gameScripts.OnUpdate)
             assert.is_function(callbacks[4])
+        end)
+
+        it("skips NPC lookups inside Forever instances, where NPC data is treated as secret", function()
+            local callbacks = {}
+            _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+            GameTooltip.GetPrimaryTooltipData = function() return {} end
+            _G.TooltipDataProcessor = {
+                AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
+            }
+            Questie.IsForever = true
+            local inInstance = true
+            _G.IsInInstance = function() return inInstance end
+
+            QuestieTooltips:Initialize()
+            callbacks[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-1125-0"})
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+
+            inInstance = false
+            callbacks[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-1125-0"})
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
         end)
 
         it("leaves an NPC tooltip native when Forever hides its GUID", function()
@@ -576,18 +600,33 @@ describe("Tooltip", function()
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
         end)
 
-        it("keeps native rows inside instances for readable and secret data", function()
+        it("styles NPC quest rows inside instances as secret data, even when they are readable", function()
             _G.IsInInstance = function() return true end
-            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
-            markObjectCaptionSecret()
-            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Secret quest"}))
-            assert.is_nil(preCalls[8](GameTooltip, {leftText = "Secret objective"}))
+            primaryData.type = 2
+            primaryData.guid = "Creature-0-0-0-0-1125-0"
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
+            assert.is_true(preCalls[8](GameTooltip, {leftText = "0/8 Objective"}))
+            _G.issecretvalue = function(value) return value == "Secret quest" end
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Secret quest"}))
             postCalls[2](GameTooltip, primaryData)
-            postCalls[4](GameTooltip, primaryData)
 
-            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name", 1, 0.82, 0, false)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   0/8 Objective", 238 / 255, 238 / 255, 238 / 255, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Secret quest", 1, 0.82, 0, false)
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
-            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+        end)
+
+        it("treats Object quest rows the same inside instances as outside", function()
+            _G.IsInInstance = function() return true end
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
+            postCalls[4](GameTooltip, primaryData)
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Object name", 440)
+
+            clearTooltip()
+            markObjectCaptionSecret()
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Secret quest"}))
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Secret quest", 1, 0.82, 0, false)
         end)
 
         it("keeps native rows for readable and secret data when the group-size gate prevents Questie replacement", function()

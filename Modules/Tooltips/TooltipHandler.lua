@@ -16,7 +16,7 @@ local function _IsSecret(value)
 end
 
 function _QuestieTooltips:AddUnitDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 
