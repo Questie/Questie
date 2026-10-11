@@ -203,7 +203,7 @@ These matching APIs explicitly accept tainted secret arguments:
 5. `C_CurveUtil.EvaluateColorValueFromBoolean(matches, 1, 0)` converts that boolean to a display gate.
 6. `TruncateWhenZero` and `WrapString` can suppress a nonmatching candidate's presentation entirely. A glyph-free color-code prefix can consume the matching gate token so only the chosen quest-level/title fragment is visible.
 
-Public quest-log IDs supply each candidate's current level and difficulty color. Native comparison and selection results must remain secret throughout; addon Lua must not branch on them, inspect them, use them as keys or derive public identity. Iterate only the bounded active-quest candidates. An explicit secret-preserving unmatched gate is required for `[??]`, rather than assuming a known quest will match.
+Public quest-log IDs supply each candidate's presentation: originally its current level and difficulty color, now its normal Questie title. Native comparison and selection results must remain secret throughout; addon Lua must not branch on them, inspect them, use them as keys or derive public identity. Iterate only the bounded active-quest candidates. An explicit secret-preserving unmatched gate is required for `[??]`, rather than assuming a known quest will match.
 
 The synthetic bridge probe **succeeded** for secret `CompareStrings`, `IsNormalized`, `TruncateWhenZero`, `WrapString`, and `C_Intl.Length`; every tested result remained secret. Thus the earlier ordinary Lua string-operation failures do not rule out all native secret-capable transformations. A secret length result is still not public inspectable data.
 
@@ -245,9 +245,9 @@ Secret-capable texture selection (`SetSpriteSheetCell` or a secret-formatted tex
 
 ## Addon integration
 
-`Forever.CreateFormatter()` now builds public active-quest candidates once per native tooltip rebuild. Its returned function selects the level/color title presentation using the native helpers above, honors Show Quest Levels and Show Quest IDs, and retains yellow unknown text if a candidate/API is unavailable or any helper fails. Candidate IDs are deduplicated. No secret match result enters a Lua branch or public lookup, and no secret input/output survives beyond rendering.
+`Forever.CreateFormatter()` now builds public active-quest candidates once per native tooltip rebuild. Its `Title` selects the candidate's normal `GetColoredQuestName` presentation using the native helpers above, and retains yellow unknown text if a candidate/API is unavailable or any helper fails. Its `Objective` compares objective text against the public quest-log objectives of the quest selected by the latest title, rendering the matched objective with Questie's progress color. Candidate IDs and objective texts are deduplicated. No secret match result enters a Lua branch or public lookup. Only the latest title's secret mismatch markers are retained, until the next title row or tooltip clear.
 
-`Tooltip.lua` calls this formatter only from the Forever native quest-title fallback. The formatter is discarded on `OnTooltipCleared`; readable data still uses normal Questie replacement, and objective rows keep the existing native-text rendering. All other clients retain the previous suppression/augmentation paths. The new module loads inertly and installs no handlers of its own. The temporary inspector remains removed.
+`Tooltip.lua` calls this formatter only from the Forever native quest-row fallback. The formatter is discarded on `OnTooltipCleared`; readable data still uses normal Questie replacement. All other clients retain the previous suppression/augmentation paths. The new module loads inertly and installs no handlers of its own. The temporary inspector remains removed.
 
 The bridge captures prove the native composition in insecure synthetic and actual-combat probes, not the just-added ordinary-addon callback. Loading this revision and testing both collection-object hovers in combat remains required.
 

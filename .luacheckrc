@@ -2881,7 +2881,6 @@ globals = {
     "C_CurveUtil",
     "C_Intl",
     "C_StringUtil",
-    "CreateColor",
     "InputUtil",
     "SmartNavigation",
     "SoftCursor",

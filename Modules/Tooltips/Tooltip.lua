@@ -42,7 +42,7 @@ local MAX_GROUP_MEMBER_COUNT = 6
 local nativeQuestFallback = false
 local nativeTooltipHooksInitialized = false
 ---@type ForeverFormatter?
-local nativeQuestTitleFormatter
+local nativeQuestFormatter
 
 local _InitObjectiveTexts
 
@@ -557,7 +557,17 @@ function QuestieTooltips:Initialize()
                     _QuestieTooltips.AddItemDataToTooltip(tooltip)
                 end
             end)
-        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, AddUnitData)
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit,
+            ---@param tooltip GameTooltip
+            ---@param data table
+            ---@return nil
+            function(tooltip, data)
+                -- Forever can hide an NPC's GUID in combat. Questie's lookup needs it, and Blizzard's GetUnit
+                -- would test it in our context, so the native tooltip stays as it is.
+                if _IsPublicTooltipTable(data) and not (issecretvalue and issecretvalue(data.guid)) then
+                    AddUnitData(tooltip)
+                end
+            end)
         if Enum.TooltipDataType.Object then
             _RegisterObjectTooltipCallback()
         end
@@ -672,7 +682,8 @@ end
 
 -- Public data uses normal Questie replacement. Secret data uses display-only native rows:
 -- no Lua inspection, measurements or secret-ID lookups. Native helpers may select display text; AddLine owns layout.
-local function _ProcessNativeQuestLine(tooltip, lineData, isTitle)
+---@param lineType "QuestTitle"|"QuestObjective"|"QuestPlayer"
+local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
     if tooltip ~= GameTooltip or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
         or not Questie.db.profile.enableTooltips then
         return
@@ -690,12 +701,13 @@ local function _ProcessNativeQuestLine(tooltip, lineData, isTitle)
     end
     if kind ~= Enum.TooltipDataType.Unit and kind ~= Enum.TooltipDataType.Object then return end
 
+    -- The legacy instance/group policy keeps native rows for readable and secret data alike,
+    -- so combat does not switch the presentation there.
+    if IsInInstance() or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+        nativeQuestFallback = true
+        return
+    end
     if not _NeedsNativeQuestFallback(data, lineData) then
-        -- Keep native rows when the legacy instance/group policy prevents a Questie replacement.
-        if IsInInstance() or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
-            nativeQuestFallback = true
-            return
-        end
         return true -- Hide Blizzard's public quest lines; the normal Questie post-call replaces them.
     end
 
@@ -709,12 +721,17 @@ local function _ProcessNativeQuestLine(tooltip, lineData, isTitle)
     if (issecretvalue and issecretvalue(rightText)) or rightText ~= nil then return end
     local text = lineData.leftText
     if not (issecretvalue and issecretvalue(text)) and type(text) ~= "string" then return end
-    if isTitle then
-        nativeQuestTitleFormatter = nativeQuestTitleFormatter or Forever.CreateFormatter()
-        -- Let native sizing include the full title and optional ID; only objective/player rows should wrap.
-        tooltip:AddLine(nativeQuestTitleFormatter(lineData.id, text), 1, 0.82, 0, false)
-    else
+    if lineType == "QuestPlayer" then
         tooltip:AddLine(string.format("   %s", text), 238 / 255, 238 / 255, 238 / 255, true)
+        return true
+    end
+    nativeQuestFormatter = nativeQuestFormatter or Forever.CreateFormatter()
+    if lineType == "QuestTitle" then
+        -- Let native sizing include the full title and optional ID; only objective/player rows should wrap.
+        tooltip:AddLine(nativeQuestFormatter.Title(lineData.id, text), 1, 0.82, 0, false)
+    else
+        -- A matched objective carries its own progress color; unmatched text keeps the near-white default.
+        tooltip:AddLine(string.format("   %s", nativeQuestFormatter.Objective(text)), 238 / 255, 238 / 255, 238 / 255, true)
     end
     return true -- The replacement row is already added; do not draw Blizzard's original row as well.
 end
@@ -729,7 +746,7 @@ function QuestieTooltips:InitBlizzardTooltips()
     if Questie.IsForever then
         GameTooltip:HookScript("OnTooltipCleared", function()
             nativeQuestFallback = false
-            nativeQuestTitleFormatter = nil
+            nativeQuestFormatter = nil
         end)
     end
     for _, name in ipairs({"QuestTitle", "QuestObjective", "QuestPlayer"}) do
@@ -737,7 +754,7 @@ function QuestieTooltips:InitBlizzardTooltips()
         if lineType then
             TooltipDataProcessor.AddLinePreCall(lineType, function(tooltip, lineData)
                 if Questie.IsForever then
-                    return _ProcessNativeQuestLine(tooltip, lineData, name == "QuestTitle")
+                    return _ProcessNativeQuestLine(tooltip, lineData, name)
                 end
                 -- Keep the existing native-line suppression on MoP; this styling experiment is Forever-only.
                 if not Questie.db.profile.enableTooltips then return end
