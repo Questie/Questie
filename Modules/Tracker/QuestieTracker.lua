@@ -22,6 +22,8 @@ local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerActiveQuest
+local TrackerActiveQuest = QuestieLoader:ImportModule("TrackerActiveQuest")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 ---@type ChallengeModeTimer
@@ -267,6 +269,7 @@ function QuestieTracker.Initialize()
     -- Initialize tracker functions
     TrackerLinePool.Initialize(trackerQuestFrame)
     TrackerFadeTicker.Initialize(trackerBaseFrame, trackerHeaderFrame)
+    TrackerActiveQuest.Initialize()
     QuestieTracker.started = true
 
     -- Initialize hooks
@@ -993,6 +996,8 @@ function QuestieTracker:Update(onlyIfChanged)
     local line
 
     local sortedQuestIds, questDetails = TrackerUtils:GetSortedQuestIds()
+    local questIdOnTop = TrackerActiveQuest.GetQuestIdOnTop(questDetails)
+    local questIdsBelowTop = TrackerActiveQuest.GetQuestIdsBelowTop(sortedQuestIds, questIdOnTop)
 
     local firstQuestInZone = false
     local zoneCheck
@@ -1000,9 +1005,14 @@ function QuestieTracker:Update(onlyIfChanged)
     local secondaryButton = false
     local secondaryButtonAlpha
 
+    -- The timer lines of the previous layout are reused for other lines now
+    TrackerQuestTimers.ResetTimerLines()
+
     -- Begin populating the Tracker with Quests
-    local _UpdateQuests = function()
-        for _, questId in ipairs(sortedQuestIds) do
+    ---@param questIdsToShow QuestId[]
+    ---@param groupName string? Lists every quest under this group instead of its zone
+    local _UpdateQuests = function(questIdsToShow, groupName)
+        for _, questId in ipairs(questIdsToShow) do
             if not questId then break end
 
             -- reset objectiveMarginLeft for each quest, it can be increased if there are quest items
@@ -1011,9 +1021,9 @@ function QuestieTracker:Update(onlyIfChanged)
             ---@type TrackerQuest
             local quest = questDetails[questId].quest
             local complete = quest:IsComplete()
-            local zoneName = questDetails[questId].zoneName
+            local zoneName = groupName or questDetails[questId].zoneName
 
-            TrackerQuestTimers:UpdateAndGetRemainingTime(quest, nil, true)
+            TrackerQuestTimers:UpdateAndGetRemainingTime(quest)
             local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
 
             if ((complete ~= 1 and not quest.isComplete) or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
@@ -1030,12 +1040,13 @@ function QuestieTracker:Update(onlyIfChanged)
                     if not line then break end
 
                     -- Set Zone Title and default Min/Max states
+                    local zoneTitle = zoneName == TrackerActiveQuest.GROUP_KEY and l10n("Active Quest") or zoneName
                     if Questie.db.char.collapsedZones[zoneName] then
                         line.expandZone:SetMode(0)
-                        line.label:SetText("|cFFC0C0C0" .. zoneName .. " +|r")
+                        line.label:SetText("|cFFC0C0C0" .. zoneTitle .. " +|r")
                     else
                         line.expandZone:SetMode(1)
-                        line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
+                        line.label:SetText("|cFFC0C0C0" .. zoneTitle .. "|r")
                     end
 
                     -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
@@ -1252,7 +1263,7 @@ function QuestieTracker:Update(onlyIfChanged)
                             line.label:SetText(timerText)
 
                             if activeTimer then
-                                TrackerQuestTimers:UpdateAndGetRemainingTime(quest, line, false)
+                                TrackerQuestTimers:UpdateAndGetRemainingTime(quest, line)
                             end
 
                             -- Check and measure Timer text width and update tracker width
@@ -1852,9 +1863,11 @@ function QuestieTracker:Update(onlyIfChanged)
 
     if isChallengeMode then
         -- Challenge Mode is active, so we only show the Challenge Mode objectives
+        TrackerLinePool.PinLines(0)
         _UpdateChallengeModeObjectives()
     elseif isScenario then
         -- Scenario is active, so we only show the Scenario objectives
+        TrackerLinePool.PinLines(0)
         _UpdateScenarioObjectives()
     else
         -- Not in an active Challenge Mode run
@@ -1862,12 +1875,18 @@ function QuestieTracker:Update(onlyIfChanged)
             ChallengeModeTimer.SetTimerLabel(nil)
         end
 
+        -- The active quest comes first. Its lines are pinned above the scrolling quests.
+        if questIdOnTop then
+            _UpdateQuests({questIdOnTop}, TrackerActiveQuest.GROUP_KEY)
+        end
+        TrackerLinePool.PinLines(TrackerLinePool.GetHighestIndex())
+
         -- Populate Achievements first then Quests
         if Questie.db.profile.listAchievementsFirst and (Expansions.Current >= Expansions.Wotlk) then
             _UpdateAchievements()
-            _UpdateQuests()
+            _UpdateQuests(questIdsBelowTop)
         else
-            _UpdateQuests()
+            _UpdateQuests(questIdsBelowTop)
             _UpdateAchievements()
         end
     end
@@ -2039,23 +2058,48 @@ function QuestieTracker:UpdateHeight()
     if Questie.db.char.isTrackerExpanded then
         -- Removes any padding from the last line in the tracker
         local currentLine = TrackerLinePool.GetCurrentLine()
-        local firstLine = TrackerLinePool.GetFirstLine()
+        local pinnedLineCount = TrackerLinePool.GetPinnedLineCount()
+        local firstLine = TrackerLinePool.GetLine(pinnedLineCount + 1)
 
         currentLine:SetHeight(currentLine.label:GetStringHeight())
 
-        local firstLineTop = firstLine:GetTop()
-        local currentLineBottom = currentLine:GetBottom()
+        -- Pinned lines are chained without gaps, so their height is the sum of the line heights
+        local pinnedHeight = 0
+        for i = 1, pinnedLineCount do
+            pinnedHeight = pinnedHeight + TrackerLinePool.GetLine(i):GetHeight()
+        end
 
-        if currentLine.mode == "zone" then
-            -- If a single zone is the only line in the tracker then don't add pixel padding
-            trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom))
+        -- Pinned lines may take at most half of the quest area, so the other quests can still be scrolled to
+        local maxQuestFrameHeight = trackerHeightCheck - 20
+        if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
+            maxQuestFrameHeight = maxQuestFrameHeight - trackerHeaderFrame:GetHeight()
+        end
+        if pinnedHeight > maxQuestFrameHeight / 2 then
+            TrackerLinePool.PinLines(0)
+            pinnedLineCount = 0
+            pinnedHeight = 0
+            firstLine = TrackerLinePool.GetFirstLine()
+        end
+        TrackerQuestFrame.SetPinnedHeight(pinnedHeight)
+
+        if pinnedLineCount > 0 and TrackerLinePool.GetHighestIndex() <= pinnedLineCount then
+            -- Every line is pinned, nothing scrolls
+            trackerQuestFrame.ScrollChildFrame:SetHeight(1)
         else
-            -- Add 3 pixels to bottom of tracker to account for text that traverses beyond the GetStringHeight() function such as lower case "g".
-            trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom + 3))
+            local firstLineTop = firstLine:GetTop()
+            local currentLineBottom = currentLine:GetBottom()
+
+            if currentLine.mode == "zone" then
+                -- If a single zone is the only line in the tracker then don't add pixel padding
+                trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom))
+            else
+                -- Add 3 pixels to bottom of tracker to account for text that traverses beyond the GetStringHeight() function such as lower case "g".
+                trackerQuestFrame.ScrollChildFrame:SetHeight((firstLineTop - currentLineBottom + 3))
+            end
         end
 
         -- Set the baseFrame to full height so we can measure it
-        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight())
+        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight() + pinnedHeight)
 
         if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
             trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + trackerHeaderFrame:GetHeight() + 20)
@@ -2428,6 +2472,11 @@ function QuestieTracker:AQW_Insert(index, _expire)
 
             if Questie.db.char.collapsedZones[zoneId] == true then
                 Questie.db.char.collapsedZones[zoneId] = nil
+            end
+
+            -- The active quest can be listed only in its own group at the top
+            if questId == TrackerActiveQuest.GetActiveQuestId() then
+                Questie.db.char.collapsedZones[TrackerActiveQuest.GROUP_KEY] = nil
             end
 
             -- Unhide quest icons when retracking quests.

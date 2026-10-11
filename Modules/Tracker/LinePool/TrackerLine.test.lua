@@ -93,6 +93,41 @@ describe("TrackerLine untrack click", function()
         assert.spy(tracker.UntrackQuestId).was.not_called()
     end)
 
+    describe("set active quest shortcut", function()
+        local utils, activeQuest, line
+
+        before_each(function()
+            utils = QuestieLoader:ImportModule("TrackerUtils")
+            activeQuest = QuestieLoader:ImportModule("TrackerActiveQuest")
+            Questie.db.profile.trackerbindSetActiveQuest = "activequest"
+            Questie.db.profile.trackerbindOpenQuestLog = "left"
+            utils.IsBindTrue = function(_, binding) return binding == "activequest" or binding == "left" end
+            utils.ShowQuestLog = spy.new(function() end)
+            activeQuest.ToggleQuest = spy.new(function() end)
+            line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetQuest({Id = 96})
+            line:SetOnClick("quest")
+        end)
+
+        it("makes the clicked quest the active quest", function()
+            activeQuest.IsAvailable = function() return true end
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(activeQuest.ToggleQuest).was.called_with(96)
+            assert.spy(utils.ShowQuestLog).was.not_called()
+        end)
+
+        it("leaves the click to the other shortcuts when the client has no active quest", function()
+            activeQuest.IsAvailable = function() return false end
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(activeQuest.ToggleQuest).was.not_called()
+            assert.spy(utils.ShowQuestLog).was.called(1)
+        end)
+    end)
+
     it("untracks without a legacy quest-log frame", function()
         local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
         line:SetQuest({Id = 783})

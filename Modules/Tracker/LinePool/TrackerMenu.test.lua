@@ -90,6 +90,7 @@ describe("TrackerMenu", function()
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerData.RefreshQuest = spy.new(function(id) return displayQuests[id] end)
 
+        dofile("Modules/Tracker/TrackerActiveQuest.lua")
         dofile("Modules/Tracker/LinePool/TrackerMenu.lua")
         TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
     end)
@@ -350,6 +351,47 @@ describe("TrackerMenu", function()
         menu[1].func()
 
         assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+    end)
+
+    describe("addActiveQuestOption", function()
+        local activeQuest
+
+        before_each(function()
+            activeQuest = QuestieLoader:ImportModule("TrackerActiveQuest")
+            activeQuest.IsAvailable = function() return true end
+            activeQuest.GetActiveQuestId = function() return nil end
+            activeQuest.ToggleQuest = spy.new(function() end)
+        end)
+
+        it("offers to set the active quest", function()
+            local menu = {}
+
+            TrackerMenu.addActiveQuestOption(menu, {Id = 96})
+            menu[1].func()
+
+            assert.are.equal("Set Active Quest", menu[1].text)
+            assert.spy(activeQuest.ToggleQuest).was.called_with(96)
+        end)
+
+        it("offers to clear the active quest", function()
+            activeQuest.GetActiveQuestId = function() return 96 end
+            local menu = {}
+
+            TrackerMenu.addActiveQuestOption(menu, {Id = 96})
+            menu[1].func()
+
+            assert.are.equal("Clear Active Quest", menu[1].text)
+            assert.spy(activeQuest.ToggleQuest).was.called_with(96)
+        end)
+
+        it("offers nothing when the client has no active quest", function()
+            activeQuest.IsAvailable = function() return false end
+            local menu = {}
+
+            TrackerMenu.addActiveQuestOption(menu, {Id = 96})
+
+            assert.are_same({}, menu)
+        end)
     end)
 
     describe("quest actions without a legacy quest log", function()
@@ -615,7 +657,7 @@ describe("TrackerMenu", function()
             compat.ActionStatus_DisplayMessage = spy.new(function() end)
 
             local noop = function() end
-            for _, name in ipairs({"addObjectiveOption", "addFocusUnfocusOption", "addTomTomOptionForQuest", "minMaxQuestOption",
+            for _, name in ipairs({"addObjectiveOption", "addFocusUnfocusOption", "addActiveQuestOption", "addTomTomOptionForQuest", "minMaxQuestOption",
                 "addShowHideQuestsOption", "addShowFinisherOnMapOption", "addShowInQuestLogOption", "addLinkToChatOption",
                 "addUntrackOption", "addAbandonedQuest", "addLockUnlockOption", "addAchieveLinkToChatOption",
                 "addShowInAchievementsOption", "addUntrackAchieveOption"}) do

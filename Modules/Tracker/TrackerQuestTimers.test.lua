@@ -113,4 +113,90 @@ describe("TrackerQuestTimers", function()
             assert.spy(_G.SelectQuestLogEntry).was.called_with(456)
         end)
     end)
+
+    describe("timer lines", function()
+        local lines
+
+        ---@return table line A fake tracker line that remembers the text of its label
+        local function _NewLine()
+            local line = {label = {}}
+            line.label.SetFont = function() end
+            line.label.SetText = function(self, text) self.text = text end
+            return line
+        end
+
+        before_each(function()
+            Questie.db.profile.trackerEnabled = true
+            Questie.db.profile.showBlizzardQuestTimer = false
+            Questie.db.char.isTrackerExpanded = true
+            Questie.Colorize = function(_, text) return text end
+            _G.SecondsToTime = function(seconds) return seconds .. " Secs" end
+            C_QuestLog.GetQuestTimers = function() return {{questID = 33, questTimer = 81}, {questID = 44, questTimer = 12}} end
+            lines = {_NewLine(), _NewLine()}
+            TrackerQuestTimers.ResetTimerLines()
+        end)
+
+        it("updates every line of a quest that is listed twice", function()
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 33}, lines[1])
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 33}, lines[2])
+
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.are.equal("81 Secs", lines[1].label.text)
+            assert.are.equal("81 Secs", lines[2].label.text)
+        end)
+
+        it("updates the lines of every timed quest", function()
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 33}, lines[1])
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 44}, lines[2])
+
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.are.equal("81 Secs", lines[1].label.text)
+            assert.are.equal("12 Secs", lines[2].label.text)
+        end)
+
+        it("updates both lines of a quest listed twice with another timed quest between them", function()
+            local otherLine = _NewLine()
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 33}, lines[1])
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 44}, otherLine)
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 33}, lines[2])
+
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.are.equal("81 Secs", lines[1].label.text)
+            assert.are.equal("81 Secs", lines[2].label.text)
+            assert.are.equal("12 Secs", otherLine.label.text)
+        end)
+
+        it("keeps updating the other quests when the time of one quest ran out", function()
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 33}, lines[1])
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 44}, lines[2])
+            C_QuestLog.GetQuestTimers = function() return {{questID = 44, questTimer = 12}} end
+
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.is_nil(lines[1].label.text)
+            assert.are.equal("12 Secs", lines[2].label.text)
+        end)
+
+        it("forgets the lines of the previous layout", function()
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 33}, lines[1])
+
+            TrackerQuestTimers.ResetTimerLines()
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.is_nil(lines[1].label.text)
+        end)
+
+        it("does not register a line when only refreshing the timer state of a quest", function()
+            local quest = {Id = 33}
+
+            TrackerQuestTimers:UpdateAndGetRemainingTime(quest)
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.is_true(quest.trackTimedQuest)
+            assert.is_nil(lines[1].label.text)
+        end)
+    end)
 end)

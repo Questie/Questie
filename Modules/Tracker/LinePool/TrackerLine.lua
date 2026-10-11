@@ -16,6 +16,8 @@ local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerMenu
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
+---@type TrackerActiveQuest
+local TrackerActiveQuest = QuestieLoader:ImportModule("TrackerActiveQuest")
 ---@type VoiceOverPlayButton
 local VoiceOverPlayButton = QuestieLoader:ImportModule("VoiceOverPlayButton")
 ---@type AchievementCriteriaCheckmark
@@ -39,6 +41,7 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 local _SetMode, _OnClickQuest, _OnClickAchieve
 
 local lineMarginLeft = 10
+TrackerLine.MARGIN_LEFT = lineMarginLeft
 
 ---@param index number
 ---@param parent ScrollFrame
@@ -213,6 +216,8 @@ _OnClickQuest = function(self, button)
                 QuestieCompat.QuestLog_Update()
             end
         end
+    elseif TrackerActiveQuest.IsAvailable() and TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetActiveQuest, button) then
+        TrackerActiveQuest.ToggleQuest(self.Quest.Id)
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
         TrackerUtils:ShowQuestLog(self.Quest)
     elseif button == "RightButton" then
