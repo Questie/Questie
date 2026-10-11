@@ -245,8 +245,9 @@ local function _Curve(a, p, b, tolerance, halfWidth)
 
     local startX, startY = p.x - inX * cut, p.y - inY * cut
     local endX, endY = p.x + outX * cut, p.y + outY * cut
-    -- The fewest pieces whose chords stay within an eighth of the half width of the curve: 2 at
-    -- tolerances up to half the half width.
+    -- The fewest pieces whose chords stay within an eighth of the half width of the curve: 2 while it
+    -- passes within half the half width of its corner. Two chords for every curve saved a quarter of
+    -- the segments zoomed in, but drew gentle curves visibly jaggier.
     local deviation = cut * bend / 4
     local pieces = 2 * math.max(1, math.min(MAX_CURVE_PIECES / 2, math.ceil(math.sqrt(2 * deviation / halfWidth) - 1e-9)))
     local curve = {}
