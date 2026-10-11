@@ -2878,6 +2878,9 @@ globals = {
     "SetItemRef",
     "ScrollFrame_OnScrollRangeChanged",
     -- Forever globals
+    "C_CurveUtil",
+    "C_Intl",
+    "C_StringUtil",
     "InputUtil",
     "SmartNavigation",
     "SoftCursor",
