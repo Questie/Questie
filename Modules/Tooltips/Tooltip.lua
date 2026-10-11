@@ -560,10 +560,12 @@ function QuestieTooltips:Initialize()
         if Enum.TooltipDataType.Spell then
             TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell,
                 ---@param tooltip GameTooltip
+                ---@param data table
                 ---@return nil
-                function(tooltip)
-                    if tooltip == GameTooltip or tooltip == ItemRefTooltip then
-                        _QuestieTooltips.AddSpellDataToTooltip(tooltip)
+                function(tooltip, data)
+                    -- data.id can be secret; it is passed on untouched for display only.
+                    if (tooltip == GameTooltip or tooltip == ItemRefTooltip) and _IsPublicTooltipTable(data) then
+                        _QuestieTooltips.AddSpellIdToTooltip(tooltip, data.id)
                     end
                 end)
         end
@@ -596,11 +598,17 @@ function QuestieTooltips:Initialize()
         if GameTooltip:HasScript("OnTooltipSetUnit") then
             GameTooltip:HookScript("OnTooltipSetUnit", AddUnitData)
         end
+        ---@param tooltip GameTooltip
+        ---@return nil
+        local function AddSpellId(tooltip)
+            local _, spellId = tooltip:GetSpell()
+            _QuestieTooltips.AddSpellIdToTooltip(tooltip, spellId)
+        end
         if ItemRefTooltip:HasScript("OnTooltipSetSpell") then
-            ItemRefTooltip:HookScript("OnTooltipSetSpell", _QuestieTooltips.AddSpellDataToTooltip)
+            ItemRefTooltip:HookScript("OnTooltipSetSpell", AddSpellId)
         end
         if GameTooltip:HasScript("OnTooltipSetSpell") then
-            GameTooltip:HookScript("OnTooltipSetSpell", _QuestieTooltips.AddSpellDataToTooltip)
+            GameTooltip:HookScript("OnTooltipSetSpell", AddSpellId)
         end
     end
 

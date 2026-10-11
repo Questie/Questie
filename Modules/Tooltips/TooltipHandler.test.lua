@@ -218,41 +218,55 @@ describe("TooltipHandler", function()
         end)
     end)
 
-    describe("AddSpellDataToTooltip", function()
-        local tooltip
+    describe("AddSpellIdToTooltip", function()
+        local tooltip, savedIsSecret
 
         before_each(function()
             Questie.db.profile.enableTooltipsSpellID = true
-            tooltip = {
-                GetSpell = function() return "Fireball", 133 end,
-                AddDoubleLine = spy.new(function() end),
-            }
+            savedIsSecret = _G.issecretvalue
+            tooltip = {AddDoubleLine = spy.new(function() end)}
         end)
 
         after_each(function()
             Questie.db.profile.enableTooltipsSpellID = nil
+            _G.issecretvalue = savedIsSecret
         end)
 
-        it("adds the Spell ID to the tooltip showing the spell only while Show Spell IDs is enabled", function()
-            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
-            assert.spy(tooltip.AddDoubleLine).was.called_with(tooltip, "Spell ID", "|cFFFFFFFF133|r")
+        it("adds the Spell ID with a gold label and white value only while Show Spell IDs is enabled", function()
+            _QuestieTooltips.AddSpellIdToTooltip(tooltip, 133)
+            assert.spy(tooltip.AddDoubleLine).was.called_with(tooltip, "Spell ID", 133, 1, 0.82, 0, 1, 1, 1)
 
             Questie.db.profile.enableTooltipsSpellID = false
-            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
+            _QuestieTooltips.AddSpellIdToTooltip(tooltip, 133)
             assert.spy(tooltip.AddDoubleLine).was.called(1)
         end)
 
-        it("adds nothing without a readable spell ID", function()
-            tooltip.GetSpell = function() return nil end
-            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
-
-            local originalIsSecret = _G.issecretvalue
-            _G.issecretvalue = function(value) return value == 133 end
-            tooltip.GetSpell = function() return "Fireball", 133 end
-            _QuestieTooltips.AddSpellDataToTooltip(tooltip)
-            _G.issecretvalue = originalIsSecret
+        it("adds nothing without a spell ID", function()
+            _QuestieTooltips.AddSpellIdToTooltip(tooltip, nil)
 
             assert.spy(tooltip.AddDoubleLine).was.not_called()
+        end)
+
+        it("hands a secret spell ID to the tooltip untouched", function()
+            local function inspected() error("secret spell ID inspected") end
+            local secretId = setmetatable({}, {
+                __tostring = inspected, __concat = inspected, __eq = inspected, __lt = inspected, __le = inspected,
+                __index = inspected, __len = inspected, __add = inspected,
+            })
+            _G.issecretvalue = function(value) return rawequal(value, secretId) end
+            local rendered
+            tooltip.AddDoubleLine = function(_, _, right) rendered = right end
+
+            _QuestieTooltips.AddSpellIdToTooltip(tooltip, secretId)
+
+            assert.is_true(rawequal(rendered, secretId))
+        end)
+
+        it("leaves the tooltip without an ID line when the client refuses a secret spell ID", function()
+            _G.issecretvalue = function(value) return value == 133 end
+            tooltip.AddDoubleLine = function() error("secret argument refused") end
+
+            assert.has_no.errors(function() _QuestieTooltips.AddSpellIdToTooltip(tooltip, 133) end)
         end)
     end)
 
