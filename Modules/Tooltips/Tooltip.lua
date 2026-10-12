@@ -562,8 +562,12 @@ function QuestieTooltips:Initialize()
             ---@param data table
             ---@return nil
             function(tooltip, data)
-                -- Forever can hide an NPC's GUID in combat. Questie's lookup needs it, and Blizzard's GetUnit
-                -- would test it in our context, so the native tooltip stays as it is.
+                -- Inside Forever instances tooltip data is restricted, effectively all secret: Blizzard's quest
+                -- rows are styled and no lookup runs.
+                if Questie.IsForever and IsInInstance() then return end
+                -- Outside instances NPC data stays readable, even in combat. Should Forever still hide the GUID,
+                -- Questie's lookup cannot run and Blizzard's GetUnit would test it in our context, so the native
+                -- tooltip stays as it is.
                 if _IsPublicTooltipTable(data) and not (issecretvalue and issecretvalue(data.guid)) then
                     AddUnitData(tooltip)
                 end
@@ -680,39 +684,12 @@ local function _NeedsNativeQuestFallback(data, lineData)
     return false
 end
 
--- Public data uses normal Questie replacement. Secret data uses display-only native rows:
--- no Lua inspection, measurements or secret-ID lookups. Native helpers may select display text; AddLine owns layout.
+-- Display-only replacement for one native quest row: no Lua inspection, measurements or secret-ID lookups.
+-- Native helpers may select display text; AddLine owns layout. The styled block owns the tooltip's quest rows,
+-- so legacy Questie rows and their FontString readers stay away from this possibly secret payload.
 ---@param lineType "QuestTitle"|"QuestObjective"|"QuestPlayer"
-local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
-    if tooltip ~= GameTooltip or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
-        or not Questie.db.profile.enableTooltips then
-        return
-    end
-    local info = tooltip.processingInfo
-    if not _IsPublicTooltipTable(info) or not _IsPublicTooltipTable(info.tooltipData) then
-        nativeQuestFallback = true
-        return
-    end
-    local data = info.tooltipData
-    local kind = data.type
-    if issecretvalue and issecretvalue(kind) then
-        nativeQuestFallback = true
-        return
-    end
-    if kind ~= Enum.TooltipDataType.Unit and kind ~= Enum.TooltipDataType.Object then return end
-
-    -- The legacy instance/group policy keeps native rows for readable and secret data alike,
-    -- so combat does not switch the presentation there.
-    if IsInInstance() or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
-        nativeQuestFallback = true
-        return
-    end
-    if not _NeedsNativeQuestFallback(data, lineData) then
-        return true -- Hide Blizzard's public quest lines; the normal Questie post-call replaces them.
-    end
-
-    -- A fallback-only row still owns the native block. Never append legacy Questie rows or
-    -- run their FontString readers over this secret payload.
+---@return true? consumed
+local function _StyleNativeQuestLine(tooltip, lineData, lineType)
     nativeQuestFallback = true
     if not _IsPublicTooltipTable(lineData) then return end
 
@@ -734,6 +711,47 @@ local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
         tooltip:AddLine(string.format("   %s", nativeQuestFormatter.Objective(text)), 238 / 255, 238 / 255, 238 / 255, true)
     end
     return true -- The replacement row is already added; do not draw Blizzard's original row as well.
+end
+
+---@param lineType "QuestTitle"|"QuestObjective"|"QuestPlayer"
+---@return true? consumed
+local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
+    if tooltip ~= GameTooltip or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
+        or not Questie.db.profile.enableTooltips then
+        return
+    end
+    local info = tooltip.processingInfo
+    if not _IsPublicTooltipTable(info) or not _IsPublicTooltipTable(info.tooltipData) then
+        nativeQuestFallback = true
+        return
+    end
+    local data = info.tooltipData
+    local kind = data.type
+    if issecretvalue and issecretvalue(kind) then
+        nativeQuestFallback = true
+        return
+    end
+    if kind ~= Enum.TooltipDataType.Unit and kind ~= Enum.TooltipDataType.Object then return end
+
+    -- Large groups keep native rows for readable and secret data alike, so combat does not switch them.
+    if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+        nativeQuestFallback = true
+        return
+    end
+
+    -- Inside instances: tooltip data is restricted even out of combat and the legacy Unit lookup skips it,
+    -- so NPC rows are always treated as secret.
+    if kind == Enum.TooltipDataType.Unit and IsInInstance() then
+        return _StyleNativeQuestLine(tooltip, lineData, lineType)
+    end
+
+    -- Outside instances, and Objects everywhere: readable data gets Questie's normal replacement, secret
+    -- data is styled. In the open world, Object payloads are the ones that turn secret in combat. The whole
+    -- payload decides, because a later objective can be secret while its title is not.
+    if not _NeedsNativeQuestFallback(data, lineData) then
+        return true -- Hide Blizzard's public quest lines; the normal Questie post-call replaces them.
+    end
+    return _StyleNativeQuestLine(tooltip, lineData, lineType)
 end
 
 function QuestieTooltips:InitBlizzardTooltips()

@@ -9,14 +9,14 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local lastGuid
 
--- Forever can hide unit and tooltip values in combat. The lookups below test, compare and split them,
--- so a secret value must be checked before any of that.
+-- Forever can hide unit and tooltip values, inside instances and for some tooltips in combat. The lookups
+-- below test, compare and split them, so a secret value must be checked before any of that.
 local function _IsSecret(value)
     return issecretvalue and issecretvalue(value)
 end
 
 function _QuestieTooltips:AddUnitDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 

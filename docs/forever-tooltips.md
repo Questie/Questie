@@ -343,7 +343,7 @@ The implemented Object post-call replaces Forever's per-frame “not a unit/item
 
 ## Initial Questie implementation
 
-This table describes the original migration. The [newer native-row styling prototype](forever-tooltip-secrets.md#native-row-styling-prototype) takes ownership only when Forever tooltip data is secret or inaccessible. Readable data still uses normal Questie replacement; native lines remain visible inside instances and large groups for readable and secret data alike.
+This table describes the original migration. The [newer native-row styling prototype](forever-tooltip-secrets.md#native-row-styling-prototype) takes ownership only when Forever tooltip data is secret or inaccessible. Readable data still uses normal Questie replacement, except NPC rows inside instances, which always use the styling fallback. Native lines remain visible in large groups for readable and secret data alike. Outside instances, NPC data stays readable in combat and Objects turn secret; inside instances, data is effectively all secret. See [where tooltip data is secret](forever-tooltip-secrets.md#where-tooltip-data-is-secret).
 
 | Area | Behavior at the original migration | Consequence for migration |
 | --- | --- | --- |
