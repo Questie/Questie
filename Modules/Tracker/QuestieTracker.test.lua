@@ -415,7 +415,7 @@ describe("QuestieTracker", function()
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
         local timeMock, combatMock, countMock, instanceMock, infoMock
-        local header, pool
+        local header, pool, revision
 
         before_each(function()
             now, inCombat = 0, false
@@ -436,6 +436,8 @@ describe("QuestieTracker", function()
             Questie.db.profile.trackerFontSizeObjective = 10
 
             TrackerData.Refresh = spy.new(function() return {} end)
+            revision = 0
+            TrackerData.GetLayoutRevision = function() return revision end
             local base = QuestieLoader:ImportModule("TrackerBaseFrame")
             base.Initialize = function() return CreateFrame("Frame") end
             base.Update = function() end
@@ -498,6 +500,86 @@ describe("QuestieTracker", function()
             assert.spy(TrackerData.Refresh).was.not_called()
             assert.spy(TrackerData.RefreshQuest).was.called_with(91741)
             assert.spy(pool.UpdateQuestLines).was.called_with(91741, quest)
+        end)
+
+        describe("quest-log checks", function()
+            local layouts
+
+            local function _CountLayouts()
+                layouts = layouts + 1
+                return {}, {}
+            end
+
+            before_each(function()
+                layouts = 0
+                header.Update = function() end
+                TrackerUtils.GetSortedQuestIds = _CountLayouts
+                now = 1
+                QuestieTracker:Update()
+                assert.are.equal(1, layouts)
+            end)
+
+            it("skips the layout when quest data is unchanged since the last one", function()
+                now = 2
+                QuestieTracker:Update(true)
+
+                assert.spy(TrackerData.Refresh).was.called(2)
+                assert.are.equal(1, layouts)
+            end)
+
+            it("lays out when quest data changed since the last layout", function()
+                revision = 1
+                now = 2
+                QuestieTracker:Update(true)
+
+                assert.are.equal(2, layouts)
+            end)
+
+            it("lays out after a throttled explicit update was dropped", function()
+                now = 1.05
+                QuestieTracker:Update()
+                now = 2
+                QuestieTracker:Update(true)
+
+                assert.are.equal(2, layouts)
+            end)
+
+            it("does not let a skipped check throttle the next explicit update", function()
+                now = 2
+                QuestieTracker:Update(true)
+                now = 2.05
+                QuestieTracker:Update()
+
+                assert.are.equal(2, layouts)
+            end)
+
+            it("retries a layout that failed partway", function()
+                TrackerUtils.GetSortedQuestIds = function() error("layout failed") end
+                revision = 1
+                now = 2
+                assert.has_error(function() QuestieTracker:Update(true) end)
+                TrackerUtils.GetSortedQuestIds = _CountLayouts
+                now = 3
+                QuestieTracker:Update(true)
+
+                assert.are.equal(2, layouts)
+            end)
+
+            it("lays out quests again after leaving a Challenge Mode", function()
+                expansion.Current = expansion.MoP
+                pool.GetNextLine = function() return nil end
+                QuestieLoader:ImportModule("ChallengeModeTimer").SetTimerLabel = function() end
+                infoMock.invokes(function() return "Temple of the Jade Serpent", "party", 8, "Challenge Mode" end)
+                now = 2
+                QuestieTracker:Update()
+                infoMock.invokes(function() return "Outside", "none" end)
+                -- This tracker was loaded as Era, without MoP achievement state. The quest layout is the same.
+                expansion.Current = expansion.Era
+                now = 3
+                QuestieTracker:Update(true)
+
+                assert.are.equal(3, layouts)
+            end)
         end)
 
         describe("saved focus before the first full refresh", function()

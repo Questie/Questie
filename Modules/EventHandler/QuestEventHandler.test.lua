@@ -884,9 +884,13 @@ describe("QuestEventHandler", function()
             assert.are.equal(1, #queued)
             queued[1]()
             assert.spy(QuestieTracker.Update).was.called(1)
+            -- The acceptance shares the queued update, so it must not be skipped as an unchanged quest-log check.
+            assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker, false)
 
             QuestEventHandler.QuestLogUpdate()
             assert.are.equal(2, #queued)
+            queued[2]()
+            assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker, true)
         end)
     end)
 

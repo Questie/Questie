@@ -230,6 +230,27 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("GetQuestItemIds", function()
+        it("returns owned, usable candidates in button order without touching frames", function()
+            getItemSpellMock.returns("Use Quest Item", 111)
+            getItemCountMock.invokes(function(itemId) return itemId == 789 and 0 or 1 end)
+            TrackerLinePool.GetNextItemButton = spy.new(function() end)
+            local quest = {
+                Id = 1,
+                sourceItemId = 123,
+                requiredSourceItems = {456, 789},
+                Objectives = {},
+                ObjectiveData = {{Type = "item", Id = 123}},
+            }
+
+            local itemIds, nativeItemId = TrackerUtils.GetQuestItemIds(quest, 0)
+
+            assert.are.same({123, 456}, itemIds)
+            assert.is_nil(nativeItemId)
+            assert.spy(TrackerLinePool.GetNextItemButton).was.not_called()
+        end)
+    end)
+
     describe("AddQuestItemButtons", function()
         it("should add sourceItemId as primary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)

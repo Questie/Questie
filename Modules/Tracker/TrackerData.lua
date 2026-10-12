@@ -12,6 +12,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type TrackerQuestieBehavior
 local TrackerQuestieBehavior = QuestieLoader:ImportModule("TrackerQuestieBehavior")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
@@ -29,12 +31,49 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@field completionState number Numeric quest state resolved by TrackerQuestieBehavior.
 ---@field isComplete boolean Additional completion state resolved by TrackerQuestieBehavior, distinct from IsComplete().
 ---@field IsComplete fun(self: TrackerQuest): number
+---@field layoutSignature string Value of _GetLayoutSignature at the last refresh.
 
 local quests = {}
 local counterTypes = {monster = true, item = true, object = true, reputation = true, killcredit = true, spell = true}
+-- Increases whenever a quest is added, removed or changes its layout signature.
+local revision = 0
 
 local function _IsComplete(self)
     return self.completionState
+end
+
+---tostring keeps every value as one field: table.concat rejects booleans, and assigning nil adds no field.
+---@param parts string[]
+local function _AppendStrings(parts, ...)
+    for index = 1, select("#", ...) do
+        parts[#parts + 1] = tostring((select(index, ...)))
+    end
+end
+
+---The quest data the tracker layout reads for one quest, as one comparable string.
+---Settings and UI state are not included: changing them calls QuestieTracker:Update() directly.
+---Quest timers are not included either. They usually start on acceptance, which always lays out.
+---@param displayQuest TrackerQuest
+---@return string
+local function _GetLayoutSignature(displayQuest)
+    -- Tags, completion text and item buttons can change without a quest event. Layout reads them from the same sources.
+    local itemIds = TrackerUtils.GetQuestItemIds(displayQuest, displayQuest:IsComplete())
+    local parts = {}
+    _AppendStrings(parts, displayQuest.name, displayQuest.level, displayQuest.zoneName, displayQuest.zoneOrSort,
+        displayQuest.completionState, displayQuest.isComplete, displayQuest.objectivesLoaded, displayQuest.enrichment ~= nil,
+        QuestieLib:GetQuestTypeSuffix(displayQuest.Id), TrackerUtils:GetCompletionText(displayQuest), table.concat(itemIds, ","))
+    for _, objective in ipairs(displayQuest.Objectives) do
+        _AppendStrings(parts, objective.Type, objective.Description, objective.Collected, objective.Needed, objective.Completed)
+    end
+    return table.concat(parts, "\031")
+end
+
+---@param questId QuestId
+local function _ForgetQuest(questId)
+    if quests[questId] then
+        quests[questId] = nil
+        revision = revision + 1
+    end
 end
 
 -- Both bulk rendering and single-quest progress updates retain record identity so existing rows see new state.
@@ -88,6 +127,12 @@ local function _RefreshQuest(questId, title, level, header, nativeComplete)
     -- Resolve quest completion and apply Questie-specific behavior in one place, including the unloaded case.
     -- This step never replaces the native title, objective wording or live progress with database values.
     TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
+
+    local signature = _GetLayoutSignature(displayQuest)
+    if signature ~= displayQuest.layoutSignature then
+        displayQuest.layoutSignature = signature
+        revision = revision + 1
+    end
     return displayQuest
 end
 
@@ -129,7 +174,7 @@ function TrackerData.Refresh()
     end
     for questId in pairs(quests) do
         if not present[questId] then
-            quests[questId] = nil
+            _ForgetQuest(questId)
         end
     end
     return quests
@@ -156,7 +201,7 @@ end
 function TrackerData.RefreshQuest(questId)
     local index = QuestieCompat.GetQuestLogIndexByID(questId)
     if not index or index <= 0 then
-        quests[questId] = nil
+        _ForgetQuest(questId)
         return nil
     end
     local title, level, _, isHeader, _, complete, _, currentId = QuestieCompat.GetQuestLogTitle(index)
@@ -195,7 +240,13 @@ end
 
 ---@param questId QuestId
 function TrackerData.RemoveQuest(questId)
-    quests[questId] = nil
+    _ForgetQuest(questId)
+end
+
+---Changes whenever a refresh or removal changes the quest data the tracker layout reads. Compare for equality only.
+---@return number
+function TrackerData.GetLayoutRevision()
+    return revision
 end
 
 ---@param displayQuest TrackerQuest
