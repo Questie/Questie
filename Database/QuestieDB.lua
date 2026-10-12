@@ -121,46 +121,19 @@ QuestieDB.DoableStates = {
     ARENA_RATING = 32,
 }
 
--- * race bitmask data, for easy access
--- ? The PlayableRaceBit can be found in ChrRaces.dbc
--- ? https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
--- ? The values below are calculated by 2^PlayableRaceBit
+-- Individual race masks use 2^PlayableRaceBit from ChrRaces, not 2^(raceID-1).
+-- https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
+-- The provider selects faction membership for its active content flavor. Missing capability
+-- stays unset here so VersionCheckDB can report it during startup, rather than guessing Classic masks.
+local factionRaceMasks = LibQuestieDB.Enum.factionRaceMasks
+if type(factionRaceMasks) ~= "table" then
+    factionRaceMasks = nil
+end
+
 ---@class RaceKeys
 QuestieDB.raceKeys = {
-    -- Allow all alliance races
-    ALL_ALLIANCE = (function()
-        if Questie.IsClassic and not Questie.IsForever then
-            return 77
-        elseif Questie.IsTBC or Questie.IsWotlk then
-            return 1101
-        elseif Questie.IsCata then
-            return 2098253
-        elseif Questie.IsMoP then
-            return 18875469
-        elseif Questie.IsForever then
-            return 4294967373
-        else
-            print("Unknown expansion for ALL_ALLIANCE")
-            return 77
-        end
-    end)(),
-    -- Allow all horde races
-    ALL_HORDE = (function()
-        if Questie.IsClassic and not Questie.IsForever then
-            return 178
-        elseif Questie.IsTBC or Questie.IsWotlk then
-            return 690
-        elseif Questie.IsCata then
-            return 946
-        elseif Questie.IsMoP then
-            return 33555378
-        elseif Questie.IsForever then
-            return 8589934770
-        else
-            print("Unknown expansion for ALL_HORDE")
-            return 178
-        end
-    end)(),
+    ALL_ALLIANCE = factionRaceMasks and factionRaceMasks.Alliance,
+    ALL_HORDE = factionRaceMasks and factionRaceMasks.Horde,
     -- Allow all races (No limit on allowed races)
     NONE = 0,
 
@@ -184,209 +157,11 @@ QuestieDB.raceKeys = {
     --[[33]] SKYBORNE_HORDE = 8589934592,    -- Forever -- Windshaper Skyborne
 }
 
--- Combining these with "and" makes the order matter
--- 1 and 2 ~= 2 and 1
-QuestieDB.classKeys = {
-    -- Allow all classes
-    ALL_CLASSES = (function()
-        if Questie.IsClassic then
-            -- alliance 1439, horde 1501, all 1503
-            return 1503
-        elseif Questie.IsTBC then
-            return 1503
-        elseif Questie.IsWotlk or Questie.IsCata then
-            return 1535
-        elseif Questie.IsMoP then
-            return 2047
-        else
-            print("Unknown expansion for ALL_CLASSES")
-            return 1503
-        end
-    end)(),
+QuestieDB.classKeys = LibQuestieDB.Enum.classKeys
+QuestieDB.factionIDs = LibQuestieDB.Enum.factionIDs
 
-    NONE = 0,
-    WARRIOR = 1,
-    PALADIN = 2,
-    HUNTER = 4,
-    ROGUE = 8,
-    PRIEST = 16,
-    DEATH_KNIGHT = 32,
-    SHAMAN = 64,
-    MAGE = 128,
-    WARLOCK = 256,
-    MONK = 512,
-    DRUID = 1024
-}
-
--- Questie-owned semantic constants retained independently of provider schema metadata.
----@enum FactionIDs
-QuestieDB.factionIDs = {
-    BOOTY_BAY = 21,
-    IRONFORGE = 47,
-    GNOMEREGAN_EXILES = 54,
-    THORIUM_BROTHERHOOD = 59,
-    HORDE = 67,
-    UNDERCITY = 68,
-    DARNASSUS = 69,
-    SYNDICATE = 70,
-    STORMWIND = 72,
-    ORGRIMMAR = 76,
-    THUNDER_BLUFF = 81,
-    BLOODSAIL_BUCCANEERS = 87,
-    GELKIS_CLAN_CENTAUR = 92,
-    MAGRAM_CLAN_CENTAUR = 93,
-    STEAMWHEEDLE_CARTEL = 169,
-    ZANDALAR_TRIBE = 270,
-    RAVENHOLDT = 349,
-    GADGETZAN = 369,
-    ALLIANCE = 469,
-    RATCHET = 470,
-    THE_LEAGUE_OF_ARATHOR = 509,
-    THE_DEFILERS = 510,
-    ARGENT_DAWN = 529,
-    DARKSPEAR_TROLLS = 530,
-    TIMBERMAW_HOLD = 576,
-    EVERLOOK = 577,
-    WINTERSABER_TRAINERS = 589,
-    CENARION_CIRCLE = 609,
-    FROSTWOLF_CLAN = 729,
-    STORMPIKE_GUARD = 730,
-    HYDRAXIAN_WATERLORDS = 749,
-    SHEN_DRALAR = 809,
-    WARSONG_OUTRIDERS = 889,
-    SILVERWING_SENTINELS = 890,
-    ALLIANCE_FORCES = 891,
-    HORDE_FORCES = 892,
-    DARKMOON_FAIRE = 909,
-    BROOD_OF_NOZDORMU = 910,
-    SILVERMOON_CITY = 911,
-    TRANQUILLIEN = 922,
-    EXODAR = 930,
-    THE_ALDOR = 932,
-    THE_CONSORTIUM = 933,
-    THE_SCRYERS = 934,
-    THE_SHATAR = 935,
-    SHATTRATH_CITY = 936,
-    THE_MAGHAR = 941,
-    CENARION_EXPEDITION = 942,
-    HONOR_HOLD = 946,
-    THRALLMAR = 947,
-    THE_VIOLET_EYE = 967,
-    SPOREGGAR = 970,
-    KURENAI = 978,
-    THE_BURNING_CRUSADE = 980,
-    KEEPERS_OF_TIME = 989,
-    THE_SCALE_OF_THE_SANDS = 990,
-    LOWER_CITY = 1011,
-    ASHTONGUE_DEATHSWORN = 1012,
-    NETHERWING = 1015,
-    SHATARI_SKYGUARD = 1031,
-    ALLIANCE_VANGUARD = 1037,
-    OGRILA = 1038,
-    VALIANCE_EXPEDITION = 1050,
-    HORDE_EXPEDITION = 1052,
-    THE_TAUNKA = 1064,
-    THE_HAND_OF_VENGEANCE = 1067,
-    EXPLORERS_LEAGUE = 1068,
-    THE_KALUAK = 1073,
-    SHATTERED_SUN_OFFENSIVE = 1077,
-    WARSONG_OFFENSIVE = 1085,
-    KIRIN_TOR = 1090,
-    THE_WYRMREST_ACCORD = 1091,
-    THE_SILVER_COVENANT = 1094,
-    WRATH_OF_THE_LICH_KING = 1097,
-    KNIGHTS_OF_THE_EBON_BLADE = 1098,
-    FRENZYHEART_TRIBE = 1104,
-    THE_ORACLES = 1105,
-    ARGENT_CRUSADE = 1106,
-    SHOLAZAR_BASIN = 1117,
-    THE_SONS_OF_HODIR = 1119,
-    THE_SUNREAVERS = 1124,
-    THE_FROSTBORN = 1126,
-    BILGEWATER_CARTEL = 1133,
-    GILNEAS = 1134,
-    THE_EARTHEN_RING = 1135,
-    THE_ASHEN_VERDICT = 1156,
-    GUARDIANS_OF_HYJAL = 1158,
-    THERAZANE = 1171,
-    DRAGONMAW_CLAN = 1172,
-    RAMKAHEN = 1173,
-    WILDHAMMER_CLAN = 1174,
-    BARADINS_WARDENS = 1177,
-    HELLSCREAMS_REACH = 1178,
-    AVENGERS_OF_HYJAL = 1204,
-    SHANG_XIS_ACADEMY = 1216,
-    FOREST_HOZEN = 1228,
-    PEARLFIN_JINYU = 1242,
-    GOLDEN_LOTUS = 1269,
-    SHADO_PAN = 1270,
-    ORDER_OF_THE_CLOUD_SERPENT = 1271,
-    THE_TILLERS = 1272,
-    JOGU_THE_DRUNK = 1273,
-    ELLA = 1275,
-    OLD_HILLPAW = 1276,
-    CHEE_CHEE = 1277,
-    SHO = 1278,
-    HAOHAN_MUDCLAW = 1279,
-    TINA_MUDCLAW = 1280,
-    GINA_MUDCLAW = 1281,
-    FISH_FELLREED = 1282,
-    FARMER_FUNG = 1283,
-    THE_ANGLERS = 1302,
-    THE_KLAXXI = 1337,
-    THE_AUGUST_CELESTIALS = 1341,
-    THE_LOREWALKERS = 1345,
-    THE_BREWMASTERS = 1351,
-    HUOJIN_PANDAREN = 1352,
-    TUSHUI_PANDAREN = 1353,
-    NOMI = 1357, -- hidden faction
-    NAT_PAGLE = 1358,
-    THE_BLACK_PRINCE = 1359,
-    BRAWLGAR_ARENA_SEASON_1 = 1374,
-    DOMINANCE_OFFENSIVE = 1375,
-    OPERATION_SHIELDWALL = 1376,
-    KIRIN_TOR_OFFENSIVE = 1387,
-    SUNREAVER_ONSLAUGHT = 1388,
-    AKAMAS_TRUST = 1416,
-    BIZMOS_BRAWLPUB_SEASON_1 = 1419,
-    SHADO_PAN_ASSAULT = 1435,
-    DARKSPEAR_REBELLION = 1440,
-    CENARION_SCOUTS = 2719,
-    KIRIN_TOR_FOREVER = 2740,
-    BARKSKIN_BURROW = 2747,
-    NIGHTCLAW_DRUIDS = 2758,
-    GUARDIANS_OF_HYJAL_FOREVER = 2765,
-    WINDSHAPERS = 2778,
-    HIGH_ORDER = 2779,
-    BOLDEROK_CLAN = 2782,
-    EARTHEN_RING_FOREVER = 2787,
-    THE_WATCHERS = 2819,
-    BROTHERHOOD_OF_THE_HORSE = 2826,
-}
-
-
----@enum NpcFlags
-QuestieDB.npcFlags = {
-    NONE = 0,
-    GOSSIP = 1,
-    QUEST_GIVER = 2,
-    VENDOR = Questie.IsClassic and 4 or 128,
-    FLIGHT_MASTER = Questie.IsClassic and 8 or 8192,
-    TRAINER = 16,
-    SPIRIT_HEALER = Questie.IsClassic and 32 or 16384,
-    SPIRIT_GUIDE = Questie.IsClassic and 64 or 32768,
-    INNKEEPER = Questie.IsClassic and 128 or 65536,
-    BANKER = Questie.IsClassic and 256 or 131072,
-    PETITIONER = Questie.IsClassic and 512 or 262144,
-    TABARD_DESIGNER = Questie.IsClassic and 1024 or 524288,
-    BATTLEMASTER = Questie.IsClassic and 2048 or 1048576,
-    AUCTIONEER = Questie.IsClassic and 4096 or 2097152,
-    STABLEMASTER = Questie.IsClassic and 8192 or 4194304,
-    REPAIR = Questie.IsClassic and 16384 or 4096,
-    BARBER = (Expansions.Current >= Expansions.Wotlk) and 33554432 or nil,
-    ARCANE_REFORGER = Expansions.Current >= Expansions.Cata and 134217728 or nil,
-    TRANSMOGRIFIER = Expansions.Current >= Expansions.Cata and 268435456 or nil,
-}
+---@alias NpcFlags integer
+QuestieDB.npcFlags = LibQuestieDB.Enum.npcFlags
 
 QuestieDB.itemClasses = {
     QUEST = 12,

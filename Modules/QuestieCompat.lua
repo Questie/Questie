@@ -188,14 +188,19 @@ end
 ---@return QuestId questID
 function QuestieCompat.GetQuestGreetingQuestID(index, isActive, npcGuid)
     local questID
-    if isActive and _G.GetActiveQuestID then
-        questID = _G.GetActiveQuestID(index)
-    elseif not isActive and _G.GetAvailableQuestInfo then
+    if isActive and GetActiveQuestID then
+        questID = GetActiveQuestID(index)
+    elseif not isActive and GetAvailableQuestInfo then
         -- Forever includes the quest ID in position 5; older Classic tuples end before it.
-        questID = select(5, _G.GetAvailableQuestInfo(index))
+        questID = select(5, GetAvailableQuestInfo(index))
     end
     if questID and questID > 0 then
         return questID
+    end
+
+    if (issecretvalue and issecretvalue(npcGuid)) or (not npcGuid) then
+        -- Native IDs remain usable, but title lookup needs a readable giver to disambiguate quests.
+        return 0
     end
 
     -- Classic greeting APIs expose titles rather than IDs. Keep the NPC and starter/finisher context.
@@ -337,15 +342,15 @@ function QuestieCompat.IsSpellKnown(spellID)
     end
 end
 
--- Forever's objective tracker can show itself during content updates. Own suppression only while requested,
--- and defer protected visibility changes until combat ends. Classic keeps its existing WatchFrame policy.
+-- Forever's objective tracker can show itself during combat updates. Suppress it while requested;
+-- only protected hiding and restoring Blizzard's layout need to wait until combat ends.
 local hideObjectiveTracker = false
 local objectiveTrackerHooked = false
 local visibilityFrame
 
 ---Hides Blizzard's tracker when requested, or lets Blizzard restore its normal visibility.
 local function ApplyObjectiveTrackerVisibility()
-    if InCombatLockdown() then
+    if InCombatLockdown() and (not hideObjectiveTracker or (ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsProtected())) then
         -- Retry after combat using the latest request, not the state when combat began.
         visibilityFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
         return
@@ -366,7 +371,7 @@ if isForever then
     visibilityFrame:SetScript("OnEvent", ApplyObjectiveTrackerVisibility)
 end
 
----Hides Blizzard's quest tracker, waiting until combat ends on Forever.
+---Hides Blizzard's quest tracker, deferring protected frames until combat ends on Forever.
 function QuestieCompat.HideWatchFrame()
     if isForever then
         -- Forever: keep later native OnShow calls suppressed, without reparenting protected frames.
@@ -565,6 +570,14 @@ function QuestieCompat.GetItemInfo(item)
     error(errorMsg, 2)
 end
 
+---Classifies quests whose objectives can change; true does not mean another stage remains.
+---Clients without this API retain legacy completion handling, not a guarantee of exhaustive objectives.
+---@param questId QuestId
+---@return boolean
+function QuestieCompat.IsQuestSequenced(questId)
+    return type(IsQuestSequenced) == "function" and IsQuestSequenced(questId) == true
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestFlaggedCompleted)
 ---Returns whether the game currently flags this quest as completed for the character.
 ---@param questID QuestId
@@ -645,19 +658,35 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
     error(errorMsg, 2)
 end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
----Returns how many levels below the player a quest can be before becoming gray.
+---[GetQuestGreenRange Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestGreenRange)
+---[C_QuestLog.GetTrivialRange Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestLog.GetTrivialRange)
+---Returns the inclusive green-level offset used for triviality and available-quest filtering.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
-    if isForever then
-        -- The unit-based API requires "player"; the legacy helper is already player-specific.
-        return UnitQuestTrivialLevelRange("player")
+    -- Classic to MoP, or fallback when Forever's API is unavailable
+    if GetQuestGreenRange and (not isForever or not C_QuestLog.GetTrivialRange) then
+        return GetQuestGreenRange()
     end
-    -- Classic: preserve the legacy helper when available.
-    if GetQuestGreenRange then
-        return GetQuestGreenRange("player")
+    -- Forever, or any client without the legacy helper
+    if C_QuestLog and C_QuestLog.GetTrivialRange then
+        -- Blizzard's level-based difficulty check keeps quests green at this offset (<=), despite the API's name.
+        return C_QuestLog.GetTrivialRange()
     end
-    return UnitQuestTrivialLevelRange("player")
+    print("ERROR: Something went seriously wrong in Questie's GetQuestGreenRange, please tell the devs on Discord or Github.")
+    return 10 -- default to level 50 in case of missing functions
+end
+
+---Returns Forever's quest-ID difficulty for coloring, not for triviality or availability checks.
+---Returns nil on Classic or when the ID, cached data, or API is unavailable; callers choose the fallback.
+---Does not request quest data or schedule a redraw when data becomes available.
+---@param questId QuestId?
+---@return number? difficulty Enum.RelativeContentDifficulty, or nil when unavailable.
+function QuestieCompat.GetQuestDifficulty(questId)
+    -- Require cached quest data: uncached IDs can report Fair regardless of their actual difficulty.
+    if isForever and questId and questId > 0 and C_PlayerInfo and C_PlayerInfo.GetContentDifficultyQuestForPlayer
+        and HaveQuestData(questId) then
+        return C_PlayerInfo.GetContentDifficultyQuestForPlayer(questId)
+    end
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetItemCount)

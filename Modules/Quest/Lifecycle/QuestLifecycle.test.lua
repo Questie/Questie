@@ -67,11 +67,17 @@ describe("QuestLifecycle", function()
     end)
 
     describe("AcceptQuest", function()
-        it("should do nothing when quest is not in DB", function()
+        it("tracks an unknown quest without creating map enrichment", function()
             QuestieDB.GetQuest = spy.new(function() return nil end)
+
+            Questie.db.char.collapsedQuests[999] = true
+            Questie.db.char.AutoUntrackedQuests[999] = true
 
             QuestLifecycle:AcceptQuest(999)
 
+            assert.is_nil(Questie.db.char.collapsedQuests[999])
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[999])
+            assert.spy(QuestieTracker.Update).was.called(1)
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
             assert.spy(QuestieDB.QueryQuestSingle).was.not_called()
             assert.is_nil(QuestiePlayer.currentQuestlog[999])
@@ -360,9 +366,11 @@ describe("QuestLifecycle", function()
     end)
 
     describe("AbandonQuest", function()
-        it("should do nothing when quest is not in currentQuestlog", function()
+        it("removes tracker state even without a database-backed quest", function()
             QuestLifecycle:AbandonQuest(999)
 
+            assert.spy(QuestieTracker.RemoveQuest).was.called_with(QuestieTracker, 999)
+            assert.spy(QuestieTracker.Update).was.called(1)
             assert.spy(QuestieDB.GetQuest).was.not_called()
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
         end)

@@ -56,6 +56,13 @@ function QuestLifecycle:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
 
     if (not quest) then
+        -- Tracking belongs to the live quest log even when map enrichment is unavailable.
+        Questie.db.char.collapsedQuests[questId] = nil
+        Questie.db.char.AutoUntrackedQuests[questId] = nil
+        CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
         return
     end
 
@@ -184,6 +191,12 @@ end
 
 ---@param questId number
 function QuestLifecycle:AbandonQuest(questId)
+    -- Unknown quests have tracker state without an entry in the enriched map quest log.
+    QuestieTracker:RemoveQuest(questId)
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
+
     if (not QuestiePlayer.currentQuestlog[questId]) then
         return
     end
@@ -218,11 +231,6 @@ function QuestLifecycle:AbandonQuest(questId)
             end
         end
     end
-
-    QuestieTracker:RemoveQuest(questId)
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
 
     -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
     CommsVisibility:ScheduleSnapshot("ABANDON_QUEST")

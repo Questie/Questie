@@ -57,6 +57,28 @@ describe("QuestieDB", function()
         }
     end)
 
+    describe("raceKeys", function()
+        it("binds the provider's active faction masks without selecting a flavor again", function()
+            mock.lib.Enum.factionRaceMasks = {Alliance = 4294967373, Horde = 8589934770}
+
+            dofile("Database/QuestieDB.lua")
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+            assert.are_same(4294967373, QuestieDB.raceKeys.ALL_ALLIANCE)
+            assert.are_same(8589934770, QuestieDB.raceKeys.ALL_HORDE)
+        end)
+
+        it("leaves missing faction masks unset until the startup capability check", function()
+            mock.lib.Enum.factionRaceMasks = nil
+
+            dofile("Database/QuestieDB.lua")
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+            assert.is_nil(QuestieDB.raceKeys.ALL_ALLIANCE)
+            assert.is_nil(QuestieDB.raceKeys.ALL_HORDE)
+        end)
+    end)
+
     describe("GetQuest", function()
         it("should return a quest", function()
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)

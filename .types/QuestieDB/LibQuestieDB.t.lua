@@ -1,6 +1,20 @@
 ---@meta _
 
+---@class QuestieDBFactionRaceMasks
+---@field Alliance integer Active provider flavor's Alliance race mask.
+---@field Horde integer Active provider flavor's Horde race mask.
+
 ---@class QuestieDBEnums
+---@field zoneIDs table<string, AreaId> Shared named area identities; not a map-availability or playable-content list. Read-only by contract.
+---@field questKeys QuestieDBQuestCorrectionKeys Canonical indices and Correction-only add/remove aliases.
+---@field npcKeys QuestieDBNpcCorrectionKeys Canonical indices and Correction-only add/remove aliases.
+---@field itemKeys QuestieDBItemCorrectionKeys Canonical indices and Correction-only add/remove aliases.
+---@field objectKeys QuestieDBObjectCorrectionKeys Canonical indices and Correction-only add/remove aliases.
+---@field raceMaskById table<integer, integer?> Actual race ID to requiredRaces mask; unknown IDs return nil. Encoding, not playability; read-only by contract.
+---@field factionRaceMasks QuestieDBFactionRaceMasks Active provider flavor faction masks; read-only by contract.
+---@field factionIDs table<string, FactionId> Shared faction IDs by name; read-only by contract.
+---@field classKeys table<string, integer> Active provider flavor's class bitmasks, including ALL_CLASSES; read-only by contract.
+---@field npcFlags table<string, integer> Active provider flavor's NPC flag bitmasks; flags a flavor lacks are absent. Read-only by contract.
 ---@field phases table<string, integer> Shared phase names to Blizzard or Questie-defined fake IDs; read-only by contract for consumers.
 
 ---@class LibQuestieDB
@@ -9,9 +23,10 @@
 ---@field Item ItemDB Item entity reads.
 ---@field Object ObjectDB Object entity reads.
 ---@field contractVersion integer Public API and storage contract version.
+---@field minSupportedContract integer Oldest supported consumer contract.
 ---@field addonName string Loaded addon name.
 ---@field readMode QuestieDBReadMode Active source or baked reader.
----@field RequireContract fun(required: number): boolean, string? Check whether this release supports a consumer contract.
+---@field RequireContract fun(required: integer): boolean, string? Check whether this release supports a positive integer consumer contract.
 ---@field InvalidateCache fun(datatype?: QuestieDBDatatype, id?: number) Drop one entity cache, one datatype cache, or every cache.
 ---@field ApplyRegisteredCorrections fun(owner?: string): integer Apply pending Corrections for one owner or all pending owners.
 ---@field RegisterCorrection fun(owner: string, datatype: QuestieDBDatatype, name: string, func: QuestieDBCorrectionProvider, loadOrder?: number): QuestieDBCorrectionEntry Register a Static Correction.
@@ -26,5 +41,7 @@
 ---@field ObjectiveFirst QuestieDBObjectiveFirst Shared objective-ordering hints; read-only for consumers.
 ---@field l10n QuestieDBL10n Localization controls and state.
 ---@field Support table Whole-table support data.
+---@field EraToForever fun(areaId: AreaId, x: number, y: number): number, number Explicit Era-to-Forever zone percentages (0-100), unrounded; other AreaIDs pass through. Preserves (-1,-1), rejects partial sentinels. Never apply to already-Forever points.
+---@field EraToForeverByUiMapId fun(uiMapId: integer, x: number, y: number): number, number Same projection using the point's Era UiMapID; other UiMapIDs pass through. No automatic flavor selection.
 ---@field ModeIndicator table Source-mode indicator API.
 LibQuestieDB = {}

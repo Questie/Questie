@@ -407,7 +407,7 @@ local genericsLocales = {
         ["koKR"] = "파티",
         ["ptBR"] = "Grupo",
         ["ruRU"] = "Группа",
-        ["zhCN"] = "队伍",
+        ["zhCN"] = "小队",
         ["zhTW"] = "小隊",
     },
     ["Raid"] = {

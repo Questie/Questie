@@ -55,7 +55,8 @@ local dungeons -- Shared provider data; unlike the maps, this table is not modif
 ---@type table<AreaId, AreaId>
 local alternativeDungeonAreaIdToDungeonAreaId = {}
 
-local zoneMap = {} -- Generated
+-- Working quest groups shared by the builder and seasonal splitter, then returned to the caller.
+local zoneMap = {}
 
 local HIDE_ON_MAP
 
@@ -244,13 +245,15 @@ do
     local yieldAmount = 200
     local extraYield = yieldAmount / 4
 
-    --Keep yield here as there is potentially a case where this wants to be run outside of a coroutine
-
-    ---@param yield boolean?
-    ---@return table
-    function ZoneDB.GetZonesWithQuests(yield)
+    ---Build quest groups for the player's race/class after database and ZoneDB initialization.
+    ---Each call scans the database and replaces ZoneDB's latest map; previously returned maps remain intact.
+    ---Build once and reuse the result. Overrides only regroup this index, never the quests' database fields.
+    ---@param yield boolean? @True requires a coroutine managed by ThreadLib; false/nil builds synchronously.
+    ---@param overrides table<ZoneOrSort, ZoneOrSort>? @Source group -> exact destination; applied once after seasonal splitting.
+    ---@return table<ZoneOrSort, table<QuestId, boolean>> zoneMap @Shared with GetRelevantZones; callers should treat it as read-only.
+    function ZoneDB.GetZonesWithQuests(yield, overrides)
+        zoneMap = {}
         local count = 0
-        local ridingProfession = QuestieProfessions.professionKeys.RIDING
         local hiddenQuests = QuestieCorrections.hiddenQuests
         local _HasRequiredRace = QuestiePlayer.HasRequiredRace
         local _HasRequiredClass = QuestiePlayer.HasRequiredClass
@@ -259,15 +262,8 @@ do
         for questId in pairs(QuestieDB.QuestPointers) do
             if (not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId) then
                 if _HasRequiredRace(_QueryQuestSingle(questId, "requiredRaces")) and _HasRequiredClass(_QueryQuestSingle(questId, "requiredClasses")) then
-                    local zoneOrSort, requiredSkill = _QueryQuestSingle(questId, "zoneOrSort"), _QueryQuestSingle(questId, "requiredSkill")
-                    if requiredSkill and requiredSkill[1] ~= ridingProfession then
-                        zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
-
-                        if (not zoneMap[zoneOrSort]) then
-                            zoneMap[zoneOrSort] = {}
-                        end
-                        zoneMap[zoneOrSort][questId] = true
-                    elseif zoneOrSort > 0 then
+                    local zoneOrSort = _QueryQuestSingle(questId, "zoneOrSort")
+                    if zoneOrSort > 0 then
                         local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
 
                         if parentZoneId then
@@ -322,6 +318,25 @@ do
         end
         if yield then coroutine.yield() end
         zoneMap = _ZoneDB.SplitSeasonalQuests()
+
+        if overrides then
+            -- Regroup final categories, including holiday groups created above.
+            -- Detach sources before merging: A -> B and B -> C must not send A's quests on to C.
+            -- Missing sources create no destination; self-redirects restore the same quest membership.
+            local redirectedQuests = {}
+            for source in pairs(overrides) do
+                redirectedQuests[source] = zoneMap[source]
+                zoneMap[source] = nil
+            end
+            for source, quests in pairs(redirectedQuests) do
+                local destination = overrides[source]
+                local destinationQuests = zoneMap[destination] or {}
+                zoneMap[destination] = destinationQuests
+                for questId in pairs(quests) do
+                    destinationQuests[questId] = true
+                end
+            end
+        end
 
         return zoneMap
     end
@@ -445,12 +460,16 @@ function _ZoneDB.SplitSeasonalQuests()
     return updatedZoneMap
 end
 
-function ZoneDB.GetRelevantZones()
+---Build localized dropdown choices from existing quest groups without scanning the quest database again.
+---Only IDs registered in l10n.zoneCategoryLookup can appear; this does not invent labels for override destinations.
+---@param zonesWithQuests table<ZoneOrSort, table<QuestId, boolean>> @The caller's generated map, including its grouping overrides.
+---@return table<number, table<ZoneOrSort, string>>
+function ZoneDB.GetRelevantZones(zonesWithQuests)
     local zones = {}
     for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}
         for id, zoneName in pairs(data) do
-            local zoneQuests = zoneMap[id]
+            local zoneQuests = zonesWithQuests[id]
             if (not zoneQuests) then
                 zones[category][id] = nil
             else

@@ -18,6 +18,35 @@ describe("QuestieCompat", function()
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end)
 
+    describe("IsQuestSequenced", function()
+        local originalIsQuestSequenced
+
+        before_each(function()
+            originalIsQuestSequenced = _G.IsQuestSequenced
+        end)
+
+        after_each(function()
+            _G.IsQuestSequenced = originalIsQuestSequenced
+        end)
+
+        it("forwards the quest ID and returns a positive native classification", function()
+            local classify = spy.new(function() return true end)
+            _G.IsQuestSequenced = function(questId) return classify(questId) end
+            assert.is_true(QuestieCompat.IsQuestSequenced(93927))
+            assert.spy(classify).was.called_with(93927)
+        end)
+
+        it("returns false for a negative classification", function()
+            _G.IsQuestSequenced = function() return false end
+            assert.is_false(QuestieCompat.IsQuestSequenced(93927))
+        end)
+
+        it("returns false when the client has no sequencing API", function()
+            _G.IsQuestSequenced = nil
+            assert.is_false(QuestieCompat.IsQuestSequenced(93927))
+        end)
+    end)
+
     describe("GetAvailableQuests", function()
         it("should error when no function is available", function()
             _G.C_GossipInfo = nil
@@ -250,7 +279,7 @@ describe("QuestieCompat", function()
         local globalNames = {
             "GetActiveQuestID", "GetAvailableQuestInfo", "GetActiveTitle", "GetAvailableTitle",
             "QuestFrameGreetingPanel", "QuestTitleButton1", "QuestTitleButton2",
-            "QuestTitleButton1QuestIcon", "QuestTitleButton2QuestIcon",
+            "QuestTitleButton1QuestIcon", "QuestTitleButton2QuestIcon", "issecretvalue",
         }
         local npcGuid = "Creature-0-0-0-0-123-0"
 
@@ -295,6 +324,24 @@ describe("QuestieCompat", function()
             assert.are.equal(456, QuestieCompat.GetQuestGreetingQuestID(3, false, npcGuid))
             assert.spy(GetAvailableTitle).was.called_with(3)
             assert.spy(QuestieDB.GetQuestIDFromName).was.called_with("Offered Quest", npcGuid, true)
+        end)
+
+        it("uses native greeting IDs even when NPC identity is secret", function()
+            _G.issecretvalue = function(value) return value == npcGuid end
+            _G.GetAvailableQuestInfo = function() return false, 0, false, false, 33 end
+
+            assert.are.equal(33, QuestieCompat.GetQuestGreetingQuestID(1, false, npcGuid))
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
+        end)
+
+        it("does not guess a quest by title without a readable NPC when native IDs are missing", function()
+            _G.issecretvalue = function(value) return value == npcGuid end
+
+            assert.are.equal(0, QuestieCompat.GetQuestGreetingQuestID(1, false, npcGuid))
+            assert.are.equal(0, QuestieCompat.GetQuestGreetingQuestID(1, true, nil))
+            assert.spy(GetActiveTitle).was.not_called()
+            assert.spy(GetAvailableTitle).was.not_called()
+            assert.spy(QuestieDB.GetQuestIDFromName).was.not_called()
         end)
 
         it("resolves Classic active titles in the finisher context", function()
@@ -591,6 +638,93 @@ describe("QuestieCompat status messages", function()
     end)
 end)
 
+describe("QuestieCompat.GetQuestGreenRange", function()
+    local FOREVER_INTERFACE = 16001
+    local MISTS_INTERFACE = 50503
+    local QuestieCompat
+    local originals
+    -- Loading as Forever also creates the tracker visibility frame and installs SetDesaturation.
+    local globalNames = {"GetBuildInfo", "CreateFrame", "SetDesaturation", "C_QuestLog", "GetQuestGreenRange", "print"}
+
+    ---isForever is resolved from the interface version when the module loads.
+    ---@param interfaceVersion number
+    local function loadCompat(interfaceVersion)
+        _G.GetBuildInfo = function() return "", "0", "", interfaceVersion end
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end
+
+    before_each(function()
+        originals = {}
+        for _, name in ipairs(globalNames) do
+            originals[name] = _G[name]
+        end
+        _G.CreateFrame = function() return {SetScript = function() end} end
+        _G.C_QuestLog = {}
+        _G.GetQuestGreenRange = nil
+        _G.print = spy.new(function() end)
+    end)
+
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = originals[name]
+        end
+    end)
+
+    describe("on Forever", function()
+        before_each(function()
+            loadCompat(FOREVER_INTERFACE)
+        end)
+
+        it("returns C_QuestLog.GetTrivialRange unchanged instead of the legacy helper", function()
+            -- Both APIs report the same range on Forever; the spies show which one was read.
+            _G.C_QuestLog.GetTrivialRange = spy.new(function() return 5 end)
+            _G.GetQuestGreenRange = spy.new(function() return 5 end)
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+            assert.spy(C_QuestLog.GetTrivialRange).was.called(1)
+            assert.spy(GetQuestGreenRange).was.not_called()
+        end)
+
+        it("falls back to the legacy helper when C_QuestLog.GetTrivialRange is missing", function()
+            _G.GetQuestGreenRange = spy.new(function() return 5 end)
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+        end)
+
+        it("reports the missing APIs and returns the level 50 green range", function()
+            assert.are.equal(10, QuestieCompat.GetQuestGreenRange())
+            assert.spy(print).was.called(1)
+        end)
+    end)
+
+    describe("on Classic", function()
+        before_each(function()
+            loadCompat(MISTS_INTERFACE)
+        end)
+
+        it("keeps the legacy helper even when C_QuestLog.GetTrivialRange exists", function()
+            _G.C_QuestLog.GetTrivialRange = spy.new(function() return 5 end)
+            _G.GetQuestGreenRange = spy.new(function() return 5 end)
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+            assert.spy(GetQuestGreenRange).was.called(1)
+            assert.spy(C_QuestLog.GetTrivialRange).was.not_called()
+        end)
+
+        it("uses C_QuestLog.GetTrivialRange when the legacy helper is missing", function()
+            _G.C_QuestLog.GetTrivialRange = function() return 5 end
+
+            assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
+        end)
+
+        it("reports the missing APIs and returns the level 50 green range", function()
+            assert.are.equal(10, QuestieCompat.GetQuestGreenRange())
+            assert.spy(print).was.called(1)
+        end)
+    end)
+end)
+
 describe("QuestieCompat modern quest log boundary", function()
     local QuestieCompat
     local originalQuestLog
@@ -748,7 +882,7 @@ describe("QuestieCompat Classic paths", function()
     local originals
     local names = {
         "GetBuildInfo", "Questie", "QuestWatchFrame", "WatchFrame", "CreateFrame",
-        "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "GetQuestGreenRange",
+        "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "C_PlayerInfo", "HaveQuestData",
     }
     local watchFrame
 
@@ -774,12 +908,19 @@ describe("QuestieCompat Classic paths", function()
         for _, name in ipairs(names) do _G[name] = originals[name] end
     end)
 
-    it("retains direct legacy tracker visibility and anchors without installing the Forever bridge", function()
-        QuestieCompat.HideWatchFrame()
-        QuestieCompat.ShowWatchFrame()
-        assert.spy(watchFrame.Hide).was.called(1)
-        assert.spy(watchFrame.Show).was.called(1)
-        assert.are.same({"TOP", "parent", "BOTTOM", 1, 2}, {QuestieCompat.GetWatchFramePoint()})
+    it("retains legacy tracker visibility and anchors across Classic expansions", function()
+        -- Era, TBC, Wrath, Cataclysm and Mists must not use Forever's visibility policy.
+        for index, interfaceVersion in ipairs({11509, 20505, 30403, 40402, 50500}) do
+            _G.GetBuildInfo = function() return "", "0", "", interfaceVersion end
+            dofile("Modules/QuestieCompat.lua")
+            ---@type QuestieCompat
+            QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            QuestieCompat.HideWatchFrame()
+            QuestieCompat.ShowWatchFrame()
+            assert.spy(watchFrame.Hide).was.called(index)
+            assert.spy(watchFrame.Show).was.called(index)
+            assert.are.same({"TOP", "parent", "BOTTOM", 1, 2}, {QuestieCompat.GetWatchFramePoint()})
+        end
         assert.spy(CreateFrame).was.not_called()
         assert.is_nil(SetDesaturation)
     end)
@@ -794,20 +935,26 @@ describe("QuestieCompat Classic paths", function()
         assert.spy(watchFrame.Show).was.not_called()
     end)
 
-    it("preserves Classic's legacy watch, mouse, timer and trivial-range calls", function()
+    it("preserves Classic's legacy watch, mouse and timer calls", function()
         _G.IsQuestWatched = spy.new(function() return true end)
         _G.MouseIsOver = spy.new(function() return true end)
         _G.GetQuestTimers = spy.new(function() return 80, 120 end)
-        _G.GetQuestGreenRange = spy.new(function() return 5 end)
         local frame = {}
         assert.is_true(QuestieCompat.IsQuestWatched(2))
         assert.is_true(QuestieCompat.MouseIsOver(frame, 1, 2, 3, 4))
         assert.are.same({80, 120}, {QuestieCompat.GetQuestTimers(783)})
-        assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
         assert.spy(IsQuestWatched).was.called_with(2)
         assert.spy(MouseIsOver).was.called_with(frame, 1, 2, 3, 4)
         assert.spy(GetQuestTimers).was.called_with(783)
-        assert.spy(GetQuestGreenRange).was.called_with("player")
+    end)
+
+    it("leaves Classic difficulty coloring level-based even when the native API exists", function()
+        _G.C_PlayerInfo = {GetContentDifficultyQuestForPlayer = spy.new(function() return 0 end)}
+        _G.HaveQuestData = spy.new(function() return true end)
+
+        assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+        assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.not_called()
+        assert.spy(HaveQuestData).was.not_called()
     end)
 
     it("does not treat Retail's interface version as Forever", function()
@@ -830,7 +977,7 @@ describe("QuestieCompat Forever paths", function()
     local dependencies = {
         "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "Enum", "CreateFrame",
         "ObjectiveTrackerFrame", "InCombatLockdown", "GetBuildInfo", "Questie", "C_UnitAuras", "AuraUtil",
-        "UnitQuestTrivialLevelRange", "GetCVarBool",
+        "GetCVarBool", "C_PlayerInfo", "HaveQuestData",
     }
     local savedGlobals
     local questInfo
@@ -862,6 +1009,7 @@ describe("QuestieCompat Forever paths", function()
         _G.InCombatLockdown = function() return false end
         _G.ObjectiveTrackerFrame = {
             HookScript = function() end,
+            IsProtected = function() return false end,
             Hide = spy.new(function() end),
             Update = spy.new(function() end),
         }
@@ -898,11 +1046,45 @@ describe("QuestieCompat Forever paths", function()
         assert.are.equal(textureBridge, SetDesaturation)
     end)
 
-    it("uses the unit-based trivial range rather than an existing legacy helper", function()
-        _G.UnitQuestTrivialLevelRange = spy.new(function() return 5 end)
-        _G.GetQuestGreenRange = function() error("legacy helper") end
-        assert.are.equal(5, QuestieCompat.GetQuestGreenRange())
-        assert.spy(UnitQuestTrivialLevelRange).was.called_with("player")
+    describe("GetQuestDifficulty", function()
+        before_each(function()
+            _G.C_PlayerInfo = {GetContentDifficultyQuestForPlayer = spy.new(function() return 0 end)}
+            _G.HaveQuestData = spy.new(function() return true end)
+        end)
+
+        it("returns the quest-ID difficulty including the zero-valued Trivial category", function()
+            assert.are.equal(0, QuestieCompat.GetQuestDifficulty(94414))
+            assert.spy(HaveQuestData).was.called_with(94414)
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.called_with(94414)
+        end)
+
+        it("falls back while data is uncached and reads native difficulty once it is cached", function()
+            _G.HaveQuestData = function() return false end
+
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.not_called()
+
+            _G.HaveQuestData = function() return true end
+
+            assert.are.equal(0, QuestieCompat.GetQuestDifficulty(94414))
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.called_with(94414)
+        end)
+
+        it("does not query native data without a valid quest ID", function()
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(nil))
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(0))
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(-1))
+            assert.spy(HaveQuestData).was.not_called()
+            assert.spy(C_PlayerInfo.GetContentDifficultyQuestForPlayer).was.not_called()
+        end)
+
+        it("falls back when the native difficulty API is unavailable", function()
+            _G.C_PlayerInfo = {}
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+
+            _G.C_PlayerInfo = nil
+            assert.is_nil(QuestieCompat.GetQuestDifficulty(94414))
+        end)
     end)
 
     it("keeps the full Forever aura tuple without calling an existing legacy global", function()
@@ -965,8 +1147,62 @@ describe("QuestieCompat Forever paths", function()
         assert.spy(visibilityFrame.UnregisterEvent).was.called_with(visibilityFrame, "PLAYER_REGEN_ENABLED")
     end)
 
-    it("defers combat-time hiding and reuses one OnShow hook", function()
+    it("keeps the unprotected tracker hidden when Blizzard shows it during combat", function()
+        local shown = true
         local onShow
+        ObjectiveTrackerFrame.HookScript = spy.new(function(_, _, callback) onShow = callback end)
+        ObjectiveTrackerFrame.Hide = function() shown = false end
+        ObjectiveTrackerFrame.Show = function()
+            shown = true
+            onShow()
+        end
+
+        QuestieCompat.HideWatchFrame()
+        assert.is_false(shown)
+        _G.InCombatLockdown = function() return true end
+        ObjectiveTrackerFrame:Show()
+        assert.is_false(shown)
+        ObjectiveTrackerFrame:Show()
+        assert.is_false(shown)
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
+        assert.spy(visibilityFrame.RegisterEvent).was.not_called()
+
+        _G.InCombatLockdown = function() return false end
+        QuestieCompat.ShowWatchFrame()
+        ObjectiveTrackerFrame:Show()
+        assert.is_true(shown)
+        assert.spy(ObjectiveTrackerFrame.Update).was.called(1)
+        assert.spy(ObjectiveTrackerFrame.HookScript).was.called(1)
+    end)
+
+    it("hides an unprotected tracker when suppression is first requested in combat", function()
+        _G.InCombatLockdown = function() return true end
+        QuestieCompat.HideWatchFrame()
+
+        assert.spy(ObjectiveTrackerFrame.Hide).was.called(1)
+        assert.spy(visibilityFrame.RegisterEvent).was.not_called()
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
+    end)
+
+    it("cancels a deferred release when hiding is requested again during combat", function()
+        local waitingForCombat = false
+        visibilityFrame.RegisterEvent = function() waitingForCombat = true end
+        visibilityFrame.UnregisterEvent = function() waitingForCombat = false end
+
+        QuestieCompat.HideWatchFrame()
+        _G.InCombatLockdown = function() return true end
+        QuestieCompat.ShowWatchFrame()
+        assert.is_true(waitingForCombat)
+        QuestieCompat.HideWatchFrame()
+
+        assert.is_false(waitingForCombat)
+        assert.spy(ObjectiveTrackerFrame.Hide).was.called(2)
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
+    end)
+
+    it("defers hiding a protected tracker in combat and reuses one OnShow hook", function()
+        local onShow
+        ObjectiveTrackerFrame.IsProtected = function() return true end
         ObjectiveTrackerFrame.HookScript = spy.new(function(_, _, callback) onShow = callback end)
         _G.InCombatLockdown = function() return true end
         QuestieCompat.HideWatchFrame()

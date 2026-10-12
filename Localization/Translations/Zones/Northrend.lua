@@ -935,7 +935,7 @@ local northrendLocales = {
         ["koKR"] = "세부 지역",
         ["ptBR"] = "Subárea",
         ["ruRU"] = "Sub zone",
-        ["zhCN"] = "Sub zone",
+        ["zhCN"] = "子区域",
         ["zhTW"] = "子區域",
     },
     ["Winter's Terrace"] = {

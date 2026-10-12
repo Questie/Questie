@@ -20,7 +20,19 @@ local _validSubTypes = {Accept = true, Complete = true, Abandon = true}
 ---Returns journey data for all other characters on this account that have journey entries
 ---@return table<string, table> charKey -> journeyData
 local function _GetOtherCharactersWithJourney()
-    local currentKey = UnitName("player") .. " - " .. GetRealmName()
+    -- This needs to stay in sync with the charKey that is created in Libs/AceDB-3.0/AceDB-3.0.lua
+    local currentKey
+    if RegionalUniqueNamesEnabled and RegionalUniqueNamesEnabled() then
+		local name, surname = UnitNameUnmodified("player")
+		if surname then
+			currentKey = name .. " " .. tostring(surname)
+		else
+			currentKey = name
+		end
+    else
+        currentKey = UnitNameUnmodified("player") .. " - " .. GetRealmName()
+    end
+
     local results = {}
     for charKey, charData in pairs((QuestieConfig and QuestieConfig.char) or {}) do
         if charKey ~= currentKey and charData.journey and #charData.journey > 0 then

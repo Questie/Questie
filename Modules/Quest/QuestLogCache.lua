@@ -15,7 +15,6 @@ local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
-local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 -- 3 * (Max possible number of quests in game quest log)
@@ -24,7 +23,8 @@ local MAX_QUEST_LOG_INDEX = 75
 
 --[[
 Example of data in cache table.
-raw_* are as in game's quest log. Their non-raw versions are corrected/modified for addon's easy use.
+text contains Blizzard's accepted wording unchanged, including any progress counters.
+Only progress and completion have raw_* counterparts alongside normalized values.
 
 local cache = {
     [questId] = {
@@ -33,22 +33,20 @@ local cache = {
         isComplete = nil,
         objectives = {
             {
-                text = "Objective Text"
                 type = "monster",
                 finished = false,
                 numFulfilled = 2,
                 numRequired = 3,
-                raw_Text = "Objective Text slain: 2/3",
+                text = "Objective Text slain: 2/3",
                 raw_finished = false
                 raw_numFulfilled = 2,
             },
             {
-                text = "Objective2"
                 type = "item",
                 finished = false,
                 numFulfilled = 0,
                 numRequired = 5,
-                raw_text = "Objective2 : 0/5",
+                text = "Objective2 : 0/5",
                 raw_finished = false,
                 raw_numFulfilled = 0,
             },
@@ -60,12 +58,11 @@ local cache = {
 
 
 ---@class QuestLogCacheObjectiveData
----@field text string "Objective Text"
----@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"
+---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"|string Includes client objective types unknown to Questie.
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number
----@field raw_Text string E.g "Objective Text slain: 2/3",
+---@field text string Accepted native wording, unchanged; e.g. "Objective Text slain: 2/3".
 ---@field raw_finished boolean
 ---@field raw_numFulfilled number
 
@@ -80,11 +77,10 @@ local cache = {
 local cache = {}
 local questCount = 0
 
--- Set to true on LOADING_SCREEN_ENABLED. While active, objective regressions are treated as cache
--- misses so stale data from Blizzard's cache rebuild never triggers sounds or announces.
--- Auto-clears the first time CheckForChanges completes a full scan with no regression suppressions,
--- confirming Blizzard's cache has been fully restored.
-local blizzardQuestCacheStale = false
+-- Loading screens can temporarily lower objective counts. Protect each cached quest until its own
+-- valid, non-regressing snapshot arrives, so an unavailable quest cannot freeze another quest's item decreases.
+---@type table<QuestId, boolean>
+local questsAwaitingRecovery = {}
 
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
 ---@type table<QuestId, QuestLogCacheData>
@@ -95,22 +91,36 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 ---@param oldObjectives QuestLogCacheObjectiveData[]
 ---@param isCompleteAccordingToBlizzard number @ -1 = failed, nil = not complete, 1 = complete
 ---@param suppressRegressions boolean @ when true, treat numFulfilled decreases as cache misses (zone transition)
----@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean suppressedRegression @nil == cache miss. suppressedRegression = true when a regression caused the nil.
+---@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean needsRetry @Nil objectives or retained placeholder rows need another scan.
 local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
     local changedObjIds -- not assigning {} for easier nil when nothing changed
     local allObjectivesFinished = true -- default to true for easier handling
+    local needsRetry = false
+    -- Sounds wait until the whole snapshot is accepted. A later row can still reject it, and the
+    -- retry would then play the same progress sound again.
+    local playObjectiveComplete, playObjectiveProgress = false, false
     local objectives = C_QuestLog_GetQuestObjectives(questId)
+    if not objectives then
+        return nil, nil, isCompleteAccordingToBlizzard, false
+    end
+
+    -- HaveQuestData can be true before individual rows have their type. Reject those snapshots before
+    -- reading any progress. Empty text rows are intentionally omitted below, preserving the existing client workaround.
+    for _, objective in ipairs(objectives) do
+        if not objective.type and objective.text ~= "" then
+            return nil, nil, isCompleteAccordingToBlizzard, false
+        end
+    end
 
     for objIndex=1, #objectives do -- iterate manually to be sure getting those in order
         local oldObj = oldObjectives[objIndex]
         local newObj = objectives[objIndex]
 
-        -- Check if objective.text is in game's cache
-        if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
+        if QuestieLib.IsObjectiveDataLoaded(newObj) then
             if (newObj.text ~= "") then -- Some quests have empty objectives, which shouldn't exist in the first place - We skip those
                 -- Check if objective has changed
-                if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
+                if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
                     -- Not changed
                     newObjectives[objIndex] = oldObj
                     allObjectivesFinished = allObjectivesFinished and oldObj.finished -- if any objective is not finished, whole quest is not complete
@@ -134,23 +144,26 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         changedObjIds[#changedObjIds+1] = objIndex
                     end
 
-                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired == newObj.numFulfilled then
-                        Sounds.PlayObjectiveComplete()
-                    end
-
-                    if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled and newObj.numFulfilled > oldObj.raw_numFulfilled then
-                        Sounds.PlayObjectiveProgress()
+                    -- Sounds are only for a cached objective that was still short of its required count.
+                    -- New rows and already-done rows stay silent.
+                    if oldObj and oldObj.numRequired ~= oldObj.numFulfilled then
+                        if newObj.numRequired == newObj.numFulfilled then
+                            -- Reached the required count.
+                            playObjectiveComplete = true
+                        elseif newObj.numFulfilled > oldObj.raw_numFulfilled then
+                            -- Counted up but still short. Decreases and text-only changes stay silent.
+                            playObjectiveProgress = true
+                        end
                     end
 
                     allObjectivesFinished = allObjectivesFinished and newObj.finished -- if any objective is not finished, whole quest is not complete
 
                     newObjectives[objIndex] = {
-                        raw_text = newObj.text,
+                        text = newObj.text,
                         raw_finished = newObj.finished,
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
                         numRequired = newObj.numRequired,
-                        text = QuestieLib.TrimObjectiveText(newObj.text, newObj.type),
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
                     }
@@ -158,6 +171,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
             end
         else -- objective text not in game's cache
             if oldObj then
+                needsRetry = true
                 Questie.Debug(Questie.DEBUG_INFO, "[GetNewObjectives] objective not in game's cache. Using addon's cache. questID, objIndex:", questId, objIndex)
                 -- Extremely unlikely that the objective has changed from cached version as a change SHOULD trigger fetching data into game cache.
                 -- Possible bug point if there comes desync issues.
@@ -176,12 +190,20 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
 
     local isComplete = isCompleteAccordingToBlizzard
     if (not isCompleteAccordingToBlizzard) then
-        -- if quest is not complete, check if all objectives are finished.
-        -- Blizzard keeps adding invalid empty objectives to quests and therefore not marking them as complete, so we need to work around that.
-        isComplete = allObjectivesFinished and 1 or 0
+        -- A finished visible stage is not a finished sequenced quest. Premature completion would also
+        -- make the recovery guard reject the next stage. Keep the legacy empty-row workaround otherwise.
+        isComplete = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished and 1 or 0
     end
 
-    return newObjectives, changedObjIds, isComplete, false
+    -- Every row was read without rejection. Recorded sounds imply changedObjIds, so the caller saves this snapshot.
+    if playObjectiveComplete then
+        Sounds.PlayObjectiveComplete()
+    end
+    if playObjectiveProgress then
+        Sounds.PlayObjectiveProgress()
+    end
+
+    return newObjectives, changedObjIds, isComplete, needsRetry
 end
 
 -- For profiling
@@ -198,9 +220,6 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
-
-    local suppressRegressions = blizzardQuestCacheStale
-    local hadRegressionCacheMiss = false
 
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         ----- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questID, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isBounty, isStory, isHidden, isScaling = GetQuestLogTitle(questLogIndex)
@@ -225,29 +244,29 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 if blizzardCacheIncorrect then
                     cacheMiss = true
                 else
-                    local newObjectives, changedObjIds, isComplete, suppressedRegression = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
+                    local suppressRegressions = questsAwaitingRecovery[questId] == true
+                    local newObjectives, changedObjIds, isComplete, needsRetry = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
+                    cacheMiss = cacheMiss or needsRetry
 
                     if newObjectives then
-                        if (not cachedQuest) or (#cachedObjectives == #newObjectives and cachedQuest.isComplete ~= isComplete) then
-                            -- Mark all objectives changed to force update those too.
-
-                            -- changedObjIds is nil from GetObjectives() for quests not having objectives. This is easiest place to change it to {}.
+                        -- Unchanged valid data confirms recovery too; retained placeholder rows do not.
+                        if not needsRetry then
+                            questsAwaitingRecovery[questId] = nil
+                        end
+                        if (not cachedQuest) or cachedQuest.isComplete ~= isComplete then
+                            -- Publish completion changes even when the final stage removes objective rows.
+                            -- An empty change list still notifies consumers of the new quest-wide status.
                             changedObjIds = {}
-                            for i=1, #newObjectives do
-                                changedObjIds[i] = i
-                            end
-
-                            if isComplete == 1 then
-                                -- Set all objectives finished if whole quest isComplete.
-                                -- Because of: Game API returns "event" type objectives as unfinished while whole quest isComplete.
-
-                                local o
-                                for i=1, #newObjectives do
-                                    o = newObjectives[i]
-                                    o.finished = true
-                                    o.numFulfilled = o.numRequired
+                            -- Empty native rows are omitted. Preserve sparse indices in ordered notifications.
+                            for index, objective in pairs(newObjectives) do
+                                changedObjIds[#changedObjIds + 1] = index
+                                if isComplete == 1 then
+                                    -- Event objectives can remain unfinished when the whole quest is complete.
+                                    objective.finished = true
+                                    objective.numFulfilled = objective.numRequired
                                 end
                             end
+                            table.sort(changedObjIds)
                         end
 
                         if cachedQuest and cachedQuest.isComplete == 0 and isComplete == 1 then
@@ -269,9 +288,6 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                             changes[questId] = changedObjIds
                         end
                     else
-                        if suppressedRegression then
-                            hadRegressionCacheMiss = true
-                        end
                         cacheMiss = true
                     end
                 end
@@ -304,22 +320,24 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         end
     end
 
-    if blizzardQuestCacheStale and (not hadRegressionCacheMiss) then
-        blizzardQuestCacheStale = false
-    end
-
     return cacheMiss, changes, questIdsChecked
 end
 
---- Called when LOADING_SCREEN_ENABLED fires. Marks Blizzard's quest cache as stale so objective
---- regressions are suppressed until the cache is confirmed restored.
+---Protects cached quests from stale objective decreases until each quest's data recovers.
+---@return nil
 function QuestLogCache.OnLoadingScreenEnabled()
-    blizzardQuestCacheStale = true
+    questsAwaitingRecovery = {}
+    for questId in pairs(cache) do
+        questsAwaitingRecovery[questId] = true
+    end
 end
 
 
+---@param questId QuestId
+---@return nil
 function QuestLogCache.RemoveQuest(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.RemoveQuest] remove questId:", questId)
+    questsAwaitingRecovery[questId] = nil
     if cache[questId] then
         cache[questId] = nil
         questCount = questCount - 1
@@ -338,17 +356,8 @@ function QuestLogCache.TestGameCache()
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) then
-            if HaveQuestData(questId) then
-                local objectives = C_QuestLog_GetQuestObjectives(questId)
-
-                for objIndex=1, #objectives do
-                    local text = objectives[objIndex].text
-                    -- Check if objective.text is not in game's cache
-                    if (not text) or (stringByte(text, 1) == 32) then
-                        gameCacheOK = false
-                    end
-                end
-            else
+            -- Use the loader's client-wording checks, including Forever's counter-first placeholders.
+            if not QuestieLib.GetLoadedQuestObjectives(questId) then
                 gameCacheOK = false
             end
         end
@@ -359,7 +368,18 @@ function QuestLogCache.TestGameCache()
 end
 
 
---- A wrapper function to add error check instead using exposed table directly.
+---Reads the last accepted snapshot when a cache miss is expected, without reporting an error.
+---Tracker and tooltip rendering can run before the initial snapshot loads or for party-only quests
+---absent from the local cache. Those callers need nil to choose a fallback, not GetQuest's stack trace.
+---This only reads the cache: it never queries Blizzard, starts a retry, or changes cached data.
+---@param questId QuestId
+---@return QuestLogCacheData? @Borrowed snapshot; NEVER modify the returned table or its objectives.
+function QuestLogCache.TryGetQuest(questId)
+    return cache[questId]
+end
+
+---Reads a quest that the caller expects to be cached; reports an error when that invariant is broken.
+---Use TryGetQuest instead when absence is normal and the caller can render a fallback.
 ---@param questId QuestId
 ---@return QuestLogCacheData? @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuest(questId)
@@ -425,13 +445,13 @@ local function DebugPrintObjective(q, i, o)
         print(" ", i.."/"..#q.objectives..":",
             o.numFulfilled.."/"..o.numRequired.."="..tostring(o.finished),
             o.type,
-            "\""..o.raw_text.."\" \""..o.text.."\"")
+            "\""..o.text.."\"")
     else
         print(" ", i.."/"..#q.objectives..":",
             o.raw_numFulfilled.."/"..o.numRequired.."="..tostring(o.raw_finished),
             "FIX:", o.numFulfilled.."/"..o.numRequired.."="..tostring(o.finished),
             o.type,
-            "\""..o.raw_text.."\" \""..o.text.."\"")
+            "\""..o.text.."\"")
     end
 end
 

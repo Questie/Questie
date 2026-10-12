@@ -9,16 +9,24 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local lastGuid
 
+-- Forever can hide unit and tooltip values in combat. The lookups below test, compare and split them,
+-- so a secret value must be checked before any of that.
+local function _IsSecret(value)
+    return issecretvalue and issecretvalue(value)
+end
+
 function _QuestieTooltips:AddUnitDataToTooltip()
     if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then
         return
     end
 
     local name, unitToken = self:GetUnit();
-    if not unitToken then return end
+    if _IsSecret(name) or _IsSecret(unitToken) or not unitToken then return end
     local guid = UnitGUID(unitToken);
+    if _IsSecret(guid) then return end
     if (not guid) then
         guid = UnitGUID("mouseover");
+        if _IsSecret(guid) then return end
     end
 
     local type, _, _, _, _, npcId, _ = strsplit("-", guid or "");
@@ -61,6 +69,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
     end
 
     local name, link = self:GetItem()
+    if _IsSecret(name) or _IsSecret(link) then return end
     local itemId
     if link then
         -- Read the payload independently of legacy hex colors or modern named colors such as |cnIQ1:.
@@ -76,7 +85,8 @@ function _QuestieTooltips:AddItemDataToTooltip()
     ) then
         QuestieTooltips.lastGametooltipItem = name
         if Questie.db.profile.enableTooltipsItemID then
-            GameTooltip:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
+            -- A clicked item link shows in ItemRefTooltip; its ID belongs there, not on the hover tooltip.
+            self:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
         end
 
         if (not checkedQuestStartItems[itemId]) then
@@ -158,7 +168,9 @@ function _QuestieTooltips:CountTooltip()
     local tooltipCount = 0
     for i = 1, GameTooltip:NumLines() do
         local frame = _G["GameTooltipTextLeft"..i]
-        if frame and frame:GetText() then
+        local text = frame and frame:GetText()
+        -- A secret native row still occupies a line; count it without testing its text.
+        if _IsSecret(text) or text then
             tooltipCount = tooltipCount + 1
         else
             return tooltipCount

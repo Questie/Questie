@@ -105,6 +105,18 @@ describe("QuestiePopup consumers", function()
         assert.equals(externalPopup.Hide, Popup.Hide)
     end)
 
+    it("lets controller B close Questie dialogs on Forever only", function()
+        local originalIsForever = Questie.IsForever
+        local ok, err = pcall(function()
+            Questie.IsForever = false
+            assert.is_false(externalPopup.UseGamePadClose())
+            Questie.IsForever = true
+            assert.is_true(externalPopup.UseGamePadClose())
+        end)
+        Questie.IsForever = originalIsForever
+        assert(ok, err)
+    end)
+
     it("runs locale reuse, cancellation and acceptance through the real dialog", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
         local _, errors, _, private = fixture.NewEnvironment()

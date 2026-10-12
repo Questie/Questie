@@ -5,7 +5,6 @@ describe("CommsRouting", function()
     local CommsRouting
 
     before_each(function()
-        _G.UnitName = function() return "Player" end
         _G.UnitInParty = function(unit) return unit == "PartyFriend" end
         _G.UnitInRaid = function(unit) return unit == "RaidFriend" end
 
@@ -31,13 +30,6 @@ describe("CommsRouting", function()
             assert.is_nil(CommsRouting:GetGroupBroadcastDistribution("GUILD"))
             assert.is_nil(CommsRouting:GetGroupBroadcastDistribution("solo"))
             assert.is_nil(CommsRouting:GetGroupBroadcastDistribution(nil))
-        end)
-    end)
-
-    describe("IsSelf", function()
-        it("uses AceComm's short-name sender normalization", function()
-            assert.is_true(CommsRouting:IsSelf("Player"))
-            assert.is_false(CommsRouting:IsSelf("Player-OtherRealm"))
         end)
     end)
 

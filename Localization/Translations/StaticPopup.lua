@@ -51,7 +51,7 @@ local staticPopup = {
         ["koKR"] = "WoW \"Retail\" 사설 서버",
         ["ptBR"] = "WoW \"retail\" e servidores privados",
         ["ruRU"] = "Ритейл и приватные сервера",
-        ["zhCN"] = "魔兽世界“零售”版及私服",
+        ["zhCN"] = "魔兽世界\"正式服\"和私服",
         ["zhTW"] = "魔獸世界 \"正式服\" 和私服",
     },
     ["are not supported."] = {

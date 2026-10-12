@@ -17,6 +17,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type TooltipLayout
 local TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
 ---@type QuestieComms
@@ -255,7 +257,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.profile.showQuestXpAtMaxLevel)
                         if xpReward > 0 then
                             rewardString = QuestieLib:PrintDifficultyColor(quest.level, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")") .. " ",
-                                QuestieDB.IsRepeatable(questData.questId), QuestieEvent.IsEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId))
+                                QuestieDB.IsRepeatable(questData.questId), QuestieEvent.IsEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId), questData.questId)
                         end
 
                         local moneyReward = QuestXP.GetQuestRewardMoney(questData.questId)
@@ -374,7 +376,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
             local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel) or 0
             local rewardString = xpReward > 0 and
                 QuestieLib:PrintDifficultyColor(quest.level, l10n("(") .. FormatLargeNumber(xpReward) .. xpString .. l10n(")") .. " ",
-                    QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId)) or ""
+                    QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId), questId) or ""
             if haveGiver then
                 if shift and xpReward > 0 then
                     tooltipRows:AddLine(" ");
@@ -568,9 +570,18 @@ end
 function _MapIconTooltip:GetObjectiveTooltip(icon)
     local tooltips = {}
     local iconData = icon.data
-    local text = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
-    local color = QuestieLib:GetRGBForObjective(iconData.ObjectiveData)
-    if iconData.ObjectiveData.Needed then
+    -- Local wording comes from the accepted cache. Party-only objectives carry validated API wording
+    -- from their loading path; it is a template for remote progress, never a local progress line.
+    local objective = iconData.ObjectiveData
+    local cached = QuestLogCache.TryGetQuest(iconData.Id)
+    local native = cached and not objective.IsPartyObjective and not objective.IsSourceItem and not objective.IsRequiredSourceItem
+        and cached.objectives[iconData.ObjectiveIndex]
+    local nativeText = native and native.text or objective.NativeText
+    local text = objective.Description or ""
+    local color = QuestieLib:GetRGBForObjective(objective)
+    if native then
+        text = color .. native.text
+    elseif iconData.ObjectiveData.Needed then
         if iconData.ObjectiveData.Type == "spell" and iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId then
             text = color .. tostring(QuestieDB.QueryItemSingle(iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId, "name"))
         else
@@ -607,12 +618,14 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
                     local colorizedPlayerName = " " .. l10n("(") .. playerColor .. playerName .. "|r" .. remoteColor .. l10n(")") .. "|r" .. playerType
-                    local remoteText = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
+                    local remoteText = objective.Description or ""
 
                     if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
                         local fulfilled = objectiveEntry.fulfilled;
                         local required = objectiveEntry.required;
-                        remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                        local replacedText = QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required)
+                        remoteText = remoteColor .. (replacedText or (tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText))
+                            .. colorizedPlayerName
                     else
                         remoteText = remoteColor .. remoteText .. colorizedPlayerName;
                     end
@@ -629,7 +642,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
             -- Don't label the objective with the local player's name when it belongs to a
             -- party member and the local player doesn't have the quest themselves.
             if anotherPlayer and (not iconData.ObjectiveData.IsPartyObjective) then
-                local name = UnitName("player");
+                local name = GetUnitName("player", true);
                 local playerClass = UnitClassBase("player")
                 local _, _, _, argbHex = GetClassColor(playerClass)
                 name = " " .. l10n("(") .. "|c" .. argbHex .. name .. "|r" .. color .. l10n(")") .. "|r";
@@ -715,7 +728,7 @@ function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel, indent)
     local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel)
     if xpReward > 0 then
         nextQuestXpRewardString = QuestieLib:PrintDifficultyColor(questLevel, l10n("(") .. FormatLargeNumber(xpReward) .. l10n("xp") .. l10n(")") .. " ",
-            QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId))
+            QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId), questId)
     end
 
     local nextQuestMoneyRewardString = "";

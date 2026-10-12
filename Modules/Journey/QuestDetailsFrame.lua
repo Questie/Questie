@@ -136,12 +136,39 @@ local function GetLevelDifficultyRanges(questLevel, questMinLevel)
 
     -- Gray Level based on level range.
     if (questLevel ~= -1) then
-        if (questLevel <= 5) then
-            gray =  questLevel + 5
-        elseif (questLevel <= 39) then
-            gray = (questLevel + math.ceil(questLevel / 10) + 5)
+        if Questie.IsClassic then
+            -- values observed on wowhead
+            if (questLevel <= 4) then
+                gray = questLevel + 5
+            elseif (questLevel <= 13) then
+                gray = questLevel + 6
+            elseif (questLevel <= 22) then
+                gray = questLevel + 7
+            elseif (questLevel <= 31) then
+                gray = questLevel + 8
+            elseif (questLevel <= 40) then
+                gray = questLevel + 9
+            elseif (questLevel <= 49) then
+                gray = questLevel + 10
+            elseif (questLevel <= 58) then
+                gray = questLevel + 11
+            else
+                gray = questLevel + 12
+            end
         else
-            gray = (questLevel + math.ceil(questLevel / 5) + 1)
+            -- values observed on TBC and MoP. Assuming Wotlk follows same values.
+            -- GetQuestGreenRange() returns 8 from 40-90
+            if (questLevel <= 4) then
+                gray = questLevel + 5
+            elseif (questLevel <= 13) then
+                gray = questLevel + 6
+            elseif (questLevel <= 22) then
+                gray = questLevel + 7
+            elseif (questLevel <= 31) then
+                gray = questLevel + 8
+            else
+                gray = questLevel + 9
+            end
         end
     end
 

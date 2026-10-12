@@ -130,6 +130,95 @@ describe("ZoneDB", function()
         assert.are_equal("return {[11] = 9}", zoneData.private.subZoneToParentZone)
     end)
 
+    describe("GetZonesWithQuests", function()
+        local QuestieDB, quests, l10n
+
+        before_each(function()
+            dofile("Database/Constants.lua")
+            dofile("Localization/l10n.lua")
+            l10n = QuestieLoader:ImportModule("l10n")
+            l10n.zoneCategoryLookup = {
+                [1] = {[1] = "Dun Morogh", [141] = "Teldrassil", [-676] = "Night Elf"},
+            }
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            quests = {
+                [100] = {zoneOrSort = -676},
+                [101] = {zoneOrSort = 141},
+                [102] = {zoneOrSort = 133},
+            }
+            QuestieDB.QuestPointers = quests
+            QuestieDB.QueryQuestSingle = function(questId, field) return quests[questId][field] end
+            QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests = {}
+            QuestieLoader:ImportModule("QuestieEvent").IsEventQuest = function() return false end
+            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+            QuestiePlayer.HasRequiredRace = function() return true end
+            QuestiePlayer.HasRequiredClass = function() return true end
+        end)
+
+        it("keeps sorts and parent-zone grouping when no overrides are supplied", function()
+            assert.are_same({
+                [-676] = {[100] = true},
+                [141] = {[101] = true},
+                [1] = {[102] = true},
+            }, ZoneDB.GetZonesWithQuests())
+        end)
+
+        it("merges redirected quests and builds dropdowns from the same map without changing quest data", function()
+            local overrides = {[-676] = 141}
+            local zoneMap = ZoneDB.GetZonesWithQuests(false, overrides)
+
+            assert.are_same({[141] = {[100] = true, [101] = true}, [1] = {[102] = true}}, zoneMap)
+            assert.are_same({[1] = {[1] = "Dun Morogh", [141] = "Teldrassil"}}, ZoneDB.GetRelevantZones(zoneMap))
+            assert.are_equal(-676, quests[100].zoneOrSort)
+            assert.are_same({[-676] = 141}, overrides)
+        end)
+
+        it("requires an explicit map for dropdowns even after generating quest groups", function()
+            ZoneDB.GetZonesWithQuests(false, {[-676] = 141})
+
+            assert.has_error(function() ZoneDB.GetRelevantZones() end)
+            assert.are_same({[1] = {}}, ZoneDB.GetRelevantZones({}))
+        end)
+
+        it("can merge multiple categories into a new negative-sort destination", function()
+            local zoneMap = ZoneDB.GetZonesWithQuests(false, {[-676] = -161, [141] = -161})
+
+            assert.are_same({[-161] = {[100] = true, [101] = true}, [1] = {[102] = true}}, zoneMap)
+        end)
+
+        it("does not create a destination when the source has no eligible quests", function()
+            QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests[100] = true
+            local zoneMap = ZoneDB.GetZonesWithQuests(false, {[-676] = -161})
+
+            assert.are_same({[141] = {[101] = true}, [1] = {[102] = true}}, zoneMap)
+        end)
+
+        it("applies each redirect once and preserves self-mapped categories", function()
+            local zoneMap = ZoneDB.GetZonesWithQuests(false, {[-676] = 141, [141] = 12, [1] = 1})
+
+            assert.are_same({[141] = {[100] = true}, [12] = {[101] = true}, [1] = {[102] = true}}, zoneMap)
+        end)
+
+        it("redirects the final holiday categories after seasonal splitting", function()
+            quests[100].zoneOrSort = QuestieDB.sortKeys.SEASONAL
+            quests[101].zoneOrSort = QuestieDB.sortKeys.SPECIAL
+            QuestieLoader:ImportModule("QuestieEvent").GetEventNameFor = function() return "Winter Veil" end
+
+            local zoneMap = ZoneDB.GetZonesWithQuests(false, {[QuestieDB.sortKeys.WINTER_VEIL] = 141})
+
+            assert.are_same({[141] = {[100] = true, [101] = true}, [1] = {[102] = true}}, zoneMap)
+        end)
+
+        it("does not retain redirects across explicit rebuilds or change previously returned maps", function()
+            local redirectedMap = ZoneDB.GetZonesWithQuests(false, {[-676] = 141})
+            local defaultMap = ZoneDB.GetZonesWithQuests()
+
+            assert.are_same({[141] = {[100] = true, [101] = true}, [1] = {[102] = true}}, redirectedMap)
+            assert.are_same({[-676] = {[100] = true}, [141] = {[101] = true}, [1] = {[102] = true}}, defaultMap)
+            assert.are_same({[1] = {[1] = "Dun Morogh", [141] = "Teldrassil"}}, ZoneDB.GetRelevantZones(redirectedMap))
+        end)
+    end)
+
     describe("GetAreaIdByUiMapId", function()
         it("should correctly handle map ID for Kalimdor and EK", function()
             local areaId = ZoneDB:GetAreaIdByUiMapId(1414)

@@ -47,7 +47,7 @@ describe("TooltipHandler", function()
         local QuestieComms, QuestieDB, mock, objectKeys
         local originalIsInGroup, originalUnitName, originalCTimer, originalGetQuestObjectives
         local REMOTE_QUEST_ID = 42
-        local PARTY_LINE = "   gold1/3 Open the chest (|cFFFFFFFFBob|rgold)|r"
+        local PARTY_LINE = "   goldOpen the chest: 1/3 (|cFFFFFFFFBob|rgold)|r"
 
         before_each(function()
             originalIsInGroup, originalUnitName = _G.IsInGroup, _G.UnitName
@@ -66,7 +66,9 @@ describe("TooltipHandler", function()
             QuestieDB = QuestieLoader:ImportModule("QuestieDB")
             QuestieDB.QueryObjectSingle = mock.lib.Object.Get
             QuestieDB.GetQuest = function() return nil end
+            dofile("Modules/Libs/QuestieLib.lua")
             local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function() return nil end
             QuestieLib.GetColoredQuestName = function() return "Party Quest" end
             QuestieLib.GetRGBForObjective = function() return "gold" end
             QuestieLib.GetLoadedQuestObjectives = function()
@@ -157,7 +159,6 @@ describe("TooltipHandler", function()
             QuestieDB.GetItemDroprate = function() return nil end
             local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
             QuestieLib.GetColoredQuestName = function() return "Local Quest" end
-            QuestieLib.GetObjectiveDescription = function(_, objective) return objective.Description end
             QuestieTooltips:RegisterObjectiveTooltip(7, "o_1001", {
                 Index = 1, Id = 1001, Type = "object", Description = "Open the chest", Update = function() end,
             })
@@ -173,6 +174,51 @@ describe("TooltipHandler", function()
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Local Quest")
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   goldOpen the chest")
             assert.spy(GameTooltip.AddLine).was.called(2)
+        end)
+    end)
+
+    describe("AddUnitDataToTooltip", function()
+        local saved
+
+        before_each(function()
+            saved = {
+                issecretvalue = _G.issecretvalue, UnitGUID = _G.UnitGUID,
+                IsInInstance = _G.IsInInstance, GetTooltip = QuestieTooltips.GetTooltip,
+            }
+            _G.IsInInstance = function() return false end
+            _G.UnitGUID = spy.new(function() return "Creature-0-0-0-0-1125-0" end)
+            QuestieTooltips.GetTooltip = spy.new(function() return {"Beer Basted Boar Ribs"} end)
+            GameTooltip.IsForbidden = function() return false end
+            GameTooltip.NumLines = function() return 0 end
+            GameTooltip.GetUnit = function() return "Crag Boar", "mouseover" end
+        end)
+
+        after_each(function()
+            _G.issecretvalue, _G.UnitGUID, _G.IsInInstance = saved.issecretvalue, saved.UnitGUID, saved.IsInInstance
+            QuestieTooltips.GetTooltip = saved.GetTooltip
+        end)
+
+        it("adds quest lines for a readable NPC", function()
+            _QuestieTooltips.AddUnitDataToTooltip(GameTooltip)
+
+            assert.spy(QuestieTooltips.GetTooltip).was.called_with("m_1125")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Beer Basted Boar Ribs")
+        end)
+
+        it("leaves the tooltip alone when Forever hides the unit name or GUID", function()
+            local secretGuid = "Creature-0-0-0-0-9999-0" -- Flagged secret; it would otherwise pass the creature check.
+            _G.issecretvalue = function(value) return value == "Secret name" or value == secretGuid end
+            GameTooltip.GetUnit = function() return "Secret name", "mouseover" end
+            _QuestieTooltips.AddUnitDataToTooltip(GameTooltip)
+            assert.spy(_G.UnitGUID).was.not_called()
+
+            GameTooltip.GetUnit = function() return "Crag Boar", "mouseover" end
+            _G.UnitGUID = function() return secretGuid end
+            _QuestieTooltips.AddUnitDataToTooltip(GameTooltip)
+
+            assert.spy(QuestieTooltips.GetTooltip).was.not_called()
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(GameTooltip.AddDoubleLine).was.not_called()
         end)
     end)
 
@@ -220,6 +266,37 @@ describe("TooltipHandler", function()
                 assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "0/8 Tough Wolf Meat")
             end)
         end
+
+        it("adds the Item ID to the clicked-link tooltip, not the hover tooltip", function()
+            Questie.db.profile.enableTooltipsItemID = true
+            local itemRef = {
+                GetItem = function() return "Tough Wolf Meat", links[2].link end,
+                GetName = function() return "ItemRefTooltip" end,
+                AddLine = spy.new(function() end),
+                AddDoubleLine = spy.new(function() end),
+            }
+            GameTooltip.NumLines = function() return 0 end
+
+            _QuestieTooltips.AddItemDataToTooltip(itemRef)
+
+            assert.spy(itemRef.AddDoubleLine).was.called_with(itemRef, "Item ID", "|cFFFFFFFF750|r")
+            assert.spy(GameTooltip.AddDoubleLine).was.not_called()
+        end)
+
+        it("leaves the tooltip alone when Forever hides the item link", function()
+            local originalIsSecret = _G.issecretvalue
+            _G.issecretvalue = function(value) return value == "Secret link" end
+            _G.GameTooltip = {
+                GetItem = function() return "Tough Wolf Meat", "Secret link" end,
+                AddLine = spy.new(function() end),
+            }
+
+            _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+            _G.issecretvalue = originalIsSecret
+
+            assert.spy(QuestieTooltips.GetTooltip).was.not_called()
+            assert.spy(GameTooltip.AddLine).was.not_called()
+        end)
     end)
 
     describe("AddObjectDataToTooltip", function()

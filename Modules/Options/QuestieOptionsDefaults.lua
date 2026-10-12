@@ -68,7 +68,6 @@ function QuestieOptionsDefaults:Load()
             questieShutUp = false,
             bugWorkarounds = true,
             hideIconsOnContinents = false,
-            trimObjectiveText = true,
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
@@ -181,6 +180,7 @@ function QuestieOptionsDefaults:Load()
             TrackerWidth = 0,
             TrackerHeight = 0,
 
+            townsfolkKnownProfessions = false,
             townsfolkConfig = {
                 ["Repair"] = false,
                 ["Innkeeper"] = true,

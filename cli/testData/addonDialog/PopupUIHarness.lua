@@ -73,6 +73,7 @@ local function NewRegion(parent)
   function region:SetClampedToScreen(value) self.clamped = value end
   function region:EnableMouse(value) self.mouse = value end
   function region:EnableKeyboard(value) self.keyboard = value end
+  function region:EnableGamePadButton(value) self.gamePadButton = value end
   function region:SetFrameStrata(strata) self.strata = strata end
   function region:GetFrameStrata() return self.strata end
   function region:SetPropagateKeyboardInput(value) self.propagate = value end
