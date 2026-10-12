@@ -48,11 +48,15 @@ if Enum and Enum.RelativeContentDifficulty then
 end
 
 local function _GetDifficultyColor(level, questId)
-    local difficulty = QuestieCompat.GetQuestDifficulty(questId)
-    local color = nativeDifficultyColors[difficulty]
-    if color then
-        -- Prefer the client's quest-specific difficulty; level-based estimates can disagree.
-        return color
+    -- For scaling quests (level == -1), Blizzard's native difficulty is often wrong.
+    -- Skip the native difficulty check and use the level-based fallback instead.
+    if level ~= -1 then
+        local difficulty = QuestieCompat.GetQuestDifficulty(questId)
+        local color = nativeDifficultyColors[difficulty]
+        if color then
+            -- Prefer the client's quest-specific difficulty; level-based estimates can disagree.
+            return color
+        end
     end
 
     -- Use the level estimate when native difficulty is unavailable or unrecognized.

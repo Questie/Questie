@@ -75,6 +75,17 @@ describe("QuestieLib", function()
             end)
         end
 
+        it("ignores native Impossible difficulty for level -1 quests and uses Fair fallback", function()
+            -- Level -1 means "same as player level" (scaling quests).
+            -- Blizzard's native difficulty is wrong for these, so we should use the level-based fallback.
+            nativeDifficulty = 4 -- Impossible
+
+            assert.are.equal("|cFFFFFF00Quest|r", QuestieLib:PrintDifficultyColor(-1, "Quest", false, false, false, QUEST_ID))
+            assert.are.same({1, 1, 0}, {QuestieLib:GetDifficultyColorPercent(-1, QUEST_ID)})
+            -- The native difficulty should not be used for level -1 quests
+            assert.spy(getDifficultyMock).was.not_called()
+        end)
+
         local fallbackColors = {
             {name = "gray below the green range", level = 1, text = "|cFFC0C0C0Quest|r", rgb = {0.753, 0.753, 0.753}},
             {name = "green at the inclusive boundary", level = 2, text = "|cFF40C040Quest|r", rgb = {0.251, 0.753, 0.251}},
