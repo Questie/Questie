@@ -324,6 +324,35 @@ function QuestieMenu.buildTownsfolkMenu()
     return townsfolkMenu
 end
 
+-- The menu is clamped to the screen, so near the right or bottom edge it would be pushed back over anchorFrame.
+-- Flip it to the side of anchorFrame that has room instead.
+---@param anchorFrame Frame
+local function _OpenMenuTowardsFreeSpace(anchorFrame)
+    local listFrame = _G.L_DropDownListQuestie1
+    local anchorRight, anchorBottom = anchorFrame:GetRight(), anchorFrame:GetBottom()
+    if (not listFrame) or (not listFrame:IsShown()) or (not anchorRight) or (not anchorBottom) then
+        return
+    end
+
+    -- Compare in screen units, since the menu, anchorFrame and UIParent all have different scales
+    local anchorScale, listScale = anchorFrame:GetEffectiveScale(), listFrame:GetEffectiveScale()
+    local fitsRight = anchorRight * anchorScale + listFrame:GetWidth() * listScale <= GetScreenWidth() * UIParent:GetEffectiveScale()
+    local fitsBelow = anchorBottom * anchorScale - listFrame:GetHeight() * listScale >= 0
+    if fitsRight and fitsBelow then
+        return
+    end
+
+    local point = (fitsBelow and "TOP" or "BOTTOM") .. (fitsRight and "LEFT" or "RIGHT")
+    local relativePoint = (fitsBelow and "BOTTOM" or "TOP") .. (fitsRight and "RIGHT" or "LEFT")
+    listFrame:ClearAllPoints()
+    listFrame:SetPoint(point, anchorFrame, relativePoint, 0, 0)
+
+    -- Bottom left is where the minimap button's tooltip sits, so get it out of the way of the menu
+    if point == "TOPRIGHT" and GameTooltip:IsShown() and GameTooltip:GetOwner() == anchorFrame then
+        GameTooltip:Hide()
+    end
+end
+
 ---@param hideDelay number?
 ---@param anchorFrame Frame? Opens the menu below the right edge of this frame instead of at the cursor
 function QuestieMenu:Show(hideDelay, anchorFrame)
@@ -405,6 +434,7 @@ function QuestieMenu:Show(hideDelay, anchorFrame)
         -- Menu top left on the frame's bottom right, so it never covers the frame's tooltip on its bottom left
         QuestieMenu.menu.relativePoint = "BOTTOMRIGHT"
         LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, anchorFrame, 0, 0, "MENU", hideDelay or 2)
+        _OpenMenuTowardsFreeSpace(anchorFrame)
     else
         QuestieMenu.menu.relativePoint = nil
         LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, -15, "MENU", hideDelay or 2)
