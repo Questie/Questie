@@ -90,7 +90,7 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 ---@param questId QuestId
 ---@param oldObjectives QuestLogCacheObjectiveData[]
 ---@param isCompleteAccordingToBlizzard number @ -1 = failed, nil = not complete, 1 = complete
----@param suppressRegressions boolean @ when true, treat numFulfilled decreases as cache misses (zone transition)
+---@param suppressRegressions boolean @ when true, treat numFulfilled decreases and vanished unfinished rows as cache misses (zone transition)
 ---@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean needsRetry @Nil objectives or retained placeholder rows need another scan.
 local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
@@ -193,6 +193,16 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         -- A finished visible stage is not a finished sequenced quest. Premature completion would also
         -- make the recovery guard reject the next stage. Keep the legacy empty-row workaround otherwise.
         isComplete = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished and 1 or 0
+        -- Loading screens can return rows empty or without text. A vanished unfinished row is then missing data,
+        -- not completion. Once cached, the stale-data check in CheckForChanges would keep it until a reload.
+        -- Outside loading screens a blank row is trusted, as the empty-row workaround always did.
+        if isComplete == 1 and suppressRegressions then
+            for index, oldObj in pairs(oldObjectives) do
+                if (not oldObj.finished) and (not newObjectives[index]) then
+                    return nil, nil, isCompleteAccordingToBlizzard, true
+                end
+            end
+        end
     end
 
     -- Every row was read without rejection. Recorded sounds imply changedObjIds, so the caller saves this snapshot.
@@ -208,22 +218,6 @@ end
 
 -- For profiling
 QuestLogCache._GetNewObjectives = GetNewObjectives
-
---- Whether an item objective now counts fewer items than the cache. Kill and event counts never go down, so only an
---- item objective can make a complete quest incomplete again.
----@param questId QuestId
----@param cachedObjectives QuestLogCacheObjectiveData[]
----@return boolean
-local function ItemCountDropped(questId, cachedObjectives)
-    for index, objective in ipairs(C_QuestLog_GetQuestObjectives(questId) or {}) do
-        local cached = cachedObjectives[index]
-        if objective.type == "item" and cached and objective.numFulfilled and cached.raw_numFulfilled
-            and objective.numFulfilled < cached.raw_numFulfilled then
-            return true
-        end
-    end
-    return false
-end
 
 --- Updates questlogcache.
 --- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
@@ -256,14 +250,12 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 -- returns incorrect values (e.g. isCompleteAccordingToBlizzard being nil for quests that are actually complete and objective
                 -- numFulfilled being 0 instead of what the player actually has).
                 -- To avoid caching incorrect values, we skip the update entirely and set cacheMiss so we retry next QUEST_LOG_UPDATE.
-                -- Outside of a loading screen, fewer items than cached is real (used, sold, banked or deleted items) and the quest
-                -- is no longer complete.
-                local blizzardCacheIncorrect = (not isCompleteAccordingToBlizzard) and cachedQuest and cachedQuest.isComplete == 1
-                    and (questsAwaitingRecovery[questId] or not ItemCountDropped(questId, cachedObjectives))
+                -- Outside them Blizzard is right, e.g. a completed quest whose items were used, sold, banked or deleted is incomplete again.
+                local suppressRegressions = questsAwaitingRecovery[questId] == true
+                local blizzardCacheIncorrect = suppressRegressions and (not isCompleteAccordingToBlizzard) and cachedQuest and cachedQuest.isComplete == 1
                 if blizzardCacheIncorrect then
                     cacheMiss = true
                 else
-                    local suppressRegressions = questsAwaitingRecovery[questId] == true
                     local newObjectives, changedObjIds, isComplete, needsRetry = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
                     cacheMiss = cacheMiss or needsRetry
 
