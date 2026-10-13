@@ -14,6 +14,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieCorrections
@@ -812,6 +814,8 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     -- Only for NPCs since objects do not move
     if starter.waypoints then
+        -- An NPC dropping the starting item is killed for it, so its route is hostile like an objective's.
+        local color = starterType == "itemFromMonster" and QuestieWaypoints.HOSTILE_COLOR or nil
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
@@ -833,7 +837,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                 end
                 -- By now tooltipKey names the NPC or object, also when the quest starts from an item
                 -- it drops, so every quest of one NPC shares his route.
-                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone)
+                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, color)
             end
         end
     end
