@@ -1,3 +1,7 @@
+---Pure geometry for NPC patrol paths. BuildPolylines turns one zone's waypoint data into
+---polylines once per icon, in map percent and world yards. Every redraw then runs Smooth, Trim and
+---Quads in the units the caller draws in (WaypointRenderer), and Nearest finds the path under the
+---cursor (WaypointMap, WaypointMinimap).
 ---@class WaypointGeometry
 local WaypointGeometry = QuestieLoader:CreateModule("WaypointGeometry")
 
@@ -20,8 +24,10 @@ local WaypointGeometry = QuestieLoader:CreateModule("WaypointGeometry")
 ---Converts map percentages to world yards; HereBeDragons' GetWorldCoordinatesFromZone in 0-1 units.
 ---@alias WaypointToWorld fun(x: number, y: number, uiMapId: number): number?, number?, number?
 
--- Consecutive points closer than this are one point. Patrol data repeats positions, and
--- DrawLine needs a length well above zero to compute its texture coordinates.
+-- Patrols
+
+-- Consecutive points closer than this are one point. Patrol data repeats positions, and a segment
+-- needs a length well above zero for a stable direction to outline and join it by.
 WaypointGeometry.MERGE_YARDS = 0.5
 
 local function _IsFinite(value)
@@ -300,6 +306,8 @@ function WaypointGeometry.Smooth(polyline, tolerance, halfWidth)
     return smoothed
 end
 
+-- Trimming
+
 ---Drops the points of a polyline lying within tolerance of the segment between the points kept
 ---around them (Ramer-Douglas-Peucker). Distances are to that segment, not its infinite line, so a
 ---patrol's turning point stays even where it walks back along itself. Ends are kept, so a closed
@@ -347,6 +355,8 @@ function WaypointGeometry.Trim(polyline, tolerance)
     end
     return trimmed
 end
+
+-- Hover
 
 ---Squared distance from (px, py) to the segment (sx, sy)-(ex, ey). Zero-length segments are
 ---points, so the hover area of any polyline is round at its joins and ends.

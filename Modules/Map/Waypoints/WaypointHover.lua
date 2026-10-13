@@ -12,10 +12,12 @@ local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 
 -- One patrol path is hovered at a time, on the world map or the minimap. Hovering a path is
 -- hovering its NPC: the NPC's tooltip opens, which highlights all of the NPC's paths.
--- - On the world map, the NPC's icon opens its own tooltip, as when the icon itself is hovered.
--- - On the minimap, the tooltip opens on a tooltip of its own. Forever's minimap takes GameTooltip
---   every frame while the cursor is over it, for its blip tooltips (Minimap_OnUpdate in
---   Blizzard_Minimap/Mainline/Minimap.lua), which would replace the NPC's tooltip at once.
+-- - World map: the NPC's icon opens its own tooltip, as when the icon itself is hovered. An icon
+--   that isn't visible can't anchor it; then only the paths highlight.
+-- - Minimap: the NPC's tooltip opens on a tooltip of its own, owned by the minimap. Forever's
+--   minimap takes GameTooltip every frame while the cursor is over it, for its blip tooltips
+--   (Minimap_OnUpdate in Blizzard_Minimap/Mainline/Minimap.lua). And HereBeDragons hides minimap
+--   icons out of range, while a long patrol's path can still pass close by.
 
 ---@alias WaypointHoverSurface "map"|"minimap"
 
@@ -28,22 +30,13 @@ local enteredIcon
 ---@type GameTooltip?
 local minimapTooltip
 
----How far from a line, in the units its width is in, hovering reaches: one unit past its edge, tuned in
----game on the world map.
----@return number
-function WaypointHover.Radius()
-    return Questie.db.profile.waypointWidth / 2 + 1
-end
-
 ---@return GameTooltip
 local function _MinimapTooltip()
     minimapTooltip = minimapTooltip or CreateFrame("GameTooltip", "QuestieWaypointMinimapTooltip", UIParent, "GameTooltipTemplate")
     return minimapTooltip
 end
 
--- The minimap's tooltip belongs to the minimap, so it also shows for a minimap icon HereBeDragons
--- hides out of range: a long patrol can pass close by while its NPC's icon is too far to show. On
--- the world map, an icon that is not visible cannot anchor its tooltip; then only the paths highlight.
+---Opens the hovered path's tooltip on its map, or only highlights its paths.
 ---@param path WaypointPath
 ---@param icon IconFrame?
 local function _Enter(path, icon)
@@ -69,8 +62,9 @@ local function _ResetTooltipChanges(path)
     QuestieFrame.ResetHoverHighlights({data = path.data})
 end
 
+---Closes the hovered path's tooltip, or leaves it to whoever took it over, and ends its highlight.
 ---@param path WaypointPath
----@param on WaypointHoverSurface
+---@param on WaypointHoverSurface The map the path was hovered on.
 local function _Leave(path, on)
     local icon = enteredIcon
     enteredIcon = nil
@@ -125,4 +119,13 @@ end
 ---@param icon IconFrame
 function WaypointHover.End(icon)
     if hovered and (icon ~= enteredIcon or hoveredOn == "minimap") then WaypointHover.Set(hoveredOn, nil) end
+end
+
+-- Hover reach
+
+---How far from a line, in the units its width is in, hovering reaches: one unit past its edge, tuned in
+---game on the world map.
+---@return number
+function WaypointHover.Radius()
+    return Questie.db.profile.waypointWidth / 2 + 1
 end

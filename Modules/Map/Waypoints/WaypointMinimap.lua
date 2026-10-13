@@ -1,4 +1,6 @@
 -- luacheck: read globals GetMinimapShape GetPlayerFacing GetCursorPosition issecretvalue
+---Draws the paths around the player onto a layer over the minimap, lined up with Questie's minimap
+---icons, and finds the path under the cursor.
 ---@class WaypointMinimap
 local WaypointMinimap = QuestieLoader:CreateModule("WaypointMinimap")
 
@@ -57,11 +59,11 @@ local function _ProjectPoint(x, y, originX, originY, scaleX, scaleY, sin, cos)
     return (dx * cos - dy * sin) * scaleX, (dx * sin + dy * cos) * scaleY
 end
 
----@param view WaypointMinimapProjection
----@return number scaleX, number scaleY, number sin, number cos
-local function _Transform(view)
-    local facing = view.facing or 0
-    return view.halfWidth / view.radius, view.halfHeight / view.radius, math.sin(facing), math.cos(facing)
+---@param projection WaypointMinimapProjection
+---@return number scaleX, number scaleY, number sin, number cos Minimap units per yard, and the facing's rotation.
+local function _Transform(projection)
+    local facing = projection.facing or 0
+    return projection.halfWidth / projection.radius, projection.halfHeight / projection.radius, math.sin(facing), math.cos(facing)
 end
 
 ---Projects the parts of a path that come within reach of the projection's origin, in minimap
@@ -78,6 +80,7 @@ local function _Runs(world, projection)
     local previous, run
     local startsAtFirst = false
     for i, point in ipairs(world) do
+        -- A segment is in reach when its bounding box overlaps the reach square around the origin.
         if previous and math.max(previous.x, point.x) >= originX - reach and math.min(previous.x, point.x) <= originX + reach
             and math.max(previous.y, point.y) >= originY - reach and math.min(previous.y, point.y) <= originY + reach then
             if not run then
@@ -185,6 +188,7 @@ end
 local Layer = {}
 Layer.__index = Layer
 
+-- Whether any of the values is secret: hidden from addons while restricted, on clients with secret values.
 local function _IsSecret(...)
     if not issecretvalue then return false end
     for i = 1, select("#", ...) do
@@ -312,6 +316,10 @@ local function _EndHover(layer)
     WaypointHover.Set("minimap", nil)
 end
 
+-- Update
+-- Each frame: collect the routes after changes, project them again when the view changed or the
+-- player drifted, move the container under the player, then recheck the hover.
+
 ---Hides every view until the player has a position to draw around again.
 ---@param layer WaypointMinimapLayer
 local function _HideAll(layer)
@@ -323,6 +331,7 @@ local function _HideAll(layer)
 end
 
 function Layer:Update()
+    -- Collect the routes that should show, after paths or their visibility changed.
     if self.dirty then
         self.dirty = false
         _Collect(self)
@@ -349,6 +358,7 @@ function Layer:Update()
         _HideAll(self)
         return
     end
+    -- Project again for a new zoom, size, instance or facing, or once the player drifted too far.
     local projection = self.projection
     if not projection or projection.instanceId ~= instanceId or projection.radius ~= radius or projection.facing ~= facing
         or projection.halfWidth ~= halfWidth or projection.halfHeight ~= halfHeight
@@ -359,7 +369,8 @@ function Layer:Update()
         self.stale = true
     end
 
-    -- Walking within the drift only moves the container; the drawn runs already cover the view.
+    -- Draw the routes in reach and show them, after new paths or a new projection. Walking within
+    -- the drift skips this: the drawn runs already cover the view.
     if self.stale then
         self.stale = false
         local views, targets = {}, {}
@@ -385,9 +396,10 @@ function Layer:Update()
         self.targets, self.hoverStale = targets, true
         self.playerX = nil
     end
+    -- Move the container under the player. The origin projected around the player is its offset
+    -- from the minimap's center.
     if x ~= self.playerX or y ~= self.playerY then
         self.playerX, self.playerY = x, y
-        -- The origin projected around the player is the container's offset from the minimap's center.
         local scaleX, scaleY, sin, cos = _Transform(projection)
         self.offsetX, self.offsetY = _ProjectPoint(projection.originX, projection.originY, x, y, scaleX, scaleY, sin, cos)
         self.container:ClearAllPoints()
