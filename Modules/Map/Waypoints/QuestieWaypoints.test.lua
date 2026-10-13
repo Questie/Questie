@@ -29,7 +29,6 @@ describe("QuestieWaypoints", function()
         QuestieLoader:ImportModule("ZoneDB").GetUiMapIdByAreaId = function(_, areaId) return areaId + 1000 end
         WaypointMap = QuestieLoader:ImportModule("WaypointMap")
         WaypointMap.Invalidate = spy.new(function() end)
-        WaypointMap.Restyle = spy.new(function() end)
         WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
         WaypointMinimap.Invalidate = spy.new(function() end)
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
@@ -154,22 +153,23 @@ describe("QuestieWaypoints", function()
         assert.are.equal(1, QuestieWaypoints.WorldMapAlpha(other.data.waypointPaths[1]))
     end)
 
-    it("highlights all of an NPC's paths and restyles each once", function()
+    it("highlights all of an NPC's paths, redrawing both maps once per change", function()
         local icon = Icon({})
         QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         local path = icon.data.waypointPaths[1]
+        WaypointMap.Invalidate:clear()
         WaypointMinimap.Invalidate:clear()
 
         QuestieWaypoints.SetHighlighted(icon.data, true)
         QuestieWaypoints.SetHighlighted(icon.data, true)
 
         assert.are_same(HIGHLIGHT, QuestieWaypoints.Color(path))
-        assert.spy(WaypointMap.Restyle).was.called(2)
-        -- The minimap chooses its copies again once per change.
+        assert.spy(WaypointMap.Invalidate).was.called(1)
         assert.spy(WaypointMinimap.Invalidate).was.called(1)
 
         QuestieWaypoints.SetHighlighted(icon.data, false)
         assert.are_same(NORMAL, QuestieWaypoints.Color(path))
+        assert.spy(WaypointMap.Invalidate).was.called(2)
         assert.spy(WaypointMinimap.Invalidate).was.called(2)
     end)
 

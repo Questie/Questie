@@ -34,7 +34,7 @@ local driver
 local views = {}
 ---@type WaypointMapView[]
 local visible = {}
--- Paths or their visibility changed since the last draw.
+-- Paths, their visibility or their highlight changed since the last draw.
 local dirty = true
 -- The map and canvas size drawn for. shownScale is the canvas scale line widths are drawn for;
 -- currentScale the latest one.
@@ -187,21 +187,9 @@ local function _CreateDriver()
     end)
 end
 
----Redraws on the next frame the map is open, after paths or their visibility changed.
+---Redraws on the next frame the map is open, after paths, their visibility or their highlight
+---changed. Routes keep their drawn lines when only their style changes.
 function WaypointMap.Invalidate()
     if not driver then _CreateDriver() end
     dirty = true
-end
-
----Restyles a path in place, such as for a highlight. A copy of a route that does not show takes the
----route over on the next frame once highlighted.
----@param path WaypointPath
-function WaypointMap.Restyle(path)
-    local entry = views[path.route]
-    if not entry then return end
-    if entry.path == path then
-        renderer:Restyle(entry.view, _Style(path, entry.alpha))
-    else
-        dirty = true
-    end
 end
