@@ -68,6 +68,8 @@ function MapIconTooltip:Show()
     MapIconTooltip.ShowOnTooltip(self, GameTooltip)
 end
 
+---Shows a map icon's tooltip: the quests and notes of the icons clustered around it on its map, and of
+---any icons given. Entries are collected first, then rendered by _Rebuild, again on a modifier key.
 ---@param self IconFrame
 ---@param Tooltip GameTooltip The tooltip frame to render into
 ---@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
@@ -160,6 +162,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             end
             tinsert(self.data.touchedPins, entry);
         end
+        -- Listed icons count wherever they are; others only within the cluster distance of the hovered icon.
         local near = listed
         if not near and icon.x and icon.AreaID == self.AreaID then
             near = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y) < maxDistCluster
@@ -188,15 +191,13 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                     local quest = questOrder[key]
                     _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
                 end
-            elseif iconData.CustomTooltipData then
-                questOrder[iconData.CustomTooltipData.Title] = {}
-                tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
             elseif iconData.ManualTooltipData then
                 manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
             end
         end
     end
 
+    -- Collect the entries of the icons shown on the hovered icon's map.
     if self.miniMapIcon then
         for icon, _ in pairs(HBDPins.activeMinimapPins) do
             handleMapIcon(icon)
@@ -240,7 +241,13 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         local tooltipRows = TooltipLayout:CreateRows()
 
         -- tooltips for quest icons on the map
-        for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
+        -- Givers by name, each with its quests by level. The entries were collected into tables, which
+        -- pairs walks in no particular order, so the order would otherwise change with how they were collected.
+        local giverNames = {}
+        for name in pairs(self.npcAndObjectOrder) do giverNames[#giverNames + 1] = name end
+        table.sort(giverNames)
+        for _, npcOrObjectName in ipairs(giverNames) do -- this logic really needs to be improved
+            local quests = self.npcAndObjectOrder[npcOrObjectName]
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
@@ -256,7 +263,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                 tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
             end
 
-            for _, questData in pairs(quests) do
+            -- A giver's quests are keyed by title; sorting by level needs them by quest ID.
+            local questsById = {}
+            for _, questData in pairs(quests) do questsById[questData.questId] = questData end
+            for _, questId in ipairs(QuestieLib:SortQuestIDsByLevel(questsById, true)) do
+                local questData = questsById[questId]
                 local reputationReward = QuestieReputation.GetReputationReward(questData.questId)
 
                 if questData.title ~= nil then
@@ -376,9 +387,9 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             end
         end
 
-        -- tooltips for objectives of active quests
-        ---@param questId number
-        for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
+        -- tooltips for objectives of active quests, by quest level
+        for _, questId in ipairs(QuestieLib:SortQuestIDsByLevel(self.questOrder, true)) do -- this logic really needs to be improved
+            local textList = self.questOrder[questId]
             ---@type Quest
             local quest = QuestieDB.GetQuest(questId);
             local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true);

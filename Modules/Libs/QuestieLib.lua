@@ -677,9 +677,22 @@ local function compareQuestsByLevelAndType(a, b)
     return a[2] < b[2]
 end
 
----@param quests table<QuestId, any>
----@return table A sorted table of quests, sorted by level and then by type (Elite, Dungeon, etc.)
-function QuestieLib:SortQuestIDsByLevel(quests)
+---Orders quests for display, so the same quests always list the same way: by level from low to high,
+---then by type (normal, elite, scenario, dungeon and so on), then by ID.
+---@param quests table<QuestId, any> The quests to order, keyed by quest ID; the values are ignored.
+---@param idsOnly boolean? Return only the quest IDs, for callers that need just the order.
+---@return table sorted {level, questId, suffix} entries in order, a quest without a level counting as level
+---0; with idsOnly, a QuestId[].
+function QuestieLib:SortQuestIDsByLevel(quests, idsOnly)
+    if idsOnly then
+        -- Zero or one quest, as for most NPCs, needs no levels looked up and no sorting.
+        local first = next(quests)
+        if next(quests, first) == nil then
+            return {first}
+        end
+    end
+
+    -- Each quest's level and type marker are looked up once, not on every comparison.
     local sortedQuestsByLevel = {}
 
     for questId in pairs(quests) do
@@ -689,6 +702,14 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
     table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)
 
+    -- The same order, as IDs alone.
+    if idsOnly then
+        local questIds = {}
+        for i, entry in ipairs(sortedQuestsByLevel) do
+            questIds[i] = entry[2]
+        end
+        return questIds
+    end
     return sortedQuestsByLevel
 end
 

@@ -27,6 +27,9 @@ describe("Tooltip", function()
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetItemDroprate = function () return nil end
+        -- Quests have no level or type here; the tooltip sorts them by level, then ID.
+        QuestieDB.QueryQuestSingle = function() return nil end
+        QuestieDB.GetQuestTagInfo = function() end
         QuestieDB.GetQuest = spy.new(function(questId)
             return {
                 Id = questId,
@@ -938,6 +941,38 @@ describe("Tooltip", function()
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are_same({"Quest Name", "   gold3/5 Collect Windstone Clusters."}, tooltip)
+        end)
+
+        describe("order", function()
+            before_each(function()
+                local levels = {[1] = 30, [2] = 5, [3] = 18}
+                QuestieLib.GetEffectiveQuestLevel = function(questId) return levels[questId], 0 end
+                QuestieLib.GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            end)
+
+            -- An objective of an active quest with nothing to count.
+            local function Objective(questId)
+                QuestiePlayer.currentQuestlog[questId] = {}
+                return {questId = questId, objective = {Index = 1, Description = "Objective " .. questId, Update = function() end}}
+            end
+
+            it("lists the quests an NPC starts or finishes by level, low to high", function()
+                Questie.db.profile.showQuestsInNpcTooltip = true
+                QuestieTooltips.lookupByKey = {["key"] = {
+                    ["1 test 9"] = {questId = 1, name = "test", starterId = 9},
+                    ["2 test 9"] = {questId = 2, name = "test", starterId = 9},
+                    ["3 test 9"] = {questId = 3, name = "test", starterId = 9},
+                }}
+
+                assert.are_same({"Quest 2", "Quest 3", "Quest 1"}, QuestieTooltips.GetTooltip("key"))
+            end)
+
+            it("lists active quests' objectives by level, low to high", function()
+                QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = Objective(1), ["2 1"] = Objective(2), ["3 1"] = Objective(3)}}
+
+                assert.are_same({"Quest 2", "   goldObjective 2", "Quest 3", "   goldObjective 3", "Quest 1", "   goldObjective 1"},
+                    QuestieTooltips.GetTooltip("key"))
+            end)
         end)
 
         describe("native objective wording", function()

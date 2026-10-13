@@ -160,6 +160,37 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("SortQuestIDsByLevel", function()
+        -- Quest 1 is level 20 and elite, 2 is level 20, 3 has no level and 4 is level 5.
+        before_each(function()
+            local levels = {[1] = 20, [2] = 20, [4] = 5}
+            QuestieLib.GetEffectiveQuestLevel = function(questId) return levels[questId], 0 end
+            QuestieDB.GetQuestTagInfo = function(questId)
+                if questId == 1 then return 1, "Elite" end
+            end
+        end)
+
+        it("sorts by level, then normal before elite, with a quest without a level as level 0", function()
+            local sorted = QuestieLib:SortQuestIDsByLevel({[1] = true, [2] = true, [3] = true, [4] = true})
+
+            assert.are_same({{0, 3, ""}, {5, 4, ""}, {20, 2, ""}, {20, 1, "+"}}, sorted)
+        end)
+
+        it("returns only the quest IDs in the same order when asked", function()
+            local questIds = QuestieLib:SortQuestIDsByLevel({[1] = true, [2] = true, [3] = true, [4] = true}, true)
+
+            assert.are_same({3, 4, 2, 1}, questIds)
+        end)
+
+        it("returns zero or one quest ID without looking up a level", function()
+            QuestieLib.GetEffectiveQuestLevel = spy.new(function() return 1, 0 end)
+
+            assert.are_same({}, QuestieLib:SortQuestIDsByLevel({}, true))
+            assert.are_same({4}, QuestieLib:SortQuestIDsByLevel({[4] = true}, true))
+            assert.spy(QuestieLib.GetEffectiveQuestLevel).was.not_called()
+        end)
+    end)
+
     describe("GetLevelString", function()
         it("should handle regular quests", function()
             local levelString = QuestieLib:GetLevelString(QUEST_ID, 60)
