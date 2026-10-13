@@ -36,8 +36,10 @@ describe("MapIconTooltip objective wording", function()
         dofile("Modules/Libs/QuestieLib.lua")
         local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetColoredQuestName = function() return "Quest Name" end
+        QuestieLib.GetEffectiveQuestLevel = function() return 1, 0 end
         QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return {} end
         QuestieLoader:ImportModule("QuestieDB").QueryItemSingle = function() return "Spell item" end
+        QuestieLoader:ImportModule("QuestieDB").GetQuestTagInfo = function() end
         QuestieLoader:ImportModule("QuestXP").GetQuestLogRewardXP = function() return 0 end
         local player = QuestieLoader:ImportModule("QuestiePlayer")
         player.GetPartyMemberByName = function(_, name)
@@ -255,6 +257,53 @@ describe("MapIconTooltip objective wording", function()
 
             assert.is_not_nil(GameTooltip.questOrder[1])
             assert.is_not_nil(GameTooltip.questOrder[2])
+        end)
+    end)
+    describe("order", function()
+        local rendered, questLevels
+
+        before_each(function()
+            rendered, questLevels = {}, {}
+            local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            QuestieLib.GetEffectiveQuestLevel = function(questId) return questLevels[questId], 0 end
+            QuestieLib.GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() return {} end
+            QuestieLoader:ImportModule("TooltipLayout").CreateRows = function()
+                local function Add(_, text) rendered[#rendered + 1] = text end
+                return {AddLine = Add, AddDoubleLine = Add}
+            end
+        end)
+
+        ---@return number? row Where the first row containing text was rendered.
+        local function RowOf(text)
+            for row, line in ipairs(rendered) do
+                if line:find(text, 1, true) then return row end
+            end
+        end
+
+        -- An icon of another quest, where the hovered icon is.
+        local function QuestIcon(questId, type)
+            return {x = 50, y = 50, AreaID = 1, texture = icon.texture,
+                data = {Id = questId, Type = type, ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone", QuestData = {}}}
+        end
+
+        it("lists a giver's quests by level, low to high", function()
+            questLevels = {[1] = 1, [10] = 30, [11] = 5, [12] = 18}
+
+            local hovered = QuestIcon(10, "complete")
+
+            MapIconTooltip.ShowOnTooltip(hovered, GameTooltip, nil, {hovered, QuestIcon(11, "complete"), QuestIcon(12, "complete")})
+
+            assert.is_true(RowOf("Quest 11") < RowOf("Quest 12"))
+            assert.is_true(RowOf("Quest 12") < RowOf("Quest 10"))
+        end)
+
+        it("lists active quests' objectives by level, low to high", function()
+            questLevels = {[1] = 20, [2] = 5}
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {QuestIcon(2, "item")})
+
+            assert.is_true(RowOf("Quest 2") < RowOf("Quest 1"))
         end)
     end)
 end)
