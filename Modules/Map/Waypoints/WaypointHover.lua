@@ -46,7 +46,8 @@ local function _Enter(path, icon)
         enteredIcon = icon
         -- The highlight is the hover's own, whether or not the tooltip shows.
         QuestieWaypoints.SetHighlighted(path.data, true)
-        MapIconTooltip.ShowOnTooltip(icon, _MinimapTooltip(), Minimap)
+        -- The tooltip lists each of the NPC's quests, however far away and faded their icons are.
+        MapIconTooltip.ShowOnTooltip(icon, _MinimapTooltip(), Minimap, QuestieWaypoints.MinimapIcons(path))
         return
     end
     local onEnter = ownIcon and icon:IsVisible() and icon:GetScript("OnEnter")

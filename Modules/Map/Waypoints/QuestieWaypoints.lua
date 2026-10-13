@@ -139,6 +139,20 @@ function QuestieWaypoints.MinimapAlpha(path)
     return twin.faded and profile.iconFadeLevel or 1
 end
 
+---The minimap icons of the path's route: one for each copy that shows on the minimap, as for each of
+---an NPC's quests.
+---@param path WaypointPath
+---@return IconFrame[]
+function QuestieWaypoints.MinimapIcons(path)
+    local icons = {}
+    for copy in pairs(QuestieWaypoints.paths) do
+        if copy.route == path.route and QuestieWaypoints.MinimapAlpha(copy) then
+            icons[#icons + 1] = copy.owner.minimapTwin
+        end
+    end
+    return icons
+end
+
 ---A hovered path shows highlighted, unless the highlight setting is off. A highlighted copy of a
 ---route is the one drawn.
 ---@param path WaypointPath

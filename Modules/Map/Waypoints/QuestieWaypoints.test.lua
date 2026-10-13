@@ -69,6 +69,21 @@ describe("QuestieWaypoints", function()
         assert.are_not.equal(firstPaths[1].route, other.data.waypointPaths[1].route)
     end)
 
+    it("gives the minimap icons of every copy of a route that shows there, as for each of an NPC's quests", function()
+        local first, second, hidden, other = Icon({}), Icon({}), Icon({}), Icon({})
+        for _, icon in ipairs({first, second, hidden, other}) do icon.minimapTwin = {data = icon.data} end
+        hidden.minimapTwin.hidden = true
+        QuestieWaypoints.Add(first, "m_7", PATROLS, 12)
+        QuestieWaypoints.Add(second, "m_7", PATROLS, 12)
+        QuestieWaypoints.Add(hidden, "m_7", PATROLS, 12)
+        QuestieWaypoints.Add(other, "m_8", PATROLS, 12)
+
+        local icons = {}
+        for _, icon in ipairs(QuestieWaypoints.MinimapIcons(first.data.waypointPaths[1])) do icons[icon] = true end
+
+        assert.are.same({[first.minimapTwin] = true, [second.minimapTwin] = true}, icons)
+    end)
+
     it("keeps an icon's paths to itself without an entity", function()
         local first, second = Icon({}), Icon({})
 

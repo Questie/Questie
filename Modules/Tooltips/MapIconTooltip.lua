@@ -72,7 +72,9 @@ end
 ---@param Tooltip GameTooltip The tooltip frame to render into
 ---@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
 ---since HereBeDragons may hide its NPC's icon and distance may fade it out.
-function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner)
+---@param icons IconFrame[]? More icons to list wherever they are, however faded: a hovered minimap path
+---passes its NPC's icons, one for each of its quests.
+function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     -- An icon faded out shows nothing when hovered itself. A hovered path shows, whatever its icon's fade.
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 and not owner then
@@ -132,7 +134,8 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner)
 
     self.data.touchedPins = {}
     ---@param icon IconFrame
-    local function handleMapIcon(icon)
+    ---@param listed boolean? One of the given icons, listed wherever it is, however faded.
+    local function handleMapIcon(icon, listed)
         local iconData = icon.data
 
         if not iconData then
@@ -141,7 +144,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner)
         end
 
         -- Skip icons that are hidden (FakeHide'd or faded out), unless it's the hovered icon itself
-        if icon ~= self and (icon.hidden or icon.texture.a == 0) then
+        if icon ~= self and not listed and (icon.hidden or icon.texture.a == 0) then
             return
         end
 
@@ -157,38 +160,39 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner)
             end
             tinsert(self.data.touchedPins, entry);
         end
-        if icon.x and icon.AreaID == self.AreaID then
-            local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
-            if dist < maxDistCluster then
-                if iconData.Type == "available" or iconData.Type == "complete" then
-                    if not npcAndObjectOrder[iconData.Name] then
-                        npcAndObjectOrder[iconData.Name] = {};
-                    end
-
-                    local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-                    npcAndObjectOrder[iconData.Name][tip.title] = tip
-                elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
-                    local key = iconData.Id
-                    if not questOrder[key] then
-                        questOrder[key] = {};
-                    end
-
-                    local orderedTooltips = {}
-                    iconData.ObjectiveData:Update()
-                    local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
-                    for _, tip in pairs(tooltips) do
-                        tinsert(orderedTooltips, 1, tip);
-                    end
-                    for _, tip in pairs(orderedTooltips) do
-                        local quest = questOrder[key]
-                        _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
-                    end
-                elseif iconData.CustomTooltipData then
-                    questOrder[iconData.CustomTooltipData.Title] = {}
-                    tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
-                elseif iconData.ManualTooltipData then
-                    manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
+        local near = listed
+        if not near and icon.x and icon.AreaID == self.AreaID then
+            near = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y) < maxDistCluster
+        end
+        if near then
+            if iconData.Type == "available" or iconData.Type == "complete" then
+                if not npcAndObjectOrder[iconData.Name] then
+                    npcAndObjectOrder[iconData.Name] = {};
                 end
+
+                local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
+                npcAndObjectOrder[iconData.Name][tip.title] = tip
+            elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
+                local key = iconData.Id
+                if not questOrder[key] then
+                    questOrder[key] = {};
+                end
+
+                local orderedTooltips = {}
+                iconData.ObjectiveData:Update()
+                local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
+                for _, tip in pairs(tooltips) do
+                    tinsert(orderedTooltips, 1, tip);
+                end
+                for _, tip in pairs(orderedTooltips) do
+                    local quest = questOrder[key]
+                    _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
+                end
+            elseif iconData.CustomTooltipData then
+                questOrder[iconData.CustomTooltipData.Title] = {}
+                tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
+            elseif iconData.ManualTooltipData then
+                manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
             end
         end
     end
@@ -197,12 +201,14 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner)
         for icon, _ in pairs(HBDPins.activeMinimapPins) do
             handleMapIcon(icon)
         end
-        -- A minimap icon HereBeDragons hides out of range, such as a hovered patrol path's, lists its own entry.
-        if not HBDPins.activeMinimapPins[self] then handleMapIcon(self) end
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)
         end
+    end
+    -- HereBeDragons hides icons out of range, and distance fades them out; given icons count anyway.
+    for _, icon in ipairs(icons or {}) do
+        handleMapIcon(icon, true)
     end
 
     Tooltip.npcAndObjectOrder = npcAndObjectOrder

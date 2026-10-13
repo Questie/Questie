@@ -5,7 +5,7 @@ describe("WaypointHover", function()
     local WaypointHover
     local QuestieWaypoints, MapIconTooltip, QuestieFrame
     local saved
-    local tooltipOwner, minimapTooltip
+    local tooltipOwner, minimapTooltip, listed
 
     local function Icon(data)
         return {
@@ -26,6 +26,8 @@ describe("WaypointHover", function()
         QuestieLoader:ImportModule("QuestieCompat").GetMouseFocus = function() return nil end
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
         QuestieWaypoints.SetHighlighted = spy.new(function() end)
+        listed = {{}}
+        QuestieWaypoints.MinimapIcons = function() return listed end
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         MapIconTooltip.ShowOnTooltip = spy.new(function() end)
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
@@ -43,7 +45,7 @@ describe("WaypointHover", function()
         local path, icon = {data = data}, Icon(data)
 
         WaypointHover.Set("minimap", path, icon)
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap)
+        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap, listed)
         assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, true)
         assert.spy(icon.scripts.OnEnter).was.not_called()
 
@@ -59,7 +61,7 @@ describe("WaypointHover", function()
 
         WaypointHover.Set("minimap", {data = data}, icon)
 
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap)
+        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap, listed)
     end)
 
     it("ends a minimap hover once the NPC's minimap icon opens its own tooltip", function()
@@ -94,7 +96,7 @@ describe("WaypointHover", function()
         WaypointHover.Set("minimap", {data = data}, minimapIcon)
 
         assert.spy(mapIcon.scripts.OnLeave).was.called_with(mapIcon)
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(minimapIcon, minimapTooltip, _G.Minimap)
+        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(minimapIcon, minimapTooltip, _G.Minimap, listed)
     end)
 
     it("undoes the NPC's tooltip changes when another frame takes the tooltip", function()
