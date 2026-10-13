@@ -8,6 +8,8 @@ describe("WaypointMinimap", function()
     local renderer
     local player, radius, rotating, facing
     local hooks, masks
+    local cursor, focus, uiScale
+    local WaypointHover
     local HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
 
     local function NewFrame()
@@ -25,6 +27,9 @@ describe("WaypointMinimap", function()
         function frame:SetScript(name, script) self.scripts[name] = script end
         function frame:GetWidth() return 140 end
         function frame:GetHeight() return 140 end
+        function frame:GetCenter() return 500, 500 end
+        function frame:GetEffectiveScale() return uiScale end
+        function frame:IsMouseOver() return cursor ~= nil end
         function frame:CreateMaskTexture()
             return {SetAllPoints = function() end, SetPoint = function() end, SetSize = function() end,
                 SetTexture = function(self, asset) self.asset = asset end,
@@ -49,6 +54,7 @@ describe("WaypointMinimap", function()
                 math.max(bounds[3], point.x), math.max(bounds[4], point.y)}
         end
         local path = {instanceId = 0, world = world, worldBounds = bounds, color = {1, 0.72, 0, 0.5}, minimapAlpha = 1}
+        path.owner = {minimapTwin = {}}
         path.route = route or tostring(path)
         QuestieWaypoints.paths[path] = true
         return path
@@ -83,11 +89,17 @@ describe("WaypointMinimap", function()
     before_each(function()
         saved = {LibStub = _G.LibStub, CreateFrame = _G.CreateFrame, Minimap = _G.Minimap,
             GetPlayerFacing = _G.GetPlayerFacing, GetMinimapShape = _G.GetMinimapShape,
-            hooksecurefunc = _G.hooksecurefunc, C_Texture = _G.C_Texture}
+            hooksecurefunc = _G.hooksecurefunc, C_Texture = _G.C_Texture, GetCursorPosition = _G.GetCursorPosition}
         hooks = {}
         _G.hooksecurefunc = function(_, method, hook) hooks[method] = hook end
         _G.C_Texture = nil
         player, radius, rotating, facing = {1000, 1000, 0}, 100, false, 0
+        cursor, focus, uiScale = nil, nil, 1
+        _G.GetCursorPosition = function() return cursor[1], cursor[2] end
+        QuestieLoader:ImportModule("QuestieCompat").GetMouseFocus = function() return focus end
+        WaypointHover = QuestieLoader:ImportModule("WaypointHover")
+        WaypointHover.Radius = function() return 3 end
+        WaypointHover.Set = spy.new(function() end)
         Questie.db.profile = {waypointWidth = 4}
         _G.CreateFrame = function() return NewFrame() end
         _G.Minimap = NewFrame()
@@ -115,6 +127,7 @@ describe("WaypointMinimap", function()
             return renderer
         end
         dofile("Modules/Libs/QuestieLib.lua")
+        dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         dofile("Modules/Map/Waypoints/WaypointMinimap.lua")
         WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
     end)
@@ -271,6 +284,135 @@ describe("WaypointMinimap", function()
 
         assert.is_false(layer.root.shown)
         assert.spy(renderer.Draw).was.not_called()
+    end)
+
+    describe("hover", function()
+        -- The cursor where HereBeDragons would draw an icon for the world point, moved right by dx
+        -- minimap units. The minimap's center is at 500, 500; the cursor is in pixels, at the UI scale.
+        local function CursorAt(point, dx)
+            local x, y = PinPosition(point)
+            cursor = {(500 + x + dx) * uiScale, (500 + y) * uiScale}
+        end
+
+        -- A patrol running north-south 50 yards from the player, 35 units off the minimap's center.
+        local path, onLine
+        before_each(function()
+            onLine = {x = 950, y = 1000}
+            path = Path({{x = 950, y = 990}, {x = 950, y = 1010}})
+            focus = _G.Minimap
+        end)
+
+        it("hovers the route under the cursor as its NPC's minimap icon, and ends past the hover reach", function()
+            local layer = Layer()
+            CursorAt(onLine, 2)
+            layer:Update()
+            assert.spy(WaypointHover.Set).was.called_with("minimap", path, path.owner.minimapTwin)
+
+            CursorAt(onLine, 4)
+            layer:Update()
+            assert.spy(WaypointHover.Set).was.called_with("minimap", nil, nil)
+        end)
+
+        it("hovers the route once the player walks it under a still cursor", function()
+            local layer = Layer()
+            -- 7 units short of the route, where it will be drawn once the player has walked.
+            CursorAt(onLine, -7)
+            layer:Update()
+            assert.spy(WaypointHover.Set).was.not_called_with("minimap", path, path.owner.minimapTwin)
+
+            -- 10 yards toward the route, within the drift: only the container moves, by 7 units.
+            player = {990, 1000, 0}
+            layer:Update()
+
+            assert.spy(WaypointHover.Set).was.called_with("minimap", path, path.owner.minimapTwin)
+        end)
+
+        it("leaves the hover to whatever covers the minimap", function()
+            local layer = Layer()
+            focus = {}
+            CursorAt(onLine, 0)
+
+            layer:Update()
+
+            assert.spy(WaypointHover.Set).was.not_called_with("minimap", path, path.owner.minimapTwin)
+        end)
+
+        it("hovers a round minimap's corners only once it is square", function()
+            -- 60 units right of and above the center: in the corner, outside a round minimap.
+            local corner = {x = 1000 - 60 / 0.7, y = 1000 + 60 / 0.7}
+            local cornerPath = Path({{x = corner.x, y = corner.y - 10}, {x = corner.x, y = corner.y + 10}})
+            local layer = Layer()
+            CursorAt(corner, 0)
+            layer:Update()
+            assert.spy(WaypointHover.Set).was.not_called_with("minimap", cornerPath, cornerPath.owner.minimapTwin)
+
+            _G.GetMinimapShape = function() return "SQUARE" end
+            layer:Update()
+
+            assert.spy(WaypointHover.Set).was.called_with("minimap", cornerPath, cornerPath.owner.minimapTwin)
+        end)
+
+        it("reads the cursor at the minimap's UI scale", function()
+            uiScale = 2
+            local layer = Layer()
+            CursorAt(onLine, 2)
+
+            layer:Update()
+
+            assert.spy(WaypointHover.Set).was.called_with("minimap", path, path.owner.minimapTwin)
+        end)
+
+        it("hovers a shared route as the copy that shows, also once another copy is highlighted", function()
+            local highlighted = Path({{x = 950, y = 990}, {x = 950, y = 1010}}, "route")
+            path.route, highlighted.minimapAlpha = "route", 0.3
+            local layer = Layer()
+            CursorAt(onLine, 2)
+            layer:Update()
+            assert.spy(WaypointHover.Set).was.called_with("minimap", path, path.owner.minimapTwin)
+
+            -- QuestieWaypoints.SetHighlighted invalidates the layer, which collects the routes again.
+            highlighted.highlighted = true
+            layer.dirty = true
+            layer:Update()
+
+            assert.spy(WaypointHover.Set).was.called_with("minimap", highlighted, highlighted.owner.minimapTwin)
+        end)
+
+        it("ends its hover where paths can't be drawn, and when the minimap hides", function()
+            local layer = Layer()
+            CursorAt(onLine, 2)
+            layer:Update()
+
+            -- Inside instances, there is no player position.
+            player = {nil, nil, 0}
+            layer:Update()
+            assert.spy(WaypointHover.Set).was.called_with("minimap", nil)
+
+            player = {1000, 1000, 0}
+            layer:Update()
+            WaypointHover.Set:clear()
+            layer.root.scripts.OnHide()
+            assert.spy(WaypointHover.Set).was.called_with("minimap", nil)
+        end)
+
+        it("stops after an error while hovering, although ending the hover shows the layer again", function()
+            local originalError = Questie.Error
+            local reportError = spy.new(function() end)
+            Questie.Error = reportError
+            local layer = Layer()
+            -- The tooltip fails to open. Ending the hover then changes the highlight, which invalidates.
+            WaypointHover.Set = function(_, hoveredPath)
+                if hoveredPath then error("tooltip failed") end
+                layer.root:Show()
+            end
+            CursorAt(onLine, 2)
+
+            layer.root.scripts.OnUpdate()
+            Questie.Error = originalError
+
+            assert.is_false(layer.root.shown)
+            assert.spy(reportError).was.called(1)
+        end)
     end)
 
     describe("shape", function()
