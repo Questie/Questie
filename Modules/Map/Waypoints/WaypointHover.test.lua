@@ -87,16 +87,20 @@ describe("WaypointHover", function()
         assert.spy(icon.scripts.OnLeave).was.called_with(icon)
     end)
 
-    it("moves an NPC's hover from one map to the other with its tooltip", function()
+    it("moves a path's hover from one map to the other with its tooltip", function()
+        -- Both maps hover the same path object, the one registered for the patrol.
         local data = {}
-        local mapIcon, minimapIcon = Icon(data), Icon(data)
-        WaypointHover.Set("map", {data = data}, mapIcon)
+        local path, mapIcon, minimapIcon = {data = data}, Icon(data), Icon(data)
+        WaypointHover.Set("map", path, mapIcon)
         tooltipOwner = mapIcon
 
-        WaypointHover.Set("minimap", {data = data}, minimapIcon)
+        WaypointHover.Set("minimap", path, minimapIcon)
+        -- The world map may only see the cursor leave after the minimap took the hover.
+        WaypointHover.Set("map", nil)
 
         assert.spy(mapIcon.scripts.OnLeave).was.called_with(mapIcon)
         assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(minimapIcon, minimapTooltip, _G.Minimap, listed)
+        assert.spy(minimapTooltip.Hide).was.not_called()
     end)
 
     it("undoes the NPC's tooltip changes when another frame takes the tooltip", function()

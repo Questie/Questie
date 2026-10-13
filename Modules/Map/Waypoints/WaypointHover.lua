@@ -100,12 +100,13 @@ local function _Leave(path, on)
 end
 
 ---Sets the path the cursor is over on one map; nil when it is over none there. A map only ends
----its own hover, so the other map's hover is kept.
+---its own hover, so the other map's hover is kept. Both maps hover the same path objects, so the
+---same path moving to the other map is a new hover there.
 ---@param on WaypointHoverSurface
 ---@param path WaypointPath?
 ---@param icon IconFrame? The path's NPC on that map: the world map icon, or its minimap twin.
 function WaypointHover.Set(on, path, icon)
-    if path == hovered or (not path and hoveredOn ~= on) then return end
+    if (path == hovered and on == hoveredOn) or (not path and hoveredOn ~= on) then return end
     -- Another patrol of the same NPC on the same map keeps its tooltip and highlight.
     if path and hovered and on == hoveredOn and path.data == hovered.data then
         hovered = path
