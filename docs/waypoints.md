@@ -81,7 +81,7 @@ Smoothing calls `WaypointRenderer.RedrawAll`. The others call `QuestieWaypoints.
 - **Clicks:** lines are click-through. Clicks over them reach the map; clicking a line no longer does what clicking its icon does.
 - **Duplicate routes draw once.** An NPC with three quests has three quest icons, and each draws his patrol. Courier Hammerfall's Ironforge route used to stack three 50% copies to about 88% opaque.
   - Each path's `route` is its entity key, area and part of the patrol, and each route draws once.
-  - On the world map that is the hovered copy while highlighting is on, otherwise the most visible one. A hovered copy takes its route over on the next frame, without a redraw.
+  - On the world map that is the hovered copy while highlighting is on, otherwise the most visible one. A highlight makes the world map choose its copies again on the next frame, without drawing them again, so a hovered copy takes its route over and hands it back once the hover ends.
   - On the minimap it is the highlighted copy while highlighting is on, otherwise the most visible one. A highlight makes the minimap choose its copies again, without projecting them again.
 - **Self-overlap:** a patrol that crosses or retraces itself draws darker there, marking where the NPC walks twice. Frame buffers could avoid that, but were [tried and rejected](frame-buffer-group-opacity.md).
 - **Tracker flash:** Show on Map shows only the flashed quest's paths. Manual and townsfolk paths hide during it too.

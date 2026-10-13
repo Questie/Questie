@@ -126,21 +126,27 @@ describe("WaypointMap", function()
             assert.are.equal(1, renderer.Draw.calls[1].vals[4].alpha)
         end)
 
-        it("lets a hovered copy take its route over without drawing it again", function()
-            Path(1, "route")
+        it("lets a hovered copy take its route over, and hand it back, without drawing it again", function()
+            local shown = Path(1, "route")
             local hidden = Path(1, "route")
             hidden.alpha = 0.3
             WaypointMap.Invalidate()
             Update()
 
             hidden.highlighted, hidden.color = true, {0.93, 0.46, 0.13, 0.8}
-            WaypointMap.Restyle(hidden)
+            WaypointMap.Invalidate()
             Update()
 
-            assert.spy(renderer.Draw).was.called(1)
             local style = renderer.Restyle.calls[#renderer.Restyle.calls].vals[3]
             assert.are_same({0.93, 0.46, 0.13, 0.8}, style.color)
             assert.are.equal(0.3, style.alpha)
+
+            hidden.highlighted, hidden.color = nil, shown.color
+            WaypointMap.Invalidate()
+            Update()
+
+            assert.spy(renderer.Draw).was.called(1)
+            assert.are.equal(1, renderer.Restyle.calls[#renderer.Restyle.calls].vals[3].alpha)
         end)
 
         it("draws lines at the width setting, also after it changes", function()
