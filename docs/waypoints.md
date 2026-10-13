@@ -57,7 +57,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 
 - **Colours:**
   - normal: `{1, 0.72, 0, 0.5}`;
-  - hostile NPC: `{1, 0.2, 0, 0.7}`;
+  - hostile: `{1, 0.2, 0, 0.7}`, for objective NPCs and NPCs that drop an item starting an available quest;
   - highlighted: `{0.93, 0.46, 0.13, 0.8}`.
 
   Fading uses `profile.iconFadeLevel` through frame alpha.

@@ -534,6 +534,48 @@ describe("AvailableQuests", function()
             assert.spy(QuestieDB.GetNPC).was.called_with(QuestieDB, NPC_ID)
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
         end)
+
+        describe("starter waypoints", function()
+            local HOSTILE_COLOR = {1, 0.2, 0, 0.7}
+            local ZONE = 12
+            local WAYPOINTS = {{{10, 10}, {20, 20}}}
+            local icon = {}
+            local originalDrawWorldIcon
+            local originalDrawWaypoints
+            local originalGetQuestIcon
+
+            before_each(function()
+                originalDrawWorldIcon = QuestieMap.DrawWorldIcon
+                originalDrawWaypoints = QuestieMap.DrawWaypoints
+                originalGetQuestIcon = QuestieLib.GetQuestIcon
+                QuestieLoader:ImportModule("QuestieWaypoints").HOSTILE_COLOR = HOSTILE_COLOR
+                QuestieMap.DrawWorldIcon = function() return icon end
+                QuestieMap.DrawWaypoints = spy.new(function() end)
+                QuestieLib.GetQuestIcon = function() return 6 end
+                QuestieTooltips.RegisterQuestStartTooltip = function() end
+                QuestieDB.GetNPC = function() return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}} end
+            end)
+
+            after_each(function()
+                QuestieMap.DrawWorldIcon = originalDrawWorldIcon
+                QuestieMap.DrawWaypoints = originalDrawWaypoints
+                QuestieLib.GetQuestIcon = originalGetQuestIcon
+            end)
+
+            it("should draw the route of an NPC dropping the starting item as hostile", function()
+                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, HOSTILE_COLOR)
+            end)
+
+            it("should draw the route of a quest giver in the default color", function()
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
+
+                assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, nil)
+            end)
+        end)
     end)
 
     describe("NPC GUID restrictions", function()
