@@ -8,6 +8,8 @@ local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 local WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
 ---@type WaypointRenderer
 local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
+---@type WaypointHover
+local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
@@ -35,20 +37,11 @@ local dirty = true
 -- shownScale is the canvas scale line widths are drawn for; currentScale the latest one.
 local shownMapId, shownWidth, shownHeight, shownScale, currentScale
 local cursorX, cursorY
----@type WaypointPath?
-local hovered
----@type IconFrame? Owner whose tooltip the hovered path opened.
-local enteredOwner
 
 -- Drawing
 
 -- Line width and hover reach are in map UI units: both are divided by the canvas scale, so they
--- keep their size on screen while zooming. Hover reaches one unit past the line's edge, tuned in game.
-
----@return number
-local function _HoverRadius()
-    return Questie.db.profile.waypointWidth / 2 + 1
-end
+-- keep their size on screen while zooming.
 
 ---@param path WaypointPath
 ---@param alpha number
@@ -56,7 +49,7 @@ end
 local function _Style(path, alpha)
     local profile = Questie.db.profile
     return {thickness = profile.waypointWidth / shownScale, color = QuestieWaypoints.Color(path), alpha = alpha,
-        frameLevel = FRAME_LEVEL, hoverRadius = profile.waypointDebugHover and _HoverRadius() / shownScale or nil}
+        frameLevel = FRAME_LEVEL, hoverRadius = profile.waypointDebugHover and WaypointHover.Radius() / shownScale or nil}
 end
 
 -- Paths draw on their own map only. Several icons can own the same patrol, such as an NPC who
@@ -132,55 +125,6 @@ local function _IsCursorOnMap()
     return QuestieCompat.GetMouseFocus() == WorldMapFrame.ScrollContainer
 end
 
--- Hovering a path is hovering its NPC: the owner's tooltip opens, which highlights all of the
--- NPC's paths. An owner that is not visible cannot anchor a tooltip.
----@param path WaypointPath
-local function _Enter(path)
-    local owner = path.owner
-    local onEnter = owner.data == path.data and owner:IsVisible() and owner:GetScript("OnEnter")
-    if onEnter then
-        enteredOwner = owner
-        onEnter(owner)
-    else
-        QuestieWaypoints.SetHighlighted(path.data, true)
-    end
-end
-
----@param path WaypointPath
-local function _Leave(path)
-    local owner = enteredOwner
-    enteredOwner = nil
-    if owner then
-        -- Moving onto the icon itself hands the hover over to it.
-        if QuestieCompat.GetMouseFocus() == owner then return end
-        -- Another icon may have opened its own tooltip meanwhile; then only the highlight is ours.
-        if GameTooltip:GetOwner() == owner then
-            -- An owner unloaded while hovered no longer has the data its OnLeave resets.
-            local onLeave = owner.data == path.data and owner:GetScript("OnLeave")
-            if onLeave then
-                onLeave(owner)
-                return
-            end
-            GameTooltip:Hide()
-        end
-    end
-    QuestieWaypoints.SetHighlighted(path.data, false)
-end
-
----@param path WaypointPath?
-local function _SetHovered(path)
-    if path == hovered then return end
-    -- Another patrol of the same NPC keeps its tooltip and highlight.
-    if path and hovered and path.data == hovered.data then
-        hovered = path
-        return
-    end
-    local previous = hovered
-    hovered = path
-    if previous then _Leave(previous) end
-    if path then _Enter(path) end
-end
-
 ---Rechecks the hovered path; only when the cursor moved over the canvas, unless forced.
 ---@param force boolean?
 local function _UpdateHover(force)
@@ -189,9 +133,10 @@ local function _UpdateHover(force)
     cursorX, cursorY = x, y
     local nearest
     if x and visible[1] and _IsCursorOnMap() then
-        nearest = WaypointGeometry.Nearest(visible, x, y, _HoverRadius() / currentScale)
+        nearest = WaypointGeometry.Nearest(visible, x, y, WaypointHover.Radius() / currentScale)
     end
-    _SetHovered(nearest and nearest.path)
+    local path = nearest and nearest.path
+    WaypointHover.Set("map", path, path and path.owner)
 end
 
 -- Driver
@@ -231,7 +176,7 @@ local function _CreateDriver()
     driver:SetScript("OnUpdate", _Update)
     -- Closing the map ends any hover. Views stay drawn for reopening the same map.
     driver:SetScript("OnHide", function()
-        _SetHovered(nil)
+        WaypointHover.Set("map", nil)
         cursorX, cursorY = nil, nil
     end)
 end
@@ -240,13 +185,6 @@ end
 function WaypointMap.Invalidate()
     if not driver then _CreateDriver() end
     dirty = true
-end
-
----Ends a path hover before another icon's tooltip opens, so the path's owner restores what its own
----tooltip changed first. Called from the icon tooltip; the hovered path's own owner keeps it.
----@param icon IconFrame
-function WaypointMap.EndHover(icon)
-    if hovered and icon ~= enteredOwner then _SetHovered(nil) end
 end
 
 ---Restyles a path in place, such as for a highlight. A copy of a route that does not show takes the

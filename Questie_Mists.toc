@@ -186,6 +186,7 @@ Modules\Map\Moonwell.lua
 Modules\Map\Waypoints\WaypointGeometry.lua
 Modules\Map\Waypoints\WaypointRenderer.lua
 Modules\Map\Waypoints\QuestieWaypoints.lua
+Modules\Map\Waypoints\WaypointHover.lua
 Modules\Map\Waypoints\WaypointMap.lua
 Modules\Map\Waypoints\WaypointMinimap.lua
 

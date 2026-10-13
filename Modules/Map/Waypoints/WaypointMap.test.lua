@@ -3,6 +3,7 @@ dofile("setupTests.lua")
 describe("WaypointMap", function()
     ---@type WaypointMap
     local WaypointMap
+    local WaypointHover
     local QuestieWaypoints
     local saved
     local driver, renderer
@@ -77,6 +78,8 @@ describe("WaypointMap", function()
         QuestieLoader:ImportModule("WaypointRenderer").New = function() return renderer end
 
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
+        dofile("Modules/Map/Waypoints/WaypointHover.lua")
+        WaypointHover = QuestieLoader:ImportModule("WaypointHover")
         dofile("Modules/Map/Waypoints/WaypointMap.lua")
         WaypointMap = QuestieLoader:ImportModule("WaypointMap")
         focus = _G.WorldMapFrame.ScrollContainer
@@ -239,10 +242,10 @@ describe("WaypointMap", function()
             Update()
             tooltipOwner = path.owner
 
-            WaypointMap.EndHover(path.owner)
+            WaypointHover.End(path.owner)
             assert.spy(path.owner.scripts.OnLeave).was.not_called()
 
-            WaypointMap.EndHover(Owner({}))
+            WaypointHover.End(Owner({}))
             assert.spy(path.owner.scripts.OnLeave).was.called_with(path.owner)
         end)
 

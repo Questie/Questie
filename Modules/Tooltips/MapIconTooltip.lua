@@ -29,8 +29,8 @@ local QuestXP = QuestieLoader:ImportModule("QuestXP")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type WaypointMap
-local WaypointMap = QuestieLoader:ImportModule("WaypointMap")
+---@type WaypointHover
+local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -64,7 +64,7 @@ end
 
 function MapIconTooltip:Show()
     -- A hovered patrol path opened its NPC's tooltip; that NPC's OnLeave must run before this one.
-    WaypointMap.EndHover(self)
+    WaypointHover.End(self)
     MapIconTooltip.ShowOnTooltip(self, GameTooltip)
 end
 
