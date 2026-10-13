@@ -12,8 +12,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
--- Line width in minimap units.
-local LINE_THICKNESS = 4
 -- Everything visible lies within √2 view radii of the player: a square minimap's corners. Segments
 -- within CULL_MARGIN radii of the projection origin are drawn, which covers that view while the
 -- player stays within REPROJECT_DRIFT radii of the origin; beyond it the paths are projected again.
@@ -39,8 +37,6 @@ local FOREVER_MASK_ATLAS = "ui-hud-minimap-frame-generic-mask"
 ---@class WaypointMinimapEntry
 ---@field view WaypointView? nil while no segment is within reach of the projection.
 ---@field projection WaypointMinimapProjection Projection the view was drawn with.
----@field color number[] Color the view was styled with.
----@field alpha number
 
 -- Projection
 -- HereBeDragons-Pins' minimap icon arithmetic, so paths and icons line up: the world offset turns
@@ -204,7 +200,7 @@ local function _Collect(layer)
         local alpha = QuestieWaypoints.MinimapAlpha(path)
         if alpha then
             -- The highlighted copy first, then the most visible one: alpha is at most 1.
-            local rank = alpha + (path.highlighted and 2 or 0)
+            local rank = alpha + (QuestieWaypoints.IsHighlighted(path) and 2 or 0)
             local best = routes[path.route]
             if not best or rank > best.rank then
                 routes[path.route] = {path = path, alpha = alpha, rank = rank}
@@ -230,15 +226,13 @@ end
 ---@return WaypointView?
 local function _View(layer, path, alpha, projection)
     local entry = layer.entries[path.route]
-    local color = QuestieWaypoints.Color(path)
-    local style = {thickness = LINE_THICKNESS, color = color, alpha = alpha, frameLevel = layer.container:GetFrameLevel()}
+    -- Line width is in minimap units.
+    local style = {thickness = Questie.db.profile.waypointWidth, color = QuestieWaypoints.Color(path), alpha = alpha,
+        frameLevel = layer.container:GetFrameLevel()}
     if entry and entry.projection == projection then
-        -- Highlighting changes the color, and so can another copy of the route, such as an NPC
-        -- hostile in one quest.
-        if entry.view and (entry.alpha ~= alpha or entry.color ~= color) then
-            layer.renderer:Restyle(entry.view, style)
-        end
-        entry.color, entry.alpha = color, alpha
+        -- Restyling redraws only what changed: the color of a highlight, or of another copy of the
+        -- route such as an NPC hostile in one quest, or the width and colors after a setting changed.
+        if entry.view then layer.renderer:Restyle(entry.view, style) end
         return entry.view
     end
     local runs = _Runs(path.world, projection)
@@ -249,7 +243,7 @@ local function _View(layer, path, alpha, projection)
         layer.renderer:Release(view)
         view = nil
     end
-    layer.entries[path.route] = {view = view, projection = projection, color = color, alpha = alpha}
+    layer.entries[path.route] = {view = view, projection = projection}
     return view
 end
 

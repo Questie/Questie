@@ -724,10 +724,10 @@ end
 ---drawing the same entity's waypoints, such as one per quest of an NPC, draw them once together.
 ---@param waypoints CoordPair[][] The zone's waypoints, {{{x, y}, ...}, ...} in percentages.
 ---@param zone AreaId
----@param color number[]? {r, g, b, a}; QuestieWaypoints.DEFAULT_COLOR when nil.
-function QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, color)
+---@param hostile boolean? The NPC is fought, such as for an objective; its paths take the hostile color.
+function QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, hostile)
     if icon and waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
-        QuestieWaypoints.Add(icon, entity, waypoints, zone, color)
+        QuestieWaypoints.Add(icon, entity, waypoints, zone, hostile)
     end
 end
 

@@ -11,15 +11,8 @@ local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
--- Line width and hover reach in map UI units: both are divided by the canvas scale, so they keep
--- their size on screen while zooming. Hover reaches one unit past the line's edge, tuned in game.
-local LINE_THICKNESS = 4
-local HOVER_RADIUS = LINE_THICKNESS / 2 + 1
 -- Below Questie's icons, which start at 2016 (QuestieMap.utils.SetDrawOrder).
 local FRAME_LEVEL = 2015
-
----Debugging: draws every path's hover area beneath it. Takes effect on the next map change.
-WaypointMap.debugHover = false
 
 ---A route drawn on the current map, in canvas units with y down.
 ---@class WaypointMapView : WaypointHitTarget
@@ -49,12 +42,21 @@ local enteredOwner
 
 -- Drawing
 
+-- Line width and hover reach are in map UI units: both are divided by the canvas scale, so they
+-- keep their size on screen while zooming. Hover reaches one unit past the line's edge, tuned in game.
+
+---@return number
+local function _HoverRadius()
+    return Questie.db.profile.waypointWidth / 2 + 1
+end
+
 ---@param path WaypointPath
 ---@param alpha number
 ---@return WaypointStyle
 local function _Style(path, alpha)
-    return {thickness = LINE_THICKNESS / shownScale, color = QuestieWaypoints.Color(path), alpha = alpha,
-        frameLevel = FRAME_LEVEL, hoverRadius = WaypointMap.debugHover and HOVER_RADIUS / shownScale or nil}
+    local profile = Questie.db.profile
+    return {thickness = profile.waypointWidth / shownScale, color = QuestieWaypoints.Color(path), alpha = alpha,
+        frameLevel = FRAME_LEVEL, hoverRadius = profile.waypointDebugHover and _HoverRadius() / shownScale or nil}
 end
 
 -- Paths draw on their own map only. Several icons can own the same patrol, such as an NPC who
@@ -68,7 +70,7 @@ local function _ShownRoutes()
         local alpha = path.uiMapId == shownMapId and QuestieWaypoints.WorldMapAlpha(path)
         if alpha then
             -- The hovered copy first, then the most visible one: alpha is at most 1.
-            local rank = alpha + (path.highlighted and 2 or 0)
+            local rank = alpha + (QuestieWaypoints.IsHighlighted(path) and 2 or 0)
             local best = routes[path.route]
             if not best or rank > best.rank then
                 routes[path.route] = {path = path, alpha = alpha, rank = rank}
@@ -187,7 +189,7 @@ local function _UpdateHover(force)
     cursorX, cursorY = x, y
     local nearest
     if x and visible[1] and _IsCursorOnMap() then
-        nearest = WaypointGeometry.Nearest(visible, x, y, HOVER_RADIUS / currentScale)
+        nearest = WaypointGeometry.Nearest(visible, x, y, _HoverRadius() / currentScale)
     end
     _SetHovered(nearest and nearest.path)
 end

@@ -24,8 +24,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
----@type WaypointRenderer
-local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -469,22 +469,16 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end,
             },
-            waypointSmoothing = {
-                type = "range",
+            waypointDebugHover = {
+                type = "toggle",
                 order = 5.1,
-                name = function() return l10n("Waypoint smoothing"); end,
-                desc = function()
-                    return l10n("Rounds the corners of NPC patrol lines. Higher values round them more; 0 draws sharp corners. (Default: %s)",
-                        optionsDefaults.profile.waypointSmoothing);
-                end,
-                width = 1.5,
-                min = 0,
-                max = 2,
-                step = 0.05,
+                name = function() return l10n("Show waypoint hover area"); end,
+                desc = function() return l10n("Draws the area around each patrol path on the world map where hovering shows its NPC."); end,
+                width = "full",
                 get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function(info, value)
                     QuestieOptions:SetProfileValue(info, value)
-                    WaypointRenderer.RedrawAll()
+                    QuestieWaypoints.Refresh()
                 end,
             },
         },
