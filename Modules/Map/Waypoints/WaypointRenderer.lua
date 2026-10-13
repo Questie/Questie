@@ -1,4 +1,6 @@
 -- luacheck: globals DrawLine UPPER_LEFT_VERTEX LOWER_LEFT_VERTEX UPPER_RIGHT_VERTEX LOWER_RIGHT_VERTEX
+---Draws patrol paths as outlined lines onto a canvas: the world map's, or the minimap layer's
+---container. Each path is one view frame with one pooled texture per segment.
 ---@class WaypointRenderer
 local WaypointRenderer = QuestieLoader:CreateModule("WaypointRenderer")
 
@@ -15,11 +17,13 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@field frameLevel number
 ---@field hoverRadius number? Debugging: draws the hover area beneath the line.
 
----One drawn path. Owned by its renderer; show and hide it like any frame.
+---One drawn path. Owned by its renderer; show and hide it like any frame. The waypointThickness,
+---Radius, Color and FrameLevel fields hold the style it was last drawn with, so Restyle redraws only
+---what changed; nil redraws that part.
 ---@class WaypointView : Frame
----@field lines Texture[]
----@field bands Texture[]
----@field caps Texture[]
+---@field lines Texture[] One per drawn segment.
+---@field bands Texture[] Debug hover area: one per segment.
+---@field caps Texture[] Debug hover area: one per point.
 ---@field waypointRuns table[][] Polylines in canvas units with y down, each at least two points.
 ---@field waypointThickness number?
 ---@field waypointRadius number?
@@ -47,20 +51,23 @@ local renderers = setmetatable({}, {__mode = "k"})
 local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-line-aa.png"
 -- Quads are wider than the line by the fade, so the line keeps its thickness.
 local QUAD_SCALE = 16 / 12
--- Smoothed lines are then trimmed of points within this many half line widths of the line kept
--- around them: under a fifth of a unit on the default 3-unit line, too little to see. Zoomed out,
--- most curves are that small.
-WaypointRenderer.TRIMMING = 1 / 8
-local WHITE_TEXTURE = "Interface\\BUTTONS\\WHITE8X8"
-local CIRCLE_TEXTURE = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
-local DEBUG_COLOR = {0.2, 0.8, 1, 0.25}
 -- The line texture has about as many rows as a line has pixels, so bilinear filtering blends rows
 -- smoothly without mipmaps. Nearest-neighbor picks one row per pixel, and the bands flicker as
 -- lines move.
 local FILTER = "LINEAR"
+-- Smoothed lines are then trimmed of points within this many half line widths of the line kept
+-- around them: under a fifth of a unit on the default 3-unit line, too little to see. Zoomed out,
+-- most curves are that small.
+WaypointRenderer.TRIMMING = 1 / 8
 
--- Lines draw above the debug hover area of their own path. Debug bands are DrawLine strips, whose
--- texture coordinates run past the image; clamping to black keeps the rest of their box clear.
+-- Debug hover area
+local WHITE_TEXTURE = "Interface\\BUTTONS\\WHITE8X8"
+local CIRCLE_TEXTURE = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
+local DEBUG_COLOR = {0.2, 0.8, 1, 0.25}
+
+-- Texture settings by kind. Lines draw above the debug hover area of their own path. Debug bands
+-- are DrawLine strips, whose texture coordinates run past the image; clamping to black keeps the
+-- rest of their box clear.
 local KINDS = {
     lines = {asset = LINE_TEXTURE, layer = "ARTWORK", wrap = "CLAMP"},
     bands = {asset = WHITE_TEXTURE, layer = "BACKGROUND", wrap = "CLAMPTOBLACKADDITIVE"},
@@ -77,6 +84,8 @@ function WaypointRenderer.New(canvas, maskTextures)
     renderers[renderer] = true
     return renderer
 end
+
+-- Texture pool
 
 ---@param self WaypointCanvasRenderer
 ---@param view WaypointView
@@ -119,6 +128,8 @@ local function _ReleaseBeyond(self, view, kind, count)
         free[#free + 1], owned[index] = texture, nil
     end
 end
+
+-- Drawing
 
 ---Stretches a texture over an outline quad: its box spans the corners, and each of its vertices
 ---moves from the box's corner onto the quad's. The texture's top edge runs along the quad's left
@@ -198,6 +209,8 @@ local function _DrawHoverArea(self, view)
     _ReleaseBeyond(self, view, "caps", caps)
 end
 
+-- Views
+
 ---Applies a style, redrawing only what changed: a new thickness redraws the lines, a new color
 ---only tints them.
 ---@param view WaypointView
@@ -272,7 +285,8 @@ function Renderer:Clear()
     for view in pairs(self.owned) do self:Release(view) end
 end
 
----Redraws every drawn path, after the waypointSmoothing setting changed.
+---Redraws every drawn path, after the waypointSmoothing setting changed or the profile switched.
+---Restyle redraws lines only for a new thickness, so a new smoothing needs this.
 function WaypointRenderer.RedrawAll()
     for renderer in pairs(renderers) do
         for view in pairs(renderer.owned) do

@@ -1,4 +1,5 @@
 -- luacheck: read globals issecretvalue
+---Draws the paths of the shown world map onto its canvas, and finds the path under the cursor.
 ---@class WaypointMap
 local WaypointMap = QuestieLoader:CreateModule("WaypointMap")
 
@@ -20,7 +21,7 @@ local FRAME_LEVEL = 2015
 ---@class WaypointMapView : WaypointHitTarget
 ---@field path WaypointPath The copy of the route that shows.
 ---@field view WaypointView
----@field mapId number
+---@field mapId number The map, and its canvas size, the view was drawn for.
 ---@field width number
 ---@field height number
 ---@field alpha number
@@ -33,16 +34,18 @@ local driver
 local views = {}
 ---@type WaypointMapView[]
 local visible = {}
+-- Paths or their visibility changed since the last draw.
 local dirty = true
--- shownScale is the canvas scale line widths are drawn for; currentScale the latest one.
+-- The map and canvas size drawn for. shownScale is the canvas scale line widths are drawn for;
+-- currentScale the latest one.
 local shownMapId, shownWidth, shownHeight, shownScale, currentScale
+-- Cursor at the last hover check, in canvas units; nil off the canvas.
 local cursorX, cursorY
 
 -- Drawing
 
--- Line width and hover reach are in map UI units: both are divided by the canvas scale, so they
--- keep their size on screen while zooming.
-
+---Line width and hover reach are in map UI units: both are divided by the canvas scale, so they
+---keep their size on screen while zooming.
 ---@param path WaypointPath
 ---@param alpha number
 ---@return WaypointStyle
@@ -52,9 +55,9 @@ local function _Style(path, alpha)
         frameLevel = FRAME_LEVEL, hoverRadius = profile.waypointDebugHover and WaypointHover.Radius() / shownScale or nil}
 end
 
--- Paths draw on their own map only. Several icons can own the same patrol, such as an NPC who
--- starts three quests: each copy would draw the route again, darker where they stack. A route draws
--- once, as its hovered copy, or else its most visible one.
+---Paths draw on their own map only. Several icons can own the same patrol, such as an NPC who
+---starts three quests: each copy would draw the route again, darker where they stack. A route draws
+---once, as its highlighted copy, or else its most visible one.
 ---@return table<string, {path: WaypointPath, alpha: number, rank: number}> By route.
 local function _ShownRoutes()
     local routes = {}
@@ -62,7 +65,7 @@ local function _ShownRoutes()
     for path in pairs(QuestieWaypoints.paths) do
         local alpha = path.uiMapId == shownMapId and QuestieWaypoints.WorldMapAlpha(path)
         if alpha then
-            -- The hovered copy first, then the most visible one: alpha is at most 1.
+            -- The highlighted copy first, then the most visible one: alpha is at most 1.
             local rank = alpha + (QuestieWaypoints.IsHighlighted(path) and 2 or 0)
             local best = routes[path.route]
             if not best or rank > best.rank then
@@ -156,16 +159,19 @@ local function _Update()
     currentScale = scale
     local changed = false
     if dirty or mapId ~= shownMapId or width ~= shownWidth or height ~= shownHeight then
+        -- Paths changed, or the map or canvas did: draw again.
         shownMapId, shownWidth, shownHeight, shownScale = mapId, width, height, scale
         _Refresh()
         changed = true
     elseif scale ~= shownScale and (settled or math.abs(scale / shownScale - 1) > ZOOM_REDRAW_DRIFT) then
+        -- A zoom settled or drifted far: restyle to the width on screen.
         shownScale = scale
         for _, entry in ipairs(visible) do
             renderer:Restyle(entry.view, _Style(entry.path, entry.alpha))
         end
         changed = true
     end
+    -- Redrawing or zooming moves the paths under a still cursor.
     _UpdateHover(changed or not settled)
 end
 
@@ -188,7 +194,7 @@ function WaypointMap.Invalidate()
 end
 
 ---Restyles a path in place, such as for a highlight. A copy of a route that does not show takes the
----route over on the next frame once hovered.
+---route over on the next frame once highlighted.
 ---@param path WaypointPath
 function WaypointMap.Restyle(path)
     local entry = views[path.route]

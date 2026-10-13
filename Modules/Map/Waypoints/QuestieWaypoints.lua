@@ -1,3 +1,5 @@
+---Registry of NPC patrol paths, and Questie's adapter to them. Questie's icons add and release
+---paths; WaypointMap and WaypointMinimap read which paths show and how, and draw them.
 ---@class QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:CreateModule("QuestieWaypoints")
 
@@ -19,7 +21,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 ---@field route string Whose patrol this is, in which area, and which part of it. Icons drawing the same
 ---NPC's patrols, such as one for each of his quests, give their paths the same routes, which draw once.
 ---@field hostile boolean? The NPC is fought, such as for an objective; its paths take the hostile color.
----@field highlighted boolean? The owner, or the path itself, is hovered.
+---@field highlighted boolean? Its NPC is hovered, on an icon or one of its paths, on either map.
 
 -- Paths by owner, so unloading an icon releases exactly its own paths. Icon data can be shared
 -- between icons, but each path has one owner.
@@ -34,10 +36,13 @@ QuestieWaypoints.paths = {}
 ---@type table<IconData, true>?
 local soloData
 
+-- Both maps draw again on their next update.
 local function _Changed()
     WaypointMap.Invalidate()
     WaypointMinimap.Invalidate()
 end
+
+-- Registration
 
 local function _ToWorld(x, y, uiMapId)
     return HBD:GetWorldCoordinatesFromZone(x, y, uiMapId)
@@ -104,6 +109,8 @@ function QuestieWaypoints.OwnerChanged(icon)
     if shared and shared[1] then _Changed() end
 end
 
+-- How paths show, read by the maps while drawing
+
 ---@param path WaypointPath
 ---@return boolean
 local function _IsOwned(path)
@@ -150,6 +157,8 @@ function QuestieWaypoints.Color(path)
         or profile.waypointColor
     return {color[1], color[2], color[3], math.min(1, color[4] * profile.waypointOpacity)}
 end
+
+-- Changes that redraw
 
 ---Draws every path again, after a waypoint setting changed.
 function QuestieWaypoints.Refresh()
