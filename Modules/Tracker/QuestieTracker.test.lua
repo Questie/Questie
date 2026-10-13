@@ -565,6 +565,17 @@ describe("QuestieTracker", function()
                 assert.are.equal(2, layouts)
             end)
 
+            -- Zoning in changes no quest data, but the quest layout on screen is no longer the right one.
+            it("lays out a Challenge Mode entered without quest changes", function()
+                expansion.Current = expansion.MoP
+                pool.GetNextLine = function() return nil end
+                infoMock.invokes(function() return "Temple of the Jade Serpent", "party", 8, "Challenge Mode" end)
+                now = 2
+                QuestieTracker:Update(true)
+
+                assert.are.equal(2, layouts)
+            end)
+
             it("lays out quests again after leaving a Challenge Mode", function()
                 expansion.Current = expansion.MoP
                 pool.GetNextLine = function() return nil end

@@ -35,8 +35,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local quests = {}
 local counterTypes = {monster = true, item = true, object = true, reputation = true, killcredit = true, spell = true}
--- Increases whenever a quest is added, removed or changes its layout signature.
+-- Increases whenever a quest is added, removed or changes its layout signature, or a quest timer starts or stops.
 local revision = 0
+local timerCount = 0
 
 local function _IsComplete(self)
     return self.completionState
@@ -52,7 +53,7 @@ end
 
 ---The quest data the tracker layout reads for one quest, as one comparable string.
 ---Settings and UI state are not included: changing them calls QuestieTracker:Update() directly.
----Quest timers are not included either. They usually start on acceptance, which always lays out.
+---Quest timers are not included either. Legacy timers carry no quest ID, so TrackerData.Refresh counts them instead.
 ---@param displayQuest TrackerQuest
 ---@return string
 local function _GetLayoutSignature(displayQuest)
@@ -177,6 +178,13 @@ function TrackerData.Refresh()
             _ForgetQuest(questId)
         end
     end
+    -- Only a layout creates timer rows, and some timers start after acceptance without changing quest data.
+    -- A count ignores the remaining seconds. A timer that ends also completes or fails its quest.
+    local currentTimerCount = #{QuestieCompat.GetQuestTimers()}
+    if currentTimerCount ~= timerCount then
+        timerCount = currentTimerCount
+        revision = revision + 1
+    end
     return quests
 end
 
@@ -243,7 +251,7 @@ function TrackerData.RemoveQuest(questId)
     _ForgetQuest(questId)
 end
 
----Changes whenever a refresh or removal changes the quest data the tracker layout reads. Compare for equality only.
+---Changes whenever a refresh or removal changes the quest data or timers the tracker layout reads. Compare for equality only.
 ---@return number
 function TrackerData.GetLayoutRevision()
     return revision

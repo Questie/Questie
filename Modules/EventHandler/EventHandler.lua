@@ -83,11 +83,11 @@ function EventHandler:RegisterEarlyEvents()
             questPOIHandled = true
         end
 
-        if Expansions.Current >= Expansions.MoP then
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end
+        -- Instance changes need a layout even when quests are unchanged, which quest-log checks skip:
+        -- the Challenge Mode keystone after login, and the proximity sort restarting after leaving an instance.
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
     end)
 end
 

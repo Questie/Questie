@@ -904,11 +904,12 @@ describe("TrackerData", function()
     end)
 
     describe("layout revision", function()
-        local trackerUtils, originalTagIds
+        local trackerUtils, originalTagIds, originalGetQuestTimers
 
         before_each(function()
             trackerUtils = QuestieLoader:ImportModule("TrackerUtils")
             originalTagIds = QuestieDB.questTagIds
+            originalGetQuestTimers = compat.GetQuestTimers
             cached[91741] = {objectives = {{text = "9/15 Windstone Cluster", type = "item",
                 numFulfilled = 9, numRequired = 15, finished = false}}}
             TrackerData.Refresh()
@@ -916,6 +917,7 @@ describe("TrackerData", function()
 
         after_each(function()
             QuestieDB.questTagIds = originalTagIds
+            compat.GetQuestTimers = originalGetQuestTimers
         end)
 
         it("stays the same when a refresh finds nothing changed", function()
@@ -965,6 +967,21 @@ describe("TrackerData", function()
             TrackerData.Refresh()
 
             assert.are_not.equal(revision, TrackerData.GetLayoutRevision())
+        end)
+
+        -- Only a layout creates the timer row. Some timers start after acceptance without changing quest data.
+        it("advances when a quest timer starts, but not while it counts down", function()
+            local seconds = 300
+            compat.GetQuestTimers = function() return seconds end
+            local revision = TrackerData.GetLayoutRevision()
+
+            TrackerData.Refresh()
+            local started = TrackerData.GetLayoutRevision()
+            seconds = 299
+            TrackerData.Refresh()
+
+            assert.are_not.equal(revision, started)
+            assert.are.equal(started, TrackerData.GetLayoutRevision())
         end)
 
         it("advances when a quest leaves the log", function()

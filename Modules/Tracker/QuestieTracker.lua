@@ -953,9 +953,19 @@ function QuestieTracker:Update(onlyIfChanged)
         focusRestoreDeadline = nil
     end
 
+    -- Challenge Mode and scenario layouts depend on the instance, not quest data. Quest-log checks never skip them,
+    -- and they never count as current, so entering or leaving one always lays out.
+    local isChallengeMode, isScenario = false, false
+    if Expansions.Current >= Expansions.MoP then
+        local _, instanceType, _, difficultyName = GetInstanceInfo()
+        isChallengeMode = instanceType ~= "none" and difficultyName == "Challenge Mode"
+        isScenario = instanceType == "scenario"
+    end
+    local showsQuests = not (isChallengeMode or isScenario)
+
     -- QUEST_LOG_UPDATE fires on every quest log or map open. Laying out unchanged quests is the expensive part.
     local revision = TrackerData.GetLayoutRevision()
-    if onlyIfChanged and revision == layoutRevision then
+    if onlyIfChanged and showsQuests and revision == layoutRevision then
         return
     end
     -- Not set by skipped checks, so they never throttle the next explicit update.
@@ -1840,18 +1850,13 @@ function QuestieTracker:Update(onlyIfChanged)
         QuestieTracker:UpdateHeight()
     end
 
-    -- Challenge Mode and scenario layouts depend on the instance, not quest data, so they never count as current.
-    -- Leaving one then always lays out quests again.
-    local showsQuests = false
-    local _, instanceType, _, difficultyName = GetInstanceInfo()
-    if Expansions.Current >= Expansions.MoP and instanceType ~= "none" and difficultyName == "Challenge Mode" then
+    if isChallengeMode then
         -- Challenge Mode is active, so we only show the Challenge Mode objectives
         _UpdateChallengeModeObjectives()
-    elseif Expansions.Current >= Expansions.MoP and instanceType == "scenario" then
+    elseif isScenario then
         -- Scenario is active, so we only show the Scenario objectives
         _UpdateScenarioObjectives()
     else
-        showsQuests = true
         -- Not in an active Challenge Mode run
         if Expansions.Current >= Expansions.MoP then
             ChallengeModeTimer.SetTimerLabel(nil)

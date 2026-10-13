@@ -166,6 +166,36 @@ describe("EventHandler event dispatch", function()
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
     end)
 
+    describe("loading screens", function()
+        local savedGetCVar, savedQueue, savedUpdate
+        local QuestieCombatQueue, QuestieTracker
+
+        before_each(function()
+            savedGetCVar = _G.GetCVar
+            _G.GetCVar = function() return "1" end
+            QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+            QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            savedQueue, savedUpdate = QuestieCombatQueue.Queue, QuestieTracker.Update
+            QuestieCombatQueue.Queue = function(_, callback) callback() end
+            QuestieTracker.Update = spy.new(function() end)
+
+            QuestieLoader:ImportModule("EventHandler"):RegisterEarlyEvents()
+        end)
+
+        after_each(function()
+            _G.GetCVar = savedGetCVar
+            QuestieCombatQueue.Queue = savedQueue
+            QuestieTracker.Update = savedUpdate
+        end)
+
+        -- Quest-log checks skip unchanged quests, but leaving an instance must still restart the proximity sort.
+        it("lays out the tracker before MoP too", function()
+            callbacks.PLAYER_ENTERING_WORLD("PLAYER_ENTERING_WORLD", false, false)
+
+            assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker)
+        end)
+    end)
+
     describe("system messages", function()
         local savedSystemGlobals
         local savedSystemCallbacks
