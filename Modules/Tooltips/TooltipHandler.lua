@@ -6,6 +6,10 @@ local _QuestieTooltips = QuestieTooltips.private
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local lastGuid
 
@@ -63,6 +67,69 @@ end
 
 local checkedQuestStartItems = {} -- cache item IDs that were already checked if they start a quest
 local lastItemId = 0;
+
+-- itemId -> questId of a one-time quest this character's race and class can take, or false
+local oneTimeQuestByStartItem = {}
+
+---Returns the quest an item starts when it can only be turned in once and is available to the player,
+---so items like Head of Onyxia only report the quest of the player's own faction.
+---@param itemId number
+---@return QuestId?
+local function _GetOneTimeStartQuest(itemId)
+    local cached = oneTimeQuestByStartItem[itemId]
+    if cached ~= nil then
+        return cached or nil
+    end
+
+    local questId = QuestieDB.QueryItemSingle(itemId, "startQuest")
+    if (not questId) or questId == 0
+        or QuestieDB.IsRepeatable(questId)
+        or (not QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces")))
+        or (not QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses"))) then
+        questId = nil
+    end
+
+    oneTimeQuestByStartItem[itemId] = questId or false
+    return questId
+end
+
+---Adds whether the one-time quest started by an item is active, not done, or turned in (with its Journey date when known).
+---Added outside of GetTooltip so it still shows in raids, where most of these items drop.
+---@param tooltip GameTooltip
+---@param itemId number
+local function _AddStartQuestCompletionToTooltip(tooltip, itemId)
+    local questId = _GetOneTimeStartQuest(itemId)
+    if not questId then
+        return
+    end
+
+    -- Same copy and colors as the quest link tooltip.
+    if QuestiePlayer.currentQuestlog[questId] then
+        tooltip:AddLine(Questie:Colorize(l10n("You are on this quest"), "green"))
+        return
+    elseif not Questie.db.char.complete[questId] then
+        tooltip:AddLine(Questie:Colorize(l10n("You have not done this quest"), "yellow"))
+        return
+    end
+
+    local timestamp
+    local journey = Questie.db.char.journey
+    if journey then
+        for i = #journey, 1, -1 do
+            if journey[i].Quest == questId and journey[i].SubType == "Complete" and journey[i].Timestamp then
+                timestamp = journey[i].Timestamp
+                break
+            end
+        end
+    end
+
+    -- Quests turned in before Journey recorded them have no date.
+    tooltip:AddLine(Questie:Colorize(l10n("You have completed this quest"), "green"))
+    if timestamp then
+        tooltip:AddLine(l10n("Completed on") .. l10n(": ") .. Questie:Colorize(QuestieLib.FormatDate(timestamp), "lightBlue"))
+    end
+end
+
 function _QuestieTooltips:AddItemDataToTooltip()
     if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
@@ -106,6 +173,11 @@ function _QuestieTooltips:AddItemDataToTooltip()
             for _, v in pairs (tooltipData) do
                 self:AddLine(v)
             end
+        end
+
+        local itemIdAsNumber = tonumber(itemId)
+        if itemIdAsNumber then
+            _AddStartQuestCompletionToTooltip(self, itemIdAsNumber)
         end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     end

@@ -293,6 +293,114 @@ describe("TooltipHandler", function()
             assert.spy(QuestieTooltips.GetTooltip).was.not_called()
             assert.spy(GameTooltip.AddLine).was.not_called()
         end)
+
+        describe("one-time quest started by the item", function()
+            local HEAD_ID, QUEST_ID = 18423, 7495
+            local QuestiePlayer, QuestieLib
+            local originalQueryQuest, originalIsRepeatable, originalRegisterStart, originalColorize
+            local originalHasRace, originalHasClass, originalQuestlog, originalFormatDate
+            local originalComplete, originalJourney
+            local requiredRaces, isRepeatable
+
+            before_each(function()
+                QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+                QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+                originalQueryQuest, originalIsRepeatable = QuestieDB.QueryQuestSingle, QuestieDB.IsRepeatable
+                originalRegisterStart, originalColorize = QuestieTooltips.RegisterQuestStartTooltip, Questie.Colorize
+                originalHasRace, originalHasClass = QuestiePlayer.HasRequiredRace, QuestiePlayer.HasRequiredClass
+                originalQuestlog, originalFormatDate = QuestiePlayer.currentQuestlog, QuestieLib.FormatDate
+                originalComplete, originalJourney = Questie.db.char.complete, Questie.db.char.journey
+
+                requiredRaces, isRepeatable = 77, false -- 77 = ALL_ALLIANCE
+                QuestieDB.QueryItemSingle = function(itemId, field)
+                    if itemId == HEAD_ID and field == "startQuest" then return QUEST_ID end
+                end
+                QuestieDB.QueryQuestSingle = function(questId, field)
+                    if questId == QUEST_ID and field == "requiredRaces" then return requiredRaces end
+                end
+                QuestieDB.IsRepeatable = function() return isRepeatable end
+                QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+                Questie.Colorize = function(_, text, color) return "<" .. color .. ">" .. text end
+                QuestiePlayer.HasRequiredRace = function(races) return races == nil or races == 77 end
+                QuestiePlayer.HasRequiredClass = function() return true end
+                QuestiePlayer.currentQuestlog = {}
+                QuestieLib.FormatDate = function(timestamp) return "date " .. timestamp end
+                Questie.db.char.complete = {}
+                Questie.db.char.journey = {}
+                -- Raids disable GetTooltip; the status line must not depend on it.
+                QuestieTooltips.GetTooltip = spy.new(function() return nil end)
+
+                _G.GameTooltip = {
+                    GetItem = function() return "Head of Onyxia", "|cffa335ee|Hitem:" .. HEAD_ID .. "::::::::60:::::::::|h[Head of Onyxia]|h|r" end,
+                    GetName = function() return "GameTooltip" end,
+                    NumLines = function() return 0 end,
+                    AddLine = spy.new(function() end),
+                }
+            end)
+
+            after_each(function()
+                QuestieDB.QueryQuestSingle, QuestieDB.IsRepeatable = originalQueryQuest, originalIsRepeatable
+                QuestieTooltips.RegisterQuestStartTooltip, Questie.Colorize = originalRegisterStart, originalColorize
+                QuestiePlayer.HasRequiredRace, QuestiePlayer.HasRequiredClass = originalHasRace, originalHasClass
+                QuestiePlayer.currentQuestlog, QuestieLib.FormatDate = originalQuestlog, originalFormatDate
+                Questie.db.char.complete, Questie.db.char.journey = originalComplete, originalJourney
+            end)
+
+            it("shows the turn-in date from the Journey", function()
+                Questie.db.char.complete[QUEST_ID] = true
+                Questie.db.char.journey = {
+                    {Event = "Quest", SubType = "Accept", Quest = QUEST_ID, Timestamp = 100},
+                    {Event = "Quest", SubType = "Complete", Quest = QUEST_ID, Timestamp = 200},
+                }
+
+                _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+                assert.spy(GameTooltip.AddLine).was.called(2)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "<green>You have completed this quest")
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Completed on: <lightBlue>date 200")
+            end)
+
+            it("shows completion without a date when the Journey has no turn-in", function()
+                Questie.db.char.complete[QUEST_ID] = true
+
+                _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+                assert.spy(GameTooltip.AddLine).was.called(1)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "<green>You have completed this quest")
+            end)
+
+            it("shows that the quest was not done", function()
+                _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+                assert.spy(GameTooltip.AddLine).was.called(1)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "<yellow>You have not done this quest")
+            end)
+
+            it("shows that the quest is in the quest log", function()
+                QuestiePlayer.currentQuestlog[QUEST_ID] = {}
+
+                _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+                assert.spy(GameTooltip.AddLine).was.called(1)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "<green>You are on this quest")
+            end)
+
+            it("adds nothing for a quest of the other faction", function()
+                requiredRaces = 178 -- ALL_HORDE
+
+                _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+                assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+
+            it("adds nothing for a repeatable quest", function()
+                isRepeatable = true
+
+                _QuestieTooltips.AddItemDataToTooltip(GameTooltip)
+
+                assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+        end)
     end)
 
     describe("AddObjectDataToTooltip", function()
