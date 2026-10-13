@@ -88,6 +88,7 @@ describe("WaypointMinimap", function()
         _G.hooksecurefunc = function(_, method, hook) hooks[method] = hook end
         _G.C_Texture = nil
         player, radius, rotating, facing = {1000, 1000, 0}, 100, false, 0
+        Questie.db.profile = {waypointWidth = 4}
         _G.CreateFrame = function() return NewFrame() end
         _G.Minimap = NewFrame()
         _G.GetPlayerFacing = function() return facing end
@@ -102,6 +103,7 @@ describe("WaypointMinimap", function()
         QuestieWaypoints.paths = {}
         QuestieWaypoints.MinimapAlpha = function(path) return path.minimapAlpha end
         QuestieWaypoints.Color = function(path) return path.highlighted and HOVER_COLOR or path.color end
+        QuestieWaypoints.IsHighlighted = function(path) return path.highlighted or false end
         renderer = {
             Draw = spy.new(function(_, view) return view or NewView() end),
             Restyle = spy.new(function() end),
@@ -217,6 +219,20 @@ describe("WaypointMinimap", function()
         assert.are_same(visible.color, style.color)
         assert.are.equal(1, style.alpha)
         -- Restyled in place, never projected again.
+        assert.spy(renderer.Draw).was.called(1)
+    end)
+
+    it("restyles drawn routes for a new width setting without projecting them again", function()
+        Path({{x = 950, y = 1000}, {x = 950, y = 1010}})
+        local layer = Layer()
+        layer:Update()
+
+        -- QuestieWaypoints.Refresh invalidates the layer, which collects the routes again.
+        Questie.db.profile.waypointWidth = 6
+        layer.dirty = true
+        layer:Update()
+
+        assert.are.equal(6, renderer.Restyle.calls[1].vals[3].thickness)
         assert.spy(renderer.Draw).was.called(1)
     end)
 

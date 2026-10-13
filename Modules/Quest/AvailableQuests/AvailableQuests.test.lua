@@ -536,7 +536,6 @@ describe("AvailableQuests", function()
         end)
 
         describe("starter waypoints", function()
-            local HOSTILE_COLOR = {1, 0.2, 0, 0.7}
             local ZONE = 12
             local WAYPOINTS = {{{10, 10}, {20, 20}}}
             local icon = {}
@@ -548,7 +547,6 @@ describe("AvailableQuests", function()
                 originalDrawWorldIcon = QuestieMap.DrawWorldIcon
                 originalDrawWaypoints = QuestieMap.DrawWaypoints
                 originalGetQuestIcon = QuestieLib.GetQuestIcon
-                QuestieLoader:ImportModule("QuestieWaypoints").HOSTILE_COLOR = HOSTILE_COLOR
                 QuestieMap.DrawWorldIcon = function() return icon end
                 QuestieMap.DrawWaypoints = spy.new(function() end)
                 QuestieLib.GetQuestIcon = function() return 6 end
@@ -567,13 +565,13 @@ describe("AvailableQuests", function()
 
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
 
-                assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, HOSTILE_COLOR)
+                assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, true)
             end)
 
-            it("should draw the route of a quest giver in the default color", function()
+            it("should not draw the route of a quest giver as hostile", function()
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
 
-                assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, nil)
+                assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, match.is_falsy())
             end)
         end)
     end)

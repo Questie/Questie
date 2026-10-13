@@ -12,17 +12,13 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
-QuestieWaypoints.DEFAULT_COLOR = {1, 0.72, 0, 0.5}
-QuestieWaypoints.HOSTILE_COLOR = {1, 0.2, 0, 0.7}
-QuestieWaypoints.HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
-
 ---An NPC's patrol on one map, drawn while its owning icon is.
 ---@class WaypointPath : WaypointPolyline
 ---@field owner IconFrame World map icon whose lifetime and visibility the path follows.
 ---@field data IconData The owner's data when added. A pooled owner showing something else has other data.
 ---@field route string Whose patrol this is, in which area, and which part of it. Icons drawing the same
 ---NPC's patrols, such as one for each of his quests, give their paths the same routes, which draw once.
----@field color number[]
+---@field hostile boolean? The NPC is fought, such as for an objective; its paths take the hostile color.
 ---@field highlighted boolean? The owner, or the path itself, is hovered.
 
 -- Paths by owner, so unloading an icon releases exactly its own paths. Icon data can be shared
@@ -53,8 +49,8 @@ end
 ---Without one, the paths are the owner's alone and never share a route.
 ---@param patrols CoordPair[][] The zone's waypoints, {{{x, y}, ...}, ...} in percentages.
 ---@param areaId AreaId
----@param color number[]? {r, g, b, a}; DEFAULT_COLOR when nil.
-function QuestieWaypoints.Add(owner, entity, patrols, areaId, color)
+---@param hostile boolean? The NPC is fought, such as for an objective.
+function QuestieWaypoints.Add(owner, entity, patrols, areaId, hostile)
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaId)
     local data = owner.data
     if not uiMapId or not data then return end
@@ -68,7 +64,7 @@ function QuestieWaypoints.Add(owner, entity, patrols, areaId, color)
     local routePrefix = (entity or tostring(owner)) .. ":" .. areaId .. ":"
     for i, path in ipairs(polylines) do
         ---@cast path WaypointPath
-        path.owner, path.data, path.color = owner, data, color or QuestieWaypoints.DEFAULT_COLOR
+        path.owner, path.data, path.hostile = owner, data, hostile or nil
         path.route = routePrefix .. i
         owned[#owned + 1] = path
         shared[#shared + 1] = path
@@ -118,6 +114,7 @@ end
 ---@param path WaypointPath
 ---@return number?
 function QuestieWaypoints.WorldMapAlpha(path)
+    if not Questie.db.profile.waypointMapEnabled then return nil end
     local owner = path.owner
     if not _IsOwned(path) or owner.hidden or (soloData and not soloData[path.data]) then return nil end
     return owner.faded and Questie.db.profile.iconFadeLevel or 1
@@ -128,15 +125,35 @@ end
 ---@param path WaypointPath
 ---@return number?
 function QuestieWaypoints.MinimapAlpha(path)
+    local profile = Questie.db.profile
+    if not profile.waypointMinimapEnabled then return nil end
     local twin = path.owner.minimapTwin
     if not _IsOwned(path) or not twin or twin.data ~= path.data or twin.hidden then return nil end
-    return twin.faded and Questie.db.profile.iconFadeLevel or 1
+    return twin.faded and profile.iconFadeLevel or 1
 end
 
+---A hovered path shows highlighted, unless the highlight setting is off. A highlighted copy of a
+---route is the one drawn.
+---@param path WaypointPath
+---@return boolean
+function QuestieWaypoints.IsHighlighted(path)
+    return path.highlighted and Questie.db.profile.waypointHighlight or false
+end
+
+---The path's color setting, its alpha scaled by the opacity setting.
 ---@param path WaypointPath
 ---@return number[] color {r, g, b, a}
 function QuestieWaypoints.Color(path)
-    return path.highlighted and QuestieWaypoints.HOVER_COLOR or path.color
+    local profile = Questie.db.profile
+    local color = QuestieWaypoints.IsHighlighted(path) and profile.waypointHighlightColor
+        or path.hostile and profile.waypointHostileColor
+        or profile.waypointColor
+    return {color[1], color[2], color[3], math.min(1, color[4] * profile.waypointOpacity)}
+end
+
+---Draws every path again, after a waypoint setting changed.
+function QuestieWaypoints.Refresh()
+    _Changed()
 end
 
 ---Highlights every path of an NPC, as when its icon or one of its paths is hovered.

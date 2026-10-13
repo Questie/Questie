@@ -7,6 +7,7 @@ describe("QuestieWaypoints", function()
     local savedLibStub
 
     local PATROLS = {{{10, 10}, {20, 10}}, {{30, 30}, {40, 30}}}
+    local NORMAL, HOSTILE, HIGHLIGHT = {1, 0.72, 0, 0.5}, {1, 0.2, 0, 0.7}, {0.93, 0.46, 0.13, 0.8}
 
     local function Icon(data)
         return {data = data}
@@ -23,7 +24,8 @@ describe("QuestieWaypoints", function()
         _G.LibStub = function()
             return {GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 0 end}
         end
-        Questie.db.profile = {iconFadeLevel = 0.3}
+        Questie.db.profile = {iconFadeLevel = 0.3, waypointMapEnabled = true, waypointMinimapEnabled = true, waypointOpacity = 1,
+            waypointColor = NORMAL, waypointHostileColor = HOSTILE, waypointHighlight = true, waypointHighlightColor = HIGHLIGHT}
         QuestieLoader:ImportModule("ZoneDB").GetUiMapIdByAreaId = function(_, areaId) return areaId + 1000 end
         WaypointMap = QuestieLoader:ImportModule("WaypointMap")
         WaypointMap.Invalidate = spy.new(function() end)
@@ -49,7 +51,6 @@ describe("QuestieWaypoints", function()
         local path = icon.data.waypointPaths[1]
         assert.are.equal(icon, path.owner)
         assert.are.equal(1012, path.uiMapId)
-        assert.are.equal(QuestieWaypoints.DEFAULT_COLOR, path.color)
         assert.spy(WaypointMap.Invalidate).was.called()
         assert.spy(WaypointMinimap.Invalidate).was.called()
     end)
@@ -81,7 +82,7 @@ describe("QuestieWaypoints", function()
         local data = {}
         local first, second = Icon(data), Icon(data)
         QuestieWaypoints.Add(first, "m_first", PATROLS, 12)
-        QuestieWaypoints.Add(second, "m_second", {{{50, 50}, {60, 60}}}, 12, QuestieWaypoints.HOSTILE_COLOR)
+        QuestieWaypoints.Add(second, "m_second", {{{50, 50}, {60, 60}}}, 12, true)
 
         QuestieWaypoints.RemoveOwner(first)
 
@@ -147,14 +148,66 @@ describe("QuestieWaypoints", function()
         QuestieWaypoints.SetHighlighted(icon.data, true)
         QuestieWaypoints.SetHighlighted(icon.data, true)
 
-        assert.are.equal(QuestieWaypoints.HOVER_COLOR, QuestieWaypoints.Color(path))
+        assert.are_same(HIGHLIGHT, QuestieWaypoints.Color(path))
         assert.spy(WaypointMap.Restyle).was.called(2)
         -- The minimap chooses its copies again once per change.
         assert.spy(WaypointMinimap.Invalidate).was.called(1)
 
         QuestieWaypoints.SetHighlighted(icon.data, false)
-        assert.are.equal(QuestieWaypoints.DEFAULT_COLOR, QuestieWaypoints.Color(path))
+        assert.are_same(NORMAL, QuestieWaypoints.Color(path))
         assert.spy(WaypointMinimap.Invalidate).was.called(2)
+    end)
+
+    it("neither recolors a hovered path nor lets it take its route over while hover highlighting is off", function()
+        Questie.db.profile.waypointHighlight = false
+        local icon = Icon({})
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12, true)
+        local path = icon.data.waypointPaths[1]
+
+        QuestieWaypoints.SetHighlighted(icon.data, true)
+
+        assert.is_false(QuestieWaypoints.IsHighlighted(path))
+        assert.are_same(HOSTILE, QuestieWaypoints.Color(path))
+    end)
+
+    it("colors paths from the current settings, by whether their NPC is fought", function()
+        local friendly, hostile = Icon({}), Icon({})
+        QuestieWaypoints.Add(friendly, "m_friendly", PATROLS, 12)
+        QuestieWaypoints.Add(hostile, "m_hostile", PATROLS, 12, true)
+        local friendlyPath, hostilePath = friendly.data.waypointPaths[1], hostile.data.waypointPaths[1]
+
+        assert.are_same(NORMAL, QuestieWaypoints.Color(friendlyPath))
+        assert.are_same(HOSTILE, QuestieWaypoints.Color(hostilePath))
+
+        Questie.db.profile.waypointHostileColor = {0, 0, 1, 0.6}
+        assert.are_same({0, 0, 1, 0.6}, QuestieWaypoints.Color(hostilePath))
+    end)
+
+    it("scales each color's opacity by the opacity setting, up to opaque", function()
+        local friendly, hostile = Icon({}), Icon({})
+        QuestieWaypoints.Add(friendly, "m_friendly", PATROLS, 12)
+        QuestieWaypoints.Add(hostile, "m_hostile", PATROLS, 12, true)
+
+        Questie.db.profile.waypointOpacity = 0.5
+        assert.are.equal(0.25, QuestieWaypoints.Color(friendly.data.waypointPaths[1])[4])
+
+        Questie.db.profile.waypointOpacity = 2
+        assert.are.equal(1, QuestieWaypoints.Color(hostile.data.waypointPaths[1])[4])
+    end)
+
+    it("hides world map and minimap paths each with their own setting", function()
+        local icon = Icon({})
+        icon.minimapTwin = {data = icon.data}
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
+        local path = icon.data.waypointPaths[1]
+
+        Questie.db.profile.waypointMinimapEnabled = false
+        assert.are.equal(1, QuestieWaypoints.WorldMapAlpha(path))
+        assert.is_nil(QuestieWaypoints.MinimapAlpha(path))
+
+        Questie.db.profile.waypointMinimapEnabled, Questie.db.profile.waypointMapEnabled = true, false
+        assert.is_nil(QuestieWaypoints.WorldMapAlpha(path))
+        assert.are.equal(1, QuestieWaypoints.MinimapAlpha(path))
     end)
 
     it("redraws for an icon's visibility change only when its NPC has paths", function()

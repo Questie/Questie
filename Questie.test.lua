@@ -268,27 +268,31 @@ describe("Questie", function()
     end)
 
     describe("RefreshConfig", function()
-        it("redraws waypoint lines with the new profile's smoothing", function()
+        it("redraws waypoint lines with the new profile's settings", function()
             local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
             local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
             local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
             local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
+            local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
             local originals = {QuestieQuest.SmoothReset, TrackerBaseFrame.OnProfileChange, CommsVisibility.ScheduleSnapshot,
-                WaypointRenderer.RedrawAll}
+                WaypointRenderer.RedrawAll, QuestieWaypoints.Refresh}
             finally(function()
                 QuestieQuest.SmoothReset, TrackerBaseFrame.OnProfileChange = originals[1], originals[2]
                 CommsVisibility.ScheduleSnapshot, WaypointRenderer.RedrawAll = originals[3], originals[4]
+                QuestieWaypoints.Refresh = originals[5]
             end)
             QuestieQuest.SmoothReset = function() end
             TrackerBaseFrame.OnProfileChange = function() end
             CommsVisibility.ScheduleSnapshot = function() end
             WaypointRenderer.RedrawAll = spy.new(function() end)
+            QuestieWaypoints.Refresh = spy.new(function() end)
             dofile("Questie.lua")
             Questie.SetIcons = function() end
 
             Questie:RefreshConfig("OnProfileChanged")
 
             assert.spy(WaypointRenderer.RedrawAll).was.called(1)
+            assert.spy(QuestieWaypoints.Refresh).was.called(1)
         end)
     end)
 

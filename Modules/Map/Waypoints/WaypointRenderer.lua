@@ -48,8 +48,8 @@ local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-line-aa.png"
 -- Quads are wider than the line by the fade, so the line keeps its thickness.
 local QUAD_SCALE = 16 / 12
 -- Smoothed lines are then trimmed of points within this many half line widths of the line kept
--- around them: a quarter unit on the 4-unit line, too little to see. Zoomed out, most curves are
--- that small.
+-- around them: under a fifth of a unit on the default 3-unit line, too little to see. Zoomed out,
+-- most curves are that small.
 WaypointRenderer.TRIMMING = 1 / 8
 local WHITE_TEXTURE = "Interface\\BUTTONS\\WHITE8X8"
 local CIRCLE_TEXTURE = "Interface\\CharacterFrame\\TempPortraitAlphaMask"

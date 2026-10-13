@@ -8,7 +8,7 @@ QuestieDB's `waypoints` field, read with `QuestieDB.QueryNPCSingle(npcId, "waypo
 - objective spawns (`QuestieQuestPrivates`, drawn by `QuestieQuest`). Rank-2 rares and blacklisted NPCs get none;
 - NPCs with available quests (`AvailableQuests`), quest finishers (`QuestFinisher`) and manual notes (`QuestieMap`).
 
-All of them call `QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, color)`. `entity` is Questie's tooltip key for whose waypoints they are (`"m_<npcId>"`, `"o_<objectId>"`).
+All of them call `QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, hostile)`. `entity` is Questie's tooltip key for whose waypoints they are (`"m_<npcId>"`, `"o_<objectId>"`). `hostile` marks NPCs the player fights, which take the hostile colour: objective NPCs, and NPCs that drop an item starting an available quest.
 
 **QuestieDB's preprocessing** ([`src/derived/waypoints.lua`](https://github.com/Questie/QuestieDB/blob/master/src/derived/waypoints.lua)):
 - **Simplification:** patrols are simplified with Ramer-Douglas-Peucker at 0.1 map-percent, about 2–4 yd on a typical zone and about 1 yd in capitals.
@@ -51,27 +51,44 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 - `QuestieFrame` reports unloads, fake hide/show and fades to the registry. `MapIconTooltip` highlights through it, and `WaypointMap.EndHover` lets a path's owner restore its icon tints before another icon's tooltip opens.
 - `TrackerUtils` flashes use `SetSolo`.
 - HereBeDragons-Pins gains `GetMinimapView()`, which returns the radius and rotation it places minimap icons with: `C_Minimap.GetViewRadius()` where available, its zoom tables elsewhere.
-- The **Waypoint smoothing** setting (`profile.waypointSmoothing`) sits at the bottom of Advanced → Developer Options. Changing it, or switching profiles, calls `WaypointRenderer.RedrawAll`.
+- Settings live under Map → Waypoints; [Settings](#settings) lists them. Switching profiles calls `WaypointRenderer.RedrawAll` and `QuestieWaypoints.Refresh`.
+
+## Settings
+
+Under Map → Waypoints: the two toggles, then an **Appearance** panel (highlighting, width, opacity, colours) and an **Advanced Options** panel (smoothing). With their `profile` keys and defaults:
+
+| Setting | Key | Default | Effect |
+|---|---|---|---|
+| Enable Map Waypoints | `waypointMapEnabled` | on | Off hides world map paths. Paths stay registered, so turning it back on shows them at once. |
+| Enable Minimap Waypoints | `waypointMinimapEnabled` | on | Minimap paths also follow **Enable Minimap Icons**, through the icons' minimap twins. |
+| Highlight patrol paths on hover | `waypointHighlight` | on | Off keeps hovered paths in their own colour, and each route drawn as its most visible copy. Hovering a line still opens its NPC's tooltip. |
+| Line width | `waypointWidth` | 3 | Map UI units on the world map, minimap units on the minimap. Hover reaches one unit past the edge. |
+| Line opacity | `waypointOpacity` | 100% | Scales each colour's alpha, up to opaque: 10–200%. |
+| Patrol color | `waypointColor` | `{1, 0.72, 0, 0.5}` | |
+| Hostile patrol color | `waypointHostileColor` | `{1, 0.2, 0, 0.7}` | Objective NPCs, and NPCs dropping an item that starts an available quest. |
+| Highlight color | `waypointHighlightColor` | `{0.93, 0.46, 0.13, 0.8}` | |
+| Waypoint smoothing | `waypointSmoothing` | 0.75 | See [Smoothing](#smoothing). |
+
+**Show waypoint hover area** (`waypointDebugHover`) sits under Advanced → Developer Options; see [Hover](#hover).
+
+Smoothing calls `WaypointRenderer.RedrawAll`. The others call `QuestieWaypoints.Refresh`, which invalidates both maps. They restyle each drawn route on the next frame: a new width redraws its lines, a new colour only tints them. `QuestieWaypoints.Color` reads the colours and opacity when styling, so paths store only whether they are hostile.
 
 ## Behaviour
 
-- **Colours:**
-  - normal: `{1, 0.72, 0, 0.5}`;
-  - hostile: `{1, 0.2, 0, 0.7}`, for objective NPCs and NPCs that drop an item starting an available quest;
-  - highlighted: `{0.93, 0.46, 0.13, 0.8}`.
-
-  Fading uses `profile.iconFadeLevel` through frame alpha.
-- **Width:** 4 map UI units, constant on screen. Hover reaches 3 units from the line, one past its edge, tuned in game.
+- **Fading** uses `profile.iconFadeLevel` through frame alpha.
+- **Width:** constant on screen; see [Settings](#settings). Hover reaches one unit past the line's edge, tuned in game on the 4-unit line: 2.5 units from the default 3-unit line.
 - **Clicks:** lines are click-through. Clicks over them reach the map; clicking a line no longer does what clicking its icon does.
 - **Duplicate routes draw once.** An NPC with three quests has three quest icons, and each draws his patrol. Courier Hammerfall's Ironforge route used to stack three 50% copies to about 88% opaque.
   - Each path's `route` is its entity key, area and part of the patrol, and each route draws once.
-  - On the world map that is the hovered copy, otherwise the most visible one. A hovered copy takes its route over on the next frame, without a redraw.
-  - On the minimap it is the highlighted copy, otherwise the most visible one. A highlight makes the minimap choose its copies again, without projecting them again.
+  - On the world map that is the hovered copy while highlighting is on, otherwise the most visible one. A hovered copy takes its route over on the next frame, without a redraw.
+  - On the minimap it is the highlighted copy while highlighting is on, otherwise the most visible one. A highlight makes the minimap choose its copies again, without projecting them again.
 - **Self-overlap:** a patrol that crosses or retraces itself draws darker there, marking where the NPC walks twice. Frame buffers could avoid that, but were [tried and rejected](frame-buffer-group-opacity.md).
 - **Tracker flash:** Show on Map shows only the flashed quest's paths. Manual and townsfolk paths hide during it too.
 - **Own map only.** A path draws only on the map it belongs to. See [Neighbouring maps](#neighbouring-maps).
 
 ## Drawing a line
+
+Figures in units below were measured on the 4-unit line, the default before it became 3. Smoothing and trimming tolerances are in half line widths, so they scale with the width, and the angles and ratios hold at any width.
 
 ### The outline texture
 
@@ -188,7 +205,7 @@ The hover shape is the path fattened by radius *r*: the union of capsules around
 - Each path's bounding box rejects most paths; the rest get a squared-distance test per segment.
 - Overlapping paths: the nearest wins, and there are no combined tooltips.
 
-**Debug view:** `/run QuestieLoader:ImportModule("WaypointMap").debugHover = true`, then change map. It draws every path's hover area beneath it: a translucent `DrawLine` band of width 2*r* per segment and a disc on every point. Together those are exactly the capsule union.
+**Debug view:** turn on Advanced → Developer Options → **Show waypoint hover area**. It draws every path's hover area beneath it: a translucent `DrawLine` band of width 2*r* per segment and a disc on every point. Together those are exactly the capsule union.
 
 ## Minimap
 
@@ -267,5 +284,6 @@ On Forever 1.60.1:
 - Hovering a minimap icon highlights its NPC's paths on the minimap.
 - The tracker's Show on Map flash.
 - Visibility: hiding Questie's icons, turning off **Enable Minimap Icons**, and hiding one NPC's icon.
+- The Map → Waypoints settings, live on both maps and on profile switches, and the colour pickers' opacity.
 - Other clients (Era, Anniversary, Mists): the minimap's zoom-table path in HereBeDragons, and square and SexyMap minimaps, since SexyMap doesn't run on Forever.
 - Frame cost during a smooth zoom in a dense zone.

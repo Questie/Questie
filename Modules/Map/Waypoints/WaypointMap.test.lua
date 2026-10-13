@@ -43,6 +43,7 @@ describe("WaypointMap", function()
     before_each(function()
         saved = {WorldMapFrame = _G.WorldMapFrame, CreateFrame = _G.CreateFrame, GameTooltip = _G.GameTooltip}
         mapId, scale, cursor, focus, tooltipOwner = 1, 1, nil, nil, nil
+        Questie.db.profile = {waypointWidth = 4}
         local canvas = {GetWidth = function() return 1000 end, GetHeight = function() return 500 end,
             IsMouseOver = function() return cursor ~= nil end}
         local scrollContainer = {
@@ -63,6 +64,7 @@ describe("WaypointMap", function()
         QuestieWaypoints.paths = {}
         QuestieWaypoints.WorldMapAlpha = function(path) return path.alpha end
         QuestieWaypoints.Color = function(path) return path.color end
+        QuestieWaypoints.IsHighlighted = function(path) return path.highlighted or false end
         QuestieWaypoints.SetHighlighted = spy.new(function() end)
 
         renderer = {
@@ -136,6 +138,32 @@ describe("WaypointMap", function()
             local style = renderer.Restyle.calls[#renderer.Restyle.calls].vals[3]
             assert.are_same({0.93, 0.46, 0.13, 0.8}, style.color)
             assert.are.equal(0.3, style.alpha)
+        end)
+
+        it("draws lines at the width setting, also after it changes", function()
+            Path()
+            WaypointMap.Invalidate()
+            Update()
+            assert.are.equal(4, renderer.Draw.calls[1].vals[4].thickness)
+
+            Questie.db.profile.waypointWidth = 6
+            WaypointMap.Invalidate()
+            Update()
+
+            assert.are.equal(6, renderer.Restyle.calls[1].vals[3].thickness)
+        end)
+
+        it("draws the hover area only with the debug setting, reaching one unit past the line", function()
+            Path()
+            WaypointMap.Invalidate()
+            Update()
+            assert.is_nil(renderer.Draw.calls[1].vals[4].hoverRadius)
+
+            Questie.db.profile.waypointWidth, Questie.db.profile.waypointDebugHover = 6, true
+            WaypointMap.Invalidate()
+            Update()
+
+            assert.are.equal(4, renderer.Restyle.calls[1].vals[3].hoverRadius)
         end)
 
         it("keeps lines the same width on screen once a zoom settles", function()

@@ -274,8 +274,18 @@ local migrationFunctions = {
         Questie.db.profile.enableTooltipsSpellID = false
     end,
     [43] = function()
-        -- Rounded waypoint line corners, set under Advanced > Developer Options.
-        Questie.db.profile.waypointSmoothing = 0.75
+        -- NPC patrol path settings, under Map > Waypoints; the hover area under Advanced > Developer Options.
+        local profile = Questie.db.profile
+        profile.waypointMapEnabled = true
+        profile.waypointMinimapEnabled = true
+        profile.waypointWidth = 3
+        profile.waypointOpacity = 1
+        profile.waypointColor = {1, 0.72, 0, 0.5}
+        profile.waypointHostileColor = {1, 0.2, 0, 0.7}
+        profile.waypointHighlight = true
+        profile.waypointHighlightColor = {0.93, 0.46, 0.13, 0.8}
+        profile.waypointSmoothing = 0.75
+        profile.waypointDebugHover = false
     end,
 }
 
