@@ -8,6 +8,7 @@ describe("WaypointMinimap", function()
     local renderer
     local player, radius, rotating, facing
     local hooks, masks
+    local HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
 
     local function NewFrame()
         local frame = {shown = true, scripts = {}, level = 5}
@@ -100,6 +101,7 @@ describe("WaypointMinimap", function()
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
         QuestieWaypoints.paths = {}
         QuestieWaypoints.MinimapAlpha = function(path) return path.minimapAlpha end
+        QuestieWaypoints.Color = function(path) return path.highlighted and HOVER_COLOR or path.color end
         renderer = {
             Draw = spy.new(function(_, view) return view or NewView() end),
             Restyle = spy.new(function() end),
@@ -191,6 +193,31 @@ describe("WaypointMinimap", function()
 
         assert.spy(renderer.Draw).was.called(1)
         assert.are.equal(1, renderer.Draw.calls[1].vals[4].alpha)
+    end)
+
+    it("draws a route as its highlighted copy, then as its most visible one again", function()
+        local visible = Path({{x = 950, y = 1000}, {x = 950, y = 1010}}, "route")
+        local faded = Path({{x = 950, y = 1000}, {x = 950, y = 1010}}, "route")
+        faded.minimapAlpha = 0.3
+        local layer = Layer()
+        layer:Update()
+
+        -- QuestieWaypoints.SetHighlighted invalidates the layer, which collects the routes again.
+        faded.highlighted = true
+        layer.dirty = true
+        layer:Update()
+        local style = renderer.Restyle.calls[1].vals[3]
+        assert.are_same(HOVER_COLOR, style.color)
+        assert.are.equal(0.3, style.alpha)
+
+        faded.highlighted = nil
+        layer.dirty = true
+        layer:Update()
+        style = renderer.Restyle.calls[2].vals[3]
+        assert.are_same(visible.color, style.color)
+        assert.are.equal(1, style.alpha)
+        -- Restyled in place, never projected again.
+        assert.spy(renderer.Draw).was.called(1)
     end)
 
     it("only moves the container while walking, until the player drifts from where paths were projected", function()

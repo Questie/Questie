@@ -145,12 +145,16 @@ end
 function QuestieWaypoints.SetHighlighted(data, highlighted)
     local shared = data and data.waypointPaths
     if not shared then return end
+    local changed = false
     for _, path in ipairs(shared) do
         if (path.highlighted == true) ~= highlighted then
             path.highlighted = highlighted or nil
             WaypointMap.Restyle(path)
+            changed = true
         end
     end
+    -- The minimap chooses each route's copy again, so a highlighted copy takes its route over.
+    if changed then WaypointMinimap.Invalidate() end
 end
 
 ---Shows only the given NPCs' paths on the world map, as while the tracker flashes an objective.

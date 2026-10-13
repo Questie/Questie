@@ -142,15 +142,19 @@ describe("QuestieWaypoints", function()
         local icon = Icon({})
         QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         local path = icon.data.waypointPaths[1]
+        WaypointMinimap.Invalidate:clear()
 
         QuestieWaypoints.SetHighlighted(icon.data, true)
         QuestieWaypoints.SetHighlighted(icon.data, true)
 
         assert.are.equal(QuestieWaypoints.HOVER_COLOR, QuestieWaypoints.Color(path))
         assert.spy(WaypointMap.Restyle).was.called(2)
+        -- The minimap chooses its copies again once per change.
+        assert.spy(WaypointMinimap.Invalidate).was.called(1)
 
         QuestieWaypoints.SetHighlighted(icon.data, false)
         assert.are.equal(QuestieWaypoints.DEFAULT_COLOR, QuestieWaypoints.Color(path))
+        assert.spy(WaypointMinimap.Invalidate).was.called(2)
     end)
 
     it("redraws for an icon's visibility change only when its NPC has paths", function()
