@@ -66,7 +66,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 - **Duplicate routes draw once.** An NPC with three quests has three quest icons, and each draws his patrol. Courier Hammerfall's Ironforge route used to stack three 50% copies to about 88% opaque.
   - Each path's `route` is its entity key, area and part of the patrol, and each route draws once.
   - On the world map that is the hovered copy, otherwise the most visible one. A hovered copy takes its route over on the next frame, without a redraw.
-  - On the minimap it is the most visible copy.
+  - On the minimap it is the highlighted copy, otherwise the most visible one. A highlight makes the minimap choose its copies again, without projecting them again.
 - **Self-overlap:** a patrol that crosses or retraces itself draws darker there, marking where the NPC walks twice. Frame buffers could avoid that, but were [tried and rejected](frame-buffer-group-opacity.md).
 - **Tracker flash:** Show on Map shows only the flashed quest's paths. Manual and townsfolk paths hide during it too.
 - **Own map only.** A path draws only on the map it belongs to. See [Neighbouring maps](#neighbouring-maps).
@@ -171,7 +171,7 @@ The world map pays the geometry once per zoom or map change, only for the paths 
 
 ### Hover
 
-Hovering a line is hovering its NPC. It opens the owner icon's tooltip, which highlights all of the NPC's paths. If the owner icon isn't visible, it only highlights. Nothing on the minimap takes input.
+Hovering a line is hovering its NPC. It opens the owner icon's tooltip, which highlights all of the NPC's paths. If the owner icon isn't visible, it only highlights. Highlights show on both maps, so hovering a minimap icon highlights its NPC's paths on the minimap too. Nothing on the minimap takes input.
 
 The hover shape is the path fattened by radius *r*: the union of capsules around its segments. The test is **distance from the cursor to the nearest segment ≤ r**:
 - **Joins:** joins of any angle are round, so no wedge-shaped dead corner.
@@ -264,6 +264,7 @@ On Forever 1.60.1:
 
 ## Still to verify in game
 - Hover on the inner edge of curves at the 0.75 default.
+- Hovering a minimap icon highlights its NPC's paths on the minimap.
 - The tracker's Show on Map flash.
 - Visibility: hiding Questie's icons, turning off **Enable Minimap Icons**, and hiding one NPC's icon.
 - Other clients (Era, Anniversary, Mists): the minimap's zoom-table path in HereBeDragons, and square and SexyMap minimaps, since SexyMap doesn't run on Forever.
