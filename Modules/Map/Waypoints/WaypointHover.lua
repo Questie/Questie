@@ -17,7 +17,8 @@ local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 -- - Minimap: the NPC's tooltip opens on a tooltip of its own, owned by the minimap. Forever's
 --   minimap takes GameTooltip every frame while the cursor is over it, for its blip tooltips
 --   (Minimap_OnUpdate in Blizzard_Minimap/Mainline/Minimap.lua). And HereBeDragons hides minimap
---   icons out of range, while a long patrol's path can still pass close by.
+--   icons out of range, and distance fades them out, while a long patrol's path can still pass
+--   close by.
 
 ---@alias WaypointHoverSurface "map"|"minimap"
 
@@ -43,6 +44,8 @@ local function _Enter(path, icon)
     local ownIcon = icon and icon.data == path.data
     if ownIcon and hoveredOn == "minimap" then
         enteredIcon = icon
+        -- The highlight is the hover's own, whether or not the tooltip shows.
+        QuestieWaypoints.SetHighlighted(path.data, true)
         MapIconTooltip.ShowOnTooltip(icon, _MinimapTooltip(), Minimap)
         return
     end

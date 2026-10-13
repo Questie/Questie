@@ -44,6 +44,7 @@ describe("WaypointHover", function()
 
         WaypointHover.Set("minimap", path, icon)
         assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap)
+        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, true)
         assert.spy(icon.scripts.OnEnter).was.not_called()
 
         WaypointHover.Set("minimap", nil)

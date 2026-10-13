@@ -71,10 +71,11 @@ end
 ---@param self IconFrame
 ---@param Tooltip GameTooltip The tooltip frame to render into
 ---@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
----since HereBeDragons may hide its NPC's icon.
+---since HereBeDragons may hide its NPC's icon and distance may fade it out.
 function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner)
+    -- An icon faded out shows nothing when hovered itself. A hovered path shows, whatever its icon's fade.
     local _, _, _, alpha = self.texture:GetVertexColor();
-    if alpha == 0 then
+    if alpha == 0 and not owner then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Alpha of texture is 0, nothing to show")
         return
     end

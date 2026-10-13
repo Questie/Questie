@@ -228,6 +228,17 @@ describe("MapIconTooltip objective wording", function()
             assert.spy(GameTooltip.SetOwner).was.called_with(match._, match.is_ref(owner), "ANCHOR_CURSOR")
         end)
 
+        it("shows for an icon faded out by distance, which shows nothing when hovered itself", function()
+            icon.texture.GetVertexColor = function() return 1, 1, 1, 0 end
+            GameTooltip.Show = spy.new(function() end)
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+            assert.spy(GameTooltip.Show).was.not_called()
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, {})
+            assert.spy(GameTooltip.Show).was.called(1)
+        end)
+
         it("lists a minimap icon that HereBeDragons hides out of range", function()
             _G.Minimap = {GetZoom = function() return 0 end, SetZoom = function() end}
             _G.GetCVar = function() return "0" end
