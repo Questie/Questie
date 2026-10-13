@@ -288,11 +288,12 @@ On Forever 1.60.1:
 - Hover: the NPC's tooltip and highlighted routes, moving from a line onto its icon, and Questie's icons and Blizzard's pins winning over lines.
 - Map clicks and drags passing through lines, in and out of combat.
 - The minimap: alignment with Questie's icons while walking and turning, north-up and rotating, at every zoom; the hole over the player arrow; and the shape mask captured through `Minimap:SetMaskTexture`.
+- Hovering minimap paths: the highlight, and the tooltip listing all of the NPC's quests, also for NPCs whose minimap icons are out of HereBeDragons' range or faded out.
 
 ## Still to verify in game
 - Hover on the inner edge of curves at the 0.75 default.
 - Hovering a minimap icon highlights its NPC's paths on the minimap.
-- Hovering minimap paths: the tooltip, moving onto a minimap icon, the shape cutoff on round and square minimaps, and hovering while walking and turning.
+- Hovering minimap paths: moving onto a minimap icon, the shape cutoff on round and square minimaps, and hovering while walking and turning.
 - The tracker's Show on Map flash.
 - Visibility: hiding Questie's icons, turning off **Enable Minimap Icons**, and hiding one NPC's icon.
 - The Map → Waypoints settings, live on both maps and on profile switches, and the colour pickers' opacity.
