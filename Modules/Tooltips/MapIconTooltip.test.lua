@@ -239,15 +239,22 @@ describe("MapIconTooltip objective wording", function()
             assert.spy(GameTooltip.Show).was.called(1)
         end)
 
-        it("lists a minimap icon that HereBeDragons hides out of range", function()
+        it("lists the given icons of an NPC's quests, however far away and faded", function()
             _G.Minimap = {GetZoom = function() return 0 end, SetZoom = function() end}
             _G.GetCVar = function() return "0" end
             icon.miniMapIcon = true
+            -- HereBeDragons shows neither icon: both are out of range. The second is faded out, elsewhere.
             pins.activeMinimapPins = {}
+            local secondQuest = {
+                x = 90, y = 10, AreaID = 2, miniMapIcon = true,
+                texture = {a = 0, GetVertexColor = function() return 1, 1, 1, 0 end},
+                data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
+            }
 
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, _G.Minimap)
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, _G.Minimap, {icon, secondQuest})
 
             assert.is_not_nil(GameTooltip.questOrder[1])
+            assert.is_not_nil(GameTooltip.questOrder[2])
         end)
     end)
 end)
