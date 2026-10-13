@@ -41,17 +41,19 @@ local function _MinimapTooltip()
     return minimapTooltip
 end
 
--- An icon that is not visible cannot anchor a tooltip; then only the paths highlight.
+-- The minimap's tooltip belongs to the minimap, so it also shows for a minimap icon HereBeDragons
+-- hides out of range: a long patrol can pass close by while its NPC's icon is too far to show. On
+-- the world map, an icon that is not visible cannot anchor its tooltip; then only the paths highlight.
 ---@param path WaypointPath
 ---@param icon IconFrame?
 local function _Enter(path, icon)
-    local visible = icon and icon.data == path.data and icon:IsVisible()
-    if visible and hoveredOn == "minimap" then
+    local ownIcon = icon and icon.data == path.data
+    if ownIcon and hoveredOn == "minimap" then
         enteredIcon = icon
-        MapIconTooltip.ShowOnTooltip(icon, _MinimapTooltip())
+        MapIconTooltip.ShowOnTooltip(icon, _MinimapTooltip(), Minimap)
         return
     end
-    local onEnter = visible and icon:GetScript("OnEnter")
+    local onEnter = ownIcon and icon:IsVisible() and icon:GetScript("OnEnter")
     if onEnter then
         enteredIcon = icon
         onEnter(icon)

@@ -1,7 +1,8 @@
 dofile("setupTests.lua")
+local match = require("luassert.match")
 
 describe("MapIconTooltip objective wording", function()
-    local MapIconTooltip, QuestieComms, cached, objective, icon, now
+    local MapIconTooltip, QuestieComms, cached, objective, icon, now, pins
     local savedGlobals
 
     before_each(function()
@@ -10,7 +11,7 @@ describe("MapIconTooltip objective wording", function()
             WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, IsShiftKeyDown = _G.IsShiftKeyDown,
             GetUnitName = _G.GetUnitName, UnitClassBase = _G.UnitClassBase, GetClassColor = _G.GetClassColor,
             C_CurrencyInfo = _G.C_CurrencyInfo, OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION,
-            QUEST_MONSTERS_KILLED = _G.QUEST_MONSTERS_KILLED,
+            QUEST_MONSTERS_KILLED = _G.QUEST_MONSTERS_KILLED, Minimap = _G.Minimap, GetCVar = _G.GetCVar,
         }
         now = 0
         _G.GetTime = function() return now end
@@ -63,7 +64,7 @@ describe("MapIconTooltip objective wording", function()
             texture = {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end},
             data = {Id = 1, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
         }
-        local pins = {worldmapProvider = {GetMap = function()
+        pins = {worldmapProvider = {GetMap = function()
             return {EnumeratePinsByTemplate = function()
                 local returned = false
                 return function()
@@ -88,6 +89,7 @@ describe("MapIconTooltip objective wording", function()
         _G.LibStub, _G.GetTime, _G.GameTooltip = savedGlobals.LibStub, savedGlobals.GetTime, savedGlobals.GameTooltip
         _G.WorldMapFrame, _G.C_Map, _G.IsShiftKeyDown = savedGlobals.WorldMapFrame, savedGlobals.C_Map, savedGlobals.IsShiftKeyDown
         _G.GetUnitName, _G.UnitClassBase, _G.GetClassColor = savedGlobals.GetUnitName, savedGlobals.UnitClassBase, savedGlobals.GetClassColor
+        _G.Minimap, _G.GetCVar = savedGlobals.Minimap, savedGlobals.GetCVar
     end)
 
     local function RenderObjectiveLines()
@@ -215,5 +217,26 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 0, required = 1}}} end
 
         assert.are.same({["|cFFEEEEEE0/1 Use Walk on Air (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true}, RenderObjectiveLines())
+    end)
+    describe("for a patrol path", function()
+        it("belongs to the frame it is given", function()
+            local owner = {}
+            GameTooltip.SetOwner = spy.new(function() end)
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, owner)
+
+            assert.spy(GameTooltip.SetOwner).was.called_with(match._, match.is_ref(owner), "ANCHOR_CURSOR")
+        end)
+
+        it("lists a minimap icon that HereBeDragons hides out of range", function()
+            _G.Minimap = {GetZoom = function() return 0 end, SetZoom = function() end}
+            _G.GetCVar = function() return "0" end
+            icon.miniMapIcon = true
+            pins.activeMinimapPins = {}
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, _G.Minimap)
+
+            assert.is_not_nil(GameTooltip.questOrder[1])
+        end)
     end)
 end)
