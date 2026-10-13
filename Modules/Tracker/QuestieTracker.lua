@@ -895,14 +895,22 @@ local function _UpdateLineWidth(line, objectiveMarginLeft)
     end
 end
 
-function QuestieTracker:Update()
+-- TrackerData revision shown by the last completed layout. Nil makes the next quest-log check lay out.
+local layoutRevision
+
+---@param onlyIfChanged boolean? Skip the layout when quest data is unchanged since the last one. Only for quest-log events.
+function QuestieTracker:Update(onlyIfChanged)
+    if not onlyIfChanged then
+        -- Settings and UI requests can change the layout without changing quest data. If this request is
+        -- throttled or only hides the tracker, the next quest-log check must not treat the old layout as current.
+        layoutRevision = nil
+    end
+
     -- Prevents calling the tracker too often, especially when the QuestieCombatQueue empties after combat ends
     local now = GetTime()
     if (not QuestieTracker.started) or InCombatLockdown() or (now - lastTrackerUpdate) < 0.1 then
         return
     end
-
-    lastTrackerUpdate = now
 
     -- Check if we're in a pet battle and should hide the tracker
     if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
@@ -944,6 +952,25 @@ function QuestieTracker:Update()
     if focusRestoreDeadline and _RestoreSavedFocus(GetTime() < focusRestoreDeadline) then
         focusRestoreDeadline = nil
     end
+
+    -- Challenge Mode and scenario layouts depend on the instance, not quest data. Quest-log checks never skip them,
+    -- and they never count as current, so entering or leaving one always lays out.
+    local isChallengeMode, isScenario = false, false
+    if Expansions.Current >= Expansions.MoP then
+        local _, instanceType, _, difficultyName = GetInstanceInfo()
+        isChallengeMode = instanceType ~= "none" and difficultyName == "Challenge Mode"
+        isScenario = instanceType == "scenario"
+    end
+    local showsQuests = not (isChallengeMode or isScenario)
+
+    -- QUEST_LOG_UPDATE fires on every quest log or map open. Laying out unchanged quests is the expensive part.
+    local revision = TrackerData.GetLayoutRevision()
+    if onlyIfChanged and showsQuests and revision == layoutRevision then
+        return
+    end
+    -- Not set by skipped checks, so they never throttle the next explicit update.
+    lastTrackerUpdate = now
+
     TrackerHeaderFrame:Update()
     TrackerQuestFrame:Update()
     TrackerBaseFrame:Update()
@@ -1823,11 +1850,10 @@ function QuestieTracker:Update()
         QuestieTracker:UpdateHeight()
     end
 
-    local _, instanceType, _, difficultyName = GetInstanceInfo()
-    if Expansions.Current >= Expansions.MoP and instanceType ~= "none" and difficultyName == "Challenge Mode" then
+    if isChallengeMode then
         -- Challenge Mode is active, so we only show the Challenge Mode objectives
         _UpdateChallengeModeObjectives()
-    elseif Expansions.Current >= Expansions.MoP and instanceType == "scenario" then
+    elseif isScenario then
         -- Scenario is active, so we only show the Scenario objectives
         _UpdateScenarioObjectives()
     else
@@ -1855,6 +1881,8 @@ function QuestieTracker:Update()
     if line then
         QuestieTracker:UpdateFormatting()
     end
+    -- Only a completed layout is current. One that errors partway is retried by the next quest-log check.
+    layoutRevision = showsQuests and revision or nil
 
     -- First run clean up
     if isFirstRun then

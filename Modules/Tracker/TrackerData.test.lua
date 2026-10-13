@@ -43,6 +43,10 @@ describe("TrackerData", function()
         QuestieDB.QueryNPCSingle = function() return "Wolf" end
         QuestieDB.QueryItemSingle = function() return "Note" end
         QuestieDB.IsPvPQuest = function() return false end
+        QuestieDB.GetQuestTagInfo = function() return nil end
+        local trackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        trackerUtils.GetQuestItemIds = function() return {} end
+        trackerUtils.GetCompletionText = function() return nil end
         QuestieLoader:ImportModule("QuestieEvent").IsEventQuest = function() return false end
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/QuestieLib.lua")
@@ -263,7 +267,9 @@ describe("TrackerData", function()
                 numFulfilled = 1, numRequired = 1, finished = true},
         }}
         local behavior = QuestieLoader:ImportModule("TrackerQuestieBehavior")
+        local appliedQuest
         behavior.Apply = spy.new(function(displayQuest, snapshot, nativeComplete)
+            appliedQuest = displayQuest
             assert.are.equal("Nibbled-On Book", displayQuest.name)
             assert.are.equal("Northshire Abbey", displayQuest.zoneName)
             assert.is_nil(displayQuest.completionState)
@@ -278,7 +284,7 @@ describe("TrackerData", function()
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
-        assert.spy(behavior.Apply).was.called_with(displayQuest, cached[91741], 1)
+        assert.are.equal(displayQuest, appliedQuest)
         assert.spy(behavior.Apply).was.called(1)
         assert.spy(QuestieDB.IsComplete).was.not_called()
         assert.spy(QuestieDB.QueryNPCSingle).was.not_called()
@@ -895,5 +901,104 @@ describe("TrackerData", function()
 
         assert.are.equal("|cFFFFFF00[2] Nibbled-On Book|r", TrackerData.GetColoredQuestName(displayQuest, true, false))
         assert.are.equal("[[2] Nibbled-On Book (91741)]", TrackerData.GetQuestLink(displayQuest))
+    end)
+
+    describe("layout revision", function()
+        local trackerUtils, originalTagIds, originalGetQuestTimers
+
+        before_each(function()
+            trackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+            originalTagIds = QuestieDB.questTagIds
+            originalGetQuestTimers = compat.GetQuestTimers
+            cached[91741] = {objectives = {{text = "9/15 Windstone Cluster", type = "item",
+                numFulfilled = 9, numRequired = 15, finished = false}}}
+            TrackerData.Refresh()
+        end)
+
+        after_each(function()
+            QuestieDB.questTagIds = originalTagIds
+            compat.GetQuestTimers = originalGetQuestTimers
+        end)
+
+        it("stays the same when a refresh finds nothing changed", function()
+            local revision = TrackerData.GetLayoutRevision()
+
+            TrackerData.Refresh()
+            TrackerData.RefreshQuest(91741)
+
+            assert.are.equal(revision, TrackerData.GetLayoutRevision())
+        end)
+
+        -- Text-only updates use RefreshQuest. The next quest-log check must still see the change.
+        it("advances when a single-quest refresh changes progress", function()
+            local revision = TrackerData.GetLayoutRevision()
+            cached[91741].objectives[1] = {text = "10/15 Windstone Cluster", type = "item",
+                numFulfilled = 10, numRequired = 15, finished = false}
+
+            TrackerData.RefreshQuest(91741)
+
+            assert.are_not.equal(revision, TrackerData.GetLayoutRevision())
+        end)
+
+        it("advances when a quest tag loads after the quest", function()
+            local revision = TrackerData.GetLayoutRevision()
+            QuestieDB.questTagIds = {}
+            QuestieDB.GetQuestTagInfo = function() return 81, "Dungeon" end
+
+            TrackerData.Refresh()
+
+            assert.are_not.equal(revision, TrackerData.GetLayoutRevision())
+        end)
+
+        it("advances when completion text loads after the quest", function()
+            local revision = TrackerData.GetLayoutRevision()
+            trackerUtils.GetCompletionText = function() return "Return to Brother Paxton." end
+
+            TrackerData.Refresh()
+
+            assert.are_not.equal(revision, TrackerData.GetLayoutRevision())
+        end)
+
+        -- Non-English clients get no looted-item trigger, so the next quest-log check must show the button.
+        it("advances when a usable quest item enters the bags", function()
+            local revision = TrackerData.GetLayoutRevision()
+            trackerUtils.GetQuestItemIds = function() return {2558} end
+
+            TrackerData.Refresh()
+
+            assert.are_not.equal(revision, TrackerData.GetLayoutRevision())
+        end)
+
+        -- Only a layout creates the timer row. Some timers start after acceptance without changing quest data.
+        it("advances when a quest timer starts, but not while it counts down", function()
+            local seconds = 300
+            compat.GetQuestTimers = function() return seconds end
+            local revision = TrackerData.GetLayoutRevision()
+
+            TrackerData.Refresh()
+            local started = TrackerData.GetLayoutRevision()
+            seconds = 299
+            TrackerData.Refresh()
+
+            assert.are_not.equal(revision, started)
+            assert.are.equal(started, TrackerData.GetLayoutRevision())
+        end)
+
+        it("advances when a quest leaves the log", function()
+            local revision = TrackerData.GetLayoutRevision()
+            entries[2] = nil
+
+            TrackerData.Refresh()
+
+            assert.are_not.equal(revision, TrackerData.GetLayoutRevision())
+        end)
+
+        it("advances when a quest is removed", function()
+            local revision = TrackerData.GetLayoutRevision()
+
+            TrackerData.RemoveQuest(91741)
+
+            assert.are_not.equal(revision, TrackerData.GetLayoutRevision())
+        end)
     end)
 end)

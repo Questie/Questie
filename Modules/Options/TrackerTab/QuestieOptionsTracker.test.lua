@@ -63,4 +63,16 @@ describe("tracker automatic tracking option", function()
         assert.spy(visibility.ScheduleSnapshot).was.called_with(visibility, "AUTO_TRACK_QUESTS")
         assert.spy(compat.QuestLog_Update).was.not_called()
     end)
+
+    -- Quest-log checks skip unchanged quests, so this setting must request the quest lines itself.
+    it("lays out the tracker when always showing it expands a minimized tracker", function()
+        tracker.UpdateFormatting = spy.new(function() end)
+        Questie.db.char.isTrackerExpanded = false
+        local settings = options.tabs.tracker:Initialize()
+
+        settings.args.group_tracker.args.group_header.args.alwaysShowTracker.set(nil, true)
+
+        assert.is_true(Questie.db.char.isTrackerExpanded)
+        assert.spy(tracker.Update).was.called_with(tracker)
+    end)
 end)
