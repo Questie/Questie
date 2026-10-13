@@ -189,7 +189,7 @@ The world map pays the geometry once per zoom or map change, only for the paths 
 
 ### Hover
 
-Hovering a line is hovering its NPC. It opens the tooltip of the NPC's icon on that map, which highlights all of the NPC's paths. If that icon isn't visible, it only highlights. Highlights show on both maps, so hovering a minimap icon highlights its NPC's paths on the minimap too. Hovering works on [the minimap](#minimap) as well; `WaypointHover` keeps one hovered path across both maps, and each map only ends its own hover.
+Hovering a line is hovering its NPC. It opens the tooltip of the NPC's icon on that map, which highlights all of the NPC's paths. On the world map, an icon that isn't visible can't anchor its tooltip, so then it only highlights; paths draw only while their icon isn't hidden, so that's rare. Highlights show on both maps, so hovering a minimap icon highlights its NPC's paths on the minimap too. Hovering works on [the minimap](#minimap) as well; `WaypointHover` keeps one hovered path across both maps, and each map only ends its own hover.
 
 The hover shape is the path fattened by radius *r*: the union of capsules around its segments. The test is **distance from the cursor to the nearest segment ≤ r**:
 - **Joins:** joins of any angle are round, so no wedge-shaped dead corner.
@@ -223,7 +223,7 @@ The hover shape is the path fattened by radius *r*: the union of capsules around
   - The cursor counts only over the bare minimap (`GetMouseFocus() == Minimap`), so Questie's minimap icons, buttons and other addons' pins win.
   - It must also be inside the minimap's shape. Anything but the square mask counts as round, as the ellipse inscribed in the minimap, so a custom shape never hovers paths its mask hides. The soft hole over the player arrow still counts.
   - It's rechecked when the cursor moves against the paths: by moving itself, by the player walking or turning, or when the drawn runs change.
-  - It shows the tooltip of the NPC's minimap icon. Questie's minimap icons float on the minimap's edge, so that icon is visible even when only the path is in view.
+  - It shows the tooltip of the NPC's minimap icon, owned by the minimap rather than the icon, so it shows even while HereBeDragons hides that icon. Questie's patch to HereBeDragons-Pins hides minimap icons more than 500 yards (|Δx| + |Δy|) from the player, and a long patrol can pass close by while its icon is that far; Stormwind has one. Such a tooltip still lists the hovered icon's own entry, although it isn't among the shown minimap icons it collects the others from.
   - The tooltip is a frame of its own, `QuestieWaypointMinimapTooltip`, like the gamepad map hover's. On Forever, Blizzard's `Minimap_OnUpdate` takes `GameTooltip` every frame while the cursor is over the minimap, for its blip tooltips (`Blizzard_Minimap/Mainline/Minimap.lua`, 1.60.1), so the NPC's tooltip there vanished at once while its highlight stayed. Classic Era's minimap has no such script. A modifier key doesn't rebuild this tooltip.
   - Moving onto the NPC's minimap icon ends the path's hover, and the icon opens its own tooltip.
   - The hover ends when the paths can't be drawn, such as in an instance, and when the minimap hides.

@@ -70,7 +70,9 @@ end
 
 ---@param self IconFrame
 ---@param Tooltip GameTooltip The tooltip frame to render into
-function MapIconTooltip.ShowOnTooltip(self, Tooltip)
+---@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
+---since HereBeDragons may hide its NPC's icon.
+function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner)
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Alpha of texture is 0, nothing to show")
@@ -83,7 +85,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
     lastTooltipShowTimestamp = GetTime()
 
     Tooltip._owner = self;
-    Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+    Tooltip:SetOwner(owner or self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
     local maxDistCluster = 1
     local mapId = WorldMapFrame:GetMapID();
@@ -194,6 +196,8 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
         for icon, _ in pairs(HBDPins.activeMinimapPins) do
             handleMapIcon(icon)
         end
+        -- A minimap icon HereBeDragons hides out of range, such as a hovered patrol path's, lists its own entry.
+        if not HBDPins.activeMinimapPins[self] then handleMapIcon(self) end
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)

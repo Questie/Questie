@@ -17,7 +17,8 @@ describe("WaypointHover", function()
     end
 
     before_each(function()
-        saved = {GameTooltip = _G.GameTooltip, CreateFrame = _G.CreateFrame}
+        saved = {GameTooltip = _G.GameTooltip, CreateFrame = _G.CreateFrame, Minimap = _G.Minimap}
+        _G.Minimap = {}
         tooltipOwner = nil
         _G.GameTooltip = {GetOwner = function() return tooltipOwner end, Hide = spy.new(function() end)}
         minimapTooltip = {Hide = spy.new(function() end)}
@@ -42,12 +43,22 @@ describe("WaypointHover", function()
         local path, icon = {data = data}, Icon(data)
 
         WaypointHover.Set("minimap", path, icon)
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip)
+        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap)
         assert.spy(icon.scripts.OnEnter).was.not_called()
 
         WaypointHover.Set("minimap", nil)
         assert.spy(minimapTooltip.Hide).was.called(1)
         assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with({data = data})
+    end)
+
+    it("shows the tooltip of a minimap icon HereBeDragons hides out of range", function()
+        local data = {}
+        local icon = Icon(data)
+        icon.IsVisible = function() return false end
+
+        WaypointHover.Set("minimap", {data = data}, icon)
+
+        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap)
     end)
 
     it("ends a minimap hover once the NPC's minimap icon opens its own tooltip", function()
@@ -82,7 +93,7 @@ describe("WaypointHover", function()
         WaypointHover.Set("minimap", {data = data}, minimapIcon)
 
         assert.spy(mapIcon.scripts.OnLeave).was.called_with(mapIcon)
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(minimapIcon, minimapTooltip)
+        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(minimapIcon, minimapTooltip, _G.Minimap)
     end)
 
     it("undoes the NPC's tooltip changes when another frame takes the tooltip", function()
