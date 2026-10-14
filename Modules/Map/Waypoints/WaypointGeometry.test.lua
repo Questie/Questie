@@ -107,17 +107,44 @@ describe("WaypointGeometry", function()
 
         it("joins a right-angle turn on its bisector, lengthening the outer edges and shortening the inner", function()
             -- +x, then +y: the turn's inside is the left side.
-            local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2)
+            local quads, fills, caps = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2)
 
             assertCorners({8, 2, 12, -2}, EndOf(quads[1]))
             assertCorners(EndOf(quads[1]), StartOf(quads[2]))
+            assert.are_same({}, fills)
+            assert.are_same({}, caps)
         end)
 
-        it("caps the outer corner of a sharp turn instead of spiking", function()
-            local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 0, y = 1}}, 2)
+        it("ends a sharp turn's outer edges square at its point, fills each segment to it and caps the outside", function()
+            -- A 150-degree turn to the left. The inner edges cross 2 * tan(75 degrees) = 2 + 2 * sqrt(3)
+            -- before the turn, at (16 - 2 * sqrt(3), 2).
+            local root3 = math.sqrt(3)
+            local quads, fills, caps = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 20, y = 0}, {x = 20 - 10 * root3, y = 10}}, 2)
 
-            local outerX, outerY = quads[1][7], quads[1][8]
-            assert.are.near(WaypointGeometry.MITER_LIMIT * 2, math.sqrt((outerX - 10) ^ 2 + outerY ^ 2), 1e-9)
+            local innerX, innerY = 16 - 2 * root3, 2
+            -- The first segment's outer corner is square at the turn; the second's lies off its own
+            -- normal there, at 2 * (sin 30, cos 30) = (1, sqrt(3)).
+            assertCorners({innerX, innerY, 20, -2}, EndOf(quads[1]))
+            assertCorners({innerX, innerY, 21, root3}, StartOf(quads[2]))
+            -- Each fill runs from its segment's corners at the turn to the turn's point.
+            assert.are.equal(2, #fills)
+            assertCorners({innerX, innerY, 20, -2, 20, 0, 20, 0}, fills[1])
+            assertCorners({21, root3, innerX, innerY, 20, 0, 20, 0}, fills[2])
+            -- The cap's kite: the point, then 2 * sqrt(2) out along each outer normal and along the
+            -- outward bisector, at -15 degrees: 2 * sqrt(2) * (cos 15, -sin 15) = (sqrt(3) + 1, 1 - sqrt(3)).
+            assert.are.equal(1, #caps)
+            local reach = 2 * math.sqrt(2)
+            assertCorners({20, 0, 20, -reach, 20 + reach / 2, reach * root3 / 2, 21 + root3, 1 - root3}, caps[1])
+        end)
+
+        it("rounds a turn back on itself with a cap beyond its point", function()
+            local quads, fills, caps = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 0, y = 0}}, 2)
+
+            assertCorners({10, 2, 10, -2}, EndOf(quads[1]))
+            assertCorners({10, -2, 10, 2}, StartOf(quads[2]))
+            assert.are_same({}, fills)
+            local reach = 2 * math.sqrt(2)
+            assertCorners({10, 0, 10, -reach, 10, reach, 10 + reach, 0}, caps[1])
         end)
 
         it("never pulls an inner corner back past half the shorter segment", function()
@@ -127,35 +154,55 @@ describe("WaypointGeometry", function()
             assert.are.near(5, 10 - quads[1][5], 1e-9)
         end)
 
-        it("keeps quads convex where a short segment meets a sharp turn", function()
+        it("keeps every quad, fill and cap convex and wound the same way, where a short segment meets a sharp turn", function()
             -- The client splits a quad into two triangles along a fixed diagonal; a concave quad
             -- would draw outside its outline. Corners in order: start left, end left, end right, start right.
-            local function IsConvex(quad)
+            -- Returns whether the quad is convex, and which way its corners go around.
+            local function Winding(quad)
                 local corners = {{quad[1], quad[2]}, {quad[5], quad[6]}, {quad[7], quad[8]}, {quad[3], quad[4]}}
                 local sign
                 for i = 1, 4 do
                     local a, b, c = corners[i], corners[i % 4 + 1], corners[(i + 1) % 4 + 1]
                     local cross = (b[1] - a[1]) * (c[2] - b[2]) - (b[2] - a[2]) * (c[1] - b[1])
                     if math.abs(cross) > 1e-9 then
-                        if sign and (cross > 0) ~= sign then return false end
+                        if sign ~= nil and (cross > 0) ~= sign then return false end
                         sign = cross > 0
                     end
                 end
-                return true
+                return true, sign
             end
-            -- A 120-degree turn after a segment shorter than the full miter's pull-back, both ways.
-            for _, turn in ipairs({1, -1}) do
-                local quads = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 3, y = 0}, {x = 3 - 5, y = turn * 5 * math.sqrt(3)}}, 2)
-                assert.is_true(IsConvex(quads[1]))
-                assert.is_true(IsConvex(quads[2]))
+            -- Turns past 120 degrees after a segment shorter than the full miter's pull-back, both ways,
+            -- and turning back: 179.95 degrees falls within the turn-back's tolerance.
+            for _, degrees in ipairs({120.5, 150, 179, 179.95, 180}) do
+                for _, side in ipairs({1, -1}) do
+                    local angle = math.rad(180 - degrees)
+                    local quads, fills, caps = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 3, y = 0},
+                        {x = 3 - 10 * math.cos(angle), y = side * 10 * math.sin(angle)}}, 2)
+                    assert.are.equal(1, #caps)
+                    local pieces = {quads[1], quads[2], caps[1]}
+                    for _, fill in ipairs(fills) do pieces[#pieces + 1] = fill end
+                    local _, expected = Winding(quads[1])
+                    for _, quad in ipairs(pieces) do
+                        local convex, sign = Winding(quad)
+                        assert.is_true(convex)
+                        assert.are.equal(expected, sign)
+                    end
+                    -- Each fill starts at its own segment's corners at the turn, which differ here:
+                    -- the pull-back stops short of where the inner edges cross.
+                    if fills[1] then
+                        assertCorners(EndOf(quads[1]), StartOf(fills[1]))
+                        local start = StartOf(quads[2])
+                        assertCorners({start[3], start[4], start[1], start[2]}, StartOf(fills[2]))
+                    end
+                end
             end
         end)
 
         it("skips repeated points", function()
             local expected = WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2)
 
-            assert.are_same(expected, WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2))
-            assert.are_same({}, WaypointGeometry.Quads({{x = 1, y = 1}, {x = 1, y = 1}}, 2))
+            assert.are_same(expected, (WaypointGeometry.Quads({{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}, 2)))
+            assert.are_same({}, (WaypointGeometry.Quads({{x = 1, y = 1}, {x = 1, y = 1}}, 2)))
         end)
 
         it("joins a closed patrol where it returns to its start", function()

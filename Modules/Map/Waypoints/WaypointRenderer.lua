@@ -1,6 +1,7 @@
 -- luacheck: globals DrawLine UPPER_LEFT_VERTEX LOWER_LEFT_VERTEX UPPER_RIGHT_VERTEX LOWER_RIGHT_VERTEX
 ---Draws patrol paths as outlined lines onto a canvas: the world map's, or the minimap layer's
----container. Each path is one view frame with one pooled texture per segment.
+---container. Each path is one view frame with one pooled texture per segment, plus two fills and a
+---cap at each sharp turn.
 ---@class WaypointRenderer
 local WaypointRenderer = QuestieLoader:CreateModule("WaypointRenderer")
 
@@ -22,8 +23,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---what changed; nil redraws that part.
 ---@class WaypointView : Frame
 ---@field lines Texture[] One per drawn segment.
+---@field fills Texture[] Two per sharp turn: the triangles completing its segments at the turn.
+---@field caps Texture[] One per sharp turn or turn back: the round outside.
 ---@field bands Texture[] Debug hover area: one per segment.
----@field caps Texture[] Debug hover area: one per point.
+---@field dots Texture[] Debug hover area: one per point.
 ---@field waypointRuns table[][] Polylines in canvas units with y down, each at least two points.
 ---@field waypointThickness number?
 ---@field waypointRadius number?
@@ -51,6 +54,14 @@ local renderers = setmetatable({}, {__mode = "k"})
 local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-line-aa.png"
 -- Quads are wider than the line by the fade, so the line keeps its thickness.
 local QUAD_SCALE = 16 / 12
+-- A fill's start corners take the line texture's left and right edges, and its end corners, both
+-- at the turn's point, the center row between them. ulX, ulY, llX, llY, urX, urY, lrX, lrY.
+local FILL_TEX_COORDS = {0, 0, 0, 1, 1, 0.5, 1, 0.5}
+-- The line's rows turned into rings: this 32x32 image's disc has the line's profile from its center,
+-- at the line's texel density, and is transparent black around it.
+local CAP_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-cap-aa.png"
+-- The disc's radius, 8 texels, as a fraction of the image. It matches a quad's half width.
+local CAP_RADIUS = 8 / 32
 -- The line texture has about as many rows as a line has pixels, so bilinear filtering blends rows
 -- smoothly without mipmaps. Nearest-neighbor picks one row per pixel, and the bands flicker as
 -- lines move.
@@ -65,22 +76,29 @@ local WHITE_TEXTURE = "Interface\\BUTTONS\\WHITE8X8"
 local CIRCLE_TEXTURE = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
 local DEBUG_COLOR = {0.2, 0.8, 1, 0.25}
 
--- Texture settings by kind. Lines draw above the debug hover area of their own path. Debug bands
--- are DrawLine strips, whose texture coordinates run past the image; clamping to black keeps the
--- rest of their box clear.
+-- Texture settings by kind. Lines, fills and caps draw above the debug hover area of their own path.
+-- Debug bands are DrawLine strips, whose texture coordinates run past the image; clamping to black
+-- keeps the rest of their box clear. Fills and caps set their texture coordinates on every draw,
+-- and SetTexture keeps them, so they pool apart from lines, which keep the whole image.
 local KINDS = {
     lines = {asset = LINE_TEXTURE, layer = "ARTWORK", wrap = "CLAMP"},
+    fills = {asset = LINE_TEXTURE, layer = "ARTWORK", wrap = "CLAMP"},
+    caps = {asset = CAP_TEXTURE, layer = "ARTWORK", wrap = "CLAMP"},
     bands = {asset = WHITE_TEXTURE, layer = "BACKGROUND", wrap = "CLAMPTOBLACKADDITIVE"},
-    caps = {asset = CIRCLE_TEXTURE, layer = "BACKGROUND", wrap = "CLAMP"},
+    dots = {asset = CIRCLE_TEXTURE, layer = "BACKGROUND", wrap = "CLAMP"},
 }
+-- The kinds drawing the line, which the style's color tints.
+local LINE_KINDS = {"lines", "fills", "caps"}
 
 ---Creates a renderer drawing onto canvas. Views take no mouse input.
 ---@param canvas Frame
 ---@param maskTextures MaskTexture[]? Applied once to every texture, for canvases that do not clip, such as the minimap.
 ---@return WaypointCanvasRenderer
 function WaypointRenderer.New(canvas, maskTextures)
+    local free = {}
+    for kind in pairs(KINDS) do free[kind] = {} end
     local renderer = setmetatable({canvas = canvas, maskTextures = maskTextures or {}, owned = {}, freeViews = {},
-        free = {lines = {}, bands = {}, caps = {}}}, Renderer)
+        free = free}, Renderer)
     renderers[renderer] = true
     return renderer
 end
@@ -154,9 +172,48 @@ local function _DrawQuad(texture, view, quad)
     texture:SetVertexOffset(LOWER_RIGHT_VERTEX, endRightX - maxX, maxY - endRightY)
 end
 
+---Maps a cap's disc onto its kite: the kite's first corner is the disc's center, and the image
+---scales so the disc's radius spans halfWidth.
+---@param texture Texture
+---@param cap number[]
+---@param halfWidth number
+local function _SetCapTexCoord(texture, cap, halfWidth)
+    local scale = CAP_RADIUS / halfWidth
+    local centerX, centerY = cap[1], cap[2]
+    texture:SetTexCoord(0.5, 0.5,
+        0.5 + (cap[3] - centerX) * scale, 0.5 + (cap[4] - centerY) * scale,
+        0.5 + (cap[5] - centerX) * scale, 0.5 + (cap[6] - centerY) * scale,
+        0.5 + (cap[7] - centerX) * scale, 0.5 + (cap[8] - centerY) * scale)
+end
+
+---Draws quads with textures of one kind, after the count already drawn.
 ---@param self WaypointCanvasRenderer
 ---@param view WaypointView
----@return boolean acquired Some line is new to the view and needs its color.
+---@param kind string
+---@param quads number[][]
+---@param count number
+---@param halfWidth number
+---@return number count
+---@return boolean acquired Some texture is new to the view and needs its color.
+local function _DrawKind(self, view, kind, quads, count, halfWidth)
+    local acquired = false
+    for _, quad in ipairs(quads) do
+        count = count + 1
+        local texture, new = _Acquire(self, view, kind, count)
+        acquired = acquired or new
+        _DrawQuad(texture, view, quad)
+        if kind == "fills" then
+            texture:SetTexCoord(unpack(FILL_TEX_COORDS))
+        elseif kind == "caps" then
+            _SetCapTexCoord(texture, quad, halfWidth)
+        end
+    end
+    return count, acquired
+end
+
+---@param self WaypointCanvasRenderer
+---@param view WaypointView
+---@return boolean acquired Some texture is new to the view and needs its color.
 local function _DrawLines(self, view)
     local halfWidth = view.waypointThickness / 2
     local quadHalfWidth = halfWidth * QUAD_SCALE
@@ -164,20 +221,32 @@ local function _DrawLines(self, view)
     -- trimming adds TRIMMING more. Up to a setting of 0.875, the default 0.75 included, the true path
     -- stays under the line at every zoom, and up to about 1.2 under it or its soft edge.
     local smoothing = Questie.db.profile.waypointSmoothing * halfWidth
-    local acquired, count = false, 0
+    local acquired, lines, fills, caps = false, 0, 0, 0
     for _, run in ipairs(view.waypointRuns) do
         -- Curves are fitted to the quads, fade included, so no two of their pieces overlap.
         local smoothed = WaypointGeometry.Smooth(run, smoothing, quadHalfWidth)
         local points = WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * halfWidth)
-        for _, quad in ipairs(WaypointGeometry.Quads(points, quadHalfWidth)) do
-            count = count + 1
-            local line, new = _Acquire(self, view, "lines", count)
-            acquired = acquired or new
-            _DrawQuad(line, view, quad)
+        local lineQuads, fillQuads, capQuads = WaypointGeometry.Quads(points, quadHalfWidth)
+        local newLines, newFills, newCaps
+        lines, newLines = _DrawKind(self, view, "lines", lineQuads, lines, quadHalfWidth)
+        fills, newFills = _DrawKind(self, view, "fills", fillQuads, fills, quadHalfWidth)
+        caps, newCaps = _DrawKind(self, view, "caps", capQuads, caps, quadHalfWidth)
+        acquired = acquired or newLines or newFills or newCaps
+    end
+    _ReleaseBeyond(self, view, "lines", lines)
+    _ReleaseBeyond(self, view, "fills", fills)
+    _ReleaseBeyond(self, view, "caps", caps)
+    return acquired
+end
+
+---@param view WaypointView
+---@param color number[]
+local function _Tint(view, color)
+    for _, kind in ipairs(LINE_KINDS) do
+        for _, texture in ipairs(view[kind]) do
+            texture:SetVertexColor(color[1], color[2], color[3], color[4])
         end
     end
-    _ReleaseBeyond(self, view, "lines", count)
-    return acquired
 end
 
 -- The hover area is every segment fattened by the radius: a band per segment and a disc on each
@@ -186,7 +255,7 @@ end
 ---@param view WaypointView
 local function _DrawHoverArea(self, view)
     local radius = view.waypointRadius
-    local bands, caps = 0, 0
+    local bands, dots = 0, 0
     if radius then
         for _, run in ipairs(view.waypointRuns) do
             for i, point in ipairs(run) do
@@ -196,17 +265,17 @@ local function _DrawHoverArea(self, view)
                     DrawLine(band, view, run[i - 1].x, -run[i - 1].y, point.x, -point.y, radius * 2, 1, "TOPLEFT")
                     band:SetVertexColor(DEBUG_COLOR[1], DEBUG_COLOR[2], DEBUG_COLOR[3], DEBUG_COLOR[4])
                 end
-                caps = caps + 1
-                local cap = _Acquire(self, view, "caps", caps)
-                cap:ClearAllPoints()
-                cap:SetPoint("CENTER", view, "TOPLEFT", point.x, -point.y)
-                cap:SetSize(radius * 2, radius * 2)
-                cap:SetVertexColor(DEBUG_COLOR[1], DEBUG_COLOR[2], DEBUG_COLOR[3], DEBUG_COLOR[4])
+                dots = dots + 1
+                local dot = _Acquire(self, view, "dots", dots)
+                dot:ClearAllPoints()
+                dot:SetPoint("CENTER", view, "TOPLEFT", point.x, -point.y)
+                dot:SetSize(radius * 2, radius * 2)
+                dot:SetVertexColor(DEBUG_COLOR[1], DEBUG_COLOR[2], DEBUG_COLOR[3], DEBUG_COLOR[4])
             end
         end
     end
     _ReleaseBeyond(self, view, "bands", bands)
-    _ReleaseBeyond(self, view, "caps", caps)
+    _ReleaseBeyond(self, view, "dots", dots)
 end
 
 -- Views
@@ -229,9 +298,7 @@ function Renderer:Restyle(view, style)
     local color, old = style.color, view.waypointColor
     if acquired or not old or old[1] ~= color[1] or old[2] ~= color[2] or old[3] ~= color[3] or old[4] ~= color[4] then
         view.waypointColor = {color[1], color[2], color[3], color[4]}
-        for _, line in ipairs(view.lines) do
-            line:SetVertexColor(color[1], color[2], color[3], color[4])
-        end
+        _Tint(view, color)
     end
     view:SetAlpha(style.alpha or 1)
     if view.waypointFrameLevel ~= style.frameLevel then
@@ -256,7 +323,7 @@ function Renderer:Draw(view, runs, style)
             view = CreateFrame("Frame", nil, self.canvas)
             view:SetPoint("TOPLEFT", self.canvas, "TOPLEFT")
             view:SetSize(1, 1)
-            view.lines, view.bands, view.caps = {}, {}, {}
+            for kind in pairs(KINDS) do view[kind] = {} end
         end
         view:Hide()
         self.owned[view] = true
@@ -290,10 +357,7 @@ end
 function WaypointRenderer.RedrawAll()
     for renderer in pairs(renderers) do
         for view in pairs(renderer.owned) do
-            if _DrawLines(renderer, view) then
-                local color = view.waypointColor
-                for _, line in ipairs(view.lines) do line:SetVertexColor(color[1], color[2], color[3], color[4]) end
-            end
+            if _DrawLines(renderer, view) then _Tint(view, view.waypointColor) end
         end
     end
 end

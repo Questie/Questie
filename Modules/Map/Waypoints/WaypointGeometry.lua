@@ -118,11 +118,19 @@ end
 -- Line outlines
 -- Consecutive segments meet on the line halving their angle (a miter join): the outer edges extend
 -- and the inner edges shorten to the same two points, so joins neither gap nor overlap.
+-- At a sharp turn the miter would spike far past its point. There the inner edges still meet as a
+-- miter, but the outer edges end square at the point and a round cap covers the outside:
+-- - Each segment then ends on the line from its inner corner to its outer one, which misses the
+--   point. A fill, the triangle between those two corners and the point, completes the segment.
+-- - The cap holds the outside's sector of a disc around the point, between the two outer ends.
 
--- A sharp turn's outer corner stays within this many half widths of its point, so the outline
--- tapers there instead of spiking. 2 keeps turns up to 120 degrees exact.
+-- A turn whose miter would reach further than this many half widths from its point is sharp: 2
+-- makes every turn past 120 degrees sharp.
 WaypointGeometry.MITER_LIMIT = 2
--- Turning back on itself has no bisector to join on; such segments keep square ends.
+-- A cap's corners lie this many half widths from its point, so its kite holds up to a half disc.
+local CAP_REACH = math.sqrt(2)
+-- Turning back on itself has no bisector to join on; such segments keep square ends, and a cap
+-- rounds them.
 local MIN_JOIN_COS = 1e-3
 
 ---Unit directions and lengths of a polyline's segments, which all have a length.
@@ -138,13 +146,31 @@ local function _Directions(points)
     return dirX, dirY, lengths
 end
 
+---The cap of a sharp turn at p: a kite from p out along both outer ends and the outward direction.
+---Its sides along the outer ends meet the segments there, so it covers only the outside of the turn.
+---@param aOuterX number Unit normal of segment a towards the outside, then b's, and the outward
+---direction between them. A turn back gives a's normal both ways, and a's direction.
+---@return number[] cap p as start left, then start right, end left and end right, going around the
+---same way as a segment quad's start left, end left, end right and start right.
+local function _Cap(p, aOuterX, aOuterY, bOuterX, bOuterY, outwardX, outwardY, halfWidth)
+    if aOuterX * outwardY - aOuterY * outwardX > 0 then
+        aOuterX, aOuterY, bOuterX, bOuterY = bOuterX, bOuterY, aOuterX, aOuterY
+    end
+    local reach = CAP_REACH * halfWidth
+    return {p.x, p.y, p.x + bOuterX * reach, p.y + bOuterY * reach, p.x + aOuterX * reach, p.y + aOuterY * reach,
+        p.x + outwardX * reach, p.y + outwardY * reach}
+end
+
 ---Left and right outline corners where segment a ends and segment b starts, at point p. Left is
 ---the side of a segment's normal (-dy, dx).
----The outer corner is shared on the bisector. Each inner corner stays on its own segment's inner
----edge, pulled back from p to where the two inner edges cross. Keeping every corner on its edge or
+---Each inner corner stays on its own segment's inner edge, pulled back from p to where the two
+---inner edges cross. The outer corner is shared on the bisector, or at a sharp turn each outer edge
+---ends square at p, and the turn's fills and cap are added. Keeping every corner on its edge or
 ---past its end keeps each quad convex, which the client's fixed split into two triangles needs.
+---@param fills number[][] Gets a sharp turn's fills: start left, start right, then p twice.
+---@param caps number[][] Gets the cap of a sharp turn or of a turn back.
 ---@return number aLeftX, number aLeftY, number aRightX, number aRightY, number bLeftX, number bLeftY, number bRightX, number bRightY
-local function _Join(p, a, b, dirX, dirY, lengths, halfWidth)
+local function _Join(p, a, b, dirX, dirY, lengths, halfWidth, fills, caps)
     local aNormalX, aNormalY = -dirY[a], dirX[a]
     local bNormalX, bNormalY = -dirY[b], dirX[b]
     local bisectorX, bisectorY = aNormalX + bNormalX, aNormalY + bNormalY
@@ -153,6 +179,9 @@ local function _Join(p, a, b, dirX, dirY, lengths, halfWidth)
     local cosHalf = bisectorLength / 2
     if cosHalf < MIN_JOIN_COS then
         local ax, ay, bx, by = aNormalX * halfWidth, aNormalY * halfWidth, bNormalX * halfWidth, bNormalY * halfWidth
+        -- An exact half disc. b's own normal can be a fraction of a degree off a's opposite, which
+        -- would bend the kite past straight at p.
+        caps[#caps + 1] = _Cap(p, aNormalX, aNormalY, -aNormalX, -aNormalY, dirX[a], dirY[a], halfWidth)
         return p.x + ax, p.y + ay, p.x - ax, p.y - ay, p.x + bx, p.y + by, p.x - bx, p.y - by
     end
     bisectorX, bisectorY = bisectorX / bisectorLength, bisectorY / bisectorLength
@@ -161,18 +190,34 @@ local function _Join(p, a, b, dirX, dirY, lengths, halfWidth)
     local turnsLeft = bisectorX * (dirX[b] - dirX[a]) + bisectorY * (dirY[b] - dirY[a]) > 0
     local outerSide = turnsLeft and -1 or 1
 
-    local outer = outerSide * math.min(halfWidth / cosHalf, WaypointGeometry.MITER_LIMIT * halfWidth)
-    local outerX, outerY = p.x + bisectorX * outer, p.y + bisectorY * outer
     -- The inner edges cross halfWidth * tan(t / 2) before p. Past half the shorter segment, the other
     -- end's join could need the same stretch of edge; there the segments overlap a little instead.
     local pullBack = math.min(halfWidth * sinHalf / cosHalf, math.min(lengths[a], lengths[b]) / 2)
     local inner = -outerSide * halfWidth
     local aInnerX, aInnerY = p.x - dirX[a] * pullBack + aNormalX * inner, p.y - dirY[a] * pullBack + aNormalY * inner
     local bInnerX, bInnerY = p.x + dirX[b] * pullBack + bNormalX * inner, p.y + dirY[b] * pullBack + bNormalY * inner
-    if turnsLeft then
-        return aInnerX, aInnerY, outerX, outerY, bInnerX, bInnerY, outerX, outerY
+    if cosHalf * WaypointGeometry.MITER_LIMIT >= 1 then
+        local outer = outerSide * halfWidth / cosHalf
+        local outerX, outerY = p.x + bisectorX * outer, p.y + bisectorY * outer
+        if turnsLeft then
+            return aInnerX, aInnerY, outerX, outerY, bInnerX, bInnerY, outerX, outerY
+        end
+        return outerX, outerY, aInnerX, aInnerY, outerX, outerY, bInnerX, bInnerY
     end
-    return outerX, outerY, aInnerX, aInnerY, outerX, outerY, bInnerX, bInnerY
+
+    local aOuterX, aOuterY = p.x - aNormalX * inner, p.y - aNormalY * inner
+    local bOuterX, bOuterY = p.x - bNormalX * inner, p.y - bNormalY * inner
+    caps[#caps + 1] = _Cap(p, aNormalX * outerSide, aNormalY * outerSide, bNormalX * outerSide, bNormalY * outerSide,
+        bisectorX * outerSide, bisectorY * outerSide, halfWidth)
+    -- Fills run from a segment's end corners to p; segment b's runs backwards, so its sides swap.
+    if turnsLeft then
+        fills[#fills + 1] = {aInnerX, aInnerY, aOuterX, aOuterY, p.x, p.y, p.x, p.y}
+        fills[#fills + 1] = {bOuterX, bOuterY, bInnerX, bInnerY, p.x, p.y, p.x, p.y}
+        return aInnerX, aInnerY, aOuterX, aOuterY, bInnerX, bInnerY, bOuterX, bOuterY
+    end
+    fills[#fills + 1] = {aOuterX, aOuterY, aInnerX, aInnerY, p.x, p.y, p.x, p.y}
+    fills[#fills + 1] = {bInnerX, bInnerY, bOuterX, bOuterY, p.x, p.y, p.x, p.y}
+    return aOuterX, aOuterY, aInnerX, aInnerY, bOuterX, bOuterY, bInnerX, bInnerY
 end
 
 ---Outline quads of a polyline drawn halfWidth to each side, mitered where segments meet. A
@@ -181,6 +226,11 @@ end
 ---@param polyline table[] Points with named x/y fields.
 ---@param halfWidth number
 ---@return number[][] quads One per segment: start left x/y, start right x/y, end left x/y, end right x/y.
+---@return number[][] fills Two per sharp turn, in the same layout: the triangle from a segment's end
+---corners at the turn to its point, whose end corners are both the point. Drawn with the line's rows.
+---@return number[][] caps One per sharp turn or turn back, in the same layout: a kite whose start left
+---corner is the turn's point and whose others lie √2 half widths from it. Drawn with a disc of
+---halfWidth radius around the point.
 function WaypointGeometry.Quads(polyline, halfWidth)
     local points = {}
     for _, point in ipairs(polyline) do
@@ -188,11 +238,11 @@ function WaypointGeometry.Quads(polyline, halfWidth)
         if not last or last.x ~= point.x or last.y ~= point.y then points[#points + 1] = point end
     end
     local count = #points - 1
-    if count < 1 then return {} end
+    if count < 1 then return {}, {}, {} end
     local dirX, dirY, lengths = _Directions(points)
     local first, last = points[1], points[#points]
     local closed = count >= 3 and first.x == last.x and first.y == last.y
-    local quads = {}
+    local quads, fills, caps = {}, {}, {}
     for k = 1, count do quads[k] = {} end
 
     for i = 1, #points do
@@ -203,7 +253,7 @@ function WaypointGeometry.Quads(polyline, halfWidth)
         end
         if a >= 1 and b <= count then
             quadIn[5], quadIn[6], quadIn[7], quadIn[8], quadOut[1], quadOut[2], quadOut[3], quadOut[4] =
-                _Join(points[i], a, b, dirX, dirY, lengths, halfWidth)
+                _Join(points[i], a, b, dirX, dirY, lengths, halfWidth, fills, caps)
         elseif not (i == #points and closed) then
             -- Open ends are square.
             local k = quadOut and b or a
@@ -213,7 +263,7 @@ function WaypointGeometry.Quads(polyline, halfWidth)
             quad[offset + 3], quad[offset + 4] = p.x - normalX, p.y - normalY
         end
     end
-    return quads
+    return quads, fills, caps
 end
 
 -- Smoothing

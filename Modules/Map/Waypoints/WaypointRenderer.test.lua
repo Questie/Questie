@@ -20,6 +20,7 @@ describe("WaypointRenderer", function()
         function texture:SetVertexColor(r, g, b, a) self.color = {r, g, b, a} end
         function texture:SetPoint(point, _, _, x, y) self.points[point] = {x, y} end
         function texture:SetVertexOffset(vertex, x, y) self.offsets[vertex] = {x, y} end
+        function texture:SetTexCoord(...) self.texCoords = {...} end
         function texture:SetSize() end
         function texture:ClearAllPoints() self.points = {} end
         function texture:Show() self.shown = true end
@@ -62,6 +63,8 @@ describe("WaypointRenderer", function()
 
     local TURN = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}}
     local BEND = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 10 + 10 * math.cos(math.rad(45)), y = 10 * math.sin(math.rad(45))}}
+    -- A 150-degree turn: too sharp to smooth or miter.
+    local SHARP = {{x = 0, y = 0}, {x = 20, y = 0}, {x = 20 - 10 * math.sqrt(3), y = 10}}
     -- The line spans 12 of the texture's 16 rows; quads also cover the fade beyond it.
     local QUAD_SCALE = 16 / 12
 
@@ -128,6 +131,55 @@ describe("WaypointRenderer", function()
         assert.are.near(QUAD_SCALE, DrawnQuad(view.lines[1])[2], 1e-9)
     end)
 
+    it("completes a sharp turn with fills of the line's rows and a cap of the disc, tinted like the line", function()
+        local renderer = WaypointRenderer.New(NewFrame())
+
+        local view = renderer:Draw(nil, {SHARP}, Style(4, {0, 1, 0, 1}))
+
+        assert.are.equal(2, #view.lines)
+        assert.are.equal(2, #view.fills)
+        for _, fill in ipairs(view.fills) do
+            assert.is_truthy(fill.asset:find("waypoint%-line%-aa%.png$"))
+            -- Both end corners, which take the center row, are the turn's point.
+            local drawn = DrawnQuad(fill)
+            assert.are.near(20, drawn[5], 1e-9)
+            assert.are.near(0, drawn[6], 1e-9)
+            assert.are.near(20, drawn[7], 1e-9)
+            assert.are.near(0, drawn[8], 1e-9)
+            -- The fill's start takes the line's edges, its end at the turn the center row.
+            assert.are_same({0, 0, 0, 1, 1, 0.5, 1, 0.5}, fill.texCoords)
+            assert.are_same({0, 1, 0, 1}, fill.color)
+        end
+        assert.are.equal(1, #view.caps)
+        local cap = view.caps[1]
+        assert.is_truthy(cap.asset:find("waypoint%-cap%-aa%.png$"))
+        assert.are_same({0, 1, 0, 1}, cap.color)
+        -- The kite starts at the turn, the disc's center. Each corner's image position is its offset
+        -- from there, with the disc's radius, a quarter of the image, spanning the quad half width.
+        -- Corners are start left, start right, end left, end right, as texCoords' ul, ll, ur, lr.
+        local drawn = DrawnQuad(cap)
+        assert.are.near(20, drawn[1], 1e-9)
+        assert.are.near(0, drawn[2], 1e-9)
+        local scale = 0.25 / (2 * QUAD_SCALE)
+        for k = 1, 8, 2 do
+            assert.are.near(0.5 + (drawn[k] - 20) * scale, cap.texCoords[k], 1e-9)
+            assert.are.near(0.5 + drawn[k + 1] * scale, cap.texCoords[k + 1], 1e-9)
+        end
+    end)
+
+    it("never draws a line with a texture whose coordinates a fill or cap changed", function()
+        local renderer = WaypointRenderer.New(NewFrame())
+        local view = renderer:Draw(nil, {SHARP}, Style(4))
+        renderer:Release(view)
+
+        local straight = renderer:Draw(nil, {{{x = 0, y = 0}, {x = 10, y = 0}, {x = 20, y = 5}, {x = 30, y = 0}}}, Style(4))
+
+        assert.is_true(#straight.lines > 2)
+        for _, line in ipairs(straight.lines) do
+            assert.is_nil(line.texCoords)
+        end
+    end)
+
     it("pools released textures and masks each texture once", function()
         local mask = {}
         local renderer = WaypointRenderer.New(NewFrame(), {mask})
@@ -152,12 +204,12 @@ describe("WaypointRenderer", function()
 
         local view = renderer:Draw(nil, {TURN}, style)
         assert.are.equal(2, #view.bands)
-        assert.are.equal(3, #view.caps)
+        assert.are.equal(3, #view.dots)
         assert.are.equal(12, bands[1].thickness)
 
         renderer:Restyle(view, Style(4))
         assert.are.equal(0, #view.bands)
-        assert.are.equal(0, #view.caps)
+        assert.are.equal(0, #view.dots)
     end)
 
     it("redraws every drawn path for a new smoothing setting, coloring the new pieces", function()
