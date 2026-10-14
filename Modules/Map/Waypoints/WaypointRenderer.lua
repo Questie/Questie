@@ -1,7 +1,7 @@
 -- luacheck: globals DrawLine UPPER_LEFT_VERTEX LOWER_LEFT_VERTEX UPPER_RIGHT_VERTEX LOWER_RIGHT_VERTEX
 ---Draws patrol paths as outlined lines onto a canvas: the world map's, or the minimap layer's
----container. Each path is one view frame with one pooled texture per segment, plus two fills and a
----cap at each sharp turn.
+---container. Each path is one view frame with one pooled texture per segment, plus two fills at
+---each sharp turn and a cap at each sharp turn, turn back and open end.
 ---@class WaypointRenderer
 local WaypointRenderer = QuestieLoader:CreateModule("WaypointRenderer")
 
@@ -24,7 +24,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@class WaypointView : Frame
 ---@field lines Texture[] One per drawn segment.
 ---@field fills Texture[] Two per sharp turn: the triangles completing its segments at the turn.
----@field caps Texture[] One per sharp turn or turn back: the round outside.
+---@field caps Texture[] One per sharp turn, turn back or open end: the round outside.
 ---@field bands Texture[] Debug hover area: one per segment.
 ---@field dots Texture[] Debug hover area: one per point.
 ---@field waypointRuns table[][] Polylines in canvas units with y down, each at least two points.
