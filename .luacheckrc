@@ -592,6 +592,7 @@ globals = {
     "C_StorePublic.DoesGroupHavePurchaseableProducts",
     "C_StorePublic.IsDisabledByParentalControls",
     "C_StorePublic.IsEnabled",
+    "C_SuperTrack",
     "C_TaxiMap.GetAllTaxiNodes",
     "C_TaxiMap.GetTaxiNodesForMap",
     "C_Texture.GetAtlasInfo",

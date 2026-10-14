@@ -42,6 +42,7 @@ describe("QuestieTracker", function()
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
+        dofile("Modules/Tracker/TrackerActiveQuest.lua")
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
     end)
@@ -60,6 +61,7 @@ describe("QuestieTracker", function()
             afterMock = spy.new(function() end)
             _G.C_Timer = {After = afterMock}
             registerEventMock = stub(Questie, "RegisterEvent")
+            dofile("Modules/Tracker/TrackerActiveQuest.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
         end)
 
@@ -110,6 +112,7 @@ describe("QuestieTracker", function()
             _G.AchievementFrame = {IsShown = function() return false end}
             Questie.db.char.trackedAchievementIds = {}
             Questie.db.char.collapsedZones = {}
+            dofile("Modules/Tracker/TrackerActiveQuest.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
             timeMock.returns(1)
         end)
@@ -351,6 +354,41 @@ describe("QuestieTracker", function()
             assert.is_nil(Questie.db.char.collapsedZones["Quests (By Level)"])
         end)
 
+        describe("with an active quest", function()
+            local originalSuperTrack, activeQuestId, groupKey
+
+            before_each(function()
+                originalSuperTrack = _G.C_SuperTrack
+                _G.C_SuperTrack = {
+                    GetSuperTrackedQuestID = function() return activeQuestId end,
+                    SetSuperTrackedQuestID = function() end,
+                }
+                groupKey = QuestieLoader:ImportModule("TrackerActiveQuest").GROUP_KEY
+                Questie.db.char.AutoUntrackedQuests[91741] = true
+                Questie.db.char.collapsedZones[groupKey] = true
+            end)
+
+            after_each(function()
+                _G.C_SuperTrack = originalSuperTrack
+            end)
+
+            it("expands the active quest group when the active quest is retracked", function()
+                activeQuestId = 91741
+
+                QuestieTracker:AQW_Insert(2)
+
+                assert.is_nil(Questie.db.char.collapsedZones[groupKey])
+            end)
+
+            it("keeps the active quest group collapsed when another quest is retracked", function()
+                activeQuestId = 96
+
+                QuestieTracker:AQW_Insert(2)
+
+                assert.is_true(Questie.db.char.collapsedZones[groupKey])
+            end)
+        end)
+
         it("ignores Blizzard's auto-watch before Questie finishes accepting the quest in manual tracking", function()
             Questie.IsForever = false
             Questie.db.profile.autoTrackQuests = false
@@ -452,6 +490,9 @@ describe("QuestieTracker", function()
             pool.ResetLinesForChange = function() end
             pool.ResetButtonsForChange = function() end
             pool.GetLastLine = function() return nil end
+            pool.PinLines = function() end
+            pool.GetHighestIndex = function() return 0 end
+            QuestieLoader:ImportModule("TrackerQuestTimers").ResetTimerLines = spy.new(function() end)
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
@@ -460,6 +501,7 @@ describe("QuestieTracker", function()
             end)
 
             dofile("Localization/l10n.lua")
+            dofile("Modules/Tracker/TrackerActiveQuest.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
             QuestieTracker.started = false
             QuestieTracker.alreadyHooked = nil
@@ -486,6 +528,15 @@ describe("QuestieTracker", function()
 
             assert.spy(TrackerData.Refresh).was.called(1)
             assert.spy(TrackerUtils.GetSortedQuestIds).was.called(1)
+        end)
+
+        it("forgets the timer lines of the previous layout before laying out the quests", function()
+            now = 1
+            local timers = QuestieLoader:ImportModule("TrackerQuestTimers")
+
+            QuestieTracker:Update()
+
+            assert.spy(timers.ResetTimerLines).was.called(1)
         end)
 
         it("refreshes only the affected quest for combat-safe text updates", function()

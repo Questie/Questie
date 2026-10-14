@@ -270,6 +270,11 @@ local migrationFunctions = {
         -- Native wording and counter-free fallbacks no longer have a shortened/full display preference.
         Questie.db.profile.trimObjectiveText = nil
     end,
+    [42] = function()
+        Questie.db.profile.trackerShowActiveQuestOnTop = false
+        Questie.db.profile.trackerKeepActiveQuestInZone = false
+        Questie.db.profile.trackerbindSetActiveQuest = "disabled"
+    end,
 }
 
 function Migration:Migrate()

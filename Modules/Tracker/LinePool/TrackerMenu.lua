@@ -12,6 +12,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerActiveQuest
+local TrackerActiveQuest = QuestieLoader:ImportModule("TrackerActiveQuest")
 -------------------------
 --Import Questie modules.
 -------------------------
@@ -364,6 +366,23 @@ TrackerMenu.addFocusUnfocusOption = function(menu, quest)
     end
 end
 
+---@param menu table
+---@param quest Quest
+TrackerMenu.addActiveQuestOption = function(menu, quest)
+    if not TrackerActiveQuest.IsAvailable() then
+        return
+    end
+
+    local isActiveQuest = TrackerActiveQuest.GetActiveQuestId() == quest.Id
+    tinsert(menu, {
+        text = isActiveQuest and l10n("Clear Active Quest") or l10n("Set Active Quest"),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+            TrackerActiveQuest.ToggleQuest(quest.Id)
+        end
+    })
+end
+
 TrackerMenu.addLockUnlockOption = function(menu)
     if Questie.db.profile.trackerLocked then
         tinsert(menu, {
@@ -535,6 +554,7 @@ function TrackerMenu:GetMenuForQuest(quest)
         -- Lost eligibility while focused. A completed quest has no objective menus, so objective focus is cleared here too.
         _AddUnfocusEntry(menu, function() return _IsFocusedOnQuest(quest.Id) end)
     end
+    TrackerMenu.addActiveQuestOption(menu, quest)
     if capabilities.canNavigateQuest then
         TrackerMenu.addTomTomOptionForQuest(menu, quest)
     end

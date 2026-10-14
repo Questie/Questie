@@ -16,6 +16,8 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+---@type TrackerActiveQuest
+local TrackerActiveQuest = QuestieLoader:ImportModule("TrackerActiveQuest")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type CommsVisibility
@@ -265,6 +267,21 @@ function QuestieOptions.tabs.tracker:Initialize()
                             Questie.db.profile.trackerbindUntrack = key
                         end
                     },
+                    Spacer_SetActiveQuest = QuestieOptionsUtils:Spacer(8.1, function() return not TrackerActiveQuest.IsAvailable() end),
+                    setActiveQuest = {
+                        type = "select",
+                        order = 8.2,
+                        values = _GetShortcuts,
+                        style = "dropdown",
+                        name = function() return l10n("Set Active Quest") end,
+                        desc = function() return l10n("This shortcut makes the clicked Quest the active Quest, the same as clicking it in the Quest Log. If the Quest is already the active Quest, it clears the active Quest.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        hidden = function() return not TrackerActiveQuest.IsAvailable() end,
+                        get = function() return Questie.db.profile.trackerbindSetActiveQuest end,
+                        set = function(_, key)
+                            Questie.db.profile.trackerbindSetActiveQuest = key
+                        end
+                    },
                     Spacer_Sliders = QuestieOptionsUtils:Spacer(9),
                     questPadding = {
                         type = "range",
@@ -417,6 +434,35 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 get = function() return Questie.db.profile.trackerSortObjectives end,
                                 set = function(_, key)
                                     Questie.db.profile.trackerSortObjectives = key
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            Spacer_ActiveQuest = QuestieOptionsUtils:Spacer(11, function() return not TrackerActiveQuest.IsAvailable() end),
+                            showActiveQuestOnTop = {
+                                type = "toggle",
+                                order = 12,
+                                width = 1.5,
+                                name = function() return l10n("Show Active Quest On Top") end,
+                                desc = function() return l10n("If checked, the active Quest, the one highlighted in the Quest Log, is shown at the top of the Questie Tracker in its own group, which stays visible while you scroll.") end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                hidden = function() return not TrackerActiveQuest.IsAvailable() end,
+                                get = function() return Questie.db.profile.trackerShowActiveQuestOnTop end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerShowActiveQuestOnTop = value
+                                    QuestieTracker:Update()
+                                end
+                            },
+                            keepActiveQuestInZone = {
+                                type = "toggle",
+                                order = 13,
+                                width = 1.5,
+                                name = function() return l10n("Keep Active Quest In Its Zone") end,
+                                desc = function() return l10n("If checked, the active Quest also stays at its usual position, so it is listed twice in the Questie Tracker.") end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled or not Questie.db.profile.trackerShowActiveQuestOnTop end,
+                                hidden = function() return not TrackerActiveQuest.IsAvailable() end,
+                                get = function() return Questie.db.profile.trackerKeepActiveQuestInZone end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerKeepActiveQuestInZone = value
                                     QuestieTracker:Update()
                                 end
                             },

@@ -43,6 +43,13 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
 
     questFrame.ScrollFrame:SetScrollChild(questFrame.ScrollChildFrame)
 
+    -- Holds the lines pinned above the scrolling lines, see TrackerLinePool.PinLines
+    questFrame.PinnedFrame = CreateFrame("Frame", "TrackedQuestsPinnedFrame", questFrame)
+    questFrame.PinnedFrame:SetPoint("TOPLEFT", questFrame, "TOPLEFT", 0, 0)
+    questFrame.PinnedFrame:SetPoint("TOPRIGHT", questFrame, "TOPRIGHT", 0, 0)
+    questFrame.PinnedFrame:SetHeight(1)
+    questFrame.PinnedFrame:Hide()
+
     questFrame:Hide()
 
     TrackerQuestFrame.questFrame = questFrame
@@ -73,6 +80,24 @@ function TrackerQuestFrame:Update()
         end
     else
         questFrame:Hide()
+    end
+end
+
+---Shows the pinned lines above the scrolling lines, the scroll frame takes the remaining height.
+---@param height number Height of the pinned lines, 0 hides the pinned frame
+function TrackerQuestFrame.SetPinnedHeight(height)
+    local pinnedFrame = questFrame.PinnedFrame
+    local scrollFrame = questFrame.ScrollFrame
+
+    scrollFrame:ClearAllPoints()
+    if height > 0 then
+        pinnedFrame:SetHeight(height)
+        pinnedFrame:Show()
+        scrollFrame:SetPoint("TOPLEFT", pinnedFrame, "BOTTOMLEFT", 0, 0)
+        scrollFrame:SetPoint("BOTTOMRIGHT", questFrame, "BOTTOMRIGHT", 0, 0)
+    else
+        pinnedFrame:Hide()
+        scrollFrame:SetAllPoints(questFrame)
     end
 end
 

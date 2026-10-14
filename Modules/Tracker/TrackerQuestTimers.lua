@@ -14,7 +14,9 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 -- Originally there was no timer frame. WatchFrame was introduced in WotLK and got replaced with QuestTimerFrame in Cataclysm.
 -- Today all client version seem to use QuestTimerFrame.
 local QuestTimerFrame = QuestTimerFrame or WatchFrame
-local timer
+-- The tracker lines showing the remaining time of each timed quest. A quest can be listed more than once.
+---@type table<number, LineFrame[]>
+local timerLines = {}
 
 function TrackerQuestTimers:Initialize()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerQuestTimers:Initialize]")
@@ -48,16 +50,21 @@ function TrackerQuestTimers:HideBlizzardTimer()
 end
 
 function TrackerQuestTimers:ShowBlizzardTimer()
-    if QuestTimerFrame and timer then
+    if QuestTimerFrame and next(timerLines) then
         QuestTimerFrame:Show()
     end
 end
 
+---Forgets the timer lines of the previous tracker layout. The tracker calls it before it lays out the quests again.
+function TrackerQuestTimers.ResetTimerLines()
+    timerLines = {}
+end
+
 ---@param quest table
----@param frame LineFrame|nil
----@param clear boolean
----@return string|nil timeRemainingString, number|nil timeRemaining
-function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
+---@param frame LineFrame? A tracker line that shows the remaining time of the quest from now on
+---@return string? timeRemainingString
+---@return number? timeRemaining
+function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame)
     local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
 
     if (timeRemainingString == nil) then
@@ -66,13 +73,9 @@ function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
         return nil
     end
 
-    if clear then
-        timer = nil
-    elseif frame then
-        timer = {
-            frame = frame,
-            questId = quest.Id
-        }
+    if frame then
+        timerLines[quest.Id] = timerLines[quest.Id] or {}
+        table.insert(timerLines[quest.Id], frame)
     end
 
     if timeRemaining then
@@ -131,16 +134,22 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
 end
 
 function TrackerQuestTimers:UpdateTimerFrame()
-    if timer and (Questie.db.profile.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
-        local timeRemainingString = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
+    if (not next(timerLines)) or not (Questie.db.profile.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
+        return
+    end
+
+    local font = LSM30:Fetch("font", Questie.db.profile.trackerFontObjective)
+    for questId, frames in pairs(timerLines) do
+        local timeRemainingString = TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
         if timeRemainingString ~= nil then
             Questie.Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
 
-            timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
-            timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
+            for _, frame in ipairs(frames) do
+                frame.label:SetFont(font, Questie.db.profile.trackerFontSizeObjective, Questie.db.profile.trackerFontOutline)
+                frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
+            end
         else
             Questie.Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
-            return
         end
     end
 end

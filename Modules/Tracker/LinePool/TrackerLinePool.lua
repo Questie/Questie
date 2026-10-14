@@ -35,12 +35,17 @@ local buttonPool = {}
 ---@type table<QuestId, table<TrackerLineFrame>>
 local linesByQuest = {}
 
+local trackerQuestFrame
+-- The first lines of the pool can be pinned above the scrolling lines, see TrackerLinePool.PinLines
+local pinnedLineCount = 0
+
 ---@type table<number, table<TrackerLineFrame>>
 local linesByScenarioIndex = {}
 
 ---@param questFrame Frame
 function TrackerLinePool.Initialize(questFrame)
-    local trackerQuestFrame = questFrame
+    trackerQuestFrame = questFrame
+    pinnedLineCount = 0
 
     -- create linePool for quests/achievements
     local previousLine
@@ -327,6 +332,39 @@ end
 ---@return TrackerLineFrame
 function TrackerLinePool.GetLastLine()
     return linePool[linePoolSize]
+end
+
+---Moves the first lines into the pinned frame above the scrolling lines, so they stay visible while scrolling.
+---@param count number The number of lines to pin, 0 puts all lines back into the scrolling frame
+function TrackerLinePool.PinLines(count)
+    if count == pinnedLineCount then
+        return
+    end
+
+    local pinnedFrame = trackerQuestFrame.PinnedFrame
+    local scrollChildFrame = trackerQuestFrame.ScrollChildFrame
+
+    -- Only the lines up to the first scrolling line of the old or new layout change their parent or anchor
+    for i = 1, math.max(count, pinnedLineCount) + 1 do
+        local line = linePool[i]
+        if line then
+            local parent = i <= count and pinnedFrame or scrollChildFrame
+            line:SetParent(parent)
+            line:ClearAllPoints()
+            if i == 1 or i == count + 1 then
+                line:SetPoint("TOPLEFT", parent, "TOPLEFT", TrackerLine.MARGIN_LEFT, 0)
+            else
+                line:SetPoint("TOPLEFT", linePool[i - 1], "BOTTOMLEFT", 0, 0)
+            end
+        end
+    end
+
+    pinnedLineCount = count
+end
+
+---@return number pinnedLineCount The number of lines pinned above the scrolling lines
+function TrackerLinePool.GetPinnedLineCount()
+    return pinnedLineCount
 end
 
 function TrackerLinePool.HideUnusedLines()
