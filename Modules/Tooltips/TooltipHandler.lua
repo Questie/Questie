@@ -130,6 +130,9 @@ local function _AddStartQuestCompletionToTooltip(tooltip, itemId)
     end
 end
 
+---Adds the Item ID, Questie's quest lines and the status of a one-time quest the item starts to an item tooltip.
+---Only adds lines once per item, so repeated tooltip updates for the same item don't duplicate them.
+---@return nil
 function _QuestieTooltips:AddItemDataToTooltip()
     if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
