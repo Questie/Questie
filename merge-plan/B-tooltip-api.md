@@ -2,15 +2,22 @@
 
 Scope: `Modules/Tooltips/MapIconTooltip.lua`, its test, and every module that reads or writes the state Questie hangs on tooltip frames.
 
-`WP` is `origin/waypoints` (`7c1e28bd8`), `B` is `blob` (`715031ef6`) and `M` is `origin/master` (`3e8baa279`). Line numbers are for that ref.
+`WP` is `origin/waypoints` (`7c1e28bd8`), `B` is `blob` (`715031ef6`) and `M` is `origin/master` (`3e8baa279`). Line numbers are for that ref. `F` is Area F's `F-seams.md`.
+
+This version follows David's architecture (`01-architecture.md`) and Area F's seams. The previous version is in commit `e71e6dd38`. B's own commits are **B-F1**, **B-F2** and **B-F3**, as the README names them. **F-1…F-7** are Area F's seam commits.
 
 **Summary**
-- Resolve the rebase with WP's 4-argument `ShowOnTooltip` layered on B's `ShowForIcons`. That passes both branches' tests: 19 after `dfb97c802` and 22 after `715031ef6`.
+- Resolve the rebase with WP's 4-argument `ShowOnTooltip` layered on B's `ShowForIcons`. With B-F3 already on `waypoints` (Phase 0), that passes both branches' tests: 20 after `dfb97c802` and 23 after `715031ef6`.
 - After stacking, MapIconTooltip owns the tooltip state privately and exposes `GetOwner`, `Release` and `Redraw`. The loose fields `_Rebuild`, `ShownAsMapIcon` and `_mapIconOwner` go, and `_owner` goes back to the tracker.
 - The minimap path tooltip moves to `ShowForIcons`, and `ShowOnTooltip` returns to master's two arguments.
-- Hover side effects move out of the tooltip module, beside their resets. This is not done through callbacks.
+- Hover side effects move out of the tooltip module, into `QuestieFrame`'s `ApplyHoverHighlights`/`ResetHoverHighlights` and the features' `HoverStart`/`HoverEnd` listeners (Area F, F-3/F-4).
+- **Order:** B-F3 lands on `waypoints` in Phase 0. In Phase 2, F-1…F-6 come first, then B-F1, then B-F2. B's former F4 is gone, because F-4 does that work.
 
-I validated all of this with throwaway copies outside both checkouts: `git merge-file` replays of the two commits, a `git archive` export of `origin/waypoints`, and prototype runs of every affected test file. Nothing in either checkout was changed.
+I validated all of this with throwaway copies outside both checkouts: `git merge-file` replays of the two commits, a `git archive` export of `origin/waypoints`, and prototype runs of every affected test file. For this version I also:
+- replayed both commits onto a `waypoints` export that already has B-F3;
+- applied B-F1's and B-F2's `QuestieFrame` and `WaypointHover` rows on top of Area F's prototype (F-1 and F-3 to F-5 on a `waypoints` export).
+
+Nothing in either checkout was changed.
 
 ---
 
@@ -63,6 +70,11 @@ Two corrections to the brief:
 - (e) **B bug:** gamepad hover of a polygon marker calls `EnterMarker` inside `ShowOnTooltip`. `GamepadMapHover.Leave` (:109-119) never calls `LeaveMarker`, so the area preview stays until a map change.
 - (f) **Combined:** a route owned by a blob-mode fallback marker opens that marker's OnEnter on path hover, which previews its areas. If another frame then takes GameTooltip, such as the area tooltip, `_Leave` takes its partial branch (`_ResetTooltipChanges`, WP :86-91). That branch never ends the marker preview, so the preview leaks.
 
+**Fixed by:**
+- B-F1 fixes (a), (b) and (c).
+- B-F3 fixes (d) in Phase 0, before the rebase.
+- F-3 fixes (e) and (f). Every hover end emits `HoverEnd`, and polygon's listener ends the preview.
+
 ---
 
 ## 2. Comparison
@@ -91,7 +103,7 @@ Two corrections to the brief:
 
 The tracker keeps `_owner` and `_SizerToolTip`, which are its own business. The state stays inside `MapIconTooltip.lua`, not in a separate module: it has one writer, and its rebuild closure is built there.
 
-### 3.2 Public API (final, after F1–F4)
+### 3.2 Public API (final, after B-F1, B-F2 and Area F's F-4)
 
 ```lua
 ---@class MapIconTooltip
@@ -104,7 +116,8 @@ local MapIconTooltip = QuestieLoader:CreateModule("MapIconTooltip")
 
 ---Shows a hovered map icon's tooltip: the quests and notes of the icon and of the visible icons clustered
 ---around it on its map. An icon faded out shows nothing, and the icon's own tooltip shown less than 0.05 s
----ago is kept.
+---ago is kept. It changes nothing but the tooltip: QuestieFrame.ApplyHoverHighlights starts the hover's
+---effects.
 ---@param self IconFrame
 ---@param tooltip GameTooltip GameTooltip, or a private tooltip such as the gamepad's.
 function MapIconTooltip.ShowOnTooltip(self, tooltip) end
@@ -135,7 +148,7 @@ function MapIconTooltip.GetOwner(tooltip) end
 function MapIconTooltip.Redraw() end
 ```
 
-- `MapIconTooltip:Show()` remains the IconFrame OnEnter script until F4, then is deleted.
+- `MapIconTooltip:Show()` remains the IconFrame OnEnter script until F-4 (Area F). F-4 makes `_QuestieFrame.OnEnter` the script and deletes `Show`.
 - Area A's "is the tooltip showing for owner X" is `MapIconTooltip.GetOwner(tooltip) == X`.
 - "Release only if I own it" is `Release(X, tooltip)`.
 
@@ -176,26 +189,26 @@ end
 
 ### 3.3 State contract: the fate of each field
 
-| Field | After F1 |
+| Field | After B-F1 |
 |---|---|
 | `_Rebuild` | Removed. It becomes `shown[tooltip].rebuild`, and only `Redraw` calls it. |
 | `ShownAsMapIcon` | Removed. Its readers in `Tooltip.lua` call `MapIconTooltip.GetOwner(tooltip)` (truthy means a map icon tooltip is showing). The state is derived from live ownership, so it can't go stale. |
 | `_mapIconOwner` | Removed. It becomes `shown[tooltip].owner`. |
 | `_owner` | MapIconTooltip stops writing it. It is again only the tracker's, as the sizer's re-anchor frame (`TrackerBaseFrame:545`, `TrackerHeaderFrame:87`, EventHandler sizer branch). |
 | `npcAndObjectOrder`, `questOrder`, `manualOrder`, `miniMapIcon` | Kept as render inputs, written per show and read only by `rebuild`. The wording tests read `questOrder`. Moving them into the closure would rewrite 12 test expectations for no behavior gain. |
-| `data.touchedPins` | Hover tint state. MapIconTooltip writes it until F4, then `QuestieFrame` writes it. `QuestieFrame.ResetHoverHighlights` clears it. Tinting happens only while it is nil, which is fix F3. |
+| `data.touchedPins` | Hover tint state. MapIconTooltip writes it until F-4. After that only `QuestieFrame` writes it, in `_TintQuestIcons`; it is core-private (F 3.4). `QuestieFrame.ResetHoverHighlights` clears it. Tinting happens only while it is nil, which is fix B-F3. F-4 moves that guard into `_TintQuestIcons` along with the tint. |
 
 ### 3.4 Data flow per caller
 
 | Caller | Shows | Ends |
 |---|---|---|
-| Icon mouse hover (`QuestieFramePool.lua:56/57` → `Show`) | `ShowOnTooltip(icon, GameTooltip)` → `ShowForIcons(icon, cluster, GameTooltip)` | `_QuestieFrame.OnLeave` → `Release(icon, GameTooltip)` (F1) |
-| Gamepad (`GamepadMapHover.lua:101`) | `ShowOnTooltip(icon, QuestieGamepadMapTooltip)`, then re-anchored to ANCHOR_RIGHT | `tooltip:Hide()` (unchanged). The leftover state is inert because the tooltip is hidden. |
-| Polygon areas (`B QuestiePolygon.lua:341-374`) | `ShowForIcons(ScrollContainer, markerIcons, GameTooltip, _AreaSwatch)` | `Release(ScrollContainer, GameTooltip)`. "Already mine" can become `GetOwner(GameTooltip) == owner`, which is Area A's call. |
-| Minimap path (`WP WaypointHover.lua:50`) | `ShowForIcons(Minimap, QuestieWaypoints.MinimapIcons(path), QuestieWaypointMinimapTooltip)` (F2) | `Release(Minimap, minimapTooltip)` (F1) |
-| World map path (`WP WaypointHover.lua:53-59`) | the icon's OnEnter, as an icon hover | its OnLeave, or `Release(icon, GameTooltip)` when another frame took GameTooltip (F1, replacing WP :90) |
-| Shift (`EventHandler.lua`, map branch) | `MapIconTooltip.Redraw()` while the mouse is over the world map or minimap (F1) | — |
-| `Tooltip.lua` ×3 | reads `MapIconTooltip.GetOwner(tooltip)` (F1) | — |
+| Icon mouse hover: `_QuestieFrame.OnEnter`, the icon's own script from F-4 on (before F-4, `MapIconTooltip:Show`, set at `WP QuestieFramePool.lua:56`) | `ApplyHoverHighlights(icon)`, then `ShowOnTooltip(icon, GameTooltip)` → `ShowForIcons(icon, cluster, GameTooltip)` | `_QuestieFrame.OnLeave` → `Release(icon, GameTooltip)` (B-F1), then `ResetHoverHighlights(icon)` |
+| Gamepad (`GamepadMapHover.lua:97-107`) | `ApplyHoverHighlights(icon)` (F-4), then `ShowOnTooltip(icon, QuestieGamepadMapTooltip)`, re-anchored to ANCHOR_RIGHT | `ResetHoverHighlights(icon, data)` (F-3), then `tooltip:Hide()` (unchanged). The leftover state is inert because the tooltip is hidden. |
+| Polygon areas: the areas layer of `WorldMapLayers` (F-2) → `onHover` → `_UpdateAreaTooltip` (`B QuestiePolygon.lua:341-374`, unchanged except its guard) | `ShowForIcons(ScrollContainer, markerIcons, GameTooltip, _AreaSwatch)` | `Release(ScrollContainer, GameTooltip)`. Its "already mine" check stays `IsOwned(owner) and IsShown()` (A §9). |
+| Minimap path (`WP WaypointHover.lua:45-51`) | `SetHighlighted(path.data, true)`, then `ShowForIcons(Minimap, QuestieWaypoints.MinimapIcons(path), QuestieWaypointMinimapTooltip)` (B-F2) | `Release(Minimap, minimapTooltip)` (B-F1), then `SetHighlighted(path.data, false)` (B-F2) |
+| World map path (`WP WaypointHover.lua:53-59`) | the icon's OnEnter, as an icon hover | Its OnLeave. When another frame took GameTooltip or the icon shows other data by now, it is `Release(icon, GameTooltip)` (B-F1, replacing WP :90 and :97) plus `ResetHoverHighlights(icon, path.data)` (F-3). |
+| Shift (`EventHandler.lua`, map branch) | `MapIconTooltip.Redraw()` while the mouse is over the world map or minimap (B-F1) | — |
+| `Tooltip.lua` ×3 | reads `MapIconTooltip.GetOwner(tooltip)` (B-F1) | — |
 
 ### 3.5 Invariants
 
@@ -207,19 +220,22 @@ end
    - Never show on GameTooltip for a frame that Blizzard also anchors GameTooltip to. On Forever, `Minimap_OnUpdate` takes GameTooltip with owner `Minimap` (WP `docs/waypoints.md:228`), so minimap-owned tooltips use a private tooltip frame.
    - Two features must not share an owner frame unless one arbiter decides for both.
 6. `ShowForIcons` is synchronous: it calls `ObjectiveData:Update()` and does DB and Comms lookups. Call it on hover change, never every frame. Use `GetOwner` to skip when it is already shown.
-7. After F4, MapIconTooltip changes nothing but the tooltip: no tints, highlights or previews.
+7. After F-4, MapIconTooltip changes nothing but the tooltip: no tints, highlights or previews.
 
-### 3.6 Dependency direction: relocate, don't invert
+### 3.6 Hover effects: relocated through QuestieFrame's icon events (Area F)
 
-Today the tooltip module starts hover effects for three features: `WaypointHover.End` (in `Show`), `QuestiePolygon.EnterMarker` and `QuestieWaypoints.SetHighlighted` (in `ShowOnTooltip`). Their counterparts that end those effects already live in the hover owners: `_QuestieFrame.OnLeave` (`LeaveMarker`), `QuestieFrame.ResetHoverHighlights` (`SetHighlighted(false)`, untint), `GamepadMapHover.Leave` and `WaypointHover._Leave`.
+Today the tooltip module starts hover effects for three features: `WaypointHover.End` (in `Show`), `QuestiePolygon.EnterMarker` and `QuestieWaypoints.SetHighlighted` (in `ShowOnTooltip`). The code that ends those effects lives elsewhere: `_QuestieFrame.OnLeave` (`LeaveMarker`), `QuestieFrame.ResetHoverHighlights` (`SetHighlighted(false)`, untint), `GamepadMapHover.Leave` and `WaypointHover._Leave`.
 
-Splitting each begin/end pair across modules is what caused bugs (d), (e) and (f). **Decision:**
-- Move each begin effect next to its end effect, in the hover owner.
-- MapIconTooltip then imports no feature module.
-- This needs no hooks and no registry.
-- F4 does it after Area A settles who calls what.
+Splitting each begin/end pair across modules is what caused bugs (d), (e) and (f).
 
-If David prefers to keep the direct calls, the one-line fix for (e) is to move `EnterMarker` from `ShowOnTooltip` into `Show`, for mouse hover only, mirroring `LeaveMarker` in `OnLeave`.
+**Decision.** This follows architecture rule 3. F-3 and F-4 build it.
+- Each feature's begin effect is a `HoverStart` listener, and its end effect is a `HoverEnd` listener. Both sit side by side in that feature (`QuestieWaypoints`, `QuestiePolygon`; F 3.3).
+- Core's tint and untint stay in `QuestieFrame.ApplyHoverHighlights`/`ResetHoverHighlights`, around the listeners.
+- Every hover source calls that pair:
+  - the icon's `OnEnter`/`OnLeave`;
+  - `GamepadMapHover`;
+  - `WaypointHover`, through the icon's own scripts.
+- MapIconTooltip only renders, and imports no feature module.
 
 ### 3.7 Highlighting
 
@@ -230,8 +246,8 @@ If David prefers to keep the direct calls, the one-line fix for (e) is to move `
   - `a5bfaad83` (2020-09-07) commented out its only entries, Durotar and Loch Modan, "Not needed after `769ea832f`", the commit that added borders to the lines.
   - WP's user setting supersedes them.
 - Delete B's recolor (B :109-113), `DEFAULT_WAYPOINT_HOVER_COLOR` (B :51), the `QuestieMap` import (B :6-7) and the test stub (B test :38).
-- `SetHighlighted` keys on `icon.data.waypointPaths`. A polygon marker highlights routes only if its data carries the paths, which Area C decides.
-- Area tooltips (`ShowForIcons`) highlight no routes. Whether area hover should is Area A's call.
+- `SetHighlighted` keys on `icon.data.waypointPaths`. A polygon marker highlights routes only if its data carries the paths, which Area C decides. For icon hovers, the waypoints `HoverEnd` listener (F-3) and `HoverStart` listener (F-4) call it, not MapIconTooltip. The minimap path hover still calls it directly from `WaypointHover`.
+- Area tooltips (`ShowForIcons`) highlight no routes, because areas start no hover effects (A's D6).
 
 ### 3.8 Objective wording: behavior that must survive
 
@@ -279,7 +295,7 @@ Examples are quest log boxes, minimap areas, or a merged path and area tooltip. 
 Rejected:
 - **Keep B's fields and `_mapIconOwner`.** Readers still see stale `ShownAsMapIcon`, EventHandler keeps reading the tracker's `_owner`, and three modules keep writing GameTooltip fields.
 - **Auto-clear fields from GameTooltip `OnTooltipCleared`/`OnHide` hooks.** This depends on Blizzard's event order, and the redraw's own `ClearLines` would clear our flag.
-- **Registered "before show" callbacks per feature.** The flow becomes implicit and ordered by registration, while the end effects still live elsewhere.
+- **Callbacks registered on `MapIconTooltip`.** The begin and end effects would still live in different modules. The chosen seam is `QuestieFrame`'s icon events (architecture rule 3, Area F).
 - **WP-shaped `ShowOnTooltip(self, tooltip, owner?, icons?)` as the only entry.** It can't express an owner with no hovered icon, and `owner` silently changes the alpha gate.
 - **A separate state module.** It would be shallow, with one writer.
 - **A per-tooltip throttle timestamp.** It is churn with no bug behind it.
@@ -290,21 +306,28 @@ Rejected:
 
 ### 4(a) During the rebase (`git rebase --onto waypoints origin/master blob`)
 
+**Phase 0 comes first.** B-F3 is on `waypoints` before the rebase starts, so `--ours` already has its `tint` guard in `ShowOnTooltip`. The steps and counts below assume that. They were checked with `git merge-file` replays of both commits onto a `waypoints` export with B-F3 applied.
+
 **`dfb97c802` *feat(polygon): integrate cached objective areas with Questie***
 - `MapIconTooltip.lua`: the import-block conflict. Keep WP's `QuestieWaypoints` and `WaypointHover` imports, then add B's `QuestiePolygon` import. The `EnterMarker` line auto-merges after WP's `if alpha == 0 and not owner` gate. Leave it there, before the throttle.
 - `MapIconTooltip.test.lua`: auto-merges (B's two polygon tests join WP's file). No edit.
-- Check: `busted Modules/Tooltips/MapIconTooltip.test.lua` should give **19 successes**. Validated.
-- `QuestieFrame.lua` (Area C's conflict): keep `_QuestieFrame.OnLeave`'s GameTooltip lines exactly as both branches have them. F1 replaces them.
+- Check: `busted Modules/Tooltips/MapIconTooltip.test.lua` should give **20 successes**: WP's 17, B-F3's 1 and B's 2. Validated.
+- `QuestieFrame.lua` (Area C's conflict): keep `_QuestieFrame.OnLeave`'s GameTooltip lines exactly as both branches have them. B-F1 replaces them.
 
 **`715031ef6` *chore: wip snapshot of uncommitted blob work*.** If David splits this snapshot first, apply the same steps to whichever commit introduces `ShowForIcons` and `Release`.
-- `MapIconTooltip.lua`:
-  - Hunk 1 (`_owner`/`SetOwner` in `ShowOnTooltip`): take B's side, deleting both lines. `ShowForIcons` does this.
-  - Hunk 2 (inside `handleMapIcon`): WP's `near` logic, appending to the list.
-  - Silent fix 1: rename B's cluster list so it no longer shadows `icons`.
-  - Silent fix 2: pass `owner or self`.
-  - Silent fix 3: throttle on `IsOwned(owner or self)`.
-  - Silent fix 4: delete the `CustomTooltipData` branch from `ShowForIcons`.
-  - The resolved block below is final for the rebase:
+- `MapIconTooltip.lua` has three conflict hunks:
+  - **Hunk 1** (`_owner`/`SetOwner` in `ShowOnTooltip`): take B's side, deleting both lines. `ShowForIcons` does this.
+  - **Hunk 2** (B's cluster list against B-F3's `tint` lines):
+    - Rename B's list to `tooltipIcons`, so it no longer shadows the `icons` parameter (N1).
+    - Keep B-F3's two `tint` lines.
+    - Drop WP's `usedText`, `npcAndObjectOrder`, `questOrder` and `manualOrder` locals, which `ShowForIcons` now owns.
+  - **Hunk 3** (inside `handleMapIcon`): WP's `near` logic, appending to `tooltipIcons`. One `end` after the hunk is then left unmatched. Drop it.
+- Silent fixes, outside the conflict markers:
+  - pass `owner or self`;
+  - throttle on `IsOwned(owner or self)`;
+  - delete the `CustomTooltipData` branch from `ShowForIcons` (N2).
+  - B-F3's `tint and …` condition in `handleMapIcon` auto-merges.
+- The resolved block below is final for the rebase:
 
 ```lua
     if self.polygonMarker then QuestiePolygon.EnterMarker(self) end
@@ -317,9 +340,11 @@ Rejected:
 
     -- The hovered icon, the visible icons around it and any given icons share one tooltip.
     local tooltipIcons = {}
-    self.data.touchedPins = {}
+    -- Tinting again before this hover's reset would save the tinted colors as the ones to restore.
+    local tint = not self.data.touchedPins
+    if tint then self.data.touchedPins = {} end
     local function handleMapIcon(icon, listed)
-        -- (nil-data error, hidden/faded skip unless self or listed, touchedPins tint: unchanged from WP)
+        -- (nil-data error, hidden/faded skip unless self or listed, the `tint and …` tint: unchanged from waypoints)
         -- Listed icons count wherever they are; others only within the cluster distance of the hovered icon.
         local near = listed
         if not near and icon.x and icon.AreaID == self.AreaID then
@@ -339,55 +364,74 @@ Rejected:
 end
 ```
 
-  - Keep WP's doc comment for `ShowOnTooltip`, with its last sentence changed to "ShowForIcons renders them, again on a modifier key." `ShowForIcons` and `Release` are otherwise B's, and their fields stay until F1.
-- `MapIconTooltip.test.lua`: one conflict at the end. Keep both sides: WP's `describe("for a patrol path")` and `describe("order")`, and B's `ShowForIcons`/`Release` tests. The `before_each` auto-merges to WP's stubs plus B's `IsOwned` line. Confirm that master's `QuestieMap.zoneWaypointHoverColorOverrides` stub line is gone.
+  - Keep WP's doc comment for `ShowOnTooltip`, with its last sentence changed to "ShowForIcons renders them, again on a modifier key." `ShowForIcons` and `Release` are otherwise B's, and their fields stay until B-F1.
+- `MapIconTooltip.test.lua`: one conflict at the end. Keep both sides:
+  - WP's side: `describe("for a patrol path")`, B-F3's tint test and `describe("order")`;
+  - B's `ShowForIcons`/`Release` tests;
+  - add an `end)` that closes `describe("order")` before B's tests.
+
+  The `before_each` auto-merges to WP's stubs plus B's `IsOwned` line. Confirm that master's `QuestieMap.zoneWaypointHoverColorOverrides` stub line is gone.
 - Checks, all validated:
-  - `busted Modules/Tooltips/MapIconTooltip.test.lua` should give **22 successes**.
+  - `busted Modules/Tooltips/MapIconTooltip.test.lua` should give **23 successes**.
   - `busted Modules/Map/Waypoints/WaypointHover.test.lua` should give 7.
   - `busted Modules/Map/GamepadMapHover.test.lua` should give 10.
   - `luacheck -q Modules/Tooltips` should be clean.
 - This commit's `EventHandler.lua` guard, `QuestiePolygon.lua` area tooltip and `Polygon/README.md` replay without conflict. Leave them.
+- **If Phase 0 was skipped:**
+  - Hunk 2 doesn't conflict. B's `local icons = {}` then auto-merges and shadows the parameter silently (N1), so rename it anyway.
+  - Keep `self.data.touchedPins = {}` in place of the two `tint` lines.
+  - The counts are 19 and 22.
 
-**Interim behavior after the rebase:** collision (a) and bugs (d), (e) and (f) remain until the follow-ups below. Land F1 in the same PR as the stack.
+**Interim behavior after the rebase:**
+- (d) is already fixed by B-F3.
+- Collisions (a) to (c) remain until B-F1.
+- Bugs (e) and (f) remain until F-3.
+
+Land F-1 to F-6, B-F1 and B-F2 in the same PR as the stack.
 
 ### 4(b) Follow-up commits
 
-**F1 `refactor(tooltips): keep map icon tooltip state in MapIconTooltip`.** It doesn't depend on Area A, and was prototyped with every listed test passing.
+**Order:**
+- **Phase 0, on `waypoints`:** B-F3.
+- **Phase 2:** Area F's seam commits F-1 to F-6 come first (F §4b). B-F1 and B-F2 follow, in that order.
+- B's former F4 (`start icon hover effects beside their reset`) is deleted. F-4, `refactor(map): start icon hover effects through the HoverStart event`, does it through `HoverStart`, under the README's names (`ApplyHoverHighlights`, not `HighlightHover`). Its file list is in F §4(b) and its tests in F §5.
+
+B-F1 and B-F2 add no core-to-feature import, so F-6's guard passes unchanged. Both add imports of `MapIconTooltip` only, which is core.
+
+**B-F1 `refactor(tooltips): keep map icon tooltip state in MapIconTooltip`**
+- **Depends on:** F-4. It is written against the `QuestieFrame` and `WaypointHover` that F-3 and F-4 leave behind.
+- **Prototyped:**
+  - The `MapIconTooltip`, `EventHandler` and `Tooltip.lua` rows were prototyped in B's first prototype: a `waypoints` export with the rebase replays applied. F doesn't touch these rows.
+  - The `QuestieFrame` and `WaypointHover` rows were prototyped on Area F's prototype.
+  - Every listed test passes.
 
 | File | Change |
 |---|---|
 | `Modules/Tooltips/MapIconTooltip.lua` | Add the "Shown tooltips" section: a header comment, `---@class MapIconTooltipShown`, and `local shown = {}`. `ShowForIcons` stops writing `_owner`, `_mapIconOwner`, `_Rebuild` and `ShownAsMapIcon`; `_Rebuild` becomes `local function rebuild(self)`, followed by `shown[tooltip] = {owner = owner, rebuild = rebuild}`. Rewrite `Release` on the state. Add `GetOwner` and `Redraw`. Rename the `Tooltip` parameters to `tooltip`. |
 | `Modules/EventHandler/EventHandler.lua` | Import `MapIconTooltip`. The body of the map branch (B :500-509) becomes `MapIconTooltip.Redraw()`, under the unchanged mouse-over gate. Don't touch the sizer branch. |
-| `Modules/FramePool/QuestieFrame.lua` | Import `MapIconTooltip`. In `_QuestieFrame.OnLeave`, replace the `GameTooltip:Hide()`, `_Rebuild = nil` and `ShownAsMapIcon = false` lines with `MapIconTooltip.Release(self, GameTooltip)` before `ResetHoverHighlights`. |
-| `Modules/Map/Waypoints/WaypointHover.lua` | In `_Leave`, the minimap branch calls `MapIconTooltip.Release(Minimap, _MinimapTooltip())` instead of `:Hide()`. The "another frame took it" branch calls `MapIconTooltip.Release(icon, GameTooltip)` instead of clearing fields, with the comment "Shift must not redraw it". |
+| `Modules/FramePool/QuestieFrame.lua` | F-4 already imports `MapIconTooltip`. After F-3, `_QuestieFrame.OnLeave` no longer calls `LeaveMarker`. Replace its `if GameTooltip then GameTooltip:Hide(); GameTooltip._Rebuild = nil end` and `GameTooltip.ShownAsMapIcon = false` (WP :145-151) with `MapIconTooltip.Release(self, GameTooltip)`, before `ResetHoverHighlights(self)`. |
+| `Modules/Map/Waypoints/WaypointHover.lua` | Since F-3, `_ResetTooltipChanges` takes `(icon, path)` and calls `ResetHoverHighlights(icon, path.data)`. `Release` goes beside it in `_Leave`: <br>• **Minimap branch** (WP :79-83): `MapIconTooltip.Release(Minimap, _MinimapTooltip())` instead of `:Hide()`. <br>• **"Another frame took it"** (WP :86-92): `MapIconTooltip.Release(icon, GameTooltip)` instead of clearing `_Rebuild`/`ShownAsMapIcon`, with the comment "That frame keeps it, and Shift must not redraw the NPC's tooltip over it." <br>• **Fallback for an icon that shows other data by now** (WP :96-98): `MapIconTooltip.Release(icon, GameTooltip)` instead of `GameTooltip:Hide()`. Every path hover then ends its tooltip through `Release` (A's I4). |
 | `Modules/Tooltips/Tooltip.lua` | Import `MapIconTooltip`. Each of the three `tooltip.ShownAsMapIcon` / `self.ShownAsMapIcon` reads becomes `MapIconTooltip.GetOwner(tooltip/self)`. |
 | Tests | See §5. |
 
-**F2 `refactor(waypoints): list a minimap path's quests through ShowForIcons`**
+**B-F2 `refactor(waypoints): list a minimap path's quests through ShowForIcons`**
+- **Depends on:** B-F1 (`Release`).
 
 | File | Change |
 |---|---|
-| `Modules/Map/Waypoints/WaypointHover.lua` | `_Enter` (WP :50) becomes `MapIconTooltip.ShowForIcons(Minimap, QuestieWaypoints.MinimapIcons(path), _MinimapTooltip())`. |
-| `Modules/Tooltips/MapIconTooltip.lua` | `ShowOnTooltip(self, tooltip)`. Delete `owner`, `icons`, `listed`, the alpha exemption and the given-icons loop. The throttle uses `IsOwned(self)`. The cluster check becomes one condition that appends to `clustered`. |
+| `Modules/Map/Waypoints/WaypointHover.lua` | `_Enter` (WP :50) becomes `MapIconTooltip.ShowForIcons(Minimap, QuestieWaypoints.MinimapIcons(path), _MinimapTooltip())`. `_Leave`'s minimap branch ends with `QuestieWaypoints.SetHighlighted(path.data, false)` instead of `_ResetTooltipChanges(icon, path)`, with the comment "A minimap path hover starts no icon hover: it only highlighted the NPC's paths." It mirrors `_Enter`'s `SetHighlighted(path.data, true)` (WP :48). F 3.3 counts the minimap path hover as no icon hover, so it emits no `HoverStart`, and now no `HoverEnd` either. `_ResetTooltipChanges` keeps its two world map call sites. |
+| `Modules/Tooltips/MapIconTooltip.lua` | `ShowOnTooltip(self, tooltip)`. Delete `owner`, `icons`, `listed`, the alpha exemption and the given-icons loop. The throttle uses `IsOwned(self)`. F-4 already removed the tint, so `handleMapIcon` keeps only the nil-data error, the hidden/faded skip, and one cluster condition that appends to `tooltipIcons`. |
 | Tests | See §5. |
 | `docs/waypoints.md` | Lines 226 and 228 (see §6). |
 
-**F3 `fix(tooltips): keep icon colors when a hovered icon's tooltip opens again`.** This fixes WP's bug (d). It is independent of blob, so it can land on `waypoints` before that branch merges.
+**B-F3 `fix(tooltips): keep icon colors when a hovered icon's tooltip opens again`**
+- **Lands in Phase 0, on `waypoints`.** It fixes WP's bug (d) (N4), which is independent of blob.
+- **Later:** F-4 moves this guard into `QuestieFrame`'s `_TintQuestIcons`, and this test into `QuestieFrame.test.lua`'s "hovering" describe.
 
 | File | Change |
 |---|---|
 | `Modules/Tooltips/MapIconTooltip.lua` | Use `local tint = not self.data.touchedPins; if tint then self.data.touchedPins = {} end`, and guard the tint branch of `handleMapIcon` with `tint and …`. Comment: tinting again before the hover's reset would save the tinted colors as the ones to restore. |
 | Test | See §5. |
-
-**F4 `refactor(map): start icon hover effects beside their reset`.** This lands after Area A's arbitration commits, or folds into them.
-
-| File | Change |
-|---|---|
-| `Modules/FramePool/QuestieFrame.lua` | Add `_QuestieFrame.OnEnter(self)`: call `WaypointHover.End(self)` (unless Area A's arbiter owns that), then `MapIconTooltip.ShowOnTooltip(self, GameTooltip)`. If `MapIconTooltip.GetOwner(GameTooltip) ~= self`, return, because a faded icon is not hovered. Otherwise call `EnterMarker` for a polygon marker, then `QuestieFrame.HighlightHover(self)`. Add `QuestieFrame.HighlightHover(self)`: `SetHighlighted(data, true)` plus the `touchedPins` tint for world map icons, moved from MapIconTooltip with the F3 guard. Have `CreateIconFrame(frameId)` set its own OnEnter, as it does OnLeave. |
-| `Modules/FramePool/QuestieFramePool.lua` | `CreateIconFrame(numberOfFrames)` (WP :56). Drop the import if it becomes unused. |
-| `Modules/Tooltips/MapIconTooltip.lua` | Delete `Show`. From `ShowOnTooltip`, delete `EnterMarker`, `SetHighlighted` and the tint. Drop the `QuestieWaypoints`, `WaypointHover` and `QuestiePolygon` imports. |
-| `Modules/Map/GamepadMapHover.lua` | In `Enter`, after a shown tooltip, call `QuestieFrame.HighlightHover(icon)`. This keeps master's tint and WP's path highlight for gamepad. Add an `EnterMarker`/`LeaveMarker` pair if Area A wants gamepad previews; otherwise none, which fixes (e). |
-| `Modules/Map/Waypoints/WaypointHover.lua` | Its partial leave (`_ResetTooltipChanges`) must also end a marker preview, which fixes (f). How is Area A's call; see §9. |
 
 ---
 
@@ -395,13 +439,14 @@ end
 
 Conventions: `dofile("setupTests.lua")`, stubs through `QuestieLoader`, and `.was.called*`.
 
-**After the rebase**, `MapIconTooltip.test.lua` is the union of both sides and passes 22 tests:
+**After the rebase**, `MapIconTooltip.test.lua` is the union of both sides and passes 23 tests:
 - the 12 wording tests from master;
 - WP's patrol-path tests (3) and order tests (2);
+- B-F3's tint test (1), from Phase 0;
 - B's throttle and polygon tests (3);
 - B's `ShowForIcons`/`Release` tests (2).
 
-**F1, all prototyped and passing:**
+**B-F1, all prototyped and passing:**
 - `MapIconTooltip.test.lua`, in a `describe("for given icons")` that uses a `HoldingTooltip()` stub. The stub records `SetOwner`, `IsOwned`, `IsShown`, `GetAnchorType` and a `Hide` spy, and acts like GameTooltip.
   - Replace B's "prefixes … and keeps Shift redrawing" with **"prefixes the icons' own objective lines, not party lines"**. Drop the field asserts.
   - Replace B's "releases only the tooltip its owner opened" with **"releases only the tooltip shown for its owner"**. This proves `Release(area)` after `other` showed keeps `other` as `GetOwner`, and that `Release(other)` hides it.
@@ -410,28 +455,37 @@ Conventions: `dofile("setupTests.lua")`, stubs through `QuestieLoader`, and `.wa
   - The 12 wording tests and the order tests stay.
 - `EventHandler.test.lua`: replace B's "redraws a map tooltip on Shift only while its owner still holds it" with **"redraws Questie's map icon tooltips on Shift while the cursor is over a map"**. It spies on `Redraw`: no call off the map, one call over it. Ownership logic now lives at MapIconTooltip's interface; replace, don't layer.
 - `Tooltip.test.lua`: before the first `dofile("Modules/Tooltips/Tooltip.lua")`, stub `QuestieLoader:ImportModule("MapIconTooltip").GetOwner = function() return mapIconOwner end`. The two tests that set `GameTooltip.ShownAsMapIcon` (WP :397, :790) set `mapIconOwner = {}` instead. All 75 pass.
-- `WaypointHover.test.lua`: stub `ShowForIcons` and `Release`.
-  - The minimap leave asserts `Release(Minimap, minimapTooltip)`.
-  - "undoes the NPC's tooltip changes when another frame takes the tooltip" asserts `Release(icon, GameTooltip)` instead of fields.
+- `WaypointHover.test.lua` (F-3's version): stub `Release` next to the `ShowOnTooltip` stub.
+  - "shows a minimap hover on a tooltip of its own…" and "ends a minimap hover once the NPC's minimap icon opens its own tooltip" assert `Release(Minimap, minimapTooltip)` instead of `minimapTooltip.Hide`.
+  - "moves a path's hover from one map to the other with its tooltip" asserts that `Release` was not called.
+  - "undoes the NPC's tooltip changes when another frame takes the tooltip" asserts `Release(icon, GameTooltip)` instead of the fields. F-3's `ResetHoverHighlights(icon, data)` assertion stays.
   - All 7 pass.
-- `QuestieFrame.test.lua` (B's "polygon marker interaction" block): stub `MapIconTooltip.Release`, which `OnLeave` now calls. Extend "clears temporary polygon preview on marker leave" with `assert.spy(MapIconTooltip.Release).was.called_with(QuestieFrameInstance, GameTooltip)`.
+- `QuestieFrame.test.lua`. F-3 removed B's "polygon marker interaction" block.
+  - Stub `MapIconTooltip.Release` with a spy in the top-level `before_each`.
+  - Add **"ends only its own tooltip when the cursor leaves the icon, and leaves another holder's"**. `OnLeave` calls `Release(QuestieFrameInstance, GameTooltip)` and never calls `GameTooltip:Hide()` itself (R4).
+  - 44 pass on Area F's prototype. The new test fails without B-F1.
 - `TooltipHandler.test.lua`, `QuestEventHandler.test.lua`, `WaypointMap.test.lua`, `GamepadMapHover.test.lua`: unchanged and passing.
 
-**F2:**
+**B-F2:**
 - `MapIconTooltip.test.lua`: WP's `describe("for a patrol path")` folds into "for given icons" as **"lists them wherever they are and however faded, for the frame given"**. This uses `ShowForIcons(Minimap, {icon, faraway}, …)` and asserts `GetOwner == Minimap`, and needs no zoom stubs.
 - Add **"a faded out icon's own hover shows nothing"** (`ShowOnTooltip` at alpha 0 never calls `Show`). It keeps master's gate pinned once the exemption is gone.
 - The two order tests call `ShowForIcons({}, {…})`.
-- `WaypointHover.test.lua` asserts `ShowForIcons(Minimap, listed, minimapTooltip)`.
+- `WaypointHover.test.lua`: stub `ShowForIcons` in place of `ShowOnTooltip`.
+  - Three tests assert `ShowForIcons(Minimap, listed, minimapTooltip)`.
+  - The minimap leave asserts `SetHighlighted(data, false)`, and that `ResetHoverHighlights` was not called.
+  - All 7 pass on Area F's prototype.
 
-**F3:**
-- Add **"keeps the colors to restore when a hovered icon's tooltip shows again before its reset"**. It shows twice, more than 0.05 s apart, then asserts the saved color is the original and there is one entry. It fails on WP's code.
+**B-F3 (Phase 0):**
+- Add **"keeps the colors to restore when a hovered icon's tooltip shows again before its reset"**. It shows twice, more than 0.05 s apart, then asserts the saved color is the original and there is one entry.
+- It fails on WP's code. With the fix there are 18 passes on `waypoints`.
+- F-4 moves it to `QuestieFrame.test.lua` as "keeps the colors to restore when the hover starts again before its reset".
 
-**F4:**
-- Move B's "previews polygon markers even when the tooltip refresh is throttled" and "does not call polygon preview for ordinary objective icons" to `QuestieFrame.test.lua`, as `OnEnter` tests.
-- Move the F3 tint test to `QuestieFrame.test.lua` as `HighlightHover` idempotence.
-- Add an `OnEnter` test: "an icon whose tooltip doesn't show highlights nothing".
-- Remove the `QuestieWaypoints` and `WaypointHover` stubs from `MapIconTooltip.test.lua`.
-- `GamepadMapHover.test.lua`: Enter highlights only when the tooltip shows. Add a Leave test if previews are kept.
+**Area F's F-4 owns the former F4 tests:**
+- the `QuestieFrame.test.lua` "hovering" describe;
+- the `MapIconTooltip.test.lua` edits, which delete B's two polygon preview tests and the `QuestieWaypoints`/`WaypointHover` stubs;
+- the `GamepadMapHover.test.lua` `ApplyHoverHighlights` spy.
+
+See F §5.
 
 ---
 
@@ -441,31 +495,36 @@ Conventions: `dofile("setupTests.lua")`, stubs through `QuestieLoader`, and `.wa
   - A short "Shown tooltips" section comment: what the module owns, who asks `GetOwner`, who calls `Release` and `Redraw`.
   - Doc comments as in §3.2.
   - Delete the stale `-- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip`.
-  - Keep `ShowOnTooltip`'s doc comment true at each stage (rebase, F2, F4).
+  - Keep `ShowOnTooltip`'s doc comment true at each stage:
+    - the rebase;
+    - F-4, which says hover effects belong to `QuestieFrame.ApplyHoverHighlights`;
+    - B-F2, which gives the final text in §3.2.
 - **`EventHandler.lua`**: the map branch comment becomes "Questie's map icon tooltips show more detail while Shift is held."
 - **`WaypointHover.lua`**:
-  - The header (WP :13-21) names `ShowForIcons` for the minimap.
-  - The `_Leave` comments (F1).
-  - `End`'s doc comment once F4 moves its caller.
+  - The header (WP :13-21) names `ShowForIcons` for the minimap (B-F2). This goes on top of the sentence F-1 adds there (A §6).
+  - The `_Leave` comments: the "another frame took it" branch (B-F1) and the minimap branch (B-F2).
+  - `End`'s doc comment belongs to F-4.
 - **`docs/waypoints.md`**:
-  - :52: "`MapIconTooltip` highlights through it" becomes "an icon's hover highlights through it (`QuestieFrame`)" after F4.
-  - :226: drop "A minimap tooltip collects its entries from the minimap icons HereBeDragons shows near the hovered one." The path tooltip lists exactly the route's icons (F2).
-  - :228: "A modifier key doesn't rebuild this tooltip" becomes "Shift redraws it, as GameTooltip's" (F1).
-- **`Polygon/README.md`**:
-  - :13: "so icons and waypoint lines keep their own tooltips" becomes Area A's precedence rule. Waypoint lines take no mouse input after WP.
-  - :109: mention `GetOwner` if Area A adopts it.
+  - :52 belongs to F-3/F-4.
+  - :226: drop "A minimap tooltip collects its entries from the minimap icons HereBeDragons shows near the hovered one." The path tooltip lists exactly the route's icons (B-F2).
+  - :228: "A modifier key doesn't rebuild this tooltip" becomes "Shift redraws it, as GameTooltip's" (B-F1).
+- **`Polygon/README.md`**: no edit of B's own.
+  - The hover wording (:13, :21, :104-118, :198) is Area A's (A §6), applied by F-2.
+  - :109 already describes `ShowForIcons` and `Release`, and stays true after B-F1, because Area A keeps the `IsOwned` check.
 - `docs/tracker-objective-text.md:54, :95`: no change, since the wording behavior is unchanged.
 
 ---
 
 ## 7. Verification
 
+**Phase 0 (B-F3, on `waypoints`):** `busted Modules/Tooltips/MapIconTooltip.test.lua` (18) and `luacheck -q Modules/Tooltips`.
+
 **Rebase:**
-- After each of `dfb97c802` and `715031ef6`, run `busted Modules/Tooltips/MapIconTooltip.test.lua` (19, then 22).
+- After each of `dfb97c802` and `715031ef6`, run `busted Modules/Tooltips/MapIconTooltip.test.lua` (20, then 23).
 - After `715031ef6`, also run `busted Modules/Map/Waypoints/WaypointHover.test.lua Modules/Map/GamepadMapHover.test.lua`.
 - `luacheck -q Modules/Tooltips`.
 
-**F1–F4:** these were run in the prototype, except `Polygon/QuestiePolygon.test.lua`. That file exists only after stacking; it stubs `ShowForIcons` and `Release`, whose signatures don't change.
+**B-F1 and B-F2, after F-1 to F-6.** These were run in the prototypes. The one exception is `Polygon/QuestiePolygon.test.lua`, which exists only after stacking; it stubs `ShowForIcons` and `Release`, whose signatures don't change.
 
 ```bash
 busted Modules/Tooltips/MapIconTooltip.test.lua
@@ -488,23 +547,24 @@ Run the full suite (`busted -p ".test.lua" .`) once, before the PR.
    - Hover a quest giver with several quests: they list by level, and givers by name.
    - Hold Shift: XP, breadcrumbs and next-in-chain appear. Release Shift: the short form returns.
    - Leave: the tooltip hides.
-2. **Any client, tint (F3).**
+2. **Any client, tint (B-F3, then again after F-4 moves it).**
    - Take a kill quest whose target's patrol draws in the hostile route color.
    - On the world map, hover the route, slide onto the target's icon, pause, then move away.
-   - The quest's other objective icons must return to their own colors. Before F3 they stay blueish, or white with objective colors on.
-3. **Forever, minimap path (F1/F2).**
+   - The quest's other objective icons must return to their own colors. Before B-F3 they stay blueish, or white with objective colors on.
+3. **Forever, minimap path (B-F1/B-F2).**
    - Hover a patrol path on the minimap: the private tooltip lists all of the NPC's quests, even when its icon is out of range.
    - Press Shift: the detail appears. This is new.
+   - Move off the path: the tooltip hides and the NPC's paths stop highlighting.
 4. **Forever, blob mode** (`enableQuestiePolygons`).
    - Hover an objective area: the tooltip shows color swatches.
    - Shift adds detail.
    - Move onto a marker: its tooltip replaces the area's at once.
    - Back on bare map inside the area: the area tooltip returns.
-   - After F1: leaving a route that crosses an area must not stop Shift from redrawing the area tooltip.
+   - After B-F1: leaving a route that crosses an area must not stop Shift from redrawing the area tooltip.
 5. **Any client, regression for the `Tooltip.lua` gate.**
    - After hovering a map icon, mouse over a quest object in the world (for example, a quest herb or chest): Questie's quest lines still appear.
    - While a map icon tooltip shows, no object lines are appended to it.
-6. **Forever, gamepad.** The map hover still shows its tooltip anchored right. After F4, a marker's area preview ends when the gamepad cursor leaves.
+6. **Forever, gamepad.** The map hover still shows its tooltip anchored right, and Shift redraws it there (B-F1). Area F's checks cover the preview ending when the gamepad cursor leaves (F-3, F §7 check 3).
 7. **Tracker.** The sizer's Shift tooltip still switches, since it still uses `_owner`.
 
 ---
@@ -517,18 +577,19 @@ Run the full suite (`busted -p ".test.lua" .`) once, before the PR.
 | R2 | `GetOwner` trusts that only MapIconTooltip shows tooltips for its owners. That holds for icons and private frames. Another addon could anchor GameTooltip to `ScrollContainer`; the vanilla UI source in `WoW-API/_UI` never does. B's `IsOwned` check has the same exposure, and forgetting state on `Release` narrows it. | Accept it. If in doubt, check the Forever UI source with the `wow-ui-source` skill. |
 | R3 | `Redraw` re-anchors with `GetAnchorType()`. Classic's own `Classic_GameTooltip.lua:554` uses it. | Accept it. Check the gamepad Shift case in game (check 6). |
 | R4 | `_QuestieFrame.OnLeave` now hides GameTooltip only while the icon holds it; before, it always did. This is release-only-if-mine. | Accept it. Check 1 covers it. |
-| R5 | The minimap path tooltip loses the cluster neighbors of the NPC's icon (F2). These are icons within `0.3–0.5 / (1 + zoom)` percent of the zone's map, which is roughly 3–17 yards in an Elwynn-sized zone. The world map path tooltip, which is the icon's own tooltip, keeps them. | Accept it. A path hover is about its NPC. |
-| R6 | The interim state after the rebase still has collision (a) and bugs (d), (e) and (f). | Land F1–F3 in the same PR. F4 with Area A. |
-| R7 | F4 overlaps Area A: `OnEnter`/`OnLeave`, gamepad, and the `End` placement. | Area A decides the placement. F4 keeps only the rule that MapIconTooltip imports no feature. |
+| R5 | The minimap path tooltip loses the cluster neighbors of the NPC's icon (B-F2). These are icons within `0.3–0.5 / (1 + zoom)` percent of the zone's map, which is roughly 3–17 yards in an Elwynn-sized zone. The world map path tooltip, which is the icon's own tooltip, keeps them. | Accept it. A path hover is about its NPC. |
+| R6 | The interim state after the rebase still has collisions (a) to (c) and bugs (e) and (f). Phase 0 has already fixed (d). | Land F-1 to F-6, B-F1 and B-F2 in the same PR as the stack. |
+| R7 | ~~F4 overlaps Area A~~ | **Resolved by F-4.** Area F owns `OnEnter`, the gamepad `Enter` and where `End` runs. B keeps the rule that MapIconTooltip imports no feature. |
 | R8 | The WIP snapshot may be split before rebasing. | Apply the `715031ef6` recipe to the commit that adds `ShowForIcons`/`Release`. |
 | R9 | `ShowForIcons` with an empty list shows an empty box. The polygon caller guards against it; WP's `MinimapIcons` is never empty while a path is hovered. | Document "at least one icon", and don't guard. |
+| R10 | B-F1 is written against the code F-3 and F-4 leave behind: `QuestieFrame`'s `MapIconTooltip` import, `OnLeave` without `LeaveMarker`, and `_ResetTooltipChanges(icon, path)`. | Keep the README order. If B-F1 must land before F-3/F-4, add the import, keep `LeaveMarker` in `OnLeave`, and keep `_ResetTooltipChanges(path)`. |
 
 **Decisions for David** (also in §3):
 - **D1:** owned state (`GetOwner`/`Release`/`Redraw`) rather than loose fields. Recommended.
 - **D2:** the minimap path tooltip lists the route's icons only (R5). Recommended.
-- **D3:** move hover begin effects beside their resets (F4), not callbacks. Recommended. The fallback is to keep the direct calls and move `EnterMarker` into `Show`.
+- **D3:** ~~move hover begin effects beside their resets (F4)~~. **Superseded** by architecture rule 3: icon events, built by F-3/F-4.
 - **D4:** `Redraw` covers every MapIconTooltip tooltip, which fixes Shift on minimap paths and gamepad. Recommended.
-- **D5:** land F3 on `waypoints` before it merges, since it is waypoints' own bug.
+- **D5:** land B-F3 on `waypoints` before it merges (Phase 0), since it is waypoints' own bug. Decided in the README.
 
 ---
 
@@ -541,26 +602,46 @@ Run the full suite (`busted -p ".test.lua" .`) once, before the PR.
 - "Is it showing for X", through `GetOwner(tooltip) == X`.
 - Shift handled centrally by `Redraw`.
 
-**Area A, hover arbitration. I need:**
-- Precedence between icon, path and area tooltips, and who calls `ShowForIcons`/`Release` and when. Area A may switch `_UpdateAreaTooltip`'s "already mine" check (B :350) to `GetOwner(GameTooltip) == owner`.
-- **No two features share an owner frame without one arbiter.** If the path tooltip moves to `ScrollContainer` like the area tooltip, the area's `Release(ScrollContainer)` would end the path's tooltip.
-- Every hover end must undo every hover begin.
-  - The partial leave of `WaypointHover._Leave` (WP :86-91) must also end a polygon marker preview; that is bug (f).
-  - Gamepad Leave must end what gamepad Enter starts; that is bug (e).
-- Placement of `WaypointHover.End`. It must still run before any icon's tooltip and tint, because the tint ordering relies on it.
-- Call `ShowForIcons` only on hover change (invariant 6).
+**Areas A and F, hover arbitration and seams. I need:**
+- **Precedence and callers.** The precedence between icon, path and area tooltips, and who calls `ShowForIcons`/`Release` and when. This is A's policy, encoded by `WorldMapLayers` (F-1, F-2). `_UpdateAreaTooltip`'s "already mine" check stays `IsOwned(owner) and IsShown()` (A §9).
+- **No two features share an owner frame without one arbiter.** The path tooltip stays owned by the NPC's icon (A §9). If it moved to `ScrollContainer` like the area tooltip, the area's `Release(ScrollContainer)` would end it.
+- **Every hover end undoes every hover begin.** `ResetHoverHighlights(icon, data)` emits `HoverEnd` from every way an icon hover ends (F-3):
+  - `WaypointHover._Leave`'s partial branch, which fixes bug (f);
+  - gamepad `Leave`, which fixes bug (e).
+- **Where `WaypointHover.End` runs.** It runs in the waypoints `HoverStart` listener, before the core tint (F 3.3 guarantee 2). So a path hover's tints are restored before the new icon's colors are saved.
+- **`ShowForIcons` only on hover change** (invariant 6). `WorldMapLayers` offers the cursor only when it, the zoom or a drawing changed. The area tooltip rebuilds only on `changed`, or to take the tooltip back.
+- **The `QuestieFrame` and `WaypointHover` that F-3 and F-4 leave behind**, which B-F1 is written against (R10).
+
+**I provide to Area F:**
+- `ShowForIcons`, `Release` and `GetOwner` as in §3.2.
+- B-F3 in Phase 0. F-4 moves its guard and test.
+- `_UpdateAreaTooltip` keeps its `onHover(shapes, changed)` use, unchanged by B.
 
 **Area C, quest drawing and the line model. I need:**
-- During the rebase, leave `_QuestieFrame.OnLeave`'s tooltip lines as both branches have them. F1 replaces them.
+- During the rebase, leave `_QuestieFrame.OnLeave`'s tooltip lines as both branches have them. B-F1 replaces them.
 - Delete `QuestieMap.zoneWaypoint(Hover)ColorOverrides` and `lineFrames` freely. MapIconTooltip stops reading them at the rebase (WP's side wins).
 - Route highlighting keys on `icon.data.waypointPaths`, so Area C decides which data carries which paths (finding 5).
-- `_FallbackIconData` must not copy `touchedPins`, which is hover state.
-- Linking `minimapTwin` for fallback markers (finding 4) decides whether `QuestieWaypoints.MinimapIcons` can list them in the minimap path tooltip.
+- `_FallbackIconData` must not copy `touchedPins`, which is hover state. C-F1 deletes `_FallbackIconData` (F 3.4), which settles this.
+- C-F2 links polygon markers' `minimapTwin`, as the IconFrame contract says (F 3.5). That decides whether `QuestieWaypoints.MinimapIcons` can list them in the minimap path tooltip.
 
 **Area D, the minimap layer. I need:**
 - Any minimap-owned map icon tooltip uses a private tooltip frame, never GameTooltip (invariant 5).
 - If a second minimap hover appears, such as polygon areas, move `WaypointHover`'s `_MinimapTooltip()` into MapIconTooltip rather than creating another frame. Until then, YAGNI.
 
 **Area E, geometry and scheduling. I need:**
-- If the two world map hover pollers merge, keep a "changed" signal: B's `onHover(shapes, changed)` or WP's cursor-moved check. That way tooltips rebuild only on change.
-- `ShowForIcons` is not frame-budgeted work, and must not run inside a coroutine `Checkpoint`.
+- The one poller (`WorldMapLayers`) keeps the "changed" signal: it offers the cursor only on change, and `PolygonRenderer` still passes `onHover(shapes, changed)`. That way tooltips rebuild only on change.
+- `ShowForIcons` is not frame-budgeted work, and must not run inside a coroutine `Checkpoint`. `WorldMapLayer.Hover` runs it in E's presentation tier.
+
+---
+
+## Open issues with Area F
+
+None of these changes F's design. B applied every item of F §10's B delta.
+
+1. **F §10 B.9 (minimap leave: "either works").** Agreed: polygon's `HoverEnd` listener ignores a minimap twin, since `LeaveMarker` checks `frame.polygonMarker` (`B QuestiePolygon.lua:590-596`). B takes `SetHighlighted(path.data, false)` in B-F2, which passes on Area F's prototype with B-F1 and B-F2 applied. A minimap path hover emits no `HoverStart`, so ending it through `ResetHoverHighlights` would emit the only `HoverEnd` without one. This is a choice F left open, not a disagreement.
+2. **Phase 0 moves Phase 1 numbers, which the README quotes.** F 4(a) points at B §4a for stop #36, and F-4 depends on B-F3 in Phase 0. With B-F3 on `waypoints`:
+   - `MapIconTooltip.test.lua` gives 20 at stop #6 and 23 at stop #36 (the README says 19 and 22);
+   - stop #36 gets a third `MapIconTooltip.lua` conflict hunk, at the N1 site.
+
+   This is for the orchestrator, not F.
+3. **F §5, F-4's `MapIconTooltip.test.lua`.** "17 pass on WP's file" was measured without B-F3. In the real order the file also holds B-F3's tint test, which F-4 deletes there when it moves the test to `QuestieFrame.test.lua`. F's text ("moved from") already implies this.
