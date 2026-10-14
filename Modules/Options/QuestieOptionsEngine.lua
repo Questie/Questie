@@ -1,0 +1,1734 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@class QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:CreateModule("QuestieOptionsEngine");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type Sounds
+local Sounds = QuestieLoader:ImportModule("Sounds")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+
+local AceGUI = LibStub("AceGUI-3.0")
+---@type AceConfigDialog-3.0
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+local SharedMedia = LibStub("LibSharedMedia-3.0")
+
+---- Explaining Questie's New (2026) Settings Engine
+--
+-- To define a few terms that will be used throughout this description:
+--
+-- Control - An element the user interacts with to adjust settings.
+--             This could be a checkbox, slider, dropdown, etc.
+--
+-- Element - Any object placed on the canvas. All controls are elements, but there are
+--             also non-control elements like containers, dividers, headers, and labels.
+--
+-- Canvas  - An area of the UI that the layout engine is placing elements on. Blizzard's
+--             settings menu holds a canvas we can draw to, but we can also create
+--             our own pop-up window with a canvas on it.
+--
+-- Questie's options menu consists of three main components: 'data', the 'constructor', and the 'layout engine'.
+--
+-- Data is the information that is read in order to build the settings, which are read and then
+-- built dynamically (rather than static, hard-coded control declarations) upon init.
+--
+-- The constructor is what takes the data, determines how to draw, and eventually draws each element,
+-- based upon the data's parameters and our decisions for what each individual element look like.
+--
+-- The layout engine iteratively ingests the data, feeds it to the constructor, and then after
+-- receiving the rendered element from the constructor, actually places it on the canvas.
+--
+-- In essence, while the constructor builds each element, the layout engine determines how those
+-- elements should be arranged relative to each other.
+--
+-- As long as there isn't a bug or you don't need new functionality, you should only need to modify
+-- the data section in order to tweak, remove, or add new settings.
+--
+-- We (mostly) follow AceGUI's data structure, in the sense that each control only specifies relevant
+-- data about itself, alongside a desired control width (but not height or coordinates). The layout
+-- engine fills rows of controls until the row is horizontally full, then creates a new row where it
+-- begins populating the next set of controls. One key difference versus AceGUI is that controls
+-- specify their width in fractions of the screen width, rather than units. This allows the settings
+-- panel to render mostly the same regardless of screen/panel width, simply stretching control width,
+-- unlike Ace which would reflow controls between rows if the width changed.
+
+local registeredControls = {} -- Used to loop back and refresh enable/disable states later
+
+-- Constants
+local spacingX = 10 -- configurable horizontal gap between elements
+local spacingY = 10 -- configurable vertical gap between elements
+local indentingLevel = 20 -- Base amount of left/right padding for control render space for root controls. Controls in containers 1 level deep will use half this level, containers 2 levels deep will use 0.
+local SIDE_TAB_SPACING = -2
+local SIDE_TAB_OFFSET_Y = -35
+
+local minControlHeight = { -- This is the starting height used for elements, but they can be larger if they overflow this size
+    ["checkbox"]  = 40,
+    ["slider"]    = 48,
+    ["dropdown"]  = 50,
+    ["fontDropdown"]  = 50,
+    ["divider"]   = 5,
+    ["container"] = 20,
+    ["text"] = 20,
+    ["button"] = 40,
+    ["soundButton"] = 40,
+}
+
+local defaultLabelColor = {1, 0.82, 0, 1}
+local defaultTextColor = {1, 1, 1, 1}
+
+local disabledLabelColor = {0.65, 0.65, 0.65, 1}
+local disabledTextColor = {0.55, 0.55, 0.55, 1}
+
+local QuestieOptionsList = { -- Table containing option items
+    GeneralTab = { -- General tab
+        title = "General", -- Name of the tab, shown as a header in the panel and also used as the subcategory name
+        subtitle = "General Settings",
+        order = 0, -- the index used to sort control and tab hierarchy
+        items = { -- controls within the General tab
+            checkbox1 = { -- element name, must be unique
+                order = 1,
+                title = "TestCheckbox1", -- user-readable text label
+                description = "This is an example of Speex.", -- if present, shows helper text below the title
+                tooltip = "This is an example of a checkbox.", -- tooltip shown to user when hovering over control
+                type = "checkbox", -- valid options are: 'checkbox', 'slider', 'dropdown', 'container', 'divider', 'spacer'
+                width = 1, -- total screen width this control occupies where 1 = 100%; if 'full', do not place the next control beside it, if both are 'half' (0.5) then do place them side-by-side
+                get = function() return Questie.db.profile.checkbox1_value end,
+                set = function(val) Questie.db.profile.checkbox1_value = val end,
+                visible = true, -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
+                enabled = true, -- whether this control is enabled or disabled; this is re-calculated upon any settings change
+            },
+            slider1 = {
+                order = 2,
+                title = "Map Icon Scale",
+                tooltip = "This is an example of a slider.",
+                type = "slider",
+                width = "half",
+                get = function() return Questie.db.profile.slider1_value end,
+                set = function(val) Questie.db.profile.slider1_value = val end,
+                min = 0, -- the minimum value for the slider (left)
+                max = 10, -- the maximum value for the slider (right)
+                step = 0.2, -- the size of the 'steps' along the slider
+                showvalue = true, -- Shows raw value below the slider
+                minlabel = nil, -- label shown on the left side of the slider; if nil, show min value
+                maxlabel = nil, -- label shown on the right side of the slider; if nil, show max value
+                newline = true, -- if true, force begin a newline for this element
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+            },
+            slider2 = {
+                order = 3,
+                title = "Minimap Icon Scale",
+                tooltip = "This is an example of a slider.",
+                type = "slider",
+                width = "half",
+                get = function() return Questie.db.profile.slider2_value end,
+                set = function(val) Questie.db.profile.slider2_value = val end,
+                min = 0, -- the minimum value for the slider (left)
+                max = 10, -- the maximum value for the slider (right)
+                step = 0.2, -- the size of the 'steps' along the slider
+                showvalue = true, -- Shows raw value below the slider
+                minlabel = "Smaller", -- label shown on the left side of the slider; if nil, show min value
+                maxlabel = "Bigger", -- label shown on the right side of the slider; if nil, show max value
+            },
+            container1 = {
+                order = 4,
+                title = "Container Title",
+                type = "container", -- containers hold other controls within them, and only show a title labelling the container
+                items = {
+                    checkbox2 = {
+                        order = 1,
+                        title = "TestCheckbox2",
+                        description = "This is a very long note and it should hopefully overflow",
+                        tooltip = "This is an example of a checkbox within a container.",
+                        type = "checkbox",
+                        width = "half",
+                        get = function() return Questie.db.profile.checkbox3_value end,
+                        set = function(val) Questie.db.profile.checkbox3_value = val end,
+                        enabled = function() return Questie.db.profile.checkbox1_value end,
+                    },
+                    checkbox3 = {
+                        order = 2,
+                        title = "TestCheckbox3",
+                        tooltip = "This is an example of a checkbox within a container.",
+                        type = "checkbox",
+                        width = "half",
+                        get = function() return Questie.db.profile.checkbox3_value end,
+                        set = function(val) Questie.db.profile.checkbox3_value = val end,
+                        enabled = function() return Questie.db.profile.checkbox1_value end,
+                    },
+                    container2 = {
+                        order = 3,
+                        title = "Subcontainer Title",
+                        type = "container", -- containers hold other controls within them, and only show a title labelling the container
+                        items = {
+                                checkbox4 = {
+                                    order = 3,
+                                    title = "CompletedQuests",
+                                    description = "This is a very long note and it should hopefully overflow. I am making this description very, very, very very long so it should really test the maxmimum limits. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                                    tooltip = "This is an example of a checkbox within a container. This one is almost similarly massively long. Please don't think too badly of me. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                    type = "checkbox",
+                                    width = "half",
+                                    get = function() return Questie.db.profile.checkbox4_value end,
+                                    set = function(val) Questie.db.profile.checkbox4_value = val end,
+                                },
+                                checkbox5 = {
+                                    order = 4,
+                                    title = "RepeatableQuests",
+                                    tooltip = "This is an example of a checkbox within a container.",
+                                    type = "checkbox",
+                                    width = "half",
+                                    get = function() return Questie.db.profile.checkbox5_value end,
+                                    set = function(val) Questie.db.profile.checkbox5_value = val end,
+                                },
+                        },
+                        enabled = function() return Questie.db.profile.checkbox1_value end,
+                    },
+                },
+            },
+            text1 = {
+                order = 4.5,
+                title = "Lorem ipsum dolor sit amet",
+                description = "Donec eleifend dui quis tortor dapibus facilisis. Nulla quis eleifend nisl, et sagittis risus. Morbi vehicula turpis justo, nec iaculis augue posuere quis. Aliquam risus mauris, ultricies vel risus in, vulputate consequat ante. Sed finibus enim vitae neque sagittis, eget ultrices nulla accumsan. Sed ullamcorper mattis est, a tincidunt metus bibendum sit amet. Nam eget odio nisi. Integer at est odio. Vestibulum velit mi, imperdiet ac arcu ac, malesuada sollicitudin lacus. Integer quis iaculis nisi, at luctus ex.",
+                type = "text",
+                width = "full",
+                titleAlign = "CENTER",
+                descriptionAlign = "CENTER",
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+            },
+            dropdown1 = {
+                order = 5,
+                title = "Dropdown 1",
+                tooltip = "This is an example of a dropdown.",
+                type = "dropdown",
+                width = "full",
+                get = function() return Questie.db.profile.dropdown1_value end,
+                set = function(val) Questie.db.profile.dropdown1_value = val end,
+                options = { -- the entries within the dropdown; index is the key, and text label shown is the value
+                    { text = "Apple", value = 1, icon = "Interface\\Icons\\inv_misc_food_19" },
+                    { text = "Banana", value = 2 },
+                    { text = "Orange", value = 3, icon = "Interface\\Icons\\inv_misc_food_18" },
+                },
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+            },
+            fontDropdown1 = {
+                order = 5.1,
+                title = "Font Dropdown 1",
+                tooltip = "This is an example of a font dropdown.",
+                type = "fontDropdown",
+                width = "full",
+                get = function() return Questie.db.profile.trackerFontHeader or "Friz Quadrata TT" end,
+                set = function(val)
+                    Questie.db.profile.trackerFontHeader = val
+                    QuestieTracker:Update()
+                    end,
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+                fonts = SharedMedia:HashTable("font"),
+            },
+            soundButton1 = { -- element name, must be unique
+                order = 5.5,
+                title = "SoundButton1", -- user-readable text label
+                description = "This is an example of Speex.", -- if present, shows helper text below the title
+                tooltip = "This is an example of a sound button.", -- tooltip shown to user when hovering over control
+                type = "soundButton", -- valid options are: 'checkbox', 'slider', 'dropdown', 'container', 'divider', 'spacer'
+                width = "full", -- total screen width this control occupies where 1 = 100%; if 'full', do not place the next control beside it, if both are 'half' (0.5) then do place them side-by-side
+                align = "CENTER",
+                func = function() PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), Questie.db.profile.soundChannel) end,
+                visible = true, -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+            },
+            checkbox6 = {
+                order = 6,
+                title = "Completed Quests",
+                description = "This is a very long note and it should hopefully overflow",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "third",
+                get = function() return Questie.db.profile.checkbox4_value end,
+                set = function(val) Questie.db.profile.checkbox4_value = val end,
+                newline = false,
+            },
+            checkbox7 = {
+                order = 7,
+                title = "RepeatableQuests7",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "third",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox8 = {
+                order = 8,
+                title = "RepeatableQuests8",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "third",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox9 = {
+                order = 9,
+                title = "RepeatableQuests9",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox10 = {
+                order = 10,
+                title = "RepeatableQuests10",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox11 = {
+                order = 11,
+                title = "RepeatableQuests11",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox12 = {
+                order = 12,
+                title = "RepeatableQuests12",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox13 = {
+                order = 13,
+                title = "RepeatableQuests13",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox14 = {
+                order = 14,
+                title = "RepeatableQuests14",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox15 = {
+                order = 15,
+                title = "RepeatableQuests15",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox16 = {
+                order = 16,
+                title = "RepeatableQuests16",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            checkbox17 = {
+                order = 17,
+                title = "RepeatableQuests17",
+                tooltip = "This is an example of a checkbox within a container.",
+                type = "checkbox",
+                width = "half",
+                get = function() return Questie.db.profile.checkbox5_value end,
+                set = function(val) Questie.db.profile.checkbox5_value = val end,
+            },
+            colorPicker1 = {
+                order = 17.8,
+                title = "colorPicker1",
+                description = "This is a very long note and it should hopefully overflow",
+                tooltip = "This is an example of a color picker.",
+                type = "colorPicker",
+                width = "half",
+                get = function()
+                    local c = Questie.db.profile.trackerBackdropColor
+                    return c.r, c.g, c.b, c.a
+                end,
+                set = function(r, g, b, a)
+                    Questie.db.profile.trackerBackdropColor = {r = r, g = g, b = b, a = a}
+                    if Questie.db.profile.trackerBackdropEnabled then
+                        TrackerBaseFrame.baseFrame:SetBackdropColor(r, g, b, a)
+                    end
+
+                    if Questie.db.profile.trackerBorderEnabled then
+                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, a)
+                    end
+                end,
+                hasOpacity = true,
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+            },
+            button1 = { -- element name, must be unique
+                order = 18,
+                title = "Button 1", -- user-readable text label
+                description = "This is an example of Speex.", -- if present, shows helper text below the title
+                tooltip = "This is an example of a button.", -- tooltip shown to user when hovering over control
+                type = "button", -- valid options are: 'checkbox', 'slider', 'dropdown', 'container', 'divider', 'spacer'
+                width = "third", -- total screen width this control occupies where 1 = 100%; if 'full', do not place the next control beside it, if both are 'half' (0.5) then do place them side-by-side
+                align = "CENTER",
+                func = function() PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), Questie.db.profile.soundChannel) end,
+                visible = true, -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+                btnLabel = "This is a very long label!",
+            },
+            button2 = { -- element name, must be unique
+                order = 19,
+                title = "Button 2", -- user-readable text label
+                description = "This is an example of Speex.", -- if present, shows helper text below the title
+                tooltip = "This is an example of a button.", -- tooltip shown to user when hovering over control
+                type = "button", -- valid options are: 'checkbox', 'slider', 'dropdown', 'container', 'divider', 'spacer'
+                width = "third", -- total screen width this control occupies where 1 = 100%; if 'full', do not place the next control beside it, if both are 'half' (0.5) then do place them side-by-side
+                align = "CENTER",
+                func = function() PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), Questie.db.profile.soundChannel) end,
+                visible = true, -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+                btnLabel = "This is a very long label! It better overflow.",
+            },
+            button3 = { -- element name, must be unique
+                order = 20,
+                title = "Button 3", -- user-readable text label
+                description = "This is an example of Speex.", -- if present, shows helper text below the title
+                tooltip = "This is an example of a button.", -- tooltip shown to user when hovering over control
+                type = "button", -- valid options are: 'checkbox', 'slider', 'dropdown', 'container', 'divider', 'spacer'
+                width = "third", -- total screen width this control occupies where 1 = 100%; if 'full', do not place the next control beside it, if both are 'half' (0.5) then do place them side-by-side
+                align = "CENTER",
+                func = function() PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), Questie.db.profile.soundChannel) end,
+                visible = true, -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
+                enabled = function() return Questie.db.profile.checkbox1_value end,
+                btnLabel = "This is a very long label!",
+            },
+        }
+    },
+    SecondTab = { -- General tab
+        title = "Secondary", -- Name of the tab, shown as a header in the panel and also used as the subcategory name
+        subtitle = "Secondary Settings", -- Name of the tab, shown as a header in the panel and also used as the subcategory name
+        order = 1, -- the index used to sort control and tab hierarchy
+        items = {
+
+        }
+    },
+}
+
+-- Helper function to sort dictionary items by order key
+local function GetSortedItems(itemsTable)
+    local sorted = {}
+    for key, data in pairs(itemsTable) do
+        data.key = key
+        table.insert(sorted, data)
+    end
+    table.sort(sorted, function(a, b)
+        return (a.order or 999) < (b.order or 999)
+    end)
+    return sorted
+end
+
+local function ApplyTooltip(widget, item, attachPoint, x, y)
+    if item.tooltip then
+        widget:HookScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, attachPoint, x or 0, y or 0)
+            GameTooltip:SetText(item.title, nil, nil, nil)
+            GameTooltip:AddLine(item.tooltip, 1, 1, 1, true)
+            GameTooltip:Show()
+        end)
+        widget:HookScript("OnLeave", function() GameTooltip:Hide() end)
+    end
+end
+
+local function CreateControl(parent, item, width, height, level)
+    local frame = CreateFrame("Button", nil, parent)
+    frame:SetSize(width, height)
+
+    frame.itemData = item
+
+    if item.type == "checkbox" then
+
+        local cbWrapper = CreateFrame("Frame", nil, parent)
+        cbWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
+        cbWrapper:SetSize(width, 30)
+
+        cbWrapper.CheckBox = CreateFrame("CheckButton", nil, cbWrapper, "SettingsCheckboxTemplate")
+        cbWrapper.CheckBox:SetPoint("LEFT", cbWrapper, "LEFT", 0, 0)
+
+
+
+        local tex = cbWrapper.CheckBox:CreateTexture(nil, "ARTWORK")
+        tex:SetAtlas("checkbox-minimal",nil,"TRILINEAR")
+        tex:SetDesaturated(true)
+        tex:SetVertexColor(0.7, 0.7, 0.7, 1)
+        cbWrapper.CheckBox:SetDisabledTexture(tex)
+
+
+
+
+        frame:RegisterForClicks("LeftButtonUp")
+        frame:SetScript("OnClick", function(self, button, down)
+            if (type(item.enabled) == "function" and item.enabled() == true) or (type(item.enabled) == "boolean" and item.enabled == true) then
+                cbWrapper.CheckBox:Click()
+            end
+        end)
+
+        cbWrapper.CheckBox:SetScript("OnEnter", function()
+            frame:GetScript("OnEnter")(frame)
+        end)
+        cbWrapper.CheckBox:SetScript("OnLeave", function()
+            frame:GetScript("OnLeave")(frame)
+        end)
+
+
+        local titleFrame = cbWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
+        titleFrame:SetText(item.title)
+        titleFrame:SetWordWrap(true)
+        titleFrame:SetJustifyH("LEFT")
+        titleFrame:SetWidth(width - 40)
+        frame.titleFrame = titleFrame
+
+        local descriptionFrame = nil
+
+        if not item.description then -- If there is no note, the label should be in-line with the checkbox
+            titleFrame:SetPoint("LEFT", cbWrapper, "LEFT", 38, 0)
+
+        else -- If there is a note, the label should be raised a bit to compensate
+            titleFrame:SetPoint("LEFT", cbWrapper, "LEFT", 38, 6)
+
+            descriptionFrame = cbWrapper:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            descriptionFrame:SetPoint("TOPLEFT", titleFrame, "BOTTOMLEFT", 0, -2)
+            descriptionFrame:SetText(item.description)
+            descriptionFrame:SetWordWrap(true)
+            descriptionFrame:SetJustifyH("LEFT")
+            descriptionFrame:SetWidth(width - 40)
+            frame.descriptionFrame = descriptionFrame
+        end
+
+        if item.get then cbWrapper.CheckBox:SetChecked(item.get()) end
+        cbWrapper.CheckBox:SetScript("OnClick", function(self)
+            if item.set then item.set(self:GetChecked()) end
+            QuestieOptionsEngine:RefreshStates()
+        end)
+
+        local labelHeight = titleFrame:GetStringHeight()
+        local descriptionHeight = 0
+        if item.description then descriptionHeight = descriptionFrame:GetStringHeight() + 2 end -- we add 2 if there's a note because we offset the note 2 units down
+        local wrapperHeight = cbWrapper:GetHeight()
+
+        local finalHeight = math.max(labelHeight + descriptionHeight, wrapperHeight)
+        if finalHeight > wrapperHeight and descriptionFrame then
+            frame:SetHeight(finalHeight)
+            titleFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 38, 0)
+        end
+
+        frame.widget = cbWrapper.CheckBox
+
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 2, 0)
+
+    elseif item.type == "slider" then
+        local slider = CreateFrame("Slider", nil, frame, "OptionsSliderTemplate")
+        slider:SetPoint("TOPLEFT", frame, "TOPLEFT", 15, -15)
+        slider:SetWidth(width - 30)
+        slider:SetMinMaxValues(item.min or 0, item.max or 100)
+        slider:SetValueStep(item.step or 1)
+        slider:SetObeyStepOnDrag(true)
+        frame.widget = slider
+
+        if slider.Text then
+            slider.Text:SetText(item.title)
+            slider.Text:SetFontObject(GameFontNormalSmall2)
+        end
+        if slider.Low then
+            slider.Low:SetText(item.minlabel or tostring(item.min or 0))
+            slider.Low:SetFontObject(GameFontDisableTiny)
+        end
+        if slider.High then
+            slider.High:SetText(item.maxlabel or tostring(item.max or 100))
+            slider.High:SetFontObject(GameFontDisableTiny)
+        end
+
+        local valueDisplay
+        if item.showValue then
+            valueDisplay = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+            valueDisplay:SetPoint("TOP", slider, "BOTTOM", 0, -1)
+            frame.valueDisplay = valueDisplay
+        end
+
+        local startVal = 0
+        if item.get then startVal = tonumber(item.get()) or item.min or 0 end
+        slider:SetValue(startVal)
+        if valueDisplay then valueDisplay:SetText(string.format("%g", startVal)) end
+
+        slider:SetScript("OnValueChanged", function(self, value)
+            if item.set then item.set(value) end
+            if valueDisplay then valueDisplay:SetText(string.format("%g", value)) end
+        end)
+
+        if slider.NineSlice then
+            slider.NineSlice:Hide() -- this hides default artwork so we can draw our own
+        end
+
+        local thumb = slider:GetThumbTexture()
+        if thumb then
+            thumb:SetAtlas("Minimal_SliderBar_Button", true)
+
+            thumb:SetSize(16, 16)
+            frame.thumb = thumb
+        end
+
+        local trackLeft = slider:CreateTexture(nil, "BACKGROUND")
+        trackLeft:SetAtlas("Minimal_SliderBar_Left", true)
+        trackLeft:SetPoint("LEFT", slider, "LEFT", 0, 0)
+--
+        local trackRight = slider:CreateTexture(nil, "BACKGROUND")
+        trackRight:SetAtlas("Minimal_SliderBar_Right", true)
+        trackRight:SetPoint("RIGHT", slider, "RIGHT", 0, 0)
+--
+        local trackMiddle = slider:CreateTexture(nil, "BACKGROUND")
+        trackMiddle:SetAtlas("_Minimal_SliderBar_Middle", false)
+        trackMiddle:SetPoint("LEFT", trackLeft, "RIGHT", 0, 0)
+        trackMiddle:SetPoint("RIGHT", trackRight, "LEFT", 0, 0)
+        trackMiddle:SetHeight(trackLeft:GetHeight())
+--
+        slider.TrackLeft = trackLeft
+        slider.TrackRight = trackRight
+        slider.TrackMiddle = trackMiddle
+
+        ApplyTooltip(slider, item, "ANCHOR_TOP", 0, 14)
+
+    elseif item.type == "dropdown" then
+        local dropdown = CreateFrame("DropdownButton", nil, frame, "WowStyle1DropdownTemplate")
+        dropdown:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -18)
+        dropdown:SetWidth(width - 20)
+        frame.widget = dropdown
+
+        local titleFrame = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        titleFrame:SetPoint("BOTTOMLEFT", dropdown, "TOPLEFT", 6, 2)
+        titleFrame:SetText(item.title)
+        frame.titleFrame = titleFrame
+
+        dropdown:SetupMenu(function(owner, rootDescription)
+            for _, opt in ipairs(item.options or {}) do
+                local isSelected = function() return item.get and item.get() == opt.value end
+                local setSelected = function()
+                    if item.set then item.set(opt.value) end
+                    QuestieOptionsEngine:RefreshStates()
+                end
+
+                local radio = rootDescription:CreateRadio(opt.text, isSelected, setSelected, opt.value)
+
+                if opt.icon then
+                    radio:AddInitializer(function(button, description, menu)
+                        local texture = button:AttachTexture()
+                        texture:SetSize(16, 16)
+                        texture:SetPoint("LEFT", button, "LEFT", 18, 0)
+                        texture:SetTexture(opt.icon)
+                        if button.fontString then
+                            button.fontString:SetPoint("LEFT", texture, "RIGHT", 5, 0)
+                        end
+                    end)
+                else
+                    radio:AddInitializer(function(button, description, menu)
+                        if button.fontString then
+                            button.fontString:SetPoint("LEFT", button, "LEFT", 39, 0)
+                        end
+                    end)
+                end
+            end
+        end)
+
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 0, 0)
+
+    elseif item.type == "fontDropdown" then
+        local fontObjectCache = {}
+        local fontCounter = 0
+
+        local function GetFontPreviewObject(fontPath)
+            if not fontObjectCache[fontPath] then
+                fontCounter = fontCounter + 1
+                local fontObj = CreateFont("QuestieDropdownFont_" .. fontCounter)
+                local _, height, flags = GameFontHighlightSmall:GetFont()
+                fontObj:SetFont(fontPath, 14, flags or "")
+                fontObj:SetTextColor(unpack(defaultTextColor))
+                fontObjectCache[fontPath] = fontObj
+            end
+            return fontObjectCache[fontPath]
+        end
+
+        local dropdown = CreateFrame("DropdownButton", nil, frame, "WowStyle1DropdownTemplate")
+        dropdown:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -18)
+        dropdown:SetWidth(width - 20)
+        frame.widget = dropdown
+
+        local titleFrame = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        titleFrame:SetPoint("BOTTOMLEFT", dropdown, "TOPLEFT", 6, 2)
+        titleFrame:SetText(item.title)
+        frame.titleFrame = titleFrame
+
+        dropdown:SetupMenu(function(owner, rootDescription)
+            rootDescription:SetScrollMode(250)
+
+            local fontNames = {}
+            local fonts = item.fonts or {}
+            for name in pairs(fonts) do
+                table.insert(fontNames, name)
+            end
+            table.sort(fontNames, function(a, b) return a:lower() < b:lower() end)
+
+            for _, fontName in ipairs(fontNames) do
+                local fontPath = fonts[fontName]
+
+                local isSelected = function()
+                    return item.get and item.get() == fontName
+                end
+                local setSelected = function()
+                    if item.set then item.set(fontName) end
+                    QuestieOptionsEngine:RefreshStates()
+                end
+
+                local radio = rootDescription:CreateRadio(fontName, isSelected, setSelected, fontName)
+
+                radio:AddInitializer(function(button, description, menu)
+                    if button.fontString and fontPath then
+                        local fontObj = GetFontPreviewObject(fontPath)
+                        button.fontString:SetFontObject(fontObj)
+                    end
+                end)
+            end
+        end)
+
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 0, 0)
+
+    elseif item.type == "divider" then
+        local line = frame:CreateTexture(nil, "BACKGROUND")
+        line:SetPoint("CENTER", frame, "CENTER", 0, 0)
+        line:SetSize(width, 1)
+        line:SetColorTexture(0.3, 0.3, 0.3, 0.3)
+
+    elseif item.type == "container" then
+        -- Calculate layout bleeding/overprint based on nesting depth
+        local bleed = 0
+        if level == 1 then bleed = indentingLevel
+        elseif level == 2 then bleed = indentingLevel / 2
+        end
+
+        local containerFrame = CreateFrame("Frame", nil, frame, "NineSlicePanelTemplate")
+        containerFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", -bleed - 4, 2)
+        containerFrame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", bleed + 1, -6)
+        containerFrame:SetAlpha(0.45)
+        containerFrame:SetFrameLevel(1)
+        frame.containerFrame = containerFrame
+
+        --local border = containerFrame:CreateTexture(nil, "BORDER")
+        --border:SetAllPoints(containerFrame)
+        --border:SetAtlas("collections-slotheader", true)
+        --border:SetTextureSliceMargins(12, 12, 12, 12)
+        --border:SetTextureSliceMode(Enum.UITextureSliceMode.Stretched)
+
+        local optionSlice = {
+            TopEdge = {
+                atlas = "_OptionsFrame-NineSlice-EdgeTop",
+            },
+            BottomEdge = {
+                atlas = "_OptionsFrame-NineSlice-EdgeBottom",
+            },
+            LeftEdge = {
+                atlas = "!OptionsFrame-NineSlice-EdgeLeft",
+            },
+            RightEdge = {
+                atlas = "!OptionsFrame-NineSlice-EdgeRight",
+            },
+            TopLeftCorner = {
+                atlas = "OptionsFrame-NineSlice-CornerTopLeft",
+            },
+            TopRightCorner = {
+                atlas = "OptionsFrame-NineSlice-CornerTopRight",
+            },
+            BottomLeftCorner = {
+                atlas = "OptionsFrame-NineSlice-CornerBottomLeft",
+            },
+            BottomRightCorner = {
+                atlas = "OptionsFrame-NineSlice-CornerBottomRight",
+            },
+        }
+
+        --NineSliceUtil.ApplyUniqueKeyLayout(containerFrame, "Runeforge")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"SelectionFrameTemplate")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"PortraitFrameTemplate")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"HeldBagLayout")
+        --NineSliceUtil.ApplyLayout(containerFrame,optionSlice)
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"PerksProgramHoldPanelTemplate")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"DragonflightMissionFrame")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"BankTabSettingsMenuLayout")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"TooltipDefaultLayout")
+        NineSliceUtil.ApplyLayoutByName(containerFrame,"TooltipGluesLayout")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"SimplePanelTemplate")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"InsetFrameTemplate")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"")
+        --NineSliceUtil.ApplyLayoutByName(containerFrame,"")
+
+        local titleFrame = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        titleFrame:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", -bleed + 30, 4)
+        titleFrame:SetText(item.title)
+        frame.titleFrame = titleFrame
+
+        local content = CreateFrame("Frame", nil, frame)
+        content:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
+        content:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 0)
+        frame.contentArea = content
+
+    elseif item.type == "text" then
+        local textWrapper = CreateFrame("Frame", nil, parent)
+        textWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
+        textWrapper:SetSize(width, 30)
+
+
+        local titleFrame = textWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
+        titleFrame:SetText(item.title)
+        titleFrame:SetWordWrap(true)
+        titleFrame:SetJustifyH(item.titleAlign)
+        titleFrame:SetWidth(width)
+        frame.titleFrame = titleFrame
+
+        local descriptionFrame = nil
+
+        if not item.description then -- If there is no note, the label should be in-line with the checkbox
+            titleFrame:SetPoint("LEFT", textWrapper, "LEFT", 0, 0)
+        else -- If there is a note, the label should be raised a bit to compensate
+            titleFrame:SetPoint("LEFT", textWrapper, "LEFT", 0, 6)
+            descriptionFrame = textWrapper:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            descriptionFrame:SetPoint("TOPLEFT", titleFrame, "BOTTOMLEFT", 0, -2)
+            descriptionFrame:SetText(item.description)
+            descriptionFrame:SetWordWrap(true)
+            descriptionFrame:SetJustifyH(item.descriptionAlign)
+            descriptionFrame:SetWidth(width)
+            frame.descriptionFrame = descriptionFrame
+        end
+
+        local labelHeight = titleFrame:GetStringHeight()
+        local descriptionHeight = 0
+        if item.description then descriptionHeight = descriptionFrame:GetStringHeight() + 2 end -- we add 2 if there's a note because we offset the note 2 units down
+        local wrapperHeight = textWrapper:GetHeight()
+
+        local finalHeight = math.max(labelHeight + descriptionHeight, wrapperHeight)
+        if finalHeight > wrapperHeight and descriptionFrame then
+            frame:SetHeight(finalHeight)
+            titleFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
+        end
+
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 2, 0)
+
+    elseif item.type == "button" then
+
+        local RAW_ASSET_HEIGHT = 128
+        local RAW_LEFT_WIDTH   = 114
+        local RAW_RIGHT_WIDTH  = 292
+
+        local buttonWrapper = CreateFrame("Frame", nil, parent)
+        buttonWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
+        buttonWrapper:SetSize(width, height)
+
+        buttonWrapper.Button = CreateFrame("Button", nil, buttonWrapper)
+        local btn = buttonWrapper.Button
+
+        local buttonHeight = 32
+        local hPadding = 24
+        local scale = buttonHeight / RAW_ASSET_HEIGHT
+
+        local leftPieceWidth  = math.floor(RAW_LEFT_WIDTH * scale)
+        local rightPieceWidth = math.floor(RAW_RIGHT_WIDTH * scale)
+        local minWidth = leftPieceWidth + rightPieceWidth
+        btn.maxWidth = width
+
+        btn:SetHeight(buttonHeight)
+        btn.minWidth = minWidth
+        btn.horizontalPadding = hPadding
+
+        local function CreateSliceGroup(atlasSet)
+            if not atlasSet then return nil end
+
+            local left = btn:CreateTexture(nil, "BACKGROUND")
+            left:SetPoint("LEFT", btn, "LEFT", 0, 0)
+            left:SetSize(leftPieceWidth, buttonHeight)
+            left:SetAtlas(atlasSet.left, false)
+
+            local right = btn:CreateTexture(nil, "BACKGROUND")
+            right:SetPoint("RIGHT", btn, "RIGHT", 0, 0)
+            right:SetSize(rightPieceWidth, buttonHeight)
+            right:SetAtlas(atlasSet.right, false)
+
+            local center = btn:CreateTexture(nil, "BACKGROUND")
+            center:SetPoint("LEFT", left, "RIGHT", 0, 0)
+            center:SetPoint("RIGHT", right, "LEFT", 0, 0)
+            center:SetHeight(buttonHeight)
+            center:SetAtlas(atlasSet.center, false)
+            center:SetHorizTile(true)
+
+            return {
+                left = left,
+                center = center,
+                right = right,
+                SetShown = function(self, shown)
+                    self.left:SetShown(shown)
+                    self.center:SetShown(shown)
+                    self.right:SetShown(shown)
+                end,
+            }
+        end
+
+        local groups = {
+            normal   = CreateSliceGroup({ left = "128-RedButton-Left", center = "_128-RedButton-Center", right = "128-RedButton-Right" }),
+            disabled = CreateSliceGroup({ left = "128-RedButton-Left-Disabled",  center = "_128-RedButton-Center-Disabled",  right = "128-RedButton-Right-Disabled"  }),
+            pressed  = CreateSliceGroup({ left = "128-RedButton-Left-Pressed", center = "_128-RedButton-Center-Pressed", right = "128-RedButton-Right-Pressed" }),
+        }
+
+        local text = btn:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+        text:SetPoint("CENTER", btn, "CENTER", 0, 0)
+        btn:SetFontString(text)
+
+        local function UpdateVisualState(self)
+            local isEnabled = self:IsEnabled()
+            local isPushed = self.isPressed and isEnabled
+
+            if groups.disabled then
+                groups.disabled:SetShown(not isEnabled)
+            end
+            if groups.pressed then
+                groups.pressed:SetShown(isPushed)
+            end
+            if groups.normal then
+                groups.normal:SetShown(isEnabled and not isPushed)
+            end
+
+            if not isEnabled then
+                text:SetTextColor(unpack(disabledTextColor)) -- Gray, disabled
+            else
+                if self.isHovered then
+                    text:SetTextColor(unpack(defaultTextColor)) -- White, hovered
+                else
+                    text:SetTextColor(unpack(defaultLabelColor)) -- Yellow, normal
+                end
+            end
+        end
+
+        btn:SetHighlightAtlas("128-RedButton-Highlight")
+        btn:HookScript("OnMouseDown", function(self, buttonName)
+            if self:IsEnabled() and buttonName == "LeftButton" then
+                self.isPressed = true
+                UpdateVisualState(self)
+            end
+        end)
+        btn:HookScript("OnMouseUp", function(self, buttonName)
+            if buttonName == "LeftButton" then
+                self.isPressed = false
+                UpdateVisualState(self)
+            end
+        end)
+        btn:HookScript("OnEnter", function(self)
+            if self:IsEnabled() then
+                self.isHovered = true
+                UpdateVisualState(self)
+            end
+        end)
+        btn:HookScript("OnLeave", function(self)
+            self.isHovered = false
+            UpdateVisualState(self)
+        end)
+        btn:HookScript("OnEnable", UpdateVisualState)
+        btn:HookScript("OnDisable", UpdateVisualState)
+
+        local rawSetText = btn.SetText
+        btn.SetText = function(self, newText)
+            text:SetWidth(0)
+            text:SetHeight(0)
+            text:SetWordWrap(false)
+
+            rawSetText(self, newText)
+
+            local strWidth = text:GetStringWidth() or 0
+            local targetWidth = math.max(self.minWidth, strWidth + self.horizontalPadding)
+            local isExpanded = false
+
+            if self.maxWidth and targetWidth > self.maxWidth then
+                targetWidth = self.maxWidth
+                isExpanded = true
+            end
+
+            local currentHeight = isExpanded and (buttonHeight * 1.5) or buttonHeight
+
+            local currentScale = currentHeight / RAW_ASSET_HEIGHT
+            local currentLeftWidth = math.floor(RAW_LEFT_WIDTH * currentScale)
+            local currentRightWidth = math.floor(RAW_RIGHT_WIDTH * currentScale)
+
+            self:SetSize(targetWidth, currentHeight)
+
+            for _, group in pairs(groups) do
+                if group then
+                    group.left:SetSize(currentLeftWidth, currentHeight)
+                    group.right:SetSize(currentRightWidth, currentHeight)
+                    group.center:SetHeight(currentHeight)
+                end
+            end
+
+            if isExpanded then
+                text:SetWidth(targetWidth - self.horizontalPadding)
+                text:SetHeight(currentHeight - 8)
+                text:SetWordWrap(true)
+                text:SetJustifyV("MIDDLE")
+            end
+        end
+
+        UpdateVisualState(btn) -- trigger once after creation to get correct state
+
+        buttonWrapper.Button:SetText(item.btnLabel)
+        buttonWrapper.Button:SetPoint(item.align, buttonWrapper, item.align, 0, 0)
+        buttonWrapper.Button:SetScript("OnClick", function(self, buttonName, down)
+            if item.func then
+                item.func()
+            end
+        end)
+        frame.widget = buttonWrapper.Button
+        ApplyTooltip(frame.widget, item, "ANCHOR_TOPLEFT", 2, 0)
+
+    elseif item.type == "soundButton" then
+
+        local buttonWrapper = CreateFrame("Frame", nil, parent)
+        buttonWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
+        buttonWrapper:SetSize(width, height)
+
+        buttonWrapper.Button = CreateFrame("Button", nil, buttonWrapper)
+        buttonWrapper.Button:SetSize(32, 32)
+        buttonWrapper.Button:SetPoint(item.align, buttonWrapper, item.align, 0, 0)
+
+        local function CreateStateTexture(atlasKey, degrees, flipV, flipH)
+            if not atlasKey then return nil end
+
+            local tex = buttonWrapper.Button:CreateTexture(nil, "ARTWORK")
+            tex:SetAllPoints(buttonWrapper.Button)
+            tex:SetAtlas(atlasKey,nil,"TRILINEAR")
+
+            if flipV and not flipH then
+                tex:SetTexCoord(0,1,1,0)
+            elseif not flipV and flipH then
+                tex:SetTexCoord(1,0,0,1)
+            elseif flipV and flipH then
+                tex:SetTexCoord(1,1,1,1)
+            end
+
+            if degrees then
+                tex:SetRotation(math.rad(degrees or 0))
+            end
+
+            return tex
+        end
+
+        local btnNormal = CreateStateTexture("128-RedButton-ArrowDown", 90, false, true)
+        local btnPushed = CreateStateTexture("128-RedButton-ArrowDown-Pressed", -90, true)
+        local btnDisabled = CreateStateTexture("128-RedButton-ArrowDown-Disabled", 90, false, true)
+        local btnHighlight = CreateStateTexture("128-RedButton-ArrowDown-Highlight", 90)
+        buttonWrapper.Button:SetNormalTexture(btnNormal)
+        buttonWrapper.Button:SetPushedTexture(btnPushed)
+        buttonWrapper.Button:SetDisabledTexture(btnDisabled)
+        buttonWrapper.Button:SetHighlightTexture(btnHighlight)
+
+        buttonWrapper.Button:SetScript("OnClick", function(self, buttonName, down)
+            if item.func then
+                item.func()
+            end
+        end)
+
+        frame.widget = buttonWrapper.Button
+
+        ApplyTooltip(frame.widget, item, "ANCHOR_TOPLEFT", 2, 0)
+
+    elseif item.type == "colorPicker" then
+
+        local cpWrapper = CreateFrame("Frame", nil, parent)
+        cpWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
+        cpWrapper:SetSize(width, 30)
+
+        local swatchButton = CreateFrame("Button", nil, cpWrapper)
+        swatchButton:SetSize(28, 28)
+        swatchButton:SetPoint("LEFT", cpWrapper, "LEFT", 0, 0)
+
+        -- Border (circle art)
+        local border = swatchButton:CreateTexture(nil, "ARTWORK")
+        if Questie.IsForever then
+            border:SetAtlas("UI-HUD-Minimap-Frame-Cycle")
+            border:SetSize(28, 28)
+        else
+            border:SetAtlas("Trinket-Frame")
+            border:SetSize(34, 34)
+        end
+        border:SetPoint("CENTER", swatchButton, "CENTER", 0, 0)
+        swatchButton.border = border
+
+        ---- Highlight border for mouse hover
+        --local highlight = swatchButton:CreateTexture(nil, "HIGHLIGHT")
+        --if Questie.IsForever then
+        --    highlight:SetAtlas("UI-HUD-Minimap-Frame-Cycle")
+        --    highlight:SetSize(28, 28)
+        --else
+        --    highlight:SetAtlas("Trinket-Frame")
+        --    highlight:SetSize(34, 34)
+        --end
+        --highlight:SetPoint("CENTER", swatchButton, "CENTER", 0, 0)
+        --highlight:SetBlendMode("ADD")
+        --highlight:SetAlpha(0.2)
+        --highlight:Hide()
+        --swatchButton.Highlight = highlight
+
+        -- Inner color swatch
+        local swatch = swatchButton:CreateTexture(nil, "BACKGROUND")
+        swatch:SetColorTexture(1, 1, 1, 1)
+        swatch:SetSize(18, 18)
+        swatch:SetPoint("CENTER", swatchButton, "CENTER", 0, 0)
+        swatchButton.swatch = swatch
+
+        -- Mask color swatch to a circle
+        local mask = swatchButton:CreateMaskTexture()
+        mask:SetTexture("Interface\\CharacterFrame\\TempPortraitAlphaMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+        mask:SetAllPoints(swatch)
+        swatch:AddMaskTexture(mask)
+
+        frame:RegisterForClicks("LeftButtonUp")
+        frame:SetScript("OnClick", function(self, button, down)
+            if (type(item.enabled) == "function" and item.enabled() == true) or (type(item.enabled) == "boolean" and item.enabled == true) or item.enabled == nil then
+                swatchButton:Click()
+            end
+        end)
+
+        swatchButton:SetScript("OnEnter", function()
+            if frame:GetScript("OnEnter") then frame:GetScript("OnEnter")(frame) end
+        end)
+        swatchButton:SetScript("OnLeave", function()
+            if frame:GetScript("OnLeave") then frame:GetScript("OnLeave")(frame) end
+        end)
+
+        local titleFrame = cpWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
+        titleFrame:SetText(item.title)
+        titleFrame:SetWordWrap(true)
+        titleFrame:SetJustifyH("LEFT")
+        titleFrame:SetWidth(width - 40)
+        frame.titleFrame = titleFrame
+
+        local descriptionFrame = nil
+
+        if not item.description then
+            titleFrame:SetPoint("LEFT", cpWrapper, "LEFT", 38, 0)
+        else
+            titleFrame:SetPoint("LEFT", cpWrapper, "LEFT", 38, 6)
+
+            descriptionFrame = cpWrapper:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            descriptionFrame:SetPoint("TOPLEFT", titleFrame, "BOTTOMLEFT", 0, -2)
+            descriptionFrame:SetText(item.description)
+            descriptionFrame:SetWordWrap(true)
+            descriptionFrame:SetJustifyH("LEFT")
+            descriptionFrame:SetWidth(width - 40)
+            frame.descriptionFrame = descriptionFrame
+        end
+
+        -- ColorPicker-specific logic
+
+        local function UpdateSwatchDisplay(r, g, b, a)
+            swatch:SetVertexColor(r or 1, g or 1, b or 1, a or 1)
+        end
+
+        if item.get then
+            local r, g, b, a = item.get()
+            UpdateSwatchDisplay(r, g, b, a)
+        end
+
+        -- Classic API returns 0 = opaque, 1 = transparent from color picker.
+        -- Modern API returns 1 = transparent, 0 = opaque from color picker.
+        -- This function converts between the two as needed.
+        local function ConvertPickerAlpha(a)
+            if not Questie.IsForever then
+                return 1 - (a or 1)
+            end
+            return a or 1
+        end
+
+        swatchButton:SetScript("OnClick", function()
+            local curR, curG, curB, curA = 1, 1, 1, 1
+            if item.get then
+                curR, curG, curB, curA = item.get()
+            end
+
+            local function GetCurrentAlpha()
+                if not item.hasOpacity then return 1 end
+                return ConvertPickerAlpha(ColorPickerFrame:GetColorAlpha())
+            end
+
+            local info = {
+                swatchFunc = function()
+                    local r, g, b = ColorPickerFrame:GetColorRGB()
+                    local a = GetCurrentAlpha()
+                    UpdateSwatchDisplay(r, g, b, a)
+                    if item.set then item.set(r, g, b, a) end
+                end,
+                opacityFunc = function()
+                    local r, g, b = ColorPickerFrame:GetColorRGB()
+                    local a = GetCurrentAlpha()
+                    UpdateSwatchDisplay(r, g, b, a)
+                    if item.set then item.set(r, g, b, a) end
+                end,
+                cancelFunc = function()
+                    local newR, newG, newB, newA = ColorPickerFrame:GetPreviousValues();
+                    newA = ConvertPickerAlpha(newA)
+                    UpdateSwatchDisplay(newR, newG, newB, newA)
+                    if item.set then item.set(newR, newG, newB, newA) end
+                    if QuestieOptionsEngine and QuestieOptionsEngine.RefreshStates then
+                        QuestieOptionsEngine:RefreshStates()
+                    end
+                end,
+                r = curR,
+                g = curG,
+                b = curB,
+                opacity = ConvertPickerAlpha(curA),
+                hasOpacity = item.hasOpacity or false,
+                previousValues = { r = curR, g = curG, b = curB, a = curA },
+            }
+
+            ColorPickerFrame:SetupColorPickerAndShow(info)
+        end)
+
+        local labelHeight = titleFrame:GetStringHeight()
+        local descriptionHeight = 0
+        if item.description then descriptionHeight = descriptionFrame:GetStringHeight() + 2 end
+        local wrapperHeight = cpWrapper:GetHeight()
+
+        local finalHeight = math.max(labelHeight + descriptionHeight, wrapperHeight)
+        if finalHeight > wrapperHeight and descriptionFrame then
+            frame:SetHeight(finalHeight)
+            titleFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 38, 0)
+        end
+
+        frame.widget = swatchButton
+
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 2, 0)
+
+    end
+
+    table.insert(registeredControls, frame)
+    return frame
+end
+
+local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryName)
+    -- The BuildLayout function is fed a table of control data and populates an already-spawned frame with controls based on our layout rules.
+    -- It first ingests this data raw, sorts it, sanitizes it, then begins building controls in order.
+    -- BuildLayout goes through multiple passes when placing controls; it first creates the control, then creates the rest
+    -- of the controls on the same row until the row is filled. Once the row is filled, it goes back through and adjusts the
+    -- completed row to be the height that the largest control ended up being (which accounts for word-wrapped text,
+    -- including longer strings from translations). This final pass ensures that controls are aligned vertically on a grid relative to each other.
+
+    level = level or 1 -- effectively current Z layer; used to determine if we're drawing on the root canvas, container, or nested container
+    local sortedItems = GetSortedItems(itemsTable) -- ingests item data and sorts it according to order value
+
+    local cursorX = 0 -- the current horizontal destination for drawing new elements
+    local cursorY = 0 -- the current vertical destination for drawing new elements
+    local currentMaxRowHeight = 0 -- the bounding box height of the current row, so we know how far to move the cursorY down when beginning a new row
+    local currentRowFrames = {} -- Tracks frames on the immediate line
+    local rowStartY = -10 -- Tracks the absolute top of the current row
+
+    -- Detect if we're within a container or actual page
+    if level == 1 then
+        cursorY = 0 -- If root panel, draw right against top edge
+    elseif level > 1 then
+        cursorY = -10 -- Leave room for art at top of containers
+    end
+
+    for _, rawitem in ipairs(sortedItems) do
+
+        -- Sanitizer & Defaults
+        local item = {
+            order = rawitem.order or 0,                                -- the index used to sort control and tab hierarchy, required for all items
+            type = rawitem.type or "",                                 -- valid options are: checkbox, slider, dropdown, container, divider, spacer, text, button, soundButton
+            title = rawitem.title or tostring(rawitem.type),           -- user-readable text label
+            description = rawitem.description,                         -- description of the control, appears below the label in small white text (checkboxes only)
+            tooltip = rawitem.tooltip,                                 -- text shown in tooltip when hovering over control (longer description)
+            get = rawitem.get,                                         -- function used to determine what state the control should show (get value of variable)
+            set = rawitem.set,                                         -- function used to set the target variable when the control is used
+            width = rawitem.width or 1,                                -- screen width this control occupies where 1 = 100%; also accepts 'full' = 1 and 'half' = 0.5
+            newline = rawitem.newline or false,                        -- if true, force this element to be at the start of a new line
+            visible = rawitem.visible == nil or rawitem.visible,       -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
+            enabled = rawitem.enabled == nil or rawitem.enabled,       -- whether this control is enabled or disabled; this is re-evaluated upon any settings change
+            min = rawitem.min or 0,                                    -- the minimum value for a slider (left)
+            max = rawitem.max or 10,                                   -- the maximum value for a slider (right)
+            step = rawitem.step or 0.1,                                -- the size of the 'steps' along a slider
+            showValue = rawitem.showValue == nil or rawitem.showValue, -- whether or not to show the raw value beneath a slider
+            minLabel = rawitem.minLabel,                               -- label shown on the left side of a slider; if nil, show min value
+            maxLabel = rawitem.maxLabel,                               -- label shown on the right side of a slider; if nil, show max value
+            options = rawitem.options,                                 -- a list of entries within a dropdown
+            items = rawitem.items,                                     -- a nested array of controls within a container
+            titleAlign = rawitem.titleAlign or "LEFT",                 -- title text alignment
+            descriptionAlign = rawitem.descriptionAlign or "LEFT",     -- description text alignment
+            func = rawitem.func,                                       -- function called when control is pressed (buttons only)
+            align = rawitem.align or "LEFT",                           -- control alignment within its spacer/wrapper (only noticeable with buttons)
+            btnLabel = rawitem.btnLabel or "",                         -- text label placed on a button (may differ from title used in tooltips)
+            fonts = rawitem.fonts,                                     -- list of fonts to select from
+            hasOpacity = rawitem.hasOpacity or false,                  -- whether a colorPicker should show an alpha selector alongside RGB
+        }
+
+        if item.visible ~= false then
+            -- Convert strings to actual values
+            if item.width == "half" then item.width = 0.5
+            elseif item.width == "full" then item.width = 1.0
+            elseif item.width == "third" then item.width = 0.32 -- because of rounding quirks, defining 0.33 causes third elements to wrap
+            elseif item.width == "quarter" then item.width = 0.25
+            end
+
+            -- Determine actual unit width for this control by multiplying its percentage width by the unit width of its canvas
+            local controlWidth = maxWidth * item.width
+
+            -- If the control won't be a full line, then shrink it to leave room for horizontal gap space
+            if item.width < 1.0 then
+                controlWidth = controlWidth - (spacingX / 2)
+            end
+
+            -- Check if the incoming item forces a new row
+            local isFullWidth = (item.width == 1.0)
+            local needsNewRow = (cursorX + controlWidth > maxWidth)
+                or (item.type == "divider")
+                or (item.type == "container")
+                or (item.newline == true)
+                or (isFullWidth and cursorX > 0) -- Only force wrap if previous items exist on this row
+
+            if needsNewRow and #currentRowFrames > 0 then
+                -- We've determined we've exceeded the previous row;
+                -- go back and vertically align all of the previous row's
+                -- elements with each other before moving on
+                if #currentRowFrames > 1 then
+                    for _, rFrame in ipairs(currentRowFrames) do
+                        local fHeight = rFrame:GetHeight()
+                        if fHeight < currentMaxRowHeight then -- If this control is shorter than the tallest item on its line
+                            local offset = (currentMaxRowHeight - fHeight) / 2 -- Calculate how much empty space is left, and split it in half
+                            local point, relTo, relPoint, xOfs = rFrame:GetPoint(1) -- Pull its existing X coordinate so we don't break horizontal flow
+                            rFrame:SetPoint(point, relTo, relPoint, xOfs, cursorY - offset) -- Re-anchor it shifted downwards relative to where the row started
+                        end
+                    end
+                end
+
+                -- Clear the running tally of row elements so the next row starts fresh
+                wipe(currentRowFrames)
+                cursorY = cursorY - currentMaxRowHeight - spacingY
+                cursorX = 0
+                currentMaxRowHeight = 0
+            end
+
+            ---- Time to begin rendering the new control
+
+            if item.type == "container" and item.title then
+                -- If we're in a container, begin rendering the row after the start of
+                -- a container with a starting gap, to not overlap the container's title
+                cursorY = cursorY - 24
+            end
+
+            -- Shift absolute rendering coordinate rightward if on root layer
+            local absoluteX = cursorX
+            if level == 1 then
+                absoluteX = cursorX + indentingLevel
+            end
+
+            local control = CreateControl(parentFrame, item, controlWidth, minControlHeight[item.type] or 40, level)
+            control:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", absoluteX, cursorY)
+            table.insert(currentRowFrames, control)
+
+            if item.type == "container" and item.items then
+                local innerConsumedHeight = BuildLayout(control.contentArea, item.items, maxWidth, level + 1)
+                control:SetHeight(innerConsumedHeight + spacingY)
+            end
+
+            -- If the control is larger than the current row height, expand the row height to fit it
+            if control:GetHeight() > currentMaxRowHeight then
+                currentMaxRowHeight = control:GetHeight()
+            end
+
+            -- Advance cursorX or immediately flush full-width rows
+            if isFullWidth or item.type == "divider" then
+                cursorY = cursorY - currentMaxRowHeight - spacingY
+                cursorX = 0
+                currentMaxRowHeight = 0
+                wipe(currentRowFrames)
+            else
+                cursorX = cursorX + controlWidth + spacingX
+            end
+        end
+    end
+
+    -- Before we finish, do a vertical alignment on the final row
+    if #currentRowFrames > 1 then
+        for _, rFrame in ipairs(currentRowFrames) do
+            local fHeight = rFrame:GetHeight()
+
+            -- If this control is shorter than the tallest item on its line
+            if fHeight < currentMaxRowHeight then
+                -- Calculate how much empty space is left, and split it in half
+                local offset = (currentMaxRowHeight - fHeight) / 2
+
+                -- Pull its existing X coordinate so we don't break horizontal flow
+                local point, relTo, relPoint, xOfs, yOfs = rFrame:GetPoint(1)
+
+                -- Re-anchor it shifted downwards relative to where the row started
+                rFrame:SetPoint(point, relTo, relPoint, xOfs, cursorY - offset)
+            end
+        end
+
+        wipe(currentRowFrames)
+    end
+
+    return math.abs(cursorY - currentMaxRowHeight)
+end
+
+-- Below function borrowed from LFGBulletinBoard, under MIT License
+---UIPanelScrollFrameTemplate is deprecated in favor of WowScrollBox.
+-- This is helper to adapt current frames to new scrollbox.
+---@param parent Frame
+---@param name string
+local CreateScrollFrames = function(parent, name, header)
+	local scrollBox = CreateFrame("Frame", name, parent, "WowScrollBox") --[[@as WowScrollBox|Frame]]
+	local scrollBar = CreateFrame("EventFrame", name.."ScrollBar", parent, "MinimalScrollBar")
+	local barPadding = 12
+	scrollBar:SetPoint("RIGHT", parent, "RIGHT", -barPadding, 0)
+	scrollBar:SetPoint("BOTTOM", parent, "BOTTOM", 0, 5)
+	scrollBox:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -8)
+	scrollBox:SetPoint("BOTTOM", parent, 0, 0)
+	scrollBox:SetPoint("RIGHT", scrollBar, "LEFT", -barPadding, 0)
+	-- For now, the scrollChild serves as an expanding canvas for the scrollBox.
+	-- Allows the scroll frame to behave like the previously used template.
+	---@class SettingsCategoryPanelScrollChild: ResizeLayoutFrame
+	local scrollChild = CreateFrame('Frame', name..'ScrollChild', scrollBox, 'ResizeLayoutFrame')
+	scrollChild.scrollable = true
+	scrollChild:SetFixedWidth(SettingsPanel.Container.SettingsCanvas:GetWidth() - scrollBar:GetWidth())
+	scrollChild:SetHeight(100) -- initial arbitrary height
+	scrollChild.ScrollBox = scrollBox;
+	scrollChild.ScrollBar = scrollBar;
+	-- Updates the canvas's resizable layout height, and then the scroll parent to match.
+	function scrollChild.UpdateScrollLayout()
+		scrollChild:Layout()
+		scrollBox:FullUpdate(true)
+	end
+	local scrollView = CreateScrollBoxLinearView();
+	scrollView:SetPadding(10, 25) -- pad bottom of view with 25px
+	scrollView:SetPanExtent(50) -- scroll step
+	ScrollUtil.InitScrollBoxWithScrollBar(scrollBox, scrollBar, scrollView);
+	ScrollUtil.AddManagedScrollBarVisibilityBehavior(scrollBox, scrollBar); -- adds autohide to scrollbar
+	return scrollBox, scrollChild
+end
+
+function QuestieOptionsEngine:Initialize()
+    local sortedTabs = {}
+    for tabKey, tabData in pairs(QuestieOptionsList) do
+        table.insert(sortedTabs, { key = tabKey, data = tabData })
+    end
+
+    table.sort(sortedTabs, function(a, b)
+        local aOrder = a.data.order or 100
+        local bOrder = b.data.order or 100
+
+        if aOrder == bOrder then
+            return a.data.title < b.data.title
+        end
+        return aOrder < bOrder
+    end)
+
+    local primaryTabKey = nil
+    for _, tabInfo in ipairs(sortedTabs) do
+        if tabInfo.data.order == 0 then
+            primaryTabKey = tabInfo.key
+            break
+        end
+    end
+
+    local mainCategory = nil
+
+    if not primaryTabKey then
+        local mainFrame = CreateFrame("Frame", "QuestieOptionsCanvasMain", UIParent)
+        mainFrame:Hide()
+        mainCategory = Settings.RegisterCanvasLayoutCategory(mainFrame, "Questie")
+        Settings.RegisterAddOnCategory(mainCategory)
+    end
+
+    for _, tabInfo in ipairs(sortedTabs) do
+        local tabKey = tabInfo.key
+        local tabData = tabInfo.data
+        local frameName = "QuestieOptionsTab_" .. tabKey
+
+        -- init
+        local tabFrame = CreateFrame("Frame", frameName, UIParent)
+
+        -- header section
+        local title = tabFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
+        title:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 8, -4)
+        title:SetText("Questie")
+        local bullet = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
+        bullet:SetPoint("LEFT", title, "RIGHT", 4, -1)
+        bullet:SetTextColor(0.9,0.9,0.9,1.0)
+        bullet:SetText("•")
+        local subtitle = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
+        subtitle:SetPoint("LEFT", bullet, "RIGHT", 8, 0)
+        subtitle:SetTextColor(0.9,0.9,0.9,1.0)
+        subtitle:SetText(tabData.subtitle)
+
+		local scrollFrame, scrollChild = CreateScrollFrames(tabFrame, frameName, title)
+		tabFrame:HookScript("OnShow", scrollChild.UpdateScrollLayout)
+		tabFrame:Hide()
+
+        local header = tabFrame:CreateTexture(nil, "BORDER")
+        header:SetPoint("TOPLEFT", scrollFrame, "TOPLEFT", 0, 2)
+        header:SetPoint("BOTTOMRIGHT", scrollFrame, "TOPRIGHT", 0, 1)
+        header:SetAtlas("Options_HorizontalDivider", true)
+
+        local fullWidth = 625 -- default blizzard settings panel is 600 units wide
+        local logicalWidth = fullWidth - (indentingLevel * 2)
+
+        local totalHeight = BuildLayout(scrollChild, tabData.items, logicalWidth, 1)
+        scrollChild:SetHeight(totalHeight + 20)
+
+        if tabKey == primaryTabKey then
+            -- This specific tab claims the crown and becomes the main top-level category page
+            mainCategory = Settings.RegisterCanvasLayoutCategory(tabFrame, "Questie")
+            Settings.RegisterAddOnCategory(mainCategory)
+        else
+            -- This is a normal tab. It nests under mainCategory (which is now guaranteed
+            -- to exist, either via the fallback block above or via the first loop iteration)
+            local subCategory = Settings.RegisterCanvasLayoutSubcategory(mainCategory, tabFrame, tabData.title)
+            Settings.RegisterAddOnCategory(subCategory)
+        end
+    end
+
+    self:RefreshStates()
+end
+
+function QuestieOptionsEngine:RefreshStates()
+
+    local function DesaturateNineSlice(frame, disable, shade)
+        local nineSlice = frame.NineSlice or frame
+        if nineSlice and nineSlice.GetRegions then
+            for _, region in ipairs({ nineSlice:GetRegions() }) do
+                if region:IsObjectType("Texture") then
+                    region:SetDesaturated(disable)
+                    if shade then region:SetVertexColor(unpack(not disable and {1, 1, 1, 1} or {0.7, 0.7, 0.7, 1})) end
+                end
+            end
+        end
+    end
+
+    for _, control in ipairs(registeredControls) do
+        local data = control.itemData
+        if data and data.enabled ~= nil then
+            -- Figure out if this control should be enabled
+            local isEnabled = true
+            if type(data.enabled) == "function" then
+                isEnabled = data.enabled()
+            elseif type(data.enabled) == "boolean" then
+                isEnabled = data.enabled
+            end
+
+            if control.widget and control.widget.SetEnabled then
+                control.widget:SetEnabled(isEnabled)
+            end
+
+            local labelColors = isEnabled and defaultLabelColor or disabledLabelColor
+            local textColors = isEnabled and defaultTextColor or disabledTextColor
+
+            if control.titleFrame then control.titleFrame:SetTextColor(unpack(labelColors)) end
+            if control.descriptionFrame then control.descriptionFrame:SetTextColor(unpack(textColors)) end
+
+            -- Custom properties to apply to each control type if enabled/disabled
+            if data.type == "checkbox" then
+                --DevTools_Dump(control.widget)
+                --control.widget:SetDesaturated(not isEnabled)
+            elseif data.type == "slider" then
+                if control.widget.Text then control.widget.Text:SetTextColor(unpack(labelColors)) end
+                if control.valueDisplay then control.valueDisplay:SetTextColor(unpack(textColors)) end
+                if control.thumb then
+                    control.thumb:SetDesaturated(not isEnabled)
+                    control.thumb:SetAlpha(isEnabled and 1.0 or 0.5) -- This helps differentiate the disabled state when gray Dragonflight theme
+                end
+                if control.widget.TrackLeft then control.widget.TrackLeft:SetDesaturated(not isEnabled) end
+                if control.widget.TrackMiddle then control.widget.TrackMiddle:SetDesaturated(not isEnabled) end
+                if control.widget.TrackRight then control.widget.TrackRight:SetDesaturated(not isEnabled) end
+            elseif data.type == "dropdown" or data.type == "fontDropdown" then
+                DesaturateNineSlice(control.widget, not isEnabled, true)
+            elseif data.type == "container" then
+                DesaturateNineSlice(control.containerFrame, not isEnabled, true)
+            elseif data.type == "colorPicker" then
+                control.widget.border:SetDesaturated(not isEnabled)
+                control.widget.border:SetVertexColor(unpack(isEnabled and {1, 1, 1, 1} or {0.7, 0.7, 0.7, 1}))
+            end
+        end
+    end
+end
+
+-- Helper to construct a canvas frame for either Blizzard Settings or the Standalone window
+function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWidth)
+    local tabFrame = CreateFrame("Frame", frameName, parent)
+    tabFrame:SetAllPoints(parent)
+
+    -- Header title & subtitle
+    local title = tabFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
+    title:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 8, -4)
+    title:SetText("Questie")
+
+    local bullet = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
+    bullet:SetPoint("LEFT", title, "RIGHT", 4, -1)
+    bullet:SetTextColor(0.9, 0.9, 0.9, 1.0)
+    bullet:SetText("•")
+
+    local subtitle = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
+    subtitle:SetPoint("LEFT", bullet, "RIGHT", 8, 0)
+    subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
+    subtitle:SetText(tabData.subtitle or tabData.title)
+
+    local scrollFrame, scrollChild = CreateScrollFrames(tabFrame, frameName, title)
+    tabFrame:HookScript("OnShow", scrollChild.UpdateScrollLayout)
+    tabFrame:Hide()
+
+    local header = tabFrame:CreateTexture(nil, "BORDER")
+    header:SetPoint("TOPLEFT", scrollFrame, "TOPLEFT", 0, 2)
+    header:SetPoint("BOTTOMRIGHT", scrollFrame, "TOPRIGHT", 0, 1)
+    header:SetAtlas("Options_HorizontalDivider", true)
+
+    local logicalWidth = fullWidth - (indentingLevel * 2)
+    local totalHeight = BuildLayout(scrollChild, tabData.items, logicalWidth, 1)
+    scrollChild:SetHeight(totalHeight + 20)
+
+    return tabFrame
+end
+
+-- Constructs the side-tab button using the modern retail sidetab atlases and masking
+function QuestieOptionsEngine:CreateSideTab(parent, tabKey, tabData, index)
+    local button = CreateFrame("Button", "$parent_Tab_" .. tabKey, parent)
+    button.tabKey = tabKey
+
+    -- 1. Background Art ("common-sidetab")
+    local bg = button:CreateTexture(nil, "BACKGROUND")
+    bg:SetAtlas("common-sidetab", true)
+    bg:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+    button.Background = bg
+
+    -- Match button dimensions to the atlas
+    local width, height = bg:GetSize()
+    button:SetSize(width, height)
+
+    -- 2. Icon Texture & 3. Image Mask ("common-sidetab-mask")
+    -- Rendered on ARTWORK: above BACKGROUND, but beneath OVERLAY / HIGHLIGHT
+    local icon = button:CreateTexture(nil, "ARTWORK")
+    icon:SetPoint("CENTER", button, "CENTER", 1, 0)
+    icon:SetSize(28, 28)
+    icon:SetTexture(tabData.icon or 134400) -- Fallback to question mark icon
+    button.Icon = icon
+
+    local mask = button:CreateMaskTexture(nil, "ARTWORK")
+    mask:SetAtlas("common-sidetab-mask", true)
+    mask:SetPoint("CENTER", icon, "CENTER", 0, 0)
+    mask:SetSize(28, 28)
+    icon:AddMaskTexture(mask)
+    button.Mask = mask
+
+    -- 4. Selection Overlay ("common-sidetab-selected")
+    local selected = button:CreateTexture(nil, "OVERLAY")
+    selected:SetAtlas("common-sidetab-selected", true)
+    selected:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+    selected:Hide()
+    button.Selected = selected
+
+    -- 5. Hover Overlay ("common-sidetab-hover")
+    local highlight = button:CreateTexture(nil, "HIGHLIGHT")
+    highlight:SetAtlas("common-sidetab-hover", true)
+    highlight:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+    highlight:SetBlendMode("ADD")
+    button.Highlight = highlight
+
+    -- Tooltips
+    button:SetScript("OnEnter", function(btn)
+        GameTooltip:SetOwner(btn, "ANCHOR_RIGHT")
+        GameTooltip:SetText(tabData.title or tabKey, 1, 1, 1)
+        if tabData.subtitle then
+            GameTooltip:AddLine(tabData.subtitle, 0.8, 0.8, 0.8, true)
+        end
+        GameTooltip:Show()
+    end)
+    button:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+
+    -- Click handler
+    button:SetScript("OnClick", function()
+        PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+        self:SelectStandaloneTab(tabKey)
+    end)
+
+    return button
+end
+
+-- Constructs the main standalone dialog frame
+function QuestieOptionsEngine:GetOrCreateStandaloneWindow()
+    if self.standaloneWindow then return self.standaloneWindow end
+
+    local f = CreateFrame("Frame", "QuestieStandaloneSettings", UIParent, "BasicFrameTemplateWithInset")
+    f:SetSize(670, 580)
+    f:SetPoint("CENTER")
+    f:SetMovable(true)
+    f:EnableMouse(true)
+    f:RegisterForDrag("LeftButton")
+    f:SetScript("OnDragStart", f.StartMoving)
+    f:SetScript("OnDragStop", f.StopMovingOrSizing)
+    f:SetFrameStrata("HIGH")
+    f:Hide()
+
+    f.TitleBg:SetHeight(30)
+    f.title = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    f.title:SetPoint("TOPLEFT", f.TitleBg, "TOPLEFT", 10, -6)
+    f.title:SetText("Questie Settings")
+
+    -- Content host area inside the inset border
+    f.canvasContainer = CreateFrame("Frame", nil, f)
+    f.canvasContainer:SetPoint("TOPLEFT", f, "TOPLEFT", 10, -30)
+    f.canvasContainer:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -10, 10)
+
+    -- Close via Escape
+    tinsert(UISpecialFrames, "QuestieStandaloneSettings")
+
+    self.standaloneWindow = f
+    return f
+end
+
+-- Tab selection handler for the standalone popup
+function QuestieOptionsEngine:SelectStandaloneTab(selectedKey)
+    for tabKey, canvas in pairs(self.standaloneCanvases) do
+        local isCurrent = (tabKey == selectedKey)
+        canvas:SetShown(isCurrent)
+
+        local tabButton = self.sideTabs[tabKey]
+        if tabButton then
+            tabButton.Selected:SetShown(isCurrent)
+            -- Slightly desaturate or darken inactive tab icons
+            tabButton.Icon:SetDesaturated(not isCurrent)
+            tabButton.Icon:SetAlpha(isCurrent and 1.0 or 0.75)
+        end
+    end
+end
