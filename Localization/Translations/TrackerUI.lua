@@ -230,7 +230,7 @@ local trackerUILocales = {
     -- "Set TomTom Target" is in the Tracker.lua inside the Translations/Options directory
     ["Minimize Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Suche minimieren",
+        ["deDE"] = "Quest minimieren",
         ["esES"] = "Minimizar misión",
         ["esMX"] = "Minimizar misión",
         ["frFR"] = "Minimiser la quête",
@@ -314,7 +314,7 @@ local trackerUILocales = {
     },
     ["Link Achievement to chat"] = {
         ["enUS"] = true,
-        ["deDE"] = "Verknüpfen Sie den Erfolg mit dem Chat",
+        ["deDE"] = "Erfolg in Chat verlinken",
         ["esES"] = "Vincular logro al chat",
         ["esMX"] = "Vincular logro al chat",
         ["frFR"] = "Lier la réussite au chat",
@@ -326,7 +326,7 @@ local trackerUILocales = {
     },
     ["Untrack Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Questfokussieren entfernen",
+        ["deDE"] = "Quest nicht mehr verfolgen",
         ["esES"] = "No rastrear misión",
         ["esMX"] = "No rastrear misión",
         ["frFR"] = "Annuler le suivi",
@@ -338,7 +338,7 @@ local trackerUILocales = {
     },
     ["Untrack Achievement"] = {
         ["enUS"] = true,
-        ["deDE"] = "Erfolg aufheben",
+        ["deDE"] = "Erfolg nicht mehr verfolgen",
         ["esES"] = "No rastrear logro",
         ["esMX"] = "No rastrear logro",
         ["frFR"] = "Annuler le suivi des réalisations",
@@ -350,7 +350,7 @@ local trackerUILocales = {
     },
     ["Abandon Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Suche aufgeben",
+        ["deDE"] = "Quest abbrechen",
         ["esES"] = "Abandonar misión",
         ["esMX"] = "Abandonar misión",
         ["frFR"] = "Abandonner la quête",
