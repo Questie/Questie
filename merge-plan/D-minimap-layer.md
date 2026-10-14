@@ -16,6 +16,17 @@ Checked before writing:
 - `busted Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua` on B: 6 passed.
 - HereBeDragons-Pins and the six TOCs were 3-way merged with `git merge-file` on scratch copies. The repo was not touched.
 
+**Aligned with `01-architecture.md` and Area F (`F-seams.md`).** `MinimapCanvas` is one of the four shared map seams. It is the minimap's twin of F's `WorldMapLayers`: the same layer names, one order table, top-down claims and the same gamepad rule.
+- **What changed since `e71e6dd38`:** F §10's D delta.
+  - `MinimapLayer.Hover` returns a claim, and each layer beneath gets nil once (§3).
+  - `_ReadCursor` returns nil in the gamepad UI (§3).
+  - There is a new canvas test (§5).
+  - C2 names its `QuestiePolygon` edits by statement, because F-2 and F-3 shift B's lines (§4b).
+  - R10 is resolved (§8), and §9 names Areas A and F.
+  - D-C1 now depends on F-1 (§4b).
+- **Unchanged:** the `CORNER-*` decision, the asset, the HereBeDragons plan, and Phase 1 ("no D changes").
+- **Disagreements with F** are listed at the end, under "Open issues with Area F".
+
 ## 1. Problem
 
 ### What each branch does today
@@ -81,7 +92,7 @@ The cost is visual and structural:
 | `ShapeMask` | **WP** | See the `CORNER-*` evidence below. |
 | Hook | **WP** | It drives one mask. B's list exists only because B could create several layers. |
 | `_IsSecret` | identical, but both have gaps | See §3, "Secret values". |
-| Hover | **WP**, the only one | Keep the mechanics (cursor, focus, shape, change detection) in the shared module. Keep the hit test in WP. |
+| Hover | **WP**, the only one | Keep the mechanics (cursor, focus, shape, change detection) in the shared module, and add F's claim and gamepad rules there. Keep the hit test in WP. |
 | Error handling | **WP** order | Clearing can invalidate the layer: WP's `Clear` ends the hover, which changes the highlight, which calls `Invalidate`. So the layer must be turned off *last*. |
 | OnHide | **WP** | Ends the hover when the minimap hides. |
 | Asset path | **WP** | Built from `QuestieLib.AddonPath`. |
@@ -94,6 +105,7 @@ The cost is visual and structural:
 - **WP weaknesses:**
   - Its alignment oracle is self-made.
   - Hover treats any hooked asset other than the `WHITE8X8` path string as round (WP 294). SexyMap squares its minimap by passing FileDataID `130871`, so a SexyMap square minimap draws paths into its corners but cannot hover them there.
+  - Hover has no gamepad rule (WP 283-285), so in Forever's gamepad UI the hidden mouse cursor still hovers paths. The minimap path tooltip is private (WP `WaypointHover.lua:45-51`), so GameTooltip taint is not the problem. The problem is that the mouse cursor is not what the player points with.
 - **B strengths:** the real-HBD alignment test, the injected collector, and bounds-based culling of large areas (B test 227-235).
 - **B weaknesses:**
   - per-frame refiltering while walking
@@ -132,12 +144,35 @@ So **`CORNER-X` is a square minimap with one round quarter X**, `SIDE-X` has two
 
 | Module | Owns | Public interface |
 |---|---|---|
-| **`MinimapCanvas`** (new, `Modules/Map/MinimapCanvas.lua`) | root frame, per-layer containers, stacking, shape mask, `SetMaskTexture` hook, player mask, one per-frame sample, projection and drift policy, container placement, cursor reading, error isolation, show and hide | `AddLayer`, `Invalidate`, `Project`, `InReach`, `ShapeMask` (and `Unproject`, which lands with Area A's first caller) |
+| **`MinimapCanvas`** (new, `Modules/Map/MinimapCanvas.lua`, shared core) | root frame, per-layer containers, stacking, shape mask, `SetMaskTexture` hook, player mask, one per-frame sample, projection and drift policy, container placement, cursor reading with the bare-minimap and gamepad rules, the top-down hover offer with claims, error isolation, show and hide | `AddLayer`, `Invalidate`, `Project`, `InReach`, `ShapeMask` (and `Unproject`, which lands with Area A's first caller) |
 | `WaypointMinimap` (WP, slimmed) | the paths layer: route choice per route, culling to runs, styling, restyling, hit test | `Invalidate()` |
 | `PolygonMinimap` (B, slimmed) | the areas layer: world-yard outline cache, area culling, styling, view reuse | `New(collect)` → `{Invalidate, Clear}`, `WorldOutline` |
 | `WaypointRenderer`, `PolygonRenderer` | unchanged; each draws into its layer's container with the canvas masks | unchanged |
 
 Each layer keeps its own drawing logic and renderer. The canvas owns everything that must be identical for the layers to line up with each other and with HereBeDragons' icons.
+
+The canvas sits directly in `Modules/Map/`, so F's import guard treats it as shared core (F 3.7). It imports only core modules (`QuestieLib`, `QuestieCompat`) and the HereBeDragons libraries through `LibStub`. Both features import it; it imports neither.
+
+### One family with `WorldMapLayers`
+
+`MinimapCanvas` and F's `WorldMapLayers` are two stacks that follow one set of rules. F 3.2's table, "Symmetry with `MinimapCanvas`", compares them row by row. Both plans use the same terms:
+- **Layer:** one kind of drawing, named `"areas"` or `"paths"` on both maps (`MinimapLayerName`, `WorldMapLayerName`). Each feature adds its own layer and keeps its own drawing.
+- **Order:** `LAYER_ORDER`, bottom to top. A layer's position in that table sets both its frame level and its place in the top-down hover offer. So a layer drawn above another wins the cursor over it.
+- **Claim:** `Hover` returns true when something of the layer's lies under the cursor. The first layer from the top that claims the cursor keeps it. Each layer beneath that had the cursor gets `Hover(nil)` once.
+- **Invalidate:** `Invalidate(name)` says the layer's content changed, and it resumes a layer that failed.
+  - On the minimap, the layer collects and draws again, and that draw offers the cursor again.
+  - On the world map, where each feature draws on Blizzard's canvas, it only offers the cursor again.
+- **Frame level:** it comes from the order and is never chosen by a feature.
+  - On the world map, a layer reads `WorldMapLayers.FrameLevel(name)`.
+  - On the minimap, the layer's container carries the level, and both renderers read `container:GetFrameLevel()` at draw time.
+
+The differences come from the surfaces:
+- The canvas owns a real surface: the root, masks, projection and containers. `WorldMapLayers` draws nothing.
+- The minimap cursor is `x, y` in projected units, not a cursor table.
+  - Each layer has drawn with the projection the canvas offers the cursor against, in the same update.
+  - So no layer can hover a stale drawing, and F's R1 has no minimap counterpart.
+- `Hover` is optional on the minimap, because minimap areas don't hover (A 3.1). A layer without `Hover` is never offered the cursor and never claims it.
+- `_ReadCursor` checks focus and the gamepad UI every frame that a layer hovers, so UI that covers a still cursor ends the hover at once. The world map notices only on the next move (F's R2). WP's minimap already checks focus every frame (WP 285, called through 408).
 
 ### `MinimapCanvas` API (LuaCATS)
 
@@ -146,7 +181,9 @@ Each layer keeps its own drawing logic and renderer. The canvas owns everything 
 ---One masked drawing surface over the minimap, shared by Questie's minimap layers: objective areas
 ---and patrol paths. Each frame it samples the player and the minimap view once for every layer,
 ---projects world yards the way HereBeDragons-Pins places minimap icons, and moves each layer's
----container under the player. Nothing here takes mouse input or calls protected API.
+---container under the player. It offers the cursor to the layers top down, as WorldMapLayers does on
+---the world map: a layer drawn above another wins the cursor over it, and everything with mouse focus
+---above the minimap wins over every layer. Nothing here takes mouse input or calls protected API.
 ---@class MinimapCanvas
 local MinimapCanvas = QuestieLoader:CreateModule("MinimapCanvas")
 
@@ -167,24 +204,25 @@ local MinimapCanvas = QuestieLoader:CreateModule("MinimapCanvas")
 ---@field sin number
 ---@field cos number
 
----One kind of drawing on the canvas. The canvas calls these only from its own update, as plain
----functions. An error in one is reported, the layer is cleared, and it stays off until its next
----Invalidate, while the other layers keep drawing.
+---One kind of drawing on the canvas, at its place in LAYER_ORDER. The canvas calls these only from
+---its own update, as plain functions. An error in one is reported, the layer is cleared, and it stays
+---off until its next Invalidate, while the other layers keep drawing and hovering.
 ---@class MinimapLayer
 ---@field Collect fun(): boolean After an Invalidate: gathers what should show, wherever it lies, and releases drawings of what no longer should. True while anything should show. Draws nothing.
 ---@field Draw fun(projection: MinimapProjection?) Shows what lies within projection.reach of its origin and hides the rest. nil hides everything until the next call with a projection.
 ---@field Clear fun() Releases every drawing and ends any hover.
----@field Hover fun(x: number?, y: number?)? The cursor in projected units, relative to the projection origin; nil while it is off the bare minimap, outside its shape, or nothing can be drawn. Called top layer first, only when the cursor moved against the drawing: the cursor or the player moved, or the layer drew again.
+---@field Hover? fun(x: number?, y: number?): boolean Hovers what lies under the cursor and returns whether anything does: the layer claims the cursor, and the layers beneath get nil. x and y are projected units relative to the projection origin. nil ends the layer's hover; it comes once, when the layer stops getting the cursor. Offered top layer first, only when the cursor moved against the drawings (the cursor or the player moved) or a layer drew or stopped. A layer without Hover never claims.
 
 ---Adds a layer, creating the canvas over the minimap on first use. Drawing starts on its first
 ---Invalidate. Errors when the canvas cannot be created; the minimap is optional, so callers pcall.
 ---@param name MinimapLayerName
 ---@param layer MinimapLayer
----@return Frame container The layer's renderer canvas: it moves with the player, so projected units are TOPLEFT offsets. Its frame level puts it above the layers beneath it.
+---@return Frame container The layer's renderer canvas: it moves with the player, so projected units are TOPLEFT offsets. Its frame level comes from LAYER_ORDER, as the hover order does, so it draws above the layers beneath it.
 ---@return MaskTexture[] masks The minimap's shape and the hole over the player arrow. Add both to every texture.
 function MinimapCanvas.AddLayer(name, layer) end
 
----The layer's Collect runs on the next update, after its data, visibility or settings changed.
+---The layer's Collect runs on the next update, after its data, visibility or settings changed. A
+---layer that failed resumes. What it then draws is offered the cursor again.
 ---@param name MinimapLayerName
 function MinimapCanvas.Invalidate(name) end
 
@@ -225,8 +263,11 @@ function MinimapCanvas.Unproject(projection, x, y) end
 ### Core of the canvas (sketch)
 
 ```lua
--- Stacking, bottom to top. Each layer's container sits one level above the one before it, so paths
--- cross areas. Questie's minimap icons stay far above at 2016+ (QuestieMap.utils.SetDrawOrder).
+-- The layers, bottom to top. Each layer's container sits one level above the one before it, so paths
+-- cross areas, and the cursor is offered top down in the same order: draw order and hover order both
+-- come from this table, as in WorldMapLayers. A new drawing feature adds one name. Questie's minimap
+-- icons stay far above at 2016+ (QuestieMap.utils.SetDrawOrder).
+---@type MinimapLayerName[]
 local LAYER_ORDER = {"areas", "paths"}
 -- Everything visible lies within √2 view radii of the player: a square minimap's corners. Drawings
 -- within REACH radii of the origin cover that view while the player stays within DRIFT radii of
@@ -235,18 +276,20 @@ local REACH, DRIFT = 2, 0.5
 local PLAYER_MASK = QuestieLib.AddonPath .. "Icons\\minimap-player-mask.tga"
 
 local function _Update()
-    -- 1. Collect invalidated layers. A layer that collected nothing stops: Hover(nil), Draw(nil).
+    -- 1. Collect invalidated layers. A layer that collected nothing stops: Hover(nil) if it had the
+    --    cursor, then Draw(nil).
     -- 2. No active layer: root:Hide() and return; it costs nothing per frame until Invalidate.
     -- 3. One sample: HBD:GetPlayerWorldPosition, HBDPins:GetMinimapView, GetPlayerFacing while
-    --    rotating, minimap width and height. Nil, secret, radius <= 0 or zero size: every
-    --    active layer gets Hover(nil) and Draw(nil); return.
+    --    rotating, minimap width and height. Nil, secret, radius <= 0 or zero size: _Offer(nil),
+    --    so each layer that had the cursor gets Hover(nil) once; every active layer gets Draw(nil);
+    --    return.
     -- 4. New projection for a new instance, radius, facing, size, or drift > DRIFT * radius
     --    (Chebyshev). Every layer must draw again.
     -- 5. Draw(projection) for each active layer that collected or must draw again.
     -- 6. Player moved: offset = -Project(projection, player); SetPoint every container at
     --    TOPLEFT of minimap CENTER (offsetX, -offsetY).
-    -- 7. Cursor once. For each active layer with Hover, top first: call it when the cursor changed
-    --    or the layer drew.
+    -- 7. Cursor once, only while an active layer has Hover. When the cursor or the player moved
+    --    (both change the cursor in projected units), or any layer drew or stopped, _Offer it.
 end
 ```
 
@@ -260,13 +303,43 @@ local function _Call(state, method, ...)
     local cleared, clearErr = pcall(state.layer.Clear)
     if not cleared then Questie.Error("Minimap " .. state.name .. " cleanup failed:", clearErr) end
     -- Last: clearing may invalidate the layer, as ending a hover changes a highlight.
-    state.dirty, state.active, state.drawn, state.cursorX, state.cursorY = false, false, false, nil, nil
+    state.dirty, state.active, state.drawn, state.offered = false, false, false, false
 end
 ```
 
-An error in the canvas's own `_Update` is reported once. Then every layer is cleared and turned off, and the root is hidden last. `OnHide` (for example, the minimap toggle key) delivers `Hover(nil)`. It keeps the drawings, because the hidden parent hides them anyway.
+The offer mirrors `WorldMapLayers`' `_Offer` (F 3.2), over `LAYER_ORDER`'s names:
 
-`_ReadCursor` is WP 283-298 moved into the canvas, with two changes:
+```lua
+-- Offers the cursor top down: the first layer that claims it keeps it, and each layer beneath that
+-- last had it gets nil once. A layer that is off, or has no Hover, takes no part.
+---@param x number?
+---@param y number?
+local function _Offer(x, y)
+    local claimed = false
+    for i = #LAYER_ORDER, 1, -1 do
+        local state = states[LAYER_ORDER[i]]
+        if state and state.active and state.layer.Hover then
+            if x and not claimed then
+                state.offered = true
+                claimed = _Call(state, "Hover", x, y) == true
+            elseif state.offered then
+                state.offered = false
+                _Call(state, "Hover", nil, nil)
+            end
+        end
+    end
+end
+```
+
+- **A failing `Hover` claims nothing.** `_Call` returns nil, so the layers beneath get the cursor in the same offer. `Clear` has already ended the failed layer's hover, so it needs no `Hover(nil)`. This is the same rule as F's `_Hover`.
+- **A canvas failure:** an error in the canvas's own `_Update` is reported once. Then every layer is cleared and turned off, and the root is hidden last.
+- **`OnHide`** (for example, the minimap toggle key) calls `_Offer(nil)`, so each layer that had the cursor gets `Hover(nil)` once. The last cursor is forgotten. The drawings stay, because the hidden parent hides them anyway.
+
+`_ReadCursor` is WP 283-298 moved into the canvas, with three changes:
+- **The gamepad rule comes first.** It returns nil while `QuestieCompat.IsGamepadUIEnabled()` (added by F-1, next to `GetMouseFocus` at WP `Modules/QuestieCompat.lua:292`), before the focus check, as F's `_Cursor` does.
+  - In Forever's gamepad UI, the mouse cursor is hidden, and it is not what the player points with.
+  - The check is false on every Classic client, whose `InputUtil` lacks `IsGamepadUIEnabled` (F 3.2).
+  - This is decision A-4 on the minimap.
 - It also guards `IsMouseOver` and `GetEffectiveScale` with `_IsSecret`.
 - Corners count as hoverable when `ShapeMask() == SQUARE_MASK` **or** `GetMinimapShape() == "SQUARE"`. That fixes SexyMap's FileDataID square and any other square asset (commit C3).
 
@@ -278,7 +351,7 @@ An error in the canvas's own `_Update` is reported once. Then every layer is cle
   - `_Runs` uses `MinimapCanvas.Project` and `projection.reach`
   - styles read `container:GetFrameLevel()` as today
   - `Draw(nil)` publishes `{}` and empties `targets`
-- `layer.Hover(x, y)` is today's 307-309: `WaypointGeometry.Nearest` against `targets`, then `WaypointHover.Set("minimap", path, path and path.owner.minimapTwin)`.
+- `layer.Hover(x, y)` is today's 307-309: `WaypointGeometry.Nearest` against `targets`, then `WaypointHover.Set("minimap", path, path and path.owner.minimapTwin)`. It returns `path ~= nil`, which is its claim.
 - `layer.Clear` is today's 412-418.
 - `WaypointMinimap.Invalidate()` keeps the lazy setup:
   - on the first call: `pcall(MinimapCanvas.AddLayer, "paths", layer)`, then `WaypointRenderer.New(container, masks)`, with the `setupFailed` latch
@@ -291,11 +364,12 @@ An error in the canvas's own `_Update` is reported once. Then every layer is cle
   - `_View` projects outline points with `MinimapCanvas.Project`.
   - `Draw(nil)` publishes `{}`.
 - `layer.Clear` is today's 336-341, then `MinimapCanvas.Invalidate("areas")`. After `QuestiePolygon.Reset`, the canvas then finds nothing and hides itself. In the error path, the canvas's last-word deactivation overrides that invalidate.
-- `layer.Invalidate` is `MinimapCanvas.Invalidate("areas")`.
-- `QuestiePolygon` changes three lines (B 380, 517, 1010):
-  - `minimapLayer.Invalidate()`
-  - `pcall(minimapLayer.Clear)`
-  - `pcall(PolygonMinimap.New, _CollectMinimapAreas)`
+- The areas layer has no `Hover`, because minimap areas don't hover (A 3.1). The canvas never reads the cursor for them. Adding minimap area hover later means adding a `Hover` to this layer; the canvas doesn't change.
+- The returned `Invalidate` is `MinimapCanvas.Invalidate("areas")`.
+- `QuestiePolygon` changes three statements. They are named by content, because F-2, F-3 and C-F1 shift B's line numbers first:
+  - `minimapLayer:Invalidate()` in `ScheduleRefresh` (B 380) → `minimapLayer.Invalidate()`;
+  - `pcall(minimapLayer.Clear, minimapLayer)` in `Reset` (B 517) → `pcall(minimapLayer.Clear)`;
+  - `pcall(PolygonMinimap.New, Minimap, _CollectMinimapAreas)` in the provider block (B 1010) → `pcall(PolygonMinimap.New, _CollectMinimapAreas)`. After F-2 and F-3, that block also holds `WorldMapLayers.AddLayer("areas", …)` and the `_FollowIcons` call. C2 leaves both alone.
 - Removed: `Project`, `IsInView`, `VIEW_MARGIN`, the shape and mask code, the hook, the sample, the root and the OnUpdate.
 
 ### Data flow
@@ -309,7 +383,9 @@ root OnUpdate, once per frame:
   one sample (HBD position, HBDPins:GetMinimapView, facing, minimap size; nil or secret ─► Draw(nil))
   projection (new view or drift > ½ radius) ─► Draw(projection) for layers that must draw
   player moved ─► every container to minimap CENTER − Project(player)
-  cursor (bare minimap, inside shape) ─► Hover(x, y), top layer first, when changed
+  cursor, while a layer has Hover (nil in the gamepad UI, off the bare minimap or outside its shape)
+    ─► when the cursor or the player moved, or a layer drew or stopped: offer it top down
+    ─► the first Hover that returns true claims it; each layer beneath that had it gets nil once
 
 Minimap:SetMaskTexture post-hook (installed at file load) ─► shape mask asset ─► the one shape mask
 ```
@@ -319,8 +395,9 @@ Minimap:SetMaskTexture post-hook (installed at file load) ─► shape mask asse
 - The root sits at `Minimap:GetFrameLevel() + 1`, as on both branches today.
 - The **areas** container is at the root's level. The **paths** container is one above. Views take their container's level, which both renderers already read at draw time (WP 252, B 228).
   - Containers are frames, so a later shift of the minimap's level moves them together. A precomputed number would not.
+- Hover follows the same order: the canvas offers the cursor to `LAYER_ORDER` from the top. Paths therefore win the cursor over areas by construction, as A 3.2 decides.
 - Questie's minimap icons are fixed at 2016+ (WP `QuestieMapUtils.lua:53-72`, applied to minimap icons at WP `QuestieMap.lua:370`). They stay far above both layers.
-- This matches the world map, where areas sit at `PIN_FRAME_LEVEL_QUEST_BLOB`, below paths at 2015 (WP `WaypointMap.lua:18`), below icons at 2016+.
+- This matches the world map. There, `WorldMapLayers`' `LAYER_ORDER` puts areas at `PIN_FRAME_LEVEL_QUEST_BLOB` and paths at 2015, below icons at 2016+ (F 3.2). Today the paths' level is WP `WaypointMap.lua:17-18`, which F-1 deletes.
 - HBD parents minimap pins to `Minimap` without setting a level (WP `HereBeDragons-Pins-2.0.lua:616`). Other addons' pins therefore default to Minimap + 1: tied with areas, below paths.
 - Blizzard's `MinimapBackdrop` is a child of `Minimap` at Minimap + 1 on Era (`classic_era Classic/Minimap.xml:209`, north tag at 225) and Forever (`forever Mainline/Minimap.xml:240`). Its zoom buttons sit at + 2 on Era (290).
   - WP's doc (`docs/waypoints.md:221`) says paths sit "below … the bezel and buttons". That is wrong even today: it is a tie.
@@ -391,21 +468,30 @@ B's test file, `HereBeDragons-Pins-2.0.test.lua`, stays. Its view test (217-227)
 
 1. One sample per frame. Every layer draws with the same projection object, and every container sits at the same offset, so the layers line up with each other and with HBD's icons.
 2. Drawings exist for everything within `reach` (2 r) of the origin. Reprojection happens before the player drifts 0.5 r, so the visible minimap is always covered.
-3. Areas stack below paths, which stack far below Questie's icons. The order lives in one table.
+3. Areas stack below paths, which stack far below Questie's icons. One table, `LAYER_ORDER`, sets both the container levels and the hover order.
 4. Every texture carries both masks. The shape mask follows the last `SetMaskTexture` asset. The fallback is never wider than an accurately reported shape.
-5. A failing layer never stops another layer or the addon. It resumes on its next `Invalidate`.
+5. A failing layer never stops another layer or the addon, and it never claims the cursor. It resumes on its next `Invalidate`.
 6. The root is shown only while some layer is dirty or active.
-7. A layer that has hovered gets `Hover(nil)` whenever hover can no longer be computed: hidden minimap, no position, inactive, or an error (through `Clear`).
+7. At most one layer hovers: the first from the top whose `Hover` claims the cursor.
+8. A layer that had the cursor gets `Hover(nil)` exactly once when it stops getting the cursor. That happens when:
+   - a layer above claims it;
+   - the cursor leaves the bare minimap or its shape;
+   - the gamepad UI is on;
+   - the minimap hides, or the position is lost;
+   - the layer stops.
+
+   On an error, `Clear` ends the hover instead. A layer that never had the cursor is not called.
 
 ### Why this holds up without overbuilding
 
-- A third layer, such as an objective radius or a route to the turn-in, needs one name in `LAYER_ORDER` and the four callbacks.
+- A third layer, such as an objective radius or a route to the turn-in, needs one name in `LAYER_ORDER` and the callbacks (`Hover` only if it hovers). Its position in that table sets both its level and its hover precedence, as a third world map layer's row does in `WorldMapLayers` (F 3.9).
 - There is no generic renderer, no per-layer policy and no event bus.
 - The interface is five functions plus a four-callback contract. Behind it sit about 250 lines that both features need identically.
 - WP's file shrinks from 486 lines to about 250, and B's from 386 to about 170.
 
 **Rejected alternatives:**
 - **Share helpers only, keeping two roots.** That still means two hooks, two samples and two OnUpdates, and the stacking still needs a decision. It fails the brief.
+- **One module for both maps' layers.** The two maps share rules, not code. The minimap needs a surface, a projection and masks, while the world map's layers draw on Blizzard's canvas. F 3.2 keeps two modules with one vocabulary.
 - **Per-layer projection policies.** Areas work under the paths' drift policy, so a second policy has no consumer.
 - **Each layer reads the sample and positions itself.** The duplication comes back.
 - **A canvas-owned generic renderer for lines and polygons.** The renderers differ fundamentally: vertex-offset quads versus triangles and `DrawLine`. It would be a large rewrite for no gain.
@@ -433,24 +519,41 @@ After the rebase, at the stacked tip:
 
 Each commit passes its touched tests, luacheck and the loader validator.
 
+**Place in Phase 2.** F-1 to F-6 open Phase 2 (F 4(b)). D's commits follow them, in the README's Group 4.
+
+| Commit | Depends on | Why |
+|---|---|---|
+| C1 | Phase 1 and **F-1** | `_ReadCursor` calls `QuestieCompat.IsGamepadUIEnabled()`, which F-1 adds. Shared files, as neighbors only: F-1, E-F3 and C1 each add a line after `Modules\Map\Moonwell.lua` in the six TOCs. F-1 edits `docs/waypoints.md:46`, `:185` and `:202-207`; C1 edits `:47`, `:54` and `:211-231`. |
+| C2 | C1, F-2, F-3 and C-F2 | C1 creates the canvas. F-2 and F-3 rewrite `QuestiePolygon`'s provider block and `QuestiePolygon.test.lua`'s `before_each`, which C2 also edits (text only). C-F2 edits the README section C2 rewrites (`Polygon/README.md:47`), as the README's dependency list says. |
+| C3 | C1 | It changes the canvas's `_ReadCursor`. |
+| C4 (optional) | none | If it moves the `PolygonNudging` case, it lands before F-7, or after it with F-7's `Modules/Map/Polygon/` paths. F 3.8 item 6 already says "unless D-C4 moved that case". |
+
+- **Nothing else.** B-F1 and B-F2 edit `WaypointHover.lua`, not the minimap modules. E-F3 doesn't touch `WaypointMinimap.test.lua`, which stubs `WaypointRenderer.New` (WP test :125).
+- **C1 can move up to right after F-6,** which would put all four seams first (F 4(b)). C2 still waits for C-F2.
+- **The guard applies.** C1 and C2 land after F-6, so the import guard checks them. The canvas is shared core and imports no feature (§3).
+
 **C1 `refactor(waypoints): draw minimap paths on a shared MinimapCanvas`**
-- Add `Modules/Map/MinimapCanvas.lua` (API above, both `LAYER_ORDER` entries) and `Modules/Map/MinimapCanvas.test.lua`.
-- In all six TOCs (`Questie_Vanilla`, `_TBC`, `_Wrath`, `_Cata`, `_Mists`, `_Camelot`), add `Modules\Map\MinimapCanvas.lua` after `Modules\Map\Moonwell.lua`. That is before `# Waypoints` and after `Modules\Libs\QuestieLib.lua`, which the file-scope `PLAYER_MASK` needs.
-- `Modules/Map/Waypoints/WaypointMinimap.lua`: move onto the canvas as described.
+- Add `Modules/Map/MinimapCanvas.lua` (API above, both `LAYER_ORDER` entries, the top-down offer with claims, and the gamepad rule) and `Modules/Map/MinimapCanvas.test.lua`.
+- In all six TOCs (`Questie_Vanilla`, `_TBC`, `_Wrath`, `_Cata`, `_Mists`, `_Camelot`), add `Modules\Map\MinimapCanvas.lua` after `Modules\Map\Moonwell.lua`.
+  - It can sit in any order beside `WorldMapLayers.lua` (F-1) and `MapGeometry.lua` (E-F3).
+  - That is before `# Waypoints` and after `Modules\Libs\QuestieLib.lua`, which the file-scope `PLAYER_MASK` needs. `Modules\QuestieCompat.lua` loads far earlier (WP `Questie_Vanilla.toc:42`).
+- `Modules/Map/Waypoints/WaypointMinimap.lua`: move onto the canvas as described. `layer.Hover` returns its claim.
 - `Modules/Map/Waypoints/WaypointMinimap.test.lua`: see §5.
 - `docs/waypoints.md`: see §6.
 - Behavior changes, named in the commit body:
-  - paths move from Minimap + 1 to + 2, above where areas will sit
-  - secret guards on size, scale and `IsMouseOver`
-- Optionally this commit lands on `waypoints` before it merges to master. That is David's call (§8).
+  - Paths move from Minimap + 1 to + 2, above where areas will sit.
+  - Secret guards on size, scale and `IsMouseOver`.
+  - **The gamepad rule:** in Forever's gamepad UI, minimap paths no longer hover from the hidden mouse cursor (decision A-4).
+- Optionally this commit lands on `waypoints` before it merges to master. That is David's call (§8, R4). It would then need F-1's `QuestieCompat.IsGamepadUIEnabled` there too.
 
 **C2 `refactor(polygon): draw minimap areas on the shared MinimapCanvas`**
-- `Polygon/PolygonMinimap.lua`: move onto the canvas. Add a header doc.
+- `Polygon/PolygonMinimap.lua`: move onto the canvas, with no `Hover`. Add a header doc.
 - `Polygon/PolygonMinimap.test.lua`: see §5.
-- `Polygon/QuestiePolygon.lua`: B 380 `minimapLayer.Invalidate()`, 517 `pcall(minimapLayer.Clear)`, 1010 `pcall(PolygonMinimap.New, _CollectMinimapAreas)`.
-- `Polygon/QuestiePolygon.test.lua`: line 88, stub `function(collect)` instead of `function(_minimap, collect)`.
+- `Polygon/QuestiePolygon.lua`: the three statements in §3, named by content. F-2, F-3 and C-F1 move B's lines 380, 517 and 1010 first.
+- `Polygon/QuestiePolygon.test.lua`: the `PolygonMinimap.New` stub (B :88) takes `function(collect)` instead of `function(_minimap, collect)`. F-2 and F-3 add their `WorldMapLayers` and `Subscribe` stubs to the same `before_each` first.
 - Delete `Icons/polygon-minimap-player-mask.tga`.
 - `Polygon/README.md`: see §6.
+- `docs/waypoints.md`: the two minimap facts in §Polygon areas (§6).
 - Behavior changes:
   - the `CORNER-*` fallback uses the round mask
   - areas are culled by reach around the origin and redrawn on reprojection, not filtered every moving frame
@@ -477,7 +580,7 @@ Precedent for loading real pure dependencies: WP's test loads `QuestieLib` and `
 - The canvas test uses fake layers.
 - The layer tests load the real canvas and drive its root's OnUpdate. They capture the root from the `CreateFrame` mock.
 
-**Add `Modules/Map/MinimapCanvas.test.lua`.** It uses the real `HereBeDragons-Pins-2.0.lua` with B's globals set (B test 5-8, 97-154). Each test proves one rule:
+**Add `Modules/Map/MinimapCanvas.test.lua`.** It uses the real `HereBeDragons-Pins-2.0.lua` with B's globals set (B test 5-8, 97-154). It stubs `QuestieCompat.GetMouseFocus` and `IsGamepadUIEnabled` through `QuestieLoader`, as WP's test stubs `GetMouseFocus` (WP test :99). Its fake layers record their calls and return a set claim. Each test proves one rule:
 
 1. *Places drawings exactly where HereBeDragons-Pins places minimap icons, while walking, turning, zooming and resizing, north-up or rotating.*
    - `container offset + Project(point)` equals the anchor of an HBD icon at that point.
@@ -487,25 +590,31 @@ Precedent for loading real pure dependencies: WP's test loads `QuestieLib` and `
 3. *Projects again for a new zoom, size, instance or rotating facing; ignores facing on a north-up minimap; does no work standing still* (WP 268-278, B 194-202).
 4. *Samples the player and the minimap view once per frame for every layer, and hands both layers the same projection.* Spies on `GetPlayerWorldPosition` with two fake layers. New.
 5. *`InReach`:* overlap, a large area reaching in only by its edge, another instance, just outside the reach (B 227-235 logic).
-6. *Without a position, radius, size or facing, or while any is secret, every layer gets `Hover(nil)` and `Draw(nil)`, then draws again when they return* (WP 381-396, B 237-261; secrets new).
+6. *Without a position, radius, size or facing, or while any is secret, the layer that had the cursor gets `Hover(nil)` once and every layer `Draw(nil)`, then they draw again when the values return* (WP 381-396, B 237-261; secrets new).
 7. *Idles without anything to draw, until a layer is invalidated* (WP 280-287, B 267-271).
 8. *Stacks areas beneath paths, both above the minimap and below Questie's icon level* (container levels against `Minimap` level and 2016). New.
 9. *Isolates a failing layer.*
    - Reports it once, clears it, and keeps the other layer drawing.
    - The failed layer stays off even though its `Clear` invalidated it, and resumes on the next `Invalidate`.
+   - A layer whose `Hover` fails claims nothing, so the layer beneath gets the cursor in the same offer.
    - From WP 398-415 and B 295-312.
-10. *Reports the cursor in projected units over the bare minimap at its UI scale, again when the player walks under a still cursor, and after the layer draws again* (WP 316-328, 355-363).
-11. *Reports no cursor while other UI covers the minimap, or outside a round minimap's shape* (WP 330-353).
-12. *Ends hover when the minimap hides* (WP 394-395).
-13. *Masks with the asset passed to `Minimap:SetMaskTexture`, also after the canvas exists, keeps outside the rectangle black, and never breaks that call* (WP 421-429, B 332-358).
-14. *Falls back to `GetMinimapShape`.* This is **the decision test**.
+10. *Reports the cursor in projected units over the bare minimap at its UI scale, again when the player walks under a still cursor, and after a layer draws again* (WP 316-328, 355-363).
+11. *Reports no cursor in the gamepad UI, while other UI covers the minimap, or outside a round minimap's shape* (WP 330-353). The gamepad case stubs `IsGamepadUIEnabled` to return true, with the focus on `Minimap`.
+12. *Offers the cursor top down: a hovering layer gives the layers beneath nil once.* New, with two fake layers that both hover.
+    - While paths claim nothing, areas get the cursor.
+    - Once paths claim it, areas get `Hover(nil)` once, and no call on the next move.
+    - When paths stop claiming, areas get the cursor again in that same offer.
+    - This mirrors `WorldMapLayers` test 1 (F §5).
+13. *Ends hover when the minimap hides*: the layer that had the cursor gets `Hover(nil)` once (WP 394-395).
+14. *Masks with the asset passed to `Minimap:SetMaskTexture`, also after the canvas exists, keeps outside the rectangle black, and never breaks that call* (WP 421-429, B 332-358).
+15. *Falls back to `GetMinimapShape`.* This is **the decision test**.
     - `SQUARE` gives `WHITE8X8`.
     - `CORNER-TOPLEFT`, `SIDE-LEFT` and `TRICORNER-TOPLEFT` give the round mask.
     - Forever's atlas is used when `C_Texture` knows it.
     - From WP 431-444 and B 320-330, with B's `CORNER` expectation flipped.
-15. *Leaves a soft hole over the player arrow.* `QuestieLib.AddonPath .. "Icons\\minimap-player-mask.tga"`, `CLAMP`, centred, 38 px (B 347-351).
-16. C3: *Hovers a square minimap's corners when `GetMinimapShape` reports `SQUARE`, even with a FileDataID mask asset (`130871`).*
-17. With Area A's caller: *`Unproject` inverts `Project` on a rotated, non-square minimap.*
+16. *Leaves a soft hole over the player arrow.* `QuestieLib.AddonPath .. "Icons\\minimap-player-mask.tga"`, `CLAMP`, centred, 38 px (B 347-351).
+17. C3: *Hovers a square minimap's corners when `GetMinimapShape` reports `SQUARE`, even with a FileDataID mask asset (`130871`).*
+18. With Area A's caller: *`Unproject` inverts `Project` on a rotated, non-square minimap.*
 
 **Change `Modules/Map/Waypoints/WaypointMinimap.test.lua`.**
 - Keep 8 path-specific tests:
@@ -517,8 +626,10 @@ Precedent for loading real pure dependencies: WP's test loads `QuestieLib` and `
   - width restyle (238-250)
   - hover hit and reach (305-314)
   - a shared route's copy (365-379)
+- Hover hit and reach also asserts the claim: the layer returns true on the line and false past the reach. Capture the layer with `spy.on(MinimapCanvas, "AddLayer")` and compare `calls[1].refs[2]`, since busted spies deep-copy their arguments (F's R6).
 - Replace `layer.dirty = true` with `WaypointMinimap.Invalidate()`.
-- Move the other 13 into canvas tests 1-3, 6-7 and 9-14: WP 139-153, 252-287, 316-363, 381-445.
+- Stub `QuestieCompat.IsGamepadUIEnabled` (false) beside the `GetMouseFocus` stub (WP :99). The test drives the real canvas, whose `_ReadCursor` calls it.
+- Move the other 13 into canvas tests 1-3, 6-7, 9-11 and 13-15: WP 139-153, 252-287, 316-363, 381-445.
 
 **Change `Polygon/PolygonMinimap.test.lua`.**
 - Slim 162-203 to one walking-and-rotated pass of `AssertOutlineOnIcons`. It proves `WorldOutline`'s per-axis conversion and the configured frames on the canvas.
@@ -527,28 +638,44 @@ Precedent for loading real pure dependencies: WP's test loads `QuestieLib` and `
   - large area (227-235)
   - release and fade (274-293)
 - Slim 237-272 to *skips areas on another instance, without world data, or out of reach*.
-- Move to canvas tests 6-7, 9 and 13-15, with `CORNER` flipped and the AddonPath asset:
+- Move to canvas tests 6-7, 9 and 14-16, with `CORNER` flipped and the AddonPath asset:
   - the position, size and idle parts
   - the failure test (295-312)
   - the three shape tests (314-359)
+- No cursor or `QuestieCompat` stubs are needed. Areas have no `Hover`, so the canvas never reads the cursor for them. B's frame mock (B `PolygonMinimap.test.lua:9-58`) has no `IsMouseOver`, `GetCenter` or `GetEffectiveScale`.
 
-**Change `Polygon/QuestiePolygon.test.lua:88`:** the stub signature only. These need no change: `QuestieQuest.test.lua:592`, `TrackerUtils.test.lua:247`, `QuestieWaypoints.test.lua`, `HereBeDragons-Pins-2.0.test.lua`.
+**Change `Polygon/QuestiePolygon.test.lua`'s `PolygonMinimap.New` stub (B :88):** the signature only. These need no change: `QuestieQuest.test.lua:592` and `TrackerUtils.test.lua:247` (both stub `function()`, and F-2 adds its `WorldMapLayers` stubs beside them), `QuestieWaypoints.test.lua`, and `HereBeDragons-Pins-2.0.test.lua`.
 
 **Delete:** nothing beyond the moves. No test exists only to lock in deleted code.
 
 ## 6. Docs and comments
 
-- **`Modules/Map/MinimapCanvas.lua` header and section comments** are the single source of truth for the shared mechanics: projection, reach and drift, masks and fallback, stacking, the hover rules, errors and lifecycle. Follow the `comment-instructions` and `human-readable-structure` skills. Section order: types, constants, shape, projection, canvas update, public functions.
+Line numbers below are B's and WP's. F-1 to F-5, C-F2 and E-F4 edit `docs/waypoints.md` or `Polygon/README.md` before C1 and C2 do, so find these lines by content.
+
+- **`Modules/Map/MinimapCanvas.lua` header and section comments** are the single source of truth for the shared mechanics:
+  - projection, reach and drift;
+  - masks and fallback;
+  - stacking;
+  - the hover rules: the bare-minimap and gamepad rules, and the top-down offer with claims and nil once;
+  - errors and lifecycle.
+
+  The header names `WorldMapLayers` as the world map's twin, with the same order, claim and gamepad rules. Follow the `comment-instructions` and `human-readable-structure` skills. Section order: types, constants, shape, projection, hover, canvas update, public functions.
 - **`docs/waypoints.md`** (WP):
   - Line 47: `WaypointMinimap` becomes "the paths layer on MinimapCanvas: runs within reach, route choice, cursor hit test".
   - Line 54: add "minimap drawing goes through `MinimapCanvas`, shared with objective areas".
   - §Minimap (211-231):
-    - keep the path-specific bullets (culling to runs, closed patrols, hover specifics, measurements)
-    - replace the Projection, Masks, Layering and Driver bullets with a pointer to the canvas
-    - state the stacking correctly: one level above objective areas, below Questie's icons; Blizzard's backdrop chrome at Minimap + 1 now draws beneath paths
-  - §Polygon areas (273-281): "meant to be reused for polygon areas" becomes done; "Frame levels … decided then" becomes "paths above areas". The `IsLineFrame` and combat bullets belong to Areas A and C.
+    - Keep the path-specific bullets: culling to runs, closed patrols, hover specifics and measurements.
+    - Replace the Projection, Masks, Layering and Driver bullets with a pointer to the canvas.
+    - State the stacking correctly: one level above objective areas, and below Questie's icons. Blizzard's backdrop chrome at Minimap + 1 now draws beneath paths.
+    - Hover (222-230):
+      - Add "nothing hovers in Forever's gamepad UI (`QuestieCompat.IsGamepadUIEnabled`)".
+      - Add "the canvas offers the cursor top down, as `WorldMapLayers` does on the world map; minimap areas don't hover".
+      - Line 225's recheck also runs when another minimap layer draws.
+  - §Polygon areas (273-281): C-F2 rewrites the section as done. A and F own the hover-exceptions bullet (`:279`), and E-F4 owns the world map half of the frame-levels bullet (`:281`). In C2, D adds two minimap facts to that text:
+    - the waypoint minimap layer is reused for areas, as `MinimapCanvas`;
+    - on the minimap, `MinimapCanvas`' `LAYER_ORDER` stacks paths one level above areas, and hover follows that order.
 - **`Polygon/README.md`** (B):
-  - §Minimap areas (34-47): shrink to the area-specific rules and point to the canvas. Fix "within 1.5 view radii of the player" to "within 2 view radii of the projection origin, covering 1.5 radii around the player". Change "`SQUARE` and `CORNER-*` use a square mask" to "only `SQUARE`". Change the asset to `Icons/minimap-player-mask.tga`. Change "beneath Questie's minimap icons" to "beneath patrol paths and Questie's minimap icons".
+  - §Minimap areas (34-47): shrink to the area-specific rules and point to the canvas. Fix "within 1.5 view radii of the player" to "within 2 view radii of the projection origin, covering 1.5 radii around the player". Change "`SQUARE` and `CORNER-*` use a square mask" to "only `SQUARE`". Change the asset to `Icons/minimap-player-mask.tga`. Change "beneath Questie's minimap icons" to "beneath patrol paths and Questie's minimap icons". Line 47's "There is no minimap hover" stays true for areas; say that paths above them hover.
   - Line 81: the `PolygonMinimap` row becomes `New(collect)`.
   - Line 169: "minimap" loads after `MinimapCanvas` in the Map section.
   - Lines 186-188: add `Modules/Map/MinimapCanvas.test.lua` to the test command.
@@ -566,6 +693,7 @@ Precedent for loading real pure dependencies: WP's test loads `QuestieLib` and `
 busted Modules/Map/MinimapCanvas.test.lua
 busted Modules/Map/Waypoints/WaypointMinimap.test.lua Polygon/PolygonMinimap.test.lua
 busted Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua Polygon/QuestiePolygon.test.lua Modules/Map/Waypoints/QuestieWaypoints.test.lua
+busted test/MapFeatureImports.test.lua   # F-6's guard: the canvas is shared core and imports no feature
 luacheck -q -- Database Localization Modules Polygon Public Questie.lua   # CI's file list (blob ci.yml)
 lua cli/validate-loader-usage.lua
 busted -p ".test.lua" .   # full suite, once, before calling it done
@@ -588,6 +716,8 @@ busted -p ".test.lua" .   # full suite, once, before calling it done
    - Moving onto an icon hands the tooltip over.
    - Entering a dungeon ends the hover and hides both layers.
    - The minimap toggle key while hovering ends the hover.
+   - Over a spot where a path crosses an area fill, the path's tooltip shows and nothing of the area does.
+   - **Forever, gamepad UI on** (decision A-4): with the hidden mouse cursor resting on a minimap path, no path tooltip or highlight appears. Turning the gamepad UI off brings the hover back.
 4. **SexyMap, if available.**
    - The Square shape lets lines and areas reach the corners, and C3 makes the corner paths hoverable.
    - The "Rounded - Bottom Right" shape follows the exact mask through the hook.
@@ -603,38 +733,44 @@ busted -p ".test.lua" .   # full suite, once, before calling it done
 | 1 | Paths move from Minimap + 1 to + 2. Inside the mask they now draw over Blizzard's backdrop chrome (Era's "N" tag, Forever's bezel edge) and over other addons' default-level HBD pins. Today they tie, which is undefined. | Accept: deterministic stacking is the point. Check in game (§7.1). No mitigation exists without a level between the minimap and its children. |
 | 2 | Areas adopt the paths' drift policy. They reconfigure all in-reach areas every 0.5 r walked (33–117 yd outdoors and 12–75 yd indoors, by zoom, from HBD's tables) instead of re-filtering every moving frame. | Accept. It is cheaper overall. Measure in a dense objective zone. |
 | 3 | The `CORNER-*` fallback changes B's behavior from overdraw to underdraw. | Take WP's rule (§2). |
-| 4 | Where C1 lands. | **After stacking**, so the waypoints PR stays as reviewed. The alternative lands it on `waypoints` first, so master gets the canvas with its first user. |
+| 4 | Where C1 lands. | **After stacking, after F-1**, so the waypoints PR stays as reviewed. The alternative lands it on `waypoints` first, so master gets the canvas with its first user. That would now also need F-1's `QuestieCompat.IsGamepadUIEnabled` on `waypoints`, which is one more reason to wait. |
 | 5 | Upstreaming HBD changes. | Keep the local patch with markers (C4). An upstream PR for `GetMinimapView` is optional and not blocking. |
 | 6 | C3 changes WP's hover in square-minimap corners. | Include it: it makes hover match what the mask draws. |
 | 7 | A pre-Questie diamond or hexagon mask, which SexyMap reports as `ROUND`, would overdraw with the round fallback. | Accept. SexyMap loads after Questie, so the hook sees its exact asset. |
 | 8 | Layer tests run through the real canvas, so a policy change can ripple into them. | Accept. It mirrors today's tests, which run through real HBD-Pins, and avoids exposing a projection constructor only for tests. |
 | 9 | If the canvas cannot be created, both features lose the minimap. Each reports its own setup error. | Accept. It matches today, where both would fail the same way. |
-| 10 | `Hover` may need a "claimed" result to arbitrate between paths and areas. | Area A decides. It is a two-line change in the canvas's top-down loop. |
+| 10 | `Hover` may need a "claimed" result to arbitrate between paths and areas. | **Resolved: yes, now** (F §10, decision F-8). `Hover` returns its claim, and the layers beneath get nil once (§3). The claim is moot until a second minimap layer hovers, but it gives both maps one rule for the cost of a boolean. |
 | 11 | The fork's Pins MINOR 17 matches upstream's number by coincidence. | The C4 comment covers it. The next sync takes 18 or higher. |
 
 ## 9. Contracts with other areas
 
-**Area A (hover arbitration).**
+**Areas A and F (hover and the shared seams).** The claim and gamepad rules are F's (F 3.2, F §10). The minimap precedence is A's (A 3.1).
 - *I provide:*
-  - The `MinimapLayer.Hover(x?, y?)` callback.
-    - Its cursor rules: focus is `Minimap`, inside the shape unless square, the minimap's UI scale, and secret values give nil.
-    - It is called top layer first, only when the cursor moved against the drawing.
-    - It is guaranteed `Hover(nil)` on minimap hide, position loss, an inactive layer, or an error (through `Clear`).
+  - `MinimapCanvas`, a shared seam directly in `Modules/Map/`. It imports no feature, so F's guard counts it as core (F 3.7).
+  - The `MinimapLayer.Hover(x?, y?) → boolean` callback, with the terms of "One family with `WorldMapLayers`" (§3).
+    - Its cursor rules: nil in the gamepad UI (checked first), focus is `Minimap`, inside the shape unless square, the minimap's UI scale, and secret values give nil.
+    - It is offered top layer first, only when the cursor or the player moved, or a layer drew or stopped. The first layer whose `Hover` returns true claims the cursor.
+    - Each layer that had the cursor gets `Hover(nil)` exactly once when it loses it: to a claim above, a cover, the shape, the gamepad UI, minimap hide, position loss or the layer stopping. On an error, `Clear` ends its hover instead.
   - `MinimapCanvas.Unproject` for world yards, landing with A's first caller.
   - Today only paths implement `Hover`.
-- *I assume:*
-  - A keeps minimap path hover in `WaypointHover`.
-  - A gives areas no minimap hover unless it adds one through this hook.
-  - A may change the focus rule or the top-down claiming in the canvas.
+- *I assume from F:*
+  - `QuestieCompat.IsGamepadUIEnabled()`, added by F-1, before C1.
+  - F 3.2's vocabulary (layer, `LAYER_ORDER`, claim, `Invalidate`, frame level) and its symmetry table. A change to one stack's rules is mirrored in the other.
+  - F-6's guard, which C1 and C2 must pass.
+  - F-7 moves `Polygon/` last. This plan keeps `Polygon/` paths until then.
+- *I assume from A:*
+  - Questie's minimap icons win by mouse focus. Paths come next, and areas don't hover on the minimap (A 3.1).
+  - Minimap path hover stays in `WaypointHover`, on its private tooltip.
+  - A precedence change is a change to `LAYER_ORDER` or to a layer's `Hover`, never to the canvas's rules.
 
-**Area B (tooltip API).** Nothing new. The canvas never touches tooltips.
+**Area B (tooltip API).** Nothing new. The canvas never touches tooltips. The gamepad rule keeps the private minimap path tooltip from opening from the hidden mouse cursor.
 
 **Area C (quest drawing).**
 - *I provide:*
   - `PolygonMinimap.New(collect)`, with no minimap parameter, returning plain `Invalidate` and `Clear`.
-  - C2 edits B `QuestiePolygon.lua:380, 517, 1010` and `QuestiePolygon.test.lua:88`. Coordinate if C restructures those lines.
+  - C2 edits three `QuestiePolygon.lua` statements (B 380, 517, 1010) and the `QuestiePolygon.test.lua` stub (B 88). They are named by content in §3, because C-F1, F-2 and F-3 move those lines first. Coordinate if C restructures those statements.
 - *I assume C keeps the links the layers read:*
-  - `icon.minimapTwin` for paths (WP `QuestieWaypoints.lua:137-139`). Finding 4: fallback markers need it, or their paths never reach the minimap.
+  - `icon.minimapTwin` for paths, as the IconFrame contract defines it (F 3.5). The layer reads it at WP `WaypointMinimap.lua:309`, and `WaypointHover` checks `icon.data == path.data` (WP `WaypointHover.lua:44`). Finding 4: fallback markers need the twin, or their paths never reach the minimap.
   - `marker.minimapIcons[1].frame.polygonMinimapMarker == marker` for areas (B `QuestiePolygon.lua:306-311`).
   - Calls to `WaypointMinimap.Invalidate` (through `QuestieWaypoints._Changed`) and `QuestiePolygon.ScheduleRefresh` on every relevant change.
 - C rewords `Polygon/README.md:16` and owns whether `Questie:OnDisable` releases paths.
@@ -644,4 +780,11 @@ busted -p ".test.lua" .   # full suite, once, before calling it done
 - *I assume:*
   - World bounds stay `{minX, minY, maxX, maxY}` arrays (`WaypointPath.worldBounds`, `PolygonWorldOutline.bounds`). Otherwise E updates `InReach` in the same commit.
   - Minimap drawing stays synchronous inside the canvas update, since reach bounds it, and outside E's coroutine budget. If E wants it budgeted, the canvas's per-layer `Draw` loop is the single place to add it.
+  - `MinimapLayer.Hover` is presentation, like `WorldMapLayer.Hover`: it never yields (E 3.3).
 - Shared helpers that the layers use (`WaypointGeometry.Nearest`, `Bounds`, `_IsFinite`) live wherever E puts them. The canvas does not depend on them.
+
+## Open issues with Area F
+
+1. **F 4(b) says "D-C1 (MinimapCanvas) and E-F3 (MapGeometry) don't depend on F".** F §10 D item 3 makes C1's `_ReadCursor` call `QuestieCompat.IsGamepadUIEnabled()`, which F-1 adds. So D-C1 depends on F-1, and only on F-1. That sentence in F 4(b), and the README's "Groups 2–4 are independent of Group 1", should say so. (E's plan separately flags that E-F3 needs E-F1.)
+2. **F 3.2's symmetry table labels D's `Hover` change "rename".** The name stays `Hover`; only the return type (`boolean`) and the nil-once rule change. F §10 D item 4 confirms there is no rename. This is wording only.
+3. **F §10 D item 2 offers the cursor again when "the cursor or the player moved, or any layer drew".** This plan adds "or stopped": a layer that collects nothing or fails. Then the layers beneath a stopped claimant get the cursor without waiting for a move. The world map needs no counterpart, because its layers never stop, and F's `_Offer` already hands a failing layer's cursor down in the same pass. This is a precision, not a disagreement, and it is moot until a second minimap layer hovers.

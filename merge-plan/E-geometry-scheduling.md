@@ -6,9 +6,13 @@
 
 "Offline" numbers come from throwaway scripts run for this plan with plain Lua 5.1.5 on a desktop. Most load the real module code from the two commits. They show relative cost and are not in-game timings. The method is in the [appendix](#appendix-offline-checks).
 
+This version is aligned with David's architecture (`01-architecture.md`) and Area F's seams (`F-seams.md`, its §10 delta for E). The first version is in commit `e71e6dd38`.
+- **What changed:** hover on the world map is now `WorldMapLayers`' one poller (Area F), so every reference to two world map pollers or to the first Area A design is gone. Both world map frame levels now live in `WorldMapLayers`' `LAYER_ORDER`. E-F1, E-F2 and E-F3 are unchanged. E-F4 drops two comments and a README sentence that F-1 and F-2 now cover.
+- **Naming:** E's commits are **E-F1 to E-F4** (the README's names). Area F's commits are **F-1 to F-7**.
+
 ## Summary
 
-- **Share one geometry function.** WP's `Trim` and B's `_ReduceOutline` are the same Ramer-Douglas-Peucker algorithm, and verified to give identical output. Move it to a new `MapGeometry.Simplify` and delete B's copy, together with the MIT notice that came with it. Everything else stays with its owner.
+- **Share one geometry function.** WP's `Trim` and B's `_ReduceOutline` are the same Ramer-Douglas-Peucker algorithm, and verified to give identical output. Move it to a new `MapGeometry.Simplify` and delete B's copy, together with the MIT notice that came with it. Everything else stays with its owner. `MapGeometry` is one of the four shared map seams in `01-architecture.md` (rule 2). Both features import it, and it imports nothing.
 - **Keep both renderers separate.** They already agree on the conventions that matter: no mouse input, masks applied at texture creation, and a frame level chosen by the caller. They share no code worth extracting.
 - **One scheduling rule, in two tiers:**
   - *Background builds* turn data into geometry and markers. They share B's per-frame budget.
@@ -21,7 +25,11 @@
   - move the fixed 30-icon marker yield onto the budget.
   
   Every simulated frame then stays at about 2–2.5 ms.
-- **Drawing order is areas, then waypoint lines, then Questie's icons.** This is already true on the world map: areas sit at 2004 (Era) or 2007 (Forever), lines at 2015 and icons from 2016. Record it, and apply the same order on the minimap (Area D).
+- **Drawing order is areas, then waypoint lines, then Questie's icons.** This is already true on the world map: areas sit at 2004 (Era) or 2007 (Forever), lines at 2015 and icons from 2016.
+  - Area F's F-1 moves both world map levels into one table, `WorldMapLayers`' `LAYER_ORDER`. Hover follows the same table, so the levels don't change and paths win the cursor over areas by construction.
+  - E records the order in the docs (E-F4).
+  - Area D applies the same order on the minimap.
+- **Sequencing:** F-1 to F-6 open Phase 2, and E's commits follow them. E-F2 still comes after C-F1. E-F3 is independent of F, and can move up beside the other seams if E-F1 moves with it ([§4(b)](#b-follow-up-commits-after-stacking)).
 
 ## 1. Problem
 
@@ -63,7 +71,7 @@ Both draw on the same canvases: the world map's, and the minimap's (Area D).
 | Minimap: walk, turn, zoom | B | Reconfigures every visible area when the projection changes | `OnUpdate` | None. Not measured (`Polygon/README.md:205`) | `PolygonMinimap.lua:268-326, 376` |
 | Settings and profile switch | WP | The smoothing slider runs `RedrawAll` synchronously on each step; width, colours and toggles mark the maps dirty; the profile switch runs `RedrawAll` and `Refresh` | Settings handlers | None | `QuestieOptionsMap.lua:22-35, 171-174`; `Questie.lua:69-78` |
 | Settings and profile switch | B | A preset change runs `SmoothReset` (above); `showPolygonsOnAccept` runs `RefreshVisibility` | Settings handlers | Via the jobs above | B `QuestieOptionsIcons.lua:172, 1386, 1471` |
-| Hover | both | Hit tests run only when the cursor moves | `OnUpdate` | None needed | `WaypointMap.lua:133-143`; `PolygonRenderer.lua:193-196` |
+| Hover | both | Hit tests. Today each branch polls for itself: WP when the cursor moved, after a redraw, or while a zoom eases; B when the cursor's canvas position changed, and on each publication. After F-1 and F-2, `WorldMapLayers`' one poller offers the cursor only when it moved, the zoom changed, or a layer invalidated (Area F); the minimap canvas likewise (Area D). | `OnUpdate` | None needed | `WaypointMap.lua:131-143, 174-175`; `PolygonRenderer.lua:191-196, 452`; F 3.2 |
 | Nearby check and nudging | B | A 1 s ticker, and a stack layout on the next frame | Timers | None needed | `QuestiePolygon.lua:185-194, 1020` |
 
 **ThreadLib and the AGENTS.md rule against `coroutine.running()` guards:**
@@ -101,9 +109,9 @@ Every function in `WaypointGeometry`, `PolygonGeometry` and `PolygonNudging` is 
 
 | # | Concept | WP | B | Equivalent? | Verdict |
 |---|---|---|---|---|---|
-| 1 | Finite-number check | `WG:33` | `PG:47`, `PR:44`, `PN:18` | Three identical. `PN:18` also returns false for secret values. None of its inputs (frame fields, configured scales, `GetEffectiveScale`) can be secret. | **Keep local.** A one-line predicate is not worth an import; Questie copies `_IsSecret` the same way (`Tooltip.lua:670`, `TooltipHandler.lua:15`, `Forever.lua:15`, both minimap layers). |
+| 1 | Finite-number check | `WG:33` | `PG:47`, `PR:44`, `PN:18` | Three identical. `PN:18` also returns false for secret values. None of its inputs (frame fields, configured scales, `GetEffectiveScale`) can be secret. | **Keep local.** A one-line predicate is not worth an import; Questie copies `_IsSecret` the same way (`Tooltip.lua:670`, `TooltipHandler.lua:15`, `Forever.lua:15`, both minimap layers). `WorldMapLayers` (F-1) adds a fifth file-local copy on this advice (F 3.2). |
 | 2 | Point-to-segment squared distance | `WG:364` (public, scalar args); inline in `Trim` `WG:333-345` | `PG:254` (table args) | Same maths. B squares with `^2`, WP with `*`. | **B's copy goes** with row 3. WP's public one stays beside `Nearest`. The inline copy stays inline: WP measured it taking `Trim` down from 56 ms (`docs/waypoints.md:178`). |
-| 3 | Ramer-Douglas-Peucker simplification | `Trim` `WG:318-357`: open polyline, keeps both ends, flat stack | `_ReduceOutline` `PG:282-318`: closed ring split at the vertex farthest from the first, `Checkpoint` on every step, falls back to the input if fewer than 3 points remain | **Identical output** when B's ring is closed back to its first vertex and passed to `Trim`: 100,000 random rings (convex and arbitrary, 3–60 points, 5 tolerances) with 0 mismatches. The ring's zero-length closing segment makes `Trim` split at the vertex farthest from the start, as B does. `Trim` is 3–4× faster: 0.30 against 0.85 ms at 200 points, 1.27 against 3.91 ms at 1,000. | **Share** as `MapGeometry.Simplify` ([§3.1](#31-shared-geometry-mapgeometry), F3). Delete `_ReduceOutline`, `_SegmentDistanceSquared` and the MIT notice. |
+| 3 | Ramer-Douglas-Peucker simplification | `Trim` `WG:318-357`: open polyline, keeps both ends, flat stack | `_ReduceOutline` `PG:282-318`: closed ring split at the vertex farthest from the first, `Checkpoint` on every step, falls back to the input if fewer than 3 points remain | **Identical output** when B's ring is closed back to its first vertex and passed to `Trim`: 100,000 random rings (convex and arbitrary, 3–60 points, 5 tolerances) with 0 mismatches. The ring's zero-length closing segment makes `Trim` split at the vertex farthest from the start, as B does. `Trim` is 3–4× faster: 0.30 against 0.85 ms at 200 points, 1.27 against 3.91 ms at 1,000. | **Share** as `MapGeometry.Simplify` ([§3.1](#31-shared-geometry-mapgeometry), E-F3). Delete `_ReduceOutline`, `_SegmentDistanceSquared` and the MIT notice. |
 | 4 | Bounds | `Bounds` `WG:39` returns an array; also `WaypointPolyline.worldBounds` and the hover targets' `bounds` | `_Bounds` `PR:260-274` (array, plus centre, frame size and validation in one pass); `PM:66-76` (array, inline while converting); `PolygonCluster.worldBounds` `PG:420-447` (named fields) | The arrays match in order. B's named `worldBounds` is a **different concept**: the extent of the cluster's member spawns, used once a second by `_IsPlayerNearby` (`QP:618-630`), not the extent of a drawn shape. | **Keep.** Convention: bounds used for hit tests and culling are arrays `{minX, minY, maxX, maxY}`. The two types never meet, and LuaCATS keeps them apart (`number[]` against `PolygonWorldBounds`). |
 | 5 | Corner smoothing | `_Curve`/`Smooth` `WG:234-307`: quadratic Bézier inside each corner, tolerance in half line widths, at draw time | `_SampleSpline` `PG:232-252` + `_SplineEnvelope` `PG:192-228`: Catmull-Rom through the hull, outward bulge re-hulled, in percent space, at build time | **No.** WP must stay close to where the NPC walks; B must enclose the spawns. WP rejected Catmull-Rom for paths (`docs/waypoints.md:161`). | **Keep separate.** |
 | 6 | Dropping redundant points | `_DropStraightPoints` `WG:57-70` (within 0.1°, against the last point kept); merge within 0.5 yd `WG:106` | `_UniqueCoordinates` `PG:144-156` (exact duplicates after sorting); the hull and envelope drop collinear points by the sign of the cross product | **No.** Different inputs and rules. | **Keep.** |
@@ -112,20 +120,20 @@ Every function in `WaypointGeometry`, `PolygonGeometry` and `PolygonNudging` is 
 | 9 | Area and centroid | — | `_AreaAndCentroid` `PG:322-334` | B only | **Keep.** |
 | 10 | Clustering and object lists | — | `Build` `PG:376-474`, `_ListObjects` `PG:344-367` | B only | **Keep.** |
 | 11 | Line outlines (mitered quads) | `_Directions`/`_Join`/`Quads` `WG:131-217` | Borders are `DrawLine` rectangles with no geometry of their own (`PR:72, 381`) | WP only | **Keep.** B's borders could use `Quads` one day, but that changes how they look (R10). |
-| 12 | Hover hit test | `Nearest` `WG:388-405`: distance ≤ r, nearest single target | `_ContainsPoint` `PR:126-142`: even-odd, inclusive edges, every containing outline | **No.** Different predicate and different selection. They share only the rejection by an array bounding box. | **Keep.** Contracts for Area A in [§3.5](#35-hover-hit-testing-primitives). |
+| 12 | Hover hit test | `Nearest` `WG:388-405`: distance ≤ r, nearest single target | `_ContainsPoint` `PR:126-142`: even-odd, inclusive edges, every containing outline | **No.** Different predicate and different selection. They share only the rejection by an array bounding box. | **Keep.** Each `WorldMapLayers` layer hit-tests its own drawing (F 3.2). Contracts in [§3.5](#35-hover-hit-testing-primitives). |
 | 13 | Frame budget | — (WP draws synchronously) | `NewWork`/`Checkpoint` `PG:42-100` | B only | **Keep the owner**; extend it ([§3.3](#33-frame-budget-and-scheduling-policy)). |
 | 14 | Map-space grouping | — (WP removes duplicate routes by key, `QW:69-73`) | `Calculate` `PN:28-86`; `MAP_TOLERANCE` 0.01 percent `PN:12` | B only | **Keep.** |
 | 15 | Icon anchors | — | `New` and the `Layout` methods `PN:90-209` | B only, and presentation rather than geometry | **Keep.** |
 | 16 | Map percent → world yards | `_ToWorld` `QW:47-49` (injected into `BuildPolylines`) | `QP:944`, `PM:68` | The same one-line `HBD:GetWorldCoordinatesFromZone(x/100, y/100, map)` | **Keep at call sites.** |
 | 17 | Percent on one map → percent on another | — (removed: `docs/waypoints.md:246-253`) | `QP:236-264` (`TranslateZoneCoordinates`) | B only. The products diverge (R9). | **Keep.** |
 | 18 | World → minimap projection | `_ProjectPoint`/`_Transform` `WMini:57-67` | `PM:84-113` | Identical | **Area D.** |
-| 19 | Reading the world-map cursor | `_ReadCursor` `WMap:117-123` (canvas units) | `QP:995-997` + `PR:149-156` (percent) | Same read, different units | **Area A.** |
+| 19 | Reading the world-map cursor | `_ReadCursor` `WMap:117-123` (canvas units) | `QP:995-997` + `PR:149-156` (percent) | Same read, different units | **Area F.** After F-1 and F-2 there is one read, in `WorldMapLayers`, in canvas units with the canvas size and zoom alongside. The areas layer converts it to percent. Both readers here are deleted. |
 | 20 | Secret-value check | `_IsSecret` `WMini:192-198` | `PM:260-266` | Identical | **Area D.** |
 
 ### 2.2 Units, epsilons and conventions
 
 - **Map percent (0–100)** is the stored unit for map-anchored geometry in both branches: WP `points`, and B spawn points, cluster `x`/`y`, outlines and shapes.
-- **0–1 appears only at API boundaries:** HBD calls (`QW:48`, `QP:944, 248`, `PM:68`) and `GetNormalizedCursorPosition` (`WMap:119`, `QP:996`). Both branches convert at the call.
+- **0–1 appears only at API boundaries:** HBD calls (`QW:48`, `QP:944, 248`, `PM:68`) and `GetNormalizedCursorPosition` (`WMap:119`, `QP:996`; one read in `WorldMapLayers` after F-1 and F-2). Both branches convert at the call.
 - **World yards** are used where a distance must mean the same in every direction in the world: WP merges points within 0.5 yd and stores yards for the minimap; B clusters at 180 yd and spaces objects 10 yd apart.
 - **Canvas units** are used where a tolerance is measured on screen. WP divides line width, smoothing, trimming and hover reach by the canvas scale.
 - **B builds outlines in percent space, which is anisotropic.** That is correct:
@@ -154,9 +162,9 @@ Every function in `WaypointGeometry`, `PolygonGeometry` and `PolygonNudging` is 
 | Fade | `view:SetAlpha` (L236) | Built into the vertex alpha of fills and borders (`QP:271-272`) | No |
 | Highlight | Another colour, and the highlighted copy of the route draws (`QW:160-173`) | Border RGB ×1.25 and thickness 1.5 → 1.8 (L63-80) | No |
 | Draw layers | Lines `ARTWORK`, debug `BACKGROUND` (L71-75) | Fills `OVERLAY` 0, borders `OVERLAY` 1 (L282) | Matter only within one view |
-| World-map frame level | 2015 (`WMap:17-18`) | `PIN_FRAME_LEVEL_QUEST_BLOB` (`QP:283`) | Decides the order between features ([§3.6](#36-drawing-order)) |
+| World-map frame level | 2015 (`WMap:17-18`) | `PIN_FRAME_LEVEL_QUEST_BLOB` (`QP:283`) | Decides the order between features ([§3.6](#36-drawing-order)). After F-1 and F-2 both come from `WorldMapLayers.FrameLevel(name)`. |
 | Leaving a map | Releases the views of routes not on the new map (`WMap:103-108`); keeps them when the map closes (`WMap:183-187`) | Retains hidden views per owner, marker and map (`PolygonRenderCache.lua:51-121`) | Different cost models |
-| Hover | Outside the renderer | Inside the renderer (`hoverInput`, driver L193-240) | Area A |
+| Hover | Outside the renderer | Inside the renderer (`hoverInput`, driver L193-240) | Area F: `WorldMapLayers` pushes the cursor. `PolygonRenderer` keeps its hit test and stops polling, through `Renderer:Hover(x, y)` (F-2). |
 | Mouse, masks, pixel snapping | No mouse; `New(canvas, masks)`; snapping off (L81, L107-108) | The same (L32-33, L54, L289-291) | **Yes. These are the shared conventions.** |
 
 **Keep from each:**
@@ -213,13 +221,18 @@ B moved spawn collection from a fixed yield every 200 spawns onto this budget in
 - **The selection differs:** WP returns one nearest target (later equal targets win, because the comparison is `<=`); B returns every containing outline.
 - **The only common part** is rejecting by an array bounding box first, and both already use the same array order.
 
-**Verdict: nothing to share.**
+**Verdict: nothing to share.** `WorldMapCursor` (F 3.2) serves both tests: paths take its canvas units and divide the reach by its `scale`, and areas convert it to percent.
 
 ## 3. Target design
 
 ### 3.1 Shared geometry: `MapGeometry`
 
 New module `Modules/Map/MapGeometry.lua`.
+
+**A shared seam.** `01-architecture.md` names `MapGeometry` as one of the four shared map seams (rule 2), and it knows no feature:
+- It lives directly in `Modules/Map/`, so the import guard counts it as shared core (F 3.7, F-6). A feature folder may import it.
+- It imports no module at all.
+- It is also why B can't call `WaypointGeometry.Trim` directly: that would be one feature importing another (rule 1).
 
 **What belongs in it:**
 1. Geometry that **two overlays use today**. "Might" does not count.
@@ -290,8 +303,8 @@ At `PG:457`: `local outline = _ReduceOutline(envelope, tolerance)`, followed by 
 
 `WaypointRenderer` and `PolygonRenderer` stay separate modules. Their **shared contract**, recorded in both docs and relied on by Area D, is:
 1. `New(canvas, …, masks)` applies the masks once, to each texture as it is created. A renderer never reads layer state.
-2. Views never take mouse input. Hover is computed from the cursor (Area A).
-3. The caller supplies frame levels: `WaypointStyle.frameLevel`, and the `frameLevel` arguments of `Create`, `Configure` and `Style`.
+2. Views never take mouse input. Hover is pushed: `WorldMapLayers` offers the cursor and each layer hit-tests it, `PolygonRenderer:Hover(x, y)` for areas (Area F).
+3. The caller supplies frame levels: `WaypointStyle.frameLevel`, and the `frameLevel` arguments of `Create`, `Configure` and `Style`. On the world map both callers take them from `WorldMapLayers.FrameLevel(name)` (F-1, F-2).
 4. Pixel snapping is off (`SetSnapToPixelGrid(false)`, `SetTexelSnappingBias(0)`).
 5. Geometry is y-down in parent-local units; the renderer flips y at `SetPoint`/`SetVertexOffset`.
 
@@ -302,7 +315,7 @@ At `PG:457`: `local outline = _ReduceOutline(envelope, tolerance)`, followed by 
 | Tier | What | Rule |
 |---|---|---|
 | **Background builds** | Data → geometry and markers, independent of zoom: polygon spawn collection, `PolygonGeometry.Build`, polygon marker allocation | Run in ThreadLib jobs; mark the function `---@async`; charge each step to the shared slice with `PolygonGeometry.Checkpoint(work, cost)`; check cancellation or generation after every yield |
-| **Presentation** | Geometry → frames on screen, depending on zoom, canvas or projection: `WaypointMap._Refresh` and zoom restyles, both minimap `Layer:Update`, `QuestiePolygon.Refresh`/`Present`, `WaypointRenderer.RedrawAll`, hover | Runs synchronously in the frame or timer callback that needs it; never yields; never calls an `---@async` function; does only what changed (dirty flags, coalesced `C_Timer.After(0)`, retained views); its cost scales with what is visible, not with the quest log |
+| **Presentation** | Geometry → frames on screen, depending on zoom, canvas or projection: `WaypointMap._Refresh` and zoom restyles, both minimap `Layer:Update`, `QuestiePolygon.Refresh`/`Present`, `WaypointRenderer.RedrawAll`, hover (`WorldMapLayer.Hover` and `MinimapLayer.Hover`, which run inside `OnUpdate`) | Runs synchronously in the frame or timer callback that needs it; never yields; never calls an `---@async` function; does only what changed (dirty flags, coalesced `C_Timer.After(0)`, retained views); its cost scales with what is visible, not with the quest log |
 
 **Outside both tiers:**
 - Master's ordinary icon drawing and route registration (`_DrawObjectiveIcons`, `_DrawObjectiveWaypoints`) keep their fixed `TICKS_PER_YIELD` yields. This merge does not change them.
@@ -313,7 +326,7 @@ At `PG:457`: `local outline = _ReduceOutline(envelope, tolerance)`, followed by 
 - `PolygonGeometry.lua:100` aliases `Checkpoint` before the profiler's pre-hook sweeps the module, so `Build`'s hot loop stays unwrapped while profiling.
 - Moving the budget to `Modules/Libs/FrameBudget.lua` is the right step **once a second, non-polygon consumer exists**. That move must also add `Checkpoint` to both profiler exclusion lists, which must agree (master `Modules/Profiler/README.md:64`). Otherwise every step costs about 3.7 µs while profiling (`README.md:194`).
 
-**The change (F1, F2):** `Checkpoint` takes a cost and checks at a job's first step.
+**The change (E-F1, E-F2):** `Checkpoint` takes a cost and checks at a job's first step.
 
 ```lua
 ---@class PolygonWork
@@ -355,7 +368,7 @@ end
 
 **Unit steps keep today's behaviour:** a check every 256 calls, adding 256 operations each time. The only difference is the extra check at the first step. The existing budget tests in `PolygonGeometry.test.lua` (L229-337) still hold; [§5](#5-tests) has the reasoning.
 
-**Costs at the call sites in `QuestiePolygon`** (F2):
+**Costs at the call sites in `QuestiePolygon`** (E-F2):
 
 ```lua
 -- Costs in geometry steps (about 0.33 µs each, offline), so every polygon job reads the clock about
@@ -385,29 +398,33 @@ The question was whether waypoint geometry can use the budget without yielding f
 
 ### 3.5 Hover hit-testing primitives
 
-These stay with their owners. They are pure, and Area A can call them:
+These stay with their owners, and they are pure. Each `WorldMapLayers` layer calls its own (F 3.2): the paths layer in `WaypointMap` calls `Nearest`, and `PolygonRenderer:Hover` calls containment.
 
 | Primitive | Contract |
 |---|---|
 | `WaypointGeometry.Nearest(targets, x, y, radius) → target?` (`WG:388`) | Targets carry `points` (named x/y) and `bounds` (array). Returns the target nearest the cursor within `radius`; later equal targets win. Units must be isotropic: WP uses canvas units divided by the canvas scale, or minimap units. Each target's padded bounding box rejects most targets first. |
 | `WaypointGeometry.SegmentDistanceSq(px, py, sx, sy, ex, ey) → number` (`WG:364`) | A zero-length segment is a point. |
-| Polygon containment `_ContainsPoint(points, x, y) → boolean` (`PR:126`, file-local) | Even-odd rule. Edges and vertices count as inside, using an absolute `\|cross\| ≤ 1e-8` tuned for percent units. Works in any per-axis scaling of the outline's units. **If Area A tests areas from outside `PolygonRenderer`**, export it as `PolygonGeometry.ContainsPoint` (moved verbatim) in A's commit. If a second overlay ever needs it, it moves to `MapGeometry` under the rules in §3.1. |
+| Polygon containment `_ContainsPoint(points, x, y) → boolean` (`PR:126`, file-local) | Even-odd rule. Edges and vertices count as inside, using an absolute `\|cross\| ≤ 1e-8` tuned for percent units. Works in any per-axis scaling of the outline's units. Areas are still tested inside `PolygonRenderer` (`Renderer:Hover`), so no export is needed. If a second overlay ever needs it, it moves to `MapGeometry` under the rules in §3.1. |
 
 ### 3.6 Drawing order
 
-**From bottom to top: objective areas, waypoint lines, Questie's icons.** On the world map this already holds, and needs no code change:
+**From bottom to top: objective areas, waypoint lines, Questie's icons.** On the world map this already holds once blob is stacked on waypoints. F-1 then moves the order and both world map levels into one table, `WorldMapLayers`' `LAYER_ORDER`:
+- **Paths (F-1):** the `FRAME_LEVEL` constant at `WMap:17-18` is deleted. `_Style` (`WMap:52-56`, which reads it at `:55`) asks `WorldMapLayers.FrameLevel("paths")` instead.
+- **Areas (F-2):** `QuestiePolygon.Refresh` passes `WorldMapLayers.FrameLevel("areas")` to `Present`, in place of its own read at `QP:283`.
+- **What stays the same:** the levels below. `LAYER_ORDER`'s comments now carry what E's first version wanted in comments at `WMap:17` and `QP:282-283` (F 3.2).
+- **Hover follows the same table.** So paths win the cursor over areas by construction. That precedence is Area A's decision (A 3.2); E's reasons below are about how the map reads.
 
 | Element | Frame level | Evidence |
 |---|---|---|
-| Areas | `PIN_FRAME_LEVEL_QUEST_BLOB` (`QP:283`): 2004 on Era, 2007 on Forever | The pin levels manager starts at 2000 and appends each type at `maxLevel + 1` (`Blizzard_MapCanvas/MapCanvas_PinFrameLevelsManager.lua:3, 65-74`). `QUEST_BLOB` is registered 4th on Era (`Blizzard_WorldMap/Vanilla/Blizzard_WorldMap.lua:214-218`, `classic_era` `8165d4cd6`, 1.15.9 (70003)) and 7th on Forever (`Blizzard_WorldMap/Blizzard_WorldMap.lua:271-278`, `forever` `943764493`, 1.60.1 (70338)). |
-| Lines | 2015 (`WMap:17-18`) | — |
+| Areas | `PIN_FRAME_LEVEL_QUEST_BLOB`, `LAYER_ORDER`'s first row (today `QP:283`): 2004 on Era, 2007 on Forever | The pin levels manager starts at 2000 and appends each type at `maxLevel + 1` (`Blizzard_MapCanvas/MapCanvas_PinFrameLevelsManager.lua:3, 65-74`). `QUEST_BLOB` is registered 4th on Era (`Blizzard_WorldMap/Vanilla/Blizzard_WorldMap.lua:214-218`, `classic_era` `8165d4cd6`, 1.15.9 (70003)) and 7th on Forever (`Blizzard_WorldMap/Blizzard_WorldMap.lua:271-278`, `forever` `943764493`, 1.60.1 (70338)). |
+| Lines | 2015, `LAYER_ORDER`'s second row (today `WMap:17-18`) | — |
 | Icons | 2016 and up (WP `QuestieMapUtils.lua:53-70`: "+1 to be above waypoint lines") | — |
 
 **Why this order:**
 - Lines are thin and areas are large translucent fills, so lines drawn above stay readable while hiding little of the area.
 - It also matches where lines sat in B's old line model (2015, B `QuestieFramePool.lua:196`).
 
-**On the minimap**, both layers currently sit at the same level, so their order is undefined. Area D gives areas a lower frame level than lines.
+**On the minimap**, both layers currently sit at the same level, so their order is undefined. Area D's `MinimapCanvas` gives areas a lower frame level than lines, from its own `LAYER_ORDER` (`{"areas", "paths"}`).
 
 ### 3.7 Why it holds up, and alternatives rejected
 
@@ -420,7 +437,7 @@ These stay with their owners. They are pure, and Area A can call them:
 - **A shared renderer core** (texture pool, quad helper, retained-view cache). It would couple two well-tested renderers for about 40 lines, across different failure handling and quad contracts. B's cache semantics (owner, marker key, source identity) are specific to polygons, and WP's views depend on the canvas scale.
 - **Sharing `_IsFinite`, `SegmentDistanceSq` or `Bounds`.** These are one-liners, or have a single owner, or (`Bounds`) B computes in the same loop as other values.
 - **Unifying B's outline smoothing with WP's `Smooth`.** They have opposite goals: enclosing spawns against staying close to a path.
-- **B calling `WaypointGeometry.Trim` directly.** Polygon code would then depend on the waypoint feature's module.
+- **B calling `WaypointGeometry.Trim` directly.** That is one feature importing another. Architecture rule 1 forbids it, and F-6's guard would fail on it.
 - **Keeping the fixed 30-icon yield.** It ignores the shared slice, and B already moved collection off a fixed count in `bd340ebb9`.
 - **Waypoint presentation on the shared slice, or as a ThreadLib job.** Visible lines would starve behind background builds (§3.4).
 - **Making `BuildPolylines` yield.** Some of its callers are not coroutines.
@@ -453,15 +470,33 @@ These stay with their owners. They are pure, and Area A can call them:
 **Rules for whoever resolves the other areas' conflicts:**
 - Keep `Polygon/PolygonGeometry.lua`, `PolygonRenderer.lua`, `PolygonRenderCache.lua`, `PolygonNudging.lua`, WP's `WaypointGeometry.lua` and `WaypointRenderer.lua` byte-identical to their side.
 - When a replayed commit's `QuestiePolygon.lua` is touched (Areas A and C), keep the marker loop's `drawn >= 30` yield (`4f76fd411`) and the collection `Checkpoint(work)` (`bd340ebb9`) as they are.
-- Do not fold F1–F4 into conflict resolutions. They change behaviour and tests, and belong after the stack.
+- Do not fold E-F1 to E-F4 into conflict resolutions. They change behaviour and tests, and belong after the stack.
 
 ### (b) Follow-up commits after stacking
 
-Order: F1 → F2 → F3 → F4.
-- F2 lands after Area C's commits that change `QuestiePolygon.UpdateObjective`'s marker loop (twin links, fallback copies). F2 touches only the charging lines.
-- F3 needs F1's cost argument.
+**Area F's seam commits, F-1 to F-6, open Phase 2** (F 4(b)). E's commits come after them. Kept together, they run E-F1 → E-F2 → E-F3 → E-F4. Their dependencies:
+- **E-F1** depends on nothing. It touches only `PolygonGeometry.lua`, its test and `Polygon/README.md:94`.
+- **E-F2** lands after C-F1, which changes `QuestiePolygon.UpdateObjective`'s marker loop (twin links, fallback copies). E-F2 touches only the charging lines.
+- **E-F3** needs E-F1's cost argument (`_Checkpoint(work, #envelope)`). It is independent of F.
+- **E-F4** documents F-1's `LAYER_ORDER` and E-F1/E-F2's budget, so it goes last.
 
-**F1 `perf(polygon): weigh frame budget steps and check before a job's first step`**
+**Can E-F3 move up beside the other seams?** F 4(b) offers this as an option: E-F3 (`MapGeometry`) and D-C1 (`MinimapCanvas`) right after F-6, so all four seams land first. **Yes, if E-F1 moves with it, just before it.**
+- **Why E-F1 must come first.** Today's `Checkpoint(work)` (B `PG:84`) would silently ignore the cost argument. That leaves the envelope reduction undercharged, and `PolygonGeometry.test.lua`'s resume counts were reasoned with E-F1 in place.
+- **What E-F1 and E-F3 share with F-1 to F-6:** no code file. They do share three files, on separate lines:
+  - **The TOCs:** `WorldMapLayers` (F-1), `MapGeometry` (E-F3) and `MinimapCanvas` (D-C1) all go after `Moonwell.lua`, in any order.
+  - **`docs/waypoints.md`:** F edits `:46`, `:52`, `:55`, `:75`, `:185` and `:202-207`; E-F3 edits `:43`, `:153` and `:178`.
+  - **`Polygon/README.md`:** F edits `:11`, `:13`, `:21`, `:79`, `:104-118`, `:138`, `:153`, `:164` and `:198`; E-F1 edits `:94`; E-F3 edits `:100` and Validation (`:176-181`).
+- **The import guard passes either way.** It counts `MapGeometry` as core, and E-F3 adds imports only from features into it (F 3.7).
+- **What stays put:** E-F2 stays after C-F1, and E-F4 stays last in E's group.
+
+**Recommendation: move them up.** E's order then becomes:
+1. E-F1, then E-F3, right after F-6;
+2. E-F2, after C-F1;
+3. E-F4, last in E's group.
+
+`01-architecture.md` asks for the seam modules early in Phase 2, and the move costs nothing. E-F1 is a small, independent fix, and no E commit's content changes with the order.
+
+**E-F1 `perf(polygon): weigh frame budget steps and check before a job's first step`**
 - `Polygon/PolygonGeometry.lua`:
   - `PolygonWork` (L31-34): replace `count` with `pending` and add `started`;
   - `NewWork` (L60-63) initialises `pending = 0`;
@@ -471,7 +506,7 @@ Order: F1 → F2 → F3 → F4.
 - `Polygon/PolygonGeometry.test.lua`: add the two tests in §5.
 - `Polygon/README.md:94`: say that jobs check the slice before their first step and charge steps their cost; that the operation ceiling bounds tests without a clock (about 11 ms of offline work), while in game the 2 ms clock decides.
 
-**F2 `perf(polygon): charge spawn collection and icon drawing to the frame budget`**
+**E-F2 `perf(polygon): charge spawn collection and icon drawing to the frame budget`**
 - `Polygon/QuestiePolygon.lua`:
   - add `SPAWN_COST`/`ICON_COST` with their rationale after `NEARBY_PADDING` (L83);
   - L924 comment: "Collection charges each spawn to the frame's shared polygon budget.";
@@ -479,8 +514,9 @@ Order: F1 → F2 → F3 → F4.
   - L1025-1052: remove `drawn` and the fixed yield, and charge `ICON_COST` after each successful `DrawWorldIcon`. Keep the L1037 comment ("The marker already owns this batch, so cancellation during a yield releases it.").
 - `Polygon/QuestiePolygon.test.lua`: the `Update` helper (L7-17) starts a new frame on every resume; replace L830-851 and L853-868; add one test (§5).
 - `Polygon/README.md:94`: icon allocation shares the slice icon by icon.
+- **Line numbers are B's.** C-F1, F-2 and F-3 shift them, since F-2 and F-3 edit the same two files: the provider block, `Refresh`, the area tooltip, and the `Subscribe` and `WorldMapLayers` stubs in the test's `before_each`. None of those edits touches E-F2's lines, so find them by content.
 
-**F3 `refactor(map): share line simplification between waypoints and polygons`**
+**E-F3 `refactor(map): share line simplification between waypoints and polygons`**
 - **Add `Modules/Map/MapGeometry.lua`:** §3.1, with `Simplify` moved verbatim from `WG:309-357`.
 - **Add `Modules/Map/MapGeometry.test.lua`** (§5).
 - **WP side:**
@@ -492,18 +528,23 @@ Order: F1 → F2 → F3 → F4.
   - `Polygon/PolygonGeometry.lua`: import `MapGeometry`; replace L254-318 (`_SegmentDistanceSquared`, the MIT notice, `_ReduceOutline`) with the wrapper in §3.1; at L457 call it and charge `#envelope`.
   - **Provenance:** the notice names only the reduction. Before deleting it, David should confirm nothing else in the file derives from that helper.
   - `Polygon/PolygonGeometry.test.lua`: `dofile("Modules/Map/MapGeometry.lua")` in `before_each` (L26-33), and add the fallback test (§5).
-- **All six TOCs** (`Questie_Vanilla`, `_TBC`, `_Wrath`, `_Cata`, `_Mists`, `_Camelot`): add `Modules\Map\MapGeometry.lua` on the line after `Modules\Map\Moonwell.lua`, before `# Waypoints`. QuestieLoader resolves imports at call time, so the placement is only for readability.
+- **All six TOCs** (`Questie_Vanilla`, `_TBC`, `_Wrath`, `_Cata`, `_Mists`, `_Camelot`): add `Modules\Map\MapGeometry.lua` after `Modules\Map\Moonwell.lua` and before `# Waypoints` (WP `Questie_Vanilla.toc:176-178`), next to `WorldMapLayers` (F-1) and `MinimapCanvas` (D-C1) in any order (F 3.2). QuestieLoader resolves imports at call time, so the placement is only for readability.
 - **Docs:** see §6.
 
-**F4 `docs(map): record drawing order and scheduling of waypoints and areas`** covers documentation only, as listed in §6 under F4.
+**E-F4 `docs(map): record drawing order and scheduling of waypoints and areas`** covers documentation only, as listed in §6 under E-F4.
 
 ## 5. Tests
 
 Follows the AGENTS.md conventions: `dofile("setupTests.lua")`, `dofile` the module under test, and `.was.called*`.
 - **Pure helpers may be loaded directly.** `MapGeometry` is pure, so consumer tests may `dofile` it, as AGENTS.md allows for `QuestieLib`.
 - **Drive frames explicitly.** `setupTests.lua:65` pins `GetTime` to 0, so the slice never changes frames on its own.
+- **Area F changes none of E's tests.** Two of F's tests cover what E's first version left untested:
+  - The world map drawing order is F-1's `WorldMapLayers.test.lua` test 7: areas < paths < 2016, at quest-area levels 2004 and 2007.
+  - `MapGeometry` being shared core is F-6's real-tree guard test.
 
-**New `Modules/Map/MapGeometry.test.lua`** (F3), with `describe("Simplify")`:
+  E adds no test for either.
+
+**New `Modules/Map/MapGeometry.test.lua`** (E-F3), with `describe("Simplify")`:
 1. *drops points within the tolerance of the line kept around them*: moved from `WG.test:284-290`.
 2. *keeps a point where the line turns back along itself*: moved from `WG.test:292-297`. It proves distances are to the segment.
 3. *keeps both ends, so a closed polyline stays closed*: moved from `WG.test:299-307`.
@@ -511,31 +552,31 @@ Follows the AGENTS.md conventions: `dofile("setupTests.lua")`, `dofile` the modu
    - **Input:** `{A(0,0), B(10,0), C(10,10), A}` with tolerance 0.25 returns all four points.
    - **What it guards:** what B's wrapper relies on. If zero-length segments were skipped or measured as an infinite line, the result would collapse to `{A, A}`.
 
-**`Modules/Map/Waypoints/WaypointGeometry.test.lua`** (F3): delete the moved `Trim` tests; replace, don't layer.
+**`Modules/Map/Waypoints/WaypointGeometry.test.lua`** (E-F3): delete the moved `Trim` tests; replace, don't layer.
 
-**`Modules/Map/Waypoints/WaypointRenderer.test.lua`** (F3): the expected-geometry tests at L87-105 and L163-179 call `MapGeometry.Simplify`. No new tests: the renderer's behaviour is unchanged.
+**`Modules/Map/Waypoints/WaypointRenderer.test.lua`** (E-F3): the expected-geometry tests at L87-105 and L163-179 call `MapGeometry.Simplify`. No new tests: the renderer's behaviour is unchanged.
 
 **`Polygon/PolygonGeometry.test.lua`:**
-- **F1** *holds a new job at its first step while this frame's slice is spent*:
+- **E-F1** *holds a new job at its first step while this frame's slice is spent*:
   1. In frame 1, a coroutine spends the ceiling with unit steps.
   2. A second job then calls `Checkpoint` and is suspended inside its **first** call, with 0 steps done.
   3. In frame 2 it finishes.
   
   This fails today: the second job runs 255 steps unchecked.
-- **F1** *charges weighted steps to the shared slice*:
+- **E-F1** *charges weighted steps to the shared slice*:
   1. Without a clock, a job charging 1,024 per step is suspended inside its 32nd step (32 × 1,024 = 32,768).
   2. It completes the step next frame.
   
   Unit steps keep their 32,768-step ceiling; the existing test at L270-282 covers that.
-- **Existing tests still hold unchanged under F1:**
+- **Existing tests still hold unchanged under E-F1:**
   - L229: the first-step check finds the advancing clock spent and suspends on the first resume.
   - L254: at most 8 resumes.
   - L270: between 2 and 20 resumes without a clock.
   - L284: still `secondChecks == 2` (the initial cancellation check plus the first-step check that yields), then 3 in the same spent frame.
   - L319: the second cancellation check is now the first step, still in 1 resume.
-- **F3** *keeps the full outline when the tolerance would leave fewer than three vertices*: `_Build(points, {tolerance = 1000})[1].outline` has as many vertices as with `{tolerance = 0}`. The spline envelope has no collinear vertices, so tolerance 0 keeps all of them. This covers the `#reduced >= 3` guard.
+- **E-F3** *keeps the full outline when the tolerance would leave fewer than three vertices*: `_Build(points, {tolerance = 1000})[1].outline` has as many vertices as with `{tolerance = 0}`. The spline envelope has no collinear vertices, so tolerance 0 keeps all of them. This covers the `#reduced >= 3` guard.
 
-**`Polygon/QuestiePolygon.test.lua`** (F2):
+**`Polygon/QuestiePolygon.test.lua`** (E-F2):
 - **Make the `Update` helper (L7-17) start a new frame on every resume**, as `PolygonGeometry.test.lua`'s `_Build` does (L11-24): stub `_G.GetTime` with a counter the helper increments.
   - **Why:** the shared slice lives for the whole test, and `setupTests` keeps `GetTime` at 0.
   - **The failure without it:** once a test's cumulative charges reach 32,768 (about 60 one-cluster updates at `ICON_COST` 256), every later check finds the slice spent and the helper's resume loop never ends.
@@ -548,11 +589,11 @@ Follows the AGENTS.md conventions: `dofile("setupTests.lua")`, `dofile` the modu
   2. Each resume draws a handful of icons, not 30 and not all 41. Assert each resume draws between 1 and 5.
   3. Reset stops it.
 - **Add** *draws every marker in one frame while the slice has time*: no clock, and 40 clusters (80 icons, 20,480 operations) finish in a single resume. This proves the fixed 30-icon cap is gone.
-- **Keep L870-885** (cancellation while collecting a large spawn list). Under F2 it yields at the first spawn instead of the 256th, and its assertions hold.
+- **Keep L870-885** (cancellation while collecting a large spawn list). Under E-F2 it yields at the first spawn instead of the 256th, and its assertions hold.
 
 ## 6. Docs and comments
 
-**F1/F2:**
+**E-F1/E-F2:**
 - **`Polygon/README.md:94`:** rewrite the budget paragraph:
   - jobs check before their first step;
   - steps are charged their cost (geometry 1, spawn 32, icon 256);
@@ -564,7 +605,7 @@ Follows the AGENTS.md conventions: `dofile("setupTests.lua")`, `dofile` the modu
   - the L1037 comment stays.
 - **`BLOB-PARITY.md:10`** stays true.
 
-**F3:**
+**E-F3:**
 - **`docs/waypoints.md`:**
   - L43: the `WaypointGeometry` row becomes "Also `Smooth`, the mitered `Quads` and the hover distance test. Trimming uses `MapGeometry.Simplify`, shared with polygon outlines."
   - L153: link `MapGeometry.Simplify` instead of `WaypointGeometry.Trim`.
@@ -575,20 +616,16 @@ Follows the AGENTS.md conventions: `dofile("setupTests.lua")`, `dofile` the modu
   - add `busted Modules/Map/MapGeometry.test.lua` to Validation (L176-181).
 - **Module headers:** `WaypointGeometry.lua:1-4`, and the new `MapGeometry` header with its membership rule.
 
-**F4:**
-- **`docs/waypoints.md:273-281` ("Polygon areas"):** replace "Frame levels: above or below polygon areas is decided then." with the decision: "Lines draw at 2015, above objective areas (`PIN_FRAME_LEVEL_QUEST_BLOB`: 2004 on Era, 2007 on Forever) and below Questie's icons (2016+)." Leave the hover bullets to Area A.
+**E-F4:**
+- **`docs/waypoints.md:281` (the "Frame levels" bullet under "Polygon areas"):** replace "Frame levels: above or below polygon areas is decided then." with the decision, and say where the levels come from: "Frame levels: set by `WorldMapLayers`' `LAYER_ORDER`. Lines draw at 2015, above objective areas (`PIN_FRAME_LEVEL_QUEST_BLOB`: 2004 on Era, 2007 on Forever) and below Questie's icons (2016+). Hover follows the same order."
+  - Leave the "Hover exceptions" bullet (`:279`) to Area A's wording, which F-1 and F-2 apply (A §6).
 - **Add a short "Scheduling" paragraph to `docs/waypoints.md`**, after "Cost" (L165-180):
   - path geometry is presentation work, done in the maps' `OnUpdate` in the frame that shows it; it never yields and redraws only on change;
   - `BuildPolylines` runs synchronously in `QuestieWaypoints.Add`, which callers outside coroutines reach;
   - neither joins the polygon budget, and §3.4 says why and what to do if dense maps measure slow.
-- **`Polygon/README.md`:**
-  - one sentence on drawing order under "Direct polygon hover" or "Integration";
-  - a two-tier scheduling summary next to L94.
-  
-  The lines about waypoint lines at L13 and L110 are Area A's.
-- **Comments:**
-  - `WaypointMap.lua:17` becomes "Below Questie's icons, which start at 2016 (QuestieMap.utils.SetDrawOrder), and above objective areas (PIN_FRAME_LEVEL_QUEST_BLOB)";
-  - `QuestiePolygon.lua:282-283` gets "Areas draw below waypoint lines (2015) and Questie's icons."
+- **`Polygon/README.md`:** a two-tier scheduling summary next to L94.
+  - **No drawing-order sentence from E.** F-2 already rewrites "Direct polygon hover" (L104-118) in Area A's wording, which says paths draw above areas and below icons, and hover follows that order. F-2 also covers L13 and the waypoint-line paragraph at L110.
+- **No inline comments.** E's first version commented `WaypointMap.lua:17` and `QuestiePolygon.lua:282-283`. F-1 deletes the first line and F-2 replaces the second, and the reasons now live in `LAYER_ORDER`'s comments (F 3.2).
 - **AGENTS.md: no change recommended.** The policy has one owner and is documented where it lives. Add a line under "Coding specifics" only if David wants agents to enforce it repo-wide.
 
 ## 7. Verification
@@ -627,11 +664,11 @@ First, run `/run print(C_AddOnProfiler.IsEnabled())`. To count frame spikes acro
 
 | Check | Setup | Look for |
 |---|---|---|
-| **V1 Drawing order** (F4; true on the stack already) | Westfall, Questie blobs preset, with quests 142 *The Defias Brotherhood* (the Defias Messenger, NPC 550, patrols about 200 points from Moonbrook at 45,69 north past Sentinel Hill to 46,18), 9 *The Killing Fields* and 153 *Red Leather Bandanas*. Open the Westfall map. | Where the messenger's red route crosses an area, the line draws over the area's fill and border, and Questie's icons draw over both. Repeat at maximum zoom. |
-| **V2 Reset spikes** (F1, F2) | Blob mode with about 20 quests, several with large spawn lists (Westfall and Redridge kill and collect quests). Measure across a profile switch, A/B against the stack without F1 and F2. | Fewer `>10ms` and `>50ms` ticks with F1 and F2. Areas then appear over a fraction of a second instead of in one hitch. |
+| **V1 Drawing order** (true on the stack already; F-1 keeps it in `LAYER_ORDER`) | Westfall, Questie blobs preset, with quests 142 *The Defias Brotherhood* (the Defias Messenger, NPC 550, patrols about 200 points from Moonbrook at 45,69 north past Sentinel Hill to 46,18), 9 *The Killing Fields* and 153 *Red Leather Bandanas*. Open the Westfall map. | Where the messenger's red route crosses an area, the line draws over the area's fill and border, and Questie's icons draw over both. Repeat at maximum zoom. |
+| **V2 Reset spikes** (E-F1, E-F2) | Blob mode with about 20 quests, several with large spawn lists (Westfall and Redridge kill and collect quests). Measure across a profile switch, A/B against the stack without E-F1 and E-F2. | Fewer `>10ms` and `>50ms` ticks with E-F1 and E-F2. Areas then appear over a fraction of a second instead of in one hitch. |
 | **V3 Waypoint redraw cost** (decides §3.4) | **a)** Westfall with quest 142 accepted: open the map, then zoom in and out 5 times. **b)** Ironforge, near Courier Hammerfall's 403-point route (`docs/waypoints.md:31`), with his quest icons shown: open the map, switch to Dun Morogh and back 5 times. Use the Questie profiler (Advanced → Open Profiler) for the `WaypointGeometry.Smooth`/`Quads` and `MapGeometry.Simplify` rows. | If any zoom settle or map switch adds a `>10ms` tick, or the per-zoom geometry total exceeds about 8 ms, build §3.4 step 1. Otherwise leave it. |
 | **V4 First draw of areas** (`Polygon/README.md:124`) | Blob mode with many shown areas on one zone. Open that map for the first time this session, then close and reopen it. | `>5ms` ticks on the first open only. Record the numbers for B's README. |
-| **V5 Marker allocation** (F2) | Durotar, quest 4402 *Galgar's Cactus Apple Surprise* (50 Cactus Apple objects, object 171938), blob mode. Accept the quest, and toggle the preset to force a rebuild. | Minimap icons on each cactus appear within a few frames, with no `>10ms` tick from the rebuild. |
+| **V5 Marker allocation** (E-F2) | Durotar, quest 4402 *Galgar's Cactus Apple Surprise* (50 Cactus Apple objects, object 171938), blob mode. Accept the quest, and toggle the preset to force a rebuild. | Minimap icons on each cactus appear within a few frames, with no `>10ms` tick from the rebuild. |
 
 **Profiler caveat:** `QuestiePolygon` calls `PolygonGeometry.Checkpoint` through the module slot, which the profiler wraps for about 3.7 µs per call (`Modules/Profiler/README.md:194`). Polygon job rows therefore overstate collection cost. Read them as upper bounds, or rely on the `C_AddOnProfiler` counts.
 
@@ -641,7 +678,7 @@ First, run `/run print(C_AddOnProfiler.IsEnabled())`. To count frame spikes acro
 |---|---|---|
 | R1 | `SPAWN_COST` 32 and `ICON_COST` 256 are offline estimates: spawn work measured without HBD, icons from HBD's share alone. | Ship them, then tune after V2 and V5. Mis-tuning only changes how often the clock is read; the 2 ms clock still bounds the frame. |
 | R2 | The first-step check spreads post-reset work over more frames: 26 ms of collection takes about 13 frames (≈0.2 s at 60 fps), and 132 ms about 65 frames. | Accept. That is the budget's purpose, and V2 confirms. |
-| R3 | Under F2, the marker loop can yield between a marker's map icon and its minimap icons. Today it cannot. | Area C's twin linking must not assume both icons of one marker are drawn in the same resume. Routes are drawn only after `UpdateObjective` returns, so no path reads `minimapTwin` mid-allocation. |
+| R3 | Under E-F2, the marker loop can yield between a marker's map icon and its minimap icons. Today it cannot. | Area C's twin linking must not assume both icons of one marker are drawn in the same resume. Routes are drawn only after `UpdateObjective` returns, so no path reads `minimapTwin` mid-allocation. |
 | R4 | `Simplify` squares with `*` where B used `^2`. The offline check (glibc `pow`) found 0 mismatches in 100,000 rings; the client's maths library could differ by one ulp, flipping a point exactly at the tolerance. | Accept. Such a flip cannot be seen. |
 | R5 | Reduction becomes one unbudgeted step: about 0.5 ms offline for the largest envelope seen. | Accept, and charge `#envelope` afterwards. |
 | R6 | WP's per-map redraw cost is unmeasured in game: about 3–8 ms is estimated per zoom settle for a 400-point route. | Measure with V3 before building anything (§3.4). |
@@ -650,7 +687,7 @@ First, run `/run print(C_AddOnProfiler.IsEnabled())`. To count frame spikes acro
 | R9 | **Adjacent maps.** Areas draw on neighbouring detailed maps (`QP:236-264`); WP removed that for paths, because Forever's artwork overshoots zone borders (`docs/waypoints.md:248-249`). An area can therefore show on Mulgore without its patrol line, and may sit offset from the drawn terrain the same way. | Flag to David and Area C. This is product behaviour, out of Area E's scope. |
 | R10 | Area borders thicken as the map zooms in (canvas units), while waypoint lines keep their width. At high zoom the two styles disagree. | Not in this merge. Possible later: restyle border thickness by the canvas scale when a zoom settles, or draw borders with `WaypointGeometry.Quads`. |
 | R11 | Lines at 2015 tie with Blizzard's dungeon-entrance pins on Forever and pet-tamer pins on Era. | Not a new problem: B's old line frames used 2015 too. Ignore. |
-| R12 | `setupTests` keeps `GetTime` at 0, and the shared slice lives for a whole test. A test whose cumulative charges reach the ceiling (128 icons at `ICON_COST` 256, across all its updates) would never see a new frame and would spin. | F2 makes the QuestiePolygon `Update` helper start a new frame on every resume; tests that drive coroutines by hand advance frames themselves (§5). |
+| R12 | `setupTests` keeps `GetTime` at 0, and the shared slice lives for a whole test. A test whose cumulative charges reach the ceiling (128 icons at `ICON_COST` 256, across all its updates) would never see a new frame and would spin. | E-F2 makes the QuestiePolygon `Update` helper start a new frame on every resume; tests that drive coroutines by hand advance frames themselves (§5). |
 | Q1 | Extract the budget to `Modules/Libs/FrameBudget.lua` now? | **No.** Keep it in `PolygonGeometry` until a second consumer exists (§3.3). |
 | Q2 | Budget waypoint drawing? | **No.** Measure first (V3), then §3.4. |
 | Q3 | Rename B's `PolygonCluster.worldBounds` to set it apart from WP's? | **No.** The types already keep them apart, and they never meet. |
@@ -659,18 +696,22 @@ First, run `/run print(C_AddOnProfiler.IsEnabled())`. To count frame spikes acro
 
 **Area E provides:**
 
-- **To A (hover):**
+- **To A and F (hover):**
   - The pure hit tests in §3.5:
     - `WaypointGeometry.Nearest` and `SegmentDistanceSq`, which need isotropic units and return the single nearest target;
-    - polygon containment, inclusive even-odd, all hits, in any per-axis units. If A's design calls it from outside `PolygonRenderer`, A's commit moves it to `PolygonGeometry.ContainsPoint` verbatim.
+    - polygon containment, inclusive even-odd, all hits, in any per-axis units. It stays file-local in `PolygonRenderer`, which F-2's `Renderer:Hover(x, y)` calls, so nothing is exported.
   - Both kinds of bounds are arrays `{minX, minY, maxX, maxY}`.
-  - Both pollers test only when the cursor or the canvas moves.
-  - Converting units: canvas units = percent × canvas width / 100 for x, and × canvas height / 100 for y.
-  - The stacking order (areas, then lines, then icons) as a visual cue. Precedence is A's decision.
+  - The one poller (`WorldMapLayers`) offers the cursor only when it moved, the zoom changed, or a layer invalidated, so the layers' hit tests cost nothing under a still cursor.
+  - Hover is presentation (§3.3). `WorldMapLayer.Hover` and `MinimapLayer.Hover` run inside `OnUpdate`: they never yield and never call an `---@async` function.
+  - Converting units: percent = canvas units / canvas width × 100 for x, and / canvas height × 100 for y. That is the areas layer's conversion (F 3.2).
+  - The stacking order (areas, then lines, then icons) as a visual cue. It lives in `WorldMapLayers`' `LAYER_ORDER` (F-1), and E-F4 documents it. Precedence is A's decision.
+- **To F (seams):**
+  - `MapGeometry` lives directly in `Modules/Map/` and imports nothing, so the guard counts it as shared core (F 3.7).
+  - Containment stays inside `PolygonRenderer`.
 - **To C (quest drawing):**
   - `QuestieMap:DrawWaypoints` and `QuestieWaypoints.Add` never yield. They can be called from inside the polygon objective job and from plain callers.
-  - After F2, the marker loop may yield after **any** icon draw (R3).
-  - Area E edits only the charging lines of `QuestiePolygon.UpdateObjective`: L924, L961 and the counter and yield inside L1025-1052. C owns the loop body. F2 lands after C.
+  - After E-F2, the marker loop may yield after **any** icon draw (R3).
+  - Area E edits only the charging lines of `QuestiePolygon.UpdateObjective`: L924, L961 and the counter and yield inside L1025-1052. C owns the loop body. E-F2 lands after C-F1.
 - **To D (minimap layer):**
   - The renderer contract in §3.2: `New(canvas, …, masks)`, masks applied at creation, no mouse, caller-provided frame levels.
   - In a shared container, areas get a lower frame level than lines (§3.6). Equal levels leave the order undefined.
@@ -678,11 +719,15 @@ First, run `/run print(C_AddOnProfiler.IsEnabled())`. To count frame spikes acro
   - `MapGeometry` holds no projection maths. `_ProjectPoint`, `_Transform`, culling and `_IsSecret` are D's.
 
 **Area E assumes:**
-- **From A:** hover arbitration needs no renderer change beyond possibly exporting containment.
+- **From F:**
+  - Hover needs one renderer change: F-2's `PolygonRenderer:Hover(x, y)` takes a pushed cursor in place of the renderer's own polling. Containment isn't exported.
+  - `WorldMapLayers.FrameLevel` keeps today's levels: Blizzard's quest-blob level for areas, and 2015 for paths.
+  - `MapGeometry` counts as shared core in the import guard.
+- **From A:** the precedence (icons, then paths, then areas) matches §3.6's draw order.
 - **From C:**
   - the old line model is removed, including B's line frames at level 2015, which have no Area E impact;
   - WP's `DrawWaypoints(icon, entity, waypoints, zone, hostile)` signature;
-  - C's marker-loop commits land before F2.
+  - C-F1, which changes the marker loop, lands before E-F2.
 - **From D:** whatever layer structure D chooses, each feature keeps its own renderer instance, with D's masks passed to both.
 
 ## Appendix: offline checks
@@ -705,3 +750,14 @@ Plain Lua 5.1.5 with a stub `QuestieLoader`. The checks loaded `git show origin/
 | Hull size, uniform spawns in a 120-yd disc, worst of 20 trials | ≤10, 18, 25 and 41 vertices for 20, 100, 300 and 1,000 spawns |
 | WP geometry per route (`Smooth` + `Trim` + `Quads` at a 3-unit line and smoothing 0.75) | 0.33 ms at 36 points, 1.24 ms at 120 and 4.93 ms at 400, on synthetic patrols that turn more than real data |
 | `BuildPolylines` (cheap `toWorld`) | 0.13 ms at 50 points, 0.84 ms at 400 |
+
+## Open issues with Area F
+
+1. **Moving E-F3 up alone breaks an ordering.** F 4(b), and the README after it, say E-F3 can move up to right after F-6. E-F3 charges `_Checkpoint(work, #envelope)`, which needs E-F1's cost argument. Today's `Checkpoint(work)` (B `PolygonGeometry.lua:84`) would silently ignore it. **Fix:** move E-F1 up with E-F3, just before it (§4(b)).
+2. **Who edits `docs/waypoints.md:281`?** The plans disagree on the "Frame levels" bullet:
+   - F §10 gives it to E-F4.
+   - A §6 gives both "Polygon areas" bullets (`:279` hover exceptions, `:281` frame levels) to F-1/F-2.
+   - F 4(b)'s F-1 docs row lists neither: only `:46`, `:185` and `:202-207`.
+
+   Between F-1 and E-F4, `:185` would say the levels come from `WorldMapLayers` while `:281` still says "decided then". **Recommendation:** F-1 applies both bullets (A's wording for `:279`, E's from §6 for `:281`), since F-1 settles them; E-F4 then drops `:281`. Until the orchestrator decides, E-F4 keeps it, as F §10 says.
+3. **Wording only.** F §10 E item 4 says `WaypointMap.lua:17-18` "reads" `LAYER_ORDER`. Those lines are the `FRAME_LEVEL` constant, which F-1 deletes. The read is in `_Style` (WP `WaypointMap.lua:55`). §3.6 says it that way.
