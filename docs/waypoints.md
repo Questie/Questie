@@ -42,7 +42,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 | --- | --- |
 | [`WaypointGeometry`](../Modules/Map/Waypoints/WaypointGeometry.lua) | Pure geometry. `BuildPolylines` turns a zone's patrols into polylines in percent and world yards. Consecutive points closer than 0.5 yd merge, points a patrol runs straight through (within 0.1°, against the last point kept) are dropped, and points without a world position split a patrol. Also `Smooth`, `Trim`, the mitered `Quads` and the hover distance test. |
 | [`QuestieWaypoints`](../Modules/Map/Waypoints/QuestieWaypoints.lua) | Registry and Questie adapter. Each path belongs to its world map icon and is shared on `icon.data.waypointPaths` for highlighting. On the world map it hides and fades with its icon; on the minimap it follows the icon's `minimapTwin`, so **Enable Minimap Icons**, hiding and fading apply. `SetSolo` serves the tracker's Show on Map flash. |
-| [`WaypointRenderer`](../Modules/Map/Waypoints/WaypointRenderer.lua) | One frame per path and one pooled texture per segment. Each run is smoothed, trimmed and turned into mitered quads; each texture is stretched over its quad with `SetVertexOffset`. Restyling redraws only for a new thickness, and a new colour only tints. Takes no mouse input. |
+| [`WaypointRenderer`](../Modules/Map/Waypoints/WaypointRenderer.lua) | One frame per path and one pooled texture per segment, plus two fills and a cap per sharp turn. Each run is smoothed, trimmed and turned into mitered quads; each texture is stretched over its quad with `SetVertexOffset`. Restyling redraws only for a new thickness, and a new colour only tints. Takes no mouse input. |
 | [`WaypointMap`](../Modules/Map/Waypoints/WaypointMap.lua) | One `OnUpdate` driver on the world map canvas, with no data provider. Draws, keeps the width constant on screen while zooming, and computes hover from the cursor. |
 | [`WaypointMinimap`](../Modules/Map/Waypoints/WaypointMinimap.lua) | The minimap layer: HereBeDragons-aligned projection with rotation, culling, shape and player masks, one driver. Computes hover from the cursor too. |
 | [`WaypointHover`](../Modules/Map/Waypoints/WaypointHover.lua) | The one hovered path, on either map: opens and closes its NPC's tooltip and highlight. Also the hover reach. |
@@ -102,6 +102,8 @@ Figures in units below were measured on the 4-unit line, the default before it b
   - **`TRILINEAR`** needs a correct mip chain. The first asset, a `WHITE32X32BLACKLINES` BLP, had broken mipmaps (below full size only its top rows were opaque), so it drew a thin dark edge with no core.
   - **A larger texture** would need a properly mipmapped BLP and `TRILINEAR`. Worth it only if 1080p players report shimmer.
 
+[`Icons/waypoint-cap-aa.png`](../Icons/waypoint-cap-aa.png) is 32×32: the same rows turned into rings around its centre, so a disc of radius 8 texels with the line's profile and transparent black around it. Radius 8 matches the line's 8 texels from its centreline to its quad edge, so the cap has the line's texel density and filters the same way. Sharp turns draw it; see [Mitered joins](#mitered-joins).
+
 The classic way to draw such a texture is Blizzard's `DrawLine(texture, frame, sx, sy, ex, ey, thickness, 1, "TOPLEFT")` with `CLAMPTOBLACKADDITIVE` wrapping. It sets a bounding-box quad and texture coordinates outside 0–1, and the clamp makes the rest transparent. It can only place rotated rectangles, though, and it divides by the segment's length. Questie uses it only for the debug hover view.
 
 ### Mitered joins
@@ -116,11 +118,16 @@ left   = P + m * len,  right = P - m * len
 ```
 
 - **Drawing:** each segment is one texture, anchored to its quad's bounding box, with `SetVertexOffset` moving each vertex onto a corner. The image only changes across its width, so whichever diagonal the client splits the quad on, both triangles keep the black rows on the long edges.
-- **Sharp turns:** the outer corner is shared on the bisector within `MITER_LIMIT` (2) half widths of the point. Turns up to 120° are exact; sharper ones taper instead of spiking.
+- **Sharp turns:** past 120°, where the outer corner would lie more than `MITER_LIMIT` (2) half widths from the point, the miter would spike. The outer corner used to be clamped there, which tapered the line to a long `>` at turnarounds. Now:
+  - **Inner corners** are mitered as at any other turn.
+  - **Outer corners** end square at the point.
+  - **Fills:** each segment's end then runs from its inner corner to its outer one, which misses the point. A fill, the triangle between those corners and the point, completes it. It is drawn with the line texture, with `SetTexCoord` placing the line's edge rows at the corners and its centre row at the point, so it carries the segment's own profile.
+  - **Cap:** the outside of the turn is the sector of a disc around the point, between the two square outer ends. The cap texture is drawn on a kite from the point out along both outer ends and the outward bisector, √2 half widths long, which holds up to a half disc. `SetTexCoord` maps the kite onto the image at the disc's scale, and the image past the disc is transparent.
+  - Together they neither gap nor overlap, while the pull-back stays below its limit. Near 180° it almost always reaches it: at 170°, the full pull-back needs both segments longer than about 45 units at the default width. There the fills and segments overlap on the inside, like any short-segment join. Each sharp turn costs three more textures.
 - **Short segments:** each inner corner stays on its own segment's inner edge, pulled back to where the inner edges cross, at most half the shorter segment. Past that the segments overlap slightly on the inside.
-- **Convexity:** the client splits every quad along a fixed diagonal, and a concave quad would draw outside its outline. Corners placed this way keep every quad convex. An earlier version slid the clamped inner corner along the bisector and made about 4 in 10 quads concave at tight joins. A fuzz of 738k quads from random polylines found none concave or non-finite.
-- **Edge cases:** turning back on itself (within 0.1° of 180°) keeps square ends. A patrol that returns to its first point joins there.
-- **Client APIs:** `Texture:SetVertexOffset` and the `UPPER_LEFT_VERTEX` constants (1–4) exist on Era, Anniversary, Mists and Forever. Offsets point y up like `SetPoint`, as Blizzard's own use in `Blizzard_ArtifactUI/Blizzard_ArtifactPerks.lua` shows.
+- **Convexity:** the client splits every quad along a fixed diagonal, and a concave quad would draw outside its outline. Corners placed this way keep every quad, fill and cap convex. An earlier version slid the clamped inner corner along the bisector and made about 4 in 10 quads concave at tight joins. A fuzz of 738k quads from random polylines found none concave or non-finite, before fills and caps existed. A turn back's cap is an exact half disc: built from both segments' own normals, a fraction of a degree apart, it bent past straight at the point.
+- **Edge cases:** turning back on itself (within 0.1° of 180°) keeps square ends, and a half-disc cap rounds them. A patrol that returns to its first point joins there.
+- **Client APIs:** `Texture:SetVertexOffset` and the `UPPER_LEFT_VERTEX` constants (1–4) exist on Era, Anniversary, Mists and Forever. Offsets point y up like `SetPoint`, as Blizzard's own use in `Blizzard_ArtifactUI/Blizzard_ArtifactPerks.lua` shows. Fills and caps also use the 8-value `SetTexCoord`. `SetTexture` doesn't reset texture coordinates, so fills and caps pool apart from lines.
 
 ### Smoothing
 
@@ -291,6 +298,7 @@ On Forever 1.60.1:
 - Hovering minimap paths: the highlight, and the tooltip listing all of the NPC's quests, also for NPCs whose minimap icons are out of HereBeDragons' range or faded out.
 
 ## Still to verify in game
+- Sharp turns: that the 8-value `SetTexCoord` follows the corners `SetVertexOffset` moves, and that fills and caps meet their segments without seams.
 - Hover on the inner edge of curves at the 0.75 default.
 - Hovering a minimap icon highlights its NPC's paths on the minimap.
 - Hovering minimap paths: moving onto a minimap icon, the shape cutoff on round and square minimaps, and hovering while walking and turning.
