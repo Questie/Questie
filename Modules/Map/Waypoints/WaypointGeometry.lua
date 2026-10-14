@@ -123,6 +123,7 @@ end
 -- - Each segment then ends on the line from its inner corner to its outer one, which misses the
 --   point. A fill, the triangle between those two corners and the point, completes the segment.
 -- - The cap holds the outside's sector of a disc around the point, between the two outer ends.
+-- Open ends are square, and a half disc caps each beyond its point.
 
 -- A turn whose miter would reach further than this many half widths from its point is sharp: 2
 -- makes every turn past 120 degrees sharp.
@@ -149,7 +150,8 @@ end
 ---The cap of a sharp turn at p: a kite from p out along both outer ends and the outward direction.
 ---Its sides along the outer ends meet the segments there, so it covers only the outside of the turn.
 ---@param aOuterX number Unit normal of segment a towards the outside, then b's, and the outward
----direction between them. A turn back gives a's normal both ways, and a's direction.
+---direction between them. A turn back or an open end gives one normal both ways, and the
+---direction out past p.
 ---@return number[] cap p as start left, then start right, end left and end right, going around the
 ---same way as a segment quad's start left, end left, end right and start right.
 local function _Cap(p, aOuterX, aOuterY, bOuterX, bOuterY, outwardX, outwardY, halfWidth)
@@ -228,8 +230,8 @@ end
 ---@return number[][] quads One per segment: start left x/y, start right x/y, end left x/y, end right x/y.
 ---@return number[][] fills Two per sharp turn, in the same layout: the triangle from a segment's end
 ---corners at the turn to its point, whose end corners are both the point. Drawn with the line's rows.
----@return number[][] caps One per sharp turn or turn back, in the same layout: a kite whose start left
----corner is the turn's point and whose others lie √2 half widths from it. Drawn with a disc of
+---@return number[][] caps One per sharp turn, turn back or open end, in the same layout: a kite whose
+---start left corner is the point and whose others lie √2 half widths from it. Drawn with a disc of
 ---halfWidth radius around the point.
 function WaypointGeometry.Quads(polyline, halfWidth)
     local points = {}
@@ -255,12 +257,15 @@ function WaypointGeometry.Quads(polyline, halfWidth)
             quadIn[5], quadIn[6], quadIn[7], quadIn[8], quadOut[1], quadOut[2], quadOut[3], quadOut[4] =
                 _Join(points[i], a, b, dirX, dirY, lengths, halfWidth, fills, caps)
         elseif not (i == #points and closed) then
-            -- Open ends are square.
+            -- Open ends are square, with a half disc beyond: out past the start, or on past the end.
             local k = quadOut and b or a
-            local normalX, normalY = -dirY[k] * halfWidth, dirX[k] * halfWidth
+            local unitX, unitY = -dirY[k], dirX[k]
+            local normalX, normalY = unitX * halfWidth, unitY * halfWidth
+            local outward = quadOut and -1 or 1
             local p, quad, offset = points[i], quads[k], quadOut and 0 or 4
             quad[offset + 1], quad[offset + 2] = p.x + normalX, p.y + normalY
             quad[offset + 3], quad[offset + 4] = p.x - normalX, p.y - normalY
+            caps[#caps + 1] = _Cap(p, unitX, unitY, -unitX, -unitY, dirX[k] * outward, dirY[k] * outward, halfWidth)
         end
     end
     return quads, fills, caps

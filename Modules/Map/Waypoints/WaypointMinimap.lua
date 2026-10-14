@@ -96,7 +96,7 @@ local function _Runs(world, projection)
         end
         previous = point
     end
-    -- A closed path cut elsewhere would end where it starts and start again there, as two square
+    -- A closed path cut elsewhere would end where it starts and start again there, as two capped
     -- ends. The last run continues into the first instead, so its start stays a corner.
     local first, last = world[1], world[#world]
     if run and startsAtFirst and #runs > 1 and first.x == last.x and first.y == last.y then

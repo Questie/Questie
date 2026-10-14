@@ -150,8 +150,9 @@ describe("WaypointRenderer", function()
             assert.are_same({0, 0, 0, 1, 1, 0.5, 1, 0.5}, fill.texCoords)
             assert.are_same({0, 1, 0, 1}, fill.color)
         end
-        assert.are.equal(1, #view.caps)
-        local cap = view.caps[1]
+        -- The open ends' caps come first and last.
+        assert.are.equal(3, #view.caps)
+        local cap = view.caps[2]
         assert.is_truthy(cap.asset:find("waypoint%-cap%-aa%.png$"))
         assert.are_same({0, 1, 0, 1}, cap.color)
         -- The kite starts at the turn, the disc's center. Each corner's image position is its offset
@@ -164,6 +165,20 @@ describe("WaypointRenderer", function()
         for k = 1, 8, 2 do
             assert.are.near(0.5 + (drawn[k] - 20) * scale, cap.texCoords[k], 1e-9)
             assert.are.near(0.5 + drawn[k + 1] * scale, cap.texCoords[k + 1], 1e-9)
+        end
+    end)
+
+    it("colors caps new to a redrawn view, though its lines are reused and its color is unchanged", function()
+        local renderer = WaypointRenderer.New(NewFrame())
+        local view = renderer:Draw(nil, {{{x = 0, y = 0}, {x = 10, y = 0}, {x = 10, y = 10}, {x = 0, y = 10}, {x = 0, y = 0}}}, Style(4))
+        assert.are.equal(0, #view.caps)
+
+        -- Cut open, as the minimap's culling does: one segment, whose line is reused, and two new end caps.
+        renderer:Draw(view, {{{x = 0, y = 0}, {x = 10, y = 0}}}, Style(4))
+
+        assert.are.equal(2, #view.caps)
+        for _, cap in ipairs(view.caps) do
+            assert.are_same({1, 0.5, 0, 0.5}, cap.color)
         end
     end)
 
@@ -193,7 +208,8 @@ describe("WaypointRenderer", function()
         local second = renderer:Draw(nil, {{{x = 0, y = 0}, {x = 5, y = 5}}}, Style(4))
         assert.are.equal(spare, second.lines[1])
         assert.are.equal(second, spare.parent)
-        assert.are.equal(2, #createdTextures)
+        -- Two lines, and the first view's two end caps; the second view's caps are new.
+        assert.are.equal(6, #createdTextures)
         assert.are_same({mask}, spare.masks)
     end)
 
@@ -240,6 +256,7 @@ describe("WaypointRenderer", function()
         assert.is_false(view.shown)
         assert.are.equal(0, #view.lines)
         assert.are.equal(view, renderer:Draw(nil, {{{x = 0, y = 0}, {x = 1, y = 1}}}, Style(4)))
-        assert.are.equal(1, #createdTextures)
+        -- A line and its two end caps.
+        assert.are.equal(3, #createdTextures)
     end)
 end)
