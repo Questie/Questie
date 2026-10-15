@@ -54,6 +54,7 @@ function QuestieQuestBlacklist:Load()
         [5847] = true,
         -- Special quests
         [3861] = HIDE_ON_MAP, -- CLUCK!
+        [97583] = HIDE_ON_MAP, -- WRIGGLE.
         -- World event quests
         -- Fetched from https://classic.wowhead.com/world-event-quests
         [7904] = true,
