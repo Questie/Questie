@@ -25,7 +25,22 @@ local mapLocales = {
         ["ruRU"] = "Неизвестная зона",
         ["zhCN"] = "未知区域",
         ["zhTW"] = "未知區域",
-    }
+    },
+    ["Blizzard Integration"] = {
+        ["enUS"] = true,
+    },
+    ["Enable Quest POI"] = {
+        ["enUS"] = true,
+    },
+    ["Show Blizzard's native quest POI pins on the world map alongside Questie. This client turns them off each login; Questie re-applies your choice and adds a \"?\" toggle button to the map."] = {
+        ["enUS"] = true,
+    },
+    ["Quest POI"] = {
+        ["enUS"] = true,
+    },
+    ["Shown"] = {
+        ["enUS"] = true,
+    },
 }
 
 for k, v in pairs(mapLocales) do
