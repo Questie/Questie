@@ -214,6 +214,33 @@ describe("QuestLogCache", function()
         end)
     end)
 
+    describe("HasUnfinishedCriteriaObjective", function()
+        local CRITERIA_TREE = 14
+
+        it("is true only while a cached criteria-tree objective is unfinished", function()
+            -- Sparring Match (99108): duels won count with only CRITERIA_UPDATE and QUEST_LOG_UPDATE.
+            questLogTitles[1] = {"Sparring Match", 6, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "0/3 Duels won", type = "object", objectiveType = CRITERIA_TREE,
+                                          numFulfilled = 0, numRequired = 3, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+            assert.is_true(QuestLogCache.HasUnfinishedCriteriaObjective())
+
+            questObjectives[QUEST_ID] = {{text = "3/3 Duels won", type = "object", objectiveType = CRITERIA_TREE,
+                                          numFulfilled = 3, numRequired = 3, finished = true}}
+            QuestLogCache.CheckForChanges(nil)
+            assert.is_false(QuestLogCache.HasUnfinishedCriteriaObjective())
+        end)
+
+        it("is false for unfinished objectives of other types", function()
+            questLogTitles[1] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "Item: 2/5", type = "item", objectiveType = 1,
+                                          numFulfilled = 2, numRequired = 5, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(QuestLogCache.HasUnfinishedCriteriaObjective())
+        end)
+    end)
+
     describe("client objective placeholders", function()
         local originalItemsNeeded, originalMonstersKilled
         local cases = {

@@ -524,6 +524,15 @@ function QuestEventHandler.QuestAutoComplete(questId)
     end
 end
 
+--- Fires for any achievement or quest criteria progress, hundreds of times per session. Criteria-tree objectives,
+--- e.g. Forever's duel and emote quests, progress with only this event and QUEST_LOG_UPDATE. It is a marker only while
+--- such an objective is unfinished, so other sessions do not rescan the quest log more often.
+function QuestEventHandler.CriteriaUpdate()
+    if QuestLogCache.HasUnfinishedCriteriaObjective() then
+        lastMarkerQuestEventTime = GetTime()
+    end
+end
+
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
 function QuestEventHandler.UnitQuestLogChanged(unitTarget)

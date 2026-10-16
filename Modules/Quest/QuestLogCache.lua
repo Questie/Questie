@@ -17,6 +17,10 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
+-- The client's QuestObjectiveType for a criteria tree. Such objectives (e.g. Forever's duel and emote quests) progress
+-- with only CRITERIA_UPDATE and QUEST_LOG_UPDATE.
+local CRITERIA_TREE_OBJECTIVE_TYPE = 14
+
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
 local MAX_QUEST_LOG_INDEX = 75
@@ -59,6 +63,7 @@ local cache = {
 
 ---@class QuestLogCacheObjectiveData
 ---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"|string Includes client objective types unknown to Questie.
+---@field objectiveType number? The client's QuestObjectiveType, e.g. CRITERIA_TREE_OBJECTIVE_TYPE.
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number
@@ -163,6 +168,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         raw_finished = newObj.finished,
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
+                        objectiveType = newObj.objectiveType,
                         numRequired = newObj.numRequired,
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
@@ -445,6 +451,19 @@ end
 ---@return number @The amount of quests in the quest cache
 function QuestLogCache.GetQuestCount()
     return questCount
+end
+
+---Whether a cached quest still has an unfinished criteria-tree objective, whose progress no quest event marks.
+---@return boolean
+function QuestLogCache.HasUnfinishedCriteriaObjective()
+    for _, quest in pairs(cache) do
+        for _, objective in pairs(quest.objectives) do
+            if objective.objectiveType == CRITERIA_TREE_OBJECTIVE_TYPE and not objective.finished then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 

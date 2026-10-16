@@ -999,4 +999,37 @@ describe("QuestEventHandler", function()
         end)
     end)
 
+    describe("CRITERIA_UPDATE", function()
+        local now
+
+        before_each(function()
+            now = 100
+            _G.GetTime = function() return now end
+            _G.C_Timer = {After = function() end, NewTimer = newTimerMock}
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            QuestEventHandler.QuestLogUpdate() -- A scan sets the marker; let it expire.
+            QuestLogCache.CheckForChanges:clear()
+            now = 130
+        end)
+
+        -- 2026-09-23_184901Z s1: duels won in Sparring Match (99108) came with only CRITERIA_UPDATE and QUEST_LOG_UPDATE.
+        it("lets the next QUEST_LOG_UPDATE scan while a criteria-tree objective is unfinished", function()
+            QuestLogCache.HasUnfinishedCriteriaObjective = function() return true end
+
+            QuestEventHandler.CriteriaUpdate()
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.called(1)
+        end)
+
+        it("is no marker without an unfinished criteria-tree objective", function()
+            QuestLogCache.HasUnfinishedCriteriaObjective = function() return false end
+
+            QuestEventHandler.CriteriaUpdate()
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.not_called()
+        end)
+    end)
+
 end)
