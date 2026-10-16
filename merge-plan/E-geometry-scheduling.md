@@ -51,7 +51,10 @@ The duplicates:
 
 ### 1.2 Rendering
 
-- **WP `WaypointRenderer`** draws mitered, anti-aliased line quads: one pooled texture per segment, with `Icons/waypoint-line-aa.png`.
+- **WP `WaypointRenderer`** draws mitered, anti-aliased line quads: one pooled texture per segment, with `Icons/waypoints/waypoint-line-aa.png`.
+  - Since waypoints `f567796eb`, it also draws two fills per sharp turn and a half-disc cap per sharp turn, turn back and open end, with `Icons/waypoints/waypoint-cap-aa.png`. Fills and caps have their own texture pools.
+  - These are line-specific, and polygons never need them. That strengthens §3.2's "no shared renderer".
+  - `Trim` (the source of E-F3's `MapGeometry.Simplify`) is unchanged.
 - **B `PolygonRenderer`** draws a fan of fill quads plus `DrawLine` borders, and runs geometric hover inside the renderer.
 - **B `PolygonRenderCache`** retains views per objective, marker and map.
 
