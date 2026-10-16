@@ -12,6 +12,7 @@ local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
 ---@field uiMapId number
 ---@field instanceId number Unrelated coordinate spaces never share a cluster.
 ---@field isObject boolean? A static game object; objects and creatures never share a cluster.
+---@field kind any? What the spawn is of, such as one NPC: each cluster lists one member of every kind.
 -- Extra fields are opaque to geometry. Representatives retain the caller's original point.
 
 ---@class PolygonCluster
@@ -24,6 +25,7 @@ local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
 ---@field representative PolygonSpawnPoint For an object cluster without an area, the member the marker sits on.
 ---@field isObject boolean? A cluster of game objects, which list their own positions.
 ---@field locations PolygonSpawnPoint[]? Object members at least objectSpacing apart, starting with the representative.
+---@field kinds PolygonSpawnPoint[]? The first member of each kind, in admission order; nil when no member has a kind.
 
 ---@class PolygonWorldBounds
 ---@field minX number World units, matching PolygonSpawnPoint.worldX.
@@ -407,8 +409,16 @@ function PolygonGeometry.Build(points, options, isCancelled)
                     end
                 end
 
+                local kinds, seenKinds = {}, {}
+                for _, member in ipairs(members) do
+                    local kind = member.kind
+                    if kind ~= nil and not seenKinds[kind] then
+                        seenKinds[kind] = true
+                        kinds[#kinds + 1] = member
+                    end
+                end
                 local cluster = {uiMapId = seed.uiMapId, instanceId = seed.instanceId,
-                    x = sumX / #members, y = sumY / #members, representative = seed,
+                    x = sumX / #members, y = sumY / #members, representative = seed, kinds = kinds[1] and kinds or nil,
                     worldBounds = {minX = minX, minY = minY, maxX = maxX, maxY = maxY}}
                 -- Outlines and markers share clustering, but isolated/collinear/tiny regions
                 -- remain useful point markers instead of being discarded by the area cutoff.
