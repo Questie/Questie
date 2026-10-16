@@ -31,7 +31,7 @@ PolygonRenderer.debugRandomColors = false
 ---Polygon frames never take mouse input, so they cannot block map clicks or dragging and
 ---need no protected input setup. Hover is computed from the offered cursor and the outlines instead.
 ---@class PolygonHoverInput
----@field onHover fun(shapes: PolygonShape[], changed: boolean)? Hears every hover check, with the hovered shapes as last styled; changed when the hovered set differs.
+---@field onHover fun(shapes: PolygonShape[], changed: boolean, x: number?, y: number?)? Hears every hover check, with the hovered shapes as last styled; changed when the hovered set differs; x and y the cursor checked, nil once the hover ended.
 
 local Renderer = {}
 Renderer.__index = Renderer
@@ -97,7 +97,7 @@ local function _NotifyHover(self, changed)
     for _, frame in ipairs(self.activeFrames) do
         if self.hoveredFrames[frame] and frame.polygonShape then shapes[#shapes + 1] = frame.polygonShape end
     end
-    onHover(shapes, changed)
+    onHover(shapes, changed, self.cursorX, self.cursorY)
 end
 
 ---Ends geometric hover, telling listeners only if something was hovered.
@@ -138,6 +138,13 @@ local function _ContainsPoint(points, x, y)
     return inside
 end
 
+-- The outline's bounding box rejects most polygons before the full test.
+local function _Contains(frame, x, y)
+    local bounds = frame.polygonBounds
+    return x >= bounds[1] and x <= bounds[3] and y >= bounds[2] and y <= bounds[4] and frame:IsShown()
+        and _ContainsPoint(frame.polygonOutline, x, y)
+end
+
 ---Reconciles the kept cursor's hits and marker requests for the published visible set. Hover
 ---selects every visible outline containing the cursor, overlaps included. Only changed effective
 ---highlights restyle borders.
@@ -146,12 +153,7 @@ function Renderer:UpdateHover()
     local x, y = self.cursorX, self.cursorY
     if self.hoverInput and x then
         for _, frame in ipairs(self.activeFrames) do
-            -- The outline's bounding box rejects most polygons before the full test.
-            local bounds = frame.polygonBounds
-            if x >= bounds[1] and x <= bounds[3] and y >= bounds[2] and y <= bounds[4]
-                and frame:IsShown() and _ContainsPoint(frame.polygonOutline, x, y) then
-                hovered[frame], selected[frame] = true, true
-            end
+            if _Contains(frame, x, y) then hovered[frame], selected[frame] = true, true end
         end
     end
     -- Marker association remains independent of geometric hover.
@@ -163,6 +165,19 @@ function Renderer:UpdateHover()
     self.hoveredFrames = hovered
     _SetHighlightedFrames(self, selected)
     _NotifyHover(self, changed)
+end
+
+---The shapes of the visible outlines containing a point, overlaps included, as last styled. Changes
+---no hover.
+---@param x number In the outlines' units, such as canvas percent.
+---@param y number
+---@return PolygonShape[]
+function Renderer:ShapesAt(x, y)
+    local shapes = {}
+    for _, frame in ipairs(self.activeFrames) do
+        if frame.polygonShape and _Contains(frame, x, y) then shapes[#shapes + 1] = frame.polygonShape end
+    end
+    return shapes
 end
 
 ---Hovers the outlines under the cursor WorldMapLayers offers, or ends the hover for nil. The
