@@ -1381,7 +1381,7 @@ function QuestieOptionsUtils.DetermineTheme()
                 Questie.db.profile.alwaysGlowMap == false and
                 Questie.db.profile.questMinimapObjectiveColors == true and
                 Questie.db.profile.alwaysGlowMinimap == false and
-                Questie.db.profile.objectiveFilterDistance == 0)
+                Questie.db.profile.objectiveFilterDistance == 2)
         then
             Questie.db.profile.iconTheme = "pfquest"
         elseif (Questie.db.profile.enableObjectives == true and
