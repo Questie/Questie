@@ -582,7 +582,24 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         end
     end
 
-    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
+    local cacheMiss, changes, _, questIdsUnlisted = QuestLogCache.CheckForChanges(questIdsToCheck)
+    -- A quest can join the game's log without a QUEST_ACCEPTED Questie saw: the server's quest log arrived after
+    -- startup filled the cache, or the accept fired before the event was registered. Adopt it as at login, without a
+    -- Journey entry or announcement: Questie cannot tell a missed accept from a quest the log already had.
+    local adopted = {}
+    for questId in pairs(questIdsUnlisted or {}) do
+        if not questLog[questId] then
+            adopted[questId] = true
+        end
+    end
+    if next(adopted) then
+        QuestEventHandler.InitQuestLogStates(adopted)
+        local adoptedCacheMiss, adoptedChanges = QuestLogCache.CheckForChanges(adopted)
+        cacheMiss = cacheMiss or adoptedCacheMiss
+        for questId, objIds in pairs(adoptedChanges) do
+            changes[questId] = objIds
+        end
+    end
     -- A successful accepted-quest scan does not mean pending accepts are ready. Keep the fallback for either
     -- case; otherwise a new quest could remain title-only forever if Blizzard sends no further event.
     if cacheMiss or pendingAccept then

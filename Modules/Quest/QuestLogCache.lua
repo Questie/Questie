@@ -242,13 +242,14 @@ QuestLogCache._GetNewObjectives = GetNewObjectives
 --- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
 --- Called only from QuestEventHandler.
 ---@param questIdsToCheck table? @keys are the questIds
----@return boolean cacheMiss, table changes, table questIdsChecked @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
+---@return boolean cacheMiss, table changes, table questIdsChecked, table questIdsUnlisted @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives) ; questIdsUnlisted = quests in the game's log that questIdsToCheck left out
 function QuestLogCache.CheckForChanges(questIdsToCheck)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.CheckForChanges]")
 
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
+    local questIdsUnlisted = {}
 
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         ----- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questID, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isBounty, isStory, isHidden, isScaling = GetQuestLogTitle(questLogIndex)
@@ -256,6 +257,9 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         local title, _, questTag, isHeader, _, isCompleteAccordingToBlizzard, _, questId = GetQuestLogTitle(questLogIndex)
         if (not title) then
             break -- We exceeded the valid quest log entries
+        end
+        if (not isHeader) and questIdsToCheck and (not questIdsToCheck[questId]) then
+            questIdsUnlisted[questId] = true
         end
         if (not isHeader) and ((not questIdsToCheck) or questIdsToCheck[questId]) then -- check all quests if no list what to check, otherwise just ones in the list
             ---@cast questId number
@@ -350,7 +354,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         end
     end
 
-    return cacheMiss, changes, questIdsChecked
+    return cacheMiss, changes, questIdsChecked, questIdsUnlisted
 end
 
 ---Protects cached quests from stale objective decreases until each quest's data recovers.

@@ -531,6 +531,54 @@ describe("QuestEventHandler", function()
         end)
     end)
 
+    describe("quest in the game's log without a QUEST_ACCEPTED", function()
+        local UNLISTED_ID = QUEST_ID + 1
+        local unlistedQuest
+
+        before_each(function()
+            _G.C_Timer = {After = function(_, callback) callback() end, NewTimer = newTimerMock}
+            unlistedQuest = {Id = UNLISTED_ID}
+            QuestieDB.GetQuest = function(questId) return questId == UNLISTED_ID and unlistedQuest or nil end
+            -- The scan of accepted quests lists the unknown quest; a second scan reads it.
+            QuestLogCache.CheckForChanges = spy.new(function(questIdsToCheck)
+                if questIdsToCheck[UNLISTED_ID] then
+                    return false, {[UNLISTED_ID] = {1}}
+                end
+                return false, {}, {}, {[UNLISTED_ID] = true}
+            end)
+            QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+            QuestieNameplate.UpdateNameplate = spy.new(function() end)
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieTracker.UpdateQuestLines = spy.new(function() end)
+            QuestieJourney.AcceptQuest = spy.new(function() end)
+            QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+        end)
+
+        -- 2026-09-30_190105Z s9: the character's 9 quests arrived from the server after Questie had started.
+        it("is adopted as at login, without a Journey entry or announcement", function()
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.is_true(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+            assert.are.equal(unlistedQuest, QuestiePlayer.currentQuestlog[UNLISTED_ID])
+            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, UNLISTED_ID)
+            assert.spy(QuestieJourney.AcceptQuest).was.not_called()
+            assert.spy(QuestieAnnounce.AcceptedQuest).was.not_called()
+        end)
+
+        it("is left to its own lifecycle while Questie tracks it, e.g. removed and awaiting the abandon check", function()
+            _G.C_Timer.NewTicker = function() return {Cancel = function() end} end
+            QuestEventHandler.QuestRemoved(UNLISTED_ID)
+
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.called(1)
+            assert.is_false(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+        end)
+    end)
+
     it("should handle QUEST_AUTOCOMPLETE", function()
         Questie.db.profile.trackerEnabled = true
         WatchFrameHook.Hide = spy.new(function() end)

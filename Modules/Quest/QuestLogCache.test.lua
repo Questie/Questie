@@ -214,6 +214,24 @@ describe("QuestLogCache", function()
         end)
     end)
 
+    describe("CheckForChanges with a list of quests", function()
+        it("checks only the listed quests and returns the game's other quests as unlisted", function()
+            local otherId = QUEST_ID + 1
+            questLogTitles[1] = {"Kalimdor", nil, nil, true, false, nil, nil, 0}
+            questLogTitles[2] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questLogTitles[3] = {"Kill Things", 2, nil, false, false, nil, nil, otherId}
+            questObjectives[QUEST_ID] = {{text = "Item: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false}}
+            questObjectives[otherId] = {{text = "Boar slain: 0/5", type = "monster", numFulfilled = 0, numRequired = 5, finished = false}}
+
+            local _, changes, questIdsChecked, questIdsUnlisted = QuestLogCache.CheckForChanges({[QUEST_ID] = true})
+
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.same({[QUEST_ID] = true}, questIdsChecked)
+            assert.are.same({[otherId] = true}, questIdsUnlisted)
+            assert.is_nil(QuestLogCache.TryGetQuest(otherId))
+        end)
+    end)
+
     describe("HasUnfinishedCriteriaObjective", function()
         local CRITERIA_TREE = 14
 
