@@ -16,6 +16,7 @@ describe("Townsfolk", function()
     local LibQuestieDB
     local npcKeys, itemKeys, objectKeys
     local professionKeys
+    local l10n
 
     local originalExpansion
     local originalIsClassic
@@ -33,6 +34,7 @@ describe("Townsfolk", function()
         STABLEMASTER = 8192,
         SPIRIT_HEALER = 32,
         VENDOR = 4,
+        TRAINER = 16,
     }
 
     ---Runs Townsfolk.Initialize to completion; it yields between database chunks.
@@ -87,9 +89,14 @@ describe("Townsfolk", function()
             ["Riding"] = professionKeys.RIDING,
         }
 
+        dofile("Localization/l10n.lua")
+        dofile("Localization/Translations/MinimapIcon/Townsfolk.lua")
+        l10n = QuestieLoader:ImportModule("l10n")
+        l10n:SetUILocale("enUS")
+
         dofile("Modules/QuestieMenu/Townsfolk.lua")
         Townsfolk = QuestieLoader:ImportModule("Townsfolk")
-        -- The curated ID lists live in sibling files; Townsfolk only filters them against the database.
+        -- Curated exceptions remain available alongside flag/title discovery.
         Townsfolk.GetProfessionTrainers = function() return {2001, 2002, 2003, 2999} end
         Townsfolk.GetClassTrainers = function()
             return {WARRIOR = {4001, 4999}, DRUID = {4002}, MAGE = {}, HUNTER = {}}
@@ -176,6 +183,196 @@ describe("Townsfolk", function()
             assert.are_same({4002}, classSpecific.DRUID["Class Trainer"])
             assert.is_true(#classSpecific.MAGE["Portal Trainer"] > 0)
             assert.are_same({}, classSpecific.HUNTER["Stable Master"])
+        end)
+
+        it("discovers class trainers added by provider corrections without curated IDs", function()
+            LibQuestieDB.SetCorrection("Test", "Npc", "new trainers", {
+                [9001] = {
+                    [npcKeys.name] = "New Druid Trainer",
+                    [npcKeys.subName] = "Druid Trainer",
+                    [npcKeys.npcFlags] = NPC_FLAGS.TRAINER + 1,
+                },
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+            Townsfolk:BuildCharacterTownsfolk()
+
+            assert.are_same({4002, 9001}, Townsfolk.classSpecificTownsfolk.DRUID["Class Trainer"])
+            assert.are_same({4002, 9001}, Questie.db.char.townsfolk["Class Trainer"])
+        end)
+
+        it("discovers profession titles and occupation titles without duplicate entries", function()
+            mock.SetBaseRow("Npc", 9001, {
+                [npcKeys.name] = "New Smith",
+                [npcKeys.subName] = "Artisan Blacksmithing Trainer",
+                [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9002, {
+                [npcKeys.name] = "New Alchemist",
+                [npcKeys.subName] = "Journeyman Alchemist",
+                [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 2001, {
+                [npcKeys.name] = "Smith Argus",
+                [npcKeys.subName] = "Blacksmithing Trainer",
+                [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+            _RunInitialize()
+
+            assert.are_same({2001, 9001}, Townsfolk.professionTrainers[professionKeys.BLACKSMITHING])
+            assert.are_same({9002}, Townsfolk.professionTrainers[professionKeys.ALCHEMY])
+        end)
+
+        it("discovers portal trainers, weapon masters and pet trainers", function()
+            mock.SetBaseRow("Npc", 9001, {
+                [npcKeys.name] = "New Portal Trainer", [npcKeys.subName] = "Portal Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9002, {
+                [npcKeys.name] = "New Weapon Master", [npcKeys.subName] = "Weapon Master", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9003, {
+                [npcKeys.name] = "New Pet Trainer", [npcKeys.subName] = "Pet Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            local portalTrainers = Townsfolk.classSpecificTownsfolk.MAGE["Portal Trainer"]
+            assert.are_equal(9001, portalTrainers[#portalTrainers])
+            assert.are_same({2003, 9002}, Townsfolk.townsfolk["Weapon Master"])
+            assert.are_same({9003}, Townsfolk.classSpecificTownsfolk.HUNTER["Class Trainer"])
+        end)
+
+        it("recognizes localized weapon and portal trainers without English-title seeds", function()
+            l10n:SetUILocale("deDE")
+            mock.SetBaseRow("Npc", 2003, {
+                [npcKeys.name] = "Known Weapon Master", [npcKeys.subName] = "Waffenmeister", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9001, {
+                [npcKeys.name] = "New Weapon Master", [npcKeys.subName] = "Waffenmeister", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9002, {
+                [npcKeys.name] = "New Portal Trainer", [npcKeys.subName] = "Portallehrer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            local weaponMasters = Townsfolk.townsfolk["Weapon Master"]
+            table.sort(weaponMasters)
+            assert.are_same({2003, 9001}, weaponMasters)
+            local portalTrainers = Townsfolk.classSpecificTownsfolk.MAGE["Portal Trainer"]
+            assert.are_equal(9002, portalTrainers[#portalTrainers])
+        end)
+
+        it("does not duplicate a curated class trainer discovered by title", function()
+            mock.SetBaseRow("Npc", 4002, {
+                [npcKeys.name] = "Existing Druid", [npcKeys.subName] = "Druid Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            assert.are_same({4002}, Townsfolk.classSpecificTownsfolk.DRUID["Class Trainer"])
+            assert.are_same({4002}, Townsfolk.GetClassTrainers().DRUID)
+        end)
+
+        it("learns localized class titles for correction-added trainers from known trainers", function()
+            mock.SetBaseRow("Npc", 4002, {
+                [npcKeys.name] = "Known Druid", [npcKeys.subName] = "Druid Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            LibQuestieDB.SetCorrection("QuestieDB", "Npc", "new trainer", {
+                [9001] = {
+                    [npcKeys.name] = "New Druid", [npcKeys.subName] = "Druid Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+                },
+            })
+            LibQuestieDB.l10n.SetLocale("deDE")
+            LibQuestieDB.l10n.SetCorrection("QuestieDB", "deDE", "Npc", "titles", {
+                [4002] = {[npcKeys.subName] = "Druidenlehrer"},
+                [9001] = {[npcKeys.subName] = "Druidenlehrer"},
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            assert.are_same({4002, 9001}, Townsfolk.classSpecificTownsfolk.DRUID["Class Trainer"])
+            assert.are_equal("Druidenlehrer", QuestieDB.QueryNPCSingle(9001, "subName"))
+            assert.are_equal("deDE", LibQuestieDB.l10n.currentLocale)
+        end)
+
+        it("does not revive a base trainer role replaced by a data correction", function()
+            mock.SetBaseRow("Npc", 9001, {
+                [npcKeys.name] = "Former Druid", [npcKeys.subName] = "Druid Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            LibQuestieDB.SetCorrection("QuestieDB", "Npc", "changed role", {[9001] = {[npcKeys.subName] = "Special Trainer"}})
+            LibQuestieDB.l10n.SetLocale("deDE")
+            LibQuestieDB.l10n.SetCorrection("TestLocale", "deDE", "Npc", "titles", {
+                [9001] = {[npcKeys.subName] = "Speziallehrer"},
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            assert.are_same({4002}, Townsfolk.classSpecificTownsfolk.DRUID["Class Trainer"])
+        end)
+
+        it("does not guess a class from a localized title shared by different classes", function()
+            mock.SetBaseRow("Npc", 4001, {
+                [npcKeys.name] = "Known Warrior", [npcKeys.subName] = "Lehrer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 4002, {
+                [npcKeys.name] = "Known Druid", [npcKeys.subName] = "Lehrer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9001, {
+                [npcKeys.name] = "New Trainer", [npcKeys.subName] = "Lehrer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            assert.are_same({4001}, Townsfolk.classSpecificTownsfolk.WARRIOR["Class Trainer"])
+            assert.are_same({4002}, Townsfolk.classSpecificTownsfolk.DRUID["Class Trainer"])
+        end)
+
+        it("discovers battle pet trainers on MoP without exposing weapon masters", function()
+            Expansions.Current = Expansions.MoP
+            mock.SetBaseRow("Npc", 9001, {
+                [npcKeys.name] = "New Pet Battler", [npcKeys.subName] = "Battle Pet Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            assert.are_same({9001}, Townsfolk.townsfolk["Battle Pet Trainer"])
+            assert.is_nil(Townsfolk.townsfolk["Weapon Master"])
+        end)
+
+        it("skips unflagged NPCs, DND NPCs, missing titles and unavailable professions", function()
+            mock.SetBaseRow("Npc", 9001, {
+                [npcKeys.name] = "Not A Trainer", [npcKeys.subName] = "Druid Trainer", [npcKeys.npcFlags] = NPC_FLAGS.VENDOR,
+            })
+            mock.SetBaseRow("Npc", 9002, {
+                [npcKeys.name] = "[DND] Test Trainer", [npcKeys.subName] = "Druid Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9003, {[npcKeys.name] = "Unnamed Role", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER})
+            mock.SetBaseRow("Npc", 9004, {
+                [npcKeys.name] = "Riding Instructor", [npcKeys.subName] = "Riding Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            mock.SetBaseRow("Npc", 9005, {
+                [npcKeys.name] = "Future Jewelcrafter", [npcKeys.subName] = "Jewelcrafting Trainer", [npcKeys.npcFlags] = NPC_FLAGS.TRAINER,
+            })
+            QuestieProfessions.professionTable["Jewelcrafting"] = professionKeys.JEWELCRAFTING
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            assert.are_same({4002}, Townsfolk.classSpecificTownsfolk.DRUID["Class Trainer"])
+            assert.is_nil(Townsfolk.professionTrainers[professionKeys.RIDING])
+            assert.is_nil(Townsfolk.professionTrainers[professionKeys.JEWELCRAFTING])
         end)
 
         it("assigns spirit healers and neutral mailboxes to both factions", function()
