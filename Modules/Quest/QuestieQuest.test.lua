@@ -245,6 +245,184 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("ToggleNotes manual icons", function()
+        local mapIcon
+        local minimapIcon
+        local originalProfile
+        local originalManualFrames
+        local originalQuestFrames
+        local originalThreadInstant
+        local ThreadLib
+
+        ---@param miniMapIcon boolean
+        ---@return {miniMapIcon: boolean, hidden: boolean, FakeHide: luassert.spy, FakeShow: luassert.spy}
+        local function _CreateIcon(miniMapIcon)
+            return {
+                miniMapIcon = miniMapIcon,
+                hidden = false,
+                FakeHide = spy.new(function(icon) icon.hidden = true end),
+                FakeShow = spy.new(function(icon) icon.hidden = false end),
+            }
+        end
+
+        before_each(function()
+            originalProfile = Questie.db.profile
+            Questie.db.profile = {enabled = true, enableMapIcons = true, enableMiniMapIcons = true}
+            originalManualFrames = QuestieMap.manualFrames
+            originalQuestFrames = QuestieMap.questIdFrames
+            QuestieMap.questIdFrames = {}
+            QuestieMap.manualFrames = {
+                any = {[3014] = {"QuestieTestManualMapIcon", "QuestieTestManualMinimapIcon"}},
+            }
+            mapIcon = _CreateIcon(false)
+            minimapIcon = _CreateIcon(true)
+            _G.QuestieTestManualMapIcon = mapIcon
+            _G.QuestieTestManualMinimapIcon = minimapIcon
+
+            ---@type ThreadLib
+            ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+            originalThreadInstant = ThreadLib.ThreadInstant
+            ThreadLib.ThreadInstant = function(callback) coroutine.wrap(callback)() end
+            QuestieQuest.GetAllQuestIds = function() end
+        end)
+
+        after_each(function()
+            Questie.db.profile = originalProfile
+            QuestieMap.manualFrames = originalManualFrames
+            QuestieMap.questIdFrames = originalQuestFrames
+            ThreadLib.ThreadInstant = originalThreadInstant
+            _G.QuestieTestManualMapIcon = nil
+            _G.QuestieTestManualMinimapIcon = nil
+        end)
+
+        it("should leave map markers visible when minimap icons are disabled", function()
+            Questie.db.profile.enableMiniMapIcons = false
+
+            QuestieQuest:ToggleNotes(false)
+
+            assert.is_false(mapIcon.hidden)
+            assert.is_true(minimapIcon.hidden)
+        end)
+
+        it("should leave minimap markers visible when map icons are disabled", function()
+            Questie.db.profile.enableMapIcons = false
+
+            QuestieQuest:ToggleNotes(false)
+
+            assert.is_true(mapIcon.hidden)
+            assert.is_false(minimapIcon.hidden)
+        end)
+
+        it("should not restore disabled minimap markers when map icons are toggled off and on", function()
+            Questie.db.profile.enableMiniMapIcons = false
+            QuestieQuest:ToggleNotes(false)
+            Questie.db.profile.enableMapIcons = false
+            QuestieQuest:ToggleNotes(false)
+            Questie.db.profile.enableMapIcons = true
+
+            QuestieQuest:ToggleNotes(true)
+
+            assert.is_false(mapIcon.hidden)
+            assert.is_true(minimapIcon.hidden)
+        end)
+
+        it("should not restore disabled map markers when minimap icons are toggled off and on", function()
+            Questie.db.profile.enableMapIcons = false
+            QuestieQuest:ToggleNotes(false)
+            Questie.db.profile.enableMiniMapIcons = false
+            QuestieQuest:ToggleNotes(false)
+            Questie.db.profile.enableMiniMapIcons = true
+
+            QuestieQuest:ToggleNotes(true)
+
+            assert.is_true(mapIcon.hidden)
+            assert.is_false(minimapIcon.hidden)
+        end)
+
+        it("should restore only enabled map types after the global icon toggle", function()
+            Questie.db.profile.enableMiniMapIcons = false
+            Questie.db.profile.enabled = false
+            QuestieQuest:ToggleNotes(false)
+            assert.is_true(mapIcon.hidden)
+            assert.is_true(minimapIcon.hidden)
+
+            Questie.db.profile.enabled = true
+            QuestieQuest:ToggleNotes(true)
+
+            assert.is_false(mapIcon.hidden)
+            assert.is_true(minimapIcon.hidden)
+        end)
+
+        it("should keep manual markers hidden when icons are globally disabled", function()
+            Questie.db.profile.enabled = false
+            QuestieQuest:ToggleNotes(false)
+
+            QuestieQuest:ToggleNotes(true)
+
+            assert.is_true(mapIcon.hidden)
+            assert.is_true(minimapIcon.hidden)
+        end)
+
+        it("should leave manual markers alone when quest objectives are disabled", function()
+            Questie.db.profile.enableObjectives = false
+
+            QuestieQuest:ToggleNotes(false)
+
+            assert.is_false(mapIcon.hidden)
+            assert.is_false(minimapIcon.hidden)
+        end)
+
+        for _, focus in ipairs({123, "123 1"}) do
+            it("should preserve tracker focus and respect map settings after unfocusing " .. tostring(focus), function()
+                Questie.db.char.TrackerFocus = focus
+                QuestieQuest:ToggleNotes(false)
+                assert.is_true(mapIcon.hidden)
+                assert.is_true(minimapIcon.hidden)
+
+                QuestieQuest:ToggleNotes(true)
+                assert.is_true(mapIcon.hidden)
+                assert.is_true(minimapIcon.hidden)
+
+                Questie.db.profile.enableMiniMapIcons = false
+                Questie.db.char.TrackerFocus = nil
+                QuestieQuest:ToggleNotes(true)
+                assert.is_false(mapIcon.hidden)
+                assert.is_true(minimapIcon.hidden)
+            end)
+        end
+
+        for _, marker in ipairs({{group = "any", id = -31}, {group = "Repair", id = 2994}}) do
+            it("should respect map settings for manual group " .. marker.group .. " and ID " .. marker.id, function()
+                QuestieMap.manualFrames = {
+                    [marker.group] = {[marker.id] = {"QuestieTestManualMapIcon", "QuestieTestManualMinimapIcon"}},
+                }
+                Questie.db.profile.enableMapIcons = false
+                QuestieQuest:ToggleNotes(false)
+                assert.is_true(mapIcon.hidden)
+                assert.is_false(minimapIcon.hidden)
+
+                Questie.db.profile.enableMapIcons = true
+                QuestieQuest:ToggleNotes(true)
+                assert.is_false(mapIcon.hidden)
+                assert.is_false(minimapIcon.hidden)
+            end)
+        end
+
+        it("should not repeat hide or show calls for unchanged visibility", function()
+            Questie.db.profile.enableMiniMapIcons = false
+            QuestieQuest:ToggleNotes(false)
+            QuestieQuest:ToggleNotes(false)
+            assert.spy(mapIcon.FakeHide).was.not_called()
+            assert.spy(minimapIcon.FakeHide).was.called(1)
+
+            Questie.db.profile.enableMiniMapIcons = true
+            QuestieQuest:ToggleNotes(true)
+            QuestieQuest:ToggleNotes(true)
+            assert.spy(mapIcon.FakeShow).was.not_called()
+            assert.spy(minimapIcon.FakeShow).was.called(1)
+        end)
+    end)
+
     describe("GetAllQuestIds", function()
         it("should not throw an error when called from a coroutine", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = {}

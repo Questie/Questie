@@ -452,8 +452,11 @@ function _QuestieFrame.FakeHide(self)
         end
         self:Hide();
         if self.data.lineFrames then
+            -- Icons share data, but each route belongs to one world-map icon.
             for _, line in pairs(self.data.lineFrames) do
-                line:FakeHide()
+                if line.iconFrame == self then
+                    line:FakeHide()
+                end
             end
         end
         self._hide = self.Hide;
@@ -475,8 +478,11 @@ function _QuestieFrame.FakeShow(self)
         self._hide = nil
         if self.shouldBeShowing then
             self:Show();
-            if self.data.lineFrames then
-                for _, line in pairs(self.data.lineFrames) do
+        end
+        -- Restore route methods even when the map provider is not currently showing the pin.
+        if self.data.lineFrames then
+            for _, line in pairs(self.data.lineFrames) do
+                if line.iconFrame == self then
                     line:FakeShow()
                 end
             end
