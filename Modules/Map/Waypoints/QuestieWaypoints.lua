@@ -69,9 +69,9 @@ local function _FollowIcons()
     -- Hovering an icon is hovering its NPC. A path hover opened for another icon ends first.
     QuestieFrame.Subscribe("HoverStart", function(icon)
         WaypointHover.End(icon)
-        QuestieWaypoints.SetHighlighted(icon.data, true)
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
     end)
-    QuestieFrame.Subscribe("HoverEnd", function(_, data) QuestieWaypoints.SetHighlighted(data, false) end)
+    QuestieFrame.Subscribe("HoverEnd", function(_, data) QuestieWaypoints.SetHighlighted(data, false, "icon") end)
 end
 
 ---Draws an NPC's patrols in one zone for as long as owner is loaded, following its visibility.
@@ -213,12 +213,25 @@ function QuestieWaypoints.Redraw()
     _Changed()
 end
 
----Highlights every path of an NPC, as when its icon or one of its paths is hovered.
+---@alias WaypointHighlightHolder "icon"|"path"
+
+-- Who highlights each NPC's paths. A hover of its icon and a hover of one of its paths each hold the
+-- highlight, so one ending keeps the other's: on the minimap a path hover starts no icon hover, and a
+-- quest area's hover of its marker can end beneath a path of that marker's NPC.
+---@type table<IconData, table<WaypointHighlightHolder, true>>
+local highlightHolders = setmetatable({}, {__mode = "k"})
+
+---Highlights every path of an NPC while any hover holds it: its icon's, or one of its paths'.
 ---@param data IconData?
 ---@param highlighted boolean
-function QuestieWaypoints.SetHighlighted(data, highlighted)
+---@param holder WaypointHighlightHolder
+function QuestieWaypoints.SetHighlighted(data, highlighted, holder)
     local shared = data and data.waypointPaths
     if not shared then return end
+    local holders = highlightHolders[data] or {}
+    holders[holder] = highlighted or nil
+    highlightHolders[data] = next(holders) and holders or nil
+    highlighted = next(holders) ~= nil
     local changed = false
     for _, path in ipairs(shared) do
         if (path.highlighted == true) ~= highlighted then

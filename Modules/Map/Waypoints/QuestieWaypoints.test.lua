@@ -170,17 +170,31 @@ describe("QuestieWaypoints", function()
         WaypointMap.Invalidate:clear()
         WaypointMinimap.Invalidate:clear()
 
-        QuestieWaypoints.SetHighlighted(icon.data, true)
-        QuestieWaypoints.SetHighlighted(icon.data, true)
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
 
         assert.are_same(HIGHLIGHT, QuestieWaypoints.Color(path))
         assert.spy(WaypointMap.Invalidate).was.called(1)
         assert.spy(WaypointMinimap.Invalidate).was.called(1)
 
-        QuestieWaypoints.SetHighlighted(icon.data, false)
+        QuestieWaypoints.SetHighlighted(icon.data, false, "icon")
         assert.are_same(NORMAL, QuestieWaypoints.Color(path))
         assert.spy(WaypointMap.Invalidate).was.called(2)
         assert.spy(WaypointMinimap.Invalidate).was.called(2)
+    end)
+
+    it("keeps an NPC's paths highlighted while its icon's hover or a path's hover still holds them", function()
+        local icon = Icon({})
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
+        local path = icon.data.waypointPaths[1]
+
+        -- On the minimap, a path is hovered over its NPC's quest area, whose marker hover then ends.
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
+        QuestieWaypoints.SetHighlighted(icon.data, true, "path")
+        QuestieWaypoints.SetHighlighted(icon.data, false, "icon")
+        assert.are_same(HIGHLIGHT, QuestieWaypoints.Color(path))
+        QuestieWaypoints.SetHighlighted(icon.data, false, "path")
+        assert.are_same(NORMAL, QuestieWaypoints.Color(path))
     end)
 
     it("neither recolors a hovered path nor lets it take its route over while hover highlighting is off", function()
@@ -189,7 +203,7 @@ describe("QuestieWaypoints", function()
         QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12, true)
         local path = icon.data.waypointPaths[1]
 
-        QuestieWaypoints.SetHighlighted(icon.data, true)
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
 
         assert.is_false(QuestieWaypoints.IsHighlighted(path))
         assert.are_same(HOSTILE, QuestieWaypoints.Color(path))
@@ -244,7 +258,7 @@ describe("QuestieWaypoints", function()
 
         -- Hovering the icon first ends a path hover opened for another icon, which may unhighlight this
         -- NPC's paths, then highlights them.
-        WaypointHover.End = spy.new(function() QuestieWaypoints.SetHighlighted(data, false) end)
+        WaypointHover.End = spy.new(function() QuestieWaypoints.SetHighlighted(data, false, "path") end)
         listeners.HoverStart(icon)
         assert.are.equal(icon, WaypointHover.End.calls[1].refs[1])
         assert.is_true(data.waypointPaths[1].highlighted)

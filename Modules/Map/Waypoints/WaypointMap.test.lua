@@ -269,10 +269,10 @@ describe("WaypointMap", function()
             Hover(0.5, 0.505)
 
             assert.spy(path.owner.scripts.OnEnter).was.not_called()
-            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, true)
+            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, true, "path")
 
             layers.paths.Hover(nil)
-            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, false)
+            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, false, "path")
         end)
 
         it("asks the stack to look again after drawing anew", function()
