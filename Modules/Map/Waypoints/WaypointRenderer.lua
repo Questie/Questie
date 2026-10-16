@@ -51,7 +51,7 @@ local renderers = setmetatable({}, {__mode = "k"})
 -- the outline out to transparent, so its outer edges stay smooth as lines move by fractions of a
 -- pixel. Each segment stretches it over a quad whose long edges run parallel to the segment, so the
 -- rows follow both edges and meet at mitered joins.
-local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-line-aa.png"
+local LINE_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoints\\waypoint-line-aa.png"
 -- Quads are wider than the line by the fade, so the line keeps its thickness.
 local QUAD_SCALE = 16 / 12
 -- A fill's start corners take the line texture's left and right edges, and its end corners, both
@@ -59,7 +59,7 @@ local QUAD_SCALE = 16 / 12
 local FILL_TEX_COORDS = {0, 0, 0, 1, 1, 0.5, 1, 0.5}
 -- The line's rows turned into rings: this 32x32 image's disc has the line's profile from its center,
 -- at the line's texel density, and is transparent black around it.
-local CAP_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoint-cap-aa.png"
+local CAP_TEXTURE = QuestieLib.AddonPath .. "Icons\\waypoints\\waypoint-cap-aa.png"
 -- The disc's radius, 8 texels, as a fraction of the image. It matches a quad's half width.
 local CAP_RADIUS = 8 / 32
 -- The line texture has about as many rows as a line has pixels, so bilinear filtering blends rows

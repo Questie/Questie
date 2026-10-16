@@ -93,7 +93,7 @@ Figures in units below were measured on the 4-unit line, the default before it b
 
 ### The outline texture
 
-[`Icons/waypoint-line-aa.png`](../Icons/waypoint-line-aa.png) is 16×16, constant along its length; rows run across the line:
+[`Icons/waypoints/waypoint-line-aa.png`](../Icons/waypoints/waypoint-line-aa.png) is 16×16, constant along its length; rows run across the line:
 - **Line:** the middle 12 rows have the proportions of Blizzard-style `WHITE32X32BLACKLINES`: a quarter black, a white core and a quarter black. Vertex colour tints only the core.
 - **Fade:** two rows on each side fade the black edge to transparent (alpha 0.5, then 0). Transparent texels are black, so filtering fades to black rather than to a fringe.
 - **Quads:** drawn 16/12 as wide as the line, so the line keeps its thickness, the fade grows outward and the quad's hard rasterised edge lands on transparent texels.
@@ -102,7 +102,9 @@ Figures in units below were measured on the 4-unit line, the default before it b
   - **`TRILINEAR`** needs a correct mip chain. The first asset, a `WHITE32X32BLACKLINES` BLP, had broken mipmaps (below full size only its top rows were opaque), so it drew a thin dark edge with no core.
   - **A larger texture** would need a properly mipmapped BLP and `TRILINEAR`. Worth it only if 1080p players report shimmer.
 
-[`Icons/waypoint-cap-aa.png`](../Icons/waypoint-cap-aa.png) is 32×32: the same rows turned into rings around its centre, so a disc of radius 8 texels with the line's profile and transparent black around it. Radius 8 matches the line's 8 texels from its centreline to its quad edge, so the cap has the line's texel density and filters the same way. Sharp turns, turn backs and open ends draw it; see [Mitered joins](#mitered-joins).
+[`Icons/waypoints/waypoint-cap-aa.png`](../Icons/waypoints/waypoint-cap-aa.png) is 32×32: the same rows turned into rings around its centre, so a disc of radius 8 texels with the line's profile and transparent black around it. Radius 8 matches the line's 8 texels from its centreline to its quad edge, so the cap has the line's texel density and filters the same way. Sharp turns, turn backs and open ends draw it; see [Mitered joins](#mitered-joins).
+
+Both textures are drawn from SVG sources in [`Icons/originals/waypoints/`](../Icons/originals/waypoints/): its `build.sh` renders them into `Icons/waypoints/` with `rsvg-convert` (librsvg), and `preview.py` draws them zoomed. `build.py` leaves `originals` out of releases.
 
 **Alternatives considered.** In game the disc looked a little lower-res than the line. At the default width both are drawn about 1.5× smaller than their texels, and `LINEAR` takes about one sample per pixel: the line's boundaries stay straight, but the disc's rings are curves a few pixels across. A blurred disc, a 64×64 disc with mipmaps, and fans of line-texture wedges were built for an in-game comparison, and the disc was judged fine. A plain larger disc would be drawn smaller still and look worse. Open ends double the caps: over Classic's patrols at scale 1, 556 of 579 are open, giving 1,112 open ends beside about 610 turn caps. With the disc, caps and fills add 10.9% to the segments' textures; fans of 45° wedges would add 31%.
 

@@ -22,10 +22,7 @@ The patch covers `Modules/Map/Waypoints/WaypointGeometry.lua`, `WaypointGeometry
 | `turns.svg`, `turns.png` | The comparison sheet: one row per join option, one column per turn angle. |
 | `turns_svg.lua` | Draws the sheet. From the repo root: `lua scratch/waypoint-turns/turns_svg.lua . scratch/waypoint-turns/turns.svg`, then `rsvg-convert` for the PNG. It loads `WaypointGeometry.lua` from the working tree, and the "Before" rows from commit `7c1e28bd8` through `git show`. |
 | `turn_quads.lua` | Prints the outline quads of a few turns. From the repo root: `lua scratch/waypoint-turns/turn_quads.lua`. |
-| `textures/waypoint-line-aa.svg` | SVG source of the shipped `Icons/waypoint-line-aa.png`. Renders to the identical PNG, pixel for pixel. |
-| `textures/waypoint-cap-aa.svg` | SVG source of the new cap texture. |
-| `textures/build.sh` | Renders every SVG in `textures/` to a PNG of the same size with `rsvg-convert`. |
-| `textures/preview.py`, `preview.png` | Both textures zoomed with their texel grid, and a tinted line ending in a half cap. `uv run --no-project --with pillow python preview.py` from `textures/`. |
+| `textures/` | Moved: the SVG sources, `build.sh` and `preview.py` now live in `Icons/originals/waypoints/`, and the textures in `Icons/waypoints/`. |
 
 ## How the waypoint code fits together
 
@@ -93,9 +90,7 @@ Columns: turns of 90, 135, 150, 170, 179 and 179.95 degrees, default 3-unit line
 
 ### SVG as the source of truth
 
-Recommended: keep each SVG next to its PNG, commit both, regenerate with `textures/build.sh`. WoW only loads the PNG. Open decisions:
-- `build.py` copies `Icons/` wholesale, so SVGs there would ship. Either add `"*.svg"` to its `ignorePatterns` or keep sources in a folder that isn't packaged.
-- `rsvg-convert` (librsvg) isn't in the AGENTS.md prerequisites; only whoever edits textures needs it.
+Decided: the SVGs, `build.sh` and `preview.py` live in `Icons/originals/waypoints/`, and `build.sh` renders into `Icons/waypoints/`, which the addon loads. `build.py` leaves `originals` out of releases. `rsvg-convert` (librsvg) isn't in the AGENTS.md prerequisites; only whoever edits textures needs it.
 
 ### What `SetTexCoord` does (from the WoW API docs)
 

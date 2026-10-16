@@ -1,6 +1,12 @@
-"""Draws preview.png: each texture zoomed with its texels visible, and a tinted line ending in a half cap.
-Usage: uv run --no-project --with pillow python preview.py"""
+"""Draws preview.png next to this script: each texture in Icons/waypoints zoomed with its texels
+visible, and a tinted line ending in a half cap.
+Usage: uv run --no-project --with pillow python Icons/originals/waypoints/preview.py"""
+from pathlib import Path
+
 from PIL import Image, ImageDraw
+
+HERE = Path(__file__).resolve().parent
+TEXTURES = HERE.parent.parent / "waypoints"
 
 ZOOM = 14
 CORE = (255, 184, 0)  # default patrol color
@@ -37,8 +43,8 @@ def tint(texture):
     return tinted
 
 
-line = Image.open("waypoint-line-aa.png").convert("RGBA")
-cap = Image.open("waypoint-cap-aa.png").convert("RGBA")
+line = Image.open(TEXTURES / "waypoint-line-aa.png").convert("RGBA")
+cap = Image.open(TEXTURES / "waypoint-cap-aa.png").convert("RGBA")
 
 # A leg three line textures long, ending in the cap's right half: SetTexCoord(0.5, 0.75, 0.25, 0.75).
 joined = Image.new("RGBA", (16 * 3 + 8, 16))
@@ -60,5 +66,5 @@ for title, panel in panels:
     draw.text((20, y), title, fill=(255, 255, 255, 255))
     sheet.alpha_composite(panel, (20, y + 20))
     y += panel.height + 50
-sheet.save("preview.png")
-print("preview.png")
+sheet.save(HERE / "preview.png")
+print(HERE / "preview.png")
