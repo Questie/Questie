@@ -182,7 +182,7 @@ function PolygonMinimap.New(collect, onHover)
 
     local masks
     container, masks = MinimapCanvas.AddLayer("areas", layer)
-    renderer = PolygonRenderer.New(container, {onHover = function(shapes, _changed, x, y)
+    renderer = PolygonRenderer.New(container, {onHover = function(shapes, x, y)
         local keys = {}
         for i, shape in ipairs(shapes) do keys[i] = shape.key end
         if x and drawnProjection then
