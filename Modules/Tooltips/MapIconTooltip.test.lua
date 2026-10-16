@@ -81,6 +81,8 @@ describe("MapIconTooltip objective wording", function()
                 end
             end}
         end}
+        -- Outside blob mode, objective lines start with no area colour.
+        QuestieLoader:ImportModule("QuestiePolygon").ObjectiveSwatch = function() end
         dofile("Modules/Tooltips/MapIconTooltip.lua")
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         now = 1
@@ -524,14 +526,15 @@ describe("MapIconTooltip objective wording", function()
             return tooltip
         end
 
-        it("prefixes the icons' own objective lines, not party lines", function()
+        it("starts the icons' own objective lines with their area colour, not party lines", function()
             cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
             QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
-
-            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip, function(prefixed)
-                assert.are.equal(icon, prefixed)
+            QuestieLoader:ImportModule("QuestiePolygon").ObjectiveSwatch = function(swatched)
+                assert.are.equal(icon, swatched)
                 return "[area] "
-            end)
+            end
+
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip)
 
             assert.are.same({
                 ["[area] |cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
@@ -636,7 +639,7 @@ describe("MapIconTooltip objective wording", function()
             QuestieDB.IsRepeatable = function() return false end
         end)
 
-        ---Shows the tooltip of one giver's icons, one icon per quest, hovering the first.
+        ---Shows the tooltip of one giver's icons, one icon per quest.
         ---@param ... table The icon data fields of each icon besides the giver and quest, like DropperRank
         local function ShowGiver(...)
             local icons = {}
@@ -645,7 +648,7 @@ describe("MapIconTooltip objective wording", function()
                 for key, value in pairs(fields) do data[key] = value end
                 icons[i] = {x = 50, y = 50, AreaID = 1, texture = icon.texture, data = data}
             end
-            MapIconTooltip.ShowOnTooltip(icons[1], GameTooltip, nil, icons)
+            MapIconTooltip.ShowForIcons({}, icons, GameTooltip)
         end
 
         ---@return string? line The rendered line naming the giver.

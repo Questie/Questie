@@ -29,6 +29,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 ---@type HBDPins
 local HBDPins = QuestieLoader:ImportModule("HBDPins")
@@ -190,10 +192,9 @@ end
 ---cursor. `owner` holds it until another frame takes the tooltip or `Release` ends it; Redraw renders
 ---it again meanwhile.
 ---@param owner Frame Holds the tooltip, which hides with it. Only a world map icon owner adds Journey's shift-click hint.
----@param icons IconFrame[] At least one icon with data. Objectives repeated across icons are listed once.
+---@param icons IconFrame[] At least one icon with data. Objectives repeated across icons are listed once; while quest areas draw, each icon's own objective line starts with its area colour.
 ---@param tooltip GameTooltip
----@param objectivePrefix (fun(icon: IconFrame): string)? Text before each icon's own objective line; party lines get none.
-function MapIconTooltip.ShowForIcons(owner, icons, tooltip, objectivePrefix)
+function MapIconTooltip.ShowForIcons(owner, icons, tooltip)
     tooltip:SetOwner(owner, "ANCHOR_CURSOR")
 
     local usedText = {}
@@ -222,7 +223,7 @@ function MapIconTooltip.ShowForIcons(owner, icons, tooltip, objectivePrefix)
 
             local orderedTooltips = {}
             iconData.ObjectiveData:Update()
-            local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon, objectivePrefix and objectivePrefix(icon))
+            local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon, QuestiePolygon.ObjectiveSwatch(icon))
             for _, tip in pairs(tooltips) do
                 tinsert(orderedTooltips, 1, tip);
             end
