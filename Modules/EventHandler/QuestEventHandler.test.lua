@@ -426,6 +426,56 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieTracker.Update).was.called()
     end)
 
+    describe("quest missing from the player's quest log", function()
+        local originalError
+
+        before_each(function()
+            originalError = Questie.Error
+            Questie.Error = spy.new(function() end)
+            _G.C_Timer = {After = function(_, callback) callback() end}
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {1}} end)
+            QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+            QuestieNameplate.UpdateNameplate = spy.new(function() end)
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieTracker.UpdateQuestLines = spy.new(function() end)
+        end)
+
+        after_each(function()
+            Questie.Error = originalError
+            Questie.IsSoD, Questie.IsForever = nil, nil
+        end)
+
+        -- Its objectives had not loaded yet when the quest log was first read at login.
+        for _, flavor in ipairs({"IsSoD", "IsForever", "neither"}) do
+            it("should be added when a scan finds it (" .. flavor .. ")", function()
+                Questie[flavor] = true
+                local quest = {Id = QUEST_ID}
+                QuestieDB.GetQuest = spy.new(function() return quest end)
+
+                QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+                QuestEventHandler.QuestLogUpdate()
+
+                assert.are.equal(quest, QuestiePlayer.currentQuestlog[QUEST_ID])
+                assert.spy(Questie.Error).was.not_called()
+            end)
+        end
+
+        it("should report a quest unknown to QuestieDB, except in SoD and Forever", function()
+            QuestieDB.GetQuest = spy.new(function() return nil end)
+
+            Questie.IsForever = true
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            QuestEventHandler.QuestLogUpdate()
+            assert.spy(Questie.Error).was.not_called()
+
+            Questie.IsForever = nil
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            QuestEventHandler.QuestLogUpdate()
+            assert.spy(Questie.Error).was.called(1)
+            assert.is_nil(QuestiePlayer.currentQuestlog[QUEST_ID])
+        end)
+    end)
+
     it("should handle QUEST_AUTOCOMPLETE", function()
         Questie.db.profile.trackerEnabled = true
         WatchFrameHook.Hide = spy.new(function() end)
