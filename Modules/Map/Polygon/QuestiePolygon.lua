@@ -619,9 +619,10 @@ function QuestiePolygon.LeaveMarker(frame)
 end
 
 ---Shows the opposite of what the objective currently shows, ignoring the hover preview,
----for every cluster.
+---for every cluster. Clicking one of the marker's minimap icons does the same.
+---@param frame IconFrame The marker's map icon or one of its minimap icons.
 function QuestiePolygon.ToggleMarker(frame)
-    local marker = frame.polygonMarker
+    local marker = frame.polygonMarker or frame.polygonMinimapMarker
     local entry = marker and marker.entry
     if entry and QuestiePolygon.IsEnabled() and entry.active and not entry.building
         and not entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
