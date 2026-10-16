@@ -196,6 +196,113 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_false(input.isCursorOnMap())
     end)
 
+    describe("area tooltips", function()
+        local tooltip, savedTooltip, MapIconTooltip, saved, focus, input
+
+        before_each(function()
+            savedTooltip = _G.GameTooltip
+            tooltip = {}
+            function tooltip:IsOwned(frame) return self.owner == frame end
+            function tooltip:IsShown() return self.owner ~= nil end
+            _G.GameTooltip = tooltip
+            MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
+            saved = {show = MapIconTooltip.ShowForIcons, release = MapIconTooltip.Release, error = Questie.Error,
+                inputUtil = _G.InputUtil}
+            -- The map icon tooltip is tested on its own; here it only records what areas ask of it.
+            MapIconTooltip.ShowForIcons = spy.new(function(owner) tooltip.owner = owner end)
+            MapIconTooltip.Release = spy.new(function() end)
+            map.ScrollContainer = {}
+            focus = map.ScrollContainer
+            _G.GetMouseFoci = function() return {focus} end
+            Questie.db.profile.polygonAreaTooltips = true
+            Update()
+            input = QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2]
+        end)
+
+        after_each(function()
+            _G.GameTooltip = savedTooltip
+            MapIconTooltip.ShowForIcons, MapIconTooltip.Release = saved.show, saved.release
+            Questie.Error, _G.InputUtil = saved.error, saved.inputUtil
+        end)
+
+        ---@param frame table A marker icon.
+        local function Shape(frame)
+            return {owner = frame.polygonMarker.entry, key = frame.polygonMarker}
+        end
+
+        it("shows one map icon tooltip for the hovered areas' markers, each line marked with its area colour", function()
+            local second = {Index = 2, Type = "item", Description = "Fang", Needed = 2, Collected = 1, Color = {0, 1, 0},
+                spawnList = objective.spawnList}
+            quest.Objectives[2] = second
+            local thread = coroutine.create(function() Polygon.UpdateObjective(quest, second, 2) end)
+            assert.is_true(coroutine.resume(thread))
+
+            -- Overlapping areas: the second objective first, then the first objective's area twice.
+            input.onHover({Shape(frames[2]), Shape(frames[1]), Shape(frames[1])}, true)
+
+            local call = MapIconTooltip.ShowForIcons.calls[1]
+            assert.are.equal(map.ScrollContainer, call.refs[1])
+            assert.are.same({frames[2], frames[1]}, call.refs[2])
+            assert.are.equal(tooltip, call.refs[3])
+            local swatch = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
+            assert.are.equal(swatch:format(51, 128, 255), call.refs[4](frames[1]))
+            assert.are.equal(swatch:format(0, 255, 0), call.refs[4](frames[2]))
+        end)
+
+        it("steps aside for other tooltips and returns once the cursor is back on the bare map", function()
+            local shapes = {Shape(frames[1])}
+            input.onHover(shapes, true)
+            -- Moving within the same areas keeps the tooltip without rebuilding it.
+            input.onHover(shapes, false)
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(1)
+
+            -- A waypoint line counts as bare map for areas, but shows its own icon's tooltip.
+            local line = {}
+            tooltip.owner, focus = line, line
+            input.onHover(shapes, false)
+            assert.spy(MapIconTooltip.Release).was.called(1)
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(1)
+            focus = map.ScrollContainer
+            input.onHover(shapes, false)
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(2)
+
+            -- Leaving the areas ends the area tooltip.
+            input.onHover({}, true)
+            assert.spy(MapIconTooltip.Release).was.called(2)
+            assert.are.equal(map.ScrollContainer, MapIconTooltip.Release.calls[2].refs[1])
+        end)
+
+        it("shows nothing while the setting is off or the gamepad UI is on", function()
+            Questie.db.profile.polygonAreaTooltips = false
+            input.onHover({Shape(frames[1])}, true)
+            Questie.db.profile.polygonAreaTooltips = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return true end}
+            input.onHover({Shape(frames[1])}, true)
+            assert.spy(MapIconTooltip.ShowForIcons).was.not_called()
+        end)
+
+        it("skips a marker icon since recycled for another marker", function()
+            local shape = Shape(frames[1])
+            frames[1].polygonMarker = {}
+            input.onHover({shape}, true)
+            assert.spy(MapIconTooltip.ShowForIcons).was.not_called()
+            assert.spy(MapIconTooltip.Release).was.called(1)
+        end)
+
+        it("keeps a tooltip error from the renderer and retries once the hovered areas change", function()
+            Questie.Error = spy.new(function() end)
+            MapIconTooltip.ShowForIcons = spy.new(function() error("broken tooltip") end)
+            local shapes = {Shape(frames[1])}
+
+            assert.has_no.errors(function() input.onHover(shapes, true) end)
+            assert.spy(Questie.Error).was.called(1)
+            input.onHover(shapes, false)
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(1)
+            input.onHover(shapes, true)
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(2)
+        end)
+    end)
+
     it("uses full phase-filtered spawns even when minimap icons were already populated", function()
         objective.AlreadySpawned = {[123] = {}}
         Update()

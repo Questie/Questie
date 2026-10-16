@@ -730,6 +730,35 @@ describe("PolygonRenderer", function()
             assert.are_equal(1.5, frames[2].borders[1].line[6])
         end)
 
+        it("tells a hover listener the hovered shapes on every check, and when the set changes", function()
+            local heard = {}
+            local renderer = PolygonRenderer.New(canvas, {
+                getCursorPosition = function() return cursorX, cursorY end,
+                isCursorOnMap = function() return onMap end,
+                onHover = function(shapes, changed) heard[#heard + 1] = {shapes = shapes, changed = changed} end,
+            })
+            local square = {points = {{x = 0, y = 0}, {x = 50, y = 0}, {x = 50, y = 50}, {x = 0, y = 50}}, color = {1, 0, 0}}
+            local triangle = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0, 1, 0}}
+            _Draw(renderer, {square, triangle}, 100, 100, 8)
+            heard = {}
+
+            cursorX, cursorY = 0.1, 0.1
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            cursorX, cursorY = 0.12, 0.1 -- Still inside both.
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            cursorX, cursorY = 0.45, 0.45 -- Only the square.
+            renderer.hoverDriver.scripts.OnUpdate(renderer.hoverDriver, 0.08)
+            assert.are.same({{square, triangle}, true}, {heard[1].shapes, heard[1].changed})
+            assert.are.same({{square, triangle}, false}, {heard[2].shapes, heard[2].changed})
+            assert.are.same({{square}, true}, {heard[3].shapes, heard[3].changed})
+
+            -- Hiding everything ends the hover; later checks report nothing new.
+            heard = {}
+            renderer:SetVisibleFrames({})
+            assert.are.same({shapes = {}, changed = true}, heard[1])
+            for i = 2, #heard do assert.are.same({shapes = {}, changed = false}, heard[i]) end
+        end)
+
         it("does not highlight a polygon while other UI covers the map under the cursor", function()
             local renderer = _NewHoverRenderer()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {1, 0, 0}}}, 100, 100, 8)
