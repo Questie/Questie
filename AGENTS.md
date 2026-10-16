@@ -76,6 +76,7 @@ These are commit-format defaults, not a requirement that every commit appear in 
 Questie.lua          - Main addon entry point (OnInitialize, OnEnable, OnDisable)
 Modules/             - Core addon modules (quest tracking, map, tooltips, etc.)
 Modules/Libs/        - Internal utility libraries (QuestieLoader, QuestieLib, etc.)
+Modules/Map/Waypoints/, Polygon/ - Drawing features: they never import each other, and core reaches them only at the entry points in test/MapFeatureImports.test.lua
 Database/            - Quest/NPC/item/object database and corrections
 Database/Corrections/- Per-expansion data fixes applied at runtime
 Localization/        - Translation files
