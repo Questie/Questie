@@ -34,6 +34,7 @@ describe("QuestieQuest", function()
         QuestiePlayer.currentQuestlog = {}
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestLogCache.TryGetQuest = function() end
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
@@ -103,6 +104,21 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.called_with(quest)
         end)
 
+        it("does not infer completion from mapped objectives while an unmapped native row is unfinished", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            -- Unending Torment (97291): the database maps 1 of the client's 3 item rows.
+            QuestLogCache.TryGetQuest = function()
+                return {objectives = {{finished = true}, {finished = true}, {finished = false}}}
+            end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
         it("shows the finisher when the accepted quest state is complete", function()
             QuestieQuest.PopulateQuestLogInfo = function() end
             QuestieQuest.RegisterObjectiveTooltips = function() end
@@ -127,6 +143,21 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
+        it("does not infer completion from absent objective mappings while a native row is unfinished", function()
+            compat.IsQuestSequenced = function() return false end
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            -- Destruction in Deadmines (92753): the database has no objectives, the client one unfinished row.
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "monster", text = "0/1 Explosives placed", finished = false}}
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
         it("does not infer completion from an empty stage or a trigger-end location", function()
             quest.Objectives = {}
             quest.triggerEnd = {1}
@@ -139,16 +170,29 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
+        -- The cache infers completion for a quest the client lists no rows for, though Blizzard reports it incomplete.
         it("retains the legacy empty-objective finisher workaround for unclassified quests", function()
             compat.IsQuestSequenced = function() return false end
             quest.Objectives = {}
-            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestLogCache.GetQuest = function() return {isComplete = 1} end
             QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
 
             QuestieQuest:PopulateQuestLogInfo(quest)
 
             assert.is_true(quest.isComplete)
             assert.spy(finisher.AddFinisher).was.called(1)
+        end)
+
+        it("gives a failed quest without objective mappings no finisher", function()
+            compat.IsQuestSequenced = function() return false end
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = -1} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
         it("still requests source-item reconstruction without promoting a sequenced quest", function()

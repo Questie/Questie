@@ -509,6 +509,19 @@ function QuestieQuest:UnhideQuest(questId)
     end
 end
 
+---Whether the client still lists an unfinished objective, including rows the database does not map.
+---Completion inferred from mapped objectives alone must not override such a row.
+---@param objectives table<ObjectiveIndex, QuestLogCacheObjectiveData>? @The quest's cached native rows
+---@return boolean
+local function _HasUnfinishedNativeObjective(objectives)
+    for _, objective in pairs(objectives or {}) do
+        if not objective.finished then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param questId number
 function QuestieQuest:UpdateQuest(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
@@ -579,6 +592,7 @@ function QuestieQuest:UpdateQuest(questId)
                 -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
                 if quest.Objectives and #quest.Objectives > 0 then
                     local numCompleteObjectives = 0
+                    local questLogEntry = QuestLogCache.TryGetQuest(questId) -- DO NOT MODIFY THE RETURNED TABLE
 
                     for i = 1, #quest.Objectives do
                         if quest.Objectives[i] and quest.Objectives[i].Completed and quest.Objectives[i].Completed == true then
@@ -586,8 +600,10 @@ function QuestieQuest:UpdateQuest(questId)
                         end
                     end
 
-                    -- Sequenced quests can finish a visible stage before the next objectives appear.
-                    if numCompleteObjectives == #quest.Objectives and not QuestieCompat.IsQuestSequenced(questId) then
+                    -- Sequenced quests can finish a visible stage before the next objectives appear. Only mapped
+                    -- objectives are counted, so a client row the database does not map must be finished too.
+                    if numCompleteObjectives == #quest.Objectives and not QuestieCompat.IsQuestSequenced(questId)
+                        and not _HasUnfinishedNativeObjective(questLogEntry and questLogEntry.objectives) then
                         Questie.Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
 
@@ -1464,11 +1480,12 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
     end
 
-    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0
-        and (questLogEntry.isComplete == 1 or not QuestieCompat.IsQuestSequenced(quest.Id))
+    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and questLogEntry.isComplete == 1
         and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and (quest.Finisher.NPC or quest.Finisher.GameObject))) then
-        -- Legacy quests can need a finisher despite an incomplete native flag and no mapped objectives.
-        -- An empty sequenced stage (or missing database mappings) cannot justify this completion override.
+        -- Legacy quests can need a finisher despite an incomplete native flag and no mapped objectives. The cache
+        -- already infers their completion when the client lists no unfinished row. Missing database mappings cannot
+        -- justify more: an unfinished native row the database does not map, an empty sequenced stage or a failed
+        -- quest gets no turn-in icon.
         -- Keep a known finisher/triggerEnd as a prerequisite for creating its map notes.
         AvailableQuests.RemoveQuest(quest.Id, function()
             QuestFinisher.AddFinisher(quest)
