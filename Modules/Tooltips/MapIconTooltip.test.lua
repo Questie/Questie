@@ -321,57 +321,86 @@ describe("MapIconTooltip objective wording", function()
         end)
     end)
 
-    it("prefixes the given icons' own objective lines, not party lines, and keeps Shift redrawing", function()
-        cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
-        QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
-        local owner = {}
+    describe("for given icons", function()
+        -- A tooltip frame acting like GameTooltip: the last SetOwner holds it until it hides.
+        local function HoldingTooltip()
+            local tooltip = {}
+            function tooltip:SetOwner(frame, anchor) self.holder, self.anchor = frame, anchor end
+            function tooltip:IsOwned(frame) return self.holder == frame end
+            function tooltip:IsShown() return self.holder ~= nil end
+            function tooltip:GetAnchorType() return self.anchor end
+            function tooltip:ClearLines() end
+            function tooltip:SetFrameStrata() end
+            function tooltip:Show() end
+            tooltip.Hide = spy.new(function(self) self.holder = nil end)
+            return tooltip
+        end
 
-        MapIconTooltip.ShowForIcons(owner, {icon}, GameTooltip, function(prefixed)
-            assert.are.equal(icon, prefixed)
-            return "[area] "
+        it("prefixes the icons' own objective lines, not party lines", function()
+            cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
+            QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
+
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip, function(prefixed)
+                assert.are.equal(icon, prefixed)
+                return "[area] "
+            end)
+
+            assert.are.same({
+                ["[area] |cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
+                ["|cFFEEEEEEWindstone Cluster: 3/15 (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
+            }, ObjectiveLines())
         end)
 
-        assert.are.same({
-            ["[area] |cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
-            ["|cFFEEEEEEWindstone Cluster: 3/15 (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
-        }, ObjectiveLines())
-        assert.are.equal(owner, GameTooltip._owner)
-        assert.is_function(GameTooltip._Rebuild)
-        assert.is_true(GameTooltip.ShownAsMapIcon)
-    end)
+        it("releases only the tooltip shown for its owner", function()
+            local tooltip = HoldingTooltip()
+            local area, other = {}, {}
 
-    it("releases only the tooltip its owner opened", function()
-        local holder
-        GameTooltip.SetOwner = function(_, frame) holder = frame end
-        GameTooltip.IsOwned = function(_, frame) return holder == frame end
-        GameTooltip.Hide = spy.new(function() holder = nil end)
-        local area, other = {}, {}
+            -- A map icon tooltip shown since for another frame stays.
+            MapIconTooltip.ShowForIcons(area, {icon}, tooltip)
+            MapIconTooltip.ShowForIcons(other, {icon}, tooltip)
+            MapIconTooltip.Release(area, tooltip)
+            assert.spy(tooltip.Hide).was.not_called()
+            assert.are.equal(other, MapIconTooltip.GetOwner(tooltip))
 
-        -- A map icon that has since opened its own tooltip keeps it, Shift redraw included.
-        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
-        MapIconTooltip.ShowForIcons(other, {icon}, GameTooltip)
-        MapIconTooltip.Release(area, GameTooltip)
-        assert.spy(GameTooltip.Hide).was.not_called()
-        assert.is_function(GameTooltip._Rebuild)
+            MapIconTooltip.Release(other, tooltip)
+            assert.spy(tooltip.Hide).was.called(1)
+            assert.is_nil(MapIconTooltip.GetOwner(tooltip))
+        end)
 
-        -- Other UI that took the tooltip keeps it, and Shift no longer redraws ours over it.
-        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
-        holder = {}
-        MapIconTooltip.Release(area, GameTooltip)
-        assert.spy(GameTooltip.Hide).was.not_called()
-        assert.is_nil(GameTooltip._Rebuild)
-        assert.is_false(GameTooltip.ShownAsMapIcon)
+        it("stops counting a tooltip another frame took, and leaves that frame's tooltip alone", function()
+            local tooltip = HoldingTooltip()
+            local area, pin = {}, {}
+            MapIconTooltip.ShowForIcons(area, {icon}, tooltip)
 
-        -- The tracker also writes `_owner` when it takes the tooltip.
-        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
-        holder, GameTooltip._owner = other, other
-        MapIconTooltip.Release(area, GameTooltip)
-        assert.is_nil(GameTooltip._Rebuild)
-        assert.is_false(GameTooltip.ShownAsMapIcon)
+            -- A Blizzard pin takes the tooltip. The tracker's own `_owner` field means nothing here.
+            tooltip:SetOwner(pin, "ANCHOR_RIGHT")
+            tooltip._owner = area
+            assert.is_nil(MapIconTooltip.GetOwner(tooltip))
+            MapIconTooltip.Redraw()
+            MapIconTooltip.Release(area, tooltip)
 
-        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
-        MapIconTooltip.Release(area, GameTooltip)
-        assert.spy(GameTooltip.Hide).was.called(1)
-        assert.is_nil(GameTooltip._Rebuild)
+            assert.spy(tooltip.Hide).was.not_called()
+            assert.are.equal(pin, tooltip.holder)
+        end)
+
+        it("redraws every tooltip its owner still holds, at the same anchor", function()
+            local mapTooltip, gamepadTooltip, endedTooltip = HoldingTooltip(), HoldingTooltip(), HoldingTooltip()
+            local ended = {}
+            MapIconTooltip.ShowForIcons(icon, {icon}, mapTooltip)
+            MapIconTooltip.ShowForIcons(icon, {icon}, gamepadTooltip)
+            -- The gamepad's tooltip sits beside its cursor.
+            gamepadTooltip:SetOwner(icon, "ANCHOR_RIGHT")
+            MapIconTooltip.ShowForIcons(ended, {icon}, endedTooltip)
+            MapIconTooltip.Release(ended, endedTooltip)
+            local rendered = {}
+            QuestieLoader:ImportModule("TooltipLayout").Render = function(_, tooltip) rendered[tooltip] = true end
+
+            MapIconTooltip.Redraw()
+
+            assert.are.same({[mapTooltip] = true, [gamepadTooltip] = true}, rendered)
+            assert.are.equal("ANCHOR_CURSOR", mapTooltip.anchor)
+            assert.are.equal("ANCHOR_RIGHT", gamepadTooltip.anchor)
+            assert.are.equal(icon, gamepadTooltip.holder)
+        end)
     end)
 end)

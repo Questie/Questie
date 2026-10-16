@@ -72,24 +72,24 @@ local function _Leave(path, on)
         return
     end
     if on == "minimap" then
-        _MinimapTooltip():Hide()
+        MapIconTooltip.Release(Minimap, _MinimapTooltip())
         QuestieFrame.ResetHoverHighlights(icon, path.data)
         return
     end
     -- Moving onto the icon itself hands the hover over to it.
     if QuestieCompat.GetMouseFocus() == icon then return end
     if GameTooltip:GetOwner() ~= icon then
-        -- Another frame took the tooltip; a Questie icon would have ended this hover first. Its
-        -- tooltip stays, but nothing of the NPC's may: a modifier key would rebuild it.
+        -- Another frame took the tooltip; a Questie icon would have ended this hover first. That frame
+        -- keeps it, and Shift must not redraw the NPC's tooltip over it.
+        MapIconTooltip.Release(icon, GameTooltip)
         QuestieFrame.ResetHoverHighlights(icon, path.data)
-        GameTooltip._Rebuild, GameTooltip.ShownAsMapIcon = nil, false
         return
     end
     local onLeave = icon.data == path.data and icon:GetScript("OnLeave")
     if onLeave then
         onLeave(icon)
     else
-        GameTooltip:Hide()
+        MapIconTooltip.Release(icon, GameTooltip)
         QuestieFrame.ResetHoverHighlights(icon, path.data)
     end
 end
