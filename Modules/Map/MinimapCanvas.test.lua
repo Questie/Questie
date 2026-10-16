@@ -276,6 +276,17 @@ describe("MinimapCanvas", function()
             assert.is_false(MinimapCanvas.InReach(projection, 0, {0, 0, 1000 - reach - 1, 2000}))
             assert.is_false(MinimapCanvas.InReach(projection, 1, {990, 990, 1010, 1010}))
         end)
+
+        it("turns minimap units back into the world yards they show, on a turned, non-square minimap", function()
+            local angle = 0.7
+            local projection = {originX = 1000, originY = 2000, scaleX = 0.5, scaleY = 0.4, sin = math.sin(angle),
+                cos = math.cos(angle)}
+            for _, point in ipairs({{1000, 2000}, {1030, 1990}, {870, 2150}}) do
+                local x, y = MinimapCanvas.Unproject(projection, MinimapCanvas.Project(projection, point[1], point[2]))
+                assert.are_near(point[1], x, 1e-9)
+                assert.are_near(point[2], y, 1e-9)
+            end
+        end)
     end)
 
     describe("lifecycle", function()

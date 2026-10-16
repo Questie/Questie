@@ -2,9 +2,9 @@ dofile("setupTests.lua")
 
 describe("PolygonMinimap", function()
     local PolygonMinimap, Pins, savedGlobals, savedError, hooks, lineDraws, player, minimap, cluster, rotateCVar, atlases
-    local root, renderer
+    local root, renderer, cursor, focus, QuestieCompat, savedCompat
     local GLOBALS = {"CreateFrame", "DrawLine", "LibStub", "hooksecurefunc", "Minimap", "GetPlayerFacing", "GetMinimapShape",
-        "C_Texture", "C_Minimap", "issecretvalue", "GetCVar", "WorldMapFrame", "CreateFramePool", "CreateFromMixins",
+        "C_Texture", "C_Minimap", "issecretvalue", "GetCVar", "WorldMapFrame", "CreateFramePool", "CreateFromMixins", "GetCursorPosition",
         "CreateUnsecuredRegionPoolInstance", "MapCanvasDataProviderMixin", "MapCanvasPinMixin",
         "UPPER_LEFT_VERTEX", "UPPER_RIGHT_VERTEX", "LOWER_LEFT_VERTEX", "LOWER_RIGHT_VERTEX"}
     -- Map 10 is not drawn at the canvas's 3:2 shape, so each axis needs its own scale.
@@ -78,8 +78,8 @@ describe("PolygonMinimap", function()
     end
 
     ---Starts the areas layer on the canvas with the areas collect returns, as QuestiePolygon does.
-    local function Start(collect)
-        local layer = PolygonMinimap.New(collect)
+    local function Start(collect, onHover)
+        local layer = PolygonMinimap.New(collect, onHover or function() end)
         layer.Invalidate()
         return layer
     end
@@ -118,6 +118,16 @@ describe("PolygonMinimap", function()
         function minimap:GetWidth() return self.size[1] end
         function minimap:GetHeight() return self.size[2] end
         minimap.GetScale, minimap.IsVisible = function() return 1 end, function() return true end
+        -- The cursor: nowhere until a case places it.
+        cursor, focus = nil, nil
+        function minimap:GetCenter() return 500, 500 end
+        function minimap:GetEffectiveScale() return 1 end
+        function minimap:IsMouseOver() return cursor ~= nil end
+        _G.GetCursorPosition = function() return cursor[1], cursor[2] end
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+        savedCompat = {GetMouseFocus = QuestieCompat.GetMouseFocus, IsGamepadUIEnabled = QuestieCompat.IsGamepadUIEnabled}
+        QuestieCompat.GetMouseFocus = function() return focus end
+        QuestieCompat.IsGamepadUIEnabled = function() return false end
         cluster = {outline = {{x = 40, y = 40}, {x = 44, y = 40}, {x = 42, y = 44}}}
 
         local HBD = {
@@ -176,7 +186,17 @@ describe("PolygonMinimap", function()
         -- The explicit list also restores globals that started out nil.
         for _, name in ipairs(GLOBALS) do _G[name] = savedGlobals[name] end
         Questie.Error = savedError
+        QuestieCompat.GetMouseFocus, QuestieCompat.IsGamepadUIEnabled = savedCompat.GetMouseFocus, savedCompat.IsGamepadUIEnabled
     end)
+
+    ---Places the cursor over the bare minimap where HereBeDragons places a minimap icon for a world point.
+    local function CursorAt(x, y)
+        local icon = Region()
+        Pins:AddMinimapIconWorld("cursor", icon, 0, x, y)
+        Pins.updateFrame.scripts.OnUpdate(Pins.updateFrame, 2)
+        Pins:RemoveMinimapIcon("cursor", icon)
+        cursor, focus = {500 + icon.anchor[4], 500 + icon.anchor[5]}, minimap
+    end
 
     it("draws outlines exactly where HereBeDragons places minimap icons, walking on a rotating minimap", function()
         local area = Area()
@@ -278,6 +298,36 @@ describe("PolygonMinimap", function()
         assert.are.equal(2, #layer.AreasAt(x, y, 0))
         layer.Clear()
         assert.are.same({}, layer.AreasAt(x, y, 0))
+    end)
+
+    it("hovers the drawn areas under the cursor, highlighting them, with their keys and the cursor in world yards", function()
+        local heard = {}
+        local area, other = Area(), Area({{x = 41, y = 41}, {x = 42, y = 41}, {x = 41, y = 42}})
+        Start(function() return {area, other} end, function(keys, x, y) heard[#heard + 1] = {keys = keys, x = x, y = y} end)
+        Tick()
+        local x, y = World(10, 43, 41)
+        CursorAt(x, y)
+        Tick()
+
+        local last = heard[#heard]
+        assert.are.equal(1, #last.keys)
+        assert.are.equal(area.key, last.keys[1])
+        assert.are_near(x, last.x, 1e-6)
+        assert.are_near(y, last.y, 1e-6)
+        local frame = renderer.activeFrames[1]
+        assert.are.equal(1.8, frame.borders[1].line[6])
+
+        -- Overlapping areas both hover.
+        CursorAt(World(10, 41.2, 41.2))
+        Tick()
+        assert.are.equal(2, #heard[#heard].keys)
+
+        -- Off the minimap, the hover ends.
+        cursor = nil
+        Tick()
+        assert.are.same({}, heard[#heard].keys)
+        assert.is_nil(heard[#heard].x)
+        assert.are.equal(1.5, frame.borders[1].line[6])
     end)
 
     it("clears its drawings, and lets the canvas idle once nothing is collected again", function()

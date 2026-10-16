@@ -61,6 +61,18 @@ local lastTooltipShowTimestamp = GetTime()
 
 ---@type table<GameTooltip, MapIconTooltipShown>
 local shown = {}
+---@type GameTooltip?
+local minimapTooltip
+
+---The tooltip map icon tooltips show on over the minimap, which hovers there use instead of GameTooltip:
+---Forever's minimap takes GameTooltip every frame while the cursor is over it, for its blip tooltips
+---(Minimap_OnUpdate in Blizzard_Minimap/Mainline/Minimap.lua). Each hover owns it with a frame of its
+---own, so one hover ending never hides another's.
+---@return GameTooltip
+function MapIconTooltip.MinimapTooltip()
+    minimapTooltip = minimapTooltip or CreateFrame("GameTooltip", "QuestieMinimapTooltip", UIParent, "GameTooltipTemplate")
+    return minimapTooltip
+end
 
 -- helper function to format a label with a colon, respecting localization rules
 ---@param label string

@@ -72,6 +72,8 @@ describe("QuestiePolygon world-map adapter", function()
             GetWorldCoordinatesFromZone = function(_, x, y, uiMapId) return x * 1000, y * 1000, uiMapId end,
             TranslateZoneCoordinates = spy.new(function(_, x, y) return x - 0.15, y + 0.3 end),
             GetPlayerWorldPosition = function() return player.x, player.y, player.instanceId end,
+            GetPlayerZone = function() return 10 end,
+            GetZoneCoordinatesFromWorld = function(_, x, y) return x / 1000, y / 1000 end,
         }
         player = {}
         _G.LibStub = function() return HBD end
@@ -118,9 +120,9 @@ describe("QuestiePolygon world-map adapter", function()
         -- An icon's hover effects start and end through its listeners, Polygon's own included.
         QuestieFrame.ApplyHoverHighlights = spy.new(function(icon) iconListeners.HoverStart(icon) end)
         QuestieFrame.ResetHoverHighlights = spy.new(function(icon, data) iconListeners.HoverEnd(icon, data or icon.data) end)
-        minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end)}
-        QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(collect)
-            minimapLayer.collect = collect
+        minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end), owner = {}}
+        QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(collect, onHover)
+            minimapLayer.collect, minimapLayer.hover = collect, onHover
             return minimapLayer
         end)
         dofile("Modules/Map/Polygon/PolygonGeometry.lua") -- Collection uses the real shared work budget.
@@ -293,7 +295,14 @@ describe("QuestiePolygon world-map adapter", function()
             _G.GameTooltip = tooltip
             MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
             saved = {show = MapIconTooltip.ShowForIcons, release = MapIconTooltip.Release, error = Questie.Error,
-                inputUtil = _G.InputUtil, near = MapIconTooltip.IconsNear}
+                inputUtil = _G.InputUtil, near = MapIconTooltip.IconsNear, minimapTooltip = MapIconTooltip.MinimapTooltip,
+                minimap = _G.Minimap}
+            _G.Minimap = {}
+            -- The minimap's own tooltip, held like GameTooltip.
+            local minimapTooltip = {}
+            function minimapTooltip:IsOwned(frame) return self.owner == frame end
+            function minimapTooltip:IsShown() return self.owner ~= nil end
+            MapIconTooltip.MinimapTooltip = function() return minimapTooltip end
             -- The map icon tooltip is tested on its own; here it only records what areas ask of it.
             MapIconTooltip.ShowForIcons = spy.new(function(owner) tooltip.owner = owner end)
             MapIconTooltip.Release = spy.new(function() end)
@@ -315,6 +324,7 @@ describe("QuestiePolygon world-map adapter", function()
         after_each(function()
             _G.GameTooltip = savedTooltip
             MapIconTooltip.ShowForIcons, MapIconTooltip.Release, MapIconTooltip.IconsNear = saved.show, saved.release, saved.near
+            MapIconTooltip.MinimapTooltip, _G.Minimap = saved.minimapTooltip, saved.minimap
             Questie.Error, _G.InputUtil = saved.error, saved.inputUtil
         end)
 
@@ -468,8 +478,49 @@ describe("QuestiePolygon world-map adapter", function()
             it("leaves areas drawn only as a preview alone", function()
                 Polygon.SetObjectiveAreaShown(42, 1, false)
                 input.onHover({Shape(frames[1])}, true)
+                focus = _G.Minimap
+                minimapLayer.hover({frames[1].polygonMarker}, 500, 250)
                 assert.spy(QuestieFrame.ApplyHoverHighlights).was.not_called()
                 assert.spy(MapIconTooltip.ShowForIcons).was.not_called()
+            end)
+
+            it("on the minimap too, by its minimap icon, listing the icons around the cursor on the minimap's tooltip", function()
+                local marker = frames[1].polygonMarker
+                local icon, other = marker.minimapIcons[1].frame, {}
+                nearby = {icon, other}
+                focus = _G.Minimap
+                minimapLayer.hover({marker, marker}, 500, 250)
+
+                assert.are.same({icon}, Icons(QuestieFrame.ApplyHoverHighlights))
+                assert.are.equal(icon, marker.entry.minimapHovered)
+                -- The cursor's spot on the player's zone, as percent of its map.
+                assert.spy(MapIconTooltip.IconsNear).was.called_with(true, 1, 50, 25)
+                local call = MapIconTooltip.ShowForIcons.calls[1]
+                assert.are.equal(minimapLayer.owner, call.refs[1])
+                assert.are.same({icon, other}, call.refs[2])
+                assert.are.equal(MapIconTooltip.MinimapTooltip(), call.refs[3])
+
+                -- Over other UI, or off the areas, it ends.
+                focus = {}
+                minimapLayer.hover({marker}, 500, 250)
+                assert.are.same({icon}, Icons(QuestieFrame.ResetHoverHighlights))
+                assert.are.equal(minimapLayer.owner, MapIconTooltip.Release.calls[#MapIconTooltip.Release.calls].refs[1])
+            end)
+
+            it("keeps each map's hover apart, handing it over to the same marker on the other map", function()
+                local marker = frames[1].polygonMarker
+                local icon = marker.minimapIcons[1].frame
+                input.onHover({Shape(frames[1])}, true)
+                -- The minimap hovers the marker's area before the world map's next check ends its own.
+                focus = _G.Minimap
+                minimapLayer.hover({marker}, 500, 250)
+                input.onHover({}, true)
+
+                assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+                assert.is_nil(marker.entry.hovered)
+                assert.are.equal(icon, marker.entry.minimapHovered)
+                minimapLayer.hover({})
+                assert.are.same({icon}, Icons(QuestieFrame.ResetHoverHighlights))
             end)
 
             it("starts nowhere but over the bare map, outside the gamepad UI, and keeps its errors", function()

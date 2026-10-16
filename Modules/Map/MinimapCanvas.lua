@@ -86,6 +86,18 @@ function MinimapCanvas.Project(projection, x, y)
         (dx * projection.sin + dy * projection.cos) * projection.scaleY
 end
 
+---The world yards a point in the projection's minimap units shows, such as the cursor: Project's inverse.
+---@param projection MinimapProjection
+---@param x number
+---@param y number
+---@return number x
+---@return number y
+function MinimapCanvas.Unproject(projection, x, y)
+    local u, v = x / projection.scaleX, y / projection.scaleY
+    return projection.originX - (u * projection.cos + v * projection.sin),
+        projection.originY - (v * projection.cos - u * projection.sin)
+end
+
 ---Whether world bounds on an instance come within the projection's reach, so their drawing can show
 ---before the next projection.
 ---@param projection MinimapProjection
