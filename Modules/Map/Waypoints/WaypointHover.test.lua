@@ -38,7 +38,6 @@ describe("WaypointHover", function()
         tooltipOwner = nil
         _G.GameTooltip = {GetOwner = function() return tooltipOwner end, Hide = spy.new(function() end)}
         minimapTooltip = {Hide = spy.new(function() end)}
-        _G.CreateFrame = function() return minimapTooltip end
         QuestieLoader:ImportModule("QuestieCompat").GetMouseFocus = function() return nil end
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
         QuestieWaypoints.SetHighlighted = spy.new(function() end)
@@ -47,6 +46,7 @@ describe("WaypointHover", function()
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         MapIconTooltip.ShowForIcons = spy.new(function() end)
         MapIconTooltip.Release = spy.new(function() end)
+        MapIconTooltip.MinimapTooltip = function() return minimapTooltip end
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
         QuestieFrame.ResetHoverHighlights = spy.new(function() end)
         dofile("Modules/Map/Waypoints/WaypointHover.lua")
