@@ -888,17 +888,17 @@ end
 -- Each patrol of an objective's NPCs belongs to one of the objective's markers in its zone: the
 -- cluster the NPC spawns in, so hovering either shows the other, else the zone's last marker.
 -- QuestieWaypoints shows, fades and releases it with that marker's map icon. A zone only patrols
--- reach gets a route marker of its own, showing the patrolling NPC. Progress updates keep the
--- markers, and with them their routes.
+-- reach gets a route marker of its own for each NPC patrolling it, showing that NPC. Progress updates
+-- keep the markers, and with them their routes.
 
----Allocation and route attachment stop once their markers are replaced or the objective is gone.
----Progress updates keep the generation, so they never stop attaching routes.
+---Route attachment stops once its markers are replaced or the objective is gone: removal and resets
+---mark the entry inactive. It does not stop for passing states, such as the quest log being rebuilt
+---across yields: a later progress update keeps the markers and never attaches their routes again.
 ---@param entry PolygonObjectiveEntry
 ---@param generation number Marker generation the work started with.
 ---@return boolean
 local function _IsCurrentGeneration(entry, generation)
-    return entry.active and entry.generation == generation and QuestiePolygon.IsEnabled()
-        and not entry.objective.Completed and QuestiePlayer.currentQuestlog[entry.quest.Id] == entry.quest
+    return entry.active and entry.generation == generation
 end
 
 ---Draws one of a marker's minimap icons.
@@ -975,9 +975,9 @@ local function _AttachRoutes(entry, zoneMarkers)
             if first then
                 local marker = _RouteOwner(entry, spawnData, areaId) or zoneMarkers[areaId]
                 -- -1, -1 stands for an instance, which has no point on the zone's map.
+                -- Each patrolling NPC gets its own route marker, so its patrol shows that NPC.
                 if not marker and first[1] ~= -1 and first[2] ~= -1 then
                     marker = _DrawRouteMarker(entry, spawnData, areaId, first[1], first[2])
-                    zoneMarkers[areaId] = marker
                 end
                 -- A marker Questie removed meanwhile may have handed its icon to another quest.
                 if marker and marker.frame.polygonMarker == marker then
