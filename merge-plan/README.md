@@ -10,6 +10,15 @@ This is the master plan for stacking `blob` on `waypoints`, fixing every overlap
 
 The first version of every plan is in the safety commit `e71e6dd38`. Your copy is `merge-plan.7z`.
 
+**Update (waypoints moved on).** The plans were written against waypoints `7c1e28bd8`. Since then, `waypoints` has been rebased onto master `ef1241ccf`. It is now `f567796eb`: 39 commits, 0 behind master. What that changes:
+- **Master added migration `[42]`** (the Show Spell IDs option). Waypoints' migration is now `[43]`, so blob's becomes **`[44]`** (M1).
+- **New on waypoints:** fills and half-disc caps in `WaypointGeometry.Quads`/`_Join` and `WaypointRenderer`, textures moved to `Icons/waypoints/` (sources in `Icons/originals/`, which releases exclude), and route-color fixes for vendors and quest-item objects.
+  - None of this touches a seam. `Trim` (E-F3), `WaypointMap`/`WaypointHover` (F-1) and `WaypointMinimap` (D-C1) are unchanged, and the renderer's public API is the same.
+  - Blob mode inherits the color fixes through `spawnData.Hostile`.
+- **Phase 1 gains two mechanical conflict files:** `QuestieMap.test.lua` (stop #6) and `Migration.test.lua` (stop #7).
+- **Test counts in the area plans** (for example C's "QuestieMap 9") predate waypoints' new tests. Re-baseline them at each stop; the target is still "all pass".
+- **Waypoint line numbers** cited in the plans may be off by a few lines outside the renderer and geometry files. The functions they name are unchanged.
+
 | File | Area | Recommended design in one line |
 |---|---|---|
 | `00-context.md` | Shared context | The situation, the verified overlap findings and the plan template |
@@ -56,8 +65,8 @@ These were not in the original review.
 
 | # | Bug | Where | Fixed by |
 |---|---|---|---|
-| N1 | **The automatic merge freezes the client.** Blob's `local icons` shadows waypoints' `icons` parameter in `ShowOnTooltip`, so the given-icons loop never ends. Git won't flag it. *Verified by the orchestrator.* | `MapIconTooltip.lua`, at the WIP stop | Phase 1, stop #36 |
-| N2 | The automatic merge brings back the dead `CustomTooltipData` branch. | `MapIconTooltip.ShowForIcons` | Phase 1, stop #36 |
+| N1 | **The automatic merge freezes the client.** Blob's `local icons` shadows waypoints' `icons` parameter in `ShowOnTooltip`, so the given-icons loop never ends. Git won't flag it. *Verified by the orchestrator.* | `MapIconTooltip.lua`, at stop #39 (`10a565871`) | Phase 1, stop #39 |
+| N2 | The automatic merge brings back the dead `CustomTooltipData` branch. | `MapIconTooltip.ShowForIcons` | Phase 1, stop #39 |
 | N3 | **Area hover throws a Lua error on Era, Anniversary and Progression.** Only Forever's `InputUtil` has `IsGamepadUIEnabled`. This bug is in blob today. | `QuestiePolygon._UpdateAreaTooltip` | F-1 (`QuestieCompat.IsGamepadUIEnabled`) and F-2 |
 | N4 | A quest's icons stay tinted after a path hover reaches their icon. This bug is in waypoints today. | `MapIconTooltip` `touchedPins` | B-F3 (Phase 0) |
 | N5 | In the gamepad UI, or when a path hover ends while another frame holds the tooltip, a polygon marker's area preview never ends. | `GamepadMapHover`, `WaypointHover` | F-3 |
@@ -69,8 +78,26 @@ These were not in the original review.
 
 ## Phase 0: before step 3, on `waypoints`
 
+0. ~~Rebase `waypoints` onto master and remove the scratch files.~~ **Done** (`f567796eb`).
+   - *Optional:* the `Scratch` commit (`7a023eb07`) and its removal (`f567796eb`) still carry about 3,300 lines and a 785 KB PNG in history. A merge commit to master would keep them permanently. Dropping both commits before the PR avoids that.
 1. **B-F3 `fix(tooltips): keep icon colors when a hovered icon's tooltip opens again`** (`B-tooltip-api.md` §4b). It fixes N4, which is waypoints-only. Land it, push `waypoints`, and step 3 picks it up. Later, F-4 moves this guard into `QuestieFrame`.
-2. **Commit the updated plan.** A rebase needs a clean working tree, and the plan edits since `e71e6dd38` are uncommitted. Use a second safety commit, for example `chore: update the merge plan with shared map seams`.
+2. ~~Commit the updated plan.~~ **Done** (`a15bf0c38` "Updated version", on top of `cd871ff4e`). Commit the later plan edits too, before Phase 1.
+3. ~~Finish committing the old WIP (P-1).~~ **Done.** The WIP commit `715031ef6` was dropped from history, and its content is now proper commits:
+   - `fb824f1f9` fix(quest): streamline `CheckQuestSourceItem`…
+   - `10a565871` refactor(tooltips): show map icon tooltips for a given set of icons. **This is the N1/N2 stop.**
+   - `20559fc20` feat(polygon): show the quest tooltip when hovering quest areas
+   - `96a370d80` feat(polygon): preview an objective's areas from the tracker, on the minimap too
+   - `1ff68f91d` feat(options): show the Questie blobs icon in the objective style picker (`Icons/blobs/BlobPOI.png`)
+   - `21437312a` fix(tutorial): mention minimap clusters in the Questie blobs choice
+   
+   Compared with `715031ef6`, nothing was lost. The only differences are the files kept local on purpose and the `BlobPOI` move.
+4. **Set aside the local-only tracked edits before Phase 1.** The code console's TOC and `.luacheckrc` lines and the `loot`/`object`/`slay` art stay uncommitted on purpose. A rebase needs tracked files clean, so stash them and restore them afterwards:
+   ```sh
+   git stash push -m "local-only: code console and icon art" -- .luacheckrc Questie_*.toc Icons/loot.png Icons/object.png Icons/slay.png
+   # … Phase 1 …
+   git stash pop
+   ```
+   Untracked and ignored files (`Modules/Debug/`, `Blob/`, `multiloot.png`, the fill variants, the notes) can stay where they are. No incoming file collides with them.
 
 ---
 
@@ -94,15 +121,19 @@ git rebase --onto waypoints origin/master blob \
 | Stop | Commit | What to do | Source |
 |---|---|---|---|
 | #6 | `dfb97c802` feat(polygon): integrate cached objective areas with Questie | Several files; see the details below the table. Fixes N8. | C R1, B 4a, A 4a |
-| #7 | `47250fad6` feat(options): add opt-in Questie blobs preset | **M1:** renumber migration `[42]` to `[43]` and fix its tests (Mechanical items). | M1 |
+| #7 | `47250fad6` feat(options): add opt-in Questie blobs preset | **M1:** `Migration.lua` and `Migration.test.lua` conflict. Keep master's `[42]` and waypoints' `[43]`, add blob's migration as `[44]`, and fix the tests (Mechanical items). | M1 |
 | #9 | `8003dabb0` feat: Enhance PolygonRenderer with marker highlighting… | `git checkout --ours Modules/FramePool/QuestieFramePool.lua`, then `git rm Modules/FramePool/QuestieFramePool.test.lua`. Keep the rest. | C #2 |
 | #10 | `38da5d634` feat: Separate overlapping polygon markers… | Take blob's `zoneOwner` rename, but keep the ported `DrawWaypoints(zoneOwner[1], spawnData.TooltipKey, waypoints, zone, spawnData.Hostile)`. | C #3 |
 | #27 | `d9dc1ca4d` fix(map): defer waypoint line motion setup until combat ends | **Drop it.** `checkout --ours` and `git rm` as above, then `git rebase --skip`. Paths take no mouse input, so the bug can't happen. | C #7 |
 | #30 | `53b5e7ce4` refactor(polygon): compute area hover from the cursor… | `checkout --ours` and `git rm` as above, then **R2**: `isCursorOnMap` becomes `GetMouseFocus() == scrollContainer`, and the test drops its line stub. F-2 later deletes both. | C R2 = A 4a |
 | #32 | `4f76fd411` feat(polygon): cluster objects apart… | **R3**: `FakeHide` keeps `OwnerChanged` and blob's marker clause; `_FallbackIconData` excludes `waypointPaths`; `QuestieQuest.test` keeps both sides. | C R3 |
 | #33 | `83ef6e2fe` fix(map): skip recycled frames when unloading… | **Keep as is.** | C #10 |
-| #36 | `715031ef6` chore: wip snapshot | Rename the cluster list to `tooltipIcons` (**N1**). Pass `owner or self`, and throttle on `IsOwned(owner or self)`. Delete `CustomTooltipData` (**N2**). Keep both sides of the test file. With B-F3 already on `waypoints`, git now flags the N1 spot as a third conflict hunk instead of hiding it. Expect `MapIconTooltip` 23 (20 at stop #6), `WaypointHover` 7, `GamepadMapHover` 10. | B 4a |
-| #37+ | The plan's safety commits | New files only; they replay cleanly. | — |
+| #36–37 | `cd871ff4e`, `a15bf0c38`: the plan's safety commits | New files only; they replay cleanly. | — |
+| #38 | `fb824f1f9` fix(quest): streamline `CheckQuestSourceItem`… | Expected to apply cleanly. It is the part of the old WIP that Area C found free of conflicts with its files. | C table #11 |
+| #39 | `10a565871` refactor(tooltips): show map icon tooltips for a given set of icons (from the old WIP snapshot `715031ef6`) | Rename the cluster list to `tooltipIcons` (**N1**). Pass `owner or self`, and throttle on `IsOwned(owner or self)`. Delete `CustomTooltipData` (**N2**). Keep both sides of the test file. With B-F3 already on `waypoints`, git now flags the N1 spot as a third conflict hunk instead of hiding it. Expect `MapIconTooltip` 23 (20 at stop #6), `WaypointHover` 7, `GamepadMapHover` 10. | B 4a |
+| #40 | `20559fc20` feat(polygon): show the quest tooltip when hovering quest areas | Its `onHover = _UpdateAreaTooltip` line sits next to R2's `isCursorOnMap` (stop #30). If it conflicts, keep both (A 4a). It also adds `polygonAreaTooltips` to `QuestieOptionsDefaults.lua`, which waypoints changed in another section; the preview merges it cleanly. | A 4a |
+| #41–43 | `96a370d80`, `1ff68f91d`, `21437312a`: tracker/minimap previews, preset icon, tutorial wording | Expected to apply cleanly. None of them touches a file waypoints changed. | — |
+| #44+ | The plan update commits | New files only. | — |
 
 **Stop #6 details**
 - **`QuestieFrame`:**
@@ -118,6 +149,7 @@ git rebase --onto waypoints origin/master blob \
   - `WaypointHover.End` stays first in `Show`.
   - The order is: alpha gate, then `EnterMarker`, then the throttle.
   - `SetHighlighted` replaces the `lineFrames` loop.
+- **`QuestieMap.test.lua`** (new conflict since waypoints `f567796eb`): waypoints imports `local match = require("luassert.match")` and blob imports `local _ = require("luassert.match")._`. Keep `local match = require("luassert.match")`, then add `local _ = match._`. Both names are used.
 - **Test edits** (git won't stop for these): the `OwnerChanged` and `SetSolo` stubs, the new `DrawWaypoints` assertion, and an assertion on the twin.
 
 ### After Phase 1
@@ -127,13 +159,8 @@ git rebase --onto waypoints origin/master blob \
    - `luacheck -q -- Database Localization Modules Public Questie.lua`
    - `lua cli/validate-loader-usage.lua`
    - `grep -c "function pins:GetMinimapView" Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua` must print `1`.
-2. **Undo the WIP commit and the plan commits on top of it**, however many there are:
-   ```sh
-   git reset "$(git log --format=%H -1 --grep='^chore: wip snapshot of uncommitted blob work')^"
-   ```
-   The WIP changes, including the stop #36 fixes, and the plan files come back uncommitted. The plan files come back untracked, as they were before the safety commit.
-3. **Decision P-1:** commit the WIP work properly, split as you like, before Phase 2. Several Phase 2 commits edit the same files.
-4. **Push:** `git push --force-with-lease origin blob`.
+2. **Plan commits:** the plan commits (`git log --oneline -- merge-plan`) only add `merge-plan/`. Keep them while you work through Phase 2, and drop them before opening the PR, for example with `git rebase --onto <first>^ <last>` when they sit next to each other. Your `merge-plan.7z` stays as the off-branch copy.
+3. **Push:** `git push --force-with-lease origin blob`.
 
 ---
 
@@ -196,7 +223,7 @@ The recommendation comes first in each row. Rows marked ★ change behavior play
 
 | ID | Decision | Recommendation |
 |---|---|---|
-| P-1 | After Phase 1, commit the restored WIP properly before Phase 2. | **Yes** |
+| P-1 | Commit the old WIP properly. | **Done** (Phase 0 step 3) |
 
 **Seams (Area F)**
 
@@ -262,7 +289,7 @@ B-D3 is superseded by rule 3: hover effects go through `QuestieFrame` events (F-
 | E-1 | Share line simplification (`MapGeometry.Simplify`). | **Yes** |
 | E-2 | Fix the frame budget and route the marker loop through it. | **Yes** |
 | E-3 | Move the budget to `Modules/Libs`. | **Not until a second user exists** |
-| E-4 | Spread waypoint drawing over several frames. | **No; measure dense maps first** |
+| E-4 | Spread waypoint drawing over several frames. Waypoints' new fills and caps add about 11% more textures, per `docs/waypoints.md`. | **No; measure dense maps first** |
 | E-5 | Delete blob's MIT notice along with `_ReduceOutline`. **Check provenance first:** does anything else in `PolygonGeometry.lua` come from that source? | **You must confirm** |
 
 **Wording**
@@ -276,12 +303,12 @@ B-D3 is superseded by rule 3: hover effects go through `QuestieFrame` events (F-
 ## Mechanical items (no design needed)
 
 **M1: migration renumber, at Phase 1 stop #7 (`47250fad6`)**
-- `Modules/Migration.lua`: waypoints' `[42]` (the `waypoint*` profile keys) stays. Blob's becomes `[43]`, which sets `enableQuestiePolygons = false` if it is nil. The two touch different keys, so order doesn't matter.
-- `Modules/Migration.test.lua`:
-  - Every shared `assert.are_same(42, …migrationVersion)` becomes `43`. There are six in waypoints' file.
-  - "keeps generated polygons opt-in…" and "preserves an explicit polygon choice…" start at `42`, so they test `[43]` on its own, and assert `43`.
-  - "does not reset a polygon choice after reaching the latest version" starts at `43` and asserts `43`.
-  - "handles Saved Variables without former seasonal compiler scopes" asserts `43`.
+- `Modules/Migration.lua`: keep master's `[42]` (`enableTooltipsSpellID`) and waypoints' `[43]` (the `waypoint*` profile keys). Blob's becomes `[44]`, which sets `enableQuestiePolygons = false` if it is nil. All three touch different keys, so order doesn't matter.
+- `Modules/Migration.test.lua` (now a conflict):
+  - Every shared `assert.are_same(43, …migrationVersion)` becomes `44`. There are seven in waypoints' file.
+  - "keeps generated polygons opt-in…" and "preserves an explicit polygon choice…" start at `43`, so they test `[44]` on its own, and assert `44`.
+  - "does not reset a polygon choice after reaching the latest version" starts at `44` and asserts `44`.
+  - "handles Saved Variables without former seasonal compiler scopes" asserts `44`.
 
 **M2: option wording, after C-F2**
 - Waypoints' `Enable Minimap Waypoints` description says "Minimap icons must be enabled too." Blob mode shows cluster markers on the minimap, and C-F2 gives those markers routes.
@@ -298,6 +325,11 @@ B-D3 is superseded by rule 3: hover effects go through `QuestieFrame` events (F-
 **M5: a vendored lib's test depends on feature code (optional, flagged by Area D)**
 - One case in `Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua` (around lines 171–215) loads `Polygon/PolygonNudging.lua`.
 - Move that case into `Polygon/PolygonNudging.test.lua`, so the library's test only tests the library. Do it before F-7 if `Polygon/` moves.
+
+**M6: texture layout (optional, pairs with F-7)**
+- Waypoints now keeps its textures in `Icons/waypoints/` and their sources in `Icons/originals/waypoints/`, which `build.py` leaves out of releases.
+- Blob's textures can follow the same layout: **in progress** in your working tree as `Icons/blobs/` and `Icons/originals/BlobPOI`. Move the quest-log fills and the area swatch there too, and update the paths in `PolygonQuestLogForever.lua`, `QuestiePolygon.lua` (`AREA_SWATCH`) and their tests.
+- The shared minimap player mask stays at the `Icons/` root, because `MinimapCanvas` owns it, not a feature.
 
 The duplicate player mask TGA goes away in D-C2.
 
