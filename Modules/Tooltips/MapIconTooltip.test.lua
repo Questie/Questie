@@ -436,6 +436,17 @@ describe("MapIconTooltip objective wording", function()
             assert.are.equal(pin, tooltip.holder)
         end)
 
+        it("shows minimap hovers on one tooltip of its own, created once", function()
+            local savedCreateFrame = _G.CreateFrame
+            local created = {}
+            _G.CreateFrame = function(kind, name) created[#created + 1] = {kind, name}; return {} end
+            local first = MapIconTooltip.MinimapTooltip()
+            local second = MapIconTooltip.MinimapTooltip()
+            _G.CreateFrame = savedCreateFrame
+            assert.are.equal(first, second)
+            assert.are.same({{"GameTooltip", "QuestieMinimapTooltip"}}, created)
+        end)
+
         it("redraws every tooltip its owner still holds, at the same anchor", function()
             local mapTooltip, gamepadTooltip, endedTooltip = HoldingTooltip(), HoldingTooltip(), HoldingTooltip()
             local ended = {}

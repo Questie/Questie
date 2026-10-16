@@ -1,5 +1,5 @@
 ---Draws the objective areas around the player as MinimapCanvas' areas layer: beneath patrol paths,
----lined up with Questie's minimap icons. Minimap areas don't hover.
+---lined up with Questie's minimap icons, and hovers them.
 ---@class PolygonMinimap
 local PolygonMinimap = QuestieLoader:CreateModule("PolygonMinimap")
 
@@ -34,6 +34,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 ---@field Invalidate fun() Collects the areas again on the next update, after quest, visibility or option changes.
 ---@field Clear fun() Releases every drawing; frames and textures stay pooled. Native cleanup failure throws after every view was attempted.
 ---@field AreasAt fun(x: number, y: number, instanceId: number): table[] Keys of the drawn areas containing a point in world yards, such as a minimap icon's spot.
+---@field owner Frame The layer's container on the canvas, shown while its areas are: it owns their hover's tooltip.
 
 -- Same fill and border opacity as the world map's areas at full marker opacity.
 local FILL_ALPHA, BORDER_ALPHA = 0.25, 0.75
@@ -68,13 +69,14 @@ function PolygonMinimap.WorldOutline(cluster)
 end
 
 -- Areas layer
--- Nothing here takes mouse input or calls protected API. The canvas collects and draws the layer
--- from its own update; areas have no Hover, so the canvas never reads the cursor for them.
+-- Nothing here takes mouse input or calls protected API. The canvas collects, draws and hovers the
+-- layer from its own update, offering the cursor only where the paths above don't claim it.
 
 ---Adds the areas layer to the minimap's canvas. Drawing starts on the first Invalidate.
 ---@param collect fun(): PolygonMinimapArea[] Areas that should show, wherever they are.
+---@param onHover fun(keys: table[], x: number?, y: number?) Hears every hover check: the keys of the drawn areas under the cursor, overlaps included, and the cursor in world yards; nil once the hover ended.
 ---@return PolygonMinimapLayer
-function PolygonMinimap.New(collect)
+function PolygonMinimap.New(collect, onHover)
     ---@type table<table, PolygonMinimapView> By area key, including areas out of reach.
     local views = {}
     ---@type PolygonMinimapArea[]
@@ -173,12 +175,26 @@ function PolygonMinimap.New(collect)
         end,
     }
 
+    ---Hovers the areas under the cursor, which the renderer highlights. The cursor is in projected units.
+    layer.Hover = function(x, y)
+        return renderer:Hover(x, y)
+    end
+
     local masks
     container, masks = MinimapCanvas.AddLayer("areas", layer)
-    renderer = PolygonRenderer.New(container, nil, masks)
+    renderer = PolygonRenderer.New(container, {onHover = function(shapes, _changed, x, y)
+        local keys = {}
+        for i, shape in ipairs(shapes) do keys[i] = shape.key end
+        if x and drawnProjection then
+            onHover(keys, MinimapCanvas.Unproject(drawnProjection, x, y))
+        else
+            onHover(keys)
+        end
+    end}, masks)
     return {
         Invalidate = function() MinimapCanvas.Invalidate("areas") end,
         Clear = layer.Clear,
+        owner = container,
         AreasAt = function(x, y, instanceId)
             local keys = {}
             if not drawnProjection or drawnProjection.instanceId ~= instanceId then return keys end
