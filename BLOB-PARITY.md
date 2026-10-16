@@ -37,7 +37,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 - Did not copy the unsafe hull prefilter or blanket exclusion of rare NPCs.
 - Historical mean-shift, alternate renderers, and overlap-merging experiments remain reference material, not enabled features.
 - Neither version provides terrain-aware shapes or holes. Overlapping polygons highlight together when their shapes contain the cursor. Questie icons, Blizzard pins and other UI on top of the map exclude the areas beneath them.
-- Marker-associated and direct-hover highlights combine. Generic Questie icon input is unchanged; Polygon markers use direct-click show/hide with no picker. Polygon surfaces still have no clicks/tooltips.
+- Marker-associated and direct-hover highlights combine. Generic Questie icon input is unchanged; Polygon markers use direct-click show/hide with no picker. Polygon surfaces have tooltips, with a setting, but no clicks.
 - Direct hover affects only drawn areas and does not extend previews or change saved visibility. Native POI remains future work.
 
 ## Follow-up
