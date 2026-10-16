@@ -14,7 +14,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 
 ---@class PolygonMinimapIcon
 ---@field frame IconFrame Points back to its marker through frame.polygonMinimapMarker.
----@field point table? Spawn point whose metadata it shows; nil for a waypoint fallback sharing the map icon's data.
+---@field point table? Spawn point whose metadata it shows; nil for a route marker's, which shares the map icon's data.
 
 ---@class PolygonProjectionCache
 ---@field outline table[] Original immutable outline identifying this cache's source geometry.
@@ -25,7 +25,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field active boolean
 ---@field index ObjectiveIndex Canonical objective index; also the saved-visibility key.
 ---@field revision number Collection/build identity, invalidated by the next update.
----@field generation number Marker/waypoint identity; progress-only updates do not cancel a current route batch.
+---@field generation number Marker identity; progress-only updates keep it, so they never stop attaching routes.
 ---@field quest Quest
 ---@field objective QuestObjective
 ---@field markers PolygonMarker[]
@@ -37,10 +37,6 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field previewSuppressed boolean? A click hid the areas while hovering; no preview until a hover starts again.
 ---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
 ---@field building boolean? Replacement geometry is not shown while marker allocation yields.
-
----@class PolygonObjectiveWork
----@field entry PolygonObjectiveEntry
----@field generation number Captured marker generation; never infer validity from a pooled frame reference.
 
 ---@type PolygonGeometry
 local PolygonGeometry = QuestieLoader:ImportModule("PolygonGeometry")
@@ -550,7 +546,7 @@ function QuestiePolygon.Reset()
     -- Keep the detached provider and cleared cache/renderer so later mode/profile resets reuse their pools.
 end
 
--- Marker interaction and external waypoint ownership
+-- Marker interaction
 -- Called through QuestieFrame's icon events, subscribed once, never as accumulating frame hooks.
 function QuestiePolygon.MarkerRemoved(frame)
     local marker = frame.polygonMarker
@@ -778,40 +774,6 @@ function QuestiePolygon.RegisterVisibilityCallback(callback)
     visibilityCallbacks[#visibilityCallbacks + 1] = callback
 end
 
----Waypoint work can yield after marker creation. Keep its generation separate from
----collection revisions so an unchanged progress update does not abandon half a route batch.
----@param work PolygonObjectiveWork?
----@return boolean
-function QuestiePolygon.IsCurrentObjective(work)
-    local entry = work and work.entry
-    return entry ~= nil and entry.active and entry.generation == work.generation and QuestiePolygon.IsEnabled()
-        and not entry.objective.Completed and QuestiePlayer.currentQuestlog[entry.quest.Id] == entry.quest
-end
-
----Adopts a waypoint fallback marker and its minimap icon for this generation, or unloads
----both when the work is stale.
----@param frame IconFrame
----@param work PolygonObjectiveWork?
----@param minimapFrame IconFrame? Shares the map icon's data.
----@return boolean accepted
-function QuestiePolygon.OwnWaypointMarker(frame, work, minimapFrame)
-    if not QuestiePolygon.IsCurrentObjective(work) then
-        QuestieFramePool:UnloadFrame(frame)
-        if minimapFrame then QuestieFramePool:UnloadFrame(minimapFrame) end
-        return false
-    end
-    local entry = work.entry
-    local marker = {frame = frame, entry = entry, minimapIcons = {}}
-    frame.polygonMarker = marker
-    if minimapFrame then
-        minimapFrame.polygonMinimapMarker = marker
-        marker.minimapIcons[1] = {frame = minimapFrame}
-    end
-    entry.markers[#entry.markers + 1] = marker
-    QuestiePolygon.ScheduleNudging()
-    return true
-end
-
 ---Borrowed marker references for tracker highlighting, not another cleanup owner.
 ---@param objective QuestObjective
 ---@return IconFrame[]
@@ -917,24 +879,127 @@ local function _PhasesUnchanged(phases)
     return true
 end
 
----Builds from the full phase-filtered spawn list, not the incremental icon list.
----Returns newly drawn marker/zone owners for existing waypoint creation; cached updates
----return no new owners, preventing duplicate waypoint frames. The third return carries
----generation ownership for both minimap fallback pins and world-map route creation.
+-- Objective routes
+-- Each patrol of an objective's NPCs belongs to one of the objective's markers in its zone: the
+-- cluster the NPC spawns in, so hovering either shows the other, else the zone's last marker.
+-- QuestieWaypoints shows, fades and releases it with that marker's map icon. A zone only patrols
+-- reach gets a route marker of its own, showing the patrolling NPC. Progress updates keep the
+-- markers, and with them their routes.
+
+---Allocation and route attachment stop once their markers are replaced or the objective is gone.
+---Progress updates keep the generation, so they never stop attaching routes.
+---@param entry PolygonObjectiveEntry
+---@param generation number Marker generation the work started with.
+---@return boolean
+local function _IsCurrentGeneration(entry, generation)
+    return entry.active and entry.generation == generation and QuestiePolygon.IsEnabled()
+        and not entry.objective.Completed and QuestiePlayer.currentQuestlog[entry.quest.Id] == entry.quest
+end
+
+---Draws one of a marker's minimap icons.
+---@param marker PolygonMarker
+---@param data table
+---@param point table? Spawn point the icon shows; nil for a route marker's.
+---@param areaId AreaId
+---@param x number
+---@param y number
+local function _DrawMinimapIcon(marker, data, point, areaId, x, y)
+    local _, minimapFrame = QuestieMap:DrawWorldIcon(data, areaId, x, y, nil, nil, "minimap")
+    if not minimapFrame then return end
+    minimapFrame.polygonMinimapMarker = marker
+    marker.minimapIcons[#marker.minimapIcons + 1] = {frame = minimapFrame, point = point}
+end
+
+---Draws a marker on both maps for a zone only the objective's patrols reach.
+---@param entry PolygonObjectiveEntry
+---@param spawnData table The patrolling NPC.
+---@param areaId AreaId
+---@param x number The patrol's first point in the zone, in percent.
+---@param y number
+---@return PolygonMarker? marker nil when the zone has no map.
+local function _DrawRouteMarker(entry, spawnData, areaId, x, y)
+    local data = _IconData(entry.quest, entry.objective, entry.index, spawnData)
+    local frame = QuestieMap:DrawWorldIcon(data, areaId, x, y, nil, nil, "map")
+    if not frame then return nil end
+    local marker = {frame = frame, entry = entry, minimapIcons = {}}
+    frame.polygonMarker = marker
+    entry.markers[#entry.markers + 1] = marker
+    _DrawMinimapIcon(marker, data, nil, areaId, x, y)
+    return marker
+end
+
+---The marker whose cluster holds one of the NPC's spawns in the patrol's zone, so hovering the patrol
+---outlines the area the NPC is in. Clusters are told apart by their spawn extent, as for nearby mode.
+---@param entry PolygonObjectiveEntry
+---@param spawnData table The patrolling NPC.
+---@param areaId AreaId The patrol's zone.
+---@return PolygonMarker? marker nil when no cluster in that zone holds a spawn of the NPC.
+local function _RouteOwner(entry, spawnData, areaId)
+    local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaId)
+    local spawns = uiMapId and spawnData.Spawns and spawnData.Spawns[areaId]
+    if not spawns then return nil end
+    for _, spawn in ipairs(spawns) do
+        local x, y = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100, spawn[2] / 100, uiMapId)
+        for _, marker in ipairs(entry.markers) do
+            local cluster = marker.cluster
+            local bounds = cluster and cluster.worldBounds
+            -- World coordinates span the continent: a neighbouring zone's cluster may cover the spot.
+            if x and y and bounds and cluster.uiMapId == uiMapId and x >= bounds.minX and x <= bounds.maxX
+                and y >= bounds.minY and y <= bounds.maxY then
+                return marker
+            end
+        end
+    end
+    return nil
+end
+
+---Draws each of the objective's patrols for a marker in its zone, adding route markers where no
+---cluster is. Without any marker nothing is drawn, as in normal mode.
+---@async
+---@param entry PolygonObjectiveEntry
+---@param zoneMarkers table<AreaId, PolygonMarker> Markers just drawn; the last one of each zone, which owns patrols no cluster holds.
+local function _AttachRoutes(entry, zoneMarkers)
+    if not next(zoneMarkers) then return end
+    local generation, attached = entry.generation, 0
+    for _, spawnData in pairs(entry.objective.spawnList or {}) do
+        for areaId, patrols in pairs(spawnData.Waypoints or {}) do
+            local first = patrols[1] and patrols[1][1]
+            if first then
+                local marker = _RouteOwner(entry, spawnData, areaId) or zoneMarkers[areaId]
+                -- -1, -1 stands for an instance, which has no point on the zone's map.
+                if not marker and first[1] ~= -1 and first[2] ~= -1 then
+                    marker = _DrawRouteMarker(entry, spawnData, areaId, first[1], first[2])
+                    zoneMarkers[areaId] = marker
+                end
+                -- A marker Questie removed meanwhile may have handed its icon to another quest.
+                if marker and marker.frame.polygonMarker == marker then
+                    QuestieMap:DrawWaypoints(marker.frame, spawnData.TooltipKey, patrols, areaId, spawnData.Hostile)
+                end
+                attached = attached + 1
+                if attached >= 30 then
+                    attached = 0
+                    coroutine.yield()
+                    if not _IsCurrentGeneration(entry, generation) then return end
+                end
+            end
+        end
+    end
+    QuestiePolygon.ScheduleNudging()
+end
+
+---Builds from the full phase-filtered spawn list, not the incremental icon list. Cached updates
+---refresh the markers and keep their routes; new markers draw the objective's routes again.
 ---@param quest Quest
 ---@param objective QuestObjective
 ---@param objectiveIndex ObjectiveIndex Used only when objective.Index has not been assigned.
 ---@async
----@return table? icon Representative metadata for waypoint fallback pins; nil when no new markers were drawn.
----@return table<AreaId, table> iconPerZone Newly drawn route owners as {frame, x, y}, with original percentage coordinates.
----@return PolygonObjectiveWork? waypointWork
 function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- Special objectives share the passed index 0; their assigned Index is the cache identity.
     local canonicalIndex = objective.Index or objectiveIndex
     if not QuestiePolygon.IsEnabled() or objective.IsPartyObjective or objective.Completed
         or QuestiePlayer.currentQuestlog[quest.Id] ~= quest then
         QuestiePolygon.RemoveObjective(quest.Id, canonicalIndex)
-        return nil, {}
+        return
     end
 
     local questEntries = entries[quest.Id]
@@ -960,7 +1025,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- identical, so skip collection, which converts and stringifies every spawn.
     if entry.signature and entry.spawnList == objective.spawnList and _PhasesUnchanged(entry.phases) then
         _RefreshMarkers(entry, quest, objective)
-        return nil, {}, {entry = entry, generation = entry.generation}
+        return
     end
 
     -- Collect the full eligible source set before comparing geometry signatures.
@@ -1001,11 +1066,11 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                         end
                     end
                 end
-                if not PolygonGeometry.Checkpoint(work) then return nil, {} end
+                if not PolygonGeometry.Checkpoint(work) then return end
             end
         end
     end
-    if isCancelled() then return nil, {} end
+    if isCancelled() then return end
     table.sort(signatureParts)
     local signature = table.concat(signatureParts, "|")
 
@@ -1013,18 +1078,17 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     if entry.signature == signature then
         entry.spawnList, entry.phases = objective.spawnList, phases
         _RefreshMarkers(entry, quest, objective, pointsByKey)
-        return nil, {}, {entry = entry, generation = entry.generation}
+        return
     end
 
     -- Hide outlines until replacement geometry and markers are ready. Bumping the generation
-    -- invalidates earlier waypoint work before its marker frames can be recycled.
+    -- stops earlier route attachment before its marker frames can be recycled.
     entry.signature, entry.hovered, entry.building = nil, nil, true
     entry.generation = entry.generation + 1
-    local waypointWork = {entry = entry, generation = entry.generation}
     _ReleaseMarkers(entry)
     QuestiePolygon.ScheduleRefresh()
     local clusters = PolygonGeometry.Build(points, nil, isCancelled)
-    if not clusters or isCancelled() then return nil, {} end
+    if not clusters or isCancelled() then return end
 
     -- Lazily retain one provider, render cache/renderer, layout, and size-change hook across resets.
     if not provider then
@@ -1061,7 +1125,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- Allocate markers with generation ownership before publishing this batch for hover or saved visibility.
     -- The minimap shows each cluster like the world map, except that object clusters show every
     -- listed object: those icons sit on the objects themselves.
-    local icon, iconPerZone, drawn = nil, {}, 0
+    local zoneMarkers, drawn = {}, 0
     for _, cluster in ipairs(clusters) do
         local point = pointsByKey[cluster.representative.key]
         local data = _IconData(quest, objective, canonicalIndex, point.spawnData)
@@ -1070,24 +1134,18 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             local marker = {frame = frame, entry = entry, cluster = cluster, minimapIcons = {}}
             frame.polygonMarker = marker
             entry.markers[#entry.markers + 1] = marker
-            icon = {data = data}
-            iconPerZone[point.areaId] = {frame, cluster.x, cluster.y}
+            zoneMarkers[point.areaId] = marker
             drawn = drawn + 1
             -- The marker already owns this batch, so cancellation during a yield releases it.
             for _, site in ipairs(cluster.locations or {point}) do
                 local x, y = site.x, site.y
                 if not cluster.locations then x, y = cluster.x, cluster.y end
-                local _, minimapFrame = QuestieMap:DrawWorldIcon(_IconData(quest, objective, canonicalIndex, site.spawnData),
-                    site.areaId, x, y, nil, nil, "minimap")
-                if minimapFrame then
-                    minimapFrame.polygonMinimapMarker = marker
-                    marker.minimapIcons[#marker.minimapIcons + 1] = {frame = minimapFrame, point = site}
-                end
+                _DrawMinimapIcon(marker, _IconData(quest, objective, canonicalIndex, site.spawnData), site, site.areaId, x, y)
                 drawn = drawn + 1
                 if drawn >= 30 then
                     drawn = 0
                     coroutine.yield()
-                    if isCancelled() then return nil, {} end
+                    if isCancelled() then return end
                 end
             end
         end
@@ -1101,5 +1159,5 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     _NotifyVisibilityChanged()
     QuestiePolygon.ScheduleNudging()
     QuestiePolygon.ScheduleRefresh()
-    return icon, iconPerZone, waypointWork
+    _AttachRoutes(entry, zoneMarkers)
 end

@@ -1050,8 +1050,9 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         end
 
         -- Blob mode replaces the local player's objective icons on both maps with cluster
-        -- markers. Party objectives, tooltip registration and quest state stay shared. The chosen
-        -- style decides, not whether Questie is on: switched off, blob mode draws nothing.
+        -- markers, which also draw the objective's routes. Party objectives, tooltip registration
+        -- and quest state stay shared. The chosen style decides, not whether Questie is on:
+        -- switched off, blob mode draws nothing.
         local polygonMode = QuestiePolygon.IsChosen() and not objective.IsPartyObjective
         if polygonMode then
             -- Nameplates read objective.Icon, which the ordinary icon pass otherwise records.
@@ -1063,8 +1064,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
                     end
                 end
             end
-            local mapIcon, mapZones, waypointWork = QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
-            _DrawObjectiveWaypoints(objective, mapIcon, mapZones, waypointWork)
+            QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         else
             local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
             local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
@@ -1292,11 +1292,9 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                     local dX, dY = secondDungeonLocation[2], secondDungeonLocation[3]
 
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, dX, dY)
-                    if iconMap then
+                    if iconMap and iconMini then
                         iconPerZone[icon.zone] = {iconMap, dX, dY}
                         spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
-                    end
-                    if iconMini then
                         spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
                     end
 
@@ -1314,11 +1312,9 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
             end
 
             local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, x, y)
-            if iconMap then
+            if iconMap and iconMini then
                 iconPerZone[icon.zone] = {iconMap, x, y}
                 spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
-            end
-            if iconMini then
                 spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
             end
 
@@ -1364,70 +1360,33 @@ _GetIconsSortedByDistance = function(icons)
     return iconCount, orderedList
 end
 
----Routes highlight through their owner's data. A polygon fallback icon gets its own copy,
----without the copied icon's waypointPaths, so hovering it highlights only its own routes.
----@param data IconData
----@return IconData
-local function _FallbackIconData(data)
-    local copy = {}
-    for key, value in pairs(data) do
-        if key ~= "waypointPaths" then copy[key] = value end
-    end
-    return copy
-end
-
----Draws routes for each waypoint zone, with a fallback marker where no icon represents it.
----Blob mode passes waypointWork: fallback markers then belong to the polygon entry on both
----maps, and routes draw only for that entry's markers.
----@param waypointWork PolygonObjectiveWork?
-_DrawObjectiveWaypoints = function(objective, icon, iconPerZone, waypointWork)
-    if not icon and not next(iconPerZone) then return end
+_DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
     local yieldCount = 0
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
         if spawnData.Waypoints then
             for zone, waypoints in pairs(spawnData.Waypoints) do
-                -- A reset/removal can recycle every referenced marker during a yield.
-                -- Check the captured generation before allocation or using zone owners.
-                if waypointWork and not QuestiePolygon.IsCurrentObjective(waypointWork) then return end
                 local firstWaypoint = waypoints[1][1]
 
-                -- Create a fallback owner only when no spawn marker represents this waypoint zone.
-                if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then
-                    -- Phase is already checked where the spawns were collected.
-                    local x, y = firstWaypoint[1], firstWaypoint[2]
-                    local iconMap, iconMini
-                    if waypointWork then
-                        iconMap = QuestieMap:DrawWorldIcon(_FallbackIconData(icon.data), zone, x, y, nil, nil, "map")
-                        if iconMap then
-                            local _, minimapIcon = QuestieMap:DrawWorldIcon(_FallbackIconData(icon.data), zone, x, y,
-                                nil, nil, "minimap")
-                            if not QuestiePolygon.OwnWaypointMarker(iconMap, waypointWork, minimapIcon) then return end
-                        end
-                    else
-                        iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, x, y)
-                        if iconMap then tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap) end
-                        if iconMini then tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini) end
-                    end
-                    if iconMap then
-                        iconPerZone[zone] = {iconMap, x, y}
+                if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then -- spawn an icon in this zone for the mob
+                    -- Phase is already checked in _DetermineIconsToDraw
+                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as min-dist is more than 0
+
+                    if iconMap and iconMini then
+                        iconPerZone[zone] = {iconMap, firstWaypoint[1], firstWaypoint[2]}
+                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                     end
                 end
 
-                -- Routes remain world-map only and follow the current marker's cleanup ownership.
-                local zoneOwner = iconPerZone[zone]
-                if zoneOwner then
-                    local marker = zoneOwner[1].polygonMarker
-                    local ownsZoneMarker = not waypointWork or (marker and marker.entry == waypointWork.entry)
-                    if ownsZoneMarker then
-                        QuestieMap:DrawWaypoints(zoneOwner[1], spawnData.TooltipKey, waypoints, zone, spawnData.Hostile)
-                    end
+                local ipz = iconPerZone[zone]
+
+                if ipz then
+                    QuestieMap:DrawWaypoints(ipz[1], spawnData.TooltipKey, waypoints, zone, spawnData.Hostile)
                 end
                 yieldCount = yieldCount + 1
                 if yieldCount >= TICKS_PER_YIELD then
                     yieldCount = 0
-                    -- Budget route lists too: each call can create many line segments.
-                    coYield()
-                    if waypointWork and not QuestiePolygon.IsCurrentObjective(waypointWork) then return end
+                    coYield() -- We declare the yieldCount at the top level, but increment it every time we try to draw a point, because otherwise we could draw 29x 29-point paths and never call a coYield when TICKS_PER_YIELD is 30.
                 end
             end
 

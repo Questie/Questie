@@ -59,7 +59,7 @@ describe("TrackerUtils", function()
         local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
         Polygon.GetObjectiveMarkers = function() return {} end
         Polygon.ScheduleRefresh = function() end
-        QuestieLoader:ImportModule("QuestieWaypoints").SetSolo = function() end
+        QuestieLoader:ImportModule("QuestieWaypoints").SetSolo = spy.new(function() end)
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end
         QuestieTracker.IsTrackedByQuestie = function() return false end
@@ -318,6 +318,10 @@ describe("TrackerUtils", function()
             assert.is_false(unrelated:IsShown())
             assert.is_nil(marker._hidden_by_flash)
             assert.are.same({}, objective.AlreadySpawned[123].mapRefs)
+            -- The marker's routes stay while the flash shows only this objective's paths.
+            local SetSolo = QuestieLoader:ImportModule("QuestieWaypoints").SetSolo
+            assert.spy(SetSolo).was.called(1)
+            assert.is_true(SetSolo.calls[1].refs[1][marker.data])
             flashTick()
             assert.are.equal(13, marker:GetWidth())
             assert.are.equal(12, unrelated:GetWidth())

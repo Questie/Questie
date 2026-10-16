@@ -661,7 +661,7 @@ describe("QuestieQuest", function()
             assert.spy(QuestieLoader:ImportModule("QuestiePolygon").UpdateObjective).was.not_called()
         end)
 
-        describe("polygon waypoint ownership", function()
+        describe("objective routes", function()
             local Polygon, quest, objective, miniFrames, mapFrames, originals
             local originalRendererNew, originalCacheNew
 
@@ -759,61 +759,25 @@ describe("QuestieQuest", function()
                 _G.MapCanvasDataProviderMixin = originals.MapCanvasDataProviderMixin
             end)
 
-            it("gives a waypoint-only zone one polygon-owned fallback marker on both maps", function()
-                Populate()
-                -- The cluster's marker and minimap icon, then the fallback pair for waypoint zone 2.
-                assert.are.equal(2, #miniFrames)
-                assert.are.equal(2, #mapFrames)
-                assert.are.same({}, objective.AlreadySpawned)
-                assert.are.same({2, 2}, {mapFrames[2].AreaID, miniFrames[2].AreaID})
-                assert.is_not_nil(mapFrames[2].polygonMarker)
-                assert.are.equal(mapFrames[2].polygonMarker, miniFrames[2].polygonMinimapMarker)
-                -- Route lines attach to icon data: each fallback icon has its own, apart from the cluster's.
-                local mapData, minimapData = mapFrames[2].data, miniFrames[2].data
-                assert.are_not.equal(mapData, minimapData)
-                assert.are_not.equal(mapFrames[1].data, mapData)
-                assert.are_not.equal(mapFrames[1].data, minimapData)
-                assert.are.same({42, "Wolf"}, {minimapData.Id, minimapData.Name})
-                assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, mapFrames[2], nil, {{{30, 40}, {40, 50}}}, 2, nil)
-
-                objective.Collected = 3
-                Populate()
-                assert.are.equal(2, #miniFrames)
-                assert.are.equal(2, #mapFrames)
-                assert.spy(QuestieMap.DrawWaypoints).was.called(1)
-                assert.spy(QuestieLoader:ImportModule("PolygonGeometry").Build).was.called(1)
-            end)
-
-            it("leaves normal paired waypoint-zone drawing unchanged when polygon mode is off", function()
+            it("draws each patrol for the NPC's icon in its zone, adding an icon where none is", function()
                 Questie.db.profile.enableQuestiePolygons = false
+                local wolf = objective.spawnList[123]
+                wolf.TooltipKey, wolf.Hostile = "m_123", true
+                local updateObjective = spy.on(Polygon, "UpdateObjective")
+
                 Populate()
-                assert.are.equal(2, #miniFrames)
-                assert.are.equal(2, #mapFrames)
-                assert.are.equal(2, #objective.AlreadySpawned[123].minimapRefs)
-                assert.are.equal(2, #objective.AlreadySpawned[123].mapRefs)
+
+                -- The wolf's icon in zone 1, and a pair in zone 2, which only its patrol reaches.
+                assert.are.same({2, 2}, {#mapFrames, #miniFrames})
+                assert.are.same({2, 30, 40}, {mapFrames[2].AreaID, mapFrames[2].x, mapFrames[2].y})
+                assert.are.same({2, 2}, {#objective.AlreadySpawned[123].mapRefs, #objective.AlreadySpawned[123].minimapRefs})
                 assert.spy(QuestieMap.DrawWaypoints).was.called(1)
-                assert.spy(QuestieLoader:ImportModule("PolygonGeometry").Build).was.not_called()
+                local call = QuestieMap.DrawWaypoints.calls[1]
+                assert.are.equal(mapFrames[2], call.refs[2])
+                assert.are.same({"m_123", 2, true}, {call.refs[3], call.refs[5], call.refs[6]})
+                assert.spy(updateObjective).was.not_called()
             end)
 
-            it("does not allocate or use recycled map owners after removal during waypoint generation", function()
-                local waypoints = {}
-                for zone = 2, 62 do waypoints[zone] = {{{30, 40}, {40, 50}}} end
-                objective.spawnList[123].Waypoints = waypoints
-                local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
-                assert.is_true(coroutine.resume(thread)) -- Yields after sixty routes.
-                -- The cluster's pair, then a fallback pair per routed zone.
-                assert.are.equal(61, #miniFrames)
-                assert.are.equal(61, #mapFrames)
-                assert.spy(QuestieMap.DrawWaypoints).was.called(60)
-                Polygon.RemoveQuest(42)
-                mapFrames[61].data = {Id = 99} -- A released frame can now belong to another quest.
-                local ok, err = coroutine.resume(thread)
-                assert.is_true(ok, err)
-                assert.are.equal("dead", coroutine.status(thread))
-                assert.are.same({61, 61}, {#mapFrames, #miniFrames})
-                assert.are.equal(99, mapFrames[61].data.Id)
-                assert.spy(QuestieMap.DrawWaypoints).was.called(60)
-            end)
         end)
 
         it("removes completed special-objective polygons using the canonical objective index", function()

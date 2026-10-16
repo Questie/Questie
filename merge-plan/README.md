@@ -278,7 +278,7 @@ B-D3 is superseded by rule 3: hover effects go through `QuestieFrame` events (F-
 | C-2 ★ | Do C-F2, which shows routes for polygon markers on the minimap. | **Yes** |
 | C-3 ★ | Routes stay visible when an objective's areas are hidden. | **Keep** |
 | C-4 ★ | Hovering a route previews its owner marker's areas. | **Accept** |
-| C-5 ★ | **Route owner in blob mode:** the cluster holding the patrolling NPC's spawn, on the patrol's own zone map, falling back to the zone's marker. Use C's `uiMapId` check, not A's instance-only check, which can pick a neighboring zone's cluster across a border. The alternative is the zone's last marker. A scan of all Classic objectives through blob's real clustering found the rules differ for **54 patrols in 39 quests** (Forever is the same). Examples: quest 813 in Durotar, where the last marker is about 1,640 yd from Death Flayer's cluster, and quest 313 in Dun Morogh, about 1,080 yd. Quest 381, the original example, doesn't separate the rules: its spawns form one cluster. | **The cluster** (A, C and F agree; about 15 lines; backed by data) |
+| C-5 ★ | **Route owner in blob mode:** the cluster holding the patrolling NPC's spawn, on the patrol's own zone map, falling back to the zone's marker. Use C's `uiMapId` check, not A's instance-only check, which can pick a neighboring zone's cluster across a border. The alternative is the zone's last marker. A scan of all Classic objectives through blob's real clustering found the rules differ for **54 patrols in 39 quests** (Forever is the same). Examples: quest 813 in Durotar, where the last marker is about 1,640 yd from Death Flayer's cluster, and quest 313 in Dun Morogh, about 1,080 yd. Quest 381, the original example, doesn't separate the rules: its spawns form one cluster. | **The cluster. Decided by David (2026-10-16)**; applied in C-F1 |
 
 **Minimap (Area D)**
 
@@ -299,7 +299,7 @@ B-D3 is superseded by rule 3: hover effects go through `QuestieFrame` events (F-
 | E-2 | Fix the frame budget and route the marker loop through it. | **Yes** |
 | E-3 | Move the budget to `Modules/Libs`. | **Not until a second user exists** |
 | E-4 | Spread waypoint drawing over several frames. Waypoints' new fills and caps add about 11% more textures, per `docs/waypoints.md`. | **No; measure dense maps first** |
-| E-5 | Delete blob's MIT notice along with `_ReduceOutline`. **Check provenance first:** does anything else in `PolygonGeometry.lua` come from that source? | **You must confirm** |
+| E-5 | Delete blob's MIT notice along with `_ReduceOutline`. **Check provenance first:** does anything else in `PolygonGeometry.lua` come from that source? | **Remove it. Decided by David (2026-10-16):** only the reduction came from the helper; the smoothing is Catmull-Rom (`Blob/docs/legacy-questie-blobs/ANALYSIS.md`) |
 
 **Wording**
 
