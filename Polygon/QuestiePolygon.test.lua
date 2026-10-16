@@ -414,6 +414,13 @@ describe("QuestiePolygon world-map adapter", function()
             placed[i] = {icon.x, icon.y, icon.data.Name, icon.polygonMinimapMarker == frames[i == 1 and 1 or 2].polygonMarker}
         end
         assert.are.same({{12, 22, "Wolf", true}, {30, 40, "Crate", true}, {31, 40, "Crate", true}}, placed)
+        -- A marker's own spawn icon is its minimap twin and shares its data, so its routes show there
+        -- too; the crate cluster's second icon keeps data of its own.
+        assert.are.equal(minimapFrames[1], frames[1].minimapTwin)
+        assert.are.equal(minimapFrames[2], frames[2].minimapTwin)
+        assert.are.equal(frames[1].data, minimapFrames[1].data)
+        assert.are.equal(frames[2].data, minimapFrames[2].data)
+        assert.are_not.equal(frames[2].data, minimapFrames[3].data)
 
         -- Progress-only updates refresh their metadata without drawing again.
         objective.spawnList[456].Icon = 3
@@ -466,6 +473,7 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.equal(frames[1].polygonMarker.entry, routeMarker.polygonMarker.entry)
             assert.are.equal(routeMarker.polygonMarker, minimapFrames[2].polygonMinimapMarker)
             assert.are.equal(routeMarker.data, minimapFrames[2].data)
+            assert.are.equal(minimapFrames[2], routeMarker.minimapTwin)
         end)
 
         it("attaches a patrol to the cluster holding its NPC's spawn in the patrol's zone", function()

@@ -906,6 +906,9 @@ end
 local function _DrawMinimapIcon(marker, data, point, areaId, x, y)
     local _, minimapFrame = QuestieMap:DrawWorldIcon(data, areaId, x, y, nil, nil, "minimap")
     if not minimapFrame then return end
+    -- The icon showing the marker's own data is its minimap twin, so the marker's routes show on the
+    -- minimap while it does (QuestieWaypoints.MinimapAlpha needs twin.data == path.data).
+    if data == marker.frame.data then marker.frame.minimapTwin = minimapFrame end
     minimapFrame.polygonMinimapMarker = marker
     marker.minimapIcons[#marker.minimapIcons + 1] = {frame = minimapFrame, point = point}
 end
@@ -1140,7 +1143,9 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             for _, site in ipairs(cluster.locations or {point}) do
                 local x, y = site.x, site.y
                 if not cluster.locations then x, y = cluster.x, cluster.y end
-                _DrawMinimapIcon(marker, _IconData(quest, objective, canonicalIndex, site.spawnData), site, site.areaId, x, y)
+                -- The icon of the marker's own spawn shares its data, which makes it the marker's twin.
+                local siteData = site == point and data or _IconData(quest, objective, canonicalIndex, site.spawnData)
+                _DrawMinimapIcon(marker, siteData, site, site.areaId, x, y)
                 drawn = drawn + 1
                 if drawn >= 30 then
                     drawn = 0

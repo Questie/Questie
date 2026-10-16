@@ -634,7 +634,7 @@ end
 --showFlag isn't required but may want to be Modified -- TODO: Can this be removed?
 ---@param data IconData
 ---@return IconFrame, IconFrame
----@param destination? "map"|"minimap" @Omit to draw both. Polygon markers draw each map's icons separately.
+---@param destination? "map"|"minimap" @Omit to draw both; only a pair links minimapTwin. Polygon markers draw each map's icons separately and link their twins themselves.
 function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag, destination)
     if type(data) ~= "table" then
         error("Questie" .. ": AddWorldMapIconMap: must have some data")
