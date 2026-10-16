@@ -64,6 +64,7 @@ function QuestieOptionsDefaults:Load()
             enableObjectives = true,
             enableQuestiePolygons = false,
             showPolygonsOnAccept = true,
+            polygonAreaTooltips = true,
             enableTurnins = true,
             enableAvailable = true,
             enableAvailableItems = true,

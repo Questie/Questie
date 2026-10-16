@@ -172,6 +172,31 @@ function QuestieOptions.tabs.icons:Initialize()
                     QuestiePolygon.RefreshVisibility()
                 end,
             },
+            polygonAreaTooltipsSpacer = {
+                type = "description",
+                order = 1.33,
+                name = "",
+                desc = "",
+                image = "",
+                imageWidth = 0.06,
+                width = 0.06,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                func = function() end,
+            },
+            -- Only meaningful for the Questie blobs preset; read on the next hover.
+            polygonAreaTooltipsToggle = {
+                type = "toggle",
+                order = 1.34,
+                name = function() return l10n("Show quest area tooltips"); end,
+                desc = function() return l10n("Hovering a quest area on the world map lists its quest and objectives."); end,
+                width = 1.6,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                disabled = function() return (not Questie.db.profile.enabled); end,
+                get = function() return Questie.db.profile.polygonAreaTooltips; end,
+                set = function(_, value)
+                    Questie.db.profile.polygonAreaTooltips = value
+                end,
+            },
             icon_toggles_group = {
                 type = "group",
                 order = 2,

@@ -54,6 +54,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type MapIconTooltip
+local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type ZoneDB
@@ -313,6 +315,60 @@ local function _CollectMinimapAreas()
         end
     end
     return areas
+end
+
+-- Area tooltips
+-- Hovering areas on the world map shows the map icon tooltip for their markers, Shift detail
+-- included, with a swatch in each objective's area colour matching its line to its outline.
+-- The tooltip belongs to the map's scroll container; it shows only over bare map, so a waypoint
+-- line or icon keeps its own tooltip, and returns once the cursor is back on the map.
+local AREA_SWATCH = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
+
+---@param icon IconFrame A current polygon marker's icon.
+---@return string
+local function _AreaSwatch(icon)
+    local color = _AreaColor(icon.polygonMarker.entry)
+    return string.format(AREA_SWATCH, math.floor(color[1] * 255 + 0.5), math.floor(color[2] * 255 + 0.5),
+        math.floor(color[3] * 255 + 0.5))
+end
+
+local areaTooltipFailed = false -- Retried only once the hovered areas change.
+
+---@param shapes PolygonCachedShape[] Hovered shapes; keys are marker records.
+---@param changed boolean
+local function _UpdateAreaTooltip(shapes, changed)
+    local owner = WorldMapFrame.ScrollContainer
+    -- The gamepad UI shows map icon tooltips on a private tooltip: using GameTooltip from this
+    -- per-frame hover check would taint it.
+    if #shapes == 0 or Questie.db.profile.polygonAreaTooltips == false or QuestieCompat.GetMouseFocus() ~= owner
+        or (InputUtil and InputUtil.IsGamepadUIEnabled()) then
+        MapIconTooltip.Release(owner, GameTooltip)
+        return
+    end
+    if not changed and (areaTooltipFailed or GameTooltip:IsOwned(owner) and GameTooltip:IsShown()) then return end
+    areaTooltipFailed = false
+
+    -- Each area's marker icon stands in for it; overlapping areas list their icons together.
+    local icons, listed = {}, {}
+    for _, shape in ipairs(shapes) do
+        local marker = shape.key
+        local frame = marker.frame
+        if frame and frame.polygonMarker == marker and frame.data and not listed[frame] then
+            listed[frame] = true
+            icons[#icons + 1] = frame
+        end
+    end
+    if #icons == 0 then
+        MapIconTooltip.Release(owner, GameTooltip)
+        return
+    end
+    -- The renderer reports hover from inside its update; an error escaping here would clear every area.
+    local shown, err = pcall(MapIconTooltip.ShowForIcons, owner, icons, GameTooltip, _AreaSwatch)
+    if not shown then
+        areaTooltipFailed = true
+        Questie.Error("Polygon area tooltip failed:", err)
+        MapIconTooltip.Release(owner, GameTooltip)
+    end
 end
 
 ---Coalesces drawing requests until the next frame, when map and marker state is read.
@@ -940,6 +996,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             isCursorOnMap = function()
                 return QuestieCompat.GetMouseFocus() == scrollContainer
             end,
+            onHover = _UpdateAreaTooltip,
         })
         renderCache = PolygonRenderCache.New(renderer)
         nudging = PolygonNudging.New()
