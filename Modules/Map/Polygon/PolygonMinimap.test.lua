@@ -258,6 +258,28 @@ describe("PolygonMinimap", function()
         assert.are_near(0.25 * 0.4, keptFrame.fills[1].color[4], 1e-9)
     end)
 
+    it("finds the drawn areas at a spot in world yards, such as a minimap icon's", function()
+        local area, other = Area(), Area({{x = 41, y = 41}, {x = 42, y = 41}, {x = 41, y = 42}})
+        local layer = Start(function() return {area, other} end)
+        local x, y = World(10, 43, 41)
+        assert.are.same({}, layer.AreasAt(x, y, 0)) -- Nothing drawn yet.
+        Tick()
+
+        local found = layer.AreasAt(x, y, 0)
+        assert.are.equal(1, #found)
+        assert.are.equal(area.key, found[1])
+        -- Overlapping areas both count; another instance has none.
+        x, y = World(10, 41.2, 41.2)
+        assert.are.equal(2, #layer.AreasAt(x, y, 0))
+        assert.are.same({}, layer.AreasAt(x, y, 1))
+        -- On a rotating minimap after a turn too, since the outlines and the spot share the projection.
+        player.facing = 2
+        Tick()
+        assert.are.equal(2, #layer.AreasAt(x, y, 0))
+        layer.Clear()
+        assert.are.same({}, layer.AreasAt(x, y, 0))
+    end)
+
     it("clears its drawings, and lets the canvas idle once nothing is collected again", function()
         local areas = {Area()}
         local layer = Start(function() return areas end)
