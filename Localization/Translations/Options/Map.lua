@@ -506,7 +506,7 @@ local mapOptionsLocales = {
         ["zhCN"] = "航点平滑", -- AI 🤖
         ["zhTW"] = "航點平滑", -- AI 🤖
     },
-    ["Rounds the corners of NPC patrol lines. Higher values round them more; 0 draws sharp corners. (Default: %s)"] = {
+    ["Rounds the corners of NPC patrol paths. Higher values round them more; 0 draws sharp corners. (Default: %s)"] = {
         ["enUS"] = true,
         ["deDE"] = "Rundet die Ecken der Patrouillenlinien von NPCs ab. Höhere Werte runden stärker ab; 0 zeichnet spitze Ecken. (Standard: %s)", -- AI 🤖
         ["esES"] = "Redondea las esquinas de las líneas de patrulla de los PNJ. Los valores más altos las redondean más; 0 dibuja esquinas sin redondear. (Predeterminado: %s)", -- AI 🤖

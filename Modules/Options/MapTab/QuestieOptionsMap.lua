@@ -158,7 +158,7 @@ function QuestieOptions.tabs.map:Initialize()
                         order = 3.1,
                         name = function() return l10n("Waypoint smoothing"); end,
                         desc = function()
-                            return l10n("Rounds the corners of NPC patrol lines. Higher values round them more; 0 draws sharp corners. (Default: %s)",
+                            return l10n("Rounds the corners of NPC patrol paths. Higher values round them more; 0 draws sharp corners. (Default: %s)",
                                 optionsDefaults.profile.waypointSmoothing);
                         end,
                         width = 1.595,
