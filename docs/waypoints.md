@@ -40,7 +40,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 
 | Module | Responsibility |
 | --- | --- |
-| [`WaypointGeometry`](../Modules/Map/Waypoints/WaypointGeometry.lua) | Pure geometry. `BuildPolylines` turns a zone's patrols into polylines in percent and world yards. Consecutive points closer than 0.5 yd merge, points a patrol runs straight through (within 0.1°, against the last point kept) are dropped, and points without a world position split a patrol. Also `Smooth`, `Trim`, the mitered `Quads` and the hover distance test. |
+| [`WaypointGeometry`](../Modules/Map/Waypoints/WaypointGeometry.lua) | Pure geometry. `BuildPolylines` turns a zone's patrols into polylines in percent and world yards. Consecutive points closer than 0.5 yd merge, points a patrol runs straight through (within 0.1°, against the last point kept) are dropped, and points without a world position split a patrol. Also `Smooth`, the mitered `Quads` and the hover distance test. Trimming uses `MapGeometry.Simplify`, shared with polygon outlines. |
 | [`QuestieWaypoints`](../Modules/Map/Waypoints/QuestieWaypoints.lua) | Registry and Questie adapter. Each path belongs to its world map icon and is shared on `icon.data.waypointPaths` for highlighting. On the world map it hides and fades with its icon; on the minimap it follows the icon's `minimapTwin`, so **Enable Minimap Icons**, hiding and fading apply. `SetSolo` serves the tracker's Show on Map flash. |
 | [`WaypointRenderer`](../Modules/Map/Waypoints/WaypointRenderer.lua) | One frame per path and one pooled texture per segment, plus two fills per sharp turn and a cap per sharp turn, turn back and open end. Each run is smoothed, trimmed and turned into mitered quads; each texture is stretched over its quad with `SetVertexOffset`. Restyling redraws only for a new thickness, and a new colour only tints. Takes no mouse input. |
 | [`WaypointMap`](../Modules/Map/Waypoints/WaypointMap.lua) | One `OnUpdate` driver on the world map canvas, with no data provider. Draws and keeps the width constant on screen while zooming. Hovers as the paths layer of [`WorldMapLayers`](../Modules/Map/WorldMapLayers.lua), which offers it the cursor. |
@@ -162,7 +162,7 @@ Rules ([`WaypointGeometry.Smooth`](../Modules/Map/Waypoints/WaypointGeometry.lua
 
 ### Trimming
 
-Smoothing adds curve points that are often too small to see, most of all zoomed out. [`WaypointGeometry.Trim`](../Modules/Map/Waypoints/WaypointGeometry.lua) then drops, with Ramer-Douglas-Peucker, every point within δ of the segment between the points kept around it. δ is `WaypointRenderer.TRIMMING` half line widths (1/8, a quarter unit on the 4-unit line).
+Smoothing adds curve points that are often too small to see, most of all zoomed out. [`MapGeometry.Simplify`](../Modules/Map/MapGeometry.lua) then drops, with Ramer-Douglas-Peucker, every point within δ of the segment between the points kept around it. δ is `WaypointRenderer.TRIMMING` half line widths (1/8, a quarter unit on the 4-unit line).
 - **Distance, not angle.** Small turns would each pass an angle test and add up, collapsing a slow arc; a distance bound holds however many points go. Dropping QuestieDB's split points can use an angle because they are exactly collinear, and it compares with the last point kept.
 - **To the segment, not its line.** A patrol's turning point, where it walks back along itself, lies on the line through its neighbours but past their segment, so it stays.
 - **Ends stay**, so closed patrols stay closed.
@@ -187,7 +187,7 @@ Over Classic's 579 patrols, at canvas scales 0.5 (zoomed out) to 4 (zoomed in), 
 
 Zoomed in, curves are big enough to see and trimming rightly keeps them; at scale 4 that's about twice the stored count. Settings up to about 0.65, where the widest curves still take 2 pieces, draw like 0.5: 14,337–29,148. Settings from 0.75 to 1 draw within 1% of each other.
 
-Geometry for every Classic patrol at once, in plain Lua 5.1, takes 21 ms for the sharp quads and 80–85 ms smoothed and trimmed, split about evenly between `Smooth`, `Trim` and `Quads`. `Trim` inlines the segment distance test, which took it from 56 ms. Trimming costs about 3 µs of Lua per segment it removes. In return each removed segment saves about 7 texture calls and its rendering on every frame it's shown.
+Geometry for every Classic patrol at once, in plain Lua 5.1, takes 21 ms for the sharp quads and 80–85 ms smoothed and trimmed, split about evenly between `Smooth`, `Simplify` and `Quads`. `Simplify` inlines the segment distance test, which took it from 56 ms. Trimming costs about 3 µs of Lua per segment it removes. In return each removed segment saves about 7 texture calls and its rendering on every frame it's shown.
 
 Joins where a short segment caps the miter's pull-back already exist in the stored data: 1,407 at scale 1. Smoothing alone raised that to 2,386, by shortening the segments next to sharp corners; with trimming it's 1,563.
 
@@ -251,7 +251,7 @@ The hover shape is the path fattened by radius *r*: the union of capsules around
 | Minimap lines shown | 1.70 ms | 0.14 ms |
 | Minimap lines hidden | 0.38 ms | 0.10 ms |
 
-The lines' ~1.3 ms per turning tick splits into `Smooth` 0.22 ms, `Trim` 0.18 ms and `Quads` 0.28 ms. On top of that come about 0.36 ms of client texture calls (4.9 µs per segment: 1.7 for the anchors, 2.4 for the four vertex offsets) and about 0.5 ms of projection, renderer Lua and garbage collection. The rest of turning is HereBeDragons moving Questie's minimap icons.
+The lines' ~1.3 ms per turning tick splits into `Smooth` 0.22 ms, `Simplify` 0.18 ms and `Quads` 0.28 ms. On top of that come about 0.36 ms of client texture calls (4.9 µs per segment: 1.7 for the anchors, 2.4 for the four vertex offsets) and about 0.5 ms of projection, renderer Lua and garbage collection. The rest of turning is HereBeDragons moving Questie's minimap icons.
 
 That was judged good enough, since few players use a rotating minimap. If it ever matters, two steps would cut it to about a third:
 - **Cache per zoom level:** keep each path's quads, unrotated, per minimap zoom level, and only rotate their corners while turning.
