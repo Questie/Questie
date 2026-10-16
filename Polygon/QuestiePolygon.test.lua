@@ -5,15 +5,30 @@ describe("QuestiePolygon world-map adapter", function()
     local tickers, player, minimapLayer, minimapFrames, WorldMapLayers, layers, iconListeners
 
     local function Update(index)
-        local icon, zones, work
-        local thread = coroutine.create(function()
-            icon, zones, work = Polygon.UpdateObjective(quest, objective, index or 1)
-        end)
+        local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, index or 1) end)
         while coroutine.status(thread) ~= "dead" do
             local ok, err = coroutine.resume(thread)
             assert.is_true(ok, err)
         end
-        return icon, zones, work
+    end
+
+    ---Starts an objective update and runs it up to its first yield.
+    ---@return thread
+    local function StartUpdate()
+        local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
+        assert.is_true(coroutine.resume(thread))
+        assert.are.equal("suspended", coroutine.status(thread))
+        return thread
+    end
+
+    ---Each route drawn so far: its owner icon, entity, patrols, zone and whether the NPC is fought.
+    local function RouteOwners()
+        local routes = {}
+        for i, call in ipairs(QuestieMap.DrawWaypoints.calls) do
+            routes[i] = {owner = call.refs[2], entity = call.refs[3], patrols = call.refs[4], zone = call.refs[5],
+                hostile = call.refs[6]}
+        end
+        return routes
     end
 
     -- Questie replaces an objective's spawn list rather than editing it in place.
@@ -116,6 +131,7 @@ describe("QuestiePolygon world-map adapter", function()
         QuestieMap.GetScaleValue = function() return 1 end
         QuestieMap.RescaleIcons = function() end
         QuestieMap.utils = {RescaleIcon = function() end}
+        QuestieMap.DrawWaypoints = spy.new(function() end)
         minimapFrames = {}
         QuestieMap.DrawWorldIcon = spy.new(function(_, data, areaId, x, y, _phase, _showFlag, destination)
             if destination == "minimap" then
@@ -410,16 +426,121 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same({1, 1, 1}, {minimapFrames[1].fadeApplied, minimapFrames[2].fadeApplied, minimapFrames[3].fadeApplied})
     end)
 
-    it("reuses geometry and markers on progress-only updates without duplicating waypoint owners", function()
-        local icon, zones = Update()
-        assert.are.equal(frames[1], zones[1][1])
-        assert.are.equal(frames[1].data, icon.data)
+    it("reuses geometry and markers on progress-only updates", function()
+        Update()
         objective.Collected = 3
-        local cachedIcon, cachedZones = Update()
-        assert.is_nil(cachedIcon)
-        assert.are.same({}, cachedZones)
+        Update()
         assert.spy(Geometry.Build).was.called(1)
         assert.are.equal(1, #frames)
+    end)
+
+    describe("objective routes", function()
+        before_each(function()
+            local wolf = objective.spawnList[123]
+            wolf.TooltipKey, wolf.Hostile = "m_123", true
+            wolf.Waypoints = {[1] = {{{11, 21}, {12, 22}}}}
+        end)
+
+        ---Patrols of the objective's wolf through each zone in the list.
+        local function PatrolZones(first, last)
+            local patrols = {}
+            for zone = first, last do patrols[zone] = {{{30, 40}, {40, 50}}} end
+            objective.spawnList[123].Waypoints = patrols
+        end
+
+        it("draws each patrol for a marker in its zone, adding one that shows the patrolling NPC", function()
+            objective.spawnList[456] = {Id = 456, Name = "Bear", Icon = 1, GetIconScale = function() return 1 end,
+                Spawns = {}, TooltipKey = "m_456", Waypoints = {[3] = {{{30, 40}, {35, 45}}}}}
+            Update()
+
+            local routes = RouteOwners()
+            table.sort(routes, function(a, b) return a.zone < b.zone end)
+            -- The cluster has no extent to hold the wolf's spawn, so its zone's marker owns the patrol.
+            assert.are.equal(frames[1], routes[1].owner)
+            assert.are.same({"m_123", 1, true}, {routes[1].entity, routes[1].zone, routes[1].hostile})
+            -- Only the bear's patrol reaches zone 3: a route marker of the objective, showing the bear.
+            local routeMarker = routes[2].owner
+            assert.are.equal(frames[2], routeMarker)
+            assert.are.same({"m_456", 3}, {routes[2].entity, routes[2].zone})
+            assert.are.same({"Bear", 3, 30, 40}, {routeMarker.data.Name, routeMarker.AreaID, routeMarker.x, routeMarker.y})
+            assert.are.equal(frames[1].polygonMarker.entry, routeMarker.polygonMarker.entry)
+            assert.are.equal(routeMarker.polygonMarker, minimapFrames[2].polygonMinimapMarker)
+            assert.are.equal(routeMarker.data, minimapFrames[2].data)
+        end)
+
+        it("attaches a patrol to the cluster holding its NPC's spawn in the patrol's zone", function()
+            -- The wolf spawns and patrols in zone 1. A bear cluster is the zone's last marker, and
+            -- a zone 2 bear cluster reaches over the wolf's spawn in world coordinates.
+            objective.spawnList[123].Spawns = {[1] = {{10, 20}}}
+            objective.spawnList[456] = {Id = 456, Name = "Bear", Icon = 1, GetIconScale = function() return 1 end,
+                Spawns = {[1] = {{70, 20}}, [2] = {{90, 20}}}}
+            HBD.GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 0 end -- One continent.
+            local extents = {[90] = {50, 150}, [10] = {90, 110}, [70] = {650, 750}} -- x 10 is world 100.
+            Geometry.Build = function(points)
+                local clusters = {}
+                for _, x in ipairs({90, 10, 70}) do
+                    for _, point in ipairs(points) do
+                        if point.x == x then
+                            clusters[#clusters + 1] = {uiMapId = point.uiMapId, instanceId = point.instanceId, x = x,
+                                y = point.y, representative = point,
+                                worldBounds = {minX = extents[x][1], maxX = extents[x][2], minY = 150, maxY = 250}}
+                        end
+                    end
+                end
+                return clusters
+            end
+            Update()
+
+            -- Not the zone's last marker (x 70), nor the neighbouring zone's (x 90).
+            assert.spy(QuestieMap.DrawWaypoints).was.called(1)
+            assert.are.equal(10, RouteOwners()[1].owner.x)
+        end)
+
+        it("keeps routes through progress updates and draws them again for replaced markers", function()
+            Update()
+            objective.Collected = 3
+            Update()
+            assert.spy(QuestieMap.DrawWaypoints).was.called(1)
+
+            -- New geometry unloads the old marker, which releases its routes, and draws them for the new one.
+            ReplaceFirstSpawn({30, 40})
+            objective.spawnList[123].Waypoints = {[1] = {{{11, 21}, {12, 22}}}}
+            Update()
+            assert.spy(QuestieMap.DrawWaypoints).was.called(2)
+            assert.is_nil(frames[1].data)
+            assert.are.equal(frames[2], RouteOwners()[2].owner)
+        end)
+
+        it("attaches nothing to icons recycled after their objective was removed during a yield", function()
+            PatrolZones(2, 41)
+            local thread = StartUpdate()
+            assert.spy(QuestieMap.DrawWaypoints).was.called(30)
+            local drawn = #frames
+
+            Polygon.RemoveQuest(42)
+            for _, frame in ipairs(frames) do frame.data = {Id = 99} end -- Recycled for another quest.
+            assert.is_true(coroutine.resume(thread))
+
+            assert.are.equal("dead", coroutine.status(thread))
+            assert.spy(QuestieMap.DrawWaypoints).was.called(30)
+            assert.are.equal(drawn, #frames)
+        end)
+
+        it("skips a marker Questie removed while routes were attached", function()
+            -- The cluster sits in zone 40; patrols through zones 1 to 40 reach it after the first yield.
+            objective.spawnList[123].Spawns = {[40] = {{10, 20}}}
+            PatrolZones(1, 40)
+            local thread = StartUpdate()
+            local cluster = frames[1]
+            iconListeners.Unload(cluster)
+            cluster.data = {Id = 99} -- Recycled for another quest.
+
+            assert.is_true(coroutine.resume(thread))
+
+            assert.are.equal("dead", coroutine.status(thread))
+            assert.spy(QuestieMap.DrawWaypoints).was.called(39)
+            for _, route in ipairs(RouteOwners()) do assert.are_not.equal(cluster, route.owner) end
+        end)
     end)
 
     it("skips spawn collection on progress updates until the spawn list or a phase changes", function()
@@ -1471,25 +1592,26 @@ describe("QuestiePolygon world-map adapter", function()
             Questie.Error = originalError
         end)
 
-        it("invalidates waypoint work and completes reset even when native view cleanup fails", function()
-            local _, _, work = Update()
+        it("stops attaching routes and completes reset even when native view cleanup fails", function()
+            local patrols = {}
+            for zone = 2, 41 do patrols[zone] = {{{30, 40}, {40, 50}}} end
+            objective.spawnList[123].Waypoints = patrols
+            local thread = StartUpdate()
             Polygon.ToggleMarker(frames[1])
             FlushRefresh()
             local provider = map.provider
             local presentations = #renderCache.Present.calls
+            local drawn = #frames
             Polygon.ScheduleRefresh()
-            local wasCurrentDuringClear
-            renderCache.Clear = function()
-                wasCurrentDuringClear = Polygon.IsCurrentObjective(work)
-                error("clear failed")
-            end
+            renderCache.Clear = function() error("clear failed") end
             renderCache.Release = function() error("release failed") end
             renderCache.Hide = function() error("hide failed") end
 
             assert.has_no.errors(function() Polygon.Reset() end)
+            assert.is_true(coroutine.resume(thread))
 
-            assert.is_false(wasCurrentDuringClear)
-            assert.is_false(Polygon.IsCurrentObjective(work))
+            assert.spy(QuestieMap.DrawWaypoints).was.called(30)
+            assert.are.equal(drawn, #frames)
             assert.is_nil(frames[1].data)
             assert.is_nil(frames[1].polygonMarker)
             assert.is_nil(map.provider)
@@ -1528,29 +1650,6 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(QuestieLoader:ImportModule("PolygonRenderer").New).was.called(1)
         assert.spy(QuestieLoader:ImportModule("PolygonRenderCache").New).was.called_with(renderer)
         assert.spy(QuestieLoader:ImportModule("PolygonRenderCache").New).was.called(1)
-    end)
-
-    it("keeps current waypoint work valid on progress updates but invalidates it on replacement", function()
-        local _, _, work = Update()
-        objective.Collected = 3
-        Update()
-        assert.is_true(Polygon.IsCurrentObjective(work))
-        ReplaceFirstSpawn({30, 40})
-        Update()
-        assert.is_false(Polygon.IsCurrentObjective(work))
-    end)
-
-    it("unloads a waypoint marker when removal invalidated its captured generation", function()
-        local _, _, work = Update()
-        Polygon.RemoveQuest(42)
-        local allocatedFrame, allocatedIcon = {data = {Id = 42}}, {data = {Id = 42}}
-        assert.is_false(Polygon.OwnWaypointMarker(allocatedFrame, work, allocatedIcon))
-        -- The existing marker and its minimap icon, then both rejected allocations.
-        assert.spy(FramePool.UnloadFrame).was.called(4)
-        assert.is_nil(allocatedFrame.data)
-        assert.is_nil(allocatedIcon.data)
-        assert.is_nil(allocatedFrame.polygonMarker)
-        assert.is_nil(allocatedIcon.polygonMinimapMarker)
     end)
 
     it("does not draw shown areas for markers temporarily hidden by tracker highlighting", function()
