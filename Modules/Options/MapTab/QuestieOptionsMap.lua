@@ -7,8 +7,6 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type WaypointRenderer
-local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -170,7 +168,7 @@ function QuestieOptions.tabs.map:Initialize()
                         get = _Get,
                         set = function(info, value)
                             QuestieOptions:SetProfileValue(info, value)
-                            WaypointRenderer.RedrawAll()
+                            QuestieWaypoints.Redraw()
                         end,
                     },
                 },
