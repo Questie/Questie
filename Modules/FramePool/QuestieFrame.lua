@@ -15,6 +15,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconTooltip
+local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
@@ -33,7 +35,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field Name string
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
----@field touchedPins {icon: IconFrame, color: number[]}[]? The icons a hover of this data tinted, with their colors before it; ResetHoverHighlights restores them.
+---@field touchedPins {icon: IconFrame, color: number[]}[]? QuestieFrame's own: the icons a hover of this data tinted, with their colors before it.
 
 ---@class IconTexture : Texture
 ---@field r number
@@ -50,11 +52,12 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@alias IconEvent
 ---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
 ---| "VisibilityChanged" # It was shown or hidden, natively or by FakeHide/FakeShow, or faded in or out. It may come twice for one change.
+---| "HoverStart" # The cursor or the gamepad cursor started hovering it.
 ---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with.
 ---| "Click" # A plain left-click on a world map icon on its own map, which Questie leaves to features.
 
 ---@type table<IconEvent, fun(icon: IconFrame, data: IconData?)[]>
-local listeners = {Unload = {}, VisibilityChanged = {}, HoverEnd = {}, Click = {}}
+local listeners = {Unload = {}, VisibilityChanged = {}, HoverStart = {}, HoverEnd = {}, Click = {}}
 ---@type table<function, true>
 local reported = {}
 
@@ -85,9 +88,8 @@ function QuestieFrame.Subscribe(event, listener)
 end
 
 ---@param frameId number
----@param OnEnter function
 ---@return IconFrame
-function QuestieFrame.CreateIconFrame(frameId, OnEnter)
+function QuestieFrame.CreateIconFrame(frameId)
     ---A pooled map icon on the world map or the minimap: a quest giver, objective, finisher, manual
     ---note or a drawing feature's marker. Drawing features read the fields below, never write them,
     ---and follow the icon through QuestieFrame's icon events.
@@ -171,7 +173,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     newFrame.glowTexture = glowTexture
     newFrame.overlayTexture = overlayTexture
 
-    newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
+    newFrame:SetScript("OnEnter", _QuestieFrame.OnEnter)
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
     newFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     newFrame:SetScript("OnClick", _QuestieFrame.OnClick);
@@ -196,6 +198,50 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     newFrame:Hide()
 
     return newFrame
+end
+
+---Tints the world map icons of the hovered icon's quest, keeping their colors for ResetHoverHighlights.
+---Available and turn-in icons keep their color, and other hidden or faded-out icons are left alone.
+---@param icon IconFrame
+local function _TintQuestIcons(icon)
+    local data = icon.data
+    -- Tinting again before the hover's reset would save the tinted colors as the ones to restore.
+    if icon.miniMapIcon or not data or data.touchedPins then return end
+    local touchedPins = {}
+    data.touchedPins = touchedPins
+    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+        local other = pin.icon
+        local otherData = other.data
+        if otherData and otherData.Id == data.Id and otherData.Type ~= "available" and otherData.Type ~= "complete"
+            and (other == icon or not (other.hidden or other.texture.a == 0)) then
+            local texture = other.texture
+            touchedPins[#touchedPins + 1] = {icon = other, color = {texture.r, texture.g, texture.b, texture.a}}
+            if Questie.db.profile.questObjectiveColors then
+                texture:SetVertexColor(1, 1, 1, 1) -- With objective colors, the plain icon color stands out.
+            else
+                texture:SetVertexColor(0.6, 1, 1, 1) -- Without them, blueish.
+            end
+        end
+    end
+end
+
+---Starts what hovering an icon shows besides its tooltip: each feature's HoverStart listeners, such
+---as its NPC's path highlight or a polygon marker's area preview, then the tint on its quest's other
+---world map icons. Listeners run first, so a path hover they end restores its tints before these
+---colors are saved. ResetHoverHighlights undoes it all.
+---@param icon IconFrame
+function QuestieFrame.ApplyHoverHighlights(icon)
+    _Emit("HoverStart", icon)
+    _TintQuestIcons(icon)
+end
+
+---The icon's OnEnter. An icon faded out to nothing is not there to hover: it starts no hover and
+---shows no tooltip.
+---@param self IconFrame
+function _QuestieFrame.OnEnter(self)
+    if select(4, self.texture:GetVertexColor()) == 0 then return end
+    QuestieFrame.ApplyHoverHighlights(self)
+    MapIconTooltip.ShowOnTooltip(self, GameTooltip)
 end
 
 ---@param self IconFrame

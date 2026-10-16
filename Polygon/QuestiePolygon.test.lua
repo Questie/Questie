@@ -219,8 +219,10 @@ describe("QuestiePolygon world-map adapter", function()
         local marker = frame.polygonMarker
         local entry = marker.entry
 
-        -- A hover ends only for the data it started with: a recycled icon's new marker is another hover's.
-        Polygon.EnterMarker(frame)
+        -- Hovering a marker previews its areas. The hover ends only for the data it started with: a
+        -- recycled icon's new marker is another hover's.
+        iconListeners.HoverStart(frame)
+        assert.are.equal(frame, entry.hovered)
         iconListeners.HoverEnd(frame, {})
         assert.are.equal(frame, entry.hovered)
         iconListeners.HoverEnd(frame, frame.data)

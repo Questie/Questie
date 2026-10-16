@@ -7,6 +7,8 @@ local QuestieWaypoints = QuestieLoader:CreateModule("QuestieWaypoints")
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 ---@type WaypointGeometry
 local WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
+---@type WaypointHover
+local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 ---@type WaypointMap
 local WaypointMap = QuestieLoader:ImportModule("WaypointMap")
 ---@type WaypointMinimap
@@ -60,6 +62,11 @@ local function _FollowIcons()
     followingIcons = true
     QuestieFrame.Subscribe("Unload", QuestieWaypoints.RemoveOwner)
     QuestieFrame.Subscribe("VisibilityChanged", QuestieWaypoints.OwnerChanged)
+    -- Hovering an icon is hovering its NPC. A path hover opened for another icon ends first.
+    QuestieFrame.Subscribe("HoverStart", function(icon)
+        WaypointHover.End(icon)
+        QuestieWaypoints.SetHighlighted(icon.data, true)
+    end)
     QuestieFrame.Subscribe("HoverEnd", function(_, data) QuestieWaypoints.SetHighlighted(data, false) end)
 end
 
