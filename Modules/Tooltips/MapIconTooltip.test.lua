@@ -28,7 +28,7 @@ describe("MapIconTooltip objective wording", function()
         _G.C_Map = {GetMapInfo = function() return nil end}
         _G.WorldMapFrame = {GetMapID = function() return 1 end}
         _G.GameTooltip = {
-            IsShown = function() return false end,
+            IsShown = function() return false end, IsOwned = function() return false end,
             SetOwner = function() end, SetFrameStrata = function() end, Show = function() end,
         }
         Questie.db.profile = {trackerColorObjectives = "minimal"}
@@ -94,8 +94,7 @@ describe("MapIconTooltip objective wording", function()
         _G.Minimap, _G.GetCVar = savedGlobals.Minimap, savedGlobals.GetCVar
     end)
 
-    local function RenderObjectiveLines()
-        MapIconTooltip.Show(icon)
+    local function ObjectiveLines()
         local lines = {}
         for _, row in ipairs(GameTooltip.questOrder[1]) do
             for text in pairs(row) do
@@ -105,16 +104,35 @@ describe("MapIconTooltip objective wording", function()
         return lines
     end
 
+    local function RenderObjectiveLines()
+        MapIconTooltip.Show(icon)
+        return ObjectiveLines()
+    end
+
     it("previews polygon markers even when the tooltip refresh is throttled", function()
         local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
         Polygon.EnterMarker = spy.new(function() end)
         icon.polygonMarker = {}
         now = 0.01
         GameTooltip.IsShown = function() return true end
+        GameTooltip.IsOwned = function(_, frame) return frame == icon end
+        GameTooltip.SetOwner = spy.new(function() end)
 
         MapIconTooltip.Show(icon)
 
         assert.spy(Polygon.EnterMarker).was.called_with(icon)
+        assert.spy(GameTooltip.SetOwner).was.not_called()
+    end)
+
+    it("replaces another owner's tooltip at once, such as a quest area's", function()
+        now = 0.01
+        GameTooltip.IsShown = function() return true end
+        GameTooltip.SetOwner = spy.new(function() end)
+
+        MapIconTooltip.Show(icon)
+
+        assert.spy(GameTooltip.SetOwner).was.called(1)
+        assert.are.equal(icon, GameTooltip.SetOwner.calls[1].refs[2])
     end)
 
     it("does not call polygon preview for ordinary objective icons", function()
@@ -343,5 +361,59 @@ describe("MapIconTooltip objective wording", function()
 
             assert.is_true(RowOf("Quest 2") < RowOf("Quest 1"))
         end)
+    end)
+
+    it("prefixes the given icons' own objective lines, not party lines, and keeps Shift redrawing", function()
+        cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
+        QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
+        local owner = {}
+
+        MapIconTooltip.ShowForIcons(owner, {icon}, GameTooltip, function(prefixed)
+            assert.are.equal(icon, prefixed)
+            return "[area] "
+        end)
+
+        assert.are.same({
+            ["[area] |cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
+            ["|cFFEEEEEEWindstone Cluster: 3/15 (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
+        }, ObjectiveLines())
+        assert.are.equal(owner, GameTooltip._owner)
+        assert.is_function(GameTooltip._Rebuild)
+        assert.is_true(GameTooltip.ShownAsMapIcon)
+    end)
+
+    it("releases only the tooltip its owner opened", function()
+        local holder
+        GameTooltip.SetOwner = function(_, frame) holder = frame end
+        GameTooltip.IsOwned = function(_, frame) return holder == frame end
+        GameTooltip.Hide = spy.new(function() holder = nil end)
+        local area, other = {}, {}
+
+        -- A map icon that has since opened its own tooltip keeps it, Shift redraw included.
+        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
+        MapIconTooltip.ShowForIcons(other, {icon}, GameTooltip)
+        MapIconTooltip.Release(area, GameTooltip)
+        assert.spy(GameTooltip.Hide).was.not_called()
+        assert.is_function(GameTooltip._Rebuild)
+
+        -- Other UI that took the tooltip keeps it, and Shift no longer redraws ours over it.
+        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
+        holder = {}
+        MapIconTooltip.Release(area, GameTooltip)
+        assert.spy(GameTooltip.Hide).was.not_called()
+        assert.is_nil(GameTooltip._Rebuild)
+        assert.is_false(GameTooltip.ShownAsMapIcon)
+
+        -- The tracker also writes `_owner` when it takes the tooltip.
+        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
+        holder, GameTooltip._owner = other, other
+        MapIconTooltip.Release(area, GameTooltip)
+        assert.is_nil(GameTooltip._Rebuild)
+        assert.is_false(GameTooltip.ShownAsMapIcon)
+
+        MapIconTooltip.ShowForIcons(area, {icon}, GameTooltip)
+        MapIconTooltip.Release(area, GameTooltip)
+        assert.spy(GameTooltip.Hide).was.called(1)
+        assert.is_nil(GameTooltip._Rebuild)
     end)
 end)
