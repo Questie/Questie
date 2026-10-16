@@ -1024,6 +1024,22 @@ local function _IconData(quest, objective, objectiveIndex, spawnData)
     return data
 end
 
+---The names of everything a cluster's area stands for, such as each NPC it holds, for its marker's
+---tooltip; the representative's comes first.
+---@param cluster PolygonCluster
+---@return string[]?
+local function _ClusterNames(cluster)
+    local names, seen = {}, {}
+    for _, member in ipairs(cluster.kinds or {}) do
+        local name = member.spawnData.Name
+        if name and not seen[name] then
+            seen[name] = true
+            names[#names + 1] = name
+        end
+    end
+    return names[1] and names or nil
+end
+
 ---Refreshes progress-only marker metadata while retaining geometry and route ownership.
 ---@param entry PolygonObjectiveEntry
 ---@param quest Quest
@@ -1265,7 +1281,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                                 local point = {
                                     x = x, y = y, worldX = worldX, worldY = worldY,
                                     uiMapId = uiMapId, instanceId = instanceId, areaId = location[1],
-                                    key = key, targetKey = targetKey, spawnData = spawnData,
+                                    key = key, kind = targetKey, spawnData = spawnData,
                                     isObject = spawnData.IsObject == true,
                                 }
                                 points[#points + 1] = point
@@ -1341,6 +1357,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     for _, cluster in ipairs(clusters) do
         local point = pointsByKey[cluster.representative.key]
         local data = _IconData(quest, objective, canonicalIndex, point.spawnData)
+        data.Names = _ClusterNames(cluster)
         local frame = QuestieMap:DrawWorldIcon(data, point.areaId, cluster.x, cluster.y, nil, nil, "map")
         if frame then
             local marker = {frame = frame, entry = entry, cluster = cluster, minimapIcons = {}}

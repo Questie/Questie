@@ -617,7 +617,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(Geometry.Build).was.called(1)
         local point = Geometry.Build.calls[1].vals[1][1]
         assert.are.same({10, 20, 100, 200, 10, 10, 123},
-            {point.x, point.y, point.worldX, point.worldY, point.uiMapId, point.instanceId, point.targetKey})
+            {point.x, point.y, point.worldX, point.worldY, point.uiMapId, point.instanceId, point.kind})
         assert.are.equal(1, #Geometry.Build.calls[1].vals[1])
         assert.are.equal(1, #frames)
     end)
@@ -668,6 +668,20 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal("wolf", minimapFrames[1].updatedTexture)
         -- A new texture clears the opacity; the distance fade applies again at once, without a blink.
         assert.are.same({1, 1, 1}, {minimapFrames[1].fadeApplied, minimapFrames[2].fadeApplied, minimapFrames[3].fadeApplied})
+    end)
+
+    it("names every NPC of a cluster on its marker, the representative's first", function()
+        objective.spawnList[456] = {Id = 456, Name = "Bear", Icon = 1, GetIconScale = function() return 1 end,
+            Spawns = {[1] = {{11, 21}}}}
+        Geometry.Build = spy.new(function(points)
+            local byKind = {}
+            for _, point in ipairs(points) do byKind[point.kind] = point end
+            return {{uiMapId = 10, x = 10, y = 20, representative = byKind[123], kinds = {byKind[123], byKind[456]},
+                outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}}}
+        end)
+        Update()
+        assert.are.same({"Wolf", "Bear"}, frames[1].data.Names)
+        assert.are.equal("Wolf", frames[1].data.Name)
     end)
 
     it("reuses geometry and markers on progress-only updates", function()
