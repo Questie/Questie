@@ -17,6 +17,10 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
+-- The client's QuestObjectiveType for a criteria tree. Such objectives (e.g. Forever's duel and emote quests) progress
+-- with only CRITERIA_UPDATE and QUEST_LOG_UPDATE.
+local CRITERIA_TREE_OBJECTIVE_TYPE = 14
+
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
 local MAX_QUEST_LOG_INDEX = 75
@@ -59,6 +63,7 @@ local cache = {
 
 ---@class QuestLogCacheObjectiveData
 ---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"|"spell"|string Includes client objective types unknown to Questie.
+---@field objectiveType number? The client's QuestObjectiveType, e.g. CRITERIA_TREE_OBJECTIVE_TYPE.
 ---@field finished boolean
 ---@field numFulfilled number
 ---@field numRequired number
@@ -90,7 +95,7 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 ---@param questId QuestId
 ---@param oldObjectives QuestLogCacheObjectiveData[]
 ---@param isCompleteAccordingToBlizzard number @ -1 = failed, nil = not complete, 1 = complete
----@param suppressRegressions boolean @ when true, treat numFulfilled decreases as cache misses (zone transition)
+---@param suppressRegressions boolean @ when true, treat numFulfilled decreases and vanished unfinished rows as cache misses (zone transition)
 ---@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean needsRetry @Nil objectives or retained placeholder rows need another scan.
 local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
@@ -102,6 +107,14 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     local playObjectiveComplete, playObjectiveProgress = false, false
     local objectives = C_QuestLog_GetQuestObjectives(questId)
     if not objectives then
+        return nil, nil, isCompleteAccordingToBlizzard, false
+    end
+
+    -- Between PLAYER_LEAVING_WORLD and PLAYER_ENTERING_WORLD the client answers no rows and "not complete" for every
+    -- logged quest. A quest that had rows has not lost them: read as all finished, it would be cached complete.
+    -- Unlike the loading-screen recovery this needs no LOADING_SCREEN_ENABLED, which may come after that answer.
+    -- A failed quest loses its rows too and is accepted.
+    if #objectives == 0 and next(oldObjectives) and not isCompleteAccordingToBlizzard then
         return nil, nil, isCompleteAccordingToBlizzard, false
     end
 
@@ -163,6 +176,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
                         raw_finished = newObj.finished,
                         raw_numFulfilled = newObj.numFulfilled,
                         type = newObj.type,
+                        objectiveType = newObj.objectiveType,
                         numRequired = newObj.numRequired,
                         finished = newObj.finished, -- gets overwritten with correct value later if quest isComplete
                         numFulfilled = newObj.numFulfilled, -- gets overwritten with correct value later if quest isComplete
@@ -192,7 +206,22 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     if (not isCompleteAccordingToBlizzard) then
         -- A finished visible stage is not a finished sequenced quest. Premature completion would also
         -- make the recovery guard reject the next stage. Keep the legacy empty-row workaround otherwise.
-        isComplete = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished and 1 or 0
+        local allFinished = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished
+        -- Loading screens can return rows empty or without text. A vanished unfinished row is then missing data,
+        -- not completion. Once cached, the stale-data check in CheckForChanges would keep it until a reload.
+        -- Outside loading screens a blank row is trusted, as the empty-row workaround always did.
+        if allFinished and suppressRegressions then
+            for index, oldObj in pairs(oldObjectives) do
+                if (not oldObj.finished) and (not newObjectives[index]) then
+                    return nil, nil, isCompleteAccordingToBlizzard, true
+                end
+            end
+        end
+        -- Rows that are all empty are not invalid rows beside real objectives but the quest's only goal, still to do
+        -- (Test of Faith, 1149: leap from the planks). The client's flag decides. A quest without rows still infers
+        -- completion, as deliveries need.
+        local onlyEmptyRows = #objectives > 0 and next(newObjectives) == nil
+        isComplete = (allFinished and not onlyEmptyRows) and 1 or 0
     end
 
     -- Every row was read without rejection. Recorded sounds imply changedObjIds, so the caller saves this snapshot.
@@ -209,33 +238,18 @@ end
 -- For profiling
 QuestLogCache._GetNewObjectives = GetNewObjectives
 
---- Whether an item objective now counts fewer items than the cache. Kill and event counts never go down, so only an
---- item objective can make a complete quest incomplete again.
----@param questId QuestId
----@param cachedObjectives QuestLogCacheObjectiveData[]
----@return boolean
-local function ItemCountDropped(questId, cachedObjectives)
-    for index, objective in ipairs(C_QuestLog_GetQuestObjectives(questId) or {}) do
-        local cached = cachedObjectives[index]
-        if objective.type == "item" and cached and objective.numFulfilled and cached.raw_numFulfilled
-            and objective.numFulfilled < cached.raw_numFulfilled then
-            return true
-        end
-    end
-    return false
-end
-
 --- Updates questlogcache.
 --- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
 --- Called only from QuestEventHandler.
 ---@param questIdsToCheck table? @keys are the questIds
----@return boolean cacheMiss, table changes, table questIdsChecked @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
+---@return boolean cacheMiss, table changes, table questIdsChecked, table questIdsUnlisted @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives) ; questIdsUnlisted = quests in the game's log that questIdsToCheck left out
 function QuestLogCache.CheckForChanges(questIdsToCheck)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLogCache.CheckForChanges]")
 
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
+    local questIdsUnlisted = {}
 
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         ----- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questID, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isBounty, isStory, isHidden, isScaling = GetQuestLogTitle(questLogIndex)
@@ -243,6 +257,9 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         local title, _, questTag, isHeader, _, isCompleteAccordingToBlizzard, _, questId = GetQuestLogTitle(questLogIndex)
         if (not title) then
             break -- We exceeded the valid quest log entries
+        end
+        if (not isHeader) and questIdsToCheck and (not questIdsToCheck[questId]) then
+            questIdsUnlisted[questId] = true
         end
         if (not isHeader) and ((not questIdsToCheck) or questIdsToCheck[questId]) then -- check all quests if no list what to check, otherwise just ones in the list
             ---@cast questId number
@@ -256,14 +273,12 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 -- returns incorrect values (e.g. isCompleteAccordingToBlizzard being nil for quests that are actually complete and objective
                 -- numFulfilled being 0 instead of what the player actually has).
                 -- To avoid caching incorrect values, we skip the update entirely and set cacheMiss so we retry next QUEST_LOG_UPDATE.
-                -- Outside of a loading screen, fewer items than cached is real (used, sold, banked or deleted items) and the quest
-                -- is no longer complete.
-                local blizzardCacheIncorrect = (not isCompleteAccordingToBlizzard) and cachedQuest and cachedQuest.isComplete == 1
-                    and (questsAwaitingRecovery[questId] or not ItemCountDropped(questId, cachedObjectives))
+                -- Outside them Blizzard is right, e.g. a completed quest whose items were used, sold, banked or deleted is incomplete again.
+                local suppressRegressions = questsAwaitingRecovery[questId] == true
+                local blizzardCacheIncorrect = suppressRegressions and (not isCompleteAccordingToBlizzard) and cachedQuest and cachedQuest.isComplete == 1
                 if blizzardCacheIncorrect then
                     cacheMiss = true
                 else
-                    local suppressRegressions = questsAwaitingRecovery[questId] == true
                     local newObjectives, changedObjIds, isComplete, needsRetry = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
                     cacheMiss = cacheMiss or needsRetry
 
@@ -339,7 +354,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         end
     end
 
-    return cacheMiss, changes, questIdsChecked
+    return cacheMiss, changes, questIdsChecked, questIdsUnlisted
 end
 
 ---Protects cached quests from stale objective decreases until each quest's data recovers.
@@ -453,6 +468,19 @@ end
 ---@return number @The amount of quests in the quest cache
 function QuestLogCache.GetQuestCount()
     return questCount
+end
+
+---Whether a cached quest still has an unfinished criteria-tree objective, whose progress no quest event marks.
+---@return boolean
+function QuestLogCache.HasUnfinishedCriteriaObjective()
+    for _, quest in pairs(cache) do
+        for _, objective in pairs(quest.objectives) do
+            if objective.objectiveType == CRITERIA_TREE_OBJECTIVE_TYPE and not objective.finished then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 

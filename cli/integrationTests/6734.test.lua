@@ -195,6 +195,8 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         }, cachedQuest.objectives[1])
         assert.spy(Sounds.PlayObjectiveComplete).was.called(1)
 
+        -- Turning the quest in removes it from the game's quest log.
+        mockedQuestLogTitle[2] = nil
         QuestEventHandler.QuestTurnedIn(2822, 4050, 0)
         QuestEventHandler.QuestLogUpdate()
         QuestEventHandler.QuestRemoved(2822)

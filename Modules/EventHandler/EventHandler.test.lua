@@ -101,6 +101,17 @@ describe("EventHandler event dispatch", function()
         assert.spy(QuestEventHandler.QuestAccepted).was.called_with(2, 783)
     end)
 
+    it("forwards CRITERIA_UPDATE to QuestEventHandler, which marks criteria-tree progress", function()
+        local originalCriteriaUpdate = QuestEventHandler.CriteriaUpdate
+        QuestEventHandler.CriteriaUpdate = spy.new(function() end)
+        QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+
+        callbacks.CRITERIA_UPDATE("CRITERIA_UPDATE")
+
+        assert.spy(QuestEventHandler.CriteriaUpdate).was.called(1)
+        QuestEventHandler.CriteriaUpdate = originalCriteriaUpdate
+    end)
+
     it("registers skill chat directly without a bucket or message relay", function()
         assert.is_nil(bucketEvents.CHAT_MSG_SKILL)
         assert.is_function(callbacks.CHAT_MSG_SKILL)

@@ -214,6 +214,51 @@ describe("QuestLogCache", function()
         end)
     end)
 
+    describe("CheckForChanges with a list of quests", function()
+        it("checks only the listed quests and returns the game's other quests as unlisted", function()
+            local otherId = QUEST_ID + 1
+            questLogTitles[1] = {"Kalimdor", nil, nil, true, false, nil, nil, 0}
+            questLogTitles[2] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questLogTitles[3] = {"Kill Things", 2, nil, false, false, nil, nil, otherId}
+            questObjectives[QUEST_ID] = {{text = "Item: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false}}
+            questObjectives[otherId] = {{text = "Boar slain: 0/5", type = "monster", numFulfilled = 0, numRequired = 5, finished = false}}
+
+            local _, changes, questIdsChecked, questIdsUnlisted = QuestLogCache.CheckForChanges({[QUEST_ID] = true})
+
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.same({[QUEST_ID] = true}, questIdsChecked)
+            assert.are.same({[otherId] = true}, questIdsUnlisted)
+            assert.is_nil(QuestLogCache.TryGetQuest(otherId))
+        end)
+    end)
+
+    describe("HasUnfinishedCriteriaObjective", function()
+        local CRITERIA_TREE = 14
+
+        it("is true only while a cached criteria-tree objective is unfinished", function()
+            -- Sparring Match (99108): duels won count with only CRITERIA_UPDATE and QUEST_LOG_UPDATE.
+            questLogTitles[1] = {"Sparring Match", 6, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "0/3 Duels won", type = "object", objectiveType = CRITERIA_TREE,
+                                          numFulfilled = 0, numRequired = 3, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+            assert.is_true(QuestLogCache.HasUnfinishedCriteriaObjective())
+
+            questObjectives[QUEST_ID] = {{text = "3/3 Duels won", type = "object", objectiveType = CRITERIA_TREE,
+                                          numFulfilled = 3, numRequired = 3, finished = true}}
+            QuestLogCache.CheckForChanges(nil)
+            assert.is_false(QuestLogCache.HasUnfinishedCriteriaObjective())
+        end)
+
+        it("is false for unfinished objectives of other types", function()
+            questLogTitles[1] = {"Collect Items", 2, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "Item: 2/5", type = "item", objectiveType = 1,
+                                          numFulfilled = 2, numRequired = 5, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(QuestLogCache.HasUnfinishedCriteriaObjective())
+        end)
+    end)
+
     describe("client objective placeholders", function()
         local originalItemsNeeded, originalMonstersKilled
         local cases = {
@@ -608,6 +653,7 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
 
             -- Step 2: Zone transition — Blizzard incorrectly returns nil for isComplete
+            QuestLogCache.OnLoadingScreenEnabled()
             questLogTitles[1] = {"Kill the Boss", 60, "Dungeon", false, false, nil, nil, QUEST_ID}
             questObjectives[QUEST_ID] = {{
                 type = "monster",
@@ -846,6 +892,152 @@ describe("QuestLogCache", function()
             end)
         end
 
+        -- Once cached, a false completion stays: the stale-data check rejects every later scan Blizzard reports incomplete.
+        for _, missingRows in ipairs({"no rows", "empty rows", "one empty row"}) do
+            it("does not complete a quest whose unfinished rows load as " .. missingRows .. " after a loading screen", function()
+                questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+                local pelts = {text = "Wolf Pelt: 5/5", type = "item", numFulfilled = 5, numRequired = 5, finished = true}
+                questObjectives[QUEST_ID] = {
+                    pelts,
+                    {text = "Bear Claw: 2/6", type = "item", numFulfilled = 2, numRequired = 6, finished = false},
+                }
+                QuestLogCache.CheckForChanges(nil)
+                QuestLogCache.OnLoadingScreenEnabled()
+
+                local emptyRow = {text = "", type = "item", numFulfilled = 0, numRequired = 6, finished = false}
+                if missingRows == "no rows" then
+                    questObjectives[QUEST_ID] = {}
+                elseif missingRows == "empty rows" then
+                    questObjectives[QUEST_ID] = {emptyRow, emptyRow}
+                else
+                    questObjectives[QUEST_ID] = {pelts, emptyRow}
+                end
+                local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+                assert.is_true(cacheMiss)
+                assert.are.same({}, changes)
+                assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+                assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+                questObjectives[QUEST_ID] = {
+                    pelts,
+                    {text = "Bear Claw: 3/6", type = "item", numFulfilled = 3, numRequired = 6, finished = false},
+                }
+                cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+                assert.is_false(cacheMiss)
+                assert.are.same({[QUEST_ID] = {2}}, changes)
+                assert.are.equal(3, QuestLogCache.GetQuest(QUEST_ID).objectives[2].numFulfilled)
+                assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            end)
+        end
+
+        -- 2026-10-08_050109Z s1, quest 93740: a QUEST_LOG_UPDATE inside the loading screen answered no rows.
+        -- LOADING_SCREEN_ENABLED is not known to come first, so this must hold without the recovery guard.
+        it("does not complete a quest whose rows vanish while Blizzard does not call it complete", function()
+            questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+            local claws = {text = "Bear Claw: 0/10", type = "item", numFulfilled = 0, numRequired = 10, finished = false}
+            questObjectives[QUEST_ID] = {claws}
+            QuestLogCache.CheckForChanges(nil)
+
+            questObjectives[QUEST_ID] = {}
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_true(cacheMiss)
+            assert.are.same({}, changes)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.are.equal("Bear Claw: 0/10", QuestLogCache.GetQuest(QUEST_ID).objectives[1].text)
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            questObjectives[QUEST_ID] = {claws}
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({}, changes)
+        end)
+
+        it("accepts a failed quest whose rows vanish", function()
+            questLogTitles[1] = {"Escort the Caravan", 60, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "Escort the caravan", type = "event", numFulfilled = 0, numRequired = 1, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+
+            questLogTitles[1] = {"Escort the Caravan", 60, nil, false, false, -1, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {}
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {}}, changes)
+            assert.are.equal(-1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+        end)
+
+        -- Test of Faith (1149): "leap from the planks" is an empty row; Questie showed it complete 12 s before the client.
+        it("leaves a quest whose only rows are empty incomplete until Blizzard completes it", function()
+            questLogTitles[1] = {"Test of Faith", 26, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "", type = "event", numFulfilled = 0, numRequired = 1, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+
+            questLogTitles[1] = {"Test of Faith", 26, nil, false, false, 1, nil, QUEST_ID}
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
+        it("still infers completion when Blizzard adds an empty row to finished objectives", function()
+            questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {
+                {text = "Bear Claw: 5/6", type = "item", numFulfilled = 5, numRequired = 6, finished = false},
+            }
+            QuestLogCache.CheckForChanges(nil)
+
+            questObjectives[QUEST_ID] = {
+                {text = "Bear Claw: 6/6", type = "item", numFulfilled = 6, numRequired = 6, finished = true},
+                {text = "", type = "event", numFulfilled = 0, numRequired = 1, finished = false},
+            }
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
+        it("still infers completion when an unfinished row goes blank outside a loading screen", function()
+            questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+            local claws = {text = "Bear Claw: 6/6", type = "item", numFulfilled = 6, numRequired = 6, finished = true}
+            questObjectives[QUEST_ID] = {
+                claws,
+                {text = "Visit the shrine", type = "event", numFulfilled = 0, numRequired = 1, finished = false},
+            }
+            QuestLogCache.CheckForChanges(nil)
+
+            questObjectives[QUEST_ID] = {claws, {text = "", type = "event", numFulfilled = 0, numRequired = 1, finished = false}}
+            local cacheMiss = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
+        -- Nothing is cached after login or /reload, so empty rows on the first read still infer completion.
+        it("corrects a completion inferred from empty rows on the first read once the rows load", function()
+            questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {}
+            QuestLogCache.CheckForChanges(nil)
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+
+            questObjectives[QUEST_ID] = {
+                {text = "Bear Claw: 2/6", type = "item", numFulfilled = 2, numRequired = 6, finished = false},
+            }
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+        end)
+
         it("should not play sounds on second zone transition when no objective progress was made", function()
             questLogTitles = {
                 [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
@@ -961,7 +1153,7 @@ describe("QuestLogCache", function()
                 local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
 
                 assert.is_false(cacheMiss)
-                assert.is_not_nil(changes[QUEST_ID])
+                assert.are.same({[QUEST_ID] = {1}}, changes)
                 local cached = QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID]
                 assert.is_equal(0, cached.isComplete)
                 assert.is_equal(1, cached.objectives[1].raw_numFulfilled)
@@ -1040,10 +1232,11 @@ describe("QuestLogCache", function()
             assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
 
             -- Step 2: Quest fails — Blizzard temporarily returns nil, objectives unchanged
+            -- Without a loading screen the finished row is trusted and still infers completion.
             questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID}
 
             cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
-            assert.is_true(cacheMiss)
+            assert.is_false(cacheMiss)
             assert.is_nil(changes[QUEST_ID])
             assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
 
@@ -1109,10 +1302,11 @@ describe("QuestLogCache", function()
             assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
 
             -- Step 2: Quest fails — Blizzard temporarily returns nil
+            -- Without a loading screen a quest with no rows still infers completion.
             questLogTitles[1] = {"Kill the Boss", 60, nil, false, false, nil, nil, QUEST_ID}
 
             cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
-            assert.is_true(cacheMiss)
+            assert.is_false(cacheMiss)
             assert.is_nil(changes[QUEST_ID])
             assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
 

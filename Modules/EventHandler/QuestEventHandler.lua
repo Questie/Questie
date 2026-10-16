@@ -364,6 +364,12 @@ end
 function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
 
+    if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
+        -- Already turned in, e.g. the late event of a quest MarkQuestAsAbandoned found flagged completed.
+        -- Running it again would repeat the Journey entry and the announcement.
+        return
+    end
+
     if questLog[questId] and questLog[questId].timer then
         -- Cancel the timer so the quest is not marked as abandoned
         questLog[questId].timer:Cancel()
@@ -439,6 +445,15 @@ end
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
+        -- Forever can report QUEST_TURNED_IN seconds or a minute after QUEST_REMOVED, or not at all. The server flags a
+        -- turned-in quest completed by QUEST_REMOVED; an abandoned one stays unflagged. A quest Questie already counts
+        -- as complete cannot be told apart by the flag, so it keeps the abandon path.
+        if QuestieCompat.IsQuestFlaggedCompleted(questId) and not Questie.db.char.complete[questId] then
+            Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is flagged completed: turned in")
+            QuestEventHandler.QuestTurnedIn(questId)
+            return
+        end
+
         Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
 
         QuestLogCache.RemoveQuest(questId)
@@ -509,6 +524,15 @@ function QuestEventHandler.QuestAutoComplete(questId)
     end
 end
 
+--- Fires for any achievement or quest criteria progress, hundreds of times per session. Criteria-tree objectives,
+--- e.g. Forever's duel and emote quests, progress with only this event and QUEST_LOG_UPDATE. It is a marker only while
+--- such an objective is unfinished, so other sessions do not rescan the quest log more often.
+function QuestEventHandler.CriteriaUpdate()
+    if QuestLogCache.HasUnfinishedCriteriaObjective() then
+        lastMarkerQuestEventTime = GetTime()
+    end
+end
+
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
 function QuestEventHandler.UnitQuestLogChanged(unitTarget)
@@ -558,7 +582,24 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         end
     end
 
-    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
+    local cacheMiss, changes, _, questIdsUnlisted = QuestLogCache.CheckForChanges(questIdsToCheck)
+    -- A quest can join the game's log without a QUEST_ACCEPTED Questie saw: the server's quest log arrived after
+    -- startup filled the cache, or the accept fired before the event was registered. Adopt it as at login, without a
+    -- Journey entry or announcement: Questie cannot tell a missed accept from a quest the log already had.
+    local adopted = {}
+    for questId in pairs(questIdsUnlisted or {}) do
+        if not questLog[questId] then
+            adopted[questId] = true
+        end
+    end
+    if next(adopted) then
+        QuestEventHandler.InitQuestLogStates(adopted)
+        local adoptedCacheMiss, adoptedChanges = QuestLogCache.CheckForChanges(adopted)
+        cacheMiss = cacheMiss or adoptedCacheMiss
+        for questId, objIds in pairs(adoptedChanges) do
+            changes[questId] = objIds
+        end
+    end
     -- A successful accepted-quest scan does not mean pending accepts are ready. Keep the fallback for either
     -- case; otherwise a new quest could remain title-only forever if Blizzard sends no further event.
     if cacheMiss or pendingAccept then
