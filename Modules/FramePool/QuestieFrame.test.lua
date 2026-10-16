@@ -9,6 +9,8 @@ describe("QuestieFrame", function()
     local QuestieQuest
     ---@type QuestieFrame
     local QuestieFrame
+    ---@type MapIconTooltip
+    local MapIconTooltip
 
     ---@type IconFrame
     local QuestieFrameInstance
@@ -47,6 +49,8 @@ describe("QuestieFrame", function()
         QuestieQuest.ShouldShowQuestNotes = function() return true end
 
         QuestieLoader:ImportModule("DailyQuests")
+        MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
+        MapIconTooltip.Release = spy.new(function() end)
 
         dofile("Localization/l10n.lua")
         dofile("Modules/FramePool/QuestieFrame.lua")
@@ -209,6 +213,20 @@ describe("QuestieFrame", function()
 
             assert.stub(queueMock).was.called(1)
         end)
+    end)
+
+    it("ends only its own tooltip when the cursor leaves the icon, and leaves another holder's", function()
+        local savedGameTooltip = _G.GameTooltip
+        local tooltip = {Hide = spy.new(function() end)}
+        _G.GameTooltip = tooltip
+
+        QuestieFrame.private.OnLeave(QuestieFrameInstance)
+        _G.GameTooltip = savedGameTooltip
+
+        assert.spy(MapIconTooltip.Release).was.called(1)
+        assert.are.equal(QuestieFrameInstance, MapIconTooltip.Release.calls[1].refs[1])
+        assert.are.equal(tooltip, MapIconTooltip.Release.calls[1].refs[2])
+        assert.spy(tooltip.Hide).was.not_called()
     end)
 
     describe("icon events", function()

@@ -16,6 +16,13 @@ describe("WaypointHover", function()
         }
     end
 
+    ---Asserts the one Release call ended the tooltip shown for this owner on this tooltip frame.
+    local function AssertReleased(owner, tooltip)
+        assert.spy(MapIconTooltip.Release).was.called(1)
+        assert.are.equal(owner, MapIconTooltip.Release.calls[1].refs[1])
+        assert.are.equal(tooltip, MapIconTooltip.Release.calls[1].refs[2])
+    end
+
     before_each(function()
         saved = {GameTooltip = _G.GameTooltip, CreateFrame = _G.CreateFrame, Minimap = _G.Minimap}
         _G.Minimap = {}
@@ -30,6 +37,7 @@ describe("WaypointHover", function()
         QuestieWaypoints.MinimapIcons = function() return listed end
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         MapIconTooltip.ShowOnTooltip = spy.new(function() end)
+        MapIconTooltip.Release = spy.new(function() end)
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
         QuestieFrame.ResetHoverHighlights = spy.new(function() end)
         dofile("Modules/Map/Waypoints/WaypointHover.lua")
@@ -50,7 +58,7 @@ describe("WaypointHover", function()
         assert.spy(icon.scripts.OnEnter).was.not_called()
 
         WaypointHover.Set("minimap", nil)
-        assert.spy(minimapTooltip.Hide).was.called(1)
+        AssertReleased(_G.Minimap, minimapTooltip)
         assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon, data)
     end)
 
@@ -71,7 +79,7 @@ describe("WaypointHover", function()
 
         WaypointHover.End(icon)
 
-        assert.spy(minimapTooltip.Hide).was.called(1)
+        AssertReleased(_G.Minimap, minimapTooltip)
     end)
 
     it("keeps one map's hover while the other map hovers nothing", function()
@@ -100,7 +108,7 @@ describe("WaypointHover", function()
 
         assert.spy(mapIcon.scripts.OnLeave).was.called_with(mapIcon)
         assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(minimapIcon, minimapTooltip, _G.Minimap, listed)
-        assert.spy(minimapTooltip.Hide).was.not_called()
+        assert.spy(MapIconTooltip.Release).was.not_called()
     end)
 
     it("undoes the NPC's tooltip changes when another frame takes the tooltip", function()
@@ -108,14 +116,14 @@ describe("WaypointHover", function()
         local icon = Icon(data)
         WaypointHover.Set("map", {data = data}, icon)
         tooltipOwner = {}
-        GameTooltip._Rebuild, GameTooltip.ShownAsMapIcon = function() end, true
 
         WaypointHover.Set("map", nil)
 
         assert.spy(icon.scripts.OnLeave).was.not_called()
         assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon, data)
-        assert.is_nil(GameTooltip._Rebuild)
-        assert.is_false(GameTooltip.ShownAsMapIcon)
+        -- That frame keeps the tooltip; Shift must not redraw the NPC's over it.
+        AssertReleased(icon, GameTooltip)
+        assert.spy(GameTooltip.Hide).was.not_called()
     end)
 
     it("only highlights the paths without an icon to open a tooltip", function()
