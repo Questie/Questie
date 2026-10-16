@@ -85,6 +85,11 @@ local refreshEpoch = 0
 local nearbyTicker
 -- World units added around each cluster's spawn extent, so areas appear slightly before arrival.
 local NEARBY_PADDING = 100
+-- Costs in geometry steps (about 0.33 µs each, offline), so every polygon job reads the clock about
+-- every 85 µs of work. A collected spawn's key and point cost about 11 µs of Lua offline; an icon
+-- costs at least 26 µs in HereBeDragons alone (Era), plus Questie's own work.
+local SPAWN_COST = 32
+local ICON_COST = 256
 
 ---Whether the player chose Questie blobs as the objective style. Objectives take the polygon path
 ---whenever it is chosen, also while Questie or its objectives are switched off: the path then draws
@@ -1032,7 +1037,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     end
 
     -- Collect the full eligible source set before comparing geometry signatures.
-    -- Collection shares the frame's polygon budget with every other objective update.
+    -- Collection charges each spawn to the frame's shared polygon budget.
     local work = PolygonGeometry.NewWork(isCancelled)
     local points, signatureParts, pointsByKey, phases = {}, {}, {}, {}
     for targetKey, spawnData in pairs(objective.spawnList or {}) do
@@ -1069,7 +1074,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                         end
                     end
                 end
-                if not PolygonGeometry.Checkpoint(work) then return end
+                if not PolygonGeometry.Checkpoint(work, SPAWN_COST) then return end
             end
         end
     end
@@ -1128,7 +1133,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- Allocate markers with generation ownership before publishing this batch for hover or saved visibility.
     -- The minimap shows each cluster like the world map, except that object clusters show every
     -- listed object: those icons sit on the objects themselves.
-    local zoneMarkers, drawn = {}, 0
+    local zoneMarkers = {}
     for _, cluster in ipairs(clusters) do
         local point = pointsByKey[cluster.representative.key]
         local data = _IconData(quest, objective, canonicalIndex, point.spawnData)
@@ -1138,20 +1143,15 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
             frame.polygonMarker = marker
             entry.markers[#entry.markers + 1] = marker
             zoneMarkers[point.areaId] = marker
-            drawn = drawn + 1
             -- The marker already owns this batch, so cancellation during a yield releases it.
+            if not PolygonGeometry.Checkpoint(work, ICON_COST) then return end
             for _, site in ipairs(cluster.locations or {point}) do
                 local x, y = site.x, site.y
                 if not cluster.locations then x, y = cluster.x, cluster.y end
                 -- The icon of the marker's own spawn shares its data, which makes it the marker's twin.
                 local siteData = site == point and data or _IconData(quest, objective, canonicalIndex, site.spawnData)
                 _DrawMinimapIcon(marker, siteData, site, site.areaId, x, y)
-                drawn = drawn + 1
-                if drawn >= 30 then
-                    drawn = 0
-                    coroutine.yield()
-                    if isCancelled() then return end
-                end
+                if not PolygonGeometry.Checkpoint(work, ICON_COST) then return end
             end
         end
     end
