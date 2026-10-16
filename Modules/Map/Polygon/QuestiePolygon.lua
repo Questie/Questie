@@ -32,7 +32,8 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field signature string? Sorted phase-filtered spawn coordinates; geometry is session-local.
 ---@field spawnList table? Source table behind the published geometry.
 ---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
----@field hovered IconFrame?
+---@field hovered IconFrame? Its hovered map marker: previews its areas on the world map, highlighting that marker's cluster.
+---@field minimapHovered IconFrame? Its hovered minimap icon: previews its areas on the minimap, highlighting that icon's cluster.
 ---@field previewed boolean? A quest log control is hovered; shows and highlights every cluster.
 ---@field previewSuppressed boolean? A click hid the areas while hovering; no preview until a hover starts again.
 ---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
@@ -308,7 +309,8 @@ end
 
 -- Minimap areas
 -- The minimap shows what the world map would show. Quest log and tracker previews reach it,
--- highlighted; hovering a world-map marker previews only on the world map. Areas follow their
+-- highlighted. Hovering a marker previews on its own map only: a world-map marker on the world map,
+-- a minimap icon on the minimap, each highlighting its own cluster. Areas follow their
 -- minimap icons' hiding rules, so the minimap icon switch governs them. Fade comes from the map
 -- marker, such as tracker focus: minimap icons' own opacity fades with the player's distance.
 -- Visibility is never required: a closed map shows no markers, and queued icons may load
@@ -320,8 +322,10 @@ local function _CollectMinimapAreas()
     if not QuestiePolygon.IsEnabled() then return areas end
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
-            if entry.active and not entry.building and (entry.previewed or _IsAreaShown(entry)) then
+            local previewing = (entry.minimapHovered or entry.previewed) and not entry.previewSuppressed
+            if entry.active and not entry.building and (previewing or _IsAreaShown(entry)) then
                 local color = _AreaColor(entry)
+                local hoveredMarker = entry.minimapHovered and entry.minimapHovered.polygonMinimapMarker
                 for _, marker in ipairs(entry.markers) do
                     local frame, cluster = marker.frame, marker.cluster
                     local minimapIcon = marker.minimapIcons[1]
@@ -331,7 +335,7 @@ local function _CollectMinimapAreas()
                         and icon and icon.data and icon.polygonMinimapMarker == marker
                         and not icon.hidden and not icon:ShouldBeHidden() then
                         areas[#areas + 1] = {key = marker, cluster = cluster, color = color, alpha = alpha,
-                            highlighted = entry.previewed == true}
+                            highlighted = hoveredMarker == marker or entry.previewed == true}
                     end
                 end
             end
@@ -473,6 +477,7 @@ local function _UnloadMinimapIcons(marker)
     local icons = marker.minimapIcons
     marker.minimapIcons = {}
     for _, icon in ipairs(icons) do
+        if marker.entry.minimapHovered == icon.frame then marker.entry.minimapHovered = nil end
         icon.frame.polygonMinimapMarker = nil
         QuestieFramePool:UnloadFrame(icon.frame)
     end
@@ -582,6 +587,7 @@ function QuestiePolygon.MinimapMarkerRemoved(frame)
     local marker = frame.polygonMinimapMarker
     if not marker then return end
     frame.polygonMinimapMarker = nil
+    if marker.entry.minimapHovered == frame then marker.entry.minimapHovered = nil end
     for i, icon in ipairs(marker.minimapIcons) do
         if icon.frame == frame then
             table.remove(marker.minimapIcons, i)
@@ -602,18 +608,25 @@ function QuestiePolygon.MarkerChanged(frame)
     end
 end
 
+---Previews the objective's areas on the hovered icon's map: a marker's on the world map, one of its
+---minimap icons' on the minimap.
+---@param frame IconFrame
 function QuestiePolygon.EnterMarker(frame)
-    local marker = frame.polygonMarker
-    if marker and marker.entry.active and not marker.entry.building and not frame.hidden and not frame:ShouldBeHidden() then
-        marker.entry.hovered, marker.entry.previewSuppressed = frame, nil
+    local marker = frame.polygonMarker or frame.polygonMinimapMarker
+    local entry = marker and marker.entry
+    if entry and entry.active and not entry.building and not frame.hidden and not frame:ShouldBeHidden() then
+        if frame.polygonMarker then entry.hovered = frame else entry.minimapHovered = frame end
+        entry.previewSuppressed = nil
         QuestiePolygon.ScheduleRefresh()
     end
 end
 
+---@param frame IconFrame
 function QuestiePolygon.LeaveMarker(frame)
-    local marker = frame.polygonMarker
-    if marker and marker.entry.hovered == frame then
-        marker.entry.hovered = nil
+    local marker = frame.polygonMarker or frame.polygonMinimapMarker
+    local entry = marker and marker.entry
+    if entry and (entry.hovered == frame or entry.minimapHovered == frame) then
+        if entry.hovered == frame then entry.hovered = nil else entry.minimapHovered = nil end
         QuestiePolygon.ScheduleRefresh()
     end
 end
@@ -1092,7 +1105,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
 
     -- Hide outlines until replacement geometry and markers are ready. Bumping the generation
     -- stops earlier route attachment before its marker frames can be recycled.
-    entry.signature, entry.hovered, entry.building = nil, nil, true
+    entry.signature, entry.hovered, entry.minimapHovered, entry.building = nil, nil, nil, true
     entry.generation = entry.generation + 1
     _ReleaseMarkers(entry)
     QuestiePolygon.ScheduleRefresh()
