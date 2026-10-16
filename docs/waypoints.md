@@ -44,7 +44,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 | [`QuestieWaypoints`](../Modules/Map/Waypoints/QuestieWaypoints.lua) | Registry and Questie adapter. Each path belongs to its world map icon and is shared on `icon.data.waypointPaths` for highlighting. On the world map it hides and fades with its icon; on the minimap it follows the icon's `minimapTwin`, so **Enable Minimap Icons**, hiding and fading apply. `SetSolo` serves the tracker's Show on Map flash. |
 | [`WaypointRenderer`](../Modules/Map/Waypoints/WaypointRenderer.lua) | One frame per path and one pooled texture per segment, plus two fills per sharp turn and a cap per sharp turn, turn back and open end. Each run is smoothed, trimmed and turned into mitered quads; each texture is stretched over its quad with `SetVertexOffset`. Restyling redraws only for a new thickness, and a new colour only tints. Takes no mouse input. |
 | [`WaypointMap`](../Modules/Map/Waypoints/WaypointMap.lua) | One `OnUpdate` driver on the world map canvas, with no data provider. Draws and keeps the width constant on screen while zooming. Hovers as the paths layer of [`WorldMapLayers`](../Modules/Map/WorldMapLayers.lua), which offers it the cursor. |
-| [`WaypointMinimap`](../Modules/Map/Waypoints/WaypointMinimap.lua) | The minimap layer: HereBeDragons-aligned projection with rotation, culling, shape and player masks, one driver. Computes hover from the cursor too. |
+| [`WaypointMinimap`](../Modules/Map/Waypoints/WaypointMinimap.lua) | The paths layer on [`MinimapCanvas`](../Modules/Map/MinimapCanvas.lua): runs within reach, route choice, cursor hit test. |
 | [`WaypointHover`](../Modules/Map/Waypoints/WaypointHover.lua) | The one hovered path, on either map: opens and closes its NPC's tooltip and highlight. Also the hover reach. |
 
 **Integration:**
@@ -52,6 +52,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 - From the first path on, the registry follows icons through `QuestieFrame`'s icon events: `Unload` releases the icon's paths, `VisibilityChanged` (fake hide/show and fades) redraws them, `HoverStart` highlights the hovered NPC's paths, and `HoverEnd` ends the highlight for the data the hover started with. Before highlighting, `HoverStart` calls `WaypointHover.End`, so a path hover opened for another icon restores its tints before `QuestieFrame` tints the hovered icon's quest.
 - `TrackerUtils` flashes use `SetSolo`.
 - HereBeDragons-Pins gains `GetMinimapView()`, which returns the radius and rotation it places minimap icons with: `C_Minimap.GetViewRadius()` where available, its zoom tables elsewhere.
+- Minimap drawing goes through `MinimapCanvas`, shared with objective areas.
 - Settings live under Map → Waypoints; [Settings](#settings) lists them. Switching profiles calls `QuestieWaypoints.Redraw`.
 
 ## Settings
@@ -228,25 +229,25 @@ The hover shape is the path fattened by radius *r*: the union of capsules around
 
 ## Minimap
 
-`WaypointMinimap` places paths the way HereBeDragons-Pins places minimap icons, so the two line up while walking and turning:
-- **Projection:** world-yard points are projected relative to a fixed origin into one container frame, rotated with the player's facing when the minimap rotates. The view radius comes from `HBDPins:GetMinimapView()`.
-- **Culling:** only segments within 2 view radii of the origin are drawn. Everything visible lies within √2 radii of the player, so that covers the view until the player drifts half a radius; then paths are projected again. If culling cuts a closed patrol elsewhere, its last run continues into its first, so its start stays a corner.
-- **Walking** only moves the container. Zoom, minimap size, instance and, on a rotating minimap, facing changes project the paths within reach again.
-- **Masks:** the layer's root clips to the minimap, and every texture gets two masks:
+`WaypointMinimap` is the paths layer of [`MinimapCanvas`](../Modules/Map/MinimapCanvas.lua), the drawing surface over the minimap that objective areas share. The canvas places drawings the way HereBeDragons-Pins places minimap icons, so paths and icons line up while walking and turning. Its header is the reference for what it owns:
+- **Projection:** world-yard points are projected relative to a fixed origin into each layer's container, rotated with the player's facing when the minimap rotates. The view radius comes from `HBDPins:GetMinimapView()`. Walking only moves the containers. Zoom, minimap size, instance and, on a rotating minimap, facing changes project again, and so does drifting half a radius from the origin.
+- **Masks:** the canvas clips to the minimap, and every texture gets two masks:
   - **Shape:** the asset last passed to `Minimap:SetMaskTexture`, post-hooked since Blizzard has no getter. That's how minimap addons such as SexyMap set their shapes, and how Forever's own skin sets its mask on every Rotate Minimap change.
   - **Fallback shape:** a mask set before Questie loaded, such as Forever's at login or an addon that loads earlier, can only be read through `GetMinimapShape()`. That is a community convention, not Blizzard's, and it only names the round quarters. A fully square minimap gets the square mask. Any round quarter gets the round mask, so paths stop short in square corners rather than draw past a round edge: Forever's own mask atlas where the client has it, or a round texture.
   - **Player:** a soft 38 px hole over the player arrow.
-- **Layering:** the root sits one level above the minimap, below Questie's minimap icons, the bezel and buttons.
+- **Culling:** only segments within 2 view radii of the origin are drawn. Everything visible lies within √2 radii of the player, so that covers the view until the canvas projects again. If culling cuts a closed patrol elsewhere, its last run continues into its first, so its start stays a corner.
+- **Layering:** paths sit one level above objective areas, two above the minimap, and far below Questie's minimap icons. Blizzard's backdrop chrome at the minimap's level + 1 draws beneath them.
 - **Hover:** the [capsule test](#hover) in minimap units, against the runs drawn for the current projection.
+  - The canvas offers the cursor to its layers top down, as `WorldMapLayers` does on the world map; minimap areas don't hover. Nothing hovers in Forever's gamepad UI (`QuestieCompat.IsGamepadUIEnabled`).
   - The cursor counts only over the bare minimap (`GetMouseFocus() == Minimap`), so Questie's minimap icons, buttons and other addons' pins win.
   - It must also be inside the minimap's shape. Only a minimap known to be square hovers its corners: by the square mask, or by `GetMinimapShape()` reporting `"SQUARE"`, also when a minimap addon sets its own square texture. Anything else counts as round, as the ellipse inscribed in the minimap, so a custom shape never hovers paths its mask hides. The soft hole over the player arrow still counts.
-  - It's rechecked when the cursor moves against the paths: by moving itself, by the player walking or turning, or when the drawn runs change.
+  - It's rechecked when the cursor moves against the paths: by moving itself, by the player walking or turning, or when a minimap layer draws again.
   - It shows the tooltip of the NPC's minimap icon, owned by the minimap rather than the icon, so it shows even while HereBeDragons hides that icon. Questie's patch to HereBeDragons-Pins hides minimap icons more than 500 yards (|Δx| + |Δy|) from the player, and a long patrol can pass close by while its icon is that far; Stormwind has one. The path tooltip lists exactly the icon of every copy of the hovered route that shows on the minimap (`QuestieWaypoints.MinimapIcons`, through `MapIconTooltip.ShowForIcons`), one for each of the NPC's quests, however far away and faded. Other icons near the NPC's are not listed: a path hover is about its NPC.
   - Minimap icons also fade with distance: from 200 yards (`fadeLevel`) over the next 100, so beyond about 300 yards they are fully transparent. A faded-out icon shows nothing when hovered itself, but a hovered path still shows its tooltip, and highlights whether or not the tooltip shows. The fade only updates while HereBeDragons shows the icon, so an icon that faded out stays so until the player comes within 500 yards.
   - The tooltip is a frame of its own, `QuestieWaypointMinimapTooltip`, like the gamepad map hover's. On Forever, Blizzard's `Minimap_OnUpdate` takes `GameTooltip` every frame while the cursor is over the minimap, for its blip tooltips (`Blizzard_Minimap/Mainline/Minimap.lua`, 1.60.1), so the NPC's tooltip there vanished at once while its highlight stayed. Classic Era's minimap has no such script. Shift redraws it, as GameTooltip's.
   - Moving onto the NPC's minimap icon ends the path's hover, and the icon opens its own tooltip.
   - The hover ends when the paths can't be drawn, such as in an instance, and when the minimap hides.
-- **Driver:** one `OnUpdate`, hidden while there are no paths. Errors stop the layer and report once; they never break the addon.
+- **Driver:** the canvas's one `OnUpdate`, hidden while no layer has anything to show. A failing layer is reported once and stays off until its next change; it never breaks the addon or the other layers.
 
 **Measured in game** (Forever, Ironforge, rotating minimap, one 31-segment patrol in reach, a 360° keyboard turn at about 48 fps, at the earlier default smoothing of 0.5). Questie's time per tick from `C_AddOnProfiler`:
 
