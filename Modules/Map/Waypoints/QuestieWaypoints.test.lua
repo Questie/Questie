@@ -3,7 +3,7 @@ dofile("setupTests.lua")
 describe("QuestieWaypoints", function()
     ---@type QuestieWaypoints
     local QuestieWaypoints
-    local WaypointMap, WaypointMinimap
+    local WaypointMap, WaypointMinimap, WaypointHover
     local savedLibStub
     ---@type table<IconEvent, function>
     local listeners
@@ -33,6 +33,8 @@ describe("QuestieWaypoints", function()
         WaypointMap.Invalidate = spy.new(function() end)
         WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
         WaypointMinimap.Invalidate = spy.new(function() end)
+        WaypointHover = QuestieLoader:ImportModule("WaypointHover")
+        WaypointHover.End = spy.new(function() end)
         listeners = {}
         QuestieLoader:ImportModule("QuestieFrame").Subscribe = function(event, listener)
             assert.is_nil(listeners[event], "subscribed twice to " .. event)
@@ -239,8 +241,14 @@ describe("QuestieWaypoints", function()
         QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         QuestieWaypoints.Add(Icon({}), "m_other", PATROLS, 12)
 
+        -- Hovering the icon first ends a path hover opened for another icon, which may unhighlight this
+        -- NPC's paths, then highlights them.
+        WaypointHover.End = spy.new(function() QuestieWaypoints.SetHighlighted(data, false) end)
+        listeners.HoverStart(icon)
+        assert.are.equal(icon, WaypointHover.End.calls[1].refs[1])
+        assert.is_true(data.waypointPaths[1].highlighted)
+
         -- A hover ends with the data it started with, even once the icon shows other data.
-        QuestieWaypoints.SetHighlighted(data, true)
         icon.data = {}
         listeners.HoverEnd(icon, data)
         assert.is_nil(data.waypointPaths[1].highlighted)

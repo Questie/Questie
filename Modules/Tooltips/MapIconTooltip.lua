@@ -27,12 +27,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieWaypoints
-local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type WaypointHover
-local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
----@type QuestiePolygon
-local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -64,14 +58,9 @@ local function FormatLabelWithColon(label)
     end
 end
 
-function MapIconTooltip:Show()
-    -- A hovered patrol path opened its NPC's tooltip; that NPC's OnLeave must run before this one.
-    WaypointHover.End(self)
-    MapIconTooltip.ShowOnTooltip(self, GameTooltip)
-end
-
 ---Shows a map icon's tooltip: the quests and notes of the icons clustered around it on its map, and of
----any icons given. ShowForIcons renders them, again on a modifier key.
+---any icons given. ShowForIcons renders them, again on a modifier key. What hovering the icon shows
+---besides its tooltip, such as tints and highlights, belongs to QuestieFrame.ApplyHoverHighlights.
 ---@param self IconFrame
 ---@param Tooltip GameTooltip The tooltip frame to render into
 ---@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
@@ -82,13 +71,12 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     -- An icon faded out shows nothing when hovered itself. A hovered path shows, whatever its icon's fade.
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 and not owner then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Alpha of texture is 0, nothing to show")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip.ShowOnTooltip] Alpha of texture is 0, nothing to show")
         return
     end
-    if self.polygonMarker then QuestiePolygon.EnterMarker(self) end
     -- Only this tooltip's own owner is throttled; another owner's, such as a quest area's, is replaced.
     if GetTime() - lastTooltipShowTimestamp < 0.05 and Tooltip:IsShown() and Tooltip:IsOwned(owner or self) then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Call has been too fast, not showing again")
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip.ShowOnTooltip] Call has been too fast, not showing again")
         return
     end
     lastTooltipShowTimestamp = GetTime()
@@ -115,8 +103,6 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         end
     end
 
-    QuestieWaypoints.SetHighlighted(self.data, true)
-
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:
     -- https://discordapp.com/channels/263036731165638656/263040777658171392/627808795715960842
     -- happens when a note doesn't get removed after a quest has been finished, see #1170
@@ -132,18 +118,13 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
     -- The hovered icon, the visible icons around it and any given icons share one tooltip.
     local tooltipIcons = {}
-    -- Tinting again before the hover's reset would save the tinted colors as the ones to restore.
-    local tint = not self.data.touchedPins
-    if tint then
-        self.data.touchedPins = {}
-    end
     ---@param icon IconFrame
     ---@param listed boolean? One of the given icons, listed wherever it is, however faded.
     local function handleMapIcon(icon, listed)
         local iconData = icon.data
 
         if not iconData then
-            Questie.Error("[MapIconTooltip:Show] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
+            Questie.Error("[MapIconTooltip.ShowOnTooltip] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
             return
         end
 
@@ -152,18 +133,6 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             return
         end
 
-        -- Do not recolor MiniMap, Available and Completed Quest Icons.
-        if tint and (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
-            local entry = {}
-            entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
-            entry.icon = icon;
-            if Questie.db.profile.questObjectiveColors then
-                icon.texture:SetVertexColor(1, 1, 1, 1); -- If different colors are active simply change it to the regular icon color
-            else
-                icon.texture:SetVertexColor(0.6, 1, 1, 1); -- Without colors make it blueish
-            end
-            tinsert(self.data.touchedPins, entry);
-        end
         -- Listed icons count wherever they are; others only within the cluster distance of the hovered icon.
         local near = listed
         if not near and icon.x and icon.AreaID == self.AreaID then

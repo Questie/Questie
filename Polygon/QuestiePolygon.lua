@@ -636,6 +636,7 @@ local function _FollowIcons()
         QuestiePolygon.MinimapMarkerRemoved(frame)
     end)
     QuestieFrame.Subscribe("VisibilityChanged", QuestiePolygon.MarkerChanged)
+    QuestieFrame.Subscribe("HoverStart", QuestiePolygon.EnterMarker)
     -- A recycled icon's old marker ended its preview when it unloaded; a new marker's is not this hover's.
     QuestieFrame.Subscribe("HoverEnd", function(frame, data)
         if frame.data == data then QuestiePolygon.LeaveMarker(frame) end

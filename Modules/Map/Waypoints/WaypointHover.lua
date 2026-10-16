@@ -114,8 +114,8 @@ function WaypointHover.Set(on, path, icon)
 end
 
 ---Ends a path hover before an icon's tooltip opens, so the path's tooltip changes are undone first.
----Called from the icon tooltip. On the world map, the icon the hover opened keeps its tooltip; on
----the minimap, the icon's tooltip replaces the path's.
+---Called from QuestieWaypoints' HoverStart listener, before the icon's tints. On the world map, the
+---icon the hover opened keeps its tooltip; on the minimap, the icon's tooltip replaces the path's.
 ---@param icon IconFrame
 function WaypointHover.End(icon)
     if hovered and (icon ~= enteredIcon or hoveredOn == "minimap") then WaypointHover.Set(hoveredOn, nil) end
