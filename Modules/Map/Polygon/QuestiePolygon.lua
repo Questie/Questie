@@ -457,20 +457,37 @@ local function _UpdateAreaHover(shapes)
     end
 end
 
----Hears every icon hover starting. Another hover ends the area's first, so the area's tints are
----restored before the next ones are saved. A hover of the area's own marker, as the cursor moves onto
----the marker or onto a route it owns, takes the area's over and ends it itself.
+---Hears every icon hover starting. Another icon's hover ends the area's first, so the area's tints
+---are restored before the next ones are saved. A hover of the same data takes the area's effects over
+---and ends them itself: the area's marker reached directly or through a route it owns, or the
+---marker's minimap twin, after which only the area's own preview ends.
 ---@param frame IconFrame
 local function _OnHoverStart(frame)
     local hover = areaHover
     if hover and not hover.starting then
-        if frame == hover.frame and frame.data == hover.data then areaHover = nil else _EndAreaHover() end
+        if frame.data ~= hover.data then
+            _EndAreaHover()
+        else
+            areaHover = nil
+            if frame ~= hover.frame then QuestiePolygon.LeaveMarker(hover.frame) end
+        end
     end
     QuestiePolygon.EnterMarker(frame)
 end
 
----@param shapes PolygonCachedShape[] Hovered shapes; keys are marker records.
----@param changed boolean
+---Only areas the objective shows hover. Areas drawn just as a preview, while their marker, the quest
+---log or the tracker is hovered, go with the preview: hovering one keeps no preview on.
+---@param shapes PolygonCachedShape[]
+---@return PolygonCachedShape[]
+local function _ShownShapes(shapes)
+    local shown = {}
+    for _, shape in ipairs(shapes) do
+        if _IsAreaShown(shape.owner) then shown[#shown + 1] = shape end
+    end
+    return shown
+end
+
+---Whether the area tooltip lists exactly these icons already.
 ---@param icons table<IconFrame, true>
 ---@return boolean
 local function _ListedInAreaTooltip(icons)
@@ -783,6 +800,8 @@ end
 ---ignores icons that are not polygon markers.
 local function _FollowIcons()
     QuestieFrame.Subscribe("Unload", function(frame)
+        -- The pool may hand the frame out again at once: its area's hover ends with its data.
+        if areaHover and areaHover.frame == frame then _EndAreaHover() end
         QuestiePolygon.MarkerRemoved(frame)
         QuestiePolygon.MinimapMarkerRemoved(frame)
     end)
@@ -1252,6 +1271,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     if not provider then
         provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
         areaRenderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), {onHover = function(shapes, _changed, x, y)
+            shapes = _ShownShapes(shapes)
             _UpdateAreaHover(shapes)
             _UpdateAreaTooltip(shapes, x, y)
         end})

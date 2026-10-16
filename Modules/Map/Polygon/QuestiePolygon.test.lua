@@ -303,6 +303,8 @@ describe("QuestiePolygon world-map adapter", function()
             focus = map.ScrollContainer
             _G.GetMouseFoci = function() return {focus} end
             Questie.db.profile.polygonAreaTooltips = true
+            -- Areas show from quest accept, as by default: only shown areas hover.
+            Questie.db.profile.showPolygonsOnAccept = true
             Update()
             local hoverInput = QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2]
             -- Each check comes with the cursor, resting on the shown map unless a case moves it.
@@ -439,6 +441,35 @@ describe("QuestiePolygon world-map adapter", function()
                 iconListeners.HoverStart(frames[1])
                 input.onHover({}, true)
                 assert.are.same({frames[1]}, Icons(QuestieFrame.ResetHoverHighlights))
+                assert.are.equal(frames[1], frames[1].polygonMarker.entry.hovered)
+            end)
+
+            it("hands its effects to the marker's minimap twin, ending only its own preview", function()
+                local entry = frames[1].polygonMarker.entry
+                local twin = frames[1].polygonMarker.minimapIcons[1].frame
+                input.onHover({Shape(frames[1])}, true)
+                iconListeners.HoverStart(twin)
+                input.onHover({}, true)
+
+                -- The twin shares the marker's data: its hover keeps the tints and route highlights.
+                assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+                assert.is_nil(entry.hovered)
+                assert.are.equal(twin, entry.minimapHovered)
+            end)
+
+            it("ends with its data when Questie unloads the marker under the cursor", function()
+                local data = frames[1].data
+                input.onHover({Shape(frames[1])}, true)
+                iconListeners.Unload(frames[1])
+                assert.are.same({frames[1]}, Icons(QuestieFrame.ResetHoverHighlights))
+                assert.are.equal(data, QuestieFrame.ResetHoverHighlights.calls[1].refs[2])
+            end)
+
+            it("leaves areas drawn only as a preview alone", function()
+                Polygon.SetObjectiveAreaShown(42, 1, false)
+                input.onHover({Shape(frames[1])}, true)
+                assert.spy(QuestieFrame.ApplyHoverHighlights).was.not_called()
+                assert.spy(MapIconTooltip.ShowForIcons).was.not_called()
             end)
 
             it("starts nowhere but over the bare map, outside the gamepad UI, and keeps its errors", function()

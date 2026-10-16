@@ -294,7 +294,7 @@ That was judged good enough, since few players use a rotating minimap. If it eve
 Waypoints are on for every player, while polygon quest areas (blob mode) are opt-in. They are two drawing features that never import each other; `test/MapFeatureImports.test.lua` keeps it that way.
 - **Hover and frame levels:** set by `WorldMapLayers`' `LAYER_ORDER`. Lines draw at 2015, above objective areas (`PIN_FRAME_LEVEL_QUEST_BLOB`: 2004 on Era, 2007 on Forever) and below Questie's icons (2016+). Hover follows the same order: paths win the cursor over the areas beneath them.
 - **Icons:** both follow Questie's icons through `QuestieFrame`'s icon events.
-- **Ownership:** blob markers own their objective's patrols: the cluster the NPC spawns in, else the zone's marker. Zones only patrols reach get a route marker showing the patrolling NPC. Hovering an area hovers its marker, which highlights the routes it owns; hovering a route hovers the marker, which outlines its area.
+- **Ownership:** blob markers own their objective's patrols: the cluster the NPC spawns in, else the zone's marker. Zones only patrols reach get a route marker showing the patrolling NPC. On the world map, hovering an area hovers its marker, which highlights the routes it owns, and hovering a route hovers the marker, which outlines its area.
 - **Minimap:** both are layers of `MinimapCanvas`, whose `LAYER_ORDER` stacks paths one level above areas; hover follows that order, and areas don't hover.
 
 ## Verified in game
