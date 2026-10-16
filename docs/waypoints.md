@@ -191,6 +191,10 @@ Geometry for every Classic patrol at once, in plain Lua 5.1, takes 21 ms for the
 
 Joins where a short segment caps the miter's pull-back already exist in the stored data: 1,407 at scale 1. Smoothing alone raised that to 2,386, by shortening the segments next to sharp corners; with trimming it's 1,563.
 
+### Scheduling
+
+Path geometry is presentation work. The maps' `OnUpdate` draws it in the frame that shows it, never yields, and redraws only what changed. `BuildPolylines` runs synchronously in `QuestieWaypoints.Add`, which callers outside coroutines reach, such as the `/questie` search and the Townsfolk ticker; it is linear in patrol points, under 1 ms for the longest patrol. Neither joins the polygon frame budget: a background job would put visible lines behind every objective update after a reset. If dense maps measure slow, keep views across map switches first, and only then spread `WaypointMap`'s redraw across frames with a per-frame cap.
+
 ## World map
 
 `WaypointMap` runs one driver on the canvas while the map is open:
@@ -287,7 +291,7 @@ That was judged good enough, since few players use a rotating minimap. If it eve
 ## Polygon areas
 
 Waypoints are on for every player, while polygon quest areas (blob mode) are opt-in. They are two drawing features that never import each other; `test/MapFeatureImports.test.lua` keeps it that way.
-- **Hover and frame levels:** both are layers of `WorldMapLayers`. Paths draw above quest areas and win the cursor over them.
+- **Hover and frame levels:** set by `WorldMapLayers`' `LAYER_ORDER`. Lines draw at 2015, above objective areas (`PIN_FRAME_LEVEL_QUEST_BLOB`: 2004 on Era, 2007 on Forever) and below Questie's icons (2016+). Hover follows the same order: paths win the cursor over the areas beneath them.
 - **Icons:** both follow Questie's icons through `QuestieFrame`'s icon events.
 - **Ownership:** blob markers own their objective's patrols: the cluster the NPC spawns in, else the zone's marker. Zones only patrols reach get a route marker showing the patrolling NPC.
 - **Minimap:** the waypoint minimap layer and `GetMinimapView` are meant to be shared with polygon areas.
