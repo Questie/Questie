@@ -352,6 +352,19 @@ describe("WaypointMinimap", function()
             assert.spy(WaypointHover.Set).was.called_with("minimap", cornerPath, cornerPath.owner.minimapTwin)
         end)
 
+        it("hovers a square minimap's corners also when its addon sets its own mask", function()
+            local corner = {x = 1000 - 60 / 0.7, y = 1000 + 60 / 0.7}
+            local cornerPath = Path({{x = corner.x, y = corner.y - 10}, {x = corner.x, y = corner.y + 10}})
+            _G.GetMinimapShape = function() return "SQUARE" end
+            hooks.SetMaskTexture(_G.Minimap, "Interface\\AddOns\\SomeMinimap\\square")
+            local layer = Layer()
+            CursorAt(corner, 0)
+
+            layer:Update()
+
+            assert.spy(WaypointHover.Set).was.called_with("minimap", cornerPath, cornerPath.owner.minimapTwin)
+        end)
+
         it("reads the cursor at the minimap's UI scale", function()
             uiScale = 2
             local layer = Layer()

@@ -135,6 +135,13 @@ function WaypointMinimap.ShapeMask()
     return ROUND_MASK, false
 end
 
+---Whether the minimap is known to be square: by its mask, or by GetMinimapShape, also when a minimap
+---addon sets its own square texture.
+---@return boolean
+local function _IsSquare()
+    return WaypointMinimap.ShapeMask() == SQUARE_MASK or (type(GetMinimapShape) == "function" and GetMinimapShape() == "SQUARE")
+end
+
 -- Clamping to black keeps everything outside the minimap's rectangle masked out.
 ---@param mask MaskTexture
 local function _ApplyShapeMask(mask)
@@ -288,10 +295,10 @@ local function _ReadCursor(layer)
     if _IsSecret(cursorX, cursorY, centerX, centerY) or not (cursorX and cursorY and centerX and centerY) then return nil, nil end
     local scale = minimap:GetEffectiveScale()
     local dx, dy = cursorX / scale - centerX, centerY - cursorY / scale
-    -- Paths are masked to the minimap's shape. Anything but a square one counts as round, so a
-    -- custom shape never hovers paths its mask hides.
+    -- Paths are masked to the minimap's shape. Anything but a minimap known to be square counts as
+    -- round, so a custom shape never hovers paths its mask hides.
     local projection = layer.projection
-    if (dx / projection.halfWidth) ^ 2 + (dy / projection.halfHeight) ^ 2 > 1 and WaypointMinimap.ShapeMask() ~= SQUARE_MASK then
+    if (dx / projection.halfWidth) ^ 2 + (dy / projection.halfHeight) ^ 2 > 1 and not _IsSquare() then
         return nil, nil
     end
     return dx - layer.offsetX, dy - layer.offsetY
