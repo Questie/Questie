@@ -297,12 +297,12 @@ Public\RegisterForQuestUpdates.lua
 Public\RegisterOnReady.lua
 
 # Questie-generated world-map areas
-Polygon\PolygonGeometry.lua
-Polygon\PolygonRenderer.lua
-Polygon\PolygonRenderCache.lua
-Polygon\PolygonNudging.lua
-Polygon\PolygonMinimap.lua
-Polygon\QuestiePolygon.lua
+Modules\Map\Polygon\PolygonGeometry.lua
+Modules\Map\Polygon\PolygonRenderer.lua
+Modules\Map\Polygon\PolygonRenderCache.lua
+Modules\Map\Polygon\PolygonNudging.lua
+Modules\Map\Polygon\PolygonMinimap.lua
+Modules\Map\Polygon\QuestiePolygon.lua
 
 # Main - Always load Questie.lua last
 Questie.lua

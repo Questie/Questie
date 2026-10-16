@@ -105,7 +105,7 @@ describe("PolygonRenderer", function()
         end
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX = "UL", "UR"
         _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = "LL", "LR"
-        dofile("Polygon/PolygonRenderer.lua")
+        dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
         PolygonRenderer.debugRandomColors = false
     end)

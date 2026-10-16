@@ -82,16 +82,17 @@ class ContractRequirementTests(unittest.TestCase):
         for toc in build.tocs.values():
             with self.subTest(toc=toc):
                 lines = (root / toc).read_text(encoding="utf-8").splitlines()
-                self.assertEqual(1, lines.count("Polygon\\PolygonGeometry.lua"))
-                self.assertEqual(1, lines.count("Polygon\\PolygonRenderer.lua"))
-                self.assertEqual(1, lines.count("Polygon\\PolygonRenderCache.lua"))
-                self.assertEqual(1, lines.count("Polygon\\PolygonNudging.lua"))
-                self.assertEqual(1, lines.count("Polygon\\QuestiePolygon.lua"))
-                self.assertLess(lines.index("Polygon\\PolygonGeometry.lua"), lines.index("Polygon\\PolygonRenderer.lua"))
-                self.assertLess(lines.index("Polygon\\PolygonRenderer.lua"), lines.index("Polygon\\PolygonRenderCache.lua"))
-                self.assertLess(lines.index("Polygon\\PolygonRenderCache.lua"), lines.index("Polygon\\PolygonNudging.lua"))
-                self.assertLess(lines.index("Polygon\\PolygonNudging.lua"), lines.index("Polygon\\QuestiePolygon.lua"))
-                self.assertLess(lines.index("Polygon\\QuestiePolygon.lua"), lines.index("Questie.lua"))
+                polygon = "Modules\\Map\\Polygon\\"
+                self.assertEqual(1, lines.count(polygon + "PolygonGeometry.lua"))
+                self.assertEqual(1, lines.count(polygon + "PolygonRenderer.lua"))
+                self.assertEqual(1, lines.count(polygon + "PolygonRenderCache.lua"))
+                self.assertEqual(1, lines.count(polygon + "PolygonNudging.lua"))
+                self.assertEqual(1, lines.count(polygon + "QuestiePolygon.lua"))
+                self.assertLess(lines.index(polygon + "PolygonGeometry.lua"), lines.index(polygon + "PolygonRenderer.lua"))
+                self.assertLess(lines.index(polygon + "PolygonRenderer.lua"), lines.index(polygon + "PolygonRenderCache.lua"))
+                self.assertLess(lines.index(polygon + "PolygonRenderCache.lua"), lines.index(polygon + "PolygonNudging.lua"))
+                self.assertLess(lines.index(polygon + "PolygonNudging.lua"), lines.index(polygon + "QuestiePolygon.lua"))
+                self.assertLess(lines.index(polygon + "QuestiePolygon.lua"), lines.index("Questie.lua"))
 
 
 class SourceTagTests(unittest.TestCase):
@@ -215,17 +216,17 @@ class BuildModeTests(unittest.TestCase):
             self.assertFalse(any(name.startswith("QuestieDB/") for name in archive.namelist()))
 
     def test_polygon_runtime_files_are_packaged_but_adjacent_tests_are_not(self):
-        (self.root / "Polygon").mkdir()
+        (self.root / "Modules/Map/Polygon").mkdir(parents=True)
         for name in ("PolygonGeometry", "PolygonRenderer", "PolygonRenderCache", "PolygonNudging", "QuestiePolygon"):
-            (self.root / f"Polygon/{name}.lua").write_text("return {}\n", encoding="utf-8")
-            (self.root / f"Polygon/{name}.test.lua").write_text("error('test-only')\n", encoding="utf-8")
+            (self.root / f"Modules/Map/Polygon/{name}.lua").write_text("return {}\n", encoding="utf-8")
+            (self.root / f"Modules/Map/Polygon/{name}.test.lua").write_text("error('test-only')\n", encoding="utf-8")
 
         output, manifest = self.run_build("--standalone", "-r")
 
         with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
             for name in ("PolygonGeometry", "PolygonRenderer", "PolygonRenderCache", "PolygonNudging", "QuestiePolygon"):
-                self.assertEqual(b"return {}\n", archive.read(f"Polygon/{name}.lua"))
-                self.assertNotIn(f"Polygon/{name}.test.lua", archive.namelist())
+                self.assertEqual(b"return {}\n", archive.read(f"Modules/Map/Polygon/{name}.lua"))
+                self.assertNotIn(f"Modules/Map/Polygon/{name}.test.lua", archive.namelist())
         self.downloads.assert_not_called()
 
     def test_standalone_is_default_without_a_provider_download(self):

@@ -29,7 +29,7 @@ describe("PolygonGeometry", function()
         frame = 0
         _G.GetTime = function() return frame end
         dofile("Modules/Map/MapGeometry.lua")
-        dofile("Polygon/PolygonGeometry.lua")
+        dofile("Modules/Map/Polygon/PolygonGeometry.lua")
         PolygonGeometry = QuestieLoader:ImportModule("PolygonGeometry")
     end)
 

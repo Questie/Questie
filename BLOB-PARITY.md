@@ -1,6 +1,6 @@
 # Blob implementation parity
 
-Comparison of the final **QuestieDev-Master** implementation with the new **`Polygon/`** implementation. This is a partial port, not full feature parity.
+Comparison of the final **QuestieDev-Master** implementation with the new **`Modules/Map/Polygon/`** implementation. This is a partial port, not full feature parity.
 
 ## What was carried over
 
@@ -30,7 +30,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 ## Deliberate differences
 
 - Game objects never share a cluster with creatures. The legacy clustered whole objectives whose icon was the object icon at 35 yards instead of 180. Objects now cluster at 180 yards like creatures, decided per spawn, with the same area-centroid world-map marker, while the minimap shows each object at least 10 yards from the others. An object cluster too small for an area marks the object nearest its middle instead of a midpoint between objects. The ordinary per-spawn objective icons are not drawn in blobs mode.
-- Added an opt-in **Questie blobs** preset and popup choice; most implementation lives in root `Polygon/`.
+- Added an opt-in **Questie blobs** preset and popup choice; most implementation lives in `Modules/Map/Polygon/`.
 - Preserved current tracking, hiding, tooltips, and tracker highlighting. In blobs mode, cluster icons replace the ordinary per-spawn objective icons on both maps.
 - Nearly identical locations use fixed horizontal stacks: same original UI map, within 0.01 percentage points of a stable seed, ordered by quest/objective/location. Base spacing is 70% of the maximum configured icon width; separation now grows with the wrapper's zoom sizing rather than staying fixed on screen. The separate world/continent icon-size multiplier is not included. Hidden/offscreen markers keep their slots. There is no collision solver, polling, picker, or edge clamping; large stacks can extend beyond map edges. Stored coordinates, polygons, waypoints, and navigation targets stay unchanged.
 - The retired screen-space nudging experiment is preserved in locally gitignored `.scratch/polygon-nudging-experiment/` with verified checksums. The original historical reference package remains separate.
@@ -46,4 +46,4 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 
 **Validation:** automated checks are offline. The latest fixed-stack zoom correction still needs a user reload and in-game review, including spacing and clicking. Earlier user-confirmed nudging behavior applied to the retired experiment, not this replacement. Cursor-based hover under covering UI and unchanged map clicks/dragging still need in-game checks.
 
-See [current implementation details](Polygon/README.md) and [the historical reference package](Blob/docs/legacy-questie-blobs/README.md).
+See [current implementation details](Modules/Map/Polygon/README.md) and [the historical reference package](Blob/docs/legacy-questie-blobs/README.md).

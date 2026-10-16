@@ -252,7 +252,7 @@ describe("TrackerUtils", function()
             WorldMapLayers.AddLayer, WorldMapLayers.Invalidate = function() end, function() end
             WorldMapLayers.FrameLevel = function() return 10 end
             QuestieLoader:ImportModule("QuestieFrame").Subscribe = function() end
-            dofile("Polygon/PolygonGeometry.lua")
+            dofile("Modules/Map/Polygon/PolygonGeometry.lua")
             QuestieLoader:ImportModule("PolygonGeometry").Build = function(points)
                 return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}
             end
@@ -288,7 +288,7 @@ describe("TrackerUtils", function()
             unrelated.data = {}
             _G.PolygonTrackerOther = unrelated
             QuestieMap.questIdFrames = {[42] = {"PolygonTrackerMarker"}, [99] = {"PolygonTrackerOther"}}
-            dofile("Polygon/QuestiePolygon.lua")
+            dofile("Modules/Map/Polygon/QuestiePolygon.lua")
             Polygon = QuestieLoader:ImportModule("QuestiePolygon")
             local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
             while coroutine.status(thread) ~= "dead" do

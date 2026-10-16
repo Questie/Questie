@@ -1,9 +1,9 @@
 dofile("setupTests.lua")
 
 -- Keeps Questie's drawing features black boxes. A drawing feature is a folder of its own under
--- Modules/Map/; Polygon/ counts too until it moves there. Features never import each other, and core
--- imports a feature only at the entry points below. Everything else goes through QuestieFrame's icon
--- events or the shared seams directly in Modules/Map/, such as WorldMapLayers.
+-- Modules/Map/. Features never import each other, and core imports a feature only at the entry points
+-- below. Everything else goes through QuestieFrame's icon events or the shared seams directly in
+-- Modules/Map/, such as WorldMapLayers.
 
 local LoaderUsage = dofile("cli/loaderUsage.lua")
 
@@ -33,11 +33,11 @@ local ENTRY_POINTS = {
     },
 }
 
----A drawing feature is a folder of its own under Modules/Map/; Polygon/ until it moves there.
+---A drawing feature is a folder of its own under Modules/Map/.
 ---@param path string Addon-relative, forward slashes.
 ---@return string? feature
 local function _FeatureOf(path)
-    return path:match("^Modules/Map/([^/]+)/") or (path:match("^Polygon/") and "Polygon") or nil
+    return path:match("^Modules/Map/([^/]+)/")
 end
 
 ---Every import of a feature's module from another feature, from core outside the entry points, and
@@ -92,7 +92,7 @@ end
 describe("Map feature imports", function()
     it("finds a feature importing another feature, and core importing one outside its entry points", function()
         local sources = {
-            ["Polygon/QuestiePolygon.lua"] = 'local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")\n'
+            ["Modules/Map/Polygon/QuestiePolygon.lua"] = 'local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")\n'
                 .. 'local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")',
             ["Modules/Map/WorldMapLayers.lua"] = 'local WorldMapLayers = QuestieLoader:CreateModule("WorldMapLayers")',
             ["Modules/Map/Routes/Routes.lua"] = 'local Routes = QuestieLoader:CreateModule("Routes")\n'

@@ -64,7 +64,7 @@ describe("QuestiePolygon world-map adapter", function()
         _G.GetTime = function() return frameNumber end
         _G.CreateFrame = spy.new(function() error("Nudging must not allocate an update driver") end)
         _G.UIParent = {GetEffectiveScale = function() return 1 end}
-        dofile("Polygon/PolygonNudging.lua")
+        dofile("Modules/Map/Polygon/PolygonNudging.lua")
         _G.GetCursorPosition = nil
         _G.GetMouseFoci = nil
         HBD = {
@@ -119,7 +119,7 @@ describe("QuestiePolygon world-map adapter", function()
             minimapLayer.collect = collect
             return minimapLayer
         end)
-        dofile("Polygon/PolygonGeometry.lua") -- Collection uses the real shared work budget.
+        dofile("Modules/Map/Polygon/PolygonGeometry.lua") -- Collection uses the real shared work budget.
         Geometry = QuestieLoader:ImportModule("PolygonGeometry")
         Geometry.Build = spy.new(function(points)
             if #points == 0 then return {} end
@@ -182,7 +182,7 @@ describe("QuestiePolygon world-map adapter", function()
         quest = {Id = 42, Color = {1, 1, 1}, Objectives = {objective}}
         Player = QuestieLoader:ImportModule("QuestiePlayer")
         Player.currentQuestlog = {[42] = quest}
-        dofile("Polygon/QuestiePolygon.lua")
+        dofile("Modules/Map/Polygon/QuestiePolygon.lua")
         Polygon = QuestieLoader:ImportModule("QuestiePolygon")
     end)
 

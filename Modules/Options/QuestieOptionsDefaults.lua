@@ -252,7 +252,7 @@ function QuestieOptionsDefaults:Load()
             trackedAchievementIds = {},
             -- Persistent objective color palette indexes; see QuestieLib:GetObjectiveColor.
             objectiveColors = {},
-            -- Questie blobs state for this character; see Polygon/QuestiePolygon.lua.
+            -- Questie blobs state for this character; see Modules/Map/Polygon/QuestiePolygon.lua.
             polygon = {
                 objectiveVisibility = {},
             },
