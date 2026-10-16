@@ -401,6 +401,44 @@ describe("QuestieFrame", function()
             assert.are.same({0, 1, 0, 1}, Color(otherQuest))
         end)
 
+        it("tints one icon for as long as any of its tints holds it, its quest's hover included", function()
+            local data = {Id = 123, Type = "monster"}
+            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
+            pins = {icon, sibling}
+            local area = {}
+
+            -- A quest area's hover tints its marker alone.
+            QuestieFrame.TintIcon(icon, area)
+            assert.are.same({0.6, 1, 1, 1}, Color(icon))
+            assert.are.same({0, 1, 0, 1}, Color(sibling))
+            -- The cursor reaches the marker: its quest tints too, and then the area's hover ends.
+            QuestieFrame.ApplyHoverHighlights(icon)
+            QuestieFrame.UntintIcon(icon, area)
+            assert.are.same({0.6, 1, 1, 1}, Color(icon))
+            QuestieFrame.ResetHoverHighlights(icon)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+            assert.are.same({0, 1, 0, 1}, Color(sibling))
+
+            -- And the other way round.
+            QuestieFrame.ApplyHoverHighlights(icon)
+            QuestieFrame.TintIcon(icon, area)
+            QuestieFrame.ResetHoverHighlights(icon)
+            assert.are.same({0.6, 1, 1, 1}, Color(icon))
+            QuestieFrame.UntintIcon(icon, area)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+
+            -- A tint left on an icon the pool hands out for other data has no say over its new color.
+            QuestieFrame.TintIcon(icon, area)
+            icon.data = {Id = 7, Type = "item"}
+            icon.texture:SetVertexColor(0, 0, 1, 1)
+            local other = {}
+            QuestieFrame.TintIcon(icon, other)
+            assert.are.same({0.6, 1, 1, 1}, Color(icon))
+            QuestieFrame.UntintIcon(icon, area)
+            QuestieFrame.UntintIcon(icon, other)
+            assert.are.same({0, 0, 1, 1}, Color(icon))
+        end)
+
         it("keeps a fade or a redraw made during the tint when restoring", function()
             local icon, sibling = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
             pins = {icon, sibling}

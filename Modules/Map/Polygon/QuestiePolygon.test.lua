@@ -122,6 +122,8 @@ describe("QuestiePolygon world-map adapter", function()
         -- An icon's hover effects start and end through its listeners, Polygon's own included.
         QuestieFrame.ApplyHoverHighlights = spy.new(function(icon) iconListeners.HoverStart(icon) end)
         QuestieFrame.ResetHoverHighlights = spy.new(function(icon, data) iconListeners.HoverEnd(icon, data or icon.data) end)
+        QuestieFrame.TintIcon = spy.new(function() end)
+        QuestieFrame.UntintIcon = spy.new(function() end)
         minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end), owner = {}}
         QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(collect, onHover)
             minimapLayer.collect, minimapLayer.hover = collect, onHover
@@ -421,21 +423,21 @@ describe("QuestiePolygon world-map adapter", function()
             assert.spy(MapIconTooltip.Release).was.called(1)
         end)
 
-        describe("hovering an area hovers its marker", function()
+        describe("hovering an area lights up the marker icon attached to it", function()
             local QuestieFrame
 
             before_each(function()
                 QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
             end)
 
-            ---@return table[] Each icon whose hover effects started or ended, in order.
-            local function Icons(hoverSpy)
-                local icons = {}
-                for i, call in ipairs(hoverSpy.calls) do icons[i] = call.refs[1] end
-                return icons
+            ---@return table<table, table> The holder of each icon a tint spy saw.
+            local function Tints(tintSpy)
+                local tints = {}
+                for _, call in ipairs(tintSpy.calls) do tints[call.refs[1]] = call.refs[2] end
+                return tints
             end
 
-            it("one marker at a time, kept while its area stays under the cursor", function()
+            it("and nothing else of its quest, each of overlapping areas lighting up its own", function()
                 local second = {Index = 2, Type = "item", Description = "Fang", Needed = 2, Collected = 1, Color = {0, 1, 0},
                     spawnList = objective.spawnList}
                 quest.Objectives[2] = second
@@ -443,77 +445,35 @@ describe("QuestiePolygon world-map adapter", function()
                 assert.is_true(coroutine.resume(thread))
                 local first, other = frames[1], frames[2]
 
-                input.onHover({Shape(other), Shape(first)}, true)
-                assert.are.same({other}, Icons(QuestieFrame.ApplyHoverHighlights))
-                -- Its marker's hover started, as when the marker itself is hovered.
-                assert.are.equal(other, other.polygonMarker.entry.hovered)
-                input.onHover({Shape(first), Shape(other)}, true)
-                assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+                input.onHover({Shape(other), Shape(first), Shape(first)}, true)
+                local tinted = Tints(QuestieFrame.TintIcon)
+                assert.spy(QuestieFrame.TintIcon).was.called(2)
+                assert.is_table(tinted[first])
+                assert.are.equal(tinted[first], tinted[other])
+                -- Neither marker is hovered: its quest's icons, areas and routes stay as they are.
+                assert.spy(QuestieFrame.ApplyHoverHighlights).was.not_called()
+                assert.is_nil(first.polygonMarker.entry.hovered)
 
                 input.onHover({Shape(first)}, true)
-                assert.are.same({other}, Icons(QuestieFrame.ResetHoverHighlights))
-                assert.are.equal(other.data, QuestieFrame.ResetHoverHighlights.calls[1].refs[2])
-                assert.are.same({other, first}, Icons(QuestieFrame.ApplyHoverHighlights))
-                assert.is_nil(other.polygonMarker.entry.hovered)
-
+                assert.spy(QuestieFrame.UntintIcon).was.called(1)
+                assert.are.equal(other, QuestieFrame.UntintIcon.calls[1].refs[1])
                 input.onHover({}, true)
-                assert.are.same({other, first}, Icons(QuestieFrame.ResetHoverHighlights))
-                assert.is_nil(first.polygonMarker.entry.hovered)
-            end)
-
-            it("ends before another icon's hover starts, and hands over to its own marker's", function()
-                input.onHover({Shape(frames[1])}, true)
-                iconListeners.HoverStart({data = {}})
-                assert.are.same({frames[1]}, Icons(QuestieFrame.ResetHoverHighlights))
-
-                -- The cursor moving onto the marker, or onto a route it owns: that hover ends it now.
-                input.onHover({Shape(frames[1])}, true)
-                iconListeners.HoverStart(frames[1])
-                input.onHover({}, true)
-                assert.are.same({frames[1]}, Icons(QuestieFrame.ResetHoverHighlights))
-                assert.are.equal(frames[1], frames[1].polygonMarker.entry.hovered)
-            end)
-
-            it("hands its effects to the marker's minimap twin, ending only its own preview", function()
-                local entry = frames[1].polygonMarker.entry
-                local twin = frames[1].polygonMarker.minimapIcons[1].frame
-                input.onHover({Shape(frames[1])}, true)
-                iconListeners.HoverStart(twin)
-                input.onHover({}, true)
-
-                -- The twin shares the marker's data: its hover keeps the tints and route highlights.
-                assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
-                assert.is_nil(entry.hovered)
-                assert.are.equal(twin, entry.minimapHovered)
-            end)
-
-            it("ends with its data when Questie unloads the marker under the cursor", function()
-                local data = frames[1].data
-                input.onHover({Shape(frames[1])}, true)
-                iconListeners.Unload(frames[1])
-                assert.are.same({frames[1]}, Icons(QuestieFrame.ResetHoverHighlights))
-                assert.are.equal(data, QuestieFrame.ResetHoverHighlights.calls[1].refs[2])
-            end)
-
-            it("leaves areas drawn only as a preview alone", function()
-                Polygon.SetObjectiveAreaShown(42, 1, false)
-                input.onHover({Shape(frames[1])}, true)
-                focus = _G.Minimap
-                minimapLayer.hover({frames[1].polygonMarker}, 500, 250)
-                assert.spy(QuestieFrame.ApplyHoverHighlights).was.not_called()
-                assert.spy(MapIconTooltip.ShowForIcons).was.not_called()
+                assert.spy(QuestieFrame.UntintIcon).was.called(2)
+                assert.are.equal(first, QuestieFrame.UntintIcon.calls[2].refs[1])
+                assert.spy(QuestieFrame.TintIcon).was.called(2)
             end)
 
             it("on the minimap too, by its minimap icon, listing the icons around the cursor on the minimap's tooltip", function()
                 local marker = frames[1].polygonMarker
-                local icon, other = marker.minimapIcons[1].frame, {}
+                local icon, other = marker.minimapIcons[1].frame, {data = {}}
                 nearby = {icon, other}
                 focus = _G.Minimap
                 minimapLayer.hover({marker, marker}, 500, 250)
 
-                assert.are.same({icon}, Icons(QuestieFrame.ApplyHoverHighlights))
-                assert.are.equal(icon, marker.entry.minimapHovered)
-                -- The cursor's spot on the player's zone, as percent of its map.
+                assert.spy(QuestieFrame.TintIcon).was.called(1)
+                assert.are.equal(icon, QuestieFrame.TintIcon.calls[1].refs[1])
+                assert.is_nil(marker.entry.minimapHovered)
+                -- The cursor's spot on the marker's own zone, as percent of its map.
                 assert.spy(MapIconTooltip.IconsNear).was.called_with(true, 1, 50, 25)
                 local call = MapIconTooltip.ShowForIcons.calls[1]
                 assert.are.equal(minimapLayer.owner, call.refs[1])
@@ -523,51 +483,56 @@ describe("QuestiePolygon world-map adapter", function()
                 -- Over other UI, or off the areas, it ends.
                 focus = {}
                 minimapLayer.hover({marker}, 500, 250)
-                assert.are.same({icon}, Icons(QuestieFrame.ResetHoverHighlights))
+                assert.are.equal(icon, QuestieFrame.UntintIcon.calls[1].refs[1])
                 assert.are.equal(minimapLayer.owner, MapIconTooltip.Release.calls[#MapIconTooltip.Release.calls].refs[1])
             end)
 
-            it("releases the minimap's area tooltip as another icon's hover ends the area's", function()
+            it("tints as each map's own, so one map's hover ending keeps the other's", function()
                 local marker = frames[1].polygonMarker
+                input.onHover({Shape(frames[1])}, true)
                 focus = _G.Minimap
                 minimapLayer.hover({marker}, 500, 250)
+                input.onHover({}, true)
+
+                local mapTint, minimapTint = QuestieFrame.TintIcon.calls[1].refs[2], QuestieFrame.TintIcon.calls[2].refs[2]
+                assert.are_not.equal(mapTint, minimapTint)
+                assert.spy(QuestieFrame.UntintIcon).was.called(1)
+                assert.are.same({frames[1], mapTint}, {QuestieFrame.UntintIcon.calls[1].refs[1], QuestieFrame.UntintIcon.calls[1].refs[2]})
+            end)
+
+            it("stops tinting a marker Questie unloads under the cursor", function()
+                input.onHover({Shape(frames[1])}, true)
+                iconListeners.Unload(frames[1])
+                assert.spy(QuestieFrame.UntintIcon).was.called(1)
+                assert.are.equal(frames[1], QuestieFrame.UntintIcon.calls[1].refs[1])
+                input.onHover({}, true)
+                assert.spy(QuestieFrame.UntintIcon).was.called(1)
+            end)
+
+            it("leaves areas drawn only as a preview alone", function()
+                Polygon.SetObjectiveAreaShown(42, 1, false)
+                input.onHover({Shape(frames[1])}, true)
+                focus = _G.Minimap
+                minimapLayer.hover({frames[1].polygonMarker}, 500, 250)
+                assert.spy(QuestieFrame.TintIcon).was.not_called()
+                assert.spy(MapIconTooltip.ShowForIcons).was.not_called()
+            end)
+
+            it("releases the area tooltips as any icon's hover opens its own", function()
+                focus = _G.Minimap
+                minimapLayer.hover({frames[1].polygonMarker}, 500, 250)
                 MapIconTooltip.Release:clear()
                 iconListeners.HoverStart({data = {}})
                 assert.spy(MapIconTooltip.Release).was.called_with(minimapLayer.owner, MapIconTooltip.MinimapTooltip())
             end)
 
-            it("keeps each map's hover apart, handing it over to the same marker on the other map", function()
-                local marker = frames[1].polygonMarker
-                local icon = marker.minimapIcons[1].frame
-                input.onHover({Shape(frames[1])}, true)
-                -- The minimap hovers the marker's area before the world map's next check ends its own.
-                focus = _G.Minimap
-                minimapLayer.hover({marker}, 500, 250)
-                input.onHover({}, true)
-
-                assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
-                assert.is_nil(marker.entry.hovered)
-                assert.are.equal(icon, marker.entry.minimapHovered)
-                minimapLayer.hover({})
-                assert.are.same({icon}, Icons(QuestieFrame.ResetHoverHighlights))
-            end)
-
-            it("starts nowhere but over the bare map, outside the gamepad UI, and keeps its errors", function()
+            it("starts nowhere but over the bare map, outside the gamepad UI", function()
                 focus = {}
                 input.onHover({Shape(frames[1])}, true)
                 focus = map.ScrollContainer
                 _G.InputUtil = {IsGamepadUIEnabled = function() return true end}
                 input.onHover({Shape(frames[1])}, true)
-                assert.spy(QuestieFrame.ApplyHoverHighlights).was.not_called()
-
-                _G.InputUtil = saved.inputUtil
-                Questie.Error = spy.new(function() end)
-                QuestieFrame.ApplyHoverHighlights = spy.new(function() error("broken hover") end)
-                assert.has_no.errors(function() input.onHover({Shape(frames[1])}, true) end)
-                input.onHover({}, true)
-                input.onHover({Shape(frames[1])}, true)
-                assert.spy(Questie.Error).was.called(1)
-                assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
+                assert.spy(QuestieFrame.TintIcon).was.not_called()
             end)
         end)
 
@@ -1659,7 +1624,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(minimapLayer.Clear).was.called(1)
     end)
 
-    it("previews on the minimap while one of a marker's minimap icons is hovered, highlighting its cluster", function()
+    it("previews on the minimap while one of a marker's minimap icons is hovered, highlighting every cluster", function()
         objective.spawnList[123].Spawns[1] = {{10, 20}, {70, 80}}
         Geometry.Build = function(points)
             return {
@@ -1677,7 +1642,7 @@ describe("QuestiePolygon world-map adapter", function()
         end
 
         iconListeners.HoverStart(icon)
-        assert.are.same({{first, true}, {second, false}}, Highlights())
+        assert.are.same({{first, true}, {second, true}}, Highlights())
         -- The world map previews only for its own markers.
         FlushRefresh()
         assert.are.same({}, drawnShapes)
@@ -1717,7 +1682,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(reported).was.called(1)
     end)
 
-    it("highlights only the hovered marker's cluster while previewing the whole objective", function()
+    it("highlights every cluster of the hovered marker's objective while previewing it", function()
         local firstOutline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}
         local secondOutline = {{x = 70, y = 70}, {x = 80, y = 70}, {x = 70, y = 80}}
         objective.spawnList[123].Spawns[1] = {{10, 20}, {70, 80}}
@@ -1735,12 +1700,13 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same(firstOutline, shapes[1].points)
         assert.is_true(shapes[1].highlighted)
         assert.are.same(secondOutline, shapes[2].points)
-        assert.is_false(shapes[2].highlighted)
+        assert.is_true(shapes[2].highlighted)
+        Polygon.LeaveMarker(frames[1])
 
         Polygon.EnterMarker(frames[2])
         FlushRefresh()
         shapes = renderCache.Present.calls[#renderCache.Present.calls].vals[3]
-        assert.is_false(shapes[1].highlighted)
+        assert.is_true(shapes[1].highlighted)
         assert.is_true(shapes[2].highlighted)
 
         Polygon.ToggleMarker(frames[2])

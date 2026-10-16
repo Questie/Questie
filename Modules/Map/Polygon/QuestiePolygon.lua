@@ -32,8 +32,8 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field signature string? Sorted phase-filtered spawn coordinates; geometry is session-local.
 ---@field spawnList table? Source table behind the published geometry.
 ---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
----@field hovered IconFrame? Its hovered map marker: previews its areas on the world map, highlighting that marker's cluster.
----@field minimapHovered IconFrame? Its hovered minimap icon: previews its areas on the minimap, highlighting that icon's cluster.
+---@field hovered IconFrame? Its hovered map marker: previews its areas on the world map, highlighting every cluster.
+---@field minimapHovered IconFrame? Its hovered minimap icon: previews its areas on the minimap, highlighting every cluster.
 ---@field previewed boolean? A quest log control is hovered; shows and highlights every cluster.
 ---@field previewHovers {frame: IconFrame, data: IconData}[]? The markers a preview hovers, with the data each hover started with.
 ---@field previewSuppressed boolean? A click hid the areas while hovering; no preview until a hover starts again.
@@ -321,7 +321,7 @@ function QuestiePolygon.Refresh()
                                     points = points,
                                     color = {color[1], color[2], color[3], 0.25 * alpha},
                                     borderAlpha = 0.75 * alpha,
-                                    highlighted = entry.hovered == frame or entry.previewed == true,
+                                    highlighted = entry.hovered ~= nil or entry.previewed == true,
                                 }
                             end
                         end
@@ -341,7 +341,7 @@ end
 -- Minimap areas
 -- The minimap shows what the world map would show. Quest log and tracker previews reach it,
 -- highlighted. Hovering a marker previews on its own map only: a world-map marker on the world map,
--- a minimap icon on the minimap, each highlighting its own cluster. Areas follow their
+-- a minimap icon on the minimap, each highlighting every cluster. Areas follow their
 -- minimap icons' hiding rules, so the minimap icon switch governs them. Fade comes from the map
 -- marker, such as tracker focus: minimap icons' own opacity fades with the player's distance.
 -- Visibility is never required: a closed map shows no markers, and queued icons may load
@@ -356,7 +356,6 @@ local function _CollectMinimapAreas()
             local previewing = (entry.minimapHovered or entry.previewed) and not entry.previewSuppressed
             if entry.active and not entry.building and (previewing or _IsAreaShown(entry)) then
                 local color = _AreaColor(entry.quest, entry.objective)
-                local hoveredMarker = entry.minimapHovered and entry.minimapHovered.polygonMinimapMarker
                 for _, marker in ipairs(entry.markers) do
                     local frame, cluster = marker.frame, marker.cluster
                     local minimapIcon = marker.minimapIcons[1]
@@ -366,7 +365,7 @@ local function _CollectMinimapAreas()
                         and icon and icon.data and icon.polygonMinimapMarker == marker
                         and not icon.hidden and not icon:ShouldBeHidden() then
                         areas[#areas + 1] = {key = marker, cluster = cluster, color = color, alpha = alpha,
-                            highlighted = hoveredMarker == marker or entry.previewed == true}
+                            highlighted = entry.minimapHovered ~= nil or entry.previewed == true}
                     end
                 end
             end
@@ -450,68 +449,38 @@ function QuestiePolygon.AreaIconsAt(icon)
 end
 
 -- Area hover
--- Hovering an area is hovering its marker: the marker's hover effects start as when the marker
--- itself is hovered, such as its routes' highlight and, on the world map, its quest's tinted icons.
--- Of overlapping areas, one marker is hovered at a time: the one hovered already while its area stays
--- under the cursor, else the first. The area tooltip, below, still lists every hovered area. Each map
--- keeps its own area hover. Only areas the objective shows hover: areas drawn just as a preview,
--- while their marker, the quest log or the tracker is hovered, go with the preview, so hovering one
--- keeps no preview on.
+-- Hovering an area lights up that area, which the renderer's hover highlights, and the marker icon
+-- attached to it, on either map: overlapping areas light up each of theirs. The rest of its quest
+-- stays as it is; hovering the marker itself lights up its quest's icons and all of its objective's
+-- areas. Only areas the objective shows hover: areas drawn just as a preview, while their marker, the
+-- quest log or the tracker is hovered, go with the preview.
 
----@type table<PolygonHoverSurface, {frame: IconFrame, data: IconData, starting: boolean?}>
-local areaHovers = {}
-local areaHoverFailed = false -- Reported once.
-
----@param surface PolygonHoverSurface
-local function _EndAreaHover(surface)
-    local hover = areaHovers[surface]
-    if not hover then return end
-    areaHovers[surface] = nil
-    -- The marker's icon may be pooled for other data by now; the hover ends for the data it started with.
-    QuestieFrame.ResetHoverHighlights(hover.frame, hover.data)
-end
+-- Each map's area hover tints its markers' icons as a tint of its own.
+---@type table<PolygonHoverSurface, table>
+local AREA_TINTS = {map = {}, minimap = {}}
+---@type table<PolygonHoverSurface, table<IconFrame, true>> The icons each map's area hover tints.
+local areaTinted = {map = {}, minimap = {}}
 
 ---@param surface PolygonHoverSurface
 ---@param frames IconFrame[] The hovered shown areas' marker icons on that map.
-local function _UpdateAreaHover(surface, frames)
-    local hover = areaHovers[surface]
-    if hover then
-        for _, frame in ipairs(frames) do
-            if frame == hover.frame and frame.data == hover.data then return end
-        end
-        _EndAreaHover(surface)
+local function _UpdateAreaTints(surface, frames)
+    local holder, tinted, now = AREA_TINTS[surface], areaTinted[surface], {}
+    for _, frame in ipairs(frames) do now[frame] = true end
+    for frame in pairs(tinted) do
+        if not now[frame] then QuestieFrame.UntintIcon(frame, holder) end
     end
-    local frame = frames[1]
-    if not frame then return end
-    hover = {frame = frame, data = frame.data, starting = true}
-    areaHovers[surface] = hover
-    -- The renderer reports hover from inside its update; an error escaping here would clear every area.
-    local ok, err = pcall(QuestieFrame.ApplyHoverHighlights, frame)
-    hover.starting = nil
-    if not ok and not areaHoverFailed then
-        areaHoverFailed = true
-        Questie.Error("Polygon area hover failed:", err)
+    for frame in pairs(now) do
+        if not tinted[frame] then QuestieFrame.TintIcon(frame, holder) end
     end
+    areaTinted[surface] = now
 end
 
----Hears every icon hover starting. Another icon's hover ends an area's first, so the area's tints
----are restored before the next ones are saved. A hover of the same data takes the area's effects over
----and ends them itself: the area's marker reached directly or through a route it owns, or the same
----marker on the other map, after which only the area's own preview ends.
+---Hears every icon hover starting: the icon opens its own tooltip, so the area tooltips step aside
+---at once, such as the minimap's beside a minimap icon's.
 ---@param frame IconFrame
 local function _OnHoverStart(frame)
-    for surface, hover in pairs(areaHovers) do
-        if not hover.starting then
-            if frame.data ~= hover.data then
-                _EndAreaHover(surface)
-                -- The new hover's tooltip may be another frame's, as a minimap icon's on GameTooltip.
-                _ReleaseAreaTooltip(surface)
-            else
-                areaHovers[surface] = nil
-                if frame ~= hover.frame then QuestiePolygon.LeaveMarker(hover.frame) end
-            end
-        end
-    end
+    _ReleaseAreaTooltip("map")
+    _ReleaseAreaTooltip("minimap")
     QuestiePolygon.EnterMarker(frame)
 end
 
@@ -596,7 +565,7 @@ local function _HoverMapAreas(shapes, x, y)
             end
         end
     end
-    _UpdateAreaHover("map", frames)
+    _UpdateAreaTints("map", frames)
     _UpdateAreaTooltip("map", owner, GameTooltip, frames, function()
         -- Around the cursor on the first hovered marker's own map, as around a hovered icon.
         local marker = frames[1]
@@ -627,7 +596,7 @@ local function _HoverMinimapAreas(markers, worldX, worldY)
             end
         end
     end
-    _UpdateAreaHover("minimap", frames)
+    _UpdateAreaTints("minimap", frames)
     _UpdateAreaTooltip("minimap", minimapLayer.owner, MapIconTooltip.MinimapTooltip(), frames, function()
         -- Around the cursor on the first hovered marker's own map, as around a hovered minimap icon.
         local marker = frames[1]
@@ -892,9 +861,12 @@ end
 ---ignores icons that are not polygon markers.
 local function _FollowIcons()
     QuestieFrame.Subscribe("Unload", function(frame)
-        -- The pool may hand the frame out again at once: its area's hover ends with its data.
-        for surface, hover in pairs(areaHovers) do
-            if hover.frame == frame then _EndAreaHover(surface) end
+        -- The pool may hand the frame out again at once: an area hover's tint of it ends now.
+        for surface, tinted in pairs(areaTinted) do
+            if tinted[frame] then
+                tinted[frame] = nil
+                QuestieFrame.UntintIcon(frame, AREA_TINTS[surface])
+            end
         end
         QuestiePolygon.MarkerRemoved(frame)
         QuestiePolygon.MinimapMarkerRemoved(frame)

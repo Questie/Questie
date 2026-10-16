@@ -53,7 +53,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
 ---| "VisibilityChanged" # Questie hid or showed it with FakeHide/FakeShow, or faded it out or in: its `hidden` or `faded` changed.
 ---| "NativeVisibilityChanged" # The frame itself was shown or hidden, as HereBeDragons places icons for the shown maps, and also by FakeHide/FakeShow.
----| "HoverStart" # The cursor or the gamepad cursor started hovering it, or a feature hovers it for something it draws, such as a quest area beneath the cursor.
+---| "HoverStart" # The cursor or the gamepad cursor started hovering it, or a feature hovers it for the player, such as for a tracker preview.
 ---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with. It may come without a HoverStart, such as when the cursor leaves an icon faded out to nothing.
 ---| "Click" # A plain left-click on a world map icon on its own map, or on a minimap icon while chat takes no link, which Questie leaves to features.
 
@@ -202,65 +202,109 @@ function QuestieFrame.CreateIconFrame(frameId)
     return newFrame
 end
 
+-- Tints
+-- An icon can be tinted for more than one reason at once, such as its quest's hover and the hover of
+-- a quest area it marks. Each tinted icon keeps its color from before the first tint and the tints
+-- holding it; the last to end restores that color.
+---@class IconTint
+---@field data IconData What the icon showed when first tinted.
+---@field faded boolean? Whether it was faded then.
+---@field color number[] Its color before.
+---@field tint number[] The tint's color.
+---@field holders table<table, true> The tints holding it.
+---@type table<IconFrame, IconTint>
+local iconTints = {}
+
+---@param icon IconFrame
+---@param holder table
+local function _Tint(icon, holder)
+    local entry = iconTints[icon]
+    -- The pool handed the icon out for other data since: its color is now that data's.
+    if entry and entry.data ~= icon.data then entry = nil end
+    if not entry then
+        local texture = icon.texture
+        -- With objective colors, the plain icon color stands out; without them, blueish.
+        local tint = Questie.db.profile.questObjectiveColors and {1, 1, 1, 1} or {0.6, 1, 1, 1}
+        entry = {data = icon.data, faded = icon.faded, color = {texture.r, texture.g, texture.b, texture.a}, tint = tint,
+            holders = {}}
+        iconTints[icon] = entry
+        texture:SetVertexColor(unpack(tint))
+    end
+    entry.holders[holder] = true
+end
+
+---Ends one tint of the icon; the last restores its color. An icon the pool handed out for other data
+---since keeps its own, and a fade or redraw during the tint keeps what it set.
+---@param icon IconFrame
+---@param holder table
+local function _Untint(icon, holder)
+    local entry = iconTints[icon]
+    if not entry or not entry.holders[holder] then return end
+    entry.holders[holder] = nil
+    if next(entry.holders) then return end
+    iconTints[icon] = nil
+    if icon.data ~= entry.data then return end
+    local texture, saved, tint = icon.texture, entry.color, entry.tint
+    local r, g, b, a = texture.r, texture.g, texture.b, texture.a
+    if r == tint[1] and g == tint[2] and b == tint[3] then r, g, b = saved[1], saved[2], saved[3] end
+    if icon.faded == entry.faded then a = saved[4] end
+    texture:SetVertexColor(r, g, b, a)
+end
+
 -- One quest's icons are tinted at a time, for as long as any hover of its icons lasts: hovers of one
 -- quest overlap, such as a path's and then its icon's, the gamepad's for a moment after the mouse
 -- moves, or a tracker preview of all of an objective's markers.
 ---@class QuestTint
 ---@field questId QuestId
 ---@field hovers table<IconData, true> The data of each hover the tint lasts for.
----@field color number[] The tint's color.
----@field pins {icon: IconFrame, data: IconData, faded: boolean?, color: number[]}[] The icons tinted, with what they showed, whether they were faded, and their colors before.
+---@field icons IconFrame[] The icons it tinted.
 ---@type QuestTint?
-local tint
+local questTint
 
----Restores the tinted icons' colors. An icon the pool handed out for other data since keeps its own,
----and a fade or redraw during the tint keeps what it set.
-local function _RestoreTint()
-    local current = tint
+local function _EndQuestTint()
+    local current = questTint
     if not current then return end
-    tint = nil
-    local tinted = current.color
-    for i = #current.pins, 1, -1 do
-        local entry = current.pins[i]
-        local icon, saved = entry.icon, entry.color
-        if icon.data == entry.data then
-            local texture = icon.texture
-            local r, g, b, a = texture.r, texture.g, texture.b, texture.a
-            if r == tinted[1] and g == tinted[2] and b == tinted[3] then r, g, b = saved[1], saved[2], saved[3] end
-            if icon.faded == entry.faded then a = saved[4] end
-            texture:SetVertexColor(r, g, b, a)
-        end
-    end
+    questTint = nil
+    for i = #current.icons, 1, -1 do _Untint(current.icons[i], current) end
 end
 
----Tints the world map icons of the hovered icon's quest, keeping their colors for ResetHoverHighlights.
----Available and turn-in icons keep their color, and other hidden or faded-out icons are left alone.
+---Tints the world map icons of the hovered icon's quest until ResetHoverHighlights. Available and
+---turn-in icons keep their color, and other hidden or faded-out icons are left alone.
 ---@param icon IconFrame
 local function _TintQuestIcons(icon)
     local data = icon.data
     if icon.miniMapIcon or not data then return end
-    -- Tinting again would save the tinted colors as the ones to restore: the tint lasts for this hover too.
-    if tint and tint.questId == data.Id then
-        tint.hovers[data] = true
+    if questTint and questTint.questId == data.Id then
+        questTint.hovers[data] = true
         return
     end
     -- Another quest's tint, such as from a hover that has not ended yet, goes first.
-    _RestoreTint()
-    local pins = {}
-    -- With objective colors, the plain icon color stands out; without them, blueish.
-    local color = Questie.db.profile.questObjectiveColors and {1, 1, 1, 1} or {0.6, 1, 1, 1}
-    tint = {questId = data.Id, hovers = {[data] = true}, color = color, pins = pins}
+    _EndQuestTint()
+    local current = {questId = data.Id, hovers = {[data] = true}, icons = {}}
+    questTint = current
     for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
         local other = pin.icon
         local otherData = other.data
         if otherData and otherData.Id == data.Id and otherData.Type ~= "available" and otherData.Type ~= "complete"
             and (other == icon or not (other.hidden or other.texture.a == 0)) then
-            local texture = other.texture
-            pins[#pins + 1] = {icon = other, data = otherData, faded = other.faded,
-                color = {texture.r, texture.g, texture.b, texture.a}}
-            texture:SetVertexColor(unpack(color))
+            current.icons[#current.icons + 1] = other
+            _Tint(other, current)
         end
     end
+end
+
+---Tints one icon as a hover of its quest tints them, for as long as `holder` holds it, such as a
+---quest area's hover tinting the marker it is attached to. Other tints of the icon may hold it too.
+---@param icon IconFrame
+---@param holder table Identifies this tint; UntintIcon with it ends the tint.
+function QuestieFrame.TintIcon(icon, holder)
+    if icon.data then _Tint(icon, holder) end
+end
+
+---@param icon IconFrame
+---@param holder table
+function QuestieFrame.UntintIcon(icon, holder)
+    _Untint(icon, holder)
 end
 
 ---Starts what hovering an icon shows besides its tooltip: each feature's HoverStart listeners, such
@@ -298,16 +342,15 @@ end
 
 ---Undoes what hovering an icon changed: the tint on its quest's icons, then each feature's HoverEnd
 ---listeners, such as its NPC's path highlight or a polygon marker's area preview. Every way an icon
----hover ends calls it: the icon's OnLeave, a path hover ending (WaypointHover), a quest area's hover or
----a tracker or quest log preview ending (QuestiePolygon), and the gamepad cursor moving on
----(GamepadMapHover).
+---hover ends calls it: the icon's OnLeave, a path hover ending (WaypointHover), a tracker or quest log
+---preview ending (QuestiePolygon), and the gamepad cursor moving on (GamepadMapHover).
 ---@param icon IconFrame The hovered icon. It is pooled, so it may show other data by now.
 ---@param data IconData? The data it was hovered with; icon.data when nil.
 function QuestieFrame.ResetHoverHighlights(icon, data)
     data = data or icon.data
-    if data and tint and tint.hovers[data] then
-        tint.hovers[data] = nil
-        if not next(tint.hovers) then _RestoreTint() end
+    if data and questTint and questTint.hovers[data] then
+        questTint.hovers[data] = nil
+        if not next(questTint.hovers) then _EndQuestTint() end
     end
     _Emit("HoverEnd", icon, data)
 end
