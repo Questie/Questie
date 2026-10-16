@@ -43,7 +43,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 | [`WaypointGeometry`](../Modules/Map/Waypoints/WaypointGeometry.lua) | Pure geometry. `BuildPolylines` turns a zone's patrols into polylines in percent and world yards. Consecutive points closer than 0.5 yd merge, points a patrol runs straight through (within 0.1°, against the last point kept) are dropped, and points without a world position split a patrol. Also `Smooth`, `Trim`, the mitered `Quads` and the hover distance test. |
 | [`QuestieWaypoints`](../Modules/Map/Waypoints/QuestieWaypoints.lua) | Registry and Questie adapter. Each path belongs to its world map icon and is shared on `icon.data.waypointPaths` for highlighting. On the world map it hides and fades with its icon; on the minimap it follows the icon's `minimapTwin`, so **Enable Minimap Icons**, hiding and fading apply. `SetSolo` serves the tracker's Show on Map flash. |
 | [`WaypointRenderer`](../Modules/Map/Waypoints/WaypointRenderer.lua) | One frame per path and one pooled texture per segment, plus two fills per sharp turn and a cap per sharp turn, turn back and open end. Each run is smoothed, trimmed and turned into mitered quads; each texture is stretched over its quad with `SetVertexOffset`. Restyling redraws only for a new thickness, and a new colour only tints. Takes no mouse input. |
-| [`WaypointMap`](../Modules/Map/Waypoints/WaypointMap.lua) | One `OnUpdate` driver on the world map canvas, with no data provider. Draws, keeps the width constant on screen while zooming, and computes hover from the cursor. |
+| [`WaypointMap`](../Modules/Map/Waypoints/WaypointMap.lua) | One `OnUpdate` driver on the world map canvas, with no data provider. Draws and keeps the width constant on screen while zooming. Hovers as the paths layer of [`WorldMapLayers`](../Modules/Map/WorldMapLayers.lua), which offers it the cursor. |
 | [`WaypointMinimap`](../Modules/Map/Waypoints/WaypointMinimap.lua) | The minimap layer: HereBeDragons-aligned projection with rotation, culling, shape and player masks, one driver. Computes hover from the cursor too. |
 | [`WaypointHover`](../Modules/Map/Waypoints/WaypointHover.lua) | The one hovered path, on either map: opens and closes its NPC's tooltip and highlight. Also the hover reach. |
 
@@ -194,7 +194,7 @@ Joins where a short segment caps the miter's pull-back already exist in the stor
 ## World map
 
 `WaypointMap` runs one driver on the canvas while the map is open:
-- **Redraws:** after path changes, map switches and canvas resizes. Paths draw at frame level 2015, below Questie's icons.
+- **Redraws:** after path changes, map switches and canvas resizes. Paths draw at the paths layer's frame level from `WorldMapLayers` (2015): above quest areas, below Questie's icons.
 - **Zoom:** line width is divided by the canvas scale. While a smooth zoom eases the scale, lines scale with the canvas. They are redrawn once it settles, or once their width drifts more than 25% from the target.
 
 The world map pays the geometry once per zoom or map change, only for the paths on that map.
@@ -211,10 +211,12 @@ The hover shape is the path fattened by radius *r*: the union of capsules around
 
 *r* is half the line width plus one unit, one past the line's edge: 2.5 units at the default width of 3. It was tuned in game on the 4-unit line, where it is 3 units, from a first guess of `max(thickness / 2 + 4, 6)`. There the capsule leaves out the outer tips of turns sharper than about 96°, which reach up to 4 units; hovering the line beside them still works.
 
-**Driver:**
-- A full check runs only when the cursor's canvas position changes, which also covers pan and zoom under a still cursor.
+**Driver:** [`WorldMapLayers`](../Modules/Map/WorldMapLayers.lua) runs the one cursor poller for every layer Questie draws on the world map, and offers the cursor top down.
+- A check runs only when the cursor's canvas position or the zoom changes, or after the paths redraw.
 - Secret, non-finite or off-canvas cursor values clear the hover.
-- Paths count as hovered only over the bare map (`GetMouseFocus() == ScrollContainer`), so Questie's icons, Blizzard's pins and other UI on top win.
+- Layers hover only over the bare map (`GetMouseFocus() == ScrollContainer`), so Questie's icons, Blizzard's pins and other UI on top win. In the gamepad UI nothing drawn hovers.
+- The paths layer is above the quest areas, so a path wins the cursor over an area beneath it.
+- Paths hover only what they drew for the cursor's map and canvas size.
 - Each path's bounding box rejects most paths; the rest get a squared-distance test per segment.
 - Overlapping paths: the nearest wins, and there are no combined tooltips.
 
@@ -290,7 +292,7 @@ When the two meet, these polygon touch points move onto the waypoint API:
 - **Ownership:** `QuestiePolygon.OwnWaypointMarker`, `IsCurrentObjective` and the `waypointWork` tokens. Polygon mode re-attaches lines to cluster markers.
 - **Hover exceptions:** `QuestieFramePool.IsLineFrame` and "a waypoint line counts as bare map" are unnecessary once lines take no mouse input.
 - **Combat handling:** deferring line mouse setup in combat is moot.
-- **Frame levels:** above or below polygon areas is decided then.
+- **Frame levels:** decided by `WorldMapLayers`: paths draw above quest areas, and win their hover.
 
 ## Verified in game
 
