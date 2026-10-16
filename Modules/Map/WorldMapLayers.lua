@@ -21,7 +21,9 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@field height number
 ---@field scale number The canvas's zoom. A reach measured on screen, in map UI units, is that many canvas units divided by scale.
 
----One kind of drawing on the world map. The stack only orders the layers and hovers them.
+---One kind of drawing on the world map. The stack only orders the layers and hovers them. It offers
+---the cursor only while nothing covers the map and the gamepad UI is off; a layer that hovers again
+---between offers, such as after drawing anew under the cursor last offered, checks those rules itself.
 ---@class WorldMapLayer
 ---@field Hover fun(cursor: WorldMapCursor?): boolean Hovers what lies under the cursor and returns whether anything does; the layers beneath then get nil. nil ends the layer's hover.
 
@@ -42,6 +44,7 @@ local LAYER_ORDER = {
 ---@field layer WorldMapLayer
 ---@field offered boolean It had the cursor at the last offer, so it gets nil once when it stops having it.
 ---@field failed boolean Its Hover threw; it is skipped until its next Invalidate.
+---@field reported boolean Its first failure was reported; later ones stay quiet, as it may fail on every redraw.
 
 ---@type table<WorldMapLayerName, WorldMapLayerState>
 local states = {}
@@ -84,7 +87,10 @@ end
 local function _Hover(state, cursor)
     local ok, hovered = pcall(state.layer.Hover, cursor)
     if ok then return hovered == true end
-    Questie.Error("World map " .. state.name .. " hover failed:", hovered)
+    if not state.reported then
+        state.reported = true
+        Questie.Error("World map " .. state.name .. " hover failed:", hovered)
+    end
     state.failed, state.offered = true, false
     pcall(state.layer.Hover, nil)
     return false
@@ -165,7 +171,7 @@ end
 ---@param layer WorldMapLayer
 function WorldMapLayers.AddLayer(name, layer)
     _Row(name)
-    states[name] = {name = name, layer = layer, offered = false, failed = false}
+    states[name] = {name = name, layer = layer, offered = false, failed = false, reported = false}
     dirty = true
     if not poller then _CreatePoller() end
 end
@@ -174,6 +180,7 @@ end
 ---on the next frame. A layer whose Hover failed is offered it again from then on.
 ---@param name WorldMapLayerName
 function WorldMapLayers.Invalidate(name)
+    _Row(name)
     local state = states[name]
     if state then state.failed = false end
     dirty = true

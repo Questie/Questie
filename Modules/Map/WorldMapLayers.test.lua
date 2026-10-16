@@ -82,6 +82,12 @@ describe("WorldMapLayers", function()
         assert.are.same({false}, {areas.calls[2]})
         assert.are.equal(2, #areas.calls)
         assert.are.equal(3, #paths.calls)
+
+        -- Off the paths, the areas get the cursor back.
+        paths.claims = false
+        cursor = {0.8, 0.25}
+        Poll()
+        assert.are.equal(800, areas.calls[3].x)
     end)
 
     it("offers it again only when the cursor moved, the zoom changed, or a layer drew anew", function()
@@ -105,31 +111,33 @@ describe("WorldMapLayers", function()
     it("hovers nothing drawn while anything covers the map, off the canvas, or in the gamepad UI", function()
         local paths = Layer(true)
         WorldMapLayers.AddLayer("paths", paths)
-        Poll()
+        -- Each rule ends a hover the layer had, so it gets nil once.
+        local function OverBareMap(x)
+            focus, overCanvas, gamepadUI, cursor = WorldMapFrame.ScrollContainer, true, false, {x, 0.25}
+            Poll()
+        end
 
+        OverBareMap(0.5)
         -- Questie's icons, Blizzard's pins and other UI on top win over every layer.
-        focus = {}
-        cursor = {0.6, 0.25}
+        focus, cursor = {}, {0.55, 0.25}
         Poll()
-        assert.is_false(paths.calls[2])
+        OverBareMap(0.6)
+        overCanvas, cursor = false, {0.65, 0.25}
+        Poll()
+        OverBareMap(0.7)
+        gamepadUI, cursor = true, {0.75, 0.25}
+        Poll()
 
-        focus = WorldMapFrame.ScrollContainer
-        overCanvas = false
-        Poll()
-        overCanvas = true
-        gamepadUI = true
-        cursor = {0.7, 0.25}
-        Poll()
-        -- The nil came once: the layer no longer had the cursor after the first.
-        assert.are.equal(2, #paths.calls)
+        local offered = {}
+        for i, call in ipairs(paths.calls) do offered[i] = call and call.x end
+        assert.are.same({500, false, 600, false, 700, false}, offered)
     end)
 
-    it("ignores a secret cursor position without comparing it", function()
+    it("ignores a cursor position the client marks secret", function()
         local paths = Layer(true)
         WorldMapLayers.AddLayer("paths", paths)
-        local secret = setmetatable({}, {__eq = function() error("compared a secret value") end})
-        _G.issecretvalue = function(value) return value == nil and false or rawequal(value, secret) end
-        cursor = {secret, secret}
+        _G.issecretvalue = function(value) return value == 0.6 end
+        cursor = {0.6, 0.25}
 
         Poll()
         Poll()
@@ -189,11 +197,36 @@ describe("WorldMapLayers", function()
         Poll()
         assert.are.equal(2, #paths.calls)
 
+        -- Drawing anew tries it again; failing again on every redraw is reported only the first time.
+        WorldMapLayers.Invalidate("paths")
+        Poll()
+        assert.are.equal(4, #paths.calls)
+        assert.spy(Questie.Error).was.called(1)
+
         failing = false
         WorldMapLayers.Invalidate("paths")
         Poll()
-        assert.are.equal(600, paths.calls[3].x)
+        assert.are.equal(600, paths.calls[5].x)
         assert.spy(Questie.Error).was.called(1)
+    end)
+
+    it("stops polling after an error, ending every hover, until the map opens again", function()
+        local paths = Layer(true)
+        WorldMapLayers.AddLayer("paths", paths)
+        Poll()
+        local canvas = WorldMapFrame:GetCanvas()
+        local isMouseOver = canvas.IsMouseOver
+        canvas.IsMouseOver = function() error("broken canvas") end
+
+        Poll()
+        assert.spy(Questie.Error).was.called(1)
+        assert.is_false(paths.calls[2])
+        assert.is_nil(poller.scripts.OnUpdate)
+
+        canvas.IsMouseOver = isMouseOver
+        poller.scripts.OnShow()
+        Poll()
+        assert.are.equal(500, paths.calls[3].x)
     end)
 
     it("draws each layer above the ones beneath it, on every client's quest area level", function()
@@ -204,5 +237,6 @@ describe("WorldMapLayers", function()
             assert.is_true(WorldMapLayers.FrameLevel("paths") < 2016)
         end
         assert.has_error(function() WorldMapLayers.FrameLevel("nope") end)
+        assert.has_error(function() WorldMapLayers.Invalidate("nope") end)
     end)
 end)
