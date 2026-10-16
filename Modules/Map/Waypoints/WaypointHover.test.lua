@@ -23,6 +23,15 @@ describe("WaypointHover", function()
         assert.are.equal(tooltip, MapIconTooltip.Release.calls[1].refs[2])
     end
 
+    ---Asserts the one minimap tooltip shown listed the hovered route's icons, for the minimap.
+    local function AssertListedOnMinimap()
+        assert.spy(MapIconTooltip.ShowForIcons).was.called(1)
+        local call = MapIconTooltip.ShowForIcons.calls[1]
+        assert.are.equal(_G.Minimap, call.refs[1])
+        assert.are.equal(listed, call.refs[2])
+        assert.are.equal(minimapTooltip, call.refs[3])
+    end
+
     before_each(function()
         saved = {GameTooltip = _G.GameTooltip, CreateFrame = _G.CreateFrame, Minimap = _G.Minimap}
         _G.Minimap = {}
@@ -36,7 +45,7 @@ describe("WaypointHover", function()
         listed = {{}}
         QuestieWaypoints.MinimapIcons = function() return listed end
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
-        MapIconTooltip.ShowOnTooltip = spy.new(function() end)
+        MapIconTooltip.ShowForIcons = spy.new(function() end)
         MapIconTooltip.Release = spy.new(function() end)
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
         QuestieFrame.ResetHoverHighlights = spy.new(function() end)
@@ -53,13 +62,15 @@ describe("WaypointHover", function()
         local path, icon = {data = data}, Icon(data)
 
         WaypointHover.Set("minimap", path, icon)
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap, listed)
+        AssertListedOnMinimap()
         assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, true)
         assert.spy(icon.scripts.OnEnter).was.not_called()
 
         WaypointHover.Set("minimap", nil)
         AssertReleased(_G.Minimap, minimapTooltip)
-        assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon, data)
+        -- It started no icon hover, so it ends none: it only highlighted the NPC's paths.
+        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, false)
+        assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
     end)
 
     it("shows the tooltip of a minimap icon HereBeDragons hides out of range", function()
@@ -69,7 +80,7 @@ describe("WaypointHover", function()
 
         WaypointHover.Set("minimap", {data = data}, icon)
 
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(icon, minimapTooltip, _G.Minimap, listed)
+        AssertListedOnMinimap()
     end)
 
     it("ends a minimap hover once the NPC's minimap icon opens its own tooltip", function()
@@ -107,7 +118,7 @@ describe("WaypointHover", function()
         WaypointHover.Set("map", nil)
 
         assert.spy(mapIcon.scripts.OnLeave).was.called_with(mapIcon)
-        assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(minimapIcon, minimapTooltip, _G.Minimap, listed)
+        AssertListedOnMinimap()
         assert.spy(MapIconTooltip.Release).was.not_called()
     end)
 
