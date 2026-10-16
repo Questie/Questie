@@ -61,6 +61,48 @@ describe("TrackerLine untrack click", function()
         _G.ChatEdit_InsertLink = originals.ChatEdit_InsertLink
     end)
 
+    describe("objective area preview", function()
+        local Polygon, FadeTicker, saved, line
+
+        before_each(function()
+            Polygon, FadeTicker = QuestieLoader:ImportModule("QuestiePolygon"), QuestieLoader:ImportModule("TrackerFadeTicker")
+            saved = {preview = Polygon.SetObjectivePreview, unfade = FadeTicker.Unfade, fade = FadeTicker.Fade}
+            Polygon.SetObjectivePreview = spy.new(function() end)
+            FadeTicker.Unfade, FadeTicker.Fade = function() end, function() end
+            line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line.mode = "objective"
+        end)
+
+        after_each(function()
+            Polygon.SetObjectivePreview = saved.preview
+            FadeTicker.Unfade, FadeTicker.Fade = saved.unfade, saved.fade
+        end)
+
+        it("previews a hovered quest objective until the cursor leaves, even after the line is reused", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
+            line.scripts.OnEnter(line)
+            assert.spy(Polygon.SetObjectivePreview).was.called_with(42, 3, true)
+
+            -- A tracker rebuild reassigns the pooled line before the cursor leaves.
+            line:SetQuest({Id = 99})
+            line:SetObjective({Index = 1, NativeIndex = 1, questId = 99})
+            line.scripts.OnLeave(line)
+            assert.spy(Polygon.SetObjectivePreview).was.called_with(42, 3, false)
+            assert.spy(Polygon.SetObjectivePreview).was.called(2)
+        end)
+
+        it("does not preview achievement or scenario lines", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective(nil) -- Achievement objective lines.
+            line.scripts.OnEnter(line)
+            line:SetObjective({Index = 1}) -- Scenario criteria belong to no quest.
+            line.scripts.OnEnter(line)
+            line.scripts.OnLeave(line)
+            assert.spy(Polygon.SetObjectivePreview).was.not_called()
+        end)
+    end)
+
     it("links a Blizzard-only quest through its display data", function()
         local quest = {Id = 91741, name = "Nibbled-On Book"}
         local data = QuestieLoader:ImportModule("TrackerData")

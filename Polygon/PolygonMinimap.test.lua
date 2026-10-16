@@ -16,8 +16,15 @@ describe("PolygonMinimap", function()
         function region:SetPoint(...) self.anchor = {...} end
         function region:ClearAllPoints() self.anchor, self.allPoints = nil, nil end
         function region:SetSize(width, height) self.width, self.height = width, height end
-        function region:Show() self.shown = true end
-        function region:Hide() self.shown = false end
+        -- Like the client, showing or hiding a frame runs its script on a change.
+        function region:Show()
+            if not self.shown and self.scripts and self.scripts.OnShow then self.shown = true; self.scripts.OnShow(self) end
+            self.shown = true
+        end
+        function region:Hide()
+            if self.shown and self.scripts and self.scripts.OnHide then self.shown = false; self.scripts.OnHide(self) end
+            self.shown = false
+        end
         function region:IsShown() return self.shown end
         function region:SetTexture(asset, ...) self.texture, self.atlas, self.wrap = asset, nil, {...} end
         function region:SetAtlas(asset, ...) self.atlas, self.texture, self.wrap = asset, nil, {select(4, ...)} end
@@ -129,9 +136,9 @@ describe("PolygonMinimap", function()
             IsShown = function() return false end}
         _G.GetCVar = function(name) return name == "rotateMinimap" and rotateCVar or "0" end
         _G.C_Minimap = nil
-        _G.DrawLine = function(texture, parent, startX, startY, endX, endY)
+        _G.DrawLine = function(texture, parent, startX, startY, endX, endY, thickness)
             lineDraws = lineDraws + 1
-            texture.line = {parent, startX, startY, endX, endY}
+            texture.line = {parent, startX, startY, endX, endY, thickness}
         end
         _G.hooksecurefunc = function(object, method, hook) hooks[#hooks + 1] = {object, method, hook} end
         _G.Minimap = minimap
@@ -193,6 +200,28 @@ describe("PolygonMinimap", function()
         draws = lineDraws
         Tick(layer)
         assert.are.equal(draws, lineDraws)
+    end)
+
+    it("highlights a previewed area's border and restores it, keeping the outline in place", function()
+        local area = Area()
+        local areas = {area}
+        local layer = PolygonMinimap.New(minimap, function() return areas end)
+        layer:Invalidate()
+        Tick(layer)
+        local frame = layer.views[area.key].frame
+        assert.are.equal(1.5, frame.borders[1].line[6])
+
+        areas = {{key = area.key, cluster = area.cluster, color = area.color, alpha = 1, highlighted = true}}
+        layer:Invalidate()
+        Tick(layer)
+        assert.are.equal(frame, layer.views[area.key].frame)
+        assert.are.equal(1.8, frame.borders[1].line[6])
+        AssertOutlineOnIcons(layer, frame, cluster.outline)
+
+        areas[1].highlighted = false
+        layer:Invalidate()
+        Tick(layer)
+        assert.are.equal(1.5, frame.borders[1].line[6])
     end)
 
     it("keeps a large area whose center is out of view while its edge reaches the minimap", function()

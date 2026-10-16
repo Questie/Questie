@@ -286,7 +286,8 @@ function QuestiePolygon.Refresh()
 end
 
 -- Minimap areas
--- The minimap shows what the world map would show, without hover previews. Areas follow their
+-- The minimap shows what the world map would show. Quest log and tracker previews reach it,
+-- highlighted; hovering a world-map marker previews only on the world map. Areas follow their
 -- minimap icons' hiding rules, so the minimap icon switch governs them. Fade comes from the map
 -- marker, such as tracker focus: minimap icons' own opacity fades with the player's distance.
 -- Visibility is never required: a closed map shows no markers, and queued icons may load
@@ -298,7 +299,7 @@ local function _CollectMinimapAreas()
     if not QuestiePolygon.IsEnabled() then return areas end
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
-            if entry.active and not entry.building and _IsAreaShown(entry) then
+            if entry.active and not entry.building and (entry.previewed or _IsAreaShown(entry)) then
                 local color = _AreaColor(entry)
                 for _, marker in ipairs(entry.markers) do
                     local frame, cluster = marker.frame, marker.cluster
@@ -308,7 +309,8 @@ local function _CollectMinimapAreas()
                     if cluster and cluster.outline and frame.data and frame.polygonMarker == marker and alpha > 0
                         and icon and icon.data and icon.polygonMinimapMarker == marker
                         and not icon.hidden and not icon:ShouldBeHidden() then
-                        areas[#areas + 1] = {key = marker, cluster = cluster, color = color, alpha = alpha}
+                        areas[#areas + 1] = {key = marker, cluster = cluster, color = color, alpha = alpha,
+                            highlighted = entry.previewed == true}
                     end
                 end
             end
