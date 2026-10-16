@@ -46,6 +46,20 @@ local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" 
 
 local lastTooltipShowTimestamp = GetTime()
 
+-- Shown tooltips
+-- MapIconTooltip alone keeps what each tooltip frame last showed for it. That state counts only while
+-- its owner still holds the tooltip, so a frame that took the tooltip since needs no cleanup and is
+-- never redrawn over. Owners ask GetOwner whether theirs still shows and end it with Release; Shift
+-- redraws every one through Redraw.
+
+---What a tooltip frame last showed for MapIconTooltip.
+---@class MapIconTooltipShown
+---@field owner Frame The frame it was shown for, which holds and anchors it.
+---@field rebuild fun(tooltip: GameTooltip) Adds its rows to the cleared tooltip, reading Shift.
+
+---@type table<GameTooltip, MapIconTooltipShown>
+local shown = {}
+
 -- helper function to format a label with a colon, respecting localization rules
 ---@param label string
 ---@return string
@@ -161,18 +175,15 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     MapIconTooltip.ShowForIcons(owner or self, tooltipIcons, Tooltip)
 end
 
----Shows the map icon tooltip for exactly these icons, under the cursor. Holding Shift redraws
----it with more detail while `owner` still holds the tooltip. Map icons end it in their OnLeave;
----other owners end it with `MapIconTooltip.Release`.
+---Shows the map icon tooltip for exactly these icons, wherever they are and however faded, at the
+---cursor. `owner` holds it until another frame takes the tooltip or `Release` ends it; Redraw renders
+---it again meanwhile.
 ---@param owner Frame Holds the tooltip, which hides with it. Only a world map icon owner adds Journey's shift-click hint.
----@param icons IconFrame[] Icons with data. Objectives repeated across icons are listed once.
----@param Tooltip GameTooltip
+---@param icons IconFrame[] At least one icon with data. Objectives repeated across icons are listed once.
+---@param tooltip GameTooltip
 ---@param objectivePrefix (fun(icon: IconFrame): string)? Text before each icon's own objective line; party lines get none.
-function MapIconTooltip.ShowForIcons(owner, icons, Tooltip, objectivePrefix)
-    Tooltip._owner = owner;
-    -- The tracker also writes `_owner`; this one says whose map tooltip `Release` may end.
-    Tooltip._mapIconOwner = owner
-    Tooltip:SetOwner(owner, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+function MapIconTooltip.ShowForIcons(owner, icons, tooltip, objectivePrefix)
+    tooltip:SetOwner(owner, "ANCHOR_CURSOR")
 
     local usedText = {}
     local npcAndObjectOrder = {};
@@ -208,10 +219,10 @@ function MapIconTooltip.ShowForIcons(owner, icons, Tooltip, objectivePrefix)
         end
     end
 
-    Tooltip.npcAndObjectOrder = npcAndObjectOrder
-    Tooltip.questOrder = questOrder
-    Tooltip.manualOrder = manualOrder
-    Tooltip.miniMapIcon = owner.miniMapIcon
+    tooltip.npcAndObjectOrder = npcAndObjectOrder
+    tooltip.questOrder = questOrder
+    tooltip.manualOrder = manualOrder
+    tooltip.miniMapIcon = owner.miniMapIcon
 
     -- Texture indents are more robust than raw spaces in tooltip layout.
     -- Base indent is 6 UI units, then each deeper level scales by 1.5.
@@ -228,7 +239,8 @@ function MapIconTooltip.ShowForIcons(owner, icons, Tooltip, objectivePrefix)
     local breadcrumbTitleIndent = TooltipLayout.CreateIndentUI(indentTwoWidth + BREADCRUMB_QUEST_ICON_TEXTURE_SIZE + indentHalfWidth)
 
 
-    Tooltip._Rebuild = function(self)
+    ---@param self GameTooltip
+    local function rebuild(self)
         -- Build rows first so description wrapping cannot change the width used to wrap itself.
         local xpString = l10n("xp");
         local shift = IsShiftKeyDown()
@@ -485,23 +497,48 @@ function MapIconTooltip.ShowForIcons(owner, icons, Tooltip, objectivePrefix)
         -- Measure fixed rows, expand descriptions, then render once to avoid dynamic width feedback.
         TooltipLayout:Render(self, tooltipRows)
     end
-    Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
-    Tooltip:SetFrameStrata("TOOLTIP");
-    Tooltip.ShownAsMapIcon = true
-    Tooltip:Show();
+    shown[tooltip] = {owner = owner, rebuild = rebuild}
+    rebuild(tooltip)
+    tooltip:SetFrameStrata("TOOLTIP")
+    tooltip:Show()
 end
 
----Ends the tooltip `owner` opened with `ShowForIcons`: hides it while the owner still holds it,
----and stops Shift redrawing it. A tooltip another map icon has since opened is left alone.
+---Ends the map icon tooltip shown for `owner`: hides the tooltip while `owner` still holds it, and
+---stops Redraw from rendering it. A map icon tooltip shown since for another frame is left alone.
 ---@param owner Frame
----@param Tooltip GameTooltip
-function MapIconTooltip.Release(owner, Tooltip)
-    if Tooltip._mapIconOwner == owner then
-        Tooltip._mapIconOwner = nil
-        Tooltip._Rebuild = nil
-        Tooltip.ShownAsMapIcon = false
+---@param tooltip GameTooltip
+function MapIconTooltip.Release(owner, tooltip)
+    local state = shown[tooltip]
+    if state and state.owner == owner then shown[tooltip] = nil end
+    if tooltip:IsOwned(owner) then tooltip:Hide() end
+end
+
+---The frame a map icon tooltip shows for on `tooltip`, while that frame still holds it. Answers both
+---"is a map icon tooltip showing" and, compared with a frame, "is mine still showing".
+---@param tooltip GameTooltip
+---@return Frame? owner nil while the tooltip is hidden, was released, or another frame took it.
+function MapIconTooltip.GetOwner(tooltip)
+    local state = shown[tooltip]
+    if state and tooltip:IsShown() and tooltip:IsOwned(state.owner) then
+        return state.owner
     end
-    if Tooltip:IsOwned(owner) then Tooltip:Hide() end
+end
+
+---Renders every map icon tooltip still held by its owner again, at the same anchor: Shift changes
+---the detail it shows.
+function MapIconTooltip.Redraw()
+    for tooltip, state in pairs(shown) do
+        if tooltip:IsShown() and tooltip:IsOwned(state.owner) then
+            -- The gamepad's tooltip sits ANCHOR_RIGHT, beside its cursor.
+            local anchor = tooltip:GetAnchorType()
+            tooltip:Hide()
+            tooltip:ClearLines()
+            tooltip:SetOwner(state.owner, anchor)
+            state.rebuild(tooltip)
+            tooltip:SetFrameStrata("TOOLTIP")
+            tooltip:Show()
+        end
+    end
 end
 
 local isLastMinimapInside, lastMinimapInsideCheckTimestamp

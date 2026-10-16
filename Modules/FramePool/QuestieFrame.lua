@@ -250,13 +250,9 @@ function _QuestieFrame.OnLeave(self)
         WorldMapTooltip:Hide()
         WorldMapTooltip._rebuild = nil
     end
-    if GameTooltip then
-        GameTooltip:Hide()
-        GameTooltip._Rebuild = nil
-    end
-
+    -- Another frame that took GameTooltip since keeps it.
+    MapIconTooltip.Release(self, GameTooltip)
     QuestieFrame.ResetHoverHighlights(self)
-    GameTooltip.ShownAsMapIcon = false
 end
 
 ---Undoes what hovering an icon changed: the tint on its quest's icons, then each feature's HoverEnd

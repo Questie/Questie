@@ -130,23 +130,19 @@ describe("EventHandler event dispatch", function()
         QuestLogCache.OnLoadingScreenEnabled = originalOnLoadingScreenEnabled
     end)
 
-    it("redraws a map tooltip on Shift only while its owner still holds it", function()
-        QuestieLoader:ImportModule("QuestieCompat").MouseIsOver = function() return true end
+    it("redraws Questie's map icon tooltips on Shift while the cursor is over a map", function()
+        local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
+        MapIconTooltip.Redraw = spy.new(function() end)
+        local overMap = false
+        QuestieLoader:ImportModule("QuestieCompat").MouseIsOver = function() return overMap end
         _G.WorldMapFrame = {IsShown = function() return true end}
-        local area, pin = {}, {}
-        local holder = pin -- A Blizzard pin took the tooltip under a still cursor.
-        _G.GameTooltip = {_owner = area, _Rebuild = spy.new(function() end),
-            IsShown = function() return true end, IsOwned = function(_, frame) return holder == frame end,
-            Hide = function() end, ClearLines = function() end, SetOwner = function(_, frame) holder = frame end,
-            SetFrameStrata = function() end, Show = function() end}
 
         callbacks.MODIFIER_STATE_CHANGED("MODIFIER_STATE_CHANGED", "LSHIFT", 1)
-        assert.spy(GameTooltip._Rebuild).was.not_called()
-        assert.are.equal(pin, holder)
+        assert.spy(MapIconTooltip.Redraw).was.not_called()
 
-        holder = area
+        overMap = true
         callbacks.MODIFIER_STATE_CHANGED("MODIFIER_STATE_CHANGED", "LSHIFT", 1)
-        assert.spy(GameTooltip._Rebuild).was.called(1)
+        assert.spy(MapIconTooltip.Redraw).was.called(1)
     end)
 
     it("registers skill chat directly without a bucket or message relay", function()

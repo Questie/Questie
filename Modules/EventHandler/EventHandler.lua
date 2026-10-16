@@ -36,6 +36,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type MapIconTooltip
+local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type AutoQuesting
@@ -501,18 +503,9 @@ function _EventHandler:ModifierStateChanged(key, down)
         -- cause our Tooltips to appear instead and since the mouse isn't over "our" frame, it's not
         -- getting reset properly and getting stuck to the Mouse Cursor.
 
-        -- Questie Map Icons
+        -- Questie's map icon tooltips show more detail while Shift is held.
         if QuestieCompat.MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or QuestieCompat.MouseIsOver(Minimap) then
-            -- Other UI may have taken the tooltip since; redrawing would replace its tooltip with ours.
-            if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild
-                and GameTooltip._owner and GameTooltip:IsOwned(GameTooltip._owner) then
-                GameTooltip:Hide()
-                GameTooltip:ClearLines()
-                GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
-                GameTooltip:_Rebuild() -- rebuild the tooltip
-                GameTooltip:SetFrameStrata("TOOLTIP")
-                GameTooltip:Show()
-            end
+            MapIconTooltip.Redraw()
         end
 
         -- Questie Tracker Sizer
