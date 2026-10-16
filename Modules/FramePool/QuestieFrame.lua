@@ -36,7 +36,6 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field Names string[]? Everything the icon stands for, such as each NPC of a quest area its marker shows, starting with Name.
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
----@field touchedPins {icon: IconFrame, data: IconData, color: number[]}[]? QuestieFrame's own: the icons a hover of this data tinted, with what they showed and their colors before it.
 
 ---@class IconTexture : Texture
 ---@field r number
@@ -202,22 +201,25 @@ function QuestieFrame.CreateIconFrame(frameId)
     return newFrame
 end
 
--- One hover's tint shows at a time: the data whose hover tinted icons last.
----@type IconData?
-local tinted
+-- One quest's icons are tinted at a time, for as long as any hover of its icons lasts: hovers of one
+-- quest overlap, such as a path's and then its icon's, the gamepad's for a moment after the mouse
+-- moves, or a tracker preview of all of an objective's markers.
+---@class QuestTint
+---@field questId QuestId
+---@field hovers table<IconData, true> The data of each hover the tint lasts for.
+---@field pins {icon: IconFrame, data: IconData, color: number[]}[] The icons tinted, with what they showed and their colors before.
+---@type QuestTint?
+local tint
 
----Restores the colors a hover of this data tinted. An icon the pool handed out for other data since
----keeps its own.
----@param data IconData
-local function _RestoreTints(data)
-    local touchedPins = data.touchedPins
-    if not touchedPins then return end
-    for i = #touchedPins, 1, -1 do
-        local entry = touchedPins[i]
+---Restores the tinted icons' colors. An icon the pool handed out for other data since keeps its own.
+local function _RestoreTint()
+    local current = tint
+    if not current then return end
+    tint = nil
+    for i = #current.pins, 1, -1 do
+        local entry = current.pins[i]
         if entry.icon.data == entry.data then entry.icon.texture:SetVertexColor(unpack(entry.color)) end
     end
-    data.touchedPins = nil
-    if tinted == data then tinted = nil end
 end
 
 ---Tints the world map icons of the hovered icon's quest, keeping their colors for ResetHoverHighlights.
@@ -225,20 +227,23 @@ end
 ---@param icon IconFrame
 local function _TintQuestIcons(icon)
     local data = icon.data
-    -- Tinting again before the hover's reset would save the tinted colors as the ones to restore.
-    if icon.miniMapIcon or not data or data.touchedPins then return end
-    -- So would tinting over another hover's tint that has not ended yet, such as the gamepad's for a
-    -- moment after the mouse moves: that tint goes first.
-    if tinted then _RestoreTints(tinted) end
-    local touchedPins = {}
-    data.touchedPins, tinted = touchedPins, data
+    if icon.miniMapIcon or not data then return end
+    -- Tinting again would save the tinted colors as the ones to restore: the tint lasts for this hover too.
+    if tint and tint.questId == data.Id then
+        tint.hovers[data] = true
+        return
+    end
+    -- Another quest's tint, such as from a hover that has not ended yet, goes first.
+    _RestoreTint()
+    local pins = {}
+    tint = {questId = data.Id, hovers = {[data] = true}, pins = pins}
     for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
         local other = pin.icon
         local otherData = other.data
         if otherData and otherData.Id == data.Id and otherData.Type ~= "available" and otherData.Type ~= "complete"
             and (other == icon or not (other.hidden or other.texture.a == 0)) then
             local texture = other.texture
-            touchedPins[#touchedPins + 1] = {icon = other, data = otherData, color = {texture.r, texture.g, texture.b, texture.a}}
+            pins[#pins + 1] = {icon = other, data = otherData, color = {texture.r, texture.g, texture.b, texture.a}}
             if Questie.db.profile.questObjectiveColors then
                 texture:SetVertexColor(1, 1, 1, 1) -- With objective colors, the plain icon color stands out.
             else
@@ -286,7 +291,10 @@ end
 ---@param data IconData? The data it was hovered with; icon.data when nil.
 function QuestieFrame.ResetHoverHighlights(icon, data)
     data = data or icon.data
-    if data then _RestoreTints(data) end
+    if data and tint and tint.hovers[data] then
+        tint.hovers[data] = nil
+        if not next(tint.hovers) then _RestoreTint() end
+    end
     _Emit("HoverEnd", icon, data)
 end
 

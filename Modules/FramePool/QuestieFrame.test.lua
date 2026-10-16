@@ -268,7 +268,7 @@ describe("QuestieFrame", function()
     end)
 
     describe("hovering", function()
-        local pins, order, savedLibStub
+        local pins, order, savedLibStub, enumerations
 
         -- A world map icon whose texture keeps its color, as QuestieFrame's own SetVertexColor does.
         local function MapIcon(data, color)
@@ -283,11 +283,12 @@ describe("QuestieFrame", function()
         end
 
         before_each(function()
-            pins, order = {}, {}
+            pins, order, enumerations = {}, {}, 0
             savedLibStub = _G.LibStub
             _G.LibStub = function()
                 return {worldmapProvider = {GetMap = function()
                     return {EnumeratePinsByTemplate = function()
+                        enumerations = enumerations + 1
                         local i = 0
                         return function()
                             i = i + 1
@@ -337,22 +338,22 @@ describe("QuestieFrame", function()
 
             QuestieFrame.ApplyHoverHighlights(icon)
 
-            assert.are.equal(2, #data.touchedPins)
-            assert.are.equal(sibling, data.touchedPins[2].icon)
-            assert.are.same({0, 1, 0, 1}, data.touchedPins[2].color)
             -- Without objective colors, tinted icons turn blueish.
             assert.are.same({0.6, 1, 1, 1}, Color(icon))
             assert.are.same({0.6, 1, 1, 1}, Color(sibling))
             assert.are.same({1, 1, 0, 1}, Color(giver))
             assert.are.same({0, 0, 1, 1}, Color(hidden))
             assert.are.same({1, 0, 0, 1}, Color(otherQuest))
+            -- The colors kept are those after the listeners.
+            QuestieFrame.ResetHoverHighlights(icon)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+            assert.are.same({0, 1, 0, 1}, Color(sibling))
 
             -- A minimap icon's hover tints nothing.
-            local minimapData = {Id = 123, Type = "monster"}
-            local minimapIcon = MapIcon(minimapData, {1, 1, 1, 1})
+            local minimapIcon = MapIcon({Id = 123, Type = "monster"}, {1, 1, 1, 1})
             minimapIcon.miniMapIcon = true
             QuestieFrame.ApplyHoverHighlights(minimapIcon)
-            assert.is_nil(minimapData.touchedPins)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
         end)
 
         it("keeps the colors to restore when the hover starts again before its reset", function()
@@ -363,24 +364,60 @@ describe("QuestieFrame", function()
             -- A path's hover starts it, then the icon's own hover, with no reset between.
             QuestieFrame.ApplyHoverHighlights(icon)
             QuestieFrame.ApplyHoverHighlights(icon)
+            QuestieFrame.ResetHoverHighlights(icon)
 
-            assert.are.equal(1, #data.touchedPins)
-            assert.are.same({1, 0.5, 0, 1}, data.touchedPins[1].color)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
         end)
 
-        it("restores a hover's tint before another hover of the quest tints over it", function()
+        it("tints a quest once for as long as any of its overlapping hovers lasts", function()
             local first, second = {Id = 123, Type = "monster"}, {Id = 123, Type = "item"}
             local icon, sibling = MapIcon(first, {1, 0.5, 0, 1}), MapIcon(second, {0, 1, 0, 1})
             pins = {icon, sibling}
 
-            -- The gamepad's hover still shows for a moment as the mouse starts another.
+            -- The gamepad's hover still shows for a moment as the mouse starts another; a tracker
+            -- preview hovers all of an objective's markers at once.
             QuestieFrame.ApplyHoverHighlights(icon)
             QuestieFrame.ApplyHoverHighlights(sibling)
+            assert.are.equal(1, enumerations)
             QuestieFrame.ResetHoverHighlights(icon)
+            assert.are.same({0.6, 1, 1, 1}, Color(sibling))
             QuestieFrame.ResetHoverHighlights(sibling)
 
             assert.are.same({1, 0.5, 0, 1}, Color(icon))
             assert.are.same({0, 1, 0, 1}, Color(sibling))
+        end)
+
+        it("restores one quest's tint before another quest's hover tints its icons", function()
+            local icon, otherQuest = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1}), MapIcon({Id = 456, Type = "item"}, {0, 1, 0, 1})
+            pins = {icon, otherQuest}
+            QuestieFrame.ApplyHoverHighlights(icon)
+            QuestieFrame.ApplyHoverHighlights(otherQuest)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+            assert.are.same({0.6, 1, 1, 1}, Color(otherQuest))
+
+            QuestieFrame.ResetHoverHighlights(icon)
+            assert.are.same({0.6, 1, 1, 1}, Color(otherQuest))
+            QuestieFrame.ResetHoverHighlights(otherQuest)
+            assert.are.same({0, 1, 0, 1}, Color(otherQuest))
+        end)
+
+        it("ends the hover with the data it started with, after restoring the colors it tinted", function()
+            local data = {Id = 123, Type = "monster"}
+            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
+            pins = {icon, sibling}
+            local ended
+            QuestieFrame.Subscribe("HoverEnd", function(endedIcon, endedData)
+                ended = {icon = endedIcon, data = endedData, siblingColor = Color(sibling)}
+            end)
+            QuestieFrame.ApplyHoverHighlights(icon)
+            -- The pool handed the hovered icon out for other data before the hover ended.
+            icon.data = {}
+
+            QuestieFrame.ResetHoverHighlights(icon, data)
+
+            assert.are.equal(icon, ended.icon)
+            assert.are.equal(data, ended.data)
+            assert.are.same({0, 1, 0, 1}, ended.siblingColor)
         end)
 
         it("leaves an icon the pool handed out for other data since with its own color", function()
@@ -399,46 +436,11 @@ describe("QuestieFrame", function()
     end)
 
     describe("ResetHoverHighlights", function()
-        it("should end the hover with the data it started with, after restoring the colors it tinted", function()
-            local order, ended = {}, {}
-            local data = QuestieFrameInstance.data
-            data.touchedPins = {{icon = {texture = {SetVertexColor = function() order[#order + 1] = "untint" end}},
-                color = {1, 1, 1, 1}}}
-            QuestieFrame.Subscribe("HoverEnd", function(icon, endedData)
-                order[#order + 1] = "listener"
-                ended = {icon = icon, data = endedData}
-            end)
-            -- The pool handed the hovered icon out for other data before the hover ended.
-            QuestieFrameInstance.data = {}
-
-            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance, data)
-
-            assert.are.same({"untint", "listener"}, order)
-            assert.are.equal(QuestieFrameInstance, ended.icon)
-            assert.are.equal(data, ended.data)
-            assert.is_nil(data.touchedPins)
-        end)
-
-        it("should restore touched pins in reverse order and clear them", function()
-            local restored = {}
-            local function CreateTouchedPin(name, color)
-                return {
-                    icon = {texture = {SetVertexColor = function() table.insert(restored, name) end}},
-                    color = color,
-                }
-            end
-            QuestieFrameInstance.data.touchedPins = {CreateTouchedPin("first", {1, 1, 1, 1}), CreateTouchedPin("second", {1, 1, 1, 1})}
-
+        it("ends a hover that tinted nothing", function()
+            local ended
+            QuestieFrame.Subscribe("HoverEnd", function(icon) ended = icon end)
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
-
-            assert.are_same({"second", "first"}, restored)
-            assert.is_nil(QuestieFrameInstance.data.touchedPins)
-        end)
-
-        it("should do nothing without highlights", function()
-            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
-
-            assert.is_nil(QuestieFrameInstance.data.touchedPins)
+            assert.are.equal(QuestieFrameInstance, ended)
         end)
     end)
 
