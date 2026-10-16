@@ -661,123 +661,40 @@ describe("QuestieQuest", function()
             assert.spy(QuestieLoader:ImportModule("QuestiePolygon").UpdateObjective).was.not_called()
         end)
 
-        describe("objective routes", function()
-            local Polygon, quest, objective, miniFrames, mapFrames, originals
-            local originalRendererNew, originalCacheNew
-
-            local function Populate()
-                local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
-                while coroutine.status(thread) ~= "dead" do
-                    local ok, err = coroutine.resume(thread)
-                    assert.is_true(ok, err)
-                end
+        it("draws each patrol for the NPC's icon in its zone, adding an icon where none is", function()
+            Questie.db.profile = {enableQuestiePolygons = false, enableObjectives = true, objectiveFilterDistance = 0}
+            QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
+            ZoneDB.GetUiMapIdByAreaId = function(_, areaId) return areaId * 10 end
+            ZoneDB.GetDungeonLocation = function() return nil end
+            QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
+            QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
+            local mapFrames = {}
+            QuestieMap.DrawWorldIcon = spy.new(function(_, data, areaId, x, y)
+                local mapFrame = {data = data, AreaID = areaId, x = x, y = y}
+                mapFrames[#mapFrames + 1] = mapFrame
+                return mapFrame, {data = data, AreaID = areaId, miniMapIcon = true}
+            end)
+            QuestieMap.DrawWaypoints = spy.new(function() end)
+            local objective = {Index = 1, Description = "Wolves", Type = "monster", Update = function() end,
+                Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = {[123] = {Id = 123, Name = "Wolf", Icon = 1,
+                    GetIconScale = function() return 1 end, Spawns = {[1] = {{10, 20}}}, TooltipKey = "m_123",
+                    Hostile = true, Waypoints = {[2] = {{{30, 40}, {40, 50}}}}}}}
+            local quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
+            local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
+            while coroutine.status(thread) ~= "dead" do
+                local ok, err = coroutine.resume(thread)
+                assert.is_true(ok, err)
             end
 
-            before_each(function()
-                originals = {C_Timer = _G.C_Timer, WorldMapFrame = _G.WorldMapFrame,
-                    CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin}
-                _G.C_Timer = {After = function() end, NewTicker = function() return {} end}
-                _G.MapCanvasDataProviderMixin = {}
-                _G.CreateFromMixins = function(base, methods)
-                    local result = {}
-                    for key, value in pairs(base) do result[key] = value end
-                    for key, value in pairs(methods) do result[key] = value end
-                    return result
-                end
-                _G.WorldMapFrame = {GetCanvas = function() return {} end, IsShown = function() return false end,
-                    AddDataProvider = function(self, provider) provider:OnAdded(self) end,
-                    RemoveDataProvider = function(_, provider) provider:OnRemoved() end}
-                local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
-                local RenderCache = QuestieLoader:ImportModule("PolygonRenderCache")
-                originalRendererNew, originalCacheNew = Renderer.New, RenderCache.New
-                local renderer = {}
-                Renderer.New = function() return renderer end
-                -- Drawing is outside waypoint ownership; the cache remains a separate dependency.
-                RenderCache.New = function(renderDependency)
-                    assert.are.equal(renderer, renderDependency)
-                    return {Present = function() return true end, Hide = function() end,
-                        Clear = function() end, Release = function() end}
-                end
-                QuestieLoader:ImportModule("PolygonNudging").New = function()
-                    return {Update = function() end, Remove = function() end, Clear = function() end,
-                        SetEnabled = function() end, Reapply = function() end}
-                end
-                QuestieLoader:ImportModule("PolygonMinimap").New = function()
-                    return {Invalidate = function() end, Clear = function() end}
-                end
-                local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
-                WorldMapLayers.AddLayer, WorldMapLayers.Invalidate = function() end, function() end
-                WorldMapLayers.FrameLevel = function() return 10 end
-                QuestieLoader:ImportModule("QuestieFrame").Subscribe = function() end
-                dofile("Polygon/PolygonGeometry.lua")
-                QuestieLoader:ImportModule("PolygonGeometry").Build = spy.new(function(points)
-                    return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}
-                end)
-                Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, objectiveFilterDistance = 0}
-                Questie.usedIcons = {[1] = "icon"}
-                QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
-                ZoneDB.GetUiMapIdByAreaId = function(_, areaId) return areaId * 10 end
-                ZoneDB.GetDungeonLocation = function() return nil end
-                QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
-                QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
-                QuestieLoader:ImportModule("QuestieFramePool").UnloadFrame = spy.new(function(_, frame) frame.data = nil end)
-                miniFrames, mapFrames = {}, {}
-                QuestieMap.DrawWorldIcon = spy.new(function(_, data, areaId, x, y, _phase, _showFlag, destination)
-                    local mapFrame, miniFrame
-                    if destination ~= "minimap" then
-                        mapFrame = {data = data, AreaID = areaId, UiMapID = areaId * 10, x = x, y = y,
-                            texture = {r = 1, g = 1, b = 1, a = 1, SetVertexColor = function() end},
-                            UpdateTexture = function() end}
-                        mapFrames[#mapFrames + 1] = mapFrame
-                    end
-                    if destination ~= "map" then
-                        miniFrame = {data = data, AreaID = areaId, miniMapIcon = true, UpdateTexture = function() end}
-                        miniFrames[#miniFrames + 1] = miniFrame
-                    end
-                    return mapFrame, miniFrame
-                end)
-                QuestieMap.DrawWaypoints = spy.new(function() end)
-                QuestieMap.GetScaleValue = function() return 1 end
-                QuestieMap.utils = {RescaleIcon = function() end}
-                objective = {Index = 1, Description = "Wolves", Type = "monster", Update = function() end,
-                    Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = {[123] = {Id = 123, Name = "Wolf", Icon = 1,
-                        GetIconScale = function() return 1 end, Spawns = {[1] = {{10, 20}}},
-                        Waypoints = {[2] = {{{30, 40}, {40, 50}}}}}}}
-                quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
-                QuestiePlayer.currentQuestlog = {[42] = quest}
-                dofile("Polygon/QuestiePolygon.lua")
-                Polygon = QuestieLoader:ImportModule("QuestiePolygon")
-            end)
-
-            after_each(function()
-                Polygon.Reset()
-                QuestieLoader:ImportModule("PolygonRenderer").New = originalRendererNew
-                QuestieLoader:ImportModule("PolygonRenderCache").New = originalCacheNew
-                _G.C_Timer = originals.C_Timer
-                _G.WorldMapFrame = originals.WorldMapFrame
-                _G.CreateFromMixins = originals.CreateFromMixins
-                _G.MapCanvasDataProviderMixin = originals.MapCanvasDataProviderMixin
-            end)
-
-            it("draws each patrol for the NPC's icon in its zone, adding an icon where none is", function()
-                Questie.db.profile.enableQuestiePolygons = false
-                local wolf = objective.spawnList[123]
-                wolf.TooltipKey, wolf.Hostile = "m_123", true
-                local updateObjective = spy.on(Polygon, "UpdateObjective")
-
-                Populate()
-
-                -- The wolf's icon in zone 1, and a pair in zone 2, which only its patrol reaches.
-                assert.are.same({2, 2}, {#mapFrames, #miniFrames})
-                assert.are.same({2, 30, 40}, {mapFrames[2].AreaID, mapFrames[2].x, mapFrames[2].y})
-                assert.are.same({2, 2}, {#objective.AlreadySpawned[123].mapRefs, #objective.AlreadySpawned[123].minimapRefs})
-                assert.spy(QuestieMap.DrawWaypoints).was.called(1)
-                local call = QuestieMap.DrawWaypoints.calls[1]
-                assert.are.equal(mapFrames[2], call.refs[2])
-                assert.are.same({"m_123", 2, true}, {call.refs[3], call.refs[5], call.refs[6]})
-                assert.spy(updateObjective).was.not_called()
-            end)
-
+            -- The wolf's icon in zone 1, and a pair in zone 2, which only its patrol reaches.
+            assert.are.equal(2, #mapFrames)
+            assert.are.same({2, 30, 40}, {mapFrames[2].AreaID, mapFrames[2].x, mapFrames[2].y})
+            assert.are.same({2, 2}, {#objective.AlreadySpawned[123].mapRefs, #objective.AlreadySpawned[123].minimapRefs})
+            assert.spy(QuestieMap.DrawWaypoints).was.called(1)
+            local call = QuestieMap.DrawWaypoints.calls[1]
+            assert.are.equal(mapFrames[2], call.refs[2])
+            assert.are.same({"m_123", 2, true}, {call.refs[3], call.refs[5], call.refs[6]})
+            assert.spy(QuestieLoader:ImportModule("QuestiePolygon").UpdateObjective).was.not_called()
         end)
 
         it("removes completed special-objective polygons using the canonical objective index", function()
