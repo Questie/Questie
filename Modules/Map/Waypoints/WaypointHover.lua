@@ -36,7 +36,7 @@ local function _Enter(path, icon)
     if ownIcon and hoveredOn == "minimap" then
         enteredIcon = icon
         -- The highlight is the hover's own, whether or not the tooltip shows.
-        QuestieWaypoints.SetHighlighted(path.data, true)
+        QuestieWaypoints.SetHighlighted(path.data, true, "path")
         -- The tooltip lists each of the NPC's quests, however far away and faded their icons are.
         MapIconTooltip.ShowForIcons(Minimap, QuestieWaypoints.MinimapIcons(path), MapIconTooltip.MinimapTooltip())
         return
@@ -46,7 +46,7 @@ local function _Enter(path, icon)
         enteredIcon = icon
         onEnter(icon)
     else
-        QuestieWaypoints.SetHighlighted(path.data, true)
+        QuestieWaypoints.SetHighlighted(path.data, true, "path")
     end
 end
 
@@ -59,13 +59,13 @@ local function _Leave(path, on)
     local icon = enteredIcon
     enteredIcon = nil
     if not icon then
-        QuestieWaypoints.SetHighlighted(path.data, false)
+        QuestieWaypoints.SetHighlighted(path.data, false, "path")
         return
     end
     if on == "minimap" then
         MapIconTooltip.Release(Minimap, MapIconTooltip.MinimapTooltip())
         -- A minimap path hover starts no icon hover: it only highlighted the NPC's paths.
-        QuestieWaypoints.SetHighlighted(path.data, false)
+        QuestieWaypoints.SetHighlighted(path.data, false, "path")
         return
     end
     -- Moving onto the icon itself hands the hover over to it.

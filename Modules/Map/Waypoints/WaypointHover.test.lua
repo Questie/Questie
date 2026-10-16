@@ -63,13 +63,13 @@ describe("WaypointHover", function()
 
         WaypointHover.Set("minimap", path, icon)
         AssertListedOnMinimap()
-        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, true)
+        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, true, "path")
         assert.spy(icon.scripts.OnEnter).was.not_called()
 
         WaypointHover.Set("minimap", nil)
         AssertReleased(_G.Minimap, minimapTooltip)
         -- It started no icon hover, so it ends none: it only highlighted the NPC's paths.
-        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, false)
+        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(data, false, "path")
         assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
     end)
 
@@ -142,6 +142,6 @@ describe("WaypointHover", function()
 
         WaypointHover.Set("minimap", path, nil)
 
-        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, true)
+        assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, true, "path")
     end)
 end)
