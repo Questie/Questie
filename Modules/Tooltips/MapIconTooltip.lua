@@ -72,24 +72,20 @@ local function FormatLabelWithColon(label)
     end
 end
 
----Shows a map icon's tooltip: the quests and notes of the icons clustered around it on its map, and of
----any icons given. ShowForIcons renders them, again on a modifier key. What hovering the icon shows
----besides its tooltip, such as tints and highlights, belongs to QuestieFrame.ApplyHoverHighlights.
+---Shows a hovered map icon's tooltip: the quests and notes of the icon and of the visible icons clustered
+---around it on its map. An icon faded out shows nothing, and the icon's own tooltip shown less than 0.05 s
+---ago is kept. It changes nothing but the tooltip: QuestieFrame.ApplyHoverHighlights starts the hover's
+---effects.
 ---@param self IconFrame
----@param Tooltip GameTooltip The tooltip frame to render into
----@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
----since HereBeDragons may hide its NPC's icon and distance may fade it out.
----@param icons IconFrame[]? More icons to list wherever they are, however faded: a hovered minimap path
----passes its NPC's icons, one for each of its quests.
-function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
-    -- An icon faded out shows nothing when hovered itself. A hovered path shows, whatever its icon's fade.
+---@param tooltip GameTooltip GameTooltip, or a private tooltip such as the gamepad's.
+function MapIconTooltip.ShowOnTooltip(self, tooltip)
     local _, _, _, alpha = self.texture:GetVertexColor();
-    if alpha == 0 and not owner then
+    if alpha == 0 then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip.ShowOnTooltip] Alpha of texture is 0, nothing to show")
         return
     end
-    -- Only this tooltip's own owner is throttled; another owner's, such as a quest area's, is replaced.
-    if GetTime() - lastTooltipShowTimestamp < 0.05 and Tooltip:IsShown() and Tooltip:IsOwned(owner or self) then
+    -- Only this icon's own tooltip is throttled; another owner's, such as a quest area's, is replaced.
+    if GetTime() - lastTooltipShowTimestamp < 0.05 and tooltip:IsShown() and tooltip:IsOwned(self) then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip.ShowOnTooltip] Call has been too fast, not showing again")
         return
     end
@@ -130,11 +126,10 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     --Tooltip:AddLine(v);
     --end
 
-    -- The hovered icon, the visible icons around it and any given icons share one tooltip.
+    -- The hovered icon and the visible icons clustered around it share one tooltip.
     local tooltipIcons = {}
     ---@param icon IconFrame
-    ---@param listed boolean? One of the given icons, listed wherever it is, however faded.
-    local function handleMapIcon(icon, listed)
+    local function handleMapIcon(icon)
         local iconData = icon.data
 
         if not iconData then
@@ -143,16 +138,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         end
 
         -- Skip icons that are hidden (FakeHide'd or faded out), unless it's the hovered icon itself
-        if icon ~= self and not listed and (icon.hidden or icon.texture.a == 0) then
+        if icon ~= self and (icon.hidden or icon.texture.a == 0) then
             return
         end
 
-        -- Listed icons count wherever they are; others only within the cluster distance of the hovered icon.
-        local near = listed
-        if not near and icon.x and icon.AreaID == self.AreaID then
-            near = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y) < maxDistCluster
-        end
-        if near then
+        if icon.x and icon.AreaID == self.AreaID and QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y) < maxDistCluster then
             tooltipIcons[#tooltipIcons + 1] = icon
         end
     end
@@ -167,12 +157,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             handleMapIcon(pin.icon)
         end
     end
-    -- HereBeDragons hides icons out of range, and distance fades them out; given icons count anyway.
-    for _, icon in ipairs(icons or {}) do
-        handleMapIcon(icon, true)
-    end
-
-    MapIconTooltip.ShowForIcons(owner or self, tooltipIcons, Tooltip)
+    MapIconTooltip.ShowForIcons(self, tooltipIcons, tooltip)
 end
 
 ---Shows the map icon tooltip for exactly these icons, wherever they are and however faded, at the

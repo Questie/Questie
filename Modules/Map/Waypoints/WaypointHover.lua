@@ -14,11 +14,11 @@ local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 -- hovering its NPC: the NPC's tooltip opens, which highlights all of the NPC's paths.
 -- - World map: the NPC's icon opens its own tooltip, as when the icon itself is hovered. An icon
 --   that isn't visible can't anchor it; then only the paths highlight.
--- - Minimap: the NPC's tooltip opens on a tooltip of its own, owned by the minimap. Forever's
---   minimap takes GameTooltip every frame while the cursor is over it, for its blip tooltips
---   (Minimap_OnUpdate in Blizzard_Minimap/Mainline/Minimap.lua). And HereBeDragons hides minimap
---   icons out of range, and distance fades them out, while a long patrol's path can still pass
---   close by.
+-- - Minimap: the NPC's quest icons are listed through MapIconTooltip.ShowForIcons, on a tooltip of
+--   its own, owned by the minimap. Forever's minimap takes GameTooltip every frame while the cursor
+--   is over it, for its blip tooltips (Minimap_OnUpdate in Blizzard_Minimap/Mainline/Minimap.lua).
+--   And HereBeDragons hides minimap icons out of range, and distance fades them out, while a long
+--   patrol's path can still pass close by.
 
 ---@alias WaypointHoverSurface "map"|"minimap"
 
@@ -47,7 +47,7 @@ local function _Enter(path, icon)
         -- The highlight is the hover's own, whether or not the tooltip shows.
         QuestieWaypoints.SetHighlighted(path.data, true)
         -- The tooltip lists each of the NPC's quests, however far away and faded their icons are.
-        MapIconTooltip.ShowOnTooltip(icon, _MinimapTooltip(), Minimap, QuestieWaypoints.MinimapIcons(path))
+        MapIconTooltip.ShowForIcons(Minimap, QuestieWaypoints.MinimapIcons(path), _MinimapTooltip())
         return
     end
     local onEnter = ownIcon and icon:IsVisible() and icon:GetScript("OnEnter")
@@ -73,7 +73,8 @@ local function _Leave(path, on)
     end
     if on == "minimap" then
         MapIconTooltip.Release(Minimap, _MinimapTooltip())
-        QuestieFrame.ResetHoverHighlights(icon, path.data)
+        -- A minimap path hover starts no icon hover: it only highlighted the NPC's paths.
+        QuestieWaypoints.SetHighlighted(path.data, false)
         return
     end
     -- Moving onto the icon itself hands the hover over to it.
