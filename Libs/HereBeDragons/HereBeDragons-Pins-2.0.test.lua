@@ -169,7 +169,7 @@ describe("HereBeDragons optional world-map child presentation", function()
     end)
 
     it("keeps fixed slots proportional to displayed icon width through acquisition, zoom and reacquisition", function()
-        dofile("Polygon/PolygonNudging.lua")
+        dofile("Modules/Map/Polygon/PolygonNudging.lua")
         local layout = QuestieLoader:ImportModule("PolygonNudging").New()
         local otherIcon = CreateFromMixins(icon)
         otherIcon.Show = spy.new(function() end)
