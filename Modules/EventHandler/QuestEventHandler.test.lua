@@ -358,6 +358,61 @@ describe("QuestEventHandler", function()
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
     end)
 
+    describe("QUEST_TURNED_IN arriving after the abandon check", function()
+        local abandonCheck, flaggedCompletedStub
+
+        before_each(function()
+            Questie.db.char.complete = {}
+            _G.C_Timer = {
+                NewTicker = function(_, callback)
+                    abandonCheck = callback
+                    return {Cancel = function() end}
+                end
+            }
+            _G.GetNumQuestLogRewards = function() return 0 end
+            _G.GetQuestLogRewardInfo = function() return nil end
+            QuestieDB.QueryQuestSingle = function() return nil end
+            QuestLogCache.RemoveQuest = spy.new(function() end)
+            QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+            QuestLifecycle.CompleteQuest = spy.new(function() end)
+            QuestLifecycle.AbandonQuest = spy.new(function() end)
+            QuestieJourney.CompleteQuest = spy.new(function() end)
+            QuestieJourney.AbandonQuest = spy.new(function() end)
+            QuestieAnnounce.CompletedQuest = spy.new(function() end)
+            QuestieAnnounce.AbandonedQuest = spy.new(function() end)
+            flaggedCompletedStub = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsQuestFlaggedCompleted", function() return true end)
+        end)
+
+        after_each(function()
+            flaggedCompletedStub:revert()
+        end)
+
+        -- 2026-09-29_145614Z s2, quest 28: QUEST_REMOVED at 586.5 s, QUEST_TURNED_IN at 591.5 s.
+        it("completes a removed quest the server flags completed once, without abandoning it", function()
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            abandonCheck()
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(1)
+            assert.spy(QuestieJourney.CompleteQuest).was.called(1)
+            assert.spy(QuestieAnnounce.CompletedQuest).was.called(1)
+            assert.spy(QuestLifecycle.AbandonQuest).was.not_called()
+            assert.spy(QuestieJourney.AbandonQuest).was.not_called()
+            assert.spy(QuestieAnnounce.AbandonedQuest).was.not_called()
+        end)
+
+        it("abandons a flagged quest that Questie already counts as complete", function()
+            Questie.db.char.complete[QUEST_ID] = true
+
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            abandonCheck()
+
+            assert.spy(QuestLifecycle.AbandonQuest).was.called_with(QuestLifecycle, QUEST_ID)
+            assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
+            assert.spy(QuestLifecycle.CompleteQuest).was.not_called()
+        end)
+    end)
+
     it("should handle quest turn in", function()
         local cancelSpy = spy.new(function() end)
         _G.C_Timer = {NewTicker = function() return {Cancel = cancelSpy} end}

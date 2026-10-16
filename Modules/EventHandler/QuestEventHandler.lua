@@ -364,6 +364,12 @@ end
 function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
 
+    if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
+        -- Already turned in, e.g. the late event of a quest MarkQuestAsAbandoned found flagged completed.
+        -- Running it again would repeat the Journey entry and the announcement.
+        return
+    end
+
     if questLog[questId] and questLog[questId].timer then
         -- Cancel the timer so the quest is not marked as abandoned
         questLog[questId].timer:Cancel()
@@ -439,6 +445,15 @@ end
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
+        -- Forever can report QUEST_TURNED_IN seconds or a minute after QUEST_REMOVED, or not at all. The server flags a
+        -- turned-in quest completed by QUEST_REMOVED; an abandoned one stays unflagged. A quest Questie already counts
+        -- as complete cannot be told apart by the flag, so it keeps the abandon path.
+        if QuestieCompat.IsQuestFlaggedCompleted(questId) and not Questie.db.char.complete[questId] then
+            Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is flagged completed: turned in")
+            QuestEventHandler.QuestTurnedIn(questId)
+            return
+        end
+
         Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
 
         QuestLogCache.RemoveQuest(questId)
