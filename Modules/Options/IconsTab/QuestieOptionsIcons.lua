@@ -1396,7 +1396,7 @@ _GetIconThemes = function()
     if Expansions.Current >= Expansions.Wotlk or Questie.IsForever then
         return {
             ["questie"] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
-            ["polygon"] = l10n("Questie blobs"),
+            ["polygon"] = "|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t " .. l10n("Questie blobs"),
             ["blizzard"] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
             ["pfquest"] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
             ["custom"] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
@@ -1404,7 +1404,7 @@ _GetIconThemes = function()
     else
         return {
             ["questie"] = "|T" .. Questie.icons["complete"] .. ":14|t Questie",
-            ["polygon"] = l10n("Questie blobs"),
+            ["polygon"] = "|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t " .. l10n("Questie blobs"),
             ["pfquest"] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
             ["custom"] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
         }

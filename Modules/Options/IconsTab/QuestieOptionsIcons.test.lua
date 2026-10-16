@@ -147,7 +147,7 @@ describe("objective rendering presets", function()
         expansions.Current = expansions.Era
         local picker = options.tabs.icons:Initialize().args.iconThemePicker
 
-        assert.are_same("Questie blobs", picker.values().polygon)
+        assert.are_same("|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t Questie blobs", picker.values().polygon)
         assert.is_nil(picker.values().blizzard)
         assert.are_same({"questie", "polygon", "pfquest", "custom"}, picker.sorting)
     end)
@@ -155,7 +155,7 @@ describe("objective rendering presets", function()
     it("keeps existing themes alongside Questie blobs on WotLK and later", function()
         local picker = options.tabs.icons:Initialize().args.iconThemePicker
 
-        assert.are_same("Questie blobs", picker.values().polygon)
+        assert.are_same("|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t Questie blobs", picker.values().polygon)
         assert.are_same({"questie", "polygon", "blizzard", "pfquest", "custom"}, picker.sorting)
     end)
 end)
