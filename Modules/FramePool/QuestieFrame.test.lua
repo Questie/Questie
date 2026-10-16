@@ -439,6 +439,41 @@ describe("QuestieFrame", function()
             assert.are.same({0, 0, 1, 1}, Color(icon))
         end)
 
+        it("keeps an icon's own opacity under an icon tint, such as a minimap icon's distance fade", function()
+            local icon = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 0.5})
+            icon.miniMapIcon = true
+            local area = {}
+            QuestieFrame.TintIcon(icon, area)
+            assert.are.same({0.6, 1, 1, 0.5}, Color(icon))
+            -- The player walks into fade range meanwhile.
+            icon.texture:SetVertexColor(0.6, 1, 1, 1)
+            QuestieFrame.UntintIcon(icon, area)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+
+            -- Minimap icons follow the minimap's objective color setting.
+            Questie.db.profile.questMinimapObjectiveColors = true
+            QuestieFrame.TintIcon(icon, area)
+            assert.are.same({1, 1, 1, 1}, Color(icon))
+            Questie.db.profile.questMinimapObjectiveColors = nil
+        end)
+
+        it("puts back a tint a redraw undid when tinted again", function()
+            local icon = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1})
+            pins = {icon}
+            local area = {}
+            QuestieFrame.TintIcon(icon, area)
+            icon.texture:SetVertexColor(1, 0.5, 0, 1) -- A progress update draws the marker anew.
+            QuestieFrame.TintIcon(icon, area)
+            assert.are.same({0.6, 1, 1, 1}, Color(icon))
+            -- So does its quest's hover starting, which also shows it fully opaque.
+            icon.texture:SetVertexColor(1, 0.5, 0, 0.4)
+            QuestieFrame.ApplyHoverHighlights(icon)
+            assert.are.same({0.6, 1, 1, 1}, Color(icon))
+            QuestieFrame.ResetHoverHighlights(icon)
+            QuestieFrame.UntintIcon(icon, area)
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+        end)
+
         it("keeps a fade or a redraw made during the tint when restoring", function()
             local icon, sibling = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
             pins = {icon, sibling}

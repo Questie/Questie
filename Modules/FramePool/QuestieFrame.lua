@@ -211,26 +211,35 @@ end
 ---@field faded boolean? Whether it was faded then.
 ---@field color number[] Its color before.
 ---@field tint number[] The tint's color.
+---@field opaque boolean? A tint holding it shows it fully opaque, as its quest's hover does.
 ---@field holders table<table, true> The tints holding it.
 ---@type table<IconFrame, IconTint>
 local iconTints = {}
 
 ---@param icon IconFrame
 ---@param holder table
-local function _Tint(icon, holder)
+---@param icon IconFrame
+---@param holder table
+---@param opaque boolean? Shows the icon fully opaque, as its quest's hover does; otherwise its opacity, such as a minimap icon's distance fade, stays its own.
+local function _Tint(icon, holder, opaque)
     local entry = iconTints[icon]
+    local texture = icon.texture
     -- The pool handed the icon out for other data since: its color is now that data's.
     if entry and entry.data ~= icon.data then entry = nil end
     if not entry then
-        local texture = icon.texture
         -- With objective colors, the plain icon color stands out; without them, blueish.
-        local tint = Questie.db.profile.questObjectiveColors and {1, 1, 1, 1} or {0.6, 1, 1, 1}
-        entry = {data = icon.data, faded = icon.faded, color = {texture.r, texture.g, texture.b, texture.a}, tint = tint,
-            holders = {}}
+        local profile = Questie.db.profile
+        local plain = profile.questObjectiveColors
+        if icon.miniMapIcon then plain = profile.questMinimapObjectiveColors end
+        entry = {data = icon.data, faded = icon.faded, color = {texture.r, texture.g, texture.b, texture.a},
+            tint = plain and {1, 1, 1} or {0.6, 1, 1}, holders = {}}
         iconTints[icon] = entry
-        texture:SetVertexColor(unpack(tint))
     end
     entry.holders[holder] = true
+    entry.opaque = entry.opaque or opaque
+    -- Tinting again also puts back a tint a redraw undid meanwhile.
+    local tint = entry.tint
+    texture:SetVertexColor(tint[1], tint[2], tint[3], entry.opaque and 1 or texture.a)
 end
 
 ---Ends one tint of the icon; the last restores its color. An icon the pool handed out for other data
@@ -247,7 +256,7 @@ local function _Untint(icon, holder)
     local texture, saved, tint = icon.texture, entry.color, entry.tint
     local r, g, b, a = texture.r, texture.g, texture.b, texture.a
     if r == tint[1] and g == tint[2] and b == tint[3] then r, g, b = saved[1], saved[2], saved[3] end
-    if icon.faded == entry.faded then a = saved[4] end
+    if entry.opaque and icon.faded == entry.faded then a = saved[4] end
     texture:SetVertexColor(r, g, b, a)
 end
 
@@ -288,13 +297,14 @@ local function _TintQuestIcons(icon)
         if otherData and otherData.Id == data.Id and otherData.Type ~= "available" and otherData.Type ~= "complete"
             and (other == icon or not (other.hidden or other.texture.a == 0)) then
             current.icons[#current.icons + 1] = other
-            _Tint(other, current)
+            _Tint(other, current, true)
         end
     end
 end
 
----Tints one icon as a hover of its quest tints them, for as long as `holder` holds it, such as a
----quest area's hover tinting the marker it is attached to. Other tints of the icon may hold it too.
+---Tints one icon as a hover of its quest tints them, but keeping its opacity, for as long as `holder`
+---holds it, such as a quest area's hover tinting the marker it is attached to. Other tints of the icon
+---may hold it too. Tinting it again puts back a tint a redraw undid.
 ---@param icon IconFrame
 ---@param holder table Identifies this tint; UntintIcon with it ends the tint.
 function QuestieFrame.TintIcon(icon, holder)
