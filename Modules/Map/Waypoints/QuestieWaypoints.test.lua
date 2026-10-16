@@ -33,6 +33,7 @@ describe("QuestieWaypoints", function()
         WaypointMap.Invalidate = spy.new(function() end)
         WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
         WaypointMinimap.Invalidate = spy.new(function() end)
+        QuestieLoader:ImportModule("WaypointRenderer").RedrawAll = spy.new(function() end)
         WaypointHover = QuestieLoader:ImportModule("WaypointHover")
         WaypointHover.End = spy.new(function() end)
         listeners = {}
@@ -261,6 +262,14 @@ describe("QuestieWaypoints", function()
         listeners.Unload(icon)
         assert.are.equal(2, CountPaths())
         assert.are.same({}, data.waypointPaths)
+    end)
+
+    it("draws every line anew for new smoothing, and both maps again for the other settings", function()
+        QuestieWaypoints.Redraw()
+
+        assert.spy(QuestieLoader:ImportModule("WaypointRenderer").RedrawAll).was.called(1)
+        assert.spy(WaypointMap.Invalidate).was.called(1)
+        assert.spy(WaypointMinimap.Invalidate).was.called(1)
     end)
 
     it("redraws for an icon's visibility change only when its NPC has paths", function()
