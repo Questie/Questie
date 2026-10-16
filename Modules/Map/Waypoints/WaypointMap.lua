@@ -1,5 +1,4 @@
--- luacheck: read globals issecretvalue
----Draws the paths of the shown world map onto its canvas, and finds the path under the cursor.
+---Draws the paths of the shown world map onto its canvas, and hovers them as the world map's paths layer.
 ---@class WaypointMap
 local WaypointMap = QuestieLoader:CreateModule("WaypointMap")
 
@@ -11,11 +10,8 @@ local WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
 local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type WaypointHover
 local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-
--- Below Questie's icons, which start at 2016 (QuestieMap.utils.SetDrawOrder).
-local FRAME_LEVEL = 2015
+---@type WorldMapLayers
+local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
 
 ---A route drawn on the current map, in canvas units with y down.
 ---@class WaypointMapView : WaypointHitTarget
@@ -39,8 +35,6 @@ local dirty = true
 -- The map and canvas size drawn for. shownScale is the canvas scale line widths are drawn for;
 -- currentScale the latest one.
 local shownMapId, shownWidth, shownHeight, shownScale, currentScale
--- Cursor at the last hover check, in canvas units; nil off the canvas.
-local cursorX, cursorY
 
 -- Drawing
 
@@ -52,7 +46,7 @@ local cursorX, cursorY
 local function _Style(path, alpha)
     local profile = Questie.db.profile
     return {thickness = profile.waypointWidth / shownScale, color = QuestieWaypoints.Color(path), alpha = alpha,
-        frameLevel = FRAME_LEVEL, hoverRadius = profile.waypointDebugHover and WaypointHover.Radius() / shownScale or nil}
+        frameLevel = WorldMapLayers.FrameLevel("paths"), hoverRadius = profile.waypointDebugHover and WaypointHover.Radius() / shownScale or nil}
 end
 
 ---Paths draw on their own map only. Several icons can own the same patrol, such as an NPC who
@@ -110,41 +104,33 @@ local function _Refresh()
 end
 
 -- Hover
+-- WorldMapLayers offers the cursor only over the bare map, above the areas and beneath Questie's
+-- icons; paths take no mouse input.
 
----Cursor in canvas units; nil off the canvas or while restricted. Blizzard clamps the
----normalized position to the canvas edges, so the canvas itself must be under the cursor.
----@return number?, number?
-local function _ReadCursor()
-    if not WorldMapFrame:GetCanvas():IsMouseOver() then return nil, nil end
-    local x, y = WorldMapFrame.ScrollContainer:GetNormalizedCursorPosition()
-    if issecretvalue and (issecretvalue(x) or issecretvalue(y)) then return nil, nil end
-    if type(x) ~= "number" or type(y) ~= "number" or x ~= x or y ~= y then return nil, nil end
-    return x * shownWidth, y * shownHeight
-end
-
--- Paths take no mouse input. They count as hovered only over the bare map, so Questie's icons,
--- Blizzard's pins and other UI on top win.
-local function _IsCursorOnMap()
-    return QuestieCompat.GetMouseFocus() == WorldMapFrame.ScrollContainer
-end
-
----Rechecks the hovered path; only when the cursor moved over the canvas, unless forced.
----@param force boolean?
-local function _UpdateHover(force)
-    local x, y = _ReadCursor()
-    if not force and x == cursorX and y == cursorY then return end
-    cursorX, cursorY = x, y
-    local nearest
-    if x and visible[1] and _IsCursorOnMap() then
-        nearest = WaypointGeometry.Nearest(visible, x, y, WaypointHover.Radius() / currentScale)
+---The path within hover reach of the cursor, the nearest where reaches overlap; nil until the paths
+---are drawn for the cursor's map and canvas size.
+---@param cursor WorldMapCursor
+---@return WaypointMapView?
+local function _PathAt(cursor)
+    if not visible[1] or cursor.mapId ~= shownMapId or cursor.width ~= shownWidth or cursor.height ~= shownHeight then
+        return nil
     end
-    local path = nearest and nearest.path
-    WaypointHover.Set("map", path, path and path.owner)
+    return WaypointGeometry.Nearest(visible, cursor.x, cursor.y, WaypointHover.Radius() / cursor.scale)
 end
+
+---@type WorldMapLayer
+local layer = {
+    Hover = function(cursor)
+        local nearest = cursor and _PathAt(cursor)
+        local path = nearest and nearest.path
+        WaypointHover.Set("map", path, path and path.owner)
+        return path ~= nil
+    end,
+}
 
 -- Driver
 -- One frame on the canvas runs while the map is open. It redraws after changes, map switches and
--- canvas resizes, keeps line widths constant on screen while zooming, and follows the cursor.
+-- canvas resizes, and keeps line widths constant on screen while zooming.
 
 -- Smooth zooming eases the canvas scale over many frames. Lines scale with the canvas meanwhile
 -- and are redrawn once it settles, or sooner when their width drifts this far from the target.
@@ -171,8 +157,8 @@ local function _Update()
         end
         changed = true
     end
-    -- Redrawing or zooming moves the paths under a still cursor.
-    _UpdateHover(changed or not settled)
+    -- Redrawn paths may lie differently under a still cursor; the stack notices zooming by itself.
+    if changed then WorldMapLayers.Invalidate("paths") end
 end
 
 local function _CreateDriver()
@@ -180,11 +166,8 @@ local function _CreateDriver()
     renderer = WaypointRenderer.New(canvas)
     driver = CreateFrame("Frame", nil, canvas)
     driver:SetScript("OnUpdate", _Update)
-    -- Closing the map ends any hover. Views stay drawn for reopening the same map.
-    driver:SetScript("OnHide", function()
-        WaypointHover.Set("map", nil)
-        cursorX, cursorY = nil, nil
-    end)
+    -- Closing the map ends the hover through the stack. Views stay drawn for reopening the same map.
+    WorldMapLayers.AddLayer("paths", layer)
 end
 
 ---Redraws on the next frame the map is open, after paths, their visibility or their highlight
