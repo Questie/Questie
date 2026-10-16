@@ -315,7 +315,7 @@ describe("QuestiePolygon world-map adapter", function()
             return {owner = frame.polygonMarker.entry, key = frame.polygonMarker}
         end
 
-        it("shows one map icon tooltip for the hovered areas' markers, each line marked with its area colour", function()
+        it("shows one map icon tooltip for the hovered areas' markers", function()
             local second = {Index = 2, Type = "item", Description = "Fang", Needed = 2, Collected = 1, Color = {0, 1, 0},
                 spawnList = objective.spawnList}
             quest.Objectives[2] = second
@@ -329,9 +329,6 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.equal(map.ScrollContainer, call.refs[1])
             assert.are.same({frames[2], frames[1]}, call.refs[2])
             assert.are.equal(tooltip, call.refs[3])
-            local swatch = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
-            assert.are.equal(swatch:format(51, 128, 255), call.refs[4](frames[1]))
-            assert.are.equal(swatch:format(0, 255, 0), call.refs[4](frames[2]))
         end)
 
         it("steps aside for other tooltips and returns once the cursor is back on the bare map", function()
@@ -457,6 +454,22 @@ describe("QuestiePolygon world-map adapter", function()
             input.onHover(shapes, true)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(2)
         end)
+    end)
+
+    it("starts objective icons' tooltip lines with their area colour while areas draw", function()
+        local swatch = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
+        local data = {QuestData = quest, ObjectiveData = objective}
+        assert.are.equal(swatch:format(51, 128, 255), Polygon.ObjectiveSwatch({data = data}))
+        -- Any objective icon, a marker or not, on either map; the quest's colour stands in for a missing one.
+        objective.Color = nil
+        assert.are.equal(swatch:format(255, 255, 255), Polygon.ObjectiveSwatch({data = data, miniMapIcon = true}))
+
+        objective.IsPartyObjective = true
+        assert.is_nil(Polygon.ObjectiveSwatch({data = data}))
+        objective.IsPartyObjective = nil
+        assert.is_nil(Polygon.ObjectiveSwatch({data = {Type = "available", QuestData = quest}}))
+        Questie.db.profile.enableQuestiePolygons = false
+        assert.is_nil(Polygon.ObjectiveSwatch({data = data}))
     end)
 
     it("uses full phase-filtered spawns even when minimap icons were already populated", function()

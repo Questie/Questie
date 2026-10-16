@@ -134,11 +134,12 @@ local function _IsAreaShown(entry)
     return _IsAutomaticallyShown(entry)
 end
 
----RGB shared by an objective's fills, borders, and quest log controls.
----@param entry PolygonObjectiveEntry
+---RGB shared by an objective's fills, borders, quest log controls, and map icon tooltip lines.
+---@param quest Quest
+---@param objective QuestObjective
 ---@return number[]
-local function _AreaColor(entry)
-    return entry.objective.Color or entry.quest.Color or {1, 0.72, 0}
+local function _AreaColor(quest, objective)
+    return objective.Color or quest.Color or {1, 0.72, 0}
 end
 
 -- Quest log controls on each client mirror area visibility. Marker clicks, proximity,
@@ -284,7 +285,7 @@ function QuestiePolygon.Refresh()
                                 end
                             end
                             if points then
-                                local color = _AreaColor(entry)
+                                local color = _AreaColor(entry.quest, entry.objective)
                                 shapes[#shapes + 1] = {
                                     owner = entry, key = marker, source = outline, sourceMapId = sourceMapId,
                                     points = points,
@@ -324,7 +325,7 @@ local function _CollectMinimapAreas()
         for _, entry in pairs(questEntries) do
             local previewing = (entry.minimapHovered or entry.previewed) and not entry.previewSuppressed
             if entry.active and not entry.building and (previewing or _IsAreaShown(entry)) then
-                local color = _AreaColor(entry)
+                local color = _AreaColor(entry.quest, entry.objective)
                 local hoveredMarker = entry.minimapHovered and entry.minimapHovered.polygonMinimapMarker
                 for _, marker in ipairs(entry.markers) do
                     local frame, cluster = marker.frame, marker.cluster
@@ -346,16 +347,20 @@ end
 
 -- Area tooltips
 -- Hovering areas on the world map shows the map icon tooltip for their markers, Shift detail
--- included, with a swatch in each objective's area colour matching its line to its outline.
--- The tooltip belongs to the map's scroll container. WorldMapLayers offers the areas the cursor
+-- included. The tooltip belongs to the map's scroll container. WorldMapLayers offers the areas the cursor
 -- beneath patrol paths and only over the bare map, so a path or an icon keeps its own tooltip, and
 -- the area tooltip returns once the cursor is back on the areas alone.
 local AREA_SWATCH = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
 
----@param icon IconFrame A current polygon marker's icon.
----@return string
-local function _AreaSwatch(icon)
-    local color = _AreaColor(icon.polygonMarker.entry)
+---The swatch starting an objective icon's own line in every map icon tooltip while quest areas draw:
+---its objective's area colour, so the line matches its areas. Other icons and party objectives get none.
+---@param icon IconFrame
+---@return string?
+function QuestiePolygon.ObjectiveSwatch(icon)
+    local data = icon.data
+    local objective = data and data.ObjectiveData
+    if not objective or objective.IsPartyObjective or not data.QuestData or not QuestiePolygon.IsEnabled() then return nil end
+    local color = _AreaColor(data.QuestData, objective)
     return string.format(AREA_SWATCH, math.floor(color[1] * 255 + 0.5), math.floor(color[2] * 255 + 0.5),
         math.floor(color[3] * 255 + 0.5))
 end
@@ -452,7 +457,7 @@ local function _UpdateAreaTooltip(shapes, changed)
         return
     end
     -- The renderer reports hover from inside its update; an error escaping here would clear every area.
-    local shown, err = pcall(MapIconTooltip.ShowForIcons, owner, icons, GameTooltip, _AreaSwatch)
+    local shown, err = pcall(MapIconTooltip.ShowForIcons, owner, icons, GameTooltip)
     if not shown then
         areaTooltipFailed = true
         Questie.Error("Polygon area tooltip failed:", err)
@@ -806,7 +811,7 @@ end
 ---@return number[]? color The objective's area RGB.
 function QuestiePolygon.GetObjectiveAreaState(questId, objectiveIndex)
     local entry = _EntryWithAreas(questId, objectiveIndex)
-    if entry then return _IsAreaShown(entry), _AreaColor(entry) end
+    if entry then return _IsAreaShown(entry), _AreaColor(entry.quest, entry.objective) end
 end
 
 ---Applies a quest log choice with the same automatic-mode rule as marker clicks.
