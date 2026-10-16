@@ -2,7 +2,7 @@ dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
-    local tickers, player, savedIsLineFrame, minimapLayer, minimapFrames
+    local tickers, player, minimapLayer, minimapFrames, WorldMapLayers, layers
 
     local function Update(index)
         local icon, zones, work
@@ -67,7 +67,6 @@ describe("QuestiePolygon world-map adapter", function()
         map = {mapId = 10, shown = true,
             GetCanvas = function() return {GetWidth = function() return 1000 end, GetHeight = function() return 500 end} end,
             GetMapID = function(self) return self.mapId end, IsShown = function(self) return self.shown end,
-            GetPinFrameLevelsManager = function() return {GetValidFrameLevel = function() return 10 end} end,
             AddDataProvider = function(self, provider) self.provider = provider; provider:OnAdded(self) end,
             RemoveDataProvider = function(self, provider) provider:OnRemoved(); self.provider = nil end}
         _G.WorldMapFrame = map
@@ -84,6 +83,11 @@ describe("QuestiePolygon world-map adapter", function()
         }
         QuestieLoader:ImportModule("PolygonRenderCache").New = spy.new(function() return renderCache end)
         QuestieLoader:ImportModule("PolygonRenderer").New = spy.new(function() return renderer end)
+        WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
+        layers = {}
+        WorldMapLayers.AddLayer = function(name, layer) layers[name] = layer end
+        WorldMapLayers.Invalidate = spy.new(function() end)
+        WorldMapLayers.FrameLevel = function(name) return name == "areas" and 10 or nil end
         minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end)}
         QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(_minimap, collect)
             minimapLayer.collect = collect
@@ -102,7 +106,6 @@ describe("QuestiePolygon world-map adapter", function()
         zones.GetDungeonLocation = function() return {{1, 5, 6}, {2, 7, 8}} end
         QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function(phase) return phase ~= 2 end
         FramePool = QuestieLoader:ImportModule("QuestieFramePool")
-        savedIsLineFrame = FramePool.IsLineFrame
         FramePool.UnloadFrame = spy.new(function(_, frame) frame.data = nil end)
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.GetScaleValue = function() return 1 end
@@ -171,7 +174,6 @@ describe("QuestiePolygon world-map adapter", function()
         _G.hooksecurefunc = savedGlobals.hooksecurefunc
         _G.GetTimePreciseSec = savedGlobals.GetTimePreciseSec
         Questie.db.char.polygon = nil
-        FramePool.IsLineFrame = savedIsLineFrame
     end)
 
     it("stays the chosen style while Questie or its objectives are off, drawing areas only while both are on", function()
@@ -191,26 +193,18 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_false(Polygon.IsEnabled())
     end)
 
-    it("reads the map cursor and counts only the bare map as uncovered", function()
-        local focus, overCanvas = nil, true
-        _G.GetMouseFoci = function() return {focus} end
-        local canvas = map.GetCanvas()
-        canvas.IsMouseOver = function() return overCanvas end
-        map.GetCanvas = function() return canvas end
-        map.ScrollContainer = {GetNormalizedCursorPosition = function() return 0.25, 0.75 end}
+    it("hovers its areas as the world map's areas layer, in canvas percent", function()
+        renderer.Hover = spy.new(function(_, x) return x ~= nil end)
         Update()
-        local input = QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2]
 
-        assert.are.same({0.25, 0.75}, {input.getCursorPosition()})
-        -- Blizzard clamps positions to the canvas; beside the map art there is no position.
-        overCanvas = false
-        assert.are.same({}, {input.getCursorPosition()})
-        focus = map.ScrollContainer
-        assert.is_true(input.isCursorOnMap())
-        focus = {} -- Questie icons, Blizzard pins, and other UI cover the map.
-        assert.is_false(input.isCursorOnMap())
-        focus = nil
-        assert.is_false(input.isCursorOnMap())
+        assert.is_true(layers.areas.Hover({mapId = 10, x = 250, y = 375, width = 1000, height = 500, scale = 1}))
+        assert.spy(renderer.Hover).was.called_with(renderer, 25, 75)
+        assert.is_false(layers.areas.Hover(nil))
+        assert.spy(renderer.Hover).was.called_with(renderer, nil, nil)
+
+        -- Areas drawn anew may lie differently under a still cursor: the stack offers it again.
+        Polygon.Refresh()
+        assert.spy(WorldMapLayers.Invalidate).was.called_with("areas")
     end)
 
     describe("area tooltips", function()
@@ -273,9 +267,9 @@ describe("QuestiePolygon world-map adapter", function()
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(1)
 
-            -- A waypoint line counts as bare map for areas, but shows its own icon's tooltip.
-            local line = {}
-            tooltip.owner, focus = line, line
+            -- Drawing anew rechecks the last offered cursor: an icon that took the mouse since keeps its tooltip.
+            local icon = {}
+            tooltip.owner, focus = icon, icon
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.Release).was.called(1)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(1)

@@ -52,6 +52,8 @@ local PolygonMinimap = QuestieLoader:ImportModule("PolygonMinimap")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+---@type WorldMapLayers
+local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type MapIconTooltip
@@ -290,9 +292,11 @@ function QuestiePolygon.Refresh()
         end
     end
     local canvas = map:GetCanvas()
-    local level = map:GetPinFrameLevelsManager():GetValidFrameLevel("PIN_FRAME_LEVEL_QUEST_BLOB")
+    local level = WorldMapLayers.FrameLevel("areas")
     local _, err = renderCache:Present(mapId, shapes, canvas:GetWidth(), canvas:GetHeight(), level)
     if err then Questie.Error("Polygon drawing failed:", err) end
+    -- Areas drawn anew may lie differently under a still cursor.
+    WorldMapLayers.Invalidate("areas")
 end
 
 -- Minimap areas
@@ -332,8 +336,9 @@ end
 -- Area tooltips
 -- Hovering areas on the world map shows the map icon tooltip for their markers, Shift detail
 -- included, with a swatch in each objective's area colour matching its line to its outline.
--- The tooltip belongs to the map's scroll container; it shows only over bare map, so a waypoint
--- line or icon keeps its own tooltip, and returns once the cursor is back on the map.
+-- The tooltip belongs to the map's scroll container. WorldMapLayers offers the areas the cursor
+-- beneath patrol paths and only over the bare map, so a path or an icon keeps its own tooltip, and
+-- the area tooltip returns once the cursor is back on the areas alone.
 local AREA_SWATCH = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
 
 ---@param icon IconFrame A current polygon marker's icon.
@@ -350,10 +355,11 @@ local areaTooltipFailed = false -- Retried only once the hovered areas change.
 ---@param changed boolean
 local function _UpdateAreaTooltip(shapes, changed)
     local owner = WorldMapFrame.ScrollContainer
-    -- The gamepad UI shows map icon tooltips on a private tooltip: using GameTooltip from this
-    -- per-frame hover check would taint it.
+    -- The renderer also rechecks the last offered cursor after drawing anew, before the stack looks
+    -- again, so ask again for the bare map. The gamepad UI shows map icon tooltips on a private
+    -- tooltip: using GameTooltip from hover checks would taint it.
     if #shapes == 0 or Questie.db.profile.polygonAreaTooltips == false or QuestieCompat.GetMouseFocus() ~= owner
-        or (InputUtil and InputUtil.IsGamepadUIEnabled()) then
+        or QuestieCompat.IsGamepadUIEnabled() then
         MapIconTooltip.Release(owner, GameTooltip)
         return
     end
@@ -996,19 +1002,14 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- Lazily retain one provider, render cache/renderer, layout, and size-change hook across resets.
     if not provider then
         provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
-        -- Area hover counts only over the bare map; waypoint paths take no mouse input. Anything else on
-        -- top, including Questie's icons, Blizzard's pins, and other UI, hides the areas beneath it.
-        local canvas, scrollContainer = WorldMapFrame:GetCanvas(), WorldMapFrame.ScrollContainer
-        local renderer = PolygonRenderer.New(canvas, {
-            -- Blizzard clamps the position to the canvas, so a cursor beside the map art would
-            -- hit outlines along its edge. Off the canvas there is no position at all.
-            getCursorPosition = function()
-                if canvas:IsMouseOver() then return scrollContainer:GetNormalizedCursorPosition() end
+        local renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), {onHover = _UpdateAreaTooltip})
+        -- Areas draw beneath patrol paths and Questie's icons, and hover only where nothing above covers the map.
+        WorldMapLayers.AddLayer("areas", {
+            Hover = function(cursor)
+                -- Outlines are in canvas percent.
+                if not cursor then return renderer:Hover(nil, nil) end
+                return renderer:Hover(cursor.x / cursor.width * 100, cursor.y / cursor.height * 100)
             end,
-            isCursorOnMap = function()
-                return QuestieCompat.GetMouseFocus() == scrollContainer
-            end,
-            onHover = _UpdateAreaTooltip,
         })
         renderCache = PolygonRenderCache.New(renderer)
         nudging = PolygonNudging.New()
