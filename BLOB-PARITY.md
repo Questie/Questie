@@ -17,7 +17,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 | Highlight the polygon border on hover | Implemented. Thicker, brighter border; fade opacity is preserved. |
 | Cache calculated areas | Implemented in memory. Progress-only updates reuse geometry and skip spawn collection unless the spawn list or phase visibility changes; changed eligible spawns rebuild it. |
 | Quest updates and removal | Implemented, with cancellation and pooled-resource cleanup fixes. |
-| World-map waypoints | Existing Questie lines are retained and attached to cluster markers. Hover reaches the areas beneath waypoint lines; their clicks are unchanged. |
+| World-map waypoints | Questie's waypoint paths belong to the objective's markers, on the cluster their NPC spawns in. Paths take no mouse input, so map clicks pass through them; within hover reach a path covers the areas beneath it. |
 | Minimap polygons | Rebuilt rather than ported: the same areas as the world map, beneath the cluster icons. Outlines convert per vertex to world yards and use HBD's minimap icon placement, including rotation, so they align with icons. The legacy replaced `Minimap.SetMaskTexture`, modified HBD's scaling, and did not rotate shapes. This version post-hooks the mask setter, reads the radius from HBD, and masks out the player arrow like the legacy. Not yet verified in game. |
 
 ## What is still missing

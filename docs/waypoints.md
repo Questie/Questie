@@ -289,7 +289,7 @@ That was judged good enough, since few players use a rotating minimap. If it eve
 Waypoints are on for every player, while polygon quest areas (blob mode) are opt-in. They are two drawing features that never import each other; `test/MapFeatureImports.test.lua` keeps it that way.
 - **Hover and frame levels:** both are layers of `WorldMapLayers`. Paths draw above quest areas and win the cursor over them.
 - **Icons:** both follow Questie's icons through `QuestieFrame`'s icon events.
-- **Ownership:** blob mode draws an objective's patrol paths for its cluster markers (`QuestiePolygon.OwnWaypointMarker`, `IsCurrentObjective` and the `waypointWork` tokens).
+- **Ownership:** blob markers own their objective's patrols: the cluster the NPC spawns in, else the zone's marker. Zones only patrols reach get a route marker showing the patrolling NPC.
 - **Minimap:** the waypoint minimap layer and `GetMinimapView` are meant to be shared with polygon areas.
 
 ## Verified in game
