@@ -82,12 +82,12 @@ describe("objective style tutorial", function()
         assert.is_true(frames[1].hidden)
     end)
 
-    it("describes map-only areas without borrowing another style's screenshot", function()
+    it("describes clustered areas on both maps without borrowing another style's screenshot", function()
         local preview = buttons["Questie blobs"].point[2]
 
         assert.is_nil(preview.normalTexture)
         assert.are_same(
-            "Clustered world-map markers.\n\nQuest areas show on accept.\nClick a marker to hide them.\n\nMinimap icons stay unchanged.",
+            "Clustered markers on the world map and minimap.\n\nQuest areas show on accept.\nClick a marker to hide them.",
             preview.fonts[1].text
         )
     end)
