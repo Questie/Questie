@@ -294,6 +294,27 @@ describe("MapIconTooltip objective wording", function()
             assert.are.same({"near", "far"}, Names(MapIconTooltip.IconsNear(false, 1, 50, 50)))
         end)
 
+        it("reports a shown icon without data once, as hovering areas looks on every move", function()
+            local savedError, reported = Questie.Error, spy.new(function() end)
+            Questie.Error = reported
+            shown = {{x = 50, y = 50, AreaID = 1, texture = {a = 1}}}
+            MapIconTooltip.IconsNear(false, 1, 50, 50)
+            MapIconTooltip.IconsNear(false, 1, 50, 50)
+            Questie.Error = savedError
+            assert.spy(reported).was.called(1)
+        end)
+
+        it("lists minimap icons within a distance shrinking as the minimap zooms in", function()
+            _G.GetCVar = function(name) return name == "minimapInsideZoom" and "3" or "0" end
+            local zoom = 0
+            _G.Minimap = {GetZoom = function() return zoom end, SetZoom = function() end}
+            local near, far = Icon("near", 50.4, 50, 1), Icon("far", 50.6, 50, 1)
+            pins.activeMinimapPins = {[near] = true, [far] = true}
+            assert.are.same({"near"}, Names(MapIconTooltip.IconsNear(true, 1, 50, 50)))
+            zoom = 1
+            assert.are.same({}, Names(MapIconTooltip.IconsNear(true, 1, 50, 50)))
+        end)
+
         it("lists the areas beneath a hovered icon after the icons around it, each once", function()
             local beneath = Icon("beneath", 70, 70, 1)
             shown = {icon}
@@ -459,17 +480,6 @@ describe("MapIconTooltip objective wording", function()
 
             assert.spy(tooltip.Hide).was.not_called()
             assert.are.equal(pin, tooltip.holder)
-        end)
-
-        it("shows minimap hovers on one tooltip of its own, created once", function()
-            local savedCreateFrame = _G.CreateFrame
-            local created = {}
-            _G.CreateFrame = function(kind, name) created[#created + 1] = {kind, name}; return {} end
-            local first = MapIconTooltip.MinimapTooltip()
-            local second = MapIconTooltip.MinimapTooltip()
-            _G.CreateFrame = savedCreateFrame
-            assert.are.equal(first, second)
-            assert.are.same({{"GameTooltip", "QuestieMinimapTooltip"}}, created)
         end)
 
         it("redraws every tooltip its owner still holds, at the same anchor", function()

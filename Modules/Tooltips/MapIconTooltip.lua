@@ -86,6 +86,8 @@ local function FormatLabelWithColon(label)
     end
 end
 
+local reportedIconWithoutData = false
+
 ---The visible icons around a spot, as a hovered icon's tooltip lists them: those of the spot's zone within
 ---the cluster distance for the world map's type, or for the minimap's zoom.
 ---@param onMinimap boolean? Minimap icons instead of world map icons.
@@ -117,7 +119,12 @@ function MapIconTooltip.IconsNear(onMinimap, areaId, x, y, keep)
     ---@param icon IconFrame
     local function consider(icon)
         if not icon.data then
-            Questie.Error("[MapIconTooltip.IconsNear] A shown icon has no data, skipping it")
+            -- Such as a note left behind after its quest finished (#1170). Hovering quest areas looks on
+            -- every move, so it is reported once.
+            if not reportedIconWithoutData then
+                reportedIconWithoutData = true
+                Questie.Error("[MapIconTooltip.IconsNear] A shown icon has no data, skipping it")
+            end
             return
         end
         -- Skip icons that are hidden (FakeHide'd or faded out), unless it's the hovered icon itself
@@ -191,7 +198,7 @@ end
 ---cursor. `owner` holds it until another frame takes the tooltip or `Release` ends it; Redraw renders
 ---it again meanwhile.
 ---@param owner Frame Holds the tooltip, which hides with it. Only a world map icon owner adds Journey's shift-click hint.
----@param icons IconFrame[] At least one icon with data. Objectives repeated across icons are listed once; while quest areas draw, each icon's own objective line starts with its area colour.
+---@param icons IconFrame[] At least one icon with data. Objectives repeated across icons are listed once; in blob mode, each icon's own objective line starts with its area colour.
 ---@param tooltip GameTooltip
 function MapIconTooltip.ShowForIcons(owner, icons, tooltip)
     tooltip:SetOwner(owner, "ANCHOR_CURSOR")

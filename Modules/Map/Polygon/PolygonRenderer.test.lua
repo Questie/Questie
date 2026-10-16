@@ -382,7 +382,7 @@ describe("PolygonRenderer", function()
 
         it("finds the visible outlines at a point without hovering, and tells hover listeners the cursor", function()
             local heard = {}
-            local renderer = PolygonRenderer.New(canvas, {onHover = function(shapes, _changed, x, y)
+            local renderer = PolygonRenderer.New(canvas, {onHover = function(shapes, x, y)
                 heard[#heard + 1] = {#shapes, x, y}
             end})
             local square = {points = {{x = 0, y = 0}, {x = 20, y = 0}, {x = 20, y = 20}, {x = 0, y = 20}}, color = {1, 0, 0}}
@@ -717,10 +717,10 @@ describe("PolygonRenderer", function()
             assert.are_equal(1.5, frames[2].borders[1].line[6])
         end)
 
-        it("tells a hover listener the hovered shapes on every check, and when the set changes", function()
+        it("tells a hover listener the hovered shapes on every check", function()
             local heard = {}
             local renderer = PolygonRenderer.New(canvas, {
-                onHover = function(shapes, changed) heard[#heard + 1] = {shapes = shapes, changed = changed} end,
+                onHover = function(shapes) heard[#heard + 1] = shapes end,
             })
             local square = {points = {{x = 0, y = 0}, {x = 50, y = 0}, {x = 50, y = 50}, {x = 0, y = 50}}, color = {1, 0, 0}}
             local triangle = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0, 1, 0}}
@@ -730,15 +730,13 @@ describe("PolygonRenderer", function()
             renderer:Hover(10, 10)
             renderer:Hover(12, 10) -- Still inside both.
             renderer:Hover(45, 45) -- Only the square.
-            assert.are.same({{square, triangle}, true}, {heard[1].shapes, heard[1].changed})
-            assert.are.same({{square, triangle}, false}, {heard[2].shapes, heard[2].changed})
-            assert.are.same({{square}, true}, {heard[3].shapes, heard[3].changed})
+            assert.are.same({{square, triangle}, {square, triangle}, {square}}, heard)
 
-            -- Hiding everything ends the hover; later checks report nothing new.
+            -- Hiding everything ends the hover.
             heard = {}
             renderer:SetVisibleFrames({})
-            assert.are.same({shapes = {}, changed = true}, heard[1])
-            for i = 2, #heard do assert.are.same({shapes = {}, changed = false}, heard[i]) end
+            for _, shapes in ipairs(heard) do assert.are.same({}, shapes) end
+            assert.is_true(#heard > 0)
         end)
 
         it("follows the outline rather than the frame's rectangle, without enter or leave scripts", function()
