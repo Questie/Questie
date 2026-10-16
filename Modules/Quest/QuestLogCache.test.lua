@@ -940,6 +940,46 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayQuestComplete).was.not_called()
         end)
 
+        describe("complete quest whose items drop below the required count", function()
+            before_each(function()
+                -- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questId
+                questLogTitles = {
+                    [1] = {"Collect Items", 60, nil, false, false, 1, nil, QUEST_ID},
+                }
+                questObjectives = {
+                    [QUEST_ID] = {{type = "item", numRequired = 5, text = "Item: 5/5", finished = true, numFulfilled = 5}}
+                }
+                QuestLogCache.CheckForChanges(nil)
+                assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+
+                -- The player uses up four of the items, e.g. crafting with them.
+                questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+                questObjectives[QUEST_ID] = {{type = "item", numRequired = 5, text = "Item: 1/5", finished = false, numFulfilled = 1}}
+            end)
+
+            it("should become incomplete outside of zone transition", function()
+                local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+                assert.is_false(cacheMiss)
+                assert.is_not_nil(changes[QUEST_ID])
+                local cached = QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID]
+                assert.is_equal(0, cached.isComplete)
+                assert.is_equal(1, cached.objectives[1].raw_numFulfilled)
+                assert.spy(Sounds.PlayQuestComplete).was.not_called()
+                assert.spy(Sounds.PlayObjectiveProgress).was.not_called()
+            end)
+
+            it("should stay complete during zone transition", function()
+                QuestLogCache.OnLoadingScreenEnabled()
+
+                local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+                assert.is_true(cacheMiss)
+                assert.is_nil(changes[QUEST_ID])
+                assert.is_equal(1, QuestLogCache.questLog_DO_NOT_MODIFY[QUEST_ID].isComplete)
+            end)
+        end)
+
         it("should not accept a regression during zone transition even on repeated scans", function()
             questLogTitles = {
                 [1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID},
