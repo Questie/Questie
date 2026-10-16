@@ -362,6 +362,66 @@ end
 
 local areaTooltipFailed = false -- Retried only once the hovered areas change.
 
+-- Area hover
+-- Hovering an area is hovering its marker: the marker's hover effects start as when the marker
+-- itself is hovered, such as its quest's tinted icons and its routes' highlight. Of overlapping
+-- areas, one marker is hovered at a time: the one hovered already while its area stays under the
+-- cursor, else the first. Its tooltip, above, still lists every hovered area.
+
+---@type {frame: IconFrame, data: IconData, starting: boolean?}?
+local areaHover
+local areaHoverFailed = false -- Reported once.
+
+local function _EndAreaHover()
+    local hover = areaHover
+    if not hover then return end
+    areaHover = nil
+    -- The marker's icon may be pooled for other data by now; the hover ends for the data it started with.
+    QuestieFrame.ResetHoverHighlights(hover.frame, hover.data)
+end
+
+---@param shapes PolygonCachedShape[] Hovered shapes; keys are marker records.
+local function _UpdateAreaHover(shapes)
+    local frames = {}
+    -- As for the tooltip: a recheck of the kept cursor after drawing anew asks again for the bare map.
+    if QuestieCompat.GetMouseFocus() == WorldMapFrame.ScrollContainer and not QuestieCompat.IsGamepadUIEnabled() then
+        for _, shape in ipairs(shapes) do
+            local marker = shape.key
+            local frame = marker.frame
+            if frame and frame.polygonMarker == marker and frame.data then frames[#frames + 1] = frame end
+        end
+    end
+    if areaHover then
+        for _, frame in ipairs(frames) do
+            if frame == areaHover.frame and frame.data == areaHover.data then return end
+        end
+        _EndAreaHover()
+    end
+    local frame = frames[1]
+    if not frame then return end
+    local hover = {frame = frame, data = frame.data, starting = true}
+    areaHover = hover
+    -- The renderer reports hover from inside its update; an error escaping here would clear every area.
+    local ok, err = pcall(QuestieFrame.ApplyHoverHighlights, frame)
+    hover.starting = nil
+    if not ok and not areaHoverFailed then
+        areaHoverFailed = true
+        Questie.Error("Polygon area hover failed:", err)
+    end
+end
+
+---Hears every icon hover starting. Another hover ends the area's first, so the area's tints are
+---restored before the next ones are saved. A hover of the area's own marker, as the cursor moves onto
+---the marker or onto a route it owns, takes the area's over and ends it itself.
+---@param frame IconFrame
+local function _OnHoverStart(frame)
+    local hover = areaHover
+    if hover and not hover.starting then
+        if frame == hover.frame and frame.data == hover.data then areaHover = nil else _EndAreaHover() end
+    end
+    QuestiePolygon.EnterMarker(frame)
+end
+
 ---@param shapes PolygonCachedShape[] Hovered shapes; keys are marker records.
 ---@param changed boolean
 local function _UpdateAreaTooltip(shapes, changed)
@@ -656,7 +716,7 @@ local function _FollowIcons()
     QuestieFrame.Subscribe("NativeVisibilityChanged", function(frame)
         if frame.polygonMarker then QuestiePolygon.ScheduleRefresh() end
     end)
-    QuestieFrame.Subscribe("HoverStart", QuestiePolygon.EnterMarker)
+    QuestieFrame.Subscribe("HoverStart", _OnHoverStart)
     -- A recycled icon's old marker ended its preview when it unloaded; a new marker's is not this hover's.
     QuestieFrame.Subscribe("HoverEnd", function(frame, data)
         if frame.data == data then QuestiePolygon.LeaveMarker(frame) end
@@ -1115,7 +1175,10 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- Lazily retain one provider, render cache/renderer, layout, and size-change hook across resets.
     if not provider then
         provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
-        local renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), {onHover = _UpdateAreaTooltip})
+        local renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), {onHover = function(shapes, changed)
+            _UpdateAreaHover(shapes)
+            _UpdateAreaTooltip(shapes, changed)
+        end})
         -- Areas draw beneath patrol paths and Questie's icons, and hover only where nothing above covers the map.
         WorldMapLayers.AddLayer("areas", {
             Hover = function(cursor)
