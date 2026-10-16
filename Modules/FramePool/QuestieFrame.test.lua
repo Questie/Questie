@@ -367,6 +367,35 @@ describe("QuestieFrame", function()
             assert.are.equal(1, #data.touchedPins)
             assert.are.same({1, 0.5, 0, 1}, data.touchedPins[1].color)
         end)
+
+        it("restores a hover's tint before another hover of the quest tints over it", function()
+            local first, second = {Id = 123, Type = "monster"}, {Id = 123, Type = "item"}
+            local icon, sibling = MapIcon(first, {1, 0.5, 0, 1}), MapIcon(second, {0, 1, 0, 1})
+            pins = {icon, sibling}
+
+            -- The gamepad's hover still shows for a moment as the mouse starts another.
+            QuestieFrame.ApplyHoverHighlights(icon)
+            QuestieFrame.ApplyHoverHighlights(sibling)
+            QuestieFrame.ResetHoverHighlights(icon)
+            QuestieFrame.ResetHoverHighlights(sibling)
+
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+            assert.are.same({0, 1, 0, 1}, Color(sibling))
+        end)
+
+        it("leaves an icon the pool handed out for other data since with its own color", function()
+            local data = {Id = 123, Type = "monster"}
+            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
+            pins = {icon, sibling}
+            QuestieFrame.ApplyHoverHighlights(icon)
+            sibling.data = {Id = 7, Type = "complete"}
+            sibling.texture:SetVertexColor(1, 1, 0, 1)
+
+            QuestieFrame.ResetHoverHighlights(icon)
+
+            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+            assert.are.same({1, 1, 0, 1}, Color(sibling))
+        end)
     end)
 
     describe("ResetHoverHighlights", function()
