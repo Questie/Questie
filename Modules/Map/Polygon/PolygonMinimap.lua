@@ -33,6 +33,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 ---@class PolygonMinimapLayer
 ---@field Invalidate fun() Collects the areas again on the next update, after quest, visibility or option changes.
 ---@field Clear fun() Releases every drawing; frames and textures stay pooled. Native cleanup failure throws after every view was attempted.
+---@field AreasAt fun(x: number, y: number, instanceId: number): table[] Keys of the drawn areas containing a point in world yards, such as a minimap icon's spot.
 
 -- Same fill and border opacity as the world map's areas at full marker opacity.
 local FILL_ALPHA, BORDER_ALPHA = 0.25, 0.75
@@ -80,6 +81,8 @@ function PolygonMinimap.New(collect)
     local areas = {}
     ---@type Frame[]? Published visible set; nil forces the next publication.
     local visible
+    ---@type MinimapProjection? What the areas are drawn with; nil while they are hidden.
+    local drawnProjection
     local container, renderer
 
     ---@param frames Frame[]
@@ -107,8 +110,8 @@ function PolygonMinimap.New(collect)
             and view.alpha == alpha and view.highlighted == highlighted then
             return view.frame
         end
-        local shape = {color = {color[1], color[2], color[3], FILL_ALPHA * alpha}, borderAlpha = BORDER_ALPHA * alpha,
-            highlighted = highlighted}
+        local shape = {key = area.key, color = {color[1], color[2], color[3], FILL_ALPHA * alpha},
+            borderAlpha = BORDER_ALPHA * alpha, highlighted = highlighted}
         local level = container:GetFrameLevel()
         if view and view.cluster == area.cluster and view.projection == projection then
             renderer:Style(view.frame, shape, level)
@@ -159,10 +162,11 @@ function PolygonMinimap.New(collect)
                 end
             end
             _Publish(frames)
+            drawnProjection = projection
         end,
 
         Clear = function()
-            views, areas, visible = {}, {}, nil
+            views, areas, visible, drawnProjection = {}, {}, nil, nil
             renderer:Clear()
             -- Collected again, so after a reset the canvas finds nothing to show and idles.
             MinimapCanvas.Invalidate("areas")
@@ -175,5 +179,14 @@ function PolygonMinimap.New(collect)
     return {
         Invalidate = function() MinimapCanvas.Invalidate("areas") end,
         Clear = layer.Clear,
+        AreasAt = function(x, y, instanceId)
+            local keys = {}
+            if not drawnProjection or drawnProjection.instanceId ~= instanceId then return keys end
+            -- The renderer's outlines are projected units, as the hover's cursor.
+            for _, shape in ipairs(renderer:ShapesAt(MinimapCanvas.Project(drawnProjection, x, y))) do
+                keys[#keys + 1] = shape.key
+            end
+            return keys
+        end,
     }
 end

@@ -75,6 +75,8 @@ local entries = {}
 local provider
 ---@type PolygonViewCache?
 local renderCache
+---@type PolygonCanvasRenderer? The world map's, behind renderCache.
+local areaRenderer
 ---@type PolygonNudgeLayout?
 local nudging
 ---@type PolygonMinimapLayer?
@@ -346,8 +348,10 @@ local function _CollectMinimapAreas()
 end
 
 -- Area tooltips
--- Hovering areas on the world map shows the map icon tooltip for their markers, Shift detail
--- included. The tooltip belongs to the map's scroll container. WorldMapLayers offers the areas the cursor
+-- A map icon tooltip lists what lies at its spot: the areas there, by their markers, and the icons
+-- around it. Hovering areas on the world map shows one for the cursor, Shift detail included; a
+-- hovered icon's own tooltip asks AreaIconsAt for the areas beneath it. The area tooltip belongs to
+-- the map's scroll container. WorldMapLayers offers the areas the cursor
 -- beneath patrol paths and only over the bare map, so a path or an icon keeps its own tooltip, and
 -- the area tooltip returns once the cursor is back on the areas alone.
 local AREA_SWATCH = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
@@ -365,7 +369,45 @@ function QuestiePolygon.ObjectiveSwatch(icon)
         math.floor(color[3] * 255 + 0.5))
 end
 
-local areaTooltipFailed = false -- Retried only once the hovered areas change.
+local areaTooltipFailed = false -- Retried only once the listed icons change.
+---@type table<IconFrame, true>? The icons the area tooltip lists.
+local areaTooltipIcons
+
+---The marker icons of the drawn areas beneath a map icon, for its tooltip: on the world map those of
+---the areas drawn on the shown map, on the minimap the minimap areas' own icons.
+---@param icon IconFrame A hovered map or minimap icon.
+---@return IconFrame[]
+function QuestiePolygon.AreaIconsAt(icon)
+    local icons = {}
+    local uiMapId, x, y = icon.UiMapID, icon.x, icon.y
+    if not uiMapId or not x or not y then return icons end
+    if icon.miniMapIcon then
+        local worldX, worldY, instanceId = HBD:GetWorldCoordinatesFromZone(x / 100, y / 100, uiMapId)
+        if not minimapLayer or not worldX or not worldY then return icons end
+        for _, marker in ipairs(minimapLayer.AreasAt(worldX, worldY, instanceId)) do
+            local minimapIcon = marker.minimapIcons[1]
+            local frame = minimapIcon and minimapIcon.frame
+            if frame and frame.polygonMinimapMarker == marker and frame.data then icons[#icons + 1] = frame end
+        end
+        return icons
+    end
+    local map = provider and provider.owningMap
+    if not areaRenderer or not map or not map:IsShown() then return icons end
+    local mapId = map:GetMapID()
+    if uiMapId ~= mapId then
+        x, y = HBD:TranslateZoneCoordinates(x / 100, y / 100, uiMapId, mapId, true)
+        if (issecretvalue and (issecretvalue(x) or issecretvalue(y))) or type(x) ~= "number" or type(y) ~= "number" then
+            return icons
+        end
+        x, y = x * 100, y * 100
+    end
+    for _, shape in ipairs(areaRenderer:ShapesAt(x, y)) do
+        local marker = shape.key
+        local frame = marker.frame
+        if frame and frame.polygonMarker == marker and frame.data then icons[#icons + 1] = frame end
+    end
+    return icons
+end
 
 -- Area hover
 -- Hovering an area is hovering its marker: the marker's hover effects start as when the marker
@@ -429,18 +471,33 @@ end
 
 ---@param shapes PolygonCachedShape[] Hovered shapes; keys are marker records.
 ---@param changed boolean
-local function _UpdateAreaTooltip(shapes, changed)
+---@param icons table<IconFrame, true>
+---@return boolean
+local function _ListedInAreaTooltip(icons)
+    if not areaTooltipIcons then return false end
+    for icon in pairs(icons) do
+        if not areaTooltipIcons[icon] then return false end
+    end
+    for icon in pairs(areaTooltipIcons) do
+        if not icons[icon] then return false end
+    end
+    return true
+end
+
+---@param shapes PolygonCachedShape[] Hovered shapes; keys are marker records.
+---@param x number? The cursor checked, in canvas percent.
+---@param y number?
+local function _UpdateAreaTooltip(shapes, x, y)
     local owner = WorldMapFrame.ScrollContainer
     -- The renderer also rechecks the last offered cursor after drawing anew, before the stack looks
     -- again, so ask again for the bare map. The gamepad UI shows map icon tooltips on a private
     -- tooltip: using GameTooltip from hover checks would taint it.
-    if #shapes == 0 or Questie.db.profile.polygonAreaTooltips == false or QuestieCompat.GetMouseFocus() ~= owner
+    if #shapes == 0 or not x or Questie.db.profile.polygonAreaTooltips == false or QuestieCompat.GetMouseFocus() ~= owner
         or QuestieCompat.IsGamepadUIEnabled() then
+        areaTooltipIcons = nil
         MapIconTooltip.Release(owner, GameTooltip)
         return
     end
-    if not changed and (areaTooltipFailed or GameTooltip:IsOwned(owner) and GameTooltip:IsShown()) then return end
-    areaTooltipFailed = false
 
     -- Each area's marker icon stands in for it; overlapping areas list their icons together.
     local icons, listed = {}, {}
@@ -453,9 +510,23 @@ local function _UpdateAreaTooltip(shapes, changed)
         end
     end
     if #icons == 0 then
+        areaTooltipIcons = nil
         MapIconTooltip.Release(owner, GameTooltip)
         return
     end
+    -- The icons around the cursor join them, as around a hovered icon.
+    local areaId = ZoneDB:GetAreaIdByUiMapId(WorldMapFrame:GetMapID())
+    for _, icon in ipairs(areaId and MapIconTooltip.IconsNear(false, areaId, x, y) or {}) do
+        if not listed[icon] then
+            listed[icon] = true
+            icons[#icons + 1] = icon
+        end
+    end
+    -- Moving within the same areas, past the same icons, keeps the tooltip.
+    if _ListedInAreaTooltip(listed) and (areaTooltipFailed or GameTooltip:IsOwned(owner) and GameTooltip:IsShown()) then
+        return
+    end
+    areaTooltipFailed, areaTooltipIcons = false, listed
     -- The renderer reports hover from inside its update; an error escaping here would clear every area.
     local shown, err = pcall(MapIconTooltip.ShowForIcons, owner, icons, GameTooltip)
     if not shown then
@@ -1180,10 +1251,11 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     -- Lazily retain one provider, render cache/renderer, layout, and size-change hook across resets.
     if not provider then
         provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
-        local renderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), {onHover = function(shapes, changed)
+        areaRenderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), {onHover = function(shapes, _changed, x, y)
             _UpdateAreaHover(shapes)
-            _UpdateAreaTooltip(shapes, changed)
+            _UpdateAreaTooltip(shapes, x, y)
         end})
+        local renderer = areaRenderer
         -- Areas draw beneath patrol paths and Questie's icons, and hover only where nothing above covers the map.
         WorldMapLayers.AddLayer("areas", {
             Hover = function(cursor)

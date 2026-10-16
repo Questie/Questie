@@ -76,8 +76,10 @@ describe("MapIconTooltip objective wording", function()
         end}}
         -- Show traverses visible pins; only one pin participates in these renderer tests.
         _G.LibStub = function() return pins end
-        -- Outside blob mode, objective lines start with no area colour.
-        QuestieLoader:ImportModule("QuestiePolygon").ObjectiveSwatch = function() end
+        -- Outside blob mode, objective lines start with no area colour, and no areas lie beneath icons.
+        local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+        QuestiePolygon.ObjectiveSwatch = function() end
+        QuestiePolygon.AreaIconsAt = function() return {} end
         dofile("Modules/Tooltips/MapIconTooltip.lua")
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         now = 1
@@ -243,6 +245,63 @@ describe("MapIconTooltip objective wording", function()
 
         assert.are.same({["|cFFEEEEEE0/1 Use Walk on Air (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true}, RenderObjectiveLines())
     end)
+    describe("around a spot", function()
+        local shown
+
+        before_each(function()
+            shown = {}
+            pins.worldmapProvider.GetMap = function()
+                return {EnumeratePinsByTemplate = function()
+                    local i = 0
+                    return function()
+                        i = i + 1
+                        return shown[i] and {icon = shown[i]}
+                    end
+                end}
+            end
+        end)
+
+        local function Icon(name, x, y, areaId, alpha)
+            return {name = name, x = x, y = y, AreaID = areaId, texture = {a = alpha or 1}, data = {}}
+        end
+
+        local function Names(icons)
+            local names = {}
+            for i, listed in ipairs(icons) do names[i] = listed.name end
+            return names
+        end
+
+        it("lists the visible icons of the spot's zone within the shown map's cluster distance", function()
+            local hovered = Icon("hovered", 50, 50, 1, 0)
+            local hidden = Icon("hidden", 50, 50, 1)
+            hidden.hidden = true
+            shown = {Icon("near", 50.5, 50.9, 1), Icon("far", 52, 50, 1), Icon("other zone", 50, 50, 2), hidden,
+                Icon("faded", 50, 50, 1, 0), hovered}
+            assert.are.same({"near", "hovered"}, Names(MapIconTooltip.IconsNear(false, 1, 50, 50, hovered)))
+
+            _G.C_Map = {GetMapInfo = function() return {mapType = 2} end} -- A continent clusters wider.
+            assert.are.same({"near", "far"}, Names(MapIconTooltip.IconsNear(false, 1, 50, 50)))
+        end)
+
+        it("lists the areas beneath a hovered icon after the icons around it, each once", function()
+            local beneath = Icon("beneath", 70, 70, 1)
+            shown = {icon}
+            local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+            QuestiePolygon.AreaIconsAt = function(hovered)
+                assert.are.equal(icon, hovered)
+                return {icon, beneath}
+            end
+            MapIconTooltip.ShowForIcons = spy.new(function() end)
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            local listed = MapIconTooltip.ShowForIcons.calls[1].refs[2]
+            assert.are.equal(2, #listed)
+            assert.are.equal(icon, listed[1])
+            assert.are.equal(beneath, listed[2])
+        end)
+    end)
+
     describe("order", function()
         local rendered, questLevels
 
