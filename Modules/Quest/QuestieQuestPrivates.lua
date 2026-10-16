@@ -233,7 +233,8 @@ item = function(itemId, objective)
                             ret[id] = {
                                 Id = id,
                                 Name = sourceData.Name,
-                                Hostile = true,
+                                -- Monsters dropping the item are fought; objects holding it are not.
+                                Hostile = sourceData.Hostile,
                                 ItemId = item.Id,
                                 TooltipKey = sourceData.TooltipKey,
                                 Spawns = {},
