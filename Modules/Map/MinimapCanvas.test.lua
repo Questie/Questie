@@ -266,6 +266,9 @@ describe("MinimapCanvas", function()
             Tick()
             local projection = paths.projection
             local reach = projection.reach
+            -- Everything visible lies within √2 radii of the player, who drifts at most half a radius
+            -- before the next projection.
+            assert.are.equal(2 * projection.radius, reach)
 
             assert.is_true(MinimapCanvas.InReach(projection, 0, {990, 990, 1010, 1010}))
             -- A large area reaching in by its edge only.
@@ -286,14 +289,17 @@ describe("MinimapCanvas", function()
             for _, lose in ipairs({
                 function() player.x = nil end,
                 function() minimap.size = {0, 0} end,
+                -- A rotating minimap without the player's facing.
+                function() player.facing = nil end,
                 function() _G.issecretvalue = function(value) return value == player.y end end,
+                function() _G.issecretvalue = function(value) return value == minimap.size[1] end end,
             }) do
                 lose()
                 Tick()
                 Tick()
                 -- The hover ends once, and the drawings hide once.
                 assert.are.same({{"Hover", nil, nil}, {"Draw", nil}}, paths.calls)
-                player.x, minimap.size, _G.issecretvalue = 1000, {140, 120}, nil
+                player.x, player.facing, minimap.size, _G.issecretvalue = 1000, 0.3, {140, 120}, nil
                 Tick()
                 assert.is_table(paths.projection)
                 Forget(paths)
@@ -301,6 +307,21 @@ describe("MinimapCanvas", function()
                 Tick()
                 Forget(paths)
             end
+        end)
+
+        it("stops a layer left with nothing to show: its hover ends, its drawings hide, and the canvas idles", function()
+            local paths = FakeLayer("paths", true)
+            Tick()
+            CursorAt(10, 10)
+            Tick()
+            Forget(paths)
+
+            paths.found = false
+            MinimapCanvas.Invalidate("paths")
+            Tick()
+
+            assert.are.same({{"Collect"}, {"Hover", nil, nil}, {"Draw", nil}}, paths.calls)
+            assert.is_false(root:IsShown())
         end)
 
         it("idles without anything to draw until a layer is invalidated", function()
@@ -419,6 +440,8 @@ describe("MinimapCanvas", function()
             for _, case in ipairs({
                 {cover = function() gamepadUI = true end, x = 11, y = 10},
                 {cover = function() focus = {} end, x = 11, y = 10},
+                {cover = function() _G.issecretvalue = function(value) return value == true end end, x = 11, y = 10},
+                {cover = function() _G.issecretvalue = function(value) return value == uiScale end end, x = 11, y = 10},
                 -- In a round minimap's corner: 60 units right of and 50 above its center.
                 {cover = function() end, x = 60, y = -50},
             }) do
@@ -429,7 +452,7 @@ describe("MinimapCanvas", function()
                 CursorAt(case.x, case.y)
                 Tick()
                 assert.are.same({{"Hover", nil, nil}}, paths.calls)
-                gamepadUI, focus = false, minimap
+                gamepadUI, focus, _G.issecretvalue = false, minimap, nil
             end
         end)
 
@@ -440,11 +463,22 @@ describe("MinimapCanvas", function()
             Tick()
             assert.are.same({}, Calls(paths, "Hover"))
 
-            _G.GetMinimapShape = function() return "SQUARE" end
-            hooks[1][3](minimap, 130871) -- A minimap addon's own square texture, by FileDataID.
+            -- The square mask set through Minimap:SetMaskTexture, without GetMinimapShape.
+            hooks[1][3](minimap, "Interface\\BUTTONS\\WHITE8X8")
             CursorAt(61, -50)
             Tick()
             assert.is_number(Calls(paths, "Hover")[1][2])
+
+            -- A minimap addon's own square texture, by FileDataID, which GetMinimapShape reports square.
+            Forget(paths)
+            hooks[1][3](minimap, 130871)
+            CursorAt(62, -50)
+            Tick()
+            assert.are.same({{"Hover", nil, nil}}, paths.calls)
+            _G.GetMinimapShape = function() return "SQUARE" end
+            CursorAt(61, -50)
+            Tick()
+            assert.is_number(Calls(paths, "Hover")[2][2])
         end)
 
         it("offers the cursor top down: a claim gives the layer beneath nil once", function()
