@@ -66,15 +66,17 @@ describe("TrackerLine untrack click", function()
 
         before_each(function()
             Polygon, FadeTicker = QuestieLoader:ImportModule("QuestiePolygon"), QuestieLoader:ImportModule("TrackerFadeTicker")
-            saved = {preview = Polygon.SetObjectivePreview, unfade = FadeTicker.Unfade, fade = FadeTicker.Fade}
+            saved = {preview = Polygon.SetObjectivePreview, questPreview = Polygon.SetQuestPreview, unfade = FadeTicker.Unfade,
+                fade = FadeTicker.Fade}
             Polygon.SetObjectivePreview = spy.new(function() end)
+            Polygon.SetQuestPreview = spy.new(function() end)
             FadeTicker.Unfade, FadeTicker.Fade = function() end, function() end
             line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
             line.mode = "objective"
         end)
 
         after_each(function()
-            Polygon.SetObjectivePreview = saved.preview
+            Polygon.SetObjectivePreview, Polygon.SetQuestPreview = saved.preview, saved.questPreview
             FadeTicker.Unfade, FadeTicker.Fade = saved.unfade, saved.fade
         end)
 
@@ -90,6 +92,18 @@ describe("TrackerLine untrack click", function()
             line.scripts.OnLeave(line)
             assert.spy(Polygon.SetObjectivePreview).was.called_with(42, 3, false)
             assert.spy(Polygon.SetObjectivePreview).was.called(2)
+        end)
+
+        it("previews a hovered quest title's every objective until the cursor leaves", function()
+            line.mode = "quest"
+            line:SetQuest({Id = 42})
+            line.scripts.OnEnter(line)
+            assert.spy(Polygon.SetQuestPreview).was.called_with(42, true)
+
+            line:SetQuest({Id = 99})
+            line.scripts.OnLeave(line)
+            assert.spy(Polygon.SetQuestPreview).was.called_with(42, false)
+            assert.spy(Polygon.SetObjectivePreview).was.not_called()
         end)
 
         it("does not preview achievement or scenario lines", function()

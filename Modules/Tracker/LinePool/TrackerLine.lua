@@ -42,23 +42,31 @@ local _SetMode, _OnClickQuest, _OnClickAchieve
 
 local lineMarginLeft = 10
 
--- Hovering a quest objective previews its areas on the world map and minimap, as the quest
--- log does. The previewed identity is captured: a tracker rebuild can reassign this pooled
--- line before the cursor leaves. Achievement and scenario lines carry no quest objective.
+-- Hovering a quest objective previews it on the world map and minimap, as the quest log does: its
+-- areas, its quest's tinted icons and its routes. Hovering a quest's title previews every objective.
+-- The previewed identity is captured: a tracker rebuild can reassign this pooled line before the
+-- cursor leaves. Achievement and scenario lines carry no quest objective.
 ---@param line TrackerLineFrame
 local function _StartAreaPreview(line)
     local quest, objective = line.Quest, line.Objective
     if line.mode == "objective" and quest and objective and objective.questId == quest.Id then
         line.areaPreviewQuestId, line.areaPreviewIndex = quest.Id, objective.NativeIndex or objective.Index
         QuestiePolygon.SetObjectivePreview(line.areaPreviewQuestId, line.areaPreviewIndex, true)
+    elseif line.mode == "quest" and quest then
+        line.areaPreviewQuestId, line.areaPreviewIndex = quest.Id, nil
+        QuestiePolygon.SetQuestPreview(quest.Id, true)
     end
 end
 
 ---@param line TrackerLineFrame
 local function _EndAreaPreview(line)
-    if line.areaPreviewQuestId then
-        QuestiePolygon.SetObjectivePreview(line.areaPreviewQuestId, line.areaPreviewIndex, false)
-        line.areaPreviewQuestId, line.areaPreviewIndex = nil, nil
+    local questId, objectiveIndex = line.areaPreviewQuestId, line.areaPreviewIndex
+    if not questId then return end
+    line.areaPreviewQuestId, line.areaPreviewIndex = nil, nil
+    if objectiveIndex then
+        QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, false)
+    else
+        QuestiePolygon.SetQuestPreview(questId, false)
     end
 end
 
