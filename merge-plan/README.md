@@ -239,7 +239,7 @@ The recommendation comes first in each row. Rows marked ★ change behavior play
 | ID | Decision | Recommendation |
 |---|---|---|
 | F-1 | Add `Click` as a fifth icon event (polygon's marker toggle). Without it, `QuestieFrame` keeps a feature import for one line. | **Yes** |
-| F-2 | `VisibilityChanged` also covers native show and hide, instead of adding a sixth event. | **Yes** |
+| F-2 | Native show and hide get their own event, `NativeVisibilityChanged`, which only polygon's map markers follow. Changed at the seam review: sharing `VisibilityChanged` redrew every path whenever HereBeDragons showed or hid a patrol NPC's icon. | **Yes** (was: one shared event) |
 | F-3 | **Changed by waypoints `f58ad0b1a`.** Waypoints now releases a queued icon's paths at the *first* `Unload` call, and still again when the draw queue finishes it; blob releases its markers at both calls too. So `Unload` fires at every call: at once, and for a queued icon again at the finish, which releases routes added to it meanwhile. Both listeners are idempotent. C's invariant 1 ("neither listener runs on the deferred first `Unload`") no longer applies. | **Yes, at every call** (decided at the F-3 commit; firing only at the first call would leak routes added meanwhile) |
 | F-4 | Feature fields (`polygonMarker`, `waypointPaths` and so on) stay on frames, declared by their feature, rather than moving to side tables. | **Yes** (side tables pay off nowhere) |
 | F-5 | Rule 4 is the guard's 11 entry points. Features subscribe on first use, so no init entry is needed. | **Yes** |
