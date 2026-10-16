@@ -283,6 +283,14 @@ describe("WaypointMinimap", function()
         assert.spy(WaypointHover.Set).was.called_with("minimap", nil)
     end)
 
+    it("releases its drawings even when ending its hover fails", function()
+        Start()
+        WaypointHover.Set = function() error("tooltip failed") end
+
+        assert.has_error(function() layer.Clear() end)
+        assert.spy(renderer.Clear).was.called(1)
+    end)
+
     describe("hover", function()
         -- The cursor where HereBeDragons would draw an icon for the world point, moved right by dx
         -- minimap units. The minimap's center is at 500, 500.

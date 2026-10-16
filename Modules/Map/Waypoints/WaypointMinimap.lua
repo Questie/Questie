@@ -193,8 +193,10 @@ local layer = {
     ---Releases every drawing; views and textures stay pooled.
     Clear = function()
         entries, paths, shown, targets = {}, {}, {}, {}
-        WaypointHover.Set("minimap", nil)
+        -- Release the drawings first: ending the hover runs tooltip code, which may fail, and drawings
+        -- nothing tracks any more would show again, misplaced, once the layer resumes.
         renderer:Clear()
+        WaypointHover.Set("minimap", nil)
     end,
 }
 
