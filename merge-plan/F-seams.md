@@ -428,7 +428,8 @@ local layer = {
 | Event | Emitted from (after F-3/F-4) | Waypoints listener | Polygon listener |
 |---|---|---|---|
 | `Unload` | `_QuestieFrame.Unload`, at the start of every call: at once, and for a queued icon again as `ProcessQueue` finishes it, while `data` and `minimapTwin` are still set | `QuestieWaypoints.RemoveOwner` | `MarkerRemoved` then `MinimapMarkerRemoved` |
-| `VisibilityChanged` | `FadeOut`, `FadeIn`, `FakeHide`, `FakeShow`, and native `BaseOnShow`/`BaseOnHide` | `QuestieWaypoints.OwnerChanged` | `QuestiePolygon.MarkerChanged` |
+| `VisibilityChanged` | `FadeOut`, `FadeIn`, `FakeHide`, `FakeShow` | `QuestieWaypoints.OwnerChanged` | `QuestiePolygon.MarkerChanged` |
+| `NativeVisibilityChanged` | native `BaseOnShow`/`BaseOnHide` (split out at the review, see F-2 in §8) | — | `ScheduleRefresh` for a map marker |
 | `HoverStart` | `QuestieFrame.ApplyHoverHighlights(icon)`, before the core tint | `WaypointHover.End(icon)`, then `SetHighlighted(icon.data, true)` | `QuestiePolygon.EnterMarker` |
 | `HoverEnd` | `QuestieFrame.ResetHoverHighlights(icon, data)`, after the core untint | `SetHighlighted(data, false)` | `LeaveMarker(icon)` only while `icon.data == data` |
 | `Click` | `_QuestieFrame.OnClick`: a plain left-click on a world map icon on its own map (`B :201-206`'s branch), where core does nothing else | — | `QuestiePolygon.ToggleMarker` |
@@ -522,7 +523,7 @@ end
 1. Listeners run in subscription order. No listener may depend on it, because they belong to different black-box features.
 2. All `HoverStart` listeners run before the core tint, and the core untint runs before `HoverEnd` listeners. This prevents the F3 hazard: a path hover ended by `WaypointHover.End` restores its tints before the new tint saves colors.
 3. `Unload` fires at the start of every `Unload` call: at once, also for a still-queued icon (waypoints `f58ad0b1a`), and again when `ProcessQueue`'s second call finishes that icon's unload (`WP QuestieMap.lua:359-362`, `:372-375`). Both listeners are idempotent; the second call releases what was added to the queued icon meanwhile. This is when both features were told before F-3. Listeners run while `icon.data` and `icon.minimapTwin` are still set, and the pool can't recycle the frame before they return.
-4. `VisibilityChanged` may come spuriously, or twice for one change: `FakeShow` emits, and its native `Show` emits too. Listeners re-read state and are idempotent. Both features' listeners already coalesce: dirty flags and `ScheduleRefresh`.
+4. `VisibilityChanged` and `NativeVisibilityChanged` may come together for one change: `FakeShow` emits the first, and its native `Show` the second. Listeners re-read state and are idempotent. Both features' listeners already coalesce: dirty flags and `ScheduleRefresh`.
 5. Emitting is re-entrant. A `HoverStart` listener may end another icon's hover, which emits `HoverEnd`. A marker's `Unload` unloads its minimap icons, which emit `Unload`.
 
 #### Error isolation
@@ -531,13 +532,11 @@ A failing listener must never break an icon's unload. If it did, the icon would 
 
 #### Hot-path cost
 
-`VisibilityChanged` fires for every icon HereBeDragons shows or hides, which can be hundreds on map open. Measured offline in Lua 5.1.5 on a desktop:
+`NativeVisibilityChanged` fires for every icon HereBeDragons shows or hides, which can be hundreds on map open. Measured offline in Lua 5.1.5 on a desktop:
 - **Direct calls:** today's two field checks cost 0.066 µs per icon.
 - **Events:** the `pcall` dispatch to the two listeners costs 0.195 µs. That is +0.13 µs per icon event, or about 0.13 ms for 1,000 icons unloading.
 - **Coalescing:** downstream work is already coalesced into one redraw per frame.
-- **Native show and hide** add a few redundant invalidations:
-  - waypoints restyle in-reach routes when a patrol NPC's minimap icon crosses the minimap edge;
-  - polygon schedules one nudge pass, signature-checked, on map open.
+- **Native show and hide** have their own event, so only the polygon map marker listener runs extra. The seam review measured that sharing `VisibilityChanged` made every patrol NPC minimap icon crossing the minimap edge restyle every route and recollect the minimap's paths.
 
 #### Where each feature subscribes: on first use, inside itself
 
@@ -1094,7 +1093,7 @@ Run `busted -p ".test.lua" .` once, after F-6 and after F-7.
 | # | Item | Recommendation |
 |---|---|---|
 | F-1 | **Decision:** add `Click` as a fifth icon event (polygon's `ToggleMarker`) | **Yes.** Otherwise `QuestieFrame` keeps a feature import for one line. Its meaning is narrow: the click core does nothing else with. |
-| F-2 | **Decision:** `VisibilityChanged` also covers native show and hide (polygon's `BaseOnShow`/`BaseOnHide` refresh) | **Yes.** One event: listeners re-read and coalesce. The cost is a few redundant restyles and one signature-checked nudge pass on map open. The alternative is a sixth event, or a `native` flag. |
+| F-2 | **Decision (changed at the seam review):** native show and hide get their own event, `NativeVisibilityChanged` | **Yes.** Sharing `VisibilityChanged` redrew every path whenever HereBeDragons showed or hid a patrol NPC's icon, though paths never draw by native visibility, and refreshed polygon minimap areas the same way. Only polygon's map markers need native show and hide, as before F-3. |
 | F-3 | **Decision:** `Unload` fires at every `Unload` call: at once, and for a still-queued icon again as the draw queue finishes it | **Yes (changed at the F-3 commit).** Waypoints `f58ad0b1a` releases a queued icon's paths at once and again at the finish, and polygon's listeners ran at both calls too, so this keeps both features' behavior. Both listeners are idempotent. Every polygon release path already clears `polygonMarker` itself first (`_ReleaseMarkers`, `RemoveQuest`, `Reset`). |
 | F-4 | **Decision:** feature fields stay on frames and data, declared by their feature (3.4) | **Yes.** There is no payoff from side tables. |
 | F-5 | **Decision:** rule 4's list as the guard's 11 entry points (3.6), with features subscribing on first use and no init entry point | **Yes** |
