@@ -1,5 +1,7 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
+-- Questie modification: MINOR counts this fork's own versions, not upstream's. Upstream Pins is at 17
+-- too, so the next upstream sync must go to at least 18.
 local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 17
 assert(LibStub, MAJOR .. " requires LibStub")
 
@@ -504,7 +506,8 @@ function worldmapProviderPin:OnAcquired(icon, x, y, frameLevelType)
     icon:ClearAllPoints()
     icon:SetPoint("CENTER", self, "CENTER")
     icon:Show()
-    -- Notify after parenting and centering: presentation can offset the child, not its geographic wrapper.
+    -- Questie modification: notify after parenting and centering, so presentation can offset the
+    -- child, not its geographic wrapper.
     if icon.OnWorldMapPinUpdated then
         icon:OnWorldMapPinUpdated(self)
     end
@@ -512,7 +515,8 @@ end
 
 function worldmapProviderPin:OnCanvasScaleChanged()
     MapCanvasPinMixin.OnCanvasScaleChanged(self)
-    -- Apply the native scale first so child offsets can convert display units using the final scale.
+    -- Questie modification: apply the native scale first so child offsets can convert display units
+    -- using the final scale.
     if self.icon and self.icon.OnWorldMapPinUpdated then
         self.icon:OnWorldMapPinUpdated(self)
     end
@@ -527,7 +531,7 @@ function worldmapProviderPin:OnReleased()
     end
 end
 
--- Mixin copies methods onto native wrappers. Retaining a pre-17 pool also
+-- Questie modification: Mixin copies methods onto native wrappers. Retaining a pre-17 pool also
 -- requires updating those copies, without replacing frames or unrelated methods.
 if oldversion and oldversion < 17 then
     local presentationMethods = {
