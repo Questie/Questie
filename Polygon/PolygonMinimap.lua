@@ -13,6 +13,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field cluster PolygonCluster Source geometry; the outline is in cluster.uiMapId percentages.
 ---@field color number[] Area RGB.
 ---@field alpha number Marker fade in (0, 1], scaling fill and border opacity.
+---@field highlighted boolean? Previewed from the quest log or tracker; drawn with a highlighted border.
 
 ---@class PolygonWorldOutline
 ---@field points table[] {x, y} in HereBeDragons world yards.
@@ -33,6 +34,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field projection PolygonMinimapProjection Projection the frame was configured with.
 ---@field color number[] Area color the frame was styled with.
 ---@field alpha number Fade the frame was styled with.
+---@field highlighted boolean? Highlight the frame was styled with.
 
 -- Same fill and border opacity as the world map's areas at full marker opacity.
 local FILL_ALPHA, BORDER_ALPHA = 0.25, 0.75
@@ -216,12 +218,13 @@ end
 ---@return Frame
 local function _View(layer, area, world, projection)
     local view = layer.views[area.key]
-    local color, alpha = area.color, area.alpha
+    local color, alpha, highlighted = area.color, area.alpha, area.highlighted == true
     if view and view.cluster == area.cluster and view.projection == projection and view.color == color
-        and view.alpha == alpha then
+        and view.alpha == alpha and view.highlighted == highlighted then
         return view.frame
     end
-    local shape = {color = {color[1], color[2], color[3], FILL_ALPHA * alpha}, borderAlpha = BORDER_ALPHA * alpha}
+    local shape = {color = {color[1], color[2], color[3], FILL_ALPHA * alpha}, borderAlpha = BORDER_ALPHA * alpha,
+        highlighted = highlighted}
     local level = layer.container:GetFrameLevel()
     if view and view.cluster == area.cluster and view.projection == projection then
         layer.renderer:Style(view.frame, shape, level)
@@ -235,7 +238,8 @@ local function _View(layer, area, world, projection)
             layer.views[area.key] = view
         end
     end
-    view.cluster, view.projection, view.color, view.alpha = area.cluster, projection, color, alpha
+    view.cluster, view.projection, view.color, view.alpha, view.highlighted = area.cluster, projection, color, alpha,
+        highlighted
     return view.frame
 end
 

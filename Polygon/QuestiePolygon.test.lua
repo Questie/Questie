@@ -942,14 +942,21 @@ describe("QuestiePolygon world-map adapter", function()
     it("offers the minimap only shown areas, under its minimap icons' hiding rules", function()
         Update()
         local marker = frames[1].polygonMarker
-        -- A hover previews areas on the world map only.
+        -- Hovering a world-map marker previews on the world map only.
         Polygon.EnterMarker(frames[1])
+        assert.are.same({}, minimapLayer.collect())
+        Polygon.LeaveMarker(frames[1])
+        -- Quest log and tracker previews reach the minimap, highlighted.
+        Polygon.SetObjectivePreview(42, 1, true)
+        assert.are.same({{key = marker, cluster = marker.cluster, color = objective.Color, alpha = 1, highlighted = true}},
+            minimapLayer.collect())
+        Polygon.SetObjectivePreview(42, 1, false)
         assert.are.same({}, minimapLayer.collect())
 
         minimapLayer.Invalidate:clear()
         Polygon.SetObjectiveAreaShown(42, 1, true)
         assert.spy(minimapLayer.Invalidate).was.called()
-        assert.are.same({{key = marker, cluster = marker.cluster, color = objective.Color, alpha = 1}},
+        assert.are.same({{key = marker, cluster = marker.cluster, color = objective.Color, alpha = 1, highlighted = false}},
             minimapLayer.collect())
         -- Marker fade, such as tracker focus, applies as on the world map.
         frames[1].texture.a = 0.4
