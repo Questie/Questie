@@ -184,7 +184,11 @@ describe("QuestieFrame", function()
         end)
 
         it("finishes an unload whatever a listener does, and reports a failing listener once", function()
-            QuestieFrame.Subscribe("Unload", function() error("broken feature") end)
+            local failures = 0
+            QuestieFrame.Subscribe("Unload", function()
+                failures = failures + 1
+                error("broken feature")
+            end)
             Listen("Unload")
             local first, second = Icon({Id = 1}), Icon({Id = 2})
             first._loaded, second._loaded = true, true
@@ -193,6 +197,8 @@ describe("QuestieFrame", function()
             QuestieFrame.private.Unload(second)
 
             assert.are.equal(2, #heard)
+            -- The failing listener still hears every unload: skipping one would leak what it owns.
+            assert.are.equal(2, failures)
             assert.spy(reportError).was.called(1)
             assert.is_nil(first.data)
             assert.is_nil(second.data)

@@ -53,7 +53,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
 ---| "VisibilityChanged" # It was shown or hidden, natively or by FakeHide/FakeShow, or faded in or out. It may come twice for one change.
 ---| "HoverStart" # The cursor or the gamepad cursor started hovering it.
----| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with.
+---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with. It may come without a HoverStart, such as when the cursor leaves an icon faded out to nothing.
 ---| "Click" # A plain left-click on a world map icon on its own map, which Questie leaves to features.
 
 ---@type table<IconEvent, fun(icon: IconFrame, data: IconData?)[]>
@@ -103,7 +103,7 @@ function QuestieFrame.CreateIconFrame(frameId)
     ---   `waypointPaths`), are declared in the feature's files, and are cleared when it lets the icon
     ---   go. Core and other features never read them.
     ---@class IconFrame : Button
-    ---@field data IconData What the icon shows; nil while pooled.
+    ---@field data IconData What the icon shows; nil while pooled, so code holding a pooled icon checks it.
     ---@field minimapTwin IconFrame? A world map icon's minimap icon, drawn with the same data table: patrol paths follow it on the minimap. Linked by QuestieMap for icons drawn as a pair and by a drawing feature for its markers; cleared on unload. A twin unloaded alone stays linked, so readers check `twin.data == icon.data`.
     ---@field miniMapIcon boolean? A minimap icon.
     ---@field hidden boolean? Hidden by FakeHide, whatever HereBeDragons shows.

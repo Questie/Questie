@@ -11,7 +11,7 @@ local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 
 -- One patrol path is hovered at a time, on the world map or the minimap. Hovering a path is
--- hovering its NPC: the NPC's tooltip opens, which highlights all of the NPC's paths.
+-- hovering its NPC: the NPC's tooltip opens, and all of the NPC's paths highlight.
 -- - World map: the NPC's icon opens its own tooltip, as when the icon itself is hovered. An icon
 --   that isn't visible can't anchor it; then only the paths highlight.
 -- - Minimap: the NPC's quest icons are listed through MapIconTooltip.ShowForIcons, on a tooltip of
