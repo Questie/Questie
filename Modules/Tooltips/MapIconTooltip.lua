@@ -489,12 +489,14 @@ function MapIconTooltip.ShowForIcons(owner, icons, tooltip, objectivePrefix)
 end
 
 ---Ends the map icon tooltip shown for `owner`: hides the tooltip while `owner` still holds it, and
----stops Redraw from rendering it. A map icon tooltip shown since for another frame is left alone.
+---stops Redraw from rendering it. A map icon tooltip shown since for another frame, and any other
+---tooltip `owner` holds, such as another addon's for the map, are left alone.
 ---@param owner Frame
 ---@param tooltip GameTooltip
 function MapIconTooltip.Release(owner, tooltip)
     local state = shown[tooltip]
-    if state and state.owner == owner then shown[tooltip] = nil end
+    if not (state and state.owner == owner) then return end
+    shown[tooltip] = nil
     if tooltip:IsOwned(owner) then tooltip:Hide() end
 end
 

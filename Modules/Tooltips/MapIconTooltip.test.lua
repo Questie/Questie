@@ -350,6 +350,12 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.Release(other, tooltip)
             assert.spy(tooltip.Hide).was.called(1)
             assert.is_nil(MapIconTooltip.GetOwner(tooltip))
+
+            -- Another addon's tooltip for the same frame is not a map icon tooltip.
+            tooltip:SetOwner(area, "ANCHOR_CURSOR")
+            MapIconTooltip.Release(area, tooltip)
+            assert.spy(tooltip.Hide).was.called(1)
+            assert.are.equal(area, tooltip.holder)
         end)
 
         it("stops counting a tooltip another frame took, and leaves that frame's tooltip alone", function()
