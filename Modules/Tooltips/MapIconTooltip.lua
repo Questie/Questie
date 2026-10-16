@@ -713,8 +713,8 @@ function _MapIconTooltip:GetObjectiveTooltip(icon, prefix)
                     local partyMemberTip = {
                         [remoteText] = {},
                     }
-                    if iconData.Name then
-                        partyMemberTip[remoteText][iconData.Name] = true;
+                    for _, name in ipairs(iconData.Names or {iconData.Name}) do
+                        partyMemberTip[remoteText][name] = true
                     end
                     tinsert(tooltips, partyMemberTip);
                     anotherPlayer = true;
@@ -740,8 +740,8 @@ function _MapIconTooltip:GetObjectiveTooltip(icon, prefix)
         local t = {
             [text] = {},
         }
-        if iconData.Name then
-            t[text][iconData.Name] = true;
+        for _, name in ipairs(iconData.Names or {iconData.Name}) do
+            t[text][name] = true
         end
         tinsert(tooltips, 1, t);
     end

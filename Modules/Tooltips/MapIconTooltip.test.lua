@@ -271,6 +271,16 @@ describe("MapIconTooltip objective wording", function()
             return names
         end
 
+        it("names everything an icon stands for under its objective line, such as each NPC of a quest area", function()
+            icon.data.Names = {"Windstone", "Boulder"}
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip)
+            local names
+            for _, row in ipairs(GameTooltip.questOrder[1]) do
+                for _, rowNames in pairs(row) do names = rowNames end
+            end
+            assert.are.same({Windstone = true, Boulder = true}, names)
+        end)
+
         it("lists the visible icons of the spot's zone within the shown map's cluster distance", function()
             local hovered = Icon("hovered", 50, 50, 1, 0)
             local hidden = Icon("hidden", 50, 50, 1)

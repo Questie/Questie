@@ -53,6 +53,21 @@ describe("PolygonGeometry", function()
         assert.is_nil(point.keep)
     end)
 
+    it("lists one member of each kind its cluster holds, such as one spawn of each NPC", function()
+        local wolf = {x = 1, y = 10, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0, kind = "wolf"}
+        local bear = {x = 2, y = 10, worldX = 50, worldY = 0, uiMapId = 1429, instanceId = 0, kind = "bear"}
+        local secondWolf = {x = 3, y = 10, worldX = 100, worldY = 0, uiMapId = 1429, instanceId = 0, kind = "wolf"}
+        local farBear = {x = 50, y = 10, worldX = 5000, worldY = 0, uiMapId = 1429, instanceId = 0, kind = "bear"}
+
+        local result = _Build({secondWolf, farBear, bear, wolf})
+
+        assert.are_equal(2, #result)
+        assert.are_same({"wolf", "bear"}, {result[1].kinds[1].kind, result[1].kinds[2].kind})
+        assert.are_equal(2, #result[1].kinds)
+        assert.are_equal(farBear, result[2].kinds[1])
+        assert.are_equal(1, #result[2].kinds)
+    end)
+
     it("uses explicit world coordinates even near the zero-percent edges", function()
         local a = {x = 0.1, y = 0.2, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0}
         local b = {x = 0.3, y = 0.4, worldX = 100, worldY = 0, uiMapId = 1429, instanceId = 0}

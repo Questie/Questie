@@ -33,6 +33,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field IconScale number
 ---@field QuestData Quest
 ---@field Name string
+---@field Names string[]? Everything the icon stands for, such as each NPC of a quest area its marker shows, starting with Name.
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
 ---@field touchedPins {icon: IconFrame, data: IconData, color: number[]}[]? QuestieFrame's own: the icons a hover of this data tinted, with what they showed and their colors before it.
