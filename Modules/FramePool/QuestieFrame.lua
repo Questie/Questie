@@ -55,7 +55,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---| "NativeVisibilityChanged" # The frame itself was shown or hidden, as HereBeDragons places icons for the shown maps, and also by FakeHide/FakeShow.
 ---| "HoverStart" # The cursor or the gamepad cursor started hovering it.
 ---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with. It may come without a HoverStart, such as when the cursor leaves an icon faded out to nothing.
----| "Click" # A plain left-click on a world map icon on its own map, which Questie leaves to features.
+---| "Click" # A plain left-click on a world map icon on its own map, or on a minimap icon while chat takes no link, which Questie leaves to features.
 
 ---@type table<IconEvent, fun(icon: IconFrame, data: IconData?)[]>
 local listeners = {Unload = {}, VisibilityChanged = {}, NativeVisibilityChanged = {}, HoverStart = {}, HoverEnd = {}, Click = {}}
@@ -322,6 +322,8 @@ function _QuestieFrame.OnClick(self, button)
                     Popup.Show("QUESTIE_CONFIRMHIDE", confirmText, nil, frameData.Id)
                 elseif frameData.Type == "manual" and IsShiftKeyDown() and (not frameData.ManualTooltipData.disableShiftToRemove) then
                     QuestieMap:UnloadManualFrames(frameData.id)
+                elseif self.miniMapIcon and not IsModifierKeyDown() then
+                    _Emit("Click", self)
                 end
             end
         end

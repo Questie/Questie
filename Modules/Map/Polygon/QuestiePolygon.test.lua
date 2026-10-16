@@ -264,8 +264,11 @@ describe("QuestiePolygon world-map adapter", function()
 
         iconListeners.Click(frame)
         assert.is_true(SavedVisibility(entry))
-
+        -- Clicking its minimap icon toggles the same areas, back to the automatic mode here.
         local minimapFrame = marker.minimapIcons[1].frame
+        iconListeners.Click(minimapFrame)
+        assert.is_nil(SavedVisibility(entry))
+
         iconListeners.Unload(minimapFrame)
         assert.is_nil(minimapFrame.polygonMinimapMarker)
         assert.are.same({}, marker.minimapIcons)

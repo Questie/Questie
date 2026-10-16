@@ -117,7 +117,8 @@ describe("QuestieFrame", function()
             heard = {}
             saved = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, error = Questie.Error,
                 IsModifierKeyDown = _G.IsModifierKeyDown, IsControlKeyDown = _G.IsControlKeyDown,
-                ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow, IsShiftKeyDown = _G.IsShiftKeyDown}
+                ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow, IsShiftKeyDown = _G.IsShiftKeyDown,
+                ChatEdit_InsertLink = _G.ChatEdit_InsertLink}
             reportError = spy.new(function() end)
             Questie.Error = reportError
             _G.LibStub = function() return {RemoveMinimapIcon = function() end, RemoveWorldMapIcon = function() end} end
@@ -235,6 +236,32 @@ describe("QuestieFrame", function()
             _G.IsModifierKeyDown = function() return true end
             _G.ChatEdit_GetActiveWindow = function() return nil end
             _G.IsShiftKeyDown = function() return false end
+            QuestieFrame.private.OnClick(icon, "LeftButton")
+            assert.are.equal(1, #heard)
+        end)
+
+        it("leaves a plain left-click on a minimap icon to features, unless chat takes the quest's link", function()
+            Listen("Click")
+            _G.IsModifierKeyDown = function() return false end
+            _G.IsControlKeyDown = function() return false end
+            _G.IsShiftKeyDown = function() return false end
+            _G.ChatEdit_GetActiveWindow = function() return nil end
+            -- An open world map changes nothing for minimap icons.
+            _G.WorldMapFrame = {IsShown = function() return true end}
+            local icon = QuestieFrameInstance
+            icon.UiMapID, icon.miniMapIcon, icon.data.QuestData = 10, true, {}
+
+            QuestieFrame.private.OnClick(icon, "LeftButton")
+            assert.are.equal(1, #heard)
+            assert.are.equal(icon, heard[1].icon)
+
+            _G.ChatEdit_GetActiveWindow = function() return {} end
+            _G.ChatEdit_InsertLink = spy.new(function() end)
+            QuestieLoader:ImportModule("QuestieLink").GetQuestLinkStringById = function(id) return "link " .. id end
+            QuestieFrame.private.OnClick(icon, "LeftButton")
+            assert.spy(ChatEdit_InsertLink).was.called_with("link 123")
+            _G.ChatEdit_GetActiveWindow = function() return nil end
+            _G.IsModifierKeyDown = function() return true end
             QuestieFrame.private.OnClick(icon, "LeftButton")
             assert.are.equal(1, #heard)
         end)
