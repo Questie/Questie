@@ -26,6 +26,7 @@ describe("QuestieQuest", function()
         Questie.db.char = {}
         local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
         Polygon.Reset = spy.new(function() end)
+        Polygon.IsChosen = function() return Questie.db.profile.enableQuestiePolygons == true end
         Polygon.IsEnabled = function()
             return Questie.db.profile.enableQuestiePolygons == true and Questie.db.profile.enableObjectives ~= false
                 and Questie.db.profile.enabled ~= false
@@ -607,6 +608,35 @@ describe("QuestieQuest", function()
             -- Nameplates still read the objective's icon.
             assert.are.equal(1, objective.Icon)
             assert.spy(Polygon.UpdateObjective).was.called_with(quest, objective, 1)
+        end)
+
+        it("draws no ordinary objective icons in polygon mode while Questie or its objectives are off", function()
+            QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
+            ZoneDB.GetUiMapIdByAreaId = function() return 10 end
+            ZoneDB.GetDungeonLocation = function() return nil end
+            QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
+            QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
+            local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+            -- Switching Questie or its objectives off and on again repopulates every objective. Ordinary
+            -- icons drawn while off would show beside the areas once on again.
+            for _, switchedOff in ipairs({{enabled = false}, {enableObjectives = false}}) do
+                Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, objectiveFilterDistance = 0}
+                for key, value in pairs(switchedOff) do Questie.db.profile[key] = value end
+                QuestieMap.DrawWorldIcon = spy.new(function() return {name = "map"}, {name = "minimap"} end)
+                Polygon.UpdateObjective:clear()
+                local objective = {Index = 1, Description = "Wolves", Type = "monster", Update = function() end,
+                    Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = {[123] = {Id = 123, Name = "Wolf", Icon = 1,
+                        GetIconScale = function() return 1 end, Spawns = {[1] = {{10, 20}}}}}}
+                local quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
+                local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
+
+                local ok, err = coroutine.resume(thread)
+                assert.is_true(ok, err)
+                assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+                assert.are.same({}, objective.AlreadySpawned)
+                -- The polygon path itself draws nothing while switched off.
+                assert.spy(Polygon.UpdateObjective).was.called_with(quest, objective, 1)
+            end
         end)
 
         it("retains paired ordinary icons for party objectives even in polygon mode", function()

@@ -1050,8 +1050,9 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         end
 
         -- Blob mode replaces the local player's objective icons on both maps with cluster
-        -- markers. Party objectives, tooltip registration and quest state stay shared.
-        local polygonMode = QuestiePolygon.IsEnabled() and not objective.IsPartyObjective
+        -- markers. Party objectives, tooltip registration and quest state stay shared. The chosen
+        -- style decides, not whether Questie is on: switched off, blob mode draws nothing.
+        local polygonMode = QuestiePolygon.IsChosen() and not objective.IsPartyObjective
         if polygonMode then
             -- Nameplates read objective.Icon, which the ordinary icon pass otherwise records.
             if not objective.Icon then

@@ -174,6 +174,23 @@ describe("QuestiePolygon world-map adapter", function()
         FramePool.IsLineFrame = savedIsLineFrame
     end)
 
+    it("stays the chosen style while Questie or its objectives are off, drawing areas only while both are on", function()
+        Questie.db.profile.enableQuestiePolygons, Questie.db.profile.enableObjectives, Questie.db.profile.enabled = true, true, true
+        assert.is_true(Polygon.IsChosen())
+        assert.is_true(Polygon.IsEnabled())
+
+        for _, key in ipairs({"enabled", "enableObjectives"}) do
+            Questie.db.profile[key] = false
+            assert.is_true(Polygon.IsChosen())
+            assert.is_false(Polygon.IsEnabled())
+            Questie.db.profile[key] = true
+        end
+
+        Questie.db.profile.enableQuestiePolygons = false
+        assert.is_false(Polygon.IsChosen())
+        assert.is_false(Polygon.IsEnabled())
+    end)
+
     it("reads the map cursor and counts only the bare map as uncovered", function()
         local focus, overCanvas = nil, true
         _G.GetMouseFoci = function() return {focus} end

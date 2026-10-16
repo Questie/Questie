@@ -82,9 +82,19 @@ local nearbyTicker
 -- World units added around each cluster's spawn extent, so areas appear slightly before arrival.
 local NEARBY_PADDING = 100
 
+---Whether the player chose Questie blobs as the objective style. Objectives take the polygon path
+---whenever it is chosen, also while Questie or its objectives are switched off: the path then draws
+---nothing, where ordinary icons drawn meanwhile would show beside the areas once switched on again.
+---@return boolean
+function QuestiePolygon.IsChosen()
+    return Questie.db.profile.enableQuestiePolygons == true
+end
+
+---Whether quest areas draw now: chosen, with Questie and its objectives switched on.
+---@return boolean
 function QuestiePolygon.IsEnabled()
     local profile = Questie.db.profile
-    return profile.enableQuestiePolygons == true and profile.enableObjectives ~= false and profile.enabled ~= false
+    return QuestiePolygon.IsChosen() and profile.enableObjectives ~= false and profile.enabled ~= false
 end
 
 -- Area visibility
