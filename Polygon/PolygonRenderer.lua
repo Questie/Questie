@@ -34,6 +34,7 @@ PolygonRenderer.debugRandomColors = false
 ---@class PolygonHoverInput
 ---@field getCursorPosition fun(): number?, number? Normalized coordinates against the full canvas extent.
 ---@field isCursorOnMap fun(): boolean False while other UI covers the map under the cursor.
+---@field onHover fun(shapes: PolygonShape[], changed: boolean)? Hears every hover check, with the hovered shapes as last styled; changed when the hovered set differs.
 
 local Renderer = {}
 Renderer.__index = Renderer
@@ -76,6 +77,38 @@ local function _RestyleBorders(frame, selected)
                 math.min(color[3] * brightness, 1), frame.polygonBorderAlpha)
         end
     end
+end
+
+---@param before table<Frame, boolean>
+---@param after table<Frame, boolean>
+---@return boolean
+local function _HoverChanged(before, after)
+    for frame in pairs(after) do
+        if not before[frame] then return true end
+    end
+    for frame in pairs(before) do
+        if not after[frame] then return true end
+    end
+    return false
+end
+
+---Listeners hear every check, so they can follow cursor moves within the same areas.
+local function _NotifyHover(self, changed)
+    local onHover = self.hoverInput and self.hoverInput.onHover
+    if not onHover then return end
+    local shapes = {}
+    for _, frame in ipairs(self.activeFrames) do
+        if self.hoveredFrames[frame] and frame.polygonShape then shapes[#shapes + 1] = frame.polygonShape end
+    end
+    onHover(shapes, changed)
+end
+
+---Ends geometric hover, telling listeners only if something was hovered.
+local function _ResetHover(self)
+    local hadHover = next(self.hoveredFrames) ~= nil
+    self.hoveredFrames = {}
+    local onHover = self.hoverInput and self.hoverInput.onHover
+    if hadHover and onHover then onHover({}, true) end
 end
 
 local function _SetHighlightedFrames(self, selected)
@@ -149,8 +182,10 @@ function Renderer:UpdateHover()
     for _, frame in ipairs(self.activeFrames) do
         if frame.polygonHighlighted and frame:IsShown() then selected[frame] = true end
     end
+    local changed = _HoverChanged(self.hoveredFrames, hovered)
     self.hoveredFrames = hovered
     _SetHighlightedFrames(self, selected)
+    _NotifyHover(self, changed)
 end
 
 -- Hover follows cursor movement: the full check runs only when the cursor's canvas position
@@ -174,7 +209,7 @@ local function _SyncHoverDriver(self)
             self.hoverDriver:Hide()
         end
         self.hoverPolling = false
-        self.hoveredFrames = {}
+        _ResetHover(self)
         _SetHighlightedFrames(self, {})
         return
     end
@@ -186,7 +221,7 @@ local function _SyncHoverDriver(self)
         driver:SetScript("OnHide", function(hiddenDriver)
             hiddenDriver:SetScript("OnUpdate", nil)
             self.hoverPolling = false
-            self.hoveredFrames = {}
+            _ResetHover(self)
             _SetHighlightedFrames(self, {})
         end)
         driver:SetScript("OnShow", function()
@@ -294,6 +329,8 @@ end
 function Renderer:Style(frame, shape, frameLevel)
     assert(self.ownedFrames[frame], "Polygon view is not owned by this renderer")
     local r, g, b, fillAlpha, borderAlpha, highlighted = _Appearance(shape)
+    -- Every caller styles each visible view per publication, so this is the shape on screen.
+    frame.polygonShape = shape
     local old = frame.polygonColor
     local tintChanged = not old or old[1] ~= r or old[2] ~= g or old[3] ~= b
     local fillChanged = tintChanged or not old or old[4] ~= fillAlpha
@@ -437,7 +474,7 @@ function Renderer:Release(frame)
     frame:Hide()
     if wasVisible then _SyncHoverDriver(self) end
     frame.polygonOutline, frame.polygonBounds, frame.polygonColor, frame.polygonBorderAlpha = nil, nil, nil, nil
-    frame.polygonHighlighted, frame.polygonFrameLevel = nil, nil
+    frame.polygonHighlighted, frame.polygonFrameLevel, frame.polygonShape = nil, nil, nil
     _ReleaseTextures(frame.fills, self.freeFills, 0)
     _ReleaseTextures(frame.borders, self.freeBorders, 0)
     frame:ClearAllPoints()
@@ -452,8 +489,9 @@ function Renderer:Clear()
     -- Unlike ordinary Hide publication, error cleanup cannot depend on successful
     -- border styling. Remove selections first so the driver's OnHide is harmless.
     local highlighted = self.highlightedFrames
-    self.highlightedFrames, self.hoveredFrames = {}, {}
+    self.highlightedFrames = {}
     self.activeFrames, self.visibleFrames = {}, {}
+    _ResetHover(self)
     for frame in pairs(highlighted) do pcall(_RestyleBorders, frame, false) end
     local firstError
     if self.hoverDriver then
