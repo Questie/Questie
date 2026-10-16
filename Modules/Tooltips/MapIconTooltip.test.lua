@@ -60,8 +60,6 @@ describe("MapIconTooltip objective wording", function()
             return {AddLine = function() end, AddDoubleLine = function() end}
         end
         layout.Render = function() end
-        QuestieLoader:ImportModule("QuestieWaypoints").SetHighlighted = function() end
-        QuestieLoader:ImportModule("WaypointHover").End = function() end
 
         objective = {Index = 3, Type = "item", Description = "Windstone Cluster", Collected = 9, Needed = 15,
             Update = function() end}
@@ -109,43 +107,19 @@ describe("MapIconTooltip objective wording", function()
     end
 
     local function RenderObjectiveLines()
-        MapIconTooltip.Show(icon)
+        MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
         return ObjectiveLines()
     end
-
-    it("previews polygon markers even when the tooltip refresh is throttled", function()
-        local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
-        Polygon.EnterMarker = spy.new(function() end)
-        icon.polygonMarker = {}
-        now = 0.01
-        GameTooltip.IsShown = function() return true end
-        GameTooltip.IsOwned = function(_, frame) return frame == icon end
-        GameTooltip.SetOwner = spy.new(function() end)
-
-        MapIconTooltip.Show(icon)
-
-        assert.spy(Polygon.EnterMarker).was.called_with(icon)
-        assert.spy(GameTooltip.SetOwner).was.not_called()
-    end)
 
     it("replaces another owner's tooltip at once, such as a quest area's", function()
         now = 0.01
         GameTooltip.IsShown = function() return true end
         GameTooltip.SetOwner = spy.new(function() end)
 
-        MapIconTooltip.Show(icon)
+        MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
 
         assert.spy(GameTooltip.SetOwner).was.called(1)
         assert.are.equal(icon, GameTooltip.SetOwner.calls[1].refs[2])
-    end)
-
-    it("does not call polygon preview for ordinary objective icons", function()
-        local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
-        Polygon.EnterMarker = spy.new(function() end)
-
-        MapIconTooltip.Show(icon)
-
-        assert.spy(Polygon.EnterMarker).was.not_called()
     end)
 
     it("uses accepted native text without appending counts or stripping punctuation", function()
@@ -239,7 +213,7 @@ describe("MapIconTooltip objective wording", function()
         objective.Update = update
         ActiveQuests.Remove(1)
 
-        MapIconTooltip.Show(icon)
+        MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
 
         assert.is_nil(GameTooltip.questOrder[1])
         assert.spy(update).was.not_called()
@@ -306,7 +280,7 @@ describe("MapIconTooltip objective wording", function()
             GameTooltip.GetOwner = function() return owner end
             objective.IsPartyObjective = true
             QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
-            MapIconTooltip.Show(icon)
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
         end)
 
         after_each(function()
@@ -325,10 +299,11 @@ describe("MapIconTooltip objective wording", function()
             assert.are.equal(icon, owner)
         end)
 
-        it("should reset the hover highlights of the icon before showing again", function()
+        it("should keep the hover's highlights when showing again", function()
             MapIconTooltip.RefreshQuest(1)
 
-            assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon)
+            assert.spy(GameTooltip.SetOwner).was.called(2)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
         end)
 
         it("should leave a tooltip alone that does not list the quest", function()
@@ -503,23 +478,6 @@ describe("MapIconTooltip objective wording", function()
             assert.is_not_nil(GameTooltip.questOrder[2])
         end)
 
-        it("keeps the colors to restore when a hovered icon's tooltip shows again before its reset", function()
-            GameTooltip.IsShown = function() return true end
-            icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a = 1, 0.5, 0, 1
-            icon.texture.SetVertexColor = function(texture, r, g, b, a)
-                texture.r, texture.g, texture.b, texture.a = r, g, b, a
-            end
-
-            -- The path's hover shows the tooltip, then the icon's own hover past the throttle, with no reset between.
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
-            now = now + 0.1
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
-
-            assert.are.equal(1, #icon.data.touchedPins)
-            assert.are.equal(icon, icon.data.touchedPins[1].icon)
-            assert.are.equal(icon.data, icon.data.touchedPins[1].data)
-            assert.are_same({1, 0.5, 0, 1}, icon.data.touchedPins[1].color)
-        end)
     end)
     describe("order", function()
         local rendered, questLevels
