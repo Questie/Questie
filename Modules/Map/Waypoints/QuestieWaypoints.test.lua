@@ -5,6 +5,8 @@ describe("QuestieWaypoints", function()
     local QuestieWaypoints
     local WaypointMap, WaypointMinimap
     local savedLibStub
+    ---@type table<IconEvent, function>
+    local listeners
 
     local PATROLS = {{{10, 10}, {20, 10}}, {{30, 30}, {40, 30}}}
     local NORMAL, HOSTILE, HIGHLIGHT = {1, 0.72, 0, 0.5}, {1, 0.2, 0, 0.7}, {0.93, 0.46, 0.13, 0.8}
@@ -31,6 +33,11 @@ describe("QuestieWaypoints", function()
         WaypointMap.Invalidate = spy.new(function() end)
         WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
         WaypointMinimap.Invalidate = spy.new(function() end)
+        listeners = {}
+        QuestieLoader:ImportModule("QuestieFrame").Subscribe = function(event, listener)
+            assert.is_nil(listeners[event], "subscribed twice to " .. event)
+            listeners[event] = listener
+        end
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         dofile("Modules/Map/Waypoints/QuestieWaypoints.lua")
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
@@ -223,6 +230,29 @@ describe("QuestieWaypoints", function()
         Questie.db.profile.waypointMinimapEnabled, Questie.db.profile.waypointMapEnabled = true, false
         assert.is_nil(QuestieWaypoints.WorldMapAlpha(path))
         assert.are.equal(1, QuestieWaypoints.MinimapAlpha(path))
+    end)
+
+    it("follows its owners through icon events from the first path on", function()
+        assert.are.same({}, listeners)
+        local icon = Icon({})
+        local data = icon.data
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
+        QuestieWaypoints.Add(Icon({}), "m_other", PATROLS, 12)
+
+        -- A hover ends with the data it started with, even once the icon shows other data.
+        QuestieWaypoints.SetHighlighted(data, true)
+        icon.data = {}
+        listeners.HoverEnd(icon, data)
+        assert.is_nil(data.waypointPaths[1].highlighted)
+        icon.data = data
+
+        WaypointMap.Invalidate:clear()
+        listeners.VisibilityChanged(icon)
+        assert.spy(WaypointMap.Invalidate).was.called(1)
+
+        listeners.Unload(icon)
+        assert.are.equal(2, CountPaths())
+        assert.are.same({}, data.waypointPaths)
     end)
 
     it("redraws for an icon's visibility change only when its NPC has paths", function()

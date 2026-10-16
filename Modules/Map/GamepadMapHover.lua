@@ -111,7 +111,7 @@ function _GamepadMapHover.Leave()
         return
     end
     if hoveredData then
-        QuestieFrame.ResetHoverHighlights({data = hoveredData})
+        QuestieFrame.ResetHoverHighlights(hoveredIcon, hoveredData)
     end
     _GamepadMapHover.tooltip:Hide()
     hoveredIcon = nil

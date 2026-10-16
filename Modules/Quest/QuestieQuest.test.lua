@@ -708,6 +708,7 @@ describe("QuestieQuest", function()
                 local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
                 WorldMapLayers.AddLayer, WorldMapLayers.Invalidate = function() end, function() end
                 WorldMapLayers.FrameLevel = function() return 10 end
+                QuestieLoader:ImportModule("QuestieFrame").Subscribe = function() end
                 dofile("Polygon/PolygonGeometry.lua")
                 QuestieLoader:ImportModule("PolygonGeometry").Build = spy.new(function(points)
                     return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}

@@ -74,8 +74,8 @@ describe("GamepadMapHover", function()
         MapIconTooltip.ShowOnTooltip = spy.new(function() end)
         resetData = {}
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
-        QuestieFrame.ResetHoverHighlights = function(icon)
-            table.insert(resetData, icon.data)
+        QuestieFrame.ResetHoverHighlights = function(icon, data)
+            table.insert(resetData, {icon = icon, data = data})
         end
 
         dofile("Modules/Map/GamepadMapHover.lua")
@@ -143,7 +143,9 @@ describe("GamepadMapHover", function()
         _GamepadMapHover.Update()
 
         assert.is_nil(GamepadMapHover.GetHoveredIcon())
-        assert.are_same({data}, resetData)
+        assert.are.equal(1, #resetData)
+        assert.are.equal(pin.icon, resetData[1].icon)
+        assert.are.equal(data, resetData[1].data)
         assert.spy(tooltip.Hide).was.called()
     end)
 
@@ -156,7 +158,7 @@ describe("GamepadMapHover", function()
         pin.icon.data = {}
         _GamepadMapHover.Update()
 
-        assert.are.equal(oldData, resetData[1])
+        assert.are.equal(oldData, resetData[1].data)
         assert.spy(MapIconTooltip.ShowOnTooltip).was.called(2)
     end)
 

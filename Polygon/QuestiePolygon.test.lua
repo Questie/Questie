@@ -2,7 +2,7 @@ dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
-    local tickers, player, minimapLayer, minimapFrames, WorldMapLayers, layers
+    local tickers, player, minimapLayer, minimapFrames, WorldMapLayers, layers, iconListeners
 
     local function Update(index)
         local icon, zones, work
@@ -88,6 +88,11 @@ describe("QuestiePolygon world-map adapter", function()
         WorldMapLayers.AddLayer = function(name, layer) layers[name] = layer end
         WorldMapLayers.Invalidate = spy.new(function() end)
         WorldMapLayers.FrameLevel = function(name) return name == "areas" and 10 or nil end
+        iconListeners = {}
+        QuestieLoader:ImportModule("QuestieFrame").Subscribe = function(event, listener)
+            assert.is_nil(iconListeners[event], "subscribed twice to " .. event)
+            iconListeners[event] = listener
+        end
         minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end)}
         QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(_minimap, collect)
             minimapLayer.collect = collect
@@ -205,6 +210,37 @@ describe("QuestiePolygon world-map adapter", function()
         -- Areas drawn anew may lie differently under a still cursor: the stack offers it again.
         Polygon.Refresh()
         assert.spy(WorldMapLayers.Invalidate).was.called_with("areas")
+    end)
+
+    it("follows its markers through icon events", function()
+        Update()
+        FlushRefresh()
+        local frame = frames[1]
+        local marker = frame.polygonMarker
+        local entry = marker.entry
+
+        -- A hover ends only for the data it started with: a recycled icon's new marker is another hover's.
+        Polygon.EnterMarker(frame)
+        iconListeners.HoverEnd(frame, {})
+        assert.are.equal(frame, entry.hovered)
+        iconListeners.HoverEnd(frame, frame.data)
+        assert.is_nil(entry.hovered)
+
+        local presents = #renderCache.Present.calls
+        iconListeners.VisibilityChanged(frame)
+        FlushRefresh()
+        assert.spy(renderCache.Present).was.called(presents + 1)
+
+        iconListeners.Click(frame)
+        assert.is_true(SavedVisibility(entry))
+
+        local minimapFrame = marker.minimapIcons[1].frame
+        iconListeners.Unload(minimapFrame)
+        assert.is_nil(minimapFrame.polygonMinimapMarker)
+        assert.are.same({}, marker.minimapIcons)
+        iconListeners.Unload(frame)
+        assert.is_nil(frame.polygonMarker)
+        assert.are.same({}, entry.markers)
     end)
 
     describe("area tooltips", function()

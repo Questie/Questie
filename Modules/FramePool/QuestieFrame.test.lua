@@ -9,8 +9,6 @@ describe("QuestieFrame", function()
     local QuestieQuest
     ---@type QuestieFrame
     local QuestieFrame
-    ---@type QuestieWaypoints
-    local QuestieWaypoints
 
     ---@type IconFrame
     local QuestieFrameInstance
@@ -49,11 +47,6 @@ describe("QuestieFrame", function()
 
         QuestieLoader:ImportModule("DailyQuests")
 
-        QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
-        QuestieWaypoints.SetHighlighted = spy.new(function() end)
-        QuestieWaypoints.OwnerChanged = spy.new(function() end)
-        QuestieWaypoints.RemoveOwner = spy.new(function() end)
-
         dofile("Localization/l10n.lua")
         dofile("Modules/FramePool/QuestieFrame.lua")
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
@@ -85,127 +78,157 @@ describe("QuestieFrame", function()
             "Are you sure you want to hide the quest 'Quest 123'?\nIf this quest isn't actually available, please report it to us!", nil, 123)
     end)
 
-    describe("polygon marker interaction", function()
-        local Polygon, saved
+    describe("icon events", function()
+        local heard, saved, reportError
+
+        -- An icon complete enough to unload.
+        local function Icon(data)
+            local function Region() return {Hide = function() end, SetVertexColor = function() end} end
+            return {data = data, minimapTwin = {}, texture = Region(), glowTexture = Region(), overlayTexture = Region(),
+                SetScript = function() end, GetName = function() return "QuestieFrame1" end, Hide = function() end}
+        end
+
+        -- Records each event with what the icon showed at that moment.
+        local function Listen(event)
+            QuestieFrame.Subscribe(event, function(icon, data)
+                heard[#heard + 1] = {icon = icon, data = data, iconData = icon.data, twin = icon.minimapTwin}
+            end)
+        end
+
         before_each(function()
-            Polygon = QuestieLoader:ImportModule("QuestiePolygon")
-            Polygon.ToggleMarker = spy.new(function() end)
-            Polygon.LeaveMarker = spy.new(function() end)
-            Polygon.MarkerRemoved = spy.new(function(frame) frame.polygonMarker = nil end)
-            Polygon.MinimapMarkerRemoved = spy.new(function(frame) frame.polygonMinimapMarker = nil end)
-            Polygon.MarkerChanged = spy.new(function() end)
-            Polygon.ScheduleRefresh = spy.new(function() end)
-            saved = {WorldMapFrame = _G.WorldMapFrame, IsModifierKeyDown = _G.IsModifierKeyDown,
-                IsControlKeyDown = _G.IsControlKeyDown, C_Map = _G.C_Map,
-                ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow, IsShiftKeyDown = _G.IsShiftKeyDown,
-                GameTooltip = _G.GameTooltip, WorldMapTooltip = _G.WorldMapTooltip}
+            heard = {}
+            saved = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, error = Questie.Error,
+                IsModifierKeyDown = _G.IsModifierKeyDown, IsControlKeyDown = _G.IsControlKeyDown,
+                ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow, IsShiftKeyDown = _G.IsShiftKeyDown}
+            reportError = spy.new(function() end)
+            Questie.Error = reportError
+            _G.LibStub = function() return {RemoveMinimapIcon = function() end, RemoveWorldMapIcon = function() end} end
+            dofile("Modules/FramePool/QuestieFrame.lua")
+            QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+            QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
+            QuestieMap.questIdFrames = {}
+        end)
+
+        after_each(function()
+            for name, value in pairs(saved) do _G[name] = value end
+            Questie.Error = saved.error
+        end)
+
+        it("tells features when an icon shows, hides or fades, natively or by Questie's own hiding", function()
+            Listen("VisibilityChanged")
+            local icon, shown = QuestieFrameInstance, true
+            icon.IsShown = function() return shown end
+            icon.Hide = function() shown = false end
+            icon.Show = function() shown = true end
+            local function Texture()
+                return {Hide = function() end, GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end}
+            end
+            icon.texture, icon.glowTexture = Texture(), Texture()
+
+            QuestieFrame.private.BaseOnShow(icon)
+            QuestieFrame.private.BaseOnHide(icon)
+            QuestieFrame.private.FakeHide(icon)
+            QuestieFrame.private.FakeShow(icon)
+            QuestieFrame.private.FadeOut(icon)
+            QuestieFrame.private.FadeIn(icon)
+
+            assert.are.equal(6, #heard)
+            for _, event in ipairs(heard) do assert.are.equal(icon, event.icon) end
+        end)
+
+        it("tells features an icon unloads, also at once while queued and again as the queue finishes, while it shows its data", function()
+            Listen("Unload")
+            local data = {Id = 123}
+            local queued = Icon(data)
+            local twin = queued.minimapTwin
+
+            QuestieFrame.private.Unload(queued)
+            assert.is_true(queued._needsUnload)
+            -- The draw queue reaches it and finishes the unload.
+            queued._loaded = true
+            QuestieFrame.private.Unload(queued)
+
+            assert.are.equal(2, #heard)
+            for _, event in ipairs(heard) do
+                assert.are.equal(queued, event.icon)
+                assert.are.equal(data, event.iconData)
+                assert.are.equal(twin, event.twin)
+            end
+            assert.is_nil(queued.data)
+            assert.is_nil(queued.minimapTwin)
+
+            local drawn = Icon(data)
+            drawn._loaded = true
+            QuestieFrame.private.Unload(drawn)
+            assert.are.equal(3, #heard)
+            assert.are.equal(data, heard[3].iconData)
+            assert.is_nil(drawn.data)
+        end)
+
+        it("finishes an unload whatever a listener does, and reports a failing listener once", function()
+            QuestieFrame.Subscribe("Unload", function() error("broken feature") end)
+            Listen("Unload")
+            local first, second = Icon({Id = 1}), Icon({Id = 2})
+            first._loaded, second._loaded = true, true
+
+            QuestieFrame.private.Unload(first)
+            QuestieFrame.private.Unload(second)
+
+            assert.are.equal(2, #heard)
+            assert.spy(reportError).was.called(1)
+            assert.is_nil(first.data)
+            assert.is_nil(second.data)
+        end)
+
+        it("leaves a plain left-click on an icon on its own map to features", function()
+            Listen("Click")
             _G.IsModifierKeyDown = function() return false end
             _G.IsControlKeyDown = function() return false end
-            _G.GameTooltip = {Hide = function() end}
-            _G.WorldMapTooltip = nil
             _G.WorldMapFrame = {IsShown = function() return true end, GetMapID = function() return 10 end,
                 SetMapID = spy.new(function() end)}
             _G.C_Map = {GetMapInfo = function() return {parentMapID = 20} end}
-            QuestieFrameInstance.UiMapID = 10
-            QuestieFrameInstance.polygonMarker = {}
-        end)
-        after_each(function()
-            _G.WorldMapFrame, _G.C_Map = saved.WorldMapFrame, saved.C_Map
-            _G.IsModifierKeyDown, _G.IsControlKeyDown = saved.IsModifierKeyDown, saved.IsControlKeyDown
-            _G.ChatEdit_GetActiveWindow, _G.IsShiftKeyDown = saved.ChatEdit_GetActiveWindow, saved.IsShiftKeyDown
-            _G.GameTooltip, _G.WorldMapTooltip = saved.GameTooltip, saved.WorldMapTooltip
-        end)
+            local icon = QuestieFrameInstance
+            icon.UiMapID = 10
 
-        it("toggles the blob only for a plain left-click on its own map", function()
-            QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
-            assert.spy(Polygon.ToggleMarker).was.called_with(QuestieFrameInstance)
-        end)
+            QuestieFrame.private.OnClick(icon, "LeftButton")
+            assert.are.equal(1, #heard)
+            assert.are.equal(icon, heard[1].icon)
 
-        it("navigates to another map instead of toggling a blob", function()
-            QuestieFrameInstance.UiMapID = 11
-            QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
-            assert.spy(WorldMapFrame.SetMapID).was.called_with(WorldMapFrame, 11)
-            assert.spy(Polygon.ToggleMarker).was.not_called()
-        end)
-
-        it("keeps right-click parent navigation without toggling", function()
-            QuestieFrame.private.OnClick(QuestieFrameInstance, "RightButton")
+            -- Right-click goes to the parent map, and a click on another map's icon goes to its map.
+            QuestieFrame.private.OnClick(icon, "RightButton")
             assert.spy(WorldMapFrame.SetMapID).was.called_with(WorldMapFrame, 20)
-            assert.spy(Polygon.ToggleMarker).was.not_called()
-        end)
-
-        it("does not toggle a blob for modifier clicks", function()
+            icon.UiMapID = 11
+            QuestieFrame.private.OnClick(icon, "LeftButton")
+            assert.spy(WorldMapFrame.SetMapID).was.called_with(WorldMapFrame, 11)
+            -- Modifier clicks keep their own actions.
+            icon.UiMapID = 10
             _G.IsModifierKeyDown = function() return true end
             _G.ChatEdit_GetActiveWindow = function() return nil end
             _G.IsShiftKeyDown = function() return false end
-            QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
-            assert.spy(Polygon.ToggleMarker).was.not_called()
-        end)
-
-        it("clears temporary polygon preview on marker leave", function()
-            QuestieFrame.private.OnLeave(QuestieFrameInstance)
-            assert.spy(Polygon.LeaveMarker).was.called_with(QuestieFrameInstance)
-        end)
-
-        it("releases polygon ownership before a queued icon defers its unload", function()
-            QuestieFrame.private.Unload(QuestieFrameInstance)
-            assert.spy(Polygon.MarkerRemoved).was.called(1)
-            assert.is_nil(QuestieFrameInstance.polygonMarker)
-            assert.is_true(QuestieFrameInstance._needsUnload)
-        end)
-
-        it("releases a polygon minimap icon's ownership before a queued icon defers its unload", function()
-            QuestieFrameInstance.polygonMarker, QuestieFrameInstance.polygonMinimapMarker = nil, {}
-            QuestieFrame.private.Unload(QuestieFrameInstance)
-            assert.spy(Polygon.MinimapMarkerRemoved).was.called(1)
-            assert.spy(Polygon.MarkerRemoved).was.not_called()
-            assert.is_nil(QuestieFrameInstance.polygonMinimapMarker)
-            assert.is_true(QuestieFrameInstance._needsUnload)
-        end)
-
-        it("schedules polygon drawing after native marker show and hide without changing ownership", function()
-            local marker = QuestieFrameInstance.polygonMarker
-            QuestieFrameInstance.glowTexture = {Hide = spy.new(function() end)}
-            QuestieFrame.private.BaseOnShow(QuestieFrameInstance)
-            QuestieFrame.private.BaseOnHide(QuestieFrameInstance)
-
-            assert.spy(Polygon.ScheduleRefresh).was.called(2)
-            assert.are.equal(marker, QuestieFrameInstance.polygonMarker)
-            assert.spy(Polygon.MarkerChanged).was.not_called() -- No redundant nudging work.
-            assert.spy(Polygon.ToggleMarker).was.not_called()
-            assert.spy(QuestieFrameInstance.glowTexture.Hide).was.called(1)
-        end)
-
-        it("does not schedule polygon refreshes for ordinary icon show and hide", function()
-            QuestieFrameInstance.polygonMarker = nil
-            QuestieFrameInstance.glowTexture = {Hide = function() end}
-            QuestieFrame.private.BaseOnShow(QuestieFrameInstance)
-            QuestieFrame.private.BaseOnHide(QuestieFrameInstance)
-            assert.spy(Polygon.ScheduleRefresh).was.not_called()
-        end)
-
-        it("notifies the adapter when logical visibility changes", function()
-            QuestieFrameInstance.Show = function() end
-            QuestieFrameInstance.Hide = function() end
-            QuestieFrameInstance.IsShown = function() return true end
-            QuestieFrame.private.FakeHide(QuestieFrameInstance)
-            QuestieFrame.private.FakeShow(QuestieFrameInstance)
-            assert.spy(Polygon.MarkerChanged).was.called(2)
-            assert.is_false(QuestieFrameInstance.hidden)
-
-            -- A polygon minimap icon's hiding decides whether minimap areas show.
-            QuestieFrameInstance.polygonMarker, QuestieFrameInstance.polygonMinimapMarker = nil, {}
-            QuestieFrame.private.FakeHide(QuestieFrameInstance)
-            QuestieFrame.private.FakeShow(QuestieFrameInstance)
-            assert.spy(Polygon.MarkerChanged).was.called(4)
+            QuestieFrame.private.OnClick(icon, "LeftButton")
+            assert.are.equal(1, #heard)
         end)
     end)
 
     describe("ResetHoverHighlights", function()
-        it("should end the highlight of the NPC's waypoint paths", function()
-            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
+        it("should end the hover with the data it started with, after restoring the colors it tinted", function()
+            local order, ended = {}, {}
+            local data = QuestieFrameInstance.data
+            data.touchedPins = {{icon = {texture = {SetVertexColor = function() order[#order + 1] = "untint" end}},
+                color = {1, 1, 1, 1}}}
+            QuestieFrame.Subscribe("HoverEnd", function(icon, endedData)
+                order[#order + 1] = "listener"
+                ended = {icon = icon, data = endedData}
+            end)
+            -- The pool handed the hovered icon out for other data before the hover ended.
+            QuestieFrameInstance.data = {}
 
-            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(QuestieFrameInstance.data, false)
+            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance, data)
+
+            assert.are.same({"untint", "listener"}, order)
+            assert.are.equal(QuestieFrameInstance, ended.icon)
+            assert.are.equal(data, ended.data)
+            assert.is_nil(data.touchedPins)
         end)
 
         it("should restore touched pins in reverse order and clear them", function()
@@ -228,71 +251,6 @@ describe("QuestieFrame", function()
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
 
             assert.is_nil(QuestieFrameInstance.data.touchedPins)
-        end)
-    end)
-
-    describe("waypoint paths", function()
-        before_each(function()
-            QuestieWaypoints.OwnerChanged = spy.new(function() end)
-        end)
-
-        it("should redraw the icon's paths when it is fake hidden or shown", function()
-            local shown = true
-            QuestieFrameInstance.IsShown = function() return shown end
-            QuestieFrameInstance.Hide = function() shown = false end
-            QuestieFrameInstance.Show = function() shown = true end
-
-            QuestieFrame.private.FakeHide(QuestieFrameInstance)
-            assert.spy(QuestieWaypoints.OwnerChanged).was.called_with(QuestieFrameInstance)
-            assert.is_true(QuestieFrameInstance.hidden)
-
-            QuestieFrame.private.FakeShow(QuestieFrameInstance)
-            assert.spy(QuestieWaypoints.OwnerChanged).was.called(2)
-            assert.is_false(QuestieFrameInstance.hidden)
-        end)
-
-        it("should release the icon's paths and minimap twin when it unloads", function()
-            local savedLibStub = _G.LibStub
-            _G.LibStub = function() return {RemoveMinimapIcon = function() end, RemoveWorldMapIcon = function() end} end
-            dofile("Modules/FramePool/QuestieFrame.lua")
-            _G.LibStub = savedLibStub
-            QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
-            QuestieMap.questIdFrames = {}
-            QuestieWaypoints.RemoveOwner = spy.new(function() end)
-            local function Region() return {Hide = function() end, SetVertexColor = function() end} end
-            local icon = {_loaded = true, data = {Id = 123}, minimapTwin = {}, texture = Region(), glowTexture = Region(),
-                overlayTexture = Region(), SetScript = function() end, GetName = function() return "QuestieFrame1" end,
-                Hide = function() end}
-
-            QuestieFrame.private.Unload(icon)
-
-            -- Spies copy their arguments, and Unload clears the icon afterwards; compare the reference.
-            assert.spy(QuestieWaypoints.RemoveOwner).was.called(1)
-            assert.are.equal(icon, QuestieWaypoints.RemoveOwner.calls[1].refs[1])
-            assert.is_nil(icon.minimapTwin)
-        end)
-
-        it("should release the icon's paths when it unloads while still waiting in the draw queue", function()
-            QuestieWaypoints.RemoveOwner = spy.new(function() end)
-            local icon = {data = {Id = 123}}
-
-            QuestieFrame.private.Unload(icon)
-
-            assert.spy(QuestieWaypoints.RemoveOwner).was.called(1)
-            assert.are.equal(icon, QuestieWaypoints.RemoveOwner.calls[1].refs[1])
-            assert.is_true(icon._needsUnload)
-        end)
-
-        it("should redraw the icon's paths when it fades", function()
-            local function Texture()
-                return {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end}
-            end
-            QuestieFrameInstance.texture, QuestieFrameInstance.glowTexture = Texture(), Texture()
-
-            QuestieFrame.private.FadeOut(QuestieFrameInstance)
-            QuestieFrame.private.FadeIn(QuestieFrameInstance)
-
-            assert.spy(QuestieWaypoints.OwnerChanged).was.called(2)
         end)
     end)
 

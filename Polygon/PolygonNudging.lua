@@ -9,6 +9,9 @@ local PolygonNudging = QuestieLoader:CreateModule("PolygonNudging")
 ---@field width number Base configured icon width in HBD wrapper units, without map-type scaling or tracker animation.
 ---@field share string? Items in one group with the same share look identical and take one slot, overlapping exactly.
 
+---@class IconFrame
+---@field OnWorldMapPinUpdated fun(icon: IconFrame, pin: Frame)? PolygonNudging's own: Questie's HereBeDragons-Pins calls it after placing the icon's world map pin.
+
 local MAP_TOLERANCE = 0.01 -- Percentage points; normalized equivalent is 0.0001.
 local SPACING_FACTOR = 0.7 -- Slight overlap keeps related markers visually connected.
 ---@class PolygonNudgeLayout

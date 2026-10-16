@@ -15,10 +15,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieWaypoints
-local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type QuestiePolygon
-local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
@@ -37,7 +33,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field Name string
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
----@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
+---@field touchedPins {icon: IconFrame, color: number[]}[]? The icons a hover of this data tinted, with their colors before it; ResetHoverHighlights restores them.
 
 ---@class IconTexture : Texture
 ---@field r number
@@ -46,16 +42,78 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field a number
 ---@field OLDSetVertexColor function
 
+-- Icon events
+-- Drawing features follow icons through these events; QuestieFrame never names a feature. Each
+-- listener runs in a pcall: an error is reported once per listener, and never stops the other
+-- listeners or the icon's own work, such as an unload that must finish whatever a feature does.
+
+---@alias IconEvent
+---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
+---| "VisibilityChanged" # It was shown or hidden, natively or by FakeHide/FakeShow, or faded in or out. It may come twice for one change.
+---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with.
+---| "Click" # A plain left-click on a world map icon on its own map, which Questie leaves to features.
+
+---@type table<IconEvent, fun(icon: IconFrame, data: IconData?)[]>
+local listeners = {Unload = {}, VisibilityChanged = {}, HoverEnd = {}, Click = {}}
+---@type table<function, true>
+local reported = {}
+
+---@param event IconEvent
+---@param icon IconFrame
+---@param data IconData?
+local function _Emit(event, icon, data)
+    local list = listeners[event]
+    for i = 1, #list do
+        local listener = list[i]
+        local ok, err = pcall(listener, icon, data)
+        if not ok and not reported[listener] then
+            reported[listener] = true
+            Questie.Error("Icon " .. event .. " listener failed:", err)
+        end
+    end
+end
+
+---Calls listener whenever `event` happens to any icon, after the listeners subscribed before it. A
+---listener must not rely on that order, and must be cheap: VisibilityChanged comes for every icon
+---the maps show or hide.
+---@param event IconEvent
+---@param listener fun(icon: IconFrame, data: IconData?)
+function QuestieFrame.Subscribe(event, listener)
+    local list = listeners[event]
+    if not list then error("QuestieFrame: unknown icon event " .. tostring(event)) end
+    list[#list + 1] = listener
+end
+
 ---@param frameId number
 ---@param OnEnter function
 ---@return IconFrame
 function QuestieFrame.CreateIconFrame(frameId, OnEnter)
+    ---A pooled map icon on the world map or the minimap: a quest giver, objective, finisher, manual
+    ---note or a drawing feature's marker. Drawing features read the fields below, never write them,
+    ---and follow the icon through QuestieFrame's icon events.
+    --- - One icon at a time: from QuestieFramePool:GetFrame until its Unload event the frame shows
+    ---   one icon; afterwards the pool may hand it out for other data. Anything a feature keys by the
+    ---   frame it forgets on Unload.
+    --- - Data refreshed in place: `data` is set when the icon is drawn and then changes only field by
+    ---   field until Unload, never for another table. A frame whose data is another table shows
+    ---   another icon, which is how patrol paths tell a recycled owner (`path.owner.data == path.data`).
+    --- - A feature's own fields on an icon or its data carry the feature's name (`polygonMarker`,
+    ---   `waypointPaths`), are declared in the feature's files, and are cleared when it lets the icon
+    ---   go. Core and other features never read them.
     ---@class IconFrame : Button
+    ---@field data IconData What the icon shows; nil while pooled.
+    ---@field minimapTwin IconFrame? A world map icon's minimap icon, drawn with the same data table: patrol paths follow it on the minimap. Linked by QuestieMap for icons drawn as a pair and by a drawing feature for its markers; cleared on unload. A twin unloaded alone stays linked, so readers check `twin.data == icon.data`.
+    ---@field miniMapIcon boolean? A minimap icon.
+    ---@field hidden boolean? Hidden by FakeHide, whatever HereBeDragons shows.
+    ---@field faded boolean? Faded by FadeOut, such as for the tracker's focus.
+    ---@field x number? Where it was drawn, in percent on UiMapID.
+    ---@field y number?
+    ---@field UiMapID number?
+    ---@field AreaID AreaId?
     ---@field isManualIcon boolean
-    ---@field data IconData
-    ---@field minimapTwin IconFrame? A world map icon's minimap icon; its waypoint paths follow it on the minimap.
-    ---@field polygonMarker PolygonMarker? Owned by the optional world-map polygon adapter.
-    ---@field polygonMinimapMarker PolygonMarker? A polygon cluster's minimap icon, owned by that marker.
+    ---@field texture IconTexture Its alpha (`texture.a`) is 0 for an icon faded out entirely, which is not there to hover.
+    ---@field _loaded boolean? The draw queue added it to HereBeDragons; until then it is on no map.
+    ---@field _hidden_by_flash boolean? Hidden while the tracker's Show on Map flashes another objective.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId
 
@@ -142,7 +200,6 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.OnLeave(self)
-    if self.polygonMarker then QuestiePolygon.LeaveMarker(self) end
     if WorldMapTooltip then
         WorldMapTooltip:Hide()
         WorldMapTooltip._rebuild = nil
@@ -156,18 +213,23 @@ function _QuestieFrame.OnLeave(self)
     GameTooltip.ShownAsMapIcon = false
 end
 
----@param self IconFrame
-function QuestieFrame.ResetHoverHighlights(self)
-    QuestieWaypoints.SetHighlighted(self.data, false)
-
-    if self.data.touchedPins then
-        for i = #self.data.touchedPins, 1, -1 do
-            local entry = self.data.touchedPins[i]
-            local icon = entry.icon;
-            icon.texture:SetVertexColor(unpack(entry.color));
+---Undoes what hovering an icon changed: the tint on its quest's icons, then each feature's HoverEnd
+---listeners, such as its NPC's path highlight or a polygon marker's area preview. Every way an icon
+---hover ends calls it: the icon's OnLeave, a path hover ending (WaypointHover) and the gamepad
+---cursor moving on (GamepadMapHover).
+---@param icon IconFrame The hovered icon. It is pooled, so it may show other data by now.
+---@param data IconData? The data it was hovered with; icon.data when nil.
+function QuestieFrame.ResetHoverHighlights(icon, data)
+    data = data or icon.data
+    local touchedPins = data and data.touchedPins
+    if touchedPins then
+        for i = #touchedPins, 1, -1 do
+            local entry = touchedPins[i]
+            entry.icon.texture:SetVertexColor(unpack(entry.color))
         end
-        self.data.touchedPins = nil;
+        data.touchedPins = nil
     end
+    _Emit("HoverEnd", icon, data)
 end
 
 ---@param self IconTexture
@@ -200,8 +262,8 @@ function _QuestieFrame.OnClick(self, button)
         else
             if uiMapId ~= currentMapId then
                 WorldMapFrame:SetMapID(uiMapId);
-            elseif button == "LeftButton" and self.polygonMarker then
-                QuestiePolygon.ToggleMarker(self)
+            elseif button == "LeftButton" then
+                _Emit("Click", self)
             end
         end
     else
@@ -280,15 +342,14 @@ function _QuestieFrame.BaseOnShow(self)
         self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
         self.glowTexture:Show()
     end
-    -- HBD can acquire this marker after Polygon's map provider has refreshed.
-    -- Recheck next frame, after native parenting and draw-queue bookkeeping settle.
-    if self.polygonMarker then QuestiePolygon.ScheduleRefresh() end
+    -- HereBeDragons shows and hides icons as maps change, also after features drew for them.
+    _Emit("VisibilityChanged", self)
 end
 
 ---@param self IconFrame
 function _QuestieFrame.BaseOnHide(self)
     self.glowTexture:Hide()
-    if self.polygonMarker then QuestiePolygon.ScheduleRefresh() end
+    _Emit("VisibilityChanged", self)
 end
 
 ---@param self IconFrame
@@ -358,11 +419,10 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.Unload(self)
-    if self.polygonMarker then QuestiePolygon.MarkerRemoved(self) end
-    if self.polygonMinimapMarker then QuestiePolygon.MinimapMarkerRemoved(self) end
+    -- Features let the icon go at once, also while it is queued: what they draw for it shows without
+    -- it. The draw queue's later call tells them again, for anything added to the icon meanwhile.
+    _Emit("Unload", self)
     if not self._loaded then
-        -- Its paths draw without it, so they go now rather than once the draw queue reaches it.
-        QuestieWaypoints.RemoveOwner(self)
         self._needsUnload = true
         return -- icon is still in the draw queue
     end
@@ -395,9 +455,6 @@ function _QuestieFrame.Unload(self)
 
     self.texture:SetVertexColor(1, 1, 1, 1)
     self.miniMapIcon = nil;
-
-    -- Release the patrol paths this icon owns.
-    QuestieWaypoints.RemoveOwner(self)
     self.minimapTwin = nil
 
     if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
@@ -418,12 +475,11 @@ end
 function _QuestieFrame.FadeOut(self)
     if not self.faded then
         self.faded = true
-        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
         local r, g, b = self.texture:GetVertexColor()
         self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
-        QuestieWaypoints.OwnerChanged(self)
+        _Emit("VisibilityChanged", self)
     end
 end
 
@@ -431,12 +487,11 @@ end
 function _QuestieFrame.FadeIn(self)
     if self.faded then
         self.faded = nil
-        if self.polygonMarker then QuestiePolygon.MarkerChanged(self) end
         local r, g, b = self.texture:GetVertexColor()
         self.texture:SetVertexColor(r, g, b, 1)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, 1)
-        QuestieWaypoints.OwnerChanged(self)
+        _Emit("VisibilityChanged", self)
     end
 end
 
@@ -455,8 +510,7 @@ function _QuestieFrame.FakeHide(self)
             self.shouldBeShowing = false;
         end
         self.hidden = true
-        QuestieWaypoints.OwnerChanged(self)
-        if self.polygonMarker or self.polygonMinimapMarker then QuestiePolygon.MarkerChanged(self) end
+        _Emit("VisibilityChanged", self)
     end
 end
 
@@ -469,11 +523,10 @@ function _QuestieFrame.FakeShow(self)
         self.Hide = self._hide;
         self._show = nil
         self._hide = nil
-        if self.polygonMarker or self.polygonMinimapMarker then QuestiePolygon.MarkerChanged(self) end
         if self.shouldBeShowing then
             self:Show();
         end
-        QuestieWaypoints.OwnerChanged(self)
+        _Emit("VisibilityChanged", self)
     end
 end
 
