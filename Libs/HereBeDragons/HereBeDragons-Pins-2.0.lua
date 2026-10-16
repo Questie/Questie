@@ -509,7 +509,8 @@ function worldmapProviderPin:OnAcquired(icon, x, y, frameLevelType)
     icon:ClearAllPoints()
     icon:SetPoint("CENTER", self, "CENTER")
     icon:Show()
-    -- Notify after parenting and centering: presentation can offset the child, not its geographic wrapper.
+    -- Questie modification: notify after parenting and centering, so presentation can offset the
+    -- child, not its geographic wrapper.
     if icon.OnWorldMapPinUpdated then
         icon:OnWorldMapPinUpdated(self)
     end
@@ -517,7 +518,8 @@ end
 
 function worldmapProviderPin:OnCanvasScaleChanged()
     MapCanvasPinMixin.OnCanvasScaleChanged(self)
-    -- Apply the native scale first so child offsets can convert display units using the final scale.
+    -- Questie modification: apply the native scale first so child offsets can convert display units
+    -- using the final scale.
     if self.icon and self.icon.OnWorldMapPinUpdated then
         self.icon:OnWorldMapPinUpdated(self)
     end
