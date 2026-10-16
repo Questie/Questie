@@ -505,6 +505,12 @@ function MapIconTooltip.ShowForIcons(owner, icons, tooltip)
             end
         end
 
+        -- What clicking the hovered quest area marker does to its areas.
+        local clickHint = QuestiePolygon.ClickHint(owner)
+        if clickHint then
+            tooltipRows:AddLine(Questie:Colorize(clickHint, "gray"))
+        end
+
         -- Measure fixed rows, expand descriptions, then render once to avoid dynamic width feedback.
         TooltipLayout:Render(self, tooltipRows)
     end

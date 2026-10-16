@@ -117,6 +117,8 @@ describe("QuestiePolygon world-map adapter", function()
             assert.is_nil(iconListeners[event], "subscribed twice to " .. event)
             iconListeners[event] = listener
         end
+        -- Shown map icon tooltips redraw after a click changes what they say.
+        QuestieLoader:ImportModule("MapIconTooltip").Redraw = spy.new(function() end)
         -- An icon's hover effects start and end through its listeners, Polygon's own included.
         QuestieFrame.ApplyHoverHighlights = spy.new(function(icon) iconListeners.HoverStart(icon) end)
         QuestieFrame.ResetHoverHighlights = spy.new(function(icon, data) iconListeners.HoverEnd(icon, data or icon.data) end)
@@ -682,6 +684,30 @@ describe("QuestiePolygon world-map adapter", function()
         Update()
         assert.are.same({"Wolf", "Bear"}, frames[1].data.Names)
         assert.are.equal("Wolf", frames[1].data.Name)
+    end)
+
+    it("hints what clicking a marker does to its areas, wherever a click does it", function()
+        dofile("Localization/l10n.lua")
+        Update()
+        local frame = frames[1]
+        local icon = frame.polygonMarker.minimapIcons[1].frame
+        assert.are.equal("Click to show areas", Polygon.ClickHint(frame))
+        iconListeners.Click(icon)
+        assert.spy(QuestieLoader:ImportModule("MapIconTooltip").Redraw).was.called(1)
+        assert.are.equal("Click to hide areas", Polygon.ClickHint(frame))
+        assert.are.equal("Click to hide areas", Polygon.ClickHint(icon))
+
+        -- A click on a map marker shown on another map opens that map first.
+        map.mapId = 20
+        assert.is_nil(Polygon.ClickHint(frame))
+        assert.are.equal("Click to hide areas", Polygon.ClickHint(icon))
+        -- Other icons, and objectives without areas, have nothing to hint.
+        assert.is_nil(Polygon.ClickHint({data = {}}))
+        local cluster = frame.polygonMarker.cluster
+        local outline = cluster.outline
+        cluster.outline = nil
+        assert.is_nil(Polygon.ClickHint(icon))
+        cluster.outline = outline
     end)
 
     it("reuses geometry and markers on progress-only updates", function()
