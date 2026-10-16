@@ -115,7 +115,7 @@ describe("QuestiePolygon world-map adapter", function()
             iconListeners[event] = listener
         end
         minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end)}
-        QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(_minimap, collect)
+        QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(collect)
             minimapLayer.collect = collect
             return minimapLayer
         end)
