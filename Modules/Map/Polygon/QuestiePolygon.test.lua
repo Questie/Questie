@@ -110,10 +110,14 @@ describe("QuestiePolygon world-map adapter", function()
         WorldMapLayers.Invalidate = spy.new(function() end)
         WorldMapLayers.FrameLevel = function(name) return name == "areas" and 10 or nil end
         iconListeners = {}
-        QuestieLoader:ImportModule("QuestieFrame").Subscribe = function(event, listener)
+        local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+        QuestieFrame.Subscribe = function(event, listener)
             assert.is_nil(iconListeners[event], "subscribed twice to " .. event)
             iconListeners[event] = listener
         end
+        -- An icon's hover effects start and end through its listeners, Polygon's own included.
+        QuestieFrame.ApplyHoverHighlights = spy.new(function(icon) iconListeners.HoverStart(icon) end)
+        QuestieFrame.ResetHoverHighlights = spy.new(function(icon, data) iconListeners.HoverEnd(icon, data or icon.data) end)
         minimapLayer = {Invalidate = spy.new(function() end), Clear = spy.new(function() end)}
         QuestieLoader:ImportModule("PolygonMinimap").New = spy.new(function(collect)
             minimapLayer.collect = collect
@@ -368,6 +372,77 @@ describe("QuestiePolygon world-map adapter", function()
             input.onHover({shape}, true)
             assert.spy(MapIconTooltip.ShowForIcons).was.not_called()
             assert.spy(MapIconTooltip.Release).was.called(1)
+        end)
+
+        describe("hovering an area hovers its marker", function()
+            local QuestieFrame
+
+            before_each(function()
+                QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+            end)
+
+            ---@return table[] Each icon whose hover effects started or ended, in order.
+            local function Icons(hoverSpy)
+                local icons = {}
+                for i, call in ipairs(hoverSpy.calls) do icons[i] = call.refs[1] end
+                return icons
+            end
+
+            it("one marker at a time, kept while its area stays under the cursor", function()
+                local second = {Index = 2, Type = "item", Description = "Fang", Needed = 2, Collected = 1, Color = {0, 1, 0},
+                    spawnList = objective.spawnList}
+                quest.Objectives[2] = second
+                local thread = coroutine.create(function() Polygon.UpdateObjective(quest, second, 2) end)
+                assert.is_true(coroutine.resume(thread))
+                local first, other = frames[1], frames[2]
+
+                input.onHover({Shape(other), Shape(first)}, true)
+                assert.are.same({other}, Icons(QuestieFrame.ApplyHoverHighlights))
+                -- Its marker's hover started, as when the marker itself is hovered.
+                assert.are.equal(other, other.polygonMarker.entry.hovered)
+                input.onHover({Shape(first), Shape(other)}, true)
+                assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+
+                input.onHover({Shape(first)}, true)
+                assert.are.same({other}, Icons(QuestieFrame.ResetHoverHighlights))
+                assert.are.equal(other.data, QuestieFrame.ResetHoverHighlights.calls[1].refs[2])
+                assert.are.same({other, first}, Icons(QuestieFrame.ApplyHoverHighlights))
+                assert.is_nil(other.polygonMarker.entry.hovered)
+
+                input.onHover({}, true)
+                assert.are.same({other, first}, Icons(QuestieFrame.ResetHoverHighlights))
+                assert.is_nil(first.polygonMarker.entry.hovered)
+            end)
+
+            it("ends before another icon's hover starts, and hands over to its own marker's", function()
+                input.onHover({Shape(frames[1])}, true)
+                iconListeners.HoverStart({data = {}})
+                assert.are.same({frames[1]}, Icons(QuestieFrame.ResetHoverHighlights))
+
+                -- The cursor moving onto the marker, or onto a route it owns: that hover ends it now.
+                input.onHover({Shape(frames[1])}, true)
+                iconListeners.HoverStart(frames[1])
+                input.onHover({}, true)
+                assert.are.same({frames[1]}, Icons(QuestieFrame.ResetHoverHighlights))
+            end)
+
+            it("starts nowhere but over the bare map, outside the gamepad UI, and keeps its errors", function()
+                focus = {}
+                input.onHover({Shape(frames[1])}, true)
+                focus = map.ScrollContainer
+                _G.InputUtil = {IsGamepadUIEnabled = function() return true end}
+                input.onHover({Shape(frames[1])}, true)
+                assert.spy(QuestieFrame.ApplyHoverHighlights).was.not_called()
+
+                _G.InputUtil = saved.inputUtil
+                Questie.Error = spy.new(function() end)
+                QuestieFrame.ApplyHoverHighlights = spy.new(function() error("broken hover") end)
+                assert.has_no.errors(function() input.onHover({Shape(frames[1])}, true) end)
+                input.onHover({}, true)
+                input.onHover({Shape(frames[1])}, true)
+                assert.spy(Questie.Error).was.called(1)
+                assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
+            end)
         end)
 
         it("keeps a tooltip error from the renderer and retries once the hovered areas change", function()
