@@ -29,7 +29,8 @@ local PolygonGeometry = QuestieLoader:CreateModule("PolygonGeometry")
 ---@field maxY number
 
 ---@class PolygonWork
----@field count number Operations since this job started; only its modulo matters.
+---@field pending number Cost charged since this job last checked the shared slice.
+---@field started boolean? The job has checked the slice at least once.
 ---@field isCancelled (fun(): boolean)?
 ---@field clock (fun(): number)? Precise seconds; nil leaves only the operation ceiling.
 
@@ -51,7 +52,9 @@ end
 -- Every objective update runs in its own ThreadLib ticker, and each ticker resumes once per
 -- frame. All polygon jobs therefore share one slice per frame rather than spending 2 ms each.
 -- GetTime() is fixed for a whole frame, so it only identifies the frame; the precise clock
--- measures work inside it. The operation ceiling also bounds work without a precise clock.
+-- measures work inside it. Steps carry costs, and a job checks the slice before its first step,
+-- so a job starting in a frame already spent waits. The operation ceiling also bounds work
+-- without a precise clock.
 local slice = {frame = nil, startedAt = 0, operations = 0}
 
 ---Starts cooperative work that shares this frame's polygon budget with every other job.
@@ -59,7 +62,7 @@ local slice = {frame = nil, startedAt = 0, operations = 0}
 ---@return PolygonWork
 function PolygonGeometry.NewWork(isCancelled)
     local clock = type(GetTimePreciseSec) == "function" and GetTimePreciseSec or nil
-    return {count = 0, isCancelled = isCancelled, clock = clock}
+    return {pending = 0, isCancelled = isCancelled, clock = clock}
 end
 
 -- The first job to check in during a new frame starts that frame's shared slice.
@@ -75,21 +78,30 @@ local function _IsSliceSpent(work)
     return elapsed >= SLICE_SECONDS or slice.operations >= MAX_OPERATIONS_PER_SLICE
 end
 
----Counts one operation. Every 256 operations it checks cancellation and the shared slice,
----yielding while this frame's 2 ms or operation ceiling is spent. Callers must be coroutines
----resumed at most once per frame, as ThreadLib does; a same-frame drain loop never finishes.
+---Charges cost to this frame's shared polygon budget; 1 is one geometry step, about a third of a
+---microsecond of Lua. A job checks cancellation and the slice before its first step, then whenever
+---it has charged CHECK_INTERVAL since its last check, and yields while this frame's 2 ms or
+---operation ceiling is spent. Charge a costly step, such as drawing an icon, roughly its cost in
+---geometry steps, so the clock is read about as often whatever the job does.
+---Callers must be coroutines resumed at most once per frame, as ThreadLib does; a same-frame drain
+---loop never finishes.
 ---@async
 ---@param work PolygonWork
+---@param cost number? Default 1.
 ---@return boolean continue False when the job was cancelled.
-function PolygonGeometry.Checkpoint(work)
-    work.count = work.count + 1
-    if work.count % CHECK_INTERVAL ~= 0 then return true end
+function PolygonGeometry.Checkpoint(work, cost)
+    local pending = work.pending + (cost or 1)
+    if work.started and pending < CHECK_INTERVAL then
+        work.pending = pending
+        return true
+    end
+    work.started, work.pending = true, 0
     if work.isCancelled and work.isCancelled() then return false end
     _SyncSlice(work)
-    slice.operations = slice.operations + CHECK_INTERVAL
+    slice.operations = slice.operations + pending
 
     -- A job can resume in a frame another job has already spent. Recheck before working,
-    -- so each waiting job does not add another 256 operations past the shared budget.
+    -- so each waiting job does not add another CHECK_INTERVAL past the shared budget.
     while _IsSliceSpent(work) do
         coroutine.yield()
         if work.isCancelled and work.isCancelled() then return false end

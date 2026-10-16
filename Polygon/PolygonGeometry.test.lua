@@ -316,6 +316,53 @@ describe("PolygonGeometry", function()
         assert.is_true(secondChecks > 3)
     end)
 
+    it("holds a new job at its first step while this frame's slice is spent", function()
+        frame = 1
+        local spender = coroutine.create(function()
+            local work = PolygonGeometry.NewWork()
+            for _ = 1, 40000 do PolygonGeometry.Checkpoint(work) end
+        end)
+        assert.is_true(coroutine.resume(spender))
+        assert.are_equal("suspended", coroutine.status(spender))
+        local steps = 0
+        local job = coroutine.create(function()
+            local work = PolygonGeometry.NewWork()
+            for _ = 1, 10 do
+                PolygonGeometry.Checkpoint(work)
+                steps = steps + 1
+            end
+        end)
+
+        assert.is_true(coroutine.resume(job))
+        assert.are_equal(0, steps)
+
+        frame = 2
+        assert.is_true(coroutine.resume(job))
+        assert.are_equal("dead", coroutine.status(job))
+        assert.are_equal(10, steps)
+    end)
+
+    it("charges weighted steps to the shared slice", function()
+        frame = 1
+        local steps = 0
+        local job = coroutine.create(function()
+            local work = PolygonGeometry.NewWork()
+            for _ = 1, 40 do
+                PolygonGeometry.Checkpoint(work, 1024)
+                steps = steps + 1
+            end
+        end)
+
+        -- 32 steps of 1,024 spend the frame's 32,768-step ceiling: the 32nd waits inside its check.
+        assert.is_true(coroutine.resume(job))
+        assert.are_equal(31, steps)
+
+        frame = 2
+        assert.is_true(coroutine.resume(job))
+        assert.are_equal("dead", coroutine.status(job))
+        assert.are_equal(40, steps)
+    end)
+
     it("checks cancellation before a time slice needs to yield", function()
         local points = {}
         for i = 1, 100 do
