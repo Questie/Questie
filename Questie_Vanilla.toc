@@ -176,6 +176,7 @@ Modules\Map\WeaponMasterSkills.lua
 Modules\Map\Moonwell.lua
 Modules\Map\WorldMapLayers.lua
 Modules\Map\MapGeometry.lua
+Modules\Map\MinimapCanvas.lua
 
 # Waypoints
 Modules\Map\Waypoints\WaypointGeometry.lua
