@@ -431,7 +431,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         dofile("Polygon/PolygonRenderCache.lua")
         local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
         Renderer.debugRandomColors = true
-        renderer = Renderer.New({}, {getCursorPosition = function() return nil end, isCursorOnMap = function() return true end})
+        renderer = Renderer.New({}, {})
         cache = QuestieLoader:ImportModule("PolygonRenderCache").New(renderer)
         owner, key = {}, {}
         source = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}

@@ -41,25 +41,32 @@ local function _FeatureOf(path)
 end
 
 ---Every import of a feature's module from another feature, from core outside the entry points, and
----every entry point no longer used. Comments are skipped; colon and dot calls both count.
+---every entry point no longer used. Comments are skipped; colon and dot calls both count. An import
+---it cannot read, such as one split over lines or naming its module some other way, is a violation
+---too, so no import slips past it unchecked.
 ---@param sources table<string, string> Source text by addon-relative path.
 ---@param entryPoints table<string, table<string, string>>
 ---@return string[] violations
 local function _Violations(sources, entryPoints)
-    local owners, imports = {}, {}
+    local owners, imports, violations = {}, {}, {}
     for path, text in pairs(sources) do
         local lineNumber = 0
         for line in (text .. "\n"):gmatch("(.-)\n") do
             lineNumber = lineNumber + 1
             local code = line:gsub("%-%-.*$", "")
             for name in code:gmatch('CreateModule%s*%(%s*"([%w_]+)"') do owners[name] = _FeatureOf(path) or false end
-            for args in code:gmatch("ImportModule%s*(%b())") do
-                local name = args:match('"([%w_]+)"%s*%)$')
-                if name then imports[#imports + 1] = {path = path, line = lineNumber, module = name} end
+            for start in code:gmatch("()ImportModule%s*%(") do
+                local args = code:match("^ImportModule%s*(%b())", start)
+                local name = args and args:match('"([%w_]+)"%s*%)$')
+                if name then
+                    imports[#imports + 1] = {path = path, line = lineNumber, module = name}
+                elseif not code:sub(1, start - 1):match("function%s+[%w_]+[.:]$") then -- QuestieLoader's own
+                    violations[#violations + 1] = string.format("%s:%d has an import the guard cannot read", path, lineNumber)
+                end
             end
         end
     end
-    local violations, used = {}, {}
+    local used = {}
     for _, import in ipairs(imports) do
         local from, to = _FeatureOf(import.path), owners[import.module]
         if to and from ~= to then
@@ -93,6 +100,8 @@ describe("Map feature imports", function()
             ["Modules/Quest/QuestieQuest.lua"] = '-- local Routes = QuestieLoader:ImportModule("Routes")\n'
                 .. 'local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")',
             ["Modules/Tracker/TrackerUtils.lua"] = 'local QuestiePolygon = QuestieLoader.ImportModule(QuestieLoader, "QuestiePolygon")',
+            ["Modules/Tracker/TrackerLine.lua"] = "local QuestiePolygon = QuestieLoader:ImportModule(\n    'QuestiePolygon')",
+            ["Modules/Libs/QuestieLoader.lua"] = "function QuestieLoader:ImportModule(name)",
         }
         local entryPoints = {
             ["Modules/Quest/QuestieQuest.lua"] = {QuestiePolygon = "an entry point in use"},
@@ -101,6 +110,7 @@ describe("Map feature imports", function()
 
         assert.are.same({
             "Modules/Map/Routes/Routes.lua:2 imports QuestiePolygon of Polygon",
+            "Modules/Tracker/TrackerLine.lua:1 has an import the guard cannot read",
             "Modules/Tracker/TrackerUtils.lua:1 imports QuestiePolygon of Polygon",
             "unused entry point Questie.lua > Routes",
         }, _Violations(sources, entryPoints))

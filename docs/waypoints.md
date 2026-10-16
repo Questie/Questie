@@ -201,7 +201,7 @@ The world map pays the geometry once per zoom or map change, only for the paths 
 
 ### Hover
 
-Hovering a line is hovering its NPC. It opens the tooltip of the NPC's icon on that map, which highlights all of the NPC's paths. On the world map, an icon that isn't visible can't anchor its tooltip, so then it only highlights; paths draw only while their icon isn't hidden, so that's rare. Highlights show on both maps, so hovering a minimap icon highlights its NPC's paths on the minimap too. Hovering works on [the minimap](#minimap) as well; `WaypointHover` keeps one hovered path across both maps, and each map only ends its own hover.
+Hovering a line is hovering its NPC. It opens the tooltip of the NPC's icon on that map, and that icon's hover highlights all of the NPC's paths. On the world map, an icon that isn't visible can't anchor its tooltip, so then it only highlights; paths draw only while their icon isn't hidden, so that's rare. Highlights show on both maps, so hovering a minimap icon highlights its NPC's paths on the minimap too. Hovering works on [the minimap](#minimap) as well; `WaypointHover` keeps one hovered path across both maps, and each map only ends its own hover.
 
 The hover shape is the path fattened by radius *r*: the union of capsules around its segments. The test is **distance from the cursor to the nearest segment ≤ r**:
 - **Joins:** joins of any angle are round, so no wedge-shaped dead corner.
@@ -286,13 +286,11 @@ That was judged good enough, since few players use a rotating minimap. If it eve
 
 ## Polygon areas
 
-Waypoints are on for every player, while polygon quest areas (the `blob` work) are opt-in, so this layer doesn't wait for them. The dependency runs the other way: the waypoint minimap layer and `GetMinimapView` are meant to be reused for polygon areas.
-
-When the two meet, these polygon touch points move onto the waypoint API:
-- **Ownership:** `QuestiePolygon.OwnWaypointMarker`, `IsCurrentObjective` and the `waypointWork` tokens. Polygon mode re-attaches lines to cluster markers.
-- **Hover exceptions:** `QuestieFramePool.IsLineFrame` and "a waypoint line counts as bare map" are unnecessary once lines take no mouse input.
-- **Combat handling:** deferring line mouse setup in combat is moot.
-- **Frame levels:** decided by `WorldMapLayers`: paths draw above quest areas, and win their hover.
+Waypoints are on for every player, while polygon quest areas (blob mode) are opt-in. They are two drawing features that never import each other; `test/MapFeatureImports.test.lua` keeps it that way.
+- **Hover and frame levels:** both are layers of `WorldMapLayers`. Paths draw above quest areas and win the cursor over them.
+- **Icons:** both follow Questie's icons through `QuestieFrame`'s icon events.
+- **Ownership:** blob mode draws an objective's patrol paths for its cluster markers (`QuestiePolygon.OwnWaypointMarker`, `IsCurrentObjective` and the `waypointWork` tokens).
+- **Minimap:** the waypoint minimap layer and `GetMinimapView` are meant to be shared with polygon areas.
 
 ## Verified in game
 
