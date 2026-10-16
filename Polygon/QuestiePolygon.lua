@@ -400,7 +400,7 @@ end
 ---The epoch prevents callbacks from an earlier reset from touching a new pending batch.
 ---Every caller also marks the minimap's areas stale, whether or not the world map is open.
 function QuestiePolygon.ScheduleRefresh()
-    if minimapLayer then minimapLayer:Invalidate() end
+    if minimapLayer then minimapLayer.Invalidate() end
     if not renderCache or not provider or not provider.owningMap or refreshPending then return end
     refreshPending = true
     local scheduledEpoch = refreshEpoch
@@ -537,7 +537,7 @@ function QuestiePolygon.Reset()
         if not cleared then Questie.Error("Polygon cleanup failed:", err) end
     end
     if minimapLayer then
-        local cleared, err = pcall(minimapLayer.Clear, minimapLayer)
+        local cleared, err = pcall(minimapLayer.Clear)
         if not cleared then Questie.Error("Polygon minimap cleanup failed:", err) end
     end
     for _, questEntries in pairs(oldEntries) do
@@ -1118,7 +1118,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         -- The provider is created once, before the first marker.
         _FollowIcons()
         -- The minimap is optional: its failure must not stop world-map drawing.
-        local created, layer = pcall(PolygonMinimap.New, Minimap, _CollectMinimapAreas)
+        local created, layer = pcall(PolygonMinimap.New, _CollectMinimapAreas)
         if created then
             minimapLayer = layer
         else
