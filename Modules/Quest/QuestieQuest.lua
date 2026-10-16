@@ -952,38 +952,27 @@ end
 ---@return boolean @Returns true if quest.sourceItemId matches an item in a players bag
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
     local quest = QuestieDB.GetQuest(questId)
-    local sourceItem = true
-    if quest and quest.sourceItemId > 0 then
-        for bag = -2, 4 do
-            for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
-                local itemId = select(10, QuestieCompat.GetContainerItemInfo(bag, slot))
-                if itemId == quest.sourceItemId then
-                    return true
-                end
-            end
-
-            sourceItem = false
-        end
-
-        -- If we are missing the sourceItem for zero objective quests then make an objective for it so the
-        -- player has a visual indication as to what item is missing and so the quest has a "tag" of some kind.
-        -- Also double check the quests leaderboard and make sure an objective doesn't already exist.
-        if (not sourceItem) and makeObjective and (not QuestieQuest:GetAllLeaderBoardDetails(quest.Id)[1]) then
-            local itemName = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")
-            quest.Objectives = {
-                [1] = {
-                    Description = itemName,
-                    Type = "item",
-                    Needed = 1,
-                    Collected = 0,
-                    Completed = false,
-                    Id = quest.sourceItemId,
-                    questId = quest.Id
-                }
-            }
-        end
-    else
+    if not quest or quest.sourceItemId <= 0 then
         return true
+    end
+
+    if QuestieCompat.GetItemCount(quest.sourceItemId, false) > 0 then
+        return true
+    end
+
+    -- Show the missing source item only when the quest has no native objectives.
+    if makeObjective and not QuestieQuest:GetAllLeaderBoardDetails(quest.Id)[1] then
+        quest.Objectives = {
+            [1] = {
+                Description = QuestieDB.QueryItemSingle(quest.sourceItemId, "name"),
+                Type = "item",
+                Needed = 1,
+                Collected = 0,
+                Completed = false,
+                Id = quest.sourceItemId,
+                questId = quest.Id
+            }
+        }
     end
 
     return false
