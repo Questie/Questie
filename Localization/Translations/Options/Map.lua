@@ -554,17 +554,17 @@ local mapOptionsLocales = {
         ["zhCN"] = "启用小地图航点", -- AI 🤖
         ["zhTW"] = "啟用小地圖航點", -- AI 🤖
     },
-    ["Draws the patrol paths of the NPCs Questie shows on the minimap. Minimap icons must be enabled too."] = {
+    ["Draws the patrol paths of the NPCs Questie marks on the minimap, by their icons or their quest areas' markers. Minimap icons must be enabled too."] = {
         ["enUS"] = true,
-        ["deDE"] = "Zeichnet die Patrouillenwege der NPCs, die Questie auf der Minimap anzeigt. Dafür müssen auch die Minimap-Icons aktiviert sein.", -- AI 🤖
-        ["esES"] = "Dibuja las rutas de patrulla de los PNJ que Questie muestra en el minimapa. Los iconos del minimapa también deben estar activados.", -- AI 🤖
-        ["esMX"] = "Dibuja las rutas de patrulla de los PNJ que Questie muestra en el minimapa. Los iconos del minimapa también deben estar activados.", -- AI 🤖
-        ["frFR"] = "Dessine les trajets de patrouille des PNJ que Questie affiche sur la minicarte. Les icônes de la minicarte doivent aussi être activées.", -- AI 🤖
-        ["koKR"] = "Questie가 미니맵에 표시하는 NPC의 순찰 경로를 그립니다. 미니맵 아이콘도 활성화되어 있어야 합니다.", -- AI 🤖
-        ["ptBR"] = "Desenha as rotas de patrulha dos NPCs que o Questie mostra no minimapa. Os ícones do minimapa também precisam estar ativados.", -- AI 🤖
-        ["ruRU"] = "Рисует маршруты патрулирования NPC, которых Questie показывает на миникарте. Значки на миникарте тоже должны быть включены.", -- AI 🤖
-        ["zhCN"] = "绘制Questie在小地图上显示的NPC巡逻路线。小地图图标也必须启用。", -- AI 🤖
-        ["zhTW"] = "繪製Questie在小地圖上顯示的NPC巡邏路線。小地圖圖示也必須啟用。", -- AI 🤖
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
     },
     ["Appearance"] = {
         ["enUS"] = true,
