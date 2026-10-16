@@ -244,6 +244,10 @@ item = function(itemId, objective)
                                 IconScale = GetIconScale(),
                             }
                         end
+                        -- Vendors selling the item aren't fought, also when corrections list them as dropping it.
+                        if source.Vendor then
+                            ret[id].Hostile = nil
+                        end
                         if sourceData.Spawns then
                             local itemSpawns = ret[id].Spawns
                             for zone, spawns in pairs(sourceData.Spawns) do

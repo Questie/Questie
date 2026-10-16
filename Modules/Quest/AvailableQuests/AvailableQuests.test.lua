@@ -568,6 +568,41 @@ describe("AvailableQuests", function()
                 assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, true)
             end)
 
+            describe("of a vendor listed as dropping the starting item", function()
+                local VENDOR = 128
+                local originalNpcFlags
+
+                before_each(function()
+                    originalNpcFlags = QuestieDB.npcFlags
+                    QuestieDB.npcFlags = {VENDOR = VENDOR}
+                    QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
+                end)
+
+                after_each(function()
+                    QuestieDB.npcFlags = originalNpcFlags
+                end)
+
+                it("should not draw it as hostile when the vendor is friendly", function()
+                    QuestieDB.GetNPC = function()
+                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendly = true, npcFlags = VENDOR + 2}
+                    end
+
+                    AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                    assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, false)
+                end)
+
+                it("should draw it as hostile when the vendor is of the other faction", function()
+                    QuestieDB.GetNPC = function()
+                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendly = false, npcFlags = VENDOR}
+                    end
+
+                    AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                    assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, true)
+                end)
+            end)
+
             it("should not draw the route of a quest giver as hostile", function()
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
 

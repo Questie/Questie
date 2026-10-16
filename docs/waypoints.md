@@ -8,7 +8,7 @@ QuestieDB's `waypoints` field, read with `QuestieDB.QueryNPCSingle(npcId, "waypo
 - objective spawns (`QuestieQuestPrivates`, drawn by `QuestieQuest`). Rank-2 rares and blacklisted NPCs get none;
 - NPCs with available quests (`AvailableQuests`), quest finishers (`QuestFinisher`) and manual notes (`QuestieMap`).
 
-All of them call `QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, hostile)`. `entity` is Questie's tooltip key for whose waypoints they are (`"m_<npcId>"`, `"o_<objectId>"`). `hostile` marks NPCs the player fights, which take the hostile colour: objective NPCs, and NPCs that drop an item starting an available quest.
+All of them call `QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, hostile)`. `entity` is Questie's tooltip key for whose waypoints they are (`"m_<npcId>"`, `"o_<objectId>"`). `hostile` marks NPCs the player fights, which take the hostile colour: objective NPCs, and NPCs that drop an item starting an available quest. Vendors aren't fought, so they keep the patrol colour: those on an objective item's vendor list, and friendly NPCs with the vendor flag that corrections list as dropping a quest-starting item, so that its quest shows.
 
 **QuestieDB's preprocessing** ([`src/derived/waypoints.lua`](https://github.com/Questie/QuestieDB/blob/master/src/derived/waypoints.lua)):
 - **Simplification:** patrols are simplified with Ramer-Douglas-Peucker at 0.1 map-percent, about 2–4 yd on a typical zone and about 1 yd in capitals.
@@ -66,7 +66,7 @@ Under Map → Waypoints: the two toggles, then an **Appearance** panel (highligh
 | Line width | `waypointWidth` | 3 | Map UI units on the world map, minimap units on the minimap. Hover reaches one unit past the edge. |
 | Line opacity | `waypointOpacity` | 100% | Scales each colour's alpha, up to opaque: 10–200%. |
 | Patrol color | `waypointColor` | `{1, 0.72, 0, 0.5}` | |
-| Hostile patrol color | `waypointHostileColor` | `{1, 0.2, 0, 0.7}` | Objective NPCs, and NPCs dropping an item that starts an available quest. |
+| Hostile patrol color | `waypointHostileColor` | `{1, 0.2, 0, 0.7}` | Objective NPCs, and NPCs dropping an item that starts an available quest. Vendors keep the patrol color. |
 | Highlight color | `waypointHighlightColor` | `{0.93, 0.46, 0.13, 0.8}` | |
 | Waypoint smoothing | `waypointSmoothing` | 0.75 | See [Smoothing](#smoothing). |
 
