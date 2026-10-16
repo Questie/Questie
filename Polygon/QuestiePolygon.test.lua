@@ -3,10 +3,13 @@ dofile("setupTests.lua")
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
     local tickers, player, minimapLayer, minimapFrames, WorldMapLayers, layers, iconListeners
+    -- GetTime's frame. The polygon budget is shared per frame, so every resume starts a new one.
+    local frameNumber
 
     local function Update(index)
         local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, index or 1) end)
         while coroutine.status(thread) ~= "dead" do
+            frameNumber = frameNumber + 1
             local ok, err = coroutine.resume(thread)
             assert.is_true(ok, err)
         end
@@ -55,7 +58,10 @@ describe("QuestiePolygon world-map adapter", function()
         savedGlobals = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
             CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin,
             GetMouseFoci = _G.GetMouseFoci, GetCursorPosition = _G.GetCursorPosition, CreateFrame = _G.CreateFrame,
-            UIParent = _G.UIParent, hooksecurefunc = _G.hooksecurefunc, GetTimePreciseSec = _G.GetTimePreciseSec}
+            UIParent = _G.UIParent, hooksecurefunc = _G.hooksecurefunc, GetTimePreciseSec = _G.GetTimePreciseSec,
+            GetTime = _G.GetTime}
+        frameNumber = 0
+        _G.GetTime = function() return frameNumber end
         _G.CreateFrame = spy.new(function() error("Nudging must not allocate an update driver") end)
         _G.UIParent = {GetEffectiveScale = function() return 1 end}
         dofile("Polygon/PolygonNudging.lua")
@@ -194,6 +200,7 @@ describe("QuestiePolygon world-map adapter", function()
         _G.UIParent = savedGlobals.UIParent
         _G.hooksecurefunc = savedGlobals.hooksecurefunc
         _G.GetTimePreciseSec = savedGlobals.GetTimePreciseSec
+        _G.GetTime = savedGlobals.GetTime
         Questie.db.char.polygon = nil
     end)
 
@@ -1007,8 +1014,11 @@ describe("QuestiePolygon world-map adapter", function()
         assert.is_nil(map.provider)
     end)
 
-    it("cancels during bounded marker allocation without leaving a partially shown area", function()
+    it("stops marker allocation when the shared slice is spent, and a reset releases the partial batch", function()
+        local now = 0
+        _G.GetTimePreciseSec = function() return now end
         Geometry.Build = function(points)
+            now = now + 1 -- Building spent the frame's time.
             local clusters = {}
             for i = 1, 31 do
                 clusters[i] = {uiMapId = 10, x = 10, y = 20, representative = points[1],
@@ -1017,20 +1027,31 @@ describe("QuestiePolygon world-map adapter", function()
             return clusters
         end
         local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
-        -- Batches hold 30 icons: 15 clusters, each with a map and a minimap icon.
+
         assert.is_true(coroutine.resume(thread))
-        assert.are.same({15, 15}, {#frames, #minimapFrames})
+        assert.are.same({1, 0}, {#frames, #minimapFrames})
+        -- The objective is still building: none of its areas show yet.
         Polygon.ToggleMarker(frames[1])
         Polygon.Refresh()
         assert.are.same({}, renderCache.Present.calls[#renderCache.Present.calls].vals[3])
+
         Polygon.Reset()
+        frameNumber = frameNumber + 1
         assert.is_true(coroutine.resume(thread))
-        assert.are.same({15, 15}, {#frames, #minimapFrames})
-        assert.spy(FramePool.UnloadFrame).was.called(30)
+        assert.are.equal("dead", coroutine.status(thread))
+        assert.are.same({1, 0}, {#frames, #minimapFrames})
+        assert.spy(FramePool.UnloadFrame).was.called(1)
         assert.is_nil(map.provider)
     end)
 
-    it("bounds icon allocation inside one large object cluster and stops once cancelled", function()
+    it("bounds allocation by time inside one large object cluster, and a reset stops it", function()
+        local now = 0
+        _G.GetTimePreciseSec = function() return now end
+        local drawWorldIcon = QuestieMap.DrawWorldIcon
+        QuestieMap.DrawWorldIcon = function(self, ...)
+            now = now + 0.0006 -- Each icon takes 0.6 ms.
+            return drawWorldIcon(self, ...)
+        end
         Geometry.Build = function(points)
             local locations = {}
             for i = 1, 40 do locations[i] = points[1] end
@@ -1038,13 +1059,39 @@ describe("QuestiePolygon world-map adapter", function()
                 outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}}}
         end
         local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
-        -- 30 icons per batch: the marker and the cluster's first 29 objects.
-        assert.is_true(coroutine.resume(thread))
-        assert.are.same({1, 29}, {#frames, #minimapFrames})
+
+        -- Each frame draws what fits in its 2 ms: a handful of icons, not a fixed batch nor all 41.
+        for _ = 1, 3 do
+            frameNumber = frameNumber + 1
+            local before = #frames + #minimapFrames
+            assert.is_true(coroutine.resume(thread))
+            local drew = #frames + #minimapFrames - before
+            assert.is_true(drew >= 1 and drew <= 5, "drew " .. drew .. " icons in one frame")
+        end
+        local drawn = #frames + #minimapFrames
+
         Polygon.Reset()
+        frameNumber = frameNumber + 1
         assert.is_true(coroutine.resume(thread))
-        assert.are.same({1, 29}, {#frames, #minimapFrames})
-        assert.spy(FramePool.UnloadFrame).was.called(30)
+        assert.are.equal("dead", coroutine.status(thread))
+        assert.are.equal(drawn, #frames + #minimapFrames)
+    end)
+
+    it("draws every marker in one frame while the slice has time", function()
+        Geometry.Build = function(points)
+            local clusters = {}
+            for i = 1, 40 do
+                clusters[i] = {uiMapId = 10, x = 10, y = 20, representative = points[1],
+                    outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}}
+            end
+            return clusters
+        end
+        local thread = coroutine.create(function() Polygon.UpdateObjective(quest, objective, 1) end)
+
+        assert.is_true(coroutine.resume(thread))
+
+        assert.are.equal("dead", coroutine.status(thread))
+        assert.are.same({40, 40}, {#frames, #minimapFrames})
     end)
 
     it("checks cancellation while collecting a large spawn list before building geometry", function()
