@@ -11,6 +11,7 @@ describe("WaypointGeometry", function()
     end
 
     before_each(function()
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
     end)
@@ -287,7 +288,7 @@ describe("WaypointGeometry", function()
             for _, tolerance in ipairs({0.5, 1, 2, 4}) do
                 for degrees = 10, 170, 10 do
                     local smoothed = WaypointGeometry.Smooth(Turn(degrees), tolerance, 2)
-                    for _, points in ipairs({smoothed, WaypointGeometry.Trim(smoothed, 0.25)}) do
+                    for _, points in ipairs({smoothed, QuestieLoader:ImportModule("MapGeometry").Simplify(smoothed, 0.25)}) do
                         for i = 2, #points - 1 do
                             local a, p, b = points[i - 1], points[i], points[i + 1]
                             local inX, inY, outX, outY = p.x - a.x, p.y - a.y, b.x - p.x, b.y - p.y
@@ -342,33 +343,6 @@ describe("WaypointGeometry", function()
             assert.are.equal(smoothed[1], smoothed[#smoothed])
             assert.are.near(1, DistanceTo(smoothed, hexagon[1].x, hexagon[1].y), 1e-9)
             assert.are_same(triangle, Smooth(triangle))
-        end)
-    end)
-
-    describe("Trim", function()
-        it("drops points within the tolerance of the line kept around them", function()
-            local slight = {{x = 0, y = 0}, {x = 5, y = 0.2}, {x = 10, y = 0}}
-            local bent = {{x = 0, y = 0}, {x = 5, y = 0.3}, {x = 10, y = 0}}
-
-            assert.are_same({slight[1], slight[3]}, WaypointGeometry.Trim(slight, 0.25))
-            assert.are_same(bent, WaypointGeometry.Trim(bent, 0.25))
-        end)
-
-        it("keeps a patrol's turning point where it walks back along itself", function()
-            -- The turning point lies on the line through its neighbours, but 5 past their segment.
-            local backAndForth = {{x = 0, y = 0}, {x = 10, y = 0}, {x = 5, y = 0}}
-
-            assert.are_same(backAndForth, WaypointGeometry.Trim(backAndForth, 0.25))
-        end)
-
-        it("keeps both ends, so a closed polyline stays closed", function()
-            local square = {{x = 0, y = 0}, {x = 5, y = 0.1}, {x = 10, y = 0}, {x = 10, y = 10}, {x = 0, y = 10}, {x = 0, y = 0}}
-
-            local trimmed = WaypointGeometry.Trim(square, 0.25)
-
-            assert.are_same({square[1], square[3], square[4], square[5], square[6]}, trimmed)
-            assert.are.equal(square[1], trimmed[1])
-            assert.are.equal(square[6], trimmed[#trimmed])
         end)
     end)
 

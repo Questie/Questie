@@ -28,6 +28,7 @@ describe("PolygonGeometry", function()
         _G.GetTimePreciseSec = nil -- Operation ceilings make scheduling assertions deterministic.
         frame = 0
         _G.GetTime = function() return frame end
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Polygon/PolygonGeometry.lua")
         PolygonGeometry = QuestieLoader:ImportModule("PolygonGeometry")
     end)
@@ -192,6 +193,19 @@ describe("PolygonGeometry", function()
 
         assert.is_true(#coarse.outline < #fine.outline)
         assert.is_true(#coarse.outline >= 3)
+    end)
+
+    it("keeps the full outline when the tolerance would leave fewer than three vertices", function()
+        local points = {
+            {x = 10, y = 10, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0},
+            {x = 30, y = 10, worldX = 20, worldY = 0, uiMapId = 1429, instanceId = 0},
+            {x = 30, y = 30, worldX = 20, worldY = 20, uiMapId = 1429, instanceId = 0},
+            {x = 10, y = 30, worldX = 0, worldY = 20, uiMapId = 1429, instanceId = 0},
+        }
+        -- The spline envelope has no collinear vertices, so tolerance 0 keeps every one.
+        local full = _Build(points, {tolerance = 0})[1].outline
+
+        assert.are.equal(#full, #_Build(points, {tolerance = 1000})[1].outline)
     end)
 
     it("produces the same geometry when input order changes and never mutates points", function()

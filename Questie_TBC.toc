@@ -171,6 +171,7 @@ Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 Modules\Map\Moonwell.lua
 Modules\Map\WorldMapLayers.lua
+Modules\Map\MapGeometry.lua
 
 # Waypoints
 Modules\Map\Waypoints\WaypointGeometry.lua

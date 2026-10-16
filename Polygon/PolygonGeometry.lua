@@ -1,6 +1,9 @@
 ---@class PolygonGeometry
 local PolygonGeometry = QuestieLoader:CreateModule("PolygonGeometry")
 
+---@type MapGeometry
+local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
+
 ---@class PolygonSpawnPoint
 ---@field x number Zone percentage, not normalized map coordinates.
 ---@field y number
@@ -263,68 +266,18 @@ local function _SampleSpline(hull, work)
     return samples
 end
 
-local function _SegmentDistanceSquared(point, a, b)
-    local dx, dy = b.x - a.x, b.y - a.y
-    local length = dx * dx + dy * dy
-    local t = length > 0 and ((point.x - a.x) * dx + (point.y - a.y) * dy) / length or 0
-    t = math.max(0, math.min(1, t))
-    return (point.x - a.x - t * dx)^2 + (point.y - a.y - t * dy)^2
-end
-
--- Reduction reworks the legacy Nathan Shafer Bezier helper's RDP implementation.
--- Copyright (c) 2013 Nathan Shafer. MIT License:
--- Permission is hereby granted, free of charge, to any person obtaining a copy
--- of this software and associated documentation files (the "Software"), to deal
--- in the Software without restriction, including without limitation the rights
--- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
--- copies of the Software, and to permit persons to whom the Software is
--- furnished to do so, subject to the following conditions:
--- The above copyright notice and this permission notice shall be included in
--- all copies or substantial portions of the Software.
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
--- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
--- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
--- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
--- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
--- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
--- THE SOFTWARE.
-
--- Closed-ring RDP uses two arcs with distinct endpoints. Its explicit stack is bounded
--- by the point count, and distance is to the segment, not half the infinite-line distance.
-local function _ReduceOutline(points, tolerance, work)
-    local split, farthest = 2, -1
-    for i = 2, #points do
-        local distance = (points[i].x - points[1].x)^2 + (points[i].y - points[1].y)^2
-        if distance > farthest then split, farthest = i, distance end
-        if not _Checkpoint(work) then return end
-    end
-    local closed = {}
-    for i, point in ipairs(points) do
-        closed[i] = point
-        if not _Checkpoint(work) then return end
-    end
-    closed[#points + 1] = points[1]
-    local keep, stack = {[1] = true, [split] = true}, {{1, split}, {split, #closed}}
-    local threshold = tolerance * tolerance
-    while #stack > 0 do
-        local arc = table.remove(stack)
-        local first, last, index, maximum = arc[1], arc[2], nil, threshold
-        for i = first + 1, last - 1 do
-            local distance = _SegmentDistanceSquared(closed[i], closed[first], closed[last])
-            if distance > maximum then index, maximum = i, distance end
-            if not _Checkpoint(work) then return end
-        end
-        if index then
-            keep[index] = true
-            stack[#stack + 1], stack[#stack + 2] = {first, index}, {index, last}
-        end
-        if not _Checkpoint(work) then return end
-    end
-    local reduced = {}
-    for i, point in ipairs(points) do
-        if keep[i] then reduced[#reduced + 1] = point end
-        if not _Checkpoint(work) then return end
-    end
+-- Outlines are rings without a repeated closing vertex. Closing the ring for Simplify keeps its start
+-- and splits it first at the vertex farthest from the start. Percent space stretches x and y
+-- differently, but the 0.03 default is well under a canvas unit on either axis.
+---@param points table[] Convex outline in zone percent, not closed.
+---@param tolerance number Percent.
+---@return table[] reduced At least three of the outline's own points; the outline itself when fewer would remain.
+local function _ReduceOutline(points, tolerance)
+    local ring = {}
+    for i, point in ipairs(points) do ring[i] = point end
+    ring[#ring + 1] = points[1]
+    local reduced = MapGeometry.Simplify(ring, tolerance)
+    reduced[#reduced] = nil
     -- An excessively large tolerance must not turn a valid area into a two-vertex line.
     return #reduced >= 3 and reduced or points
 end
@@ -466,8 +419,8 @@ function PolygonGeometry.Build(points, options, isCancelled)
                     if not samples then return end
                     local envelope = _SplineEnvelope(samples, work)
                     if not envelope then return end
-                    local outline = _ReduceOutline(envelope, tolerance, work)
-                    if not outline then return end
+                    local outline = _ReduceOutline(envelope, tolerance)
+                    if not _Checkpoint(work, #envelope) then return end
                     local area, x, y = _AreaAndCentroid(outline, work)
                     if area == nil then return end
                     if x and y then cluster.x, cluster.y = x, y end

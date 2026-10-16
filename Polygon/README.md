@@ -97,7 +97,7 @@ Renderer shapes contain `{points = outline, color = {r, g, b, fillAlpha}, border
 
 The cache adds `{owner = objectiveEntry, key = marker, source = originalOutline, sourceMapId = originalMapId}` to each shape. Owner/key identities are logical records, never recyclable marker frames. `Present` publishes the requested map's visible set after configuration succeeds and returns `true` or `nil, error`. A failed presentation clears cache ownership and attempts to release all native views, including partial allocations. If native cleanup also fails, the error reports that failure and the renderer keeps the affected resources reachable for a later cleanup retry.
 
-Compared with the historical implementation, geometry has explicit units, deterministic ordering, duplicate removal and farthest-collinear hull selection. It omits the unsafe interior-point prefilter, uses an efficient monotone-chain envelope for the spline sample cloud, and measures actual point-to-segment distance during reduction. Rendering retains the two-edge quad fan with independent borders, using client `WHITE8X8` rather than copied addon artwork.
+Compared with the historical implementation, geometry has explicit units, deterministic ordering, duplicate removal and farthest-collinear hull selection. It omits the unsafe interior-point prefilter, uses an efficient monotone-chain envelope for the spline sample cloud, and reduces with the shared `MapGeometry.Simplify` over the outline closed back to its start, which measures actual point-to-segment distance. Rendering retains the two-edge quad fan with independent borders, using client `WHITE8X8` rather than copied addon artwork.
 
 These are smoothed convex approximations, not terrain-aware regions, concave polygons, or polygons with holes. Simplification does not guarantee exact enclosure of every spawn.
 
@@ -172,6 +172,7 @@ From the repository root:
 
 ```bash
 busted -p '.test.lua' Polygon
+busted Modules/Map/MapGeometry.test.lua
 busted -p '.test.lua' .
 luacheck -q -- Database Localization Modules Polygon Public Questie.lua
 lua cli/validate-loader-usage.lua
