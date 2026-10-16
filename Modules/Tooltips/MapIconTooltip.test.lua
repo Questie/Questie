@@ -80,6 +80,7 @@ describe("MapIconTooltip objective wording", function()
         local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
         QuestiePolygon.ObjectiveSwatch = function() end
         QuestiePolygon.AreaIconsAt = function() return {} end
+        QuestiePolygon.ClickHint = function() end
         dofile("Modules/Tooltips/MapIconTooltip.lua")
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         now = 1
@@ -339,6 +340,20 @@ describe("MapIconTooltip objective wording", function()
             return {x = 50, y = 50, AreaID = 1, texture = icon.texture,
                 data = {Id = questId, Type = type, ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone", QuestData = {}}}
         end
+
+        it("ends a quest area marker's own tooltip with what clicking it does", function()
+            local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+            QuestiePolygon.ClickHint = function(owner) return owner == icon and "Click to hide areas" or nil end
+            local savedColorize = Questie.Colorize
+            Questie.Colorize = function(_, text, color) return color .. ":" .. text end
+
+            MapIconTooltip.ShowForIcons(icon, {icon}, GameTooltip)
+            assert.are.equal("gray:Click to hide areas", rendered[#rendered])
+            rendered = {}
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip)
+            Questie.Colorize = savedColorize
+            assert.is_nil(RowOf("Click to hide areas"))
+        end)
 
         it("lists a giver's quests by level, low to high", function()
             questLevels = {[1] = 1, [10] = 30, [11] = 5, [12] = 18}

@@ -67,6 +67,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type Phasing
 local Phasing = QuestieLoader:ImportModule("Phasing")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 ---@type table<QuestId, table<ObjectiveIndex, PolygonObjectiveEntry>>
@@ -823,6 +825,8 @@ function QuestiePolygon.ToggleMarker(frame)
     if entry and QuestiePolygon.IsEnabled() and entry.active and not entry.building
         and not entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
         _SaveVisibility(entry, not _IsAreaShown(entry))
+        -- The hovered marker's tooltip says what the next click does.
+        MapIconTooltip.Redraw()
     end
 end
 
@@ -925,6 +929,20 @@ local function _EntryWithAreas(questId, objectiveIndex)
     if entry and entry.active and not entry.building and QuestiePolygon.IsEnabled() and _HasAreas(entry) then
         return entry
     end
+end
+
+---What clicking a marker does to its objective's areas, for the marker's own tooltip. nil where a click
+---does nothing to them, such as on a map marker shown on another map, which a click opens first.
+---@param icon IconFrame The icon a map icon tooltip shows for.
+---@return string?
+function QuestiePolygon.ClickHint(icon)
+    local marker = icon.polygonMarker or icon.polygonMinimapMarker
+    local entry = marker and marker.entry
+    if not entry or not entry.active or entry.building or entry.objective.Completed or not QuestiePolygon.IsEnabled()
+        or not _HasAreas(entry) or (icon.polygonMarker and WorldMapFrame:GetMapID() ~= icon.UiMapID) then
+        return nil
+    end
+    return _IsAreaShown(entry) and l10n("Click to hide areas") or l10n("Click to show areas")
 end
 
 ---@param questId QuestId
