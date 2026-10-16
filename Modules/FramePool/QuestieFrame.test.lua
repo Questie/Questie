@@ -109,7 +109,7 @@ describe("QuestieFrame", function()
         -- Records each event with what the icon showed at that moment.
         local function Listen(event)
             QuestieFrame.Subscribe(event, function(icon, data)
-                heard[#heard + 1] = {icon = icon, data = data, iconData = icon.data, twin = icon.minimapTwin}
+                heard[#heard + 1] = {event = event, icon = icon, data = data, iconData = icon.data, twin = icon.minimapTwin}
             end)
         end
 
@@ -132,8 +132,9 @@ describe("QuestieFrame", function()
             Questie.Error = saved.error
         end)
 
-        it("tells features when an icon shows, hides or fades, natively or by Questie's own hiding", function()
+        it("tells features when an icon shows, hides or fades, by Questie's own hiding apart from natively", function()
             Listen("VisibilityChanged")
+            Listen("NativeVisibilityChanged")
             local icon, shown = QuestieFrameInstance, true
             icon.IsShown = function() return shown end
             icon.Hide = function() shown = false end
@@ -150,8 +151,13 @@ describe("QuestieFrame", function()
             QuestieFrame.private.FadeOut(icon)
             QuestieFrame.private.FadeIn(icon)
 
-            assert.are.equal(6, #heard)
-            for _, event in ipairs(heard) do assert.are.equal(icon, event.icon) end
+            local events = {}
+            for i, event in ipairs(heard) do
+                assert.are.equal(icon, event.icon)
+                events[i] = event.event
+            end
+            assert.are.same({"NativeVisibilityChanged", "NativeVisibilityChanged", "VisibilityChanged", "VisibilityChanged",
+                "VisibilityChanged", "VisibilityChanged"}, events)
         end)
 
         it("tells features an icon unloads, also at once while queued and again as the queue finishes, while it shows its data", function()

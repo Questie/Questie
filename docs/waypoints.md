@@ -49,7 +49,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 
 **Integration:**
 - `QuestieMap:DrawWaypoints` calls `QuestieWaypoints.Add`. `DrawWorldIcon` and `DrawManualIcon` link each world icon to its `minimapTwin`.
-- From the first path on, the registry follows icons through `QuestieFrame`'s icon events: `Unload` releases the icon's paths, `VisibilityChanged` (native show/hide, fake hide/show and fades) redraws them, `HoverStart` highlights the hovered NPC's paths, and `HoverEnd` ends the highlight for the data the hover started with. Before highlighting, `HoverStart` calls `WaypointHover.End`, so a path hover opened for another icon restores its tints before `QuestieFrame` tints the hovered icon's quest.
+- From the first path on, the registry follows icons through `QuestieFrame`'s icon events: `Unload` releases the icon's paths, `VisibilityChanged` (fake hide/show and fades) redraws them, `HoverStart` highlights the hovered NPC's paths, and `HoverEnd` ends the highlight for the data the hover started with. Before highlighting, `HoverStart` calls `WaypointHover.End`, so a path hover opened for another icon restores its tints before `QuestieFrame` tints the hovered icon's quest.
 - `TrackerUtils` flashes use `SetSolo`.
 - HereBeDragons-Pins gains `GetMinimapView()`, which returns the radius and rotation it places minimap icons with: `C_Minimap.GetViewRadius()` where available, its zoom tables elsewhere.
 - Settings live under Map → Waypoints; [Settings](#settings) lists them. Switching profiles calls `QuestieWaypoints.Redraw`.

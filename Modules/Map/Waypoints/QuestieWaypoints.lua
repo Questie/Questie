@@ -63,6 +63,8 @@ local followingIcons = false
 local function _FollowIcons()
     followingIcons = true
     QuestieFrame.Subscribe("Unload", QuestieWaypoints.RemoveOwner)
+    -- Paths draw by their owners' hiding and fade, never by native visibility, which HereBeDragons
+    -- changes whenever icons come into or go out of range.
     QuestieFrame.Subscribe("VisibilityChanged", QuestieWaypoints.OwnerChanged)
     -- Hovering an icon is hovering its NPC. A path hover opened for another icon ends first.
     QuestieFrame.Subscribe("HoverStart", function(icon)
@@ -126,7 +128,7 @@ function QuestieWaypoints.RemoveOwner(owner)
     _Changed()
 end
 
----Redraws paths whose icons were shown, hidden or faded, through the VisibilityChanged event: the
+---Redraws paths whose icons Questie hid, showed or faded, through the VisibilityChanged event: the
 ---world map icon's, or its minimap twin's, which shares the data.
 ---@param icon IconFrame
 function QuestieWaypoints.OwnerChanged(icon)

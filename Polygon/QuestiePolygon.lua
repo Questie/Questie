@@ -636,6 +636,11 @@ local function _FollowIcons()
         QuestiePolygon.MinimapMarkerRemoved(frame)
     end)
     QuestieFrame.Subscribe("VisibilityChanged", QuestiePolygon.MarkerChanged)
+    -- HereBeDragons can show a marker after the map provider has refreshed: recheck next frame, after
+    -- native parenting and draw-queue bookkeeping settle. Minimap icons' native visibility decides nothing.
+    QuestieFrame.Subscribe("NativeVisibilityChanged", function(frame)
+        if frame.polygonMarker then QuestiePolygon.ScheduleRefresh() end
+    end)
     QuestieFrame.Subscribe("HoverStart", QuestiePolygon.EnterMarker)
     -- A recycled icon's old marker ended its preview when it unloaded; a new marker's is not this hover's.
     QuestieFrame.Subscribe("HoverEnd", function(frame, data)

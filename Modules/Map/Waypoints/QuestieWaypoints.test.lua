@@ -258,6 +258,8 @@ describe("QuestieWaypoints", function()
         WaypointMap.Invalidate:clear()
         listeners.VisibilityChanged(icon)
         assert.spy(WaypointMap.Invalidate).was.called(1)
+        -- HereBeDragons showing or hiding icons in and out of range changes nothing paths draw by.
+        assert.is_nil(listeners.NativeVisibilityChanged)
 
         listeners.Unload(icon)
         assert.are.equal(2, CountPaths())

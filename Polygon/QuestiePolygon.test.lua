@@ -232,6 +232,12 @@ describe("QuestiePolygon world-map adapter", function()
         iconListeners.VisibilityChanged(frame)
         FlushRefresh()
         assert.spy(renderCache.Present).was.called(presents + 1)
+        -- HereBeDragons showing a marker draws again; a minimap icon's native visibility decides nothing.
+        iconListeners.NativeVisibilityChanged(frame)
+        FlushRefresh()
+        assert.spy(renderCache.Present).was.called(presents + 2)
+        iconListeners.NativeVisibilityChanged(marker.minimapIcons[1].frame)
+        assert.are.equal(0, #timers)
 
         iconListeners.Click(frame)
         assert.is_true(SavedVisibility(entry))

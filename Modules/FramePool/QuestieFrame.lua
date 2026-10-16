@@ -51,13 +51,14 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 ---@alias IconEvent
 ---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
----| "VisibilityChanged" # It was shown or hidden, natively or by FakeHide/FakeShow, or faded in or out. It may come twice for one change.
+---| "VisibilityChanged" # Questie hid or showed it with FakeHide/FakeShow, or faded it out or in: its `hidden` or `faded` changed.
+---| "NativeVisibilityChanged" # The frame itself was shown or hidden, as HereBeDragons places icons for the shown maps, and also by FakeHide/FakeShow.
 ---| "HoverStart" # The cursor or the gamepad cursor started hovering it.
 ---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with. It may come without a HoverStart, such as when the cursor leaves an icon faded out to nothing.
 ---| "Click" # A plain left-click on a world map icon on its own map, which Questie leaves to features.
 
 ---@type table<IconEvent, fun(icon: IconFrame, data: IconData?)[]>
-local listeners = {Unload = {}, VisibilityChanged = {}, HoverStart = {}, HoverEnd = {}, Click = {}}
+local listeners = {Unload = {}, VisibilityChanged = {}, NativeVisibilityChanged = {}, HoverStart = {}, HoverEnd = {}, Click = {}}
 ---@type table<function, true>
 local reported = {}
 
@@ -77,8 +78,8 @@ local function _Emit(event, icon, data)
 end
 
 ---Calls listener whenever `event` happens to any icon, after the listeners subscribed before it. A
----listener must not rely on that order, and must be cheap: VisibilityChanged comes for every icon
----the maps show or hide.
+---listener must not rely on that order, and must be cheap: NativeVisibilityChanged comes for every
+---icon the maps show or hide.
 ---@param event IconEvent
 ---@param listener fun(icon: IconFrame, data: IconData?)
 function QuestieFrame.Subscribe(event, listener)
@@ -385,13 +386,13 @@ function _QuestieFrame.BaseOnShow(self)
         self.glowTexture:Show()
     end
     -- HereBeDragons shows and hides icons as maps change, also after features drew for them.
-    _Emit("VisibilityChanged", self)
+    _Emit("NativeVisibilityChanged", self)
 end
 
 ---@param self IconFrame
 function _QuestieFrame.BaseOnHide(self)
     self.glowTexture:Hide()
-    _Emit("VisibilityChanged", self)
+    _Emit("NativeVisibilityChanged", self)
 end
 
 ---@param self IconFrame
