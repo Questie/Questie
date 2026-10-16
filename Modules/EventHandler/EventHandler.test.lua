@@ -21,6 +21,9 @@ describe("EventHandler event dispatch", function()
             ERR_QUEST_COMPLETE_S = _G.ERR_QUEST_COMPLETE_S,
             GetQuestLogIndexByID = _G.GetQuestLogIndexByID,
             GetSkillLineInfo = _G.GetSkillLineInfo,
+            WorldMapFrame = _G.WorldMapFrame,
+            GameTooltip = _G.GameTooltip,
+            MouseIsOver = QuestieLoader:ImportModule("QuestieCompat").MouseIsOver,
         }
         savedQuestieFields = {
             IsForever = Questie.IsForever,
@@ -76,6 +79,8 @@ describe("EventHandler event dispatch", function()
         _G.ERR_QUEST_COMPLETE_S = savedGlobals.ERR_QUEST_COMPLETE_S
         _G.GetQuestLogIndexByID = savedGlobals.GetQuestLogIndexByID
         _G.GetSkillLineInfo = savedGlobals.GetSkillLineInfo
+        _G.WorldMapFrame, _G.GameTooltip = savedGlobals.WorldMapFrame, savedGlobals.GameTooltip
+        QuestieLoader:ImportModule("QuestieCompat").MouseIsOver = savedGlobals.MouseIsOver
         Questie.IsForever = savedQuestieFields.IsForever
         Questie.RegisterEvent = savedQuestieFields.RegisterEvent
         Questie.RegisterBucketEvent = savedQuestieFields.RegisterBucketEvent
@@ -217,6 +222,25 @@ describe("EventHandler event dispatch", function()
             assert.is_nil(bucketEvents.BAG_UPDATE_DELAYED)
             assert.is_nil(callbacks.ITEM_DATA_LOAD_RESULT)
         end)
+    end)
+
+    it("redraws a map tooltip on Shift only while its owner still holds it", function()
+        QuestieLoader:ImportModule("QuestieCompat").MouseIsOver = function() return true end
+        _G.WorldMapFrame = {IsShown = function() return true end}
+        local area, pin = {}, {}
+        local holder = pin -- A Blizzard pin took the tooltip under a still cursor.
+        _G.GameTooltip = {_owner = area, _Rebuild = spy.new(function() end),
+            IsShown = function() return true end, IsOwned = function(_, frame) return holder == frame end,
+            Hide = function() end, ClearLines = function() end, SetOwner = function(_, frame) holder = frame end,
+            SetFrameStrata = function() end, Show = function() end}
+
+        callbacks.MODIFIER_STATE_CHANGED("MODIFIER_STATE_CHANGED", "LSHIFT", 1)
+        assert.spy(GameTooltip._Rebuild).was.not_called()
+        assert.are.equal(pin, holder)
+
+        holder = area
+        callbacks.MODIFIER_STATE_CHANGED("MODIFIER_STATE_CHANGED", "LSHIFT", 1)
+        assert.spy(GameTooltip._Rebuild).was.called(1)
     end)
 
     it("registers skill chat directly without a bucket or message relay", function()
