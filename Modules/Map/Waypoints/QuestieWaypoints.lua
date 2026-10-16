@@ -13,6 +13,8 @@ local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 local WaypointMap = QuestieLoader:ImportModule("WaypointMap")
 ---@type WaypointMinimap
 local WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
+---@type WaypointRenderer
+local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
@@ -199,6 +201,13 @@ end
 
 ---Draws every path again, after a waypoint setting changed.
 function QuestieWaypoints.Refresh()
+    _Changed()
+end
+
+---Draws every path's lines anew, after the smoothing setting changed or the profile switched; a
+---Refresh only restyles lines drawn for the old settings.
+function QuestieWaypoints.Redraw()
+    WaypointRenderer.RedrawAll()
     _Changed()
 end
 
