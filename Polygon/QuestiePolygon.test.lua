@@ -462,25 +462,65 @@ describe("QuestiePolygon world-map adapter", function()
             objective.spawnList[123].Waypoints = patrols
         end
 
-        it("draws each patrol for a marker in its zone, adding one that shows the patrolling NPC", function()
-            objective.spawnList[456] = {Id = 456, Name = "Bear", Icon = 1, GetIconScale = function() return 1 end,
-                Spawns = {}, TooltipKey = "m_456", Waypoints = {[3] = {{{30, 40}, {35, 45}}}}}
+        it("draws each patrol for a marker in its zone, adding one per NPC where none is", function()
+            -- Two clusters in zone 1, neither with an extent that could hold the wolf's spawn.
+            objective.spawnList[123].Spawns = {[1] = {{10, 20}, {30, 30}}}
+            Geometry.Build = function(points)
+                local clusters = {}
+                for i, point in ipairs(points) do
+                    clusters[i] = {uiMapId = point.uiMapId, instanceId = point.instanceId, x = point.x, y = point.y,
+                        representative = point}
+                end
+                return clusters
+            end
+            local function Patroller(id, name, start)
+                objective.spawnList[id] = {Id = id, Name = name, Icon = 1, GetIconScale = function() return 1 end,
+                    Spawns = {}, TooltipKey = "m_" .. id, Waypoints = {[3] = {{start, {start[1] + 5, start[2] + 5}}}}}
+            end
+            Patroller(456, "Bear", {30, 40})
+            Patroller(789, "Boar", {50, 60})
             Update()
 
-            local routes = RouteOwners()
-            table.sort(routes, function(a, b) return a.zone < b.zone end)
-            -- The cluster has no extent to hold the wolf's spawn, so its zone's marker owns the patrol.
-            assert.are.equal(frames[1], routes[1].owner)
-            assert.are.same({"m_123", 1, true}, {routes[1].entity, routes[1].zone, routes[1].hostile})
-            -- Only the bear's patrol reaches zone 3: a route marker of the objective, showing the bear.
-            local routeMarker = routes[2].owner
-            assert.are.equal(frames[2], routeMarker)
-            assert.are.same({"m_456", 3}, {routes[2].entity, routes[2].zone})
-            assert.are.same({"Bear", 3, 30, 40}, {routeMarker.data.Name, routeMarker.AreaID, routeMarker.x, routeMarker.y})
-            assert.are.equal(frames[1].polygonMarker.entry, routeMarker.polygonMarker.entry)
-            assert.are.equal(routeMarker.polygonMarker, minimapFrames[2].polygonMinimapMarker)
-            assert.are.equal(routeMarker.data, minimapFrames[2].data)
-            assert.are.equal(minimapFrames[2], routeMarker.minimapTwin)
+            local routes = {}
+            for _, route in ipairs(RouteOwners()) do routes[route.entity] = route end
+            -- The zone's last marker owns the wolf's patrol.
+            assert.are.equal(frames[2], routes.m_123.owner)
+            assert.are.same({30, 1, true}, {frames[2].x, routes.m_123.zone, routes.m_123.hostile})
+            -- Only the bear's and the boar's patrols reach zone 3: a route marker of the objective for each,
+            -- showing its own NPC, with a minimap twin sharing its data.
+            local bear, boar = routes.m_456.owner, routes.m_789.owner
+            assert.are.same({"Bear", 3, 30, 40}, {bear.data.Name, bear.AreaID, bear.x, bear.y})
+            assert.are.same({"Boar", 3, 50, 60}, {boar.data.Name, boar.AreaID, boar.x, boar.y})
+            local entry = frames[1].polygonMarker.entry
+            assert.are.same({entry, entry}, {bear.polygonMarker.entry, boar.polygonMarker.entry})
+            local twin = bear.minimapTwin
+            assert.are.equal(bear.data, twin.data)
+            assert.are.equal(bear.polygonMarker, twin.polygonMinimapMarker)
+
+            -- Route markers belong to the objective as its clusters do: Show on Map flashes them, and
+            -- removing the quest releases them, their minimap icons with them.
+            local flashed = {}
+            for _, frame in ipairs(Polygon.GetObjectiveMarkers(objective)) do flashed[frame] = true end
+            assert.is_true(flashed[bear] and flashed[boar])
+            Polygon.RemoveQuest(42)
+            assert.is_nil(bear.data)
+            assert.is_nil(bear.polygonMarker)
+            assert.is_nil(twin.data)
+        end)
+
+        it("keeps attaching routes through a progress update or a quest log rebuilt meanwhile", function()
+            PatrolZones(2, 41)
+            local thread = StartUpdate()
+
+            objective.Collected = 3
+            Update()
+            -- QuestieQuest rebuilds the quest log across yields when Questie is toggled.
+            Player.currentQuestlog = {}
+            assert.is_true(coroutine.resume(thread))
+
+            assert.are.equal("dead", coroutine.status(thread))
+            assert.spy(QuestieMap.DrawWaypoints).was.called(40)
+            assert.spy(Geometry.Build).was.called(1)
         end)
 
         it("attaches a patrol to the cluster holding its NPC's spawn in the patrol's zone", function()
