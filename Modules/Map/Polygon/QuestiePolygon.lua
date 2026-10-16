@@ -469,9 +469,8 @@ local function _UpdateAreaTints(surface, frames)
     for frame in pairs(tinted) do
         if not now[frame] then QuestieFrame.UntintIcon(frame, holder) end
     end
-    for frame in pairs(now) do
-        if not tinted[frame] then QuestieFrame.TintIcon(frame, holder) end
-    end
+    -- Every check tints again, which puts back a tint a redraw of the marker undid meanwhile.
+    for frame in pairs(now) do QuestieFrame.TintIcon(frame, holder) end
     areaTinted[surface] = now
 end
 

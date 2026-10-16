@@ -457,10 +457,12 @@ describe("QuestiePolygon world-map adapter", function()
                 input.onHover({Shape(first)}, true)
                 assert.spy(QuestieFrame.UntintIcon).was.called(1)
                 assert.are.equal(other, QuestieFrame.UntintIcon.calls[1].refs[1])
+                -- Each check tints the still hovered marker again, putting back a tint a redraw undid.
+                assert.spy(QuestieFrame.TintIcon).was.called(3)
+                assert.are.equal(first, QuestieFrame.TintIcon.calls[3].refs[1])
                 input.onHover({}, true)
                 assert.spy(QuestieFrame.UntintIcon).was.called(2)
                 assert.are.equal(first, QuestieFrame.UntintIcon.calls[2].refs[1])
-                assert.spy(QuestieFrame.TintIcon).was.called(2)
             end)
 
             it("on the minimap too, by its minimap icon, listing the icons around the cursor on the minimap's tooltip", function()
@@ -500,13 +502,22 @@ describe("QuestiePolygon world-map adapter", function()
                 assert.are.same({frames[1], mapTint}, {QuestieFrame.UntintIcon.calls[1].refs[1], QuestieFrame.UntintIcon.calls[1].refs[2]})
             end)
 
-            it("stops tinting a marker Questie unloads under the cursor", function()
+            it("stops tinting a marker Questie unloads under the cursor, on either map", function()
+                local marker = frames[1].polygonMarker
+                local icon = marker.minimapIcons[1].frame
+                focus = _G.Minimap
+                minimapLayer.hover({marker}, 500, 250)
+                iconListeners.Unload(icon)
+                assert.spy(QuestieFrame.UntintIcon).was.called(1)
+                assert.are.equal(icon, QuestieFrame.UntintIcon.calls[1].refs[1])
+
+                focus = map.ScrollContainer
                 input.onHover({Shape(frames[1])}, true)
                 iconListeners.Unload(frames[1])
-                assert.spy(QuestieFrame.UntintIcon).was.called(1)
-                assert.are.equal(frames[1], QuestieFrame.UntintIcon.calls[1].refs[1])
+                assert.spy(QuestieFrame.UntintIcon).was.called(2)
+                assert.are.equal(frames[1], QuestieFrame.UntintIcon.calls[2].refs[1])
                 input.onHover({}, true)
-                assert.spy(QuestieFrame.UntintIcon).was.called(1)
+                assert.spy(QuestieFrame.UntintIcon).was.called(2)
             end)
 
             it("leaves areas drawn only as a preview alone", function()
