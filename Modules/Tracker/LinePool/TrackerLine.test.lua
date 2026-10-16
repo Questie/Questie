@@ -106,6 +106,15 @@ describe("TrackerLine untrack click", function()
             assert.spy(Polygon.SetObjectivePreview).was.not_called()
         end)
 
+        it("ends an earlier preview a missed OnLeave left before starting the next", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
+            line.scripts.OnEnter(line)
+            line.scripts.OnEnter(line)
+            assert.spy(Polygon.SetObjectivePreview).was.called_with(42, 3, false)
+            assert.spy(Polygon.SetObjectivePreview).was.called(3)
+        end)
+
         it("does not preview achievement or scenario lines", function()
             line:SetQuest({Id = 42})
             line:SetObjective(nil) -- Achievement objective lines.

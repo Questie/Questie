@@ -320,7 +320,7 @@ describe("QuestiePolygon world-map adapter", function()
             local hoverInput = QuestieLoader:ImportModule("PolygonRenderer").New.calls[1].vals[2]
             -- Each check comes with the cursor, resting on the shown map unless a case moves it.
             cursor = {x = 25, y = 75}
-            input = {onHover = function(shapes, changed) hoverInput.onHover(shapes, changed, cursor.x, cursor.y) end}
+            input = {onHover = function(shapes) hoverInput.onHover(shapes, cursor.x, cursor.y) end}
         end)
 
         after_each(function()
@@ -344,7 +344,7 @@ describe("QuestiePolygon world-map adapter", function()
 
             -- Overlapping areas: the second objective first, then the first objective's area twice. Around
             -- the cursor in zone 1, the shown map's, lie the first marker and another icon.
-            local icon = {}
+            local icon = {data = {}}
             nearby = {frames[1], icon}
             input.onHover({Shape(frames[2]), Shape(frames[1]), Shape(frames[1])}, true)
 
@@ -363,27 +363,45 @@ describe("QuestiePolygon world-map adapter", function()
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(1)
             -- Another icon around the cursor rebuilds it.
-            nearby = {{}}
+            nearby = {{data = {}}}
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(2)
             nearby = {}
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(3)
+            -- So does a listed icon the pool handed out for other data under the still cursor.
+            local data = frames[1].data
+            frames[1].data = {}
+            input.onHover(shapes, false)
+            frames[1].data = data
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(4)
+            input.onHover(shapes, false)
 
             -- Drawing anew rechecks the last offered cursor: an icon that took the mouse since keeps its tooltip.
             local icon = {}
             tooltip.owner, focus = icon, icon
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.Release).was.called(1)
-            assert.spy(MapIconTooltip.ShowForIcons).was.called(3)
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(5)
             focus = map.ScrollContainer
             input.onHover(shapes, false)
-            assert.spy(MapIconTooltip.ShowForIcons).was.called(4)
+            assert.spy(MapIconTooltip.ShowForIcons).was.called(6)
 
             -- Leaving the areas ends the area tooltip.
             input.onHover({}, true)
             assert.spy(MapIconTooltip.Release).was.called(2)
             assert.are.equal(map.ScrollContainer, MapIconTooltip.Release.calls[2].refs[1])
+        end)
+
+        it("lists the icons around the cursor on the hovered marker's own map, shown on another", function()
+            map.mapId = 20
+            cursor.x, cursor.y = 50, 25
+            input.onHover({Shape(frames[1])}, true)
+            local call = MapIconTooltip.IconsNear.calls[1]
+            assert.are.same({false, 1}, {call.vals[1], call.vals[2]})
+            assert.are_near(35, call.vals[3], 1e-9)
+            assert.are_near(55, call.vals[4], 1e-9)
+            assert.spy(HBD.TranslateZoneCoordinates).was.called_with(HBD, 0.5, 0.25, 20, 10, true)
         end)
 
         it("shows nothing while the setting is off or the gamepad UI is on", function()
@@ -509,6 +527,15 @@ describe("QuestiePolygon world-map adapter", function()
                 assert.are.equal(minimapLayer.owner, MapIconTooltip.Release.calls[#MapIconTooltip.Release.calls].refs[1])
             end)
 
+            it("releases the minimap's area tooltip as another icon's hover ends the area's", function()
+                local marker = frames[1].polygonMarker
+                focus = _G.Minimap
+                minimapLayer.hover({marker}, 500, 250)
+                MapIconTooltip.Release:clear()
+                iconListeners.HoverStart({data = {}})
+                assert.spy(MapIconTooltip.Release).was.called_with(minimapLayer.owner, MapIconTooltip.MinimapTooltip())
+            end)
+
             it("keeps each map's hover apart, handing it over to the same marker on the other map", function()
                 local marker = frames[1].polygonMarker
                 local icon = marker.minimapIcons[1].frame
@@ -544,6 +571,16 @@ describe("QuestiePolygon world-map adapter", function()
             end)
         end)
 
+        it("lists the areas alone when looking around the cursor fails, reporting it once", function()
+            Questie.Error = spy.new(function() end)
+            MapIconTooltip.IconsNear = function() error("broken lookup") end
+            assert.has_no.errors(function() input.onHover({Shape(frames[1])}, true) end)
+            input.onHover({}, true)
+            input.onHover({Shape(frames[1])}, true)
+            assert.spy(Questie.Error).was.called(1)
+            assert.are.same({frames[1]}, MapIconTooltip.ShowForIcons.calls[2].refs[2])
+        end)
+
         it("keeps a tooltip error from the renderer and retries once the listed icons change", function()
             Questie.Error = spy.new(function() end)
             MapIconTooltip.ShowForIcons = spy.new(function() error("broken tooltip") end)
@@ -553,17 +590,18 @@ describe("QuestiePolygon world-map adapter", function()
             assert.spy(Questie.Error).was.called(1)
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(1)
-            nearby = {{}}
+            nearby = {{data = {}}}
             input.onHover(shapes, false)
             assert.spy(MapIconTooltip.ShowForIcons).was.called(2)
         end)
     end)
 
     describe("areas beneath a map icon", function()
-        it("are the world map's drawn areas at the icon's spot on the shown map", function()
+        it("are the world map's shown areas at the icon's spot on the shown map", function()
             Update()
+            Polygon.SetObjectiveAreaShown(42, 1, true)
             local marker = frames[1].polygonMarker
-            renderer.ShapesAt = spy.new(function() return {{key = marker}} end)
+            renderer.ShapesAt = spy.new(function() return {{key = marker, owner = marker.entry}} end)
             local found = Polygon.AreaIconsAt({UiMapID = 10, x = 30, y = 40})
             assert.are.equal(1, #found)
             assert.are.equal(frames[1], found[1])
@@ -574,16 +612,21 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are_near(35, x, 1e-9)
             assert.are_near(55, y, 1e-9)
 
-            -- A marker icon pooled for another marker since, or a closed map, lists none.
+            -- A marker icon pooled for another marker since, an area drawn only as a preview, or a
+            -- closed map lists none.
             frames[1].polygonMarker = {}
             assert.are.same({}, Polygon.AreaIconsAt({UiMapID = 10, x = 30, y = 40}))
             frames[1].polygonMarker = marker
+            Polygon.SetObjectiveAreaShown(42, 1, false)
+            assert.are.same({}, Polygon.AreaIconsAt({UiMapID = 10, x = 30, y = 40}))
+            Polygon.SetObjectiveAreaShown(42, 1, true)
             map.shown = false
             assert.are.same({}, Polygon.AreaIconsAt({UiMapID = 10, x = 30, y = 40}))
         end)
 
-        it("are the minimap's drawn areas at a minimap icon's spot, each by its marker's minimap icon", function()
+        it("are the minimap's shown areas at a minimap icon's spot, each by its marker's minimap icon", function()
             Update()
+            Polygon.SetObjectiveAreaShown(42, 1, true)
             local marker = frames[1].polygonMarker
             minimapLayer.AreasAt = spy.new(function() return {marker} end)
             local found = Polygon.AreaIconsAt({miniMapIcon = true, UiMapID = 10, x = 50, y = 25})
@@ -591,19 +634,22 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.equal(minimapFrames[1], found[1])
             -- The spot in world yards on its instance, as HereBeDragons places the icon.
             assert.spy(minimapLayer.AreasAt).was.called_with(500, 250, 10)
-            -- A minimap icon pooled for another marker since lists none.
+            -- An area drawn only as a preview, or a minimap icon pooled for another marker since, lists none.
+            Polygon.SetObjectiveAreaShown(42, 1, false)
+            assert.are.same({}, Polygon.AreaIconsAt({miniMapIcon = true, UiMapID = 10, x = 50, y = 25}))
+            Polygon.SetObjectiveAreaShown(42, 1, true)
             minimapFrames[1].polygonMinimapMarker = {}
             assert.are.same({}, Polygon.AreaIconsAt({miniMapIcon = true, UiMapID = 10, x = 50, y = 25}))
         end)
     end)
 
-    it("starts objective icons' tooltip lines with their area colour while areas draw", function()
-        local swatch = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
+    it("starts objective icons' tooltip lines with their area colour in blob mode", function()
         local data = {QuestData = quest, ObjectiveData = objective}
-        assert.are.equal(swatch:format(51, 128, 255), Polygon.ObjectiveSwatch({data = data}))
+        -- A texture tinted in the area's RGB.
+        assert.matches("^|T.*:51:128:255|t $", Polygon.ObjectiveSwatch({data = data}))
         -- Any objective icon, a marker or not, on either map; the quest's colour stands in for a missing one.
         objective.Color = nil
-        assert.are.equal(swatch:format(255, 255, 255), Polygon.ObjectiveSwatch({data = data, miniMapIcon = true}))
+        assert.matches("^|T.*:255:255:255|t $", Polygon.ObjectiveSwatch({data = data, miniMapIcon = true}))
 
         objective.IsPartyObjective = true
         assert.is_nil(Polygon.ObjectiveSwatch({data = data}))
@@ -672,8 +718,8 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same({1, 1, 1}, {minimapFrames[1].fadeApplied, minimapFrames[2].fadeApplied, minimapFrames[3].fadeApplied})
     end)
 
-    it("names every NPC of a cluster on its marker, the representative's first", function()
-        objective.spawnList[456] = {Id = 456, Name = "Bear", Icon = 1, GetIconScale = function() return 1 end,
+    local function TwoKindsOfNPC(secondName)
+        objective.spawnList[456] = {Id = 456, Name = secondName, Icon = 1, GetIconScale = function() return 1 end,
             Spawns = {[1] = {{11, 21}}}}
         Geometry.Build = spy.new(function(points)
             local byKind = {}
@@ -682,8 +728,17 @@ describe("QuestiePolygon world-map adapter", function()
                 outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}}}
         end)
         Update()
+    end
+
+    it("names every NPC of a cluster on its marker, the representative's first", function()
+        TwoKindsOfNPC("Bear")
         assert.are.same({"Wolf", "Bear"}, frames[1].data.Names)
         assert.are.equal("Wolf", frames[1].data.Name)
+    end)
+
+    it("names two NPCs of one name once", function()
+        TwoKindsOfNPC("Wolf")
+        assert.are.same({"Wolf"}, frames[1].data.Names)
     end)
 
     it("hints what clicking a marker does to its areas, wherever a click does it", function()
@@ -994,6 +1049,29 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.equal(first, QuestieFrame.ResetHoverHighlights.calls[2].refs[1])
             Polygon.SetObjectivePreview(42, 1, false)
             assert.spy(QuestieFrame.ResetHoverHighlights).was.called(2)
+        end)
+
+        it("ends a preview's hovers with its markers, though the control previewing them is still hovered", function()
+            Update()
+            local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+            Polygon.SetObjectivePreview(42, 1, true)
+            -- The objective completes under the hovered tracker line.
+            Polygon.RemoveObjective(42, 1)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
+            Polygon.SetObjectivePreview(42, 1, false)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
+
+            -- Closing the map ends previews its hidden controls may never end, on the minimap too.
+            Update()
+            Polygon.SetObjectivePreview(42, 1, true)
+            minimapLayer.Invalidate:clear()
+            local reset = QuestieFrame.ResetHoverHighlights
+            QuestieFrame.ResetHoverHighlights = spy.new(function() end) -- Ending no marker hover redraws.
+            map.provider:OnHide()
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
+            QuestieFrame.ResetHoverHighlights = reset
+            assert.spy(minimapLayer.Invalidate).was.called()
+            assert.are.same({}, minimapLayer.collect())
         end)
 
         it("hovers the markers of an objective without areas, previewing no areas", function()

@@ -26,6 +26,7 @@
    - **`MapGeometry`** (Area E): line simplification shared by both features.
    - **The `IconFrame` contract**, written down: owner frame, `minimapTwin`, and `data` refreshed in place, never replaced, because routes match their owner by table identity.
 3. **`QuestieFrame` emits icon events instead of naming features.** The events are unload, visibility change, hover start and hover end. Waypoints registers its route release, visibility and highlight; Polygon registers its marker removal, change and area preview. Hover tint (`touchedPins`) stays in core. `MapIconTooltip` imports no feature module.
+   - *Revised by David (2026-10-16), for the area polish after Phase 2:* the import guard's allowlist is the escape hatch, not a new hook. `MapIconTooltip` calls `QuestiePolygon` at three entry points (an objective line's area color, the areas beneath an icon, a marker's click hint), and the tracker previews a whole quest through `QuestiePolygon.SetQuestPreview`. The hover tint became one quest tint shared by its hovers.
 4. **Core may call a feature only at a few documented entry points:**
    - blob mode in `QuestieQuest` (`QuestiePolygon.UpdateObjective`)
    - each feature's own options tab

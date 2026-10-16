@@ -401,6 +401,36 @@ describe("QuestieFrame", function()
             assert.are.same({0, 1, 0, 1}, Color(otherQuest))
         end)
 
+        it("keeps a fade or a redraw made during the tint when restoring", function()
+            local icon, sibling = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
+            pins = {icon, sibling}
+            QuestieFrame.ApplyHoverHighlights(icon)
+            -- FadeOut keeps the tinted color and lowers the opacity; a redraw sets the icon's own color.
+            icon.faded = true
+            icon.texture:SetVertexColor(0.6, 1, 1, 0.3)
+            sibling.texture:SetVertexColor(0.2, 0.2, 0.2, 1)
+
+            QuestieFrame.ResetHoverHighlights(icon)
+
+            assert.are.same({1, 0.5, 0, 0.3}, Color(icon))
+            assert.are.same({0.2, 0.2, 0.2, 1}, Color(sibling))
+        end)
+
+        it("ends the cursor's hover with the data it started with, though the pool handed the icon out since", function()
+            local data = {Id = 123, Type = "monster"}
+            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
+            pins = {icon, sibling}
+            local ended
+            QuestieFrame.Subscribe("HoverEnd", function(_, endedData) ended = endedData end)
+
+            QuestieFrame.private.OnEnter(icon)
+            icon.data = {Id = 7, Type = "complete"}
+            QuestieFrame.private.OnLeave(icon)
+
+            assert.are.equal(data, ended)
+            assert.are.same({0, 1, 0, 1}, Color(sibling))
+        end)
+
         it("ends the hover with the data it started with, after restoring the colors it tinted", function()
             local data = {Id = 123, Type = "monster"}
             local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})

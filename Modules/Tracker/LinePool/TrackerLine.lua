@@ -47,18 +47,6 @@ local lineMarginLeft = 10
 -- The previewed identity is captured: a tracker rebuild can reassign this pooled line before the
 -- cursor leaves. Achievement and scenario lines carry no quest objective.
 ---@param line TrackerLineFrame
-local function _StartAreaPreview(line)
-    local quest, objective = line.Quest, line.Objective
-    if line.mode == "objective" and quest and objective and objective.questId == quest.Id then
-        line.areaPreviewQuestId, line.areaPreviewIndex = quest.Id, objective.NativeIndex or objective.Index
-        QuestiePolygon.SetObjectivePreview(line.areaPreviewQuestId, line.areaPreviewIndex, true)
-    elseif line.mode == "quest" and quest then
-        line.areaPreviewQuestId, line.areaPreviewIndex = quest.Id, nil
-        QuestiePolygon.SetQuestPreview(quest.Id, true)
-    end
-end
-
----@param line TrackerLineFrame
 local function _EndAreaPreview(line)
     local questId, objectiveIndex = line.areaPreviewQuestId, line.areaPreviewIndex
     if not questId then return end
@@ -67,6 +55,20 @@ local function _EndAreaPreview(line)
         QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, false)
     else
         QuestiePolygon.SetQuestPreview(questId, false)
+    end
+end
+
+---@param line TrackerLineFrame
+local function _StartAreaPreview(line)
+    -- An OnLeave that never came, such as for a line hidden under the cursor, ends with this OnEnter.
+    _EndAreaPreview(line)
+    local quest, objective = line.Quest, line.Objective
+    if line.mode == "objective" and quest and objective and objective.questId == quest.Id then
+        line.areaPreviewQuestId, line.areaPreviewIndex = quest.Id, objective.NativeIndex or objective.Index
+        QuestiePolygon.SetObjectivePreview(line.areaPreviewQuestId, line.areaPreviewIndex, true)
+    elseif line.mode == "quest" and quest then
+        line.areaPreviewQuestId, line.areaPreviewIndex = quest.Id, nil
+        QuestiePolygon.SetQuestPreview(quest.Id, true)
     end
 end
 
