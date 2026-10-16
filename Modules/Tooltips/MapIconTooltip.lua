@@ -71,7 +71,7 @@ function MapIconTooltip:Show()
 end
 
 ---Shows a map icon's tooltip: the quests and notes of the icons clustered around it on its map, and of
----any icons given. Entries are collected first, then rendered by _Rebuild, again on a modifier key.
+---any icons given. ShowForIcons renders them, again on a modifier key.
 ---@param self IconFrame
 ---@param Tooltip GameTooltip The tooltip frame to render into
 ---@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
@@ -86,14 +86,12 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         return
     end
     if self.polygonMarker then QuestiePolygon.EnterMarker(self) end
-    if GetTime() - lastTooltipShowTimestamp < 0.05 and Tooltip:IsShown() then
+    -- Only this tooltip's own owner is throttled; another owner's, such as a quest area's, is replaced.
+    if GetTime() - lastTooltipShowTimestamp < 0.05 and Tooltip:IsShown() and Tooltip:IsOwned(owner or self) then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Call has been too fast, not showing again")
         return
     end
     lastTooltipShowTimestamp = GetTime()
-
-    Tooltip._owner = self;
-    Tooltip:SetOwner(owner or self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
     local maxDistCluster = 1
     local mapId = WorldMapFrame:GetMapID();
@@ -132,11 +130,8 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     --Tooltip:AddLine(v);
     --end
 
-    local usedText = {}
-    local npcAndObjectOrder = {};
-    local questOrder = {};
-    local manualOrder = {}
-
+    -- The hovered icon, the visible icons around it and any given icons share one tooltip.
+    local tooltipIcons = {}
     -- Tinting again before the hover's reset would save the tinted colors as the ones to restore.
     local tint = not self.data.touchedPins
     if tint then
@@ -175,32 +170,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             near = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y) < maxDistCluster
         end
         if near then
-            if iconData.Type == "available" or iconData.Type == "complete" then
-                if not npcAndObjectOrder[iconData.Name] then
-                    npcAndObjectOrder[iconData.Name] = {};
-                end
-
-                local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-                npcAndObjectOrder[iconData.Name][tip.title] = tip
-            elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
-                local key = iconData.Id
-                if not questOrder[key] then
-                    questOrder[key] = {};
-                end
-
-                local orderedTooltips = {}
-                iconData.ObjectiveData:Update()
-                local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
-                for _, tip in pairs(tooltips) do
-                    tinsert(orderedTooltips, 1, tip);
-                end
-                for _, tip in pairs(orderedTooltips) do
-                    local quest = questOrder[key]
-                    _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
-                end
-            elseif iconData.ManualTooltipData then
-                manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
-            end
+            tooltipIcons[#tooltipIcons + 1] = icon
         end
     end
 
@@ -219,10 +189,60 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         handleMapIcon(icon, true)
     end
 
+    MapIconTooltip.ShowForIcons(owner or self, tooltipIcons, Tooltip)
+end
+
+---Shows the map icon tooltip for exactly these icons, under the cursor. Holding Shift redraws
+---it with more detail while `owner` still holds the tooltip. Map icons end it in their OnLeave;
+---other owners end it with `MapIconTooltip.Release`.
+---@param owner Frame Holds the tooltip, which hides with it. Only a world map icon owner adds Journey's shift-click hint.
+---@param icons IconFrame[] Icons with data. Objectives repeated across icons are listed once.
+---@param Tooltip GameTooltip
+---@param objectivePrefix (fun(icon: IconFrame): string)? Text before each icon's own objective line; party lines get none.
+function MapIconTooltip.ShowForIcons(owner, icons, Tooltip, objectivePrefix)
+    Tooltip._owner = owner;
+    -- The tracker also writes `_owner`; this one says whose map tooltip `Release` may end.
+    Tooltip._mapIconOwner = owner
+    Tooltip:SetOwner(owner, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+
+    local usedText = {}
+    local npcAndObjectOrder = {};
+    local questOrder = {};
+    local manualOrder = {}
+    for _, icon in ipairs(icons) do
+        local iconData = icon.data
+        if iconData.Type == "available" or iconData.Type == "complete" then
+            if not npcAndObjectOrder[iconData.Name] then
+                npcAndObjectOrder[iconData.Name] = {};
+            end
+
+            local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
+            npcAndObjectOrder[iconData.Name][tip.title] = tip
+        elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
+            local key = iconData.Id
+            if not questOrder[key] then
+                questOrder[key] = {};
+            end
+
+            local orderedTooltips = {}
+            iconData.ObjectiveData:Update()
+            local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon, objectivePrefix and objectivePrefix(icon))
+            for _, tip in pairs(tooltips) do
+                tinsert(orderedTooltips, 1, tip);
+            end
+            for _, tip in pairs(orderedTooltips) do
+                local quest = questOrder[key]
+                _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
+            end
+        elseif iconData.ManualTooltipData then
+            manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
+        end
+    end
+
     Tooltip.npcAndObjectOrder = npcAndObjectOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
-    Tooltip.miniMapIcon = self.miniMapIcon
+    Tooltip.miniMapIcon = owner.miniMapIcon
 
     -- Texture indents are more robust than raw spaces in tooltip layout.
     -- Base indent is 6 UI units, then each deeper level scales by 1.5.
@@ -502,6 +522,19 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     Tooltip:Show();
 end
 
+---Ends the tooltip `owner` opened with `ShowForIcons`: hides it while the owner still holds it,
+---and stops Shift redrawing it. A tooltip another map icon has since opened is left alone.
+---@param owner Frame
+---@param Tooltip GameTooltip
+function MapIconTooltip.Release(owner, Tooltip)
+    if Tooltip._mapIconOwner == owner then
+        Tooltip._mapIconOwner = nil
+        Tooltip._Rebuild = nil
+        Tooltip.ShownAsMapIcon = false
+    end
+    if Tooltip:IsOwned(owner) then Tooltip:Hide() end
+end
+
 local isLastMinimapInside, lastMinimapInsideCheckTimestamp
 
 function _MapIconTooltip:IsMinimapInside()
@@ -594,7 +627,9 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     return tip
 end
 
-function _MapIconTooltip:GetObjectiveTooltip(icon)
+---@param icon IconFrame
+---@param prefix string? Placed before the local objective line.
+function _MapIconTooltip:GetObjectiveTooltip(icon, prefix)
     local tooltips = {}
     local iconData = icon.data
     -- Local wording comes from the accepted cache. Party-only objectives carry validated API wording
@@ -682,6 +717,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
     -- objective line; the per-player lines above already cover it. Keep it as a fallback if
     -- no party lines were added, so the tooltip is never empty.
     if (not iconData.ObjectiveData.IsPartyObjective) or (#tooltips == 0) then
+        text = (prefix or "") .. text
         local t = {
             [text] = {},
         }

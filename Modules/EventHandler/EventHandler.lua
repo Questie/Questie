@@ -503,7 +503,9 @@ function _EventHandler:ModifierStateChanged(key, down)
 
         -- Questie Map Icons
         if QuestieCompat.MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or QuestieCompat.MouseIsOver(Minimap) then
-            if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
+            -- Other UI may have taken the tooltip since; redrawing would replace its tooltip with ours.
+            if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild
+                and GameTooltip._owner and GameTooltip:IsOwned(GameTooltip._owner) then
                 GameTooltip:Hide()
                 GameTooltip:ClearLines()
                 GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
