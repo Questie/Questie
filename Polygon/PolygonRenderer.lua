@@ -24,16 +24,13 @@ PolygonRenderer.debugRandomColors = false
 ---@field maskTextures MaskTexture[] Applied once to every texture this renderer creates.
 ---@field hoveredFrames table<Frame, boolean> Visible polygons whose outlines contain the cursor.
 ---@field highlightedFrames table<Frame, boolean> Union of geometric hover and caller-requested marker highlights.
----@field hoverDriver Frame? One shared update driver, retained across visible-set changes.
----@field hoverPolling boolean? Whether the driver currently has its cursor-polling callback installed.
----@field cursorX number? Cursor canvas percentage at the last hover check; nil while unavailable.
+---@field hoverDriver Frame? One shared frame, retained across visible-set changes: hiding the canvas ends hover and highlights, showing it restores them.
+---@field cursorX number? The cursor WorldMapLayers last offered, in canvas percent; nil while it offers none.
 ---@field cursorY number?
 
 ---Polygon frames never take mouse input, so they cannot block map clicks or dragging and
----need no protected input setup. Hover is computed from the cursor and the outlines instead.
+---need no protected input setup. Hover is computed from the offered cursor and the outlines instead.
 ---@class PolygonHoverInput
----@field getCursorPosition fun(): number?, number? Normalized coordinates against the full canvas extent.
----@field isCursorOnMap fun(): boolean False while other UI covers the map under the cursor.
 ---@field onHover fun(shapes: PolygonShape[], changed: boolean)? Hears every hover check, with the hovered shapes as last styled; changed when the hovered set differs.
 
 local Renderer = {}
@@ -141,42 +138,22 @@ local function _ContainsPoint(points, x, y)
     return inside
 end
 
----Reads the cursor in canvas percentages; nil while it is unavailable, off the canvas, or
----restricted. Restricted (secret) values cannot even be compared, so they are rejected first.
----@param input PolygonHoverInput
----@return number? x
----@return number? y
-local function _ReadCursor(input)
-    local x, y = input.getCursorPosition()
-    if issecretvalue and (issecretvalue(x) or issecretvalue(y)) then return nil, nil end
-    if _IsFinite(x) and _IsFinite(y) and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
-        return x * 100, y * 100
-    end
-    return nil, nil
-end
-
----Reconciles cursor hits and marker requests for the published visible set. Hover selects
----every visible outline containing the cursor, overlaps included, unless other UI covers the
----map there. Only changed effective highlights restyle borders.
+---Reconciles the kept cursor's hits and marker requests for the published visible set. Hover
+---selects every visible outline containing the cursor, overlaps included. Only changed effective
+---highlights restyle borders.
 function Renderer:UpdateHover()
     local hovered, selected = {}, {}
-    local x, y
-    -- Without visible polygons there is nothing to hit, and the map may not be laid out yet:
-    -- Blizzard's cursor normalization divides by the canvas width, which starts at zero.
-    if self.hoverInput and #self.activeFrames > 0 then
-        x, y = _ReadCursor(self.hoverInput)
-        if x and self.hoverInput.isCursorOnMap() then
-            for _, frame in ipairs(self.activeFrames) do
-                -- The outline's bounding box rejects most polygons before the full test.
-                local bounds = frame.polygonBounds
-                if x >= bounds[1] and x <= bounds[3] and y >= bounds[2] and y <= bounds[4]
-                    and frame:IsShown() and _ContainsPoint(frame.polygonOutline, x, y) then
-                    hovered[frame], selected[frame] = true, true
-                end
+    local x, y = self.cursorX, self.cursorY
+    if self.hoverInput and x then
+        for _, frame in ipairs(self.activeFrames) do
+            -- The outline's bounding box rejects most polygons before the full test.
+            local bounds = frame.polygonBounds
+            if x >= bounds[1] and x <= bounds[3] and y >= bounds[2] and y <= bounds[4]
+                and frame:IsShown() and _ContainsPoint(frame.polygonOutline, x, y) then
+                hovered[frame], selected[frame] = true, true
             end
         end
     end
-    self.cursorX, self.cursorY = x, y
     -- Marker association remains independent of geometric hover.
     -- Leaving a polygon cannot erase the outline highlight requested by its hovered marker.
     for _, frame in ipairs(self.activeFrames) do
@@ -188,15 +165,19 @@ function Renderer:UpdateHover()
     _NotifyHover(self, changed)
 end
 
--- Hover follows cursor movement: the full check runs only when the cursor's canvas position
--- changes, which also covers panning and zooming under a still cursor.
-local function _PollHover(self)
-    local x, y = _ReadCursor(self.hoverInput)
-    if x ~= self.cursorX or y ~= self.cursorY then self:UpdateHover() end
+---Hovers the outlines under the cursor WorldMapLayers offers, or ends the hover for nil. The
+---renderer keeps the cursor, so outlines drawn anew under a still cursor hover at once.
+---@param x number? Canvas percent.
+---@param y number?
+---@return boolean hovered Whether any outline contains the cursor.
+function Renderer:Hover(x, y)
+    self.cursorX, self.cursorY = x, y
+    self:UpdateHover()
+    return next(self.hoveredFrames) ~= nil
 end
 
--- Visible polygons with a hover input need cursor polling. Marker-only highlights still
--- need the driver's hide/show lifecycle, but no OnUpdate.
+-- Visible polygons with a hover input, and marker highlights, need the driver's hide/show
+-- lifecycle: a hidden canvas shows neither.
 local function _SyncHoverDriver(self)
     local canHover = self.hoverInput ~= nil and #self.activeFrames > 0
     local hasMarkerHighlight = false
@@ -204,11 +185,7 @@ local function _SyncHoverDriver(self)
         hasMarkerHighlight = hasMarkerHighlight or frame.polygonHighlighted
     end
     if not canHover and not hasMarkerHighlight then
-        if self.hoverDriver then
-            self.hoverDriver:SetScript("OnUpdate", nil)
-            self.hoverDriver:Hide()
-        end
-        self.hoverPolling = false
+        if self.hoverDriver then self.hoverDriver:Hide() end
         _ResetHover(self)
         _SetHighlightedFrames(self, {})
         return
@@ -218,9 +195,7 @@ local function _SyncHoverDriver(self)
         local driver = CreateFrame("Frame", nil, self.canvas)
         self.hoverDriver = driver
         driver:Hide()
-        driver:SetScript("OnHide", function(hiddenDriver)
-            hiddenDriver:SetScript("OnUpdate", nil)
-            self.hoverPolling = false
+        driver:SetScript("OnHide", function()
             _ResetHover(self)
             _SetHighlightedFrames(self, {})
         end)
@@ -228,13 +203,6 @@ local function _SyncHoverDriver(self)
             _SyncHoverDriver(self)
             self:UpdateHover()
         end)
-    end
-    if canHover and not self.hoverPolling then
-        self.hoverDriver:SetScript("OnUpdate", function() _PollHover(self) end)
-        self.hoverPolling = true
-    elseif not canHover and self.hoverPolling then
-        self.hoverDriver:SetScript("OnUpdate", nil)
-        self.hoverPolling = false
     end
     if not self.hoverDriver:IsShown() then self.hoverDriver:Show() end
 end
@@ -447,8 +415,8 @@ function Renderer:SetVisibleFrames(frames)
     self.visibleFrames, self.activeFrames = visible, activeFrames
     local wasShown = self.hoverDriver and self.hoverDriver:IsShown()
     _SyncHoverDriver(self)
-    -- OnShow already evaluates a newly started driver. An unchanged active driver
-    -- still needs one immediate cursor check after geometry/highlight changes.
+    -- OnShow already evaluates a newly started driver. An unchanged active driver still
+    -- needs one immediate check of the kept cursor after geometry/highlight changes.
     if wasShown or not self.hoverDriver or not self.hoverDriver:IsShown() then self:UpdateHover() end
 end
 
@@ -495,13 +463,9 @@ function Renderer:Clear()
     for frame in pairs(highlighted) do pcall(_RestyleBorders, frame, false) end
     local firstError
     if self.hoverDriver then
-        local ok, err = pcall(function()
-            self.hoverDriver:SetScript("OnUpdate", nil)
-            self.hoverDriver:Hide()
-        end)
+        local ok, err = pcall(self.hoverDriver.Hide, self.hoverDriver)
         if not ok then firstError = err end
     end
-    self.hoverPolling = false
     for frame in pairs(self.ownedFrames) do
         local ok, err = pcall(self.Release, self, frame)
         if not ok and not firstError then firstError = err end

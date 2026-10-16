@@ -137,6 +137,21 @@ describe("WorldMapLayers", function()
         assert.are.same({}, paths.calls)
     end)
 
+    it("hovers nothing where a canvas not laid out yet places the cursor at NaN or infinity", function()
+        local paths = Layer(true)
+        WorldMapLayers.AddLayer("paths", paths)
+        Poll()
+
+        cursor = {0 / 0, 0.25}
+        Poll()
+        cursor = {0.6, 0.25}
+        Poll()
+        cursor = {0.6, math.huge}
+        Poll()
+
+        assert.are.same({false, 600, false}, {paths.calls[2], paths.calls[3].x, paths.calls[4]})
+    end)
+
     it("ends every hover when the map closes, and offers the cursor again when it reopens", function()
         local areas, paths = Layer(true), Layer(false)
         WorldMapLayers.AddLayer("areas", areas)
