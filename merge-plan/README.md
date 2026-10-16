@@ -10,6 +10,15 @@ This is the master plan for stacking `blob` on `waypoints`, fixing every overlap
 
 The first version of every plan is in the safety commit `e71e6dd38`. Your copy is `merge-plan.7z`.
 
+**Status (2026-10-16): Phases 0 and 1 are done.**
+- `blob` is now waypoints `f58ad0b1a` plus 43 commits. `d9dc1ca4d` was dropped as planned.
+- All 3,324 tests pass, luacheck is clean, and loader validation passes.
+- Every waypoints-owned file is byte-identical to waypoints.
+- Safety branches: `backup/blob-before-waypoints-rebase-20261016` (before the first rebase) and `…-rebase-2-20261016` (before the rebase onto `f58ad0b1a`).
+- **Next: Phase 2**, opening with F-1.
+
+The Phase 1 recipe below is kept as a record. One addition from the second rebase: stop #6's `QuestieFrame.test` also stubs `QuestieWaypoints.RemoveOwner`, because `f58ad0b1a` calls it for queued icons.
+
 **Update (waypoints moved on).** The plans were written against waypoints `7c1e28bd8`. Since then, `waypoints` has been rebased onto master `ef1241ccf`. It is now `f567796eb`: 39 commits, 0 behind master. What that changes:
 - **Master added migration `[42]`** (the Show Spell IDs option). Waypoints' migration is now `[43]`, so blob's becomes **`[44]`** (M1).
 - **New on waypoints:** fills and half-disc caps in `WaypointGeometry.Quads`/`_Join` and `WaypointRenderer`, textures moved to `Icons/waypoints/` (sources in `Icons/originals/`, which releases exclude), and route-color fixes for vendors and quest-item objects.
@@ -71,7 +80,7 @@ These were not in the original review.
 | N4 | A quest's icons stay tinted after a path hover reaches their icon. This bug is in waypoints today. | `MapIconTooltip` `touchedPins` | B-F3 (Phase 0) |
 | N5 | In the gamepad UI, or when a path hover ends while another frame holds the tooltip, a polygon marker's area preview never ends. | `GamepadMapHover`, `WaypointHover` | F-3 |
 | N6 | After a reset, the frame budget can put 26–113 ms into a single frame. | `PolygonGeometry.Checkpoint`, `QuestiePolygon` | E-F1, E-F2 |
-| N7 | On a square minimap such as SexyMap's, paths in the corners can't be hovered. This bug is in waypoints today. | Waypoints' minimap cursor read | D-C3 |
+| N7 | On a square minimap such as SexyMap's, paths in the corners can't be hovered. | Waypoints' minimap cursor read | **Fixed on waypoints** (`273e0370f`); D-C3 is dropped |
 | N8 | `FlashObjective` keeps blob's `HBDPins` lines, but waypoints deleted that local, so the merged code reads an undefined global. | `TrackerUtils.lua` | Phase 1, stop #6 |
 
 ---
@@ -199,7 +208,7 @@ Each commit must pass its touched tests, luacheck and the loader validator. The 
 
 16. **D-C1** `refactor(waypoints): draw minimap paths on a shared MinimapCanvas`. Comes **after F-1**, since it needs `IsGamepadUIEnabled`. [D §4b]
 17. **D-C2** `refactor(polygon): draw minimap areas on the shared MinimapCanvas`. Comes **after C-F2**. [D §4b]
-18. **D-C3** `fix(minimap): hover a square minimap's corners whatever asset squared it`. Fixes **N7**. [D §4b]
+18. ~~**D-C3**~~ **Dropped:** waypoints fixed N7 itself in `273e0370f`. When D-C1 moves the minimap cursor read onto `MinimapCanvas`, it must keep that rule: square for hovering when `ShapeMask()` is the square mask **or** `GetMinimapShape() == "SQUARE"`. D-C1's canvas test covers it.
 19. *(Optional)* **D-C4** `chore(hbd): mark Questie's additions to HereBeDragons-Pins`. [D §4b]
 
 ### Group 6: mechanical items and the move
@@ -231,7 +240,7 @@ The recommendation comes first in each row. Rows marked ★ change behavior play
 |---|---|---|
 | F-1 | Add `Click` as a fifth icon event (polygon's marker toggle). Without it, `QuestieFrame` keeps a feature import for one line. | **Yes** |
 | F-2 | `VisibilityChanged` also covers native show and hide, instead of adding a sixth event. | **Yes** |
-| F-3 | `Unload` fires once, when a deferred unload finishes. Polygon then releases a still-queued marker a few frames later than today. | **Yes** |
+| F-3 | **Changed by waypoints `f58ad0b1a`.** Waypoints now releases a queued icon's paths at the *first* `Unload` call, not when the draw queue finishes it, and blob already releases its markers there too. So `Unload` fires once, at the first call, when the icon is logically removed. The deferred finish only does pool cleanup. That also simplifies C's invariant 1 ("neither listener runs on the deferred first `Unload`" no longer applies). | **Yes, at the first call** |
 | F-4 | Feature fields (`polygonMarker`, `waypointPaths` and so on) stay on frames, declared by their feature, rather than moving to side tables. | **Yes** (side tables pay off nowhere) |
 | F-5 | Rule 4 is the guard's 11 entry points. Features subscribe on first use, so no init entry is needed. | **Yes** |
 | F-6 | Move `Polygon/` to `Modules/Map/Polygon/` (F-7, the last commit). | **Yes.** Features then declare themselves by folder. |
@@ -280,7 +289,7 @@ B-D3 is superseded by rule 3: hover effects go through `QuestieFrame` events (F-
 | D-3 | Minimap areas adopt the paths' redraw rule (after half a radius of walking). | **Yes** |
 | D-4 | `MinimapCanvas` lands after the rebase, not on `waypoints` first. | **After the rebase** |
 | D-5 | HereBeDragons-Pins stays a marked local patch. | **Yes** |
-| D-6 ★ | Include the square-corner hover fix (D-C3). | **Yes** |
+| D-6 ★ | Include the square-corner hover fix (D-C3). | **Done on waypoints** (`273e0370f`) |
 
 **Geometry and budget (Area E)**
 
@@ -350,5 +359,5 @@ The duplicate player mask TGA goes away in D-C2.
 | Horde, quest 813, Durotar, or Alliance, quest 313, Dun Morogh (blob mode) | Hovering a patrolling NPC's route outlines the cluster that NPC spawns in, not the zone's last marker (Death Flayer around 36,51; the den cluster around 41,50 for Edan and Old Icebeard). | C-5 |
 | Echo Isles | Dense patrols inside an area: the tooltip switches cleanly as you cross lines. | A R1 |
 | Blob mode | Routes appear for polygon markers on the minimap. | C-F2 |
-| SexyMap square minimap | Paths and areas are clipped correctly in all four corners, and paths there can be hovered. | D-1, D-C3 |
+| SexyMap square minimap | Paths and areas are clipped correctly in all four corners, and paths there can be hovered. | D-1, `273e0370f`, D-C1 |
 | Any client | `/reload` with about 40 objectives tracked: no hitch from the polygon rebuild. | N6 / E-F1, E-F2 |
