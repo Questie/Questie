@@ -914,6 +914,44 @@ describe("QuestLogCache", function()
             end)
         end
 
+        -- 2026-10-08_050109Z s1, quest 93740: a QUEST_LOG_UPDATE inside the loading screen answered no rows.
+        -- LOADING_SCREEN_ENABLED is not known to come first, so this must hold without the recovery guard.
+        it("does not complete a quest whose rows vanish while Blizzard does not call it complete", function()
+            questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+            local claws = {text = "Bear Claw: 0/10", type = "item", numFulfilled = 0, numRequired = 10, finished = false}
+            questObjectives[QUEST_ID] = {claws}
+            QuestLogCache.CheckForChanges(nil)
+
+            questObjectives[QUEST_ID] = {}
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_true(cacheMiss)
+            assert.are.same({}, changes)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.are.equal("Bear Claw: 0/10", QuestLogCache.GetQuest(QUEST_ID).objectives[1].text)
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            questObjectives[QUEST_ID] = {claws}
+            cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({}, changes)
+        end)
+
+        it("accepts a failed quest whose rows vanish", function()
+            questLogTitles[1] = {"Escort the Caravan", 60, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "Escort the caravan", type = "event", numFulfilled = 0, numRequired = 1, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+
+            questLogTitles[1] = {"Escort the Caravan", 60, nil, false, false, -1, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {}
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {}}, changes)
+            assert.are.equal(-1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+        end)
+
         it("still infers completion when Blizzard adds an empty row to finished objectives", function()
             questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
             questObjectives[QUEST_ID] = {

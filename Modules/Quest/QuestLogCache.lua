@@ -110,6 +110,14 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         return nil, nil, isCompleteAccordingToBlizzard, false
     end
 
+    -- Between PLAYER_LEAVING_WORLD and PLAYER_ENTERING_WORLD the client answers no rows and "not complete" for every
+    -- logged quest. A quest that had rows has not lost them: read as all finished, it would be cached complete.
+    -- Unlike the loading-screen recovery this needs no LOADING_SCREEN_ENABLED, which may come after that answer.
+    -- A failed quest loses its rows too and is accepted.
+    if #objectives == 0 and next(oldObjectives) and not isCompleteAccordingToBlizzard then
+        return nil, nil, isCompleteAccordingToBlizzard, false
+    end
+
     -- HaveQuestData can be true before individual rows have their type. Reject those snapshots before
     -- reading any progress. Empty text rows are intentionally omitted below, preserving the existing client workaround.
     for _, objective in ipairs(objectives) do
