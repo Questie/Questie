@@ -13,7 +13,7 @@ The first version of every plan is in the safety commit `e71e6dd38`. Your copy i
 **Status (2026-10-16): Phases 0 and 1 are done; Phase 2 is done but for F-7.**
 - Phase 1: `blob` became waypoints `f58ad0b1a` plus 43 commits. `d9dc1ca4d` was dropped as planned. Safety branches: `backup/blob-before-waypoints-rebase-20261016` and `…-rebase-2-20261016`.
 - Phase 2, in order: F-1 (`a89e539fa`), F-2 to F-6 (`a1554e0fa` to `5534262ec`), B-F1, B-F2, E-F1, C-F1, C-F2, E-F2, E-F3, E-F4, D-C1, D-C2, M2, M3 and D-C4 (`89ac705ad`). Each commit passed the full suite, luacheck and loader validation on its own staged tree.
-- Reviews: fresh reviewers checked the seams (F-1 to F-6), the routes (C-F1, C-F2) and the minimap canvas (D-C1). Their fixes are follow-up commits: `7c128e095`, `de1c29b1f`, `f8587395f`, `d1b28f75a` and `9b18115aa`.
+- Reviews: fresh reviewers checked the seams (F-1 to F-6), the routes (C-F1, C-F2) and the minimap canvas (D-C1). Their fixes are follow-up commits: `7c128e095`, `de1c29b1f`, `f8587395f`, `d1b28f75a`, `9b18115aa`, `58c897ea6` and `16625da52`.
 - Changed on the way, with the reason in each commit:
   - F-2: the area tooltip keeps its mouse focus and gamepad checks, through `QuestieCompat`, because a redraw rechecks the kept cursor before `WorldMapLayers` offers it again.
   - F-3: `Unload` fires at every call (decision F-3 above), and native show and hide got their own event (decision F-2 above).
