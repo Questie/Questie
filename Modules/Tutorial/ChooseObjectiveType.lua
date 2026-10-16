@@ -77,7 +77,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     polygonPreview:SetSize(170, 170)
     polygonPreview:SetPoint("TOPLEFT", 600, -112)
     local polygonDescription = polygonPreview:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    polygonDescription:SetText(l10n("Clustered world-map markers.\n\nQuest areas show on accept.\nClick a marker to hide them.\n\nMinimap icons stay unchanged."))
+    polygonDescription:SetText(l10n("Clustered markers on the world map and minimap.\n\nQuest areas show on accept.\nClick a marker to hide them."))
     polygonDescription:SetWidth(150)
     polygonDescription:SetPoint("CENTER")
 
