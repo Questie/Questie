@@ -966,6 +966,63 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.equal(1, #drawnShapes)
         end)
 
+        it("previews an objective as if each of its markers were hovered, ending each hover with its data", function()
+            objective.spawnList[123].Spawns[1] = {{10, 20}, {70, 80}}
+            Geometry.Build = function(points)
+                return {
+                    {uiMapId = 10, x = 10, y = 20, representative = points[1], outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}},
+                    {uiMapId = 10, x = 70, y = 80, representative = points[2]},
+                }
+            end
+            Update()
+            local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+            local first, second = frames[1], frames[2]
+            local secondData = second.data
+
+            Polygon.SetObjectivePreview(42, 1, true)
+            Polygon.SetObjectivePreview(42, 1, true)
+            assert.spy(QuestieFrame.ApplyHoverHighlights).was.called(2)
+            assert.are.equal(first, QuestieFrame.ApplyHoverHighlights.calls[1].refs[1])
+            assert.are.equal(second, QuestieFrame.ApplyHoverHighlights.calls[2].refs[1])
+
+            -- The pool hands the second marker out for other data before the preview ends.
+            second.data = {}
+            Polygon.SetObjectivePreview(42, 1, false)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(2)
+            assert.are.equal(second, QuestieFrame.ResetHoverHighlights.calls[1].refs[1])
+            assert.are.equal(secondData, QuestieFrame.ResetHoverHighlights.calls[1].refs[2])
+            assert.are.equal(first, QuestieFrame.ResetHoverHighlights.calls[2].refs[1])
+            Polygon.SetObjectivePreview(42, 1, false)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(2)
+        end)
+
+        it("hovers the markers of an objective without areas, previewing no areas", function()
+            Geometry.Build = function(points)
+                return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}
+            end
+            Update()
+            Polygon.SetObjectivePreview(42, 1, true)
+            FlushRefresh()
+            assert.spy(QuestieLoader:ImportModule("QuestieFrame").ApplyHoverHighlights).was.called(1)
+            assert.are.same({}, drawnShapes)
+        end)
+
+        it("previews every objective of a quest", function()
+            local second = {Index = 2, Type = "item", Description = "Fang", Needed = 2, Collected = 1, Color = {0, 1, 0},
+                spawnList = objective.spawnList}
+            quest.Objectives[2] = second
+            Update()
+            local thread = coroutine.create(function() Polygon.UpdateObjective(quest, second, 2) end)
+            assert.is_true(coroutine.resume(thread))
+
+            Polygon.SetQuestPreview(42, true)
+            FlushRefresh()
+            assert.are.equal(2, #drawnShapes)
+            Polygon.SetQuestPreview(42, false)
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+        end)
+
         it("applies a quest-wide choice to every objective with areas", function()
             Update()
             local second = {Index = 2, Type = "monster", Color = {1, 0, 0}, spawnList = objective.spawnList}

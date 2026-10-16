@@ -35,6 +35,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field hovered IconFrame? Its hovered map marker: previews its areas on the world map, highlighting that marker's cluster.
 ---@field minimapHovered IconFrame? Its hovered minimap icon: previews its areas on the minimap, highlighting that icon's cluster.
 ---@field previewed boolean? A quest log control is hovered; shows and highlights every cluster.
+---@field previewHovers {frame: IconFrame, data: IconData}[]? The markers a preview hovers, with the data each hover started with.
 ---@field previewSuppressed boolean? A click hid the areas while hovering; no preview until a hover starts again.
 ---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
 ---@field building boolean? Replacement geometry is not shown while marker allocation yields.
@@ -973,22 +974,51 @@ function QuestiePolygon.SetQuestAreasShown(questId, shown)
     end
 end
 
----Previews an objective's areas from a quest log control, like hovering its marker, but
----highlights every cluster. Clearing works even after the objective lost its areas.
+---Previews an objective from a quest log or tracker control, as if each of its markers were hovered:
+---its quest's icons tint, its routes highlight, and its areas show with every cluster highlighted.
+---Clearing works even after the objective lost its areas or markers.
 ---@param questId QuestId
 ---@param objectiveIndex ObjectiveIndex
 ---@param previewing boolean
 function QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
-    local entry
-    if previewing then
-        entry = _EntryWithAreas(questId, objectiveIndex)
-    else
-        entry = entries[questId] and entries[questId][objectiveIndex]
+    local entry = entries[questId] and entries[questId][objectiveIndex]
+    if not entry then return end
+    if not previewing then
+        local hovers = entry.previewHovers
+        entry.previewHovers = nil
+        -- Each hover ends with the data it started with; the pool may have handed a marker out since.
+        for i = #(hovers or {}), 1, -1 do QuestieFrame.ResetHoverHighlights(hovers[i].frame, hovers[i].data) end
+        if entry.previewed then
+            entry.previewed = nil
+            QuestiePolygon.ScheduleRefresh()
+        end
+        return
     end
-    if entry and entry.previewed ~= (previewing or nil) then
-        entry.previewed = previewing or nil
-        if previewing then entry.previewSuppressed = nil end
+    if not entry.active or entry.building or not QuestiePolygon.IsEnabled() then return end
+    if not entry.previewHovers then
+        local hovers = {}
+        entry.previewHovers = hovers
+        for _, marker in ipairs(entry.markers) do
+            local frame = marker.frame
+            if frame.data and frame.polygonMarker == marker then
+                hovers[#hovers + 1] = {frame = frame, data = frame.data}
+                QuestieFrame.ApplyHoverHighlights(frame)
+            end
+        end
+    end
+    if not entry.previewed then
+        entry.previewed, entry.previewSuppressed = true, nil
         QuestiePolygon.ScheduleRefresh()
+    end
+end
+
+---Previews every objective of a quest, as SetObjectivePreview does each, such as from its title in the
+---tracker.
+---@param questId QuestId
+---@param previewing boolean
+function QuestiePolygon.SetQuestPreview(questId, previewing)
+    for index in pairs(entries[questId] or {}) do
+        QuestiePolygon.SetObjectivePreview(questId, index, previewing)
     end
 end
 
