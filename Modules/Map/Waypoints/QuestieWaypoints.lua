@@ -216,8 +216,8 @@ end
 ---@alias WaypointHighlightHolder "icon"|"path"
 
 -- Who highlights each NPC's paths. A hover of its icon and a hover of one of its paths each hold the
--- highlight, so one ending keeps the other's: on the minimap a path hover starts no icon hover, and a
--- quest area's hover of its marker can end beneath a path of that marker's NPC.
+-- highlight, so one ending keeps the other's: on the minimap a path hover starts no icon hover, and an
+-- icon hover of its NPC, such as a tracker preview of its objective, can end beneath it.
 ---@type table<IconData, table<WaypointHighlightHolder, true>>
 local highlightHolders = setmetatable({}, {__mode = "k"})
 
