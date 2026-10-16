@@ -235,4 +235,19 @@ describe("PolygonQuestLogForever", function()
         assert.spy(Polygon.SetObjectivePreview).was_not.called_with(7, 2, false)
         assert.is_true(tooltip.hidden)
     end)
+
+    it("ends the preview when the box hides before the cursor leaves it", function()
+        titles[1] = {questID = 7, questLogIndex = 1}
+        leaderboards[1] = {{"0/8 Wolf Meat", "item", false}}
+        rows[1] = Row(7, "0/8 Wolf Meat")
+        objectiveStates["7:1"] = {true, {1, 0, 0}}
+        QuestLog.Update()
+        local box = rows[1].QuestiePolygonAreaBox
+
+        box.scripts.OnEnter(box)
+        box.scripts.OnHide(box)
+        assert.spy(Polygon.SetObjectivePreview).was.called_with(7, 1, false)
+        box.scripts.OnLeave(box)
+        assert.spy(Polygon.SetObjectivePreview).was.called(2)
+    end)
 end)

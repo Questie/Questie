@@ -31,7 +31,7 @@ PolygonRenderer.debugRandomColors = false
 ---Polygon frames never take mouse input, so they cannot block map clicks or dragging and
 ---need no protected input setup. Hover is computed from the offered cursor and the outlines instead.
 ---@class PolygonHoverInput
----@field onHover fun(shapes: PolygonShape[], changed: boolean, x: number?, y: number?)? Hears every hover check, with the hovered shapes as last styled; changed when the hovered set differs; x and y the cursor checked, nil once the hover ended.
+---@field onHover fun(shapes: PolygonShape[], x: number?, y: number?)? Hears every hover check, with the hovered shapes as last styled and the cursor checked; x and y are nil once the hover ended.
 
 local Renderer = {}
 Renderer.__index = Renderer
@@ -76,28 +76,15 @@ local function _RestyleBorders(frame, selected)
     end
 end
 
----@param before table<Frame, boolean>
----@param after table<Frame, boolean>
----@return boolean
-local function _HoverChanged(before, after)
-    for frame in pairs(after) do
-        if not before[frame] then return true end
-    end
-    for frame in pairs(before) do
-        if not after[frame] then return true end
-    end
-    return false
-end
-
 ---Listeners hear every check, so they can follow cursor moves within the same areas.
-local function _NotifyHover(self, changed)
+local function _NotifyHover(self)
     local onHover = self.hoverInput and self.hoverInput.onHover
     if not onHover then return end
     local shapes = {}
     for _, frame in ipairs(self.activeFrames) do
         if self.hoveredFrames[frame] and frame.polygonShape then shapes[#shapes + 1] = frame.polygonShape end
     end
-    onHover(shapes, changed, self.cursorX, self.cursorY)
+    onHover(shapes, self.cursorX, self.cursorY)
 end
 
 ---Ends geometric hover, telling listeners only if something was hovered.
@@ -105,7 +92,7 @@ local function _ResetHover(self)
     local hadHover = next(self.hoveredFrames) ~= nil
     self.hoveredFrames = {}
     local onHover = self.hoverInput and self.hoverInput.onHover
-    if hadHover and onHover then onHover({}, true) end
+    if hadHover and onHover then onHover({}) end
 end
 
 local function _SetHighlightedFrames(self, selected)
@@ -161,10 +148,9 @@ function Renderer:UpdateHover()
     for _, frame in ipairs(self.activeFrames) do
         if frame.polygonHighlighted and frame:IsShown() then selected[frame] = true end
     end
-    local changed = _HoverChanged(self.hoveredFrames, hovered)
     self.hoveredFrames = hovered
     _SetHighlightedFrames(self, selected)
-    _NotifyHover(self, changed)
+    _NotifyHover(self)
 end
 
 ---The shapes of the visible outlines containing a point, overlaps included, as last styled. Changes
