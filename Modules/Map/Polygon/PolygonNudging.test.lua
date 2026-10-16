@@ -4,7 +4,7 @@ describe("Polygon fixed horizontal stacks", function()
     local Nudging
 
     before_each(function()
-        dofile("Polygon/PolygonNudging.lua")
+        dofile("Modules/Map/Polygon/PolygonNudging.lua")
         Nudging = QuestieLoader:ImportModule("PolygonNudging")
     end)
 

@@ -158,7 +158,7 @@ describe("PolygonMinimap", function()
         _G.issecretvalue = nil
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX, _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = 1, 2, 3, 4
         dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
-        dofile("Polygon/PolygonRenderer.lua")
+        dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         -- The areas layer's renderer, to read the frames it drew.
         local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
         local newRenderer = PolygonRenderer.New
@@ -168,7 +168,7 @@ describe("PolygonMinimap", function()
         end
         dofile("Modules/Libs/QuestieLib.lua")
         dofile("Modules/Map/MinimapCanvas.lua")
-        dofile("Polygon/PolygonMinimap.lua")
+        dofile("Modules/Map/Polygon/PolygonMinimap.lua")
         PolygonMinimap = QuestieLoader:ImportModule("PolygonMinimap")
     end)
 
