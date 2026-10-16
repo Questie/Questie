@@ -348,6 +348,8 @@ end
 ---@param self IconFrame
 function _QuestieFrame.Unload(self)
     if not self._loaded then
+        -- Its paths draw without it, so they go now rather than once the draw queue reaches it.
+        QuestieWaypoints.RemoveOwner(self)
         self._needsUnload = true
         return -- icon is still in the draw queue
     end

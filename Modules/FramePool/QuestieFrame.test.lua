@@ -154,6 +154,17 @@ describe("QuestieFrame", function()
             assert.is_nil(icon.minimapTwin)
         end)
 
+        it("should release the icon's paths when it unloads while still waiting in the draw queue", function()
+            QuestieWaypoints.RemoveOwner = spy.new(function() end)
+            local icon = {data = {Id = 123}}
+
+            QuestieFrame.private.Unload(icon)
+
+            assert.spy(QuestieWaypoints.RemoveOwner).was.called(1)
+            assert.are.equal(icon, QuestieWaypoints.RemoveOwner.calls[1].refs[1])
+            assert.is_true(icon._needsUnload)
+        end)
+
         it("should redraw the icon's paths when it fades", function()
             local function Texture()
                 return {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end}
