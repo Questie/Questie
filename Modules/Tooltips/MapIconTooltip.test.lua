@@ -76,6 +76,8 @@ describe("MapIconTooltip objective wording", function()
         end}}
         -- Show traverses visible pins; only one pin participates in these renderer tests.
         _G.LibStub = function() return pins end
+        -- Outside blob mode, objective lines start with no area colour.
+        QuestieLoader:ImportModule("QuestiePolygon").ObjectiveSwatch = function() end
         dofile("Modules/Tooltips/MapIconTooltip.lua")
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         now = 1
@@ -304,14 +306,15 @@ describe("MapIconTooltip objective wording", function()
             return tooltip
         end
 
-        it("prefixes the icons' own objective lines, not party lines", function()
+        it("starts the icons' own objective lines with their area colour, not party lines", function()
             cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
             QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
-
-            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip, function(prefixed)
-                assert.are.equal(icon, prefixed)
+            QuestieLoader:ImportModule("QuestiePolygon").ObjectiveSwatch = function(swatched)
+                assert.are.equal(icon, swatched)
                 return "[area] "
-            end)
+            end
+
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip)
 
             assert.are.same({
                 ["[area] |cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
