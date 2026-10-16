@@ -683,6 +683,7 @@ describe("QuestiePolygon world-map adapter", function()
             Polygon.SetObjectiveAreaShown(42, 1, false)
             FlushRefresh()
             assert.are.same({}, drawnShapes)
+            assert.are.same({}, minimapLayer.collect())
 
             -- Showing them again under the still-hovered control highlights them at once.
             Polygon.SetObjectiveAreaShown(42, 1, true)
@@ -1254,6 +1255,51 @@ describe("QuestiePolygon world-map adapter", function()
 
         Polygon.Reset()
         assert.spy(minimapLayer.Clear).was.called(1)
+    end)
+
+    it("previews on the minimap while one of a marker's minimap icons is hovered, highlighting its cluster", function()
+        objective.spawnList[123].Spawns[1] = {{10, 20}, {70, 80}}
+        Geometry.Build = function(points)
+            return {
+                {uiMapId = 10, x = 10, y = 20, representative = points[1], outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}},
+                {uiMapId = 10, x = 70, y = 80, representative = points[2], outline = {{x = 70, y = 70}, {x = 80, y = 70}, {x = 70, y = 80}}},
+            }
+        end
+        Update()
+        local first, second = frames[1].polygonMarker, frames[2].polygonMarker
+        local icon = first.minimapIcons[1].frame
+        local function Highlights()
+            local highlighted = {}
+            for _, area in ipairs(minimapLayer.collect()) do highlighted[#highlighted + 1] = {area.key, area.highlighted} end
+            return highlighted
+        end
+
+        iconListeners.HoverStart(icon)
+        assert.are.same({{first, true}, {second, false}}, Highlights())
+        -- The world map previews only for its own markers.
+        FlushRefresh()
+        assert.are.same({}, drawnShapes)
+        -- The hover ends only for the data it started with.
+        iconListeners.HoverEnd(icon, {})
+        assert.are.equal(2, #minimapLayer.collect())
+        iconListeners.HoverEnd(icon, icon.data)
+        assert.are.same({}, minimapLayer.collect())
+
+        -- A click hiding the areas under the hovered icon ends its preview until the next hover.
+        Polygon.SetObjectiveAreaShown(42, 1, true)
+        iconListeners.HoverStart(icon)
+        iconListeners.Click(icon)
+        assert.are.same({}, minimapLayer.collect())
+        iconListeners.HoverEnd(icon, icon.data)
+        iconListeners.HoverStart(icon)
+        assert.are.equal(2, #minimapLayer.collect())
+
+        -- Icons Questie unloads, alone or with their marker, take the hover with them.
+        iconListeners.Unload(icon)
+        assert.is_nil(first.entry.minimapHovered)
+        iconListeners.HoverStart(second.minimapIcons[1].frame)
+        iconListeners.Unload(frames[2])
+        assert.is_nil(first.entry.minimapHovered)
     end)
 
     it("keeps drawing world-map areas when the minimap layer cannot be created", function()
