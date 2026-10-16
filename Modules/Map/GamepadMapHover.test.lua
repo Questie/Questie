@@ -74,6 +74,10 @@ describe("GamepadMapHover", function()
         MapIconTooltip.ShowOnTooltip = spy.new(function() end)
         resetData = {}
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+        -- Records whether the hover started before the tooltip showed.
+        QuestieFrame.ApplyHoverHighlights = spy.new(function(icon)
+            icon.hoverStartedBeforeTooltip = #MapIconTooltip.ShowOnTooltip.calls == 0
+        end)
         QuestieFrame.ResetHoverHighlights = function(icon, data)
             table.insert(resetData, {icon = icon, data = data})
         end
@@ -99,6 +103,8 @@ describe("GamepadMapHover", function()
         _GamepadMapHover.Update()
 
         assert.are.equal(pin.icon, GamepadMapHover.GetHoveredIcon())
+        assert.spy(QuestieFrame.ApplyHoverHighlights).was.called(1)
+        assert.is_true(pin.icon.hoverStartedBeforeTooltip)
         assert.spy(MapIconTooltip.ShowOnTooltip).was.called_with(pin.icon, tooltip)
         assert.spy(tooltip.SetAnchorType).was.called_with(tooltip, "ANCHOR_RIGHT")
     end)

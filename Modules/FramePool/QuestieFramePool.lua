@@ -10,8 +10,6 @@ local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool")
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type MapIconTooltip
-local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 
 ---@type HBDPins
 local HBDPins = QuestieLoader:ImportModule("HBDPins")
@@ -54,7 +52,7 @@ function QuestieFramePool:GetFrame()
     if (not frame) then
         numberOfFrames = numberOfFrames + 1
 
-        frame = QuestieFrame.CreateIconFrame(numberOfFrames, MapIconTooltip.Show)
+        frame = QuestieFrame.CreateIconFrame(numberOfFrames)
 
         if numberOfFrames > 5000 then
             Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", numberOfFrames)
