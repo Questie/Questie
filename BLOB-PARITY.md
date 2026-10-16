@@ -25,7 +25,7 @@ Comparison of the final **QuestieDev-Master** implementation with the new **`Pol
 | Original feature | Current status |
 | --- | --- |
 | Click handling on polygon frames | **Deliberately not ported.** Polygon frames take no mouse input. Map navigation and marker actions remain with their existing handlers. |
-| Minimap waypoint lines | **Not ported.** The old outlined-texture waypoint renderer is preserved as reference code only. |
+| Minimap waypoint lines | Ported: WaypointMinimap draws them, following each marker's minimap icon. The old outlined-texture renderer is preserved as reference code only. |
 
 ## Deliberate differences
 
