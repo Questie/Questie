@@ -380,6 +380,33 @@ describe("PolygonRenderer", function()
             assert.are.equal(5, #textures)
         end)
 
+        it("finds the visible outlines at a point without hovering, and tells hover listeners the cursor", function()
+            local heard = {}
+            local renderer = PolygonRenderer.New(canvas, {onHover = function(shapes, _changed, x, y)
+                heard[#heard + 1] = {#shapes, x, y}
+            end})
+            local square = {points = {{x = 0, y = 0}, {x = 20, y = 0}, {x = 20, y = 20}, {x = 0, y = 20}}, color = {1, 0, 0}}
+            local view, other = renderer:Create(triangle, 100, 100, 8), renderer:Create(square, 100, 100, 8)
+            renderer:Create(square, 100, 100, 8) -- Hidden: never published.
+            renderer:SetVisibleFrames({view, other})
+            heard = {}
+
+            local found = renderer:ShapesAt(10, 10)
+            assert.are.equal(2, #found)
+            assert.are.equal(triangle, found[1])
+            assert.are.equal(square, found[2])
+            found = renderer:ShapesAt(30, 5)
+            assert.are.equal(1, #found)
+            assert.are.equal(triangle, found[1])
+            assert.are.same({}, renderer:ShapesAt(90, 90))
+            assert.are.same({}, renderer.hoveredFrames)
+            assert.are.same({}, heard)
+
+            renderer:Hover(10, 10)
+            renderer:Hover(nil, nil)
+            assert.are.same({{2, 10, 10}, {0}}, heard)
+        end)
+
         it("retains hidden views and excludes them from hover until shown again", function()
             local renderer = _NewHoverRenderer()
             local view = renderer:Create(triangle, 100, 100, 8)
