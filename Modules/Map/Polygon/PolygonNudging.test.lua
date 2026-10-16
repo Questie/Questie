@@ -5,7 +5,7 @@ describe("Polygon fixed horizontal stacks", function()
 
     before_each(function()
         QuestieLoader:ImportModule("HBDPins").worldmapPinTemplate = "HereBeDragonsPins-Questie-WorldMapPin"
-        dofile("Polygon/PolygonNudging.lua")
+        dofile("Modules/Map/Polygon/PolygonNudging.lua")
         Nudging = QuestieLoader:ImportModule("PolygonNudging")
     end)
 

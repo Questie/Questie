@@ -30,7 +30,7 @@ jobs:
       - name: Run Luacheck
         uses: nebularg/actions-luacheck@v1.1.2
         with:
-          files: Database Localization Modules Polygon Public Questie.lua
+          files: Database Localization Modules Public Questie.lua
           args: -q
 
   unit-tests:

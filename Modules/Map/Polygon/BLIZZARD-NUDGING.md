@@ -80,7 +80,7 @@ There is no periodic layout monitor, collision grid, placement search, safety re
 
 ### Current Questie integration
 
-Questie's [HBD world-map implementation](../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) places each icon beneath a MapCanvas wrapper that retains the real geographic position. Fixed stacking changes only the child's horizontal anchor:
+Questie's [HBD world-map implementation](../../../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) places each icon beneath a MapCanvas wrapper that retains the real geographic position. Fixed stacking changes only the child's horizontal anchor:
 
 ```text
 childOffsetX = storedSlotOffset × wrapperEffectiveScale / iconEffectiveScale
@@ -95,10 +95,10 @@ HBD now calls optional `icon:OnWorldMapPinUpdated(pin)` after acquisition and in
 
 The adapter's single retained `QuestieMap.RescaleIcons` observer defers configured-width refresh until preference setters finish. Width reads the current `data:GetIconScale()` result, with cached/unit fallbacks, not the animated or map-scaled frame size. Map hide/provider detach disable offsets while retaining slots; removal/reset restore centered anchors and clear owned callbacks before pooling.
 
-The implementation remains under root `Polygon/` apart from the narrow HBD callback. Ordinary/minimap icon input and polygon hover behavior are unchanged. See [the interface and validation checklist](README.md).
+The implementation remains under `Modules/Map/Polygon/` apart from the narrow HBD callback. Ordinary/minimap icon input and polygon hover behavior are unchanged. See [the interface and validation checklist](README.md).
 
 ### Retired experiment and validation
 
-The earlier screen-space nudging implementation, tests, and integration notes are preserved in `.scratch/polygon-nudging-experiment/`, excluded through this checkout's local `.git/info/exclude`. Its checksums were verified. This archive is separate from the [original QuestieDev-Master reference package](../Blob/docs/legacy-questie-blobs/README.md).
+The earlier screen-space nudging implementation, tests, and integration notes are preserved in `.scratch/polygon-nudging-experiment/`, excluded through this checkout's local `.git/info/exclude`. Its checksums were verified. This archive is separate from the [original QuestieDev-Master reference package](../../../Blob/docs/legacy-questie-blobs/README.md).
 
 The user-confirmed live behavior concerned that retired experiment. The latest zoom-spacing fix has not been validated in-game and still needs a user reload and live review. Tests cover map-coordinate grouping, stable horizontal slots, proportional zoom spacing, configured-size changes, queued/reacquired wrappers, HBD pool upgrades, and cleanup. They do not establish native anchoring, focus timing, or click/drag behavior. No agent performed a reload or live test for this replacement.

@@ -762,7 +762,7 @@ Prototype results:
 
 ### 3.8 Optional move: `Polygon/` → `Modules/Map/Polygon/` (F-7, the last commit)
 
-This is pending David's decision. It is purely mechanical:
+Decided by David (2026-10-16): yes. It is purely mechanical:
 1. `git mv Polygon Modules/Map/Polygon`. That moves all `.lua` and `.test.lua` files, `README.md` and `BLIZZARD-NUDGING.md`.
 2. **Six TOCs:** `Polygon\X.lua` → `Modules\Map\Polygon\X.lua`.
    - Six lines in each TOC (`B Questie_Vanilla.toc:291-296`, and `_TBC`, `_Wrath`, `_Cata`, `_Mists` likewise).

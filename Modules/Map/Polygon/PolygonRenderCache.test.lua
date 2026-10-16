@@ -5,7 +5,7 @@ describe("PolygonRenderCache", function()
     local PolygonRenderCache, cache, renderer, createdFrames, owner, key, source, shape
 
     before_each(function()
-        dofile("Polygon/PolygonRenderCache.lua")
+        dofile("Modules/Map/Polygon/PolygonRenderCache.lua")
         PolygonRenderCache = QuestieLoader:ImportModule("PolygonRenderCache")
         createdFrames = {}
         -- The renderer mock owns opaque handles and models only visibility/lifetime.
@@ -427,8 +427,8 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         _G.UPPER_LEFT_VERTEX, _G.LOWER_LEFT_VERTEX = "UL", "LL"
         _G.UPPER_RIGHT_VERTEX, _G.LOWER_RIGHT_VERTEX = "UR", "LR"
         math.random = function() calls.random = calls.random + 1; return calls.random / 100 end
-        dofile("Polygon/PolygonRenderer.lua")
-        dofile("Polygon/PolygonRenderCache.lua")
+        dofile("Modules/Map/Polygon/PolygonRenderer.lua")
+        dofile("Modules/Map/Polygon/PolygonRenderCache.lua")
         local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
         Renderer.debugRandomColors = true
         renderer = Renderer.New({}, {})

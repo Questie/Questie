@@ -40,9 +40,9 @@
 - **The renderers stay separate.** Area E showed they share conventions, not code.
 - **No hover framework beyond the two layer stacks.** Two layers exist, and a third (Forever quest-log area boxes, or a new drawing module) is plausible. That justifies the stacks and nothing more.
 
-## Pending decision
+## Decided: move `Polygon/` to `Modules/Map/Polygon/`
 
-**Move `Polygon/` to `Modules/Map/Polygon/`?** It would sit beside `Modules/Map/Waypoints/` as a symmetric sibling. If David says yes, it is planned as the last purely mechanical commit. Plans keep `Polygon/` paths until then.
+**Yes, decided by David (2026-10-16).** It sits beside `Modules/Map/Waypoints/` as a symmetric sibling, moved by Phase 2's last, purely mechanical commit (F-7). Plans written before it keep `Polygon/` paths.
 
 ## Process for this update
 

@@ -37,7 +37,7 @@ An objective's areas show on the minimap whenever they show on the world map: sa
 
 Each outline vertex is converted once from its map's percentages to HBD world yards, so each axis uses its zone's own extent. The minimap then needs a single yards-to-units scale, the same for both axes apart from a non-square minimap's half-width and half-height.
 
-Areas are the areas layer of [`MinimapCanvas`](../Modules/Map/MinimapCanvas.lua), the drawing surface over the minimap that patrol paths share. The canvas places drawings with HBD-Pins' minimap icon arithmetic, including rotation by the player's facing when `rotateMinimap` is on, so areas line up with Questie's minimap icons and with paths. It projects relative to a fixed origin, moves the layers' containers while the player walks, and projects again for a new zoom, minimap size, instance, facing on a rotating minimap, or a drift of half a view radius. Areas out of reach keep their frames and are reprojected when they return. The canvas runs one update while a layer has something to show, and none while none has.
+Areas are the areas layer of [`MinimapCanvas`](../MinimapCanvas.lua), the drawing surface over the minimap that patrol paths share. The canvas places drawings with HBD-Pins' minimap icon arithmetic, including rotation by the player's facing when `rotateMinimap` is on, so areas line up with Questie's minimap icons and with paths. It projects relative to a fixed origin, moves the layers' containers while the player walks, and projects again for a new zoom, minimap size, instance, facing on a rotating minimap, or a drift of half a view radius. Areas out of reach keep their frames and are reprojected when they return. The canvas runs one update while a layer has something to show, and none while none has.
 
 Areas sit one level above the minimap, beneath patrol paths and Questie's minimap icons. Every fill and border carries the canvas's two masks: the minimap's shape, from the last asset passed to `Minimap:SetMaskTexture` or else `GetMinimapShape()` (only `SQUARE` is square), and `Icons/minimap-player-mask.tga`, a soft hole over the player arrow so areas never hide it. The canvas's header describes both.
 
@@ -55,7 +55,7 @@ Base widths exclude Questie's separate world/continent icon-size multiplier, so 
 
 There is no layout monitor, collision solver, viewport packing, safety reservation, movement limit, or picker. Map callbacks and HBD's optional child callback reapply stored offsets without regrouping. This deliberately solves coincident locations, not general clutter: unrelated icons may still overlap a stack, and large stacks can extend beyond map edges.
 
-Stored coordinates, polygon outlines, waypoint geometry, and navigation targets do not move. Other Questie icons, minimap icons, and Blizzard pins are not shifted. The retired screen-space experiment is preserved in `.scratch/polygon-nudging-experiment/`, locally gitignored with verified checksums. That archive is separate from the [original QuestieDev-Master reference package](../Blob/docs/legacy-questie-blobs/README.md).
+Stored coordinates, polygon outlines, waypoint geometry, and navigation targets do not move. Other Questie icons, minimap icons, and Blizzard pins are not shifted. The retired screen-space experiment is preserved in `.scratch/polygon-nudging-experiment/`, locally gitignored with verified checksums. That archive is separate from the [original QuestieDev-Master reference package](../../../Blob/docs/legacy-questie-blobs/README.md).
 
 ## Modules and data flow
 
@@ -155,25 +155,25 @@ Keep these hooks small when merging changes from Questie:
 
 | Existing code | Polygon connection |
 | --- | --- |
-| [QuestieQuest](../Modules/Quest/QuestieQuest.lua) | Shared objective/tooltips first; select ordinary icons or cluster markers, remove completed/empty objectives, and reset at `SmoothReset`/`ClearAllNotes`. [Spawn lists](../Modules/Quest/QuestieQuestPrivates.lua) flag game objects with `IsObject`. |
-| [QuestieMap](../Modules/Map/QuestieMap.lua) | Optional `DrawWorldIcon(..., destination)` selects `"map"` or `"minimap"`; omitted means the existing paired output. Full quest-frame unload also removes Polygon ownership. Its resize observer refreshes configured stack spacing. |
-| [HBD-Pins](../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) | Optional child callback after acquisition and scale handling reapplies stored presentation offsets; HBD geographic positions remain unchanged. `GetMinimapView()` exposes the radius and rotation minimap icons use. |
-| [QuestieFrame](../Modules/FramePool/QuestieFrame.lua), [MapIconTooltip](../Modules/Tooltips/MapIconTooltip.lua) | Polygon subscribes once, when it creates its provider, to `QuestieFrame`'s icon events: `Unload` (marker or minimap icon removal), `VisibilityChanged` (fake hide/show and fades), `NativeVisibilityChanged` (a map marker's native show/hide only), `HoverStart` (previews a marker's areas), `HoverEnd` (ends that preview, only for the data the hover started with) and `Click`. Area tooltips use the same tooltip builder as map icons. No accumulating per-frame hooks. |
-| [TrackerUtils](../Modules/Tracker/TrackerUtils.lua) | Borrow cluster markers for Show on Map; refresh fill visibility and guard delayed animation against recycled frames. |
-| [Questie.lua](../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
-| [Icon options](../Modules/Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../Modules/Tutorial/ChooseObjectiveType.lua), [defaults](../Modules/Options/QuestieOptionsDefaults.lua), [migration](../Modules/Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 42. The minimap icon switch also refreshes minimap areas. |
+| [QuestieQuest](../../Quest/QuestieQuest.lua) | Shared objective/tooltips first; select ordinary icons or cluster markers, remove completed/empty objectives, and reset at `SmoothReset`/`ClearAllNotes`. [Spawn lists](../../Quest/QuestieQuestPrivates.lua) flag game objects with `IsObject`. |
+| [QuestieMap](../QuestieMap.lua) | Optional `DrawWorldIcon(..., destination)` selects `"map"` or `"minimap"`; omitted means the existing paired output. Full quest-frame unload also removes Polygon ownership. Its resize observer refreshes configured stack spacing. |
+| [HBD-Pins](../../../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) | Optional child callback after acquisition and scale handling reapplies stored presentation offsets; HBD geographic positions remain unchanged. `GetMinimapView()` exposes the radius and rotation minimap icons use. |
+| [QuestieFrame](../../FramePool/QuestieFrame.lua), [MapIconTooltip](../../Tooltips/MapIconTooltip.lua) | Polygon subscribes once, when it creates its provider, to `QuestieFrame`'s icon events: `Unload` (marker or minimap icon removal), `VisibilityChanged` (fake hide/show and fades), `NativeVisibilityChanged` (a map marker's native show/hide only), `HoverStart` (previews a marker's areas), `HoverEnd` (ends that preview, only for the data the hover started with) and `Click`. Area tooltips use the same tooltip builder as map icons. No accumulating per-frame hooks. |
+| [TrackerUtils](../../Tracker/TrackerUtils.lua) | Borrow cluster markers for Show on Map; refresh fill visibility and guard delayed animation against recycled frames. |
+| [Questie.lua](../../../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
+| [Icon options](../../Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../../Tutorial/ChooseObjectiveType.lua), [defaults](../../Options/QuestieOptionsDefaults.lua), [migration](../../Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 42. The minimap icon switch also refreshes minimap areas. |
 
-All six flavor TOCs load geometry, renderer, render cache, nudging, minimap, then adapter before `Questie.lua`; only the Forever (Camelot) TOC then loads its quest log file. [Release packaging](../build.py) includes `Polygon/` and excludes adjacent tests; [CI](../.github/workflows/ci.yml) includes Polygon in linting. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
+All six flavor TOCs load geometry, renderer, render cache, nudging, minimap, then adapter before `Questie.lua`; only the Forever (Camelot) TOC then loads its quest log file. Polygon sits under `Modules/`, so [release packaging](../../../build.py) ships it without its adjacent tests and [CI](../../../.github/workflows/ci.yml) lints it, with no entry of its own. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
 
 ## Validation
 
 From the repository root:
 
 ```bash
-busted -p '.test.lua' Polygon
+busted -p '.test.lua' Modules/Map/Polygon
 busted Modules/Map/MapGeometry.test.lua
 busted -p '.test.lua' .
-luacheck -q -- Database Localization Modules Polygon Public Questie.lua
+luacheck -q -- Database Localization Modules Public Questie.lua
 lua cli/validate-loader-usage.lua
 uv run --no-project python build.test.py
 git diff --check
@@ -182,8 +182,8 @@ git diff --check
 Adjacent tests cover geometry/cancellation, workload resume limits, rendering/pool failures, geometric hover selection and cleanup, capability fallback, cache identity, objective routes, tracker integration, and marker visibility. Fixed-stack tests cover map-space grouping, deterministic horizontal slots, proportional zoom spacing, configured-width changes, queued/reacquired wrappers, library upgrades, hidden-member stability, and pool cleanup. For focused layout checks, run:
 
 ```bash
-busted Polygon/PolygonNudging.test.lua Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
-busted Polygon/PolygonMinimap.test.lua Modules/Map/MinimapCanvas.test.lua
+busted Modules/Map/Polygon/PolygonNudging.test.lua Modules/Map/Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
+busted Modules/Map/Polygon/PolygonMinimap.test.lua Modules/Map/MinimapCanvas.test.lua
 ```
 
 Logon reports that retained rendering removed the observed performance problems in-game. This is qualitative feedback, not a controlled timing measurement or validation across all client flavors. No agent performed a reload or live test of the retained-rendering implementation. Adjacent-map alignment, zoom spacing, and hover under covering UI still need the checks below; offline mocks do not establish those behaviors.

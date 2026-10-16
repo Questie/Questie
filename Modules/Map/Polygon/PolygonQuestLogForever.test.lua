@@ -99,7 +99,7 @@ describe("PolygonQuestLogForever", function()
         Polygon.SetObjectiveAreaShown = spy.new(function() end)
         Polygon.SetObjectivePreview = spy.new(function() end)
         Polygon.SetQuestAreasShown = spy.new(function() end)
-        dofile("Polygon/PolygonQuestLogForever.lua")
+        dofile("Modules/Map/Polygon/PolygonQuestLogForever.lua")
         QuestLog = QuestieLoader:ImportModule("PolygonQuestLogForever")
     end)
 
