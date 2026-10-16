@@ -26,8 +26,6 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
----@type WaypointRenderer
-local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
@@ -74,8 +72,7 @@ function Questie:RefreshConfig(_event, _database, _profileName)
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
     -- Lines kept across the reset would otherwise keep the old profile's smoothing, width, colors and visibility.
-    WaypointRenderer.RedrawAll()
-    QuestieWaypoints.Refresh()
+    QuestieWaypoints.Redraw()
     CommsVisibility:ScheduleSnapshot("PROFILE_CHANGED")
     Questie.Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
