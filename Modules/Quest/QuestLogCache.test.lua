@@ -952,6 +952,21 @@ describe("QuestLogCache", function()
             assert.are.equal(-1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
         end)
 
+        -- Test of Faith (1149): "leap from the planks" is an empty row; Questie showed it complete 12 s before the client.
+        it("leaves a quest whose only rows are empty incomplete until Blizzard completes it", function()
+            questLogTitles[1] = {"Test of Faith", 26, nil, false, false, nil, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {{text = "", type = "event", numFulfilled = 0, numRequired = 1, finished = false}}
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+
+            questLogTitles[1] = {"Test of Faith", 26, nil, false, false, 1, nil, QUEST_ID}
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
         it("still infers completion when Blizzard adds an empty row to finished objectives", function()
             questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
             questObjectives[QUEST_ID] = {

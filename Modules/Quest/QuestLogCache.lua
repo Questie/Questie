@@ -206,17 +206,22 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     if (not isCompleteAccordingToBlizzard) then
         -- A finished visible stage is not a finished sequenced quest. Premature completion would also
         -- make the recovery guard reject the next stage. Keep the legacy empty-row workaround otherwise.
-        isComplete = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished and 1 or 0
+        local allFinished = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished
         -- Loading screens can return rows empty or without text. A vanished unfinished row is then missing data,
         -- not completion. Once cached, the stale-data check in CheckForChanges would keep it until a reload.
         -- Outside loading screens a blank row is trusted, as the empty-row workaround always did.
-        if isComplete == 1 and suppressRegressions then
+        if allFinished and suppressRegressions then
             for index, oldObj in pairs(oldObjectives) do
                 if (not oldObj.finished) and (not newObjectives[index]) then
                     return nil, nil, isCompleteAccordingToBlizzard, true
                 end
             end
         end
+        -- Rows that are all empty are not invalid rows beside real objectives but the quest's only goal, still to do
+        -- (Test of Faith, 1149: leap from the planks). The client's flag decides. A quest without rows still infers
+        -- completion, as deliveries need.
+        local onlyEmptyRows = #objectives > 0 and next(newObjectives) == nil
+        isComplete = (allFinished and not onlyEmptyRows) and 1 or 0
     end
 
     -- Every row was read without rejection. Recorded sounds imply changedObjIds, so the caller saves this snapshot.
