@@ -134,7 +134,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     local questOrder = {};
     local manualOrder = {}
 
-    self.data.touchedPins = {}
+    -- Tinting again before the hover's reset would save the tinted colors as the ones to restore.
+    local tint = not self.data.touchedPins
+    if tint then
+        self.data.touchedPins = {}
+    end
     ---@param icon IconFrame
     ---@param listed boolean? One of the given icons, listed wherever it is, however faded.
     local function handleMapIcon(icon, listed)
@@ -151,7 +155,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         end
 
         -- Do not recolor MiniMap, Available and Completed Quest Icons.
-        if (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
+        if tint and (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;

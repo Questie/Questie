@@ -258,6 +258,23 @@ describe("MapIconTooltip objective wording", function()
             assert.is_not_nil(GameTooltip.questOrder[1])
             assert.is_not_nil(GameTooltip.questOrder[2])
         end)
+
+        it("keeps the colors to restore when a hovered icon's tooltip shows again before its reset", function()
+            GameTooltip.IsShown = function() return true end
+            icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a = 1, 0.5, 0, 1
+            icon.texture.SetVertexColor = function(texture, r, g, b, a)
+                texture.r, texture.g, texture.b, texture.a = r, g, b, a
+            end
+
+            -- The path's hover shows the tooltip, then the icon's own hover past the throttle, with no reset between.
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+            now = now + 0.1
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.are.equal(1, #icon.data.touchedPins)
+            assert.are.equal(icon, icon.data.touchedPins[1].icon)
+            assert.are_same({1, 0.5, 0, 1}, icon.data.touchedPins[1].color)
+        end)
     end)
     describe("order", function()
         local rendered, questLevels
