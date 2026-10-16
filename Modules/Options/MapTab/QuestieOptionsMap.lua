@@ -67,7 +67,7 @@ function QuestieOptions.tabs.map:Initialize()
                 type = "toggle",
                 order = 1.2,
                 name = function() return l10n("Enable Minimap Waypoints"); end,
-                desc = function() return l10n("Draws the patrol paths of the NPCs Questie shows on the minimap. Minimap icons must be enabled too."); end,
+                desc = function() return l10n("Draws the patrol paths of the NPCs Questie marks on the minimap, by their icons or their quest areas' markers. Minimap icons must be enabled too."); end,
                 width = 1.595,
                 get = _Get,
                 set = _SetAndRefresh,
