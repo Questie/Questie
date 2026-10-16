@@ -40,6 +40,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerRecipes
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
@@ -47,6 +49,26 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 local _SetMode, _OnClickQuest, _OnClickAchieve, _OnClickRecipe
 
 local lineMarginLeft = 10
+
+-- Hovering a quest objective previews its areas on the world map and minimap, as the quest
+-- log does. The previewed identity is captured: a tracker rebuild can reassign this pooled
+-- line before the cursor leaves. Achievement and scenario lines carry no quest objective.
+---@param line TrackerLineFrame
+local function _StartAreaPreview(line)
+    local quest, objective = line.Quest, line.Objective
+    if line.mode == "objective" and quest and objective and objective.questId == quest.Id then
+        line.areaPreviewQuestId, line.areaPreviewIndex = quest.Id, objective.NativeIndex or objective.Index
+        QuestiePolygon.SetObjectivePreview(line.areaPreviewQuestId, line.areaPreviewIndex, true)
+    end
+end
+
+---@param line TrackerLineFrame
+local function _EndAreaPreview(line)
+    if line.areaPreviewQuestId then
+        QuestiePolygon.SetObjectivePreview(line.areaPreviewQuestId, line.areaPreviewIndex, false)
+        line.areaPreviewQuestId, line.areaPreviewIndex = nil, nil
+    end
+end
 
 ---@param index number
 ---@param parent ScrollFrame
@@ -162,11 +184,13 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line:SetScript("OnEnter", function(self)
         OnEnter(self)
         TrackerFadeTicker.Unfade()
+        _StartAreaPreview(self)
     end)
 
     line:SetScript("OnLeave", function(self)
         OnLeave(self)
         TrackerFadeTicker.Fade()
+        _EndAreaPreview(self)
     end)
 
     line.criteriaMark = AchievementCriteriaCheckmark.New(index, line)
