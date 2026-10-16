@@ -51,7 +51,7 @@ describe("WaypointHover", function()
 
         WaypointHover.Set("minimap", nil)
         assert.spy(minimapTooltip.Hide).was.called(1)
-        assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with({data = data})
+        assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon, data)
     end)
 
     it("shows the tooltip of a minimap icon HereBeDragons hides out of range", function()
@@ -113,7 +113,7 @@ describe("WaypointHover", function()
         WaypointHover.Set("map", nil)
 
         assert.spy(icon.scripts.OnLeave).was.not_called()
-        assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with({data = data})
+        assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon, data)
         assert.is_nil(GameTooltip._Rebuild)
         assert.is_false(GameTooltip.ShownAsMapIcon)
     end)

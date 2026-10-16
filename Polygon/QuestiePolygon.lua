@@ -8,6 +8,10 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field minimapIcons PolygonMinimapIcon[] Minimap icons: the cluster's marker position, or each of its listed objects.
 ---@field projectedViews PolygonProjectionCache? Coordinates only; native drawings belong to PolygonRenderCache.
 
+---@class IconFrame
+---@field polygonMarker PolygonMarker? QuestiePolygon's own: the marker this world map icon shows.
+---@field polygonMinimapMarker PolygonMarker? QuestiePolygon's own: the marker whose cluster this minimap icon shows.
+
 ---@class PolygonMinimapIcon
 ---@field frame IconFrame Points back to its marker through frame.polygonMinimapMarker.
 ---@field point table? Spawn point whose metadata it shows; nil for a waypoint fallback sharing the map icon's data.
@@ -52,6 +56,8 @@ local PolygonMinimap = QuestieLoader:ImportModule("PolygonMinimap")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+---@type QuestieFrame
+local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 ---@type WorldMapLayers
 local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
 ---@type QuestieCompat
@@ -545,7 +551,7 @@ function QuestiePolygon.Reset()
 end
 
 -- Marker interaction and external waypoint ownership
--- Called by the existing icon lifecycle, never installed as accumulating frame hooks.
+-- Called through QuestieFrame's icon events, subscribed once, never as accumulating frame hooks.
 function QuestiePolygon.MarkerRemoved(frame)
     local marker = frame.polygonMarker
     if not marker then return end
@@ -620,6 +626,21 @@ function QuestiePolygon.ToggleMarker(frame)
         and not entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
         _SaveVisibility(entry, not _IsAreaShown(entry))
     end
+end
+
+---Follows markers and their minimap icons through QuestieFrame's icon events; each listener
+---ignores icons that are not polygon markers.
+local function _FollowIcons()
+    QuestieFrame.Subscribe("Unload", function(frame)
+        QuestiePolygon.MarkerRemoved(frame)
+        QuestiePolygon.MinimapMarkerRemoved(frame)
+    end)
+    QuestieFrame.Subscribe("VisibilityChanged", QuestiePolygon.MarkerChanged)
+    -- A recycled icon's old marker ended its preview when it unloaded; a new marker's is not this hover's.
+    QuestieFrame.Subscribe("HoverEnd", function(frame, data)
+        if frame.data == data then QuestiePolygon.LeaveMarker(frame) end
+    end)
+    QuestieFrame.Subscribe("Click", QuestiePolygon.ToggleMarker)
 end
 
 -- Nearby mode
@@ -1016,6 +1037,8 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         -- Preference setters resize before writing their new value. Read configured
         -- widths on the next frame; this single retained hook is inert while detached.
         hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)
+        -- The provider is created once, before the first marker.
+        _FollowIcons()
         -- The minimap is optional: its failure must not stop world-map drawing.
         local created, layer = pcall(PolygonMinimap.New, Minimap, _CollectMinimapAreas)
         if created then

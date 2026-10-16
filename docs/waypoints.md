@@ -49,7 +49,7 @@ Everything lives in [`Modules/Map/Waypoints/`](../Modules/Map/Waypoints/), and e
 
 **Integration:**
 - `QuestieMap:DrawWaypoints` calls `QuestieWaypoints.Add`. `DrawWorldIcon` and `DrawManualIcon` link each world icon to its `minimapTwin`.
-- `QuestieFrame` reports unloads, fake hide/show and fades to the registry. `MapIconTooltip` highlights through it, and `WaypointHover.End` lets a path's icon restore its tints before another icon's tooltip opens.
+- From the first path on, the registry follows icons through `QuestieFrame`'s icon events: `Unload` releases the icon's paths, `VisibilityChanged` (native show/hide, fake hide/show and fades) redraws them, and `HoverEnd` ends the highlight for the data the hover started with. `MapIconTooltip` highlights through it, and `WaypointHover.End` lets a path's icon restore its tints before another icon's tooltip opens.
 - `TrackerUtils` flashes use `SetSolo`.
 - HereBeDragons-Pins gains `GetMinimapView()`, which returns the radius and rotation it places minimap icons with: `C_Minimap.GetViewRadius()` where available, its zoom tables elsewhere.
 - Settings live under Map → Waypoints; [Settings](#settings) lists them. Switching profiles calls `WaypointRenderer.RedrawAll` and `QuestieWaypoints.Refresh`.
