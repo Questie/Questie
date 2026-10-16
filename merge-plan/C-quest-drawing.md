@@ -317,10 +317,10 @@ Hovering a route → WaypointHover → the owner's OnEnter (_QuestieFrame.OnEnte
 
 ### Invariants
 
-1. **One owner, released once.** Every route has exactly one owner frame. Every way a polygon marker goes away unloads that frame, and the `Unload` icon event then releases its routes once. That event fires once, when the unload finishes (F 3.3 guarantee 3).
+1. **One owner, released once.** Every route has exactly one owner frame. Every way a polygon marker goes away unloads that frame, and the `Unload` icon event then releases its routes. That event fires at once, and for a queued frame again as the draw queue finishes it (F 3.3 guarantee 3).
    - Re-cluster, `RemoveObjective`, `RemoveQuest` and `Reset` go through `_ReleaseMarkers`. It clears `polygonMarker` first, then calls `QuestieFramePool:UnloadFrame(marker.frame)`.
    - Questie's own lifecycle goes through the `Unload` event too: polygon's listener runs `MarkerRemoved` and `MinimapMarkerRemoved`, and waypoints' runs `RemoveOwner`.
-   - A still-queued frame defers until `ProcessQueue` (`WP QuestieMap.lua:359-362`, `:372-375`). Neither listener runs on the deferred first `Unload`. Routes attached to a queued marker meanwhile go with it.
+   - A still-queued frame finishes its unload in `ProcessQueue` (`WP QuestieMap.lua:359-362`, `:372-375`). Both listeners run at both calls and are idempotent, so routes attached to a queued marker meanwhile go with it.
    - Quest removal (`UnloadQuestFrames` → `RemoveQuest` first, `B QuestieMap.lua:99-101`) then skips already-released frames by its data snapshot (`83ef6e2fe`).
 2. **Routes only go to live markers.** Routes are attached only to markers of the current entry generation, and only to markers still owning their frame (`marker.frame.polygonMarker == marker`).
    - `_IsCurrentGeneration` runs after every yield, and nothing in between can invalidate it.
@@ -599,7 +599,7 @@ The C-5 test, as prototyped (it uses the file's own `Update`, `RouteOwners`, `fr
         end)
 ```
 
-**Moved to Area F:** C's planned `QuestieFrame.test.lua` test "releases a queued marker's routes once, when its deferred unload finishes". F-3's *tells features once that a queued icon unloaded, when its unload finishes and while it shows its data* covers it.
+**Moved to Area F:** C's planned `QuestieFrame.test.lua` test "releases a queued marker's routes once, when its deferred unload finishes". F-3's *tells features an icon unloads, also at once while queued and again as the queue finishes, while it shows its data* covers it.
 
 **Add (C-F2):**
 - In `QuestiePolygon.test.lua` "shows each cluster on the minimap like the world map, except objects…":
@@ -748,7 +748,7 @@ git grep -n -E "lineFrames|CreateWaypoints|IsLineFrame|DrawLineIcon|WAYPOINT_COL
 **Area F (seams).**
 - C needs:
   - **F-3:**
-    - `Unload` fires once per unload, when it finishes, while `data` and `minimapTwin` are still set. `QuestieWaypoints.RemoveOwner` and polygon's `MarkerRemoved`/`MinimapMarkerRemoved` subscribe to it.
+    - `Unload` fires at once, and for a queued icon again as the draw queue finishes it, while `data` and `minimapTwin` are still set. `QuestieWaypoints.RemoveOwner` and polygon's `MarkerRemoved`/`MinimapMarkerRemoved` subscribe to it.
     - `VisibilityChanged` covers fake hide and show, fades, and native show and hide.
     - The IconFrame contract lets a drawing feature link its markers' `minimapTwin` (C-F2), and keeps `data` refreshed in place.
     - The `Subscribe` capture stub in the three test files.

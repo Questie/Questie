@@ -3,6 +3,8 @@
 ---@class QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:CreateModule("QuestieWaypoints")
 
+---@type QuestieFrame
+local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 ---@type WaypointGeometry
 local WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
 ---@type WaypointMap
@@ -14,6 +16,9 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 ---@type HBD
 local HBD = QuestieLoader:ImportModule("HBD")
+
+---@class IconData
+---@field waypointPaths WaypointPath[]? QuestieWaypoints' own: patrol paths of the NPC, shared by all icons with this data.
 
 ---An NPC's patrol on one map, drawn while its owning icon is.
 ---@class WaypointPath : WaypointPolyline
@@ -49,6 +54,16 @@ local function _ToWorld(x, y, uiMapId)
     return HBD:GetWorldCoordinatesFromZone(x, y, uiMapId)
 end
 
+-- Paths follow their owners through QuestieFrame's icon events, from the first path on.
+local followingIcons = false
+
+local function _FollowIcons()
+    followingIcons = true
+    QuestieFrame.Subscribe("Unload", QuestieWaypoints.RemoveOwner)
+    QuestieFrame.Subscribe("VisibilityChanged", QuestieWaypoints.OwnerChanged)
+    QuestieFrame.Subscribe("HoverEnd", function(_, data) QuestieWaypoints.SetHighlighted(data, false) end)
+end
+
 ---Draws an NPC's patrols in one zone for as long as owner is loaded, following its visibility.
 ---@param owner IconFrame World map icon of the NPC in this zone.
 ---@param entity string? Whose patrols these are, as Questie's tooltip keys: "m_<npcId>" or "o_<objectId>".
@@ -62,6 +77,7 @@ function QuestieWaypoints.Add(owner, entity, patrols, areaId, hostile)
     if not uiMapId or not data then return end
     local polylines = WaypointGeometry.BuildPolylines(patrols, uiMapId, _ToWorld)
     if #polylines == 0 then return end
+    if not followingIcons then _FollowIcons() end
 
     local owned = pathsByOwner[owner] or {}
     pathsByOwner[owner] = owned
@@ -79,7 +95,7 @@ function QuestieWaypoints.Add(owner, entity, patrols, areaId, hostile)
     _Changed()
 end
 
----Releases the paths an icon owns; called when the icon unloads.
+---Releases the paths an icon owns; called through its Unload event.
 ---@param owner IconFrame
 function QuestieWaypoints.RemoveOwner(owner)
     local owned = pathsByOwner[owner]
@@ -102,8 +118,8 @@ function QuestieWaypoints.RemoveOwner(owner)
     _Changed()
 end
 
----Redraws paths whose icons changed visibility or fade: FakeHide, FakeShow, FadeOut and FadeIn on
----the world map icon, or on its minimap twin, which shares the data.
+---Redraws paths whose icons were shown, hidden or faded, through the VisibilityChanged event: the
+---world map icon's, or its minimap twin's, which shares the data.
 ---@param icon IconFrame
 function QuestieWaypoints.OwnerChanged(icon)
     local shared = icon.data and icon.data.waypointPaths

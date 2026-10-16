@@ -427,7 +427,7 @@ local layer = {
 
 | Event | Emitted from (after F-3/F-4) | Waypoints listener | Polygon listener |
 |---|---|---|---|
-| `Unload` | `_QuestieFrame.Unload`, once, after the draw-queue deferral (WP's `RemoveOwner` spot), while `data` and `minimapTwin` are still set | `QuestieWaypoints.RemoveOwner` | `MarkerRemoved` then `MinimapMarkerRemoved` |
+| `Unload` | `_QuestieFrame.Unload`, at the start of every call: at once, and for a queued icon again as `ProcessQueue` finishes it, while `data` and `minimapTwin` are still set | `QuestieWaypoints.RemoveOwner` | `MarkerRemoved` then `MinimapMarkerRemoved` |
 | `VisibilityChanged` | `FadeOut`, `FadeIn`, `FakeHide`, `FakeShow`, and native `BaseOnShow`/`BaseOnHide` | `QuestieWaypoints.OwnerChanged` | `QuestiePolygon.MarkerChanged` |
 | `HoverStart` | `QuestieFrame.ApplyHoverHighlights(icon)`, before the core tint | `WaypointHover.End(icon)`, then `SetHighlighted(icon.data, true)` | `QuestiePolygon.EnterMarker` |
 | `HoverEnd` | `QuestieFrame.ResetHoverHighlights(icon, data)`, after the core untint | `SetHighlighted(data, false)` | `LeaveMarker(icon)` only while `icon.data == data` |
@@ -444,7 +444,7 @@ Rule 3 named four events, and this design adds `Click`, plus native show and hid
 -- listeners or the icon's own work, such as an unload that must finish whatever a feature does.
 
 ---@alias IconEvent
----| "Unload" # The icon unloads. Afterwards the pool may hand it out for other data.
+---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
 ---| "VisibilityChanged" # It was shown or hidden, natively or by FakeHide/FakeShow, or faded in or out.
 ---| "HoverStart" # The cursor or the gamepad cursor started hovering it.
 ---| "HoverEnd" # That hover ended; the listener also gets the data the hover started with.
@@ -521,7 +521,7 @@ end
 
 1. Listeners run in subscription order. No listener may depend on it, because they belong to different black-box features.
 2. All `HoverStart` listeners run before the core tint, and the core untint runs before `HoverEnd` listeners. This prevents the F3 hazard: a path hover ended by `WaypointHover.End` restores its tints before the new tint saves colors.
-3. `Unload` fires exactly once per unload, when it finishes. A still-queued icon defers, and the event comes from `ProcessQueue`'s second call (`WP QuestieMap.lua:359-362`, `:372-375`). Listeners run while `icon.data` and `icon.minimapTwin` are still set, and the pool can't recycle the frame before they return.
+3. `Unload` fires at the start of every `Unload` call: at once, also for a still-queued icon (waypoints `f58ad0b1a`), and again when `ProcessQueue`'s second call finishes that icon's unload (`WP QuestieMap.lua:359-362`, `:372-375`). Both listeners are idempotent; the second call releases what was added to the queued icon meanwhile. This is when both features were told before F-3. Listeners run while `icon.data` and `icon.minimapTwin` are still set, and the pool can't recycle the frame before they return.
 4. `VisibilityChanged` may come spuriously, or twice for one change: `FakeShow` emits, and its native `Show` emits too. Listeners re-read state and are idempotent. Both features' listeners already coalesce: dirty flags and `ScheduleRefresh`.
 5. Emitting is re-entrant. A `HoverStart` listener may end another icon's hover, which emits `HoverEnd`. A marker's `Unload` unloads its minimap icons, which emit `Unload`.
 
@@ -818,7 +818,7 @@ No existing feature changes, and the guard proves it.
 | `Initialize()` per feature, called from `QuestieInit` | An init entry point, plus a race with login drawing, for nothing first-use subscription lacks |
 | Callbacks on `MapIconTooltip` (B's rejected option) | The begin and end effects would still live in different modules |
 | Weak-keyed side tables for feature fields | They free nothing for pooled frames and rewrite about 90 test lines (3.4) |
-| One `Unload` at the deferral as well as at the finished unload | A double emit is a contract wart; a single emit at the deferral leaks routes added to a queued frame |
+| One `Unload`, at the deferral or at the finished unload | At the deferral only, routes added to a queued frame leak. At the finish only, a queued icon's paths and areas outlive it until the draw queue reaches it, which waypoints `f58ad0b1a` fixed. Both features were told at both calls before F-3. |
 | The guard as a luacheck plugin or CLI script | busted already runs in CI, and the TOC reader already exists and is tested |
 
 ---
@@ -979,7 +979,7 @@ These follow AGENTS.md: `dofile("setupTests.lua")`, `QuestieLoader` stubs, `.was
   - Remove the top-level `QuestieWaypoints` stubs, including stop #6's `OwnerChanged`.
   - Replace WP's "waypoint paths" describe and B's "polygon marker interaction" describe with **"icon events"**:
     - *tells features when an icon shows, hides or fades, natively or by Questie's own hiding*: six `VisibilityChanged` events.
-    - *tells features once that a queued icon unloaded, when its unload finishes and while it shows its data*: no event while deferred; one with `data` and `minimapTwin` set. This replaces B's two "before a queued icon defers" tests and C's planned deferred-unload test.
+    - *tells features an icon unloads, also at once while queued and again as the queue finishes, while it shows its data*: two events for a queued icon and one for a drawn icon, each with `data` and `minimapTwin` set. This replaces B's two "before a queued icon defers" tests and C's planned deferred-unload test.
     - *finishes an unload whatever a listener does, and reports a failing listener once*: two icons, a listener that throws, the next listener called twice, `Questie.Error` once, and both icons' data cleared.
     - *leaves a plain left-click on an icon on its own map to features*: another map navigates instead. Right-click and modifier cases fold in from B's four toggle tests.
   - In `ResetHoverHighlights`, replace WP's "should end the highlight of the NPC's waypoint paths" with *should end the hover with the data it started with, after restoring the colors it tinted* (order untint → listener; the recycled icon gets the old data).
@@ -1095,7 +1095,7 @@ Run `busted -p ".test.lua" .` once, after F-6 and after F-7.
 |---|---|---|
 | F-1 | **Decision:** add `Click` as a fifth icon event (polygon's `ToggleMarker`) | **Yes.** Otherwise `QuestieFrame` keeps a feature import for one line. Its meaning is narrow: the click core does nothing else with. |
 | F-2 | **Decision:** `VisibilityChanged` also covers native show and hide (polygon's `BaseOnShow`/`BaseOnHide` refresh) | **Yes.** One event: listeners re-read and coalesce. The cost is a few redundant restyles and one signature-checked nudge pass on map open. The alternative is a sixth event, or a `native` flag. |
-| F-3 | **Decision:** `Unload` fires once, when the unload finishes, so polygon releases a still-queued marker a few frames later than B did | **Yes.** It is the only moment the pool can recycle the frame, and it releases routes added meanwhile. Every polygon release path already clears `polygonMarker` itself first (`_ReleaseMarkers`, `RemoveQuest`, `Reset`). |
+| F-3 | **Decision:** `Unload` fires at every `Unload` call: at once, and for a still-queued icon again as the draw queue finishes it | **Yes (changed at the F-3 commit).** Waypoints `f58ad0b1a` releases a queued icon's paths at once and again at the finish, and polygon's listeners ran at both calls too, so this keeps both features' behavior. Both listeners are idempotent. Every polygon release path already clears `polygonMarker` itself first (`_ReleaseMarkers`, `RemoveQuest`, `Reset`). |
 | F-4 | **Decision:** feature fields stay on frames and data, declared by their feature (3.4) | **Yes.** There is no payoff from side tables. |
 | F-5 | **Decision:** rule 4's list as the guard's 11 entry points (3.6), with features subscribing on first use and no init entry point | **Yes** |
 | F-6 | **Decision:** move `Polygon/` to `Modules/Map/Polygon/` (F-7) | **Yes.** Features then declare themselves by folder, and build and CI lose their special case. It is purely mechanical, last in Phase 2. |
@@ -1183,11 +1183,11 @@ Each area applies these to its own plan. Section and commit IDs refer to that pl
 1. **§3 ownership table, `QuestieFrame` row:** "emits icon events (`Unload`, `VisibilityChanged`, `HoverStart`, `HoverEnd`, `Click`); `QuestieWaypoints` and `QuestiePolygon` subscribe (Area F, F-3)". It is no longer "forwards to both".
 2. **§3 public interface:** "kept: … `MarkerRemoved`/`MinimapMarkerRemoved`/`MarkerChanged` (QuestieFrame)" → "(QuestiePolygon's icon-event listeners, F-3)". The `minimapTwin` doc block → "see F 3.5, the IconFrame contract".
 3. **§3 invariant 1:**
-   - "Questie's own lifecycle goes through `MarkerRemoved`" → "through the `Unload` icon event, which fires once, when the unload finishes (F 3.3 guarantee 3)".
-   - "`RemoveOwner` is idempotent, and the deferred first `Unload` does not call it" → "neither listener runs on the deferred first `Unload`".
+   - "Questie's own lifecycle goes through `MarkerRemoved`" → "through the `Unload` icon event, which fires at once, and for a queued frame again as the draw queue finishes it (F 3.3 guarantee 3)".
+   - "`RemoveOwner` is idempotent, and the deferred first `Unload` does not call it" → "both listeners run at both calls of a queued frame's unload, and are idempotent".
 4. **§4(b) F1:**
    - Drop the `savedIsLineFrame` deletion: F-2 deletes it.
-   - Drop the `QuestieFrame.test.lua` test "releases a queued marker's routes once, when its deferred unload finishes": F-3's "tells features once that a queued icon unloaded…" covers it.
+   - Drop the `QuestieFrame.test.lua` test "releases a queued marker's routes once, when its deferred unload finishes": F-3's "tells features an icon unloads, also at once while queued…" covers it.
    - If David takes decision C-5 as A's version, `_AttachRoutes` picks the owner with A's `_RouteOwner` (A §9), and adds A's test.
 5. **§4(b) F2:** drop the `Modules/FramePool/QuestieFrame.lua` row. F-3 writes the IconFrame contract, which already says drawing features link their markers' twins.
 6. **§5:** drop the `QuestieFrame.test.lua` row (moved to F-3). The `QuestiePolygon.test.lua` route tests need the `Subscribe` capture stub that F-3 adds to its `before_each`.

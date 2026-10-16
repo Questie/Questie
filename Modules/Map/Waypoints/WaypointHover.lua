@@ -59,14 +59,9 @@ local function _Enter(path, icon)
     end
 end
 
--- The tooltip highlights the NPC's paths and tints its icons; this resets both. The data is the
--- path's own, since an icon unloaded while hovered may show something else by now.
----@param path WaypointPath
-local function _ResetTooltipChanges(path)
-    QuestieFrame.ResetHoverHighlights({data = path.data})
-end
-
 ---Closes the hovered path's tooltip, or leaves it to whoever took it over, and ends its highlight.
+---The tooltip highlights the NPC's paths and tints its icons; ResetHoverHighlights resets both, with
+---the path's own data, since an icon unloaded while hovered may show something else by now.
 ---@param path WaypointPath
 ---@param on WaypointHoverSurface The map the path was hovered on.
 local function _Leave(path, on)
@@ -78,7 +73,7 @@ local function _Leave(path, on)
     end
     if on == "minimap" then
         _MinimapTooltip():Hide()
-        _ResetTooltipChanges(path)
+        QuestieFrame.ResetHoverHighlights(icon, path.data)
         return
     end
     -- Moving onto the icon itself hands the hover over to it.
@@ -86,7 +81,7 @@ local function _Leave(path, on)
     if GameTooltip:GetOwner() ~= icon then
         -- Another frame took the tooltip; a Questie icon would have ended this hover first. Its
         -- tooltip stays, but nothing of the NPC's may: a modifier key would rebuild it.
-        _ResetTooltipChanges(path)
+        QuestieFrame.ResetHoverHighlights(icon, path.data)
         GameTooltip._Rebuild, GameTooltip.ShownAsMapIcon = nil, false
         return
     end
@@ -95,7 +90,7 @@ local function _Leave(path, on)
         onLeave(icon)
     else
         GameTooltip:Hide()
-        _ResetTooltipChanges(path)
+        QuestieFrame.ResetHoverHighlights(icon, path.data)
     end
 end
 
