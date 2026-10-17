@@ -28,11 +28,15 @@ Because Questie historically never had a proper license the situation is complic
 
 That being said, the Questie team considers historic contributions made in the spirit of open source development, although of course we cannot make that statement on behalf of all individual former contributors.
 
-Hence we are alright with others forking the repository or copying code from it under the GPLv3 terms. This does NOT extend to the Questie name and logo, please change them when you maintain a fork.
+Hence the Questie team is alright with others forking the repository or copying code from it under the GPLv3 terms, but we can not promise all contributors are.
+
+This does NOT extend to the Questie name and logo! Please change them when you maintain a fork.
 
 ### GPLv3
 
-In an effort to clear the licensing situation up we will try to gain enough consent for GPLv3 license coverage so that we can consider the remaining unlicensed contributions as being public domain. For a copy of the GPLv3 license see `gpl-3.0.md`.
+In an effort to clear the licensing situation up we will try to gain enough consent for GPLv3 license coverage so that we can consider the remaining unlicensed contributions as being public domain and/or fair use. For a copy of the GPLv3 license see `gpl-3.0.md`.
+
+This does NOT extend to the Questie name and logo! Please change them when you maintain a fork.
 
 The following contributors have agreed to put their individual contributions under this license:
 
