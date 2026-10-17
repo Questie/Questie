@@ -6,7 +6,7 @@ If you are considering contributing to Questie please be aware that submitting p
 
 If you are a former contributor please consider adding your name to the GPLv3 list below, or giving us consent to do so for you through a GitHub issue or a Discord message.
 
-If you are a former contributor and feel any of the things discussed here are infringing on your copyrights please contact us through the aformentioned means.
+If you are a former contributor and feel any of the things discussed here are infringing on your copyrights please contact us through the aforementioned means.
 
 ## Third party software licensing
 
