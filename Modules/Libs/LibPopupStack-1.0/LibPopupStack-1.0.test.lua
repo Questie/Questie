@@ -1,5 +1,5 @@
 -- These mocks check geometry and ownership, not the client's taint enforcement.
-local SOURCE = "Libs/LibPopupStack-1.0/LibPopupStack-1.0.lua"
+local SOURCE = "Modules/Libs/LibPopupStack-1.0/LibPopupStack-1.0.lua"
 local function FrameRect(left, bottom, width, height, scale)
   return {
     left = left, bottom = bottom, width = width, height = height, scale = scale or 1,
