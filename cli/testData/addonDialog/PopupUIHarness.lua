@@ -113,7 +113,7 @@ local function Install(env)
   end
   -- Use real version negotiation, isolated from other tests' LibStub instances.
   env.LibStub = { minor = 0, libs = {}, minors = {} }
-  for _, path in ipairs({ "Libs/LibStub/LibStub.lua", "Libs/LibPopupStack-1.0/LibPopupStack-1.0.lua" }) do
+  for _, path in ipairs({ "Libs/LibStub/LibStub.lua", "Modules/Libs/LibPopupStack-1.0/LibPopupStack-1.0.lua" }) do
     local chunk = assert(loadfile(path))
     setfenv(chunk, env)()
   end
@@ -122,7 +122,7 @@ local function Install(env)
 end
 
 local function LoadDialog(env, private)
-  local chunk = assert(loadfile("Libs/AddonDialog/Dialog.lua"))
+  local chunk = assert(loadfile("Modules/Libs/AddonDialog/Dialog.lua"))
   setfenv(chunk, env)("TestAddon", private)
   return private.Dialog
 end
