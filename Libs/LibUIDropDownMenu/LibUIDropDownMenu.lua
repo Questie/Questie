@@ -42,14 +42,21 @@ local PROJECT_CATA = WOW_PROJECT_CATACLYSM_CLASSIC
 local PROJECT_MISTS = WOW_PROJECT_MISTS_CLASSIC
 local PROJECT_FOREVER = WOW_PROJECT_CAMELOT
 
-local isRetail = projectID == PROJECT_MAINLINE
+-- Questie: Forever runs on the mainline engine and can report WOW_PROJECT_MAINLINE, so also detect it by
+-- its 1.6.x interface version, the same way Questie.IsForever does in Modules/VersionCheck.lua.
+local _, _, _, interfaceVersion = GetBuildInfo()
+local isForever = (PROJECT_FOREVER ~= nil and projectID == PROJECT_FOREVER) or (interfaceVersion >= 16000 and interfaceVersion < 17000)
+
+local isRetail = projectID == PROJECT_MAINLINE and not isForever
 local isClassicEra = projectID == PROJECT_CLASSIC
 local isAnniversaryTBC = PROJECT_TBC ~= nil and projectID == PROJECT_TBC
 local isCataclysmClassic = PROJECT_CATA ~= nil and projectID == PROJECT_CATA
 local isMistsClassic = PROJECT_MISTS ~= nil and projectID == PROJECT_MISTS
 local isProgressionClassic = isCataclysmClassic or isMistsClassic
-local isClassicForever = projectID == PROJECT_FOREVER
-local isAnyClassic = isClassicEra or isAnniversaryTBC or isProgressionClassic
+-- Questie: keep Forever on the classic code paths like rev 117 did (it saw the 1.x interface as Classic Era).
+-- The retail paths break checkbox toggles in sub-menus (Vendor / Profession Trainers) on Forever.
+local isClassicForever = false
+local isAnyClassic = isClassicEra or isAnniversaryTBC or isProgressionClassic or isForever
 
 local L_USE_MAINLINE_API = isRetail or isClassicForever
 
@@ -736,6 +743,9 @@ local function create_DropDownButtons()
 	L_DropDownListQuestie1 = creatre_DropDownList("L_DropDownListQuestie1")
 	L_DropDownListQuestie1:SetToplevel(true)
 	L_DropDownListQuestie1:SetFrameStrata("FULLSCREEN_DIALOG")
+	-- Questie: let the client keep the top-level menu on screen too, e.g. when it's anchored to a minimap button near the edge.
+	-- Not for sub-menus: they flip to the other side when off screen, and clamping would stop that check from seeing it.
+	L_DropDownListQuestie1:SetClampedToScreen(true)
 	L_DropDownListQuestie1:Hide()
 	L_DropDownListQuestie1:SetID(1)
 	L_DropDownListQuestie1:SetSize(180, 10)
@@ -1851,10 +1861,13 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
 
 		--  We just move level 1 enough to keep it on the screen. We don't necessarily change the anchors.
 		if ( level == 1 ) then
-			local offLeft = listFrame:GetLeft()/uiScale;
-			local offRight = (GetScreenWidth() - listFrame:GetRight())/uiScale;
-			local offTop = (GetScreenHeight() - listFrame:GetTop())/uiScale;
-			local offBottom = listFrame:GetBottom()/uiScale;
+			-- Questie: measure in the list frame's own units (the same units SetPoint offsets use).
+			-- The original "/uiScale" mixed coordinate spaces, so the menu could still end up off screen.
+			local toListUnits = UIParent:GetEffectiveScale() / listFrame:GetEffectiveScale();
+			local offLeft = listFrame:GetLeft();
+			local offRight = GetScreenWidth() * toListUnits - listFrame:GetRight();
+			local offTop = GetScreenHeight() * toListUnits - listFrame:GetTop();
+			local offBottom = listFrame:GetBottom();
 
 			local xAddOffset, yAddOffset = 0, 0;
 			if ( offLeft < 0 ) then
