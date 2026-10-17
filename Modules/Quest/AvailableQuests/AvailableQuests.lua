@@ -32,6 +32,7 @@ local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlac
 local GetQuestGreenRange = QuestieCompat.GetQuestGreenRange
 local yield = coroutine.yield
 local tinsert = table.insert
+local band = bit.band
 
 local QUESTS_PER_YIELD = 24
 
@@ -724,6 +725,14 @@ _DrawAvailableQuest = function(questId)
     end, 0, nil, nil, nil, "_DrawAvailableQuest")
 end
 
+-- Corrections list some vendors as dropping the quest-starting item they sell, so that the quest
+-- shows. Those friendly to the player aren't fought.
+---@param npc NPC
+---@return boolean
+local function _IsFriendlyVendor(npc)
+    return npc.friendly == true and npc.npcFlags ~= nil and band(npc.npcFlags, QuestieDB.npcFlags.VENDOR) ~= 0
+end
+
 ---@param starter Object|NPC Either an object or an NPC from QuestieDB.
 ---@param quest Quest A Quest from QuestieDB.
 ---@param tooltipKey string The tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>", for items it's "im_<ID>" or "io_<ID".
@@ -812,6 +821,9 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     -- Only for NPCs since objects do not move
     if starter.waypoints then
+        -- An NPC dropping the starting item is killed for it, so its route is hostile like an objective's.
+        -- A friendly vendor listed as dropping it is not.
+        local hostile = starterType == "itemFromMonster" and not _IsFriendlyVendor(starter)
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
@@ -831,7 +843,9 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                     starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                     added = added + 1
                 end
-                QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
+                -- By now tooltipKey names the NPC or object, also when the quest starts from an item
+                -- it drops, so every quest of one NPC shares his route.
+                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, hostile)
             end
         end
     end

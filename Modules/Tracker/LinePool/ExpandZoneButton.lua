@@ -14,7 +14,7 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@param parent TrackerLineFrame
 ---@param OnEnter function @Callback function for OnEnter
 ---@param OnLeave function @Callback function for OnLeave
----@return LineFrame
+---@return Button
 function ExpandZoneButton.New(index, parent, OnEnter, OnLeave)
     local expandZone = CreateFrame("Button", "linePool.expandZone" .. index, parent)
     expandZone:SetWidth(1)

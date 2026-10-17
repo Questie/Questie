@@ -233,7 +233,8 @@ item = function(itemId, objective)
                             ret[id] = {
                                 Id = id,
                                 Name = sourceData.Name,
-                                Hostile = true,
+                                -- Monsters dropping the item are fought; objects holding it are not.
+                                Hostile = sourceData.Hostile,
                                 ItemId = item.Id,
                                 TooltipKey = sourceData.TooltipKey,
                                 Spawns = {},
@@ -242,6 +243,10 @@ item = function(itemId, objective)
                                 GetIconScale = GetIconScale,
                                 IconScale = GetIconScale(),
                             }
+                        end
+                        -- Vendors selling the item aren't fought, also when corrections list them as dropping it.
+                        if source.Vendor then
+                            ret[id].Hostile = nil
                         end
                         if sourceData.Spawns then
                             local itemSpawns = ret[id].Spawns

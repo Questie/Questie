@@ -312,6 +312,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
             end
         end
 
+        -- The lines of the quests this starts or finishes are kept by quest, as a quest can have both, and
+        -- listed by level once all are collected: pairs walks the tooltips in no particular order.
+        local questLines = {}
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
             local questId = tooltip.questId
 
@@ -341,7 +344,8 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             questString = "|TInterface\\Addons\\Questie\\Icons\\available_object.png:14|t" .. questString
                         end
                     end
-                    tinsert(tooltipLines, questString)
+                    questLines[questId] = questLines[questId] or {}
+                    tinsert(questLines[questId], questString)
                 end
             elseif (not finishedAndUnacceptedQuests[questId]) then
                 local objective = tooltip.objective
@@ -404,6 +408,12 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 end
             end
         end
+        -- The quests this starts or finishes, by level.
+        for _, questId in ipairs(QuestieLib:SortQuestIDsByLevel(questLines, true)) do
+            for _, questString in ipairs(questLines[questId]) do
+                tinsert(tooltipLines, questString)
+            end
+        end
     end
 
     local anotherPlayer = false
@@ -413,7 +423,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
 
     local playerName = GetUnitName("player", true)
 
-    for questId, questData in pairs(tooltipData) do
+    -- Objectives of active quests, the player's and the party's, by quest level.
+    for _, questId in ipairs(QuestieLib:SortQuestIDsByLevel(tooltipData, true)) do
+        local questData = tooltipData[questId]
         local hasObjective = false
         local tempObjectives = {}
         for _, playerList in pairs(questData.objectivesText or {}) do
