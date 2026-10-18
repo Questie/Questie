@@ -11,6 +11,8 @@ describe("QuestieFrame", function()
     local QuestieFrame
     ---@type MapIconTooltip
     local MapIconTooltip
+    ---@type IconHighlight
+    local IconHighlight
 
     ---@type IconFrame
     local QuestieFrameInstance
@@ -50,6 +52,9 @@ describe("QuestieFrame", function()
         QuestieLoader:ImportModule("DailyQuests")
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         MapIconTooltip.Release = spy.new(function() end)
+        IconHighlight = QuestieLoader:ImportModule("IconHighlight")
+        IconHighlight.Spotlight = spy.new(function() end)
+        IconHighlight.EndSpotlight = spy.new(function() end)
 
         dofile("Localization/l10n.lua")
         dofile("Modules/FramePool/QuestieFrame.lua")
@@ -268,282 +273,63 @@ describe("QuestieFrame", function()
     end)
 
     describe("hovering", function()
-        local pins, order, savedLibStub, enumerations
+        local order
 
-        -- A world map icon whose texture keeps its color, as QuestieFrame's own SetVertexColor does.
-        local function MapIcon(data, color)
-            local texture = {r = color[1], g = color[2], b = color[3], a = color[4]}
-            function texture:SetVertexColor(r, g, b, a) self.r, self.g, self.b, self.a = r, g, b, a end
-            function texture:GetVertexColor() return self.r, self.g, self.b, self.a end
-            return {data = data, texture = texture}
-        end
-
-        local function Color(icon)
-            return {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a}
+        local function MapIcon(data)
+            return {data = data, texture = {GetVertexColor = function(self) return 1, 1, 1, self.a end, a = 1}}
         end
 
         before_each(function()
-            pins, order, enumerations = {}, {}, 0
-            savedLibStub = _G.LibStub
-            _G.LibStub = function()
-                return {worldmapProvider = {GetMap = function()
-                    return {EnumeratePinsByTemplate = function()
-                        enumerations = enumerations + 1
-                        local i = 0
-                        return function()
-                            i = i + 1
-                            return pins[i] and {icon = pins[i]}
-                        end
-                    end}
-                end}}
-            end
-            dofile("Modules/FramePool/QuestieFrame.lua")
-            QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
-            QuestieLoader:ImportModule("MapIconTooltip").ShowOnTooltip = function(icon, tooltip)
-                order[#order + 1] = {"tooltip", icon, tooltip}
-            end
+            order = {}
+            IconHighlight.Spotlight = function(icon) order[#order + 1] = {"spotlight", icon} end
+            IconHighlight.EndSpotlight = function(data) order[#order + 1] = {"end spotlight", data} end
+            MapIconTooltip.ShowOnTooltip = function(icon, tooltip) order[#order + 1] = {"tooltip", icon, tooltip} end
+            QuestieFrame.Subscribe("HoverStart", function(icon) order[#order + 1] = {"hover start", icon} end)
+            QuestieFrame.Subscribe("HoverEnd", function(icon, data) order[#order + 1] = {"hover end", icon, data} end)
         end)
 
-        after_each(function()
-            _G.LibStub = savedLibStub
-        end)
+        local function Steps()
+            local steps = {}
+            for i, step in ipairs(order) do steps[i] = step[1] end
+            return steps
+        end
 
-        it("starts the hover before the tooltip, and neither for an icon faded out to nothing", function()
-            local icon = MapIcon({Id = 123, Type = "monster"}, {1, 1, 1, 1})
-            QuestieFrame.Subscribe("HoverStart", function(hovered) order[#order + 1] = {"hover", hovered} end)
+        it("starts the hover, then its quest's spotlight, then the tooltip, and none for an icon faded out to nothing", function()
+            local icon = MapIcon({Id = 123, Type = "monster"})
 
             QuestieFrame.private.OnEnter(icon)
-            assert.are.equal(2, #order)
-            assert.are.same({"hover", "tooltip"}, {order[1][1], order[2][1]})
-            assert.are.equal(icon, order[1][2])
+            assert.are.same({"hover start", "spotlight", "tooltip"}, Steps())
             assert.are.equal(icon, order[2][2])
-            assert.are.equal(GameTooltip, order[2][3])
+            assert.are.equal(GameTooltip, order[3][3])
 
+            order = {}
             icon.texture.a = 0
             QuestieFrame.private.OnEnter(icon)
-            assert.are.equal(2, #order)
-        end)
-
-        it("lets HoverStart listeners finish before tinting the quest's icons", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon = MapIcon(data, {1, 0.5, 0, 1})
-            -- Still tinted by another hover of the quest, which a listener ends.
-            local sibling = MapIcon({Id = 123, Type = "item"}, {0.6, 1, 1, 1})
-            local giver = MapIcon({Id = 123, Type = "available"}, {1, 1, 0, 1})
-            local hidden = MapIcon({Id = 123, Type = "item"}, {0, 0, 1, 1})
-            hidden.hidden = true
-            local otherQuest = MapIcon({Id = 456, Type = "monster"}, {1, 0, 0, 1})
-            pins = {icon, sibling, giver, hidden, otherQuest}
-            QuestieFrame.Subscribe("HoverStart", function() sibling.texture:SetVertexColor(0, 1, 0, 1) end)
-
-            QuestieFrame.ApplyHoverHighlights(icon)
-
-            -- Without objective colors, tinted icons turn blueish.
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            assert.are.same({0.6, 1, 1, 1}, Color(sibling))
-            assert.are.same({1, 1, 0, 1}, Color(giver))
-            assert.are.same({0, 0, 1, 1}, Color(hidden))
-            assert.are.same({1, 0, 0, 1}, Color(otherQuest))
-            -- The colors kept are those after the listeners.
-            QuestieFrame.ResetHoverHighlights(icon)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
-
-            -- A minimap icon's hover tints nothing.
-            local minimapIcon = MapIcon({Id = 123, Type = "monster"}, {1, 1, 1, 1})
-            minimapIcon.miniMapIcon = true
-            QuestieFrame.ApplyHoverHighlights(minimapIcon)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-        end)
-
-        it("keeps the colors to restore when the hover starts again before its reset", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon = MapIcon(data, {1, 0.5, 0, 1})
-            pins = {icon}
-
-            -- A path's hover starts it, then the icon's own hover, with no reset between.
-            QuestieFrame.ApplyHoverHighlights(icon)
-            QuestieFrame.ApplyHoverHighlights(icon)
-            QuestieFrame.ResetHoverHighlights(icon)
-
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-        end)
-
-        it("tints a quest once for as long as any of its overlapping hovers lasts", function()
-            local first, second = {Id = 123, Type = "monster"}, {Id = 123, Type = "item"}
-            local icon, sibling = MapIcon(first, {1, 0.5, 0, 1}), MapIcon(second, {0, 1, 0, 1})
-            pins = {icon, sibling}
-
-            -- The gamepad's hover still shows for a moment as the mouse starts another; a tracker
-            -- preview hovers all of an objective's markers at once.
-            QuestieFrame.ApplyHoverHighlights(icon)
-            QuestieFrame.ApplyHoverHighlights(sibling)
-            assert.are.equal(1, enumerations)
-            QuestieFrame.ResetHoverHighlights(icon)
-            assert.are.same({0.6, 1, 1, 1}, Color(sibling))
-            QuestieFrame.ResetHoverHighlights(sibling)
-
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
-        end)
-
-        it("restores one quest's tint before another quest's hover tints its icons", function()
-            local icon, otherQuest = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1}), MapIcon({Id = 456, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, otherQuest}
-            QuestieFrame.ApplyHoverHighlights(icon)
-            QuestieFrame.ApplyHoverHighlights(otherQuest)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0.6, 1, 1, 1}, Color(otherQuest))
-
-            QuestieFrame.ResetHoverHighlights(icon)
-            assert.are.same({0.6, 1, 1, 1}, Color(otherQuest))
-            QuestieFrame.ResetHoverHighlights(otherQuest)
-            assert.are.same({0, 1, 0, 1}, Color(otherQuest))
-        end)
-
-        it("tints one icon for as long as any of its tints holds it, its quest's hover included", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            local area = {}
-
-            -- A quest area's hover tints its marker alone.
-            QuestieFrame.TintIcon(icon, area)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
-            -- The cursor reaches the marker: its quest tints too, and then the area's hover ends.
-            QuestieFrame.ApplyHoverHighlights(icon)
-            QuestieFrame.UntintIcon(icon, area)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            QuestieFrame.ResetHoverHighlights(icon)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
-
-            -- And the other way round.
-            QuestieFrame.ApplyHoverHighlights(icon)
-            QuestieFrame.TintIcon(icon, area)
-            QuestieFrame.ResetHoverHighlights(icon)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            QuestieFrame.UntintIcon(icon, area)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-
-            -- A tint left on an icon the pool hands out for other data has no say over its new color.
-            QuestieFrame.TintIcon(icon, area)
-            icon.data = {Id = 7, Type = "item"}
-            icon.texture:SetVertexColor(0, 0, 1, 1)
-            local other = {}
-            QuestieFrame.TintIcon(icon, other)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            QuestieFrame.UntintIcon(icon, area)
-            QuestieFrame.UntintIcon(icon, other)
-            assert.are.same({0, 0, 1, 1}, Color(icon))
-        end)
-
-        it("keeps an icon's own opacity under an icon tint, such as a minimap icon's distance fade", function()
-            local icon = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 0.5})
-            icon.miniMapIcon = true
-            local area = {}
-            QuestieFrame.TintIcon(icon, area)
-            assert.are.same({0.6, 1, 1, 0.5}, Color(icon))
-            -- The player walks into fade range meanwhile.
-            icon.texture:SetVertexColor(0.6, 1, 1, 1)
-            QuestieFrame.UntintIcon(icon, area)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-
-            -- Minimap icons follow the minimap's objective color setting.
-            Questie.db.profile.questMinimapObjectiveColors = true
-            QuestieFrame.TintIcon(icon, area)
-            assert.are.same({1, 1, 1, 1}, Color(icon))
-            Questie.db.profile.questMinimapObjectiveColors = nil
-        end)
-
-        it("puts back a tint a redraw undid when tinted again", function()
-            local icon = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1})
-            pins = {icon}
-            local area = {}
-            QuestieFrame.TintIcon(icon, area)
-            icon.texture:SetVertexColor(1, 0.5, 0, 1) -- A progress update draws the marker anew.
-            QuestieFrame.TintIcon(icon, area)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            -- So does its quest's hover starting, which also shows it fully opaque.
-            icon.texture:SetVertexColor(1, 0.5, 0, 0.4)
-            QuestieFrame.ApplyHoverHighlights(icon)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            QuestieFrame.ResetHoverHighlights(icon)
-            QuestieFrame.UntintIcon(icon, area)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-        end)
-
-        it("keeps a fade or a redraw made during the tint when restoring", function()
-            local icon, sibling = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            QuestieFrame.ApplyHoverHighlights(icon)
-            -- FadeOut keeps the tinted color and lowers the opacity; a redraw sets the icon's own color.
-            icon.faded = true
-            icon.texture:SetVertexColor(0.6, 1, 1, 0.3)
-            sibling.texture:SetVertexColor(0.2, 0.2, 0.2, 1)
-
-            QuestieFrame.ResetHoverHighlights(icon)
-
-            assert.are.same({1, 0.5, 0, 0.3}, Color(icon))
-            assert.are.same({0.2, 0.2, 0.2, 1}, Color(sibling))
+            assert.are.same({}, order)
         end)
 
         it("ends the cursor's hover with the data it started with, though the pool handed the icon out since", function()
             local data = {Id = 123, Type = "monster"}
-            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            local ended
-            QuestieFrame.Subscribe("HoverEnd", function(_, endedData) ended = endedData end)
-
+            local icon = MapIcon(data)
             QuestieFrame.private.OnEnter(icon)
+            order = {}
+
             icon.data = {Id = 7, Type = "complete"}
             QuestieFrame.private.OnLeave(icon)
 
-            assert.are.equal(data, ended)
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
+            -- The spotlight ends first, so HoverEnd listeners see the quest's icons put back.
+            assert.are.same({"end spotlight", "hover end"}, Steps())
+            assert.are.equal(data, order[1][2])
+            assert.are.equal(icon, order[2][2])
+            assert.are.equal(data, order[2][3])
         end)
 
-        it("ends the hover with the data it started with, after restoring the colors it tinted", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            local ended
-            QuestieFrame.Subscribe("HoverEnd", function(endedIcon, endedData)
-                ended = {icon = endedIcon, data = endedData, siblingColor = Color(sibling)}
-            end)
-            QuestieFrame.ApplyHoverHighlights(icon)
-            -- The pool handed the hovered icon out for other data before the hover ended.
-            icon.data = {}
-
-            QuestieFrame.ResetHoverHighlights(icon, data)
-
-            assert.are.equal(icon, ended.icon)
-            assert.are.equal(data, ended.data)
-            assert.are.same({0, 1, 0, 1}, ended.siblingColor)
-        end)
-
-        it("leaves an icon the pool handed out for other data since with its own color", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            QuestieFrame.ApplyHoverHighlights(icon)
-            sibling.data = {Id = 7, Type = "complete"}
-            sibling.texture:SetVertexColor(1, 1, 0, 1)
-
-            QuestieFrame.ResetHoverHighlights(icon)
-
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({1, 1, 0, 1}, Color(sibling))
-        end)
-    end)
-
-    describe("ResetHoverHighlights", function()
-        it("ends a hover that tinted nothing", function()
-            local ended
-            QuestieFrame.Subscribe("HoverEnd", function(icon) ended = icon end)
+        it("ends a hover with the icon's data when given none", function()
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
-            assert.are.equal(QuestieFrameInstance, ended)
+
+            assert.are.same({"end spotlight", "hover end"}, Steps())
+            assert.are.equal(QuestieFrameInstance.data, order[1][2])
+            assert.are.equal(QuestieFrameInstance, order[2][2])
         end)
     end)
 

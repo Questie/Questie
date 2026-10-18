@@ -56,6 +56,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieFrame
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+---@type IconHighlight
+local IconHighlight = QuestieLoader:ImportModule("IconHighlight")
 ---@type WorldMapLayers
 local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
 ---@type QuestieCompat
@@ -455,23 +457,23 @@ end
 -- areas. Only areas the objective shows hover: areas drawn just as a preview, while their marker, the
 -- quest log or the tracker is hovered, go with the preview.
 
--- Each map's area hover tints its markers' icons as a tint of its own.
+-- Each map's area hover marks its markers' icons with a mark of its own.
 ---@type table<PolygonHoverSurface, table>
-local AREA_TINTS = {map = {}, minimap = {}}
----@type table<PolygonHoverSurface, table<IconFrame, true>> The icons each map's area hover tints.
-local areaTinted = {map = {}, minimap = {}}
+local AREA_MARKS = {map = {}, minimap = {}}
+---@type table<PolygonHoverSurface, table<IconFrame, true>> The icons each map's area hover marks.
+local areaMarked = {map = {}, minimap = {}}
 
 ---@param surface PolygonHoverSurface
 ---@param frames IconFrame[] The hovered shown areas' marker icons on that map.
-local function _UpdateAreaTints(surface, frames)
-    local holder, tinted, now = AREA_TINTS[surface], areaTinted[surface], {}
+local function _UpdateAreaMarks(surface, frames)
+    local holder, marked, now = AREA_MARKS[surface], areaMarked[surface], {}
     for _, frame in ipairs(frames) do now[frame] = true end
-    for frame in pairs(tinted) do
-        if not now[frame] then QuestieFrame.UntintIcon(frame, holder) end
+    for frame in pairs(marked) do
+        if not now[frame] then IconHighlight.Unmark(frame, holder) end
     end
-    -- Every check tints again, which puts back a tint a redraw of the marker undid meanwhile.
-    for frame in pairs(now) do QuestieFrame.TintIcon(frame, holder) end
-    areaTinted[surface] = now
+    -- Every check marks again, which puts back a mark a redraw of the marker undid meanwhile.
+    for frame in pairs(now) do IconHighlight.Mark(frame, holder) end
+    areaMarked[surface] = now
 end
 
 ---Hears every icon hover starting: the icon opens its own tooltip, so the area tooltips step aside
@@ -564,7 +566,7 @@ local function _HoverMapAreas(shapes, x, y)
             end
         end
     end
-    _UpdateAreaTints("map", frames)
+    _UpdateAreaMarks("map", frames)
     _UpdateAreaTooltip("map", owner, GameTooltip, frames, function()
         -- Around the cursor on the first hovered marker's own map, as around a hovered icon.
         local marker = frames[1]
@@ -595,7 +597,7 @@ local function _HoverMinimapAreas(markers, worldX, worldY)
             end
         end
     end
-    _UpdateAreaTints("minimap", frames)
+    _UpdateAreaMarks("minimap", frames)
     _UpdateAreaTooltip("minimap", minimapLayer.owner, MapIconTooltip.MinimapTooltip(), frames, function()
         -- Around the cursor on the first hovered marker's own map, as around a hovered minimap icon.
         local marker = frames[1]
@@ -693,7 +695,7 @@ local function _UnloadMinimapIcons(marker)
 end
 
 local function _ReleaseMarkers(entry)
-    -- Its markers' tint and route highlights end with them, though the control previewing them is still hovered.
+    -- Its markers' spotlight and route highlights end with them, though the control previewing them is still hovered.
     _EndPreviewHovers(entry)
     if renderCache then
         local released, err = pcall(renderCache.Release, renderCache, entry)
@@ -860,11 +862,11 @@ end
 ---ignores icons that are not polygon markers.
 local function _FollowIcons()
     QuestieFrame.Subscribe("Unload", function(frame)
-        -- The pool may hand the frame out again at once: an area hover's tint of it ends now.
-        for surface, tinted in pairs(areaTinted) do
-            if tinted[frame] then
-                tinted[frame] = nil
-                QuestieFrame.UntintIcon(frame, AREA_TINTS[surface])
+        -- The pool may hand the frame out again at once: an area hover's mark of it ends now.
+        for surface, marked in pairs(areaMarked) do
+            if marked[frame] then
+                marked[frame] = nil
+                IconHighlight.Unmark(frame, AREA_MARKS[surface])
             end
         end
         QuestiePolygon.MarkerRemoved(frame)
@@ -1003,7 +1005,7 @@ function QuestiePolygon.SetQuestAreasShown(questId, shown)
 end
 
 ---Previews an objective from a quest log or tracker control, as if each of its markers were hovered:
----its quest's icons tint, its routes highlight, and its areas show with every cluster highlighted.
+---its quest's icons light up, its routes highlight, and its areas show with every cluster highlighted.
 ---Clearing works even after the objective lost its areas or markers.
 ---@param questId QuestId
 ---@param objectiveIndex ObjectiveIndex

@@ -43,7 +43,7 @@ local _SetMode, _OnClickQuest, _OnClickAchieve
 local lineMarginLeft = 10
 
 -- Hovering a quest objective previews it on the world map and minimap, as the quest log does: its
--- areas, its quest's tinted icons and its routes. Hovering a quest's title previews every objective.
+-- areas, its quest's icons in the spotlight and its routes. Hovering a quest's title previews every objective.
 -- The previewed identity is captured: a tracker rebuild can reassign this pooled line before the
 -- cursor leaves. Achievement and scenario lines carry no quest objective.
 ---@param line TrackerLineFrame

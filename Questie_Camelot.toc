@@ -177,6 +177,7 @@ Modules\Map\GamepadMapHover.lua
 Modules\Map\WeaponMasterSkills.lua
 Modules\Map\Moonwell.lua
 Modules\Map\WorldMapLayers.lua
+Modules\Map\IconHighlight.lua
 Modules\Map\MapGeometry.lua
 Modules\Map\MinimapCanvas.lua
 

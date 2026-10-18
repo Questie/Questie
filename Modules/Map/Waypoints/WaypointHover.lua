@@ -51,7 +51,7 @@ local function _Enter(path, icon)
 end
 
 ---Closes the hovered path's tooltip, or leaves it to whoever took it over, and ends its highlight.
----The tooltip highlights the NPC's paths and tints its icons; ResetHoverHighlights resets both, with
+---The hover highlights the NPC's paths and spotlights its quest; ResetHoverHighlights ends both, with
 ---the path's own data, since an icon unloaded while hovered may show something else by now.
 ---@param path WaypointPath
 ---@param on WaypointHoverSurface The map the path was hovered on.
@@ -106,7 +106,7 @@ function WaypointHover.Set(on, path, icon)
 end
 
 ---Ends a path hover before an icon's tooltip opens, so the path's tooltip changes are undone first.
----Called from QuestieWaypoints' HoverStart listener, before the icon's tints. On the world map, the
+---Called from QuestieWaypoints' HoverStart listener, before the icon's spotlight. On the world map, the
 ---icon the hover opened keeps its tooltip; on the minimap, the icon's tooltip replaces the path's.
 ---@param icon IconFrame
 function WaypointHover.End(icon)
