@@ -602,6 +602,42 @@ describe("QuestEventHandler", function()
             assert.is_false(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
             assert.spy(QuestieQuest.UpdateQuest).was.not_called()
         end)
+
+        describe("after a turn-in", function()
+            before_each(function()
+                _G.C_Timer.NewTicker = function() return {Cancel = function() end} end
+                _G.GetNumQuestLogRewards = function() return 0 end
+                _G.GetQuestLogRewardInfo = function() return nil end
+                QuestieDB.QueryQuestSingle = function() return nil end
+                QuestLogCache.RemoveQuest = spy.new(function() end)
+                QuestLifecycle.CompleteQuest = spy.new(function() end)
+                QuestieJourney.CompleteQuest = spy.new(function() end)
+                QuestieAnnounce.CompletedQuest = spy.new(function() end)
+            end)
+
+            -- E.g. a repeatable taken again after a turn-in whose QUEST_REMOVED came first, its QUEST_ACCEPTED missed.
+            it("adopts the quest again once it has left the log", function()
+                QuestEventHandler.QuestRemoved(UNLISTED_ID)
+                QuestEventHandler.QuestTurnedIn(UNLISTED_ID, 0, 0)
+
+                QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+                QuestEventHandler.QuestLogUpdate()
+
+                assert.is_true(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+                assert.spy(QuestLifecycle.AdoptQuest).was.called_with(QuestLifecycle, UNLISTED_ID)
+            end)
+
+            it("does not adopt a turned-in quest still in the log before its QUEST_REMOVED", function()
+                QuestEventHandler.InitQuestLogStates({[UNLISTED_ID] = true})
+                QuestEventHandler.QuestTurnedIn(UNLISTED_ID, 0, 0)
+
+                QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+                QuestEventHandler.QuestLogUpdate()
+
+                assert.is_false(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+                assert.spy(QuestLifecycle.AdoptQuest).was.not_called()
+            end)
+        end)
     end)
 
     it("should handle QUEST_AUTOCOMPLETE", function()

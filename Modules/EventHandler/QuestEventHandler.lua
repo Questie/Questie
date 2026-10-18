@@ -437,6 +437,9 @@ function QuestEventHandler.QuestRemoved(questId)
     -- was abandoned
     questLog[questId] = {
         state = QUEST_LOG_STATES.QUEST_REMOVED,
+        -- Kept when QUEST_TURNED_IN comes after: the quest has left the game's log, so a scan finding it there again
+        -- has found a new acceptance.
+        leftLog = true,
         timer = C_Timer.NewTicker(1, function()
             _QuestEventHandler:MarkQuestAsAbandoned(questId)
         end, 1)
@@ -589,9 +592,12 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     -- A quest can join the game's log without a QUEST_ACCEPTED Questie saw: the server's quest log arrived after
     -- startup filled the cache, or the accept fired before the event was registered. Adopt it as at login, without a
     -- Journey entry or announcement: Questie cannot tell a missed accept from a quest the log already had.
+    -- A quest turned in after its QUEST_REMOVED keeps its entry, e.g. for a late QUEST_TURNED_IN, and can be adopted
+    -- too. Between a QUEST_TURNED_IN and its QUEST_REMOVED the quest is still in the log: it is not adopted again.
     local adopted = {}
     for questId in pairs(questIdsUnlisted or {}) do
-        if not questLog[questId] then
+        local entry = questLog[questId]
+        if not entry or (entry.state == QUEST_LOG_STATES.QUEST_TURNED_IN and entry.leftLog) then
             adopted[questId] = true
         end
     end
