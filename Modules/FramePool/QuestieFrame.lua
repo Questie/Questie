@@ -118,6 +118,7 @@ function QuestieFrame.CreateIconFrame(frameId)
     ---@field AreaID AreaId?
     ---@field isManualIcon boolean
     ---@field texture IconTexture Its alpha (`texture.a`) is 0 for an icon faded out entirely, which is not there to hover.
+    ---@field glowScale number? How much IconHighlight grows its glow ring while it is lit or grown; nil for the usual size.
     ---@field _loaded boolean? The draw queue added it to HereBeDragons; until then it is on no map.
     ---@field _hidden_by_flash boolean? Hidden while the tracker's Show on Map flashes another objective.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
@@ -205,13 +206,13 @@ function QuestieFrame.CreateIconFrame(frameId)
 end
 
 ---Starts what hovering an icon shows besides its tooltip: each feature's HoverStart listeners, such
----as its NPC's path highlight or a polygon marker's area preview, then its quest's spotlight.
----Listeners run first, so a path hover they end puts its icons back before the spotlight lights them.
----ResetHoverHighlights undoes it all.
+---as its NPC's path highlight or a polygon marker's area preview, then IconHighlight's: the icon grows
+---and its quest goes in the spotlight. Listeners run first, so a path hover they end puts its icons
+---back before the spotlight lights them. ResetHoverHighlights undoes it all.
 ---@param icon IconFrame
 function QuestieFrame.ApplyHoverHighlights(icon)
     _Emit("HoverStart", icon)
-    IconHighlight.Spotlight(icon)
+    IconHighlight.StartHover(icon)
 end
 
 ---The icon's OnEnter. An icon faded out to nothing is not there to hover: it starts no hover and
@@ -237,7 +238,7 @@ function _QuestieFrame.OnLeave(self)
     QuestieFrame.ResetHoverHighlights(self, data)
 end
 
----Undoes what hovering an icon changed: its quest's spotlight, then each feature's HoverEnd
+---Undoes what hovering an icon changed: IconHighlight's, then each feature's HoverEnd
 ---listeners, such as its NPC's path highlight or a polygon marker's area preview. Every way an icon
 ---hover ends calls it: the icon's OnLeave, a path hover ending (WaypointHover), a tracker or quest log
 ---preview ending (QuestiePolygon), and the gamepad cursor moving on (GamepadMapHover).
@@ -245,7 +246,7 @@ end
 ---@param data IconData? The data it was hovered with; icon.data when nil.
 function QuestieFrame.ResetHoverHighlights(icon, data)
     data = data or icon.data
-    if data then IconHighlight.EndSpotlight(data) end
+    if data then IconHighlight.EndHover(icon, data) end
     _Emit("HoverEnd", icon, data)
 end
 
@@ -328,13 +329,23 @@ function _QuestieFrame.OnClick(self, button)
     end
 end
 
+---The glow ring's size: a little larger than the icon, and larger still while IconHighlight grows it.
+---@param self IconFrame
+---@return number width
+---@return number height
+local function _GlowSize(self)
+    local scale = 1.13 * (self.glowScale or 1)
+    return self:GetWidth() * scale, self:GetHeight() * scale
+end
+
 ---@param self IconFrame
 function _QuestieFrame.GlowUpdate(self)
     if self.glowTexture:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
-        if (self.glowTexture:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glowTexture:GetHeight() ~= self:GetHeight() * 1.13
-            self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
+        local width, height = _GlowSize(self)
+        if self.glowTexture:GetWidth() ~= width then
+            self.glowTexture:SetSize(width, height)
         end
         if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color then
             --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
@@ -356,7 +367,7 @@ function _QuestieFrame.BaseOnShow(self)
         data.ObjectiveData.Color and
         (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
         ) then
-        self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
+        self.glowTexture:SetSize(_GlowSize(self))
         local _, _, _, alpha = self.texture:GetVertexColor()
         self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
         self.glowTexture:Show()
@@ -441,6 +452,7 @@ function _QuestieFrame.Unload(self)
     -- Features let the icon go at once, also while it is queued: what they draw for it shows without
     -- it. The draw queue's later call tells them again, for anything added to the icon meanwhile.
     _Emit("Unload", self)
+    IconHighlight.Forget(self)
     if not self._loaded then
         self._needsUnload = true
         return -- icon is still in the draw queue

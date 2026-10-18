@@ -53,8 +53,9 @@ describe("QuestieFrame", function()
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         MapIconTooltip.Release = spy.new(function() end)
         IconHighlight = QuestieLoader:ImportModule("IconHighlight")
-        IconHighlight.Spotlight = spy.new(function() end)
-        IconHighlight.EndSpotlight = spy.new(function() end)
+        IconHighlight.StartHover = spy.new(function() end)
+        IconHighlight.EndHover = spy.new(function() end)
+        IconHighlight.Forget = spy.new(function() end)
 
         dofile("Localization/l10n.lua")
         dofile("Modules/FramePool/QuestieFrame.lua")
@@ -174,6 +175,9 @@ describe("QuestieFrame", function()
 
             QuestieFrame.private.Unload(queued)
             assert.is_true(queued._needsUnload)
+            -- Its highlight goes at once too: the pool may hand it out again before the hover ends.
+            assert.spy(IconHighlight.Forget).was.called(1)
+            assert.are.equal(queued, IconHighlight.Forget.calls[1].refs[1])
             -- The draw queue reaches it and finishes the unload.
             queued._loaded = true
             QuestieFrame.private.Unload(queued)
@@ -272,6 +276,21 @@ describe("QuestieFrame", function()
         end)
     end)
 
+    it("keeps the glow ring as large as IconHighlight grew it through every glow update", function()
+        local glow = {IsShown = function() return true end, GetWidth = function(self) return self.width end,
+            SetSize = function(self, width, height) self.width, self.height = width, height end, SetVertexColor = function() end}
+        local icon = {glowTexture = glow, texture = {a = 1}, GetWidth = function() return 10 end, GetHeight = function() return 20 end}
+
+        icon.glowScale = 2
+        QuestieFrame.private.GlowUpdate(icon)
+        assert.are.near(22.6, glow.width, 1e-9)
+        assert.are.near(45.2, glow.height, 1e-9)
+        icon.glowScale = nil
+        QuestieFrame.private.GlowUpdate(icon)
+        assert.are.near(11.3, glow.width, 1e-9)
+        assert.are.near(22.6, glow.height, 1e-9)
+    end)
+
     describe("hovering", function()
         local order
 
@@ -281,8 +300,8 @@ describe("QuestieFrame", function()
 
         before_each(function()
             order = {}
-            IconHighlight.Spotlight = function(icon) order[#order + 1] = {"spotlight", icon} end
-            IconHighlight.EndSpotlight = function(data) order[#order + 1] = {"end spotlight", data} end
+            IconHighlight.StartHover = function(icon) order[#order + 1] = {"highlight", icon} end
+            IconHighlight.EndHover = function(icon, data) order[#order + 1] = {"end highlight", icon, data} end
             MapIconTooltip.ShowOnTooltip = function(icon, tooltip) order[#order + 1] = {"tooltip", icon, tooltip} end
             QuestieFrame.Subscribe("HoverStart", function(icon) order[#order + 1] = {"hover start", icon} end)
             QuestieFrame.Subscribe("HoverEnd", function(icon, data) order[#order + 1] = {"hover end", icon, data} end)
@@ -294,11 +313,11 @@ describe("QuestieFrame", function()
             return steps
         end
 
-        it("starts the hover, then its quest's spotlight, then the tooltip, and none for an icon faded out to nothing", function()
+        it("starts the hover, then its highlight, then the tooltip, and none for an icon faded out to nothing", function()
             local icon = MapIcon({Id = 123, Type = "monster"})
 
             QuestieFrame.private.OnEnter(icon)
-            assert.are.same({"hover start", "spotlight", "tooltip"}, Steps())
+            assert.are.same({"hover start", "highlight", "tooltip"}, Steps())
             assert.are.equal(icon, order[2][2])
             assert.are.equal(GameTooltip, order[3][3])
 
@@ -317,9 +336,9 @@ describe("QuestieFrame", function()
             icon.data = {Id = 7, Type = "complete"}
             QuestieFrame.private.OnLeave(icon)
 
-            -- The spotlight ends first, so HoverEnd listeners see the quest's icons put back.
-            assert.are.same({"end spotlight", "hover end"}, Steps())
-            assert.are.equal(data, order[1][2])
+            -- The highlight ends first, so HoverEnd listeners see the quest's icons put back.
+            assert.are.same({"end highlight", "hover end"}, Steps())
+            assert.are.same({icon, data}, {order[1][2], order[1][3]})
             assert.are.equal(icon, order[2][2])
             assert.are.equal(data, order[2][3])
         end)
@@ -327,8 +346,8 @@ describe("QuestieFrame", function()
         it("ends a hover with the icon's data when given none", function()
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
 
-            assert.are.same({"end spotlight", "hover end"}, Steps())
-            assert.are.equal(QuestieFrameInstance.data, order[1][2])
+            assert.are.same({"end highlight", "hover end"}, Steps())
+            assert.are.equal(QuestieFrameInstance.data, order[1][3])
             assert.are.equal(QuestieFrameInstance, order[2][2])
         end)
     end)

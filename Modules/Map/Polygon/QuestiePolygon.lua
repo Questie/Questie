@@ -477,12 +477,14 @@ local function _UpdateAreaMarks(surface, frames)
 end
 
 ---Hears every icon hover starting: the icon opens its own tooltip, so the area tooltips step aside
----at once, such as the minimap's beside a minimap icon's.
+---at once, such as the minimap's beside a minimap icon's. Areas fade with their markers, which the
+---hover's spotlight dims for other quests, so they are drawn again.
 ---@param frame IconFrame
 local function _OnHoverStart(frame)
     _ReleaseAreaTooltip("map")
     _ReleaseAreaTooltip("minimap")
     QuestiePolygon.EnterMarker(frame)
+    QuestiePolygon.ScheduleRefresh()
 end
 
 -- Area tooltip
@@ -880,8 +882,10 @@ local function _FollowIcons()
     end)
     QuestieFrame.Subscribe("HoverStart", _OnHoverStart)
     -- A recycled icon's old marker ended its preview when it unloaded; a new marker's is not this hover's.
+    -- Areas are drawn again either way, as the hover's spotlight no longer dims their markers.
     QuestieFrame.Subscribe("HoverEnd", function(frame, data)
         if frame.data == data then QuestiePolygon.LeaveMarker(frame) end
+        QuestiePolygon.ScheduleRefresh()
     end)
     QuestieFrame.Subscribe("Click", QuestiePolygon.ToggleMarker)
 end
