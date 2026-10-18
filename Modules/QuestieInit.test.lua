@@ -180,6 +180,16 @@ describe("QuestieInit", function()
             assert.are_same({}, mock.setLocaleCalls)
         end)
 
+        it("rejects a provider without icon types before forwarding or publishing corrections", function()
+            mock.lib.Enum.iconTypes = nil
+
+            assert.has_error(function() _RunStage(1) end,
+                "Questie requires QuestieDB contract 4; installed QuestieDB version: 1.1.1. " ..
+                "The provider icon types are unavailable. Update QuestieDB and reload.")
+            assert.are_same({"l10n.InitializeUILocale"}, callOrder)
+            assert.are_same({}, mock.setLocaleCalls)
+        end)
+
         it("rejects an incomplete faction mask table before forwarding or publishing corrections", function()
             mock.lib.Enum.factionRaceMasks.Horde = nil
 
