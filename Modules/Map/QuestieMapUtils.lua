@@ -6,44 +6,56 @@ QuestieMap.utils = QuestieMap.utils or {}
 -- All the speed we can get is worth it.
 local pairs = pairs
 
--- FrameLevel to be added for the icon based on its icon type.
--- ! Order of these in the table must be the same as values of the constants Questie.ICON_TYPE_* in Questie.lua
-local DRAW_ORDER_BY_ICON_TYPE_LOOKUP = {
-    0, -- ICON_TYPE_SLAY
-    0, -- ICON_TYPE_LOOT
-    0, -- ICON_TYPE_EVENT
-    0, -- ICON_TYPE_OBJECT
-    0, -- ICON_TYPE_TALK
-    1, -- ICON_TYPE_AVAILABLE
-    0, -- ICON_TYPE_AVAILABLE_GRAY
-    3, -- ICON_TYPE_COMPLETE
-    0, -- ICON_TYPE_GLOW
-    2, -- ICON_TYPE_REPEATABLE
-    3, -- ICON_TYPE_REPEATABLE_COMPLETE
-    0, -- ICON_TYPE_INCOMPLETE
-    2, -- ICON_TYPE_EVENTQUEST
-    3, -- ICON_TYPE_EVENTQUEST_COMPLETE
-    2, -- ICON_TYPE_PVPQUEST
-    3, -- ICON_TYPE_PVPQUEST_COMPLETE
-    0, -- ICON_TYPE_INTERACT
-    3, -- ICON_TYPE_SODRUNE
-    0, -- ICON_TYPE_MOUNT_UP
-    0, -- ICON_TYPE_NODE_FISH
-    0, -- ICON_TYPE_NODE_HERB
-    0, -- ICON_TYPE_NODE_ORE
-    0, -- ICON_TYPE_CHEST
-    0, -- ICON_TYPE_PET_BATTLE
+-- How far in front each icon type draws among the quest icons, 0 to 3. Every one of QuestieDB's icon
+-- types is listed, by name and grouped as QuestieDB groups them: the numbers live in its enum alone,
+-- which loads before Questie.
+local DRAW_ORDER_BY_ICON_NAME = {
+    -- Objective actions
+    ICON_TYPE_SLAY = 0,
+    ICON_TYPE_LOOT = 0,
+    ICON_TYPE_EVENT = 0,
+    ICON_TYPE_OBJECT = 0,
+    ICON_TYPE_TALK = 0,
+    ICON_TYPE_INTERACT = 0,
+    ICON_TYPE_MOUNT_UP = 0,
+
+    -- Quest availability, completion and variants
+    ICON_TYPE_AVAILABLE = 1,
+    ICON_TYPE_AVAILABLE_GRAY = 0,
+    ICON_TYPE_COMPLETE = 3,
+    ICON_TYPE_GLOW = 0,
+    ICON_TYPE_REPEATABLE = 2,
+    ICON_TYPE_REPEATABLE_COMPLETE = 3,
+    ICON_TYPE_INCOMPLETE = 0,
+    ICON_TYPE_EVENTQUEST = 2,
+    ICON_TYPE_EVENTQUEST_COMPLETE = 3,
+    ICON_TYPE_PVPQUEST = 2,
+    ICON_TYPE_PVPQUEST_COMPLETE = 3,
+
+    -- Gathering nodes and treasure
+    ICON_TYPE_NODE_FISH = 0,
+    ICON_TYPE_NODE_HERB = 0,
+    ICON_TYPE_NODE_ORE = 0,
+    ICON_TYPE_CHEST = 0,
+
+    -- Runes and pet battles
+    ICON_TYPE_SODRUNE = 3,
+    ICON_TYPE_PET_BATTLE = 0,
 }
 
--- Maximum value used in the above table. (value, not key/index)
+-- Notes, such as townsfolk, are drawn from a texture rather than an icon type. They all draw at this
+-- order, below every quest icon.
+local NOTE_DRAW_ORDER = 0
+
+local iconTypes = LibQuestieDB and LibQuestieDB.Enum and LibQuestieDB.Enum.iconTypes or {}
+---@type table<number, number>
+local DRAW_ORDER_BY_ICON_TYPE = {}
+-- One more than the highest draw order, so it also counts them.
 local MAX_DRAW_ORDER_BY_ICON_TYPE = 0
-for _, v in pairs(DRAW_ORDER_BY_ICON_TYPE_LOOKUP) do
-    if v > MAX_DRAW_ORDER_BY_ICON_TYPE then
-        MAX_DRAW_ORDER_BY_ICON_TYPE = v
-    end
+for name, order in pairs(DRAW_ORDER_BY_ICON_NAME) do
+    if iconTypes[name] then DRAW_ORDER_BY_ICON_TYPE[iconTypes[name]] = order end
+    MAX_DRAW_ORDER_BY_ICON_TYPE = math.max(MAX_DRAW_ORDER_BY_ICON_TYPE, order + 1)
 end
--- Add +1 here to make code that uses the value more efficient.
-MAX_DRAW_ORDER_BY_ICON_TYPE = MAX_DRAW_ORDER_BY_ICON_TYPE + 1
 
 -- Framelevel that is infront of all aboves
 local DRAW_ORDER_QUEST_COMPLETE = 2 * MAX_DRAW_ORDER_BY_ICON_TYPE
@@ -81,20 +93,36 @@ local function _BlockStart()
     return blockLevels and blockLevels:GetFrameLevelStart(BLOCK_TYPE)
 end
 
----The icon's tier, 0 to TIERS - 1.
+---@type table<unknown, true> Icon types without a draw order, each reported once.
+local reportedIconTypes = {}
+
+---The icon's tier, 0 to TIERS - 1: notes first, then the quest icons by their icon type's draw order,
+---and turn-ins on top.
 ---@param frame IconFrame
+---@param data IconData
 ---@return number
-local function _Tier(frame)
-    local data = frame.data
-    if data and data.Type == "complete" then return DRAW_ORDER_QUEST_COMPLETE end
-    return ((data and DRAW_ORDER_BY_ICON_TYPE_LOOKUP[data.Icon]) or 0)
-        + ((frame.isManualIcon and 0) or MAX_DRAW_ORDER_BY_ICON_TYPE) -- Notes are always below other icons
+local function _Tier(frame, data)
+    if data.Type == "complete" then return DRAW_ORDER_QUEST_COMPLETE end
+    if frame.isManualIcon then return NOTE_DRAW_ORDER end
+    local order = DRAW_ORDER_BY_ICON_TYPE[data.Icon]
+    if not order then
+        -- An icon type QuestieDB added after this list: drawn with the objectives until it is listed.
+        if not reportedIconTypes[data.Icon] then
+            reportedIconTypes[data.Icon] = true
+            Questie.Error("No map draw order for icon type", tostring(data.Icon))
+        end
+        order = DRAW_ORDER_BY_ICON_NAME.ICON_TYPE_SLAY
+    end
+    return MAX_DRAW_ORDER_BY_ICON_TYPE + order
 end
 
 ---Sets the icon's frame level from its tier, its place on its map and whether it is grown. HereBeDragons
 ---sets the parent frame and strata; the level stays fixed as the parent changes.
 ---@param frame IconFrame
 function QuestieMap.utils.SetDrawOrder(frame)
+    local data = frame.data
+    -- A pooled icon shows nothing; its next draw sets its level.
+    if not data then return end
     local frameLevel
     local start = (not frame.miniMapIcon) and _BlockStart()
     if start then
@@ -102,10 +130,10 @@ function QuestieMap.utils.SetDrawOrder(frame)
             frameLevel = start + BLOCK_RANGE - 1
         else
             local row = math.floor(math.min(math.max(frame.y or 0, 0), 100))
-            frameLevel = start + _Tier(frame) * Y_STEPS + row
+            frameLevel = start + _Tier(frame, data) * Y_STEPS + row
         end
     else
-        frameLevel = FIXED_LEVEL + (frame.pictureScale and TIERS or _Tier(frame))
+        frameLevel = FIXED_LEVEL + (frame.pictureScale and TIERS or _Tier(frame, data))
     end
 
     frame:SetFixedFrameLevel(false)

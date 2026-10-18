@@ -1,10 +1,12 @@
 dofile("setupTests.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieMapUtils", function()
     ---@type QuestieMap
     local QuestieMap
 
     before_each(function()
+        LoadQuestieDBMock()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         dofile("Modules/Map/QuestieMapUtils.lua")
     end)
@@ -88,9 +90,9 @@ describe("QuestieMapUtils", function()
             QuestieMap.utils.SetDrawOrder(manualFrame)
 
             -- Regular: 2016 + 1 + 4 = 2021
-            -- Manual: 2016 + 1 + 0 = 2017 (no MAX_DRAW_ORDER added)
+            -- Manual: 2016, the notes' own order, whatever icon a note shows
             assert.spy(regularSpy).was.called_with(regularFrame, 2021)
-            assert.spy(manualSpy).was.called_with(manualFrame, 2017)
+            assert.spy(manualSpy).was.called_with(manualFrame, 2016)
         end)
 
         it("should call SetFixedFrameLevel before and after setting frame level", function()
@@ -104,25 +106,37 @@ describe("QuestieMapUtils", function()
             assert.spy(setFixedSpy).was.called_with(frame, true)
         end)
 
-        it("should handle frames with no data gracefully", function()
+        it("leaves a pooled icon's level for its next draw", function()
             local frame = CreateMockFrame()
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
             QuestieMap.utils.SetDrawOrder(frame)
 
-            -- Should default to lowest level: 2016 + 0 + 4 = 2020
-            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
+            assert.spy(SetFrameLevelSpy).was.not_called()
         end)
 
-        it("should handle frames with nil data.Icon gracefully", function()
-            local frame = CreateMockFrame()
-            frame.data = {Type = "quest", Icon = nil}
+        it("has a draw order for every one of QuestieDB's icon types", function()
+            local savedError = Questie.Error
+            Questie.Error = spy.new(function() end)
+            for _, iconType in pairs(LibQuestieDB.Enum.iconTypes) do
+                QuestieMap.utils.SetDrawOrder(CreateMockFrameWithData(iconType, false))
+            end
+            assert.spy(Questie.Error).was.not_called()
+            Questie.Error = savedError
+        end)
+
+        it("reports an icon type without a draw order once, drawing it with the objectives", function()
+            local savedError = Questie.Error
+            Questie.Error = spy.new(function() end)
+            local frame, again = CreateMockFrameWithData(99, false), CreateMockFrameWithData(99, false)
             local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
             QuestieMap.utils.SetDrawOrder(frame)
+            QuestieMap.utils.SetDrawOrder(again)
 
-            -- Should default to 2016 + 0 + 4 = 2020
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2020)
+            assert.spy(Questie.Error).was.called(1)
+            Questie.Error = savedError
         end)
 
         it("should prioritize EVENTQUEST_COMPLETE icons correctly", function()
@@ -218,22 +232,21 @@ describe("QuestieMapUtils", function()
             assert.spy(completionSpy).was.called_with(completionFrame, 2024)
         end)
 
-        it("should handle manual icons with varying priorities correctly", function()
-            local manualLowPriorityFrame = CreateMockFrameWithData(1, false)
-            manualLowPriorityFrame.isManualIcon = true
-            local lowSpy = spy.on(manualLowPriorityFrame, "SetFrameLevel")
+        it("draws every note at the notes' order, whatever texture it shows", function()
+            local savedError = Questie.Error
+            Questie.Error = spy.new(function() end)
+            -- Townsfolk notes show a texture path or a texture file ID, never an icon type.
+            for _, texture in ipairs({"Interface\\Minimap\\tracking\\mailbox", 133634}) do
+                local frame = CreateMockFrameWithData(texture, false)
+                frame.isManualIcon = true
+                local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 
-            local manualHighPriorityFrame = CreateMockFrameWithData(6, false)
-            manualHighPriorityFrame.isManualIcon = true
-            local highSpy = spy.on(manualHighPriorityFrame, "SetFrameLevel")
+                QuestieMap.utils.SetDrawOrder(frame)
 
-            QuestieMap.utils.SetDrawOrder(manualLowPriorityFrame)
-            QuestieMap.utils.SetDrawOrder(manualHighPriorityFrame)
-
-            -- Low priority manual: 2016 + 0 + 0 = 2016
-            -- High priority manual: 2016 + 1 + 0 = 2017
-            assert.spy(lowSpy).was.called_with(manualLowPriorityFrame, 2016)
-            assert.spy(highSpy).was.called_with(manualHighPriorityFrame, 2017)
+                assert.spy(SetFrameLevelSpy).was.called_with(frame, 2016)
+            end
+            assert.spy(Questie.Error).was.not_called()
+            Questie.Error = savedError
         end)
 
         it("should detect Type complete regardless of other fields", function()
@@ -252,6 +265,24 @@ describe("QuestieMapUtils", function()
 
             -- Should still be at completion level (2016 + 8 = 2024)
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
+        end)
+
+        it("takes each icon type's number from QuestieDB's icon types", function()
+            local savedError = Questie.Error
+            Questie.Error = spy.new(function() end)
+            LibQuestieDB.Enum.iconTypes.ICON_TYPE_AVAILABLE = 99
+            dofile("Modules/Map/QuestieMapUtils.lua")
+            local renumbered, former = CreateMockFrameWithData(99, false), CreateMockFrameWithData(6, false)
+            local renumberedSpy, formerSpy = spy.on(renumbered, "SetFrameLevel"), spy.on(former, "SetFrameLevel")
+
+            QuestieMap.utils.SetDrawOrder(renumbered)
+            QuestieMap.utils.SetDrawOrder(former)
+
+            assert.spy(renumberedSpy).was.called_with(renumbered, 2021)
+            -- The old number is no icon type any more.
+            assert.spy(formerSpy).was.called_with(former, 2020)
+            assert.spy(Questie.Error).was.called(1)
+            Questie.Error = savedError
         end)
 
         it("should draw a grown icon above every tier", function()
