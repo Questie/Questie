@@ -1,4 +1,4 @@
--- luacheck: globals C_Texture BACKDROP_DIALOG_32_32 GameFontDisable GetBindingFromClick
+-- luacheck: globals C_Texture BACKDROP_DIALOG_32_32 GameFontDisable GetBindingFromClick InCombatLockdown
 -- luacheck: globals UserScaledFontGameHighlight UserScaledFontGameNormal UserScaledFontGameDisable
 
 -- Private, Lua-only confirmations and copyable text for any addon.
@@ -269,7 +269,7 @@ function Dialogs.Show(which, arg1, arg2, data)
   frame.active = true
   active[#active + 1] = frame
   frame:Resize()
-  frame:SetPropagateKeyboardInput(true)
+  frame:UpdateKeyboardHandling()
   frame:Show()
   frame:Raise()
   local ok = Call(definition.OnShow, frame, data)
@@ -313,18 +313,32 @@ function Dialogs.IsAnyDialogShown() return #active > 0 end
 
 ---Only the newest active decision in this addon can consume the game-menu binding,
 ---and only with hideOnEscape. Older dialogs do not take over if it opts out.
----Unlike a cancel button, binding dismissal ignores OnCancel's keep-open return.
 ---@param key string
-function FrameMixin:OnKeyDown(key)
-  local handled = GetBindingFromClick(key) == "TOGGLEGAMEMENU"
+---@return boolean
+function FrameMixin:ConsumesMenuKey(key)
+  return GetBindingFromClick(key) == "TOGGLEGAMEMENU"
     and active[#active] == self and self.definition.hideOnEscape and not self.handlingChoice
-  self:SetPropagateKeyboardInput(not handled)
-  if not handled then return end
+end
+
+---Unlike a cancel button, binding dismissal ignores OnCancel's keep-open return.
+function FrameMixin:CancelByMenuKey()
   local generation = self.generation
   self.handlingChoice = true
   Call(self.definition.OnCancel, self, self.data, "clicked")
   self.handlingChoice = false
   if self.generation == generation then self:Hide() end
+end
+
+---@param key string
+function FrameMixin:OnKeyDown(key)
+  if InCombatLockdown() then
+    self:EnableKeyboard(false)
+    return
+  end
+  local handled = self:ConsumesMenuKey(key)
+  self:SetPropagateKeyboardInput(not handled)
+  if not handled then return end
+  self:CancelByMenuKey()
   -- Reopening during the callback resets input propagation. Consume this key
   -- after the callback so the same key cannot reach another window/binding.
   self:SetPropagateKeyboardInput(false)
@@ -405,9 +419,17 @@ function FrameMixin:OnLoad()
   end)
   self.EditBox:SetScript("OnEscapePressed", function(editBox)
     local callback = self.definition.EditBoxOnEscapePressed
-    if callback then Call(callback, editBox) else self:OnKeyDown("ESCAPE") end
+    if callback then Call(callback, editBox)
+    elseif self:ConsumesMenuKey("ESCAPE") then self:CancelByMenuKey() end
   end)
-  self:SetPropagateKeyboardInput(true)
+end
+
+---SetPropagateKeyboardInput is protected in combat. Without it the dialog would
+---swallow every key, so ignore the keyboard until the next Show out of combat.
+function FrameMixin:UpdateKeyboardHandling()
+  local enabled = not InCombatLockdown()
+  self:EnableKeyboard(enabled)
+  if enabled then self:SetPropagateKeyboardInput(true) end
 end
 
 --- The compact layout needed by confirmations and copyable text: body, optional

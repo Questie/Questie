@@ -102,6 +102,7 @@ local function Install(env)
     if key == "ESCAPE" then return "TOGGLEGAMEMENU" end
     return ""
   end
+  env.InCombatLockdown = function() return false end
   env.CreateFrame = function(_, name, parent, template)
     assert(not template or template == "BackdropTemplate", "Custom XML templates must not be needed")
     local frame = NewRegion(parent)

@@ -115,6 +115,64 @@ describe("small addon dialogs", function()
     assert.is_false(frame.propagate)
   end)
 
+  it("should not touch keyboard propagation when shown in combat and let keys reach the game", function()
+    env.InCombatLockdown = function() return true end
+    local propagateCalls = 0
+    local nativeCreateFrame = env.CreateFrame
+    env.CreateFrame = function(...)
+      local created = nativeCreateFrame(...)
+      local nativePropagate = created.SetPropagateKeyboardInput
+      created.SetPropagateKeyboardInput = function(...) propagateCalls = propagateCalls + 1; nativePropagate(...) end
+      return created
+    end
+    local frame = dialogs.Show("A", "combat")
+    dialogs.Hide("A")
+    dialogs.Show("A", "again")
+
+    assert.are.equal(0, propagateCalls)
+    assert.is_nil(frame.propagate)
+    assert.is_false(frame.keyboard)
+  end)
+
+  it("should restore keyboard handling when shown again after combat", function()
+    env.InCombatLockdown = function() return true end
+    local frame = dialogs.Show("A", "combat")
+    dialogs.Hide("A")
+    env.InCombatLockdown = function() return false end
+    dialogs.Show("A", "peace")
+
+    assert.is_true(frame.keyboard)
+    assert.is_true(frame.propagate)
+  end)
+
+  it("should stop handling keys when combat starts while the dialog is open", function()
+    dialogs.Dialogs.A.hideOnEscape = true
+    dialogs.Dialogs.A.OnCancel = function() error("Must not cancel in combat") end
+    local frame = dialogs.Show("A", "this")
+    env.InCombatLockdown = function() return true end
+    frame.SetPropagateKeyboardInput = function() error("Protected in combat") end
+
+    frame:OnKeyDown("ESCAPE")
+
+    assert.is_true(frame:IsShown())
+    assert.is_false(frame.keyboard)
+    assert.is_true(frame.propagate)
+    assert.are.same({}, errors)
+  end)
+
+  it("should close an edit box dialog with Escape in combat", function()
+    dialogs.Dialogs.A.hideOnEscape = true
+    dialogs.Dialogs.A.hasEditBox = true
+    local frame = dialogs.Show("A", "this")
+    env.InCombatLockdown = function() return true end
+    frame.SetPropagateKeyboardInput = function() error("Protected in combat") end
+
+    frame.EditBox:GetScript("OnEscapePressed")(frame.EditBox)
+
+    assert.is_false(frame:IsShown())
+    assert.are.same({}, errors)
+  end)
+
   it("propagates Escape when it is assigned another action or unbound", function()
     dialogs.Dialogs.A.hideOnEscape = true
     dialogs.Dialogs.A.OnCancel = function() error("Must not cancel for an unrelated key") end
