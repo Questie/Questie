@@ -5,19 +5,35 @@ describe("IconHighlight", function()
     local IconHighlight
     local pins, enumerations, savedLibStub
 
-    -- A world map icon whose texture keeps its color, as QuestieFrame's own SetVertexColor does.
-    local function MapIcon(data, color)
-        local texture = {r = color[1], g = color[2], b = color[3], a = color[4]}
+    -- A texture keeping its color as QuestieFrame's own SetVertexColor does, and its anchors.
+    local function Texture(alpha)
+        local texture = {r = 1, g = 1, b = 1, a = alpha}
         function texture:SetVertexColor(r, g, b, a) self.r, self.g, self.b, self.a = r, g, b, a end
-        return {data = data, texture = texture}
+        function texture:ClearAllPoints() self.points = {} end
+        function texture:SetPoint(point, relativeTo, relativePoint) self.points[#self.points + 1] = {point, relativeTo, relativePoint} end
+        function texture:SetAllPoints(frame) self.points = {{"all", frame}} end
+        function texture:SetSize(width, height) self.width, self.height = width, height end
+        return texture
     end
 
-    local function Color(icon)
-        return {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a}
+    local function MapIcon(data, alpha)
+        local icon = {data = data, texture = Texture(alpha), glowTexture = Texture(alpha), width = 10, height = 10}
+        icon.texture.points = {{"all", icon}}
+        function icon:GetWidth() return self.width end
+        function icon:GetHeight() return self.height end
+        function icon:GlowUpdate() end
+        return icon
+    end
+
+    ---The picture's size, or nil while it fills the icon.
+    local function Size(icon)
+        local points = icon.texture.points
+        if #points == 1 and points[1][1] == "all" and points[1][2] == icon then return nil end
+        assert.are.same({{"CENTER", icon, "CENTER"}}, points)
+        return icon.texture.width
     end
 
     before_each(function()
-        Questie.db.profile = {}
         pins, enumerations = {}, 0
         savedLibStub = _G.LibStub
         _G.LibStub = function()
@@ -40,195 +56,178 @@ describe("IconHighlight", function()
         _G.LibStub = savedLibStub
     end)
 
-    describe("Spotlight", function()
-        it("lights up the hovered quest's world map icons, not its givers, turn-ins, hidden icons or other quests", function()
+    describe("hovering an icon", function()
+        it("grows it, lights up its quest's world map icons and dims all others, then puts them back", function()
             local data = {Id = 123, Type = "monster"}
-            local icon = MapIcon(data, {1, 0.5, 0, 1})
-            local sibling = MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            local giver = MapIcon({Id = 123, Type = "available"}, {1, 1, 0, 1})
-            local hidden = MapIcon({Id = 123, Type = "item"}, {0, 0, 1, 1})
+            local icon = MapIcon(data, 1)
+            -- Faded by the tracker's focus.
+            local sibling = MapIcon({Id = 123, Type = "item"}, 0.3)
+            sibling.faded = true
+            local giver = MapIcon({Id = 123, Type = "available"}, 1)
+            local hidden = MapIcon({Id = 123, Type = "item"}, 1)
             hidden.hidden = true
-            local otherQuest = MapIcon({Id = 456, Type = "monster"}, {1, 0, 0, 1})
-            pins = {icon, sibling, giver, hidden, otherQuest}
+            local otherQuest = MapIcon({Id = 456, Type = "monster"}, 1)
+            local fadedOther = MapIcon({Id = 456, Type = "item"}, 0.3)
+            local note = MapIcon({Type = "manual"}, 1)
+            pins = {icon, sibling, giver, hidden, otherQuest, fadedOther, note}
 
-            IconHighlight.Spotlight(icon)
+            IconHighlight.StartHover(icon)
 
-            -- Without objective colors, lit icons turn blueish.
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            assert.are.same({0.6, 1, 1, 1}, Color(sibling))
-            assert.are.same({1, 1, 0, 1}, Color(giver))
-            assert.are.same({0, 0, 1, 1}, Color(hidden))
-            assert.are.same({1, 0, 0, 1}, Color(otherQuest))
-            IconHighlight.EndSpotlight(data)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
+            assert.are.equal(13.5, Size(icon))
+            assert.is_nil(Size(sibling))
+            -- The quest's icons show fully opaque with their glow ring grown.
+            assert.are.same({1, 1.5}, {icon.texture.a, icon.glowScale})
+            assert.are.same({1, 1, 1.5}, {sibling.texture.a, sibling.glowTexture.a, sibling.glowScale})
+            -- Its giver and turn-in, and hidden icons, stay as they are.
+            assert.are.same({1, nil}, {giver.texture.a, giver.glowScale})
+            assert.are.equal(1, hidden.texture.a)
+            -- All others dim, the glow ring with the icon, and none brightens.
+            assert.are.same({0.5, 0.5, nil}, {otherQuest.texture.a, otherQuest.glowTexture.a, otherQuest.glowScale})
+            assert.are.equal(0.3, fadedOther.texture.a)
+            assert.are.equal(0.5, note.texture.a)
 
-            -- A minimap icon's hover lights nothing.
-            local minimapIcon = MapIcon({Id = 123, Type = "monster"}, {1, 1, 1, 1})
+            IconHighlight.EndHover(icon, data)
+
+            assert.is_nil(Size(icon))
+            assert.are.same({1, nil}, {icon.texture.a, icon.glowScale})
+            assert.are.same({0.3, 0.3, nil}, {sibling.texture.a, sibling.glowTexture.a, sibling.glowScale})
+            assert.are.same({1, 1}, {otherQuest.texture.a, otherQuest.glowTexture.a})
+            assert.are.equal(0.3, fadedOther.texture.a)
+            assert.are.equal(1, note.texture.a)
+        end)
+
+        it("only grows a quest giver, turn-in, note or minimap icon: they put no quest in the spotlight", function()
+            local other = MapIcon({Id = 456, Type = "monster"}, 1)
+            local giver = MapIcon({Id = 123, Type = "available"}, 1)
+            local minimapIcon = MapIcon({Id = 123, Type = "monster"}, 0.6)
             minimapIcon.miniMapIcon = true
-            IconHighlight.Spotlight(minimapIcon)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+            pins = {giver, other}
+
+            for _, icon in ipairs({giver, MapIcon({Id = 123, Type = "complete"}, 1), MapIcon({Type = "manual"}, 1), minimapIcon}) do
+                IconHighlight.StartHover(icon)
+                assert.are.equal(13.5, Size(icon))
+                IconHighlight.EndHover(icon, icon.data)
+            end
+
+            assert.are.equal(0, enumerations)
+            assert.are.equal(1, other.texture.a)
+            -- A minimap icon's own opacity, its distance fade, stays.
+            assert.are.equal(0.6, minimapIcon.texture.a)
         end)
 
-        it("keeps the colors to restore when the hover starts again before it ends", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon = MapIcon(data, {1, 0.5, 0, 1})
-            pins = {icon}
-
-            -- A path's hover starts it, then the icon's own hover, with no end between.
-            IconHighlight.Spotlight(icon)
-            IconHighlight.Spotlight(icon)
-            IconHighlight.EndSpotlight(data)
-
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-        end)
-
-        it("lights a quest once for as long as any of its overlapping hovers lasts", function()
+        it("keeps the spotlight for as long as any hover of its quest lasts", function()
             local first, second = {Id = 123, Type = "monster"}, {Id = 123, Type = "item"}
-            local icon, sibling = MapIcon(first, {1, 0.5, 0, 1}), MapIcon(second, {0, 1, 0, 1})
-            pins = {icon, sibling}
+            local icon, sibling, other = MapIcon(first, 1), MapIcon(second, 1), MapIcon({Id = 456, Type = "item"}, 1)
+            pins = {icon, sibling, other}
 
-            -- The gamepad's hover still shows for a moment as the mouse starts another; a tracker
-            -- preview hovers all of an objective's icons at once.
-            IconHighlight.Spotlight(icon)
-            IconHighlight.Spotlight(sibling)
+            -- A path's hover starts the icon's hover, then the cursor reaches the icon with no end between;
+            -- the gamepad's hover still shows for a moment as the mouse starts another.
+            IconHighlight.StartHover(icon)
+            IconHighlight.StartHover(icon)
+            IconHighlight.StartHover(sibling)
             assert.are.equal(1, enumerations)
-            IconHighlight.EndSpotlight(first)
-            assert.are.same({0.6, 1, 1, 1}, Color(sibling))
-            IconHighlight.EndSpotlight(second)
 
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
+            IconHighlight.EndHover(icon, first)
+            assert.is_nil(Size(icon))
+            assert.are.equal(13.5, Size(sibling))
+            assert.are.equal(0.5, other.texture.a)
+            IconHighlight.EndHover(sibling, second)
+            assert.are.equal(1, other.texture.a)
         end)
 
-        it("puts one quest's icons back before another quest's spotlight lights its icons", function()
+        it("puts one quest's icons back before another quest's spotlight starts", function()
             local data, otherData = {Id = 123, Type = "monster"}, {Id = 456, Type = "item"}
-            local icon, otherQuest = MapIcon(data, {1, 0.5, 0, 1}), MapIcon(otherData, {0, 1, 0, 1})
+            local icon, otherQuest = MapIcon(data, 1), MapIcon(otherData, 0.3)
+            otherQuest.faded = true
             pins = {icon, otherQuest}
-            IconHighlight.Spotlight(icon)
-            IconHighlight.Spotlight(otherQuest)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0.6, 1, 1, 1}, Color(otherQuest))
 
-            IconHighlight.EndSpotlight(data)
-            assert.are.same({0.6, 1, 1, 1}, Color(otherQuest))
-            IconHighlight.EndSpotlight(otherData)
-            assert.are.same({0, 1, 0, 1}, Color(otherQuest))
+            IconHighlight.StartHover(icon)
+            IconHighlight.StartHover(otherQuest)
+            assert.are.same({1, 1.5}, {otherQuest.texture.a, otherQuest.glowScale})
+            -- Dimmed with the rest, though still grown until its own hover ends.
+            assert.are.same({0.5, 13.5}, {icon.texture.a, Size(icon)})
+
+            -- The first hover ending late changes nothing of the other quest's spotlight.
+            IconHighlight.EndHover(icon, data)
+            assert.are.same({0.5, nil, nil}, {icon.texture.a, Size(icon), icon.glowScale})
+            IconHighlight.EndHover(otherQuest, otherData)
+            assert.are.equal(1, icon.texture.a)
+            assert.are.equal(0.3, otherQuest.texture.a)
         end)
 
-        it("keeps a fade or a redraw made during the spotlight when putting icons back", function()
+        it("keeps a fade, a redraw or another data's look made during the spotlight", function()
             local data = {Id = 123, Type = "monster"}
-            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            IconHighlight.Spotlight(icon)
-            -- FadeOut keeps the lit color and lowers the opacity; a redraw sets the icon's own color.
-            icon.faded = true
-            icon.texture:SetVertexColor(0.6, 1, 1, 0.3)
-            sibling.texture:SetVertexColor(0.2, 0.2, 0.2, 1)
+            local icon, sibling = MapIcon(data, 1), MapIcon({Id = 123, Type = "item"}, 1)
+            -- Faded by the tracker's focus, at a fade level of 0.8.
+            local other, recycled = MapIcon({Id = 456, Type = "item"}, 0.8), MapIcon({Id = 789, Type = "item"}, 1)
+            other.faded = true
+            pins = {icon, sibling, other, recycled}
+            IconHighlight.StartHover(icon)
 
-            IconHighlight.EndSpotlight(data)
+            -- The tracker's focus fades the sibling; a progress update draws the other icon anew; the
+            -- pool hands the last out for other data.
+            sibling.faded = true
+            sibling.texture:SetVertexColor(1, 1, 1, 0.3)
+            other.texture:SetVertexColor(1, 1, 1, 1)
+            recycled.data = {Id = 7, Type = "complete"}
+            recycled.texture:SetVertexColor(1, 1, 1, 0.5)
+            IconHighlight.EndHover(icon, data)
 
-            assert.are.same({1, 0.5, 0, 0.3}, Color(icon))
-            assert.are.same({0.2, 0.2, 0.2, 1}, Color(sibling))
-        end)
-
-        it("leaves an icon the pool handed out for other data since with its own color", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            IconHighlight.Spotlight(icon)
-            sibling.data = {Id = 7, Type = "complete"}
-            sibling.texture:SetVertexColor(1, 1, 0, 1)
-
-            IconHighlight.EndSpotlight(data)
-
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({1, 1, 0, 1}, Color(sibling))
-        end)
-
-        it("ends nothing for a hover that lit nothing", function()
-            local icon = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 1})
-            pins = {icon}
-            IconHighlight.Spotlight(icon)
-
-            IconHighlight.EndSpotlight({Id = 123, Type = "monster"})
-
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
+            assert.are.equal(0.3, sibling.texture.a)
+            assert.are.equal(1, other.texture.a)
+            assert.are.equal(0.5, recycled.texture.a)
         end)
     end)
 
     describe("Mark", function()
-        it("lights one icon for as long as any light holds it, its quest's spotlight included", function()
+        it("grows one icon for as long as any mark holds it, its own hover's included, keeping its opacity", function()
             local data = {Id = 123, Type = "monster"}
-            local icon, sibling = MapIcon(data, {1, 0.5, 0, 1}), MapIcon({Id = 123, Type = "item"}, {0, 1, 0, 1})
-            pins = {icon, sibling}
-            local area = {}
-
-            -- A quest area's hover marks its marker alone.
-            IconHighlight.Mark(icon, area)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
-            -- The cursor reaches the marker: its quest lights up too, and then the area's hover ends.
-            IconHighlight.Spotlight(icon)
-            IconHighlight.Unmark(icon, area)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            IconHighlight.EndSpotlight(data)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-            assert.are.same({0, 1, 0, 1}, Color(sibling))
-
-            -- And the other way round.
-            IconHighlight.Spotlight(icon)
-            IconHighlight.Mark(icon, area)
-            IconHighlight.EndSpotlight(data)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            IconHighlight.Unmark(icon, area)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
-
-            -- A mark left on an icon the pool hands out for other data has no say over its new color.
-            IconHighlight.Mark(icon, area)
-            icon.data = {Id = 7, Type = "item"}
-            icon.texture:SetVertexColor(0, 0, 1, 1)
-            local other = {}
-            IconHighlight.Mark(icon, other)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            IconHighlight.Unmark(icon, area)
-            IconHighlight.Unmark(icon, other)
-            assert.are.same({0, 0, 1, 1}, Color(icon))
-        end)
-
-        it("keeps an icon's own opacity, such as a minimap icon's distance fade", function()
-            local icon = MapIcon({Id = 123, Type = "monster"}, {1, 0.5, 0, 0.5})
+            local icon, sibling = MapIcon(data, 0.6), MapIcon({Id = 123, Type = "item"}, 1)
             icon.miniMapIcon = true
             local area = {}
-            IconHighlight.Mark(icon, area)
-            assert.are.same({0.6, 1, 1, 0.5}, Color(icon))
-            -- The player walks into fade range meanwhile.
-            icon.texture:SetVertexColor(0.6, 1, 1, 1)
-            IconHighlight.Unmark(icon, area)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
 
-            -- Minimap icons follow the minimap's objective color setting.
-            Questie.db.profile.questMinimapObjectiveColors = true
+            -- A quest area's hover grows its marker alone.
             IconHighlight.Mark(icon, area)
-            assert.are.same({1, 1, 1, 1}, Color(icon))
+            assert.are.same({13.5, 0.6, 1.5}, {Size(icon), icon.texture.a, icon.glowScale})
+            assert.is_nil(Size(sibling))
+            -- The cursor reaches the marker, and then the area's hover ends.
+            IconHighlight.StartHover(icon)
+            IconHighlight.Unmark(icon, area)
+            assert.are.equal(13.5, Size(icon))
+            IconHighlight.EndHover(icon, data)
+            assert.are.same({nil, 0.6, nil}, {Size(icon), icon.texture.a, icon.glowScale})
         end)
 
-        it("puts back a light a redraw undid when lit again", function()
-            local data = {Id = 123, Type = "monster"}
-            local icon = MapIcon(data, {1, 0.5, 0, 1})
-            pins = {icon}
-            local area = {}
+        it("follows a resize when marked again, and leaves an icon the pool handed out to its new marks", function()
+            local icon = MapIcon({Id = 123, Type = "monster"}, 1)
+            local area, other = {}, {}
             IconHighlight.Mark(icon, area)
-            icon.texture:SetVertexColor(1, 0.5, 0, 1) -- A progress update draws the marker anew.
+            icon.width, icon.height = 20, 20 -- The map zooms.
             IconHighlight.Mark(icon, area)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            -- So does its quest's spotlight starting, which also shows it fully opaque.
-            icon.texture:SetVertexColor(1, 0.5, 0, 0.4)
-            IconHighlight.Spotlight(icon)
-            assert.are.same({0.6, 1, 1, 1}, Color(icon))
-            IconHighlight.EndSpotlight(data)
+            assert.are.equal(27, Size(icon))
+
+            -- The area's mark was for the icon's old data: it no longer holds the icon.
+            icon.data = {Id = 7, Type = "item"}
+            IconHighlight.Mark(icon, other)
+            IconHighlight.Unmark(icon, other)
+            assert.is_nil(Size(icon))
             IconHighlight.Unmark(icon, area)
-            assert.are.same({1, 0.5, 0, 1}, Color(icon))
+            assert.is_nil(Size(icon))
+        end)
+    end)
+
+    describe("Forget", function()
+        it("shrinks an unloading icon back at once, though its hover and marks have not ended", function()
+            local icon, marker = MapIcon({Id = 123, Type = "monster"}, 1), MapIcon({Id = 456, Type = "item"}, 1)
+            pins = {icon, marker}
+            IconHighlight.StartHover(icon)
+            IconHighlight.Mark(marker, {})
+
+            IconHighlight.Forget(icon)
+            IconHighlight.Forget(marker)
+
+            assert.are.same({nil, nil}, {Size(icon), icon.glowScale})
+            assert.are.same({nil, nil}, {Size(marker), marker.glowScale})
         end)
     end)
 end)
