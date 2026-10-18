@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blob Visibility Rating</title>
+<style>
+  :root {
+    --background: #18181c;
+    --text: #e6e6e6;
+    --dim: #8c8c8c;
+    --clear: #5ac86e;
+    --hard: #f0aa32;
+    --faint: #eb463c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text);
+    font: 15px/1.4 system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 16px;
+  }
+  #view { color: var(--dim); letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; }
+  #cell { display: block; image-rendering: auto; }
+  .choices { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  button {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font: inherit;
+    cursor: pointer;
+  }
+  button kbd { font: 600 13px ui-monospace, monospace; margin-right: 6px; }
+  button[data-rating="1"] kbd { color: var(--clear); }
+  button[data-rating="2"] kbd { color: var(--hard); }
+  button[data-rating="3"] kbd { color: var(--faint); }
+  button:hover { border-color: #888; }
+  button.chosen { border-color: var(--text); }
+  #progress { color: var(--dim); font-size: 13px; }
+  #message { color: var(--dim); max-width: 420px; text-align: center; }
+</style>
+</head>
+<body>
+  <div id="view"></div>
+  <img id="cell" alt="Rating cell">
+  <div class="choices">
+    <button data-rating="1"><kbd>1</kbd>Clear</button>
+    <button data-rating="2"><kbd>2</kbd>Hard but works</button>
+    <button data-rating="3"><kbd>3</kbd>Too faint</button>
+  </div>
+  <div id="progress"></div>
+  <div id="message">How well can you make out the blob? Backspace goes back one.</div>
+<script>
+  // Cells are drawn at in-game pixel size, so each image pixel gets one screen pixel.
+  let session, position = 0;
+  const cell = document.getElementById("cell");
+
+  function cellId(key) { return key.replace(/r$/, ""); }
+
+  function show() {
+    const order = session.order;
+    const done = Object.keys(session.ratings).length;
+    document.getElementById("progress").textContent = `${Math.min(done, order.length)} / ${order.length} rated`;
+    if (position >= order.length) {
+      cell.style.visibility = "hidden";
+      document.getElementById("view").textContent = "";
+      document.getElementById("message").textContent = done >= order.length
+        ? "All rated. Tell Claude to run the fit." : "Some cells are unrated; Backspace goes back to them.";
+      return;
+    }
+    const key = order[position];
+    cell.style.visibility = "visible";
+    cell.src = `/cells/${cellId(key)}.png`;
+    cell.style.width = `${session.size / window.devicePixelRatio}px`;
+    document.getElementById("view").textContent = session.views[cellId(key)] === "map" ? "World map" : "Minimap";
+    for (const button of document.querySelectorAll("button")) {
+      button.classList.toggle("chosen", Number(button.dataset.rating) === session.ratings[key]);
+    }
+  }
+
+  async function rate(rating) {
+    if (position >= session.order.length) return;
+    const key = session.order[position];
+    const response = await fetch("/api/rate", {method: "POST", body: JSON.stringify({key, rating})});
+    if (!response.ok) {
+      document.getElementById("message").textContent = "Saving failed; is the server still running?";
+      return;
+    }
+    session.ratings[key] = rating;
+    position += 1;
+    show();
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (["1", "2", "3"].includes(event.key)) rate(Number(event.key));
+    if (event.key === "Backspace" && position > 0) { position -= 1; show(); event.preventDefault(); }
+  });
+  for (const button of document.querySelectorAll("button")) {
+    button.addEventListener("click", () => rate(Number(button.dataset.rating)));
+  }
+
+  fetch("/api/session").then((r) => r.json()).then((data) => {
+    session = data;
+    const first = session.order.findIndex((key) => !(key in session.ratings));
+    position = first === -1 ? session.order.length : first;
+    show();
+  });
+</script>
+</body>
+</html>
