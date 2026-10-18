@@ -81,11 +81,12 @@ local function _EndSpotlight()
     end
 end
 
----Whether the icon marks a quest objective, which a spotlight lights or dims. Quest givers, turn-ins and
----notes are another layer of the map.
+---Whether the icon takes part in a spotlight: hovering it starts one, and a spotlight lights or dims it.
+---Today these are the icons of quest objectives. Quest givers, turn-ins and notes are another layer of
+---the map.
 ---@param data IconData
 ---@return boolean
-local function _IsObjective(data)
+local function _InSpotlight(data)
     local iconType = data.Type
     return iconType ~= "available" and iconType ~= "complete" and iconType ~= "manual"
 end
@@ -97,7 +98,7 @@ end
 ---@param icon IconFrame
 local function _Spotlight(icon)
     local data = icon.data
-    if icon.miniMapIcon or not _IsObjective(data) then return end
+    if icon.miniMapIcon or not _InSpotlight(data) then return end
     if spotlight and spotlight.questId == data.Id then
         spotlight.hovers[icon] = data
         return
@@ -113,7 +114,7 @@ local function _Spotlight(icon)
         local other = pin.icon
         local otherData = other.data
         local alpha = other.texture.a
-        if otherData and _IsObjective(otherData) and (other == icon or not (other.hidden or alpha == 0)) then
+        if otherData and _InSpotlight(otherData) and (other == icon or not (other.hidden or alpha == 0)) then
             local lit = otherData.Id == data.Id
             local shown = lit and 1 or math.min(alpha, DIM_ALPHA)
             current.icons[other] = {data = otherData, faded = other.faded, alpha = alpha, shown = shown, lit = lit}
