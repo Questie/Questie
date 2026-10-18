@@ -192,6 +192,7 @@ Modules\Map\Waypoints\WaypointMinimap.lua
 Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua
 Modules\Quest\AvailableQuests\AvailableQuests.lua
 Modules\Quest\QuestLogCache.lua
+Modules\Quest\ObjectiveColors.lua
 Modules\Quest\DailyQuests\DailyQuests.lua
 Modules\Quest\DailyQuests\QuestHubs.lua
 Modules\Quest\IsleOfQuelDanas.lua

@@ -43,6 +43,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ObjectiveColors
+local ObjectiveColors = QuestieLoader:ImportModule("ObjectiveColors")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Phasing
@@ -1013,7 +1015,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     if (not objective.Color) then
         -- Special objectives arrive with index 0; their canonical Index keeps their colors apart.
-        objective.Color = QuestieLib:GetObjectiveColor(quest.Id, objective.Index or objectiveIndex)
+        -- The spawn list built above places the objective, which a first pick needs.
+        objective.Color = ObjectiveColors.Get(quest, objective, objective.Index or objectiveIndex)
     end
 
     if objective.spawnList and next(objective.spawnList) then

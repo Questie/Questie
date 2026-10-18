@@ -708,22 +708,24 @@ describe("QuestieQuest", function()
         end)
 
         it("colors special objectives by their canonical index, not the shared index 0", function()
-            local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-            local originalGetObjectiveColor = QuestieLib.GetObjectiveColor
+            local ObjectiveColors = QuestieLoader:ImportModule("ObjectiveColors")
+            local originalGet = ObjectiveColors.Get
             local color = {0.1, 0.2, 0.3}
-            local getObjectiveColor = spy.new(function() return color end)
-            QuestieLib.GetObjectiveColor = getObjectiveColor
+            local getColor = spy.new(function() return color end)
+            ObjectiveColors.Get = getColor
             local objective = {Index = 65, Description = "Special", Type = "event", Completed = false,
                 Update = function() end, spawnList = {}, AlreadySpawned = {}}
+            local quest = {Id = 42, ObjectiveData = {}}
             local thread = coroutine.create(function()
-                QuestieQuest:PopulateObjective({Id = 42, ObjectiveData = {}}, 0, objective, false)
+                QuestieQuest:PopulateObjective(quest, 0, objective, false)
             end)
             local ok, err = coroutine.resume(thread)
-            QuestieLib.GetObjectiveColor = originalGetObjectiveColor
+            ObjectiveColors.Get = originalGet
             assert.is_true(ok, err)
-            assert.spy(getObjectiveColor).was.called(1)
-            local args = getObjectiveColor.calls[1].vals
-            assert.are.same({42, 65}, {args[2], args[3]})
+            assert.spy(getColor).was.called(1)
+            -- The spy keeps copies made at call time, before PopulateObjective stored the color.
+            local args = getColor.calls[1].vals
+            assert.are.same({42, 65, 65}, {args[1].Id, args[2].Index, args[3]})
             assert.are.equal(color, objective.Color)
         end)
 
