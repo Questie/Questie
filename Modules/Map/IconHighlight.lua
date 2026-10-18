@@ -10,6 +10,8 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 --    icons show fully opaque with their glow ring grown, and all other icons dim.
 --  - A mark grows one icon on its own, such as the marker of a hovered quest area.
 -- Only a glow ring the player shows grows; with glows off, the dimming and the size tell it.
+-- IconHighlight only decides; QuestieFrame sizes the icon's picture, overlay and ring to match,
+-- also as the icon is resized.
 
 local DIM_ALPHA = 0.5 -- The other icons' opacity under a spotlight, at most.
 local GLOW_GROWTH = 1.5 -- A lit or grown icon's glow ring, relative to its usual size.
@@ -26,9 +28,10 @@ local GROWTH = 1.35 -- A grown icon's picture, relative to the icon.
 local marks = {}
 
 -- Spotlight
--- One quest is in the spotlight at a time, for as long as any hover of its icons lasts: hovers of one
--- quest overlap, such as a path's and then its icon's, the gamepad's for a moment after the mouse
--- moves, or a tracker preview of all of an objective's icons.
+-- One quest is in the spotlight at a time, for as long as any of its icons is hovered: hovers of one
+-- quest overlap, such as the gamepad's for a moment after the mouse moves, or a tracker preview of all
+-- of an objective's icons. Hovers are told apart by icon and data, so an icon hovered again with the
+-- same data, as a patrol path's hover hands over to its icon, is still one hover.
 
 ---@class SpotlitIcon
 ---@field data IconData What the icon showed when the spotlight reached it.
@@ -39,17 +42,19 @@ local marks = {}
 
 ---@class Spotlight
 ---@field questId QuestId
----@field hovers table<IconData, true> The data of each hover it lasts for.
+---@field hovers table<IconFrame, IconData> Each icon hovered, with the data its hover started with.
 ---@field icons table<IconFrame, SpotlitIcon> The icons it lit or dimmed.
 ---@type Spotlight?
 local spotlight
 
----Grows the icon's glow ring while it is lit or marked, and puts it back otherwise. QuestieFrame keeps
----that size for as long as `glowScale` asks, and shows no ring the player turned off.
+---Grows the icon's picture while it is marked and its glow ring while it is marked or lit, and puts
+---them back otherwise.
 ---@param icon IconFrame
-local function _UpdateGlow(icon)
+local function _UpdateSize(icon)
+    local marked = marks[icon] ~= nil
     local spotlit = spotlight and spotlight.icons[icon]
-    icon.glowScale = (marks[icon] or (spotlit and spotlit.lit)) and GLOW_GROWTH or nil
+    icon.pictureScale = marked and GROWTH or nil
+    icon.glowScale = (marked or (spotlit and spotlit.lit)) and GLOW_GROWTH or nil
     icon:GlowUpdate()
 end
 
@@ -62,23 +67,6 @@ local function _SetAlpha(icon, alpha)
     glow:SetVertexColor(glow.r, glow.g, glow.b, alpha)
 end
 
----Grows the icon's picture around its center, as large as the icon is now. The frame keeps its size,
----so where the cursor finds the icon does not change.
----@param icon IconFrame
-local function _Grow(icon)
-    local texture = icon.texture
-    texture:ClearAllPoints()
-    texture:SetPoint("CENTER", icon, "CENTER")
-    texture:SetSize(icon:GetWidth() * GROWTH, icon:GetHeight() * GROWTH)
-end
-
----@param icon IconFrame
-local function _Shrink(icon)
-    local texture = icon.texture
-    texture:ClearAllPoints()
-    texture:SetAllPoints(icon)
-end
-
 local function _EndSpotlight()
     local current = spotlight
     if not current then return end
@@ -88,46 +76,49 @@ local function _EndSpotlight()
         if icon.data == spotlit.data and icon.faded == spotlit.faded and icon.texture.a == spotlit.shown then
             _SetAlpha(icon, spotlit.alpha)
         end
-        _UpdateGlow(icon)
+        if spotlit.lit then _UpdateSize(icon) end
     end
 end
 
 ---Lights up the world map icons of the hovered icon's quest and dims all others. Only an objective's
 ---icon puts its quest in the spotlight: quest givers, turn-ins and notes have nothing of theirs to show.
 ---The quest's givers and turn-ins stay as they are, and hidden icons or those faded out to nothing are
----left alone.
+---left alone. A closed world map shows nothing to light.
 ---@param icon IconFrame
 local function _Spotlight(icon)
     local data = icon.data
     if icon.miniMapIcon or data.Type == "available" or data.Type == "complete" or data.Type == "manual" then return end
     if spotlight and spotlight.questId == data.Id then
-        spotlight.hovers[data] = true
+        spotlight.hovers[icon] = data
         return
     end
+    -- HereBeDragons keeps the last map's icons while the world map is closed.
+    local map = HBDPins.worldmapProvider:GetMap()
+    if not map:IsShown() then return end
     -- Another quest's spotlight, such as from a hover that has not ended yet, ends first.
     _EndSpotlight()
-    local current = {questId = data.Id, hovers = {[data] = true}, icons = {}}
+    local current = {questId = data.Id, hovers = {[icon] = data}, icons = {}}
     spotlight = current
-    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+    for pin in map:EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
         local other = pin.icon
         local otherData = other.data
         local alpha = other.texture.a
         if otherData and (other == icon or not (other.hidden or alpha == 0)) then
-            local ofQuest = otherData.Id == data.Id
+            -- A note's ID is its NPC's, which may equal a quest's.
+            local ofQuest = otherData.Id == data.Id and otherData.Type ~= "manual"
             local lit = ofQuest and otherData.Type ~= "available" and otherData.Type ~= "complete"
             if lit or not ofQuest then
                 local shown = lit and 1 or math.min(alpha, DIM_ALPHA)
                 current.icons[other] = {data = otherData, faded = other.faded, alpha = alpha, shown = shown, lit = lit}
                 if shown ~= alpha then _SetAlpha(other, shown) end
-                if lit then _UpdateGlow(other) end
+                if lit then _UpdateSize(other) end
             end
         end
     end
 end
 
 ---Grows one icon, keeping its opacity, for as long as `holder` holds it, such as a quest area's hover
----growing the marker attached to it. Other marks of the icon may hold it too. Marking it again follows
----a resize meanwhile, such as the map's zoom.
+---growing the marker attached to it. Other marks of the icon may hold it too.
 ---@param icon IconFrame
 ---@param holder table Identifies this mark; Unmark with it ends the mark.
 function IconHighlight.Mark(icon, holder)
@@ -140,8 +131,7 @@ function IconHighlight.Mark(icon, holder)
         marks[icon] = mark
     end
     mark.holders[holder] = true
-    _Grow(icon)
-    _UpdateGlow(icon)
+    _UpdateSize(icon)
 end
 
 ---Ends one mark of the icon; the last shrinks it back.
@@ -153,8 +143,7 @@ function IconHighlight.Unmark(icon, holder)
     mark.holders[holder] = nil
     if next(mark.holders) then return end
     marks[icon] = nil
-    _Shrink(icon)
-    _UpdateGlow(icon)
+    _UpdateSize(icon)
 end
 
 ---Shows an icon's hover until EndHover with its data: the icon grows, and on the world map its quest
@@ -173,19 +162,17 @@ end
 ---@param data IconData The data the hover started with.
 function IconHighlight.EndHover(icon, data)
     IconHighlight.Unmark(icon, data)
-    if spotlight and spotlight.hovers[data] then
-        spotlight.hovers[data] = nil
+    if spotlight and spotlight.hovers[icon] == data then
+        spotlight.hovers[icon] = nil
         if not next(spotlight.hovers) then _EndSpotlight() end
     end
 end
 
----Lets an unloading icon go at once: the pool may hand it out for other data, which shows unlit.
+---Lets an unloading icon go at once: the pool may hand it out for other data, which shows ungrown.
+---The spotlight leaves an icon showing other data as it is when it ends.
 ---@param icon IconFrame
 function IconHighlight.Forget(icon)
-    if spotlight then spotlight.icons[icon] = nil end
-    if marks[icon] then
-        marks[icon] = nil
-        _Shrink(icon)
-    end
-    icon.glowScale = nil
+    marks[icon] = nil
+    icon.pictureScale, icon.glowScale = nil, nil
+    icon:GlowUpdate()
 end

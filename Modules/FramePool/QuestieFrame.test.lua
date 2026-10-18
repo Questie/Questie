@@ -291,6 +291,46 @@ describe("QuestieFrame", function()
         assert.are.near(22.6, glow.height, 1e-9)
     end)
 
+    it("fits the picture and its overlay to the frame, centred and larger while grown, through every resize", function()
+        local function Picture()
+            local picture = {}
+            function picture:ClearAllPoints() self.points = {} end
+            function picture:SetPoint(point, frame, relativePoint) self.points[#self.points + 1] = {point, frame, relativePoint} end
+            function picture:SetAllPoints(frame) self.points = {{"all", frame}} end
+            function picture:SetSize(width, height) self.size = {width, height} end
+            return picture
+        end
+        local size = 10
+        local icon = {texture = Picture(), overlayTexture = Picture(), glowTexture = {IsShown = function() return false end},
+            GetWidth = function() return size end, GetHeight = function() return size end}
+
+        icon.pictureScale = 1.5
+        QuestieFrame.private.GlowUpdate(icon)
+        for _, picture in ipairs({icon.texture, icon.overlayTexture}) do
+            assert.are.same({{"CENTER", icon, "CENTER"}}, picture.points)
+            assert.are.same({15, 15}, picture.size)
+        end
+        -- Another map type sizes the icon anew while it is grown; HereBeDragons shows it again.
+        size = 20
+        QuestieFrame.private.GlowUpdate(icon)
+        assert.are.same({30, 30}, icon.overlayTexture.size)
+        size = 12
+        QuestieFrame.private.BaseOnShow(icon)
+        assert.are.same({18, 18}, icon.texture.size)
+        -- A quest giver's icon is drawn anew, at its plain size, while it is hovered.
+        icon.data = {}
+        icon.texture.SetTexture, icon.texture.SetVertexColor, icon.overlayTexture.Hide = function() end, function() end, function() end
+        icon.overlayTexture.SetTexture, icon.SetAlpha = function() end, function() end
+        icon.SetSize = function(_, width) size = width end
+        QuestieFrame.private.UpdateTexture(icon, "texture")
+        assert.are.same({24, 24}, icon.texture.size)
+
+        icon.pictureScale = nil
+        QuestieFrame.private.GlowUpdate(icon)
+        assert.are.same({{"all", icon}}, icon.texture.points)
+        assert.are.same({{"all", icon}}, icon.overlayTexture.points)
+    end)
+
     describe("hovering", function()
         local order
 

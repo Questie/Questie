@@ -55,7 +55,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
 ---| "VisibilityChanged" # Questie hid or showed it with FakeHide/FakeShow, or faded it out or in: its `hidden` or `faded` changed.
 ---| "NativeVisibilityChanged" # The frame itself was shown or hidden, as HereBeDragons places icons for the shown maps, and also by FakeHide/FakeShow.
----| "HoverStart" # The cursor or the gamepad cursor started hovering it, or a feature hovers it for the player, such as for a tracker preview.
+---| "HoverStart" # The cursor or the gamepad cursor started hovering it, or MapPreview hovers it for the player, such as for a tracker preview.
 ---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with. It may come without a HoverStart, such as when the cursor leaves an icon faded out to nothing.
 ---| "Click" # A plain left-click on a world map icon on its own map, or on a minimap icon while chat takes no link, which Questie leaves to features.
 
@@ -118,7 +118,9 @@ function QuestieFrame.CreateIconFrame(frameId)
     ---@field AreaID AreaId?
     ---@field isManualIcon boolean
     ---@field texture IconTexture Its alpha (`texture.a`) is 0 for an icon faded out entirely, which is not there to hover.
+    ---@field pictureScale number? How much IconHighlight grows its picture and overlay while it is grown; nil to fill the frame.
     ---@field glowScale number? How much IconHighlight grows its glow ring while it is lit or grown; nil for the usual size.
+    ---@field _pictureWidth number? The grown picture's width last fitted; nil while the picture fills the frame.
     ---@field _loaded boolean? The draw queue added it to HereBeDragons; until then it is on no map.
     ---@field _hidden_by_flash boolean? Hidden while the tracker's Show on Map flashes another objective.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
@@ -144,13 +146,13 @@ function QuestieFrame.CreateIconFrame(frameId)
 
     ---@type IconTexture
     local texture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
-    texture:SetAllPoints(newFrame) -- Always same size and location as newFrame
+    texture:SetAllPoints(newFrame) -- Fills newFrame, or centred on it and larger while grown (_FitPicture)
     texture:SetTexelSnappingBias(0)
     texture:SetSnapToPixelGrid(false)
     -- .texture is shown always when newFrame is shown. No :Hide() or :Show()
 
     local overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 1)
-    overlayTexture:SetAllPoints(newFrame) -- Always same size and location as newFrame
+    overlayTexture:SetAllPoints(newFrame) -- Same as .texture
     overlayTexture:SetTexelSnappingBias(0)
     overlayTexture:SetSnapToPixelGrid(false)
     overlayTexture:Hide()
@@ -241,7 +243,7 @@ end
 ---Undoes what hovering an icon changed: IconHighlight's, then each feature's HoverEnd
 ---listeners, such as its NPC's path highlight or a polygon marker's area preview. Every way an icon
 ---hover ends calls it: the icon's OnLeave, a path hover ending (WaypointHover), a tracker or quest log
----preview ending (QuestiePolygon), and the gamepad cursor moving on (GamepadMapHover).
+---preview ending (MapPreview), and the gamepad cursor moving on (GamepadMapHover).
 ---@param icon IconFrame The hovered icon. It is pooled, so it may show other data by now.
 ---@param data IconData? The data it was hovered with; icon.data when nil.
 function QuestieFrame.ResetHoverHighlights(icon, data)
@@ -338,8 +340,39 @@ local function _GlowSize(self)
     return self:GetWidth() * scale, self:GetHeight() * scale
 end
 
+---@param picture Texture
+---@param frame IconFrame
+---@param width number?
+---@param height number?
+local function _Anchor(picture, frame, width, height)
+    picture:ClearAllPoints()
+    if width then
+        picture:SetPoint("CENTER", frame, "CENTER")
+        picture:SetSize(width, height)
+    else
+        picture:SetAllPoints(frame)
+    end
+end
+
+---Fits the picture and its overlay to the frame: they fill it, or while IconHighlight grows the icon
+---they are centred on it and larger. The frame keeps its size, so where the cursor finds the icon
+---never changes. Cheap when nothing changed: it runs on every minimap update.
+---@param self IconFrame
+local function _FitPicture(self)
+    local scale = self.pictureScale
+    local width = scale and self:GetWidth() * scale
+    if width == self._pictureWidth then return end
+    self._pictureWidth = width
+    local height = scale and self:GetHeight() * scale
+    _Anchor(self.texture, self, width, height)
+    _Anchor(self.overlayTexture, self, width, height)
+end
+
+---Fits the icon's picture, overlay and glow ring to its size and colours the ring. It runs whenever
+---the icon is resized, as IconHighlight grows or shrinks it, and on every minimap update.
 ---@param self IconFrame
 function _QuestieFrame.GlowUpdate(self)
+    _FitPicture(self)
     if self.glowTexture:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
@@ -361,6 +394,7 @@ end
 ---@param self IconFrame
 function _QuestieFrame.BaseOnShow(self)
     local data = self.data
+    _FitPicture(self)
 
     if ((self.miniMapIcon and Questie.db.profile.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.profile.alwaysGlowMap)) and
         data and data.ObjectiveData and
@@ -445,6 +479,8 @@ function _QuestieFrame.UpdateTexture(self, texture)
     else
         self:SetAlpha(1)
     end
+    -- A grown picture follows the new size.
+    _FitPicture(self)
 end
 
 ---@param self IconFrame

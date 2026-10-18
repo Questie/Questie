@@ -252,11 +252,12 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(WorldMapLayers.Invalidate).was.called_with("areas")
     end)
 
-    it("draws its areas again as any icon's hover starts or ends, since they fade with their markers", function()
+    it("draws its world map areas again as any icon's hover starts or ends, since they fade with their markers", function()
         Update()
         Polygon.SetObjectiveAreaShown(42, 1, true)
         FlushRefresh()
         local other = {data = {Id = 456, Type = "monster"}}
+        minimapLayer.Invalidate:clear()
 
         -- Another quest's icon is hovered, and its spotlight dims this marker.
         iconListeners.HoverStart(other)
@@ -268,6 +269,8 @@ describe("QuestiePolygon world-map adapter", function()
         iconListeners.HoverEnd(other, other.data)
         FlushRefresh()
         assert.are.same({0.25, 0.75}, {drawnShapes[1].color[4], drawnShapes[1].borderAlpha})
+        -- The spotlight dims nothing on the minimap.
+        assert.spy(minimapLayer.Invalidate).was.not_called()
     end)
 
     it("follows its markers through icon events", function()
@@ -993,16 +996,16 @@ describe("QuestiePolygon world-map adapter", function()
             FlushRefresh()
             assert.are.same({}, drawnShapes) -- Nearby mode, away from the area.
 
-            Polygon.SetObjectivePreview(42, 1, true)
+            previewListener(42, 1, true)
             FlushRefresh()
             assert.are.equal(1, #drawnShapes)
             assert.is_true(drawnShapes[1].highlighted)
-            Polygon.SetObjectivePreview(42, 1, false)
+            previewListener(42, 1, false)
             FlushRefresh()
             assert.are.same({}, drawnShapes)
 
             Polygon.SetObjectiveAreaShown(42, 1, true)
-            Polygon.SetObjectivePreview(42, 1, true)
+            previewListener(42, 1, true)
             Polygon.SetObjectiveAreaShown(42, 1, false)
             FlushRefresh()
             assert.are.same({}, drawnShapes)
@@ -1016,17 +1019,15 @@ describe("QuestiePolygon world-map adapter", function()
 
             -- After a hide click, the next hover previews again.
             Polygon.SetObjectiveAreaShown(42, 1, false)
-            Polygon.SetObjectivePreview(42, 1, false)
-            Polygon.SetObjectivePreview(42, 1, true)
+            previewListener(42, 1, false)
+            previewListener(42, 1, true)
             FlushRefresh()
             assert.are.equal(1, #drawnShapes)
-            -- The areas alone are Polygon's: MapPreview hovers the markers.
-            assert.spy(QuestieLoader:ImportModule("QuestieFrame").ApplyHoverHighlights).was.not_called()
         end)
 
         it("ends every preview as the map closes, whose hidden controls may never end it, on the minimap too", function()
             Update()
-            Polygon.SetObjectivePreview(42, 1, true)
+            previewListener(42, 1, true)
             minimapLayer.Invalidate:clear()
             map.provider:OnHide()
             assert.spy(minimapLayer.Invalidate).was.called()
@@ -1576,10 +1577,10 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.same({}, minimapLayer.collect())
         Polygon.LeaveMarker(frames[1])
         -- Quest log and tracker previews reach the minimap, highlighted.
-        Polygon.SetObjectivePreview(42, 1, true)
+        previewListener(42, 1, true)
         assert.are.same({{key = marker, cluster = marker.cluster, color = objective.Color, alpha = 1, highlighted = true}},
             minimapLayer.collect())
-        Polygon.SetObjectivePreview(42, 1, false)
+        previewListener(42, 1, false)
         assert.are.same({}, minimapLayer.collect())
 
         minimapLayer.Invalidate:clear()
@@ -1587,11 +1588,15 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(minimapLayer.Invalidate).was.called()
         assert.are.same({{key = marker, cluster = marker.cluster, color = objective.Color, alpha = 1, highlighted = false}},
             minimapLayer.collect())
-        -- Marker fade, such as tracker focus, applies as on the world map.
-        frames[1].texture.a = 0.4
+        -- The marker's fade, such as tracker focus, applies as on the world map.
+        frames[1].faded, Questie.db.profile.iconFadeLevel = true, 0.4
         assert.are.equal(0.4, minimapLayer.collect()[1].alpha)
-        frames[1].texture.a = 0
+        Questie.db.profile.iconFadeLevel = 0
         assert.are.same({}, minimapLayer.collect())
+        frames[1].faded = nil
+        -- A world map hover's spotlight dims the marker there only.
+        frames[1].texture.a = 0.5
+        assert.are.equal(1, minimapLayer.collect()[1].alpha)
         frames[1].texture.a = 1
 
         -- A closed world map shows no markers, and queued ones load without notice. Its own

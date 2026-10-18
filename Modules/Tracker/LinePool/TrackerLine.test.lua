@@ -119,6 +119,16 @@ describe("TrackerLine untrack click", function()
             assert.are.same({started[1]}, ended)
         end)
 
+        it("ends its preview as the line hides under the cursor, which gets no OnLeave", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
+            line.scripts.OnEnter(line)
+            line.scripts.OnHide(line)
+            assert.are.same({started[1]}, ended)
+            line.scripts.OnLeave(line)
+            assert.are.equal(1, #ended)
+        end)
+
         it("does not preview achievement or scenario lines", function()
             line:SetQuest({Id = 42})
             line:SetObjective(nil) -- Achievement objective lines.

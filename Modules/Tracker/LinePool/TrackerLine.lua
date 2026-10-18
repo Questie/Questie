@@ -45,7 +45,8 @@ local lineMarginLeft = 10
 -- Hovering a quest objective previews it on the maps, as the quest log does: its icons grow, its quest
 -- goes in the spotlight, its routes highlight and, in blob mode, its areas show. Hovering a quest's title
 -- previews every objective. The line keeps the preview it started: a tracker rebuild can reassign this
--- pooled line before the cursor leaves. Achievement and scenario lines carry no quest objective.
+-- pooled line before the cursor leaves. The preview ends as the cursor leaves or the line hides.
+-- Achievement and scenario lines carry no quest objective.
 ---@param line TrackerLineFrame
 local function _EndPreview(line)
     local preview = line.mapPreview
@@ -188,6 +189,8 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
         TrackerFadeTicker.Fade()
         _EndPreview(self)
     end)
+    -- A line hidden under the cursor gets no OnLeave, and its preview would dim the map on.
+    line:SetScript("OnHide", _EndPreview)
 
     line.criteriaMark = AchievementCriteriaCheckmark.New(index, line)
     line.expandZone = ExpandZoneButton.New(index, line, OnEnter, OnLeave)
