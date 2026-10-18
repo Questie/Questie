@@ -247,6 +247,24 @@ describe("QuestiePolygon world-map adapter", function()
         assert.spy(WorldMapLayers.Invalidate).was.called_with("areas")
     end)
 
+    it("draws its areas again as any icon's hover starts or ends, since they fade with their markers", function()
+        Update()
+        Polygon.SetObjectiveAreaShown(42, 1, true)
+        FlushRefresh()
+        local other = {data = {Id = 456, Type = "monster"}}
+
+        -- Another quest's icon is hovered, and its spotlight dims this marker.
+        iconListeners.HoverStart(other)
+        frames[1].texture.a = 0.5
+        FlushRefresh()
+        assert.are.same({0.125, 0.375}, {drawnShapes[1].color[4], drawnShapes[1].borderAlpha})
+
+        frames[1].texture.a = 1
+        iconListeners.HoverEnd(other, other.data)
+        FlushRefresh()
+        assert.are.same({0.25, 0.75}, {drawnShapes[1].color[4], drawnShapes[1].borderAlpha})
+    end)
+
     it("follows its markers through icon events", function()
         Update()
         FlushRefresh()
