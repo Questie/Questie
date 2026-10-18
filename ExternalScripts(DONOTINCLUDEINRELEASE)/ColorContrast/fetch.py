@@ -26,6 +26,7 @@ import argparse
 import csv
 import os
 import re
+import shutil
 import struct
 import subprocess
 import sys
@@ -78,6 +79,20 @@ def read_table(flavor: Flavor, table: str) -> list[dict[str, str]]:
 
 
 # Blizzard's CDN
+
+def check_cdn_tools(wow: Path) -> None:
+    """Stops before any download unless the CDN half can run: it drives the Windows CASCConsole.exe from WSL."""
+    if not shutil.which("wslpath"):
+        raise SystemExit("fetch.py needs WSL: it runs the Windows CASCConsole.exe through wslpath. Yeah, I know. "
+                         "Ask an AI to port it if you want to run it somewhere else.")
+    casc = wow / "CASC"
+    if not (casc / "CASCConsole.exe").is_file():
+        raise SystemExit(f"fetch.py needs CASCConsole.exe in {casc}: put CASCExplorer's console build there "
+                         f"(github.com/WoW-Tools/CASCExplorer), or pass --wow")
+    if not (casc / "listfile.csv").is_file():
+        raise SystemExit(f"fetch.py needs CASCConsole's listfile.csv in {casc}: the community listfile, from "
+                         f"github.com/wowdev/wow-listfile")
+
 
 def native(path: Path) -> str:
     """Path as the Windows CASCConsole sees it."""
@@ -301,6 +316,7 @@ def main() -> None:
     if flavor.measured_on:
         print(f"{flavor.name} ships the {FLAVORS[flavor.measured_on].name} measurements; its tables are all it needs")
         return
+    check_cdn_tools(args.wow)
     print("map art and overlays")
     download(args.wow, flavor, art_files(flavor))
     compose_explored(flavor)
