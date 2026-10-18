@@ -3,22 +3,20 @@ dofile("setupTests.lua")
 describe("MapPreview", function()
     ---@type MapPreview
     local MapPreview
-    local QuestieFrame, QuestieMap, savedError, hovered, ended, icons
+    local QuestieFrame, QuestieMap, savedError, hovered, ended, frames
 
-    ---Registers an icon of quest 42 as QuestieMap does, by its frame's global name.
+    ---Registers an icon among quest 42's frames, by its frame name, as QuestieMap does.
     local function Icon(name, data, fields)
         local icon = fields or {}
         icon.data = data
-        _G[name] = icon
-        QuestieMap.questIdFrames[42][name] = name
-        icons[#icons + 1] = name
+        frames[name] = icon
         return icon
     end
 
     before_each(function()
-        hovered, ended, icons = {}, {}, {}
+        hovered, ended, frames = {}, {}, {}
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
-        QuestieMap.questIdFrames = {[42] = {}}
+        QuestieMap.GetFramesForQuest = function(_, questId) return questId == 42 and frames or {} end
         QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
         QuestieFrame.ApplyHoverHighlights = function(icon) hovered[icon] = icon.data end
         QuestieFrame.ResetHoverHighlights = function(icon, data) ended[#ended + 1] = {icon = icon, data = data} end
@@ -29,7 +27,6 @@ describe("MapPreview", function()
 
     after_each(function()
         Questie.Error = savedError
-        for _, name in ipairs(icons) do _G[name] = nil end
     end)
 
     it("hovers each world map icon of the objective until it ends, each hover ending with its data", function()
@@ -41,6 +38,7 @@ describe("MapPreview", function()
         Icon("QuestieFrame5", {Id = 42, Type = "monster", ObjectiveIndex = 1}, {hidden = true})
         Icon("QuestieFrame6", {Id = 42, Type = "complete"})
         Icon("QuestieFrame7", nil) -- Pooled.
+        Icon("QuestieFrame8", {Id = 99, Type = "monster", ObjectiveIndex = 1}) -- Handed out to another quest.
 
         local preview = MapPreview.Start(42, 1)
         assert.are.same({[first] = first.data, [second] = secondData}, hovered)
@@ -66,8 +64,8 @@ describe("MapPreview", function()
         MapPreview.Start(42)
 
         assert.are.same({[first] = first.data, [other] = other.data}, hovered)
-        -- A quest without icons previews nothing.
-        MapPreview.Start(7)
+        -- A quest without icons hovers nothing.
+        assert.are.same({}, MapPreview.Start(7).hovers)
     end)
 
     it("tells each listener as a preview starts and ends, and reports a failing one once", function()
