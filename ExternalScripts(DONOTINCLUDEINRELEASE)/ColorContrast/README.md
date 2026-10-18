@@ -3,7 +3,7 @@
 Measures which objective palette colors (`Modules/Quest/ObjectiveColors.lua`) are too faint to see as Questie blobs
 in each zone, on the world map and on the minimap. It writes the per-zone bans Questie ships
 (`Modules/Quest/ObjectiveColorBans/<Flavor>.lua`), plus review images to check them by eye. Questie uses the bans
-when it picks a new objective's color (see `OBJECTIVE-COLOR-PICKING.md` at the repository root).
+when it picks a new objective's color (see [`docs/objective-colors.md`](../../docs/objective-colors.md)).
 
 It lives in `ExternalScripts(DONOTINCLUDEINRELEASE)`, which release builds never package.
 
