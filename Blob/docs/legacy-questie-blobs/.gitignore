@@ -1,2 +1,0 @@
-# Preserve the bundled library changelogs despite the repository-wide ignore.
-!**/CHANGELOG.md
