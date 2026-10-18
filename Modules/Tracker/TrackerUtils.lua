@@ -166,9 +166,7 @@ end
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local spawn, zone = DistanceUtils.GetNearestObjective(objective.spawnList)
     if spawn then
-        WorldMapFrame:Show()
-        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-        WorldMapFrame:SetMapID(uiMapId)
+        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zone))
         TrackerUtils:FlashObjective(objective)
     end
 end
@@ -177,9 +175,7 @@ end
 function TrackerUtils:ShowFinisherOnMap(quest)
     local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     if spawn then
-        WorldMapFrame:Show()
-        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
-        WorldMapFrame:SetMapID(uiMapId)
+        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
         TrackerUtils:FlashFinisher(quest)
     end
 end

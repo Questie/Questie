@@ -20,6 +20,10 @@ local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -111,7 +115,8 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
 
     newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
-    newFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+    newFrame:RegisterForClicks("LeftButtonUp")
+    QuestieFrame.EnsureRightClickPassThrough(newFrame)
     newFrame:SetScript("OnClick", _QuestieFrame.OnClick);
 
     newFrame.GlowUpdate = _QuestieFrame.GlowUpdate
@@ -179,23 +184,36 @@ function _QuestieFrame.SetVertexColor(self, r, g, b, a)
     self.a = a or 1
 end
 
+-- Right clicks fall through to the map, so Blizzard zooms out/pings securely without causing taints.
+-- SetPassThroughButtons is blocked in combat, so frames acquired then retry once combat ends.
+---@param frame IconFrame
+function QuestieFrame.EnsureRightClickPassThrough(frame)
+    if frame.rightClickPassThrough then
+        return
+    end
+    if InCombatLockdown() then
+        if (not frame.rightClickPassThroughQueued) then
+            frame.rightClickPassThroughQueued = QuestieCombatQueue:Queue(_QuestieFrame.RetryRightClickPassThrough, frame)
+        end
+        return
+    end
+    frame:SetPassThroughButtons("RightButton")
+    frame.rightClickPassThrough = true
+end
+
+---@param frame IconFrame
+function _QuestieFrame.RetryRightClickPassThrough(frame)
+    frame.rightClickPassThroughQueued = nil
+    QuestieFrame.EnsureRightClickPassThrough(frame)
+end
+
 ---@param self IconFrame
 function _QuestieFrame.OnClick(self, button)
     local uiMapId = self.UiMapID
 
     if uiMapId and WorldMapFrame:IsShown() and (not IsModifierKeyDown()) and (not self.miniMapIcon) then
-        local currentMapId = WorldMapFrame:GetMapID()
-        if button == "RightButton" then
-            local mapInfo = C_Map.GetMapInfo(currentMapId)
-            local currentMapParent = mapInfo.parentMapID
-
-            if currentMapParent and currentMapParent > 0 then
-                WorldMapFrame:SetMapID(currentMapParent)
-            end
-        else
-            if uiMapId ~= currentMapId then
-                WorldMapFrame:SetMapID(uiMapId);
-            end
+        if button == "LeftButton" and uiMapId ~= WorldMapFrame:GetMapID() then
+            QuestieCompat.OpenWorldMap(uiMapId)
         end
     else
         -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
@@ -231,12 +249,6 @@ function _QuestieFrame.OnClick(self, button)
 
         -- Add waypoint
         Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(uiMapId, x, y, {title = title, crazy = true, from = "Questie"})
-    end
-
-    -- Make sure we don't break the map ping feature - this allows us to ping our own icons.
-    if self.miniMapIcon and button == "RightButton" and (not IsModifierKeyDown()) then
-        local _, _, _, x, y = self:GetPoint()
-        Minimap:PingLocation(x, y)
     end
 end
 
