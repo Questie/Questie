@@ -401,6 +401,28 @@ describe("QuestEventHandler", function()
             assert.spy(QuestieAnnounce.AbandonedQuest).was.not_called()
         end)
 
+        it("skips only the late duplicate: the next turn-in of the same quest counts", function()
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            abandonCheck()
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(2)
+            assert.spy(QuestieJourney.CompleteQuest).was.called(2)
+            assert.spy(QuestieAnnounce.CompletedQuest).was.called(2)
+        end)
+
+        -- A repeatable turned in without being accepted has no QUEST_ACCEPTED to clear the earlier turn-in's state.
+        it("counts every turn-in of a quest whose QUEST_REMOVED came before its QUEST_TURNED_IN", function()
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(2)
+            assert.spy(QuestieJourney.CompleteQuest).was.called(2)
+            assert.spy(QuestieAnnounce.CompletedQuest).was.called(2)
+        end)
+
         it("abandons a flagged quest that Questie already counts as complete", function()
             Questie.db.char.complete[QUEST_ID] = true
 

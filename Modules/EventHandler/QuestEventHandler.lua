@@ -364,9 +364,11 @@ end
 function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
 
-    if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
-        -- Already turned in, e.g. the late event of a quest MarkQuestAsAbandoned found flagged completed.
-        -- Running it again would repeat the Journey entry and the announcement.
+    if questLog[questId] and questLog[questId].lateTurnInExpected then
+        -- The late event of a quest MarkQuestAsAbandoned found flagged completed and turned in already. Running it
+        -- again would repeat the Journey entry and the announcement. Only that turn-in is skipped, once: a later one
+        -- of the same quest is real, e.g. a repeatable turned in without being accepted.
+        questLog[questId] = nil
         return
     end
 
@@ -451,6 +453,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         if QuestieCompat.IsQuestFlaggedCompleted(questId) and not Questie.db.char.complete[questId] then
             Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is flagged completed: turned in")
             QuestEventHandler.QuestTurnedIn(questId)
+            questLog[questId].lateTurnInExpected = true
             return
         end
 
