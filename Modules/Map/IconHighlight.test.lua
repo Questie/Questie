@@ -39,6 +39,11 @@ describe("IconHighlight", function()
                 end}
             end}}
         end
+        -- Records the level each icon was last drawn at: in front while grown.
+        QuestieLoader:ImportModule("QuestieMap").utils = {SetDrawOrder = function(icon)
+            icon.drawnInFront = icon.pictureScale ~= nil
+            icon.drawOrders = (icon.drawOrders or 0) + 1
+        end}
         dofile("Modules/Map/IconHighlight.lua")
         IconHighlight = QuestieLoader:ImportModule("IconHighlight")
     end)
@@ -68,8 +73,9 @@ describe("IconHighlight", function()
 
             assert.are.same({1.35, 1.5}, Fitted(icon))
             assert.are.equal(1, icon.texture.a)
-            -- The quest's icons show fully opaque with their glow ring grown.
+            -- The quest's icons show fully opaque with their glow ring grown, staying in their place.
             assert.are.same({nil, 1.5}, Fitted(sibling))
+            assert.is_nil(sibling.drawOrders)
             assert.are.same({1, 1}, {sibling.texture.a, sibling.glowTexture.a})
             -- Hidden icons stay as they are.
             assert.are.equal(1, hidden.texture.a)
@@ -217,9 +223,10 @@ describe("IconHighlight", function()
             icon.miniMapIcon = true
             local area = {}
 
-            -- A quest area's hover grows its marker alone.
+            -- A quest area's hover grows its marker alone, drawn in front of the icons around it.
             IconHighlight.Mark(icon, area)
             assert.are.same({1.35, 1.5}, Fitted(icon))
+            assert.is_true(icon.drawnInFront)
             assert.are.equal(0.6, icon.texture.a)
             assert.are.same({}, Fitted(sibling))
             -- The cursor reaches the marker, and then the area's hover ends.
@@ -228,7 +235,10 @@ describe("IconHighlight", function()
             assert.are.same({1.35, 1.5}, Fitted(icon))
             IconHighlight.EndHover(icon, data)
             assert.are.same({}, Fitted(icon))
+            assert.is_false(icon.drawnInFront)
             assert.are.equal(0.6, icon.texture.a)
+            -- Drawn anew only as it grew and as it shrank back.
+            assert.are.equal(2, icon.drawOrders)
         end)
 
         it("lets a mark held for an icon's old data go once the pool hands it out again", function()
