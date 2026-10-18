@@ -15,8 +15,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieWaypoints
-local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type MapIconTooltip
+local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
+---@type IconHighlight
+local IconHighlight = QuestieLoader:ImportModule("IconHighlight")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
@@ -33,9 +35,9 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field IconScale number
 ---@field QuestData Quest
 ---@field Name string
+---@field Names string[]? Everything the icon stands for, such as each NPC of a quest area its marker shows, starting with Name.
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
----@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
 
 ---@class IconTexture : Texture
 ---@field r number
@@ -44,14 +46,83 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field a number
 ---@field OLDSetVertexColor function
 
+-- Icon events
+-- Drawing features follow icons through these events; QuestieFrame never names a feature. Each
+-- listener runs in a pcall: an error is reported once per listener, and never stops the other
+-- listeners or the icon's own work, such as an unload that must finish whatever a feature does.
+
+---@alias IconEvent
+---| "Unload" # The icon unloads: at once, and again as the draw queue finishes unloading an icon it still held. Listeners do nothing the second time unless something was added in between. Afterwards the pool may hand the icon out for other data.
+---| "VisibilityChanged" # Questie hid or showed it with FakeHide/FakeShow, or faded it out or in: its `hidden` or `faded` changed.
+---| "NativeVisibilityChanged" # The frame itself was shown or hidden, as HereBeDragons places icons for the shown maps, and also by FakeHide/FakeShow.
+---| "HoverStart" # The cursor or the gamepad cursor started hovering it, or MapPreview hovers it for the player, such as for a tracker preview.
+---| "HoverEnd" # Its hover ended; the listener also gets the data the hover started with. It may come without a HoverStart, such as when the cursor leaves an icon faded out to nothing.
+---| "Click" # A plain left-click on a world map icon on its own map, or on a minimap icon while chat takes no link, which Questie leaves to features.
+
+---@type table<IconEvent, fun(icon: IconFrame, data: IconData?)[]>
+local listeners = {Unload = {}, VisibilityChanged = {}, NativeVisibilityChanged = {}, HoverStart = {}, HoverEnd = {}, Click = {}}
+---@type table<function, true>
+local reported = {}
+
+---@param event IconEvent
+---@param icon IconFrame
+---@param data IconData?
+local function _Emit(event, icon, data)
+    local list = listeners[event]
+    for i = 1, #list do
+        local listener = list[i]
+        local ok, err = pcall(listener, icon, data)
+        if not ok and not reported[listener] then
+            reported[listener] = true
+            Questie.Error("Icon " .. event .. " listener failed:", err)
+        end
+    end
+end
+
+---Calls listener whenever `event` happens to any icon, after the listeners subscribed before it. A
+---listener must not rely on that order, and must be cheap: NativeVisibilityChanged comes for every
+---icon the maps show or hide.
+---@param event IconEvent
+---@param listener fun(icon: IconFrame, data: IconData?)
+function QuestieFrame.Subscribe(event, listener)
+    local list = listeners[event]
+    if not list then error("QuestieFrame: unknown icon event " .. tostring(event)) end
+    list[#list + 1] = listener
+end
+
 ---@param frameId number
----@param OnEnter function
 ---@return IconFrame
-function QuestieFrame.CreateIconFrame(frameId, OnEnter)
+function QuestieFrame.CreateIconFrame(frameId)
+    ---A pooled map icon on the world map or the minimap: a quest giver, objective, finisher, manual
+    ---note or a drawing feature's marker. Drawing features read the fields below, never write them,
+    ---and follow the icon through QuestieFrame's icon events.
+    --- - One icon at a time: from QuestieFramePool:GetFrame until its Unload event the frame shows
+    ---   one icon; afterwards the pool may hand it out for other data. Anything a feature keys by the
+    ---   frame it forgets on Unload.
+    --- - Data refreshed in place: `data` is set when the icon is drawn and then changes only field by
+    ---   field until Unload, never for another table. A frame whose data is another table shows
+    ---   another icon, which is how patrol paths tell a recycled owner (`path.owner.data == path.data`).
+    --- - A feature's own fields on an icon or its data carry the feature's name (`polygonMarker`,
+    ---   `waypointPaths`), are declared in the feature's files, and are cleared when it lets the icon
+    ---   go. Core and other features never read them.
     ---@class IconFrame : Button
+    ---@field data IconData What the icon shows; nil while pooled, so code holding a pooled icon checks it.
+    ---@field minimapTwin IconFrame? A world map icon's minimap icon, drawn with the same data table: patrol paths follow it on the minimap. Linked by QuestieMap for icons drawn as a pair and by a drawing feature for its markers; cleared on unload. A twin unloaded alone stays linked, so readers check `twin.data == icon.data`.
+    ---@field miniMapIcon boolean? A minimap icon.
+    ---@field hidden boolean? Hidden by FakeHide, whatever HereBeDragons shows.
+    ---@field faded boolean? Faded by FadeOut, such as for the tracker's focus.
+    ---@field hoverData IconData? The data its cursor hover started with, which its OnLeave ends: the pool may hand the icon out again before the cursor leaves.
+    ---@field x number? Where it was drawn, in percent on UiMapID.
+    ---@field y number?
+    ---@field UiMapID number?
+    ---@field AreaID AreaId?
     ---@field isManualIcon boolean
-    ---@field data IconData
-    ---@field minimapTwin IconFrame? A world map icon's minimap icon; its waypoint paths follow it on the minimap.
+    ---@field texture IconTexture Its alpha (`texture.a`) is 0 for an icon faded out entirely, which is not there to hover.
+    ---@field pictureScale number? How much IconHighlight grows its picture and overlay while it is grown; nil to fill the frame.
+    ---@field glowScale number? How much IconHighlight grows its glow ring while it is lit or grown; nil for the usual size.
+    ---@field _pictureWidth number? The grown picture's width last fitted; nil while the picture fills the frame.
+    ---@field _loaded boolean? The draw queue added it to HereBeDragons; until then it is on no map.
+    ---@field _hidden_by_flash boolean? Hidden while the tracker's Show on Map flashes another objective.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId
 
@@ -75,13 +146,13 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
 
     ---@type IconTexture
     local texture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
-    texture:SetAllPoints(newFrame) -- Always same size and location as newFrame
+    texture:SetAllPoints(newFrame) -- Fills newFrame, or centred on it and larger while grown (_FitPicture)
     texture:SetTexelSnappingBias(0)
     texture:SetSnapToPixelGrid(false)
     -- .texture is shown always when newFrame is shown. No :Hide() or :Show()
 
     local overlayTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 1)
-    overlayTexture:SetAllPoints(newFrame) -- Always same size and location as newFrame
+    overlayTexture:SetAllPoints(newFrame) -- Same as .texture
     overlayTexture:SetTexelSnappingBias(0)
     overlayTexture:SetSnapToPixelGrid(false)
     overlayTexture:Hide()
@@ -109,7 +180,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     newFrame.glowTexture = glowTexture
     newFrame.overlayTexture = overlayTexture
 
-    newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
+    newFrame:SetScript("OnEnter", _QuestieFrame.OnEnter)
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
     newFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     newFrame:SetScript("OnClick", _QuestieFrame.OnClick);
@@ -136,33 +207,49 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     return newFrame
 end
 
+---Starts what hovering an icon shows besides its tooltip: each feature's HoverStart listeners, such
+---as its NPC's path highlight or a polygon marker's area preview, then IconHighlight's: the icon grows
+---and its quest goes in the spotlight. Listeners run first, so a path hover they end puts its icons
+---back before the spotlight lights them. ResetHoverHighlights undoes it all.
+---@param icon IconFrame
+function QuestieFrame.ApplyHoverHighlights(icon)
+    _Emit("HoverStart", icon)
+    IconHighlight.StartHover(icon)
+end
+
+---The icon's OnEnter. An icon faded out to nothing is not there to hover: it starts no hover and
+---shows no tooltip.
+---@param self IconFrame
+function _QuestieFrame.OnEnter(self)
+    if select(4, self.texture:GetVertexColor()) == 0 then return end
+    self.hoverData = self.data
+    QuestieFrame.ApplyHoverHighlights(self)
+    MapIconTooltip.ShowOnTooltip(self, GameTooltip)
+end
+
 ---@param self IconFrame
 function _QuestieFrame.OnLeave(self)
     if WorldMapTooltip then
         WorldMapTooltip:Hide()
         WorldMapTooltip._rebuild = nil
     end
-    if GameTooltip then
-        GameTooltip:Hide()
-        GameTooltip._Rebuild = nil
-    end
-
-    QuestieFrame.ResetHoverHighlights(self)
-    GameTooltip.ShownAsMapIcon = false
+    -- Another frame that took GameTooltip since keeps it.
+    MapIconTooltip.Release(self, GameTooltip)
+    local data = self.hoverData
+    self.hoverData = nil
+    QuestieFrame.ResetHoverHighlights(self, data)
 end
 
----@param self IconFrame
-function QuestieFrame.ResetHoverHighlights(self)
-    QuestieWaypoints.SetHighlighted(self.data, false)
-
-    if self.data.touchedPins then
-        for i = #self.data.touchedPins, 1, -1 do
-            local entry = self.data.touchedPins[i]
-            local icon = entry.icon;
-            icon.texture:SetVertexColor(unpack(entry.color));
-        end
-        self.data.touchedPins = nil;
-    end
+---Undoes what hovering an icon changed: IconHighlight's, then each feature's HoverEnd
+---listeners, such as its NPC's path highlight or a polygon marker's area preview. Every way an icon
+---hover ends calls it: the icon's OnLeave, a path hover ending (WaypointHover), a tracker or quest log
+---preview ending (MapPreview), and the gamepad cursor moving on (GamepadMapHover).
+---@param icon IconFrame The hovered icon. It is pooled, so it may show other data by now.
+---@param data IconData? The data it was hovered with; icon.data when nil.
+function QuestieFrame.ResetHoverHighlights(icon, data)
+    data = data or icon.data
+    if data then IconHighlight.EndHover(icon, data) end
+    _Emit("HoverEnd", icon, data)
 end
 
 ---@param self IconTexture
@@ -195,6 +282,8 @@ function _QuestieFrame.OnClick(self, button)
         else
             if uiMapId ~= currentMapId then
                 WorldMapFrame:SetMapID(uiMapId);
+            elseif button == "LeftButton" then
+                _Emit("Click", self)
             end
         end
     else
@@ -210,6 +299,8 @@ function _QuestieFrame.OnClick(self, button)
                     Popup.Show("QUESTIE_CONFIRMHIDE", confirmText, nil, frameData.Id)
                 elseif frameData.Type == "manual" and IsShiftKeyDown() and (not frameData.ManualTooltipData.disableShiftToRemove) then
                     QuestieMap:UnloadManualFrames(frameData.id)
+                elseif self.miniMapIcon and not IsModifierKeyDown() then
+                    _Emit("Click", self)
                 end
             end
         end
@@ -240,13 +331,54 @@ function _QuestieFrame.OnClick(self, button)
     end
 end
 
+---The glow ring's size: a little larger than the icon, and larger still while IconHighlight grows it.
+---@param self IconFrame
+---@return number width
+---@return number height
+local function _GlowSize(self)
+    local scale = 1.13 * (self.glowScale or 1)
+    return self:GetWidth() * scale, self:GetHeight() * scale
+end
+
+---@param picture Texture
+---@param frame IconFrame
+---@param width number?
+---@param height number?
+local function _Anchor(picture, frame, width, height)
+    picture:ClearAllPoints()
+    if width then
+        picture:SetPoint("CENTER", frame, "CENTER")
+        picture:SetSize(width, height)
+    else
+        picture:SetAllPoints(frame)
+    end
+end
+
+---Fits the picture and its overlay to the frame: they fill it, or while IconHighlight grows the icon
+---they are centred on it and larger. The frame keeps its size, so where the cursor finds the icon
+---never changes. Cheap when nothing changed: it runs on every minimap update.
+---@param self IconFrame
+local function _FitPicture(self)
+    local scale = self.pictureScale
+    local width = scale and self:GetWidth() * scale
+    if width == self._pictureWidth then return end
+    self._pictureWidth = width
+    local height = scale and self:GetHeight() * scale
+    _Anchor(self.texture, self, width, height)
+    _Anchor(self.overlayTexture, self, width, height)
+end
+
+---Fits the icon's picture, overlay and glow ring to its size and colours the ring. It runs whenever
+---the icon is resized, as IconHighlight grows or shrinks it, and on every minimap update.
 ---@param self IconFrame
 function _QuestieFrame.GlowUpdate(self)
+    _FitPicture(self)
     if self.glowTexture:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
-        if (self.glowTexture:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glowTexture:GetHeight() ~= self:GetHeight() * 1.13
-            self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
+        local width, height = _GlowSize(self)
+        if self.glowTexture:GetWidth() ~= width then
+            self.glowTexture:SetSize(width, height)
         end
         if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color then
             --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
@@ -262,22 +394,26 @@ end
 ---@param self IconFrame
 function _QuestieFrame.BaseOnShow(self)
     local data = self.data
+    _FitPicture(self)
 
     if ((self.miniMapIcon and Questie.db.profile.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.profile.alwaysGlowMap)) and
         data and data.ObjectiveData and
         data.ObjectiveData.Color and
         (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
         ) then
-        self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
+        self.glowTexture:SetSize(_GlowSize(self))
         local _, _, _, alpha = self.texture:GetVertexColor()
         self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
         self.glowTexture:Show()
     end
+    -- HereBeDragons shows and hides icons as maps change, also after features drew for them.
+    _Emit("NativeVisibilityChanged", self)
 end
 
 ---@param self IconFrame
 function _QuestieFrame.BaseOnHide(self)
     self.glowTexture:Hide()
+    _Emit("NativeVisibilityChanged", self)
 end
 
 ---@param self IconFrame
@@ -343,13 +479,17 @@ function _QuestieFrame.UpdateTexture(self, texture)
     else
         self:SetAlpha(1)
     end
+    -- A grown picture follows the new size.
+    _FitPicture(self)
 end
 
 ---@param self IconFrame
 function _QuestieFrame.Unload(self)
+    -- Features let the icon go at once, also while it is queued: what they draw for it shows without
+    -- it. The draw queue's later call tells them again, for anything added to the icon meanwhile.
+    _Emit("Unload", self)
+    IconHighlight.Forget(self)
     if not self._loaded then
-        -- Its paths draw without it, so they go now rather than once the draw queue reaches it.
-        QuestieWaypoints.RemoveOwner(self)
         self._needsUnload = true
         return -- icon is still in the draw queue
     end
@@ -382,9 +522,6 @@ function _QuestieFrame.Unload(self)
 
     self.texture:SetVertexColor(1, 1, 1, 1)
     self.miniMapIcon = nil;
-
-    -- Release the patrol paths this icon owns.
-    QuestieWaypoints.RemoveOwner(self)
     self.minimapTwin = nil
 
     if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
@@ -409,7 +546,7 @@ function _QuestieFrame.FadeOut(self)
         self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
-        QuestieWaypoints.OwnerChanged(self)
+        _Emit("VisibilityChanged", self)
     end
 end
 
@@ -421,7 +558,7 @@ function _QuestieFrame.FadeIn(self)
         self.texture:SetVertexColor(r, g, b, 1)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, 1)
-        QuestieWaypoints.OwnerChanged(self)
+        _Emit("VisibilityChanged", self)
     end
 end
 
@@ -440,7 +577,7 @@ function _QuestieFrame.FakeHide(self)
             self.shouldBeShowing = false;
         end
         self.hidden = true
-        QuestieWaypoints.OwnerChanged(self)
+        _Emit("VisibilityChanged", self)
     end
 end
 
@@ -456,7 +593,7 @@ function _QuestieFrame.FakeShow(self)
         if self.shouldBeShowing then
             self:Show();
         end
-        QuestieWaypoints.OwnerChanged(self)
+        _Emit("VisibilityChanged", self)
     end
 end
 
@@ -469,17 +606,6 @@ function _QuestieFrame.ShouldBeHidden(self)
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
 
-    local IsSoD = Questie.IsSoD
-
-    --investigate quest and cache results to minimize DB lookups
-    local repeatable = QuestieDB.IsRepeatable(questId)
-    local event = QuestieDB.IsActiveEventQuest(questId)
-    local dungeon = QuestieDB.IsDungeonQuest(questId)
-    local raid = QuestieDB.IsRaidQuest(questId)
-    local pvp = QuestieDB.IsPvPQuest(questId)
-    local normal = not (repeatable or event or dungeon or raid or pvp)
-    local itemStart = (data.StarterType ~= nil)
-
     if (not profile.enabled) -- all quest icons disabled
         or ((not profile.enableMapIcons) and (not self.miniMapIcon))
         or ((not profile.enableMiniMapIcons) and (self.miniMapIcon))
@@ -489,24 +615,31 @@ function _QuestieFrame.ShouldBeHidden(self)
         or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId)) -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
-        -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
-        -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
-        or (iconType == "available"
-            and (
-                ((not profile.enableAvailable) and normal)
-                or ((not profile.showRepeatableQuests) and repeatable)
-                or ((not profile.showEventQuests) and event)
-                or ((not profile.showDungeonQuests) and dungeon)
-                or ((not profile.showRaidQuests) and raid)
-                or ((not profile.showPvPQuests) and pvp)
-                or ((not profile.enableAvailableItems) and itemStart)
-                or (IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId))
-            -- this quest group isn't loaded at all while disabled:
-            -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
-            )
-        )
     then
         return true
+    end
+
+    -- Category filters apply only to available quests. Objective/turn-in icons and
+    -- icons already hidden above need no classification lookups.
+    if iconType == "available" then
+        local repeatable = QuestieDB.IsRepeatable(questId)
+        local event = QuestieDB.IsActiveEventQuest(questId)
+        local dungeon = QuestieDB.IsDungeonQuest(questId)
+        local raid = QuestieDB.IsRaidQuest(questId)
+        local pvp = QuestieDB.IsPvPQuest(questId)
+        local normal = not (repeatable or event or dungeon or raid or pvp)
+        local itemStart = (data.StarterType ~= nil)
+
+        if ((not profile.enableAvailable) and normal)
+            or ((not profile.showRepeatableQuests) and repeatable)
+            or ((not profile.showEventQuests) and event)
+            or ((not profile.showDungeonQuests) and dungeon)
+            or ((not profile.showRaidQuests) and raid)
+            or ((not profile.showPvPQuests) and pvp)
+            or ((not profile.enableAvailableItems) and itemStart)
+            or (Questie.IsSoD and QuestieDB.IsRuneAndShouldBeHidden(questId)) then
+            return true
+        end
     end
 
     return false

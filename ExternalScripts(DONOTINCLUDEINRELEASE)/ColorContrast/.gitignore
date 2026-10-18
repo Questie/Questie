@@ -1,0 +1,4 @@
+output/
+ratings/cells/
+__pycache__/
+.pytest_cache/

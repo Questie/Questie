@@ -1,0 +1,27 @@
+{
+  "weights": {
+    "lightness": 0.6,
+    "red_green": 1.0,
+    "blue": 0.9,
+    "yellow": 1.1
+  },
+  "thresholds": {
+    "map": {
+      "faint": 4.8,
+      "clear": 6.32
+    },
+    "minimap": {
+      "faint": 5.008,
+      "clear": 6.685
+    }
+  },
+  "fit": {
+    "ratings": 217,
+    "too_faint_agreement": 163,
+    "held_out_too_faint_agreement": 152,
+    "exact_level_agreement": 142,
+    "repeats_same": 17,
+    "repeats": 24,
+    "date": "2026-10-18"
+  }
+}

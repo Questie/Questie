@@ -1,0 +1,214 @@
+# Questie world-map polygons
+
+Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's objective-style preset, or in the initial objective-style popup when offered. The profile setting `enableQuestiePolygons` defaults to false; migration 42 leaves existing profiles opted out unless already explicitly enabled.
+
+## Player behavior
+
+- Local, incomplete quest objectives use cluster markers instead of per-spawn icons, on the world map and the minimap. See [Objects and the minimap](#objects-and-the-minimap).
+- Every objective's areas show from quest accept by default. With **Show quest areas when accepted** disabled (Icons tab, shown in blobs mode), an objective's areas show while the player is within 100 world units of any of its clusters' spawn extents on the same instance, and hide again on leaving. A one-second ticker checks this; all of the objective's clusters show or hide together.
+- Plain left-click on a marker on its own map, or on one of its minimap icons, shows the opposite of what that objective currently shows: it hides automatic areas or keeps hidden ones visible. A result matching the automatic mode clears the saved choice instead, so the objective follows that mode again. A hiding click also ends the marker's hover preview. The marker's own tooltip ends with a gray line saying what a click does there: "Click to hide areas" or "Click to show areas". Clicking from another map first navigates there. Existing modifier and right-click actions remain unchanged.
+- Choices are saved per character in `Questie.db.char.polygon.objectiveVisibility[questId][objectiveIndex]`: `true` shows, `false` hides, and absent follows the automatic mode. They survive reloads and resets; choices for finished quests are not pruned.
+- Hover a marker, on the world map or the minimap, to preview that objective's areas on that map, every one highlighted. Nearly coincident markers are nudged apart visually; there is no picker. Leaving clears the preview, not a saved choice; map changes and closing the map clear previews.
+- Hovering a quest objective in Questie's tracker, or a quest log box, previews it through core's `MapPreview` (`Modules/Map/MapPreview.lua`), in every icon style: each of its world map icons is hovered, so its markers grow, its quest's objective icons light up while other quests' dim, and its routes highlight. Polygon hears the preview and shows the objective's areas on the world map and the minimap, highlighted; an objective without areas shows none. Hovering a quest's title previews every objective of the quest. The tracker line or box keeps the preview it started, so a rebuild under the cursor cannot leave one behind, and a new hover ends one a missed leave left. Closing the map ends every area preview; the icons' hovers last until the preview ends.
+- Hovering areas on the world map or the minimap shows the map icon tooltip for their marker icons, so Shift detail and party progress work as on any map icon. Like a hovered icon's tooltip, it also lists the icons around the cursor, and a hovered icon's own tooltip, on either map, lists the shown areas beneath it, by their markers. It does not show in the gamepad UI. **Show quest area tooltips** (Icons tab, shown in blobs mode, on by default) turns it off. The tooltip shows only over bare map, beneath patrol paths, so icons and paths keep their own tooltips.
+- Every map icon tooltip, on either map, starts each objective's own line with a swatch in its area color, matching the line to its areas and its marker's glow. Party lines get none.
+- Hovering an area, on the world map or the minimap, lights up only that area and the marker icon attached to it, with or without the tooltip; overlapping areas light up each of theirs. The rest of the quest stays as it is: hovering the marker itself puts its quest in the spotlight, highlights all of its objective's areas and the routes it owns. Areas drawn only as a preview don't hover.
+- Forever's Map & Quest Log shows a box, matching Blizzard's tracking checkbox, in the gutter left of each objective row with areas. While the objective's areas show, a muted fill in its area color with rounded corners (`Icons/quest-log-area-fill.png`) sits inside the box; while they are hidden, the box is empty. Box and fill draw without pixel snapping, so fractional UI scales keep both edges symmetric. Hovering a box previews the objective as hovering its tracker line does, its areas with every cluster highlighted, and a tooltip says what a click does. Clicks follow the same saved-choice rules as marker clicks; shift-click applies the clicked row's new state to every objective of the quest, including special objectives. Quest titles and rows without areas have no box. Other clients' quest logs are not covered yet.
+- A marker's tooltip names every NPC or object its cluster holds, with Shift, not only the one it shows.
+- Isolated, collinear, and small clusters keep a point marker without an area. Rare-only targets are not discarded.
+- The minimap shows the same areas as the world map, beneath the cluster icons. See [Minimap areas](#minimap-areas). Objective NPCs' patrol routes (Questie's waypoint paths) belong to the objective's markers: the cluster the NPC spawns in, else the zone's marker. They follow that marker on both maps: its map icon, and on the minimap its minimap icon of the same spawn, which shares its data.
+- Party-only objectives keep their existing rendering. Quest availability/turn-in markers, quest state, tooltip registration, and tracker behavior remain with Questie.
+
+The preset enables objective display, applies normal Questie icon preferences, and disables Blizzard quest POIs where available. Selecting another preset, including Custom, exits polygon mode. Customizing individual icon preferences does not itself exit the mode.
+
+Areas can appear on adjacent detailed maps when their owning marker is acquired and visible there, including through its native parent. Queued, released, or hidden markers do not draw areas; saved or automatic visibility does not override that gate. Areas also follow logical hiding/tracking rules and fade opacity. Drawing is limited to Zone, Dungeon, and Micro maps, never World, Continent, Cosmic, or unknown map types. Direct hover highlights every shown polygon whose shape contains the cursor, including overlaps, unless a patrol path or other UI covers the map there. Polygon frames take no mouse input. Generic Questie icon clicks and tooltips are unchanged; Polygon markers retain direct-click show/hide. Direct polygon hover lights up the hovered areas and their marker icons; it never changes saved visibility.
+
+### Objects and the minimap
+
+A cluster is marked by one icon at its area's centroid; the drawn area shows where that icon points. Game objects stand exactly where their spawns say, unlike wandering creatures, so they never share a cluster with creatures and the minimap shows each object's own position. Object objectives and items looted from objects are flagged `IsObject` where their spawn lists are built.
+
+| Spawns | World map | Minimap |
+| --- | --- | --- |
+| Creatures and events | Area plus one icon at its centroid; stray spawns keep a point icon | The same icon, at the same position |
+| Game objects | Area plus one icon at its centroid, like creatures. Without an area, the icon sits on the object nearest the group's middle, never in open ground between objects | An icon on each object, skipping objects within 10 yards of one already shown |
+
+Both kinds cluster at 180 yards: on a zone map that keeps icons about as far apart as creature icons. Objects within 10 yards of each other would overlap as minimap icons even at full zoom. The ordinary per-spawn objective icons are not drawn in blobs mode, and each zone reached only by patrols gets one route marker on both maps, showing the patrolling NPC. Minimap icons keep Questie's ordinary tooltips, fading, and hiding. A plain left-click on one toggles its objective's areas like a click on its map marker, unless an open chat box takes the quest's link; hovering one previews its objective's areas on the minimap, as hovering its map marker does on the world map. The icon limit and objective icon filter distance apply only to the ordinary per-spawn icons.
+
+### Minimap areas
+
+An objective's areas show on the minimap whenever they show on the world map: saved choices, show-on-accept, and nearby mode apply alike. Quest log and tracker previews reach the minimap, highlighted. Hovering a marker previews only on its own map: a world-map marker on the world map, a minimap icon on the minimap. Areas follow their cluster's minimap icons' hiding rules, so **Enable Minimap Icons** governs them and **Enable Map Icons** does not. They fade as the world-map marker's fade says, such as under tracker focus, as patrol paths do: minimap icons' own opacity fades with the player's distance, and the marker's own opacity is the world map's, which a hover's spotlight dims. Neither is read through visibility: a closed map shows no markers, and queued icons may load without notice. Only areas on the player's instance whose bounds come within 2 view radii of the projection's origin are drawn, which covers 1.5 radii around the player until the canvas projects again. There is nothing to draw around without a player position, such as inside instances.
+
+Each outline vertex is converted once from its map's percentages to HBD world yards, so each axis uses its zone's own extent. The minimap then needs a single yards-to-units scale, the same for both axes apart from a non-square minimap's half-width and half-height.
+
+Areas are the areas layer of [`MinimapCanvas`](../MinimapCanvas.lua), the drawing surface over the minimap that patrol paths share. The canvas places drawings with HBD-Pins' minimap icon arithmetic, including rotation by the player's facing when `rotateMinimap` is on, so areas line up with Questie's minimap icons and with paths. It projects relative to a fixed origin, moves the layers' containers while the player walks, and projects again for a new zoom, minimap size, instance, facing on a rotating minimap, or a drift of half a view radius. Areas out of reach keep their frames and are reprojected when they return. The canvas runs one update while a layer has something to show, and none while none has.
+
+Areas sit one level above the minimap, beneath patrol paths and Questie's minimap icons. Every fill and border carries the canvas's two masks: the minimap's shape, from the last asset passed to `Minimap:SetMaskTexture` or else `GetMinimapShape()` (only `SQUARE` is square), and `Icons/minimap-player-mask.tga`, a soft hole over the player arrow so areas never hide it. The canvas's header describes both.
+
+Nothing on the minimap takes mouse input or calls protected API. Minimap areas hover as the world map's do, beneath patrol paths and only over the bare minimap: hovering one lights up it and its marker's minimap icon, and the minimap's own tooltip (`MapIconTooltip.MinimapTooltip`, owned by the areas layer's container) lists the areas under the cursor and the icons around it. Areas themselves don't take clicks; a marker's minimap icon does. An objective's routes draw on the minimap through the waypoint minimap layer, following each marker's minimap twin. Changes that schedule a world-map refresh also mark the minimap's areas stale; the next update collects them again. The minimap is optional: a failed layer setup is reported and world-map drawing continues, and a failed update is reported once and stops the layer until the next change.
+
+### Fixed horizontal marker stacks
+
+Only Polygon marker display anchors move. Markers on the same original UI map join a group when their original coordinates are within **0.01 percentage points** of its stable seed. This is a map-space tolerance, not a screen-pixel distance. Groups do not expand through neighbor chains.
+
+Seeds and slot order use quest, objective, map, and original cluster coordinates, not frame allocation order. Two markers sit left/right; three sit left/center/right. Larger groups continue the same horizontal row. Markers without an area that share a quest and icon look identical, such as two objectives marking the same campfire, so they share one slot and overlap exactly; the map icon tooltip already lists every objective under the cursor. Markers with an area always get their own slot, so each can be hovered and clicked. Hidden, offscreen, and queued members retain their slots, so scrolling cannot rearrange the remaining icons. Saved visibility remains objective-wide, not per cluster.
+
+Spacing is **70% of the group's maximum current configured icon width**, in HBD wrapper-local units. Equal 16-unit icons have offsets ±5.6; three have offsets −11.2, 0, +11.2. Applying `storedOffset * wrapperEffectiveScale / iconEffectiveScale` makes separation grow with HBD's zoom sizing instead of keeping the centers a fixed screen distance apart. At presentation scale 1.2, a 16-unit icon displays at 19.2 units and the two-icon gap grows from 11.2 to 13.44.
+
+Base widths exclude Questie's separate world/continent icon-size multiplier, so the displayed gap is not necessarily 70% of icon width on every map type. Membership, original coordinates, or configured widths can change group slots; zoom only reapplies their scale. Panning, viewport edges, and neighboring icons do not change the layout.
+
+There is no layout monitor, collision solver, viewport packing, safety reservation, movement limit, or picker. Map callbacks and HBD's optional child callback reapply stored offsets without regrouping. This deliberately solves coincident locations, not general clutter: unrelated icons may still overlap a stack, and large stacks can extend beyond map edges.
+
+Stored coordinates, polygon outlines, waypoint geometry, and navigation targets do not move. Other Questie icons, minimap icons, and Blizzard pins are not shifted. The retired screen-space experiment is preserved in `.scratch/polygon-nudging-experiment/`, locally gitignored with verified checksums. That archive is separate from the [original QuestieDev-Master reference package](../../../Blob/docs/legacy-questie-blobs/README.md).
+
+## Modules and data flow
+
+```text
+Questie objective.spawnList
+  → phase-filtered points with explicit map/world coordinates
+  → map/instance-partitioned moving-center clusters
+  → convex hull → Catmull-Rom samples → convex envelope → reduction
+  → cached cluster markers and optional source-map outlines
+  → visible-marker gate and projection onto the displayed detailed map
+  → retained rendered views per objective, polygon, and destination map
+  → world-map canvas visibility and styling
+```
+
+| Module | Responsibility and interface |
+| --- | --- |
+| [PolygonGeometry.lua](PolygonGeometry.lua) | `Build(points, options, isCancelled)` computes clusters in the caller's coroutine. Returns a complete cluster array, or nil on cancellation. |
+| [PolygonRenderer.lua](PolygonRenderer.lua) | `New(canvas, hoverInput?, maskTextures?)` owns native primitives, pools, and hover for the cursor offered to `Hover(x, y)`; `ShapesAt(x, y)` finds the visible outlines at a point without hovering. `Create`, `Configure`, `Style`, `SetVisibleFrames`, `Release`, and `Clear` operate on retained views. |
+| [PolygonRenderCache.lua](PolygonRenderCache.lua) | `New(renderer)` owns uniform, lazy per-map view caching. `Present(mapId, shapes, width, height, frameLevel)` reconciles visibility; `Hide`, `Release(owner, key?)`, and `Clear` separate temporary hiding from deletion. |
+| [PolygonMinimap.lua](PolygonMinimap.lua) | `New(collect, onHover)` adds the areas layer to `MinimapCanvas`: world-yard outline cache, culling to the canvas's reach, and area styling. `AreasAt(x, y, instanceId)` finds the drawn areas at a spot in world yards. |
+| [PolygonNudging.lua](PolygonNudging.lua) | `Calculate(items)` assigns horizontal slots from original map coordinates and configured widths. `New()` owns application through `Update(markers, iconScale)`, `Apply`, `Reapply`, `SetEnabled`, `Remove`, and `Clear`. |
+| [QuestiePolygon.lua](QuestiePolygon.lua) | Questie adapter: source collection, cache, marker ownership, visibility, layout scheduling, map provider, and cleanup. Keeps Questie-specific policy out of geometry/rendering. Client-neutral quest log API: `GetObjectiveAreaState`, `SetObjectiveAreaShown`, `SetQuestAreasShown`, and `RegisterVisibilityCallback`, which coalesces changes into one next-frame call. Quest logs preview through `MapPreview`, which Polygon hears to show the previewed areas. Map icon tooltips ask it for the areas beneath an icon (`AreaIconsAt`) and each objective line's area color (`ObjectiveSwatch`). |
+| [PolygonQuestLogForever.lua](PolygonQuestLogForever.lua) | Forever-only quest log boxes, loaded only by `Questie_Camelot.toc`. Post-hooks `QuestLogQuests_Update` and the visibility callback, and matches objective rows to leaderboard indexes by text. A quest log track for other clients belongs in its own file using the same API. |
+
+There is no runtime dependency on `Blob/` or `QuestPOI/`, native geometry extraction, provider writes, or disk cache. Spawn completeness is limited by QuestieDB's data.
+
+### Geometry and rendering contracts
+
+Input points are immutable records with named `x`, `y` in **zone percentages (0–100)**, `worldX`, `worldY` in HBD world units, numeric `uiMapId`, `instanceId`, and optional `isObject`. Clusters never cross map, instance, or object/creature partitions. The adapter filters invalid locations and translates dungeon `{-1,-1}` spawns to known entrances. Additional point metadata remains opaque to geometry; each cluster retains its original `representative` point.
+
+Each result has `{uiMapId, instanceId, x, y, outline?, worldBounds, representative, kinds?}`; `kinds` lists the first member of each `kind` a point carries, which the adapter sets to the spawn's NPC or object, so a marker names everything its area holds. Marker coordinates and outline vertices use percentage units; `worldBounds` is the members' spawn extent in world units, used for the nearby check. Object clusters add `isObject` and `locations`, which lists members at least `objectSpacing` apart, starting with `representative`. Without an outline, `representative` and `x`, `y` are the member nearest the members' mean rather than their mean. Defaults are radius `180` world units, area cutoff `0.9` squared percentage units, reduction tolerance `0.03` percentage units, and object spacing `10` world units. These are implementation defaults, not player-facing controls.
+
+`Build` must run through a coroutine-aware caller such as ThreadLib. Every objective update runs in its own ThreadLib ticker, so all polygon work shares one slice per frame instead of spending 2 ms per ticker. Each `Checkpoint` charges its step a cost, 1 for a geometry step, and a job checks cancellation and the slice before its first step and then whenever it has charged 256 since its last check. `GetTime()` identifies the frame, `GetTimePreciseSec()` measures it, and jobs yield once the frame has spent about 2 ms or 32,768 operations. A job starting or resumed in a spent frame yields before working, so callers must resume at most once per frame, as ThreadLib does. Spawn collection and marker allocation share the same budget, icon by icon: a collected spawn costs 32 steps and a drawn icon 256, so every job reads the clock about as often. The operation ceiling bounds work without a working clock, such as in tests, at about 11 ms of offline Lua; in game the 2 ms clock decides. This is a cooperative budget, not a hard frame-time guarantee; clustering and the first hull still have quadratic worst cases.
+
+Scheduling has two tiers. Background builds, from data to geometry and markers, run in ThreadLib jobs on this shared budget and check cancellation after every yield: spawn collection, `Build` and marker allocation. Presentation, from geometry to frames on screen, runs synchronously in the frame or timer callback that needs it and never yields: `Refresh` and `Present`, the minimap layer's update, and hover. Its cost scales with what is visible, not with the quest log.
+
+Renderer shapes contain `{points = outline, color = {r, g, b, fillAlpha}, borderAlpha = optionalAlpha, highlighted = optionalBoolean}`. `highlighted` requests an outline highlight through marker association, independently of native hover support. Pass the canvas's full logical width/height and a frame level below markers. Outlines must be ordered, convex, immutable, and not repeat their closing vertex. Replace point-table identity rather than mutating cached geometry in place. Ordinary canvas zoom/pan is inherited; logical canvas-size changes reconfigure the affected view.
+
+The cache adds `{owner = objectiveEntry, key = marker, source = originalOutline, sourceMapId = originalMapId}` to each shape. Owner/key identities are logical records, never recyclable marker frames. `Present` publishes the requested map's visible set after configuration succeeds and returns `true` or `nil, error`. A failed presentation clears cache ownership and attempts to release all native views, including partial allocations. If native cleanup also fails, the error reports that failure and the renderer keeps the affected resources reachable for a later cleanup retry.
+
+Compared with the historical implementation, geometry has explicit units, deterministic ordering, duplicate removal and farthest-collinear hull selection. It omits the unsafe interior-point prefilter, uses an efficient monotone-chain envelope for the spline sample cloud, and reduces with the shared `MapGeometry.Simplify` over the outline closed back to its start, which measures actual point-to-segment distance. Rendering retains the two-edge quad fan with independent borders, using client `WHITE8X8` rather than copied addon artwork.
+
+These are smoothed convex approximations, not terrain-aware regions, concave polygons, or polygons with holes. Simplification does not guarantee exact enclosure of every spawn.
+
+### Direct polygon hover
+
+Polygon frames never take mouse input, so they cannot block map clicks or dragging and need no protected setup, in or out of combat. Hover is computed from the cursor instead. On the world map the areas are the bottom layer of `WorldMapLayers` (`Modules/Map/WorldMapLayers.lua`), beneath patrol paths. The stack reads the cursor and offers it to `Renderer:Hover(x, y)` in canvas percent while the bare map is under it, the gamepad UI is off and no path claims it; otherwise it offers nil once. It offers the cursor again when it moves, the zoom changes, or Polygon draws anew, and ignores secret, non-finite and off-canvas positions. `Hover` returns whether any outline contains the cursor.
+
+The renderer keeps the last offered cursor, so outlines drawn anew under a still cursor hover at once. The check highlights every visible polygon whose actual outline contains the cursor, including overlaps; edges and vertices count as inside, and each outline's bounding box rejects most polygons before the full test.
+
+Optional `hoverInput.onHover(shapes, x, y)` hears every hover check with the hovered shapes as last styled and the cursor checked. The adapter hands the shapes' marker icons, with the icons around the cursor from `MapIconTooltip.IconsNear`, to `MapIconTooltip.ShowForIcons`, rebuilding only when the listed icons change or after another tooltip took over, and ends it with `MapIconTooltip.Release`. A check after drawing anew uses the kept cursor before the stack looks again, so the adapter also asks that the map's `ScrollContainer` has mouse focus and the gamepad UI is off.
+
+The effective highlight set combines these geometric hits with each shape's `highlighted` request. The adapter sets that flag for every cluster of a hovered marker's objective. Marker highlighting works without a hover input, and leaving a polygon cannot erase a still-active marker highlight.
+
+The adapter also grows each hovered area's marker icon with `IconHighlight.Mark` (`Modules/Map/IconHighlight.lua`), as a mark of each map's own, and ends it with `Unmark` when the area is no longer hovered or Questie unloads the marker. An icon stays grown while any mark holds it, such as an area's and then, as the cursor reaches the marker, its own hover's, so it does not shrink under the cursor. Only areas the objective shows hover: areas drawn just as a preview go with it. Any icon's `HoverStart` releases the area tooltips, so the icon's own shows alone. Any icon's `HoverStart` and `HoverEnd` also draw the areas again: areas fade with their markers, and a hover's spotlight dims other quests' markers.
+
+Each highlighted border becomes 20% thicker and its RGB increases 25%, capped at 1; border alpha stays unchanged. Hover restyles borders only when effective selection changes; color and opacity changes also update their appearance without rebuilding fills. Showing a drawing immediately reevaluates highlights, including a stationary cursor. UI that appears over a still cursor is noticed when the cursor next moves.
+
+Empty presentations and map hide clear both highlight sets without releasing configured views. Release and reset drop shape references and return primitives to their pools. One shared frame follows the canvas's hide and show for hover and marker highlights alike, with no `OnUpdate` callback. Hidden views do not participate in hover or marker highlighting. No per-polygon tickers, accumulating hooks, or global input replacements are installed.
+
+## Cache and lifetime
+
+### Retained rendered views
+
+All destination maps use the same policy. The cache creates a polygon's native view only when it is first eligible for display on that map. Switching maps or closing the map hides views, retaining their frames, fills, borders, and configured coordinates. A return visit rechecks the adapter's current marker visibility before showing them. First-time views still require synchronous configuration; retaining drawings does not eliminate cold-render cost.
+
+An unchanged view performs no vertex/UV setup or primitive acquisition. Marker highlighting updates only the affected borders; color and opacity update existing primitives. Preview and visibility changes hide/show the affected views without rebuilding unrelated polygons. The renderer's random-color diagnostic (`debugRandomColors`, off by default) is acquisition-based, so retained primitive colors remain stable through refresh, hover, hide/show, and resizing.
+
+A changed destination projection or canvas size reconfigures that view in place. A changed original outline/source map invalidates all of that polygon's destination views. Marker removal releases its views on every map; objective geometry replacement/removal releases the objective's views before marker recycling. Reset releases hidden as well as visible views. There is no timed eviction, current-map exception, eager all-map rendering, or disk persistence. Native region retention can grow with the live objectives and destination maps actually displayed; pools retain their allocation high-water mark after release.
+
+### Geometry and marker ownership
+
+`UpdateObjective(quest, objective, objectiveIndex)` operates on the **full eligible spawn list**, not `AlreadySpawned`'s incremental icon list. It accepts only the current local quest object, excludes completed/party objectives, and uses canonical `objective.Index` where present. This matters because special objectives can all arrive with passed index `0`.
+
+Entries are owned by quest and objective, with map-specific clusters. Progress updates that keep the objective's `spawnList` table and the recorded phase visibility skip collection entirely; Questie replaces spawn lists whole rather than editing them. Otherwise a sorted signature of eligible target/location identities and coordinates decides reuse. Unchanged inputs reuse geometry and markers while refreshing tooltip/icon metadata, map scale, and fade. Changed eligible spawns or phases cause replacement on the next objective update. Map navigation alone does not rebuild geometry.
+
+For adjacent maps, HBD translates the original outline into destination-map percentage coordinates. Successful projections are cached per marker, source-outline identity, source map, and destination map. Source geometry remains unchanged; replacing it invalidates its projected views. Missing, restricted, or nonfinite conversions omit the whole outline and can retry later. Vertices outside 0–100 remain intact for canvas clipping, and geometric hover uses the same projected points. Nudging affects only marker display anchors, not this projection.
+
+Hiding a marker suppresses its area without discarding cached geometry or saved visibility. Every show, hide or fade of a marker reaches Polygon through `QuestieFrame`'s icon events, `VisibilityChanged` for Questie's own hiding and fading and `NativeVisibilityChanged` for HereBeDragons', and schedules a coalesced, next-frame refresh, so Polygon can recheck after HBD parenting and draw-queue bookkeeping settle, regardless of provider refresh order. Provider `RefreshAllData` refreshes immediately. `OnShow`, `OnMapChanged`, and `OnCanvasSizeChanged` share the marker drawing bucket; the pending callback reads the latest map, canvas dimensions, and marker visibility. Hover clearing and nudging still happen immediately in their existing callbacks. Map changes, hide, and provider removal hide the previous drawing immediately without discarding its configured views. Questie hiding, showing or fading a marker also schedules at most one nudge pass per frame, which skips regrouping while the layout signature is unchanged; native show/hide does not regroup nudges. There is no per-frame visibility monitor or extra pan work.
+
+Two identities protect asynchronous work:
+
+- **Revision:** superseded collection/build work cannot publish after another update.
+- **Generation:** markers, and the routes they own, change only when geometry is replaced. Progress-only cache hits do not stop route attachment.
+
+`UpdateObjective` attaches the objective's routes after publishing its markers; replacing the markers or removing the objective stops it, progress updates do not. Each patrol belongs to the cluster its NPC spawns in, on the patrol's own zone map, else to the zone's last marker, and a zone only patrols reach gets a route marker. `QuestieMap:DrawWaypoints` registers each route with its marker's map icon as the owner.
+
+`RemoveObjective`, `RemoveQuest`, and `Reset` invalidate ownership before releasing markers. Reset also cancels deferred refreshes, clears cached geometry and previews, and detaches the map provider. Saved visibility lives in character saved variables and is kept. The cleared render cache, renderer, detached provider, and inert nearby ticker are retained for reuse: WoW native regions must not become unreachable on every mode/profile reset.
+
+Fixed stacking owns only icon display anchors, guarded by marker and HBD-wrapper identity. Hiding the map or detaching the provider disables offsets but retains slots. Removal and reset clear owned callbacks and restore centered anchors before pooling. No periodic layout driver is allocated.
+
+HBD calls the optional `icon:OnWorldMapPinUpdated(pin)` after wrapper acquisition and scale handling. This restores the stored offset even when a still-visible icon is reanchored without an `OnShow` event. Zoom reapplication stays per-pin; ordinary panning does not trigger stack work. The version-17 upgrade refreshes these methods on active and inactive cached wrappers. A single retained `QuestieMap.RescaleIcons` observer schedules a configured-width refresh after preference setters finish; it is inert while detached. Width uses the current `data:GetIconScale()` value, with cached/unit fallbacks, rather than animated or zoomed frame dimensions.
+
+`GetObjectiveMarkers(objective)` returns borrowed world-map frame references for tracker highlighting, not a second cleanup owner. Polygon owns the cluster map markers and each marker's minimap icons, which point back through `polygonMinimapMarker`. Releasing a marker, or Questie unloading its map frame, unloads its minimap icons; Questie unloading a minimap icon drops only that icon. Progress-only updates refresh minimap icon metadata with the markers'. Route markers are owned the same way on both maps. Routes follow their marker's map icon through QuestieWaypoints; QuestiePolygon keeps no route state.
+
+## Integration points outside this directory
+
+Keep these hooks small when merging changes from Questie:
+
+| Existing code | Polygon connection |
+| --- | --- |
+| [QuestieQuest](../../Quest/QuestieQuest.lua) | Shared objective/tooltips first; select ordinary icons or cluster markers, remove completed/empty objectives, and reset at `SmoothReset`/`ClearAllNotes`. [Spawn lists](../../Quest/QuestieQuestPrivates.lua) flag game objects with `IsObject`. |
+| [QuestieMap](../QuestieMap.lua) | Optional `DrawWorldIcon(..., destination)` selects `"map"` or `"minimap"`; omitted means the existing paired output. Full quest-frame unload also removes Polygon ownership. Its resize observer refreshes configured stack spacing. |
+| [HBD-Pins](../../../Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua) | Optional child callback after acquisition and scale handling reapplies stored presentation offsets; HBD geographic positions remain unchanged. `GetMinimapView()` exposes the radius and rotation minimap icons use. |
+| [QuestieFrame](../../FramePool/QuestieFrame.lua), [MapIconTooltip](../../Tooltips/MapIconTooltip.lua) | Polygon subscribes once, when it creates its provider, to `QuestieFrame`'s icon events: `Unload` (marker or minimap icon removal), `VisibilityChanged` (fake hide/show and fades), `NativeVisibilityChanged` (a map marker's native show/hide only), `HoverStart` (previews a marker's areas, releases the area tooltips, and draws the world map's areas again for the spotlight's dimming), `HoverEnd` (ends that preview, only for the data the hover started with, and draws the world map's areas again) and `Click`. Hovered area markers grow through [IconHighlight](../IconHighlight.lua), core's hover look. Area tooltips use the same tooltip builder as map icons, which asks Polygon, at allowlisted entry points, for each objective line's area color (`ObjectiveSwatch`), the areas beneath a hovered icon (`AreaIconsAt`) and a marker's click hint (`ClickHint`). No accumulating per-frame hooks. |
+| [TrackerUtils](../../Tracker/TrackerUtils.lua) | Borrow cluster markers for Show on Map; refresh fill visibility and guard delayed animation against recycled frames. |
+| [MapPreview](../MapPreview.lua) | Polygon subscribes once, with its icon events, and shows the areas of each previewed objective, or of every objective for a quest's preview, such as while a tracker line or a quest log box is hovered. |
+| [Questie.lua](../../../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
+| [Icon options](../../Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../../Tutorial/ChooseObjectiveType.lua), [defaults](../../Options/QuestieOptionsDefaults.lua), [migration](../../Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 42. The minimap icon switch also refreshes minimap areas. |
+| [Objective style preview](../../Tutorial/ObjectivePreview.lua) | The popup's still blobs map draws its generated areas with `PolygonRenderer` directly: it has no quests for the adapter. |
+
+All six flavor TOCs load geometry, renderer, render cache, nudging, minimap, then adapter before `Questie.lua`; only the Forever (Camelot) TOC then loads its quest log file. Polygon sits under `Modules/`, so [release packaging](../../../build.py) ships it without its adjacent tests and [CI](../../../.github/workflows/ci.yml) lints it, with no entry of its own. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
+
+## Validation
+
+From the repository root:
+
+```bash
+busted -p '.test.lua' Modules/Map/Polygon
+busted Modules/Map/MapGeometry.test.lua
+busted -p '.test.lua' .
+luacheck -q -- Database Localization Modules Public Questie.lua
+lua cli/validate-loader-usage.lua
+uv run --no-project python build.test.py
+git diff --check
+```
+
+Adjacent tests cover geometry/cancellation, workload resume limits, rendering/pool failures, geometric hover selection and cleanup, capability fallback, cache identity, objective routes, tracker integration, and marker visibility. Fixed-stack tests cover map-space grouping, deterministic horizontal slots, proportional zoom spacing, configured-width changes, queued/reacquired wrappers, library upgrades, hidden-member stability, and pool cleanup. For focused layout checks, run:
+
+```bash
+busted Modules/Map/Polygon/PolygonNudging.test.lua Modules/Map/Polygon/QuestiePolygon.test.lua Libs/HereBeDragons/HereBeDragons-Pins-2.0.test.lua
+busted Modules/Map/Polygon/PolygonMinimap.test.lua Modules/Map/MinimapCanvas.test.lua
+```
+
+Logon reports that retained rendering removed the observed performance problems in-game. This is qualitative feedback, not a controlled timing measurement or validation across all client flavors. No agent performed a reload or live test of the retained-rendering implementation. Adjacent-map alignment, zoom spacing, and hover under covering UI still need the checks below; offline mocks do not establish those behaviors.
+
+With separate permission for a development client, verify:
+
+- Popup layout and mode switching at normal and unusual UI scales.
+- Marker preview, show/hide clicks, exact marker-to-outline highlighting, simultaneous overlap highlights, UI blockers, and edges.
+- Overlapping markers for quests 317 and 384: visible separation, independent direct-click show/hide, and correct marker-to-polygon highlighting.
+- Stable slot order and spacing that grows with icon zoom size, including fractional UI scales, queued/reacquired wrappers, icon-size settings, and disable/re-enable with the map open. Panning should not rearrange stacks. Check large stacks and map edges with the deliberate lack of collision avoidance or edge clamping.
+- Hover over bare map, patrol paths, Questie icons and Blizzard pins, in and out of combat; unchanged map clicks/dragging; and stationary-cursor hover after redraw.
+- Map navigation, zoom/pan, resizing, and reopening. On adjacent detailed maps, verify areas align with geography, clip at map edges, and use their projected outlines for hover. World and continent views must show no polygons.
+- Areas show on accept by default and a click hides them across `/reload`. With the option off, areas appear and disappear while walking into and out of quest areas, including instance changes; saved choices override proximity.
+- Hide an owning marker while its area is shown, then show it again: the area should disappear and return without reclustering or losing its saved choice. Check acquisition after map changes and ensure nudging does not move the area.
+- Progress, completion/removal, untracking/hiding, phase changes, profile changes, and disable/re-enable.
+- Tracker Show on Map with routes, route markers on both maps, routes on the cluster their NPC spawns in, and preserved modifier actions.
+- Minimap icons: creature clusters at the same position as their world-map marker; object clusters with an icon on each object, none averaged; object world-map markers at the area's centroid, or on an object when there is no area; tooltips, distance fading, and hiding as for ordinary minimap icons; and mixed creature and object objectives.
+- Minimap areas: alignment with Questie's minimap icons while walking, zooming, and turning with `rotateMinimap` on and off; indoor zoom on clients without `C_Minimap.GetViewRadius`; clipping at the round edge and with SexyMap or another square minimap; areas beneath the bezel and other addons' minimap pins; the hole over the player arrow; and frame cost while turning, since each facing change reconfigures every visible area. On Forever, check first that the `Minimap:SetMaskTexture` post-hook loads cleanly: a post-hook on a frame method failed there once at login.
+- Dense objectives for responsiveness and repeated resets for stable pooled resource use. Revisit several detailed maps, close/reopen, and hover markers with shown areas: unchanged views should retain primitive identities and debug colors, with no fill geometry setup. Verify first visits, canvas resizing, objective replacement/removal, and reset release the correct views.
+
+Other client flavors and minimap-addon combinations require their own checks. Do not deploy or reload a live installation merely to run these validations.

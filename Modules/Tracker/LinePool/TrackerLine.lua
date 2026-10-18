@@ -32,6 +32,8 @@ local TrackerData = QuestieLoader:ImportModule("TrackerData")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type MapPreview
+local MapPreview = QuestieLoader:ImportModule("MapPreview")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
@@ -39,6 +41,31 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 local _SetMode, _OnClickQuest, _OnClickAchieve
 
 local lineMarginLeft = 10
+
+-- Hovering a quest objective previews it on the maps, as the quest log does: its icons grow, its quest
+-- goes in the spotlight, its routes highlight and, in blob mode, its areas show. Hovering a quest's title
+-- previews every objective. The line keeps the preview it started: a tracker rebuild can reassign this
+-- pooled line before the cursor leaves. The preview ends as the cursor leaves or the line hides.
+-- Achievement and scenario lines carry no quest objective.
+---@param line TrackerLineFrame
+local function _EndPreview(line)
+    local preview = line.mapPreview
+    if not preview then return end
+    line.mapPreview = nil
+    MapPreview.End(preview)
+end
+
+---@param line TrackerLineFrame
+local function _StartPreview(line)
+    -- An OnLeave that never came, such as for a line hidden under the cursor, ends with this OnEnter.
+    _EndPreview(line)
+    local quest, objective = line.Quest, line.Objective
+    if line.mode == "objective" and quest and objective and objective.questId == quest.Id then
+        line.mapPreview = MapPreview.Start(quest.Id, objective.NativeIndex or objective.Index)
+    elseif line.mode == "quest" and quest then
+        line.mapPreview = MapPreview.Start(quest.Id)
+    end
+end
 
 ---@param index number
 ---@param parent ScrollFrame
@@ -51,6 +78,7 @@ local lineMarginLeft = 10
 function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestAdded, OnScenarioCriteriaAdded)
     local timeElapsed = 0
     ---@class TrackerLineFrame : Button
+    ---@field mapPreview MapPreviewHandle? The preview its hover started, which its OnLeave ends.
     local line = CreateFrame("Button", "linePool" .. index, parent)
     line:SetWidth(1)
     line:SetHeight(1)
@@ -153,12 +181,16 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line:SetScript("OnEnter", function(self)
         OnEnter(self)
         TrackerFadeTicker.Unfade()
+        _StartPreview(self)
     end)
 
     line:SetScript("OnLeave", function(self)
         OnLeave(self)
         TrackerFadeTicker.Fade()
+        _EndPreview(self)
     end)
+    -- A line hidden under the cursor gets no OnLeave, and its preview would dim the map on.
+    line:SetScript("OnHide", _EndPreview)
 
     line.criteriaMark = AchievementCriteriaCheckmark.New(index, line)
     line.expandZone = ExpandZoneButton.New(index, line, OnEnter, OnLeave)

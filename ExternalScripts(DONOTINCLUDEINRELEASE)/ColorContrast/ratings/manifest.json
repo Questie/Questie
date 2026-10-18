@@ -1,0 +1,5440 @@
+{
+ "created": "2026-10-18 14:48",
+ "size": 176,
+ "opacity": [
+  0.25,
+  0.75
+ ],
+ "cells": [
+  {
+   "id": "c01",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.1991,
+   "place": "The Grizzled Den",
+   "spot": [
+    35.5,
+    59.3
+   ],
+   "position": [
+    0.35454091816367267,
+    0.593188622754491
+   ],
+   "color": "Medium Purple",
+   "rgb": [
+    128,
+    120,
+    217
+   ],
+   "anchor": true
+  },
+  {
+   "id": "c02",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2933,
+   "place": "Brewnall Village",
+   "spot": [
+    29.1,
+    49.5
+   ],
+   "position": [
+    0.2911676646706587,
+    0.49513473053892215
+   ],
+   "color": "Medium Purple",
+   "rgb": [
+    128,
+    120,
+    217
+   ],
+   "anchor": true
+  },
+  {
+   "id": "c03",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1778,
+   "place": "Helm's Bed Lake",
+   "spot": [
+    77.2,
+    55.2
+   ],
+   "position": [
+    0.7722055888223552,
+    0.5520209580838323
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": true
+  },
+  {
+   "id": "c04",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1413,
+   "zone": "The Barrens",
+   "ground": "savanna",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.3983,
+   "place": "Bramblescar",
+   "spot": [
+    51.1,
+    54.3
+   ],
+   "position": [
+    0.5114770459081837,
+    0.5426646706586826
+   ],
+   "color": "Orange",
+   "rgb": [
+    255,
+    167,
+    0
+   ],
+   "anchor": true
+  },
+  {
+   "id": "c05",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1451,
+   "zone": "Silithus",
+   "ground": "yellow sand",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0775,
+   "place": "Hive'Regal",
+   "spot": [
+    50.9,
+    68.8
+   ],
+   "position": [
+    0.5094810379241517,
+    0.687874251497006
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c06",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1745,
+   "place": "Lake Kel'Theril",
+   "spot": [
+    52.0,
+    42.3
+   ],
+   "position": [
+    0.5197105788423154,
+    0.42327844311377244
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c07",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1449,
+   "zone": "Un'Goro Crater",
+   "ground": "jungle",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2139,
+   "place": "The Slithering Scar",
+   "spot": [
+    54.7,
+    64.7
+   ],
+   "position": [
+    0.5474051896207585,
+    0.6474550898203593
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c08",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1438,
+   "zone": "Teldrassil",
+   "ground": "dark forest",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2121,
+   "place": "Wellspring Lake",
+   "spot": [
+    43.4,
+    44.8
+   ],
+   "position": [
+    0.43363273453093815,
+    0.44835329341317365
+   ],
+   "color": "Medium Purple",
+   "rgb": [
+    128,
+    120,
+    217
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c09",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1431,
+   "zone": "Duskwood",
+   "ground": "dark forest",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.3006,
+   "place": "Addle's Stead",
+   "spot": [
+    18.6,
+    68.1
+   ],
+   "position": [
+    0.18637724550898205,
+    0.6807634730538922
+   ],
+   "color": "Medium Purple",
+   "rgb": [
+    128,
+    120,
+    217
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c10",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1745,
+   "place": "Lake Kel'Theril",
+   "spot": [
+    52.0,
+    42.3
+   ],
+   "position": [
+    0.5197105788423154,
+    0.42327844311377244
+   ],
+   "color": "Medium Purple",
+   "rgb": [
+    128,
+    120,
+    217
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c11",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1431,
+   "zone": "Duskwood",
+   "ground": "dark forest",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0764,
+   "place": "The Hushed Bank",
+   "spot": [
+    11.5,
+    32.1
+   ],
+   "position": [
+    0.11526946107784432,
+    0.32110778443113774
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c12",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2205,
+   "place": "Abyssal Sands",
+   "spot": [
+    42.7,
+    39.0
+   ],
+   "position": [
+    0.4268962075848303,
+    0.38959580838323354
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c13",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1412,
+   "zone": "Mulgore",
+   "ground": "grassland",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.1693,
+   "place": "Bael'dun Digsite",
+   "spot": [
+    37.3,
+    44.1
+   ],
+   "position": [
+    0.3727544910179641,
+    0.4408682634730539
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c14",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1448,
+   "zone": "Felwood",
+   "ground": "corrupted forest",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2348,
+   "place": "Irontree Woods",
+   "spot": [
+    57.1,
+    24.8
+   ],
+   "position": [
+    0.5713572854291418,
+    0.24775449101796407
+   ],
+   "color": "Downy",
+   "rgb": [
+    117,
+    218,
+    200
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c15",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1778,
+   "place": "Helm's Bed Lake",
+   "spot": [
+    77.2,
+    55.2
+   ],
+   "position": [
+    0.7722055888223552,
+    0.5520209580838323
+   ],
+   "color": "Downy",
+   "rgb": [
+    117,
+    218,
+    200
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c16",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0669,
+   "place": "Jerod's Landing",
+   "spot": [
+    50.5,
+    83.8
+   ],
+   "position": [
+    0.5054890219560878,
+    0.8375748502994012
+   ],
+   "color": "Downy",
+   "rgb": [
+    117,
+    218,
+    200
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c17",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1411,
+   "zone": "Durotar",
+   "ground": "red desert",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2636,
+   "place": "Razormane Grounds",
+   "spot": [
+    40.2,
+    50.5
+   ],
+   "position": [
+    0.40169660678642716,
+    0.5052395209580839
+   ],
+   "color": "Salmon Pink",
+   "rgb": [
+    255,
+    144,
+    160
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c18",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1411,
+   "zone": "Durotar",
+   "ground": "red desert",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.3624,
+   "place": "Sen'jin Village",
+   "spot": [
+    54.0,
+    78.6
+   ],
+   "position": [
+    0.5396706586826348,
+    0.7855538922155688
+   ],
+   "color": "Salmon Pink",
+   "rgb": [
+    255,
+    144,
+    160
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c19",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1413,
+   "zone": "The Barrens",
+   "ground": "savanna",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1393,
+   "place": "Ratchet",
+   "spot": [
+    59.7,
+    35.0
+   ],
+   "position": [
+    0.5973053892215568,
+    0.3495508982035928
+   ],
+   "color": "Salmon Pink",
+   "rgb": [
+    255,
+    144,
+    160
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c20",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1832,
+   "place": "Tower of Azora",
+   "spot": [
+    66.3,
+    60.3
+   ],
+   "position": [
+    0.6631736526946108,
+    0.6025449101796407
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c21",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1412,
+   "zone": "Mulgore",
+   "ground": "grassland",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2499,
+   "place": "Palemane Rock",
+   "spot": [
+    38.7,
+    64.3
+   ],
+   "position": [
+    0.3869760479041916,
+    0.6433383233532934
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c22",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1418,
+   "zone": "Badlands",
+   "ground": "red rock",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0126,
+   "place": "Lethlor Ravine",
+   "spot": [
+    92.5,
+    68.2
+   ],
+   "position": [
+    0.9249001996007984,
+    0.6815119760479041
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c23",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1431,
+   "zone": "Duskwood",
+   "ground": "dark forest",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.2067,
+   "place": "Brightwood Grove",
+   "spot": [
+    63.4,
+    32.1
+   ],
+   "position": [
+    0.6342315369261478,
+    0.32110778443113774
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c24",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2377,
+   "place": "The Hidden Grove",
+   "spot": [
+    59.1,
+    14.6
+   ],
+   "position": [
+    0.5910678642714571,
+    0.14558383233532934
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c25",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2933,
+   "place": "Brewnall Village",
+   "spot": [
+    29.1,
+    49.5
+   ],
+   "position": [
+    0.2911676646706587,
+    0.49513473053892215
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c26",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1418,
+   "zone": "Badlands",
+   "ground": "red rock",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.089,
+   "place": "Camp Boff",
+   "spot": [
+    65.8,
+    62.5
+   ],
+   "position": [
+    0.658183632734531,
+    0.625
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c27",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1435,
+   "zone": "Swamp of Sorrows",
+   "ground": "swamp",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.0608,
+   "place": "Misty Reed Strand",
+   "spot": [
+    84.8,
+    86.3
+   ],
+   "position": [
+    0.8480538922155688,
+    0.8633982035928144
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c28",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1411,
+   "zone": "Durotar",
+   "ground": "red desert",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.3624,
+   "place": "Sen'jin Village",
+   "spot": [
+    54.0,
+    78.6
+   ],
+   "position": [
+    0.5396706586826348,
+    0.7855538922155688
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c29",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1418,
+   "zone": "Badlands",
+   "ground": "red rock",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.4352,
+   "place": "Valley of Fangs",
+   "spot": [
+    43.1,
+    55.6
+   ],
+   "position": [
+    0.4306387225548902,
+    0.5561377245508982
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c30",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1411,
+   "zone": "Durotar",
+   "ground": "red desert",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.3624,
+   "place": "Sen'jin Village",
+   "spot": [
+    54.0,
+    78.6
+   ],
+   "position": [
+    0.5396706586826348,
+    0.7855538922155688
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c31",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1759,
+   "place": "Thistleshrub Valley",
+   "spot": [
+    27.7,
+    50.2
+   ],
+   "position": [
+    0.27694610778443113,
+    0.5022455089820359
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c32",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2206,
+   "place": "The Noxious Lair",
+   "spot": [
+    38.0,
+    44.2
+   ],
+   "position": [
+    0.37974051896207583,
+    0.44236526946107785
+   ],
+   "color": "Alloy Orange",
+   "rgb": [
+    185,
+    94,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c33",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1451,
+   "zone": "Silithus",
+   "ground": "yellow sand",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2155,
+   "place": "Hive'Regal",
+   "spot": [
+    48.8,
+    63.7
+   ],
+   "position": [
+    0.4877744510978044,
+    0.6366017964071856
+   ],
+   "color": "Alloy Orange",
+   "rgb": [
+    185,
+    94,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c34",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1438,
+   "zone": "Teldrassil",
+   "ground": "dark forest",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0466,
+   "place": "Darnassus",
+   "spot": [
+    25.1,
+    64.1
+   ],
+   "position": [
+    0.25074850299401197,
+    0.6410928143712575
+   ],
+   "color": "Alloy Orange",
+   "rgb": [
+    185,
+    94,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c35",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1759,
+   "place": "Thistleshrub Valley",
+   "spot": [
+    27.7,
+    50.2
+   ],
+   "position": [
+    0.27694610778443113,
+    0.5022455089820359
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c36",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1448,
+   "zone": "Felwood",
+   "ground": "corrupted forest",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1195,
+   "place": "Felpaw Village",
+   "spot": [
+    68.0,
+    6.8
+   ],
+   "position": [
+    0.6803892215568862,
+    0.06773952095808383
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c37",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1418,
+   "zone": "Badlands",
+   "ground": "red rock",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.4352,
+   "place": "Valley of Fangs",
+   "spot": [
+    43.1,
+    55.6
+   ],
+   "position": [
+    0.4306387225548902,
+    0.5561377245508982
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c38",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2273,
+   "place": "Dunemaul Compound",
+   "spot": [
+    40.5,
+    54.0
+   ],
+   "position": [
+    0.40469061876247503,
+    0.5396706586826348
+   ],
+   "color": "Primrose",
+   "rgb": [
+    223,
+    224,
+    145
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c39",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1778,
+   "place": "Helm's Bed Lake",
+   "spot": [
+    77.2,
+    55.2
+   ],
+   "position": [
+    0.7722055888223552,
+    0.5520209580838323
+   ],
+   "color": "Primrose",
+   "rgb": [
+    223,
+    224,
+    145
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c40",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1449,
+   "zone": "Un'Goro Crater",
+   "ground": "jungle",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0449,
+   "place": "The Marshlands",
+   "spot": [
+    83.5,
+    66.6
+   ],
+   "position": [
+    0.8350798403193613,
+    0.6657934131736527
+   ],
+   "color": "Primrose",
+   "rgb": [
+    223,
+    224,
+    145
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c41",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1435,
+   "zone": "Swamp of Sorrows",
+   "ground": "swamp",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.1543,
+   "place": "Fallow Sanctuary",
+   "spot": [
+    69.0,
+    7.1
+   ],
+   "position": [
+    0.6901197604790419,
+    0.07110778443113773
+   ],
+   "color": "Orange",
+   "rgb": [
+    255,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c42",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.3055,
+   "place": "Dunemaul Compound",
+   "spot": [
+    39.9,
+    51.8
+   ],
+   "position": [
+    0.3994510978043912,
+    0.5175898203592815
+   ],
+   "color": "Orange",
+   "rgb": [
+    255,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c43",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1438,
+   "zone": "Teldrassil",
+   "ground": "dark forest",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1697,
+   "place": "Ban'ethil Hollow",
+   "spot": [
+    49.2,
+    64.6
+   ],
+   "position": [
+    0.49151696606786427,
+    0.6459580838323353
+   ],
+   "color": "Orange",
+   "rgb": [
+    255,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c44",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1451,
+   "zone": "Silithus",
+   "ground": "yellow sand",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2663,
+   "place": "Hive'Ashi",
+   "spot": [
+    48.6,
+    17.3
+   ],
+   "position": [
+    0.48552894211576847,
+    0.17290419161676646
+   ],
+   "color": "Mauve",
+   "rgb": [
+    208,
+    182,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c45",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1413,
+   "zone": "The Barrens",
+   "ground": "savanna",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.3496,
+   "place": "Razorfen Kraul",
+   "spot": [
+    40.3,
+    86.9
+   ],
+   "position": [
+    0.4029441117764471,
+    0.8686377245508982
+   ],
+   "color": "Mauve",
+   "rgb": [
+    208,
+    182,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c46",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.1231,
+   "place": "Lake Kel'Theril",
+   "spot": [
+    57.9,
+    44.7
+   ],
+   "position": [
+    0.5793413173652695,
+    0.4468562874251497
+   ],
+   "color": "Mauve",
+   "rgb": [
+    208,
+    182,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c47",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1449,
+   "zone": "Un'Goro Crater",
+   "ground": "jungle",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1839,
+   "place": "The Marshlands",
+   "spot": [
+    67.4,
+    60.7
+   ],
+   "position": [
+    0.6741516966067864,
+    0.6070359281437125
+   ],
+   "color": "Smalt",
+   "rgb": [
+    0,
+    65,
+    151
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c48",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1448,
+   "zone": "Felwood",
+   "ground": "corrupted forest",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.249,
+   "place": "Irontree Woods",
+   "spot": [
+    53.4,
+    25.7
+   ],
+   "position": [
+    0.534181636726547,
+    0.25711077844311375
+   ],
+   "color": "Smalt",
+   "rgb": [
+    0,
+    65,
+    151
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c49",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1832,
+   "place": "Tower of Azora",
+   "spot": [
+    66.3,
+    60.3
+   ],
+   "position": [
+    0.6631736526946108,
+    0.6025449101796407
+   ],
+   "color": "Smalt",
+   "rgb": [
+    0,
+    65,
+    151
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c50",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1411,
+   "zone": "Durotar",
+   "ground": "red desert",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2636,
+   "place": "Razormane Grounds",
+   "spot": [
+    40.2,
+    50.5
+   ],
+   "position": [
+    0.40169660678642716,
+    0.5052395209580839
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c51",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1413,
+   "zone": "The Barrens",
+   "ground": "savanna",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.0627,
+   "place": "Field of Giants",
+   "spot": [
+    49.5,
+    65.2
+   ],
+   "position": [
+    0.49525948103792417,
+    0.6523203592814372
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c52",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1418,
+   "zone": "Badlands",
+   "ground": "red rock",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.4352,
+   "place": "Valley of Fangs",
+   "spot": [
+    43.1,
+    55.6
+   ],
+   "position": [
+    0.4306387225548902,
+    0.5561377245508982
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c53",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2206,
+   "place": "The Noxious Lair",
+   "spot": [
+    38.0,
+    44.2
+   ],
+   "position": [
+    0.37974051896207583,
+    0.44236526946107785
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c54",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.1268,
+   "place": "Gnomeregan",
+   "spot": [
+    20.3,
+    36.9
+   ],
+   "position": [
+    0.2028443113772455,
+    0.3686377245508982
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c55",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1451,
+   "zone": "Silithus",
+   "ground": "yellow sand",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1305,
+   "place": "Hive'Ashi",
+   "spot": [
+    59.4,
+    35.6
+   ],
+   "position": [
+    0.594311377245509,
+    0.3555389221556886
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c56",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.1231,
+   "place": "Lake Kel'Theril",
+   "spot": [
+    57.9,
+    44.7
+   ],
+   "position": [
+    0.5793413173652695,
+    0.4468562874251497
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c57",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2377,
+   "place": "The Hidden Grove",
+   "spot": [
+    59.1,
+    14.6
+   ],
+   "position": [
+    0.5910678642714571,
+    0.14558383233532934
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c58",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1451,
+   "zone": "Silithus",
+   "ground": "yellow sand",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0775,
+   "place": "Hive'Regal",
+   "spot": [
+    50.9,
+    68.8
+   ],
+   "position": [
+    0.5094810379241517,
+    0.687874251497006
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c59",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1451,
+   "zone": "Silithus",
+   "ground": "yellow sand",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1305,
+   "place": "Hive'Ashi",
+   "spot": [
+    59.4,
+    35.6
+   ],
+   "position": [
+    0.594311377245509,
+    0.3555389221556886
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c60",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1412,
+   "zone": "Mulgore",
+   "ground": "grassland",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1447,
+   "place": "The Golden Plains",
+   "spot": [
+    53.8,
+    36.5
+   ],
+   "position": [
+    0.5381736526946108,
+    0.3648952095808383
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c61",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1435,
+   "zone": "Swamp of Sorrows",
+   "ground": "swamp",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0667,
+   "place": "Misty Reed Strand",
+   "spot": [
+    82.8,
+    91.4
+   ],
+   "position": [
+    0.8278443113772455,
+    0.9139221556886228
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c62",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1832,
+   "place": "Tower of Azora",
+   "spot": [
+    66.3,
+    60.3
+   ],
+   "position": [
+    0.6631736526946108,
+    0.6025449101796407
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c63",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1412,
+   "zone": "Mulgore",
+   "ground": "grassland",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.202,
+   "place": "Red Cloud Mesa",
+   "spot": [
+    63.0,
+    87.3
+   ],
+   "position": [
+    0.6304890219560878,
+    0.8731287425149701
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c64",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1745,
+   "place": "Lake Kel'Theril",
+   "spot": [
+    52.0,
+    42.3
+   ],
+   "position": [
+    0.5197105788423154,
+    0.42327844311377244
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c65",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1832,
+   "place": "Tower of Azora",
+   "spot": [
+    66.3,
+    60.3
+   ],
+   "position": [
+    0.6631736526946108,
+    0.6025449101796407
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c66",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1412,
+   "zone": "Mulgore",
+   "ground": "grassland",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2499,
+   "place": "Palemane Rock",
+   "spot": [
+    38.7,
+    64.3
+   ],
+   "position": [
+    0.3869760479041916,
+    0.6433383233532934
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c67",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1438,
+   "zone": "Teldrassil",
+   "ground": "dark forest",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2334,
+   "place": "The Oracle Glade",
+   "spot": [
+    35.2,
+    32.2
+   ],
+   "position": [
+    0.35204590818363274,
+    0.3222305389221557
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c68",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1449,
+   "zone": "Un'Goro Crater",
+   "ground": "jungle",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1839,
+   "place": "The Marshlands",
+   "spot": [
+    67.4,
+    60.7
+   ],
+   "position": [
+    0.6741516966067864,
+    0.6070359281437125
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c69",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2899,
+   "place": "Forest's Edge",
+   "spot": [
+    25.8,
+    80.4
+   ],
+   "position": [
+    0.25823353293413176,
+    0.8042664670658682
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c70",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1431,
+   "zone": "Duskwood",
+   "ground": "dark forest",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1272,
+   "place": "The Darkened Bank",
+   "spot": [
+    89.8,
+    12.5
+   ],
+   "position": [
+    0.8979540918163673,
+    0.12537425149700598
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c71",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1832,
+   "place": "Tower of Azora",
+   "spot": [
+    66.3,
+    60.3
+   ],
+   "position": [
+    0.6631736526946108,
+    0.6025449101796407
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c72",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1412,
+   "zone": "Mulgore",
+   "ground": "grassland",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1447,
+   "place": "The Golden Plains",
+   "spot": [
+    53.8,
+    36.5
+   ],
+   "position": [
+    0.5381736526946108,
+    0.3648952095808383
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c73",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1429,
+   "zone": "Elwynn Forest",
+   "ground": "green forest",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0669,
+   "place": "Jerod's Landing",
+   "spot": [
+    50.5,
+    83.8
+   ],
+   "position": [
+    0.5054890219560878,
+    0.8375748502994012
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c74",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1431,
+   "zone": "Duskwood",
+   "ground": "dark forest",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.2067,
+   "place": "Brightwood Grove",
+   "spot": [
+    63.4,
+    32.1
+   ],
+   "position": [
+    0.6342315369261478,
+    0.32110778443113774
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c75",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1452,
+   "zone": "Winterspring",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2214,
+   "place": "Ice Thistle Hills",
+   "spot": [
+    66.1,
+    54.9
+   ],
+   "position": [
+    0.6614271457085829,
+    0.5490269461077845
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c76",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.1268,
+   "place": "Gnomeregan",
+   "spot": [
+    20.3,
+    36.9
+   ],
+   "position": [
+    0.2028443113772455,
+    0.3686377245508982
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c77",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1435,
+   "zone": "Swamp of Sorrows",
+   "ground": "swamp",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1603,
+   "place": "Pool of Tears",
+   "spot": [
+    73.5,
+    59.2
+   ],
+   "position": [
+    0.7350299401197605,
+    0.5920658682634731
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c78",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1411,
+   "zone": "Durotar",
+   "ground": "red desert",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.3624,
+   "place": "Sen'jin Village",
+   "spot": [
+    54.0,
+    78.6
+   ],
+   "position": [
+    0.5396706586826348,
+    0.7855538922155688
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c79",
+   "round": 1,
+   "flavor": "forever",
+   "ui_map_id": 1418,
+   "zone": "Badlands",
+   "ground": "red rock",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1584,
+   "place": "Camp Cagg",
+   "spot": [
+    14.4,
+    71.8
+   ],
+   "position": [
+    0.1442115768463074,
+    0.717814371257485
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c80",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1416,
+   "zone": "Alterac Mountains",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2769,
+   "place": "Sofera's Naze",
+   "spot": [
+    63.1,
+    82.0
+   ],
+   "position": [
+    0.6312375249500998,
+    0.8196107784431138
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c81",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1417,
+   "zone": "Arathi Highlands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1077,
+   "place": "Boulder'gor",
+   "spot": [
+    36.9,
+    38.3
+   ],
+   "position": [
+    0.3685129740518962,
+    0.3828592814371258
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c82",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1433,
+   "zone": "Redridge Mountains",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.197,
+   "place": "Stonewatch",
+   "spot": [
+    65.1,
+    50.4
+   ],
+   "position": [
+    0.6511976047904192,
+    0.5037425149700598
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c83",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1436,
+   "zone": "Westfall",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1352,
+   "place": "The Dead Acre",
+   "spot": [
+    64.2,
+    51.7
+   ],
+   "position": [
+    0.6422155688622755,
+    0.5172155688622755
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c84",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1444,
+   "zone": "Feralas",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0297,
+   "place": "Lower Wilds",
+   "spot": [
+    90.0,
+    51.2
+   ],
+   "position": [
+    0.8999500998003992,
+    0.5116017964071856
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c85",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1440,
+   "zone": "Ashenvale",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2258,
+   "place": "Mystral Lake",
+   "spot": [
+    51.2,
+    61.2
+   ],
+   "position": [
+    0.5124750499001997,
+    0.6115269461077845
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c86",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 2521,
+   "zone": "Zephras Isle",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2289,
+   "place": "Windfield Orchard",
+   "spot": [
+    46.6,
+    67.1
+   ],
+   "position": [
+    0.4655688622754491,
+    0.6714071856287425
+   ],
+   "color": "Downy",
+   "rgb": [
+    117,
+    218,
+    200
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c87",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1441,
+   "zone": "Thousand Needles",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1607,
+   "place": "The Shimmering Flats",
+   "spot": [
+    86.9,
+    60.8
+   ],
+   "position": [
+    0.8685129740518962,
+    0.6081586826347305
+   ],
+   "color": "Downy",
+   "rgb": [
+    117,
+    218,
+    200
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c88",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1447,
+   "zone": "Azshara",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.0557,
+   "place": "Temple of Arkkoran",
+   "spot": [
+    76.1,
+    43.5
+   ],
+   "position": [
+    0.7612275449101796,
+    0.43450598802395207
+   ],
+   "color": "Downy",
+   "rgb": [
+    117,
+    218,
+    200
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c89",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1450,
+   "zone": "Moonglade",
+   "ground": "",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.1205,
+   "place": "Moonglade",
+   "spot": [
+    45.1,
+    78.8
+   ],
+   "position": [
+    0.4505988023952096,
+    0.7881736526946108
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c90",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 2521,
+   "zone": "Zephras Isle",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1097,
+   "place": "Thendal Grove",
+   "spot": [
+    44.0,
+    12.5
+   ],
+   "position": [
+    0.4403692614770459,
+    0.12462574850299402
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c91",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1434,
+   "zone": "Stranglethorn Vale",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1875,
+   "place": "The Vile Reef",
+   "spot": [
+    20.3,
+    18.5
+   ],
+   "position": [
+    0.20334331337325348,
+    0.18525449101796407
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c92",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1450,
+   "zone": "Moonglade",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0457,
+   "place": "Moonglade",
+   "spot": [
+    64.7,
+    56.4
+   ],
+   "position": [
+    0.6472055888223552,
+    0.563622754491018
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c93",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 2521,
+   "zone": "Zephras Isle",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0215,
+   "place": "Thendal Grove",
+   "spot": [
+    34.8,
+    22.9
+   ],
+   "position": [
+    0.34805389221556887,
+    0.22941616766467066
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c94",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1420,
+   "zone": "Tirisfal Glades",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2432,
+   "place": "Venomweb Vale",
+   "spot": [
+    84.3,
+    46.5
+   ],
+   "position": [
+    0.842814371257485,
+    0.4648203592814371
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c95",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1441,
+   "zone": "Thousand Needles",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2292,
+   "place": "The Screeching Canyon",
+   "spot": [
+    31.6,
+    46.0
+   ],
+   "position": [
+    0.3158682634730539,
+    0.46032934131736525
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c96",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1427,
+   "zone": "Searing Gorge",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.238,
+   "place": "Tanner Camp",
+   "spot": [
+    81.0,
+    75.3
+   ],
+   "position": [
+    0.8096307385229541,
+    0.7526197604790419
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c97",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1419,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2297,
+   "place": "Dreadmaul Post",
+   "spot": [
+    50.8,
+    38.2
+   ],
+   "position": [
+    0.5077345309381237,
+    0.38211077844311375
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c98",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1436,
+   "zone": "Westfall",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2632,
+   "place": "Sentinel Hill",
+   "spot": [
+    50.2,
+    57.3
+   ],
+   "position": [
+    0.5024950099800399,
+    0.5726047904191617
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c99",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1419,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2297,
+   "place": "Dreadmaul Post",
+   "spot": [
+    50.8,
+    38.2
+   ],
+   "position": [
+    0.5077345309381237,
+    0.38211077844311375
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c100",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1411,
+   "zone": "Durotar",
+   "ground": "red desert",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2636,
+   "place": "Razormane Grounds",
+   "spot": [
+    40.2,
+    50.5
+   ],
+   "position": [
+    0.40169660678642716,
+    0.5052395209580839
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c101",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1419,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1777,
+   "place": "Dreadmaul Post",
+   "spot": [
+    42.1,
+    40.2
+   ],
+   "position": [
+    0.42065868263473055,
+    0.40194610778443113
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c102",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1444,
+   "zone": "Feralas",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.1099,
+   "place": "Lower Wilds",
+   "spot": [
+    91.7,
+    44.6
+   ],
+   "position": [
+    0.9169161676646707,
+    0.44648203592814373
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c103",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1441,
+   "zone": "Thousand Needles",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2292,
+   "place": "The Screeching Canyon",
+   "spot": [
+    31.6,
+    46.0
+   ],
+   "position": [
+    0.3158682634730539,
+    0.46032934131736525
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c104",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1421,
+   "zone": "Silverpine Forest",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1676,
+   "place": "Malden's Orchard",
+   "spot": [
+    50.9,
+    16.8
+   ],
+   "position": [
+    0.5094810379241517,
+    0.16841317365269462
+   ],
+   "color": "Primrose",
+   "rgb": [
+    223,
+    224,
+    145
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c105",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1445,
+   "zone": "Dustwallow Marsh",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0793,
+   "place": "Brackenwall Village",
+   "spot": [
+    27.0,
+    21.6
+   ],
+   "position": [
+    0.26971057884231536,
+    0.2159431137724551
+   ],
+   "color": "Primrose",
+   "rgb": [
+    223,
+    224,
+    145
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c106",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1437,
+   "zone": "Wetlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2866,
+   "place": "Grim Batol",
+   "spot": [
+    76.5,
+    74.6
+   ],
+   "position": [
+    0.7649700598802395,
+    0.7462574850299402
+   ],
+   "color": "Primrose",
+   "rgb": [
+    223,
+    224,
+    145
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c107",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1432,
+   "zone": "Loch Modan",
+   "ground": "",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.1154,
+   "place": "The Loch",
+   "spot": [
+    44.2,
+    19.2
+   ],
+   "position": [
+    0.4416167664670659,
+    0.19236526946107785
+   ],
+   "color": "Mauve",
+   "rgb": [
+    208,
+    182,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c108",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1443,
+   "zone": "Desolace",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1397,
+   "place": "Valley of Spears",
+   "spot": [
+    41.9,
+    51.6
+   ],
+   "position": [
+    0.4194111776447106,
+    0.5160928143712575
+   ],
+   "color": "Mauve",
+   "rgb": [
+    208,
+    182,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c109",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1433,
+   "zone": "Redridge Mountains",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.197,
+   "place": "Stonewatch",
+   "spot": [
+    65.1,
+    50.4
+   ],
+   "position": [
+    0.6511976047904192,
+    0.5037425149700598
+   ],
+   "color": "Mauve",
+   "rgb": [
+    208,
+    182,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c110",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1428,
+   "zone": "Burning Steppes",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.2137,
+   "place": "Blackrock Pass",
+   "spot": [
+    67.5,
+    64.9
+   ],
+   "position": [
+    0.6751497005988024,
+    0.6489520958083832
+   ],
+   "color": "Smalt",
+   "rgb": [
+    0,
+    65,
+    151
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c111",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1439,
+   "zone": "Darkshore",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2498,
+   "place": "Bashal'Aran",
+   "spot": [
+    42.9,
+    42.3
+   ],
+   "position": [
+    0.42889221556886226,
+    0.42327844311377244
+   ],
+   "color": "Smalt",
+   "rgb": [
+    0,
+    65,
+    151
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c112",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1422,
+   "zone": "Western Plaguelands",
+   "ground": "",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.1373,
+   "place": "Darrowmere Lake",
+   "spot": [
+    74.7,
+    78.8
+   ],
+   "position": [
+    0.7470059880239521,
+    0.7881736526946108
+   ],
+   "color": "Smalt",
+   "rgb": [
+    0,
+    65,
+    151
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c113",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1436,
+   "zone": "Westfall",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2632,
+   "place": "Sentinel Hill",
+   "spot": [
+    50.2,
+    57.3
+   ],
+   "position": [
+    0.5024950099800399,
+    0.5726047904191617
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c114",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1419,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2297,
+   "place": "Dreadmaul Post",
+   "spot": [
+    50.8,
+    38.2
+   ],
+   "position": [
+    0.5077345309381237,
+    0.38211077844311375
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c115",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1441,
+   "zone": "Thousand Needles",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2292,
+   "place": "The Screeching Canyon",
+   "spot": [
+    31.6,
+    46.0
+   ],
+   "position": [
+    0.3158682634730539,
+    0.46032934131736525
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c116",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1436,
+   "zone": "Westfall",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1352,
+   "place": "The Dead Acre",
+   "spot": [
+    64.2,
+    51.7
+   ],
+   "position": [
+    0.6422155688622755,
+    0.5172155688622755
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c117",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2205,
+   "place": "Abyssal Sands",
+   "spot": [
+    42.7,
+    39.0
+   ],
+   "position": [
+    0.4268962075848303,
+    0.38959580838323354
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c118",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1436,
+   "zone": "Westfall",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2857,
+   "place": "The Dead Acre",
+   "spot": [
+    59.3,
+    55.0
+   ],
+   "position": [
+    0.593313373253493,
+    0.5501497005988024
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c119",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1446,
+   "zone": "Tanaris",
+   "ground": "desert",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2206,
+   "place": "The Noxious Lair",
+   "spot": [
+    38.0,
+    44.2
+   ],
+   "position": [
+    0.37974051896207583,
+    0.44236526946107785
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c120",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 2521,
+   "zone": "Zephras Isle",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0215,
+   "place": "Thendal Grove",
+   "spot": [
+    34.8,
+    22.9
+   ],
+   "position": [
+    0.34805389221556887,
+    0.22941616766467066
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c121",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 2521,
+   "zone": "Zephras Isle",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0759,
+   "place": "Falaath Village",
+   "spot": [
+    52.4,
+    48.7
+   ],
+   "position": [
+    0.5244510978043913,
+    0.48727544910179643
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c122",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1425,
+   "zone": "The Hinterlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2563,
+   "place": "Jintha'Alor",
+   "spot": [
+    59.7,
+    64.4
+   ],
+   "position": [
+    0.5973053892215568,
+    0.6444610778443114
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c123",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1444,
+   "zone": "Feralas",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1901,
+   "place": "The Twin Colossals",
+   "spot": [
+    56.5,
+    29.7
+   ],
+   "position": [
+    0.564620758483034,
+    0.2967814371257485
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c124",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1439,
+   "zone": "Darkshore",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2233,
+   "place": "Cliffspring River",
+   "spot": [
+    49.4,
+    34.8
+   ],
+   "position": [
+    0.4935129740518962,
+    0.34805389221556887
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c125",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1450,
+   "zone": "Moonglade",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1484,
+   "place": "Moonglade",
+   "spot": [
+    56.2,
+    48.0
+   ],
+   "position": [
+    0.562375249500998,
+    0.47979041916167664
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c126",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1427,
+   "zone": "Searing Gorge",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0327,
+   "place": "Dustfire Valley",
+   "spot": [
+    55.5,
+    8.9
+   ],
+   "position": [
+    0.5546407185628742,
+    0.08869760479041916
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c127",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 2521,
+   "zone": "Zephras Isle",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0759,
+   "place": "Falaath Village",
+   "spot": [
+    52.4,
+    48.7
+   ],
+   "position": [
+    0.5244510978043913,
+    0.48727544910179643
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c128",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1417,
+   "zone": "Arathi Highlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2679,
+   "place": "Go'Shek Farm",
+   "spot": [
+    69.5,
+    50.8
+   ],
+   "position": [
+    0.6951097804391217,
+    0.5082335329341318
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c129",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1412,
+   "zone": "Mulgore",
+   "ground": "grassland",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1447,
+   "place": "The Golden Plains",
+   "spot": [
+    53.8,
+    36.5
+   ],
+   "position": [
+    0.5381736526946108,
+    0.3648952095808383
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c130",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1424,
+   "zone": "Hillsbrad Foothills",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2007,
+   "place": "Dun Garok",
+   "spot": [
+    79.1,
+    72.5
+   ],
+   "position": [
+    0.7911676646706587,
+    0.7249251497005988
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c131",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1417,
+   "zone": "Arathi Highlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2331,
+   "place": "Go'Shek Farm",
+   "spot": [
+    56.1,
+    58.9
+   ],
+   "position": [
+    0.561377245508982,
+    0.5890718562874252
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c132",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1417,
+   "zone": "Arathi Highlands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1077,
+   "place": "Boulder'gor",
+   "spot": [
+    36.9,
+    38.3
+   ],
+   "position": [
+    0.3685129740518962,
+    0.3828592814371258
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c133",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1417,
+   "zone": "Arathi Highlands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2985,
+   "place": "Circle of Outer Binding",
+   "spot": [
+    53.0,
+    51.8
+   ],
+   "position": [
+    0.5301896207584831,
+    0.5183383233532934
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c134",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1450,
+   "zone": "Moonglade",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2615,
+   "place": "Moonglade",
+   "spot": [
+    47.4,
+    73.6
+   ],
+   "position": [
+    0.47355289421157687,
+    0.7357784431137725
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c135",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1444,
+   "zone": "Feralas",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1901,
+   "place": "The Twin Colossals",
+   "spot": [
+    56.5,
+    29.7
+   ],
+   "position": [
+    0.564620758483034,
+    0.2967814371257485
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c136",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1417,
+   "zone": "Arathi Highlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2679,
+   "place": "Go'Shek Farm",
+   "spot": [
+    69.5,
+    50.8
+   ],
+   "position": [
+    0.6951097804391217,
+    0.5082335329341318
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c137",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1450,
+   "zone": "Moonglade",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0457,
+   "place": "Moonglade",
+   "spot": [
+    64.7,
+    56.4
+   ],
+   "position": [
+    0.6472055888223552,
+    0.563622754491018
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c138",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 2521,
+   "zone": "Zephras Isle",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0215,
+   "place": "Thendal Grove",
+   "spot": [
+    34.8,
+    22.9
+   ],
+   "position": [
+    0.34805389221556887,
+    0.22941616766467066
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c139",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1426,
+   "zone": "Dun Morogh",
+   "ground": "snow",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2933,
+   "place": "Brewnall Village",
+   "spot": [
+    29.1,
+    49.5
+   ],
+   "position": [
+    0.2911676646706587,
+    0.49513473053892215
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c140",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1442,
+   "zone": "Stonetalon Mountains",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0498,
+   "place": "Sun Rock Retreat",
+   "spot": [
+    43.1,
+    54.4
+   ],
+   "position": [
+    0.4306387225548902,
+    0.5441616766467066
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c141",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1419,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2297,
+   "place": "Dreadmaul Post",
+   "spot": [
+    50.8,
+    38.2
+   ],
+   "position": [
+    0.5077345309381237,
+    0.38211077844311375
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c142",
+   "round": 2,
+   "flavor": "forever",
+   "ui_map_id": 1419,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.1777,
+   "place": "Dreadmaul Post",
+   "spot": [
+    42.1,
+    40.2
+   ],
+   "position": [
+    0.42065868263473055,
+    0.40194610778443113
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c143",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 23,
+   "zone": "Eastern Plaguelands",
+   "ground": "",
+   "view": "map",
+   "terrain": 3,
+   "share": 0.2246,
+   "place": "Acherus: The Ebon Hold",
+   "spot": [
+    91.3,
+    21.2
+   ],
+   "position": [
+    0.9126746506986028,
+    0.2118263473053892
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c144",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 174,
+   "zone": "The Lost Isles",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2505,
+   "place": "Gallywix Docks",
+   "spot": [
+    43.2,
+    7.7
+   ],
+   "position": [
+    0.4323852295409182,
+    0.07672155688622755
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c145",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 120,
+   "zone": "The Storm Peaks",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.1453,
+   "place": "Dun Niffelem",
+   "spot": [
+    64.0,
+    69.0
+   ],
+   "position": [
+    0.6399700598802395,
+    0.6904940119760479
+   ],
+   "color": "Blizzard Polygon-blue",
+   "rgb": [
+    80,
+    113,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c146",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 78,
+   "zone": "Un'Goro Crater",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0663,
+   "place": "The Roiling Gardens",
+   "spot": [
+    69.5,
+    34.2
+   ],
+   "position": [
+    0.6951097804391217,
+    0.34206586826347307
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c147",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 102,
+   "zone": "Zangarmarsh",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.1192,
+   "place": "Quagg Ridge",
+   "spot": [
+    25.4,
+    80.1
+   ],
+   "position": [
+    0.2537425149700599,
+    0.8005239520958084
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c148",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 7,
+   "zone": "Mulgore",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0569,
+   "place": "Red Cloud Mesa",
+   "spot": [
+    46.4,
+    80.8
+   ],
+   "position": [
+    0.46357285429141715,
+    0.8076347305389222
+   ],
+   "color": "Inch Worm",
+   "rgb": [
+    149,
+    229,
+    14
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c149",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 106,
+   "zone": "Bloodmyst Isle",
+   "ground": "",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1347,
+   "place": "Bristlelimb Enclave",
+   "spot": [
+    61.6,
+    74.6
+   ],
+   "position": [
+    0.6162674650698603,
+    0.7462574850299402
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c150",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 388,
+   "zone": "Townlong Steppes",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.2027,
+   "place": "Hatred's Vice",
+   "spot": [
+    73.9,
+    71.7
+   ],
+   "position": [
+    0.7392714570858283,
+    0.7174401197604791
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c151",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 122,
+   "zone": "Isle of Quel'Danas",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.5071,
+   "place": "Sun's Reach Sanctum",
+   "spot": [
+    32.0,
+    8.5
+   ],
+   "position": [
+    0.32010978043912175,
+    0.08495508982035928
+   ],
+   "color": "Persian Green",
+   "rgb": [
+    0,
+    166,
+    152
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c152",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 117,
+   "zone": "Howling Fjord",
+   "ground": "",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.1609,
+   "place": "Giants' Run",
+   "spot": [
+    72.2,
+    19.2
+   ],
+   "position": [
+    0.7220558882235529,
+    0.19236526946107785
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c153",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 50,
+   "zone": "Northern Stranglethorn",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.1004,
+   "place": "Fort Livingston",
+   "spot": [
+    46.8,
+    67.6
+   ],
+   "position": [
+    0.46831337325349304,
+    0.6755239520958084
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c154",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 210,
+   "zone": "The Cape of Stranglethorn",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0119,
+   "place": "The Sundering",
+   "spot": [
+    57.9,
+    13.1
+   ],
+   "position": [
+    0.5785928143712575,
+    0.13061377245508982
+   ],
+   "color": "Spring Green",
+   "rgb": [
+    0,
+    250,
+    140
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c155",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 15,
+   "zone": "Badlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2269,
+   "place": "Bloodwatcher Point",
+   "spot": [
+    54.7,
+    57.7
+   ],
+   "position": [
+    0.5474051896207585,
+    0.5770958083832335
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c156",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 109,
+   "zone": "Netherstorm",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0315,
+   "place": "Forge Base: Gehenna",
+   "spot": [
+    43.5,
+    11.5
+   ],
+   "position": [
+    0.43537924151696605,
+    0.11489520958083832
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c157",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 198,
+   "zone": "Mount Hyjal",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0562,
+   "place": "The Throne of Flame",
+   "spot": [
+    50.3,
+    76.9
+   ],
+   "position": [
+    0.5032435129740519,
+    0.7690868263473054
+   ],
+   "color": "Medium Violet Red",
+   "rgb": [
+    181,
+    28,
+    122
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c158",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 100,
+   "zone": "Hellfire Peninsula",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2659,
+   "place": "Forge Camp: Rage",
+   "spot": [
+    62.9,
+    36.5
+   ],
+   "position": [
+    0.6292415169660679,
+    0.36452095808383234
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c159",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 378,
+   "zone": "The Wandering Isle",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2108,
+   "place": "The Dawning Valley",
+   "spot": [
+    36.6,
+    1.8
+   ],
+   "position": [
+    0.36551896207584833,
+    0.018338323353293412
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c160",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 17,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2766,
+   "place": "Shattershore",
+   "spot": [
+    64.1,
+    33.0
+   ],
+   "position": [
+    0.6414670658682635,
+    0.3304640718562874
+   ],
+   "color": "Light Slate Blue",
+   "rgb": [
+    149,
+    55,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c161",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 64,
+   "zone": "Thousand Needles",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2214,
+   "place": "Twilight Bulwark",
+   "spot": [
+    34.2,
+    76.0
+   ],
+   "position": [
+    0.34181636726546905,
+    0.7597305389221557
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c162",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 10,
+   "zone": "The Barrens",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1181,
+   "place": "Boulder Lode Mine",
+   "spot": [
+    74.1,
+    16.1
+   ],
+   "position": [
+    0.7412674650698603,
+    0.16130239520958084
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c163",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 32,
+   "zone": "Searing Gorge",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.0827,
+   "place": "Dustfire Valley",
+   "spot": [
+    88.5,
+    40.1
+   ],
+   "position": [
+    0.8854790419161677,
+    0.4008233532934132
+   ],
+   "color": "Deep Cerise",
+   "rgb": [
+    218,
+    55,
+    147
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c164",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 100,
+   "zone": "Hellfire Peninsula",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2659,
+   "place": "Forge Camp: Rage",
+   "spot": [
+    62.9,
+    36.5
+   ],
+   "position": [
+    0.6292415169660679,
+    0.36452095808383234
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c165",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 198,
+   "zone": "Mount Hyjal",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0562,
+   "place": "The Throne of Flame",
+   "spot": [
+    50.3,
+    76.9
+   ],
+   "position": [
+    0.5032435129740519,
+    0.7690868263473054
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c166",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 17,
+   "zone": "Blasted Lands",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2766,
+   "place": "Shattershore",
+   "spot": [
+    64.1,
+    33.0
+   ],
+   "position": [
+    0.6414670658682635,
+    0.3304640718562874
+   ],
+   "color": "Pink Flamingo",
+   "rgb": [
+    255,
+    64,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c167",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 26,
+   "zone": "The Hinterlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.0881,
+   "place": "The Creeping Ruin",
+   "spot": [
+    52.2,
+    54.4
+   ],
+   "position": [
+    0.5224550898203593,
+    0.5441616766467066
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c168",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 70,
+   "zone": "Dustwallow Marsh",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0419,
+   "place": "Blackhoof Village",
+   "spot": [
+    34.3,
+    8.5
+   ],
+   "position": [
+    0.342564870259481,
+    0.08495508982035928
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c169",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 78,
+   "zone": "Un'Goro Crater",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0663,
+   "place": "The Roiling Gardens",
+   "spot": [
+    69.5,
+    34.2
+   ],
+   "position": [
+    0.6951097804391217,
+    0.34206586826347307
+   ],
+   "color": "Yellow",
+   "rgb": [
+    254,
+    251,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c170",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 49,
+   "zone": "Redridge Mountains",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0468,
+   "place": "Lake Everstill",
+   "spot": [
+    38.0,
+    44.8
+   ],
+   "position": [
+    0.37974051896207583,
+    0.44835329341317365
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c171",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 77,
+   "zone": "Felwood",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0347,
+   "place": "Felpaw Village",
+   "spot": [
+    67.3,
+    11.2
+   ],
+   "position": [
+    0.6734031936127745,
+    0.11190119760479042
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c172",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 204,
+   "zone": "Abyssal Depths",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0733,
+   "place": "Korthun's End",
+   "spot": [
+    54.1,
+    74.2
+   ],
+   "position": [
+    0.5414171656686627,
+    0.7417664670658682
+   ],
+   "color": "White",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c173",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 119,
+   "zone": "Sholazar Basin",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.1999,
+   "place": "Kartak's Hold",
+   "spot": [
+    19.6,
+    72.1
+   ],
+   "position": [
+    0.19610778443113772,
+    0.7208083832335329
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c174",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 107,
+   "zone": "Nagrand",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2314,
+   "place": "Throne of the Elements",
+   "spot": [
+    56.5,
+    25.4
+   ],
+   "position": [
+    0.5651197604790419,
+    0.2541167664670659
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c175",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 418,
+   "zone": "Krasarang Wilds",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.1187,
+   "place": "Ruins of Korja",
+   "spot": [
+    22.0,
+    30.1
+   ],
+   "position": [
+    0.21981037924151697,
+    0.30127245508982037
+   ],
+   "color": "Slimy Green",
+   "rgb": [
+    41,
+    167,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c176",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 201,
+   "zone": "Kelp'thar Forest",
+   "ground": "",
+   "view": "map",
+   "terrain": 4,
+   "share": 0.1651,
+   "place": "Gnaws' Boneyard",
+   "spot": [
+    57.3,
+    62.8
+   ],
+   "position": [
+    0.5733532934131736,
+    0.6279940119760479
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c177",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 118,
+   "zone": "Icecrown",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.1527,
+   "place": "Onslaught Harbor",
+   "spot": [
+    4.9,
+    39.9
+   ],
+   "position": [
+    0.04915169660678643,
+    0.39857784431137727
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c178",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 115,
+   "zone": "Dragonblight",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1577,
+   "place": "Lake Indu'le",
+   "spot": [
+    39.1,
+    85.6
+   ],
+   "position": [
+    0.39096806387225547,
+    0.8559131736526946
+   ],
+   "color": "Deep Sky Blue",
+   "rgb": [
+    0,
+    169,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c179",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 57,
+   "zone": "Teldrassil",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0624,
+   "place": "The Oracle Glade",
+   "spot": [
+    39.9,
+    25.7
+   ],
+   "position": [
+    0.39870259481037923,
+    0.25673652694610777
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c180",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 94,
+   "zone": "Eversong Woods",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 3,
+   "share": 0.2009,
+   "place": "Farstrider Retreat",
+   "spot": [
+    62.1,
+    58.8
+   ],
+   "position": [
+    0.6210079840319361,
+    0.5879491017964071
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c181",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 25,
+   "zone": "Hillsbrad Foothills",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2653,
+   "place": "Azurelode Mine",
+   "spot": [
+    36.1,
+    69.5
+   ],
+   "position": [
+    0.36102794411177647,
+    0.6949850299401198
+   ],
+   "color": "Vine Green",
+   "rgb": [
+    0,
+    150,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c182",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 205,
+   "zone": "Shimmering Expanse",
+   "ground": "",
+   "view": "map",
+   "terrain": 1,
+   "share": 0.2407,
+   "place": "Ruins of Vashj'ir",
+   "spot": [
+    42.3,
+    65.2
+   ],
+   "position": [
+    0.4226546906187625,
+    0.6519461077844312
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c183",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 121,
+   "zone": "Zul'Drak",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 1,
+   "share": 0.2413,
+   "place": "Altar of Mam'toth",
+   "spot": [
+    84.2,
+    46.1
+   ],
+   "position": [
+    0.8420658682634731,
+    0.46145209580838326
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c184",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 378,
+   "zone": "The Wandering Isle",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 2,
+   "share": 0.2108,
+   "place": "The Dawning Valley",
+   "spot": [
+    36.6,
+    1.8
+   ],
+   "position": [
+    0.36551896207584833,
+    0.018338323353293412
+   ],
+   "color": "Navy Blue",
+   "rgb": [
+    1,
+    74,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c185",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 78,
+   "zone": "Un'Goro Crater",
+   "ground": "",
+   "view": "map",
+   "terrain": 6,
+   "share": 0.0663,
+   "place": "The Roiling Gardens",
+   "spot": [
+    69.5,
+    34.2
+   ],
+   "position": [
+    0.6951097804391217,
+    0.34206586826347307
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c186",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 108,
+   "zone": "Terokkar Forest",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.0609,
+   "place": "The Barrier Hills",
+   "spot": [
+    14.4,
+    18.2
+   ],
+   "position": [
+    0.1439620758483034,
+    0.18226047904191617
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c187",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 376,
+   "zone": "Valley of the Four Winds",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2231,
+   "place": "Thunderfoot Fields",
+   "spot": [
+    70.8,
+    28.2
+   ],
+   "position": [
+    0.7080838323353293,
+    0.28218562874251496
+   ],
+   "color": "Lime",
+   "rgb": [
+    0,
+    249,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c188",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 127,
+   "zone": "Crystalsong Forest",
+   "ground": "",
+   "view": "map",
+   "terrain": 5,
+   "share": 0.1291,
+   "place": "Sunreaver's Command",
+   "spot": [
+    62.6,
+    38.1
+   ],
+   "position": [
+    0.6262475049900199,
+    0.3809880239520958
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c189",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 210,
+   "zone": "The Cape of Stranglethorn",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.0119,
+   "place": "The Sundering",
+   "spot": [
+    57.9,
+    13.1
+   ],
+   "position": [
+    0.5785928143712575,
+    0.13061377245508982
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c190",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 50,
+   "zone": "Northern Stranglethorn",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 6,
+   "share": 0.1004,
+   "place": "Fort Livingston",
+   "spot": [
+    46.8,
+    67.6
+   ],
+   "position": [
+    0.46831337325349304,
+    0.6755239520958084
+   ],
+   "color": "Aqua",
+   "rgb": [
+    0,
+    252,
+    255
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c191",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 15,
+   "zone": "Badlands",
+   "ground": "",
+   "view": "map",
+   "terrain": 2,
+   "share": 0.2269,
+   "place": "Bloodwatcher Point",
+   "spot": [
+    54.7,
+    57.7
+   ],
+   "position": [
+    0.5474051896207585,
+    0.5770958083832335
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c192",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 36,
+   "zone": "Burning Steppes",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 5,
+   "share": 0.0894,
+   "place": "Morgan's Vigil",
+   "spot": [
+    75.2,
+    85.6
+   ],
+   "position": [
+    0.7522455089820359,
+    0.8559131736526946
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  },
+  {
+   "id": "c193",
+   "round": 3,
+   "flavor": "mists",
+   "ui_map_id": 10,
+   "zone": "The Barrens",
+   "ground": "",
+   "view": "minimap",
+   "terrain": 4,
+   "share": 0.1181,
+   "place": "Boulder Lode Mine",
+   "spot": [
+    74.1,
+    16.1
+   ],
+   "position": [
+    0.7412674650698603,
+    0.16130239520958084
+   ],
+   "color": "Scarlet",
+   "rgb": [
+    255,
+    38,
+    0
+   ],
+   "anchor": false
+  }
+ ],
+ "order": [
+  "c04",
+  "c66",
+  "c30",
+  "c54",
+  "c22",
+  "c61",
+  "c29",
+  "c27",
+  "c13",
+  "c76",
+  "c07",
+  "c67",
+  "c75",
+  "c15",
+  "c51",
+  "c71",
+  "c65",
+  "c59",
+  "c05",
+  "c40",
+  "c78",
+  "c11",
+  "c26",
+  "c72",
+  "c19",
+  "c36",
+  "c41",
+  "c45",
+  "c25",
+  "c32",
+  "c68",
+  "c37",
+  "c48",
+  "c31",
+  "c10",
+  "c70",
+  "c79",
+  "c16",
+  "c21",
+  "c46",
+  "c08",
+  "c33",
+  "c47",
+  "c43",
+  "c53",
+  "c12",
+  "c20",
+  "c14",
+  "c60",
+  "c02",
+  "c63",
+  "c44",
+  "c34",
+  "c49",
+  "c56",
+  "c15r",
+  "c35",
+  "c48r",
+  "c38",
+  "c28",
+  "c52",
+  "c69",
+  "c46r",
+  "c32r",
+  "c73",
+  "c09",
+  "c77",
+  "c03",
+  "c39",
+  "c06",
+  "c24",
+  "c23",
+  "c58",
+  "c55",
+  "c62",
+  "c18",
+  "c74",
+  "c34r",
+  "c64",
+  "c28r",
+  "c57",
+  "c09r",
+  "c17",
+  "c50",
+  "c42",
+  "c01",
+  "c57r",
+  "c136",
+  "c122",
+  "c130",
+  "c92",
+  "c142",
+  "c86",
+  "c134",
+  "c113",
+  "c133",
+  "c120",
+  "c131",
+  "c80",
+  "c129",
+  "c126",
+  "c98",
+  "c114",
+  "c138",
+  "c105",
+  "c97",
+  "c91",
+  "c110",
+  "c89",
+  "c103",
+  "c132",
+  "c106",
+  "c100",
+  "c82",
+  "c125",
+  "c81",
+  "c102",
+  "c104",
+  "c87",
+  "c94",
+  "c121",
+  "c85",
+  "c135",
+  "c117",
+  "c124",
+  "c88",
+  "c137",
+  "c84",
+  "c90",
+  "c123",
+  "c108",
+  "c127",
+  "c140",
+  "c119",
+  "c141",
+  "c118",
+  "c128",
+  "c115",
+  "c95",
+  "c112",
+  "c99",
+  "c109",
+  "c83",
+  "c101",
+  "c84r",
+  "c135r",
+  "c116",
+  "c127r",
+  "c93",
+  "c139",
+  "c81r",
+  "c111",
+  "c107",
+  "c96",
+  "c115r",
+  "c101r",
+  "c110r",
+  "c96r",
+  "c187",
+  "c177",
+  "c178",
+  "c166",
+  "c157",
+  "c189",
+  "c165",
+  "c176",
+  "c160",
+  "c185",
+  "c173",
+  "c151",
+  "c193",
+  "c191",
+  "c143",
+  "c171",
+  "c148",
+  "c188",
+  "c155",
+  "c179",
+  "c174",
+  "c145",
+  "c159",
+  "c147",
+  "c149",
+  "c146",
+  "c180",
+  "c164",
+  "c163",
+  "c152",
+  "c156",
+  "c175",
+  "c144",
+  "c192",
+  "c161",
+  "c191r",
+  "c176r",
+  "c184",
+  "c185r",
+  "c181",
+  "c160r",
+  "c183",
+  "c190",
+  "c186",
+  "c153",
+  "c158",
+  "c170",
+  "c174r",
+  "c182",
+  "c168",
+  "c154",
+  "c169",
+  "c150",
+  "c162",
+  "c167",
+  "c179r",
+  "c184r",
+  "c143r",
+  "c172"
+ ]
+}

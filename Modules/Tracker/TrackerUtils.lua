@@ -31,6 +31,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 ---@type QuestieCoords
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 ---@type ZoneDB
@@ -186,8 +188,15 @@ end
 
 ---@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
 function TrackerUtils:FlashObjective(objective)
-    if next(objective.AlreadySpawned) then
-        local toFlash = {}
+    -- Polygon owns its marker cleanup; borrow references for the same highlight pass
+    -- rather than registering those frames again in AlreadySpawned.
+    local toFlash = QuestiePolygon.GetObjectiveMarkers(objective)
+    for _, spawn in pairs(objective.AlreadySpawned) do
+        for _, frame in pairs(spawn.mapRefs or {}) do
+            tinsert(toFlash, frame)
+        end
+    end
+    if #toFlash > 0 then
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
             for _, frameName in pairs(framelist) do
@@ -203,34 +212,34 @@ function TrackerUtils:FlashObjective(objective)
         end
 
 
-        -- Only the flashed objective's patrol paths show during the flash.
-        local flashedData = {}
-        for _, spawn in pairs(objective.AlreadySpawned) do
-            if spawn.mapRefs then
-                for _, frame in pairs(spawn.mapRefs) do
-                    tinsert(toFlash, frame)
-                    if frame._hidden_by_flash then
-                        frame:Show()
-                    end
-
-                    -- todo: move into frame.session
-                    frame._hidden_by_flash = nil
-                    frame._size = frame:GetWidth()
-
-                    if frame.data then
-                        flashedData[frame.data] = true
-                    end
-                end
+        local flashData = {}
+        for _, frame in ipairs(toFlash) do
+            flashData[frame] = frame.data
+            if frame._hidden_by_flash then
+                frame:Show()
             end
+
+            -- todo: move into frame.session
+            frame._hidden_by_flash = nil
+            frame._size = frame:GetWidth()
         end
-        QuestieWaypoints.SetSolo(flashedData)
+        -- Only the flashed objective's patrol paths show during the flash, its polygon markers' too.
+        local soloData = {}
+        for _, data in pairs(flashData) do
+            soloData[data] = true
+        end
+        QuestieWaypoints.SetSolo(soloData)
+        QuestiePolygon.ScheduleRefresh()
         local flashW = 1
         local flashB = true
         local flashDone = 0
         objectiveFlashTicker = C_Timer.NewTicker(0.1, function()
             for _, frame in pairs(toFlash) do
-                frame:SetWidth(frame._size + flashW)
-                frame:SetHeight(frame._size + flashW)
+                -- Quest removal or a polygon rebuild can recycle the highlighted frame.
+                if frame.data == flashData[frame] and frame._size then
+                    frame:SetWidth(frame._size + flashW)
+                    frame:SetHeight(frame._size + flashW)
+                end
             end
             if flashB then
                 if flashW < 10 then
@@ -251,9 +260,11 @@ function TrackerUtils:FlashObjective(objective)
                             C_Timer.After(0.1, function()
                                 objectiveFlashTicker:Cancel()
                                 for _, frame in pairs(toFlash) do
-                                    frame:SetWidth(frame._size)
-                                    frame:SetHeight(frame._size)
-                                    frame._size = nil
+                                    if frame.data == flashData[frame] and frame._size then
+                                        frame:SetWidth(frame._size)
+                                        frame:SetHeight(frame._size)
+                                        frame._size = nil
+                                    end
                                 end
                             end)
                             C_Timer.After(0.5, function()
@@ -267,6 +278,7 @@ function TrackerUtils:FlashObjective(objective)
                                     end
                                 end
                                 QuestieWaypoints.SetSolo(nil)
+                                QuestiePolygon.ScheduleRefresh()
                             end)
                         end
                         flashDone = flashDone + 1

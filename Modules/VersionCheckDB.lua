@@ -45,5 +45,9 @@ function VersionCheckDB.Check()
         or type(factionRaceMasks.Horde) ~= "number" then
         return false, context .. "The provider faction race masks are unavailable. Update QuestieDB and reload."
     end
+    -- Questie.lua and the map icons' draw order read the icon types while the TOC loads.
+    if type(LibQuestieDB.Enum.iconTypes) ~= "table" then
+        return false, context .. "The provider icon types are unavailable. Update QuestieDB and reload."
+    end
     return true
 end

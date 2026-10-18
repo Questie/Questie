@@ -24,6 +24,15 @@ describe("QuestieQuest", function()
 
     before_each(function()
         Questie.db.char = {}
+        local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+        Polygon.Reset = spy.new(function() end)
+        Polygon.IsChosen = function() return Questie.db.profile.enableQuestiePolygons == true end
+        Polygon.IsEnabled = function()
+            return Questie.db.profile.enableQuestiePolygons == true and Questie.db.profile.enableObjectives ~= false
+                and Questie.db.profile.enabled ~= false
+        end
+        Polygon.RemoveObjective = spy.new(function() end)
+        Polygon.UpdateObjective = spy.new(function() return nil, {} end)
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         ZoneDB.GetDungeons = function() return {} end
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -44,6 +53,22 @@ describe("QuestieQuest", function()
 
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+    end)
+
+    describe("polygon reset ownership", function()
+        it("cancels polygon work before a repeated SmoothReset is deferred", function()
+            QuestieQuest._isResetting = true
+            QuestieQuest:SmoothReset()
+            assert.spy(QuestieLoader:ImportModule("QuestiePolygon").Reset).was.called(1)
+            assert.is_true(QuestieQuest._resetAgain)
+            QuestieQuest._isResetting, QuestieQuest._resetAgain = nil, nil
+        end)
+
+        it("clears polygon ownership even when there are no normal notes to remove", function()
+            QuestieMap.questIdFrames = {}
+            QuestieQuest:ClearAllNotes()
+            assert.spy(QuestieLoader:ImportModule("QuestiePolygon").Reset).was.called(1)
+        end)
     end)
 
     describe("sequenced completion overrides", function()
@@ -549,6 +574,184 @@ describe("QuestieQuest", function()
     end)
 
     describe("PopulateObjective", function()
+        local originalLibStub
+        before_each(function()
+            originalLibStub = _G.LibStub
+            _G.LibStub = function()
+                return {GetWorldCoordinatesFromZone = function(_, x, y) return x, y, 1 end}
+            end
+            dofile("Modules/Quest/QuestieQuest.lua")
+            QuestieQuest.private.objectiveSpawnListCallTable = {}
+        end)
+        after_each(function() _G.LibStub = originalLibStub end)
+
+        it("leaves both maps to the polygon cluster markers, drawing no ordinary objective icons", function()
+            Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, objectiveFilterDistance = 0}
+            local Phasing = QuestieLoader:ImportModule("Phasing")
+            Phasing.IsSpawnVisible = function() return true end
+            ZoneDB.GetUiMapIdByAreaId = function() return 10 end
+            ZoneDB.GetDungeonLocation = function() return nil end
+            QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
+            QuestieMap.DrawWorldIcon = spy.new(function() return nil, {name = "minimap"} end)
+            local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+            local objective = {Index = 1, Description = "Wolves", Type = "monster", Update = function() end,
+                Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = {[123] = {Id = 123, Name = "Wolf", Icon = 1,
+                    GetIconScale = function() return 1 end, Spawns = {[1] = {{10, 20}}}}}}
+            local quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
+            QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
+            local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
+
+            local ok, err = coroutine.resume(thread)
+            assert.is_true(ok, err)
+            assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+            assert.are.same({}, objective.AlreadySpawned)
+            -- Nameplates still read the objective's icon.
+            assert.are.equal(1, objective.Icon)
+            assert.spy(Polygon.UpdateObjective).was.called_with(quest, objective, 1)
+        end)
+
+        it("draws no ordinary objective icons in polygon mode while Questie or its objectives are off", function()
+            QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
+            ZoneDB.GetUiMapIdByAreaId = function() return 10 end
+            ZoneDB.GetDungeonLocation = function() return nil end
+            QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
+            QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
+            local Polygon = QuestieLoader:ImportModule("QuestiePolygon")
+            -- Switching Questie or its objectives off and on again repopulates every objective. Ordinary
+            -- icons drawn while off would show beside the areas once on again.
+            for _, switchedOff in ipairs({{enabled = false}, {enableObjectives = false}}) do
+                Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, objectiveFilterDistance = 0}
+                for key, value in pairs(switchedOff) do Questie.db.profile[key] = value end
+                QuestieMap.DrawWorldIcon = spy.new(function() return {name = "map"}, {name = "minimap"} end)
+                Polygon.UpdateObjective:clear()
+                local objective = {Index = 1, Description = "Wolves", Type = "monster", Update = function() end,
+                    Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = {[123] = {Id = 123, Name = "Wolf", Icon = 1,
+                        GetIconScale = function() return 1 end, Spawns = {[1] = {{10, 20}}}}}}
+                local quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
+                local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
+
+                local ok, err = coroutine.resume(thread)
+                assert.is_true(ok, err)
+                assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+                assert.are.same({}, objective.AlreadySpawned)
+                -- The polygon path itself draws nothing while switched off.
+                assert.spy(Polygon.UpdateObjective).was.called_with(quest, objective, 1)
+            end
+        end)
+
+        it("retains paired ordinary icons for party objectives even in polygon mode", function()
+            Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, objectiveFilterDistance = 0}
+            QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
+            ZoneDB.GetUiMapIdByAreaId = function() return 10 end
+            ZoneDB.GetDungeonLocation = function() return nil end
+            QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
+            QuestieMap.DrawWorldIcon = spy.new(function() return {name = "map"}, {name = "minimap"} end)
+            local objective = {Index = 1, Description = "Wolves", Type = "monster", IsPartyObjective = true,
+                Update = function() end, Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = {[123] = {Id = 123,
+                    Name = "Wolf", Icon = 1, GetIconScale = function() return 1 end, Spawns = {[1] = {{10, 20}}}}}}
+            local quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
+            QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
+            local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
+
+            local ok, err = coroutine.resume(thread)
+            assert.is_true(ok, err)
+            assert.is_nil(QuestieMap.DrawWorldIcon.calls[1].vals[8])
+            assert.are.equal(1, #objective.AlreadySpawned[123].mapRefs)
+            assert.are.equal(1, #objective.AlreadySpawned[123].minimapRefs)
+            assert.spy(QuestieLoader:ImportModule("QuestiePolygon").UpdateObjective).was.not_called()
+        end)
+
+        it("draws each patrol for the NPC's icon in its zone, adding an icon where none is", function()
+            Questie.db.profile = {enableQuestiePolygons = false, enableObjectives = true, objectiveFilterDistance = 0}
+            QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
+            ZoneDB.GetUiMapIdByAreaId = function(_, areaId) return areaId * 10 end
+            ZoneDB.GetDungeonLocation = function() return nil end
+            QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
+            QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
+            local mapFrames = {}
+            QuestieMap.DrawWorldIcon = spy.new(function(_, data, areaId, x, y)
+                local mapFrame = {data = data, AreaID = areaId, x = x, y = y}
+                mapFrames[#mapFrames + 1] = mapFrame
+                return mapFrame, {data = data, AreaID = areaId, miniMapIcon = true}
+            end)
+            QuestieMap.DrawWaypoints = spy.new(function() end)
+            local objective = {Index = 1, Description = "Wolves", Type = "monster", Update = function() end,
+                Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = {[123] = {Id = 123, Name = "Wolf", Icon = 1,
+                    GetIconScale = function() return 1 end, Spawns = {[1] = {{10, 20}}}, TooltipKey = "m_123",
+                    Hostile = true, Waypoints = {[2] = {{{30, 40}, {40, 50}}}}}}}
+            local quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
+            local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
+            while coroutine.status(thread) ~= "dead" do
+                local ok, err = coroutine.resume(thread)
+                assert.is_true(ok, err)
+            end
+
+            -- The wolf's icon in zone 1, and a pair in zone 2, which only its patrol reaches.
+            assert.are.equal(2, #mapFrames)
+            assert.are.same({2, 30, 40}, {mapFrames[2].AreaID, mapFrames[2].x, mapFrames[2].y})
+            assert.are.same({2, 2}, {#objective.AlreadySpawned[123].mapRefs, #objective.AlreadySpawned[123].minimapRefs})
+            assert.spy(QuestieMap.DrawWaypoints).was.called(1)
+            local call = QuestieMap.DrawWaypoints.calls[1]
+            assert.are.equal(mapFrames[2], call.refs[2])
+            assert.are.same({"m_123", 2, true}, {call.refs[3], call.refs[5], call.refs[6]})
+            assert.spy(QuestieLoader:ImportModule("QuestiePolygon").UpdateObjective).was.not_called()
+        end)
+
+        it("removes completed special-objective polygons using the canonical objective index", function()
+            local objective = {Index = 65, Description = "Special", Type = "event", Completed = true,
+                Update = function() end, spawnList = {}, AlreadySpawned = {}}
+            local thread = coroutine.create(function()
+                QuestieQuest:PopulateObjective({Id = 42, ObjectiveData = {}}, 0, objective, false)
+            end)
+            assert.is_true(coroutine.resume(thread))
+            assert.spy(QuestieLoader:ImportModule("QuestiePolygon").RemoveObjective).was.called_with(42, 65)
+        end)
+
+        it("colors special objectives by their canonical index, not the shared index 0", function()
+            local ObjectiveColors = QuestieLoader:ImportModule("ObjectiveColors")
+            local originalGet = ObjectiveColors.Get
+            local color = {0.1, 0.2, 0.3}
+            local getColor = spy.new(function() return color end)
+            ObjectiveColors.Get = getColor
+            local objective = {Index = 65, Description = "Special", Type = "event", Completed = false,
+                Update = function() end, spawnList = {}, AlreadySpawned = {}}
+            local quest = {Id = 42, ObjectiveData = {}}
+            local thread = coroutine.create(function()
+                QuestieQuest:PopulateObjective(quest, 0, objective, false)
+            end)
+            local ok, err = coroutine.resume(thread)
+            ObjectiveColors.Get = originalGet
+            assert.is_true(ok, err)
+            assert.spy(getColor).was.called(1)
+            -- The spy keeps copies made at call time, before PopulateObjective stored the color.
+            local args = getColor.calls[1].vals
+            assert.are.same({42, 65, 65}, {args[1].Id, args[2].Index, args[3]})
+            assert.are.equal(color, objective.Color)
+        end)
+
+        it("picks a color only once the objective's spawn list is built, since the pick places the objective", function()
+            local ObjectiveColors = QuestieLoader:ImportModule("ObjectiveColors")
+            local originalGet = ObjectiveColors.Get
+            local originalCalls = QuestieQuest.private.objectiveSpawnListCallTable
+            local spawnList = {[7] = {Spawns = {[1] = {{10, 20}}}}}
+            QuestieQuest.private.objectiveSpawnListCallTable = {event = function() return spawnList end}
+            -- The stub stops PopulateObjective right after the pick, before any drawing.
+            local seen
+            ObjectiveColors.Get = function(_, objective)
+                seen = objective.spawnList
+                error("stop after the pick")
+            end
+            local objective = {Index = 65, Description = "Special", Type = "event", Completed = false,
+                Update = function() end, AlreadySpawned = {}}
+            local ok, err = coroutine.resume(coroutine.create(function()
+                QuestieQuest:PopulateObjective({Id = 42, ObjectiveData = {}}, 0, objective, false)
+            end))
+            ObjectiveColors.Get, QuestieQuest.private.objectiveSpawnListCallTable = originalGet, originalCalls
+            assert.is_false(ok)
+            assert.is_truthy(tostring(err):find("stop after the pick", 1, true))
+            assert.are.equal(spawnList, seen)
+        end)
+
         it("should not throw an error when called from a coroutine", function()
             local quest = {ObjectiveData = {}}
             local objective = {Description = "test"}
@@ -761,6 +964,39 @@ describe("QuestieQuest", function()
 
             -- the Blizzard watch state must not be consulted while the tracker is enabled
             assert.spy(QuestieCompat.IsQuestWatched).was.not_called()
+        end)
+    end)
+
+    describe("objective spawn lists", function()
+        local saved, Corrections
+
+        before_each(function()
+            Corrections = QuestieLoader:ImportModule("QuestieCorrections")
+            saved = {QueryObjectSingle = QuestieDB.QueryObjectSingle, QueryNPCSingle = QuestieDB.QueryNPCSingle,
+                GetItem = QuestieDB.GetItem, blacklist = Corrections.questNPCBlacklist}
+            Questie.db.profile = {}
+            Corrections.questNPCBlacklist = {}
+            QuestieDB.QueryObjectSingle = function(_, field) return ({name = "Crate", spawns = {[1] = {{30, 40}}}})[field] end
+            QuestieDB.QueryNPCSingle = function(_, field) return ({name = "Wolf", spawns = {[1] = {{10, 20}}}, rank = 0})[field] end
+            QuestieDB.GetItem = function()
+                return {Id = 7, Sources = {{Type = "object", Id = 456}, {Type = "monster", Id = 123}}}
+            end
+            dofile("Modules/Quest/QuestieQuestPrivates.lua")
+        end)
+
+        after_each(function()
+            QuestieDB.QueryObjectSingle, QuestieDB.QueryNPCSingle, QuestieDB.GetItem = saved.QueryObjectSingle,
+                saved.QueryNPCSingle, saved.GetItem
+            Corrections.questNPCBlacklist = saved.blacklist
+        end)
+
+        it("marks game objects, directly and as item sources, but never creatures", function()
+            local build, objective = QuestieQuest.private.objectiveSpawnListCallTable, {Description = "Crates"}
+            assert.is_true(build.object(456, objective)[456].IsObject)
+            local itemSources = build.item(7, objective)
+            assert.is_true(itemSources[456].IsObject)
+            assert.is_nil(itemSources[123].IsObject)
+            assert.is_nil(build.monster(123, objective)[123].IsObject)
         end)
     end)
 end)

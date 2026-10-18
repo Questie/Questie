@@ -1,15 +1,14 @@
 dofile("setupTests.lua")
 
 describe("map options", function()
-    local QuestieWaypoints, WaypointRenderer
+    local QuestieWaypoints
     local args
 
     before_each(function()
         Questie.db.profile = {}
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
         QuestieWaypoints.Refresh = spy.new(function() end)
-        WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
-        WaypointRenderer.RedrawAll = spy.new(function() end)
+        QuestieWaypoints.Redraw = spy.new(function() end)
         dofile("Modules/Options/QuestieOptionsDefaults.lua")
         dofile("Modules/Options/QuestieOptions.lua")
         dofile("Modules/Options/MapTab/QuestieOptionsMap.lua")
@@ -36,6 +35,6 @@ describe("map options", function()
         args.waypoint_advanced_group.args.waypointSmoothing.set({"waypointSmoothing"}, 1)
 
         assert.are.equal(1, Questie.db.profile.waypointSmoothing)
-        assert.spy(WaypointRenderer.RedrawAll).was.called(1)
+        assert.spy(QuestieWaypoints.Redraw).was.called(1)
     end)
 end)

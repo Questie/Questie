@@ -1,0 +1,15 @@
+# art set	UiMapId	left	top	size	image
+Classic	1429	408	186	170	Modules/Tutorial/Previews/Northshire-Classic.blp
+Classic	1426	169	409	170	Modules/Tutorial/Previews/ColdridgeValley-Classic.blp
+Classic	1438	502	198	170	Modules/Tutorial/Previews/Shadowglen-Classic.blp
+Classic	1411	358	327	170	Modules/Tutorial/Previews/ValleyOfTrials-Classic.blp
+Classic	1420	235	338	170	Modules/Tutorial/Previews/Deathknell-Classic.blp
+Classic	1412	399	441	190	Modules/Tutorial/Previews/CampNarache-Classic.blp
+Cata	425	157	95	573	Modules/Tutorial/Previews/Northshire-Cata.blp
+Cata	427	150	38	630	Modules/Tutorial/Previews/ColdridgeValley-Cata.blp
+Cata	469	289	254	199	Modules/Tutorial/Previews/NewTinkertown-Cata.blp
+Cata	460	213	130	469	Modules/Tutorial/Previews/Shadowglen-Cata.blp
+Cata	461	249	177	327	Modules/Tutorial/Previews/ValleyOfTrials-Cata.blp
+Cata	463	282	173	411	Modules/Tutorial/Previews/EchoIsles-Cata.blp
+Cata	465	241	88	526	Modules/Tutorial/Previews/Deathknell-Cata.blp
+Cata	462	256	114	430	Modules/Tutorial/Previews/CampNarache-Cata.blp

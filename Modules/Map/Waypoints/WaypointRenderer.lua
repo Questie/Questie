@@ -7,6 +7,8 @@ local WaypointRenderer = QuestieLoader:CreateModule("WaypointRenderer")
 
 ---@type WaypointGeometry
 local WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
+---@type MapGeometry
+local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
@@ -225,7 +227,7 @@ local function _DrawLines(self, view)
     for _, run in ipairs(view.waypointRuns) do
         -- Curves are fitted to the quads, fade included, so no two of their pieces overlap.
         local smoothed = WaypointGeometry.Smooth(run, smoothing, quadHalfWidth)
-        local points = WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * halfWidth)
+        local points = MapGeometry.Simplify(smoothed, WaypointRenderer.TRIMMING * halfWidth)
         local lineQuads, fillQuads, capQuads = WaypointGeometry.Quads(points, quadHalfWidth)
         local newLines, newFills, newCaps
         lines, newLines = _DrawKind(self, view, "lines", lineQuads, lines, quadHalfWidth)

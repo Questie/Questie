@@ -49,9 +49,13 @@ python3 build.py --classic     # era only
 python3 build.py --release     # omit commit hash from name
 ```
 
-### Commit Message Prefixes (Changelog)
+### Commit messages and changelog inclusion
 
-Commits are automatically categorized in the changelog based on their prefix. Use one of these prefixes at the start of your commit message (case-insensitive):
+**Default to Conventional Commits without brackets:** `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, etc. Optional scopes are welcome, for example `refactor(polygon): clarify marker ownership`.
+
+Bracketed prefixes explicitly opt a commit into the end-user changelog. Use them only when a feature, fix, quest/database correction, or localization change is complete and worth announcing to players. Do not use them for intermediate implementation steps, experiments, refactoring, comments, documentation, tests, tooling, or other internal work. A commit being a `feat` or `fix` does not by itself make it a changelog entry.
+
+For completed, player-relevant changes intended for the changelog, these prefixes select the category (case-insensitive):
 
 - `[feature]` - New features → "## New Features"
 - `[fix]` - General bug fixes → "## General Fixes"
@@ -59,7 +63,12 @@ Commits are automatically categorized in the changelog based on their prefix. Us
 - `[db]` - Database fixes → "## Database Fixes"
 - `[locale]` - Localization fixes → "## Localization Fixes"
 
-Example: `[fix] Fix journey keybind not working`
+Examples:
+- `feat(polygon): add cached outline rendering` - an implementation step, not a player announcement.
+- `docs: clarify polygon cache ownership` - internal documentation.
+- `[fix] Fix journey keybind not working` - a completed fix worth announcing to players.
+
+These are commit-format defaults, not a requirement that every commit appear in the changelog. If the user requests a specific title, an unbracketed prefix, or exclusion from the changelog, follow that choice. Do not insist on brackets or require an instruction-file change or session reload. When changelog inclusion is unclear, use Conventional Commits without brackets.
 
 ## Project Structure
 
@@ -67,6 +76,7 @@ Example: `[fix] Fix journey keybind not working`
 Questie.lua          - Main addon entry point (OnInitialize, OnEnable, OnDisable)
 Modules/             - Core addon modules (quest tracking, map, tooltips, etc.)
 Modules/Libs/        - Internal utility libraries (QuestieLoader, QuestieLib, etc.)
+Modules/Map/Waypoints/, Modules/Map/Polygon/ - Drawing features: they never import each other, and core reaches them only at the entry points in test/MapFeatureImports.test.lua
 Database/            - Quest/NPC/item/object database and corrections
 Database/Corrections/- Per-expansion data fixes applied at runtime
 Localization/        - Translation files

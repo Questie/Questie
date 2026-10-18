@@ -62,6 +62,9 @@ function QuestieOptionsDefaults:Load()
             questObjectiveColors = false,
             questMinimapObjectiveColors = false,
             enableObjectives = true,
+            enableQuestiePolygons = false,
+            showPolygonsOnAccept = true,
+            polygonAreaTooltips = true,
             enableTurnins = true,
             enableAvailable = true,
             enableAvailableItems = true,
@@ -247,6 +250,13 @@ function QuestieOptionsDefaults:Load()
             minAllQuestsInZone = {},
             collapsedQuests = {},
             trackedAchievementIds = {},
+            -- Persistent objective colors as {color = palette name, zone = UiMapId, real = ObjectiveIndex?};
+            -- see ObjectiveColors.Get.
+            objectiveColors = {},
+            -- Questie blobs state for this character; see Modules/Map/Polygon/QuestiePolygon.lua.
+            polygon = {
+                objectiveVisibility = {},
+            },
         },
         global = {
             questieLocale = "enUS",

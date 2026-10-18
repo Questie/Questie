@@ -62,7 +62,7 @@ describe("Migration", function()
         assert.are_same(expectedScope, Questie.db.global)
         assert.is_nil(Questie.db.profile.disableDatabaseWarnings)
         assert.is_nil(Questie.db.char.townsfolkVersion)
-        assert.are_same(43, Questie.db.profile.migrationVersion)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
     end)
 
     it("preserves tracker preferences when upgrading from version 37", function()
@@ -75,7 +75,7 @@ describe("Migration", function()
         assert.is_false(Questie.db.profile.hideTrackerInInstances)
         assert.is_nil(Questie.db.profile.minimizeTrackerInDungeons)
         assert.is_nil(Questie.db.profile.hideTrackerInDungeons)
-        assert.are_same(43, Questie.db.profile.migrationVersion)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
     end)
 
     it("clears compiler state without rerunning tracker migration from version 38", function()
@@ -93,7 +93,7 @@ describe("Migration", function()
         assert.is_nil(Questie.db.char.townsfolkVersion)
         assert.is_false(Questie.db.profile.minimizeTrackerInInstances)
         assert.is_true(Questie.db.profile.hideTrackerInInstances)
-        assert.are_same(43, Questie.db.profile.migrationVersion)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
     end)
 
     it("clears Titan compiler payloads when the SoD scope is absent", function()
@@ -108,7 +108,7 @@ describe("Migration", function()
 
         assert.are_same({retained = "keep"}, Questie.db.global.titanReforged)
         assert.is_nil(Questie.db.global.sod)
-        assert.are_same(43, Questie.db.profile.migrationVersion)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
     end)
 
     it("removes the Townsfolk lookups when upgrading from version 39", function()
@@ -123,7 +123,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.are_same({retained = "keep"}, Questie.db.global)
-        assert.are_same(43, Questie.db.profile.migrationVersion)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
     end)
 
     it("retires the wording preference without rerunning completed migrations", function()
@@ -137,7 +137,39 @@ describe("Migration", function()
         assert.is_nil(Questie.db.profile.trimObjectiveText)
         assert.is_true(Questie.db.profile.minimizeTrackerInInstances)
         assert.are_same({retained = "keep"}, Questie.db.global)
-        assert.are_same(43, Questie.db.profile.migrationVersion)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
+    end)
+
+    it("keeps generated polygons opt-in when upgrading existing profiles", function()
+        Questie.db.profile.migrationVersion = 43
+        Questie.db.profile.iconTheme = "pfquest"
+
+        Migration:Migrate()
+
+        assert.is_false(Questie.db.profile.enableQuestiePolygons)
+        assert.are_same("pfquest", Questie.db.profile.iconTheme)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
+    end)
+
+    it("preserves an explicit polygon choice during migration", function()
+        Questie.db.profile.migrationVersion = 43
+        Questie.db.profile.enableQuestiePolygons = true
+        Questie.db.profile.iconTheme = "polygon"
+
+        Migration:Migrate()
+
+        assert.is_true(Questie.db.profile.enableQuestiePolygons)
+        assert.are_same("polygon", Questie.db.profile.iconTheme)
+    end)
+
+    it("does not reset a polygon choice after reaching the latest version", function()
+        Questie.db.profile.migrationVersion = 44
+        Questie.db.profile.enableQuestiePolygons = true
+
+        Migration:Migrate()
+
+        assert.is_true(Questie.db.profile.enableQuestiePolygons)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
     end)
 
     it("handles Saved Variables without former seasonal compiler scopes", function()
@@ -146,6 +178,6 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_true(Questie.db.global.retained)
-        assert.are_same(43, Questie.db.profile.migrationVersion)
+        assert.are_same(44, Questie.db.profile.migrationVersion)
     end)
 end)

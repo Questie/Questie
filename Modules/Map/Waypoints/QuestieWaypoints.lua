@@ -3,16 +3,25 @@
 ---@class QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:CreateModule("QuestieWaypoints")
 
+---@type QuestieFrame
+local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 ---@type WaypointGeometry
 local WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
+---@type WaypointHover
+local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 ---@type WaypointMap
 local WaypointMap = QuestieLoader:ImportModule("WaypointMap")
 ---@type WaypointMinimap
 local WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
+---@type WaypointRenderer
+local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
+
+---@class IconData
+---@field waypointPaths WaypointPath[]? QuestieWaypoints' own: patrol paths of the NPC, shared by all icons with this data.
 
 ---An NPC's patrol on one map, drawn while its owning icon is.
 ---@class WaypointPath : WaypointPolyline
@@ -48,6 +57,23 @@ local function _ToWorld(x, y, uiMapId)
     return HBD:GetWorldCoordinatesFromZone(x, y, uiMapId)
 end
 
+-- Paths follow their owners through QuestieFrame's icon events, from the first path on.
+local followingIcons = false
+
+local function _FollowIcons()
+    followingIcons = true
+    QuestieFrame.Subscribe("Unload", QuestieWaypoints.RemoveOwner)
+    -- Paths draw by their owners' hiding and fade, never by native visibility, which HereBeDragons
+    -- changes whenever icons come into or go out of range.
+    QuestieFrame.Subscribe("VisibilityChanged", QuestieWaypoints.OwnerChanged)
+    -- Hovering an icon is hovering its NPC. A path hover opened for another icon ends first.
+    QuestieFrame.Subscribe("HoverStart", function(icon)
+        WaypointHover.End(icon)
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
+    end)
+    QuestieFrame.Subscribe("HoverEnd", function(_, data) QuestieWaypoints.SetHighlighted(data, false, "icon") end)
+end
+
 ---Draws an NPC's patrols in one zone for as long as owner is loaded, following its visibility.
 ---@param owner IconFrame World map icon of the NPC in this zone.
 ---@param entity string? Whose patrols these are, as Questie's tooltip keys: "m_<npcId>" or "o_<objectId>".
@@ -61,6 +87,7 @@ function QuestieWaypoints.Add(owner, entity, patrols, areaId, hostile)
     if not uiMapId or not data then return end
     local polylines = WaypointGeometry.BuildPolylines(patrols, uiMapId, _ToWorld)
     if #polylines == 0 then return end
+    if not followingIcons then _FollowIcons() end
 
     local owned = pathsByOwner[owner] or {}
     pathsByOwner[owner] = owned
@@ -78,7 +105,7 @@ function QuestieWaypoints.Add(owner, entity, patrols, areaId, hostile)
     _Changed()
 end
 
----Releases the paths an icon owns; called when the icon unloads.
+---Releases the paths an icon owns; called through its Unload event.
 ---@param owner IconFrame
 function QuestieWaypoints.RemoveOwner(owner)
     local owned = pathsByOwner[owner]
@@ -101,8 +128,8 @@ function QuestieWaypoints.RemoveOwner(owner)
     _Changed()
 end
 
----Redraws paths whose icons changed visibility or fade: FakeHide, FakeShow, FadeOut and FadeIn on
----the world map icon, or on its minimap twin, which shares the data.
+---Redraws paths whose icons Questie hid, showed or faded, through the VisibilityChanged event: the
+---world map icon's, or its minimap twin's, which shares the data.
 ---@param icon IconFrame
 function QuestieWaypoints.OwnerChanged(icon)
     local shared = icon.data and icon.data.waypointPaths
@@ -179,12 +206,32 @@ function QuestieWaypoints.Refresh()
     _Changed()
 end
 
----Highlights every path of an NPC, as when its icon or one of its paths is hovered.
+---Draws every path's lines anew, after the smoothing setting changed or the profile switched; a
+---Refresh only restyles lines drawn for the old settings.
+function QuestieWaypoints.Redraw()
+    WaypointRenderer.RedrawAll()
+    _Changed()
+end
+
+---@alias WaypointHighlightHolder "icon"|"path"
+
+-- Who highlights each NPC's paths. A hover of its icon and a hover of one of its paths each hold the
+-- highlight, so one ending keeps the other's: on the minimap a path hover starts no icon hover, and an
+-- icon hover of its NPC, such as a tracker preview of its objective, can end beneath it.
+---@type table<IconData, table<WaypointHighlightHolder, true>>
+local highlightHolders = setmetatable({}, {__mode = "k"})
+
+---Highlights every path of an NPC while any hover holds it: its icon's, or one of its paths'.
 ---@param data IconData?
 ---@param highlighted boolean
-function QuestieWaypoints.SetHighlighted(data, highlighted)
+---@param holder WaypointHighlightHolder
+function QuestieWaypoints.SetHighlighted(data, highlighted, holder)
     local shared = data and data.waypointPaths
     if not shared then return end
+    local holders = highlightHolders[data] or {}
+    holders[holder] = highlighted or nil
+    highlightHolders[data] = next(holders) and holders or nil
+    highlighted = next(holders) ~= nil
     local changed = false
     for _, path in ipairs(shared) do
         if (path.highlighted == true) ~= highlighted then

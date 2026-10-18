@@ -61,6 +61,85 @@ describe("TrackerLine untrack click", function()
         _G.ChatEdit_InsertLink = originals.ChatEdit_InsertLink
     end)
 
+    describe("map preview", function()
+        local MapPreview, FadeTicker, saved, line, started, ended
+
+        before_each(function()
+            MapPreview, FadeTicker = QuestieLoader:ImportModule("MapPreview"), QuestieLoader:ImportModule("TrackerFadeTicker")
+            saved = {start = MapPreview.Start, finish = MapPreview.End, unfade = FadeTicker.Unfade, fade = FadeTicker.Fade}
+            started, ended = {}, {}
+            MapPreview.Start = function(questId, objectiveIndex)
+                local preview = {questId = questId, objectiveIndex = objectiveIndex}
+                started[#started + 1] = preview
+                return preview
+            end
+            MapPreview.End = function(preview) ended[#ended + 1] = preview end
+            FadeTicker.Unfade, FadeTicker.Fade = function() end, function() end
+            line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line.mode = "objective"
+        end)
+
+        after_each(function()
+            MapPreview.Start, MapPreview.End = saved.start, saved.finish
+            FadeTicker.Unfade, FadeTicker.Fade = saved.unfade, saved.fade
+        end)
+
+        it("previews a hovered quest objective until the cursor leaves, even after the line is reused", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
+            line.scripts.OnEnter(line)
+            assert.are.same({{questId = 42, objectiveIndex = 3}}, started)
+
+            -- A tracker rebuild reassigns the pooled line before the cursor leaves.
+            line:SetQuest({Id = 99})
+            line:SetObjective({Index = 1, NativeIndex = 1, questId = 99})
+            line.scripts.OnLeave(line)
+            assert.are.same({started[1]}, ended)
+            line.scripts.OnLeave(line)
+            assert.are.equal(1, #ended)
+        end)
+
+        it("previews a hovered quest title's every objective until the cursor leaves", function()
+            line.mode = "quest"
+            line:SetQuest({Id = 42})
+            line.scripts.OnEnter(line)
+            assert.are.same({{questId = 42}}, started)
+
+            line:SetQuest({Id = 99})
+            line.scripts.OnLeave(line)
+            assert.are.same({started[1]}, ended)
+        end)
+
+        it("ends an earlier preview a missed OnLeave left before starting the next", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
+            line.scripts.OnEnter(line)
+            line.scripts.OnEnter(line)
+            assert.are.equal(2, #started)
+            assert.are.same({started[1]}, ended)
+        end)
+
+        it("ends its preview as the line hides under the cursor, which gets no OnLeave", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
+            line.scripts.OnEnter(line)
+            line.scripts.OnHide(line)
+            assert.are.same({started[1]}, ended)
+            line.scripts.OnLeave(line)
+            assert.are.equal(1, #ended)
+        end)
+
+        it("does not preview achievement or scenario lines", function()
+            line:SetQuest({Id = 42})
+            line:SetObjective(nil) -- Achievement objective lines.
+            line.scripts.OnEnter(line)
+            line:SetObjective({Index = 1}) -- Scenario criteria belong to no quest.
+            line.scripts.OnEnter(line)
+            line.scripts.OnLeave(line)
+            assert.are.same({}, started)
+        end)
+    end)
+
     it("links a Blizzard-only quest through its display data", function()
         local quest = {Id = 91741, name = "Nibbled-On Book"}
         local data = QuestieLoader:ImportModule("TrackerData")

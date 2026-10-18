@@ -178,6 +178,11 @@ Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 Modules\Map\Moonwell.lua
+Modules\Map\WorldMapLayers.lua
+Modules\Map\IconHighlight.lua
+Modules\Map\MapPreview.lua
+Modules\Map\MapGeometry.lua
+Modules\Map\MinimapCanvas.lua
 
 # Waypoints
 Modules\Map\Waypoints\WaypointGeometry.lua
@@ -191,6 +196,8 @@ Modules\Map\Waypoints\WaypointMinimap.lua
 Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua
 Modules\Quest\AvailableQuests\AvailableQuests.lua
 Modules\Quest\QuestLogCache.lua
+Modules\Quest\ObjectiveColors.lua
+Modules\Quest\ObjectiveColorBans\Wrath.lua
 Modules\Quest\DailyQuests\DailyQuests.lua
 Modules\Quest\DailyQuests\QuestHubs.lua
 Modules\Quest\IsleOfQuelDanas.lua
@@ -261,6 +268,8 @@ Modules\Tracker\LinePool\TrackerLine.lua
 Modules\Tracker\LinePool\TrackerLinePool.lua
 
 # Tutorial
+Modules\Tutorial\ObjectivePreview.lua
+Modules\Tutorial\Previews\Classic.lua
 Modules\Tutorial\ChooseObjectiveType.lua
 Modules\Tutorial\RejectInBattlegrounds.lua
 Modules\Tutorial\Tutorial.lua
@@ -293,6 +302,14 @@ Public\Enums.lua
 Public\GetQuestObjectiveIconForUnit.lua
 Public\RegisterForQuestUpdates.lua
 Public\RegisterOnReady.lua
+
+# Questie-generated world-map areas
+Modules\Map\Polygon\PolygonGeometry.lua
+Modules\Map\Polygon\PolygonRenderer.lua
+Modules\Map\Polygon\PolygonRenderCache.lua
+Modules\Map\Polygon\PolygonNudging.lua
+Modules\Map\Polygon\PolygonMinimap.lua
+Modules\Map\Polygon\QuestiePolygon.lua
 
 # Main - Always load Questie.lua last
 Questie.lua

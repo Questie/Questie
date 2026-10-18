@@ -7,8 +7,6 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type WaypointRenderer
-local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -69,7 +67,7 @@ function QuestieOptions.tabs.map:Initialize()
                 type = "toggle",
                 order = 1.2,
                 name = function() return l10n("Enable Minimap Waypoints"); end,
-                desc = function() return l10n("Draws the patrol paths of the NPCs Questie shows on the minimap. Minimap icons must be enabled too."); end,
+                desc = function() return l10n("Draws the patrol paths of the NPCs Questie marks on the minimap, by their icons or their quest areas' markers. Minimap icons must be enabled too."); end,
                 width = 1.595,
                 get = _Get,
                 set = _SetAndRefresh,
@@ -160,7 +158,7 @@ function QuestieOptions.tabs.map:Initialize()
                         order = 3.1,
                         name = function() return l10n("Waypoint smoothing"); end,
                         desc = function()
-                            return l10n("Rounds the corners of NPC patrol lines. Higher values round them more; 0 draws sharp corners. (Default: %s)",
+                            return l10n("Rounds the corners of NPC patrol paths. Higher values round them more; 0 draws sharp corners. (Default: %s)",
                                 optionsDefaults.profile.waypointSmoothing);
                         end,
                         width = 1.595,
@@ -170,7 +168,7 @@ function QuestieOptions.tabs.map:Initialize()
                         get = _Get,
                         set = function(info, value)
                             QuestieOptions:SetProfileValue(info, value)
-                            WaypointRenderer.RedrawAll()
+                            QuestieWaypoints.Redraw()
                         end,
                     },
                 },

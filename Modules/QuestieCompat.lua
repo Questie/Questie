@@ -298,6 +298,13 @@ function QuestieCompat.GetMouseFocus()
     end
 end
 
+---Whether the gamepad UI is on: then the gamepad cursor, not the mouse's, points at the map. Only
+---Forever's InputUtil has IsGamepadUIEnabled; every Classic client loads an InputUtil without it.
+---@return boolean
+function QuestieCompat.IsGamepadUIEnabled()
+    return (InputUtil and InputUtil.IsGamepadUIEnabled and InputUtil.IsGamepadUIEnabled()) == true
+end
+
 ---@class CalendarTime
 ---@field monthDay number
 ---@field month number

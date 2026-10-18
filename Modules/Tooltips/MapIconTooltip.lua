@@ -27,10 +27,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieWaypoints
-local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type WaypointHover
-local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -48,7 +46,38 @@ local BREADCRUMB_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\breadcrumbtoo
 local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
 local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
+-- Map icon tooltips grow up and right from just off the cursor's tip, as Blizzard's quest pins' do
+-- (QuestDataProvider.lua). GetAnchorType returns no offset, so Redraw sets it again.
+local CURSOR_ANCHOR = "ANCHOR_CURSOR_RIGHT"
+local CURSOR_OFFSET_X, CURSOR_OFFSET_Y = 5, 2
+
 local lastTooltipShowTimestamp = GetTime()
+
+-- Shown tooltips
+-- MapIconTooltip alone keeps what each tooltip frame last showed for it. That state counts only while
+-- its owner still holds the tooltip, so a frame that took the tooltip since needs no cleanup and is
+-- never redrawn over. Owners ask GetOwner whether theirs still shows and end it with Release; Shift
+-- redraws every one through Redraw.
+
+---What a tooltip frame last showed for MapIconTooltip.
+---@class MapIconTooltipShown
+---@field owner Frame The frame it was shown for, which holds and anchors it.
+---@field rebuild fun(tooltip: GameTooltip) Adds its rows to the cleared tooltip, reading Shift.
+
+---@type table<GameTooltip, MapIconTooltipShown>
+local shown = {}
+---@type GameTooltip?
+local minimapTooltip
+
+---The tooltip map icon tooltips show on over the minimap, which hovers there use instead of GameTooltip:
+---Forever's minimap takes GameTooltip every frame while the cursor is over it, for its blip tooltips
+---(Minimap_OnUpdate in Blizzard_Minimap/Mainline/Minimap.lua). Each hover owns it with a frame of its
+---own, so one hover ending never hides another's.
+---@return GameTooltip
+function MapIconTooltip.MinimapTooltip()
+    minimapTooltip = minimapTooltip or CreateFrame("GameTooltip", "QuestieMinimapTooltip", UIParent, "GameTooltipTemplate")
+    return minimapTooltip
+end
 
 -- helper function to format a label with a colon, respecting localization rules
 ---@param label string
@@ -62,41 +91,26 @@ local function FormatLabelWithColon(label)
     end
 end
 
-function MapIconTooltip:Show()
-    -- A hovered patrol path opened its NPC's tooltip; that NPC's OnLeave must run before this one.
-    WaypointHover.End(self)
-    MapIconTooltip.ShowOnTooltip(self, GameTooltip)
-end
+local reportedIconWithoutData = false
 
----Shows a map icon's tooltip: the quests and notes of the icons clustered around it on its map, and of
----any icons given. Entries are collected first, then rendered by _Rebuild, again on a modifier key.
----@param self IconFrame
----@param Tooltip GameTooltip The tooltip frame to render into
----@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
----since HereBeDragons may hide its NPC's icon and distance may fade it out.
----@param icons IconFrame[]? More icons to list wherever they are, however faded: a hovered minimap path
----passes its NPC's icons, one for each of its quests.
-function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
-    -- An icon faded out shows nothing when hovered itself. A hovered path shows, whatever its icon's fade.
-    local _, _, _, alpha = self.texture:GetVertexColor();
-    if alpha == 0 and not owner then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Alpha of texture is 0, nothing to show")
-        return
-    end
-    if GetTime() - lastTooltipShowTimestamp < 0.05 and Tooltip:IsShown() then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Call has been too fast, not showing again")
-        return
-    end
-    lastTooltipShowTimestamp = GetTime()
-
-    Tooltip._owner = self;
-    Tooltip:SetOwner(owner or self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
-
+---The visible icons around a spot, as a hovered icon's tooltip lists them: those of the spot's zone within
+---the cluster distance for the world map's type, or for the minimap's zoom.
+---@param onMinimap boolean? Minimap icons instead of world map icons.
+---@param areaId AreaId The spot's zone.
+---@param x number Percent on the zone's map.
+---@param y number
+---@param keep IconFrame? Listed even while hidden or faded out: the hovered icon itself.
+---@return IconFrame[]
+function MapIconTooltip.IconsNear(onMinimap, areaId, x, y, keep)
     local maxDistCluster = 1
-    local mapId = WorldMapFrame:GetMapID();
-
-    if C_Map and C_Map.GetMapInfo then
-        local mapInfo = C_Map.GetMapInfo(mapId)
+    if onMinimap then
+        if _MapIconTooltip:IsMinimapInside() then
+            maxDistCluster = 0.3 / (1 + Minimap:GetZoom())
+        else
+            maxDistCluster = 0.5 / (1 + Minimap:GetZoom())
+        end
+    elseif C_Map and C_Map.GetMapInfo then
+        local mapInfo = C_Map.GetMapInfo(WorldMapFrame:GetMapID())
         if mapInfo then
             if (mapInfo.mapType == 0 or mapInfo.mapType == 1) then -- Cosmic or World
                 maxDistCluster = 6
@@ -106,15 +120,57 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         end
     end
 
-    if self.miniMapIcon then
-        if _MapIconTooltip:IsMinimapInside() then
-            maxDistCluster = 0.3 / (1 + Minimap:GetZoom())
-        else
-            maxDistCluster = 0.5 / (1 + Minimap:GetZoom())
+    local icons = {}
+    ---@param icon IconFrame
+    local function consider(icon)
+        if not icon.data then
+            -- Such as a note left behind after its quest finished (#1170). Hovering quest areas looks on
+            -- every move, so it is reported once.
+            if not reportedIconWithoutData then
+                reportedIconWithoutData = true
+                Questie.Error("[MapIconTooltip.IconsNear] A shown icon has no data, skipping it")
+            end
+            return
+        end
+        -- Skip icons that are hidden (FakeHide'd or faded out), unless it's the hovered icon itself
+        if icon ~= keep and (icon.hidden or icon.texture.a == 0) then
+            return
+        end
+        if icon.x and icon.AreaID == areaId and QuestieLib:Maxdist(icon.x, icon.y, x, y) < maxDistCluster then
+            icons[#icons + 1] = icon
         end
     end
 
-    QuestieWaypoints.SetHighlighted(self.data, true)
+    if onMinimap then
+        for icon in pairs(HBDPins.activeMinimapPins) do
+            consider(icon)
+        end
+    else
+        for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+            consider(pin.icon)
+        end
+    end
+    return icons
+end
+
+---Shows a hovered map icon's tooltip: the quests and notes of the icon, of the visible icons clustered
+---around it on its map, and of the quest areas beneath it. An icon faded out shows nothing, and the
+---icon's own tooltip shown less than 0.05 s ago is kept. It changes nothing but the tooltip:
+---QuestieFrame.ApplyHoverHighlights starts the hover's effects.
+---@param self IconFrame
+---@param tooltip GameTooltip GameTooltip, or a private tooltip such as the gamepad's.
+function MapIconTooltip.ShowOnTooltip(self, tooltip)
+    local _, _, _, alpha = self.texture:GetVertexColor();
+    if alpha == 0 then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip.ShowOnTooltip] Alpha of texture is 0, nothing to show")
+        return
+    end
+    -- Only this icon's own tooltip is throttled; another owner's, such as a quest area's, is replaced.
+    if GetTime() - lastTooltipShowTimestamp < 0.05 and tooltip:IsShown() and tooltip:IsOwned(self) then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip.ShowOnTooltip] Call has been too fast, not showing again")
+        return
+    end
+    lastTooltipShowTimestamp = GetTime()
 
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:
     -- https://discordapp.com/channels/263036731165638656/263040777658171392/627808795715960842
@@ -129,97 +185,67 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     --Tooltip:AddLine(v);
     --end
 
+    -- The hovered icon, the visible icons clustered around it and the icons of the areas beneath it share
+    -- one tooltip.
+    local tooltipIcons = MapIconTooltip.IconsNear(self.miniMapIcon, self.AreaID, self.x, self.y, self)
+    local listed = {}
+    for _, icon in ipairs(tooltipIcons) do listed[icon] = true end
+    for _, icon in ipairs(QuestiePolygon.AreaIconsAt(self)) do
+        if not listed[icon] then
+            listed[icon] = true
+            tooltipIcons[#tooltipIcons + 1] = icon
+        end
+    end
+    MapIconTooltip.ShowForIcons(self, tooltipIcons, tooltip)
+end
+
+---Shows the map icon tooltip for exactly these icons, wherever they are and however faded, growing up
+---and right from the cursor. `owner` holds it until another frame takes the tooltip or `Release` ends
+---it; Redraw renders it again meanwhile.
+---@param owner Frame Holds the tooltip, which hides with it. Only a world map icon owner adds Journey's shift-click hint.
+---@param icons IconFrame[] At least one icon with data. Objectives repeated across icons are listed once; in blob mode, each icon's own objective line starts with its area colour.
+---@param tooltip GameTooltip
+function MapIconTooltip.ShowForIcons(owner, icons, tooltip)
+    tooltip:SetOwner(owner, CURSOR_ANCHOR, CURSOR_OFFSET_X, CURSOR_OFFSET_Y)
+
     local usedText = {}
     local npcAndObjectOrder = {};
     local questOrder = {};
     local manualOrder = {}
-
-    -- Tinting again before the hover's reset would save the tinted colors as the ones to restore.
-    local tint = not self.data.touchedPins
-    if tint then
-        self.data.touchedPins = {}
-    end
-    ---@param icon IconFrame
-    ---@param listed boolean? One of the given icons, listed wherever it is, however faded.
-    local function handleMapIcon(icon, listed)
+    for _, icon in ipairs(icons) do
         local iconData = icon.data
-
-        if not iconData then
-            Questie.Error("[MapIconTooltip:Show] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
-            return
-        end
-
-        -- Skip icons that are hidden (FakeHide'd or faded out), unless it's the hovered icon itself
-        if icon ~= self and not listed and (icon.hidden or icon.texture.a == 0) then
-            return
-        end
-
-        -- Do not recolor MiniMap, Available and Completed Quest Icons.
-        if tint and (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
-            local entry = {}
-            entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
-            entry.icon = icon;
-            if Questie.db.profile.questObjectiveColors then
-                icon.texture:SetVertexColor(1, 1, 1, 1); -- If different colors are active simply change it to the regular icon color
-            else
-                icon.texture:SetVertexColor(0.6, 1, 1, 1); -- Without colors make it blueish
+        if iconData.Type == "available" or iconData.Type == "complete" then
+            if not npcAndObjectOrder[iconData.Name] then
+                npcAndObjectOrder[iconData.Name] = {};
             end
-            tinsert(self.data.touchedPins, entry);
-        end
-        -- Listed icons count wherever they are; others only within the cluster distance of the hovered icon.
-        local near = listed
-        if not near and icon.x and icon.AreaID == self.AreaID then
-            near = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y) < maxDistCluster
-        end
-        if near then
-            if iconData.Type == "available" or iconData.Type == "complete" then
-                if not npcAndObjectOrder[iconData.Name] then
-                    npcAndObjectOrder[iconData.Name] = {};
-                end
 
-                local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-                npcAndObjectOrder[iconData.Name][tip.title] = tip
-            elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
-                local key = iconData.Id
-                if not questOrder[key] then
-                    questOrder[key] = {};
-                end
-
-                local orderedTooltips = {}
-                iconData.ObjectiveData:Update()
-                local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
-                for _, tip in pairs(tooltips) do
-                    tinsert(orderedTooltips, 1, tip);
-                end
-                for _, tip in pairs(orderedTooltips) do
-                    local quest = questOrder[key]
-                    _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
-                end
-            elseif iconData.ManualTooltipData then
-                manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
+            local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
+            npcAndObjectOrder[iconData.Name][tip.title] = tip
+        elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
+            local key = iconData.Id
+            if not questOrder[key] then
+                questOrder[key] = {};
             end
+
+            local orderedTooltips = {}
+            iconData.ObjectiveData:Update()
+            local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon, QuestiePolygon.ObjectiveSwatch(icon))
+            for _, tip in pairs(tooltips) do
+                tinsert(orderedTooltips, 1, tip);
+            end
+            for _, tip in pairs(orderedTooltips) do
+                local quest = questOrder[key]
+                _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
+            end
+        elseif iconData.ManualTooltipData then
+            manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
         end
     end
 
-    -- Collect the entries of the icons shown on the hovered icon's map.
-    if self.miniMapIcon then
-        for icon, _ in pairs(HBDPins.activeMinimapPins) do
-            handleMapIcon(icon)
-        end
-    else
-        for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-            handleMapIcon(pin.icon)
-        end
-    end
-    -- HereBeDragons hides icons out of range, and distance fades them out; given icons count anyway.
-    for _, icon in ipairs(icons or {}) do
-        handleMapIcon(icon, true)
-    end
-
-    Tooltip.npcAndObjectOrder = npcAndObjectOrder
-    Tooltip.questOrder = questOrder
-    Tooltip.manualOrder = manualOrder
-    Tooltip.miniMapIcon = self.miniMapIcon
+    tooltip.npcAndObjectOrder = npcAndObjectOrder
+    tooltip.questOrder = questOrder
+    tooltip.manualOrder = manualOrder
+    tooltip.miniMapIcon = owner.miniMapIcon
 
     -- Texture indents are more robust than raw spaces in tooltip layout.
     -- Base indent is 6 UI units, then each deeper level scales by 1.5.
@@ -236,7 +262,8 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     local breadcrumbTitleIndent = TooltipLayout.CreateIndentUI(indentTwoWidth + BREADCRUMB_QUEST_ICON_TEXTURE_SIZE + indentHalfWidth)
 
 
-    Tooltip._Rebuild = function(self)
+    ---@param self GameTooltip
+    local function rebuild(self)
         -- Build rows first so description wrapping cannot change the width used to wrap itself.
         local xpString = l10n("xp");
         local shift = IsShiftKeyDown()
@@ -490,13 +517,63 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             end
         end
 
+        -- What clicking the hovered quest area marker does to its areas.
+        local clickHint = QuestiePolygon.ClickHint(owner)
+        if clickHint then
+            tooltipRows:AddLine(Questie:Colorize(clickHint, "gray"))
+        end
+
         -- Measure fixed rows, expand descriptions, then render once to avoid dynamic width feedback.
         TooltipLayout:Render(self, tooltipRows)
     end
-    Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
-    Tooltip:SetFrameStrata("TOOLTIP");
-    Tooltip.ShownAsMapIcon = true
-    Tooltip:Show();
+    shown[tooltip] = {owner = owner, rebuild = rebuild}
+    rebuild(tooltip)
+    tooltip:SetFrameStrata("TOOLTIP")
+    tooltip:Show()
+end
+
+---Ends the map icon tooltip shown for `owner`: hides the tooltip while `owner` still holds it, and
+---stops Redraw from rendering it. A map icon tooltip shown since for another frame, and any other
+---tooltip `owner` holds, such as another addon's for the map, are left alone.
+---@param owner Frame
+---@param tooltip GameTooltip
+function MapIconTooltip.Release(owner, tooltip)
+    local state = shown[tooltip]
+    if not (state and state.owner == owner) then return end
+    shown[tooltip] = nil
+    if tooltip:IsOwned(owner) then tooltip:Hide() end
+end
+
+---The frame a map icon tooltip shows for on `tooltip`, while that frame still holds it. Answers both
+---"is a map icon tooltip showing" and, compared with a frame, "is mine still showing".
+---@param tooltip GameTooltip
+---@return Frame? owner nil while the tooltip is hidden, was released, or another frame took it.
+function MapIconTooltip.GetOwner(tooltip)
+    local state = shown[tooltip]
+    if state and tooltip:IsShown() and tooltip:IsOwned(state.owner) then
+        return state.owner
+    end
+end
+
+---Renders every map icon tooltip still held by its owner again, at the same anchor: Shift changes
+---the detail it shows.
+function MapIconTooltip.Redraw()
+    for tooltip, state in pairs(shown) do
+        if tooltip:IsShown() and tooltip:IsOwned(state.owner) then
+            -- The gamepad's tooltip sits ANCHOR_RIGHT, beside its cursor, without the offset.
+            local anchor = tooltip:GetAnchorType()
+            tooltip:Hide()
+            tooltip:ClearLines()
+            if anchor == CURSOR_ANCHOR then
+                tooltip:SetOwner(state.owner, anchor, CURSOR_OFFSET_X, CURSOR_OFFSET_Y)
+            else
+                tooltip:SetOwner(state.owner, anchor)
+            end
+            state.rebuild(tooltip)
+            tooltip:SetFrameStrata("TOOLTIP")
+            tooltip:Show()
+        end
+    end
 end
 
 local isLastMinimapInside, lastMinimapInsideCheckTimestamp
@@ -591,7 +668,9 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     return tip
 end
 
-function _MapIconTooltip:GetObjectiveTooltip(icon)
+---@param icon IconFrame
+---@param prefix string? Placed before the local objective line.
+function _MapIconTooltip:GetObjectiveTooltip(icon, prefix)
     local tooltips = {}
     local iconData = icon.data
     -- Local wording comes from the accepted cache. Party-only objectives carry validated API wording
@@ -656,8 +735,8 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     local partyMemberTip = {
                         [remoteText] = {},
                     }
-                    if iconData.Name then
-                        partyMemberTip[remoteText][iconData.Name] = true;
+                    for _, name in ipairs(iconData.Names or {iconData.Name}) do
+                        partyMemberTip[remoteText][name] = true
                     end
                     tinsert(tooltips, partyMemberTip);
                     anotherPlayer = true;
@@ -679,11 +758,12 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
     -- objective line; the per-player lines above already cover it. Keep it as a fallback if
     -- no party lines were added, so the tooltip is never empty.
     if (not iconData.ObjectiveData.IsPartyObjective) or (#tooltips == 0) then
+        text = (prefix or "") .. text
         local t = {
             [text] = {},
         }
-        if iconData.Name then
-            t[text][iconData.Name] = true;
+        for _, name in ipairs(iconData.Names or {iconData.Name}) do
+            t[text][name] = true
         end
         tinsert(tooltips, 1, t);
     end

@@ -47,6 +47,31 @@ describe("QuestieCompat", function()
         end)
     end)
 
+    describe("IsGamepadUIEnabled", function()
+        local originalInputUtil
+
+        before_each(function()
+            originalInputUtil = _G.InputUtil
+        end)
+
+        after_each(function()
+            _G.InputUtil = originalInputUtil
+        end)
+
+        it("asks Forever's InputUtil, and is off where InputUtil has no gamepad UI", function()
+            _G.InputUtil = {IsGamepadUIEnabled = function() return true end}
+            assert.is_true(QuestieCompat.IsGamepadUIEnabled())
+            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
+            assert.is_false(QuestieCompat.IsGamepadUIEnabled())
+
+            -- Era, Anniversary and Progression load an InputUtil without IsGamepadUIEnabled.
+            _G.InputUtil = {}
+            assert.is_false(QuestieCompat.IsGamepadUIEnabled())
+            _G.InputUtil = nil
+            assert.is_false(QuestieCompat.IsGamepadUIEnabled())
+        end)
+    end)
+
     describe("GetAvailableQuests", function()
         it("should error when no function is available", function()
             _G.C_GossipInfo = nil

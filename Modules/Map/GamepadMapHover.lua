@@ -98,6 +98,7 @@ function _GamepadMapHover.Enter(icon)
     hoveredIcon = icon
     hoveredData = icon.data
     local tooltip = _GamepadMapHover.tooltip
+    QuestieFrame.ApplyHoverHighlights(icon)
     MapIconTooltip.ShowOnTooltip(icon, tooltip)
     if tooltip:IsShown() then
         -- There is no mouse cursor to anchor to in gamepad mode
@@ -111,7 +112,7 @@ function _GamepadMapHover.Leave()
         return
     end
     if hoveredData then
-        QuestieFrame.ResetHoverHighlights({data = hoveredData})
+        QuestieFrame.ResetHoverHighlights(hoveredIcon, hoveredData)
     end
     _GamepadMapHover.tooltip:Hide()
     hoveredIcon = nil

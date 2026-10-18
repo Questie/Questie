@@ -1,0 +1,386 @@
+"""Inputs for the color contrast tool: the objective palette, the client flavors it measures, and each zone's map art,
+sub-areas and minimap.
+
+Everything is read in place and never modified:
+  * Questie: the objective palette (Modules/Quest/ObjectiveColors.lua) and blob opacities
+    (Modules/Map/Polygon/PolygonMinimap.lua), so a change there carries over on the next run.
+  * Per flavor, from its asset folder (Flavor.assets), which fetch.py fills: the client's map tables, map art,
+    exploration overlays, explored map art and minimap tiles of the flavor's build.
+
+QUESTIE_COLOR_ASSETS overrides where the asset folders live (default ~/.cache/questie-color-contrast).
+
+Coordinates:
+  * Map fractions (mx, my) run 0..1 east and south across a zone's map art, like C_Map positions.
+  * World x grows north and world y grows west, in yards, like C_Map.GetWorldPosFromMapPos.
+  * Minimap tiles are 533 1/3 yards on a side, 64 x 64 per continent, world (0, 0) at the corner of tile 32_32;
+    tile x grows east and tile y south.
+"""
+
+from __future__ import annotations
+
+import csv
+import math
+import os
+import re
+from dataclasses import dataclass
+from functools import cache
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+REPO = Path(__file__).resolve().parents[2]
+ASSETS = Path(os.environ.get("QUESTIE_COLOR_ASSETS", Path.home() / ".cache/questie-color-contrast"))
+
+ART_WIDTH, ART_HEIGHT = 1002, 668  # every zone's map art layer, in art pixels
+ART_TILE = 256
+TILE_YARDS = 1600 / 3
+
+
+# Flavors
+
+@dataclass(frozen=True)
+class Flavor:
+    """One client whose zones the tool measures, and where its ban data goes in Questie."""
+    key: str  # --flavor value and output folder
+    name: str  # data file name, Modules/Quest/ObjectiveColorBans/<name>.lua
+    tocs: tuple[str, ...]  # the TOCs that load the data file: only clients with the same UiMapIds and art
+    product: str  # the client's product on Blizzard's CDN, as the launcher's .build.info names it
+    build: str  # the client build measured; fetch.py refuses once the CDN serves a newer one
+    skip_zones: tuple[tuple[int, str], ...] = ()  # outdoor maps not measured on purpose, with the reason
+    # A client whose art the CDN no longer serves can ship another flavor's measurements under its own UiMapIds,
+    # matched by AreaID: only when its map art is that flavor's, file for file. Then fetch.py only needs its tables.
+    measured_on: str = ""
+
+    @property
+    def data_file(self) -> Path:
+        return REPO / "Modules/Quest/ObjectiveColorBans" / f"{self.name}.lua"
+
+    # The asset folder, per flavor and build: clients share continent IDs (0 and 1) but not their art.
+    @property
+    def assets(self) -> Path:
+        return ASSETS / f"{self.key}-{self.build}"
+
+    @property
+    def db2(self) -> Path:  # <Table>.csv, the client's map tables (wago.tools)
+        return self.assets / "db2"
+
+    @property
+    def maps(self) -> Path:  # <uiMapID>/r<row>c<col>.png map art, o<overlayID>-r<row>c<col>.png overlays
+        return self.assets / "maps"
+
+    @property
+    def explored(self) -> Path:  # <uiMapID>/r<row>c<col>.png, the art with every overlay blended on
+        return self.assets / "explored"
+
+    @property
+    def minimaps(self) -> Path:  # <instanceID>/<x>_<y>.jpg
+        return self.assets / "minimaps"
+
+
+_CAPITAL = "capital: its minimap is drawn indoors"
+_STARTING_AREA = "starting area: Questie files its quests under the zone around it, measured"
+FLAVORS = {
+    "forever": Flavor(
+        key="forever", name="Forever", tocs=("Questie_Camelot.toc",), product="wow_classic_beta",
+        build="1.60.1.70450",
+        skip_zones=((1453, _CAPITAL), (1454, _CAPITAL), (1455, _CAPITAL), (1456, _CAPITAL), (1457, _CAPITAL),
+                    (1458, _CAPITAL), (2665, "a second Zephras Isle map without overlays; 2521 is measured")),
+    ),
+    "mists": Flavor(
+        key="mists", name="Mists", tocs=("Questie_Mists.toc",), product="wow_classic", build="5.5.4.70449",
+        skip_zones=tuple((ui_map_id, _CAPITAL) for ui_map_id in (84, 85, 86, 87, 88, 89, 103, 110, 111, 998))
+        + tuple((ui_map_id, _STARTING_AREA) for ui_map_id in (425, 427, 460, 461, 462, 463, 465, 467, 468, 469))
+        + tuple((ui_map_id, "a map of maps; the zones on it are measured") for ui_map_id in (203, 224, 276)),
+    ),
+    "era": Flavor(
+        key="era", name="Era", tocs=("Questie_Vanilla.toc",), product="wow_classic_era", build="1.15.9.70003",
+        skip_zones=tuple((ui_map_id, _CAPITAL) for ui_map_id in (1453, 1454, 1455, 1456, 1457, 1458)),
+    ),
+    "tbc": Flavor(
+        key="tbc", name="TBC", tocs=("Questie_TBC.toc",), product="wow_anniversary", build="2.5.6.70006",
+        skip_zones=tuple((ui_map_id, _CAPITAL) for ui_map_id in (1453, 1454, 1455, 1456, 1457, 1458, 1947, 1954, 1955)),
+    ),
+    "cata": Flavor(
+        key="cata", name="Cata", tocs=("Questie_Cata.toc",), product="wow_classic", build="4.4.2.60895",
+        measured_on="mists",  # Cata Classic is retired; its map art, overlays and world rects are MoP's
+    ),
+    "wrath": Flavor(
+        key="wrath", name="Wrath", tocs=("Questie_Wrath.toc",), product="wow_classic_titan", build="3.80.2.70372",
+        skip_zones=tuple((ui_map_id, _CAPITAL) for ui_map_id in (1453, 1454, 1455, 1456, 1457, 1458, 1947, 1954, 1955)),
+    ),
+}
+
+
+# Questie
+
+@dataclass(frozen=True)
+class PaletteColor:
+    index: int  # 1-based position in the palette; Questie saves and bans colors by name, not by this
+    name: str
+    rgb: tuple[int, int, int]  # sRGB 0..255
+
+
+def read_palette(path: Path = REPO / "Modules/Quest/ObjectiveColors.lua") -> list[PaletteColor]:
+    """The objective palette in ObjectiveColors' order. Commented-out (retired) entries are not part of it."""
+    source = path.read_text(encoding="utf-8")
+    block = re.search(r"^local PALETTE = \{\n(.*?)\n\}", source, re.S | re.M)
+    entries = re.findall(r'^\s*\{(\d+), (\d+), (\d+), "([^"]+)"\},', block.group(1), re.M)
+    return [PaletteColor(i, name, (int(r), int(g), int(b))) for i, (r, g, b, name) in enumerate(entries, 1)]
+
+
+def read_named_colors(path: Path = REPO / "Modules/Quest/ObjectiveColors.lua") -> dict[str, tuple[int, int, int]]:
+    """Every palette color by name, retired (commented-out) ones included, for redrawing old rating cells."""
+    source = path.read_text(encoding="utf-8")
+    block = re.search(r"^local PALETTE = \{\n(.*?)\n\}", source, re.S | re.M)
+    entries = re.findall(r'^\s*(?:-- )?\{(\d+), (\d+), (\d+), "([^"]+)"\},', block.group(1), re.M)
+    return {name: (int(r), int(g), int(b)) for r, g, b, name in entries}
+
+
+def read_blob_opacity() -> tuple[float, float]:
+    """Fill and border opacity of an area at full marker opacity; the world map draws the same."""
+    source = (REPO / "Modules/Map/Polygon/PolygonMinimap.lua").read_text(encoding="utf-8")
+    fill, border = re.search(r"local FILL_ALPHA, BORDER_ALPHA = ([\d.]+), ([\d.]+)", source).groups()
+    return float(fill), float(border)
+
+
+# Zones and their map art
+
+@dataclass(frozen=True)
+class Zone:
+    flavor: Flavor
+    ui_map_id: int
+    name: str
+    continent: int  # instance ID, the folder of its minimap tiles
+    x0: float  # world position of the map's top-left corner (C_Map.GetWorldPosFromMapPos at 0, 0)
+    y0: float
+    x1: float  # and of its bottom-right corner (at 1, 1)
+    y1: float
+    art: int  # UiMapArtID of the map art measured
+    area: int  # AreaID of its world assignment: the same zone has the same AreaID in every client
+
+    def world_position(self, mx, my):
+        """World x and y for map fractions; takes numpy arrays too."""
+        return self.x0 + (self.x1 - self.x0) * my, self.y0 + (self.y1 - self.y0) * mx
+
+
+@cache
+def _db2(folder: Path, table: str) -> list[dict[str, str]]:
+    with (folder / f"{table}.csv").open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
+def read_outdoor_maps(flavor: Flavor) -> list[Zone]:
+    """Every map of the client a quest's blobs can be drawn on outdoors: zones and orphan maps (UiMap types 3 and 6,
+    such as The Wandering Isle) placed in the open world (Map InstanceType 0), not in dungeons, battlegrounds or
+    scenarios.
+
+    World rects come from UiMapAssignment, as C_Map.GetWorldPosFromMapPos computes them; on Forever they matched the
+    live client's for all 51 zones. A map assigned more than once uses its first assignment (OrderIndex, then ID).
+    A map with phased art is measured on its default art (phase 0), or else on its oldest.
+    """
+    open_world = {row["ID"] for row in _db2(flavor.db2, "Map") if row["InstanceType"] == "0"}
+    assignments: dict[int, dict[str, str]] = {}
+    for row in sorted(_db2(flavor.db2, "UiMapAssignment"), key=lambda r: (int(r["OrderIndex"]), int(r["ID"]))):
+        assignments.setdefault(int(row["UiMapID"]), row)
+    arts: dict[int, int] = {}
+    for row in sorted(_db2(flavor.db2, "UiMapXMapArt"), key=lambda r: (r["PhaseID"] != "0", int(r["UiMapArtID"]))):
+        arts.setdefault(int(row["UiMapID"]), int(row["UiMapArtID"]))
+
+    zones = []
+    for row in _db2(flavor.db2, "UiMap"):
+        ui_map_id = int(row["ID"])
+        assignment = assignments.get(ui_map_id)
+        if row["Type"] not in ("3", "6") or not assignment or assignment["MapID"] not in open_world:
+            continue
+        # The assignment ties a rect of the map (UiMin..UiMax, fractions) to a world region; extrapolate it to the
+        # map's corners. Map x runs east as world y falls, and map y south as world x falls.
+        u0, v0, u1, v1 = (float(assignment[k]) for k in ("UiMin_0", "UiMin_1", "UiMax_0", "UiMax_1"))
+        x_min, y_min, x_max, y_max = (float(assignment[k]) for k in ("Region_0", "Region_1", "Region_3", "Region_4"))
+
+        def world(u, v):
+            return x_max - (x_max - x_min) * (v - v0) / (v1 - v0), y_max - (y_max - y_min) * (u - u0) / (u1 - u0)
+
+        (x0, y0), (x1, y1) = world(0, 0), world(1, 1)
+        zones.append(Zone(flavor, ui_map_id, row["Name_lang"], int(assignment["MapID"]), x0, y0, x1, y1,
+                          arts.get(ui_map_id, 0), int(assignment["AreaID"])))
+    return sorted(zones, key=lambda zone: zone.ui_map_id)
+
+
+def read_zones(flavor: Flavor) -> list[Zone]:
+    """The outdoor maps the tool measures: every one with explored map art (fetch.py composes it for every map
+    with art), less those the flavor skips."""
+    skipped = {ui_map_id for ui_map_id, _ in flavor.skip_zones}
+    return [zone for zone in read_outdoor_maps(flavor)
+            if zone.ui_map_id not in skipped and (flavor.explored / str(zone.ui_map_id)).is_dir()]
+
+
+def unmeasured_zones(flavor: Flavor) -> list[tuple[int, str]]:
+    """Outdoor maps the client has but the tool cannot measure: no explored art, and the flavor does not skip them
+    on purpose. A non-empty list means fetch.py has not run for the build."""
+    skipped = {ui_map_id for ui_map_id, _ in flavor.skip_zones}
+    return [(zone.ui_map_id, zone.name) for zone in read_outdoor_maps(flavor)
+            if zone.ui_map_id not in skipped and not (flavor.explored / str(zone.ui_map_id)).is_dir()]
+
+
+ART_TILES = math.ceil(ART_WIDTH / ART_TILE) * math.ceil(ART_HEIGHT / ART_TILE)  # tiles a zone's art needs
+
+
+def map_art_tiles(zone: Zone) -> int:
+    """How many of the zone's ART_TILES explored art tiles were fetched; missing ones read as black ground."""
+    return len(list((zone.flavor.explored / str(zone.ui_map_id)).glob("r*c*.png")))
+
+
+def read_map_art(zone: Zone) -> np.ndarray:
+    """The zone's world map as a fully explored character sees it: (ART_HEIGHT, ART_WIDTH, 3) sRGB uint8."""
+    art = Image.new("RGB", (4 * ART_TILE, 3 * ART_TILE))
+    for path in (zone.flavor.explored / str(zone.ui_map_id)).glob("r*c*.png"):
+        row, col = map(int, re.fullmatch(r"r(\d+)c(\d+)", path.stem).groups())
+        with Image.open(path) as tile:
+            art.paste(tile.convert("RGB"), (col * ART_TILE, row * ART_TILE))
+    return np.asarray(art)[:ART_HEIGHT, :ART_WIDTH]
+
+
+# Sub-areas (exploration overlays)
+
+@dataclass
+class Area:
+    name: str
+    mask: np.ndarray  # bool (ART_HEIGHT, ART_WIDTH)
+
+
+def _overlay_alpha(folder: Path, overlay: dict[str, str]) -> np.ndarray | None:
+    """One overlay's alpha as a (TextureHeight, TextureWidth) array, or None when a tile is missing. The last
+    column and row are power-of-two files the client draws only the top-left part of."""
+    width, height = int(overlay["TextureWidth"]), int(overlay["TextureHeight"])
+    alpha = np.zeros((height, width), np.uint8)
+    for row in range(math.ceil(height / ART_TILE)):
+        for col in range(math.ceil(width / ART_TILE)):
+            path = folder / f"o{overlay['ID']}-r{row}c{col}.png"
+            if not path.exists():
+                return None
+            with Image.open(path) as tile:
+                part = np.asarray(tile.convert("RGBA"))[:, :, 3]
+            # A tile can also be smaller than the part that shows (some of Era's are); the rest stays clear.
+            top, left = row * ART_TILE, col * ART_TILE
+            part = part[:min(ART_TILE, height - top), :min(ART_TILE, width - left)]
+            alpha[top:top + part.shape[0], left:left + part.shape[1]] = part
+    return alpha
+
+
+def read_areas(zone: Zone) -> tuple[list[Area], list[str]]:
+    """The zone's named sub-areas as disjoint masks on its map art, one per AreaTable name, and the IDs of overlays
+    left out because their tiles are missing (their ground goes unmeasured).
+
+    Each exploration overlay pictures one sub-area. Where soft overlay edges overlap, a pixel belongs to the most
+    opaque one; pixels no overlay covers at half opacity or more lie outside the zone and belong to no area.
+
+    A map without exploration overlays (Gilneas City, the Timeless Isle) has nothing outlining its ground, so it is
+    one area: all of its art where the minimap has tiles. That is nearly all of it, sea and the map's frame
+    included, so a color faint only on the land may stay under the banning share: these bans err toward allowing.
+    """
+    db2 = zone.flavor.db2
+    # Overlays the client has no tiles for (flag 4, such as Zul'Gurub's) are hit areas without art; the client draws
+    # nothing for them either, so they are no missing asset.
+    textured = {row["WorldMapOverlayID"] for row in _db2(db2, "WorldMapOverlayTile")}
+    overlays = [row for row in _db2(db2, "WorldMapOverlay")
+                if row["UiMapArtID"] == str(zone.art) and row["ID"] in textured]
+    if not overlays:
+        _, present = Minimap(zone).on_map_grid(zone, 1)
+        return [Area(zone.name, present)], []
+    area_names = {row["ID"]: row["AreaName_lang"] for row in _db2(db2, "AreaTable")}
+    folder = zone.flavor.maps / str(zone.ui_map_id)
+
+    # Place every overlay's alpha on the map art.
+    alphas = np.zeros((len(overlays), ART_HEIGHT, ART_WIDTH), np.uint8)
+    missing = []
+    for i, overlay in enumerate(overlays):
+        alpha = _overlay_alpha(folder, overlay)
+        if alpha is None:
+            missing.append(overlay["ID"])
+            continue
+        x, y = int(overlay["OffsetX"]), int(overlay["OffsetY"])
+        h, w = min(alpha.shape[0], ART_HEIGHT - y), min(alpha.shape[1], ART_WIDTH - x)
+        alphas[i, y:y + h, x:x + w] = alpha[:h, :w]
+
+    # Partition: each covered pixel goes to its most opaque overlay; overlays sharing an area name merge.
+    owner = alphas.argmax(axis=0)
+    covered = alphas.max(axis=0) >= 128
+    masks: dict[str, np.ndarray] = {}
+    for i, overlay in enumerate(overlays):
+        name = area_names.get(overlay["AreaID_0"], f"Overlay {overlay['ID']}")
+        mask = covered & (owner == i)
+        masks[name] = masks[name] | mask if name in masks else mask
+    return [Area(name, mask) for name, mask in masks.items() if mask.any()], missing
+
+
+# Minimap
+
+def minimap_tile(world_x, world_y) -> tuple:
+    """Fractional minimap tile (x, y) of a world position; takes numpy arrays too."""
+    return 32 - world_y / TILE_YARDS, 32 - world_x / TILE_YARDS
+
+
+MINIMAP_MARGIN = 1  # whole tiles around a zone's world rect, so crops at its edges stay filled
+
+
+def minimap_tile_range(zone: Zone) -> tuple[range, range]:
+    """The minimap tiles (x, y) under the zone's world rect and MINIMAP_MARGIN around it."""
+    (tx_a, ty_a), (tx_b, ty_b) = minimap_tile(zone.x0, zone.y0), minimap_tile(zone.x1, zone.y1)
+    return (range(math.floor(min(tx_a, tx_b)) - MINIMAP_MARGIN, math.floor(max(tx_a, tx_b)) + MINIMAP_MARGIN + 1),
+            range(math.floor(min(ty_a, ty_b)) - MINIMAP_MARGIN, math.floor(max(ty_a, ty_b)) + MINIMAP_MARGIN + 1))
+
+
+class Minimap:
+    """The continent's minimap tiles under one zone's world rect, stitched into one image.
+
+    Tiles are scaled to pixels_per_tile; 256 is close to what the minimap shows at its widest zoom (466 yards
+    across about 140 to 200 screen pixels). Open sea has no tiles; those pixels are black and not present.
+    """
+
+    def __init__(self, zone: Zone, pixels_per_tile: int = 256):
+        self.pixels_per_tile = pixels_per_tile
+        tiles_x, tiles_y = minimap_tile_range(zone)
+        self.tx0, self.ty0 = tiles_x.start, tiles_y.start
+        columns, rows = len(tiles_x), len(tiles_y)
+
+        size = pixels_per_tile
+        self.image = np.zeros((rows * size, columns * size, 3), np.uint8)
+        self.present = np.zeros((rows * size, columns * size), bool)
+        folder = zone.flavor.minimaps / str(zone.continent)
+        for row in range(rows):
+            for col in range(columns):
+                path = folder / f"{self.tx0 + col}_{self.ty0 + row}.jpg"
+                if not path.exists():
+                    continue
+                with Image.open(path) as tile:
+                    pixels = np.asarray(tile.convert("RGB").resize((size, size), Image.Resampling.BOX))
+                self.image[row * size:(row + 1) * size, col * size:(col + 1) * size] = pixels
+                self.present[row * size:(row + 1) * size, col * size:(col + 1) * size] = True
+        self.picture = Image.fromarray(self.image)
+
+    def pixel(self, world_x, world_y):
+        """Fractional image position (column, row) of a world position; takes numpy arrays too."""
+        tx, ty = minimap_tile(world_x, world_y)
+        return (tx - self.tx0) * self.pixels_per_tile, (ty - self.ty0) * self.pixels_per_tile
+
+    def on_map_grid(self, zone: Zone, scale: int) -> tuple[np.ndarray, np.ndarray]:
+        """The minimap resampled onto the zone's map art grid at scale times its resolution, so art-pixel masks
+        line up after repeating each mask pixel scale x scale times.
+
+        Returns:
+            sRGB uint8 (ART_HEIGHT * scale, ART_WIDTH * scale, 3), and where a minimap tile was present.
+        """
+        mx = (np.arange(ART_WIDTH * scale) + 0.5) / (ART_WIDTH * scale)
+        my = (np.arange(ART_HEIGHT * scale) + 0.5) / (ART_HEIGHT * scale)
+        column, row = self.pixel(*zone.world_position(mx[None, :], my[:, None]))
+        column = np.clip(column.astype(int), 0, self.image.shape[1] - 1)
+        row = np.clip(row.astype(int), 0, self.image.shape[0] - 1)
+        return self.image[row, column], self.present[row, column]
+
+    def crop(self, world_x: float, world_y: float, radius_yards: float) -> Image.Image:
+        """A square of the minimap centered on a world position, black where there is no tile."""
+        column, row = self.pixel(world_x, world_y)
+        radius = radius_yards / TILE_YARDS * self.pixels_per_tile
+        box = tuple(round(v) for v in (column - radius, row - radius, column + radius, row + radius))
+        return self.picture.crop(box)
