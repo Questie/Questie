@@ -3,11 +3,14 @@ local Tutorial = QuestieLoader:CreateModule("Tutorial")
 
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 
 function Tutorial.Initialize()
-    if ((Expansions.Current >= Expansions.Wotlk) or Questie.IsForever) and GetCVar("questPOI") ~= nil and (not Questie.db.global.tutorialObjectiveTypeChosen) then
+    -- The objective style choice gained Questie blobs and reached every client, so each account is asked once
+    -- more, whatever it chose before. A profile already showing blobs has made the choice in the options.
+    if Questie.db.profile.enableQuestiePolygons then
+        Questie.db.global.tutorialObjectiveStyleWithBlobsChosen = true
+    end
+    if not Questie.db.global.tutorialObjectiveStyleWithBlobsChosen then
         QuestieCombatQueue:Queue(function()
             Tutorial.CreateChooseObjectiveTypeFrame()
         end)
