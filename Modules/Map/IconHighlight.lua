@@ -8,8 +8,8 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 -- How hovering shows which map icons belong together. It is the same in every icon style and never
 -- changes an icon's color:
---  - A hovered icon grows and draws in front of the icons around it, on either map. QuestieFrame
---    starts and ends each icon hover here.
+--  - A hovered icon grows and draws in front of the icons of its kind around it, on either map.
+--    QuestieFrame starts and ends each icon hover here.
 --  - On the world map, its quest is in the spotlight while any hover of its objective icons lasts:
 --    the quest's objective icons show fully opaque with their glow ring grown, and other quests' dim.
 --    Quest givers, turn-ins and notes are a layer of their own, which the spotlight leaves as it is.
@@ -53,7 +53,7 @@ local marks = {}
 local spotlight
 
 ---Sets how much the icon's picture and glow ring grow; nil puts them back. A grown picture draws in
----front of the icons around it.
+---front of the icons of its kind around it.
 ---@param icon IconFrame
 ---@param pictureScale number?
 ---@param glowScale number?

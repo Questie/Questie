@@ -67,11 +67,13 @@ local DRAW_ORDER_QUEST_COMPLETE = 2 * MAX_DRAW_ORDER_BY_ICON_TYPE
 -- and other points of interest below. Within a tier, an icon lower on its map draws in front. On the
 -- minimap, and where the world map gives no block, tiers keep fixed levels from 2016, above patrol
 -- paths and far above the minimap's own frames. A grown icon, such as a hovered one, draws in front
--- of all others on its map.
+-- of the others in its tier, never above a higher tier: its frame keeps its size, so a larger icon,
+-- such as a townsfolk note, drawn above a smaller one would keep the cursor from ever reaching it.
 local TIERS = DRAW_ORDER_QUEST_COMPLETE + 1
 local Y_STEPS = 101 -- One row of levels per percent of the map's height, 0 to 100.
+local TIER_LEVELS = Y_STEPS + 1 -- And one more on top of the tier's rows for a grown icon.
 local BLOCK_TYPE = "PIN_FRAME_LEVEL_QUESTIE"
-local BLOCK_RANGE = TIERS * Y_STEPS + 1 -- And one more on top for a grown icon.
+local BLOCK_RANGE = TIERS * TIER_LEVELS
 local FIXED_LEVEL = 2016
 
 ---@type table? Blizzard's world map pin frame levels, once Questie's block is registered in it.
@@ -124,16 +126,14 @@ function QuestieMap.utils.SetDrawOrder(frame)
     -- A pooled icon shows nothing; its next draw sets its level.
     if not data then return end
     local frameLevel
+    local tier = _Tier(frame, data)
     local start = (not frame.miniMapIcon) and _BlockStart()
     if start then
-        if frame.pictureScale then
-            frameLevel = start + BLOCK_RANGE - 1
-        else
-            local row = math.floor(math.min(math.max(frame.y or 0, 0), 100))
-            frameLevel = start + _Tier(frame, data) * Y_STEPS + row
-        end
+        local row = frame.pictureScale and Y_STEPS or math.floor(math.min(math.max(frame.y or 0, 0), 100))
+        frameLevel = start + tier * TIER_LEVELS + row
     else
-        frameLevel = FIXED_LEVEL + (frame.pictureScale and TIERS or _Tier(frame, data))
+        -- Two levels per tier: its icons', and a grown icon's above them.
+        frameLevel = FIXED_LEVEL + tier * 2 + (frame.pictureScale and 1 or 0)
     end
 
     frame:SetFixedFrameLevel(false)
