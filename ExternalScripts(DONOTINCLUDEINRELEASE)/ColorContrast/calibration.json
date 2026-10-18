@@ -11,17 +11,17 @@
       "clear": 6.32
     },
     "minimap": {
-      "faint": 4.734,
+      "faint": 5.008,
       "clear": 6.685
     }
   },
   "fit": {
-    "ratings": 158,
-    "too_faint_agreement": 125,
-    "held_out_too_faint_agreement": 119,
-    "exact_level_agreement": 108,
-    "repeats_same": 12,
-    "repeats": 16,
+    "ratings": 217,
+    "too_faint_agreement": 163,
+    "held_out_too_faint_agreement": 152,
+    "exact_level_agreement": 142,
+    "repeats_same": 17,
+    "repeats": 24,
     "date": "2026-10-18"
   }
 }
