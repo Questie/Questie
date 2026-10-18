@@ -6,14 +6,15 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 -- How hovering shows which map icons belong together. It is the same in every icon style and never
 -- changes an icon's color:
 --  - A hovered icon grows, on either map. QuestieFrame starts and ends each icon hover here.
---  - On the world map, its quest is in the spotlight while any hover of its icons lasts: the quest's
---    icons show fully opaque with their glow ring grown, and all other icons dim.
+--  - On the world map, its quest is in the spotlight while any hover of its objective icons lasts:
+--    the quest's objective icons show fully opaque with their glow ring grown, and other quests' dim.
+--    Quest givers, turn-ins and notes are a layer of their own, which the spotlight leaves as it is.
 --  - A mark grows one icon on its own, such as the marker of a hovered quest area.
 -- Only a glow ring the player shows grows; with glows off, the dimming and the size tell it.
 -- IconHighlight only decides; QuestieFrame sizes the icon's picture, overlay and ring to match,
 -- also as the icon is resized.
 
-local DIM_ALPHA = 0.5 -- The other icons' opacity under a spotlight, at most.
+local DIM_ALPHA = 0.5 -- Other quests' objective icons' opacity under a spotlight, at most.
 local GLOW_GROWTH = 1.5 -- A lit or grown icon's glow ring, relative to its usual size.
 local GROWTH = 1.35 -- A grown icon's picture, relative to the icon.
 
@@ -80,14 +81,23 @@ local function _EndSpotlight()
     end
 end
 
----Lights up the world map icons of the hovered icon's quest and dims all others. Only an objective's
----icon puts its quest in the spotlight: quest givers, turn-ins and notes have nothing of theirs to show.
----The quest's givers and turn-ins stay as they are, and hidden icons or those faded out to nothing are
----left alone. A closed world map shows nothing to light.
+---Whether the icon marks a quest objective, which a spotlight lights or dims. Quest givers, turn-ins and
+---notes are another layer of the map.
+---@param data IconData
+---@return boolean
+local function _IsObjective(data)
+    local iconType = data.Type
+    return iconType ~= "available" and iconType ~= "complete" and iconType ~= "manual"
+end
+
+---Lights up the world map objective icons of the hovered icon's quest and dims other quests'. Only an
+---objective's icon puts its quest in the spotlight, and only objective icons take part: quest givers,
+---turn-ins and notes keep their opacity. Hidden icons and those faded out to nothing are left alone. A
+---closed world map shows nothing to light.
 ---@param icon IconFrame
 local function _Spotlight(icon)
     local data = icon.data
-    if icon.miniMapIcon or data.Type == "available" or data.Type == "complete" or data.Type == "manual" then return end
+    if icon.miniMapIcon or not _IsObjective(data) then return end
     if spotlight and spotlight.questId == data.Id then
         spotlight.hovers[icon] = data
         return
@@ -103,16 +113,12 @@ local function _Spotlight(icon)
         local other = pin.icon
         local otherData = other.data
         local alpha = other.texture.a
-        if otherData and (other == icon or not (other.hidden or alpha == 0)) then
-            -- A note's ID is its NPC's, which may equal a quest's.
-            local ofQuest = otherData.Id == data.Id and otherData.Type ~= "manual"
-            local lit = ofQuest and otherData.Type ~= "available" and otherData.Type ~= "complete"
-            if lit or not ofQuest then
-                local shown = lit and 1 or math.min(alpha, DIM_ALPHA)
-                current.icons[other] = {data = otherData, faded = other.faded, alpha = alpha, shown = shown, lit = lit}
-                if shown ~= alpha then _SetAlpha(other, shown) end
-                if lit then _UpdateSize(other) end
-            end
+        if otherData and _IsObjective(otherData) and (other == icon or not (other.hidden or alpha == 0)) then
+            local lit = otherData.Id == data.Id
+            local shown = lit and 1 or math.min(alpha, DIM_ALPHA)
+            current.icons[other] = {data = otherData, faded = other.faded, alpha = alpha, shown = shown, lit = lit}
+            if shown ~= alpha then _SetAlpha(other, shown) end
+            if lit then _UpdateSize(other) end
         end
     end
 end
