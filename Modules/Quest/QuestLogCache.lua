@@ -210,10 +210,11 @@ local function GetNewObjectives(questId, oldObjectives, oldNumRows, isCompleteAc
         -- A finished visible stage is not a finished sequenced quest. Premature completion would also
         -- make the recovery guard reject the next stage. Keep the legacy empty-row workaround otherwise.
         local allFinished = (not QuestieCompat.IsQuestSequenced(questId)) and allObjectivesFinished
-        -- Loading screens can return rows empty or without text. A vanished unfinished row is then missing data,
-        -- not completion. Once cached, the stale-data check in CheckForChanges would keep it until a reload.
-        -- Outside loading screens a blank row is trusted, as the empty-row workaround always did.
-        if allFinished and suppressRegressions then
+        -- Loading screens can return rows empty or without text. A vanished unfinished row is then missing data, also
+        -- beside rows still unfinished: such a snapshot would end the recovery, and a later blank one would infer
+        -- completion. A sequenced quest's rows change with its stage, and it infers no completion, so it is not held
+        -- back. Outside loading screens a blank row is trusted, as the empty-row workaround always did.
+        if suppressRegressions and not QuestieCompat.IsQuestSequenced(questId) then
             for index, oldObj in pairs(oldObjectives) do
                 if (not oldObj.finished) and (not newObjectives[index]) then
                     return nil, nil, isCompleteAccordingToBlizzard, true

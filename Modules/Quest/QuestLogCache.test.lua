@@ -60,6 +60,24 @@ describe("QuestLogCache", function()
             compat.IsQuestSequenced = originalIsSequenced
         end)
 
+        it("takes a new stage with fewer rows during a loading screen's recovery", function()
+            questObjectives[QUEST_ID] = {
+                {text = "Find Aanders: 0/1", type = "event", numFulfilled = 0, numRequired = 1, finished = false},
+                {text = "Wolf Pelt: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false},
+            }
+            QuestLogCache.CheckForChanges(nil)
+            QuestLogCache.OnLoadingScreenEnabled()
+
+            questObjectives[QUEST_ID] = {
+                {text = "Aanders slain: 0/1", type = "monster", numFulfilled = 0, numRequired = 1, finished = false},
+            }
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_false(cacheMiss)
+            assert.are.same({[QUEST_ID] = {1}}, changes)
+            assert.are.equal("Aanders slain: 0/1", QuestLogCache.GetQuest(QUEST_ID).objectives[1].text)
+        end)
+
         it("accepts later stages without announcing completion until the native quest completes", function()
             questObjectives[QUEST_ID] = {
                 {text = "Read note: 0/1", type = "item", numFulfilled = 0, numRequired = 1, finished = false},
@@ -983,6 +1001,28 @@ describe("QuestLogCache", function()
 
             assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
             assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
+        -- One of two unfinished rows blank, then both: the first snapshot must not end the recovery.
+        it("keeps recovering while one of several unfinished rows is blank, so a later blank snapshot cannot complete the quest", function()
+            questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
+            local pelts = {text = "Wolf Pelt: 2/5", type = "item", numFulfilled = 2, numRequired = 5, finished = false}
+            local claws = {text = "Bear Claw: 2/6", type = "item", numFulfilled = 2, numRequired = 6, finished = false}
+            local blank = {text = "", type = "item", numFulfilled = 0, numRequired = 6, finished = false}
+            questObjectives[QUEST_ID] = {pelts, claws}
+            QuestLogCache.CheckForChanges(nil)
+            QuestLogCache.OnLoadingScreenEnabled()
+
+            questObjectives[QUEST_ID] = {pelts, blank}
+            assert.is_true((QuestLogCache.CheckForChanges(nil)))
+
+            questObjectives[QUEST_ID] = {blank, blank}
+            assert.is_true((QuestLogCache.CheckForChanges(nil)))
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            questObjectives[QUEST_ID] = {pelts, claws}
+            assert.is_false((QuestLogCache.CheckForChanges(nil)))
         end)
 
         -- The cache leaves Test of Faith's only row out, so it holds no rows for the loading screen's answer to vanish.
