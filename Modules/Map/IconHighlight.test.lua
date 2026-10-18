@@ -48,7 +48,7 @@ describe("IconHighlight", function()
     end)
 
     describe("hovering an icon", function()
-        it("grows it, lights up its quest's world map icons and dims all others, then puts them back", function()
+        it("grows it, lights up its quest's objective icons and dims other quests', then puts them back", function()
             local data = {Id = 123, Type = "monster"}
             local icon = MapIcon(data, 1)
             -- Faded by the tracker's focus.
@@ -59,9 +59,10 @@ describe("IconHighlight", function()
             hidden.hidden = true
             local otherQuest = MapIcon({Id = 456, Type = "monster"}, 1)
             local fadedOther = MapIcon({Id = 456, Type = "item"}, 0.3)
+            local otherGiver, otherTurnIn = MapIcon({Id = 456, Type = "available"}, 1), MapIcon({Id = 789, Type = "complete"}, 1)
             -- A note's ID is its NPC's, here the same number as the quest's.
             local note = MapIcon({Id = 123, Type = "manual"}, 1)
-            pins = {icon, sibling, giver, hidden, otherQuest, fadedOther, note}
+            pins = {icon, sibling, giver, hidden, otherQuest, fadedOther, otherGiver, otherTurnIn, note}
 
             IconHighlight.StartHover(icon)
 
@@ -70,15 +71,17 @@ describe("IconHighlight", function()
             -- The quest's icons show fully opaque with their glow ring grown.
             assert.are.same({nil, 1.5}, Fitted(sibling))
             assert.are.same({1, 1}, {sibling.texture.a, sibling.glowTexture.a})
-            -- Its giver and turn-in, and hidden icons, stay as they are.
-            assert.are.same({}, Fitted(giver))
-            assert.are.equal(1, giver.texture.a)
+            -- Hidden icons stay as they are.
             assert.are.equal(1, hidden.texture.a)
-            -- All others dim, the glow ring with the icon, and none brightens.
+            -- Other quests' objective icons dim, the glow ring with the icon, and none brightens.
             assert.are.same({0.5, 0.5}, {otherQuest.texture.a, otherQuest.glowTexture.a})
             assert.are.same({}, Fitted(otherQuest))
             assert.are.equal(0.3, fadedOther.texture.a)
-            assert.are.equal(0.5, note.texture.a)
+            -- Quest givers, turn-ins and notes are a layer of their own: they keep their look, of any quest.
+            for _, untouched in ipairs({giver, otherGiver, otherTurnIn, note}) do
+                assert.are.same({1, 1}, {untouched.texture.a, untouched.glowTexture.a})
+                assert.are.same({}, Fitted(untouched))
+            end
 
             IconHighlight.EndHover(icon, data)
 
