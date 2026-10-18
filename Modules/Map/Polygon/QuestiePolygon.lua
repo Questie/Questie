@@ -392,7 +392,7 @@ end
 -- Each map offers the areas the cursor beneath patrol paths and only over the bare map, so a path
 -- or an icon keeps its own tooltip, and the area tooltip returns once the cursor is back on the
 -- areas alone.
-local AREA_SWATCH = "|TInterface\\Addons\\Questie\\Icons\\quest-log-fill-r12.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
+local AREA_SWATCH = "|TInterface\\Addons\\Questie\\Icons\\blobs\\quest-log-fill-r12-120.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
 
 ---The swatch starting an objective icon's own line in every map icon tooltip in blob mode: its
 ---objective's area colour, so the line matches its areas. Other icons and party objectives get none.
