@@ -66,9 +66,10 @@ function QuestLifecycle:AcceptQuest(questId)
         return
     end
 
-    local complete = quest:IsComplete()
-    -- If any of these flags exist then this quest has already once been accepted and is probably in a failed state
-    if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
+    -- QUEST_ACCEPTED fires only for a new acceptance, so a quest Questie already logs is reset and added again. Its
+    -- completion cannot tell whether that is needed: a failed quest re-accepted in place can be complete at once, when
+    -- the giver hands over the quest item with the quest.
+    if QuestiePlayer.currentQuestlog[questId] then
         Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
 
         -- Reset quest log
@@ -93,11 +94,6 @@ function QuestLifecycle:AcceptQuest(questId)
                 Questie.db.char.complete[childQuestId] = nil
             end
         end
-    end
-
-    if QuestiePlayer.currentQuestlog[questId] then
-        Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
-        return
     end
 
     Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")

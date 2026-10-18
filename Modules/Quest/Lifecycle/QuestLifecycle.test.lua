@@ -117,21 +117,6 @@ describe("QuestLifecycle", function()
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
         end)
 
-        it("should reset stale quest when complete flag is 0", function()
-            local questId = 100
-            local quest = {
-                IsComplete = function() return 0 end,
-                isComplete = false,
-                Objectives = {}
-            }
-            QuestieDB.GetQuest = spy.new(function() return quest end)
-            QuestiePlayer.currentQuestlog[questId] = quest
-
-            QuestLifecycle:AcceptQuest(questId)
-
-            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
-        end)
-
         it("should set Alliance tournament eligibility marker", function()
             local allianceQuestId = 13684
             local quest = {IsComplete = function() return 0 end}
@@ -175,20 +160,20 @@ describe("QuestLifecycle", function()
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[questId])
         end)
 
-        it("should not add quest again if already in log without stale flags", function()
+        it("should reset and repopulate a failed quest re-accepted in place", function()
             local questId = 100
-            local quest = {
-                IsComplete = function() return 1 end,
-                WasComplete = nil,
-                isComplete = nil,
-            }
+            local quest = {Objectives = {{}}}
             QuestieDB.GetQuest = spy.new(function() return quest end)
-            QuestiePlayer.currentQuestlog[questId] = quest -- already in log, no stale flags
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
+            QuestiePlayer.currentQuestlog[questId] = quest -- still logged from the failed acceptance, without flags
 
             QuestLifecycle:AcceptQuest(questId)
 
-            -- RemoveQuest should not be called since the quest wasn't re-added
-            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+            assert.are_same({}, quest.Objectives)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
+            assert.are_equal(quest, QuestiePlayer.currentQuestlog[questId])
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called_with(QuestieQuest, quest)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
         end)
 
         it("should reset child daily quests when parent is accepted", function()
