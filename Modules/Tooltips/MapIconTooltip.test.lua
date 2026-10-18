@@ -400,7 +400,7 @@ describe("MapIconTooltip objective wording", function()
         -- A tooltip frame acting like GameTooltip: the last SetOwner holds it until it hides.
         local function HoldingTooltip()
             local tooltip = {}
-            function tooltip:SetOwner(frame, anchor) self.holder, self.anchor = frame, anchor end
+            function tooltip:SetOwner(frame, anchor, x, y) self.holder, self.anchor, self.offset = frame, anchor, {x, y} end
             function tooltip:IsOwned(frame) return self.holder == frame end
             function tooltip:IsShown() return self.holder ~= nil end
             function tooltip:GetAnchorType() return self.anchor end
@@ -482,7 +482,7 @@ describe("MapIconTooltip objective wording", function()
             assert.are.equal(pin, tooltip.holder)
         end)
 
-        it("redraws every tooltip its owner still holds, at the same anchor", function()
+        it("redraws every tooltip its owner still holds, at the same anchor and offset", function()
             local mapTooltip, gamepadTooltip, endedTooltip = HoldingTooltip(), HoldingTooltip(), HoldingTooltip()
             local ended = {}
             MapIconTooltip.ShowForIcons(icon, {icon}, mapTooltip)
@@ -497,8 +497,10 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.Redraw()
 
             assert.are.same({[mapTooltip] = true, [gamepadTooltip] = true}, rendered)
-            assert.are.equal("ANCHOR_CURSOR", mapTooltip.anchor)
+            assert.are.equal("ANCHOR_CURSOR_RIGHT", mapTooltip.anchor)
+            assert.are.same({5, 2}, mapTooltip.offset)
             assert.are.equal("ANCHOR_RIGHT", gamepadTooltip.anchor)
+            assert.are.same({}, gamepadTooltip.offset)
             assert.are.equal(icon, gamepadTooltip.holder)
         end)
     end)

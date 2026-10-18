@@ -46,6 +46,11 @@ local BREADCRUMB_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\breadcrumbtoo
 local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
 local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
+-- Map icon tooltips grow up and right from just off the cursor's tip, as Blizzard's quest pins' do
+-- (QuestDataProvider.lua). GetAnchorType returns no offset, so Redraw sets it again.
+local CURSOR_ANCHOR = "ANCHOR_CURSOR_RIGHT"
+local CURSOR_OFFSET_X, CURSOR_OFFSET_Y = 5, 2
+
 local lastTooltipShowTimestamp = GetTime()
 
 -- Shown tooltips
@@ -194,14 +199,14 @@ function MapIconTooltip.ShowOnTooltip(self, tooltip)
     MapIconTooltip.ShowForIcons(self, tooltipIcons, tooltip)
 end
 
----Shows the map icon tooltip for exactly these icons, wherever they are and however faded, at the
----cursor. `owner` holds it until another frame takes the tooltip or `Release` ends it; Redraw renders
----it again meanwhile.
+---Shows the map icon tooltip for exactly these icons, wherever they are and however faded, growing up
+---and right from the cursor. `owner` holds it until another frame takes the tooltip or `Release` ends
+---it; Redraw renders it again meanwhile.
 ---@param owner Frame Holds the tooltip, which hides with it. Only a world map icon owner adds Journey's shift-click hint.
 ---@param icons IconFrame[] At least one icon with data. Objectives repeated across icons are listed once; in blob mode, each icon's own objective line starts with its area colour.
 ---@param tooltip GameTooltip
 function MapIconTooltip.ShowForIcons(owner, icons, tooltip)
-    tooltip:SetOwner(owner, "ANCHOR_CURSOR")
+    tooltip:SetOwner(owner, CURSOR_ANCHOR, CURSOR_OFFSET_X, CURSOR_OFFSET_Y)
 
     local usedText = {}
     local npcAndObjectOrder = {};
@@ -555,11 +560,15 @@ end
 function MapIconTooltip.Redraw()
     for tooltip, state in pairs(shown) do
         if tooltip:IsShown() and tooltip:IsOwned(state.owner) then
-            -- The gamepad's tooltip sits ANCHOR_RIGHT, beside its cursor.
+            -- The gamepad's tooltip sits ANCHOR_RIGHT, beside its cursor, without the offset.
             local anchor = tooltip:GetAnchorType()
             tooltip:Hide()
             tooltip:ClearLines()
-            tooltip:SetOwner(state.owner, anchor)
+            if anchor == CURSOR_ANCHOR then
+                tooltip:SetOwner(state.owner, anchor, CURSOR_OFFSET_X, CURSOR_OFFSET_Y)
+            else
+                tooltip:SetOwner(state.owner, anchor)
+            end
             state.rebuild(tooltip)
             tooltip:SetFrameStrata("TOOLTIP")
             tooltip:Show()
