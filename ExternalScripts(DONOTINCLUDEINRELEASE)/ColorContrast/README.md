@@ -56,6 +56,10 @@ Art and tiles come from Blizzard's CDN through CASCConsole. **Outdoor maps** are
 UiMapAssignment, as `C_Map.GetWorldPosFromMapPos` computes it: on Forever it matched the live client for all 51
 zones. A map with phased art is measured on its default art, or else on its oldest.
 
+A map's **ground** is what its exploration overlays cover. A map without overlays (Gilneas City, the Timeless Isle)
+is measured on all its art where the minimap has tiles: nearly all of it, sea and frame included, so its bans err
+toward allowing.
+
 The CDN only serves a product's current build. Once it has moved on, `fetch.py` refuses: raise the flavor's
 `build` in `sources.py`, fetch again, and rerun the tool. Files already fetched are kept, so an interrupted fetch
 continues where it stopped.
@@ -66,10 +70,17 @@ Run them from this folder (`cd "ExternalScripts(DONOTINCLUDEINRELEASE)/ColorCont
 repository from their own path, so the folder is only for short commands.
 
 ```sh
-uv run colorcontrast.py                    # analyze every zone; review output/forever/
-uv run colorcontrast.py --zones 1426 1413  # just these zones, for quick tuning
-uv run colorcontrast.py --write-addon      # full run that also writes the shipped data
+uv run fetch.py --flavor mists                         # download a client's tables, art and minimap tiles, once
+uv run colorcontrast.py --flavor mists                 # analyze every zone; review output/mists/
+uv run colorcontrast.py --zones 1426 1413              # just these zones (of forever, the default), for tuning
+uv run colorcontrast.py --flavor mists --write-addon   # full run that also writes the shipped data
 uv run --no-project --with numpy==2.5.4 --with pillow==13.0.0 --with pytest python -m pytest tests
+```
+
+After a change every client shares (the palette, the blob opacity, `calibration.json`), regenerate them all:
+
+```sh
+for flavor in forever era tbc wrath mists cata; do uv run colorcontrast.py --flavor $flavor --write-addon; done
 ```
 
 The scripts pin numpy and Pillow: their random draws and resampling decide terrains and cells, so other versions
@@ -80,8 +91,8 @@ could shift the shipped bans.
 - a subset run (`--zones`), which would drop every other zone's bans;
 - uncalibrated scores (no `calibration.json`, or `--fill-min`), or terrain settings other than the calibrated
   defaults (`--percentile`, `--clusters`, `--merge-distance`);
-- outdoor maps the client has but without explored art. The run lists them. A map without exploration overlays
-  has no outline of its ground to measure; `skip_zones` in `FLAVORS` names those, each with the reason;
+- outdoor maps the client has but without explored art, which means `fetch.py` hasn't run for the build. The run
+  lists them. `skip_zones` in `FLAVORS` names the maps left out on purpose, each with the reason;
 - ground a zone's assets don't cover: overlays without tiles, missing map art tiles, or ground without minimap
   tiles.
 
@@ -94,7 +105,7 @@ writing it, run Questie's tests: `ObjectiveColors.test.lua` checks all three aga
 ### New zones in a client
 
 1. Raise the flavor's `build` in `sources.py` to the client's, and run `fetch.py`. The tool picks up every
-   outdoor map with explored art, and names the ones without it; skip those without overlays, with the reason.
+   outdoor map it fetched.
 2. Run `colorcontrast.py` and review the new zones' sheets in `output/<flavor>/zones/`.
 3. Settle disagreements in `overrides.csv` (see below), if any.
 4. Run `colorcontrast.py --write-addon`, then Questie's tests.
@@ -109,9 +120,9 @@ Calibration).
    name, so this recolors no other objective. Objectives saved with a retired color get a new one. Renaming a
    color counts as retiring it.
 2. Remove `overrides.csv` rows that name a retired color; the run stops on them.
-3. Run `colorcontrast.py --write-addon`. Until then, the shipped bans of a retired color are simply skipped, and
-   `ObjectiveColors.test.lua` fails, because the file's measured colors no longer match the palette. The same
-   happens after changing a color's sRGB or the blob opacity.
+3. Regenerate every flavor's data (see Everyday commands). Until then, the shipped bans of a retired color are
+   simply skipped, and `ObjectiveColors.test.lua` fails, because the files' measured colors no longer match the
+   palette. The same happens after changing a color's sRGB or the blob opacity.
 
 `banned.lua` in the output starts with how many zones ban each color. It's the number to watch for retirement;
 the tool never retires anything itself.
@@ -146,7 +157,7 @@ uv run calibration.py cells        # draw the cells' pictures (serve and fit do 
   - It warns when a view has no "too faint" rating, since that view's threshold could then ban nothing.
   - It writes `calibration.json` first, then `output/calibration-misfits.jpg` with the cells it rates differently
     from you.
-  - Then rerun `colorcontrast.py --write-addon`.
+  - Then regenerate every flavor's data (see Everyday commands).
 
 So far, held-out agreement (70%) sits close to the rater's own repeat consistency (79%). Extra model terms
 (texture masking, ground lightness, hue direction, lightening vs darkening, the border, per-color factors) all
@@ -168,9 +179,8 @@ the fit keeps scoring the pixels that were rated.
 
 1. Add a `Flavor` to `FLAVORS` in `sources.py`: its key, the data file name, its TOC, its CDN product (as the
    launcher's `.build.info` names it) and the build the CDN serves.
-2. Run `fetch.py --flavor <key>`, then `colorcontrast.py --flavor <key>`. Put the outdoor maps it names as
-   unmeasured into `skip_zones`, each with the reason (capitals, starting areas, maps without overlays), or find
-   out why their art is missing.
+2. Run `fetch.py --flavor <key>`, then `colorcontrast.py --flavor <key>`. Put the maps that shouldn't be measured
+   into `skip_zones`, each with the reason: capitals, starting areas Questie files under their zone, maps of maps.
 3. Review the sheets, and add a rating round (`prepare --add --flavor <key>`) for ground the ratings never covered.
 4. Run `--write-addon` and list the new data file in its TOC, after `ObjectiveColors.lua`.
    `ObjectiveColors.test.lua` checks every data file in `ObjectiveColorBans/`: the TOCs it names load it and no

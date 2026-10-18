@@ -407,8 +407,8 @@ def main() -> None:
     # Zones the client has but the assets lack would silently fall out of the shipped data.
     unmeasured = ", ".join(f"{name} ({ui_map_id})" for ui_map_id, name in unmeasured_zones(measured))
     if unmeasured and args.write_addon:
-        raise SystemExit(f"{measured.name} zones without explored art: {unmeasured}; run fetch.py, or skip those "
-                         f"without exploration overlays in sources.py, with the reason")
+        raise SystemExit(f"{measured.name} zones without explored art: {unmeasured}; run fetch.py --flavor "
+                         f"{measured.key}")
     if unmeasured:
         print(f"note: skipping {measured.name} zones without explored art: {unmeasured}")
     (out / "zones").mkdir(parents=True, exist_ok=True)
@@ -424,7 +424,8 @@ def main() -> None:
     report.render_overview(results, palette, opacity, settings, out / "overview.png")
     source = "calibration.json" if CALIBRATION.exists() and args.fill_min is None else "unweighted"
     banned = sum(len(result.banned) for result in results)
-    print(f"{measured.name}: {len(results)} zones, {banned} bans ({source}), {time.monotonic() - started:.0f}s -> {out}")
+    elapsed = time.monotonic() - started
+    print(f"{measured.name}: {len(results)} zones, {banned} bans ({source}), {elapsed:.0f}s -> {out}")
 
     gaps = "; ".join(f"{r.zone.name}: {', '.join(r.gaps)}" for r in results if r.gaps)
     if gaps and args.write_addon:
