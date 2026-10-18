@@ -92,6 +92,19 @@ local refreshPending = false
 local nudgePending = false
 local refreshEpoch = 0
 local nearbyTicker
+
+---Coalesces world map drawing requests until the next frame, when map and marker state is read.
+---The epoch prevents callbacks from an earlier reset from touching a new pending batch.
+local function _ScheduleMapRefresh()
+    if not renderCache or not provider or not provider.owningMap or refreshPending then return end
+    refreshPending = true
+    local scheduledEpoch = refreshEpoch
+    C_Timer.After(0, function()
+        if refreshEpoch ~= scheduledEpoch then return end
+        refreshPending = false
+        QuestiePolygon.Refresh()
+    end)
+end
 -- World units added around each cluster's spawn extent, so areas appear slightly before arrival.
 local NEARBY_PADDING = 100
 -- Costs in geometry steps (about 0.33 µs each, offline), so every polygon job reads the clock about
@@ -338,7 +351,9 @@ end
 -- highlighted. Hovering a marker previews on its own map only: a world-map marker on the world map,
 -- a minimap icon on the minimap, each highlighting every cluster. Areas follow their
 -- minimap icons' hiding rules, so the minimap icon switch governs them. Fade comes from the map
--- marker, such as tracker focus: minimap icons' own opacity fades with the player's distance.
+-- marker's fade, such as tracker focus, as for patrol paths: minimap icons' own opacity fades with
+-- the player's distance, and the map marker's own opacity is the world map's, which a hover's
+-- spotlight dims.
 -- Visibility is never required: a closed map shows no markers, and queued icons may load
 -- without any notification.
 
@@ -355,7 +370,7 @@ local function _CollectMinimapAreas()
                     local frame, cluster = marker.frame, marker.cluster
                     local minimapIcon = marker.minimapIcons[1]
                     local icon = minimapIcon and minimapIcon.frame
-                    local alpha = frame.texture and frame.texture.a or 1
+                    local alpha = frame.faded and Questie.db.profile.iconFadeLevel or 1
                     if cluster and cluster.outline and frame.data and frame.polygonMarker == marker and alpha > 0
                         and icon and icon.data and icon.polygonMinimapMarker == marker
                         and not icon.hidden and not icon:ShouldBeHidden() then
@@ -470,14 +485,14 @@ local function _UpdateAreaMarks(surface, frames)
 end
 
 ---Hears every icon hover starting: the icon opens its own tooltip, so the area tooltips step aside
----at once, such as the minimap's beside a minimap icon's. Areas fade with their markers, which the
----hover's spotlight dims for other quests, so they are drawn again.
+---at once, such as the minimap's beside a minimap icon's. World map areas fade with their markers,
+---which the hover's spotlight dims for other quests, so they are drawn again.
 ---@param frame IconFrame
 local function _OnHoverStart(frame)
     _ReleaseAreaTooltip("map")
     _ReleaseAreaTooltip("minimap")
     QuestiePolygon.EnterMarker(frame)
-    QuestiePolygon.ScheduleRefresh()
+    _ScheduleMapRefresh()
 end
 
 -- Area tooltip
@@ -602,19 +617,11 @@ local function _HoverMinimapAreas(markers, worldX, worldY)
     end)
 end
 
----Coalesces drawing requests until the next frame, when map and marker state is read.
----The epoch prevents callbacks from an earlier reset from touching a new pending batch.
----Every caller also marks the minimap's areas stale, whether or not the world map is open.
+---Draws the areas again on the next frame, on the world map and, whether or not the world map is
+---open, on the minimap.
 function QuestiePolygon.ScheduleRefresh()
     if minimapLayer then minimapLayer.Invalidate() end
-    if not renderCache or not provider or not provider.owningMap or refreshPending then return end
-    refreshPending = true
-    local scheduledEpoch = refreshEpoch
-    C_Timer.After(0, function()
-        if refreshEpoch ~= scheduledEpoch then return end
-        refreshPending = false
-        QuestiePolygon.Refresh()
-    end)
+    _ScheduleMapRefresh()
 end
 
 -- Map-provider presentation lifecycle
@@ -872,10 +879,10 @@ local function _FollowIcons()
     end)
     QuestieFrame.Subscribe("HoverStart", _OnHoverStart)
     -- A recycled icon's old marker ended its preview when it unloaded; a new marker's is not this hover's.
-    -- Areas are drawn again either way, as the hover's spotlight no longer dims their markers.
+    -- World map areas are drawn again either way, as the hover's spotlight no longer dims their markers.
     QuestieFrame.Subscribe("HoverEnd", function(frame, data)
         if frame.data == data then QuestiePolygon.LeaveMarker(frame) end
-        QuestiePolygon.ScheduleRefresh()
+        _ScheduleMapRefresh()
     end)
     QuestieFrame.Subscribe("Click", QuestiePolygon.ToggleMarker)
 end
@@ -1005,7 +1012,7 @@ end
 ---@param questId QuestId
 ---@param objectiveIndex ObjectiveIndex
 ---@param previewing boolean
-function QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
+local function _SetObjectivePreview(questId, objectiveIndex, previewing)
     local entry = entries[questId] and entries[questId][objectiveIndex]
     if not entry then return end
     if not previewing then
@@ -1022,15 +1029,6 @@ function QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
     end
 end
 
----Previews every objective of a quest, as SetObjectivePreview does each.
----@param questId QuestId
----@param previewing boolean
-function QuestiePolygon.SetQuestPreview(questId, previewing)
-    for index in pairs(entries[questId] or {}) do
-        QuestiePolygon.SetObjectivePreview(questId, index, previewing)
-    end
-end
-
 ---Hears each MapPreview starting and ending: a quest's preview, without an objective, previews every
 ---objective of it.
 ---@param questId QuestId
@@ -1038,9 +1036,11 @@ end
 ---@param previewing boolean
 local function _OnMapPreview(questId, objectiveIndex, previewing)
     if objectiveIndex then
-        QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
-    else
-        QuestiePolygon.SetQuestPreview(questId, previewing)
+        _SetObjectivePreview(questId, objectiveIndex, previewing)
+        return
+    end
+    for index in pairs(entries[questId] or {}) do
+        _SetObjectivePreview(questId, index, previewing)
     end
 end
 
