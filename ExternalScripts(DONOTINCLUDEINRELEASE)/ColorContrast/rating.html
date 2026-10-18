@@ -61,8 +61,13 @@
   <div id="message">How well can you make out the blob? Backspace goes back one.</div>
 <script>
   // Cells are drawn at in-game pixel size, so each image pixel gets one screen pixel.
-  let session, position = 0;
+  // A rating only counts for a cell you could see: input waits while a rating saves or the next picture loads.
+  let session, position = 0, ready = false;
   const cell = document.getElementById("cell");
+  cell.addEventListener("load", () => { ready = true; });
+  cell.addEventListener("error", () => {
+    document.getElementById("message").textContent = "This cell's picture did not load; restart the server.";
+  });
 
   function cellId(key) { return key.replace(/r$/, ""); }
 
@@ -79,7 +84,13 @@
     }
     const key = order[position];
     cell.style.visibility = "visible";
-    cell.src = `/cells/${cellId(key)}.png`;
+    const source = `/cells/${cellId(key)}.png`;
+    if (!cell.src.endsWith(source)) {
+      ready = false;
+      cell.src = source;
+    } else {
+      ready = cell.complete && cell.naturalWidth > 0; // the same picture again fires no load event
+    }
     cell.style.width = `${session.size / window.devicePixelRatio}px`;
     document.getElementById("view").textContent = session.views[cellId(key)] === "map" ? "World map" : "Minimap";
     for (const button of document.querySelectorAll("button")) {
@@ -88,11 +99,20 @@
   }
 
   async function rate(rating) {
-    if (position >= session.order.length) return;
+    if (!session || !ready || position >= session.order.length) return;
+    ready = false;
     const key = session.order[position];
-    const response = await fetch("/api/rate", {method: "POST", body: JSON.stringify({key, rating})});
-    if (!response.ok) {
-      document.getElementById("message").textContent = "Saving failed; is the server still running?";
+    let problem = null;
+    try {
+      const response = await fetch("/api/rate", {method: "POST", headers: {"Content-Type": "application/json"},
+                                                body: JSON.stringify({key, rating})});
+      if (!response.ok) problem = `Saving failed: ${await response.text()}`;
+    } catch (error) {
+      problem = "Saving failed; is the server still running?";
+    }
+    if (problem) {
+      document.getElementById("message").textContent = problem;
+      ready = true;
       return;
     }
     session.ratings[key] = rating;
@@ -101,6 +121,7 @@
   }
 
   document.addEventListener("keydown", (event) => {
+    if (event.repeat) return; // a held key must not rate the cells after this one
     if (["1", "2", "3"].includes(event.key)) rate(Number(event.key));
     if (event.key === "Backspace" && position > 0) { position -= 1; show(); event.preventDefault(); }
   });
