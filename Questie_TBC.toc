@@ -171,6 +171,14 @@ Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 Modules\Map\Moonwell.lua
 
+# Waypoints
+Modules\Map\Waypoints\WaypointGeometry.lua
+Modules\Map\Waypoints\WaypointRenderer.lua
+Modules\Map\Waypoints\QuestieWaypoints.lua
+Modules\Map\Waypoints\WaypointHover.lua
+Modules\Map\Waypoints\WaypointMap.lua
+Modules\Map\Waypoints\WaypointMinimap.lua
+
 # Quest
 Modules\Quest\AvailableQuests\IsLevelRequirementFulfilled.lua
 Modules\Quest\AvailableQuests\AvailableQuests.lua
@@ -259,6 +267,7 @@ Modules\Options\AutoTab\QuestieOptionsAuto.lua
 Modules\Options\DBMTab\QuestieOptionsDBM.lua
 Modules\Options\GeneralTab\QuestieOptionsGeneral.lua
 Modules\Options\IconsTab\QuestieOptionsIcons.lua
+Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 

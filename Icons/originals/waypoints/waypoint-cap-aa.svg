@@ -1,0 +1,9 @@
+<!-- Round cap for sharp path turns and open ends, 32x32 texels. The line's profile turned into rings around the
+     center (16, 16), at the line's texel density: radius 8 matches the line's 8 texels from its
+     centerline to its quad edge. Everything past radius 7 is transparent black, so a kite reaching
+     sqrt(2) * 8 texels out, or coordinates past the image with CLAMP, show nothing. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <circle cx="16" cy="16" r="7" fill="#000" fill-opacity="0.5"/> <!-- fade -->
+  <circle cx="16" cy="16" r="6" fill="#000"/>                    <!-- outline -->
+  <circle cx="16" cy="16" r="3" fill="#fff"/>                    <!-- core -->
+</svg>

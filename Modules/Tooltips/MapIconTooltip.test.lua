@@ -1,7 +1,8 @@
 dofile("setupTests.lua")
+local match = require("luassert.match")
 
 describe("MapIconTooltip objective wording", function()
-    local MapIconTooltip, QuestieComms, cached, objective, icon, now
+    local MapIconTooltip, QuestieComms, cached, objective, icon, now, pins
     local savedGlobals
 
     before_each(function()
@@ -10,7 +11,7 @@ describe("MapIconTooltip objective wording", function()
             WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, IsShiftKeyDown = _G.IsShiftKeyDown,
             GetUnitName = _G.GetUnitName, UnitClassBase = _G.UnitClassBase, GetClassColor = _G.GetClassColor,
             C_CurrencyInfo = _G.C_CurrencyInfo, OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION,
-            QUEST_MONSTERS_KILLED = _G.QUEST_MONSTERS_KILLED,
+            QUEST_MONSTERS_KILLED = _G.QUEST_MONSTERS_KILLED, Minimap = _G.Minimap, GetCVar = _G.GetCVar,
         }
         now = 0
         _G.GetTime = function() return now end
@@ -35,9 +36,10 @@ describe("MapIconTooltip objective wording", function()
         dofile("Modules/Libs/QuestieLib.lua")
         local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetColoredQuestName = function() return "Quest Name" end
-        QuestieLoader:ImportModule("QuestieMap").zoneWaypointHoverColorOverrides = {}
+        QuestieLib.GetEffectiveQuestLevel = function() return 1, 0 end
         QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return {} end
         QuestieLoader:ImportModule("QuestieDB").QueryItemSingle = function() return "Spell item" end
+        QuestieLoader:ImportModule("QuestieDB").GetQuestTagInfo = function() end
         QuestieLoader:ImportModule("QuestXP").GetQuestLogRewardXP = function() return 0 end
         local player = QuestieLoader:ImportModule("QuestiePlayer")
         player.GetPartyMemberByName = function(_, name)
@@ -54,6 +56,8 @@ describe("MapIconTooltip objective wording", function()
             return {AddLine = function() end, AddDoubleLine = function() end}
         end
         layout.Render = function() end
+        QuestieLoader:ImportModule("QuestieWaypoints").SetHighlighted = function() end
+        QuestieLoader:ImportModule("WaypointHover").End = function() end
 
         objective = {Index = 3, Type = "item", Description = "Windstone Cluster", Collected = 9, Needed = 15,
             Update = function() end}
@@ -62,7 +66,7 @@ describe("MapIconTooltip objective wording", function()
             texture = {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end},
             data = {Id = 1, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
         }
-        local pins = {worldmapProvider = {GetMap = function()
+        pins = {worldmapProvider = {GetMap = function()
             return {EnumeratePinsByTemplate = function()
                 local returned = false
                 return function()
@@ -87,6 +91,7 @@ describe("MapIconTooltip objective wording", function()
         _G.LibStub, _G.GetTime, _G.GameTooltip = savedGlobals.LibStub, savedGlobals.GetTime, savedGlobals.GameTooltip
         _G.WorldMapFrame, _G.C_Map, _G.IsShiftKeyDown = savedGlobals.WorldMapFrame, savedGlobals.C_Map, savedGlobals.IsShiftKeyDown
         _G.GetUnitName, _G.UnitClassBase, _G.GetClassColor = savedGlobals.GetUnitName, savedGlobals.UnitClassBase, savedGlobals.GetClassColor
+        _G.Minimap, _G.GetCVar = savedGlobals.Minimap, savedGlobals.GetCVar
     end)
 
     local function RenderObjectiveLines()
@@ -214,5 +219,108 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 0, required = 1}}} end
 
         assert.are.same({["|cFFEEEEEE0/1 Use Walk on Air (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true}, RenderObjectiveLines())
+    end)
+    describe("for a patrol path", function()
+        it("belongs to the frame it is given", function()
+            local owner = {}
+            GameTooltip.SetOwner = spy.new(function() end)
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, owner)
+
+            assert.spy(GameTooltip.SetOwner).was.called_with(match._, match.is_ref(owner), "ANCHOR_CURSOR")
+        end)
+
+        it("shows for an icon faded out by distance, which shows nothing when hovered itself", function()
+            icon.texture.GetVertexColor = function() return 1, 1, 1, 0 end
+            GameTooltip.Show = spy.new(function() end)
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+            assert.spy(GameTooltip.Show).was.not_called()
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, {})
+            assert.spy(GameTooltip.Show).was.called(1)
+        end)
+
+        it("lists the given icons of an NPC's quests, however far away and faded", function()
+            _G.Minimap = {GetZoom = function() return 0 end, SetZoom = function() end}
+            _G.GetCVar = function() return "0" end
+            icon.miniMapIcon = true
+            -- HereBeDragons shows neither icon: both are out of range. The second is faded out, elsewhere.
+            pins.activeMinimapPins = {}
+            local secondQuest = {
+                x = 90, y = 10, AreaID = 2, miniMapIcon = true,
+                texture = {a = 0, GetVertexColor = function() return 1, 1, 1, 0 end},
+                data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
+            }
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, _G.Minimap, {icon, secondQuest})
+
+            assert.is_not_nil(GameTooltip.questOrder[1])
+            assert.is_not_nil(GameTooltip.questOrder[2])
+        end)
+
+        it("keeps the colors to restore when a hovered icon's tooltip shows again before its reset", function()
+            GameTooltip.IsShown = function() return true end
+            icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a = 1, 0.5, 0, 1
+            icon.texture.SetVertexColor = function(texture, r, g, b, a)
+                texture.r, texture.g, texture.b, texture.a = r, g, b, a
+            end
+
+            -- The path's hover shows the tooltip, then the icon's own hover past the throttle, with no reset between.
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+            now = now + 0.1
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.are.equal(1, #icon.data.touchedPins)
+            assert.are.equal(icon, icon.data.touchedPins[1].icon)
+            assert.are_same({1, 0.5, 0, 1}, icon.data.touchedPins[1].color)
+        end)
+    end)
+    describe("order", function()
+        local rendered, questLevels
+
+        before_each(function()
+            rendered, questLevels = {}, {}
+            local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            QuestieLib.GetEffectiveQuestLevel = function(questId) return questLevels[questId], 0 end
+            QuestieLib.GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() return {} end
+            QuestieLoader:ImportModule("TooltipLayout").CreateRows = function()
+                local function Add(_, text) rendered[#rendered + 1] = text end
+                return {AddLine = Add, AddDoubleLine = Add}
+            end
+        end)
+
+        ---@return number? row Where the first row containing text was rendered.
+        local function RowOf(text)
+            for row, line in ipairs(rendered) do
+                if line:find(text, 1, true) then return row end
+            end
+        end
+
+        -- An icon of another quest, where the hovered icon is.
+        local function QuestIcon(questId, type)
+            return {x = 50, y = 50, AreaID = 1, texture = icon.texture,
+                data = {Id = questId, Type = type, ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone", QuestData = {}}}
+        end
+
+        it("lists a giver's quests by level, low to high", function()
+            questLevels = {[1] = 1, [10] = 30, [11] = 5, [12] = 18}
+
+            local hovered = QuestIcon(10, "complete")
+
+            MapIconTooltip.ShowOnTooltip(hovered, GameTooltip, nil, {hovered, QuestIcon(11, "complete"), QuestIcon(12, "complete")})
+
+            assert.is_true(RowOf("Quest 11") < RowOf("Quest 12"))
+            assert.is_true(RowOf("Quest 12") < RowOf("Quest 10"))
+        end)
+
+        it("lists active quests' objectives by level, low to high", function()
+            questLevels = {[1] = 20, [2] = 5}
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {QuestIcon(2, "item")})
+
+            assert.is_true(RowOf("Quest 2") < RowOf("Quest 1"))
+        end)
     end)
 end)

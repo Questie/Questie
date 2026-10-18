@@ -24,6 +24,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -477,6 +479,18 @@ function QuestieOptions.tabs.advanced:Initialize()
                     else
                         Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
                     end
+                end,
+            },
+            waypointDebugHover = {
+                type = "toggle",
+                order = 5.1,
+                name = function() return l10n("Show waypoint hover area"); end,
+                desc = function() return l10n("Draws the area around each patrol path on the world map where hovering shows its NPC."); end,
+                width = "full",
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    QuestieWaypoints.Refresh()
                 end,
             },
         },

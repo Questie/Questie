@@ -626,6 +626,30 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
         ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗",
     },
+    ["Show waypoint hover area"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Mouseover-Bereich der Wegpunkte anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar el área sensible al cursor de los puntos de ruta", -- AI 🤖
+        ["esMX"] = "Mostrar el área sensible al cursor de los puntos de ruta", -- AI 🤖
+        ["frFR"] = "Afficher la zone de survol des points de route", -- AI 🤖
+        ["koKR"] = "웨이포인트 마우스오버 영역 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar a área sensível ao cursor dos pontos de rota", -- AI 🤖
+        ["ruRU"] = "Показывать область наведения маршрутов", -- AI 🤖
+        ["zhCN"] = "显示航点悬停区域", -- AI 🤖
+        ["zhTW"] = "顯示航點懸停區域", -- AI 🤖
+    },
+    ["Draws the area around each patrol path on the world map where hovering shows its NPC."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Zeichnet auf der Weltkarte den Bereich um jeden Patrouillenweg, in dem ein Mouseover dessen NPC anzeigt.", -- AI 🤖
+        ["esES"] = "Dibuja en el mapa del mundo el área alrededor de cada ruta de patrulla donde pasar el cursor muestra su PNJ.", -- AI 🤖
+        ["esMX"] = "Dibuja en el mapa del mundo el área alrededor de cada ruta de patrulla donde pasar el cursor muestra su PNJ.", -- AI 🤖
+        ["frFR"] = "Dessine sur la carte du monde la zone autour de chaque trajet de patrouille où le survol affiche son PNJ.", -- AI 🤖
+        ["koKR"] = "세계 지도에서 마우스를 올리면 해당 NPC가 표시되는 각 순찰 경로 주변 영역을 그립니다.", -- AI 🤖
+        ["ptBR"] = "Desenha no mapa-múndi a área ao redor de cada rota de patrulha onde passar o cursor mostra seu NPC.", -- AI 🤖
+        ["ruRU"] = "Рисует на карте мира область вокруг каждого маршрута патрулирования, при наведении на которую показывается его NPC.", -- AI 🤖
+        ["zhCN"] = "在大地图上绘制每条巡逻路线周围的区域，鼠标悬停在该区域时会显示其NPC。", -- AI 🤖
+        ["zhTW"] = "在大地圖上繪製每條巡邏路線周圍的區域，滑鼠懸停在該區域時會顯示其NPC。", -- AI 🤖
+    },
 }
 
 for k, v in pairs(advancedOptionsLocales) do

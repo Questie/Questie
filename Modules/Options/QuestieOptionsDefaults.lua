@@ -13,6 +13,18 @@ function QuestieOptionsDefaults:Load()
             eventScale = 1.35,
             lootScale = 1,
             iconFadeLevel = 0.3,
+            waypointMapEnabled = true,
+            waypointMinimapEnabled = true,
+            waypointWidth = 3,
+            waypointOpacity = 1,
+            -- AceDB saves only the channels that differ from these, so changing a default color needs a
+            -- migration writing whole colors, or saved colors mix with the new default.
+            waypointColor = {1, 0.72, 0, 0.5},
+            waypointHostileColor = {1, 0.2, 0, 0.7},
+            waypointHighlight = true,
+            waypointHighlightColor = {0.93, 0.46, 0.13, 0.8},
+            waypointSmoothing = 0.75,
+            waypointDebugHover = false,
             trackerLocked = true,
             monsterScale = 1,
             objectScale = 1,

@@ -66,6 +66,9 @@ describe("TooltipHandler", function()
             QuestieDB = QuestieLoader:ImportModule("QuestieDB")
             QuestieDB.QueryObjectSingle = mock.lib.Object.Get
             QuestieDB.GetQuest = function() return nil end
+            -- The tooltip sorts quests by level and type; these have neither.
+            QuestieDB.QueryQuestSingle = function() return nil end
+            QuestieDB.GetQuestTagInfo = function() end
             dofile("Modules/Libs/QuestieLib.lua")
             local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
             QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function() return nil end
