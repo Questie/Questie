@@ -211,8 +211,8 @@ def _write_table(path, columns, rows):
         csv.writer(handle).writerows([columns, *rows])
 
 
-def test_explored_art_is_composed_only_from_overlays_with_tiles(tmp_path, monkeypatch):
-    # Wintergrasp's overlays are hit areas without tiles (TextureWidth 0). They must not make the map look measurable.
+def test_explored_art_blends_the_overlays_with_tiles_and_skips_hit_areas(tmp_path, monkeypatch):
+    # Wintergrasp's overlays are hit areas without tiles (TextureWidth 0): its explored art is its plain art.
     monkeypatch.setattr(sources, "ASSETS", tmp_path)
     flavor = Flavor("test", "Test", (), "wow_test", "1.0.0.1")
     _write_map_tables(flavor, maps=[[1, "Hit areas only", 3], [2, "Explored", 3]],
@@ -230,9 +230,30 @@ def test_explored_art_is_composed_only_from_overlays_with_tiles(tmp_path, monkey
 
     fetch.compose_explored(flavor)
 
-    assert not (flavor.explored / "1").exists()
+    with Image.open(flavor.explored / "1" / "r0c0.png") as tile:
+        assert tile.getpixel((128, 128)) == (0, 0, 255, 255)
     with Image.open(flavor.explored / "2" / "r0c0.png") as tile:
         assert tile.getpixel((128, 128)) == (255, 0, 0, 255)
+
+
+def test_a_map_without_overlays_is_one_area_wherever_the_minimap_has_tiles(tmp_path, monkeypatch):
+    # The map spans minimap tiles 32..33 both ways (world (0, 0) to (-2, -2) tiles), and only tile 32_32, its
+    # top-left quarter, exists.
+    monkeypatch.setattr(sources, "ASSETS", tmp_path)
+    flavor = Flavor("test", "Test", (), "wow_test", "1.0.0.1")
+    flavor.db2.mkdir(parents=True)
+    _write_table(flavor.db2 / "WorldMapOverlay.csv", ["ID", "UiMapArtID", "TextureWidth", "TextureHeight"], [])
+    _write_table(flavor.db2 / "WorldMapOverlayTile.csv", ["ID", "WorldMapOverlayID"], [])
+    (flavor.minimaps / "0").mkdir(parents=True)
+    Image.new("RGB", (64, 64), (0, 90, 0)).save(flavor.minimaps / "0" / "32_32.jpg")
+    two_tiles = -2 * sources.TILE_YARDS
+    zone = Zone(flavor, 1, "Test Isle", 0, 0.0, 0.0, two_tiles, two_tiles, 5, 1)
+
+    areas, missing = sources.read_areas(zone)
+
+    assert [area.name for area in areas] == ["Test Isle"] and missing == []
+    mask = areas[0].mask
+    assert mask[:330, :495].all() and not mask[:, 510:].any() and not mask[340:].any()
 
 
 def test_overlay_tiles_smaller_than_their_visible_part_leave_the_rest_clear(tmp_path):
