@@ -42,7 +42,7 @@ import os
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 import numpy as np
@@ -52,7 +52,7 @@ sys.path.insert(0, str(HERE))
 import report  # noqa: E402
 from sources import (  # noqa: E402
     ART_HEIGHT, ART_WIDTH, FLAVORS, REPO, Flavor, Minimap, PaletteColor, Zone, read_areas, read_blob_opacity,
-    read_map_art, read_palette, read_zones, unmeasured_zones, ART_TILES, map_art_tiles,
+    read_map_art, read_outdoor_maps, read_palette, read_zones, unmeasured_zones, ART_TILES, map_art_tiles,
 )
 
 CALIBRATION = HERE / "calibration.json"
@@ -332,6 +332,22 @@ def analyze_zone(zone: Zone, palette: list[PaletteColor], opacity: tuple[float, 
     return result
 
 
+def under_own_ids(results: list[ZoneResult], flavor: Flavor) -> list[ZoneResult]:
+    """Results measured on flavor.measured_on, under the flavor's own UiMapIds, matched by AreaID. Zones the flavor
+    doesn't have, such as Pandaria's for Cata, are left out. Every outdoor map it has needs a counterpart, measured or
+    skipped there, unless the flavor skips it itself."""
+    measured = FLAVORS[flavor.measured_on]
+    own = {zone.area: zone for zone in read_outdoor_maps(flavor)}
+    known = {zone.area for zone in read_outdoor_maps(measured)}
+    skipped = {ui_map_id for ui_map_id, _ in flavor.skip_zones}
+    missing = [f"{zone.name} ({zone.ui_map_id})" for zone in own.values()
+               if zone.area not in known and zone.ui_map_id not in skipped]
+    if missing:
+        raise SystemExit(f"{measured.name} has no counterpart for {flavor.name}'s {', '.join(missing)}; measure "
+                         f"{flavor.name} itself, or skip them with the reason")
+    return [replace(result, zone=own[result.zone.area]) for result in results if result.zone.area in own]
+
+
 def load_settings(fill_min: float | None, max_faint_share: float, percentile: float, clusters: int,
                   merge_distance: float) -> Settings:
     """Weights and thresholds from calibration.json when it exists, else unweighted scores with a faint threshold
@@ -376,22 +392,25 @@ def main() -> None:
             raise SystemExit(f"--write-addon needs the calibrated defaults; leave out {', '.join(tuned)}")
 
     flavor = FLAVORS[args.flavor]
-    out = args.out or HERE / "output" / flavor.key
+    measured = FLAVORS[flavor.measured_on] if flavor.measured_on else flavor
+    out = args.out or HERE / "output" / measured.key
     settings = load_settings(args.fill_min, args.max_faint_share, args.percentile, args.clusters,
                              args.merge_distance)
     palette, opacity = read_palette(), read_blob_opacity()
-    all_zones = read_zones(flavor)
+    all_zones = read_zones(measured)
     zones = [zone for zone in all_zones if not args.zones or zone.ui_map_id in args.zones]
     if not zones:
-        raise SystemExit(f"no {flavor.name} zones to analyze; are its assets prepared? ({flavor.explored_maps})")
-    overrides = read_overrides(palette, flavor, {zone.ui_map_id for zone in all_zones})
+        raise SystemExit(f"no {measured.name} zones to analyze in {measured.assets}; run fetch.py --flavor "
+                         f"{measured.key}")
+    overrides = read_overrides(palette, measured, {zone.ui_map_id for zone in all_zones})
 
     # Zones the client has but the assets lack would silently fall out of the shipped data.
-    unmeasured = ", ".join(f"{name} ({ui_map_id})" for ui_map_id, name in unmeasured_zones(flavor))
+    unmeasured = ", ".join(f"{name} ({ui_map_id})" for ui_map_id, name in unmeasured_zones(measured))
     if unmeasured and args.write_addon:
-        raise SystemExit(f"{flavor.name} zones without prepared art: {unmeasured}; prepare their assets first")
+        raise SystemExit(f"{measured.name} zones without explored art: {unmeasured}; run fetch.py, or skip those "
+                         f"without exploration overlays in sources.py, with the reason")
     if unmeasured:
-        print(f"note: skipping {flavor.name} zones without prepared art: {unmeasured}")
+        print(f"note: skipping {measured.name} zones without explored art: {unmeasured}")
     (out / "zones").mkdir(parents=True, exist_ok=True)
 
     started = time.monotonic()
@@ -405,16 +424,17 @@ def main() -> None:
     report.render_overview(results, palette, opacity, settings, out / "overview.png")
     source = "calibration.json" if CALIBRATION.exists() and args.fill_min is None else "unweighted"
     banned = sum(len(result.banned) for result in results)
-    print(f"{flavor.name}: {len(results)} zones, {banned} bans ({source}), {time.monotonic() - started:.0f}s -> {out}")
+    print(f"{measured.name}: {len(results)} zones, {banned} bans ({source}), {time.monotonic() - started:.0f}s -> {out}")
 
     gaps = "; ".join(f"{r.zone.name}: {', '.join(r.gaps)}" for r in results if r.gaps)
     if gaps and args.write_addon:
-        raise SystemExit(f"part of the ground went unmeasured ({gaps}); prepare the missing assets; not writing")
+        raise SystemExit(f"part of the ground went unmeasured ({gaps}); run fetch.py again; not writing")
     if gaps:
         print(f"note: part of the ground went unmeasured ({gaps})")
 
     if args.write_addon:
-        report.write_addon_bans(results, palette, settings, flavor, opacity)
+        shipped = under_own_ids(results, flavor) if flavor.measured_on else results
+        report.write_addon_bans(shipped, palette, settings, flavor, opacity)
         print(f"wrote {flavor.data_file.relative_to(REPO)}")
         listed = flavor.data_file.relative_to(REPO).as_posix().replace("/", "\\")
         for toc in flavor.tocs:

@@ -150,11 +150,11 @@ def _draw_zone_cells(job: tuple[str, int, list[dict], tuple[float, float], int])
 
 
 def draw_cells(manifest: dict, redraw: bool = False) -> int:
-    """Draws the session's missing cell pictures (every one with redraw) from the zones' prepared art, at the
+    """Draws the session's missing cell pictures (every one with redraw) from the zones' fetched art, at the
     opacity the session was rated at. Returns how many it drew.
 
     Raises:
-        OSError: The zones' prepared art is not there.
+        OSError: The zones' art is not fetched (fetch.py).
     """
     folder = RATINGS / "cells"
     folder.mkdir(parents=True, exist_ok=True)
@@ -401,7 +401,7 @@ def serve(port: int) -> None:
     try:
         draw_cells(_RatingHandler.manifest, redraw=True)
     except Exception as error:  # noqa: BLE001 - any failure here means the pictures cannot be trusted
-        raise SystemExit(f"cannot draw the cells' pictures without the zones' prepared art: {error}")
+        raise SystemExit(f"cannot draw the cells' pictures without the zones' art (run fetch.py): {error}")
     server = ThreadingHTTPServer(("127.0.0.1", port), _RatingHandler)
     done = len(_latest_ratings())
     print(f"Rating page: http://localhost:{port}  ({done} of {len(_RatingHandler.manifest['order'])} rated; "
