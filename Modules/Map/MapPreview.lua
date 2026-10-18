@@ -54,11 +54,10 @@ end
 ---@return MapPreviewHandle
 function MapPreview.Start(questId, objectiveIndex)
     local preview = {questId = questId, objectiveIndex = objectiveIndex, hovers = {}}
-    for _, frameName in pairs(QuestieMap.questIdFrames[questId] or {}) do
-        local icon = _G[frameName]
-        local data = icon and icon.data
-        if data and not icon.miniMapIcon and not icon.hidden and data.Type ~= "available" and data.Type ~= "complete"
-            and (objectiveIndex == nil or data.ObjectiveIndex == objectiveIndex) then
+    for _, icon in pairs(QuestieMap:GetFramesForQuest(questId)) do
+        local data = icon.data
+        if data and data.Id == questId and not icon.miniMapIcon and not icon.hidden and data.Type ~= "available"
+            and data.Type ~= "complete" and (objectiveIndex == nil or data.ObjectiveIndex == objectiveIndex) then
             preview.hovers[#preview.hovers + 1] = {icon = icon, data = data}
             QuestieFrame.ApplyHoverHighlights(icon)
         end
