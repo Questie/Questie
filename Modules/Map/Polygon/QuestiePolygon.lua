@@ -34,8 +34,7 @@ local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
 ---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
 ---@field hovered IconFrame? Its hovered map marker: previews its areas on the world map, highlighting every cluster.
 ---@field minimapHovered IconFrame? Its hovered minimap icon: previews its areas on the minimap, highlighting every cluster.
----@field previewed boolean? A quest log control is hovered; shows and highlights every cluster.
----@field previewHovers {frame: IconFrame, data: IconData}[]? The markers a preview hovers, with the data each hover started with.
+---@field previewed boolean? A MapPreview of it is shown, such as from the tracker or a quest log control; shows and highlights every cluster.
 ---@field previewSuppressed boolean? A click hid the areas while hovering; no preview until a hover starts again.
 ---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
 ---@field building boolean? Replacement geometry is not shown while marker allocation yields.
@@ -58,6 +57,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 ---@type IconHighlight
 local IconHighlight = QuestieLoader:ImportModule("IconHighlight")
+---@type MapPreview
+local MapPreview = QuestieLoader:ImportModule("MapPreview")
 ---@type WorldMapLayers
 local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
 ---@type QuestieCompat
@@ -164,14 +165,6 @@ local function _MinimapMarkerIcon(marker)
     local icon = marker.minimapIcons[1]
     local frame = icon and icon.frame
     if frame and frame.polygonMinimapMarker == marker and frame.data then return frame end
-end
-
----Ends the hovers an objective's preview started, each with the data it started with.
----@param entry PolygonObjectiveEntry
-local function _EndPreviewHovers(entry)
-    local hovers = entry.previewHovers
-    entry.previewHovers = nil
-    for i = #(hovers or {}), 1, -1 do QuestieFrame.ResetHoverHighlights(hovers[i].frame, hovers[i].data) end
 end
 
 -- Quest log controls on each client mirror area visibility. Marker clicks, proximity,
@@ -671,7 +664,6 @@ function Provider:OnHide()
     -- Hiding controls on the map, such as Forever's quest log boxes, may tell nothing; their previews end.
     for _, questEntries in pairs(entries) do
         for _, entry in pairs(questEntries) do
-            _EndPreviewHovers(entry)
             entry.hovered, entry.previewed = nil, nil
         end
     end
@@ -697,8 +689,6 @@ local function _UnloadMinimapIcons(marker)
 end
 
 local function _ReleaseMarkers(entry)
-    -- Its markers' spotlight and route highlights end with them, though the control previewing them is still hovered.
-    _EndPreviewHovers(entry)
     if renderCache then
         local released, err = pcall(renderCache.Release, renderCache, entry)
         if not released then Questie.Error("Polygon release failed:", err) end
@@ -1008,9 +998,10 @@ function QuestiePolygon.SetQuestAreasShown(questId, shown)
     end
 end
 
----Previews an objective from a quest log or tracker control, as if each of its markers were hovered:
----its quest's icons light up, its routes highlight, and its areas show with every cluster highlighted.
----Clearing works even after the objective lost its areas or markers.
+---Shows an objective's areas on the world map and the minimap with every cluster highlighted, for as
+---long as a MapPreview of it lasts, such as from the tracker or a quest log control. MapPreview itself
+---hovers its markers, so they grow and their routes highlight. Clearing works even after the
+---objective lost its areas or markers.
 ---@param questId QuestId
 ---@param objectiveIndex ObjectiveIndex
 ---@param previewing boolean
@@ -1018,7 +1009,6 @@ function QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
     local entry = entries[questId] and entries[questId][objectiveIndex]
     if not entry then return end
     if not previewing then
-        _EndPreviewHovers(entry)
         if entry.previewed then
             entry.previewed = nil
             QuestiePolygon.ScheduleRefresh()
@@ -1026,30 +1016,31 @@ function QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
         return
     end
     if not entry.active or entry.building or not QuestiePolygon.IsEnabled() then return end
-    if not entry.previewHovers then
-        local hovers = {}
-        entry.previewHovers = hovers
-        for _, marker in ipairs(entry.markers) do
-            local frame = _MarkerIcon(marker)
-            if frame then
-                hovers[#hovers + 1] = {frame = frame, data = frame.data}
-                QuestieFrame.ApplyHoverHighlights(frame)
-            end
-        end
-    end
     if not entry.previewed then
         entry.previewed, entry.previewSuppressed = true, nil
         QuestiePolygon.ScheduleRefresh()
     end
 end
 
----Previews every objective of a quest, as SetObjectivePreview does each, such as from its title in the
----tracker.
+---Previews every objective of a quest, as SetObjectivePreview does each.
 ---@param questId QuestId
 ---@param previewing boolean
 function QuestiePolygon.SetQuestPreview(questId, previewing)
     for index in pairs(entries[questId] or {}) do
         QuestiePolygon.SetObjectivePreview(questId, index, previewing)
+    end
+end
+
+---Hears each MapPreview starting and ending: a quest's preview, without an objective, previews every
+---objective of it.
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex?
+---@param previewing boolean
+local function _OnMapPreview(questId, objectiveIndex, previewing)
+    if objectiveIndex then
+        QuestiePolygon.SetObjectivePreview(questId, objectiveIndex, previewing)
+    else
+        QuestiePolygon.SetQuestPreview(questId, previewing)
     end
 end
 
@@ -1412,6 +1403,7 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)
         -- The provider is created once, before the first marker.
         _FollowIcons()
+        MapPreview.Subscribe(_OnMapPreview)
         -- The minimap is optional: its failure must not stop world-map drawing.
         local created, layer = pcall(PolygonMinimap.New, _CollectMinimapAreas, _HoverMinimapAreas)
         if created then
