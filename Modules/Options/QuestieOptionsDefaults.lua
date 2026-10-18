@@ -41,6 +41,10 @@ function QuestieOptionsDefaults:Load()
             dbmHUDShowLoot = false,
             dbmHUDShowInteract = true,
             mapShowHideEnabled = true,
+            -- Blizzard quest POI pins. This client resets the questPOI CVar to 0 every login; when
+            -- enabled, Questie re-applies the pin state on login and shows a "?" toggle button on the
+            -- world map. Source of truth for the pin state (toggled by the button and the option).
+            questPOIEnabled = false,
             nameplateTargetFrameEnabled = true,
             nameplateTargetFrameX = -30,
             nameplateTargetFrameY = 25,
