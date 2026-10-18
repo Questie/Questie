@@ -162,7 +162,10 @@ describe("QuestLifecycle", function()
 
         it("should reset and repopulate a failed quest re-accepted in place", function()
             local questId = 100
-            local quest = {Objectives = {{}}}
+            local quest = {
+                IsComplete = function() return 1 end, -- the giver handed over the quest item with the quest
+                Objectives = {{}},
+            }
             QuestieDB.GetQuest = spy.new(function() return quest end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
             QuestiePlayer.currentQuestlog[questId] = quest -- still logged from the failed acceptance, without flags

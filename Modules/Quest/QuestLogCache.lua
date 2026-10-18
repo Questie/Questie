@@ -18,7 +18,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 -- The client's QuestObjectiveType for a criteria tree. Such objectives (e.g. Forever's duel and emote quests) progress
--- with only CRITERIA_UPDATE and QUEST_LOG_UPDATE.
+-- with only CRITERIA_UPDATE and QUEST_LOG_UPDATE. Blizzard's published UI source does not declare the enum: 14 is what
+-- Forever's objectives report (duel, emote and some profession quests, all of type "object").
 local CRITERIA_TREE_OBJECTIVE_TYPE = 14
 
 -- 3 * (Max possible number of quests in game quest log)
