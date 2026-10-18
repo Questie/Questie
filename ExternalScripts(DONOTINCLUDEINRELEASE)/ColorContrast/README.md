@@ -10,13 +10,55 @@ It lives in `ExternalScripts(DONOTINCLUDEINRELEASE)`, which release builds never
 ## Requirements
 
 - `uv`, plus Lua 5.1 for the tests.
-- `~/projects/wow-lua-emulator` with its assets prepared (its README's "Prepare assets" step): zone world rects,
-  explored map art, exploration overlay tiles and minimap tiles.
-- `~/projects/QuestieWorldMap/map-text/downloads/db2/<build>/`: the UiMapXMapArt, WorldMapOverlay and AreaTable
-  tables.
+- For `fetch.py`: a WoW install with CASCConsole in `CASC/` (`/mnt/c/Games/World of Warcraft` by default; `--wow`
+  or `QUESTIE_WOW` point elsewhere) and internet access to wago.tools and Blizzard's CDN. No client needs to run.
 
-`QUESTIE_EMULATOR` and `QUESTIE_MAP_TEXT` point the tool elsewhere. Each client the tool knows is a **flavor** in
-`sources.py` (`FLAVORS`); today that's `forever`.
+Each client the tool knows is a **flavor** in `sources.py` (`FLAVORS`): its CDN product, the build measured, the
+TOCs that load its data, and the outdoor maps it skips on purpose. Each flavor's assets live in their own folder,
+`~/.cache/questie-color-contrast/<flavor>-<build>/` (`QUESTIE_COLOR_ASSETS` moves the parent), shared by every
+Questie checkout on the machine.
+
+| Flavor | Client | TOC |
+| --- | --- | --- |
+| `forever` | WoW Forever (`wow_classic_beta`) | `Questie_Camelot.toc` |
+| `mists` | MoP Classic (`wow_classic`) | `Questie_Mists.toc` |
+| `era` | Classic Era, Season of Discovery, Hardcore (`wow_classic_era`) | `Questie_Vanilla.toc` |
+| `tbc` | TBC Anniversary (`wow_anniversary`) | `Questie_TBC.toc` |
+| `wrath` | Wrath Classic, Titan (`wow_classic_titan`) | `Questie_Wrath.toc` |
+| `cata` | Cata Classic, measured on `mists` | `Questie_Cata.toc` |
+
+**A flavor measured on another** (`measured_on`) ships that flavor's measurements under its own UiMapIds, matched by
+AreaID. That's for a client whose art the CDN no longer serves, and only when its map art is the other flavor's,
+file for file. Cata Classic is retired, and the CDN serves MoP for its product, but its last tables (4.4.2.60895)
+show MoP's art, overlays and world rects on every outdoor map but Kezan. `fetch.py --flavor cata` fetches only its
+tables. `colorcontrast.py --flavor cata --write-addon` analyzes MoP's zones and writes `Cata.lua`. It stops on a Cata
+map MoP has no counterpart for.
+
+Every client's art differs, down to the file, and UiMapIds differ between clients too (Durotar is 1411 on Forever
+and Era but 1 on MoP), so a data file only ever goes in its own client's TOC.
+
+## Fetching a flavor's assets
+
+```sh
+uv run fetch.py --flavor mists
+```
+
+It downloads, into the flavor's folder:
+
+- the client's map tables of that build from wago.tools (UiMap, UiMapAssignment, UiMapXMapArt, UiMapArtTile,
+  WorldMapOverlay, WorldMapOverlayTile, AreaTable, Map);
+- every outdoor map's art and exploration overlays, and the art with every overlay blended on (the map a fully
+  explored character sees);
+- the minimap tiles under every outdoor map, and one tile around it.
+
+Art and tiles come from Blizzard's CDN through CASCConsole. **Outdoor maps** are zones and orphan maps (UiMap types
+3 and 6) in the open world, not in dungeons, battlegrounds or scenarios. A map's world rect comes from
+UiMapAssignment, as `C_Map.GetWorldPosFromMapPos` computes it: on Forever it matched the live client for all 51
+zones. A map with phased art is measured on its default art, or else on its oldest.
+
+The CDN only serves a product's current build. Once it has moved on, `fetch.py` refuses: raise the flavor's
+`build` in `sources.py`, fetch again, and rerun the tool. Files already fetched are kept, so an interrupted fetch
+continues where it stopped.
 
 ## Everyday commands
 
@@ -38,8 +80,8 @@ could shift the shipped bans.
 - a subset run (`--zones`), which would drop every other zone's bans;
 - uncalibrated scores (no `calibration.json`, or `--fill-min`), or terrain settings other than the calibrated
   defaults (`--percentile`, `--clusters`, `--merge-distance`);
-- outdoor zones the client has but whose art was never prepared. The run lists them; `skip_zones` in `FLAVORS`
-  names the ones skipped on purpose, such as capitals;
+- outdoor maps the client has but without explored art. The run lists them. A map without exploration overlays
+  has no outline of its ground to measure; `skip_zones` in `FLAVORS` names those, each with the reason;
 - ground a zone's assets don't cover: overlays without tiles, missing map art tiles, or ground without minimap
   tiles.
 
@@ -51,12 +93,8 @@ writing it, run Questie's tests: `ObjectiveColors.test.lua` checks all three aga
 
 ### New zones in a client
 
-1. Prepare the new zones' assets in wow-lua-emulator (map tiles, overlays, explored maps, minimap tiles).
-   Recapture the flavor's zone rects from the live client (`maps_json` in `FLAVORS`; Forever's is
-   `data/maps-forever-1.60.1.json`), and fetch the client build's db2 tables into a new folder, pointing `db2` in
-   `FLAVORS` at it. The emulator composes explored art from the same db2 tables, so a new zone needs both. The tool
-   picks up every outdoor zone (UiMap type 3) that has explored art, names the ones that still lack it, and stops
-   on a zone its db2 tables don't know.
+1. Raise the flavor's `build` in `sources.py` to the client's, and run `fetch.py`. The tool picks up every
+   outdoor map with explored art, and names the ones without it; skip those without overlays, with the reason.
 2. Run `colorcontrast.py` and review the new zones' sheets in `output/<flavor>/zones/`.
 3. Settle disagreements in `overrides.csv` (see below), if any.
 4. Run `colorcontrast.py --write-addon`, then Questie's tests.
@@ -110,7 +148,7 @@ uv run calibration.py cells        # draw the cells' pictures (serve and fit do 
     from you.
   - Then rerun `colorcontrast.py --write-addon`.
 
-So far, held-out agreement (75%) sits close to the raters' own repeat consistency (81%). Extra model terms
+So far, held-out agreement (70%) sits close to the rater's own repeat consistency (79%). Extra model terms
 (texture masking, ground lightness, hue direction, lightening vs darkening, the border, per-color factors) all
 fitted to nothing. Per-color oddities belong in overrides, not in more parameters.
 
@@ -126,24 +164,17 @@ fitted to nothing. Per-color oddities belong in overrides, not in more parameter
 pixel for pixel as they were rated. After a client patch changes the art, a redrawn cell shows the new art, while
 the fit keeps scoring the pixels that were rated.
 
-### Adding a flavor (MoP is next)
+### Adding a flavor
 
-MoP's zones match the Cata and MoP clients: the same UiMapIds and the same, post-Cataclysm art. Era, TBC and Wrath
-draw Kalimdor and Eastern Kingdoms in the older art, and TBC Classic numbers Outland differently, so MoP data must
-not be listed in their TOCs. Steps:
-
-1. Prepare the client's assets with wow-lua-emulator's tools from its own build, **in an asset folder of its own**.
-   Clients share continent IDs (0 and 1) but not their minimap tiles, and the emulator's tools skip tiles that
-   already exist, so a shared folder would mix the clients' ground. The minimap needs every continent the zones sit
-   on (Eastern Kingdoms, Kalimdor, Outland, Northrend, Pandaria and so on), so extend `CONTINENTS` in
-   `fetch_minimaps.py`. Fetch its db2 tables too.
-2. Add a `Flavor` to `FLAVORS` in `sources.py`: its key, the data file name, the TOCs that load it
-   (`Questie_Cata.toc`, `Questie_Mists.toc`), its own asset paths, and the zones to skip on purpose.
-3. Run `colorcontrast.py --flavor mists`, review the sheets, and consider a rating round
-   (`prepare --add --flavor mists`) for ground the ratings never covered.
-4. Run `--write-addon` and list the new data file in its TOCs, after `ObjectiveColors.lua`.
-   `ObjectiveColors.test.lua` checks that exactly those TOCs load it; extend its shipped-data tests to the new
-   file.
+1. Add a `Flavor` to `FLAVORS` in `sources.py`: its key, the data file name, its TOC, its CDN product (as the
+   launcher's `.build.info` names it) and the build the CDN serves.
+2. Run `fetch.py --flavor <key>`, then `colorcontrast.py --flavor <key>`. Put the outdoor maps it names as
+   unmeasured into `skip_zones`, each with the reason (capitals, starting areas, maps without overlays), or find
+   out why their art is missing.
+3. Review the sheets, and add a rating round (`prepare --add --flavor <key>`) for ground the ratings never covered.
+4. Run `--write-addon` and list the new data file in its TOC, after `ObjectiveColors.lua`.
+   `ObjectiveColors.test.lua` checks every data file in `ObjectiveColorBans/`: the TOCs it names load it and no
+   other TOC does, and its measured colors and opacity match.
 
 ## How a color gets banned
 
@@ -200,6 +231,7 @@ Every run rewrites these for the zones it analyzed. Sheets of zones a `--zones` 
 | --- | --- |
 | `colorcontrast.py` | Terrains, scores, verdicts, and the run itself. |
 | `calibration.py`, `rating.html` | Rating rounds, the rating page and the fit. |
+| `fetch.py` | Downloads a flavor's map tables, art and minimap tiles. |
 | `sources.py` | Flavors and every input: palette, zones, art, sub-areas, minimap. |
 | `report.py` | Every output, including the shipped Lua data. |
 | `calibration.json` | Fitted weights and thresholds. |

@@ -1,2 +1,8 @@
 flavor,ui_map_id,color,verdict,note
 forever,1426,Persian Green,allow,"Fits; only Helm's Bed Lake is faint (David)"
+era,1426,Persian Green,allow,"Fits; only Helm's Bed Lake is faint, as on Forever (David)"
+tbc,1426,Persian Green,allow,"Fits; only Helm's Bed Lake is faint, as on Forever (David)"
+wrath,1426,Persian Green,allow,"Fits; only Helm's Bed Lake is faint, as on Forever (David)"
+mists,378,Blizzard Polygon-blue,allow,"Only the open sea past the coast is faint; quests are on land (David)"
+mists,378,Deep Sky Blue,allow,"Only the open sea past the coast is faint; quests are on land (David)"
+mists,378,Navy Blue,allow,"Only the open sea past the coast is faint; quests are on land (David)"
