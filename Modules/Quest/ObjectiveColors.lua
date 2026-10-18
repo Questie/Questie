@@ -1,5 +1,6 @@
 ---Objective colors: one per objective, picked on first use so it stays visible in the zone where the player works
----on the objective and stands apart from the other objectives there, then saved for good.
+---on the objective and stands apart from the other objectives there, then saved for good. docs/objective-colors.md
+---explains the problem, how colors are measured and the decisions behind the pick.
 ---@class ObjectiveColors
 local ObjectiveColors = QuestieLoader:CreateModule("ObjectiveColors")
 
