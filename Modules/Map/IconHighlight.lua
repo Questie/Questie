@@ -1,11 +1,15 @@
 ---@class IconHighlight
 local IconHighlight = QuestieLoader:CreateModule("IconHighlight")
 
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 -- How hovering shows which map icons belong together. It is the same in every icon style and never
 -- changes an icon's color:
---  - A hovered icon grows, on either map. QuestieFrame starts and ends each icon hover here.
+--  - A hovered icon grows and draws in front of the icons around it, on either map. QuestieFrame
+--    starts and ends each icon hover here.
 --  - On the world map, its quest is in the spotlight while any hover of its objective icons lasts:
 --    the quest's objective icons show fully opaque with their glow ring grown, and other quests' dim.
 --    Quest givers, turn-ins and notes are a layer of their own, which the spotlight leaves as it is.
@@ -48,15 +52,25 @@ local marks = {}
 ---@type Spotlight?
 local spotlight
 
+---Sets how much the icon's picture and glow ring grow; nil puts them back. A grown picture draws in
+---front of the icons around it.
+---@param icon IconFrame
+---@param pictureScale number?
+---@param glowScale number?
+local function _Size(icon, pictureScale, glowScale)
+    local wasGrown = icon.pictureScale ~= nil
+    icon.pictureScale, icon.glowScale = pictureScale, glowScale
+    if (pictureScale ~= nil) ~= wasGrown then QuestieMap.utils.SetDrawOrder(icon) end
+    icon:GlowUpdate()
+end
+
 ---Grows the icon's picture while it is marked and its glow ring while it is marked or lit, and puts
 ---them back otherwise.
 ---@param icon IconFrame
 local function _UpdateSize(icon)
     local marked = marks[icon] ~= nil
     local spotlit = spotlight and spotlight.icons[icon]
-    icon.pictureScale = marked and GROWTH or nil
-    icon.glowScale = (marked or (spotlit and spotlit.lit)) and GLOW_GROWTH or nil
-    icon:GlowUpdate()
+    _Size(icon, marked and GROWTH or nil, (marked or (spotlit and spotlit.lit)) and GLOW_GROWTH or nil)
 end
 
 ---Sets the icon's opacity and its glow ring's with it, as a fade does.
@@ -180,6 +194,5 @@ end
 ---@param icon IconFrame
 function IconHighlight.Forget(icon)
     marks[icon] = nil
-    icon.pictureScale, icon.glowScale = nil, nil
-    icon:GlowUpdate()
+    _Size(icon, nil, nil)
 end
