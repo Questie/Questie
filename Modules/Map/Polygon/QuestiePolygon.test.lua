@@ -2,7 +2,7 @@ dofile("setupTests.lua")
 
 describe("QuestiePolygon world-map adapter", function()
     local Polygon, Geometry, QuestieMap, Player, FramePool, renderer, renderCache, map, quest, objective, frames, timers, savedGlobals, HBD, drawnShapes
-    local tickers, player, minimapLayer, minimapFrames, WorldMapLayers, layers, iconListeners
+    local tickers, player, minimapLayer, minimapFrames, WorldMapLayers, layers, iconListeners, previewListener
     -- GetTime's frame. The polygon budget is shared per frame, so every resume starts a new one.
     local frameNumber
 
@@ -112,6 +112,11 @@ describe("QuestiePolygon world-map adapter", function()
         WorldMapLayers.Invalidate = spy.new(function() end)
         WorldMapLayers.FrameLevel = function(name) return name == "areas" and 10 or nil end
         iconListeners = {}
+        previewListener = nil
+        QuestieLoader:ImportModule("MapPreview").Subscribe = function(listener)
+            assert.is_nil(previewListener, "subscribed twice to MapPreview")
+            previewListener = listener
+        end
         local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
         QuestieFrame.Subscribe = function(event, listener)
             assert.is_nil(iconListeners[event], "subscribed twice to " .. event)
@@ -1015,73 +1020,20 @@ describe("QuestiePolygon world-map adapter", function()
             Polygon.SetObjectivePreview(42, 1, true)
             FlushRefresh()
             assert.are.equal(1, #drawnShapes)
+            -- The areas alone are Polygon's: MapPreview hovers the markers.
+            assert.spy(QuestieLoader:ImportModule("QuestieFrame").ApplyHoverHighlights).was.not_called()
         end)
 
-        it("previews an objective as if each of its markers were hovered, ending each hover with its data", function()
-            objective.spawnList[123].Spawns[1] = {{10, 20}, {70, 80}}
-            Geometry.Build = function(points)
-                return {
-                    {uiMapId = 10, x = 10, y = 20, representative = points[1], outline = {{x = 10, y = 10}, {x = 20, y = 10}, {x = 10, y = 20}}},
-                    {uiMapId = 10, x = 70, y = 80, representative = points[2]},
-                }
-            end
-            Update()
-            local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
-            local first, second = frames[1], frames[2]
-            local secondData = second.data
-
-            Polygon.SetObjectivePreview(42, 1, true)
-            Polygon.SetObjectivePreview(42, 1, true)
-            assert.spy(QuestieFrame.ApplyHoverHighlights).was.called(2)
-            assert.are.equal(first, QuestieFrame.ApplyHoverHighlights.calls[1].refs[1])
-            assert.are.equal(second, QuestieFrame.ApplyHoverHighlights.calls[2].refs[1])
-
-            -- The pool hands the second marker out for other data before the preview ends.
-            second.data = {}
-            Polygon.SetObjectivePreview(42, 1, false)
-            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(2)
-            assert.are.equal(second, QuestieFrame.ResetHoverHighlights.calls[1].refs[1])
-            assert.are.equal(secondData, QuestieFrame.ResetHoverHighlights.calls[1].refs[2])
-            assert.are.equal(first, QuestieFrame.ResetHoverHighlights.calls[2].refs[1])
-            Polygon.SetObjectivePreview(42, 1, false)
-            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(2)
-        end)
-
-        it("ends a preview's hovers with its markers, though the control previewing them is still hovered", function()
-            Update()
-            local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
-            Polygon.SetObjectivePreview(42, 1, true)
-            -- The objective completes under the hovered tracker line.
-            Polygon.RemoveObjective(42, 1)
-            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
-            Polygon.SetObjectivePreview(42, 1, false)
-            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
-
-            -- Closing the map ends previews its hidden controls may never end, on the minimap too.
+        it("ends every preview as the map closes, whose hidden controls may never end it, on the minimap too", function()
             Update()
             Polygon.SetObjectivePreview(42, 1, true)
             minimapLayer.Invalidate:clear()
-            local reset = QuestieFrame.ResetHoverHighlights
-            QuestieFrame.ResetHoverHighlights = spy.new(function() end) -- Ending no marker hover redraws.
             map.provider:OnHide()
-            assert.spy(QuestieFrame.ResetHoverHighlights).was.called(1)
-            QuestieFrame.ResetHoverHighlights = reset
             assert.spy(minimapLayer.Invalidate).was.called()
             assert.are.same({}, minimapLayer.collect())
         end)
 
-        it("hovers the markers of an objective without areas, previewing no areas", function()
-            Geometry.Build = function(points)
-                return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}
-            end
-            Update()
-            Polygon.SetObjectivePreview(42, 1, true)
-            FlushRefresh()
-            assert.spy(QuestieLoader:ImportModule("QuestieFrame").ApplyHoverHighlights).was.called(1)
-            assert.are.same({}, drawnShapes)
-        end)
-
-        it("previews every objective of a quest", function()
+        it("previews what each MapPreview previews: one objective, or every objective of a quest", function()
             local second = {Index = 2, Type = "item", Description = "Fang", Needed = 2, Collected = 1, Color = {0, 1, 0},
                 spawnList = objective.spawnList}
             quest.Objectives[2] = second
@@ -1089,10 +1041,14 @@ describe("QuestiePolygon world-map adapter", function()
             local thread = coroutine.create(function() Polygon.UpdateObjective(quest, second, 2) end)
             assert.is_true(coroutine.resume(thread))
 
-            Polygon.SetQuestPreview(42, true)
+            previewListener(42, 2, true)
+            FlushRefresh()
+            assert.are.same({{0, 1, 0}}, {{drawnShapes[1].color[1], drawnShapes[1].color[2], drawnShapes[1].color[3]}})
+            previewListener(42, 2, false)
+            previewListener(42, nil, true)
             FlushRefresh()
             assert.are.equal(2, #drawnShapes)
-            Polygon.SetQuestPreview(42, false)
+            previewListener(42, nil, false)
             FlushRefresh()
             assert.are.same({}, drawnShapes)
         end)

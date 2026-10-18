@@ -4,6 +4,8 @@ local PolygonQuestLogForever = QuestieLoader:CreateModule("PolygonQuestLogForeve
 
 ---@type QuestiePolygon
 local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+---@type MapPreview
+local MapPreview = QuestieLoader:ImportModule("MapPreview")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -43,20 +45,20 @@ local function _ShowTooltip(box)
     GameTooltip:Show()
 end
 
--- Hovering previews the objective on the map, like hovering its marker. The previewed identity is
--- captured because a quest log rebuild can reassign this pooled box meanwhile; the preview ends when
+-- Hovering previews the objective on the maps, as the tracker does. The box keeps the preview it
+-- started because a quest log rebuild can reassign this pooled box meanwhile; the preview ends when
 -- the cursor leaves or the box hides, whichever comes first.
 local function _EndPreview(box)
-    if box.previewQuestId then
-        QuestiePolygon.SetObjectivePreview(box.previewQuestId, box.previewIndex, false)
-        box.previewQuestId, box.previewIndex = nil, nil
+    local preview = box.mapPreview
+    if preview then
+        box.mapPreview = nil
+        MapPreview.End(preview)
     end
 end
 
 local function _OnEnter(box)
     _EndPreview(box)
-    box.previewQuestId, box.previewIndex = box.questId, box.objectiveIndex
-    QuestiePolygon.SetObjectivePreview(box.questId, box.objectiveIndex, true)
+    box.mapPreview = MapPreview.Start(box.questId, box.objectiveIndex)
     _ShowTooltip(box)
 end
 

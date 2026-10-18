@@ -2,11 +2,11 @@ dofile("setupTests.lua")
 
 describe("PolygonQuestLogForever", function()
     local QuestLog, Polygon, savedGlobals, savedPolygon, hooks, titles, rows, leaderboards, objectiveStates, tooltip
-    local markers, enabled, eventFrame
+    local markers, enabled, eventFrame, MapPreview, savedPreview, started, ended
     local GLOBALS = {"CreateFrame", "hooksecurefunc", "QuestScrollFrame", "GetNumQuestLeaderBoards", "GetQuestLogLeaderBoard",
         "PlaySound", "SOUNDKIT", "GameTooltip", "IsShiftKeyDown", "C_Timer"}
-    local POLYGON_API = {"RegisterVisibilityCallback", "GetObjectiveAreaState", "SetObjectiveAreaShown", "SetObjectivePreview",
-        "SetQuestAreasShown", "IsEnabled"}
+    local POLYGON_API = {"RegisterVisibilityCallback", "GetObjectiveAreaState", "SetObjectiveAreaShown", "SetQuestAreasShown",
+        "IsEnabled"}
 
     local function Texture()
         local texture = {shown = true}
@@ -97,8 +97,16 @@ describe("PolygonQuestLogForever", function()
             if state then return state[1], state[2] end
         end
         Polygon.SetObjectiveAreaShown = spy.new(function() end)
-        Polygon.SetObjectivePreview = spy.new(function() end)
         Polygon.SetQuestAreasShown = spy.new(function() end)
+        MapPreview = QuestieLoader:ImportModule("MapPreview")
+        savedPreview = {start = MapPreview.Start, finish = MapPreview.End}
+        started, ended = {}, {}
+        MapPreview.Start = function(questId, objectiveIndex)
+            local preview = {questId = questId, objectiveIndex = objectiveIndex}
+            started[#started + 1] = preview
+            return preview
+        end
+        MapPreview.End = function(preview) ended[#ended + 1] = preview end
         dofile("Modules/Map/Polygon/PolygonQuestLogForever.lua")
         QuestLog = QuestieLoader:ImportModule("PolygonQuestLogForever")
     end)
@@ -107,6 +115,7 @@ describe("PolygonQuestLogForever", function()
         -- Explicit lists also restore globals and API functions that started out nil.
         for _, name in ipairs(GLOBALS) do _G[name] = savedGlobals[name] end
         for _, name in ipairs(POLYGON_API) do Polygon[name] = savedPolygon[name] end
+        MapPreview.Start, MapPreview.End = savedPreview.start, savedPreview.finish
     end)
 
     it("refreshes after Blizzard's quest log rebuild and after area visibility changes", function()
@@ -223,7 +232,7 @@ describe("PolygonQuestLogForever", function()
         local box = rows[1].QuestiePolygonAreaBox
 
         box.scripts.OnEnter(box)
-        assert.spy(Polygon.SetObjectivePreview).was.called_with(7, 1, true)
+        assert.are.same({{questId = 7, objectiveIndex = 1}}, started)
         assert.are.equal("Click to hide this objective's areas on the map.", tooltip.text)
         assert.are.equal("Shift-click to apply this to the whole quest.", tooltip.hint)
 
@@ -231,8 +240,7 @@ describe("PolygonQuestLogForever", function()
         QuestLog.Update()
         assert.are.equal(2, box.objectiveIndex)
         box.scripts.OnLeave(box)
-        assert.spy(Polygon.SetObjectivePreview).was.called_with(7, 1, false)
-        assert.spy(Polygon.SetObjectivePreview).was_not.called_with(7, 2, false)
+        assert.are.same({started[1]}, ended)
         assert.is_true(tooltip.hidden)
     end)
 
@@ -246,8 +254,8 @@ describe("PolygonQuestLogForever", function()
 
         box.scripts.OnEnter(box)
         box.scripts.OnHide(box)
-        assert.spy(Polygon.SetObjectivePreview).was.called_with(7, 1, false)
+        assert.are.same({started[1]}, ended)
         box.scripts.OnLeave(box)
-        assert.spy(Polygon.SetObjectivePreview).was.called(2)
+        assert.are.equal(1, #ended)
     end)
 end)

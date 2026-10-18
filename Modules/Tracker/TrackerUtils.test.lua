@@ -252,6 +252,7 @@ describe("TrackerUtils", function()
             WorldMapLayers.AddLayer, WorldMapLayers.Invalidate = function() end, function() end
             WorldMapLayers.FrameLevel = function() return 10 end
             QuestieLoader:ImportModule("QuestieFrame").Subscribe = function() end
+            QuestieLoader:ImportModule("MapPreview").Subscribe = function() end
             dofile("Modules/Map/Polygon/PolygonGeometry.lua")
             QuestieLoader:ImportModule("PolygonGeometry").Build = function(points)
                 return {{uiMapId = 10, x = 10, y = 20, representative = points[1]}}

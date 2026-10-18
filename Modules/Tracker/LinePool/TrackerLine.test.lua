@@ -61,22 +61,26 @@ describe("TrackerLine untrack click", function()
         _G.ChatEdit_InsertLink = originals.ChatEdit_InsertLink
     end)
 
-    describe("objective area preview", function()
-        local Polygon, FadeTicker, saved, line
+    describe("map preview", function()
+        local MapPreview, FadeTicker, saved, line, started, ended
 
         before_each(function()
-            Polygon, FadeTicker = QuestieLoader:ImportModule("QuestiePolygon"), QuestieLoader:ImportModule("TrackerFadeTicker")
-            saved = {preview = Polygon.SetObjectivePreview, questPreview = Polygon.SetQuestPreview, unfade = FadeTicker.Unfade,
-                fade = FadeTicker.Fade}
-            Polygon.SetObjectivePreview = spy.new(function() end)
-            Polygon.SetQuestPreview = spy.new(function() end)
+            MapPreview, FadeTicker = QuestieLoader:ImportModule("MapPreview"), QuestieLoader:ImportModule("TrackerFadeTicker")
+            saved = {start = MapPreview.Start, finish = MapPreview.End, unfade = FadeTicker.Unfade, fade = FadeTicker.Fade}
+            started, ended = {}, {}
+            MapPreview.Start = function(questId, objectiveIndex)
+                local preview = {questId = questId, objectiveIndex = objectiveIndex}
+                started[#started + 1] = preview
+                return preview
+            end
+            MapPreview.End = function(preview) ended[#ended + 1] = preview end
             FadeTicker.Unfade, FadeTicker.Fade = function() end, function() end
             line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
             line.mode = "objective"
         end)
 
         after_each(function()
-            Polygon.SetObjectivePreview, Polygon.SetQuestPreview = saved.preview, saved.questPreview
+            MapPreview.Start, MapPreview.End = saved.start, saved.finish
             FadeTicker.Unfade, FadeTicker.Fade = saved.unfade, saved.fade
         end)
 
@@ -84,26 +88,26 @@ describe("TrackerLine untrack click", function()
             line:SetQuest({Id = 42})
             line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
             line.scripts.OnEnter(line)
-            assert.spy(Polygon.SetObjectivePreview).was.called_with(42, 3, true)
+            assert.are.same({{questId = 42, objectiveIndex = 3}}, started)
 
             -- A tracker rebuild reassigns the pooled line before the cursor leaves.
             line:SetQuest({Id = 99})
             line:SetObjective({Index = 1, NativeIndex = 1, questId = 99})
             line.scripts.OnLeave(line)
-            assert.spy(Polygon.SetObjectivePreview).was.called_with(42, 3, false)
-            assert.spy(Polygon.SetObjectivePreview).was.called(2)
+            assert.are.same({started[1]}, ended)
+            line.scripts.OnLeave(line)
+            assert.are.equal(1, #ended)
         end)
 
         it("previews a hovered quest title's every objective until the cursor leaves", function()
             line.mode = "quest"
             line:SetQuest({Id = 42})
             line.scripts.OnEnter(line)
-            assert.spy(Polygon.SetQuestPreview).was.called_with(42, true)
+            assert.are.same({{questId = 42}}, started)
 
             line:SetQuest({Id = 99})
             line.scripts.OnLeave(line)
-            assert.spy(Polygon.SetQuestPreview).was.called_with(42, false)
-            assert.spy(Polygon.SetObjectivePreview).was.not_called()
+            assert.are.same({started[1]}, ended)
         end)
 
         it("ends an earlier preview a missed OnLeave left before starting the next", function()
@@ -111,8 +115,8 @@ describe("TrackerLine untrack click", function()
             line:SetObjective({Index = 1, NativeIndex = 3, questId = 42})
             line.scripts.OnEnter(line)
             line.scripts.OnEnter(line)
-            assert.spy(Polygon.SetObjectivePreview).was.called_with(42, 3, false)
-            assert.spy(Polygon.SetObjectivePreview).was.called(3)
+            assert.are.equal(2, #started)
+            assert.are.same({started[1]}, ended)
         end)
 
         it("does not preview achievement or scenario lines", function()
@@ -122,7 +126,7 @@ describe("TrackerLine untrack click", function()
             line:SetObjective({Index = 1}) -- Scenario criteria belong to no quest.
             line.scripts.OnEnter(line)
             line.scripts.OnLeave(line)
-            assert.spy(Polygon.SetObjectivePreview).was.not_called()
+            assert.are.same({}, started)
         end)
     end)
 

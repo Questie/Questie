@@ -23,7 +23,6 @@ local ENTRY_POINTS = {
         QuestieWaypoints = "Show on Map shows only the flashed objective's paths",
         QuestiePolygon = "Show on Map flashes the objective's markers",
     },
-    ["Modules/Tracker/LinePool/TrackerLine.lua"] = {QuestiePolygon = "hovering an objective or a quest title previews it"},
     ["Modules/Tooltips/MapIconTooltip.lua"] = {
         QuestiePolygon = "objective lines start with their area colour; icons list the areas beneath them; markers hint their click",
     },
