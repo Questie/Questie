@@ -27,27 +27,36 @@ repository from their own path, so the folder is only for short commands.
 uv run colorcontrast.py                    # analyze every zone; review output/forever/
 uv run colorcontrast.py --zones 1426 1413  # just these zones, for quick tuning
 uv run colorcontrast.py --write-addon      # full run that also writes the shipped data
-uv run --no-project --with numpy --with pillow --with pytest python -m pytest tests
+uv run --no-project --with numpy==2.5.4 --with pillow==13.0.0 --with pytest python -m pytest tests
 ```
+
+The scripts pin numpy and Pillow: their random draws and resampling decide terrains and cells, so other versions
+could shift the shipped bans.
 
 `--write-addon` refuses any run that would ship partial or unchecked data:
 
 - a subset run (`--zones`), which would drop every other zone's bans;
-- uncalibrated scores (no `calibration.json`, or `--fill-min`);
-- zones the client has but whose art was never prepared (the run lists them);
-- overlay tiles missing for a zone, which leaves part of its ground unmeasured.
+- uncalibrated scores (no `calibration.json`, or `--fill-min`), or terrain settings other than the calibrated
+  defaults (`--percentile`, `--clusters`, `--merge-distance`);
+- outdoor zones the client has but whose art was never prepared. The run lists them; `skip_zones` in `FLAVORS`
+  names the ones skipped on purpose, such as capitals;
+- ground a zone's assets don't cover: overlays without tiles, missing map art tiles, or ground without minimap
+  tiles.
 
-After writing the file, run Questie's tests: `ObjectiveColors.test.lua` checks the shipped data against the
-palette.
+The shipped file bans colors by name and records which TOCs load it, each color's sRGB and the blob opacity. After
+writing it, run Questie's tests: `ObjectiveColors.test.lua` checks all three against the live TOCs, palette and
+`PolygonMinimap.lua`.
 
 ## Workflows
 
 ### New zones in a client
 
-1. Prepare the new zones' assets in wow-lua-emulator (map tiles, overlays, explored maps, minimap tiles) and
-   recapture the flavor's zone rects from the live client (`maps_json` in `FLAVORS`; Forever's is
-   `data/maps-forever-1.60.1.json`). The tool picks up every outdoor zone (UiMap type 3) that has explored art,
-   and names the ones that still lack it.
+1. Prepare the new zones' assets in wow-lua-emulator (map tiles, overlays, explored maps, minimap tiles).
+   Recapture the flavor's zone rects from the live client (`maps_json` in `FLAVORS`; Forever's is
+   `data/maps-forever-1.60.1.json`), and fetch the client build's db2 tables into a new folder, pointing `db2` in
+   `FLAVORS` at it. The emulator composes explored art from the same db2 tables, so a new zone needs both. The tool
+   picks up every outdoor zone (UiMap type 3) that has explored art, names the ones that still lack it, and stops
+   on a zone its db2 tables don't know.
 2. Run `colorcontrast.py` and review the new zones' sheets in `output/<flavor>/zones/`.
 3. Settle disagreements in `overrides.csv` (see below), if any.
 4. Run `colorcontrast.py --write-addon`, then Questie's tests.
@@ -58,13 +67,13 @@ Calibration).
 
 ### Retiring or restoring a palette color
 
-1. Comment the entry out in `ObjectiveColors.lua`'s `PALETTE`, or back in. Removing an entry renumbers the
-   colors after it. Saved colors hold indexes, so once saved colors have shipped, this needs a migration per
-   character.
-2. Update the pinned palette in `ObjectiveColors.test.lua`.
-3. Remove `overrides.csv` rows that name a retired color; the run stops on them.
-4. Run `colorcontrast.py --write-addon`. Until then, Questie ignores the stale bans (they name the palette they
-   were measured against, and Questie warns once), and `ObjectiveColors.test.lua` fails.
+1. Comment the entry out in `ObjectiveColors.lua`'s `PALETTE`, or back in. Questie saves and bans colors by
+   name, so this recolors no other objective. Objectives saved with a retired color get a new one. Renaming a
+   color counts as retiring it.
+2. Remove `overrides.csv` rows that name a retired color; the run stops on them.
+3. Run `colorcontrast.py --write-addon`. Until then, the shipped bans of a retired color are simply skipped, and
+   `ObjectiveColors.test.lua` fails, because the file's measured colors no longer match the palette. The same
+   happens after changing a color's sRGB or the blob opacity.
 
 `banned.lua` in the output starts with how many zones ban each color. It's the number to watch for retirement;
 the tool never retires anything itself.
@@ -83,14 +92,22 @@ uv run calibration.py cells        # draw the cells' pictures (serve and fit do 
   - Each color gets three cells, aimed at 0.85×, 1× and 1.25× the fitted faint threshold, where bans are decided.
   - Cells come from the flavor's least-used zones and never repeat an earlier cell.
   - `--skip-colors` leaves out colors being retired. Indexes refer to the current palette.
+  - A session keeps one cell size and blob opacity, so every cell can be redrawn as it was rated. `--add` refuses
+    when either has changed; start a new session then.
   - `prepare` without `--add` starts a new session from Forever's zones, and only with `--force`, which discards
     the ratings.
-- **serve** shows one cell at a time at in-game pixel size, with no scores or color names, in shuffled order.
-  Press **1** for clear, **2** for hard but works, **3** for too faint, and Backspace to go back. Every keypress
-  is saved, so you can stop and resume. Eight cells per round come back a second time to measure consistency.
+- **serve** draws every cell's picture anew, then shows one cell at a time at in-game pixel size, with no scores
+  or color names, in shuffled order.
+  - Press **1** for clear, **2** for hard but works, **3** for too faint, and Backspace to go back.
+  - A held key rates nothing, and input waits until a rating is saved and the next picture has loaded.
+  - Every keypress is saved, so you can stop and resume.
+  - Eight cells per round come back at least 15 cells later, to measure consistency.
+  - The server listens on this machine only and takes ratings only from its own page.
 - **fit** fits the score weights and per-view thresholds to every rating, in about two minutes.
   - It reports agreement with your ratings, on held-out cells too, and how consistent the repeats were.
-  - `output/calibration-misfits.jpg` shows the cells it rates differently from you.
+  - It warns when a view has no "too faint" rating, since that view's threshold could then ban nothing.
+  - It writes `calibration.json` first, then `output/calibration-misfits.jpg` with the cells it rates differently
+    from you.
   - Then rerun `colorcontrast.py --write-addon`.
 
 So far, held-out agreement (75%) sits close to the raters' own repeat consistency (81%). Extra model terms
@@ -111,20 +128,22 @@ the fit keeps scoring the pixels that were rated.
 
 ### Adding a flavor (MoP is next)
 
-Measuring MoP covers nearly every zone Era, TBC, WotLK and Cata players see. Steps:
+MoP's zones match the Cata and MoP clients: the same UiMapIds and the same, post-Cataclysm art. Era, TBC and Wrath
+draw Kalimdor and Eastern Kingdoms in the older art, and TBC Classic numbers Outland differently, so MoP data must
+not be listed in their TOCs. Steps:
 
-1. Prepare the client's assets with wow-lua-emulator's tools from its own build. The minimap needs every
-   continent the zones sit on (Eastern Kingdoms, Kalimdor, Outland, Northrend, Pandaria and so on), so extend
-   `CONTINENTS` in `fetch_minimaps.py`. Fetch its db2 tables too.
-2. Add a `Flavor` to `FLAVORS` in `sources.py`: its key, the data file name, the TOC that loads it, and the asset
-   paths.
+1. Prepare the client's assets with wow-lua-emulator's tools from its own build, **in an asset folder of its own**.
+   Clients share continent IDs (0 and 1) but not their minimap tiles, and the emulator's tools skip tiles that
+   already exist, so a shared folder would mix the clients' ground. The minimap needs every continent the zones sit
+   on (Eastern Kingdoms, Kalimdor, Outland, Northrend, Pandaria and so on), so extend `CONTINENTS` in
+   `fetch_minimaps.py`. Fetch its db2 tables too.
+2. Add a `Flavor` to `FLAVORS` in `sources.py`: its key, the data file name, the TOCs that load it
+   (`Questie_Cata.toc`, `Questie_Mists.toc`), its own asset paths, and the zones to skip on purpose.
 3. Run `colorcontrast.py --flavor mists`, review the sheets, and consider a rating round
    (`prepare --add --flavor mists`) for ground the ratings never covered.
-4. Run `--write-addon` and list the new data file in the TOCs it applies to, after `ObjectiveColors.lua`.
-   - A TOC may load several data files, and their bans combine.
-   - UiMapIds differ between clients: Cata and MoP renumbered the revamped zones, and TBC Classic numbers Outland
-     differently. A data file only helps a client that uses the same UiMapIds and similar art, so check before
-     listing it.
+4. Run `--write-addon` and list the new data file in its TOCs, after `ObjectiveColors.lua`.
+   `ObjectiveColors.test.lua` checks that exactly those TOCs load it; extend its shipped-data tests to the new
+   file.
 
 ## How a color gets banned
 
@@ -142,8 +161,8 @@ For each zone and each view (world map, minimap):
 4. **Verdict.** A color is banned in a zone when it is too faint on at least `--max-faint-share` (20%) of the
    zone's ground in either view.
 5. **Overrides.** `overrides.csv` (`flavor,ui_map_id,color,verdict,note`, verdict `allow` or `ban`) settles single
-   cases by hand. It names colors instead of indexing them, because retiring entries renumbers the rest. If you
-   need more than a handful, the model is missing something.
+   cases by hand, by color name like everything else. A color or zone the flavor doesn't have stops the run. If
+   you need more than a handful, the model is missing something.
 
 The weights and thresholds come from `calibration.json`. Without it, scores are unweighted and the faint threshold
 is 4.5 on both views; `--fill-min` replaces it.

@@ -5,9 +5,14 @@ Run from the tool folder:
   uv run --no-project --with numpy --with pillow --with pytest python -m pytest tests
 """
 
+import json
 import subprocess
 import sys
+import urllib.error
+import urllib.request
+from http.server import ThreadingHTTPServer
 from pathlib import Path
+from threading import Thread
 
 import numpy as np
 import pytest
@@ -16,7 +21,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import calibration  # noqa: E402
 import colorcontrast as cc  # noqa: E402
 import report  # noqa: E402
-from sources import FLAVORS, PaletteColor, Zone, minimap_tile, read_named_colors, read_palette  # noqa: E402
+from sources import (  # noqa: E402
+    FLAVORS, Flavor, PaletteColor, Zone, minimap_tile, read_named_colors, read_palette, unmeasured_zones,
+)
 
 FOREVER = FLAVORS["forever"]
 
@@ -92,12 +99,57 @@ def test_overrides_apply_per_flavor_by_color_name(tmp_path):
         cc.read_overrides(palette, FOREVER, {1426}, path)
 
 
-@pytest.mark.parametrize("arguments", [["--zones", "1426", "--write-addon"], ["--fill-min", "4", "--write-addon"]])
-def test_write_addon_refuses_runs_that_would_ship_partial_or_uncalibrated_data(arguments):
-    script = Path(cc.__file__)
-    result = subprocess.run([sys.executable, str(script), *arguments], capture_output=True, text=True)
-    assert result.returncode != 0
-    assert "--write-addon needs" in result.stderr
+@pytest.mark.parametrize("arguments", [
+    ["--zones", "1426"], ["--fill-min", "4"], ["--percentile", "40"], ["--clusters", "8"], ["--merge-distance", "3"],
+])
+def test_write_addon_refuses_runs_that_would_ship_partial_or_uncalibrated_data(arguments, monkeypatch):
+    # In process, with every way to reach the data or write it stubbed out: a broken guard fails this test instead
+    # of overwriting the shipped file.
+    def must_not_run(*_args, **_kwargs):
+        raise AssertionError("the guard let the run through")
+    monkeypatch.setattr(cc, "read_zones", must_not_run)
+    monkeypatch.setattr(report, "write_addon_bans", must_not_run)
+    monkeypatch.setattr(sys, "argv", ["colorcontrast.py", "--write-addon", *arguments])
+    with pytest.raises(SystemExit, match="--write-addon needs"):
+        cc.main()
+
+
+def test_unmeasured_zones_name_outdoor_maps_without_art_unless_skipped(tmp_path):
+    maps = tmp_path / "maps.json"
+    maps.write_text('{"maps": {"1": {"id": 1, "type": 3, "name": "Measured"}, "2": {"id": 2, "type": 3, "name": "New"},'
+                    ' "3": {"id": 3, "type": 3, "name": "Capital"}, "4": {"id": 4, "type": 2, "name": "Continent"}}}')
+    (tmp_path / "explored" / "1").mkdir(parents=True)
+    flavor = Flavor("test", "Test", (), maps, tmp_path / "explored", tmp_path, tmp_path, tmp_path,
+                    skip_zones=((3, "capital"),))
+    assert unmeasured_zones(flavor) == [(2, "New")]
+
+
+def test_rating_server_takes_ratings_only_from_its_own_page(tmp_path, monkeypatch):
+    monkeypatch.setattr(calibration, "RATINGS", tmp_path)
+    calibration._RatingHandler.manifest = {"order": ["c01"], "cells": []}
+    server = ThreadingHTTPServer(("127.0.0.1", 0), calibration._RatingHandler)
+    Thread(target=server.serve_forever, daemon=True).start()
+    port = server.server_port
+
+    def post(body, origin=None, content_type="application/json", host=None):
+        headers = {"Content-Type": content_type, **({"Origin": origin} if origin else {}),
+                   **({"Host": host} if host else {})}
+        request = urllib.request.Request(f"http://127.0.0.1:{port}/api/rate", json.dumps(body).encode(), headers)
+        try:
+            return urllib.request.urlopen(request).status
+        except urllib.error.HTTPError as error:
+            return error.code
+
+    try:
+        assert post({"key": "c01", "rating": 2}, origin="http://evil.example") == 403
+        assert post({"key": "c01", "rating": 2}, content_type="text/plain") == 403
+        assert post({"key": "c01", "rating": 2}, host=f"evil.example:{port}") == 403  # DNS rebinding
+        assert post({"key": "c01", "rating": True}) == 400  # a JSON true is not the rating 1
+        assert post({"key": "c99", "rating": 2}) == 400
+        assert post({"key": "c01", "rating": 3}, origin=f"http://127.0.0.1:{port}") == 200
+    finally:
+        server.shutdown()
+    assert [json.loads(line)["rating"] for line in (tmp_path / "judgments.jsonl").read_text().splitlines()] == [3]
 
 
 def test_session_keys_keep_flavors_apart_where_zone_ids_collide():
@@ -115,13 +167,13 @@ def test_addon_data_wraps_long_ban_lists_into_valid_lua(tmp_path):
     zone = Zone(FOREVER, 1426, "Dun Morogh", 0, 0, 0, 0, 0)
     path = tmp_path / "Long.lua"
     report.write_addon_bans([cc.ZoneResult(zone, [], {}, set(range(1, 41)), {})], palette,
-                            cc.load_settings(4.5, 0.2, 50, 6, 5), FOREVER, path)
+                            cc.load_settings(4.5, 0.2, 50, 6, 5), FOREVER, (0.25, 0.75), path)
 
     assert all(len(line) <= report.LUA_LINE_LIMIT for line in path.read_text().splitlines())
-    stub = ('QuestieLoader = {ImportModule = function() return {AddBans = function(_, data) '
-            'print(#data.byUiMapId[1426], data.byUiMapId[1426][40]) end} end}')
+    stub = ('QuestieLoader = {ImportModule = function() return {AddBans = function(data) '
+            'print(#data.byUiMapId[1426], (data.byUiMapId[1426][40]:gsub(" ", "_"))) end} end}')
     output = subprocess.run(["lua", "-e", stub, str(path)], capture_output=True, text=True, check=True).stdout
-    assert output.split() == ["40", "40"]
+    assert output.split() == ["40", "Color_40"]
 
 
 def test_addon_data_registers_valid_lua_with_the_palette(tmp_path):
@@ -132,13 +184,14 @@ def test_addon_data_registers_valid_lua_with_the_palette(tmp_path):
     results = [cc.ZoneResult(zone, [], {}, {3, 1}, {}), cc.ZoneResult(quiet, [], {}, set(), {})]
     settings = cc.load_settings(4.5, 0.2, 50, 6, 5)
     path = tmp_path / "Test.lua"
-    report.write_addon_bans(results, palette, settings, FOREVER, path)
+    report.write_addon_bans(results, palette, settings, FOREVER, (0.25, 0.75), path)
 
     assert all(len(line) <= report.LUA_LINE_LIMIT for line in path.read_text().splitlines())
     # Run it against a stub ObjectiveColors that prints what it registers.
-    stub = ('QuestieLoader = {ImportModule = function() return {AddBans = function(source, data) '
+    stub = ('QuestieLoader = {ImportModule = function() return {AddBans = function(data) '
             'local zones = {} for id in pairs(data.byUiMapId) do zones[#zones + 1] = id end '
-            'print(source, table.concat(data.paletteNames, ","), table.concat(zones, ","), '
+            'print(table.concat(data.tocs, ","), table.concat(data.measuredOpacity, ","), '
+            'table.concat(data.measuredColors.Scarlet, ","), table.concat(zones, ","), '
             'table.concat(data.byUiMapId[1426], ",")) end} end}')
     output = subprocess.run(["lua", "-e", stub, str(path)], capture_output=True, text=True, check=True).stdout
-    assert output.split() == ["Forever", "Lime,Aqua,Scarlet", "1426", "1,3"]
+    assert output.split() == ["Questie_Camelot.toc", "0.25,0.75", "255,38,0", "1426", "Lime,Scarlet"]

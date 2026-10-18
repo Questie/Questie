@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["numpy", "pillow"]
+# dependencies = ["numpy==2.5.4", "pillow==13.0.0"]  # pinned: random draws and resampling shape the cells
 # ///
 """Fits colorcontrast.py's score weights and thresholds to a person's visibility ratings.
 
@@ -10,7 +10,7 @@
   serve    a local rating page: one cell at a time, keys 1 clear, 2 hard but works, 3 too faint
   fit      fits per-axis weights and per-view thresholds to the ratings, checks them on held-out ratings, and
            writes calibration.json (read by colorcontrast.py) and output/calibration-misfits.jpg
-  cells    draws the cells' pictures again from the zones' art (serve and fit draw missing ones themselves)
+  cells    draws the cells' pictures from the zones' art (serve and fit draw them all anew themselves)
 
 The page hides scores and color names and shuffles the cells; about 10% come back later, which measures how
 consistent the ratings are. A rating judges the ground under the blob's fill in that one cell, so the fit scores
@@ -84,6 +84,7 @@ TARGETS = (3.5, 5.0, 7.0)
 # A later round aims at the fitted faint threshold instead (as multiples of it), where bans are decided.
 ADDED_ROUND_TARGETS = (0.85, 1.0, 1.25)
 REPEATS = 8
+REPEAT_GAP = 15  # a repeat comes back at least this many cells after its first showing
 # Weightings a cell is scored under: their mean places it, their disagreement breaks ties, since cells the
 # weightings disagree on are the ones that tell the weights apart.
 VARIANTS = [cc.Weights(), cc.Weights(blue=0.5), cc.Weights(yellow=0.5), cc.Weights(lightness=0.5)]
@@ -129,22 +130,22 @@ def _interior_ground(crop: Image.Image) -> np.ndarray:
 
 # Cell pictures
 
-def _cell_picture(crop: Image.Image, rgb, opacity: tuple[float, float]) -> Image.Image:
+def _cell_picture(crop: Image.Image, rgb, opacity: tuple[float, float], size: int = CELL_SIZE) -> Image.Image:
     """A rating cell: the bare crop with the color's blob on it, drawn exactly as the review sheets draw it."""
-    blob = report.blob_layer(tuple(rgb), opacity, CELL_SIZE)
+    blob = report.blob_layer(tuple(rgb), opacity, size)
     return Image.alpha_composite(crop.convert("RGBA"), blob).convert("RGB")
 
 
-def _draw_zone_cells(job: tuple[str, int, list[dict], tuple[float, float]]) -> int:
+def _draw_zone_cells(job: tuple[str, int, list[dict], tuple[float, float], int]) -> int:
     """Draws one zone's cells from its art and minimap at their saved positions; returns how many."""
-    flavor_key, zone_id, cells, opacity = job
+    flavor_key, zone_id, cells, opacity, size = job
     zone = next(z for z in read_zones(FLAVORS[flavor_key]) if z.ui_map_id == zone_id)
     art = read_map_art(zone) if any(cell["view"] == "map" for cell in cells) else None
     minimap = Minimap(zone) if any(cell["view"] == "minimap" for cell in cells) else None
     for cell in cells:
         spot = SimpleNamespace(view=cell["view"], spot=tuple(cell["position"]))
-        crop = report.bare_crop(spot, zone, art, minimap, CELL_SIZE)
-        _cell_picture(crop, cell["rgb"], opacity).save(RATINGS / "cells" / f"{cell['id']}.png")
+        crop = report.bare_crop(spot, zone, art, minimap, size)
+        _cell_picture(crop, cell["rgb"], opacity, size).save(RATINGS / "cells" / f"{cell['id']}.png")
     return len(cells)
 
 
@@ -163,8 +164,9 @@ def draw_cells(manifest: dict, redraw: bool = False) -> int:
             by_zone.setdefault((cell["flavor"], cell["ui_map_id"]), []).append(cell)
     if not by_zone:
         return 0
-    opacity = tuple(manifest["opacity"])
-    jobs = [(flavor, zone_id, cells, opacity) for (flavor, zone_id), cells in by_zone.items()]
+    # The session's own size and opacity, whatever CELL_SIZE and PolygonMinimap say today.
+    opacity, size = tuple(manifest["opacity"]), manifest["size"]
+    jobs = [(flavor, zone_id, cells, opacity, size) for (flavor, zone_id), cells in by_zone.items()]
     with ProcessPoolExecutor(max_workers=8) as pool:
         return sum(pool.map(_draw_zone_cells, jobs))
 
@@ -237,6 +239,10 @@ def prepare(force: bool, add: bool, skip: set[int], flavor_key: str) -> None:
         if not cc.CALIBRATION.exists():
             raise SystemExit("--add aims at the fitted thresholds; run fit first")
         manifest = json.loads((RATINGS / "manifest.json").read_text(encoding="utf-8"))
+        # One opacity and cell size per session, so every cell can be redrawn the way it was rated.
+        if manifest["size"] != CELL_SIZE or list(manifest["opacity"]) != [fill_alpha, border_alpha]:
+            raise SystemExit(f"the session was rated at cell size {manifest['size']} and blob opacity "
+                             f"{manifest['opacity']}; start a new session (--force) to rate at the current ones")
         calibration = json.loads(cc.CALIBRATION.read_text(encoding="utf-8"))
         placing = [cc.Weights(**calibration["weights"])]
         faint = sum(view["faint"] for view in calibration["thresholds"].values()) / 2
@@ -303,9 +309,10 @@ def prepare(force: bool, add: bool, skip: set[int], flavor_key: str) -> None:
     # Shuffled order after earlier rounds; repeats come back at least 15 cells after their first showing
     order = [cell["id"] for cell in cells]
     rng.shuffle(order)
-    for cell_id in rng.choice([cell["id"] for cell in cells], min(REPEATS, len(cells)), replace=False):
+    early = order[:max(0, len(order) - REPEAT_GAP)]
+    for cell_id in rng.choice(early, min(REPEATS, len(early)), replace=False):
         first = order.index(cell_id)
-        position = int(rng.integers(min(first + 15, len(order)), len(order) + 1))
+        position = int(rng.integers(first + REPEAT_GAP, len(order) + 1))
         order.insert(position, f"{cell_id}r")
 
     manifest["cells"] += cells
@@ -357,13 +364,24 @@ class _RatingHandler(BaseHTTPRequestHandler):
         else:
             self._send(404, b"not found", "text/plain")
 
+    def _from_own_page(self) -> bool:
+        """Whether a request comes from the rating page itself: addressed to this machine, and either without an
+        Origin or from this server's own. Keeps other web pages (and DNS rebinding) from posting ratings."""
+        host = self.headers.get("Host", "").rsplit(":", 1)[0]
+        origin = self.headers.get("Origin")
+        own = {f"http://{name}:{self.server.server_port}" for name in ("localhost", "127.0.0.1")}
+        return host in ("localhost", "127.0.0.1") and (origin is None or origin in own)
+
     def do_POST(self) -> None:
         if self.path != "/api/rate":
             self._send(404, b"not found", "text/plain")
             return
+        if not self._from_own_page() or self.headers.get("Content-Type") != "application/json":
+            self._send(403, b"ratings come from the rating page only", "text/plain")
+            return
         body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
         key, rating = body.get("key"), body.get("rating")
-        if key not in self.manifest["order"] or rating not in (1, 2, 3):
+        if key not in self.manifest["order"] or type(rating) is not int or rating not in (1, 2, 3):
             self._send(400, b"bad rating", "text/plain")
             return
         entry = {"key": key, "cell": key.rstrip("r"), "rating": rating, "time": time.strftime("%Y-%m-%dT%H:%M:%S")}
@@ -375,15 +393,16 @@ class _RatingHandler(BaseHTTPRequestHandler):
         pass
 
 
-def serve(host: str, port: int) -> None:
+def serve(port: int) -> None:
+    """The rating page on this machine only: the server takes ratings only from its own page, addressed as
+    localhost or 127.0.0.1."""
     _RatingHandler.manifest = json.loads((RATINGS / "manifest.json").read_text(encoding="utf-8"))
+    # Every picture is drawn anew, so a leftover file from another session can never stand in for a cell.
     try:
-        drawn = draw_cells(_RatingHandler.manifest)
-    except OSError as error:
+        draw_cells(_RatingHandler.manifest, redraw=True)
+    except Exception as error:  # noqa: BLE001 - any failure here means the pictures cannot be trusted
         raise SystemExit(f"cannot draw the cells' pictures without the zones' prepared art: {error}")
-    if drawn:
-        print(f"drew {drawn} missing cell pictures")
-    server = ThreadingHTTPServer((host, port), _RatingHandler)
+    server = ThreadingHTTPServer(("127.0.0.1", port), _RatingHandler)
     done = len(_latest_ratings())
     print(f"Rating page: http://localhost:{port}  ({done} of {len(_RatingHandler.manifest['order'])} rated; "
           f"Ctrl+C stops, ratings are saved as you go)")
@@ -494,6 +513,10 @@ def fit(folds: int) -> None:
     rated = np.array([ratings[key] for key in keys])
     if len(set(views)) < 2:
         raise SystemExit("ratings must cover both views before fitting")
+    for view in ("map", "minimap"):
+        if not np.any(rated[views == view] == cc.FAINT):
+            print(f"warning: no {view} cell was rated too faint, so the {view} faint threshold bans nothing; "
+                  f"add a round with fainter {view} cells")
     print(f"fitting {len(keys)} ratings over {len(GRID) ** 3} weightings ...")
     model = _fit(shifts, views, rated)
 
@@ -525,13 +548,6 @@ def fit(folds: int) -> None:
     misfits = [(key.rstrip("r"), int(r), int(p), float(s)) for key, r, p, s in zip(keys, rated, predicted, scores)
                if r != p]
     misfits.sort(key=lambda m: ((m[1] == cc.FAINT) == (m[2] == cc.FAINT), m[0]))
-    (HERE / "output").mkdir(exist_ok=True)
-    try:
-        draw_cells(manifest)
-        _misfit_sheet(misfits, HERE / "output" / "calibration-misfits.jpg")
-    except OSError as error:  # the fit itself needs no pictures, only the zones' art to draw them
-        print(f"note: no misfit sheet, the cells' pictures cannot be drawn: {error}")
-
     calibration = {
         "weights": {"lightness": w.lightness, "red_green": 1.0, "blue": w.blue, "yellow": w.yellow},
         "thresholds": {view: {"faint": round(model.faint[view], 3), "clear": round(model.clear[view], 3)}
@@ -541,7 +557,16 @@ def fit(folds: int) -> None:
                 "repeats": len(pairs), "date": time.strftime("%Y-%m-%d")},
     }
     cc.CALIBRATION.write_text(json.dumps(calibration, indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {cc.CALIBRATION.name} and output/calibration-misfits.jpg ({len(misfits)} misfits)")
+    print(f"wrote {cc.CALIBRATION.name}")
+
+    # The misfit sheet comes last: the fit needs no pictures, and drawing them needs the zones' art.
+    (HERE / "output").mkdir(exist_ok=True)
+    try:
+        draw_cells(manifest, redraw=True)
+        _misfit_sheet(misfits, HERE / "output" / "calibration-misfits.jpg")
+        print(f"wrote output/calibration-misfits.jpg ({len(misfits)} misfits)")
+    except Exception as error:  # noqa: BLE001 - the calibration is already written
+        print(f"note: no misfit sheet, the cells' pictures cannot be drawn: {error}")
 
 
 def main() -> None:
@@ -554,7 +579,6 @@ def main() -> None:
     prepare_parser.add_argument("--skip-colors", default="", help="palette indexes to leave out, such as 2,5,10")
     prepare_parser.add_argument("--force", action="store_true", help="discard existing ratings and start over")
     serve_parser = commands.add_parser("serve")
-    serve_parser.add_argument("--host", default="127.0.0.1")
     serve_parser.add_argument("--port", type=int, default=8765)
     commands.add_parser("fit").add_argument("--folds", type=int, default=5)
     commands.add_parser("cells").add_argument("--redraw", action="store_true",
@@ -563,7 +587,7 @@ def main() -> None:
     if args.command == "prepare":
         prepare(args.force, args.add, {int(i) for i in args.skip_colors.split(",") if i}, args.flavor)
     elif args.command == "serve":
-        serve(args.host, args.port)
+        serve(args.port)
     elif args.command == "cells":
         manifest = json.loads((RATINGS / "manifest.json").read_text(encoding="utf-8"))
         print(f"drew {draw_cells(manifest, args.redraw)} of {len(manifest['cells'])} cell pictures -> {RATINGS / 'cells'}")

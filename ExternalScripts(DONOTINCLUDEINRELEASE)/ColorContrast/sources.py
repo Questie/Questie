@@ -44,29 +44,34 @@ TILE_YARDS = 1600 / 3
 
 @dataclass(frozen=True)
 class Flavor:
-    """One client whose zones the tool measures, and where its ban data goes in Questie."""
+    """One client whose zones the tool measures, and where its ban data goes in Questie. Every path is the flavor's
+    own: clients share continent IDs (0 and 1) but not their art, so two flavors must never share an asset folder."""
     key: str  # --flavor value and output folder
-    name: str  # Lua source name and data file name, Modules/Quest/ObjectiveColorBans/<name>.lua
-    toc: str  # the TOC that loads the data file
+    name: str  # data file name, Modules/Quest/ObjectiveColorBans/<name>.lua
+    tocs: tuple[str, ...]  # the TOCs that load the data file: only clients with the same UiMapIds and art
     maps_json: Path  # every uiMap's world rect and art (emulator tools/bridge/dump_maps.lua, live client)
     explored_maps: Path  # <uiMapID>/r<row>c<col>.png, art with every overlay blended on (compose_explored_maps.py)
     overlay_tiles: Path  # <uiMapID>/o<overlayID>-r<row>c<col>.png (prepare_assets.py)
     minimap_tiles: Path  # <instanceID>/<x>_<y>.jpg (fetch_minimaps.py)
     db2: Path  # UiMapXMapArt.csv, WorldMapOverlay.csv, AreaTable-enUS.csv of the client's build
+    skip_zones: tuple[tuple[int, str], ...] = ()  # outdoor maps not measured on purpose, with the reason
 
     @property
     def data_file(self) -> Path:
         return REPO / "Modules/Quest/ObjectiveColorBans" / f"{self.name}.lua"
 
 
+_CAPITAL = "capital: no exploration overlays, and its minimap is drawn indoors"
 FLAVORS = {
     "forever": Flavor(
-        key="forever", name="Forever", toc="Questie_Camelot.toc",
+        key="forever", name="Forever", tocs=("Questie_Camelot.toc",),
         maps_json=EMULATOR / "data/maps-forever-1.60.1.json",
         explored_maps=EMULATOR / "assets/explored/maps",
         overlay_tiles=EMULATOR / "assets/generated/maps",
         minimap_tiles=EMULATOR / "assets/generated/minimaps",
         db2=MAP_TEXT / "downloads/db2/1.60.1.70338",
+        skip_zones=((1453, _CAPITAL), (1454, _CAPITAL), (1455, _CAPITAL), (1456, _CAPITAL), (1457, _CAPITAL),
+                    (1458, _CAPITAL), (2665, "a second Zephras Isle map without overlays; 2521 is measured")),
     ),
 }
 
@@ -75,7 +80,7 @@ FLAVORS = {
 
 @dataclass(frozen=True)
 class PaletteColor:
-    index: int  # 1-based, as saved in Questie.db.char.objectiveColors
+    index: int  # 1-based position in the palette; Questie saves and bans colors by name, not by this
     name: str
     rgb: tuple[int, int, int]  # sRGB 0..255
 
@@ -132,17 +137,21 @@ def read_zones(flavor: Flavor) -> list[Zone]:
 
 
 def unmeasured_zones(flavor: Flavor) -> list[tuple[int, str]]:
-    """Outdoor zones the tool skips although they could be measured: their map art has exploration overlays, but
-    their explored art was never prepared. A non-empty list means the assets are behind the client. Capitals have
-    no overlays and never appear here."""
+    """Outdoor zones the client has but the tool cannot measure: no explored art was prepared for them, and the
+    flavor does not skip them on purpose. A non-empty list means the assets are behind the client. This reads the
+    client's own map list, not its db2 tables, so a db2 folder older than the client cannot hide a new zone."""
     data = json.loads(flavor.maps_json.read_text(encoding="utf-8"))
-    art_with_overlays = {row["UiMapArtID"] for row in _db2(flavor.db2, "WorldMapOverlay")}
-    arts_of: dict[int, set[str]] = {}
-    for row in _db2(flavor.db2, "UiMapXMapArt"):
-        arts_of.setdefault(int(row["UiMapID"]), set()).add(row["UiMapArtID"])
+    skipped = {ui_map_id for ui_map_id, _ in flavor.skip_zones}
     return sorted((m["id"], m["name"]) for m in data["maps"].values()
-                  if m["type"] == 3 and not (flavor.explored_maps / str(m["id"])).is_dir()
-                  and arts_of.get(m["id"], set()) & art_with_overlays)
+                  if m["type"] == 3 and m["id"] not in skipped and not (flavor.explored_maps / str(m["id"])).is_dir())
+
+
+ART_TILES = math.ceil(ART_WIDTH / ART_TILE) * math.ceil(ART_HEIGHT / ART_TILE)  # tiles a zone's art needs
+
+
+def map_art_tiles(zone: Zone) -> int:
+    """How many of the zone's ART_TILES explored art tiles were prepared; missing ones read as black ground."""
+    return len(list((zone.flavor.explored_maps / str(zone.ui_map_id)).glob("r*c*.png")))
 
 
 def read_map_art(zone: Zone) -> np.ndarray:
@@ -196,6 +205,8 @@ def read_areas(zone: Zone) -> tuple[list[Area], list[str]]:
     """
     db2 = zone.flavor.db2
     art_ids = {row["UiMapArtID"] for row in _db2(db2, "UiMapXMapArt") if int(row["UiMapID"]) == zone.ui_map_id}
+    if not art_ids:
+        raise ValueError(f"{zone.name} ({zone.ui_map_id}) is not in {db2}; fetch the client's db2 tables again")
     # Overlays the client has no tiles for (flag 4, such as Zul'Gurub's) are hit areas without art; the client draws
     # nothing for them either, so they are no missing asset.
     textured = {row["WorldMapOverlayID"] for row in _db2(db2, "WorldMapOverlayTile")}
