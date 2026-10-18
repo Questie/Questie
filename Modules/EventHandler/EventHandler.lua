@@ -204,6 +204,11 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("CRITERIA_UPDATE", QuestEventHandler.CriteriaUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, eventType) QuestEventHandler.PlayerInteractionManagerFrameHide(eventType) end)
 
+    -- The client's quest data is stale from PLAYER_LEAVING_WORLD on, and whether LOADING_SCREEN_ENABLED comes before
+    -- or after it is not known: either one protects the cache.
+    Questie:RegisterEvent("PLAYER_LEAVING_WORLD", function()
+        QuestLogCache.OnLoadingScreenEnabled()
+    end)
     Questie:RegisterEvent("LOADING_SCREEN_ENABLED", function()
         QuestLogCache.OnLoadingScreenEnabled()
     end)

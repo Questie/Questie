@@ -362,7 +362,8 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     return cacheMiss, changes, questIdsChecked, questIdsUnlisted
 end
 
----Protects cached quests from stale objective decreases until each quest's data recovers.
+---Protects cached quests from stale objective decreases until each quest's data recovers. Called at
+---PLAYER_LEAVING_WORLD and at LOADING_SCREEN_ENABLED: either can come first, and the stale answers come after the first.
 ---@return nil
 function QuestLogCache.OnLoadingScreenEnabled()
     questsAwaitingRecovery = {}

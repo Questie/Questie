@@ -112,6 +112,19 @@ describe("EventHandler event dispatch", function()
         QuestEventHandler.CriteriaUpdate = originalCriteriaUpdate
     end)
 
+    it("starts the quest log cache's loading-screen protection at PLAYER_LEAVING_WORLD and at LOADING_SCREEN_ENABLED", function()
+        local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        local originalOnLoadingScreenEnabled = QuestLogCache.OnLoadingScreenEnabled
+        QuestLogCache.OnLoadingScreenEnabled = spy.new(function() end)
+
+        callbacks.PLAYER_LEAVING_WORLD("PLAYER_LEAVING_WORLD")
+        assert.spy(QuestLogCache.OnLoadingScreenEnabled).was.called(1)
+
+        callbacks.LOADING_SCREEN_ENABLED("LOADING_SCREEN_ENABLED")
+        assert.spy(QuestLogCache.OnLoadingScreenEnabled).was.called(2)
+        QuestLogCache.OnLoadingScreenEnabled = originalOnLoadingScreenEnabled
+    end)
+
     it("registers skill chat directly without a bucket or message relay", function()
         assert.is_nil(bucketEvents.CHAT_MSG_SKILL)
         assert.is_function(callbacks.CHAT_MSG_SKILL)
