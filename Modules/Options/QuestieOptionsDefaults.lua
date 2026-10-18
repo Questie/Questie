@@ -253,7 +253,7 @@ function QuestieOptionsDefaults:Load()
             collapsedZones = {},
             minAllQuestsInZone = {},
             collapsedQuests = {},
-            -- Persistent objective color palette indexes; see QuestieLib:GetObjectiveColor.
+            -- Persistent objective colors as {color = palette index, zone = UiMapId}; see ObjectiveColors.Get.
             objectiveColors = {},
             -- Questie blobs state for this character; see Modules/Map/Polygon/QuestiePolygon.lua.
             polygon = {
