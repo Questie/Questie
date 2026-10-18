@@ -493,6 +493,7 @@ describe("QuestEventHandler", function()
             QuestieNameplate.UpdateNameplate = spy.new(function() end)
             QuestieQuest.UpdateQuest = spy.new(function() end)
             QuestieTracker.UpdateQuestLines = spy.new(function() end)
+            QuestLifecycle.AdoptQuest = spy.new(function() end)
         end)
 
         after_each(function()
@@ -502,7 +503,7 @@ describe("QuestEventHandler", function()
 
         -- Its objectives had not loaded yet when the quest log was first read at login.
         for _, flavor in ipairs({"IsSoD", "IsForever", "neither"}) do
-            it("should be added when a scan finds it (" .. flavor .. ")", function()
+            it("should be adopted when a scan finds it (" .. flavor .. ")", function()
                 Questie[flavor] = true
                 local quest = {Id = QUEST_ID}
                 QuestieDB.GetQuest = spy.new(function() return quest end)
@@ -510,7 +511,7 @@ describe("QuestEventHandler", function()
                 QuestEventHandler.QuestWatchUpdate(QUEST_ID)
                 QuestEventHandler.QuestLogUpdate()
 
-                assert.are.equal(quest, QuestiePlayer.currentQuestlog[QUEST_ID])
+                assert.spy(QuestLifecycle.AdoptQuest).was.called_with(QuestLifecycle, QUEST_ID)
                 assert.spy(Questie.Error).was.not_called()
             end)
         end
@@ -552,6 +553,7 @@ describe("QuestEventHandler", function()
             QuestieTracker.UpdateQuestLines = spy.new(function() end)
             QuestieJourney.AcceptQuest = spy.new(function() end)
             QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+            QuestLifecycle.AdoptQuest = spy.new(function() end)
         end)
 
         -- 2026-09-30_190105Z s9: the character's 9 quests arrived from the server after Questie had started.
@@ -560,8 +562,9 @@ describe("QuestEventHandler", function()
             QuestEventHandler.QuestLogUpdate()
 
             assert.is_true(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
-            assert.are.equal(unlistedQuest, QuestiePlayer.currentQuestlog[UNLISTED_ID])
-            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, UNLISTED_ID)
+            assert.spy(QuestLifecycle.AdoptQuest).was.called_with(QuestLifecycle, UNLISTED_ID)
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called_with(QuestiePartyObjectives, UNLISTED_ID)
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
             assert.spy(QuestieJourney.AcceptQuest).was.not_called()
             assert.spy(QuestieAnnounce.AcceptedQuest).was.not_called()
         end)

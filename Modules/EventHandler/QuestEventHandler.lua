@@ -610,23 +610,22 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
-            if (not QuestiePlayer.currentQuestlog[questId]) then
-                -- If quests are not in the cache right after login (e.g. the API is really slow), they are not added to the player's quest log.
-                -- We then add them to the player's quest log so they can be updated.
-                local quest = QuestieDB.GetQuest(questId)
-                if quest then
-                    Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is not in the player's quest log, but is in the questLog of QuestEventHandler")
-                    QuestiePlayer.currentQuestlog[questId] = quest
-                elseif not (Questie.IsSoD or Questie.IsForever) then
-                    Questie.Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
-                end
-            end
-
             Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
 
             QuestieNameplate:UpdateNameplate()
-            QuestieQuest:UpdateQuest(questId)
+            if QuestiePlayer.currentQuestlog[questId] then
+                QuestieQuest:UpdateQuest(questId)
+            elseif QuestieDB.GetQuest(questId) then
+                -- Not in the player's quest log: adopted above, or not in the cache right after login (e.g. the API is
+                -- really slow). AdoptQuest adds and draws it as at login, completion included, so no UpdateQuest here.
+                Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is not in the player's quest log, but is in the questLog of QuestEventHandler")
+                QuestLifecycle:AdoptQuest(questId)
+                -- The local player now has this quest, so stop drawing it as a party member's objective.
+                QuestiePartyObjectives:ScheduleUpdate(questId)
+            elseif not (Questie.IsSoD or Questie.IsForever) then
+                Questie.Error("Quest", questId, "is not in the player's quest log and not in the QuestDB. Please report this on Github or Discord!")
+            end
             QuestieTracker.UpdateQuestLines(questId)
 
             QuestieAPI.PropagateQuestUpdate(questId, objIds, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)

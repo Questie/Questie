@@ -307,6 +307,42 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("AddToQuestLog", function()
+        before_each(function()
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
+            QuestieQuest.PopulateQuestLogInfo = spy.new(function() end)
+            QuestieQuest.ShouldShowQuestNotes = function() return true end
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+        end)
+
+        it("leaves a failed quest to UpdateQuest, which draws it as available again", function()
+            local quest = {Id = 5, IsComplete = function() return -1 end}
+
+            QuestieQuest:AddToQuestLog(quest)
+
+            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, 5)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+        end)
+
+        it("hides the icons the tracker hid before drawing the quest's notes", function()
+            Questie.db.char.TrackerHiddenQuests = {[5] = true}
+            Questie.db.char.TrackerHiddenObjectives = {["5 2"] = true}
+            local quest = {Id = 5, IsComplete = function() return 0 end, Objectives = {{Index = 1}, {Index = 2}}, SpecialObjectives = {}}
+            local hiddenWhenDrawn
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function()
+                hiddenWhenDrawn = {quest.HideIcons, quest.Objectives[1].HideIcons, quest.Objectives[2].HideIcons}
+            end)
+
+            QuestieQuest:AddToQuestLog(quest)
+
+            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 5, true)
+            assert.are.same({true, nil, true}, hiddenWhenDrawn)
+        end)
+    end)
+
     describe("Missing quest warnings", function()
         local originalSessionWarnings
         local originalDebugEnabled

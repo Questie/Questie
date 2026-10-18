@@ -130,6 +130,31 @@ function QuestLifecycle:AcceptQuest(questId)
     end)
 end
 
+---Tracks a quest a quest log scan found in the game's log without Questie accepting it: the game listed it only after
+---Questie's start-up, or Questie missed its QUEST_ACCEPTED. It is set up as at login, not as an accept, so the
+---player's collapsed and untracked choices are not reset; the quest giver's "!", drawn while Questie did not have the
+---quest, goes first.
+---@param questId number
+function QuestLifecycle:AdoptQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if not quest then
+        return
+    end
+
+    QuestiePlayer.currentQuestlog[questId] = quest
+    CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
+
+    -- As in AcceptQuest: draw the quest once the unload coroutine has removed its starter frames. A quest turned in
+    -- or removed in the meantime must not come back.
+    AvailableQuests.RemoveQuest(questId, function()
+        if QuestiePlayer.currentQuestlog[questId] ~= quest then
+            return
+        end
+        QuestieQuest:AddToQuestLog(quest)
+        AvailableQuests.CalculateAndDrawAll()
+    end)
+end
+
 ---@param questId number
 function QuestLifecycle:CompleteQuest(questId)
     -- Skip quests which are turn in only and are not added to the quest log in the first place
