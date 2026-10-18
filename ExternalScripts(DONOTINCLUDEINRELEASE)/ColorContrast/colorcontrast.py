@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["numpy", "pillow"]
+# dependencies = ["numpy==2.5.4", "pillow==13.0.0"]  # pinned: random draws and resampling shape the bans
 # ///
 """Which objective palette colors are too faint to see as Questie blobs, per zone, on the world map and minimap.
 
@@ -52,7 +52,7 @@ sys.path.insert(0, str(HERE))
 import report  # noqa: E402
 from sources import (  # noqa: E402
     ART_HEIGHT, ART_WIDTH, FLAVORS, REPO, Flavor, Minimap, PaletteColor, Zone, read_areas, read_blob_opacity,
-    read_map_art, read_palette, read_zones, unmeasured_zones,
+    read_map_art, read_palette, read_zones, unmeasured_zones, ART_TILES, map_art_tiles,
 )
 
 CALIBRATION = HERE / "calibration.json"
@@ -113,7 +113,7 @@ class ZoneResult:
     faint_shares: dict[int, dict[str, float]]  # palette index -> view -> share of ground it is too faint on
     banned: set[int]  # after overrides
     overrides: dict[int, tuple[str, str]]  # palette index -> (allow | ban, note)
-    missing_overlays: list[str] = field(default_factory=list)  # overlays left out for missing tiles
+    gaps: list[str] = field(default_factory=list)  # ground the run could not measure, such as missing tiles
 
 
 # Color math
@@ -214,7 +214,7 @@ class Survey:
     art: np.ndarray
     minimap: Minimap
     terrains: list[Terrain]
-    missing_overlays: list[str]  # sub-areas left out because their tiles are missing
+    gaps: list[str]  # ground that could not be measured: missing overlay, art or minimap tiles
 
 
 def survey_zone(zone: Zone, settings: Settings) -> Survey:
@@ -230,10 +230,19 @@ def survey_zone(zone: Zone, settings: Settings) -> Survey:
         place_at[area.mask] = i
     minimap = Minimap(zone)
     minimap_rgb, present = minimap.on_map_grid(zone, MINIMAP_SCALE)
+    inside_minimap = inside.repeat(MINIMAP_SCALE, 0).repeat(MINIMAP_SCALE, 1)
     views = {
         "map": (art, inside, 1),
-        "minimap": (minimap_rgb, inside.repeat(MINIMAP_SCALE, 0).repeat(MINIMAP_SCALE, 1) & present, MINIMAP_SCALE),
+        "minimap": (minimap_rgb, inside_minimap & present, MINIMAP_SCALE),
     }
+
+    # Gaps: ground the assets do not cover would be measured as black art or as open sea, diluting the verdict.
+    gaps = [f"overlays {', '.join(missing_overlays)} have no tiles"] if missing_overlays else []
+    if map_art_tiles(zone) < ART_TILES:
+        gaps.append(f"{ART_TILES - map_art_tiles(zone)} of {ART_TILES} map art tiles missing")
+    no_minimap = float((inside_minimap & ~present).sum() / max(inside_minimap.sum(), 1))
+    if no_minimap > 0:
+        gaps.append(f"{no_minimap:.1%} of its ground has no minimap tile")
 
     terrains = []
     for view, (rgb, ground, scale) in views.items():
@@ -256,7 +265,7 @@ def survey_zone(zone: Zone, settings: Settings) -> Survey:
             terrains.append(Terrain(view, tuple(int(v) for v in np.median(terrain_pixels, 0)), member.mean(),
                                     (mx, my), areas[place].name if place >= 0 else "", sample=sample))
     terrains.sort(key=lambda t: (VIEWS.index(t.view), -t.share))
-    return Survey(art, minimap, terrains, missing_overlays)
+    return Survey(art, minimap, terrains, gaps)
 
 
 # Verdict
@@ -318,7 +327,7 @@ def analyze_zone(zone: Zone, palette: list[PaletteColor], opacity: tuple[float, 
         else:
             banned.add(index)
 
-    result = ZoneResult(zone, survey.terrains, shares, banned, overrides, survey.missing_overlays)
+    result = ZoneResult(zone, survey.terrains, shares, banned, overrides, survey.gaps)
     report.render_zone_sheet(result, survey.art, survey.minimap, palette, opacity, settings, out / "zones")
     return result
 
@@ -360,6 +369,11 @@ def main() -> None:
             raise SystemExit("--write-addon needs a full run; leave out --zones")
         if args.fill_min is not None or not CALIBRATION.exists():
             raise SystemExit("--write-addon needs calibrated scores: calibration.json, and no --fill-min")
+        # The calibration was fitted to scores made with the default terrains and percentile.
+        tuned = [name for name in ("percentile", "clusters", "merge_distance")
+                 if getattr(args, name) != parser.get_default(name)]
+        if tuned:
+            raise SystemExit(f"--write-addon needs the calibrated defaults; leave out {', '.join(tuned)}")
 
     flavor = FLAVORS[args.flavor]
     out = args.out or HERE / "output" / flavor.key
@@ -393,19 +407,19 @@ def main() -> None:
     banned = sum(len(result.banned) for result in results)
     print(f"{flavor.name}: {len(results)} zones, {banned} bans ({source}), {time.monotonic() - started:.0f}s -> {out}")
 
-    missing = "; ".join(f"{r.zone.name} overlays {', '.join(r.missing_overlays)}" for r in results if r.missing_overlays)
-    if missing and args.write_addon:
-        raise SystemExit(f"overlay tiles missing, so part of the ground went unmeasured ({missing}); not writing")
-    if missing:
-        print(f"note: overlay tiles missing, so part of the ground went unmeasured ({missing})")
+    gaps = "; ".join(f"{r.zone.name}: {', '.join(r.gaps)}" for r in results if r.gaps)
+    if gaps and args.write_addon:
+        raise SystemExit(f"part of the ground went unmeasured ({gaps}); prepare the missing assets; not writing")
+    if gaps:
+        print(f"note: part of the ground went unmeasured ({gaps})")
 
     if args.write_addon:
-        report.write_addon_bans(results, palette, settings, flavor)
+        report.write_addon_bans(results, palette, settings, flavor, opacity)
         print(f"wrote {flavor.data_file.relative_to(REPO)}")
         listed = flavor.data_file.relative_to(REPO).as_posix().replace("/", "\\")
-        toc = (REPO / flavor.toc).read_text(encoding="utf-8").splitlines()
-        if listed not in toc:
-            print(f"note: {flavor.toc} does not load {listed} yet; add it after Modules\\Quest\\ObjectiveColors.lua")
+        for toc in flavor.tocs:
+            if listed not in (REPO / toc).read_text(encoding="utf-8").splitlines():
+                print(f"note: {toc} does not load {listed} yet; add it after Modules\\Quest\\ObjectiveColors.lua")
 
 
 if __name__ == "__main__":
