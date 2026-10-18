@@ -298,6 +298,24 @@ function QuestieCompat.GetMouseFocus()
     end
 end
 
+---Shows the zone on the world map through the client: C_Map.OpenWorldMap fires WORLD_MAP_OPEN and Blizzard's own
+---handler sets the map. Calling WorldMapFrame:SetMapID ourselves would leave the map's state tainted for the session,
+---so Blizzard's map navigation later gets its pins blocked in combat. Older clients lack it and set the map directly.
+---@param uiMapId number
+function QuestieCompat.OpenWorldMap(uiMapId)
+    if (not C_Map.OpenWorldMap) then
+        if (not WorldMapFrame:IsShown()) then
+            WorldMapFrame:Show()
+        end
+        WorldMapFrame:SetMapID(uiMapId)
+        return
+    end
+    if InCombatLockdown() then
+        return
+    end
+    C_Map.OpenWorldMap(uiMapId)
+end
+
 ---@class CalendarTime
 ---@field monthDay number
 ---@field month number

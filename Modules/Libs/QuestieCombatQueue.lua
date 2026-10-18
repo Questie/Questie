@@ -34,8 +34,11 @@ function QuestieCombatQueue.Initialize()
     started = true
 end
 
+---@return boolean queued False before Initialize, when the entry is dropped
 function QuestieCombatQueue:Queue(func, ...)
     if started then
         tinsert(_Queue, {func=func, args=tpack(...)})
+        return true
     end
+    return false
 end

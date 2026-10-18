@@ -18,6 +18,76 @@ describe("QuestieCompat", function()
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end)
 
+    describe("OpenWorldMap", function()
+        local match = require("luassert.match")
+        local originalCMap, originalInCombatLockdown, originalWorldMapFrame
+
+        before_each(function()
+            originalCMap, originalInCombatLockdown, originalWorldMapFrame = _G.C_Map, _G.InCombatLockdown, _G.WorldMapFrame
+            _G.C_Map = {OpenWorldMap = spy.new(function() end)}
+            _G.InCombatLockdown = function() return false end
+        end)
+
+        after_each(function()
+            _G.C_Map, _G.InCombatLockdown, _G.WorldMapFrame = originalCMap, originalInCombatLockdown, originalWorldMapFrame
+        end)
+
+        it("should let the client open the map on the given zone", function()
+            QuestieCompat.OpenWorldMap(1429)
+
+            assert.spy(C_Map.OpenWorldMap).was.called_with(1429)
+        end)
+
+        it("should do nothing in combat", function()
+            _G.InCombatLockdown = function() return true end
+
+            QuestieCompat.OpenWorldMap(1429)
+
+            assert.spy(C_Map.OpenWorldMap).was_not.called()
+        end)
+
+        it("should open and set the map itself when the client lacks C_Map.OpenWorldMap", function()
+            _G.C_Map = {}
+            _G.WorldMapFrame = {
+                IsShown = function() return false end,
+                Show = spy.new(function() end),
+                SetMapID = spy.new(function() end),
+            }
+
+            QuestieCompat.OpenWorldMap(1429)
+
+            assert.spy(WorldMapFrame.Show).was.called()
+            assert.spy(WorldMapFrame.SetMapID).was.called_with(match.is_ref(WorldMapFrame), 1429)
+        end)
+
+        it("should only set the map when it is already open and the client lacks C_Map.OpenWorldMap", function()
+            _G.C_Map = {}
+            _G.WorldMapFrame = {
+                IsShown = function() return true end,
+                Show = spy.new(function() end),
+                SetMapID = spy.new(function() end),
+            }
+
+            QuestieCompat.OpenWorldMap(1429)
+
+            assert.spy(WorldMapFrame.Show).was_not.called()
+            assert.spy(WorldMapFrame.SetMapID).was.called_with(match.is_ref(WorldMapFrame), 1429)
+        end)
+
+        it("should still set the map in combat when the client lacks C_Map.OpenWorldMap", function()
+            _G.C_Map = {}
+            _G.InCombatLockdown = function() return true end
+            _G.WorldMapFrame = {
+                IsShown = function() return true end,
+                SetMapID = spy.new(function() end),
+            }
+
+            QuestieCompat.OpenWorldMap(1429)
+
+            assert.spy(WorldMapFrame.SetMapID).was.called_with(match.is_ref(WorldMapFrame), 1429)
+        end)
+    end)
+
     describe("IsQuestSequenced", function()
         local originalIsQuestSequenced
 

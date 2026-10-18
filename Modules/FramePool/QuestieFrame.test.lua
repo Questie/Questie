@@ -83,6 +83,129 @@ describe("QuestieFrame", function()
             "Are you sure you want to hide the quest 'Quest 123'?\nIf this quest isn't actually available, please report it to us!", nil, 123)
     end)
 
+    it("should not change the world map on right click", function()
+        local originalWorldMapFrame, originalIsModifierKeyDown, originalIsControlKeyDown = _G.WorldMapFrame, _G.IsModifierKeyDown, _G.IsControlKeyDown
+        _G.WorldMapFrame = {
+            IsShown = function() return true end,
+            GetMapID = function() return 2 end,
+            SetMapID = spy.new(function() end),
+        }
+        _G.IsModifierKeyDown = function() return false end
+        _G.IsControlKeyDown = function() return false end
+        QuestieFrameInstance.UiMapID = 1
+
+        QuestieFrame.private.OnClick(QuestieFrameInstance, "RightButton")
+
+        assert.spy(WorldMapFrame.SetMapID).was_not.called()
+        _G.WorldMapFrame, _G.IsModifierKeyDown, _G.IsControlKeyDown = originalWorldMapFrame, originalIsModifierKeyDown, originalIsControlKeyDown
+    end)
+
+    it("should let the client switch the world map to the icon's zone on left click", function()
+        local originalWorldMapFrame, originalIsModifierKeyDown, originalIsControlKeyDown = _G.WorldMapFrame, _G.IsModifierKeyDown, _G.IsControlKeyDown
+        local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+        local originalOpenWorldMap = QuestieCompat.OpenWorldMap
+        QuestieCompat.OpenWorldMap = spy.new(function() end)
+        _G.WorldMapFrame = {
+            IsShown = function() return true end,
+            GetMapID = function() return 2 end,
+            SetMapID = spy.new(function() end),
+        }
+        _G.IsModifierKeyDown = function() return false end
+        _G.IsControlKeyDown = function() return false end
+        QuestieFrameInstance.UiMapID = 1
+
+        QuestieFrame.private.OnClick(QuestieFrameInstance, "LeftButton")
+
+        assert.spy(QuestieCompat.OpenWorldMap).was.called_with(1)
+        assert.spy(WorldMapFrame.SetMapID).was_not.called()
+        QuestieCompat.OpenWorldMap = originalOpenWorldMap
+        _G.WorldMapFrame, _G.IsModifierKeyDown, _G.IsControlKeyDown = originalWorldMapFrame, originalIsModifierKeyDown, originalIsControlKeyDown
+    end)
+
+    describe("EnsureRightClickPassThrough", function()
+        local match = require("luassert.match")
+        local stub = require("luassert.stub")
+        local originalInCombatLockdown, queueMock, queued
+
+        before_each(function()
+            originalInCombatLockdown = _G.InCombatLockdown
+            QuestieFrameInstance.SetPassThroughButtons = spy.new(function() end)
+            queued = {}
+            queueMock = stub(QuestieLoader:ImportModule("QuestieCombatQueue"), "Queue", function(_, func, ...)
+                queued[#queued + 1] = {func = func, args = {...}}
+                return true
+            end)
+        end)
+
+        after_each(function()
+            _G.InCombatLockdown = originalInCombatLockdown
+            queueMock:revert()
+        end)
+
+        local function runQueued()
+            local entries = queued
+            queued = {}
+            for _, entry in ipairs(entries) do
+                entry.func(unpack(entry.args))
+            end
+        end
+
+        it("should pass right clicks through out of combat only once", function()
+            _G.InCombatLockdown = function() return false end
+
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+
+            assert.spy(QuestieFrameInstance.SetPassThroughButtons).was.called(1)
+            assert.spy(QuestieFrameInstance.SetPassThroughButtons).was.called_with(match.is_ref(QuestieFrameInstance), "RightButton")
+            assert.are.equal(0, #queued)
+        end)
+
+        it("should defer passing right clicks through while in combat and queue a retry once", function()
+            _G.InCombatLockdown = function() return true end
+
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+
+            assert.spy(QuestieFrameInstance.SetPassThroughButtons).was_not.called()
+            assert.are.equal(1, #queued)
+        end)
+
+        it("should pass right clicks through when the queued retry runs after combat", function()
+            _G.InCombatLockdown = function() return true end
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+            _G.InCombatLockdown = function() return false end
+
+            runQueued()
+
+            assert.spy(QuestieFrameInstance.SetPassThroughButtons).was.called_with(match.is_ref(QuestieFrameInstance), "RightButton")
+        end)
+
+        it("should queue again when combat starts before the retry runs", function()
+            _G.InCombatLockdown = function() return true end
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+
+            runQueued()
+
+            assert.spy(QuestieFrameInstance.SetPassThroughButtons).was_not.called()
+            assert.are.equal(1, #queued)
+        end)
+
+        it("should queue a retry on a later call when the queue was not started yet", function()
+            _G.InCombatLockdown = function() return true end
+            local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+            queueMock:revert()
+            queueMock = stub(QuestieCombatQueue, "Queue", function() return false end)
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+            queueMock:revert()
+            queueMock = stub(QuestieCombatQueue, "Queue", function() return true end)
+
+            QuestieFrame.EnsureRightClickPassThrough(QuestieFrameInstance)
+
+            assert.stub(queueMock).was.called(1)
+        end)
+    end)
+
     describe("ResetHoverHighlights", function()
         it("should end the highlight of the NPC's waypoint paths", function()
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)

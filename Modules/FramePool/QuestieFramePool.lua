@@ -61,6 +61,7 @@ function QuestieFramePool:GetFrame()
     end
 
     _ReinitFrame(frame)
+    QuestieFrame.EnsureRightClickPassThrough(frame)
 
     usedFrames[frame.frameId] = frame
     return frame

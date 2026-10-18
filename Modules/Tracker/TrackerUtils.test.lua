@@ -88,6 +88,46 @@ describe("TrackerUtils", function()
         isAddOnLoadedMock:revert()
     end)
 
+    describe("show on map", function()
+        local openMock, nearestObjectiveMock, nearestFinisherMock, uiMapIdMock, originalWorldMapFrame
+
+        before_each(function()
+            local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+            openMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "OpenWorldMap")
+            nearestObjectiveMock = stub(DistanceUtils, "GetNearestObjective", function() return {50, 50}, 12 end)
+            nearestFinisherMock = stub(DistanceUtils, "GetNearestFinisherOrStarter", function() return {50, 50}, 12 end)
+            uiMapIdMock = stub(QuestieLoader:ImportModule("ZoneDB"), "GetUiMapIdByAreaId", function() return 1429 end)
+            originalWorldMapFrame = _G.WorldMapFrame
+            _G.WorldMapFrame = {Show = spy.new(function() end), SetMapID = spy.new(function() end)}
+            TrackerUtils.FlashObjective = function() end
+            TrackerUtils.FlashFinisher = function() end
+        end)
+
+        after_each(function()
+            openMock:revert()
+            nearestObjectiveMock:revert()
+            nearestFinisherMock:revert()
+            uiMapIdMock:revert()
+            _G.WorldMapFrame = originalWorldMapFrame
+        end)
+
+        it("should let the client open the map for an objective", function()
+            TrackerUtils:ShowObjectiveOnMap({spawnList = {}})
+
+            assert.stub(openMock).was.called_with(1429)
+            assert.spy(WorldMapFrame.Show).was_not.called()
+            assert.spy(WorldMapFrame.SetMapID).was_not.called()
+        end)
+
+        it("should let the client open the map for a finisher", function()
+            TrackerUtils:ShowFinisherOnMap({Finisher = {}})
+
+            assert.stub(openMock).was.called_with(1429)
+            assert.spy(WorldMapFrame.Show).was_not.called()
+            assert.spy(WorldMapFrame.SetMapID).was_not.called()
+        end)
+    end)
+
     describe("ShowQuestLog", function()
         local originals, legacyFrame, scrollBar
         local getIndexMock, selectMock, detailsMock, updateMock, printMock
