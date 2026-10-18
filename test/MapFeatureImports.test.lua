@@ -125,8 +125,7 @@ describe("Map feature imports", function()
         local sources = {}
         for _, tocPath in ipairs(TOC_PATHS) do
             for _, path in ipairs(LoaderUsage.ReadTocLuaPaths(tocPath)) do
-                -- Blob/ is a local prototype area, not part of Questie.
-                if not sources[path] and not path:match("^Blob/") then
+                if not sources[path] then
                     local file = assert(io.open(path, "r"), tocPath .. " lists a missing file: " .. path)
                     sources[path] = file:read("*a")
                     file:close()
