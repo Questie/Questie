@@ -34,6 +34,7 @@ describe("QuestieQuest", function()
         QuestiePlayer.currentQuestlog = {}
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestLogCache.TryGetQuest = function() end
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
@@ -103,6 +104,21 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.called_with(quest)
         end)
 
+        it("does not infer completion from mapped objectives while an unmapped native row is unfinished", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            -- Unending Torment (97291): the database maps 1 of the client's 3 item rows.
+            QuestLogCache.TryGetQuest = function()
+                return {objectives = {{finished = true}, {finished = true}, {finished = false}}}
+            end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
         it("shows the finisher when the accepted quest state is complete", function()
             QuestieQuest.PopulateQuestLogInfo = function() end
             QuestieQuest.RegisterObjectiveTooltips = function() end
@@ -127,6 +143,21 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
+        it("does not infer completion from absent objective mappings while a native row is unfinished", function()
+            compat.IsQuestSequenced = function() return false end
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            -- Destruction in Deadmines (92753): the database has no objectives, the client one unfinished row.
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "monster", text = "0/1 Explosives placed", finished = false}}
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
         it("does not infer completion from an empty stage or a trigger-end location", function()
             quest.Objectives = {}
             quest.triggerEnd = {1}
@@ -139,16 +170,32 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
-        it("retains the legacy empty-objective finisher workaround for unclassified quests", function()
+        -- The cache infers completion for a quest the client lists no rows for, though Blizzard reports it incomplete.
+        -- Each finisher request draws a full set of icons, so a second one stacks copies on the turn-in.
+        it("requests the finisher of a complete quest without objectives once", function()
+            quest.Objectives = {}
+            quest.IsComplete = function() return 1 end
+            QuestLogCache.GetQuest = function() return {isComplete = 1} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.called(1)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        it("gives a failed quest without objective mappings no finisher", function()
             compat.IsQuestSequenced = function() return false end
             quest.Objectives = {}
-            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestLogCache.GetQuest = function() return {isComplete = -1} end
             QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
 
             QuestieQuest:PopulateQuestLogInfo(quest)
 
-            assert.is_true(quest.isComplete)
-            assert.spy(finisher.AddFinisher).was.called(1)
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
         it("still requests source-item reconstruction without promoting a sequenced quest", function()
@@ -260,6 +307,42 @@ describe("QuestieQuest", function()
             assert.has_error(function()
                 QuestieQuest:GetAllQuestIds()
             end, "GetAllQuestIds must be called from a coroutine")
+        end)
+    end)
+
+    describe("AddToQuestLog", function()
+        before_each(function()
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
+            QuestieQuest.PopulateQuestLogInfo = spy.new(function() end)
+            QuestieQuest.ShouldShowQuestNotes = function() return true end
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+        end)
+
+        it("leaves a failed quest to UpdateQuest, which draws it as available again", function()
+            local quest = {Id = 5, IsComplete = function() return -1 end}
+
+            QuestieQuest:AddToQuestLog(quest)
+
+            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, 5)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+        end)
+
+        it("hides the icons the tracker hid before drawing the quest's notes", function()
+            Questie.db.char.TrackerHiddenQuests = {[5] = true}
+            Questie.db.char.TrackerHiddenObjectives = {["5 2"] = true}
+            local quest = {Id = 5, IsComplete = function() return 0 end, Objectives = {{Index = 1}, {Index = 2}}, SpecialObjectives = {}}
+            local hiddenWhenDrawn
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function()
+                hiddenWhenDrawn = {quest.HideIcons, quest.Objectives[1].HideIcons, quest.Objectives[2].HideIcons}
+            end)
+
+            QuestieQuest:AddToQuestLog(quest)
+
+            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 5, true)
+            assert.are.same({true, nil, true}, hiddenWhenDrawn)
         end)
     end)
 

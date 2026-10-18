@@ -20,7 +20,7 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local IsQuestFlaggedCompleted = QuestieCompat.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
-local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap
+local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap, _IsFinisherDrawn
 
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
@@ -42,6 +42,13 @@ function QuestFinisher.AddFinisher(quest)
 
     if (not quest.Finisher.NPC) and (not quest.Finisher.GameObject) then
         Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
+        return
+    end
+
+    if _IsFinisherDrawn(questId) then
+        -- Callers remove a quest's icons before requesting its finisher, so a turn-in icon still present was drawn by
+        -- another request in the same batch. A second set would stack on top of it.
+        Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Finisher already drawn for quest", questId)
         return
     end
 
@@ -147,6 +154,19 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
             end
         end
     end
+end
+
+---Whether a turn-in icon of the quest is drawn, shown or hidden. GetFramesForQuest trusts the frame names stored for
+---the quest, so the frame's own data must name the quest too.
+---@param questId QuestId
+---@return boolean
+_IsFinisherDrawn = function(questId)
+    for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
+        if frame.data and frame.data.Id == questId and frame.data.Type == "complete" then
+            return true
+        end
+    end
+    return false
 end
 
 _GetIconData = function(quest, finisherName)

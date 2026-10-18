@@ -358,6 +358,83 @@ describe("QuestEventHandler", function()
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
     end)
 
+    describe("QUEST_TURNED_IN arriving after the abandon check", function()
+        local abandonCheck, flaggedCompletedStub
+
+        before_each(function()
+            Questie.db.char.complete = {}
+            _G.C_Timer = {
+                NewTicker = function(_, callback)
+                    abandonCheck = callback
+                    return {Cancel = function() end}
+                end
+            }
+            _G.GetNumQuestLogRewards = function() return 0 end
+            _G.GetQuestLogRewardInfo = function() return nil end
+            QuestieDB.QueryQuestSingle = function() return nil end
+            QuestLogCache.RemoveQuest = spy.new(function() end)
+            QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+            QuestLifecycle.CompleteQuest = spy.new(function() end)
+            QuestLifecycle.AbandonQuest = spy.new(function() end)
+            QuestieJourney.CompleteQuest = spy.new(function() end)
+            QuestieJourney.AbandonQuest = spy.new(function() end)
+            QuestieAnnounce.CompletedQuest = spy.new(function() end)
+            QuestieAnnounce.AbandonedQuest = spy.new(function() end)
+            flaggedCompletedStub = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsQuestFlaggedCompleted", function() return true end)
+        end)
+
+        after_each(function()
+            flaggedCompletedStub:revert()
+        end)
+
+        -- 2026-09-29_145614Z s2, quest 28: QUEST_REMOVED at 586.5 s, QUEST_TURNED_IN at 591.5 s.
+        it("completes a removed quest the server flags completed once, without abandoning it", function()
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            abandonCheck()
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(1)
+            assert.spy(QuestieJourney.CompleteQuest).was.called(1)
+            assert.spy(QuestieAnnounce.CompletedQuest).was.called(1)
+            assert.spy(QuestLifecycle.AbandonQuest).was.not_called()
+            assert.spy(QuestieJourney.AbandonQuest).was.not_called()
+            assert.spy(QuestieAnnounce.AbandonedQuest).was.not_called()
+        end)
+
+        it("skips only the late duplicate: the next turn-in of the same quest counts", function()
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            abandonCheck()
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(2)
+            assert.spy(QuestieJourney.CompleteQuest).was.called(2)
+            assert.spy(QuestieAnnounce.CompletedQuest).was.called(2)
+        end)
+
+        -- A repeatable turned in without being accepted has no QUEST_ACCEPTED to clear the earlier turn-in's state.
+        it("counts every turn-in of a quest whose QUEST_REMOVED came before its QUEST_TURNED_IN", function()
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+            QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(2)
+            assert.spy(QuestieJourney.CompleteQuest).was.called(2)
+            assert.spy(QuestieAnnounce.CompletedQuest).was.called(2)
+        end)
+
+        it("abandons a flagged quest that Questie already counts as complete", function()
+            Questie.db.char.complete[QUEST_ID] = true
+
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            abandonCheck()
+
+            assert.spy(QuestLifecycle.AbandonQuest).was.called_with(QuestLifecycle, QUEST_ID)
+            assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
+            assert.spy(QuestLifecycle.CompleteQuest).was.not_called()
+        end)
+    end)
+
     it("should handle quest turn in", function()
         local cancelSpy = spy.new(function() end)
         _G.C_Timer = {NewTicker = function() return {Cancel = cancelSpy} end}
@@ -438,6 +515,7 @@ describe("QuestEventHandler", function()
             QuestieNameplate.UpdateNameplate = spy.new(function() end)
             QuestieQuest.UpdateQuest = spy.new(function() end)
             QuestieTracker.UpdateQuestLines = spy.new(function() end)
+            QuestLifecycle.AdoptQuest = spy.new(function() end)
         end)
 
         after_each(function()
@@ -447,7 +525,7 @@ describe("QuestEventHandler", function()
 
         -- Its objectives had not loaded yet when the quest log was first read at login.
         for _, flavor in ipairs({"IsSoD", "IsForever", "neither"}) do
-            it("should be added when a scan finds it (" .. flavor .. ")", function()
+            it("should be adopted when a scan finds it (" .. flavor .. ")", function()
                 Questie[flavor] = true
                 local quest = {Id = QUEST_ID}
                 QuestieDB.GetQuest = spy.new(function() return quest end)
@@ -455,7 +533,7 @@ describe("QuestEventHandler", function()
                 QuestEventHandler.QuestWatchUpdate(QUEST_ID)
                 QuestEventHandler.QuestLogUpdate()
 
-                assert.are.equal(quest, QuestiePlayer.currentQuestlog[QUEST_ID])
+                assert.spy(QuestLifecycle.AdoptQuest).was.called_with(QuestLifecycle, QUEST_ID)
                 assert.spy(Questie.Error).was.not_called()
             end)
         end
@@ -473,6 +551,92 @@ describe("QuestEventHandler", function()
             QuestEventHandler.QuestLogUpdate()
             assert.spy(Questie.Error).was.called(1)
             assert.is_nil(QuestiePlayer.currentQuestlog[QUEST_ID])
+        end)
+    end)
+
+    describe("quest in the game's log without a QUEST_ACCEPTED", function()
+        local UNLISTED_ID = QUEST_ID + 1
+        local unlistedQuest
+
+        before_each(function()
+            _G.C_Timer = {After = function(_, callback) callback() end, NewTimer = newTimerMock}
+            unlistedQuest = {Id = UNLISTED_ID}
+            QuestieDB.GetQuest = function(questId) return questId == UNLISTED_ID and unlistedQuest or nil end
+            -- The scan of accepted quests lists the unknown quest; a second scan reads it.
+            QuestLogCache.CheckForChanges = spy.new(function(questIdsToCheck)
+                if questIdsToCheck[UNLISTED_ID] then
+                    return false, {[UNLISTED_ID] = {1}}
+                end
+                return false, {}, {}, {[UNLISTED_ID] = true}
+            end)
+            QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+            QuestieNameplate.UpdateNameplate = spy.new(function() end)
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieTracker.UpdateQuestLines = spy.new(function() end)
+            QuestieJourney.AcceptQuest = spy.new(function() end)
+            QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+            QuestLifecycle.AdoptQuest = spy.new(function() end)
+        end)
+
+        -- 2026-09-30_190105Z s9: the character's 9 quests arrived from the server after Questie had started.
+        it("is adopted as at login, without a Journey entry or announcement", function()
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.is_true(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+            assert.spy(QuestLifecycle.AdoptQuest).was.called_with(QuestLifecycle, UNLISTED_ID)
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called_with(QuestiePartyObjectives, UNLISTED_ID)
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+            assert.spy(QuestieJourney.AcceptQuest).was.not_called()
+            assert.spy(QuestieAnnounce.AcceptedQuest).was.not_called()
+        end)
+
+        it("is left to its own lifecycle while Questie tracks it, e.g. removed and awaiting the abandon check", function()
+            _G.C_Timer.NewTicker = function() return {Cancel = function() end} end
+            QuestEventHandler.QuestRemoved(UNLISTED_ID)
+
+            QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.called(1)
+            assert.is_false(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+        end)
+
+        describe("after a turn-in", function()
+            before_each(function()
+                _G.C_Timer.NewTicker = function() return {Cancel = function() end} end
+                _G.GetNumQuestLogRewards = function() return 0 end
+                _G.GetQuestLogRewardInfo = function() return nil end
+                QuestieDB.QueryQuestSingle = function() return nil end
+                QuestLogCache.RemoveQuest = spy.new(function() end)
+                QuestLifecycle.CompleteQuest = spy.new(function() end)
+                QuestieJourney.CompleteQuest = spy.new(function() end)
+                QuestieAnnounce.CompletedQuest = spy.new(function() end)
+            end)
+
+            -- E.g. a repeatable taken again after a turn-in whose QUEST_REMOVED came first, its QUEST_ACCEPTED missed.
+            it("adopts the quest again once it has left the log", function()
+                QuestEventHandler.QuestRemoved(UNLISTED_ID)
+                QuestEventHandler.QuestTurnedIn(UNLISTED_ID, 0, 0)
+
+                QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+                QuestEventHandler.QuestLogUpdate()
+
+                assert.is_true(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+                assert.spy(QuestLifecycle.AdoptQuest).was.called_with(QuestLifecycle, UNLISTED_ID)
+            end)
+
+            it("does not adopt a turned-in quest still in the log before its QUEST_REMOVED", function()
+                QuestEventHandler.InitQuestLogStates({[UNLISTED_ID] = true})
+                QuestEventHandler.QuestTurnedIn(UNLISTED_ID, 0, 0)
+
+                QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+                QuestEventHandler.QuestLogUpdate()
+
+                assert.is_false(QuestEventHandler.IsQuestAccepted(UNLISTED_ID))
+                assert.spy(QuestLifecycle.AdoptQuest).was.not_called()
+            end)
         end)
     end)
 
@@ -941,6 +1105,39 @@ describe("QuestEventHandler", function()
             assert.are.equal(2, #queued)
             queued[2]()
             assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker, true)
+        end)
+    end)
+
+    describe("CRITERIA_UPDATE", function()
+        local now
+
+        before_each(function()
+            now = 100
+            _G.GetTime = function() return now end
+            _G.C_Timer = {After = function() end, NewTimer = newTimerMock}
+            QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+            QuestEventHandler.QuestLogUpdate() -- A scan sets the marker; let it expire.
+            QuestLogCache.CheckForChanges:clear()
+            now = 130
+        end)
+
+        -- 2026-09-23_184901Z s1: duels won in Sparring Match (99108) came with only CRITERIA_UPDATE and QUEST_LOG_UPDATE.
+        it("lets the next QUEST_LOG_UPDATE scan while a criteria-tree objective is unfinished", function()
+            QuestLogCache.HasUnfinishedCriteriaObjective = function() return true end
+
+            QuestEventHandler.CriteriaUpdate()
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.called(1)
+        end)
+
+        it("is no marker without an unfinished criteria-tree objective", function()
+            QuestLogCache.HasUnfinishedCriteriaObjective = function() return false end
+
+            QuestEventHandler.CriteriaUpdate()
+            QuestEventHandler.QuestLogUpdate()
+
+            assert.spy(QuestLogCache.CheckForChanges).was.not_called()
         end)
     end)
 
