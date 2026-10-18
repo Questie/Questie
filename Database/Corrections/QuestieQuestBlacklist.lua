@@ -7047,7 +7047,7 @@ function QuestieQuestBlacklist:Load()
         [13331] = false, -- Keeping the Alliance Blind
         [13359] = false, -- Where Dragons Fell
 
-        --- Forever Book quests
+        --- Forever quests
         [78124] = HIDE_ON_MAP, -- Nar'thalas Almanac
         [78127] = HIDE_ON_MAP, -- The Dalaran Digest
         [78142] = HIDE_ON_MAP, -- Bewitchments and Glamours
@@ -7088,6 +7088,13 @@ function QuestieQuestBlacklist:Load()
         [84400] = HIDE_ON_MAP, -- The Knight and the Lady
         [84401] = HIDE_ON_MAP, -- Scourge: Undead Menace or Misunderstood?
         [84402] = HIDE_ON_MAP, -- Necromancy 101
+
+        [91899] = HIDE_ON_MAP, -- A Sealed Crate
+        [91900] = HIDE_ON_MAP, -- A Sealed Crate
+        [91901] = HIDE_ON_MAP, -- A Sealed Crate
+        [91904] = HIDE_ON_MAP, -- A Sealed Crate
+        [91905] = HIDE_ON_MAP, -- A Sealed Crate
+        [91906] = HIDE_ON_MAP, -- A Sealed Crate
     }
 
     if Questie.IsSoD then
