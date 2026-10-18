@@ -210,9 +210,9 @@ Forever, Era, TBC, Wrath and Cata, but 1 on MoP), so no file is shared:
 | WoW Forever | `Questie_Camelot.toc` | `Forever.lua` | 44 | 54 |
 | Classic Era, Season of Discovery, Hardcore | `Questie_Vanilla.toc` | `Era.lua` | 40 | 58 |
 | TBC Anniversary | `Questie_TBC.toc` | `TBC.lua` | 52 | 71 |
-| Wrath (Titan) | `Questie_Wrath.toc` | `Wrath.lua` | 61 | 92 |
-| MoP Classic | `Questie_Mists.toc` | `Mists.lua` | 84 | 92 |
-| Cata Classic | `Questie_Cata.toc` | `Cata.lua`, MoP's measurements | 74 | 82 |
+| Wrath (Titan) | `Questie_Wrath.toc` | `Wrath.lua` | 64 | 96 |
+| MoP Classic | `Questie_Mists.toc` | `Mists.lua` | 95 | 98 |
+| Cata Classic | `Questie_Cata.toc` | `Cata.lua`, MoP's measurements | 83 | 87 |
 
 **Cata ships MoP's measurements.** Its client is retired: Blizzard's CDN serves MoP for its product now, and
 CASCConsole only fetches a product's current build. Cata's last tables (4.4.2.60895, from wago.tools) show its map
@@ -220,12 +220,25 @@ art, overlays and world rects are MoP's, file for file, on all its outdoor maps 
 differ slightly. Only the UiMapIds differ, so `Cata.lua` is MoP's bans under Cata's IDs, matched by AreaID, without
 Pandaria. If Cata comes back as a new client, it is ready; measure it on its own once the CDN serves its art.
 
-**Outdoor maps without exploration overlays aren't measured.** Nothing outlines their ground on the map art. Besides
-the capitals, that is MoP's Gilneas City, Timeless Isle, Wintergrasp, Tol Barad and Tol Barad Peninsula, Isle of
-Giants, Hrothgar's Landing, the Scarlet Enclave, the Molten Front and Darkmoon Island, and Wrath's Wintergrasp,
-Hrothgar's Landing and Scarlet Enclave. Starting areas drawn as maps of their own (Northshire and so on) need nothing:
-Questie files their quests under the zone around them. The tool's `sources.py` lists each skipped map with its
-reason.
+**Outdoor maps without exploration overlays are measured on their whole map art.** Nothing outlines their ground, so
+all of the art counts where the minimap has tiles, and for these maps that is nearly all of it. That covers MoP's
+Gilneas City, Timeless Isle, Wintergrasp, Tol Barad and Tol Barad Peninsula, Isle of Giants, Hrothgar's Landing,
+the Scarlet Enclave, the Molten Front and Darkmoon Island, and Wrath's Wintergrasp, Hrothgar's Landing and Scarlet
+Enclave.
+
+Their bans err toward allowing. The sea and the map's frame count as ground too: on the Timeless Isle, deep sea is
+55% of the minimap's ground and the frame 30% of the map's. A color faint only on the land can then stay under the
+20% share. Sampling the ground under the quests' own spawns would fix that, from Questie's database for each
+client.
+
+Left out on purpose:
+
+- capitals, whose minimap is drawn indoors;
+- starting areas drawn as maps of their own (Northshire and so on): Questie files their quests under the zone around
+  them;
+- maps of maps (Vashj'ir, Stranglethorn Vale, The Maelstrom), whose zones are measured.
+
+The tool's `sources.py` lists each with its reason.
 
 `--write-addon` refuses runs that would ship partial or unchecked data:
 
@@ -250,6 +263,10 @@ redrawn on demand, pixel for pixel, from the zones' art.
 
 - **In game:** Stocking Jetsteam with other Dun Morogh quests active. Colors differ and none is banned there, and
   every color survives `/reload`.
+- **The other clients' data:** the tool's fetch path reproduces Forever's old inputs exactly. Its zone rects match
+  the live client's on all 51 zones, its art and minimap tiles are pixel-identical (528 and 1,568 files), Forever's
+  bans regenerate unchanged and every rating cell redraws pixel for pixel. Cata's tables were checked against MoP's
+  map art, overlays and world rects. The new clients' bans haven't been checked in game yet.
 - **Tests:** `ObjectiveColors.test.lua` covers each rule above. Its mocks answer only what the real modules would.
   Expected colors come from an independent Python implementation of the same OKLab and vision simulations. Every
   deliberate mutation tried by the reviewers fails at least one test.
