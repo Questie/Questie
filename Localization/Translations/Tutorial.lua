@@ -26,7 +26,7 @@ local tutorialLocals = {
         ["zhCN"] = "在巫妖王之怒第四阶段中，暴雪引入了他们自己的任务目标系统。\n\n请选择您想要使用的目标样式：",
         ["zhTW"] = "在巫妖王之怒第四階段中，暴雪引入了他們自己的任務目標系統。\n\n請選擇您想要使用的目標風格：",
     },
-    ["Questie blobs"] = {
+    ["Questie can show quest objectives as icons or as areas.\n\nPlease choose the objective style you want to use:"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
@@ -38,7 +38,7 @@ local tutorialLocals = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["Clustered markers on the world map and minimap.\n\nQuest areas show on accept.\nClick a marker to hide them."] = {
+    ["Questie blobs"] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,
@@ -61,18 +61,6 @@ local tutorialLocals = {
         ["ruRU"] = "Цели Questie",
         ["zhCN"] = "Questie 目标",
         ["zhTW"] = "Questie 目標",
-    },
-    ["pfQuest Objectives"] = {
-        ["enUS"] = true,
-        ["deDE"] = "pfQuest Questziele",
-        ["esES"] = "Objetivos de pfQuest",
-        ["esMX"] = "Objetivos de pfQuest",
-        ["frFR"] = "Objectifs de pfQuest",
-        ["koKR"] = "pfQuest 목표",
-        ["ptBR"] = "Objetivos de pfQuest",
-        ["ruRU"] = "Цели pfQuest",
-        ["zhCN"] = "pfQuest 目标",
-        ["zhTW"] = "pfQuest 目標",
     },
     ["Blizzard Objectives"] = {
         ["enUS"] = true,

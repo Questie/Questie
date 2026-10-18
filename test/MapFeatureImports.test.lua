@@ -11,8 +11,8 @@ local TOC_PATHS = {
     "Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc", "Questie_Cata.toc", "Questie_Mists.toc", "Questie_Camelot.toc",
 }
 
--- Core reaches a drawing feature only here, and only through the feature's adapter. One line per core
--- file and adapter; a new one is a reviewed decision.
+-- Core reaches a drawing feature only here, and only through the feature's adapter unless its line says
+-- why not. One line per core file and module; a new one is a reviewed decision.
 local ENTRY_POINTS = {
     ["Modules/Map/QuestieMap.lua"] = {
         QuestieWaypoints = "DrawWaypoints registers an icon's patrol paths",
@@ -29,6 +29,9 @@ local ENTRY_POINTS = {
     ["Modules/Options/MapTab/QuestieOptionsMap.lua"] = {QuestieWaypoints = "Map > Waypoints settings"},
     ["Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua"] = {QuestieWaypoints = "Show waypoint hover area"},
     ["Modules/Options/IconsTab/QuestieOptionsIcons.lua"] = {QuestiePolygon = "Questie blobs preset and quest area settings"},
+    ["Modules/Tutorial/ObjectivePreview.lua"] = {
+        PolygonRenderer = "the objective style popup's still blobs map, which has no quests for the adapter, draws its areas",
+    },
     ["Questie.lua"] = {
         QuestieWaypoints = "a profile switch redraws paths",
         QuestiePolygon = "disabling Questie resets areas",
