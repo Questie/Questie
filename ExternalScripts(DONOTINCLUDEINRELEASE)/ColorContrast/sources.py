@@ -78,9 +78,8 @@ class Flavor:
         return self.assets / "minimaps"
 
 
-_CAPITAL = "capital: no exploration overlays, and its minimap is drawn indoors"
-_STARTING_AREA = "starting area without overlays; Questie files its quests under the zone around it, measured"
-_NO_OVERLAYS = "no exploration overlays outline its ground"
+_CAPITAL = "capital: its minimap is drawn indoors"
+_STARTING_AREA = "starting area: Questie files its quests under the zone around it, measured"
 FLAVORS = {
     "forever": Flavor(
         key="forever", name="Forever", tocs=("Questie_Camelot.toc",), product="wow_classic_beta",
@@ -92,8 +91,7 @@ FLAVORS = {
         key="mists", name="Mists", tocs=("Questie_Mists.toc",), product="wow_classic", build="5.5.4.70449",
         skip_zones=tuple((ui_map_id, _CAPITAL) for ui_map_id in (84, 85, 86, 87, 88, 89, 103, 110, 111, 998))
         + tuple((ui_map_id, _STARTING_AREA) for ui_map_id in (425, 427, 460, 461, 462, 463, 465, 467, 468, 469))
-        + tuple((ui_map_id, "a map of maps; the zones on it are measured") for ui_map_id in (203, 224, 276))
-        + tuple((ui_map_id, _NO_OVERLAYS) for ui_map_id in (123, 124, 170, 202, 218, 244, 245, 338, 407, 507, 554)),
+        + tuple((ui_map_id, "a map of maps; the zones on it are measured") for ui_map_id in (203, 224, 276)),
     ),
     "era": Flavor(
         key="era", name="Era", tocs=("Questie_Vanilla.toc",), product="wow_classic_era", build="1.15.9.70003",
@@ -109,8 +107,7 @@ FLAVORS = {
     ),
     "wrath": Flavor(
         key="wrath", name="Wrath", tocs=("Questie_Wrath.toc",), product="wow_classic_titan", build="3.80.2.70372",
-        skip_zones=tuple((ui_map_id, _CAPITAL) for ui_map_id in (1453, 1454, 1455, 1456, 1457, 1458, 1947, 1954, 1955))
-        + tuple((ui_map_id, _NO_OVERLAYS) for ui_map_id in (123, 124, 170)),
+        skip_zones=tuple((ui_map_id, _CAPITAL) for ui_map_id in (1453, 1454, 1455, 1456, 1457, 1458, 1947, 1954, 1955)),
     ),
 }
 
@@ -211,15 +208,16 @@ def read_outdoor_maps(flavor: Flavor) -> list[Zone]:
 
 
 def read_zones(flavor: Flavor) -> list[Zone]:
-    """The outdoor maps the tool measures: those with explored map art. fetch.py composes it for every map with
-    exploration overlays; the others, such as capitals, have no outline of their ground to measure."""
-    return [zone for zone in read_outdoor_maps(flavor) if (flavor.explored / str(zone.ui_map_id)).is_dir()]
+    """The outdoor maps the tool measures: every one with explored map art (fetch.py composes it for every map
+    with art), less those the flavor skips."""
+    skipped = {ui_map_id for ui_map_id, _ in flavor.skip_zones}
+    return [zone for zone in read_outdoor_maps(flavor)
+            if zone.ui_map_id not in skipped and (flavor.explored / str(zone.ui_map_id)).is_dir()]
 
 
 def unmeasured_zones(flavor: Flavor) -> list[tuple[int, str]]:
     """Outdoor maps the client has but the tool cannot measure: no explored art, and the flavor does not skip them
-    on purpose. A non-empty list means fetch.py has not run for the build, or a map without exploration overlays
-    still needs its entry in skip_zones."""
+    on purpose. A non-empty list means fetch.py has not run for the build."""
     skipped = {ui_map_id for ui_map_id, _ in flavor.skip_zones}
     return [(zone.ui_map_id, zone.name) for zone in read_outdoor_maps(flavor)
             if zone.ui_map_id not in skipped and not (flavor.explored / str(zone.ui_map_id)).is_dir()]
@@ -229,7 +227,7 @@ ART_TILES = math.ceil(ART_WIDTH / ART_TILE) * math.ceil(ART_HEIGHT / ART_TILE)  
 
 
 def map_art_tiles(zone: Zone) -> int:
-    """How many of the zone's ART_TILES explored art tiles were prepared; missing ones read as black ground."""
+    """How many of the zone's ART_TILES explored art tiles were fetched; missing ones read as black ground."""
     return len(list((zone.flavor.explored / str(zone.ui_map_id)).glob("r*c*.png")))
 
 
@@ -276,6 +274,10 @@ def read_areas(zone: Zone) -> tuple[list[Area], list[str]]:
 
     Each exploration overlay pictures one sub-area. Where soft overlay edges overlap, a pixel belongs to the most
     opaque one; pixels no overlay covers at half opacity or more lie outside the zone and belong to no area.
+
+    A map without exploration overlays (Gilneas City, the Timeless Isle) has nothing outlining its ground, so it is
+    one area: all of its art where the minimap has tiles. That is nearly all of it, sea and the map's frame
+    included, so a color faint only on the land may stay under the banning share: these bans err toward allowing.
     """
     db2 = zone.flavor.db2
     # Overlays the client has no tiles for (flag 4, such as Zul'Gurub's) are hit areas without art; the client draws
@@ -283,6 +285,9 @@ def read_areas(zone: Zone) -> tuple[list[Area], list[str]]:
     textured = {row["WorldMapOverlayID"] for row in _db2(db2, "WorldMapOverlayTile")}
     overlays = [row for row in _db2(db2, "WorldMapOverlay")
                 if row["UiMapArtID"] == str(zone.art) and row["ID"] in textured]
+    if not overlays:
+        _, present = Minimap(zone).on_map_grid(zone, 1)
+        return [Area(zone.name, present)], []
     area_names = {row["ID"]: row["AreaName_lang"] for row in _db2(db2, "AreaTable")}
     folder = zone.flavor.maps / str(zone.ui_map_id)
 

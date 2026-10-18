@@ -8,7 +8,7 @@
   maps/<uiMapID>/r<row>c<col>.png               each outdoor map's art
   maps/<uiMapID>/o<overlayID>-r<row>c<col>.png  its exploration overlays
   explored/<uiMapID>/r<row>c<col>.png           the art with every overlay blended on, as a fully explored character
-                                                sees it; maps without overlays get none
+                                                sees it; a map without overlays gets its art as it is
   minimaps/<instanceID>/<x>_<y>.jpg             the minimap tiles under every outdoor map, and one around it
 
 Art and tiles come from Blizzard's CDN through CASCConsole (CASCExplorer) in the WoW install. The CDN serves only a
@@ -199,9 +199,8 @@ def overlay_image(folder: Path, overlay: dict[str, str]) -> Image.Image | None:
 
 
 def compose_explored(flavor: Flavor) -> None:
-    """Bakes every overlay into its map's art, in overlay ID order as the client acquires them, for each map with
-    at least one textured overlay. Overlays without tiles (flag 4, such as Wintergrasp's) are hit areas the client
-    draws nothing for."""
+    """Bakes every overlay into its map's art, in overlay ID order as the client acquires them, for each outdoor map.
+    Overlays without tiles (flag 4, such as Wintergrasp's) are hit areas the client draws nothing for."""
     textured = {row["WorldMapOverlayID"] for row in read_table(flavor, "WorldMapOverlayTile")}
     overlays: dict[str, list[dict[str, str]]] = {}
     for row in sorted(read_table(flavor, "WorldMapOverlay"), key=lambda r: int(r["ID"])):
@@ -215,7 +214,7 @@ def compose_explored(flavor: Flavor) -> None:
         tiles = {tuple(map(int, re.fullmatch(r"r(\d+)c(\d+)", p.stem).groups())): p for p in folder.glob("r*c*.png")}
         drawn = [(overlay, image) for overlay in overlays.get(str(zone.art), [])
                  if (image := overlay_image(folder, overlay)) is not None]
-        if not tiles or not drawn:
+        if not tiles:
             continue
         rows, columns = max(r for r, _ in tiles) + 1, max(c for _, c in tiles) + 1
         art = Image.new("RGBA", (columns * ART_TILE, rows * ART_TILE))
