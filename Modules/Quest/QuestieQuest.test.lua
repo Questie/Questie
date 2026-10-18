@@ -171,16 +171,19 @@ describe("QuestieQuest", function()
         end)
 
         -- The cache infers completion for a quest the client lists no rows for, though Blizzard reports it incomplete.
-        it("retains the legacy empty-objective finisher workaround for unclassified quests", function()
-            compat.IsQuestSequenced = function() return false end
+        -- Each finisher request draws a full set of icons, so a second one stacks copies on the turn-in.
+        it("requests the finisher of a complete quest without objectives once", function()
             quest.Objectives = {}
+            quest.IsComplete = function() return 1 end
             QuestLogCache.GetQuest = function() return {isComplete = 1} end
             QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
 
-            QuestieQuest:PopulateQuestLogInfo(quest)
+            QuestieQuest:UpdateQuest(93927)
 
             assert.is_true(quest.isComplete)
             assert.spy(finisher.AddFinisher).was.called(1)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
         end)
 
         it("gives a failed quest without objective mappings no finisher", function()
