@@ -76,6 +76,7 @@ local cache = {
 ---@field questTag QuestTag
 ---@field isComplete -1|0|1 @ -1 = failed, 0 = not complete, 1 = complete
 ---@field objectives QuestLogCacheObjectiveData[]
+---@field numRows number @The client's objective rows, including the empty ones objectives leaves out
 
 
 ---@type table<QuestId, QuestLogCacheData>
@@ -94,10 +95,11 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 
 ---@param questId QuestId
 ---@param oldObjectives QuestLogCacheObjectiveData[]
+---@param oldNumRows number @The client's rows when the quest was cached, empty ones included; 0 when not cached
 ---@param isCompleteAccordingToBlizzard number @ -1 = failed, nil = not complete, 1 = complete
 ---@param suppressRegressions boolean @ when true, treat numFulfilled decreases and vanished unfinished rows as cache misses (zone transition)
----@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean needsRetry @Nil objectives or retained placeholder rows need another scan.
-local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
+---@return table? newObjectives, ObjectiveIndex[] changedObjIds, isComplete, boolean needsRetry, number numRows @Nil objectives or retained placeholder rows need another scan.
+local function GetNewObjectives(questId, oldObjectives, oldNumRows, isCompleteAccordingToBlizzard, suppressRegressions)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
     local changedObjIds -- not assigning {} for easier nil when nothing changed
     local allObjectivesFinished = true -- default to true for easier handling
@@ -111,10 +113,10 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
     end
 
     -- Between PLAYER_LEAVING_WORLD and PLAYER_ENTERING_WORLD the client answers no rows and "not complete" for every
-    -- logged quest. A quest that had rows has not lost them: read as all finished, it would be cached complete.
-    -- Unlike the loading-screen recovery this needs no LOADING_SCREEN_ENABLED, which may come after that answer.
-    -- A failed quest loses its rows too and is accepted.
-    if #objectives == 0 and next(oldObjectives) and not isCompleteAccordingToBlizzard then
+    -- logged quest. A quest that had rows has not lost them: read as all finished, it would be cached complete. That
+    -- includes rows that are all empty, which the cache leaves out (Test of Faith, 1149).
+    -- Unlike the loading-screen recovery this needs no event to start it. A failed quest loses its rows too and is accepted.
+    if #objectives == 0 and oldNumRows > 0 and not isCompleteAccordingToBlizzard then
         return nil, nil, isCompleteAccordingToBlizzard, false
     end
 
@@ -232,7 +234,7 @@ local function GetNewObjectives(questId, oldObjectives, isCompleteAccordingToBli
         Sounds.PlayObjectiveProgress()
     end
 
-    return newObjectives, changedObjIds, isComplete, needsRetry
+    return newObjectives, changedObjIds, isComplete, needsRetry, #objectives
 end
 
 -- For profiling
@@ -279,7 +281,9 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 if blizzardCacheIncorrect then
                     cacheMiss = true
                 else
-                    local newObjectives, changedObjIds, isComplete, needsRetry = GetNewObjectives(questId, cachedObjectives, isCompleteAccordingToBlizzard, suppressRegressions)
+                    local cachedNumRows = cachedQuest and cachedQuest.numRows or 0
+                    local newObjectives, changedObjIds, isComplete, needsRetry, numRows = GetNewObjectives(questId, cachedObjectives,
+                        cachedNumRows, isCompleteAccordingToBlizzard, suppressRegressions)
                     cacheMiss = cacheMiss or needsRetry
 
                     if newObjectives then
@@ -318,6 +322,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                                 questTag = questTag,
                                 isComplete = isComplete,
                                 objectives = newObjectives,
+                                numRows = numRows,
                             }
                             changes[questId] = changedObjIds
                         end

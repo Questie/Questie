@@ -985,6 +985,29 @@ describe("QuestLogCache", function()
             assert.spy(Sounds.PlayQuestComplete).was.called(1)
         end)
 
+        -- The cache leaves Test of Faith's only row out, so it holds no rows for the loading screen's answer to vanish.
+        it("does not complete a quest whose only rows are empty when the rows vanish", function()
+            questLogTitles[1] = {"Test of Faith", 26, nil, false, false, nil, nil, QUEST_ID}
+            local leap = {text = "", type = "event", numFulfilled = 0, numRequired = 1, finished = false}
+            questObjectives[QUEST_ID] = {leap}
+            QuestLogCache.CheckForChanges(nil)
+
+            questObjectives[QUEST_ID] = {}
+            local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+
+            assert.is_true(cacheMiss)
+            assert.are.same({}, changes)
+            assert.are.equal(0, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.not_called()
+
+            questLogTitles[1] = {"Test of Faith", 26, nil, false, false, 1, nil, QUEST_ID}
+            questObjectives[QUEST_ID] = {leap}
+            QuestLogCache.CheckForChanges(nil)
+
+            assert.are.equal(1, QuestLogCache.GetQuest(QUEST_ID).isComplete)
+            assert.spy(Sounds.PlayQuestComplete).was.called(1)
+        end)
+
         it("still infers completion when Blizzard adds an empty row to finished objectives", function()
             questLogTitles[1] = {"Collect Items", 60, nil, false, false, nil, nil, QUEST_ID}
             questObjectives[QUEST_ID] = {

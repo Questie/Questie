@@ -1493,9 +1493,9 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and questLogEntry.isComplete == 1
         and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and (quest.Finisher.NPC or quest.Finisher.GameObject))) then
         -- Legacy quests can need a finisher despite an incomplete native flag and no mapped objectives. The cache
-        -- already infers their completion when the client lists no unfinished row. Missing database mappings cannot
-        -- justify more: an unfinished native row the database does not map, an empty sequenced stage or a failed
-        -- quest gets no turn-in icon.
+        -- already infers their completion when the client lists no unfinished row and not only empty ones (those
+        -- leave it to the native flag). Missing database mappings cannot justify more: an unfinished native row the
+        -- database does not map, an empty sequenced stage or a failed quest gets no turn-in icon.
         -- Keep a known finisher/triggerEnd as a prerequisite for creating its map notes.
         AvailableQuests.RemoveQuest(quest.Id, function()
             QuestFinisher.AddFinisher(quest)
