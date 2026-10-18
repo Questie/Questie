@@ -35,7 +35,8 @@ local LAYER_ORDER = {
     {name = "areas", FrameLevel = function()
         return WorldMapFrame:GetPinFrameLevelsManager():GetValidFrameLevel("PIN_FRAME_LEVEL_QUEST_BLOB")
     end},
-    -- Just below Questie's icons, which start at 2016 (QuestieMap.utils.SetDrawOrder).
+    -- Below Questie's icons, which draw from 2016 up, or in a block of their own below Blizzard's quest pins
+    -- (QuestieMap.utils.SetDrawOrder).
     {name = "paths", FrameLevel = function() return 2015 end},
 }
 
