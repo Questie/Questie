@@ -416,41 +416,56 @@ describe("ObjectiveColors", function()
         end)
     end)
 
-    describe("shipped Forever ban data", function()
-        local data
+    -- Every generated file in ObjectiveColorBans/, one per measured client.
+    local banFiles = {}
+    for file in require("lfs").dir("Modules/Quest/ObjectiveColorBans") do
+        if file:match("%.lua$") then
+            banFiles[#banFiles + 1] = file
+        end
+    end
+    table.sort(banFiles)
 
-        before_each(function()
-            ObjectiveColors.AddBans = function(added) data = added end
-            dofile("Modules/Quest/ObjectiveColorBans/Forever.lua")
-        end)
-
-        it("was measured with today's palette colors and blob opacity", function()
-            local colors, names = ObjectiveColors.GetPalette()
-            for index, name in ipairs(names) do
-                local rgb = colors[index]
-                assert.are.same({math.floor(rgb[1] * 255 + 0.5), math.floor(rgb[2] * 255 + 0.5),
-                    math.floor(rgb[3] * 255 + 0.5)}, data.measuredColors[name], name)
-            end
-            local source = io.open("Modules/Map/Polygon/PolygonMinimap.lua"):read("*a")
-            local fill, border = source:match("local FILL_ALPHA, BORDER_ALPHA = ([%d.]+), ([%d.]+)")
-            assert.are.same({tonumber(fill), tonumber(border)}, data.measuredOpacity)
-            for _, banned in pairs(data.byUiMapId) do
-                for _, name in ipairs(banned) do
-                    assert.is_not_nil(data.measuredColors[name], name)
-                end
-            end
-        end)
-
-        it("is loaded by exactly the TOCs it names", function()
-            local expected = {}
-            for _, toc in ipairs(data.tocs) do
-                expected[toc] = true
-            end
-            for _, toc in ipairs({"Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc", "Questie_Cata.toc",
-                "Questie_Mists.toc", "Questie_Camelot.toc"}) do
-                local lists = io.open(toc):read("*a"):find("Modules\\Quest\\ObjectiveColorBans\\Forever.lua", 1, true)
-                assert.are.equal(expected[toc] == true, lists ~= nil, toc)
-            end
-        end)
+    it("ships ban data for the measured clients", function()
+        assert.are.same({"Cata.lua", "Era.lua", "Forever.lua", "Mists.lua", "TBC.lua", "Wrath.lua"}, banFiles)
     end)
+
+    for _, file in ipairs(banFiles) do
+        describe("shipped ban data " .. file, function()
+            local data
+
+            before_each(function()
+                ObjectiveColors.AddBans = function(added) data = added end
+                dofile("Modules/Quest/ObjectiveColorBans/" .. file)
+            end)
+
+            it("was measured with today's palette colors and blob opacity", function()
+                local colors, names = ObjectiveColors.GetPalette()
+                for index, name in ipairs(names) do
+                    local rgb = colors[index]
+                    assert.are.same({math.floor(rgb[1] * 255 + 0.5), math.floor(rgb[2] * 255 + 0.5),
+                        math.floor(rgb[3] * 255 + 0.5)}, data.measuredColors[name], name)
+                end
+                local source = io.open("Modules/Map/Polygon/PolygonMinimap.lua"):read("*a")
+                local fill, border = source:match("local FILL_ALPHA, BORDER_ALPHA = ([%d.]+), ([%d.]+)")
+                assert.are.same({tonumber(fill), tonumber(border)}, data.measuredOpacity)
+                for _, banned in pairs(data.byUiMapId) do
+                    for _, name in ipairs(banned) do
+                        assert.is_not_nil(data.measuredColors[name], name)
+                    end
+                end
+            end)
+
+            it("is loaded by exactly the TOCs it names", function()
+                local expected = {}
+                for _, toc in ipairs(data.tocs) do
+                    expected[toc] = true
+                end
+                for _, toc in ipairs({"Questie.toc", "Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc",
+                    "Questie_Cata.toc", "Questie_Mists.toc", "Questie_Camelot.toc"}) do
+                    local lists = io.open(toc):read("*a"):find("Modules\\Quest\\ObjectiveColorBans\\" .. file, 1, true)
+                    assert.are.equal(expected[toc] == true, lists ~= nil, toc)
+                end
+            end)
+        end)
+    end
 end)
