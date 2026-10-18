@@ -298,6 +298,8 @@ Modules\Tracker\LinePool\TrackerLinePool.lua
 Modules\Tracker\LinePool\LineBuilder.lua
 
 # Tutorial
+Modules\Tutorial\ObjectivePreview.lua
+Modules\Tutorial\Previews\Classic.lua
 Modules\Tutorial\ChooseObjectiveType.lua
 Modules\Tutorial\RejectInBattlegrounds.lua
 Modules\Tutorial\Tutorial.lua
