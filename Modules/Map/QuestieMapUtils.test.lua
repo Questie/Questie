@@ -253,6 +253,77 @@ describe("QuestieMapUtils", function()
             -- Should still be at completion level (2016 + 8 = 2024)
             assert.spy(SetFrameLevelSpy).was.called_with(frame, 2024)
         end)
+
+        it("should draw a grown icon above every tier", function()
+            local frame = CreateMockFrameWithData(8, true)
+            frame.pictureScale = 1.35
+            local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
+
+            QuestieMap.utils.SetDrawOrder(frame)
+
+            assert.spy(SetFrameLevelSpy).was.called_with(frame, 2025)
+        end)
+
+        describe("on the world map", function()
+            local savedWorldMapFrame, inserted, insertResult
+
+            ---The level the icon was drawn at.
+            local function Level(iconType, fields)
+                local frame = CreateMockFrameWithData(iconType, fields and fields.complete)
+                for key, value in pairs(fields or {}) do frame[key] = value end
+                frame.SetFrameLevel = function(self, level) self.level = level end
+                QuestieMap.utils.SetDrawOrder(frame)
+                return frame.level
+            end
+
+            before_each(function()
+                savedWorldMapFrame = _G.WorldMapFrame
+                inserted, insertResult = {}, true
+                local levels = {
+                    InsertFrameLevelBelow = function(_, frameLevelType, relativeFrameLevelType, range)
+                        inserted[#inserted + 1] = {frameLevelType, relativeFrameLevelType, range}
+                        return insertResult
+                    end,
+                    GetFrameLevelStart = function(_, frameLevelType)
+                        return frameLevelType == "PIN_FRAME_LEVEL_QUESTIE" and 2740 or 2000
+                    end,
+                }
+                _G.WorldMapFrame = {GetPinFrameLevelsManager = function() return levels end}
+            end)
+
+            after_each(function()
+                _G.WorldMapFrame = savedWorldMapFrame
+            end)
+
+            it("draws in a block of its own below Blizzard's quest pins, by tier and then lower on the map in front", function()
+                local objective, lowerObjective = Level(1, {y = 37.6}), Level(1, {y = 80})
+                local giver, turnIn, note = Level(6, {y = 10}), Level(8, {complete = true, y = 0}), Level(6, {isManualIcon = true, y = 99})
+
+                -- Nine tiers of 101 rows, and one level on top for a grown icon.
+                assert.are.same({{"PIN_FRAME_LEVEL_QUESTIE", "PIN_FRAME_LEVEL_ACTIVE_QUEST", 910}}, inserted)
+                assert.are.equal(2740 + 4 * 101 + 37, objective)
+                assert.is_true(objective < lowerObjective)
+                assert.is_true(lowerObjective < giver)
+                assert.is_true(giver < turnIn)
+                assert.is_true(note < objective)
+                assert.are.equal(2740 + 909, Level(8, {complete = true, y = 100, pictureScale = 1.35}))
+                -- Positions off the map's edges stay in their tier.
+                assert.are.equal(2740 + 4 * 101, Level(1, {y = -5}))
+                assert.are.equal(2740 + 4 * 101 + 100, Level(1, {y = 140}))
+                -- The block is registered once.
+                assert.are.equal(1, #inserted)
+            end)
+
+            it("keeps the fixed levels on the minimap, and where the world map gives no block", function()
+                assert.are.equal(2020, Level(1, {miniMapIcon = true, y = 50}))
+                assert.are.equal(2025, Level(1, {miniMapIcon = true, pictureScale = 1.35}))
+
+                dofile("Modules/Map/QuestieMapUtils.lua")
+                insertResult = false
+                assert.are.equal(2020, Level(1, {y = 50}))
+                assert.are.equal(2025, Level(1, {pictureScale = 1.35}))
+            end)
+        end)
     end)
 
     describe("MapExplorationUpdate", function()

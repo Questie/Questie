@@ -48,23 +48,65 @@ MAX_DRAW_ORDER_BY_ICON_TYPE = MAX_DRAW_ORDER_BY_ICON_TYPE + 1
 -- Framelevel that is infront of all aboves
 local DRAW_ORDER_QUEST_COMPLETE = 2 * MAX_DRAW_ORDER_BY_ICON_TYPE
 
---- Set frame's frameLevel.
+-- Draw order
+-- Each kind of icon has a tier: notes lowest, then quest objectives, quest givers, and turn-ins on top.
+-- On the world map, Questie's icons are quest pins, so they draw in a block of frame levels of their
+-- own just below Blizzard's quest pins: those and the player's arrow stay above them, flight points
+-- and other points of interest below. Within a tier, an icon lower on its map draws in front. On the
+-- minimap, and where the world map gives no block, tiers keep fixed levels from 2016, above patrol
+-- paths and far above the minimap's own frames. A grown icon, such as a hovered one, draws in front
+-- of all others on its map.
+local TIERS = DRAW_ORDER_QUEST_COMPLETE + 1
+local Y_STEPS = 101 -- One row of levels per percent of the map's height, 0 to 100.
+local BLOCK_TYPE = "PIN_FRAME_LEVEL_QUESTIE"
+local BLOCK_RANGE = TIERS * Y_STEPS + 1 -- And one more on top for a grown icon.
+local FIXED_LEVEL = 2016
+
+---@type table? Blizzard's world map pin frame levels, once Questie's block is registered in it.
+local blockLevels
+local blockTried = false
+
+---The first frame level of Questie's block on the world map, registered on first use: before the map
+---first shows, as icons are drawn at login. Nil when the map's level manager gives no block.
+---@return number?
+local function _BlockStart()
+    if not blockTried then
+        blockTried = true
+        local levels = WorldMapFrame and WorldMapFrame.GetPinFrameLevelsManager and WorldMapFrame:GetPinFrameLevelsManager()
+        if levels and levels.InsertFrameLevelBelow
+            and levels:InsertFrameLevelBelow(BLOCK_TYPE, "PIN_FRAME_LEVEL_ACTIVE_QUEST", BLOCK_RANGE) then
+            blockLevels = levels
+        end
+    end
+    return blockLevels and blockLevels:GetFrameLevelStart(BLOCK_TYPE)
+end
+
+---The icon's tier, 0 to TIERS - 1.
+---@param frame IconFrame
+---@return number
+local function _Tier(frame)
+    local data = frame.data
+    if data and data.Type == "complete" then return DRAW_ORDER_QUEST_COMPLETE end
+    return ((data and DRAW_ORDER_BY_ICON_TYPE_LOOKUP[data.Icon]) or 0)
+        + ((frame.isManualIcon and 0) or MAX_DRAW_ORDER_BY_ICON_TYPE) -- Notes are always below other icons
+end
+
+---Sets the icon's frame level from its tier, its place on its map and whether it is grown. HereBeDragons
+---sets the parent frame and strata; the level stays fixed as the parent changes.
 ---@param frame IconFrame
 function QuestieMap.utils.SetDrawOrder(frame)
-    -- We need to add 2015, because of the regular WorldMapFrame.ScrollContainer which seems to start at 2000
-    -- Add +1 to be above waypoint lines
-    local frameLevel = 2016
-
-    if frame.data and frame.data.Type == "complete" then
-        -- Show quest finishers always infront of other icons.
-        frameLevel = frameLevel + DRAW_ORDER_QUEST_COMPLETE
+    local frameLevel
+    local start = (not frame.miniMapIcon) and _BlockStart()
+    if start then
+        if frame.pictureScale then
+            frameLevel = start + BLOCK_RANGE - 1
+        else
+            local row = math.floor(math.min(math.max(frame.y or 0, 0), 100))
+            frameLevel = start + _Tier(frame) * Y_STEPS + row
+        end
     else
-        frameLevel = frameLevel
-            + ((frame.data and DRAW_ORDER_BY_ICON_TYPE_LOOKUP[frame.data.Icon]) or 0) -- Get draw order for the icon type
-            + ((frame.isManualIcon and 0) or MAX_DRAW_ORDER_BY_ICON_TYPE) -- This is to make sure that manual icons are always below other icons
+        frameLevel = FIXED_LEVEL + (frame.pictureScale and TIERS or _Tier(frame))
     end
-
-    -- Setting ParentFrame and FrameStrata are handled by HBD / WOW-UI code
 
     frame:SetFixedFrameLevel(false)
     frame:SetFrameLevel(frameLevel)
