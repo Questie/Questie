@@ -10,8 +10,14 @@ It lives in `ExternalScripts(DONOTINCLUDEINRELEASE)`, which release builds never
 ## Requirements
 
 - `uv`, plus Lua 5.1 for the tests.
-- For `fetch.py`: a WoW install with CASCConsole in `CASC/` (`/mnt/c/Games/World of Warcraft` by default; `--wow`
-  or `QUESTIE_WOW` point elsewhere) and internet access to wago.tools and Blizzard's CDN. No client needs to run.
+- For `fetch.py`:
+  - **WSL.** It runs the Windows `CASCConsole.exe` through `wslpath`, and stops at once without it. Porting it
+    elsewhere means running CASCConsole another way.
+  - **CASCConsole** (from [CASCExplorer](https://github.com/WoW-Tools/CASCExplorer)) and its `listfile.csv` (the
+    [community listfile](https://github.com/wowdev/wow-listfile)), in `<WoW folder>/CASC/`. The default folder is
+    `/mnt/c/Games/World of Warcraft`; `--wow` or `QUESTIE_WOW` point elsewhere. CASCConsole downloads from
+    Blizzard's CDN, so no client needs to be installed or running.
+  - Internet access to wago.tools and Blizzard's CDN.
 
 Each client the tool knows is a **flavor** in `sources.py` (`FLAVORS`): its CDN product, the build measured, the
 TOCs that load its data, and the outdoor maps it skips on purpose. Each flavor's assets live in their own folder,
