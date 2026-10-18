@@ -729,6 +729,29 @@ describe("QuestieQuest", function()
             assert.are.equal(color, objective.Color)
         end)
 
+        it("picks a color only once the objective's spawn list is built, since the pick places the objective", function()
+            local ObjectiveColors = QuestieLoader:ImportModule("ObjectiveColors")
+            local originalGet = ObjectiveColors.Get
+            local originalCalls = QuestieQuest.private.objectiveSpawnListCallTable
+            local spawnList = {[7] = {Spawns = {[1] = {{10, 20}}}}}
+            QuestieQuest.private.objectiveSpawnListCallTable = {event = function() return spawnList end}
+            -- The stub stops PopulateObjective right after the pick, before any drawing.
+            local seen
+            ObjectiveColors.Get = function(_, objective)
+                seen = objective.spawnList
+                error("stop after the pick")
+            end
+            local objective = {Index = 65, Description = "Special", Type = "event", Completed = false,
+                Update = function() end, AlreadySpawned = {}}
+            local ok, err = coroutine.resume(coroutine.create(function()
+                QuestieQuest:PopulateObjective({Id = 42, ObjectiveData = {}}, 0, objective, false)
+            end))
+            ObjectiveColors.Get, QuestieQuest.private.objectiveSpawnListCallTable = originalGet, originalCalls
+            assert.is_false(ok)
+            assert.is_truthy(tostring(err):find("stop after the pick", 1, true))
+            assert.are.equal(spawnList, seen)
+        end)
+
         it("should not throw an error when called from a coroutine", function()
             local quest = {ObjectiveData = {}}
             local objective = {Description = "test"}
