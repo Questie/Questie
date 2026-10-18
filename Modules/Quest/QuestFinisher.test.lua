@@ -46,6 +46,7 @@ describe("QuestFinisher", function()
         QuestieEvent.CanQuestBeTurnedInOutsideOfEvent = function() return false end
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
+        QuestieMap.GetFramesForQuest = function() return {} end
         QuestiePlayer.currentQuestlog = {}
         QuestiePlayer.GetCurrentZoneId = function()
             return 440
@@ -400,6 +401,54 @@ describe("QuestFinisher", function()
         assert.spy(QuestieDB.GetObject).was.not_called()
         assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
         assert.spy(QuestieMap.DrawWaypoints).was.not_called()
+    end)
+
+    it("should not add finisher when its turn-in icons are already drawn", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function() return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}} end)
+        QuestieMap.GetFramesForQuest = function(_, questId)
+            return questId == 1 and {QuestieFrame1 = {data = {Id = 1, Type = "complete"}}} or {}
+        end
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+    end)
+
+    it("should add finisher when the quest's drawn icons are not its turn-in icons", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieDB.GetNPC = spy.new(function() return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}} end)
+        QuestieMap.GetFramesForQuest = function()
+            return {
+                QuestieFrame1 = {data = {Id = 1, Type = "monster"}}, -- an objective icon
+                QuestieFrame2 = {data = {Id = 2, Type = "complete"}}, -- another quest's turn-in
+                QuestieFrame3 = {}, -- unloaded
+            }
+        end
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieMap.DrawWorldIcon).was.called(1)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
     end)
 
     it("should warn and not add a finisher when its NPC is missing in DB", function()
