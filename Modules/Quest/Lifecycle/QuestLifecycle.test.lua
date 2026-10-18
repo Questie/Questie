@@ -220,6 +220,7 @@ describe("QuestLifecycle", function()
             unloaded()
 
             assert.spy(QuestieQuest.AddToQuestLog).was.called_with(QuestieQuest, quest)
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called(1)
             assert.is_true(Questie.db.char.collapsedQuests[questId])
@@ -240,6 +241,7 @@ describe("QuestLifecycle", function()
 
             assert.is_nil(QuestiePlayer.currentQuestlog[questId])
             assert.spy(QuestieQuest.AddToQuestLog).was.not_called()
+            assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
         end)
 
         it("should not add a quest the database does not know", function()

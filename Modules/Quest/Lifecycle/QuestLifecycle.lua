@@ -151,6 +151,9 @@ function QuestLifecycle:AdoptQuest(questId)
             return
         end
         QuestieQuest:AddToQuestLog(quest)
+        -- Party members learn of the quest and its progress here, as from AcceptQuest. AddToQuestLog sends nothing, so
+        -- start-up does not send every quest on its own: a joining party member asks for the whole quest log.
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
         AvailableQuests.CalculateAndDrawAll()
     end)
 end
