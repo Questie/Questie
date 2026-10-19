@@ -1201,6 +1201,30 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
     if preQuestSingle then
+        -- Edge case where the one prequest is not doable (locked out by an exclusive quest), so this quest is completely unavailable
+        if #preQuestSingle == 1 and not completedQuests[preQuestSingle[1]] then
+            local preQuestSingleExclusives = QuestieDB.QueryQuestSingle(preQuestSingle[1], "exclusiveTo")
+            if preQuestSingleExclusives then
+                for preQuestSingleExclusivesIndex=1, #preQuestSingleExclusives do
+                    if completedQuests[preQuestSingleExclusives[preQuestSingleExclusivesIndex]] then
+                        local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. preQuestSingleExclusives[preQuestSingleExclusivesIndex] .. " is completed"
+                        if returnText and returnBrief then
+                            return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest completed"), true, DoableStates.EXCLUSIVE_COMPLETED
+                        elseif returnText and not returnBrief then
+                            return msg, true, DoableStates.EXCLUSIVE_COMPLETED
+                        end
+                    elseif currentQuestlog[preQuestSingleExclusives[preQuestSingleExclusivesIndex]] then
+                        local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. preQuestSingleExclusives[preQuestSingleExclusivesIndex] .. " is in the quest log"
+                        if returnText and returnBrief then
+                            return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest in quest log"), true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
+                        elseif returnText and not returnBrief then
+                            return msg, true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
+                        end
+                    end
+                end
+            end
+        end
+
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         if not isPreQuestSingleFulfilled then
             local msg = "Pre-quest requirement not fulfilled for quest " .. questId
