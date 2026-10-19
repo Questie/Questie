@@ -1203,6 +1203,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     if preQuestSingle then
         -- Edge case where the one prequest is not doable (locked out by an exclusive quest), so this quest is completely unavailable
         if #preQuestSingle == 1 and not completedQuests[preQuestSingle[1]] then
+            ---@type QuestId[]?
             local preQuestSingleExclusives = QuestieDB.QueryQuestSingle(preQuestSingle[1], "exclusiveTo")
             if preQuestSingleExclusives then
                 for preQuestSingleExclusivesIndex=1, #preQuestSingleExclusives do
