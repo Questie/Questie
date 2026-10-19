@@ -7095,6 +7095,8 @@ function QuestieQuestBlacklist:Load()
         [91904] = HIDE_ON_MAP, -- A Sealed Crate
         [91905] = HIDE_ON_MAP, -- A Sealed Crate
         [91906] = HIDE_ON_MAP, -- A Sealed Crate
+
+        [93928] = true, -- Of Mice and Milk
     }
 
     if Questie.IsSoD then
