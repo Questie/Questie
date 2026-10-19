@@ -129,7 +129,16 @@ describe("QuestieFrame", function()
 
         before_each(function()
             originalInCombatLockdown = _G.InCombatLockdown
-            QuestieFrameInstance.SetPassThroughButtons = spy.new(function() end)
+            local passThroughButtons = {}
+            QuestieFrameInstance.SetPassThroughButtons = spy.new(function(_, ...)
+                passThroughButtons = {}
+                for _, button in ipairs({...}) do
+                    passThroughButtons[button] = true
+                end
+            end)
+            QuestieFrameInstance.ShouldButtonPassThrough = function(_, button)
+                return passThroughButtons[button] == true
+            end
             queued = {}
             queueMock = stub(QuestieLoader:ImportModule("QuestieCombatQueue"), "Queue", function(_, func, ...)
                 queued[#queued + 1] = {func = func, args = {...}}

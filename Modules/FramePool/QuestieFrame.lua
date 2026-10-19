@@ -188,7 +188,7 @@ end
 -- SetPassThroughButtons is blocked in combat, so frames acquired then retry once combat ends.
 ---@param frame IconFrame
 function QuestieFrame.EnsureRightClickPassThrough(frame)
-    if frame.rightClickPassThrough then
+    if frame:ShouldButtonPassThrough("RightButton") then
         return
     end
     if InCombatLockdown() then
@@ -198,7 +198,6 @@ function QuestieFrame.EnsureRightClickPassThrough(frame)
         return
     end
     frame:SetPassThroughButtons("RightButton")
-    frame.rightClickPassThrough = true
 end
 
 ---@param frame IconFrame
