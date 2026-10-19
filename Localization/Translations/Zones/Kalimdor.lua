@@ -412,6 +412,18 @@ local kalimdorLocales = {
         ["zhCN"] = "红云台地",
         ["zhTW"] = "紅雲台地",
     },
+    ["Camp Narache"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = "Campamento Narache",
+        ["esMX"] = "Campamento Narache",
+        ["frFR"] = true,
+        ["koKR"] = "나라체 야영지",
+        ["ptBR"] = "Aldeia Narache",
+        ["ruRU"] = "Лагерь Нараче",
+        ["zhCN"] = "纳拉其营地",
+        ["zhTW"] = "納拉其營地",
+    },
 }
 
 for k, v in pairs(kalimdorLocales) do
