@@ -653,7 +653,7 @@ QuestieEvent.eventDateCorrections = {
         },
         ["Hallow's End"] = { -- WARNING THIS DATE VARIES!!!!
             startDate = "18/10",
-            startHour = 4,
+            startHour = 4, -- was active at 05:35 ingame, assuming 4 is start hour
             startMinute = 0,
             endDate = "1/11",
             endHour = 4,
