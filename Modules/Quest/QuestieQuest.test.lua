@@ -130,6 +130,29 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.called_with(quest)
         end)
 
+        -- The broadcast reads QuestLogCache. A quest turned in before the icon unload finishes has already left it.
+        it("broadcasts a complete quest without waiting for the icon unload", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+            quest.IsComplete = function() return 1 end
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
+        end)
+
+        it("broadcasts an inferred complete quest without waiting for the icon unload", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
+        end)
+
         it("does not infer completion from absent objective mappings even when a finisher exists", function()
             quest.Objectives = {}
             QuestLogCache.GetQuest = function() return {isComplete = 0} end

@@ -543,13 +543,14 @@ function QuestieQuest:UpdateQuest(questId)
 
             -- Register tooltips for completed quest objectives (synchronous, avoids QuestLogCache race if the quest is abandoned shortly after)
             QuestieQuest.RegisterObjectiveTooltips(quest)
+            -- Synchronous too: the broadcast reads QuestLogCache, which a quick turn-in empties before the unload below finishes
+            Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
 
             -- Only remove the map icons, but keep the tooltips
             ThreadLib.ThreadCallbackInstant(function()
                 QuestieMap:UnloadQuestFrames(questId)
             end, function()
                 QuestFinisher.AddFinisher(quest)
-                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
             end)
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
@@ -609,13 +610,14 @@ function QuestieQuest:UpdateQuest(questId)
 
                         quest.WasComplete = true
                         quest.isComplete = true
+                        -- Sent before the unload, as for a complete quest above
+                        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
 
                         -- Only remove the map icons, but keep the tooltips
                         ThreadLib.ThreadCallbackInstant(function()
                             QuestieMap:UnloadQuestFrames(questId)
                         end, function()
                             QuestFinisher.AddFinisher(quest)
-                            Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                         end)
                     else
                         Questie.Debug(Questie.DEBUG_DEVELOP,
