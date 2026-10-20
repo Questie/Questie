@@ -327,6 +327,81 @@ describe("QuestLifecycle", function()
         end)
     end)
 
+    describe("UpdateQuest", function()
+        local questId = 100
+        local quest, unloaded
+
+        before_each(function()
+            quest = {Id = questId, sourceItemId = 0, Objectives = {{}}, IsComplete = function() return 0 end}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            QuestiePlayer.currentQuestlog[questId] = quest
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return true end)
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloaded = callback end)
+        end)
+
+        it("should draw a quest that needs no reset for its current state", function()
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, questId)
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+        end)
+
+        it("should not update a quest the character has completed", function()
+            Questie.db.char.complete[questId] = true
+
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+        end)
+
+        it("should reset and redraw a quest that is no longer complete", function()
+            quest.WasComplete = true
+            quest.isComplete = true
+            Questie.db.char.collapsedQuests[questId] = true
+
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.are_same({}, quest.Objectives)
+            assert.is_nil(quest.WasComplete)
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(Questie.db.char.collapsedQuests[questId])
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, questId, true)
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+
+            unloaded()
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called_with(QuestieQuest, quest)
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+        end)
+
+        it("should reset and redraw a quest that lost its source item", function()
+            quest.sourceItemId = 254871
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
+
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, questId, true)
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuest).was.called(1)
+        end)
+
+        it("should not draw a reset quest turned in before its frames were unloaded", function()
+            quest.WasComplete = true
+
+            QuestLifecycle:UpdateQuest(questId)
+            QuestLifecycle:CompleteQuest(questId)
+            unloaded = AvailableQuests.RemoveQuest.calls[1].vals[2]
+            unloaded()
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.not_called()
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+        end)
+    end)
+
     describe("CompleteQuest", function()
         it("should remove quest from currentQuestlog", function()
             local questId = 100

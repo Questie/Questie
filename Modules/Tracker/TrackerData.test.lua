@@ -734,9 +734,9 @@ describe("TrackerData", function()
             QuestieLib.RepairMissingItemNames = function() end
             local questModule = QuestieLoader:ImportModule("QuestieQuest")
             questModule.SetObjectivesDirty = function() end
-            questModule.UpdateQuest = function() end
             QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
             QuestLifecycle.AcceptQuest = spy.new(function() end)
+            QuestLifecycle.UpdateQuest = function() end
             QuestieLoader:ImportModule("QuestieJourney").AcceptQuest = function() end
             QuestieLoader:ImportModule("QuestieAnnounce").AcceptedQuest = function() end
             QuestieLoader:ImportModule("QuestieNameplate").UpdateNameplate = function() end
