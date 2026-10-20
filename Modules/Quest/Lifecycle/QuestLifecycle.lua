@@ -53,6 +53,31 @@ local xiaoFollowUpQuests = {[29577] = true, [29981] = true, [30079] = true}
 local allianceChampionMarkerQuests = {[13699] = true, [13713] = true, [13723] = true, [13724] = true, [13725] = true}
 local hordeChampionMarkerQuests = {[13726] = true, [13727] = true, [13728] = true, [13729] = true, [13731] = true}
 
+---Clears the progress Questie derived for a quest, so the next population starts from the quest log.
+---@param quest Quest
+local function _ResetProgress(quest)
+    quest.Objectives = {}
+    quest.WasComplete = nil
+    quest.isComplete = nil
+end
+
+---Draws a logged quest from scratch: its objectives or finisher replace its starter/finisher frames.
+---@param questId QuestId
+---@param quest Quest
+local function _RedrawLoggedQuest(questId, quest)
+    -- Remove the starter/finisher frames first, then draw objective notes once the
+    -- unload coroutine has finished. This prevents the draw coroutines from racing
+    -- with the unload coroutine and leaving stale entries in questIdFrames.
+    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
+        QuestieQuest:PopulateQuestLogInfo(quest)
+        -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+        QuestieQuest:PopulateObjectiveNotes(quest)
+
+        AvailableQuests.CalculateAndDrawAll()
+    end)
+end
+
 ---@param questId number
 function QuestLifecycle:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
@@ -77,12 +102,7 @@ function QuestLifecycle:AcceptQuest(questId)
         -- Reset quest log
         QuestiePlayer.currentQuestlog[questId] = nil
 
-        -- Reset quest objectives
-        quest.Objectives = {}
-
-        -- Reset quest flags
-        quest.WasComplete = nil
-        quest.isComplete = nil
+        _ResetProgress(quest)
 
         -- Reset tooltips
         QuestieTooltips:RemoveQuest(questId)
@@ -119,17 +139,7 @@ function QuestLifecycle:AcceptQuest(questId)
     -- false entry, so notify peers after the local quest-log/tracking state is updated.
     CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
 
-    -- Remove the starter/finisher frames first, then draw objective notes once the
-    -- unload coroutine has finished. This prevents the draw coroutines from racing
-    -- with the unload coroutine and leaving stale entries in questIdFrames.
-    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
-        QuestieQuest:PopulateQuestLogInfo(quest)
-        -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
-        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-        QuestieQuest:PopulateObjectiveNotes(quest)
-
-        AvailableQuests.CalculateAndDrawAll()
-    end)
+    _RedrawLoggedQuest(questId, quest)
 end
 
 ---Tracks a quest a quest log scan found in the game's log without Questie accepting it: the game listed it only after
@@ -169,6 +179,29 @@ function QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
         end
         onComplete()
     end)
+end
+
+---Updates a logged quest after its quest log entry changed. A quest that fell back to incomplete after it was complete,
+---or lost the item it starts with, is reset and drawn again; any other quest is drawn for its current state.
+---@param questId QuestId
+function QuestLifecycle:UpdateQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if (not quest) or Questie.db.char.complete[questId] then
+        return
+    end
+
+    if quest:IsComplete() == 0 and (quest.WasComplete or
+        (quest.sourceItemId > 0 and QuestieQuest:CheckQuestSourceItem(questId, false) == false)) then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLifecycle:UpdateQuest] Quest was once complete or Quest Item(s) were removed. Resetting quest.")
+
+        _ResetProgress(quest)
+        QuestieQuest:CheckQuestSourceItem(questId, true)
+        Questie.db.char.collapsedQuests[questId] = nil
+        _RedrawLoggedQuest(questId, quest)
+        return
+    end
+
+    QuestieQuest:UpdateQuest(questId)
 end
 
 ---@param questId number

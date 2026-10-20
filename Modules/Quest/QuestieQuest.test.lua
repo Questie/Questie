@@ -64,7 +64,6 @@ describe("QuestieQuest", function()
             finisher = QuestieLoader:ImportModule("QuestFinisher")
             finisher.AddFinisher = spy.new(function() end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) if callback then callback() end end)
-            QuestieLoader:ImportModule("QuestLifecycle").RemoveFramesOfLoggedQuest = spy.new(function(_, _, callback) callback() end)
             originalThreadCallback = QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant
             QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(work, callback)
                 work()
@@ -222,47 +221,6 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
-        it("still requests source-item reconstruction without promoting a sequenced quest", function()
-            quest.sourceItemId = 254871
-            QuestLogCache.GetQuest = function() return {isComplete = 0} end
-            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
-            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
-            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
-
-            QuestieQuest:UpdateQuest(93927)
-
-            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 93927, true)
-            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
-            assert.is_nil(quest.isComplete)
-            assert.is_nil(quest.WasComplete)
-            assert.spy(finisher.AddFinisher).was.not_called()
-        end)
-
-        -- The unload spans several frames; a quest turned in meanwhile has left QuestLogCache and must not be populated.
-        it("should repopulate a reset quest only through the logged-quest guard", function()
-            quest.WasComplete = true
-            QuestLogCache.GetQuest = function() return {isComplete = 0} end
-            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
-            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
-            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
-            local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
-            local guardedQuestId, guardedQuest, unloaded
-            QuestLifecycle.RemoveFramesOfLoggedQuest = function(questId, guarded, callback)
-                guardedQuestId, guardedQuest, unloaded = questId, guarded, callback
-            end
-
-            QuestieQuest:UpdateQuest(93927)
-
-            assert.are.equal(93927, guardedQuestId)
-            assert.are.equal(quest, guardedQuest)
-            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
-
-            unloaded()
-
-            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
-            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
-        end)
-
         it("preserves accepted completion when no database objectives exist", function()
             quest.Objectives = {}
             QuestLogCache.GetQuest = function() return {isComplete = 1} end
@@ -271,6 +229,53 @@ describe("QuestieQuest", function()
             QuestieQuest:PopulateQuestLogInfo(quest)
 
             assert.is_true(quest.isComplete)
+        end)
+    end)
+
+    describe("SmoothReset", function()
+        local originalCTimer, originalThreadCallback
+
+        before_each(function()
+            originalCTimer = _G.C_Timer
+            local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+            originalThreadCallback = ThreadLib.ThreadCallbackInstant
+            ThreadLib.ThreadCallbackInstant = function(_, callback) callback() end
+            QuestLogCache.TestGameCache = function() return true end
+            QuestieMap._mapDrawQueue = {}
+            QuestieMap._minimapDrawQueue = {}
+            QuestieLoader:ImportModule("QuestieDBMIntegration").ClearAll = function() end
+            QuestieLoader:ImportModule("QuestieMenu").OnLogin = function() end
+            QuestieLoader:ImportModule("QuestieCompat").GetQuestsCompleted = function() return {} end
+            QuestieLoader:ImportModule("QuestieProfessions").Update = function() end
+            QuestieLoader:ImportModule("QuestieReputation").Update = function() end
+            QuestieQuest.ClearAllToolTips = function() end
+            QuestieQuest.GetAllQuestIdsNoObjectives = function() end
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalCTimer
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = originalThreadCallback
+            QuestieQuest._isResetting = nil
+        end)
+
+        -- A quest no longer complete keeps no stale flags, which would hide its objectives until its next log change
+        it("should clear the derived completion of logged quests before rebuilding the quest log", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local quest = {Id = 5, WasComplete = true, isComplete = true}
+            QuestiePlayer.currentQuestlog = {[5] = quest, [6] = 6}
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 7 do
+                tick()
+            end
+
+            assert.is_nil(quest.WasComplete)
+            assert.is_nil(quest.isComplete)
+            assert.are_same({}, QuestiePlayer.currentQuestlog)
         end)
     end)
 

@@ -53,8 +53,6 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
----@type QuestLifecycle
-local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -389,7 +387,13 @@ function QuestieQuest:SmoothReset()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
         function()
-            -- reset quest log
+            -- reset quest log. Derived completion goes too: UpdateQuest below rebuilds it from the quest log.
+            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
+                if type(quest) == "table" then
+                    quest.WasComplete = nil
+                    quest.isComplete = nil
+                end
+            end
             QuestiePlayer.currentQuestlog = {}
 
             --- reset the blacklist
@@ -524,6 +528,8 @@ local function _HasUnfinishedNativeObjective(objectives)
     return false
 end
 
+---Draws a logged quest for its current state: its finisher once complete, as available again once failed, else its
+---objectives. Resetting a quest that is no longer complete is a lifecycle change, see QuestLifecycle:UpdateQuest.
 ---@param questId number
 function QuestieQuest:UpdateQuest(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
@@ -565,73 +571,47 @@ function QuestieQuest:UpdateQuest(questId)
                 Questie.db.char.collapsedQuests[questId] = nil
             end
         elseif isComplete == 0 then
-            -- Quest was somehow reset back to incomplete after being completed (quest.WasComplete == true).
-            -- The "or" check looks for a sourceItemId then checks to see if it's NOT in the players bag.
-            -- Player destroyed quest items? Or some other quest mechanic removed the needed quest item.
-            if quest and (quest.WasComplete or (quest.sourceItemId > 0 and QuestieQuest:CheckQuestSourceItem(questId, false) == false)) then
-                Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete or Quest Item(s) were removed. Resetting quest.")
+            -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
+            -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
+            -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
+            if quest.Objectives and #quest.Objectives > 0 then
+                local numCompleteObjectives = 0
+                local questLogEntry = QuestLogCache.TryGetQuest(questId) -- DO NOT MODIFY THE RETURNED TABLE
 
-                -- Reset quest objectives and quest flags
-                quest.Objectives = {}
-                quest.WasComplete = nil
-                quest.isComplete = nil
-
-                QuestieQuest:CheckQuestSourceItem(questId, true)
-
-                -- Reset any collapsed quest flags
-                if Questie.db.char.collapsedQuests then
-                    Questie.db.char.collapsedQuests[questId] = nil
+                for i = 1, #quest.Objectives do
+                    if quest.Objectives[i] and quest.Objectives[i].Completed and quest.Objectives[i].Completed == true then
+                        numCompleteObjectives = numCompleteObjectives + 1
+                    end
                 end
 
-                QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
-                    QuestieQuest:PopulateQuestLogInfo(quest)
+                -- Sequenced quests can finish a visible stage before the next objectives appear. Only mapped
+                -- objectives are counted, so a client row the database does not map must be finished too.
+                if numCompleteObjectives == #quest.Objectives and not QuestieCompat.IsQuestSequenced(questId)
+                    and not _HasUnfinishedNativeObjective(questLogEntry and questLogEntry.objectives) then
+                    Questie.Debug(Questie.DEBUG_DEVELOP,
+                        "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
+
+                    quest.WasComplete = true
+                    quest.isComplete = true
+                    -- Sent before the unload, as for a complete quest above
                     Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-                    QuestieQuest:PopulateObjectiveNotes(quest)
-                    AvailableQuests.CalculateAndDrawAll()
-                end)
-            else
-                -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
-                -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
-                -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
-                if quest.Objectives and #quest.Objectives > 0 then
-                    local numCompleteObjectives = 0
-                    local questLogEntry = QuestLogCache.TryGetQuest(questId) -- DO NOT MODIFY THE RETURNED TABLE
 
-                    for i = 1, #quest.Objectives do
-                        if quest.Objectives[i] and quest.Objectives[i].Completed and quest.Objectives[i].Completed == true then
-                            numCompleteObjectives = numCompleteObjectives + 1
-                        end
+                    -- Only remove the map icons, but keep the tooltips
+                    ThreadLib.ThreadCallbackInstant(function()
+                        QuestieMap:UnloadQuestFrames(questId)
+                    end, function()
+                        QuestFinisher.AddFinisher(quest)
+                    end)
+                else
+                    Questie.Debug(Questie.DEBUG_DEVELOP,
+                        "[QuestieQuest:UpdateQuest] Quest Objective Status is: " ..
+                        numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
+
+                    -- Keep in-progress notes current, including a finished stage of an incomplete sequenced quest.
+                    if QuestieQuest:ShouldShowQuestNotes(questId) then
+                        QuestieQuest:UpdateObjectiveNotes(quest)
                     end
-
-                    -- Sequenced quests can finish a visible stage before the next objectives appear. Only mapped
-                    -- objectives are counted, so a client row the database does not map must be finished too.
-                    if numCompleteObjectives == #quest.Objectives and not QuestieCompat.IsQuestSequenced(questId)
-                        and not _HasUnfinishedNativeObjective(questLogEntry and questLogEntry.objectives) then
-                        Questie.Debug(Questie.DEBUG_DEVELOP,
-                            "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
-
-                        quest.WasComplete = true
-                        quest.isComplete = true
-                        -- Sent before the unload, as for a complete quest above
-                        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-
-                        -- Only remove the map icons, but keep the tooltips
-                        ThreadLib.ThreadCallbackInstant(function()
-                            QuestieMap:UnloadQuestFrames(questId)
-                        end, function()
-                            QuestFinisher.AddFinisher(quest)
-                        end)
-                    else
-                        Questie.Debug(Questie.DEBUG_DEVELOP,
-                            "[QuestieQuest:UpdateQuest] Quest Objective Status is: " ..
-                            numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
-
-                        -- Keep in-progress notes current, including a finished stage of an incomplete sequenced quest.
-                        if QuestieQuest:ShouldShowQuestNotes(questId) then
-                            QuestieQuest:UpdateObjectiveNotes(quest)
-                        end
-                        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-                    end
+                    Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                 end
             end
         end
