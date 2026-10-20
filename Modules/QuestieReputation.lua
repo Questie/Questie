@@ -356,10 +356,10 @@ _GetRewardMultiplier = function()
     -- in Forever the Classic human racial is now a legacy talent, available for every race
     if Questie.IsForever then
         local diplomatRanks = _GetActiveDiplomatStacks()
-        multiplier = multiplier + diplomatRanks * 0.02
+        multiplier = multiplier + diplomatRanks * 0.02 -- 2% bonus reputation for each rank of Diplomat
     else
         local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
-        if Questie.playerIsHuman and not Questie.IsTitanReforged then
+        if playerIsHuman and not Questie.IsTitanReforged then
             multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
         end
     end
