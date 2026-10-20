@@ -227,6 +227,7 @@ describe("QuestieQuest", function()
             QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
             QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
             QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+            QuestiePlayer.currentQuestlog[93927] = quest
 
             QuestieQuest:UpdateQuest(93927)
 
@@ -235,6 +236,37 @@ describe("QuestieQuest", function()
             assert.is_nil(quest.isComplete)
             assert.is_nil(quest.WasComplete)
             assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        -- Selling Fish (127): the turn-in takes the Spotted Sunfish first, so the log reports the completed quest as
+        -- incomplete and UpdateQuest resets it. QUEST_TURNED_IN then removes the quest before the reset's unload ends.
+        it("does not redraw a reset quest that is turned in before the icon unload finishes", function()
+            local cache = {[93927] = {isComplete = 0}}
+            local cacheMisses = 0
+            QuestLogCache.GetQuest = function(questId)
+                -- The real GetQuest reports an error for a quest it does not have.
+                if not cache[questId] then
+                    cacheMisses = cacheMisses + 1
+                end
+                return cache[questId]
+            end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+            QuestieQuest.CheckQuestSourceItem = function() end
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+            quest.WasComplete = true
+            QuestiePlayer.currentQuestlog[93927] = quest
+            local finishUnload
+            AvailableQuests.RemoveQuest = function(_, onComplete) finishUnload = onComplete end
+
+            QuestieQuest:UpdateQuest(93927)
+            -- QUEST_TURNED_IN
+            cache[93927] = nil
+            QuestiePlayer.currentQuestlog[93927] = nil
+            finishUnload()
+
+            assert.are_equal(0, cacheMisses)
+            assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
         end)
 
         it("preserves accepted completion when no database objectives exist", function()
