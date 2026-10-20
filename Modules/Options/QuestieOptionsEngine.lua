@@ -29,7 +29,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local SharedMedia = LibStub("LibSharedMedia-3.0")
 
----- Explaining Questie's New (2026) Settings Engine
+---- Explaining Questie's Native Settings Engine (introduced in 13.0.0?)
 --
 -- To define a few terms that will be used throughout this description:
 --
@@ -37,7 +37,7 @@ local SharedMedia = LibStub("LibSharedMedia-3.0")
 --             This could be a checkbox, slider, dropdown, etc.
 --
 -- Element - Any object placed on the canvas. All controls are elements, but there are
---             also non-control elements like containers, dividers, headers, and labels.
+--             also non-control elements like containers, dividers, and text.
 --
 -- Canvas  - An area of the UI that the layout engine is placing elements on. Blizzard's
 --             settings menu holds a canvas we can draw to, but we can also create
@@ -45,11 +45,11 @@ local SharedMedia = LibStub("LibSharedMedia-3.0")
 --
 -- Questie's options menu consists of three main components: 'data', the 'constructor', and the 'layout engine'.
 --
--- Data is the information that is read in order to build the settings, which are read and then
--- built dynamically (rather than static, hard-coded control declarations) upon init.
+-- Data is the actual information that is used to build the settings, which are read and then
+-- built dynamically (rather than static, hard-coded declarations) upon initialization.
 --
 -- The constructor is what takes the data, determines how to draw, and eventually draws each element,
--- based upon the data's parameters and our decisions for what each individual element look like.
+-- based upon the data's parameters and our decisions for what each individual element looks like.
 --
 -- The layout engine iteratively ingests the data, feeds it to the constructor, and then after
 -- receiving the rendered element from the constructor, actually places it on the canvas.
@@ -62,11 +62,43 @@ local SharedMedia = LibStub("LibSharedMedia-3.0")
 --
 -- We (mostly) follow AceGUI's data structure, in the sense that each control only specifies relevant
 -- data about itself, alongside a desired control width (but not height or coordinates). The layout
--- engine fills rows of controls until the row is horizontally full, then creates a new row where it
--- begins populating the next set of controls. One key difference versus AceGUI is that controls
--- specify their width in fractions of the screen width, rather than units. This allows the settings
--- panel to render mostly the same regardless of screen/panel width, simply stretching control width,
--- unlike Ace which would reflow controls between rows if the width changed.
+-- engine fills rows of controls until the row is horizontally full, then creates a new row, where it
+-- begins populating the next set of controls.
+--
+-- One key difference versus AceGUI is that controls specify their width in fractions of the window width,
+-- rather than set units. This allows the settings panel to render mostly the same regardless of window width,
+-- simply stretching control width, unlike Ace which would reflow controls between rows if the window width changed.
+--
+-- Main differences going from AceGUI -> Native data structure:
+-- 1. Tab top level data is not simply a group control. It needs title, subtitle, order, icon, and items fields.
+--
+-- 2. Many data fields are renamed: (this list is not exhaustive)
+--   - name -> title
+--   - desc -> description
+--   - disabled -> enabled (inverted booleans)
+--   - hidden -> visible (inverted booleans)
+--
+--   A full list of available data fields are detailed in QuestieOptionsEngine.BuildLayout()
+--
+-- 3. Many data fields behave differently now:
+--   - Order fields are now 0-indexed instead of 1-indexed. If a tab is order 0, that becomes the 'primary' tab in the Blizzard options UI.
+--   - width is still called width, but is now a percentage of available screen width, where 0.0 = 0% and 1.0 = 100%.
+--   - title, description, label, and tooltip values now call l10n() within the options engine, so you don't need to specify the l10n function in data.
+--
+-- 4. Most controls are renamed. Full list of supported controls:
+--   "checkbox"      Typical checkbox. AceGUI equivalent: "toggle"
+--   "slider"        Slider between numeric values. AceGUI: "range"
+--   "dropdown"      Dropdown or multi/combo box that lets you pick a single value from a preset list. AceGUI: "select"
+--   "fontDropdown"  Nearly identical to a dropdown, except assumes the values are fonts, and renders each item with that font.
+--   "divider"       Simple horizontal divider. Title optional. AceGUI: "header"
+--   "container"     Container to group and nest other controls together. AceGUI: "group"
+--   "text"          Simple text label. AceGUI: "description"
+--   "button"        A button. The 'label' field is what appears on the button; 'title' is only used for the tooltip. AceGUI: "execute"
+--   "soundButton"   A button, but instead of using a label field, it's square and shows a play symbol.
+--   "colorPicker"   Opens a dialog allowing users to pick an RGB(A) color. AceGUI: "color"
+--   "radioButton"   Similar to a checkbox in function, but used in conjunction and exclusive with other radio buttons. AceGUI: type "select", with style "radio".
+
+QuestieOptionsEngine.tabs = { ... }
 
 local registeredControls = {} -- Used to loop back and refresh enable/disable states later
 
@@ -74,19 +106,24 @@ local registeredControls = {} -- Used to loop back and refresh enable/disable st
 local spacingX = 10 -- configurable horizontal gap between elements
 local spacingY = 10 -- configurable vertical gap between elements
 local indentingLevel = 20 -- Base amount of left/right padding for control render space for root controls. Controls in containers 1 level deep will use half this level, containers 2 levels deep will use 0.
-local SIDE_TAB_SPACING = -2
-local SIDE_TAB_OFFSET_Y = -35
+
+local RenderMode = {
+    BLIZZARD = 1,
+    POPUP = 2,
+}
 
 local minControlHeight = { -- This is the starting height used for elements, but they can be larger if they overflow this size
-    ["checkbox"]  = 40,
-    ["slider"]    = 48,
-    ["dropdown"]  = 50,
-    ["fontDropdown"]  = 50,
-    ["divider"]   = 5,
-    ["container"] = 20,
-    ["text"] = 20,
-    ["button"] = 40,
-    ["soundButton"] = 40,
+    ["checkbox"]     = 40,
+    ["slider"]       = 48,
+    ["dropdown"]     = 50,
+    ["fontDropdown"] = 50,
+    ["divider"]      =  5,
+    ["container"]    = 20,
+    ["text"]         = 20,
+    ["button"]       = 40,
+    ["soundButton"]  = 40,
+    ["colorPicker"]  = 40,
+    ["radioButton"]  = 16,
 }
 
 local defaultLabelColor = {1, 0.82, 0, 1}
@@ -100,6 +137,7 @@ local QuestieOptionsList = { -- Table containing option items
         title = "General", -- Name of the tab, shown as a header in the panel and also used as the subcategory name
         subtitle = "General Settings",
         order = 0, -- the index used to sort control and tab hierarchy
+        icon = 133736,
         items = { -- controls within the General tab
             checkbox1 = { -- element name, must be unique
                 order = 1,
@@ -171,6 +209,26 @@ local QuestieOptionsList = { -- Table containing option items
                         set = function(val) Questie.db.profile.checkbox3_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
+                    divider1 = {
+                        order = 2.5,
+                        title = "Center Test",
+                        type = "divider",
+                        width = "full",
+                    },
+                    divider2 = {
+                        order = 2.6,
+                        title = "Left Test",
+                        titleAlign = "LEFT",
+                        type = "divider",
+                        width = "full",
+                    },
+                    divider3 = {
+                        order = 2.7,
+                        title = "Right Test",
+                        titleAlign = "RIGHT",
+                        type = "divider",
+                        width = "full",
+                    },
                     container2 = {
                         order = 3,
                         title = "Subcontainer Title",
@@ -196,6 +254,50 @@ local QuestieOptionsList = { -- Table containing option items
                                     set = function(val) Questie.db.profile.checkbox5_value = val end,
                                 },
                         },
+                        enabled = function() return Questie.db.profile.checkbox1_value end,
+                    },
+                    radioButton1 = {
+                        order = 4,
+                        title = "radioButton1",
+                        tooltip = "This is an example of a radio button within a container.",
+                        type = "radioButton",
+                        width = "full",
+                        value = 1,
+                        get = function() return Questie.db.profile.radiobuttontest_value == 1 end,
+                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
+                        enabled = function() return Questie.db.profile.checkbox1_value end,
+                    },
+                    radioButton2 = {
+                        order = 5,
+                        title = "radioButton2",
+                        tooltip = "This is an example of a radio button within a container.",
+                        type = "radioButton",
+                        width = "full",
+                        value = 2,
+                        get = function() return Questie.db.profile.radiobuttontest_value == 2 end,
+                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
+                        enabled = function() return Questie.db.profile.checkbox1_value end,
+                    },
+                    radioButton3 = {
+                        order = 6,
+                        title = "radioButton3",
+                        tooltip = "This is an example of a radio button within a container.",
+                        type = "radioButton",
+                        width = "full",
+                        value = 3,
+                        get = function() return Questie.db.profile.radiobuttontest_value == 3 end,
+                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
+                        enabled = function() return Questie.db.profile.checkbox1_value end,
+                    },
+                    radioButton4 = {
+                        order = 7,
+                        title = "radioButton4",
+                        tooltip = "This is an example of a radio button within a container.",
+                        type = "radioButton",
+                        width = "full",
+                        value = 4,
+                        get = function() return Questie.db.profile.radiobuttontest_value == 4 end,
+                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
                 },
@@ -436,6 +538,41 @@ local QuestieOptionsList = { -- Table containing option items
     },
 }
 
+---@return table
+_CreateOptionsTable = function()
+    local general_tab = QuestieOptionsEngine.tabs.general:Initialize()
+    coroutine.yield()
+    --local icons_tab = QuestieOptionsEngine.tabs.icons:Initialize()
+    --coroutine.yield()
+    --local tracker_tab = QuestieOptionsEngine.tabs.tracker:Initialize()
+    --coroutine.yield()
+    --local auto_tab = QuestieOptionsEngine.tabs.auto:Initialize()
+    --coroutine.yield()
+    --local nameplate_tab = QuestieOptionsEngine.tabs.nameplate:Initialize()
+    --coroutine.yield()
+    --local dbm_hud_tab = QuestieOptionsEngine.tabs.dbm:Initialize()
+    --coroutine.yield()
+    --local advanced_tab = QuestieOptionsEngine.tabs.advanced:Initialize()
+    --coroutine.yield()
+    return {
+        general_tab = general_tab,
+        --icons_tab = icons_tab,
+        --tracker_tab = tracker_tab,
+        --auto_tab = auto_tab,
+        --nameplate_tab = nameplate_tab,
+        --dbm_hud_tab = dbm_hud_tab,
+        --advanced_tab = advanced_tab,
+        --profiles_tab = LibStub("AceDBOptions-3.0"):GetOptionsTable(Questie.db)
+    }
+end
+
+local function DisableSnapping(tex)
+    if tex and tex.SetSnapToPixelGrid then
+        tex:SetSnapToPixelGrid(false)
+        tex:SetTexelSnappingBias(0)
+    end
+end
+
 -- Helper function to sort dictionary items by order key
 local function GetSortedItems(itemsTable)
     local sorted = {}
@@ -476,16 +613,11 @@ local function CreateControl(parent, item, width, height, level)
         cbWrapper.CheckBox = CreateFrame("CheckButton", nil, cbWrapper, "SettingsCheckboxTemplate")
         cbWrapper.CheckBox:SetPoint("LEFT", cbWrapper, "LEFT", 0, 0)
 
-
-
         local tex = cbWrapper.CheckBox:CreateTexture(nil, "ARTWORK")
         tex:SetAtlas("checkbox-minimal",nil,"TRILINEAR")
         tex:SetDesaturated(true)
         tex:SetVertexColor(0.7, 0.7, 0.7, 1)
         cbWrapper.CheckBox:SetDisabledTexture(tex)
-
-
-
 
         frame:RegisterForClicks("LeftButtonUp")
         frame:SetScript("OnClick", function(self, button, down)
@@ -500,7 +632,6 @@ local function CreateControl(parent, item, width, height, level)
         cbWrapper.CheckBox:SetScript("OnLeave", function()
             frame:GetScript("OnLeave")(frame)
         end)
-
 
         local titleFrame = cbWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
         titleFrame:SetText(item.title)
@@ -584,6 +715,7 @@ local function CreateControl(parent, item, width, height, level)
         slider:SetScript("OnValueChanged", function(self, value)
             if item.set then item.set(value) end
             if valueDisplay then valueDisplay:SetText(string.format("%g", value)) end
+            QuestieOptionsEngine:RefreshStates()
         end)
 
         if slider.NineSlice then
@@ -722,10 +854,55 @@ local function CreateControl(parent, item, width, height, level)
         ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 0, 0)
 
     elseif item.type == "divider" then
-        local line = frame:CreateTexture(nil, "BACKGROUND")
-        line:SetPoint("CENTER", frame, "CENTER", 0, 0)
-        line:SetSize(width, 1)
-        line:SetColorTexture(0.3, 0.3, 0.3, 0.3)
+        local dividerWrapper = CreateFrame("Frame", nil, parent)
+        dividerWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
+        dividerWrapper:SetSize(width, minControlHeight[item.type])
+
+        if item.title == "" then
+            local line = dividerWrapper:CreateTexture(nil, "ARTWORK")
+            line:SetPoint("CENTER", dividerWrapper, "CENTER", 0, 0)
+            line:SetSize(width, 1)
+            line:SetColorTexture(0.3, 0.3, 0.3, 0.3)
+        else
+            local titleFrame = dividerWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
+            titleFrame:SetText(item.title)
+
+            if item.titleAlign == "LEFT" then
+                titleFrame:SetPoint("LEFT", dividerWrapper, "LEFT", 0, 0)
+                local lineRight = dividerWrapper:CreateTexture(nil, "ARTWORK")
+                lineRight:SetPoint("RIGHT", dividerWrapper, "RIGHT", 0, 0)
+                lineRight:SetPoint("LEFT", titleFrame, "RIGHT", 6, 0)
+                lineRight:SetAtlas("Options_HorizontalDivider", true)
+                DisableSnapping(lineRight)
+
+            elseif item.titleAlign == "RIGHT" then
+                titleFrame:SetPoint("RIGHT", dividerWrapper, "RIGHT", 0, 0)
+                local lineLeft = dividerWrapper:CreateTexture(nil, "ARTWORK")
+                lineLeft:SetPoint("LEFT", dividerWrapper, "LEFT", 0, 0)
+                lineLeft:SetPoint("RIGHT", titleFrame, "LEFT", -6, 0)
+                lineLeft:SetAtlas("Options_HorizontalDivider", true)
+                lineLeft:SetTexCoord(1,0,0,1)
+                DisableSnapping(lineLeft)
+
+            else -- nil or centered (default)
+                titleFrame:SetPoint("CENTER", dividerWrapper, "CENTER", 0, 0)
+                local lineLeft = dividerWrapper:CreateTexture(nil, "ARTWORK")
+                lineLeft:SetPoint("LEFT", dividerWrapper, "LEFT", 0, 0)
+                lineLeft:SetPoint("RIGHT", titleFrame, "LEFT", -6, 0)
+                lineLeft:SetAtlas("Options_HorizontalDivider", true)
+                lineLeft:SetTexCoord(1,0.4,0,1)
+                DisableSnapping(lineLeft)
+                local lineRight = dividerWrapper:CreateTexture(nil, "ARTWORK")
+                lineRight:SetPoint("RIGHT", dividerWrapper, "RIGHT", 0, 0)
+                lineRight:SetPoint("LEFT", titleFrame, "RIGHT", 6, 0)
+                lineRight:SetAtlas("Options_HorizontalDivider", true)
+                lineRight:SetTexCoord(0.4,1,0,1)
+                DisableSnapping(lineRight)
+
+            end
+
+            frame.titleFrame = titleFrame
+        end
 
     elseif item.type == "container" then
         -- Calculate layout bleeding/overprint based on nesting depth
@@ -740,12 +917,6 @@ local function CreateControl(parent, item, width, height, level)
         containerFrame:SetAlpha(0.45)
         containerFrame:SetFrameLevel(1)
         frame.containerFrame = containerFrame
-
-        --local border = containerFrame:CreateTexture(nil, "BORDER")
-        --border:SetAllPoints(containerFrame)
-        --border:SetAtlas("collections-slotheader", true)
-        --border:SetTextureSliceMargins(12, 12, 12, 12)
-        --border:SetTextureSliceMode(Enum.UITextureSliceMode.Stretched)
 
         local optionSlice = {
             TopEdge = {
@@ -774,20 +945,7 @@ local function CreateControl(parent, item, width, height, level)
             },
         }
 
-        --NineSliceUtil.ApplyUniqueKeyLayout(containerFrame, "Runeforge")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"SelectionFrameTemplate")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"PortraitFrameTemplate")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"HeldBagLayout")
-        --NineSliceUtil.ApplyLayout(containerFrame,optionSlice)
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"PerksProgramHoldPanelTemplate")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"DragonflightMissionFrame")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"BankTabSettingsMenuLayout")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"TooltipDefaultLayout")
         NineSliceUtil.ApplyLayoutByName(containerFrame,"TooltipGluesLayout")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"SimplePanelTemplate")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"InsetFrameTemplate")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"")
-        --NineSliceUtil.ApplyLayoutByName(containerFrame,"")
 
         local titleFrame = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         titleFrame:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", -bleed + 30, 4)
@@ -803,7 +961,6 @@ local function CreateControl(parent, item, width, height, level)
         local textWrapper = CreateFrame("Frame", nil, parent)
         textWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
         textWrapper:SetSize(width, 30)
-
 
         local titleFrame = textWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
         titleFrame:SetText(item.title)
@@ -1085,21 +1242,6 @@ local function CreateControl(parent, item, width, height, level)
         border:SetPoint("CENTER", swatchButton, "CENTER", 0, 0)
         swatchButton.border = border
 
-        ---- Highlight border for mouse hover
-        --local highlight = swatchButton:CreateTexture(nil, "HIGHLIGHT")
-        --if Questie.IsForever then
-        --    highlight:SetAtlas("UI-HUD-Minimap-Frame-Cycle")
-        --    highlight:SetSize(28, 28)
-        --else
-        --    highlight:SetAtlas("Trinket-Frame")
-        --    highlight:SetSize(34, 34)
-        --end
-        --highlight:SetPoint("CENTER", swatchButton, "CENTER", 0, 0)
-        --highlight:SetBlendMode("ADD")
-        --highlight:SetAlpha(0.2)
-        --highlight:Hide()
-        --swatchButton.Highlight = highlight
-
         -- Inner color swatch
         local swatch = swatchButton:CreateTexture(nil, "BACKGROUND")
         swatch:SetColorTexture(1, 1, 1, 1)
@@ -1152,15 +1294,6 @@ local function CreateControl(parent, item, width, height, level)
 
         -- ColorPicker-specific logic
 
-        local function UpdateSwatchDisplay(r, g, b, a)
-            swatch:SetVertexColor(r or 1, g or 1, b or 1, a or 1)
-        end
-
-        if item.get then
-            local r, g, b, a = item.get()
-            UpdateSwatchDisplay(r, g, b, a)
-        end
-
         -- Classic API returns 0 = opaque, 1 = transparent from color picker.
         -- Modern API returns 1 = transparent, 0 = opaque from color picker.
         -- This function converts between the two as needed.
@@ -1186,23 +1319,22 @@ local function CreateControl(parent, item, width, height, level)
                 swatchFunc = function()
                     local r, g, b = ColorPickerFrame:GetColorRGB()
                     local a = GetCurrentAlpha()
-                    UpdateSwatchDisplay(r, g, b, a)
                     if item.set then item.set(r, g, b, a) end
+                    QuestieOptionsEngine:RefreshStates()
                 end,
                 opacityFunc = function()
                     local r, g, b = ColorPickerFrame:GetColorRGB()
                     local a = GetCurrentAlpha()
-                    UpdateSwatchDisplay(r, g, b, a)
+                    --UpdateSwatchDisplay(r, g, b, a)
                     if item.set then item.set(r, g, b, a) end
+                    QuestieOptionsEngine:RefreshStates()
                 end,
                 cancelFunc = function()
                     local newR, newG, newB, newA = ColorPickerFrame:GetPreviousValues();
                     newA = ConvertPickerAlpha(newA)
-                    UpdateSwatchDisplay(newR, newG, newB, newA)
+                    --UpdateSwatchDisplay(newR, newG, newB, newA)
                     if item.set then item.set(newR, newG, newB, newA) end
-                    if QuestieOptionsEngine and QuestieOptionsEngine.RefreshStates then
-                        QuestieOptionsEngine:RefreshStates()
-                    end
+                    QuestieOptionsEngine:RefreshStates()
                 end,
                 r = curR,
                 g = curG,
@@ -1229,7 +1361,136 @@ local function CreateControl(parent, item, width, height, level)
         frame.widget = swatchButton
 
         ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 2, 0)
+    elseif item.type == "radioButton" then
 
+        -- There is genuinely not a good radio button class to base this off of.
+        -- So we implement our own from scratch using checkboxes as a template.
+
+        local rbWrapper = CreateFrame("Frame", nil, parent)
+        rbWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
+        rbWrapper:SetSize(width, 20)
+
+        rbWrapper.RadioButton = CreateFrame("CheckButton", nil, rbWrapper, "SettingsCheckboxTemplate")
+        rbWrapper.RadioButton:SetPoint("LEFT", rbWrapper, "LEFT", 0, 0)
+
+        if Questie.IsForever then
+            local texNormal = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texNormal:SetAtlas("gamepad-flyout-circular-slot-normal",nil,"TRILINEAR")
+            rbWrapper.RadioButton:SetNormalTexture(texNormal)
+
+            local texPushed = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texPushed:SetAtlas("gamepad-flyout-circular-slot-normal",nil,"TRILINEAR")
+            rbWrapper.RadioButton:SetPushedTexture(texPushed)
+
+            local texDisabled = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texDisabled:SetAtlas("gamepad-flyout-circular-slot-disabled",nil,"TRILINEAR")
+            rbWrapper.RadioButton:SetDisabledTexture(texDisabled)
+
+            local texChecked = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texChecked:SetAtlas("common-dropdown-icon-radialtick-yellow",nil,"TRILINEAR")
+            rbWrapper.RadioButton:SetCheckedTexture(texChecked)
+
+            local texCheckedDisabled = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texCheckedDisabled:SetAtlas("common-dropdown-icon-radialtick-yellow",nil,"TRILINEAR")
+            texCheckedDisabled:SetDesaturated(true)
+            rbWrapper.RadioButton:SetDisabledCheckedTexture(texCheckedDisabled)
+        else
+            rbWrapper.RadioButton:SetPoint("LEFT", rbWrapper, "LEFT", 4, 0)
+            rbWrapper.RadioButton:SetSize(22,22)
+
+            local texNormal = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texNormal:SetTexture("interface\\common\\commondropdownclassic2x",nil,nil,"TRILINEAR")
+            texNormal:SetTexCoord((285/512),(329/512),(121/512),(165/512))
+            rbWrapper.RadioButton:SetNormalTexture(texNormal)
+
+            local texPushed = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texPushed:SetTexture("interface\\common\\commondropdownclassic2x",nil,nil,"TRILINEAR")
+            texPushed:SetTexCoord((285/512),(329/512),(121/512),(165/512))
+            rbWrapper.RadioButton:SetPushedTexture(texPushed)
+
+            local texDisabled = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texDisabled:SetTexture("interface\\common\\commondropdownclassic2x",nil,nil,"TRILINEAR")
+            texDisabled:SetTexCoord((285/512),(329/512),(121/512),(165/512))
+            texDisabled:SetDesaturated(true)
+            rbWrapper.RadioButton:SetDisabledTexture(texDisabled)
+
+            local texChecked = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texChecked:SetTexture("interface\\common\\commondropdownclassic2x",nil,nil,"TRILINEAR")
+            texChecked:SetTexCoord((465/512),(509/512),(1/512),(45/512))
+            rbWrapper.RadioButton:SetCheckedTexture(texChecked)
+
+            local texCheckedDisabled = rbWrapper.RadioButton:CreateTexture(nil, "ARTWORK")
+            texCheckedDisabled:SetTexture("interface\\common\\commondropdownclassic2x",nil,nil,"TRILINEAR")
+            texCheckedDisabled:SetTexCoord((465/512),(509/512),(1/512),(45/512))
+            texCheckedDisabled:SetDesaturated(true)
+            rbWrapper.RadioButton:SetDisabledCheckedTexture(texCheckedDisabled)
+        end
+
+        frame:RegisterForClicks("LeftButtonUp")
+        frame:SetScript("OnClick", function(self, button, down)
+            if (type(item.enabled) == "function" and item.enabled() == true) or (type(item.enabled) == "boolean" and item.enabled == true) then
+                rbWrapper.RadioButton:Click()
+            end
+        end)
+
+        rbWrapper.RadioButton:SetScript("OnEnter", function()
+            frame:GetScript("OnEnter")(frame)
+        end)
+        rbWrapper.RadioButton:SetScript("OnLeave", function()
+            frame:GetScript("OnLeave")(frame)
+        end)
+
+        local titleFrame = rbWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
+        titleFrame:SetText(item.title)
+        titleFrame:SetWordWrap(true)
+        titleFrame:SetJustifyH("LEFT")
+        titleFrame:SetWidth(width - 40)
+        frame.titleFrame = titleFrame
+
+        local descriptionFrame = nil
+
+        if not item.description then -- If there is no note, the label should be in-line with the checkbox
+            titleFrame:SetPoint("LEFT", rbWrapper, "LEFT", 38, 0)
+
+        else -- If there is a note, the label should be raised a bit to compensate
+            titleFrame:SetPoint("LEFT", rbWrapper, "LEFT", 38, 6)
+
+            descriptionFrame = rbWrapper:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            descriptionFrame:SetPoint("TOPLEFT", titleFrame, "BOTTOMLEFT", 0, -2)
+            descriptionFrame:SetText(item.description)
+            descriptionFrame:SetWordWrap(true)
+            descriptionFrame:SetJustifyH("LEFT")
+            descriptionFrame:SetWidth(width - 40)
+            frame.descriptionFrame = descriptionFrame
+        end
+
+        if item.get then
+            rbWrapper.RadioButton:SetChecked(item.get())
+            QuestieOptionsEngine:RefreshStates()
+        end
+
+        rbWrapper.RadioButton:SetScript("OnClick", function(self)
+            if item.set then
+                item.set(item.value)
+            end
+            rbWrapper.RadioButton:SetChecked(item.get())
+            QuestieOptionsEngine:RefreshStates()
+        end)
+
+        local labelHeight = titleFrame:GetStringHeight()
+        local descriptionHeight = 0
+        if item.description then descriptionHeight = descriptionFrame:GetStringHeight() + 2 end -- we add 2 if there's a note because we offset the note 2 units down
+        local wrapperHeight = rbWrapper:GetHeight()
+
+        local finalHeight = math.max(labelHeight + descriptionHeight, wrapperHeight)
+        if finalHeight > wrapperHeight and descriptionFrame then
+            frame:SetHeight(finalHeight)
+            titleFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 38, 0)
+        end
+
+        frame.widget = rbWrapper.RadioButton
+
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 2, 0)
     end
 
     table.insert(registeredControls, frame)
@@ -1266,11 +1527,12 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
         local item = {
             order = rawitem.order or 0,                                -- the index used to sort control and tab hierarchy, required for all items
             type = rawitem.type or "",                                 -- valid options are: checkbox, slider, dropdown, container, divider, spacer, text, button, soundButton
-            title = rawitem.title or tostring(rawitem.type),           -- user-readable text label
-            description = rawitem.description,                         -- description of the control, appears below the label in small white text (checkboxes only)
-            tooltip = rawitem.tooltip,                                 -- text shown in tooltip when hovering over control (longer description)
+            title = l10n(rawitem.title) or "",                         -- user-readable text label
+            description = l10n(rawitem.description),                   -- description of the control, appears below the label in small white text (checkboxes only)
+            tooltip = l10n(rawitem.description),                       -- text shown in tooltip when hovering over control (longer description)
             get = rawitem.get,                                         -- function used to determine what state the control should show (get value of variable)
             set = rawitem.set,                                         -- function used to set the target variable when the control is used
+            value = rawitem.value,                                     -- radio button value for this control
             width = rawitem.width or 1,                                -- screen width this control occupies where 1 = 100%; also accepts 'full' = 1 and 'half' = 0.5
             newline = rawitem.newline or false,                        -- if true, force this element to be at the start of a new line
             visible = rawitem.visible == nil or rawitem.visible,       -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
@@ -1279,18 +1541,26 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
             max = rawitem.max or 10,                                   -- the maximum value for a slider (right)
             step = rawitem.step or 0.1,                                -- the size of the 'steps' along a slider
             showValue = rawitem.showValue == nil or rawitem.showValue, -- whether or not to show the raw value beneath a slider
-            minLabel = rawitem.minLabel,                               -- label shown on the left side of a slider; if nil, show min value
-            maxLabel = rawitem.maxLabel,                               -- label shown on the right side of a slider; if nil, show max value
+            minLabel = l10n(rawitem.minLabel),                         -- label shown on the left side of a slider; if nil, show min value
+            maxLabel = l10n(rawitem.maxLabel),                         -- label shown on the right side of a slider; if nil, show max value
             options = rawitem.options,                                 -- a list of entries within a dropdown
             items = rawitem.items,                                     -- a nested array of controls within a container
-            titleAlign = rawitem.titleAlign or "LEFT",                 -- title text alignment
+            titleAlign = rawitem.titleAlign,                           -- title text alignment
             descriptionAlign = rawitem.descriptionAlign or "LEFT",     -- description text alignment
             func = rawitem.func,                                       -- function called when control is pressed (buttons only)
             align = rawitem.align or "LEFT",                           -- control alignment within its spacer/wrapper (only noticeable with buttons)
-            btnLabel = rawitem.btnLabel or "",                         -- text label placed on a button (may differ from title used in tooltips)
+            btnLabel = l10n(rawitem.btnLabel) or "",                         -- text label placed on a button (may differ from title used in tooltips)
             fonts = rawitem.fonts,                                     -- list of fonts to select from
             hasOpacity = rawitem.hasOpacity or false,                  -- whether a colorPicker should show an alpha selector alongside RGB
         }
+
+        if item.titleAlign == nil then
+            if item.type == "divider" then
+                item.titleAlign = "CENTER"
+            else
+                item.titleAlign = "LEFT"
+            end
+        end
 
         if item.visible ~= false then
             -- Convert strings to actual values
@@ -1402,19 +1672,25 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
     return math.abs(cursorY - currentMaxRowHeight)
 end
 
--- Below function borrowed from LFGBulletinBoard, under MIT License
----UIPanelScrollFrameTemplate is deprecated in favor of WowScrollBox.
--- This is helper to adapt current frames to new scrollbox.
 ---@param parent Frame
 ---@param name string
-local CreateScrollFrames = function(parent, name, header)
+local CreateScrollFrames = function(parent, name, header, mode)
+    local scrollBoxBottom = -1
+    if mode == RenderMode.POPUP then
+        if Questie.IsForever then
+            scrollBoxBottom = -10
+        else
+            scrollBoxBottom = -7
+        end
+    end
 	local scrollBox = CreateFrame("Frame", name, parent, "WowScrollBox") --[[@as WowScrollBox|Frame]]
 	local scrollBar = CreateFrame("EventFrame", name.."ScrollBar", parent, "MinimalScrollBar")
 	local barPadding = 12
 	scrollBar:SetPoint("RIGHT", parent, "RIGHT", -barPadding, 0)
 	scrollBar:SetPoint("BOTTOM", parent, "BOTTOM", 0, 5)
-	scrollBox:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -8)
-	scrollBox:SetPoint("BOTTOM", parent, 0, 0)
+	scrollBar:SetPoint("TOP", parent, "TOP", 0, -36)
+	scrollBox:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -10)
+	scrollBox:SetPoint("BOTTOM", parent, 0, scrollBoxBottom)
 	scrollBox:SetPoint("RIGHT", scrollBar, "LEFT", -barPadding, 0)
 	-- For now, the scrollChild serves as an expanding canvas for the scrollBox.
 	-- Allows the scroll frame to behave like the previously used template.
@@ -1440,16 +1716,15 @@ end
 
 function QuestieOptionsEngine:Initialize()
     local sortedTabs = {}
-    for tabKey, tabData in pairs(QuestieOptionsList) do
+    for tabKey, tabData in pairs(_CreateOptionsTable) do
         table.insert(sortedTabs, { key = tabKey, data = tabData })
     end
 
     table.sort(sortedTabs, function(a, b)
         local aOrder = a.data.order or 100
         local bOrder = b.data.order or 100
-
         if aOrder == bOrder then
-            return a.data.title < b.data.title
+            return (a.data.title or "") < (b.data.title or "")
         end
         return aOrder < bOrder
     end)
@@ -1462,8 +1737,11 @@ function QuestieOptionsEngine:Initialize()
         end
     end
 
-    local mainCategory = nil
+    local popup = self:GetOrCreateStandaloneWindow()
+    self.standaloneCanvases = {}
+    self.sideTabs = {}
 
+    local mainCategory = nil
     if not primaryTabKey then
         local mainFrame = CreateFrame("Frame", "QuestieOptionsCanvasMain", UIParent)
         mainFrame:Hide()
@@ -1471,55 +1749,66 @@ function QuestieOptionsEngine:Initialize()
         Settings.RegisterAddOnCategory(mainCategory)
     end
 
-    for _, tabInfo in ipairs(sortedTabs) do
+    local previousTabButton = nil
+
+    for index, tabInfo in ipairs(sortedTabs) do
         local tabKey = tabInfo.key
         local tabData = tabInfo.data
-        local frameName = "QuestieOptionsTab_" .. tabKey
+        local fullWidth = 625
 
-        -- init
-        local tabFrame = CreateFrame("Frame", frameName, UIParent)
-
-        -- header section
-        local title = tabFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
-        title:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 8, -4)
-        title:SetText("Questie")
-        local bullet = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
-        bullet:SetPoint("LEFT", title, "RIGHT", 4, -1)
-        bullet:SetTextColor(0.9,0.9,0.9,1.0)
-        bullet:SetText("•")
-        local subtitle = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
-        subtitle:SetPoint("LEFT", bullet, "RIGHT", 8, 0)
-        subtitle:SetTextColor(0.9,0.9,0.9,1.0)
-        subtitle:SetText(tabData.subtitle)
-
-		local scrollFrame, scrollChild = CreateScrollFrames(tabFrame, frameName, title)
-		tabFrame:HookScript("OnShow", scrollChild.UpdateScrollLayout)
-		tabFrame:Hide()
-
-        local header = tabFrame:CreateTexture(nil, "BORDER")
-        header:SetPoint("TOPLEFT", scrollFrame, "TOPLEFT", 0, 2)
-        header:SetPoint("BOTTOMRIGHT", scrollFrame, "TOPRIGHT", 0, 1)
-        header:SetAtlas("Options_HorizontalDivider", true)
-
-        local fullWidth = 625 -- default blizzard settings panel is 600 units wide
-        local logicalWidth = fullWidth - (indentingLevel * 2)
-
-        local totalHeight = BuildLayout(scrollChild, tabData.items, logicalWidth, 1)
-        scrollChild:SetHeight(totalHeight + 20)
+        local blizzFrameName = "QuestieOptionsTab_Blizz_" .. tabKey
+        local blizzTabFrame = self:CreateTabCanvas(UIParent, tabData, blizzFrameName, fullWidth, RenderMode.BLIZZARD)
 
         if tabKey == primaryTabKey then
-            -- This specific tab claims the crown and becomes the main top-level category page
-            mainCategory = Settings.RegisterCanvasLayoutCategory(tabFrame, "Questie")
+            mainCategory = Settings.RegisterCanvasLayoutCategory(blizzTabFrame, "Questie")
             Settings.RegisterAddOnCategory(mainCategory)
         else
-            -- This is a normal tab. It nests under mainCategory (which is now guaranteed
-            -- to exist, either via the fallback block above or via the first loop iteration)
-            local subCategory = Settings.RegisterCanvasLayoutSubcategory(mainCategory, tabFrame, tabData.title)
+            local subCategory = Settings.RegisterCanvasLayoutSubcategory(mainCategory, blizzTabFrame, tabData.title)
             Settings.RegisterAddOnCategory(subCategory)
         end
+
+        local standaloneFrameName = "QuestieOptionsTab_Popup_" .. tabKey
+        local popupTabFrame = self:CreateTabCanvas(popup.canvasContainer, tabData, standaloneFrameName, fullWidth, RenderMode.POPUP)
+        self.standaloneCanvases[tabKey] = popupTabFrame
+
+        local sideTab = self:CreateSideTabs(popup, tabKey, tabData, index)
+        self.sideTabs[tabKey] = sideTab
+
+        -- Anchor side tabs to the outside right edge of the popup window
+        if not previousTabButton then
+            if Questie.IsForever then
+                sideTab:SetPoint("TOPLEFT", popup, "TOPRIGHT", -1, -35)
+            else
+                sideTab:SetPoint("TOPLEFT", popup, "TOPRIGHT", -2, -35)
+            end
+        else
+            if Questie.IsForever then
+                sideTab:SetPoint("TOPLEFT", previousTabButton, "BOTTOMLEFT", 0, 0)
+            else
+                sideTab:SetPoint("TOPLEFT", previousTabButton, "BOTTOMLEFT", 0, 10)
+            end
+        end
+        previousTabButton = sideTab
     end
 
-    self:RefreshStates()
+    -- Default selection for the standalone window
+    local initialTabKey = primaryTabKey or (sortedTabs[1] and sortedTabs[1].key)
+    if initialTabKey then
+        QuestieOptionsEngine:SelectStandaloneTab(initialTabKey)
+    end
+
+    -- Synchronize both canvas layouts
+    QuestieOptionsEngine:RefreshStates()
+
+    -- Slash Command Setup
+    SLASH_QUESTIE1 = "/questiemenu"
+    SlashCmdList["QUESTIE"] = function()
+        if popup:IsShown() then
+            popup:Hide()
+        else
+            popup:Show()
+        end
+    end
 end
 
 function QuestieOptionsEngine:RefreshStates()
@@ -1538,13 +1827,16 @@ function QuestieOptionsEngine:RefreshStates()
 
     for _, control in ipairs(registeredControls) do
         local data = control.itemData
-        if data and data.enabled ~= nil then
+        local currentValue = nil
+        if data and data.get then currentValue = data.get() end
+
+        if data then
             -- Figure out if this control should be enabled
             local isEnabled = true
             if type(data.enabled) == "function" then
-                isEnabled = data.enabled()
+                isEnabled = (data.enabled() == nil) or data.enabled()
             elseif type(data.enabled) == "boolean" then
-                isEnabled = data.enabled
+                isEnabled = (data.enabled == nil) or data.enabled
             end
 
             if control.widget and control.widget.SetEnabled then
@@ -1559,8 +1851,8 @@ function QuestieOptionsEngine:RefreshStates()
 
             -- Custom properties to apply to each control type if enabled/disabled
             if data.type == "checkbox" then
-                --DevTools_Dump(control.widget)
-                --control.widget:SetDesaturated(not isEnabled)
+                local isChecked = (currentValue == true or currentValue == 1)
+                control.widget:SetChecked(isChecked)
             elseif data.type == "slider" then
                 if control.widget.Text then control.widget.Text:SetTextColor(unpack(labelColors)) end
                 if control.valueDisplay then control.valueDisplay:SetTextColor(unpack(textColors)) end
@@ -1571,26 +1863,44 @@ function QuestieOptionsEngine:RefreshStates()
                 if control.widget.TrackLeft then control.widget.TrackLeft:SetDesaturated(not isEnabled) end
                 if control.widget.TrackMiddle then control.widget.TrackMiddle:SetDesaturated(not isEnabled) end
                 if control.widget.TrackRight then control.widget.TrackRight:SetDesaturated(not isEnabled) end
+                if type(currentValue) == "number" then
+                    control.widget:SetValue(currentValue)
+                end
             elseif data.type == "dropdown" or data.type == "fontDropdown" then
                 DesaturateNineSlice(control.widget, not isEnabled, true)
+                control.widget:GenerateMenu()
             elseif data.type == "container" then
                 DesaturateNineSlice(control.containerFrame, not isEnabled, true)
             elseif data.type == "colorPicker" then
                 control.widget.border:SetDesaturated(not isEnabled)
                 control.widget.border:SetVertexColor(unpack(isEnabled and {1, 1, 1, 1} or {0.7, 0.7, 0.7, 1}))
+                local r, g, b, a = nil, nil, nil, nil
+                if data.get then r, g, b, a = data.get() end
+                control.widget.swatch:SetVertexColor(r or 1, g or 1, b or 1, a or 1)
+            elseif data.type == "radioButton" then
+                control.widget:SetChecked(currentValue)
             end
         end
     end
 end
 
 -- Helper to construct a canvas frame for either Blizzard Settings or the Standalone window
-function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWidth)
+function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWidth, mode)
+    local leftInset = 0
+    if mode == RenderMode.POPUP then
+        leftInset = 44
+    end
+
     local tabFrame = CreateFrame("Frame", frameName, parent)
     tabFrame:SetAllPoints(parent)
 
+    local headerWrapper = CreateFrame("Frame", frameName .. "_headerWrapper", tabFrame)
+    headerWrapper:SetAllPoints(tabFrame)
+    headerWrapper:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, -4)
+
     -- Header title & subtitle
     local title = tabFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
-    title:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 8, -4)
+    title:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 8 + leftInset, -4)
     title:SetText("Questie")
 
     local bullet = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
@@ -1603,14 +1913,17 @@ function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWi
     subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
     subtitle:SetText(tabData.subtitle or tabData.title)
 
-    local scrollFrame, scrollChild = CreateScrollFrames(tabFrame, frameName, title)
+    headerWrapper:SetPoint("BOTTOM", title, "BOTTOM", 0, 0)
+
+    local scrollFrame, scrollChild = CreateScrollFrames(tabFrame, frameName, headerWrapper, mode)
     tabFrame:HookScript("OnShow", scrollChild.UpdateScrollLayout)
     tabFrame:Hide()
 
     local header = tabFrame:CreateTexture(nil, "BORDER")
     header:SetPoint("TOPLEFT", scrollFrame, "TOPLEFT", 0, 2)
-    header:SetPoint("BOTTOMRIGHT", scrollFrame, "TOPRIGHT", 0, 1)
+    header:SetPoint("BOTTOMRIGHT", scrollFrame, "TOPRIGHT", 0, 0.5)
     header:SetAtlas("Options_HorizontalDivider", true)
+    DisableSnapping(header)
 
     local logicalWidth = fullWidth - (indentingLevel * 2)
     local totalHeight = BuildLayout(scrollChild, tabData.items, logicalWidth, 1)
@@ -1620,51 +1933,86 @@ function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWi
 end
 
 -- Constructs the side-tab button using the modern retail sidetab atlases and masking
-function QuestieOptionsEngine:CreateSideTab(parent, tabKey, tabData, index)
-    local button = CreateFrame("Button", "$parent_Tab_" .. tabKey, parent)
-    button.tabKey = tabKey
+function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
+    local tabFrame = CreateFrame("Frame", "$parent_Tab_" .. tabKey, parent)
+    tabFrame.tabKey = tabKey
+    local tabButton = CreateFrame("Button", "$tabButton_" .. tabKey, tabFrame)
+    tabFrame.button = tabButton
+    tabFrame.button.tabKey = tabKey
 
-    -- 1. Background Art ("common-sidetab")
-    local bg = button:CreateTexture(nil, "BACKGROUND")
-    bg:SetAtlas("common-sidetab", true)
-    bg:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
-    button.Background = bg
+    local bg = tabFrame:CreateTexture(nil, "BACKGROUND")
+    if Questie.IsForever then
+        bg:SetAtlas("common-sidetab", true)
+        bg:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, 0)
+        tabFrame:SetSize(bg:GetSize())
+    else
+        bg:SetTexture("Interface\\SpellBook\\SpellBook-SkillLineTab")
+        bg:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, 0)
+        tabFrame:SetSize(64, 64)
+    end
+    tabFrame.Background = bg
 
-    -- Match button dimensions to the atlas
-    local width, height = bg:GetSize()
-    button:SetSize(width, height)
-
-    -- 2. Icon Texture & 3. Image Mask ("common-sidetab-mask")
-    -- Rendered on ARTWORK: above BACKGROUND, but beneath OVERLAY / HIGHLIGHT
-    local icon = button:CreateTexture(nil, "ARTWORK")
-    icon:SetPoint("CENTER", button, "CENTER", 1, 0)
-    icon:SetSize(28, 28)
+    local icon = tabFrame:CreateTexture(nil, "ARTWORK")
+    if Questie.IsForever then
+        icon:SetPoint("CENTER", tabFrame, "CENTER", -1, 0)
+        icon:SetSize(62, 62)
+        tabButton:SetSize(50, 50)
+        tabButton:SetPoint("CENTER", icon, "CENTER", -1, -1)
+    else
+        icon:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 3, -10)
+        icon:SetSize(34, 34)
+        tabButton:SetSize(34, 34)
+        tabButton:SetPoint("CENTER", icon, "CENTER", 0, 0)
+    end
     icon:SetTexture(tabData.icon or 134400) -- Fallback to question mark icon
-    button.Icon = icon
+    tabFrame.Icon = icon
 
-    local mask = button:CreateMaskTexture(nil, "ARTWORK")
-    mask:SetAtlas("common-sidetab-mask", true)
-    mask:SetPoint("CENTER", icon, "CENTER", 0, 0)
-    mask:SetSize(28, 28)
+    local mask = tabFrame:CreateMaskTexture(nil, "ARTWORK")
+    if Questie.IsForever then
+        mask:SetAtlas("common-sidetab-mask", true)
+        mask:SetPoint("CENTER", icon, "CENTER", -1, 0)
+        mask:SetSize(62, 62)
+    else
+        mask:SetTexture("interface\\hud\\uicooldownmanagermask")
+        mask:SetPoint("CENTER", icon, "CENTER", 0, 0)
+        mask:SetSize(36, 36)
+    end
     icon:AddMaskTexture(mask)
-    button.Mask = mask
+    tabFrame.Mask = mask
 
-    -- 4. Selection Overlay ("common-sidetab-selected")
-    local selected = button:CreateTexture(nil, "OVERLAY")
-    selected:SetAtlas("common-sidetab-selected", true)
-    selected:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+    local selected = tabFrame:CreateTexture(nil, "OVERLAY")
+    if Questie.IsForever then
+        selected:SetAtlas("common-sidetab-selected", true)
+        selected:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, 0)
+    else
+        selected:SetTexture("Interface\\Buttons\\CheckButtonHilight")
+        selected:SetPoint("TOPLEFT", icon, "TOPLEFT", 0, 0)
+        selected:SetSize(34, 34)
+        selected:SetBlendMode("ADD")
+    end
     selected:Hide()
-    button.Selected = selected
+    tabFrame.Selected = selected
 
-    -- 5. Hover Overlay ("common-sidetab-hover")
-    local highlight = button:CreateTexture(nil, "HIGHLIGHT")
-    highlight:SetAtlas("common-sidetab-hover", true)
-    highlight:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+    local highlight = tabButton:CreateTexture(nil, "HIGHLIGHT")
+    if Questie.IsForever then
+        highlight:SetAtlas("common-sidetab-hover", true)
+        highlight:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, 0)
+    else
+        highlight:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
+        highlight:SetPoint("TOPLEFT", icon, "TOPLEFT", 0, 0)
+        highlight:SetSize(34, 34)
+    end
     highlight:SetBlendMode("ADD")
-    button.Highlight = highlight
+    tabFrame.Highlight = highlight
+
+    DisableSnapping(tabFrame.Background)
+    DisableSnapping(tabFrame.Icon)
+    DisableSnapping(tabFrame.Mask)
+    DisableSnapping(tabFrame.Selected)
+    DisableSnapping(tabFrame.Highlight)
 
     -- Tooltips
-    button:SetScript("OnEnter", function(btn)
+    tabButton:SetScript("OnEnter", function(btn)
         GameTooltip:SetOwner(btn, "ANCHOR_RIGHT")
         GameTooltip:SetText(tabData.title or tabKey, 1, 1, 1)
         if tabData.subtitle then
@@ -1672,45 +2020,88 @@ function QuestieOptionsEngine:CreateSideTab(parent, tabKey, tabData, index)
         end
         GameTooltip:Show()
     end)
-    button:SetScript("OnLeave", function()
+    tabButton:SetScript("OnLeave", function()
         GameTooltip:Hide()
     end)
 
     -- Click handler
-    button:SetScript("OnClick", function()
+    tabButton:SetScript("OnClick", function()
         PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
         self:SelectStandaloneTab(tabKey)
     end)
 
-    return button
+    return tabFrame
 end
 
 -- Constructs the main standalone dialog frame
 function QuestieOptionsEngine:GetOrCreateStandaloneWindow()
     if self.standaloneWindow then return self.standaloneWindow end
+    local popoutFrame = Questie.IsForever and "PortraitFrameFlatTemplate" or "PortraitFrameTemplate"
+    local popupHeight = math.floor(GetScreenHeight() * 0.7) or 580
 
-    local f = CreateFrame("Frame", "QuestieStandaloneSettings", UIParent, "BasicFrameTemplateWithInset")
-    f:SetSize(670, 580)
+    local f = CreateFrame("Frame", "QuestieStandaloneSettings", UIParent, popoutFrame)
+    f:SetSize(675, popupHeight)
     f:SetPoint("CENTER")
     f:SetMovable(true)
-    f:EnableMouse(true)
-    f:RegisterForDrag("LeftButton")
-    f:SetScript("OnDragStart", f.StartMoving)
-    f:SetScript("OnDragStop", f.StopMovingOrSizing)
+    f:SetClampedToScreen(true)
     f:SetFrameStrata("HIGH")
     f:Hide()
+    f:SetTitle("Questie")
+    f:EnableMouse(true)
 
-    f.TitleBg:SetHeight(30)
-    f.title = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    f.title:SetPoint("TOPLEFT", f.TitleBg, "TOPLEFT", 10, -6)
-    f.title:SetText("Questie Settings")
+    local disableBatch = {
+        f.CloseButton:GetNormalTexture(), f.CloseButton:GetPushedTexture(), f.CloseButton:GetHighlightTexture(), f.CloseButton:GetDisabledTexture(),
+        f.PortraitFrame, f.TopRightCorner, f.TopLeftCorner, f.TopBorder, f.TopTileStreaks,
+        f.BotLeftCorner, f.BotRightCorner, f.BottomBorder, f.LeftBorder, f.RightBorder,
+    }
 
-    -- Content host area inside the inset border
+    for i, frameTexture in pairs(disableBatch) do
+        if frameTexture then DisableSnapping(frameTexture) end
+    end
+
+    local dragBar = CreateFrame("Frame", nil, f) -- Create a frame along the top of the window so it can be moved with click+drag
+    dragBar:SetPoint("TOPLEFT", f, "TOPLEFT", 55, 0) -- Offset from left so it doesn't overlap the portrait
+    dragBar:SetPoint("TOPRIGHT", f, "TOPRIGHT", -30, 0) -- Offset from right so it doesn't block the close button
+    dragBar:SetHeight(28)
+    dragBar:EnableMouse(true)
+
+    dragBar:SetScript("OnMouseDown", function(bar, button)
+        if button == "LeftButton" and not f.isMoving then
+            f:StartMoving()
+            f.isMoving = true
+        end
+    end)
+
+    dragBar:SetScript("OnMouseUp", function(bar, button)
+        if button == "LeftButton" and f.isMoving then
+            f:StopMovingOrSizing()
+            f.isMoving = false
+        end
+    end)
+
+    -- Safety check: stop moving if the frame hides mid-drag
+    f:HookScript("OnHide", function()
+        if f.isMoving then
+            f:StopMovingOrSizing()
+            f.isMoving = false
+        end
+    end)
+
+    f:SetPortraitTextureRaw("Interface\\AddOns\\Questie\\Icons\\questie_portrait.png", nil, nil, "TRILINEAR")
+    local portrait = f.PortraitContainer.portrait
+    if Questie.IsForever then
+        portrait:SetTexCoord(0.16, 0.86, 0.17, 0.87)
+    else
+        portrait:SetTexCoord(0.21, 0.815, 0.21, 0.815)
+    end
+    DisableSnapping(portrait)
+
+    -- Content host area inside the portrait frame
     f.canvasContainer = CreateFrame("Frame", nil, f)
     f.canvasContainer:SetPoint("TOPLEFT", f, "TOPLEFT", 10, -30)
     f.canvasContainer:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -10, 10)
 
-    -- Close via Escape
+    -- ESC key to close
     tinsert(UISpecialFrames, "QuestieStandaloneSettings")
 
     self.standaloneWindow = f
