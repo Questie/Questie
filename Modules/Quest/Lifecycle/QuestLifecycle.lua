@@ -50,6 +50,11 @@ local hordeTournamentMarkerQuests = {
 }
 local xiaoFollowUpQuests = {[29577] = true, [29981] = true, [30079] = true}
 
+---One token per acceptance of a logged quest. Deferred work captures the token and runs only while it is current, so
+---work started for a quest that was turned in, abandoned or accepted again in the meantime is dropped.
+---@type table<QuestId, table>
+local acceptances = {}
+
 local allianceChampionMarkerQuests = {[13699] = true, [13713] = true, [13723] = true, [13724] = true, [13725] = true}
 local hordeChampionMarkerQuests = {[13726] = true, [13727] = true, [13728] = true, [13729] = true, [13731] = true}
 
@@ -68,7 +73,7 @@ local function _RedrawLoggedQuest(questId, quest)
     -- Remove the starter/finisher frames first, then draw objective notes once the
     -- unload coroutine has finished. This prevents the draw coroutines from racing
     -- with the unload coroutine and leaving stale entries in questIdFrames.
-    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
+    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, function()
         QuestieQuest:PopulateQuestLogInfo(quest)
         -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
@@ -121,6 +126,7 @@ function QuestLifecycle:AcceptQuest(questId)
     Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
 
     QuestiePlayer.currentQuestlog[questId] = quest
+    acceptances[questId] = {}
 
     if allianceTournamentMarkerQuests[questId] then
         Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
@@ -154,10 +160,11 @@ function QuestLifecycle:AdoptQuest(questId)
     end
 
     QuestiePlayer.currentQuestlog[questId] = quest
+    acceptances[questId] = {}
     CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
 
     -- As in AcceptQuest: draw the quest once the unload coroutine has removed its starter frames.
-    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
+    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, function()
         QuestieQuest:AddToQuestLog(quest)
         -- Party members learn of the quest and its progress here, as from AcceptQuest. AddToQuestLog sends nothing, so
         -- start-up does not send every quest on its own: a joining party member asks for the whole quest log.
@@ -166,15 +173,38 @@ function QuestLifecycle:AdoptQuest(questId)
     end)
 end
 
----Removes the quest's starter/finisher frames, then runs onComplete only if the quest is still in the quest log.
----The unload coroutine spans several frames. A quest turned in or abandoned meanwhile has left QuestLogCache,
+---Returns the token of the quest's current acceptance, or nil when the quest is not logged.
+---Quests logged at login or by a reset have no token until deferred work first asks for one.
+---@param questId QuestId
+---@return table?
+function QuestLifecycle.GetAcceptance(questId)
+    if (not QuestiePlayer.currentQuestlog[questId]) then
+        return nil
+    end
+    if (not acceptances[questId]) then
+        acceptances[questId] = {}
+    end
+    return acceptances[questId]
+end
+
+---Whether deferred work started for an acceptance may still run: the quest is still logged, and was neither turned in,
+---abandoned nor accepted again since.
+---@param questId QuestId
+---@param acceptance table? @Token from QuestLifecycle.GetAcceptance
+---@return boolean
+function QuestLifecycle.IsCurrentAcceptance(questId, acceptance)
+    return acceptance ~= nil and acceptances[questId] == acceptance and QuestiePlayer.currentQuestlog[questId] ~= nil
+end
+
+---Removes the quest's starter/finisher frames, then runs onComplete only if the same acceptance of the quest is still
+---logged. The unload coroutine spans several frames. A quest turned in or abandoned meanwhile has left QuestLogCache,
 ---so populating or drawing it then would fail or bring it back.
 ---@param questId QuestId
----@param quest Quest
 ---@param onComplete function
-function QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+function QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
+    local acceptance = QuestLifecycle.GetAcceptance(questId)
     AvailableQuests.RemoveQuest(questId, function()
-        if QuestiePlayer.currentQuestlog[questId] ~= quest or (not QuestLogCache.TryGetQuest(questId)) then
+        if (not QuestLifecycle.IsCurrentAcceptance(questId, acceptance)) or (not QuestLogCache.TryGetQuest(questId)) then
             return
         end
         onComplete()
@@ -195,6 +225,8 @@ function QuestLifecycle:UpdateQuest(questId)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestLifecycle:UpdateQuest] Quest was once complete or Quest Item(s) were removed. Resetting quest.")
 
         _ResetProgress(quest)
+        -- Work still pending from before the reset must not draw over the redraw below
+        acceptances[questId] = {}
         QuestieQuest:CheckQuestSourceItem(questId, true)
         Questie.db.char.collapsedQuests[questId] = nil
         _RedrawLoggedQuest(questId, quest)
@@ -206,6 +238,7 @@ end
 
 ---@param questId number
 function QuestLifecycle:CompleteQuest(questId)
+    acceptances[questId] = nil
     -- Skip quests which are turn in only and are not added to the quest log in the first place
     if QuestiePlayer.currentQuestlog[questId] then
         -- Reset quest flags of
@@ -261,6 +294,7 @@ end
 
 ---@param questId number
 function QuestLifecycle:AbandonQuest(questId)
+    acceptances[questId] = nil
     -- Unknown quests have tracker state without an entry in the enriched map quest log.
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()

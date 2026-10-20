@@ -200,6 +200,26 @@ describe("QuestLifecycle", function()
             assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
         end)
 
+        it("should draw a quest abandoned and accepted again during the unload only for the new acceptance", function()
+            local questId = 100
+            local quest = {Id = questId, IsComplete = function() return 0 end}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            local unloads = {}
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloads[#unloads + 1] = callback end)
+
+            QuestLifecycle:AcceptQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
+            QuestLifecycle:AcceptQuest(questId)
+            for _, unloaded in ipairs(unloads) do
+                if unloaded then
+                    unloaded()
+                end
+            end
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called(1)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called(1)
+        end)
+
         it("should reset child daily quests when parent is accepted", function()
             local questId = 100
             local childQuestId = 200
@@ -288,7 +308,7 @@ describe("QuestLifecycle", function()
         it("should run onComplete after the unload when the quest is still logged", function()
             QuestiePlayer.currentQuestlog[questId] = quest
 
-            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
 
             assert.spy(AvailableQuests.RemoveQuest).was.called(1)
             assert.spy(onComplete).was.not_called()
@@ -299,18 +319,27 @@ describe("QuestLifecycle", function()
         it("should not run onComplete when the quest left the quest log during the unload", function()
             QuestiePlayer.currentQuestlog[questId] = quest
 
-            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
             QuestiePlayer.currentQuestlog[questId] = nil
             unloaded()
 
             assert.spy(onComplete).was.not_called()
         end)
 
-        it("should not run onComplete when the quest was re-accepted as a different object during the unload", function()
+        it("should not run onComplete when the quest was abandoned and accepted again during the unload", function()
             QuestiePlayer.currentQuestlog[questId] = quest
 
-            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
-            QuestiePlayer.currentQuestlog[questId] = {Id = questId}
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
+            local staleUnload = unloaded
+            QuestLifecycle:AbandonQuest(questId)
+            QuestLifecycle:AcceptQuest(questId)
+            staleUnload()
+
+            assert.spy(onComplete).was.not_called()
+        end)
+
+        it("should not run onComplete when the quest is not logged", function()
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
             unloaded()
 
             assert.spy(onComplete).was.not_called()
@@ -319,7 +348,7 @@ describe("QuestLifecycle", function()
         it("should not run onComplete when the quest left QuestLogCache during the unload", function()
             QuestiePlayer.currentQuestlog[questId] = quest
 
-            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
             QuestLogCache.TryGetQuest = spy.new(function() return nil end)
             unloaded()
 
@@ -387,6 +416,20 @@ describe("QuestLifecycle", function()
             assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, questId, true)
             assert.spy(QuestieQuest.UpdateQuest).was.not_called()
             assert.spy(AvailableQuests.RemoveQuest).was.called(1)
+        end)
+
+        it("should redraw overlapping resets only for the latest one", function()
+            local unloads = {}
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloads[#unloads + 1] = callback end)
+
+            quest.WasComplete = true
+            QuestLifecycle:UpdateQuest(questId)
+            quest.WasComplete = true
+            QuestLifecycle:UpdateQuest(questId)
+            unloads[1]()
+            unloads[2]()
+
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called(1)
         end)
 
         it("should not draw a reset quest turned in before its frames were unloaded", function()
