@@ -113,7 +113,7 @@ local RenderMode = {
 }
 
 local minControlHeight = { -- This is the starting height used for elements, but they can be larger if they overflow this size
-    ["checkbox"]     = 40,
+    ["checkbox"]     = 30,
     ["slider"]       = 48,
     ["dropdown"]     = 50,
     ["fontDropdown"] = 50,
@@ -147,7 +147,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox", -- valid options are: 'checkbox', 'slider', 'dropdown', 'container', 'divider', 'spacer'
                 width = 1, -- total screen width this control occupies where 1 = 100%; if 'full', do not place the next control beside it, if both are 'half' (0.5) then do place them side-by-side
                 get = function() return Questie.db.profile.checkbox1_value end,
-                set = function(val) Questie.db.profile.checkbox1_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox1_value = val end,
                 visible = true, -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
                 enabled = true, -- whether this control is enabled or disabled; this is re-calculated upon any settings change
             },
@@ -158,7 +158,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "slider",
                 width = "half",
                 get = function() return Questie.db.profile.slider1_value end,
-                set = function(val) Questie.db.profile.slider1_value = val end,
+                set = function(info, val) Questie.db.profile.slider1_value = val end,
                 min = 0, -- the minimum value for the slider (left)
                 max = 10, -- the maximum value for the slider (right)
                 step = 0.2, -- the size of the 'steps' along the slider
@@ -175,7 +175,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "slider",
                 width = "half",
                 get = function() return Questie.db.profile.slider2_value end,
-                set = function(val) Questie.db.profile.slider2_value = val end,
+                set = function(info, val) Questie.db.profile.slider2_value = val end,
                 min = 0, -- the minimum value for the slider (left)
                 max = 10, -- the maximum value for the slider (right)
                 step = 0.2, -- the size of the 'steps' along the slider
@@ -196,7 +196,7 @@ local QuestieOptionsList = { -- Table containing option items
                         type = "checkbox",
                         width = "half",
                         get = function() return Questie.db.profile.checkbox3_value end,
-                        set = function(val) Questie.db.profile.checkbox3_value = val end,
+                        set = function(info, val) Questie.db.profile.checkbox3_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
                     checkbox3 = {
@@ -206,7 +206,7 @@ local QuestieOptionsList = { -- Table containing option items
                         type = "checkbox",
                         width = "half",
                         get = function() return Questie.db.profile.checkbox3_value end,
-                        set = function(val) Questie.db.profile.checkbox3_value = val end,
+                        set = function(info, val) Questie.db.profile.checkbox3_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
                     divider1 = {
@@ -242,7 +242,7 @@ local QuestieOptionsList = { -- Table containing option items
                                     type = "checkbox",
                                     width = "half",
                                     get = function() return Questie.db.profile.checkbox4_value end,
-                                    set = function(val) Questie.db.profile.checkbox4_value = val end,
+                                    set = function(info, val) Questie.db.profile.checkbox4_value = val end,
                                 },
                                 checkbox5 = {
                                     order = 4,
@@ -251,7 +251,7 @@ local QuestieOptionsList = { -- Table containing option items
                                     type = "checkbox",
                                     width = "half",
                                     get = function() return Questie.db.profile.checkbox5_value end,
-                                    set = function(val) Questie.db.profile.checkbox5_value = val end,
+                                    set = function(info, val) Questie.db.profile.checkbox5_value = val end,
                                 },
                         },
                         enabled = function() return Questie.db.profile.checkbox1_value end,
@@ -264,7 +264,7 @@ local QuestieOptionsList = { -- Table containing option items
                         width = "full",
                         value = 1,
                         get = function() return Questie.db.profile.radiobuttontest_value == 1 end,
-                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
+                        set = function(info, val) Questie.db.profile.radiobuttontest_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
                     radioButton2 = {
@@ -275,7 +275,7 @@ local QuestieOptionsList = { -- Table containing option items
                         width = "full",
                         value = 2,
                         get = function() return Questie.db.profile.radiobuttontest_value == 2 end,
-                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
+                        set = function(info, val) Questie.db.profile.radiobuttontest_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
                     radioButton3 = {
@@ -286,7 +286,7 @@ local QuestieOptionsList = { -- Table containing option items
                         width = "full",
                         value = 3,
                         get = function() return Questie.db.profile.radiobuttontest_value == 3 end,
-                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
+                        set = function(info, val) Questie.db.profile.radiobuttontest_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
                     radioButton4 = {
@@ -297,7 +297,7 @@ local QuestieOptionsList = { -- Table containing option items
                         width = "full",
                         value = 4,
                         get = function() return Questie.db.profile.radiobuttontest_value == 4 end,
-                        set = function(val) Questie.db.profile.radiobuttontest_value = val end,
+                        set = function(info, val) Questie.db.profile.radiobuttontest_value = val end,
                         enabled = function() return Questie.db.profile.checkbox1_value end,
                     },
                 },
@@ -321,9 +321,10 @@ local QuestieOptionsList = { -- Table containing option items
                 get = function() return Questie.db.profile.dropdown1_value end,
                 set = function(val) Questie.db.profile.dropdown1_value = val end,
                 options = { -- the entries within the dropdown; index is the key, and text label shown is the value
-                    { text = "Apple", value = 1, icon = "Interface\\Icons\\inv_misc_food_19" },
-                    { text = "Banana", value = 2 },
-                    { text = "Orange", value = 3, icon = "Interface\\Icons\\inv_misc_food_18" },
+                    ["Troll Male"]       = l10n("Troll Male"),
+                    ["Troll Female"]     = l10n("Troll Female"),
+                    ["Tauren Male"]      = l10n("Tauren Male"),
+                    ["Tauren Female"]    = l10n("Tauren Female"),
                 },
                 enabled = function() return Questie.db.profile.checkbox1_value end,
             },
@@ -361,7 +362,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "third",
                 get = function() return Questie.db.profile.checkbox4_value end,
-                set = function(val) Questie.db.profile.checkbox4_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox4_value = val end,
                 newline = false,
             },
             checkbox7 = {
@@ -371,7 +372,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "third",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox8 = {
                 order = 8,
@@ -380,7 +381,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "third",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox9 = {
                 order = 9,
@@ -389,7 +390,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox10 = {
                 order = 10,
@@ -398,7 +399,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox11 = {
                 order = 11,
@@ -407,7 +408,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox12 = {
                 order = 12,
@@ -416,7 +417,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox13 = {
                 order = 13,
@@ -425,7 +426,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox14 = {
                 order = 14,
@@ -434,7 +435,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox15 = {
                 order = 15,
@@ -443,7 +444,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox16 = {
                 order = 16,
@@ -452,7 +453,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             checkbox17 = {
                 order = 17,
@@ -461,7 +462,7 @@ local QuestieOptionsList = { -- Table containing option items
                 type = "checkbox",
                 width = "half",
                 get = function() return Questie.db.profile.checkbox5_value end,
-                set = function(val) Questie.db.profile.checkbox5_value = val end,
+                set = function(info, val) Questie.db.profile.checkbox5_value = val end,
             },
             colorPicker1 = {
                 order = 17.8,
@@ -538,32 +539,38 @@ local QuestieOptionsList = { -- Table containing option items
     },
 }
 
+local UsePlaceholderOptions = false
+
 ---@return table
 _CreateOptionsTable = function()
-    local general_tab = QuestieOptionsEngine.tabs.general:Initialize()
-    coroutine.yield()
-    --local icons_tab = QuestieOptionsEngine.tabs.icons:Initialize()
-    --coroutine.yield()
-    --local tracker_tab = QuestieOptionsEngine.tabs.tracker:Initialize()
-    --coroutine.yield()
-    --local auto_tab = QuestieOptionsEngine.tabs.auto:Initialize()
-    --coroutine.yield()
-    --local nameplate_tab = QuestieOptionsEngine.tabs.nameplate:Initialize()
-    --coroutine.yield()
-    --local dbm_hud_tab = QuestieOptionsEngine.tabs.dbm:Initialize()
-    --coroutine.yield()
-    --local advanced_tab = QuestieOptionsEngine.tabs.advanced:Initialize()
-    --coroutine.yield()
-    return {
-        general_tab = general_tab,
-        --icons_tab = icons_tab,
-        --tracker_tab = tracker_tab,
-        --auto_tab = auto_tab,
-        --nameplate_tab = nameplate_tab,
-        --dbm_hud_tab = dbm_hud_tab,
-        --advanced_tab = advanced_tab,
-        --profiles_tab = LibStub("AceDBOptions-3.0"):GetOptionsTable(Questie.db)
-    }
+    if UsePlaceholderOptions then
+        return QuestieOptionsList
+    else
+        local general_tab = QuestieOptionsEngine.tabs.general:Initialize()
+        coroutine.yield()
+        --local icons_tab = QuestieOptionsEngine.tabs.icons:Initialize()
+        --coroutine.yield()
+        --local tracker_tab = QuestieOptionsEngine.tabs.tracker:Initialize()
+        --coroutine.yield()
+        --local auto_tab = QuestieOptionsEngine.tabs.auto:Initialize()
+        --coroutine.yield()
+        --local nameplate_tab = QuestieOptionsEngine.tabs.nameplate:Initialize()
+        --coroutine.yield()
+        --local dbm_hud_tab = QuestieOptionsEngine.tabs.dbm:Initialize()
+        --coroutine.yield()
+        --local advanced_tab = QuestieOptionsEngine.tabs.advanced:Initialize()
+        --coroutine.yield()
+        return {
+            general_tab = general_tab,
+            --icons_tab = icons_tab,
+            --tracker_tab = tracker_tab,
+            --auto_tab = auto_tab,
+            --nameplate_tab = nameplate_tab,
+            --dbm_hud_tab = dbm_hud_tab,
+            --advanced_tab = advanced_tab,
+            --profiles_tab = LibStub("AceDBOptions-3.0"):GetOptionsTable(Questie.db)
+        }
+    end
 end
 
 local function DisableSnapping(tex)
@@ -659,7 +666,7 @@ local function CreateControl(parent, item, width, height, level)
 
         if item.get then cbWrapper.CheckBox:SetChecked(item.get()) end
         cbWrapper.CheckBox:SetScript("OnClick", function(self)
-            if item.set then item.set(self:GetChecked()) end
+            if item.set then item.set(self, self:GetChecked()) end
             QuestieOptionsEngine:RefreshStates()
         end)
 
@@ -713,7 +720,7 @@ local function CreateControl(parent, item, width, height, level)
         if valueDisplay then valueDisplay:SetText(string.format("%g", startVal)) end
 
         slider:SetScript("OnValueChanged", function(self, value)
-            if item.set then item.set(value) end
+            if item.set then item.set(self, value) end
             if valueDisplay then valueDisplay:SetText(string.format("%g", value)) end
             QuestieOptionsEngine:RefreshStates()
         end)
@@ -762,32 +769,53 @@ local function CreateControl(parent, item, width, height, level)
         frame.titleFrame = titleFrame
 
         dropdown:SetupMenu(function(owner, rootDescription)
-            for _, opt in ipairs(item.options or {}) do
-                local isSelected = function() return item.get and item.get() == opt.value end
+            -- Resolve options if passed as a function or table
+            local options = item.options
+            if type(options) == "function" then
+                options = options()
+            end
+            options = options or {}
+
+            -- Resolve custom sort order if provided
+            local sorting = item.sortOrder
+            if type(sorting) == "function" then
+                sorting = sorting()
+            end
+
+            local orderedKeys = {}
+
+            if type(sorting) == "table" and #sorting > 0 then
+                -- Use the explicit sort array, ensuring the key exists in options
+                for _, key in ipairs(sorting) do
+                    if options[key] ~= nil then
+                        table.insert(orderedKeys, key)
+                    end
+                end
+            else
+                -- Fallback: extract all keys and sort alphabetically by display text
+                for key in pairs(options) do
+                    table.insert(orderedKeys, key)
+                end
+                table.sort(orderedKeys, function(a, b)
+                    local textA = tostring(options[a] or a):lower()
+                    local textB = tostring(options[b] or b):lower()
+                    return textA < textB
+                end)
+            end
+
+            for _, key in ipairs(orderedKeys) do
+                local displayText = options[key]
+
+                local isSelected = function()
+                    return item.get and item.get() == key
+                end
+
                 local setSelected = function()
-                    if item.set then item.set(opt.value) end
+                    if item.set then item.set(key) end
                     QuestieOptionsEngine:RefreshStates()
                 end
 
-                local radio = rootDescription:CreateRadio(opt.text, isSelected, setSelected, opt.value)
-
-                if opt.icon then
-                    radio:AddInitializer(function(button, description, menu)
-                        local texture = button:AttachTexture()
-                        texture:SetSize(16, 16)
-                        texture:SetPoint("LEFT", button, "LEFT", 18, 0)
-                        texture:SetTexture(opt.icon)
-                        if button.fontString then
-                            button.fontString:SetPoint("LEFT", texture, "RIGHT", 5, 0)
-                        end
-                    end)
-                else
-                    radio:AddInitializer(function(button, description, menu)
-                        if button.fontString then
-                            button.fontString:SetPoint("LEFT", button, "LEFT", 39, 0)
-                        end
-                    end)
-                end
+                rootDescription:CreateRadio(displayText, isSelected, setSelected, key)
             end
         end)
 
@@ -1465,7 +1493,7 @@ local function CreateControl(parent, item, width, height, level)
         end
 
         if item.get then
-            rbWrapper.RadioButton:SetChecked(item.get())
+            rbWrapper.RadioButton:SetChecked(item.get(item.value))
             QuestieOptionsEngine:RefreshStates()
         end
 
@@ -1473,7 +1501,6 @@ local function CreateControl(parent, item, width, height, level)
             if item.set then
                 item.set(item.value)
             end
-            rbWrapper.RadioButton:SetChecked(item.get())
             QuestieOptionsEngine:RefreshStates()
         end)
 
@@ -1523,17 +1550,31 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
 
     for _, rawitem in ipairs(sortedItems) do
 
+        local function safe_l10n(val)
+            if val == nil then
+                return nil
+            end
+
+            -- If a table of format arguments was passed: unpack into l10n
+            if type(val) == "table" then
+                return l10n(unpack(val))
+            end
+
+            -- Otherwise, regular string / single value
+            return l10n(val)
+        end
+
         -- Sanitizer & Defaults
         local item = {
             order = rawitem.order or 0,                                -- the index used to sort control and tab hierarchy, required for all items
             type = rawitem.type or "",                                 -- valid options are: checkbox, slider, dropdown, container, divider, spacer, text, button, soundButton
-            title = l10n(rawitem.title) or "",                         -- user-readable text label
-            description = l10n(rawitem.description),                   -- description of the control, appears below the label in small white text (checkboxes only)
-            tooltip = l10n(rawitem.description),                       -- text shown in tooltip when hovering over control (longer description)
+            title = safe_l10n(rawitem.title),                          -- user-readable text label
+            description = safe_l10n(rawitem.description),              -- description of the control, appears below the label in small white text (checkboxes only)
+            tooltip = safe_l10n(rawitem.tooltip),                      -- text shown in tooltip when hovering over control (longer description)
             get = rawitem.get,                                         -- function used to determine what state the control should show (get value of variable)
             set = rawitem.set,                                         -- function used to set the target variable when the control is used
             value = rawitem.value,                                     -- radio button value for this control
-            width = rawitem.width or 1,                                -- screen width this control occupies where 1 = 100%; also accepts 'full' = 1 and 'half' = 0.5
+            width = rawitem.width or 0.5,                              -- screen width this control occupies where 1 = 100%; also accepts 'full' = 1 and 'half' = 0.5
             newline = rawitem.newline or false,                        -- if true, force this element to be at the start of a new line
             visible = rawitem.visible == nil or rawitem.visible,       -- whether this control is shown; this setting is only checked upon init, mainly used to filter options based on client expansion level (classic-only settings vs tbc-only)
             enabled = rawitem.enabled == nil or rawitem.enabled,       -- whether this control is enabled or disabled; this is re-evaluated upon any settings change
@@ -1541,15 +1582,16 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
             max = rawitem.max or 10,                                   -- the maximum value for a slider (right)
             step = rawitem.step or 0.1,                                -- the size of the 'steps' along a slider
             showValue = rawitem.showValue == nil or rawitem.showValue, -- whether or not to show the raw value beneath a slider
-            minLabel = l10n(rawitem.minLabel),                         -- label shown on the left side of a slider; if nil, show min value
-            maxLabel = l10n(rawitem.maxLabel),                         -- label shown on the right side of a slider; if nil, show max value
+            minLabel = safe_l10n(rawitem.minLabel),                    -- label shown on the left side of a slider; if nil, show min value
+            maxLabel = safe_l10n(rawitem.maxLabel),                    -- label shown on the right side of a slider; if nil, show max value
             options = rawitem.options,                                 -- a list of entries within a dropdown
+            sortOrder = rawitem.sortOrder,                             -- a sorted table of keys matching item.options that can be used as a sort order
             items = rawitem.items,                                     -- a nested array of controls within a container
             titleAlign = rawitem.titleAlign,                           -- title text alignment
             descriptionAlign = rawitem.descriptionAlign or "LEFT",     -- description text alignment
             func = rawitem.func,                                       -- function called when control is pressed (buttons only)
             align = rawitem.align or "LEFT",                           -- control alignment within its spacer/wrapper (only noticeable with buttons)
-            btnLabel = l10n(rawitem.btnLabel) or "",                         -- text label placed on a button (may differ from title used in tooltips)
+            btnLabel = safe_l10n(rawitem.btnLabel),                    -- text label placed on a button (may differ from title used in tooltips)
             fonts = rawitem.fonts,                                     -- list of fonts to select from
             hasOpacity = rawitem.hasOpacity or false,                  -- whether a colorPicker should show an alpha selector alongside RGB
         }
@@ -1568,6 +1610,10 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
             elseif item.width == "full" then item.width = 1.0
             elseif item.width == "third" then item.width = 0.32 -- because of rounding quirks, defining 0.33 causes third elements to wrap
             elseif item.width == "quarter" then item.width = 0.25
+            end
+
+            if (item.type == "container" or item.type == "divider") and item.width ~= 1.0 then
+                item.width = 1.0
             end
 
             -- Determine actual unit width for this control by multiplying its percentage width by the unit width of its canvas
@@ -1716,7 +1762,7 @@ end
 
 function QuestieOptionsEngine:Initialize()
     local sortedTabs = {}
-    for tabKey, tabData in pairs(_CreateOptionsTable) do
+    for tabKey, tabData in pairs(_CreateOptionsTable()) do
         table.insert(sortedTabs, { key = tabKey, data = tabData })
     end
 
@@ -1828,7 +1874,7 @@ function QuestieOptionsEngine:RefreshStates()
     for _, control in ipairs(registeredControls) do
         local data = control.itemData
         local currentValue = nil
-        if data and data.get then currentValue = data.get() end
+        if data and data.get then currentValue = data.get(data.value) end
 
         if data then
             -- Figure out if this control should be enabled
