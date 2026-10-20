@@ -1081,6 +1081,7 @@ describe("QuestieCompat Forever paths", function()
             HookScript = function() end,
             IsProtected = function() return false end,
             Hide = spy.new(function() end),
+            Show = spy.new(function() end),
             Update = spy.new(function() end),
         }
         questInfo = {title = "A Threat Within", level = 1, suggestedGroup = 0, questID = 783, isHeader = false}
@@ -1199,21 +1200,23 @@ describe("QuestieCompat Forever paths", function()
 
         assert.spy(visibilityFrame.RegisterEvent).was.not_called()
         assert.spy(ObjectiveTrackerFrame.Hide).was.not_called()
+        assert.spy(ObjectiveTrackerFrame.Show).was.not_called()
         assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
     end)
 
-    it("defers a combat-time release then returns visibility to Blizzard's own policy", function()
+    it("should defer a combat-time release and then show the tracker without running Blizzard's layout", function()
         QuestieCompat.HideWatchFrame()
         assert.spy(ObjectiveTrackerFrame.Hide).was.called(1)
 
         _G.InCombatLockdown = function() return true end
         QuestieCompat.ShowWatchFrame()
         assert.spy(visibilityFrame.RegisterEvent).was.called_with(visibilityFrame, "PLAYER_REGEN_ENABLED")
-        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
+        assert.spy(ObjectiveTrackerFrame.Show).was.not_called()
 
         _G.InCombatLockdown = function() return false end
         onRegen()
-        assert.spy(ObjectiveTrackerFrame.Update).was.called(1)
+        assert.spy(ObjectiveTrackerFrame.Show).was.called(1)
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
         assert.spy(visibilityFrame.UnregisterEvent).was.called_with(visibilityFrame, "PLAYER_REGEN_ENABLED")
     end)
 
@@ -1239,9 +1242,8 @@ describe("QuestieCompat Forever paths", function()
 
         _G.InCombatLockdown = function() return false end
         QuestieCompat.ShowWatchFrame()
-        ObjectiveTrackerFrame:Show()
         assert.is_true(shown)
-        assert.spy(ObjectiveTrackerFrame.Update).was.called(1)
+        assert.spy(ObjectiveTrackerFrame.Update).was.not_called()
         assert.spy(ObjectiveTrackerFrame.HookScript).was.called(1)
     end)
 
