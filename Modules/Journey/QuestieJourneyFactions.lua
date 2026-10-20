@@ -49,6 +49,8 @@ QuestieJourneyFactions.expansionFactionCandidates = {
         factionIDs.DARKMOON_FAIRE,
         factionIDs.BROOD_OF_NOZDORMU,
         -- only visible in Forever
+        factionIDs.AZEROTH_COMMERCE_AUTHORITY,
+        factionIDs.DUROTAR_SUPPLY_AND_LOGISTICS,
         factionIDs.CENARION_SCOUTS,
         factionIDs.KIRIN_TOR_FOREVER,
         factionIDs.BARKSKIN_BURROW,
