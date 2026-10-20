@@ -2830,6 +2830,11 @@ globals = {
     "WorldMapZoneDropDown",
     "WorldMapZoneMinimapDropDown_Update",
     "DevTools_Dump",
+    "NineSliceUtil",
+    "ScrollUtil",
+    "Settings",
+    "SettingsPanel",
+    "CreateScrollBoxLinearView",
     -----------------------------------------------------> Blizzard Data
     "AMBIENCE_VOLUME",
     "CALENDAR_FULLDATE_MONTH_NAMES",
@@ -2898,6 +2903,7 @@ globals = {
     "TooltipDataProcessor.AddLinePostCall",
     "TooltipDataProcessor.AddTooltipPreCall",
     "TooltipDataProcessor.AddTooltipPostCall",
+    "SOUNDKIT",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
     "Krowi_WorldMapButtons1",

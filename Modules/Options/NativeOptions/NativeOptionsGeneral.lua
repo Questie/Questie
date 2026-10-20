@@ -391,7 +391,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         min = 0,
                         max = GetMaxPlayerLevel(),
                         step = 1,
-                        enabled = function() return not (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_OFFSET) end,
+                        enabled = function() return (Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_OFFSET) end,
                         get = function() return Questie.db.profile.manualLevelOffset end,
                         set = function(info, value)
                             Questie.db.profile.manualLevelOffset = value;
@@ -410,7 +410,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         min = 1,
                         max = GetMaxPlayerLevel(),
                         step = 1,
-                        enabled = function() return not (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
+                        enabled = function() return (Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE) end,
                         get = function() return Questie.db.profile.minLevelFilter; end,
                         set = function(info, value)
                             if value > Questie.db.profile.maxLevelFilter then
@@ -432,7 +432,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         min = 1,
                         max = GetMaxPlayerLevel(),
                         step = 1,
-                        enabled = function() return not (Questie.db.profile.lowLevelStyle ~= Questie.LOWLEVEL_RANGE) end,
+                        enabled = function() return (Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_RANGE) end,
                         get = function() return Questie.db.profile.maxLevelFilter; end,
                         set = function(info, value)
                             if value < Questie.db.profile.minLevelFilter then

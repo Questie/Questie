@@ -100,6 +100,8 @@ local SharedMedia = LibStub("LibSharedMedia-3.0")
 
 QuestieOptionsEngine.tabs = { ... }
 
+QuestieOptionsEngine.popup = nil
+
 local registeredControls = {} -- Used to loop back and refresh enable/disable states later
 
 -- Constants
@@ -542,7 +544,7 @@ local QuestieOptionsList = { -- Table containing option items
 local UsePlaceholderOptions = false
 
 ---@return table
-_CreateOptionsTable = function()
+local function CreateOptionsTable()
     if UsePlaceholderOptions then
         return QuestieOptionsList
     else
@@ -696,15 +698,15 @@ local function CreateControl(parent, item, width, height, level)
 
         if slider.Text then
             slider.Text:SetText(item.title)
-            slider.Text:SetFontObject(GameFontNormalSmall2)
+            slider.Text:SetFontObject("GameFontNormalSmall2")
         end
         if slider.Low then
             slider.Low:SetText(item.minlabel or tostring(item.min or 0))
-            slider.Low:SetFontObject(GameFontDisableTiny)
+            slider.Low:SetFontObject("GameFontDisableTiny")
         end
         if slider.High then
             slider.High:SetText(item.maxlabel or tostring(item.max or 100))
-            slider.High:SetFontObject(GameFontDisableTiny)
+            slider.High:SetFontObject("GameFontDisableTiny")
         end
 
         local valueDisplay
@@ -1762,7 +1764,7 @@ end
 
 function QuestieOptionsEngine:Initialize()
     local sortedTabs = {}
-    for tabKey, tabData in pairs(_CreateOptionsTable()) do
+    for tabKey, tabData in pairs(CreateOptionsTable()) do
         table.insert(sortedTabs, { key = tabKey, data = tabData })
     end
 
@@ -1846,15 +1848,7 @@ function QuestieOptionsEngine:Initialize()
     -- Synchronize both canvas layouts
     QuestieOptionsEngine:RefreshStates()
 
-    -- Slash Command Setup
-    SLASH_QUESTIE1 = "/questiemenu"
-    SlashCmdList["QUESTIE"] = function()
-        if popup:IsShown() then
-            popup:Hide()
-        else
-            popup:Show()
-        end
-    end
+    QuestieOptionsEngine.popup = popup
 end
 
 function QuestieOptionsEngine:RefreshStates()

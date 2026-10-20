@@ -6,6 +6,8 @@ local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
 
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieQuest
@@ -66,7 +68,7 @@ function QuestieSlash.HandleCommands(input)
     -- lazy match commands
     -- command priority is last match in the table
     -- NEW COMMANDS SHOULD BE ADDED HERE
-    local ctypes = {"doable", "flex", "help", "journey", "minimap", "search", "tracker", "toggle", "tomap"}
+    local ctypes = {"doable", "flex", "help", "journey", "minimap", "search", "tracker", "toggle", "tomap", "options"}
     local tempCommand
     for i=1, #ctypes do
         local partialMatch = stringmatch(ctypes[i], "^"..mainCommand)
@@ -326,6 +328,15 @@ function QuestieSlash.HandleCommands(input)
         }
 
         Popup.Show("QUESTIE_ITEMDROPOUTPUT") -- display a popup with a copyable text field so we can get the list out of the game
+        return
+    end
+
+    if mainCommand == "options" then -- temporary dev command only. opens the new Native settings popup rather than the old one (/questie)
+        if QuestieOptionsEngine.popup:IsShown() then
+            QuestieOptionsEngine.popup:Hide()
+        else
+            QuestieOptionsEngine.popup:Show()
+        end
         return
     end
 
