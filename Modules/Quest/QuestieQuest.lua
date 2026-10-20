@@ -53,6 +53,8 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+---@type QuestLifecycle
+local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -581,12 +583,7 @@ function QuestieQuest:UpdateQuest(questId)
                     Questie.db.char.collapsedQuests[questId] = nil
                 end
 
-                AvailableQuests.RemoveQuest(questId, function()
-                    -- Turning in an item quest takes the items first, which resets it here. The turn-in can then
-                    -- remove the quest from the log and QuestLogCache before this unload ends: nothing to redraw.
-                    if not QuestiePlayer.currentQuestlog[questId] then
-                        return
-                    end
+                QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
                     QuestieQuest:PopulateQuestLogInfo(quest)
                     Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                     QuestieQuest:PopulateObjectiveNotes(quest)

@@ -64,6 +64,7 @@ describe("QuestieQuest", function()
             finisher = QuestieLoader:ImportModule("QuestFinisher")
             finisher.AddFinisher = spy.new(function() end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) if callback then callback() end end)
+            QuestieLoader:ImportModule("QuestLifecycle").RemoveFramesOfLoggedQuest = spy.new(function(_, _, callback) callback() end)
             originalThreadCallback = QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant
             QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(work, callback)
                 work()
@@ -227,7 +228,6 @@ describe("QuestieQuest", function()
             QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
             QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
             QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
-            QuestiePlayer.currentQuestlog[93927] = quest
 
             QuestieQuest:UpdateQuest(93927)
 
@@ -238,35 +238,29 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
-        -- Selling Fish (127): the turn-in takes the Spotted Sunfish first, so the log reports the completed quest as
-        -- incomplete and UpdateQuest resets it. QUEST_TURNED_IN then removes the quest before the reset's unload ends.
-        it("does not redraw a reset quest that is turned in before the icon unload finishes", function()
-            local cache = {[93927] = {isComplete = 0}}
-            local cacheMisses = 0
-            QuestLogCache.GetQuest = function(questId)
-                -- The real GetQuest reports an error for a quest it does not have.
-                if not cache[questId] then
-                    cacheMisses = cacheMisses + 1
-                end
-                return cache[questId]
-            end
-            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
-            QuestieQuest.CheckQuestSourceItem = function() end
-            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+        -- The unload spans several frames; a quest turned in meanwhile has left QuestLogCache and must not be populated.
+        it("should repopulate a reset quest only through the logged-quest guard", function()
             quest.WasComplete = true
-            QuestiePlayer.currentQuestlog[93927] = quest
-            local finishUnload
-            AvailableQuests.RemoveQuest = function(_, onComplete) finishUnload = onComplete end
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+            local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
+            local guardedQuestId, guardedQuest, unloaded
+            QuestLifecycle.RemoveFramesOfLoggedQuest = function(questId, guarded, callback)
+                guardedQuestId, guardedQuest, unloaded = questId, guarded, callback
+            end
 
             QuestieQuest:UpdateQuest(93927)
-            -- QUEST_TURNED_IN
-            cache[93927] = nil
-            QuestiePlayer.currentQuestlog[93927] = nil
-            finishUnload()
 
-            assert.are_equal(0, cacheMisses)
-            assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
+            assert.are.equal(93927, guardedQuestId)
+            assert.are.equal(quest, guardedQuest)
             assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+
+            unloaded()
+
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
         end)
 
         it("preserves accepted completion when no database objectives exist", function()

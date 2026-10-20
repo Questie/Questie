@@ -19,6 +19,8 @@ describe("QuestLifecycle", function()
     local QuestieCombatQueue
     ---@type CommsVisibility
     local CommsVisibility
+    ---@type QuestLogCache
+    local QuestLogCache
 
     before_each(function()
         _G.WOW_PROJECT_ID = nil
@@ -56,6 +58,9 @@ describe("QuestLifecycle", function()
 
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
+
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestLogCache.TryGetQuest = spy.new(function() return {} end)
 
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
@@ -179,6 +184,22 @@ describe("QuestLifecycle", function()
             assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
         end)
 
+        it("should not populate a quest abandoned before the giver's frames were unloaded", function()
+            local questId = 100
+            local quest = {IsComplete = function() return 0 end}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            local acceptUnloaded -- AcceptQuest's callback; AbandonQuest's comes second
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) acceptUnloaded = acceptUnloaded or callback end)
+
+            QuestLifecycle:AcceptQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
+            acceptUnloaded()
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.not_called()
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+            assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
+        end)
+
         it("should reset child daily quests when parent is accepted", function()
             local questId = 100
             local childQuestId = 200
@@ -251,6 +272,58 @@ describe("QuestLifecycle", function()
 
             assert.is_nil(QuestiePlayer.currentQuestlog[999])
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+        end)
+    end)
+
+    describe("RemoveFramesOfLoggedQuest", function()
+        local questId = 100
+        local quest, onComplete, unloaded
+
+        before_each(function()
+            quest = {Id = questId}
+            onComplete = spy.new(function() end)
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloaded = callback end)
+        end)
+
+        it("should run onComplete after the unload when the quest is still logged", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+
+            assert.spy(AvailableQuests.RemoveQuest).was.called(1)
+            assert.spy(onComplete).was.not_called()
+            unloaded()
+            assert.spy(onComplete).was.called(1)
+        end)
+
+        it("should not run onComplete when the quest left the quest log during the unload", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+            QuestiePlayer.currentQuestlog[questId] = nil
+            unloaded()
+
+            assert.spy(onComplete).was.not_called()
+        end)
+
+        it("should not run onComplete when the quest was re-accepted as a different object during the unload", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+            QuestiePlayer.currentQuestlog[questId] = {Id = questId}
+            unloaded()
+
+            assert.spy(onComplete).was.not_called()
+        end)
+
+        it("should not run onComplete when the quest left QuestLogCache during the unload", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+            QuestLogCache.TryGetQuest = spy.new(function() return nil end)
+            unloaded()
+
+            assert.spy(onComplete).was.not_called()
         end)
     end)
 
