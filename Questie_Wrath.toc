@@ -283,6 +283,13 @@ Modules\Options\IconsTab\QuestieOptionsIcons.lua
 Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
+#Modules\Options\NativeOptions\NativeOptionsAdvanced.lua
+#Modules\Options\NativeOptions\NativeOptionsAuto.lua
+#Modules\Options\NativeOptions\NativeOptionsDBM.lua
+Modules\Options\NativeOptions\NativeOptionsGeneral.lua
+#Modules\Options\NativeOptions\NativeOptionsIcons.lua
+#Modules\Options\NativeOptions\NativeOptionsNameplate.lua
+#Modules\Options\NativeOptions\NativeOptionsTracker.lua
 
 # Cleanup
 
