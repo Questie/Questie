@@ -19,6 +19,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 local pairs = pairs
 
@@ -120,7 +122,7 @@ function QuestLifecycle:AcceptQuest(questId)
     -- Remove the starter/finisher frames first, then draw objective notes once the
     -- unload coroutine has finished. This prevents the draw coroutines from racing
     -- with the unload coroutine and leaving stale entries in questIdFrames.
-    AvailableQuests.RemoveQuest(questId, function()
+    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
         QuestieQuest:PopulateQuestLogInfo(quest)
         -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
@@ -144,17 +146,28 @@ function QuestLifecycle:AdoptQuest(questId)
     QuestiePlayer.currentQuestlog[questId] = quest
     CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
 
-    -- As in AcceptQuest: draw the quest once the unload coroutine has removed its starter frames. A quest turned in
-    -- or removed in the meantime must not come back.
-    AvailableQuests.RemoveQuest(questId, function()
-        if QuestiePlayer.currentQuestlog[questId] ~= quest then
-            return
-        end
+    -- As in AcceptQuest: draw the quest once the unload coroutine has removed its starter frames.
+    QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, function()
         QuestieQuest:AddToQuestLog(quest)
         -- Party members learn of the quest and its progress here, as from AcceptQuest. AddToQuestLog sends nothing, so
         -- start-up does not send every quest on its own: a joining party member asks for the whole quest log.
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
         AvailableQuests.CalculateAndDrawAll()
+    end)
+end
+
+---Removes the quest's starter/finisher frames, then runs onComplete only if the quest is still in the quest log.
+---The unload coroutine spans several frames. A quest turned in or abandoned meanwhile has left QuestLogCache,
+---so populating or drawing it then would fail or bring it back.
+---@param questId QuestId
+---@param quest Quest
+---@param onComplete function
+function QuestLifecycle.RemoveFramesOfLoggedQuest(questId, quest, onComplete)
+    AvailableQuests.RemoveQuest(questId, function()
+        if QuestiePlayer.currentQuestlog[questId] ~= quest or (not QuestLogCache.TryGetQuest(questId)) then
+            return
+        end
+        onComplete()
     end)
 end
 
