@@ -3,8 +3,6 @@ local DebugFunctions = QuestieLoader:CreateModule("DebugFunctions")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestLogCache
@@ -39,8 +37,7 @@ function DebugFunctions.ShowQuestObjectives(questId)
             Icon = quest.ObjectiveData[i].Icon
         }
         questCacheObjectives[i] = {
-            raw_text = objective.text,
-            text = QuestieLib.TrimObjectiveText(objective.text, objective.type),
+            text = objective.text,
             type = objective.type,
             raw_finished = objective.finished,
             finished = objective.finished,

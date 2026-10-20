@@ -188,14 +188,19 @@ end
 ---@return QuestId questID
 function QuestieCompat.GetQuestGreetingQuestID(index, isActive, npcGuid)
     local questID
-    if isActive and _G.GetActiveQuestID then
-        questID = _G.GetActiveQuestID(index)
-    elseif not isActive and _G.GetAvailableQuestInfo then
+    if isActive and GetActiveQuestID then
+        questID = GetActiveQuestID(index)
+    elseif not isActive and GetAvailableQuestInfo then
         -- Forever includes the quest ID in position 5; older Classic tuples end before it.
-        questID = select(5, _G.GetAvailableQuestInfo(index))
+        questID = select(5, GetAvailableQuestInfo(index))
     end
     if questID and questID > 0 then
         return questID
+    end
+
+    if (issecretvalue and issecretvalue(npcGuid)) or (not npcGuid) then
+        -- Native IDs remain usable, but title lookup needs a readable giver to disambiguate quests.
+        return 0
     end
 
     -- Classic greeting APIs expose titles rather than IDs. Keep the NPC and starter/finisher context.
@@ -291,6 +296,24 @@ function QuestieCompat.GetMouseFocus()
     else
         return GetMouseFocus()
     end
+end
+
+---Shows the zone on the world map through the client: C_Map.OpenWorldMap fires WORLD_MAP_OPEN and Blizzard's own
+---handler sets the map. Calling WorldMapFrame:SetMapID ourselves would leave the map's state tainted for the session,
+---so Blizzard's map navigation later gets its pins blocked in combat. Older clients lack it and set the map directly.
+---@param uiMapId number
+function QuestieCompat.OpenWorldMap(uiMapId)
+    if (not C_Map.OpenWorldMap) then
+        if (not WorldMapFrame:IsShown()) then
+            WorldMapFrame:Show()
+        end
+        WorldMapFrame:SetMapID(uiMapId)
+        return
+    end
+    if InCombatLockdown() then
+        return
+    end
+    C_Map.OpenWorldMap(uiMapId)
 end
 
 ---@class CalendarTime
@@ -565,6 +588,14 @@ function QuestieCompat.GetItemInfo(item)
     error(errorMsg, 2)
 end
 
+---Classifies quests whose objectives can change; true does not mean another stage remains.
+---Clients without this API retain legacy completion handling, not a guarantee of exhaustive objectives.
+---@param questId QuestId
+---@return boolean
+function QuestieCompat.IsQuestSequenced(questId)
+    return type(IsQuestSequenced) == "function" and IsQuestSequenced(questId) == true
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_IsQuestFlaggedCompleted)
 ---Returns whether the game currently flags this quest as completed for the character.
 ---@param questID QuestId
@@ -645,20 +676,22 @@ function QuestieCompat.RemoveQuestWatch(questLogIndex, isQuestie)
     error(errorMsg, 2)
 end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_UnitQuestTrivialLevelRange)
----Returns the inclusive level offset used for triviality and available-quest filtering.
----Forever's quest difficulty colors can turn gray before this triviality boundary.
+---[GetQuestGreenRange Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestGreenRange)
+---[C_QuestLog.GetTrivialRange Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestLog.GetTrivialRange)
+---Returns the inclusive green-level offset used for triviality and available-quest filtering.
 ---@return number range
 function QuestieCompat.GetQuestGreenRange()
-    if isForever then
-        -- The unit-based API requires "player"; the legacy helper is already player-specific.
-        return UnitQuestTrivialLevelRange("player")
+    -- Classic to MoP, or fallback when Forever's API is unavailable
+    if GetQuestGreenRange and (not isForever or not C_QuestLog.GetTrivialRange) then
+        return GetQuestGreenRange()
     end
-    -- Classic: preserve the legacy helper when available.
-    if GetQuestGreenRange then
-        return GetQuestGreenRange("player")
+    -- Forever, or any client without the legacy helper
+    if C_QuestLog and C_QuestLog.GetTrivialRange then
+        -- Blizzard's level-based difficulty check keeps quests green at this offset (<=), despite the API's name.
+        return C_QuestLog.GetTrivialRange()
     end
-    return UnitQuestTrivialLevelRange("player")
+    print("ERROR: Something went seriously wrong in Questie's GetQuestGreenRange, please tell the devs on Discord or Github.")
+    return 10 -- default to level 50 in case of missing functions
 end
 
 ---Returns Forever's quest-ID difficulty for coloring, not for triviality or availability checks.

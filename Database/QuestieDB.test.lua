@@ -185,7 +185,7 @@ describe("QuestieDB", function()
             assert.is_nil(item.Hidden)
             assert.are_same({555}, item.vendors)
             assert.are_same("Test NPC", item.name)
-            assert.are_same({{Id = 555, Type = "monster"}}, item.Sources)
+            assert.are_same({{Id = 555, Type = "monster", Vendor = true}}, item.Sources)
         end)
 
         it("should not add vendors when they are hostile", function()

@@ -31,8 +31,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type BreadcrumbQuests
-local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type EventHandler
@@ -295,9 +293,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Hydrating quest log for the first time.")
     QuestieQuest:GetAllQuestIds()
     coYield()
-
-    -- QUEST_ACCEPTED does not fire for quests already in the log, so check breadcrumbs for them on login.
-    BreadcrumbQuests.CheckAllQuestBreadcrumbs()
 
     QuestieCombatQueue.Initialize()
 

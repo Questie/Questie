@@ -3,8 +3,6 @@ local MapIconTooltip = QuestieLoader:CreateModule("MapIconTooltip");
 local _MapIconTooltip = {}
 local tinsert = table.insert;
 
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
@@ -17,6 +15,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type TooltipLayout
 local TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
 ---@type QuestieComms
@@ -27,6 +27,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type WaypointHover
+local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -44,8 +48,6 @@ local BREADCRUMB_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\breadcrumbtoo
 local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
 local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
-local DEFAULT_WAYPOINT_HOVER_COLOR = {0.93, 0.46, 0.13, 0.8}
-
 local lastTooltipShowTimestamp = GetTime()
 
 -- helper function to format a label with a colon, respecting localization rules
@@ -61,14 +63,23 @@ local function FormatLabelWithColon(label)
 end
 
 function MapIconTooltip:Show()
+    -- A hovered patrol path opened its NPC's tooltip; that NPC's OnLeave must run before this one.
+    WaypointHover.End(self)
     MapIconTooltip.ShowOnTooltip(self, GameTooltip)
 end
 
+---Shows a map icon's tooltip: the quests and notes of the icons clustered around it on its map, and of
+---any icons given. Entries are collected first, then rendered by _Rebuild, again on a modifier key.
 ---@param self IconFrame
 ---@param Tooltip GameTooltip The tooltip frame to render into
-function MapIconTooltip.ShowOnTooltip(self, Tooltip)
+---@param owner Frame? Frame owning the tooltip; self when nil. A hovered minimap path passes the minimap,
+---since HereBeDragons may hide its NPC's icon and distance may fade it out.
+---@param icons IconFrame[]? More icons to list wherever they are, however faded: a hovered minimap path
+---passes its NPC's icons, one for each of its quests.
+function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
+    -- An icon faded out shows nothing when hovered itself. A hovered path shows, whatever its icon's fade.
     local _, _, _, alpha = self.texture:GetVertexColor();
-    if alpha == 0 then
+    if alpha == 0 and not owner then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show] Alpha of texture is 0, nothing to show")
         return
     end
@@ -79,7 +90,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
     lastTooltipShowTimestamp = GetTime()
 
     Tooltip._owner = self;
-    Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+    Tooltip:SetOwner(owner or self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
     local maxDistCluster = 1
     local mapId = WorldMapFrame:GetMapID();
@@ -103,11 +114,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
         end
     end
 
-    local r, g, b, a = unpack(QuestieMap.zoneWaypointHoverColorOverrides[self.AreaID] or DEFAULT_WAYPOINT_HOVER_COLOR)
-    --Highlight waypoints if they exist.
-    for _, lineFrame in pairs(self.data.lineFrames or {}) do
-        lineFrame.line:SetColorTexture(r, g, b, a)
-    end
+    QuestieWaypoints.SetHighlighted(self.data, true)
 
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:
     -- https://discordapp.com/channels/263036731165638656/263040777658171392/627808795715960842
@@ -127,9 +134,14 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
     local questOrder = {};
     local manualOrder = {}
 
-    self.data.touchedPins = {}
+    -- Tinting again before the hover's reset would save the tinted colors as the ones to restore.
+    local tint = not self.data.touchedPins
+    if tint then
+        self.data.touchedPins = {}
+    end
     ---@param icon IconFrame
-    local function handleMapIcon(icon)
+    ---@param listed boolean? One of the given icons, listed wherever it is, however faded.
+    local function handleMapIcon(icon, listed)
         local iconData = icon.data
 
         if not iconData then
@@ -138,12 +150,12 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
         end
 
         -- Skip icons that are hidden (FakeHide'd or faded out), unless it's the hovered icon itself
-        if icon ~= self and (icon.hidden or icon.texture.a == 0) then
+        if icon ~= self and not listed and (icon.hidden or icon.texture.a == 0) then
             return
         end
 
         -- Do not recolor MiniMap, Available and Completed Quest Icons.
-        if (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
+        if tint and (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;
@@ -154,42 +166,42 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
             end
             tinsert(self.data.touchedPins, entry);
         end
-        if icon.x and icon.AreaID == self.AreaID then
-            local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
-            if dist < maxDistCluster then
-                if iconData.Type == "available" or iconData.Type == "complete" then
-                    if not npcAndObjectOrder[iconData.Name] then
-                        npcAndObjectOrder[iconData.Name] = {};
-                    end
-
-                    local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-                    npcAndObjectOrder[iconData.Name][tip.title] = tip
-                elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
-                    local key = iconData.Id
-                    if not questOrder[key] then
-                        questOrder[key] = {};
-                    end
-
-                    local orderedTooltips = {}
-                    iconData.ObjectiveData:Update()
-                    local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
-                    for _, tip in pairs(tooltips) do
-                        tinsert(orderedTooltips, 1, tip);
-                    end
-                    for _, tip in pairs(orderedTooltips) do
-                        local quest = questOrder[key]
-                        _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
-                    end
-                elseif iconData.CustomTooltipData then
-                    questOrder[iconData.CustomTooltipData.Title] = {}
-                    tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
-                elseif iconData.ManualTooltipData then
-                    manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
+        -- Listed icons count wherever they are; others only within the cluster distance of the hovered icon.
+        local near = listed
+        if not near and icon.x and icon.AreaID == self.AreaID then
+            near = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y) < maxDistCluster
+        end
+        if near then
+            if iconData.Type == "available" or iconData.Type == "complete" then
+                if not npcAndObjectOrder[iconData.Name] then
+                    npcAndObjectOrder[iconData.Name] = {};
                 end
+
+                local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
+                npcAndObjectOrder[iconData.Name][tip.title] = tip
+            elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
+                local key = iconData.Id
+                if not questOrder[key] then
+                    questOrder[key] = {};
+                end
+
+                local orderedTooltips = {}
+                iconData.ObjectiveData:Update()
+                local tooltips = _MapIconTooltip:GetObjectiveTooltip(icon)
+                for _, tip in pairs(tooltips) do
+                    tinsert(orderedTooltips, 1, tip);
+                end
+                for _, tip in pairs(orderedTooltips) do
+                    local quest = questOrder[key]
+                    _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
+                end
+            elseif iconData.ManualTooltipData then
+                manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
             end
         end
     end
 
+    -- Collect the entries of the icons shown on the hovered icon's map.
     if self.miniMapIcon then
         for icon, _ in pairs(HBDPins.activeMinimapPins) do
             handleMapIcon(icon)
@@ -198,6 +210,10 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)
         end
+    end
+    -- HereBeDragons hides icons out of range, and distance fades them out; given icons count anyway.
+    for _, icon in ipairs(icons or {}) do
+        handleMapIcon(icon, true)
     end
 
     Tooltip.npcAndObjectOrder = npcAndObjectOrder
@@ -229,7 +245,13 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
         local tooltipRows = TooltipLayout:CreateRows()
 
         -- tooltips for quest icons on the map
-        for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
+        -- Givers by name, each with its quests by level. The entries were collected into tables, which
+        -- pairs walks in no particular order, so the order would otherwise change with how they were collected.
+        local giverNames = {}
+        for name in pairs(self.npcAndObjectOrder) do giverNames[#giverNames + 1] = name end
+        table.sort(giverNames)
+        for _, npcOrObjectName in ipairs(giverNames) do -- this logic really needs to be improved
+            local quests = self.npcAndObjectOrder[npcOrObjectName]
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
@@ -245,7 +267,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
                 tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
             end
 
-            for _, questData in pairs(quests) do
+            -- A giver's quests are keyed by title; sorting by level needs them by quest ID.
+            local questsById = {}
+            for _, questData in pairs(quests) do questsById[questData.questId] = questData end
+            for _, questId in ipairs(QuestieLib:SortQuestIDsByLevel(questsById, true)) do
+                local questData = questsById[questId]
                 local reputationReward = QuestieReputation.GetReputationReward(questData.questId)
 
                 if questData.title ~= nil then
@@ -365,9 +391,9 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip)
             end
         end
 
-        -- tooltips for objectives of active quests
-        ---@param questId number
-        for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
+        -- tooltips for objectives of active quests, by quest level
+        for _, questId in ipairs(QuestieLib:SortQuestIDsByLevel(self.questOrder, true)) do -- this logic really needs to be improved
+            local textList = self.questOrder[questId]
             ---@type Quest
             local quest = QuestieDB.GetQuest(questId);
             local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true);
@@ -568,9 +594,18 @@ end
 function _MapIconTooltip:GetObjectiveTooltip(icon)
     local tooltips = {}
     local iconData = icon.data
-    local text = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
-    local color = QuestieLib:GetRGBForObjective(iconData.ObjectiveData)
-    if iconData.ObjectiveData.Needed then
+    -- Local wording comes from the accepted cache. Party-only objectives carry validated API wording
+    -- from their loading path; it is a template for remote progress, never a local progress line.
+    local objective = iconData.ObjectiveData
+    local cached = QuestLogCache.TryGetQuest(iconData.Id)
+    local native = cached and not objective.IsPartyObjective and not objective.IsSourceItem and not objective.IsRequiredSourceItem
+        and cached.objectives[iconData.ObjectiveIndex]
+    local nativeText = native and native.text or objective.NativeText
+    local text = objective.Description or ""
+    local color = QuestieLib:GetRGBForObjective(objective)
+    if native then
+        text = color .. native.text
+    elseif iconData.ObjectiveData.Needed then
         if iconData.ObjectiveData.Type == "spell" and iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId then
             text = color .. tostring(QuestieDB.QueryItemSingle(iconData.ObjectiveData.spawnList[iconData.ObjectiveTargetId].ItemId, "name"))
         else
@@ -607,12 +642,14 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
                     local colorizedPlayerName = " " .. l10n("(") .. playerColor .. playerName .. "|r" .. remoteColor .. l10n(")") .. "|r" .. playerType
-                    local remoteText = QuestieLib:GetObjectiveDescription(iconData.ObjectiveData)
+                    local remoteText = objective.Description or ""
 
                     if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
                         local fulfilled = objectiveEntry.fulfilled;
                         local required = objectiveEntry.required;
-                        remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                        local replacedText = QuestieLib.ReplaceObjectiveTextProgress(nativeText, fulfilled, required)
+                        remoteText = remoteColor .. (replacedText or (tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText))
+                            .. colorizedPlayerName
                     else
                         remoteText = remoteColor .. remoteText .. colorizedPlayerName;
                     end
@@ -629,7 +666,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
             -- Don't label the objective with the local player's name when it belongs to a
             -- party member and the local player doesn't have the quest themselves.
             if anotherPlayer and (not iconData.ObjectiveData.IsPartyObjective) then
-                local name = UnitName("player");
+                local name = GetUnitName("player", true);
                 local playerClass = UnitClassBase("player")
                 local _, _, _, argbHex = GetClassColor(playerClass)
                 name = " " .. l10n("(") .. "|c" .. argbHex .. name .. "|r" .. color .. l10n(")") .. "|r";

@@ -24,6 +24,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -400,6 +402,18 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end
             },
+            showSpellIDs = {
+                type = "toggle",
+                order = 5.045,
+                name = function() return l10n("Show Spell IDs"); end,
+                desc = function() return l10n("If checked, the ID of spells will be shown in tooltips."); end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
+                width = "full",
+                get = function() return Questie.db.profile.enableTooltipsSpellID; end,
+                set = function(_, value)
+                    Questie.db.profile.enableTooltipsSpellID = value
+                end
+            },
             showQuestIDs = {
                 type = "toggle",
                 order = 5.05,
@@ -465,6 +479,18 @@ function QuestieOptions.tabs.advanced:Initialize()
                     else
                         Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
                     end
+                end,
+            },
+            waypointDebugHover = {
+                type = "toggle",
+                order = 5.1,
+                name = function() return l10n("Show waypoint hover area"); end,
+                desc = function() return l10n("Draws the area around each patrol path on the world map where hovering shows its NPC."); end,
+                width = "full",
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    QuestieWaypoints.Refresh()
                 end,
             },
         },

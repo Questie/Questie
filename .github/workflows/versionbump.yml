@@ -22,6 +22,10 @@ on:
         description: (--dry_run) Do not commit/push, just log git diff
         type: boolean
         default: false
+    outputs:
+      commit_sha:
+        description: Bumped commit, or the current commit for a dry run/empty version
+        value: ${{ jobs.sha.outputs.commit_sha }}
 
 permissions:
   contents: read
@@ -37,18 +41,28 @@ defaults:
 jobs:
   bump:
     name: Update TOCs, commit and tag
-    if: ${{ github.ref == 'refs/heads/master' }} && github.event.inputs.version != ''
+    if: ${{ github.ref == 'refs/heads/master' && inputs.version != '' }}
     runs-on: ubuntu-latest
     environment: version-bump
     env:
       VERSION: ${{ inputs.version }}
       TARGET_BRANCH: ${{ github.ref_name }}
+    outputs:
+      commit_sha: ${{ steps.commitsha.outputs.commit_sha }}
     steps:
+      - name: Validate version number
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9]+)*$ ]]; then
+            echo "ERROR: Invalid version number: $VERSION" >&2
+            echo "Enter a version such as 12.0.1 or 12.0.1-b1, without a v prefix." >&2
+            exit 1
+          fi
       # Environment approval is required before this job receives the private key.
       # Limit each short-lived token to this repository and Contents write access.
       - name: Create app token
+        if: ${{ !inputs.dry_run }}
         id: app-token
-        uses: actions/create-github-app-token@v3.2.0
+        uses: actions/create-github-app-token@v3.3.0
         with:
           client-id: ${{ secrets.VERSION_BUMP_APP_CLIENT_ID }}
           private-key: ${{ secrets.VERSION_BUMP_APP_PRIVATE_KEY }}
@@ -59,16 +73,18 @@ jobs:
       - name: Checkout selected commit
         uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ github.sha }}
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token || github.token }}
+
+      - name: Ensure version tag doesn't exist
+        run: |
+          existing_tag=$(git ls-remote --tags origin "refs/tags/v$VERSION")
+          if [[ -n "$existing_tag" ]]; then
+            echo "ERROR: Tag v$VERSION already exists; refusing to replace it." >&2
+            exit 2
+          fi
 
       - name: Update versions
-        run: |
-          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9]+)*$ ]]; then
-            echo "Enter a version such as 12.0.1 or 12.0.1-b1, without a v prefix." >&2
-            exit 1
-          fi
-          python3 versionbump.py "$VERSION" --no-git
+        run: python3 versionbump.py "$VERSION" --no-git
 
       - name: Log git diff
         if: ${{ inputs.dry_run }}
@@ -82,12 +98,6 @@ jobs:
           AUTHOR_LOGIN: ${{ github.actor }}
           AUTHOR_ID: ${{ github.actor_id }}
         run: |
-          existing_tag=$(git tag --list "v$VERSION")
-          if [[ -n "$existing_tag" ]]; then
-            echo "Tag v$VERSION already exists; refusing to replace it." >&2
-            exit 1
-          fi
-
           bot_id=$(gh api "/users/${APP_SLUG}[bot]" --jq '.id')
           git config user.name "${APP_SLUG}[bot]"
           git config user.email "${bot_id}+${APP_SLUG}[bot]@users.noreply.github.com"
@@ -110,3 +120,20 @@ jobs:
             printf 'Created commit %s and tag v%s.\n\n' "$commit" "$VERSION"
             printf 'No GitHub release or platform upload was created.\n'
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Save commit sha for later
+        id: commitsha
+        run: echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  sha:
+    name: Output git sha to other workflows
+    runs-on: ubuntu-latest
+    needs: bump
+    if: ${{ always() }} # run even for empty version string
+    outputs:
+      commit_sha: ${{ steps.commit.outputs.commit_sha }}
+    env:
+      COMMIT_SHA: ${{ needs.bump.outputs.commit_sha }}
+      GITHUB_SHA: ${{ github.sha }}
+    steps:
+      - name: Save commit sha
+        id: commit
+        run: echo "commit_sha=${COMMIT_SHA:-$GITHUB_SHA}" >> "$GITHUB_OUTPUT"

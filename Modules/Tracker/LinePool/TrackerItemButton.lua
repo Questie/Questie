@@ -29,11 +29,14 @@ function TrackerItemButton.New(buttonName)
         btn:SetAlpha(0)
     end
 
-    btn.SetItem = function(self, questItemId, questId, size)
+    -- Blizzard-designated quest items need not exist in QuestieDB.
+    btn.SetItem = function(self, questItemId, questId, size, isNativeQuestItem)
         -- Force reset all secure attributes before setting up the button
         self:SetAttribute("type1", nil)
         self:SetAttribute("item1", nil)
         self:RegisterForClicks()
+        self.itemId = nil
+        self.questID = nil
 
         local validTexture
 
@@ -41,7 +44,7 @@ function TrackerItemButton.New(buttonName)
             for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                 local texture, _, _, _, _, _, _, _, _, itemId = QuestieCompat.GetContainerItemInfo(bag, slot)
 
-                if questItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST then
+                if questItemId == itemId and (isNativeQuestItem or QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST) then
                     validTexture = texture
                     self.itemId = questItemId
                     break
@@ -54,7 +57,7 @@ function TrackerItemButton.New(buttonName)
             for inventorySlot = 1, 19 do
                 local itemId = GetInventoryItemID("player", inventorySlot)
 
-                if questItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST then
+                if questItemId == itemId and (isNativeQuestItem or QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST) then
                     validTexture = GetInventoryItemTexture("player", inventorySlot)
                     self.itemId = questItemId
                     break

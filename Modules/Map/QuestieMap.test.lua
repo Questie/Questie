@@ -1,5 +1,6 @@
 dofile("setupTests.lua")
 local stub = require("luassert.stub")
+local match = require("luassert.match")
 
 describe("QuestieMap", function()
 
@@ -50,6 +51,41 @@ describe("QuestieMap", function()
             assert.is_nil(worldIcon)
             assert.is_nil(minimapIcon)
             assert.spy(Questie.Warning).was.called_with("No UiMapID or fitting parentAreaId for areaId : 123 - Missing location")
+        end)
+    end)
+
+    describe("ShowObject", function()
+        local waypoints = {{{62, 60}, {65, 63}}}
+        local getObject
+        local getDungeonLocation
+
+        before_each(function()
+            dofile("Localization/l10n.lua")
+            ---@type QuestieDB
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            ---@type ZoneDB
+            local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+            getObject = stub(QuestieDB, "GetObject", function(_, id)
+                return {id = id, name = "Mailbox", spawns = {[1519] = {{61, 76}}}, waypoints = {[1519] = waypoints, [12] = waypoints}}
+            end)
+            getDungeonLocation = stub(ZoneDB, "GetDungeonLocation", function() return nil end)
+            QuestieMap.DrawManualIcon = spy.new(function(_, _, zone) return {zone = zone} end)
+            QuestieMap.DrawWaypoints = spy.new(function() end)
+        end)
+
+        after_each(function()
+            getObject:revert()
+            getDungeonLocation:revert()
+        end)
+
+        it("should draw waypoints on the spawn icon in their zone, and on a new icon at the first waypoint elsewhere", function()
+            QuestieMap:ShowObject(5)
+
+            assert.spy(QuestieMap.DrawManualIcon).was.called(2)
+            assert.spy(QuestieMap.DrawManualIcon).was.called_with(QuestieMap, match._, 1519, 61, 76, nil)
+            assert.spy(QuestieMap.DrawManualIcon).was.called_with(QuestieMap, match._, 12, 62, 60, nil)
+            assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, {zone = 1519}, "o_5", waypoints, 1519)
+            assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, {zone = 12}, "o_5", waypoints, 12)
         end)
     end)
 

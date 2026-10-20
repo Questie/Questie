@@ -73,6 +73,7 @@ local function NewRegion(parent)
   function region:SetClampedToScreen(value) self.clamped = value end
   function region:EnableMouse(value) self.mouse = value end
   function region:EnableKeyboard(value) self.keyboard = value end
+  function region:EnableGamePadButton(value) self.gamePadButton = value end
   function region:SetFrameStrata(strata) self.strata = strata end
   function region:GetFrameStrata() return self.strata end
   function region:SetPropagateKeyboardInput(value) self.propagate = value end
@@ -101,6 +102,7 @@ local function Install(env)
     if key == "ESCAPE" then return "TOGGLEGAMEMENU" end
     return ""
   end
+  env.InCombatLockdown = function() return false end
   env.CreateFrame = function(_, name, parent, template)
     assert(not template or template == "BackdropTemplate", "Custom XML templates must not be needed")
     local frame = NewRegion(parent)

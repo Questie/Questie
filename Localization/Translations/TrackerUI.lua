@@ -230,7 +230,7 @@ local trackerUILocales = {
     -- "Set TomTom Target" is in the Tracker.lua inside the Translations/Options directory
     ["Minimize Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Suche minimieren",
+        ["deDE"] = "Quest minimieren",
         ["esES"] = "Minimizar misión",
         ["esMX"] = "Minimizar misión",
         ["frFR"] = "Minimiser la quête",
@@ -314,7 +314,7 @@ local trackerUILocales = {
     },
     ["Link Achievement to chat"] = {
         ["enUS"] = true,
-        ["deDE"] = "Verknüpfen Sie den Erfolg mit dem Chat",
+        ["deDE"] = "Erfolg in Chat verlinken",
         ["esES"] = "Vincular logro al chat",
         ["esMX"] = "Vincular logro al chat",
         ["frFR"] = "Lier la réussite au chat",
@@ -326,7 +326,7 @@ local trackerUILocales = {
     },
     ["Untrack Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Questfokussieren entfernen",
+        ["deDE"] = "Quest nicht mehr verfolgen",
         ["esES"] = "No rastrear misión",
         ["esMX"] = "No rastrear misión",
         ["frFR"] = "Annuler le suivi",
@@ -338,7 +338,7 @@ local trackerUILocales = {
     },
     ["Untrack Achievement"] = {
         ["enUS"] = true,
-        ["deDE"] = "Erfolg aufheben",
+        ["deDE"] = "Erfolg nicht mehr verfolgen",
         ["esES"] = "No rastrear logro",
         ["esMX"] = "No rastrear logro",
         ["frFR"] = "Annuler le suivi des réalisations",
@@ -350,7 +350,7 @@ local trackerUILocales = {
     },
     ["Abandon Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Suche aufgeben",
+        ["deDE"] = "Quest abbrechen",
         ["esES"] = "Abandonar misión",
         ["esMX"] = "Abandonar misión",
         ["frFR"] = "Abandonner la quête",
@@ -412,6 +412,18 @@ local trackerUILocales = {
         ["ruRU"] = "Задание провалено!",
         ["zhCN"] = "任务失败！",
         ["zhTW"] = "任務失敗！",
+    },
+    ["Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Das Öffnen des Questlogs über Questie ist im Controller-Modus deaktiviert. Öffne es stattdessen mit deinem Controller.", -- AI 🤖
+        ["esES"] = "Abrir el registro de misiones desde Questie está desactivado en el modo mando. Ábrelo con tu mando en su lugar.", -- AI 🤖
+        ["esMX"] = "Abrir el registro de misiones desde Questie está desactivado en el modo de control. Ábrelo con tu control en su lugar.", -- AI 🤖
+        ["frFR"] = "L'ouverture du journal de quêtes depuis Questie est désactivée en mode manette. Ouvrez-le plutôt avec votre manette.", -- AI 🤖
+        ["koKR"] = "컨트롤러 모드에서는 Questie에서 퀘스트 로그를 여는 기능이 비활성 화됩니다. 대신 컨트롤러로 여세요.", -- AI 🤖
+        ["ptBR"] = "Abrir o diário de missões pelo Questie está desativado no modo controle. Abra-o com o seu controle.", -- AI 🤖
+        ["ruRU"] = "Открытие журнала заданий через Questie отключено в режиме контроллера. Откройте его с помощью контроллера.", -- AI 🤖
+        ["zhCN"] = "在手柄模式下，无法通过 Questie 打开任务日志。请改用手柄打开。", -- AI 🤖
+        ["zhTW"] = "在控制器模式下，無法透過 Questie開啟任務日誌。請改用控制器開 啟。", -- AI 🤖
     },
     ["Can't open Quest Log while in combat. Open it manually."] = {
         ["enUS"] = true,

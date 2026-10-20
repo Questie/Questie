@@ -9,16 +9,24 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local lastGuid
 
+-- Forever can hide unit and tooltip values, inside instances and for some tooltips in combat. The lookups
+-- below test, compare and split them, so a secret value must be checked before any of that.
+local function _IsSecret(value)
+    return issecretvalue and issecretvalue(value)
+end
+
 function _QuestieTooltips:AddUnitDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) or (Questie.IsForever and IsInInstance()) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 
     local name, unitToken = self:GetUnit();
-    if not unitToken then return end
+    if _IsSecret(name) or _IsSecret(unitToken) or not unitToken then return end
     local guid = UnitGUID(unitToken);
+    if _IsSecret(guid) then return end
     if (not guid) then
         guid = UnitGUID("mouseover");
+        if _IsSecret(guid) then return end
     end
 
     local type, _, _, _, _, npcId, _ = strsplit("-", guid or "");
@@ -61,6 +69,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
     end
 
     local name, link = self:GetItem()
+    if _IsSecret(name) or _IsSecret(link) then return end
     local itemId
     if link then
         -- Read the payload independently of legacy hex colors or modern named colors such as |cnIQ1:.
@@ -76,7 +85,8 @@ function _QuestieTooltips:AddItemDataToTooltip()
     ) then
         QuestieTooltips.lastGametooltipItem = name
         if Questie.db.profile.enableTooltipsItemID then
-            GameTooltip:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
+            -- A clicked item link shows in ItemRefTooltip; its ID belongs there, not on the hover tooltip.
+            self:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
         end
 
         if (not checkedQuestStartItems[itemId]) then
@@ -102,6 +112,26 @@ function _QuestieTooltips:AddItemDataToTooltip()
     lastItemId = itemId;
     QuestieTooltips.lastGametooltipType = "item";
     QuestieTooltips.lastFrameName = self:GetName();
+end
+
+---Adds the Spell ID line. The ID goes to the tooltip exactly as received: a secret ID from Forever is never
+---read, compared, converted or concatenated, so only the native renderer sees its value.
+---@param tooltip GameTooltip
+---@param spellId any @Possibly secret on Forever
+---@return nil
+function _QuestieTooltips.AddSpellIdToTooltip(tooltip, spellId)
+    if (tooltip.IsForbidden and tooltip:IsForbidden()) or (not Questie.db.profile.enableTooltips)
+        or (not Questie.db.profile.enableTooltipsSpellID) then
+        return
+    end
+
+    -- Colors are arguments rather than markup around the ID: gold label, white value, like the other ID lines.
+    if _IsSecret(spellId) then
+        -- Rendering is the only use of a secret. If the client refuses it, the tooltip simply has no ID line.
+        pcall(tooltip.AddDoubleLine, tooltip, l10n("Spell ID"), spellId, 1, 0.82, 0, 1, 1, 1)
+    elseif type(spellId) == "number" then
+        tooltip:AddDoubleLine(l10n("Spell ID"), spellId, 1, 0.82, 0, 1, 1, 1)
+    end
 end
 
 ---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
@@ -158,7 +188,9 @@ function _QuestieTooltips:CountTooltip()
     local tooltipCount = 0
     for i = 1, GameTooltip:NumLines() do
         local frame = _G["GameTooltipTextLeft"..i]
-        if frame and frame:GetText() then
+        local text = frame and frame:GetText()
+        -- A secret native row still occupies a line; count it without testing its text.
+        if _IsSecret(text) or text then
             tooltipCount = tooltipCount + 1
         else
             return tooltipCount

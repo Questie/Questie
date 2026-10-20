@@ -62,7 +62,7 @@ local function LoadQuestieDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 3,
+        contractVersion = 4,
         minSupportedContract = 1,
     }
     local lib = {}
@@ -438,6 +438,28 @@ local function LoadQuestieDBMock()
             [9] = 256, [10] = 512, [11] = 1024, [22] = 2097152,
             [24] = 8388608, [25] = 16777216, [26] = 33554432,
             [95] = 4294967296, [96] = 8589934592,
+        },
+        factionIDs = {
+            -- Classic: world and dungeon reputations
+            WINTERSABER_TRAINERS = 589,
+            DARKMOON_FAIRE = 909,
+            -- The Burning Crusade: Shattrath factions
+            THE_ALDOR = 932,
+            THE_SCRYERS = 934,
+            THE_SHATAR = 935,
+            -- Mists of Pandaria: world and story reputations
+            SHADO_PAN = 1270,
+            -- Mists of Pandaria: fishing and cooking
+            NOMI = 1357,
+        },
+        classKeys = { -- Classic provider
+            NONE = 0, WARRIOR = 1, PALADIN = 2, HUNTER = 4, ROGUE = 8, PRIEST = 16, DEATH_KNIGHT = 32,
+            SHAMAN = 64, MAGE = 128, WARLOCK = 256, MONK = 512, DRUID = 1024, ALL_CLASSES = 1503,
+        },
+        npcFlags = { -- Classic provider
+            NONE = 0, GOSSIP = 1, QUEST_GIVER = 2, VENDOR = 4, FLIGHT_MASTER = 8, TRAINER = 16,
+            SPIRIT_HEALER = 32, SPIRIT_GUIDE = 64, INNKEEPER = 128, BANKER = 256, PETITIONER = 512,
+            TABARD_DESIGNER = 1024, BATTLEMASTER = 2048, AUCTIONEER = 4096, STABLEMASTER = 8192, REPAIR = 16384,
         },
     }
 

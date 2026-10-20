@@ -399,6 +399,11 @@ function Townsfolk.Initialize()
         tinsert(professionTrainers[professionKeys.TAILORING], 65043) -- Elder Oakpaw
     end
 
+    -- Forever trainers
+    if Questie.IsForever then
+        tinsert(professionTrainers[professionKeys.ALCHEMY], 249713) -- Odd Child
+    end
+
     if Expansions.Current >= Expansions.Tbc then
         local meetingStones = Townsfolk.GetMeetingStones()
 

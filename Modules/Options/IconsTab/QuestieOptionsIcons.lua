@@ -1381,7 +1381,7 @@ function QuestieOptionsUtils.DetermineTheme()
                 Questie.db.profile.alwaysGlowMap == false and
                 Questie.db.profile.questMinimapObjectiveColors == true and
                 Questie.db.profile.alwaysGlowMinimap == false and
-                Questie.db.profile.objectiveFilterDistance == 0)
+                Questie.db.profile.objectiveFilterDistance == 2)
         then
             Questie.db.profile.iconTheme = "pfquest"
         elseif (Questie.db.profile.enableObjectives == true and
@@ -1445,7 +1445,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMap = false
         Questie.db.profile.questMinimapObjectiveColors = true
         Questie.db.profile.alwaysGlowMinimap = false
-        Questie.db.profile.objectiveFilterDistance = 0
+        Questie.db.profile.objectiveFilterDistance = 2
     elseif value == "blizzard" then
         if GetCVar("questPOI") then -- check for Blizzard style objectives
             SetCVar("questPOI", "1")

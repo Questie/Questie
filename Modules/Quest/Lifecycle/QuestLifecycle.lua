@@ -56,12 +56,20 @@ function QuestLifecycle:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
 
     if (not quest) then
+        -- Tracking belongs to the live quest log even when map enrichment is unavailable.
+        Questie.db.char.collapsedQuests[questId] = nil
+        Questie.db.char.AutoUntrackedQuests[questId] = nil
+        CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
         return
     end
 
-    local complete = quest:IsComplete()
-    -- If any of these flags exist then this quest has already once been accepted and is probably in a failed state
-    if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
+    -- QUEST_ACCEPTED fires only for a new acceptance, so a quest Questie already logs is reset and added again. Its
+    -- completion cannot tell whether that is needed: a failed quest re-accepted in place can be complete at once, when
+    -- the giver hands over the quest item with the quest.
+    if QuestiePlayer.currentQuestlog[questId] then
         Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
 
         -- Reset quest log
@@ -86,11 +94,6 @@ function QuestLifecycle:AcceptQuest(questId)
                 Questie.db.char.complete[childQuestId] = nil
             end
         end
-    end
-
-    if QuestiePlayer.currentQuestlog[questId] then
-        Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "is already in the quest log. Nothing to do.")
-        return
     end
 
     Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, "will be added to the quest log.")
@@ -123,6 +126,34 @@ function QuestLifecycle:AcceptQuest(questId)
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
         QuestieQuest:PopulateObjectiveNotes(quest)
 
+        AvailableQuests.CalculateAndDrawAll()
+    end)
+end
+
+---Tracks a quest a quest log scan found in the game's log without Questie accepting it: the game listed it only after
+---Questie's start-up, or Questie missed its QUEST_ACCEPTED. It is set up as at login, not as an accept, so the
+---player's collapsed and untracked choices are not reset; the quest giver's "!", drawn while Questie did not have the
+---quest, goes first.
+---@param questId number
+function QuestLifecycle:AdoptQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
+    if not quest then
+        return
+    end
+
+    QuestiePlayer.currentQuestlog[questId] = quest
+    CommsVisibility:ScheduleSnapshot("ACCEPT_QUEST")
+
+    -- As in AcceptQuest: draw the quest once the unload coroutine has removed its starter frames. A quest turned in
+    -- or removed in the meantime must not come back.
+    AvailableQuests.RemoveQuest(questId, function()
+        if QuestiePlayer.currentQuestlog[questId] ~= quest then
+            return
+        end
+        QuestieQuest:AddToQuestLog(quest)
+        -- Party members learn of the quest and its progress here, as from AcceptQuest. AddToQuestLog sends nothing, so
+        -- start-up does not send every quest on its own: a joining party member asks for the whole quest log.
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
         AvailableQuests.CalculateAndDrawAll()
     end)
 end
@@ -184,6 +215,12 @@ end
 
 ---@param questId number
 function QuestLifecycle:AbandonQuest(questId)
+    -- Unknown quests have tracker state without an entry in the enriched map quest log.
+    QuestieTracker:RemoveQuest(questId)
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
+
     if (not QuestiePlayer.currentQuestlog[questId]) then
         return
     end
@@ -218,11 +255,6 @@ function QuestLifecycle:AbandonQuest(questId)
             end
         end
     end
-
-    QuestieTracker:RemoveQuest(questId)
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
 
     -- Removing the quest from our snapshot clears any previous false visibility entry on peers.
     CommsVisibility:ScheduleSnapshot("ABANDON_QUEST")

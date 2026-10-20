@@ -18,7 +18,7 @@ describe("QuestieLink", function()
     local QuestieReputation
 
     local tooltipLines
-    local originalItemSetHyperlink
+    local originalItemSetHyperlink, originalGetUILocale
 
     before_each(function()
         Questie.started = true
@@ -56,6 +56,7 @@ describe("QuestieLink", function()
 
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function() return nil end
 
         QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
         QuestieReputation.GetFactionName = spy.new(function() return nil end)
@@ -72,10 +73,15 @@ describe("QuestieLink", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         QuestieLoader:ImportModule("ZoneDB")
         dofile("Localization/l10n.lua")
+        originalGetUILocale = QuestieLoader:ImportModule("l10n").GetUILocale
 
         dofile("Modules/QuestLinks/Link.lua")
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
         QuestieLink.Initialize()
+    end)
+
+    after_each(function()
+        QuestieLoader:ImportModule("l10n").GetUILocale = originalGetUILocale
     end)
 
     describe("GetQuestLinkStringById", function()
@@ -233,6 +239,27 @@ describe("QuestieLink", function()
             assert.spy(QuestieReputation.GetFactionName).was.called_with(201)
         end)
 
+        it("uses database requirements when quest data exists but the objective response is unavailable", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId, name = "Agitators", Description = {"Destroy the winds."}, zoneOrSort = 0,
+                    ObjectiveData = {{Type = "monster", Id = 101, Text = "Destroy Roiling Winds"}},
+                    Objectives = {}, Finisher = {},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function() return "Available", nil, "AVAILABLE" end
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = function() return nil end
+
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - Destroy Roiling Winds",
+            }, tooltipLines)
+        end)
+
         it("should show Blizzard objective text when HaveQuestData returns true", function()
             QuestieDB.GetQuest = function(questId)
                 return {
@@ -253,8 +280,8 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = "Fierce Boar slain: 0/8"},
-                    {text = "Argent Dawn reputation: 0/1000"},
+                    {text = "Fierce Boar slain: 0/8", type = "monster"},
+                    {text = "Argent Dawn reputation: 0/1000", type = "reputation"},
                 }
             end
 
@@ -280,6 +307,75 @@ describe("QuestieLink", function()
             assert.spy(QuestieReputation.GetFactionName).was.not_called()
         end)
 
+        it("preserves loaded Chinese sentences with interior spaces instead of substituting database names", function()
+            QuestieLoader:ImportModule("l10n").GetUILocale = function() return "zhCN" end
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId, name = "Agitators", Description = {"Destroy the winds."}, zoneOrSort = 0,
+                    ObjectiveData = {{Type = "monster", Id = 101}}, Objectives = {}, Finisher = {},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function() return "Available", nil, "AVAILABLE" end
+            QuestieDB.QueryNPCSingle = spy.new(function() return "Database name" end)
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+            _G.HaveQuestData = function() return true end
+            local objectives = {{text = "4/6 烈风 已摧毁", type = "monster"}}
+            _G.C_QuestLog.GetQuestObjectives = function() return objectives end
+
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - 4/6 烈风 已摧毁",
+            }, tooltipLines)
+            assert.are.equal("4/6 烈风 已摧毁", objectives[1].text)
+            assert.spy(QuestieDB.QueryNPCSingle).was.not_called()
+        end)
+
+        it("uses database requirements instead of incomplete native rows without modifying the response", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId, name = "Agitators", Description = {"Destroy the winds."}, zoneOrSort = 0,
+                    ObjectiveData = {{Type = "monster", Id = 101, Text = "Destroy Roiling Winds"}, {Type = "monster", Id = 102}},
+                    Objectives = {}, Finisher = {},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function() return "Available", nil, "AVAILABLE" end
+            QuestieDB.QueryNPCSingle = spy.new(function() return "烈风" end)
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+            _G.HaveQuestData = function() return true end
+            local objectives = {
+                {text = "0/6   destroyed", type = "monster"},
+                {text = "0/6   已摧毁", type = "monster"},
+                {text = "0/6   unknown", type = "monster"}, -- No database fallback for this row.
+                {text = "", type = "event"},
+            }
+            _G.C_QuestLog.GetQuestObjectives = function() return objectives end
+
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - Destroy Roiling Winds", " - 烈风",
+            }, tooltipLines)
+            assert.spy(QuestieDB.QueryNPCSingle).was.called_with(102, "name")
+            assert.are.equal("0/6   destroyed", objectives[1].text)
+            assert.are.equal("0/6   已摧毁", objectives[2].text)
+
+            -- An update can lose either the name or the type without losing the whole quest response.
+            objectives[1].text = "0/6  "
+            objectives[2] = {text = "4/6 烈风已摧毁"}
+            tooltipLines = {}
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - Destroy Roiling Winds", " - 烈风",
+            }, tooltipLines)
+            assert.are.equal("0/6  ", objectives[1].text)
+            assert.is_nil(objectives[2].type)
+        end)
+
         it("should use NPC names from DB when Blizzard objective is missing it", function()
             QuestieDB.GetQuest = function(questId)
                 return {
@@ -300,8 +396,8 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = "Fierce Boar slain: 3/8"},
-                    {text = " : 0/1"},
+                    {text = "Fierce Boar slain: 3/8", type = "monster"},
+                    {text = " : 0/1", type = "monster"},
                 }
             end
 
@@ -322,7 +418,7 @@ describe("QuestieLink", function()
                 " ",
                 "Objectives",
                 " - Fierce Boar slain: 3/8",
-                " - Kobold Miner: 0/1",
+                " - Kobold Miner",
             }, tooltipLines)
         end)
 
@@ -346,8 +442,8 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = " : 0/1"},
-                    {text = "Orb clicked: 0/1"},
+                    {text = " : 0/1", type = "object"},
+                    {text = "Orb clicked: 0/1", type = "object"},
                 }
             end
 
@@ -367,7 +463,7 @@ describe("QuestieLink", function()
                 "Click some stuff.",
                 " ",
                 "Objectives",
-                " - Different Orb: 0/1",
+                " - Different Orb",
                 " - Orb clicked: 0/1",
             }, tooltipLines)
         end)
@@ -393,9 +489,9 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = "Linen Cloth: 5/10"},
-                    {text = "Wool Cloth: 3/10"},
-                    {text = " : 0/10"},
+                    {text = "Linen Cloth: 5/10", type = "item"},
+                    {text = "Wool Cloth: 3/10", type = "item"},
+                    {text = " : 0/10", type = "item"},
                 }
             end
 
@@ -417,7 +513,63 @@ describe("QuestieLink", function()
                 "Objectives",
                 " - Linen Cloth: 5/10",
                 " - Wool Cloth: 3/10",
-                " - Silk Cloth: 0/10",
+                " - Silk Cloth",
+            }, tooltipLines)
+        end)
+
+        local nativeProgressCases = {
+            {name = "Classic counter placement", text = "Windstone Cluster: 9/15", needed = 15},
+            {name = "Forever counter placement and punctuation", text = "9/15 Windstone Cluster.", needed = 15},
+            {name = "action instruction without a counter", text = "Use Walk on Air", needed = 0},
+        }
+        for _, case in ipairs(nativeProgressCases) do
+            it("preserves " .. case.name .. " in active quest-link progress", function()
+                QuestieDB.GetQuest = function()
+                    return {
+                        Id = 5678, name = "Progress Quest", Description = {"Quest description."},
+                        ObjectiveData = {}, Finisher = {}, zoneOrSort = 0,
+                        Objectives = {{Index = 3, Description = "Fallback wording", Collected = 9, Needed = case.needed}},
+                    }
+                end
+                QuestiePlayer.currentQuestlog[5678] = true
+                QuestieDB.IsDoableVerbose = function() return "On quest", nil, "AVAILABLE" end
+                local cached = {objectives = {[3] = {text = case.text}}}
+                QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id)
+                    assert.are.equal(5678, id)
+                    return cached
+                end
+                _G.C_QuestLog.GetQuestObjectives = spy.new(function() error("Rendering must not fetch objectives") end)
+
+                QuestieLink:CreateQuestTooltip("questie:5678:GUID", ItemRefTooltip)
+
+                assert.are.same({
+                    "Progress Quest", "You are on this quest", " ", "Quest description.", " ", "Your progress: ",
+                    " - |cFFEEEEEE" .. case.text .. "|r",
+                }, tooltipLines)
+                assert.are.equal(case.text, cached.objectives[3].text)
+                assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
+            end)
+        end
+
+        it("keeps synthetic quest-link progress separate from a coinciding native index", function()
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = 5678, name = "Progress Quest", Description = {"Quest description."},
+                    ObjectiveData = {}, Finisher = {}, zoneOrSort = 0,
+                    Objectives = {{Index = 1, Description = "Quest item", Collected = 0, Needed = 1, IsSourceItem = true}},
+                }
+            end
+            QuestiePlayer.currentQuestlog[5678] = true
+            QuestieDB.IsDoableVerbose = function() return "On quest", nil, "AVAILABLE" end
+            QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function()
+                return {objectives = {{text = "Unrelated native objective"}}}
+            end
+
+            QuestieLink:CreateQuestTooltip("questie:5678:GUID", ItemRefTooltip)
+
+            assert.are.same({
+                "Progress Quest", "You are on this quest", " ", "Quest description.", " ", "Your progress: ",
+                " - |cFFEEEEEEQuest item: 0/1|r",
             }, tooltipLines)
         end)
 

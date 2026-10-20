@@ -67,11 +67,17 @@ describe("QuestLifecycle", function()
     end)
 
     describe("AcceptQuest", function()
-        it("should do nothing when quest is not in DB", function()
+        it("tracks an unknown quest without creating map enrichment", function()
             QuestieDB.GetQuest = spy.new(function() return nil end)
+
+            Questie.db.char.collapsedQuests[999] = true
+            Questie.db.char.AutoUntrackedQuests[999] = true
 
             QuestLifecycle:AcceptQuest(999)
 
+            assert.is_nil(Questie.db.char.collapsedQuests[999])
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[999])
+            assert.spy(QuestieTracker.Update).was.called(1)
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
             assert.spy(QuestieDB.QueryQuestSingle).was.not_called()
             assert.is_nil(QuestiePlayer.currentQuestlog[999])
@@ -108,21 +114,6 @@ describe("QuestLifecycle", function()
             assert.is_nil(quest.WasComplete)
             assert.is_nil(quest.isComplete)
             assert.are_same({}, quest.Objectives)
-            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
-        end)
-
-        it("should reset stale quest when complete flag is 0", function()
-            local questId = 100
-            local quest = {
-                IsComplete = function() return 0 end,
-                isComplete = false,
-                Objectives = {}
-            }
-            QuestieDB.GetQuest = spy.new(function() return quest end)
-            QuestiePlayer.currentQuestlog[questId] = quest
-
-            QuestLifecycle:AcceptQuest(questId)
-
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
         end)
 
@@ -169,20 +160,23 @@ describe("QuestLifecycle", function()
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[questId])
         end)
 
-        it("should not add quest again if already in log without stale flags", function()
+        it("should reset and repopulate a failed quest re-accepted in place", function()
             local questId = 100
             local quest = {
-                IsComplete = function() return 1 end,
-                WasComplete = nil,
-                isComplete = nil,
+                IsComplete = function() return 1 end, -- the giver handed over the quest item with the quest
+                Objectives = {{}},
             }
             QuestieDB.GetQuest = spy.new(function() return quest end)
-            QuestiePlayer.currentQuestlog[questId] = quest -- already in log, no stale flags
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
+            QuestiePlayer.currentQuestlog[questId] = quest -- still logged from the failed acceptance, without flags
 
             QuestLifecycle:AcceptQuest(questId)
 
-            -- RemoveQuest should not be called since the quest wasn't re-added
-            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+            assert.are_same({}, quest.Objectives)
+            assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
+            assert.are_equal(quest, QuestiePlayer.currentQuestlog[questId])
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called_with(QuestieQuest, quest)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
         end)
 
         it("should reset child daily quests when parent is accepted", function()
@@ -201,6 +195,62 @@ describe("QuestLifecycle", function()
             QuestLifecycle:AcceptQuest(questId)
 
             assert.is_nil(Questie.db.char.complete[childQuestId])
+        end)
+    end)
+
+    describe("AdoptQuest", function()
+        it("should add the quest as at login once the giver's frames are unloaded, keeping the player's tracker choices", function()
+            local questId = 100
+            local quest = {Id = questId}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            QuestieQuest.AddToQuestLog = spy.new(function() end)
+            local removedQuestId, unloaded
+            AvailableQuests.RemoveQuest = spy.new(function(id, callback)
+                removedQuestId, unloaded = id, callback
+            end)
+            Questie.db.char.collapsedQuests[questId] = true
+            Questie.db.char.AutoUntrackedQuests[questId] = true
+
+            QuestLifecycle:AdoptQuest(questId)
+
+            assert.are_equal(quest, QuestiePlayer.currentQuestlog[questId])
+            assert.are_equal(questId, removedQuestId)
+            assert.spy(QuestieQuest.AddToQuestLog).was.not_called()
+
+            unloaded()
+
+            assert.spy(QuestieQuest.AddToQuestLog).was.called_with(QuestieQuest, quest)
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called(1)
+            assert.is_true(Questie.db.char.collapsedQuests[questId])
+            assert.is_true(Questie.db.char.AutoUntrackedQuests[questId])
+        end)
+
+        it("should not bring back a quest turned in before the giver's frames were unloaded", function()
+            local questId = 100
+            local quest = {Id = questId}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            QuestieQuest.AddToQuestLog = spy.new(function() end)
+            local adoptionUnloaded -- AdoptQuest's callback; CompleteQuest's comes second
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) adoptionUnloaded = adoptionUnloaded or callback end)
+
+            QuestLifecycle:AdoptQuest(questId)
+            QuestLifecycle:CompleteQuest(questId)
+            adoptionUnloaded()
+
+            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
+            assert.spy(QuestieQuest.AddToQuestLog).was.not_called()
+            assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
+        end)
+
+        it("should not add a quest the database does not know", function()
+            QuestieDB.GetQuest = spy.new(function() return nil end)
+
+            QuestLifecycle:AdoptQuest(999)
+
+            assert.is_nil(QuestiePlayer.currentQuestlog[999])
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
         end)
     end)
 
@@ -360,9 +410,11 @@ describe("QuestLifecycle", function()
     end)
 
     describe("AbandonQuest", function()
-        it("should do nothing when quest is not in currentQuestlog", function()
+        it("removes tracker state even without a database-backed quest", function()
             QuestLifecycle:AbandonQuest(999)
 
+            assert.spy(QuestieTracker.RemoveQuest).was.called_with(QuestieTracker, 999)
+            assert.spy(QuestieTracker.Update).was.called(1)
             assert.spy(QuestieDB.GetQuest).was.not_called()
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
         end)

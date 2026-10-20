@@ -214,7 +214,10 @@ item = function(itemId, objective)
             if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
                 local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective)
                 if not sourceList then
-                    Questie.Warning("Missing objective data for", source.Type, "'", objective, "'", source.Id)
+                    -- Log objectives are just empty.
+                    if source.Type ~= "log" then
+                        Questie.Warning("Missing objective data for", source.Type, "'", objective, "'", source.Id)
+                    end
                 else
                     for id, sourceData in pairs(sourceList) do
                         if (not ret[id]) then
@@ -230,7 +233,8 @@ item = function(itemId, objective)
                             ret[id] = {
                                 Id = id,
                                 Name = sourceData.Name,
-                                Hostile = true,
+                                -- Monsters dropping the item are fought; objects holding it are not.
+                                Hostile = sourceData.Hostile,
                                 ItemId = item.Id,
                                 TooltipKey = sourceData.TooltipKey,
                                 Spawns = {},
@@ -239,6 +243,10 @@ item = function(itemId, objective)
                                 GetIconScale = GetIconScale,
                                 IconScale = GetIconScale(),
                             }
+                        end
+                        -- Vendors selling the item aren't fought, also when corrections list them as dropping it.
+                        if source.Vendor then
+                            ret[id].Hostile = nil
                         end
                         if sourceData.Spawns then
                             local itemSpawns = ret[id].Spawns

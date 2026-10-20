@@ -54,6 +54,8 @@ local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type QuestieMenu
+local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type WatchFrameHook
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
@@ -81,11 +83,11 @@ function EventHandler:RegisterEarlyEvents()
             questPOIHandled = true
         end
 
-        if Expansions.Current >= Expansions.MoP then
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end
+        -- Instance changes need a layout even when quests are unchanged, which quest-log checks skip:
+        -- the Challenge Mode keystone after login, and the proximity sort restarting after leaving an instance.
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
     end)
 end
 
@@ -110,7 +112,19 @@ function EventHandler:RegisterLateEvents()
     end)
 
     -- Events to update a players professions and reputations
-    Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
+    -- Skill chat can be secret; batch refreshes without retaining the chat arguments.
+    local skillUpdatePending = false
+    Questie:RegisterEvent("CHAT_MSG_SKILL", function()
+        if skillUpdatePending then
+            return
+        end
+
+        skillUpdatePending = true
+        Questie:ScheduleTimer(function()
+            skillUpdatePending = false
+            _EventHandler.ChatMsgSkill()
+        end, 2)
+    end)
     if not GetSkillLineInfo then
         -- Modern unlearning need not print CHAT_MSG_SKILL and has no legacy AbandonSkill hook.
         Questie:RegisterBucketEvent("SKILL_LINES_CHANGED", 2, _EventHandler.ChatMsgSkill)
@@ -187,8 +201,14 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", function(_, questId) QuestEventHandler.QuestAutoComplete(questId) end)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)
+    Questie:RegisterEvent("CRITERIA_UPDATE", QuestEventHandler.CriteriaUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, eventType) QuestEventHandler.PlayerInteractionManagerFrameHide(eventType) end)
 
+    -- The client's quest data is stale from PLAYER_LEAVING_WORLD on, and whether LOADING_SCREEN_ENABLED comes before
+    -- or after it is not known: either one protects the cache.
+    Questie:RegisterEvent("PLAYER_LEAVING_WORLD", function()
+        QuestLogCache.OnLoadingScreenEnabled()
+    end)
     Questie:RegisterEvent("LOADING_SCREEN_ENABLED", function()
         QuestLogCache.OnLoadingScreenEnabled()
     end)
@@ -401,6 +421,12 @@ end
 --- Fires when a System Message (yellow text) is output to the main chat window
 ---@param message string The message value from the CHAT_MSG_SYSTEM event
 function _EventHandler:ChatMsgSystem(message)
+    if issecretvalue and issecretvalue(message) then
+        -- The text cannot identify reputation changes; check the current faction state instead.
+        _EventHandler:ChatMsgCompatFactionChange()
+        return
+    end
+
     -- When a new quest is accepted or completed quest is turned in, update the LibDataBroker text with the appropriate message
     if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
         MinimapIcon:UpdateText(message)
@@ -549,6 +575,10 @@ function _EventHandler:ChatMsgSkill()
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     if isProfUpdate or isNewProfession then
         AvailableQuests.CalculateAndDrawAll()
+    end
+    -- Classic's AbandonSkill hook already dropped the profession, so Update() reports no change; sync either way.
+    if Questie.db.profile.townsfolkKnownProfessions then
+        QuestieMenu.RefreshKnownProfessionTrainers()
     end
 
     -- Skill based Achievement updates

@@ -1,4 +1,4 @@
--- luacheck: globals C_Texture BACKDROP_DIALOG_32_32 GameFontDisable GetBindingFromClick
+-- luacheck: globals C_Texture BACKDROP_DIALOG_32_32 GameFontDisable GetBindingFromClick InCombatLockdown
 -- luacheck: globals UserScaledFontGameHighlight UserScaledFontGameNormal UserScaledFontGameDisable
 
 -- Private, Lua-only confirmations and copyable text for any addon.
@@ -22,7 +22,7 @@ local PopupStack = LibStub("LibPopupStack-1.0")
 ---@field hasEditBox boolean? Show a single-line input; populate and focus it in OnShow.
 ---@field editBoxWidth number? Input width in frame units; defaults to 280.
 ---@field whileDead boolean? Allow Show while dead or a ghost; otherwise Show returns nil.
----@field hideOnEscape boolean? Let this addon's newest active decision consume the game-menu binding.
+---@field hideOnEscape boolean? Let this addon's newest active decision consume the game-menu binding, or controller B without button2.
 ---@field noCancelOnReuse boolean? Suppress the previous decision's override callback when showing this definition.
 ---@field OnShow fun(dialog: DialogFrame, data: any)? Runs after setup and Show; return ignored, failure closes this generation.
 ---@field OnAccept (fun(dialog: DialogFrame, data: any): any)? Truthy return keeps a clicked decision open; failure closes it.
@@ -67,6 +67,7 @@ local FrameMixin = {}
 
 ---@class AddonDialog
 ---@field Dialogs table<string, DialogDefinition> Definitions belong only to this addon's private namespace.
+---@field UseGamePadClose (fun(): boolean)? Opt-in for closing with controller B; checked when a frame is created.
 local Dialogs = { Dialogs = {} }
 addon.Dialog = Dialogs
 ---@type table<string, DialogFrame>
@@ -201,6 +202,11 @@ local function CreateDialog()
   frame:SetScript("OnShow", frame.OnShow)
   frame:SetScript("OnHide", frame.OnHide)
   frame:SetScript("OnKeyDown", frame.OnKeyDown)
+  -- Controller buttons never reach OnKeyDown
+  if Dialogs.UseGamePadClose and Dialogs.UseGamePadClose() and frame.EnableGamePadButton then
+    frame:EnableGamePadButton(true)
+    frame:SetScript("OnGamePadButtonDown", frame.OnGamePadButtonDown)
+  end
   frame:OnLoad()
   return frame
 end
@@ -263,7 +269,7 @@ function Dialogs.Show(which, arg1, arg2, data)
   frame.active = true
   active[#active + 1] = frame
   frame:Resize()
-  frame:SetPropagateKeyboardInput(true)
+  frame:UpdateKeyboardHandling()
   frame:Show()
   frame:Raise()
   local ok = Call(definition.OnShow, frame, data)
@@ -307,21 +313,54 @@ function Dialogs.IsAnyDialogShown() return #active > 0 end
 
 ---Only the newest active decision in this addon can consume the game-menu binding,
 ---and only with hideOnEscape. Older dialogs do not take over if it opts out.
----Unlike a cancel button, binding dismissal ignores OnCancel's keep-open return.
 ---@param key string
-function FrameMixin:OnKeyDown(key)
-  local handled = GetBindingFromClick(key) == "TOGGLEGAMEMENU"
+---@return boolean
+function FrameMixin:ConsumesMenuKey(key)
+  return GetBindingFromClick(key) == "TOGGLEGAMEMENU"
     and active[#active] == self and self.definition.hideOnEscape and not self.handlingChoice
-  self:SetPropagateKeyboardInput(not handled)
-  if not handled then return end
+end
+
+---Unlike a cancel button, binding dismissal ignores OnCancel's keep-open return.
+function FrameMixin:CancelByMenuKey()
   local generation = self.generation
   self.handlingChoice = true
   Call(self.definition.OnCancel, self, self.data, "clicked")
   self.handlingChoice = false
   if self.generation == generation then self:Hide() end
+end
+
+---@param key string
+function FrameMixin:OnKeyDown(key)
+  if InCombatLockdown() then
+    self:EnableKeyboard(false)
+    return
+  end
+  local handled = self:ConsumesMenuKey(key)
+  self:SetPropagateKeyboardInput(not handled)
+  if not handled then return end
+  self:CancelByMenuKey()
   -- Reopening during the callback resets input propagation. Consume this key
   -- after the callback so the same key cannot reach another window/binding.
   self:SetPropagateKeyboardInput(false)
+end
+
+---Other buttons return true so they still control the game. No keyboard propagation
+---here, because that is blocked in combat.
+---@param button string
+---@return boolean propagate
+function FrameMixin:OnGamePadButtonDown(button)
+  if button ~= "PAD2" or active[#active] ~= self or self.handlingChoice then return true end
+  if self.Button2:IsShown() and self.Button2:IsEnabled() then
+    self:Choose(2)
+    return false
+  end
+  if not self.definition.hideOnEscape then return true end
+  local generation = self.generation
+  self.handlingChoice = true
+  Call(self.definition.OnCancel, self, self.data, "clicked")
+  self.handlingChoice = false
+  if self.generation == generation then self:Hide() end
+  return false
 end
 
 ---Ignore hidden/disabled actions and nested clicks. A truthy callback result keeps
@@ -380,9 +419,17 @@ function FrameMixin:OnLoad()
   end)
   self.EditBox:SetScript("OnEscapePressed", function(editBox)
     local callback = self.definition.EditBoxOnEscapePressed
-    if callback then Call(callback, editBox) else self:OnKeyDown("ESCAPE") end
+    if callback then Call(callback, editBox)
+    elseif self:ConsumesMenuKey("ESCAPE") then self:CancelByMenuKey() end
   end)
-  self:SetPropagateKeyboardInput(true)
+end
+
+---SetPropagateKeyboardInput is protected in combat. Without it the dialog would
+---swallow every key, so ignore the keyboard until the next Show out of combat.
+function FrameMixin:UpdateKeyboardHandling()
+  local enabled = not InCombatLockdown()
+  self:EnableKeyboard(enabled)
+  if enabled then self:SetPropagateKeyboardInput(true) end
 end
 
 --- The compact layout needed by confirmations and copyable text: body, optional

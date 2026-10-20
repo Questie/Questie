@@ -2888,6 +2888,18 @@ l10n.zoneLookup = {
     [1135]={
         [6716]="Thunder King's Citadel",
     },
+    [2959]={
+        [16544]="City of Dalaran",
+    },
+    [2998]={
+        [16732]="Excavation Site: Wetlands",
+    },
+    [2999]={
+        [16611]="Ruins of Lordaeron",
+    },
+    [3065]={
+        [16919]="The Hall of Thanes",
+    },
 }
 
 local maelstromZones = {}
@@ -3029,6 +3041,10 @@ l10n.zoneCategoryLookup = {
         [6298] = "Brawl'gar Arena",
         [6622] = "Throne of Thunder",
         [6738] = "Siege of Orgrimmar",
+        [16544] = "City of Dalaran",
+        [16611] = "Ruins of Lordaeron",
+        [16732] = "Excavation Site: Wetlands",
+        [16919] = "The Hall of Thanes",
     },
     [10] = {
         [-25] = "Battlegrounds",

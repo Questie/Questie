@@ -123,17 +123,22 @@ end
 function QuestieQuest:ToggleNotes(showIcons)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:ToggleNotes] showIcons:", showIcons)
 
-    ThreadLib.ThreadInstant(function()
-        QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-
-        if showIcons then
-            QuestieQuest:ShowQuestIcons()
-            _QuestieQuest:ShowManualIcons()
-        else
-            QuestieQuest:HideQuestIcons()
-            _QuestieQuest:HideManualIcons()
+    ThreadLib.ThreadCallbackInstant(
+        function()
+            QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+        end,
+        function()
+            ThreadLib.ThreadInstant(function()
+                if showIcons then
+                    QuestieQuest:ShowQuestIcons()
+                    _QuestieQuest:ShowManualIcons()
+                else
+                    QuestieQuest:HideQuestIcons()
+                    _QuestieQuest:HideManualIcons()
+                end
+            end)
         end
-    end)
+    )
 end
 
 ---Updates all quest icons to ensure they are correctly shown/hidden
@@ -141,15 +146,20 @@ end
 function QuestieQuest.ToggleQuestNotes(showIcons)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest.ToggleQuestNotes] showIcons:", showIcons)
 
-    ThreadLib.ThreadInstant(function()
-        QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-
-        if showIcons then
-            QuestieQuest:ShowQuestIcons()
-        else
-            QuestieQuest:HideQuestIcons()
+    ThreadLib.ThreadCallbackInstant(
+        function()
+            QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+        end,
+        function()
+            ThreadLib.ThreadInstant(function()
+                if showIcons then
+                    QuestieQuest:ShowQuestIcons()
+                else
+                    QuestieQuest:HideQuestIcons()
+                end
+            end)
         end
-    end)
+    )
 end
 
 --- Shows all quest icons. Needs to be called from a coroutine.
@@ -499,6 +509,19 @@ function QuestieQuest:UnhideQuest(questId)
     end
 end
 
+---Whether the client still lists an unfinished objective, including rows the database does not map.
+---Completion inferred from mapped objectives alone must not override such a row.
+---@param objectives table<ObjectiveIndex, QuestLogCacheObjectiveData>? @The quest's cached native rows
+---@return boolean
+local function _HasUnfinishedNativeObjective(objectives)
+    for _, objective in pairs(objectives or {}) do
+        if not objective.finished then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param questId number
 function QuestieQuest:UpdateQuest(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
@@ -520,13 +543,14 @@ function QuestieQuest:UpdateQuest(questId)
 
             -- Register tooltips for completed quest objectives (synchronous, avoids QuestLogCache race if the quest is abandoned shortly after)
             QuestieQuest.RegisterObjectiveTooltips(quest)
+            -- Synchronous too: the broadcast reads QuestLogCache, which a quick turn-in empties before the unload below finishes
+            Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
 
             -- Only remove the map icons, but keep the tooltips
             ThreadLib.ThreadCallbackInstant(function()
                 QuestieMap:UnloadQuestFrames(questId)
             end, function()
                 QuestFinisher.AddFinisher(quest)
-                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
             end)
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
@@ -569,6 +593,7 @@ function QuestieQuest:UpdateQuest(questId)
                 -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
                 if quest.Objectives and #quest.Objectives > 0 then
                     local numCompleteObjectives = 0
+                    local questLogEntry = QuestLogCache.TryGetQuest(questId) -- DO NOT MODIFY THE RETURNED TABLE
 
                     for i = 1, #quest.Objectives do
                         if quest.Objectives[i] and quest.Objectives[i].Completed and quest.Objectives[i].Completed == true then
@@ -576,26 +601,30 @@ function QuestieQuest:UpdateQuest(questId)
                         end
                     end
 
-                    if numCompleteObjectives == #quest.Objectives then
+                    -- Sequenced quests can finish a visible stage before the next objectives appear. Only mapped
+                    -- objectives are counted, so a client row the database does not map must be finished too.
+                    if numCompleteObjectives == #quest.Objectives and not QuestieCompat.IsQuestSequenced(questId)
+                        and not _HasUnfinishedNativeObjective(questLogEntry and questLogEntry.objectives) then
                         Questie.Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
 
                         quest.WasComplete = true
                         quest.isComplete = true
+                        -- Sent before the unload, as for a complete quest above
+                        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
 
                         -- Only remove the map icons, but keep the tooltips
                         ThreadLib.ThreadCallbackInstant(function()
                             QuestieMap:UnloadQuestFrames(questId)
                         end, function()
                             QuestFinisher.AddFinisher(quest)
-                            Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                         end)
                     else
                         Questie.Debug(Questie.DEBUG_DEVELOP,
                             "[QuestieQuest:UpdateQuest] Quest Objective Status is: " ..
                             numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
 
-                        -- Update objective notes only when quest is genuinely in-progress (not all objectives complete)
+                        -- Keep in-progress notes current, including a finished stage of an incomplete sequenced quest.
                         if QuestieQuest:ShouldShowQuestNotes(questId) then
                             QuestieQuest:UpdateObjectiveNotes(quest)
                         end
@@ -615,6 +644,49 @@ function QuestieQuest:SetObjectivesDirty(questId)
         for _, objective in pairs(quest.Objectives) do
             objective.isUpdated = false
         end
+    end
+end
+
+---Adds a quest the game's quest log lists to Questie's and draws it, as at login: its objectives, or its finisher once
+---complete, with the icons the tracker hid kept hidden; a failed quest is drawn as available again. It removes no icons
+---drawn before, so a quest already drawn as available needs AvailableQuests.RemoveQuest first.
+---@param quest Quest
+function QuestieQuest:AddToQuestLog(quest)
+    local questId = quest.Id
+    local complete = quest:IsComplete()
+
+    QuestiePlayer.currentQuestlog[questId] = quest
+
+    if complete == -1 then
+        QuestieQuest:UpdateQuest(questId)
+        return
+    end
+
+    QuestieQuest:CheckQuestSourceItem(questId, true)
+    QuestieQuest:PopulateQuestLogInfo(quest)
+
+    -- Restore HideIcons flags from saved tracker state before spawning icons,
+    -- so they are created in the correct hidden/visible state from the start.
+    if Questie.db.char.TrackerHiddenQuests[questId] then
+        quest.HideIcons = true
+    end
+
+    local questIdStr = tostring(questId)
+    for _, objective in pairs(quest.Objectives) do
+        if Questie.db.char.TrackerHiddenObjectives[questIdStr .. " " .. tostring(objective.Index)] then
+            objective.HideIcons = true
+        end
+    end
+    for _, objective in pairs(quest.SpecialObjectives) do
+        if Questie.db.char.TrackerHiddenObjectives[questIdStr .. " " .. tostring(objective.Index)] then
+            objective.HideIcons = true
+        end
+    end
+
+    if QuestieQuest:ShouldShowQuestNotes(questId) then
+        QuestieQuest:PopulateObjectiveNotes(quest)
+    else
+        QuestieTooltips:RemoveQuest(questId)
     end
 end
 
@@ -649,40 +721,7 @@ function QuestieQuest:GetAllQuestIds()
             local quest = QuestieDB.GetQuest(questId)
 
             if quest then
-                local complete = quest:IsComplete()
-
-                QuestiePlayer.currentQuestlog[questId] = quest
-
-                if complete == -1 then
-                    QuestieQuest:UpdateQuest(questId)
-                else
-                    QuestieQuest:CheckQuestSourceItem(questId, true)
-                    QuestieQuest:PopulateQuestLogInfo(quest)
-
-                    -- Restore HideIcons flags from saved tracker state before spawning icons,
-                    -- so they are created in the correct hidden/visible state from the start.
-                    if Questie.db.char.TrackerHiddenQuests[questId] then
-                        quest.HideIcons = true
-                    end
-
-                    local questIdStr = tostring(questId)
-                    for _, objective in pairs(quest.Objectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[questIdStr .. " " .. tostring(objective.Index)] then
-                            objective.HideIcons = true
-                        end
-                    end
-                    for _, objective in pairs(quest.SpecialObjectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[questIdStr .. " " .. tostring(objective.Index)] then
-                            objective.HideIcons = true
-                        end
-                    end
-
-                    if QuestieQuest:ShouldShowQuestNotes(questId) then
-                        QuestieQuest:PopulateObjectiveNotes(quest)
-                    else
-                        QuestieTooltips:RemoveQuest(questId)
-                    end
-                end
+                QuestieQuest:AddToQuestLog(quest)
             else
                 QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
             end
@@ -1210,18 +1249,26 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
             break
         end
 
+        local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
         local zoneKey = icon.UiMapID
-        if (not alreadyPlacedByZone[zoneKey]) then
+        -- A no-map dungeon uses its entrance map before UiMap-keyed indexing.
+        if not zoneKey and icon.x == -1 and icon.y == -1 then
+            local entrance = dungeonLocation and dungeonLocation[1]
+            zoneKey = entrance and ZoneDB:GetUiMapIdByAreaId(entrance[1])
+        end
+        if not zoneKey then
+            Questie.Warning("[QuestieQuest] Cannot draw quest", questId, "target", icon.data.ObjectiveTargetId,
+                "area", icon.zone, "missing dungeon entrance or UiMap mapping")
+        elseif (not alreadyPlacedByZone[zoneKey]) then
             alreadyPlacedByZone[zoneKey] = {}
         end
 
         local coords = {icon.x, icon.y}
-        if _HasProperDistanceToAlreadyPlacedObjectives(coords, alreadyPlacedByZone[zoneKey]) then
+        if zoneKey and _HasProperDistanceToAlreadyPlacedObjectives(coords, alreadyPlacedByZone[zoneKey]) then
             local spawnsMapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs
             local spawnsMinimapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs
 
             local x, y = icon.x, icon.y
-            local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
 
             if dungeonLocation and x == -1 and y == -1 then
                 if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
@@ -1321,7 +1368,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 local ipz = iconPerZone[zone]
 
                 if ipz then
-                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1, 0.2, 0, 0.7} or nil)
+                    QuestieMap:DrawWaypoints(ipz[1], spawnData.TooltipKey, waypoints, zone, spawnData.Hostile)
                 end
                 yieldCount = yieldCount + 1
                 if yieldCount >= TICKS_PER_YIELD then
@@ -1384,10 +1431,15 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
 
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {} -- DO NOT MODIFY THE RETURNED TABLE
 
+    -- Keep mapped native rows, including "log", at their original indices.
+    -- Completion checks and linked special objectives depend on these rows being present.
     for objectiveIndex, objective in pairs(questObjectives) do
-        if objective.type and string.len(objective.type) > 1 and objective.type ~= "log" then
+        if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
-                Questie.Warning(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
+                -- Log objectives are just empty.
+                if objective.type ~= "log" then
+                    Questie.Warning(l10n("Missing objective data for quest "), quest.Id, " ", objective.text)
+                end
             else
                 if not quest.Objectives[objectiveIndex] then
                     quest.Objectives[objectiveIndex] = {
@@ -1395,8 +1447,8 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         Index = objectiveIndex,
                         questId = quest.Id,
                         _lastUpdate = 0,
-                        Description = objective.text,
-                        FullDescription = QuestieLib.GetFullObjectiveTextConditional(objective.raw_text),
+                        -- Counter-free fallback wording for consumers that supply their own progress.
+                        Description = QuestieLib.GetFullObjectiveText(objective.text) or objective.text,
                         spawnList = {},
                         AlreadySpawned = {},
                         Update = _QuestieQuest.ObjectiveUpdate,
@@ -1439,16 +1491,6 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             specialObjective.AlreadySpawned = specialObjective.AlreadySpawned or {}
         end
     end
-
-    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and (quest.Finisher.NPC or quest.Finisher.GameObject))) then
-        -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil. This
-        -- check assumes the Quest should have been flagged questLogEngtry.isComplete == 1. We're specifically looking for a quest.triggerEnd or
-        -- a quest.Finisher because this might throw an error if there is nothing to populate when we call QuestFinisher.AddFinisher().
-        AvailableQuests.RemoveQuest(quest.Id, function()
-            QuestFinisher.AddFinisher(quest)
-        end)
-        quest.isComplete = true
-    end
 end
 
 ---@param self QuestObjective @quest.Objectives[] entry
@@ -1467,8 +1509,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
             local numRequired = obj.numRequired or 0
 
             self.Type = obj.type;
-            self.Description = obj.text
-            self.FullDescription = QuestieLib.GetFullObjectiveTextConditional(obj.raw_text)
+            self.Description = QuestieLib.GetFullObjectiveText(obj.text) or obj.text
             self.Collected = tonumber(numFulfilled);
             self.Needed = tonumber(numRequired);
             self.Finished = obj.finished or false -- ensure its boolean false and not nil (hack)
@@ -1495,10 +1536,10 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
     if (not questObjectives) then return end
 
-    for _, objective in pairs(questObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
+    for objectiveIndex, objective in pairs(questObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
         -- TODO Move this to QuestEventHandler module or QuestieQuest:AcceptQuest( ) + QuestieQuest:UpdateQuest( ) (accept quest one required to register objectives without progress)
         -- TODO After ^^^ moving remove this function and use "QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE" in place of it.
-        QuestieAnnounce:ObjectiveChanged(questId, objective.text, objective.numFulfilled, objective.numRequired)
+        QuestieAnnounce:ObjectiveChanged(questId, objectiveIndex, objective.text, objective.numFulfilled, objective.numRequired)
     end
 
     return questObjectives

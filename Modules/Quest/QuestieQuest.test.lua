@@ -34,6 +34,7 @@ describe("QuestieQuest", function()
         QuestiePlayer.currentQuestlog = {}
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestLogCache.TryGetQuest = function() end
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
@@ -43,6 +44,208 @@ describe("QuestieQuest", function()
 
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+    end)
+
+    describe("sequenced completion overrides", function()
+        local quest, compat, originalIsSequenced, finisher
+        local originalSendMessage, originalThreadCallback
+
+        before_each(function()
+            compat = QuestieLoader:ImportModule("QuestieCompat")
+            originalIsSequenced = compat.IsQuestSequenced
+            compat.IsQuestSequenced = function() return true end
+            Questie.db.char.complete = {}
+            quest = {
+                Id = 93927, sourceItemId = 0, Objectives = {{Completed = true}},
+                ObjectiveData = {}, SpecialObjectives = {}, Finisher = {NPC = {100}},
+                IsComplete = function() return 0 end,
+            }
+            QuestieDB.GetQuest = function() return quest end
+            finisher = QuestieLoader:ImportModule("QuestFinisher")
+            finisher.AddFinisher = spy.new(function() end)
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) if callback then callback() end end)
+            originalThreadCallback = QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(work, callback)
+                work()
+                callback()
+            end
+            QuestieMap.UnloadQuestFrames = function() end
+            originalSendMessage = Questie.SendMessage
+            Questie.SendMessage = spy.new(function() end)
+            QuestieQuest.UpdateObjectiveNotes = spy.new(function() end)
+            QuestieQuest.ShouldShowQuestNotes = function() return true end
+        end)
+
+        after_each(function()
+            compat.IsQuestSequenced = originalIsSequenced
+            Questie.SendMessage = originalSendMessage
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = originalThreadCallback
+        end)
+
+        it("updates a finished visible stage without promoting the whole quest to complete", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+            assert.spy(QuestieQuest.UpdateObjectiveNotes).was.called_with(QuestieQuest, quest)
+        end)
+
+        it("keeps the legacy all-objectives-complete workaround for unclassified quests", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.is_true(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        it("does not infer completion from mapped objectives while an unmapped native row is unfinished", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            -- Unending Torment (97291): the database maps 1 of the client's 3 item rows.
+            QuestLogCache.TryGetQuest = function()
+                return {objectives = {{finished = true}, {finished = true}, {finished = false}}}
+            end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("shows the finisher when the accepted quest state is complete", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+            quest.IsComplete = function() return 1 end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        -- The broadcast reads QuestLogCache. A quest turned in before the icon unload finishes has already left it.
+        it("broadcasts a complete quest without waiting for the icon unload", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+            quest.IsComplete = function() return 1 end
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
+        end)
+
+        it("broadcasts an inferred complete quest without waiting for the icon unload", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", 93927)
+        end)
+
+        it("does not infer completion from absent objective mappings even when a finisher exists", function()
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "item", text = "Read note: 0/1"}}
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("does not infer completion from absent objective mappings while a native row is unfinished", function()
+            compat.IsQuestSequenced = function() return false end
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            -- Destruction in Deadmines (92753): the database has no objectives, the client one unfinished row.
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "monster", text = "0/1 Explosives placed", finished = false}}
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("does not infer completion from an empty stage or a trigger-end location", function()
+            quest.Objectives = {}
+            quest.triggerEnd = {1}
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        -- The cache infers completion for a quest the client lists no rows for, though Blizzard reports it incomplete.
+        -- Each finisher request draws a full set of icons, so a second one stacks copies on the turn-in.
+        it("requests the finisher of a complete quest without objectives once", function()
+            quest.Objectives = {}
+            quest.IsComplete = function() return 1 end
+            QuestLogCache.GetQuest = function() return {isComplete = 1} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.called(1)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        it("gives a failed quest without objective mappings no finisher", function()
+            compat.IsQuestSequenced = function() return false end
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = -1} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("still requests source-item reconstruction without promoting a sequenced quest", function()
+            quest.sourceItemId = 254871
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 93927, true)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.WasComplete)
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("preserves accepted completion when no database objectives exist", function()
+            quest.Objectives = {}
+            QuestLogCache.GetQuest = function() return {isComplete = 1} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_true(quest.isComplete)
+        end)
     end)
 
     describe("UnhideQuest", function()
@@ -130,6 +333,42 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("AddToQuestLog", function()
+        before_each(function()
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
+            QuestieQuest.PopulateQuestLogInfo = spy.new(function() end)
+            QuestieQuest.ShouldShowQuestNotes = function() return true end
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
+        end)
+
+        it("leaves a failed quest to UpdateQuest, which draws it as available again", function()
+            local quest = {Id = 5, IsComplete = function() return -1 end}
+
+            QuestieQuest:AddToQuestLog(quest)
+
+            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, 5)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+        end)
+
+        it("hides the icons the tracker hid before drawing the quest's notes", function()
+            Questie.db.char.TrackerHiddenQuests = {[5] = true}
+            Questie.db.char.TrackerHiddenObjectives = {["5 2"] = true}
+            local quest = {Id = 5, IsComplete = function() return 0 end, Objectives = {{Index = 1}, {Index = 2}}, SpecialObjectives = {}}
+            local hiddenWhenDrawn
+            QuestieQuest.PopulateObjectiveNotes = spy.new(function()
+                hiddenWhenDrawn = {quest.HideIcons, quest.Objectives[1].HideIcons, quest.Objectives[2].HideIcons}
+            end)
+
+            QuestieQuest:AddToQuestLog(quest)
+
+            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 5, true)
+            assert.are.same({true, nil, true}, hiddenWhenDrawn)
+        end)
+    end)
+
     describe("Missing quest warnings", function()
         local originalSessionWarnings
         local originalDebugEnabled
@@ -184,54 +423,151 @@ describe("QuestieQuest", function()
     describe("PopulateQuestLogInfo", function()
         local originalGetQuest
         local originalGetLeaderBoardDetails
-        local originalTrimObjectiveText
         local originalWarning
+        local originalRemoveQuest, originalAddFinisher
+        local QuestFinisher
 
         before_each(function()
             originalWarning = Questie.Warning
             Questie.Warning = spy.new(function() end)
             originalGetQuest = QuestLogCache.GetQuest
             originalGetLeaderBoardDetails = QuestieQuest.GetAllLeaderBoardDetails
-            originalTrimObjectiveText = Questie.db.profile.trimObjectiveText
             dofile("Modules/Libs/QuestieLib.lua")
-            QuestLogCache.GetQuest = function() return {} end
+            QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            originalRemoveQuest = AvailableQuests.RemoveQuest
+            QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
+            originalAddFinisher = QuestFinisher.AddFinisher
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
+            QuestFinisher.AddFinisher = spy.new(function() end)
             QuestieQuest.GetAllLeaderBoardDetails = function()
-                return {{type = "monster", text = "Wolf", raw_text = "Wolf slain: 0/1", numFulfilled = 0, numRequired = 1}}
+                return {{type = "monster", text = "Wolf slain: 0/1", numFulfilled = 0, numRequired = 1}}
             end
         end)
 
         after_each(function()
             QuestLogCache.GetQuest = originalGetQuest
             QuestieQuest.GetAllLeaderBoardDetails = originalGetLeaderBoardDetails
-            Questie.db.profile.trimObjectiveText = originalTrimObjectiveText
             Questie.Warning = originalWarning
+            AvailableQuests.RemoveQuest = originalRemoveQuest
+            QuestFinisher.AddFinisher = originalAddFinisher
         end)
 
-        it("should warn with the quest ID and text when objective data is missing", function()
+        it("keeps an unfinished log objective instead of treating the quest as empty and adding its finisher", function()
+            local native = {type = "log", text = "Read the note.",
+                numFulfilled = 1, numRequired = 1, finished = false}
+            QuestieQuest.GetAllLeaderBoardDetails = function() return {native} end
+            local quest = {
+                Id = 42, ObjectiveData = {{Id = 100, Type = "event"}}, Objectives = {}, SpecialObjectives = {},
+                Finisher = {NPC = {123}},
+            }
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.is_nil(quest.isComplete)
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+            assert.spy(QuestFinisher.AddFinisher).was.not_called()
+            assert.are.equal("log", quest.Objectives[1].Type)
+            assert.are.equal("Read the note.", quest.Objectives[1].Description)
+            assert.is_false(quest.Objectives[1].Completed)
+            assert.are.equal(0, quest.Objectives[1].Collected)
+            assert.are.equal(1, native.numFulfilled)
+        end)
+
+        it("preserves native indices and special-objective completion links when a log row precedes a monster row", function()
+            local native = {
+                {type = "log", text = "Read the note.",
+                    numFulfilled = 1, numRequired = 1, finished = false},
+                {type = "monster", text = "Wolf slain: 2/5",
+                    numFulfilled = 2, numRequired = 5, finished = false},
+            }
+            QuestieQuest.GetAllLeaderBoardDetails = function() return native end
+            local special = {RealObjectiveIndex = 1}
+            local quest = {
+                Id = 42, ObjectiveData = {{Id = 100, Type = "event"}, {Id = 101, Type = "monster"}},
+                Objectives = {}, SpecialObjectives = {special},
+            }
+            QuestieDB.GetQuest = function() return quest end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.are.equal(1, quest.Objectives[1].Index)
+            assert.are.equal(100, quest.Objectives[1].Id)
+            assert.are.equal(2, quest.Objectives[2].Index)
+            assert.are.equal(101, quest.Objectives[2].Id)
+            assert.are.equal(2, quest.Objectives[2].Collected)
+            assert.is_false(special.Completed)
+
+            native[1].finished = true
+            QuestieQuest:SetObjectivesDirty(42)
+            quest.Objectives[1]:Update()
+            special:Update()
+
+            assert.is_true(quest.Objectives[1].Completed)
+            assert.is_true(special.Completed)
+            assert.is_false(quest.Objectives[2].Completed)
+        end)
+
+        it("does not warn for a log objective with no objective data table", function()
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "log", text = "Read the note."}}
+            end
+            local quest = {Id = 42, Objectives = {}, SpecialObjectives = {}}
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.spy(Questie.Warning).was.not_called()
+            assert.are_same({}, quest.Objectives)
+        end)
+
+        it("does not warn for a log objective with no mapped objective data entry", function()
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "log", text = "Read the note."}}
+            end
             local quest = {Id = 42, ObjectiveData = {}, Objectives = {}, SpecialObjectives = {}}
 
             QuestieQuest:PopulateQuestLogInfo(quest)
 
-            assert.spy(Questie.Warning).was.called_with("Missing objective data for quest ", 42, " ", "Wolf")
+            assert.spy(Questie.Warning).was.not_called()
             assert.are_same({}, quest.Objectives)
         end)
 
-        it("should preserve conditional full descriptions when creating and updating objectives", function()
+        it("warns with the quest ID and text when non-log objective data is missing", function()
+            local quest = {Id = 42, ObjectiveData = {}, Objectives = {}, SpecialObjectives = {}}
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+
+            assert.spy(Questie.Warning).was.called_with("Missing objective data for quest ", 42, " ", "Wolf slain: 0/1")
+            assert.are_same({}, quest.Objectives)
+        end)
+
+        it("keeps counter-free native wording when creating and updating shared objectives", function()
             local quest = {Id = 42, ObjectiveData = {{Id = 100}}, Objectives = {}, SpecialObjectives = {}}
-            Questie.db.profile.trimObjectiveText = false
 
             QuestieQuest:PopulateQuestLogInfo(quest)
 
             local objective = quest.Objectives[1]
-            assert.equals("Wolf slain", objective.FullDescription)
-            assert.equals("Wolf", objective.Description)
+            assert.equals("Wolf slain", objective.Description)
 
-            Questie.db.profile.trimObjectiveText = true
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "monster", text = "2/5 Timber Wolves slain", numFulfilled = 2, numRequired = 5}}
+            end
             objective.isUpdated = false
             objective:Update()
 
-            assert.is_nil(objective.FullDescription)
-            assert.equals("Wolf", objective.Description)
+            assert.equals("Timber Wolves slain", objective.Description)
+            assert.are.equal(2, objective.Collected)
+        end)
+    end)
+
+    describe("GetAllLeaderBoardDetails", function()
+        it("announces accepted native text using the original objective index", function()
+            local objectives = {[3] = {text = "Wolf slain: 2/5", numFulfilled = 2, numRequired = 5}}
+            QuestLogCache.GetQuestObjectives = function() return objectives end
+            local announce = QuestieLoader:ImportModule("QuestieAnnounce")
+            announce.ObjectiveChanged = spy.new(function() end)
+
+            assert.are.equal(objectives, QuestieQuest:GetAllLeaderBoardDetails(42))
+            assert.spy(announce.ObjectiveChanged).was.called_with(announce, 42, 3, "Wolf slain: 2/5", 2, 5)
         end)
     end)
 
@@ -251,6 +587,81 @@ describe("QuestieQuest", function()
             assert.has_error(function()
                 QuestieQuest:PopulateObjective({}, 1, {Description = "test"}, false)
             end, "PopulateObjective must be called from a coroutine")
+        end)
+    end)
+
+    describe("no-map dungeon objectives", function()
+        local entrances, draws, replacements
+
+        local function replace(owner, key, value)
+            replacements[#replacements + 1] = {owner, key, owner[key]}
+            owner[key] = value
+        end
+
+        before_each(function()
+            replacements, draws = {}, {}
+            entrances = {{1537, 27.63, 47.83}} -- The Hall of Thanes -> Ironforge
+            replace(_G, "LibStub", function() return {GetWorldCoordinatesFromZone = function() end} end)
+            replace(Questie, "Warning", spy.new(function() end))
+            replace(Questie.db, "profile", {enableObjectives = true, objectiveFilterDistance = 0})
+            replace(ZoneDB, "GetUiMapIdByAreaId", function(_, area) if area == 1537 then return 1455 end end)
+            replace(ZoneDB, "GetDungeonLocation", function() return entrances end)
+            replace(QuestieLoader:ImportModule("Phasing"), "IsSpawnVisible", function() return true end)
+            replace(QuestieLoader:ImportModule("QuestieTooltips"), "RegisterObjectiveTooltip", function() end)
+            replace(QuestieLoader:ImportModule("QuestieLib"), "Euclid", function() return 0 end)
+            replace(QuestieMap, "DrawWorldIcon", function(_, data, area, x, y)
+                draws[#draws + 1] = {area, x, y, data.ObjectiveTargetId}
+                return {}, {}
+            end)
+            dofile("Modules/Quest/QuestieQuest.lua")
+            QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+        end)
+
+        after_each(function()
+            for index = #replacements, 1, -1 do
+                local entry = replacements[index]
+                entry[1][entry[2]] = entry[3]
+            end
+        end)
+
+        local function populate()
+            local objective = {
+                Id = 673474, Index = 1, Type = "object", Description = "Treaty of Understanding",
+                Update = function() end, Color = {}, AlreadySpawned = {},
+                spawnList = {[673474] = {
+                    Id = 673474, Name = "Treaty of Understanding", Spawns = {[16919] = {{-1, -1}}},
+                    GetIconScale = function() return 1 end,
+                }},
+            }
+            local quest = {Id = 96403, ObjectiveData = {objective}, Color = {}}
+            coroutine.wrap(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)()
+            return objective
+        end
+
+        it("draws the entrance without a dungeon UiMap or a 0 override", function()
+            local objective = populate()
+
+            assert.are.same({{1537, 27.63, 47.83, 673474}}, draws)
+            assert.are.equal(1, #objective.AlreadySpawned[673474].mapRefs)
+            assert.spy(Questie.Warning).was.not_called()
+        end)
+
+        it("keeps both entrances and their frame references", function()
+            entrances[2] = {1537, 40, 50}
+            local objective = populate()
+
+            assert.are.same({{1537, 40, 50, 673474}, {1537, 27.63, 47.83, 673474}}, draws)
+            assert.are.equal(2, #objective.AlreadySpawned[673474].mapRefs)
+            assert.are.equal(2, #objective.AlreadySpawned[673474].minimapRefs)
+        end)
+
+        it("reports a missing entrance instead of indexing by nil", function()
+            entrances = nil
+            populate()
+
+            assert.are.same({}, draws)
+            assert.spy(Questie.Warning).was.called_with("[QuestieQuest] Cannot draw quest", 96403, "target", 673474,
+                "area", 16919, "missing dungeon entrance or UiMap mapping")
         end)
     end)
 

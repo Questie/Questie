@@ -506,6 +506,42 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用时，物体的 ID 会显示在提示中。这些仅为猜测，并且只显示 QuestieDB 中第一个匹配的 ID",
         ["zhTW"] = "啟用時，物體的 ID 將顯示在提示中。這些僅為猜測，且只會顯示 QuestieDB 中第一個符合的 ID",
     },
+    ["Spell ID"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Zauber-ID", -- AI 🤖
+        ["esES"] = "ID de hechizo", -- AI 🤖
+        ["esMX"] = "ID de hechizo", -- AI 🤖
+        ["frFR"] = "ID de sort", -- AI 🤖
+        ["koKR"] = "주문 ID", -- AI 🤖
+        ["ptBR"] = "ID de feitiço", -- AI 🤖
+        ["ruRU"] = "ID заклинания", -- AI 🤖
+        ["zhCN"] = "法术 ID", -- AI 🤖
+        ["zhTW"] = "法術 ID", -- AI 🤖
+    },
+    ["Show Spell IDs"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Zauber-IDs anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar ID de hechizo", -- AI 🤖
+        ["esMX"] = "Mostrar ID de hechizo", -- AI 🤖
+        ["frFR"] = "Afficher l'ID des sorts", -- AI 🤖
+        ["koKR"] = "주문 ID 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar IDs de feitiços", -- AI 🤖
+        ["ruRU"] = "Показать ID заклинаний", -- AI 🤖
+        ["zhCN"] = "显示法术 ID", -- AI 🤖
+        ["zhTW"] = "顯示法術 ID", -- AI 🤖
+    },
+    ["If checked, the ID of spells will be shown in tooltips."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Zauber-IDs in den Tooltips angezeigt.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, la ID de los hechizos se mostrará en los tooltips.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, la ID de los hechizos se mostrará en los tooltips.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, l'ID des sorts sera affichée dans les infobulles.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 주문 ID가 툴팁에 표시됩니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, a ID dos feitiços será mostrada nas dicas de ferramentas.", -- AI 🤖
+        ["ruRU"] = "Когда включено, в подсказках будут отображаться ID заклинаний", -- AI 🤖
+        ["zhCN"] = "启用时，法术ID会在悬浮窗中显示", -- AI 🤖
+        ["zhTW"] = "啟用時，會在浮動提示資訊中顯示法術 ID", -- AI 🤖
+    },
     ["NPC ID"] = {
         ["enUS"] = true,
         ["deDE"] = "NPC-ID",
@@ -589,6 +625,30 @@ local advancedOptionsLocales = {
         ["ruRU"] = "Включает окна подсказок об ошибках, обычно используемые в SoD, для всех версий игры",
         ["zhCN"] = "启用所有游戏版本的错误提示窗口，通常用于 SoD 中的错误报告",
         ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗",
+    },
+    ["Show waypoint hover area"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Mouseover-Bereich der Wegpunkte anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar el área sensible al cursor de los puntos de ruta", -- AI 🤖
+        ["esMX"] = "Mostrar el área sensible al cursor de los puntos de ruta", -- AI 🤖
+        ["frFR"] = "Afficher la zone de survol des points de route", -- AI 🤖
+        ["koKR"] = "웨이포인트 마우스오버 영역 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar a área sensível ao cursor dos pontos de rota", -- AI 🤖
+        ["ruRU"] = "Показывать область наведения маршрутов", -- AI 🤖
+        ["zhCN"] = "显示航点悬停区域", -- AI 🤖
+        ["zhTW"] = "顯示航點懸停區域", -- AI 🤖
+    },
+    ["Draws the area around each patrol path on the world map where hovering shows its NPC."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Zeichnet auf der Weltkarte den Bereich um jeden Patrouillenweg, in dem ein Mouseover dessen NPC anzeigt.", -- AI 🤖
+        ["esES"] = "Dibuja en el mapa del mundo el área alrededor de cada ruta de patrulla donde pasar el cursor muestra su PNJ.", -- AI 🤖
+        ["esMX"] = "Dibuja en el mapa del mundo el área alrededor de cada ruta de patrulla donde pasar el cursor muestra su PNJ.", -- AI 🤖
+        ["frFR"] = "Dessine sur la carte du monde la zone autour de chaque trajet de patrouille où le survol affiche son PNJ.", -- AI 🤖
+        ["koKR"] = "세계 지도에서 마우스를 올리면 해당 NPC가 표시되는 각 순찰 경로 주변 영역을 그립니다.", -- AI 🤖
+        ["ptBR"] = "Desenha no mapa-múndi a área ao redor de cada rota de patrulha onde passar o cursor mostra seu NPC.", -- AI 🤖
+        ["ruRU"] = "Рисует на карте мира область вокруг каждого маршрута патрулирования, при наведении на которую показывается его NPC.", -- AI 🤖
+        ["zhCN"] = "在大地图上绘制每条巡逻路线周围的区域，鼠标悬停在该区域时会显示其NPC。", -- AI 🤖
+        ["zhTW"] = "在大地圖上繪製每條巡邏路線周圍的區域，滑鼠懸停在該區域時會顯示其NPC。", -- AI 🤖
     },
 }
 

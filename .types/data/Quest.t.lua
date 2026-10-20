@@ -86,14 +86,13 @@
 ---@field questId QuestId The QuestId for the quest
 ---@field QuestData Quest Basically contains the data from QuestieDB.GetQuest
 ---@field _lastUpdate number UNKNOWN
----@field Description string Objective description
----@field FullDescription string? The full objective description including "slain". Only present when Questie.db.profile.trimObjectiveTex is inactive
+---@field Description string Blizzard's objective wording with the progress counter removed, e.g. "Wolf slain"
 ---@field spawnList table<NpcId, SpawnListNPC>[]|table<ObjectId, SpawnListObject>|table<NpcId, SpawnListNPC>|{ [1]: SpawnListBase }|table<ItemId, SpawnListItem> UNKOWN
 ---@field AlreadySpawned table UNKNOWN
 ---@field Update fun(self: table) Quick call for _QuestieQuest.ObjectiveUpdate
 ---@field Coordinates table<AreaId, CoordPair[]> @ Only used for type "event"
 ---@field RequiredRepValue number @ Only used for type "reputation"
----@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation"|"spell" Added in _QuestieQuest.ObjectiveUpdate
+---@field Type "event"|"item"|"killcredit"|"log"|"monster"|"object"|"reputation"|"spell" Added in _QuestieQuest.ObjectiveUpdate
 ---@field isUpdated boolean Used and added in _QuestieQuest.ObjectiveUpdate
 ---@field Collected number The number of items collected, NPCs killed, etc.
 ---@field Needed number The number of items needed, NPCs to kill, etc.

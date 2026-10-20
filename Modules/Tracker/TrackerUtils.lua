@@ -12,6 +12,10 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local Sorter = QuestieLoader:ImportModule("Sorter")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerMapEligibility
+local TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type QuestieCombatQueue
@@ -37,8 +41,9 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 local GetItemCount = QuestieCompat.GetItemCount
@@ -83,12 +88,18 @@ local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.
 
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
+    -- Opening it from addon code taints Forever's gamepad bindings, which leads to a crash
+    if Questie.IsForever and InputUtil and InputUtil.IsGamepadUIEnabled() then
+        Questie:Print(l10n("Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."))
+        return
+    end
+
     -- Classic can expose both interfaces; preserve its standalone log and addon replacements.
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-    if _G.QuestMapFrame_OpenToQuestDetails and not questFrame then
+    if QuestMapFrame_OpenToQuestDetails and not questFrame then
         -- The modern quest log owns selection and scrolling, and takes a quest ID rather than a log index.
         if not InCombatLockdown() then
-            _G.QuestMapFrame_OpenToQuestDetails(quest.Id)
+            QuestMapFrame_OpenToQuestDetails(quest.Id)
         else
             Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
         end
@@ -134,13 +145,28 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
+---Quest navigation and ctrl-click use the same eligibility as the menu, evaluated against current data.
+---@param questId QuestId
+---@param expectedQuest Quest? Original quest captured by the initiating row or menu.
+---@return boolean
+function TrackerUtils.SetQuestTomTomTarget(questId, expectedQuest)
+    local quest, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    if not (capabilities and capabilities.canNavigateQuest) then
+        return false
+    end
+    local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
+    if not spawn then
+        return false
+    end
+    TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+    return true
+end
+
 ---@param objective QuestObjective
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local spawn, zone = DistanceUtils.GetNearestObjective(objective.spawnList)
     if spawn then
-        WorldMapFrame:Show()
-        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-        WorldMapFrame:SetMapID(uiMapId)
+        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zone))
         TrackerUtils:FlashObjective(objective)
     end
 end
@@ -149,9 +175,7 @@ end
 function TrackerUtils:ShowFinisherOnMap(quest)
     local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     if spawn then
-        WorldMapFrame:Show()
-        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
-        WorldMapFrame:SetMapID(uiMapId)
+        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
         TrackerUtils:FlashFinisher(quest)
     end
 end
@@ -169,17 +193,14 @@ function TrackerUtils:FlashObjective(objective)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
-                        if icon.data.lineFrames then
-                            for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide() -- Use raw Hide, not FakeHide
-                            end
-                        end
                     end
                 end
             end
         end
 
 
+        -- Only the flashed objective's patrol paths show during the flash.
+        local flashedData = {}
         for _, spawn in pairs(objective.AlreadySpawned) do
             if spawn.mapRefs then
                 for _, frame in pairs(spawn.mapRefs) do
@@ -192,15 +213,13 @@ function TrackerUtils:FlashObjective(objective)
                     frame._hidden_by_flash = nil
                     frame._size = frame:GetWidth()
 
-                    -- Show line frames for the objective being flashed
-                    if frame.data and frame.data.lineFrames then
-                        for _, line in pairs(frame.data.lineFrames) do
-                            line:Show() -- Use raw Show to restore
-                        end
+                    if frame.data then
+                        flashedData[frame.data] = true
                     end
                 end
             end
         end
+        QuestieWaypoints.SetSolo(flashedData)
         local flashW = 1
         local flashB = true
         local flashDone = 0
@@ -240,13 +259,10 @@ function TrackerUtils:FlashObjective(objective)
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
-                                            -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                         end
                                     end
                                 end
-                                -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
-                                HBDPins.worldmapProvider.forceUpdate = true
-                                HBDPins.worldmapProvider:RefreshAllData()
+                                QuestieWaypoints.SetSolo(nil)
                             end)
                         end
                         flashDone = flashDone + 1
@@ -260,6 +276,8 @@ end
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:FlashFinisher(quest)
     local toFlash = {}
+    -- Only the flashed quest's patrol paths show during the flash.
+    local flashedData = {}
     -- ugly code
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
         if questId ~= quest.Id then
@@ -270,11 +288,6 @@ function TrackerUtils:FlashFinisher(quest)
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
                         icon:Hide()
-                        if icon.data.lineFrames then
-                            for _, line in pairs(icon.data.lineFrames) do
-                                line:Hide() -- Use raw Hide, not FakeHide
-                            end
-                        end
                     end
                 end
             end
@@ -284,10 +297,14 @@ function TrackerUtils:FlashFinisher(quest)
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
                     tinsert(toFlash, icon)
+                    if icon.data then
+                        flashedData[icon.data] = true
+                    end
                 end
             end
         end
     end
+    QuestieWaypoints.SetSolo(flashedData)
 
     local flashW = 1
     local flashB = true
@@ -328,13 +345,10 @@ function TrackerUtils:FlashFinisher(quest)
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
-                                        -- Don't show line frames here - let HBD's RefreshAllData handle zone-aware visibility
                                     end
                                 end
                             end
-                            -- Refresh HBD pins to ensure proper zone-aware visibility of line frames
-                            HBDPins.worldmapProvider.forceUpdate = true
-                            HBDPins.worldmapProvider:RefreshAllData()
+                            QuestieWaypoints.SetSolo(nil)
                         end)
                     end
                     flashDone = flashDone + 1
@@ -483,8 +497,17 @@ function TrackerUtils:UnFocus()
 end
 
 ---@param questId number Quest ID number
----@param objectiveIndex number Objective Index number
-function TrackerUtils:FocusObjective(questId, objectiveIndex)
+---@param objectiveIndex number Original objective index, not the display index.
+---@param expectedObjective QuestObjective? Original object captured by a menu.
+---@param expectedQuest Quest? Original quest captured by a menu.
+---@return boolean
+function TrackerUtils:FocusObjective(questId, objectiveIndex, expectedObjective, expectedQuest)
+    local _, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    local original = capabilities and capabilities.focusObjectives[objectiveIndex]
+    if not original or (expectedObjective and original ~= expectedObjective) then
+        return false
+    end
+
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "string" or Questie.db.char.TrackerFocus ~= tostring(questId) .. " " .. tostring(objectiveIndex)) then
         TrackerUtils:UnFocus()
     end
@@ -519,10 +542,18 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex)
             end
         end
     end
+    return true
 end
 
 ---@param questId number Quest ID number
-function TrackerUtils:FocusQuest(questId)
+---@param expectedQuest Quest? Original quest captured by a menu.
+---@return boolean
+function TrackerUtils:FocusQuest(questId, expectedQuest)
+    local _, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    if not (capabilities and capabilities.canFocusQuest) then
+        return false
+    end
+
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "number" or Questie.db.char.TrackerFocus ~= questId) then
         TrackerUtils:UnFocus()
     end
@@ -539,6 +570,7 @@ function TrackerUtils:FocusQuest(questId)
             end
         end
     end
+    return true
 end
 
 ---@return table|nil position Returns Players current X/Y coordinates or nil if a Players postion can't be determined
@@ -583,15 +615,15 @@ end
 ---@param questId QuestId
 ---@return string zoneName Returns the zone name for a quest based on the quests zoneOrSort value and the current tracker sorting method. If the quest has no explicit zone or category, it will return "Unknown Zone".
 --- If the sorting method is not byZone, it will return a custom zone name based on the sorting type.
-local function _GetZoneName(zoneOrSort, questId)
-    if (not zoneOrSort) then
-        return "Unknown Zone"
-    end
-
+local function _GetZoneName(zoneOrSort, questId, nativeHeader)
     local zoneName
     local sortObj = Questie.db.profile.trackerSortObjectives
     if sortObj == "byZone" or sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
-        if (zoneOrSort) > 0 then
+        if nativeHeader then
+            return nativeHeader
+        elseif not zoneOrSort then
+            return l10n("Unknown Zone")
+        elseif zoneOrSort > 0 then
             -- Valid ZoneID
             zoneName = TrackerUtils:GetZoneNameByID(zoneOrSort)
         elseif (zoneOrSort) < 0 then
@@ -621,8 +653,15 @@ local function _GetZoneName(zoneOrSort, questId)
     return zoneName or "Unknown Zone"
 end
 
+---Returns the tracker group a quest is listed under; `collapsedZones` is keyed by this name.
+---@param quest TrackerQuest
+---@return string groupName The zone or category when sorting by zone, otherwise the sort mode's single group.
+function TrackerUtils.GetQuestGroupName(quest)
+    return _GetZoneName(quest.zoneOrSort, quest.Id, quest.zoneName)
+end
+
 ---@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
----@return table questDetails Table with raw quest table from QuestiePlayer.currentQuestLog, percentage completed value per quest, and a "translated" zoneName
+---@return table questDetails Display records, completion fractions and grouping labels.
 function TrackerUtils:GetSortedQuestIds()
     ---@type QuestId[]
     local sortedQuestIds = {}
@@ -631,25 +670,27 @@ function TrackerUtils:GetSortedQuestIds()
     local sortObj = Questie.db.profile.trackerSortObjectives
 
     -- Update quest objectives
-    for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
+    for questId, quest in pairs(TrackerData.GetQuests()) do
         if quest then
             tinsert(sortedQuestIds, questId)
 
             local percent = 0
-            if quest:IsComplete() == 1 or (not next(quest.Objectives)) then
+            if quest:IsComplete() == 1 or quest.isComplete then
                 percent = 1
-            else
-                local count = 0
-                for _, Objective in pairs(quest.Objectives) do
-                    percent = percent + (Objective.Collected / Objective.Needed)
-                    count = count + 1
+            elseif #quest.Objectives > 0 then
+                for _, objective in ipairs(quest.Objectives) do
+                    if objective.Completed then
+                        percent = percent + 1
+                    elseif objective.Needed and objective.Needed > 0 and objective.Collected then
+                        percent = percent + math.min(1, math.max(0, objective.Collected / objective.Needed))
+                    end
                 end
-                percent = percent / count
+                percent = percent / #quest.Objectives
             end
 
             questDetails[questId] = {
                 quest = quest,
-                zoneName = _GetZoneName(quest.zoneOrSort, questId),
+                zoneName = TrackerUtils.GetQuestGroupName(quest),
                 questCompletePercent = percent,
             }
         end
@@ -1012,7 +1053,51 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
     end
 end
 
----@param quest Quest @The quest to add the quest item buttons for
+---Owned, usable items the tracker shows buttons for, in button order. Reads bags, never frames.
+---@param quest TrackerQuest
+---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
+---@return ItemId[] usableQuestItems
+---@return ItemId? nativeItemId Blizzard's quest item, even when not owned. Its button skips the database item-class check.
+function TrackerUtils.GetQuestItemIds(quest, complete)
+    local usableQuestItems = {}
+    local nativeItemId
+    local questComplete = complete == 1 or quest.isComplete == true
+
+    -- Blizzard identifies the primary quest action even when neither the quest nor item is in QuestieDB.
+    -- It skips only the button's database item-class check. It must still be owned like other candidates:
+    -- a primary button that fails to set up stops the rest, so an unowned native item would hide owned database items.
+    if GetQuestLogSpecialItemInfo then
+        local index = QuestieCompat.GetQuestLogIndexByID(quest.Id)
+        if index and index > 0 then
+            local link, _, _, showWhenComplete = GetQuestLogSpecialItemInfo(index)
+            nativeItemId = link and tonumber(link:match("item:(%d+)"))
+            if nativeItemId and (not questComplete or showWhenComplete) and GetItemCount(nativeItemId) > 0 then
+                tinsert(usableQuestItems, nativeItemId)
+            end
+        end
+    end
+
+    local function AddDatabaseItem(itemId)
+        if not questComplete and itemId and not tContains(usableQuestItems, itemId)
+            and GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
+            tinsert(usableQuestItems, itemId)
+        end
+    end
+
+    AddDatabaseItem(quest.sourceItemId)
+    for _, itemId in pairs(quest.requiredSourceItems or {}) do
+        AddDatabaseItem(itemId)
+    end
+    for _, objective in pairs(quest.ObjectiveData) do
+        if objective.Type == "item" then
+            AddDatabaseItem(objective.Id)
+        end
+    end
+
+    return usableQuestItems, nativeItemId
+end
+
+---@param quest TrackerQuest @The quest to add the quest item buttons for
 ---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
 ---@param line table @The line to add the quest item buttons to
 ---@param questItemButtonSize number @The size of the quest item buttons
@@ -1021,27 +1106,8 @@ end
 ---@param rePositionLine function @Callback function to reposition the line
 ---@return boolean @true if the quest item buttons were added successfully, false if the tracker should stop populating
 function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerQuestFrame, isMinimizable, rePositionLine)
-    local usableQuestItems = {}
-
-    local isTimedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
-    local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
-    if sourceItemId and GetItemCount(sourceItemId) > 0 and TrackerUtils:IsQuestItemUsable(sourceItemId) then
-        tinsert(usableQuestItems, sourceItemId)
-    end
-
-    for _, itemId in pairs(quest.requiredSourceItems or {}) do
-        if GetItemCount(itemId) > 0 and TrackerUtils:IsQuestItemUsable(itemId) then
-            tinsert(usableQuestItems, itemId)
-        end
-    end
-
-    for _, objective in pairs(quest.ObjectiveData) do
-        if objective.Type == "item" and GetItemCount(objective.Id) > 0 and TrackerUtils:IsQuestItemUsable(objective.Id) then
-            tinsert(usableQuestItems, objective.Id)
-        end
-    end
-
-    if complete ~= 1 and #usableQuestItems > 0 then
+    local usableQuestItems, nativeItemId = TrackerUtils.GetQuestItemIds(quest, complete)
+    if #usableQuestItems > 0 then
         -- Get button from buttonPool
         local button = TrackerLinePool.GetNextItemButton()
         if not button then
@@ -1050,7 +1116,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
 
         local questId = quest.Id
 
-        local primaryButtonAdded = button:SetItem(usableQuestItems[1], questId, questItemButtonSize)
+        local primaryButtonAdded = button:SetItem(usableQuestItems[1], questId, questItemButtonSize, usableQuestItems[1] == nativeItemId)
 
         -- Setup button and set attributes
         if primaryButtonAdded then
@@ -1096,7 +1162,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                 line.altButton = secondaryButton
 
                 -- TODO: Handle more than 2 buttons if required
-                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], questId, questItemButtonSize)
+                local secondaryButtonAdded = secondaryButton:SetItem(usableQuestItems[2], questId, questItemButtonSize, usableQuestItems[2] == nativeItemId)
 
                 if secondaryButtonAdded then
                     height = 0
@@ -1152,9 +1218,9 @@ function TrackerUtils.HasQuest()
     else
         if not Questie.db.profile.trackerShowCompleteQuests then
             local isTrackingIncompleteQuest = false
-            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                if not quest then break end
-                if QuestieTracker.IsTrackedByQuestie(quest.Id) and quest:IsComplete() == 0 then
+            for _, quest in pairs(TrackerData.GetQuests()) do
+                if QuestieTracker.IsTrackedByQuestie(quest.Id)
+                    and ((quest:IsComplete() ~= 1 and not quest.isComplete) or quest.trackTimedQuest or quest.timedBlizzardQuest) then
                     isTrackingIncompleteQuest = true
                     break
                 end
