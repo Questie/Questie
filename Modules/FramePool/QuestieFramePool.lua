@@ -106,6 +106,11 @@ end
 ---Unload a frame and return it to the pool.
 ---@param frame IconFrame
 function QuestieFramePool:UnloadFrame(frame)
+    if (not usedFrames[frame.frameId]) then
+        -- Already back in the pool. Unloading it again would flag it for unload, removing the next icon drawn on it.
+        return
+    end
+
     frame:Unload()
 
     -- If the frame was queued for drawing but not yet processed by QuestieMap.ProcessQueue, Unload() defers and sets _needsUnload=true
@@ -129,6 +134,8 @@ _ReinitFrame = function(frame)
         frame._hide = nil
     end
     frame.isManualIcon = false
+    frame._needsUnload = nil
+    frame._loaded = nil
     frame.FadeLogic = nil
     frame.faded = nil
     frame.miniMapIcon = nil
