@@ -378,8 +378,8 @@ local function ApplyObjectiveTrackerVisibility()
         if hideObjectiveTracker then
             ObjectiveTrackerFrame:Hide()
         else
-            -- Forever: let Blizzard decide whether content/edit mode requires a visible tracker.
-            ObjectiveTrackerFrame:Update()
+            -- Forever: calling Update() here would run Blizzard's layout (and its secret aura reads) and taint it.
+            ObjectiveTrackerFrame:Show()
         end
     end
 end
