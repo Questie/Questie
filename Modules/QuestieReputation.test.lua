@@ -158,12 +158,23 @@ describe("QuestieReputation", function()
 
     describe("GetReputationReward", function()
         describe("combat buff bonuses", function()
-            local originalInCombatLockdown, originalUnitAura, originalIsForever, originalExpansion
+            local originalInCombatLockdown, originalUnitAura, originalIsForever, originalExpansion, originalCTraits
+            local diplomatRank
 
             before_each(function()
                 originalInCombatLockdown = _G.InCombatLockdown
                 originalUnitAura = _G.UnitAura
                 originalIsForever = Questie.IsForever
+                originalCTraits = _G.C_Traits
+                diplomatRank = 0
+                _G.C_Traits = {
+                    GetConfigIDBySystemID = function() return 1 end,
+                    GetConfigInfo = function() return {treeIDs = {1}} end,
+                    GetTreeNodes = function() return {1} end,
+                    GetNodeInfo = function() return {entryIDs = {1}, currentRank = diplomatRank} end,
+                    GetEntryInfo = function() return {definitionID = 1} end,
+                    GetDefinitionInfo = function() return {spellID = 1225485} end,
+                }
                 originalExpansion = Expansions.Current
                 Expansions.Current = Expansions.Era
                 Questie.IsForever = true
@@ -177,6 +188,7 @@ describe("QuestieReputation", function()
             after_each(function()
                 _G.InCombatLockdown = originalInCombatLockdown
                 _G.UnitAura = originalUnitAura
+                _G.C_Traits = originalCTraits
                 Questie.IsForever = originalIsForever
                 Expansions.Current = originalExpansion
             end)
@@ -185,13 +197,13 @@ describe("QuestieReputation", function()
                 assert.are_same({{909, 82.5}}, QuestieReputation.GetReputationReward(1))
                 _G.UnitAura:clear()
                 _G.InCombatLockdown = function() return true end
-                QuestiePlayer.HasRequiredRace = function() return true end
+                diplomatRank = 5
 
                 assert.are_same({{909, 82.5}}, QuestieReputation.GetReputationReward(1))
                 assert.spy(UnitAura).was.not_called()
 
                 _G.InCombatLockdown = function() return false end
-                QuestiePlayer.HasRequiredRace = function() return false end
+                diplomatRank = 0
                 _G.UnitAura = spy.new(function() return nil end)
                 assert.are_same({{909, 75}}, QuestieReputation.GetReputationReward(1))
                 assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
