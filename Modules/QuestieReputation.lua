@@ -14,7 +14,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local playerReputations = {}
 
-local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
+local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _GetActiveDiplomatStacks, _FilterShaTarRewards
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = QuestieCompat.ExpandFactionHeader, QuestieCompat.GetNumFactions, QuestieCompat.GetFactionInfo
