@@ -48,3 +48,5 @@ The following contributors have agreed to put their individual contributions und
 * TechnoHunter
 * Yttrium
 * Sommos
+* anon1231823
+* HeresHavi
