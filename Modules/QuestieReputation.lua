@@ -327,7 +327,7 @@ _GetActiveDiplomatStacks = function()
 
     for _, treeID in ipairs(configInfo.treeIDs) do
         local nodes = C_Traits.GetTreeNodes(treeID)
-        for _, nodeID in ipairs(nodes) do
+        for _, nodeID in ipairs(nodes or {}) do
             local nodeInfo = C_Traits.GetNodeInfo(configID, nodeID)
             
             if nodeInfo and nodeInfo.entryIDs then
