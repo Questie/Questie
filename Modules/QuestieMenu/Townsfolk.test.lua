@@ -90,7 +90,7 @@ describe("Townsfolk", function()
         dofile("Modules/QuestieMenu/Townsfolk.lua")
         Townsfolk = QuestieLoader:ImportModule("Townsfolk")
         -- The curated ID lists live in sibling files; Townsfolk only filters them against the database.
-        Townsfolk.GetProfessionTrainers = function() return {2001, 2002, 2003, 2999, 3690} end
+        Townsfolk.GetProfessionTrainers = function() return {2001, 2002, 2003, 2999} end
         Townsfolk.GetClassTrainers = function()
             return {WARRIOR = {4001, 4999}, DRUID = {4002}, MAGE = {}, HUNTER = {}}
         end
@@ -111,7 +111,6 @@ describe("Townsfolk", function()
         mock.SetBaseRow("Npc", 2001, {[npcKeys.name] = "Smith Argus", [npcKeys.subName] = "Blacksmithing Trainer"})
         mock.SetBaseRow("Npc", 2002, {[npcKeys.name] = "Riding Instructor", [npcKeys.subName] = "Riding Trainer"})
         mock.SetBaseRow("Npc", 2003, {[npcKeys.name] = "Woo Ping", [npcKeys.subName] = "Weapon Master"})
-        mock.SetBaseRow("Npc", 3690, {[npcKeys.name] = "Kar Stormsinger", [npcKeys.subName] = "Kodo Riding Instructor"})
         mock.SetBaseRow("Npc", 4001, {[npcKeys.name] = "Warrior Trainer"})
         mock.SetBaseRow("Npc", 4002, {[npcKeys.name] = "Druid Trainer"})
         mock.SetBaseRow("Npc", 5001, {[npcKeys.name] = "Spirit Healer", [npcKeys.npcFlags] = NPC_FLAGS.SPIRIT_HEALER})
@@ -157,7 +156,7 @@ describe("Townsfolk", function()
             _RunInitialize()
 
             assert.are_same({2001}, Townsfolk.professionTrainers[professionKeys.BLACKSMITHING])
-            assert.are_same({3690}, Townsfolk.professionTrainers[professionKeys.RIDING])
+            assert.are_same({2002}, Townsfolk.professionTrainers[professionKeys.RIDING])
             assert.are_same({2003}, Townsfolk.townsfolk["Weapon Master"])
         end)
 
