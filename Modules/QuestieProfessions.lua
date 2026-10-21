@@ -348,7 +348,7 @@ local sortIds = {
     [QuestieProfessions.professionKeys.INSCRIPTION] = -371,
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = -373,
     [QuestieProfessions.professionKeys.ARCHAEOLOGY] = -377,
-    --[QuestieProfessions.professionKeys.RIDING] = ,
+    [QuestieProfessions.professionKeys.RIDING] = -398,
 }
 
 ---@enum SpecializationKeys
@@ -464,6 +464,7 @@ alternativeProfessionNames = {
     ["Weaponsmith"] = 164,
     ["Surgeon"] = 129,
     ["Trauma Surgeon"] = 129,
+    ["Flying Trainer"] = 762,
 }
 
 ---@class ProfessionMetaDB

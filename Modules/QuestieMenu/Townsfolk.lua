@@ -161,7 +161,8 @@ function Townsfolk.Initialize()
         [professionKeys.ENGINEERING] = {},
         [professionKeys.ENCHANTING] = {},
         [professionKeys.FISHING] = {},
-        [professionKeys.SKINNING] = {}
+        [professionKeys.SKINNING] = {},
+        [professionKeys.RIDING] = {}
     }
 
     if Expansions.Current >= Expansions.Tbc then
@@ -187,7 +188,7 @@ function Townsfolk.Initialize()
                     tinsert(townfolk[subName], id)
                 else
                     for k, professionId in pairs(QuestieProfessions.professionTable) do
-                        if string.match(subName, k) and professionId ~= professionKeys.RIDING then -- Skip Riding Trainer for now
+                        if string.match(subName, k) then
                             tinsert(professionTrainers[professionId], id)
                         end
                     end
