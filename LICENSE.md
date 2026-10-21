@@ -45,6 +45,6 @@ The following contributors have agreed to put their individual contributions und
 * TheCrux/BreakBB
 * Drejjmit
 * Cheeq
-* TechoHunter
+* TechnoHunter
 * Yttrium
 * Sommos
