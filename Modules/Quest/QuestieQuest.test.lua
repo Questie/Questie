@@ -307,6 +307,29 @@ describe("QuestieQuest", function()
             assert.is_nil(quest.isComplete)
             assert.are_same({}, QuestiePlayer.currentQuestlog)
         end)
+
+        it("should restore the source item objective of each logged quest", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local quest = {Id = 5}
+            QuestieQuest.GetAllQuestIdsNoObjectives = function() QuestiePlayer.currentQuestlog = {[5] = quest} end
+            QuestieDB.GetQuest = function() return nil end
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 10 do
+                tick()
+            end
+
+            -- Spies store copies of their arguments, so the module table logged with self no longer equals QuestieQuest
+            local sourceItemCall = QuestieQuest.CheckQuestSourceItem.calls[1]
+            assert.are.same({5, true}, {sourceItemCall.vals[2], sourceItemCall.vals[3]})
+            assert.are.equal(5, QuestieQuest.UpdateQuest.calls[1].vals[2])
+        end)
     end)
 
     describe("UnhideQuest", function()

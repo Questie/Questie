@@ -421,6 +421,8 @@ function QuestieQuest:SmoothReset()
         function()
             for _ = 1, 64 do
                 if QuestieQuest._nextRestQuest then
+                    -- As AddToQuestLog: a quest missing its source item gets an objective for it
+                    QuestieQuest:CheckQuestSourceItem(QuestieQuest._nextRestQuest, true)
                     QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest)
                     _UpdateSpecials(QuestieQuest._nextRestQuest)
                     QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
