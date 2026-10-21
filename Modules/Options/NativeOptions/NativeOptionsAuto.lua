@@ -1,346 +1,296 @@
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+-------------------------
+--Import modules.
+-------------------------
 ---@type QuestieOptionsEngine
-local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
----@type QuestieOptionsUtils
-local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieOptionsEngine.tabs.auto = {...}
+QuestieOptionsEngine.tabs.auto = { ... }
 
 local _GetShortcuts
 
 function QuestieOptionsEngine.tabs.auto:Initialize()
     return {
         title = "Auto",
-        subtitle = "Auto",
+        subtitle = "Auto Settings",
         order = 3,
-        icon = 133736,
+        icon = 237293,
         items = {
             autoModifier = {
-                type = "select",
+                type = "dropdown",
                 order = 0,
-                values = _GetShortcuts,
-                style = "dropdown",
-                name = function() return l10n("Auto Modifier") end,
-                desc = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
-                width = 0.65,
-                --disabled = function() return (not Questie.db.profile.autocomplete) and (not Questie.db.profile.autoAccept.enabled) end,
-                get = function() return Questie.db.profile.autoModifier; end,
-                set = function(input, key)
+                options = _GetShortcuts,
+                title = "Auto Modifier",
+                tooltip = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
+                width = "half",
+                get = function() return Questie.db.profile.autoModifier end,
+                set = function(key)
                     Questie.db.profile.autoModifier = key
                 end,
             },
-            autocomplete_options = {
-                type = "header",
+            autocomplete_group = {
+                type = "container",
                 order = 1,
-                name = "Auto Complete",
-            },
-            autocomplete = {
-                type = "toggle",
-                order = 1.1,
-                name = "Auto Complete Quests",
-                desc = "If checked, Questie will automatically hand in finished quests when talking to NPCs.",
-                get = function () return Questie.db.profile.autocomplete; end,
-                set = function (info, value)
-                    Questie.db.profile.autocomplete = value
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
-                end,
-            },
-            autocomplete_spacer = QuestieOptionsUtils:Spacer(1.2),
-            autoaccept_options = {
-                type = "header",
-                order = 2,
-                name = "Auto Accept",
-            },
-            autoaccept = {
-                type = "toggle",
-                order = 2.1,
-                name = "Auto Accept Quests",
-                desc = "If checked, Questie will automatically accept quest dialogs when they appear, depending on the rules below.",
-                get = function () return Questie.db.profile.autoAccept.enabled; end,
-                set = function (info, value)
-                    Questie.db.profile.autoAccept.enabled = value
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
-                end,
-            },
-            npcrules_group = {
-                type = "group",
-                order = 2.2,
-                inline = true,
-                width = 0.5,
-                name = "Rules for NPCs",
-                disabled = function() return not Questie.db.profile.autoAccept.enabled end,
-                args = {
-                    npc_normalquests = {
-                        type = "toggle",
-                        order = 1,
-                        name = "Normal Quests",
-                        desc = "Automatically accept normal quests from NPCs.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_normal; end,
-                        -- END
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_normal = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Normal toggled to:", value)
-                        end,
-                    },
-                    npc_repeatablequests = {
-                        type = "toggle",
-                        order = 2,
-                        name = "Repeatable Quests",
-                        desc = "Automatically accept repeatable quests (including dailies) from NPCs.",
-                        width = 1,
-                        get = function () return Questie.db.profile.autoAccept.repeatable; end,
-                        set = function (_, value)
-                            Questie.db.profile.autoAccept.repeatable = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Repeatable toggled to:", value)
-                        end,
-                    },
-                    npc_dungeonquests = {
-                        type = "toggle",
-                        order = 3,
-                        name = "Dungeon/Raid Quests",
-                        desc = "Automatically accept dungeon and raid quests from NPCs.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_dungeon; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_dungeon = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Dungeon toggled to:", value)
-                        end,
-                    },
-                    npc_pvpquests = {
-                        type = "toggle",
-                        order = 4,
-                        name = "PvP Quests",
-                        desc = "Automatically accept PvP quests from NPCs.",
-                        width = 1,
-                        get = function () return Questie.db.profile.autoAccept.pvp; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoAccept.pvp = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC PvP toggled to:", value)
-                        end,
-                    },
-                    npc_eventquests = {
-                        type = "toggle",
-                        order = 5,
-                        name = "Event Quests",
-                        desc = "Automatically accept event quests (including event dailies) from NPCs.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_event; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_npc_event = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Event toggled to:", value)
-                        end,
-                    },
-                    npc_trivialquests = {
-                        type = "toggle",
-                        order = 6,
-                        name = "Trivial Quests",
-                        desc = "Automatically accept trivial (low-level) quests from NPCs.",
-                        width = 1,
-                        -- AUTO 1.0
-                        get = function() return Questie.db.profile.autoAccept.trivial; end,
+                title = "Auto Complete",
+                items = {
+                    autocomplete = {
+                        type = "checkbox",
+                        order = 1.1,
+                        title = "Auto Complete Quests",
+                        tooltip = "If checked, Questie will automatically hand in finished quests when talking to NPCs.",
+                        width = "full",
+                        get = function() return Questie.db.profile.autocomplete end,
                         set = function(_, value)
-                            Questie.db.profile.autoAccept.trivial = value
-                        end,
-                        -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_npc_trivial; end,
-                        -- set = function (info, value)
-                        --     Questie.db.profile.autoaccept_npc_trivial = value
-                        --     Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Trivial toggled to:", value)
-                        -- end,
-                    },
-                },
-            },
-            playerrules_group = {
-                type = "group",
-                order = 2.3,
-                inline = true,
-                width = 0.5,
-                disabled = function() return not Questie.db.profile.autoAccept.enabled end,
-                name = "Rules for players",
-                args = {
-                    player_normalquests = {
-                        type = "toggle",
-                        order = 1,
-                        name = "Normal Quests",
-                        desc = "Automatically accept normal quests from players.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_normal; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_normal = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Normal toggled to:", value)
-                        end,
-                    },
-                    player_repeatablequests = {
-                        type = "toggle",
-                        order = 2,
-                        name = "Repeatable Quests",
-                        desc = "Automatically accept repeatable quests (including dailies) from players.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_repeatable; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_repeatable = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Repeatable toggled to:", value)
-                        end,
-                    },
-                    player_dungeonquests = {
-                        type = "toggle",
-                        order = 3,
-                        name = "Dungeon/Raid Quests",
-                        desc = "Automatically accept dungeon and raid quests from players.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_dungeon; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_dungeon = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Dungeon toggled to:", value)
-                        end,
-                    },
-                    player_pvpquests = {
-                        type = "toggle",
-                        order = 4,
-                        name = "PvP Quests",
-                        desc = "Automatically accept PvP quests from players.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_pvp; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_pvp = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player PvP toggled to:", value)
-                        end,
-                    },
-                    player_eventquests = {
-                        type = "toggle",
-                        order = 5,
-                        name = "Event Quests",
-                        desc = "Automatically accept event quests (including event dailies) from players.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_event; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_event = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Event toggled to:", value)
-                        end,
-                    },
-                    player_trivialquests = {
-                        type = "toggle",
-                        order = 6,
-                        name = "Trivial Quests",
-                        desc = "Automatically accept trivial (low-level) quests from players.",
-                        width = 1,
-                        -- AUTO 1.0
-                        disabled = true,
-                        get = function () return true; end,
-                        -- -- AUTO 2.0
-                        -- get = function () return Questie.db.profile.autoaccept_player_trivial; end,
-                        set = function (info, value)
-                            Questie.db.profile.autoaccept_player_trivial = value
-                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Trivial toggled to:", value)
+                            Questie.db.profile.autocomplete = value
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                         end,
                     },
                 },
             },
-            autoaccept_spacer = QuestieOptionsUtils:Spacer(2.4),
-            --Spacer_H = QuestieOptionsUtils:HorizontalSpacer(7, 1),
-            --acceptTrivial = {
-            --    type = "toggle",
-            --    order = 8,
-            --    name = "Accept trivial (low level) quests",
-            --    desc = "If checked, trivial (gray) quests will be auto accepted as well.",
-            --    disabled = function() return (not Questie.db.profile.autoAccept.enabled) end,
-            --    width = 1.5,
-            --    get = function () return Questie.db.profile.autoAccept.trivial; end,
-            --    set = function (info, value)
-            --        Questie.db.profile.autoAccept.trivial = value
-            --    end,
-            --},
-            autoreject_options = {
-                type = "header",
+            autoaccept_group = {
+                type = "container",
+                order = 2,
+                title = "Auto Accept",
+                items = {
+                    autoaccept = {
+                        type = "checkbox",
+                        order = 2.1,
+                        title = "Auto Accept Quests",
+                        tooltip = "If checked, Questie will automatically accept quest dialogs when they appear, depending on the rules below.",
+                        width = "full",
+                        get = function() return Questie.db.profile.autoAccept.enabled end,
+                        set = function(_, value)
+                            Questie.db.profile.autoAccept.enabled = value
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
+                        end,
+                    },
+                    npcrules_group = {
+                        type = "container",
+                        order = 2.2,
+                        title = "Rules for NPCs",
+                        enabled = function() return Questie.db.profile.autoAccept.enabled end,
+                        items = {
+                            npc_normalquests = {
+                                type = "checkbox",
+                                order = 1,
+                                title = "Normal Quests",
+                                tooltip = "Automatically accept normal quests from NPCs.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_npc_normal = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Normal toggled to:", value)
+                                end,
+                            },
+                            npc_repeatablequests = {
+                                type = "checkbox",
+                                order = 2,
+                                title = "Repeatable Quests",
+                                tooltip = "Automatically accept repeatable quests (including dailies) from NPCs.",
+                                width = "half",
+                                enabled = function() return Questie.db.profile.autoAccept.enabled end,
+                                get = function() return Questie.db.profile.autoAccept.repeatable end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoAccept.repeatable = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Repeatable toggled to:", value)
+                                end,
+                            },
+                            npc_dungeonquests = {
+                                type = "checkbox",
+                                order = 3,
+                                title = "Dungeon/Raid Quests",
+                                tooltip = "Automatically accept dungeon and raid quests from NPCs.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_npc_dungeon = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Dungeon toggled to:", value)
+                                end,
+                            },
+                            npc_pvpquests = {
+                                type = "checkbox",
+                                order = 4,
+                                title = "PvP Quests",
+                                tooltip = "Automatically accept PvP quests from NPCs.",
+                                width = "half",
+                                enabled = function() return Questie.db.profile.autoAccept.enabled end,
+                                get = function() return Questie.db.profile.autoAccept.pvp end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoAccept.pvp = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC PvP toggled to:", value)
+                                end,
+                            },
+                            npc_eventquests = {
+                                type = "checkbox",
+                                order = 5,
+                                title = "Event Quests",
+                                tooltip = "Automatically accept event quests (including event dailies) from NPCs.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_npc_event = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept NPC Event toggled to:", value)
+                                end,
+                            },
+                            npc_trivialquests = {
+                                type = "checkbox",
+                                order = 6,
+                                title = "Trivial Quests",
+                                tooltip = "Automatically accept trivial (low-level) quests from NPCs.",
+                                width = "half",
+                                enabled = function() return Questie.db.profile.autoAccept.enabled end,
+                                get = function() return Questie.db.profile.autoAccept.trivial end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoAccept.trivial = value
+                                end,
+                            },
+                        },
+                    },
+                    playerrules_group = {
+                        type = "container",
+                        order = 2.3,
+                        title = "Rules for players",
+                        enabled = function() return Questie.db.profile.autoAccept.enabled end,
+                        items = {
+                            player_normalquests = {
+                                type = "checkbox",
+                                order = 1,
+                                title = "Normal Quests",
+                                tooltip = "Automatically accept normal quests from players.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_player_normal = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Normal toggled to:", value)
+                                end,
+                            },
+                            player_repeatablequests = {
+                                type = "checkbox",
+                                order = 2,
+                                title = "Repeatable Quests",
+                                tooltip = "Automatically accept repeatable quests (including dailies) from players.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_player_repeatable = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Repeatable toggled to:", value)
+                                end,
+                            },
+                            player_dungeonquests = {
+                                type = "checkbox",
+                                order = 3,
+                                title = "Dungeon/Raid Quests",
+                                tooltip = "Automatically accept dungeon and raid quests from players.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_player_dungeon = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Dungeon toggled to:", value)
+                                end,
+                            },
+                            player_pvpquests = {
+                                type = "checkbox",
+                                order = 4,
+                                title = "PvP Quests",
+                                tooltip = "Automatically accept PvP quests from players.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_player_pvp = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player PvP toggled to:", value)
+                                end,
+                            },
+                            player_eventquests = {
+                                type = "checkbox",
+                                order = 5,
+                                title = "Event Quests",
+                                tooltip = "Automatically accept event quests (including event dailies) from players.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_player_event = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Event toggled to:", value)
+                                end,
+                            },
+                            player_trivialquests = {
+                                type = "checkbox",
+                                order = 6,
+                                title = "Trivial Quests",
+                                tooltip = "Automatically accept trivial (low-level) quests from players.",
+                                width = "half",
+                                enabled = false,
+                                get = function() return true end,
+                                set = function(_, value)
+                                    Questie.db.profile.autoaccept_player_trivial = value
+                                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Accept Player Trivial toggled to:", value)
+                                end,
+                            },
+                        },
+                    },
+                },
+            },
+            autoreject_group = {
+                type = "container",
                 order = 3,
-                name = "Auto Reject",
+                title = "Auto Reject",
+                items = {
+                    autoreject_battlegrounds = {
+                        type = "checkbox",
+                        order = 3.1,
+                        title = "Reject quests shared in battlegrounds",
+                        tooltip = "Automatically reject quests shared by players while in a battleground instance. This feature overrides autoaccept behavior.",
+                        width = "full",
+                        get = function() return Questie.db.profile.autoAccept.rejectSharedInBattleground end,
+                        set = function(_, value)
+                            Questie.db.profile.autoAccept.rejectSharedInBattleground = value
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Reject Battleground toggled to:", value)
+                        end,
+                    },
+                    autoreject_randoms = {
+                        type = "checkbox",
+                        order = 3.2,
+                        title = "Reject quests shared by non-friends",
+                        tooltip = "Automatically reject quests shared by players that aren't on your friends list. This feature overrides autoaccept behavior.",
+                        width = "full",
+                        enabled = false,
+                        get = function() return false end,
+                        set = function(_, value)
+                            Questie.db.profile.autoreject_nonfriend = value
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Reject Nonfriend toggled to:", value)
+                        end,
+                    },
+                    autoreject_breadcrumb = {
+                        type = "checkbox",
+                        order = 3.3,
+                        title = "Abandon quest if breadcrumb is not completed",
+                        tooltip = "Automatically abandon a quest if you accept it before completing its breadcrumb quest.",
+                        width = "full",
+                        get = function() return Questie.db.profile.autoAccept.abandonBreadcrumbFollowup end,
+                        set = function(_, value)
+                            Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = value
+                            Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Reject Breadcrumb toggled to:", value)
+                        end,
+                    },
+                },
             },
-            autoreject_battlegrounds = {
-                type = "toggle",
-                order = 3.1,
-                name = "Reject quests shared in battlegrounds",
-                desc = "Automatically reject quests shared by players while in a battleground instance. This feature overrides autoaccept behavior.",
-                width = 1.6,
-                get = function () return Questie.db.profile.autoAccept.rejectSharedInBattleground; end,
-                set = function (_, value)
-                    Questie.db.profile.autoAccept.rejectSharedInBattleground = value
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Reject Battleground toggled to:", value)
-                end,
-            },
-            autoreject_randoms = {
-                type = "toggle",
-                order = 3.2,
-                name = "Reject quests shared by non-friends",
-                desc = "Automatically reject quests shared by players that aren't on your friends list. This feature overrides autoaccept behavior.",
-                width = 1.6,
-                -- AUTO 1.0
-                disabled = true,
-                get = function () return false; end,
-                -- -- AUTO 2.0
-                -- get = function () return Questie.db.profile.autoreject_nonfriend; end,
-                set = function (info, value)
-                    Questie.db.profile.autoreject_nonfriend = value
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Reject Nonfriend toggled to:", value)
-                end,
-            },
-            autoreject_breadcrumb = {
-                type = "toggle",
-                order = 3.3,
-                name = "Abandon quest if breadcrumb is not completed",
-                desc = "Automatically abandon a quest if you accept it before completing its breadcrumb quest.",
-                width = 2.0,
-                get = function () return Questie.db.profile.autoAccept.abandonBreadcrumbFollowup; end,
-                set = function (_, value)
-                    Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = value
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "Auto Reject Breadcrumb toggled to:", value)
-                end,
-            },
-            wip_spacer = QuestieOptionsUtils:Spacer(4),
             wip_text = {
-                type = "description",
-                order = 5,
-                name = "Further Auto customization is coming in a future Questie update.",
-                fontSize = "medium",
+                type = "text",
+                order = 4,
+                title = "",
+                description = "Further Auto customization is coming in a future Questie update.",
+                width = "full",
+                descriptionAlign = "CENTER",
             },
-        }
+        },
     }
 end
 

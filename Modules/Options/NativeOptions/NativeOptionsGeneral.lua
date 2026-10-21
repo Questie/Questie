@@ -48,7 +48,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
         title = "General",
         subtitle = "General Settings",
         order = 0,
-        icon = 133736,
+        icon = 134331,
         items = {
             --questie_header = {
             --    type = "divider",

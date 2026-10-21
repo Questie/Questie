@@ -5,19 +5,19 @@ local Popup = QuestieLoader:ImportModule("QuestiePopup")
 --Import modules.
 -------------------------
 ---@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieOptionsEngine
-local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieOptionsUtils
-local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type IsleOfQuelDanas
-local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
@@ -26,9 +26,12 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
-QuestieOptionsEngine.tabs.advanced = {...}
+QuestieOptionsEngine.tabs.advanced = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
+
 ---@type fun(): table<string, string>
 local _GetLanguages
 ---@type string|nil
@@ -39,210 +42,185 @@ local function _GetAutomaticLocale()
     if QUESTIE_LOCALES_OVERRIDE ~= nil then
         return l10n:GetFallbackLocale(QUESTIE_LOCALES_OVERRIDE.locale)
     end
-
     return l10n:GetFallbackLocale(GetLocale())
 end
 
 function QuestieOptionsEngine.tabs.advanced:Initialize()
     return {
         title = "Advanced",
-        subtitle = "Advanced",
+        subtitle = "Advanced Settings",
         order = 6,
-        icon = 133736,
+        icon = 134063,
         items = {
-            map_options = {
-                type = "header",
-                order = 1,
-                name = "Advanced Settings",
-            },
             hideStartupWarnings = {
-                type = "toggle",
+                type = "checkbox",
                 order = 1.05,
-                hidden = true, -- TODO: We don"t need that option anymore as the message is gone. But it can be used to hide others in the future
-                name = "Hide Startup Warnings",
-                desc = "Disables the \"Welcome to Cataclysm Classic\" message on startup.",
+                title = "Hide Startup Warnings",
+                tooltip = "Disables the \"Welcome to Cataclysm Classic\" message on startup.",
+                visible = false,
                 width = "full",
-                get = function() return Questie.db.profile.hideStartupWarnings; end,
-                set = function (_, value)
+                get = function()
+                    return Questie.db.profile.hideStartupWarnings
+                end,
+                set = function(self, value)
                     Questie.db.profile.hideStartupWarnings = value
-                end
+                end,
             },
             enableIconLimit = {
-                type = "toggle",
+                type = "checkbox",
                 order = 1.1,
-                name = "Enable Icon Limit",
-                desc = "Enable the limit of icons drawn per type.",
+                title = "Enable Icon Limit",
+                tooltip = "Enable the limit of icons drawn per type.",
                 width = "full",
-                get = function (info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
+                get = function()
+                    return Questie.db.profile.enableIconLimit
+                end,
+                set = function(self, value)
+                    Questie.db.profile.enableIconLimit = value
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
             },
             iconLimit = {
-                type = "range",
+                type = "slider",
                 order = 1.2,
-                name = "Icon Limit",
-                desc = function() return l10n("Limits the amount of icons drawn per type. (Default: %s)", optionsDefaults.profile.iconLimit); end,
-                width = 1.5,
+                title = "Icon Limit",
+                tooltip = { "Limits the amount of icons drawn per type. (Default: %s)", optionsDefaults.profile.iconLimit },
+                width = "half",
                 min = 1,
                 max = 5000,
                 step = 10,
-                disabled = function() return (not Questie.db.profile.enableIconLimit); end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
+                enabled = function()
+                    return Questie.db.profile.enableIconLimit
+                end,
+                get = function()
+                    return Questie.db.profile.iconLimit
+                end,
+                set = function(self, value)
+                    Questie.db.profile.iconLimit = value
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
             },
-            iconSpacer = {
-                type = "description",
-                order = 1.3,
-                name = "",
-                desc = "",
-                image = "",
-                imageWidth = 0.3,
-                width = 0.3,
-                func = function() end,
-            },
             objectiveFilterDistance = {
-                type = "range",
+                type = "slider",
                 order = 1.4,
-                name = "Objective icon filter distance",
-                desc = function()
-                    return l10n(
-                        "Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter.");
-                end,
-                width = 1.5,
-                disabled = function() return (not Questie.db.profile.enabled); end,
+                title = "Objective icon filter distance",
+                tooltip = "Minimum distance between two objective icons in the same zone.\n\nSet to 0 to show all icons. Higher values reduce icon clutter.",
+                width = "half",
                 min = 0,
                 max = 5,
                 step = 1,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function(info, value)
-                    QuestieOptions:SetProfileValue(info, value)
+                enabled = function()
+                    return Questie.db.profile.enabled
+                end,
+                get = function()
+                    return Questie.db.profile.objectiveFilterDistance
+                end,
+                set = function(self, value)
+                    Questie.db.profile.objectiveFilterDistance = value
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting objective filter distance to %s : Redrawing!", value))
                 end,
             },
             spawnFilterDistance = {
-                type = "range",
+                type = "slider",
                 order = 1.41,
-                name = "Available quest filter distance",
-                desc = function()
-                    return l10n(
-                        "How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!");
-                end,
-                width = 1.5,
-                disabled = function() return (not Questie.db.profile.enabled); end,
+                title = "Available quest filter distance",
+                tooltip = "How far away a spawn starting a quest needs to be inside a zone before another spawn of the same creature or object is added.\n\nWARNING! Setting this to lower values may result in a lot of icons being drawn and can impact map performance!",
+                width = "half",
                 min = 1,
                 max = 100,
                 step = 1,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function(info, value)
-                    QuestieOptions:SetProfileValue(info, value)
+                enabled = function()
+                    return Questie.db.profile.enabled
+                end,
+                get = function()
+                    return Questie.db.profile.spawnFilterDistance
+                end,
+                set = function(self, value)
+                    Questie.db.profile.spawnFilterDistance = value
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
             },
-            iconSpacer2 = {
-                type = "description",
-                order = 1.42,
-                name = "",
-                desc = "",
-                image = "",
-                imageWidth = 0.3,
-                width = 0.3,
-                func = function() end,
-            },
             availableIconLimit = {
-                type = "range",
+                type = "slider",
                 order = 1.43,
-                name = "Available quest icon limit",
-                desc = function()
-                    return l10n(
-                        "This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!");
-                end,
-                width = 1.5,
-                disabled = function() return (not Questie.db.profile.enabled); end,
+                title = "Available quest icon limit",
+                tooltip = "This setting limits the number of icons starting a single quest.\n\nSetting to zero means there is no limit (except through other settings).\n\nWARNING! Setting this to 0 may result in a lot of icons being drawn and can impact map performance!",
+                width = "half",
                 min = 0,
                 max = 500,
                 step = 1,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function(info, value)
-                    QuestieOptions:SetProfileValue(info, value)
+                enabled = function()
+                    return Questie.db.profile.enabled
+                end,
+                get = function()
+                    return Questie.db.profile.availableIconLimit
+                end,
+                set = function(self, value)
+                    Questie.db.profile.availableIconLimit = value
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n("Setting icon limit value to %s : Redrawing!", value))
                 end,
             },
-            quelDanasSpacer1 = QuestieOptionsUtils:Spacer(1.45, (not Questie.IsTBC)),
             npcrules_group = {
-                type = "group",
+                type = "container",
                 order = 1.5,
-                inline = true,
-                width = 0.5,
-                hidden = (not Questie.IsTBC),
-                name = "Quel'Danas Settings",
-                disabled = function() return not Questie.db.profile.autoAccept.enabled end,
-                args = {
+                title = "Quel'Danas Settings",
+                visible = Questie.IsTBC,
+                items = {
                     isleOfQuelDanasPhase = {
-                        type = "select",
-                        order = 1.3,
-                        width = 1.5,
-                        values = IsleOfQuelDanas.localizedPhaseNames,
-                        style = "dropdown",
-                        name = function() return l10n("Isle of Quel'Danas Phase") end,
-                        desc = "Select the phase fitting your realm progress on the Isle of Quel'Danas",
-                        disabled = function() return Expansions.Current <= Expansions.Tbc end,
-                        get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
-                        set = function(_, key)
+                        type = "dropdown",
+                        order = 1.1,
+                        title = "Isle of Quel'Danas Phase",
+                        tooltip = "Select the phase fitting your realm progress on the Isle of Quel'Danas",
+                        width = "half",
+                        options = IsleOfQuelDanas.localizedPhaseNames,
+                        enabled = function()
+                            return Expansions.Current > Expansions.Tbc
+                        end,
+                        get = function()
+                            return Questie.db.profile.isleOfQuelDanasPhase
+                        end,
+                        set = function(key)
                             Questie.db.profile.isleOfQuelDanasPhase = key
                             QuestieQuest:SmoothReset()
                         end,
                     },
-                    quelDanasSpacer2 = {
-                        type = "description",
-                        order = 1.4,
-                        name = "",
-                        desc = "",
-                        image = "",
-                        imageWidth = 0.2,
-                        width = 0.2,
-                        func = function() end,
-                    },
                     isleOfQuelDanasPhaseReminder = {
-                        type = "toggle",
-                        order = 1.5,
-                        name = "Disable Phase reminder",
-                        desc = "Enable or disable the reminder on login to set the Isle of Quel'Danas phase",
-                        disabled = function() return Expansions.Current <= Expansions.Tbc end,
-                        width = 1,
-                        get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
-                        set = function(_, value)
+                        type = "checkbox",
+                        order = 1.2,
+                        title = "Disable Phase reminder",
+                        tooltip = "Enable or disable the reminder on login to set the Isle of Quel'Danas phase",
+                        width = "half",
+                        enabled = function()
+                            return Expansions.Current > Expansions.Tbc
+                        end,
+                        get = function()
+                            return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled
+                        end,
+                        set = function(self, value)
                             Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled = value
                         end,
                     },
                 },
             },
-            Spacer_A = QuestieOptionsUtils:Spacer(2.9),
             locale_header = {
-                type = "header",
+                type = "divider",
                 order = 3,
-                name = "Localization Settings",
+                title = "Localization Settings",
+                width = "full",
             },
             locale_dropdown = {
-                type = "select",
+                type = "dropdown",
                 order = 3.1,
-                values = _GetLanguages,
-                style = "dropdown",
-                name = "Select UI Locale",
-                ---@return string selectedLocale
+                title = "Select UI Locale",
+                width = "half",
+                options = _GetLanguages,
                 get = function()
                     if not Questie.db.global.questieLocaleDiff then
                         return "auto"
                     end
-
                     return l10n:GetUILocale()
                 end,
-                ---@param lang string
-                set = function(_, lang)
+                set = function(lang)
                     local currentSelectedLocale = Questie.db.global.questieLocaleDiff and l10n:GetUILocale() or "auto"
                     if lang == currentSelectedLocale then
                         return
@@ -256,7 +234,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                     if currentEffectiveLocale == newEffectiveLocale then
                         l10n:SetUILocale(newEffectiveLocale)
                         Questie.db.global.questieLocale = newEffectiveLocale
-                        Questie.db.global.questieLocaleDiff = lang ~= "auto"
+                        Questie.db.global.questieLocaleDiff = (lang ~= "auto")
                         return
                     end
 
@@ -264,166 +242,218 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                     Popup.Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
                 end,
             },
-            Spacer_C = QuestieOptionsUtils:Spacer(3.9),
             reset_header = {
-                type = "header",
+                type = "divider",
                 order = 4,
-                name = "Reset Questie",
+                title = "Reset Questie",
+                width = "full",
             },
-            Spacer_D = QuestieOptionsUtils:Spacer(22),
             reset_text = {
-                type = "description",
+                type = "text",
                 order = 4.1,
-                name = function()
-                    return l10n(
-                        "Hitting this button will reset all of the Questie configuration settings back to their default values. (Excluding Localization)");
-                end,
-                fontSize = "medium",
+                title = "Hitting this button will reset all of the Questie configuration settings back to their default values. (Excluding Localization)",
+                width = "full",
+                titleSize = 12,
+            },
+            github_text = {
+                type = "text",
+                order = 4.15,
+                title = Questie:Colorize(
+                    l10n("Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"),
+                    "purple"
+                ),
+                width = "full",
+                titleSize = 12,
             },
             questieReset = {
-                type = "execute",
+                type = "button",
                 order = 4.2,
-                name = "Reset Questie",
-                desc = "Reset Questie to the default values for all settings.",
+                title = "Reset Questie",
+                btnLabel = "Reset Questie",
+                tooltip = "Reset Questie to the default values for all settings.",
+                width = "full",
+                align = "CENTER",
                 func = function()
                     Popup.Show("QUESTIE_RESET_CONFIRM")
                 end,
             },
-            Spacer_E = QuestieOptionsUtils:Spacer(4.3),
             questieJourneyReset = {
-                type = "execute",
-                order = 4.4,
-                name = "Reset Questie Journey",
-                desc = "Clear the Journey of the current character",
-                func = function(_, _)
+                type = "button",
+                order = 4.3,
+                title = "Reset Questie Journey",
+                btnLabel = "Reset Questie Journey",
+                tooltip = "Clear the Journey of the current character",
+                width = "half",
+                align = "RIGHT",
+                func = function()
                     Popup.Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
-            Spacer_Browse = QuestieOptionsUtils:Spacer(4.4),
             journeyBrowseCharacters = {
-                type = "execute",
-                order = 4.46,
-                name = function() return l10n("Import Journey data") end,
-                desc = function() return l10n("Browse other characters on this account and import their journey data.") end,
-                func = function() QuestieJourney:ShowCharacterBrowserFrame() end,
+                type = "button",
+                order = 4.4,
+                title = "Import Journey data",
+                btnLabel = "Import Journey data",
+                tooltip = "Browse other characters on this account and import their journey data.",
+                width = "half",
+                align = "LEFT",
+                func = function()
+                    QuestieJourney:ShowCharacterBrowserFrame()
+                end,
             },
-            Spacer_F = QuestieOptionsUtils:Spacer(4.5),
             openProfiler = {
-                type = "execute",
-                order = 4.8,
-                name = "Open Profiler",
-                desc = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
-                func = function (_, _)
-                    -- Opens retained results when a session already ran; Start would reset them.
+                type = "button",
+                order = 4.5,
+                title = "Open Profiler",
+                btnLabel = "Open Profiler",
+                tooltip = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
+                width = "full",
+                align = "CENTER",
+                func = function()
                     QuestieProfiler:OpenUI()
                 end,
             },
-            Spacer_H = QuestieOptionsUtils:Spacer(4.9),
-            github_text = {
-                type = "description",
-                order = 4.10,
-                name = function()
-                    return Questie:Colorize(
-                        l10n(
-                            "Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"),
-                        "purple");
-                end,
-                fontSize = "medium",
-            },
             HeaderDev = {
-                type = "header",
+                type = "divider",
                 order = 5,
-                name = l10n("Developer Options"),
+                title = "Developer Options",
+                width = "full",
             },
             bugWorkarounds = {
-                type = "toggle",
+                type = "checkbox",
                 order = 5.01,
-                name = "Enable bug workarounds",
-                desc = "If checked, Questie will hotfix vanilla UI bugs.",
-                width = "full",
-                get = function() return Questie.db.profile.bugWorkarounds; end,
-                set = function(_, value)
+                title = "Enable bug workarounds",
+                tooltip = "If checked, Questie will hotfix vanilla UI bugs.",
+                width = "half",
+                get = function()
+                    return Questie.db.profile.bugWorkarounds
+                end,
+                set = function(self, value)
                     Questie.db.profile.bugWorkarounds = value
-                end
+                end,
             },
             enableBugHintsForAllFlavors = {
-                type = "toggle",
+                type = "checkbox",
                 order = 5.015,
-                name = function() return l10n("Enable bug hints for all game versions") end,
-                desc = function() return l10n("Enables the bug hint windows for all game versions, usually used for bug reports in SoD.") end,
-                hidden = function() return Questie.IsSoD end,
-                width = "full",
-                get = function() return Questie.db.profile.enableBugHintsForAllFlavors; end,
-                set = function(_, value)
+                title = "Enable bug hints for all game versions",
+                tooltip = "Enables the bug hint windows for all game versions, usually used for bug reports in SoD.",
+                visible = not Questie.IsSoD,
+                width = "half",
+                get = function()
+                    return Questie.db.profile.enableBugHintsForAllFlavors
+                end,
+                set = function(self, value)
                     Questie.db.profile.enableBugHintsForAllFlavors = value
                 end,
             },
             showItemIDs = {
-                type = "toggle",
+                type = "checkbox",
                 order = 5.02,
-                name = "Show Item IDs",
-                desc = "If checked, the ID of items will shown in tooltips.",
-                disabled = function() return (not Questie.db.profile.enableTooltips); end,
-                width = "full",
-                get = function() return Questie.db.profile.enableTooltipsItemID; end,
-                set = function(_, value)
+                title = "Show Item IDs",
+                tooltip = "If checked, the ID of items will shown in tooltips.",
+                width = "half",
+                enabled = function()
+                    return Questie.db.profile.enableTooltips
+                end,
+                get = function()
+                    return Questie.db.profile.enableTooltipsItemID
+                end,
+                set = function(self, value)
                     Questie.db.profile.enableTooltipsItemID = value
-                end
+                end,
             },
             showNPCIDs = {
-                type = "toggle",
+                type = "checkbox",
                 order = 5.03,
-                name = "Show NPC IDs",
-                desc = "If checked, the ID of NPCs will be shown in tooltips.",
-                disabled = function() return (not Questie.db.profile.enableTooltips); end,
-                width = "full",
-                get = function() return Questie.db.profile.enableTooltipsNPCID; end,
-                set = function(_, value)
+                title = "Show NPC IDs",
+                tooltip = "If checked, the ID of NPCs will be shown in tooltips.",
+                width = "half",
+                enabled = function()
+                    return Questie.db.profile.enableTooltips
+                end,
+                get = function()
+                    return Questie.db.profile.enableTooltipsNPCID
+                end,
+                set = function(self, value)
                     Questie.db.profile.enableTooltipsNPCID = value
-                end
+                end,
             },
             showObjectIDs = {
-                type = "toggle",
+                type = "checkbox",
                 order = 5.04,
-                name = "Show Object IDs",
-                desc = function()
-                    return l10n(
-                        "If checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB.");
+                title = "Show Object IDs",
+                tooltip = "If checked, the ID of objects will be shown in tooltips. These are guesses and only show the first matching ID in the QuestieDB.",
+                width = "half",
+                enabled = function()
+                    return Questie.db.profile.enableTooltips
                 end,
-                disabled = function() return (not Questie.db.profile.enableTooltips); end,
-                width = "full",
-                get = function() return Questie.db.profile.enableTooltipsObjectID; end,
-                set = function(_, value)
+                get = function()
+                    return Questie.db.profile.enableTooltipsObjectID
+                end,
+                set = function(self, value)
                     Questie.db.profile.enableTooltipsObjectID = value
                     if value then
-                        -- Warm the provider Object name index here, where the synchronous build is
-                        -- invisible, instead of on the first hover. Turning the option off keeps the
-                        -- index; QuestieDB owns its invalidation.
                         LibQuestieDB.Object.BuildNameIndex()
                     end
-                end
+                end,
+            },
+            showSpellIDs = {
+                type = "checkbox",
+                order = 5.045,
+                title = "Show Spell IDs",
+                tooltip = "If checked, the ID of spells will be shown in tooltips.",
+                width = "half",
+                enabled = function()
+                    return Questie.db.profile.enableTooltips
+                end,
+                get = function()
+                    return Questie.db.profile.enableTooltipsSpellID
+                end,
+                set = function(self, value)
+                    Questie.db.profile.enableTooltipsSpellID = value
+                end,
             },
             showQuestIDs = {
-                type = "toggle",
+                type = "checkbox",
                 order = 5.05,
-                name = "Show Quest IDs",
-                desc = "If checked, the ID of quests will show in tooltips and the tracker.",
-                disabled = function() return (not Questie.db.profile.enableTooltips); end,
-                width = "full",
-                get = function() return Questie.db.profile.enableTooltipsQuestID; end,
-                set = function(_, value)
+                title = "Show Quest IDs",
+                tooltip = "If checked, the ID of quests will show in tooltips and the tracker.",
+                width = "half",
+                enabled = function()
+                    return Questie.db.profile.enableTooltips
+                end,
+                get = function()
+                    return Questie.db.profile.enableTooltipsQuestID
+                end,
+                set = function(self, value)
                     Questie.db.profile.enableTooltipsQuestID = value
                     QuestieTracker:Update()
-                end
+                end,
+            },
+            waypointDebugHover = {
+                type = "checkbox",
+                order = 5.055,
+                title = "Show waypoint hover area",
+                tooltip = "Draws the area around each patrol path on the world map where hovering shows its NPC.",
+                width = "half",
+                get = function()
+                    return Questie.db.profile.waypointDebugHover
+                end,
+                set = function(self, value)
+                    Questie.db.profile.waypointDebugHover = value
+                    QuestieWaypoints.Refresh()
+                end,
             },
             debugEnabled = {
-                type = "toggle",
+                type = "checkbox",
                 order = 5.06,
-                name = "Enable Debug",
-                desc = "Enable or disable debug functionality.",
-                width = "full",
-                get = function() return Questie.db.profile.debugEnabled; end,
-                set = function(_, value)
+                title = "Enable Debug",
+                tooltip = "Enable or disable debug functionality.",
+                width = "half",
+                get = function()
+                    return Questie.db.profile.debugEnabled
+                end,
+                set = function(self, value)
                     Questie.db.profile.debugEnabled = value
                     if Questie.db.profile.debugEnabled then
                         QuestieLoader:PopulateGlobals()
@@ -431,44 +461,130 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                 end,
             },
             debugEnabledPrint = {
-                type = "toggle",
-                order = 5.08,
-                disabled = function() return not Questie.db.profile.debugEnabled; end,
-                name = function() return l10n("Enable Debug") .. "-PRINT" end,
-                desc = function() return l10n("Enable or disable debug functionality.") .. "-PRINT" end,
-                width = "full",
-                get = function() return Questie.db.profile.debugEnabledPrint; end,
-                set = function(_, value)
+                type = "checkbox",
+                order = 5.07,
+                title = "Enable Debug-PRINT",
+                tooltip = "Enable or disable debug functionality.-PRINT",
+                width = "half",
+                enabled = function()
+                    return Questie.db.profile.debugEnabled
+                end,
+                get = function()
+                    return Questie.db.profile.debugEnabledPrint
+                end,
+                set = function(self, value)
                     Questie.db.profile.debugEnabledPrint = value
                 end,
             },
-            debugLevel = {
-                type = "multiselect",
-                values = {
-                    [0] = "DEBUG_CRITICAL",
-                    [1] = "DEBUG_ELEVATED",
-                    [2] = "DEBUG_INFO",
-                    [3] = "DEBUG_DEVELOP",
-                    [4] = "DEBUG_SPAM",
+            debugLevelContainer = {
+                type = "container",
+                order = 5.08,
+                title = "Debug level to print",
+                enabled = function()
+                    return Questie.db.profile.debugEnabled and Questie.db.profile.debugEnabledPrint
+                end,
+                items = {
+                    debugCritical = {
+                        order = 1,
+                        type = "checkbox",
+                        title = "DEBUG_CRITICAL",
+                        width = "third",
+                        enabled = function()
+                            return Questie.db.profile.debugEnabled and Questie.db.profile.debugEnabledPrint
+                        end,
+                        get = function()
+                            return bit.band(Questie.db.profile.debugLevel or 0, 1) > 0
+                        end,
+                        set = function(self, val)
+                            local current = Questie.db.profile.debugLevel or 0
+                            if val then
+                                Questie.db.profile.debugLevel = bit.bor(current, 1)
+                            else
+                                Questie.db.profile.debugLevel = bit.band(current, bit.bnot(1))
+                            end
+                        end,
+                    },
+                    debugElevated = {
+                        order = 2,
+                        type = "checkbox",
+                        title = "DEBUG_ELEVATED",
+                        width = "third",
+                        enabled = function()
+                            return Questie.db.profile.debugEnabled and Questie.db.profile.debugEnabledPrint
+                        end,
+                        get = function()
+                            return bit.band(Questie.db.profile.debugLevel or 0, 2) > 0
+                        end,
+                        set = function(self, val)
+                            local current = Questie.db.profile.debugLevel or 0
+                            if val then
+                                Questie.db.profile.debugLevel = bit.bor(current, 2)
+                            else
+                                Questie.db.profile.debugLevel = bit.band(current, bit.bnot(2))
+                            end
+                        end,
+                    },
+                    debugInfo = {
+                        order = 3,
+                        type = "checkbox",
+                        title = "DEBUG_INFO",
+                        width = "third",
+                        enabled = function()
+                            return Questie.db.profile.debugEnabled and Questie.db.profile.debugEnabledPrint
+                        end,
+                        get = function()
+                            return bit.band(Questie.db.profile.debugLevel or 0, 4) > 0
+                        end,
+                        set = function(self, val)
+                            local current = Questie.db.profile.debugLevel or 0
+                            if val then
+                                Questie.db.profile.debugLevel = bit.bor(current, 4)
+                            else
+                                Questie.db.profile.debugLevel = bit.band(current, bit.bnot(4))
+                            end
+                        end,
+                    },
+                    debugDevelop = {
+                        order = 4,
+                        type = "checkbox",
+                        title = "DEBUG_DEVELOP",
+                        width = "third",
+                        enabled = function()
+                            return Questie.db.profile.debugEnabled and Questie.db.profile.debugEnabledPrint
+                        end,
+                        get = function()
+                            return bit.band(Questie.db.profile.debugLevel or 0, 8) > 0
+                        end,
+                        set = function(self, val)
+                            local current = Questie.db.profile.debugLevel or 0
+                            if val then
+                                Questie.db.profile.debugLevel = bit.bor(current, 8)
+                            else
+                                Questie.db.profile.debugLevel = bit.band(current, bit.bnot(8))
+                            end
+                        end,
+                    },
+                    debugSpam = {
+                        order = 5,
+                        type = "checkbox",
+                        title = "DEBUG_SPAM",
+                        width = "third",
+                        enabled = function()
+                            return Questie.db.profile.debugEnabled and Questie.db.profile.debugEnabledPrint
+                        end,
+                        get = function()
+                            return bit.band(Questie.db.profile.debugLevel or 0, 16) > 0
+                        end,
+                        set = function(self, val)
+                            local current = Questie.db.profile.debugLevel or 0
+                            if val then
+                                Questie.db.profile.debugLevel = bit.bor(current, 16)
+                            else
+                                Questie.db.profile.debugLevel = bit.band(current, bit.bnot(16))
+                            end
+                        end,
+                    },
                 },
-                order = 5.09,
-                name = "Debug level to print",
-                width = "normal",
-                disabled = function() return not (Questie.db.profile.debugEnabledPrint and Questie.db.profile.debugEnabled); end,
-                get = function(_, key)
-                    return bit.band(Questie.db.profile.debugLevel, math.pow(2, key)) > 0
-                end,
-                set = function(_, value)
-                    local currentValue = Questie.db.profile.debugLevel
-                    local flag = math.pow(2, value)
-                    -- When current debug level is active, remove it
-                    if (bit.band(currentValue, flag) > 0) then
-                        Questie.db.profile.debugLevel = bit.bxor(flag, currentValue)
-                        -- When current debug level is inactive, add it
-                    else
-                        Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
-                    end
-                end,
             },
         },
     }
@@ -483,7 +599,7 @@ Popup.Dialogs["QUESTIE_RESET_CONFIRM"] = {
             Questie.db.profile[k] = v
         end
 
-        if (not Questie.db.profile.enabled) then
+        if not Questie.db.profile.enabled then
             Questie.db.profile.enabled = true
         end
 
@@ -511,7 +627,7 @@ Popup.Dialogs["QUESTIE_RESET_CONFIRM"] = {
 }
 
 Popup.Dialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
-    text = "", -- we set it in OnShow
+    text = "",
     button1 = YES,
     button2 = NO,
     OnAccept = function(self)
@@ -530,9 +646,8 @@ Popup.Dialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
 }
 
 Popup.Dialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
-    -- Reopening confirms the latest selection without cancelling its pending value.
     noCancelOnReuse = true,
-    text = "", -- we set it in OnShow
+    text = "",
     button1 = YES,
     button2 = NO,
     OnAccept = function(self)
@@ -545,7 +660,7 @@ Popup.Dialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
 
         l10n:SetUILocale(effectiveLocale)
         Questie.db.global.questieLocale = effectiveLocale
-        Questie.db.global.questieLocaleDiff = pendingLocaleSelection ~= "auto"
+        Questie.db.global.questieLocaleDiff = (pendingLocaleSelection ~= "auto")
         pendingLocaleSelection = nil
         ReloadUI()
     end,

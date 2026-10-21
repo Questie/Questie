@@ -2,199 +2,190 @@
 --Import modules.
 -------------------------
 ---@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieOptionsEngine
-local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
----@type QuestieOptionsUtils
-local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieDBMIntegration
-local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 
-QuestieOptionsEngine.tabs.dbm = {...}
+QuestieOptionsEngine.tabs.dbm = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
+local function _IsDBMEnabled()
+    return Questie.db.profile.dbmHUDEnable and ((DBM and DBM.HudMap) ~= nil)
+end
 
---TODO, hid hud tab if DBMHudMap global doesn"t exist? Or at very least gray out options?
---dbmHUDEnable, dbmHUDShowAlert, DBMHUDZoom, dbmHUDRadius, dbmHUDShowQuest, dbmHUDShowSlay, dbmHUDShowLoot, dbmHUDShowInteract
 function QuestieOptionsEngine.tabs.dbm:Initialize()
     return {
         title = "DBM HUD",
-        subtitle = "DBM HUD",
+        subtitle = "Deadly Boss Mods HUD Integration",
         order = 5,
-        icon = 133736,
+        icon = 134442,
+        visible = ((DBM and DBM.HudMap) ~= nil),
         items = {
-            info_prespacer = QuestieOptionsUtils:Spacer(0),
             info_text = {
-                type = "description",
+                type = "text",
                 order = 0.1,
-                name = function() return Questie:Colorize(l10n("The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect."), "gray"); end,
-                fontSize = "medium",
+                title = "",
+                description = "The DBM HUD integrates with the addon DeadlyBossMods to show a radar of objective icons on your entire screen. Enabling this feature usually requires a /reload to take effect.",
+                width = "full",
             },
-            info_postspacer = QuestieOptionsUtils:Spacer(0.2),
-            hud_options = {
-                type = "header",
+            hud_options_group = {
+                type = "container",
                 order = 1,
-                name = "DBM HUD",
+                title = "DBM HUD Options",
+                items = {
+                    dbmHUDEnable = {
+                        type = "checkbox",
+                        order = 1.1,
+                        title = "Show DBM HUD",
+                        tooltip = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
+                        width = "full",
+                        get = function() return Questie.db.profile.dbmHUDEnable end,
+                        set = function(_, value)
+                            Questie.db.profile.dbmHUDEnable = value
+                            if value then
+                                QuestieDBMIntegration:EnableHUD()
+                                QuestieQuest:SmoothReset()
+                            else
+                                QuestieDBMIntegration:ClearAll(true)
+                            end
+                        end,
+                    },
+                    dbmHUDShowAlert = {
+                        type = "checkbox",
+                        order = 1.2,
+                        title = "Enable proximity visual for HUD icons",
+                        tooltip = "Changes the color of a HUD icon to red when you are near it.",
+                        width = "full",
+                        enabled = _IsDBMEnabled,
+                        get = function() return Questie.db.profile.dbmHUDShowAlert end,
+                        set = function(_, value)
+                            Questie.db.profile.dbmHUDShowAlert = value
+                            QuestieDBMIntegration:SoftReset()
+                        end,
+                    },
+                    DBMHUDRefresh = {
+                        type = "slider",
+                        order = 1.3,
+                        title = "Refresh rate for HUD (Requires turning HUD off/on)",
+                        tooltip = {"Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. (Default: %s)", optionsDefaults.profile.DBMHUDRefresh},
+                        width = "full",
+                        min = 0.01,
+                        max = 0.05,
+                        step = 0.01,
+                        enabled = function()
+                            return _IsDBMEnabled() and (DBM.HudMap.Version ~= nil)
+                        end,
+                        get = function() return Questie.db.profile.DBMHUDRefresh end,
+                        set = function(_, value)
+                            Questie.db.profile.DBMHUDRefresh = value
+                            QuestieDBMIntegration:ChangeRefreshRate(value)
+                        end,
+                    },
+                },
             },
-            dbmHUDEnable = {
-                type = "toggle",
-                order = 1.1,
-                name = "Show DBM HUD",
-                desc = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
-                width = "full",
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-
-                    if value then
-                        QuestieDBMIntegration:EnableHUD()
-                        --Hud Integration is completely innert when disabled, so QuestieDBMIntegration:SoftReset() cannot be used since it has no local tables
-                        --Questies SmoothReset must be used after enabling hud so that HUD can build it"s own tables when initial icons get added
-                        QuestieQuest:SmoothReset()
-                    else
-                        QuestieDBMIntegration:ClearAll(true)--Passing true unregisters events and completely disables HUD activity after the ClearAll
-                    end
-                end,
-            },
-            dbmHUDShowAlert = {
-                type = "toggle",
-                order = 1.2,
-                name = "Enable proximity visual for HUD icons",
-                desc = "Changes the color of a HUD icon to red when you are near it.",
-                width = "full",
-                disabled = function() return not Questie.db.profile.dbmHUDEnable end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:SoftReset()
-                end,
-            },
-            DBMHUDRefresh = {
-                type = "range",
-                disabled = function()
-                    if not Questie.db.profile.dbmHUDEnable then
-                        return true
-                    elseif DBM and DBM.HudMap and not DBM.HudMap.Version then
-                        return true
-                    else
-                        return false
-                    end
-                end,
-                order = 1.3,
-                name = "Refresh rate for HUD (Requires turning HUD off/on)",
-                desc = function() return l10n("Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. (Default: %s)", optionsDefaults.profile.DBMHUDRefresh); end,
-                width = "double",
-                min = 0.01,
-                max = 0.05,
-                step = 0.01,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:ChangeRefreshRate(value)
-                end,
-            },
-            Spacer_A = QuestieOptionsUtils:Spacer(1.9),
-            mapnote_options = {
-                type = "header",
+            size_options_group = {
+                type = "container",
                 order = 2,
-                name = "Size & Scale Options",
+                title = "Size & Scale Options",
+                enabled = _IsDBMEnabled,
+                items = {
+                    DBMHUDZoom = {
+                        type = "slider",
+                        order = 2.1,
+                        title = "Global zoom level for HUD Icons",
+                        tooltip = {"Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. (Default: %s)", optionsDefaults.profile.DBMHUDZoom},
+                        width = "half",
+                        min = 40,
+                        max = 200,
+                        step = 20,
+                        enabled = _IsDBMEnabled,
+                        get = function() return Questie.db.profile.DBMHUDZoom end,
+                        set = function(_, value)
+                            Questie.db.profile.DBMHUDZoom = value
+                            QuestieDBMIntegration:ChangeZoomLevel(value)
+                        end,
+                    },
+                    dbmHUDRadius = {
+                        type = "slider",
+                        order = 2.2,
+                        title = "Global radius/size for HUD Icons",
+                        tooltip = {"Adjusts the size of the icons that appear on the HUD. (Default: %s)", optionsDefaults.profile.dbmHUDRadius},
+                        width = "half",
+                        min = 1,
+                        max = 5,
+                        step = 0.5,
+                        enabled = _IsDBMEnabled,
+                        get = function() return Questie.db.profile.dbmHUDRadius end,
+                        set = function(_, value)
+                            Questie.db.profile.dbmHUDRadius = value
+                            QuestieDBMIntegration:SoftReset()
+                        end,
+                    },
+                },
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(2.1),
-            DBMHUDZoom = {
-                type = "range",
-                order = 2.2,
-                name = "Global zoom level for HUD Icons",
-                desc = function() return l10n("Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. (Default: %s)", optionsDefaults.profile.DBMHUDZoom); end,
-                width = "double",
-                min = 40,
-                max = 200,
-                step = 20,
-                disabled = function() return not Questie.db.profile.dbmHUDEnable end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:ChangeZoomLevel(value)
-                end,
-            },
-            dbmHUDRadius = {
-                type = "range",
-                order = 2.3,
-                name = "Global radius/size for HUD Icons",
-                desc = function() return l10n("Adjusts the size of the icons that appear on the HUD. (Default: %s)", optionsDefaults.profile.dbmHUDRadius); end,
-                width = "double",
-                min = 1,
-                max = 5,
-                step = 0.5,
-                disabled = function() return not Questie.db.profile.dbmHUDEnable end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:SoftReset()
-                end,
-            },
-            Spacer_C = QuestieOptionsUtils:Spacer(2.9),
-            fade_options = {
-                type = "header",
+            filter_options_group = {
+                type = "container",
                 order = 3,
-                name = "Filter Options",
-            },
-            dbmHUDShowQuest = {
-                type = "toggle",
-                order = 3.1,
-                name = "Show quest giver icons",
-                desc = function() return l10n("Toggles whether or not available/complete quest icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowQuest); end,
-                width = "full",
-                disabled = function() return not Questie.db.profile.dbmHUDEnable end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:SoftReset()
-                end,
-            },
-            dbmHUDShowSlay = {
-                type = "toggle",
-                order = 3.2,
-                name = "Show slay icons",
-                desc = function() return l10n("Toggles whether or not slay icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowSlay); end,
-                width = "full",
-                disabled = function() return not Questie.db.profile.dbmHUDEnable end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:SoftReset()
-                end,
-            },
-            dbmHUDShowLoot = {
-                type = "toggle",
-                order = 3.3,
-                name = "Show loot icons",
-                desc = function() return l10n("Toggles whether or not loot icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowLoot); end,
-                width = "full",
-                disabled = function() return not Questie.db.profile.dbmHUDEnable end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:SoftReset()
-                end,
-            },
-            dbmHUDShowInteract = {
-                type = "toggle",
-                order = 3.4,
-                name = "Show object interact icons",
-                desc = function() return l10n("Toggles whether or not object (gear) icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowInteract); end,
-                width = "full",
-                disabled = function() return not Questie.db.profile.dbmHUDEnable end,
-                get = function(info) return QuestieOptions:GetProfileValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetProfileValue(info, value)
-                    QuestieDBMIntegration:SoftReset()
-                end,
+                title = "Filter Options",
+                enabled = _IsDBMEnabled,
+                items = {
+                    dbmHUDShowQuest = {
+                        type = "checkbox",
+                        order = 3.1,
+                        title = "Show quest giver icons",
+                        tooltip = {"Toggles whether or not available/complete quest icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowQuest},
+                        width = "half",
+                        enabled = _IsDBMEnabled,
+                        get = function() return Questie.db.profile.dbmHUDShowQuest end,
+                        set = function(_, value)
+                            Questie.db.profile.dbmHUDShowQuest = value
+                            QuestieDBMIntegration:SoftReset()
+                        end,
+                    },
+                    dbmHUDShowSlay = {
+                        type = "checkbox",
+                        order = 3.2,
+                        title = "Show slay icons",
+                        tooltip = {"Toggles whether or not slay icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowSlay},
+                        width = "half",
+                        enabled = _IsDBMEnabled,
+                        get = function() return Questie.db.profile.dbmHUDShowSlay end,
+                        set = function(_, value)
+                            Questie.db.profile.dbmHUDShowSlay = value
+                            QuestieDBMIntegration:SoftReset()
+                        end,
+                    },
+                    dbmHUDShowLoot = {
+                        type = "checkbox",
+                        order = 3.3,
+                        title = "Show loot icons",
+                        tooltip = {"Toggles whether or not loot icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowLoot},
+                        width = "half",
+                        enabled = _IsDBMEnabled,
+                        get = function() return Questie.db.profile.dbmHUDShowLoot end,
+                        set = function(_, value)
+                            Questie.db.profile.dbmHUDShowLoot = value
+                            QuestieDBMIntegration:SoftReset()
+                        end,
+                    },
+                    dbmHUDShowInteract = {
+                        type = "checkbox",
+                        order = 3.4,
+                        title = "Show object interact icons",
+                        tooltip = {"Toggles whether or not object (gear) icons appear on the HUD.", optionsDefaults.profile.dbmHUDShowInteract},
+                        width = "half",
+                        enabled = _IsDBMEnabled,
+                        get = function() return Questie.db.profile.dbmHUDShowInteract end,
+                        set = function(_, value)
+                            Questie.db.profile.dbmHUDShowInteract = value
+                            QuestieDBMIntegration:SoftReset()
+                        end,
+                    },
+                },
             },
         },
     }

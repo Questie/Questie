@@ -119,7 +119,8 @@ local minControlHeight = { -- This is the starting height used for elements, but
     ["slider"]       = 48,
     ["dropdown"]     = 50,
     ["fontDropdown"] = 50,
-    ["divider"]      =  5,
+    ["textbox"]      = 50,
+    ["divider"]      = 15,
     ["container"]    = 20,
     ["text"]         = 20,
     ["button"]       = 40,
@@ -550,27 +551,29 @@ local function CreateOptionsTable()
     else
         local general_tab = QuestieOptionsEngine.tabs.general:Initialize()
         coroutine.yield()
-        --local icons_tab = QuestieOptionsEngine.tabs.icons:Initialize()
-        --coroutine.yield()
-        --local tracker_tab = QuestieOptionsEngine.tabs.tracker:Initialize()
-        --coroutine.yield()
-        --local auto_tab = QuestieOptionsEngine.tabs.auto:Initialize()
-        --coroutine.yield()
-        --local nameplate_tab = QuestieOptionsEngine.tabs.nameplate:Initialize()
-        --coroutine.yield()
-        --local dbm_hud_tab = QuestieOptionsEngine.tabs.dbm:Initialize()
-        --coroutine.yield()
-        --local advanced_tab = QuestieOptionsEngine.tabs.advanced:Initialize()
-        --coroutine.yield()
+        local icons_tab = QuestieOptionsEngine.tabs.icons:Initialize()
+        coroutine.yield()
+        local tracker_tab = QuestieOptionsEngine.tabs.tracker:Initialize()
+        coroutine.yield()
+        local auto_tab = QuestieOptionsEngine.tabs.auto:Initialize()
+        coroutine.yield()
+        local nameplate_tab = QuestieOptionsEngine.tabs.nameplate:Initialize()
+        coroutine.yield()
+        local dbm_hud_tab = QuestieOptionsEngine.tabs.dbm:Initialize()
+        coroutine.yield()
+        local advanced_tab = QuestieOptionsEngine.tabs.advanced:Initialize()
+        coroutine.yield()
+        local profiles_tab = QuestieOptionsEngine.tabs.profiles:Initialize()
+        coroutine.yield()
         return {
             general_tab = general_tab,
-            --icons_tab = icons_tab,
-            --tracker_tab = tracker_tab,
-            --auto_tab = auto_tab,
-            --nameplate_tab = nameplate_tab,
-            --dbm_hud_tab = dbm_hud_tab,
-            --advanced_tab = advanced_tab,
-            --profiles_tab = LibStub("AceDBOptions-3.0"):GetOptionsTable(Questie.db)
+            icons_tab = icons_tab,
+            tracker_tab = tracker_tab,
+            auto_tab = auto_tab,
+            nameplate_tab = nameplate_tab,
+            dbm_hud_tab = dbm_hud_tab,
+            advanced_tab = advanced_tab,
+            profiles_tab = profiles_tab,
         }
     end
 end
@@ -615,6 +618,7 @@ local function CreateControl(parent, item, width, height, level)
 
     if item.type == "checkbox" then
 
+        -- Set up initial frames
         local cbWrapper = CreateFrame("Frame", nil, parent)
         cbWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
         cbWrapper:SetSize(width, 30)
@@ -622,11 +626,55 @@ local function CreateControl(parent, item, width, height, level)
         cbWrapper.CheckBox = CreateFrame("CheckButton", nil, cbWrapper, "SettingsCheckboxTemplate")
         cbWrapper.CheckBox:SetPoint("LEFT", cbWrapper, "LEFT", 0, 0)
 
-        local tex = cbWrapper.CheckBox:CreateTexture(nil, "ARTWORK")
+        -- Custom texture editing/manipulation
+
+        -- Create disabled texture
+        local tex = cbWrapper.CheckBox:CreateTexture(nil, "BACKGROUND", nil, 0)
         tex:SetAtlas("checkbox-minimal",nil,"TRILINEAR")
         tex:SetDesaturated(true)
         tex:SetVertexColor(0.7, 0.7, 0.7, 1)
         cbWrapper.CheckBox:SetDisabledTexture(tex)
+
+        -- Anchor the base box to the lowest layer
+        local normalTex = cbWrapper.CheckBox:GetNormalTexture()
+        if normalTex then
+            normalTex:SetDrawLayer("BACKGROUND", 0)
+        end
+
+        -- Create the hover texture in the middle layer
+        local hoverTex = cbWrapper.CheckBox:CreateTexture(nil, "ARTWORK", nil, 1)
+        hoverTex:SetAllPoints(cbWrapper.CheckBox, true)
+        --hoverTex:SetPoint("CENTER", cbWrapper.CheckBox, "CENTER", 0, 0)
+        -- Set your desired hover asset (e.g., custom atlas, highlight atlas, or additive box)
+        hoverTex:SetTexture("Interface\\Addons\\Questie\\Icons\\checkbox-minimal-highlight.png")
+        --hoverTex:SetPoint("TOPLEFT", icon, "TOPLEFT", 0, 0)
+        --hoverTex:SetSize(26, 24)
+        hoverTex:SetBlendMode("ADD")
+        --hoverTex:SetAtlas("checkbox-minimal", true)
+        --hoverTex:SetBlendMode("ADD")
+        hoverTex:SetAlpha(0.5)
+        hoverTex:Hide()
+
+
+        --local mask = cbWrapper.CheckBox:CreateMaskTexture(nil, "ARTWORK", nil, 1)
+        --mask:SetTexture("interface\\hud\\uicooldownmanagermask")
+        --mask:SetPoint("CENTER", hoverTex, "CENTER", 0, 0)
+        --mask:SetSize(26, 24)
+        --hoverTex:AddMaskTexture(mask)
+        cbWrapper.CheckBox.HoverTex = hoverTex
+        --cbWrapper.CheckBox.Mask = mask
+
+        -- Force the checkmark to render on top of the hover texture
+        local checkedTex = cbWrapper.CheckBox:GetCheckedTexture()
+        if checkedTex then
+            checkedTex:SetDrawLayer("OVERLAY", 1)
+        end
+
+        -- Ensure the disabled checked texture also stays on top if ever toggled while disabled
+        local disabledCheckedTex = cbWrapper.CheckBox:GetDisabledCheckedTexture()
+        if disabledCheckedTex then
+            disabledCheckedTex:SetDrawLayer("OVERLAY", 1)
+        end
 
         frame:RegisterForClicks("LeftButtonUp")
         frame:SetScript("OnClick", function(self, button, down)
@@ -636,10 +684,12 @@ local function CreateControl(parent, item, width, height, level)
         end)
 
         cbWrapper.CheckBox:SetScript("OnEnter", function()
-            frame:GetScript("OnEnter")(frame)
+            local onEnter = frame:GetScript("OnEnter")
+            if onEnter then onEnter(frame) end
         end)
         cbWrapper.CheckBox:SetScript("OnLeave", function()
-            frame:GetScript("OnLeave")(frame)
+            local onLeave = frame:GetScript("OnLeave")
+            if onLeave then onLeave(frame) end
         end)
 
         local titleFrame = cbWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
@@ -671,6 +721,20 @@ local function CreateControl(parent, item, width, height, level)
             if item.set then item.set(self, self:GetChecked()) end
             QuestieOptionsEngine:RefreshStates()
         end)
+
+        local function UpdateCheckboxHover()
+            local isOver = (frame:IsMouseOver() or cbWrapper.CheckBox:IsMouseOver())
+            local isEnabled = cbWrapper.CheckBox:IsEnabled()
+            hoverTex:SetShown(isOver and isEnabled)
+        end
+
+        -- Hook the wrapper/row button
+        frame:HookScript("OnEnter", UpdateCheckboxHover)
+        frame:HookScript("OnLeave", UpdateCheckboxHover)
+
+        -- Hook the CheckBox directly
+        cbWrapper.CheckBox:HookScript("OnEnter", UpdateCheckboxHover)
+        cbWrapper.CheckBox:HookScript("OnLeave", UpdateCheckboxHover)
 
         local labelHeight = titleFrame:GetStringHeight()
         local descriptionHeight = 0
@@ -993,10 +1057,17 @@ local function CreateControl(parent, item, width, height, level)
         textWrapper:SetSize(width, 30)
 
         local titleFrame = textWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
-        titleFrame:SetText(item.title)
+        local initText = item.title
+        if item.get then
+            initText = item.get()
+        end
+        titleFrame:SetText(initText)
         titleFrame:SetWordWrap(true)
         titleFrame:SetJustifyH(item.titleAlign)
         titleFrame:SetWidth(width)
+        if item.titleSize then
+            titleFrame:SetFontHeight(item.titleSize)
+        end
         frame.titleFrame = titleFrame
 
         local descriptionFrame = nil
@@ -1011,12 +1082,15 @@ local function CreateControl(parent, item, width, height, level)
             descriptionFrame:SetWordWrap(true)
             descriptionFrame:SetJustifyH(item.descriptionAlign)
             descriptionFrame:SetWidth(width)
+            if item.descriptionSize then
+                descriptionFrame:SetFontHeight(item.descriptionSize)
+            end
             frame.descriptionFrame = descriptionFrame
         end
 
         local labelHeight = titleFrame:GetStringHeight()
         local descriptionHeight = 0
-        if item.description then descriptionHeight = descriptionFrame:GetStringHeight() + 2 end -- we add 2 if there's a note because we offset the note 2 units down
+        if item.description then descriptionHeight = descriptionFrame:GetStringHeight() + 2 end -- we add 2 if there's a description because we offset the description 2 units down
         local wrapperHeight = textWrapper:GetHeight()
 
         local finalHeight = math.max(labelHeight + descriptionHeight, wrapperHeight)
@@ -1464,10 +1538,12 @@ local function CreateControl(parent, item, width, height, level)
         end)
 
         rbWrapper.RadioButton:SetScript("OnEnter", function()
-            frame:GetScript("OnEnter")(frame)
+            local onEnter = frame:GetScript("OnEnter")
+            if onEnter then onEnter(frame) end
         end)
         rbWrapper.RadioButton:SetScript("OnLeave", function()
-            frame:GetScript("OnLeave")(frame)
+            local onLeave = frame:GetScript("OnLeave")
+            if onLeave then onLeave(frame) end
         end)
 
         local titleFrame = rbWrapper:CreateFontString(nil, "OVERLAY", "GameFontNormalMed1")
@@ -1520,6 +1596,77 @@ local function CreateControl(parent, item, width, height, level)
         frame.widget = rbWrapper.RadioButton
 
         ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 2, 0)
+    elseif item.type == "textbox" then
+        local editBox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+        editBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 16, -18)
+        editBox:SetAutoFocus(false)
+        editBox:SetFontObject("ChatFontNormal")
+        frame.widget = editBox
+
+        local titleFrame = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        titleFrame:SetPoint("BOTTOMLEFT", editBox, "TOPLEFT", -2, 4)
+        titleFrame:SetText(item.title)
+        frame.titleFrame = titleFrame
+
+        -- Confirmation "Okay" button (matches AceGUI EditBox behavior)
+        local okBtn = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+        okBtn:SetSize(60, 22)
+        okBtn:SetPoint("LEFT", editBox, "RIGHT", 6, 0)
+        okBtn:SetText(OKAY or "Okay")
+        okBtn:Hide()
+        frame.okBtn = okBtn
+
+        -- Leave room on the right for the Okay button
+        editBox:SetSize(width - 26 - 66, 22)
+
+        local function CommitText()
+            local text = editBox:GetText()
+            editBox:ClearFocus()
+            okBtn:Hide()
+            if item.set then
+                item.set(text)
+            end
+            QuestieOptionsEngine:RefreshStates()
+        end
+
+        if item.get then
+            editBox:SetText(tostring(item.get() or ""))
+        end
+
+        editBox:SetScript("OnTextChanged", function(self, isUserInput)
+            if isUserInput then
+                local currentVal = item.get and tostring(item.get() or "") or ""
+                local enteredText = self:GetText()
+                if enteredText ~= currentVal and strtrim(enteredText) ~= "" then
+                    okBtn:Show()
+                else
+                    okBtn:Hide()
+                end
+            end
+        end)
+
+        editBox:SetScript("OnEnterPressed", CommitText)
+        okBtn:SetScript("OnClick", CommitText)
+
+        editBox:SetScript("OnEscapePressed", function(self)
+            if item.get then
+                self:SetText(tostring(item.get() or ""))
+            end
+            self:ClearFocus()
+            okBtn:Hide()
+        end)
+
+        editBox:SetScript("OnEditFocusLost", function(self)
+            -- Prevent resetting if the user clicked the Okay button itself
+            if not okBtn:IsMouseOver() then
+                if item.get then
+                    self:SetText(tostring(item.get() or ""))
+                end
+                okBtn:Hide()
+            end
+        end)
+
+        ApplyTooltip(editBox, item, "ANCHOR_TOPLEFT", 0, 0)
     end
 
     table.insert(registeredControls, frame)
@@ -1590,7 +1737,9 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
             sortOrder = rawitem.sortOrder,                             -- a sorted table of keys matching item.options that can be used as a sort order
             items = rawitem.items,                                     -- a nested array of controls within a container
             titleAlign = rawitem.titleAlign,                           -- title text alignment
+            titleSize = rawitem.titleSize,                             -- title text font size
             descriptionAlign = rawitem.descriptionAlign or "LEFT",     -- description text alignment
+            descriptionSize = rawitem.descriptionSize,                 -- description text font size
             func = rawitem.func,                                       -- function called when control is pressed (buttons only)
             align = rawitem.align or "LEFT",                           -- control alignment within its spacer/wrapper (only noticeable with buttons)
             btnLabel = safe_l10n(rawitem.btnLabel),                    -- text label placed on a button (may differ from title used in tooltips)
@@ -1800,43 +1949,46 @@ function QuestieOptionsEngine:Initialize()
     local previousTabButton = nil
 
     for index, tabInfo in ipairs(sortedTabs) do
+
         local tabKey = tabInfo.key
         local tabData = tabInfo.data
         local fullWidth = 625
 
-        local blizzFrameName = "QuestieOptionsTab_Blizz_" .. tabKey
-        local blizzTabFrame = self:CreateTabCanvas(UIParent, tabData, blizzFrameName, fullWidth, RenderMode.BLIZZARD)
+        if tabData.visible ~= false then
+            local blizzFrameName = "QuestieOptionsTab_Blizz_" .. tabKey
+            local blizzTabFrame = self:CreateTabCanvas(UIParent, tabData, blizzFrameName, fullWidth, RenderMode.BLIZZARD)
 
-        if tabKey == primaryTabKey then
-            mainCategory = Settings.RegisterCanvasLayoutCategory(blizzTabFrame, "Questie")
-            Settings.RegisterAddOnCategory(mainCategory)
-        else
-            local subCategory = Settings.RegisterCanvasLayoutSubcategory(mainCategory, blizzTabFrame, tabData.title)
-            Settings.RegisterAddOnCategory(subCategory)
-        end
-
-        local standaloneFrameName = "QuestieOptionsTab_Popup_" .. tabKey
-        local popupTabFrame = self:CreateTabCanvas(popup.canvasContainer, tabData, standaloneFrameName, fullWidth, RenderMode.POPUP)
-        self.standaloneCanvases[tabKey] = popupTabFrame
-
-        local sideTab = self:CreateSideTabs(popup, tabKey, tabData, index)
-        self.sideTabs[tabKey] = sideTab
-
-        -- Anchor side tabs to the outside right edge of the popup window
-        if not previousTabButton then
-            if Questie.IsForever then
-                sideTab:SetPoint("TOPLEFT", popup, "TOPRIGHT", -1, -35)
+            if tabKey == primaryTabKey then
+                mainCategory = Settings.RegisterCanvasLayoutCategory(blizzTabFrame, "Questie")
+                Settings.RegisterAddOnCategory(mainCategory)
             else
-                sideTab:SetPoint("TOPLEFT", popup, "TOPRIGHT", -2, -35)
+                local subCategory = Settings.RegisterCanvasLayoutSubcategory(mainCategory, blizzTabFrame, tabData.title)
+                Settings.RegisterAddOnCategory(subCategory)
             end
-        else
-            if Questie.IsForever then
-                sideTab:SetPoint("TOPLEFT", previousTabButton, "BOTTOMLEFT", 0, 0)
+
+            local standaloneFrameName = "QuestieOptionsTab_Popup_" .. tabKey
+            local popupTabFrame = self:CreateTabCanvas(popup.canvasContainer, tabData, standaloneFrameName, fullWidth, RenderMode.POPUP)
+            self.standaloneCanvases[tabKey] = popupTabFrame
+
+            local sideTab = self:CreateSideTabs(popup, tabKey, tabData, index)
+            self.sideTabs[tabKey] = sideTab
+
+            -- Anchor side tabs to the outside right edge of the popup window
+            if not previousTabButton then
+                if Questie.IsForever then
+                    sideTab:SetPoint("TOPLEFT", popup, "TOPRIGHT", -1, -35)
+                else
+                    sideTab:SetPoint("TOPLEFT", popup, "TOPRIGHT", -2, -35)
+                end
             else
-                sideTab:SetPoint("TOPLEFT", previousTabButton, "BOTTOMLEFT", 0, 10)
+                if Questie.IsForever then
+                    sideTab:SetPoint("TOPLEFT", previousTabButton, "BOTTOMLEFT", 0, 0)
+                else
+                    sideTab:SetPoint("TOPLEFT", previousTabButton, "BOTTOMLEFT", 0, 10)
+                end
             end
+            previousTabButton = sideTab
         end
-        previousTabButton = sideTab
     end
 
     -- Default selection for the standalone window
@@ -1893,6 +2045,9 @@ function QuestieOptionsEngine:RefreshStates()
             if data.type == "checkbox" then
                 local isChecked = (currentValue == true or currentValue == 1)
                 control.widget:SetChecked(isChecked)
+                if not isEnabled and control.widget.HoverTex then
+                    control.widget.HoverTex:Hide()
+                end
             elseif data.type == "slider" then
                 if control.widget.Text then control.widget.Text:SetTextColor(unpack(labelColors)) end
                 if control.valueDisplay then control.valueDisplay:SetTextColor(unpack(textColors)) end
@@ -1919,6 +2074,30 @@ function QuestieOptionsEngine:RefreshStates()
                 control.widget.swatch:SetVertexColor(r or 1, g or 1, b or 1, a or 1)
             elseif data.type == "radioButton" then
                 control.widget:SetChecked(currentValue)
+            elseif data.type == "textbox" then
+                control.widget:SetTextColor(unpack(textColors))
+                control.widget:EnableMouse(isEnabled)
+                if not isEnabled and control.widget:HasFocus() then
+                    control.widget:ClearFocus()
+                end
+                if control.okBtn then
+                    control.okBtn:SetEnabled(isEnabled)
+                    if not isEnabled then control.okBtn:Hide() end
+                end
+                for _, region in ipairs({ control.widget:GetRegions() }) do
+                    if region:IsObjectType("Texture") then
+                        region:SetDesaturated(not isEnabled)
+                        region:SetVertexColor(unpack(isEnabled and {1, 1, 1, 1} or {0.7, 0.7, 0.7, 1}))
+                    end
+                end
+                if not control.widget:HasFocus() and data.get then
+                    control.widget:SetText(tostring(currentValue or ""))
+                    if control.okBtn then control.okBtn:Hide() end
+                end
+            elseif data.type == "text" then
+                if data.get and control.titleFrame then
+                    control.titleFrame:SetText(tostring(data.get() or ""))
+                end
             end
         end
     end
@@ -1999,9 +2178,9 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
         tabButton:SetSize(50, 50)
         tabButton:SetPoint("CENTER", icon, "CENTER", -1, -1)
     else
-        icon:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 3, -10)
-        icon:SetSize(34, 34)
-        tabButton:SetSize(34, 34)
+        icon:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 1, -9)
+        icon:SetSize(36, 36)
+        tabButton:SetSize(36, 36)
         tabButton:SetPoint("CENTER", icon, "CENTER", 0, 0)
     end
     icon:SetTexture(tabData.icon or 134400) -- Fallback to question mark icon
@@ -2027,7 +2206,7 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
     else
         selected:SetTexture("Interface\\Buttons\\CheckButtonHilight")
         selected:SetPoint("TOPLEFT", icon, "TOPLEFT", 0, 0)
-        selected:SetSize(34, 34)
+        selected:SetSize(36, 36)
         selected:SetBlendMode("ADD")
     end
     selected:Hide()
@@ -2040,7 +2219,7 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
     else
         highlight:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
         highlight:SetPoint("TOPLEFT", icon, "TOPLEFT", 0, 0)
-        highlight:SetSize(34, 34)
+        highlight:SetSize(36, 36)
     end
     highlight:SetBlendMode("ADD")
     tabFrame.Highlight = highlight
