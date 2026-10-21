@@ -47,3 +47,4 @@ The following contributors have agreed to put their individual contributions und
 * Cheeq
 * TechoHunter
 * Yttrium
+* Sommos
