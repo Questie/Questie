@@ -52,6 +52,8 @@ local xiaoFollowUpQuests = {[29577] = true, [29981] = true, [30079] = true}
 
 ---One token per acceptance of a logged quest. Deferred work captures the token and runs only while it is current, so
 ---work started for a quest that was turned in, abandoned or accepted again in the meantime is dropped.
+---Rebuilding QuestiePlayer.currentQuestlog keeps the tokens of quests still logged on purpose: an unload pending from
+---before can remove the icons the rebuild drew, and only the pending work draws them again.
 ---@type table<QuestId, table>
 local acceptances = {}
 
@@ -174,7 +176,8 @@ function QuestLifecycle:AdoptQuest(questId)
 end
 
 ---Returns the token of the quest's current acceptance, or nil when the quest is not logged.
----Quests logged at login or by a reset have no token until deferred work first asks for one.
+---Quests logged at login or by a quest log rebuild are not accepted through QuestLifecycle, so their token is created
+---when deferred work first asks for one.
 ---@param questId QuestId
 ---@return table?
 function QuestLifecycle.GetAcceptance(questId)
