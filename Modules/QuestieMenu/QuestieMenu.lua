@@ -75,6 +75,7 @@ local _townsfolk_texturemap = {
     [professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
     [professionKeys.ARCHAEOLOGY] = "Interface\\Icons\\trade_archaeology",
     [professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
+    [professionKeys.RIDING] = "Interface\\Icons\\spell_nature_swiftness",
 }
 
 local _townsfolk_order = {
@@ -375,12 +376,16 @@ local secondaryProfessions = {
     [professionKeys.COOKING] = true,
     [professionKeys.FISHING] = true
 }
+local ridingProfessions = {
+    [professionKeys.RIDING] = true
+}
 
 function QuestieMenu.buildProfessionMenu()
     local profMenu = {}
     local profMenuSorted = {}
     local secondaryProfMenuSorted = {}
     local profMenuData = {}
+    local ridingMenu = {}
 
     tinsert(profMenu, { text= l10n("Known Professions"), func = function(button)
         Questie.db.profile.townsfolkKnownProfessions = not Questie.db.profile.townsfolkKnownProfessions
@@ -394,6 +399,8 @@ function QuestieMenu.buildProfessionMenu()
         profMenuData[localizedKey] = buildProfession(key, localizedKey, profMenu)
         if secondaryProfessions[key] then
             tinsert(secondaryProfMenuSorted, localizedKey)
+        elseif ridingProfessions[key] then
+            tinsert(ridingMenu, localizedKey)
         else
             tinsert(profMenuSorted, localizedKey)
         end
@@ -405,6 +412,10 @@ function QuestieMenu.buildProfessionMenu()
     end
     tinsert(profMenu, div)
     for _, key in pairs(secondaryProfMenuSorted) do
+        tinsert(profMenu, profMenuData[key])
+    end
+    tinsert(profMenu, div)
+    for _, key in pairs(ridingMenu) do
         tinsert(profMenu, profMenuData[key])
     end
     return profMenu
