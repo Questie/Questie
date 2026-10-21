@@ -389,6 +389,7 @@ function QuestieQuest:SmoothReset()
         function()
             -- reset quest log. Derived completion goes too: UpdateQuest below rebuilds it from the quest log.
             for _, quest in pairs(QuestiePlayer.currentQuestlog) do
+                -- A quest the database lacks is logged by its ID, see GetAllQuestIds
                 if type(quest) == "table" then
                     quest.WasComplete = nil
                     quest.isComplete = nil

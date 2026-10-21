@@ -313,12 +313,7 @@ function QuestLifecycle:AbandonQuest(questId)
         return
     end
 
-    -- Reset quest objectives
-    quest.Objectives = {}
-
-    -- Reset quest flags
-    quest.WasComplete = nil
-    quest.isComplete = nil
+    _ResetProgress(quest)
 
     if allianceTournamentMarkerQuests[questId] then
         Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
