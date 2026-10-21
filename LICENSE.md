@@ -2,7 +2,7 @@
 
 ## Note to contributors
 
-If you are considering contributing to Questie please be aware that submitting pull requests after <cutoff date/version, to be determined> will be counted as consent for licensing your contribution under the GPLv3 license.
+If you are considering contributing to Questie please be aware that submitting pull requests after 21.10.2026 will be counted as consent for licensing your contribution under the GPLv3 license.
 
 If you are a former contributor please consider adding your name to the GPLv3 list below, or giving us consent to do so for you through a GitHub issue or a Discord message.
 
