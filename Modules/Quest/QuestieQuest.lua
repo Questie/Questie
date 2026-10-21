@@ -558,7 +558,10 @@ function QuestieQuest:UpdateQuest(questId)
             ThreadLib.ThreadCallbackInstant(function()
                 QuestieMap:UnloadQuestFrames(questId)
             end, function()
-                QuestFinisher.AddFinisher(quest)
+                -- Abandoning or accepting the quest again during the unload clears WasComplete: no finisher then
+                if quest.WasComplete then
+                    QuestFinisher.AddFinisher(quest)
+                end
             end)
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
@@ -600,7 +603,9 @@ function QuestieQuest:UpdateQuest(questId)
                     ThreadLib.ThreadCallbackInstant(function()
                         QuestieMap:UnloadQuestFrames(questId)
                     end, function()
-                        QuestFinisher.AddFinisher(quest)
+                        if quest.WasComplete then
+                            QuestFinisher.AddFinisher(quest)
+                        end
                     end)
                 else
                     Questie.Debug(Questie.DEBUG_DEVELOP,

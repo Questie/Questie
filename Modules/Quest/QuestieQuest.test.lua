@@ -130,6 +130,36 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.called_with(quest)
         end)
 
+        it("should not add the finisher when the quest was abandoned and accepted again during the icon unload", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+            quest.IsComplete = function() return 1 end
+            local unloaded
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(_, callback) unloaded = callback end
+
+            QuestieQuest:UpdateQuest(93927)
+            -- AbandonQuest and AcceptQuest reset the progress of the same quest object
+            quest.WasComplete = nil
+            quest.isComplete = nil
+            unloaded()
+
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("should not add the inferred finisher when the quest was abandoned and accepted again during the icon unload", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            local unloaded
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(_, callback) unloaded = callback end
+
+            QuestieQuest:UpdateQuest(93927)
+            quest.WasComplete = nil
+            quest.isComplete = nil
+            unloaded()
+
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
         -- The broadcast reads QuestLogCache. A quest turned in before the icon unload finishes has already left it.
         it("broadcasts a complete quest without waiting for the icon unload", function()
             QuestieQuest.PopulateQuestLogInfo = function() end
