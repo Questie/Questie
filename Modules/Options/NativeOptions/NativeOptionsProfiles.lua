@@ -111,7 +111,7 @@ function QuestieOptionsEngine.tabs.profiles:Initialize()
             intro_text = {
                 type = "text",
                 order = 0.5,
-                description = "You can change the active database profile, so you can have different settings for every character. Reset the current profile back to its default values, in case your configuration is broken, or you simply want to start over.",
+                description = "You can change the active database profile, so you can have different settings for every character.",
                 descriptionAlign = "CENTER",
                 --descriptionSize = 11,
                 width = "full",
@@ -168,7 +168,7 @@ function QuestieOptionsEngine.tabs.profiles:Initialize()
                 type = "dropdown",
                 order = 5,
                 title = "Existing Profiles",
-                tooltip = "Choose one of your currently available profiles.",
+                tooltip = "Select one of your currently available profiles.",
                 width = "half",
                 options = _GetChooseProfiles,
                 get = function()

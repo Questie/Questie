@@ -23,7 +23,7 @@ function QuestieOptionsEngine.tabs.auto:Initialize()
                 options = _GetShortcuts,
                 title = "Auto Modifier",
                 tooltip = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
-                width = "half",
+                width = "third",
                 get = function() return Questie.db.profile.autoModifier end,
                 set = function(key)
                     Questie.db.profile.autoModifier = key

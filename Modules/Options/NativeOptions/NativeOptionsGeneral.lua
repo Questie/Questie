@@ -65,7 +65,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         order = 7.1,
                         title = "Questie ShutUp!",
                         description = "Remove all Questie chat messages coming from other players and disable sending your own.",
-                        width = 0.66,
+                        width = 0.6,
                         get = function () return Questie.db.profile.questieShutUp end,
                         set = function (info, value)
                             Questie.db.profile.questieShutUp = value
@@ -79,7 +79,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         enabled = function() return not Questie.db.profile.questieShutUp end,
                         title = "Channels to announce in",
                         tooltip = "Announce quest updates to other players in your group",
-                        width = "third",
+                        width = 0.39,
                         get = function() return Questie.db.profile.questAnnounceChannel; end,
                         set = function(key)
                             Questie.db.profile.questAnnounceChannel = key
