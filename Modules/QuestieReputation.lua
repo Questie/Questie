@@ -14,7 +14,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local playerReputations = {}
 
-local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
+local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _GetActiveDiplomatStacks, _FilterShaTarRewards
 
 -- Fast local references
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = QuestieCompat.ExpandFactionHeader, QuestieCompat.GetNumFactions, QuestieCompat.GetFactionInfo
@@ -316,15 +316,52 @@ function QuestieReputation.GetReputationReward(questId)
     return rewards
 end
 
+_GetActiveDiplomatStacks = function()
+    -- Correct API command to get the player's active progression configuration
+    local configID = C_Traits.GetConfigIDBySystemID(45) -- 45 for Legacy Tree
+    if not configID then return 0 end
+
+    -- Fetch the specific tree structural data attached to this config
+    local configInfo = C_Traits.GetConfigInfo(configID)
+    if not configInfo or not configInfo.treeIDs then return 0 end
+
+    for _, treeID in ipairs(configInfo.treeIDs) do
+        local nodes = C_Traits.GetTreeNodes(treeID)
+        for _, nodeID in ipairs(nodes or {}) do
+            local nodeInfo = C_Traits.GetNodeInfo(configID, nodeID)
+            
+            if nodeInfo and nodeInfo.entryIDs then
+                for _, entryID in ipairs(nodeInfo.entryIDs) do
+                    local entryInfo = C_Traits.GetEntryInfo(configID, entryID)
+                    if entryInfo and entryInfo.definitionID then
+                        local defInfo = C_Traits.GetDefinitionInfo(entryInfo.definitionID)
+                        -- Match against the target Diplomat spell ID (1225485)
+                        if defInfo and defInfo.spellID == 1225485 then 
+                            return nodeInfo.currentRank or 0
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return 0
+end
+
 _GetRewardMultiplier = function()
     local knowsMrPopularityRank1 = QuestieCompat.IsSpellKnown(78634)
     local knowsMrPopularityRank2 = QuestieCompat.IsSpellKnown(78635)
     local buffMultiplier = _GetBuffMultiplier()
-    local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
     local multiplier = 1 + buffMultiplier
 
-    if playerIsHuman and not Questie.IsTitanReforged then
-        multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
+    -- in Forever the Classic human racial is now a legacy talent, available for every race
+    if Questie.IsForever then
+        local diplomatRanks = _GetActiveDiplomatStacks()
+        multiplier = multiplier + diplomatRanks * 0.02 -- 2% bonus reputation for each rank of Diplomat
+    else
+        local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
+        if playerIsHuman and not Questie.IsTitanReforged then
+            multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
+        end
     end
 
     if knowsMrPopularityRank2 then
