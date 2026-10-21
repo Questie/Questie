@@ -465,6 +465,8 @@ alternativeProfessionNames = {
     ["Surgeon"] = 129,
     ["Trauma Surgeon"] = 129,
     ["Flying Trainer"] = 762,
+    ["Fisher"] = 356,
+    ["Medic"] = 129,
 }
 
 ---@class ProfessionMetaDB

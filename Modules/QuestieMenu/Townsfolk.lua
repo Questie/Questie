@@ -403,6 +403,7 @@ function Townsfolk.Initialize()
     -- Forever trainers
     if Questie.IsForever then
         tinsert(professionTrainers[professionKeys.ALCHEMY], 249713) -- Odd Child
+        tinsert(professionTrainers[professionKeys.ENGINEERING], 251684) -- Strange Hermit
     end
 
     if Expansions.Current >= Expansions.Tbc then
