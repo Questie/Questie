@@ -252,7 +252,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
 
     local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
-    local questIdsChecked = {} -- for debug / error detection
+    local questIdsChecked = {} -- quests of the game's log this scan checked
     local questIdsUnlisted = {}
 
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
@@ -347,16 +347,6 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 C_QuestLog_GetQuestObjectives(questId)
 
                 cacheMiss = true
-            end
-        end
-    end
-
-    -- debug / error detection to see if this happens sometimes. If happens there is fault in QuestEventHandler side.
-    if questIdsToCheck then
-        for questId in pairs(questIdsToCheck) do
-            if (not questIdsChecked[questId]) then
-                -- TODO: This actually happens and need to be fixed
-                Questie.Warning("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
             end
         end
     end
