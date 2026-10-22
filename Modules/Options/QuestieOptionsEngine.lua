@@ -114,6 +114,41 @@ local RenderMode = {
     POPUP = 2,
 }
 
+local refreshQueued = false
+
+local function FlushRefreshStates()
+    refreshQueued = false
+    QuestieOptionsEngine:RefreshStates()
+end
+
+function QuestieOptionsEngine:QueueRefresh()
+    if not refreshQueued then
+        refreshQueued = true
+        C_Timer.After(0, FlushRefreshStates)
+    end
+end
+
+-- Rate limiter helper for live-drag controls
+local function ThrottledCall(fn, interval)
+    local lastRun = 0
+    local pending = false
+    return function(...)
+        local now = GetTime()
+        local args = { ... }
+        if (now - lastRun) >= interval then
+            lastRun = now
+            fn(unpack(args))
+        elseif not pending then
+            pending = true
+            C_Timer.After(interval - (now - lastRun), function()
+                pending = false
+                lastRun = GetTime()
+                fn(unpack(args))
+            end)
+        end
+    end
+end
+
 local minControlHeight = { -- This is the starting height used for elements, but they can be larger if they overflow this size
     ["checkbox"]     = 30,
     ["slider"]       = 48,
@@ -542,7 +577,7 @@ local QuestieOptionsList = { -- Table containing option items
     },
 }
 
-local UsePlaceholderOptions = false
+local UsePlaceholderOptions = false -- Use the above table instead of our actual data files
 
 ---@return table
 local function CreateOptionsTable()
@@ -598,15 +633,31 @@ local function GetSortedItems(itemsTable)
     return sorted
 end
 
-local function ApplyTooltip(widget, item, attachPoint, x, y)
+local function ApplyTooltip(widget, item, attachPoint, x, y, childWidget)
     if item.tooltip then
-        widget:HookScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, attachPoint, x or 0, y or 0)
+        local function ShowTooltip()
+            GameTooltip:SetOwner(widget, attachPoint, x or 0, y or 0)
             GameTooltip:SetText(item.title, nil, nil, nil)
             GameTooltip:AddLine(item.tooltip, 1, 1, 1, true)
             GameTooltip:Show()
-        end)
-        widget:HookScript("OnLeave", function() GameTooltip:Hide() end)
+        end
+
+        local function HideTooltip()
+            local isOverWidget = widget:IsMouseOver()
+            local isOverChild = childWidget and childWidget:IsMouseOver()
+
+            if not isOverWidget and not isOverChild then
+                GameTooltip:Hide()
+            end
+        end
+
+        widget:HookScript("OnEnter", ShowTooltip)
+        widget:HookScript("OnLeave", HideTooltip)
+
+        if childWidget then
+            childWidget:HookScript("OnEnter", ShowTooltip)
+            childWidget:HookScript("OnLeave", HideTooltip)
+        end
     end
 end
 
@@ -785,10 +836,32 @@ local function CreateControl(parent, item, width, height, level)
         slider:SetValue(startVal)
         if valueDisplay then valueDisplay:SetText(string.format("%g", startVal)) end
 
-        slider:SetScript("OnValueChanged", function(self, value)
-            if item.set then item.set(self, value) end
-            if valueDisplay then valueDisplay:SetText(string.format("%g", value)) end
-            QuestieOptionsEngine:RefreshStates()
+        local throttledSet = ThrottledCall(function(val)
+            if item.set then item.set(slider, val) end
+            QuestieOptionsEngine:QueueRefresh()
+        end, 0.05) -- Run at ~20 Hz during continuous drags
+
+        slider:SetScript("OnValueChanged", function(self, value, isUserInput)
+            -- Instant feedback on the label, no lag
+            if valueDisplay then
+                valueDisplay:SetText(string.format("%g", value))
+            end
+
+            if isUserInput then
+                throttledSet(value)
+            else
+                -- Programmatic changes (e.g. initialization/profiles) run directly
+                if item.set then item.set(self, value) end
+                QuestieOptionsEngine:QueueRefresh()
+            end
+        end)
+
+        -- Ensure final accurate position commits on mouse release
+        slider:HookScript("OnMouseUp", function(self)
+            if item.set then
+                item.set(self, self:GetValue())
+            end
+            QuestieOptionsEngine:QueueRefresh()
         end)
 
         if slider.NineSlice then
@@ -885,7 +958,7 @@ local function CreateControl(parent, item, width, height, level)
             end
         end)
 
-        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 0, 0)
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 0, 0, dropdown)
 
     elseif item.type == "fontDropdown" then
         local fontObjectCache = {}
@@ -945,7 +1018,7 @@ local function CreateControl(parent, item, width, height, level)
             end
         end)
 
-        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 0, 0)
+        ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 0, 0, dropdown)
 
     elseif item.type == "divider" then
         local dividerWrapper = CreateFrame("Frame", nil, parent)
@@ -1423,15 +1496,15 @@ local function CreateControl(parent, item, width, height, level)
                 swatchFunc = function()
                     local r, g, b = ColorPickerFrame:GetColorRGB()
                     local a = GetCurrentAlpha()
-                    if item.set then item.set(r, g, b, a) end
-                    QuestieOptionsEngine:RefreshStates()
+                    if item.set then ThrottledCall(item.set(r, g, b, a), 0.05) end
+                    QuestieOptionsEngine:QueueRefresh()
                 end,
                 opacityFunc = function()
                     local r, g, b = ColorPickerFrame:GetColorRGB()
                     local a = GetCurrentAlpha()
                     --UpdateSwatchDisplay(r, g, b, a)
-                    if item.set then item.set(r, g, b, a) end
-                    QuestieOptionsEngine:RefreshStates()
+                    if item.set then ThrottledCall(item.set(r, g, b, a), 0.05) end
+                    QuestieOptionsEngine:QueueRefresh()
                 end,
                 cancelFunc = function()
                     local newR, newG, newB, newA = ColorPickerFrame:GetPreviousValues();
@@ -2063,7 +2136,10 @@ function QuestieOptionsEngine:RefreshStates()
                 end
             elseif data.type == "dropdown" or data.type == "fontDropdown" then
                 DesaturateNineSlice(control.widget, not isEnabled, true)
-                control.widget:GenerateMenu()
+                if control.lastEnabledState ~= isEnabled then
+                    control.lastEnabledState = isEnabled
+                    control.widget:GenerateMenu()
+                end
             elseif data.type == "container" then
                 DesaturateNineSlice(control.containerFrame, not isEnabled, true)
             elseif data.type == "colorPicker" then
