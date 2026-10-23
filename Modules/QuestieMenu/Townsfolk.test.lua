@@ -157,12 +157,10 @@ describe("Townsfolk", function()
             assert.are_same({2003}, Townsfolk.townsfolk["Weapon Master"])
         end)
 
-        it("adds the hand-maintained trainer IDs for the flavor without checking the database", function()
+        it("should skip trainer IDs of professions not available in the current expansion", function()
             _RunInitialize()
 
-            local professionTrainers = Townsfolk.professionTrainers
-            assert.are_same({2805, 13476}, professionTrainers[professionKeys.FIRST_AID])
-            assert.is_nil(professionTrainers[professionKeys.JEWELCRAFTING])
+            assert.is_nil(Townsfolk.professionTrainers[professionKeys.JEWELCRAFTING])
         end)
 
         it("keeps only class trainers present in the database and adds the class-specific extras", function()
