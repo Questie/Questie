@@ -18,7 +18,6 @@ local professionTable = {}
 local professionNames = {}
 ---@type table<SpecializationKeys, string>
 local specializationNames
-local alternativeProfessionNames = {}
 
 -- Fast local references
 local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
@@ -52,12 +51,6 @@ function QuestieProfessions:Init()
             end
         end
     end
-
-    for professionName, professionId in pairs(alternativeProfessionNames) do
-        professionTable[professionName] = professionId
-    end
-
-    QuestieProfessions.professionTable = professionTable
 end
 
 ---Refreshes known professions and reports changes that can affect available quests.
@@ -440,34 +433,6 @@ end
 function QuestieProfessions:GetSortIdByProfessionId(professionId)
     return sortIds[professionId]
 end
-
--- alternate naming scheme (used by DB)
-alternativeProfessionNames = {
-    ["Enchanter"] = 333,
-    ["Tailor"] = 197,
-    ["Leatherworker"] = 165,
-    ["Engineer"] = 202,
-    ["Blacksmith"] = 164,
-    ["Herbalist"] = 182,
-    ["Fisherman"] = 356,
-    ["Fishmonger"] = 356,
-    ["Skinner"] = 393,
-    ["Alchemist"] = 171,
-    ["Miner"] = 186,
-    ["Cook"] = 185,
-    ["Chef"] = 185,
-    ["Butcher"] = 185,
-    ["Physician"] = 129,
-    ["Weapon Crafter"] = 164,
-    ["Leathercrafter"] = 165,
-    ["Armorsmith"] = 164,
-    ["Weaponsmith"] = 164,
-    ["Surgeon"] = 129,
-    ["Trauma Surgeon"] = 129,
-    ["Flying Trainer"] = 762,
-    ["Fisher"] = 356,
-    ["Medic"] = 129,
-}
 
 ---@class ProfessionMetaDB
 QuestieProfessions.rankKeys = {
