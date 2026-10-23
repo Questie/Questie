@@ -136,7 +136,7 @@ Modules\QuestieMenu\Townsfolk.lua
 Modules\QuestieMenu\ClassTrainers.lua
 Modules\QuestieMenu\Mailboxes.lua
 Modules\QuestieMenu\MeetingStones.lua
-Modules\QuestieMenu\ProfessionTrainers.lua
+Modules\QuestieMenu\WeaponTrainers.lua
 Modules\QuestieMenu\ProfessionTrainers\AlchemyTrainers.lua
 Modules\QuestieMenu\ProfessionTrainers\ArchaeologyTrainers.lua
 Modules\QuestieMenu\ProfessionTrainers\BlacksmithingTrainers.lua
