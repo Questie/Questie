@@ -33,6 +33,14 @@ Townsfolk.factionSpecificTownsfolk = {}
 ---@type table<string, ItemId[]> Pet food category to Item IDs
 Townsfolk.petFoodVendorTypes = {}
 
+---@type table<ProfessionEnum, NpcId[]> Filled by the files in ProfessionTrainers/
+local professionTrainerIds = {}
+
+---@param professionKey ProfessionEnum
+---@param ids NpcId[]
+function Townsfolk.SetProfessionTrainerIds(professionKey, ids)
+    professionTrainerIds[professionKey] = ids
+end
 
 local function _reformatVendors(lst, existingTable)
     local newList = existingTable or {}
@@ -183,16 +191,8 @@ function Townsfolk.Initialize()
         local id = validProfessionTrainers[i]
         if QuestieDB.NPCPointers[id] then
             local subName = QuestieDB.QueryNPCSingle(id, "subName")
-            if subName then
-                if townfolk[subName] then -- weapon master,
-                    tinsert(townfolk[subName], id)
-                else
-                    for k, professionId in pairs(QuestieProfessions.professionTable) do
-                        if string.match(subName, k) then
-                            tinsert(professionTrainers[professionId], id)
-                        end
-                    end
-                end
+            if subName and townfolk[subName] then -- weapon master
+                tinsert(townfolk[subName], id)
             end
         end
 
@@ -201,6 +201,16 @@ function Townsfolk.Initialize()
             coroutine.yield()
         end
         count = count + 1
+    end
+
+    for professionId, ids in pairs(professionTrainerIds) do
+        if professionTrainers[professionId] then
+            for i = 1, #ids do
+                if QuestieDB.NPCPointers[ids[i]] then
+                    tinsert(professionTrainers[professionId], ids[i])
+                end
+            end
+        end
     end
 
     -- Fix NPC Aresella (18991) can train first aid profession
