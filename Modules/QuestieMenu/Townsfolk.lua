@@ -153,7 +153,12 @@ function Townsfolk.Initialize()
     }
 
     if Expansions.Current <= Expansions.Wotlk then
-        townfolk["Weapon Master"] = {} -- populated below
+        townfolk["Weapon Master"] = {}
+        for _, id in ipairs(Townsfolk.GetWeaponTrainers()) do
+            if QuestieDB.NPCPointers[id] then
+                tinsert(townfolk["Weapon Master"], id)
+            end
+        end
     end
 
     ---@type table<ProfessionEnum, NpcId[]>
@@ -183,24 +188,6 @@ function Townsfolk.Initialize()
 
     if Expansions.Current >= Expansions.Cata then
         professionTrainers[professionKeys.ARCHAEOLOGY] = {}
-    end
-
-    local count = 0
-    local validProfessionTrainers = Townsfolk.GetProfessionTrainers()
-    for i=1, #validProfessionTrainers do
-        local id = validProfessionTrainers[i]
-        if QuestieDB.NPCPointers[id] then
-            local subName = QuestieDB.QueryNPCSingle(id, "subName")
-            if subName and townfolk[subName] then -- weapon master
-                tinsert(townfolk[subName], id)
-            end
-        end
-
-        if count > 10 then -- Yield every 10 iterations, 10 is just a madeup number, is pretty fast.
-            count = 0
-            coroutine.yield()
-        end
-        count = count + 1
     end
 
     for professionId, ids in pairs(professionTrainerIds) do
@@ -470,7 +457,7 @@ function Townsfolk.Initialize()
     local petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
     local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
 
-    count = 0
+    local count = 0
     for id in pairs(QuestieDB.ItemPointers) do
         -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
         local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
