@@ -1,0 +1,39 @@
+---@type Townsfolk
+local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+
+---@type NpcId[]
+local trainers
+
+if Questie.IsMoP then
+    trainers = {
+        2325,2326,2327,2329,2798,3181,3373,4211,4591,5024,5150,5759,5939,5943,6094,12939,16272,16662,16731,17214,
+        17424,18990,18991,19184,19478,22477,23734,26956,26992,28706,29233,33589,36615,45540,49879,50574,56796,59077,65862,65983,
+        66222,66357,
+    }
+elseif Questie.IsCata then
+    trainers = {
+        2325,2326,2327,2329,2798,3181,3373,4211,4591,5024,5150,5759,5939,5943,6094,12939,16272,16662,16731,17214,
+        17424,18990,18991,19184,19478,22477,23734,26956,26992,28706,29233,33589,36615,45540,49879,50574,56796,
+    }
+elseif Questie.IsWotlk then
+    trainers = {
+        2327,2798,3181,3373,4211,4591,5150,5759,5939,5943,6094,16272,16662,16731,17214,17424,19478,22477,23734,26956,
+        26992,28706,29233,33589,
+    }
+elseif Questie.IsTBC then
+    trainers = {
+        2327,2798,3181,3373,4211,4591,5150,5759,5939,5943,6094,16272,16662,16731,17214,17424,19478,22477,
+    }
+elseif Questie.IsForever then
+    trainers = {
+        2327,2798,3181,3373,4211,4591,5150,5759,5939,5943,6094,
+    }
+else
+    trainers = {
+        2327,2798,3181,3373,4211,4591,5150,5759,5939,5943,6094,
+    }
+end
+
+Townsfolk.SetProfessionTrainerIds(QuestieProfessions.professionKeys.FIRST_AID, trainers)

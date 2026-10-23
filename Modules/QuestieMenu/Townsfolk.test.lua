@@ -81,16 +81,13 @@ describe("Townsfolk", function()
         dofile("Modules/QuestieProfessions.lua")
         QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
         professionKeys = QuestieProfessions.professionKeys
-        -- Init() builds this from translations; the sub-name match is all Townsfolk reads.
-        QuestieProfessions.professionTable = {
-            ["Blacksmithing"] = professionKeys.BLACKSMITHING,
-            ["Riding"] = professionKeys.RIDING,
-        }
-
         dofile("Modules/QuestieMenu/Townsfolk.lua")
         Townsfolk = QuestieLoader:ImportModule("Townsfolk")
         -- The curated ID lists live in sibling files; Townsfolk only filters them against the database.
-        Townsfolk.GetProfessionTrainers = function() return {2001, 2002, 2003, 2999} end
+        Townsfolk.GetProfessionTrainers = function() return {2003, 2999} end
+        Townsfolk.SetProfessionTrainerIds(professionKeys.BLACKSMITHING, {2001, 2999})
+        Townsfolk.SetProfessionTrainerIds(professionKeys.RIDING, {2002})
+        Townsfolk.SetProfessionTrainerIds(professionKeys.JEWELCRAFTING, {2001})
         Townsfolk.GetClassTrainers = function()
             return {WARRIOR = {4001, 4999}, DRUID = {4002}, MAGE = {}, HUNTER = {}}
         end
@@ -108,8 +105,8 @@ describe("Townsfolk", function()
             [npcKeys.npcFlags] = NPC_FLAGS.INNKEEPER + NPC_FLAGS.VENDOR,
             [npcKeys.friendlyToFaction] = "AH",
         })
-        mock.SetBaseRow("Npc", 2001, {[npcKeys.name] = "Smith Argus", [npcKeys.subName] = "Blacksmithing Trainer"})
-        mock.SetBaseRow("Npc", 2002, {[npcKeys.name] = "Riding Instructor", [npcKeys.subName] = "Riding Trainer"})
+        mock.SetBaseRow("Npc", 2001, {[npcKeys.name] = "Smith Argus", [npcKeys.subName] = "Maître forgeron"})
+        mock.SetBaseRow("Npc", 2002, {[npcKeys.name] = "Riding Instructor"})
         mock.SetBaseRow("Npc", 2003, {[npcKeys.name] = "Woo Ping", [npcKeys.subName] = "Weapon Master"})
         mock.SetBaseRow("Npc", 4001, {[npcKeys.name] = "Warrior Trainer"})
         mock.SetBaseRow("Npc", 4002, {[npcKeys.name] = "Druid Trainer"})
@@ -152,7 +149,7 @@ describe("Townsfolk", function()
             assert.is_nil(townsfolk["Barber"])
         end)
 
-        it("collects profession trainers and weapon masters from the curated list present in the database", function()
+        it("should collect profession trainers by ID independent of their localized sub-name", function()
             _RunInitialize()
 
             assert.are_same({2001}, Townsfolk.professionTrainers[professionKeys.BLACKSMITHING])
