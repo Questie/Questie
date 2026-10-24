@@ -73,6 +73,16 @@ describe("ChatFilter", function()
             assert.is_equal("Check out this quest: |Hquestie:74:0|h[The Legend of Stalvan]|h", filteredMsg)
         end)
 
+        it("should keep the native quest link when the quest is not in the database", function()
+            QuestieLink.GetQuestHyperLink = function() return nil end
+            local msg = "Check out this quest: |cffffff00|Hquest:74:28|h[The Legend of Stalvan]|h|r"
+            local chatFrame = {historyBuffer = {elements = {1}}}
+
+            local _, filteredMsg = ChatFilter.Filter(chatFrame, nil, msg, "Player", "Common", "CHANNEL", nil, nil, nil, nil, nil, nil, nil, nil)
+
+            assert.is_equal(msg, filteredMsg)
+        end)
+
         it("should handle native quest links with regex magic characters in quest name", function()
             QuestieDB.QuestPointers[12345] = true
             QuestieLink.GetQuestHyperLink = function(_, questId, senderGUID)

@@ -58,6 +58,28 @@ describe("QuestieAnnounce", function()
             "{rt1} Questie: Picked up |Hitem:123|h[A Letter]|h which starts [The Quest]!", "INSTANCE_CHAT")
     end)
 
+    it("should announce a quest-starting item with a fallback when the quest link is unavailable", function()
+        _G.IsInGroup = function() return true end
+        Questie.db.profile.questAnnounceItems = true
+        QuestieLink.GetNativeQuestLinkStringById = function() return nil end
+        getItemInfoMock.returns("A Letter", "|Hitem:123|h[A Letter]|h")
+
+        QuestieAnnounce:AnnounceQuestItemLootedToChannel(91899, 123)
+
+        assert.spy(_G.SendChatMessage).was.called_with(
+            "{rt1} Questie: Picked up |Hitem:123|h[A Letter]|h which starts no quest name!", "INSTANCE_CHAT")
+    end)
+
+    it("should print a fallback for breadcrumb quests missing from the database", function()
+        QuestieLink.GetQuestHyperLink = function() return nil end
+        Questie.Print = spy.new(function() end)
+
+        QuestieAnnounce.IncompleteBreadcrumbQuest(91899, 91898)
+
+        assert.spy(Questie.Print).was.called_with(Questie,
+            "You have accepted no quest name without completing its breadcrumb quest no quest name")
+    end)
+
     describe("ObjectiveChanged", function()
         it("announces completion when native progress text changes", function()
             _G.IsInGroup = function() return true end
@@ -125,6 +147,16 @@ describe("QuestieAnnounce", function()
                     "{rt1} Questie: " .. case.text .. " for [The Quest]!", "INSTANCE_CHAT")
             end)
         end
+
+        it("should announce with a fallback when the quest link is unavailable", function()
+            _G.IsInGroup = function() return true end
+            QuestieLink.GetNativeQuestLinkStringById = function() return nil end
+
+            QuestieAnnounce:AnnounceObjectiveToChannel(91899, "1/1 Crate")
+
+            assert.spy(_G.SendChatMessage).was.called_with(
+                "{rt1} Questie: 1/1 Crate for no quest name!", "INSTANCE_CHAT")
+        end)
 
         it("should not announce when questAnnounceObjectives is disabled", function()
             Questie.db.profile.questAnnounceObjectives = false

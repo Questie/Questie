@@ -43,9 +43,12 @@ end
 --- we want a predictable representation that works in chat regardless of whether
 --- the quest is in the player's quest log.
 ---@param questId QuestId
----@return string
+---@return string|nil @nil if the quest is not in the database
 function QuestieLink.GetQuestLinkStringById(questId)
     local questName = QuestieDB.QueryQuestSingle(questId, "name")
+    if (not questName) then
+        return nil
+    end
     local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
 
     if Questie.db.profile.trackerShowQuestLevel then
@@ -59,7 +62,7 @@ end
 --- falling back to the Questie format when the API is unavailable or the quest
 --- is not in the player's quest log (GetQuestLink only works for those).
 ---@param questId QuestId
----@return string
+---@return string|nil
 function QuestieLink.GetNativeQuestLinkStringById(questId)
     if GetQuestLink then
         local link = QuestieCompat.GetQuestLink(questId)
@@ -73,8 +76,12 @@ end
 
 ---@param questId QuestId
 ---@param senderGUID string
----@return string
+---@return string|nil @nil if the quest is not in the database
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
+    if (not QuestieDB.QueryQuestSingle(questId, "name")) then
+        return nil
+    end
+
     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.trackerShowQuestLevel, true)
     local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
     local isRepeatable = QuestieDB.IsRepeatable(questId)
