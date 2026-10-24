@@ -112,10 +112,31 @@ describe("QuestieLink", function()
 
             assert.are_same("[Test Quest (1234)]", result)
         end)
+
+        it("should return nil when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink.GetQuestLinkStringById(91899)
+
+            assert.is_nil(result)
+        end)
     end)
 
     describe("GetQuestHyperLink", function()
+        it("should return nil when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink:GetQuestHyperLink(91899, "Player-1234")
+
+            assert.is_nil(result)
+        end)
+
         it("colors both brackets using the linked quest ID", function()
+            QuestieDB.QueryQuestSingle = function() return "Test Quest" end
             QuestieLib.GetColoredQuestName = function() return "Test Quest" end
 
             QuestieLink:GetQuestHyperLink(1234, "Player-1234")
@@ -166,6 +187,19 @@ describe("QuestieLink", function()
             local result = QuestieLink.GetNativeQuestLinkStringById(1234)
 
             assert.are_same("[Test Quest (1234)]", result)
+        end)
+
+        it("should return nil when GetQuestLink returns nil and the quest is not in the database", function()
+            _G.GetQuestLink = function()
+                return nil
+            end
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink.GetNativeQuestLinkStringById(91899)
+
+            assert.is_nil(result)
         end)
     end)
 
