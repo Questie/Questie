@@ -171,6 +171,32 @@ function TrackerUtils:ShowObjectiveOnMap(objective)
     end
 end
 
+---@param objectives QuestObjective[]
+---@param skipFinished boolean
+---@return AreaId?
+local function _GetNearestObjectiveZone(objectives, skipFinished)
+    local bestZone, bestDistance
+    for _, objective in pairs(objectives) do
+        if not (skipFinished and objective.Needed and objective.Needed == objective.Collected) then
+            local spawn, zone, _, distance = DistanceUtils.GetNearestObjective(objective.spawnList)
+            if spawn and (not bestDistance or distance < bestDistance) then
+                bestZone, bestDistance = zone, distance
+            end
+        end
+    end
+    return bestZone
+end
+
+---Opens the map where work remains and flashes all given objectives together.
+---@param objectives QuestObjective[]
+function TrackerUtils:ShowQuestObjectivesOnMap(objectives)
+    local zone = _GetNearestObjectiveZone(objectives, true) or _GetNearestObjectiveZone(objectives, false)
+    if zone then
+        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zone))
+        TrackerUtils:FlashObjectives(objectives)
+    end
+end
+
 ---@param quest Quest The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
     local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
@@ -182,7 +208,20 @@ end
 
 ---@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
 function TrackerUtils:FlashObjective(objective)
-    if next(objective.AlreadySpawned) then
+    TrackerUtils:FlashObjectives({objective})
+end
+
+---Flashes the map icons of all given objectives together, hiding every other icon during the flash.
+---@param objectives table[] Tables provided by QuestieDB.GetQuest(questId).Objectives
+function TrackerUtils:FlashObjectives(objectives)
+    local hasSpawned = false
+    for _, objective in pairs(objectives) do
+        if objective.AlreadySpawned and next(objective.AlreadySpawned) then
+            hasSpawned = true
+            break
+        end
+    end
+    if hasSpawned then
         local toFlash = {}
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
@@ -199,22 +238,29 @@ function TrackerUtils:FlashObjective(objective)
         end
 
 
-        -- Only the flashed objective's patrol paths show during the flash.
+        -- Only the flashed objectives' patrol paths show during the flash.
         local flashedData = {}
-        for _, spawn in pairs(objective.AlreadySpawned) do
-            if spawn.mapRefs then
-                for _, frame in pairs(spawn.mapRefs) do
-                    tinsert(toFlash, frame)
-                    if frame._hidden_by_flash then
-                        frame:Show()
-                    end
+        -- A frame shared by two objectives must be resized once per tick, not twice.
+        local queued = {}
+        for _, objective in pairs(objectives) do
+            for _, spawn in pairs(objective.AlreadySpawned or {}) do
+                if spawn.mapRefs then
+                    for _, frame in pairs(spawn.mapRefs) do
+                        if not queued[frame] then
+                            queued[frame] = true
+                            tinsert(toFlash, frame)
+                            if frame._hidden_by_flash then
+                                frame:Show()
+                            end
 
-                    -- todo: move into frame.session
-                    frame._hidden_by_flash = nil
-                    frame._size = frame:GetWidth()
+                            -- todo: move into frame.session
+                            frame._hidden_by_flash = nil
+                            frame._size = frame:GetWidth()
 
-                    if frame.data then
-                        flashedData[frame.data] = true
+                            if frame.data then
+                                flashedData[frame.data] = true
+                            end
+                        end
                     end
                 end
             end
