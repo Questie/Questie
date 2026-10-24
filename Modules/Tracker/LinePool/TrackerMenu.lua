@@ -261,6 +261,49 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
     })
 end
 
+---@param menu table
+---@param quest Quest Original enriched quest.
+TrackerMenu.addShowQuestObjectivesOnMapOption = function(menu, quest)
+    tinsert(menu, {
+        text = l10n('Show on Map'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+
+            local _, capabilities = _GetCurrentMapCapabilities(quest)
+            -- A quest completed since the menu opened has no objective locations left.
+            if not capabilities or not next(capabilities.objectives) then
+                return
+            end
+            local needHiddenUpdate = false
+            -- Any other focus, including one of this quest's own objectives, would hide objectives being flashed.
+            if Questie.db.char.TrackerFocus and Questie.db.char.TrackerFocus ~= quest.Id then
+                TrackerUtils:UnFocus()
+                needHiddenUpdate = true
+            end
+
+            if quest.HideIcons then
+                quest.HideIcons = nil
+                needHiddenUpdate = true
+            end
+
+            local objectives = {}
+            for objective in pairs(capabilities.objectives) do
+                if objective.HideIcons then
+                    objective.HideIcons = nil
+                    needHiddenUpdate = true
+                end
+                tinsert(objectives, objective)
+            end
+
+            if needHiddenUpdate then
+                QuestieQuest.ToggleQuestNotes(true)
+            end
+
+            TrackerUtils:ShowQuestObjectivesOnMap(objectives)
+        end
+    })
+end
+
 TrackerMenu.addShowFinisherOnMapOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Show on Map'),
@@ -545,6 +588,8 @@ function TrackerMenu:GetMenuForQuest(quest)
     end
     if capabilities.canShowFinisher then
         TrackerMenu.addShowFinisherOnMapOption(menu, enrichedQuest)
+    elseif next(capabilities.objectives) then
+        TrackerMenu.addShowQuestObjectivesOnMapOption(menu, enrichedQuest)
     end
     TrackerMenu.addShowInQuestLogOption(menu, quest)
     TrackerMenu.addLinkToChatOption(menu, quest)
