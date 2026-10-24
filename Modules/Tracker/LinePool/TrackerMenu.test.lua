@@ -154,6 +154,74 @@ describe("TrackerMenu", function()
             assert.is_nil(originalObjective.HideIcons)
         end)
 
+        it("shows every located objective from the root menu of an incomplete quest", function()
+            local shown
+            TrackerUtils.ShowQuestObjectivesOnMap = function(_, objectives) shown = objectives end
+            TrackerUtils.UnFocus = spy.new(function() end)
+            QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+            Questie.db.char.TrackerFocus = "100 1"
+            local wolves = {Index = 1, HideIcons = true, spawnList = {{Spawns = {}}}}
+            local bears = {Index = 2, spawnList = {{Spawns = {}}}}
+            local unlocated = {Index = 3, spawnList = {}}
+            local special = {Description = "Use the totem", spawnList = {{Spawns = {}}}}
+            local originalQuest = {Id = 100, HideIcons = true}
+            local quest = {
+                Id = 100, name = "Wolves", enrichment = originalQuest, SpecialObjectives = {special},
+                Objectives = {
+                    {Description = "Wolves", enrichment = wolves},
+                    {Description = "Bears", enrichment = bears},
+                    {Description = "Explore", enrichment = unlocated},
+                },
+                IsComplete = function() return 0 end,
+            }
+            displayQuests[100] = quest
+
+            local entry
+            for _, item in ipairs(TrackerMenu:GetMenuForQuest(quest)) do
+                if item.text == "Show on Map" then
+                    entry = item
+                end
+            end
+            entry.func()
+
+            local shownSet = {}
+            for _, objective in ipairs(shown) do
+                shownSet[objective] = true
+            end
+            assert.are.equal(3, #shown)
+            assert.is_true(shownSet[wolves])
+            assert.is_true(shownSet[bears])
+            assert.is_true(shownSet[special])
+            assert.is_nil(wolves.HideIcons)
+            assert.is_nil(originalQuest.HideIcons)
+            assert.spy(TrackerUtils.UnFocus).was.called(1)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+        end)
+
+        it("keeps showing the finisher from the root menu of a complete quest", function()
+            TrackerUtils.ShowQuestObjectivesOnMap = spy.new(function() end)
+            TrackerUtils.ShowFinisherOnMap = spy.new(function() end)
+            local originalQuest = {Id = 100, Finisher = {NPC = {240}}}
+            local quest = {
+                Id = 100, name = "Wolves", enrichment = originalQuest, SpecialObjectives = {},
+                Objectives = {{Description = "Wolves", enrichment = {Index = 1, spawnList = {{Spawns = {}}}}}},
+                IsComplete = function() return 1 end,
+            }
+            displayQuests[100] = quest
+
+            local entries = {}
+            for _, item in ipairs(TrackerMenu:GetMenuForQuest(quest)) do
+                if item.text == "Show on Map" then
+                    entries[#entries + 1] = item
+                end
+            end
+            assert.are.equal(1, #entries)
+            entries[1].func()
+
+            assert.spy(TrackerUtils.ShowFinisherOnMap).was.called_with(TrackerUtils, originalQuest)
+            assert.spy(TrackerUtils.ShowQuestObjectivesOnMap).was.not_called()
+        end)
+
         it("does not offer quest-wide focus when a live objective lacks verified enrichment", function()
             local originalObjective = {Index = 1, spawnList = {{Spawns = {}}}}
             local quest = {
@@ -246,6 +314,41 @@ describe("TrackerMenu", function()
             assert.is_nil(originalQuest.HideIcons)
             assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             assert.spy(TrackerUtils.ShowFinisherOnMap).was.not_called()
+        end)
+
+        it("does not show quest objectives after the quest completes, is replaced or is removed", function()
+            TrackerUtils.ShowQuestObjectivesOnMap = spy.new(function() end)
+            local menu = {}
+            TrackerMenu.addShowQuestObjectivesOnMapOption(menu, originalQuest)
+
+            display.IsComplete = function() return 1 end
+            menu[1].func()
+            display.IsComplete = function() return 0 end
+            display.enrichment = {Id = 100}
+            menu[1].func()
+            displayQuests[100] = nil
+            menu[1].func()
+
+            assert.is_true(originalObjective.HideIcons)
+            assert.are.equal(11, Questie.db.char.TrackerFocus)
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(TrackerUtils.ShowQuestObjectivesOnMap).was.not_called()
+        end)
+
+        it("keeps quest focus and icons untouched when nothing hides the objectives", function()
+            TrackerUtils.ShowQuestObjectivesOnMap = spy.new(function() end)
+            originalObjective.HideIcons = nil
+            Questie.db.char.TrackerFocus = 100
+            local menu = {}
+            TrackerMenu.addShowQuestObjectivesOnMapOption(menu, originalQuest)
+
+            menu[1].func()
+
+            assert.are.equal(100, Questie.db.char.TrackerFocus)
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(TrackerUtils.ShowQuestObjectivesOnMap).was.called(1)
         end)
 
         it("does not hide the whole quest after one objective loses verified enrichment", function()
@@ -616,7 +719,8 @@ describe("TrackerMenu", function()
 
             local noop = function() end
             for _, name in ipairs({"addObjectiveOption", "addFocusUnfocusOption", "addTomTomOptionForQuest", "minMaxQuestOption",
-                "addShowHideQuestsOption", "addShowFinisherOnMapOption", "addShowInQuestLogOption", "addLinkToChatOption",
+                "addShowHideQuestsOption", "addShowFinisherOnMapOption", "addShowQuestObjectivesOnMapOption",
+                "addShowInQuestLogOption", "addLinkToChatOption",
                 "addUntrackOption", "addAbandonedQuest", "addLockUnlockOption", "addAchieveLinkToChatOption",
                 "addShowInAchievementsOption", "addUntrackAchieveOption"}) do
                 TrackerMenu[name] = noop

@@ -164,17 +164,40 @@ end
 
 ---@param objective QuestObjective
 function TrackerUtils:ShowObjectiveOnMap(objective)
-    local spawn, zone = DistanceUtils.GetNearestObjective(objective.spawnList)
-    if spawn then
-        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zone))
+    local _, zoneId = DistanceUtils.GetNearestObjective(objective.spawnList)
+    if zoneId then
+        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
         TrackerUtils:FlashObjective(objective)
+    end
+end
+
+---@param objectives QuestObjective[]
+---@return AreaId?
+local function _GetNearestObjectiveZone(objectives)
+    local bestZone, bestDistance
+    for _, objective in pairs(objectives) do
+        local spawn, zone, _, distance = DistanceUtils.GetNearestObjective(objective.spawnList)
+        if spawn and (not bestDistance or distance < bestDistance) then
+            bestZone, bestDistance = zone, distance
+        end
+    end
+    return bestZone
+end
+
+---Opens the map at the nearest objective and flashes all given objectives together.
+---@param objectives QuestObjective[]
+function TrackerUtils:ShowQuestObjectivesOnMap(objectives)
+    local zoneId = _GetNearestObjectiveZone(objectives)
+    if zoneId then
+        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
+        TrackerUtils:FlashObjectives(objectives)
     end
 end
 
 ---@param quest Quest The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
-    local spawn, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
-    if spawn then
+    local _, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
+    if zoneId then
         QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
         TrackerUtils:FlashFinisher(quest)
     end
@@ -182,7 +205,20 @@ end
 
 ---@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
 function TrackerUtils:FlashObjective(objective)
-    if next(objective.AlreadySpawned) then
+    TrackerUtils:FlashObjectives({objective})
+end
+
+---Flashes the map icons of all given objectives together, hiding every other icon during the flash.
+---@param objectives table[] Tables provided by QuestieDB.GetQuest(questId).Objectives
+function TrackerUtils:FlashObjectives(objectives)
+    local hasSpawned = false
+    for _, objective in pairs(objectives) do
+        if objective.AlreadySpawned and next(objective.AlreadySpawned) then
+            hasSpawned = true
+            break
+        end
+    end
+    if hasSpawned then
         local toFlash = {}
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
@@ -199,22 +235,29 @@ function TrackerUtils:FlashObjective(objective)
         end
 
 
-        -- Only the flashed objective's patrol paths show during the flash.
+        -- Only the flashed objectives' patrol paths show during the flash.
         local flashedData = {}
-        for _, spawn in pairs(objective.AlreadySpawned) do
-            if spawn.mapRefs then
-                for _, frame in pairs(spawn.mapRefs) do
-                    tinsert(toFlash, frame)
-                    if frame._hidden_by_flash then
-                        frame:Show()
-                    end
+        -- A frame shared by two objectives must be resized once per tick, not twice.
+        local queued = {}
+        for _, objective in pairs(objectives) do
+            for _, spawn in pairs(objective.AlreadySpawned or {}) do
+                if spawn.mapRefs then
+                    for _, frame in pairs(spawn.mapRefs) do
+                        if not queued[frame] then
+                            queued[frame] = true
+                            tinsert(toFlash, frame)
+                            if frame._hidden_by_flash then
+                                frame:Show()
+                            end
 
-                    -- todo: move into frame.session
-                    frame._hidden_by_flash = nil
-                    frame._size = frame:GetWidth()
+                            -- todo: move into frame.session
+                            frame._hidden_by_flash = nil
+                            frame._size = frame:GetWidth()
 
-                    if frame.data then
-                        flashedData[frame.data] = true
+                            if frame.data then
+                                flashedData[frame.data] = true
+                            end
+                        end
                     end
                 end
             end
