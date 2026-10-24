@@ -63,6 +63,19 @@ describe("QuestFinisher", function()
         Questie.Error = originalError
     end)
 
+    it("should use the name returned by the tooltip registration for a finisher without a name", function()
+        QuestiePlayer.currentQuestlog[1] = true
+        QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() return "MissingName (m_123)" end)
+        QuestieDB.GetNPC = spy.new(function() return {id = 123, spawns = {[1] = {{50, 50}}}} end)
+        QuestieDB.GetObject = spy.new(function() end)
+        local quest = {Id = 1, Finisher = {NPC = {123}}, IsComplete = function() return 1 end, IsRepeatable = false}
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, nil, 123, "m_123", "Finisher")
+        assert.is_equal("MissingName (m_123)", QuestieMap.DrawWorldIcon.calls[1].vals[2].Name)
+    end)
+
     it("should add NPC finisher", function()
         QuestiePlayer.currentQuestlog[1] = true
         QuestieDB.GetNPC = spy.new(function(_, id)
