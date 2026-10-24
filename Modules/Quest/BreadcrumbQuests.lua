@@ -27,7 +27,7 @@ function BreadcrumbQuests.AbandonQuest(questId, breadcrumbQuestId)
         QuestieCompat.AbandonQuest()
         local questLink = QuestieLink:GetQuestHyperLink(questId)
         local breadcrumbLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
-        Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s is not completed.", questLink, breadcrumbLink))
+        Questie:Print(l10n("Automatically abandoned quest %s because breadcrumb quest %s is not completed.", questLink or "no quest name", breadcrumbLink or "no quest name"))
         return true
     end
     return false

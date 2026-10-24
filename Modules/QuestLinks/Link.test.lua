@@ -112,10 +112,31 @@ describe("QuestieLink", function()
 
             assert.are_same("[Test Quest (1234)]", result)
         end)
+
+        it("should return nil when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink.GetQuestLinkStringById(91899)
+
+            assert.is_nil(result)
+        end)
     end)
 
     describe("GetQuestHyperLink", function()
+        it("should return nil when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink:GetQuestHyperLink(91899, "Player-1234")
+
+            assert.is_nil(result)
+        end)
+
         it("colors both brackets using the linked quest ID", function()
+            QuestieDB.QueryQuestSingle = function() return "Test Quest" end
             QuestieLib.GetColoredQuestName = function() return "Test Quest" end
 
             QuestieLink:GetQuestHyperLink(1234, "Player-1234")
@@ -166,6 +187,66 @@ describe("QuestieLink", function()
             local result = QuestieLink.GetNativeQuestLinkStringById(1234)
 
             assert.are_same("[Test Quest (1234)]", result)
+        end)
+
+        it("should return nil when GetQuestLink returns nil and the quest is not in the database", function()
+            _G.GetQuestLink = function()
+                return nil
+            end
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink.GetNativeQuestLinkStringById(91899)
+
+            assert.is_nil(result)
+        end)
+    end)
+
+    describe("hyperlink click hook", function()
+        local clickHandler, chatWindow, originals
+
+        before_each(function()
+            originals = {
+                hooksecurefunc = _G.hooksecurefunc, split = string.split, shift = _G.IsShiftKeyDown,
+                getWindow = _G.ChatEdit_GetActiveWindow, insert = _G.ChatEdit_InsertLink,
+            }
+            string.split = function(delimiter, str) return _G.strsplit(delimiter, str) end
+            _G.hooksecurefunc = function(name, fn)
+                if name == "ChatFrame_OnHyperlinkShow" then clickHandler = fn end
+            end
+            _G.IsShiftKeyDown = function() return true end
+            chatWindow = {text = "existing text", GetText = function(self) return self.text end,
+                SetText = function(self, text) self.text = text end}
+            _G.ChatEdit_GetActiveWindow = function() return chatWindow end
+            _G.ChatEdit_InsertLink = spy.new(function() end)
+            QuestieLink.Initialize()
+        end)
+
+        after_each(function()
+            _G.hooksecurefunc = originals.hooksecurefunc
+            string.split = originals.split
+            _G.IsShiftKeyDown = originals.shift
+            _G.ChatEdit_GetActiveWindow = originals.getWindow
+            _G.ChatEdit_InsertLink = originals.insert
+        end)
+
+        it("should keep the existing chat text when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function() return nil end
+
+            clickHandler(nil, "questie:91899", nil, "LeftButton")
+
+            assert.are_same("existing text", chatWindow.text)
+            assert.spy(_G.ChatEdit_InsertLink).was.not_called()
+        end)
+
+        it("should insert the quest link when the quest is in the database", function()
+            Questie.db.profile.trackerShowQuestLevel = false
+            QuestieDB.QueryQuestSingle = function() return "Test Quest" end
+
+            clickHandler(nil, "questie:1234", nil, "LeftButton")
+
+            assert.spy(_G.ChatEdit_InsertLink).was.called_with("[Test Quest (1234)]")
         end)
     end)
 

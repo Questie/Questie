@@ -46,6 +46,21 @@ describe("BreadcrumbQuests", function()
         assert.are.equal(0, abandonCalls)
     end)
 
+    it("should abandon with fallback names when the quests are missing from the database", function()
+        QuestieLoader:ImportModule("QuestieLink").GetQuestHyperLink = function() return nil end
+        Questie.Print = spy.new(function() end)
+        _G.GetQuestLogIndexByID = function() return 1 end
+        _G.SelectQuestLogEntry = function() end
+        _G.SetAbandonQuest = function() end
+        _G.AbandonQuest = function() end
+
+        local result = BreadcrumbQuests.AbandonQuest(QUEST_ID, 101)
+
+        assert.is_true(result)
+        assert.spy(Questie.Print).was.called_with(Questie,
+            "Automatically abandoned quest no quest name because breadcrumb quest no quest name is not completed.")
+    end)
+
     it("should do nothing when all breadcrumbs are completed", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = true

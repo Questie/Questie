@@ -91,7 +91,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
         _RemoveDuplicateQuestTitle(quest.Id, key, finisher.name, quest.SpecialObjectives[1], playerZone)
     end
 
-    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key, "Finisher")
+    local finisherName = QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key, "Finisher")
 
     local finisherIcons = {}
     local finisherLocs = {}
@@ -99,7 +99,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
     for finisherZone, spawns in pairs(finisher.spawns or {}) do
         if finisherZone and spawns then
             for _, coords in ipairs(spawns) do
-                local data = _GetIconData(quest, finisher.name)
+                local data = _GetIconData(quest, finisherName)
                 --[[local data = {
                     Id = quest.Id,
                     Icon = _GetIcon(quest),
@@ -144,7 +144,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
         for zone, waypoints in pairs(finisher.waypoints) do
             if (not ZoneDB.IsDungeonZone(zone)) then
                 if (not finisherIcons[zone]) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
-                    local data = _GetIconData(quest, finisher.name)
+                    local data = _GetIconData(quest, finisherName)
 
                     finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
@@ -211,7 +211,7 @@ _RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjecti
                     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
 
                     -- Remove duplicate Quest Title
-                    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. finisherName] = nil
+                    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. tostring(finisherName)] = nil
 
                     -- Now check to see if the dup has a Special Objective
                     local objText = string.match(line, ".*|cFFcbcbcb.*")

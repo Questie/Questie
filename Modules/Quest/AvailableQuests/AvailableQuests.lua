@@ -767,7 +767,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
         starterType = "itemFromObject"
     end
 
-    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey, (starterType or "NPC"))
+    local starterName = QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey, (starterType or "NPC"))
 
     local starterIcons = {}
     local starterLocs = {}
@@ -787,7 +787,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",
                         QuestData = quest,
-                        Name = starter.name,
+                        Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
                     }
@@ -835,7 +835,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",
                         QuestData = quest,
-                        Name = starter.name,
+                        Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
                     }
