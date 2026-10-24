@@ -126,6 +126,114 @@ describe("TrackerUtils", function()
             assert.spy(WorldMapFrame.Show).was_not.called()
             assert.spy(WorldMapFrame.SetMapID).was_not.called()
         end)
+
+        describe("all quest objectives", function()
+            local flashed, originalFlashObjectives
+
+            before_each(function()
+                originalFlashObjectives = TrackerUtils.FlashObjectives
+                -- Each fake spawn list names its own zone and distance.
+                QuestieLoader:ImportModule("DistanceUtils").GetNearestObjective = function(spawnList)
+                    return spawnList.spawn, spawnList.zone, "Name", spawnList.distance
+                end
+                QuestieLoader:ImportModule("ZoneDB").GetUiMapIdByAreaId = function(_, zone) return zone + 1000 end
+                flashed = nil
+                TrackerUtils.FlashObjectives = function(_, objectives) flashed = objectives end
+            end)
+
+            after_each(function()
+                TrackerUtils.FlashObjectives = originalFlashObjectives
+            end)
+
+            it("should open the map at the nearest objective and flash every objective", function()
+                local far = {spawnList = {spawn = {2, 2}, zone = 2, distance = 50}}
+                local near = {spawnList = {spawn = {3, 3}, zone = 3, distance = 20}}
+                local objectives = {far, near}
+
+                TrackerUtils:ShowQuestObjectivesOnMap(objectives)
+
+                assert.stub(openMock).was.called_with(1003)
+                assert.are.equal(objectives, flashed)
+            end)
+
+            it("does nothing when no objective has a spawn", function()
+                TrackerUtils:ShowQuestObjectivesOnMap({{spawnList = {}}})
+
+                assert.stub(openMock).was_not.called()
+                assert.is_nil(flashed)
+            end)
+        end)
+    end)
+
+    describe("FlashObjectives", function()
+        local originalTimer, originalQuestIdFrames, originalSetSolo, tick, solo
+
+        local function _Frame(width)
+            return {
+                GetWidth = function() return width end,
+                IsShown = function() return true end,
+                SetWidth = spy.new(function() end),
+                SetHeight = spy.new(function() end),
+                Show = spy.new(function() end),
+                Hide = spy.new(function() end),
+                data = {},
+            }
+        end
+
+        before_each(function()
+            originalTimer = _G.C_Timer
+            tick = nil
+            _G.C_Timer = {
+                NewTicker = function(_, fn) tick = fn return {Cancel = function() end} end,
+                After = function() end,
+            }
+            local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+            originalQuestIdFrames = QuestieMap.questIdFrames
+            QuestieMap.questIdFrames = {[200] = {"QuestieTestOtherIcon"}}
+            _G.QuestieTestOtherIcon = _Frame(16)
+            local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+            originalSetSolo = QuestieWaypoints.SetSolo
+            QuestieWaypoints.SetSolo = function(data) solo = data end
+            solo = nil
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalTimer
+            QuestieLoader:ImportModule("QuestieMap").questIdFrames = originalQuestIdFrames
+            QuestieLoader:ImportModule("QuestieWaypoints").SetSolo = originalSetSolo
+            _G.QuestieTestOtherIcon = nil
+        end)
+
+        it("pulses the icons of every objective together and hides other icons", function()
+            local wolfIcon, bearIcon = _Frame(16), _Frame(12)
+            local wolves = {AlreadySpawned = {{mapRefs = {wolfIcon}}}}
+            local bears = {AlreadySpawned = {{mapRefs = {bearIcon}}}}
+
+            TrackerUtils:FlashObjectives({wolves, bears})
+            tick()
+
+            assert.spy(_G.QuestieTestOtherIcon.Hide).was.called()
+            assert.spy(wolfIcon.SetWidth).was.called_with(wolfIcon, 17)
+            assert.spy(bearIcon.SetWidth).was.called_with(bearIcon, 13)
+            assert.is_true(solo[wolfIcon.data])
+            assert.is_true(solo[bearIcon.data])
+        end)
+
+        it("still flashes a single objective", function()
+            local icon = _Frame(16)
+
+            TrackerUtils:FlashObjective({AlreadySpawned = {{mapRefs = {icon}}}})
+            tick()
+
+            assert.spy(icon.SetWidth).was.called_with(icon, 17)
+        end)
+
+        it("does nothing when no objective has spawned icons", function()
+            TrackerUtils:FlashObjectives({{AlreadySpawned = {}}, {}})
+
+            assert.is_nil(tick)
+            assert.spy(_G.QuestieTestOtherIcon.Hide).was_not.called()
+        end)
     end)
 
     describe("ShowQuestLog", function()
