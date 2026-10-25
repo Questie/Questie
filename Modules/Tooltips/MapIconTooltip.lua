@@ -382,6 +382,8 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                             local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "nextQuestInChain")
                             if nextNextQuestId > 0 then
                                 nextQuestId = nextNextQuestId
+                                -- check availability for the next nextQuestId
+                                _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
                             else
                                 break
                             end
