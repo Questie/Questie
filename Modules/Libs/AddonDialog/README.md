@@ -2,7 +2,7 @@
 
 A small Lua-only dialog for confirmations and copyable text. Each addon owns its implementation, definitions, callbacks, and anonymous frames. Only positioning is shared through `LibPopupStack-1.0`.
 
-Load LibStub, `Libs/LibPopupStack-1.0/LibPopupStack-1.0.lua`, then `Libs/AddonDialog/Dialog.lua`. No widget XML or global mixin is required. WoW passes a private table to each addon file; the widget attaches its interface as `addon.Dialog`.
+Load LibStub, `Modules/Libs/LibPopupStack-1.0/LibPopupStack-1.0.lua`, then `Modules/Libs/AddonDialog/Dialog.lua`. No widget XML or global mixin is required. WoW passes a private table to each addon file; the widget attaches its interface as `addon.Dialog`.
 
 ```lua
 local _, addon = ...

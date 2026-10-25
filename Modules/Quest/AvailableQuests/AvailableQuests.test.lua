@@ -535,6 +535,17 @@ describe("AvailableQuests", function()
             assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, "Test NPC", NPC_ID, "m_" .. NPC_ID, "NPC")
         end)
 
+        it("should register a quest started by an NPC without a name using a placeholder containing its key", function()
+            _G.UnitGUID = function() return "Creature-0-0-0-0-" .. NPC_ID .. "-0" end
+            QuestieDB.GetNPC = spy.new(function() return {id = NPC_ID} end)
+            QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
+
+            ---@diagnostic disable-next-line: missing-fields
+            AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
+
+            assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, QUEST_ID, nil, NPC_ID, "m_" .. NPC_ID, "NPC")
+        end)
+
         describe("starter waypoints", function()
             local ZONE = 12
             local WAYPOINTS = {{{10, 10}, {20, 20}}}

@@ -1,8 +1,10 @@
-<!-- READ THIS FIRST
+<!-- READ THIS FIRST! This is a comment that will not appear when you post.
 
 Hello, thank you very much for using your time to submit a pull request for Questie.
 
-Please fill in the information below as good as you can to speed up the review.
+Be aware that by submitting a pull request, you agree to put your contribution under the GPLv3 license!
+
+Please fill in the information below as best you can to speed up the review.
 
 If you are updating/adding translations just list the languages you are editing.
 -->

@@ -34,7 +34,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     treegroup = AceGUI:Create("SimpleGroup")
 
     local header = AceGUI:Create("Heading")
-    header:SetText(l10n('Select Category'))
+    header:SetText(l10n("Select Category"))
     header:SetFullWidth(true)
     container:AddChild(header)
 
@@ -49,7 +49,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     QuestieJourneyUtils:Spacer(container)
 
     header = AceGUI:Create("Heading")
-    header:SetText(l10n('Quests'))
+    header:SetText(l10n("Quests"))
     header:SetFullWidth(true)
     container:AddChild(header)
 
@@ -92,7 +92,7 @@ _CreateContinentDropdown = function()
         table.insert(order, key)
     end
     dropdown:SetList(list, order)
-    dropdown:SetText(l10n('All Quests'))
+    dropdown:SetText(l10n("All Quests"))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
 
     local currentContinentId = QuestiePlayer:GetCurrentContinentId()
@@ -133,7 +133,7 @@ _CreateZoneDropdown = function()
 
     local zones = QuestieJourney.zones[selectedContinentId]
     if currentZoneId == RESET and zones then
-        dropdown:SetText(l10n('Select Zone'))
+        dropdown:SetText(l10n("Select Zone"))
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
         dropdown:SetList(zones, sortedZones)
     elseif currentZoneId and zones then
@@ -220,7 +220,7 @@ _HandleContinentSelection = function(key, _)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
         zoneDropdown.frame:Hide()
     elseif (key.value == QuestieJourney.questCategoryKeys.DUNGEONS) then
-        local text = l10n('Select Dungeon')
+        local text = l10n("Select Dungeon")
         local dungeonZones = QuestieJourney.zones[QuestieJourney.questCategoryKeys.DUNGEONS] or {}
         local sortedDungeons = QuestieJourneyUtils:GetSortedZoneKeys(dungeonZones)
         zoneDropdown:SetList(dungeonZones, sortedDungeons)
@@ -228,7 +228,7 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
     elseif (key.value == QuestieJourney.questCategoryKeys.BATTLEGROUNDS) then
-        local text = l10n('Select Battleground')
+        local text = l10n("Select Battleground")
         local bgZones = QuestieJourney.zones[QuestieJourney.questCategoryKeys.BATTLEGROUNDS] or {}
         local sortedBGs = QuestieJourneyUtils:GetSortedZoneKeys(bgZones)
         zoneDropdown:SetList(bgZones, sortedBGs)
@@ -236,7 +236,7 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
     elseif (key.value == QuestieJourney.questCategoryKeys.EVENTS) then
-        local text = l10n('Select Event')
+        local text = l10n("Select Event")
         local eventZones = QuestieJourney.zones[QuestieJourney.questCategoryKeys.EVENTS] or {}
         local sortedEvents = QuestieJourneyUtils:GetSortedZoneKeys(eventZones)
         zoneDropdown:SetList(eventZones, sortedEvents)
@@ -244,7 +244,7 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
     elseif (key.value == QuestieJourney.questCategoryKeys.SCENARIOS) then
-        local text = l10n('Select Scenario')
+        local text = l10n("Select Scenario")
         local scenarioZones = QuestieJourney.zones[QuestieJourney.questCategoryKeys.SCENARIOS] or {}
         local sortedScenarios = QuestieJourneyUtils:GetSortedZoneKeys(scenarioZones)
         zoneDropdown:SetList(scenarioZones, sortedScenarios)
@@ -252,26 +252,11 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
     elseif (key.value == QuestieJourney.questCategoryKeys.PROFESSIONS) then
-        local professionList = QuestieJourney.zones[key.value]
-        local playerProfessions = QuestieProfessions:GetPlayerProfessionNames()
-
-        local relevantProfessions = {}
-        for id, possibleName in pairs(professionList) do
-            for _, name in pairs(playerProfessions) do
-                if possibleName == name then
-                    relevantProfessions[id] = professionList[id]
-                    break
-                end
-            end
-        end
-        local text = l10n('Select Profession')
-        if (not next(relevantProfessions)) then
-            text = l10n('No Quests found')
-            zoneDropdown:SetDisabled(true)
-        else
-            zoneDropdown:SetDisabled(false)
-        end
-        zoneDropdown:SetList(relevantProfessions)
+        local text = l10n("Select Profession")
+        local professionZones = QuestieJourney.zones[QuestieJourney.questCategoryKeys.PROFESSIONS] or {}
+        local sortedProfessions = QuestieJourneyUtils:GetSortedZoneKeys(professionZones)
+        zoneDropdown:SetList(professionZones, sortedProfessions)
+        zoneDropdown:SetDisabled(false)
         zoneDropdown:SetText(text)
         zoneDropdown.frame:Show()
     elseif (key.value == QuestieJourney.questCategoryKeys.PET_BATTLES) then

@@ -1289,21 +1289,6 @@ function QuestieTracker:Update(onlyIfChanged)
                                     if (objective.Completed ~= true or (objective.Completed == true and #quest.Objectives > 1) or questIsIncompleteButObjectiveIsComplete) then
                                         line.label:SetText(TrackerData.GetObjectiveText(objective))
                                         _UpdateLineWidth(line, objectiveMarginLeft)
-
-                                        -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
-                                    elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) and objectiveColor ~= "minimal" then
-                                        -- Set Blizzard Completion text for single objectives
-                                        line.label:SetText(completionText)
-                                        _UpdateLineWidth(line, objectiveMarginLeft)
-
-                                        -- Update Quest has a check for this edge case. Should reset the Quest Icons and show the Quest Finisher
-                                        QuestieQuest:UpdateQuest(quest.Id)
-
-                                        -- Hide the Secondary Quest Item Button
-                                        if secondaryButton and secondaryButtonAlpha ~= 0 then
-                                            line.altButton:SetParent(UIParent)
-                                            line.altButton:Hide()
-                                        end
                                     end
 
                                     -- Adds 1 pixel between multiple Objectives

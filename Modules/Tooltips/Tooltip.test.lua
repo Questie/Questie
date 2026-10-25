@@ -831,6 +831,24 @@ describe("Tooltip", function()
         end)
     end)
 
+    describe("RegisterQuestStartTooltip", function()
+        it("should register a tooltip with a placeholder name when the starter has no name", function()
+            QuestieTooltips.lookupByKey = {}
+            QuestieTooltips.lookupKeysByQuestId = {}
+
+            local name
+            assert.has_no.errors(function()
+                name = QuestieTooltips:RegisterQuestStartTooltip(94414, nil, 123, "m_123", "NPC")
+            end)
+
+            assert.are_same("MissingName (m_123)", name)
+
+            local tooltip = QuestieTooltips.lookupByKey["m_123"]["94414 MissingName (m_123) 123"]
+            assert.are_same("MissingName (m_123)", tooltip.name)
+            assert.are_same({"m_123"}, QuestieTooltips.lookupKeysByQuestId[94414])
+        end)
+    end)
+
     describe("GetTooltip", function()
         it("uses the quest ID when coloring the starter icon", function()
             Questie.db.profile.showQuestsInNpcTooltip = true

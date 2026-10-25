@@ -19,6 +19,8 @@ describe("QuestLifecycle", function()
     local QuestieCombatQueue
     ---@type CommsVisibility
     local CommsVisibility
+    ---@type QuestLogCache
+    local QuestLogCache
 
     before_each(function()
         _G.WOW_PROJECT_ID = nil
@@ -56,6 +58,9 @@ describe("QuestLifecycle", function()
 
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
+
+        QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+        QuestLogCache.TryGetQuest = spy.new(function() return {} end)
 
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
@@ -179,6 +184,42 @@ describe("QuestLifecycle", function()
             assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
         end)
 
+        it("should not populate a quest abandoned before the giver's frames were unloaded", function()
+            local questId = 100
+            local quest = {IsComplete = function() return 0 end}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            local acceptUnloaded -- AcceptQuest's callback; AbandonQuest's comes second
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) acceptUnloaded = acceptUnloaded or callback end)
+
+            QuestLifecycle:AcceptQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
+            acceptUnloaded()
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.not_called()
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+            assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
+        end)
+
+        it("should draw a quest abandoned and accepted again during the unload only for the new acceptance", function()
+            local questId = 100
+            local quest = {Id = questId, IsComplete = function() return 0 end}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            local unloads = {}
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloads[#unloads + 1] = callback end)
+
+            QuestLifecycle:AcceptQuest(questId)
+            QuestLifecycle:AbandonQuest(questId)
+            QuestLifecycle:AcceptQuest(questId)
+            for _, unloaded in ipairs(unloads) do
+                if unloaded then
+                    unloaded()
+                end
+            end
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called(1)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called(1)
+        end)
+
         it("should reset child daily quests when parent is accepted", function()
             local questId = 100
             local childQuestId = 200
@@ -251,6 +292,156 @@ describe("QuestLifecycle", function()
 
             assert.is_nil(QuestiePlayer.currentQuestlog[999])
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+        end)
+    end)
+
+    describe("RemoveFramesOfLoggedQuest", function()
+        local questId = 100
+        local quest, onComplete, unloaded
+
+        before_each(function()
+            quest = {Id = questId}
+            onComplete = spy.new(function() end)
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloaded = callback end)
+        end)
+
+        it("should run onComplete after the unload when the quest is still logged", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
+
+            assert.spy(AvailableQuests.RemoveQuest).was.called(1)
+            assert.spy(onComplete).was.not_called()
+            unloaded()
+            assert.spy(onComplete).was.called(1)
+        end)
+
+        it("should not run onComplete when the quest left the quest log during the unload", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
+            QuestiePlayer.currentQuestlog[questId] = nil
+            unloaded()
+
+            assert.spy(onComplete).was.not_called()
+        end)
+
+        it("should not run onComplete when the quest was abandoned and accepted again during the unload", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
+            local staleUnload = unloaded
+            QuestLifecycle:AbandonQuest(questId)
+            QuestLifecycle:AcceptQuest(questId)
+            staleUnload()
+
+            assert.spy(onComplete).was.not_called()
+        end)
+
+        it("should not run onComplete when the quest is not logged", function()
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
+            unloaded()
+
+            assert.spy(onComplete).was.not_called()
+        end)
+
+        it("should not run onComplete when the quest left QuestLogCache during the unload", function()
+            QuestiePlayer.currentQuestlog[questId] = quest
+
+            QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
+            QuestLogCache.TryGetQuest = spy.new(function() return nil end)
+            unloaded()
+
+            assert.spy(onComplete).was.not_called()
+        end)
+    end)
+
+    describe("UpdateQuest", function()
+        local questId = 100
+        local quest, unloaded
+
+        before_each(function()
+            quest = {Id = questId, sourceItemId = 0, Objectives = {{}}, IsComplete = function() return 0 end}
+            QuestieDB.GetQuest = spy.new(function() return quest end)
+            QuestiePlayer.currentQuestlog[questId] = quest
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return true end)
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloaded = callback end)
+        end)
+
+        it("should draw a quest that needs no reset for its current state", function()
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, questId)
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+        end)
+
+        it("should not update a quest the character has completed", function()
+            Questie.db.char.complete[questId] = true
+
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+        end)
+
+        it("should reset and redraw a quest that is no longer complete", function()
+            quest.WasComplete = true
+            quest.isComplete = true
+            Questie.db.char.collapsedQuests[questId] = true
+
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.are_same({}, quest.Objectives)
+            assert.is_nil(quest.WasComplete)
+            assert.is_nil(quest.isComplete)
+            assert.is_nil(Questie.db.char.collapsedQuests[questId])
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, questId, true)
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+
+            unloaded()
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called_with(QuestieQuest, quest)
+            assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+        end)
+
+        it("should reset and redraw a quest that lost its source item", function()
+            quest.sourceItemId = 254871
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
+
+            QuestLifecycle:UpdateQuest(questId)
+
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, questId, true)
+            assert.spy(QuestieQuest.UpdateQuest).was.not_called()
+            assert.spy(AvailableQuests.RemoveQuest).was.called(1)
+        end)
+
+        it("should redraw overlapping resets only for the latest one", function()
+            local unloads = {}
+            AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloads[#unloads + 1] = callback end)
+
+            quest.WasComplete = true
+            QuestLifecycle:UpdateQuest(questId)
+            quest.WasComplete = true
+            QuestLifecycle:UpdateQuest(questId)
+            unloads[1]()
+            unloads[2]()
+
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called(1)
+        end)
+
+        it("should not draw a reset quest turned in before its frames were unloaded", function()
+            quest.WasComplete = true
+
+            QuestLifecycle:UpdateQuest(questId)
+            QuestLifecycle:CompleteQuest(questId)
+            unloaded = AvailableQuests.RemoveQuest.calls[1].vals[2]
+            unloaded()
+
+            assert.spy(QuestieQuest.PopulateQuestLogInfo).was.not_called()
+            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
         end)
     end)
 

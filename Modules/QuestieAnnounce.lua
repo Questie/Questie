@@ -91,11 +91,11 @@ end
 function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
         local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
-        local message = l10n("%s for %s!", objectiveText, questLink)
+        local message = l10n("%s for %s!", objectiveText, questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
-            localMessage = l10n("%s for %s!", objectiveText, QuestieLink:GetQuestHyperLink(questId))
+            localMessage = l10n("%s for %s!", objectiveText, QuestieLink:GetQuestHyperLink(questId) or "no quest name")
         end
 
         _QuestieAnnounce:AnnounceToChannel(message, localMessage)
@@ -129,11 +129,11 @@ function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceItems then
         local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
         local itemLink = select(2, GetItemInfo(itemId))
-        local message = l10n("Picked up %s which starts %s!", itemLink, questLink)
+        local message = l10n("Picked up %s which starts %s!", itemLink, questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
-            localMessage = l10n("Picked up %s which starts %s!", itemLink, QuestieLink:GetQuestHyperLink(questId))
+            localMessage = l10n("Picked up %s which starts %s!", itemLink, QuestieLink:GetQuestHyperLink(questId) or "no quest name")
         end
 
         _QuestieAnnounce:AnnounceToChannel(message, localMessage)
@@ -149,7 +149,7 @@ function _QuestieAnnounce:AnnounceSelf(questId, itemId)
     local questHyperLink = QuestieLink:GetQuestHyperLink(questId);
     local itemLink = select(2, GetItemInfo(itemId));
 
-    Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questHyperLink));
+    Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questHyperLink or "no quest name"));
 end
 
 ---@return boolean
@@ -287,6 +287,6 @@ function QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
     local questLink = QuestieLink:GetQuestHyperLink(questId)
     local breadcrumbQuestLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
 
-    local message = l10n("You have accepted %s without completing its breadcrumb quest %s", questLink, breadcrumbQuestLink)
+    local message = l10n("You have accepted %s without completing its breadcrumb quest %s", questLink or "no quest name", breadcrumbQuestLink or "no quest name")
     Questie:Print(message)
 end

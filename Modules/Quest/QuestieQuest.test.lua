@@ -130,6 +130,36 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.called_with(quest)
         end)
 
+        it("should not add the finisher when the quest was abandoned and accepted again during the icon unload", function()
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            QuestieQuest.RegisterObjectiveTooltips = function() end
+            quest.IsComplete = function() return 1 end
+            local unloaded
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(_, callback) unloaded = callback end
+
+            QuestieQuest:UpdateQuest(93927)
+            -- AbandonQuest and AcceptQuest reset the progress of the same quest object
+            quest.WasComplete = nil
+            quest.isComplete = nil
+            unloaded()
+
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
+        it("should not add the inferred finisher when the quest was abandoned and accepted again during the icon unload", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            local unloaded
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = function(_, callback) unloaded = callback end
+
+            QuestieQuest:UpdateQuest(93927)
+            quest.WasComplete = nil
+            quest.isComplete = nil
+            unloaded()
+
+            assert.spy(finisher.AddFinisher).was.not_called()
+        end)
+
         -- The broadcast reads QuestLogCache. A quest turned in before the icon unload finishes has already left it.
         it("broadcasts a complete quest without waiting for the icon unload", function()
             QuestieQuest.PopulateQuestLogInfo = function() end
@@ -221,22 +251,6 @@ describe("QuestieQuest", function()
             assert.spy(finisher.AddFinisher).was.not_called()
         end)
 
-        it("still requests source-item reconstruction without promoting a sequenced quest", function()
-            quest.sourceItemId = 254871
-            QuestLogCache.GetQuest = function() return {isComplete = 0} end
-            QuestieQuest.GetAllLeaderBoardDetails = function() return {} end
-            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
-            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
-
-            QuestieQuest:UpdateQuest(93927)
-
-            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 93927, true)
-            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
-            assert.is_nil(quest.isComplete)
-            assert.is_nil(quest.WasComplete)
-            assert.spy(finisher.AddFinisher).was.not_called()
-        end)
-
         it("preserves accepted completion when no database objectives exist", function()
             quest.Objectives = {}
             QuestLogCache.GetQuest = function() return {isComplete = 1} end
@@ -245,6 +259,76 @@ describe("QuestieQuest", function()
             QuestieQuest:PopulateQuestLogInfo(quest)
 
             assert.is_true(quest.isComplete)
+        end)
+    end)
+
+    describe("SmoothReset", function()
+        local originalCTimer, originalThreadCallback
+
+        before_each(function()
+            originalCTimer = _G.C_Timer
+            local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+            originalThreadCallback = ThreadLib.ThreadCallbackInstant
+            ThreadLib.ThreadCallbackInstant = function(_, callback) callback() end
+            QuestLogCache.TestGameCache = function() return true end
+            QuestieMap._mapDrawQueue = {}
+            QuestieMap._minimapDrawQueue = {}
+            QuestieLoader:ImportModule("QuestieDBMIntegration").ClearAll = function() end
+            QuestieLoader:ImportModule("QuestieMenu").OnLogin = function() end
+            QuestieLoader:ImportModule("QuestieCompat").GetQuestsCompleted = function() return {} end
+            QuestieLoader:ImportModule("QuestieProfessions").Update = function() end
+            QuestieLoader:ImportModule("QuestieReputation").Update = function() end
+            QuestieQuest.ClearAllToolTips = function() end
+            QuestieQuest.GetAllQuestIdsNoObjectives = function() end
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalCTimer
+            QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = originalThreadCallback
+            QuestieQuest._isResetting = nil
+        end)
+
+        -- A quest no longer complete keeps no stale flags, which would hide its objectives until its next log change
+        it("should clear the derived completion of logged quests before rebuilding the quest log", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local quest = {Id = 5, WasComplete = true, isComplete = true}
+            QuestiePlayer.currentQuestlog = {[5] = quest, [6] = 6}
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 7 do
+                tick()
+            end
+
+            assert.is_nil(quest.WasComplete)
+            assert.is_nil(quest.isComplete)
+            assert.are_same({}, QuestiePlayer.currentQuestlog)
+        end)
+
+        it("should restore the source item objective of each logged quest", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local quest = {Id = 5}
+            QuestieQuest.GetAllQuestIdsNoObjectives = function() QuestiePlayer.currentQuestlog = {[5] = quest} end
+            QuestieDB.GetQuest = function() return nil end
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 10 do
+                tick()
+            end
+
+            -- Spies store copies of their arguments, so the module table logged with self no longer equals QuestieQuest
+            local sourceItemCall = QuestieQuest.CheckQuestSourceItem.calls[1]
+            assert.are.same({5, true}, {sourceItemCall.vals[2], sourceItemCall.vals[3]})
+            assert.are.equal(5, QuestieQuest.UpdateQuest.calls[1].vals[2])
         end)
     end)
 

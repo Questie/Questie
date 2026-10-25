@@ -56,6 +56,10 @@ local function processQuestLink(message, questId, sender, searchPattern)
     end
 
     local questLink = QuestieLink:GetQuestHyperLink(questId, sender)
+    if (not questLink) then
+        return message
+    end
+
     return string.gsub(message, searchPattern, questLink)
 end
 
