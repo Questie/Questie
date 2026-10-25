@@ -48,7 +48,7 @@ jobs:
           printf 'QuestieDB Source-mode conformance against master at `%s` (temporary migration check, not a released artifact).\n' "$revision" | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v13.0.0
+        uses: leafo/gh-actions-lua@v13.1.0
         with:
           luaVersion: "5.1"
 
