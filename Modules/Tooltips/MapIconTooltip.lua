@@ -370,7 +370,8 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                     if nextQuestId > 0 and (not QuestieCorrections.hiddenQuests[nextQuestId]) then
                         local _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
                         local firstInChain = true;
-                        while nextQuestId ~= nil and (not QuestieCorrections.hiddenQuests[nextQuestId]) and (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS and returnReason ~= DoableStates.PROFESSION_MISSING) do
+                        while nextQuestId ~= nil and (not QuestieCorrections.hiddenQuests[nextQuestId]) and (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS and
+                            returnReason ~= DoableStates.PROFESSION_MISSING and returnReason ~= DoableStates.PROFESSION_SPECIALIZATION) do
                             if firstInChain then
                                 tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                                 firstInChain = false
