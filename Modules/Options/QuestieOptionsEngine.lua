@@ -2208,7 +2208,7 @@ function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWi
     bullet:SetTextColor(0.9, 0.9, 0.9, 1.0)
     bullet:SetText("•")
 
-    local subtitleString = nil
+    local subtitleString
     if tabData.subtitle then
         subtitleString = l10n(tabData.subtitle)
     elseif tabData.title then
