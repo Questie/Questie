@@ -2841,6 +2841,7 @@ globals = {
     "CALENDAR_WEEKDAY_NAMES",
     "CANCEL",
     "CLOSE",
+    "OKAY",
     "DEFAULT",
     "DIALOG_VOLUME",
     "ERR_QUEST_ACCEPTED_S",

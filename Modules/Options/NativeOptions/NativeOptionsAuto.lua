@@ -13,7 +13,7 @@ local _GetShortcuts
 function QuestieOptionsEngine.tabs.auto:Initialize()
     return {
         title = "Auto",
-        subtitle = "Auto Settings",
+        subtitle = "Auto Options",
         order = 3,
         icon = 237293,
         items = {

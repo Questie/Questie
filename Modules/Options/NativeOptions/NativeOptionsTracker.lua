@@ -87,7 +87,7 @@ end
 function QuestieOptionsEngine.tabs.tracker:Initialize()
     return {
         title = "Tracker",
-        subtitle = "Tracker Settings",
+        subtitle = "Tracker Options",
         order = 2,
         icon = 132212,
         items = {

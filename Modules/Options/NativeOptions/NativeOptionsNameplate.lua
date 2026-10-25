@@ -14,7 +14,7 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 function QuestieOptionsEngine.tabs.nameplate:Initialize()
     return {
         title = "Nameplates",
-        subtitle = "Nameplate Settings",
+        subtitle = "Nameplate Options",
         order = 4,
         icon = 134510,
         items = {
@@ -27,7 +27,7 @@ function QuestieOptionsEngine.tabs.nameplate:Initialize()
                         type = "checkbox",
                         order = 1.1,
                         title = "Enable Nameplate Quest Objectives",
-                        tooltip = "Enable or disable the quest objective icons over creature nameplates.",
+                        description = "Enable or disable the quest objective icons over creature nameplates.",
                         width = "full",
                         get = function() return Questie.db.profile.nameplateEnabled end,
                         set = function(_, value)
@@ -78,6 +78,7 @@ function QuestieOptionsEngine.tabs.nameplate:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = function() return Questie.db.profile.nameplateEnabled end,
                         get = function() return Questie.db.profile.nameplateScale end,
                         set = function(_, value)
@@ -96,7 +97,7 @@ function QuestieOptionsEngine.tabs.nameplate:Initialize()
                         type = "checkbox",
                         order = 2.1,
                         title = "Enable Target Frame Quest Objectives",
-                        tooltip = "Enable or disable the quest objective icons over creature target frame.",
+                        description = "Enable or disable the quest objective icons over creature target frame.",
                         width = "full",
                         get = function() return Questie.db.profile.nameplateTargetFrameEnabled end,
                         set = function(_, value)
@@ -149,6 +150,7 @@ function QuestieOptionsEngine.tabs.nameplate:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = function() return Questie.db.profile.nameplateTargetFrameEnabled end,
                         get = function() return Questie.db.profile.nameplateTargetFrameScale end,
                         set = function(_, value)

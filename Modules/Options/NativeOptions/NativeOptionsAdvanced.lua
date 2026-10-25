@@ -48,7 +48,7 @@ end
 function QuestieOptionsEngine.tabs.advanced:Initialize()
     return {
         title = "Advanced",
-        subtitle = "Advanced Settings",
+        subtitle = "Advanced Options",
         order = 6,
         icon = 134063,
         items = {
@@ -258,10 +258,8 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
             github_text = {
                 type = "text",
                 order = 4.15,
-                title = Questie:Colorize(
-                    l10n("Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"),
-                    "purple"
-                ),
+                title = "Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))",
+                titleFormat = function(var) return Questie:Colorize(var, "purple") end,
                 width = "full",
                 titleSize = 12,
             },
@@ -271,7 +269,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                 title = "Reset Questie",
                 btnLabel = "Reset Questie",
                 tooltip = "Reset Questie to the default values for all settings.",
-                width = "full",
+                width = "half",
                 align = "CENTER",
                 func = function()
                     Popup.Show("QUESTIE_RESET_CONFIRM")
@@ -284,33 +282,33 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                 btnLabel = "Reset Questie Journey",
                 tooltip = "Clear the Journey of the current character",
                 width = "half",
-                align = "RIGHT",
+                align = "CENTER",
                 func = function()
                     Popup.Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
-            journeyBrowseCharacters = {
+            openProfiler = {
                 type = "button",
                 order = 4.4,
+                title = "Open Profiler",
+                btnLabel = "Open Profiler",
+                tooltip = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
+                width = "half",
+                align = "CENTER",
+                func = function()
+                    QuestieProfiler:OpenUI()
+                end,
+            },
+            journeyBrowseCharacters = {
+                type = "button",
+                order = 4.5,
                 title = "Import Journey data",
                 btnLabel = "Import Journey data",
                 tooltip = "Browse other characters on this account and import their journey data.",
                 width = "half",
-                align = "LEFT",
-                func = function()
-                    QuestieJourney:ShowCharacterBrowserFrame()
-                end,
-            },
-            openProfiler = {
-                type = "button",
-                order = 4.5,
-                title = "Open Profiler",
-                btnLabel = "Open Profiler",
-                tooltip = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
-                width = "full",
                 align = "CENTER",
                 func = function()
-                    QuestieProfiler:OpenUI()
+                    QuestieJourney:ShowCharacterBrowserFrame()
                 end,
             },
             HeaderDev = {

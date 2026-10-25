@@ -14,6 +14,30 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = true,
         ["zhTW"] = true,
     },
+    ["DBM HUD Options"] = {
+        ["enUS"] = true,
+        ["deDE"] = "DBM-HUD-Optionen", -- 🤖 Gemini Flash 3.8
+        ["esES"] = "Opciones del HUD de DBM", -- 🤖 Gemini Flash 3.8
+        ["esMX"] = "Opciones del HUD de DBM", -- 🤖 Gemini Flash 3.8
+        ["frFR"] = "Options du HUD de DBM", -- 🤖 Gemini Flash 3.8
+        ["koKR"] = "DBM HUD 설정", -- 🤖 Gemini Flash 3.8
+        ["ptBR"] = "Opções do HUD do DBM", -- 🤖 Gemini Flash 3.8
+        ["ruRU"] = "Настройки DBM HUD", -- 🤖 Gemini Flash 3.8
+        ["zhCN"] = "DBM HUD 选项", -- 🤖 Gemini Flash 3.8
+        ["zhTW"] = "DBM HUD 選項", -- 🤖 Gemini Flash 3.8
+    },
+    ["Deadly Boss Mods HUD Integration"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Deadly Boss Mods-HUD-Integration", -- 🤖 Gemini Flash 3.8
+        ["esES"] = "Integración con Deadly Boss Mods HUD", -- 🤖 Gemini Flash 3.8
+        ["esMX"] = "Integración con Deadly Boss Mods HUD", -- 🤖 Gemini Flash 3.8
+        ["frFR"] = "Intégration du HUD de Deadly Boss Mods", -- 🤖 Gemini Flash 3.8
+        ["koKR"] = "Deadly Boss Mods HUD 연동", -- 🤖 Gemini Flash 3.8
+        ["ptBR"] = "Integração com HUD do Deadly Boss Mods", -- 🤖 Gemini Flash 3.8
+        ["ruRU"] = "Интеграция с Deadly Boss Mods HUD", -- 🤖 Gemini Flash 3.8
+        ["zhCN"] = "Deadly Boss Mods HUD 整合", -- 🤖 Gemini Flash 3.8
+        ["zhTW"] = "Deadly Boss Mods HUD 整合", -- 🤖 Gemini Flash 3.8
+    },
     ["Show DBM HUD"] = {
         ["enUS"] = true,
         ["deDE"] = "Zeige DBM HUD",

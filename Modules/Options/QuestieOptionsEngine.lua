@@ -97,6 +97,7 @@ local SharedMedia = LibStub("LibSharedMedia-3.0")
 --   "soundButton"   A button, but instead of using a label field, it's square and shows a play symbol.
 --   "colorPicker"   Opens a dialog allowing users to pick an RGB(A) color. AceGUI: "color"
 --   "radioButton"   Similar to a checkbox in function, but used in conjunction and exclusive with other radio buttons. AceGUI: type "select", with style "radio".
+--   "spacer"        Empty space, useful for aligning controls relative to other controls
 
 QuestieOptionsEngine.tabs = { ... }
 
@@ -162,6 +163,7 @@ local minControlHeight = { -- This is the starting height used for elements, but
     ["soundButton"]  = 40,
     ["colorPicker"]  = 40,
     ["radioButton"]  = 16,
+    ["spacer"]  = 16,
 }
 
 local defaultLabelColor = {1, 0.82, 0, 1}
@@ -588,6 +590,8 @@ local function CreateOptionsTable()
         coroutine.yield()
         local icons_tab = QuestieOptionsEngine.tabs.icons:Initialize()
         coroutine.yield()
+        local map_tab = QuestieOptionsEngine.tabs.map:Initialize()
+        coroutine.yield()
         local tracker_tab = QuestieOptionsEngine.tabs.tracker:Initialize()
         coroutine.yield()
         local auto_tab = QuestieOptionsEngine.tabs.auto:Initialize()
@@ -603,6 +607,7 @@ local function CreateOptionsTable()
         return {
             general_tab = general_tab,
             icons_tab = icons_tab,
+            map_tab = map_tab,
             tracker_tab = tracker_tab,
             auto_tab = auto_tab,
             nameplate_tab = nameplate_tab,
@@ -809,18 +814,26 @@ local function CreateControl(parent, item, width, height, level)
         slider:SetMinMaxValues(item.min or 0, item.max or 100)
         slider:SetValueStep(item.step or 1)
         slider:SetObeyStepOnDrag(true)
+        slider.isPercent = item.isPercent or false
         frame.widget = slider
+
+        local function FormatSliderValue(val)
+            if slider.isPercent then
+                return string.format("%d%%", math.floor((val * 100) + 0.5))
+            end
+            return string.format("%g", val)
+        end
 
         if slider.Text then
             slider.Text:SetText(item.title)
             slider.Text:SetFontObject("GameFontNormalSmall2")
         end
         if slider.Low then
-            slider.Low:SetText(item.minlabel or tostring(item.min or 0))
+            slider.Low:SetText(item.minLabel or FormatSliderValue(item.min or 0))
             slider.Low:SetFontObject("GameFontDisableTiny")
         end
         if slider.High then
-            slider.High:SetText(item.maxlabel or tostring(item.max or 100))
+            slider.High:SetText(item.maxLabel or FormatSliderValue(item.max or 100))
             slider.High:SetFontObject("GameFontDisableTiny")
         end
 
@@ -834,34 +847,12 @@ local function CreateControl(parent, item, width, height, level)
         local startVal = 0
         if item.get then startVal = tonumber(item.get()) or item.min or 0 end
         slider:SetValue(startVal)
-        if valueDisplay then valueDisplay:SetText(string.format("%g", startVal)) end
+        if valueDisplay then valueDisplay:SetText(FormatSliderValue(startVal)) end
 
-        local throttledSet = ThrottledCall(function(val)
-            if item.set then item.set(slider, val) end
-            QuestieOptionsEngine:QueueRefresh()
-        end, 0.05) -- Run at ~20 Hz during continuous drags
-
-        slider:SetScript("OnValueChanged", function(self, value, isUserInput)
-            -- Instant feedback on the label, no lag
-            if valueDisplay then
-                valueDisplay:SetText(string.format("%g", value))
-            end
-
-            if isUserInput then
-                throttledSet(value)
-            else
-                -- Programmatic changes (e.g. initialization/profiles) run directly
-                if item.set then item.set(self, value) end
-                QuestieOptionsEngine:QueueRefresh()
-            end
-        end)
-
-        -- Ensure final accurate position commits on mouse release
-        slider:HookScript("OnMouseUp", function(self)
-            if item.set then
-                item.set(self, self:GetValue())
-            end
-            QuestieOptionsEngine:QueueRefresh()
+        slider:SetScript("OnValueChanged", function(self, value)
+            if item.set then item.set(self, value) end
+            if valueDisplay then valueDisplay:SetText(FormatSliderValue(value)) end
+            QuestieOptionsEngine:RefreshStates()
         end)
 
         if slider.NineSlice then
@@ -879,17 +870,17 @@ local function CreateControl(parent, item, width, height, level)
         local trackLeft = slider:CreateTexture(nil, "BACKGROUND")
         trackLeft:SetAtlas("Minimal_SliderBar_Left", true)
         trackLeft:SetPoint("LEFT", slider, "LEFT", 0, 0)
---
+
         local trackRight = slider:CreateTexture(nil, "BACKGROUND")
         trackRight:SetAtlas("Minimal_SliderBar_Right", true)
         trackRight:SetPoint("RIGHT", slider, "RIGHT", 0, 0)
---
+
         local trackMiddle = slider:CreateTexture(nil, "BACKGROUND")
         trackMiddle:SetAtlas("_Minimal_SliderBar_Middle", false)
         trackMiddle:SetPoint("LEFT", trackLeft, "RIGHT", 0, 0)
         trackMiddle:SetPoint("RIGHT", trackRight, "LEFT", 0, 0)
         trackMiddle:SetHeight(trackLeft:GetHeight())
---
+
         slider.TrackLeft = trackLeft
         slider.TrackRight = trackRight
         slider.TrackMiddle = trackMiddle
@@ -1134,6 +1125,9 @@ local function CreateControl(parent, item, width, height, level)
         if item.get then
             initText = item.get()
         end
+        if item.titleFormat then
+            initText = item.titleFormat(initText)
+        end
         titleFrame:SetText(initText)
         titleFrame:SetWordWrap(true)
         titleFrame:SetJustifyH(item.titleAlign)
@@ -1187,6 +1181,12 @@ local function CreateControl(parent, item, width, height, level)
         buttonWrapper.Button = CreateFrame("Button", nil, buttonWrapper)
         local btn = buttonWrapper.Button
 
+        local text = btn:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+        text:SetPoint("CENTER", btn, "CENTER", 0, 0)
+        btn:SetFontString(text)
+
+        text:SetFontObject("GameFontHighlight")
+
         local buttonHeight = 32
         local hPadding = 24
         local scale = buttonHeight / RAW_ASSET_HEIGHT
@@ -1237,10 +1237,6 @@ local function CreateControl(parent, item, width, height, level)
             disabled = CreateSliceGroup({ left = "128-RedButton-Left-Disabled",  center = "_128-RedButton-Center-Disabled",  right = "128-RedButton-Right-Disabled"  }),
             pressed  = CreateSliceGroup({ left = "128-RedButton-Left-Pressed", center = "_128-RedButton-Center-Pressed", right = "128-RedButton-Right-Pressed" }),
         }
-
-        local text = btn:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-        text:SetPoint("CENTER", btn, "CENTER", 0, 0)
-        btn:SetFontString(text)
 
         local function UpdateVisualState(self)
             local isEnabled = self:IsEnabled()
@@ -1295,6 +1291,7 @@ local function CreateControl(parent, item, width, height, level)
 
         local rawSetText = btn.SetText
         btn.SetText = function(self, newText)
+            text:SetFontObject("GameFontHighlight")
             text:SetWidth(0)
             text:SetHeight(0)
             text:SetWordWrap(false)
@@ -1540,8 +1537,9 @@ local function CreateControl(parent, item, width, height, level)
         ApplyTooltip(frame, item, "ANCHOR_TOPLEFT", 2, 0)
     elseif item.type == "radioButton" then
 
-        -- There is genuinely not a good radio button class to base this off of.
+        -- There is genuinely not a good radio button class to base ours on.
         -- So we implement our own from scratch using checkboxes as a template.
+        -- Because of that, and the lack of included atlases, the art setup is a little verbose...
 
         local rbWrapper = CreateFrame("Frame", nil, parent)
         rbWrapper:SetPoint("LEFT", frame, "LEFT", 0, 0)
@@ -1681,7 +1679,7 @@ local function CreateControl(parent, item, width, height, level)
         titleFrame:SetText(item.title)
         frame.titleFrame = titleFrame
 
-        -- Confirmation "Okay" button (matches AceGUI EditBox behavior)
+        -- Confirmation "Okay" button
         local okBtn = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
         okBtn:SetSize(60, 22)
         okBtn:SetPoint("LEFT", editBox, "RIGHT", 6, 0)
@@ -1740,6 +1738,11 @@ local function CreateControl(parent, item, width, height, level)
         end)
 
         ApplyTooltip(editBox, item, "ANCHOR_TOPLEFT", 0, 0)
+
+    elseif item.type == "spacer" then
+        local spacer = CreateFrame("Frame", nil, frame)
+        frame.widget = spacer
+
     end
 
     table.insert(registeredControls, frame)
@@ -1804,6 +1807,7 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
             max = rawitem.max or 10,                                   -- the maximum value for a slider (right)
             step = rawitem.step or 0.1,                                -- the size of the 'steps' along a slider
             showValue = rawitem.showValue == nil or rawitem.showValue, -- whether or not to show the raw value beneath a slider
+            isPercent = rawitem.isPercent or false,                    -- if true, displays slider values as a percentage (1.0 -> 100%)
             minLabel = safe_l10n(rawitem.minLabel),                    -- label shown on the left side of a slider; if nil, show min value
             maxLabel = safe_l10n(rawitem.maxLabel),                    -- label shown on the right side of a slider; if nil, show max value
             options = rawitem.options,                                 -- a list of entries within a dropdown
@@ -1811,6 +1815,7 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
             items = rawitem.items,                                     -- a nested array of controls within a container
             titleAlign = rawitem.titleAlign,                           -- title text alignment
             titleSize = rawitem.titleSize,                             -- title text font size
+            titleFormat = rawitem.titleFormat,                         -- function used to format title text (for instance, to colorize after translating raw string)
             descriptionAlign = rawitem.descriptionAlign or "LEFT",     -- description text alignment
             descriptionSize = rawitem.descriptionSize,                 -- description text font size
             func = rawitem.func,                                       -- function called when control is pressed (buttons only)
@@ -1945,14 +1950,7 @@ end
 ---@param parent Frame
 ---@param name string
 local CreateScrollFrames = function(parent, name, header, mode)
-    local scrollBoxBottom = -1
-    if mode == RenderMode.POPUP then
-        if Questie.IsForever then
-            scrollBoxBottom = -10
-        else
-            scrollBoxBottom = -7
-        end
-    end
+    local scrollBoxBottomOffset = (mode == RenderMode.POPUP and -7) or -1
 	local scrollBox = CreateFrame("Frame", name, parent, "WowScrollBox") --[[@as WowScrollBox|Frame]]
 	local scrollBar = CreateFrame("EventFrame", name.."ScrollBar", parent, "MinimalScrollBar")
 	local barPadding = 12
@@ -1960,7 +1958,7 @@ local CreateScrollFrames = function(parent, name, header, mode)
 	scrollBar:SetPoint("BOTTOM", parent, "BOTTOM", 0, 5)
 	scrollBar:SetPoint("TOP", parent, "TOP", 0, -36)
 	scrollBox:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -10)
-	scrollBox:SetPoint("BOTTOM", parent, 0, scrollBoxBottom)
+	scrollBox:SetPoint("BOTTOM", parent, 0, scrollBoxBottomOffset)
 	scrollBox:SetPoint("RIGHT", scrollBar, "LEFT", -barPadding, 0)
 	-- For now, the scrollChild serves as an expanding canvas for the scrollBox.
 	-- Allows the scroll frame to behave like the previously used template.
@@ -1990,6 +1988,8 @@ function QuestieOptionsEngine:Initialize()
         table.insert(sortedTabs, { key = tabKey, data = tabData })
     end
 
+    -- Sort tabs based on index (order variable), or alphabetically (enUS) if same index
+    -- Tabs without order variable default to last
     table.sort(sortedTabs, function(a, b)
         local aOrder = a.data.order or 100
         local bOrder = b.data.order or 100
@@ -1999,6 +1999,7 @@ function QuestieOptionsEngine:Initialize()
         return aOrder < bOrder
     end)
 
+    -- If a tab has an order = 0, that becomes the primary category in the Blizzard options
     local primaryTabKey = nil
     for _, tabInfo in ipairs(sortedTabs) do
         if tabInfo.data.order == 0 then
@@ -2047,6 +2048,7 @@ function QuestieOptionsEngine:Initialize()
             self.sideTabs[tabKey] = sideTab
 
             -- Anchor side tabs to the outside right edge of the popup window
+            -- Different window/frame art (Forever vs Classic) requires different alignment
             if not previousTabButton then
                 if Questie.IsForever then
                     sideTab:SetPoint("TOPLEFT", popup, "TOPRIGHT", -1, -35)
@@ -2172,14 +2174,18 @@ function QuestieOptionsEngine:RefreshStates()
                 end
             elseif data.type == "text" then
                 if data.get and control.titleFrame then
-                    control.titleFrame:SetText(tostring(data.get() or ""))
+                    local newTitle = tostring(data.get() or "")
+                    if data.titleFormat then
+                        newTitle = data.titleFormat(newTitle)
+                    end
+                    control.titleFrame:SetText(newTitle)
                 end
             end
         end
     end
 end
 
--- Helper to construct a canvas frame for either Blizzard Settings or the Standalone window
+-- Constructs the canvas frame for an options tab
 function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWidth, mode)
     local leftInset = 0
     if mode == RenderMode.POPUP then
@@ -2193,7 +2199,6 @@ function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWi
     headerWrapper:SetAllPoints(tabFrame)
     headerWrapper:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, -4)
 
-    -- Header title & subtitle
     local title = tabFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
     title:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 8 + leftInset, -4)
     title:SetText("Questie")
@@ -2203,10 +2208,18 @@ function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWi
     bullet:SetTextColor(0.9, 0.9, 0.9, 1.0)
     bullet:SetText("•")
 
+    local subtitleString = nil
+    if tabData.subtitle then
+        subtitleString = l10n(tabData.subtitle)
+    elseif tabData.title then
+        subtitleString = l10n(tabData.title)
+    else
+        subtitleString = "Missing Subtitle"
+    end
     local subtitle = tabFrame:CreateFontString(nil, "OVERLAY", "Game13Font")
     subtitle:SetPoint("LEFT", bullet, "RIGHT", 8, 0)
     subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
-    subtitle:SetText(tabData.subtitle or tabData.title)
+    subtitle:SetText(subtitleString)
 
     headerWrapper:SetPoint("BOTTOM", title, "BOTTOM", 0, 0)
 
@@ -2227,14 +2240,12 @@ function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWi
     return tabFrame
 end
 
--- Constructs the side-tab button using the modern retail sidetab atlases and masking
+-- Constructs side tabs for the standalone options window
 function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
     local tabFrame = CreateFrame("Frame", "$parent_Tab_" .. tabKey, parent)
     tabFrame.tabKey = tabKey
-    local tabButton = CreateFrame("Button", "$tabButton_" .. tabKey, tabFrame)
-    tabFrame.button = tabButton
-    tabFrame.button.tabKey = tabKey
 
+    -- create background art
     local bg = tabFrame:CreateTexture(nil, "BACKGROUND")
     if Questie.IsForever then
         bg:SetAtlas("common-sidetab", true)
@@ -2247,33 +2258,42 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
     end
     tabFrame.Background = bg
 
+    -- create icon on top of background art (not parented to it, so that it can move independently for button presses)
     local icon = tabFrame:CreateTexture(nil, "ARTWORK")
     if Questie.IsForever then
         icon:SetPoint("CENTER", tabFrame, "CENTER", -1, 0)
         icon:SetSize(62, 62)
-        tabButton:SetSize(50, 50)
-        tabButton:SetPoint("CENTER", icon, "CENTER", -1, -1)
     else
         icon:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 1, -9)
         icon:SetSize(36, 36)
-        tabButton:SetSize(36, 36)
-        tabButton:SetPoint("CENTER", icon, "CENTER", 0, 0)
     end
-    icon:SetTexture(tabData.icon or 134400) -- Fallback to question mark icon
+    icon:SetTexture(tabData.icon or 134400)
     tabFrame.Icon = icon
 
     local mask = tabFrame:CreateMaskTexture(nil, "ARTWORK")
     if Questie.IsForever then
         mask:SetAtlas("common-sidetab-mask", true)
-        mask:SetPoint("CENTER", icon, "CENTER", -1, 0)
+        mask:SetPoint("CENTER", tabFrame, "CENTER", -2, 0)
         mask:SetSize(62, 62)
     else
         mask:SetTexture("interface\\hud\\uicooldownmanagermask")
-        mask:SetPoint("CENTER", icon, "CENTER", 0, 0)
+        mask:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 1, -9)
         mask:SetSize(36, 36)
     end
     icon:AddMaskTexture(mask)
     tabFrame.Mask = mask
+
+    -- create button on top of icon
+    local tabButton = CreateFrame("Button", "$tabButton_" .. tabKey, tabFrame)
+    tabFrame.button = tabButton
+    tabFrame.button.tabKey = tabKey
+    if Questie.IsForever then
+        tabButton:SetSize(50, 50)
+        tabButton:SetPoint("CENTER", tabFrame, "CENTER", -2, -1)
+    else
+        tabButton:SetSize(36, 36)
+        tabButton:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 1, -9)
+    end
 
     local selected = tabFrame:CreateTexture(nil, "OVERLAY")
     if Questie.IsForever then
@@ -2281,7 +2301,7 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
         selected:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, 0)
     else
         selected:SetTexture("Interface\\Buttons\\CheckButtonHilight")
-        selected:SetPoint("TOPLEFT", icon, "TOPLEFT", 0, 0)
+        selected:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 1, -9)
         selected:SetSize(36, 36)
         selected:SetBlendMode("ADD")
     end
@@ -2294,7 +2314,7 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
         highlight:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 0, 0)
     else
         highlight:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
-        highlight:SetPoint("TOPLEFT", icon, "TOPLEFT", 0, 0)
+        highlight:SetPoint("TOPLEFT", tabFrame, "TOPLEFT", 1, -9)
         highlight:SetSize(36, 36)
     end
     highlight:SetBlendMode("ADD")
@@ -2306,12 +2326,47 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
     DisableSnapping(tabFrame.Selected)
     DisableSnapping(tabFrame.Highlight)
 
-    -- Tooltips
+    -- Capture baseline icon anchor coordinates
+    local origPoint, origRelTo, origRelPoint, origX, origY = icon:GetPoint(1)
+    origX = origX or 0
+    origY = origY or 0
+    local isPressed = false
+
+    local function ResetIconPosition()
+        if isPressed then
+            isPressed = false
+            tabButton:SetScript("OnUpdate", nil)
+            icon:SetPoint(origPoint, origRelTo, origRelPoint, origX, origY)
+        end
+    end
+
+    tabButton:HookScript("OnMouseDown", function(self, button)
+        if button == "LeftButton" and not isPressed then
+            isPressed = true
+            -- Nudge icon down and right 1px without moving the mask/other art
+            icon:SetPoint(origPoint, origRelTo, origRelPoint, origX + 1, origY - 1)
+
+            self:SetScript("OnUpdate", function()
+                if not IsMouseButtonDown("LeftButton") then
+                    ResetIconPosition()
+                end
+            end)
+        end
+    end)
+
+    tabButton:HookScript("OnMouseUp", function(self, button)
+        if button == "LeftButton" then
+            ResetIconPosition()
+        end
+    end)
+
+    tabButton:HookScript("OnHide", ResetIconPosition)
+
     tabButton:SetScript("OnEnter", function(btn)
         GameTooltip:SetOwner(btn, "ANCHOR_RIGHT")
-        GameTooltip:SetText(tabData.title or tabKey, 1, 1, 1)
+        GameTooltip:SetText(l10n(tabData.title) or tabKey, 1, 1, 1)
         if tabData.subtitle then
-            GameTooltip:AddLine(tabData.subtitle, 0.8, 0.8, 0.8, true)
+            GameTooltip:AddLine(l10n(tabData.subtitle), 0.8, 0.8, 0.8, true)
         end
         GameTooltip:Show()
     end)
@@ -2319,7 +2374,6 @@ function QuestieOptionsEngine:CreateSideTabs(parent, tabKey, tabData, index)
         GameTooltip:Hide()
     end)
 
-    -- Click handler
     tabButton:SetScript("OnClick", function()
         PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
         self:SelectStandaloneTab(tabKey)
@@ -2331,7 +2385,7 @@ end
 -- Constructs the main standalone dialog frame
 function QuestieOptionsEngine:GetOrCreateStandaloneWindow()
     if self.standaloneWindow then return self.standaloneWindow end
-    local popoutFrame = Questie.IsForever and "PortraitFrameFlatTemplate" or "PortraitFrameTemplate"
+    local popoutFrame = "PortraitFrameTemplate"
     local popupHeight = math.floor(GetScreenHeight() * 0.7) or 580
 
     local f = CreateFrame("Frame", "QuestieStandaloneSettings", UIParent, popoutFrame)
@@ -2385,9 +2439,11 @@ function QuestieOptionsEngine:GetOrCreateStandaloneWindow()
     f:SetPortraitTextureRaw("Interface\\AddOns\\Questie\\Icons\\questie_portrait.png", nil, nil, "TRILINEAR")
     local portrait = f.PortraitContainer.portrait
     if Questie.IsForever then
-        portrait:SetTexCoord(0.16, 0.86, 0.17, 0.87)
+        if portrait then portrait:SetTexCoord(0.16, 0.86, 0.17, 0.87) end
+        if f.Bg then f.Bg:SetColorTexture(30/255,23/255,18/255, 0.85) end
     else
-        portrait:SetTexCoord(0.21, 0.815, 0.21, 0.815)
+        if portrait then portrait:SetTexCoord(0.21, 0.815, 0.21, 0.815) end
+        if f.Bg then f.Bg:SetColorTexture(0.16, 0.145, 0.133, 0.85) end
     end
     DisableSnapping(portrait)
 
@@ -2413,8 +2469,8 @@ function QuestieOptionsEngine:SelectStandaloneTab(selectedKey)
         if tabButton then
             tabButton.Selected:SetShown(isCurrent)
             -- Slightly desaturate or darken inactive tab icons
-            tabButton.Icon:SetDesaturated(not isCurrent)
-            tabButton.Icon:SetAlpha(isCurrent and 1.0 or 0.75)
+            --tabButton.Icon:SetDesaturated(not isCurrent)
+            tabButton.Icon:SetAlpha(isCurrent and 1.0 or 0.65)
         end
     end
 end

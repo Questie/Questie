@@ -49,7 +49,7 @@ end
 function QuestieOptionsEngine.tabs.icons:Initialize()
     return {
         title = "Icons",
-        subtitle = "Icon Settings",
+        subtitle = "Icon Options",
         order = 1,
         icon = 132328,
         items = {
@@ -581,6 +581,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.globalScale end,
                         set = function(_, value)
@@ -597,6 +598,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.globalMiniMapScale end,
                         set = function(_, value)
@@ -613,6 +615,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.globalTownsfolkScale end,
                         set = function(_, value)
@@ -629,6 +632,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.globalMiniMapTownsfolkScale end,
                         set = function(_, value)
@@ -645,6 +649,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.availableScale end,
                         set = function(_, value)
@@ -661,6 +666,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.lootScale end,
                         set = function(_, value)
@@ -677,6 +683,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.monsterScale end,
                         set = function(_, value)
@@ -693,6 +700,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.eventScale end,
                         set = function(_, value)
@@ -709,6 +717,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         min = 0.01,
                         max = 4,
                         step = 0.01,
+                        isPercent = true,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.objectScale end,
                         set = function(_, value)

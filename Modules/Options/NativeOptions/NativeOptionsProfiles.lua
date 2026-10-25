@@ -104,7 +104,7 @@ function QuestieOptionsEngine.tabs.profiles:Initialize()
 
     return {
         title = "Profiles",
-        subtitle = "Profile Management",
+        subtitle = "Manage Profiles",
         order = 7,
         icon = 136047,
         items = {

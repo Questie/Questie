@@ -46,7 +46,7 @@ local _GetSortedOptions
 function QuestieOptionsEngine.tabs.general:Initialize()
     return {
         title = "General",
-        subtitle = "General Settings",
+        subtitle = "General Options",
         order = 0,
         icon = 134331,
         items = {
@@ -527,18 +527,6 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         set = function(info, value)
                             Questie.db.profile.enableTooltipDroprates = value
                         end
-                    },
-                    trimObjectiveText = {
-                        type = "checkbox",
-                        order = 8.8,
-                        title = "Trim Objective Text",
-                        tooltip = "Simplify quest objective text by removing \"slain\" from it.",
-                        width = "half",
-                        get = function(info) return Questie.db.profile.trimObjectiveText; end,
-                        set = function(info, value)
-                            Questie.db.profile.trimObjectiveText = value
-                            QuestieTracker:Update()
-                        end,
                     },
                 },
             },

@@ -283,6 +283,7 @@ Modules\Options\NativeOptions\NativeOptionsAuto.lua
 Modules\Options\NativeOptions\NativeOptionsDBM.lua
 Modules\Options\NativeOptions\NativeOptionsGeneral.lua
 Modules\Options\NativeOptions\NativeOptionsIcons.lua
+Modules\Options\NativeOptions\NativeOptionsMap.lua
 Modules\Options\NativeOptions\NativeOptionsNameplate.lua
 Modules\Options\NativeOptions\NativeOptionsProfiles.lua
 Modules\Options\NativeOptions\NativeOptionsTracker.lua
