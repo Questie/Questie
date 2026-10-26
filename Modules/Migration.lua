@@ -290,6 +290,9 @@ local migrationFunctions = {
     [44] = function()
         Questie.db.profile.trackerShowQuestFocusButtons = true
     end,
+    [45] = function()
+        Questie.db.profile.trackerFadeQuestFocusButtons = false
+    end,
 }
 
 function Migration:Migrate()

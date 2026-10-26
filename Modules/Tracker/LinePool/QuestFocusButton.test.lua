@@ -55,6 +55,24 @@ describe("QuestFocusButton", function()
         end)
     end)
 
+    describe("New", function()
+        it("should start faded when the fade setting is enabled", function()
+            Questie.db.profile.trackerFadeQuestFocusButtons = true
+
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+
+            assert.are_same(0, button:GetAlpha())
+        end)
+
+        it("should start visible when the fade setting is disabled", function()
+            Questie.db.profile.trackerFadeQuestFocusButtons = false
+
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+
+            assert.are_same(1, button:GetAlpha())
+        end)
+    end)
+
     describe("SetQuest", function()
         it("should show the incomplete icon for an unfocused quest in progress", function()
             local button = QuestFocusButton.New(1, CreateFrame("Button"))

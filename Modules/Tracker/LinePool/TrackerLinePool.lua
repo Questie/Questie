@@ -441,6 +441,14 @@ function TrackerLinePool.SetAllExpandQuestAlpha(alpha)
 end
 
 ---@param alpha number
+function TrackerLinePool.SetAllQuestFocusAlpha(alpha)
+    local highestIndex = TrackerLinePool.GetHighestIndex()
+    for i = 1, highestIndex do
+        linePool[i].questFocus:SetAlpha(alpha)
+    end
+end
+
+---@param alpha number
 function TrackerLinePool.SetAllItemButtonAlpha(alpha)
     for i = 1, buttonIndex do
         local button = buttonPool[i]
