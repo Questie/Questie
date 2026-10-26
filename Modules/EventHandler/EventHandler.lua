@@ -30,6 +30,8 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerSuperTrack
+local TrackerSuperTrack = QuestieLoader:ImportModule("TrackerSuperTrack")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -198,6 +200,9 @@ function EventHandler:RegisterLateEvents()
         QuestgiverFrame.RecheckGossip()
     end)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", function(_, questId) QuestEventHandler.QuestWatchUpdate(questId) end)
+    if QuestieCompat.IsSuperTrackingSupported() then
+        Questie:RegisterEvent("SUPER_TRACKING_CHANGED", TrackerSuperTrack.OnSuperTrackingChanged)
+    end
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", function(_, questId) QuestEventHandler.QuestAutoComplete(questId) end)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)

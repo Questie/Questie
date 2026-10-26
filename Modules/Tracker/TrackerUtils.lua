@@ -496,6 +496,14 @@ function TrackerUtils:GetCategoryNameByID(catId)
     return "Unknown Category"
 end
 
+---Clears Blizzard super tracking only when it points at the quest Questie focused, so other super tracking stays.
+---@param questId any
+local function _ClearSuperTrackedQuest(questId)
+    if type(questId) == "number" and QuestieCompat.GetSuperTrackedQuestID() == questId then
+        QuestieCompat.ClearSuperTrackedQuest()
+    end
+end
+
 function TrackerUtils:UnFocus()
     -- reset HideIcons to match savedvariable state
     if (not Questie.db.char.TrackerFocus) then
@@ -538,7 +546,10 @@ function TrackerUtils:UnFocus()
         end
     end
 
+    -- Clear the focus first: the super tracking change may notify TrackerSuperTrack right away.
+    local focus = Questie.db.char.TrackerFocus
     Questie.db.char.TrackerFocus = nil
+    _ClearSuperTrackedQuest(focus)
 end
 
 ---@param questId number Quest ID number
@@ -558,6 +569,8 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex, expectedObjective,
     end
 
     Questie.db.char.TrackerFocus = tostring(questId) .. " " .. tostring(objectiveIndex)
+    -- Blizzard super tracking has no objective equivalent.
+    _ClearSuperTrackedQuest(questId)
     for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB.GetQuest(questLogQuestId)
         if quest and next(quest.Objectives) then
@@ -604,6 +617,9 @@ function TrackerUtils:FocusQuest(questId, expectedQuest)
     end
 
     Questie.db.char.TrackerFocus = questId
+    if QuestieCompat.GetSuperTrackedQuestID() ~= questId then
+        QuestieCompat.SetSuperTrackedQuestID(questId)
+    end
     for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB.GetQuest(questLogQuestId)
         if quest then

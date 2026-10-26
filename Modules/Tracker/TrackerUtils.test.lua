@@ -1132,6 +1132,85 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("Blizzard super tracking", function()
+        local compat
+        local superTrackedQuestId
+        local original
+
+        before_each(function()
+            compat = QuestieLoader:ImportModule("QuestieCompat")
+            superTrackedQuestId = nil
+            compat.GetSuperTrackedQuestID = function() return superTrackedQuestId end
+            compat.SetSuperTrackedQuestID = spy.new(function(questId) superTrackedQuestId = questId end)
+            compat.ClearSuperTrackedQuest = spy.new(function() superTrackedQuestId = nil end)
+
+            original = {Id = 54, Objectives = {}, Finisher = {NPC = {240}}}
+            QuestiePlayer.currentQuestlog[54] = original
+            QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return original end
+            trackerQuests[54] = {
+                Id = 54, enrichment = original, Finisher = original.Finisher,
+                Objectives = {}, IsComplete = function() return 1 end,
+            }
+        end)
+
+        it("should super track a focused quest", function()
+            TrackerUtils:FocusQuest(54)
+
+            assert.spy(compat.SetSuperTrackedQuestID).was.called_with(54)
+        end)
+
+        it("should not super track a quest that can not be focused", function()
+            trackerQuests[91741] = {Id = 91741, Objectives = {}, SpecialObjectives = {}}
+
+            TrackerUtils:FocusQuest(91741)
+
+            assert.spy(compat.SetSuperTrackedQuestID).was.not_called()
+        end)
+
+        it("should clear super tracking when unfocusing the super tracked quest", function()
+            Questie.db.char.TrackerFocus = 54
+            superTrackedQuestId = 54
+
+            TrackerUtils:UnFocus()
+
+            assert.spy(compat.ClearSuperTrackedQuest).was.called()
+        end)
+
+        it("should have cleared the focus when super tracking changes notify right away", function()
+            Questie.db.char.TrackerFocus = 54
+            superTrackedQuestId = 54
+            local focusSeenOnClear
+            compat.ClearSuperTrackedQuest = function() focusSeenOnClear = Questie.db.char.TrackerFocus or false end
+
+            TrackerUtils:UnFocus()
+
+            assert.is_false(focusSeenOnClear)
+        end)
+
+        it("should keep super tracking of another quest when unfocusing", function()
+            Questie.db.char.TrackerFocus = 54
+            superTrackedQuestId = 99
+
+            TrackerUtils:UnFocus()
+
+            assert.spy(compat.ClearSuperTrackedQuest).was.not_called()
+        end)
+
+        it("should clear super tracking of the quest when focusing one of its objectives", function()
+            local objective = {Index = 1, spawnList = {{}}}
+            local quest = {Id = 100}
+            trackerQuests[100] = {
+                Id = 100, enrichment = quest, Objectives = {{enrichment = objective}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            Questie.db.char.TrackerFocus = 100
+            superTrackedQuestId = 100
+
+            assert.is_true(TrackerUtils:FocusObjective(100, 1))
+            assert.spy(compat.ClearSuperTrackedQuest).was.called()
+        end)
+    end)
+
     describe("GetCompletionText", function()
         it("should return API completion text", function()
             _G.GetQuestLogCompletionText = function() return "Return to that NPC" end
