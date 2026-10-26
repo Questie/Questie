@@ -153,11 +153,17 @@ function QuestieOptionsEngine.tabs.profiles:Initialize()
                 end,
                 set = function(val)
                     val = strtrim(val or "")
-                    if val ~= "" then
-                        selectedDeleteProfile = nil
-                        Questie.db:SetProfile(val)
+                    if val == "" then
+                        return
                     end
+                    if strlenutf8(val) > 50 then
+                        Questie.Error("Profile names cannot be longer than 50 characters")
+                        return
+                    end
+                    selectedDeleteProfile = nil
+                    Questie.db:SetProfile(val)
                 end,
+                textBoxCharLimit = 50,
             },
             existing_profiles = {
                 type = "dropdown",

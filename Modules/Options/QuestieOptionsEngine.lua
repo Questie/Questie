@@ -1672,6 +1672,7 @@ local function CreateControl(parent, item, width, height, level)
         editBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 16, -18)
         editBox:SetAutoFocus(false)
         editBox:SetFontObject("ChatFontNormal")
+        if item.textBoxCharLimit then editBox:SetMaxLetters(item.textBoxCharLimit) end
         frame.widget = editBox
 
         local titleFrame = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -1823,6 +1824,7 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
             btnLabel = safe_l10n(rawitem.btnLabel),                    -- text label placed on a button (may differ from title used in tooltips)
             fonts = rawitem.fonts,                                     -- list of fonts to select from
             hasOpacity = rawitem.hasOpacity or false,                  -- whether a colorPicker should show an alpha selector alongside RGB
+            textBoxCharLimit = rawitem.textBoxCharLimit,               -- max number of characters for a text box
         }
 
         if item.titleAlign == nil then
