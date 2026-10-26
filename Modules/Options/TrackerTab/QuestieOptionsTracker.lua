@@ -590,6 +590,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    showQuestFocusButtons = {
+                        type = "toggle",
+                        order = 7.1,
+                        width = 1.5,
+                        name = function() return l10n("Show Quest Focus Buttons") end,
+                        desc = function() return l10n("If checked, a round button in front of each Quest lets you focus or unfocus the Quest on the map.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowQuestFocusButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowQuestFocusButtons = value
+                            QuestieTracker:Update()
+                        end
+                    },
                     disableHoverFade = {
                         type = "toggle",
                         order = 8,
