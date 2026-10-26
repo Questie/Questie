@@ -852,6 +852,40 @@ function QuestieCompat.GetQuestLink(arg)
     error(errorMsg, 2)
 end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SuperTrack.SetSuperTrackedQuestID)
+---Blizzard super tracking drives the native quest POI highlight and navigation marker. Forever has it; Classic does not.
+---@return boolean
+function QuestieCompat.IsSuperTrackingSupported()
+    return (C_SuperTrack and C_SuperTrack.SetSuperTrackedQuestID) ~= nil
+end
+
+---@return QuestId|nil questId The super tracked quest, or nil when none is or the client has no super tracking.
+function QuestieCompat.GetSuperTrackedQuestID()
+    if (not QuestieCompat.IsSuperTrackingSupported()) then
+        return nil
+    end
+    local questId = C_SuperTrack.GetSuperTrackedQuestID()
+    if questId == 0 then
+        return nil
+    end
+    return questId
+end
+
+---Does nothing on clients without super tracking.
+---@param questId QuestId
+function QuestieCompat.SetSuperTrackedQuestID(questId)
+    if QuestieCompat.IsSuperTrackingSupported() then
+        C_SuperTrack.SetSuperTrackedQuestID(questId)
+    end
+end
+
+---Does nothing on clients without super tracking.
+function QuestieCompat.ClearSuperTrackedQuest()
+    if QuestieCompat.IsSuperTrackingSupported() then
+        C_SuperTrack.SetSuperTrackedQuestID(0)
+    end
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestResetTime)
 ---Returns the number of seconds until the next daily quest reset.
 ---@return number secondsUntilReset
