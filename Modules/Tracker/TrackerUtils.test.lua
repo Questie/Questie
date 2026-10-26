@@ -536,7 +536,7 @@ describe("TrackerUtils", function()
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was.called_with(1)
+            assert.spy(rePositionLineMock).was.called()
         end)
 
         it("should add sourceItemId as primary button and single objective item as secondary button", function()
@@ -584,7 +584,7 @@ describe("TrackerUtils", function()
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was.called_with(1)
+            assert.spy(rePositionLineMock).was.called()
         end)
 
         it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
@@ -627,7 +627,7 @@ describe("TrackerUtils", function()
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was.called_with(1)
+            assert.spy(rePositionLineMock).was.called()
         end)
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()

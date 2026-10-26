@@ -1219,7 +1219,7 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                         frame = parent
                     end
 
-                    rePositionLine(secondaryButton:GetAlpha())
+                    rePositionLine()
 
                     -- Attach button to Quest Title linePool
                     secondaryButton:SetPoint("TOPLEFT", line, "TOPLEFT", QuestFocusButton.GetColumnWidth() + 2 + questItemButtonSize, 0)
