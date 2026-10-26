@@ -467,7 +467,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         title = "Show quests in NPC tooltips",
                         tooltip = "Show quests (available/complete) in the NPC tooltips.",
                         width = "half",
-                        disabled = function() return not Questie.db.profile.enableTooltips; end,
+                        enabled = function() return Questie.db.profile.enableTooltips; end,
                         get = function() return Questie.db.profile.showQuestsInNpcTooltip; end,
                         set = function(info, value) Questie.db.profile.showQuestsInNpcTooltip = value end
                     },
@@ -548,7 +548,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                                 Dialog = DIALOG_VOLUME,
                             }
                         end,
-                        sorting = {"Master", "Music", "SFX", "Ambience", "Dialog"},
+                        sortOrder = {"Master", "Music", "SFX", "Ambience", "Dialog"},
                         title = "Sound Channel",
                         tooltip = "The sound channel used for Questie's notification sounds.",
                         get = function() return Questie.db.profile.soundChannel or "Master" end,
