@@ -47,29 +47,25 @@ end
 local function _GetChooseProfiles()
     local profiles = {}
 
-    -- 1. All saved profiles in the database
     for _, name in ipairs(Questie.db:GetProfiles({})) do
         profiles[name] = name
     end
 
-    -- 2. AceDB standard placeholders / stand-ins
-    local playerName = UnitName("player")
-    local realmName = GetRealmName()
-    local className = UnitClass("player") -- Localized class name
+    local keys = Questie.db.keys
+    local localizedClass = UnitClass("player")
 
-    profiles["Default"] = "Default"
+    profiles["Default"] = l10n("Default")
 
-    if playerName and realmName then
-        local charKey = playerName .. " - " .. realmName
-        profiles[charKey] = charKey
+    if keys.char then
+        profiles[keys.char] = keys.char
     end
 
-    if className then
-        profiles[className] = className
+    if keys.class then
+        profiles[keys.class] = localizedClass or keys.class
     end
 
-    if realmName then
-        profiles[realmName] = realmName
+    if keys.realm then
+        profiles[keys.realm] = keys.realm
     end
 
     return profiles
