@@ -14,6 +14,8 @@ local TrackerHeaderFrame = QuestieLoader:ImportModule("TrackerHeaderFrame")
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type QuestFocusButton
+local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerQuestTimers
@@ -985,7 +987,7 @@ function QuestieTracker:Update(onlyIfChanged)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
 
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
+    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest) + QuestFocusButton.GetColumnWidth()
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
     local objectiveColor = Questie.db.profile.trackerColorObjectives
@@ -1089,6 +1091,8 @@ function QuestieTracker:Update(onlyIfChanged)
                     -- Set Min/Max Button and default states
                     line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questMarginLeft - 8, 1)
                     line.expandQuest.zoneId = zoneName
+
+                    line.questFocus:SetQuest(quest, complete == 1 or (complete ~= -1 and quest.isComplete == true))
 
                     -- Set Completion Text
                     local completionText = TrackerUtils:GetCompletionText(quest)
@@ -1926,7 +1930,7 @@ function QuestieTracker:UpdateFormatting()
         local trackerVarsCombined = trackerLineWidth + trackerMarginRight
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
-        local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
+        local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest) + QuestFocusButton.GetColumnWidth()
         local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
         local questItemButtonSize = 12 + trackerFontSizeQuest
 
