@@ -673,7 +673,7 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         max = 1.0,
                         step = 0.01,
                         get = function(info) return Questie.db.profile.soundDelay; end,
-                        set = function(value)
+                        set = function(_, value)
                             Questie.db.profile.soundDelay = value
                         end,
                     },
