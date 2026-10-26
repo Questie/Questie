@@ -581,16 +581,16 @@ function TrackerMenu:GetMenuForQuest(quest)
     if capabilities.canNavigateQuest then
         TrackerMenu.addTomTomOptionForQuest(menu, quest)
     end
-    TrackerMenu.minMaxQuestOption(menu, quest)
-    -- An ineligible hidden quest still gets Show Icons; it never gets Hide Icons.
-    if capabilities.canFocusQuest or (enrichedQuest and enrichedQuest.HideIcons) then
-        TrackerMenu.addShowHideQuestsOption(menu, enrichedQuest)
-    end
     if capabilities.canShowFinisher then
         TrackerMenu.addShowFinisherOnMapOption(menu, enrichedQuest)
     elseif next(capabilities.objectives) then
         TrackerMenu.addShowQuestObjectivesOnMapOption(menu, enrichedQuest)
     end
+    -- An ineligible hidden quest still gets Show Icons; it never gets Hide Icons.
+    if capabilities.canFocusQuest or (enrichedQuest and enrichedQuest.HideIcons) then
+        TrackerMenu.addShowHideQuestsOption(menu, enrichedQuest)
+    end
+    TrackerMenu.minMaxQuestOption(menu, quest)
     TrackerMenu.addShowInQuestLogOption(menu, quest)
     TrackerMenu.addLinkToChatOption(menu, quest)
     TrackerMenu.addUntrackOption(menu, quest)
