@@ -160,7 +160,6 @@ function QuestieOptionsEngine.tabs.profiles:Initialize()
                     if val ~= "" then
                         selectedDeleteProfile = nil
                         Questie.db:SetProfile(val)
-                        _OnProfileChanged()
                     end
                 end,
             },
