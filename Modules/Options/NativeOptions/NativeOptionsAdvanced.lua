@@ -239,7 +239,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                     end
 
                     pendingLocaleSelection = lang
-                    Popup.Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
+                    Popup.Show("QUESTIE_LOCALE_CHANGE_CONFIRM_NATIVE")
                 end,
             },
             reset_header = {
@@ -272,7 +272,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                 width = "half",
                 align = "CENTER",
                 func = function()
-                    Popup.Show("QUESTIE_RESET_CONFIRM")
+                    Popup.Show("QUESTIE_RESET_CONFIRM_NATIVE")
                 end,
             },
             questieJourneyReset = {
@@ -284,7 +284,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                 width = "half",
                 align = "CENTER",
                 func = function()
-                    Popup.Show("QUESTIE_JOURNEY_RESET_CONFIRM")
+                    Popup.Show("QUESTIE_JOURNEY_RESET_CONFIRM_NATIVE")
                 end,
             },
             openProfiler = {
@@ -588,7 +588,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
     }
 end
 
-Popup.Dialogs["QUESTIE_RESET_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_RESET_CONFIRM_NATIVE"] = {
     text = "",
     button1 = YES,
     button2 = NO,
@@ -624,7 +624,7 @@ Popup.Dialogs["QUESTIE_RESET_CONFIRM"] = {
     hideOnEscape = true,
 }
 
-Popup.Dialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_JOURNEY_RESET_CONFIRM_NATIVE"] = {
     text = "",
     button1 = YES,
     button2 = NO,
@@ -643,7 +643,7 @@ Popup.Dialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     hideOnEscape = true,
 }
 
-Popup.Dialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_LOCALE_CHANGE_CONFIRM_NATIVE"] = {
     noCancelOnReuse = true,
     text = "",
     button1 = YES,
