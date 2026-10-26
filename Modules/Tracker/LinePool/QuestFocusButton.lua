@@ -109,6 +109,10 @@ function QuestFocusButton.New(index, parent)
     button:SetScript("OnEnter", _OnEnter)
     button:SetScript("OnLeave", _OnLeave)
 
+    if Questie.db.profile.trackerFadeQuestFocusButtons then
+        button:SetAlpha(0)
+    end
+
     button:Hide()
 
     return button
