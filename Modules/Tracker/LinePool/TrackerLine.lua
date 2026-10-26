@@ -22,6 +22,8 @@ local VoiceOverPlayButton = QuestieLoader:ImportModule("VoiceOverPlayButton")
 local AchievementCriteriaCheckmark = QuestieLoader:ImportModule("AchievementCriteriaCheckmark")
 ---@type ExpandQuestButton
 local ExpandQuestButton = QuestieLoader:ImportModule("ExpandQuestButton")
+---@type QuestFocusButton
+local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 ---@type ExpandZoneButton
 local ExpandZoneButton = QuestieLoader:ImportModule("ExpandZoneButton")
 ---@type QuestieCombatQueue
@@ -164,6 +166,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line.expandZone = ExpandZoneButton.New(index, line, OnEnter, OnLeave)
     line.playButton = VoiceOverPlayButton.New(index, line)
     line.expandQuest = ExpandQuestButton.New(index, line)
+    line.questFocus = QuestFocusButton.New(index, line)
 
     return line
 end

@@ -448,6 +448,7 @@ describe("QuestieTracker", function()
             frame.Initialize = function() return {} end
             frame.Update = function() end
             pool = QuestieLoader:ImportModule("TrackerLinePool")
+            QuestieLoader:ImportModule("QuestFocusButton").GetColumnWidth = function() return 0 end
             pool.Initialize = function() end
             pool.ResetLinesForChange = function() end
             pool.ResetButtonsForChange = function() end

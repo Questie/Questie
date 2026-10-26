@@ -59,6 +59,7 @@ describe("TrackerUtils", function()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end
         QuestieTracker.IsTrackedByQuestie = function() return false end
+        QuestieLoader:ImportModule("QuestFocusButton").GetColumnWidth = function() return 0 end
         trackerQuests = {}
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerData.Refresh = spy.new(function() return trackerQuests end)

@@ -42,6 +42,7 @@ describe("TrackerLine untrack click", function()
         QuestieLoader:ImportModule("ExpandZoneButton").New = function() return {} end
         QuestieLoader:ImportModule("VoiceOverPlayButton").New = function() return {} end
         QuestieLoader:ImportModule("ExpandQuestButton").New = function() return {} end
+        QuestieLoader:ImportModule("QuestFocusButton").New = function() return {} end
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.UntrackQuestId = spy.new(function() end)
         compat = QuestieLoader:ImportModule("QuestieCompat")
