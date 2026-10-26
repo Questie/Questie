@@ -1000,7 +1000,6 @@ function QuestieTracker:Update(onlyIfChanged)
     local zoneCheck
 
     local secondaryButton = false
-    local secondaryButtonAlpha
 
     -- Begin populating the Tracker with Quests
     local _UpdateQuests = function()
@@ -1167,8 +1166,8 @@ function QuestieTracker:Update(onlyIfChanged)
                     line.playButton:SetPlayButton(questId)
 
                     local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerBaseFrame, isMinimizable,
-                        function(alpha)
-                            if (not Questie.db.char.collapsedQuests[quest.Id]) and alpha > 0 then
+                        function()
+                            if (not Questie.db.char.collapsedQuests[quest.Id]) then
                                 -- Set and indent Quest Title linePool
                                 line.label:ClearAllPoints()
                                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft + 2 + questItemButtonSize, 0)
@@ -1182,24 +1181,9 @@ function QuestieTracker:Update(onlyIfChanged)
 
                                 -- Re-compare largest text Label in the tracker with Secondary Button/Quest and current Label, then save widest width
                                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft + questItemButtonSize)
-                            elseif alpha == 0 then
-                                -- Set Quest Title linePool
-                                line.label:ClearAllPoints()
-                                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft, 0)
-
-                                -- Recheck and Remeasure Quest Label text width and update tracker width
-                                QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight)
-
-                                -- Reset Quest Title Label and linePool widths
-                                line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
-                                line:SetWidth(line.label:GetWidth() + questMarginLeft)
-
-                                -- Re-compare largest text Label in the tracker with current Label, then save widest width
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
                             end
 
                             secondaryButton = true
-                            secondaryButtonAlpha = alpha
                         end)
 
                     if (not shouldContinue) then
@@ -1209,7 +1193,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
                     -- Set Secondary Quest Item Button Margins (QBC - Quest Button Check)
                     local lineLabelWidthQBC, lineLabelBaseFrameQBC, lineWidthQBC
-                    if secondaryButton and secondaryButtonAlpha ~= 0 then
+                    if secondaryButton then
                         lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
                         lineLabelBaseFrameQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
                         lineWidthQBC = objectiveMarginLeft + questItemButtonSize
@@ -1318,7 +1302,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
                                 -- Hide the Secondary Quest Item Button. There are some quests with usable items after a quest is completed I
                                 -- have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
-                                if secondaryButton and secondaryButtonAlpha ~= 0 then
+                                if secondaryButton then
                                     line.altButton:SetParent(UIParent)
                                     line.altButton:Hide()
                                 end
