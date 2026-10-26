@@ -102,13 +102,15 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                                 end
                                 if value == true then
                                     for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                                        if not QuestieQuest:ShouldShowQuestNotes(quest.Id) then
+                                        if type(quest) == "table" and (not QuestieQuest:ShouldShowQuestNotes(quest.Id)) then
                                             QuestieTooltips:RemoveQuest(quest.Id)
                                         end
                                     end
                                 else
                                     for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                                        QuestieQuest:PopulateObjectiveNotes(quest)
+                                        if type(quest) == "table" then
+                                            QuestieQuest:PopulateObjectiveNotes(quest)
+                                        end
                                     end
                                 end
                             end)
