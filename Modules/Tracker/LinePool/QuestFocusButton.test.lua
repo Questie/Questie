@@ -33,6 +33,8 @@ describe("QuestFocusButton", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.FocusQuest = spy.new(function() return true end)
         TrackerUtils.UnFocus = spy.new(function() end)
+        TrackerUtils.ShowQuestOnMap = spy.new(function() end)
+        _G.WorldMapFrame = nil
         TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
         TrackerMapEligibility.GetCapabilities = function() return {canFocusQuest = canFocusQuest} end
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -171,6 +173,20 @@ describe("QuestFocusButton", function()
     end)
 
     describe("OnClick", function()
+        after_each(function()
+            _G.WorldMapFrame = nil
+        end)
+
+        it("should not show the quest on the map when focusing fails while the world map is open", function()
+            _G.WorldMapFrame = {IsShown = function() return true end}
+            TrackerUtils.FocusQuest = spy.new(function() return false end)
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+
+            assert.spy(TrackerUtils.ShowQuestOnMap).was.not_called()
+        end)
         it("should super track a quest Questie can not focus", function()
             canFocusQuest = false
             superTrackingSupported = true
@@ -209,6 +225,26 @@ describe("QuestFocusButton", function()
             assert.spy(TrackerUtils.FocusQuest).was.called_with(TrackerUtils, 123, enrichedQuest)
             assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("should show the focused quest on the open world map", function()
+            _G.WorldMapFrame = {IsShown = function() return true end}
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+
+            assert.spy(TrackerUtils.ShowQuestOnMap).was.called_with(123, enrichedQuest)
+        end)
+
+        it("should not open the world map when it is closed", function()
+            _G.WorldMapFrame = {IsShown = function() return false end}
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+
+            assert.spy(TrackerUtils.ShowQuestOnMap).was.not_called()
         end)
 
         it("should not hide other quests when focusing fails", function()
