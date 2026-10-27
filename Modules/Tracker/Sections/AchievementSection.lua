@@ -12,23 +12,21 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local ZONE_NAME = "Achievements"
+
 ---@param trackedAchievementIds table<number, boolean>
 function AchievementSection.Draw(trackedAchievementIds)
     local margins = TrackerLayout.GetMargins()
     local objectiveColor = Questie.db.profile.trackerColorObjectives
     local line, zoneCheck
 
-    -- Begin populating the tracker with tracked achievements - Note: We're limited to tracking only 10 Achievements at a time.
-    -- For all intents and purposes at a code level we're going to treat each tracked Achievement the same way we treat and add Quests. This loop is
-    -- necessary to keep separate from the above tracked Quests loop so we can place all tracked Achievements into it's own "Zone" called Achievements.
-    -- This will force Achievements to always appear at the bottom of the tracker. Obviously it'll show at the top if there are no quests being tracked.
+    -- Tracked achievements are listed under their own "Zone" called Achievements. Note: only 10 Achievements can be tracked at a time.
     local firstAchieveInZone = false
-    local achieveId, achieveName, achieveDescription, achieveComplete, numCriteria, zoneName, achieve
+    local achieveId, achieveName, achieveDescription, achieveComplete, numCriteria, achieve
 
     for trackedId, _ in pairs(trackedAchievementIds) do
         achieveId, achieveName, _, _, _, _, _, achieveDescription, _, _, _, _, achieveComplete, _, _ = GetAchievementInfo(trackedId)
         numCriteria = GetAchievementNumCriteria(trackedId)
-        zoneName = "Achievements"
 
         ---@class Achievement
         achieve = {
@@ -39,36 +37,38 @@ function AchievementSection.Draw(trackedAchievementIds)
 
         if achieveId and (not achieveComplete) and trackedAchievementIds[achieveId] == true then
             -- Add Achievement Zone
-            if zoneCheck ~= zoneName then
+            if zoneCheck ~= ZONE_NAME then
                 firstAchieveInZone = true
             end
 
             if firstAchieveInZone then
-                line = TrackerLinePool.GetZoneLine(zoneName)
-                if not line then break end
+                line = TrackerLinePool.GetZoneLine(ZONE_NAME)
+                if (not line) then
+                    break
+                end
 
                 -- Set Zone Title and Min/Max states
-                if Questie.db.char.collapsedZones[zoneName] then
+                if Questie.db.char.collapsedZones[ZONE_NAME] then
                     line.expandZone:SetMode(0)
-                    local text = zoneName == "Achievements" and l10n("Achievements") or zoneName
+                    local text = l10n("Achievements")
                     line.label:SetText("|cFFC0C0C0" .. text .. " +|r")
                 else
                     line.expandZone:SetMode(1)
-                    local text = zoneName == "Achievements" and l10n("Achievements") or zoneName
+                    local text = l10n("Achievements")
                     line.label:SetText("|cFFC0C0C0" .. text .. ": " .. GetNumTrackedAchievements(true) .. "/10|r")
                 end
 
                 -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
-                if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and not Questie.db.char.minAllQuestsInZone[zoneName].isTrue and not Questie.db.char.collapsedZones[zoneName] then
+                if Questie.db.char.minAllQuestsInZone[ZONE_NAME] ~= nil and (not Questie.db.char.minAllQuestsInZone[ZONE_NAME].isTrue) and (not Questie.db.char.collapsedZones[ZONE_NAME]) then
                     local minQuestIdCount = 0
-                    for minQuestId, _ in pairs(Questie.db.char.minAllQuestsInZone[zoneName]) do
+                    for minQuestId, _ in pairs(Questie.db.char.minAllQuestsInZone[ZONE_NAME]) do
                         if type(minQuestId) == "number" then
                             minQuestIdCount = minQuestIdCount + 1
                         end
                     end
 
                     if minQuestIdCount == 0 then
-                        Questie.db.char.minAllQuestsInZone[zoneName] = nil
+                        Questie.db.char.minAllQuestsInZone[ZONE_NAME] = nil
                     end
                 end
 
@@ -98,23 +98,25 @@ function AchievementSection.Draw(trackedAchievementIds)
                 line.Quest = nil
                 line.Objective = nil
                 firstAchieveInZone = false
-                zoneCheck = zoneName
+                zoneCheck = ZONE_NAME
             end
 
             -- Add Achievements
-            if (not Questie.db.char.collapsedZones[zoneName]) then
+            if (not Questie.db.char.collapsedZones[ZONE_NAME]) then
                 line = TrackerLinePool.GetAchievementTitleLine(achieve, margins.quest)
-                if not line then break end
+                if (not line) then
+                    break
+                end
 
                 -- Set Min/Max Button and default states
                 line.expandQuest:Show()
                 line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.quest - 8, 1)
-                line.expandQuest.zoneId = zoneName
+                line.expandQuest.zoneId = ZONE_NAME
 
                 -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the Zone header (MouseDown).
                 -- QuestieTracker:Update is triggered and the table is then filled with all Achievement ID's in the same Zone.
-                if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and Questie.db.char.minAllQuestsInZone[zoneName].isTrue then
-                    Questie.db.char.minAllQuestsInZone[zoneName][achieve.Id] = true
+                if Questie.db.char.minAllQuestsInZone[ZONE_NAME] ~= nil and Questie.db.char.minAllQuestsInZone[ZONE_NAME].isTrue then
+                    Questie.db.char.minAllQuestsInZone[ZONE_NAME][achieve.Id] = true
                 end
 
                 -- Handles all the Min/Max behavior individually for each Achievement.
@@ -153,7 +155,9 @@ function AchievementSection.Draw(trackedAchievementIds)
                     -- Achievements with no number criteria
                     if numCriteria == 0 then
                         line = TrackerLinePool.GetAchievementObjectiveLine(achieve, margins.objective)
-                        if not line then break end
+                        if (not line) then
+                            break
+                        end
 
                         -- Set Objective text
                         local objDesc = achieve.Description:gsub("%.$", "")
@@ -180,7 +184,9 @@ function AchievementSection.Draw(trackedAchievementIds)
                             end
 
                             line = TrackerLinePool.GetAchievementObjectiveLine(achievementCopy, margins.objective)
-                            if not line then break end
+                            if (not line) then
+                                break
+                            end
 
                             -- Set Objective label based on state
                             if (criteriaString == "") then
@@ -190,7 +196,7 @@ function AchievementSection.Draw(trackedAchievementIds)
                             local objDesc = criteriaString:gsub("%.$", "")
 
                             -- Set Objectives with more than one Objective number criteria
-                            if not (completed or quantityNeeded == 1 or quantityProgress == quantityNeeded) then
+                            if (not (completed or quantityNeeded == 1 or quantityProgress == quantityNeeded)) then
                                 if string.find(quantityString, "|") then
                                     quantityString = quantityString:gsub("/%s?", "/")
                                 else
@@ -233,7 +239,9 @@ function AchievementSection.Draw(trackedAchievementIds)
                                     line.label:Show()
 
                                     line = TrackerLinePool.GetAchievementObjectiveLine(achieve, margins.objective)
-                                    if not line then break end
+                                    if (not line) then
+                                        break
+                                    end
 
                                     -- Set Objective text
                                     line.label:SetText(QuestieLib:GetRGBForObjective({Collected = quantityProgress, Needed = quantityNeeded}) ..
@@ -263,7 +271,7 @@ function AchievementSection.Draw(trackedAchievementIds)
                                 end
 
                                 -- Set Objective criteria mark
-                                if not Questie.db.profile.hideCompletedAchieveObjectives and (not objectiveColor or objectiveColor == "white") then
+                                if (not Questie.db.profile.hideCompletedAchieveObjectives) and (not objectiveColor or objectiveColor == "white") then
                                     line.criteriaMark:SetCriteria(completed)
 
                                     if line.criteriaMark.mode == true then
@@ -293,7 +301,7 @@ function AchievementSection.Draw(trackedAchievementIds)
                 end
 
                 -- Safety check in case we hit the linePool limit
-                if not line then
+                if (not line) then
                     line = TrackerLinePool.GetLastLine()
                 end
 

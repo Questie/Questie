@@ -84,10 +84,10 @@ function TrackerLayout.UpdateLineWidth(line, marginLeft)
     local unboundedWidth = line.label:GetUnboundedStringWidth()
     if (unboundedWidth + margin) < contentMaxWidth then
         -- If the text width is less than the max tracker width, we update the base frame width to fit the text
-        updateWidth(unboundedWidth + margin)
+        TrackerLayout.UpdateWidth(unboundedWidth + margin)
     else
         -- If the text width exceeds the max tracker width, we set the base frame width to the max and allow text to wrap
-        updateWidth(trackerMaxWidth)
+        TrackerLayout.UpdateWidth(trackerMaxWidth)
     end
 
     line.label:SetWidth(baseFrame:GetWidth() - margin)

@@ -23,7 +23,9 @@ function RecipeSection.Draw()
     local margins = TrackerLayout.GetMargins()
 
     local line = TrackerLinePool.GetZoneLine(ZONE_NAME)
-    if not line then return end
+    if (not line) then
+        return
+    end
 
     if Questie.db.char.collapsedZones[ZONE_NAME] then
         line.expandZone:SetMode(0)
@@ -57,7 +59,9 @@ function RecipeSection.Draw()
 
     for _, recipe in ipairs(recipes) do
         line = TrackerLinePool.GetRecipeTitleLine(recipe, margins.quest)
-        if not line then return end
+        if (not line) then
+            return
+        end
 
         line.label:SetText("|cFFFFFF00" .. recipe.Name .. "|r")
         TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.right)
@@ -72,7 +76,9 @@ function RecipeSection.Draw()
 
         for _, reagent in ipairs(recipe.Reagents) do
             line = TrackerLinePool.GetRecipeReagentLine(recipe, margins.objective)
-            if not line then return end
+            if (not line) then
+                return
+            end
 
             local colorCollected = math.min(reagent.Collected, reagent.Needed)
             line.label:SetText(QuestieLib:GetRGBForObjective({Collected = colorCollected, Needed = reagent.Needed}) ..
