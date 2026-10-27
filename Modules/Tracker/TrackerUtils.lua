@@ -226,6 +226,44 @@ function TrackerUtils:ShowFinisherOnMap(quest)
     end
 end
 
+---Calls the callback for every world map icon, including townsfolk icons, but skips minimap icons.
+---@param callback fun(icon: table)
+local function _ForEachFlashableIcon(callback)
+    for _, framelist in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in pairs(framelist) do
+            local icon = _G[frameName]
+            if icon and (not icon.miniMapIcon) then
+                callback(icon)
+            end
+        end
+    end
+    for _, townsfolk in pairs(QuestieMap.manualFrames or {}) do
+        for _, framelist in pairs(townsfolk) do
+            for _, frameName in pairs(framelist) do
+                local icon = _G[frameName]
+                if icon and (not icon.miniMapIcon) then
+                    callback(icon)
+                end
+            end
+        end
+    end
+end
+
+---Hides townsfolk icons while a flash runs; _StopFlash shows them again.
+local function _HideManualIconsForFlash()
+    for _, townsfolk in pairs(QuestieMap.manualFrames or {}) do
+        for _, framelist in pairs(townsfolk) do
+            for _, frameName in pairs(framelist) do
+                local icon = _G[frameName]
+                if icon and (not icon.miniMapIcon) and icon:IsShown() then
+                    icon._hidden_by_flash = true
+                    icon:Hide()
+                end
+            end
+        end
+    end
+end
+
 ---Ends a running flash right away, so a new flash starts from the icons' real sizes and visibility.
 local function _StopFlash()
     if (not objectiveFlashTicker) then
@@ -241,15 +279,12 @@ local function _StopFlash()
         end
     end
     flashingIcons = {}
-    for _, framelist in pairs(QuestieMap.questIdFrames) do
-        for _, frameName in pairs(framelist) do
-            local icon = _G[frameName]
-            if icon._hidden_by_flash then
-                icon._hidden_by_flash = nil
-                icon:Show()
-            end
+    _ForEachFlashableIcon(function(icon)
+        if icon._hidden_by_flash then
+            icon._hidden_by_flash = nil
+            icon:Show()
         end
-    end
+    end)
     QuestieWaypoints.SetSolo(nil)
 end
 
@@ -270,6 +305,7 @@ function TrackerUtils:FlashObjectives(objectives)
     end
     if hasSpawned then
         _StopFlash()
+        _HideManualIconsForFlash()
         local toFlash = {}
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
@@ -369,6 +405,7 @@ end
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:FlashFinisher(quest)
     _StopFlash()
+    _HideManualIconsForFlash()
     local toFlash = {}
     -- Only the flashed quest's patrol paths show during the flash.
     local flashedData = {}

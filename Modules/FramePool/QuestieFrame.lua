@@ -387,6 +387,7 @@ function _QuestieFrame.Unload(self)
     end
     self.shouldBeShowing = nil
     self.faded = nil
+    self._hidden_by_flash = nil
     HBDPins:RemoveMinimapIcon(Questie, self)
     HBDPins:RemoveWorldMapIcon(Questie, self)
     QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self))

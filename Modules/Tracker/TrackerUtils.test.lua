@@ -90,12 +90,14 @@ describe("TrackerUtils", function()
     end)
 
     describe("FlashFinisher", function()
-        local originalCTimer, tickers, icon, QuestieMap, originalQuestIdFrames, QuestieWaypoints, originalSetSolo
+        local originalCTimer, tickers, icon, QuestieMap, originalQuestIdFrames, originalManualFrames, QuestieWaypoints, originalSetSolo
 
         before_each(function()
             originalCTimer = _G.C_Timer
             QuestieMap = QuestieLoader:ImportModule("QuestieMap")
             originalQuestIdFrames = QuestieMap.questIdFrames
+            originalManualFrames = QuestieMap.manualFrames
+            QuestieMap.manualFrames = {}
             QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
             originalSetSolo = QuestieWaypoints.SetSolo
             tickers = {}
@@ -119,7 +121,34 @@ describe("TrackerUtils", function()
             _G.C_Timer = originalCTimer
             _G.QuestieFlashTestIcon = nil
             QuestieMap.questIdFrames = originalQuestIdFrames
+            QuestieMap.manualFrames = originalManualFrames
             QuestieWaypoints.SetSolo = originalSetSolo
+        end)
+
+        it("should hide townsfolk icons only while the flash runs", function()
+            local townsfolkIcon = CreateFrame("Button")
+            townsfolkIcon:Show()
+            townsfolkIcon.IsShown = function(self) return self:IsVisible() end
+            _G.QuestieFlashTestTownsfolk = townsfolkIcon
+            QuestieMap.manualFrames = {Vendor = {[1] = {"QuestieFlashTestTownsfolk"}}}
+
+            TrackerUtils:FlashFinisher({Id = 54})
+            local hiddenDuringFlash = not townsfolkIcon:IsVisible()
+            local afters = {}
+            _G.C_Timer.After = function(_, callback) table.insert(afters, callback) end
+            for _ = 1, 50 do
+                if #afters > 0 then
+                    break
+                end
+                tickers[1].callback()
+            end
+            for _, callback in ipairs(afters) do
+                callback()
+            end
+            _G.QuestieFlashTestTownsfolk = nil
+
+            assert.is_true(hiddenDuringFlash)
+            assert.is_true(townsfolkIcon:IsVisible())
         end)
 
         it("should stop a running flash and restore icon sizes before flashing again", function()
