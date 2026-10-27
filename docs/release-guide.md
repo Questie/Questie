@@ -56,9 +56,11 @@ They download the published GitHub bundle without rebuilding. Manual runs defaul
 
 Prereleases upload as **beta** on both platforms.
 
+CurseForge gets the bundle with its `QuestieDB/` directory removed and named after Questie's part of the tag (for example `v12.0.0`). The upload declares the `questiedb` project as a required dependency, so the CurseForge app installs QuestieDB separately; the QuestieDB repo publishes it there. The GitHub release and Wago keep the full bundle. CurseForge users always get the newest QuestieDB on CurseForge, so publish a required QuestieDB release there before uploading the Questie release that needs it.
+
 Before reserving or uploading, both scripts check the tag's component versions against `release.json`, verify Questie's source commit against the tag, and require the ZIP filename to match the manifest and tag. Beta tags must include that commit's seven-character prefix.
 
-This rejects mislabeled bundles, not older releases whose metadata agrees. It does not inspect the ZIP's contents.
+This rejects mislabeled bundles, not older releases whose metadata agrees. Apart from the CurseForge check that the stripped ZIP holds only `Questie/`, it does not inspect the ZIP's contents.
 
 ### Failed external uploads
 Reservation tags prevent duplicate attempts. Check the platform and previous workflow before retrying.
