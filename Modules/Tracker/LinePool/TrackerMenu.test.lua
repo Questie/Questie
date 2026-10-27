@@ -382,20 +382,20 @@ describe("TrackerMenu", function()
 
             it("unfocuses the quest from an open menu and offers Unfocus in a rebuilt one", function()
                 Questie.db.char.TrackerFocus = 100
-                QuestieQuest.ToggleNotes = spy.new(function() end)
+                QuestieQuest.ToggleQuestNotes = spy.new(function() end)
                 local openMenu = {}
                 TrackerMenu.addFocusUnfocusOption(openMenu, originalQuest)
 
                 openMenu[1].func()
 
                 assert.spy(TrackerUtils.UnFocus).was.called(1)
-                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
                 assert.is_not_nil(_Labels(TrackerMenu:GetMenuForQuest(display))["Unfocus"])
             end)
 
             it("offers Unfocus for a focused objective once the objective menus are gone", function()
                 Questie.db.char.TrackerFocus = "100 3"
-                QuestieQuest.ToggleNotes = spy.new(function() end)
+                QuestieQuest.ToggleQuestNotes = spy.new(function() end)
                 local openMenu = {}
                 TrackerMenu.addFocusOption(openMenu, originalQuest, originalObjective)
                 openMenu[1].func()
@@ -447,11 +447,26 @@ describe("TrackerMenu", function()
     it("does not hide map notes if the quest loses focus eligibility while its menu is open", function()
         TrackerUtils.FocusQuest = function() return false end
         QuestieQuest.ToggleNotes = spy.new(function() end)
+        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
         local menu = {}
         TrackerMenu.addFocusUnfocusOption(menu, {Id = 54})
 
         menu[1].func()
 
+        assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+        assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+    end)
+
+    it("should refresh the quest icons without rebuilding the quest log when focusing", function()
+        TrackerUtils.FocusQuest = function() return true end
+        QuestieQuest.ToggleNotes = spy.new(function() end)
+        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+        local menu = {}
+        TrackerMenu.addFocusUnfocusOption(menu, {Id = 54})
+
+        menu[1].func()
+
+        assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
         assert.spy(QuestieQuest.ToggleNotes).was.not_called()
     end)
 

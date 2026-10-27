@@ -38,7 +38,7 @@ describe("QuestieTracker", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = spy.new(function() end)
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.ToggleNotes = spy.new(function() end)
+        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
@@ -265,7 +265,7 @@ describe("QuestieTracker", function()
             QuestieTracker:RemoveQuest(RIVERPAW_GNOLL_BOUNTY_ID)
 
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
         end)
 
         it("should unfocus when the removed quest id matches the focused quest id", function()
@@ -274,7 +274,7 @@ describe("QuestieTracker", function()
             QuestieTracker:RemoveQuest(COLLECTING_KELP_ID)
 
             assert.spy(TrackerUtils.UnFocus).was.called()
-            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
         end)
     end)
 
@@ -622,7 +622,7 @@ describe("QuestieTracker", function()
                 assert.spy(TrackerData.RefreshQuest).was.called_with(11)
                 assert.are.equal(11, Questie.db.char.TrackerFocus)
                 assert.is_nil(original.HideIcons)
-                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             end)
 
             it("restores objective focus using the original index before a full refresh", function()
@@ -635,7 +635,7 @@ describe("QuestieTracker", function()
                 assert.spy(TrackerData.RefreshQuest).was.called_with(11)
                 assert.are.equal("11 3", Questie.db.char.TrackerFocus)
                 assert.is_nil(objective.HideIcons)
-                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             end)
 
             it("keeps saved focus while its quest is still loading and restores it on a later update", function()
@@ -651,14 +651,14 @@ describe("QuestieTracker", function()
 
                 assert.is_true(initialized, err)
                 assert.are.equal("11 3", Questie.db.char.TrackerFocus)
-                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
 
                 ready, now = true, 1
                 TrackerUtils.GetSortedQuestIds = function() return {}, {} end
                 QuestieTracker:Update()
 
                 assert.is_nil(objective.HideIcons)
-                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             end)
 
             it("clears saved focus that still cannot apply once the restore timeout passes", function()
@@ -682,7 +682,7 @@ describe("QuestieTracker", function()
                 QuestieTracker:Update()
                 assert.spy(TrackerUtils.UnFocus).was.called(1)
                 assert.is_nil(Questie.db.char.TrackerFocus)
-                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             end)
 
             it("clears a malformed saved objective focus at startup", function()
@@ -706,7 +706,7 @@ describe("QuestieTracker", function()
 
                 assert.is_true(initialized, err)
                 assert.spy(TrackerUtils.UnFocus).was.called(1)
-                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             end)
         end)
     end)

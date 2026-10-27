@@ -399,6 +399,48 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("ToggleQuestNotes", function()
+        local ThreadLib, originalThreadInstant, originalThreadCallback
+
+        before_each(function()
+            ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+            originalThreadInstant, originalThreadCallback = ThreadLib.ThreadInstant, ThreadLib.ThreadCallbackInstant
+            ThreadLib.ThreadInstant = function(work) coroutine.wrap(work)() end
+            ThreadLib.ThreadCallbackInstant = spy.new(function() end)
+            QuestieQuest.ShowQuestIcons = spy.new(function() end)
+            QuestieQuest.HideQuestIcons = spy.new(function() end)
+        end)
+
+        after_each(function()
+            ThreadLib.ThreadInstant, ThreadLib.ThreadCallbackInstant = originalThreadInstant, originalThreadCallback
+        end)
+
+        it("should show the quest icons without rebuilding the quest log", function()
+            QuestieQuest.ToggleQuestNotes(true)
+
+            assert.spy(QuestieQuest.ShowQuestIcons).was.called()
+            assert.spy(ThreadLib.ThreadCallbackInstant).was.not_called()
+        end)
+
+        it("should hide the quest icons without rebuilding the quest log", function()
+            QuestieQuest.ToggleQuestNotes(false)
+
+            assert.spy(QuestieQuest.HideQuestIcons).was.called()
+            assert.spy(ThreadLib.ThreadCallbackInstant).was.not_called()
+        end)
+
+        it("should keep townsfolk icons visible when hiding quest icons", function()
+            local townsfolkIcon = {FakeHide = spy.new(function() end)}
+            _G.QuestieTownsfolkTestIcon = townsfolkIcon
+            QuestieMap.manualFrames = {Vendor = {[1] = {"QuestieTownsfolkTestIcon"}}}
+
+            QuestieQuest.ToggleQuestNotes(false)
+            _G.QuestieTownsfolkTestIcon = nil
+
+            assert.spy(townsfolkIcon.FakeHide).was.not_called()
+        end)
+    end)
+
     describe("GetAllQuestIds", function()
         it("should not throw an error when called from a coroutine", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = {}

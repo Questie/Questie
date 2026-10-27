@@ -141,25 +141,19 @@ function QuestieQuest:ToggleNotes(showIcons)
     )
 end
 
----Updates all quest icons to ensure they are correctly shown/hidden
+---Updates all quest icons to ensure they are correctly shown/hidden, e.g. after a focus change. Manual icons stay as they are.
+---Icons of hidden quests already exist, so the quest log is not rebuilt; that would redraw the finishers of complete quests.
 ---@param showIcons boolean @ Whether to show or hide the icons
 function QuestieQuest.ToggleQuestNotes(showIcons)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest.ToggleQuestNotes] showIcons:", showIcons)
 
-    ThreadLib.ThreadCallbackInstant(
-        function()
-            QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-        end,
-        function()
-            ThreadLib.ThreadInstant(function()
-                if showIcons then
-                    QuestieQuest:ShowQuestIcons()
-                else
-                    QuestieQuest:HideQuestIcons()
-                end
-            end)
+    ThreadLib.ThreadInstant(function()
+        if showIcons then
+            QuestieQuest:ShowQuestIcons()
+        else
+            QuestieQuest:HideQuestIcons()
         end
-    )
+    end)
 end
 
 --- Shows all quest icons. Needs to be called from a coroutine.

@@ -18,7 +18,7 @@ describe("TrackerSuperTrack", function()
         TrackerUtils.FocusQuest = spy.new(function() return true end)
         TrackerUtils.UnFocus = spy.new(function() end)
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.ToggleNotes = spy.new(function() end)
+        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.Update = spy.new(function() end)
         QuestieLoader:ImportModule("QuestieCombatQueue").Queue = function(_, callback) callback() end
@@ -34,7 +34,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.FocusQuest).was.called_with(TrackerUtils, 123)
-            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -45,7 +45,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.FocusQuest).was.not_called()
-            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -57,7 +57,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
-            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -88,7 +88,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
-            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 

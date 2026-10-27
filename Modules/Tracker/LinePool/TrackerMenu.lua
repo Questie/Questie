@@ -79,7 +79,7 @@ local function _AddUnfocusEntry(menu, isStillFocused)
                 return
             end
             TrackerUtils:UnFocus()
-            QuestieQuest:ToggleNotes(true)
+            QuestieQuest.ToggleQuestNotes(true)
         end
     })
 end
@@ -98,7 +98,7 @@ TrackerMenu.addFocusOption = function(menu, quest, objective)
             func = function()
                 LibDropDown:CloseDropDownMenus()
                 if TrackerUtils:FocusObjective(quest.Id, objective.Index, objective, quest) then
-                    QuestieQuest:ToggleNotes(false)
+                    QuestieQuest.ToggleQuestNotes(false)
                 end
             end
         })
@@ -400,7 +400,7 @@ TrackerMenu.addFocusUnfocusOption = function(menu, quest)
             func = function()
                 LibDropDown:CloseDropDownMenus()
                 if TrackerUtils:FocusQuest(quest.Id, quest) then
-                    QuestieQuest:ToggleNotes(false)
+                    QuestieQuest.ToggleQuestNotes(false)
                 end
             end
         })
