@@ -14,6 +14,8 @@ local TrackerHeaderFrame = QuestieLoader:ImportModule("TrackerHeaderFrame")
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type TrackerLayout
+local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerQuestTimers
@@ -60,9 +62,8 @@ local GetItemInfo = QuestieCompat.GetItemInfo
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
-local trackerLineWidth = 0
-local trackerMarginRight = 30
-local trackerMarginLeft = 14
+local trackerMarginRight = TrackerLayout.MARGIN_RIGHT
+local trackerMarginLeft = TrackerLayout.MARGIN_LEFT
 local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
 local lastAchieveId = GetTime()
@@ -261,6 +262,7 @@ function QuestieTracker.Initialize()
     trackerBaseFrame = TrackerBaseFrame.Initialize()
     trackerHeaderFrame = TrackerHeaderFrame.Initialize(trackerBaseFrame, QuestieTracker.Update)
     trackerQuestFrame = TrackerQuestFrame.Initialize(trackerBaseFrame, trackerHeaderFrame)
+    TrackerLayout.Initialize(trackerBaseFrame, function(width) QuestieTracker:UpdateWidth(width) end, function() QuestieTracker:UpdateHeight() end)
 
     if Expansions.Current >= Expansions.Cata or Questie.IsTitanReforged then
         AutoCompleteFrame.Initialize(trackerBaseFrame)
@@ -865,38 +867,6 @@ function QuestieTracker.SetupKeybinding()
     _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = l10n("Toggle Questie Tracker")
 end
 
-local function _UpdateLineWidth(line, objectiveMarginLeft)
-    local trackerMaxWidth = GetScreenWidth() * Questie.db.profile.trackerWidthRatio
-    local margin = objectiveMarginLeft + trackerMarginRight
-    local contentMaxWidth = trackerMaxWidth - margin
-
-    local unboundedWidth = line.label:GetUnboundedStringWidth()
-    if (unboundedWidth + margin) < contentMaxWidth then
-        -- If the text width is less than the max tracker width, we update the base frame width to fit the text
-        QuestieTracker:UpdateWidth(unboundedWidth + margin)
-    else
-        -- If the text width exceeds the max tracker width, we set the base frame width to the max and allow text to wrap
-        QuestieTracker:UpdateWidth(trackerMaxWidth)
-    end
-
-    line.label:SetWidth(trackerBaseFrame:GetWidth() - margin)
-    line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
-
-    -- If the line width is less than the minimum Tracker width then don't wrap text
-    if unboundedWidth + objectiveMarginLeft < contentMaxWidth then
-        trackerLineWidth = math.max(trackerLineWidth, unboundedWidth + objectiveMarginLeft)
-    else
-        -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent.
-        -- We add an extra pixel per line to account for WoW's internal line spacing on top of the raw font size.
-        local _, fontSize = line.label:GetFont()
-        local lineHeight = ((fontSize + 1) * line.label:GetNumLines()) + 1 -- add an extra pixel to make sure it really wraps
-        line.label:SetHeight(lineHeight)
-        line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
-
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
-    end
-end
-
 -- TrackerData revision shown by the last completed layout. Nil makes the next quest-log check lay out.
 local layoutRevision
 
@@ -980,16 +950,17 @@ function QuestieTracker:Update(onlyIfChanged)
     TrackerLinePool.ResetButtonsForChange()
 
     -- This is needed so the Tracker can also decrease its width
-    trackerLineWidth = 0
+    TrackerLayout.ResetLineWidth()
 
     -- Setup local QuestieTracker:Update vars
     local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
 
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
-    local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
-    local questItemButtonSize = 12 + trackerFontSizeQuest
+    local margins = TrackerLayout.GetMargins()
+    local questMarginLeft = margins.quest
+    local objectiveMarginLeft = margins.objective
+    local questItemButtonSize = margins.itemButtonSize
     local objectiveColor = Questie.db.profile.trackerColorObjectives
 
     local line
@@ -1008,7 +979,7 @@ function QuestieTracker:Update(onlyIfChanged)
             if not questId then break end
 
             -- reset objectiveMarginLeft for each quest, it can be increased if there are quest items
-            objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
+            objectiveMarginLeft = margins.objective
 
             ---@type TrackerQuest
             local quest = questDetails[questId].quest
@@ -1062,7 +1033,7 @@ function QuestieTracker:Update(onlyIfChanged)
                     line:SetWidth(line.label:GetWidth())
 
                     -- Compare largest text Label in the tracker with current Label, then save widest width
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
+                    TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft)
 
                     -- Setup Min/Max Button
                     line.expandZone:ClearAllPoints()
@@ -1156,7 +1127,7 @@ function QuestieTracker:Update(onlyIfChanged)
                     line:SetWidth(line.label:GetWidth() + questMarginLeft)
 
                     -- Compare largest text Label in the tracker with current Label, then save widest width
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+                    TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + questMarginLeft)
 
                     -- Adds 4 pixels between Quest Title and first Objective
                     line:SetHeight(line.label:GetHeight() + 4)
@@ -1179,7 +1150,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                 line:SetWidth(line.label:GetWidth() + questMarginLeft + questItemButtonSize)
 
                                 -- Re-compare largest text Label in the tracker with Secondary Button/Quest and current Label, then save widest width
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft + questItemButtonSize)
+                                TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + questMarginLeft + questItemButtonSize)
                             elseif alpha == 0 then
                                 -- Set Quest Title linePool
                                 line.label:ClearAllPoints()
@@ -1193,7 +1164,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                 line:SetWidth(line.label:GetWidth() + questMarginLeft)
 
                                 -- Re-compare largest text Label in the tracker with current Label, then save widest width
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+                                TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + questMarginLeft)
                             end
 
                             secondaryButton = true
@@ -1265,7 +1236,7 @@ function QuestieTracker:Update(onlyIfChanged)
                             line:SetWidth(line.label:GetWidth() + lineWidthQBC)
 
                             -- Compare largest text Label in the tracker with current Label, then save widest width
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
+                            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + lineWidthQBC)
 
                             line:SetHeight(line.label:GetHeight() + 1)
 
@@ -1290,7 +1261,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                     local questIsIncompleteButObjectiveIsComplete = ((not quest.isComplete) and objective.Completed == true and #quest.Objectives == 1)
                                     if (objective.Completed ~= true or (objective.Completed == true and #quest.Objectives > 1) or questIsIncompleteButObjectiveIsComplete) then
                                         line.label:SetText(TrackerData.GetObjectiveText(objective))
-                                        _UpdateLineWidth(line, objectiveMarginLeft)
+                                        TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft)
                                     end
 
                                     -- Adds 1 pixel between multiple Objectives
@@ -1312,7 +1283,7 @@ function QuestieTracker:Update(onlyIfChanged)
                             if ((complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil)) and objectiveColor ~= "minimal" then
                                 -- Set Blizzard Completion text for single objectives
                                 line.label:SetText(completionText)
-                                _UpdateLineWidth(line, objectiveMarginLeft)
+                                TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft)
 
                                 -- Hide the Secondary Quest Item Button. There are some quests with usable items after a quest is completed I
                                 -- have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
@@ -1335,7 +1306,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                 line:SetWidth(line.label:GetWidth() + lineWidthQBC)
 
                                 -- Compare largest text Label in the tracker with current Label, then save widest width
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
+                                TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + lineWidthQBC)
                             end
 
                             -- Set Objective state
@@ -1424,7 +1395,7 @@ function QuestieTracker:Update(onlyIfChanged)
                         line:SetWidth(line.label:GetWidth())
 
                         -- Compare largest text Label in the tracker with current Label, then save widest width
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
+                        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft)
 
                         -- Setup Min/Max Button
                         line.expandZone:ClearAllPoints()
@@ -1483,7 +1454,7 @@ function QuestieTracker:Update(onlyIfChanged)
                         line:SetWidth(line.label:GetWidth() + questMarginLeft)
 
                         -- Compare largest text Label in the tracker with current Label, then save widest width
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+                        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + questMarginLeft)
 
                         -- Adds 4 pixels between Achievement Title and first Objective
                         line:SetHeight(line.label:GetHeight() + 4)
@@ -1502,7 +1473,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                 -- Set Objective text
                                 local objDesc = achieve.Description:gsub("%.$", "")
                                 line.label:SetText(QuestieLib:GetRGBForObjective({Collected = 0, Needed = 1}) .. objDesc)
-                                _UpdateLineWidth(line, objectiveMarginLeft)
+                                TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft)
 
                                 -- Set Objective state
                                 line:Show()
@@ -1554,7 +1525,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                         line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
 
                                         -- Split Objective description and Progress/Needed into seperate lines
-                                        if (trackerLineWidth < line.label:GetUnboundedStringWidth() + objectiveMarginLeft) and (line.label:GetWidth() < line.label:GetUnboundedStringWidth() + 5) then
+                                        if (TrackerLayout.GetLineWidth() < line.label:GetUnboundedStringWidth() + objectiveMarginLeft) and (line.label:GetWidth() < line.label:GetUnboundedStringWidth() + 5) then
                                             -- Set Objective text
                                             line.label:SetText(QuestieLib:GetRGBForObjective({Collected = quantityProgress, Needed = quantityNeeded}) ..
                                                 objDesc .. ": ")
@@ -1567,7 +1538,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                             line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
                                             -- Compare largest text Label in the tracker with current Label, then save widest width
-                                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
 
                                             -- Adds 1 pixel between split Objectives
                                             line:SetHeight(line.label:GetHeight() + 1)
@@ -1594,7 +1565,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                             line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
                                             -- Compare largest text Label in the tracker with current Label, then save widest width
-                                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
                                         end
 
                                         -- Set Objectives with a single Objective number criteria
@@ -1623,7 +1594,7 @@ function QuestieTracker:Update(onlyIfChanged)
                                         line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
                                         -- Compare largest text Label in the tracker with current Label, then save widest width
-                                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
                                     end
 
                                     -- Adds 1 pixel between multiple Objectives
@@ -1670,7 +1641,7 @@ function QuestieTracker:Update(onlyIfChanged)
         QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
         line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
         line:SetWidth(line.label:GetWidth())
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
+        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft)
 
         line.expandZone:ClearAllPoints()
         line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
@@ -1698,7 +1669,7 @@ function QuestieTracker:Update(onlyIfChanged)
             QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight)
             line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
             line:SetWidth(line.label:GetWidth() + questMarginLeft)
-            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + questMarginLeft)
 
             -- Adds 4 pixels between Recipe Title and first Reagent
             line:SetHeight(line.label:GetHeight() + 4)
@@ -1712,7 +1683,7 @@ function QuestieTracker:Update(onlyIfChanged)
                 local colorCollected = math.min(reagent.Collected, reagent.Needed)
                 line.label:SetText(QuestieLib:GetRGBForObjective({Collected = colorCollected, Needed = reagent.Needed}) ..
                     reagent.Name .. ": " .. reagent.Collected .. "/" .. reagent.Needed)
-                _UpdateLineWidth(line, objectiveMarginLeft)
+                TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft)
 
                 -- Adds 1 pixel between multiple Reagents
                 line:SetHeight(line.label:GetHeight() + 1)
@@ -1747,7 +1718,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
         line.label:SetWidth(trackerBaseFrame:GetWidth())
         line:SetWidth(line.label:GetWidth())
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth())
         line:SetHeight(line.label:GetHeight() + 3)
 
         line:Show()
@@ -1777,7 +1748,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
         line.label:SetWidth(trackerBaseFrame:GetWidth())
         line:SetWidth(line.label:GetWidth())
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth())
         line:SetHeight(line.label:GetHeight() + 3)
 
         line:Show()
@@ -1823,14 +1794,14 @@ function QuestieTracker:Update(onlyIfChanged)
 
             line.label:SetWidth(trackerBaseFrame:GetWidth())
             line:SetWidth(line.label:GetWidth())
-            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth())
             line:SetHeight(line.label:GetHeight() + 1)
 
             line:Show()
             line.label:Show()
         end
 
-        QuestieTracker:UpdateWidth(trackerLineWidth)
+        QuestieTracker:UpdateWidth(TrackerLayout.GetLineWidth())
         QuestieTracker:UpdateHeight()
     end
 
@@ -1856,7 +1827,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
         line.label:SetWidth(trackerBaseFrame:GetWidth())
         line:SetWidth(line.label:GetWidth())
-        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth())
         line:SetHeight(line.label:GetHeight() + 3)
 
         line:Show()
@@ -1902,14 +1873,14 @@ function QuestieTracker:Update(onlyIfChanged)
 
             line.label:SetWidth(trackerBaseFrame:GetWidth())
             line:SetWidth(line.label:GetWidth())
-            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth())
             line:SetHeight(line.label:GetHeight() + 1)
 
             line:Show()
             line.label:Show()
         end
 
-        QuestieTracker:UpdateWidth(trackerLineWidth)
+        QuestieTracker:UpdateWidth(TrackerLayout.GetLineWidth())
         QuestieTracker:UpdateHeight()
     end
 
@@ -2001,20 +1972,20 @@ function QuestieTracker:UpdateFormatting()
 
     TrackerHeaderFrame:Update()
 
-    if TrackerLinePool.GetCurrentLine() and trackerLineWidth > 1 then
-        local trackerVarsCombined = trackerLineWidth + trackerMarginRight
-        TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
-        local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
-        local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
-        local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
-        local questItemButtonSize = 12 + trackerFontSizeQuest
+    if TrackerLinePool.GetCurrentLine() and TrackerLayout.GetLineWidth() > 1 then
+        local trackerVarsCombined = TrackerLayout.GetLineWidth() + trackerMarginRight
+        TrackerLinePool.UpdateWrappedLineWidths(TrackerLayout.GetLineWidth())
+        local margins = TrackerLayout.GetMargins()
+        local questMarginLeft = margins.quest
+        local objectiveMarginLeft = margins.objective
+        local questItemButtonSize = margins.itemButtonSize
 
         TrackerLinePool.UpdateObjectiveLines(function(line)
             if line.questHasSecondaryQIB then
                 -- The objective line belongs to a quest with two quest items, so we need to add extra padding to account for the second QIB
-                _UpdateLineWidth(line, objectiveMarginLeft + questItemButtonSize)
+                TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft + questItemButtonSize)
             else
-                _UpdateLineWidth(line, objectiveMarginLeft)
+                TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft)
             end
         end)
 
@@ -2035,7 +2006,7 @@ function QuestieTracker:UpdateFormatting()
             line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
             line:SetWidth(line.label:GetWidth() + questMarginLeft)
 
-            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + questMarginLeft)
         end)
         QuestieTracker:UpdateHeight()
         TrackerQuestFrame:Update()
