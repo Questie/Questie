@@ -55,6 +55,8 @@ local IsEquippableItem = QuestieCompat.IsEquippableItem
 local tinsert = table.insert
 
 local objectiveFlashTicker
+---@type table<number, table> Icons of the running flash, to restore their size when a new flash starts.
+local flashingIcons = {}
 local zoneCache = {}
 local questProximityTimer
 local questZoneProximityTimer
@@ -205,6 +207,33 @@ function TrackerUtils:ShowFinisherOnMap(quest)
     end
 end
 
+---Ends a running flash right away, so a new flash starts from the icons' real sizes and visibility.
+local function _StopFlash()
+    if (not objectiveFlashTicker) then
+        return
+    end
+    objectiveFlashTicker:Cancel()
+    objectiveFlashTicker = nil
+    for _, frame in pairs(flashingIcons) do
+        if frame._size then
+            frame:SetWidth(frame._size)
+            frame:SetHeight(frame._size)
+            frame._size = nil
+        end
+    end
+    flashingIcons = {}
+    for _, framelist in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in pairs(framelist) do
+            local icon = _G[frameName]
+            if icon._hidden_by_flash then
+                icon._hidden_by_flash = nil
+                icon:Show()
+            end
+        end
+    end
+    QuestieWaypoints.SetSolo(nil)
+end
+
 ---@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
 function TrackerUtils:FlashObjective(objective)
     TrackerUtils:FlashObjectives({objective})
@@ -221,6 +250,7 @@ function TrackerUtils:FlashObjectives(objectives)
         end
     end
     if hasSpawned then
+        _StopFlash()
         local toFlash = {}
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
@@ -268,7 +298,9 @@ function TrackerUtils:FlashObjectives(objectives)
         local flashW = 1
         local flashB = true
         local flashDone = 0
-        objectiveFlashTicker = C_Timer.NewTicker(0.1, function()
+        flashingIcons = toFlash
+        local ticker
+        ticker = C_Timer.NewTicker(0.1, function()
             for _, frame in pairs(toFlash) do
                 frame:SetWidth(frame._size + flashW)
                 frame:SetHeight(frame._size + flashW)
@@ -290,7 +322,10 @@ function TrackerUtils:FlashObjectives(objectives)
                         -- ugly code
                         if flashDone > 0 then
                             C_Timer.After(0.1, function()
-                                objectiveFlashTicker:Cancel()
+                                if objectiveFlashTicker ~= ticker then
+                                    return
+                                end
+                                ticker:Cancel()
                                 for _, frame in pairs(toFlash) do
                                     frame:SetWidth(frame._size)
                                     frame:SetHeight(frame._size)
@@ -298,16 +333,9 @@ function TrackerUtils:FlashObjectives(objectives)
                                 end
                             end)
                             C_Timer.After(0.5, function()
-                                for _, framelist in pairs(QuestieMap.questIdFrames) do
-                                    for _, frameName in pairs(framelist) do
-                                        local icon = _G[frameName]
-                                        if icon._hidden_by_flash then
-                                            icon._hidden_by_flash = nil
-                                            icon:Show()
-                                        end
-                                    end
+                                if objectiveFlashTicker == ticker then
+                                    _StopFlash()
                                 end
-                                QuestieWaypoints.SetSolo(nil)
                             end)
                         end
                         flashDone = flashDone + 1
@@ -315,11 +343,13 @@ function TrackerUtils:FlashObjectives(objectives)
                 end
             end
         end)
+        objectiveFlashTicker = ticker
     end
 end
 
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:FlashFinisher(quest)
+    _StopFlash()
     local toFlash = {}
     -- Only the flashed quest's patrol paths show during the flash.
     local flashedData = {}
@@ -354,7 +384,9 @@ function TrackerUtils:FlashFinisher(quest)
     local flashW = 1
     local flashB = true
     local flashDone = 0
-    objectiveFlashTicker = C_Timer.NewTicker(0.1, function()
+    flashingIcons = toFlash
+    local ticker
+    ticker = C_Timer.NewTicker(0.1, function()
         for _, frame in pairs(toFlash) do
             frame:SetWidth(frame._size + flashW)
             frame:SetHeight(frame._size + flashW)
@@ -376,7 +408,10 @@ function TrackerUtils:FlashFinisher(quest)
                     -- ugly code
                     if flashDone > 0 then
                         C_Timer.After(0.1, function()
-                            objectiveFlashTicker:Cancel()
+                            if objectiveFlashTicker ~= ticker then
+                                return
+                            end
+                            ticker:Cancel()
                             for _, frame in pairs(toFlash) do
                                 frame:SetWidth(frame._size)
                                 frame:SetHeight(frame._size)
@@ -384,16 +419,9 @@ function TrackerUtils:FlashFinisher(quest)
                             end
                         end)
                         C_Timer.After(0.5, function()
-                            for _, framelist in pairs(QuestieMap.questIdFrames) do
-                                for _, frameName in pairs(framelist) do
-                                    local icon = _G[frameName]
-                                    if icon._hidden_by_flash then
-                                        icon._hidden_by_flash = nil
-                                        icon:Show()
-                                    end
-                                end
+                            if objectiveFlashTicker == ticker then
+                                _StopFlash()
                             end
-                            QuestieWaypoints.SetSolo(nil)
                         end)
                     end
                     flashDone = flashDone + 1
@@ -401,6 +429,7 @@ function TrackerUtils:FlashFinisher(quest)
             end
         end
     end)
+    objectiveFlashTicker = ticker
 end
 
 ---@param bind string

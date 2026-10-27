@@ -89,6 +89,50 @@ describe("TrackerUtils", function()
         isAddOnLoadedMock:revert()
     end)
 
+    describe("FlashFinisher", function()
+        local originalCTimer, tickers, icon, QuestieMap, originalQuestIdFrames, QuestieWaypoints, originalSetSolo
+
+        before_each(function()
+            originalCTimer = _G.C_Timer
+            QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+            originalQuestIdFrames = QuestieMap.questIdFrames
+            QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+            originalSetSolo = QuestieWaypoints.SetSolo
+            tickers = {}
+            _G.C_Timer = {
+                NewTicker = function(_, callback)
+                    local ticker = {Cancel = spy.new(function() end), callback = callback}
+                    table.insert(tickers, ticker)
+                    return ticker
+                end,
+                After = function() end,
+            }
+            QuestieLoader:ImportModule("QuestieWaypoints").SetSolo = spy.new(function() end)
+            icon = CreateFrame("Button")
+            icon:SetWidth(16)
+            icon:SetHeight(16)
+            _G.QuestieFlashTestIcon = icon
+            QuestieLoader:ImportModule("QuestieMap").questIdFrames = {[54] = {"QuestieFlashTestIcon"}}
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalCTimer
+            _G.QuestieFlashTestIcon = nil
+            QuestieMap.questIdFrames = originalQuestIdFrames
+            QuestieWaypoints.SetSolo = originalSetSolo
+        end)
+
+        it("should stop a running flash and restore icon sizes before flashing again", function()
+            TrackerUtils:FlashFinisher({Id = 54})
+            tickers[1].callback()
+
+            TrackerUtils:FlashFinisher({Id = 54})
+
+            assert.spy(tickers[1].Cancel).was.called()
+            assert.are_same(16, icon._size)
+        end)
+    end)
+
     describe("show on map", function()
         local openMock, nearestObjectiveMock, nearestFinisherMock, uiMapIdMock, originalWorldMapFrame
 
