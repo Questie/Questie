@@ -166,6 +166,25 @@ function TrackerUtils.SetQuestTomTomTarget(questId, expectedQuest)
     return true
 end
 
+---Opens the world map on the zone of the quest's nearest objective or finisher and flashes the quest's icons.
+---@param questId QuestId
+---@param expectedQuest Quest? Original quest captured by the initiating row.
+---@return boolean
+function TrackerUtils.ShowQuestOnMap(questId, expectedQuest)
+    local quest, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
+    if not (capabilities and capabilities.canNavigateQuest) then
+        return false
+    end
+    local spawn, zone = DistanceUtils.GetNearestSpawnForQuest(quest)
+    if not spawn then
+        return false
+    end
+    QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zone))
+    -- FlashFinisher flashes all map icons of a quest, not only its finisher.
+    TrackerUtils:FlashFinisher(capabilities.quest)
+    return true
+end
+
 ---@param objective QuestObjective
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local _, zoneId = DistanceUtils.GetNearestObjective(objective.spawnList)

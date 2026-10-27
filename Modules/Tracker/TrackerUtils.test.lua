@@ -134,7 +134,7 @@ describe("TrackerUtils", function()
     end)
 
     describe("show on map", function()
-        local openMock, nearestObjectiveMock, nearestFinisherMock, uiMapIdMock, originalWorldMapFrame
+        local openMock, nearestObjectiveMock, nearestFinisherMock, uiMapIdMock, originalWorldMapFrame, nearestSpawnMock
 
         before_each(function()
             local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
@@ -153,6 +153,10 @@ describe("TrackerUtils", function()
             nearestObjectiveMock:revert()
             nearestFinisherMock:revert()
             uiMapIdMock:revert()
+            if nearestSpawnMock then
+                nearestSpawnMock:revert()
+                nearestSpawnMock = nil
+            end
             _G.WorldMapFrame = originalWorldMapFrame
         end)
 
@@ -170,6 +174,49 @@ describe("TrackerUtils", function()
             assert.stub(openMock).was.called_with(1429)
             assert.spy(WorldMapFrame.Show).was_not.called()
             assert.spy(WorldMapFrame.SetMapID).was_not.called()
+        end)
+
+        it("should open the map on the zone of the nearest quest spawn and flash the quest", function()
+            local original = {Id = 100}
+            local quest = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            trackerQuests[100] = quest
+            nearestSpawnMock = stub(QuestieLoader:ImportModule("DistanceUtils"), "GetNearestSpawnForQuest", function() return {50, 60}, 40 end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_true(TrackerUtils.ShowQuestOnMap(100, original))
+
+            assert.stub(nearestSpawnMock).was.called_with(quest)
+            assert.stub(uiMapIdMock).was.called_with(match.is_ref(QuestieLoader:ImportModule("ZoneDB")), 40)
+            assert.stub(openMock).was.called_with(1429)
+            assert.spy(TrackerUtils.FlashFinisher).was.called_with(TrackerUtils, original)
+        end)
+
+        it("should not open the map for a quest without spawns", function()
+            local original = {Id = 100}
+            trackerQuests[100] = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            nearestSpawnMock = stub(QuestieLoader:ImportModule("DistanceUtils"), "GetNearestSpawnForQuest", function() end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.ShowQuestOnMap(100, original))
+
+            assert.stub(openMock).was.not_called()
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
+        end)
+
+        it("should not open the map for a quest that can not be navigated", function()
+            trackerQuests[91741] = {Id = 91741, Objectives = {}, SpecialObjectives = {}}
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.ShowQuestOnMap(91741))
+
+            assert.stub(openMock).was.not_called()
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
         end)
 
         describe("all quest objectives", function()
