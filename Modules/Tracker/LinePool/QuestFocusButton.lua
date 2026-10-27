@@ -13,6 +13,8 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -40,18 +42,24 @@ function QuestFocusButton.GetColumnWidth()
     return _GetButtonSize() + 2
 end
 
+---Focused in Questie, or super tracked by Blizzard, which also covers quests missing from the Questie database.
 ---@param questId QuestId
 ---@return boolean
 local function _IsFocused(questId)
-    return Questie.db.char.TrackerFocus == questId
+    return Questie.db.char.TrackerFocus == questId or QuestieCompat.GetSuperTrackedQuestID() == questId
 end
 
 local function _OnClick(self)
-    if _IsFocused(self.questId) then
+    if Questie.db.char.TrackerFocus == self.questId then
         TrackerUtils:UnFocus()
         QuestieQuest:ToggleNotes(true)
+    elseif QuestieCompat.GetSuperTrackedQuestID() == self.questId then
+        QuestieCompat.ClearSuperTrackedQuest()
     elseif TrackerUtils:FocusQuest(self.questId, self.expectedQuest) then
         QuestieQuest:ToggleNotes(false)
+    else
+        -- Questie can not focus the quest, e.g. it is missing from the database; Blizzard super tracking still can.
+        QuestieCompat.SetSuperTrackedQuestID(self.questId)
     end
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
@@ -87,7 +95,7 @@ function QuestFocusButton.New(index, parent)
         self.expectedQuest = quest.enrichment
 
         local isFocused = _IsFocused(quest.Id)
-        local canFocus = TrackerMapEligibility.GetCapabilities(quest).canFocusQuest
+        local canFocus = QuestieCompat.IsSuperTrackingSupported() or TrackerMapEligibility.GetCapabilities(quest).canFocusQuest
         -- A focused quest keeps its button even when it lost eligibility, so it can still be unfocused.
         if (not Questie.db.profile.trackerShowQuestFocusButtons) or (not (canFocus or isFocused)) then
             self:Hide()

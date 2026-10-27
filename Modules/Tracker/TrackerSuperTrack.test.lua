@@ -38,14 +38,15 @@ describe("TrackerSuperTrack", function()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
-        it("should do nothing when the super tracked quest is already focused", function()
+        it("should only redraw the tracker when the super tracked quest is already focused", function()
             superTrackedQuestId = 123
             Questie.db.char.TrackerFocus = 123
 
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.FocusQuest).was.not_called()
-            assert.spy(QuestieTracker.Update).was.not_called()
+            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            assert.spy(QuestieTracker.Update).was.called()
         end)
 
         it("should unfocus the focused quest when Blizzard super tracks a quest Questie can not focus", function()
@@ -60,6 +61,16 @@ describe("TrackerSuperTrack", function()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
+        it("should redraw the tracker when Blizzard super tracks a quest Questie can not focus without a focus", function()
+            superTrackedQuestId = 123
+            TrackerUtils.FocusQuest = spy.new(function() return false end)
+
+            TrackerSuperTrack.OnSuperTrackingChanged()
+
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(QuestieTracker.Update).was.called()
+        end)
+
         it("should keep an objective focus when Blizzard super tracks a quest Questie can not focus", function()
             superTrackedQuestId = 123
             Questie.db.char.TrackerFocus = "99 1"
@@ -68,7 +79,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieTracker.Update).was.not_called()
+            assert.spy(QuestieTracker.Update).was.called()
         end)
 
         it("should unfocus the focused quest when Blizzard clears super tracking", function()
@@ -87,14 +98,14 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieTracker.Update).was.not_called()
+            assert.spy(QuestieTracker.Update).was.called()
         end)
 
-        it("should do nothing when nothing is focused or super tracked", function()
+        it("should redraw the tracker when super tracking is cleared without a focus", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieTracker.Update).was.not_called()
+            assert.spy(QuestieTracker.Update).was.called()
         end)
     end)
 end)
