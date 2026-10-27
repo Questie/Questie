@@ -419,7 +419,7 @@ describe("QuestieTracker", function()
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
         local timeMock, combatMock, countMock, instanceMock, infoMock, screenMock
-        local header, pool, revision, RecipeSection, ScenarioSection, AchievementSection
+        local header, pool, revision, RecipeSection, ScenarioSection, AchievementSection, QuestSection, drawnSections
 
         before_each(function()
             now, inCombat = 0, false
@@ -467,7 +467,10 @@ describe("QuestieTracker", function()
             ScenarioSection = QuestieLoader:ImportModule("ScenarioSection")
             ScenarioSection.Draw = spy.new(function() end)
             AchievementSection = QuestieLoader:ImportModule("AchievementSection")
-            AchievementSection.Draw = spy.new(function() end)
+            AchievementSection.Draw = spy.new(function() table.insert(drawnSections, "achievements") end)
+            QuestSection = QuestieLoader:ImportModule("QuestSection")
+            QuestSection.Draw = spy.new(function() table.insert(drawnSections, "quests") end)
+            drawnSections = {}
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
@@ -502,6 +505,7 @@ describe("QuestieTracker", function()
 
             QuestieTracker:Update()
 
+            assert.spy(QuestSection.Draw).was.called(1)
             assert.spy(RecipeSection.Draw).was.called(1)
             assert.spy(ScenarioSection.Draw).was.not_called()
             assert.spy(AchievementSection.Draw).was.not_called()
@@ -513,7 +517,18 @@ describe("QuestieTracker", function()
 
             QuestieTracker:Update()
 
-            assert.spy(AchievementSection.Draw).was.called(1)
+            assert.are_same({"quests", "achievements"}, drawnSections)
+        end)
+
+        it("should draw achievements before quests when configured", function()
+            expansion.Current = expansion.Wotlk
+            Questie.db.profile.listAchievementsFirst = true
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.are_same({"achievements", "quests"}, drawnSections)
+            Questie.db.profile.listAchievementsFirst = nil
         end)
 
         it("should only draw the scenario section in a scenario", function()
@@ -524,6 +539,7 @@ describe("QuestieTracker", function()
             QuestieTracker:Update()
 
             assert.spy(ScenarioSection.Draw).was.called_with(false)
+            assert.spy(QuestSection.Draw).was.not_called()
             assert.spy(RecipeSection.Draw).was.not_called()
         end)
 
@@ -535,6 +551,7 @@ describe("QuestieTracker", function()
             QuestieTracker:Update()
 
             assert.spy(ScenarioSection.Draw).was.called_with(true)
+            assert.spy(QuestSection.Draw).was.not_called()
             assert.spy(RecipeSection.Draw).was.not_called()
         end)
 
