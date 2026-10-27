@@ -197,33 +197,18 @@ local focusRestoreDeadline
 ---@param canWait boolean True while unavailable data may still load; false clears focus on any failure.
 ---@return boolean finished True when focus was applied, cleared or never saved; false while waiting for data.
 local function _RestoreSavedFocus(canWait)
-    -- Saved as a quest ID for quest focus, or "questId objectiveIndex" for objective focus.
-    local focus = Questie.db.char.TrackerFocus
-    local questId, objectiveIndex
-    if type(focus) == "number" then
-        questId = focus
-    elseif type(focus) == "string" then
-        local questIdText, objectiveIndexText = string.match(focus, "(%d+) (%d+)")
-        questId, objectiveIndex = tonumber(questIdText), tonumber(objectiveIndexText)
-        if not (questId and objectiveIndex) then
-            -- Malformed saved value: it can never apply.
-            TrackerUtils:UnFocus()
-            return true
-        end
+    local questId = Questie.db.char.TrackerFocus
+    if type(questId) == "string" then
+        -- Former "questId objectiveIndex" objective focus, which no longer exists.
+        Questie.db.char.TrackerFocus = nil
+        return true
     end
     if not questId then
         return true
     end
 
     -- Use the same eligibility checks as menu focus. They fail while spawns or objectives are still loading.
-    local restored
-    if objectiveIndex then
-        restored = TrackerUtils:FocusObjective(questId, objectiveIndex)
-    else
-        restored = TrackerUtils:FocusQuest(questId)
-    end
-
-    if restored then
+    if TrackerUtils:FocusQuest(questId) then
         QuestieQuest.ToggleQuestNotes(false)
         return true
     end
@@ -2258,18 +2243,9 @@ function QuestieTracker:RemoveQuest(questId)
         Questie.db.char.TrackedQuests[questId] = nil
     end
 
-    if Questie.db.char.TrackerFocus then
-        local focusedQuestId
-        if type(Questie.db.char.TrackerFocus) == "number" then
-            focusedQuestId = Questie.db.char.TrackerFocus
-        elseif type(Questie.db.char.TrackerFocus) == "string" then
-            focusedQuestId = tonumber(Questie.db.char.TrackerFocus:match("^(%d+)%s"))
-        end
-
-        if focusedQuestId == questId then
-            TrackerUtils:UnFocus()
-            QuestieQuest.ToggleQuestNotes(true)
-        end
+    if Questie.db.char.TrackerFocus == questId then
+        TrackerUtils:UnFocus()
+        QuestieQuest.ToggleQuestNotes(true)
     end
 end
 

@@ -582,9 +582,9 @@ function TrackerUtils:GetCategoryNameByID(catId)
 end
 
 ---Clears Blizzard super tracking only when it points at the quest Questie focused, so other super tracking stays.
----@param questId any
+---@param questId QuestId
 local function _ClearSuperTrackedQuest(questId)
-    if type(questId) == "number" and QuestieCompat.GetSuperTrackedQuestID() == questId then
+    if QuestieCompat.GetSuperTrackedQuestID() == questId then
         QuestieCompat.ClearSuperTrackedQuest()
     end
 end
@@ -607,26 +607,6 @@ function TrackerUtils:UnFocus()
                     quest.HideIcons = nil
                     quest.FadeIcons = nil
                 end
-
-                for _, objective in pairs(quest.Objectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
-                        objective.HideIcons = true
-                        objective.FadeIcons = nil
-                    else
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    end
-                end
-
-                for _, objective in pairs(quest.SpecialObjectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
-                        objective.HideIcons = true
-                        objective.FadeIcons = nil
-                    else
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    end
-                end
             end
         end
     end
@@ -638,57 +618,6 @@ function TrackerUtils:UnFocus()
 end
 
 ---@param questId number Quest ID number
----@param objectiveIndex number Original objective index, not the display index.
----@param expectedObjective QuestObjective? Original object captured by a menu.
----@param expectedQuest Quest? Original quest captured by a menu.
----@return boolean
-function TrackerUtils:FocusObjective(questId, objectiveIndex, expectedObjective, expectedQuest)
-    local _, capabilities = TrackerMapEligibility.RefreshAndGetCapabilities(questId, expectedQuest)
-    local original = capabilities and capabilities.focusObjectives[objectiveIndex]
-    if not original or (expectedObjective and original ~= expectedObjective) then
-        return false
-    end
-
-    if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "string" or Questie.db.char.TrackerFocus ~= tostring(questId) .. " " .. tostring(objectiveIndex)) then
-        TrackerUtils:UnFocus()
-    end
-
-    Questie.db.char.TrackerFocus = tostring(questId) .. " " .. tostring(objectiveIndex)
-    -- Blizzard super tracking has no objective equivalent.
-    _ClearSuperTrackedQuest(questId)
-    for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB.GetQuest(questLogQuestId)
-        if quest and next(quest.Objectives) then
-            if questLogQuestId == questId then
-                quest.HideIcons = nil
-                quest.FadeIcons = nil
-
-                for _, objective in pairs(quest.Objectives) do
-                    if objective.Index == objectiveIndex then
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    else
-                        objective.FadeIcons = true
-                    end
-                end
-
-                for _, objective in pairs(quest.SpecialObjectives) do
-                    if objective.Index == objectiveIndex then
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    else
-                        objective.FadeIcons = true
-                    end
-                end
-            else
-                quest.FadeIcons = true
-            end
-        end
-    end
-    return true
-end
-
----@param questId number Quest ID number
 ---@param expectedQuest Quest? Original quest captured by a menu.
 ---@return boolean
 function TrackerUtils:FocusQuest(questId, expectedQuest)
@@ -697,7 +626,7 @@ function TrackerUtils:FocusQuest(questId, expectedQuest)
         return false
     end
 
-    if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "number" or Questie.db.char.TrackerFocus ~= questId) then
+    if Questie.db.char.TrackerFocus and Questie.db.char.TrackerFocus ~= questId then
         TrackerUtils:UnFocus()
     end
 

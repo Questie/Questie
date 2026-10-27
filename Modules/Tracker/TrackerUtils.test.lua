@@ -1180,35 +1180,9 @@ describe("TrackerUtils", function()
             assert.are.equal(54, Questie.db.char.TrackerFocus)
             assert.is_nil(original.FadeIcons)
         end)
-
-        it("does not focus an unmatched live objective", function()
-            Questie.db.char.TrackerFocus = 11
-            trackerQuests[91741] = {
-                Id = 91741, enrichment = {}, Objectives = {{Index = 1}}, SpecialObjectives = {},
-                IsComplete = function() return 0 end,
-            }
-
-            assert.is_false(TrackerUtils:FocusObjective(91741, 1))
-            assert.are.equal(11, Questie.db.char.TrackerFocus)
-        end)
     end)
 
     describe("map commands recheck current eligibility", function()
-        it("does not focus an objective replaced at the same index while a menu was open", function()
-            local oldObjective = {Index = 3, spawnList = {{}}}
-            local newObjective = {Index = 3, spawnList = {{}}}
-            local originalQuest = {Id = 100}
-            trackerQuests[100] = {
-                Id = 100, enrichment = originalQuest, Objectives = {{enrichment = newObjective}},
-                SpecialObjectives = {}, IsComplete = function() return 0 end,
-            }
-            Questie.db.char.TrackerFocus = 11
-
-            assert.is_false(TrackerUtils:FocusObjective(100, 3, oldObjective, originalQuest))
-            assert.are.equal(11, Questie.db.char.TrackerFocus)
-            assert.is_nil(newObjective.HideIcons)
-            assert.spy(TrackerData.RefreshQuest).was.called_with(100)
-        end)
 
         it("rejects whole-quest focus when only some live objectives are verified", function()
             trackerQuests[100] = {
@@ -1314,20 +1288,6 @@ describe("TrackerUtils", function()
             TrackerUtils:UnFocus()
 
             assert.spy(compat.ClearSuperTrackedQuest).was.not_called()
-        end)
-
-        it("should clear super tracking of the quest when focusing one of its objectives", function()
-            local objective = {Index = 1, spawnList = {{}}}
-            local quest = {Id = 100}
-            trackerQuests[100] = {
-                Id = 100, enrichment = quest, Objectives = {{enrichment = objective}},
-                SpecialObjectives = {}, IsComplete = function() return 0 end,
-            }
-            Questie.db.char.TrackerFocus = 100
-            superTrackedQuestId = 100
-
-            assert.is_true(TrackerUtils:FocusObjective(100, 1))
-            assert.spy(compat.ClearSuperTrackedQuest).was.called()
         end)
     end)
 

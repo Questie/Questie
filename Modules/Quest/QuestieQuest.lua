@@ -172,7 +172,7 @@ function QuestieQuest:ShowQuestIcons()
                     if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
                         icon:FakeShow()
                     end
-                    if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                    if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
                         icon:FadeOut()
                     else
                         icon:FadeIn()
@@ -214,7 +214,7 @@ function QuestieQuest:HideQuestIcons()
                 -- Hides Objective Icons
                 icon:FakeHide()
             end
-            if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+            if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
                 icon:FadeOut()
             else
                 icon:FadeIn()

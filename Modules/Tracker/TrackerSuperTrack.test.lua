@@ -71,17 +71,6 @@ describe("TrackerSuperTrack", function()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
-        it("should keep an objective focus when Blizzard super tracks a quest Questie can not focus", function()
-            superTrackedQuestId = 123
-            Questie.db.char.TrackerFocus = "99 1"
-            TrackerUtils.FocusQuest = spy.new(function() return false end)
-
-            TrackerSuperTrack.OnSuperTrackingChanged()
-
-            assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieTracker.Update).was.called()
-        end)
-
         it("should unfocus the focused quest when Blizzard clears super tracking", function()
             Questie.db.char.TrackerFocus = 123
 
@@ -89,15 +78,6 @@ describe("TrackerSuperTrack", function()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
             assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
-            assert.spy(QuestieTracker.Update).was.called()
-        end)
-
-        it("should keep an objective focus when Blizzard clears super tracking", function()
-            Questie.db.char.TrackerFocus = "123 1"
-
-            TrackerSuperTrack.OnSuperTrackingChanged()
-
-            assert.spy(TrackerUtils.UnFocus).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
