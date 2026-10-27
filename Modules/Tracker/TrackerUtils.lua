@@ -16,6 +16,8 @@ local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerRecipes
+local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type TrackerMapEligibility
 local TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
 ---@type TrackerFadeTicker
@@ -1318,6 +1320,10 @@ function TrackerUtils.HasQuest()
         else
             hasQuest = true
         end
+    end
+
+    if (not hasQuest) and TrackerRecipes.HasTrackedRecipes() then
+        hasQuest = true
     end
 
     Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils.HasQuest] - ", hasQuest)

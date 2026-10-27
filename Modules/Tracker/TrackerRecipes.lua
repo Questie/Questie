@@ -3,7 +3,7 @@
 local TrackerRecipes = QuestieLoader:CreateModule("TrackerRecipes")
 
 ---@class TrackerRecipeReagent
----@field ItemId number
+---@field ItemId number|nil Nil for currency reagents
 ---@field Name string
 ---@field Collected number
 ---@field Needed number
@@ -67,13 +67,24 @@ local function _GetRecipe(recipeId)
     local reagents = {}
     for _, slot in ipairs(schematic.reagentSlotSchematics or {}) do
         local firstReagent = slot.reagents and slot.reagents[1]
-        if slot.required and firstReagent and firstReagent.itemID then
-            reagents[#reagents + 1] = {
-                ItemId = firstReagent.itemID,
-                Name = _GetItemName(firstReagent.itemID),
-                Collected = _CountReagents(slot.reagents),
-                Needed = slot.quantityRequired,
-            }
+        if slot.required and firstReagent then
+            if firstReagent.itemID then
+                reagents[#reagents + 1] = {
+                    ItemId = firstReagent.itemID,
+                    Name = _GetItemName(firstReagent.itemID),
+                    Collected = _CountReagents(slot.reagents),
+                    Needed = slot.quantityRequired,
+                }
+            elseif firstReagent.currencyID then
+                local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(firstReagent.currencyID)
+                if currencyInfo then
+                    reagents[#reagents + 1] = {
+                        Name = currencyInfo.name,
+                        Collected = currencyInfo.quantity,
+                        Needed = slot.quantityRequired,
+                    }
+                end
+            end
         end
     end
 
