@@ -780,6 +780,7 @@ describe("QuestEventHandler", function()
             QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}, [OTHER_QUEST_ID] = {}}
             QuestieLoader:ImportModule("QuestgiverFrame").RecheckGreeting = function() end
             QuestieLoader:ImportModule("QuestgiverFrame").RecheckGossip = function() end
+            QuestieLoader:ImportModule("TrackerRecipes").IsSupported = function() return false end
             dofile("Modules/EventHandler/EventHandler.lua")
             QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
         end)

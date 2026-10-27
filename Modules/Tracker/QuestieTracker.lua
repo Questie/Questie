@@ -24,6 +24,8 @@ local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerRecipes
+local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 ---@type ChallengeModeTimer
@@ -1638,6 +1640,82 @@ function QuestieTracker:Update(onlyIfChanged)
         end
     end
 
+    local function _UpdateRecipes()
+        local recipes = TrackerRecipes.GetTrackedRecipes()
+        if #recipes == 0 then
+            return
+        end
+
+        local zoneName = "Recipes"
+        line = TrackerLinePool.GetZoneLine(zoneName)
+        if not line then return end
+
+        if Questie.db.char.collapsedZones[zoneName] then
+            line.expandZone:SetMode(0)
+            line.label:SetText("|cFFC0C0C0" .. l10n("Recipes") .. " +|r")
+        else
+            line.expandZone:SetMode(1)
+            line.label:SetText("|cFFC0C0C0" .. l10n("Recipes") .. "|r")
+        end
+
+        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
+        line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
+        line:SetWidth(line.label:GetWidth())
+        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
+
+        line.expandZone:ClearAllPoints()
+        line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
+        line.expandZone:SetWidth(line.label:GetWidth())
+        line.expandZone:SetHeight(line.label:GetHeight())
+        line.expandZone:Show()
+
+        -- Adds 4 pixels between Zone and first Recipe Title
+        line:SetHeight(line.label:GetHeight() + 4)
+        line:Show()
+        line.label:Show()
+        line.Quest = nil
+        line.Objective = nil
+        zoneCheck = zoneName
+
+        if Questie.db.char.collapsedZones[zoneName] then
+            return
+        end
+
+        for _, recipe in ipairs(recipes) do
+            line = TrackerLinePool.GetRecipeTitleLine(recipe, questMarginLeft)
+            if not line then return end
+
+            line.label:SetText("|cFFFFFF00" .. recipe.Name .. "|r")
+            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight)
+            line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
+            line:SetWidth(line.label:GetWidth() + questMarginLeft)
+            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+
+            -- Adds 4 pixels between Recipe Title and first Reagent
+            line:SetHeight(line.label:GetHeight() + 4)
+            line:Show()
+            line.label:Show()
+
+            for _, reagent in ipairs(recipe.Reagents) do
+                line = TrackerLinePool.GetRecipeReagentLine(recipe, objectiveMarginLeft)
+                if not line then return end
+
+                local colorCollected = math.min(reagent.Collected, reagent.Needed)
+                line.label:SetText(QuestieLib:GetRGBForObjective({Collected = colorCollected, Needed = reagent.Needed}) ..
+                    reagent.Name .. ": " .. reagent.Collected .. "/" .. reagent.Needed)
+                _UpdateLineWidth(line, objectiveMarginLeft)
+
+                -- Adds 1 pixel between multiple Reagents
+                line:SetHeight(line.label:GetHeight() + 1)
+                line:Show()
+                line.label:Show()
+            end
+
+            -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
+            line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
+        end
+    end
+
     local function _UpdateChallengeModeObjectives()
         line = TrackerLinePool.GetNextLine()
         if (not line) then
@@ -1846,6 +1924,7 @@ function QuestieTracker:Update(onlyIfChanged)
             _UpdateQuests()
             _UpdateAchievements()
         end
+        _UpdateRecipes()
     end
 
     -- Safety check in case we hit the linePool limit

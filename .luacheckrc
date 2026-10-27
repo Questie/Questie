@@ -362,6 +362,7 @@ globals = {
     "C_CreatureInfo.GetFactionInfo",
     "C_CreatureInfo.GetRaceInfo",
     "C_CurrencyInfo.GetCoinTextureString",
+    "C_CurrencyInfo.GetCurrencyInfo",
     "C_Cursor.DropCursorCommunitiesStream",
     "C_Cursor.GetCursorCommunitiesStream",
     "C_Cursor.GetCursorItem",

@@ -1,5 +1,6 @@
 dofile("setupTests.lua")
 local stub = require("luassert.stub")
+local match = require("luassert.match")
 
 _G.GetQuestTimers = function() return nil end
 
@@ -413,8 +414,8 @@ describe("QuestieTracker", function()
 
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
-        local timeMock, combatMock, countMock, instanceMock, infoMock
-        local header, pool, revision
+        local timeMock, combatMock, countMock, instanceMock, infoMock, screenMock
+        local header, pool, revision, recipes
 
         before_each(function()
             now, inCombat = 0, false
@@ -422,6 +423,7 @@ describe("QuestieTracker", function()
             combatMock = stub(_G, "InCombatLockdown", function() return inCombat end)
             instanceMock = stub(_G, "IsInInstance", function() return false end)
             infoMock = stub(_G, "GetInstanceInfo", function() return "Outside", "none" end)
+            screenMock = stub(_G, "GetScreenWidth", function() return 1000 end)
             countMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetNumQuestWatches", function() return 0 end)
             expansion = QuestieLoader:ImportModule("Expansions")
             originalExpansion = expansion.Current
@@ -433,12 +435,17 @@ describe("QuestieTracker", function()
             Questie.db.profile.trackerFontSizeZone = 12
             Questie.db.profile.trackerFontSizeQuest = 10
             Questie.db.profile.trackerFontSizeObjective = 10
+            Questie.db.profile.trackerWidthRatio = 0.5
 
             TrackerData.Refresh = spy.new(function() return {} end)
             revision = 0
             TrackerData.GetLayoutRevision = function() return revision end
             local base = QuestieLoader:ImportModule("TrackerBaseFrame")
-            base.Initialize = function() return CreateFrame("Frame") end
+            base.Initialize = function()
+                local baseFrame = CreateFrame("Frame")
+                baseFrame.GetWidth = function() return 200 end
+                return baseFrame
+            end
             base.Update = function() end
             header = QuestieLoader:ImportModule("TrackerHeaderFrame")
             header.Initialize = function() return {} end
@@ -452,6 +459,8 @@ describe("QuestieTracker", function()
             pool.ResetLinesForChange = function() end
             pool.ResetButtonsForChange = function() end
             pool.GetLastLine = function() return nil end
+            recipes = {}
+            QuestieLoader:ImportModule("TrackerRecipes").GetTrackedRecipes = function() return recipes end
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
@@ -474,9 +483,69 @@ describe("QuestieTracker", function()
             countMock:revert()
             instanceMock:revert()
             infoMock:revert()
+            screenMock:revert()
             expansion.Current = originalExpansion
             _G.C_Timer, _G.DurabilityFrame = originalTimer, originalDurability
             _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = originalBindingLabel
+        end)
+
+        it("should add tracked recipes with their reagents", function()
+            local texts = {}
+            local function _FakeLine()
+                local button = {}
+                setmetatable(button, {__index = function() return function() end end})
+                local label = {
+                    SetText = function(_, text) texts[#texts + 1] = text end,
+                    GetUnboundedStringWidth = function() return 10 end,
+                    GetWidth = function() return 10 end,
+                    GetHeight = function() return 10 end,
+                    GetNumLines = function() return 1 end,
+                    GetFont = function() return "font", 10 end,
+                }
+                setmetatable(label, {__index = function() return function() end end})
+                local line = {label = label, expandZone = button}
+                setmetatable(line, {__index = function() return function() end end})
+                return line
+            end
+            pool.GetZoneLine = spy.new(_FakeLine)
+            pool.GetRecipeTitleLine = spy.new(_FakeLine)
+            pool.GetRecipeReagentLine = spy.new(_FakeLine)
+            recipes = {{Id = 2538, Name = "Charred Wolf Meat", Reagents = {
+                {ItemId = 2672, Name = "Stringy Wolf Meat", Collected = 1, Needed = 2},
+            }}}
+            Questie.db.char.collapsedZones = {}
+            QuestieTracker.UpdateWidth = function() end
+            Questie.db.profile.trackerQuestPadding = 2
+            Questie.db.profile.trackerColorObjectives = "white"
+            dofile("Modules/Libs/QuestieLib.lua")
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(pool.GetZoneLine).was.called_with("Recipes")
+            assert.spy(pool.GetRecipeTitleLine).was.called_with(recipes[1], match._)
+            assert.spy(pool.GetRecipeReagentLine).was.called_with(recipes[1], match._)
+            assert.are_same("|cFFC0C0C0Recipes|r", texts[1])
+            assert.are_same("|cFFFFFF00Charred Wolf Meat|r", texts[2])
+            assert.is_truthy(texts[3]:find("Stringy Wolf Meat: 1/2", 1, true))
+        end)
+
+        it("should only add the recipe header when it is collapsed", function()
+            local line = {label = {}, expandZone = {}}
+            setmetatable(line.label, {__index = function() return function() return 10 end end})
+            setmetatable(line.expandZone, {__index = function() return function() end end})
+            setmetatable(line, {__index = function() return function() end end})
+            pool.GetZoneLine = spy.new(function() return line end)
+            pool.GetRecipeTitleLine = spy.new(function() end)
+            recipes = {{Id = 2538, Name = "Charred Wolf Meat", Reagents = {}}}
+            QuestieTracker.UpdateWidth = function() end
+            Questie.db.char.collapsedZones = {Recipes = true}
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(pool.GetZoneLine).was.called_with("Recipes")
+            assert.spy(pool.GetRecipeTitleLine).was.not_called()
         end)
 
         it("refreshes once before layout and sorting read the snapshot", function()

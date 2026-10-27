@@ -120,18 +120,20 @@ describe("TrackerRecipes", function()
             assert.are_same(5, recipes[1].Reagents[1].Collected)
         end)
 
-        it("should skip reagent slots without items", function()
+        it("should show currency reagents with name and quantity", function()
             trackedRecipes = {1}
             schematics[1] = {
                 name = "Recipe",
                 reagentSlotSchematics = {
-                    {required = true, quantityRequired = 1, reagents = {{currencyID = 5}}},
+                    {required = true, quantityRequired = 3, reagents = {{currencyID = 5}}},
                 },
             }
+            _G.C_CurrencyInfo = {GetCurrencyInfo = function() return {name = "Coin", quantity = 7} end}
 
             local recipes = TrackerRecipes.GetTrackedRecipes()
 
-            assert.are_same({}, recipes[1].Reagents)
+            _G.C_CurrencyInfo = nil
+            assert.are_same({{Name = "Coin", Collected = 7, Needed = 3}}, recipes[1].Reagents)
         end)
 
         it("should skip recipes without a schematic", function()
