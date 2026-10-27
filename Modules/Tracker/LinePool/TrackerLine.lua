@@ -34,11 +34,13 @@ local TrackerData = QuestieLoader:ImportModule("TrackerData")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type TrackerRecipes
+local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
-local _SetMode, _OnClickQuest, _OnClickAchieve
+local _SetMode, _OnClickQuest, _OnClickAchieve, _OnClickRecipe
 
 local lineMarginLeft = 10
 
@@ -95,6 +97,13 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
         self.Objective = objective
     end
 
+    ---@param recipe TrackerRecipe
+    function line:SetRecipe(recipe)
+        self.Recipe = recipe
+        self.Quest = nil
+        self.Objective = nil
+    end
+
     function line:SetScenarioCriteria(objective)
         self.Objective = objective
         OnScenarioCriteriaAdded(objective.Id, self)
@@ -146,6 +155,8 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
             self:SetScript("OnClick", _OnClickQuest)
         elseif onClickMode == "achieve" then
             self:SetScript("OnClick", _OnClickAchieve)
+        elseif onClickMode == "recipe" then
+            self:SetScript("OnClick", _OnClickRecipe)
         end
     end
 
@@ -273,5 +284,26 @@ _OnClickAchieve = function(self, button)
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForAchievement(self.Quest)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
+    end
+end
+---@param button string
+_OnClickRecipe = function(self, button)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickRecipe]")
+    if (not self.Recipe) then
+        return
+    end
+
+    if TrackerMenu.menuFrame:IsShown() then
+        LibDropDown:CloseDropDownMenus()
+    end
+
+    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
+        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+            ChatEdit_InsertLink(TrackerRecipes.GetLink(self.Recipe.Id))
+        else
+            TrackerRecipes.Untrack(self.Recipe.Id)
+        end
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+        TrackerRecipes.OpenRecipe(self.Recipe.Id)
     end
 end
