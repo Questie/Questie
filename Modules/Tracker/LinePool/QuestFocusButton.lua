@@ -52,11 +52,11 @@ end
 local function _OnClick(self)
     if Questie.db.char.TrackerFocus == self.questId then
         TrackerUtils:UnFocus()
-        QuestieQuest:ToggleNotes(true)
+        QuestieQuest.ToggleQuestNotes(true)
     elseif QuestieCompat.GetSuperTrackedQuestID() == self.questId then
         QuestieCompat.ClearSuperTrackedQuest()
     elseif TrackerUtils:FocusQuest(self.questId, self.expectedQuest) then
-        QuestieQuest:ToggleNotes(false)
+        QuestieQuest.ToggleQuestNotes(false)
     else
         -- Questie can not focus the quest, e.g. it is missing from the database; Blizzard super tracking still can.
         QuestieCompat.SetSuperTrackedQuestID(self.questId)

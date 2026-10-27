@@ -224,7 +224,7 @@ local function _RestoreSavedFocus(canWait)
     end
 
     if restored then
-        QuestieQuest:ToggleNotes(false)
+        QuestieQuest.ToggleQuestNotes(false)
         return true
     end
     -- Unavailable data is not an invalid target until the wait ends. A quest that left the log never returns.
@@ -2268,7 +2268,7 @@ function QuestieTracker:RemoveQuest(questId)
 
         if focusedQuestId == questId then
             TrackerUtils:UnFocus()
-            QuestieQuest:ToggleNotes(true)
+            QuestieQuest.ToggleQuestNotes(true)
         end
     end
 end

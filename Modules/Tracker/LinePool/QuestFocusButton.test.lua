@@ -36,7 +36,7 @@ describe("QuestFocusButton", function()
         TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
         TrackerMapEligibility.GetCapabilities = function() return {canFocusQuest = canFocusQuest} end
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.ToggleNotes = spy.new(function() end)
+        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.Update = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
@@ -181,7 +181,7 @@ describe("QuestFocusButton", function()
             button.scripts.OnClick(button)
 
             assert.spy(QuestieCompat.SetSuperTrackedQuestID).was.called_with(123)
-            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -207,7 +207,7 @@ describe("QuestFocusButton", function()
             button.scripts.OnClick(button)
 
             assert.spy(TrackerUtils.FocusQuest).was.called_with(TrackerUtils, 123, enrichedQuest)
-            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -218,7 +218,7 @@ describe("QuestFocusButton", function()
 
             button.scripts.OnClick(button)
 
-            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
         end)
 
         it("should unfocus a focused quest", function()
@@ -230,7 +230,7 @@ describe("QuestFocusButton", function()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
             assert.spy(TrackerUtils.FocusQuest).was.not_called()
-            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
             assert.spy(QuestieTracker.Update).was.called()
         end)
     end)
