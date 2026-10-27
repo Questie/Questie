@@ -535,11 +535,28 @@ describe("QuestieTracker", function()
                 assert.are.equal(2, layouts)
             end)
 
-            it("lays out after a throttled explicit update was dropped", function()
+            it("lays out on the next quest-log check after a throttled explicit update", function()
                 now = 1.05
                 QuestieTracker:Update()
                 now = 2
                 QuestieTracker:Update(true)
+
+                assert.are.equal(2, layouts)
+            end)
+
+            it("should run a dropped update once the throttle window has passed", function()
+                local afters = {}
+                _G.C_Timer.After = function(delay, callback) table.insert(afters, {delay = delay, callback = callback}) end
+                now = 1.05
+                QuestieTracker:Update()
+                QuestieTracker:Update(true)
+
+                assert.are.equal(1, layouts)
+                assert.are.equal(1, #afters)
+                assert.is_true(math.abs(afters[1].delay - 0.05) < 1e-9)
+
+                now = 1.1
+                afters[1].callback()
 
                 assert.are.equal(2, layouts)
             end)
@@ -975,6 +992,17 @@ describe("QuestieTracker", function()
     end)
 
     describe("HandleCombatStarted / HandleCombatEnded", function()
+        local originalTimer
+
+        before_each(function()
+            originalTimer = _G.C_Timer
+            _G.C_Timer = {After = function() end}
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalTimer
+        end)
+
         it("should collapse the tracker when entering combat with minimize enabled and expanded", function()
             Questie.db.profile.minimizeTrackerInCombat = true
             Questie.db.char.isTrackerExpanded = true
