@@ -36,6 +36,8 @@
 #    sh upload-cf.sh "$RELEASE_TAG"
 #
 # Tags containing -pre.<commit> upload as beta; other tags upload as release.
+# CurseForge gets the bundle without its QuestieDB directory (zip and unzip are required);
+# QuestieDB is declared as a required dependency and published by the QuestieDB repo.
 # "latest" is not accepted here. The script still requires jq with a manual ZIP name.
 # This performs a REAL upload and pushes a reservation tag to origin. There is no
 # dry-run mode. If it fails, check CurseForge before following the printed retry steps.
@@ -82,6 +84,22 @@ fi
 sh "$(dirname "$0")/validate-bundle.sh" "$RELEASE_DIR/release.json" "$LATEST_GIT_TAG" "$bundle_commit" "$BUNDLED_ZIP"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
+# CurseForge installs QuestieDB as a required dependency, so upload the bundle without it.
+# This keeps the exact Questie files of the GitHub bundle instead of rebuilding them.
+QUESTIE_LABEL="${LATEST_GIT_TAG#bundle/}"
+QUESTIE_LABEL="${QUESTIE_LABEL%%+*}"
+CF_ZIP="$RELEASE_DIR/Questie-$QUESTIE_LABEL.zip"
+cp "$RELEASE_DIR/$BUNDLED_ZIP" "$CF_ZIP"
+if ! zip -q -d "$CF_ZIP" 'QuestieDB/*'; then
+  echo "Bundle $BUNDLED_ZIP contains no QuestieDB directory" >&2
+  exit 1
+fi
+contents=$(unzip -Z1 "$CF_ZIP")
+if printf '%s\n' "$contents" | grep -qv '^Questie/' || ! printf '%s\n' "$contents" | grep -q '^Questie/Questie.*\.toc$'; then
+  echo "Questie-only ZIP must contain Questie TOCs and nothing outside Questie/" >&2
+  exit 1
+fi
+
 case "$LATEST_GIT_TAG" in
   *-pre.*) RELEASE_TYPE="beta" ;;
   *) RELEASE_TYPE="release" ;;
@@ -99,13 +117,14 @@ echo "Uploading $RELEASE_TYPE $LATEST_GIT_TAG to CurseForge"
 # The order of the "gameVersions" below is: Classic Era, Forever, TBC, Wrath (3.80.1), MoP
 CF_METADATA=$(cat <<-EOF
 {
-    "displayName": "${LATEST_GIT_TAG#bundle/}",
+    "displayName": "$QUESTIE_LABEL",
     "releaseType": "$RELEASE_TYPE",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",
     "gameVersions": [16630, 17053, 16533, 16785, 16168],
     "relations": {
         "projects": [
+            {slug: "questiedb", type: "requiredDependency"},
             {slug: "Ace3", type: "embeddedLibrary"},
             {slug: "CallbackHandler", type: "embeddedLibrary"},
             {slug: "HereBeDragons", type: "embeddedLibrary"},
@@ -135,7 +154,7 @@ response=$(curl -sS \
     -w "%{http_code}" \
     -H "X-API-TOKEN: $CF_API_TOKEN" \
     -F "metadata=$CF_METADATA" \
-    -F "file=@$RELEASE_DIR/$BUNDLED_ZIP" \
+    -F "file=@$CF_ZIP" \
     "https://wow.curseforge.com/api/projects/334372/upload-file") || fail_upload "$?"
 
 http_status=$(echo "$response" | tail -n1) || fail_upload "$?"
