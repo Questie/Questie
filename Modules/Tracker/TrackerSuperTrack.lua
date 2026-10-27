@@ -22,14 +22,13 @@ function TrackerSuperTrack.OnSuperTrackingChanged()
         if focus ~= questId then
             if TrackerUtils:FocusQuest(questId) then
                 QuestieQuest.ToggleQuestNotes(false)
-            elseif type(focus) == "number" then
+            elseif focus then
                 -- Questie can not focus the new quest, so drop the old quest focus instead of showing it as focused.
                 TrackerUtils:UnFocus()
                 QuestieQuest.ToggleQuestNotes(true)
             end
         end
-    elseif type(focus) == "number" then
-        -- An objective focus has no super tracking equivalent, so only a quest focus follows the clear.
+    elseif focus then
         TrackerUtils:UnFocus()
         QuestieQuest.ToggleQuestNotes(true)
     end

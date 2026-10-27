@@ -203,18 +203,6 @@ local trackerUILocales = {
         ["zhCN"] = "关注任务",
         ["zhTW"] = "關注任務",
     },
-    ["Focus Objective"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Questziel fokussieren",
-        ["esES"] = "Enfocar objetivo",
-        ["esMX"] = "Enfocar objetivo",
-        ["frFR"] = "Prioriser cet objectif",
-        ["koKR"] = "관심 목표",
-        ["ptBR"] = "Focar objetivo",
-        ["ruRU"] = "Фокусировка на цели",
-        ["zhCN"] = "关注目标",
-        ["zhTW"] = "關注目標",
-    },
     ["Unfocus"] = {
         ["enUS"] = true,
         ["deDE"] = "Fokus entfernen",

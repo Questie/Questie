@@ -6,7 +6,6 @@ _G.GetQuestTimers = function() return nil end
 -- Real Classic Alliance Elwynn Forest quests: 11 = Riverpaw Gnoll Bounty, 112 = Collecting Kelp.
 local RIVERPAW_GNOLL_BOUNTY_ID = 11
 local COLLECTING_KELP_ID = 112
-local COLLECTING_KELP_OBJECTIVE_INDEX = 1
 
 describe("QuestieTracker", function()
     ---@type QuestieTracker
@@ -259,8 +258,8 @@ describe("QuestieTracker", function()
     end)
 
     describe("RemoveQuest", function()
-        it("should not unfocus when the removed quest id is only a prefix of the focused quest id", function()
-            Questie.db.char.TrackerFocus = tostring(COLLECTING_KELP_ID) .. " " .. tostring(COLLECTING_KELP_OBJECTIVE_INDEX)
+        it("should not unfocus when another quest is removed", function()
+            Questie.db.char.TrackerFocus = COLLECTING_KELP_ID
 
             QuestieTracker:RemoveQuest(RIVERPAW_GNOLL_BOUNTY_ID)
 
@@ -269,7 +268,7 @@ describe("QuestieTracker", function()
         end)
 
         it("should unfocus when the removed quest id matches the focused quest id", function()
-            Questie.db.char.TrackerFocus = tostring(COLLECTING_KELP_ID) .. " " .. tostring(COLLECTING_KELP_OBJECTIVE_INDEX)
+            Questie.db.char.TrackerFocus = COLLECTING_KELP_ID
 
             QuestieTracker:RemoveQuest(COLLECTING_KELP_ID)
 
@@ -625,19 +624,6 @@ describe("QuestieTracker", function()
                 assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             end)
 
-            it("restores objective focus using the original index before a full refresh", function()
-                Questie.db.char.TrackerFocus = "11 3"
-
-                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
-
-                assert.is_true(initialized, err)
-                assert.spy(TrackerData.Refresh).was.not_called()
-                assert.spy(TrackerData.RefreshQuest).was.called_with(11)
-                assert.are.equal("11 3", Questie.db.char.TrackerFocus)
-                assert.is_nil(objective.HideIcons)
-                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
-            end)
-
             it("keeps saved focus while its quest is still loading and restores it on a later update", function()
                 local ready = false
                 TrackerData.RefreshQuest = spy.new(function()
@@ -645,19 +631,19 @@ describe("QuestieTracker", function()
                         SpecialObjectives = {}, IsComplete = function() return 0 end}
                 end)
                 TrackerData.ContainsQuest = function() return true end
-                Questie.db.char.TrackerFocus = "11 3"
+                Questie.db.char.TrackerFocus = 11
 
                 local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
 
                 assert.is_true(initialized, err)
-                assert.are.equal("11 3", Questie.db.char.TrackerFocus)
+                assert.are.equal(11, Questie.db.char.TrackerFocus)
                 assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
 
                 ready, now = true, 1
                 TrackerUtils.GetSortedQuestIds = function() return {}, {} end
                 QuestieTracker:Update()
 
-                assert.is_nil(objective.HideIcons)
+                assert.is_nil(original.HideIcons)
                 assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             end)
 
@@ -685,14 +671,13 @@ describe("QuestieTracker", function()
                 assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             end)
 
-            it("clears a malformed saved objective focus at startup", function()
-                TrackerUtils.UnFocus = spy.new(function() Questie.db.char.TrackerFocus = nil end)
-                Questie.db.char.TrackerFocus = "11 x"
+            it("should clear a saved objective focus from older versions at startup", function()
+                Questie.db.char.TrackerFocus = "11 3"
 
                 local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
 
                 assert.is_true(initialized, err)
-                assert.spy(TrackerUtils.UnFocus).was.called(1)
+                assert.is_nil(Questie.db.char.TrackerFocus)
                 assert.spy(TrackerData.RefreshQuest).was.not_called()
             end)
 

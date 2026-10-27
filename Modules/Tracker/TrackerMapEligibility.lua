@@ -7,7 +7,7 @@ local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@class TrackerMapCapabilities
 ---@field quest Quest? Original map object, never a display copy.
 ---@field objectives table<table, boolean> Original objectives with usable location data.
----@field focusObjectives table<number, table> Original indices for focus and persisted icon visibility, not display indices.
+---@field focusObjectives table<number, table> Original indices for persisted icon visibility, not display indices.
 ---@field canFocusQuest boolean
 ---@field canNavigateQuest boolean
 ---@field canShowFinisher boolean
