@@ -458,6 +458,18 @@ local genericsLocales = {
         ["zhCN"] = "成就",
         ["zhTW"] = "成就",
     },
+    ["Recipes"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Rezepte",
+        ["esES"] = "Recetas",
+        ["esMX"] = "Recetas",
+        ["frFR"] = "Recettes",
+        ["koKR"] = "제조법",
+        ["ptBR"] = "Receitas",
+        ["ruRU"] = "Рецепты",
+        ["zhCN"] = "配方",
+        ["zhTW"] = "配方",
+    },
     ["Dismiss"] = {
         ["enUS"] = true,
         ["deDE"] = "Schließen",

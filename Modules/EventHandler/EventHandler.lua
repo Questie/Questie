@@ -28,6 +28,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerQuestFrame
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
+---@type TrackerRecipes
+local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type QuestieReputation
@@ -278,6 +280,21 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("CHAT_MSG_MONEY", AchievementEventHandler.ChatMsgMoney)
         Questie:RegisterEvent("CHAT_MSG_TEXT_EMOTE", AchievementEventHandler.ChatMsgTextEmote)
         Questie:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", AchievementEventHandler.PlayerEquipmentChanged)
+    end
+
+    if TrackerRecipes.IsSupported() and Questie.db.profile.trackerEnabled then
+        Questie:RegisterEvent("TRACKED_RECIPE_UPDATE", _EventHandler.UpdateTracker)
+        -- A bucket, because QuestieTracker temporarily registers BAG_UPDATE_DELAYED as a plain event for quest items
+        Questie:RegisterBucketEvent("BAG_UPDATE_DELAYED", 0.5, function()
+            if TrackerRecipes.HasTrackedRecipes() then
+                _EventHandler.UpdateTracker()
+            end
+        end)
+        Questie:RegisterEvent("GET_ITEM_INFO_RECEIVED", function(_, itemId)
+            if TrackerRecipes.OnItemInfoReceived(itemId) then
+                _EventHandler.UpdateTracker()
+            end
+        end)
     end
 
     if Expansions.Current >= Expansions.MoP then
@@ -643,4 +660,10 @@ function _EventHandler:PlayerRegenEnabled()
         QuestieJourney:ToggleJourneyWindow()
         journeyHiddenByCombat = false
     end
+end
+
+function _EventHandler.UpdateTracker()
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
 end

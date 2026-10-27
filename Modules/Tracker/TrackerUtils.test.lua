@@ -65,6 +65,7 @@ describe("TrackerUtils", function()
         TrackerData.GetQuests = function() return trackerQuests end
         TrackerData.GetQuest = function(id) return trackerQuests[id] end
         TrackerData.RefreshQuest = spy.new(function(id) return trackerQuests[id] end)
+        QuestieLoader:ImportModule("TrackerRecipes").HasTrackedRecipes = function() return false end
         dofile("Modules/Tracker/TrackerMapEligibility.lua")
         originalSpecialItemInfo = _G.GetQuestLogSpecialItemInfo
         _G.GetQuestLogSpecialItemInfo = nil
@@ -981,6 +982,15 @@ describe("TrackerUtils", function()
             local hasQuest = TrackerUtils.HasQuest()
 
             assert.is_false(hasQuest)
+        end)
+
+        it("should return true when no quest is tracked but a recipe", function()
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
+            QuestieLoader:ImportModule("TrackerRecipes").HasTrackedRecipes = function() return true end
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_true(hasQuest)
         end)
 
         it("should return true when a single quest is tracked and it is not complete and complete quests should not show", function()
