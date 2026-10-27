@@ -65,6 +65,10 @@ local trackerMarginRight = 30
 local trackerMarginLeft = 14
 local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
+-- A throttled update is run once the throttle window passes instead of being dropped.
+---@type number? GetTime() at which the scheduled update runs, nil when none is scheduled.
+local throttledUpdateAt
+local throttledUpdateForced = false
 local lastAchieveId = GetTime()
 local durabilityInitialPosition
 
@@ -895,7 +899,21 @@ function QuestieTracker:Update(onlyIfChanged)
 
     -- Prevents calling the tracker too often, especially when the QuestieCombatQueue empties after combat ends
     local now = GetTime()
-    if (not QuestieTracker.started) or InCombatLockdown() or (now - lastTrackerUpdate) < 0.1 then
+    if (not QuestieTracker.started) or InCombatLockdown() then
+        return
+    end
+    if (now - lastTrackerUpdate) < 0.1 then
+        -- Dropping it could lose the last change of a burst, e.g. objective map data populated right after accepting.
+        throttledUpdateForced = throttledUpdateForced or (not onlyIfChanged)
+        if (not throttledUpdateAt) or now >= throttledUpdateAt then
+            throttledUpdateAt = lastTrackerUpdate + 0.1
+            C_Timer.After(throttledUpdateAt - now, function()
+                local forced = throttledUpdateForced
+                throttledUpdateAt = nil
+                throttledUpdateForced = false
+                QuestieTracker:Update(not forced)
+            end)
+        end
         return
     end
 
