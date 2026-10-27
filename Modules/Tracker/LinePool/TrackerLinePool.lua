@@ -81,6 +81,7 @@ function TrackerLinePool.ResetLinesForChange()
 
     for _, line in pairs(linePool) do
         line.mode = nil
+        line.Recipe = nil
         line.trackTimedQuest = nil
         line.questHasSecondaryQIB = false
         if line.expandQuest then
@@ -293,6 +294,44 @@ function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
     return line
 end
 
+---@param recipe TrackerRecipe
+---@param mode "quest"|"objective"
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+local function _GetRecipeLine(recipe, mode, lineWidth)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode(mode)
+    line:SetOnClick("recipe")
+    line:SetRecipe(recipe)
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param recipe TrackerRecipe
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetRecipeTitleLine(recipe, lineWidth)
+    return _GetRecipeLine(recipe, "quest", lineWidth)
+end
+
+---@param recipe TrackerRecipe
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetRecipeReagentLine(recipe, lineWidth)
+    return _GetRecipeLine(recipe, "objective", lineWidth)
+end
+
 ---@return table|nil buttonIndex buttonPool[buttonIndex]
 function TrackerLinePool.GetNextItemButton()
     buttonIndex = buttonIndex + 1
@@ -348,6 +387,7 @@ function TrackerLinePool.HideUnusedLines()
             line.mode = nil
             line.ZoneId = nil
             line.Quest = nil
+            line.Recipe = nil
             line.Objective = nil
             line.Button = nil
             line.altButton = nil
@@ -458,7 +498,8 @@ TrackerLinePool.OnHighlightEnter = function(self)
         local line = linePool[i]
         line:SetAlpha(0.5)
 
-        if (line.Quest ~= nil and line.Quest == self.Quest) or (line.expandZone ~= nil and self:GetParent().expandZone ~= nil and line.expandZone.zoneId == self:GetParent().expandZone.zoneId) then
+        if (line.Quest ~= nil and line.Quest == self.Quest) or (line.Recipe ~= nil and line.Recipe == self.Recipe)
+            or (line.expandZone ~= nil and self:GetParent().expandZone ~= nil and line.expandZone.zoneId == self:GetParent().expandZone.zoneId) then
             line:SetAlpha(1)
         end
     end

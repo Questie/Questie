@@ -101,4 +101,62 @@ describe("TrackerLine untrack click", function()
         assert.spy(tracker.UntrackQuestId).was.called_with(tracker, 783)
         assert.spy(compat.QuestLog_Update).was.not_called()
     end)
+
+    describe("recipe click", function()
+        local recipes
+
+        before_each(function()
+            recipes = QuestieLoader:ImportModule("TrackerRecipes")
+            recipes.Untrack = spy.new(function() end)
+            recipes.OpenRecipe = spy.new(function() end)
+            recipes.GetLink = spy.new(function() return "[Charred Wolf Meat]" end)
+        end)
+
+        it("should untrack the recipe", function()
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetRecipe({Id = 2538})
+            line:SetOnClick("recipe")
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(recipes.Untrack).was.called_with(2538)
+            assert.spy(tracker.UntrackQuestId).was.not_called()
+        end)
+
+        it("should insert the recipe link into the chat", function()
+            _G.IsModifiedClick = function() return true end
+            _G.ChatEdit_GetActiveWindow = function() return {} end
+            _G.ChatEdit_InsertLink = spy.new(function() end)
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetRecipe({Id = 2538})
+            line:SetOnClick("recipe")
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(ChatEdit_InsertLink).was.called_with("[Charred Wolf Meat]")
+            assert.spy(recipes.Untrack).was.not_called()
+        end)
+
+        it("should open the recipe", function()
+            Questie.db.profile.trackerbindOpenQuestLog = "open"
+            QuestieLoader:ImportModule("TrackerUtils").IsBindTrue = function(_, binding) return binding == "open" end
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetRecipe({Id = 2538})
+            line:SetOnClick("recipe")
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(recipes.OpenRecipe).was.called_with(2538)
+        end)
+
+        it("should clear quest data when a recipe is set", function()
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetQuest({Id = 783})
+
+            line:SetRecipe({Id = 2538})
+
+            assert.is_nil(line.Quest)
+            assert.are_same({Id = 2538}, line.Recipe)
+        end)
+    end)
 end)
