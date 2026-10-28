@@ -48,6 +48,8 @@ describe("QuestFocusButton", function()
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
         QuestieCompat.IsSuperTrackingSupported = function() return superTrackingSupported end
         QuestieCompat.GetSuperTrackedQuestID = function() return superTrackedQuestId end
+        QuestieCompat.GetQuestUiMapID = function() return 1436 end
+        QuestieCompat.OpenWorldMap = spy.new(function() end)
         QuestieCompat.SetSuperTrackedQuestID = spy.new(function() end)
         QuestieCompat.ClearSuperTrackedQuest = spy.new(function() end)
 
@@ -199,6 +201,49 @@ describe("QuestFocusButton", function()
             assert.spy(QuestieCompat.SetSuperTrackedQuestID).was.called_with(123)
             assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("should open the world map on Blizzard's map of a quest Questie can not focus", function()
+            canFocusQuest = false
+            superTrackingSupported = true
+            TrackerUtils.FocusQuest = spy.new(function() return false end)
+            _G.WorldMapFrame = {IsShown = function() return true end}
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+
+            assert.spy(QuestieCompat.SetSuperTrackedQuestID).was.called_with(123)
+            assert.spy(QuestieCompat.OpenWorldMap).was.called_with(1436)
+            assert.spy(TrackerUtils.ShowQuestOnMap).was.not_called()
+        end)
+
+        it("should not open the world map for a quest Questie can not focus when the map is closed", function()
+            canFocusQuest = false
+            superTrackingSupported = true
+            TrackerUtils.FocusQuest = spy.new(function() return false end)
+            _G.WorldMapFrame = {IsShown = function() return false end}
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+
+            assert.spy(QuestieCompat.OpenWorldMap).was.not_called()
+        end)
+
+        it("should keep the world map when Blizzard knows no map for a quest Questie can not focus", function()
+            canFocusQuest = false
+            superTrackingSupported = true
+            TrackerUtils.FocusQuest = spy.new(function() return false end)
+            QuestieCompat.GetQuestUiMapID = function() return nil end
+            _G.WorldMapFrame = {IsShown = function() return true end}
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+
+            assert.spy(QuestieCompat.SetSuperTrackedQuestID).was.called_with(123)
+            assert.spy(QuestieCompat.OpenWorldMap).was.not_called()
         end)
 
         it("should clear super tracking of a super tracked quest Questie has not focused", function()
