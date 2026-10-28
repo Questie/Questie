@@ -167,7 +167,7 @@ describe("TrackerUtils", function()
 
         before_each(function()
             local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
-            openMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "OpenWorldMap")
+            openMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "OpenWorldMap", function() return true end)
             nearestObjectiveMock = stub(DistanceUtils, "GetNearestObjective", function() return {50, 50}, 12 end)
             nearestFinisherMock = stub(DistanceUtils, "GetNearestFinisherOrStarter", function() return {50, 50}, 12 end)
             uiMapIdMock = stub(QuestieLoader:ImportModule("ZoneDB"), "GetUiMapIdByAreaId", function() return 1429 end)
@@ -221,6 +221,36 @@ describe("TrackerUtils", function()
             assert.stub(uiMapIdMock).was.called_with(match.is_ref(QuestieLoader:ImportModule("ZoneDB")), 40)
             assert.stub(openMock).was.called_with(1429)
             assert.spy(TrackerUtils.FlashFinisher).was.called_with(TrackerUtils, original)
+        end)
+
+        it("should not flash the quest when the client blocks opening the map", function()
+            local original = {Id = 100}
+            trackerQuests[100] = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            nearestSpawnMock = stub(QuestieLoader:ImportModule("DistanceUtils"), "GetNearestSpawnForQuest", function() return {50, 60}, 40 end)
+            openMock.invokes(function() return false end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.ShowQuestOnMap(100, original))
+
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
+        end)
+
+        it("should not flash an objective, quest objectives or a finisher when the client blocks opening the map", function()
+            openMock.invokes(function() return false end)
+            TrackerUtils.FlashObjective = spy.new(function() end)
+            TrackerUtils.FlashObjectives = spy.new(function() end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            TrackerUtils:ShowObjectiveOnMap({spawnList = {}})
+            TrackerUtils:ShowQuestObjectivesOnMap({{spawnList = {}}})
+            TrackerUtils:ShowFinisherOnMap({Finisher = {}})
+
+            assert.spy(TrackerUtils.FlashObjective).was.not_called()
+            assert.spy(TrackerUtils.FlashObjectives).was.not_called()
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
         end)
 
         it("should not open the map for a quest without spawns", function()

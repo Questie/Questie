@@ -302,18 +302,20 @@ end
 ---handler sets the map. Calling WorldMapFrame:SetMapID ourselves would leave the map's state tainted for the session,
 ---so Blizzard's map navigation later gets its pins blocked in combat. Older clients lack it and set the map directly.
 ---@param uiMapId number
+---@return boolean opened False when combat blocks opening the map.
 function QuestieCompat.OpenWorldMap(uiMapId)
     if (not C_Map.OpenWorldMap) then
         if (not WorldMapFrame:IsShown()) then
             WorldMapFrame:Show()
         end
         WorldMapFrame:SetMapID(uiMapId)
-        return
+        return true
     end
     if InCombatLockdown() then
-        return
+        return false
     end
     C_Map.OpenWorldMap(uiMapId)
+    return true
 end
 
 ---@class CalendarTime
