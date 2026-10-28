@@ -63,6 +63,13 @@ local function _OnClick(self)
     else
         -- Questie can not focus the quest, e.g. it is missing from the database; Blizzard super tracking still can.
         QuestieCompat.SetSuperTrackedQuestID(self.questId)
+        if WorldMapFrame and WorldMapFrame:IsShown() then
+            -- Without Questie's map data, Blizzard's map of the quest is the best target. There are no Questie icons to flash.
+            local uiMapId = QuestieCompat.GetQuestUiMapID(self.questId)
+            if uiMapId then
+                QuestieCompat.OpenWorldMap(uiMapId)
+            end
+        end
     end
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()

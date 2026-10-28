@@ -1410,6 +1410,7 @@ globals = {
     "GetQuestTagInfo",
     "GetQuestText",
     "GetQuestTimers",
+    "GetQuestUiMapID",
     "GetQuestWatchIndex",
     "GetQuestWatchInfo",
     "GetQuestsCompleted",

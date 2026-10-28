@@ -1470,3 +1470,55 @@ describe("QuestieCompat super tracking", function()
         end)
     end)
 end)
+
+describe("QuestieCompat.GetQuestUiMapID", function()
+    ---@type QuestieCompat
+    local QuestieCompat
+    local originalGetQuestUiMapID, originalCQuestLog
+
+    before_each(function()
+        originalGetQuestUiMapID, originalCQuestLog = _G.GetQuestUiMapID, _G.C_QuestLog
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        _G.GetQuestUiMapID, _G.C_QuestLog = originalGetQuestUiMapID, originalCQuestLog
+    end)
+
+    it("should return the quest's map from GetQuestUiMapID", function()
+        _G.GetQuestUiMapID = spy.new(function() return 1436 end)
+
+        assert.are_same(1436, QuestieCompat.GetQuestUiMapID(123))
+        assert.spy(GetQuestUiMapID).was.called_with(123)
+    end)
+
+    it("should fall back to the next waypoint's map", function()
+        _G.GetQuestUiMapID = nil
+        _G.C_QuestLog = {GetNextWaypoint = spy.new(function() return 1436, 0.5, 0.5 end)}
+
+        assert.are_same(1436, QuestieCompat.GetQuestUiMapID(123))
+        assert.spy(C_QuestLog.GetNextWaypoint).was.called_with(123)
+    end)
+
+    it("should fall back to the next waypoint's map when GetQuestUiMapID knows no map", function()
+        _G.GetQuestUiMapID = function() return 0 end
+        _G.C_QuestLog = {GetNextWaypoint = function() return 1436, 0.5, 0.5 end}
+
+        assert.are_same(1436, QuestieCompat.GetQuestUiMapID(123))
+    end)
+
+    it("should treat map ID 0 as no map", function()
+        _G.GetQuestUiMapID = function() return 0 end
+        _G.C_QuestLog = {GetNextWaypoint = function() return nil end}
+
+        assert.is_nil(QuestieCompat.GetQuestUiMapID(123))
+    end)
+
+    it("should return nil when the client has neither API", function()
+        _G.GetQuestUiMapID = nil
+        _G.C_QuestLog = {}
+
+        assert.is_nil(QuestieCompat.GetQuestUiMapID(123))
+    end)
+end)

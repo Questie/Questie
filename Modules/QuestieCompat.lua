@@ -886,6 +886,25 @@ function QuestieCompat.ClearSuperTrackedQuest()
     end
 end
 
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestUiMapID)
+---Blizzard's map for a logged quest, for quests Questie has no map data for. The waypoint fallback may point to a
+---neighbouring zone on the way to the quest.
+---@param questId QuestId
+---@return number|nil uiMapId Nil when the client knows no map for the quest or lacks both APIs.
+function QuestieCompat.GetQuestUiMapID(questId)
+    local uiMapId
+    if GetQuestUiMapID then
+        uiMapId = GetQuestUiMapID(questId)
+    end
+    if ((not uiMapId) or uiMapId == 0) and C_QuestLog and C_QuestLog.GetNextWaypoint then
+        uiMapId = C_QuestLog.GetNextWaypoint(questId)
+    end
+    if uiMapId == 0 then
+        return nil
+    end
+    return uiMapId
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestResetTime)
 ---Returns the number of seconds until the next daily quest reset.
 ---@return number secondsUntilReset
