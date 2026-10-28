@@ -179,7 +179,10 @@ function TrackerUtils.ShowQuestOnMap(questId, expectedQuest)
     if not spawn then
         return false
     end
-    QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zone))
+    if (not QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zone))) then
+        -- Flashing hides all other icons, which must not happen on a map that did not switch.
+        return false
+    end
     -- FlashFinisher flashes all map icons of a quest, not only its finisher.
     TrackerUtils:FlashFinisher(capabilities.quest)
     return true
@@ -189,8 +192,9 @@ end
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local _, zoneId = DistanceUtils.GetNearestObjective(objective.spawnList)
     if zoneId then
-        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
-        TrackerUtils:FlashObjective(objective)
+        if QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId)) then
+            TrackerUtils:FlashObjective(objective)
+        end
     end
 end
 
@@ -212,8 +216,9 @@ end
 function TrackerUtils:ShowQuestObjectivesOnMap(objectives)
     local zoneId = _GetNearestObjectiveZone(objectives)
     if zoneId then
-        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
-        TrackerUtils:FlashObjectives(objectives)
+        if QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId)) then
+            TrackerUtils:FlashObjectives(objectives)
+        end
     end
 end
 
@@ -221,8 +226,9 @@ end
 function TrackerUtils:ShowFinisherOnMap(quest)
     local _, zoneId = DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     if zoneId then
-        QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId))
-        TrackerUtils:FlashFinisher(quest)
+        if QuestieCompat.OpenWorldMap(ZoneDB:GetUiMapIdByAreaId(zoneId)) then
+            TrackerUtils:FlashFinisher(quest)
+        end
     end
 end
 

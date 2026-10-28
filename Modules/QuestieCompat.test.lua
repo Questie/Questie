@@ -33,17 +33,19 @@ describe("QuestieCompat", function()
         end)
 
         it("should let the client open the map on the given zone", function()
-            QuestieCompat.OpenWorldMap(1429)
+            local opened = QuestieCompat.OpenWorldMap(1429)
 
             assert.spy(C_Map.OpenWorldMap).was.called_with(1429)
+            assert.is_true(opened)
         end)
 
         it("should do nothing in combat", function()
             _G.InCombatLockdown = function() return true end
 
-            QuestieCompat.OpenWorldMap(1429)
+            local opened = QuestieCompat.OpenWorldMap(1429)
 
             assert.spy(C_Map.OpenWorldMap).was_not.called()
+            assert.is_false(opened)
         end)
 
         it("should open and set the map itself when the client lacks C_Map.OpenWorldMap", function()
@@ -54,10 +56,11 @@ describe("QuestieCompat", function()
                 SetMapID = spy.new(function() end),
             }
 
-            QuestieCompat.OpenWorldMap(1429)
+            local opened = QuestieCompat.OpenWorldMap(1429)
 
             assert.spy(WorldMapFrame.Show).was.called()
             assert.spy(WorldMapFrame.SetMapID).was.called_with(match.is_ref(WorldMapFrame), 1429)
+            assert.is_true(opened)
         end)
 
         it("should only set the map when it is already open and the client lacks C_Map.OpenWorldMap", function()
