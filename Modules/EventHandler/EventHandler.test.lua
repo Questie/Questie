@@ -171,11 +171,17 @@ describe("EventHandler event dispatch", function()
         end)
 
         it("should update the tracker only for item data requested for recipes", function()
-            callbacks.GET_ITEM_INFO_RECEIVED("GET_ITEM_INFO_RECEIVED", 11, true)
+            callbacks.ITEM_DATA_LOAD_RESULT("ITEM_DATA_LOAD_RESULT", 11, true)
             assert.spy(QuestieTracker.Update).was.not_called()
 
-            callbacks.GET_ITEM_INFO_RECEIVED("GET_ITEM_INFO_RECEIVED", 10, true)
+            callbacks.ITEM_DATA_LOAD_RESULT("ITEM_DATA_LOAD_RESULT", 10, true)
             assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+
+        it("should not update the tracker when loading requested item data failed", function()
+            callbacks.ITEM_DATA_LOAD_RESULT("ITEM_DATA_LOAD_RESULT", 10, false)
+
+            assert.spy(QuestieTracker.Update).was.not_called()
         end)
 
         it("should not register recipe events when recipe tracking is not supported", function()
@@ -187,6 +193,7 @@ describe("EventHandler event dispatch", function()
 
             assert.is_nil(callbacks.TRACKED_RECIPE_UPDATE)
             assert.is_nil(bucketEvents.BAG_UPDATE_DELAYED)
+            assert.is_nil(callbacks.ITEM_DATA_LOAD_RESULT)
         end)
     end)
 

@@ -129,7 +129,7 @@ function TrackerRecipes.GetLink(recipeId)
     return C_TradeSkillUI.GetRecipeLink(recipeId)
 end
 
---- Call when GET_ITEM_INFO_RECEIVED fires.
+--- Call when ITEM_DATA_LOAD_RESULT reports a successful load.
 ---@param itemId number
 ---@return boolean @True when the item was requested for a tracked recipe, so the tracker needs an update
 function TrackerRecipes.OnItemInfoReceived(itemId)
