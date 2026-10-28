@@ -55,6 +55,8 @@ local IsEquippableItem = QuestieCompat.IsEquippableItem
 local tinsert = table.insert
 
 local objectiveFlashTicker
+-- Time between two steps of the map icon flash animation.
+local FLASH_STEP_SECONDS = 0.065
 ---@type table<number, table> Icons of the running flash, to restore their size when a new flash starts.
 local flashingIcons = {}
 local zoneCache = {}
@@ -361,7 +363,7 @@ function TrackerUtils:FlashObjectives(objectives)
         local flashDone = 0
         flashingIcons = toFlash
         local ticker
-        ticker = C_Timer.NewTicker(0.1, function()
+        ticker = C_Timer.NewTicker(FLASH_STEP_SECONDS, function()
             for _, frame in pairs(toFlash) do
                 frame:SetWidth(frame._size + flashW)
                 frame:SetHeight(frame._size + flashW)
@@ -448,7 +450,7 @@ function TrackerUtils:FlashFinisher(quest)
     local flashDone = 0
     flashingIcons = toFlash
     local ticker
-    ticker = C_Timer.NewTicker(0.1, function()
+    ticker = C_Timer.NewTicker(FLASH_STEP_SECONDS, function()
         for _, frame in pairs(toFlash) do
             frame:SetWidth(frame._size + flashW)
             frame:SetHeight(frame._size + flashW)
