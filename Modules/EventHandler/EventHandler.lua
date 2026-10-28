@@ -300,8 +300,9 @@ function EventHandler:RegisterLateEvents()
                 _EventHandler.UpdateTracker()
             end
         end)
-        Questie:RegisterEvent("GET_ITEM_INFO_RECEIVED", function(_, itemId)
-            if TrackerRecipes.OnItemInfoReceived(itemId) then
+        -- C_Item.RequestLoadItemDataByID answers with ITEM_DATA_LOAD_RESULT, not GET_ITEM_INFO_RECEIVED
+        Questie:RegisterEvent("ITEM_DATA_LOAD_RESULT", function(_, itemId, success)
+            if success and TrackerRecipes.OnItemInfoReceived(itemId) then
                 _EventHandler.UpdateTracker()
             end
         end)
