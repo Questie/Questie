@@ -102,8 +102,8 @@ describe("TrackerUtils", function()
             originalSetSolo = QuestieWaypoints.SetSolo
             tickers = {}
             _G.C_Timer = {
-                NewTicker = function(_, callback)
-                    local ticker = {Cancel = spy.new(function() end), callback = callback}
+                NewTicker = function(interval, callback)
+                    local ticker = {Cancel = spy.new(function() end), callback = callback, interval = interval}
                     table.insert(tickers, ticker)
                     return ticker
                 end,
@@ -149,6 +149,12 @@ describe("TrackerUtils", function()
 
             assert.is_true(hiddenDuringFlash)
             assert.is_true(townsfolkIcon:IsVisible())
+        end)
+
+        it("should animate the flash in steps of 0.065 seconds", function()
+            TrackerUtils:FlashFinisher({Id = 54})
+
+            assert.are_same(0.065, tickers[1].interval)
         end)
 
         it("should stop a running flash and restore icon sizes before flashing again", function()
