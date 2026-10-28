@@ -1322,7 +1322,8 @@ function TrackerUtils.HasQuest()
         end
     end
 
-    if (not hasQuest) and TrackerRecipes.HasTrackedRecipes() then
+    -- Recipes whose data is not loaded yet are not shown, so only the shown ones keep the tracker visible
+    if (not hasQuest) and #TrackerRecipes.GetTrackedRecipes() > 0 then
         hasQuest = true
     end
 
