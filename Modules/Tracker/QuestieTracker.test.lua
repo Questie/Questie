@@ -418,7 +418,7 @@ describe("QuestieTracker", function()
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
         local timeMock, combatMock, countMock, instanceMock, infoMock, screenMock
-        local header, pool, revision, RecipeSection, ScenarioSection
+        local header, pool, revision, RecipeSection, ScenarioSection, AchievementSection
 
         before_each(function()
             now, inCombat = 0, false
@@ -466,6 +466,8 @@ describe("QuestieTracker", function()
             RecipeSection.Draw = spy.new(function() end)
             ScenarioSection = QuestieLoader:ImportModule("ScenarioSection")
             ScenarioSection.Draw = spy.new(function() end)
+            AchievementSection = QuestieLoader:ImportModule("AchievementSection")
+            AchievementSection.Draw = spy.new(function() end)
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
@@ -502,6 +504,16 @@ describe("QuestieTracker", function()
 
             assert.spy(RecipeSection.Draw).was.called(1)
             assert.spy(ScenarioSection.Draw).was.not_called()
+            assert.spy(AchievementSection.Draw).was.not_called()
+        end)
+
+        it("should draw the achievement section from WotLK on", function()
+            expansion.Current = expansion.Wotlk
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(AchievementSection.Draw).was.called(1)
         end)
 
         it("should only draw the scenario section in a scenario", function()
