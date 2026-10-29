@@ -13,7 +13,6 @@ describe("QuestieProfessions", function()
     local savedGlobals
     local globalNames = {
         "ExpandSkillHeader", "GetNumSkillLines", "GetSkillLineInfo", "C_SkillInfo",
-        "AbandonSkill", "hooksecurefunc",
     }
 
     before_each(function()
@@ -72,7 +71,7 @@ describe("QuestieProfessions", function()
             local skillLines
 
             before_each(function()
-                _G.GetSkillLineInfo, _G.GetNumSkillLines, _G.ExpandSkillHeader, _G.AbandonSkill = nil, nil, nil, nil
+                _G.GetSkillLineInfo, _G.GetNumSkillLines, _G.ExpandSkillHeader = nil, nil, nil
                 skillLines = {
                     {skillID = 0, name = "Secondary Skills", isHeader = true, isCollapsed = false, rank = 0},
                     {skillID = 185, name = "Kochkunst", isHeader = false, isCollapsed = false, rank = 50},
@@ -119,6 +118,19 @@ describe("QuestieProfessions", function()
             end)
         end)
 
+        it("should report an unlearned profession and reset skill-gated quest availability on Classic", function()
+            QuestieProfessions:Update()
+            QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
+            _G.GetNumSkillLines = function() return 0 end
+
+            local updated, learned = QuestieProfessions:Update()
+
+            assert.is_true(updated)
+            assert.is_false(learned)
+            assert.are.same({}, QuestieProfessions:GetPlayerProfessions())
+            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
+        end)
+
         it("should detect when a player learned a new profession", function()
 
             local hasProfessionUpdate, hasNewProfession = QuestieProfessions:Update()
@@ -162,34 +174,6 @@ describe("QuestieProfessions", function()
             assert.is_false(hasProfessionUpdate)
             assert.is_false(hasNewProfession)
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.not_called()
-        end)
-    end)
-
-    describe("AbandonSkill", function()
-        it("should reset the skill blacklist and recalculate available quests when a profession is abandoned", function()
-            _G.AbandonSkill = function() end
-            local abandonSkillCallback
-            _G.hooksecurefunc = function(name, callback)
-                if name == "AbandonSkill" then
-                    abandonSkillCallback = callback
-                end
-            end
-
-            local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
-            AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
-
-            -- Force a fresh load so the hooksecurefunc("AbandonSkill", ...) registration re-runs and is captured
-            dofile("Modules/QuestieProfessions.lua")
-            QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
-            QuestieProfessions:Init()
-
-            -- Register the profession so the abandon hook acts on it
-            QuestieProfessions:Update()
-
-            abandonSkillCallback(1)
-
-            assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
-            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)
     end)
 end)

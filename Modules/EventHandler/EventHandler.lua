@@ -129,10 +129,8 @@ function EventHandler:RegisterLateEvents()
             _EventHandler.ChatMsgSkill()
         end, 2)
     end)
-    if not GetSkillLineInfo then
-        -- Modern unlearning need not print CHAT_MSG_SKILL and has no legacy AbandonSkill hook.
-        Questie:RegisterBucketEvent("SKILL_LINES_CHANGED", 2, _EventHandler.ChatMsgSkill)
-    end
+    -- Learning or unlearning a profession need not print CHAT_MSG_SKILL
+    Questie:RegisterBucketEvent("SKILL_LINES_CHANGED", 2, _EventHandler.ChatMsgSkill)
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, function()
         QuestEventHandler.ReputationChange()
         _EventHandler:ChatMsgCompatFactionChange()
@@ -595,7 +593,7 @@ function _EventHandler:ModifierStateChanged(key, down)
     end
 end
 
----Refreshes skill-gated quests after skill chat or modern skill-line changes.
+---Refreshes skill-gated quests after skill chat or skill line changes.
 function _EventHandler:ChatMsgSkill()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] Profession skills changed")
 
@@ -604,7 +602,6 @@ function _EventHandler:ChatMsgSkill()
     if isProfUpdate or isNewProfession then
         AvailableQuests.CalculateAndDrawAll()
     end
-    -- Classic's AbandonSkill hook already dropped the profession, so Update() reports no change; sync either way.
     if Questie.db.profile.townsfolkKnownProfessions then
         QuestieMenu.RefreshKnownProfessionTrainers()
     end

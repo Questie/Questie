@@ -270,12 +270,7 @@ describe("EventHandler event dispatch", function()
         assert.are.equal(registeredCallback, callbacks.SUPER_TRACKING_CHANGED)
     end)
 
-    it("retains the two-second modern skill-change bucket only when the legacy skill API is absent", function()
-        assert.is_nil(bucketEvents.SKILL_LINES_CHANGED)
-        _G.GetSkillLineInfo = nil
-
-        QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
-
+    it("should refresh professions in a two-second bucket when skills are learned or unlearned", function()
         assert.are.equal(2, bucketEvents.SKILL_LINES_CHANGED.interval)
         bucketEvents.SKILL_LINES_CHANGED.callback()
 
