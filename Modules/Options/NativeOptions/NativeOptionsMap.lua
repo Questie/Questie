@@ -50,7 +50,7 @@ function QuestieOptionsEngine.tabs.map:Initialize()
         title = "Map",
         subtitle = "Map Options",
         order = 1.5,
-        icon = 237381,
+        icon = 134269,
         items = {
             waypoint_header = {
                 type = "divider",

@@ -15,7 +15,7 @@ function QuestieOptionsEngine.tabs.auto:Initialize()
         title = "Auto",
         subtitle = "Auto Options",
         order = 3,
-        icon = 237293,
+        icon = 132995,
         items = {
             autoModifier = {
                 type = "dropdown",
