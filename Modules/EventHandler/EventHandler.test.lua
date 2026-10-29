@@ -129,12 +129,13 @@ describe("EventHandler event dispatch", function()
     end)
 
     describe("recipe tracking", function()
-        local QuestieTracker, QuestieCombatQueue, originalUpdate, originalQueue
+        local QuestieTracker, QuestieCombatQueue, originalUpdate, originalQueue, originalCurrencyDisplayUpdate
 
         before_each(function()
             QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
             QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
             originalUpdate, originalQueue = QuestieTracker.Update, QuestieCombatQueue.Queue
+            originalCurrencyDisplayUpdate = QuestEventHandler.CurrencyDisplayUpdate
             QuestieTracker.Update = spy.new(function() end)
             QuestieCombatQueue.Queue = function(_, callback) callback() end
             Questie.db.profile.trackerEnabled = true
@@ -148,6 +149,7 @@ describe("EventHandler event dispatch", function()
 
         after_each(function()
             QuestieTracker.Update, QuestieCombatQueue.Queue = originalUpdate, originalQueue
+            QuestEventHandler.CurrencyDisplayUpdate = originalCurrencyDisplayUpdate
         end)
 
         it("should update the tracker when a recipe is tracked or untracked", function()
@@ -181,6 +183,26 @@ describe("EventHandler event dispatch", function()
         it("should not update the tracker when loading requested item data failed", function()
             callbacks.ITEM_DATA_LOAD_RESULT("ITEM_DATA_LOAD_RESULT", 10, false)
 
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
+        it("should update the tracker on currency changes while a tracked recipe needs a currency", function()
+            QuestEventHandler.CurrencyDisplayUpdate = spy.new(function() end)
+            TrackerRecipes.HasCurrencyReagents = function() return true end
+
+            callbacks.CURRENCY_DISPLAY_UPDATE("CURRENCY_DISPLAY_UPDATE")
+
+            assert.spy(QuestEventHandler.CurrencyDisplayUpdate).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+
+        it("should not update the tracker on currency changes when no tracked recipe needs a currency", function()
+            QuestEventHandler.CurrencyDisplayUpdate = spy.new(function() end)
+            TrackerRecipes.HasCurrencyReagents = function() return false end
+
+            callbacks.CURRENCY_DISPLAY_UPDATE("CURRENCY_DISPLAY_UPDATE")
+
+            assert.spy(QuestEventHandler.CurrencyDisplayUpdate).was.called(1)
             assert.spy(QuestieTracker.Update).was.not_called()
         end)
 

@@ -207,7 +207,7 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
     Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", function(...)
         QuestEventHandler.CurrencyDisplayUpdate(...)
-        if TrackerRecipes.HasTrackedRecipes() then
+        if TrackerRecipes.HasCurrencyReagents() then
             _EventHandler.UpdateTracker()
         end
     end)
