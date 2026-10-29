@@ -81,6 +81,27 @@ describe("TrackerRecipes", function()
         end)
     end)
 
+    describe("HasShownRecipes", function()
+        it("should return true when a tracked recipe has a schematic", function()
+            trackedRecipes = {1, 2}
+            schematics[2] = {name = "Recipe"}
+
+            assert.is_true(TrackerRecipes.HasShownRecipes())
+        end)
+
+        it("should return false when no tracked recipe has a schematic", function()
+            trackedRecipes = {1}
+
+            assert.is_false(TrackerRecipes.HasShownRecipes())
+        end)
+
+        it("should return false when recipe tracking is not supported", function()
+            _G.C_TradeSkillUI = nil
+
+            assert.is_false(TrackerRecipes.HasShownRecipes())
+        end)
+    end)
+
     describe("GetTrackedRecipes", function()
         it("should return tracked recipes with their required reagents", function()
             trackedRecipes = {2538}
