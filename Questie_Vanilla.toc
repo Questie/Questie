@@ -258,6 +258,7 @@ Modules\Tracker\TrackerLayout.lua
 Modules\Tracker\Sections\RecipeSection.lua
 Modules\Tracker\Sections\ScenarioSection.lua
 Modules\Tracker\Sections\AchievementSection.lua
+Modules\Tracker\Sections\QuestSection.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\Sorter\Sorter.lua
 Modules\Tracker\Sorter\byComplete.lua
