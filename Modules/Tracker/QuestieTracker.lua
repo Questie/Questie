@@ -14,6 +14,8 @@ local TrackerHeaderFrame = QuestieLoader:ImportModule("TrackerHeaderFrame")
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type QuestFocusButton
+local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerQuestTimers
@@ -63,6 +65,10 @@ local trackerMarginRight = 30
 local trackerMarginLeft = 14
 local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
+-- A throttled update is run once the throttle window passes instead of being dropped.
+---@type number? GetTime() at which the scheduled update runs, nil when none is scheduled.
+local throttledUpdateAt
+local throttledUpdateForced = false
 local lastAchieveId = GetTime()
 local durabilityInitialPosition
 
@@ -195,34 +201,19 @@ local focusRestoreDeadline
 ---@param canWait boolean True while unavailable data may still load; false clears focus on any failure.
 ---@return boolean finished True when focus was applied, cleared or never saved; false while waiting for data.
 local function _RestoreSavedFocus(canWait)
-    -- Saved as a quest ID for quest focus, or "questId objectiveIndex" for objective focus.
-    local focus = Questie.db.char.TrackerFocus
-    local questId, objectiveIndex
-    if type(focus) == "number" then
-        questId = focus
-    elseif type(focus) == "string" then
-        local questIdText, objectiveIndexText = string.match(focus, "(%d+) (%d+)")
-        questId, objectiveIndex = tonumber(questIdText), tonumber(objectiveIndexText)
-        if not (questId and objectiveIndex) then
-            -- Malformed saved value: it can never apply.
-            TrackerUtils:UnFocus()
-            return true
-        end
+    local questId = Questie.db.char.TrackerFocus
+    if type(questId) == "string" then
+        -- Former "questId objectiveIndex" objective focus, which no longer exists.
+        Questie.db.char.TrackerFocus = nil
+        return true
     end
     if not questId then
         return true
     end
 
     -- Use the same eligibility checks as menu focus. They fail while spawns or objectives are still loading.
-    local restored
-    if objectiveIndex then
-        restored = TrackerUtils:FocusObjective(questId, objectiveIndex)
-    else
-        restored = TrackerUtils:FocusQuest(questId)
-    end
-
-    if restored then
-        QuestieQuest:ToggleNotes(false)
+    if TrackerUtils:FocusQuest(questId) then
+        QuestieQuest.ToggleQuestNotes(false)
         return true
     end
     -- Unavailable data is not an invalid target until the wait ends. A quest that left the log never returns.
@@ -908,7 +899,21 @@ function QuestieTracker:Update(onlyIfChanged)
 
     -- Prevents calling the tracker too often, especially when the QuestieCombatQueue empties after combat ends
     local now = GetTime()
-    if (not QuestieTracker.started) or InCombatLockdown() or (now - lastTrackerUpdate) < 0.1 then
+    if (not QuestieTracker.started) or InCombatLockdown() then
+        return
+    end
+    if (now - lastTrackerUpdate) < 0.1 then
+        -- Dropping it could lose the last change of a burst, e.g. objective map data populated right after accepting.
+        throttledUpdateForced = throttledUpdateForced or (not onlyIfChanged)
+        if (not throttledUpdateAt) or now >= throttledUpdateAt then
+            throttledUpdateAt = lastTrackerUpdate + 0.1
+            C_Timer.After(throttledUpdateAt - now, function()
+                local forced = throttledUpdateForced
+                throttledUpdateAt = nil
+                throttledUpdateForced = false
+                QuestieTracker:Update(not forced)
+            end)
+        end
         return
     end
 
@@ -985,7 +990,7 @@ function QuestieTracker:Update(onlyIfChanged)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerFontSizeObjective = Questie.db.profile.trackerFontSizeObjective
 
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
+    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest) + QuestFocusButton.GetColumnWidth()
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
     local objectiveColor = Questie.db.profile.trackerColorObjectives
@@ -998,7 +1003,6 @@ function QuestieTracker:Update(onlyIfChanged)
     local zoneCheck
 
     local secondaryButton = false
-    local secondaryButtonAlpha
 
     -- Begin populating the Tracker with Quests
     local _UpdateQuests = function()
@@ -1090,6 +1094,8 @@ function QuestieTracker:Update(onlyIfChanged)
                     line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questMarginLeft - 8, 1)
                     line.expandQuest.zoneId = zoneName
 
+                    line.questFocus:SetQuest(quest, complete == 1 or (complete ~= -1 and quest.isComplete == true))
+
                     -- Set Completion Text
                     local completionText = TrackerUtils:GetCompletionText(quest)
 
@@ -1163,8 +1169,8 @@ function QuestieTracker:Update(onlyIfChanged)
                     line.playButton:SetPlayButton(questId)
 
                     local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButtonSize, trackerBaseFrame, isMinimizable,
-                        function(alpha)
-                            if (not Questie.db.char.collapsedQuests[quest.Id]) and alpha > 0 then
+                        function()
+                            if (not Questie.db.char.collapsedQuests[quest.Id]) then
                                 -- Set and indent Quest Title linePool
                                 line.label:ClearAllPoints()
                                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft + 2 + questItemButtonSize, 0)
@@ -1178,24 +1184,9 @@ function QuestieTracker:Update(onlyIfChanged)
 
                                 -- Re-compare largest text Label in the tracker with Secondary Button/Quest and current Label, then save widest width
                                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft + questItemButtonSize)
-                            elseif alpha == 0 then
-                                -- Set Quest Title linePool
-                                line.label:ClearAllPoints()
-                                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft, 0)
-
-                                -- Recheck and Remeasure Quest Label text width and update tracker width
-                                QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + questMarginLeft + trackerMarginRight)
-
-                                -- Reset Quest Title Label and linePool widths
-                                line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
-                                line:SetWidth(line.label:GetWidth() + questMarginLeft)
-
-                                -- Re-compare largest text Label in the tracker with current Label, then save widest width
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
                             end
 
                             secondaryButton = true
-                            secondaryButtonAlpha = alpha
                         end)
 
                     if (not shouldContinue) then
@@ -1205,7 +1196,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
                     -- Set Secondary Quest Item Button Margins (QBC - Quest Button Check)
                     local lineLabelWidthQBC, lineLabelBaseFrameQBC, lineWidthQBC
-                    if secondaryButton and secondaryButtonAlpha ~= 0 then
+                    if secondaryButton then
                         lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
                         lineLabelBaseFrameQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
                         lineWidthQBC = objectiveMarginLeft + questItemButtonSize
@@ -1314,7 +1305,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
                                 -- Hide the Secondary Quest Item Button. There are some quests with usable items after a quest is completed I
                                 -- have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
-                                if secondaryButton and secondaryButtonAlpha ~= 0 then
+                                if secondaryButton then
                                     line.altButton:SetParent(UIParent)
                                     line.altButton:Hide()
                                 end
@@ -1926,7 +1917,7 @@ function QuestieTracker:UpdateFormatting()
         local trackerVarsCombined = trackerLineWidth + trackerMarginRight
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
-        local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
+        local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest) + QuestFocusButton.GetColumnWidth()
         local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
         local questItemButtonSize = 12 + trackerFontSizeQuest
 
@@ -2270,18 +2261,9 @@ function QuestieTracker:RemoveQuest(questId)
         Questie.db.char.TrackedQuests[questId] = nil
     end
 
-    if Questie.db.char.TrackerFocus then
-        local focusedQuestId
-        if type(Questie.db.char.TrackerFocus) == "number" then
-            focusedQuestId = Questie.db.char.TrackerFocus
-        elseif type(Questie.db.char.TrackerFocus) == "string" then
-            focusedQuestId = tonumber(Questie.db.char.TrackerFocus:match("^(%d+)%s"))
-        end
-
-        if focusedQuestId == questId then
-            TrackerUtils:UnFocus()
-            QuestieQuest:ToggleNotes(true)
-        end
+    if Questie.db.char.TrackerFocus == questId then
+        TrackerUtils:UnFocus()
+        QuestieQuest.ToggleQuestNotes(true)
     end
 end
 

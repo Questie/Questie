@@ -57,7 +57,7 @@ end
 ---@return boolean
 function _GamepadMapHover.IsActive()
     -- GamepadDisableTooltips is toggled with the right stick
-    return WorldMapFrame:IsShown() and InputUtil and InputUtil.IsGamepadUIEnabled() and not GetCVarBool("GamepadDisableTooltips")
+    return WorldMapFrame:IsShown() and InputUtil and InputUtil.IsGamepadUIEnabled and InputUtil.IsGamepadUIEnabled() and not GetCVarBool("GamepadDisableTooltips")
 end
 
 ---@param icon IconFrame?

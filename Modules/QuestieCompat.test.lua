@@ -33,17 +33,19 @@ describe("QuestieCompat", function()
         end)
 
         it("should let the client open the map on the given zone", function()
-            QuestieCompat.OpenWorldMap(1429)
+            local opened = QuestieCompat.OpenWorldMap(1429)
 
             assert.spy(C_Map.OpenWorldMap).was.called_with(1429)
+            assert.is_true(opened)
         end)
 
         it("should do nothing in combat", function()
             _G.InCombatLockdown = function() return true end
 
-            QuestieCompat.OpenWorldMap(1429)
+            local opened = QuestieCompat.OpenWorldMap(1429)
 
             assert.spy(C_Map.OpenWorldMap).was_not.called()
+            assert.is_false(opened)
         end)
 
         it("should open and set the map itself when the client lacks C_Map.OpenWorldMap", function()
@@ -54,10 +56,11 @@ describe("QuestieCompat", function()
                 SetMapID = spy.new(function() end),
             }
 
-            QuestieCompat.OpenWorldMap(1429)
+            local opened = QuestieCompat.OpenWorldMap(1429)
 
             assert.spy(WorldMapFrame.Show).was.called()
             assert.spy(WorldMapFrame.SetMapID).was.called_with(match.is_ref(WorldMapFrame), 1429)
+            assert.is_true(opened)
         end)
 
         it("should only set the map when it is already open and the client lacks C_Map.OpenWorldMap", function()
@@ -1395,5 +1398,130 @@ describe("QuestieCompat Forever paths", function()
         assert.are.same(expected, {QuestieCompat.GetFactionInfoByID(469)})
         assert.spy(C_Reputation.GetFactionDataByIndex).was.called_with(1)
         assert.spy(C_Reputation.GetFactionDataByID).was.called_with(469)
+    end)
+end)
+
+describe("QuestieCompat super tracking", function()
+    ---@type QuestieCompat
+    local QuestieCompat
+    local originalSuperTrack
+
+    before_each(function()
+        originalSuperTrack = _G.C_SuperTrack
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        _G.C_SuperTrack = originalSuperTrack
+    end)
+
+    describe("without C_SuperTrack", function()
+        before_each(function()
+            _G.C_SuperTrack = nil
+        end)
+
+        it("should report super tracking as unsupported", function()
+            assert.is_false(QuestieCompat.IsSuperTrackingSupported())
+        end)
+
+        it("should return no super tracked quest", function()
+            assert.is_nil(QuestieCompat.GetSuperTrackedQuestID())
+        end)
+
+        it("should ignore setting and clearing the super tracked quest", function()
+            QuestieCompat.SetSuperTrackedQuestID(123)
+            QuestieCompat.ClearSuperTrackedQuest()
+        end)
+    end)
+
+    describe("with C_SuperTrack", function()
+        local superTrackedQuestId
+
+        before_each(function()
+            superTrackedQuestId = nil
+            _G.C_SuperTrack = {
+                GetSuperTrackedQuestID = function() return superTrackedQuestId end,
+                SetSuperTrackedQuestID = spy.new(function(questId) superTrackedQuestId = questId end),
+            }
+        end)
+
+        it("should report super tracking as supported", function()
+            assert.is_true(QuestieCompat.IsSuperTrackingSupported())
+        end)
+
+        it("should set the super tracked quest", function()
+            QuestieCompat.SetSuperTrackedQuestID(123)
+
+            assert.spy(C_SuperTrack.SetSuperTrackedQuestID).was.called_with(123)
+            assert.are_same(123, QuestieCompat.GetSuperTrackedQuestID())
+        end)
+
+        it("should treat quest ID 0 as no super tracked quest", function()
+            superTrackedQuestId = 0
+
+            assert.is_nil(QuestieCompat.GetSuperTrackedQuestID())
+        end)
+
+        it("should clear the super tracked quest", function()
+            superTrackedQuestId = 123
+
+            QuestieCompat.ClearSuperTrackedQuest()
+
+            assert.spy(C_SuperTrack.SetSuperTrackedQuestID).was.called_with(0)
+            assert.is_nil(QuestieCompat.GetSuperTrackedQuestID())
+        end)
+    end)
+end)
+
+describe("QuestieCompat.GetQuestUiMapID", function()
+    ---@type QuestieCompat
+    local QuestieCompat
+    local originalGetQuestUiMapID, originalCQuestLog
+
+    before_each(function()
+        originalGetQuestUiMapID, originalCQuestLog = _G.GetQuestUiMapID, _G.C_QuestLog
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        _G.GetQuestUiMapID, _G.C_QuestLog = originalGetQuestUiMapID, originalCQuestLog
+    end)
+
+    it("should return the quest's map from GetQuestUiMapID", function()
+        _G.GetQuestUiMapID = spy.new(function() return 1436 end)
+
+        assert.are_same(1436, QuestieCompat.GetQuestUiMapID(123))
+        assert.spy(GetQuestUiMapID).was.called_with(123)
+    end)
+
+    it("should fall back to the next waypoint's map", function()
+        _G.GetQuestUiMapID = nil
+        _G.C_QuestLog = {GetNextWaypoint = spy.new(function() return 1436, 0.5, 0.5 end)}
+
+        assert.are_same(1436, QuestieCompat.GetQuestUiMapID(123))
+        assert.spy(C_QuestLog.GetNextWaypoint).was.called_with(123)
+    end)
+
+    it("should fall back to the next waypoint's map when GetQuestUiMapID knows no map", function()
+        _G.GetQuestUiMapID = function() return 0 end
+        _G.C_QuestLog = {GetNextWaypoint = function() return 1436, 0.5, 0.5 end}
+
+        assert.are_same(1436, QuestieCompat.GetQuestUiMapID(123))
+    end)
+
+    it("should treat map ID 0 as no map", function()
+        _G.GetQuestUiMapID = function() return 0 end
+        _G.C_QuestLog = {GetNextWaypoint = function() return nil end}
+
+        assert.is_nil(QuestieCompat.GetQuestUiMapID(123))
+    end)
+
+    it("should return nil when the client has neither API", function()
+        _G.GetQuestUiMapID = nil
+        _G.C_QuestLog = {}
+
+        assert.is_nil(QuestieCompat.GetQuestUiMapID(123))
     end)
 end)

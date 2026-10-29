@@ -442,7 +442,7 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Minimize and Maximize Buttons will fade and become transparent when not in use."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Schaltflächen zum Minimieren und Maximieren von Quests ausgeblendet und transparent, wenn sie nicht verwendet werden.",
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Buttons zum Minimieren und Maximieren von Quests ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está seleccionado, los botones minimizar y maximizar se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["esMX"] = "Si está seleccionado, los botones minimizar y maximizar se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["frFR"] = "Si cette option est cochée, les boutons min. et max. s’estompent et deviennent transparents lorsqu’ils ne sont pas utilisés.",
@@ -467,7 +467,7 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Quest Item Buttons will fade and become transparent when not in use."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Schaltflächen für die Questgegenstände ausgeblendet und transparent, wenn sie nicht verwendet werden.",
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Buttons für die Quest-Gegenstände ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está seleccionado, los botones de objetos de misión se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["esMX"] = "Si está seleccionado, los botones de objetos de misión se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["frFR"] = "Si cette option est cochée, les boutons des objets de quête s’estompent et deviennent transparents lorsqu’ils ne sont pas utilisés.",
@@ -476,6 +476,54 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Когда включено, кнопки предметов заданий исчезают и становятся прозрачными при неиспользовании",
         ["zhCN"] = "启用时，任务物品按钮在未使用时会淡化并变得透明",
         ["zhTW"] = "啟用時，任務物品按鈕在未使用時會淡化並變得透明",
+    },
+    ["Show Quest Focus Buttons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest-Fokus-Buttons anzeigen",
+        ["esES"] = "Mostrar botones de enfoque de misión", -- AI 🤖
+        ["esMX"] = "Mostrar botones de enfoque de misión", -- AI 🤖
+        ["frFR"] = "Afficher les boutons de focalisation de quête", -- AI 🤖
+        ["koKR"] = "퀘스트 집중 버튼 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar botões de foco da missão", -- AI 🤖
+        ["ruRU"] = "Показывать кнопки фокуса задания", -- AI 🤖
+        ["zhCN"] = "显示任务聚焦按钮", -- AI 🤖
+        ["zhTW"] = "顯示任務聚焦按鈕", -- AI 🤖
+    },
+    ["If checked, a round button in front of each Quest lets you focus or unfocus the Quest on the map."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, kannst du mit einem runden Button vor jeder Quest die Quest auf der Karte fokussieren oder den Fokus aufheben.",
+        ["esES"] = "Si está seleccionado, un botón redondo delante de cada misión te permite enfocar o dejar de enfocar la misión en el mapa.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, un botón redondo delante de cada misión te permite enfocar o dejar de enfocar la misión en el mapa.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, un bouton rond devant chaque quête permet de focaliser ou de défocaliser la quête sur la carte.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 각 퀘스트 앞의 둥근 버튼으로 지도에서 퀘스트를 집중하거나 집중을 해제할 수 있습니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, um botão redondo na frente de cada missão permite focar ou desfocar a missão no mapa.", -- AI 🤖
+        ["ruRU"] = "Когда включено, круглая кнопка перед каждым заданием позволяет сфокусировать задание на карте или снять фокус.", -- AI 🤖
+        ["zhCN"] = "启用时，每个任务前的圆形按钮可让你在地图上聚焦或取消聚焦该任务。", -- AI 🤖
+        ["zhTW"] = "啟用時，每個任務前的圓形按鈕可讓你在地圖上聚焦或取消聚焦該任務。", -- AI 🤖
+    },
+    ["Fade Quest Focus Buttons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest-Fokus-Buttons ausblenden",
+        ["esES"] = "Desvanecer botones de enfoque de misión", -- AI 🤖
+        ["esMX"] = "Desvanecer botones de enfoque de misión", -- AI 🤖
+        ["frFR"] = "Fondu des boutons de focalisation de quête", -- AI 🤖
+        ["koKR"] = "퀘스트 집중 버튼 페이드", -- AI 🤖
+        ["ptBR"] = "Desvanecer botões de foco da missão", -- AI 🤖
+        ["ruRU"] = "Скрывать кнопки фокуса задания", -- AI 🤖
+        ["zhCN"] = "淡化任务聚焦按钮", -- AI 🤖
+        ["zhTW"] = "淡出任務聚焦按鈕", -- AI 🤖
+    },
+    ["If checked, the Quest Focus Buttons will fade and become transparent when not in use."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Quest-Fokus-Buttons ausgeblendet und transparent, wenn sie nicht verwendet werden.",
+        ["esES"] = "Si está seleccionado, los botones de enfoque de misión se desvanecerán y se volverán transparentes cuando no estén en uso.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, los botones de enfoque de misión se desvanecerán y se volverán transparentes cuando no estén en uso.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, les boutons de focalisation de quête s’estompent et deviennent transparents lorsqu’ils ne sont pas utilisés.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 퀘스트 집중 버튼이 사용하지 않을 때 사라지고 투명해집니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, os botões de foco da missão desaparecerão e se tornarão transparentes quando não estiverem em uso.", -- AI 🤖
+        ["ruRU"] = "Когда включено, кнопки фокуса задания исчезают и становятся прозрачными при неиспользовании", -- AI 🤖
+        ["zhCN"] = "启用时，任务聚焦按钮在未使用时会淡化并变得透明", -- AI 🤖
+        ["zhTW"] = "啟用時，任務聚焦按鈕在未使用時會淡化並變得透明", -- AI 🤖
     },
     ---------------------------------------------------------
     ["Enable Background"] = {

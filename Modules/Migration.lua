@@ -287,6 +287,12 @@ local migrationFunctions = {
         profile.waypointSmoothing = 0.75
         profile.waypointDebugHover = false
     end,
+    [44] = function()
+        Questie.db.profile.trackerShowQuestFocusButtons = true
+    end,
+    [45] = function()
+        Questie.db.profile.trackerFadeQuestFocusButtons = false
+    end,
 }
 
 function Migration:Migrate()

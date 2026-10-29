@@ -286,6 +286,24 @@ describe("QuestieFrame", function()
             assert.is_nil(icon.minimapTwin)
         end)
 
+        it("should forget that a flash hid the icon when it unloads", function()
+            local savedLibStub = _G.LibStub
+            _G.LibStub = function() return {RemoveMinimapIcon = function() end, RemoveWorldMapIcon = function() end} end
+            dofile("Modules/FramePool/QuestieFrame.lua")
+            _G.LibStub = savedLibStub
+            QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
+            QuestieMap.questIdFrames = {}
+            QuestieWaypoints.RemoveOwner = function() end
+            local function Region() return {Hide = function() end, SetVertexColor = function() end} end
+            local icon = {_loaded = true, _hidden_by_flash = true, data = {Id = 123}, texture = Region(), glowTexture = Region(),
+                overlayTexture = Region(), SetScript = function() end, GetName = function() return "QuestieFrame1" end,
+                Hide = function() end}
+
+            QuestieFrame.private.Unload(icon)
+
+            assert.is_nil(icon._hidden_by_flash)
+        end)
+
         it("should release the icon's paths when it unloads while still waiting in the draw queue", function()
             QuestieWaypoints.RemoveOwner = spy.new(function() end)
             local icon = {data = {Id = 123}}

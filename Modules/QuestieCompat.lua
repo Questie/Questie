@@ -302,18 +302,20 @@ end
 ---handler sets the map. Calling WorldMapFrame:SetMapID ourselves would leave the map's state tainted for the session,
 ---so Blizzard's map navigation later gets its pins blocked in combat. Older clients lack it and set the map directly.
 ---@param uiMapId number
+---@return boolean opened False when combat blocks opening the map.
 function QuestieCompat.OpenWorldMap(uiMapId)
     if (not C_Map.OpenWorldMap) then
         if (not WorldMapFrame:IsShown()) then
             WorldMapFrame:Show()
         end
         WorldMapFrame:SetMapID(uiMapId)
-        return
+        return true
     end
     if InCombatLockdown() then
-        return
+        return false
     end
     C_Map.OpenWorldMap(uiMapId)
+    return true
 end
 
 ---@class CalendarTime
@@ -850,6 +852,59 @@ function QuestieCompat.GetQuestLink(arg)
         return GetQuestLink(arg)
     end
     error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_SuperTrack.SetSuperTrackedQuestID)
+---Blizzard super tracking drives the native quest POI highlight and navigation marker. Forever has it; Classic does not.
+---@return boolean
+function QuestieCompat.IsSuperTrackingSupported()
+    return (C_SuperTrack and C_SuperTrack.SetSuperTrackedQuestID) ~= nil
+end
+
+---@return QuestId|nil questId The super tracked quest, or nil when none is or the client has no super tracking.
+function QuestieCompat.GetSuperTrackedQuestID()
+    if (not QuestieCompat.IsSuperTrackingSupported()) then
+        return nil
+    end
+    local questId = C_SuperTrack.GetSuperTrackedQuestID()
+    if questId == 0 then
+        return nil
+    end
+    return questId
+end
+
+---Does nothing on clients without super tracking.
+---@param questId QuestId
+function QuestieCompat.SetSuperTrackedQuestID(questId)
+    if QuestieCompat.IsSuperTrackingSupported() then
+        C_SuperTrack.SetSuperTrackedQuestID(questId)
+    end
+end
+
+---Does nothing on clients without super tracking.
+function QuestieCompat.ClearSuperTrackedQuest()
+    if QuestieCompat.IsSuperTrackingSupported() then
+        C_SuperTrack.SetSuperTrackedQuestID(0)
+    end
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestUiMapID)
+---Blizzard's map for a logged quest, for quests Questie has no map data for. The waypoint fallback may point to a
+---neighbouring zone on the way to the quest.
+---@param questId QuestId
+---@return number|nil uiMapId Nil when the client knows no map for the quest or lacks both APIs.
+function QuestieCompat.GetQuestUiMapID(questId)
+    local uiMapId
+    if GetQuestUiMapID then
+        uiMapId = GetQuestUiMapID(questId)
+    end
+    if ((not uiMapId) or uiMapId == 0) and C_QuestLog and C_QuestLog.GetNextWaypoint then
+        uiMapId = C_QuestLog.GetNextWaypoint(questId)
+    end
+    if uiMapId == 0 then
+        return nil
+    end
+    return uiMapId
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestResetTime)

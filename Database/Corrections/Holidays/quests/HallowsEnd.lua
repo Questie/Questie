@@ -33,10 +33,10 @@ tinsert(eventQuests, {"Hallow's End", 11357}) -- Masked Orphan Matron
 tinsert(eventQuests, {"Hallow's End", 11360}) -- Fire Brigade Practice
 tinsert(eventQuests, {"Hallow's End", 11361}) -- Fire Training
 tinsert(eventQuests, {"Hallow's End", 11392, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Call the Headless Horseman
-tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, nil, nil, Expansions.Current == Expansions.Wotlk}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11401, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Call the Headless Horseman
 tinsert(eventQuests, {"Hallow's End", 11403, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Free at Last!
---tinsert(eventQuests, {"Hallow's End", 11404}) -- Call the Headless Horseman -- phase gated?
---tinsert(eventQuests, {"Hallow's End", 11405}) -- Call the Headless Horseman -- phase gated?
+tinsert(eventQuests, {"Hallow's End", 11404, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Call the Headless Horseman
+tinsert(eventQuests, {"Hallow's End", 11405, nil, nil, nil, nil, Expansions.Current >= Expansions.Wotlk}) -- Call the Headless Horseman
 tinsert(eventQuests, {"Hallow's End", 11439}) -- Fire Brigade Practice
 tinsert(eventQuests, {"Hallow's End", 11440}) -- Fire Brigade Practice
 tinsert(eventQuests, {"Hallow's End", 11449}) -- Fire Training

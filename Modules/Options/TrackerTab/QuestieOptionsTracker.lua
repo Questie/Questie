@@ -590,6 +590,33 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    showQuestFocusButtons = {
+                        type = "toggle",
+                        order = 7.1,
+                        width = 1.5,
+                        name = function() return l10n("Show Quest Focus Buttons") end,
+                        desc = function() return l10n("If checked, a round button in front of each Quest lets you focus or unfocus the Quest on the map.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowQuestFocusButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowQuestFocusButtons = value
+                            QuestieTracker:Update()
+                        end
+                    },
+                    fadeQuestFocusButtons = {
+                        type = "toggle",
+                        order = 7.2,
+                        width = 1.5,
+                        name = function() return l10n("Fade Quest Focus Buttons") end,
+                        desc = function() return l10n("If checked, the Quest Focus Buttons will fade and become transparent when not in use.") end,
+                        disabled = function() return (not Questie.db.profile.trackerEnabled) or (not Questie.db.profile.trackerShowQuestFocusButtons) end,
+                        get = function() return Questie.db.profile.trackerFadeQuestFocusButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerFadeQuestFocusButtons = value
+                            TrackerLinePool.SetAllQuestFocusAlpha(value and 0 or 1)
+                            QuestieTracker:Update()
+                        end
+                    },
                     disableHoverFade = {
                         type = "toggle",
                         order = 8,

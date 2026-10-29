@@ -177,6 +177,27 @@ describe("EventHandler event dispatch", function()
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(2)
     end)
 
+    it("should register SUPER_TRACKING_CHANGED only when the client supports super tracking", function()
+        local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+        local originalIsSupported = QuestieCompat.IsSuperTrackingSupported
+        local TrackerSuperTrack = QuestieLoader:ImportModule("TrackerSuperTrack")
+        local originalOnSuperTrackingChanged = TrackerSuperTrack.OnSuperTrackingChanged
+        TrackerSuperTrack.OnSuperTrackingChanged = function() end
+
+        QuestieCompat.IsSuperTrackingSupported = function() return false end
+        QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+        local unsupportedCallback = callbacks.SUPER_TRACKING_CHANGED
+
+        QuestieCompat.IsSuperTrackingSupported = function() return true end
+        QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+        QuestieCompat.IsSuperTrackingSupported = originalIsSupported
+        local registeredCallback = TrackerSuperTrack.OnSuperTrackingChanged
+        TrackerSuperTrack.OnSuperTrackingChanged = originalOnSuperTrackingChanged
+
+        assert.is_nil(unsupportedCallback)
+        assert.are.equal(registeredCallback, callbacks.SUPER_TRACKING_CHANGED)
+    end)
+
     it("retains the two-second modern skill-change bucket only when the legacy skill API is absent", function()
         assert.is_nil(bucketEvents.SKILL_LINES_CHANGED)
         _G.GetSkillLineInfo = nil

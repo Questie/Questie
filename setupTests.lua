@@ -255,6 +255,8 @@ setmetatable(_G.CreateFrame, {
                 return frameType
             end,
             RegisterForClicks = EMTPY_FUNC,
+            EnableMouse = EMTPY_FUNC,
+            SetFrameLevel = EMTPY_FUNC,
             SetAttribute = function(_, key, value)
                 attributes[key] = value
             end,

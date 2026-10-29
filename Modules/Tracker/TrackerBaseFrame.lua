@@ -508,11 +508,13 @@ end
 function TrackerBaseFrame:OnProfileChange()
     local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
 
-    if (not baseFrame) and Questie.db.profile.trackerEnabled then
-        -- The Tracker was disabled and is now enabled
-        QuestieTracker:Enable()
+    if (not baseFrame) then
+        if Questie.db.profile.trackerEnabled then
+            -- The Tracker was disabled and is now enabled
+            QuestieTracker:Enable()
+        end
         return
-    elseif baseFrame and (not Questie.db.profile.trackerEnabled) then
+    elseif (not Questie.db.profile.trackerEnabled) then
         -- The Tracker was enabled and is now disabled
         QuestieTracker:Disable()
         return

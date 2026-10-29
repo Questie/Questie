@@ -6,7 +6,6 @@ _G.GetQuestTimers = function() return nil end
 -- Real Classic Alliance Elwynn Forest quests: 11 = Riverpaw Gnoll Bounty, 112 = Collecting Kelp.
 local RIVERPAW_GNOLL_BOUNTY_ID = 11
 local COLLECTING_KELP_ID = 112
-local COLLECTING_KELP_OBJECTIVE_INDEX = 1
 
 describe("QuestieTracker", function()
     ---@type QuestieTracker
@@ -38,7 +37,7 @@ describe("QuestieTracker", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = spy.new(function() end)
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.ToggleNotes = spy.new(function() end)
+        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
@@ -259,22 +258,22 @@ describe("QuestieTracker", function()
     end)
 
     describe("RemoveQuest", function()
-        it("should not unfocus when the removed quest id is only a prefix of the focused quest id", function()
-            Questie.db.char.TrackerFocus = tostring(COLLECTING_KELP_ID) .. " " .. tostring(COLLECTING_KELP_OBJECTIVE_INDEX)
+        it("should not unfocus when another quest is removed", function()
+            Questie.db.char.TrackerFocus = COLLECTING_KELP_ID
 
             QuestieTracker:RemoveQuest(RIVERPAW_GNOLL_BOUNTY_ID)
 
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
         end)
 
         it("should unfocus when the removed quest id matches the focused quest id", function()
-            Questie.db.char.TrackerFocus = tostring(COLLECTING_KELP_ID) .. " " .. tostring(COLLECTING_KELP_OBJECTIVE_INDEX)
+            Questie.db.char.TrackerFocus = COLLECTING_KELP_ID
 
             QuestieTracker:RemoveQuest(COLLECTING_KELP_ID)
 
             assert.spy(TrackerUtils.UnFocus).was.called()
-            assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, true)
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
         end)
     end)
 
@@ -448,6 +447,7 @@ describe("QuestieTracker", function()
             frame.Initialize = function() return {} end
             frame.Update = function() end
             pool = QuestieLoader:ImportModule("TrackerLinePool")
+            QuestieLoader:ImportModule("QuestFocusButton").GetColumnWidth = function() return 0 end
             pool.Initialize = function() end
             pool.ResetLinesForChange = function() end
             pool.ResetButtonsForChange = function() end
@@ -535,11 +535,28 @@ describe("QuestieTracker", function()
                 assert.are.equal(2, layouts)
             end)
 
-            it("lays out after a throttled explicit update was dropped", function()
+            it("lays out on the next quest-log check after a throttled explicit update", function()
                 now = 1.05
                 QuestieTracker:Update()
                 now = 2
                 QuestieTracker:Update(true)
+
+                assert.are.equal(2, layouts)
+            end)
+
+            it("should run a dropped update once the throttle window has passed", function()
+                local afters = {}
+                _G.C_Timer.After = function(delay, callback) table.insert(afters, {delay = delay, callback = callback}) end
+                now = 1.05
+                QuestieTracker:Update()
+                QuestieTracker:Update(true)
+
+                assert.are.equal(1, layouts)
+                assert.are.equal(1, #afters)
+                assert.is_true(math.abs(afters[1].delay - 0.05) < 1e-9)
+
+                now = 1.1
+                afters[1].callback()
 
                 assert.are.equal(2, layouts)
             end)
@@ -621,20 +638,7 @@ describe("QuestieTracker", function()
                 assert.spy(TrackerData.RefreshQuest).was.called_with(11)
                 assert.are.equal(11, Questie.db.char.TrackerFocus)
                 assert.is_nil(original.HideIcons)
-                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
-            end)
-
-            it("restores objective focus using the original index before a full refresh", function()
-                Questie.db.char.TrackerFocus = "11 3"
-
-                local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
-
-                assert.is_true(initialized, err)
-                assert.spy(TrackerData.Refresh).was.not_called()
-                assert.spy(TrackerData.RefreshQuest).was.called_with(11)
-                assert.are.equal("11 3", Questie.db.char.TrackerFocus)
-                assert.is_nil(objective.HideIcons)
-                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             end)
 
             it("keeps saved focus while its quest is still loading and restores it on a later update", function()
@@ -644,20 +648,20 @@ describe("QuestieTracker", function()
                         SpecialObjectives = {}, IsComplete = function() return 0 end}
                 end)
                 TrackerData.ContainsQuest = function() return true end
-                Questie.db.char.TrackerFocus = "11 3"
+                Questie.db.char.TrackerFocus = 11
 
                 local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
 
                 assert.is_true(initialized, err)
-                assert.are.equal("11 3", Questie.db.char.TrackerFocus)
-                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+                assert.are.equal(11, Questie.db.char.TrackerFocus)
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
 
                 ready, now = true, 1
                 TrackerUtils.GetSortedQuestIds = function() return {}, {} end
                 QuestieTracker:Update()
 
-                assert.is_nil(objective.HideIcons)
-                assert.spy(QuestieQuest.ToggleNotes).was.called_with(QuestieQuest, false)
+                assert.is_nil(original.HideIcons)
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
             end)
 
             it("clears saved focus that still cannot apply once the restore timeout passes", function()
@@ -681,17 +685,16 @@ describe("QuestieTracker", function()
                 QuestieTracker:Update()
                 assert.spy(TrackerUtils.UnFocus).was.called(1)
                 assert.is_nil(Questie.db.char.TrackerFocus)
-                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             end)
 
-            it("clears a malformed saved objective focus at startup", function()
-                TrackerUtils.UnFocus = spy.new(function() Questie.db.char.TrackerFocus = nil end)
-                Questie.db.char.TrackerFocus = "11 x"
+            it("should clear a saved objective focus from older versions at startup", function()
+                Questie.db.char.TrackerFocus = "11 3"
 
                 local initialized, err = coroutine.resume(coroutine.create(QuestieTracker.Initialize))
 
                 assert.is_true(initialized, err)
-                assert.spy(TrackerUtils.UnFocus).was.called(1)
+                assert.is_nil(Questie.db.char.TrackerFocus)
                 assert.spy(TrackerData.RefreshQuest).was.not_called()
             end)
 
@@ -705,7 +708,7 @@ describe("QuestieTracker", function()
 
                 assert.is_true(initialized, err)
                 assert.spy(TrackerUtils.UnFocus).was.called(1)
-                assert.spy(QuestieQuest.ToggleNotes).was.not_called()
+                assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
             end)
         end)
     end)
@@ -989,6 +992,17 @@ describe("QuestieTracker", function()
     end)
 
     describe("HandleCombatStarted / HandleCombatEnded", function()
+        local originalTimer
+
+        before_each(function()
+            originalTimer = _G.C_Timer
+            _G.C_Timer = {After = function() end}
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalTimer
+        end)
+
         it("should collapse the tracker when entering combat with minimize enabled and expanded", function()
             Questie.db.profile.minimizeTrackerInCombat = true
             Questie.db.char.isTrackerExpanded = true

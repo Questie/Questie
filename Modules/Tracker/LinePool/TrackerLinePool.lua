@@ -15,6 +15,8 @@ local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type QuestFocusButton
+local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 
 local coYield = coroutine.yield
 
@@ -101,6 +103,9 @@ function TrackerLinePool.ResetLinesForChange()
             line.playButton:SetAlpha(0)
             line.playButton:Hide()
         end
+        if line.questFocus then
+            line.questFocus:Hide()
+        end
     end
 
     lineIndex = 0
@@ -142,7 +147,7 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
     local trackerMarginLeft = 14
     local trackerMarginRight = 30
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
+    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest) + QuestFocusButton.GetColumnWidth()
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
 
@@ -432,6 +437,14 @@ function TrackerLinePool.SetAllExpandQuestAlpha(alpha)
     local highestIndex = TrackerLinePool.GetHighestIndex()
     for i = 1, highestIndex do
         linePool[i].expandQuest:SetAlpha(alpha)
+    end
+end
+
+---@param alpha number
+function TrackerLinePool.SetAllQuestFocusAlpha(alpha)
+    local highestIndex = TrackerLinePool.GetHighestIndex()
+    for i = 1, highestIndex do
+        linePool[i].questFocus:SetAlpha(alpha)
     end
 end
 

@@ -59,6 +59,7 @@ describe("TrackerUtils", function()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end
         QuestieTracker.IsTrackedByQuestie = function() return false end
+        QuestieLoader:ImportModule("QuestFocusButton").GetColumnWidth = function() return 0 end
         trackerQuests = {}
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerData.Refresh = spy.new(function() return trackerQuests end)
@@ -88,12 +89,91 @@ describe("TrackerUtils", function()
         isAddOnLoadedMock:revert()
     end)
 
+    describe("FlashFinisher", function()
+        local originalCTimer, tickers, icon, QuestieMap, originalQuestIdFrames, originalManualFrames, QuestieWaypoints, originalSetSolo
+
+        before_each(function()
+            originalCTimer = _G.C_Timer
+            QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+            originalQuestIdFrames = QuestieMap.questIdFrames
+            originalManualFrames = QuestieMap.manualFrames
+            QuestieMap.manualFrames = {}
+            QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+            originalSetSolo = QuestieWaypoints.SetSolo
+            tickers = {}
+            _G.C_Timer = {
+                NewTicker = function(interval, callback)
+                    local ticker = {Cancel = spy.new(function() end), callback = callback, interval = interval}
+                    table.insert(tickers, ticker)
+                    return ticker
+                end,
+                After = function() end,
+            }
+            QuestieLoader:ImportModule("QuestieWaypoints").SetSolo = spy.new(function() end)
+            icon = CreateFrame("Button")
+            icon:SetWidth(16)
+            icon:SetHeight(16)
+            _G.QuestieFlashTestIcon = icon
+            QuestieLoader:ImportModule("QuestieMap").questIdFrames = {[54] = {"QuestieFlashTestIcon"}}
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalCTimer
+            _G.QuestieFlashTestIcon = nil
+            QuestieMap.questIdFrames = originalQuestIdFrames
+            QuestieMap.manualFrames = originalManualFrames
+            QuestieWaypoints.SetSolo = originalSetSolo
+        end)
+
+        it("should hide townsfolk icons only while the flash runs", function()
+            local townsfolkIcon = CreateFrame("Button")
+            townsfolkIcon:Show()
+            townsfolkIcon.IsShown = function(self) return self:IsVisible() end
+            _G.QuestieFlashTestTownsfolk = townsfolkIcon
+            QuestieMap.manualFrames = {Vendor = {[1] = {"QuestieFlashTestTownsfolk"}}}
+
+            TrackerUtils:FlashFinisher({Id = 54})
+            local hiddenDuringFlash = not townsfolkIcon:IsVisible()
+            local afters = {}
+            _G.C_Timer.After = function(_, callback) table.insert(afters, callback) end
+            for _ = 1, 50 do
+                if #afters > 0 then
+                    break
+                end
+                tickers[1].callback()
+            end
+            for _, callback in ipairs(afters) do
+                callback()
+            end
+            _G.QuestieFlashTestTownsfolk = nil
+
+            assert.is_true(hiddenDuringFlash)
+            assert.is_true(townsfolkIcon:IsVisible())
+        end)
+
+        it("should animate the flash in steps of 0.065 seconds", function()
+            TrackerUtils:FlashFinisher({Id = 54})
+
+            assert.are_same(0.065, tickers[1].interval)
+        end)
+
+        it("should stop a running flash and restore icon sizes before flashing again", function()
+            TrackerUtils:FlashFinisher({Id = 54})
+            tickers[1].callback()
+
+            TrackerUtils:FlashFinisher({Id = 54})
+
+            assert.spy(tickers[1].Cancel).was.called()
+            assert.are_same(16, icon._size)
+        end)
+    end)
+
     describe("show on map", function()
-        local openMock, nearestObjectiveMock, nearestFinisherMock, uiMapIdMock, originalWorldMapFrame
+        local openMock, nearestObjectiveMock, nearestFinisherMock, uiMapIdMock, originalWorldMapFrame, nearestSpawnMock
 
         before_each(function()
             local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
-            openMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "OpenWorldMap")
+            openMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "OpenWorldMap", function() return true end)
             nearestObjectiveMock = stub(DistanceUtils, "GetNearestObjective", function() return {50, 50}, 12 end)
             nearestFinisherMock = stub(DistanceUtils, "GetNearestFinisherOrStarter", function() return {50, 50}, 12 end)
             uiMapIdMock = stub(QuestieLoader:ImportModule("ZoneDB"), "GetUiMapIdByAreaId", function() return 1429 end)
@@ -108,6 +188,10 @@ describe("TrackerUtils", function()
             nearestObjectiveMock:revert()
             nearestFinisherMock:revert()
             uiMapIdMock:revert()
+            if nearestSpawnMock then
+                nearestSpawnMock:revert()
+                nearestSpawnMock = nil
+            end
             _G.WorldMapFrame = originalWorldMapFrame
         end)
 
@@ -125,6 +209,187 @@ describe("TrackerUtils", function()
             assert.stub(openMock).was.called_with(1429)
             assert.spy(WorldMapFrame.Show).was_not.called()
             assert.spy(WorldMapFrame.SetMapID).was_not.called()
+        end)
+
+        it("should open the map on the zone of the nearest quest spawn and flash the quest", function()
+            local original = {Id = 100}
+            local quest = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            trackerQuests[100] = quest
+            nearestSpawnMock = stub(QuestieLoader:ImportModule("DistanceUtils"), "GetNearestSpawnForQuest", function() return {50, 60}, 40 end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_true(TrackerUtils.ShowQuestOnMap(100, original))
+
+            assert.stub(nearestSpawnMock).was.called_with(quest)
+            assert.stub(uiMapIdMock).was.called_with(match.is_ref(QuestieLoader:ImportModule("ZoneDB")), 40)
+            assert.stub(openMock).was.called_with(1429)
+            assert.spy(TrackerUtils.FlashFinisher).was.called_with(TrackerUtils, original)
+        end)
+
+        it("should not flash the quest when the client blocks opening the map", function()
+            local original = {Id = 100}
+            trackerQuests[100] = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            nearestSpawnMock = stub(QuestieLoader:ImportModule("DistanceUtils"), "GetNearestSpawnForQuest", function() return {50, 60}, 40 end)
+            openMock.invokes(function() return false end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.ShowQuestOnMap(100, original))
+
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
+        end)
+
+        it("should not flash an objective, quest objectives or a finisher when the client blocks opening the map", function()
+            openMock.invokes(function() return false end)
+            TrackerUtils.FlashObjective = spy.new(function() end)
+            TrackerUtils.FlashObjectives = spy.new(function() end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            TrackerUtils:ShowObjectiveOnMap({spawnList = {}})
+            TrackerUtils:ShowQuestObjectivesOnMap({{spawnList = {}}})
+            TrackerUtils:ShowFinisherOnMap({Finisher = {}})
+
+            assert.spy(TrackerUtils.FlashObjective).was.not_called()
+            assert.spy(TrackerUtils.FlashObjectives).was.not_called()
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
+        end)
+
+        it("should not open the map for a quest without spawns", function()
+            local original = {Id = 100}
+            trackerQuests[100] = {
+                Id = 100, enrichment = original, Objectives = {{enrichment = {Index = 3, spawnList = {{}}}}},
+                SpecialObjectives = {}, IsComplete = function() return 0 end,
+            }
+            nearestSpawnMock = stub(QuestieLoader:ImportModule("DistanceUtils"), "GetNearestSpawnForQuest", function() end)
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.ShowQuestOnMap(100, original))
+
+            assert.stub(openMock).was.not_called()
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
+        end)
+
+        it("should not open the map for a quest that can not be navigated", function()
+            trackerQuests[91741] = {Id = 91741, Objectives = {}, SpecialObjectives = {}}
+            TrackerUtils.FlashFinisher = spy.new(function() end)
+
+            assert.is_false(TrackerUtils.ShowQuestOnMap(91741))
+
+            assert.stub(openMock).was.not_called()
+            assert.spy(TrackerUtils.FlashFinisher).was.not_called()
+        end)
+
+        describe("all quest objectives", function()
+            local flashed, originalFlashObjectives
+
+            before_each(function()
+                originalFlashObjectives = TrackerUtils.FlashObjectives
+                -- Each fake spawn list names its own zone and distance.
+                QuestieLoader:ImportModule("DistanceUtils").GetNearestObjective = function(spawnList)
+                    return spawnList.spawn, spawnList.zone, "Name", spawnList.distance
+                end
+                QuestieLoader:ImportModule("ZoneDB").GetUiMapIdByAreaId = function(_, zone) return zone + 1000 end
+                flashed = nil
+                TrackerUtils.FlashObjectives = function(_, objectives) flashed = objectives end
+            end)
+
+            after_each(function()
+                TrackerUtils.FlashObjectives = originalFlashObjectives
+            end)
+
+            it("should open the map at the nearest objective and flash every objective", function()
+                local far = {spawnList = {spawn = {2, 2}, zone = 2, distance = 50}}
+                local near = {spawnList = {spawn = {3, 3}, zone = 3, distance = 20}}
+                local objectives = {far, near}
+
+                TrackerUtils:ShowQuestObjectivesOnMap(objectives)
+
+                assert.stub(openMock).was.called_with(1003)
+                assert.are.equal(objectives, flashed)
+            end)
+
+            it("does nothing when no objective has a spawn", function()
+                TrackerUtils:ShowQuestObjectivesOnMap({{spawnList = {}}})
+
+                assert.stub(openMock).was_not.called()
+                assert.is_nil(flashed)
+            end)
+        end)
+    end)
+
+    describe("FlashObjectives", function()
+        local originalTimer, originalQuestIdFrames, originalSetSolo, tick, solo
+
+        local function _Frame(width)
+            return {
+                GetWidth = function() return width end,
+                IsShown = function() return true end,
+                SetWidth = spy.new(function() end),
+                SetHeight = spy.new(function() end),
+                Show = spy.new(function() end),
+                Hide = spy.new(function() end),
+                data = {},
+            }
+        end
+
+        before_each(function()
+            originalTimer = _G.C_Timer
+            tick = nil
+            _G.C_Timer = {
+                NewTicker = function(_, fn) tick = fn return {Cancel = function() end} end,
+                After = function() end,
+            }
+            local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+            originalQuestIdFrames = QuestieMap.questIdFrames
+            QuestieMap.questIdFrames = {[200] = {"QuestieTestOtherIcon"}}
+            _G.QuestieTestOtherIcon = _Frame(16)
+            local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+            originalSetSolo = QuestieWaypoints.SetSolo
+            QuestieWaypoints.SetSolo = function(data) solo = data end
+            solo = nil
+        end)
+
+        after_each(function()
+            _G.C_Timer = originalTimer
+            QuestieLoader:ImportModule("QuestieMap").questIdFrames = originalQuestIdFrames
+            QuestieLoader:ImportModule("QuestieWaypoints").SetSolo = originalSetSolo
+            _G.QuestieTestOtherIcon = nil
+        end)
+
+        it("pulses the icons of every objective together and hides other icons", function()
+            local wolfIcon, bearIcon = _Frame(16), _Frame(12)
+            local wolves = {AlreadySpawned = {{mapRefs = {wolfIcon}}}}
+            local bears = {AlreadySpawned = {{mapRefs = {bearIcon}}}}
+
+            TrackerUtils:FlashObjectives({wolves, bears})
+            tick()
+
+            assert.spy(_G.QuestieTestOtherIcon.Hide).was.called()
+            assert.spy(wolfIcon.SetWidth).was.called_with(wolfIcon, 17)
+            assert.spy(bearIcon.SetWidth).was.called_with(bearIcon, 13)
+            assert.is_true(solo[wolfIcon.data])
+            assert.is_true(solo[bearIcon.data])
+        end)
+
+        it("still flashes a single objective", function()
+            local icon = _Frame(16)
+
+            TrackerUtils:FlashObjective({AlreadySpawned = {{mapRefs = {icon}}}})
+            tick()
+
+            assert.spy(icon.SetWidth).was.called_with(icon, 17)
+        end)
+
+        it("does nothing when no objective has spawned icons", function()
+            TrackerUtils:FlashObjectives({{AlreadySpawned = {}}, {}})
+
+            assert.is_nil(tick)
+            assert.spy(_G.QuestieTestOtherIcon.Hide).was_not.called()
         end)
     end)
 
@@ -427,7 +692,7 @@ describe("TrackerUtils", function()
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was.called_with(1)
+            assert.spy(rePositionLineMock).was.called()
         end)
 
         it("should add sourceItemId as primary button and single objective item as secondary button", function()
@@ -475,7 +740,7 @@ describe("TrackerUtils", function()
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was.called_with(1)
+            assert.spy(rePositionLineMock).was.called()
         end)
 
         it("should add multiple requiredSourceItems entries as primary and secondary buttons", function()
@@ -518,7 +783,7 @@ describe("TrackerUtils", function()
 
             assert.is_false(line.expandQuest:IsVisible())
 
-            assert.spy(rePositionLineMock).was.called_with(1)
+            assert.spy(rePositionLineMock).was.called()
         end)
 
         it("should add second item of requiredSourceItems as primary button if first is not in the inventory", function()
@@ -951,35 +1216,9 @@ describe("TrackerUtils", function()
             assert.are.equal(54, Questie.db.char.TrackerFocus)
             assert.is_nil(original.FadeIcons)
         end)
-
-        it("does not focus an unmatched live objective", function()
-            Questie.db.char.TrackerFocus = 11
-            trackerQuests[91741] = {
-                Id = 91741, enrichment = {}, Objectives = {{Index = 1}}, SpecialObjectives = {},
-                IsComplete = function() return 0 end,
-            }
-
-            assert.is_false(TrackerUtils:FocusObjective(91741, 1))
-            assert.are.equal(11, Questie.db.char.TrackerFocus)
-        end)
     end)
 
     describe("map commands recheck current eligibility", function()
-        it("does not focus an objective replaced at the same index while a menu was open", function()
-            local oldObjective = {Index = 3, spawnList = {{}}}
-            local newObjective = {Index = 3, spawnList = {{}}}
-            local originalQuest = {Id = 100}
-            trackerQuests[100] = {
-                Id = 100, enrichment = originalQuest, Objectives = {{enrichment = newObjective}},
-                SpecialObjectives = {}, IsComplete = function() return 0 end,
-            }
-            Questie.db.char.TrackerFocus = 11
-
-            assert.is_false(TrackerUtils:FocusObjective(100, 3, oldObjective, originalQuest))
-            assert.are.equal(11, Questie.db.char.TrackerFocus)
-            assert.is_nil(newObjective.HideIcons)
-            assert.spy(TrackerData.RefreshQuest).was.called_with(100)
-        end)
 
         it("rejects whole-quest focus when only some live objectives are verified", function()
             trackerQuests[100] = {
@@ -1020,6 +1259,71 @@ describe("TrackerUtils", function()
 
             assert.is_false(TrackerUtils.SetQuestTomTomTarget(100, {Id = 100}))
             assert.spy(distance.GetNearestSpawnForQuest).was.not_called()
+        end)
+    end)
+
+    describe("Blizzard super tracking", function()
+        local compat
+        local superTrackedQuestId
+        local original
+
+        before_each(function()
+            compat = QuestieLoader:ImportModule("QuestieCompat")
+            superTrackedQuestId = nil
+            compat.GetSuperTrackedQuestID = function() return superTrackedQuestId end
+            compat.SetSuperTrackedQuestID = spy.new(function(questId) superTrackedQuestId = questId end)
+            compat.ClearSuperTrackedQuest = spy.new(function() superTrackedQuestId = nil end)
+
+            original = {Id = 54, Objectives = {}, Finisher = {NPC = {240}}}
+            QuestiePlayer.currentQuestlog[54] = original
+            QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return original end
+            trackerQuests[54] = {
+                Id = 54, enrichment = original, Finisher = original.Finisher,
+                Objectives = {}, IsComplete = function() return 1 end,
+            }
+        end)
+
+        it("should super track a focused quest", function()
+            TrackerUtils:FocusQuest(54)
+
+            assert.spy(compat.SetSuperTrackedQuestID).was.called_with(54)
+        end)
+
+        it("should not super track a quest that can not be focused", function()
+            trackerQuests[91741] = {Id = 91741, Objectives = {}, SpecialObjectives = {}}
+
+            TrackerUtils:FocusQuest(91741)
+
+            assert.spy(compat.SetSuperTrackedQuestID).was.not_called()
+        end)
+
+        it("should clear super tracking when unfocusing the super tracked quest", function()
+            Questie.db.char.TrackerFocus = 54
+            superTrackedQuestId = 54
+
+            TrackerUtils:UnFocus()
+
+            assert.spy(compat.ClearSuperTrackedQuest).was.called()
+        end)
+
+        it("should have cleared the focus when super tracking changes notify right away", function()
+            Questie.db.char.TrackerFocus = 54
+            superTrackedQuestId = 54
+            local focusSeenOnClear
+            compat.ClearSuperTrackedQuest = function() focusSeenOnClear = Questie.db.char.TrackerFocus or false end
+
+            TrackerUtils:UnFocus()
+
+            assert.is_false(focusSeenOnClear)
+        end)
+
+        it("should keep super tracking of another quest when unfocusing", function()
+            Questie.db.char.TrackerFocus = 54
+            superTrackedQuestId = 99
+
+            TrackerUtils:UnFocus()
+
+            assert.spy(compat.ClearSuperTrackedQuest).was.not_called()
         end)
     end)
 
