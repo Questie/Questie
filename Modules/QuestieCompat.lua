@@ -888,6 +888,48 @@ function QuestieCompat.ClearSuperTrackedQuest()
     end
 end
 
+---[C_SkillInfo Documentation](https://warcraft.wiki.gg/wiki/Category:API_systems/SkillInfo)
+---Forever replaced the global skill line API with C_SkillInfo; Classic clients keep the globals.
+---@return number numSkillLines
+function QuestieCompat.GetNumSkillLines()
+    if C_SkillInfo and C_SkillInfo.GetNumSkillLines then
+        return C_SkillInfo.GetNumSkillLines()
+    end
+    return GetNumSkillLines()
+end
+
+---@param index number
+---@return string? name
+---@return boolean? isHeader
+---@return number? rank
+---@return number? skillLineId Only on clients with C_SkillInfo.
+function QuestieCompat.GetSkillLineInfo(index)
+    if C_SkillInfo and C_SkillInfo.GetSkillLineInfo then
+        local skillLine = C_SkillInfo.GetSkillLineInfo(index)
+        if (not skillLine) then
+            return nil
+        end
+        return skillLine.name, skillLine.isHeader, skillLine.rank, skillLine.skillID
+    end
+    local name, isHeader, _, rank = GetSkillLineInfo(index)
+    return name, isHeader, rank
+end
+
+---Expands all skill line headers, so their skill lines are listed.
+function QuestieCompat.ExpandAllSkillHeaders()
+    if C_SkillInfo and C_SkillInfo.ExpandSkillHeader then
+        -- Back to front: expanding a header adds lines after it and would shift the indices still to check.
+        for index = C_SkillInfo.GetNumSkillLines(), 1, -1 do
+            local skillLine = C_SkillInfo.GetSkillLineInfo(index)
+            if skillLine and skillLine.isHeader and skillLine.isCollapsed then
+                C_SkillInfo.ExpandSkillHeader(index)
+            end
+        end
+        return
+    end
+    ExpandSkillHeader(0)
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestUiMapID)
 ---Blizzard's map for a logged quest, for quests Questie has no map data for. The waypoint fallback may point to a
 ---neighbouring zone on the way to the quest.
