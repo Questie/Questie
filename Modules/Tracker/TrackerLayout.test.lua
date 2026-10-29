@@ -4,7 +4,7 @@ describe("TrackerLayout", function()
     ---@type TrackerLayout
     local TrackerLayout
 
-    local baseFrame, updateWidth, updateHeight, originalGetScreenWidth, questColumnOffset
+    local baseFrame, baseFrameWidth, updateWidth, updateHeight, originalGetScreenWidth, questColumnOffset
 
     local function _CreateLine(unboundedWidth, wrappedWidth)
         local label = {
@@ -33,8 +33,9 @@ describe("TrackerLayout", function()
         originalGetScreenWidth = _G.GetScreenWidth
         _G.GetScreenWidth = function() return 1000 end
 
-        baseFrame = {GetWidth = function() return 300 end}
-        updateWidth = spy.new(function() end)
+        baseFrameWidth = 300
+        baseFrame = {GetWidth = function() return baseFrameWidth end}
+        updateWidth = spy.new(function(width) baseFrameWidth = width end)
         updateHeight = spy.new(function() end)
 
         dofile("Modules/Tracker/TrackerLayout.lua")
@@ -101,8 +102,8 @@ describe("TrackerLayout", function()
             TrackerLayout.UpdateLineWidth(line, 20)
 
             assert.spy(updateWidth).was.called_with(150)
-            assert.are_same(250, line.label.width)
-            assert.are_same(270, line.width)
+            assert.are_same(100, line.label.width)
+            assert.are_same(120, line.width)
             assert.are_same(120, TrackerLayout.GetLineWidth())
         end)
 

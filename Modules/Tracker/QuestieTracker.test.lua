@@ -495,12 +495,13 @@ describe("QuestieTracker", function()
             instanceMock:revert()
             infoMock:revert()
             screenMock:revert()
+            Questie.db.profile.listAchievementsFirst = nil
             expansion.Current = originalExpansion
             _G.C_Timer, _G.DurabilityFrame = originalTimer, originalDurability
             _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = originalBindingLabel
         end)
 
-        it("should draw the recipe section", function()
+        it("should draw quests and recipes outside scenarios before WotLK", function()
             now = 1
 
             QuestieTracker:Update()
@@ -528,7 +529,6 @@ describe("QuestieTracker", function()
             QuestieTracker:Update()
 
             assert.are_same({"achievements", "quests"}, drawnSections)
-            Questie.db.profile.listAchievementsFirst = nil
         end)
 
         it("should only draw the scenario section in a scenario", function()
