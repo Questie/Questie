@@ -137,16 +137,6 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
         end
     end
 
-    function line:SetVerticalPadding(amount)
-        if self.mode == "zone" then
-            self:SetHeight(Questie.db.profile.trackerFontSizeZone + amount)
-        elseif self.mode == "quest" or "achieve" then
-            self:SetHeight(Questie.db.profile.trackerFontSizeQuest + amount)
-        else
-            self:SetHeight(Questie.db.profile.trackerFontSizeObjective + amount)
-        end
-    end
-
     line:EnableMouse(true)
     line:RegisterForDrag("LeftButton")
     line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
