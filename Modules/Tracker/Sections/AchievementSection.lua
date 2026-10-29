@@ -154,7 +154,7 @@ function AchievementSection.Draw(trackedAchievementIds)
                         -- Achievements without criteria show their description
                         line = TrackerLinePool.GetAchievementObjectiveLine(achieve, margins.objective)
                         if (not line) then
-                            break
+                            return
                         end
 
                         line.label:SetText(QuestieLib:GetRGBForObjective(criteria) .. criteria.Text)
