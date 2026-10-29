@@ -5,7 +5,7 @@ describe("QuestSection", function()
     local QuestSection
     local TrackerLinePool, TrackerLayout, TrackerUtils, TrackerData, TrackerQuestTimers
 
-    local texts, availableLines
+    local texts, availableLines, drawnLines
 
     local function _FakeLine()
         local label = {
@@ -27,7 +27,9 @@ describe("QuestSection", function()
             return nil
         end
         availableLines = availableLines - 1
-        return _FakeLine()
+        local line = _FakeLine()
+        drawnLines[#drawnLines + 1] = line
+        return line
     end
 
     local function _Quest(id, complete, objectives)
@@ -49,6 +51,7 @@ describe("QuestSection", function()
 
     before_each(function()
         texts = {}
+        drawnLines = {}
         availableLines = 100
 
         Questie.db.char.collapsedZones = {}
@@ -103,6 +106,27 @@ describe("QuestSection", function()
 
         assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1", "Wolf slain: 1/5"}, texts)
         assert.spy(TrackerUtils.AddQuestItemButtons).was.called(1)
+    end)
+
+    it("should indent the objectives of a quest with a secondary item button", function()
+        local withButtons = _Quest(1, 0, {{Description = "Wolf slain: 1/5", Completed = false}})
+        local withoutButtons = _Quest(2, 0, {{Description = "Bear slain: 1/5", Completed = false}})
+        TrackerUtils.AddQuestItemButtons = spy.new(function(quest, _, _, _, _, _, rePositionLine)
+            if quest.Id == 1 then
+                rePositionLine(1)
+            end
+            return true
+        end)
+
+        QuestSection.Draw(_Details({
+            {quest = withButtons, zoneName = "Elwynn Forest"},
+            {quest = withoutButtons, zoneName = "Elwynn Forest"},
+        }))
+
+        assert.spy(TrackerLinePool.GetQuestObjectiveLine).was.called_with(withButtons, withButtons.Objectives[1], 54)
+        assert.spy(TrackerLinePool.GetQuestObjectiveLine).was.called_with(withoutButtons, withoutButtons.Objectives[1], 30)
+        assert.is_true(drawnLines[3].questHasSecondaryQIB)
+        assert.is_false(drawnLines[5].questHasSecondaryQIB)
     end)
 
     it("should draw one zone header per zone", function()

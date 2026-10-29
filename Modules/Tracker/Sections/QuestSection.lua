@@ -31,7 +31,9 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
     local secondaryButton = false
 
     for _, questId in ipairs(sortedQuestIds) do
-        if not questId then break end
+        if (not questId) then
+            break
+        end
 
         -- reset objectiveMarginLeft for each quest, it can be increased if there are quest items
         objectiveMarginLeft = margins.objective
@@ -44,8 +46,8 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
         TrackerQuestTimers:UpdateAndGetRemainingTime(quest, nil, true)
         local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
 
-        if ((complete ~= 1 and not quest.isComplete) or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
-            and ((Questie.db.profile.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId])
+        if ((complete ~= 1 and (not quest.isComplete)) or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
+            and ((Questie.db.profile.autoTrackQuests and (not Questie.db.char.AutoUntrackedQuests[questId]))
             or (not Questie.db.profile.autoTrackQuests and Questie.db.char.TrackedQuests[questId])) then
             -- Add Quest Zones
             if zoneCheck ~= zoneName then
@@ -55,7 +57,9 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
             if firstQuestInZone then
                 -- Get first line in linePool
                 line = TrackerLinePool.GetZoneLine(zoneName)
-                if not line then break end
+                if (not line) then
+                    break
+                end
 
                 -- Set Zone Title and default Min/Max states
                 if Questie.db.char.collapsedZones[zoneName] then
@@ -67,7 +71,7 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                 end
 
                 -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
-                if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and not Questie.db.char.minAllQuestsInZone[zoneName].isTrue and not Questie.db.char.collapsedZones[zoneName] then
+                if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and (not Questie.db.char.minAllQuestsInZone[zoneName].isTrue) and (not Questie.db.char.collapsedZones[zoneName]) then
                     local minQuestIdCount = 0
                     for minQuestId, _ in pairs(Questie.db.char.minAllQuestsInZone[zoneName]) do
                         if type(minQuestId) == "number" then
@@ -112,7 +116,9 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
             -- Add quest
             if (not Questie.db.char.collapsedZones[zoneName]) then
                 line = TrackerLinePool.GetQuestTitleLine(quest, margins.quest)
-                if not line then break end
+                if (not line) then
+                    break
+                end
 
                 -- Set Min/Max Button and default states
                 line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.quest - 8, 1)
@@ -144,8 +150,8 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                 local isMinimizable = (complete == 1 or complete == -1) or (#quest.Objectives == 0 and quest.isComplete == true)
 
                 -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
-                if Questie.db.profile.collapseCompletedQuests and isMinimizable and not timedQuest then
-                    if not Questie.db.char.collapsedQuests[quest.Id] then
+                if Questie.db.profile.collapseCompletedQuests and isMinimizable and (not timedQuest) then
+                    if (not Questie.db.char.collapsedQuests[quest.Id]) then
                         Questie.db.char.collapsedQuests[quest.Id] = true
                     end
                 else
@@ -256,7 +262,9 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
 
                     if timerText then
                         line = TrackerLinePool.GetQuestObjectiveLine(quest, nil, lineWidthQBC)
-                        if not line then break end
+                        if (not line) then
+                            break
+                        end
 
                         -- Set Timer font
                         line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective,
@@ -293,9 +301,11 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                     -- Add incomplete Quest Objectives
                     if complete == 0 and quest.isComplete ~= true then
                         for _, objective in ipairs(quest.Objectives) do
-                            if not Questie.db.profile.hideCompletedQuestObjectives or not objective.Completed then
+                            if (not Questie.db.profile.hideCompletedQuestObjectives) or (not objective.Completed) then
                                 line = TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidthQBC)
-                                if not line then break end
+                                if (not line) then
+                                    break
+                                end
 
                                 line.questHasSecondaryQIB = secondaryButton
 
@@ -319,7 +329,9 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                         -- Some quests have "Blizzard Completion Text" that is displayed to show where to go next or where to turn in the quest.
                     elseif (complete == 1 or complete == -1 or quest.isComplete == true) and (not (timedQuest and isMinimizable and Questie.db.profile.collapseCompletedQuests)) then
                         line = TrackerLinePool.GetQuestObjectiveLine(quest, nil, lineWidthQBC)
-                        if not line then break end
+                        if (not line) then
+                            break
+                        end
 
                         -- Set Objective label based on states
                         if ((complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil)) and objectiveColor ~= "minimal" then
@@ -358,7 +370,7 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                 end
 
                 -- Safety check in case we hit the linePool limit
-                if not line then
+                if (not line) then
                     line = TrackerLinePool.GetLastLine()
                 end
 

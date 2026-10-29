@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local match = require("luassert.match")
 
 describe("AchievementSection", function()
     ---@type AchievementSection
@@ -112,6 +113,17 @@ describe("AchievementSection", function()
         assert.is_truthy(texts[3]:find("Elwynn Forest", 1, true))
         assert.is_truthy(texts[4]:find("Westfall", 1, true))
         assert.are_same(4, #texts)
+    end)
+
+    it("should draw criteria with the default objective margin", function()
+        achievements[1] = {name = "Explorer", description = "Explore.", criteria = {
+            {text = "Westfall", completed = false, progress = 0, needed = 1},
+        }}
+
+        AchievementSection.Draw({[1] = true})
+
+        assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called_with(match._, 20)
+        assert.spy(TrackerLinePool.GetAchievementObjectiveLine).was.called_with(match._, 30)
     end)
 
     it("should hide completed criteria when configured", function()
