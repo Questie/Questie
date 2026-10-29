@@ -418,7 +418,7 @@ describe("QuestieTracker", function()
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
         local timeMock, combatMock, countMock, instanceMock, infoMock, screenMock
-        local header, pool, revision, RecipeSection
+        local header, pool, revision, RecipeSection, ScenarioSection
 
         before_each(function()
             now, inCombat = 0, false
@@ -464,6 +464,8 @@ describe("QuestieTracker", function()
             pool.GetLastLine = function() return nil end
             RecipeSection = QuestieLoader:ImportModule("RecipeSection")
             RecipeSection.Draw = spy.new(function() end)
+            ScenarioSection = QuestieLoader:ImportModule("ScenarioSection")
+            ScenarioSection.Draw = spy.new(function() end)
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
@@ -499,6 +501,29 @@ describe("QuestieTracker", function()
             QuestieTracker:Update()
 
             assert.spy(RecipeSection.Draw).was.called(1)
+            assert.spy(ScenarioSection.Draw).was.not_called()
+        end)
+
+        it("should only draw the scenario section in a scenario", function()
+            expansion.Current = expansion.MoP
+            infoMock.invokes(function() return "Scenario", "scenario" end)
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(ScenarioSection.Draw).was.called_with(false)
+            assert.spy(RecipeSection.Draw).was.not_called()
+        end)
+
+        it("should draw the scenario section with the timer in a Challenge Mode", function()
+            expansion.Current = expansion.MoP
+            infoMock.invokes(function() return "Temple of the Jade Serpent", "party", 8, "Challenge Mode" end)
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(ScenarioSection.Draw).was.called_with(true)
+            assert.spy(RecipeSection.Draw).was.not_called()
         end)
 
         it("refreshes once before layout and sorting read the snapshot", function()
