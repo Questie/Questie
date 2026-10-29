@@ -16,11 +16,13 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
+---@type table<number, boolean> Skill line IDs of the professions, for clients that report them
+local professionIds = {}
 ---@type table<SpecializationKeys, string>
 local specializationNames
 
 -- Fast local references
-local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
+local GetSkillLineInfo, IsSpellKnown = GetSkillLineInfo, QuestieCompat.IsSpellKnown
 
 -- Modern clients may omit this legacy API. A missing hook target must not abort the profession definitions below.
 if AbandonSkill then
@@ -64,26 +66,22 @@ function QuestieProfessions:Update()
     --- Used to compare to be able to detect if a profession has been learned
     local temporaryPlayerProfessions = {}
 
-    if GetSkillLineInfo then
-        ExpandSkillHeader(0)
-        -- MoP's "Ways of Cooking" add skill lines before the weapon skills.
-        local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
-        for i = 1, GetNumSkillLines() do
-            if i > maxSkillLineToCheck then break end
+    QuestieCompat.ExpandAllSkillHeaders()
+    -- MoP's "Ways of Cooking" add skill lines before the weapon skills.
+    local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
+    for i = 1, QuestieCompat.GetNumSkillLines() do
+        local skillName, isHeader, skillRank, skillLineId = QuestieCompat.GetSkillLineInfo(i)
+        -- Without skill line IDs the localized names are matched, so only the leading profession lines are checked.
+        if (not skillLineId) and i > maxSkillLineToCheck then break end
 
-            local skillName, isHeader, _, skillRank = GetSkillLineInfo(i)
-            if (not isHeader) and professionTable[skillName] then
-                temporaryPlayerProfessions[professionTable[skillName]] = {skillName, skillRank}
-            end
+        local professionId
+        if skillLineId then
+            professionId = professionIds[skillLineId] and skillLineId
+        else
+            professionId = professionTable[skillName]
         end
-    else
-        -- Modern APIs return profession indices, with nil slots for unknown professions.
-        -- pairs preserves secondary professions even when a primary-profession slot is empty.
-        for _, professionIndex in pairs({GetProfessions()}) do
-            local skillName, _, skillRank, _, _, _, professionId = GetProfessionInfo(professionIndex)
-            if skillName and skillRank and professionId then
-                temporaryPlayerProfessions[professionId] = {skillName, skillRank}
-            end
+        if skillName and (not isHeader) and professionId then
+            temporaryPlayerProfessions[professionId] = {skillName, skillRank}
         end
     end
 
@@ -105,7 +103,7 @@ function QuestieProfessions:Update()
             end
         end
     end
-    -- Modern clients have no AbandonSkill hook. The skill-change event supplies the new snapshot.
+    -- Forever has no AbandonSkill hook. The skill-change event supplies the new snapshot.
     for professionId, profession in pairs(playerProfessions) do
         if not temporaryPlayerProfessions[professionId] then
             Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. profession[1] .. "(" .. professionId .. ")")
@@ -282,6 +280,9 @@ QuestieProfessions.professionKeys = {
     RIDING = 762,
     ARCHAEOLOGY = 794,
 }
+for _, professionId in pairs(QuestieProfessions.professionKeys) do
+    professionIds[professionId] = true
+end
 
 ---@enum RankEnum
 QuestieProfessions.rankNames = {
