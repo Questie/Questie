@@ -159,5 +159,14 @@ describe("TrackerLine untrack click", function()
             assert.is_nil(line.Quest)
             assert.are_same({Id = 2538}, line.Recipe)
         end)
+
+        it("should clear recipe data when a quest is set", function()
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetRecipe({Id = 2538})
+
+            line:SetQuest({Id = 783})
+
+            assert.is_nil(line.Recipe)
+        end)
     end)
 end)
