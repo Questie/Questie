@@ -83,6 +83,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
     function line:SetQuest(quest)
         self.Quest = quest
+        self.Recipe = nil
         self.expandQuest.questId = quest.Id
 
         OnQuestAdded(quest.Id, self)
@@ -286,6 +287,7 @@ _OnClickAchieve = function(self, button)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
     end
 end
+
 ---@param button string
 _OnClickRecipe = function(self, button)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickRecipe]")
