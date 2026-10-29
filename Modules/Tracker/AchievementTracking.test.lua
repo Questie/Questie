@@ -119,6 +119,16 @@ describe("AchievementTracking", function()
             assert.spy(RemoveTrackedAchievement).was.called_with(123, true)
         end)
 
+        it("should prefer the legacy API when both APIs exist", function()
+            _UseLegacyApi()
+            _UseContentTrackingApi(false)
+
+            AchievementTracking.Untrack(123)
+
+            assert.spy(RemoveTrackedAchievement).was.called(1)
+            assert.spy(C_ContentTracking.StopTracking).was.not_called()
+        end)
+
         it("should stop tracking through C_ContentTracking", function()
             _UseContentTrackingApi(false)
 

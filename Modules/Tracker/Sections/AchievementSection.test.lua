@@ -6,12 +6,12 @@ describe("AchievementSection", function()
     local AchievementSection
     local TrackerLinePool, TrackerLayout, TrackerAchievements
 
-    local texts, achievements, availableLines, objectiveLines, originals
+    local texts, achievements, availableLines, objectiveLines, originals, unboundedWidth
 
     local function _FakeLine()
         local label = {
             SetText = function(_, text) texts[#texts + 1] = text end,
-            GetUnboundedStringWidth = function() return 10 end,
+            GetUnboundedStringWidth = function() return unboundedWidth end,
             GetWidth = function() return 300 end,
             GetHeight = function() return 10 end,
         }
@@ -51,6 +51,7 @@ describe("AchievementSection", function()
         achievements = {}
         objectiveLines = {}
         availableLines = 100
+        unboundedWidth = 10
         originals = {GetNumTrackedAchievements = _G.GetNumTrackedAchievements}
         _G.GetNumTrackedAchievements = function() return 1 end
 
@@ -195,6 +196,44 @@ describe("AchievementSection", function()
 
         assert.are_same({Id = 2}, objectiveLines[1].target)
         assert.are.equal(achievements[1], objectiveLines[2].target)
+    end)
+
+    it("should split the progress into a second line that targets the achievement", function()
+        unboundedWidth = 500
+        TrackerLayout.GetLineWidth = function() return 100 end
+        local criteria = {Text = "Darnassus", Completed = false, Collected = 3, Needed = 10, Progress = "3/10", LinkedAchievementId = 2, IsDescription = false}
+        achievements = {_Achievement(1, {criteria})}
+
+        AchievementSection.Draw({[1] = true})
+
+        -- The first text is replaced by the split one
+        assert.is_truthy(texts[4]:find("Darnassus: ", 1, true))
+        assert.is_falsy(texts[4]:find("3/10", 1, true))
+        assert.is_truthy(texts[5]:find("    > 3/10", 1, true))
+        assert.are_same({Id = 2}, objectiveLines[1].target)
+        assert.are.equal(achievements[1], objectiveLines[2].target)
+    end)
+
+    it("should not set the criteria mark when the objective color is not white", function()
+        Questie.db.profile.trackerColorObjectives = "redToGreen"
+        achievements = {_Achievement(1, {_Criteria("Westfall")})}
+
+        AchievementSection.Draw({[1] = true})
+
+        assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.not_called()
+    end)
+
+    it("should stop drawing when no line is left for the description of an achievement", function()
+        achievements = {
+            _Achievement(1, {{Text = "Reach level 10", Completed = false, Collected = 0, Needed = 1, IsDescription = true}}),
+            _Achievement(2),
+        }
+        availableLines = 2
+
+        AchievementSection.Draw({[1] = true, [2] = true})
+
+        assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called(1)
+        assert.are_same(2, #texts)
     end)
 
     it("should only draw the header when it is collapsed", function()
