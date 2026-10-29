@@ -40,7 +40,6 @@ ignore = {
 globals = {
     "----> GlobalAPI",
     "AbandonQuest",
-    "AbandonSkill",
     "AcceptAreaSpiritHeal",
     "AcceptBattlefieldPort",
     "AcceptDuel",

@@ -5,8 +5,6 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type AvailableQuests
-local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -22,23 +20,7 @@ local professionIds = {}
 local specializationNames
 
 -- Fast local references
-local GetSkillLineInfo, IsSpellKnown = GetSkillLineInfo, QuestieCompat.IsSpellKnown
-
--- Modern clients may omit this legacy API. A missing hook target must not abort the profession definitions below.
-if AbandonSkill then
-    hooksecurefunc("AbandonSkill", function(skillIndex)
-        local skillName = GetSkillLineInfo(skillIndex)
-        if skillName and professionTable[skillName] then
-            if playerProfessions[professionTable[skillName]] then
-                Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
-                playerProfessions[professionTable[skillName]] = nil
-                --? Reset all autoBlacklisted quests if a skill is abandoned
-                QuestieQuest.ResetAutoblacklistCategory("skill")
-                AvailableQuests.CalculateAndDrawAll()
-            end
-        end
-    end)
-end
+local IsSpellKnown = QuestieCompat.IsSpellKnown
 
 function QuestieProfessions:Init()
 
@@ -103,7 +85,6 @@ function QuestieProfessions:Update()
             end
         end
     end
-    -- Forever has no AbandonSkill hook. The skill-change event supplies the new snapshot.
     for professionId, profession in pairs(playerProfessions) do
         if not temporaryPlayerProfessions[professionId] then
             Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. profession[1] .. "(" .. professionId .. ")")
