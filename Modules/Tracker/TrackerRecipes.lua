@@ -31,6 +31,22 @@ function TrackerRecipes.HasTrackedRecipes()
     return #C_TradeSkillUI.GetRecipesTracked(false) > 0
 end
 
+--- Recipes without loaded data are not shown. Cheaper than GetTrackedRecipes, as reagents are not read.
+---@return boolean
+function TrackerRecipes.HasShownRecipes()
+    if (not TrackerRecipes.IsSupported()) then
+        return false
+    end
+
+    for _, recipeId in ipairs(C_TradeSkillUI.GetRecipesTracked(false)) do
+        local schematic = C_TradeSkillUI.GetRecipeSchematic(recipeId, false)
+        if schematic and schematic.name then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param itemId number
 ---@return string
 local function _GetItemName(itemId)
