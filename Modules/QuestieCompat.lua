@@ -1261,24 +1261,6 @@ function QuestieCompat.AchievementFrameAchievements_ForceUpdate()
     end
 end
 
----Returns the achievement IDs tracked by Blizzard as separate return values.
----@return number ... Achievement IDs.
-function QuestieCompat.GetTrackedAchievements()
-    -- No API means no returned values, so callers collect an empty table.
-    if GetTrackedAchievements then
-        return GetTrackedAchievements()
-    end
-end
-
----Removes an achievement from Blizzard's tracked achievements, if supported.
----@param achieveId number
----@param isQuestie boolean? True prevents Questie's removal hook from also untracking it in Questie.
-function QuestieCompat.RemoveTrackedAchievement(achieveId, isQuestie)
-    if RemoveTrackedAchievement then
-        return RemoveTrackedAchievement(achieveId, isQuestie)
-    end
-end
-
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_C_StableInfo.GetStablePetFoodTypes)
 ---Returns the food types a stable pet can eat as separate return values.
 ---@param index number Stable slot passed unchanged; callers use the legacy active-pet slot 0.
