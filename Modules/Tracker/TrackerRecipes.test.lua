@@ -102,6 +102,34 @@ describe("TrackerRecipes", function()
         end)
     end)
 
+    describe("HasCurrencyReagents", function()
+        it("should return true when a tracked recipe needs a currency", function()
+            trackedRecipes = {1}
+            schematics[1] = {name = "Recipe", reagentSlotSchematics = {
+                {required = true, quantityRequired = 1, reagents = {{itemID = 10}}},
+                {required = true, quantityRequired = 1, reagents = {{currencyID = 5}}},
+            }}
+
+            assert.is_true(TrackerRecipes.HasCurrencyReagents())
+        end)
+
+        it("should return false when tracked recipes need only items", function()
+            trackedRecipes = {1, 2}
+            schematics[1] = {name = "Recipe", reagentSlotSchematics = {
+                {required = true, quantityRequired = 1, reagents = {{itemID = 10}}},
+                {required = false, quantityRequired = 1, reagents = {{currencyID = 5}}},
+            }}
+
+            assert.is_false(TrackerRecipes.HasCurrencyReagents())
+        end)
+
+        it("should return false when recipe tracking is not supported", function()
+            _G.C_TradeSkillUI = nil
+
+            assert.is_false(TrackerRecipes.HasCurrencyReagents())
+        end)
+    end)
+
     describe("GetTrackedRecipes", function()
         it("should return tracked recipes with their required reagents", function()
             trackedRecipes = {2538}

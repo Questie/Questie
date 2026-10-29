@@ -47,6 +47,24 @@ function TrackerRecipes.HasShownRecipes()
     return false
 end
 
+---@return boolean
+function TrackerRecipes.HasCurrencyReagents()
+    if (not TrackerRecipes.IsSupported()) then
+        return false
+    end
+
+    for _, recipeId in ipairs(C_TradeSkillUI.GetRecipesTracked(false)) do
+        local schematic = C_TradeSkillUI.GetRecipeSchematic(recipeId, false)
+        for _, slot in ipairs(schematic and schematic.reagentSlotSchematics or {}) do
+            local firstReagent = slot.reagents and slot.reagents[1]
+            if slot.required and firstReagent and firstReagent.currencyID then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 ---@param itemId number
 ---@return string
 local function _GetItemName(itemId)
