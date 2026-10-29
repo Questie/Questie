@@ -460,8 +460,19 @@ function QuestDetailsFrame:Draw(container, quest)
     end
 
     if QuestieDB.IsRepeatable(quest.Id) then
-        local repeatableLabel = CreateLabel(Questie:Colorize(l10n("Repeatable"), 'yellow'), true)
-        container:AddChild(repeatableLabel)
+        if QuestieDB.IsDailyQuest(quest.Id) then
+            local dailyLabel = CreateLabel(Questie:Colorize(l10n("Repeatable")..l10n(": "), 'yellow') .. l10n("Daily"), true)
+            container:AddChild(dailyLabel)
+        elseif QuestieDB.IsWeeklyQuest(quest.Id) then
+            local weeklyLabel = CreateLabel(Questie:Colorize(l10n("Repeatable")..l10n(": "), 'yellow') .. l10n("Weekly"), true)
+            container:AddChild(weeklyLabel)
+        elseif QuestieDB.IsMonthlyQuest(quest.Id) then
+            local monthlyLabel = CreateLabel(Questie:Colorize(l10n("Repeatable")..l10n(": "), 'yellow') .. l10n("Monthly"), true)
+            container:AddChild(monthlyLabel)
+        else
+            local repeatableLabel = CreateLabel(Questie:Colorize(l10n("Repeatable"), 'yellow'), true)
+            container:AddChild(repeatableLabel)
+        end
     end
 
     local eligibilityText, shouldShowDoableLabel = QuestieDB.IsDoableVerbose(quest.Id, false, true, true)
