@@ -1600,10 +1600,21 @@ describe("QuestieCompat skill lines", function()
             assert.are.equal(3, QuestieCompat.GetNumSkillLines())
         end)
 
-        it("should expand all headers at once", function()
+        it("should expand all headers at once when a header is collapsed", function()
+            _G.GetSkillLineInfo = function(index) return "Header", index == 2, false end
+
             QuestieCompat.ExpandAllSkillHeaders()
 
+            assert.spy(ExpandSkillHeader).was.called(1)
             assert.spy(ExpandSkillHeader).was.called_with(0)
+        end)
+
+        it("should not expand headers when all headers are expanded", function()
+            _G.GetSkillLineInfo = function() return "Header", true, true end
+
+            QuestieCompat.ExpandAllSkillHeaders()
+
+            assert.spy(ExpandSkillHeader).was.not_called()
         end)
     end)
 end)

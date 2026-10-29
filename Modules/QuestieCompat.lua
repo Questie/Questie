@@ -927,7 +927,14 @@ function QuestieCompat.ExpandAllSkillHeaders()
         end
         return
     end
-    ExpandSkillHeader(0)
+    -- Expanding fires SKILL_LINES_CHANGED, which updates the professions again, so only expand when needed.
+    for index = 1, GetNumSkillLines() do
+        local _, isHeader, isExpanded = GetSkillLineInfo(index)
+        if isHeader and (not isExpanded) then
+            ExpandSkillHeader(0)
+            return
+        end
+    end
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_GetQuestUiMapID)
