@@ -1,6 +1,8 @@
 ---@class AchievementSection
 local AchievementSection = QuestieLoader:CreateModule("AchievementSection")
 
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerLayout
 local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type TrackerLinePool
@@ -55,7 +57,7 @@ function AchievementSection.Draw(trackedAchievementIds)
                 else
                     line.expandZone:SetMode(1)
                     local text = l10n("Achievements")
-                    line.label:SetText("|cFFC0C0C0" .. text .. ": " .. GetNumTrackedAchievements(true) .. "/10|r")
+                    line.label:SetText("|cFFC0C0C0" .. text .. ": " .. GetNumTrackedAchievements(true) .. "/" .. AchievementTracking.GetMaxTracked() .. "|r")
                 end
 
                 -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.

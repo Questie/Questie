@@ -83,6 +83,7 @@ describe("AchievementSection", function()
 
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/QuestieLib.lua")
+        dofile("Modules/Tracker/AchievementTracking.lua")
         dofile("Modules/Tracker/Sections/AchievementSection.lua")
         AchievementSection = QuestieLoader:ImportModule("AchievementSection")
     end)

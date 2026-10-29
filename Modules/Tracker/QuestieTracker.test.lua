@@ -112,6 +112,7 @@ describe("QuestieTracker", function()
             _G.AchievementFrame = {IsShown = function() return false end}
             Questie.db.char.trackedAchievementIds = {}
             Questie.db.char.collapsedZones = {}
+            dofile("Modules/Tracker/AchievementTracking.lua")
             dofile("Modules/Tracker/TrackerLayout.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
             timeMock.returns(1)
