@@ -11,12 +11,12 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
 ---@type TrackerLine
 local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
+---@type TrackerLayout
+local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
----@type QuestFocusButton
-local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 
 local coYield = coroutine.yield
 
@@ -145,12 +145,9 @@ function TrackerLinePool.UpdateQuestTitleLines(callback)
 end
 
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
-    local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
-    local trackerMarginLeft = 14
-    local trackerMarginRight = 30
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest) + QuestFocusButton.GetColumnWidth()
-    local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
-    local questItemButtonSize = 12 + trackerFontSizeQuest
+    local margins = TrackerLayout.GetMargins()
+    local objectiveMarginLeft = margins.objective
+    local questItemButtonSize = margins.itemButtonSize
 
     -- Updates all the line.label widths in the linePool for wrapped text only
     for _, line in pairs(linePool) do

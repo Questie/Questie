@@ -42,6 +42,7 @@ describe("QuestieTracker", function()
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
+        dofile("Modules/Tracker/TrackerLayout.lua")
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
     end)
@@ -60,6 +61,7 @@ describe("QuestieTracker", function()
             afterMock = spy.new(function() end)
             _G.C_Timer = {After = afterMock}
             registerEventMock = stub(Questie, "RegisterEvent")
+            dofile("Modules/Tracker/TrackerLayout.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
         end)
 
@@ -110,6 +112,7 @@ describe("QuestieTracker", function()
             _G.AchievementFrame = {IsShown = function() return false end}
             Questie.db.char.trackedAchievementIds = {}
             Questie.db.char.collapsedZones = {}
+            dofile("Modules/Tracker/TrackerLayout.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
             timeMock.returns(1)
         end)
@@ -469,6 +472,7 @@ describe("QuestieTracker", function()
             end)
 
             dofile("Localization/l10n.lua")
+            dofile("Modules/Tracker/TrackerLayout.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
             QuestieTracker.started = false
             QuestieTracker.alreadyHooked = nil
