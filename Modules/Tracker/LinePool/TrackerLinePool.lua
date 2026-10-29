@@ -249,7 +249,7 @@ function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
     return line
 end
 
----@param achieve Achievement
+---@param achieve TrackerAchievement|{Id: number}
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
@@ -272,7 +272,7 @@ function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
     return line
 end
 
----@param achieve Achievement
+---@param achieve TrackerAchievement|{Id: number}
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
