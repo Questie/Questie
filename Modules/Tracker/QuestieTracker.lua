@@ -14,8 +14,6 @@ local TrackerHeaderFrame = QuestieLoader:ImportModule("TrackerHeaderFrame")
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
----@type AchievementTracking
-local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type QuestFocusButton
 local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 ---@type TrackerLayout
@@ -78,7 +76,6 @@ local lastTrackerUpdate = GetTime()
 ---@type number? GetTime() at which the scheduled update runs, nil when none is scheduled.
 local throttledUpdateAt
 local throttledUpdateForced = false
-local lastAchieveId = GetTime()
 local durabilityInitialPosition
 
 local voiceOverInitialPosition
@@ -87,14 +84,6 @@ if VoiceOverFrame then
 end
 
 local questsWatched = QuestieCompat.GetNumQuestWatches()
-
-local trackedAchievements
-local trackedAchievementIds
-
-if Expansions.Current >= Expansions.Wotlk then
-    trackedAchievements = AchievementTracking.GetTrackedIds()
-    trackedAchievementIds = {}
-end
 
 local isFirstRun = true
 local allowFormattingUpdate = false
@@ -345,39 +334,7 @@ function QuestieTracker.Initialize()
             end
         end
 
-        -- The trackedAchievements variable is populated by GetTrackedAchievements(). If Questie
-        -- is enabled, this will always return nil so we need to save it before we enable Questie.
-        if Expansions.Current >= Expansions.Wotlk then
-            if #trackedAchievements > 0 then
-                local tempAchieves = trackedAchievements
-
-                -- Remove achievement from the Blizzard Quest Watch and populate the tracker.
-                for _, achieveId in pairs(tempAchieves) do
-                    if achieveId then
-                        AchievementTracking.Untrack(achieveId)
-                        Questie.db.char.trackedAchievementIds[achieveId] = true
-
-                        if (not AchievementFrame) then
-                            AchievementFrame_LoadUI()
-                        end
-
-                        QuestieCompat.AchievementFrameAchievements_ForceUpdate()
-                    end
-                end
-            end
-
-            trackedAchievements = AchievementTracking.GetTrackedIds()
-            WatchFrame_Update()
-
-            -- Sync and populate QuestieTrackers achievement cache
-            if Questie.db.char.trackedAchievementIds ~= trackedAchievementIds then
-                for achieveId in pairs(Questie.db.char.trackedAchievementIds) do
-                    if Questie.db.char.trackedAchievementIds[achieveId] == true then
-                        trackedAchievementIds[achieveId] = true
-                    end
-                end
-            end
-        elseif WatchFrame_Update then
+        if WatchFrame_Update then
             WatchFrame_Update()
         end
 
@@ -616,10 +573,6 @@ function QuestieTracker:Disable()
     QuestieTracker:ResetVoiceOverFrame()
     Questie.db.char.TrackedQuests = {}
     Questie.db.char.AutoUntrackedQuests = {}
-
-    if Expansions.Current >= Expansions.Wotlk then
-        Questie.db.char.trackedAchievementIds = {}
-    end
 
     ReloadUI()
 end
@@ -981,12 +934,12 @@ function QuestieTracker:Update(onlyIfChanged)
         -- Populate Achievements first then Quests
         local showAchievements = Expansions.Current >= Expansions.Wotlk
         if Questie.db.profile.listAchievementsFirst and showAchievements then
-            AchievementSection.Draw(trackedAchievementIds)
+            AchievementSection.Draw()
             QuestSection.Draw(sortedQuestIds, questDetails)
         else
             QuestSection.Draw(sortedQuestIds, questDetails)
             if showAchievements then
-                AchievementSection.Draw(trackedAchievementIds)
+                AchievementSection.Draw()
             end
         end
         RecipeSection.Draw()
@@ -1263,14 +1216,6 @@ function QuestieTracker:Unhook()
         IsQuestWatched = QuestieTracker.legacyIsQuestWatched
     end
 
-    -- Achievement Hooks
-    if Expansions.Current >= Expansions.Wotlk then
-        if QuestieTracker.IsTrackedAchievement then
-            IsTrackedAchievement = QuestieTracker.IsTrackedAchievement
-            GetNumTrackedAchievements = QuestieTracker.GetNumTrackedAchievements
-        end
-    end
-
     QuestieTracker.alreadyHooked = nil
 end
 
@@ -1322,12 +1267,6 @@ function QuestieTracker:HookBaseTracker()
             hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
         end
 
-        -- Achievement secure hooks
-        if Expansions.Current >= Expansions.Wotlk then
-            hooksecurefunc("AddTrackedAchievement", function(achieveId) QuestieTracker:TrackAchieve(achieveId) end)
-            hooksecurefunc("RemoveTrackedAchievement", QuestieTracker.RemoveTrackedAchievement)
-        end
-
         QuestieTracker.alreadyHookedSecure = true
     end
 
@@ -1348,36 +1287,6 @@ function QuestieTracker:HookBaseTracker()
                 questId = index
             end
             return QuestieTracker.IsTrackedByQuestie(questId)
-        end
-    end
-
-    -- Achievement Hooks
-    if Expansions.Current >= Expansions.Wotlk then
-        if not QuestieTracker.IsTrackedAchievement then
-            QuestieTracker.IsTrackedAchievement = IsTrackedAchievement
-            QuestieTracker.GetNumTrackedAchievements = GetNumTrackedAchievements
-        end
-
-        -- Intercept and return a Questie boolean value
-        IsTrackedAchievement = function(achieveId)
-            if Questie.db.char.trackedAchievementIds[achieveId] then
-                return achieveId and Questie.db.char.trackedAchievementIds[achieveId]
-            else
-                return false
-            end
-        end
-
-        -- Intercept and return only what Questie is tracking
-        GetNumTrackedAchievements = function(isQuestie)
-            if isQuestie and Questie.db.char.trackedAchievementIds then
-                local numTrackedAchievements = 0
-                for _ in pairs(Questie.db.char.trackedAchievementIds) do
-                    numTrackedAchievements = numTrackedAchievements + 1
-                end
-                return numTrackedAchievements
-            else
-                return 0
-            end
         end
     end
 
@@ -1550,132 +1459,6 @@ function QuestieTracker:AQW_Insert(index, _expire)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
-end
-
-QuestieTracker.RemoveTrackedAchievement = function(achieveId, isQuestie)
-    if QuestieTracker.disableHooks then
-        return
-    end
-
-    if not isQuestie then
-        if achieveId then
-            QuestieTracker:UntrackAchieveId(achieveId)
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker.RemoveTrackedAchievement] - by Blizzard")
-        end
-    else
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker.RemoveTrackedAchievement] - by Questie")
-    end
-end
-
-function QuestieTracker:UpdateAchieveTrackerCache(achieveId)
-    -- Since we're essentially adding & force removing an achievement from the QuestWatch frame while we add an achievement to the Questie Tracker, the event this
-    -- function is called from, TRACKED_ACHIEVEMENT_LIST_CHANGED, fires twice. When we remove an achievement from the Questie Tracker the event still fires twice
-    -- because the Blizzard function responsible for this is essentially a "toggle". It quickly re-adds the achievement to the QuestWatch frame and then removes it.
-    -- So, again this event again fires twice. We only need to allow this to run once and it often fires before the Questie.db.char.trackedAchievementIds table is
-    -- updated so we're going to throttle this 1/10th of a second.
-    if Questie.db.profile.trackerEnabled then
-        if achieveId then
-            C_Timer.After(0.1, function()
-                Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:UpdateAchieveTrackerCache] - ", achieveId)
-
-                if (not Questie.db.profile.trackerEnabled) or (achieveId == 0) then
-                    return
-                end
-
-                -- Look for changes in the Saved VAR and update the achievement cache
-                if Questie.db.char.trackedAchievementIds[achieveId] ~= trackedAchievementIds[achieveId] then
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:UpdateAchieveTrackerCache] - Change Detected!")
-
-                    trackedAchievementIds[achieveId] = Questie.db.char.trackedAchievementIds[achieveId]
-
-                    QuestieCombatQueue:Queue(function()
-                        C_Timer.After(0.1, function()
-                            QuestieTracker:Update()
-                        end)
-                    end)
-                else
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:UpdateAchieveTrackerCache] - No Change Detected!")
-                end
-            end)
-        end
-    end
-end
-
-function QuestieTracker:UntrackAchieveId(achieveId)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:UntrackAchieve] - ", achieveId)
-    if Questie.db.char.trackedAchievementIds[achieveId] then
-        Questie.db.char.trackedAchievementIds[achieveId] = nil
-    end
-end
-
-function QuestieTracker:TrackAchieve(achieveId)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:TrackAchieve] - ", achieveId)
-    if (not Questie.db.profile.trackerEnabled) or (achieveId == 0) then
-        return
-    end
-
-    -- If an achievement is already tracked in the Achievement UI then untrack it (Mimicks a Toggle effect).
-    if Questie.db.char.trackedAchievementIds[achieveId] then
-        QuestieTracker:UntrackAchieveId(achieveId)
-        AchievementTracking.Untrack(achieveId, true)
-        return
-    end
-
-    -- Prevents tracking more than 10 Achievements
-    if (GetNumTrackedAchievements(true) == 10) then
-        AchievementTracking.Untrack(achieveId, true)
-        UIErrorsFrame:AddMessage(format(l10n("You may only track 10 achievements at a time."), 10), 1.0, 0.1, 0.1, 1.0)
-        return
-    end
-
-    -- This prevents double calling this function
-    local now = GetTime()
-    if achieveId and achieveId == QuestieTracker.last_achieveId and (now - lastAchieveId) < 0.1 then
-        return
-    end
-
-    lastAchieveId = now
-    QuestieTracker.last_achieveId = achieveId
-
-    -- This removes achievements from the Blizzard QuestWatchFrame so when the
-    -- option "Show Blizzard Timer" is enabled, that is all the player will see.
-    AchievementTracking.Untrack(achieveId, true)
-
-    if achieveId > 0 then
-        -- This handles the Track check box in the Achievement UI
-        local mouseFocus
-        local frameMatch
-
-        -- Krowi isn't using this check box for their Achievement frame
-        if not IsAddOnLoaded("Krowi_AchievementFilter") then
-            mouseFocus = QuestieCompat.GetMouseFocus():GetName()
-            frameMatch = strmatch(mouseFocus, "(AchievementFrameAchievementsContainerButton%dTracked.*)")
-        end
-
-        -- Upon first login or reloadui, this frame isn't loaded
-        if (not AchievementFrame) then
-            AchievementFrame_LoadUI()
-        end
-
-        -- This check makes sure the only way to track an achieve is through the Blizzard Achievement UI
-        if Questie.db.char.trackedAchievementIds[achieveId] then
-            Questie.db.char.trackedAchievementIds[achieveId] = nil
-        elseif IsShiftKeyDown() and AchievementFrame:IsShown() then
-            Questie.db.char.trackedAchievementIds[achieveId] = true
-        elseif AchievementFrame:IsShown() and (mouseFocus == frameMatch) then
-            Questie.db.char.trackedAchievementIds[achieveId] = true
-        end
-
-        -- Forces the achievement out of a minimized state
-        if Questie.db.char.collapsedQuests[achieveId] == true then
-            Questie.db.char.collapsedQuests[achieveId] = nil
-        end
-
-        -- Forces the 'Achievement Zone' out of a minimized state
-        if Questie.db.char.collapsedZones["Achievements"] == true then
-            Questie.db.char.collapsedZones["Achievements"] = nil
-        end
-    end
 end
 
 ---@param questId QuestId

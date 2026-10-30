@@ -22,7 +22,7 @@ describe("TrackerUtils", function()
     local TrackerData, trackerQuests
     local originalSpecialItemInfo
     local originalGlobals, originalExpansion, originalIsCata, originalIsWotlk
-    local globalNames = {"C_Map", "GetNumQuestWatches", "GetNumTrackedAchievements", "GetQuestLogIndexByID",
+    local globalNames = {"C_Map", "GetNumQuestWatches", "GetQuestLogIndexByID",
         "IsQuestWatched", "GetQuestLogCompletionText"}
     local rePositionLineMock
     local match = require("luassert.match")
@@ -1075,10 +1075,19 @@ describe("TrackerUtils", function()
     end)
 
     describe("HasQuest", function()
+        local achievementIds, originalGetTrackedIds
 
         before_each(function()
             Questie.IsCata = false
             Questie.IsWotlk = false
+            achievementIds = {}
+            local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
+            originalGetTrackedIds = AchievementTracking.GetTrackedIds
+            AchievementTracking.GetTrackedIds = function() return achievementIds end
+        end)
+
+        after_each(function()
+            QuestieLoader:ImportModule("AchievementTracking").GetTrackedIds = originalGetTrackedIds
         end)
 
         it("should return true when a quest is tracked", function()
@@ -1091,7 +1100,7 @@ describe("TrackerUtils", function()
 
         it("should return true when no quest is tracked but an achievement for Cata", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 1 end
+            achievementIds = {1}
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
 
@@ -1102,7 +1111,7 @@ describe("TrackerUtils", function()
 
         it("should return true when no quest is tracked but an achievement for WotLK", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 1 end
+            achievementIds = {1}
             Questie.IsWotlk = true
             Expansions.Current = Expansions.Wotlk
 
@@ -1113,7 +1122,7 @@ describe("TrackerUtils", function()
 
         it("should return false when no quest and achievement is tracked for Cata", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 0 end
+            achievementIds = {}
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
 
@@ -1124,7 +1133,7 @@ describe("TrackerUtils", function()
 
         it("should return false when no quest and achievement is tracked for WotLK", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 0 end
+            achievementIds = {}
             Questie.IsWotlk = true
             Expansions.Current = Expansions.Wotlk
 

@@ -96,57 +96,6 @@ describe("QuestieTracker", function()
         end)
     end)
 
-    describe("achievement UI integration", function()
-        local loadedMock, focusMock, countMock, removeMock, timeMock, shiftMock, trackedMock, addMock, isTrackedMock
-        local originalAchievementFrame, originalExpansion
-
-        before_each(function()
-            local compat = QuestieLoader:ImportModule("QuestieCompat")
-            loadedMock = stub(compat, "IsAddOnLoaded", function() return true end)
-            focusMock = stub(compat, "GetMouseFocus")
-            countMock = stub(_G, "GetNumTrackedAchievements", function() return 0 end)
-            removeMock = stub(_G, "RemoveTrackedAchievement")
-            trackedMock = stub(_G, "GetTrackedAchievements")
-            addMock = stub(_G, "AddTrackedAchievement")
-            isTrackedMock = stub(_G, "IsTrackedAchievement")
-            timeMock = stub(_G, "GetTime", function() return 0 end)
-            shiftMock = stub(_G, "IsShiftKeyDown", function() return false end)
-            originalAchievementFrame = _G.AchievementFrame
-            _G.AchievementFrame = {IsShown = function() return false end}
-            local expansions = QuestieLoader:ImportModule("Expansions")
-            originalExpansion = expansions.Current
-            expansions.Current = expansions.Wotlk
-            Questie.db.char.trackedAchievementIds = {}
-            Questie.db.char.collapsedZones = {}
-            dofile("Modules/Tracker/AchievementTracking.lua")
-            dofile("Modules/Tracker/TrackerLayout.lua")
-            dofile("Modules/Tracker/QuestieTracker.lua")
-            timeMock.returns(1)
-        end)
-
-        after_each(function()
-            loadedMock:revert()
-            focusMock:revert()
-            countMock:revert()
-            removeMock:revert()
-            trackedMock:revert()
-            addMock:revert()
-            isTrackedMock:revert()
-            timeMock:revert()
-            shiftMock:revert()
-            _G.AchievementFrame = originalAchievementFrame
-            QuestieLoader:ImportModule("Expansions").Current = originalExpansion
-        end)
-
-        it("does not inspect Blizzard's tracked checkbox when Krowi is loaded", function()
-            QuestieTracker:TrackAchieve(123)
-
-            assert.spy(loadedMock).was.called_with("Krowi_AchievementFilter")
-            assert.spy(focusMock).was.not_called()
-            assert.spy(removeMock).was.called_with(123, true)
-        end)
-    end)
-
     describe("IsTrackedByQuestie", function()
         it("should return false when questId is nil", function()
             assert.is_false(QuestieTracker.IsTrackedByQuestie(nil))

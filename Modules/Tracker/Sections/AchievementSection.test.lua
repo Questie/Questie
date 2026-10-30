@@ -4,9 +4,9 @@ local match = require("luassert.match")
 describe("AchievementSection", function()
     ---@type AchievementSection
     local AchievementSection
-    local TrackerLinePool, TrackerLayout, TrackerAchievements
+    local TrackerLinePool, TrackerLayout, TrackerAchievements, AchievementTracking
 
-    local texts, achievements, availableLines, objectiveLines, originals, unboundedWidth
+    local texts, achievements, trackedIds, availableLines, objectiveLines, unboundedWidth
 
     local function _FakeLine()
         local label = {
@@ -49,11 +49,10 @@ describe("AchievementSection", function()
     before_each(function()
         texts = {}
         achievements = {}
+        trackedIds = {1}
         objectiveLines = {}
         availableLines = 100
         unboundedWidth = 10
-        originals = {GetNumTrackedAchievements = _G.GetNumTrackedAchievements}
-        _G.GetNumTrackedAchievements = function() return 1 end
 
         Questie.db.char.collapsedZones = {}
         Questie.db.char.collapsedQuests = {}
@@ -83,22 +82,22 @@ describe("AchievementSection", function()
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/QuestieLib.lua")
         dofile("Modules/Tracker/AchievementTracking.lua")
+        AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
+        AchievementTracking.GetTrackedIds = function() return trackedIds end
         dofile("Modules/Tracker/Sections/AchievementSection.lua")
         AchievementSection = QuestieLoader:ImportModule("AchievementSection")
     end)
 
-    after_each(function()
-        _G.GetNumTrackedAchievements = originals.GetNumTrackedAchievements
-    end)
+    it("should read the tracked achievements of the game", function()
+        trackedIds = {3, 1, 2}
 
-    it("should read the tracked achievements", function()
-        AchievementSection.Draw({[1] = true, [2] = false})
+        AchievementSection.Draw()
 
-        assert.spy(TrackerAchievements.GetAchievements).was.called_with({1})
+        assert.spy(TrackerAchievements.GetAchievements).was.called_with({3, 1, 2})
     end)
 
     it("should draw nothing when no achievement is shown", function()
-        AchievementSection.Draw({})
+        AchievementSection.Draw()
 
         assert.spy(TrackerLinePool.GetZoneLine).was.not_called()
     end)
@@ -106,7 +105,7 @@ describe("AchievementSection", function()
     it("should draw the header, the achievement and its criteria", function()
         achievements = {_Achievement(1, {_Criteria("Elwynn Forest", true), _Criteria("Westfall")})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.spy(TrackerLinePool.GetZoneLine).was.called_with("Achievements")
         assert.are_same("|cFFC0C0C0Achievements: 1/10|r", texts[1])
@@ -116,10 +115,19 @@ describe("AchievementSection", function()
         assert.are_same(4, #texts)
     end)
 
+    it("should show the number of tracked achievements in the header", function()
+        trackedIds = {1, 2, 3}
+        achievements = {_Achievement(1)}
+
+        AchievementSection.Draw()
+
+        assert.are_same("|cFFC0C0C0Achievements: 3/10|r", texts[1])
+    end)
+
     it("should draw the header once for several achievements", function()
         achievements = {_Achievement(1), _Achievement(2)}
 
-        AchievementSection.Draw({[1] = true, [2] = true})
+        AchievementSection.Draw()
 
         assert.spy(TrackerLinePool.GetZoneLine).was.called(1)
         assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called(2)
@@ -129,7 +137,7 @@ describe("AchievementSection", function()
         Questie.db.profile.enableTooltipsQuestID = true
         achievements = {_Achievement(1)}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.are_same("|cFFFFFF00Achievement 1 (1)|r", texts[2])
     end)
@@ -137,7 +145,7 @@ describe("AchievementSection", function()
     it("should draw criteria with the default objective margin", function()
         achievements = {_Achievement(1, {_Criteria("Westfall")})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called_with(match._, 20)
         assert.spy(TrackerLinePool.GetAchievementObjectiveLine).was.called_with(match._, 30)
@@ -146,7 +154,7 @@ describe("AchievementSection", function()
     it("should draw the description of an achievement without criteria", function()
         achievements = {_Achievement(1, {{Text = "Reach level 10", Completed = false, Collected = 0, Needed = 1, IsDescription = true}})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.is_truthy(texts[3]:find("Reach level 10", 1, true))
         assert.are_same(3, #texts)
@@ -155,7 +163,7 @@ describe("AchievementSection", function()
     it("should set the criteria mark of single criteria", function()
         achievements = {_Achievement(1, {_Criteria("Elwynn Forest", true)})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.called_with(match._, true)
     end)
@@ -164,7 +172,7 @@ describe("AchievementSection", function()
         Questie.db.profile.hideCompletedAchieveObjectives = true
         achievements = {_Achievement(1, {_Criteria("Westfall")})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.not_called()
     end)
@@ -172,7 +180,7 @@ describe("AchievementSection", function()
     it("should not set the criteria mark for a description", function()
         achievements = {_Achievement(1, {{Text = "Reach level 10", Completed = false, Collected = 0, Needed = 1, IsDescription = true}})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.not_called()
     end)
@@ -182,7 +190,7 @@ describe("AchievementSection", function()
             {Text = "Fish caught", Completed = false, Collected = 3, Needed = 10, Progress = "3/10", IsDescription = false},
         })}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.is_truthy(texts[3]:find("Fish caught: 3/10", 1, true))
     end)
@@ -192,7 +200,7 @@ describe("AchievementSection", function()
         criteria.LinkedAchievementId = 2
         achievements = {_Achievement(1, {criteria, _Criteria("Westfall")})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.are_same({Id = 2}, objectiveLines[1].target)
         assert.are.equal(achievements[1], objectiveLines[2].target)
@@ -204,7 +212,7 @@ describe("AchievementSection", function()
         local criteria = {Text = "Darnassus", Completed = false, Collected = 3, Needed = 10, Progress = "3/10", LinkedAchievementId = 2, IsDescription = false}
         achievements = {_Achievement(1, {criteria})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         -- The first text is replaced by the split one
         assert.is_truthy(texts[4]:find("Darnassus: ", 1, true))
@@ -218,7 +226,7 @@ describe("AchievementSection", function()
         Questie.db.profile.trackerColorObjectives = "redToGreen"
         achievements = {_Achievement(1, {_Criteria("Westfall")})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.not_called()
     end)
@@ -230,7 +238,7 @@ describe("AchievementSection", function()
         }
         availableLines = 2
 
-        AchievementSection.Draw({[1] = true, [2] = true})
+        AchievementSection.Draw()
 
         assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called(1)
         assert.are_same(2, #texts)
@@ -240,7 +248,7 @@ describe("AchievementSection", function()
         Questie.db.char.collapsedZones = {Achievements = true}
         achievements = {_Achievement(1)}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.are_same({"|cFFC0C0C0Achievements +|r"}, texts)
     end)
@@ -249,7 +257,7 @@ describe("AchievementSection", function()
         Questie.db.char.collapsedQuests = {[1] = true}
         achievements = {_Achievement(1, {_Criteria("Westfall")})}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.are_same(2, #texts)
         assert.spy(TrackerLinePool.GetAchievementObjectiveLine).was.not_called()
@@ -259,7 +267,7 @@ describe("AchievementSection", function()
         availableLines = 0
         achievements = {_Achievement(1)}
 
-        AchievementSection.Draw({[1] = true})
+        AchievementSection.Draw()
 
         assert.are_same({}, texts)
         assert.spy(TrackerLinePool.GetAchievementTitleLine).was.not_called()

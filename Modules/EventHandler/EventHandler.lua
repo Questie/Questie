@@ -272,13 +272,11 @@ function EventHandler:RegisterLateEvents()
 
     -- UI Achievement Events
     if Expansions.Current >= Expansions.Wotlk and Questie.db.profile.trackerEnabled then
-        Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(_, achieveId)
-            AchievementEventHandler.AchievementEarned(achieveId)
-        end)
+        Questie:RegisterEvent("ACHIEVEMENT_EARNED", AchievementEventHandler.AchievementEarned)
 
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", AchievementEventHandler.TrackedAchievementUpdate)
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achieveId)
-            AchievementEventHandler.TrackedAchievementListChanged(achieveId)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achievementId, added)
+            AchievementEventHandler.TrackedAchievementListChanged(achievementId, added)
         end)
 
         -- This fires pretty often, multiple times for a single Achievement change and also for things most likely not related to Achievements at all.

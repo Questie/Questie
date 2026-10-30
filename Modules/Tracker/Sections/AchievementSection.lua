@@ -16,21 +16,15 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local ZONE_NAME = "Achievements"
 
----@param trackedAchievementIds table<number, boolean>
-function AchievementSection.Draw(trackedAchievementIds)
+function AchievementSection.Draw()
     local margins = TrackerLayout.GetMargins()
     local objectiveColor = Questie.db.profile.trackerColorObjectives
     local line, zoneCheck
 
-    -- Tracked achievements are listed under their own "Zone" called Achievements. Note: only 10 Achievements can be tracked at a time.
+    -- Tracked achievements are listed under their own "Zone" called Achievements.
     local firstAchieveInZone = false
 
-    local achievementIds = {}
-    for trackedId, tracked in pairs(trackedAchievementIds) do
-        if tracked == true then
-            achievementIds[#achievementIds + 1] = trackedId
-        end
-    end
+    local achievementIds = AchievementTracking.GetTrackedIds()
 
     for _, achieve in ipairs(TrackerAchievements.GetAchievements(achievementIds)) do
         -- Add Achievement Zone
@@ -52,7 +46,7 @@ function AchievementSection.Draw(trackedAchievementIds)
             else
                 line.expandZone:SetMode(1)
                 local text = l10n("Achievements")
-                line.label:SetText("|cFFC0C0C0" .. text .. ": " .. GetNumTrackedAchievements(true) .. "/" .. AchievementTracking.GetMaxTracked() .. "|r")
+                line.label:SetText("|cFFC0C0C0" .. text .. ": " .. #achievementIds .. "/" .. AchievementTracking.GetMaxTracked() .. "|r")
             end
 
             -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
