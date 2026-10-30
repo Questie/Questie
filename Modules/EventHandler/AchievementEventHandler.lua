@@ -18,11 +18,10 @@ end
 
 -- Track/Untrack Achievement updates
 ---@param achievementId number?
----@param added boolean? False when the achievement was untracked
-function AchievementEventHandler.TrackedAchievementListChanged(achievementId, added)
+function AchievementEventHandler.TrackedAchievementListChanged(achievementId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_LIST_CHANGED")
 
-    if achievementId and achievementId ~= 0 and added ~= false then
+    if achievementId and achievementId ~= 0 and AchievementTracking.IsTracked(achievementId) then
         -- Forces a newly tracked achievement and the Achievements zone out of a minimized state
         Questie.db.char.collapsedQuests[achievementId] = nil
         Questie.db.char.collapsedZones["Achievements"] = nil
