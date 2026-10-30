@@ -599,19 +599,7 @@ TrackerMenu.addShowInAchievementsOption = function(menu, achieve)
         text = l10n('Show in Achievements Log'),
         func = function()
             LibDropDown:CloseDropDownMenus()
-
-            if (not AchievementFrame) then
-                AchievementFrame_LoadUI()
-            end
-
-            if (not AchievementFrame:IsShown()) then
-                QuestieCompat.AchievementFrame_ToggleAchievementFrame()
-                QuestieCompat.AchievementFrame_SelectAchievement(achieve.Id)
-            else
-                if (AchievementFrameAchievements.selection ~= achieve.Id) then
-                    QuestieCompat.AchievementFrame_SelectAchievement(achieve.Id)
-                end
-            end
+            AchievementTracking.OpenAchievement(achieve.Id)
         end
     })
 end
@@ -622,12 +610,7 @@ TrackerMenu.addUntrackAchieveOption = function(menu, achieve)
         func = function()
             LibDropDown:CloseDropDownMenus()
             AchievementTracking.Untrack(achieve.Id)
-
-            if (not AchievementFrame) then
-                AchievementFrame_LoadUI()
-            end
-
-            QuestieCompat.AchievementFrameAchievements_ForceUpdate()
+            AchievementTracking.RefreshAchievementWindow()
 
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
