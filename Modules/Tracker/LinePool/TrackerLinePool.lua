@@ -182,26 +182,6 @@ function TrackerLinePool.GetNextLine()
     return linePool[lineIndex]
 end
 
----@param zoneName string
----@return TrackerLineFrame|nil
-function TrackerLinePool.GetZoneLine(zoneName)
-    local line = TrackerLinePool.GetNextLine()
-    if (not line) then
-        return nil
-    end
-
-    line:SetMode("zone")
-    line:SetZone(zoneName)
-    line.expandQuest:Hide()
-    line.criteriaMark:Hide()
-    line.playButton:Hide()
-
-    line.label:ClearAllPoints()
-    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
-
-    return line
-end
-
 ---@param quest Quest
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil

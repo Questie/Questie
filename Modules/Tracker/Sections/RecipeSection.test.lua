@@ -15,9 +15,9 @@ describe("RecipeSection", function()
             GetHeight = function() return 10 end,
         }
         setmetatable(label, {__index = function() return function() end end})
-        local expandZone = {}
-        setmetatable(expandZone, {__index = function() return function() end end})
-        local line = {label = label, expandZone = expandZone}
+        local button = {}
+        setmetatable(button, {__index = function() return function() end end})
+        local line = {label = label, expandZone = button, expandQuest = button, criteriaMark = button, playButton = button}
         setmetatable(line, {__index = function() return function() end end})
         return line
     end
@@ -26,6 +26,7 @@ describe("RecipeSection", function()
         recipes = {}
         texts = {}
         Questie.db.char.collapsedZones = {}
+        Questie.db.char.minAllQuestsInZone = {}
         Questie.db.profile.trackerQuestPadding = 2
         Questie.db.profile.trackerColorObjectives = "white"
 
@@ -40,12 +41,13 @@ describe("RecipeSection", function()
         TrackerLayout.UpdateLineWidth = spy.new(function() end)
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
-        TrackerLinePool.GetZoneLine = spy.new(_FakeLine)
+        TrackerLinePool.GetNextLine = spy.new(_FakeLine)
         TrackerLinePool.GetRecipeTitleLine = spy.new(_FakeLine)
         TrackerLinePool.GetRecipeReagentLine = spy.new(_FakeLine)
 
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/QuestieLib.lua")
+        dofile("Modules/Tracker/LinePool/LineBuilder.lua")
         dofile("Modules/Tracker/Sections/RecipeSection.lua")
         RecipeSection = QuestieLoader:ImportModule("RecipeSection")
     end)
@@ -53,7 +55,7 @@ describe("RecipeSection", function()
     it("should draw nothing when no recipe is tracked", function()
         RecipeSection.Draw()
 
-        assert.spy(TrackerLinePool.GetZoneLine).was.not_called()
+        assert.spy(TrackerLinePool.GetNextLine).was.not_called()
     end)
 
     it("should draw tracked recipes with their reagents", function()
@@ -63,7 +65,6 @@ describe("RecipeSection", function()
 
         RecipeSection.Draw()
 
-        assert.spy(TrackerLinePool.GetZoneLine).was.called_with("Recipes")
         assert.spy(TrackerLinePool.GetRecipeTitleLine).was.called_with(recipes[1], 20)
         assert.spy(TrackerLinePool.GetRecipeReagentLine).was.called_with(recipes[1], 30)
         assert.spy(TrackerLayout.UpdateLineWidth).was.called(1)

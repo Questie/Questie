@@ -7,6 +7,8 @@ local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type LineBuilder
+local LineBuilder = QuestieLoader:ImportModule("LineBuilder")
 ---@type TrackerAchievements
 local TrackerAchievements = QuestieLoader:ImportModule("TrackerAchievements")
 ---@type QuestieLib
@@ -33,61 +35,15 @@ function AchievementSection.Draw()
         end
 
         if firstAchieveInZone then
-            line = TrackerLinePool.GetZoneLine(ZONE_NAME)
+            line = LineBuilder.AddHeader({
+                key = ZONE_NAME,
+                text = l10n("Achievements") .. ": " .. #achievementIds .. "/" .. AchievementTracking.GetMaxTracked(),
+                collapsedText = l10n("Achievements") .. " +",
+            })
             if (not line) then
                 break
             end
 
-            -- Set Zone Title and Min/Max states
-            if Questie.db.char.collapsedZones[ZONE_NAME] then
-                line.expandZone:SetMode(0)
-                local text = l10n("Achievements")
-                line.label:SetText("|cFFC0C0C0" .. text .. " +|r")
-            else
-                line.expandZone:SetMode(1)
-                local text = l10n("Achievements")
-                line.label:SetText("|cFFC0C0C0" .. text .. ": " .. #achievementIds .. "/" .. AchievementTracking.GetMaxTracked() .. "|r")
-            end
-
-            -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
-            if Questie.db.char.minAllQuestsInZone[ZONE_NAME] ~= nil and (not Questie.db.char.minAllQuestsInZone[ZONE_NAME].isTrue) and (not Questie.db.char.collapsedZones[ZONE_NAME]) then
-                local minQuestIdCount = 0
-                for minQuestId, _ in pairs(Questie.db.char.minAllQuestsInZone[ZONE_NAME]) do
-                    if type(minQuestId) == "number" then
-                        minQuestIdCount = minQuestIdCount + 1
-                    end
-                end
-
-                if minQuestIdCount == 0 then
-                    Questie.db.char.minAllQuestsInZone[ZONE_NAME] = nil
-                end
-            end
-
-            -- Check and measure Zone Label text width and update tracker width
-            TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.left + margins.right)
-
-            -- Set Zone Label and Line widths
-            line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.left - margins.right)
-            line:SetWidth(line.label:GetWidth())
-
-            -- Compare largest text Label in the tracker with current Label, then save widest width
-            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.left)
-
-            -- Setup Min/Max Button
-            line.expandZone:ClearAllPoints()
-            line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
-            line.expandZone:SetWidth(line.label:GetWidth())
-            line.expandZone:SetHeight(line.label:GetHeight())
-            line.expandZone:Show()
-
-            -- Adds 4 pixels between Zone and first Achievement Title
-            line:SetHeight(line.label:GetHeight() + 4)
-
-            -- Set Zone states
-            line:Show()
-            line.label:Show()
-            line.Quest = nil
-            line.Objective = nil
             firstAchieveInZone = false
             zoneCheck = ZONE_NAME
         end

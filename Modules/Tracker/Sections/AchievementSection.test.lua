@@ -18,8 +18,8 @@ describe("AchievementSection", function()
         setmetatable(label, {__index = function() return function() end end})
         local button = {mode = nil}
         setmetatable(button, {__index = function() return function() end end})
-        local criteriaMark = {mode = true, SetCriteria = spy.new(function() end), Show = function() end}
-        local line = {label = label, expandZone = button, expandQuest = button, criteriaMark = criteriaMark}
+        local criteriaMark = {mode = true, SetCriteria = spy.new(function() end), Show = function() end, Hide = function() end}
+        local line = {label = label, expandZone = button, expandQuest = button, criteriaMark = criteriaMark, playButton = button}
         setmetatable(line, {__index = function() return function() end end})
         return line
     end
@@ -74,7 +74,7 @@ describe("AchievementSection", function()
         TrackerLayout.UpdateLineWidth = function() end
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
-        TrackerLinePool.GetZoneLine = spy.new(_GetLine)
+        TrackerLinePool.GetNextLine = spy.new(_GetLine)
         TrackerLinePool.GetAchievementTitleLine = spy.new(_GetLine)
         TrackerLinePool.GetAchievementObjectiveLine = spy.new(_GetObjectiveLine)
         TrackerLinePool.GetLastLine = _FakeLine
@@ -84,6 +84,7 @@ describe("AchievementSection", function()
         dofile("Modules/Tracker/AchievementTracking.lua")
         AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
         AchievementTracking.GetTrackedIds = function() return trackedIds end
+        dofile("Modules/Tracker/LinePool/LineBuilder.lua")
         dofile("Modules/Tracker/Sections/AchievementSection.lua")
         AchievementSection = QuestieLoader:ImportModule("AchievementSection")
     end)
@@ -99,7 +100,7 @@ describe("AchievementSection", function()
     it("should draw nothing when no achievement is shown", function()
         AchievementSection.Draw()
 
-        assert.spy(TrackerLinePool.GetZoneLine).was.not_called()
+        assert.spy(TrackerLinePool.GetNextLine).was.not_called()
     end)
 
     it("should draw the header, the achievement and its criteria", function()
@@ -107,7 +108,6 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(TrackerLinePool.GetZoneLine).was.called_with("Achievements")
         assert.are_same("|cFFC0C0C0Achievements: 1/10|r", texts[1])
         assert.are_same("|cFFFFFF00Achievement 1|r", texts[2])
         assert.is_truthy(texts[3]:find("Elwynn Forest", 1, true))
@@ -129,7 +129,7 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(TrackerLinePool.GetZoneLine).was.called(1)
+        assert.spy(TrackerLinePool.GetNextLine).was.called(1)
         assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called(2)
     end)
 

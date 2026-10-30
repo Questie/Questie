@@ -282,6 +282,7 @@ Modules\Tracker\LinePool\TrackerMenu.lua
 Modules\Tracker\LinePool\VoiceOverPlayButton.lua
 Modules\Tracker\LinePool\TrackerLine.lua
 Modules\Tracker\LinePool\TrackerLinePool.lua
+Modules\Tracker\LinePool\LineBuilder.lua
 
 # Tutorial
 Modules\Tutorial\ShowRunes.lua
