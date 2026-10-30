@@ -13,14 +13,14 @@ local DEFAULT_MAX_TRACKED = 10
 -- Era and TBC have the legacy globals as stubs without achievements, so their existence alone is not enough.
 ---@return boolean
 local function _IsLegacyApiAvailable()
-    return GetTrackedAchievements ~= nil and AddTrackedAchievement ~= nil and RemoveTrackedAchievement ~= nil and IsTrackedAchievement ~= nil
+    return GetTrackedAchievements ~= nil and RemoveTrackedAchievement ~= nil and IsTrackedAchievement ~= nil
         and Expansions.Current >= Expansions.Wotlk
 end
 
 ---@return boolean
 local function _IsContentTrackingAvailable()
     return C_ContentTracking ~= nil and C_ContentTracking.GetTrackedIDs ~= nil and C_ContentTracking.IsTracking ~= nil
-        and C_ContentTracking.StartTracking ~= nil and C_ContentTracking.StopTracking ~= nil and Enum ~= nil and Enum.ContentTrackingType ~= nil and Enum.ContentTrackingStopType ~= nil
+        and C_ContentTracking.StopTracking ~= nil and Enum ~= nil and Enum.ContentTrackingType ~= nil and Enum.ContentTrackingStopType ~= nil
 end
 
 ---@return boolean
@@ -83,16 +83,6 @@ function AchievementTracking.IsTracked(achievementId)
     end
 
     return false
-end
-
---- Adds the achievement to the game's tracked list. Does nothing when the list is full or the achievement is earned.
----@param achievementId number
-function AchievementTracking.Track(achievementId)
-    if _IsLegacyApiAvailable() then
-        AddTrackedAchievement(achievementId)
-    elseif _IsContentTrackingAvailable() then
-        C_ContentTracking.StartTracking(Enum.ContentTrackingType.Achievement, achievementId)
-    end
 end
 
 ---@param achievementId number
