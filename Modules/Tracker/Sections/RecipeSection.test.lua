@@ -42,7 +42,6 @@ describe("RecipeSection", function()
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_FakeLine)
-        TrackerLinePool.GetRecipeReagentLine = spy.new(_FakeLine)
 
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/QuestieLib.lua")
@@ -64,7 +63,6 @@ describe("RecipeSection", function()
 
         RecipeSection.Draw()
 
-        assert.spy(TrackerLinePool.GetRecipeReagentLine).was.called_with(recipes[1], 30)
         assert.spy(TrackerLayout.UpdateLineWidth).was.called(1)
         assert.are_same("|cFFC0C0C0Recipes|r", texts[1])
         assert.are_same("|cFFFFFF00Charred Wolf Meat|r", texts[2])

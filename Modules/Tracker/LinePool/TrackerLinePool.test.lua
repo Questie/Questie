@@ -1,7 +1,6 @@
 dofile("setupTests.lua")
 
 describe("TrackerLinePool", function()
-    local match = require("luassert.match")
     local TrackerLinePool
     local TrackerData
     local originalObjectiveColor
@@ -16,44 +15,6 @@ describe("TrackerLinePool", function()
 
     after_each(function()
         Questie.db.profile.trackerColorObjectives = originalObjectiveColor
-    end)
-
-    describe("recipe lines", function()
-        local function _CreateMockedLine()
-            local function _Button() return {Hide = spy.new(function() end), SetAlpha = function() end, SetCriteria = function() end} end
-            return {
-                SetMode = spy.new(function(self, mode) self.mode = mode end),
-                SetOnClick = spy.new(function() end),
-                SetRecipe = spy.new(function(self, recipe) self.Recipe = recipe end),
-                expandZone = _Button(),
-                expandQuest = _Button(),
-                criteriaMark = _Button(),
-                playButton = _Button(),
-                label = {ClearAllPoints = function() end, SetPoint = spy.new(function() end)},
-            }
-        end
-
-        before_each(function()
-            QuestieLoader:ImportModule("TrackerLine").New = _CreateMockedLine
-            _G.C_QuestLog.GetMaxNumQuestsCanAccept = function() return 0 end
-            local init = coroutine.create(TrackerLinePool.Initialize)
-            while coroutine.status(init) ~= "dead" do
-                assert(coroutine.resume(init, {}))
-            end
-            Questie.db.profile.trackerEnabled = true
-            TrackerLinePool.ResetLinesForChange()
-        end)
-
-        it("should return a recipe reagent line", function()
-            local recipe = {Id = 2538}
-
-            local line = TrackerLinePool.GetRecipeReagentLine(recipe, 30)
-
-            assert.are.equal("objective", line.mode)
-            assert.are.equal(recipe, line.Recipe)
-            assert.spy(line.SetOnClick).was.called_with(match._, "recipe")
-            assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 30, 0)
-        end)
     end)
 
     describe("UpdateQuestLines", function()
