@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local match = require("luassert.match")
 
 describe("QuestSection", function()
     ---@type QuestSection
@@ -75,7 +76,7 @@ describe("QuestSection", function()
         TrackerLayout.GetBaseFrame = function() return {} end
         TrackerLayout.GetBaseFrameWidth = function() return 400 end
         TrackerLayout.TrackLineWidth = function() end
-        TrackerLayout.UpdateLineWidth = function() end
+        TrackerLayout.UpdateLineWidth = spy.new(function() end)
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_GetLine)
@@ -124,8 +125,8 @@ describe("QuestSection", function()
             {quest = withoutButtons, zoneName = "Elwynn Forest"},
         }))
 
-        assert.spy(TrackerLinePool.GetQuestObjectiveLine).was.called_with(withButtons, withButtons.Objectives[1], 54)
-        assert.spy(TrackerLinePool.GetQuestObjectiveLine).was.called_with(withoutButtons, withoutButtons.Objectives[1], 30)
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[3], 54)
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[5], 30)
         assert.is_true(drawnLines[3].questHasSecondaryQIB)
         assert.is_false(drawnLines[5].questHasSecondaryQIB)
     end)
@@ -182,6 +183,21 @@ describe("QuestSection", function()
         QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
 
         assert.is_truthy(texts[3]:find("Quest Complete!", 1, true))
+    end)
+
+    it("should show failed quests as failed", function()
+        QuestSection.Draw(_Details({{quest = _Quest(1, -1), zoneName = "Elwynn Forest"}}))
+
+        assert.is_truthy(texts[3]:find("Quest Failed!", 1, true))
+    end)
+
+    it("should show the completion text of a complete quest", function()
+        _G.strfind = string.find
+        TrackerUtils.GetCompletionText = function() return "Return to Marshal Dughan" end
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
+
+        assert.is_truthy(texts[3]:find("Return to Marshal Dughan", 1, true))
     end)
 
     it("should stop drawing when the line pool is exhausted", function()
