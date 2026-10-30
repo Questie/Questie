@@ -14,6 +14,8 @@ local Sorter = QuestieLoader:ImportModule("Sorter")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type QuestFocusButton
 local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type TrackerRecipes
@@ -1292,7 +1294,7 @@ function TrackerUtils.HasQuest()
 
     if (QuestieTracker.GetNumTrackedQuests() == 0) then
         if Expansions.Current >= Expansions.Wotlk then
-            if (GetNumTrackedAchievements(true) == 0) then
+            if (not next(AchievementTracking.GetTrackedIds())) then
                 hasQuest = false
             else
                 hasQuest = true

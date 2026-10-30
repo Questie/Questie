@@ -34,6 +34,8 @@ local TrackerData = QuestieLoader:ImportModule("TrackerData")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerRecipes
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 
@@ -241,9 +243,8 @@ _OnClickAchieve = function(self, button)
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
         else
-            if Questie.db.char.trackedAchievementIds[self.Quest.Id] then
-                QuestieTracker:UntrackAchieveId(self.Quest.Id)
-                QuestieTracker:UpdateAchieveTrackerCache(self.Quest.Id)
+            if AchievementTracking.IsTracked(self.Quest.Id) then
+                AchievementTracking.Untrack(self.Quest.Id)
 
                 if (not AchievementFrame) then
                     AchievementFrame_LoadUI()

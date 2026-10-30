@@ -76,10 +76,9 @@ function AchievementTracking.Track(achievementId)
 end
 
 ---@param achievementId number
----@param isQuestie boolean? Only used by the legacy API: handed to the removal hook so Questie ignores its own removal
-function AchievementTracking.Untrack(achievementId, isQuestie)
+function AchievementTracking.Untrack(achievementId)
     if _IsLegacyApiAvailable() then
-        RemoveTrackedAchievement(achievementId, isQuestie)
+        RemoveTrackedAchievement(achievementId)
     elseif _IsContentTrackingAvailable() then
         C_ContentTracking.StopTracking(Enum.ContentTrackingType.Achievement, achievementId, Enum.ContentTrackingStopType.Manual)
     end

@@ -732,7 +732,7 @@ describe("TrackerMenu", function()
                 TrackerMenu[name] = noop
             end
             TrackerData.GetColoredQuestName = function() return "Quest" end
-            Questie.db.char.trackedAchievementIds = {}
+            QuestieLoader:ImportModule("AchievementTracking").IsTracked = function() return false end
         end)
 
         after_each(function()

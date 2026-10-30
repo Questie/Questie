@@ -193,12 +193,12 @@ describe("AchievementTracking", function()
     end)
 
     describe("Untrack", function()
-        it("should call RemoveTrackedAchievement with the Questie flag on the legacy API", function()
+        it("should call RemoveTrackedAchievement on the legacy API", function()
             _UseLegacyApi()
 
-            AchievementTracking.Untrack(123, true)
+            AchievementTracking.Untrack(123)
 
-            assert.spy(RemoveTrackedAchievement).was.called_with(123, true)
+            assert.spy(RemoveTrackedAchievement).was.called_with(123)
         end)
 
         it("should prefer the legacy API when both APIs exist", function()

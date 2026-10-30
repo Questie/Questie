@@ -2,6 +2,8 @@
 local Migration = QuestieLoader:CreateModule("Migration")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
@@ -292,6 +294,29 @@ local migrationFunctions = {
     end,
     [45] = function()
         Questie.db.profile.trackerFadeQuestFocusButtons = false
+    end,
+    [46] = function()
+        -- Tracked achievements are kept in the game's tracked list now, instead of in a list of Questie
+        local trackedAchievementIds = Questie.db.char.trackedAchievementIds
+        Questie.db.char.trackedAchievementIds = nil
+        if (not trackedAchievementIds) or (not AchievementTracking.IsSupported()) then
+            return
+        end
+
+        local achievementIds = {}
+        for achievementId, tracked in pairs(trackedAchievementIds) do
+            -- Earned achievements can't be tracked
+            local wasEarnedByMe = select(13, GetAchievementInfo(achievementId))
+            if tracked == true and (not wasEarnedByMe) then
+                achievementIds[#achievementIds + 1] = achievementId
+            end
+        end
+        table.sort(achievementIds)
+
+        local freeSlots = AchievementTracking.GetMaxTracked() - #AchievementTracking.GetTrackedIds()
+        for i = 1, math.min(#achievementIds, freeSlots) do
+            AchievementTracking.Track(achievementIds[i])
+        end
     end,
 }
 
