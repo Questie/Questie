@@ -462,7 +462,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                 type = "checkbox",
                 order = 5.07,
                 title = "Enable Debug-PRINT",
-                tooltip = "Enable or disable debug functionality.-PRINT",
+                tooltip = "Enable or disable debug print functionality.",
                 width = "half",
                 enabled = function()
                     return Questie.db.profile.debugEnabled

@@ -1777,9 +1777,7 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
     for _, rawitem in ipairs(sortedItems) do
 
         local function safe_l10n(val)
-            if val == nil then
-                return nil
-            end
+            if val == nil or val == "" then return val end
 
             -- If a table of format arguments was passed: unpack into l10n
             if type(val) == "table" then
