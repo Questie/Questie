@@ -44,18 +44,6 @@ describe("TrackerLinePool", function()
             TrackerLinePool.ResetLinesForChange()
         end)
 
-        it("should return a recipe title line", function()
-            local recipe = {Id = 2538}
-
-            local line = TrackerLinePool.GetRecipeTitleLine(recipe, 20)
-
-            assert.are.equal("quest", line.mode)
-            assert.are.equal(recipe, line.Recipe)
-            assert.spy(line.SetOnClick).was.called_with(match._, "recipe")
-            assert.spy(line.expandQuest.Hide).was.called()
-            assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 20, 0)
-        end)
-
         it("should return a recipe reagent line", function()
             local recipe = {Id = 2538}
 

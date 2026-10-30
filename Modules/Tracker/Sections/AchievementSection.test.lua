@@ -75,7 +75,6 @@ describe("AchievementSection", function()
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_GetLine)
-        TrackerLinePool.GetAchievementTitleLine = spy.new(_GetLine)
         TrackerLinePool.GetAchievementObjectiveLine = spy.new(_GetObjectiveLine)
         TrackerLinePool.GetLastLine = _FakeLine
 
@@ -129,8 +128,8 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(TrackerLinePool.GetNextLine).was.called(1)
-        assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called(2)
+        assert.spy(TrackerLinePool.GetNextLine).was.called(3)
+        assert.are_same(3, #texts)
     end)
 
     it("should draw the id in the title when quest ids are shown", function()
@@ -147,7 +146,6 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called_with(match._, 20)
         assert.spy(TrackerLinePool.GetAchievementObjectiveLine).was.called_with(match._, 30)
     end)
 
@@ -240,7 +238,6 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(TrackerLinePool.GetAchievementTitleLine).was.called(1)
         assert.are_same(2, #texts)
     end)
 
@@ -270,6 +267,5 @@ describe("AchievementSection", function()
         AchievementSection.Draw()
 
         assert.are_same({}, texts)
-        assert.spy(TrackerLinePool.GetAchievementTitleLine).was.not_called()
     end)
 end)

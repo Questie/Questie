@@ -42,7 +42,6 @@ describe("RecipeSection", function()
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_FakeLine)
-        TrackerLinePool.GetRecipeTitleLine = spy.new(_FakeLine)
         TrackerLinePool.GetRecipeReagentLine = spy.new(_FakeLine)
 
         dofile("Localization/l10n.lua")
@@ -65,7 +64,6 @@ describe("RecipeSection", function()
 
         RecipeSection.Draw()
 
-        assert.spy(TrackerLinePool.GetRecipeTitleLine).was.called_with(recipes[1], 20)
         assert.spy(TrackerLinePool.GetRecipeReagentLine).was.called_with(recipes[1], 30)
         assert.spy(TrackerLayout.UpdateLineWidth).was.called(1)
         assert.are_same("|cFFC0C0C0Recipes|r", texts[1])
@@ -80,15 +78,20 @@ describe("RecipeSection", function()
         RecipeSection.Draw()
 
         assert.are_same({"|cFFC0C0C0Recipes +|r"}, texts)
-        assert.spy(TrackerLinePool.GetRecipeTitleLine).was.not_called()
     end)
 
     it("should stop drawing when the line pool is exhausted", function()
         recipes = {{Id = 1, Name = "First", Reagents = {}}, {Id = 2, Name = "Second", Reagents = {}}}
-        TrackerLinePool.GetRecipeTitleLine = spy.new(function() return nil end)
+        local lines = {_FakeLine(), _FakeLine(), nil}
+        local index = 0
+        TrackerLinePool.GetNextLine = function()
+            index = index + 1
+            return lines[index]
+        end
 
         RecipeSection.Draw()
 
-        assert.spy(TrackerLinePool.GetRecipeTitleLine).was.called(1)
+        assert.are_same(2, #texts)
+        assert.are_same(3, index)
     end)
 end)
