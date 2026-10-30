@@ -97,7 +97,7 @@ describe("QuestieTracker", function()
     end)
 
     describe("achievement UI integration", function()
-        local loadedMock, focusMock, countMock, removeMock, timeMock, shiftMock, trackedMock
+        local loadedMock, focusMock, countMock, removeMock, timeMock, shiftMock, trackedMock, addMock, isTrackedMock
         local originalAchievementFrame, originalExpansion
 
         before_each(function()
@@ -107,6 +107,8 @@ describe("QuestieTracker", function()
             countMock = stub(_G, "GetNumTrackedAchievements", function() return 0 end)
             removeMock = stub(_G, "RemoveTrackedAchievement")
             trackedMock = stub(_G, "GetTrackedAchievements")
+            addMock = stub(_G, "AddTrackedAchievement")
+            isTrackedMock = stub(_G, "IsTrackedAchievement")
             timeMock = stub(_G, "GetTime", function() return 0 end)
             shiftMock = stub(_G, "IsShiftKeyDown", function() return false end)
             originalAchievementFrame = _G.AchievementFrame
@@ -128,6 +130,8 @@ describe("QuestieTracker", function()
             countMock:revert()
             removeMock:revert()
             trackedMock:revert()
+            addMock:revert()
+            isTrackedMock:revert()
             timeMock:revert()
             shiftMock:revert()
             _G.AchievementFrame = originalAchievementFrame

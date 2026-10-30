@@ -6,12 +6,14 @@ describe("AchievementTracking", function()
     ---@type Expansions
     local Expansions
 
-    local globalNames = {"GetTrackedAchievements", "RemoveTrackedAchievement", "C_ContentTracking", "Enum", "Constants"}
+    local globalNames = {"GetTrackedAchievements", "AddTrackedAchievement", "RemoveTrackedAchievement", "IsTrackedAchievement", "C_ContentTracking", "Enum", "Constants"}
     local originals, originalExpansion
 
     local function _UseLegacyApi()
         _G.GetTrackedAchievements = function() return 5, 6, 7 end
+        _G.AddTrackedAchievement = spy.new(function() end)
         _G.RemoveTrackedAchievement = spy.new(function() end)
+        _G.IsTrackedAchievement = function(id) return id == 5 end
     end
 
     local function _UseContentTrackingApi()
@@ -21,6 +23,8 @@ describe("AchievementTracking", function()
         }
         _G.C_ContentTracking = {
             GetTrackedIDs = spy.new(function() return {8, 9} end),
+            IsTracking = spy.new(function(_, id) return id == 8 end),
+            StartTracking = spy.new(function() end),
             StopTracking = spy.new(function() end),
         }
     end
@@ -98,16 +102,16 @@ describe("AchievementTracking", function()
 
         it("should return an empty list for the legacy API stubs of Era and TBC", function()
             Expansions.Current = Expansions.Tbc
+            _UseLegacyApi()
             _G.GetTrackedAchievements = spy.new(function() return nil end)
-            _G.RemoveTrackedAchievement = function() end
 
             assert.are_same({}, AchievementTracking.GetTrackedIds())
             assert.spy(GetTrackedAchievements).was.not_called()
         end)
 
         it("should return an empty list when the legacy API tracks nothing", function()
+            _UseLegacyApi()
             _G.GetTrackedAchievements = function() end
-            _G.RemoveTrackedAchievement = function() end
 
             assert.are_same({}, AchievementTracking.GetTrackedIds())
         end)
@@ -133,6 +137,58 @@ describe("AchievementTracking", function()
 
         it("should default to 10", function()
             assert.are_same(10, AchievementTracking.GetMaxTracked())
+        end)
+    end)
+
+    describe("IsTracked", function()
+        it("should ask the legacy API", function()
+            _UseLegacyApi()
+
+            assert.is_true(AchievementTracking.IsTracked(5))
+            assert.is_false(AchievementTracking.IsTracked(6))
+        end)
+
+        it("should ask C_ContentTracking", function()
+            _UseContentTrackingApi()
+
+            assert.is_true(AchievementTracking.IsTracked(8))
+            assert.is_false(AchievementTracking.IsTracked(9))
+            assert.spy(C_ContentTracking.IsTracking).was.called_with(2, 8)
+        end)
+
+        it("should return false when no API exists", function()
+            assert.is_false(AchievementTracking.IsTracked(5))
+        end)
+    end)
+
+    describe("Track", function()
+        it("should call AddTrackedAchievement on the legacy API", function()
+            _UseLegacyApi()
+
+            AchievementTracking.Track(123)
+
+            assert.spy(AddTrackedAchievement).was.called_with(123)
+        end)
+
+        it("should start tracking through C_ContentTracking", function()
+            _UseContentTrackingApi()
+
+            AchievementTracking.Track(123)
+
+            assert.spy(C_ContentTracking.StartTracking).was.called_with(2, 123)
+        end)
+
+        it("should not call the legacy API stub on Era", function()
+            Expansions.Current = Expansions.Era
+            _UseLegacyApi()
+
+            AchievementTracking.Track(123)
+
+            assert.spy(AddTrackedAchievement).was.not_called()
+        end)
+
+        it("should do nothing when no API exists", function()
+            assert.has_no.errors(function() AchievementTracking.Track(123) end)
         end)
     end)
 
