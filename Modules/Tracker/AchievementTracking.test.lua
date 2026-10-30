@@ -3,9 +3,11 @@ dofile("setupTests.lua")
 describe("AchievementTracking", function()
     ---@type AchievementTracking
     local AchievementTracking
+    ---@type Expansions
+    local Expansions
 
     local globalNames = {"GetTrackedAchievements", "RemoveTrackedAchievement", "C_ContentTracking", "Enum", "C_GameRules", "Constants"}
-    local originals
+    local originals, originalExpansion
 
     local function _UseLegacyApi()
         _G.GetTrackedAchievements = function() return 5, 6, 7 end
@@ -32,6 +34,10 @@ describe("AchievementTracking", function()
             _G[name] = nil
         end
 
+        Expansions = QuestieLoader:ImportModule("Expansions")
+        originalExpansion = Expansions.Current
+        Expansions.Current = Expansions.Wotlk
+
         dofile("Modules/Tracker/AchievementTracking.lua")
         AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
     end)
@@ -40,11 +46,29 @@ describe("AchievementTracking", function()
         for _, name in ipairs(globalNames) do
             _G[name] = originals[name]
         end
+        Expansions.Current = originalExpansion
     end)
 
     describe("IsSupported", function()
         it("should return true when the legacy API exists", function()
             _UseLegacyApi()
+
+            assert.is_true(AchievementTracking.IsSupported())
+        end)
+
+        it("should return false for the legacy API stubs of Era and TBC", function()
+            _UseLegacyApi()
+
+            for _, expansion in ipairs({Expansions.Era, Expansions.Tbc}) do
+                Expansions.Current = expansion
+
+                assert.is_false(AchievementTracking.IsSupported())
+            end
+        end)
+
+        it("should return true when C_ContentTracking exists on Forever", function()
+            Expansions.Current = Expansions.Era
+            _UseContentTrackingApi(false)
 
             assert.is_true(AchievementTracking.IsSupported())
         end)
@@ -80,8 +104,18 @@ describe("AchievementTracking", function()
             assert.are_same({5, 6, 7}, AchievementTracking.GetTrackedIds())
         end)
 
+        it("should return an empty list for the legacy API stubs of Era and TBC", function()
+            Expansions.Current = Expansions.Tbc
+            _G.GetTrackedAchievements = spy.new(function() return nil end)
+            _G.RemoveTrackedAchievement = function() end
+
+            assert.are_same({}, AchievementTracking.GetTrackedIds())
+            assert.spy(GetTrackedAchievements).was.not_called()
+        end)
+
         it("should return an empty list when the legacy API tracks nothing", function()
             _G.GetTrackedAchievements = function() end
+            _G.RemoveTrackedAchievement = function() end
 
             assert.are_same({}, AchievementTracking.GetTrackedIds())
         end)
@@ -135,6 +169,15 @@ describe("AchievementTracking", function()
             AchievementTracking.Untrack(123)
 
             assert.spy(C_ContentTracking.StopTracking).was.called_with(2, 123, 1)
+        end)
+
+        it("should not call the legacy API stub on Era", function()
+            Expansions.Current = Expansions.Era
+            _UseLegacyApi()
+
+            AchievementTracking.Untrack(123)
+
+            assert.spy(RemoveTrackedAchievement).was.not_called()
         end)
 
         it("should do nothing when no API exists", function()
