@@ -6,7 +6,7 @@ describe("AchievementSection", function()
     local AchievementSection
     local TrackerLinePool, TrackerLayout, TrackerAchievements, AchievementTracking
 
-    local texts, achievements, trackedIds, availableLines, objectiveLines, unboundedWidth
+    local texts, achievements, trackedIds, availableLines, drawnLines, unboundedWidth
 
     local function _FakeLine()
         local label = {
@@ -21,6 +21,8 @@ describe("AchievementSection", function()
         local criteriaMark = {mode = true, SetCriteria = spy.new(function() end), Show = function() end, Hide = function() end}
         local line = {label = label, expandZone = button, expandQuest = button, criteriaMark = criteriaMark, playButton = button}
         setmetatable(line, {__index = function() return function() end end})
+        line.SetMode = function(self, mode) self.mode = mode end
+        line.SetQuest = function(self, target) self.Quest = target end
         return line
     end
 
@@ -29,13 +31,26 @@ describe("AchievementSection", function()
             return nil
         end
         availableLines = availableLines - 1
-        return _FakeLine()
+        local line = _FakeLine()
+        drawnLines[#drawnLines + 1] = line
+        return line
     end
 
     local function _GetObjectiveLine(target)
         local line = _GetLine()
-        objectiveLines[#objectiveLines + 1] = {target = target, line = line}
+        line.mode = "objective"
+        line.Quest = target
         return line
+    end
+
+    local function _ObjectiveLines()
+        local lines = {}
+        for _, line in ipairs(drawnLines) do
+            if line.mode == "objective" then
+                lines[#lines + 1] = {target = line.Quest, line = line}
+            end
+        end
+        return lines
     end
 
     local function _Achievement(id, criteria)
@@ -50,7 +65,7 @@ describe("AchievementSection", function()
         texts = {}
         achievements = {}
         trackedIds = {1}
-        objectiveLines = {}
+        drawnLines = {}
         availableLines = 100
         unboundedWidth = 10
 
@@ -71,7 +86,7 @@ describe("AchievementSection", function()
         TrackerLayout.GetBaseFrameWidth = function() return 400 end
         TrackerLayout.TrackLineWidth = function() end
         TrackerLayout.GetLineWidth = function() return 1000 end
-        TrackerLayout.UpdateLineWidth = function() end
+        TrackerLayout.UpdateLineWidth = spy.new(function() end)
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_GetLine)
@@ -146,7 +161,7 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(TrackerLinePool.GetAchievementObjectiveLine).was.called_with(match._, 30)
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(match._, 30)
     end)
 
     it("should draw the description of an achievement without criteria", function()
@@ -163,7 +178,7 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.called_with(match._, true)
+        assert.spy(_ObjectiveLines()[1].line.criteriaMark.SetCriteria).was.called_with(match._, true)
     end)
 
     it("should not set the criteria mark when completed criteria are hidden", function()
@@ -172,7 +187,7 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.not_called()
+        assert.spy(_ObjectiveLines()[1].line.criteriaMark.SetCriteria).was.not_called()
     end)
 
     it("should not set the criteria mark for a description", function()
@@ -180,7 +195,7 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.not_called()
+        assert.spy(_ObjectiveLines()[1].line.criteriaMark.SetCriteria).was.not_called()
     end)
 
     it("should draw the progress of unfinished criteria", function()
@@ -200,8 +215,8 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.are_same({Id = 2}, objectiveLines[1].target)
-        assert.are.equal(achievements[1], objectiveLines[2].target)
+        assert.are_same({Id = 2}, _ObjectiveLines()[1].target)
+        assert.are.equal(achievements[1], _ObjectiveLines()[2].target)
     end)
 
     it("should split the progress into a second line that targets the achievement", function()
@@ -216,8 +231,8 @@ describe("AchievementSection", function()
         assert.is_truthy(texts[4]:find("Darnassus: ", 1, true))
         assert.is_falsy(texts[4]:find("3/10", 1, true))
         assert.is_truthy(texts[5]:find("    > 3/10", 1, true))
-        assert.are_same({Id = 2}, objectiveLines[1].target)
-        assert.are.equal(achievements[1], objectiveLines[2].target)
+        assert.are_same({Id = 2}, _ObjectiveLines()[1].target)
+        assert.are.equal(achievements[1], _ObjectiveLines()[2].target)
     end)
 
     it("should not set the criteria mark when the objective color is not white", function()
@@ -226,7 +241,7 @@ describe("AchievementSection", function()
 
         AchievementSection.Draw()
 
-        assert.spy(objectiveLines[1].line.criteriaMark.SetCriteria).was.not_called()
+        assert.spy(_ObjectiveLines()[1].line.criteriaMark.SetCriteria).was.not_called()
     end)
 
     it("should stop drawing when no line is left for the description of an achievement", function()

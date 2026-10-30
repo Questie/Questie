@@ -72,30 +72,27 @@ function AchievementSection.Draw()
                 for _, criteria in ipairs(achieve.Criteria) do
                     if criteria.IsDescription then
                         -- Achievements without criteria show their description
-                        line = TrackerLinePool.GetAchievementObjectiveLine(achieve, margins.objective)
+                        line = LineBuilder.AddObjective({
+                            text = QuestieLib:GetRGBForObjective(criteria) .. criteria.Text,
+                            clickMode = "achieve",
+                            target = achieve,
+                        })
                         if (not line) then
                             return
                         end
-
-                        line.label:SetText(QuestieLib:GetRGBForObjective(criteria) .. criteria.Text)
-                        TrackerLayout.UpdateLineWidth(line, margins.objective)
-
-                        -- Set Objective state
-                        line:Show()
-                        line.label:Show()
                     else
                         local target = achieve
                         if criteria.LinkedAchievementId then
                             target = {Id = criteria.LinkedAchievementId}
                         end
 
-                        line = TrackerLinePool.GetAchievementObjectiveLine(target, margins.objective)
-                        if (not line) then
-                            break
-                        end
-
                         -- Set Objectives with more than one Objective number criteria
                         if criteria.Progress then
+                            line = TrackerLinePool.GetAchievementObjectiveLine(target, margins.objective)
+                            if (not line) then
+                                break
+                            end
+
                             -- Set Objective text
                             line.label:SetText(QuestieLib:GetRGBForObjective(criteria) .. criteria.Text .. ": " .. criteria.Progress)
 
@@ -149,10 +146,22 @@ function AchievementSection.Draw()
                                 TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.objective)
                             end
 
-                            -- Set Objectives with a single Objective number criteria
+                            -- Adds 1 pixel between multiple Objectives
+                            line:SetHeight(line.label:GetHeight() + 1)
+
+                            -- Set Objective state
+                            line:Show()
+                            line.label:Show()
                         else
-                            -- Set Objective text
-                            line.label:SetText(QuestieLib:GetRGBForObjective(criteria) .. criteria.Text)
+                            -- Set Objectives with a single Objective number criteria
+                            line = LineBuilder.AddObjective({
+                                text = QuestieLib:GetRGBForObjective(criteria) .. criteria.Text,
+                                clickMode = "achieve",
+                                target = target,
+                            })
+                            if (not line) then
+                                break
+                            end
 
                             -- Set Objective criteria mark
                             if (not Questie.db.profile.hideCompletedAchieveObjectives) and (not objectiveColor or objectiveColor == "white") then
@@ -162,35 +171,12 @@ function AchievementSection.Draw()
                                     line.criteriaMark:Show()
                                 end
                             end
-
-                            -- Check and measure Objective text width and update tracker width
-                            TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.objective + margins.right)
-
-                            -- Set Objective Label and Line widths
-                            line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.objective - margins.right)
-                            line:SetWidth(line.label:GetWidth() + margins.objective)
-
-                            -- Compare largest text Label in the tracker with current Label, then save widest width
-                            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.objective)
                         end
-
-                        -- Adds 1 pixel between multiple Objectives
-                        line:SetHeight(line.label:GetHeight() + 1)
-
-                        -- Set Objective state
-                        line:Show()
-                        line.label:Show()
                     end
                 end
             end
 
-            -- Safety check in case we hit the linePool limit
-            if (not line) then
-                line = TrackerLinePool.GetLastLine()
-            end
-
-            -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
-            line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
+            LineBuilder.FinishEntry(line)
         end
     end
 end
