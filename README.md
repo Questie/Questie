@@ -52,11 +52,25 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 ### Installing Lua
 
 1. Install [Lua](https://www.lua.org/download.html) (5.1, since the WoW client uses Lua 5.1)
-   - For macOS that is `brew install lua@5.1`
+   - On macOS, build the official [Lua 5.1.5 source](https://www.lua.org/ftp/lua-5.1.5.tar.gz) into a dedicated prefix under Homebrew's `libexec`. If the prefix already exists, choose an unused suffix. Run the commands separately and stop if one fails.
+     ```sh
+     LUA_PREFIX="$(brew --prefix)/libexec/lua-5.1"
+     mkdir -p "$(dirname "$LUA_PREFIX")"
+     mkdir "$LUA_PREFIX"
+     LUA_SRC_DIR="$(mktemp -d)"
+     curl -fL https://www.lua.org/ftp/lua-5.1.5.tar.gz -o "$LUA_SRC_DIR/lua-5.1.5.tar.gz"
+     tar -xzf "$LUA_SRC_DIR/lua-5.1.5.tar.gz" -C "$LUA_SRC_DIR"
+     make -C "$LUA_SRC_DIR/lua-5.1.5" macosx
+     make -C "$LUA_SRC_DIR/lua-5.1.5" install INSTALL_TOP="$LUA_PREFIX"
+     "$LUA_PREFIX/bin/lua" -v
+     ln -sf "$LUA_PREFIX/bin/lua" "$(brew --prefix)/bin/lua5.1"
+     ```
 2. Install [luarocks](https://luarocks.org/)
-   - For macOS that is `brew install luarocks`
+   - For macOS that is `brew install luarocks`; Homebrew installs LuaRocks' Lua dependency if needed (currently Lua 5.5), while Questie still uses Lua 5.1.
 3. Configure `luarocks` to use the correct Lua version (by default luarocks uses the latest installed Lua version)
+   - On macOS, in the same terminal used for step 1, first run `luarocks --lua-version=5.1 config lua_dir "$LUA_PREFIX"`.
    - `luarocks config lua_version 5.1`
+   - On macOS, with a fresh LuaRocks 5.1 configuration that contains only the default user tree, set its only tree to the Homebrew prefix: `luarocks config 'rocks_trees[1]' "$(brew --prefix)"`
 4. Install [busted](https://github.com/lunarmodules/busted)
    - `luarocks install busted`
 5. Install `bit32`
