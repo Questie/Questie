@@ -6,7 +6,7 @@ describe("AchievementTracking", function()
     ---@type Expansions
     local Expansions
 
-    local globalNames = {"GetTrackedAchievements", "RemoveTrackedAchievement", "C_ContentTracking", "Enum", "C_GameRules", "Constants"}
+    local globalNames = {"GetTrackedAchievements", "RemoveTrackedAchievement", "C_ContentTracking", "Enum", "Constants"}
     local originals, originalExpansion
 
     local function _UseLegacyApi()
@@ -14,17 +14,15 @@ describe("AchievementTracking", function()
         _G.RemoveTrackedAchievement = spy.new(function() end)
     end
 
-    local function _UseContentTrackingApi(gameRuleActive)
+    local function _UseContentTrackingApi()
         _G.Enum = {
             ContentTrackingType = {Achievement = 2},
             ContentTrackingStopType = {Manual = 1},
-            GameRule = {TrackAchievementsDisabled = 99},
         }
         _G.C_ContentTracking = {
             GetTrackedIDs = spy.new(function() return {8, 9} end),
             StopTracking = spy.new(function() end),
         }
-        _G.C_GameRules = {IsGameRuleActive = function(rule) return gameRuleActive and rule == 99 end}
     end
 
     before_each(function()
@@ -68,25 +66,19 @@ describe("AchievementTracking", function()
 
         it("should return true when C_ContentTracking exists on Forever", function()
             Expansions.Current = Expansions.Era
-            _UseContentTrackingApi(false)
+            _UseContentTrackingApi()
 
             assert.is_true(AchievementTracking.IsSupported())
         end)
 
         it("should return true when C_ContentTracking exists", function()
-            _UseContentTrackingApi(false)
+            _UseContentTrackingApi()
 
             assert.is_true(AchievementTracking.IsSupported())
         end)
 
-        it("should return false when achievement tracking is disabled by a game rule", function()
-            _UseContentTrackingApi(true)
-
-            assert.is_false(AchievementTracking.IsSupported())
-        end)
-
         it("should return false when C_ContentTracking is only partly available", function()
-            _UseContentTrackingApi(false)
+            _UseContentTrackingApi()
             _G.Enum.ContentTrackingStopType = nil
 
             assert.is_false(AchievementTracking.IsSupported())
@@ -121,7 +113,7 @@ describe("AchievementTracking", function()
         end)
 
         it("should read the achievement ids from C_ContentTracking", function()
-            _UseContentTrackingApi(false)
+            _UseContentTrackingApi()
 
             assert.are_same({8, 9}, AchievementTracking.GetTrackedIds())
             assert.spy(C_ContentTracking.GetTrackedIDs).was.called_with(2)
@@ -155,7 +147,7 @@ describe("AchievementTracking", function()
 
         it("should prefer the legacy API when both APIs exist", function()
             _UseLegacyApi()
-            _UseContentTrackingApi(false)
+            _UseContentTrackingApi()
 
             AchievementTracking.Untrack(123)
 
@@ -164,7 +156,7 @@ describe("AchievementTracking", function()
         end)
 
         it("should stop tracking through C_ContentTracking", function()
-            _UseContentTrackingApi(false)
+            _UseContentTrackingApi()
 
             AchievementTracking.Untrack(123)
 

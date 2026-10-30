@@ -21,18 +21,12 @@ local function _IsContentTrackingAvailable()
 end
 
 ---@return boolean
-local function _IsTrackingDisabledByGameRule()
-    return C_GameRules ~= nil and C_GameRules.IsGameRuleActive ~= nil and Enum ~= nil and Enum.GameRule ~= nil
-        and Enum.GameRule.TrackAchievementsDisabled ~= nil and C_GameRules.IsGameRuleActive(Enum.GameRule.TrackAchievementsDisabled)
-end
-
----@return boolean
 function AchievementTracking.IsSupported()
     if _IsLegacyApiAvailable() then
         return true
     end
 
-    return _IsContentTrackingAvailable() and (not _IsTrackingDisabledByGameRule())
+    return _IsContentTrackingAvailable()
 end
 
 --- The achievement IDs tracked by the game, in the game's order.
