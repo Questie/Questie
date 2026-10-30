@@ -3,7 +3,16 @@
 ---@class AchievementTracking
 local AchievementTracking = QuestieLoader:CreateModule("AchievementTracking")
 
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
+
 local DEFAULT_MAX_TRACKED = 10
+
+-- Era and TBC have the legacy globals as stubs without achievements, so their existence alone is not enough.
+---@return boolean
+local function _IsLegacyApiAvailable()
+    return GetTrackedAchievements ~= nil and RemoveTrackedAchievement ~= nil and Expansions.Current >= Expansions.Wotlk
+end
 
 ---@return boolean
 local function _IsContentTrackingAvailable()
@@ -19,7 +28,7 @@ end
 
 ---@return boolean
 function AchievementTracking.IsSupported()
-    if GetTrackedAchievements then
+    if _IsLegacyApiAvailable() then
         return true
     end
 
@@ -29,7 +38,7 @@ end
 --- The achievement IDs tracked by the game, in the game's order.
 ---@return number[]
 function AchievementTracking.GetTrackedIds()
-    if GetTrackedAchievements then
+    if _IsLegacyApiAvailable() then
         return {GetTrackedAchievements()}
     end
 
@@ -52,7 +61,7 @@ end
 ---@param achievementId number
 ---@param isQuestie boolean? Only used by the legacy API: handed to the removal hook so Questie ignores its own removal
 function AchievementTracking.Untrack(achievementId, isQuestie)
-    if RemoveTrackedAchievement then
+    if _IsLegacyApiAvailable() then
         RemoveTrackedAchievement(achievementId, isQuestie)
     elseif _IsContentTrackingAvailable() then
         C_ContentTracking.StopTracking(Enum.ContentTrackingType.Achievement, achievementId, Enum.ContentTrackingStopType.Manual)
