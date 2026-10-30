@@ -17,7 +17,7 @@ describe("QuestSection", function()
         setmetatable(label, {__index = function() return function() end end})
         local button = {}
         setmetatable(button, {__index = function() return function() end end})
-        local line = {label = label, expandZone = button, expandQuest = button, playButton = button, questFocus = button}
+        local line = {label = label, expandZone = button, expandQuest = button, playButton = button, questFocus = button, criteriaMark = button}
         setmetatable(line, {__index = function() return function() end end})
         return line
     end
@@ -78,7 +78,7 @@ describe("QuestSection", function()
         TrackerLayout.UpdateLineWidth = function() end
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
-        TrackerLinePool.GetZoneLine = spy.new(_GetLine)
+        TrackerLinePool.GetNextLine = spy.new(_GetLine)
         TrackerLinePool.GetQuestTitleLine = spy.new(_GetLine)
         TrackerLinePool.GetQuestObjectiveLine = spy.new(_GetLine)
         TrackerLinePool.GetLastLine = _FakeLine
@@ -95,6 +95,7 @@ describe("QuestSection", function()
         TrackerQuestTimers.UpdateAndGetRemainingTime = function() end
 
         dofile("Localization/l10n.lua")
+        dofile("Modules/Tracker/LinePool/LineBuilder.lua")
         dofile("Modules/Tracker/Sections/QuestSection.lua")
         QuestSection = QuestieLoader:ImportModule("QuestSection")
     end)
@@ -140,9 +141,13 @@ describe("QuestSection", function()
             {quest = third, zoneName = "Westfall"},
         }))
 
-        assert.spy(TrackerLinePool.GetZoneLine).was.called(2)
-        assert.spy(TrackerLinePool.GetZoneLine).was.called_with("Elwynn Forest")
-        assert.spy(TrackerLinePool.GetZoneLine).was.called_with("Westfall")
+        local headers = {}
+        for _, text in ipairs(texts) do
+            if text:find("|cFFC0C0C0", 1, true) then
+                headers[#headers + 1] = text
+            end
+        end
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "|cFFC0C0C0Westfall|r"}, headers)
     end)
 
     it("should skip quests that are not tracked", function()

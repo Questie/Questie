@@ -5,6 +5,8 @@ local RecipeSection = QuestieLoader:CreateModule("RecipeSection")
 local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type LineBuilder
+local LineBuilder = QuestieLoader:ImportModule("LineBuilder")
 ---@type TrackerRecipes
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type QuestieLib
@@ -22,38 +24,12 @@ function RecipeSection.Draw()
 
     local margins = TrackerLayout.GetMargins()
 
-    local line = TrackerLinePool.GetZoneLine(ZONE_NAME)
+    local line, collapsed = LineBuilder.AddHeader({key = ZONE_NAME, text = l10n("Recipes")})
     if (not line) then
         return
     end
 
-    if Questie.db.char.collapsedZones[ZONE_NAME] then
-        line.expandZone:SetMode(0)
-        line.label:SetText("|cFFC0C0C0" .. l10n("Recipes") .. " +|r")
-    else
-        line.expandZone:SetMode(1)
-        line.label:SetText("|cFFC0C0C0" .. l10n("Recipes") .. "|r")
-    end
-
-    TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.left + margins.right)
-    line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.left - margins.right)
-    line:SetWidth(line.label:GetWidth())
-    TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.left)
-
-    line.expandZone:ClearAllPoints()
-    line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
-    line.expandZone:SetWidth(line.label:GetWidth())
-    line.expandZone:SetHeight(line.label:GetHeight())
-    line.expandZone:Show()
-
-    -- Adds 4 pixels between Zone and first Recipe Title
-    line:SetHeight(line.label:GetHeight() + 4)
-    line:Show()
-    line.label:Show()
-    line.Quest = nil
-    line.Objective = nil
-
-    if Questie.db.char.collapsedZones[ZONE_NAME] then
+    if collapsed then
         return
     end
 
