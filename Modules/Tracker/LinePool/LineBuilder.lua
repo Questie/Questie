@@ -158,3 +158,50 @@ function LineBuilder.AddTitle(options)
 
     return line, collapsed
 end
+
+---@class ObjectiveLineOptions
+---@field text string
+---@field clickMode LineClickMode
+---@field target table The quest, achievement or recipe stored on the line
+---@field objective table? The quest objective, for combat text updates
+---@field marginLeft number? Defaults to TrackerLayout.GetMargins().objective, quest item buttons add to it
+
+---@param options ObjectiveLineOptions
+---@return TrackerLineFrame|nil
+function LineBuilder.AddObjective(options)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    local marginLeft = options.marginLeft or TrackerLayout.GetMargins().objective
+
+    line:SetMode("objective")
+    _SetTarget(line, options.clickMode, options.target, options.objective)
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", marginLeft, 0)
+
+    line.label:SetText(options.text)
+    TrackerLayout.UpdateLineWidth(line, marginLeft)
+
+    -- Adds 1 pixel between multiple objectives
+    line:SetHeight(line.label:GetHeight() + 1)
+    line:Show()
+    line.label:Show()
+
+    return line
+end
+
+--- Adds the "Padding Between Quests" setting of the tracker options below the last line of an entry.
+---@param line TrackerLineFrame|nil The last line of the entry, nil when the line pool was exhausted
+function LineBuilder.FinishEntry(line)
+    line = line or TrackerLinePool.GetLastLine()
+
+    -- Adds 2 pixels and the "Padding Between Quests" setting
+    line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
+end

@@ -268,4 +268,85 @@ describe("LineBuilder", function()
             assert.spy(line.label.Show).was.called()
         end)
     end)
+
+    describe("AddObjective", function()
+        local recipe
+
+        before_each(function()
+            recipe = {Id = 2538}
+        end)
+
+        it("should return nil when the line pool is exhausted", function()
+            TrackerLinePool.GetNextLine = function() return nil end
+
+            assert.is_nil(LineBuilder.AddObjective({text = "Text", clickMode = "recipe", target = recipe}))
+        end)
+
+        it("should set up a recipe objective", function()
+            local line = LineBuilder.AddObjective({text = "Text", clickMode = "recipe", target = recipe})
+
+            assert.spy(line.SetMode).was.called_with(match._, "objective")
+            assert.spy(line.SetOnClick).was.called_with(match._, "recipe")
+            assert.spy(line.SetRecipe).was.called_with(match._, recipe)
+            assert.spy(line.SetQuest).was.not_called()
+            assert.spy(line.expandZone.Hide).was.called()
+            assert.spy(line.expandQuest.Hide).was.called()
+            assert.spy(line.criteriaMark.Hide).was.called()
+            assert.spy(line.playButton.Hide).was.called()
+            assert.spy(line.label.SetText).was.called_with(match._, "Text")
+        end)
+
+        it("should store the quest and its objective", function()
+            local quest = {Id = 1}
+            local objective = {Index = 1}
+
+            local line = LineBuilder.AddObjective({text = "Text", clickMode = "quest", target = quest, objective = objective})
+
+            assert.spy(line.SetOnClick).was.called_with(match._, "quest")
+            assert.spy(line.SetQuest).was.called_with(match._, quest)
+            assert.spy(line.SetObjective).was.called_with(match._, objective)
+        end)
+
+        it("should use the objective margin by default", function()
+            local line = LineBuilder.AddObjective({text = "Text", clickMode = "recipe", target = recipe})
+
+            assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 30, 0)
+            assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(line, 30)
+        end)
+
+        it("should use the given margin", function()
+            local line = LineBuilder.AddObjective({text = "Text", clickMode = "recipe", target = recipe, marginLeft = 54})
+
+            assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 54, 0)
+            assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(line, 54)
+        end)
+
+        it("should add 1 pixel below the objective", function()
+            local line = LineBuilder.AddObjective({text = "Text", clickMode = "recipe", target = recipe})
+
+            assert.spy(line.SetHeight).was.called_with(match._, 13)
+            assert.spy(line.Show).was.called()
+            assert.spy(line.label.Show).was.called()
+        end)
+    end)
+
+    describe("FinishEntry", function()
+        it("should add the padding between quests below the last line", function()
+            Questie.db.profile.trackerQuestPadding = 5
+            local line = _Line()
+
+            LineBuilder.FinishEntry(line)
+
+            assert.spy(line.SetHeight).was.called_with(match._, 19)
+        end)
+
+        it("should use the last line of the pool when no line is given", function()
+            local lastLine = _Line()
+            TrackerLinePool.GetLastLine = function() return lastLine end
+
+            LineBuilder.FinishEntry(nil)
+
+            assert.spy(lastLine.SetHeight).was.called_with(match._, 16)
+        end)
+    end)
 end)
