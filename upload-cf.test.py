@@ -7,13 +7,20 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import zipfile
 
 
 SCRIPT = Path(__file__).with_name("upload-cf.sh").resolve()
 GIT = shutil.which("git")
 
 
-@unittest.skipUnless(GIT and shutil.which("jq"), "git and jq are required")
+def write_bundle(path, directories=("Questie", "QuestieDB")):
+    with zipfile.ZipFile(path, "w") as bundle:
+        for directory in directories:
+            bundle.writestr(f"{directory}/{directory}.toc", directory)
+
+
+@unittest.skipUnless(GIT and all(map(shutil.which, ("jq", "zip", "unzip"))), "git, jq, zip and unzip are required")
 class CurseForgeUploadTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
@@ -32,7 +39,7 @@ class CurseForgeUploadTests(unittest.TestCase):
         self.release_dir = self.work / "releases/v12.0.0"
         self.release_dir.mkdir(parents=True)
         self.zip = self.release_dir / "Questie-v12.0.0+v1.0.0.zip"
-        self.zip.write_bytes(b"test artifact")
+        write_bundle(self.zip)
         self.manifest = {
             "questie": {"version": "12.0.0", "producerCommit": self.commit},
             "questiedb": {"version": "1.0.0"},
@@ -50,6 +57,7 @@ class CurseForgeUploadTests(unittest.TestCase):
 "$REAL_GIT" ls-remote --exit-code --tags origin "refs/tags/$EXPECTED_MARKER" >/dev/null || exit 33
 printf 'upload\\n' >> "$UPLOAD_LOG"
 printf '%s\\n' "$@" > "$UPLOAD_LOG.args"
+for argument; do case "$argument" in file=@*) cp "${argument#file=@}" "$UPLOAD_LOG.zip" ;; esac; done
 printf '{"id":123}' > response.txt
 printf '%s' "$UPLOAD_STATUS"
 exit "$UPLOAD_EXIT"
@@ -107,10 +115,33 @@ exit "$UPLOAD_EXIT"
         self.assertTrue(self.has_remote_marker())
         self.assertEqual("upload\n", self.calls.read_text())
         arguments = Path(str(self.calls) + ".args").read_text()
-        self.assertIn(f"file=@releases/v12.0.0/{self.zip.name}", arguments)
+        self.assertIn("file=@releases/v12.0.0/Questie-v12.0.0.zip", arguments)
         self.assertIn('"releaseType": "release"', arguments)
-        self.assertIn('"displayName": "v12.0.0+v1.0.0"', arguments)
+        self.assertIn('"displayName": "v12.0.0"', arguments)
+        self.assertIn('{slug: "questiedb", type: "requiredDependency"}', arguments)
+        with zipfile.ZipFile(str(self.calls) + ".zip") as uploaded:
+            self.assertEqual(["Questie/Questie.toc"], uploaded.namelist())
+        with zipfile.ZipFile(self.zip) as bundle:
+            self.assertIn("QuestieDB/QuestieDB.toc", bundle.namelist())
         self.assertIn(self.commit, self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
+
+    def test_should_fail_without_reserving_when_the_bundle_lacks_questiedb(self):
+        self.publish_bundle_tag()
+        write_bundle(self.zip, ("Questie",))
+        result = self.run_upload()
+        self.assertEqual(1, result.returncode, result.stderr)
+        self.assertIn("contains no QuestieDB directory", result.stderr)
+        self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
+
+    def test_should_fail_without_reserving_when_the_bundle_has_other_top_level_files(self):
+        self.publish_bundle_tag()
+        write_bundle(self.zip, ("Questie", "QuestieDB", "Other"))
+        result = self.run_upload()
+        self.assertEqual(1, result.returncode, result.stderr)
+        self.assertIn("nothing outside Questie/", result.stderr)
+        self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
 
     def test_manifest_mismatches_fail_without_reserving_or_uploading(self):
         self.publish_bundle_tag()
@@ -239,7 +270,7 @@ exec "$REAL_GIT" "$@"
                 self.marker = self.tag.replace("bundle/", "bundle/curse/", 1)
                 self.env["EXPECTED_MARKER"] = self.marker
                 filename = f"Questie-{self.tag.removeprefix('bundle/')}.zip"
-                (self.release_dir / filename).write_bytes(b"test artifact")
+                (self.release_dir / filename).write_bytes(self.zip.read_bytes())
                 self.env["BUNDLED_ZIP"] = filename
                 manifest["releases"][0]["filename"] = filename
                 self.manifest_path.write_text(json.dumps(manifest))
@@ -258,7 +289,7 @@ exec "$REAL_GIT" "$@"
                 self.marker = f"bundle/curse/v12.0.0-pre.{suffix}+v1.0.0"
                 self.env["EXPECTED_MARKER"] = self.marker
                 filename = f"Questie-v12.0.0-pre.{suffix}+v1.0.0.zip"
-                (self.release_dir / filename).write_bytes(b"test artifact")
+                (self.release_dir / filename).write_bytes(self.zip.read_bytes())
                 self.env["BUNDLED_ZIP"] = filename
                 self.manifest["releases"][0]["filename"] = filename
                 self.manifest_path.write_text(json.dumps(self.manifest))
@@ -291,7 +322,7 @@ exec "$REAL_GIT" "$@"
         self.assertTrue(self.has_remote_marker())
         arguments = Path(str(self.calls) + ".args").read_text()
         self.assertIn('"releaseType": "beta"', arguments)
-        self.assertIn(f'"displayName": "v12.0.0-pre.{self.commit[:7]}+v1.0.0"', arguments)
+        self.assertIn(f'"displayName": "v12.0.0-pre.{self.commit[:7]}"', arguments)
 
 
 if __name__ == "__main__":
