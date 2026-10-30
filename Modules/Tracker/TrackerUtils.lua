@@ -1293,15 +1293,7 @@ function TrackerUtils.HasQuest()
     local hasQuest
 
     if (QuestieTracker.GetNumTrackedQuests() == 0) then
-        if Expansions.Current >= Expansions.Wotlk then
-            if (not next(AchievementTracking.GetTrackedIds())) then
-                hasQuest = false
-            else
-                hasQuest = true
-            end
-        else
-            hasQuest = false
-        end
+        hasQuest = AchievementTracking.HasTrackedAchievements()
     else
         if not Questie.db.profile.trackerShowCompleteQuests then
             local isTrackingIncompleteQuest = false

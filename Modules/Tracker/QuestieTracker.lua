@@ -22,6 +22,8 @@ local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 local RecipeSection = QuestieLoader:ImportModule("RecipeSection")
 ---@type ScenarioSection
 local ScenarioSection = QuestieLoader:ImportModule("ScenarioSection")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type AchievementSection
 local AchievementSection = QuestieLoader:ImportModule("AchievementSection")
 ---@type QuestSection
@@ -932,7 +934,7 @@ function QuestieTracker:Update(onlyIfChanged)
         end
 
         -- Populate Achievements first then Quests
-        local showAchievements = Expansions.Current >= Expansions.Wotlk
+        local showAchievements = AchievementTracking.IsSupported()
         if Questie.db.profile.listAchievementsFirst and showAchievements then
             AchievementSection.Draw()
             QuestSection.Draw(sortedQuestIds, questDetails)
