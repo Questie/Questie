@@ -524,6 +524,33 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end,
                     },
+                    showQuestFocusButtons = {
+                        type = "checkbox",
+                        order = 7.1,
+                        width = "half",
+                        title = "Show Quest Focus Buttons",
+                        tooltip = "If checked, a round button in front of each Quest lets you focus or unfocus the Quest on the map.",
+                        enabled = function() return Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowQuestFocusButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowQuestFocusButtons = value
+                            QuestieTracker:Update()
+                        end
+                    },
+                    fadeQuestFocusButtons = {
+                        type = "checkbox",
+                        order = 7.2,
+                        width = "half",
+                        title = "Fade Quest Focus Buttons",
+                        tooltip = "If checked, the Quest Focus Buttons will fade and become transparent when not in use.",
+                        enabled = function() return (Questie.db.profile.trackerEnabled) and (Questie.db.profile.trackerShowQuestFocusButtons) end,
+                        get = function() return Questie.db.profile.trackerFadeQuestFocusButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerFadeQuestFocusButtons = value
+                            TrackerLinePool.SetAllQuestFocusAlpha(value and 0 or 1)
+                            QuestieTracker:Update()
+                        end
+                    },
                     disableHoverFade = {
                         type = "checkbox",
                         order = 8,
