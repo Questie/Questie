@@ -255,80 +255,55 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                     if complete == 0 and quest.isComplete ~= true then
                         for _, objective in ipairs(quest.Objectives) do
                             if (not Questie.db.profile.hideCompletedQuestObjectives) or (not objective.Completed) then
-                                line = TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidthQBC)
+                                line = LineBuilder.AddObjective({
+                                    text = TrackerData.GetObjectiveText(objective),
+                                    clickMode = "quest",
+                                    target = quest,
+                                    objective = objective,
+                                    marginLeft = objectiveMarginLeft,
+                                })
                                 if (not line) then
                                     break
                                 end
 
                                 line.questHasSecondaryQIB = secondaryButton
-
-                                -- Sometimes the API returns messy objective data (finished=false, but numRequired==numFulfilled)
-                                local questIsIncompleteButObjectiveIsComplete = ((not quest.isComplete) and objective.Completed == true and #quest.Objectives == 1)
-                                if (objective.Completed ~= true or (objective.Completed == true and #quest.Objectives > 1) or questIsIncompleteButObjectiveIsComplete) then
-                                    line.label:SetText(TrackerData.GetObjectiveText(objective))
-                                    TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft)
-                                end
-
-                                -- Adds 1 pixel between multiple Objectives
-                                line:SetHeight(line.label:GetHeight() + 1)
-
-                                -- Set Objective state
-                                line:Show()
-                                line.label:Show()
                             end
                         end
 
                         -- Add complete/failed Quest Objectives and tag them as either complete or failed so as to always have at least one objective.
                         -- Some quests have "Blizzard Completion Text" that is displayed to show where to go next or where to turn in the quest.
                     elseif (complete == 1 or complete == -1 or quest.isComplete == true) and (not (timedQuest and isMinimizable and Questie.db.profile.collapseCompletedQuests)) then
-                        line = TrackerLinePool.GetQuestObjectiveLine(quest, nil, lineWidthQBC)
+                        local objectiveText
+                        local isCompletionText = ((complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil)) and objectiveColor ~= "minimal"
+                        if isCompletionText then
+                            -- Blizzard Completion text for single objectives
+                            objectiveText = completionText
+                        elseif complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true and completionText == nil and complete ~= -1) then
+                            objectiveText = Questie:Colorize(l10n("Quest Complete!"), "28FF28")
+                        elseif complete == -1 then
+                            objectiveText = Questie:Colorize(l10n("Quest Failed!"), "red")
+                        end
+
+                        line = LineBuilder.AddObjective({
+                            text = objectiveText or "",
+                            clickMode = "quest",
+                            target = quest,
+                            marginLeft = objectiveMarginLeft,
+                        })
                         if (not line) then
                             break
                         end
 
-                        -- Set Objective label based on states
-                        if ((complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil)) and objectiveColor ~= "minimal" then
-                            -- Set Blizzard Completion text for single objectives
-                            line.label:SetText(completionText)
-                            TrackerLayout.UpdateLineWidth(line, objectiveMarginLeft)
-
-                            -- Hide the Secondary Quest Item Button. There are some quests with usable items after a quest is completed I
-                            -- have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
-                            if secondaryButton then
-                                line.altButton:SetParent(UIParent)
-                                line.altButton:Hide()
-                            end
-                        else
-                            if complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true and completionText == nil and complete ~= -1) then
-                                line.label:SetText(Questie:Colorize(l10n("Quest Complete!"), "28FF28"))
-                            elseif complete == -1 then
-                                line.label:SetText(Questie:Colorize(l10n("Quest Failed!"), "red"))
-                            end
-
-                            -- Check and measure Objective text width and update tracker width
-                            TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
-
-                            -- Set Objective Label and Line widths
-                            line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - lineLabelBaseFrameQBC)
-                            line:SetWidth(line.label:GetWidth() + lineWidthQBC)
-
-                            -- Compare largest text Label in the tracker with current Label, then save widest width
-                            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + lineWidthQBC)
+                        -- Hide the Secondary Quest Item Button. There are some quests with usable items after a quest is completed I
+                        -- have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
+                        if isCompletionText and secondaryButton then
+                            line.altButton:SetParent(UIParent)
+                            line.altButton:Hide()
                         end
-
-                        -- Set Objective state
-                        line:Show()
-                        line.label:Show()
                     end
                 end
 
-                -- Safety check in case we hit the linePool limit
-                if (not line) then
-                    line = TrackerLinePool.GetLastLine()
-                end
-
-                -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
-                line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
+                LineBuilder.FinishEntry(line)
             end
 
             secondaryButton = false
