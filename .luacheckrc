@@ -1767,6 +1767,7 @@ globals = {
     "IsSwimming",
     "IsTestBuild",
     "IsTrackedAchievement",
+    "AddTrackedAchievement",
     "IsTradeskillTrainer",
     "IsTrainerServiceLearnSpell",
     "IsTrialAccount",
