@@ -1,5 +1,6 @@
 dofile("setupTests.lua")
 local stub = require("luassert.stub")
+local match = require("luassert.match")
 
 _G.GetQuestTimers = function() return nil end
 
@@ -41,6 +42,7 @@ describe("QuestieTracker", function()
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
 
+        dofile("Modules/Tracker/TrackerLayout.lua")
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
     end)
@@ -59,6 +61,7 @@ describe("QuestieTracker", function()
             afterMock = spy.new(function() end)
             _G.C_Timer = {After = afterMock}
             registerEventMock = stub(Questie, "RegisterEvent")
+            dofile("Modules/Tracker/TrackerLayout.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
         end)
 
@@ -90,45 +93,6 @@ describe("QuestieTracker", function()
             assert.spy(registerEventMock).was.called(1)
             assert.equal("BAG_UPDATE_DELAYED", registerEventMock.calls[1].vals[2])
             assert.spy(afterMock).was.called(1)
-        end)
-    end)
-
-    describe("achievement UI integration", function()
-        local loadedMock, focusMock, countMock, removeMock, timeMock, shiftMock
-        local originalAchievementFrame
-
-        before_each(function()
-            local compat = QuestieLoader:ImportModule("QuestieCompat")
-            loadedMock = stub(compat, "IsAddOnLoaded", function() return true end)
-            focusMock = stub(compat, "GetMouseFocus")
-            countMock = stub(_G, "GetNumTrackedAchievements", function() return 0 end)
-            removeMock = stub(_G, "RemoveTrackedAchievement")
-            timeMock = stub(_G, "GetTime", function() return 0 end)
-            shiftMock = stub(_G, "IsShiftKeyDown", function() return false end)
-            originalAchievementFrame = _G.AchievementFrame
-            _G.AchievementFrame = {IsShown = function() return false end}
-            Questie.db.char.trackedAchievementIds = {}
-            Questie.db.char.collapsedZones = {}
-            dofile("Modules/Tracker/QuestieTracker.lua")
-            timeMock.returns(1)
-        end)
-
-        after_each(function()
-            loadedMock:revert()
-            focusMock:revert()
-            countMock:revert()
-            removeMock:revert()
-            timeMock:revert()
-            shiftMock:revert()
-            _G.AchievementFrame = originalAchievementFrame
-        end)
-
-        it("does not inspect Blizzard's tracked checkbox when Krowi is loaded", function()
-            QuestieTracker:TrackAchieve(123)
-
-            assert.spy(loadedMock).was.called_with("Krowi_AchievementFilter")
-            assert.spy(focusMock).was.not_called()
-            assert.spy(removeMock).was.called_with(123, true)
         end)
     end)
 
@@ -413,8 +377,8 @@ describe("QuestieTracker", function()
 
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
-        local timeMock, combatMock, countMock, instanceMock, infoMock
-        local header, pool, revision
+        local timeMock, combatMock, countMock, instanceMock, infoMock, screenMock
+        local header, pool, revision, RecipeSection, ScenarioSection, AchievementSection, QuestSection, drawnSections
 
         before_each(function()
             now, inCombat = 0, false
@@ -422,6 +386,7 @@ describe("QuestieTracker", function()
             combatMock = stub(_G, "InCombatLockdown", function() return inCombat end)
             instanceMock = stub(_G, "IsInInstance", function() return false end)
             infoMock = stub(_G, "GetInstanceInfo", function() return "Outside", "none" end)
+            screenMock = stub(_G, "GetScreenWidth", function() return 1000 end)
             countMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetNumQuestWatches", function() return 0 end)
             expansion = QuestieLoader:ImportModule("Expansions")
             originalExpansion = expansion.Current
@@ -433,12 +398,17 @@ describe("QuestieTracker", function()
             Questie.db.profile.trackerFontSizeZone = 12
             Questie.db.profile.trackerFontSizeQuest = 10
             Questie.db.profile.trackerFontSizeObjective = 10
+            Questie.db.profile.trackerWidthRatio = 0.5
 
             TrackerData.Refresh = spy.new(function() return {} end)
             revision = 0
             TrackerData.GetLayoutRevision = function() return revision end
             local base = QuestieLoader:ImportModule("TrackerBaseFrame")
-            base.Initialize = function() return CreateFrame("Frame") end
+            base.Initialize = function()
+                local baseFrame = CreateFrame("Frame")
+                baseFrame.GetWidth = function() return 200 end
+                return baseFrame
+            end
             base.Update = function() end
             header = QuestieLoader:ImportModule("TrackerHeaderFrame")
             header.Initialize = function() return {} end
@@ -452,6 +422,15 @@ describe("QuestieTracker", function()
             pool.ResetLinesForChange = function() end
             pool.ResetButtonsForChange = function() end
             pool.GetLastLine = function() return nil end
+            RecipeSection = QuestieLoader:ImportModule("RecipeSection")
+            RecipeSection.Draw = spy.new(function() end)
+            ScenarioSection = QuestieLoader:ImportModule("ScenarioSection")
+            ScenarioSection.Draw = spy.new(function() end)
+            AchievementSection = QuestieLoader:ImportModule("AchievementSection")
+            AchievementSection.Draw = spy.new(function() table.insert(drawnSections, "achievements") end)
+            QuestSection = QuestieLoader:ImportModule("QuestSection")
+            QuestSection.Draw = spy.new(function() table.insert(drawnSections, "quests") end)
+            drawnSections = {}
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
@@ -460,6 +439,7 @@ describe("QuestieTracker", function()
             end)
 
             dofile("Localization/l10n.lua")
+            dofile("Modules/Tracker/TrackerLayout.lua")
             dofile("Modules/Tracker/QuestieTracker.lua")
             QuestieTracker.started = false
             QuestieTracker.alreadyHooked = nil
@@ -474,9 +454,65 @@ describe("QuestieTracker", function()
             countMock:revert()
             instanceMock:revert()
             infoMock:revert()
+            screenMock:revert()
+            Questie.db.profile.listAchievementsFirst = nil
             expansion.Current = originalExpansion
             _G.C_Timer, _G.DurabilityFrame = originalTimer, originalDurability
             _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = originalBindingLabel
+        end)
+
+        it("should draw quests and recipes outside scenarios before WotLK", function()
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(QuestSection.Draw).was.called(1)
+            assert.spy(RecipeSection.Draw).was.called(1)
+            assert.spy(ScenarioSection.Draw).was.not_called()
+            assert.spy(AchievementSection.Draw).was.not_called()
+        end)
+
+        it("should draw the achievement section from WotLK on", function()
+            expansion.Current = expansion.Wotlk
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.are_same({"quests", "achievements"}, drawnSections)
+        end)
+
+        it("should draw achievements before quests when configured", function()
+            expansion.Current = expansion.Wotlk
+            Questie.db.profile.listAchievementsFirst = true
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.are_same({"achievements", "quests"}, drawnSections)
+        end)
+
+        it("should only draw the scenario section in a scenario", function()
+            expansion.Current = expansion.MoP
+            infoMock.invokes(function() return "Scenario", "scenario" end)
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(ScenarioSection.Draw).was.called_with(false)
+            assert.spy(QuestSection.Draw).was.not_called()
+            assert.spy(RecipeSection.Draw).was.not_called()
+        end)
+
+        it("should draw the scenario section with the timer in a Challenge Mode", function()
+            expansion.Current = expansion.MoP
+            infoMock.invokes(function() return "Temple of the Jade Serpent", "party", 8, "Challenge Mode" end)
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(ScenarioSection.Draw).was.called_with(true)
+            assert.spy(QuestSection.Draw).was.not_called()
+            assert.spy(RecipeSection.Draw).was.not_called()
         end)
 
         it("refreshes once before layout and sorting read the snapshot", function()

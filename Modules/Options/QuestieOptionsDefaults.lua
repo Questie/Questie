@@ -248,7 +248,6 @@ function QuestieOptionsDefaults:Load()
             collapsedZones = {},
             minAllQuestsInZone = {},
             collapsedQuests = {},
-            trackedAchievementIds = {},
         },
         global = {
             questieLocale = "enUS",

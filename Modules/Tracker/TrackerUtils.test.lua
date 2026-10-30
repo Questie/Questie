@@ -22,7 +22,7 @@ describe("TrackerUtils", function()
     local TrackerData, trackerQuests
     local originalSpecialItemInfo
     local originalGlobals, originalExpansion, originalIsCata, originalIsWotlk
-    local globalNames = {"C_Map", "GetNumQuestWatches", "GetNumTrackedAchievements", "GetQuestLogIndexByID",
+    local globalNames = {"C_Map", "GetNumQuestWatches", "GetQuestLogIndexByID",
         "IsQuestWatched", "GetQuestLogCompletionText"}
     local rePositionLineMock
     local match = require("luassert.match")
@@ -66,6 +66,7 @@ describe("TrackerUtils", function()
         TrackerData.GetQuests = function() return trackerQuests end
         TrackerData.GetQuest = function(id) return trackerQuests[id] end
         TrackerData.RefreshQuest = spy.new(function(id) return trackerQuests[id] end)
+        QuestieLoader:ImportModule("TrackerRecipes").HasShownRecipes = function() return false end
         dofile("Modules/Tracker/TrackerMapEligibility.lua")
         originalSpecialItemInfo = _G.GetQuestLogSpecialItemInfo
         _G.GetQuestLogSpecialItemInfo = nil
@@ -1074,10 +1075,19 @@ describe("TrackerUtils", function()
     end)
 
     describe("HasQuest", function()
+        local achievementIds, originalGetTrackedIds
 
         before_each(function()
             Questie.IsCata = false
             Questie.IsWotlk = false
+            achievementIds = {}
+            local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
+            originalGetTrackedIds = AchievementTracking.GetTrackedIds
+            AchievementTracking.GetTrackedIds = function() return achievementIds end
+        end)
+
+        after_each(function()
+            QuestieLoader:ImportModule("AchievementTracking").GetTrackedIds = originalGetTrackedIds
         end)
 
         it("should return true when a quest is tracked", function()
@@ -1090,7 +1100,7 @@ describe("TrackerUtils", function()
 
         it("should return true when no quest is tracked but an achievement for Cata", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 1 end
+            achievementIds = {1}
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
 
@@ -1101,7 +1111,7 @@ describe("TrackerUtils", function()
 
         it("should return true when no quest is tracked but an achievement for WotLK", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 1 end
+            achievementIds = {1}
             Questie.IsWotlk = true
             Expansions.Current = Expansions.Wotlk
 
@@ -1112,7 +1122,7 @@ describe("TrackerUtils", function()
 
         it("should return false when no quest and achievement is tracked for Cata", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 0 end
+            achievementIds = {}
             Questie.IsCata = true
             Expansions.Current = Expansions.Cata
 
@@ -1123,7 +1133,7 @@ describe("TrackerUtils", function()
 
         it("should return false when no quest and achievement is tracked for WotLK", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
-            _G.GetNumTrackedAchievements = function() return 0 end
+            achievementIds = {}
             Questie.IsWotlk = true
             Expansions.Current = Expansions.Wotlk
 
@@ -1134,6 +1144,26 @@ describe("TrackerUtils", function()
 
         it("should return false when no quest is tracked", function()
             QuestieTracker.GetNumTrackedQuests = function() return 0 end
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_false(hasQuest)
+        end)
+
+        it("should return true when no quest is tracked but a recipe", function()
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
+            QuestieLoader:ImportModule("TrackerRecipes").HasShownRecipes = function() return true end
+
+            local hasQuest = TrackerUtils.HasQuest()
+
+            assert.is_true(hasQuest)
+        end)
+
+        it("should return false when no quest is tracked and no tracked recipe can be shown yet", function()
+            QuestieTracker.GetNumTrackedQuests = function() return 0 end
+            local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
+            TrackerRecipes.HasTrackedRecipes = function() return true end
+            TrackerRecipes.HasShownRecipes = function() return false end
 
             local hasQuest = TrackerUtils.HasQuest()
 

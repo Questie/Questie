@@ -13,6 +13,7 @@ describe("EventHandler event dispatch", function()
     local QuestieProfessions
     local AvailableQuests
     local savedSkillCallbacks
+    local TrackerRecipes
 
     before_each(function()
         savedGlobals = {
@@ -63,6 +64,8 @@ describe("EventHandler event dispatch", function()
         }
         QuestieProfessions.Update = spy.new(function() return false, false end)
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
+        TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
+        TrackerRecipes.IsSupported = function() return false end
 
         dofile("Modules/EventHandler/EventHandler.lua")
         QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
@@ -123,6 +126,97 @@ describe("EventHandler event dispatch", function()
         callbacks.LOADING_SCREEN_ENABLED("LOADING_SCREEN_ENABLED")
         assert.spy(QuestLogCache.OnLoadingScreenEnabled).was.called(2)
         QuestLogCache.OnLoadingScreenEnabled = originalOnLoadingScreenEnabled
+    end)
+
+    describe("recipe tracking", function()
+        local QuestieTracker, QuestieCombatQueue, originalUpdate, originalQueue, originalCurrencyDisplayUpdate
+
+        before_each(function()
+            QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+            originalUpdate, originalQueue = QuestieTracker.Update, QuestieCombatQueue.Queue
+            originalCurrencyDisplayUpdate = QuestEventHandler.CurrencyDisplayUpdate
+            QuestieTracker.Update = spy.new(function() end)
+            QuestieCombatQueue.Queue = function(_, callback) callback() end
+            Questie.db.profile.trackerEnabled = true
+            TrackerRecipes.IsSupported = function() return true end
+            TrackerRecipes.HasTrackedRecipes = function() return true end
+            TrackerRecipes.OnItemInfoReceived = function(itemId) return itemId == 10 end
+            callbacks = {}
+            bucketEvents = {}
+            QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+        end)
+
+        after_each(function()
+            QuestieTracker.Update, QuestieCombatQueue.Queue = originalUpdate, originalQueue
+            QuestEventHandler.CurrencyDisplayUpdate = originalCurrencyDisplayUpdate
+        end)
+
+        it("should update the tracker when a recipe is tracked or untracked", function()
+            callbacks.TRACKED_RECIPE_UPDATE("TRACKED_RECIPE_UPDATE", 2538, true)
+
+            assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+
+        it("should update the tracker on bag changes while recipes are tracked", function()
+            bucketEvents.BAG_UPDATE_DELAYED.callback()
+
+            assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+
+        it("should not update the tracker on bag changes without tracked recipes", function()
+            TrackerRecipes.HasTrackedRecipes = function() return false end
+
+            bucketEvents.BAG_UPDATE_DELAYED.callback()
+
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
+        it("should update the tracker only for item data requested for recipes", function()
+            callbacks.ITEM_DATA_LOAD_RESULT("ITEM_DATA_LOAD_RESULT", 11, true)
+            assert.spy(QuestieTracker.Update).was.not_called()
+
+            callbacks.ITEM_DATA_LOAD_RESULT("ITEM_DATA_LOAD_RESULT", 10, true)
+            assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+
+        it("should not update the tracker when loading requested item data failed", function()
+            callbacks.ITEM_DATA_LOAD_RESULT("ITEM_DATA_LOAD_RESULT", 10, false)
+
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
+        it("should update the tracker on currency changes while a tracked recipe needs a currency", function()
+            QuestEventHandler.CurrencyDisplayUpdate = spy.new(function() end)
+            TrackerRecipes.HasCurrencyReagents = function() return true end
+
+            callbacks.CURRENCY_DISPLAY_UPDATE("CURRENCY_DISPLAY_UPDATE")
+
+            assert.spy(QuestEventHandler.CurrencyDisplayUpdate).was.called(1)
+            assert.spy(QuestieTracker.Update).was.called(1)
+        end)
+
+        it("should not update the tracker on currency changes when no tracked recipe needs a currency", function()
+            QuestEventHandler.CurrencyDisplayUpdate = spy.new(function() end)
+            TrackerRecipes.HasCurrencyReagents = function() return false end
+
+            callbacks.CURRENCY_DISPLAY_UPDATE("CURRENCY_DISPLAY_UPDATE")
+
+            assert.spy(QuestEventHandler.CurrencyDisplayUpdate).was.called(1)
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
+        it("should not register recipe events when recipe tracking is not supported", function()
+            TrackerRecipes.IsSupported = function() return false end
+            callbacks = {}
+            bucketEvents = {}
+
+            QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+
+            assert.is_nil(callbacks.TRACKED_RECIPE_UPDATE)
+            assert.is_nil(bucketEvents.BAG_UPDATE_DELAYED)
+            assert.is_nil(callbacks.ITEM_DATA_LOAD_RESULT)
+        end)
     end)
 
     it("registers skill chat directly without a bucket or message relay", function()
@@ -198,12 +292,7 @@ describe("EventHandler event dispatch", function()
         assert.are.equal(registeredCallback, callbacks.SUPER_TRACKING_CHANGED)
     end)
 
-    it("retains the two-second modern skill-change bucket only when the legacy skill API is absent", function()
-        assert.is_nil(bucketEvents.SKILL_LINES_CHANGED)
-        _G.GetSkillLineInfo = nil
-
-        QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
-
+    it("should refresh professions in a two-second bucket when skills are learned or unlearned", function()
         assert.are.equal(2, bucketEvents.SKILL_LINES_CHANGED.interval)
         bucketEvents.SKILL_LINES_CHANGED.callback()
 

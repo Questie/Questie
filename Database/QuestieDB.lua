@@ -536,6 +536,35 @@ function QuestieDB:GetZoneOrSortForClass(class)
 end
 
 local questTagInfoCache = {}
+local questTagRetryQueue = {}
+local questTagRetryTimer = false
+
+local function ProcessQuestTagRetry()
+    questTagRetryTimer = false
+
+    local queue = questTagRetryQueue
+    questTagRetryQueue = {}
+
+    for questId in pairs(queue) do
+        local questTagId, questTagName = QuestieCompat.GetQuestTagInfo(questId)
+
+        questTagInfoCache[questId] = {
+            questTagId,
+            questTagName,
+        }
+    end
+end
+
+local function ScheduleQuestTagRetry(questId)
+    questTagRetryQueue[questId] = true
+
+    if questTagRetryTimer then
+        return
+    end
+
+    questTagRetryTimer = true
+    C_Timer.After(1, ProcessQuestTagRetry)
+end
 
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard and cache the results.
@@ -543,29 +572,29 @@ local questTagInfoCache = {}
 ---@return number|nil questTagId
 ---@return string|nil questTagName
 function QuestieDB.GetQuestTagInfo(questId)
-    if questTagInfoCache[questId] then
-        return questTagInfoCache[questId][1], questTagInfoCache[questId][2]
+    local cached = questTagInfoCache[questId]
+
+    if cached then
+        return cached[1], cached[2]
     end
 
-    local questTagCorrections = _QuestieDB.questTagCorrections
-    local questTagId, questTagName
-    if questTagCorrections[questId] then
-        questTagId, questTagName = questTagCorrections[questId][1], questTagCorrections[questId][2]
-    else
-        questTagId, questTagName = QuestieCompat.GetQuestTagInfo(questId)
+    local correction = _QuestieDB.questTagCorrections[questId]
 
-        if questTagId == nil and questTagName == nil then
-            -- Retry the API call after a short delay, as the API tends to incorrectly return nil on the first call.
-            -- Doing it here asserts, we only call the API twice per quest at most.
-            C_Timer.After(1, function()
-                local retryQuestTagId, retryQuestTagName = QuestieCompat.GetQuestTagInfo(questId)
-                questTagInfoCache[questId] = {retryQuestTagId, retryQuestTagName}
-            end)
-        end
+    if correction then
+        questTagInfoCache[questId] = correction
+        return correction[1], correction[2]
     end
 
-    -- cache the result to avoid hitting the API throttling limit
-    questTagInfoCache[questId] = {questTagId, questTagName}
+    local questTagId, questTagName = QuestieCompat.GetQuestTagInfo(questId)
+
+    questTagInfoCache[questId] = {
+        questTagId,
+        questTagName,
+    }
+
+    if questTagId == nil and questTagName == nil then
+        ScheduleQuestTagRetry(questId)
+    end
 
     return questTagId, questTagName
 end

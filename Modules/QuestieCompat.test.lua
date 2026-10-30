@@ -1525,3 +1525,96 @@ describe("QuestieCompat.GetQuestUiMapID", function()
         assert.is_nil(QuestieCompat.GetQuestUiMapID(123))
     end)
 end)
+
+describe("QuestieCompat skill lines", function()
+    ---@type QuestieCompat
+    local QuestieCompat
+    local saved
+
+    before_each(function()
+        saved = {
+            C_SkillInfo = _G.C_SkillInfo,
+            GetNumSkillLines = _G.GetNumSkillLines,
+            GetSkillLineInfo = _G.GetSkillLineInfo,
+            ExpandSkillHeader = _G.ExpandSkillHeader,
+        }
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        for name, value in pairs(saved) do
+            _G[name] = value
+        end
+    end)
+
+    describe("with C_SkillInfo", function()
+        local skillLines
+
+        before_each(function()
+            _G.GetNumSkillLines, _G.GetSkillLineInfo, _G.ExpandSkillHeader = nil, nil, nil
+            skillLines = {
+                {skillID = 0, name = "Secondary Skills", isHeader = true, isCollapsed = true, rank = 0},
+                {skillID = 762, name = "Riding", isHeader = false, isCollapsed = false, rank = 75},
+            }
+            _G.C_SkillInfo = {
+                GetNumSkillLines = function() return #skillLines end,
+                GetSkillLineInfo = function(index) return skillLines[index] end,
+                ExpandSkillHeader = spy.new(function(index) skillLines[index].isCollapsed = false end),
+            }
+        end)
+
+        it("should return the skill line with its skill line ID", function()
+            assert.are.same({"Riding", false, 75, 762}, {QuestieCompat.GetSkillLineInfo(2)})
+        end)
+
+        it("should return nothing for a missing skill line", function()
+            assert.is_nil(QuestieCompat.GetSkillLineInfo(3))
+        end)
+
+        it("should count the skill lines", function()
+            assert.are.equal(2, QuestieCompat.GetNumSkillLines())
+        end)
+
+        it("should expand collapsed headers", function()
+            QuestieCompat.ExpandAllSkillHeaders()
+
+            assert.spy(C_SkillInfo.ExpandSkillHeader).was.called(1)
+            assert.spy(C_SkillInfo.ExpandSkillHeader).was.called_with(1)
+        end)
+    end)
+
+    describe("with the Classic skill line API", function()
+        before_each(function()
+            _G.C_SkillInfo = nil
+            _G.GetNumSkillLines = function() return 3 end
+            _G.GetSkillLineInfo = function() return "Riding", false, nil, 75 end
+            _G.ExpandSkillHeader = spy.new(function() end)
+        end)
+
+        it("should return the skill line without a skill line ID", function()
+            assert.are.same({"Riding", false, 75}, {QuestieCompat.GetSkillLineInfo(1)})
+        end)
+
+        it("should count the skill lines", function()
+            assert.are.equal(3, QuestieCompat.GetNumSkillLines())
+        end)
+
+        it("should expand all headers at once when a header is collapsed", function()
+            _G.GetSkillLineInfo = function(index) return "Header", index == 2, false end
+
+            QuestieCompat.ExpandAllSkillHeaders()
+
+            assert.spy(ExpandSkillHeader).was.called(1)
+            assert.spy(ExpandSkillHeader).was.called_with(0)
+        end)
+
+        it("should not expand headers when all headers are expanded", function()
+            _G.GetSkillLineInfo = function() return "Header", true, true end
+
+            QuestieCompat.ExpandAllSkillHeaders()
+
+            assert.spy(ExpandSkillHeader).was.not_called()
+        end)
+    end)
+end)

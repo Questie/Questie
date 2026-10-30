@@ -30,6 +30,8 @@ local Popup = QuestieLoader:ImportModule("QuestiePopup")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -619,8 +621,7 @@ TrackerMenu.addUntrackAchieveOption = function(menu, achieve)
         text = l10n('Untrack Achievement'),
         func = function()
             LibDropDown:CloseDropDownMenus()
-            QuestieTracker:UntrackAchieveId(achieve.Id)
-            QuestieTracker:UpdateAchieveTrackerCache(achieve.Id)
+            AchievementTracking.Untrack(achieve.Id)
 
             if (not AchievementFrame) then
                 AchievementFrame_LoadUI()
@@ -664,10 +665,8 @@ function TrackerMenu:GetMenuForAchievement(achieve)
     TrackerMenu.addAchieveLinkToChatOption(menu, achieve)
     TrackerMenu.addShowInAchievementsOption(menu, achieve)
 
-    for trackedId, _ in pairs(Questie.db.char.trackedAchievementIds) do
-        if trackedId == achieve.Id then
-            TrackerMenu.addUntrackAchieveOption(menu, achieve)
-        end
+    if AchievementTracking.IsTracked(achieve.Id) then
+        TrackerMenu.addUntrackAchieveOption(menu, achieve)
     end
 
     tinsert(menu, {

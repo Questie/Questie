@@ -252,7 +252,15 @@ Modules\Journey\QuestieSearchResults.lua
 # Tracker
 Modules\Tracker\TrackerQuestieBehavior.lua
 Modules\Tracker\TrackerData.lua
+Modules\Tracker\AchievementTracking.lua
+Modules\Tracker\TrackerAchievements.lua
+Modules\Tracker\TrackerRecipes.lua
 Modules\Tracker\TrackerMapEligibility.lua
+Modules\Tracker\TrackerLayout.lua
+Modules\Tracker\Sections\RecipeSection.lua
+Modules\Tracker\Sections\ScenarioSection.lua
+Modules\Tracker\Sections\AchievementSection.lua
+Modules\Tracker\Sections\QuestSection.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\Sorter\Sorter.lua
 Modules\Tracker\Sorter\byComplete.lua

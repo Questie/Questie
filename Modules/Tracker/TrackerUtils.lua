@@ -14,8 +14,12 @@ local Sorter = QuestieLoader:ImportModule("Sorter")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type QuestFocusButton
 local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerRecipes
+local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type TrackerMapEligibility
 local TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
 ---@type TrackerFadeTicker
@@ -1290,7 +1294,7 @@ function TrackerUtils.HasQuest()
 
     if (QuestieTracker.GetNumTrackedQuests() == 0) then
         if Expansions.Current >= Expansions.Wotlk then
-            if (GetNumTrackedAchievements(true) == 0) then
+            if (not next(AchievementTracking.GetTrackedIds())) then
                 hasQuest = false
             else
                 hasQuest = true
@@ -1318,6 +1322,11 @@ function TrackerUtils.HasQuest()
         else
             hasQuest = true
         end
+    end
+
+    -- Recipes whose data is not loaded yet are not shown, so only the shown ones keep the tracker visible
+    if (not hasQuest) and TrackerRecipes.HasShownRecipes() then
+        hasQuest = true
     end
 
     Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils.HasQuest] - ", hasQuest)

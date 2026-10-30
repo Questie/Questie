@@ -11,12 +11,12 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
 ---@type TrackerLine
 local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
+---@type TrackerLayout
+local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
----@type QuestFocusButton
-local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 
 local coYield = coroutine.yield
 
@@ -83,6 +83,7 @@ function TrackerLinePool.ResetLinesForChange()
 
     for _, line in pairs(linePool) do
         line.mode = nil
+        line.Recipe = nil
         line.trackTimedQuest = nil
         line.questHasSecondaryQIB = false
         if line.expandQuest then
@@ -144,12 +145,9 @@ function TrackerLinePool.UpdateQuestTitleLines(callback)
 end
 
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
-    local trackerFontSizeQuest = Questie.db.profile.trackerFontSizeQuest
-    local trackerMarginLeft = 14
-    local trackerMarginRight = 30
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest) + QuestFocusButton.GetColumnWidth()
-    local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
-    local questItemButtonSize = 12 + trackerFontSizeQuest
+    local margins = TrackerLayout.GetMargins()
+    local objectiveMarginLeft = margins.objective
+    local questItemButtonSize = margins.itemButtonSize
 
     -- Updates all the line.label widths in the linePool for wrapped text only
     for _, line in pairs(linePool) do
@@ -251,7 +249,7 @@ function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
     return line
 end
 
----@param achieve Achievement
+---@param achieve TrackerAchievement|{Id: number}
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
@@ -274,7 +272,7 @@ function TrackerLinePool.GetAchievementTitleLine(achieve, lineWidth)
     return line
 end
 
----@param achieve Achievement
+---@param achieve TrackerAchievement|{Id: number}
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil
 function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
@@ -296,6 +294,44 @@ function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
 
     return line
+end
+
+---@param recipe TrackerRecipe
+---@param mode "quest"|"objective"
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+local function _GetRecipeLine(recipe, mode, lineWidth)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    line:SetMode(mode)
+    line:SetOnClick("recipe")
+    line:SetRecipe(recipe)
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
+
+    return line
+end
+
+---@param recipe TrackerRecipe
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetRecipeTitleLine(recipe, lineWidth)
+    return _GetRecipeLine(recipe, "quest", lineWidth)
+end
+
+---@param recipe TrackerRecipe
+---@param lineWidth number
+---@return TrackerLineFrame|nil
+function TrackerLinePool.GetRecipeReagentLine(recipe, lineWidth)
+    return _GetRecipeLine(recipe, "objective", lineWidth)
 end
 
 ---@return table|nil buttonIndex buttonPool[buttonIndex]
@@ -353,6 +389,7 @@ function TrackerLinePool.HideUnusedLines()
             line.mode = nil
             line.ZoneId = nil
             line.Quest = nil
+            line.Recipe = nil
             line.Objective = nil
             line.Button = nil
             line.altButton = nil
@@ -471,7 +508,8 @@ TrackerLinePool.OnHighlightEnter = function(self)
         local line = linePool[i]
         line:SetAlpha(0.5)
 
-        if (line.Quest ~= nil and line.Quest == self.Quest) or (line.expandZone ~= nil and self:GetParent().expandZone ~= nil and line.expandZone.zoneId == self:GetParent().expandZone.zoneId) then
+        if (line.Quest ~= nil and line.Quest == self.Quest) or (line.Recipe ~= nil and line.Recipe == self.Recipe)
+            or (line.expandZone ~= nil and self:GetParent().expandZone ~= nil and line.expandZone.zoneId == self:GetParent().expandZone.zoneId) then
             line:SetAlpha(1)
         end
     end

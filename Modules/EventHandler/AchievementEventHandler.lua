@@ -1,35 +1,35 @@
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-
 ---@class AchievementEventHandler
 local AchievementEventHandler = QuestieLoader:CreateModule("AchievementEventHandler")
 
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
--- Earned Achievement update
-function AchievementEventHandler.AchievementEarned(achievementID)
+-- Earned Achievement update. The game removes an earned achievement from its tracked list itself
+function AchievementEventHandler.AchievementEarned()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
-    QuestieTracker:UntrackAchieveId(achievementID)
-    QuestieTracker:UpdateAchieveTrackerCache(achievementID)
-
-    if (not AchievementFrame) then
-        AchievementFrame_LoadUI()
-    end
-
-    QuestieCompat.AchievementFrameAchievements_ForceUpdate()
-
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
 end
 
 -- Track/Untrack Achievement updates
-function AchievementEventHandler.TrackedAchievementListChanged(achievementID)
+---@param achievementId number?
+function AchievementEventHandler.TrackedAchievementListChanged(achievementId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_LIST_CHANGED")
-    QuestieTracker:UpdateAchieveTrackerCache(achievementID)
+
+    if achievementId and achievementId ~= 0 and AchievementTracking.IsTracked(achievementId) then
+        -- Forces a newly tracked achievement and the Achievements zone out of a minimized state
+        Questie.db.char.collapsedQuests[achievementId] = nil
+        Questie.db.char.collapsedZones["Achievements"] = nil
+    end
+
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
 end
 
 -- Timed based Achievement updates
@@ -44,7 +44,7 @@ end
 function AchievementEventHandler.CriteriaUpdate()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CRITERIA_UPDATE")
 
-    if Questie.db.char.trackedAchievementIds and next(Questie.db.char.trackedAchievementIds) then
+    if next(AchievementTracking.GetTrackedIds()) then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
