@@ -275,8 +275,8 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", AchievementEventHandler.AchievementEarned)
 
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", AchievementEventHandler.TrackedAchievementUpdate)
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achievementId, added)
-            AchievementEventHandler.TrackedAchievementListChanged(achievementId, added)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achievementId)
+            AchievementEventHandler.TrackedAchievementListChanged(achievementId)
         end)
 
         -- This fires pretty often, multiple times for a single Achievement change and also for things most likely not related to Achievements at all.
