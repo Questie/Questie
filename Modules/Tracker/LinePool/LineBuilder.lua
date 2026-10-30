@@ -30,6 +30,22 @@ local function _CleanUpMinAllQuestsInZone(key)
     Questie.db.char.minAllQuestsInZone[key] = nil
 end
 
+---@alias LineClickMode "quest"|"achieve"|"recipe"
+
+---@param line TrackerLineFrame
+---@param clickMode LineClickMode
+---@param target table The quest, achievement or recipe stored on the line
+---@param objective table?
+local function _SetTarget(line, clickMode, target, objective)
+    line:SetOnClick(clickMode)
+    if clickMode == "recipe" then
+        line:SetRecipe(target)
+    else
+        line:SetQuest(target)
+        line:SetObjective(objective)
+    end
+end
+
 ---@param options HeaderLineOptions
 ---@return TrackerLineFrame|nil line, boolean collapsed
 function LineBuilder.AddHeader(options)
@@ -78,6 +94,67 @@ function LineBuilder.AddHeader(options)
     line.Quest = nil
     line.Objective = nil
     line.Recipe = nil
+
+    return line, collapsed
+end
+
+---@class TitleLineOptions
+---@field text string The shown text, it is colored yellow
+---@field clickMode LineClickMode
+---@field target table The quest, achievement or recipe stored on the line
+---@field collapseId number? Shows the expand button and uses collapsedQuests[collapseId]
+---@field zoneKey string? The collapsedZones key of the header above, for the minAllQuestsInZone bookkeeping
+
+---@param options TitleLineOptions
+---@return TrackerLineFrame|nil line, boolean collapsed
+function LineBuilder.AddTitle(options)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil, false
+    end
+
+    local margins = TrackerLayout.GetMargins()
+    local collapseId = options.collapseId
+    local collapsed = collapseId ~= nil and Questie.db.char.collapsedQuests[collapseId] and true or false
+
+    -- Achievement titles must not be mistaken for quest titles by TrackerLinePool.UpdateQuestTitleLines
+    line:SetMode(options.clickMode == "achieve" and "achieve" or "quest")
+    _SetTarget(line, options.clickMode, options.target)
+    line.expandZone:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", margins.quest, 0)
+
+    if collapseId == nil then
+        line.expandQuest:Hide()
+    else
+        line.expandQuest:Show()
+        line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.quest - 8, 1)
+        line.expandQuest.zoneId = options.zoneKey
+
+        -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the zone header (MouseDown).
+        -- QuestieTracker:Update is triggered and the table is then filled with all ids in the same zone.
+        local minAllQuests = options.zoneKey and Questie.db.char.minAllQuestsInZone[options.zoneKey]
+        if minAllQuests and minAllQuests.isTrue then
+            minAllQuests[collapseId] = true
+        end
+
+        line.expandQuest:SetMode(collapsed and 0 or 1)
+    end
+
+    line.label:SetText("|cFFFFFF00" .. options.text .. "|r")
+
+    TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.right)
+    line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.quest - margins.right)
+    line:SetWidth(line.label:GetWidth() + margins.quest)
+    TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.quest)
+
+    -- Adds 4 pixels between the title and the first objective
+    line:SetHeight(line.label:GetHeight() + 4)
+    line:Show()
+    line.label:Show()
 
     return line, collapsed
 end

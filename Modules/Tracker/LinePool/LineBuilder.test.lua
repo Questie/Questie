@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local match = require("luassert.match")
 
 describe("LineBuilder", function()
     ---@type LineBuilder
@@ -170,6 +171,101 @@ describe("LineBuilder", function()
             LineBuilder.AddHeader({key = "Westfall", text = "Westfall"})
 
             assert.is_not_nil(Questie.db.char.minAllQuestsInZone.Westfall)
+        end)
+    end)
+
+    describe("AddTitle", function()
+        local achievement
+
+        before_each(function()
+            achievement = {Id = 4}
+        end)
+
+        it("should return nil when the line pool is exhausted", function()
+            TrackerLinePool.GetNextLine = function() return nil end
+
+            local line, collapsed = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement})
+
+            assert.is_nil(line)
+            assert.is_false(collapsed)
+        end)
+
+        it("should set up an achievement title", function()
+            local line = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement, collapseId = 4, zoneKey = "Achievements"})
+
+            assert.spy(line.SetMode).was.called_with(match._, "achieve")
+            assert.spy(line.SetOnClick).was.called_with(match._, "achieve")
+            assert.spy(line.SetQuest).was.called_with(match._, achievement)
+            assert.spy(line.SetObjective).was.called()
+            assert.spy(line.SetRecipe).was.not_called()
+            assert.spy(line.expandZone.Hide).was.called()
+            assert.spy(line.criteriaMark.Hide).was.called()
+            assert.spy(line.playButton.Hide).was.called()
+            assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 20, 0)
+            assert.spy(line.label.SetText).was.called_with(match._, "|cFFFFFF00Title|r")
+        end)
+
+        it("should set up a recipe title without an expand button", function()
+            local recipe = {Id = 2538}
+
+            local line = LineBuilder.AddTitle({text = "Recipe", clickMode = "recipe", target = recipe})
+
+            assert.spy(line.SetMode).was.called_with(match._, "quest")
+            assert.spy(line.SetOnClick).was.called_with(match._, "recipe")
+            assert.spy(line.SetRecipe).was.called_with(match._, recipe)
+            assert.spy(line.SetQuest).was.not_called()
+            assert.spy(line.expandQuest.Hide).was.called()
+            assert.spy(line.expandQuest.Show).was.not_called()
+        end)
+
+        it("should show the expand button of an expanded title", function()
+            local line, collapsed = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement, collapseId = 4, zoneKey = "Achievements"})
+
+            assert.is_false(collapsed)
+            assert.spy(line.expandQuest.Show).was.called()
+            assert.spy(line.expandQuest.SetPoint).was.called_with(match._, "TOPRIGHT", match._, "TOPLEFT", 12, 1)
+            assert.are.equal("Achievements", line.expandQuest.zoneId)
+            assert.spy(line.expandQuest.SetMode).was.called_with(match._, 1)
+        end)
+
+        it("should show the expand button of a collapsed title as collapsed", function()
+            Questie.db.char.collapsedQuests = {[4] = true}
+
+            local line, collapsed = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement, collapseId = 4, zoneKey = "Achievements"})
+
+            assert.is_true(collapsed)
+            assert.spy(line.expandQuest.SetMode).was.called_with(match._, 0)
+        end)
+
+        it("should add the id to minAllQuestsInZone while all titles of the zone are minimized", function()
+            Questie.db.char.minAllQuestsInZone = {Achievements = {isTrue = true}}
+
+            LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement, collapseId = 4, zoneKey = "Achievements"})
+
+            assert.is_true(Questie.db.char.minAllQuestsInZone.Achievements[4])
+        end)
+
+        it("should not touch minAllQuestsInZone when it is not set for the zone", function()
+            LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement, collapseId = 4, zoneKey = "Achievements"})
+
+            assert.is_nil(Questie.db.char.minAllQuestsInZone.Achievements)
+        end)
+
+        it("should size the line and the tracker to the text", function()
+            local line = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement})
+
+            assert.are_same({150}, updatedWidths)
+            assert.are_same({120}, trackedWidths)
+            assert.spy(line.label.SetWidth).was.called_with(match._, 350)
+            assert.spy(line.SetWidth).was.called_with(match._, 270)
+        end)
+
+        it("should add 4 pixels below the title", function()
+            local line = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement})
+
+            assert.spy(line.SetHeight).was.called_with(match._, 16)
+            assert.spy(line.Show).was.called()
+            assert.spy(line.label.Show).was.called()
         end)
     end)
 end)

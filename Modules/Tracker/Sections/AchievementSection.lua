@@ -50,55 +50,25 @@ function AchievementSection.Draw()
 
         -- Add Achievements
         if (not Questie.db.char.collapsedZones[ZONE_NAME]) then
-            line = TrackerLinePool.GetAchievementTitleLine(achieve, margins.quest)
+            local title = achieve.Name
+            if Questie.db.profile.enableTooltipsQuestID then
+                title = title .. " (" .. achieve.Id .. ")"
+            end
+
+            local collapsed
+            line, collapsed = LineBuilder.AddTitle({
+                text = title,
+                clickMode = "achieve",
+                target = achieve,
+                collapseId = achieve.Id,
+                zoneKey = ZONE_NAME,
+            })
             if (not line) then
                 break
             end
 
-            -- Set Min/Max Button and default states
-            line.expandQuest:Show()
-            line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.quest - 8, 1)
-            line.expandQuest.zoneId = ZONE_NAME
-
-            -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the Zone header (MouseDown).
-            -- QuestieTracker:Update is triggered and the table is then filled with all Achievement ID's in the same Zone.
-            if Questie.db.char.minAllQuestsInZone[ZONE_NAME] ~= nil and Questie.db.char.minAllQuestsInZone[ZONE_NAME].isTrue then
-                Questie.db.char.minAllQuestsInZone[ZONE_NAME][achieve.Id] = true
-            end
-
-            -- Handles all the Min/Max behavior individually for each Achievement.
-            if Questie.db.char.collapsedQuests[achieve.Id] then
-                line.expandQuest:SetMode(0)
-            else
-                line.expandQuest:SetMode(1)
-            end
-
-            -- Set Achievement Title
-            if Questie.db.profile.enableTooltipsQuestID then
-                line.label:SetText("|cFFFFFF00" .. achieve.Name .. " (" .. achieve.Id .. ")|r")
-            else
-                line.label:SetText("|cFFFFFF00" .. achieve.Name .. "|r")
-            end
-
-            -- Check and measure Achievement Label text width and update tracker width
-            TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.right)
-
-            -- Set Achievement Label and Line widths
-            line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.quest - margins.right)
-            line:SetWidth(line.label:GetWidth() + margins.quest)
-
-            -- Compare largest text Label in the tracker with current Label, then save widest width
-            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.quest)
-
-            -- Adds 4 pixels between Achievement Title and first Objective
-            line:SetHeight(line.label:GetHeight() + 4)
-
-            -- Set Achievement states
-            line:Show()
-            line.label:Show()
-
             -- Add achievement Objectives (if applicable)
-            if (not Questie.db.char.collapsedQuests[achieve.Id]) then
+            if (not collapsed) then
                 for _, criteria in ipairs(achieve.Criteria) do
                     if criteria.IsDescription then
                         -- Achievements without criteria show their description

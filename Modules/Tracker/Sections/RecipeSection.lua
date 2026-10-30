@@ -34,21 +34,10 @@ function RecipeSection.Draw()
     end
 
     for _, recipe in ipairs(recipes) do
-        line = TrackerLinePool.GetRecipeTitleLine(recipe, margins.quest)
+        line = LineBuilder.AddTitle({text = recipe.Name, clickMode = "recipe", target = recipe})
         if (not line) then
             return
         end
-
-        line.label:SetText("|cFFFFFF00" .. recipe.Name .. "|r")
-        TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.right)
-        line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.quest - margins.right)
-        line:SetWidth(line.label:GetWidth() + margins.quest)
-        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.quest)
-
-        -- Adds 4 pixels between Recipe Title and first Reagent
-        line:SetHeight(line.label:GetHeight() + 4)
-        line:Show()
-        line.label:Show()
 
         for _, reagent in ipairs(recipe.Reagents) do
             line = TrackerLinePool.GetRecipeReagentLine(recipe, margins.objective)
