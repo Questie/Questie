@@ -3,10 +3,6 @@ local AchievementSection = QuestieLoader:CreateModule("AchievementSection")
 
 ---@type AchievementTracking
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
----@type TrackerLayout
-local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
----@type TrackerLinePool
-local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type LineBuilder
 local LineBuilder = QuestieLoader:ImportModule("LineBuilder")
 ---@type TrackerAchievements
@@ -19,7 +15,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local ZONE_NAME = "Achievements"
 
 function AchievementSection.Draw()
-    local margins = TrackerLayout.GetMargins()
     local objectiveColor = Questie.db.profile.trackerColorObjectives
     local line, zoneCheck
 
@@ -86,90 +81,22 @@ function AchievementSection.Draw()
                             target = {Id = criteria.LinkedAchievementId}
                         end
 
-                        -- Set Objectives with more than one Objective number criteria
+                        local text = QuestieLib:GetRGBForObjective(criteria) .. criteria.Text
                         if criteria.Progress then
-                            line = TrackerLinePool.GetAchievementObjectiveLine(target, margins.objective)
-                            if (not line) then
-                                break
-                            end
+                            text = text .. ": " .. criteria.Progress
+                        end
 
-                            -- Set Objective text
-                            line.label:SetText(QuestieLib:GetRGBForObjective(criteria) .. criteria.Text .. ": " .. criteria.Progress)
+                        line = LineBuilder.AddObjective({text = text, clickMode = "achieve", target = target})
+                        if (not line) then
+                            break
+                        end
 
-                            -- Check and measure Objective text width and update tracker width
-                            TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.objective + margins.right)
+                        -- Criteria without progress show a mark instead
+                        if (not criteria.Progress) and (not Questie.db.profile.hideCompletedAchieveObjectives) and (not objectiveColor or objectiveColor == "white") then
+                            line.criteriaMark:SetCriteria(criteria.Completed)
 
-                            -- Set Label width
-                            line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.objective - margins.right)
-
-                            -- Split Objective description and Progress/Needed into seperate lines
-                            if (TrackerLayout.GetLineWidth() < line.label:GetUnboundedStringWidth() + margins.objective) and (line.label:GetWidth() < line.label:GetUnboundedStringWidth() + 5) then
-                                -- Set Objective text
-                                line.label:SetText(QuestieLib:GetRGBForObjective(criteria) .. criteria.Text .. ": ")
-
-                                -- Check and measure Objective text width and update tracker width
-                                TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.objective + margins.right)
-
-                                -- Set Label and Line widths
-                                line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.objective - margins.right)
-                                line:SetWidth(line.label:GetWidth() + margins.objective)
-
-                                -- Compare largest text Label in the tracker with current Label, then save widest width
-                                TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.objective)
-
-                                -- Adds 1 pixel between split Objectives
-                                line:SetHeight(line.label:GetHeight() + 1)
-
-                                -- Set Objective state
-                                line:Show()
-                                line.label:Show()
-
-                                line = TrackerLinePool.GetAchievementObjectiveLine(achieve, margins.objective)
-                                if (not line) then
-                                    break
-                                end
-
-                                -- Set Objective text
-                                line.label:SetText(QuestieLib:GetRGBForObjective(criteria) .. "    > " .. criteria.Progress)
-
-                                -- Check and measure Objective text width and update tracker width
-                                TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.objective + margins.right)
-
-                                -- Set Label and Line widths
-                                line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.objective - margins.right)
-                                line:SetWidth(line.label:GetWidth() + margins.objective)
-                            else
-                                -- Set Line widths
-                                line:SetWidth(line.label:GetWidth() + margins.objective)
-
-                                -- Compare largest text Label in the tracker with current Label, then save widest width
-                                TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.objective)
-                            end
-
-                            -- Adds 1 pixel between multiple Objectives
-                            line:SetHeight(line.label:GetHeight() + 1)
-
-                            -- Set Objective state
-                            line:Show()
-                            line.label:Show()
-                        else
-                            -- Set Objectives with a single Objective number criteria
-                            line = LineBuilder.AddObjective({
-                                text = QuestieLib:GetRGBForObjective(criteria) .. criteria.Text,
-                                clickMode = "achieve",
-                                target = target,
-                            })
-                            if (not line) then
-                                break
-                            end
-
-                            -- Set Objective criteria mark
-                            if (not Questie.db.profile.hideCompletedAchieveObjectives) and (not objectiveColor or objectiveColor == "white") then
-                                line.criteriaMark:SetCriteria(criteria.Completed)
-
-                                if line.criteriaMark.mode == true then
-                                    line.criteriaMark:Show()
-                                end
+                            if line.criteriaMark.mode == true then
+                                line.criteriaMark:Show()
                             end
                         end
                     end

@@ -229,30 +229,6 @@ function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
     return line
 end
 
----@param achieve TrackerAchievement|{Id: number}
----@param lineWidth number
----@return TrackerLineFrame|nil
-function TrackerLinePool.GetAchievementObjectiveLine(achieve, lineWidth)
-    local line = TrackerLinePool.GetNextLine()
-    if (not line) then
-        return nil
-    end
-
-    line:SetMode("objective")
-    line:SetOnClick("achieve")
-    line:SetQuest(achieve)
-    line:SetObjective(nil)
-    line.expandZone:Hide()
-    line.expandQuest:Hide()
-    line.criteriaMark:Hide()
-    line.playButton:Hide()
-
-    line.label:ClearAllPoints()
-    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
-
-    return line
-end
-
 ---@return table|nil buttonIndex buttonPool[buttonIndex]
 function TrackerLinePool.GetNextItemButton()
     buttonIndex = buttonIndex + 1
