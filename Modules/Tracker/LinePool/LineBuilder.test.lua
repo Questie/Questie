@@ -251,6 +251,18 @@ describe("LineBuilder", function()
             assert.is_nil(Questie.db.char.minAllQuestsInZone.Achievements)
         end)
 
+        it("should not hide the play button of a quest title", function()
+            local line = LineBuilder.AddTitle({text = "Quest", clickMode = "quest", target = {Id = 1}})
+
+            assert.spy(line.playButton.Hide).was.not_called()
+        end)
+
+        it("should keep the color of a colored text", function()
+            local line = LineBuilder.AddTitle({text = "|cFF00FF00Quest|r", colored = true, clickMode = "quest", target = {Id = 1}})
+
+            assert.spy(line.label.SetText).was.called_with(match._, "|cFF00FF00Quest|r")
+        end)
+
         it("should size the line and the tracker to the text", function()
             local line = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement})
 
@@ -266,6 +278,27 @@ describe("LineBuilder", function()
             assert.spy(line.SetHeight).was.called_with(match._, 16)
             assert.spy(line.Show).was.called()
             assert.spy(line.label.Show).was.called()
+        end)
+    end)
+
+    describe("IndentTitle", function()
+        it("should move the title behind the indent with a gap of 2 pixels", function()
+            local line = _Line()
+
+            LineBuilder.IndentTitle(line, 24)
+
+            assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 46, 0)
+        end)
+
+        it("should size the line and the tracker to the indented text", function()
+            local line = _Line()
+
+            LineBuilder.IndentTitle(line, 24)
+
+            assert.are_same({174}, updatedWidths)
+            assert.are_same({144}, trackedWidths)
+            assert.spy(line.label.SetWidth).was.called_with(match._, 326)
+            assert.spy(line.SetWidth).was.called_with(match._, 294)
         end)
     end)
 
