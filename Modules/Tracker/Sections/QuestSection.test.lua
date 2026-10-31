@@ -236,6 +236,24 @@ describe("QuestSection", function()
         assert.is_truthy(texts[3]:find("Quest Complete!", 1, true))
     end)
 
+    it("should size the complete line like an objective", function()
+        QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
+
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called(1)
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[3], 30)
+    end)
+
+    it("should size the failed line behind a secondary item button", function()
+        TrackerUtils.AddQuestItemButtons = function(_, _, _, _, _, _, rePositionLine)
+            rePositionLine()
+            return true
+        end
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, -1), zoneName = "Elwynn Forest"}}))
+
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[3], 54)
+    end)
+
     it("should show failed quests as failed", function()
         QuestSection.Draw(_Details({{quest = _Quest(1, -1), zoneName = "Elwynn Forest"}}))
 
