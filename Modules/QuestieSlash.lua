@@ -56,7 +56,7 @@ function QuestieSlash.HandleCommands(input)
 
     if mainCommand == "" or not mainCommand then
         QuestieCombatQueue:Queue(function()
-            QuestieOptions:ToggleConfigWindow();
+            QuestieOptionsEngine:ToggleConfigWindow();
         end)
 
         if QuestieJourney:IsShown() then
@@ -96,8 +96,8 @@ function QuestieSlash.HandleCommands(input)
         Questie.db.profile.enabled = (not Questie.db.profile.enabled)
         QuestieQuest:ToggleNotes(Questie.db.profile.enabled);
 
-        -- Close config window if it's open to avoid desyncing the Checkbox
-        QuestieOptions:HideFrame();
+        -- Refresh config window to sync the Checkbox
+        QuestieOptionsEngine:RefreshStates();
         return;
     end
 
@@ -113,7 +113,7 @@ function QuestieSlash.HandleCommands(input)
 
     if mainCommand == "journey" or mainCommand == "journal" then
         QuestieJourney:ToggleJourneyWindow();
-        QuestieOptions:HideFrame();
+        QuestieOptionsEngine:HideFrame()
         return;
     end
 
@@ -331,12 +331,13 @@ function QuestieSlash.HandleCommands(input)
         return
     end
 
-    if mainCommand == "options" then -- temporary dev command only. opens the new Native settings popup rather than the old one (/questie)
-        if QuestieOptionsEngine.popup:IsShown() then
-            QuestieOptionsEngine.popup:Hide()
-        else
-            QuestieOptionsEngine.popup:Show()
-        end
+    if mainCommand == "oldoptions" then -- temporary dev command only. opens the old settings popup rather than the new Native one (/questie)
+        QuestieOptions:ToggleConfigWindow()
+        return
+    end
+
+    if mainCommand == "refresh" then
+        QuestieOptionsEngine:RefreshStates()
         return
     end
 

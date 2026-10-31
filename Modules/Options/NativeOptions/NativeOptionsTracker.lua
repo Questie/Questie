@@ -666,9 +666,9 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                         step = 1,
                         enabled = function() return Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerHeightRatio * 100 end,
-                        set = function(_, value)
+                        set = function(_, value, mouseDown)
                             Questie.db.profile.trackerHeightRatio = value / 100
-                            if IsMouseButtonDown("LeftButton") and Questie.db.profile.TrackerHeight == 0 then
+                            if mouseDown and Questie.db.profile.TrackerHeight == 0 then
                                 TrackerBaseFrame.isSizing = true
                                 Questie.db.profile.trackerBackdropEnabled = true
                                 Questie.db.profile.trackerBorderEnabled = true
@@ -694,9 +694,9 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                         step = 1,
                         enabled = function() return Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackerWidthRatio * 100 end,
-                        set = function(_, value)
+                        set = function(_, value, mouseDown)
                             Questie.db.profile.trackerWidthRatio = value / 100
-                            if IsMouseButtonDown("LeftButton") and Questie.db.profile.TrackerWidth == 0 then
+                            if mouseDown and Questie.db.profile.TrackerWidth == 0 then
                                 TrackerBaseFrame.isSizing = true
                                 Questie.db.profile.trackerBackdropEnabled = true
                                 Questie.db.profile.trackerBorderEnabled = true

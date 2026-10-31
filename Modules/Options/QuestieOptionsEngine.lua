@@ -122,6 +122,7 @@ local function FlushRefreshStates()
     QuestieOptionsEngine:RefreshStates()
 end
 
+-- batches calls to RefreshStates() to prevent lag
 function QuestieOptionsEngine:QueueRefresh()
     if not refreshQueued then
         refreshQueued = true
@@ -168,10 +169,10 @@ local minControlHeight = { -- This is the starting height used for elements, but
 
 local defaultLabelColor = {1, 0.82, 0, 1}
 local defaultTextColor = {1, 1, 1, 1}
-
 local disabledLabelColor = {0.65, 0.65, 0.65, 1}
 local disabledTextColor = {0.55, 0.55, 0.55, 1}
 
+-- example options list used to demonstrate native settings functionality, set UsePlaceholderOptions to true to use this list instead of real data
 local QuestieOptionsList = { -- Table containing option items
     GeneralTab = { -- General tab
         title = "General", -- Name of the tab, shown as a header in the panel and also used as the subcategory name
@@ -581,6 +582,7 @@ local QuestieOptionsList = { -- Table containing option items
 
 local UsePlaceholderOptions = false -- Use the above table instead of our actual data files
 
+-- ingests the data for each tab's controls
 ---@return table
 local function CreateOptionsTable()
     if UsePlaceholderOptions then
@@ -618,6 +620,7 @@ local function CreateOptionsTable()
     end
 end
 
+-- called constantly when rendering parts of the native settings to ensure they don't 'shimmer' when moving between texels, i.e. when dragging a window around with UI scale modified
 local function DisableSnapping(tex)
     if tex and tex.SetSnapToPixelGrid then
         tex:SetSnapToPixelGrid(false)
@@ -638,6 +641,7 @@ local function GetSortedItems(itemsTable)
     return sorted
 end
 
+-- Generic method for creating tooltips for each control
 local function ApplyTooltip(widget, item, attachPoint, x, y, childWidget)
     if item.tooltip then
         local function ShowTooltip()
@@ -666,6 +670,7 @@ local function ApplyTooltip(widget, item, attachPoint, x, y, childWidget)
     end
 end
 
+-- Draws each control to a canvas as needed; this is where control properties (appearance/functionality) are defined
 local function CreateControl(parent, item, width, height, level)
     local frame = CreateFrame("Button", nil, parent)
     frame:SetSize(width, height)
@@ -849,9 +854,12 @@ local function CreateControl(parent, item, width, height, level)
         slider:SetValue(startVal)
         if valueDisplay then valueDisplay:SetText(FormatSliderValue(startVal)) end
 
-        slider:SetScript("OnValueChanged", function(self, value)
-            if item.set then item.set(self, value) end
+        slider:SetScript("OnValueChanged", function(self, value, mouseDown)
+            if item.set then item.set(self, value, mouseDown) end
             if valueDisplay then valueDisplay:SetText(FormatSliderValue(value)) end
+        end)
+
+        slider:HookScript("OnMouseUp", function()
             QuestieOptionsEngine:RefreshStates()
         end)
 
@@ -1750,13 +1758,13 @@ local function CreateControl(parent, item, width, height, level)
     return frame
 end
 
+-- The BuildLayout function is fed a table of control data and populates an already-spawned frame with controls based on our layout rules.
+-- It first ingests this data raw, sorts it, sanitizes it, then begins building controls in order.
+-- BuildLayout goes through multiple passes when placing controls; it first creates the control, then creates the rest
+-- of the controls on the same row until the row is filled. Once the row is filled, it goes back through and adjusts the
+-- completed row to be the height that the largest control ended up being (which accounts for word-wrapped text,
+-- including longer strings from translations). This final pass ensures that controls are aligned vertically on a grid relative to each other.
 local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryName)
-    -- The BuildLayout function is fed a table of control data and populates an already-spawned frame with controls based on our layout rules.
-    -- It first ingests this data raw, sorts it, sanitizes it, then begins building controls in order.
-    -- BuildLayout goes through multiple passes when placing controls; it first creates the control, then creates the rest
-    -- of the controls on the same row until the row is filled. Once the row is filled, it goes back through and adjusts the
-    -- completed row to be the height that the largest control ended up being (which accounts for word-wrapped text,
-    -- including longer strings from translations). This final pass ensures that controls are aligned vertically on a grid relative to each other.
 
     level = level or 1 -- effectively current Z layer; used to determine if we're drawing on the root canvas, container, or nested container
     local sortedItems = GetSortedItems(itemsTable) -- ingests item data and sorts it according to order value
@@ -1947,6 +1955,7 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
     return math.abs(cursorY - currentMaxRowHeight)
 end
 
+-- Creates the scrollable canvas within each tab of the native settings menu, which each control then gets drawn to
 ---@param parent Frame
 ---@param name string
 local CreateScrollFrames = function(parent, name, header, mode)
@@ -1982,6 +1991,7 @@ local CreateScrollFrames = function(parent, name, header, mode)
 	return scrollBox, scrollChild
 end
 
+-- Init for native settings
 function QuestieOptionsEngine:Initialize()
     local sortedTabs = {}
     for tabKey, tabData in pairs(CreateOptionsTable()) do
@@ -2078,8 +2088,8 @@ function QuestieOptionsEngine:Initialize()
     QuestieOptionsEngine.popup = popup
 end
 
+-- Goes through every control and updates their states to reflect current status (ex. checking if a checkbox should still be enabled/disabled when another setting has changed)
 function QuestieOptionsEngine:RefreshStates()
-
     local function DesaturateNineSlice(frame, disable, shade)
         local nineSlice = frame.NineSlice or frame
         if nineSlice and nineSlice.GetRegions then
@@ -2472,5 +2482,26 @@ function QuestieOptionsEngine:SelectStandaloneTab(selectedKey)
             --tabButton.Icon:SetDesaturated(not isCurrent)
             tabButton.Icon:SetAlpha(isCurrent and 1.0 or 0.65)
         end
+    end
+end
+
+
+-- Helper functions to match feature parity with old options (same function names)
+function QuestieOptionsEngine:HideFrame()
+    QuestieOptionsEngine.popup:Hide()
+end
+function QuestieOptionsEngine:ShowFrame()
+    QuestieOptionsEngine.popup:Show()
+end
+function QuestieOptionsEngine:ToggleConfigWindow()
+    if QuestieOptionsEngine.popup:IsShown() then
+        QuestieOptionsEngine.popup:Hide()
+    else
+        QuestieOptionsEngine.popup:Show()
+    end
+end
+function QuestieOptionsEngine:RefreshIfShown()
+    if QuestieOptionsEngine.popup:IsShown() then
+        QuestieOptionsEngine:RefreshStates()
     end
 end
