@@ -97,6 +97,9 @@ Entity database validation is owned by QuestieDB. Questie retains loader-usage v
 
 `lua cli/validate-loader-usage.lua`
 
+On macOS, use the Lua 5.1 command from step 1:
+`lua5.1 cli/validate-loader-usage.lua`
+
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
 
