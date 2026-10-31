@@ -36,13 +36,6 @@ describe("AchievementSection", function()
         return line
     end
 
-    local function _GetObjectiveLine(target)
-        local line = _GetLine()
-        line.mode = "objective"
-        line.Quest = target
-        return line
-    end
-
     local function _ObjectiveLines()
         local lines = {}
         for _, line in ipairs(drawnLines) do
@@ -85,12 +78,10 @@ describe("AchievementSection", function()
         TrackerLayout.UpdateWidth = function() end
         TrackerLayout.GetBaseFrameWidth = function() return 400 end
         TrackerLayout.TrackLineWidth = function() end
-        TrackerLayout.GetLineWidth = function() return 1000 end
         TrackerLayout.UpdateLineWidth = spy.new(function() end)
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_GetLine)
-        TrackerLinePool.GetAchievementObjectiveLine = spy.new(_GetObjectiveLine)
         TrackerLinePool.GetLastLine = _FakeLine
 
         dofile("Localization/l10n.lua")
@@ -219,20 +210,27 @@ describe("AchievementSection", function()
         assert.are.equal(achievements[1], _ObjectiveLines()[2].target)
     end)
 
-    it("should split the progress into a second line that targets the achievement", function()
+    it("should draw long progress on one wrapping line", function()
         unboundedWidth = 500
-        TrackerLayout.GetLineWidth = function() return 100 end
         local criteria = {Text = "Darnassus", Completed = false, Collected = 3, Needed = 10, Progress = "3/10", LinkedAchievementId = 2, IsDescription = false}
         achievements = {_Achievement(1, {criteria})}
 
         AchievementSection.Draw()
 
-        -- The first text is replaced by the split one
-        assert.is_truthy(texts[4]:find("Darnassus: ", 1, true))
-        assert.is_falsy(texts[4]:find("3/10", 1, true))
-        assert.is_truthy(texts[5]:find("    > 3/10", 1, true))
+        assert.are_same(3, #texts)
+        assert.is_truthy(texts[3]:find("Darnassus: 3/10", 1, true))
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(_ObjectiveLines()[1].line, 30)
         assert.are_same({Id = 2}, _ObjectiveLines()[1].target)
-        assert.are.equal(achievements[1], _ObjectiveLines()[2].target)
+    end)
+
+    it("should not set the criteria mark of criteria with progress", function()
+        achievements = {_Achievement(1, {
+            {Text = "Fish caught", Completed = false, Collected = 3, Needed = 10, Progress = "3/10", IsDescription = false},
+        })}
+
+        AchievementSection.Draw()
+
+        assert.spy(_ObjectiveLines()[1].line.criteriaMark.SetCriteria).was.not_called()
     end)
 
     it("should not set the criteria mark when the objective color is not white", function()
@@ -272,7 +270,7 @@ describe("AchievementSection", function()
         AchievementSection.Draw()
 
         assert.are_same(2, #texts)
-        assert.spy(TrackerLinePool.GetAchievementObjectiveLine).was.not_called()
+        assert.are_same({}, _ObjectiveLines())
     end)
 
     it("should stop drawing when the line pool is exhausted", function()
