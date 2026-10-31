@@ -222,6 +222,50 @@ function LineBuilder.AddObjective(options)
     return line
 end
 
+---@class TimerLineOptions
+---@field text string
+---@field target table The quest stored on the line
+---@field activeTimer boolean The text is updated every second without a new layout
+---@field marginLeft number? Defaults to TrackerLayout.GetMargins().objective, quest item buttons add to it
+
+---@param options TimerLineOptions
+---@return TrackerLineFrame|nil
+function LineBuilder.AddTimer(options)
+    local line = TrackerLinePool.GetNextLine()
+    if (not line) then
+        return nil
+    end
+
+    local margins = TrackerLayout.GetMargins()
+    local marginLeft = options.marginLeft or margins.objective
+
+    line:SetMode("objective")
+    _SetTarget(line, "quest", options.target)
+    line.expandZone:Hide()
+    line.expandQuest:Hide()
+    line.criteriaMark:Hide()
+    line.playButton:Hide()
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", marginLeft, 0)
+
+    line.label.activeTimer = options.activeTimer
+    line.label:SetText(options.text)
+
+    TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + marginLeft + margins.right)
+    -- Timers start with "15 Minutes" and become "14 Minutes 59 Seconds" right after, without a new layout
+    line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - marginLeft - margins.right + 40)
+    line:SetWidth(line.label:GetWidth() + marginLeft)
+    TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + marginLeft)
+
+    -- Adds 1 pixel between the timer and the first objective
+    line:SetHeight(line.label:GetHeight() + 1)
+    line:Show()
+    line.label:Show()
+
+    return line
+end
+
 --- Adds the "Padding Between Quests" setting of the tracker options below the last line of an entry.
 ---@param line TrackerLineFrame|nil The last line of the entry, nil when the line pool was exhausted
 function LineBuilder.FinishEntry(line)

@@ -80,7 +80,6 @@ describe("QuestSection", function()
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_GetLine)
-        TrackerLinePool.GetQuestObjectiveLine = spy.new(_GetLine)
         TrackerLinePool.GetLastLine = _FakeLine
 
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
@@ -157,6 +156,30 @@ describe("QuestSection", function()
         QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
 
         assert.spy(LineBuilder.IndentTitle).was.not_called()
+    end)
+
+    it("should draw the remaining time of a timed quest", function()
+        local quest = _Quest(1, 0, {{Description = "Escort: 0/1", Completed = false}})
+        quest.trackTimedQuest = true
+        TrackerQuestTimers.GetRemainingTimeByQuestId = function() return "14 Minutes", 840 end
+        TrackerQuestTimers.UpdateAndGetRemainingTime = spy.new(function() end)
+
+        QuestSection.Draw(_Details({{quest = quest, zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1", "14 Minutes", "Escort: 0/1"}, texts)
+        assert.is_true(drawnLines[3].label.activeTimer)
+        assert.spy(TrackerQuestTimers.UpdateAndGetRemainingTime).was.called_with(match._, quest, drawnLines[3], false)
+    end)
+
+    it("should draw an inactive timer when the time is up", function()
+        local quest = _Quest(1, 0)
+        quest.trackTimedQuest = true
+        TrackerQuestTimers.GetRemainingTimeByQuestId = function() return "0 Seconds", 0 end
+
+        QuestSection.Draw(_Details({{quest = quest, zoneName = "Elwynn Forest"}}))
+
+        assert.are_same("Time's up!", texts[3])
+        assert.is_false(drawnLines[3].label.activeTimer)
     end)
 
     it("should draw one zone header per zone", function()

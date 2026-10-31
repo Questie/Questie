@@ -363,6 +363,49 @@ describe("LineBuilder", function()
         end)
     end)
 
+    describe("AddTimer", function()
+        local quest
+
+        before_each(function()
+            quest = {Id = 1}
+        end)
+
+        it("should return nil when the line pool is exhausted", function()
+            TrackerLinePool.GetNextLine = function() return nil end
+
+            assert.is_nil(LineBuilder.AddTimer({text = "15 Minutes", target = quest, activeTimer = true}))
+        end)
+
+        it("should set up a timer line of the quest", function()
+            local line = LineBuilder.AddTimer({text = "15 Minutes", target = quest, activeTimer = true})
+
+            assert.spy(line.SetMode).was.called_with(match._, "objective")
+            assert.spy(line.SetOnClick).was.called_with(match._, "quest")
+            assert.spy(line.SetQuest).was.called_with(match._, quest)
+            assert.spy(line.expandQuest.Hide).was.called()
+            assert.spy(line.label.SetText).was.called_with(match._, "15 Minutes")
+            assert.is_true(line.label.activeTimer)
+        end)
+
+        it("should reserve 40 pixels for the ticking text instead of wrapping", function()
+            local line = LineBuilder.AddTimer({text = "15 Minutes", target = quest, activeTimer = true, marginLeft = 54})
+
+            assert.spy(TrackerLayout.UpdateLineWidth).was.not_called()
+            assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 54, 0)
+            assert.are_same({184}, updatedWidths)
+            assert.are_same({154}, trackedWidths)
+            assert.spy(line.label.SetWidth).was.called_with(match._, 356)
+            assert.spy(line.SetWidth).was.called_with(match._, 304)
+        end)
+
+        it("should add 1 pixel below the timer", function()
+            local line = LineBuilder.AddTimer({text = "15 Minutes", target = quest, activeTimer = false})
+
+            assert.spy(line.SetHeight).was.called_with(match._, 13)
+            assert.is_false(line.label.activeTimer)
+        end)
+    end)
+
     describe("FinishEntry", function()
         it("should add the padding between quests below the last line", function()
             Questie.db.profile.trackerQuestPadding = 5
