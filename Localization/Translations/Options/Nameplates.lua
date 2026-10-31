@@ -14,6 +14,18 @@ local nameplateOptionsLocales = {
         ["zhCN"] = "姓名板",
         ["zhTW"] = "名條",
     },
+    ["Nameplate Options"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Namensplaketten-Optionen", -- 🤖 Gemini Flash 3.8
+        ["esES"] = "Opciones de placas de nombre", -- 🤖 Gemini Flash 3.8
+        ["esMX"] = "Opciones de placas de nombre", -- 🤖 Gemini Flash 3.8
+        ["frFR"] = "Options des plaques de nom", -- 🤖 Gemini Flash 3.8
+        ["koKR"] = "이름표 설정", -- 🤖 Gemini Flash 3.8
+        ["ptBR"] = "Opções das placas de nome", -- 🤖 Gemini Flash 3.8
+        ["ruRU"] = "Настройки индикаторов здоровья", -- 🤖 Gemini Flash 3.8
+        ["zhCN"] = "姓名板选项", -- 🤖 Gemini Flash 3.8
+        ["zhTW"] = "名條選項", -- 🤖 Gemini Flash 3.8
+    },
     ["Nameplate Icon Options"] = {
         ["enUS"] = true,
         ["deDE"] = "Namensplaketten-Icon-Einstellungen",

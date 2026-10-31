@@ -64,6 +64,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -650,6 +652,8 @@ function _EventHandler:PlayerRegenDisabled()
             QuestieJourney:ToggleJourneyWindow()
         end
     end
+
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshIfShown() end)
 end
 
 function _EventHandler:PlayerRegenEnabled()
@@ -666,6 +670,8 @@ function _EventHandler:PlayerRegenEnabled()
         QuestieJourney:ToggleJourneyWindow()
         journeyHiddenByCombat = false
     end
+
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshIfShown() end)
 end
 
 function _EventHandler.UpdateTracker()
