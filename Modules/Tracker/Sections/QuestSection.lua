@@ -3,8 +3,6 @@ local QuestSection = QuestieLoader:CreateModule("QuestSection")
 
 ---@type TrackerLayout
 local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
----@type TrackerLinePool
-local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type LineBuilder
 local LineBuilder = QuestieLoader:ImportModule("LineBuilder")
 ---@type TrackerData
@@ -15,8 +13,6 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
-
-local LSM30 = LibStub("LibSharedMedia-3.0")
 
 ---@param sortedQuestIds QuestId[]
 ---@param questDetails table<QuestId, {quest: TrackerQuest, zoneName: string}>
@@ -140,17 +136,9 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                     break
                 end
 
-                -- Set Secondary Quest Item Button Margins (QBC - Quest Button Check)
-                local lineLabelWidthQBC, lineLabelBaseFrameQBC, lineWidthQBC
+                -- Indent the objectives behind a secondary quest item button
                 if secondaryButton then
-                    lineLabelWidthQBC = objectiveMarginLeft + margins.right + margins.itemButtonSize
-                    lineLabelBaseFrameQBC = objectiveMarginLeft + margins.right + margins.itemButtonSize
-                    lineWidthQBC = objectiveMarginLeft + margins.itemButtonSize
                     objectiveMarginLeft = objectiveMarginLeft + margins.itemButtonSize
-                else
-                    lineLabelWidthQBC = objectiveMarginLeft + margins.right
-                    lineLabelBaseFrameQBC = objectiveMarginLeft + margins.right
-                    lineWidthQBC = objectiveMarginLeft
                 end
 
                 -- Add Quest Timers (if applicable) - always shown for timed quests, even when collapsed
@@ -173,38 +161,19 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                     end
 
                     if timerText then
-                        line = TrackerLinePool.GetQuestObjectiveLine(quest, nil, lineWidthQBC)
+                        line = LineBuilder.AddTimer({
+                            text = timerText,
+                            target = quest,
+                            activeTimer = activeTimer,
+                            marginLeft = objectiveMarginLeft,
+                        })
                         if (not line) then
                             break
                         end
 
-                        -- Set Timer font
-                        line.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontObjective), Questie.db.profile.trackerFontSizeObjective,
-                            Questie.db.profile.trackerFontOutline)
-
-                        -- Set Timer Title
-                        line.label.activeTimer = activeTimer
-                        line.label:SetText(timerText)
-
                         if activeTimer then
                             TrackerQuestTimers:UpdateAndGetRemainingTime(quest, line, false)
                         end
-
-                        -- Check and measure Timer text width and update tracker width
-                        TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
-
-                        -- Set Timer Label and Line widths. We add 40 pixels, because timers start with "15 Minutes" and will then be "14 Minutes 59 Seconds" right after.
-                        line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - lineLabelBaseFrameQBC + 40)
-                        line:SetWidth(line.label:GetWidth() + lineWidthQBC)
-
-                        -- Compare largest text Label in the tracker with current Label, then save widest width
-                        TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + lineWidthQBC)
-
-                        line:SetHeight(line.label:GetHeight() + 1)
-
-                        -- Set Timer states
-                        line:Show()
-                        line.label:Show()
                     end
                 end
 

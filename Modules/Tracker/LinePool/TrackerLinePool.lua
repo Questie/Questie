@@ -182,31 +182,6 @@ function TrackerLinePool.GetNextLine()
     return linePool[lineIndex]
 end
 
----@param quest Quest
----@param objective QuestObjective|nil
----@param lineWidth number
----@return TrackerLineFrame|nil
-function TrackerLinePool.GetQuestObjectiveLine(quest, objective, lineWidth)
-    local line = TrackerLinePool.GetNextLine()
-    if (not line) then
-        return nil
-    end
-
-    line:SetMode("objective")
-    line:SetOnClick("quest")
-    line:SetQuest(quest)
-    line:SetObjective(objective)
-    line.expandZone:Hide()
-    line.expandQuest:Hide()
-    line.criteriaMark:Hide()
-    line.playButton:Hide()
-
-    line.label:ClearAllPoints()
-    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
-
-    return line
-end
-
 ---@return table|nil buttonIndex buttonPool[buttonIndex]
 function TrackerLinePool.GetNextItemButton()
     buttonIndex = buttonIndex + 1
