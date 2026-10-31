@@ -99,7 +99,8 @@ function LineBuilder.AddHeader(options)
 end
 
 ---@class TitleLineOptions
----@field text string The shown text, it is colored yellow
+---@field text string The shown text, it is colored yellow unless colored is set
+---@field colored boolean? The text already carries its color
 ---@field clickMode LineClickMode
 ---@field target table The quest, achievement or recipe stored on the line
 ---@field collapseId number? Shows the expand button and uses collapsedQuests[collapseId]
@@ -122,7 +123,10 @@ function LineBuilder.AddTitle(options)
     _SetTarget(line, options.clickMode, options.target)
     line.expandZone:Hide()
     line.criteriaMark:Hide()
-    line.playButton:Hide()
+    -- Quest titles show the VoiceOver play button. SetPlayButton skips an unchanged quest, so it must not be hidden here.
+    if options.clickMode ~= "quest" then
+        line.playButton:Hide()
+    end
 
     line.label:ClearAllPoints()
     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", margins.quest, 0)
@@ -144,7 +148,11 @@ function LineBuilder.AddTitle(options)
         line.expandQuest:SetMode(collapsed and 0 or 1)
     end
 
-    line.label:SetText("|cFFFFFF00" .. options.text .. "|r")
+    if options.colored then
+        line.label:SetText(options.text)
+    else
+        line.label:SetText("|cFFFFFF00" .. options.text .. "|r")
+    end
 
     TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.right)
     line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.quest - margins.right)
@@ -157,6 +165,23 @@ function LineBuilder.AddTitle(options)
     line.label:Show()
 
     return line, collapsed
+end
+
+--- Moves a title to the right, e.g. to make room for a quest item button in front of it.
+---@param line TrackerLineFrame
+---@param indent number
+function LineBuilder.IndentTitle(line, indent)
+    local margins = TrackerLayout.GetMargins()
+    local marginLeft = margins.quest + indent
+
+    -- 2 pixels gap to the item button
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", marginLeft + 2, 0)
+
+    TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + marginLeft + margins.right)
+    line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - marginLeft - margins.right)
+    line:SetWidth(line.label:GetWidth() + marginLeft)
+    TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + marginLeft)
 end
 
 ---@class ObjectiveLineOptions

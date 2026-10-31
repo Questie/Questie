@@ -183,28 +183,6 @@ function TrackerLinePool.GetNextLine()
 end
 
 ---@param quest Quest
----@param lineWidth number
----@return TrackerLineFrame|nil
-function TrackerLinePool.GetQuestTitleLine(quest, lineWidth)
-    local line = TrackerLinePool.GetNextLine()
-    if (not line) then
-        return nil
-    end
-
-    line:SetMode("quest")
-    line:SetOnClick("quest")
-    line:SetQuest(quest)
-    line:SetObjective(nil)
-    line.expandZone:Hide()
-    line.criteriaMark:Hide()
-
-    line.label:ClearAllPoints()
-    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidth, 0)
-
-    return line
-end
-
----@param quest Quest
 ---@param objective QuestObjective|nil
 ---@param lineWidth number
 ---@return TrackerLineFrame|nil

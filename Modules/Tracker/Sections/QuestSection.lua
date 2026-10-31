@@ -68,17 +68,6 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
 
             -- Add quest
             if (not Questie.db.char.collapsedZones[zoneName]) then
-                line = TrackerLinePool.GetQuestTitleLine(quest, margins.quest)
-                if (not line) then
-                    break
-                end
-
-                -- Set Min/Max Button and default states
-                line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.quest - 8, 1)
-                line.expandQuest.zoneId = zoneName
-
-                line.questFocus:SetQuest(quest, complete == 1 or (complete ~= -1 and quest.isComplete == true))
-
                 -- Set Completion Text
                 local completionText = TrackerUtils:GetCompletionText(quest)
 
@@ -107,19 +96,6 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                     if (not Questie.db.char.collapsedQuests[quest.Id]) then
                         Questie.db.char.collapsedQuests[quest.Id] = true
                     end
-                else
-                    -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the Zone header (MouseDown).
-                    -- QuestieTracker:Update is triggered and the table is then filled with all Quest ID's in the same Zone.
-                    if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and Questie.db.char.minAllQuestsInZone[zoneName].isTrue then
-                        Questie.db.char.minAllQuestsInZone[zoneName][quest.Id] = true
-                    end
-
-                    -- Handles all the Min/Max behavior individually for each quest.
-                    if Questie.db.char.collapsedQuests[quest.Id] then
-                        line.expandQuest:SetMode(0)
-                    else
-                        line.expandQuest:SetMode(1)
-                    end
                 end
 
                 -- Set Quest Title - This handles the "Auto Minimize Completed Quests" option but we don't auto-minimize timed quests.
@@ -133,20 +109,19 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                         ((isMinimizable and Questie.db.profile.collapseCompletedQuests) or Questie.db.char.collapsedQuests[quest.Id] ~= nil))
                 end
 
-                line.label:SetText(coloredQuestName)
+                line = LineBuilder.AddTitle({
+                    text = coloredQuestName,
+                    colored = true,
+                    clickMode = "quest",
+                    target = quest,
+                    collapseId = quest.Id,
+                    zoneKey = zoneName,
+                })
+                if (not line) then
+                    break
+                end
 
-                -- Check and measure Quest Label text width and update tracker width
-                TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.right)
-
-                -- Set Quest Label and Line widths
-                line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.quest - margins.right)
-                line:SetWidth(line.label:GetWidth() + margins.quest)
-
-                -- Compare largest text Label in the tracker with current Label, then save widest width
-                TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.quest)
-
-                -- Adds 4 pixels between Quest Title and first Objective
-                line:SetHeight(line.label:GetHeight() + 4)
+                line.questFocus:SetQuest(quest, complete == 1 or (complete ~= -1 and quest.isComplete == true))
 
                 -- Adds the AI_VoiceOver Play Buttons
                 line.playButton:SetPlayButton(questId)
@@ -154,19 +129,7 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                 local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, complete, line, margins.itemButtonSize, trackerBaseFrame, isMinimizable,
                     function()
                         if (not Questie.db.char.collapsedQuests[quest.Id]) then
-                            -- Set and indent Quest Title linePool
-                            line.label:ClearAllPoints()
-                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", margins.quest + 2 + margins.itemButtonSize, 0)
-
-                            -- Recheck and Remeasure Quest Label text width and update tracker width
-                            TrackerLayout.UpdateWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.right + margins.itemButtonSize)
-
-                            -- Reset Quest Title Label and linePool widths
-                            line.label:SetWidth(TrackerLayout.GetBaseFrameWidth() - margins.quest - margins.right - margins.itemButtonSize)
-                            line:SetWidth(line.label:GetWidth() + margins.quest + margins.itemButtonSize)
-
-                            -- Re-compare largest text Label in the tracker with Secondary Button/Quest and current Label, then save widest width
-                            TrackerLayout.TrackLineWidth(line.label:GetUnboundedStringWidth() + margins.quest + margins.itemButtonSize)
+                            LineBuilder.IndentTitle(line, margins.itemButtonSize)
                         end
 
                         secondaryButton = true
@@ -189,10 +152,6 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                     lineLabelBaseFrameQBC = objectiveMarginLeft + margins.right
                     lineWidthQBC = objectiveMarginLeft
                 end
-
-                -- Set Quest Line states
-                line:Show()
-                line.label:Show()
 
                 -- Add Quest Timers (if applicable) - always shown for timed quests, even when collapsed
                 if timedQuest then

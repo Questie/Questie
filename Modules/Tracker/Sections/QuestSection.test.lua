@@ -80,7 +80,6 @@ describe("QuestSection", function()
 
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_GetLine)
-        TrackerLinePool.GetQuestTitleLine = spy.new(_GetLine)
         TrackerLinePool.GetQuestObjectiveLine = spy.new(_GetLine)
         TrackerLinePool.GetLastLine = _FakeLine
 
@@ -129,6 +128,35 @@ describe("QuestSection", function()
         assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[5], 30)
         assert.is_true(drawnLines[3].questHasSecondaryQIB)
         assert.is_false(drawnLines[5].questHasSecondaryQIB)
+    end)
+
+    it("should draw the quest title with its own color", function()
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
+
+        assert.are_same("Quest 1", texts[2])
+    end)
+
+    it("should auto collapse a complete quest when configured", function()
+        Questie.db.profile.collapseCompletedQuests = true
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
+
+        assert.is_true(Questie.db.char.collapsedQuests[1])
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1"}, texts)
+    end)
+
+    it("should not indent the title of a collapsed quest for a secondary item button", function()
+        Questie.db.char.collapsedQuests = {[1] = true}
+        local LineBuilder = QuestieLoader:ImportModule("LineBuilder")
+        LineBuilder.IndentTitle = spy.new(function() end)
+        TrackerUtils.AddQuestItemButtons = function(_, _, _, _, _, _, rePositionLine)
+            rePositionLine()
+            return true
+        end
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
+
+        assert.spy(LineBuilder.IndentTitle).was.not_called()
     end)
 
     it("should draw one zone header per zone", function()
@@ -206,7 +234,6 @@ describe("QuestSection", function()
         QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
 
         assert.are_same({}, texts)
-        assert.spy(TrackerLinePool.GetQuestTitleLine).was.not_called()
     end)
 
     it("should stop drawing when the item button pool is exhausted", function()
@@ -217,6 +244,7 @@ describe("QuestSection", function()
             {quest = _Quest(2, 0), zoneName = "Elwynn Forest"},
         }))
 
-        assert.spy(TrackerLinePool.GetQuestTitleLine).was.called(1)
+        assert.spy(TrackerUtils.AddQuestItemButtons).was.called(1)
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1"}, texts)
     end)
 end)
