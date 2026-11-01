@@ -634,6 +634,7 @@ QuestieEvent.eventDateCorrections = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
         ["Pirates' Day"] = false,
+        ["Day of the Dead"] = false,
         ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
             -- Date is set for 2027. Please update this every year.
             startDate = "28/3",
@@ -656,11 +657,12 @@ QuestieEvent.eventDateCorrections = {
             startHour = 4, -- was active at 05:35 ingame, assuming 4 is start hour
             startMinute = 0,
             endDate = "1/11",
-            endHour = 4,
-            endMinute = 0,
+            endHour = 23,
+            endMinute = 59,
         },
     },
     ["TBC"] = {
+        ["Day of the Dead"] = false,
         ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
             -- Date is set for 2027. Please update this every year.
             startDate = "28/3",
@@ -696,9 +698,9 @@ QuestieEvent.eventDateCorrections = {
         },
         ["Hallow's End"] = {
             startDate = "18/10",
-            startHour = 1,
+            startHour = 4,
             startMinute = 0,
-            endDate = "31/10",
+            endDate = "1/11",
             endHour = 23,
             endMinute = 59,
         },

@@ -53,7 +53,7 @@ jobs:
           luaVersion: "5.1"
 
       - name: Install LuaRocks
-        uses: leafo/gh-actions-luarocks@v6.1.0
+        uses: leafo/gh-actions-luarocks@v6.1.1
         with:
           luaRocksVersion: "3.13.0"
 
