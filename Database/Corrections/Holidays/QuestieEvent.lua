@@ -656,8 +656,8 @@ QuestieEvent.eventDateCorrections = {
             startHour = 4, -- was active at 05:35 ingame, assuming 4 is start hour
             startMinute = 0,
             endDate = "1/11",
-            endHour = 4,
-            endMinute = 0,
+            endHour = 23,
+            endMinute = 59,
         },
     },
     ["TBC"] = {
@@ -696,9 +696,9 @@ QuestieEvent.eventDateCorrections = {
         },
         ["Hallow's End"] = {
             startDate = "18/10",
-            startHour = 1,
+            startHour = 4,
             startMinute = 0,
-            endDate = "31/10",
+            endDate = "1/11",
             endHour = 23,
             endMinute = 59,
         },
