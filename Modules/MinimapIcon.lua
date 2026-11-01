@@ -177,7 +177,7 @@ function _MinimapIcon.OnClick(_, button)
             return
         end
 
-        if QuestieOptionsEngine:IsShown() and (not QuestieJourney:IsShown()) then
+        if QuestieOptionsEngine:IsShown() then
             QuestieOptionsEngine:ToggleConfigWindow()
         end
         QuestieJourney:ToggleJourneyWindow()
