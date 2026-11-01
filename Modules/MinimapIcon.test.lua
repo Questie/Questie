@@ -12,6 +12,8 @@ describe("MinimapIcon", function()
     local QuestieQuest
     ---@type QuestieOptions
     local QuestieOptions
+    ---@type QuestieOptionsEngine
+    local QuestieOptionsEngine
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
     ---@type QuestieStatus
@@ -31,6 +33,7 @@ describe("MinimapIcon", function()
         _G.IsShiftKeyDown = function() return false end
 
         QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+        QuestieJourney.IsShown = spy.new(function() end)
         QuestieJourney.ToggleJourneyWindow = spy.new(function() end)
 
         QuestieLoader:ImportModule("QuestieProfessions")
@@ -47,6 +50,11 @@ describe("MinimapIcon", function()
         QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
         QuestieOptions.HideFrame = spy.new(function() end)
         QuestieOptions.ToggleConfigWindow = spy.new(function() end)
+
+        QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
+        QuestieOptionsEngine.IsShown = spy.new(function() end)
+        QuestieOptionsEngine.RefreshIfShown = spy.new(function() end)
+        QuestieOptionsEngine.ToggleConfigWindow = spy.new(function() end)
 
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
@@ -265,8 +273,8 @@ describe("MinimapIcon", function()
         assert.spy(QuestieMenu.Show).was.not_called()
         assert.spy(QuestieQuest.SmoothReset).was.not_called()
         assert.spy(QuestieQuest.ToggleNotes).was.not_called()
-        assert.spy(QuestieOptions.HideFrame).was.not_called()
-        assert.spy(QuestieOptions.ToggleConfigWindow).was.not_called()
+        assert.spy(QuestieOptionsEngine.IsShown).was.not_called()
+        assert.spy(QuestieOptionsEngine.ToggleConfigWindow).was.not_called()
     end)
 
     it("should open My Journey on left click", function()
@@ -283,7 +291,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieOptions.ToggleConfigWindow).was.called()
+        assert.spy(QuestieOptionsEngine.ToggleConfigWindow).was.called()
     end)
 
     it("should open Questie on left click with Shift key down after combat", function()
@@ -293,7 +301,7 @@ describe("MinimapIcon", function()
 
         MinimapIcon.private:OnClick(button)
 
-        assert.spy(QuestieOptions.ToggleConfigWindow).was.called()
+        assert.spy(QuestieOptionsEngine.ToggleConfigWindow).was.called()
     end)
 
     it("should reset Questie on left click with CTRL key down", function()
@@ -314,7 +322,7 @@ describe("MinimapIcon", function()
 
         assert.is_false(Questie.db.profile.enabled)
         assert.spy(QuestieQuest.ToggleNotes).was.called_with(_, false)
-        assert.spy(QuestieOptions.HideFrame).was.called()
+        assert.spy(QuestieOptionsEngine.RefreshIfShown).was.called()
     end)
 
     it("should open drop down menu on right click", function()
