@@ -2195,7 +2195,7 @@ function QuestieOptionsEngine:RefreshStates()
     end
 end
 
--- Constructs the canvas frame for an options tab
+-- Constructs the canvas frame for an options tab; this includes drawing the header for each tab
 function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWidth, mode)
     local leftInset = 0
     if mode == RenderMode.POPUP then
@@ -2509,6 +2509,9 @@ function QuestieOptionsEngine:HideFrame()
 end
 function QuestieOptionsEngine:ShowFrame()
     QuestieOptionsEngine.popup:Show()
+end
+function QuestieOptionsEngine:IsShown()
+    return QuestieOptionsEngine.popup:IsShown()
 end
 function QuestieOptionsEngine:ToggleConfigWindow()
     if QuestieOptionsEngine.popup:IsShown() then

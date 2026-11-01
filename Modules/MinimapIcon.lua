@@ -20,6 +20,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieStatus
 local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local _LibDBIcon = LibStub("LibDBIcon-1.0")
 
@@ -157,19 +159,16 @@ function _MinimapIcon.OnClick(_, button)
                 end
             end
 
-            -- Close config window if it's open to avoid desyncing the Checkbox
-            QuestieOptions:HideFrame()
+            -- Refresh config window if it's open to avoid desyncing the Checkbox
+            QuestieOptionsEngine:RefreshIfShown()
             return
         end
 
         if IsShiftKeyDown() then
-            if InCombatLockdown() then
-                Questie:Print(l10n("Questie will open after combat ends."))
+            if QuestieJourney:IsShown() then
+                QuestieJourney:ToggleJourneyWindow()
             end
-
-            QuestieCombatQueue:Queue(function()
-                QuestieOptions:ToggleConfigWindow()
-            end)
+            QuestieOptionsEngine:ToggleConfigWindow()
             return
         end
 
@@ -178,6 +177,9 @@ function _MinimapIcon.OnClick(_, button)
             return
         end
 
+        if QuestieOptionsEngine:IsShown() and (not QuestieJourney:IsShown()) then
+            QuestieOptionsEngine:ToggleConfigWindow()
+        end
         QuestieJourney:ToggleJourneyWindow()
     elseif button == "RightButton" then
         if IsControlKeyDown() then
