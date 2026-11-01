@@ -130,9 +130,11 @@ describe("QuestSection", function()
     end)
 
     it("should draw the quest title with its own color", function()
+        TrackerData.GetColoredQuestName = function(quest) return "|cFFFFFF00Quest " .. quest.Id .. "|r" end
+
         QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
 
-        assert.are_same("Quest 1", texts[2])
+        assert.are_same("|cFFFFFF00Quest 1|r", texts[2])
     end)
 
     it("should auto collapse a complete quest when configured", function()

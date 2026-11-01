@@ -27,10 +27,10 @@ describe("LineBuilder", function()
             SetText = spy.new(function() end),
             ClearAllPoints = spy.new(function() end),
             SetPoint = spy.new(function() end),
-            SetWidth = spy.new(function() end),
+            SetWidth = spy.new(function(self, width) self.width = width end),
             Show = spy.new(function() end),
             GetUnboundedStringWidth = function() return 100 end,
-            GetWidth = function() return 250 end,
+            GetWidth = function(self) return self.width end,
             GetHeight = function() return 12 end,
         }
         return {
@@ -90,13 +90,13 @@ describe("LineBuilder", function()
 
             assert.are.equal(nextLine, line)
             assert.is_false(collapsed)
-            assert.spy(line.SetMode).was.called_with(line, "zone")
-            assert.spy(line.SetZone).was.called_with(line, "Elwynn Forest")
+            assert.spy(line.SetMode).was.called_with(match._, "zone")
+            assert.spy(line.SetZone).was.called_with(match._, "Elwynn Forest")
             assert.spy(line.expandQuest.Hide).was.called()
             assert.spy(line.criteriaMark.Hide).was.called()
             assert.spy(line.playButton.Hide).was.called()
-            assert.spy(line.expandZone.SetMode).was.called_with(line.expandZone, 1)
-            assert.spy(line.label.SetText).was.called_with(line.label, "|cFFC0C0C0Elwynn Forest|r")
+            assert.spy(line.expandZone.SetMode).was.called_with(match._, 1)
+            assert.spy(line.label.SetText).was.called_with(match._, "|cFFC0C0C0Elwynn Forest|r")
         end)
 
         it("should show the collapsed text of a collapsed zone", function()
@@ -105,8 +105,8 @@ describe("LineBuilder", function()
             local line, collapsed = LineBuilder.AddHeader({key = "Achievements", text = "Achievements: 3/10", collapsedText = "Achievements +"})
 
             assert.is_true(collapsed)
-            assert.spy(line.expandZone.SetMode).was.called_with(line.expandZone, 0)
-            assert.spy(line.label.SetText).was.called_with(line.label, "|cFFC0C0C0Achievements +|r")
+            assert.spy(line.expandZone.SetMode).was.called_with(match._, 0)
+            assert.spy(line.label.SetText).was.called_with(match._, "|cFFC0C0C0Achievements +|r")
         end)
 
         it("should default the collapsed text to the text with a plus", function()
@@ -114,7 +114,7 @@ describe("LineBuilder", function()
 
             local line = LineBuilder.AddHeader({key = "Recipes", text = "Recipes"})
 
-            assert.spy(line.label.SetText).was.called_with(line.label, "|cFFC0C0C0Recipes +|r")
+            assert.spy(line.label.SetText).was.called_with(match._, "|cFFC0C0C0Recipes +|r")
         end)
 
         it("should size the line and the tracker to the text", function()
@@ -122,17 +122,17 @@ describe("LineBuilder", function()
 
             assert.are_same({144}, updatedWidths)
             assert.are_same({114}, trackedWidths)
-            assert.spy(line.label.SetWidth).was.called_with(line.label, 356)
-            assert.spy(line.SetWidth).was.called_with(line, 250)
-            assert.spy(line.expandZone.SetWidth).was.called_with(line.expandZone, 250)
-            assert.spy(line.expandZone.SetHeight).was.called_with(line.expandZone, 12)
+            assert.spy(line.label.SetWidth).was.called_with(match._, 356)
+            assert.spy(line.SetWidth).was.called_with(match._, 356)
+            assert.spy(line.expandZone.SetWidth).was.called_with(match._, 356)
+            assert.spy(line.expandZone.SetHeight).was.called_with(match._, 12)
             assert.spy(line.expandZone.Show).was.called()
         end)
 
         it("should add 4 pixels below the header", function()
             local line = LineBuilder.AddHeader({key = "Recipes", text = "Recipes"})
 
-            assert.spy(line.SetHeight).was.called_with(line, 16)
+            assert.spy(line.SetHeight).was.called_with(match._, 16)
             assert.spy(line.Show).was.called()
             assert.spy(line.label.Show).was.called()
         end)
@@ -269,7 +269,7 @@ describe("LineBuilder", function()
             assert.are_same({150}, updatedWidths)
             assert.are_same({120}, trackedWidths)
             assert.spy(line.label.SetWidth).was.called_with(match._, 350)
-            assert.spy(line.SetWidth).was.called_with(match._, 270)
+            assert.spy(line.SetWidth).was.called_with(match._, 370)
         end)
 
         it("should add 4 pixels below the title", function()
@@ -298,7 +298,7 @@ describe("LineBuilder", function()
             assert.are_same({174}, updatedWidths)
             assert.are_same({144}, trackedWidths)
             assert.spy(line.label.SetWidth).was.called_with(match._, 326)
-            assert.spy(line.SetWidth).was.called_with(match._, 294)
+            assert.spy(line.SetWidth).was.called_with(match._, 370)
         end)
     end)
 
@@ -344,14 +344,14 @@ describe("LineBuilder", function()
             local line = LineBuilder.AddObjective({text = "Text", clickMode = "recipe", target = recipe})
 
             assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 30, 0)
-            assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(line, 30)
+            assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(match._, 30)
         end)
 
         it("should use the given margin", function()
             local line = LineBuilder.AddObjective({text = "Text", clickMode = "recipe", target = recipe, marginLeft = 54})
 
             assert.spy(line.label.SetPoint).was.called_with(match._, "TOPLEFT", match._, "TOPLEFT", 54, 0)
-            assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(line, 54)
+            assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(match._, 54)
         end)
 
         it("should add 1 pixel below the objective", function()
@@ -395,7 +395,7 @@ describe("LineBuilder", function()
             assert.are_same({184}, updatedWidths)
             assert.are_same({154}, trackedWidths)
             assert.spy(line.label.SetWidth).was.called_with(match._, 356)
-            assert.spy(line.SetWidth).was.called_with(match._, 304)
+            assert.spy(line.SetWidth).was.called_with(match._, 410)
         end)
 
         it("should add 1 pixel below the timer", function()
