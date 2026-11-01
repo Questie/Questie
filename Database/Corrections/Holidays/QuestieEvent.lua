@@ -634,6 +634,7 @@ QuestieEvent.eventDateCorrections = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
         ["Pirates' Day"] = false,
+        ["Day of the Dead"] = false,
         ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
             -- Date is set for 2027. Please update this every year.
             startDate = "28/3",
@@ -661,6 +662,7 @@ QuestieEvent.eventDateCorrections = {
         },
     },
     ["TBC"] = {
+        ["Day of the Dead"] = false,
         ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
             -- Date is set for 2027. Please update this every year.
             startDate = "28/3",
