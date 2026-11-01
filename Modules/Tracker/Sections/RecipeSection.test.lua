@@ -5,7 +5,7 @@ describe("RecipeSection", function()
     local RecipeSection
     local TrackerLinePool, TrackerLayout, TrackerRecipes
 
-    local recipes, texts
+    local recipes, texts, recipeTargets
 
     local function _FakeLine()
         local label = {
@@ -17,7 +17,14 @@ describe("RecipeSection", function()
         setmetatable(label, {__index = function() return function() end end})
         local button = {}
         setmetatable(button, {__index = function() return function() end end})
-        local line = {label = label, expandZone = button, expandQuest = button, criteriaMark = button, playButton = button}
+        local line = {
+            label = label,
+            expandZone = button,
+            expandQuest = button,
+            criteriaMark = button,
+            playButton = button,
+            SetRecipe = function(_, recipe) recipeTargets[#recipeTargets + 1] = recipe end,
+        }
         setmetatable(line, {__index = function() return function() end end})
         return line
     end
@@ -25,6 +32,7 @@ describe("RecipeSection", function()
     before_each(function()
         recipes = {}
         texts = {}
+        recipeTargets = {}
         Questie.db.char.collapsedZones = {}
         Questie.db.char.minAllQuestsInZone = {}
         Questie.db.profile.trackerQuestPadding = 2
@@ -67,6 +75,7 @@ describe("RecipeSection", function()
         assert.are_same("|cFFC0C0C0Recipes|r", texts[1])
         assert.are_same("|cFFFFFF00Charred Wolf Meat|r", texts[2])
         assert.is_truthy(texts[3]:find("Stringy Wolf Meat: 1/2", 1, true))
+        assert.are_same({recipes[1], recipes[1]}, recipeTargets)
     end)
 
     it("should only draw the header when it is collapsed", function()
