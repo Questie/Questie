@@ -2233,6 +2233,23 @@ function QuestieOptionsEngine:CreateTabCanvas(parent, tabData, frameName, fullWi
 
     headerWrapper:SetPoint("BOTTOM", title, "BOTTOM", 0, 0)
 
+    if mode == RenderMode.POPUP then
+        local journeyButtonData = {
+            title = "My Journey",
+            type = "button",
+            align = "RIGHT",
+            func = function()
+                QuestieOptionsEngine:ToggleConfigWindow()
+                QuestieJourney:ToggleJourneyWindow()
+            end,
+            btnLabel = l10n("My Journey"),
+        }
+
+        local journeyButton = CreateControl(tabFrame, journeyButtonData, 240, minControlHeight[journeyButtonData.type], 1)
+        journeyButton:SetPoint("TOPRIGHT", tabFrame, "TOPRIGHT", -36, 7)
+        tabFrame.journeyButton = journeyButton
+    end
+
     local scrollFrame, scrollChild = CreateScrollFrames(tabFrame, frameName, headerWrapper, mode)
     tabFrame:HookScript("OnShow", scrollChild.UpdateScrollLayout)
     tabFrame:Hide()
