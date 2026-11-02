@@ -19,6 +19,7 @@ end
 ---@return boolean supported
 ---@return string? message
 function VersionCheckDB.Check()
+    local qDBInstalled = C_AddOns and C_AddOns.IsAddOnLoaded("QuestieDB")
     local required, message = VersionCheckDB.GetRequiredContract()
     if not required then
         return false, message
@@ -26,6 +27,16 @@ function VersionCheckDB.Check()
 
     local getMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
     local installedVersion = getMetadata and getMetadata("QuestieDB", "Version") or "unknown"
+
+    -- If QuestieDB is not loaded, inform in a user-friendly way
+    if not qDBInstalled then
+        if installedVersion and (installedVersion ~= "unknown") then
+            return false, "QuestieDB installed but not active. Please enable QuestieDB in your addon list!"
+        else
+            return false, "QuestieDB not installed. Please reinstall Questie in your addon manager (CurseForge/WowUp)."
+        end
+    end
+
     local context = ("Questie requires QuestieDB contract %d; installed QuestieDB version: %s. ")
         :format(required, installedVersion)
     if type(LibQuestieDB) ~= "table" or type(LibQuestieDB.RequireContract) ~= "function" then
