@@ -78,6 +78,18 @@ describe("RecipeSection", function()
         assert.are_same({recipes[1], recipes[1]}, recipeTargets)
     end)
 
+    it("should target the lines of each recipe at that recipe", function()
+        local first = {Id = 1, Name = "First", Reagents = {}}
+        local second = {Id = 2, Name = "Second", Reagents = {
+            {ItemId = 3, Name = "Stone", Collected = 1, Needed = 2},
+        }}
+        recipes = {first, second}
+
+        RecipeSection.Draw()
+
+        assert.are_same({first, second, second}, recipeTargets)
+    end)
+
     it("should only draw the header when it is collapsed", function()
         recipes = {{Id = 2538, Name = "Charred Wolf Meat", Reagents = {}}}
         Questie.db.char.collapsedZones = {Recipes = true}
