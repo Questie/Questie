@@ -14,6 +14,7 @@ describe("EventHandler event dispatch", function()
     local AvailableQuests
     local savedSkillCallbacks
     local TrackerRecipes
+    local AchievementTracking
 
     before_each(function()
         savedGlobals = {
@@ -66,6 +67,9 @@ describe("EventHandler event dispatch", function()
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
         TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
         TrackerRecipes.IsSupported = function() return false end
+        AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
+        AchievementTracking.IsSupported = function() return false end
+        AchievementTracking.HasTrackedAchievements = function() return false end
 
         dofile("Modules/EventHandler/EventHandler.lua")
         QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
@@ -126,6 +130,61 @@ describe("EventHandler event dispatch", function()
         callbacks.LOADING_SCREEN_ENABLED("LOADING_SCREEN_ENABLED")
         assert.spy(QuestLogCache.OnLoadingScreenEnabled).was.called(2)
         QuestLogCache.OnLoadingScreenEnabled = originalOnLoadingScreenEnabled
+    end)
+
+    describe("achievement tracking", function()
+        local AchievementEventHandler, originalListChanged, originalEarned
+
+        before_each(function()
+            AchievementEventHandler = QuestieLoader:ImportModule("AchievementEventHandler")
+            originalListChanged, originalEarned = AchievementEventHandler.TrackedAchievementListChanged, AchievementEventHandler.AchievementEarned
+            AchievementEventHandler.TrackedAchievementListChanged = spy.new(function() end)
+            AchievementEventHandler.AchievementEarned = function() end
+            Questie.db.profile.trackerEnabled = true
+            AchievementTracking.IsSupported = function() return true end
+            AchievementTracking.UsesContentTracking = function() return false end
+            AchievementTracking.IsAchievementContentType = function(trackableType) return trackableType == 2 end
+        end)
+
+        after_each(function()
+            AchievementEventHandler.TrackedAchievementListChanged = originalListChanged
+            AchievementEventHandler.AchievementEarned = originalEarned
+        end)
+
+        local function _Register()
+            callbacks = {}
+            bucketEvents = {}
+            QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+        end
+
+        it("should register the achievement events when achievement tracking is supported", function()
+            _Register()
+
+            assert.is_function(callbacks.ACHIEVEMENT_EARNED)
+            assert.is_function(callbacks.TRACKED_ACHIEVEMENT_LIST_CHANGED)
+            assert.is_table(bucketEvents.CRITERIA_UPDATE)
+            assert.is_nil(callbacks.CONTENT_TRACKING_UPDATE)
+        end)
+
+        it("should not register the achievement events when achievement tracking is not supported", function()
+            AchievementTracking.IsSupported = function() return false end
+
+            _Register()
+
+            assert.is_nil(callbacks.ACHIEVEMENT_EARNED)
+            assert.is_nil(callbacks.TRACKED_ACHIEVEMENT_LIST_CHANGED)
+        end)
+
+        it("should forward achievement changes of CONTENT_TRACKING_UPDATE", function()
+            AchievementTracking.UsesContentTracking = function() return true end
+            _Register()
+
+            callbacks.CONTENT_TRACKING_UPDATE("CONTENT_TRACKING_UPDATE", 1, 99, true)
+            callbacks.CONTENT_TRACKING_UPDATE("CONTENT_TRACKING_UPDATE", 2, 12, true)
+
+            assert.spy(AchievementEventHandler.TrackedAchievementListChanged).was.called(1)
+            assert.spy(AchievementEventHandler.TrackedAchievementListChanged).was.called_with(12)
+        end)
     end)
 
     describe("recipe tracking", function()

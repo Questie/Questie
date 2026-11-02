@@ -245,12 +245,7 @@ _OnClickAchieve = function(self, button)
         else
             if AchievementTracking.IsTracked(self.Quest.Id) then
                 AchievementTracking.Untrack(self.Quest.Id)
-
-                if (not AchievementFrame) then
-                    AchievementFrame_LoadUI()
-                end
-
-                QuestieCompat.AchievementFrameAchievements_ForceUpdate()
+                AchievementTracking.RefreshAchievementWindow()
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
@@ -261,18 +256,7 @@ _OnClickAchieve = function(self, button)
             end
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
-        if (not AchievementFrame) then
-            AchievementFrame_LoadUI()
-        end
-
-        if (not AchievementFrame:IsShown()) then
-            QuestieCompat.AchievementFrame_ToggleAchievementFrame()
-            QuestieCompat.AchievementFrame_SelectAchievement(self.Quest.Id)
-        else
-            if (AchievementFrameAchievements.selection ~= self.Quest.Id) then
-                QuestieCompat.AchievementFrame_SelectAchievement(self.Quest.Id)
-            end
-        end
+        AchievementTracking.OpenAchievement(self.Quest.Id)
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForAchievement(self.Quest)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")

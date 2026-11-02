@@ -378,7 +378,7 @@ describe("QuestieTracker", function()
     describe("explicit display refresh", function()
         local now, inCombat, expansion, originalExpansion, originalTimer, originalDurability, originalBindingLabel
         local timeMock, combatMock, countMock, instanceMock, infoMock, screenMock
-        local header, pool, revision, RecipeSection, ScenarioSection, AchievementSection, QuestSection, drawnSections
+        local header, pool, revision, RecipeSection, ScenarioSection, AchievementSection, QuestSection, drawnSections, achievementsSupported
 
         before_each(function()
             now, inCombat = 0, false
@@ -431,6 +431,8 @@ describe("QuestieTracker", function()
             QuestSection = QuestieLoader:ImportModule("QuestSection")
             QuestSection.Draw = spy.new(function() table.insert(drawnSections, "quests") end)
             drawnSections = {}
+            achievementsSupported = false
+            QuestieLoader:ImportModule("AchievementTracking").IsSupported = function() return achievementsSupported end
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
@@ -461,7 +463,7 @@ describe("QuestieTracker", function()
             _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = originalBindingLabel
         end)
 
-        it("should draw quests and recipes outside scenarios before WotLK", function()
+        it("should draw quests and recipes outside scenarios without achievement tracking", function()
             now = 1
 
             QuestieTracker:Update()
@@ -472,8 +474,8 @@ describe("QuestieTracker", function()
             assert.spy(AchievementSection.Draw).was.not_called()
         end)
 
-        it("should draw the achievement section from WotLK on", function()
-            expansion.Current = expansion.Wotlk
+        it("should draw the achievement section when achievement tracking is supported", function()
+            achievementsSupported = true
             now = 1
 
             QuestieTracker:Update()
@@ -482,7 +484,7 @@ describe("QuestieTracker", function()
         end)
 
         it("should draw achievements before quests when configured", function()
-            expansion.Current = expansion.Wotlk
+            achievementsSupported = true
             Questie.db.profile.listAchievementsFirst = true
             now = 1
 

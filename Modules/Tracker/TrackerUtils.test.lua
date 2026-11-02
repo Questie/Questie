@@ -1075,19 +1075,19 @@ describe("TrackerUtils", function()
     end)
 
     describe("HasQuest", function()
-        local achievementIds, originalGetTrackedIds
+        local achievementIds, originalHasTracked
 
         before_each(function()
             Questie.IsCata = false
             Questie.IsWotlk = false
             achievementIds = {}
             local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
-            originalGetTrackedIds = AchievementTracking.GetTrackedIds
-            AchievementTracking.GetTrackedIds = function() return achievementIds end
+            originalHasTracked = AchievementTracking.HasTrackedAchievements
+            AchievementTracking.HasTrackedAchievements = function() return #achievementIds > 0 end
         end)
 
         after_each(function()
-            QuestieLoader:ImportModule("AchievementTracking").GetTrackedIds = originalGetTrackedIds
+            QuestieLoader:ImportModule("AchievementTracking").HasTrackedAchievements = originalHasTracked
         end)
 
         it("should return true when a quest is tracked", function()

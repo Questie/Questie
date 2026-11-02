@@ -1238,7 +1238,6 @@ function QuestieCompat.ActionStatus_DisplayMessage(message, ignoreNewbieTooltipS
 end
 
 -- Achievement UI can be absent or load-on-demand; Classic still uses these global UI helpers.
--- Forever maps to Era content, so ordinary achievement tracker branches do not run there.
 ---Toggles the achievement window when its UI helper is available.
 function QuestieCompat.AchievementFrame_ToggleAchievementFrame()
     if AchievementFrame_ToggleAchievementFrame then

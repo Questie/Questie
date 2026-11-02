@@ -8,6 +8,14 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
+local function _UpdateTrackerForAchievements()
+    if AchievementTracking.HasTrackedAchievements() then
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end
+end
+
 -- Earned Achievement update. The game removes an earned achievement from its tracked list itself
 function AchievementEventHandler.AchievementEarned()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
@@ -44,33 +52,23 @@ end
 function AchievementEventHandler.CriteriaUpdate()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CRITERIA_UPDATE")
 
-    if next(AchievementTracking.GetTrackedIds()) then
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-    end
+    _UpdateTrackerForAchievements()
 end
 
 -- Money based Achievement updates
 function AchievementEventHandler.ChatMsgMoney()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_MONEY")
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
+    _UpdateTrackerForAchievements()
 end
 
 -- Emote based Achievement updates
 function AchievementEventHandler.ChatMsgTextEmote()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_TEXT_EMOTE")
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
+    _UpdateTrackerForAchievements()
 end
 
 -- Player equipment changed based Achievement updates
 function AchievementEventHandler.PlayerEquipmentChanged()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_EQUIPMENT_CHANGED")
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
+    _UpdateTrackerForAchievements()
 end

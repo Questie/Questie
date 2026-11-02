@@ -4,19 +4,19 @@ describe("AchievementEventHandler", function()
     ---@type AchievementEventHandler
     local AchievementEventHandler
     local QuestieTracker, QuestieCombatQueue, AchievementTracking
-    local originalUpdate, originalQueue, originalGetTrackedIds, originalIsTracked, trackedIds, tracked
+    local originalUpdate, originalQueue, originalHasTracked, originalIsTracked, trackedIds, tracked
 
     before_each(function()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
         originalUpdate, originalQueue = QuestieTracker.Update, QuestieCombatQueue.Queue
-        originalGetTrackedIds, originalIsTracked = AchievementTracking.GetTrackedIds, AchievementTracking.IsTracked
+        originalHasTracked, originalIsTracked = AchievementTracking.HasTrackedAchievements, AchievementTracking.IsTracked
         trackedIds = {}
         tracked = true
         QuestieTracker.Update = spy.new(function() end)
         QuestieCombatQueue.Queue = function(_, callback) callback() end
-        AchievementTracking.GetTrackedIds = function() return trackedIds end
+        AchievementTracking.HasTrackedAchievements = function() return #trackedIds > 0 end
         AchievementTracking.IsTracked = function() return tracked end
         Questie.db.char.collapsedQuests = {}
         Questie.db.char.collapsedZones = {}
@@ -27,7 +27,7 @@ describe("AchievementEventHandler", function()
 
     after_each(function()
         QuestieTracker.Update, QuestieCombatQueue.Queue = originalUpdate, originalQueue
-        AchievementTracking.GetTrackedIds, AchievementTracking.IsTracked = originalGetTrackedIds, originalIsTracked
+        AchievementTracking.HasTrackedAchievements, AchievementTracking.IsTracked = originalHasTracked, originalIsTracked
     end)
 
     describe("AchievementEarned", function()
@@ -76,19 +76,21 @@ describe("AchievementEventHandler", function()
         end)
     end)
 
-    describe("CriteriaUpdate", function()
-        it("should update the tracker while achievements are tracked", function()
-            trackedIds = {12}
+    for _, handler in ipairs({"CriteriaUpdate", "ChatMsgMoney", "ChatMsgTextEmote", "PlayerEquipmentChanged"}) do
+        describe(handler, function()
+            it("should update the tracker while achievements are tracked", function()
+                trackedIds = {12}
 
-            AchievementEventHandler.CriteriaUpdate()
+                AchievementEventHandler[handler]()
 
-            assert.spy(QuestieTracker.Update).was.called(1)
+                assert.spy(QuestieTracker.Update).was.called(1)
+            end)
+
+            it("should not update the tracker without tracked achievements", function()
+                AchievementEventHandler[handler]()
+
+                assert.spy(QuestieTracker.Update).was.not_called()
+            end)
         end)
-
-        it("should not update the tracker without tracked achievements", function()
-            AchievementEventHandler.CriteriaUpdate()
-
-            assert.spy(QuestieTracker.Update).was.not_called()
-        end)
-    end)
+    end
 end)

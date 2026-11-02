@@ -14,6 +14,8 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type AchievementEventHandler
 local AchievementEventHandler = QuestieLoader:ImportModule("AchievementEventHandler")
 ---@type GroupEventHandler
@@ -271,13 +273,20 @@ function EventHandler:RegisterLateEvents()
     end
 
     -- UI Achievement Events
-    if Expansions.Current >= Expansions.Wotlk and Questie.db.profile.trackerEnabled then
+    if AchievementTracking.IsSupported() and Questie.db.profile.trackerEnabled then
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", AchievementEventHandler.AchievementEarned)
 
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", AchievementEventHandler.TrackedAchievementUpdate)
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achievementId)
             AchievementEventHandler.TrackedAchievementListChanged(achievementId)
         end)
+        if AchievementTracking.UsesContentTracking() then
+            Questie:RegisterEvent("CONTENT_TRACKING_UPDATE", function(_, trackableType, id)
+                if AchievementTracking.IsAchievementContentType(trackableType) then
+                    AchievementEventHandler.TrackedAchievementListChanged(id)
+                end
+            end)
+        end
 
         -- This fires pretty often, multiple times for a single Achievement change and also for things most likely not related to Achievements at all.
         -- We use a bucket to hinder this from spamming
@@ -493,7 +502,7 @@ function _EventHandler:MapExplorationUpdated()
     end
 
     -- Exploratory based Achievement updates
-    if Expansions.Current >= Expansions.Wotlk then
+    if AchievementTracking.HasTrackedAchievements() then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -605,7 +614,7 @@ function _EventHandler:ChatMsgSkill()
     end
 
     -- Skill based Achievement updates
-    if Expansions.Current >= Expansions.Wotlk then
+    if AchievementTracking.HasTrackedAchievements() then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
