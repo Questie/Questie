@@ -119,6 +119,7 @@ exit "$UPLOAD_EXIT"
         self.assertIn('"releaseType": "release"', arguments)
         self.assertIn('"displayName": "v12.0.0"', arguments)
         self.assertIn('{slug: "questiedb", type: "requiredDependency"}', arguments)
+        self.assertIn('{slug: "questietrace", type: "requiredDependency"}', arguments)
         with zipfile.ZipFile(str(self.calls) + ".zip") as uploaded:
             self.assertEqual(["Questie/Questie.toc"], uploaded.namelist())
         with zipfile.ZipFile(self.zip) as bundle:
