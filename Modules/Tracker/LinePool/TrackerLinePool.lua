@@ -101,7 +101,6 @@ function TrackerLinePool.ResetLinesForChange()
         end
         if line.playButton then
             line.playButton.mode = nil
-            line.playButton:SetAlpha(0)
             line.playButton:Hide()
         end
         if line.questFocus then
@@ -282,39 +281,6 @@ end
 ---@return number lineIndex
 function TrackerLinePool.GetHighestIndex()
     return lineIndex > linePoolSize and linePoolSize or lineIndex
-end
-
----@param alpha number
-function TrackerLinePool.SetAllPlayButtonAlpha(alpha)
-    if TrackerUtils:IsVoiceOverLoaded() then
-        local highestIndex = TrackerLinePool.GetHighestIndex()
-        for i = 1, highestIndex do
-            local line = linePool[i]
-            local questId = line.playButton.mode
-            local button = VoiceOver.QuestOverlayUI.questPlayButtons[questId]
-            local sound = VoiceOver.DataModules:PrepareSound({event = 1, questID = questId})
-
-            if button then
-                local isPlaying = button.soundData and VoiceOver.SoundQueue:Contains(button.soundData)
-                local texturePath = isPlaying and "Interface\\Addons\\Questie\\Icons\\QuestLogStopButton" or "Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton"
-
-                line.playButton:SetNormalTexture(texturePath)
-            end
-
-            if IsShiftKeyDown() then
-                if sound then
-                    line.playButton:SetAlpha(alpha)
-                else
-                    line.playButton:SetAlpha(0.33)
-                end
-
-                line.playButton:SetFrameLevel(200)
-            else
-                line.playButton:SetAlpha(alpha)
-                line.playButton:SetFrameLevel(0)
-            end
-        end
-    end
 end
 
 ---@param alpha number

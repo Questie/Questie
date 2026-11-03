@@ -1055,7 +1055,6 @@ function QuestieTracker:UpdateFormatting()
             Questie.db.profile.trackerFontSizeZone + 22)
     end
 
-    TrackerUtils:ShowVoiceOverPlayButtons()
     TrackerUtils:UpdateVoiceOverPlayButtons()
 end
 

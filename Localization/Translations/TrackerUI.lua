@@ -128,30 +128,6 @@ local trackerUILocales = {
         ["zhTW"] = "整合插件",
     },
     -- VoiceOver Integration
-    ["VoiceOver"] = {
-        ["enUS"] = true,
-        ["deDE"] = true,
-        ["esES"] = true,
-        ["esMX"] = true,
-        ["frFR"] = true,
-        ["koKR"] = true,
-        ["ptBR"] = true,
-        ["ruRU"] = true,
-        ["zhCN"] = true,
-        ["zhTW"] = true,
-    },
-    ["Hold shift to see PlayButtons"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Halte Shift gedrückt, um Play-Buttons zu sehen",
-        ["esES"] = "Manten presionada la tecla mayús para ver los PlayButtons",
-        ["esMX"] = "Manten presionada la tecla mayús para ver los PlayButtons",
-        ["frFR"] = "Maintenez la touche Maj enfoncée pour voir les PlayButtons",
-        ["koKR"] = "플레이 버튼을 보기 위해서는 쉬프트 키를 누르고 계세요",
-        ["ptBR"] = "Pressione Shift para ver os PlayButtons",
-        ["ruRU"] = "Зажмите Shift, чтобы увидеть PlayButtons",
-        ["zhCN"] = "按住 Shift 键查看播放按钮",
-        ["zhTW"] = "按住 Shift 顯示播放按鈕",
-    },
     -- TomTom Integration
     ["TomTom"] = {
         ["enUS"] = true,

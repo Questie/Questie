@@ -1070,51 +1070,6 @@ function TrackerUtils:IsVoiceOverLoaded()
     return false
 end
 
-function TrackerUtils:ShowVoiceOverPlayButtons()
-    if self:IsVoiceOverLoaded() then
-        if Questie.db.char.isTrackerExpanded then
-            if IsShiftKeyDown() and QuestieCompat.MouseIsOver(Questie_BaseFrame) then
-                if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
-                    Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils:ShowVoiceOverPlayButtons]")
-                else
-                    Questie.Debug(Questie.DEBUG_INFO, "[TrackerUtils:ShowVoiceOverPlayButtons]")
-                end
-            end
-
-            if IsShiftKeyDown() then
-                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
-                    TrackerLinePool.SetAllPlayButtonAlpha(1)
-                    TrackerFadeTicker.Fade()
-
-                    if not Questie.db.profile.trackerFadeMinMaxButtons then
-                        TrackerLinePool.SetAllExpandQuestAlpha(0)
-                    end
-
-                    if not Questie.db.profile.trackerFadeQuestItemButtons then
-                        TrackerLinePool.SetAllItemButtonAlpha(0)
-                    end
-                end
-            else
-                if QuestieCompat.MouseIsOver(Questie_BaseFrame) then
-                    TrackerLinePool.SetAllPlayButtonAlpha(0)
-                    TrackerFadeTicker.Unfade()
-                else
-                    TrackerLinePool.SetAllPlayButtonAlpha(0)
-                    TrackerFadeTicker.Fade()
-                end
-
-                if not Questie.db.profile.trackerFadeMinMaxButtons then
-                    TrackerLinePool.SetAllExpandQuestAlpha(1)
-                end
-
-                if not Questie.db.profile.trackerFadeQuestItemButtons then
-                    TrackerLinePool.SetAllItemButtonAlpha(1)
-                end
-            end
-        end
-    end
-end
-
 function TrackerUtils:UpdateVoiceOverPlayButtons()
     if self:IsVoiceOverLoaded() then
         if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
