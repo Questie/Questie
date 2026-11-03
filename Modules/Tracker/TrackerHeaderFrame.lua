@@ -100,26 +100,14 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
             Questie:Colorize(l10n("Drag while Locked"), "white")
         )
 
-        local VoiceOver, TomTom = TrackerUtils:IsVoiceOverLoaded(), IsAddOnLoaded("TomTom")
-
-        if VoiceOver or TomTom then
+        if IsAddOnLoaded("TomTom") then
             GameTooltip:AddLine(" ")
             GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations"), "gold"))
             GameTooltip:AddLine(" ")
-
-            if VoiceOver then
-                GameTooltip:AddDoubleLine(
-                    Questie:Colorize(l10n("VoiceOver"), "lightBlue"),
-                    Questie:Colorize(l10n("Hold shift to see PlayButtons"), "white")
-                )
-            end
-
-            if TomTom then
-                GameTooltip:AddDoubleLine(
-                    Questie:Colorize(l10n("TomTom"), "lightBlue"),
-                    Questie:Colorize(l10n("Ctrl + Left Click or Right Click a Quest Title"), "white")
-                )
-            end
+            GameTooltip:AddDoubleLine(
+                Questie:Colorize(l10n("TomTom"), "lightBlue"),
+                Questie:Colorize(l10n("Ctrl + Left Click or Right Click a Quest Title"), "white")
+            )
         end
 
         GameTooltip:Show()

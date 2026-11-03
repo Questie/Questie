@@ -559,11 +559,6 @@ function _EventHandler:ModifierStateChanged(key, down)
         end
     end
 
-    if QuestieTracker.started then
-        -- AI_VoiceOver PlayButtons
-        TrackerUtils:ShowVoiceOverPlayButtons()
-    end
-
     if Questie.db.profile.trackerLocked then
         if QuestieTracker.started then
             -- This is a safety catch for race conditions to prevent the Tracker Sizer
