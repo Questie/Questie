@@ -421,6 +421,7 @@ describe("QuestieTracker", function()
             pool.ResetLinesForChange = function() end
             pool.ResetButtonsForChange = function() end
             pool.GetLastLine = function() return nil end
+            pool.RefreshHighlight = function() end
             RecipeSection = QuestieLoader:ImportModule("RecipeSection")
             RecipeSection.Draw = spy.new(function() end)
             ScenarioSection = QuestieLoader:ImportModule("ScenarioSection")

@@ -172,6 +172,16 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line.expandQuest = ExpandQuestButton.New(index, line)
     line.questFocus = QuestFocusButton.New(index, line)
 
+    -- Hovering a button in front of the title highlights the quest like hovering the line itself
+    for _, button in ipairs({line.questFocus, line.playButton, line.expandQuest}) do
+        button:HookScript("OnEnter", function()
+            OnEnter(line)
+        end)
+        button:HookScript("OnLeave", function()
+            OnLeave(line)
+        end)
+    end
+
     return line
 end
 

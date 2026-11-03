@@ -949,6 +949,7 @@ function QuestieTracker:Update(onlyIfChanged)
     if TrackerLinePool.GetLastLine() then
         QuestieTracker:UpdateFormatting()
     end
+    TrackerLinePool.RefreshHighlight()
     -- Only a completed layout is current. One that errors partway is retried by the next quest-log check.
     layoutRevision = showsQuests and revision or nil
 

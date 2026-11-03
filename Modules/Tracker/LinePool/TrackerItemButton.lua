@@ -18,7 +18,9 @@ local GetItemCount = QuestieCompat.GetItemCount
 local IsItemInRange = C_Item.IsItemInRange or IsItemInRange
 
 ---@param buttonName string
-function TrackerItemButton.New(buttonName)
+---@param OnHighlightEnter function @Callback function to highlight the quest of a line
+---@param OnHighlightLeave function @Callback function to remove the highlight
+function TrackerItemButton.New(buttonName, OnHighlightEnter, OnHighlightLeave)
     local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
     local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
     btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
@@ -196,11 +198,17 @@ function TrackerItemButton.New(buttonName)
         GameTooltip:Show()
 
         TrackerFadeTicker.Unfade(self)
+        -- Highlights the quest of the line the button is attached to. In combat it can stay on UIParent.
+        local line = self:GetParent()
+        if line and line.Quest then
+            OnHighlightEnter(line)
+        end
     end
     btn.OnLeave = function(self)
         GameTooltip:Hide()
 
         TrackerFadeTicker.Fade(self)
+        OnHighlightLeave()
     end
 
     btn.FakeHide = function(self)

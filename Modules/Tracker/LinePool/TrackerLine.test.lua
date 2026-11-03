@@ -4,6 +4,14 @@ describe("TrackerLine untrack click", function()
     local originals
     local tracker, compat, TrackerLine
 
+    local function _HookableButton()
+        local button = {hooks = {}}
+        function button:HookScript(name, callback)
+            self.hooks[name] = callback
+        end
+        return button
+    end
+
     before_each(function()
         originals = {
             CreateFrame = _G.CreateFrame,
@@ -40,9 +48,9 @@ describe("TrackerLine untrack click", function()
         end
         QuestieLoader:ImportModule("AchievementCriteriaCheckmark").New = function() return {} end
         QuestieLoader:ImportModule("ExpandZoneButton").New = function() return {} end
-        QuestieLoader:ImportModule("VoiceOverPlayButton").New = function() return {} end
-        QuestieLoader:ImportModule("ExpandQuestButton").New = function() return {} end
-        QuestieLoader:ImportModule("QuestFocusButton").New = function() return {} end
+        QuestieLoader:ImportModule("VoiceOverPlayButton").New = _HookableButton
+        QuestieLoader:ImportModule("ExpandQuestButton").New = _HookableButton
+        QuestieLoader:ImportModule("QuestFocusButton").New = _HookableButton
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.UntrackQuestId = spy.new(function() end)
         compat = QuestieLoader:ImportModule("QuestieCompat")
@@ -60,6 +68,21 @@ describe("TrackerLine untrack click", function()
         _G.QuestMapFrame = originals.QuestMapFrame
         _G.ChatEdit_GetActiveWindow = originals.ChatEdit_GetActiveWindow
         _G.ChatEdit_InsertLink = originals.ChatEdit_InsertLink
+    end)
+
+    it("should highlight the quest while hovering a button in front of the title", function()
+        local onEnter, onLeave = spy.new(function() end), spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, onEnter, onLeave, function() end)
+
+        for count, button in ipairs({line.questFocus, line.playButton, line.expandQuest}) do
+            button.hooks.OnEnter()
+            button.hooks.OnLeave()
+
+            assert.spy(onEnter).was.called(count)
+            assert.spy(onLeave).was.called(count)
+        end
+        assert.spy(onEnter).was.called_with(line)
+        assert.spy(onLeave).was.called_with(line)
     end)
 
     it("links a Blizzard-only quest through its display data", function()
