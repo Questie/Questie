@@ -47,6 +47,10 @@ describe("QuestieInit", function()
             if addon == "Questie" and field == "X-QuestieDB-Contract" then return "4" end
             if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
         end
+        C_AddOns.IsAddOnLoaded = function(addon)
+            if addon == "Questie" then return true, true end
+            if addon == "QuestieDB" then return true, true end
+        end
         dofile("Modules/VersionCheckDB.lua")
         mock = LoadQuestieDBMock()
         callOrder = {}
