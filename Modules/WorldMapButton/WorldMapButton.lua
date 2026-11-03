@@ -10,6 +10,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local KButtons = LibStub("Krowi_WorldMapButtons-1.4")
 if Questie.IsForever then
@@ -90,9 +92,7 @@ QuestieWorldMapButtonMixin = {
                 UpdateTooltip(mapButton)
             end
             -- Refresh options UI if open to reflect new state
-            if _G.QuestieConfigFrame and _G.QuestieConfigFrame:IsShown() then
-                AceConfigDialog:Open("Questie", _G.QuestieConfigFrame)
-            end
+            QuestieOptionsEngine:RefreshIfShown()
         elseif button == "RightButton" then
             if QuestieMenu.IsOpen() then
                 QuestieMenu:Hide()

@@ -20,6 +20,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -168,7 +170,7 @@ function QuestieJourney:BuildMainFrame()
         settingsButton:SetCallback("OnClick", function()
             QuestieCombatQueue:Queue(function()
                 QuestieJourney:ToggleJourneyWindow()
-                QuestieOptions:ToggleConfigWindow()
+                QuestieOptionsEngine:ToggleConfigWindow()
             end)
         end)
         journeyFrame:AddChild(settingsButton)

@@ -29,6 +29,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 ---@type Moonwell
 local Moonwell = QuestieLoader:ImportModule("Moonwell")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -487,35 +489,42 @@ function QuestieMenu:Show(hideDelay)
     tinsert(menuTable, div)
 
     tinsert(menuTable, { text= l10n('Advanced Search'), func=function()
-        QuestieOptions:HideFrame();
+        QuestieOptionsEngine:HideFrame();
         QuestieJourney.tabGroup:SelectTab("search");
-        QuestieJourney:ToggleJourneyWindow()
+        if not QuestieJourney:IsShown() then
+            QuestieJourney:ToggleJourneyWindow()
+        end
     end})
 
     tinsert(menuTable, { text= l10n('Quests by Zone'), func=function()
-        QuestieOptions:HideFrame();
+        QuestieOptionsEngine:HideFrame();
         QuestieJourney.tabGroup:SelectTab("zone");
-        QuestieJourney:ToggleJourneyWindow()
+        if not QuestieJourney:IsShown() then
+            QuestieJourney:ToggleJourneyWindow()
+        end
     end})
 
     tinsert(menuTable, { text= l10n('Quests by Faction'), func=function()
-        QuestieOptions:HideFrame();
+        QuestieOptionsEngine:HideFrame();
         QuestieJourney.tabGroup:SelectTab("faction");
-        QuestieJourney:ToggleJourneyWindow()
+        if not QuestieJourney:IsShown() then
+            QuestieJourney:ToggleJourneyWindow()
+        end
     end})
 
     tinsert(menuTable, { text= l10n("Questie Options"), func=function()
-        QuestieCombatQueue:Queue(function()
-            QuestieOptions:ToggleConfigWindow()
-        end)
+        if QuestieJourney:IsShown() then
+            QuestieJourney:ToggleJourneyWindow()
+        end
+        QuestieOptionsEngine:ShowFrame();
     end})
 
     tinsert(menuTable, { text= l10n('My Journey'), func=function()
-        QuestieCombatQueue:Queue(function()
-            QuestieOptions:HideFrame();
-            QuestieJourney.tabGroup:SelectTab("journey");
+        QuestieOptionsEngine:HideFrame();
+        QuestieJourney.tabGroup:SelectTab("journey");
+        if not QuestieJourney:IsShown() then
             QuestieJourney:ToggleJourneyWindow()
-        end)
+        end
     end})
 
     if Questie.db.profile.debugEnabled then

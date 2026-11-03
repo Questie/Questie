@@ -64,6 +64,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -650,6 +652,13 @@ function _EventHandler:PlayerRegenDisabled()
             QuestieJourney:ToggleJourneyWindow()
         end
     end
+
+    -- The Native settings panel can be shown in combat, unlike Ace, but some of its options
+    -- (like toggling the tracker) cannot be changed in combat, so we disable those ones in combat.
+    -- Changing their enabled/disabled visible state requires calling RefreshStates(),
+    -- so we refresh them at the start and end of combat if the settings panel is visible.
+    -- There is a delay here because InCombatLockdown() doesn't return accurately immediately following PLAYER_REGEN_DISABLED.
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshIfShown() end)
 end
 
 function _EventHandler:PlayerRegenEnabled()
@@ -666,6 +675,8 @@ function _EventHandler:PlayerRegenEnabled()
         QuestieJourney:ToggleJourneyWindow()
         journeyHiddenByCombat = false
     end
+
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshIfShown() end)
 end
 
 function _EventHandler.UpdateTracker()

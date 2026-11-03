@@ -27,6 +27,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
@@ -58,10 +60,7 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
             if QuestieJourney:IsShown() then
                 QuestieJourney:ToggleJourneyWindow()
             end
-
-            QuestieCombatQueue:Queue(function()
-                QuestieOptions:ToggleConfigWindow()
-            end)
+            QuestieOptionsEngine:ToggleConfigWindow()
 
             return
         elseif button == "RightButton" then
@@ -69,9 +68,10 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
                 QuestieConfigFrame:Hide()
             end
 
-            QuestieCombatQueue:Queue(function()
-                QuestieJourney:ToggleJourneyWindow()
-            end)
+            if QuestieOptionsEngine:IsShown() then
+                QuestieOptionsEngine:ToggleConfigWindow()
+            end
+            QuestieJourney:ToggleJourneyWindow()
 
             return
         end
