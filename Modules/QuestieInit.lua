@@ -171,8 +171,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     local contractSupported, contractError = VersionCheckDB.Check()
     if not contractSupported then
         _StopStartup("startup.provider-contract", contractError)
-        Questie:Print("|cffed2d2dInitialization failed!\n|cffffadad" .. contractError)
-        return false
+        error(contractError, 0)
     end
 
     if type(LibQuestieDB.l10n) ~= "table" or type(LibQuestieDB.l10n.SetCorrection) ~= "function" then
