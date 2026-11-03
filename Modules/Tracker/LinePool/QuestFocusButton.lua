@@ -15,8 +15,6 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 
 local ICON_PATH = "Interface\\AddOns\\Questie\\Icons\\"
 
@@ -67,15 +65,11 @@ local function _OnClick(self)
     end)
 end
 
-local function _OnEnter(self)
-    GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-    GameTooltip:SetText(_IsFocused(self.questId) and l10n("Unfocus") or l10n("Focus Quest"))
-    GameTooltip:Show()
+local function _OnEnter()
     TrackerFadeTicker.Unfade()
 end
 
 local function _OnLeave()
-    GameTooltip:Hide()
     TrackerFadeTicker.Fade()
 end
 
@@ -105,11 +99,15 @@ function QuestFocusButton.New(index, parent)
         local size = _GetButtonSize()
         self:SetWidth(size)
         self:SetHeight(size)
+        local texture
         if isComplete then
-            self:SetNormalTexture(isFocused and QuestFocusButton.TEXTURES.completeFocused or QuestFocusButton.TEXTURES.complete)
+            texture = isFocused and QuestFocusButton.TEXTURES.completeFocused or QuestFocusButton.TEXTURES.complete
         else
-            self:SetNormalTexture(isFocused and QuestFocusButton.TEXTURES.incompleteFocused or QuestFocusButton.TEXTURES.incomplete)
+            texture = isFocused and QuestFocusButton.TEXTURES.incompleteFocused or QuestFocusButton.TEXTURES.incomplete
         end
+        self:SetNormalTexture(texture)
+        -- The icon itself added on top brightens it while hovered
+        self:SetHighlightTexture(texture, "ADD")
         self:Show()
     end
 
