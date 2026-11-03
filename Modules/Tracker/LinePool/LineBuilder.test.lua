@@ -17,6 +17,7 @@ describe("LineBuilder", function()
             SetPoint = spy.new(function() end),
             SetWidth = spy.new(function() end),
             SetHeight = spy.new(function() end),
+            SetSize = spy.new(function() end),
             SetAlpha = spy.new(function() end),
             SetCriteria = spy.new(function() end),
         }
@@ -39,6 +40,7 @@ describe("LineBuilder", function()
             expandQuest = _Button(),
             criteriaMark = _Button(),
             playButton = _Button(),
+            questFocus = _Button(),
             SetMode = spy.new(function() end),
             SetZone = spy.new(function() end),
             SetOnClick = spy.new(function() end),
@@ -62,7 +64,7 @@ describe("LineBuilder", function()
         Questie.db.profile.trackerQuestPadding = 2
 
         TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
-        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24} end
+        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24, expandQuestRight = 15, buttonSize = 15, playButtonRight = 13, playButtonSize = 17, focusButtonRight = 9} end
         TrackerLayout.GetBaseFrameWidth = function() return 400 end
         TrackerLayout.UpdateWidth = function(width) updatedWidths[#updatedWidths + 1] = width end
         TrackerLayout.TrackLineWidth = function(width) trackedWidths[#trackedWidths + 1] = width end
@@ -218,12 +220,23 @@ describe("LineBuilder", function()
             assert.spy(line.expandQuest.Show).was.not_called()
         end)
 
+        it("should place the focus and play buttons in their slots", function()
+            local line = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement})
+
+            assert.spy(line.questFocus.ClearAllPoints).was.called()
+            assert.spy(line.questFocus.SetPoint).was.called_with(match._, "TOPRIGHT", match._, "TOPLEFT", 9, 1)
+            assert.spy(line.playButton.SetSize).was.called_with(match._, 17, 17)
+            assert.spy(line.playButton.ClearAllPoints).was.called()
+            assert.spy(line.playButton.SetPoint).was.called_with(match._, "CENTER", match._, "TOPLEFT", 4.5, -6.5)
+        end)
+
         it("should show the expand button of an expanded title", function()
             local line, collapsed = LineBuilder.AddTitle({text = "Title", clickMode = "achieve", target = achievement, collapseId = 4, zoneKey = "Achievements"})
 
             assert.is_false(collapsed)
             assert.spy(line.expandQuest.Show).was.called()
-            assert.spy(line.expandQuest.SetPoint).was.called_with(match._, "TOPRIGHT", match._, "TOPLEFT", 12, 1)
+            assert.spy(line.expandQuest.ClearAllPoints).was.called()
+            assert.spy(line.expandQuest.SetPoint).was.called_with(match._, "TOPRIGHT", match._, "TOPLEFT", 15, 1)
             assert.are.equal("Achievements", line.expandQuest.zoneId)
             assert.spy(line.expandQuest.SetMode).was.called_with(match._, 1)
         end)

@@ -57,18 +57,6 @@ describe("QuestFocusButton", function()
         QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
     end)
 
-    describe("GetColumnWidth", function()
-        it("should reserve the quest font size plus spacing when enabled", function()
-            assert.are_same(17, QuestFocusButton.GetColumnWidth())
-        end)
-
-        it("should reserve no space when disabled", function()
-            Questie.db.profile.trackerShowQuestFocusButtons = false
-
-            assert.are_same(0, QuestFocusButton.GetColumnWidth())
-        end)
-    end)
-
     describe("New", function()
         it("should start faded when the fade setting is enabled", function()
             Questie.db.profile.trackerFadeQuestFocusButtons = true

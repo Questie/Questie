@@ -131,11 +131,20 @@ function LineBuilder.AddTitle(options)
     line.label:ClearAllPoints()
     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", margins.quest, 0)
 
+    line.questFocus:ClearAllPoints()
+    line.questFocus:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.focusButtonRight, 1)
+
+    -- Vertically centered on the other buttons, since it is bigger
+    line.playButton:SetSize(margins.playButtonSize, margins.playButtonSize)
+    line.playButton:ClearAllPoints()
+    line.playButton:SetPoint("CENTER", line, "TOPLEFT", margins.playButtonRight - margins.playButtonSize / 2, 1 - margins.buttonSize / 2)
+
     if collapseId == nil then
         line.expandQuest:Hide()
     else
         line.expandQuest:Show()
-        line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.quest - 8, 1)
+        line.expandQuest:ClearAllPoints()
+        line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", margins.expandQuestRight, 1)
         line.expandQuest.zoneId = options.zoneKey
 
         -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the zone header (MouseDown).

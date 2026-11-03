@@ -19,7 +19,7 @@ describe("AchievementSection", function()
         local button = {mode = nil}
         setmetatable(button, {__index = function() return function() end end})
         local criteriaMark = {mode = true, SetCriteria = spy.new(function() end), Show = function() end, Hide = function() end}
-        local line = {label = label, expandZone = button, expandQuest = button, criteriaMark = criteriaMark, playButton = button}
+        local line = {label = label, expandZone = button, expandQuest = button, criteriaMark = criteriaMark, playButton = button, questFocus = button}
         setmetatable(line, {__index = function() return function() end end})
         line.SetMode = function(self, mode) self.mode = mode end
         line.SetQuest = function(self, target) self.Quest = target end
@@ -74,7 +74,7 @@ describe("AchievementSection", function()
         TrackerAchievements.GetAchievements = spy.new(function() return achievements end)
 
         TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
-        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24} end
+        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24, buttonSize = 15, playButtonRight = 13, playButtonSize = 17} end
         TrackerLayout.UpdateWidth = function() end
         TrackerLayout.GetBaseFrameWidth = function() return 400 end
         TrackerLayout.TrackLineWidth = function() end

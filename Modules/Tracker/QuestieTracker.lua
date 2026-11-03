@@ -14,8 +14,6 @@ local TrackerHeaderFrame = QuestieLoader:ImportModule("TrackerHeaderFrame")
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
----@type QuestFocusButton
-local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 ---@type TrackerLayout
 local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type RecipeSection
@@ -249,7 +247,8 @@ function QuestieTracker.Initialize()
     trackerHeaderFrame = TrackerHeaderFrame.Initialize(trackerBaseFrame, QuestieTracker.Update)
     trackerQuestFrame = TrackerQuestFrame.Initialize(trackerBaseFrame, trackerHeaderFrame)
     TrackerLayout.Initialize(trackerBaseFrame, function(width) QuestieTracker:UpdateWidth(width) end, function() QuestieTracker:UpdateHeight() end,
-        QuestFocusButton.GetColumnWidth)
+        function() return Questie.db.profile.trackerShowQuestFocusButtons end,
+        function() return TrackerUtils:IsVoiceOverLoaded() end)
 
     if Expansions.Current >= Expansions.Cata or Questie.IsTitanReforged then
         AutoCompleteFrame.Initialize(trackerBaseFrame)
@@ -933,6 +932,7 @@ function QuestieTracker:Update(onlyIfChanged)
 
         -- Populate Achievements first then Quests
         local showAchievements = Expansions.Current >= Expansions.Wotlk
+        TrackerLayout.SetItemColumnShown(QuestSection.HasVisibleQuestItems(sortedQuestIds, questDetails))
         if Questie.db.profile.listAchievementsFirst and showAchievements then
             AchievementSection.Draw()
             QuestSection.Draw(sortedQuestIds, questDetails)

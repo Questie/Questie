@@ -4,7 +4,7 @@ describe("TrackerLayout", function()
     ---@type TrackerLayout
     local TrackerLayout
 
-    local baseFrame, baseFrameWidth, updateWidth, updateHeight, originalGetScreenWidth, questColumnOffset
+    local baseFrame, baseFrameWidth, updateWidth, updateHeight, originalGetScreenWidth, focusSlotShown, playSlotShown
 
     local function _CreateLine(unboundedWidth, wrappedWidth)
         local label = {
@@ -40,8 +40,9 @@ describe("TrackerLayout", function()
 
         dofile("Modules/Tracker/TrackerLayout.lua")
         TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
-        questColumnOffset = 0
-        TrackerLayout.Initialize(baseFrame, updateWidth, updateHeight, function() return questColumnOffset end)
+        focusSlotShown = false
+        playSlotShown = false
+        TrackerLayout.Initialize(baseFrame, updateWidth, updateHeight, function() return focusSlotShown end, function() return playSlotShown end)
         TrackerLayout.ResetLineWidth()
     end)
 
@@ -50,14 +51,60 @@ describe("TrackerLayout", function()
     end)
 
     describe("GetMargins", function()
-        it("should derive the margins from the quest font size", function()
-            assert.are_same({left = 14, right = 30, quest = 38, objective = 50, itemButtonSize = 24}, TrackerLayout.GetMargins())
+        local function _Margins(values)
+            local margins = {left = 14, right = 30, buttonSize = 15, playButtonSize = 17, itemButtonSize = 24}
+            for key, value in pairs(values) do
+                margins[key] = value
+            end
+            return margins
+        end
+
+        it("should only reserve the quest item column without optional slots", function()
+            assert.are_same(_Margins({quest = 26, objective = 38, itemButtonLeft = 0, expandQuestRight = 20, playButtonRight = -2, focusButtonRight = -2}),
+                TrackerLayout.GetMargins())
         end)
 
-        it("should add the width of the column in front of the quest titles", function()
-            questColumnOffset = 16
+        it("should only reserve the expand quest button width when no quest item column is shown", function()
+            TrackerLayout.SetItemColumnShown(false)
 
-            assert.are_same({left = 14, right = 30, quest = 54, objective = 66, itemButtonSize = 24}, TrackerLayout.GetMargins())
+            assert.are_same(_Margins({quest = 17, objective = 29, itemButtonLeft = 0, expandQuestRight = 15, playButtonRight = -2, focusButtonRight = -2}),
+                TrackerLayout.GetMargins())
+        end)
+
+        it("should add a slot for the quest focus buttons left of the quest item column", function()
+            focusSlotShown = true
+
+            assert.are_same(_Margins({quest = 43, objective = 55, itemButtonLeft = 17, expandQuestRight = 37, playButtonRight = 15, focusButtonRight = 15}),
+                TrackerLayout.GetMargins())
+        end)
+
+        it("should add a slot for the VoiceOver play buttons between the focus slot and the quest item column", function()
+            focusSlotShown = true
+            playSlotShown = true
+
+            assert.are_same(_Margins({quest = 62, objective = 74, itemButtonLeft = 36, expandQuestRight = 56, playButtonRight = 34, focusButtonRight = 15}),
+                TrackerLayout.GetMargins())
+        end)
+
+        it("should keep the expand quest button inside the quest item column", function()
+            for _, shown in ipairs({true, false}) do
+                TrackerLayout.SetItemColumnShown(shown)
+                local margins = TrackerLayout.GetMargins()
+
+                assert.is_true(margins.expandQuestRight - margins.buttonSize >= margins.itemButtonLeft)
+                assert.is_true(margins.expandQuestRight <= margins.quest - 2)
+            end
+        end)
+
+        it("should keep the distances of all buttons to the quest title when the focus slot is toggled", function()
+            playSlotShown = true
+            local without = TrackerLayout.GetMargins()
+            focusSlotShown = true
+            local with = TrackerLayout.GetMargins()
+
+            for _, key in ipairs({"itemButtonLeft", "expandQuestRight", "playButtonRight"}) do
+                assert.are_same(without.quest - without[key], with.quest - with[key])
+            end
         end)
     end)
 

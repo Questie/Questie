@@ -12,8 +12,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local Sorter = QuestieLoader:ImportModule("Sorter")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
----@type QuestFocusButton
-local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
+---@type TrackerLayout
+local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type AchievementTracking
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerData
@@ -1227,7 +1227,8 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
             end
 
             -- Attach button to Quest Title linePool
-            button:SetPoint("TOPLEFT", line, "TOPLEFT", QuestFocusButton.GetColumnWidth(), 0)
+            button:ClearAllPoints()
+            button:SetPoint("TOPLEFT", line, "TOPLEFT", TrackerLayout.GetMargins().itemButtonLeft, 1)
             button:SetParent(line)
             button:Show()
 
@@ -1264,7 +1265,8 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
                     rePositionLine()
 
                     -- Attach button to Quest Title linePool
-                    secondaryButton:SetPoint("TOPLEFT", line, "TOPLEFT", QuestFocusButton.GetColumnWidth() + 2 + questItemButtonSize, 0)
+                    secondaryButton:ClearAllPoints()
+                    secondaryButton:SetPoint("TOPLEFT", line, "TOPLEFT", TrackerLayout.GetMargins().quest, 1)
                     secondaryButton:SetParent(line)
                     secondaryButton:Show()
 
