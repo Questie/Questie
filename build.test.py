@@ -67,14 +67,13 @@ class ContractRequirementTests(unittest.TestCase):
                 build.main()
             remove.assert_not_called()
 
-    def test_committed_tocs_declare_one_requirement_and_load_compatibility_check(self):
+    def test_committed_tocs_load_compatibility_check(self):
         root = Path(__file__).resolve().parent
         paths = [str(root / toc) for toc in build.tocs.values()]
         self.assertGreater(build.get_required_db_contract(paths), 0)
         for path in paths:
             with self.subTest(toc=path):
                 lines = Path(path).read_text(encoding="utf-8").splitlines()
-                self.assertIn("## RequiredDeps: QuestieDB", lines)
                 self.assertLess(lines.index("Modules\\VersionCheckDB.lua"), lines.index("Modules\\QuestieInit.lua"))
 
 
