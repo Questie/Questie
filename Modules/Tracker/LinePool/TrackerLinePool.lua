@@ -61,7 +61,7 @@ function TrackerLinePool.Initialize(questFrame)
 
     -- create buttonPool for quest items
     for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
-        local btn = TrackerItemButton.New("Questie_ItemButton" .. i)
+        local btn = TrackerItemButton.New("Questie_ItemButton" .. i, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave)
 
         buttonPool[i] = btn
         buttonPool[i]:Hide()
@@ -333,6 +333,46 @@ TrackerLinePool.OnHighlightLeave = function()
     local highestIndex = TrackerLinePool.GetHighestIndex()
     for i = 1, highestIndex do
         linePool[i]:SetAlpha(1)
+    end
+end
+
+---The buttons in front of a title can reach beyond the line frame.
+---@param line TrackerLineFrame
+---@return boolean
+local function _IsButtonHovered(line)
+    for _, button in ipairs({line.questFocus, line.playButton, line.expandQuest}) do
+        if button:IsVisible() and button:IsMouseOver() then
+            return true
+        end
+    end
+    -- Quest item buttons are taller than a line, so they reach into the next line
+    for i = 1, math.min(buttonIndex, buttonPoolSize) do
+        local button = buttonPool[i]
+        if button and button:GetParent() == line and button:IsVisible() and button:IsMouseOver() then
+            return true
+        end
+    end
+    return false
+end
+
+---Lines are reused for other quests on a redraw, so the highlight must follow the line now under the mouse.
+function TrackerLinePool.RefreshHighlight()
+    TrackerLinePool.OnHighlightLeave()
+
+    local highestIndex = TrackerLinePool.GetHighestIndex()
+    for i = 1, highestIndex do
+        local line = linePool[i]
+        if line:IsVisible() and (line:IsMouseOver() or _IsButtonHovered(line)) then
+            -- A zone header highlights its zone, like hovering its expand zone button does.
+            -- The header line is taller than the button, so the bottom strip only hits the line.
+            local expandZone = line.expandZone
+            if expandZone and expandZone:IsVisible() then
+                TrackerLinePool.OnHighlightEnter(expandZone)
+            else
+                TrackerLinePool.OnHighlightEnter(line)
+            end
+            return
+        end
     end
 end
 

@@ -49,6 +49,59 @@ describe("TrackerItemButton", function()
         getItemCountMock:revert()
     end)
 
+    describe("hover", function()
+        local TrackerFadeTicker, originals, onHighlightEnter, onHighlightLeave
+
+        before_each(function()
+            TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
+            originals = {
+                Unfade = TrackerFadeTicker.Unfade,
+                Fade = TrackerFadeTicker.Fade,
+                GameTooltip = _G.GameTooltip,
+                GetScreenWidth = _G.GetScreenWidth,
+            }
+            onHighlightEnter = spy.new(function() end)
+            onHighlightLeave = spy.new(function() end)
+            TrackerFadeTicker.Unfade = function() end
+            TrackerFadeTicker.Fade = function() end
+            _G.GameTooltip = {SetOwner = function() end, SetHyperlink = function() end, Show = function() end, Hide = function() end}
+            _G.GetScreenWidth = function() return 1000 end
+        end)
+
+        after_each(function()
+            TrackerFadeTicker.Unfade = originals.Unfade
+            TrackerFadeTicker.Fade = originals.Fade
+            _G.GameTooltip = originals.GameTooltip
+            _G.GetScreenWidth = originals.GetScreenWidth
+        end)
+
+        local function _ButtonOn(parent)
+            local button = TrackerItemButton.New("TestButton", onHighlightEnter, onHighlightLeave)
+            button.GetCenter = function() return 0 end
+            button.GetParent = function() return parent end
+            return button
+        end
+
+        it("should highlight the quest of its line while hovered", function()
+            local line = {Quest = {Id = 1}}
+            local button = _ButtonOn(line)
+
+            button.OnEnter(button)
+            button.OnLeave(button)
+
+            assert.spy(onHighlightEnter).was.called_with(line)
+            assert.spy(onHighlightLeave).was.called()
+        end)
+
+        it("should not highlight anything while it is not attached to a quest line", function()
+            local button = _ButtonOn({})
+
+            button.OnEnter(button)
+
+            assert.spy(onHighlightEnter).was.not_called()
+        end)
+    end)
+
     it("should return an item button", function()
         local trackerItemButton = TrackerItemButton.New("TestButton")
 
