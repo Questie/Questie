@@ -30,11 +30,15 @@ function ExpandQuestButton.New(index, parent)
     function expandQuest:SetMode(mode)
         if mode ~= self.mode then
             self.mode = mode
+            local texture
             if mode == 1 then
-                self.texture:SetTexture("Interface\\Buttons\\UI-MinusButton-Up")
+                texture = "Interface\\Buttons\\UI-MinusButton-Up"
             else
-                self.texture:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
+                texture = "Interface\\Buttons\\UI-PlusButton-Up"
             end
+            self.texture:SetTexture(texture)
+            -- The icon itself added on top brightens it while hovered
+            self:SetHighlightTexture(texture, "ADD")
             self:SetWidth(Questie.db.profile.trackerFontSizeQuest + 3)
             self:SetHeight(Questie.db.profile.trackerFontSizeQuest + 3)
         end
