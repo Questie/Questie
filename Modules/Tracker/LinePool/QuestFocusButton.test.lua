@@ -85,7 +85,16 @@ describe("QuestFocusButton", function()
             assert.are_same(QuestFocusButton.TEXTURES.incomplete, button:GetNormalTexture():GetTexture())
         end)
 
-        it("should be as big as the expand quest button", function()
+        it("should highlight the icon itself on hover", function()
+            Questie.db.char.TrackerFocus = 123
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+
+            button:SetQuest(quest, false)
+
+            assert.are_same(QuestFocusButton.TEXTURES.incompleteFocused, button:GetHighlightTexture():GetTexture())
+        end)
+
+        it("should be as big as the quest focus button slot", function()
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
 
             button:SetQuest(quest, false)
@@ -159,6 +168,25 @@ describe("QuestFocusButton", function()
             button:SetQuest(quest, false)
 
             assert.are_same(QuestFocusButton.TEXTURES.incompleteFocused, button:GetNormalTexture():GetTexture())
+        end)
+    end)
+
+    describe("OnEnter", function()
+        it("should unfade the tracker without showing a tooltip", function()
+            local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
+            local originalUnfade, originalTooltip = TrackerFadeTicker.Unfade, _G.GameTooltip
+            local unfade = spy.new(function() end)
+            local setOwner = spy.new(function() end)
+            TrackerFadeTicker.Unfade = unfade
+            _G.GameTooltip = {SetOwner = setOwner}
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnEnter(button)
+            TrackerFadeTicker.Unfade, _G.GameTooltip = originalUnfade, originalTooltip
+
+            assert.spy(unfade).was.called()
+            assert.spy(setOwner).was.not_called()
         end)
     end)
 
