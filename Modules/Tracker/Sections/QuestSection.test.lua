@@ -71,7 +71,7 @@ describe("QuestSection", function()
         Questie.Colorize = function(_, text) return text end
 
         TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
-        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24} end
+        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24, buttonSize = 15, playButtonRight = 13, playButtonSize = 17} end
         TrackerLayout.UpdateWidth = function() end
         TrackerLayout.GetBaseFrame = function() return {} end
         TrackerLayout.GetBaseFrameWidth = function() return 400 end
@@ -290,5 +290,46 @@ describe("QuestSection", function()
 
         assert.spy(TrackerUtils.AddQuestItemButtons).was.called(1)
         assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1"}, texts)
+    end)
+
+    describe("HasVisibleQuestItems", function()
+        before_each(function()
+            TrackerUtils.GetQuestItemIds = function(quest) return quest.Id == 1 and {5} or {} end
+        end)
+
+        it("should return true when a shown quest has a quest item", function()
+            assert.is_true(QuestSection.HasVisibleQuestItems(_Details({
+                {quest = _Quest(2, 0), zoneName = "Elwynn Forest"},
+                {quest = _Quest(1, 0), zoneName = "Elwynn Forest"},
+            })))
+        end)
+
+        it("should return false when no quest has a quest item", function()
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(2, 0), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item is in a collapsed zone", function()
+            Questie.db.char.collapsedZones["Elwynn Forest"] = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item is collapsed", function()
+            Questie.db.char.collapsedQuests[1] = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item gets collapsed as completed", function()
+            Questie.db.profile.collapseCompletedQuests = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item is untracked", function()
+            Questie.db.char.AutoUntrackedQuests[1] = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}})))
+        end)
     end)
 end)

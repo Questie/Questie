@@ -27,19 +27,10 @@ QuestFocusButton.TEXTURES = {
     completeFocused = ICON_PATH .. "poi_complete_focused.png",
 }
 
----Same size as the expand quest (+/-) buttons.
+---Same size as the quest focus button slot in TrackerLayout.
 ---@return number
 local function _GetButtonSize()
     return Questie.db.profile.trackerFontSizeQuest + 3
-end
-
----Horizontal space the focus buttons take in front of quest title lines.
----@return number
-function QuestFocusButton.GetColumnWidth()
-    if (not Questie.db.profile.trackerShowQuestFocusButtons) then
-        return 0
-    end
-    return _GetButtonSize() + 2
 end
 
 ---Focused in Questie, or super tracked by Blizzard, which also covers quests missing from the Questie database.
@@ -93,7 +84,6 @@ end
 ---@return Button
 function QuestFocusButton.New(index, parent)
     local button = CreateFrame("Button", "linePool.questFocus" .. index, parent)
-    button:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 1)
     button:SetFrameLevel(100)
     button:EnableMouse(true)
     button:RegisterForClicks("LeftButtonUp")

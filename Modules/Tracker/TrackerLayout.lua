@@ -11,35 +11,71 @@ TrackerLayout.MARGIN_RIGHT = 30
 ---@field right number
 ---@field quest number Left margin of quest/achievement/recipe titles
 ---@field objective number Left margin of objective lines
+---@field buttonSize number Size of the quest focus, VoiceOver play and expand quest (+/-) buttons
 ---@field itemButtonSize number
+---@field itemButtonLeft number Left edge of the quest item buttons
+---@field expandQuestRight number Right edge of the expand quest (+/-) buttons, centered in the quest item button column
+---@field playButtonSize number The VoiceOver play button icon has a transparent border, so the button is bigger than the others
+---@field playButtonRight number Right edge of the VoiceOver play buttons
+---@field focusButtonRight number Right edge of the quest focus buttons
+
+-- Gap between the button slots in front of the quest titles and between the last slot and the title
+local SLOT_GAP = 2
 
 local baseFrame
 local updateWidth, updateHeight
-local getQuestColumnOffset = function() return 0 end
+local isFocusSlotShown = function() return false end
+local isPlaySlotShown = function() return false end
+local itemColumnShown = true
 -- Width of the widest line drawn since the last reset
 local lineWidth = 0
 
 ---@param trackerBaseFrame Frame
 ---@param updateWidthCallback fun(width: number) Resizes the tracker to the given content width
 ---@param updateHeightCallback fun() Resizes the tracker to its content height
----@param getQuestColumnOffsetCallback fun(): number Width of the column in front of the quest titles (quest focus button)
-function TrackerLayout.Initialize(trackerBaseFrame, updateWidthCallback, updateHeightCallback, getQuestColumnOffsetCallback)
+---@param isFocusSlotShownCallback fun(): boolean Whether the quest focus buttons get a slot in front of the quest titles
+---@param isPlaySlotShownCallback fun(): boolean Whether the VoiceOver play buttons get a slot in front of the quest titles
+function TrackerLayout.Initialize(trackerBaseFrame, updateWidthCallback, updateHeightCallback, isFocusSlotShownCallback, isPlaySlotShownCallback)
     baseFrame = trackerBaseFrame
     updateWidth = updateWidthCallback
     updateHeight = updateHeightCallback
-    getQuestColumnOffset = getQuestColumnOffsetCallback
+    isFocusSlotShown = isFocusSlotShownCallback
+    isPlaySlotShown = isPlaySlotShownCallback
 end
 
+---Without any visible quest item button, the column in front of the quest titles only fits the expand quest (+/-) buttons.
+---@param shown boolean
+function TrackerLayout.SetItemColumnShown(shown)
+    itemColumnShown = shown
+end
+
+---The button slots are laid out from the quest title to the left: [focus] [VoiceOver play] [quest item or +/-] title
 ---@return TrackerMargins
 function TrackerLayout.GetMargins()
     local fontSizeQuest = Questie.db.profile.trackerFontSizeQuest
-    local quest = (TrackerLayout.MARGIN_LEFT + TrackerLayout.MARGIN_RIGHT) - (18 - fontSizeQuest) + getQuestColumnOffset()
+    local buttonSize = fontSizeQuest + 3
+    local itemButtonSize = 12 + fontSizeQuest
+    local itemColumn = itemColumnShown and itemButtonSize or buttonSize
+    local playButtonSize = buttonSize + 2
+    local playSlot = isPlaySlotShown() and (playButtonSize + SLOT_GAP) or 0
+    local focusSlot = isFocusSlotShown() and (buttonSize + SLOT_GAP) or 0
+
+    local quest = focusSlot + playSlot + itemColumn + SLOT_GAP
+    local itemColumnRight = quest - SLOT_GAP
+    local itemButtonLeft = itemColumnRight - itemColumn
+    local playButtonRight = itemButtonLeft - SLOT_GAP
     return {
         left = TrackerLayout.MARGIN_LEFT,
         right = TrackerLayout.MARGIN_RIGHT,
         quest = quest,
         objective = quest + fontSizeQuest,
-        itemButtonSize = 12 + fontSizeQuest,
+        buttonSize = buttonSize,
+        itemButtonSize = itemButtonSize,
+        itemButtonLeft = itemButtonLeft,
+        expandQuestRight = itemColumnRight - math.floor((itemColumn - buttonSize) / 2),
+        playButtonSize = playButtonSize,
+        playButtonRight = playButtonRight,
+        focusButtonRight = playButtonRight - playSlot,
     }
 end
 

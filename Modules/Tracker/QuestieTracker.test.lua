@@ -417,7 +417,6 @@ describe("QuestieTracker", function()
             frame.Initialize = function() return {} end
             frame.Update = function() end
             pool = QuestieLoader:ImportModule("TrackerLinePool")
-            QuestieLoader:ImportModule("QuestFocusButton").GetColumnWidth = function() return 0 end
             pool.Initialize = function() end
             pool.ResetLinesForChange = function() end
             pool.ResetButtonsForChange = function() end
@@ -430,6 +429,7 @@ describe("QuestieTracker", function()
             AchievementSection.Draw = spy.new(function() table.insert(drawnSections, "achievements") end)
             QuestSection = QuestieLoader:ImportModule("QuestSection")
             QuestSection.Draw = spy.new(function() table.insert(drawnSections, "quests") end)
+            QuestSection.HasVisibleQuestItems = function() return false end
             drawnSections = {}
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
@@ -440,6 +440,7 @@ describe("QuestieTracker", function()
 
             dofile("Localization/l10n.lua")
             dofile("Modules/Tracker/TrackerLayout.lua")
+            QuestieLoader:ImportModule("TrackerLayout").SetItemColumnShown = spy.new(function() end)
             dofile("Modules/Tracker/QuestieTracker.lua")
             QuestieTracker.started = false
             QuestieTracker.alreadyHooked = nil
@@ -470,6 +471,32 @@ describe("QuestieTracker", function()
             assert.spy(RecipeSection.Draw).was.called(1)
             assert.spy(ScenarioSection.Draw).was.not_called()
             assert.spy(AchievementSection.Draw).was.not_called()
+        end)
+
+        it("should show the quest item column when a quest item button is visible", function()
+            local originalPredicate = QuestSection.HasVisibleQuestItems
+            local passedArguments
+            QuestSection.HasVisibleQuestItems = function(...)
+                passedArguments = {...}
+                return true
+            end
+            local sortedQuestIds, questDetails = {1}, {[1] = {}}
+            TrackerUtils.GetSortedQuestIds = function() return sortedQuestIds, questDetails end
+            now = 1
+
+            QuestieTracker:Update()
+            QuestSection.HasVisibleQuestItems = originalPredicate
+
+            assert.are_same({sortedQuestIds, questDetails}, passedArguments)
+            assert.spy(QuestieLoader:ImportModule("TrackerLayout").SetItemColumnShown).was.called_with(true)
+        end)
+
+        it("should hide the quest item column when no quest item button is visible", function()
+            now = 1
+
+            QuestieTracker:Update()
+
+            assert.spy(QuestieLoader:ImportModule("TrackerLayout").SetItemColumnShown).was.called_with(false)
         end)
 
         it("should draw the achievement section from WotLK on", function()

@@ -23,6 +23,7 @@ describe("RecipeSection", function()
             expandQuest = button,
             criteriaMark = button,
             playButton = button,
+            questFocus = button,
             SetRecipe = function(_, recipe) recipeTargets[#recipeTargets + 1] = recipe end,
         }
         setmetatable(line, {__index = function() return function() end end})
@@ -42,7 +43,7 @@ describe("RecipeSection", function()
         TrackerRecipes.GetTrackedRecipes = function() return recipes end
 
         TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
-        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24} end
+        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24, buttonSize = 15, playButtonRight = 13, playButtonSize = 17} end
         TrackerLayout.UpdateWidth = function() end
         TrackerLayout.GetBaseFrameWidth = function() return 200 end
         TrackerLayout.TrackLineWidth = function() end

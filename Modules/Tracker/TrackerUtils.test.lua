@@ -59,7 +59,7 @@ describe("TrackerUtils", function()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end
         QuestieTracker.IsTrackedByQuestie = function() return false end
-        QuestieLoader:ImportModule("QuestFocusButton").GetColumnWidth = function() return 0 end
+        QuestieLoader:ImportModule("TrackerLayout").GetMargins = function() return {quest = 43, itemButtonLeft = 17} end
         trackerQuests = {}
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerData.Refresh = spy.new(function() return trackerQuests end)
@@ -730,10 +730,14 @@ describe("TrackerUtils", function()
                 },
             }
             local line = _GetMockedLine()
+            primaryButton.SetPoint = spy.new(function() end)
+            secondaryButton.SetPoint = spy.new(function() end)
 
             local shouldContinue = TrackerUtils.AddQuestItemButtons(quest, 0, line, 12, {}, false, rePositionLineMock)
 
             assert.is_true(shouldContinue)
+            assert.spy(primaryButton.SetPoint).was.called_with(_, "TOPLEFT", _, "TOPLEFT", 17, 1)
+            assert.spy(secondaryButton.SetPoint).was.called_with(_, "TOPLEFT", _, "TOPLEFT", 43, 1)
             assert.spy(primaryButton.SetItem).was.called_with(_, 123, 1, 12, false)
             assert.spy(secondaryButton.SetItem).was.called_with(_, 456, 1, 12, false)
             assert.is_true(primaryButton:IsVisible())
