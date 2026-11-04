@@ -1039,3 +1039,37 @@ describe("Forever race encoding across provider and consumer", function()
         assert.is_false(QuestiePlayer.HasRequiredRace(mask))
     end)
 end)
+
+-- Only the real provider has load dependencies between entity types: its requiredRaces pass makes
+-- a Quest load also load Npc, which the mock's independent ID maps cannot show.
+describe("PreloadEntityData on the real provider", function()
+    local savedProvider
+
+    before_each(function()
+        savedProvider = _G.LibQuestieDB
+    end)
+
+    after_each(function()
+        _G.LibQuestieDB = savedProvider
+    end)
+
+    it("loads exactly one entity type per resume in Source mode", function()
+        local provider = LoadProvider()
+        _G.LibQuestieDB = provider
+        dofile("Database/QuestieDB.lua")
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+        local loadedTypesAfterResume = {}
+        local preload = coroutine.create(QuestieDB.PreloadEntityData)
+        repeat
+            assert.is_true(coroutine.resume(preload))
+            local loadedTypes = 0
+            for _ in pairs(provider.read.source.entities) do
+                loadedTypes = loadedTypes + 1
+            end
+            table.insert(loadedTypesAfterResume, loadedTypes)
+        until coroutine.status(preload) == "dead"
+
+        assert.are_same({1, 2, 3, 4, 4}, loadedTypesAfterResume)
+    end)
+end)
