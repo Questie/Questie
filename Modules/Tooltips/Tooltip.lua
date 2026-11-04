@@ -43,6 +43,9 @@ local nativeQuestFallback = false
 local nativeTooltipHooksInitialized = false
 ---@type ForeverFormatter?
 local nativeQuestFormatter
+-- Blizzard's party progress of the tooltip being rendered, only set while its Questie lines are built.
+---@type table<number, table<string, NativePartyObjective[]>>?
+local nativePartyProgress
 
 local _InitObjectiveTexts
 
@@ -222,6 +225,37 @@ local function _FetchTooltipsForGroupMembers(key, tooltipData)
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text };
                     end
                 end
+            end
+        end
+    end
+    return anotherPlayer
+end
+
+---Adds the progress Blizzard shows for party members, so those without Questie are listed too.
+---Members whose progress already arrived through Comms keep that richer data.
+---@param tooltipData table
+---@return boolean anotherPlayer
+local function _AddNativePartyProgress(tooltipData)
+    local anotherPlayer = false
+    for questId, members in pairs(nativePartyProgress) do
+        for memberName, objectives in pairs(members) do
+            local hasCommsData = false
+            for _, playerList in pairs(tooltipData[questId] and tooltipData[questId].objectivesText or {}) do
+                hasCommsData = hasCommsData or playerList[memberName] ~= nil
+            end
+
+            if (not hasCommsData) and objectives[1] then
+                if (not tooltipData[questId]) then
+                    tooltipData[questId] = {
+                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
+                    }
+                end
+                for objectiveIndex, objective in ipairs(objectives) do
+                    tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, memberName)
+                    local color = QuestieLib:GetRGBForObjective({fulfilled = objective.fulfilled, required = objective.required})
+                    tooltipData[questId].objectivesText[objectiveIndex][memberName] = { ["color"] = color, ["text"] = "   " .. color .. objective.text }
+                end
+                anotherPlayer = true
             end
         end
     end
@@ -424,6 +458,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     local anotherPlayer = false
     if IsInGroup() then
         anotherPlayer = _FetchTooltipsForGroupMembers(key, tooltipData)
+        if nativePartyProgress and _AddNativePartyProgress(tooltipData) then
+            anotherPlayer = true
+        end
     end
 
     local playerName = GetUnitName("player", true)
@@ -538,7 +575,9 @@ local function _RegisterObjectTooltipCallback()
             -- Keep provider name/zone resolution; unmatched captions simply add no quest lines.
             local playerZone = QuestiePlayer:GetCurrentZoneId()
             objectAugmented = true
+            nativePartyProgress = Forever.GetNativePartyProgress(data.lines)
             _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
+            nativePartyProgress = nil
             -- Blizzard calls Show after post-calls. Calling it here would run OnShow in the middle of its rebuild.
         end)
 end
@@ -552,13 +591,16 @@ function QuestieTooltips:Initialize()
     initialized = true
 
     ---@param tooltip GameTooltip
+    ---@param data table? The unit's readable tooltip data. Legacy scripts have none.
     ---@return nil
-    local function AddUnitData(tooltip)
+    local function AddUnitData(tooltip, data)
         if tooltip ~= GameTooltip or nativeQuestFallback or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- The processor also runs for other tooltip frames; unit rendering below owns GameTooltip only.
             return
         end
+        nativePartyProgress = data and Forever.GetNativePartyProgress(data.lines)
         _QuestieTooltips.AddUnitDataToTooltip(tooltip)
+        nativePartyProgress = nil
     end
 
     -- Classic exposes the processor but its native tooltips only fire legacy scripts. Check the frame's data pipeline too.
@@ -598,7 +640,7 @@ function QuestieTooltips:Initialize()
                 -- Questie's lookup cannot run and Blizzard's GetUnit would test it in our context, so the native
                 -- tooltip stays as it is.
                 if _IsPublicTooltipTable(data) and not (issecretvalue and issecretvalue(data.guid)) then
-                    AddUnitData(tooltip)
+                    AddUnitData(tooltip, data)
                 end
             end)
         if Enum.TooltipDataType.Object then
