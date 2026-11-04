@@ -5,12 +5,14 @@ describe("SpokenPlayButton", function()
     local SpokenPlayButton
     local queuedLines, playNow, remove
     local originalQuestieDB
-    local callbacks
+    local partOn, callbacks
 
     before_each(function()
         queuedLines = {}
+        partOn = true
         callbacks = {}
         _G.Spoken = {
+            IsPartOn = function(_, part) return part == "quests" and partOn end,
             RegisterCallback = function(_, event, callback) callbacks[event] = callback end,
         }
         originalQuestieDB = Questie.db
@@ -123,11 +125,23 @@ describe("SpokenPlayButton", function()
         assert.are_same("Interface\\Addons\\Questie\\Icons\\QuestLogStopButton", button:GetNormalTexture():GetTexture())
     end)
 
-    it("should redraw when Spoken's voice packs are loaded", function()
-        local onVoicePacksLoaded = function() end
+    it("should hide the play button when Spoken's Quests part is off", function()
+        partOn = false
+        local button = SpokenPlayButton.New(1, CreateFrame("Button"))
 
-        SpokenPlayButton.Initialize(onVoicePacksLoaded)
+        button:SetPlayButton(123)
 
-        assert.are_same(onVoicePacksLoaded, callbacks.VOICE_PACKS_LOADED)
+        assert.is_false(button:IsVisible())
+    end)
+
+    it("should redraw when Spoken's voice packs are loaded or the Quests part is switched", function()
+        local redraw = spy.new(function() end)
+
+        SpokenPlayButton.Initialize(redraw)
+        callbacks.VOICE_PACKS_LOADED()
+        callbacks.PART_SWITCHED("gossip")
+        callbacks.PART_SWITCHED("quests")
+
+        assert.spy(redraw).was.called(2)
     end)
 end)
