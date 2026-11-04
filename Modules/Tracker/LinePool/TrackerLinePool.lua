@@ -134,8 +134,9 @@ function TrackerLinePool.UpdateObjectiveLines(callback)
     end
 end
 
+-- Not named UpdateQuestTitleLines: Spoken_Quests looks up that name to inject its own play buttons into the tracker.
 ---@param callback function
-function TrackerLinePool.UpdateQuestTitleLines(callback)
+function TrackerLinePool.ForEachQuestTitleLine(callback)
     for _, line in pairs(linePool) do
         if line.mode == "quest" then
             callback(line)

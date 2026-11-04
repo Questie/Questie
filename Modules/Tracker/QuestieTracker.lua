@@ -1036,7 +1036,7 @@ function QuestieTracker:UpdateFormatting()
             line.label:SetWidth(trackerBaseFrame:GetWidth() - margin)
             line:SetWidth(line.label:GetWidth() + effectiveMarginLeft)
         end)
-        TrackerLinePool.UpdateQuestTitleLines(function(line)
+        TrackerLinePool.ForEachQuestTitleLine(function(line)
             line.label:SetWidth(trackerBaseFrame:GetWidth() - questMarginLeft - trackerMarginRight)
             line:SetWidth(line.label:GetWidth() + questMarginLeft)
 
