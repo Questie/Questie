@@ -234,9 +234,24 @@ QuestieDB.itemObjectiveFirst = LibQuestieDB.ObjectiveFirst.itemObjectiveFirst
 QuestieDB.eventObjectiveFirst = LibQuestieDB.ObjectiveFirst.eventObjectiveFirst
 QuestieDB.spellObjectiveFirst = LibQuestieDB.ObjectiveFirst.spellObjectiveFirst
 
+---Gives each entity type's first load its own frame, ahead of anything in Login Initialization
+---that reads entity IDs. In Source mode that first read compiles and corrects a whole payload:
+---it cannot yield part-way and counts against the client's script time limit, so one resume must
+---only pay for one type. In Baked mode the reads are lookups and the yields cost a few frames.
+---
+---Npc goes first because Quest's requiredRaces pass reads it, which would otherwise load both
+---types in Quest's resume.
+---@async
+function QuestieDB.PreloadEntityData()
+    for _, entity in ipairs({LibQuestieDB.Npc, LibQuestieDB.Quest, LibQuestieDB.Item, LibQuestieDB.Object}) do
+        entity.GetAllIds()
+        coroutine.yield()
+    end
+end
+
 ---Rebinds the composed ID maps. QuestieDB replaces a shared read-only map when a Correction
 ---write touches its datatype, so a retained reference can hide an added entity or keep a
----withdrawn one.
+---withdrawn one. `PreloadEntityData` has already paid for the expensive first reads.
 ---@return nil
 local function _BindEntityIdMaps()
     QuestieDB.QuestPointers = LibQuestieDB.Quest.GetAllIds(true)

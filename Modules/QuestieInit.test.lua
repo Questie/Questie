@@ -74,6 +74,7 @@ describe("QuestieInit", function()
         QuestieCorrections.Initialize = _Record("QuestieCorrections.Initialize")
 
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.PreloadEntityData = _Record("QuestieDB.PreloadEntityData")
         QuestieDB.Initialize = _Record("QuestieDB.Initialize")
 
         local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
@@ -116,6 +117,7 @@ describe("QuestieInit", function()
 
             assert.are_same({
                 "l10n.InitializeUILocale",
+                "QuestieDB.PreloadEntityData",
                 "LibQuestieDB.l10n.SetLocale:deDE",
                 "l10n.PublishLocaleOverrideEntityNames",
                 "QuestieCorrections.Initialize",
@@ -460,7 +462,7 @@ describe("QuestieInit", function()
         it("stops stage 1 before Townsfolk and later consumer initialization", function()
             QuestieLoader:ImportModule("QuestieDB").Initialize = function() return false, "faction report" end
             _RunStage(1)
-            assert.are_same({"l10n.InitializeUILocale", "LibQuestieDB.l10n.SetLocale:deDE",
+            assert.are_same({"l10n.InitializeUILocale", "QuestieDB.PreloadEntityData", "LibQuestieDB.l10n.SetLocale:deDE",
                 "l10n.PublishLocaleOverrideEntityNames", "QuestieCorrections.Initialize"}, callOrder)
             assert.spy(errors).was.called_with("faction report")
             _AssertFatalIssue("startup.support-validation", "faction report")

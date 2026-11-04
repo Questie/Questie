@@ -159,6 +159,7 @@ end
 -- stage worker functions. Most are coroutines.
 QuestieInit.Stages = {}
 
+---@async
 QuestieInit.Stages[1] = function() -- run as a coroutine
     if startupFailed then return false end
     Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
@@ -179,6 +180,11 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         _StopStartup("startup.provider-localization", report)
         error(report, 0)
     end
+
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity data preloading.")
+    -- After the provider gates, before the steps below: locale overrides and Policy Correction
+    -- writes read entity IDs, which would otherwise load several types in one Source mode resume.
+    QuestieDB.PreloadEntityData()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Entity locale forwarding.")
     -- Entity localization is provider-owned; the effective UI locale is forwarded outside l10n.

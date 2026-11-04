@@ -435,6 +435,36 @@ describe("QuestieDB", function()
         end)
     end)
 
+    describe("PreloadEntityData", function()
+        it("gives every entity type its own resume, with Npc before Quest", function()
+            local readPosition, readCount, readsThisResume = {}, 0, 0
+            for _, datatype in ipairs({"Quest", "Npc", "Item", "Object"}) do
+                local entity = LibQuestieDB[datatype]
+                local originalGetAllIds = entity.GetAllIds
+                entity.GetAllIds = function(...)
+                    readCount = readCount + 1
+                    readPosition[datatype] = readCount
+                    readsThisResume = readsThisResume + 1
+                    return originalGetAllIds(...)
+                end
+            end
+
+            local preload = coroutine.create(QuestieDB.PreloadEntityData)
+            repeat
+                readsThisResume = 0
+                assert.is_true(coroutine.resume(preload))
+                assert.is_true(readsThisResume <= 1)
+            until coroutine.status(preload) == "dead"
+
+            -- No read in the last resume, so Stage 1's next step cannot share the last type's frame.
+            assert.are_equal(0, readsThisResume)
+            assert.are_equal(4, readCount)
+            assert.is_number(readPosition.Item)
+            assert.is_number(readPosition.Object)
+            assert.is_true(readPosition.Npc < readPosition.Quest)
+        end)
+    end)
+
     describe("Initialize", function()
         local LibQuestieDB
 
