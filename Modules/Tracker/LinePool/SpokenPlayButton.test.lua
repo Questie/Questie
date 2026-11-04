@@ -5,9 +5,14 @@ describe("SpokenPlayButton", function()
     local SpokenPlayButton
     local queuedLines, playNow, remove
     local originalQuestieDB
+    local callbacks
 
     before_each(function()
         queuedLines = {}
+        callbacks = {}
+        _G.Spoken = {
+            RegisterCallback = function(_, event, callback) callbacks[event] = callback end,
+        }
         originalQuestieDB = Questie.db
         Questie.db = {profile = {trackerShowPlayButtons = true}}
         playNow = spy.new(function(_, soundData) queuedLines[soundData.questID] = soundData end)
@@ -41,6 +46,7 @@ describe("SpokenPlayButton", function()
 
     after_each(function()
         _G.VoiceOver = nil
+        _G.Spoken = nil
         Questie.db = originalQuestieDB
     end)
 
@@ -91,26 +97,37 @@ describe("SpokenPlayButton", function()
         assert.are_same("Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton", button:GetNormalTexture():GetTexture())
     end)
 
-    it("should show the play icon again when Spoken stops the line", function()
+    it("should show the play icon on the new button when a playing quest moves to another line", function()
+        SpokenPlayButton.Initialize(function() end)
         local button = SpokenPlayButton.New(1, CreateFrame("Button"))
+        local otherButton = SpokenPlayButton.New(2, CreateFrame("Button"))
         button:SetPlayButton(123)
         button.scripts.OnClick(button)
-        local soundData = queuedLines[123]
+        button:SetPlayButton(nil)
+        otherButton:SetPlayButton(123)
 
         queuedLines[123] = nil
-        soundData.stopCallback()
+        callbacks.AUDIO_CHANGED()
 
-        assert.are_same("Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton", button:GetNormalTexture():GetTexture())
+        assert.are_same("Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton", otherButton:GetNormalTexture():GetTexture())
+    end)
+
+    it("should show the stop icon when audio is queued outside of Questie", function()
+        SpokenPlayButton.Initialize(function() end)
+        local button = SpokenPlayButton.New(1, CreateFrame("Button"))
+        button:SetPlayButton(123)
+
+        queuedLines[123] = {}
+        callbacks.AUDIO_CHANGED()
+
+        assert.are_same("Interface\\Addons\\Questie\\Icons\\QuestLogStopButton", button:GetNormalTexture():GetTexture())
     end)
 
     it("should redraw when Spoken's voice packs are loaded", function()
-        local callbacks = {}
-        _G.Spoken = {RegisterCallback = function(_, event, callback) callbacks[event] = callback end}
         local onVoicePacksLoaded = function() end
 
         SpokenPlayButton.Initialize(onVoicePacksLoaded)
-        _G.Spoken = nil
 
-        assert.are_same({VOICE_PACKS_LOADED = onVoicePacksLoaded}, callbacks)
+        assert.are_same(onVoicePacksLoaded, callbacks.VOICE_PACKS_LOADED)
     end)
 end)
