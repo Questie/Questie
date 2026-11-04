@@ -2955,6 +2955,7 @@ globals = {
     "L_UIDROPDOWNMENU_MAXLEVELS",
     "VoiceOver",
     "VoiceOverFrame",
+    "Spoken",
     "QUESTIE_LOCALES_OVERRIDE",
     -----------------------------------------------------> Project Specific
     "Questie",

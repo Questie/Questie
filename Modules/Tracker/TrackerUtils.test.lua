@@ -534,6 +534,32 @@ describe("TrackerUtils", function()
             assert.spy(isAddOnLoadedMock).was.called_with("AI_VoiceOver")
             assert.spy(isAddOnLoadedMock).was.called_with("AI_VoiceOverData_Vanilla")
         end)
+
+        it("should be false when Spoken is loaded as well", function()
+            local loaded = {AI_VoiceOver = true, AI_VoiceOverData_Vanilla = true, Spoken = true, Spoken_Quests = true}
+            isAddOnLoadedMock:revert()
+            isAddOnLoadedMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsAddOnLoaded", function(addon)
+                return loaded[addon] == true
+            end)
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            assert.is_false(TrackerUtils:IsVoiceOverLoaded())
+        end)
+    end)
+
+    describe("IsSpokenLoaded", function()
+        it("should require Spoken and Spoken_Quests", function()
+            local loaded = {Spoken = true}
+            isAddOnLoadedMock:revert()
+            isAddOnLoadedMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsAddOnLoaded", function(addon)
+                return loaded[addon] == true
+            end)
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            assert.is_false(TrackerUtils:IsSpokenLoaded())
+            loaded.Spoken_Quests = true
+            assert.is_true(TrackerUtils:IsSpokenLoaded())
+        end)
     end)
 
     describe("GetQuestItemIds", function()

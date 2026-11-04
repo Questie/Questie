@@ -11,12 +11,12 @@ TrackerLayout.MARGIN_RIGHT = 30
 ---@field right number
 ---@field quest number Left margin of quest/achievement/recipe titles
 ---@field objective number Left margin of objective lines
----@field buttonSize number Size of the quest focus, VoiceOver play and expand quest (+/-) buttons
+---@field buttonSize number Size of the quest focus, play and expand quest (+/-) buttons
 ---@field itemButtonSize number
 ---@field itemButtonLeft number Left edge of the quest item buttons
 ---@field expandQuestRight number Right edge of the expand quest (+/-) buttons, centered in the quest item button column
----@field playButtonSize number The VoiceOver play button icon has a transparent border, so the button is bigger than the others
----@field playButtonRight number Right edge of the VoiceOver play buttons
+---@field playButtonSize number The play button icon has a transparent border, so the button is bigger than the others
+---@field playButtonRight number Right edge of the VoiceOver and Spoken play buttons
 ---@field focusButtonRight number Right edge of the quest focus buttons
 
 -- Gap between the button slots in front of the quest titles and between the last slot and the title
@@ -34,7 +34,7 @@ local lineWidth = 0
 ---@param updateWidthCallback fun(width: number) Resizes the tracker to the given content width
 ---@param updateHeightCallback fun() Resizes the tracker to its content height
 ---@param isFocusSlotShownCallback fun(): boolean Whether the quest focus buttons get a slot in front of the quest titles
----@param isPlaySlotShownCallback fun(): boolean Whether the VoiceOver play buttons get a slot in front of the quest titles
+---@param isPlaySlotShownCallback fun(): boolean Whether the VoiceOver and Spoken play buttons get a slot in front of the quest titles
 function TrackerLayout.Initialize(trackerBaseFrame, updateWidthCallback, updateHeightCallback, isFocusSlotShownCallback, isPlaySlotShownCallback)
     baseFrame = trackerBaseFrame
     updateWidth = updateWidthCallback
@@ -49,7 +49,7 @@ function TrackerLayout.SetItemColumnShown(shown)
     itemColumnShown = shown
 end
 
----The button slots are laid out from the quest title to the left: [focus] [VoiceOver play] [quest item or +/-] title
+---The button slots are laid out from the quest title to the left: [focus] [play] [quest item or +/-] title
 ---@return TrackerMargins
 function TrackerLayout.GetMargins()
     local fontSizeQuest = Questie.db.profile.trackerFontSizeQuest

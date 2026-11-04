@@ -2834,6 +2834,7 @@
         "Questie_BaseFrame",
         "MouseIsOver",
         "VoiceOverFrame",
+        "Spoken",
         "STATICPOPUP_NUMDIALOGS",
         "DELETE_ITEM",
         "StaticPopup_Resize",

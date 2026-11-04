@@ -1062,12 +1062,17 @@ function TrackerUtils:GetSortedQuestIds()
     return sortedQuestIds, questDetails
 end
 
+-- Spoken disables AI_VoiceOver and takes over the VoiceOver global when both are installed
 function TrackerUtils:IsVoiceOverLoaded()
-    if (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla")) then
+    if (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla")) and (not self:IsSpokenLoaded()) then
         return true
     end
 
     return false
+end
+
+function TrackerUtils:IsSpokenLoaded()
+    return IsAddOnLoaded("Spoken") and IsAddOnLoaded("Spoken_Quests")
 end
 
 function TrackerUtils:UpdateVoiceOverPlayButtons()
