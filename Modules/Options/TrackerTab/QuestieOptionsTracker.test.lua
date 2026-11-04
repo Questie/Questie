@@ -54,6 +54,18 @@ describe("tracker automatic tracking option", function()
         assert.spy(isAddOnLoadedMock).was.called_with("TomTom")
     end)
 
+    it("should show the sticky VoiceOver frame option only when VoiceOver is used", function()
+        local trackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        local isVoiceOverLoadedStub = stub(trackerUtils, "IsVoiceOverLoaded", function() return false end)
+        local settings = options.tabs.tracker:Initialize()
+        local stickyVoiceOverFrame = settings.args.group_tracker.args.stickyVoiceOverFrame
+
+        assert.is_true(stickyVoiceOverFrame.hidden())
+        isVoiceOverLoadedStub.returns(true)
+        assert.is_false(stickyVoiceOverFrame.hidden())
+        isVoiceOverLoadedStub:revert()
+    end)
+
     it("updates the tracker and publishes visibility when only the modern log exists", function()
         local settings = options.tabs.tracker:Initialize()
         settings.args.group_quests.args.autoTrackQuests.set(nil, true)
