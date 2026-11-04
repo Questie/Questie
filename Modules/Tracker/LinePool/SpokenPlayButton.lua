@@ -8,6 +8,9 @@ local SpokenPlayButton = QuestieLoader:CreateModule("SpokenPlayButton")
 local PLAY_TEXTURE = "Interface\\Addons\\Questie\\Icons\\QuestLogPlayButton"
 local STOP_TEXTURE = "Interface\\Addons\\Questie\\Icons\\QuestLogStopButton"
 
+---@type Button[]
+local playButtons = {}
+
 ---Shows the stop icon while the quest's line is queued in Spoken.
 ---@param playButton Button
 local function _UpdateTexture(playButton)
@@ -33,21 +36,23 @@ local function _Toggle(playButton)
             unitIsObjectOrItem = giverId ~= nil and (not VoiceOver.Enums.GUID:IsCreature(giverType)),
             origin = "Questie's tracker Play button",
         }
-        soundData.stopCallback = function()
-            if playButton.mode == questId then
-                _UpdateTexture(playButton)
-            end
-        end
         VoiceOver.Player:PlayNow(soundData)
     end
 
     _UpdateTexture(playButton)
 end
 
----Spoken's voice packs load after the tracker is first drawn, so quests only then get their play button
+---Spoken's voice packs load after the tracker is first drawn, so quests only then get their play button.
 ---@param onVoicePacksLoaded function
 function SpokenPlayButton.Initialize(onVoicePacksLoaded)
     Spoken:RegisterCallback("VOICE_PACKS_LOADED", onVoicePacksLoaded)
+    Spoken:RegisterCallback("AUDIO_CHANGED", function()
+        for _, playButton in ipairs(playButtons) do
+            if playButton.mode then
+                _UpdateTexture(playButton)
+            end
+        end
+    end)
 end
 
 ---@param questId QuestId
@@ -86,6 +91,7 @@ function SpokenPlayButton.New(index, parent)
     end)
 
     playButton:Hide()
+    playButtons[#playButtons + 1] = playButton
 
     return playButton
 end
