@@ -1652,7 +1652,6 @@ local function CreateControl(parent, item, width, height, level)
 
         if item.get then
             rbWrapper.RadioButton:SetChecked(item.get(item.value))
-            QuestieOptionsEngine:RefreshStates()
         end
 
         rbWrapper.RadioButton:SetScript("OnClick", function(self)
@@ -2086,13 +2085,14 @@ function QuestieOptionsEngine:Initialize()
     end
 
     -- Synchronize both canvas layouts
-    QuestieOptionsEngine:RefreshStates()
+    QuestieOptionsEngine:RefreshStates(coYield)
 
     QuestieOptionsEngine.popup = popup
 end
 
 -- Goes through every control and updates their states to reflect current status (ex. checking if a checkbox should still be enabled/disabled when another setting has changed)
-function QuestieOptionsEngine:RefreshStates()
+---@param yieldBetweenControls function? @Only for the startup coroutine. Clicks and timers run outside of one, where yielding throws
+function QuestieOptionsEngine:RefreshStates(yieldBetweenControls)
     local function DesaturateNineSlice(frame, disable, shade)
         local nineSlice = frame.NineSlice or frame
         if nineSlice and nineSlice.GetRegions then
@@ -2194,7 +2194,7 @@ function QuestieOptionsEngine:RefreshStates()
                     control.titleFrame:SetText(newTitle)
                 end
             end
-            coYield()
+            if yieldBetweenControls then yieldBetweenControls() end
         end
     end
 end
@@ -2507,24 +2507,31 @@ end
 
 
 -- Helper functions to match feature parity with old options (same function names)
+-- popup stays nil until Initialize finishes, which can be after Questie.started, so every helper has to handle that.
 function QuestieOptionsEngine:HideFrame()
-    QuestieOptionsEngine.popup:Hide()
+    if QuestieOptionsEngine.popup then
+        QuestieOptionsEngine.popup:Hide()
+    end
 end
 function QuestieOptionsEngine:ShowFrame()
-    QuestieOptionsEngine.popup:Show()
+    if QuestieOptionsEngine.popup then
+        QuestieOptionsEngine.popup:Show()
+    else
+        print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
+    end
 end
 function QuestieOptionsEngine:IsShown()
-    return QuestieOptionsEngine.popup:IsShown()
+    return QuestieOptionsEngine.popup ~= nil and QuestieOptionsEngine.popup:IsShown()
 end
 function QuestieOptionsEngine:ToggleConfigWindow()
-    if QuestieOptionsEngine.popup:IsShown() then
-        QuestieOptionsEngine.popup:Hide()
+    if QuestieOptionsEngine:IsShown() then
+        QuestieOptionsEngine:HideFrame()
     else
-        QuestieOptionsEngine.popup:Show()
+        QuestieOptionsEngine:ShowFrame()
     end
 end
 function QuestieOptionsEngine:RefreshIfShown()
-    if QuestieOptionsEngine.popup:IsShown() then
+    if QuestieOptionsEngine:IsShown() then
         QuestieOptionsEngine:RefreshStates()
     end
 end
