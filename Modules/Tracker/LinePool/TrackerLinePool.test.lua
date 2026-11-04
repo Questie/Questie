@@ -214,4 +214,8 @@ describe("TrackerLinePool", function()
             assert.are_same({1, 1, 1}, {lines[1].alpha, lines[2].alpha, lines[3].alpha})
         end)
     end)
+
+    it("should not expose UpdateQuestTitleLines, which Spoken uses to inject its own tracker play buttons", function()
+        assert.is_nil(TrackerLinePool.UpdateQuestTitleLines)
+    end)
 end)
