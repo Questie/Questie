@@ -953,7 +953,37 @@ describe("Tooltip", function()
                 assert.are.equal("   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r |cFF999999[Blizzard]|r", rendered[3])
             end)
 
-            it("should not keep Blizzard's lines for later lookups", function()
+            it("should add progress for a quest without any registered tooltip", function()
+            QuestieTooltips.lookupByKey = {}
+
+            renderUnit()
+
+            assert.are.same({
+                "Quest Name",
+                "   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r",
+            }, rendered)
+        end)
+
+        it("should not list objectives of a quest the NPC starts or finishes", function()
+            Questie.db.profile.showQuestsInNpcTooltip = true
+            QuestieTooltips.lookupByKey = {["m_123"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
+
+            renderUnit()
+
+            assert.are.same({"Quest Name"}, rendered)
+        end)
+
+        it("should drop Blizzard's lines when the augmentation fails", function()
+            QuestieTooltips.private.AddUnitDataToTooltip = function() error("boom") end
+
+            assert.has_error(function()
+                postCalls[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-123-0", lines = lines})
+            end, "boom")
+
+            assert.are.same({"Quest Name", "   gold1/1 Supplies"}, QuestieTooltips.GetTooltip("m_123"))
+        end)
+
+        it("should not keep Blizzard's lines for later lookups", function()
                 renderUnit()
 
                 assert.are.same({"Quest Name", "   gold1/1 Supplies"}, QuestieTooltips.GetTooltip("m_123"))
