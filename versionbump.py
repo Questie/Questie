@@ -15,7 +15,7 @@ Questie.toc to "<argument>" and "v<argument>" respectively.
 3. Set a git tag called "v<argument>"
 """
 
-from build import EXPANSIONS # Our own build.py
+from build import allTocs # Our own build.py
 import fileinput
 import subprocess
 import sys
@@ -35,8 +35,8 @@ if version in ["-h", "--help"]:
     exit()
 
 # update TOC files
-for number, expansion in EXPANSIONS.items():
-    with fileinput.FileInput(f"Questie_{expansion['toc_suffix']}.toc", inplace=True) as file:
+for toc in [toc for group in allTocs.values() for toc in group]:
+    with fileinput.FileInput(toc, inplace=True) as file:
         for line in file:
             if line[:10] == '## Version':
                 print('## Version: ' + version)

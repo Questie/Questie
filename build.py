@@ -98,15 +98,19 @@ EXPANSIONS = {
     160: { # weird value here because Blizzard broke their versioning scheme with Forever (1.60) and we have to represent it somehow
         "flags": ("-f", "--forever"),
         "toc_suffix": "Camelot",
+        "extra_toc_suffixes": ("Forever",),
         "flavor": "forever",
         "default": True,
     },
 }
 tocs = {}
 dbTocs = {}
+allTocs = {}
 for number, expansion in EXPANSIONS.items():
     tocs[number] = f"Questie_{expansion['toc_suffix']}.toc"
     dbTocs[number] = f"QuestieDB_{expansion['toc_suffix']}.toc"
+    # Extra TOCs are shipped and stamped alongside the primary one.
+    allTocs[number] = [tocs[number]] + [f"Questie_{suffix}.toc" for suffix in expansion.get("extra_toc_suffixes", ())]
 
 directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Public"]
 filesToInclude = ["Bindings.xml", "embeds.xml", "Questie.lua", "Questie.toc", "README.md", "README_ES.md", "README_CN.md", "LICENSE.md", "gpl-3.0.md"]
@@ -117,7 +121,7 @@ ignorePatterns = ["*.test.lua", "originals"]
 def main():
     """Stage the selected addons, package one ZIP, and describe it in release.json."""
     # Reject declaration drift before naming or replacing any build outputs.
-    get_required_db_contract(tocs.values())
+    get_required_db_contract([toc for group in allTocs.values() for toc in group])
     isReleaseBuild = False
     isPrereleaseBuild = False
     bundled = None
@@ -193,15 +197,15 @@ def main():
         if not isReleaseBuild:
             vs += "-%s" % recent_commit
         for expansion_id in includedExpansions:
-            toc = tocs[expansion_id]
-            with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
-                for line in file:
-                    if line[:10] == "## Version":
-                        print("## Version: " + vs)
-                    elif line[:8] == '## Title':
-                        print('## Title: Questie|cFF00FF00 ' + vs + '|r')
-                    else:
-                        print(line, end="")
+            for toc in allTocs[expansion_id]:
+                with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
+                    for line in file:
+                        if line[:10] == "## Version":
+                            print("## Version: " + vs)
+                        elif line[:8] == '## Title':
+                            print('## Title: Questie|cFF00FF00 ' + vs + '|r')
+                        else:
+                            print(line, end="")
 
     with open(release_addon_folder_path + "/" + tocs[includedExpansions[0]], encoding="utf-8") as toc:
         questieVersion = re.search(r"^## Version: (.*?)$", toc.read(), re.MULTILINE).group(1)
@@ -217,13 +221,13 @@ def main():
 
     # Add Questie commit to toc files
     for expansion_id in includedExpansions:
-        toc = tocs[expansion_id]
-        with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
-            for line in file:
-                if line == "## X-Wago-ID: qv634BKb\n":
-                    print(line + "## X-BUILD-COMMIT: %s" % questie["producerCommit"])
-                else:
-                    print(line, end="")
+        for toc in allTocs[expansion_id]:
+            with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
+                for line in file:
+                    if line == "## X-Wago-ID: qv634BKb\n":
+                        print(line + "## X-BUILD-COMMIT: %s" % questie["producerCommit"])
+                    else:
+                        print(line, end="")
 
     # Archive creation removes staging. Write release metadata only after the ZIP succeeds.
     zip_name = "%s-%s" % (addonDir, release_dir)
@@ -274,7 +278,7 @@ def get_required_db_contract(toc_paths: Iterable[str]) -> int:
 def get_release_version():
     """Validate the committed flavor versions before creating release output."""
     versions = set()
-    for toc in tocs.values():
+    for toc in [toc for group in allTocs.values() for toc in group]:
         with open(toc, encoding="utf-8") as source:
             matches = re.findall(r"^## Version: (.+)$", source.read(), re.MULTILINE)
         if len(matches) != 1 or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:[.-][A-Za-z0-9]+)*", matches[0]):
@@ -319,7 +323,7 @@ def copy_content_to(release_folder_path):
     selected_files = list(filesToInclude)
     for number in EXPANSIONS:
         if number in includedExpansions:
-            selected_files.append(tocs[number])
+            selected_files.extend(allTocs[number])
 
     for _, directories, files in os.walk("."):
         for directory in directories:
