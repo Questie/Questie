@@ -539,6 +539,20 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    showPlayButtons = {
+                        type = "checkbox",
+                        order = 7.3,
+                        width = "half",
+                        title = "Show Play Buttons",
+                        tooltip = "If checked, a button in front of each Quest plays its voice-over from VoiceOver or Spoken.",
+                        visible = TrackerUtils:IsVoiceOverLoaded() or TrackerUtils:IsSpokenLoaded(),
+                        enabled = function() return Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowPlayButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowPlayButtons = value
+                            QuestieTracker:Update()
+                        end
+                    },
                     fadeQuestFocusButtons = {
                         type = "checkbox",
                         order = 7.2,

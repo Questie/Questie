@@ -66,7 +66,7 @@ function SpokenPlayButton.New(index, parent)
     playButton:SetHighlightTexture("Interface\\BUTTONS\\UI-Panel-MinimizeButton-Highlight")
 
     function playButton:SetPlayButton(questId)
-        if questId and _HasSound(questId) then
+        if questId and Questie.db.profile.trackerShowPlayButtons and _HasSound(questId) then
             self.mode = questId
             _UpdateTexture(self)
             self:Show()

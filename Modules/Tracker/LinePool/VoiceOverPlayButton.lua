@@ -30,7 +30,7 @@ function VoiceOverPlayButton.New(index, parent)
         if questId ~= self.mode then
             self.mode = questId
 
-            if questId and TrackerUtils:IsVoiceOverLoaded() then
+            if questId and TrackerUtils:IsVoiceOverLoaded() and Questie.db.profile.trackerShowPlayButtons then
                 _UpdateTexture(self)
                 self:Show()
             else

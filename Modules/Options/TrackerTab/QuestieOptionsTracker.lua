@@ -605,6 +605,20 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    showPlayButtons = {
+                        type = "toggle",
+                        order = 7.3,
+                        width = 1.5,
+                        name = function() return l10n("Show Play Buttons") end,
+                        desc = function() return l10n("If checked, a button in front of each Quest plays its voice-over from VoiceOver or Spoken.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        hidden = function() return not (TrackerUtils:IsVoiceOverLoaded() or TrackerUtils:IsSpokenLoaded()) end,
+                        get = function() return Questie.db.profile.trackerShowPlayButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowPlayButtons = value
+                            QuestieTracker:Update()
+                        end
+                    },
                     fadeQuestFocusButtons = {
                         type = "toggle",
                         order = 7.2,
