@@ -10,6 +10,7 @@ describe("SpokenPlayButton", function()
     before_each(function()
         queuedLines = {}
         partOn = true
+        _G.InCombatLockdown = function() return false end
         callbacks = {}
         _G.Spoken = {
             IsPartOn = function(_, part) return part == "quests" and partOn end,
@@ -49,6 +50,7 @@ describe("SpokenPlayButton", function()
     after_each(function()
         _G.VoiceOver = nil
         _G.Spoken = nil
+        _G.InCombatLockdown = nil
         Questie.db = originalQuestieDB
     end)
 
@@ -132,6 +134,21 @@ describe("SpokenPlayButton", function()
         button:SetPlayButton(123)
 
         assert.is_false(button:IsVisible())
+    end)
+
+    it("should queue the redraw for after combat when Spoken's voice packs load in combat", function()
+        local redraw = spy.new(function() end)
+        local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+        local originalQueue = QuestieCombatQueue.Queue
+        QuestieCombatQueue.Queue = spy.new(function() end)
+        _G.InCombatLockdown = function() return true end
+        SpokenPlayButton.Initialize(redraw)
+
+        callbacks.VOICE_PACKS_LOADED()
+
+        assert.spy(redraw).was.not_called()
+        assert.spy(QuestieCombatQueue.Queue).was.called_with(QuestieCombatQueue, redraw)
+        QuestieCombatQueue.Queue = originalQueue
     end)
 
     it("should redraw when Spoken's voice packs are loaded or the Quests part is switched", function()

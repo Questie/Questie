@@ -1,5 +1,7 @@
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 ---Play button for the Spoken addon. Spoken_Quests exposes its environment as the VoiceOver global.
 ---@class SpokenPlayButton
@@ -46,10 +48,19 @@ end
 ---The same redraw applies when the player switches Spoken's Quests part on or off.
 ---@param redraw function
 function SpokenPlayButton.Initialize(redraw)
-    Spoken:RegisterCallback("VOICE_PACKS_LOADED", redraw)
+    -- The tracker ignores updates during combat, so the redraw has to wait for it to end
+    local function redrawWhenSafe()
+        if InCombatLockdown() then
+            QuestieCombatQueue:Queue(redraw)
+        else
+            redraw()
+        end
+    end
+
+    Spoken:RegisterCallback("VOICE_PACKS_LOADED", redrawWhenSafe)
     Spoken:RegisterCallback("PART_SWITCHED", function(part)
         if part == "quests" then
-            redraw()
+            redrawWhenSafe()
         end
     end)
     Spoken:RegisterCallback("AUDIO_CHANGED", function()
