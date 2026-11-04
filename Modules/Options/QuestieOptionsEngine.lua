@@ -28,6 +28,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 ---@type AceConfigDialog-3.0
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local SharedMedia = LibStub("LibSharedMedia-3.0")
+local coYield = coroutine.yield
 
 ---- Explaining Questie's Native Settings Engine (introduced in 13.0.0?)
 --
@@ -1929,6 +1930,8 @@ local function BuildLayout(parentFrame, itemsTable, maxWidth, level, categoryNam
                 cursorX = cursorX + controlWidth + spacingX
             end
         end
+
+        coYield()
     end
 
     -- Before we finish, do a vertical alignment on the final row
@@ -2191,6 +2194,7 @@ function QuestieOptionsEngine:RefreshStates()
                     control.titleFrame:SetText(newTitle)
                 end
             end
+            coYield()
         end
     end
 end
@@ -2496,7 +2500,6 @@ function QuestieOptionsEngine:SelectStandaloneTab(selectedKey)
         if tabButton then
             tabButton.Selected:SetShown(isCurrent)
             -- Slightly desaturate or darken inactive tab icons
-            --tabButton.Icon:SetDesaturated(not isCurrent)
             tabButton.Icon:SetAlpha(isCurrent and 1.0 or 0.65)
         end
     end
