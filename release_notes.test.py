@@ -52,6 +52,21 @@ class ReleaseNotesTests(unittest.TestCase):
             self.assertNotIn(text, notes)
         self.assertIn(f"[All commits](https://github.com/Questie/QuestieDB/compare/{'b' * 40}...{'e' * 40})", notes)
 
+    def test_commits_with_identical_retained_text_stay_covered_and_render_once(self):
+        self.after["questiedb"]["changelog"] = [
+            {"category": "db", "text": "Fixed the tracker.", "commit": sha * 40, "author": author, "coAuthors": []}
+            for sha, author in (("d", "First author"), ("e", "Second author"))
+        ]
+        pages = [{"status": "ahead", "total_commits": 2, "commits": [
+            commit("d", "[db] Fix the tracker."), commit("e", "[db] Fix the tracker."),
+        ]}]
+        with patch.object(release_notes, "gh_json", return_value=pages):
+            notes = release_notes.release_changes(self.before, self.after)
+        self.assertEqual(1, notes.count("Fixed the tracker."))
+        self.assertNotIn("Fix the tracker.", notes)
+        self.assertIn("[First author]", notes)
+        self.assertIn("[Second author]", notes)
+
     def test_questie_only_update_uses_questie_repository_and_omits_database(self):
         self.after = copy.deepcopy(self.before)
         self.after["questie"] = component("Questie", "12.1.0", "f")

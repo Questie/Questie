@@ -104,6 +104,36 @@ class QuestieDBChangelogTests(unittest.TestCase):
         self.assertRegex(notes, r"- Zebra entry first\.[^\n]*\n- Alphabetical entry second\.")
         self.assertTrue(notes.endswith("\n\n"))
 
+    def test_identical_text_in_a_category_renders_once_and_keeps_every_credit(self):
+        commit_url = "https://github.com/Questie/QuestieDB/commit/"
+        entry = {"category": "fix", "text": "Fixed the tracker.", "coAuthors": []}
+        self.manifest["changelog"] = [
+            dict(entry, commit="1" * 40, author="First", coAuthors=["Shared"]),
+            dict(entry, commit="2" * 40, author="Second", coAuthors=["Shared"]),
+            dict(entry, commit="3" * 40, author="First"),
+        ]
+        notes = changelog.get_addon_changelog("QuestieDB", self.load())
+        self.assertEqual(1, notes.count("Fixed the tracker."))
+        self.assertIn(
+            f"- Fixed the tracker. ([First]({commit_url}{'1' * 40}), [Shared]({commit_url}{'1' * 40}), "
+            f"[Second]({commit_url}{'2' * 40}))\n", notes,
+        )
+
+    def test_only_exact_text_in_the_same_category_is_merged(self):
+        entry = self.manifest["changelog"][0]
+        self.manifest["changelog"] = [
+            dict(entry, category="fix", text="Fixed the tracker"),
+            dict(entry, category="fix", text="Fixed the tracker."),
+            dict(entry, category="fix", text="fixed the tracker"),
+            dict(entry, category="quest", text="Fixed the tracker"),
+        ]
+        lines = changelog.get_addon_changelog("QuestieDB", self.load()).splitlines()
+        rendered = [line.split(" ([")[0] for line in lines if line.startswith("- ")]
+        self.assertEqual(
+            ["- Fixed the tracker", "- Fixed the tracker.", "- fixed the tracker", "- Fixed the tracker"], rendered,
+        )
+        self.assertLess(lines.index("### General Fixes"), lines.index("### Quest Fixes"))
+
     def test_empty_and_older_changelogs_keep_only_version_and_producer_information(self):
         for entries in ([], None):
             with self.subTest(entries=entries):
@@ -215,6 +245,24 @@ class QuestieEntriesTests(unittest.TestCase):
         self.assertEqual({"category": "fix", "text": "Fixed zebra", "commit": "a" * 40,
                           "author": "Primary Author", "coAuthors": ["Other Author"]}, entries[-1])
         self.assertNotIn("example.org", json.dumps(entries))
+
+    def test_capture_keeps_each_commit_of_identical_subjects(self):
+        # release_notes.py uses these commits to tell which ones the manifest already describes.
+        records = [("a" * 40, "First", "[fix] Fix tracker", ""), ("b" * 40, "Second", "[fix] Fix tracker", "")]
+        log = "".join("\0".join(record) + "\0" for record in records)
+        with patch.object(changelog, "get_last_git_tag", return_value="v11.0.0"):
+            with patch.object(changelog.subprocess, "check_output", return_value=log):
+                entries = changelog.get_changelog_entries()
+        self.assertEqual(["a" * 40, "b" * 40], [entry["commit"] for entry in entries])
+
+    def test_plain_changelog_lists_identical_subjects_once(self):
+        categories = changelog.get_sorted_categories(
+            ["[fix] Fix zebra", "[fix] Fix alphabet", "[Fix] Fix zebra", "[quest] Fix zebra"]
+        )
+        self.assertEqual(
+            "## General Fixes\n\n* Fixed alphabet\n* Fixed zebra\n\n## Quest Fixes\n\n* Fixed zebra\n\n",
+            changelog.get_changelog_string(categories, []),
+        )
 
     def test_empty_history_has_no_invented_changes_and_git_errors_propagate(self):
         with patch.object(changelog, "get_last_git_tag", return_value=""):

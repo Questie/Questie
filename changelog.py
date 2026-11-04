@@ -100,7 +100,7 @@ def get_sorted_categories(git_log):
                 categories[key].append(line)
 
     for key in categories.keys():
-        categories[key].sort()
+        categories[key] = sorted(set(categories[key]))
 
     return categories
 
@@ -174,7 +174,10 @@ def _escape_markdown(text):
 
 
 def get_addon_changelog(name, manifest):
-    """Render retained addon changes in their supplied order, without rewriting their wording."""
+    """Render retained addon changes in their supplied order, without rewriting their wording.
+
+    Identical text within a category becomes one line that credits everyone who made that change.
+    """
     repository = manifest["repository"]
     # Repositories form Markdown link targets. Reject credentials, query strings and markup.
     if not re.fullmatch(r"https://[A-Za-z0-9.-]+/[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)+", repository):
@@ -189,29 +192,33 @@ def get_addon_changelog(name, manifest):
     else:
         result += f"Build: [{producer[:7]}]({commit_url}{producer})\n\n"
     headings = dict(commit_keys_and_header)
-    previous_category = None
     # Missing or empty entries leave version/build information, not a claim that nothing changed.
     entries = manifest.get("changelog", [])
     if not isinstance(entries, list):
         raise ValueError("Addon changelog must be an array")
+    # Merge when rendering, not when capturing: release_notes.py needs every commit in the manifest
+    # to know which ones it already describes.
+    credits_by_line = {}
     for entry in entries:
-        category = entry["category"]
-        heading = headings[category]
-        if category != previous_category:
-            if previous_category is not None:
-                result += "\n"
-            result += "#" + heading
-            previous_category = category
         commit = entry["commit"]
         if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", commit) or commit == "0" * 40:
             raise ValueError("Addon changelog has an invalid commit")
         coauthors = entry["coAuthors"]
         if not isinstance(coauthors, list):
             raise ValueError("Addon changelog coAuthors must be an array")
-        credits = []
-        for name in [entry["author"], *coauthors]:
-            credits.append(f"[{_escape_markdown(name)}]({commit_url}{commit})")
-        result += f"- {_escape_markdown(entry['text'])} ({', '.join(credits)})\n"
+        credits = credits_by_line.setdefault((entry["category"], _escape_markdown(entry["text"])), {})
+        for author in [entry["author"], *coauthors]:
+            author = _escape_markdown(author)
+            credits.setdefault(author, f"[{author}]({commit_url}{commit})")
+    previous_category = None
+    for (category, text), credits in credits_by_line.items():
+        heading = headings[category]
+        if category != previous_category:
+            if previous_category is not None:
+                result += "\n"
+            result += "#" + heading
+            previous_category = category
+        result += f"- {text} ({', '.join(credits.values())})\n"
     if entries:
         result += "\n"
     return result
