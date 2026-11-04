@@ -250,7 +250,9 @@ function QuestieTracker.Initialize()
     trackerQuestFrame = TrackerQuestFrame.Initialize(trackerBaseFrame, trackerHeaderFrame)
     TrackerLayout.Initialize(trackerBaseFrame, function(width) QuestieTracker:UpdateWidth(width) end, function() QuestieTracker:UpdateHeight() end,
         function() return Questie.db.profile.trackerShowQuestFocusButtons end,
-        function() return TrackerUtils:IsVoiceOverLoaded() or TrackerUtils:IsSpokenLoaded() end)
+        function()
+            return Questie.db.profile.trackerShowPlayButtons and (TrackerUtils:IsVoiceOverLoaded() or TrackerUtils:IsSpokenLoaded())
+        end)
 
     if Expansions.Current >= Expansions.Cata or Questie.IsTitanReforged then
         AutoCompleteFrame.Initialize(trackerBaseFrame)

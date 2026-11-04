@@ -501,6 +501,30 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用时，每个任务前的圆形按钮可让你在地图上聚焦或取消聚焦该任务。", -- AI 🤖
         ["zhTW"] = "啟用時，每個任務前的圓形按鈕可讓你在地圖上聚焦或取消聚焦該任務。", -- AI 🤖
     },
+    ["Show Play Buttons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Abspiel-Buttons anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar botones de reproducción", -- AI 🤖
+        ["esMX"] = "Mostrar botones de reproducción", -- AI 🤖
+        ["frFR"] = "Afficher les boutons de lecture", -- AI 🤖
+        ["koKR"] = "재생 버튼 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar botões de reprodução", -- AI 🤖
+        ["ruRU"] = "Показывать кнопки воспроизведения", -- AI 🤖
+        ["zhCN"] = "显示播放按钮", -- AI 🤖
+        ["zhTW"] = "顯示播放按鈕", -- AI 🤖
+    },
+    ["If checked, a button in front of each Quest plays its voice-over from VoiceOver or Spoken."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, spielt ein Button vor jeder Quest ihre Vertonung von VoiceOver oder Spoken ab.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, un botón delante de cada misión reproduce su locución de VoiceOver o Spoken.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, un botón delante de cada misión reproduce su locución de VoiceOver o Spoken.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, un bouton devant chaque quête lit son doublage vocal de VoiceOver ou Spoken.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 각 퀘스트 앞의 버튼으로 VoiceOver 또는 Spoken의 음성 더빙을 재생합니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, um botão na frente de cada missão reproduz sua narração do VoiceOver ou Spoken.", -- AI 🤖
+        ["ruRU"] = "Когда включено, кнопка перед каждым заданием воспроизводит его озвучку из VoiceOver или Spoken.", -- AI 🤖
+        ["zhCN"] = "启用时，每个任务前的按钮会播放来自 VoiceOver 或 Spoken 的任务配音。", -- AI 🤖
+        ["zhTW"] = "啟用時，每個任務前的按鈕會播放來自 VoiceOver 或 Spoken 的任務配音。", -- AI 🤖
+    },
     ["Fade Quest Focus Buttons"] = {
         ["enUS"] = true,
         ["deDE"] = "Quest-Fokus-Buttons ausblenden",

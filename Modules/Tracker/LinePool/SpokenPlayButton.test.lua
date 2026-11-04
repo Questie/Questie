@@ -4,9 +4,12 @@ describe("SpokenPlayButton", function()
     ---@type SpokenPlayButton
     local SpokenPlayButton
     local queuedLines, playNow, remove
+    local originalQuestieDB
 
     before_each(function()
         queuedLines = {}
+        originalQuestieDB = Questie.db
+        Questie.db = {profile = {trackerShowPlayButtons = true}}
         playNow = spy.new(function(_, soundData) queuedLines[soundData.questID] = soundData end)
         remove = spy.new(function(_, soundData) queuedLines[soundData.questID] = nil end)
         _G.VoiceOver = {
@@ -38,6 +41,7 @@ describe("SpokenPlayButton", function()
 
     after_each(function()
         _G.VoiceOver = nil
+        Questie.db = originalQuestieDB
     end)
 
     it("should show the play button only for quests Spoken has audio for", function()
@@ -49,6 +53,16 @@ describe("SpokenPlayButton", function()
 
         assert.is_true(button:IsVisible())
         assert.is_false(otherButton:IsVisible())
+    end)
+
+    it("should hide the play button when the play buttons setting is off", function()
+        Questie.db.profile.trackerShowPlayButtons = false
+        local button = SpokenPlayButton.New(1, CreateFrame("Button"))
+
+        button:SetPlayButton(123)
+
+        assert.is_false(button:IsVisible())
+        assert.is_nil(button.mode)
     end)
 
     it("should play the quest on click and stop it on the next click", function()

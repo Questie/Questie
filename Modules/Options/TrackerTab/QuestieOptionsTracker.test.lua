@@ -66,6 +66,32 @@ describe("tracker automatic tracking option", function()
         isVoiceOverLoadedStub:revert()
     end)
 
+    it("should show the play buttons option only when VoiceOver or Spoken is used", function()
+        local trackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        local isVoiceOverLoadedStub = stub(trackerUtils, "IsVoiceOverLoaded", function() return false end)
+        local isSpokenLoadedStub = stub(trackerUtils, "IsSpokenLoaded", function() return false end)
+        local settings = options.tabs.tracker:Initialize()
+        local showPlayButtons = settings.args.group_tracker.args.showPlayButtons
+
+        assert.is_true(showPlayButtons.hidden())
+        isSpokenLoadedStub.returns(true)
+        assert.is_false(showPlayButtons.hidden())
+        isVoiceOverLoadedStub:revert()
+        isSpokenLoadedStub:revert()
+    end)
+
+    it("should change the play buttons setting and update the tracker", function()
+        Questie.db.profile.trackerShowPlayButtons = true
+        local settings = options.tabs.tracker:Initialize()
+        local showPlayButtons = settings.args.group_tracker.args.showPlayButtons
+
+        showPlayButtons.set(nil, false)
+
+        assert.is_false(showPlayButtons.get())
+        assert.is_false(Questie.db.profile.trackerShowPlayButtons)
+        assert.spy(tracker.Update).was.called_with(tracker)
+    end)
+
     it("updates the tracker and publishes visibility when only the modern log exists", function()
         local settings = options.tabs.tracker:Initialize()
         settings.args.group_quests.args.autoTrackQuests.set(nil, true)
