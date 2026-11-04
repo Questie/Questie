@@ -253,7 +253,7 @@ local function _AddNativePartyProgress(tooltipData)
                 for objectiveIndex, objective in ipairs(objectives) do
                     tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, memberName)
                     local color = QuestieLib:GetRGBForObjective({fulfilled = objective.fulfilled, required = objective.required})
-                    tooltipData[questId].objectivesText[objectiveIndex][memberName] = { ["color"] = color, ["text"] = "   " .. color .. objective.text }
+                    tooltipData[questId].objectivesText[objectiveIndex][memberName] = { ["color"] = color, ["text"] = "   " .. color .. objective.text, ["isNative"] = true }
                 end
                 anotherPlayer = true
             end
@@ -483,6 +483,9 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         playerColor = Questie:GetClassColor(playerColor)
                         playerType = " (" .. l10n("Nearby") .. ")"
                     end
+                end
+                if objectiveInfo.isNative and Questie.db.profile.debugEnabled then
+                    playerType = " |cFF999999[Blizzard]|r"
                 end
                 if objectivePlayerName == playerName and anotherPlayer then -- Add current player name to own objective
                     local playerClass = UnitClassBase("player")
