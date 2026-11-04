@@ -62,14 +62,14 @@ class ContractRequirementTests(unittest.TestCase):
 
     def test_rejects_invalid_metadata_before_touching_build_outputs(self):
         path = self.write_toc("Questie.toc", "## Version: 1.0.0\n")
-        with patch.object(build, "tocs", {1: path}), patch.object(build.shutil, "rmtree") as remove:
+        with patch.object(build, "tocs", {1: path}), patch.object(build, "allTocs", {1: [path]}), patch.object(build.shutil, "rmtree") as remove:
             with self.assertRaisesRegex(ValueError, "X-QuestieDB-Contract"):
                 build.main()
             remove.assert_not_called()
 
     def test_committed_tocs_load_compatibility_check(self):
         root = Path(__file__).resolve().parent
-        paths = [str(root / toc) for toc in build.tocs.values()]
+        paths = [str(root / toc) for group in build.allTocs.values() for toc in group]
         self.assertGreater(build.get_required_db_contract(paths), 0)
         for path in paths:
             with self.subTest(toc=path):
@@ -104,7 +104,7 @@ class BuildModeTests(unittest.TestCase):
         original_directory = Path.cwd()
         os.chdir(self.root)
         self.addCleanup(os.chdir, original_directory)
-        for name in build.tocs.values():
+        for name in [toc for group in build.allTocs.values() for toc in group]:
             (self.root / name).write_text(
                 "## Interface: 11508, 11509\n## Version: 11.38.0\n## X-QuestieDB-Contract: 2\n",
                 encoding="utf-8",
@@ -162,7 +162,7 @@ class BuildModeTests(unittest.TestCase):
         return output, manifest
 
     def test_release_uses_toc_version_without_needing_a_matching_git_tag(self):
-        for name in build.tocs.values():
+        for name in [toc for group in build.allTocs.values() for toc in group]:
             path = self.root / name
             path.write_text(path.read_text().replace("11.38.0", "12.0.0"))
         _, manifest = self.run_build("--bundled", "-r", directory="v12.0.0")
@@ -253,7 +253,7 @@ class BuildModeTests(unittest.TestCase):
                     for interface in (11508, 11509)]
         self.assertEqual(expected, manifest["releases"][0]["metadata"])
         with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
-            for toc in build.tocs.values():
+            for toc in [toc for group in build.allTocs.values() for toc in group]:
                 self.assertIn("Questie/" + toc, archive.namelist())
 
     def test_default_selection_excludes_cata_even_after_an_all_flavor_build(self):
@@ -292,6 +292,12 @@ class BuildModeTests(unittest.TestCase):
                         packaged_tocs = [name for name in archive.namelist() if name.endswith(".toc")]
                         self.assertEqual([f"Questie_{suffix}.toc"], packaged_tocs)
         self.downloads.assert_not_called()
+
+    def test_forever_build_ships_both_camelot_and_forever_tocs(self):
+        output, manifest = self.run_build("--standalone", "-r", selection=("--forever",))
+        with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
+            packaged_tocs = sorted(name for name in archive.namelist() if name.endswith(".toc"))
+        self.assertEqual(["Questie_Camelot.toc", "Questie_Forever.toc"], packaged_tocs)
 
     def test_flat_provider_manifest_is_not_silently_accepted(self):
         self.provider_manifest = self.database
