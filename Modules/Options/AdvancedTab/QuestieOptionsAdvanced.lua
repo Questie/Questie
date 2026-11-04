@@ -445,8 +445,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.08,
                 disabled = function() return not Questie.db.profile.debugEnabled; end,
-                name = function() return l10n("Enable Debug") .. "-PRINT" end,
-                desc = function() return l10n("Enable or disable debug functionality.") .. "-PRINT" end,
+                name = function() return l10n("Enable Debug-PRINT"); end,
+                desc = function() return l10n("Enable or disable debug print functionality."); end,
                 width = "full",
                 get = function() return Questie.db.profile.debugEnabledPrint; end,
                 set = function(_, value)
