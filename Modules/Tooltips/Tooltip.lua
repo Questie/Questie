@@ -234,8 +234,9 @@ end
 ---Adds the progress Blizzard shows for party members, so those without Questie are listed too.
 ---Members whose progress already arrived through Comms keep that richer data.
 ---@param tooltipData table
+---@param finishedAndUnacceptedQuests table<number, boolean> Quests listed as available or completable, shown without objectives
 ---@return boolean anotherPlayer
-local function _AddNativePartyProgress(tooltipData)
+local function _AddNativePartyProgress(tooltipData, finishedAndUnacceptedQuests)
     local anotherPlayer = false
     for questId, members in pairs(nativePartyProgress) do
         for memberName, objectives in pairs(members) do
@@ -244,7 +245,7 @@ local function _AddNativePartyProgress(tooltipData)
                 hasCommsData = hasCommsData or playerList[memberName] ~= nil
             end
 
-            if (not hasCommsData) and objectives[1] then
+            if (not hasCommsData) and (not finishedAndUnacceptedQuests[questId]) and objectives[1] then
                 if (not tooltipData[questId]) then
                     tooltipData[questId] = {
                         title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
@@ -260,6 +261,19 @@ local function _AddNativePartyProgress(tooltipData)
         end
     end
     return anotherPlayer
+end
+
+---Runs a tooltip augmentation with Blizzard's party progress available to GetTooltip, and always drops it afterwards.
+---@param progress table<number, table<string, NativePartyObjective[]>>?
+---@param augment function
+---@return nil
+local function _WithNativePartyProgress(progress, augment, ...)
+    nativePartyProgress = progress
+    local ok, err = pcall(augment, ...)
+    nativePartyProgress = nil
+    if not ok then
+        error(err, 0)
+    end
 end
 
 ---@param key string
@@ -282,7 +296,8 @@ function QuestieTooltips.GetTooltip(key, playerZone)
 
     -- Most provider name matches have no quest lines. Avoid reading their spawn tables just to
     -- discover that neither the local registry nor Comms has anything to show.
-    if not QuestieTooltips.lookupByKey[key] and not (IsInGroup() and QuestieComms.data:KeyExists(key)) then
+    if not QuestieTooltips.lookupByKey[key] and not (IsInGroup() and QuestieComms.data:KeyExists(key))
+        and not (nativePartyProgress and next(nativePartyProgress)) then
         return nil
     end
 
@@ -336,11 +351,11 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     local tooltipData = {}
     local tooltipLines
 
+    local finishedAndUnacceptedQuests = {}
     if QuestieTooltips.lookupByKey[key] then
         tooltipLines = {}
         local playerName = GetUnitName("player", true)
 
-        local finishedAndUnacceptedQuests = {}
         if Questie.db.profile.showQuestsInNpcTooltip then
             -- We built a table of all quests in the tooltip that can be accepted or turned in, to not show the objectives for those
             -- and also don't add the quest title twice.
@@ -458,7 +473,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
     local anotherPlayer = false
     if IsInGroup() then
         anotherPlayer = _FetchTooltipsForGroupMembers(key, tooltipData)
-        if nativePartyProgress and _AddNativePartyProgress(tooltipData) then
+        if nativePartyProgress and _AddNativePartyProgress(tooltipData, finishedAndUnacceptedQuests) then
             anotherPlayer = true
         end
     end
@@ -578,9 +593,7 @@ local function _RegisterObjectTooltipCallback()
             -- Keep provider name/zone resolution; unmatched captions simply add no quest lines.
             local playerZone = QuestiePlayer:GetCurrentZoneId()
             objectAugmented = true
-            nativePartyProgress = Forever.GetNativePartyProgress(data.lines)
-            _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
-            nativePartyProgress = nil
+            _WithNativePartyProgress(Forever.GetNativePartyProgress(data.lines), _QuestieTooltips.AddObjectDataToTooltip, name, playerZone)
             -- Blizzard calls Show after post-calls. Calling it here would run OnShow in the middle of its rebuild.
         end)
 end
@@ -601,9 +614,7 @@ function QuestieTooltips:Initialize()
             -- The processor also runs for other tooltip frames; unit rendering below owns GameTooltip only.
             return
         end
-        nativePartyProgress = data and Forever.GetNativePartyProgress(data.lines)
-        _QuestieTooltips.AddUnitDataToTooltip(tooltip)
-        nativePartyProgress = nil
+        _WithNativePartyProgress(data and Forever.GetNativePartyProgress(data.lines), _QuestieTooltips.AddUnitDataToTooltip, tooltip)
     end
 
     -- Classic exposes the processor but its native tooltips only fire legacy scripts. Check the frame's data pipeline too.
