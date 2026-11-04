@@ -829,6 +829,128 @@ describe("Tooltip", function()
             assert.is_nil(preCalls[8](GameTooltip, {leftText = "Objective", rightText = "0/8"}))
             assert.spy(GameTooltip.AddLine).was.not_called()
         end)
+
+        describe("native party progress", function()
+            local lines, rendered, savedGlobals
+            local TITLE, PLAYER, OBJECTIVE = 17, 18, 8
+
+            local function objectiveLine(text, fulfilled, required)
+                return {type = OBJECTIVE, leftText = text, numFulfilled = fulfilled, numRequired = required}
+            end
+
+            local function renderUnit()
+                QuestieTooltips.private.AddUnitDataToTooltip = function()
+                    rendered = QuestieTooltips.GetTooltip("m_123")
+                end
+                postCalls[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-123-0", lines = lines})
+            end
+
+            before_each(function()
+                savedGlobals = {
+                    IsInGroup = _G.IsInGroup, GetNumSubgroupMembers = _G.GetNumSubgroupMembers, UnitGUID = _G.UnitGUID,
+                    GetUnitName = _G.GetUnitName, GetClassColor = _G.GetClassColor,
+                }
+                local guids = {player = "Player-me", party1 = "Player-bob", party2 = "Player-kim"}
+                local names = {party1 = "Bob-Realm", party2 = "Kim"}
+                _G.IsInGroup = function() return true end
+                _G.GetNumSubgroupMembers = function() return 2 end
+                _G.UnitGUID = function(unit) return guids[unit] end
+                _G.GetUnitName = function(unit) return names[unit] or "Me" end
+                _G.GetClassColor = function() return 1, 1, 1, "FFFFFFFF" end
+                QuestiePlayer.GetPartyMemberByName = function() return {colorHex = "FFAAAAAA"} end
+                QuestiePlayer.currentQuestlog[1] = {}
+                QuestieTooltips.lookupByKey = {["m_123"] = {["1 1"] = {
+                    questId = 1,
+                    objective = {Index = 1, Update = function() end, Collected = 1, Needed = 1, Description = "Supplies"},
+                }}}
+                rendered = nil
+                lines = {
+                    {type = 0, leftText = "Mob"},
+                    {type = TITLE, id = 1, leftText = "Quest"},
+                    {type = PLAYER, guid = "Player-me", leftText = "Me"},
+                    objectiveLine("1/1 Supplies", 1, 1),
+                    {type = PLAYER, guid = "Player-bob", leftText = "Bob"},
+                    objectiveLine("9/10 Supplies", 9, 10),
+                    {type = PLAYER, guid = "Player-stranger", leftText = "Stranger"},
+                    objectiveLine("2/10 Supplies", 2, 10),
+                }
+            end)
+
+            after_each(function()
+                for name, value in pairs(savedGlobals) do _G[name] = value end
+            end)
+
+            it("should show the progress of party members from Blizzard's lines by their full name", function()
+                renderUnit()
+
+                assert.are.same({
+                    "Quest Name",
+                    "   gold1/1 Supplies (|cFFFFFFFFMe|rgold)|r",
+                    "   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r",
+                }, rendered)
+            end)
+
+            it("should show party members' progress on Object tooltips", function()
+                primaryData = {type = 4, lines = lines}
+                lines[1] = {type = 0, leftText = "Object name"}
+                QuestieTooltips.private.AddObjectDataToTooltip = function()
+                    rendered = QuestieTooltips.GetTooltip("m_123")
+                end
+
+                postCalls[4](GameTooltip, primaryData)
+
+                assert.are.equal("   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r", rendered[3])
+            end)
+
+            it("should keep the Comms data of a member who also has a Blizzard row", function()
+                QuestieComms.data.KeyExists = function() return true end
+                QuestieComms.data.GetTooltip = function()
+                    return {[1] = {["Bob-Realm"] = {[1] = {fulfilled = 3, required = 5, text = "do it"}}}}
+                end
+
+                renderUnit()
+
+                assert.are.same({
+                    "Quest Name",
+                    "   gold1/1 Supplies (|cFFFFFFFFMe|rgold)|r",
+                    "   gold3/5 do it (|cFFAAAAAABob-Realm|rgold)|r",
+                }, rendered)
+            end)
+
+            it("should add a quest title for a quest only the party shares", function()
+                QuestieTooltips.lookupByKey = {["m_123"] = {}}
+                lines[2].id = 2
+
+                renderUnit()
+
+                assert.are.same({
+                    "Quest Name",
+                    "   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r",
+                }, rendered)
+            end)
+
+            it("should ignore Blizzard's lines outside Forever", function()
+                Questie.IsForever = false
+
+                renderUnit()
+
+                assert.are.same({"Quest Name", "   gold1/1 Supplies"}, rendered)
+            end)
+
+            it("should ignore Blizzard's lines when one of them is secret", function()
+                _G.issecretvalue = function(value) return value == "9/10 Supplies" end
+
+                renderUnit()
+
+                assert.are.same({"Quest Name", "   gold1/1 Supplies"}, rendered)
+            end)
+
+            it("should not keep Blizzard's lines for later lookups", function()
+                renderUnit()
+
+                assert.are.same({"Quest Name", "   gold1/1 Supplies"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+        end)
     end)
 
     describe("RegisterQuestStartTooltip", function()

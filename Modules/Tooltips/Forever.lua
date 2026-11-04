@@ -158,6 +158,67 @@ local function _SelectObjective(candidates, selection, text)
     return output .. _DisplayFragment(unmatched, text)
 end
 
+---@param guid any
+---@return string? fullName The party member's name, like Questie Comms keys it. Nil for yourself and non-members.
+local function _GetPartyMemberName(guid)
+    if _IsSecret(guid) or type(guid) ~= "string" or guid == UnitGUID("player") then return nil end
+    for index = 1, GetNumSubgroupMembers() do
+        local unit = "party" .. index
+        if UnitGUID(unit) == guid then
+            return GetUnitName(unit, true)
+        end
+    end
+    return nil
+end
+
+---@class NativePartyObjective
+---@field text string
+---@field fulfilled number?
+---@field required number?
+
+---Reads the party members' quest progress from Blizzard's tooltip lines: a QuestTitle row, then a QuestPlayer row
+---per member, each followed by that member's QuestObjective rows. Members are matched by GUID, because the row only
+---shows the name without realm.
+---@param lines table? The lines of readable tooltip data
+---@return table<number, table<string, NativePartyObjective[]>>? progress By quest ID and member name. Nil if unreadable.
+function Forever.GetNativePartyProgress(lines)
+    local lineTypes = Enum and Enum.TooltipDataLineType
+    if not (Questie.IsForever and lineTypes and _IsPublicTable(lines)) then return nil end
+
+    local progress, objectives = {}, nil
+    local questId
+    for _, line in ipairs(lines) do
+        if not _IsPublicTable(line) then return nil end
+        local lineType = line.type
+        if _IsSecret(lineType) then return nil end
+
+        if lineType == lineTypes.QuestTitle then
+            questId, objectives = line.id, nil
+            if _IsSecret(questId) then return nil end
+        elseif lineType == lineTypes.QuestPlayer then
+            local name = _GetPartyMemberName(line.guid)
+            objectives = nil
+            if name and type(questId) == "number" then
+                progress[questId] = progress[questId] or {}
+                objectives = {}
+                progress[questId][name] = objectives
+            end
+        elseif lineType == lineTypes.QuestObjective and objectives then
+            local text, fulfilled, required = line.leftText, line.numFulfilled, line.numRequired
+            if _IsSecret(text) or _IsSecret(fulfilled) or _IsSecret(required) then return nil end
+            if type(text) == "string" then
+                local counted = type(fulfilled) == "number" and type(required) == "number" and required > 0
+                objectives[#objectives + 1] = {
+                    text = text,
+                    fulfilled = counted and fulfilled or nil,
+                    required = counted and required or nil,
+                }
+            end
+        end
+    end
+    return progress
+end
+
 ---Builds public quest-log candidates once for a native tooltip rebuild. Discard the formatter on tooltip clear.
 ---Rendering accepts possibly secret IDs and text without exposing the selected quest. Only the latest title's
 ---possibly secret mismatch markers are kept, until the next title row or tooltip clear.
