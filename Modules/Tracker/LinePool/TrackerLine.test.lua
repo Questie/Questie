@@ -49,6 +49,8 @@ describe("TrackerLine untrack click", function()
         QuestieLoader:ImportModule("AchievementCriteriaCheckmark").New = function() return {} end
         QuestieLoader:ImportModule("ExpandZoneButton").New = function() return {} end
         QuestieLoader:ImportModule("VoiceOverPlayButton").New = _HookableButton
+        QuestieLoader:ImportModule("SpokenPlayButton").New = _HookableButton
+        QuestieLoader:ImportModule("TrackerUtils").IsSpokenLoaded = function() return false end
         QuestieLoader:ImportModule("ExpandQuestButton").New = _HookableButton
         QuestieLoader:ImportModule("QuestFocusButton").New = _HookableButton
         tracker = QuestieLoader:ImportModule("QuestieTracker")

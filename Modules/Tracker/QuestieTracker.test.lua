@@ -434,6 +434,7 @@ describe("QuestieTracker", function()
             drawnSections = {}
             QuestieLoader:ImportModule("TrackerFadeTicker").Initialize = function() end
             TrackerUtils.IsVoiceOverLoaded = function() return false end
+            TrackerUtils.IsSpokenLoaded = function() return false end
             TrackerUtils.GetSortedQuestIds = spy.new(function()
                 assert.spy(TrackerData.Refresh).was.called(1)
                 return {}, {}
@@ -689,6 +690,7 @@ describe("QuestieTracker", function()
                 dofile("Modules/Tracker/TrackerMapEligibility.lua")
                 dofile("Modules/Tracker/TrackerUtils.lua")
                 TrackerUtils.IsVoiceOverLoaded = function() return false end
+                TrackerUtils.IsSpokenLoaded = function() return false end
                 QuestieTracker.started = false
             end)
 

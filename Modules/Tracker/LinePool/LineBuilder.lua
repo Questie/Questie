@@ -123,7 +123,7 @@ function LineBuilder.AddTitle(options)
     _SetTarget(line, options.clickMode, options.target)
     line.expandZone:Hide()
     line.criteriaMark:Hide()
-    -- Quest titles show the VoiceOver play button. SetPlayButton skips an unchanged quest, so it must not be hidden here.
+    -- Quest titles show the play button. VoiceOver's SetPlayButton skips an unchanged quest, so it must not be hidden here.
     if options.clickMode ~= "quest" then
         line.playButton:Hide()
     end

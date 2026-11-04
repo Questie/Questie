@@ -275,6 +275,7 @@ Modules\Tracker\LinePool\ExpandZoneButton.lua
 Modules\Tracker\LinePool\TrackerItemButton.lua
 Modules\Tracker\LinePool\TrackerMenu.lua
 Modules\Tracker\LinePool\VoiceOverPlayButton.lua
+Modules\Tracker\LinePool\SpokenPlayButton.lua
 Modules\Tracker\LinePool\TrackerLine.lua
 Modules\Tracker\LinePool\TrackerLinePool.lua
 Modules\Tracker\LinePool\LineBuilder.lua

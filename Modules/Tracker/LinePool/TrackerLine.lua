@@ -18,6 +18,8 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
 ---@type VoiceOverPlayButton
 local VoiceOverPlayButton = QuestieLoader:ImportModule("VoiceOverPlayButton")
+---@type SpokenPlayButton
+local SpokenPlayButton = QuestieLoader:ImportModule("SpokenPlayButton")
 ---@type AchievementCriteriaCheckmark
 local AchievementCriteriaCheckmark = QuestieLoader:ImportModule("AchievementCriteriaCheckmark")
 ---@type ExpandQuestButton
@@ -168,7 +170,11 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
     line.criteriaMark = AchievementCriteriaCheckmark.New(index, line)
     line.expandZone = ExpandZoneButton.New(index, line, OnEnter, OnLeave)
-    line.playButton = VoiceOverPlayButton.New(index, line)
+    if TrackerUtils:IsSpokenLoaded() then
+        line.playButton = SpokenPlayButton.New(index, line)
+    else
+        line.playButton = VoiceOverPlayButton.New(index, line)
+    end
     line.expandQuest = ExpandQuestButton.New(index, line)
     line.questFocus = QuestFocusButton.New(index, line)
 
