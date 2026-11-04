@@ -945,6 +945,14 @@ describe("Tooltip", function()
                 assert.are.same({"Quest Name", "   gold1/1 Supplies"}, rendered)
             end)
 
+            it("should mark Blizzard's lines only while debugging", function()
+                Questie.db.profile.debugEnabled = true
+
+                renderUnit()
+
+                assert.are.equal("   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r |cFF999999[Blizzard]|r", rendered[3])
+            end)
+
             it("should not keep Blizzard's lines for later lookups", function()
                 renderUnit()
 
