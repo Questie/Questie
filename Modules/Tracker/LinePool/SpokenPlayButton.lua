@@ -43,9 +43,15 @@ local function _Toggle(playButton)
 end
 
 ---Spoken's voice packs load after the tracker is first drawn, so quests only then get their play button.
----@param onVoicePacksLoaded function
-function SpokenPlayButton.Initialize(onVoicePacksLoaded)
-    Spoken:RegisterCallback("VOICE_PACKS_LOADED", onVoicePacksLoaded)
+---The same redraw applies when the player switches Spoken's Quests part on or off.
+---@param redraw function
+function SpokenPlayButton.Initialize(redraw)
+    Spoken:RegisterCallback("VOICE_PACKS_LOADED", redraw)
+    Spoken:RegisterCallback("PART_SWITCHED", function(part)
+        if part == "quests" then
+            redraw()
+        end
+    end)
     Spoken:RegisterCallback("AUDIO_CHANGED", function()
         for _, playButton in ipairs(playButtons) do
             if playButton.mode then
@@ -71,7 +77,7 @@ function SpokenPlayButton.New(index, parent)
     playButton:SetHighlightTexture("Interface\\BUTTONS\\UI-Panel-MinimizeButton-Highlight")
 
     function playButton:SetPlayButton(questId)
-        if questId and Questie.db.profile.trackerShowPlayButtons and _HasSound(questId) then
+        if questId and Questie.db.profile.trackerShowPlayButtons and Spoken:IsPartOn("quests") and _HasSound(questId) then
             self.mode = questId
             _UpdateTexture(self)
             self:Show()
