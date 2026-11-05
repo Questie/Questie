@@ -201,6 +201,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    followSuperTracking = {
+                        type = "toggle",
+                        order = 3.1,
+                        width = 1.5,
+                        name = function() return l10n("Follow Blizzard Super Tracking") end,
+                        desc = function() return l10n("If checked, the Quest Focus follows the quest that is super tracked by Blizzard, e.g. when accepting a quest or clicking it on the map.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        hidden = function() return not QuestieCompat.IsSuperTrackingSupported() end,
+                        get = function() return Questie.db.profile.trackerFollowSuperTracking end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerFollowSuperTracking = value
+                        end
+                    },
                     listAchievementsFirst = {
                         type = "toggle",
                         order = 4,

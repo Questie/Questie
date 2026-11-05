@@ -31,18 +31,38 @@ local function _GetButtonSize()
     return Questie.db.profile.trackerFontSizeQuest + 3
 end
 
+---The quest this button super tracked itself, so it stays focused while following Blizzard is disabled.
+---@type QuestId?
+local buttonSuperTrackedQuestId
+
+---Super tracked by Blizzard, but only counts when following is enabled or this button selected it.
+---@param questId QuestId
+---@return boolean
+local function _IsSuperTracked(questId)
+    local superTrackedQuestId = QuestieCompat.GetSuperTrackedQuestID()
+    if buttonSuperTrackedQuestId and buttonSuperTrackedQuestId ~= superTrackedQuestId then
+        -- Something else replaced the selection of this button.
+        buttonSuperTrackedQuestId = nil
+    end
+    if superTrackedQuestId ~= questId then
+        return false
+    end
+    return Questie.db.profile.trackerFollowSuperTracking or buttonSuperTrackedQuestId == questId
+end
+
 ---Focused in Questie, or super tracked by Blizzard, which also covers quests missing from the Questie database.
 ---@param questId QuestId
 ---@return boolean
 local function _IsFocused(questId)
-    return Questie.db.char.TrackerFocus == questId or QuestieCompat.GetSuperTrackedQuestID() == questId
+    return Questie.db.char.TrackerFocus == questId or _IsSuperTracked(questId)
 end
 
 local function _OnClick(self)
     if Questie.db.char.TrackerFocus == self.questId then
         TrackerUtils:UnFocus()
         QuestieQuest.ToggleQuestNotes(true)
-    elseif QuestieCompat.GetSuperTrackedQuestID() == self.questId then
+    elseif _IsSuperTracked(self.questId) then
+        buttonSuperTrackedQuestId = nil
         QuestieCompat.ClearSuperTrackedQuest()
     elseif TrackerUtils:FocusQuest(self.questId, self.expectedQuest) then
         QuestieQuest.ToggleQuestNotes(false)
@@ -51,6 +71,7 @@ local function _OnClick(self)
         end
     else
         -- Questie can not focus the quest, e.g. it is missing from the database; Blizzard super tracking still can.
+        buttonSuperTrackedQuestId = self.questId
         QuestieCompat.SetSuperTrackedQuestID(self.questId)
         if WorldMapFrame and WorldMapFrame:IsShown() then
             -- Without Questie's map data, Blizzard's map of the quest is the best target. There are no Questie icons to flash.

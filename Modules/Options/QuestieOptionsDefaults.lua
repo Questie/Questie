@@ -104,6 +104,7 @@ function QuestieOptionsDefaults:Load()
             trackerFadeMinMaxButtons = false,
             trackerFadeQuestItemButtons = false,
             trackerFadeQuestFocusButtons = false,
+            trackerFollowSuperTracking = false,
             trackerDisableHoverFade = false,
             trackerBackdropEnabled = false,
             currentBackdropEnabled = false,

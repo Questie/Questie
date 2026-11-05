@@ -92,6 +92,28 @@ describe("tracker automatic tracking option", function()
         assert.spy(tracker.Update).was.called_with(tracker)
     end)
 
+    it("should show the follow super tracking option only when super tracking is supported", function()
+        local supported = false
+        compat.IsSuperTrackingSupported = function() return supported end
+        local settings = options.tabs.tracker:Initialize()
+        local followSuperTracking = settings.args.group_quests.args.followSuperTracking
+
+        assert.is_true(followSuperTracking.hidden())
+        supported = true
+        assert.is_false(followSuperTracking.hidden())
+    end)
+
+    it("should change the follow super tracking setting", function()
+        Questie.db.profile.trackerFollowSuperTracking = false
+        local settings = options.tabs.tracker:Initialize()
+        local followSuperTracking = settings.args.group_quests.args.followSuperTracking
+
+        followSuperTracking.set(nil, true)
+
+        assert.is_true(followSuperTracking.get())
+        assert.is_true(Questie.db.profile.trackerFollowSuperTracking)
+    end)
+
     it("updates the tracker and publishes visibility when only the modern log exists", function()
         local settings = options.tabs.tracker:Initialize()
         settings.args.group_quests.args.autoTrackQuests.set(nil, true)
