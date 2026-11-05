@@ -24,15 +24,22 @@ local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 
 local function GetMapTitleText()
+    -- Newer clients use PortraitFrameTemplate, where the title is set via SetTitle and is not a direct region
+    if WorldMapFrame.BorderFrame.SetTitle then
+        return WorldMapFrame.BorderFrame, "SetTitle"
+    end
     local regions = {WorldMapFrame.BorderFrame:GetRegions()}
     for i = 1, #regions do
         if (regions[i].SetText) then
-            return regions[i]
+            return regions[i], "SetText"
         end
     end
 end
 
 local function GetMiniWorldMapTitleText()
+    if (not WorldMapFrame.MiniBorderFrame) then
+        return nil
+    end
     local regions = {WorldMapFrame.MiniBorderFrame:GetRegions()}
     for i = 1, #regions do
         if regions[i].SetText then
@@ -69,7 +76,7 @@ function QuestieCoords:WriteCoords()
         end
     end
     -- if main map
-    local mapTitleText = GetMapTitleText()
+    local mapTitleText, setter = GetMapTitleText()
     if Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible() and mapTitleText then
         -- get cursor position
         local curX, curY = GetCursorPosition();
@@ -93,7 +100,7 @@ function QuestieCoords:WriteCoords()
 
         worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
         -- Add text to world map
-        mapTitleText:SetText(worldmapCoordsText)
+        mapTitleText[setter](mapTitleText, worldmapCoordsText)
 
         -- Adding text to mini world map
         local miniWorldMapTitleText = GetMiniWorldMapTitleText()
@@ -136,15 +143,23 @@ function QuestieCoords:ResetMinimapText()
 end
 
 function QuestieCoords:ResetMapText()
-    GetMapTitleText():SetText(WORLD_MAP);
+    local mapTitleText, setter = GetMapTitleText()
+    if mapTitleText then
+        local title = WORLD_MAP
+        if setter == "SetTitle" and (not WorldMapFrame:IsMaximized()) then
+            title = MAP_AND_QUEST_LOG
+        end
+        mapTitleText[setter](mapTitleText, title)
+    end
 end
 
 function QuestieCoords:ResetMiniWorldMapText()
     local currentMapId = WorldMapFrame:GetMapID();
     if currentMapId then
         local info = C_Map.GetMapInfo(currentMapId);
-        if info then
-            GetMiniWorldMapTitleText():SetText(info.name);
+        local miniWorldMapTitleText = GetMiniWorldMapTitleText()
+        if info and miniWorldMapTitleText then
+            miniWorldMapTitleText:SetText(info.name);
         end
     end
 end
