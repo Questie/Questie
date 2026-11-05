@@ -620,8 +620,8 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
         questLogRetryDelay = MARKER_EVENT_TIMEFRAME
     end
 
+    QuestieTracker.UpdateHeaderQuestCount()
     if next(changes) then
-        QuestieTracker.UpdateHeaderQuestCount()
         for questId, objIds in pairs(changes) do
             Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)

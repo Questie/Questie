@@ -222,16 +222,24 @@ function TrackerHeaderFrame.UpdateQuestCount()
     headerFrame.trackedQuests.label:SetText(_GetTrackedQuestsText())
 end
 
--- Gives the label the full tracker width, so a longer quest count set in combat is not cut off
----@param marginRight number
-function TrackerHeaderFrame.ExpandLabelWidth(marginRight)
+-- The label is sized for the longest quest count, so a count set in combat, e.g. "10/25" after "9/25", is not cut off
+function TrackerHeaderFrame.ExpandLabelWidth()
     if (not _IsHeaderShown()) then
         return
     end
 
+    local label = headerFrame.trackedQuests.label
+    local text = label:GetText()
+    if Questie.db.char.isTrackerExpanded then
+        local maxQuests = C_QuestLog.GetMaxNumQuestsCanAccept()
+        label:SetText(l10n("Questie Tracker") .. l10n(": ") .. maxQuests .. "/" .. maxQuests)
+    end
+    local neededWidth = label:GetUnboundedStringWidth()
+    label:SetText(text)
+
     -- The label starts behind the icon, which is 6 pixels from the left, and has a gap of 2 pixels to it
-    local marginLeft = 6 + Questie.db.profile.trackerFontSizeHeader + 2
-    headerFrame.trackedQuests.label:SetWidth(trackerBaseFrame:GetWidth() - marginLeft - marginRight)
+    local availableWidth = trackerBaseFrame:GetWidth() - (6 + Questie.db.profile.trackerFontSizeHeader + 2)
+    label:SetWidth(math.max(neededWidth, availableWidth))
 end
 
 function TrackerHeaderFrame:Update()

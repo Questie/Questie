@@ -22,7 +22,10 @@ describe("TrackerHeaderFrame", function()
         local frame = _PermissiveFrame()
         frame.CreateFontString = function()
             local label = _PermissiveFrame()
-            label.SetText = spy.new(function() end)
+            local text = ""
+            label.SetText = spy.new(function(_, value) text = value end)
+            label.GetText = function() return text end
+            label.GetUnboundedStringWidth = function() return #text * 10 end
             label.SetWidth = spy.new(function() end)
             return label
         end
@@ -61,12 +64,17 @@ describe("TrackerHeaderFrame", function()
     end
 
     describe("UpdateQuestCount", function()
-        it("should set the quest count text", function()
+        it("should only set the quest count text", function()
             questCount = 10
+            local label = _GetLabel()
+            local SetPointSpy = spy.new(function() end)
+            label.SetPoint = SetPointSpy
 
             TrackerHeaderFrame.UpdateQuestCount()
 
-            assert.spy(_GetLabel().SetText).was.called_with(match._, "Questie Tracker: 10/25")
+            assert.spy(label.SetText).was.called_with(match._, "Questie Tracker: 10/25")
+            assert.spy(label.SetWidth).was.not_called()
+            assert.spy(SetPointSpy).was.not_called()
         end)
 
         it("should set the collapsed text when the tracker is collapsed", function()
@@ -88,16 +96,29 @@ describe("TrackerHeaderFrame", function()
 
     describe("ExpandLabelWidth", function()
         it("should give the label the full tracker width", function()
-            TrackerHeaderFrame.ExpandLabelWidth(10)
+            TrackerHeaderFrame.UpdateQuestCount()
 
-            -- 300 tracker width - (6 icon offset + 12 icon size + 2 gap) - 10 right margin
-            assert.spy(_GetLabel().SetWidth).was.called_with(match._, 270)
+            TrackerHeaderFrame.ExpandLabelWidth()
+
+            -- 300 tracker width - (6 icon offset + 12 icon size + 2 gap)
+            assert.spy(_GetLabel().SetWidth).was.called_with(match._, 280)
+        end)
+
+        it("should make room for the longest quest count when the tracker is narrow", function()
+            baseFrame.GetWidth = function() return 100 end
+            TrackerHeaderFrame.UpdateQuestCount()
+
+            TrackerHeaderFrame.ExpandLabelWidth()
+
+            -- "Questie Tracker: 25/25" is 22 characters, 10 pixels each in this test
+            assert.spy(_GetLabel().SetWidth).was.called_with(match._, 220)
+            assert.are_same("Questie Tracker: 9/25", _GetLabel():GetText())
         end)
 
         it("should not change the width when the header is hidden", function()
             Questie.db.profile.trackerHeaderEnabled = false
 
-            TrackerHeaderFrame.ExpandLabelWidth(10)
+            TrackerHeaderFrame.ExpandLabelWidth()
 
             assert.spy(_GetLabel().SetWidth).was.not_called()
         end)

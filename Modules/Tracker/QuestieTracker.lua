@@ -1053,7 +1053,7 @@ function QuestieTracker:UpdateFormatting()
         TrackerQuestFrame:Update()
     end
 
-    TrackerHeaderFrame.ExpandLabelWidth(trackerMarginRight)
+    TrackerHeaderFrame.ExpandLabelWidth()
     TrackerBaseFrame:Update()
 
     if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
