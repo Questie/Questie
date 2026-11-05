@@ -16,7 +16,6 @@ commit_keys_and_header = (
     ('locale', '## Localization Fixes\n\n'),
 )
 
-
 def is_python_36():
     return sys.version_info.major == 3 and sys.version_info.minor >= 6
 
@@ -26,20 +25,24 @@ def is_running_in_github_actions():
     return os.getenv('GITHUB_ACTIONS', '').lower() == 'true'
 
 
-def get_commit_changelog(include_contributors):
-    last_tag = get_last_git_tag()
-    git_log = get_chronological_git_log(last_tag)
+def get_commit_changelog(include_contributors, tag_from=None, tag_to=None):
+    tag_from = tag_from or get_last_git_tag()
+    tag_to = tag_to or "HEAD"
+
+    git_log = get_chronological_git_log(tag_from, tag_to)
     categories = get_sorted_categories(git_log)
 
-    contributors = get_contributors(last_tag) if include_contributors else []
+    contributors = get_contributors(tag_from, tag_to) if include_contributors else []
 
     return get_changelog_string(categories, contributors)
 
 
-def get_changelog_entries():
+def get_changelog_entries(tag_from=None, tag_to="HEAD"):
     """Capture current Questie changes and author credits for the packaged manifest."""
-    last_tag = get_last_git_tag()
-    revision = f"{last_tag}..HEAD" if last_tag else "HEAD"
+    if not tag_from:
+        last_tag = get_last_git_tag() or ""
+        if last_tag != "": last_tag += ".."
+    revision = f"{tag_from}..{tag_to}" if tag_from else f"{last_tag}{tag_to}"
     # NUL-separated fields preserve multiline commit bodies and author display names.
     log = subprocess.check_output(
         ["git", "log", "--reverse", "-z", "--format=%H%x00%an%x00%s%x00%b", revision], text=True
@@ -70,10 +73,14 @@ def get_last_git_tag():
     ).stdout.decode().strip('\n')
 
 
-def get_chronological_git_log(last_tag):
+def get_chronological_git_log(tag_from=None, tag_to="HEAD"):
     # get array of the first line of the commit messages since last tag
+    if not tag_from:
+        last_tag = get_last_git_tag() or ""
+        if last_tag != "": last_tag += ".."
+    revision = f"{tag_from}..{tag_to}" if tag_from else f"{get_last_git_tag()}..{tag_to}"
     git_log = subprocess.run(
-        ["git", "log", "--pretty=format:%s", f"{last_tag}..HEAD"],
+        ["git", "log", "--pretty=format:%s", revision],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().split('\n')
 
@@ -105,9 +112,13 @@ def get_sorted_categories(git_log):
     return categories
 
 
-def get_contributors(last_tag):
+def get_contributors(tag_from=None, tag_to="HEAD"):
+    if not tag_from:
+        last_tag = get_last_git_tag() or ""
+        if last_tag != "": last_tag += ".."
+    revision = f"{tag_from}..{tag_to}" if tag_from else f"{get_last_git_tag()}..{tag_to}"
     log_output = subprocess.run(
-        ["git", "log", f"{last_tag}..HEAD", "--pretty=format:%an <%ae>"],
+        ["git", "log", revision, "--pretty=format:%an <%ae>"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip().split('\n')
 
@@ -227,6 +238,8 @@ def get_addon_changelog(name, manifest):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Generate Questie notes or render a packaged release.json.")
     parser.add_argument("--release-manifest", help="Render retained component metadata without Git or network access")
+    parser.add_argument("-f", "--from_pointer", help="Changelog from this commit/pointer (default: last tag before HEAD)")
+    parser.add_argument("-t", "--to_pointer", help="Changelog to this commit/pointer (default: HEAD)")
     args = parser.parse_args(argv)
     if args.release_manifest:
         with open(args.release_manifest, encoding="utf-8") as source:
@@ -237,7 +250,7 @@ def main(argv=None):
             print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
     else:
         show_contributors_section = not is_running_in_github_actions()
-        print(get_commit_changelog(show_contributors_section))
+        print(get_commit_changelog(show_contributors_section, args.from_pointer, args.to_pointer))
 
 
 if __name__ == "__main__":
