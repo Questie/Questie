@@ -413,6 +413,7 @@ describe("QuestieTracker", function()
             header = QuestieLoader:ImportModule("TrackerHeaderFrame")
             header.Initialize = function() return {} end
             header.Update = function() assert.spy(TrackerData.Refresh).was.called(1) end
+            header.ExpandLabelWidth = function() end
             local frame = QuestieLoader:ImportModule("TrackerQuestFrame")
             frame.Initialize = function() return {} end
             frame.Update = function() end

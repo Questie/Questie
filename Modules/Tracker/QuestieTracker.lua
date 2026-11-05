@@ -1053,6 +1053,7 @@ function QuestieTracker:UpdateFormatting()
         TrackerQuestFrame:Update()
     end
 
+    TrackerHeaderFrame.ExpandLabelWidth(trackerMarginRight)
     TrackerBaseFrame:Update()
 
     if Questie.db.profile.trackerHeaderEnabled or (Questie.db.profile.alwaysShowTracker and not TrackerUtils.HasQuest()) then
@@ -1480,4 +1481,12 @@ end
 ---@param criteriaIndex number
 function QuestieTracker.UpdateScenarioLines(criteriaIndex)
     TrackerLinePool.UpdateScenarioLines(criteriaIndex)
+end
+
+function QuestieTracker.UpdateHeaderQuestCount()
+    if (not QuestieTracker.started) then
+        return
+    end
+
+    TrackerHeaderFrame.UpdateQuestCount()
 end

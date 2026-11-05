@@ -199,11 +199,46 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
     return headerFrame
 end
 
+---@return string
+local function _GetTrackedQuestsText()
+    if Questie.db.char.isTrackerExpanded then
+        local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
+        return l10n("Questie Tracker") .. l10n(": ") .. tostring(QuestLogCache.GetQuestCount()) .. maxQuestAmount
+    end
+
+    return l10n("Questie Tracker") .. " +"
+end
+
+local function _IsHeaderShown()
+    return Questie.db.profile.trackerHeaderEnabled or (not TrackerUtils.HasQuest())
+end
+
+-- Only changes the text, so it is safe to call in combat
+function TrackerHeaderFrame.UpdateQuestCount()
+    if (not headerFrame) or (not _IsHeaderShown()) then
+        return
+    end
+
+    headerFrame.trackedQuests.label:SetText(_GetTrackedQuestsText())
+end
+
+-- Gives the label the full tracker width, so a longer quest count set in combat is not cut off
+---@param marginRight number
+function TrackerHeaderFrame.ExpandLabelWidth(marginRight)
+    if (not _IsHeaderShown()) then
+        return
+    end
+
+    -- The label starts behind the icon, which is 6 pixels from the left, and has a gap of 2 pixels to it
+    local marginLeft = 6 + Questie.db.profile.trackerFontSizeHeader + 2
+    headerFrame.trackedQuests.label:SetWidth(trackerBaseFrame:GetWidth() - marginLeft - marginRight)
+end
+
 function TrackerHeaderFrame:Update()
     local trackerFontSizeHeader = Questie.db.profile.trackerFontSizeHeader
     local trackerFontSizeZone = Questie.db.profile.trackerFontSizeZone
 
-    if Questie.db.profile.trackerHeaderEnabled or (not TrackerUtils.HasQuest()) then
+    if _IsHeaderShown() then
         headerFrame:ClearAllPoints()
         headerFrame.questieIcon.texture:SetWidth(trackerFontSizeHeader)
         headerFrame.questieIcon.texture:SetHeight(trackerFontSizeHeader)
@@ -217,14 +252,7 @@ function TrackerHeaderFrame:Update()
 
         headerFrame.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.profile.trackerFontHeader), trackerFontSizeHeader, Questie.db.profile.trackerFontOutline)
 
-        local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
-
-        if Questie.db.char.isTrackerExpanded then
-            local activeQuests = QuestLogCache.GetQuestCount()
-            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. l10n(": ") .. tostring(activeQuests) .. maxQuestAmount)
-        else
-            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. " +")
-        end
+        headerFrame.trackedQuests.label:SetText(_GetTrackedQuestsText())
 
         headerFrame.trackedQuests.label:SetPoint("TOPLEFT", headerFrame.questieIcon, "TOPRIGHT", 2, 0)
         headerFrame.trackedQuests:SetWidth(headerFrame.trackedQuests.label:GetUnboundedStringWidth())

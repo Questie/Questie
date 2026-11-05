@@ -336,6 +336,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     Questie.Debug(Questie.DEBUG_INFO, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieQuest:SetObjectivesDirty(questId)
+    QuestieTracker.UpdateHeaderQuestCount()
 
     QuestieJourney:AcceptQuest(questId)
     QuestieAnnounce:AcceptedQuest(questId)
@@ -403,6 +404,7 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
     end
 
     QuestLogCache.RemoveQuest(questId)
+    QuestieTracker.UpdateHeaderQuestCount()
     QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
     QuestLifecycle:CompleteQuest(questId)
     QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_TURNED_IN)
@@ -463,6 +465,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
 
         QuestLogCache.RemoveQuest(questId)
+        QuestieTracker.UpdateHeaderQuestCount()
         QuestieQuest:SetObjectivesDirty(questId)
         QuestLifecycle:AbandonQuest(questId)
         questLog[questId] = nil
@@ -618,6 +621,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
     end
 
     if next(changes) then
+        QuestieTracker.UpdateHeaderQuestCount()
         for questId, objIds in pairs(changes) do
             Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
