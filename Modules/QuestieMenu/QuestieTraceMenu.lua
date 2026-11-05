@@ -28,6 +28,7 @@ function QuestieTraceMenu.Build(onClick)
         customCheckIconTexture = TRACE_RUNNING_ICON,
         customUncheckIconTexture = TRACE_STOPPED_ICON,
         registerForRightClick = true,
+        keepShownOnClick = true,
         isNotRadio = true,
     }
 end
