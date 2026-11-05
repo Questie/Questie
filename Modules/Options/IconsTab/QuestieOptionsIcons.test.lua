@@ -1,12 +1,13 @@
 dofile("setupTests.lua")
 
 describe("objective rendering presets", function()
-    local options, utils, quest, expansions, defaults
+    local options, engine, utils, quest, expansions, defaults
     local originals
     local nativeObjectives
 
     before_each(function()
         options = QuestieLoader:ImportModule("QuestieOptions")
+        engine = QuestieLoader:ImportModule("QuestieOptionsEngine")
         utils = QuestieLoader:ImportModule("QuestieOptionsUtils")
         quest = QuestieLoader:ImportModule("QuestieQuest")
         expansions = QuestieLoader:ImportModule("Expansions")
@@ -15,6 +16,7 @@ describe("objective rendering presets", function()
             icons = Questie.icons,
             SetIcons = Questie.SetIcons,
             tabs = options.tabs,
+            engineTabs = engine.tabs,
             Spacer = utils.Spacer,
             DetermineTheme = utils.DetermineTheme,
             ExecuteTheme = utils.ExecuteTheme,
@@ -36,6 +38,7 @@ describe("objective rendering presets", function()
         Questie.SetIcons = spy.new(function() end)
         quest.SmoothReset = spy.new(function() end)
         options.tabs = {}
+        engine.tabs = {}
         utils.Spacer = function() return {} end
         nativeObjectives = "1"
         _G.GetCVar = function() return nativeObjectives end
@@ -43,6 +46,8 @@ describe("objective rendering presets", function()
         _G.WorldMapQuestShowObjectives = nil
         expansions.Current = expansions.Wotlk
         dofile("Modules/Options/IconsTab/QuestieOptionsIcons.lua")
+        -- The TOCs load the native settings last, so their theme functions are the ones the client runs.
+        dofile("Modules/Options/NativeOptions/NativeOptionsIcons.lua")
     end)
 
     after_each(function()
@@ -50,6 +55,7 @@ describe("objective rendering presets", function()
         Questie.icons = originals.icons
         Questie.SetIcons = originals.SetIcons
         options.tabs = originals.tabs
+        engine.tabs = originals.engineTabs
         utils.Spacer = originals.Spacer
         utils.DetermineTheme = originals.DetermineTheme
         utils.ExecuteTheme = originals.ExecuteTheme
@@ -157,5 +163,52 @@ describe("objective rendering presets", function()
 
         assert.are_same("|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t Questie blobs", picker.values().polygon)
         assert.are_same({"questie", "polygon", "blizzard", "pfquest", "custom"}, picker.sorting)
+    end)
+
+    describe("native settings", function()
+        local function _IconOptions()
+            return engine.tabs.icons:Initialize().items.icon_options_group.items
+        end
+
+        it("offers Questie blobs in Era options without offering Blizzard objectives", function()
+            expansions.Current = expansions.Era
+            local picker = _IconOptions().iconThemePicker
+
+            assert.are_same("|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t Questie blobs", picker.options().polygon)
+            assert.is_nil(picker.options().blizzard)
+            assert.are_same({"questie", "polygon", "pfquest", "custom"}, picker.sortOrder())
+        end)
+
+        it("keeps existing themes alongside Questie blobs on WotLK and later", function()
+            local picker = _IconOptions().iconThemePicker
+
+            assert.are_same("|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t Questie blobs", picker.options().polygon)
+            assert.are_same({"questie", "polygon", "blizzard", "pfquest", "custom"}, picker.sortOrder())
+        end)
+
+        it("enables the quest area settings only in blob mode", function()
+            local items = _IconOptions()
+            Questie.db.profile.enabled = true
+
+            assert.is_false(items.showPolygonsOnAcceptToggle.enabled())
+            assert.is_false(items.polygonAreaTooltipsToggle.enabled())
+
+            utils.ExecuteTheme(nil, "polygon")
+
+            assert.is_true(items.showPolygonsOnAcceptToggle.enabled())
+            assert.is_true(items.polygonAreaTooltipsToggle.enabled())
+        end)
+
+        it("refreshes area visibility when the accepted quest areas setting changes", function()
+            local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+            local originalRefresh = QuestiePolygon.RefreshVisibility
+            QuestiePolygon.RefreshVisibility = spy.new(function() end)
+
+            _IconOptions().showPolygonsOnAcceptToggle.set(nil, false)
+
+            assert.is_false(Questie.db.profile.showPolygonsOnAccept)
+            assert.spy(QuestiePolygon.RefreshVisibility).was.called(1)
+            QuestiePolygon.RefreshVisibility = originalRefresh
+        end)
     end)
 end)

@@ -7,8 +7,6 @@ local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type WaypointRenderer
-local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 
 QuestieOptionsEngine.tabs.map = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -70,7 +68,7 @@ function QuestieOptionsEngine.tabs.map:Initialize()
                 type = "checkbox",
                 order = 1.2,
                 title = "Enable Minimap Waypoints",
-                tooltip = "Draws the patrol paths of the NPCs Questie shows on the minimap. Minimap icons must be enabled too.",
+                tooltip = "Draws the patrol paths of the NPCs Questie marks on the minimap, by their icons or their quest areas' markers. Minimap icons must be enabled too.",
                 width = "half",
                 get = _Get("waypointMinimapEnabled"),
                 set = _SetAndRefresh("waypointMinimapEnabled"),
@@ -165,7 +163,7 @@ function QuestieOptionsEngine.tabs.map:Initialize()
                         type = "slider",
                         order = 3.1,
                         title = "Waypoint smoothing",
-                        tooltip = {"Rounds the corners of NPC patrol lines. Higher values round them more; 0 draws sharp corners. (Default: %s)", optionsDefaults.profile.waypointSmoothing},
+                        tooltip = {"Rounds the corners of NPC patrol paths. Higher values round them more; 0 draws sharp corners. (Default: %s)", optionsDefaults.profile.waypointSmoothing},
                         width = "half",
                         min = 0,
                         max = 2,
@@ -173,7 +171,7 @@ function QuestieOptionsEngine.tabs.map:Initialize()
                         get = _Get("waypointSmoothing"),
                         set = function(_, value)
                             Questie.db.profile.waypointSmoothing = value
-                            WaypointRenderer.RedrawAll()
+                            QuestieWaypoints.Redraw()
                         end,
                         enabled = _WaypointsEnabled,
                     },
