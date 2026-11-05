@@ -31,7 +31,9 @@ describe("QuestieTraceMenu", function()
         local clickedTrace
         local entry = QuestieTraceMenu.Build(function(value) clickedTrace = value end)
         assert.are_equal("QuestieTrace", entry.text)
-        assert.are_equal("Interface\\RaidFrame\\ReadyCheck-Ready", entry.icon)
+        assert.is_true(entry.checked)
+        assert.are_equal("Interface\\COMMON\\Indicator-Green", entry.customCheckIconTexture)
+        assert.are_equal("Interface\\COMMON\\Indicator-Red", entry.customUncheckIconTexture)
         entry.func()
         assert.are_same(trace, clickedTrace)
         clickedTrace.ShowExportWindow()
@@ -45,7 +47,9 @@ describe("QuestieTraceMenu", function()
         }
 
         local entry = QuestieTraceMenu.Build(function() end)
-        assert.are_equal("Interface\\RaidFrame\\ReadyCheck-NotReady", entry.icon)
+        assert.is_false(entry.checked)
+        assert.are_equal("Interface\\COMMON\\Indicator-Green", entry.customCheckIconTexture)
+        assert.are_equal("Interface\\COMMON\\Indicator-Red", entry.customUncheckIconTexture)
     end)
 end)
 

@@ -4,8 +4,8 @@ local QuestieTraceMenu = QuestieLoader:CreateModule("QuestieTraceMenu")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local TRACE_RUNNING_ICON = "Interface\\RaidFrame\\ReadyCheck-Ready"
-local TRACE_STOPPED_ICON = "Interface\\RaidFrame\\ReadyCheck-NotReady"
+local TRACE_RUNNING_ICON = "Interface\\COMMON\\Indicator-Green"
+local TRACE_STOPPED_ICON = "Interface\\COMMON\\Indicator-Red"
 
 ---@param onClick fun(trace: QuestieTraceCore)
 ---@return table?
@@ -24,8 +24,10 @@ function QuestieTraceMenu.Build(onClick)
     return {
         text = l10n("QuestieTrace"),
         func = function() onClick(trace) end,
-        icon = isRunning and TRACE_RUNNING_ICON or TRACE_STOPPED_ICON,
-        notCheckable = true,
+        checked = isRunning,
+        customCheckIconTexture = TRACE_RUNNING_ICON,
+        customUncheckIconTexture = TRACE_STOPPED_ICON,
+        isNotRadio = true,
     }
 end
 
