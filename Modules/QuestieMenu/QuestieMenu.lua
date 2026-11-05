@@ -31,6 +31,8 @@ local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 local Moonwell = QuestieLoader:ImportModule("Moonwell")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
+---@type QuestieTraceMenu
+local QuestieTraceMenu = QuestieLoader:ImportModule("QuestieTraceMenu")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -487,6 +489,14 @@ function QuestieMenu:Show(hideDelay)
     tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildVendorMenu(), notCheckable=true})
 
     tinsert(menuTable, div)
+
+    local traceMenu = QuestieTraceMenu.Build(function(trace)
+        QuestieMenu:Hide()
+        trace.ShowExportWindow()
+    end)
+    if traceMenu then
+        tinsert(menuTable, traceMenu)
+    end
 
     tinsert(menuTable, { text= l10n('Advanced Search'), func=function()
         QuestieOptionsEngine:HideFrame();

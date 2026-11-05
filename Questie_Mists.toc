@@ -159,6 +159,7 @@ Modules\QuestieMenu\ProfessionTrainers\MiningTrainers.lua
 Modules\QuestieMenu\ProfessionTrainers\RidingTrainers.lua
 Modules\QuestieMenu\ProfessionTrainers\SkinningTrainers.lua
 Modules\QuestieMenu\ProfessionTrainers\TailoringTrainers.lua
+Modules\QuestieMenu\QuestieTraceMenu.lua
 Modules\QuestieMenu\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua
