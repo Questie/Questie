@@ -3,8 +3,10 @@ dofile("setupTests.lua")
 describe("QuestieWaypoints", function()
     ---@type QuestieWaypoints
     local QuestieWaypoints
-    local WaypointMap, WaypointMinimap
+    local WaypointMap, WaypointMinimap, WaypointHover
     local savedLibStub
+    ---@type table<IconEvent, function>
+    local listeners
 
     local PATROLS = {{{10, 10}, {20, 10}}, {{30, 30}, {40, 30}}}
     local NORMAL, HOSTILE, HIGHLIGHT = {1, 0.72, 0, 0.5}, {1, 0.2, 0, 0.7}, {0.93, 0.46, 0.13, 0.8}
@@ -31,6 +33,14 @@ describe("QuestieWaypoints", function()
         WaypointMap.Invalidate = spy.new(function() end)
         WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
         WaypointMinimap.Invalidate = spy.new(function() end)
+        QuestieLoader:ImportModule("WaypointRenderer").RedrawAll = spy.new(function() end)
+        WaypointHover = QuestieLoader:ImportModule("WaypointHover")
+        WaypointHover.End = spy.new(function() end)
+        listeners = {}
+        QuestieLoader:ImportModule("QuestieFrame").Subscribe = function(event, listener)
+            assert.is_nil(listeners[event], "subscribed twice to " .. event)
+            listeners[event] = listener
+        end
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         dofile("Modules/Map/Waypoints/QuestieWaypoints.lua")
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
@@ -160,17 +170,31 @@ describe("QuestieWaypoints", function()
         WaypointMap.Invalidate:clear()
         WaypointMinimap.Invalidate:clear()
 
-        QuestieWaypoints.SetHighlighted(icon.data, true)
-        QuestieWaypoints.SetHighlighted(icon.data, true)
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
 
         assert.are_same(HIGHLIGHT, QuestieWaypoints.Color(path))
         assert.spy(WaypointMap.Invalidate).was.called(1)
         assert.spy(WaypointMinimap.Invalidate).was.called(1)
 
-        QuestieWaypoints.SetHighlighted(icon.data, false)
+        QuestieWaypoints.SetHighlighted(icon.data, false, "icon")
         assert.are_same(NORMAL, QuestieWaypoints.Color(path))
         assert.spy(WaypointMap.Invalidate).was.called(2)
         assert.spy(WaypointMinimap.Invalidate).was.called(2)
+    end)
+
+    it("keeps an NPC's paths highlighted while its icon's hover or a path's hover still holds them", function()
+        local icon = Icon({})
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
+        local path = icon.data.waypointPaths[1]
+
+        -- On the minimap, a path is hovered over its NPC's quest area, whose marker hover then ends.
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
+        QuestieWaypoints.SetHighlighted(icon.data, true, "path")
+        QuestieWaypoints.SetHighlighted(icon.data, false, "icon")
+        assert.are_same(HIGHLIGHT, QuestieWaypoints.Color(path))
+        QuestieWaypoints.SetHighlighted(icon.data, false, "path")
+        assert.are_same(NORMAL, QuestieWaypoints.Color(path))
     end)
 
     it("neither recolors a hovered path nor lets it take its route over while hover highlighting is off", function()
@@ -179,7 +203,7 @@ describe("QuestieWaypoints", function()
         QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12, true)
         local path = icon.data.waypointPaths[1]
 
-        QuestieWaypoints.SetHighlighted(icon.data, true)
+        QuestieWaypoints.SetHighlighted(icon.data, true, "icon")
 
         assert.is_false(QuestieWaypoints.IsHighlighted(path))
         assert.are_same(HOSTILE, QuestieWaypoints.Color(path))
@@ -223,6 +247,45 @@ describe("QuestieWaypoints", function()
         Questie.db.profile.waypointMinimapEnabled, Questie.db.profile.waypointMapEnabled = true, false
         assert.is_nil(QuestieWaypoints.WorldMapAlpha(path))
         assert.are.equal(1, QuestieWaypoints.MinimapAlpha(path))
+    end)
+
+    it("follows its owners through icon events from the first path on", function()
+        assert.are.same({}, listeners)
+        local icon = Icon({})
+        local data = icon.data
+        QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
+        QuestieWaypoints.Add(Icon({}), "m_other", PATROLS, 12)
+
+        -- Hovering the icon first ends a path hover opened for another icon, which may unhighlight this
+        -- NPC's paths, then highlights them.
+        WaypointHover.End = spy.new(function() QuestieWaypoints.SetHighlighted(data, false, "path") end)
+        listeners.HoverStart(icon)
+        assert.are.equal(icon, WaypointHover.End.calls[1].refs[1])
+        assert.is_true(data.waypointPaths[1].highlighted)
+
+        -- A hover ends with the data it started with, even once the icon shows other data.
+        icon.data = {}
+        listeners.HoverEnd(icon, data)
+        assert.is_nil(data.waypointPaths[1].highlighted)
+        icon.data = data
+
+        WaypointMap.Invalidate:clear()
+        listeners.VisibilityChanged(icon)
+        assert.spy(WaypointMap.Invalidate).was.called(1)
+        -- HereBeDragons showing or hiding icons in and out of range changes nothing paths draw by.
+        assert.is_nil(listeners.NativeVisibilityChanged)
+
+        listeners.Unload(icon)
+        assert.are.equal(2, CountPaths())
+        assert.are.same({}, data.waypointPaths)
+    end)
+
+    it("draws every line anew for new smoothing, and both maps again for the other settings", function()
+        QuestieWaypoints.Redraw()
+
+        assert.spy(QuestieLoader:ImportModule("WaypointRenderer").RedrawAll).was.called(1)
+        assert.spy(WaypointMap.Invalidate).was.called(1)
+        assert.spy(WaypointMinimap.Invalidate).was.called(1)
     end)
 
     it("redraws for an icon's visibility change only when its NPC has paths", function()

@@ -12,6 +12,8 @@ describe("Tooltip", function()
     ---@type QuestieTooltips
     local QuestieTooltips
     local cached
+    -- Who a map icon tooltip shows for on GameTooltip; nil while none shows.
+    local mapIconOwner
 
     local objective = {
         hasRegisteredTooltips = true,
@@ -67,6 +69,8 @@ describe("Tooltip", function()
         ZoneDB.GetParentZoneId = function() return nil end
         dofile("Localization/l10n.lua")
         dofile("Modules/Tooltips/Forever.lua")
+        mapIconOwner = nil
+        QuestieLoader:ImportModule("MapIconTooltip").GetOwner = function() return mapIconOwner end
 
         dofile("Modules/Tooltips/Tooltip.lua")
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
@@ -413,9 +417,9 @@ describe("Tooltip", function()
             end)
 
             it("leaves map-icon and raid tooltip policy unchanged", function()
-                GameTooltip.ShownAsMapIcon = true
+                mapIconOwner = {}
                 callbacks[4](GameTooltip, primaryData)
-                GameTooltip.ShownAsMapIcon = nil
+                mapIconOwner = nil
                 QuestiePlayer.numberOfGroupMembers = 7
                 callbacks[4](GameTooltip, primaryData)
                 assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
@@ -806,9 +810,9 @@ describe("Tooltip", function()
             GameTooltip.IsForbidden = function() return true end
             assert.is_nil(preCalls[17](GameTooltip, {leftText = "Forbidden"}))
             GameTooltip.IsForbidden = function() return false end
-            GameTooltip.ShownAsMapIcon = true
+            mapIconOwner = {}
             assert.is_nil(preCalls[17](GameTooltip, {leftText = "Map icon"}))
-            GameTooltip.ShownAsMapIcon = nil
+            mapIconOwner = nil
             primaryData.type = 0
             assert.is_nil(preCalls[17](GameTooltip, {leftText = "Item"}))
             primaryData.type = 4

@@ -21,6 +21,9 @@ describe("EventHandler event dispatch", function()
             ERR_QUEST_COMPLETE_S = _G.ERR_QUEST_COMPLETE_S,
             GetQuestLogIndexByID = _G.GetQuestLogIndexByID,
             GetSkillLineInfo = _G.GetSkillLineInfo,
+            WorldMapFrame = _G.WorldMapFrame,
+            GameTooltip = _G.GameTooltip,
+            MouseIsOver = QuestieLoader:ImportModule("QuestieCompat").MouseIsOver,
         }
         savedQuestieFields = {
             IsForever = Questie.IsForever,
@@ -76,6 +79,8 @@ describe("EventHandler event dispatch", function()
         _G.ERR_QUEST_COMPLETE_S = savedGlobals.ERR_QUEST_COMPLETE_S
         _G.GetQuestLogIndexByID = savedGlobals.GetQuestLogIndexByID
         _G.GetSkillLineInfo = savedGlobals.GetSkillLineInfo
+        _G.WorldMapFrame, _G.GameTooltip = savedGlobals.WorldMapFrame, savedGlobals.GameTooltip
+        QuestieLoader:ImportModule("QuestieCompat").MouseIsOver = savedGlobals.MouseIsOver
         Questie.IsForever = savedQuestieFields.IsForever
         Questie.RegisterEvent = savedQuestieFields.RegisterEvent
         Questie.RegisterBucketEvent = savedQuestieFields.RegisterBucketEvent
@@ -217,6 +222,21 @@ describe("EventHandler event dispatch", function()
             assert.is_nil(bucketEvents.BAG_UPDATE_DELAYED)
             assert.is_nil(callbacks.ITEM_DATA_LOAD_RESULT)
         end)
+    end)
+
+    it("redraws Questie's map icon tooltips on Shift while the cursor is over a map", function()
+        local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
+        MapIconTooltip.Redraw = spy.new(function() end)
+        local overMap = false
+        QuestieLoader:ImportModule("QuestieCompat").MouseIsOver = function() return overMap end
+        _G.WorldMapFrame = {IsShown = function() return true end}
+
+        callbacks.MODIFIER_STATE_CHANGED("MODIFIER_STATE_CHANGED", "LSHIFT", 1)
+        assert.spy(MapIconTooltip.Redraw).was.not_called()
+
+        overMap = true
+        callbacks.MODIFIER_STATE_CHANGED("MODIFIER_STATE_CHANGED", "LSHIFT", 1)
+        assert.spy(MapIconTooltip.Redraw).was.called(1)
     end)
 
     it("registers skill chat directly without a bucket or message relay", function()

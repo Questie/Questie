@@ -1,0 +1,1456 @@
+---@class QuestiePolygon
+local QuestiePolygon = QuestieLoader:CreateModule("QuestiePolygon")
+
+---@class PolygonMarker
+---@field frame IconFrame World-map icon.
+---@field entry PolygonObjectiveEntry
+---@field cluster PolygonCluster?
+---@field minimapIcons PolygonMinimapIcon[] Minimap icons: the cluster's marker position, or each of its listed objects.
+---@field projectedViews PolygonProjectionCache? Coordinates only; native drawings belong to PolygonRenderCache.
+
+---@class IconFrame
+---@field polygonMarker PolygonMarker? QuestiePolygon's own: the marker this world map icon shows.
+---@field polygonMinimapMarker PolygonMarker? QuestiePolygon's own: the marker whose cluster this minimap icon shows.
+
+---@class PolygonMinimapIcon
+---@field frame IconFrame Points back to its marker through frame.polygonMinimapMarker.
+---@field point table? Spawn point whose metadata it shows; nil for a route marker's, which shares the map icon's data.
+
+---@class PolygonProjectionCache
+---@field outline table[] Original immutable outline identifying this cache's source geometry.
+---@field sourceMapId number
+---@field maps table<number, table[]> Complete immutable outlines in destination-map percentages.
+
+---@class PolygonObjectiveEntry
+---@field active boolean
+---@field index ObjectiveIndex Canonical objective index; also the saved-visibility key.
+---@field revision number Collection/build identity, invalidated by the next update.
+---@field generation number Marker identity; progress-only updates keep it, so they never stop attaching routes.
+---@field quest Quest
+---@field objective QuestObjective
+---@field markers PolygonMarker[]
+---@field signature string? Sorted phase-filtered spawn coordinates; geometry is session-local.
+---@field spawnList table? Source table behind the published geometry.
+---@field phases table<number, boolean>? Phase visibility recorded while collecting that geometry.
+---@field hovered IconFrame? Its hovered map marker: previews its areas on the world map, highlighting every cluster.
+---@field minimapHovered IconFrame? Its hovered minimap icon: previews its areas on the minimap, highlighting every cluster.
+---@field previewed boolean? A MapPreview of it is shown, such as from the tracker or a quest log control; shows and highlights every cluster.
+---@field previewSuppressed boolean? A click hid the areas while hovering; no preview until a hover starts again.
+---@field nearby boolean? The player is inside one of its cluster extents; used only when areas are not shown on accept.
+---@field building boolean? Replacement geometry is not shown while marker allocation yields.
+
+---@type PolygonGeometry
+local PolygonGeometry = QuestieLoader:ImportModule("PolygonGeometry")
+---@type PolygonRenderer
+local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
+---@type PolygonRenderCache
+local PolygonRenderCache = QuestieLoader:ImportModule("PolygonRenderCache")
+---@type PolygonNudging
+local PolygonNudging = QuestieLoader:ImportModule("PolygonNudging")
+---@type PolygonMinimap
+local PolygonMinimap = QuestieLoader:ImportModule("PolygonMinimap")
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+---@type QuestieFrame
+local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+---@type IconHighlight
+local IconHighlight = QuestieLoader:ImportModule("IconHighlight")
+---@type MapPreview
+local MapPreview = QuestieLoader:ImportModule("MapPreview")
+---@type WorldMapLayers
+local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type MapIconTooltip
+local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type Phasing
+local Phasing = QuestieLoader:ImportModule("Phasing")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type table<QuestId, table<ObjectiveIndex, PolygonObjectiveEntry>>
+local entries = {}
+-- Presentation objects survive resets; objective entries and pending callbacks do not.
+local provider
+---@type PolygonViewCache?
+local renderCache
+---@type PolygonCanvasRenderer? The world map's, behind renderCache.
+local areaRenderer
+---@type PolygonNudgeLayout?
+local nudging
+---@type PolygonMinimapLayer?
+local minimapLayer
+local Provider = {}
+local refreshPending = false
+local nudgePending = false
+local refreshEpoch = 0
+local nearbyTicker
+
+---Coalesces world map drawing requests until the next frame, when map and marker state is read.
+---The epoch prevents callbacks from an earlier reset from touching a new pending batch.
+local function _ScheduleMapRefresh()
+    if not renderCache or not provider or not provider.owningMap or refreshPending then return end
+    refreshPending = true
+    local scheduledEpoch = refreshEpoch
+    C_Timer.After(0, function()
+        if refreshEpoch ~= scheduledEpoch then return end
+        refreshPending = false
+        QuestiePolygon.Refresh()
+    end)
+end
+-- World units added around each cluster's spawn extent, so areas appear slightly before arrival.
+local NEARBY_PADDING = 100
+-- Costs in geometry steps (about 0.33 µs each, offline), so every polygon job reads the clock about
+-- every 85 µs of work. A collected spawn's key and point cost about 11 µs of Lua offline; an icon
+-- costs at least 26 µs in HereBeDragons alone (Era), plus Questie's own work.
+local SPAWN_COST = 32
+local ICON_COST = 256
+
+---Whether the player chose Questie blobs as the objective style. Objectives take the polygon path
+---whenever it is chosen, also while Questie or its objectives are switched off: the path then draws
+---nothing, where ordinary icons drawn meanwhile would show beside the areas once switched on again.
+---@return boolean
+function QuestiePolygon.IsChosen()
+    return Questie.db.profile.enableQuestiePolygons == true
+end
+
+---Whether quest areas draw now: chosen, with Questie and its objectives switched on.
+---@return boolean
+function QuestiePolygon.IsEnabled()
+    local profile = Questie.db.profile
+    return QuestiePolygon.IsChosen() and profile.enableObjectives ~= false and profile.enabled ~= false
+end
+
+-- Area visibility
+-- Questie.db.char.polygon.objectiveVisibility[questId][objectiveIndex] stores the player's
+-- explicit choice: true shows the objective's areas and false hides them. nil follows the
+-- automatic mode. Choices for finished quests are not pruned; each quest has few keys.
+---@param entry PolygonObjectiveEntry
+---@return boolean?
+local function _SavedVisibility(entry)
+    local quests = Questie.db.char.polygon.objectiveVisibility[entry.quest.Id]
+    if quests then return quests[entry.index] end
+end
+
+---Automatic mode shows every objective's areas from quest accept, or, when the player
+---disables that option, only while they are near one of the objective's clusters.
+---@param entry PolygonObjectiveEntry
+---@return boolean
+local function _IsAutomaticallyShown(entry)
+    return Questie.db.profile.showPolygonsOnAccept ~= false or entry.nearby == true
+end
+
+---@param entry PolygonObjectiveEntry
+---@return boolean
+local function _IsAreaShown(entry)
+    local saved = _SavedVisibility(entry)
+    if saved ~= nil then return saved end
+    return _IsAutomaticallyShown(entry)
+end
+
+---RGB shared by an objective's fills, borders, quest log controls, and map icon tooltip lines.
+---@param quest Quest
+---@param objective QuestObjective
+---@return number[]
+local function _AreaColor(quest, objective)
+    return objective.Color or quest.Color or {1, 0.72, 0}
+end
+
+---The marker's map icon, while it still shows the marker: the pool may hand an icon out again.
+---@param marker PolygonMarker
+---@return IconFrame?
+local function _MarkerIcon(marker)
+    local frame = marker.frame
+    if frame and frame.polygonMarker == marker and frame.data then return frame end
+end
+
+---The marker's first minimap icon, while it still shows the marker.
+---@param marker PolygonMarker
+---@return IconFrame?
+local function _MinimapMarkerIcon(marker)
+    local icon = marker.minimapIcons[1]
+    local frame = icon and icon.frame
+    if frame and frame.polygonMinimapMarker == marker and frame.data then return frame end
+end
+
+-- Quest log controls on each client mirror area visibility. Marker clicks, proximity,
+-- options, rebuilds, and removal coalesce into one next-frame notification.
+---@type fun()[]
+local visibilityCallbacks = {}
+local visibilityNotifyPending = false
+
+local function _NotifyVisibilityChanged()
+    if visibilityNotifyPending or not next(visibilityCallbacks) then return end
+    visibilityNotifyPending = true
+    C_Timer.After(0, function()
+        visibilityNotifyPending = false
+        for _, callback in ipairs(visibilityCallbacks) do callback() end
+    end)
+end
+
+---Saves what the objective should show. A choice matching the automatic mode clears the
+---saved value instead, so the objective follows that mode again.
+---@param entry PolygonObjectiveEntry
+---@param shown boolean
+local function _SaveVisibility(entry, shown)
+    local visibility = Questie.db.char.polygon.objectiveVisibility
+    local quests = visibility[entry.quest.Id] or {}
+    if shown == _IsAutomaticallyShown(entry) then
+        quests[entry.index] = nil
+    else
+        quests[entry.index] = shown
+    end
+    visibility[entry.quest.Id] = next(quests) and quests or nil
+    -- Clicks arrive while hovering a marker or quest log control. The hover stays, so showing
+    -- the areas again highlights them at once, but hidden areas are not previewed beneath the
+    -- cursor until the next hover starts.
+    entry.previewSuppressed = not shown or nil
+    QuestiePolygon.ScheduleRefresh()
+    _NotifyVisibilityChanged()
+end
+
+-- Marker layout and visible-set selection
+-- Original map locations define the stacks. Hidden, queued, and offscreen members
+-- retain their slots so scrolling and temporary visibility changes cannot rearrange icons.
+function QuestiePolygon.UpdateNudging()
+    if not nudging then return end
+    local currentMarkers = {}
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            if entry.active and not entry.building and not entry.objective.Completed
+                and QuestiePlayer.currentQuestlog[entry.quest.Id] == entry.quest then
+                for _, marker in ipairs(entry.markers) do
+                    local frame = marker.frame
+                    if frame.polygonMarker == marker and frame.data and not frame.miniMapIcon then
+                        currentMarkers[#currentMarkers + 1] = marker
+                    end
+                end
+            end
+        end
+    end
+    local map = provider and provider.owningMap
+    nudging:SetEnabled(map ~= nil and map:IsShown() and QuestiePolygon.IsEnabled())
+    nudging:Update(currentMarkers, Questie.db.profile.globalScale or 0.7)
+end
+
+-- Coalesce membership/size changes; HBD acquisition and zoom callbacks only reapply stored slots.
+function QuestiePolygon.ScheduleNudging()
+    if not nudging or not provider or not provider.owningMap or nudgePending then return end
+    nudgePending = true
+    local scheduledEpoch = refreshEpoch
+    C_Timer.After(0, function()
+        if refreshEpoch ~= scheduledEpoch then return end
+        nudgePending = false
+        QuestiePolygon.UpdateNudging()
+    end)
+end
+
+---Selects eligible outlines and appearance; PolygonRenderCache owns native view reuse.
+---Saved or automatic visibility cannot override the owning marker's hiding policy.
+function QuestiePolygon.Refresh()
+    if not renderCache then return end
+    local map = provider and provider.owningMap
+    if not map or not map:IsShown() or not QuestiePolygon.IsEnabled() then
+        renderCache:Hide()
+        return
+    end
+
+    local mapId = map:GetMapID()
+    local mapData = HBD.mapData and HBD.mapData[mapId]
+    local mapType = mapData and mapData.mapType
+    -- Markers may appear on overview maps, but polygon drawing is only for detailed views.
+    if mapType ~= Enum.UIMapType.Zone and mapType ~= Enum.UIMapType.Dungeon and mapType ~= Enum.UIMapType.Micro then
+        renderCache:Hide()
+        return
+    end
+
+    -- Build the complete desired set. Omitted views are hidden, not evicted.
+    local shapes = {}
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            local previewing = (entry.hovered or entry.previewed) and not entry.previewSuppressed
+            if entry.active and not entry.building and (previewing or _IsAreaShown(entry)) then
+                for _, marker in ipairs(entry.markers) do
+                    local frame = marker.frame
+                    local outline = marker.cluster and marker.cluster.outline
+                    local parent = frame:GetParent()
+                    -- IsVisible includes native parent visibility. The wrapper check also rejects
+                    -- queued or released icons reparented to UIParent, even while UIParent is shown.
+                    if outline and frame.data and frame._loaded and frame.polygonMarker == marker and frame:IsVisible()
+                        and parent and parent.pinTemplate == "HereBeDragonsPinsTemplateQuestie" and parent.icon == frame
+                        and not frame.hidden and not frame._hidden_by_flash and not frame:ShouldBeHidden() then
+                        local alpha = frame.texture.a or 1
+                        if alpha > 0 then
+                            local sourceMapId = marker.cluster.uiMapId
+                            local points = outline
+                            -- Source maps borrow the original outline. Other maps cache coordinates
+                            -- separately from the retained frames managed by PolygonRenderCache.
+                            if sourceMapId ~= mapId then
+                                local cache = marker.projectedViews
+                                if not cache or cache.outline ~= outline or cache.sourceMapId ~= sourceMapId then
+                                    cache = {outline = outline, sourceMapId = sourceMapId, maps = {}}
+                                    marker.projectedViews = cache
+                                end
+                                points = cache.maps[mapId]
+                                if not points then
+                                    -- Project geography, never the nudged marker anchor. Out-of-bounds
+                                    -- vertices remain intact for canvas clipping and geometric hover.
+                                    points = {}
+                                    for i, point in ipairs(outline) do
+                                        local x, y = HBD:TranslateZoneCoordinates(point.x / 100, point.y / 100,
+                                            sourceMapId, mapId, true)
+                                        local secretCoordinates = issecretvalue and (issecretvalue(x) or issecretvalue(y))
+                                        if secretCoordinates or type(x) ~= "number" or type(y) ~= "number" then
+                                            points = nil
+                                            break
+                                        end
+                                        x, y = x * 100, y * 100
+                                        if not (x > -math.huge and x < math.huge and y > -math.huge and y < math.huge) then
+                                            points = nil
+                                            break
+                                        end
+                                        points[i] = {x = x, y = y}
+                                    end
+                                    -- Publish only complete conversions; unavailable views can retry later.
+                                    cache.maps[mapId] = points
+                                end
+                            end
+                            if points then
+                                local color = _AreaColor(entry.quest, entry.objective)
+                                shapes[#shapes + 1] = {
+                                    owner = entry, key = marker, source = outline, sourceMapId = sourceMapId,
+                                    points = points,
+                                    color = {color[1], color[2], color[3], 0.25 * alpha},
+                                    borderAlpha = 0.75 * alpha,
+                                    highlighted = entry.hovered ~= nil or entry.previewed == true,
+                                }
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    local canvas = map:GetCanvas()
+    local level = WorldMapLayers.FrameLevel("areas")
+    local _, err = renderCache:Present(mapId, shapes, canvas:GetWidth(), canvas:GetHeight(), level)
+    if err then Questie.Error("Polygon drawing failed:", err) end
+    -- Areas drawn anew may lie differently under a still cursor.
+    WorldMapLayers.Invalidate("areas")
+end
+
+-- Minimap areas
+-- The minimap shows what the world map would show. Quest log and tracker previews reach it,
+-- highlighted. Hovering a marker previews on its own map only: a world-map marker on the world map,
+-- a minimap icon on the minimap, each highlighting every cluster. Areas follow their
+-- minimap icons' hiding rules, so the minimap icon switch governs them. Fade comes from the map
+-- marker's fade, such as tracker focus, as for patrol paths: minimap icons' own opacity fades with
+-- the player's distance, and the map marker's own opacity is the world map's, which a hover's
+-- spotlight dims.
+-- Visibility is never required: a closed map shows no markers, and queued icons may load
+-- without any notification.
+
+---@return PolygonMinimapArea[]
+local function _CollectMinimapAreas()
+    local areas = {}
+    if not QuestiePolygon.IsEnabled() then return areas end
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            local previewing = (entry.minimapHovered or entry.previewed) and not entry.previewSuppressed
+            if entry.active and not entry.building and (previewing or _IsAreaShown(entry)) then
+                local color = _AreaColor(entry.quest, entry.objective)
+                for _, marker in ipairs(entry.markers) do
+                    local frame, cluster = marker.frame, marker.cluster
+                    local minimapIcon = marker.minimapIcons[1]
+                    local icon = minimapIcon and minimapIcon.frame
+                    local alpha = frame.faded and Questie.db.profile.iconFadeLevel or 1
+                    if cluster and cluster.outline and frame.data and frame.polygonMarker == marker and alpha > 0
+                        and icon and icon.data and icon.polygonMinimapMarker == marker
+                        and not icon.hidden and not icon:ShouldBeHidden() then
+                        areas[#areas + 1] = {key = marker, cluster = cluster, color = color, alpha = alpha,
+                            highlighted = entry.minimapHovered ~= nil or entry.previewed == true}
+                    end
+                end
+            end
+        end
+    end
+    return areas
+end
+
+-- Map icon tooltips
+-- A map icon tooltip lists what lies at its spot: the areas there, by their markers, and the icons
+-- around it. Hovering areas shows one for the cursor, Shift detail included: on the world map it
+-- belongs to the map's scroll container, on the minimap to the areas layer's container, on the
+-- minimap's own tooltip. A hovered icon's own tooltip asks AreaIconsAt for the areas beneath it.
+-- Each map offers the areas the cursor beneath patrol paths and only over the bare map, so a path
+-- or an icon keeps its own tooltip, and the area tooltip returns once the cursor is back on the
+-- areas alone.
+local AREA_SWATCH = "|TInterface\\Addons\\Questie\\Icons\\blobs\\quest-log-fill-r12-120.png:10:10:0:0:32:32:0:32:0:32:%d:%d:%d|t "
+
+---The swatch starting an objective icon's own line in every map icon tooltip in blob mode: its
+---objective's area colour, so the line matches its areas. Other icons and party objectives get none.
+---@param icon IconFrame
+---@return string?
+function QuestiePolygon.ObjectiveSwatch(icon)
+    local data = icon.data
+    local objective = data and data.ObjectiveData
+    if not objective or objective.IsPartyObjective or not data.QuestData or not QuestiePolygon.IsEnabled() then return nil end
+    local color = _AreaColor(data.QuestData, objective)
+    return string.format(AREA_SWATCH, math.floor(color[1] * 255 + 0.5), math.floor(color[2] * 255 + 0.5),
+        math.floor(color[3] * 255 + 0.5))
+end
+
+---@alias PolygonHoverSurface "map"|"minimap"
+
+---Each map's area tooltip: the icons it lists, with the data each showed, whether showing them failed,
+---and its owner and tooltip frame. A failed tooltip is retried only once the listed icons change.
+---@type table<PolygonHoverSurface, {icons: table<IconFrame, IconData>, failed: boolean, owner: Frame, tooltip: GameTooltip}>
+local areaTooltips = {}
+local nearbyFailed = false -- Reported once.
+
+---@param surface PolygonHoverSurface
+local function _ReleaseAreaTooltip(surface)
+    local shown = areaTooltips[surface]
+    if not shown then return end
+    areaTooltips[surface] = nil
+    MapIconTooltip.Release(shown.owner, shown.tooltip)
+end
+
+---The marker icons of the shown areas beneath a map icon, for its tooltip: on the world map those of
+---the areas drawn on the shown map, on the minimap the minimap areas' own icons. Areas drawn only as a
+---preview don't count, as they don't hover.
+---@param icon IconFrame A hovered map or minimap icon.
+---@return IconFrame[]
+function QuestiePolygon.AreaIconsAt(icon)
+    local icons = {}
+    local uiMapId, x, y = icon.UiMapID, icon.x, icon.y
+    if not uiMapId or not x or not y then return icons end
+    if icon.miniMapIcon then
+        local worldX, worldY, instanceId = HBD:GetWorldCoordinatesFromZone(x / 100, y / 100, uiMapId)
+        if not minimapLayer or not worldX or not worldY then return icons end
+        for _, marker in ipairs(minimapLayer.AreasAt(worldX, worldY, instanceId)) do
+            local frame = _MinimapMarkerIcon(marker)
+            if frame and _IsAreaShown(marker.entry) then icons[#icons + 1] = frame end
+        end
+        return icons
+    end
+    local map = provider and provider.owningMap
+    if not areaRenderer or not map or not map:IsShown() then return icons end
+    local mapId = map:GetMapID()
+    if uiMapId ~= mapId then
+        x, y = HBD:TranslateZoneCoordinates(x / 100, y / 100, uiMapId, mapId, true)
+        if (issecretvalue and (issecretvalue(x) or issecretvalue(y))) or type(x) ~= "number" or type(y) ~= "number" then
+            return icons
+        end
+        x, y = x * 100, y * 100
+    end
+    for _, shape in ipairs(areaRenderer:ShapesAt(x, y)) do
+        local frame = _MarkerIcon(shape.key)
+        if frame and _IsAreaShown(shape.owner) then icons[#icons + 1] = frame end
+    end
+    return icons
+end
+
+-- Area hover
+-- Hovering an area lights up that area, which the renderer's hover highlights, and the marker icon
+-- attached to it, on either map: overlapping areas light up each of theirs. The rest of its quest
+-- stays as it is; hovering the marker itself lights up its quest's icons and all of its objective's
+-- areas. Only areas the objective shows hover: areas drawn just as a preview, while their marker, the
+-- quest log or the tracker is hovered, go with the preview.
+
+-- Each map's area hover marks its markers' icons with a mark of its own.
+---@type table<PolygonHoverSurface, table>
+local AREA_MARKS = {map = {}, minimap = {}}
+---@type table<PolygonHoverSurface, table<IconFrame, true>> The icons each map's area hover marks.
+local areaMarked = {map = {}, minimap = {}}
+
+---@param surface PolygonHoverSurface
+---@param frames IconFrame[] The hovered shown areas' marker icons on that map.
+local function _UpdateAreaMarks(surface, frames)
+    local holder, marked, now = AREA_MARKS[surface], areaMarked[surface], {}
+    for _, frame in ipairs(frames) do now[frame] = true end
+    for frame in pairs(marked) do
+        if not now[frame] then IconHighlight.Unmark(frame, holder) end
+    end
+    -- Every check marks again, which puts back a mark a redraw of the marker undid meanwhile.
+    for frame in pairs(now) do IconHighlight.Mark(frame, holder) end
+    areaMarked[surface] = now
+end
+
+---Hears every icon hover starting: the icon opens its own tooltip, so the area tooltips step aside
+---at once, such as the minimap's beside a minimap icon's. World map areas fade with their markers,
+---which the hover's spotlight dims for other quests, so they are drawn again.
+---@param frame IconFrame
+local function _OnHoverStart(frame)
+    _ReleaseAreaTooltip("map")
+    _ReleaseAreaTooltip("minimap")
+    QuestiePolygon.EnterMarker(frame)
+    _ScheduleMapRefresh()
+end
+
+-- Area tooltip
+-- Each map's area tooltip lists the hovered areas' markers and the icons around the cursor.
+
+---Whether two listings hold the same icons, each still showing the same data.
+---@param before table<IconFrame, IconData>
+---@param after table<IconFrame, IconData>
+---@return boolean
+local function _SameIcons(before, after)
+    for icon, data in pairs(after) do
+        if before[icon] ~= data then return false end
+    end
+    for icon in pairs(before) do
+        if not after[icon] then return false end
+    end
+    return true
+end
+
+---@param surface PolygonHoverSurface
+---@param owner Frame Holds the tooltip.
+---@param tooltip GameTooltip
+---@param frames IconFrame[] The hovered areas' marker icons; none ends the tooltip.
+---@param near fun(): IconFrame[] The icons around the cursor.
+local function _UpdateAreaTooltip(surface, owner, tooltip, frames, near)
+    if not frames[1] or Questie.db.profile.polygonAreaTooltips == false then
+        areaTooltips[surface] = nil
+        MapIconTooltip.Release(owner, tooltip)
+        return
+    end
+    -- The renderer reports hover from inside its update; an error escaping here would clear every area.
+    local found, nearby = pcall(near)
+    if not found then
+        if not nearbyFailed then
+            nearbyFailed = true
+            Questie.Error("Polygon area tooltip failed:", nearby)
+        end
+        nearby = {}
+    end
+    local icons, listed = {}, {}
+    for _, list in ipairs({frames, nearby}) do
+        for _, icon in ipairs(list) do
+            if not listed[icon] then
+                listed[icon] = icon.data
+                icons[#icons + 1] = icon
+            end
+        end
+    end
+    -- Moving within the same areas, past the same icons, keeps the tooltip.
+    local shown = areaTooltips[surface]
+    if shown and _SameIcons(shown.icons, listed) and (shown.failed or tooltip:IsOwned(owner) and tooltip:IsShown()) then
+        return
+    end
+    shown = {icons = listed, failed = false, owner = owner, tooltip = tooltip}
+    areaTooltips[surface] = shown
+    -- The renderer reports hover from inside its update; an error escaping here would clear every area.
+    local ok, err = pcall(MapIconTooltip.ShowForIcons, owner, icons, tooltip)
+    if not ok then
+        shown.failed = true
+        Questie.Error("Polygon area tooltip failed:", err)
+        MapIconTooltip.Release(owner, tooltip)
+    end
+end
+
+---Hears every hover check of the world map's areas.
+---@param shapes PolygonCachedShape[] Hovered shapes; keys are marker records.
+---@param x number? The cursor checked, in canvas percent.
+---@param y number?
+local function _HoverMapAreas(shapes, x, y)
+    local owner = WorldMapFrame.ScrollContainer
+    local frames, listed = {}, {}
+    -- The renderer also rechecks the last offered cursor after drawing anew, before the stack looks
+    -- again, so ask again for the bare map. The gamepad UI shows map icon tooltips on a private
+    -- tooltip: using GameTooltip from hover checks would taint it.
+    if x and QuestieCompat.GetMouseFocus() == owner and not QuestieCompat.IsGamepadUIEnabled() then
+        for _, shape in ipairs(shapes) do
+            local frame = _MarkerIcon(shape.key)
+            if frame and _IsAreaShown(shape.owner) and not listed[frame] then
+                listed[frame] = true
+                frames[#frames + 1] = frame
+            end
+        end
+    end
+    _UpdateAreaMarks("map", frames)
+    _UpdateAreaTooltip("map", owner, GameTooltip, frames, function()
+        -- Around the cursor on the first hovered marker's own map, as around a hovered icon.
+        local marker = frames[1]
+        local nearX, nearY = x, y
+        local mapId = WorldMapFrame:GetMapID()
+        if marker.UiMapID ~= mapId then
+            nearX, nearY = HBD:TranslateZoneCoordinates(x / 100, y / 100, mapId, marker.UiMapID, true)
+            if not nearX or not nearY then return {} end
+            nearX, nearY = nearX * 100, nearY * 100
+        end
+        return MapIconTooltip.IconsNear(false, marker.AreaID, nearX, nearY)
+    end)
+end
+
+---Hears every hover check of the minimap's areas, whose markers stand in through their minimap icons.
+---@param markers PolygonMarker[] The keys of the minimap areas under the cursor.
+---@param worldX number? The cursor in world yards.
+---@param worldY number?
+local function _HoverMinimapAreas(markers, worldX, worldY)
+    local frames, listed = {}, {}
+    -- As on the world map, a recheck of the kept cursor asks again for the bare minimap.
+    if worldX and QuestieCompat.GetMouseFocus() == Minimap and not QuestieCompat.IsGamepadUIEnabled() then
+        for _, marker in ipairs(markers) do
+            local frame = _MinimapMarkerIcon(marker)
+            if frame and _IsAreaShown(marker.entry) and not listed[frame] then
+                listed[frame] = true
+                frames[#frames + 1] = frame
+            end
+        end
+    end
+    _UpdateAreaMarks("minimap", frames)
+    _UpdateAreaTooltip("minimap", minimapLayer.owner, MapIconTooltip.MinimapTooltip(), frames, function()
+        -- Around the cursor on the first hovered marker's own map, as around a hovered minimap icon.
+        local marker = frames[1]
+        local x, y = HBD:GetZoneCoordinatesFromWorld(worldX, worldY, marker.UiMapID, true)
+        if not x or not y then return {} end
+        return MapIconTooltip.IconsNear(true, marker.AreaID, x * 100, y * 100)
+    end)
+end
+
+---Draws the areas again on the next frame, on the world map and, whether or not the world map is
+---open, on the minimap.
+function QuestiePolygon.ScheduleRefresh()
+    if minimapLayer then minimapLayer.Invalidate() end
+    _ScheduleMapRefresh()
+end
+
+-- Map-provider presentation lifecycle
+function Provider:OnAdded(map)
+    self.owningMap = map
+    nudging:SetEnabled(map:IsShown() and QuestiePolygon.IsEnabled())
+end
+
+function Provider:OnRemoved()
+    self.owningMap = nil
+    nudging:SetEnabled(false)
+    local hidden, err = pcall(renderCache.Hide, renderCache)
+    if not hidden then Questie.Error("Polygon hiding failed:", err) end
+end
+
+-- RefreshAllData presents immediately. Other provider and marker notifications
+-- coalesce through ScheduleRefresh to catch later canvas and HBD visibility changes.
+function Provider:RefreshAllData()
+    QuestiePolygon.UpdateNudging()
+    QuestiePolygon.Refresh()
+end
+
+function Provider:OnMapChanged()
+    -- Old-map views must stay hidden until deferred visibility/projection checks finish.
+    renderCache:Hide()
+    nudging:Reapply()
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            entry.hovered = nil
+        end
+    end
+    QuestiePolygon.ScheduleRefresh()
+end
+
+function Provider:OnCanvasSizeChanged()
+    nudging:Reapply()
+    QuestiePolygon.ScheduleRefresh()
+end
+
+function Provider:OnShow()
+    QuestiePolygon.UpdateNudging()
+    QuestiePolygon.ScheduleRefresh()
+end
+
+function Provider:OnHide()
+    nudging:SetEnabled(false)
+    -- Hiding controls on the map, such as Forever's quest log boxes, may tell nothing; their previews end.
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            entry.hovered, entry.previewed = nil, nil
+        end
+    end
+    renderCache:Hide()
+    -- The minimap stops showing the previews too.
+    QuestiePolygon.ScheduleRefresh()
+end
+
+-- Objective teardown
+-- Callers invalidate the entry or advance its generation before releasing markers.
+-- Release retained views before recycling icon frames; cache keys are marker records.
+
+---Clearing each back-reference first keeps the icon's unload from notifying its marker again.
+---@param marker PolygonMarker
+local function _UnloadMinimapIcons(marker)
+    local icons = marker.minimapIcons
+    marker.minimapIcons = {}
+    for _, icon in ipairs(icons) do
+        if marker.entry.minimapHovered == icon.frame then marker.entry.minimapHovered = nil end
+        icon.frame.polygonMinimapMarker = nil
+        QuestieFramePool:UnloadFrame(icon.frame)
+    end
+end
+
+local function _ReleaseMarkers(entry)
+    if renderCache then
+        local released, err = pcall(renderCache.Release, renderCache, entry)
+        if not released then Questie.Error("Polygon release failed:", err) end
+    end
+    local markers = entry.markers
+    entry.markers = {}
+    for _, marker in ipairs(markers) do
+        if nudging then nudging:Remove(marker.frame) end
+        marker.frame.polygonMarker = nil
+        QuestieFramePool:UnloadFrame(marker.frame)
+        _UnloadMinimapIcons(marker)
+    end
+end
+
+function QuestiePolygon.RemoveObjective(questId, objectiveIndex)
+    local questEntries = entries[questId]
+    local entry = questEntries and questEntries[objectiveIndex]
+    if not entry then return end
+    entry.active = false
+    questEntries[objectiveIndex] = nil
+    _ReleaseMarkers(entry)
+    if not next(questEntries) then entries[questId] = nil end
+    QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
+    _NotifyVisibilityChanged()
+end
+
+function QuestiePolygon.RemoveQuest(questId)
+    local questEntries = entries[questId]
+    if not questEntries then return end
+    entries[questId] = nil
+    for _, entry in pairs(questEntries) do
+        entry.active = false
+        _ReleaseMarkers(entry)
+    end
+    QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
+    _NotifyVisibilityChanged()
+end
+
+function QuestiePolygon.Reset()
+    refreshEpoch = refreshEpoch + 1
+    refreshPending, nudgePending = false, false
+    if nudging then nudging:Clear() end
+    local oldEntries = entries
+    entries = {}
+    -- Invalidate every generation before native cleanup, which can fail. Stale
+    -- waypoint jobs must not stay valid or skip marker teardown after that failure.
+    for _, questEntries in pairs(oldEntries) do
+        for _, entry in pairs(questEntries) do entry.active = false end
+    end
+    -- Release the whole drawing in one batch; failed native views remain owned by
+    -- the renderer for a later retry, without preventing marker/provider teardown.
+    if renderCache then
+        local cleared, err = pcall(renderCache.Clear, renderCache)
+        if not cleared then Questie.Error("Polygon cleanup failed:", err) end
+    end
+    if minimapLayer then
+        local cleared, err = pcall(minimapLayer.Clear)
+        if not cleared then Questie.Error("Polygon minimap cleanup failed:", err) end
+    end
+    for _, questEntries in pairs(oldEntries) do
+        for _, entry in pairs(questEntries) do _ReleaseMarkers(entry) end
+    end
+    if provider and provider.owningMap then
+        provider.owningMap:RemoveDataProvider(provider)
+    end
+    _NotifyVisibilityChanged()
+    -- WoW does not destroy native regions when their Lua wrappers become unreachable.
+    -- Keep the detached provider and cleared cache/renderer so later mode/profile resets reuse their pools.
+end
+
+-- Marker interaction
+-- Called through QuestieFrame's icon events, subscribed once, never as accumulating frame hooks.
+function QuestiePolygon.MarkerRemoved(frame)
+    local marker = frame.polygonMarker
+    if not marker then return end
+    if renderCache then
+        local released, err = pcall(renderCache.Release, renderCache, marker.entry, marker)
+        if not released then Questie.Error("Polygon release failed:", err) end
+    end
+    if nudging then nudging:Remove(frame) end
+    frame.polygonMarker = nil
+    marker.entry.hovered = nil
+    for i, owned in ipairs(marker.entry.markers) do
+        if owned == marker then
+            table.remove(marker.entry.markers, i)
+            break
+        end
+    end
+    -- The cluster's minimap icons have no owner without it.
+    _UnloadMinimapIcons(marker)
+    QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
+    _NotifyVisibilityChanged()
+end
+
+---Drops a minimap icon that Questie's icon lifecycle unloaded; its marker stays.
+---@param frame IconFrame
+function QuestiePolygon.MinimapMarkerRemoved(frame)
+    local marker = frame.polygonMinimapMarker
+    if not marker then return end
+    frame.polygonMinimapMarker = nil
+    if marker.entry.minimapHovered == frame then marker.entry.minimapHovered = nil end
+    for i, icon in ipairs(marker.minimapIcons) do
+        if icon.frame == frame then
+            table.remove(marker.minimapIcons, i)
+            break
+        end
+    end
+    QuestiePolygon.ScheduleRefresh()
+end
+
+---Map markers affect drawing and stacking; minimap icons only decide minimap areas.
+---@param frame IconFrame
+function QuestiePolygon.MarkerChanged(frame)
+    if frame.polygonMarker then
+        QuestiePolygon.ScheduleRefresh()
+        QuestiePolygon.ScheduleNudging()
+    elseif frame.polygonMinimapMarker then
+        QuestiePolygon.ScheduleRefresh()
+    end
+end
+
+---Previews the objective's areas on the hovered icon's map: a marker's on the world map, one of its
+---minimap icons' on the minimap.
+---@param frame IconFrame
+function QuestiePolygon.EnterMarker(frame)
+    local marker = frame.polygonMarker or frame.polygonMinimapMarker
+    local entry = marker and marker.entry
+    if entry and entry.active and not entry.building and not frame.hidden and not frame:ShouldBeHidden() then
+        if frame.polygonMarker then entry.hovered = frame else entry.minimapHovered = frame end
+        entry.previewSuppressed = nil
+        QuestiePolygon.ScheduleRefresh()
+    end
+end
+
+---@param frame IconFrame
+function QuestiePolygon.LeaveMarker(frame)
+    local marker = frame.polygonMarker or frame.polygonMinimapMarker
+    local entry = marker and marker.entry
+    if entry and (entry.hovered == frame or entry.minimapHovered == frame) then
+        if entry.hovered == frame then entry.hovered = nil else entry.minimapHovered = nil end
+        QuestiePolygon.ScheduleRefresh()
+    end
+end
+
+---Shows the opposite of what the objective currently shows, ignoring the hover preview,
+---for every cluster. Clicking one of the marker's minimap icons does the same.
+---@param frame IconFrame The marker's map icon or one of its minimap icons.
+function QuestiePolygon.ToggleMarker(frame)
+    local marker = frame.polygonMarker or frame.polygonMinimapMarker
+    local entry = marker and marker.entry
+    if entry and QuestiePolygon.IsEnabled() and entry.active and not entry.building
+        and not entry.objective.Completed and not frame.hidden and not frame:ShouldBeHidden() then
+        _SaveVisibility(entry, not _IsAreaShown(entry))
+        -- The hovered marker's tooltip says what the next click does.
+        MapIconTooltip.Redraw()
+    end
+end
+
+---Follows markers and their minimap icons through QuestieFrame's icon events; each listener
+---ignores icons that are not polygon markers.
+local function _FollowIcons()
+    QuestieFrame.Subscribe("Unload", function(frame)
+        -- The pool may hand the frame out again at once: an area hover's mark of it ends now.
+        for surface, marked in pairs(areaMarked) do
+            if marked[frame] then
+                marked[frame] = nil
+                IconHighlight.Unmark(frame, AREA_MARKS[surface])
+            end
+        end
+        QuestiePolygon.MarkerRemoved(frame)
+        QuestiePolygon.MinimapMarkerRemoved(frame)
+    end)
+    QuestieFrame.Subscribe("VisibilityChanged", QuestiePolygon.MarkerChanged)
+    -- HereBeDragons can show a marker after the map provider has refreshed: recheck next frame, after
+    -- native parenting and draw-queue bookkeeping settle. Minimap icons' native visibility decides nothing.
+    QuestieFrame.Subscribe("NativeVisibilityChanged", function(frame)
+        if frame.polygonMarker then QuestiePolygon.ScheduleRefresh() end
+    end)
+    QuestieFrame.Subscribe("HoverStart", _OnHoverStart)
+    -- A recycled icon's old marker ended its preview when it unloaded; a new marker's is not this hover's.
+    -- World map areas are drawn again either way, as the hover's spotlight no longer dims their markers.
+    QuestieFrame.Subscribe("HoverEnd", function(frame, data)
+        if frame.data == data then QuestiePolygon.LeaveMarker(frame) end
+        _ScheduleMapRefresh()
+    end)
+    QuestieFrame.Subscribe("Click", QuestiePolygon.ToggleMarker)
+end
+
+-- Nearby mode
+-- A coarse rectangle test is enough: it only decides whether to show approximate areas.
+-- Clusters without outlines still count, since their spawns are part of the objective.
+-- UnitPosition has no position inside instances, so nothing counts as nearby there.
+---@param entry PolygonObjectiveEntry
+---@param x number? Player world position from HBD.
+---@param y number?
+---@param instanceId number?
+---@return boolean
+local function _IsPlayerNearby(entry, x, y, instanceId)
+    if x == nil or y == nil then return false end
+    for _, marker in ipairs(entry.markers) do
+        local cluster = marker.cluster
+        local bounds = cluster and cluster.worldBounds
+        if bounds and cluster.instanceId == instanceId
+            and x >= bounds.minX - NEARBY_PADDING and x <= bounds.maxX + NEARBY_PADDING
+            and y >= bounds.minY - NEARBY_PADDING and y <= bounds.maxY + NEARBY_PADDING then
+            return true
+        end
+    end
+    return false
+end
+
+---Recomputes which objectives the player is near and redraws when any area enters or leaves.
+---Inert while areas show on accept; saved choices take precedence in _IsAreaShown either way.
+function QuestiePolygon.UpdateNearby()
+    if Questie.db.profile.showPolygonsOnAccept ~= false or not QuestiePolygon.IsEnabled() then return end
+    local x, y, instanceId = HBD:GetPlayerWorldPosition()
+    local changed = false
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            local nearby = _IsPlayerNearby(entry, x, y, instanceId)
+            if entry.nearby ~= nearby then
+                entry.nearby = nearby
+                changed = true
+            end
+        end
+    end
+    if changed then
+        QuestiePolygon.ScheduleRefresh()
+        _NotifyVisibilityChanged()
+    end
+end
+
+---Applies a changed automatic-mode option without rebuilding geometry.
+function QuestiePolygon.RefreshVisibility()
+    QuestiePolygon.UpdateNearby()
+    QuestiePolygon.ScheduleRefresh()
+    _NotifyVisibilityChanged()
+end
+
+-- Quest log controls
+-- Client-neutral area state for quest log UIs. Each client's quest log integration lives in
+-- its own file and reads or writes visibility only through these functions.
+
+---Objectives whose clusters are all point markers have nothing to show or hide.
+---@param entry PolygonObjectiveEntry
+---@return boolean
+local function _HasAreas(entry)
+    for _, marker in ipairs(entry.markers) do
+        if marker.cluster and marker.cluster.outline then return true end
+    end
+    return false
+end
+
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex
+---@return PolygonObjectiveEntry?
+local function _EntryWithAreas(questId, objectiveIndex)
+    local questEntries = entries[questId]
+    local entry = questEntries and questEntries[objectiveIndex]
+    if entry and entry.active and not entry.building and QuestiePolygon.IsEnabled() and _HasAreas(entry) then
+        return entry
+    end
+end
+
+---What clicking a marker does to its objective's areas, for the marker's own tooltip. nil where a click
+---does nothing to them, such as on a map marker shown on another map, which a click opens first.
+---@param icon IconFrame The icon a map icon tooltip shows for.
+---@return string?
+function QuestiePolygon.ClickHint(icon)
+    local marker = icon.polygonMarker or icon.polygonMinimapMarker
+    local entry = marker and marker.entry
+    if not entry or not entry.active or entry.building or entry.objective.Completed or not QuestiePolygon.IsEnabled()
+        or not _HasAreas(entry) or (icon.polygonMarker and WorldMapFrame:GetMapID() ~= icon.UiMapID) then
+        return nil
+    end
+    return _IsAreaShown(entry) and l10n("Click to hide areas") or l10n("Click to show areas")
+end
+
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex Questie's canonical objective.Index.
+---@return boolean? shown Saved or automatic visibility, ignoring the hover preview; nil when the objective has no areas.
+---@return number[]? color The objective's area RGB.
+function QuestiePolygon.GetObjectiveAreaState(questId, objectiveIndex)
+    local entry = _EntryWithAreas(questId, objectiveIndex)
+    if entry then return _IsAreaShown(entry), _AreaColor(entry.quest, entry.objective) end
+end
+
+---Applies a quest log choice with the same automatic-mode rule as marker clicks.
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex
+---@param shown boolean
+function QuestiePolygon.SetObjectiveAreaShown(questId, objectiveIndex, shown)
+    local entry = _EntryWithAreas(questId, objectiveIndex)
+    if entry then _SaveVisibility(entry, shown) end
+end
+
+---Applies one quest log choice to every objective of the quest that has areas, including
+---special objectives that the quest log does not list.
+---@param questId QuestId
+---@param shown boolean
+function QuestiePolygon.SetQuestAreasShown(questId, shown)
+    for index, entry in pairs(entries[questId] or {}) do
+        if _EntryWithAreas(questId, index) then _SaveVisibility(entry, shown) end
+    end
+end
+
+---Shows an objective's areas on the world map and the minimap with every cluster highlighted, for as
+---long as a MapPreview of it lasts, such as from the tracker or a quest log control. MapPreview itself
+---hovers its markers, so they grow and their routes highlight. Clearing works even after the
+---objective lost its areas or markers.
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex
+---@param previewing boolean
+local function _SetObjectivePreview(questId, objectiveIndex, previewing)
+    local entry = entries[questId] and entries[questId][objectiveIndex]
+    if not entry then return end
+    if not previewing then
+        if entry.previewed then
+            entry.previewed = nil
+            QuestiePolygon.ScheduleRefresh()
+        end
+        return
+    end
+    if not entry.active or entry.building or not QuestiePolygon.IsEnabled() then return end
+    if not entry.previewed then
+        entry.previewed, entry.previewSuppressed = true, nil
+        QuestiePolygon.ScheduleRefresh()
+    end
+end
+
+---Hears each MapPreview starting and ending: a quest's preview, without an objective, previews every
+---objective of it.
+---@param questId QuestId
+---@param objectiveIndex ObjectiveIndex?
+---@param previewing boolean
+local function _OnMapPreview(questId, objectiveIndex, previewing)
+    if objectiveIndex then
+        _SetObjectivePreview(questId, objectiveIndex, previewing)
+        return
+    end
+    for index in pairs(entries[questId] or {}) do
+        _SetObjectivePreview(questId, index, previewing)
+    end
+end
+
+---Calls `callback` on the next frame after any change to area state, coalescing bursts.
+---@param callback fun()
+function QuestiePolygon.RegisterVisibilityCallback(callback)
+    visibilityCallbacks[#visibilityCallbacks + 1] = callback
+end
+
+---Borrowed marker references for tracker highlighting, not another cleanup owner.
+---@param objective QuestObjective
+---@return IconFrame[]
+function QuestiePolygon.GetObjectiveMarkers(objective)
+    local frames = {}
+    for _, questEntries in pairs(entries) do
+        for _, entry in pairs(questEntries) do
+            if entry.active and not entry.building and entry.objective == objective then
+                for _, marker in ipairs(entry.markers) do
+                    frames[#frames + 1] = _MarkerIcon(marker)
+                end
+            end
+        end
+    end
+    return frames
+end
+
+-- Objective collection and generation publication
+
+---Copies one spawn's presentation into icon metadata.
+---@param data table
+---@param quest Quest
+---@param objective QuestObjective
+---@param spawnData table
+local function _SetSpawnData(data, quest, objective, spawnData)
+    data.Name, data.ObjectiveTargetId = spawnData.Name, spawnData.Id
+    data.Icon, data.IconColor = spawnData.Icon or objective.Icon, quest.Color
+    data.GetIconScale, data.IconScale = spawnData.GetIconScale, spawnData.GetIconScale()
+end
+
+---@param quest Quest
+---@param objective QuestObjective
+---@param objectiveIndex ObjectiveIndex Canonical index.
+---@param spawnData table
+---@return table data
+local function _IconData(quest, objective, objectiveIndex, spawnData)
+    local data = {Id = quest.Id, ObjectiveIndex = objectiveIndex, QuestData = quest, ObjectiveData = objective,
+        Type = objective.Type}
+    _SetSpawnData(data, quest, objective, spawnData)
+    return data
+end
+
+---The names of everything a cluster's area stands for, such as each NPC it holds, for its marker's
+---tooltip; the representative's comes first.
+---@param cluster PolygonCluster
+---@return string[]?
+local function _ClusterNames(cluster)
+    local names, seen = {}, {}
+    for _, member in ipairs(cluster.kinds or {}) do
+        local name = member.spawnData.Name
+        if name and not seen[name] then
+            seen[name] = true
+            names[#names + 1] = name
+        end
+    end
+    return names[1] and names or nil
+end
+
+---Refreshes progress-only marker metadata while retaining geometry and route ownership.
+---@param entry PolygonObjectiveEntry
+---@param quest Quest
+---@param objective QuestObjective
+---@param pointsByKey table<string, table>? Points from a repeated collection; nil reuses each cluster's representative.
+local function _RefreshMarkers(entry, quest, objective, pointsByKey)
+    for _, marker in ipairs(entry.markers) do
+        local frame = marker.frame
+        local data = frame.data
+        if data then
+            data.QuestData, data.ObjectiveData = quest, objective
+            local cluster = marker.cluster
+            local point = cluster and (pointsByKey and pointsByKey[cluster.representative.key] or cluster.representative)
+            if point then
+                -- Later fast-path refreshes read the representative, so keep it on the current list.
+                cluster.representative = point
+                _SetSpawnData(data, quest, objective, point.spawnData)
+            end
+            local alpha = frame.texture.a
+            frame:UpdateTexture(Questie.usedIcons[data.Icon])
+            -- UpdateTexture resets the base size; cached markers skip ProcessQueue's map scaling.
+            QuestieMap.utils.RescaleIcon(frame, QuestieMap.GetScaleValue())
+            if alpha then
+                local texture = frame.texture
+                texture:SetVertexColor(texture.r, texture.g, texture.b, alpha)
+            end
+        end
+        for _, minimapIcon in ipairs(marker.minimapIcons) do
+            local iconFrame = minimapIcon.frame
+            local iconData = iconFrame.data
+            if iconData then
+                iconData.QuestData, iconData.ObjectiveData = quest, objective
+                local site = minimapIcon.point
+                site = site and (pointsByKey and pointsByKey[site.key] or site)
+                if site then
+                    minimapIcon.point = site
+                    _SetSpawnData(iconData, quest, objective, site.spawnData)
+                end
+                iconFrame:UpdateTexture(Questie.usedIcons[iconData.Icon])
+                QuestieMap.utils.RescaleIcon(iconFrame)
+                -- UpdateTexture clears a minimap icon's opacity; apply its distance fade at once
+                -- rather than on the next fade tick, so the icon does not blink.
+                iconFrame.lastGlowFade = nil
+                if iconFrame.FadeLogic then iconFrame:FadeLogic() end
+            end
+        end
+    end
+    QuestiePolygon.ScheduleRefresh()
+    QuestiePolygon.ScheduleNudging()
+end
+
+---Phase visibility is the only thing that changes an unchanged spawn list's eligible spawns.
+---@param phases table<number, boolean> Visibility recorded while collecting the current geometry.
+---@return boolean
+local function _PhasesUnchanged(phases)
+    for phase, visible in pairs(phases) do
+        if (Phasing.IsSpawnVisible(phase) and true or false) ~= visible then return false end
+    end
+    return true
+end
+
+-- Objective routes
+-- Each patrol of an objective's NPCs belongs to one of the objective's markers in its zone: the
+-- cluster the NPC spawns in, so hovering either shows the other, else the zone's last marker.
+-- QuestieWaypoints shows, fades and releases it with that marker's map icon. A zone only patrols
+-- reach gets a route marker of its own for each NPC patrolling it, showing that NPC. Progress updates
+-- keep the markers, and with them their routes.
+
+---Route attachment stops once its markers are replaced or the objective is gone: removal and resets
+---mark the entry inactive. It does not stop for passing states, such as the quest log being rebuilt
+---across yields: a later progress update keeps the markers and never attaches their routes again.
+---@param entry PolygonObjectiveEntry
+---@param generation number Marker generation the work started with.
+---@return boolean
+local function _IsCurrentGeneration(entry, generation)
+    return entry.active and entry.generation == generation
+end
+
+---Draws one of a marker's minimap icons.
+---@param marker PolygonMarker
+---@param data table
+---@param point table? Spawn point the icon shows; nil for a route marker's.
+---@param areaId AreaId
+---@param x number
+---@param y number
+local function _DrawMinimapIcon(marker, data, point, areaId, x, y)
+    local _, minimapFrame = QuestieMap:DrawWorldIcon(data, areaId, x, y, nil, nil, "minimap")
+    if not minimapFrame then return end
+    -- The icon showing the marker's own data is its minimap twin, so the marker's routes show on the
+    -- minimap while it does (QuestieWaypoints.MinimapAlpha needs twin.data == path.data).
+    if data == marker.frame.data then marker.frame.minimapTwin = minimapFrame end
+    minimapFrame.polygonMinimapMarker = marker
+    marker.minimapIcons[#marker.minimapIcons + 1] = {frame = minimapFrame, point = point}
+end
+
+---Draws a marker on both maps for a zone only the objective's patrols reach.
+---@param entry PolygonObjectiveEntry
+---@param spawnData table The patrolling NPC.
+---@param areaId AreaId
+---@param x number The patrol's first point in the zone, in percent.
+---@param y number
+---@return PolygonMarker? marker nil when the zone has no map.
+local function _DrawRouteMarker(entry, spawnData, areaId, x, y)
+    local data = _IconData(entry.quest, entry.objective, entry.index, spawnData)
+    local frame = QuestieMap:DrawWorldIcon(data, areaId, x, y, nil, nil, "map")
+    if not frame then return nil end
+    local marker = {frame = frame, entry = entry, minimapIcons = {}}
+    frame.polygonMarker = marker
+    entry.markers[#entry.markers + 1] = marker
+    _DrawMinimapIcon(marker, data, nil, areaId, x, y)
+    return marker
+end
+
+---The marker whose cluster holds one of the NPC's spawns in the patrol's zone, so hovering the patrol
+---outlines the area the NPC is in. Clusters are told apart by their spawn extent, as for nearby mode.
+---@param entry PolygonObjectiveEntry
+---@param spawnData table The patrolling NPC.
+---@param areaId AreaId The patrol's zone.
+---@return PolygonMarker? marker nil when no cluster in that zone holds a spawn of the NPC.
+local function _RouteOwner(entry, spawnData, areaId)
+    local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaId)
+    local spawns = uiMapId and spawnData.Spawns and spawnData.Spawns[areaId]
+    if not spawns then return nil end
+    for _, spawn in ipairs(spawns) do
+        local x, y = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100, spawn[2] / 100, uiMapId)
+        for _, marker in ipairs(entry.markers) do
+            local cluster = marker.cluster
+            local bounds = cluster and cluster.worldBounds
+            -- World coordinates span the continent: a neighbouring zone's cluster may cover the spot.
+            if x and y and bounds and cluster.uiMapId == uiMapId and x >= bounds.minX and x <= bounds.maxX
+                and y >= bounds.minY and y <= bounds.maxY then
+                return marker
+            end
+        end
+    end
+    return nil
+end
+
+---Draws each of the objective's patrols for a marker in its zone, adding route markers where no
+---cluster is. Without any marker nothing is drawn, as in normal mode.
+---@async
+---@param entry PolygonObjectiveEntry
+---@param zoneMarkers table<AreaId, PolygonMarker> Markers just drawn; the last one of each zone, which owns patrols no cluster holds.
+local function _AttachRoutes(entry, zoneMarkers)
+    if not next(zoneMarkers) then return end
+    local generation, attached = entry.generation, 0
+    for _, spawnData in pairs(entry.objective.spawnList or {}) do
+        for areaId, patrols in pairs(spawnData.Waypoints or {}) do
+            local first = patrols[1] and patrols[1][1]
+            if first then
+                local marker = _RouteOwner(entry, spawnData, areaId) or zoneMarkers[areaId]
+                -- -1, -1 stands for an instance, which has no point on the zone's map.
+                -- Each patrolling NPC gets its own route marker, so its patrol shows that NPC.
+                if not marker and first[1] ~= -1 and first[2] ~= -1 then
+                    marker = _DrawRouteMarker(entry, spawnData, areaId, first[1], first[2])
+                end
+                -- A marker Questie removed meanwhile may have handed its icon to another quest.
+                if marker and marker.frame.polygonMarker == marker then
+                    QuestieMap:DrawWaypoints(marker.frame, spawnData.TooltipKey, patrols, areaId, spawnData.Hostile)
+                end
+                attached = attached + 1
+                if attached >= 30 then
+                    attached = 0
+                    coroutine.yield()
+                    if not _IsCurrentGeneration(entry, generation) then return end
+                end
+            end
+        end
+    end
+    QuestiePolygon.ScheduleNudging()
+end
+
+---Builds from the full phase-filtered spawn list, not the incremental icon list. Cached updates
+---refresh the markers and keep their routes; new markers draw the objective's routes again.
+---@param quest Quest
+---@param objective QuestObjective
+---@param objectiveIndex ObjectiveIndex Used only when objective.Index has not been assigned.
+---@async
+function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
+    -- Special objectives share the passed index 0; their assigned Index is the cache identity.
+    local canonicalIndex = objective.Index or objectiveIndex
+    if not QuestiePolygon.IsEnabled() or objective.IsPartyObjective or objective.Completed
+        or QuestiePlayer.currentQuestlog[quest.Id] ~= quest then
+        QuestiePolygon.RemoveObjective(quest.Id, canonicalIndex)
+        return
+    end
+
+    local questEntries = entries[quest.Id]
+    if not questEntries then
+        questEntries = {}
+        entries[quest.Id] = questEntries
+    end
+    local entry = questEntries[canonicalIndex]
+    if not entry then
+        entry = {active = true, index = canonicalIndex, markers = {}, revision = 0, generation = 0}
+        questEntries[canonicalIndex] = entry
+    end
+    entry.revision = entry.revision + 1
+    entry.quest, entry.objective = quest, objective
+    local revision = entry.revision
+    local function isCancelled()
+        return not entry.active or entry.revision ~= revision or not QuestiePolygon.IsEnabled()
+            or objective.Completed or QuestiePlayer.currentQuestlog[quest.Id] ~= quest
+    end
+
+    -- Progress updates keep the objective's spawnList table: Questie replaces spawn lists
+    -- whole and never edits them in place. With unchanged phases the eligible spawns are
+    -- identical, so skip collection, which converts and stringifies every spawn.
+    if entry.signature and entry.spawnList == objective.spawnList and _PhasesUnchanged(entry.phases) then
+        _RefreshMarkers(entry, quest, objective)
+        return
+    end
+
+    -- Collect the full eligible source set before comparing geometry signatures.
+    -- Collection charges each spawn to the frame's shared polygon budget.
+    local work = PolygonGeometry.NewWork(isCancelled)
+    local points, signatureParts, pointsByKey, phases = {}, {}, {}, {}
+    for targetKey, spawnData in pairs(objective.spawnList or {}) do
+        for areaId, spawns in pairs(spawnData.Spawns or {}) do
+            for _, spawn in ipairs(spawns) do
+                local phase = spawn[3]
+                if phase ~= nil and phases[phase] == nil then
+                    phases[phase] = Phasing.IsSpawnVisible(phase) and true or false
+                end
+                if phase == nil or phases[phase] then
+                    local locations = {{areaId, spawn[1], spawn[2]}}
+                    if spawn[1] == -1 and spawn[2] == -1 then
+                        locations = ZoneDB:GetDungeonLocation(areaId) or {}
+                    end
+                    for _, location in ipairs(locations) do
+                        local uiMapId = ZoneDB:GetUiMapIdByAreaId(location[1])
+                        local x, y = location[2], location[3]
+                        if uiMapId and type(x) == "number" and type(y) == "number"
+                            and x >= 0 and x <= 100 and y >= 0 and y <= 100 then
+                            local worldX, worldY, instanceId = HBD:GetWorldCoordinatesFromZone(x / 100, y / 100, uiMapId)
+                            if worldX and worldY and instanceId then
+                                local key = table.concat({tostring(targetKey), location[1], uiMapId, instanceId,
+                                    x, y, worldX, worldY}, ":")
+                                local point = {
+                                    x = x, y = y, worldX = worldX, worldY = worldY,
+                                    uiMapId = uiMapId, instanceId = instanceId, areaId = location[1],
+                                    key = key, kind = targetKey, spawnData = spawnData,
+                                    isObject = spawnData.IsObject == true,
+                                }
+                                points[#points + 1] = point
+                                signatureParts[#signatureParts + 1] = key
+                                pointsByKey[key] = point
+                            end
+                        end
+                    end
+                end
+                if not PolygonGeometry.Checkpoint(work, SPAWN_COST) then return end
+            end
+        end
+    end
+    if isCancelled() then return end
+    table.sort(signatureParts)
+    local signature = table.concat(signatureParts, "|")
+
+    -- A new spawn list or phase change with the same eligible spawns keeps its geometry.
+    if entry.signature == signature then
+        entry.spawnList, entry.phases = objective.spawnList, phases
+        _RefreshMarkers(entry, quest, objective, pointsByKey)
+        return
+    end
+
+    -- Hide outlines until replacement geometry and markers are ready. Bumping the generation
+    -- stops earlier route attachment before its marker frames can be recycled.
+    entry.signature, entry.hovered, entry.minimapHovered, entry.building = nil, nil, nil, true
+    entry.generation = entry.generation + 1
+    _ReleaseMarkers(entry)
+    QuestiePolygon.ScheduleRefresh()
+    local clusters = PolygonGeometry.Build(points, nil, isCancelled)
+    if not clusters or isCancelled() then return end
+
+    -- Lazily retain one provider, render cache/renderer, layout, and size-change hook across resets.
+    if not provider then
+        provider = CreateFromMixins(MapCanvasDataProviderMixin, Provider)
+        areaRenderer = PolygonRenderer.New(WorldMapFrame:GetCanvas(), {onHover = _HoverMapAreas})
+        local renderer = areaRenderer
+        -- Areas draw beneath patrol paths and Questie's icons, and hover only where nothing above covers the map.
+        WorldMapLayers.AddLayer("areas", {
+            Hover = function(cursor)
+                -- Outlines are in canvas percent.
+                if not cursor then return renderer:Hover(nil, nil) end
+                return renderer:Hover(cursor.x / cursor.width * 100, cursor.y / cursor.height * 100)
+            end,
+        })
+        renderCache = PolygonRenderCache.New(renderer)
+        nudging = PolygonNudging.New()
+        -- Preference setters resize before writing their new value. Read configured
+        -- widths on the next frame; this single retained hook is inert while detached.
+        hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)
+        -- The provider is created once, before the first marker.
+        _FollowIcons()
+        MapPreview.Subscribe(_OnMapPreview)
+        -- The minimap is optional: its failure must not stop world-map drawing.
+        local created, layer = pcall(PolygonMinimap.New, _CollectMinimapAreas, _HoverMinimapAreas)
+        if created then
+            minimapLayer = layer
+        else
+            Questie.Error("Polygon minimap setup failed:", layer)
+        end
+    end
+    if not provider.owningMap then WorldMapFrame:AddDataProvider(provider) end
+
+    -- One retained proximity check; it returns immediately unless nearby mode is active.
+    if not nearbyTicker then nearbyTicker = C_Timer.NewTicker(1, QuestiePolygon.UpdateNearby) end
+
+    -- Allocate markers with generation ownership before publishing this batch for hover or saved visibility.
+    -- The minimap shows each cluster like the world map, except that object clusters show every
+    -- listed object: those icons sit on the objects themselves.
+    local zoneMarkers = {}
+    for _, cluster in ipairs(clusters) do
+        local point = pointsByKey[cluster.representative.key]
+        local data = _IconData(quest, objective, canonicalIndex, point.spawnData)
+        data.Names = _ClusterNames(cluster)
+        local frame = QuestieMap:DrawWorldIcon(data, point.areaId, cluster.x, cluster.y, nil, nil, "map")
+        if frame then
+            local marker = {frame = frame, entry = entry, cluster = cluster, minimapIcons = {}}
+            frame.polygonMarker = marker
+            entry.markers[#entry.markers + 1] = marker
+            zoneMarkers[point.areaId] = marker
+            -- The marker already owns this batch, so cancellation during a yield releases it.
+            if not PolygonGeometry.Checkpoint(work, ICON_COST) then return end
+            for _, site in ipairs(cluster.locations or {point}) do
+                local x, y = site.x, site.y
+                if not cluster.locations then x, y = cluster.x, cluster.y end
+                -- The icon of the marker's own spawn shares its data, which makes it the marker's twin.
+                local siteData = site == point and data or _IconData(quest, objective, canonicalIndex, site.spawnData)
+                _DrawMinimapIcon(marker, siteData, site, site.areaId, x, y)
+                if not PolygonGeometry.Checkpoint(work, ICON_COST) then return end
+            end
+        end
+    end
+    entry.building = nil
+    entry.signature, entry.spawnList, entry.phases = signature, objective.spawnList, phases
+    -- Replacement clusters can move; recheck now instead of waiting up to a second for the ticker.
+    if Questie.db.profile.showPolygonsOnAccept == false then
+        entry.nearby = _IsPlayerNearby(entry, HBD:GetPlayerWorldPosition())
+    end
+    _NotifyVisibilityChanged()
+    QuestiePolygon.ScheduleNudging()
+    QuestiePolygon.ScheduleRefresh()
+    _AttachRoutes(entry, zoneMarkers)
+end

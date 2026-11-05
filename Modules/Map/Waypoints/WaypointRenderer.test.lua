@@ -77,6 +77,7 @@ describe("WaypointRenderer", function()
         _G.DrawLine = function(texture, _, _, _, _, _, thickness) table.insert(bands, {texture = texture, thickness = thickness}) end
         Questie.db.profile.waypointSmoothing = 0.5
         dofile("Modules/Libs/QuestieLib.lua")
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         dofile("Modules/Map/Waypoints/WaypointRenderer.lua")
         WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
@@ -94,7 +95,7 @@ describe("WaypointRenderer", function()
 
         -- The tolerances follow the line's width; the curve fits the quads, fade included.
         local smoothed = WaypointGeometry.Smooth(BEND, Questie.db.profile.waypointSmoothing * 2, 2 * QUAD_SCALE)
-        local trimmed = WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * 2)
+        local trimmed = QuestieLoader:ImportModule("MapGeometry").Simplify(smoothed, WaypointRenderer.TRIMMING * 2)
         local expected = WaypointGeometry.Quads(trimmed, 2 * QUAD_SCALE)
         assert.is_true(#expected > 2)
         assert.are.equal(#expected, #view.lines)
@@ -238,7 +239,8 @@ describe("WaypointRenderer", function()
         WaypointRenderer.RedrawAll()
 
         local smoothed = WaypointGeometry.Smooth(BEND, 0.5 * 2, 2 * QUAD_SCALE)
-        local expected = WaypointGeometry.Quads(WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * 2), 2 * QUAD_SCALE)
+        local expected = WaypointGeometry.Quads(QuestieLoader:ImportModule("MapGeometry").Simplify(smoothed, WaypointRenderer.TRIMMING * 2),
+            2 * QUAD_SCALE)
         assert.is_true(#expected > 2)
         assert.are.equal(#expected, #view.lines)
         for _, line in ipairs(view.lines) do

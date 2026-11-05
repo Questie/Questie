@@ -6,8 +6,8 @@ describe("WaypointMap", function()
     local WaypointHover
     local QuestieWaypoints
     local saved
-    local driver, renderer
-    local mapId, scale, cursor, focus, tooltipOwner
+    local driver, renderer, layers, WorldMapLayers
+    local mapId, scale, focus, tooltipOwner
 
     local function NewView()
         local view = {shown = false}
@@ -41,16 +41,17 @@ describe("WaypointMap", function()
         driver.scripts.OnUpdate()
     end
 
+    -- What WorldMapLayers offers the paths layer: the cursor at normalized x, y on the 1000x500 canvas.
+    local function Hover(x, y)
+        return layers.paths.Hover({mapId = mapId, x = x * 1000, y = y * 500, width = 1000, height = 500, scale = scale})
+    end
+
     before_each(function()
         saved = {WorldMapFrame = _G.WorldMapFrame, CreateFrame = _G.CreateFrame, GameTooltip = _G.GameTooltip}
-        mapId, scale, cursor, focus, tooltipOwner = 1, 1, nil, nil, nil
+        mapId, scale, focus, tooltipOwner = 1, 1, nil, nil
         Questie.db.profile = {waypointWidth = 4}
-        local canvas = {GetWidth = function() return 1000 end, GetHeight = function() return 500 end,
-            IsMouseOver = function() return cursor ~= nil end}
-        local scrollContainer = {
-            GetCanvasScale = function() return scale end,
-            GetNormalizedCursorPosition = function() return cursor[1], cursor[2] end,
-        }
+        local canvas = {GetWidth = function() return 1000 end, GetHeight = function() return 500 end}
+        local scrollContainer = {GetCanvasScale = function() return scale end}
         _G.WorldMapFrame = {GetMapID = function() return mapId end, GetCanvas = function() return canvas end,
             ScrollContainer = scrollContainer}
         _G.CreateFrame = function()
@@ -67,6 +68,12 @@ describe("WaypointMap", function()
         QuestieWaypoints.Color = function(path) return path.color end
         QuestieWaypoints.IsHighlighted = function(path) return path.highlighted or false end
         QuestieWaypoints.SetHighlighted = spy.new(function() end)
+
+        layers = {}
+        WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
+        WorldMapLayers.AddLayer = function(name, layer) layers[name] = layer end
+        WorldMapLayers.Invalidate = spy.new(function() end)
+        WorldMapLayers.FrameLevel = function(name) return name == "paths" and 2015 or 0 end
 
         renderer = {
             Draw = spy.new(function(_, view) return view or NewView() end),
@@ -213,39 +220,27 @@ describe("WaypointMap", function()
 
         it("opens the owner's tooltip near the line, and closes it on leaving", function()
             -- 2.5 canvas units below the line, inside the 3-unit hover reach.
-            cursor = {0.5, 0.505}
-            Update()
+            assert.is_true(Hover(0.5, 0.505))
             assert.spy(path.owner.scripts.OnEnter).was.called_with(path.owner)
 
             tooltipOwner = path.owner
-            cursor = {0.5, 0.6}
-            Update()
+            assert.is_false(Hover(0.5, 0.6))
             assert.spy(path.owner.scripts.OnLeave).was.called_with(path.owner)
         end)
 
-        it("leaves the hover to whatever covers the map", function()
-            focus = {}
-            cursor = {0.5, 0.505}
-            Update()
-
-            assert.spy(path.owner.scripts.OnEnter).was.not_called()
-        end)
-
         it("hands the hover to the icon when the cursor moves onto it", function()
-            cursor = {0.5, 0.505}
-            Update()
+            Hover(0.5, 0.505)
 
+            -- The icon covers the map, so the stack ends the paths' hover.
             tooltipOwner, focus = path.owner, path.owner
-            cursor = {0.5, 0.5}
-            Update()
+            layers.paths.Hover(nil)
 
             assert.spy(path.owner.scripts.OnLeave).was.not_called()
             assert.spy(QuestieWaypoints.SetHighlighted).was.not_called()
         end)
 
         it("lets the path's icon restore its tooltip changes before another icon's tooltip opens", function()
-            cursor = {0.5, 0.505}
-            Update()
+            Hover(0.5, 0.505)
             tooltipOwner = path.owner
 
             WaypointHover.End(path.owner)
@@ -262,10 +257,8 @@ describe("WaypointMap", function()
             WaypointMap.Invalidate()
             Update()
 
-            cursor = {0.5, 0.505}
-            Update()
-            cursor = {0.5, 0.605}
-            Update()
+            Hover(0.5, 0.505)
+            Hover(0.5, 0.605)
 
             assert.spy(path.owner.scripts.OnEnter).was.called(1)
             assert.spy(path.owner.scripts.OnLeave).was.not_called()
@@ -273,15 +266,41 @@ describe("WaypointMap", function()
 
         it("only highlights a path whose icon is not on this map", function()
             path.owner.IsVisible = function() return false end
-            cursor = {0.5, 0.505}
-            Update()
+            Hover(0.5, 0.505)
 
             assert.spy(path.owner.scripts.OnEnter).was.not_called()
-            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, true)
+            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, true, "path")
 
-            cursor = nil
+            layers.paths.Hover(nil)
+            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, false, "path")
+        end)
+
+        it("asks the stack to look again after drawing anew", function()
+            assert.spy(WorldMapLayers.Invalidate).was.called_with("paths")
+            local calls = #WorldMapLayers.Invalidate.calls
+
+            -- Nothing changed: no new look.
             Update()
-            assert.spy(QuestieWaypoints.SetHighlighted).was.called_with(path.data, false)
+            assert.are.equal(calls, #WorldMapLayers.Invalidate.calls)
+
+            Path()
+            WaypointMap.Invalidate()
+            Update()
+            assert.are.equal(calls + 1, #WorldMapLayers.Invalidate.calls)
+        end)
+
+        it("hovers nothing until its paths are drawn for the cursor's map", function()
+            -- The map switched, but the driver has not drawn for it yet.
+            mapId = 2
+            assert.is_false(Hover(0.5, 0.505))
+            assert.spy(path.owner.scripts.OnEnter).was.not_called()
+        end)
+
+        it("keeps its reach on screen while zooming", function()
+            -- At twice the zoom the 3-unit reach is 1.5 canvas units: 2.5 units below the line misses.
+            scale = 2
+            assert.is_false(Hover(0.5, 0.505))
+            assert.is_true(Hover(0.5, 0.502))
         end)
     end)
 end)

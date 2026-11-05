@@ -1,6 +1,8 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
-local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 16
+-- Questie modification: MINOR counts this fork's own versions, not upstream's. Upstream Pins is at 17
+-- too, so the next upstream sync must go to at least 18.
+local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 17
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local pins, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
@@ -504,6 +506,20 @@ function worldmapProviderPin:OnAcquired(icon, x, y, frameLevelType)
     icon:ClearAllPoints()
     icon:SetPoint("CENTER", self, "CENTER")
     icon:Show()
+    -- Questie modification: notify after parenting and centering, so presentation can offset the
+    -- child, not its geographic wrapper.
+    if icon.OnWorldMapPinUpdated then
+        icon:OnWorldMapPinUpdated(self)
+    end
+end
+
+function worldmapProviderPin:OnCanvasScaleChanged()
+    MapCanvasPinMixin.OnCanvasScaleChanged(self)
+    -- Questie modification: apply the native scale first so child offsets can convert display units
+    -- using the final scale.
+    if self.icon and self.icon.OnWorldMapPinUpdated then
+        self.icon:OnWorldMapPinUpdated(self)
+    end
 end
 
 function worldmapProviderPin:OnReleased()
@@ -512,6 +528,29 @@ function worldmapProviderPin:OnReleased()
         self.icon:SetParent(UIParent)
         self.icon:ClearAllPoints()
         self.icon = nil
+    end
+end
+
+-- Questie modification: Mixin copies methods onto native wrappers. Retaining a pre-17 pool also
+-- requires updating those copies, without replacing frames or unrelated methods.
+if oldversion and oldversion < 17 then
+    local presentationMethods = {
+        OnAcquired = worldmapProviderPin.OnAcquired,
+        OnCanvasScaleChanged = worldmapProviderPin.OnCanvasScaleChanged,
+    }
+    for pin in worldmapPinsPool:EnumerateActive() do
+        Mixin(pin, presentationMethods)
+    end
+    if worldmapPinsPool.EnumerateInactive then
+        for _, pin in worldmapPinsPool:EnumerateInactive() do
+            Mixin(pin, presentationMethods)
+        end
+    else
+        -- The newer unsecured ObjectPoolMixin removed EnumerateInactive, but
+        -- keeps its reusable frames in the public inactiveObjects array.
+        for _, pin in ipairs(worldmapPinsPool.inactiveObjects) do
+            Mixin(pin, presentationMethods)
+        end
     end
 end
 

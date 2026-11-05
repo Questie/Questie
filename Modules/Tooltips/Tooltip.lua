@@ -22,6 +22,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Forever
 local Forever = QuestieLoader:ImportModule("Forever")
+---@type MapIconTooltip
+local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 
 local tinsert = table.insert
 QuestieTooltips.lastGametooltip = ""
@@ -574,7 +576,7 @@ local function _RegisterObjectTooltipCallback()
         ---@param data table
         ---@return nil
         function(tooltip, data)
-            if tooltip ~= GameTooltip or nativeQuestFallback or objectAugmented or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
+            if tooltip ~= GameTooltip or nativeQuestFallback or objectAugmented or tooltip:IsForbidden() or MapIconTooltip.GetOwner(tooltip)
                 or not Questie.db.profile.enableTooltips or QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
                 return
             end
@@ -748,7 +750,7 @@ function QuestieTooltips:Initialize()
                         (not QuestieTooltips.lastGametooltipCount) or
                         _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                         or QuestieTooltips.lastGametooltipType ~= "object"
-                    ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds its own tooltip
+                    ) and (not MapIconTooltip.GetOwner(self)) then -- We are hovering over a Questie map icon which adds its own tooltip
                     local playerZone = QuestiePlayer:GetCurrentZoneId()
                     _QuestieTooltips.AddObjectDataToTooltip(objectName, playerZone)
                     GameTooltip:Show() -- Classic must resize after appending lines outside the native render pass.
@@ -813,7 +815,7 @@ end
 ---@param lineType "QuestTitle"|"QuestObjective"|"QuestPlayer"
 ---@return true? consumed
 local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
-    if tooltip ~= GameTooltip or tooltip:IsForbidden() or tooltip.ShownAsMapIcon
+    if tooltip ~= GameTooltip or tooltip:IsForbidden() or MapIconTooltip.GetOwner(tooltip)
         or not Questie.db.profile.enableTooltips then
         return
     end

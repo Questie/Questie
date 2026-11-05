@@ -14,6 +14,8 @@ local EventHandler = QuestieLoader:ImportModule("EventHandler")
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieValidateGameCache
@@ -24,8 +26,6 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieProfiler
 local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
----@type WaypointRenderer
-local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
@@ -54,6 +54,7 @@ function Questie:OnEnable()
 end
 
 function Questie:OnDisable()
+    QuestiePolygon.Reset()
     if Questie.IsForever or Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is disabled
         QuestieCompat.ShowWatchFrame()
@@ -71,8 +72,7 @@ function Questie:RefreshConfig(_event, _database, _profileName)
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
     -- Lines kept across the reset would otherwise keep the old profile's smoothing, width, colors and visibility.
-    WaypointRenderer.RedrawAll()
-    QuestieWaypoints.Refresh()
+    QuestieWaypoints.Redraw()
     CommsVisibility:ScheduleSnapshot("PROFILE_CHANGED")
     Questie.Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
@@ -283,31 +283,33 @@ Questie.icons = {
 
 Questie.usedIcons = {}
 
--- ! Keep these continuous 1...n and copy changes to DRAW_ORDER_BY_ICON_TYPE_LOOKUP in QuestieMapUtils.lua
-Questie.ICON_TYPE_SLAY = 1
-Questie.ICON_TYPE_LOOT = 2
-Questie.ICON_TYPE_EVENT = 3
-Questie.ICON_TYPE_OBJECT = 4
-Questie.ICON_TYPE_TALK = 5
-Questie.ICON_TYPE_AVAILABLE = 6
-Questie.ICON_TYPE_AVAILABLE_GRAY = 7
-Questie.ICON_TYPE_COMPLETE = 8
-Questie.ICON_TYPE_GLOW = 9
-Questie.ICON_TYPE_REPEATABLE = 10
-Questie.ICON_TYPE_REPEATABLE_COMPLETE = 11
-Questie.ICON_TYPE_INCOMPLETE = 12
-Questie.ICON_TYPE_EVENTQUEST = 13
-Questie.ICON_TYPE_EVENTQUEST_COMPLETE = 14
-Questie.ICON_TYPE_PVPQUEST = 15
-Questie.ICON_TYPE_PVPQUEST_COMPLETE = 16
-Questie.ICON_TYPE_INTERACT = 17
-Questie.ICON_TYPE_SODRUNE = 18
-Questie.ICON_TYPE_MOUNT_UP = 19
-Questie.ICON_TYPE_NODE_FISH = 20
-Questie.ICON_TYPE_NODE_HERB = 21
-Questie.ICON_TYPE_NODE_ORE = 22
-Questie.ICON_TYPE_CHEST = 23
-Questie.ICON_TYPE_PET_BATTLE = 24
+-- Icon types are QuestieDB's, whose corrections name them too: their numbers live in its enum alone.
+-- QuestieDB loads first. One without the enum leaves these nil, and VersionCheckDB stops startup.
+local iconTypes = LibQuestieDB and LibQuestieDB.Enum and LibQuestieDB.Enum.iconTypes or {}
+Questie.ICON_TYPE_SLAY = iconTypes.ICON_TYPE_SLAY
+Questie.ICON_TYPE_LOOT = iconTypes.ICON_TYPE_LOOT
+Questie.ICON_TYPE_EVENT = iconTypes.ICON_TYPE_EVENT
+Questie.ICON_TYPE_OBJECT = iconTypes.ICON_TYPE_OBJECT
+Questie.ICON_TYPE_TALK = iconTypes.ICON_TYPE_TALK
+Questie.ICON_TYPE_AVAILABLE = iconTypes.ICON_TYPE_AVAILABLE
+Questie.ICON_TYPE_AVAILABLE_GRAY = iconTypes.ICON_TYPE_AVAILABLE_GRAY
+Questie.ICON_TYPE_COMPLETE = iconTypes.ICON_TYPE_COMPLETE
+Questie.ICON_TYPE_GLOW = iconTypes.ICON_TYPE_GLOW
+Questie.ICON_TYPE_REPEATABLE = iconTypes.ICON_TYPE_REPEATABLE
+Questie.ICON_TYPE_REPEATABLE_COMPLETE = iconTypes.ICON_TYPE_REPEATABLE_COMPLETE
+Questie.ICON_TYPE_INCOMPLETE = iconTypes.ICON_TYPE_INCOMPLETE
+Questie.ICON_TYPE_EVENTQUEST = iconTypes.ICON_TYPE_EVENTQUEST
+Questie.ICON_TYPE_EVENTQUEST_COMPLETE = iconTypes.ICON_TYPE_EVENTQUEST_COMPLETE
+Questie.ICON_TYPE_PVPQUEST = iconTypes.ICON_TYPE_PVPQUEST
+Questie.ICON_TYPE_PVPQUEST_COMPLETE = iconTypes.ICON_TYPE_PVPQUEST_COMPLETE
+Questie.ICON_TYPE_INTERACT = iconTypes.ICON_TYPE_INTERACT
+Questie.ICON_TYPE_SODRUNE = iconTypes.ICON_TYPE_SODRUNE
+Questie.ICON_TYPE_MOUNT_UP = iconTypes.ICON_TYPE_MOUNT_UP
+Questie.ICON_TYPE_NODE_FISH = iconTypes.ICON_TYPE_NODE_FISH
+Questie.ICON_TYPE_NODE_HERB = iconTypes.ICON_TYPE_NODE_HERB
+Questie.ICON_TYPE_NODE_ORE = iconTypes.ICON_TYPE_NODE_ORE
+Questie.ICON_TYPE_CHEST = iconTypes.ICON_TYPE_CHEST
+Questie.ICON_TYPE_PET_BATTLE = iconTypes.ICON_TYPE_PET_BATTLE
 
 -- Load icon pathes from SavedVariables or set the default ones
 function Questie.SetIcons()
