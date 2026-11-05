@@ -29,6 +29,9 @@ local ENTRY_POINTS = {
     ["Modules/Options/MapTab/QuestieOptionsMap.lua"] = {QuestieWaypoints = "Map > Waypoints settings"},
     ["Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua"] = {QuestieWaypoints = "Show waypoint hover area"},
     ["Modules/Options/IconsTab/QuestieOptionsIcons.lua"] = {QuestiePolygon = "Questie blobs preset and quest area settings"},
+    ["Modules/Options/NativeOptions/NativeOptionsMap.lua"] = {QuestieWaypoints = "Map > Waypoints settings"},
+    ["Modules/Options/NativeOptions/NativeOptionsAdvanced.lua"] = {QuestieWaypoints = "Show waypoint hover area"},
+    ["Modules/Options/NativeOptions/NativeOptionsIcons.lua"] = {QuestiePolygon = "Questie blobs preset and quest area settings"},
     ["Modules/Tutorial/ObjectivePreview.lua"] = {
         PolygonRenderer = "the objective style popup's still blobs map, which has no quests for the adapter, draws its areas",
     },
