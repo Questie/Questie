@@ -64,35 +64,30 @@ local DRAW_ORDER_QUEST_COMPLETE = 2 * MAX_DRAW_ORDER_BY_ICON_TYPE
 -- Each kind of icon has a tier: notes lowest, then quest objectives, quest givers, and turn-ins on top.
 -- On the world map, Questie's icons are quest pins, so they draw in a block of frame levels of their
 -- own just below Blizzard's quest pins: those and the player's arrow stay above them, flight points
--- and other points of interest below. Within a tier, an icon lower on its map draws in front. On the
--- minimap, and where the world map gives no block, tiers keep fixed levels from 2016, above patrol
--- paths and far above the minimap's own frames. A grown icon, such as a hovered one, draws in front
+-- and other points of interest below. The block is not registered with Blizzard's level manager:
+-- inserting a level rewrites the levels above it from addon code, and those tainted values then block
+-- Blizzard's quest pins in combat. It lies in the 500 levels Blizzard keeps for world quest pins just
+-- below the quest pins. Classic clients draw none; Forever fills that range from its bottom, below the
+-- block. Within a tier, an icon lower on its map draws in front. On the minimap, and where the world map
+-- gives no block, tiers keep fixed levels from 2016, above patrol paths and far above the minimap's own
+-- frames. A grown icon, such as a hovered one, draws in front
 -- of the others in its tier, never above a higher tier: its frame keeps its size, so a larger icon,
 -- such as a townsfolk note, drawn above a smaller one would keep the cursor from ever reaching it.
 local TIERS = DRAW_ORDER_QUEST_COMPLETE + 1
-local Y_STEPS = 101 -- One row of levels per percent of the map's height, 0 to 100.
+local Y_STEPS = 51 -- One row of levels per two percent of the map's height, 0 to 100.
 local TIER_LEVELS = Y_STEPS + 1 -- And one more on top of the tier's rows for a grown icon.
-local BLOCK_TYPE = "PIN_FRAME_LEVEL_QUESTIE"
 local BLOCK_RANGE = TIERS * TIER_LEVELS
 local FIXED_LEVEL = 2016
 
----@type table? Blizzard's world map pin frame levels, once Questie's block is registered in it.
-local blockLevels
-local blockTried = false
-
----The first frame level of Questie's block on the world map, registered on first use: before the map
----first shows, as icons are drawn at login. Nil when the map's level manager gives no block.
+---The first frame level of Questie's block on the world map, read fresh as other addons can move the
+---quest pins. Nil when the block would not clear the patrol paths: Blizzard's manager answers 2000 for
+---a level type the client lacks.
 ---@return number?
 local function _BlockStart()
-    if not blockTried then
-        blockTried = true
-        local levels = WorldMapFrame and WorldMapFrame.GetPinFrameLevelsManager and WorldMapFrame:GetPinFrameLevelsManager()
-        if levels and levels.InsertFrameLevelBelow
-            and levels:InsertFrameLevelBelow(BLOCK_TYPE, "PIN_FRAME_LEVEL_ACTIVE_QUEST", BLOCK_RANGE) then
-            blockLevels = levels
-        end
-    end
-    return blockLevels and blockLevels:GetFrameLevelStart(BLOCK_TYPE)
+    local levels = WorldMapFrame and WorldMapFrame.GetPinFrameLevelsManager and WorldMapFrame:GetPinFrameLevelsManager()
+    if not levels then return nil end
+    local start = levels:GetFrameLevelStart("PIN_FRAME_LEVEL_ACTIVE_QUEST") - BLOCK_RANGE
+    return start >= FIXED_LEVEL and start or nil
 end
 
 ---@type table<unknown, true> Icon types without a draw order, each reported once.
@@ -129,7 +124,7 @@ function QuestieMap.utils.SetDrawOrder(frame)
     local tier = _Tier(frame, data)
     local start = (not frame.miniMapIcon) and _BlockStart()
     if start then
-        local row = frame.pictureScale and Y_STEPS or math.floor(math.min(math.max(frame.y or 0, 0), 100))
+        local row = frame.pictureScale and Y_STEPS or math.floor(math.min(math.max(frame.y or 0, 0), 100) / 2)
         frameLevel = start + tier * TIER_LEVELS + row
     else
         -- Two levels per tier: its icons', and a grown icon's above them.
