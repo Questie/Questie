@@ -25,7 +25,7 @@ class QuestieDBChangelogTests(unittest.TestCase):
             "version": "1.0.1",
             "contractVersion": 2,
             "minSupportedContract": 1,
-            "artifacts": [{"file": "QuestieDB-all.zip", "sha256": "c" * 64, "bytes": 123}],
+            "artifacts": [{"flavor": "All", "file": "QuestieDB-1.0.1-all.zip", "sha256": "c" * 64, "bytes": 123}],
             "changelog": [{
                 "category": "db", "text": "Correct quest prerequisites.", "commit": "d" * 40,
                 "author": "Muehe", "coAuthors": ["Logonz", "Another author"],

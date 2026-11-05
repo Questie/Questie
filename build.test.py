@@ -129,14 +129,14 @@ class BuildModeTests(unittest.TestCase):
             "repository": "https://github.com/Questie/QuestieDB",
             "version": "1.0.0", "producerCommit": "a" * 40, "questieCommit": "b" * 40,
             "contractVersion": 2, "minSupportedContract": 1,
-            "artifacts": [{"file": "QuestieDB-all.zip", "bytes": self.provider_zip.stat().st_size,
+            "artifacts": [{"flavor": "All", "file": "QuestieDB-1.0.0-all.zip", "bytes": self.provider_zip.stat().st_size,
                            "sha256": hashlib.sha256(self.provider_zip.read_bytes()).hexdigest()},
                           {"file": "other-format.tar", "future": True}],
             "futureField": {"preserve": [1, 2]},
             "changelog": [{"category": "db", "text": "Correct quest prerequisites.",
                            "commit": "c" * 40, "author": "Muehe", "coAuthors": ["Logonz"]}],
         }
-        self.provider_manifest = {"releases": [{"filename": "QuestieDB-all.zip"}], "questiedb": self.database}
+        self.provider_manifest = {"releases": [{"filename": "QuestieDB-1.0.0-all.zip"}], "questiedb": self.database}
         self.downloads = self.enterContext(patch("urllib.request.urlretrieve", side_effect=self.download_provider))
 
     def write_provider_zip(self, version="1.0.0"):
@@ -148,7 +148,7 @@ class BuildModeTests(unittest.TestCase):
     def download_provider(self, url, destination):
         if url.endswith("/latest/download/release.json"):
             Path(destination).write_text(json.dumps(self.provider_manifest), encoding="utf-8")
-        elif url.endswith("/latest/download/QuestieDB-all.zip"):
+        elif url.endswith("/latest/download/QuestieDB-1.0.0-all.zip"):
             shutil.copyfile(self.provider_zip, destination)
         else:
             self.fail("Unexpected download: " + url)
@@ -367,7 +367,7 @@ class BuildModeTests(unittest.TestCase):
             with self.subTest(artifacts=artifacts):
                 self.database["artifacts"] = artifacts
                 self.downloads.reset_mock()
-                with self.assertRaisesRegex(ValueError, "exactly one QuestieDB-all.zip"):
+                with self.assertRaisesRegex(ValueError, "exactly one QuestieDB 'All' flavor"):
                     self.run_build("--bundled", "-r")
                 self.assertEqual(1, self.downloads.call_count)
 

@@ -353,19 +353,20 @@ def copy_db_content_to(release_folder_path):
         raise ValueError("QuestieDB manifest has an invalid version")
     if not re.fullmatch(r"[0-9a-fA-F]{40}", manifest["producerCommit"]):
         raise ValueError("QuestieDB manifest has an invalid producerCommit")
-    # Only this fixed filename is downloaded; unrelated artifact records are not consumed.
+    # Only the "All" flavor is downloaded; unrelated artifact records are not consumed.
     artifacts = manifest["artifacts"]
     if not isinstance(artifacts, list):
         raise ValueError("QuestieDB manifest needs an artifacts array")
     archives = []
     for artifact in artifacts:
-        if isinstance(artifact, dict) and artifact.get("file") == "QuestieDB-all.zip":
+        if isinstance(artifact, dict) and artifact.get("flavor") == "All":
             archives.append(artifact)
     if len(archives) != 1:
-        raise ValueError("Expected exactly one QuestieDB-all.zip artifact")
+        raise ValueError("Expected exactly one QuestieDB 'All' flavor artifact")
     archive = archives[0]
-    zipPath = release_folder_path + '/QuestieDB-all.zip'
-    urlretrieve(release_url + 'QuestieDB-all.zip', zipPath)
+    archiveName = os.path.basename(archive["file"])
+    zipPath = release_folder_path + '/' + archiveName
+    urlretrieve(release_url + archiveName, zipPath)
 
     # A release can change between downloads. Reject mixed generations before extraction.
     checksum = hashlib.sha256()
