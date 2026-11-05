@@ -131,7 +131,7 @@ def get_contributors(tag_from=None, tag_to="HEAD"):
             unique_contributors[email] = username
 
     # Extract unique usernames
-    contributors = list(unique_contributors.values())
+    contributors = list(set(unique_contributors.values()))
 
     return contributors
 
