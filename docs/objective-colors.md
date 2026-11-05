@@ -207,7 +207,7 @@ Forever, Era, TBC, Wrath and Cata, but 1 on MoP), so no file is shared:
 
 | Client | TOC | Data | Zones | Bans |
 | --- | --- | --- | --- | --- |
-| WoW Forever | `Questie_Camelot.toc` | `Forever.lua` | 44 | 54 |
+| WoW Forever | `Questie_Camelot.toc`, `Questie_Forever.toc` | `Forever.lua` | 44 | 54 |
 | Classic Era, Season of Discovery, Hardcore | `Questie_Vanilla.toc` | `Era.lua` | 40 | 58 |
 | TBC Anniversary | `Questie_TBC.toc` | `TBC.lua` | 52 | 71 |
 | Wrath (Titan) | `Questie_Wrath.toc` | `Wrath.lua` | 64 | 96 |

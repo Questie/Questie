@@ -10,7 +10,7 @@ local MapPreview = QuestieLoader:ImportModule("MapPreview")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 -- Forever only: area boxes in Blizzard's mainline-style Map & Quest Log (QuestScrollFrame).
--- Only Questie_Camelot.toc loads this file. Other clients need their own quest log track;
+-- Only Questie_Camelot.toc and Questie_Forever.toc load this file. Other clients need their own quest log track;
 -- every track reads and writes area visibility through QuestiePolygon alone.
 
 local BOX_SIZE = 14 -- Matches Blizzard's tracking checkbox.

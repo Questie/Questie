@@ -461,7 +461,7 @@ describe("ObjectiveColors", function()
                     expected[toc] = true
                 end
                 for _, toc in ipairs({"Questie.toc", "Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc",
-                    "Questie_Cata.toc", "Questie_Mists.toc", "Questie_Camelot.toc"}) do
+                    "Questie_Cata.toc", "Questie_Mists.toc", "Questie_Camelot.toc", "Questie_Forever.toc"}) do
                     local lists = io.open(toc):read("*a"):find("Modules\\Quest\\ObjectiveColorBans\\" .. file, 1, true)
                     assert.are.equal(expected[toc] == true, lists ~= nil, toc)
                 end

@@ -335,4 +335,4 @@ def test_addon_data_registers_valid_lua_with_the_palette(tmp_path):
             'table.concat(data.measuredColors.Scarlet, ","), table.concat(zones, ","), '
             'table.concat(data.byUiMapId[1426], ",")) end} end}')
     output = subprocess.run(["lua", "-e", stub, str(path)], capture_output=True, text=True, check=True).stdout
-    assert output.split() == ["Questie_Camelot.toc", "0.25,0.75", "255,38,0", "1426", "Lime,Scarlet"]
+    assert output.split() == ["Questie_Camelot.toc,Questie_Forever.toc", "0.25,0.75", "255,38,0", "1426", "Lime,Scarlet"]
