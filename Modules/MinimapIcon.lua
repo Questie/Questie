@@ -226,6 +226,13 @@ function MinimapIcon.ToggleCompartment(shouldShow)
     Questie.db.profile.minimap.showInCompartment = shouldShow
 end
 
+--- Points LibDBIcon at the active profile's minimap table and applies its settings
+function MinimapIcon.RefreshProfile()
+    local minimapDb = Questie.db.profile.minimap
+    _LibDBIcon:Refresh("Questie", minimapDb)
+    MinimapIcon.ToggleCompartment(minimapDb.showInCompartment == true)
+end
+
 function _MinimapIcon.RepositionIcon()
     local button = _LibDBIcon:GetMinimapButton("Questie")
     if button then
