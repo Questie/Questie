@@ -26,7 +26,7 @@ Questie checkout on the machine.
 
 | Flavor | Client | TOC |
 | --- | --- | --- |
-| `forever` | WoW Forever (`wow_classic_beta`) | `Questie_Camelot.toc` |
+| `forever` | WoW Forever (`wow_classic_beta`) | `Questie_Camelot.toc`, `Questie_Forever.toc` |
 | `mists` | MoP Classic (`wow_classic`) | `Questie_Mists.toc` |
 | `era` | Classic Era, Season of Discovery, Hardcore (`wow_classic_era`) | `Questie_Vanilla.toc` |
 | `tbc` | TBC Anniversary (`wow_anniversary`) | `Questie_TBC.toc` |

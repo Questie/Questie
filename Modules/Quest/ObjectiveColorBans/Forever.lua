@@ -10,7 +10,7 @@
 local ObjectiveColors = QuestieLoader:ImportModule("ObjectiveColors")
 
 ObjectiveColors.AddBans({
-    tocs = {"Questie_Camelot.toc"},
+    tocs = {"Questie_Camelot.toc", "Questie_Forever.toc"},
     measuredOpacity = {0.25, 0.75},
     measuredColors = {
         ["Blizzard Polygon-blue"] = {80, 113, 255},

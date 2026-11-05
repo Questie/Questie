@@ -26,7 +26,7 @@ describe("ObjectivePreview", function()
     -- Which art set each client's TOC loads: Cataclysm rebuilt the start areas.
     local ART_SETS = {
         ["Questie_Vanilla.toc"] = "Classic", ["Questie_TBC.toc"] = "Classic", ["Questie_Wrath.toc"] = "Classic",
-        ["Questie_Camelot.toc"] = "Classic", ["Questie_Cata.toc"] = "Cata", ["Questie_Mists.toc"] = "Cata",
+        ["Questie_Camelot.toc"] = "Classic", ["Questie_Forever.toc"] = "Classic", ["Questie_Cata.toc"] = "Cata", ["Questie_Mists.toc"] = "Cata",
     }
 
     local function _CreateTexture(frame)

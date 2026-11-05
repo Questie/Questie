@@ -82,7 +82,7 @@ _CAPITAL = "capital: its minimap is drawn indoors"
 _STARTING_AREA = "starting area: Questie files its quests under the zone around it, measured"
 FLAVORS = {
     "forever": Flavor(
-        key="forever", name="Forever", tocs=("Questie_Camelot.toc",), product="wow_classic_beta",
+        key="forever", name="Forever", tocs=("Questie_Camelot.toc", "Questie_Forever.toc"), product="wow_classic_beta",
         build="1.60.1.70450",
         skip_zones=((1453, _CAPITAL), (1454, _CAPITAL), (1455, _CAPITAL), (1456, _CAPITAL), (1457, _CAPITAL),
                     (1458, _CAPITAL), (2665, "a second Zephras Isle map without overlays; 2521 is measured")),
