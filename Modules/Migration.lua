@@ -296,6 +296,9 @@ local migrationFunctions = {
     [46] = function()
         Questie.db.profile.trackerShowPlayButtons = true
     end,
+    [47] = function()
+        Questie.db.profile.trackerFollowSuperTracking = false
+    end,
 }
 
 function Migration:Migrate()

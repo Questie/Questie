@@ -14,6 +14,7 @@ describe("TrackerSuperTrack", function()
 
         local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
         QuestieCompat.GetSuperTrackedQuestID = function() return superTrackedQuestId end
+        Questie.db.profile.trackerFollowSuperTracking = true
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.FocusQuest = spy.new(function() return true end)
         TrackerUtils.UnFocus = spy.new(function() end)
@@ -28,6 +29,18 @@ describe("TrackerSuperTrack", function()
     end)
 
     describe("OnSuperTrackingChanged", function()
+        it("should ignore Blizzard super tracking when following is disabled", function()
+            Questie.db.profile.trackerFollowSuperTracking = false
+            superTrackedQuestId = 123
+
+            TrackerSuperTrack.OnSuperTrackingChanged()
+
+            assert.spy(TrackerUtils.FocusQuest).was.not_called()
+            assert.spy(TrackerUtils.UnFocus).was.not_called()
+            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
         it("should focus a quest super tracked by Blizzard", function()
             superTrackedQuestId = 123
 

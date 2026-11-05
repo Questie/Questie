@@ -24,6 +24,7 @@ describe("QuestFocusButton", function()
     before_each(function()
         Questie.db.profile.trackerShowQuestFocusButtons = true
         Questie.db.profile.trackerFontSizeQuest = 12
+        Questie.db.profile.trackerFollowSuperTracking = true
         Questie.db.char.TrackerFocus = nil
 
         canFocusQuest = true
@@ -169,6 +170,18 @@ describe("QuestFocusButton", function()
 
             assert.are_same(QuestFocusButton.TEXTURES.incompleteFocused, button:GetNormalTexture():GetTexture())
         end)
+
+        it("should not show the focused icon for the super tracked quest when following is disabled", function()
+            Questie.db.profile.trackerFollowSuperTracking = false
+            canFocusQuest = false
+            superTrackingSupported = true
+            superTrackedQuestId = 123
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+
+            button:SetQuest(quest, false)
+
+            assert.are_same(QuestFocusButton.TEXTURES.incomplete, button:GetNormalTexture():GetTexture())
+        end)
     end)
 
     describe("OnEnter", function()
@@ -275,6 +288,59 @@ describe("QuestFocusButton", function()
             assert.spy(TrackerUtils.UnFocus).was.not_called()
             assert.spy(TrackerUtils.FocusQuest).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("should not clear super tracking of a super tracked quest when following is disabled", function()
+            Questie.db.profile.trackerFollowSuperTracking = false
+            superTrackingSupported = true
+            superTrackedQuestId = 123
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+
+            assert.spy(QuestieCompat.ClearSuperTrackedQuest).was.not_called()
+            assert.spy(TrackerUtils.FocusQuest).was.called_with(TrackerUtils, 123, enrichedQuest)
+        end)
+
+        it("should keep a quest selected by the button focused and clear it on the next click when following is disabled", function()
+            Questie.db.profile.trackerFollowSuperTracking = false
+            canFocusQuest = false
+            superTrackingSupported = true
+            TrackerUtils.FocusQuest = spy.new(function() return false end)
+            QuestieCompat.SetSuperTrackedQuestID = spy.new(function(questId) superTrackedQuestId = questId end)
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+
+            button.scripts.OnClick(button)
+            button:SetQuest(quest, false)
+
+            assert.are_same(QuestFocusButton.TEXTURES.incompleteFocused, button:GetNormalTexture():GetTexture())
+
+            button.scripts.OnClick(button)
+
+            assert.spy(QuestieCompat.ClearSuperTrackedQuest).was.called()
+        end)
+
+        it("should not treat an external super tracking change as a button selection when following is disabled", function()
+            Questie.db.profile.trackerFollowSuperTracking = false
+            canFocusQuest = false
+            superTrackingSupported = true
+            TrackerUtils.FocusQuest = spy.new(function() return false end)
+            QuestieCompat.SetSuperTrackedQuestID = spy.new(function(questId) superTrackedQuestId = questId end)
+            local button = QuestFocusButton.New(1, CreateFrame("Button"))
+            button:SetQuest(quest, false)
+            button.scripts.OnClick(button)
+
+            superTrackedQuestId = 456
+            button:SetQuest(quest, false)
+
+            assert.are_same(QuestFocusButton.TEXTURES.incomplete, button:GetNormalTexture():GetTexture())
+
+            superTrackedQuestId = 123
+            button:SetQuest(quest, false)
+
+            assert.are_same(QuestFocusButton.TEXTURES.incomplete, button:GetNormalTexture():GetTexture())
         end)
 
         it("should focus an unfocused quest", function()

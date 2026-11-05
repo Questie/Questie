@@ -14,7 +14,12 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 ---Follows super tracking changes made outside Questie, e.g. on the Blizzard map or quest log.
 ---Changes Questie made itself already match its focus, so only the tracker is redrawn.
+---Ignored unless the follow option is on.
 function TrackerSuperTrack.OnSuperTrackingChanged()
+    if (not Questie.db.profile.trackerFollowSuperTracking) then
+        return
+    end
+
     local questId = QuestieCompat.GetSuperTrackedQuestID()
     local focus = Questie.db.char.TrackerFocus
 

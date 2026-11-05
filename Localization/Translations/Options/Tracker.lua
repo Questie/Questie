@@ -525,6 +525,30 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用时，每个任务前的按钮会播放来自 VoiceOver 或 Spoken 的任务配音。", -- AI 🤖
         ["zhTW"] = "啟用時，每個任務前的按鈕會播放來自 VoiceOver 或 Spoken 的任務配音。", -- AI 🤖
     },
+    ["Follow Blizzard Super Tracking"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Blizzard-Superverfolgung folgen", -- AI 🤖
+        ["esES"] = "Seguir el superseguimiento de Blizzard", -- AI 🤖
+        ["esMX"] = "Seguir el superseguimiento de Blizzard", -- AI 🤖
+        ["frFR"] = "Suivre le super-suivi de Blizzard", -- AI 🤖
+        ["koKR"] = "블리자드 슈퍼 추적 따르기", -- AI 🤖
+        ["ptBR"] = "Seguir o super rastreamento da Blizzard", -- AI 🤖
+        ["ruRU"] = "Следовать суперотслеживанию Blizzard", -- AI 🤖
+        ["zhCN"] = "跟随暴雪超级追踪", -- AI 🤖
+        ["zhTW"] = "跟隨暴雪超級追蹤", -- AI 🤖
+    },
+    ["If checked, the Quest Focus follows the quest that is super tracked by Blizzard, e.g. when accepting a quest or clicking it on the map."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, folgt der Quest-Fokus der von Blizzard superverfolgten Quest, z. B. beim Annehmen einer Quest oder beim Anklicken auf der Karte.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, el foco de misión sigue a la misión con superseguimiento de Blizzard, p. ej. al aceptar una misión o hacer clic en ella en el mapa.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, el foco de misión sigue a la misión con superseguimiento de Blizzard, p. ej. al aceptar una misión o hacer clic en ella en el mapa.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, le focus de quête suit la quête en super-suivi de Blizzard, par ex. lors de l'acceptation d'une quête ou d'un clic sur la carte.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 퀘스트를 수락하거나 지도에서 클릭할 때 블리자드가 슈퍼 추적하는 퀘스트를 퀘스트 포커스가 따라갑니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, o foco de missão segue a missão com super rastreamento da Blizzard, por ex. ao aceitar uma missão ou clicar nela no mapa.", -- AI 🤖
+        ["ruRU"] = "Когда включено, фокус задания следует за заданием, которое суперотслеживает Blizzard, например при принятии задания или щелчке по нему на карте.", -- AI 🤖
+        ["zhCN"] = "启用时，任务聚焦会跟随暴雪超级追踪的任务，例如接受任务或在地图上点击任务时。", -- AI 🤖
+        ["zhTW"] = "啟用時，任務聚焦會跟隨暴雪超級追蹤的任務，例如接受任務或在地圖上點擊任務時。", -- AI 🤖
+    },
     ["Fade Quest Focus Buttons"] = {
         ["enUS"] = true,
         ["deDE"] = "Quest-Fokus-Buttons ausblenden",
