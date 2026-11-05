@@ -4,17 +4,19 @@ describe("AchievementEventHandler", function()
     ---@type AchievementEventHandler
     local AchievementEventHandler
     local QuestieTracker, QuestieCombatQueue, AchievementTracking
-    local originalUpdate, originalQueue, originalGetTrackedIds, originalIsTracked, trackedIds, tracked
+    local originalUpdate, originalQueue, originalUpdateAchievementLines, originalGetTrackedIds, originalIsTracked, trackedIds, tracked
 
     before_each(function()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
         originalUpdate, originalQueue = QuestieTracker.Update, QuestieCombatQueue.Queue
+        originalUpdateAchievementLines = QuestieTracker.UpdateAchievementLines
         originalGetTrackedIds, originalIsTracked = AchievementTracking.GetTrackedIds, AchievementTracking.IsTracked
         trackedIds = {}
         tracked = true
         QuestieTracker.Update = spy.new(function() end)
+        QuestieTracker.UpdateAchievementLines = spy.new(function() end)
         QuestieCombatQueue.Queue = function(_, callback) callback() end
         AchievementTracking.GetTrackedIds = function() return trackedIds end
         AchievementTracking.IsTracked = function() return tracked end
@@ -27,6 +29,7 @@ describe("AchievementEventHandler", function()
 
     after_each(function()
         QuestieTracker.Update, QuestieCombatQueue.Queue = originalUpdate, originalQueue
+        QuestieTracker.UpdateAchievementLines = originalUpdateAchievementLines
         AchievementTracking.GetTrackedIds, AchievementTracking.IsTracked = originalGetTrackedIds, originalIsTracked
     end)
 
@@ -89,6 +92,23 @@ describe("AchievementEventHandler", function()
             AchievementEventHandler.CriteriaUpdate()
 
             assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+    end)
+
+    describe("CriteriaProgressUpdate", function()
+        it("should only update the achievement lines while achievements are tracked", function()
+            trackedIds = {12}
+
+            AchievementEventHandler.CriteriaProgressUpdate()
+
+            assert.spy(QuestieTracker.UpdateAchievementLines).was.called(1)
+            assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
+        it("should not update the achievement lines without tracked achievements", function()
+            AchievementEventHandler.CriteriaProgressUpdate()
+
+            assert.spy(QuestieTracker.UpdateAchievementLines).was.not_called()
         end)
     end)
 end)

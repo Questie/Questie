@@ -83,6 +83,7 @@ describe("AchievementSection", function()
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetNextLine = spy.new(_GetLine)
         TrackerLinePool.GetLastLine = _FakeLine
+        TrackerLinePool.AddAchievementLine = spy.new(function() end)
 
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/QuestieLib.lua")
@@ -280,5 +281,67 @@ describe("AchievementSection", function()
         AchievementSection.Draw()
 
         assert.are_same({}, texts)
+    end)
+
+    it("should register criteria lines with their achievement and criteria index", function()
+        local linked = _Criteria("Darnassus")
+        linked.Index, linked.LinkedAchievementId = 3, 2
+        achievements = {_Achievement(1, {linked})}
+
+        AchievementSection.Draw()
+
+        assert.spy(TrackerLinePool.AddAchievementLine).was.called_with(1, 3, _ObjectiveLines()[1].line)
+    end)
+
+    it("should not register the description of an achievement without criteria", function()
+        achievements = {_Achievement(1, {{Text = "Reach level 10", Completed = false, Collected = 0, Needed = 1, IsDescription = true}})}
+
+        AchievementSection.Draw()
+
+        assert.spy(TrackerLinePool.AddAchievementLine).was.not_called()
+    end)
+
+    describe("UpdateLines", function()
+        local line, markShown
+
+        before_each(function()
+            line = _FakeLine()
+            markShown = false
+            line.criteriaMark.IsShown = function() return markShown end
+            TrackerLinePool.ForEachAchievementLine = function(callback) callback(1, 2, line) end
+            TrackerAchievements.GetCriteria = spy.new(function()
+                return {Index = 2, Text = "Fish caught", Completed = false, Collected = 4, Needed = 10, Progress = "4/10"}
+            end)
+        end)
+
+        it("should set the current progress of the criteria", function()
+            AchievementSection.UpdateLines()
+
+            assert.spy(TrackerAchievements.GetCriteria).was.called_with(1, 2)
+            assert.is_truthy(texts[1]:find("Fish caught: 4/10", 1, true))
+        end)
+
+        it("should update a shown criteria mark", function()
+            markShown = true
+            TrackerAchievements.GetCriteria = function() return {Index = 2, Text = "Westfall", Completed = true, Collected = 1, Needed = 1} end
+
+            AchievementSection.UpdateLines()
+
+            assert.spy(line.criteriaMark.SetCriteria).was.called_with(match._, true)
+        end)
+
+        it("should not touch a hidden criteria mark", function()
+            AchievementSection.UpdateLines()
+
+            assert.spy(line.criteriaMark.SetCriteria).was.not_called()
+        end)
+
+        it("should keep the text of a criteria the game does not know anymore", function()
+            TrackerAchievements.GetCriteria = function() return nil end
+
+            AchievementSection.UpdateLines()
+
+            assert.are_same({}, texts)
+        end)
     end)
 end)

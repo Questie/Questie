@@ -1490,3 +1490,11 @@ function QuestieTracker.UpdateHeaderQuestCount()
 
     TrackerHeaderFrame.UpdateQuestCount()
 end
+
+function QuestieTracker.UpdateAchievementLines()
+    if (not QuestieTracker.started) then
+        return
+    end
+
+    AchievementSection.UpdateLines()
+end

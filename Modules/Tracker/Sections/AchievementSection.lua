@@ -7,12 +7,41 @@ local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 local LineBuilder = QuestieLoader:ImportModule("LineBuilder")
 ---@type TrackerAchievements
 local TrackerAchievements = QuestieLoader:ImportModule("TrackerAchievements")
+---@type TrackerLinePool
+local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local ZONE_NAME = "Achievements"
+
+---@param criteria TrackerAchievementCriteria
+---@return string
+function AchievementSection.GetCriteriaText(criteria)
+    local text = QuestieLib:GetRGBForObjective(criteria) .. criteria.Text
+    if criteria.Progress then
+        text = text .. ": " .. criteria.Progress
+    end
+    return text
+end
+
+-- Only changes texts, so it is safe to call in combat. Lines of criteria that were hidden or shown since the
+-- last layout are fixed by the next full update.
+function AchievementSection.UpdateLines()
+    TrackerLinePool.ForEachAchievementLine(function(achievementId, criteriaIndex, line)
+        local criteria = TrackerAchievements.GetCriteria(achievementId, criteriaIndex)
+        if (not criteria) then
+            return
+        end
+
+        line.label:SetText(AchievementSection.GetCriteriaText(criteria))
+
+        if line.criteriaMark:IsShown() then
+            line.criteriaMark:SetCriteria(criteria.Completed)
+        end
+    end)
+end
 
 function AchievementSection.Draw()
     local objectiveColor = Questie.db.profile.trackerColorObjectives
@@ -81,15 +110,12 @@ function AchievementSection.Draw()
                             target = {Id = criteria.LinkedAchievementId}
                         end
 
-                        local text = QuestieLib:GetRGBForObjective(criteria) .. criteria.Text
-                        if criteria.Progress then
-                            text = text .. ": " .. criteria.Progress
-                        end
-
-                        line = LineBuilder.AddObjective({text = text, clickMode = "achieve", target = target})
+                        line = LineBuilder.AddObjective({text = AchievementSection.GetCriteriaText(criteria), clickMode = "achieve", target = target})
                         if (not line) then
                             break
                         end
+
+                        TrackerLinePool.AddAchievementLine(achieve.Id, criteria.Index, line)
 
                         -- Criteria without progress show a mark instead
                         if (not criteria.Progress) and (not Questie.db.profile.hideCompletedAchieveObjectives) and (not objectiveColor or objectiveColor == "white") then

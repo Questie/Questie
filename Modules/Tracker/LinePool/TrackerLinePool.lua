@@ -40,6 +40,14 @@ local linesByQuest = {}
 ---@type table<number, table<TrackerLineFrame>>
 local linesByScenarioIndex = {}
 
+---@class AchievementLineEntry
+---@field achievementId number
+---@field criteriaIndex number
+---@field line TrackerLineFrame
+
+---@type AchievementLineEntry[]
+local achievementLines = {}
+
 ---@param questFrame Frame
 function TrackerLinePool.Initialize(questFrame)
     local trackerQuestFrame = questFrame
@@ -80,6 +88,7 @@ function TrackerLinePool.ResetLinesForChange()
     end
 
     linesByQuest = {} -- Reset to keep correct questId <-> line mapping
+    achievementLines = {}
 
     for _, line in pairs(linePool) do
         line.mode = nil
@@ -407,6 +416,20 @@ function TrackerLinePool.UpdateQuestLines(questId, quest)
                 line.label:SetText("")
             end
         end
+    end
+end
+
+---@param achievementId number
+---@param criteriaIndex number
+---@param line TrackerLineFrame
+function TrackerLinePool.AddAchievementLine(achievementId, criteriaIndex, line)
+    achievementLines[#achievementLines + 1] = {achievementId = achievementId, criteriaIndex = criteriaIndex, line = line}
+end
+
+---@param callback fun(achievementId: number, criteriaIndex: number, line: TrackerLineFrame)
+function TrackerLinePool.ForEachAchievementLine(callback)
+    for _, entry in ipairs(achievementLines) do
+        callback(entry.achievementId, entry.criteriaIndex, entry.line)
     end
 end
 

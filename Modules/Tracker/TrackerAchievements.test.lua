@@ -77,8 +77,8 @@ describe("TrackerAchievements", function()
 
             local criteria = TrackerAchievements.GetAchievements({1})[1].Criteria
 
-            assert.are_same({Text = "Elwynn Forest", Completed = true, Collected = 1, Needed = 1, IsDescription = false}, criteria[1])
-            assert.are_same({Text = "Westfall", Completed = false, Collected = 0, Needed = 1, IsDescription = false}, criteria[2])
+            assert.are_same({Index = 1, Text = "Elwynn Forest", Completed = true, Collected = 1, Needed = 1, IsDescription = false}, criteria[1])
+            assert.are_same({Index = 2, Text = "Westfall", Completed = false, Collected = 0, Needed = 1, IsDescription = false}, criteria[2])
         end)
 
         it("should remove the trailing dot of the criteria text", function()
@@ -104,6 +104,16 @@ describe("TrackerAchievements", function()
 
             assert.are_same(1, #criteria)
             assert.are_same("Westfall", criteria[1].Text)
+        end)
+
+        it("should keep the game index when completed criteria are hidden", function()
+            Questie.db.profile.hideCompletedAchieveObjectives = true
+            achievements[1] = {name = "Explorer", description = "Explore.", criteria = {
+                _Criteria("Elwynn Forest", true, 1, 1),
+                _Criteria("Westfall", false, 0, 1),
+            }}
+
+            assert.are_same(2, TrackerAchievements.GetAchievements({1})[1].Criteria[1].Index)
         end)
 
         it("should return no criteria when all are completed and hidden", function()
@@ -173,6 +183,34 @@ describe("TrackerAchievements", function()
             achievements[1] = {name = "Level 10", description = "Reach level 10.", criteria = {}}
 
             assert.are_same(1, #TrackerAchievements.GetAchievements({1})[1].Criteria)
+        end)
+    end)
+
+    describe("GetCriteria", function()
+        it("should return the current state of a single criteria with its game index", function()
+            achievements[1] = {name = "Fisher", description = "Fish.", criteria = {
+                _Criteria("Fish caught", true, 1, 1),
+                _Criteria("Fish cooked", false, 4, 10),
+            }}
+
+            local criteria = TrackerAchievements.GetCriteria(1, 2)
+
+            assert.are_same(2, criteria.Index)
+            assert.are_same("Fish cooked", criteria.Text)
+            assert.are_same("4/10", criteria.Progress)
+        end)
+
+        it("should return nothing for an unknown criteria", function()
+            achievements[1] = {name = "Fisher", description = "Fish.", criteria = {}}
+            _G.GetAchievementCriteriaInfo = function() return nil end
+
+            assert.is_nil(TrackerAchievements.GetCriteria(1, 1))
+        end)
+
+        it("should fall back to the achievement description for criteria without text", function()
+            achievements[1] = {name = "Explorer", description = "Explore the world.", criteria = {_Criteria("", false, 0, 1)}}
+
+            assert.are_same("Explore the world", TrackerAchievements.GetCriteria(1, 1).Text)
         end)
     end)
 end)

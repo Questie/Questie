@@ -84,6 +84,21 @@ describe("TrackerLinePool", function()
         end)
     end)
 
+    describe("ForEachAchievementLine", function()
+        it("should pass each registered line with its achievement and criteria index", function()
+            local first, second = {}, {}
+            TrackerLinePool.AddAchievementLine(1, 2, first)
+            TrackerLinePool.AddAchievementLine(1, 4, second)
+            local visited = {}
+
+            TrackerLinePool.ForEachAchievementLine(function(achievementId, criteriaIndex, line)
+                visited[#visited + 1] = {achievementId, criteriaIndex, line}
+            end)
+
+            assert.are_same({{1, 2, first}, {1, 4, second}}, visited)
+        end)
+    end)
+
     describe("RefreshHighlight", function()
         local lines, originalTrackerLineNew, originalItemButtonNew, originalQuestLog
 

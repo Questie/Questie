@@ -284,6 +284,7 @@ function EventHandler:RegisterLateEvents()
         -- This fires pretty often, multiple times for a single Achievement change and also for things most likely not related to Achievements at all.
         -- We use a bucket to hinder this from spamming
         Questie:RegisterBucketEvent("CRITERIA_UPDATE", 2, AchievementEventHandler.CriteriaUpdate)
+        Questie:RegisterBucketEvent("CRITERIA_UPDATE", 0.5, AchievementEventHandler.CriteriaProgressUpdate)
 
         Questie:RegisterEvent("CHAT_MSG_MONEY", AchievementEventHandler.ChatMsgMoney)
         Questie:RegisterEvent("CHAT_MSG_TEXT_EMOTE", AchievementEventHandler.ChatMsgTextEmote)

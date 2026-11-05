@@ -6,6 +6,7 @@ local TrackerAchievements = QuestieLoader:CreateModule("TrackerAchievements")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 ---@class TrackerAchievementCriteria
+---@field Index number|nil The criteria index of the game. Not set for the description of achievements without criteria
 ---@field Text string
 ---@field Completed boolean
 ---@field Collected number Used for the text color
@@ -47,6 +48,7 @@ local function _GetCriteria(achievementId, criteriaIndex, description)
     end
 
     local criteria = {
+        Index = criteriaIndex,
         Text = _StripTrailingDot(criteriaString),
         Completed = completed,
         Collected = completed and 1 or 0,
@@ -114,4 +116,16 @@ function TrackerAchievements.GetAchievements(achievementIds)
     end
 
     return achievements
+end
+
+---@param achievementId number
+---@param criteriaIndex number
+---@return TrackerAchievementCriteria|nil
+function TrackerAchievements.GetCriteria(achievementId, criteriaIndex)
+    if (not GetAchievementCriteriaInfo(achievementId, criteriaIndex)) then
+        return nil
+    end
+
+    local description = select(8, GetAchievementInfo(achievementId))
+    return _GetCriteria(achievementId, criteriaIndex, description)
 end

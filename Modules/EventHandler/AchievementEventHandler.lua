@@ -51,6 +51,13 @@ function AchievementEventHandler.CriteriaUpdate()
     end
 end
 
+-- Text-only update, so the progress is also shown in combat, where the full update has to wait
+function AchievementEventHandler.CriteriaProgressUpdate()
+    if next(AchievementTracking.GetTrackedIds()) then
+        QuestieTracker.UpdateAchievementLines()
+    end
+end
+
 -- Money based Achievement updates
 function AchievementEventHandler.ChatMsgMoney()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_MONEY")
