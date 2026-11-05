@@ -160,7 +160,7 @@ function _MinimapIcon.OnClick(_, button)
             end
 
             -- Refresh config window if it's open to avoid desyncing the Checkbox
-            QuestieOptionsEngine:RefreshIfShown()
+            QuestieOptionsEngine:RefreshStates()
             return
         end
 

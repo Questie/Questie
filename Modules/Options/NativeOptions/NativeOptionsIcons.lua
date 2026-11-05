@@ -267,7 +267,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         order = 2.20,
                         title = "Season of Discovery Runes",
                         width = "full",
-                        visible = false,
+                        visible = Questie.IsSoD,
                     },
                     showSoDRunes = {
                         type = "checkbox",
@@ -287,7 +287,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         type = "container",
                         order = 2.22,
                         title = "",
-                        visible = false,
+                        visible = Questie.IsSoD,
                         enabled = function() return _IsEnabled() and Questie.db.profile.showSoDRunes end,
                         items = {
                             phase1 = {

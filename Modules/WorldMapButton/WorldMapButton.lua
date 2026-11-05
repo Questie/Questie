@@ -70,7 +70,7 @@ QuestieWorldMapButtonMixin = {
                 UpdateTooltip(mapButton)
             end
             -- Refresh options UI if open to reflect new state
-            QuestieOptionsEngine:RefreshIfShown()
+            QuestieOptionsEngine:RefreshStates()
         elseif button == "RightButton" then
             if QuestieMenu.IsOpen() then
                 QuestieMenu:Hide()

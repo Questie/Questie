@@ -64,9 +64,7 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
 
             return
         elseif button == "RightButton" then
-            if QuestieConfigFrame:IsShown() then
-                QuestieConfigFrame:Hide()
-            end
+            QuestieOptions:HideFrame()
 
             if QuestieOptionsEngine:IsShown() then
                 QuestieOptionsEngine:ToggleConfigWindow()

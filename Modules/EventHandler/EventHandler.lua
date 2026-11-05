@@ -653,7 +653,7 @@ function _EventHandler:PlayerRegenDisabled()
     -- Changing their enabled/disabled visible state requires calling RefreshStates(),
     -- so we refresh them at the start and end of combat if the settings panel is visible.
     -- There is a delay here because InCombatLockdown() doesn't return accurately immediately following PLAYER_REGEN_DISABLED.
-    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshIfShown() end)
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshStates() end)
 end
 
 function _EventHandler:PlayerRegenEnabled()
@@ -671,7 +671,7 @@ function _EventHandler:PlayerRegenEnabled()
         journeyHiddenByCombat = false
     end
 
-    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshIfShown() end)
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshStates() end)
 end
 
 function _EventHandler.UpdateTracker()

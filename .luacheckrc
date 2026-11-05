@@ -2848,6 +2848,7 @@ globals = {
     "WorldMapZoneDropDown",
     "WorldMapZoneMinimapDropDown_Update",
     "DevTools_Dump",
+    "Menu",
     "NineSliceUtil",
     "ScrollUtil",
     "Settings",
