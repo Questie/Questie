@@ -490,9 +490,13 @@ function QuestieMenu:Show(hideDelay)
 
     tinsert(menuTable, div)
 
-    local traceMenu = QuestieTraceMenu.Build(function(trace)
-        QuestieMenu:Hide()
-        trace.ShowExportWindow()
+    local traceMenu = QuestieTraceMenu.Build(function(trace, button)
+        if button == "RightButton" then
+            QuestieTraceMenu.Toggle(trace)
+        else
+            QuestieMenu:Hide()
+            trace.ShowExportWindow()
+        end
     end)
     if traceMenu then
         tinsert(menuTable, traceMenu)
