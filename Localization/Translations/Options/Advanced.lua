@@ -442,7 +442,7 @@ local advancedOptionsLocales = {
         ["frFR"] = "ID d'objet",
         ["koKR"] = "아이템 ID",
         ["ptBR"] = "ID de item",
-        ["ruRU"] = "ID предметов",
+        ["ruRU"] = "ID предмета",
         ["zhCN"] = "物品 ID",
         ["zhTW"] = "物品 ID",
     },
