@@ -24,6 +24,7 @@ describe("MinimapIcon", function()
         Show = spy.new(function() end),
         AddButtonToCompartment = spy.new(function() end),
         RemoveButtonFromCompartment = spy.new(function() end),
+        Refresh = spy.new(function() end),
     }
 
     local match = require("luassert.match")
@@ -38,6 +39,7 @@ describe("MinimapIcon", function()
         LibDBIconMock.Show:clear()
         LibDBIconMock.AddButtonToCompartment:clear()
         LibDBIconMock.RemoveButtonFromCompartment:clear()
+        LibDBIconMock.Refresh:clear()
 
         _G.IsControlKeyDown = function() return false end
         _G.IsShiftKeyDown = function() return false end
@@ -390,5 +392,28 @@ describe("MinimapIcon", function()
         MinimapIcon.ToggleCompartment(false)
 
         assert.is_false(Questie.db.profile.minimap.showInCompartment)
+    end)
+
+    it("should refresh LibDBIcon with the active profile and keep the compartment setting off", function()
+        local profileMinimap = {hide = false, showInCompartment = false}
+        Questie.db.profile.minimap = profileMinimap
+        LibDBIconMock.RemoveButtonFromCompartment = spy.new(function()
+            profileMinimap.showInCompartment = nil
+        end)
+
+        MinimapIcon.RefreshProfile()
+
+        assert.spy(LibDBIconMock.Refresh).was.called_with(_, "Questie", profileMinimap)
+        assert.spy(LibDBIconMock.RemoveButtonFromCompartment).was.called_with(_, "Questie")
+        assert.is_false(profileMinimap.showInCompartment)
+    end)
+
+    it("should add the button to the compartment when the active profile enables it", function()
+        Questie.db.profile.minimap.showInCompartment = true
+
+        MinimapIcon.RefreshProfile()
+
+        assert.spy(LibDBIconMock.AddButtonToCompartment).was.called_with(_, "Questie")
+        assert.is_true(Questie.db.profile.minimap.showInCompartment)
     end)
 end)

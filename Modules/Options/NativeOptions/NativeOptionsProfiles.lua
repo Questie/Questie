@@ -12,6 +12,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type l10n
@@ -39,6 +41,7 @@ local function _OnProfileChanged()
     if QuestieNameplate and QuestieNameplate.RedrawIcons then
         QuestieNameplate:RedrawIcons()
     end
+    MinimapIcon.RefreshProfile()
     QuestieOptionsEngine:RefreshStates()
 end
 
