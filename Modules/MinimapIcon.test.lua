@@ -65,7 +65,7 @@ describe("MinimapIcon", function()
 
         QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
         QuestieOptionsEngine.IsShown = spy.new(function() end)
-        QuestieOptionsEngine.RefreshIfShown = spy.new(function() end)
+        QuestieOptionsEngine.RefreshStates = spy.new(function() end)
         QuestieOptionsEngine.ToggleConfigWindow = spy.new(function() end)
 
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
@@ -334,7 +334,7 @@ describe("MinimapIcon", function()
 
         assert.is_false(Questie.db.profile.enabled)
         assert.spy(QuestieQuest.ToggleNotes).was.called_with(_, false)
-        assert.spy(QuestieOptionsEngine.RefreshIfShown).was.called()
+        assert.spy(QuestieOptionsEngine.RefreshStates).was.called()
     end)
 
     it("should open drop down menu on right click", function()

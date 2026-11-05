@@ -1,6 +1,15 @@
 ---@class QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:CreateModule("QuestieOptionsUtils");
 
+---Keeps settings art from shimmering between texels while a window is dragged at a modified UI scale.
+---@param texture Texture?
+function QuestieOptionsUtils.DisableSnapping(texture)
+    if texture and texture.SetSnapToPixelGrid then
+        texture:SetSnapToPixelGrid(false)
+        texture:SetTexelSnappingBias(0)
+    end
+end
+
 --- Creates a vertical spacer with the given height
 ---@param order number
 ---@param hidden boolean?
