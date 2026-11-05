@@ -9,6 +9,7 @@ local LoaderUsage = dofile("cli/loaderUsage.lua")
 
 local TOC_PATHS = {
     "Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc", "Questie_Cata.toc", "Questie_Mists.toc", "Questie_Camelot.toc",
+    "Questie_Forever.toc",
 }
 
 -- Core reaches a drawing feature only here, and only through the feature's adapter unless its line says
