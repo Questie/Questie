@@ -267,12 +267,13 @@ describe("QuestieQuest", function()
     end)
 
     describe("SmoothReset", function()
-        local originalCTimer, originalThreadCallback
+        local originalCTimer, originalThreadCallback, originalThreadInstant
 
         before_each(function()
             originalCTimer = _G.C_Timer
             local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
             originalThreadCallback = ThreadLib.ThreadCallbackInstant
+            originalThreadInstant = ThreadLib.ThreadInstant
             ThreadLib.ThreadCallbackInstant = function(_, callback) callback() end
             QuestLogCache.TestGameCache = function() return true end
             QuestieMap._mapDrawQueue = {}
@@ -289,6 +290,7 @@ describe("QuestieQuest", function()
         after_each(function()
             _G.C_Timer = originalCTimer
             QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = originalThreadCallback
+            QuestieLoader:ImportModule("ThreadLib").ThreadInstant = originalThreadInstant
             QuestieQuest._isResetting = nil
         end)
 
@@ -333,6 +335,59 @@ describe("QuestieQuest", function()
             local sourceItemCall = QuestieQuest.CheckQuestSourceItem.calls[1]
             assert.are.same({5, true}, {sourceItemCall.vals[2], sourceItemCall.vals[3]})
             assert.are.equal(5, QuestieQuest.UpdateQuest.calls[1].vals[2])
+        end)
+
+        it("should keep the acceptance of a quest still logged after the rebuild", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local quest = {Id = 5, SpecialObjectives = {}}
+            local acceptance = ActiveQuests.Add(5, quest)
+            QuestieDB.GetQuest = function() return quest end
+            QuestieQuest.GetAllQuestIdsNoObjectives = function()
+                ActiveQuests.Reset()
+                ActiveQuests.Restore(5, quest)
+            end
+            QuestieQuest.CheckQuestSourceItem = function() end
+            QuestieQuest.UpdateQuest = function() end
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 10 do
+                tick()
+            end
+
+            assert.is_true(ActiveQuests.IsCurrent(acceptance))
+        end)
+
+        it("should not populate special objectives of a quest that left the quest log before the thread ran", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local quest = {Id = 5, SpecialObjectives = {{}}}
+            QuestieDB.GetQuest = function() return quest end
+            QuestieQuest.GetAllQuestIdsNoObjectives = function()
+                ActiveQuests.Reset()
+                ActiveQuests.Restore(5, quest)
+            end
+            QuestieQuest.CheckQuestSourceItem = function() end
+            QuestieQuest.UpdateQuest = function() end
+            QuestieQuest.PopulateObjective = spy.new(function() end)
+            local pending = {}
+            QuestieLoader:ImportModule("ThreadLib").ThreadInstant = function(work) table.insert(pending, work) end
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 10 do
+                tick()
+            end
+            ActiveQuests.Remove(5)
+            for _, work in ipairs(pending) do work() end
+
+            assert.are.equal(1, #pending)
+            assert.spy(QuestieQuest.PopulateObjective).was.not_called()
         end)
     end)
 
@@ -446,6 +501,18 @@ describe("QuestieQuest", function()
     end)
 
     describe("GetAllQuestIds", function()
+        local originalQuestPointers, originalQuestLog
+
+        before_each(function()
+            originalQuestPointers = QuestieDB.QuestPointers
+            originalQuestLog = QuestLogCache.questLog_DO_NOT_MODIFY
+        end)
+
+        after_each(function()
+            QuestieDB.QuestPointers = originalQuestPointers
+            QuestLogCache.questLog_DO_NOT_MODIFY = originalQuestLog
+        end)
+
         it("should not throw an error when called from a coroutine", function()
             QuestLogCache.questLog_DO_NOT_MODIFY = {}
 
@@ -460,6 +527,40 @@ describe("QuestieQuest", function()
             assert.has_error(function()
                 QuestieQuest:GetAllQuestIds()
             end, "GetAllQuestIds must be called from a coroutine")
+        end)
+
+        it("should not log a quest that left the quest log while the rebuild was yielding", function()
+            QuestieDB.QuestPointers = {}
+            local questLog = {}
+            for questId = 1, 20 do
+                questLog[questId] = {title = "Quest " .. questId}
+                QuestieDB.QuestPointers[questId] = true
+            end
+            QuestLogCache.questLog_DO_NOT_MODIFY = questLog
+            QuestieDB.GetQuest = function() return nil end
+            QuestieCombatQueue.Queue = function() end
+
+            local co = coroutine.create(function()
+                QuestieQuest:GetAllQuestIds()
+            end)
+            assert.is_true(coroutine.resume(co))
+            local logged = {}
+            for questId in pairs(QuestiePlayer.currentQuestlog) do
+                logged[questId] = true
+            end
+            local removedQuestId
+            for questId in pairs(questLog) do
+                if (not logged[questId]) then
+                    removedQuestId = questId
+                    break
+                end
+            end
+            questLog[removedQuestId] = nil
+            while coroutine.status(co) ~= "dead" do
+                assert.is_true(coroutine.resume(co))
+            end
+
+            assert.is_nil(QuestiePlayer.currentQuestlog[removedQuestId])
         end)
     end)
 

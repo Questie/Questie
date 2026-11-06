@@ -65,6 +65,14 @@ describe("ActiveQuests", function()
     end)
 
     describe("Reset and Restore", function()
+        -- Rebuilds yield, so another rebuild can start before the first one restored every quest
+        it("should keep acceptances saved by an earlier Reset across an overlapping Reset", function()
+            local acceptance = ActiveQuests.Add(1, {})
+            ActiveQuests.Reset()
+            ActiveQuests.Reset()
+
+            assert.are.equal(acceptance, ActiveQuests.Restore(1, {}))
+        end)
         it("should not let Restore bring back an acceptance removed after a Reset", function()
             local acceptance = ActiveQuests.Add(1, {})
             ActiveQuests.Reset()
