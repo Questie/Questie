@@ -665,7 +665,7 @@ describe("QuestieQuest", function()
             originalGetLeaderBoardDetails = QuestieQuest.GetAllLeaderBoardDetails
             dofile("Modules/Libs/QuestieLib.lua")
             QuestLogCache.GetQuest = function() return {isComplete = 0} end
-            QuestLogCache.TryGetQuest = function() return {} end
+            ActiveQuests.Add(42, {})
             originalRemoveQuest = AvailableQuests.RemoveQuest
             QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
             originalAddFinisher = QuestFinisher.AddFinisher
@@ -790,11 +790,11 @@ describe("QuestieQuest", function()
             assert.are.equal(2, objective.Collected)
         end)
 
-        it("should not read leaderboard details when the quest left QuestLogCache", function()
+        it("should not read leaderboard details when the quest left the quest log", function()
             local quest = {Id = 42, ObjectiveData = {{Id = 100}}, Objectives = {}, SpecialObjectives = {}}
             QuestieQuest:PopulateQuestLogInfo(quest)
             local objective = quest.Objectives[1]
-            QuestLogCache.TryGetQuest = function() end
+            ActiveQuests.Remove(42)
             QuestieQuest.GetAllLeaderBoardDetails = spy.new(function() end)
             objective.isUpdated = false
 
