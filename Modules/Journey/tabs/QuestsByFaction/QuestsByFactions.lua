@@ -496,6 +496,8 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                             if ActiveQuests.Get(exclusiveToQuestId) or Questie.db.char.complete[exclusiveToQuestId] then
                                 tinsert(factionTree[4].children, temp)
                                 completedCounter = completedCounter + 1
+                                blockedByExclusiveTo = true
+                                break
                             end
                         end
                         if (not blockedByExclusiveTo) then
