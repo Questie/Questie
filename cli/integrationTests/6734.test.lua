@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 -- Issue references:
@@ -15,8 +18,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     local QuestieNameplate
     ---@type QuestieQuest
     local QuestieQuest
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieLib
@@ -96,12 +97,11 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
         QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
-            QuestiePlayer.currentQuestlog[questId] = {}
+            ActiveQuests.Add(questId, {})
         end)
         QuestLifecycle.CompleteQuest = spy.new(function() end)
 
         dofile("Modules/QuestiePlayer.lua")
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
