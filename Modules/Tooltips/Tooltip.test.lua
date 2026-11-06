@@ -1142,6 +1142,26 @@ describe("Tooltip", function()
             assert.are_same({"Quest Name", "   gold3/5 Collect Windstone Clusters."}, tooltip)
         end)
 
+        it("should keep the registration of a quest a quest log rebuild has not logged again yet", function()
+            local registration = {questId = 1, objective = {Index = 1, Description = "Wolf", Update = function() end}}
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = registration}}
+            cached[1] = {objectives = {}}
+
+            QuestieTooltips.GetTooltip("key")
+
+            assert.are.equal(registration, QuestieTooltips.lookupByKey["key"]["1 1"])
+        end)
+
+        it("should remove the registration of a quest that left the quest log", function()
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
+                questId = 1, objective = {Index = 1, Description = "Wolf", Update = function() end},
+            }}}
+
+            QuestieTooltips.GetTooltip("key")
+
+            assert.is_nil(QuestieTooltips.lookupByKey["key"]["1 1"])
+        end)
+
         describe("order", function()
             before_each(function()
                 local levels = {[1] = 30, [2] = 5, [3] = 18}

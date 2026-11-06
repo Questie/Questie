@@ -416,8 +416,10 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                     }
                 end
                 if not ActiveQuests.Get(questId) then
-                    -- TODO: Is this still required?
-                    QuestieTooltips.lookupByKey[key][k] = nil
+                    -- A quest log rebuild logs the quest again without registering its tooltips anew
+                    if (not QuestLogCache.TryGetQuest(questId)) then
+                        QuestieTooltips.lookupByKey[key][k] = nil
+                    end
                 else
                     tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
                     local text;
