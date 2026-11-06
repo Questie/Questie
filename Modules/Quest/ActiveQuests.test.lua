@@ -58,6 +58,50 @@ describe("ActiveQuests", function()
         end)
     end)
 
+    describe("Iterate", function()
+        it("should iterate every logged quest with its acceptance", function()
+            local first = ActiveQuests.Add(1, {})
+            local second = ActiveQuests.Add(2)
+            ActiveQuests.Add(3, {})
+            ActiveQuests.Remove(3)
+
+            local iterated = {}
+            for questId, acceptance in ActiveQuests.Iterate() do
+                iterated[questId] = acceptance
+            end
+
+            assert.are.same({[1] = first, [2] = second}, iterated)
+        end)
+
+        it("should keep iterating the quests logged when it started while the log changes", function()
+            local first = ActiveQuests.Add(1, {})
+            local second = ActiveQuests.Add(2, {})
+
+            local iterated = {}
+            for questId, acceptance in ActiveQuests.Iterate() do
+                for addedQuestId = 10, 50 do
+                    ActiveQuests.Add(addedQuestId, {})
+                end
+                iterated[questId] = acceptance
+            end
+
+            assert.are.same({[1] = first, [2] = second}, iterated)
+        end)
+    end)
+
+    describe("GetAll", function()
+        it("should look up every logged quest by its ID", function()
+            local acceptance = ActiveQuests.Add(1, {})
+            ActiveQuests.Add(2, {})
+            ActiveQuests.Remove(2)
+
+            local logged = ActiveQuests.GetAll()
+
+            assert.are.equal(acceptance, logged[1])
+            assert.is_nil(logged[2])
+        end)
+    end)
+
     describe("IsCurrent", function()
         it("should treat a missing acceptance as not current", function()
             assert.is_false(ActiveQuests.IsCurrent(nil))
