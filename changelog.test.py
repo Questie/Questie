@@ -59,13 +59,21 @@ class QuestieDBChangelogTests(unittest.TestCase):
                 self.assertIn("https://github.com/Questie/Questie/commit/" + "e" * 40, notes)
                 self.assertEqual(combined, "## QuestieDB 1.0.1" in notes)
 
-    def test_no_argument_changelog_remains_unchanged(self):
-        questie_notes = "## General Fixes\n\n* Fixed an existing Questie issue.\n\n"
-        with patch.object(changelog, "get_commit_changelog", return_value=questie_notes):
-            output = io.StringIO()
-            with contextlib.redirect_stdout(output):
-                changelog.main([])
-            self.assertEqual(questie_notes + "\n", output.getvalue())
+    def test_git_history_renders_exactly_like_a_release_manifest(self):
+        questie = copy.deepcopy(self.manifest)
+        questie.update(repository=changelog.QUESTIE_REPOSITORY, version="12.0.0", producerCommit="e" * 40)
+        self.load({"releases": [], "questie": questie})
+        from_manifest, from_git = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(from_manifest):
+            changelog.main(["--release-manifest", str(self.path)])
+        with patch.object(changelog, "get_toc_version", return_value="12.0.0"):
+            with patch.object(changelog, "get_changelog_entries", return_value=questie["changelog"]) as entries:
+                with patch.object(changelog.subprocess, "check_output", return_value="e" * 40 + "\n") as git:
+                    with contextlib.redirect_stdout(from_git):
+                        changelog.main(["-f", "abc", "-t", "def"])
+        self.assertEqual(from_manifest.getvalue(), from_git.getvalue())
+        entries.assert_called_once_with("abc", "def")
+        self.assertEqual("def^{commit}", git.call_args.args[0][-1])
 
     def test_producer_and_entry_links_are_distinct_and_credits_keep_author_order(self):
         notes = changelog.get_addon_changelog("QuestieDB", self.load())
@@ -255,14 +263,13 @@ class QuestieEntriesTests(unittest.TestCase):
                 entries = changelog.get_changelog_entries()
         self.assertEqual(["a" * 40, "b" * 40], [entry["commit"] for entry in entries])
 
-    def test_plain_changelog_lists_identical_subjects_once(self):
-        categories = changelog.get_sorted_categories(
-            ["[fix] Fix zebra", "[fix] Fix alphabet", "[Fix] Fix zebra", "[quest] Fix zebra"]
-        )
-        self.assertEqual(
-            "## General Fixes\n\n* Fixed alphabet\n* Fixed zebra\n\n## Quest Fixes\n\n* Fixed zebra\n\n",
-            changelog.get_changelog_string(categories, []),
-        )
+    def test_toc_version_comes_from_the_requested_revision_or_falls_back_to_its_name(self):
+        toc = "## Title: Questie\n## Version: 12.6.2\n"
+        with patch.object(changelog.subprocess, "check_output", return_value=toc) as git:
+            self.assertEqual("12.6.2", changelog.get_toc_version("v12.6.2"))
+        self.assertEqual("v12.6.2:" + changelog.VERSION_TOC, git.call_args.args[0][-1])
+        with patch.object(changelog.subprocess, "check_output", side_effect=subprocess.CalledProcessError(128, "git")):
+            self.assertEqual("abc1234", changelog.get_toc_version("abc1234"))
 
     def test_empty_history_has_no_invented_changes_and_git_errors_propagate(self):
         with patch.object(changelog, "get_last_git_tag", return_value=""):

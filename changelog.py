@@ -3,9 +3,12 @@ import argparse
 import html
 import json
 import re
-import os
 import subprocess
 import sys
+
+QUESTIE_REPOSITORY = "https://github.com/Questie/Questie"
+# Any TOC works: build.py stamps the same version on all of them.
+VERSION_TOC = "Questie_Vanilla.toc"
 
 # define the tags that should be shown and their order
 commit_keys_and_header = (
@@ -18,23 +21,6 @@ commit_keys_and_header = (
 
 def is_python_36():
     return sys.version_info.major == 3 and sys.version_info.minor >= 6
-
-
-def is_running_in_github_actions():
-    """Return True if running inside GitHub Actions pipeline."""
-    return os.getenv('GITHUB_ACTIONS', '').lower() == 'true'
-
-
-def get_commit_changelog(include_contributors, tag_from=None, tag_to=None):
-    tag_from = tag_from or get_last_git_tag()
-    tag_to = tag_to or "HEAD"
-
-    git_log = get_chronological_git_log(tag_from, tag_to)
-    categories = get_sorted_categories(git_log)
-
-    contributors = get_contributors(tag_from, tag_to) if include_contributors else []
-
-    return get_changelog_string(categories, contributors)
 
 
 def get_changelog_entries(tag_from=None, tag_to="HEAD"):
@@ -64,6 +50,26 @@ def get_changelog_entries(tag_from=None, tag_to="HEAD"):
     return entries
 
 
+def get_questie_manifest(version, tag_from=None, tag_to="HEAD"):
+    """Describe Questie the way release.json does, so builds and local previews render identically."""
+    return {
+        "repository": QUESTIE_REPOSITORY,
+        "version": version,
+        "producerCommit": subprocess.check_output(["git", "rev-parse", "--verify", f"{tag_to}^{{commit}}"], text=True).strip(),
+        "changelog": get_changelog_entries(tag_from, tag_to),
+    }
+
+
+def get_toc_version(revision):
+    # Older commits may predate this TOC, so fall back to naming the revision itself.
+    try:
+        toc = subprocess.check_output(["git", "show", f"{revision}:{VERSION_TOC}"], text=True, stderr=subprocess.DEVNULL)
+    except subprocess.CalledProcessError:
+        return revision
+    match = re.search(r"^## Version: (.*?)\s*$", toc, re.MULTILINE)
+    return match.group(1) if match else revision
+
+
 def get_last_git_tag():
     # Tags on this source commit must not erase its notes when rebundling with a newer database.
     # Start before HEAD and ignore prereleases; legacy v* releases remain valid baselines.
@@ -71,22 +77,6 @@ def get_last_git_tag():
         ["git", "describe", "--tags", "--match", "bundle/v*", "--match", "v*", "--exclude", "*-pre.*", "--abbrev=0", "HEAD^"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
-
-
-def get_chronological_git_log(tag_from=None, tag_to="HEAD"):
-    # get array of the first line of the commit messages since last tag
-    if not tag_from:
-        last_tag = get_last_git_tag() or ""
-        if last_tag != "": last_tag += ".."
-    revision = f"{tag_from}..{tag_to}" if tag_from else f"{get_last_git_tag()}..{tag_to}"
-    git_log = subprocess.run(
-        ["git", "log", "--pretty=format:%s", revision],
-        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-    ).stdout.decode().split('\n')
-
-    # reverse it so it's chronological
-    git_log.reverse()
-    return git_log
 
 
 def get_sorted_categories(git_log):
@@ -112,30 +102,6 @@ def get_sorted_categories(git_log):
     return categories
 
 
-def get_contributors(tag_from=None, tag_to="HEAD"):
-    if not tag_from:
-        last_tag = get_last_git_tag() or ""
-        if last_tag != "": last_tag += ".."
-    revision = f"{tag_from}..{tag_to}" if tag_from else f"{get_last_git_tag()}..{tag_to}"
-    log_output = subprocess.run(
-        ["git", "log", revision, "--pretty=format:%an <%ae>"],
-        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-    ).stdout.decode().strip().split('\n')
-
-    # Use a dictionary to ensure uniqueness by email
-    unique_contributors = {}
-    for entry in log_output:
-        username, email = entry.split(' <')
-        email = email.rstrip('>')
-        if email not in unique_contributors or len(username) < len(unique_contributors[email]):
-            unique_contributors[email] = username
-
-    # Extract unique usernames
-    contributors = list(set(unique_contributors.values()))
-
-    return contributors
-
-
 def replace_start(line, a, b):
     if line.strip().startswith(a):
         return line.replace(a, b)
@@ -153,27 +119,6 @@ def transform_lines_into_past_tense(line):
     line = replace_start(line, 'Blacklist ', 'Blacklisted ')
     line = replace_start(line, 'Remove ', 'Removed ')
     return line
-
-
-def get_changelog_string(categories, contributors):
-    changelog = ''
-
-    for key_header in commit_keys_and_header:
-        key = key_header[0]
-        if len(categories[key]) > 0:
-            header = key_header[1]
-            changelog += header
-            for line in categories[key]:
-                changelog += f'* {line}\n'.replace('\\[', '[')
-            changelog += '\n'
-
-    if contributors:
-        changelog += '## Contributors\n\n'
-        for contributor in contributors:
-            changelog += f'@{contributor}, '
-        changelog = changelog[:-2] + '\n\n'
-
-    return changelog
 
 
 def _escape_markdown(text):
@@ -236,21 +181,21 @@ def get_addon_changelog(name, manifest):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Generate Questie notes or render a packaged release.json.")
+    parser = argparse.ArgumentParser(description="Render release notes from Git history or a packaged release.json.")
     parser.add_argument("--release-manifest", help="Render retained component metadata without Git or network access")
     parser.add_argument("-f", "--from_pointer", help="Changelog from this commit/pointer (default: last tag before HEAD)")
-    parser.add_argument("-t", "--to_pointer", help="Changelog to this commit/pointer (default: HEAD)")
+    parser.add_argument("-t", "--to_pointer", default="HEAD", help="Changelog to this commit/pointer (default: HEAD)")
     args = parser.parse_args(argv)
     if args.release_manifest:
         with open(args.release_manifest, encoding="utf-8") as source:
             manifest = json.load(source)
-        # The two components keep independent identities. Questie's changes always come first.
-        print(get_addon_changelog("Questie", manifest["questie"]))
-        if "questiedb" in manifest:
-            print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
     else:
-        show_contributors_section = not is_running_in_github_actions()
-        print(get_commit_changelog(show_contributors_section, args.from_pointer, args.to_pointer))
+        version = get_toc_version(args.to_pointer)
+        manifest = {"questie": get_questie_manifest(version, args.from_pointer, args.to_pointer)}
+    # The two components keep independent identities. Questie's changes always come first.
+    print(get_addon_changelog("Questie", manifest["questie"]))
+    if "questiedb" in manifest:
+        print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
 
 
 if __name__ == "__main__":

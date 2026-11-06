@@ -211,13 +211,7 @@ def main():
         questieVersion = re.search(r"^## Version: (.*?)$", toc.read(), re.MULTILINE).group(1)
 
     # Questie's identity is independent of build mode and the selected database.
-    script_dir = os.path.dirname(os.path.realpath(__file__))
-    questie = {
-        "repository": "https://github.com/Questie/Questie",
-        "version": questieVersion,
-        "producerCommit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=script_dir, text=True).strip(),
-        "changelog": changelog.get_changelog_entries(),
-    }
+    questie = changelog.get_questie_manifest(questieVersion)
 
     # Add Questie commit to toc files
     for expansion_id in includedExpansions:
