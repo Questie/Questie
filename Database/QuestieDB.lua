@@ -20,6 +20,8 @@ local _QuestieDB = QuestieDB.private
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieQuestBlacklist
@@ -300,7 +302,7 @@ end
 ---`QuestieCorrections.SetCorrection` is the only caller and passes the union of the slot's old
 ---and new row IDs.
 ---
----Quest evictions carry a caveat: the quest lifecycle (tracker, `QuestiePlayer.currentQuestlog`,
+---Quest evictions carry a caveat: the quest lifecycle (tracker, `ActiveQuests`,
 ---map icons) holds the object `GetQuest` returned and updates it in place, so evicting a quest
 ---that lifecycle state already references splits identity — the holders keep the stale object
 ---while new reads build a fresh one. Every Quest slot today is written before
@@ -629,7 +631,7 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     end
 
     for _, exId in pairs(exclusiveTo) do
-        if Questie.db.char.complete[exId] or QuestiePlayer.currentQuestlog[exId] then
+        if Questie.db.char.complete[exId] or ActiveQuests.Get(exId) then
             return true
         end
     end
@@ -708,7 +710,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     -- IsDoableVerbose is only called manually by the user.
 
     local completedQuests = Questie.db.char.complete
-    local currentQuestlog = QuestiePlayer.currentQuestlog
+    local currentQuestlog = ActiveQuests.GetAll()
 
     -- These are localized in the init function
     if completedQuests[questId] then
@@ -897,7 +899,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
-            if QuestiePlayer.currentQuestlog[breadcrumbId] then
+            if currentQuestlog[breadcrumbId] then
                 if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest " .. breadcrumbId .. " in the quest log for quest " .. questId) end
                 return false
             end
@@ -908,7 +910,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
     if disabledByQuest and disabledByQuest ~= 0 then
         -- Check the disabling quest is active
-        if QuestiePlayer.currentQuestlog[disabledByQuest] then
+        if currentQuestlog[disabledByQuest] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Disabling quest " .. disabledByQuest .. " in the quest log for quest " .. questId) end
             return false
         end
@@ -980,7 +982,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- IsDoableVerbose is only called manually by the user.
 
     local completedQuests = Questie.db.char.complete
-    local currentQuestlog = QuestiePlayer.currentQuestlog
+    local currentQuestlog = ActiveQuests.GetAll()
     local DoableStates = QuestieDB.DoableStates
     local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
 
@@ -2171,7 +2173,7 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
         else
             if questsEnded then
                 for _, id in pairs(questsEnded) do
-                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) and QuestiePlayer.currentQuestlog[id] then
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) and ActiveQuests.Get(id) then
                         questID = id
                     end
                 end
