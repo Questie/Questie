@@ -1507,7 +1507,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
     end
 
     -- Deferred work (threads, map icon tooltips) can outlive the quest in the quest log - #7730
-    if (not QuestLogCache.TryGetQuest(self.questId)) then
+    if (not ActiveQuests.Get(self.questId)) then
         return
     end
 
