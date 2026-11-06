@@ -61,7 +61,6 @@ describe("Tooltip", function()
         }
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.GetPartyMemberByName = function() return nil end
-        QuestiePlayer.currentQuestlog = {}
         dofile("Modules/Quest/ActiveQuests.lua")
         QuestiePlayer.numberOfGroupMembers = 0
         cached = {}

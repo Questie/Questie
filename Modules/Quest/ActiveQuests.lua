@@ -1,9 +1,6 @@
 ---@class ActiveQuests
 local ActiveQuests = QuestieLoader:CreateModule("ActiveQuests")
 
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-
 local pairs = pairs
 
 ---One acceptance of a quest in the player's quest log. Deferred work captures it and runs only while it is current, so
@@ -30,7 +27,6 @@ end
 ---@param acceptance Acceptance
 local function _Store(acceptance)
     acceptances[acceptance.questId] = acceptance
-    QuestiePlayer.currentQuestlog[acceptance.questId] = acceptance.quest or acceptance.questId
 end
 
 ---Whether the acceptance is still the quest's acceptance: the quest was neither turned in, abandoned nor accepted
@@ -71,7 +67,6 @@ function ActiveQuests.Remove(questId)
     local acceptance = acceptances[questId]
     acceptances[questId] = nil
     previous[questId] = nil
-    QuestiePlayer.currentQuestlog[questId] = nil
     return acceptance
 end
 
@@ -81,7 +76,6 @@ function ActiveQuests.Reset()
         previous[questId] = acceptance
     end
     acceptances = {}
-    QuestiePlayer.currentQuestlog = {}
 end
 
 ---@param questId QuestId

@@ -118,7 +118,6 @@ describe("QuestieTracker", function()
         it("should auto-track native quests without requiring database enrichment", function()
             Questie.db.profile.autoTrackQuests = true
             TrackerData.ContainsQuest = function(id) return id == 91741 end
-            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
             ActiveQuests.Reset()
             assert.is_true(QuestieTracker.IsTrackedByQuestie(91741))
         end)
@@ -152,7 +151,6 @@ describe("QuestieTracker", function()
         it("should subtract auto-untracked quests from the quest log count when auto-tracking is enabled", function()
             Questie.db.profile.autoTrackQuests = true
             Questie.db.char.AutoUntrackedQuests = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
-            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
             ActiveQuests.Reset()
             assert.are.equal(4, QuestieTracker.GetNumTrackedQuests())
         end)
@@ -260,7 +258,6 @@ describe("QuestieTracker", function()
             }
             Questie.db.profile.autoTrackQuests = true
             Questie.db.char.collapsedZones = {}
-            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
             ActiveQuests.Reset()
             quest = {Id = 91741, name = "Nibbled-On Book", zoneName = "Northshire Abbey", Objectives = {}}
             QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")

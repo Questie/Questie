@@ -25,8 +25,6 @@ describe("QuestEventHandler", function()
     local AutoQuesting
     ---@type QuestieAnnounce
     local QuestieAnnounce
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieDB
@@ -71,8 +69,6 @@ describe("QuestEventHandler", function()
         AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
         QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
         QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
         ActiveQuests.Reset()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.Update = spy.new(function() end)

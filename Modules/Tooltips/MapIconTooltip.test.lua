@@ -50,7 +50,6 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.remotePlayerClasses = {}
         cached = {}
         QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id) return cached[id] end
-        QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
         dofile("Modules/Quest/ActiveQuests.lua")
         ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
         ActiveQuests.Add(1, {})

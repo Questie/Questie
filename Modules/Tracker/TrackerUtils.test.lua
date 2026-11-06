@@ -11,8 +11,6 @@ describe("TrackerUtils", function()
     local ZoneIDs
     ---@type QuestieLib
     local QuestieLib
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type TrackerLinePool
     local TrackerLinePool
     ---@type TrackerUtils
@@ -57,8 +55,6 @@ describe("TrackerUtils", function()
         ZoneIDs = QuestieLoader:ImportModule("ZoneDB").zoneIDs
         dofile("Modules/Libs/QuestieLib.lua")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
         ActiveQuests.Reset()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end

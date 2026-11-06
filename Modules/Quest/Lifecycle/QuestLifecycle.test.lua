@@ -9,8 +9,6 @@ describe("QuestLifecycle", function()
     local AvailableQuests
     ---@type QuestieDB
     local QuestieDB
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type QuestieTooltips
     local QuestieTooltips
     ---@type QuestieTracker
@@ -44,9 +42,6 @@ describe("QuestLifecycle", function()
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.RemoveQuest = spy.new(function() end)
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
-
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
         dofile("Modules/Quest/ActiveQuests.lua")
         ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
