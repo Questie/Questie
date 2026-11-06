@@ -98,7 +98,7 @@ function QuestLifecycle:AcceptQuest(questId)
     -- QUEST_ACCEPTED fires only for a new acceptance, so a quest Questie already logs is reset and added again. Its
     -- completion cannot tell whether that is needed: a failed quest re-accepted in place can be complete at once, when
     -- the giver hands over the quest item with the quest.
-    if QuestiePlayer.currentQuestlog[questId] then
+    if ActiveQuests.Get(questId) then
         Questie.Debug(Questie.DEBUG_INFO, "[QuestLifecycle:AcceptQuest] Quest", questId, " was accepted before and needs to be reset.")
 
         _ResetProgress(quest)
@@ -237,7 +237,7 @@ function QuestLifecycle:CompleteQuest(questId)
     local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
     if childQuests then
         for _, childQuestId in pairs(childQuests) do
-            if (not QuestiePlayer.currentQuestlog[childQuestId]) then
+            if (not ActiveQuests.Get(childQuestId)) then
                 -- Make sure all other childQuests are unloaded: all exclusives, chains etc
                 AvailableQuests.RemoveQuest(childQuestId)
             end
@@ -289,7 +289,7 @@ function QuestLifecycle:AbandonQuest(questId)
     local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
     if childQuests then
         for _, childQuestId in pairs(childQuests) do
-            if (not QuestiePlayer.currentQuestlog[childQuestId]) then
+            if (not ActiveQuests.Get(childQuestId)) then
                 -- Make sure all other childQuests are unloaded: all exclusives, chains etc
                 AvailableQuests.RemoveQuest(childQuestId)
             end

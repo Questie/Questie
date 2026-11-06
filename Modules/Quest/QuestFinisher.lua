@@ -10,6 +10,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieMap
@@ -27,7 +29,7 @@ function QuestFinisher.AddFinisher(quest)
     local questId = quest.Id
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
-    if (not QuestiePlayer.currentQuestlog[questId]) or
+    if (not ActiveQuests.Get(questId)) or
         IsQuestFlaggedCompleted(questId) or
         quest:IsComplete() == -1 or
         Questie.db.char.complete[questId] then

@@ -12,8 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local Sounds = QuestieLoader:ImportModule("Sounds")
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = QuestieCompat.GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
@@ -438,15 +438,14 @@ function QuestLogCache.PrintQuestLogStates()
         questLogStatesStr = questLogStatesStr .. qId .. "=" .. tostring(entry.state) .. " / "
     end
 
-    local currentQuestLog = QuestiePlayer.currentQuestlog
-    local currentQuestLogStr = "CurrentQuestLog: "
-    for qId, _ in pairs(currentQuestLog) do
-        currentQuestLogStr = currentQuestLogStr .. qId .. ", "
+    local activeQuestsStr = "ActiveQuests: "
+    for qId in ActiveQuests.Iterate() do
+        activeQuestsStr = activeQuestsStr .. qId .. ", "
     end
 
     Questie.Error(cacheStr)
     Questie.Error(questLogStatesStr)
-    Questie.Error(currentQuestLogStr)
+    Questie.Error(activeQuestsStr)
 end
 
 --- A wrapper function to add error check instead using exposed table directly.

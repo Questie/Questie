@@ -5,8 +5,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
@@ -26,7 +26,7 @@ function AvailableQuests.IsLevelRequirementsFulfilled(questId, minLevel, maxLeve
     local level, requiredLevel, requiredMaxLevel = QuestieLib.GetEffectiveQuestLevel(questId, playerLevel)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if parentQuestId and QuestiePlayer.currentQuestlog[parentQuestId] then
+    if parentQuestId and ActiveQuests.Get(parentQuestId) then
         -- If the quest is in the player's log already, there's no need to do any logic here, it must already be available
         levelRequirementCache[questId] = true
         return true

@@ -25,8 +25,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
@@ -245,7 +243,7 @@ function _QuestieQuest:HideManualIcons()
 end
 
 function QuestieQuest:ClearAllNotes()
-    for questId in pairs(QuestiePlayer.currentQuestlog) do
+    for questId in ActiveQuests.Iterate() do
         local quest = QuestieDB.GetQuest(questId)
 
         if not quest then
@@ -282,7 +280,7 @@ function QuestieQuest:ClearAllNotes()
 end
 
 function QuestieQuest:ClearAllToolTips()
-    for questId in pairs(QuestiePlayer.currentQuestlog) do
+    for questId in ActiveQuests.Iterate() do
         local quest = QuestieDB.GetQuest(questId)
 
         if not quest then
@@ -358,6 +356,7 @@ function QuestieQuest:SmoothReset()
 
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
+    local restQuestIds, restIndex
     local stepTable = {
         function()
             -- Wait until game cache has quest log okay.
@@ -388,11 +387,10 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             -- reset quest log. Derived completion goes too: UpdateQuest below rebuilds it from the quest log.
-            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                -- A quest the database lacks is logged by its ID, see GetAllQuestIds
-                if type(quest) == "table" then
-                    quest.WasComplete = nil
-                    quest.isComplete = nil
+            for _, acceptance in ActiveQuests.Iterate() do
+                if acceptance.quest then
+                    acceptance.quest.WasComplete = nil
+                    acceptance.quest.isComplete = nil
                 end
             end
             ActiveQuests.Reset()
@@ -405,9 +403,11 @@ function QuestieQuest:SmoothReset()
             QuestieProfessions:Update()
             QuestieReputation:Update(true)
 
-            -- populate QuestiePlayer.currentQuestlog
             QuestieQuest:GetAllQuestIdsNoObjectives()
-            QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog)
+            restQuestIds, restIndex = {}, 1
+            for questId in ActiveQuests.Iterate() do
+                restQuestIds[#restQuestIds + 1] = questId
+            end
             return true
         end,
         function()
@@ -421,12 +421,16 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             for _ = 1, 64 do
-                if QuestieQuest._nextRestQuest then
-                    -- As AddToQuestLog: a quest missing its source item gets an objective for it
-                    QuestieQuest:CheckQuestSourceItem(QuestieQuest._nextRestQuest, true)
-                    QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest)
-                    _UpdateSpecials(QuestieQuest._nextRestQuest)
-                    QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
+                local questId = restQuestIds[restIndex]
+                if questId then
+                    restIndex = restIndex + 1
+                    -- Spread over several ticks, so a quest can leave the quest log meanwhile
+                    if ActiveQuests.Get(questId) then
+                        -- As AddToQuestLog: a quest missing its source item gets an objective for it
+                        QuestieQuest:CheckQuestSourceItem(questId, true)
+                        QuestieQuest:UpdateQuest(questId)
+                        _UpdateSpecials(questId)
+                    end
                 else
                     QuestieCombatQueue:Queue(function()
                         C_Timer.After(2.0, function()
@@ -436,7 +440,7 @@ function QuestieQuest:SmoothReset()
                     break
                 end
             end
-            return not QuestieQuest._nextRestQuest
+            return restIndex > #restQuestIds
         end,
         function()
             return (not QuestieQuest._resetNeedsAvailables) and #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0
@@ -510,7 +514,7 @@ function QuestieQuest:UnhideQuest(questId)
     Questie.db.char.hidden[questId] = nil
     CommsVisibility:ScheduleSnapshot("UNHIDE_QUEST")
 
-    if QuestiePlayer.currentQuestlog[questId] then
+    if ActiveQuests.Get(questId) then
         local quest = QuestieDB.GetQuest(questId)
         QuestieQuest:PopulateObjectiveNotes(quest)
     else
@@ -680,7 +684,7 @@ function QuestieQuest:AddToQuestLog(quest)
     end
 end
 
--- Run this if you want to re-create QuestiePlayer.currentQuestlog.
+-- Run this if you want to re-create the quest log in ActiveQuests.
 -- This function needs to be called from within a coroutine.
 function QuestieQuest:GetAllQuestIds()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Getting all quests")
@@ -719,7 +723,7 @@ function QuestieQuest:GetAllQuestIds()
                 ActiveQuests.Restore(questId)
             end
 
-            Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
+            Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId)
         end
 
         yieldCounter = yieldCounter + 1
@@ -867,7 +871,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
                 ActiveQuests.Restore(questId)
             end
 
-            Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
+            Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId)
         end
     end
 end
