@@ -207,8 +207,8 @@ end
 
 ---@param questId number
 function QuestLifecycle:CompleteQuest(questId)
-    -- Skip quests which are turn in only and are not added to the quest log in the first place
     local acceptance = ActiveQuests.Remove(questId)
+    -- Quests which are turn in only were never added to the quest log
     if acceptance and acceptance.quest then
         acceptance.quest.WasComplete = nil
         acceptance.quest.isComplete = nil
