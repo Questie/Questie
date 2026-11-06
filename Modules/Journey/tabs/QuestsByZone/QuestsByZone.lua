@@ -11,6 +11,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieQuestBlacklist
@@ -234,7 +236,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             temp.iconSize = 14
             temp.useIconGutter = true
             temp.iconGutterOffset = -3
-            if QuestiePlayer.currentQuestlog[questId] then
+            if ActiveQuests.Get(questId) then
                 if QuestieDB.IsComplete(questId) == 1 then
                     temp.icon = Questie.icons["complete"]
                 else
@@ -289,7 +291,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
                         local blockedByExclusiveTo = false
                         for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
-                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                            if ActiveQuests.Get(exclusiveToQuestId) or Questie.db.char.complete[exclusiveToQuestId] then
                                 tinsert(zoneTree[4].children, temp)
                                 completedCounter = completedCounter + 1
                             end
@@ -380,7 +382,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                             local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
                             if exclusivePreQuests then
                                 for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
-                                    if not questDecidedCategory and (Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId]) then
+                                    if not questDecidedCategory and (Questie.db.char.complete[exclusivePreQuestId] or ActiveQuests.Get(exclusivePreQuestId)) then
                                         tinsert(zoneTree[6].children, temp)
                                         unobtainableCounter = unobtainableCounter + 1
                                         questDecidedCategory = true
@@ -395,7 +397,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
                         if exclusiveFollowups then
                             for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
-                                if not questDecidedCategory and Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId] then
+                                if not questDecidedCategory and Questie.db.char.complete[exclusiveFollowupId] or ActiveQuests.Get(exclusiveFollowupId) then
                                     tinsert(zoneTree[6].children, temp)
                                     unobtainableCounter = unobtainableCounter + 1
                                     questDecidedCategory = true
