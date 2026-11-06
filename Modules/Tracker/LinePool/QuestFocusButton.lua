@@ -110,7 +110,7 @@ function QuestFocusButton.New(index, parent)
         self.expectedQuest = quest.enrichment
 
         local isFocused = _IsFocused(quest.Id)
-        local canFocus = QuestieCompat.IsSuperTrackingSupported() and TrackerMapEligibility.GetCapabilities(quest).canFocusQuest
+        local canFocus = QuestieCompat.IsSuperTrackingSupported() or TrackerMapEligibility.GetCapabilities(quest).canFocusQuest
         -- A focused quest keeps its button even when it lost eligibility, so it can still be unfocused.
         if (not Questie.db.profile.trackerShowQuestFocusButtons) or (GetCVar and GetCVar("questPOI") == "0") or (not (canFocus or isFocused)) then
             self:Hide()
