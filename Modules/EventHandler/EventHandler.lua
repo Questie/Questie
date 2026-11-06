@@ -104,6 +104,13 @@ function EventHandler:RegisterLateEvents()
 
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
+    Questie:RegisterEvent("CVAR_UPDATE", function(_, cvarName)
+        if cvarName == "questPOI" then
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end
+    end)
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", function(...)
         _EventHandler.ModifierStateChanged(...)
     end)

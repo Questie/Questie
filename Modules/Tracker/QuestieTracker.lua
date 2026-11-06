@@ -249,7 +249,7 @@ function QuestieTracker.Initialize()
     trackerHeaderFrame = TrackerHeaderFrame.Initialize(trackerBaseFrame, QuestieTracker.Update)
     trackerQuestFrame = TrackerQuestFrame.Initialize(trackerBaseFrame, trackerHeaderFrame)
     TrackerLayout.Initialize(trackerBaseFrame, function(width) QuestieTracker:UpdateWidth(width) end, function() QuestieTracker:UpdateHeight() end,
-        function() return Questie.db.profile.trackerShowQuestFocusButtons end,
+        function() return Questie.db.profile.trackerShowQuestFocusButtons and GetCVar("questPOI") ~= "0" end,
         function()
             return Questie.db.profile.trackerShowPlayButtons and (TrackerUtils:IsVoiceOverLoaded() or TrackerUtils:IsSpokenLoaded())
         end)
