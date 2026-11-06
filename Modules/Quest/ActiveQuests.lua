@@ -89,3 +89,21 @@ end
 function ActiveQuests.Get(questId)
     return acceptances[questId]
 end
+
+---Iterates the logged quests as they were when the iteration started, so the loop may yield or change the log.
+---@return fun(table: table<QuestId, Acceptance>, index?: QuestId):QuestId, Acceptance
+---@return table<QuestId, Acceptance>
+function ActiveQuests.Iterate()
+    local snapshot = {}
+    for questId, acceptance in pairs(acceptances) do
+        snapshot[questId] = acceptance
+    end
+    return pairs(snapshot)
+end
+
+---The logged quests for lookups in hot loops, where a call per quest costs too much. Fetch it again for every pass:
+---Reset replaces the table.
+---@return table<QuestId, Acceptance> @NEVER MODIFY THE RETURNED TABLE
+function ActiveQuests.GetAll()
+    return acceptances
+end
