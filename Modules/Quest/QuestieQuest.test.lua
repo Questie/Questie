@@ -1007,6 +1007,48 @@ describe("QuestieQuest", function()
             assert.spy(Questie.Warning).was.called_with("[QuestieQuest] Cannot draw quest", 96403, "target", 673474,
                 "area", 16919, "missing dungeon entrance or UiMap mapping")
         end)
+
+        describe("with an acceptance", function()
+            local quest, objective, acceptance
+
+            before_each(function()
+                replace(Questie.db, "profile", {enableObjectives = true, objectiveFilterDistance = 0, enableIconLimit = false})
+                local spawns = {}
+                for index = 1, 100 do
+                    spawns[index] = {index * 0.5, index * 0.5}
+                end
+                objective = {
+                    Id = 1, Index = 1, Type = "monster", Description = "Wolf",
+                    Update = function() end, Color = {}, AlreadySpawned = {},
+                    spawnList = {[1] = {Id = 1, Name = "Wolf", Spawns = {[1537] = spawns}, GetIconScale = function() return 1 end}},
+                }
+                quest = {Id = 42, ObjectiveData = {objective}, Color = {}}
+                acceptance = ActiveQuests.Add(42, quest)
+            end)
+
+            local function populateUntilDone(afterFirstYield)
+                local co = coroutine.create(function()
+                    QuestieQuest:PopulateObjective(quest, 1, objective, false, acceptance)
+                end)
+                assert.is_true(coroutine.resume(co))
+                afterFirstYield()
+                while coroutine.status(co) ~= "dead" do
+                    assert.is_true(coroutine.resume(co))
+                end
+            end
+
+            it("should draw the objective while its acceptance is current", function()
+                populateUntilDone(function() end)
+
+                assert.is_true(#draws > 0)
+            end)
+
+            it("should stop drawing once its acceptance ended while it yielded", function()
+                populateUntilDone(function() ActiveQuests.Remove(42) end)
+
+                assert.are.same({}, draws)
+            end)
+        end)
     end)
 
     describe("RegisterObjectiveTooltips", function()
