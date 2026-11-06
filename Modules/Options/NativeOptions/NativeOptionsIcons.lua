@@ -1082,7 +1082,7 @@ _GetIconTypesSort = function()
 end
 
 _GetIconThemes = function()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Wotlk or Questie.IsForever then
         return {
             ["questie"] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
             ["blizzard"] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
@@ -1099,7 +1099,7 @@ _GetIconThemes = function()
 end
 
 _GetIconThemesSort = function()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Wotlk or Questie.IsForever then
         return {
             "questie",
             "blizzard",
