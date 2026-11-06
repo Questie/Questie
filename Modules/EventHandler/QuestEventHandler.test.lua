@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local stub = require("luassert.stub")
 dofile("Localization/l10n.lua")
 
@@ -70,6 +73,7 @@ describe("QuestEventHandler", function()
         QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        ActiveQuests.Reset()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.Update = spy.new(function() end)
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -208,7 +212,7 @@ describe("QuestEventHandler", function()
         QuestLogCache.CheckForChanges = spy.new(function() return false, nil end)
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
-            QuestiePlayer.currentQuestlog[questId] = {} -- Mimic the important part of QuestLifecycle:AcceptQuest
+            ActiveQuests.Add(questId, {})
         end)
         QuestieJourney.AcceptQuest = spy.new(function() end)
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
@@ -513,7 +517,7 @@ describe("QuestEventHandler", function()
         _G.C_Timer = {After = function(_, callback) callback() end}
         QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
         QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
-        QuestiePlayer.currentQuestlog[QUEST_ID] = {}
+        ActiveQuests.Add(QUEST_ID, {})
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
         QuestLifecycle.UpdateQuest = spy.new(function() end)
@@ -580,7 +584,7 @@ describe("QuestEventHandler", function()
             QuestEventHandler.QuestWatchUpdate(QUEST_ID)
             QuestEventHandler.QuestLogUpdate()
             assert.spy(Questie.Error).was.called(1)
-            assert.is_nil(QuestiePlayer.currentQuestlog[QUEST_ID])
+            assert.is_nil(ActiveQuests.Get(QUEST_ID))
         end)
     end)
 
@@ -684,7 +688,7 @@ describe("QuestEventHandler", function()
     it("should update all quests on PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function()
         _G.C_Timer = {After = function(_, callback) callback() end}
         QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
-        QuestiePlayer.currentQuestlog[QUEST_ID] = {}
+        ActiveQuests.Add(QUEST_ID, {})
         QuestieQuest.SetObjectivesDirty = spy.new(function() end)
         QuestieNameplate.UpdateNameplate = spy.new(function() end)
         QuestLifecycle.UpdateQuest = spy.new(function() end)
@@ -807,7 +811,9 @@ describe("QuestEventHandler", function()
             QuestLifecycle.UpdateQuest = spy.new(function() end)
             QuestieNameplate.UpdateNameplate = spy.new(function() end)
             QuestieTracker.UpdateQuestLines = spy.new(function() end)
-            QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}, [OTHER_QUEST_ID] = {}}
+            ActiveQuests.Reset()
+            ActiveQuests.Add(QUEST_ID, {})
+            ActiveQuests.Add(OTHER_QUEST_ID, {})
             QuestieLoader:ImportModule("QuestgiverFrame").RecheckGreeting = function() end
             QuestieLoader:ImportModule("QuestgiverFrame").RecheckGossip = function() end
             QuestieLoader:ImportModule("TrackerRecipes").IsSupported = function() return false end
@@ -971,7 +977,7 @@ describe("QuestEventHandler", function()
             QuestEventHandler.QuestLogUpdate()
             assert.spy(retryTimers[1].Cancel).was.called(1)
             assert.are.equal(2, #retryTimers)
-            QuestiePlayer.currentQuestlog[QUEST_ID] = {}
+            ActiveQuests.Add(QUEST_ID, {})
             QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {1}} end)
             now = 130
 

@@ -24,8 +24,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type Expansions
@@ -623,7 +623,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
             QuestieQuest:SetObjectivesDirty(questId)
 
             QuestieNameplate:UpdateNameplate()
-            if QuestiePlayer.currentQuestlog[questId] then
+            if ActiveQuests.Get(questId) then
                 QuestLifecycle:UpdateQuest(questId)
             elseif QuestieDB.GetQuest(questId) then
                 -- Not in the player's quest log: adopted above, or not in the cache right after login (e.g. the API is
