@@ -2,7 +2,7 @@ dofile("setupTests.lua")
 local match = require("luassert.match")
 
 describe("MapIconTooltip objective wording", function()
-    local MapIconTooltip, QuestieComms, cached, objective, icon, now, pins
+    local MapIconTooltip, QuestieComms, ActiveQuests, cached, objective, icon, now, pins
     local savedGlobals
 
     before_each(function()
@@ -50,6 +50,11 @@ describe("MapIconTooltip objective wording", function()
         QuestieComms.remotePlayerClasses = {}
         cached = {}
         QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id) return cached[id] end
+        QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
+        dofile("Modules/Quest/ActiveQuests.lua")
+        ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
+        ActiveQuests.Add(1, {})
+        ActiveQuests.Add(2, {})
         local layout = QuestieLoader:ImportModule("TooltipLayout")
         layout.CreateIndentUI = function() return "", 0 end
         layout.CreateRows = function()
@@ -189,6 +194,26 @@ describe("MapIconTooltip objective wording", function()
             ["|cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
             ["|cFFedededWindstone Cluster (|cFFFFFFFFBob|r|cFFededed)|r"] = true,
         }, RenderObjectiveLines())
+    end)
+
+    it("should not list the objectives of a quest that left the quest log before its icon was removed", function()
+        local update = spy.new(function() end)
+        objective.Update = update
+        ActiveQuests.Remove(1)
+
+        MapIconTooltip.Show(icon)
+
+        assert.is_nil(GameTooltip.questOrder[1])
+        assert.spy(update).was.not_called()
+    end)
+
+    it("should list the objectives of a party member's quest the player does not have", function()
+        objective.IsPartyObjective = true
+        objective.NativeText = "9/15 Windstone Cluster"
+        QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 0, required = 15}}} end
+        ActiveQuests.Remove(1)
+
+        assert.is_not_nil(next(RenderObjectiveLines()))
     end)
 
     it("uses loaded party-only native wording with remote progress and no local row", function()
