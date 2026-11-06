@@ -35,6 +35,7 @@ describe("QuestieQuest", function()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.TryGetQuest = function() end
+        dofile("Modules/Quest/ActiveQuests.lua")
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")

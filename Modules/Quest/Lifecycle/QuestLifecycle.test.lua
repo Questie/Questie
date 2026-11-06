@@ -21,6 +21,8 @@ describe("QuestLifecycle", function()
     local CommsVisibility
     ---@type QuestLogCache
     local QuestLogCache
+    ---@type ActiveQuests
+    local ActiveQuests
 
     before_each(function()
         _G.WOW_PROJECT_ID = nil
@@ -45,6 +47,8 @@ describe("QuestLifecycle", function()
 
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        dofile("Modules/Quest/ActiveQuests.lua")
+        ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieTooltips.RemoveQuest = spy.new(function() end)
@@ -112,7 +116,7 @@ describe("QuestLifecycle", function()
                 Objectives = {{}}
             }
             QuestieDB.GetQuest = spy.new(function() return quest end)
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
 
             QuestLifecycle:AcceptQuest(questId)
 
@@ -173,7 +177,7 @@ describe("QuestLifecycle", function()
             }
             QuestieDB.GetQuest = spy.new(function() return quest end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
-            QuestiePlayer.currentQuestlog[questId] = quest -- still logged from the failed acceptance, without flags
+            ActiveQuests.Add(questId, quest) -- still logged from the failed acceptance, without flags
 
             QuestLifecycle:AcceptQuest(questId)
 
@@ -306,7 +310,7 @@ describe("QuestLifecycle", function()
         end)
 
         it("should run onComplete after the unload when the quest is still logged", function()
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
 
             QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
 
@@ -317,17 +321,17 @@ describe("QuestLifecycle", function()
         end)
 
         it("should not run onComplete when the quest left the quest log during the unload", function()
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
 
             QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
-            QuestiePlayer.currentQuestlog[questId] = nil
+            ActiveQuests.Remove(questId)
             unloaded()
 
             assert.spy(onComplete).was.not_called()
         end)
 
         it("should not run onComplete when the quest was abandoned and accepted again during the unload", function()
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
 
             QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
             local staleUnload = unloaded
@@ -346,7 +350,7 @@ describe("QuestLifecycle", function()
         end)
 
         it("should not run onComplete when the quest left QuestLogCache during the unload", function()
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
 
             QuestLifecycle.RemoveFramesOfLoggedQuest(questId, onComplete)
             QuestLogCache.TryGetQuest = spy.new(function() return nil end)
@@ -363,7 +367,7 @@ describe("QuestLifecycle", function()
         before_each(function()
             quest = {Id = questId, sourceItemId = 0, Objectives = {{}}, IsComplete = function() return 0 end}
             QuestieDB.GetQuest = spy.new(function() return quest end)
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
             QuestieQuest.UpdateQuest = spy.new(function() end)
             QuestieQuest.CheckQuestSourceItem = spy.new(function() return true end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) unloaded = callback end)
@@ -448,7 +452,7 @@ describe("QuestLifecycle", function()
     describe("CompleteQuest", function()
         it("should remove quest from currentQuestlog", function()
             local questId = 100
-            QuestiePlayer.currentQuestlog[questId] = {WasComplete = true, isComplete = true}
+            ActiveQuests.Add(questId, {WasComplete = true, isComplete = true})
 
             QuestLifecycle:CompleteQuest(questId)
 
@@ -458,7 +462,7 @@ describe("QuestLifecycle", function()
         it("should reset WasComplete and isComplete flags before removing from log", function()
             local questId = 100
             local quest = {WasComplete = true, isComplete = true}
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
 
             QuestLifecycle:CompleteQuest(questId)
 
@@ -547,7 +551,7 @@ describe("QuestLifecycle", function()
         it("should not remove child quest if it is in the quest log", function()
             local questId = 100
             local childQuestId = 200
-            QuestiePlayer.currentQuestlog[childQuestId] = {}
+            ActiveQuests.Add(childQuestId, {})
             QuestieDB.QueryQuestSingle = spy.new(function(_, key)
                 if key == "childQuests" then
                     return {childQuestId}
@@ -613,7 +617,7 @@ describe("QuestLifecycle", function()
         it("should remove quest from currentQuestlog", function()
             local questId = 100
             local quest = {}
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
             QuestieDB.GetQuest = spy.new(function() return quest end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
 
@@ -631,7 +635,7 @@ describe("QuestLifecycle", function()
         it("should reset quest objectives and flags", function()
             local questId = 100
             local quest = {WasComplete = true, isComplete = true, Objectives = {{}}}
-            QuestiePlayer.currentQuestlog[questId] = quest
+            ActiveQuests.Add(questId, quest)
             QuestieDB.GetQuest = spy.new(function() return quest end)
 
             QuestLifecycle:AbandonQuest(questId)
@@ -643,7 +647,7 @@ describe("QuestLifecycle", function()
 
         it("should clear Alliance tournament eligibility marker", function()
             local questId = 13684 -- in allianceTournamentMarkerQuests
-            QuestiePlayer.currentQuestlog[questId] = {}
+            ActiveQuests.Add(questId, {})
             QuestieDB.GetQuest = spy.new(function() return {} end)
             Questie.db.char.complete[13686] = true
 
@@ -654,7 +658,7 @@ describe("QuestLifecycle", function()
 
         it("should clear Horde tournament eligibility marker", function()
             local questId = 13691 -- in hordeTournamentMarkerQuests
-            QuestiePlayer.currentQuestlog[questId] = {}
+            ActiveQuests.Add(questId, {})
             QuestieDB.GetQuest = spy.new(function() return {} end)
             Questie.db.char.complete[13687] = true
 
@@ -666,7 +670,7 @@ describe("QuestLifecycle", function()
         it("should remove child quests that are not in the quest log", function()
             local questId = 100
             local childQuestId = 200
-            QuestiePlayer.currentQuestlog[questId] = {}
+            ActiveQuests.Add(questId, {})
             QuestieDB.GetQuest = spy.new(function() return {} end)
             QuestieDB.QueryQuestSingle = spy.new(function(_id, key)
                 if key == "childQuests" then
@@ -682,8 +686,8 @@ describe("QuestLifecycle", function()
         it("should not remove child quest if it is in the quest log", function()
             local questId = 100
             local childQuestId = 200
-            QuestiePlayer.currentQuestlog[questId] = {}
-            QuestiePlayer.currentQuestlog[childQuestId] = {}
+            ActiveQuests.Add(questId, {})
+            ActiveQuests.Add(childQuestId, {})
             QuestieDB.GetQuest = spy.new(function() return {} end)
             QuestieDB.QueryQuestSingle = spy.new(function(_id, key)
                 if key == "childQuests" then
