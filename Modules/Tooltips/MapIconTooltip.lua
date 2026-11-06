@@ -17,6 +17,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type TooltipLayout
 local TooltipLayout = QuestieLoader:ImportModule("TooltipLayout")
 ---@type QuestieComms
@@ -180,6 +182,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                 local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
                 npcAndObjectOrder[iconData.Name][tip.title] = tip
             elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
+                -- Icons are removed over several frames, so a quest that just left the quest log can still have some
+                if (not iconData.ObjectiveData.IsPartyObjective) and (not ActiveQuests.Get(iconData.Id)) then
+                    return
+                end
+
                 local key = iconData.Id
                 if not questOrder[key] then
                     questOrder[key] = {};
