@@ -4,6 +4,20 @@ describe("QuestieTraceMenu", function()
     local QuestieTraceMenu
     local originalTrace
 
+    local function makeButton()
+        local function makeTexture()
+            return {
+                SetVertexColor = function() end,
+                SetTexture = function() end,
+                SetTexCoord = function() end,
+            }
+        end
+        return {
+            Check = makeTexture(),
+            UnCheck = makeTexture(),
+        }
+    end
+
     before_each(function()
         originalTrace = _G.QuestieTraceCore
         _G.QuestieTraceCore = nil
@@ -33,9 +47,7 @@ describe("QuestieTraceMenu", function()
             clickedTrace, clickedButton = value, button
         end)
         assert.are_equal("QuestieTrace", entry.text)
-        assert.is_true(entry.checked)
-        assert.are_equal("Interface\\COMMON\\Indicator-Green", entry.customCheckIconTexture)
-        assert.are_equal("Interface\\COMMON\\Indicator-Red", entry.customUncheckIconTexture)
+        assert.is_true(entry.checked(makeButton()))
         assert.is_true(entry.registerForRightClick)
         assert.is_true(entry.keepShownOnClick)
         entry.func(nil, nil, nil, nil, "LeftButton")
@@ -52,9 +64,7 @@ describe("QuestieTraceMenu", function()
         }
 
         local entry = QuestieTraceMenu.Build(function() end)
-        assert.is_false(entry.checked)
-        assert.are_equal("Interface\\COMMON\\Indicator-Green", entry.customCheckIconTexture)
-        assert.are_equal("Interface\\COMMON\\Indicator-Red", entry.customUncheckIconTexture)
+        assert.is_false(entry.checked(makeButton()))
     end)
 
     it("stops a running capture", function()
@@ -83,4 +93,3 @@ describe("QuestieTraceMenu", function()
         assert.are_same({"save", "start"}, calls)
     end)
 end)
-
