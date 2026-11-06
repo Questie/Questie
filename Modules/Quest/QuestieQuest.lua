@@ -334,10 +334,11 @@ end
 ---@param questId number
 local function _UpdateSpecials(questId)
     local quest = QuestieDB.GetQuest(questId)
-    if quest and next(quest.SpecialObjectives) then
+    local acceptance = ActiveQuests.Get(questId)
+    if quest and acceptance and next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             ThreadLib.ThreadInstant(function()
-                if (not QuestiePlayer.currentQuestlog[questId]) then
+                if (not ActiveQuests.IsCurrent(acceptance)) then
                     return
                 end
                 QuestieQuest:PopulateObjective(quest, 0, objective, true)
@@ -872,10 +873,14 @@ end
 ---@param quest Quest
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
+    local acceptance = ActiveQuests.Get(quest.Id)
+    if (not acceptance) then
+        return
+    end
+
     for objectiveIndex, objective in pairs(quest.Objectives) do
         ThreadLib.ThreadCallbackInstant(function()
-            -- The quest can leave the quest log before this thread runs - #7730
-            if (not QuestiePlayer.currentQuestlog[quest.Id]) then
+            if (not ActiveQuests.IsCurrent(acceptance)) then
                 return
             end
             QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false)
@@ -889,7 +894,7 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
     if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             ThreadLib.ThreadCallbackInstant(function()
-                if (not QuestiePlayer.currentQuestlog[quest.Id]) then
+                if (not ActiveQuests.IsCurrent(acceptance)) then
                     return
                 end
                 QuestieQuest:PopulateObjective(quest, 0, objective, true)

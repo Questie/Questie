@@ -15,6 +15,8 @@ describe("QuestieQuest", function()
     local QuestieMap
     ---@type QuestLogCache
     local QuestLogCache
+    ---@type ActiveQuests
+    local ActiveQuests
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
     ---@type CommsVisibility
@@ -36,6 +38,7 @@ describe("QuestieQuest", function()
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.TryGetQuest = function() end
         dofile("Modules/Quest/ActiveQuests.lua")
+        ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function() end
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
@@ -750,17 +753,31 @@ describe("QuestieQuest", function()
 
         it("should populate objectives of a quest in the quest log", function()
             local quest = {Id = 42, Objectives = {{}}, SpecialObjectives = {{}}}
-            QuestiePlayer.currentQuestlog[42] = quest
+            ActiveQuests.Add(42, quest)
 
             QuestieQuest:UpdateObjectiveNotes(quest)
 
             assert.spy(QuestieQuest.PopulateObjective).was.called(2)
         end)
 
-        it("should not populate objectives of a quest that left the quest log before the thread ran", function()
+        it("should not populate objectives of a quest that is not in the quest log", function()
             local quest = {Id = 42, Objectives = {{}}, SpecialObjectives = {{}}}
 
             QuestieQuest:UpdateObjectiveNotes(quest)
+
+            assert.spy(QuestieQuest.PopulateObjective).was.not_called()
+        end)
+
+        it("should not populate objectives once the acceptance they were scheduled for ended", function()
+            local quest = {Id = 42, Objectives = {{}}, SpecialObjectives = {{}}}
+            ActiveQuests.Add(42, quest)
+            local pending = {}
+            ThreadLib.ThreadCallbackInstant = function(work) table.insert(pending, work) end
+
+            QuestieQuest:UpdateObjectiveNotes(quest)
+            ActiveQuests.Remove(42)
+            ActiveQuests.Add(42, quest)
+            for _, work in ipairs(pending) do work() end
 
             assert.spy(QuestieQuest.PopulateObjective).was.not_called()
         end)
