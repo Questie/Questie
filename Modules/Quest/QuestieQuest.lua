@@ -698,7 +698,10 @@ function QuestieQuest:GetAllQuestIds()
 
     local yieldCounter = 0
     for questId, title in pairs(questTitles) do
-        if (not QuestieDB.QuestPointers[questId]) then
+        if (not QuestLogCache.questLog_DO_NOT_MODIFY[questId]) then
+            -- Turned in or abandoned while the rebuild yielded; the removal already unlogged it
+            Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Skipping the quest which left the quest log", questId)
+        elseif (not QuestieDB.QuestPointers[questId]) then
             if Questie.db.profile.debugEnabled and not Questie._sessionWarnings[questId] then
                 if not Questie.IsSoD then
                     Questie.Warning(l10n("The quest %s is missing from Questie's database. Please report this on GitHub or Discord!",
