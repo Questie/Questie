@@ -41,6 +41,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Phasing
@@ -392,7 +394,7 @@ function QuestieQuest:SmoothReset()
                     quest.isComplete = nil
                 end
             end
-            QuestiePlayer.currentQuestlog = {}
+            ActiveQuests.Reset()
 
             --- reset the blacklist
             QuestieDB.autoBlacklist = {}
@@ -642,7 +644,7 @@ function QuestieQuest:AddToQuestLog(quest)
     local questId = quest.Id
     local complete = quest:IsComplete()
 
-    QuestiePlayer.currentQuestlog[questId] = quest
+    ActiveQuests.Restore(questId, quest)
 
     if complete == -1 then
         QuestieQuest:UpdateQuest(questId)
@@ -684,7 +686,7 @@ function QuestieQuest:GetAllQuestIds()
 
     assert(coroutine.running(), "GetAllQuestIds must be called from a coroutine")
 
-    QuestiePlayer.currentQuestlog = {}
+    ActiveQuests.Reset()
 
     -- We store a snapshot to be save against unexpected changes to QuestLogCache.questLog_DO_NOT_MODIFY
     -- which can cause problems because we are yielding
@@ -710,7 +712,7 @@ function QuestieQuest:GetAllQuestIds()
             if quest then
                 QuestieQuest:AddToQuestLog(quest)
             else
-                QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
+                ActiveQuests.Restore(questId)
             end
 
             Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
@@ -839,7 +841,7 @@ end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Getting all quests without objectives")
-    QuestiePlayer.currentQuestlog = {}
+    ActiveQuests.Reset()
 
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
@@ -854,11 +856,11 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
             --Keep the object in the questlog to save searching
             local quest = QuestieDB.GetQuest(questId)
             if quest then
-                QuestiePlayer.currentQuestlog[questId] = quest
+                ActiveQuests.Restore(questId, quest)
                 _AddSourceItemObjective(quest)
                 _AddRequiredSourceItemObjective(quest)
             else
-                QuestiePlayer.currentQuestlog[questId] = questId
+                ActiveQuests.Restore(questId)
             end
 
             Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
