@@ -8,6 +8,8 @@ local BreadcrumbQuests = QuestieLoader:CreateModule("BreadcrumbQuests")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieLink
@@ -45,7 +47,7 @@ function BreadcrumbQuests.CheckQuestBreadcrumbs(questId)
         local lastIncompleteBreadcrumbId = nil
         for _, breadcrumbQuestId in ipairs(breadcrumbs) do
             -- We want to let users know when they picked up a quest without finishing its breadcrumb
-            if (not Questie.db.char.complete[breadcrumbQuestId]) and (not QuestiePlayer.currentQuestlog[breadcrumbQuestId]) then
+            if (not Questie.db.char.complete[breadcrumbQuestId]) and (not ActiveQuests.Get(breadcrumbQuestId)) then
                 local requiredRaces = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredRaces")
                 local requiredClasses = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "requiredClasses")
                 local availableUntilCompleted = QuestieDB.QueryQuestSingle(breadcrumbQuestId, "availableUntilCompleted")
@@ -54,7 +56,7 @@ function BreadcrumbQuests.CheckQuestBreadcrumbs(questId)
                 local exclusiveQuestCompleted = false
                 if exclusiveQuests then
                     for _, exclusiveQuestId in pairs(exclusiveQuests) do
-                        if Questie.db.char.complete[exclusiveQuestId] or QuestiePlayer.currentQuestlog[exclusiveQuestId] then
+                        if Questie.db.char.complete[exclusiveQuestId] or ActiveQuests.Get(exclusiveQuestId) then
                             exclusiveQuestCompleted = true
                             break
                         end

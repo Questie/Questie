@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 dofile("Localization/l10n.lua")
 
 local QUEST_ID = 123
@@ -21,7 +24,7 @@ describe("BreadcrumbQuests", function()
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.QueryQuestSingle = function() return nil end
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
+        ActiveQuests.Reset()
         QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 
         dofile("Modules/Quest/BreadcrumbQuests.lua")
@@ -30,7 +33,8 @@ describe("BreadcrumbQuests", function()
 
     it("should do nothing for quests without breadcrumbs", function()
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = true
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestiePlayer.HasRequiredRace = function() return true end
         QuestiePlayer.HasRequiredClass = function() return true end
@@ -65,7 +69,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = true
         Questie.db.char.complete = {[101] = true, [102] = true}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -93,7 +98,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -117,7 +123,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = false
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -138,7 +145,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = false
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = true
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -176,7 +184,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = false
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -202,7 +211,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -229,7 +239,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -256,7 +267,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {[201] = true} -- Exclusive quest completed
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -279,7 +291,9 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}, [201] = {}} -- Exclusive quest in log
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
+        ActiveQuests.Add(201, {}) -- Exclusive quest in log
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -302,7 +316,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {[301] = true} -- availableUntilCompleted quest completed
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -325,7 +340,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {} -- availableUntilCompleted quest NOT completed
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -345,11 +361,13 @@ describe("BreadcrumbQuests", function()
         assert.spy(QuestieAnnounce.IncompleteBreadcrumbQuest).was.called_with(QUEST_ID, 101)
     end)
 
-    it("should skip breadcrumb when breadcrumb quest is already in currentQuestlog", function()
+    it("should skip breadcrumb when breadcrumb quest is already in the quest log", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = false
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}, [101] = {}} -- Breadcrumb quest in log
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
+        ActiveQuests.Add(101, {}) -- Breadcrumb quest in log
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then
@@ -370,7 +388,8 @@ describe("BreadcrumbQuests", function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
         Questie.db.profile.autoAccept.abandonBreadcrumbFollowup = true
         Questie.db.char.complete = {}
-        QuestiePlayer.currentQuestlog = {[QUEST_ID] = {}}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(QUEST_ID, {})
 
         QuestieDB.QueryQuestSingle = spy.new(function(questId, key)
             if questId == QUEST_ID and key == "breadcrumbs" then

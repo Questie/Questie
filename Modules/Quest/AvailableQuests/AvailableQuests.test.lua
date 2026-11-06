@@ -1,4 +1,7 @@
 local TestUtils = dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 local match = require("luassert.match")
@@ -1912,7 +1915,7 @@ describe("AvailableQuests", function()
             Questie.IsClassic = false
             Questie.IsSoD = false
             IsleOfQuelDanas.quests = {}
-            QuestiePlayer.currentQuestlog = {}
+            ActiveQuests.Reset()
             QuestiePlayer.GetPlayerLevel = function() return 60 end
             QuestieMap.questIdFrames = {}
             QuestieMap.GetFramesForQuest = function() return {} end

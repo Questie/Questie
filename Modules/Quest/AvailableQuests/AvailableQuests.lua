@@ -12,6 +12,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieTooltips
@@ -569,7 +571,7 @@ _CalculateAndDrawAvailableQuests = function()
     local hiddenQuests = QuestieCorrections.hiddenQuests
     local hidden = Questie.db.char.hidden
 
-    local currentQuestlog = QuestiePlayer.currentQuestlog
+    local activeQuests = ActiveQuests.GetAll()
     local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.profile.isleOfQuelDanasPhase] or {}
     local aqWarEffortQuests = QuestieQuestBlacklist.AQWarEffortQuests
 
@@ -582,8 +584,8 @@ _CalculateAndDrawAvailableQuests = function()
     -- The order of checks is important here to bring the speed to a max
     local questsToRemove = {}
     local function _CheckAvailability(questId)
-        if currentQuestlog[questId] then
-            _DrawChildQuests(questId, currentQuestlog, completedQuests, hiddenQuests)
+        if activeQuests[questId] then
+            _DrawChildQuests(questId, activeQuests, completedQuests, hiddenQuests)
 
             if QIsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
                 availableQuests[questId] = nil
@@ -667,9 +669,9 @@ end
 --- Reused this logic in QuestsByZone.lua/QuestsByFaction.lua -- TO DO: copy logic to QBF
 --- if this is modified, also make sure the changes are reflected in the other file
 ---@param questId number
----@param currentQuestlog table<number, boolean>
+---@param activeQuests table<QuestId, Acceptance>
 ---@param completedQuests table<number, boolean>
-_DrawChildQuests = function(questId, currentQuestlog, completedQuests, hiddenQuests)
+_DrawChildQuests = function(questId, activeQuests, completedQuests, hiddenQuests)
     local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
     if (not childQuests) then
         return
@@ -677,11 +679,11 @@ _DrawChildQuests = function(questId, currentQuestlog, completedQuests, hiddenQue
 
     for _, childQuestId in pairs(childQuests) do
         local requiredRaces = QuestieDB.QueryQuestSingle(childQuestId, "requiredRaces")
-        if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) and (not hiddenQuests[childQuestId]) and (QuestiePlayer.HasRequiredRace(requiredRaces)) then
+        if (not completedQuests[childQuestId]) and (not activeQuests[childQuestId]) and (not hiddenQuests[childQuestId]) and (QuestiePlayer.HasRequiredRace(requiredRaces)) then
             local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(childQuestId, "exclusiveTo")
             local blockedByExclusiveTo = false
             for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
-                if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or completedQuests[exclusiveToQuestId] then
+                if activeQuests[exclusiveToQuestId] or completedQuests[exclusiveToQuestId] then
                     blockedByExclusiveTo = true
                     break
                 end

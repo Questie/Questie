@@ -89,17 +89,17 @@ describe("QuestLifecycle", function()
             assert.spy(QuestieTracker.Update).was.called(1)
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
             assert.spy(QuestieDB.QueryQuestSingle).was.not_called()
-            assert.is_nil(QuestiePlayer.currentQuestlog[999])
+            assert.is_nil(ActiveQuests.Get(999))
         end)
 
-        it("should add a new quest to currentQuestlog and populate it", function()
+        it("should log a new quest and populate it", function()
             local quest = {IsComplete = function() return 0 end}
             QuestieDB.GetQuest = spy.new(function() return quest end)
             AvailableQuests.RemoveQuest = spy.new(function(_, callback) callback() end)
 
             QuestLifecycle:AcceptQuest(100)
 
-            assert.are_equal(quest, QuestiePlayer.currentQuestlog[100])
+            assert.are_equal(quest, ActiveQuests.Get(100).quest)
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
             assert.spy(AvailableQuests.RemoveQuest).was.called()
             assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called_with(QuestieQuest, quest)
@@ -183,7 +183,7 @@ describe("QuestLifecycle", function()
 
             assert.are_same({}, quest.Objectives)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
-            assert.are_equal(quest, QuestiePlayer.currentQuestlog[questId])
+            assert.are_equal(quest, ActiveQuests.Get(questId).quest)
             assert.spy(QuestieQuest.PopulateQuestLogInfo).was.called_with(QuestieQuest, quest)
             assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
         end)
@@ -258,7 +258,7 @@ describe("QuestLifecycle", function()
 
             QuestLifecycle:AdoptQuest(questId)
 
-            assert.are_equal(quest, QuestiePlayer.currentQuestlog[questId])
+            assert.are_equal(quest, ActiveQuests.Get(questId).quest)
             assert.are_equal(questId, removedQuestId)
             assert.spy(QuestieQuest.AddToQuestLog).was.not_called()
 
@@ -284,7 +284,7 @@ describe("QuestLifecycle", function()
             QuestLifecycle:CompleteQuest(questId)
             adoptionUnloaded()
 
-            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
+            assert.is_nil(ActiveQuests.Get(questId))
             assert.spy(QuestieQuest.AddToQuestLog).was.not_called()
             assert.spy(Questie.SendMessage).was.not_called_with(Questie, "QC_ID_BROADCAST_QUEST_UPDATE", questId)
         end)
@@ -294,7 +294,7 @@ describe("QuestLifecycle", function()
 
             QuestLifecycle:AdoptQuest(999)
 
-            assert.is_nil(QuestiePlayer.currentQuestlog[999])
+            assert.is_nil(ActiveQuests.Get(999))
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
         end)
     end)
@@ -450,13 +450,13 @@ describe("QuestLifecycle", function()
     end)
 
     describe("CompleteQuest", function()
-        it("should remove quest from currentQuestlog", function()
+        it("should remove quest from the quest log", function()
             local questId = 100
             ActiveQuests.Add(questId, {WasComplete = true, isComplete = true})
 
             QuestLifecycle:CompleteQuest(questId)
 
-            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
+            assert.is_nil(ActiveQuests.Get(questId))
         end)
 
         it("should reset WasComplete and isComplete flags before removing from log", function()
@@ -594,13 +594,13 @@ describe("QuestLifecycle", function()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
         end)
 
-        it("should work when quest is not in currentQuestlog", function()
+        it("should work when quest is not in the quest log", function()
             local questId = 999
 
             -- Should not error
             QuestLifecycle:CompleteQuest(questId)
 
-            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
+            assert.is_nil(ActiveQuests.Get(questId))
         end)
     end)
 
@@ -614,7 +614,7 @@ describe("QuestLifecycle", function()
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
         end)
 
-        it("should remove quest from currentQuestlog", function()
+        it("should remove quest from the quest log", function()
             local questId = 100
             local quest = {}
             ActiveQuests.Add(questId, quest)
@@ -623,7 +623,7 @@ describe("QuestLifecycle", function()
 
             QuestLifecycle:AbandonQuest(questId)
 
-            assert.is_nil(QuestiePlayer.currentQuestlog[questId])
+            assert.is_nil(ActiveQuests.Get(questId))
 
             assert.spy(QuestieTracker.RemoveQuest).was.called_with(QuestieTracker, questId)
 

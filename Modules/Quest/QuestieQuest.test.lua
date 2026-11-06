@@ -9,8 +9,6 @@ describe("QuestieQuest", function()
     local ZoneDB
     ---@type QuestieDB
     local QuestieDB
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type QuestieMap
     local QuestieMap
     ---@type QuestLogCache
@@ -32,8 +30,6 @@ describe("QuestieQuest", function()
         QuestieDB.GetQuest = spy.new(function() return {} end)
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.TryGetQuest = function() end
@@ -302,7 +298,9 @@ describe("QuestieQuest", function()
                 return {Cancel = function() end}
             end}
             local quest = {Id = 5, WasComplete = true, isComplete = true}
-            QuestiePlayer.currentQuestlog = {[5] = quest, [6] = 6}
+            ActiveQuests.Reset()
+            ActiveQuests.Add(5, quest)
+            ActiveQuests.Add(6)
 
             QuestieQuest:SmoothReset()
             for _ = 1, 7 do
@@ -311,7 +309,8 @@ describe("QuestieQuest", function()
 
             assert.is_nil(quest.WasComplete)
             assert.is_nil(quest.isComplete)
-            assert.are_same({}, QuestiePlayer.currentQuestlog)
+            assert.is_nil(ActiveQuests.Get(5))
+            assert.is_nil(ActiveQuests.Get(6))
         end)
 
         it("should restore the source item objective of each logged quest", function()
@@ -321,7 +320,8 @@ describe("QuestieQuest", function()
                 return {Cancel = function() end}
             end}
             local quest = {Id = 5}
-            QuestieQuest.GetAllQuestIdsNoObjectives = function() QuestiePlayer.currentQuestlog = {[5] = quest} end
+            QuestieQuest.GetAllQuestIdsNoObjectives = function() ActiveQuests.Reset()
+            ActiveQuests.Add(5, quest) end
             QuestieDB.GetQuest = function() return nil end
             QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
             QuestieQuest.UpdateQuest = spy.new(function() end)
@@ -359,6 +359,37 @@ describe("QuestieQuest", function()
             end
 
             assert.is_true(ActiveQuests.IsCurrent(acceptance))
+        end)
+
+        it("should not update a quest that left the quest log during the reset", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local quest = {Id = 5, SpecialObjectives = {}}
+            local removedQuest = {Id = 6, SpecialObjectives = {}}
+            QuestieDB.GetQuest = function(questId) return questId == 5 and quest or removedQuest end
+            QuestieQuest.GetAllQuestIdsNoObjectives = function()
+                ActiveQuests.Reset()
+                ActiveQuests.Restore(5, quest)
+                ActiveQuests.Restore(6, removedQuest)
+            end
+            AvailableQuests.CalculateAndDrawAll = function(callback)
+                ActiveQuests.Remove(6)
+                callback()
+            end
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() end)
+            QuestieQuest.UpdateQuest = spy.new(function() end)
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 10 do
+                tick()
+            end
+
+            assert.spy(QuestieQuest.UpdateQuest).was.called(1)
+            assert.are.equal(5, QuestieQuest.UpdateQuest.calls[1].vals[2])
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called(1)
         end)
 
         it("should not populate special objectives of a quest that left the quest log before the thread ran", function()
@@ -409,7 +440,7 @@ describe("QuestieQuest", function()
         it("should unhide a quest that is in the quest log", function()
             local questId = 123
             Questie.db.char = {hidden = {[questId] = true}}
-            QuestiePlayer.currentQuestlog[questId] = true
+            ActiveQuests.Add(questId)
             QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
 
             QuestieQuest:UnhideQuest(questId)
@@ -545,7 +576,7 @@ describe("QuestieQuest", function()
             end)
             assert.is_true(coroutine.resume(co))
             local logged = {}
-            for questId in pairs(QuestiePlayer.currentQuestlog) do
+            for questId in ActiveQuests.Iterate() do
                 logged[questId] = true
             end
             local removedQuestId
@@ -560,7 +591,7 @@ describe("QuestieQuest", function()
                 assert.is_true(coroutine.resume(co))
             end
 
-            assert.is_nil(QuestiePlayer.currentQuestlog[removedQuestId])
+            assert.is_nil(ActiveQuests.Get(removedQuestId))
         end)
     end)
 
@@ -578,7 +609,7 @@ describe("QuestieQuest", function()
 
             QuestieQuest:AddToQuestLog(quest)
 
-            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.are.equal(quest, ActiveQuests.Get(5).quest)
             assert.spy(QuestieQuest.UpdateQuest).was.called_with(QuestieQuest, 5)
             assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
         end)
@@ -594,7 +625,7 @@ describe("QuestieQuest", function()
 
             QuestieQuest:AddToQuestLog(quest)
 
-            assert.are.equal(quest, QuestiePlayer.currentQuestlog[5])
+            assert.are.equal(quest, ActiveQuests.Get(5).quest)
             assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 5, true)
             assert.are.same({true, nil, true}, hiddenWhenDrawn)
         end)
