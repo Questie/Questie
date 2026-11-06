@@ -422,6 +422,38 @@ describe("QuestieQuest", function()
         end)
     end)
 
+    describe("ClearAllNotes", function()
+        it("should unload the frames even when a logged quest has no quest object", function()
+            local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+            local originalUnloadFrame = QuestieFramePool.UnloadFrame
+            QuestieFramePool.UnloadFrame = spy.new(function() end)
+            local icon = {Unload = function() end}
+            _G.QuestieTestFrame = icon
+            QuestieMap.questIdFrames = {[1] = {"QuestieTestFrame"}}
+            ActiveQuests.Add(1)
+
+            coroutine.wrap(function() QuestieQuest:ClearAllNotes() end)()
+            local unloadFrame = QuestieFramePool.UnloadFrame
+            QuestieFramePool.UnloadFrame = originalUnloadFrame
+            _G.QuestieTestFrame = nil
+
+            assert.are.equal(icon, unloadFrame.calls[1].refs[2])
+            assert.are.same({}, QuestieMap.questIdFrames)
+        end)
+    end)
+
+    describe("ClearAllToolTips", function()
+        it("should reset the tooltip lookups even when a logged quest has no quest object", function()
+            local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+            QuestieTooltips.lookupByKey = {["m_1"] = {}}
+            ActiveQuests.Add(1)
+
+            QuestieQuest:ClearAllToolTips()
+
+            assert.are.same({}, QuestieTooltips.lookupByKey)
+        end)
+    end)
+
     describe("UnhideQuest", function()
         it("should unhide a quest", function()
             local questId = 123
