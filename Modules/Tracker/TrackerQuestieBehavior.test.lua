@@ -1,13 +1,15 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 describe("TrackerQuestieBehavior", function()
-    local Behavior, QuestieDB, QuestiePlayer, QuestieEvent
+    local Behavior, QuestieDB, QuestieEvent
     local displayQuest, cached, originalQuestieQuest, originalObjective
 
     before_each(function()
         Questie.db.profile = {}
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieDB.IsComplete = spy.new(function() return 0 end)
         QuestieDB.IsPvPQuest = spy.new(function() return true end)
@@ -18,7 +20,8 @@ describe("TrackerQuestieBehavior", function()
             Finisher = {NPC = {240}}, Objectives = {[3] = originalObjective},
             ObjectiveData = {[3] = {Id = 10, Type = "monster"}}, SpecialObjectives = {{Index = 65}},
         }
-        QuestiePlayer.currentQuestlog = {[91741] = originalQuestieQuest}
+        ActiveQuests.Reset()
+        ActiveQuests.Add(91741, originalQuestieQuest)
         displayQuest = {
             Id = 91741, name = "Blizzard title", zoneName = "Northshire Abbey", level = 2,
             Objectives = {{Index = 1, NativeIndex = 3, questId = 91741, Type = "monster", Description = "Wolf",
@@ -54,7 +57,7 @@ describe("TrackerQuestieBehavior", function()
 
     it("clears old optional data when enrichment is absent, while retaining live progress", function()
         Behavior.Apply(displayQuest, cached)
-        QuestiePlayer.currentQuestlog[91741] = 91741 -- The shared model can contain a bare ID.
+        ActiveQuests.Add(91741) -- A quest the database lacks is logged without a quest object
 
         Behavior.Apply(displayQuest, cached)
 
@@ -212,7 +215,7 @@ describe("TrackerQuestieBehavior", function()
     end)
 
     it("does not query database title flags for a Blizzard-only quest", function()
-        QuestiePlayer.currentQuestlog[91741] = nil
+        ActiveQuests.Remove(91741)
         Behavior.Apply(displayQuest, cached)
 
         local repeatable, event, pvp = Behavior.GetTitleFlags(displayQuest)

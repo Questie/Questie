@@ -31,8 +31,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 -------------------------
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieMap
@@ -606,7 +606,7 @@ function TrackerUtils:UnFocus()
     if (not Questie.db.char.TrackerFocus) then
         return
     end
-    for questId in pairs(QuestiePlayer.currentQuestlog) do
+    for questId in ActiveQuests.Iterate() do
         local quest = QuestieDB.GetQuest(questId)
 
         if quest then
@@ -646,7 +646,7 @@ function TrackerUtils:FocusQuest(questId, expectedQuest)
     if QuestieCompat.GetSuperTrackedQuestID() ~= questId then
         QuestieCompat.SetSuperTrackedQuestID(questId)
     end
-    for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
+    for questLogQuestId in ActiveQuests.Iterate() do
         local quest = QuestieDB.GetQuest(questLogQuestId)
         if quest then
             if questLogQuestId == questId then

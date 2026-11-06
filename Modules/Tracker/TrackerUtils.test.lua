@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local stub = require("luassert.stub")
 
 local _GetMockedLine
@@ -56,6 +59,7 @@ describe("TrackerUtils", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        ActiveQuests.Reset()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.GetNumTrackedQuests = function() return 0 end
         QuestieTracker.IsTrackedByQuestie = function() return false end
@@ -1264,7 +1268,7 @@ describe("TrackerUtils", function()
 
         it("can focus a known finisher even when the completed quest has a new log objective", function()
             local original = {Id = 54, Objectives = {}, Finisher = {NPC = {240}}}
-            QuestiePlayer.currentQuestlog[54] = original
+            ActiveQuests.Add(54, original)
             local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
             QuestieDB.GetQuest = function() return original end
             trackerQuests[54] = {
@@ -1335,7 +1339,7 @@ describe("TrackerUtils", function()
             compat.ClearSuperTrackedQuest = spy.new(function() superTrackedQuestId = nil end)
 
             original = {Id = 54, Objectives = {}, Finisher = {NPC = {240}}}
-            QuestiePlayer.currentQuestlog[54] = original
+            ActiveQuests.Add(54, original)
             QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return original end
             trackerQuests[54] = {
                 Id = 54, enrichment = original, Finisher = original.Finisher,
@@ -1476,7 +1480,7 @@ describe("TrackerUtils", function()
             assert.spy(TrackerData.Refresh).was.not_called()
             assert.are.equal("Northshire Abbey", details[91741].zoneName)
             assert.are.equal(trackerQuests[91741], details[91741].quest)
-            assert.is_nil(next(QuestiePlayer.currentQuestlog))
+            assert.is_nil(next(ActiveQuests.GetAll()))
         end)
 
         it("does not treat pending or zero-total objectives as completed", function()

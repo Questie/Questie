@@ -3,8 +3,8 @@
 ---@class TrackerQuestieBehavior
 local TrackerQuestieBehavior = QuestieLoader:CreateModule("TrackerQuestieBehavior")
 
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieEvent
@@ -18,10 +18,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@param nativeComplete number? Native quest-log state; only failure is authoritative before objectives are loaded.
 function TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
     -- Optional database/map metadata. Missing enrichment must not prevent the baseline from displaying.
-    local originalQuestieQuest = QuestiePlayer.currentQuestlog[displayQuest.Id]
-    if type(originalQuestieQuest) ~= "table" then
-        originalQuestieQuest = nil
-    end
+    local acceptance = ActiveQuests.Get(displayQuest.Id)
+    local originalQuestieQuest = acceptance and acceptance.quest
     displayQuest.enrichment = originalQuestieQuest
     displayQuest.zoneOrSort = originalQuestieQuest and originalQuestieQuest.zoneOrSort
     displayQuest.Description = originalQuestieQuest and originalQuestieQuest.Description

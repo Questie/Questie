@@ -45,8 +45,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestEventHandler
@@ -150,17 +150,17 @@ DisabledWatchRefresh = function()
         -- callbackFunction on success, errorCallback on failure -- keeping the coalescing intact
         -- across the threaded, multi-frame refresh.
         ThreadLib.Thread(function()
-            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                -- currentQuestlog holds a quest object, or a bare ID when the DB has no object.
-                if type(quest) == "table" then
-                    QuestieQuest:PopulateObjectiveNotes(quest)
+            for _, acceptance in ActiveQuests.Iterate() do
+                -- Quests the database lacks have no quest object to draw
+                if acceptance.quest then
+                    QuestieQuest:PopulateObjectiveNotes(acceptance.quest)
                 end
             end
             QuestieQuest:ShowQuestIcons()
             QuestieQuest:HideQuestIcons()
-            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                if type(quest) == "table" and (not QuestieQuest:ShouldShowQuestNotes(quest.Id)) then
-                    QuestieTooltips:RemoveQuest(quest.Id)
+            for questId, acceptance in ActiveQuests.Iterate() do
+                if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
+                    QuestieTooltips:RemoveQuest(questId)
                 end
             end
         end, 0, "QuestieTracker: disabled-watch map refresh failed", DisabledWatchRefreshDone, function()
