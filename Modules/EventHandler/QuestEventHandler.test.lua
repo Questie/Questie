@@ -318,14 +318,13 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestAccepted(2, QUEST_ID)
 
         assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestLifecycle.AbandonQuest).was.called_with(QuestLifecycle, QUEST_ID)
         assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
-        assert.spy(QuestieQuest.SetObjectivesDirty).was.called(2)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.called(1)
         assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AcceptedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(QuestLifecycle.AcceptQuest).was.called_with(QuestLifecycle, QUEST_ID)
@@ -351,7 +350,6 @@ describe("QuestEventHandler", function()
 
         assert.spy(Questie.SendMessage).was.called_with(Questie, "QC_ID_BROADCAST_QUEST_REMOVE", QUEST_ID)
         assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestLifecycle.AbandonQuest).was.called_with(QuestLifecycle, QUEST_ID)
         assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
@@ -454,10 +452,43 @@ describe("QuestEventHandler", function()
 
         assert.spy(cancelSpy).was.called()
         assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestLifecycle.CompleteQuest).was.called_with(QuestLifecycle, QUEST_ID)
         assert.spy(QuestieJourney.CompleteQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.CompletedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
+    end)
+
+    it("should end the acceptance before the quest leaves QuestLogCache on turn in", function()
+        local calls = {}
+        _G.GetNumQuestLogRewards = function() return 0 end
+        _G.GetQuestLogRewardInfo = function() return nil end
+        QuestLogCache.RemoveQuest = function() table.insert(calls, "RemoveQuest") end
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestLifecycle.CompleteQuest = function() table.insert(calls, "CompleteQuest") end
+        QuestieJourney.CompleteQuest = function() end
+        QuestieAnnounce.CompletedQuest = function() end
+        QuestieDB.QueryQuestSingle = function() return nil end
+
+        QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+
+        assert.are.same({"CompleteQuest", "RemoveQuest"}, calls)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.not_called()
+    end)
+
+    it("should end the acceptance before the quest leaves QuestLogCache on abandon", function()
+        local calls = {}
+        local abandonCheck
+        _G.C_Timer = {NewTicker = function(_, callback) abandonCheck = callback return {} end}
+        QuestLogCache.RemoveQuest = function() table.insert(calls, "RemoveQuest") end
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestLifecycle.AbandonQuest = function() table.insert(calls, "AbandonQuest") end
+        QuestieJourney.AbandonQuest = function() end
+        QuestieAnnounce.AbandonedQuest = function() end
+
+        QuestEventHandler.QuestRemoved(QUEST_ID)
+        abandonCheck()
+
+        assert.are.same({"AbandonQuest", "RemoveQuest"}, calls)
+        assert.spy(QuestieQuest.SetObjectivesDirty).was.not_called()
     end)
 
     it("should handle quest turn in of quests which are not in the quest log", function()
@@ -473,7 +504,6 @@ describe("QuestEventHandler", function()
         QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
 
         assert.spy(QuestLogCache.RemoveQuest).was.called_with(QUEST_ID)
-        assert.spy(QuestieQuest.SetObjectivesDirty).was.called_with(QuestieQuest, QUEST_ID)
         assert.spy(QuestLifecycle.CompleteQuest).was.called_with(QuestLifecycle, QUEST_ID)
         assert.spy(QuestieJourney.CompleteQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.CompletedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
