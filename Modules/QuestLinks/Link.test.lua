@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 describe("QuestieLink", function()
     ---@type QuestieLink
@@ -56,6 +59,7 @@ describe("QuestieLink", function()
 
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        ActiveQuests.Reset()
         QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function() return nil end
 
         QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
@@ -612,7 +616,7 @@ describe("QuestieLink", function()
                         Objectives = {{Index = 3, Description = "Fallback wording", Collected = 9, Needed = case.needed}},
                     }
                 end
-                QuestiePlayer.currentQuestlog[5678] = true
+                ActiveQuests.Add(5678)
                 QuestieDB.IsDoableVerbose = function() return "On quest", nil, "AVAILABLE" end
                 local cached = {objectives = {[3] = {text = case.text}}}
                 QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id)
@@ -640,7 +644,7 @@ describe("QuestieLink", function()
                     Objectives = {{Index = 1, Description = "Quest item", Collected = 0, Needed = 1, IsSourceItem = true}},
                 }
             end
-            QuestiePlayer.currentQuestlog[5678] = true
+            ActiveQuests.Add(5678)
             QuestieDB.IsDoableVerbose = function() return "On quest", nil, "AVAILABLE" end
             QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function()
                 return {objectives = {{text = "Unrelated native objective"}}}
@@ -686,9 +690,8 @@ describe("QuestieLink", function()
             end
 
             local questId = 5678
-            QuestiePlayer.currentQuestlog = {
-                [questId] = true,
-            }
+            ActiveQuests.Reset()
+            ActiveQuests.Add(questId)
 
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678", ItemRefTooltip)
 
@@ -759,7 +762,8 @@ describe("QuestieLink", function()
             QuestieDB.IsDoableVerbose = function()
                 return "You are on this quest", nil, "AVAILABLE"
             end
-            QuestiePlayer.currentQuestlog = {[1234] = true}
+            ActiveQuests.Reset()
+            ActiveQuests.Add(1234)
 
             QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
 
