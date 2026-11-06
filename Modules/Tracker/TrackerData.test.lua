@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 describe("TrackerData", function()
     local TrackerData, QuestieLib, QuestieDB, QuestiePlayer, QuestLogCache, compat
@@ -37,6 +40,7 @@ describe("TrackerData", function()
         QuestLogCache.GetQuest = spy.new(function() error("Reporting getter must not be used for optional reads") end)
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.currentQuestlog = {}
+        ActiveQuests.Reset()
         QuestiePlayer.GetPlayerLevel = function() return 2 end
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.IsComplete = function() return completion end
@@ -306,7 +310,7 @@ describe("TrackerData", function()
         assert.is_true(displayQuest.isComplete)
         assert.is_nil(displayQuest.enrichment)
         assert.are.equal("|cFFEEEEEE" .. "Return the book to Brother Paxton.", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
-        assert.is_nil(QuestiePlayer.currentQuestlog[91741])
+        assert.is_nil(ActiveQuests.Get(91741))
     end)
 
     it("keeps unfamiliar objective types readable rather than treating their numbers as counters", function()
@@ -349,10 +353,10 @@ describe("TrackerData", function()
             [7] = {text = "Boar slain: 1/4", type = "monster", numFulfilled = 1, numRequired = 4},
             [9] = {text = "Return to Marshal Dughan.", type = "log", finished = false},
         }}
-        QuestiePlayer.currentQuestlog[91741] = {
+        ActiveQuests.Add(91741, {
             Objectives = {[1] = otherOriginal, [3] = original},
             ObjectiveData = {[1] = {Id = 20, Type = "monster"}, [3] = {Id = 10, Type = "monster"}},
-        }
+        })
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
@@ -469,7 +473,7 @@ describe("TrackerData", function()
 
     it("preserves Questie's additional completion boolean independently of the numeric state", function()
         cached[91741] = {objectives = {}}
-        QuestiePlayer.currentQuestlog[91741] = {isComplete = true, Objectives = {}}
+        ActiveQuests.Add(91741, {isComplete = true, Objectives = {}})
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
@@ -480,7 +484,7 @@ describe("TrackerData", function()
     it("gives failure precedence over the additional completion boolean", function()
         cached[91741] = {objectives = {}}
         completion = -1
-        QuestiePlayer.currentQuestlog[91741] = {isComplete = true, Objectives = {}}
+        ActiveQuests.Add(91741, {isComplete = true, Objectives = {}})
 
         local displayQuest = TrackerData.RefreshQuest(91741)
 
@@ -499,9 +503,9 @@ describe("TrackerData", function()
 
     it("retains indexed objective enrichment without mutating its original map object", function()
         local original = {Id = 10, Type = "monster", Description = "Wolf", spawnList = {{name = "Wolf"}}}
-        QuestiePlayer.currentQuestlog[91741] = {
+        ActiveQuests.Add(91741, {
             Objectives = {original}, ObjectiveData = {{Id = 10, Type = "monster"}}, SpecialObjectives = {},
-        }
+        })
         cached[91741] = {objectives = {{text = "Wolf: 2/5", type = "monster", numFulfilled = 2, numRequired = 5}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
@@ -527,9 +531,9 @@ describe("TrackerData", function()
         local original = {Id = 10, Type = "monster", Description = "Database wording"}
         local metadata = {Id = 10, Type = "monster", Text = "Database wording"}
         local specialObjectives = {{Id = 99}}
-        QuestiePlayer.currentQuestlog[91741] = {
+        ActiveQuests.Add(91741, {
             Objectives = {original}, ObjectiveData = {metadata}, SpecialObjectives = specialObjectives,
-        }
+        })
         cached[91741] = {objectives = {{text = "Boar: 1/4", type = "monster", numFulfilled = 1, numRequired = 4}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
@@ -542,7 +546,7 @@ describe("TrackerData", function()
     end)
 
     it("renders new live objectives absent from an otherwise known database quest", function()
-        QuestiePlayer.currentQuestlog[91741] = {Objectives = {}, ObjectiveData = {}}
+        ActiveQuests.Add(91741, {Objectives = {}, ObjectiveData = {}})
         cached[91741] = {objectives = {{text = "Read the note.", type = "log", numFulfilled = 0, numRequired = 1}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
@@ -557,7 +561,7 @@ describe("TrackerData", function()
             Id = 44, Type = "item", Description = "Note",
             Needed = 1, Collected = 0, Completed = false, spawnList = {},
         }
-        QuestiePlayer.currentQuestlog[91741] = {sourceItemId = 44, Objectives = {original}}
+        ActiveQuests.Add(91741, {sourceItemId = 44, Objectives = {original}})
         cached[91741] = {objectives = {}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
@@ -582,10 +586,10 @@ describe("TrackerData", function()
     end)
 
     it("does not let additional completion hide a live objective whose database metadata is missing", function()
-        QuestiePlayer.currentQuestlog[91741] = {
+        ActiveQuests.Add(91741, {
             isComplete = true, Objectives = {{Id = 10, Type = "monster"}},
             ObjectiveData = {},
-        }
+        })
         cached[91741] = {objectives = {{text = "Boar: 0/4", type = "monster", numFulfilled = 0, numRequired = 4, finished = false}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
@@ -596,10 +600,10 @@ describe("TrackerData", function()
     end)
 
     it("keeps additional completion for objectives with indexed enrichment", function()
-        QuestiePlayer.currentQuestlog[91741] = {
+        ActiveQuests.Add(91741, {
             isComplete = true, Objectives = {{Id = 10, Type = "monster"}},
             ObjectiveData = {{Id = 10, Type = "monster"}},
-        }
+        })
         cached[91741] = {objectives = {{text = "Wolf: 4/4", type = "monster", numFulfilled = 4, numRequired = 4, finished = true}}}
 
         local displayQuest = TrackerData.RefreshQuest(91741)
@@ -682,12 +686,12 @@ describe("TrackerData", function()
 
     it("drops stale map references when enrichment disappears but cached progress remains", function()
         local original = {Id = 10, Type = "monster", Description = "Wolf", spawnList = {{name = "Wolf"}}}
-        QuestiePlayer.currentQuestlog[91741] = {
+        ActiveQuests.Add(91741, {
             Objectives = {original}, ObjectiveData = {{Id = 10, Type = "monster"}}, SpecialObjectives = {{Id = 99}},
-        }
+        })
         cached[91741] = {objectives = {{text = "Wolf: 2/5", type = "monster", numFulfilled = 2, numRequired = 5}}}
         local displayQuest = TrackerData.RefreshQuest(91741)
-        QuestiePlayer.currentQuestlog[91741] = nil
+        ActiveQuests.Remove(91741)
 
         TrackerData.RefreshQuest(91741)
 
@@ -806,7 +810,7 @@ describe("TrackerData", function()
             assert.is_true(displayQuest.objectivesLoaded)
             assert.are.equal("|cFFEEEEEERead the book.", TrackerData.GetObjectiveText(displayQuest.Objectives[1]))
             assert.is_nil(displayQuest.enrichment)
-            assert.is_nil(QuestiePlayer.currentQuestlog[91741])
+            assert.is_nil(ActiveQuests.Get(91741))
             _G.C_QuestLog.GetQuestObjectives:clear()
             TrackerData.Refresh()
             TrackerData.RefreshQuest(91741)
@@ -830,7 +834,7 @@ describe("TrackerData", function()
             assert.are.equal(1, displayQuest:IsComplete())
             assert.is_true(displayQuest.Objectives[1].Completed)
             assert.spy(QuestLifecycle.AcceptQuest).was.called(1)
-            assert.is_nil(QuestiePlayer.currentQuestlog[91741])
+            assert.is_nil(ActiveQuests.Get(91741))
         end)
 
         it("renders cached progress through unavailable responses and loading-screen regressions", function()

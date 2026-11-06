@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local stub = require("luassert.stub")
 local match = require("luassert.match")
 
@@ -116,6 +119,7 @@ describe("QuestieTracker", function()
             Questie.db.profile.autoTrackQuests = true
             TrackerData.ContainsQuest = function(id) return id == 91741 end
             QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
+            ActiveQuests.Reset()
             assert.is_true(QuestieTracker.IsTrackedByQuestie(91741))
         end)
 
@@ -149,6 +153,7 @@ describe("QuestieTracker", function()
             Questie.db.profile.autoTrackQuests = true
             Questie.db.char.AutoUntrackedQuests = {[RIVERPAW_GNOLL_BOUNTY_ID] = true}
             QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
+            ActiveQuests.Reset()
             assert.are.equal(4, QuestieTracker.GetNumTrackedQuests())
         end)
 
@@ -256,6 +261,7 @@ describe("QuestieTracker", function()
             Questie.db.profile.autoTrackQuests = true
             Questie.db.char.collapsedZones = {}
             QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {}
+            ActiveQuests.Reset()
             quest = {Id = 91741, name = "Nibbled-On Book", zoneName = "Northshire Abbey", Objectives = {}}
             QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
             QuestEventHandler.IsQuestAccepted = spy.new(function() return true end)
@@ -681,7 +687,8 @@ describe("QuestieTracker", function()
             before_each(function()
                 objective = {Index = 3, HideIcons = true, spawnList = {{Spawns = {[12] = {{50, 50}}}}}}
                 original = {Id = 11, HideIcons = true, Objectives = {[3] = objective}, SpecialObjectives = {}}
-                QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {[11] = original}
+                ActiveQuests.Reset()
+                ActiveQuests.Add(11, original)
                 QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return original end
                 TrackerData.RefreshQuest = spy.new(function()
                     return {Id = 11, enrichment = original, Objectives = {{enrichment = objective}},
