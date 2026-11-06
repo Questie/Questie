@@ -335,6 +335,9 @@ local function _UpdateSpecials(questId)
     if quest and next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             ThreadLib.ThreadInstant(function()
+                if (not QuestiePlayer.currentQuestlog[questId]) then
+                    return
+                end
                 QuestieQuest:PopulateObjective(quest, 0, objective, true)
             end)
         end
@@ -869,6 +872,10 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
     for objectiveIndex, objective in pairs(quest.Objectives) do
         ThreadLib.ThreadCallbackInstant(function()
+            -- The quest can leave the quest log before this thread runs - #7730
+            if (not QuestiePlayer.currentQuestlog[quest.Id]) then
+                return
+            end
             QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false)
         end, function()
             QuestieCombatQueue:Queue(function()
@@ -880,6 +887,9 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
     if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             ThreadLib.ThreadCallbackInstant(function()
+                if (not QuestiePlayer.currentQuestlog[quest.Id]) then
+                    return
+                end
                 QuestieQuest:PopulateObjective(quest, 0, objective, true)
             end, function()
                 QuestieCombatQueue:Queue(function()
@@ -950,19 +960,22 @@ function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
         -- If we are missing the sourceItem for zero objective quests then make an objective for it so the
         -- player has a visual indication as to what item is missing and so the quest has a "tag" of some kind.
         -- Also double check the quests leaderboard and make sure an objective doesn't already exist.
-        if (not sourceItem) and makeObjective and (not QuestieQuest:GetAllLeaderBoardDetails(quest.Id)[1]) then
-            local itemName = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")
-            quest.Objectives = {
-                [1] = {
-                    Description = itemName,
-                    Type = "item",
-                    Needed = 1,
-                    Collected = 0,
-                    Completed = false,
-                    Id = quest.sourceItemId,
-                    questId = quest.Id
+        if (not sourceItem) and makeObjective then
+            local leaderBoard = QuestieQuest:GetAllLeaderBoardDetails(quest.Id)
+            if leaderBoard and (not leaderBoard[1]) then
+                local itemName = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")
+                quest.Objectives = {
+                    [1] = {
+                        Description = itemName,
+                        Type = "item",
+                        Needed = 1,
+                        Collected = 0,
+                        Completed = false,
+                        Id = quest.sourceItemId,
+                        questId = quest.Id
+                    }
                 }
-            }
+            end
         end
     else
         return true
@@ -1480,6 +1493,11 @@ end
 ---@param self QuestObjective @quest.Objectives[] entry
 function _QuestieQuest.ObjectiveUpdate(self)
     if self.isUpdated then
+        return
+    end
+
+    -- Deferred work (threads, map icon tooltips) can outlive the quest in the quest log - #7730
+    if (not QuestLogCache.TryGetQuest(self.questId)) then
         return
     end
 

@@ -560,6 +560,7 @@ describe("QuestieQuest", function()
             originalGetLeaderBoardDetails = QuestieQuest.GetAllLeaderBoardDetails
             dofile("Modules/Libs/QuestieLib.lua")
             QuestLogCache.GetQuest = function() return {isComplete = 0} end
+            QuestLogCache.TryGetQuest = function() return {} end
             originalRemoveQuest = AvailableQuests.RemoveQuest
             QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
             originalAddFinisher = QuestFinisher.AddFinisher
@@ -683,6 +684,41 @@ describe("QuestieQuest", function()
             assert.equals("Timber Wolves slain", objective.Description)
             assert.are.equal(2, objective.Collected)
         end)
+
+        it("should not read leaderboard details when the quest left QuestLogCache", function()
+            local quest = {Id = 42, ObjectiveData = {{Id = 100}}, Objectives = {}, SpecialObjectives = {}}
+            QuestieQuest:PopulateQuestLogInfo(quest)
+            local objective = quest.Objectives[1]
+            QuestLogCache.TryGetQuest = function() end
+            QuestieQuest.GetAllLeaderBoardDetails = spy.new(function() end)
+            objective.isUpdated = false
+
+            objective:Update()
+
+            assert.spy(QuestieQuest.GetAllLeaderBoardDetails).was.not_called()
+            assert.is_false(objective.isUpdated)
+        end)
+    end)
+
+    describe("CheckQuestSourceItem", function()
+        local QuestieCompat, originalNumSlots
+
+        before_each(function()
+            QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            originalNumSlots = QuestieCompat.GetContainerNumSlots
+        end)
+
+        after_each(function()
+            QuestieCompat.GetContainerNumSlots = originalNumSlots
+        end)
+
+        it("should not error when the quest left QuestLogCache", function()
+            QuestieDB.GetQuest = function() return {Id = 42, sourceItemId = 5} end
+            QuestieQuest.GetAllLeaderBoardDetails = function() end
+            QuestieCompat.GetContainerNumSlots = function() return 0 end
+
+            assert.is_false(QuestieQuest:CheckQuestSourceItem(42, true))
+        end)
     end)
 
     describe("GetAllLeaderBoardDetails", function()
@@ -694,6 +730,38 @@ describe("QuestieQuest", function()
 
             assert.are.equal(objectives, QuestieQuest:GetAllLeaderBoardDetails(42))
             assert.spy(announce.ObjectiveChanged).was.called_with(announce, 42, 3, "Wolf slain: 2/5", 2, 5)
+        end)
+    end)
+
+    describe("UpdateObjectiveNotes", function()
+        local ThreadLib, originalThreadCallback
+
+        before_each(function()
+            ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+            originalThreadCallback = ThreadLib.ThreadCallbackInstant
+            ThreadLib.ThreadCallbackInstant = function(work) work() end
+            QuestieQuest.PopulateObjective = spy.new(function() end)
+        end)
+
+        after_each(function()
+            ThreadLib.ThreadCallbackInstant = originalThreadCallback
+        end)
+
+        it("should populate objectives of a quest in the quest log", function()
+            local quest = {Id = 42, Objectives = {{}}, SpecialObjectives = {{}}}
+            QuestiePlayer.currentQuestlog[42] = quest
+
+            QuestieQuest:UpdateObjectiveNotes(quest)
+
+            assert.spy(QuestieQuest.PopulateObjective).was.called(2)
+        end)
+
+        it("should not populate objectives of a quest that left the quest log before the thread ran", function()
+            local quest = {Id = 42, Objectives = {{}}, SpecialObjectives = {{}}}
+
+            QuestieQuest:UpdateObjectiveNotes(quest)
+
+            assert.spy(QuestieQuest.PopulateObjective).was.not_called()
         end)
     end)
 
