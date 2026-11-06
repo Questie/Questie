@@ -67,6 +67,14 @@ local _UnloadAlreadySpawnedIcons
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
+---Whether drawing for the acceptance must stop: the quest left the quest log or was accepted again while it yielded.
+---Drawing without an acceptance (party objectives) never stops here.
+---@param acceptance Acceptance?
+---@return boolean
+local function _HasEnded(acceptance)
+    return acceptance ~= nil and (not ActiveQuests.IsCurrent(acceptance))
+end
+
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 -- this variable defines how many operations to run (batched at a time) before yielding for a frame.
@@ -339,7 +347,7 @@ local function _UpdateSpecials(questId)
                 if (not ActiveQuests.IsCurrent(acceptance)) then
                     return
                 end
-                QuestieQuest:PopulateObjective(quest, 0, objective, true)
+                QuestieQuest:PopulateObjective(quest, 0, objective, true, acceptance)
             end)
         end
     end
@@ -890,7 +898,7 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
             if (not ActiveQuests.IsCurrent(acceptance)) then
                 return
             end
-            QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false)
+            QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, false, acceptance)
         end, function()
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
@@ -904,7 +912,7 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
                 if (not ActiveQuests.IsCurrent(acceptance)) then
                     return
                 end
-                QuestieQuest:PopulateObjective(quest, 0, objective, true)
+                QuestieQuest:PopulateObjective(quest, 0, objective, true, acceptance)
             end, function()
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
@@ -1002,7 +1010,8 @@ end
 ---@param objectiveIndex ObjectiveIndex
 ---@param objective QuestObjective
 ---@param blockItemTooltips any
-function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips)
+---@param acceptance Acceptance? @Stops drawing after a yield once this acceptance ended
+function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips, acceptance)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]", objective.Description)
 
     assert(coroutine.running(), "PopulateObjective must be called from a coroutine")
@@ -1067,9 +1076,15 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             objectiveCenter = {x = 0, y = 0}
         end
 
-        local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
-        local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
-        _DrawObjectiveWaypoints(objective, icon, iconPerZone)
+        local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter, acceptance)
+        if (not iconsToDraw) then
+            return
+        end
+        local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType, acceptance)
+        if (not iconPerZone) then
+            return
+        end
+        _DrawObjectiveWaypoints(objective, icon, iconPerZone, acceptance)
     end
 end
 
@@ -1126,7 +1141,7 @@ end
 ---@param objective QuestObjective
 ---@param objectiveIndex ObjectiveIndex
 ---@param objectiveCenter {x:X, y:Y}
-_DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter)
+_DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter, acceptance)
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DetermineIconsToDraw]")
 
     local iconsToDraw = {}
@@ -1203,6 +1218,9 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         if yieldCount >= TICKS_PER_YIELD then
                             yieldCount = 0
                             coYield()
+                            if _HasEnded(acceptance) then
+                                return nil
+                            end
                         end
                     end
                 end
@@ -1230,7 +1248,7 @@ local function _HasProperDistanceToAlreadyPlacedObjectives(coords, placed)
     return true
 end
 
-_DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
+_DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType, acceptance)
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveIcons] Adding Icons for quest:", questId)
 
     local spawnedIconCount = 0
@@ -1323,6 +1341,9 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         if yieldCount >= (TICKS_PER_YIELD * 2) then
             yieldCount = 0
             coYield()
+            if _HasEnded(acceptance) then
+                return nil, nil
+            end
         end
     end
 
@@ -1358,7 +1379,7 @@ _GetIconsSortedByDistance = function(icons)
     return iconCount, orderedList
 end
 
-_DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
+_DrawObjectiveWaypoints = function(objective, icon, iconPerZone, acceptance)
     local yieldCount = 0
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
         if spawnData.Waypoints then
@@ -1385,6 +1406,9 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 if yieldCount >= TICKS_PER_YIELD then
                     yieldCount = 0
                     coYield() -- We declare the yieldCount at the top level, but increment it every time we try to draw a point, because otherwise we could draw 29x 29-point paths and never call a coYield when TICKS_PER_YIELD is 30.
+                    if _HasEnded(acceptance) then
+                        return
+                    end
                 end
             end
 
