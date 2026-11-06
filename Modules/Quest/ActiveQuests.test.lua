@@ -56,14 +56,6 @@ describe("ActiveQuests", function()
         it("should return nil for a quest that is not logged", function()
             assert.is_nil(ActiveQuests.Remove(1))
         end)
-
-        it("should not let Restore bring back an acceptance removed after a Reset", function()
-            local acceptance = ActiveQuests.Add(1, {})
-            ActiveQuests.Reset()
-            ActiveQuests.Remove(1)
-
-            assert.are_not.equal(acceptance, ActiveQuests.Restore(1, {}))
-        end)
     end)
 
     describe("IsCurrent", function()
@@ -73,6 +65,14 @@ describe("ActiveQuests", function()
     end)
 
     describe("Reset and Restore", function()
+        it("should not let Restore bring back an acceptance removed after a Reset", function()
+            local acceptance = ActiveQuests.Add(1, {})
+            ActiveQuests.Reset()
+            ActiveQuests.Remove(1)
+
+            assert.are_not.equal(acceptance, ActiveQuests.Restore(1, {}))
+        end)
+
         it("should unlog every quest on Reset", function()
             local acceptance = ActiveQuests.Add(1, {})
 
