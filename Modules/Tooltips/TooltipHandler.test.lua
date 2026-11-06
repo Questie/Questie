@@ -85,6 +85,7 @@ describe("TooltipHandler", function()
             end
             local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
             QuestiePlayer.currentQuestlog = {}
+            dofile("Modules/Quest/ActiveQuests.lua")
             QuestiePlayer.numberOfGroupMembers = 2
             QuestiePlayer.GetPartyMemberByName = function(_, name)
                 if name == "Bob" then return {colorHex = "FFFFFFFF"} end
@@ -158,7 +159,7 @@ describe("TooltipHandler", function()
 
         it("moves local objective lines to a corrected name without re-registering the objective", function()
             _G.IsInGroup = function() return false end
-            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog[7] = {}
+            QuestieLoader:ImportModule("ActiveQuests").Add(7, {})
             QuestieDB.GetItemDroprate = function() return nil end
             local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
             QuestieLib.GetColoredQuestName = function() return "Local Quest" end

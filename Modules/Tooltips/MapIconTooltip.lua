@@ -345,7 +345,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                             local exclusiveQuests = QuestieDB.QueryQuestSingle(breadcrumbId, "exclusiveTo")
                             if exclusiveQuests then
                                 for _, exclusiveQuestId in pairs(exclusiveQuests) do
-                                    if Questie.db.char.complete[exclusiveQuestId] or QuestiePlayer.currentQuestlog[exclusiveQuestId] then
+                                    if Questie.db.char.complete[exclusiveQuestId] or ActiveQuests.Get(exclusiveQuestId) then
                                         exclusiveQuestCompleted = true
                                         break
                                     end

@@ -1,4 +1,6 @@
 dofile("setupTests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 describe("Tooltip", function()
     ---@type QuestieDB
@@ -60,6 +62,7 @@ describe("Tooltip", function()
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.GetPartyMemberByName = function() return nil end
         QuestiePlayer.currentQuestlog = {}
+        dofile("Modules/Quest/ActiveQuests.lua")
         QuestiePlayer.numberOfGroupMembers = 0
         cached = {}
         QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id) return cached[id] end
@@ -858,7 +861,7 @@ describe("Tooltip", function()
                 _G.GetUnitName = function(unit) return names[unit] or "Me" end
                 _G.GetClassColor = function() return 1, 1, 1, "FFFFFFFF" end
                 QuestiePlayer.GetPartyMemberByName = function() return {colorHex = "FFAAAAAA"} end
-                QuestiePlayer.currentQuestlog[1] = {}
+                ActiveQuests.Add(1, {})
                 QuestieTooltips.lookupByKey = {["m_123"] = {["1 1"] = {
                     questId = 1,
                     objective = {Index = 1, Update = function() end, Collected = 1, Needed = 1, Description = "Supplies"},
@@ -1112,7 +1115,7 @@ describe("Tooltip", function()
                     spawnList = {[123] = {ItemId = 5}}
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("m_123")
 
@@ -1132,7 +1135,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
@@ -1149,7 +1152,7 @@ describe("Tooltip", function()
 
             -- An objective of an active quest with nothing to count.
             local function Objective(questId)
-                QuestiePlayer.currentQuestlog[questId] = {}
+                ActiveQuests.Add(questId, {})
                 return {questId = questId, objective = {Index = 1, Description = "Objective " .. questId, Update = function() end}}
             end
 
@@ -1182,7 +1185,7 @@ describe("Tooltip", function()
                 liveObjective = {Index = 3, Id = 25, Type = "item", Needed = 15, Collected = 9,
                     Description = "Windstone Cluster", Update = function() end}
                 QuestieTooltips:RegisterObjectiveTooltip(1, "m_123", liveObjective)
-                QuestiePlayer.currentQuestlog[1] = {}
+                ActiveQuests.Add(1, {})
             end)
 
             after_each(function()
@@ -1254,7 +1257,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[440]={{10,10}}}
             end)
@@ -1291,7 +1294,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[721]={{10,10}}} -- Gnomeregan
             end)
@@ -1316,7 +1319,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function() end)
             local playerZone = 0
 
@@ -1336,7 +1339,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function() end)
             _G.Questie.Debug = spy.new(function() end)
 
@@ -1357,7 +1360,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return nil
             end)
@@ -1379,7 +1382,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {}
             end)
@@ -1409,7 +1412,7 @@ describe("Tooltip", function()
                     }
                 }
             }}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
@@ -1436,7 +1439,7 @@ describe("Tooltip", function()
                     }
                 }
             }}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
@@ -1480,8 +1483,8 @@ describe("Tooltip", function()
                     }
                 }
             }}
-            QuestiePlayer.currentQuestlog[1] = {}
-            QuestiePlayer.currentQuestlog[2] = {}
+            ActiveQuests.Add(1, {})
+            ActiveQuests.Add(2, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
@@ -1506,7 +1509,7 @@ describe("Tooltip", function()
                     Update = updateSpy,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             QuestieTooltips.GetTooltip("key")
 
@@ -1526,7 +1529,7 @@ describe("Tooltip", function()
                     Update = updateSpy,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             QuestieTooltips.GetTooltip("key")
 

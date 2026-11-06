@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type ZoneDB
@@ -413,7 +415,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                         title = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, true)
                     }
                 end
-                if not QuestiePlayer.currentQuestlog[questId] then
+                if not ActiveQuests.Get(questId) then
                     -- TODO: Is this still required?
                     QuestieTooltips.lookupByKey[key][k] = nil
                 else
