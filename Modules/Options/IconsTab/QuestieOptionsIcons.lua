@@ -12,8 +12,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestieMenu
@@ -128,17 +128,19 @@ function QuestieOptions.tabs.icons:Initialize()
 
                         -- Hides tooltips for untracked quests
                         if value == true then
-                            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                                if not QuestieQuest:ShouldShowQuestNotes(quest.Id) then
-                                    QuestieTooltips:RemoveQuest(quest.Id)
+                            for questId, acceptance in ActiveQuests.Iterate() do
+                                if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
+                                    QuestieTooltips:RemoveQuest(questId)
                                 end
                             end
                         end
 
                         -- Readds tooltips from all missing quests
                         if value == false then
-                            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                                QuestieQuest:PopulateObjectiveNotes(quest)
+                            for _, acceptance in ActiveQuests.Iterate() do
+                                if acceptance.quest then
+                                    QuestieQuest:PopulateObjectiveNotes(acceptance.quest)
+                                end
                             end
                         end
                     end)
