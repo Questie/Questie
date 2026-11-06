@@ -3,12 +3,8 @@ dofile("setupTests.lua")
 describe("ActiveQuests", function()
     ---@type ActiveQuests
     local ActiveQuests
-    ---@type QuestiePlayer
-    local QuestiePlayer
 
     before_each(function()
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
         dofile("Modules/Quest/ActiveQuests.lua")
         ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
     end)
@@ -22,14 +18,12 @@ describe("ActiveQuests", function()
             assert.is_true(ActiveQuests.IsCurrent(acceptance))
             assert.are.equal(acceptance, ActiveQuests.Get(1))
             assert.are.equal(quest, acceptance.quest)
-            assert.are.equal(quest, QuestiePlayer.currentQuestlog[1])
         end)
 
-        it("should log a quest the database lacks by its ID", function()
+        it("should log a quest the database lacks without a quest object", function()
             local acceptance = ActiveQuests.Add(1)
 
             assert.is_nil(acceptance.quest)
-            assert.are.equal(1, QuestiePlayer.currentQuestlog[1])
         end)
 
         it("should replace the acceptance of a quest accepted again", function()
@@ -50,7 +44,6 @@ describe("ActiveQuests", function()
 
             assert.is_false(ActiveQuests.IsCurrent(acceptance))
             assert.is_nil(ActiveQuests.Get(1))
-            assert.is_nil(QuestiePlayer.currentQuestlog[1])
         end)
 
         it("should return nil for a quest that is not logged", function()
@@ -132,7 +125,6 @@ describe("ActiveQuests", function()
 
             assert.is_false(ActiveQuests.IsCurrent(acceptance))
             assert.is_nil(ActiveQuests.Get(1))
-            assert.are.same({}, QuestiePlayer.currentQuestlog)
         end)
 
         it("should keep the acceptance of a quest restored after a Reset", function()
@@ -144,7 +136,6 @@ describe("ActiveQuests", function()
 
             assert.is_true(ActiveQuests.IsCurrent(acceptance))
             assert.are.equal(quest, acceptance.quest)
-            assert.are.equal(quest, QuestiePlayer.currentQuestlog[1])
         end)
 
         it("should keep the current acceptance when restoring a logged quest", function()

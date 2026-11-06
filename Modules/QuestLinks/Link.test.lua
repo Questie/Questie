@@ -13,8 +13,6 @@ describe("QuestieLink", function()
     local QuestieLib
     ---@type QuestieEvent
     local QuestieEvent
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type TrackerUtils
     local TrackerUtils
     ---@type QuestieReputation
@@ -56,9 +54,6 @@ describe("QuestieLink", function()
         QuestieDB.QueryNPCSingle = spy.new(function() return nil end)
         QuestieDB.QueryObjectSingle = spy.new(function() return nil end)
         QuestieDB.QueryItemSingle = spy.new(function() return nil end)
-
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
         ActiveQuests.Reset()
         QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function() return nil end
 

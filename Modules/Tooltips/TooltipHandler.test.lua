@@ -84,7 +84,6 @@ describe("TooltipHandler", function()
                 return count
             end
             local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-            QuestiePlayer.currentQuestlog = {}
             dofile("Modules/Quest/ActiveQuests.lua")
             QuestiePlayer.numberOfGroupMembers = 2
             QuestiePlayer.GetPartyMemberByName = function(_, name)

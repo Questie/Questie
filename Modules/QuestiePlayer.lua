@@ -11,8 +11,6 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
----@type table<QuestId, Quest>
-QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
 local playerRaceFlag = 255 -- dummy default value to always return race not matching, corrected in init
 local playerRaceFlagX2 = 1 -- dummy default value to always return race not matching, corrected in init

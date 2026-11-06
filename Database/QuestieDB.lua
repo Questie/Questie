@@ -710,7 +710,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     -- IsDoableVerbose is only called manually by the user.
 
     local completedQuests = Questie.db.char.complete
-    local currentQuestlog = ActiveQuests.GetAll()
+    local activeQuests = ActiveQuests.GetAll()
 
     -- These are localized in the init function
     if completedQuests[questId] then
@@ -823,7 +823,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuest and parentQuest ~= 0 then
-        if not currentQuestlog[parentQuest] then
+        if not activeQuests[parentQuest] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " has an inactive parent quest") end
             return false
         end
@@ -831,7 +831,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
     if nextQuestInChain and nextQuestInChain ~= 0 then
-        if completedQuests[nextQuestInChain] or currentQuestlog[nextQuestInChain] then
+        if completedQuests[nextQuestInChain] or activeQuests[nextQuestInChain] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Follow up quests already completed or in the quest log for quest " .. questId) end
             return false
         end
@@ -842,7 +842,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
-            if completedQuests[v] or currentQuestlog[v] then
+            if completedQuests[v] or activeQuests[v] then
                 if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player has completed a quest exclusive with quest " .. questId) end
                 return false
             end
@@ -880,7 +880,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
         -- Check the target quest of this breadcrumb
-        if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
+        if completedQuests[breadcrumbForQuestId] or activeQuests[breadcrumbForQuestId] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Target of breadcrumb quest already completed or in the quest log for quest " .. questId) end
             return false
         end
@@ -888,7 +888,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         --[[ Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
         for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do -- TODO: Remove `or {}` when we have a validation for the breadcrumb data
-            if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
+            if breadcrumbId ~= questId and activeQuests[breadcrumbId] then
                 if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Alternative breadcrumb quest in the quest log for quest " .. questId) end
                 return false
             end
@@ -899,7 +899,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
-            if currentQuestlog[breadcrumbId] then
+            if activeQuests[breadcrumbId] then
                 if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest " .. breadcrumbId .. " in the quest log for quest " .. questId) end
                 return false
             end
@@ -910,14 +910,14 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
     if disabledByQuest and disabledByQuest ~= 0 then
         -- Check the disabling quest is active
-        if currentQuestlog[disabledByQuest] then
+        if activeQuests[disabledByQuest] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Disabling quest " .. disabledByQuest .. " in the quest log for quest " .. questId) end
             return false
         end
     end
 
     -- Check if this quest is not detected as active from the NPC/object itself
-    if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
+    if DailyQuests.ShouldBeHidden(questId, completedQuests, activeQuests) then
         if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Daily quest " .. questId .. " is not active") end
         return false
     end
@@ -935,7 +935,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     -- In order to not mess with the existing logic for preQuestSingle, this field must be accompanied by preQuestSingle
     local availableStartingWith = QuestieDB.QueryQuestSingle(questId, "availableStartingWith")
     if availableStartingWith and availableStartingWith ~= 0 then
-        if not completedQuests[availableStartingWith] and not currentQuestlog[availableStartingWith] then
+        if not completedQuests[availableStartingWith] and not activeQuests[availableStartingWith] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in!") end
             return false
         end
@@ -982,7 +982,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- IsDoableVerbose is only called manually by the user.
 
     local completedQuests = Questie.db.char.complete
-    local currentQuestlog = ActiveQuests.GetAll()
+    local activeQuests = ActiveQuests.GetAll()
     local DoableStates = QuestieDB.DoableStates
     local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
 
@@ -1083,7 +1083,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
     if disabledByQuest and disabledByQuest ~= 0 then
         -- Check the disabling quest is active
-        if currentQuestlog[disabledByQuest] then
+        if activeQuests[disabledByQuest] then
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest is active"), true, DoableStates.DISABLED_BY
             elseif returnText and not returnBrief then
@@ -1116,7 +1116,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 elseif returnText and not returnBrief then
                     return msg, true, DoableStates.EXCLUSIVE_COMPLETED
                 end
-            elseif currentQuestlog[v] then
+            elseif activeQuests[v] then
                 local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. v .. " is in the quest log"
                 if returnText and returnBrief then
                     return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest in quest log"), true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
@@ -1221,7 +1221,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
         -- Check the follow up quest of this breadcrumb
-        if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
+        if completedQuests[breadcrumbForQuestId] or activeQuests[breadcrumbForQuestId] then
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Follow up quest active or completed"), true, DoableStates.BREADCRUMB_FOLLOWUP
             elseif returnText and not returnBrief then
@@ -1232,7 +1232,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         --[[ Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
         for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do
-            if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
+            if breadcrumbId ~= questId and activeQuests[breadcrumbId] then
                 if returnText and returnBrief then
                     return l10n("Unavailable")..l10n(": ")..l10n("Another breadcrumb is active"), true, DoableStates.EXCLUSIVE_BREADCRUMB
                 elseif returnText and not returnBrief then
@@ -1285,7 +1285,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                         elseif returnText and not returnBrief then
                             return msg, true, DoableStates.EXCLUSIVE_COMPLETED
                         end
-                    elseif currentQuestlog[preQuestSingleExclusives[preQuestSingleExclusivesIndex]] then
+                    elseif activeQuests[preQuestSingleExclusives[preQuestSingleExclusivesIndex]] then
                         local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. preQuestSingleExclusives[preQuestSingleExclusivesIndex] .. " is in the quest log"
                         if returnText and returnBrief then
                             return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest in quest log"), true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
@@ -1325,7 +1325,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check parent quests
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuest and parentQuest ~= 0 then
-        if not currentQuestlog[parentQuest] then
+        if not activeQuests[parentQuest] then
             local msg = "Quest " .. questId .. " has an inactive parent quest: " .. parentQuest
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Inactive parent"), true, DoableStates.PARENT_INACTIVE
@@ -1338,7 +1338,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check if it has nextQuestInChain completed or in quest log
     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
     if nextQuestInChain and nextQuestInChain ~= 0 then
-        if completedQuests[nextQuestInChain] or currentQuestlog[nextQuestInChain] then
+        if completedQuests[nextQuestInChain] or activeQuests[nextQuestInChain] then
             local msg = "Follow up quest " .. nextQuestInChain .. " already completed or in the quest log for quest " .. questId
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Later quest completed or active"), true, DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED
@@ -1383,7 +1383,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
-            if currentQuestlog[breadcrumbId] then
+            if activeQuests[breadcrumbId] then
                 if returnText and returnBrief then
                     return l10n("Unavailable")..l10n(": ")..l10n("A breadcrumb is active"), true, DoableStates.BREADCRUMB_ACTIVE
                 elseif returnText and not returnBrief then
@@ -1394,7 +1394,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     end
 
     -- Daily quest not active (based on ShouldBeHidden)
-    if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
+    if DailyQuests.ShouldBeHidden(questId, completedQuests, activeQuests) then
         if returnText and returnBrief then
             return l10n("Unavailable")..l10n(": ")..l10n("Daily quest not active"), true, DoableStates.INACTIVE_DAILY
         elseif returnText then
@@ -1405,7 +1405,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check if this quest is visible if you have a certain quest in log or turned in (slightly different to preQuestSingle)
     local availableStartingWith = QuestieDB.QueryQuestSingle(questId, "availableStartingWith")
     if availableStartingWith and availableStartingWith ~= 0 then
-        if not completedQuests[availableStartingWith] and not currentQuestlog[availableStartingWith] then
+        if not completedQuests[availableStartingWith] and not activeQuests[availableStartingWith] then
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Enabling quest not active nor turned in"), true, DoableStates.ENABLING_QUEST_MISSING
             elseif returnText and not returnBrief then
