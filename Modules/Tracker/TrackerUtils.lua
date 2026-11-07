@@ -1269,7 +1269,7 @@ function TrackerUtils.HasQuest()
             local isTrackingIncompleteQuest = false
             for _, quest in pairs(TrackerData.GetQuests()) do
                 if QuestieTracker.IsTrackedByQuestie(quest.Id)
-                    and ((quest:IsComplete() ~= 1 and not quest.isComplete) or quest.trackTimedQuest or quest.timedBlizzardQuest) then
+                    and ((quest:IsComplete() ~= 1 and not quest.isComplete) or quest.trackTimedQuest) then
                     isTrackingIncompleteQuest = true
                     break
                 end

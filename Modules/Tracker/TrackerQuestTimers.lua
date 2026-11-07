@@ -25,9 +25,7 @@ function TrackerQuestTimers:Initialize()
 
     if QuestTimerFrame then
         QuestTimerFrame:HookScript("OnShow", function()
-            if Questie.db.profile.showBlizzardQuestTimer then
-                TrackerQuestTimers:ShowBlizzardTimer()
-            else
+            if Questie.db.profile.trackerEnabled and (not QuestieTracker.disableHooks) then
                 TrackerQuestTimers:HideBlizzardTimer()
             end
         end)
@@ -61,7 +59,6 @@ function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
     local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
 
     if (timeRemainingString == nil) then
-        quest.timedBlizzardQuest = nil
         quest.trackTimedQuest = false
         return nil
     end
@@ -76,15 +73,8 @@ function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
     end
 
     if timeRemaining then
-        if Questie.db.profile.showBlizzardQuestTimer then
-            TrackerQuestTimers:ShowBlizzardTimer()
-            quest.timedBlizzardQuest = true
-            quest.trackTimedQuest = false
-        else
-            TrackerQuestTimers:HideBlizzardTimer()
-            quest.timedBlizzardQuest = false
-            quest.trackTimedQuest = true
-        end
+        TrackerQuestTimers:HideBlizzardTimer()
+        quest.trackTimedQuest = true
     end
 
     return timeRemainingString, timeRemaining
@@ -131,6 +121,11 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
 end
 
 function TrackerQuestTimers:UpdateTimerFrame()
+    if timer and (not timer.frame.label.activeTimer) then
+        -- The line was reset or reused for something else
+        timer = nil
+    end
+
     if timer and (Questie.db.profile.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
         local timeRemainingString = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
         if timeRemainingString ~= nil then
@@ -140,6 +135,8 @@ function TrackerQuestTimers:UpdateTimerFrame()
             timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
         else
             Questie.Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
+            timer.frame.label:SetText("")
+            timer = nil
             return
         end
     end

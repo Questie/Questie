@@ -16,8 +16,6 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
----@type TrackerQuestTimers
-local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type CommsVisibility
@@ -178,26 +176,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         get = function() return Questie.db.profile.trackerShowQuestLevel end,
                         set = function(_, value)
                             Questie.db.profile.trackerShowQuestLevel = value
-                            QuestieTracker:Update()
-                        end
-                    },
-                    showQuestTimer = {
-                        type = "toggle",
-                        order = 3,
-                        width = 1.5,
-                        name = function() return l10n("Show Blizzard Timer") end,
-                        desc = function() return l10n("If checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker.") end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.showBlizzardQuestTimer end,
-                        set = function(_, value)
-                            Questie.db.profile.showBlizzardQuestTimer = value
-
-                            if value == true then
-                                TrackerQuestTimers:ShowBlizzardTimer()
-                            else
-                                TrackerQuestTimers:HideBlizzardTimer()
-                            end
-
                             QuestieTracker:Update()
                         end
                     },

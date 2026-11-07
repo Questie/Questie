@@ -19,7 +19,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@param complete number
 ---@return boolean
 local function _IsQuestShown(questId, quest, complete)
-    local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
+    local timedQuest = quest.trackTimedQuest
     return ((complete ~= 1 and (not quest.isComplete)) or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
         and ((Questie.db.profile.autoTrackQuests and (not Questie.db.char.AutoUntrackedQuests[questId]))
         or (not Questie.db.profile.autoTrackQuests and Questie.db.char.TrackedQuests[questId])) and true or false
@@ -37,7 +37,7 @@ function QuestSection.HasVisibleQuestItems(sortedQuestIds, questDetails)
             and (not Questie.db.char.collapsedZones[questDetails[questId].zoneName])
             and (not Questie.db.char.collapsedQuests[questId]) then
             local isMinimizable = (complete == 1 or complete == -1) or (#quest.Objectives == 0 and quest.isComplete == true)
-            local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
+            local timedQuest = quest.trackTimedQuest
             local autoCollapsed = Questie.db.profile.collapseCompletedQuests and isMinimizable and (not timedQuest)
             if (not autoCollapsed) and #TrackerUtils.GetQuestItemIds(quest, complete) > 0 then
                 return true
@@ -75,7 +75,7 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
         local zoneName = questDetails[questId].zoneName
 
         TrackerQuestTimers:UpdateAndGetRemainingTime(quest, nil, true)
-        local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
+        local timedQuest = quest.trackTimedQuest
 
         if _IsQuestShown(questId, quest, complete) then
             -- Add Quest Zones
@@ -177,17 +177,13 @@ function QuestSection.Draw(sortedQuestIds, questDetails)
                     local timerText = nil
                     local activeTimer = false
 
-                    if quest.timedBlizzardQuest then
-                        timerText = Questie:Colorize(l10n("Blizzard Timer Active!"), "lightBlue")
-                    else
-                        local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
-                        if timeRemaining then
-                            if timeRemaining <= 1 then
-                                timerText = Questie:Colorize(l10n("Time's up!"), "lightBlue")
-                            else
-                                timerText = Questie:Colorize(timeRemainingString, "lightBlue")
-                                activeTimer = true
-                            end
+                    local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
+                    if timeRemaining then
+                        if timeRemaining <= 0 then
+                            timerText = Questie:Colorize(l10n("Time's up!"), "lightBlue")
+                        else
+                            timerText = Questie:Colorize(timeRemainingString, "lightBlue")
+                            activeTimer = true
                         end
                     end
 
