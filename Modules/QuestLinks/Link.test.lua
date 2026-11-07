@@ -81,6 +81,8 @@ describe("QuestieLink", function()
 
     after_each(function()
         QuestieLoader:ImportModule("l10n").GetUILocale = originalGetUILocale
+        Questie.IsForever = nil
+        _G.LinkUtil = nil
     end)
 
     describe("GetQuestLinkStringById", function()
@@ -258,6 +260,20 @@ describe("QuestieLink", function()
             ItemRefTooltip:SetHyperlink(link)
 
             assert.spy(HandleSetHyperlink.Run).was.called_with(ItemRefTooltip, originalItemSetHyperlink, link)
+        end)
+
+        it("should register link handlers instead of replacing SetHyperlink on Forever", function()
+            local HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
+            local originalSetHyperlink = function() end
+            _G.ItemRefTooltip.SetHyperlink = originalSetHyperlink
+            _G.LinkUtil = {RegisterLinkHandler = spy.new(function() end)}
+            Questie.IsForever = true
+
+            QuestieLink.Initialize()
+
+            assert.are_equal(originalSetHyperlink, ItemRefTooltip.SetHyperlink)
+            assert.spy(LinkUtil.RegisterLinkHandler).was.called_with("questie", HandleSetHyperlink.ProcessLink)
+            assert.spy(LinkUtil.RegisterLinkHandler).was.called_with("quest", HandleSetHyperlink.ProcessLink)
         end)
     end)
 
