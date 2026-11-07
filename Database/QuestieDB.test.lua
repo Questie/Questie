@@ -697,4 +697,55 @@ describe("QuestieDB", function()
         assert.are_not_equal(bound, mock.supportModules.QuestieDB.factionTemplate)
     end)
 
+    describe("IsComplete", function()
+        local QuestLogCache, QuestieQuest, originalQuestLog, originalCheckQuestSourceItem
+
+        before_each(function()
+            QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+            QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+            originalQuestLog = QuestLogCache.questLog_DO_NOT_MODIFY
+            originalCheckQuestSourceItem = QuestieQuest.CheckQuestSourceItem
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
+        end)
+
+        after_each(function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = originalQuestLog
+            QuestieQuest.CheckQuestSourceItem = originalCheckQuestSourceItem
+        end)
+
+        it("should return 0 without checking the source item when the quest is not in the log", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.are.equal(0, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.not_called()
+        end)
+
+        it("should return 0 without checking the source item when the quest has objectives", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {objectives = {{}}}}
+
+            assert.are.equal(0, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.not_called()
+        end)
+
+        it("should return the log state without checking the source item when it is set", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {isComplete = -1, objectives = {}}}
+
+            assert.are.equal(-1, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.not_called()
+        end)
+
+        it("should return 0 when a quest without objectives misses its source item", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {objectives = {}}}
+
+            assert.are.equal(0, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 1, false)
+        end)
+
+        it("should return 1 when a quest without objectives has its source item", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {objectives = {}}}
+            QuestieQuest.CheckQuestSourceItem = function() return true end
+
+            assert.are.equal(1, QuestieDB.IsComplete(1))
+        end)
+    end)
 end)
