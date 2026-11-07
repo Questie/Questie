@@ -203,31 +203,6 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，已完成的成就目標將自動從Questie追蹤器中移除",
     },
     ---------------------------------------------------------
-    ["Show Blizzard Timer"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Blizzard Timer anzeigen",
-        ["esES"] = "Mostrar temporizador de Blizzard",
-        ["esMX"] = "Mostrar temporizador de Blizzard",
-        ["frFR"] = "Chronomètre par défaut",
-        ["koKR"] = "블리자드 타이머 표시",
-        ["ptBR"] = "Mostrar temporizador de Blizzard",
-        ["ruRU"] = "Таймер Blizzard",
-        ["zhCN"] = "显示暴雪计时器",
-        ["zhTW"] = "顯示內建任務計時器",
-    },
-    ["If checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Wenn diese Option aktiviert ist, wird der Standard-Blizzard-Timer-Frame für Quests angezeigt, anstatt in den Tracker eingebettet zu sein.",
-        ["esES"] = "Si está seleccionado, se mostrará el marco del temporizador de Blizzard para las misiones en lugar de estar incorporado dentro del rastreador.",
-        ["esMX"] = "Si está seleccionado, se mostrará el marco del temporizador de Blizzard para las misiones en lugar de estar incorporado dentro del rastreador.",
-        ["frFR"] = "Si cette option est cochée, le cadre du chronomètre pour les quêtes est affiché au lieu d’être intégré au suivi.",
-        ["koKR"] = "이 옵션을 선택하면 추적기에 내장 된 대신 퀘스트에 대한 기본 블리자드 타이머 프레임이 표시됩니다.",
-        ["ptBR"] = "Se marcado, o quadro do temporizador de Blizzard para missões será mostrado em vez de incorporado no rastreador.",
-        ["ruRU"] = "Когда включено, будет отображаться стандартный таймер Blizzard вместо встраивания его в трекер",
-        ["zhCN"] = "启用时，将显示暴雪默认的任务计时框架，而非将其嵌入Questie追踪器内",
-        ["zhTW"] = "啟用時，會顯示遊戲內建的任務計時器框架，而不會內嵌在任務清單裡面",
-    },
-    ---------------------------------------------------------
     ["Enable Tracker Header"] = {
         ["enUS"] = true,
         ["deDE"] = "Tracker-Kopfzeile aktivieren",

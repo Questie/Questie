@@ -47,7 +47,7 @@ end
 function Questie:OnEnable()
     if Questie.IsForever or Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is enabled
-        if (Questie.db.profile.trackerEnabled and not Questie.db.profile.showBlizzardQuestTimer) then
+        if (Questie.db.profile.trackerEnabled) then
             QuestieCompat.HideWatchFrame()
         end
     end

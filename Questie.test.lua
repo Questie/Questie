@@ -244,7 +244,7 @@ describe("Questie", function()
             originalExpansion = expansions.Current
             Questie.IsForever = true
             expansions.Current = expansions.Era
-            Questie.db.profile = {trackerEnabled = true, showBlizzardQuestTimer = false}
+            Questie.db.profile = {trackerEnabled = true}
             QuestieCompat.HideWatchFrame = spy.new(function() end)
             QuestieCompat.ShowWatchFrame = spy.new(function() end)
             dofile("Questie.lua")
@@ -263,6 +263,14 @@ describe("Questie", function()
             assert.spy(QuestieCompat.ShowWatchFrame).was.called(1)
 
             Questie:OnEnable()
+            assert.spy(QuestieCompat.HideWatchFrame).was.called(1)
+        end)
+
+        it("should hide the watch frame when the legacy Blizzard timer setting is true", function()
+            Questie.db.profile.showBlizzardQuestTimer = true
+
+            Questie:OnEnable()
+
             assert.spy(QuestieCompat.HideWatchFrame).was.called(1)
         end)
     end)

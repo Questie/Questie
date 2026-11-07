@@ -485,18 +485,6 @@ local trackerUILocales = {
         ["zhCN"] = "任务（按远近 反向）",
         ["zhTW"] = "任務（依遠近 反向）",
     },
-    ["Blizzard Timer Active!"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Blizzard Timer aktiv!",
-        ["esES"] = "¡Temporizador de Blizzard activo!",
-        ["esMX"] = "¡Temporizador de Blizzard activo!",
-        ["frFR"] = "Chronomètre de Blizzard actif !",
-        ["koKR"] = "블리자드 타이머 활성화됨!",
-        ["ptBR"] = "Temporizador de Blizzard ativo!",
-        ["ruRU"] = "Таймер Blizzard активен!",
-        ["zhCN"] = "暴雪计时器启动！",
-        ["zhTW"] = "暴雪計時器啟動！",
-    },
     ["Time's up!"] = {
         ["enUS"] = true,
         ["deDE"] = "Zeit abgelaufen!",
