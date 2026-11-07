@@ -869,23 +869,38 @@ describe("QuestieQuest", function()
     end)
 
     describe("CheckQuestSourceItem", function()
-        local QuestieCompat, originalNumSlots
+        local QuestieCompat, originalGetItemCount, itemCount
 
         before_each(function()
             QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-            originalNumSlots = QuestieCompat.GetContainerNumSlots
+            originalGetItemCount = QuestieCompat.GetItemCount
+            itemCount = 0
+            QuestieCompat.GetItemCount = spy.new(function() return itemCount end)
         end)
 
         after_each(function()
-            QuestieCompat.GetContainerNumSlots = originalNumSlots
+            QuestieCompat.GetItemCount = originalGetItemCount
         end)
 
         it("should not error when the quest left QuestLogCache", function()
             QuestieDB.GetQuest = function() return {Id = 42, sourceItemId = 5} end
             QuestieQuest.GetAllLeaderBoardDetails = function() end
-            QuestieCompat.GetContainerNumSlots = function() return 0 end
 
             assert.is_false(QuestieQuest:CheckQuestSourceItem(42, true))
+        end)
+
+        it("should return true when the player owns the source item", function()
+            QuestieDB.GetQuest = function() return {Id = 42, sourceItemId = 5} end
+            itemCount = 1
+
+            assert.is_true(QuestieQuest:CheckQuestSourceItem(42, false))
+            assert.spy(QuestieCompat.GetItemCount).was.called_with(5)
+        end)
+
+        it("should return true when the quest has no source item", function()
+            QuestieDB.GetQuest = function() return {Id = 42, sourceItemId = 0} end
+
+            assert.is_true(QuestieQuest:CheckQuestSourceItem(42, false))
         end)
     end)
 
