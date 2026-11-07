@@ -137,6 +137,14 @@ describe("QuestieOptionsControls", function()
             -- Title and description, with 2 units between them
             assert.are.equal(82, control:GetHeight())
         end)
+
+        it("should grow the row when a wrapped title without description doesn't fit", function()
+            ui.stringHeight = 40
+
+            local control = Create({type = "checkbox"})
+
+            assert.are.equal(40, control:GetHeight())
+        end)
     end)
 
     describe("radio button", function()

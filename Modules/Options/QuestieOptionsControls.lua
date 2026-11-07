@@ -149,6 +149,11 @@ local function _AddRowLabels(control, wrapper, item, titleText, indent, labelWid
     -- Without a description the title sits in line with the widget
     if not item.description then
         titleFrame:SetPoint("LEFT", wrapper, "LEFT", indent, 0)
+        local titleHeight = titleFrame:GetStringHeight()
+        if titleHeight > wrapper:GetHeight() then
+            wrapper:SetHeight(titleHeight)
+            control:SetHeight(titleHeight)
+        end
         return
     end
 
