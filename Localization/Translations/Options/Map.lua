@@ -298,7 +298,7 @@ local mapOptionsLocales = {
         ["frFR"] = "Coordonnées",
         ["koKR"] = "지도 및 커서 좌표",
         ["ptBR"] = "Coordenadas de mapa e cursor",
-        ["ruRU"] = "Координаты",
+        ["ruRU"] = "Координаты (карта)",
         ["zhCN"] = "显示大地图坐标",
         ["zhTW"] = "大地圖和滑鼠坐標",
     },
