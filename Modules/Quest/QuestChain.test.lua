@@ -1,0 +1,192 @@
+dofile("setupTests.lua")
+
+describe("QuestChain", function()
+    ---@type QuestChain
+    local QuestChain
+    ---@type QuestieDB
+    local QuestieDB
+    ---@type QuestieCorrections
+    local QuestieCorrections
+
+    ---@type QuestXP
+    local QuestXP
+    ---@type QuestieLib
+    local QuestieLib
+
+    local nextQuestInChain
+    local doableStates
+    local savedGlobals
+
+    before_each(function()
+        nextQuestInChain = {}
+        doableStates = {}
+
+        savedGlobals = {
+            C_CurrencyInfo = _G.C_CurrencyInfo,
+            FormatLargeNumber = _G.FormatLargeNumber,
+            Colorize = Questie.Colorize,
+            profile = Questie.db.profile,
+        }
+        _G.C_CurrencyInfo = {GetCoinTextureString = function(copper) return copper .. "c" end}
+        _G.FormatLargeNumber = function(number) return number == 1150 and "1,150" or tostring(number) end
+        Questie.Colorize = function(_, text, color) return "[" .. color .. "]" .. text end
+        Questie.db.profile = {showQuestXpAtMaxLevel = false}
+
+        dofile("Localization/l10n.lua")
+
+        QuestXP = QuestieLoader:ImportModule("QuestXP")
+        QuestXP.GetQuestLogRewardXP = function() return 0 end
+        QuestXP.GetQuestRewardMoney = function() return 0 end
+
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.GetEffectiveQuestLevel = function() return 20 end
+        QuestieLib.PrintDifficultyColor = function(_, level, text) return "<" .. level .. ">" .. text end
+
+        QuestieLoader:ImportModule("QuestieEvent").IsEventQuest = function() return false end
+
+        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.DoableStates = {
+            AVAILABLE = 0,
+            WRONG_RACE = 6,
+            WRONG_CLASS = 8,
+            PROFESSION_SPECIALIZATION = 17,
+            LEVEL_TOO_LOW = 26,
+            PROFESSION_MISSING = 29,
+        }
+        QuestieDB.QueryQuestSingle = function(questId, key)
+            if key == "nextQuestInChain" then
+                return nextQuestInChain[questId]
+            end
+        end
+        QuestieDB.IsDoableVerbose = function(questId)
+            return "", false, doableStates[questId] or QuestieDB.DoableStates.AVAILABLE
+        end
+        QuestieDB.IsRepeatable = function() return false end
+        QuestieDB.IsPvPQuest = function() return false end
+
+        QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+        QuestieCorrections.hiddenQuests = {}
+
+        dofile("Modules/Quest/QuestChain.lua")
+        QuestChain = QuestieLoader:ImportModule("QuestChain")
+    end)
+
+    after_each(function()
+        _G.C_CurrencyInfo = savedGlobals.C_CurrencyInfo
+        _G.FormatLargeNumber = savedGlobals.FormatLargeNumber
+        Questie.Colorize = savedGlobals.Colorize
+        Questie.db.profile = savedGlobals.profile
+    end)
+
+    describe("GetNextQuests", function()
+        it("should return an empty list when the quest has no follow-up", function()
+            nextQuestInChain[1] = 0
+
+            assert.are_same({}, QuestChain.GetNextQuests(1))
+            assert.are_same({}, QuestChain.GetNextQuests(2))
+        end)
+
+        it("should list the whole chain in order", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 4
+            nextQuestInChain[4] = 0
+
+            assert.are_same({2, 3, 4}, QuestChain.GetNextQuests(1))
+        end)
+
+        it("should start after the given quest when it is in the middle of a chain", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 0
+
+            assert.are_same({3}, QuestChain.GetNextQuests(2))
+        end)
+
+        it("should stop before a quest hidden by Questie", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 4
+            QuestieCorrections.hiddenQuests[3] = true
+
+            assert.are_same({2}, QuestChain.GetNextQuests(1))
+        end)
+
+        for _, stateName in ipairs({"WRONG_RACE", "WRONG_CLASS", "PROFESSION_MISSING", "PROFESSION_SPECIALIZATION"}) do
+            it("should stop before a quest the player cannot take because of " .. stateName, function()
+                nextQuestInChain[1] = 2
+                nextQuestInChain[2] = 3
+                nextQuestInChain[3] = 4
+                doableStates[3] = QuestieDB.DoableStates[stateName]
+
+                assert.are_same({2}, QuestChain.GetNextQuests(1))
+            end)
+        end
+
+        it("should keep quests the player can take later", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 0
+            doableStates[2] = QuestieDB.DoableStates.LEVEL_TOO_LOW
+            doableStates[3] = QuestieDB.DoableStates.LEVEL_TOO_LOW
+
+            assert.are_same({2, 3}, QuestChain.GetNextQuests(1))
+        end)
+
+        it("should end a chain that loops back to a quest it already listed", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 2
+
+            assert.are_same({2, 3}, QuestChain.GetNextQuests(1))
+        end)
+
+        it("should end a chain that loops back to the given quest", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 1
+
+            assert.are_same({2}, QuestChain.GetNextQuests(1))
+        end)
+    end)
+
+    describe("GetRewardText", function()
+        it("should show the XP in the quest's difficulty color followed by the money", function()
+            QuestXP.GetQuestLogRewardXP = function() return 1150 end
+            QuestXP.GetQuestRewardMoney = function() return 250 end
+
+            assert.are_equal("<20>(1,150xp) [white](250c) ", QuestChain.GetRewardText(5))
+        end)
+
+        it("should color the XP by the quest's level and kind", function()
+            QuestXP.GetQuestLogRewardXP = function() return 1150 end
+            QuestieDB.IsRepeatable = function() return true end
+            QuestieDB.IsPvPQuest = function() return true end
+            QuestieLib.PrintDifficultyColor = spy.new(function() return "" end)
+
+            QuestChain.GetRewardText(5)
+
+            assert.spy(QuestieLib.PrintDifficultyColor).was.called_with(QuestieLib, 20, "(1,150xp) ", true, false, true, 5)
+        end)
+
+        it("should leave out a reward that is zero", function()
+            QuestXP.GetQuestRewardMoney = function() return 250 end
+            assert.are_equal("[white](250c) ", QuestChain.GetRewardText(5))
+
+            QuestXP.GetQuestLogRewardXP = function() return 1150 end
+            QuestXP.GetQuestRewardMoney = function() return 0 end
+            assert.are_equal("<20>(1,150xp) ", QuestChain.GetRewardText(5))
+
+            QuestXP.GetQuestLogRewardXP = function() return 0 end
+            assert.are_equal("", QuestChain.GetRewardText(5))
+        end)
+
+        it("should ask for the XP at max level when the option is enabled", function()
+            Questie.db.profile.showQuestXpAtMaxLevel = true
+            QuestXP.GetQuestLogRewardXP = spy.new(function() return 0 end)
+
+            QuestChain.GetRewardText(5)
+
+            assert.spy(QuestXP.GetQuestLogRewardXP).was.called_with(QuestXP, 5, true)
+        end)
+    end)
+end)
