@@ -121,6 +121,33 @@ describe("QuestieOptionsControls", function()
             assert.is_false(control.widget.HoverTex:IsShown())
         end)
 
+        describe("when the settings close under the mouse", function()
+            local control
+
+            before_each(function()
+                control = Create({type = "checkbox"})
+                control.mouseOver = true
+                control.scripts.OnEnter(control)
+                assert.is_true(control.widget.HoverTex:IsShown())
+            end)
+
+            -- Measured in the real client: hiding a hovered row runs its OnLeave, while IsMouseOver still returns true
+            it("should drop its hover highlight, even though the mouse is still over it", function()
+                parent:Hide()
+                control.scripts.OnLeave(control)
+                parent:Show()
+
+                assert.is_false(control.widget.HoverTex:IsShown())
+            end)
+
+            it("should drop its hover highlight without waiting for OnLeave", function()
+                parent:Hide()
+                parent:Show()
+
+                assert.is_false(control.widget.HoverTex:IsShown())
+            end)
+        end)
+
         it("should keep its height while the description fits", function()
             ui.stringHeight = 5
 
@@ -603,6 +630,37 @@ describe("QuestieOptionsControls", function()
             assert.is_false(GameTooltip:IsShown())
         end)
 
+        -- Reported in the real client: the tooltip stayed after closing the settings while hovering an option
+        it("should hide when the settings close under the mouse, without waiting for OnLeave", function()
+            local control = Create({type = "checkbox", title = "Option", tooltip = "What it does"})
+            control.scripts.OnEnter(control)
+            assert.is_true(GameTooltip:IsShown())
+
+            parent:Hide()
+
+            assert.is_false(GameTooltip:IsShown())
+        end)
+
+        it("should leave a tooltip that belongs to something else when closing", function()
+            Create({type = "checkbox", title = "Option", tooltip = "What it does"})
+            GameTooltip:SetOwner(UIParent)
+            GameTooltip:Show()
+
+            parent:Hide()
+
+            assert.is_true(GameTooltip:IsShown())
+        end)
+
+        it("should hide Blizzard's tooltip for dropdown text that doesn't fit when closing", function()
+            local control = Create({type = "dropdown", title = "Option", options = {a = "A"}})
+            GameTooltip:SetOwner(control.widget)
+            GameTooltip:Show()
+
+            parent:Hide()
+
+            assert.is_false(GameTooltip:IsShown())
+        end)
+
         it("should not touch the tooltip for a control without one", function()
             local control = Create({type = "checkbox", title = "Option"})
 
@@ -788,6 +846,23 @@ describe("QuestieOptionsControls", function()
 
             assert.are.equal(300, control.widget:GetWidth())
             assert.are.equal(48, control.widget:GetHeight())
+        end)
+
+        -- Like My Journey, which closes the settings from its own click
+        it("should not look hovered or pressed anymore after the settings close under the mouse", function()
+            local control = Create({type = "button", btnLabel = "Press"})
+            local button = control.widget
+            local label = ui.FindAll(button, function(frame) return frame.frameType == "FontString" end)[1]
+            local idleColor = label.textColor
+            button.scripts.OnEnter(button)
+            button.scripts.OnMouseDown(button, "LeftButton")
+            assert.are_not.same(idleColor, label.textColor)
+
+            parent:Hide()
+            parent:Show()
+
+            assert.is_false(button.isPressed)
+            assert.are_same(idleColor, label.textColor)
         end)
     end)
 
