@@ -264,6 +264,8 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, getTex
         for _, id in pairs(lookup) do
             id = math.abs(id)
             local link = AceGUI:Create("InteractiveLabel")
+            -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
+            link:SetFullWidth(true)
             local name = query(id, "name")
             local text
             if linkType == 'quest' then

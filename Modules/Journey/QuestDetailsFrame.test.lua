@@ -14,7 +14,7 @@ describe("QuestDetailsFrame quest links", function()
             callbacks = {},
             userdata = {},
             text = {SetFontObject = function() end},
-            SetFullWidth = function() end,
+            SetFullWidth = function(self, isFull) self.fullWidth = isFull end,
             SetText = function(self, text) self.shownText = text end,
             SetValue = function() end,
             SetLabel = function() end,
@@ -151,6 +151,23 @@ describe("QuestDetailsFrame quest links", function()
 
         assert.same({"hide tooltip", "search"}, navigation)
         assert.spy(QuestieSearchResults.SetSearch).was.called_with(QuestieSearchResults, "quest", 93038)
+    end)
+
+    it("stretches every quest link to the width of its section", function()
+        QuestChain.GetNextQuests = function() return {93037} end
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            preQuestSingle = {92517},
+            preQuestGroup = {92518},
+            Finisher = {},
+        })
+
+        assert.equals(3, #links)
+        for _, link in ipairs(links) do
+            assert.is_true(link.fullWidth)
+        end
     end)
 
     it("leaves out the next in chain section when the quest has no follow-up", function()
