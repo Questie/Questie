@@ -462,11 +462,11 @@ function QuestieMenu:Show(hideDelay)
         tinsert(menuTable, build("Moonwell"))
     end
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
-        local value = not Questie.db.profile.enableAvailable
-        Questie.db.profile.enableAvailable = value
+        local value = not Questie.db.profile.showAvailableQuests
+        Questie.db.profile.showAvailableQuests = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
-    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.profile.enableAvailable, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.profile.showAvailableQuests, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
         local value = Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_ALL
         if value then

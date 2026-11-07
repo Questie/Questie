@@ -23,6 +23,7 @@ describe("QuestieFrame", function()
             enableTurnins = true,
             enableObjectives = true,
             enableAvailable = true,
+            showAvailableQuests = true,
             showRepeatableQuests = true,
             showEventQuests = true,
             showDungeonQuests = true,
@@ -483,6 +484,16 @@ describe("QuestieFrame", function()
             local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
 
             assert.is_false(result)
+        end)
+
+        it("should return true for available repeatable icons when all available quests are hidden", function()
+            QuestieDB.IsRepeatable = function() return true end
+            Questie.db.profile.showAvailableQuests = false
+            QuestieFrameInstance.data.Type = "available"
+
+            local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
+
+            assert.is_true(result)
         end)
 
         it("should return true for available icons when available icons should be hidden", function()
