@@ -454,6 +454,14 @@ _AddPlayerQuestProgress = function(tooltip, quest, starterName, starterZoneName,
 end
 
 _InstallSetHyperlinkOverride = function()
+    -- Replacing ItemRefTooltip.SetHyperlink taints every link click on Forever, which breaks
+    -- Blizzard's ItemRefSetHyperlink with secret values in instances. Use the link handler API there.
+    if Questie.IsForever then
+        LinkUtil.RegisterLinkHandler("questie", HandleSetHyperlink.ProcessLink)
+        LinkUtil.RegisterLinkHandler("quest", HandleSetHyperlink.ProcessLink)
+        return
+    end
+
     local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 
     --- Override of the default SetHyperlink function to filter Questie links

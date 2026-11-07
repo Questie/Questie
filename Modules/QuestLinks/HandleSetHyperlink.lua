@@ -17,10 +17,34 @@ local lastItemRefTooltip
 ---@param fallbackHandler function
 ---@param link string
 function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
-    -- If Questie hasn't started yet, delegate to the default handler to avoid accessing uninitialized DB
-    if (not Questie.started) then
+    if (not HandleSetHyperlink.TryShowQuestTooltip(link)) then
         fallbackHandler(self, link, ...)
-        return
+    end
+end
+
+--- Link handler for LinkUtil.RegisterLinkHandler. Blizzard's SetItemRef calls it before
+--- ItemRefTooltip:SetHyperlink, so Questie doesn't need to replace SetHyperlink.
+---@param link string
+---@return number @LinkProcessorResponse
+function HandleSetHyperlink.ProcessLink(link)
+    -- Modified clicks (e.g. shift-click to insert into chat) must reach Blizzard's default handling
+    if IsModifiedClick() then
+        return LinkProcessorResponse.Unhandled
+    end
+
+    if HandleSetHyperlink.TryShowQuestTooltip(link) then
+        return LinkProcessorResponse.Handled
+    end
+    return LinkProcessorResponse.Unhandled
+end
+
+--- Shows the Questie quest tooltip in the ItemRefTooltip for questie and native quest links.
+---@param link string
+---@return boolean @true if the link was handled
+function HandleSetHyperlink.TryShowQuestTooltip(link)
+    -- If Questie hasn't started yet, let the default handler take over to avoid accessing uninitialized DB
+    if (not Questie.started) then
+        return false
     end
 
     local questiePrefix, questId = string.match(link, "(questie):(%d+):")
@@ -40,16 +64,14 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
     if (not extractedQuestId) then
         -- We weren't able to find the questId. Nothing we can do, so we let the default handler take over
         lastItemRefTooltip = nil
-        fallbackHandler(self, link, ...)
-        return
+        return false
     end
 
     local quest = QuestieDB.GetQuest(extractedQuestId)
     if (not quest) then
         -- We don't have the quest in our DB, so we let the default handler take over
         lastItemRefTooltip = nil
-        fallbackHandler(self, link, ...)
-        return
+        return false
     end
 
     if (not ItemRefTooltip:IsShown()) then
@@ -70,8 +92,9 @@ function HandleSetHyperlink.Run(self, fallbackHandler, link, ...)
     if lastItemRefTooltip == extractedQuestId then
         ItemRefTooltip:Hide()
         lastItemRefTooltip = nil
-        return
+        return true
     end
 
     lastItemRefTooltip = extractedQuestId
+    return true
 end

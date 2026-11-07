@@ -113,4 +113,43 @@ describe("HandleSetHyperlink", function()
 
         assert.spy(ItemRefTooltip.Hide).was.not_called()
     end)
+
+    describe("ProcessLink", function()
+        before_each(function()
+            _G.LinkProcessorResponse = {Unhandled = 1, Handled = 2}
+            _G.IsModifiedClick = function() return false end
+        end)
+
+        it("should return Handled and show the quest tooltip for a known quest", function()
+            local response = HandleSetHyperlink.ProcessLink("quest:74:28")
+
+            assert.are_equal(LinkProcessorResponse.Handled, response)
+            assert.spy(QuestieLink.CreateQuestTooltip).was.called()
+        end)
+
+        it("should return Handled and show the quest tooltip for a questie link", function()
+            local response = HandleSetHyperlink.ProcessLink("questie:74:GUID-0-1234")
+
+            assert.are_equal(LinkProcessorResponse.Handled, response)
+            assert.spy(QuestieLink.CreateQuestTooltip).was.called()
+        end)
+
+        it("should return Unhandled when the quest is not in QuestieDB", function()
+            QuestieDB.GetQuest = function() return nil end
+
+            local response = HandleSetHyperlink.ProcessLink("quest:99999:28")
+
+            assert.are_equal(LinkProcessorResponse.Unhandled, response)
+            assert.spy(QuestieLink.CreateQuestTooltip).was.not_called()
+        end)
+
+        it("should return Unhandled for modified clicks without showing the quest tooltip", function()
+            _G.IsModifiedClick = function() return true end
+
+            local response = HandleSetHyperlink.ProcessLink("questie:74:GUID-0-1234")
+
+            assert.are_equal(LinkProcessorResponse.Unhandled, response)
+            assert.spy(QuestieLink.CreateQuestTooltip).was.not_called()
+        end)
+    end)
 end)

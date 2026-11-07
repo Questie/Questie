@@ -2685,6 +2685,8 @@ globals = {
     "ItemUtil",
     "ItemTextFrame",
     "KeyBindingFrame",
+    "LinkProcessorResponse",
+    "LinkUtil",
     "LootFrame",
     "LootHistoryDropDown",
     "LootHistoryFrame",
