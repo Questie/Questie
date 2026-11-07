@@ -64,6 +64,7 @@ function QuestieOptionsDefaults:Load()
             enableObjectives = true,
             enableTurnins = true,
             enableAvailable = true,
+            showAvailableQuests = true,
             enableAvailableItems = true,
             enableTooltips = true,
             enableTooltipsItemID = false,
