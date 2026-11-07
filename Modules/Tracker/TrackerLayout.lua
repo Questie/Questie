@@ -120,7 +120,15 @@ function TrackerLayout.UpdateLineWidth(line, marginLeft)
     local margin = marginLeft + TrackerLayout.MARGIN_RIGHT
     local contentMaxWidth = trackerMaxWidth - margin
 
-    local unboundedWidth = line.label:GetUnboundedStringWidth()
+    local label = line.label
+    -- The unbounded width only depends on text and font, and measuring forces a text layout
+    local text = label:GetText()
+    local font, fontSize, fontFlags = label:GetFont()
+    if line.measuredText ~= text or line.measuredFont ~= font or line.measuredFontSize ~= fontSize or line.measuredFontFlags ~= fontFlags then
+        line.measuredText, line.measuredFont, line.measuredFontSize, line.measuredFontFlags = text, font, fontSize, fontFlags
+        line.measuredWidth = label:GetUnboundedStringWidth()
+    end
+    local unboundedWidth = line.measuredWidth
     if (unboundedWidth + margin) < contentMaxWidth then
         -- If the text width is less than the max tracker width, we update the base frame width to fit the text
         TrackerLayout.UpdateWidth(unboundedWidth + margin)
@@ -138,7 +146,6 @@ function TrackerLayout.UpdateLineWidth(line, marginLeft)
     else
         -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent.
         -- We add an extra pixel per line to account for WoW's internal line spacing on top of the raw font size.
-        local _, fontSize = line.label:GetFont()
         local lineHeight = ((fontSize + 1) * line.label:GetNumLines()) + 1 -- add an extra pixel to make sure it really wraps
         line.label:SetHeight(lineHeight)
         line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
