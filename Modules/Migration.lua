@@ -304,6 +304,10 @@ local migrationFunctions = {
         Questie.db.profile.minimap = Questie.db.profile.minimap or {hide = false}
         Questie.db.profile.minimap.showInCompartment = true
     end,
+    [49] = function()
+        -- The Blizzard quest timer is always hidden now; timed quests are shown in the Questie tracker.
+        Questie.db.profile.showBlizzardQuestTimer = nil
+    end,
 }
 
 function Migration:Migrate()

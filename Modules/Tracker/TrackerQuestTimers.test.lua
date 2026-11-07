@@ -113,4 +113,37 @@ describe("TrackerQuestTimers", function()
             assert.spy(_G.SelectQuestLogEntry).was.called_with(456)
         end)
     end)
+
+    describe("UpdateTimerFrame", function()
+        local frame
+
+        before_each(function()
+            local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            QuestieTracker.disableHooks = nil
+            Questie.db.profile.trackerEnabled = true
+            Questie.db.char.isTrackerExpanded = true
+            local timers = {{questID = 1, questTimer = 1}}
+            _G.C_QuestLog = {GetQuestTimers = function() return timers end}
+            _G.SecondsToTime = function() return "1 Sec" end
+            frame = {label = {activeTimer = true, SetText = spy.new(function() end), SetFont = function() end}}
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 1}, frame, false)
+            timers[1] = nil
+        end)
+
+        it("should clear the label and retire the timer when it expired", function()
+            TrackerQuestTimers:UpdateTimerFrame()
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.spy(frame.label.SetText).was.called(1)
+            assert.spy(frame.label.SetText).was.called_with(frame.label, "")
+        end)
+
+        it("should not touch a label whose line was reused", function()
+            frame.label.activeTimer = nil
+
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.spy(frame.label.SetText).was_not.called()
+        end)
+    end)
 end)

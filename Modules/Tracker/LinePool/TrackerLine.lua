@@ -132,6 +132,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
                     timeElapsed = 0
                 else
+                    self.label:SetText("")
                     timeElapsed = 0
                     return
                 end

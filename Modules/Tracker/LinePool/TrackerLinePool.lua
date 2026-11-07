@@ -85,6 +85,7 @@ function TrackerLinePool.ResetLinesForChange()
         line.mode = nil
         line.Recipe = nil
         line.trackTimedQuest = nil
+        line.label.activeTimer = nil
         line.questHasSecondaryQIB = false
         if line.expandQuest then
             line.expandQuest.mode = nil
@@ -243,6 +244,7 @@ function TrackerLinePool.HideUnusedLines()
             line.altButton = nil
             line.questHasSecondaryQIB = false
             line.trackTimedQuest = nil
+            line.label.activeTimer = nil
             line.expandQuest.mode = nil
             line.expandQuest.questId = nil
             line.expandZone.mode = nil
