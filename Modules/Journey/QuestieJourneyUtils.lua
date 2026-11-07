@@ -12,6 +12,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local WrappedText = QuestieLoader:ImportModule("WrappedText")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type HandleSetHyperlink
+local HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
 
 local GetItemInfo = QuestieCompat.GetItemInfo
 local GetItemIcon = QuestieCompat.GetItemIcon
@@ -139,7 +141,7 @@ function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
     label:SetUserData('type', 'quest')
     label:SetUserData('name', quest.name)
     label:SetCallback("OnClick", function()
-        ItemRefTooltip:SetHyperlink("%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]")
+        HandleSetHyperlink.TryShowQuestTooltip("%|Hquestie:" .. questId .. ":.*%|h")
     end)
     label:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
     label:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
