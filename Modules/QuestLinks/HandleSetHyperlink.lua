@@ -33,6 +33,9 @@ function HandleSetHyperlink.ProcessLink(link)
     end
 
     if HandleSetHyperlink.TryShowQuestTooltip(link) then
+        -- Blizzard's ItemRefSetHyperlink pads the tooltip when the title overlaps the close button.
+        -- That needs arithmetic on frame positions, which can be secret, so always pad instead.
+        ItemRefTooltip:SetPadding(16, 0)
         return LinkProcessorResponse.Handled
     end
     return LinkProcessorResponse.Unhandled
