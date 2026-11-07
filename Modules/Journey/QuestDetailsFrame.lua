@@ -493,12 +493,14 @@ function QuestDetailsFrame:Draw(container, quest)
     -- Pre Quests - two separate labeled sections
     if quest.preQuestSingle and next(quest.preQuestSingle) then
         QuestieJourneyUtils:Spacer(container)
-        AddLinkedParagraph(container, "quest", quest.preQuestSingle, l10n("Requires one of these quests to be finished"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(container, "quest", quest.preQuestSingle, l10n("Requires one of these quests to be finished"),
+            QuestieDB.QueryQuestSingle, QuestChain.GetRewardText)
     end
 
     if quest.preQuestGroup and next(quest.preQuestGroup) then
         QuestieJourneyUtils:Spacer(container)
-        AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"),
+            QuestieDB.QueryQuestSingle, QuestChain.GetRewardText)
     end
 
     local nextQuestIds = QuestChain.GetNextQuests(quest.Id)

@@ -119,6 +119,24 @@ describe("QuestDetailsFrame quest links", function()
         assert.spy(QuestieSearchResults.SetSearch).was.called_with(QuestieSearchResults, "quest", 94568)
     end)
 
+    it("shows the rewards of the prerequisites", function()
+        local rewards = {[92517] = "(1,150xp) ", [92518] = "(400xp) "}
+        QuestChain.GetRewardText = function(questId) return rewards[questId] or "" end
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            preQuestSingle = {92517},
+            preQuestGroup = {-92518, 94568},
+            Finisher = {},
+        })
+
+        assert.equals(3, #links)
+        assert.equals("Quest 92517 (1,150xp) ", links[1].shownText)
+        assert.equals("Quest 92518 (400xp) ", links[2].shownText)
+        assert.equals("Quest 94568", links[3].shownText)
+    end)
+
     it("lists the next quests in the chain with their rewards after the prerequisites", function()
         QuestChain.GetNextQuests = function(questId) return questId == 93036 and {93037, 93038} or {} end
         QuestChain.GetRewardText = function(questId) return questId == 93037 and "(1,150xp) " or "" end
