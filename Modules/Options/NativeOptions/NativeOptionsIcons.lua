@@ -1186,8 +1186,9 @@ end
 
 function QuestieOptionsUtils.ExecuteTheme(info, value)
     Questie.db.profile.iconTheme = value
+    local currentQuestPOI = GetCVar("questPOI")
     if value == "questie" then
-        if GetCVar("questPOI") then
+        if currentQuestPOI and currentQuestPOI ~= "0" then
             SetCVar("questPOI", "0")
         end
         if WorldMapQuestShowObjectives then
@@ -1206,7 +1207,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
         Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "pfquest" then
-        if GetCVar("questPOI") then
+        if currentQuestPOI and currentQuestPOI ~= "0" then
             SetCVar("questPOI", "0")
         end
         if WorldMapQuestShowObjectives then
@@ -1225,7 +1226,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = false
         Questie.db.profile.objectiveFilterDistance = 2
     elseif value == "blizzard" then
-        if GetCVar("questPOI") then
+        if currentQuestPOI and currentQuestPOI ~= "1" then
             SetCVar("questPOI", "1")
         end
         if WorldMapQuestShowObjectives then
