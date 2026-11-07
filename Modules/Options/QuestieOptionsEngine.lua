@@ -110,13 +110,30 @@ local function _RefreshCanvas(canvas)
     end
 end
 
+---Throws away what a failed build created, so the tab is built from scratch the next time it is shown.
+---Not right away, because an error that isn't a passing one would then repeat every frame.
+---@param canvas Frame
+local function _DiscardFailedBuild(canvas)
+    if canvas.content then
+        canvas.content:Hide()
+        canvas.content:SetParent(nil)
+        canvas.content = nil
+    end
+    canvas.controls = {}
+    canvas.UpdateScrollLayout = nil
+    canvas.isBuildStarted = false
+end
+
 ---A canvas is built the first time it is shown. After that, each time it is shown it catches up on
 ---settings that changed while it was hidden, because RefreshStates skips hidden canvases.
 ---@param canvas Frame
 local function _OnCanvasShown(canvas)
     if not canvas.isBuildStarted then
         canvas.isBuildStarted = true
-        ThreadLib.Thread(function() _BuildCanvas(canvas) end, 0, "Error while building a Questie settings tab:", nil, nil, "QuestieOptionsEngine.BuildCanvas")
+        ThreadLib.Thread(
+            function() _BuildCanvas(canvas) end, 0, "Error while building a Questie settings tab:", nil,
+            function() _DiscardFailedBuild(canvas) end, "QuestieOptionsEngine.BuildCanvas"
+        )
         return
     end
 
@@ -149,25 +166,26 @@ local function _CreateCanvas(parent, tab, mode)
 end
 
 ---@param canvas Frame
+---@param content Frame Holds what the build creates
 ---@param leftInset number
 ---@return Frame headerWrapper Spans the top of the canvas, down to the bottom of the title
-local function _CreateCanvasHeader(canvas, leftInset)
+local function _CreateCanvasHeader(canvas, content, leftInset)
     local tabData = canvas.tab.data
 
-    local headerWrapper = CreateFrame("Frame", canvas:GetName() .. "_headerWrapper", canvas)
+    local headerWrapper = CreateFrame("Frame", canvas:GetName() .. "_headerWrapper", content)
     headerWrapper:SetAllPoints(canvas)
     headerWrapper:SetPoint("TOPLEFT", canvas, "TOPLEFT", 0, -4)
 
-    local title = canvas:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
+    local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
     title:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -4)
     title:SetText("Questie")
 
-    local bullet = canvas:CreateFontString(nil, "OVERLAY", "Game13Font")
+    local bullet = content:CreateFontString(nil, "OVERLAY", "Game13Font")
     bullet:SetPoint("LEFT", title, "RIGHT", 4, -1)
     bullet:SetTextColor(0.9, 0.9, 0.9, 1.0)
     bullet:SetText("•")
 
-    local subtitle = canvas:CreateFontString(nil, "OVERLAY", "Game13Font")
+    local subtitle = content:CreateFontString(nil, "OVERLAY", "Game13Font")
     subtitle:SetPoint("LEFT", bullet, "RIGHT", 8, 0)
     subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
     subtitle:SetText(l10n(tabData.subtitle or tabData.title))
@@ -258,10 +276,15 @@ _BuildCanvas = function(canvas)
 
     _YieldIfFrameBudgetSpent()
 
-    local headerWrapper = _CreateCanvasHeader(canvas, isPopup and 44 or 0)
+    -- Everything the build creates goes on here, so a failed build can be thrown away
+    local content = CreateFrame("Frame", nil, canvas)
+    content:SetAllPoints(canvas)
+    canvas.content = content
+
+    local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and 44 or 0)
 
     if isPopup then
-        local journeyButton = QuestieOptionsControls.Create(canvas, {
+        local journeyButton = QuestieOptionsControls.Create(content, {
             title = "My Journey",
             type = "button",
             align = "RIGHT",
@@ -275,13 +298,13 @@ _BuildCanvas = function(canvas)
         AddControl(journeyButton)
     end
 
-    local scrollBox, scrollChild = _CreateScrollFrames(canvas, canvas:GetName() .. "_Scroll", headerWrapper, canvas.mode)
+    local scrollBox, scrollChild = _CreateScrollFrames(content, canvas:GetName() .. "_Scroll", headerWrapper, canvas.mode)
 
     -- Controls are created out of sight. Otherwise the tab visibly assembles itself on a slow client,
     -- and an edit box can take the keyboard focus before it is told not to.
     scrollBox:Hide()
 
-    local divider = canvas:CreateTexture(nil, "BORDER")
+    local divider = content:CreateTexture(nil, "BORDER")
     divider:SetPoint("TOPLEFT", scrollBox, "TOPLEFT", 0, 2)
     divider:SetPoint("BOTTOMRIGHT", scrollBox, "TOPRIGHT", 0, 0.5)
     divider:SetAtlas("Options_HorizontalDivider", true)

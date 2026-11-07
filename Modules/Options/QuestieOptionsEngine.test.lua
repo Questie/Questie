@@ -315,23 +315,56 @@ describe("QuestieOptionsEngine", function()
             assert.are.equal(2, scrollChild.layouts)
         end)
 
-        it("should report a failing tab instead of losing the error", function()
-            QuestieOptionsEngine.tabs = {}
-            ui.Restore()
-            ui = FakeUI.Install()
-            LoadEngineModules()
-            QuestieOptionsEngine.tabs = {
-                broken = {Initialize = function()
-                    return {title = "Broken", items = {bad = {type = "not a real type", title = "Bad"}}}
-                end},
-            }
-            Initialize()
+        describe("failing", function()
+            local function InitializeWithTabs(tabs)
+                ui.Restore()
+                ui = FakeUI.Install()
+                LoadEngineModules()
+                QuestieOptionsEngine.tabs = tabs
+                Initialize()
+            end
 
-            OpenWindow()
+            it("should report the error instead of losing it", function()
+                InitializeWithTabs({
+                    broken = {Initialize = function()
+                        return {title = "Broken", items = {bad = {type = "not a real type", title = "Bad"}}}
+                    end},
+                })
 
-            assert.are.equal(1, #threadErrors)
-            assert.is_truthy(threadErrors[1]:find("Unknown settings control type: not a real type", 1, true))
-            threadErrors = {}
+                OpenWindow()
+
+                assert.are.equal(1, #threadErrors)
+                assert.is_truthy(threadErrors[1]:find("Unknown settings control type: not a real type", 1, true))
+                threadErrors = {}
+            end)
+
+            -- Trying again right away would repeat the error every frame
+            it("should build the tab again from scratch the next time it is shown", function()
+                local isReady = false
+                InitializeWithTabs({
+                    flaky = {Initialize = function()
+                        return {title = "Flaky", items = {
+                            option = {type = "checkbox", title = "Option", width = "full", get = function()
+                                if not isReady then error("not ready yet") end
+                                return true
+                            end},
+                        }}
+                    end},
+                })
+                local window = OpenWindow()
+                assert.are.equal(1, #threadErrors)
+                threadErrors = {}
+
+                isReady = true
+                QuestieOptionsEngine:HideFrame()
+                OpenWindow()
+
+                local checkboxes = CheckboxesIn(window)
+                assert.are.equal(1, #checkboxes)
+                assert.is_true(checkboxes[1]:IsVisible())
+                assert.is_true(checkboxes[1]:GetChecked())
+                assert.are.equal(1, #ui.FindAll(window, function(frame) return frame.text == "Questie" end))
+            end)
         end)
     end)
 
