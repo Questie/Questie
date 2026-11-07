@@ -213,16 +213,35 @@ end
 
 local budgetFrameTime, budgetStartedAt
 
----@async
-local function _YieldIfFrameBudgetSpent()
+---Starts the budget of this frame, unless another build already did earlier in the frame.
+local function _StartFrameBudget()
     -- GetTime only changes between frames, which tells this apart from other builds earlier in the same frame
     local frameTime = GetTime()
     if frameTime ~= budgetFrameTime then
         budgetFrameTime = frameTime
         budgetStartedAt = GetTimePreciseSec()
-    elseif GetTimePreciseSec() - budgetStartedAt >= BUILD_BUDGET_SECONDS then
-        coYield()
     end
+end
+
+---Continues in a later frame once this frame's budget is spent. A resumed build starts the budget before it does
+---anything, so its first control counts as well, and it waits for another frame if other builds already spent it.
+---@async
+local function _YieldIfFrameBudgetSpent()
+    _StartFrameBudget()
+    while GetTimePreciseSec() - budgetStartedAt >= BUILD_BUDGET_SECONDS do
+        coYield()
+        _StartFrameBudget()
+    end
+end
+
+---Continues in a later frame that no other build has used yet, and keeps the other builds out of the rest of it.
+---@async
+local function _YieldForFrameOfItsOwn()
+    repeat
+        coYield()
+    until GetTime() ~= budgetFrameTime
+    budgetFrameTime = GetTime()
+    budgetStartedAt = GetTimePreciseSec() - BUILD_BUDGET_SECONDS
 end
 
 ---Creates everything on a canvas, pausing whenever the frame's budget is used up.
@@ -273,7 +292,7 @@ _BuildCanvas = function(canvas)
     scrollChild:SetHeight(contentHeight + 20)
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
-    coYield()
+    _YieldForFrameOfItsOwn()
 
     scrollBox:Show()
 
