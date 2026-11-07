@@ -3,39 +3,19 @@ local stub = require("luassert.stub")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
-QuestieCompat.GetContainerNumSlots = function(bag)
-        if bag == -2 then
-            return 1
-        end
-        return 0
-    end
-QuestieCompat.GetContainerItemInfo = function()
-        return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123
-    end
-
-_G.GetInventoryItemID = function()
-    return 123
-end
-
-_G.GetInventoryItemTexture = function()
-    return 11111
-end
-
 describe("TrackerItemButton", function()
     ---@type QuestieDB
     local QuestieDB
     ---@type TrackerItemButton
     local TrackerItemButton
-    local getItemCountMock, getItemCooldownMock, itemCount
+    local getItemCountMock, getItemCooldownMock, getItemIconMock, itemCount
 
     before_each(function()
         Questie.db.profile = {}
-        QuestieCompat.GetContainerNumSlots = function(bag) return bag == -2 and 1 or 0 end
-        QuestieCompat.GetContainerItemInfo = function() return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123 end
-        _G.GetInventoryItemID = function() return 123 end
         CreateFrame.resetMockedFrames()
         itemCount = 3
-        getItemCountMock = stub(QuestieCompat, "GetItemCount", function() return itemCount end)
+        getItemCountMock = stub(QuestieCompat, "GetItemCount", function(itemId) return itemId == 123 and itemCount or 0 end)
+        getItemIconMock = stub(QuestieCompat, "GetItemIcon", function() return 11111 end)
         getItemCooldownMock = stub(QuestieCompat, "GetItemCooldown", function() return 0, 0, 1 end)
 
         -- QuestieDB binds the provider schema and queries at file load.
@@ -50,6 +30,7 @@ describe("TrackerItemButton", function()
     after_each(function()
         getItemCountMock:revert()
         getItemCooldownMock:revert()
+        getItemIconMock:revert()
     end)
 
     describe("hover", function()
@@ -230,28 +211,18 @@ describe("TrackerItemButton", function()
             assert.is_equal("item:123", trackerItemButton.attributes["item1"])
         end)
 
-        it("should set itemId when item is equipped", function()
-            QuestieCompat.GetContainerNumSlots = function()
-                    return 0
-                end
-            QuestieDB.QueryItemSingle = function()
-                return QuestieDB.itemClasses.QUEST
-            end
+        it("should use a placeholder icon when the item icon is unknown", function()
+            getItemIconMock:revert()
+            getItemIconMock = stub(QuestieCompat, "GetItemIcon", function() return nil end)
 
             local trackerItemButton = TrackerItemButton.New("TestButton")
 
-            local isValid = trackerItemButton:SetItem(123, 1, 15)
-
-            assert.is_true(isValid)
-            assert.is_true(trackerItemButton:IsVisible())
-            assert.is_equal(123, trackerItemButton.itemId)
-            assert.is_equal(1, trackerItemButton.questID)
+            assert.is_true(trackerItemButton:SetItem(123, 1, 15, true))
+            assert.is_equal("Interface\\Icons\\INV_Misc_QuestionMark", trackerItemButton:GetNormalTexture():GetTexture())
         end)
 
         it("should return false when item is not found", function()
-            _G.GetInventoryItemID = function()
-                return 0
-            end
+            itemCount = 0
             QuestieDB.QueryItemSingle = function()
                 return 0
             end
