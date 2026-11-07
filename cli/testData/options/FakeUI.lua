@@ -23,7 +23,7 @@ local NO_OP_METHODS = {
     "SetBlendMode", "SetCheckedTexture", "SetClampedToScreen", "SetColorTexture", "SetDisabledCheckedTexture",
     "SetDisabledTexture", "SetDrawLayer", "SetFixedWidth", "SetFontHeight", "SetFontString",
     "SetFrameStrata", "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
-    "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetOwner", "SetPortraitTextureRaw", "SetPushedTexture",
+    "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetPortraitTextureRaw", "SetPushedTexture",
     "SetRotation", "SetSnapToPixelGrid", "SetTexCoord", "SetTexelSnappingBias", "SetTexture", "SetTitle", "SetWordWrap",
     "StartMoving", "StopMovingOrSizing",
 }
@@ -52,6 +52,8 @@ function FakeUI.Install()
         printed = {},
         stringWidth = 50, -- Measured size of every font string, to simulate long or wrapped text
         stringHeight = 14,
+        -- Every client checked generates the menu when opening it. False simulates one that opens the menu as it is.
+        openMenuGenerates = true,
     }
 
     local originals = {}
@@ -197,6 +199,8 @@ function FakeUI.Install()
     function methods:SetText(text) self.text = text end
     function methods:GetText() return self.text end
     function methods:AddLine(text) self.lines = self.lines or {}; table.insert(self.lines, text) end
+    function methods:SetOwner(owner) self.owner = owner end
+    function methods:IsOwned(frame) return self.owner == frame end
     function methods:GetFont() return "font.ttf", 12, "" end
     function methods:SetChecked(isChecked) self.isChecked = isChecked end
     function methods:GetChecked() return self.isChecked end
@@ -261,7 +265,7 @@ function FakeUI.Install()
     end
     function methods:OpenMenu()
         if not self:IsEnabled() or self:IsMenuOpen() then return end
-        self:GenerateMenu()
+        if ui.openMenuGenerates then self:GenerateMenu() end
         -- The menu manager doesn't open a menu without entries
         if #self.menuEntries == 0 then return end
         self.menu = NewFrame("Frame", nil, _G.UIParent)
