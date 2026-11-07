@@ -495,11 +495,15 @@ local function _CreateDropdownFrame(control, item, width, fillMenu, addSelectedE
     titleFrame:SetText(item.title)
     control.titleFrame = titleFrame
 
-    -- OpenMenu generates the menu before it counts as open
+    -- The clients checked so far generate the menu in OpenMenu, before it counts as open. Generating it here as well
+    -- keeps the menu complete on a client that doesn't.
     local isOpening = false
     local openMenu = dropdown.OpenMenu
     dropdown.OpenMenu = function(self)
         isOpening = true
+        if self:IsEnabled() and not self:IsMenuOpen() then
+            self:GenerateMenu()
+        end
         openMenu(self)
         isOpening = false
 

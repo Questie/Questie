@@ -453,6 +453,30 @@ describe("QuestieOptionsControls", function()
                 assert.are.equal(1, #control.widget.menuEntries)
             end)
 
+            describe("on a client whose OpenMenu doesn't generate the menu", function()
+                before_each(function()
+                    ui.openMenuGenerates = false
+                end)
+
+                it("should still have every entry", function()
+                    control.widget:OpenMenu()
+
+                    assert.is_true(control.widget:IsMenuOpen())
+                    assert.are.equal(3, #control.widget.menuEntries)
+                end)
+
+                it("should still open without a selection", function()
+                    stored = nil
+                    QuestieOptionsControls.Refresh(control)
+                    assert.are.equal(0, #control.widget.menuEntries)
+
+                    control.widget:OpenMenu()
+
+                    assert.is_true(control.widget:IsMenuOpen())
+                    assert.are.equal(3, #control.widget.menuEntries)
+                end)
+            end)
+
             it("should keep only the selected entry when being disabled stops it from opening", function()
                 local disabled = Create({type = "dropdown", options = {a = "A", b = "B"}, enabled = function() return false end, get = function() return "a" end})
 

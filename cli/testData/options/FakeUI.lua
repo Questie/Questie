@@ -52,6 +52,8 @@ function FakeUI.Install()
         printed = {},
         stringWidth = 50, -- Measured size of every font string, to simulate long or wrapped text
         stringHeight = 14,
+        -- Every client checked generates the menu when opening it. False simulates one that opens the menu as it is.
+        openMenuGenerates = true,
     }
 
     local originals = {}
@@ -263,7 +265,7 @@ function FakeUI.Install()
     end
     function methods:OpenMenu()
         if not self:IsEnabled() or self:IsMenuOpen() then return end
-        self:GenerateMenu()
+        if ui.openMenuGenerates then self:GenerateMenu() end
         -- The menu manager doesn't open a menu without entries
         if #self.menuEntries == 0 then return end
         self.menu = NewFrame("Frame", nil, _G.UIParent)
