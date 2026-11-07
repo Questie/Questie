@@ -3,11 +3,14 @@
 -- For searching string/name to replace, still lot of falses:
 -- (?<!(Questie)|(Lib:UI)|(Lib:Close)|(Lib:Toggle)|(\\UI-))dropdown(?!.*Questie)
 -- Have to edit also string length values in matching
+--
+-- Questie modifications (re-apply when updating the library):
+-- - Auto-hide timer is enabled on WoW Forever too, see "useAutoHideTimer".
 
 -- LibUIDropDownMenu.lua
 
 local MAJOR_VERSION = "LibUIDropDownMenuQuestie-4.0"
-local MINOR_VERSION = 90146 -- change this whenever the library is updated
+local MINOR_VERSION = 90147 -- change this whenever the library is updated (90146 upstream + Questie Forever auto-hide fix)
 -- ----------------------------------------------------------------------------
 -- Localized Lua globals.
 -- ----------------------------------------------------------------------------
@@ -50,6 +53,9 @@ local isMistsClassic = PROJECT_MISTS ~= nil and projectID == PROJECT_MISTS
 local isProgressionClassic = isCataclysmClassic or isMistsClassic
 local isClassicForever = projectID == PROJECT_FOREVER
 local isAnyClassic = isClassicEra or isAnniversaryTBC or isProgressionClassic
+-- Questie modification: Upstream only runs the auto-hide timer (showTimer/isCounting, Start-/StopCounting)
+-- on isAnyClassic, so menus never close on WoW Forever. Re-apply this flag to all timer checks when updating the lib.
+local useAutoHideTimer = isAnyClassic or isClassicForever
 
 local L_USE_MAINLINE_API = isRetail or isClassicForever
 
@@ -145,7 +151,7 @@ local function create_MenuButton(name, parent)
 			lib:CloseDropDownMenus(self:GetParent():GetID() + 1);
 		end
 		self.Highlight:Show();
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 	    		lib:UIDropDownMenu_StopCounting(self:GetParent());
 		end
 		-- To check: do we need special handle for classic since there is no UIDropDownMenuButton_ShouldShowIconTooltip()?
@@ -184,7 +190,7 @@ local function create_MenuButton(name, parent)
 
 	local function button_OnLeave(self)
 		self.Highlight:Hide();
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			lib:UIDropDownMenu_StartCounting(self:GetParent());
 		end
 
@@ -410,7 +416,7 @@ local function create_MenuButton(name, parent)
 	fib:SetPoint("BOTTOMLEFT", f, 0, 0)
 	fib:SetPoint("RIGHT", fcw, "LEFT", 0, 0)
 	fib:SetScript("OnEnter", function(self, motion)
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			lib:UIDropDownMenu_StopCounting(self:GetParent():GetParent());
 		end
 		lib:CloseDropDownMenus(self:GetParent():GetParent():GetID() + 1);
@@ -436,7 +442,7 @@ local function create_MenuButton(name, parent)
 		end
 	end)
 	fib:SetScript("OnLeave", function(self, motion)
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			lib:UIDropDownMenu_StartCounting(self:GetParent():GetParent());
 		end
 		tooltip:Hide();
@@ -549,12 +555,12 @@ local function creatre_DropDownList(name, parent)
 		self:Hide()
 	end)
 	f:SetScript("OnEnter", function(self)
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			lib:UIDropDownMenu_StopCounting(self)
 		end
 	end)
 	f:SetScript("OnLeave", function(self)
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			lib:UIDropDownMenu_StartCounting(self)
 		end
 	end)
@@ -564,7 +570,7 @@ local function creatre_DropDownList(name, parent)
 			lib:UIDropDownMenu_RefreshDropDownSize(self);
 			self.shouldRefresh = false;
 		end
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			if ( not self.showTimer or not self.isCounting ) then
 				return;
 			elseif ( self.showTimer < 0 ) then
@@ -591,7 +597,7 @@ local function creatre_DropDownList(name, parent)
 		if (not self.noResize) then
 			self:SetWidth(self.maxWidth+25);
 		end
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			self.showTimer = nil;
 		end
 		if ( self:GetID() > 1 ) then
@@ -1912,7 +1918,7 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
 			listFrame:SetPoint(point, anchorFrame, relativePoint, xOffset, yOffset);
 		end
 
-		if (isAnyClassic) then
+		if (useAutoHideTimer) then
 			if ( autoHideDelay and tonumber(autoHideDelay)) then
 				listFrame.showTimer = autoHideDelay;
 				listFrame.isCounting = 1;
