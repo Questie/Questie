@@ -17,6 +17,7 @@ describe("HandleSetHyperlink", function()
             ClearLines = function() end,
             Show = spy.new(function() end),
             Hide = spy.new(function() end),
+            SetPadding = spy.new(function() end),
         }
         _G.ShowUIPanel = function() end
         _G.UIParent = {}
@@ -132,6 +133,13 @@ describe("HandleSetHyperlink", function()
 
             assert.are_equal(LinkProcessorResponse.Handled, response)
             assert.spy(QuestieLink.CreateQuestTooltip).was.called()
+        end)
+
+        it("should pad the tooltip so the title does not overlap the close button", function()
+            local match = require("luassert.match")
+            HandleSetHyperlink.ProcessLink("quest:74:28")
+
+            assert.spy(ItemRefTooltip.SetPadding).was.called_with(match.is_ref(ItemRefTooltip), 16, 0)
         end)
 
         it("should return Unhandled when the quest is not in QuestieDB", function()
