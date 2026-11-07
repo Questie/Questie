@@ -80,6 +80,12 @@ describe("native tracker options", function()
         assert.is_true(LoadTab().group_tracker_window.items.showPlayButtons.visible)
     end)
 
+    it("should show the play buttons option when only VoiceOver is used", function()
+        isVoiceOverLoadedStub.returns(true)
+
+        assert.is_true(LoadTab().group_tracker_window.items.showPlayButtons.visible)
+    end)
+
     it("should change the play buttons setting and update the tracker", function()
         Questie.db.profile.trackerShowPlayButtons = true
         local showPlayButtons = LoadTab().group_tracker_window.items.showPlayButtons
