@@ -202,7 +202,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Coordonnées sur la minicarte",
         ["koKR"] = "미니맵 좌표",
         ["ptBR"] = "Coordenadas no minimapa",
-        ["ruRU"] = "Координаты",
+        ["ruRU"] = "Координаты (миникарта)",
         ["zhCN"] = "显示小地图坐标",
         ["zhTW"] = "顯示小地圖坐標",
     },
