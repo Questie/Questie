@@ -10,6 +10,16 @@ function QuestieOptionsUtils.DisableSnapping(texture)
     end
 end
 
+---Hides the tooltip of a frame when the frame is hidden. OnLeave alone leaves it showing when the settings close under the mouse.
+---@param frame Frame
+function QuestieOptionsUtils.HideTooltipOnHide(frame)
+    frame:HookScript("OnHide", function(self)
+        if GameTooltip:IsOwned(self) then
+            GameTooltip:Hide()
+        end
+    end)
+end
+
 --- Creates a vertical spacer with the given height
 ---@param order number
 ---@param hidden boolean?

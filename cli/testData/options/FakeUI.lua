@@ -23,7 +23,7 @@ local NO_OP_METHODS = {
     "SetBlendMode", "SetCheckedTexture", "SetClampedToScreen", "SetColorTexture", "SetDisabledCheckedTexture",
     "SetDisabledTexture", "SetDrawLayer", "SetFixedWidth", "SetFontHeight", "SetFontString",
     "SetFrameStrata", "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
-    "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetOwner", "SetPortraitTextureRaw", "SetPushedTexture",
+    "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetPortraitTextureRaw", "SetPushedTexture",
     "SetRotation", "SetSnapToPixelGrid", "SetTexCoord", "SetTexelSnappingBias", "SetTexture", "SetTitle", "SetWordWrap",
     "StartMoving", "StopMovingOrSizing",
 }
@@ -197,6 +197,8 @@ function FakeUI.Install()
     function methods:SetText(text) self.text = text end
     function methods:GetText() return self.text end
     function methods:AddLine(text) self.lines = self.lines or {}; table.insert(self.lines, text) end
+    function methods:SetOwner(owner) self.owner = owner end
+    function methods:IsOwned(frame) return self.owner == frame end
     function methods:GetFont() return "font.ttf", 12, "" end
     function methods:SetChecked(isChecked) self.isChecked = isChecked end
     function methods:GetChecked() return self.isChecked end

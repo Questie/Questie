@@ -85,6 +85,7 @@ local function _ApplyTooltip(widget, item, attachPoint, x, y, childWidget)
 
     widget:HookScript("OnEnter", ShowTooltip)
     widget:HookScript("OnLeave", HideTooltip)
+    QuestieOptionsUtils.HideTooltipOnHide(widget)
 
     if childWidget then
         childWidget:HookScript("OnEnter", ShowTooltip)
@@ -248,8 +249,9 @@ local function _CreateCheckbox(control, parent, item, width)
         QuestieOptionsEngine:RefreshStates()
     end)
 
+    -- IsMouseOver only compares positions and stays true for a row hidden under the mouse, so like the tooltip, check visibility
     local function UpdateHover()
-        local isOver = control:IsMouseOver() or checkbox:IsMouseOver()
+        local isOver = control:IsVisible() and (control:IsMouseOver() or checkbox:IsMouseOver())
         hoverTexture:SetShown(isOver and checkbox:IsEnabled())
     end
 
@@ -257,6 +259,10 @@ local function _CreateCheckbox(control, parent, item, width)
     control:HookScript("OnLeave", UpdateHover)
     checkbox:HookScript("OnEnter", UpdateHover)
     checkbox:HookScript("OnLeave", UpdateHover)
+    -- In case closing the settings under the mouse runs OnLeave while the row still counts as visible, or not at all
+    control:HookScript("OnHide", function()
+        hoverTexture:Hide()
+    end)
 
     control.widget = checkbox
 
@@ -514,6 +520,8 @@ local function _CreateDropdownFrame(control, item, width, fillMenu, addSelectedE
     end)
 
     _ApplyTooltip(control, item, "ANCHOR_TOPLEFT", 0, 0, dropdown)
+    -- Blizzard's tooltip for text that doesn't fit belongs to the dropdown itself
+    QuestieOptionsUtils.HideTooltipOnHide(dropdown)
 end
 
 ---@param rootDescription table
@@ -902,6 +910,12 @@ local function _CreateButton(control, parent, item, width)
     end)
     button:HookScript("OnLeave", function(self)
         self.isHovered = false
+        UpdateVisualState(self)
+    end)
+    -- OnLeave and OnMouseUp can't be relied on when the settings close under the mouse, like from My Journey
+    button:HookScript("OnHide", function(self)
+        self.isHovered = false
+        self.isPressed = false
         UpdateVisualState(self)
     end)
     button:HookScript("OnEnable", UpdateVisualState)
