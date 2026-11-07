@@ -5,6 +5,16 @@ local QuestChain = QuestieLoader:CreateModule("QuestChain")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestXP
+local QuestXP = QuestieLoader:ImportModule("QuestXP")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
+local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
 
 ---Whether a quest's doable state rules it out for the player for good, unlike a missing level or prequest.
 ---@param doableState number A QuestieDB.DoableStates value
@@ -37,6 +47,28 @@ function QuestChain.GetNextQuests(questId)
     end
 
     return nextQuestIds
+end
+
+---Returns the XP and money a quest rewards, as listed next to quests in a chain: the XP in the color of the
+---quest's difficulty for the player, the money as coins. A reward that is zero is left out.
+---@param questId QuestId
+---@return string rewardText Empty when the quest rewards neither
+function QuestChain.GetRewardText(questId)
+    local xpText = ""
+    local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel)
+    if xpReward > 0 then
+        local questLevel = QuestieLib.GetEffectiveQuestLevel(questId)
+        xpText = QuestieLib:PrintDifficultyColor(questLevel, l10n("(") .. FormatLargeNumber(xpReward) .. l10n("xp") .. l10n(")") .. " ",
+            QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId), questId)
+    end
+
+    local moneyText = ""
+    local moneyReward = QuestXP.GetQuestRewardMoney(questId)
+    if moneyReward > 0 then
+        moneyText = Questie:Colorize(l10n("(") .. GetCoinTextureString(moneyReward) .. l10n(")") .. " ", "white")
+    end
+
+    return xpText .. moneyText
 end
 
 return QuestChain

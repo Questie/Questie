@@ -365,8 +365,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                                     tooltipRows:AddLine(breadcrumbLabelPrefix .. l10n("Breadcrumb Quests") .. l10n(": "), 0.86, 0.86, 0.86)
                                     firstBreadcrumb = false
                                 end
-                                local breadcrumbLevel, _ = QuestieLib.GetEffectiveQuestLevel(breadcrumbId)
-                                local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbLevel, breadcrumbTitleIndent)
+                                local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(breadcrumbId, breadcrumbTitleIndent)
                                 tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
                             end
                         end
@@ -379,8 +378,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                         tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                     end
                     for _, nextQuestId in ipairs(nextQuestIds) do
-                        local nextQuestLevel, _ = QuestieLib.GetEffectiveQuestLevel(nextQuestId)
-                        local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuestId, nextQuestLevel, nextQuestTitleIndent)
+                        local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuestId, nextQuestTitleIndent)
                         tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
                     end
                 end
@@ -738,24 +736,9 @@ function _MapIconTooltip.GetLevelString(creatureLevels, name)
 end
 
 ---@param questId QuestId
----@param questLevel number
 ---@param indent string
 ---@return string, string
-function _MapIconTooltip.GetNextQuestInChainLines(questId, questLevel, indent)
+function _MapIconTooltip.GetNextQuestInChainLines(questId, indent)
     local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false);
-
-    local nextQuestXpRewardString = "";
-    local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel)
-    if xpReward > 0 then
-        nextQuestXpRewardString = QuestieLib:PrintDifficultyColor(questLevel, l10n("(") .. FormatLargeNumber(xpReward) .. l10n("xp") .. l10n(")") .. " ",
-            QuestieDB.IsRepeatable(questId), QuestieEvent.IsEventQuest(questId), QuestieDB.IsPvPQuest(questId), questId)
-    end
-
-    local nextQuestMoneyRewardString = "";
-    local moneyReward = QuestXP.GetQuestRewardMoney(questId)
-    if moneyReward > 0 then
-        nextQuestMoneyRewardString = Questie:Colorize(l10n("(") .. GetCoinTextureString(moneyReward) .. l10n(")") .. " ", "white")
-    end
-
-    return indent .. questTitle, nextQuestXpRewardString .. nextQuestMoneyRewardString
+    return indent .. questTitle, QuestChain.GetRewardText(questId)
 end
