@@ -26,7 +26,7 @@ describe("TrackerItemButton", function()
     local QuestieDB
     ---@type TrackerItemButton
     local TrackerItemButton
-    local getItemCountMock
+    local getItemCountMock, getItemCooldownMock, itemCount
 
     before_each(function()
         Questie.db.profile = {}
@@ -34,7 +34,9 @@ describe("TrackerItemButton", function()
         QuestieCompat.GetContainerItemInfo = function() return 11111, nil, nil, nil, nil, nil, nil, nil, nil, 123 end
         _G.GetInventoryItemID = function() return 123 end
         CreateFrame.resetMockedFrames()
-        getItemCountMock = stub(QuestieCompat, "GetItemCount", function() return 3 end)
+        itemCount = 3
+        getItemCountMock = stub(QuestieCompat, "GetItemCount", function() return itemCount end)
+        getItemCooldownMock = stub(QuestieCompat, "GetItemCooldown", function() return 0, 0, 1 end)
 
         -- QuestieDB binds the provider schema and queries at file load.
         LoadQuestieDBMock()
@@ -47,6 +49,7 @@ describe("TrackerItemButton", function()
 
     after_each(function()
         getItemCountMock:revert()
+        getItemCooldownMock:revert()
     end)
 
     describe("hover", function()
@@ -121,6 +124,48 @@ describe("TrackerItemButton", function()
         local trackerItemButton = TrackerItemButton.New("TestButton")
 
         assert.is_equal(0, trackerItemButton:GetAlpha())
+    end)
+
+    describe("cooldown and charges", function()
+        local button, cooldown
+
+        before_each(function()
+            button = TrackerItemButton.New("TestButton")
+            cooldown = CreateFrame.mockedFrames[2]
+            cooldown.SetCooldown = spy.new(function() end)
+            button:SetItem(123, 1, 15, true)
+            getItemCooldownMock:clear()
+            getItemCountMock:clear()
+        end)
+
+        it("should not query cooldown or charges every frame", function()
+            local originalUnitExists = _G.UnitExists
+            _G.UnitExists = function() return false end
+
+            button:OnUpdate(0.1)
+
+            _G.UnitExists = originalUnitExists
+            assert.stub(getItemCooldownMock).was.not_called()
+            assert.stub(getItemCountMock).was.not_called()
+        end)
+
+        it("should update the cooldown when BAG_UPDATE_COOLDOWN fires", function()
+            getItemCooldownMock:revert()
+            getItemCooldownMock = stub(QuestieCompat, "GetItemCooldown", function() return 10, 30, 1 end)
+
+            button:OnEvent("BAG_UPDATE_COOLDOWN")
+
+            assert.stub(getItemCooldownMock).was.called_with(123)
+            assert.spy(cooldown.SetCooldown).was.called_with(cooldown, 10, 30, 1)
+        end)
+
+        it("should update the charges when BAG_UPDATE fires", function()
+            itemCount = 5
+
+            button:OnEvent("BAG_UPDATE")
+
+            assert.is_equal(5, button.charges)
+        end)
     end)
 
     describe("SetItem", function()
