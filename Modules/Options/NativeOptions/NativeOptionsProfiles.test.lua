@@ -97,6 +97,7 @@ describe("native profile options", function()
             items.existing_profiles.set("Other")
 
             assert.spy(Questie.db.SetProfile).was.called(1)
+            assert.are.equal("Other", Questie.db.SetProfile.calls[1].vals[2])
             assert.spy(QuestieQuest.SmoothReset).was.not_called()
         end)
 
@@ -123,6 +124,7 @@ describe("native profile options", function()
             items.copy_profile.set("Other")
 
             assert.spy(Questie.db.CopyProfile).was.called(1)
+            assert.are.equal("Other", Questie.db.CopyProfile.calls[1].vals[2])
             assert.spy(QuestieQuest.SmoothReset).was.not_called()
         end)
 
@@ -145,6 +147,7 @@ describe("native profile options", function()
 
             Popup.Dialogs.QUESTIE_PROFILE_DELETE_CONFIRM.OnAccept()
             assert.spy(Questie.db.DeleteProfile).was.called(1)
+            assert.are.equal("Other", Questie.db.DeleteProfile.calls[1].vals[2])
         end)
 
         it("should never delete the current profile, even if it became current after being picked", function()
