@@ -13,6 +13,7 @@ describe("TrackerLayout", function()
             GetUnboundedStringWidth = function() return unboundedWidth end,
             GetWrappedWidth = function() return wrappedWidth end,
             GetFont = function() return "font", 10 end,
+            GetText = function() return "text" end,
             GetNumLines = function() return 2 end,
         }
         function label:SetWidth(width) self.width = width end
@@ -143,6 +144,36 @@ describe("TrackerLayout", function()
     end)
 
     describe("UpdateLineWidth", function()
+        it("should measure an unchanged line only once", function()
+            local line = _CreateLine(100, 100)
+            line.label.GetText = function() return "text" end
+            line.label.GetUnboundedStringWidth = spy.new(function() return 100 end)
+
+            TrackerLayout.UpdateLineWidth(line, 20)
+            TrackerLayout.UpdateLineWidth(line, 20)
+
+            assert.spy(line.label.GetUnboundedStringWidth).was.called(1)
+            assert.are_same(120, TrackerLayout.GetLineWidth())
+        end)
+
+        it("should measure a line again when its text or font changed", function()
+            local line = _CreateLine(100, 100)
+            local text, fontSize, fontFlags = "text", 10, ""
+            line.label.GetText = function() return text end
+            line.label.GetFont = function() return "font", fontSize, fontFlags end
+            line.label.GetUnboundedStringWidth = spy.new(function() return 100 end)
+
+            TrackerLayout.UpdateLineWidth(line, 20)
+            text = "other text"
+            TrackerLayout.UpdateLineWidth(line, 20)
+            fontSize = 12
+            TrackerLayout.UpdateLineWidth(line, 20)
+            fontFlags = "OUTLINE"
+            TrackerLayout.UpdateLineWidth(line, 20)
+
+            assert.spy(line.label.GetUnboundedStringWidth).was.called(4)
+        end)
+
         it("should size the tracker to a line that fits", function()
             local line = _CreateLine(100, 100)
 
