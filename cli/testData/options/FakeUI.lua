@@ -220,6 +220,7 @@ function FakeUI.Install()
         -- The real slider snaps to the steps counted from its minimum, so 1500 becomes 1501 with a minimum of 1 and a step of 10
         if self.valueStep and self.valueStep > 0 then
             value = self.minValue + math.floor((value - self.minValue) / self.valueStep + 0.5) * self.valueStep
+            value = math.max(self.minValue, math.min(self.maxValue, value))
         end
         if value ~= self.value then
             self.value = value
