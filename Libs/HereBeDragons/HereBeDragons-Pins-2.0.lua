@@ -20,6 +20,7 @@ pins.minimapPinRegistry   = pins.minimapPinRegistry or {}
 -- and worldmap pins
 pins.worldmapPins         = pins.worldmapPins or {}
 pins.worldmapPinRegistry  = pins.worldmapPinRegistry or {}
+pins.worldmapIconPins     = pins.worldmapIconPins or {} -- Questie modification: icon -> acquired pin
 
 pins.worldmapProvider     = pins.worldmapProvider or CreateFromMixins(MapCanvasDataProviderMixin)
 pins.worldmapProviderPin  = pins.worldmapProviderPin or CreateFromMixins(MapCanvasPinMixin)
@@ -59,6 +60,7 @@ local minimapPinRegistry  = pins.minimapPinRegistry
 
 local worldmapPins        = pins.worldmapPins
 local worldmapPinRegistry = pins.worldmapPinRegistry
+local worldmapIconPins    = pins.worldmapIconPins
 local worldmapPinsPool    = pins.worldmapPinsPool
 local worldmapProvider    = pins.worldmapProvider
 local worldmapProviderPin = pins.worldmapProviderPin
@@ -378,11 +380,11 @@ function worldmapProvider:RemoveAllData()
     self:GetMap():RemoveAllPinsByTemplate("HereBeDragonsPinsTemplateQuestie")
 end
 
+-- Questie modification: look up the pin directly instead of scanning all pins, which made bulk removal O(n^2)
 function worldmapProvider:RemovePinByIcon(icon)
-    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-        if pin.icon == icon then
-            self:GetMap():RemovePin(pin)
-        end
+    local pin = worldmapIconPins[icon]
+    if pin and pin.icon == icon then
+        self:GetMap():RemovePin(pin)
     end
 end
 
@@ -413,6 +415,9 @@ function worldmapProvider:RefreshAllData(fromOnShow)
 end
 
 function worldmapProvider:HandlePin(icon, data)
+    -- Questie modification: an icon owns at most one pin, so re-adding must not leave the old one behind
+    self:RemovePinByIcon(icon)
+
     local uiMapID = self:GetMap():GetMapID()
 
     -- check for a valid map
@@ -500,6 +505,7 @@ function worldmapProviderPin:OnAcquired(icon, x, y, frameLevelType)
     self:SetPosition(x, y)
 
     self.icon = icon
+    worldmapIconPins[icon] = self -- Questie modification
     icon:SetParent(self)
     icon:ClearAllPoints()
     icon:SetPoint("CENTER", self, "CENTER")
@@ -508,6 +514,9 @@ end
 
 function worldmapProviderPin:OnReleased()
     if self.icon then
+        if worldmapIconPins[self.icon] == self then -- Questie modification
+            worldmapIconPins[self.icon] = nil
+        end
         self.icon:Hide()
         self.icon:SetParent(UIParent)
         self.icon:ClearAllPoints()
