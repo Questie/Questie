@@ -64,6 +64,43 @@ local function FormatLabelWithColon(label)
     end
 end
 
+-- Match world-tooltip drop-rate formatting from Tooltip.lua
+---@param rate number
+---@return string
+local function FormatDropText(rate)
+    if rate >= 10 then
+        return string.format("%.0f", rate)
+    elseif rate >= 2 then
+        return string.format("%.1f", rate)
+    elseif rate >= 0.01 then
+        return string.format("%.2f", rate)
+    else
+        return string.format("%.3f", rate)
+    end
+end
+
+---Drop-rate suffix for a map pin's source NPC/object (item objectives only).
+---@param iconData table
+---@return string
+function _MapIconTooltip.GetDropRateSuffix(iconData)
+    if (not Questie.db.profile.enableTooltipDroprates) or (not iconData) then
+        return ""
+    end
+
+    local objective = iconData.ObjectiveData
+    local itemId = objective and objective.Id
+    local npcId = iconData.ObjectiveTargetId
+    if (not objective) or objective.Type ~= "item" or (not itemId) or (not npcId) then
+        return ""
+    end
+
+    local dropRateData = QuestieDB.GetItemDroprate(itemId, npcId)
+    if dropRateData and dropRateData[1] then
+        return "  |cFF999999[" .. FormatDropText(dropRateData[1]) .. "%]|r"
+    end
+    return ""
+end
+
 function MapIconTooltip:Show()
     -- A hovered patrol path opened its NPC's tooltip; that NPC's OnLeave must run before this one.
     WaypointHover.End(self)
@@ -447,33 +484,33 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                 end
             end
 
-            if shift then
-                local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
-                local addedCreatureNames = {}
-                for _, textData in pairs(textList) do
-                    for textLine, nameData in pairs(textData) do
-                        local dataType = type(nameData)
-                        if dataType == "table" then
-                            for name in pairs(nameData) do
-                                if (not addedCreatureNames[name]) then
-                                    addedCreatureNames[name] = true
-                                    name = _MapIconTooltip.GetLevelString(creatureLevels, name)
-                                    tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. name);
-                                end
+            -- Always show mob/object names + drop rates (Shift still unlocks XP / dungeon / chain extras)
+            local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
+            local addedCreatureNames = {}
+            for _, textData in pairs(textList) do
+                for textLine, nameData in pairs(textData) do
+                    local dataType = type(nameData)
+                    local hasSourceName = false
+                    if dataType == "table" then
+                        for name, dropSuffix in pairs(nameData) do
+                            hasSourceName = true
+                            if (not addedCreatureNames[name]) then
+                                addedCreatureNames[name] = true
+                                local displayName = _MapIconTooltip.GetLevelString(creatureLevels, name)
+                                local suffix = (type(dropSuffix) == "string") and dropSuffix or ""
+                                tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName .. suffix);
                             end
-                        elseif dataType == "string" and (not addedCreatureNames[nameData]) then
-                            addedCreatureNames[nameData] = true
-                            nameData = _MapIconTooltip.GetLevelString(creatureLevels, nameData)
-                            tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. nameData);
                         end
-                        tooltipRows:AddLine(indentSix .. defaultQuestColor .. textLine);
+                    elseif dataType == "string" then
+                        hasSourceName = true
+                        if (not addedCreatureNames[nameData]) then
+                            addedCreatureNames[nameData] = true
+                            local displayName = _MapIconTooltip.GetLevelString(creatureLevels, nameData)
+                            tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName);
+                        end
                     end
-                end
-            else
-                for _, textData in pairs(textList) do
-                    for textLine, _ in pairs(textData) do
-                        tooltipRows:AddLine(indentThree .. defaultQuestColor .. textLine);
-                    end
+                    local objectiveIndent = hasSourceName and indentSix or indentThree
+                    tooltipRows:AddLine(objectiveIndent .. defaultQuestColor .. textLine);
                 end
             end
         end
@@ -667,7 +704,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                         [remoteText] = {},
                     }
                     if iconData.Name then
-                        partyMemberTip[remoteText][iconData.Name] = true;
+                        partyMemberTip[remoteText][iconData.Name] = _MapIconTooltip.GetDropRateSuffix(iconData);
                     end
                     tinsert(tooltips, partyMemberTip);
                     anotherPlayer = true;
@@ -693,7 +730,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
             [text] = {},
         }
         if iconData.Name then
-            t[text][iconData.Name] = true;
+            t[text][iconData.Name] = _MapIconTooltip.GetDropRateSuffix(iconData);
         end
         tinsert(tooltips, 1, t);
     end
@@ -715,11 +752,15 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
             tinsert(quest, data)
             usedText[icon.data.Id][text] = true
         else
-            --We want to add more NPCs as possible candidates when shift is pressed.
+            -- Merge additional NPC/object sources from nearby clustered pins.
             if icon.data.Name then
+                local suffix = _MapIconTooltip.GetDropRateSuffix(icon.data)
                 for dataIndex, _ in pairs(quest) do
                     if quest[dataIndex][text] then
-                        quest[dataIndex][text][icon.data.Name] = true;
+                        local existing = quest[dataIndex][text][icon.data.Name]
+                        if (not existing) or existing == true or existing == "" then
+                            quest[dataIndex][text][icon.data.Name] = suffix
+                        end
                     end
                 end
             end
