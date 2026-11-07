@@ -227,6 +227,7 @@ function QuestieOptionsWindow.CreateSideTab(window, tabKey, tabData, previousSid
     button:SetScript("OnLeave", function()
         GameTooltip:Hide()
     end)
+    QuestieOptionsUtils.HideTooltipOnHide(button)
 
     button:SetScript("OnClick", function()
         PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)

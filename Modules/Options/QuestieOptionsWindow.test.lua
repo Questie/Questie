@@ -127,6 +127,17 @@ describe("QuestieOptionsWindow", function()
             assert.are_same({"Subtitle"}, GameTooltip.lines)
         end)
 
+        it("should hide its tooltip when the window closes under the mouse", function()
+            local sideTab = QuestieOptionsWindow.CreateSideTab(window, "a", {title = "A"}, nil, function() end)
+            window:Show()
+            sideTab.button.scripts.OnEnter(sideTab.button)
+            assert.is_true(GameTooltip:IsShown())
+
+            window:Hide()
+
+            assert.is_false(GameTooltip:IsShown())
+        end)
+
         describe("pressing", function()
             local sideTab, button, icon
 
