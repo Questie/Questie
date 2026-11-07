@@ -42,29 +42,10 @@ function TrackerItemButton.New(buttonName, OnHighlightEnter, OnHighlightLeave)
 
         local validTexture
 
-        for bag = -2, 4 do
-            for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
-                local texture, _, _, _, _, _, _, _, _, itemId = QuestieCompat.GetContainerItemInfo(bag, slot)
-
-                if questItemId == itemId and (isNativeQuestItem or QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST) then
-                    validTexture = texture
-                    self.itemId = questItemId
-                    break
-                end
-            end
-        end
-
-        -- Edge case to find "equipped" quest items since they will no longer be in the players bag
-        if (not validTexture) then
-            for inventorySlot = 1, 19 do
-                local itemId = GetInventoryItemID("player", inventorySlot)
-
-                if questItemId == itemId and (isNativeQuestItem or QuestieDB.QueryItemSingle(itemId, "class") == QuestieDB.itemClasses.QUEST) then
-                    validTexture = GetInventoryItemTexture("player", inventorySlot)
-                    self.itemId = questItemId
-                    break
-                end
-            end
+        -- GetItemCount covers bags and equipped items, so no slot scan is needed
+        if GetItemCount(questItemId) > 0 and (isNativeQuestItem or QuestieDB.QueryItemSingle(questItemId, "class") == QuestieDB.itemClasses.QUEST) then
+            validTexture = QuestieCompat.GetItemIcon(questItemId) or "Interface\\Icons\\INV_Misc_QuestionMark"
+            self.itemId = questItemId
         end
 
         if validTexture and self.itemId then
