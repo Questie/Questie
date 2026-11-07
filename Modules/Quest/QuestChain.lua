@@ -26,8 +26,8 @@ local function _IsRuledOutForPlayer(doableState)
 end
 
 ---Follows nextQuestInChain from a quest and returns the follow-up quests in chain order. The walk stops before
----a quest Questie hides, a quest the player's race, class or professions rule out, and a quest it already
----passed, so a chain that loops back ends instead of repeating forever.
+---a quest missing from the database, a quest Questie hides, a quest the player's race, class or professions
+---rule out, and a quest it already passed, so a chain that loops back ends instead of repeating forever.
 ---@param questId QuestId
 ---@return QuestId[] nextQuestIds Empty when the quest has no follow-up the player could take
 function QuestChain.GetNextQuests(questId)
@@ -35,7 +35,8 @@ function QuestChain.GetNextQuests(questId)
     local visited = {[questId] = true}
 
     local nextQuestId = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
-    while nextQuestId and nextQuestId > 0 and (not visited[nextQuestId]) and (not QuestieCorrections.hiddenQuests[nextQuestId]) do
+    while nextQuestId and nextQuestId > 0 and (not visited[nextQuestId]) and QuestieDB.QuestPointers[nextQuestId] and
+        (not QuestieCorrections.hiddenQuests[nextQuestId]) do
         local _, _, doableState = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
         if _IsRuledOutForPlayer(doableState) then
             break

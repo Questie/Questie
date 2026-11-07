@@ -63,6 +63,7 @@ describe("QuestChain", function()
         end
         QuestieDB.IsRepeatable = function() return false end
         QuestieDB.IsPvPQuest = function() return false end
+        QuestieDB.QuestPointers = {[1] = 1, [2] = 1, [3] = 1, [4] = 1, [5] = 1}
 
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
@@ -101,6 +102,15 @@ describe("QuestChain", function()
             nextQuestInChain[3] = 0
 
             assert.are_same({3}, QuestChain.GetNextQuests(2))
+        end)
+
+        it("should stop before a quest missing from the database", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 4
+            QuestieDB.QuestPointers[3] = nil
+
+            assert.are_same({2}, QuestChain.GetNextQuests(1))
         end)
 
         it("should stop before a quest hidden by Questie", function()
