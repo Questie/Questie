@@ -27,6 +27,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
+---@type QuestChain
+local QuestChain = QuestieLoader:ImportModule("QuestChain")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieWaypoints
@@ -372,30 +374,14 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                 end
 
                 if shift and Questie.db.profile.enableTooltipsNextInChain then
-                    local DoableStates = QuestieDB.DoableStates
-                    local nextQuestId = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
-                    if nextQuestId > 0 and (not QuestieCorrections.hiddenQuests[nextQuestId]) then
-                        local _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
-                        local firstInChain = true;
-                        while nextQuestId ~= nil and (not QuestieCorrections.hiddenQuests[nextQuestId]) and (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS and
-                            returnReason ~= DoableStates.PROFESSION_MISSING and returnReason ~= DoableStates.PROFESSION_SPECIALIZATION) do
-                            if firstInChain then
-                                tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
-                                firstInChain = false
-                            end
-                            local nextQuestLevel, _ = QuestieLib.GetEffectiveQuestLevel(nextQuestId)
-                            local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuestId, nextQuestLevel, nextQuestTitleIndent)
-                            tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
-
-                            local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "nextQuestInChain")
-                            if nextNextQuestId > 0 then
-                                nextQuestId = nextNextQuestId
-                                -- check availability for the next nextQuestId
-                                _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
-                            else
-                                break
-                            end
-                        end
+                    local nextQuestIds = QuestChain.GetNextQuests(questData.questId)
+                    if nextQuestIds[1] then
+                        tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
+                    end
+                    for _, nextQuestId in ipairs(nextQuestIds) do
+                        local nextQuestLevel, _ = QuestieLib.GetEffectiveQuestLevel(nextQuestId)
+                        local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuestId, nextQuestLevel, nextQuestTitleIndent)
+                        tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
                     end
                 end
             end
