@@ -13,6 +13,8 @@ describe("QuestieOptionsEngine", function()
     local ui
     local originalQuestie
     local settings, reads, threadErrors
+    -- How long reading a setting takes, which a control does once when it is created
+    local settingReadSeconds
 
     local function LoadEngineModules()
         dofile("Modules/Libs/QuestieLoader.lua")
@@ -36,6 +38,7 @@ describe("QuestieOptionsEngine", function()
             enabled = enabled,
             get = function()
                 reads[key] = (reads[key] or 0) + 1
+                ui.clock = ui.clock + settingReadSeconds
                 return settings[key]
             end,
             set = function(_, value) settings[key] = value end,
@@ -139,6 +142,7 @@ describe("QuestieOptionsEngine", function()
         settings = {parent = false, dependent = false, mapOption = false}
         reads = {}
         threadErrors = {}
+        settingReadSeconds = 0
 
         originalQuestie = {Colorize = Questie.Colorize, Error = Questie.Error, IsForever = Questie.IsForever}
         Questie.Colorize = function(_, text) return text end
@@ -337,6 +341,22 @@ describe("QuestieOptionsEngine", function()
         -- Each control reads the clock once, so at this rate the 4 ms budget lasts about four controls.
         local SLOW_CLIENT_SECONDS_PER_CLOCK_READ = 0.001
 
+        local SLOW_CONTROL_SECONDS = 0.003
+        -- The budget, and the control that used up the rest of it
+        local MOST_SECONDS_PER_FRAME = 0.004 + SLOW_CONTROL_SECONDS
+
+        ---Runs the timers out.
+        ---@return number longest The most time the timers took in a single frame
+        local function LongestFrame()
+            local longest = 0
+            while #ui.tickers > 0 do
+                local startedAt = ui.clock
+                ui.RunFrame()
+                longest = math.max(longest, ui.clock - startedAt)
+            end
+            return longest
+        end
+
         -- Starts building on a slow client and runs it partway, but not to the end.
         local function StartSlowBuild()
             ui.clockStep = SLOW_CLIENT_SECONDS_PER_CLOCK_READ
@@ -374,16 +394,50 @@ describe("QuestieOptionsEngine", function()
             assert.is_true(frames <= LARGE_TAB_SIZE / 2, "took " .. frames .. " frames")
         end)
 
+        -- Otherwise a control that takes long to create comes on top of the budget of the frame it resumes in
+        it("should count the first control after resuming against the frame's budget", function()
+            settingReadSeconds = SLOW_CONTROL_SECONDS
+
+            QuestieOptionsEngine:ToggleConfigWindow()
+            local longest = LongestFrame()
+
+            assert.are.equal(LARGE_TAB_SIZE, #CheckboxesIn(QuestieOptionsEngine.popup))
+            assert.is_true(longest <= MOST_SECONDS_PER_FRAME + 1e-9, "took " .. longest .. " seconds in one frame")
+        end)
+
         it("should share the budget of a frame between tabs building at the same time", function()
-            ui.clockStep = SLOW_CLIENT_SECONDS_PER_CLOCK_READ
+            settingReadSeconds = SLOW_CONTROL_SECONDS
             ui.DisplayCanvas(ui.categories[1].canvas)
             QuestieOptionsEngine:ToggleConfigWindow()
 
-            local mostInOneFrame = MostCheckboxesPerFrame(UIParent)
+            local longest = LongestFrame()
 
             assert.are.equal(LARGE_TAB_SIZE * 2, #CheckboxesIn(UIParent))
-            -- The budget of one build, and at most one control for the other before it finds the budget spent
-            assert.is_true(mostInOneFrame <= 6, "built " .. mostInOneFrame .. " controls in one frame")
+            -- A build that finds the budget spent waits for the next frame before creating anything
+            assert.is_true(longest <= MOST_SECONDS_PER_FRAME + 1e-9, "took " .. longest .. " seconds in one frame")
+        end)
+
+        it("should keep other builds out of the frame a finished tab is laid out in", function()
+            settingReadSeconds = SLOW_CONTROL_SECONDS
+            local canvas = ui.categories[1].canvas
+            ui.DisplayCanvas(canvas)
+            QuestieOptionsEngine:ToggleConfigWindow()
+            local window = QuestieOptionsEngine.popup
+
+            local function IsLaidOut()
+                local scrollChild = ui.FindByTemplate(canvas, "ResizeLayoutFrame")[1]
+                return scrollChild ~= nil and scrollChild.layouts == 1
+            end
+            local windowCheckboxes
+            repeat
+                windowCheckboxes = #CheckboxesIn(window)
+                ui.RunFrame()
+            until IsLaidOut() or #ui.tickers == 0
+
+            assert.is_true(IsLaidOut())
+            assert.are.equal(windowCheckboxes, #CheckboxesIn(window))
+            ui.RunUntilIdle()
+            assert.are.equal(LARGE_TAB_SIZE, #CheckboxesIn(window))
         end)
 
         -- An edit box created visible can take the keyboard focus, and a half-built tab looks broken.
