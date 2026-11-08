@@ -135,7 +135,7 @@ _GetBuffMultiplier = function()
 
     local buffMultiplier = 0
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
+        local _, _, stacks, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then
             break
         end
@@ -150,6 +150,8 @@ _GetBuffMultiplier = function()
             buffMultiplier = buffMultiplier + 0.1 -- Unburdened (Hallow's End Alliance)
         elseif spellId == 24705 then
             buffMultiplier = buffMultiplier + 0.1 -- Grim Visage (Hallow's End Horde)
+        elseif spellId == 429959 then
+            buffMultiplier = buffMultiplier + 0.01 * stacks -- Well-Rested (Sleeping Bag in Forever)
         end
     end
 
