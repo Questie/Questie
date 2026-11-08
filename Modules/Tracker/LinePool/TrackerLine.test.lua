@@ -22,6 +22,7 @@ describe("TrackerLine untrack click", function()
             QuestMapFrame = _G.QuestMapFrame,
             ChatEdit_InsertLink = _G.ChatEdit_InsertLink,
             ChatFrame_OpenChat = _G.ChatFrame_OpenChat,
+            GetAchievementLink = _G.GetAchievementLink,
         }
         _G.QuestLogExFrame = nil
         _G.ClassicQuestLog = nil
@@ -70,6 +71,7 @@ describe("TrackerLine untrack click", function()
         _G.QuestMapFrame = originals.QuestMapFrame
         _G.ChatEdit_InsertLink = originals.ChatEdit_InsertLink
         _G.ChatFrame_OpenChat = originals.ChatFrame_OpenChat
+        _G.GetAchievementLink = originals.GetAchievementLink
     end)
 
     it("should highlight the quest while hovering a button in front of the title", function()
@@ -174,6 +176,21 @@ describe("TrackerLine untrack click", function()
         line.scripts.OnClick(line, "LeftButton")
         assert.spy(tracker.UntrackQuestId).was.called_with(tracker, 783)
         assert.spy(compat.QuestLog_Update).was.not_called()
+    end)
+
+    it("opens the chat input box with the achievement link when shift-clicking without an active chat input box", function()
+        _G.IsModifiedClick = function(action) return action == "CHATLINK" end
+        _G.GetAchievementLink = spy.new(function() return "[Explore Elwynn Forest]" end)
+        _G.ChatEdit_InsertLink = function() return false end
+        _G.ChatFrame_OpenChat = spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest({Id = 776})
+        line:SetOnClick("achieve")
+
+        line.scripts.OnClick(line, "LeftButton")
+
+        assert.spy(GetAchievementLink).was.called_with(776)
+        assert.spy(ChatFrame_OpenChat).was.called_with("[Explore Elwynn Forest]")
     end)
 
     describe("recipe click", function()

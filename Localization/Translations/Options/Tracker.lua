@@ -1181,15 +1181,15 @@ local trackerOptionsLocales = {
     -- Classic and TBC only: the option title reuses "Untrack Quest" from TrackerUI --
     ["This shortcut removes a Quest from the Questie Tracker. Shift + Left Click always links a Quest to chat."] = {
         ["enUS"] = true,
-        ["deDE"] = "Dieser Shortcut entfernt eine Quest aus dem Questie-Tracker. Umschalt + Linksklick verlinkt eine Quest immer im Chat.",
-        ["esES"] = "Este atajo elimina una misión del rastreador. Mayús + clic izquierdo siempre vincula una misión al chat.",
-        ["esMX"] = "Este atajo elimina una misión del rastreador. Mayús + clic izquierdo siempre vincula una misión al chat.",
-        ["frFR"] = "Ce raccourci retire une quête du suivi. Maj + clic gauche lie toujours une quête dans la discussion.",
-        ["koKR"] = "이 단축키는 Questie 추적기에서 퀘스트를 제거합니다. Shift + 왼쪽 클릭은 항상 퀘스트를 채팅에 링크합니다.",
-        ["ptBR"] = "Este atalho remove uma missão do rastreador. Shift + clique esquerdo sempre vincula uma missão ao bate-papo.",
-        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания в трекере. Shift + левый клик всегда отправляет ссылку на задание в чат",
-        ["zhCN"] = "此快捷键会将任务从Questie追踪器中移除。Shift + 左键点击总是会将任务链接到聊天中",
-        ["zhTW"] = "此功能會從任務清單中移除任務。Shift + 左鍵點擊一律會將任務連結貼到聊天視窗",
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
     },
     ---------------------------------------------------------
     -- Wrath of the Lich King only --
@@ -1208,15 +1208,15 @@ local trackerOptionsLocales = {
     -- Wrath of the Lich King only --
     ["This shortcut removes a Quest or an Achievement from the Questie Tracker. Shift + Left Click always links a Quest or an Achievement to chat."] = {
         ["enUS"] = true,
-        ["deDE"] = "Dieser Shortcut entfernt eine Quest oder einen Erfolg aus dem Questie-Tracker. Umschalt + Linksklick verlinkt eine Quest oder einen Erfolg immer im Chat.",
-        ["esES"] = "Este atajo elimina una misión o un logro del rastreador. Mayús + clic izquierdo siempre vincula una misión o un logro al chat.",
-        ["esMX"] = "Este atajo elimina una misión o un logro del rastreador. Mayús + clic izquierdo siempre vincula una misión o un logro al chat.",
-        ["frFR"] = "Ce raccourci retire une quête ou un haut fait du suivi. Maj + clic gauche lie toujours une quête ou un haut fait dans la discussion.",
-        ["koKR"] = "이 단축키는 Questie 추적기에서 퀘스트나 업적을 제거합니다. Shift + 왼쪽 클릭은 항상 퀘스트나 업적을 채팅에 링크합니다.",
-        ["ptBR"] = "Este atalho remove uma missão ou uma conquista do rastreador. Shift + clique esquerdo sempre vincula uma missão ou uma conquista ao bate-papo.",
-        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания или достижения в трекере. Shift + левый клик всегда отправляет ссылку на задание или достижение в чат",
-        ["zhCN"] = "此快捷键会将任务或成就从Questie追踪器中移除。Shift + 左键点击总是会将任务或成就链接到聊天中",
-        ["zhTW"] = "此功能會從任務清單中移除任務或成就。Shift + 左鍵點擊一律會將任務或成就連結貼到聊天視窗",
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
     },
     ---------------------------------------------------------
     ["Tracker Growth Direction"] = {

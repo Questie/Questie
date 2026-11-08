@@ -225,4 +225,13 @@ describe("Migration", function()
 
         assert.are_same("altleft", Questie.db.profile.trackerbindUntrack)
     end)
+
+    it("should keep shift-right untracking when upgrading from version 48", function()
+        Questie.db.profile.migrationVersion = 48
+        Questie.db.profile.trackerbindUntrack = "shiftright"
+
+        Migration:Migrate()
+
+        assert.are_same("shiftright", Questie.db.profile.trackerbindUntrack)
+    end)
 end)
