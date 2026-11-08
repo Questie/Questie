@@ -178,6 +178,22 @@ describe("TrackerLine untrack click", function()
         assert.spy(compat.QuestLog_Update).was.not_called()
     end)
 
+    it("inserts the achievement link into the active chat input box when shift-clicking", function()
+        _G.IsModifiedClick = function(action) return action == "CHATLINK" end
+        _G.GetAchievementLink = spy.new(function() return "[Explore Elwynn Forest]" end)
+        _G.ChatEdit_InsertLink = spy.new(function() return true end)
+        _G.ChatFrame_OpenChat = spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest({Id = 776})
+        line:SetOnClick("achieve")
+
+        line.scripts.OnClick(line, "LeftButton")
+
+        assert.spy(GetAchievementLink).was.called_with(776)
+        assert.spy(ChatEdit_InsertLink).was.called_with("[Explore Elwynn Forest]")
+        assert.spy(ChatFrame_OpenChat).was.not_called()
+    end)
+
     it("opens the chat input box with the achievement link when shift-clicking without an active chat input box", function()
         _G.IsModifiedClick = function(action) return action == "CHATLINK" end
         _G.GetAchievementLink = spy.new(function() return "[Explore Elwynn Forest]" end)
