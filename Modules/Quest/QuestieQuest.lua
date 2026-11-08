@@ -21,6 +21,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieLib
@@ -454,6 +456,9 @@ function QuestieQuest:SmoothReset()
             if QuestieQuest._resetAgain then
                 QuestieQuest._resetAgain = nil
                 QuestieQuest:SmoothReset()
+            else
+                -- The reset unloaded the icons of the party members' objectives too
+                QuestiePartyObjectives:ScheduleUpdate()
             end
             return true
         end

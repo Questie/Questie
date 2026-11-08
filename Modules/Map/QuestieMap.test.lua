@@ -90,6 +90,18 @@ describe("QuestieMap", function()
     end)
 
     describe("UnloadQuestFrames", function()
+        local QuestiePartyObjectives, originalScheduleUpdate
+
+        before_each(function()
+            QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+            originalScheduleUpdate = QuestiePartyObjectives.ScheduleUpdate
+            QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
+        end)
+
+        after_each(function()
+            QuestiePartyObjectives.ScheduleUpdate = originalScheduleUpdate
+        end)
+
         it("should clear AlreadySpawned for objective frames on full unload", function()
             local objective = {AlreadySpawned = {[123] = {}}}
             _G.QuestieFrame1 = {data = {ObjectiveData = objective}}
@@ -111,6 +123,91 @@ describe("QuestieMap", function()
 
             _G.QuestieFrame1 = nil
             _G.QuestieFrame2 = nil
+        end)
+
+        it("should keep the registrations of frames drawn while it yields, and drop the stale ones", function()
+            local processed = {}
+            QuestieFramePool.UnloadFrame = function(_, frame) processed[#processed + 1] = frame.name end
+            QuestieMap.questIdFrames[1] = {QuestieStale = "QuestieStale"}
+            for i = 1, 31 do
+                local name = "QuestieFrame" .. i
+                _G[name] = {name = name, data = {}}
+                QuestieMap.questIdFrames[1][name] = name
+            end
+
+            local thread = coroutine.create(function()
+                QuestieMap:UnloadQuestFrames(1)
+            end)
+            coroutine.resume(thread)
+            assert.are.equal("suspended", coroutine.status(thread))
+            -- It yielded after 30 frames. A frame it unloaded is drawn again, and so is a new one.
+            QuestieMap.questIdFrames[1][processed[1]] = processed[1]
+            QuestieMap.questIdFrames[1].QuestieNew = "QuestieNew"
+            coroutine.resume(thread)
+
+            assert.are.equal(31, #processed)
+            local registered = {}
+            for name in pairs(QuestieMap.questIdFrames[1] or {}) do
+                registered[#registered + 1] = name
+            end
+            table.sort(registered)
+            local expected = {processed[1], "QuestieNew"}
+            table.sort(expected)
+            assert.are_same(expected, registered)
+
+            for i = 1, 31 do
+                _G["QuestieFrame" .. i] = nil
+            end
+        end)
+
+        it("should finish when all registrations were cleared while it yields", function()
+            QuestieFramePool.UnloadFrame = function() end
+            QuestieMap.questIdFrames[1] = {}
+            for i = 1, 31 do
+                local name = "QuestieFrame" .. i
+                _G[name] = {name = name, data = {}}
+                QuestieMap.questIdFrames[1][name] = name
+            end
+
+            local thread = coroutine.create(function()
+                QuestieMap:UnloadQuestFrames(1)
+            end)
+            coroutine.resume(thread)
+            assert.are.equal("suspended", coroutine.status(thread))
+            QuestieMap.questIdFrames = {}
+            local finished, err = coroutine.resume(thread)
+
+            assert.is_true(finished, err)
+            assert.are.equal("dead", coroutine.status(thread))
+            assert.is_nil(QuestieMap.questIdFrames[1])
+
+            for i = 1, 31 do
+                _G["QuestieFrame" .. i] = nil
+            end
+        end)
+
+        it("should schedule a party objectives update once all frames of the quest are unloaded", function()
+            local unloadedWhenScheduled
+            QuestiePartyObjectives.ScheduleUpdate = spy.new(function() unloadedWhenScheduled = QuestieMap.questIdFrames[1] == nil end)
+            QuestieMap.questIdFrames[1] = {QuestieFrame1 = "QuestieFrame1"}
+
+            coroutine.resume(coroutine.create(function()
+                QuestieMap:UnloadQuestFrames(1)
+            end))
+
+            -- The party icons of the quest went with it, and are drawn again afterwards
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called_with(QuestiePartyObjectives, 1)
+            assert.is_true(unloadedWhenScheduled)
+        end)
+
+        it("should not schedule a party objectives update when only the frames of one icon type are unloaded", function()
+            QuestieMap.questIdFrames[1] = {}
+
+            coroutine.resume(coroutine.create(function()
+                QuestieMap:UnloadQuestFrames(1, "available")
+            end))
+
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
         end)
 
         it("should not throw an error when called from a coroutine", function()

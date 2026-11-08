@@ -244,6 +244,187 @@ describe("MapIconTooltip objective wording", function()
 
         assert.are.same({["|cFFEEEEEE0/1 Use Walk on Air (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true}, RenderObjectiveLines())
     end)
+    describe("RefreshQuest", function()
+        local QuestieFrame, originalReset, owner
+
+        local function ListedText()
+            local text = {}
+            for _, row in ipairs(GameTooltip.questOrder[1]) do
+                for line in pairs(row) do
+                    text[#text + 1] = line
+                end
+            end
+            return table.concat(text, "\n")
+        end
+
+        before_each(function()
+            QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
+            originalReset = QuestieFrame.ResetHoverHighlights
+            QuestieFrame.ResetHoverHighlights = spy.new(function() end)
+            owner = nil
+            GameTooltip.IsShown = function() return true end
+            GameTooltip.SetOwner = spy.new(function(_, frame) owner = frame end)
+            GameTooltip.GetOwner = function() return owner end
+            objective.IsPartyObjective = true
+            QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
+            MapIconTooltip.Show(icon)
+        end)
+
+        after_each(function()
+            QuestieFrame.ResetHoverHighlights = originalReset
+        end)
+
+        it("should show the open tooltip again with the changed progress of a listed quest", function()
+            assert.is_truthy(ListedText():find("3/15", 1, true))
+            QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 4, required = 15}}} end
+
+            -- Within the throttle of the tooltip's own show
+            MapIconTooltip.RefreshQuest(1)
+
+            assert.is_truthy(ListedText():find("4/15", 1, true))
+            assert.spy(GameTooltip.SetOwner).was.called(2)
+            assert.are.equal(icon, owner)
+        end)
+
+        it("should reset the hover highlights of the icon before showing again", function()
+            MapIconTooltip.RefreshQuest(1)
+
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon)
+        end)
+
+        it("should leave a tooltip alone that does not list the quest", function()
+            MapIconTooltip.RefreshQuest(2)
+
+            assert.spy(GameTooltip.SetOwner).was.called(1)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+        end)
+
+        describe("for a hovered patrol path", function()
+            local pathTooltip, minimap, pathOwner
+
+            before_each(function()
+                minimap = {}
+                pathOwner = nil
+                pathTooltip = {
+                    IsShown = function() return true end,
+                    SetOwner = spy.new(function(_, frame) pathOwner = frame end),
+                    GetOwner = function() return pathOwner end,
+                    SetFrameStrata = function() end,
+                    Show = function() end,
+                }
+                now = now + 0.1
+                MapIconTooltip.ShowOnTooltip(icon, pathTooltip, minimap, {icon})
+            end)
+
+            it("should show the tooltip again with its own owner, icons and the changed progress", function()
+                QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 4, required = 15}}} end
+
+                MapIconTooltip.RefreshQuest(1)
+
+                assert.spy(pathTooltip.SetOwner).was.called(2)
+                assert.are.equal(minimap, pathOwner)
+                local text = {}
+                for _, row in ipairs(pathTooltip.questOrder[1]) do
+                    for line in pairs(row) do
+                        text[#text + 1] = line
+                    end
+                end
+                assert.is_truthy(table.concat(text, "\n"):find("4/15", 1, true))
+            end)
+
+            it("should leave the tooltip alone when it was closed", function()
+                pathTooltip.IsShown = function() return false end
+
+                MapIconTooltip.RefreshQuest(1)
+
+                assert.spy(pathTooltip.SetOwner).was.called(1)
+            end)
+
+            it("should not list an icon again that was reused for another quest since", function()
+                local other = {
+                    x = 90, y = 10, AreaID = 2,
+                    texture = {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end},
+                    data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
+                }
+                now = now + 0.1
+                MapIconTooltip.ShowOnTooltip(icon, pathTooltip, minimap, {icon, other})
+                assert.is_not_nil(pathTooltip.questOrder[2])
+                other.data = {Id = 3, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"}
+
+                MapIconTooltip.RefreshQuest(1)
+
+                assert.is_not_nil(pathTooltip.questOrder[1])
+                assert.is_nil(pathTooltip.questOrder[2])
+                assert.is_nil(pathTooltip.questOrder[3])
+            end)
+
+            it("should leave the tooltip alone when its icon was reused for another quest", function()
+                icon.data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"}
+
+                MapIconTooltip.RefreshQuest(1)
+
+                assert.spy(pathTooltip.SetOwner).was.called(1)
+                assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+            end)
+
+            it("should leave the tooltip alone when another frame took it over", function()
+                pathOwner = {}
+
+                MapIconTooltip.RefreshQuest(1)
+
+                assert.spy(pathTooltip.SetOwner).was.called(1)
+            end)
+
+            it("should leave the tooltip alone when it does not list the quest", function()
+                MapIconTooltip.RefreshQuest(2)
+
+                assert.spy(pathTooltip.SetOwner).was.called(1)
+            end)
+
+            it("should keep showing an icon that is faded out, which a hovered path shows whatever its fade", function()
+                icon.texture.GetVertexColor = function() return 1, 1, 1, 0 end
+
+                MapIconTooltip.RefreshQuest(1)
+
+                assert.spy(pathTooltip.SetOwner).was.called(2)
+            end)
+        end)
+
+        it("should leave the tooltip and its highlights alone when the icon faded out meanwhile", function()
+            icon.texture.GetVertexColor = function() return 1, 1, 1, 0 end
+
+            MapIconTooltip.RefreshQuest(1)
+
+            assert.spy(GameTooltip.SetOwner).was.called(1)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+        end)
+
+        it("should leave the tooltip alone when the icon was reused for another quest", function()
+            icon.data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"}
+
+            MapIconTooltip.RefreshQuest(1)
+
+            assert.spy(GameTooltip.SetOwner).was.called(1)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+        end)
+
+        it("should leave the tooltip alone when the icon was unloaded", function()
+            icon.data = nil
+
+            MapIconTooltip.RefreshQuest(1)
+
+            assert.spy(GameTooltip.SetOwner).was.called(1)
+        end)
+
+        it("should leave the tooltip alone when it was closed", function()
+            GameTooltip.IsShown = function() return false end
+
+            MapIconTooltip.RefreshQuest(1)
+
+            assert.spy(GameTooltip.SetOwner).was.called(1)
+        end)
+    end)
+
     describe("for a patrol path", function()
         it("belongs to the frame it is given", function()
             local owner = {}
@@ -297,6 +478,7 @@ describe("MapIconTooltip objective wording", function()
 
             assert.are.equal(1, #icon.data.touchedPins)
             assert.are.equal(icon, icon.data.touchedPins[1].icon)
+            assert.are.equal(icon.data, icon.data.touchedPins[1].data)
             assert.are_same({1, 0.5, 0, 1}, icon.data.touchedPins[1].color)
         end)
     end)

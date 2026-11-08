@@ -33,6 +33,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 ---@type WaypointHover
 local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
+---@type QuestieFrame
+local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
@@ -51,6 +53,8 @@ local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
 local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
 local lastTooltipShowTimestamp = GetTime()
+-- The tooltip a hovered minimap path shows, which is not the shared one
+local pathTooltip
 
 -- helper function to format a label with a colon, respecting localization rules
 ---@param label string
@@ -92,6 +96,17 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     lastTooltipShowTimestamp = GetTime()
 
     Tooltip._owner = self;
+    -- A refresh shows the tooltip the same way again
+    Tooltip._showOwner = owner
+    Tooltip._showIcons = icons
+    Tooltip._showData = self.data
+    Tooltip._showIconData = {}
+    for _, listed in ipairs(icons or {}) do
+        Tooltip._showIconData[listed] = listed.data
+    end
+    if owner then
+        pathTooltip = Tooltip
+    end
     Tooltip:SetOwner(owner or self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
     local maxDistCluster = 1
@@ -161,6 +176,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;
+            entry.data = iconData; -- Icons are pooled, so a reset can tell whether the icon is still the tinted one
             if Questie.db.profile.questObjectiveColors then
                 icon.texture:SetVertexColor(1, 1, 1, 1); -- If different colors are active simply change it to the regular icon color
             else
@@ -507,6 +523,52 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     Tooltip:SetFrameStrata("TOOLTIP");
     Tooltip.ShownAsMapIcon = true
     Tooltip:Show();
+end
+
+---Shows a tooltip again if it is open for a hovered map icon or patrol path and lists the quest.
+---@param tooltip GameTooltip
+---@param questId QuestId
+local function _RefreshTooltip(tooltip, questId)
+    local icon = tooltip._owner
+    -- A hovered path belongs to its own frame and lists its own icons
+    local owner = tooltip._showOwner
+    -- Icons are pooled: one unloaded or reused since the tooltip was shown is not the hovered one anymore
+    if (not tooltip.ShownAsMapIcon) or (not tooltip:IsShown()) or (not icon) or (not icon.data)
+        or icon.data ~= tooltip._showData or tooltip:GetOwner() ~= (owner or icon)
+        or (not (tooltip.questOrder and tooltip.questOrder[questId])) then
+        return
+    end
+    -- Showing a faded out icon's tooltip does nothing, so the old one would stay without its highlights
+    local _, _, _, alpha = icon.texture:GetVertexColor()
+    if alpha == 0 and not owner then
+        return
+    end
+
+    local icons
+    if tooltip._showIcons then
+        -- Some may have been unloaded or reused since
+        icons = {}
+        for _, listed in ipairs(tooltip._showIcons) do
+            if listed.data and listed.data == tooltip._showIconData[listed] then
+                icons[#icons + 1] = listed
+            end
+        end
+    end
+
+    QuestieFrame.ResetHoverHighlights(icon)
+    -- Showing again within the throttle of the previous show would do nothing
+    lastTooltipShowTimestamp = 0
+    MapIconTooltip.ShowOnTooltip(icon, tooltip, owner, icons)
+end
+
+---Shows the open tooltip of a hovered map icon or patrol path again if it lists the quest. A tooltip collects its rows,
+---the progress of party members included, when it is shown, and a still mouse keeps hovering, so it would keep the old progress.
+---@param questId QuestId
+function MapIconTooltip.RefreshQuest(questId)
+    _RefreshTooltip(GameTooltip, questId)
+    if pathTooltip and pathTooltip ~= GameTooltip then
+        _RefreshTooltip(pathTooltip, questId)
+    end
 end
 
 local isLastMinimapInside, lastMinimapInsideCheckTimestamp

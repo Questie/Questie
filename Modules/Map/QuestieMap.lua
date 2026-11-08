@@ -14,6 +14,8 @@ local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration"
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -100,11 +102,22 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
         Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Unloading quest frames for questid:", questId)
         local yieldCount = 0
         if not iconType then
-            for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
+            -- Registrations without a frame are stale
+            for key, name in pairs(QuestieMap.questIdFrames[questId]) do
+                if not _G[name] then
+                    QuestieMap.questIdFrames[questId][key] = nil
+                end
+            end
+
+            for name, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
                 -- Capture this before Unload() because it clears frame.data.
                 local objective = frame.data and frame.data.ObjectiveData
 
                 QuestieFramePool:UnloadFrame(frame)
+                -- Not all at the end: frames drawn again while this yields are registered under their pooled names
+                if QuestieMap.questIdFrames[questId] then
+                    QuestieMap.questIdFrames[questId][name] = nil
+                end
 
                 if objective then
                     objective.AlreadySpawned = {}
@@ -117,7 +130,11 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                 end
             end
 
-            QuestieMap.questIdFrames[questId] = nil;
+            if QuestieMap.questIdFrames[questId] and not next(QuestieMap.questIdFrames[questId]) then
+                QuestieMap.questIdFrames[questId] = nil
+            end
+            -- The icons of the party's objectives were part of it, and could only be drawn again once it is done
+            QuestiePartyObjectives:ScheduleUpdate(questId)
         else
             for name, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
                 if frame and frame.data and frame.data.Icon == iconType then
