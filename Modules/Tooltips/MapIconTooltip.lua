@@ -64,9 +64,9 @@ local function FormatLabelWithColon(label)
     end
 end
 
--- Match world-tooltip drop-rate formatting from Tooltip.lua
----@param rate number
----@return string
+---Formats a drop-rate percentage the same way world tooltips do in Tooltip.lua.
+---@param rate number @Raw drop chance from QuestieDB.GetItemDroprate
+---@return string @Rounded percentage text without a trailing %
 local function FormatDropText(rate)
     if rate >= 10 then
         return string.format("%.0f", rate)
@@ -79,9 +79,10 @@ local function FormatDropText(rate)
     end
 end
 
----Drop-rate suffix for a map pin's source NPC/object (item objectives only).
----@param iconData table
----@return string
+---Builds the colored ` [N%]` suffix for a map pin's source (item objectives only).
+---Uses ObjectiveTargetId as the NPC/object id passed to QuestieDB.GetItemDroprate.
+---@param iconData table @Map icon data; needs ObjectiveData and ObjectiveTargetId for rates
+---@return string @Empty string when rates are disabled, inapplicable, or unknown
 function _MapIconTooltip.GetDropRateSuffix(iconData)
     if (not Questie.db.profile.enableTooltipDroprates) or (not iconData) then
         return ""
@@ -99,6 +100,49 @@ function _MapIconTooltip.GetDropRateSuffix(iconData)
         return "  |cFF999999[" .. FormatDropText(dropRateData[1]) .. "%]|r"
     end
     return ""
+end
+
+---Stable key for a tooltip source so same-named NPCs/objects with different IDs stay distinct.
+---@param iconData table
+---@return string|number|nil
+local function GetSourceKey(iconData)
+    if (not iconData) or (not iconData.Name) then
+        return nil
+    end
+    return iconData.ObjectiveTargetId or iconData.Name
+end
+
+---Source row stored under an objective tooltip line: display name plus optional drop suffix.
+---@param iconData table
+---@return string|number|nil sourceKey
+---@return table|nil sourceEntry @{name: string, suffix: string}
+function _MapIconTooltip.BuildSourceEntry(iconData)
+    local sourceKey = GetSourceKey(iconData)
+    if not sourceKey then
+        return nil, nil
+    end
+    return sourceKey, {
+        name = iconData.Name,
+        suffix = _MapIconTooltip.GetDropRateSuffix(iconData),
+    }
+end
+
+---Resolves a stored source map value into a display name and drop-rate suffix.
+---@param sourceKey string|number
+---@param sourceInfo table|string|boolean
+---@return string|nil name
+---@return string suffix
+local function ResolveSourceDisplay(sourceKey, sourceInfo)
+    if type(sourceInfo) == "table" and sourceInfo.name then
+        return sourceInfo.name, sourceInfo.suffix or ""
+    end
+    if type(sourceInfo) == "string" then
+        return tostring(sourceKey), sourceInfo
+    end
+    if sourceInfo then
+        return tostring(sourceKey), ""
+    end
+    return nil, ""
 end
 
 function MapIconTooltip:Show()
@@ -484,27 +528,30 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                 end
             end
 
-            -- Always show mob/object names + drop rates (Shift still unlocks XP / dungeon / chain extras)
+            -- Always show mob/object names + drop rates (Shift still unlocks XP / dungeon / chain extras).
+            -- Deduplicate sources per objective line so a shared mob can still show its rate on each objective.
             local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
-            local addedCreatureNames = {}
             for _, textData in pairs(textList) do
                 for textLine, nameData in pairs(textData) do
                     local dataType = type(nameData)
                     local hasSourceName = false
+                    local addedSources = {}
                     if dataType == "table" then
-                        for name, dropSuffix in pairs(nameData) do
-                            hasSourceName = true
-                            if (not addedCreatureNames[name]) then
-                                addedCreatureNames[name] = true
-                                local displayName = _MapIconTooltip.GetLevelString(creatureLevels, name)
-                                local suffix = (type(dropSuffix) == "string") and dropSuffix or ""
-                                tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName .. suffix);
+                        for sourceKey, sourceInfo in pairs(nameData) do
+                            local name, suffix = ResolveSourceDisplay(sourceKey, sourceInfo)
+                            if name then
+                                hasSourceName = true
+                                if (not addedSources[sourceKey]) then
+                                    addedSources[sourceKey] = true
+                                    local displayName = _MapIconTooltip.GetLevelString(creatureLevels, name)
+                                    tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName .. suffix);
+                                end
                             end
                         end
                     elseif dataType == "string" then
                         hasSourceName = true
-                        if (not addedCreatureNames[nameData]) then
-                            addedCreatureNames[nameData] = true
+                        if (not addedSources[nameData]) then
+                            addedSources[nameData] = true
                             local displayName = _MapIconTooltip.GetLevelString(creatureLevels, nameData)
                             tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName);
                         end
@@ -703,8 +750,9 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                     local partyMemberTip = {
                         [remoteText] = {},
                     }
-                    if iconData.Name then
-                        partyMemberTip[remoteText][iconData.Name] = _MapIconTooltip.GetDropRateSuffix(iconData);
+                    local partySourceKey, partySourceEntry = _MapIconTooltip.BuildSourceEntry(iconData)
+                    if partySourceKey then
+                        partyMemberTip[remoteText][partySourceKey] = partySourceEntry
                     end
                     tinsert(tooltips, partyMemberTip);
                     anotherPlayer = true;
@@ -729,14 +777,20 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
         local t = {
             [text] = {},
         }
-        if iconData.Name then
-            t[text][iconData.Name] = _MapIconTooltip.GetDropRateSuffix(iconData);
+        local sourceKey, sourceEntry = _MapIconTooltip.BuildSourceEntry(iconData)
+        if sourceKey then
+            t[text][sourceKey] = sourceEntry
         end
         tinsert(tooltips, 1, t);
     end
     return tooltips
 end
 
+---Merges objective tooltip rows for a quest, combining clustered pin sources by stable source id.
+---@param icon IconFrame
+---@param tip table<string, table> @Objective text -> sourceKey -> source entry
+---@param quest table @Ordered objective tip rows for this quest id
+---@param usedText table @Tracks which objective texts were already added per quest id
 function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
     for text, nameTable in pairs(tip) do
         local data = {}
@@ -752,14 +806,16 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
             tinsert(quest, data)
             usedText[icon.data.Id][text] = true
         else
-            -- Merge additional NPC/object sources from nearby clustered pins.
-            if icon.data.Name then
-                local suffix = _MapIconTooltip.GetDropRateSuffix(icon.data)
+            -- Merge additional NPC/object sources from nearby clustered pins by source id.
+            local sourceKey, sourceEntry = _MapIconTooltip.BuildSourceEntry(icon.data)
+            if sourceKey then
                 for dataIndex, _ in pairs(quest) do
                     if quest[dataIndex][text] then
-                        local existing = quest[dataIndex][text][icon.data.Name]
-                        if (not existing) or existing == true or existing == "" then
-                            quest[dataIndex][text][icon.data.Name] = suffix
+                        local existing = quest[dataIndex][text][sourceKey]
+                        if (not existing) then
+                            quest[dataIndex][text][sourceKey] = sourceEntry
+                        elseif type(existing) == "table" and (not existing.suffix or existing.suffix == "") and sourceEntry.suffix ~= "" then
+                            existing.suffix = sourceEntry.suffix
                         end
                     end
                 end
