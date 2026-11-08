@@ -79,6 +79,8 @@ describe("QuestiePartyObjectives", function()
                 Id = questId,
                 Color = {1, 1, 1},
                 ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}},
+                -- What the local quest draws itself: only objectives with ObjectiveData have one
+                Objectives = {[1] = {Id = 100}},
                 SpecialObjectives = {},
             }
         end
@@ -301,7 +303,7 @@ describe("QuestiePartyObjectives", function()
 
             -- The local player's own pipeline draws this quest's objectives, so drawing it as a
             -- party objective too would double up on the same questIdFrames key.
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {}}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = false}}}}
 
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
@@ -700,11 +702,13 @@ describe("QuestiePartyObjectives", function()
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
 
-            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {}}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = false}}}}
             QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
             runPendingThreads()
 
             assert.spy(QuestieFramePool.UnloadFrame).was.called(4)
+            -- The local quest draws the objective itself now
+            assert.is_equal(1, #drawnObjectives)
         end)
 
         it("should clear a quest's icons when its only member went offline", function()
@@ -775,6 +779,215 @@ describe("QuestiePartyObjectives", function()
             runPendingThreads()
 
             assert.is_equal(1, #drawnObjectives)
+        end)
+    end)
+
+    describe("quests the local player also has", function()
+        it("should draw a party member's objective the local player already finished", function()
+            givenPartyQuest(2)
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = true}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(1, #drawnObjectives)
+        end)
+
+        it("should not draw a party member's objective the local player still needs", function()
+            givenPartyQuest(2)
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = false}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(0, #drawnObjectives)
+        end)
+
+        it("should draw a party member's objective the local quest has no objective for", function()
+            givenPartyQuest(2)
+            QuestieComms.remoteQuestLogs[QUEST_ID].Partymember[2] = {finished = false, type = "m", id = 101}
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = QUEST_ID,
+                    Color = {1, 1, 1},
+                    ObjectiveData = {
+                        [1] = {Type = "monster", Id = 100, Text = "Kill things"},
+                        [2] = {Type = "monster", Id = 101, Text = "Kill other things"},
+                    },
+                    Objectives = {[1] = {Id = 100}},
+                    SpecialObjectives = {},
+                }
+            end
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = false}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(1, #drawnObjectives)
+            assert.is_equal(2, drawnObjectives[1].Index)
+        end)
+
+        it("should draw a party member's objective the local quest has a row for but no objective data", function()
+            givenPartyQuest(2)
+            -- The log lists the objective, but the database does not map it, so the local quest draws nothing for it
+            local quest = QuestieDB.GetQuest(QUEST_ID)
+            quest.Objectives = {}
+            QuestieDB.GetQuest = function() return quest end
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = false}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(1, #drawnObjectives)
+        end)
+
+        it("should not draw the special objectives of a sequenced quest whose visible objectives are finished", function()
+            givenPartyQuest(2)
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = QUEST_ID,
+                    Color = {1, 1, 1},
+                    ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}},
+                    Objectives = {[1] = {Id = 100}},
+                    SpecialObjectives = {
+                        {Id = 300, Type = "object", Description = "Look around", spawnList = {}},
+                    },
+                }
+            end
+            -- The next stage shows up with more objectives, which the local quest draws including its specials
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {isComplete = 0, objectives = {{finished = true}}}}
+            local originalIsQuestSequenced = _G.IsQuestSequenced
+            _G.IsQuestSequenced = function() return true end
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+            _G.IsQuestSequenced = originalIsQuestSequenced
+
+            assert.is_equal(1, #drawnObjectives)
+        end)
+
+        it("should draw a special objective linked to an objective the local player finished", function()
+            givenPartyQuest(2)
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = QUEST_ID,
+                    Color = {1, 1, 1},
+                    ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}},
+                    SpecialObjectives = {
+                        {Id = 200, Type = "object", Description = "Use the thing", spawnList = {}, RealObjectiveIndex = 1},
+                        {Id = 300, Type = "object", Description = "Look around", spawnList = {}},
+                    },
+                }
+            end
+            -- The local quest still draws the unlinked special objective itself
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = true}, {finished = false}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(2, #drawnObjectives)
+            assert.is_equal(1, drawnObjectives[1].Index)
+            assert.is_equal(65, drawnObjectives[2].Index)
+        end)
+
+        it("should not draw a special objective linked to an objective the local player still needs", function()
+            givenPartyQuest(2)
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = QUEST_ID,
+                    Color = {1, 1, 1},
+                    ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}},
+                    Objectives = {[1] = {Id = 100}},
+                    SpecialObjectives = {
+                        {Id = 200, Type = "object", Description = "Use the thing", spawnList = {}, RealObjectiveIndex = 1},
+                    },
+                }
+            end
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {{finished = false}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(0, #drawnObjectives)
+        end)
+
+        it("should draw the party's objectives once the local player's quest is complete", function()
+            givenPartyQuest(2)
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {isComplete = 1, objectives = {}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(1, #drawnObjectives)
+        end)
+
+        it("should draw a party member's objective after the local player finished it", function()
+            givenPartyQuest(2)
+            local localObjective = {finished = false}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {objectives = {localObjective}}}
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            localObjective.finished = true
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(1, #drawnObjectives)
+        end)
+
+        it("should draw the party's objectives when the local player's quest failed", function()
+            givenPartyQuest(2)
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {isComplete = -1, objectives = {{finished = false}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(1, #drawnObjectives)
+        end)
+
+        it("should draw special objectives once all of the local player's objectives are finished", function()
+            givenPartyQuest(2)
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = QUEST_ID,
+                    Color = {1, 1, 1},
+                    ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}},
+                    SpecialObjectives = {
+                        {Id = 200, Type = "object", Description = "Use the thing", spawnList = {}},
+                    },
+                }
+            end
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = {isComplete = 0, objectives = {{finished = true}}}}
+
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(2, #drawnObjectives)
+        end)
+
+        it("should draw special objectives only once the local player's quest is complete", function()
+            givenPartyQuest(2)
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = QUEST_ID,
+                    Color = {1, 1, 1},
+                    ObjectiveData = {[1] = {Type = "monster", Id = 100, Text = "Kill things"}},
+                    SpecialObjectives = {
+                        {Id = 200, Type = "object", Description = "Use the thing", spawnList = {}},
+                    },
+                }
+            end
+            local localEntry = {objectives = {{finished = true}, {finished = false}}}
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[QUEST_ID] = localEntry}
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+            assert.is_equal(1, #drawnObjectives)
+
+            localEntry.isComplete = 1
+            QuestiePartyObjectives:ScheduleUpdate(QUEST_ID)
+            runPendingThreads()
+
+            assert.is_equal(3, #drawnObjectives)
         end)
     end)
 
