@@ -476,6 +476,30 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用时，每个任务前的圆形按钮可让你在地图上聚焦或取消聚焦该任务。", -- AI 🤖
         ["zhTW"] = "啟用時，每個任務前的圓形按鈕可讓你在地圖上聚焦或取消聚焦該任務。", -- AI 🤖
     },
+    ["Show Quest Giver On Focus"] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
+    ["If checked, focusing a Quest also shows the Quest Giver it was picked up from on the map."] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Show Play Buttons"] = {
         ["enUS"] = true,
         ["deDE"] = "Abspiel-Buttons anzeigen", -- AI 🤖

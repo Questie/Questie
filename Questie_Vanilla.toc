@@ -191,6 +191,7 @@ Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
 Modules\Map\WeaponMasterSkills.lua
 Modules\Map\Moonwell.lua
+Modules\Map\FocusedQuestgiver.lua
 
 # Waypoints
 Modules\Map\Waypoints\WaypointGeometry.lua

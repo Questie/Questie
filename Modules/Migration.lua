@@ -308,6 +308,10 @@ local migrationFunctions = {
         -- The Blizzard quest timer is always hidden now; timed quests are shown in the Questie tracker.
         Questie.db.profile.showBlizzardQuestTimer = nil
     end,
+    [50] = function()
+        -- New setting: focusing a quest also shows its quest giver on the map.
+        Questie.db.profile.trackerShowQuestGiverOnFocus = true
+    end,
 }
 
 function Migration:Migrate()

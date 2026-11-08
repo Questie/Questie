@@ -49,6 +49,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type FocusedQuestgiver
+local FocusedQuestgiver = QuestieLoader:ImportModule("FocusedQuestgiver")
 
 
 local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
@@ -606,6 +608,9 @@ function TrackerUtils:UnFocus()
     if (not Questie.db.char.TrackerFocus) then
         return
     end
+
+    -- Remove the quest giver icon shown for the previously focused quest.
+    FocusedQuestgiver.Hide()
     for questId in ActiveQuests.Iterate() do
         local quest = QuestieDB.GetQuest(questId)
 
@@ -657,6 +662,9 @@ function TrackerUtils:FocusQuest(questId, expectedQuest)
             end
         end
     end
+
+    -- Show the quest giver of the focused quest, so the player can see where it was picked up.
+    FocusedQuestgiver.Show(questId)
     return true
 end
 

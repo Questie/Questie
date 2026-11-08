@@ -73,6 +73,10 @@ describe("TrackerUtils", function()
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         QuestieLoader:ImportModule("TrackerItemButton")
 
+        local FocusedQuestgiver = QuestieLoader:ImportModule("FocusedQuestgiver")
+        FocusedQuestgiver.Show = spy.new(function() end)
+        FocusedQuestgiver.Hide = spy.new(function() end)
+
         dofile("Modules/Tracker/TrackerUtils.lua")
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
@@ -1347,6 +1351,33 @@ describe("TrackerUtils", function()
             TrackerUtils:FocusQuest(54)
 
             assert.spy(compat.SetSuperTrackedQuestID).was.called_with(54)
+        end)
+
+        it("should show the quest giver of a focused quest", function()
+            local FocusedQuestgiver = QuestieLoader:ImportModule("FocusedQuestgiver")
+
+            TrackerUtils:FocusQuest(54)
+
+            assert.spy(FocusedQuestgiver.Show).was.called_with(54)
+        end)
+
+        it("should not show a quest giver for a quest that can not be focused", function()
+            local FocusedQuestgiver = QuestieLoader:ImportModule("FocusedQuestgiver")
+            trackerQuests[91741] = {Id = 91741, Objectives = {}, SpecialObjectives = {}}
+
+            TrackerUtils:FocusQuest(91741)
+
+            assert.spy(FocusedQuestgiver.Show).was.not_called()
+        end)
+
+        it("should hide the quest giver when unfocusing", function()
+            local FocusedQuestgiver = QuestieLoader:ImportModule("FocusedQuestgiver")
+            Questie.db.char.TrackerFocus = 54
+            superTrackedQuestId = 54
+
+            TrackerUtils:UnFocus()
+
+            assert.spy(FocusedQuestgiver.Hide).was.called()
         end)
 
         it("should not super track a quest that can not be focused", function()

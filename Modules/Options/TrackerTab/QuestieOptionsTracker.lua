@@ -596,6 +596,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    showQuestGiverOnFocus = {
+                        type = "toggle",
+                        order = 7.25,
+                        width = 1.5,
+                        name = function() return l10n("Show Quest Giver On Focus") end,
+                        desc = function() return l10n("If checked, focusing a Quest also shows the Quest Giver it was picked up from on the map.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowQuestGiverOnFocus end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowQuestGiverOnFocus = value
+                        end
+                    },
                     showPlayButtons = {
                         type = "toggle",
                         order = 7.3,

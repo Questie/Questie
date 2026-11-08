@@ -530,6 +530,18 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    showQuestGiverOnFocus = {
+                        type = "checkbox",
+                        order = 7.25,
+                        width = "half",
+                        title = "Show Quest Giver On Focus",
+                        tooltip = "If checked, focusing a Quest also shows the Quest Giver it was picked up from on the map.",
+                        enabled = function() return Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowQuestGiverOnFocus end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowQuestGiverOnFocus = value
+                        end
+                    },
                     showPlayButtons = {
                         type = "checkbox",
                         order = 7.3,
