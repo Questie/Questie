@@ -522,5 +522,36 @@ describe("MapIconTooltip objective wording", function()
             assert.is_not_nil(RowContaining("[7.5%]"))
             assert.is_not_nil(RowContaining("[4.1%]"))
         end)
+
+        it("keeps special objectives distinct when both pins use ObjectiveIndex 0", function()
+            -- Special objectives are populated with ObjectiveIndex 0 but carry Index = 64+n.
+            objective.Index = 65
+            objective.Description = "Special objective"
+            objective.Id = 111
+            icon.data.ObjectiveIndex = 0
+            icon.data.ObjectiveTargetId = 10
+            local otherObjective = {
+                Index = 66, Type = "item", Description = "Special objective", Collected = 9, Needed = 15,
+                Id = 222, Update = function() end,
+            }
+            local other = {
+                x = 50, y = 50, AreaID = 1,
+                texture = icon.texture,
+                data = {
+                    Id = 1, Type = "item", ObjectiveIndex = 0, ObjectiveData = otherObjective,
+                    Name = "Windstone", ObjectiveTargetId = 10,
+                },
+            }
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(itemId)
+                if itemId == 111 then return {7.5, "questie"} end
+                if itemId == 222 then return {4.1, "questie"} end
+            end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, other})
+
+            assert.are.equal(2, #GameTooltip.questOrder[1])
+            assert.is_not_nil(RowContaining("[7.5%]"))
+            assert.is_not_nil(RowContaining("[4.1%]"))
+        end)
     end)
 end)

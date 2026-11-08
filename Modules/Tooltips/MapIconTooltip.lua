@@ -786,16 +786,28 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
     return tooltips
 end
 
+---Stable row key for an objective pin. Prefer ObjectiveData.Index because special objectives are
+---drawn with ObjectiveIndex 0 while their own Index is offset (64+n) to stay unique.
+---@param iconData table
+---@return number|string
+local function GetObjectiveRowKey(iconData)
+    local objective = iconData and iconData.ObjectiveData
+    if objective and objective.Index then
+        return objective.Index
+    end
+    return (iconData and iconData.ObjectiveIndex) or 0
+end
+
 ---Merges objective tooltip rows for a quest, combining clustered pin sources by stable source id.
----Rows are keyed by ObjectiveIndex (not display text) so two item objectives with identical wording
----keep separate source/drop-rate lists while nearby pins for the same objective still merge.
+---Rows are keyed by objective identity (not display text) so two item objectives with identical
+---wording keep separate source/drop-rate lists while nearby pins for the same objective still merge.
 ---@param icon IconFrame
 ---@param tip table<string, table> @Objective text -> sourceKey -> source entry
 ---@param quest table @Ordered objective tip rows for this quest id
----@param usedText table @questId -> objectiveIndex -> quest-row index
+---@param usedText table @questId -> objectiveRowKey -> quest-row index
 function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
     local questId = icon.data.Id
-    local objectiveKey = icon.data.ObjectiveIndex or 0
+    local objectiveKey = GetObjectiveRowKey(icon.data)
     usedText[questId] = usedText[questId] or {}
 
     for text, nameTable in pairs(tip) do
