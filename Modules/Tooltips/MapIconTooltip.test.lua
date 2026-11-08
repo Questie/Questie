@@ -105,8 +105,8 @@ describe("MapIconTooltip objective wording", function()
         MapIconTooltip.Show(icon)
         local lines = {}
         for _, row in ipairs(GameTooltip.questOrder[1]) do
-            for text in pairs(row) do
-                lines[text] = true
+            for _, line in ipairs(row.lines) do
+                lines[line.text] = true
             end
         end
         return lines
@@ -392,8 +392,7 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.Show(icon)
 
             local tipRow = GameTooltip.questOrder[1][1]
-            local textKey = next(tipRow)
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, tipRow[textKey][5678])
+            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, tipRow.lines[1].sources[5678])
             assert.is_not_nil(RowContaining("[7.5%]"))
         end)
 
@@ -408,8 +407,7 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.Show(icon)
 
             local tipRow = GameTooltip.questOrder[1][1]
-            local textKey = next(tipRow)
-            assert.are.same({name = "Windstone", suffix = ""}, tipRow[textKey][5678])
+            assert.are.same({name = "Windstone", suffix = ""}, tipRow.lines[1].sources[5678])
             assert.is_nil(RowContaining("[50%]"))
         end)
 
@@ -427,8 +425,7 @@ describe("MapIconTooltip objective wording", function()
 
             assert.is_false(called)
             local tipRow = GameTooltip.questOrder[1][1]
-            local textKey = next(tipRow)
-            assert.are.same({name = "Windstone", suffix = ""}, tipRow[textKey][111])
+            assert.are.same({name = "Windstone", suffix = ""}, tipRow.lines[1].sources[111])
         end)
 
         it("keeps distinct drop rates for same-named sources with different ids", function()
@@ -450,9 +447,8 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, other})
 
             local tipRow = GameTooltip.questOrder[1][1]
-            local textKey = next(tipRow)
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, tipRow[textKey][10])
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[3.2%]|r"}, tipRow[textKey][20])
+            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, tipRow.lines[1].sources[10])
+            assert.are.same({name = "Windstone", suffix = "  |cFF999999[3.2%]|r"}, tipRow.lines[1].sources[20])
             assert.is_not_nil(RowContaining("[7.5%]"))
             assert.is_not_nil(RowContaining("[3.2%]"))
         end)
@@ -515,10 +511,8 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, twin})
 
             assert.are.equal(2, #GameTooltip.questOrder[1])
-            local firstText = next(GameTooltip.questOrder[1][1])
-            local secondText = next(GameTooltip.questOrder[1][2])
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, GameTooltip.questOrder[1][1][firstText][10])
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[4.1%]|r"}, GameTooltip.questOrder[1][2][secondText][10])
+            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, GameTooltip.questOrder[1][1].lines[1].sources[10])
+            assert.are.same({name = "Windstone", suffix = "  |cFF999999[4.1%]|r"}, GameTooltip.questOrder[1][2].lines[1].sources[10])
             assert.is_not_nil(RowContaining("[7.5%]"))
             assert.is_not_nil(RowContaining("[4.1%]"))
         end)
@@ -552,6 +546,30 @@ describe("MapIconTooltip objective wording", function()
             assert.are.equal(2, #GameTooltip.questOrder[1])
             assert.is_not_nil(RowContaining("[7.5%]"))
             assert.is_not_nil(RowContaining("[4.1%]"))
+        end)
+
+        it("keeps local and party player lines in insertion order", function()
+            cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
+            QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
+            QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function() return "Quest Name" end
+
+            MapIconTooltip.Show(icon)
+
+            local tipRow = GameTooltip.questOrder[1][1]
+            assert.are.equal(2, #tipRow.lines)
+            local firstText = tipRow.lines[1].text
+            local secondText = tipRow.lines[2].text
+            assert.is_truthy(firstText:find("Bob", 1, true) or secondText:find("Bob", 1, true))
+            assert.is_truthy(firstText:find("Local Fullname", 1, true) or secondText:find("Local Fullname", 1, true))
+
+            local firstRow, secondRow
+            for row, line in ipairs(rendered) do
+                if line:find(firstText, 1, true) then firstRow = row end
+                if line:find(secondText, 1, true) then secondRow = row end
+            end
+            assert.is_not_nil(firstRow)
+            assert.is_not_nil(secondRow)
+            assert.is_true(firstRow < secondRow)
         end)
     end)
 end)

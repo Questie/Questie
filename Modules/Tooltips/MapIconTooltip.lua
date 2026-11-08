@@ -530,9 +530,12 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
             -- Always show mob/object names + drop rates (Shift still unlocks XP / dungeon / chain extras).
             -- Deduplicate sources per objective line so a shared mob can still show its rate on each objective.
+            -- Player lines (local + party) stay in insertion order; do not walk them with pairs.
             local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
-            for _, textData in pairs(textList) do
-                for textLine, nameData in pairs(textData) do
+            for _, textData in ipairs(textList) do
+                for _, line in ipairs(textData.lines) do
+                    local textLine = line.text
+                    local nameData = line.sources
                     local dataType = type(nameData)
                     local hasSourceName = false
                     local addedSources = {}
@@ -801,6 +804,7 @@ end
 ---Merges objective tooltip rows for a quest, combining clustered pin sources by stable source id.
 ---Rows are keyed by objective identity (not display text) so two item objectives with identical
 ---wording keep separate source/drop-rate lists while nearby pins for the same objective still merge.
+---Each row keeps player lines (local + party) in insertion order via `lines` / `byText`.
 ---@param icon IconFrame
 ---@param tip table<string, table> @Objective text -> sourceKey -> source entry
 ---@param quest table @Ordered objective tip rows for this quest id
@@ -813,18 +817,24 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
     for text, nameTable in pairs(tip) do
         local dataIndex = usedText[questId][objectiveKey]
         if not dataIndex then
-            tinsert(quest, { [text] = nameTable })
+            tinsert(quest, {
+                lines = { { text = text, sources = nameTable } },
+                byText = { [text] = 1 },
+            })
             usedText[questId][objectiveKey] = #quest
         else
             local row = quest[dataIndex]
-            if not row[text] then
-                row[text] = nameTable
+            local lineIndex = row.byText[text]
+            if not lineIndex then
+                tinsert(row.lines, { text = text, sources = nameTable })
+                row.byText[text] = #row.lines
             else
+                local sources = row.lines[lineIndex].sources
                 -- Merge additional NPC/object sources from nearby clustered pins by source id.
                 for sourceKey, sourceEntry in pairs(nameTable) do
-                    local existing = row[text][sourceKey]
+                    local existing = sources[sourceKey]
                     if (not existing) then
-                        row[text][sourceKey] = sourceEntry
+                        sources[sourceKey] = sourceEntry
                     elseif type(existing) == "table"
                         and (not existing.suffix or existing.suffix == "")
                         and type(sourceEntry) == "table"
