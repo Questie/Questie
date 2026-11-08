@@ -533,6 +533,23 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieTracker.Update).was.called()
     end)
 
+    it("should update the party objectives of a quest whose objectives changed", function()
+        _G.C_Timer = {After = function(_, callback) callback() end}
+        QuestLogCache.CheckForChanges = spy.new(function() return false, {[QUEST_ID] = {}} end)
+        QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
+        ActiveQuests.Add(QUEST_ID, {})
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestieNameplate.UpdateNameplate = spy.new(function() end)
+        QuestLifecycle.UpdateQuest = spy.new(function() end)
+        QuestieTracker.Update = spy.new(function() end)
+        QuestieTracker.UpdateQuestLines = spy.new(function() end)
+
+        QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+        QuestEventHandler.QuestLogUpdate()
+
+        assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called_with(QuestiePartyObjectives, QUEST_ID)
+    end)
+
     describe("quest missing from the player's quest log", function()
         local originalError
 

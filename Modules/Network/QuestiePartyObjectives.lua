@@ -23,6 +23,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type GamepadMapHover
 local GamepadMapHover = QuestieLoader:ImportModule("GamepadMapHover")
 ---@type MapIconTooltip
@@ -67,12 +69,6 @@ local processing = false
 
 -- Forward declarations (these reference each other).
 local _ScheduleProcessing, _ProcessScheduled, _ProcessQueue
-
----@param questId number
----@return boolean @true if the local player currently has this quest in their log
-local function _PlayerHasQuest(questId)
-    return QuestLogCache.questLog_DO_NOT_MODIFY[questId] ~= nil
-end
 
 -- The objective needs a non-nil Description or the map icon tooltip skips it entirely
 -- (see MapIconTooltip "iconData.ObjectiveData.Description" check). Provider objective text
@@ -231,20 +227,43 @@ local function _ClearQuest(questId)
     drawnByQuest[questId] = nil
 end
 
+---@param objectives table
+---@return boolean
+local function _AllFinished(objectives)
+    if (not objectives[1]) then
+        return false
+    end
+    for _, objective in pairs(objectives) do
+        if (not objective.finished) then
+            return false
+        end
+    end
+    return true
+end
+
 -- Indices of the objectives online, visible party members reported, or nil if there is nothing to draw.
 -- needed holds the unfinished ones, known every reported one (see the SpecialObjectives loop in _DrawQuest).
+-- drawSpecials is false while the local player's own quest still draws the special objectives.
 ---@param questId number
----@return table? needed, table? known
+---@return table? needed, table? known, boolean drawSpecials
 local function _CollectIndices(questId)
-    -- Quests the local player has are drawn by the normal pipeline; don't double up.
-    if _PlayerHasQuest(questId) then
-        return nil, nil
-    end
-
     local players = QuestieComms.remoteQuestLogs[questId]
     if not players then
-        return nil, nil
+        return nil, nil, false
     end
+
+    -- The local player's own quest draws the objectives they still need, so the party only adds the ones they
+    -- finished already. Once their quest is complete it draws none of them anymore.
+    local localEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
+    local localObjectives = localEntry and localEntry.objectives or {}
+    -- A failed quest draws its quest giver instead, and Questie shows the finisher once every objective is finished,
+    -- even before the game reports the quest complete. A sequenced quest shows its next stage instead (as in
+    -- QuestieQuest:UpdateQuest), so all its visible objectives being finished does not end its own drawing.
+    local localDrawsNothing = localEntry and (localEntry.isComplete == 1 or localEntry.isComplete == -1
+        or ((not QuestieCompat.IsQuestSequenced(questId)) and _AllFinished(localObjectives)))
+    -- Only objectives with ObjectiveData have a runtime objective, which the local quest draws icons for
+    local localQuest = localEntry and (not localDrawsNothing) and QuestieDB.GetQuest(questId)
+    local localMapped = localQuest and localQuest.Objectives or {}
 
     -- An objective index is drawn if at least one visible, online party member still needs it.
     -- Offline members disappear until they reconnect, and CommsVisibility can suppress members
@@ -257,24 +276,29 @@ local function _CollectIndices(questId)
         if _IsPlayerOnline(playerName) and CommsVisibility:ShouldShowPartyObjective(playerName, questId) then
             for objectiveIndex, objective in pairs(objectives) do
                 knownIndices[objectiveIndex] = true
-                if not objective.finished then
+                local localObjective = localObjectives[objectiveIndex]
+                -- An objective the local quest has no row or no objective data for is not drawn by it either
+                local drawnByLocalQuest = localEntry and (not localDrawsNothing) and localObjective and (not localObjective.finished)
+                    and localMapped[objectiveIndex]
+                if (not objective.finished) and (not drawnByLocalQuest) then
                     neededIndices[objectiveIndex] = objective
                 end
             end
         end
     end
     if not next(neededIndices) then
-        return nil, nil
+        return nil, nil, false
     end
-    return neededIndices, knownIndices
+    return neededIndices, knownIndices, (not localEntry) or localDrawsNothing
 end
 
 -- Everything a quest's party icons depend on. Progress counts are left out on purpose: tooltips read them from
 -- QuestieComms when they are shown, so a changed count needs no redraw, only a refresh of open tooltips.
 ---@param neededIndices table?
 ---@param knownIndices table?
+---@param drawSpecials boolean
 ---@return string?
-local function _GetDrawSignature(neededIndices, knownIndices)
+local function _GetDrawSignature(neededIndices, knownIndices, drawSpecials)
     if not neededIndices then
         return nil
     end
@@ -289,6 +313,9 @@ local function _GetDrawSignature(neededIndices, knownIndices)
     if Questie.db.profile.enableObjectives then
         parts[#parts + 1] = "o"
     end
+    if drawSpecials then
+        parts[#parts + 1] = "s"
+    end
     table.sort(parts)
     return table.concat(parts, ",")
 end
@@ -297,8 +324,9 @@ end
 ---@param questId number
 ---@param neededIndices table
 ---@param knownIndices table
+---@param drawSpecials boolean
 ---@param signature string
-local function _DrawQuest(questId, neededIndices, knownIndices, signature)
+local function _DrawQuest(questId, neededIndices, knownIndices, drawSpecials, signature)
     if drawnIconCount >= MAX_PARTY_ICONS then
         return
     end
@@ -425,8 +453,8 @@ local function _DrawQuest(questId, neededIndices, knownIndices, signature)
                     spawnList = cachedSpawnList or {},
                     AlreadySpawned = {},
                     Update = NOP_FUNCTION,
-                    -- Marks this as a party member's objective (the local player does not have the
-                    -- quest), so the map tooltip doesn't label it with the local player's name.
+                    -- Marks this as a party member's objective (one the local player does not need), so the map
+                    -- tooltip doesn't label it with the local player's name.
                     IsPartyObjective = true,
                     -- Skip in-world unit/item tooltip registration; the map icon tooltip already
                     -- shows party members via QuestieComms, and this avoids leaking tooltip entries.
@@ -475,13 +503,21 @@ local function _DrawQuest(questId, neededIndices, knownIndices, signature)
             break
         end
 
-        -- Hide an extra once the standard objective it is tied to is finished by the party,
-        -- matching how the local pipeline syncs an extraObjective's Completed from its
-        -- RealObjectiveIndex (QuestieQuest:PopulateQuestLogInfo). RealObjectiveIndex is used
-        -- loosely in the DB (it can be 0 or point past the real objectives), so only apply this
-        -- when it maps to an objective the party members actually reported; otherwise draw it.
+        -- An extra tied to a standard objective follows it, as the local pipeline syncs an extraObjective's
+        -- Completed from its RealObjectiveIndex (QuestieQuest:PopulateQuestLogInfo): it is drawn while that
+        -- objective is needed here, which leaves out one the party finished and one the local quest draws itself.
+        -- RealObjectiveIndex is used loosely in the DB (it can be 0 or point past the real objectives), so this
+        -- only applies when it maps to an objective the party members actually reported. Any other extra is
+        -- drawn by the local quest, unless that draws nothing anymore.
         local realIndex = special.RealObjectiveIndex
-        if not (realIndex and knownIndices[realIndex] and not neededIndices[realIndex]) then
+        local linked = realIndex and knownIndices[realIndex]
+        local draw
+        if linked then
+            draw = neededIndices[realIndex] ~= nil
+        else
+            draw = drawSpecials
+        end
+        if draw then
             local objective = {
                 Id = special.Id,
                 Type = special.Type,
@@ -515,14 +551,14 @@ _ProcessQueue = function(queue, index)
     local stop = math.min(index + CHUNK_SIZE - 1, #queue)
     for i = index, stop do
         local questId = queue[i]
-        local neededIndices, knownIndices = _CollectIndices(questId)
-        local signature = _GetDrawSignature(neededIndices, knownIndices)
+        local neededIndices, knownIndices, drawSpecials = _CollectIndices(questId)
+        local signature = _GetDrawSignature(neededIndices, knownIndices, drawSpecials)
         local entry = drawnByQuest[questId]
         -- Most updates only change progress counts, which leaves the icons as they are
         if not (signature and entry and entry.signature == signature and _HasAllIcons(entry)) then
             _ClearQuest(questId)
             if signature then
-                local ok, err = pcall(_DrawQuest, questId, neededIndices, knownIndices, signature)
+                local ok, err = pcall(_DrawQuest, questId, neededIndices, knownIndices, drawSpecials, signature)
                 if not ok then
                     -- Left incomplete, so a later update must draw the quest again
                     local failed = drawnByQuest[questId]
