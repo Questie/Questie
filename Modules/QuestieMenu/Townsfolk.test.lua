@@ -143,7 +143,7 @@ describe("Townsfolk", function()
 
             local townsfolk = Townsfolk.townsfolk
             assert.are_same({1001}, townsfolk["Repair"])
-            assert.are_same({1002,1003}, townsfolk["Banker"])
+            assert.are_same({1003,1002}, townsfolk["Banker"])
             assert.are_same({1005}, townsfolk["Innkeeper"])
             assert.are_same({}, townsfolk["Auctioneer"])
             assert.is_nil(townsfolk["Barber"])
