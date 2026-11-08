@@ -7098,6 +7098,9 @@ function QuestieQuestBlacklist:Load()
         [91906] = HIDE_ON_MAP, -- A Sealed Crate
 
         [93928] = true, -- Of Mice and Milk
+
+        [96339] = HIDE_ON_MAP, -- Legacy Reward: Replica Ironforge Air Rifle -- todo fix
+        [96383] = HIDE_ON_MAP, -- Legacy Reward: Spectral Bear Cub -- todo fix
     }
 
     if Questie.IsSoD then
