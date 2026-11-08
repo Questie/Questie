@@ -13,7 +13,6 @@ describe("TrackerLayout", function()
             GetUnboundedStringWidth = function() return unboundedWidth end,
             GetWrappedWidth = function() return wrappedWidth end,
             GetFont = function() return "font", 10 end,
-            GetText = function() return "text" end,
             GetNumLines = function() return 2 end,
         }
         function label:SetWidth(width) self.width = width end
@@ -134,6 +133,54 @@ describe("TrackerLayout", function()
             assert.spy(updateWidth).was.called_with(123)
             assert.spy(updateHeight).was.called(1)
         end)
+
+        it("should not resize the tracker for a narrower line in the same layout", function()
+            TrackerLayout.UpdateWidth(200)
+            TrackerLayout.UpdateWidth(150)
+            TrackerLayout.UpdateWidth(200)
+
+            assert.spy(updateWidth).was.called_with(200)
+            assert.spy(updateWidth).was.called(1)
+        end)
+
+        it("should resize the tracker for the first line even without any width", function()
+            TrackerLayout.UpdateWidth(0)
+
+            assert.spy(updateWidth).was.called_with(0)
+        end)
+
+        it("should resize the tracker for a wider line in the same layout", function()
+            TrackerLayout.UpdateWidth(150)
+            TrackerLayout.UpdateWidth(200)
+
+            assert.spy(updateWidth).was.called_with(200)
+            assert.spy(updateWidth).was.called(2)
+        end)
+
+        it("should resize the tracker to a narrower line after the line width was reset", function()
+            TrackerLayout.UpdateWidth(200)
+            TrackerLayout.ResetLineWidth()
+            TrackerLayout.UpdateWidth(150)
+
+            assert.spy(updateWidth).was.called_with(150)
+        end)
+    end)
+
+    describe("resizing after the tracker was drawn", function()
+        it("should size wrapped lines to a smaller width ratio without a new draw", function()
+            -- The draw at the old ratio, then the width ratio slider only runs the formatting
+            TrackerLayout.UpdateLineWidth(_CreateLine(600, 400), 20)
+            assert.are_same(500, baseFrameWidth)
+            Questie.db.profile.trackerWidthRatio = 0.3
+            local line = _CreateLine(600, 250)
+
+            TrackerLayout.ResetRequestedWidth()
+            TrackerLayout.UpdateLineWidth(line, 20)
+
+            assert.spy(updateWidth).was.called_with(300)
+            assert.are_same(300, baseFrameWidth)
+            assert.are_same(250, line.label.width)
+        end)
     end)
 
     describe("GetBaseFrame", function()
@@ -144,36 +191,6 @@ describe("TrackerLayout", function()
     end)
 
     describe("UpdateLineWidth", function()
-        it("should measure an unchanged line only once", function()
-            local line = _CreateLine(100, 100)
-            line.label.GetText = function() return "text" end
-            line.label.GetUnboundedStringWidth = spy.new(function() return 100 end)
-
-            TrackerLayout.UpdateLineWidth(line, 20)
-            TrackerLayout.UpdateLineWidth(line, 20)
-
-            assert.spy(line.label.GetUnboundedStringWidth).was.called(1)
-            assert.are_same(120, TrackerLayout.GetLineWidth())
-        end)
-
-        it("should measure a line again when its text or font changed", function()
-            local line = _CreateLine(100, 100)
-            local text, fontSize, fontFlags = "text", 10, ""
-            line.label.GetText = function() return text end
-            line.label.GetFont = function() return "font", fontSize, fontFlags end
-            line.label.GetUnboundedStringWidth = spy.new(function() return 100 end)
-
-            TrackerLayout.UpdateLineWidth(line, 20)
-            text = "other text"
-            TrackerLayout.UpdateLineWidth(line, 20)
-            fontSize = 12
-            TrackerLayout.UpdateLineWidth(line, 20)
-            fontFlags = "OUTLINE"
-            TrackerLayout.UpdateLineWidth(line, 20)
-
-            assert.spy(line.label.GetUnboundedStringWidth).was.called(4)
-        end)
-
         it("should size the tracker to a line that fits", function()
             local line = _CreateLine(100, 100)
 

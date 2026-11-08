@@ -29,6 +29,8 @@ local isPlaySlotShown = function() return false end
 local itemColumnShown = true
 -- Width of the widest line drawn since the last reset
 local lineWidth = 0
+-- Widest tracker width requested since the last reset, nil before the first request
+local requestedWidth
 
 ---@param trackerBaseFrame Frame
 ---@param updateWidthCallback fun(width: number) Resizes the tracker to the given content width
@@ -89,8 +91,15 @@ function TrackerLayout.GetBaseFrameWidth()
     return baseFrame:GetWidth()
 end
 
+-- Lets the next UpdateWidth resize the tracker to any width again, e.g. when it formats the lines of a drawn
+-- tracker after its maximum width changed
+function TrackerLayout.ResetRequestedWidth()
+    requestedWidth = nil
+end
+
 function TrackerLayout.ResetLineWidth()
     lineWidth = 0
+    TrackerLayout.ResetRequestedWidth()
 end
 
 ---@return number
@@ -105,6 +114,12 @@ end
 
 ---@param width number
 function TrackerLayout.UpdateWidth(width)
+    -- Lines only need the tracker to grow while a layout is drawn; UpdateFormatting sets its final width afterwards.
+    -- Resizing it for every narrower line made the game lay out the whole tracker again for each line.
+    if requestedWidth and width <= requestedWidth then
+        return
+    end
+    requestedWidth = width
     updateWidth(width)
 end
 
@@ -120,15 +135,7 @@ function TrackerLayout.UpdateLineWidth(line, marginLeft)
     local margin = marginLeft + TrackerLayout.MARGIN_RIGHT
     local contentMaxWidth = trackerMaxWidth - margin
 
-    local label = line.label
-    -- The unbounded width only depends on text and font, and measuring forces a text layout
-    local text = label:GetText()
-    local font, fontSize, fontFlags = label:GetFont()
-    if line.measuredText ~= text or line.measuredFont ~= font or line.measuredFontSize ~= fontSize or line.measuredFontFlags ~= fontFlags then
-        line.measuredText, line.measuredFont, line.measuredFontSize, line.measuredFontFlags = text, font, fontSize, fontFlags
-        line.measuredWidth = label:GetUnboundedStringWidth()
-    end
-    local unboundedWidth = line.measuredWidth
+    local unboundedWidth = line.label:GetUnboundedStringWidth()
     if (unboundedWidth + margin) < contentMaxWidth then
         -- If the text width is less than the max tracker width, we update the base frame width to fit the text
         TrackerLayout.UpdateWidth(unboundedWidth + margin)
@@ -146,6 +153,7 @@ function TrackerLayout.UpdateLineWidth(line, marginLeft)
     else
         -- We use the fontSize as reliable way to determine the line height. GetStringHeight can be inconsistent.
         -- We add an extra pixel per line to account for WoW's internal line spacing on top of the raw font size.
+        local _, fontSize = line.label:GetFont()
         local lineHeight = ((fontSize + 1) * line.label:GetNumLines()) + 1 -- add an extra pixel to make sure it really wraps
         line.label:SetHeight(lineHeight)
         line:SetHeight(line.label:GetHeight() + (Questie.db.profile.trackerQuestPadding + 2))
