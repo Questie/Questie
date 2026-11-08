@@ -1021,6 +1021,9 @@ function QuestieTracker:UpdateFormatting()
         local objectiveMarginLeft = margins.objective
         local questItemButtonSize = margins.itemButtonSize
 
+        -- Called without a new draw too, e.g. by the width ratio slider. The widths requested while drawing must not
+        -- hold back resizing to the new width, or wrapped lines are sized for the old one.
+        TrackerLayout.ResetRequestedWidth()
         TrackerLinePool.UpdateObjectiveLines(function(line)
             if line.questHasSecondaryQIB then
                 -- The objective line belongs to a quest with two quest items, so we need to add extra padding to account for the second QIB
