@@ -20,8 +20,8 @@ describe("TrackerLine untrack click", function()
             ClassicQuestLog = _G.ClassicQuestLog,
             QuestLogFrame = _G.QuestLogFrame,
             QuestMapFrame = _G.QuestMapFrame,
-            ChatEdit_GetActiveWindow = _G.ChatEdit_GetActiveWindow,
             ChatEdit_InsertLink = _G.ChatEdit_InsertLink,
+            ChatFrame_OpenChat = _G.ChatFrame_OpenChat,
         }
         _G.QuestLogExFrame = nil
         _G.ClassicQuestLog = nil
@@ -68,8 +68,8 @@ describe("TrackerLine untrack click", function()
         _G.ClassicQuestLog = originals.ClassicQuestLog
         _G.QuestLogFrame = originals.QuestLogFrame
         _G.QuestMapFrame = originals.QuestMapFrame
-        _G.ChatEdit_GetActiveWindow = originals.ChatEdit_GetActiveWindow
         _G.ChatEdit_InsertLink = originals.ChatEdit_InsertLink
+        _G.ChatFrame_OpenChat = originals.ChatFrame_OpenChat
     end)
 
     it("should highlight the quest while hovering a button in front of the title", function()
@@ -92,15 +92,63 @@ describe("TrackerLine untrack click", function()
         local data = QuestieLoader:ImportModule("TrackerData")
         data.GetQuestLink = spy.new(function() return "[Nibbled-On Book]" end)
         _G.IsModifiedClick = function() return true end
-        _G.ChatEdit_GetActiveWindow = function() return {} end
-        _G.ChatEdit_InsertLink = spy.new(function() end)
+        _G.ChatEdit_InsertLink = spy.new(function() return true end)
+        _G.ChatFrame_OpenChat = spy.new(function() end)
         local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
         line:SetQuest(quest)
         line:SetOnClick("quest")
         line.scripts.OnClick(line, "LeftButton")
         assert.spy(data.GetQuestLink).was.called_with(quest)
         assert.spy(ChatEdit_InsertLink).was.called_with("[Nibbled-On Book]")
+        assert.spy(ChatFrame_OpenChat).was.not_called()
         assert.spy(tracker.UntrackQuestId).was.not_called()
+    end)
+
+    it("opens the chat input box with the quest link when shift-clicking without an active chat input box", function()
+        local data = QuestieLoader:ImportModule("TrackerData")
+        data.GetQuestLink = function() return "[Nibbled-On Book]" end
+        _G.IsModifiedClick = function(action) return action == "CHATLINK" end
+        _G.ChatEdit_InsertLink = spy.new(function() return false end)
+        _G.ChatFrame_OpenChat = spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest({Id = 91741})
+        line:SetOnClick("quest")
+
+        line.scripts.OnClick(line, "LeftButton")
+
+        assert.spy(ChatFrame_OpenChat).was.called_with("[Nibbled-On Book]")
+        assert.spy(tracker.UntrackQuestId).was.not_called()
+    end)
+
+    it("links instead of running a shortcut that is also bound to shift-click", function()
+        local utils = QuestieLoader:ImportModule("TrackerUtils")
+        utils.IsBindTrue = function() return true end
+        utils.SetQuestTomTomTarget = spy.new(function() end)
+        local data = QuestieLoader:ImportModule("TrackerData")
+        data.GetQuestLink = function() return "[Nibbled-On Book]" end
+        _G.IsModifiedClick = function() return true end
+        _G.ChatEdit_InsertLink = spy.new(function() return true end)
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest({Id = 91741})
+        line:SetOnClick("quest")
+
+        line.scripts.OnClick(line, "LeftButton")
+
+        assert.spy(ChatEdit_InsertLink).was.called_with("[Nibbled-On Book]")
+        assert.spy(utils.SetQuestTomTomTarget).was.not_called()
+        assert.spy(tracker.UntrackQuestId).was.not_called()
+    end)
+
+    it("does not link on shift + right click", function()
+        _G.IsModifiedClick = function() return true end
+        _G.ChatEdit_InsertLink = spy.new(function() return true end)
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest({Id = 783})
+        line:SetOnClick("quest")
+
+        line.scripts.OnClick(line, "RightButton")
+
+        assert.spy(ChatEdit_InsertLink).was.not_called()
     end)
 
     it("routes ctrl-click navigation through the current-eligibility command", function()
@@ -151,8 +199,7 @@ describe("TrackerLine untrack click", function()
 
         it("should insert the recipe link into the chat", function()
             _G.IsModifiedClick = function() return true end
-            _G.ChatEdit_GetActiveWindow = function() return {} end
-            _G.ChatEdit_InsertLink = spy.new(function() end)
+            _G.ChatEdit_InsertLink = spy.new(function() return true end)
             local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
             line:SetRecipe({Id = 2538})
             line:SetOnClick("recipe")
@@ -160,6 +207,20 @@ describe("TrackerLine untrack click", function()
             line.scripts.OnClick(line, "LeftButton")
 
             assert.spy(ChatEdit_InsertLink).was.called_with("[Charred Wolf Meat]")
+            assert.spy(recipes.Untrack).was.not_called()
+        end)
+
+        it("should open the chat input box with the recipe link when no chat input box is active", function()
+            _G.IsModifiedClick = function() return true end
+            _G.ChatEdit_InsertLink = function() return false end
+            _G.ChatFrame_OpenChat = spy.new(function() end)
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetRecipe({Id = 2538})
+            line:SetOnClick("recipe")
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(ChatFrame_OpenChat).was.called_with("[Charred Wolf Meat]")
             assert.spy(recipes.Untrack).was.not_called()
         end)
 

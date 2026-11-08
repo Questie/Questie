@@ -304,6 +304,12 @@ local migrationFunctions = {
         Questie.db.profile.minimap = Questie.db.profile.minimap or {hide = false}
         Questie.db.profile.minimap.showInCompartment = true
     end,
+    [49] = function()
+        -- Shift + Left Click on the tracker always links to chat now; untracking moved to the right-click menu.
+        if Questie.db.profile.trackerbindUntrack == "shiftleft" then
+            Questie.db.profile.trackerbindUntrack = "disabled"
+        end
+    end,
 }
 
 function Migration:Migrate()

@@ -213,6 +213,25 @@ _SetMode = function(self, mode)
 end
 
 
+--- Shift + Left Click (the CHATLINK modifier) links a tracker line to chat, like everywhere else in the game.
+---@param button string
+---@return boolean
+local function _IsChatLinkClick(button)
+    return "LeftButton" == button and IsModifiedClick("CHATLINK")
+end
+
+--- Inserts the link into the active chat input box, opening the chat input box first when none is active.
+---@param link string|nil
+local function _InsertChatLink(link)
+    if (not link) then
+        return
+    end
+
+    if (not ChatEdit_InsertLink(link)) then
+        ChatFrame_OpenChat(link)
+    end
+end
+
 ---@param button string
 _OnClickQuest = function(self, button)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickQuest]")
@@ -224,17 +243,15 @@ _OnClickQuest = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
+    if _IsChatLinkClick(button) then
+        _InsertChatLink(TrackerData.GetQuestLink(self.Quest))
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
         TrackerUtils.SetQuestTomTomTarget(self.Quest.Id, self.Quest.enrichment)
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
-        else
-            QuestieTracker:UntrackQuestId(self.Quest.Id)
-            local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-            if questLogFrame and questLogFrame:IsShown() then
-                QuestieCompat.QuestLog_Update()
-            end
+        QuestieTracker:UntrackQuestId(self.Quest.Id)
+        local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+        if questLogFrame and questLogFrame:IsShown() then
+            QuestieCompat.QuestLog_Update()
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
         TrackerUtils:ShowQuestLog(self.Quest)
@@ -255,26 +272,24 @@ _OnClickAchieve = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
-        else
-            if AchievementTracking.IsTracked(self.Quest.Id) then
-                AchievementTracking.Untrack(self.Quest.Id)
+    if _IsChatLinkClick(button) then
+        _InsertChatLink(GetAchievementLink(self.Quest.Id))
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
+        if AchievementTracking.IsTracked(self.Quest.Id) then
+            AchievementTracking.Untrack(self.Quest.Id)
 
-                if (not AchievementFrame) then
-                    AchievementFrame_LoadUI()
-                end
-
-                QuestieCompat.AchievementFrameAchievements_ForceUpdate()
-
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
-                end)
-            else
-                -- Assume this is an Objective of an Achievement
-                UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
+            if (not AchievementFrame) then
+                AchievementFrame_LoadUI()
             end
+
+            QuestieCompat.AchievementFrameAchievements_ForceUpdate()
+
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        else
+            -- Assume this is an Objective of an Achievement
+            UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
         if (not AchievementFrame) then
@@ -306,12 +321,10 @@ _OnClickRecipe = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(TrackerRecipes.GetLink(self.Recipe.Id))
-        else
-            TrackerRecipes.Untrack(self.Recipe.Id)
-        end
+    if _IsChatLinkClick(button) then
+        _InsertChatLink(TrackerRecipes.GetLink(self.Recipe.Id))
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
+        TrackerRecipes.Untrack(self.Recipe.Id)
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
         TrackerRecipes.OpenRecipe(self.Recipe.Id)
     end

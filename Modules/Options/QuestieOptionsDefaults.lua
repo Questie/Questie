@@ -121,7 +121,7 @@ function QuestieOptionsDefaults:Load()
             trackerSortObjectives = "byZone",
             trackerbindSetTomTom = "ctrlleft",
             trackerbindOpenQuestLog = "left",
-            trackerbindUntrack = "shiftleft",
+            trackerbindUntrack = "disabled",
             trackerSetpoint = "TOPLEFT",
             trackerFontSizeHeader = 12,
             trackerFontHeader = "Friz Quadrata TT",

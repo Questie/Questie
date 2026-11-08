@@ -231,8 +231,8 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                     untrackQuest = {
                         type = "dropdown",
                         order = 6,
-                        title = Expansions.Current >= Expansions.Wotlk and "Untrack / Link" or "Untrack / Link Quest",
-                        tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat." or "This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat.",
+                        title = Expansions.Current >= Expansions.Wotlk and "Untrack Quest / Achievement" or "Untrack Quest",
+                        tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut removes a Quest or an Achievement from the Questie Tracker. Shift + Left Click always links a Quest or an Achievement to chat." or "This shortcut removes a Quest from the Questie Tracker. Shift + Left Click always links a Quest to chat.",
                         width = "third",
                         options = _GetShortcuts,
                         enabled = function() return Questie.db.profile.trackerEnabled end,
