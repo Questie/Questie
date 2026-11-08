@@ -239,6 +239,28 @@ describe("QuestieFrame", function()
             assert.is_nil(QuestieFrameInstance.data.touchedPins)
         end)
 
+        it("should leave pins alone that were recycled for another occupant, and restore the others", function()
+            local restored = {}
+            local function CreateTouchedPin(name, occupant, currentOccupant)
+                return {
+                    icon = {data = currentOccupant, texture = {SetVertexColor = function() table.insert(restored, name) end}},
+                    data = occupant,
+                    color = {1, 1, 1, 1},
+                }
+            end
+            local sameOccupant, otherOccupant = {}, {}
+            QuestieFrameInstance.data.touchedPins = {
+                CreateTouchedPin("recycled", sameOccupant, otherOccupant),
+                CreateTouchedPin("unloaded", sameOccupant, nil),
+                CreateTouchedPin("kept", sameOccupant, sameOccupant),
+            }
+
+            QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
+
+            assert.are_same({"kept"}, restored)
+            assert.is_nil(QuestieFrameInstance.data.touchedPins)
+        end)
+
         it("should do nothing without highlights", function()
             QuestieFrame.ResetHoverHighlights(QuestieFrameInstance)
 

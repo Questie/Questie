@@ -31,6 +31,22 @@ function GamepadMapHover.GetHoveredIcon()
     return hoveredIcon
 end
 
+---Rebuilds the tooltip of the hovered icon if the quest is the icon's or listed on the tooltip. A tooltip is only
+---built when an icon is entered, so it would not show changed progress of the quest while the icon stays.
+---@param questId QuestId
+function GamepadMapHover.RefreshQuest(questId)
+    local questOrder = _GamepadMapHover.tooltip and _GamepadMapHover.tooltip.questOrder
+    if hoveredIcon and hoveredData and (hoveredData.Id == questId or (questOrder and questOrder[questId])) then
+        local icon, data = hoveredIcon, hoveredData
+        _GamepadMapHover.Leave()
+        -- Only enter the icon if the next Update would find it again: icons are pooled, and the cursor, the map and
+        -- the tooltip setting can change between two updates
+        if icon.data == data and _GamepadMapHover.IsActive() and _GamepadMapHover.FindIconUnderCursor() == icon then
+            _GamepadMapHover.Enter(icon)
+        end
+    end
+end
+
 function _GamepadMapHover.OnUpdate(_, elapsed)
     elapsedSinceUpdate = elapsedSinceUpdate + elapsed
     if elapsedSinceUpdate < UPDATE_INTERVAL then
