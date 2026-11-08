@@ -83,7 +83,8 @@ function LineBuilder.AddHeader(options)
 
     line.expandZone:ClearAllPoints()
     line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
-    line.expandZone:SetWidth(line.label:GetWidth())
+    -- The label can be wider than its text while the tracker is laid out, so the click area follows the text
+    line.expandZone:SetWidth(line.label:GetUnboundedStringWidth())
     line.expandZone:SetHeight(line.label:GetHeight())
     line.expandZone:Show()
 
