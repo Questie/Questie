@@ -164,7 +164,10 @@ function QuestieFrame.ResetHoverHighlights(self)
         for i = #self.data.touchedPins, 1, -1 do
             local entry = self.data.touchedPins[i]
             local icon = entry.icon;
-            icon.texture:SetVertexColor(unpack(entry.color));
+            -- A pin unloaded or recycled since was tinted for someone else: its color is not ours to restore
+            if icon.data == entry.data then
+                icon.texture:SetVertexColor(unpack(entry.color));
+            end
         end
         self.data.touchedPins = nil;
     end

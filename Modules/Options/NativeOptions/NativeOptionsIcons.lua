@@ -14,6 +14,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type ActiveQuests
 local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieTooltips
@@ -245,6 +247,8 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         set = function(_, value)
                             Questie.db.profile.enableObjectives = value
                             QuestieQuest:ToggleNotes(value)
+                            -- Party members' objectives are drawn without icons while the objectives are disabled
+                            QuestiePartyObjectives:ScheduleUpdate()
                             QuestieOptionsUtils.DetermineTheme()
                         end,
                     },

@@ -337,6 +337,36 @@ describe("QuestieQuest", function()
             assert.are.equal(5, QuestieQuest.UpdateQuest.calls[1].vals[2])
         end)
 
+        it("should refresh the party objectives once the reset is done", function()
+            local tick
+            local finished = false
+            _G.C_Timer = {
+                After = function() end,
+                NewTicker = function(_, callback)
+                    tick = callback
+                    return {Cancel = function() finished = true end}
+                end,
+            }
+            AvailableQuests.CalculateAndDrawAll = function(callback) callback() end
+            local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+            local resettingWhenScheduled
+            QuestiePartyObjectives.ScheduleUpdate = spy.new(function() resettingWhenScheduled = QuestieQuest._isResetting end)
+            ActiveQuests.Reset()
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 20 do
+                if finished then
+                    break
+                end
+                tick()
+            end
+
+            -- The reset unloaded the icons of the party's objectives too
+            assert.is_true(finished)
+            assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called(1)
+            assert.is_nil(resettingWhenScheduled)
+        end)
+
         it("should keep the acceptance of a quest still logged after the rebuild", function()
             local tick
             _G.C_Timer = {NewTicker = function(_, callback)
