@@ -94,12 +94,12 @@ function Townsfolk.Initialize()
         },
         ["Banker"] = {
             mask = QuestieDB.npcFlags.BANKER,
-            requireSubname = true,
+            requireSubname = false,
             data = {}
         },
         ["Battlemaster"] = {
             mask = QuestieDB.npcFlags.BATTLEMASTER,
-            requireSubname = true,
+            requireSubname = false,
             data = {}
         },
         ["Flight Master"] = {
