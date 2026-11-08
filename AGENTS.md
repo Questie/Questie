@@ -365,3 +365,26 @@ function _MinimapIcon:CreateDataBrokerObject()
     -- Use self...
 end
 ```
+
+### Blizzard UI behaviour
+
+When code depends on how Blizzard's own UI behaves, check its source for every client Questie supports. Don't add code that guards against a
+client behaving differently until a client is known to: it costs work on every client and tells readers that some client needs it.
+
+The source is mirrored at [Gethe/wow-ui-source](https://github.com/Gethe/wow-ui-source), with a branch or tag per client. The `version.txt`
+of each one names its client version, which should match the `## Interface` of the TOC file.
+
+| TOC file                                     | Branch or tag         |
+|----------------------------------------------|-----------------------|
+| `Questie_Vanilla.toc`                        | `classic_era`         |
+| `Questie_TBC.toc`                            | `classic_anniversary` |
+| `Questie_Wrath.toc`                          | `classic_titan`       |
+| `Questie_Cata.toc`                           | `4.4.2` (tag)         |
+| `Questie_Mists.toc`                          | `classic`             |
+| `Questie_Forever.toc`, `Questie_Camelot.toc` | `forever`             |
+
+```bash
+gh api "repos/Gethe/wow-ui-source/contents/Interface/AddOns/Blizzard_Menu/DropdownButton.lua?ref=classic_era" --jq .content | base64 -d
+```
+
+Say in a comment what was checked, so the next reader doesn't have to check it again.
