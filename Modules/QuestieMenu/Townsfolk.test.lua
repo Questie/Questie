@@ -138,12 +138,12 @@ describe("Townsfolk", function()
     end)
 
     describe("Initialize", function()
-        it("collects townsfolk by NPC flag, requiring a sub-name for bankers and skipping [DND] NPCs", function()
+        it("collects townsfolk by NPC flag, skipping [DND] NPCs", function()
             _RunInitialize()
 
             local townsfolk = Townsfolk.townsfolk
             assert.are_same({1001}, townsfolk["Repair"])
-            assert.are_same({1002}, townsfolk["Banker"])
+            assert.are_same({1002,1003}, townsfolk["Banker"])
             assert.are_same({1005}, townsfolk["Innkeeper"])
             assert.are_same({}, townsfolk["Auctioneer"])
             assert.is_nil(townsfolk["Barber"])
