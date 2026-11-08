@@ -495,7 +495,8 @@ local function _CreateDropdownFrame(control, item, width, fillMenu, addSelectedE
     titleFrame:SetText(item.title)
     control.titleFrame = titleFrame
 
-    -- OpenMenu generates the menu before it counts as open
+    -- OpenMenu generates the menu before it counts as open, and clicks reach it through SetMenuOpen. Checked in Blizzard's
+    -- source for every supported client (see AGENTS.md), so this sees every open and doesn't need to generate it as well.
     local isOpening = false
     local openMenu = dropdown.OpenMenu
     dropdown.OpenMenu = function(self)
