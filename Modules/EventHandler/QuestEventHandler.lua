@@ -625,6 +625,8 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
             QuestieNameplate:UpdateNameplate()
             if ActiveQuests.Get(questId) then
                 QuestLifecycle:UpdateQuest(questId)
+                -- Party members' objectives are drawn for the objectives the local player finished
+                QuestiePartyObjectives:ScheduleUpdate(questId)
             elseif QuestieDB.GetQuest(questId) then
                 -- Not in the player's quest log: adopted above, or not in the cache right after login (e.g. the API is
                 -- really slow). AdoptQuest adds and draws it as at login, completion included, so no UpdateQuest here.

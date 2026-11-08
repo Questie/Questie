@@ -349,7 +349,7 @@ function _QuestieFrame.UpdateTexture(self, texture)
         self:SetSize(16, 16)
     end
 
-    -- Party member objectives (quests the local player does not have) are dimmed so they are
+    -- Party member objectives (ones the local player does not need) are dimmed so they are
     -- visually distinct from the player's own quest icons. Frame alpha composes with the
     -- texture/minimap fade alpha. Runs on every draw, so recycled frames reset to 1.
     if self.data.ObjectiveData and self.data.ObjectiveData.IsPartyObjective then
