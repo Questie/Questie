@@ -489,5 +489,38 @@ describe("MapIconTooltip objective wording", function()
             assert.is_not_nil(RowContaining("[7.5%]"))
             assert.is_not_nil(RowContaining("[4.1%]"))
         end)
+
+        it("keeps separate drop rates when two objectives share identical text", function()
+            -- Force identical fallback wording so merge-by-text would collide.
+            objective.Description = "Collect Windstone"
+            objective.Id = 1234
+            icon.data.ObjectiveTargetId = 10
+            local twinObjective = {
+                Index = 4, Type = "item", Description = "Collect Windstone", Collected = 9, Needed = 15,
+                Id = 5678, Update = function() end,
+            }
+            local twin = {
+                x = 50, y = 50, AreaID = 1,
+                texture = icon.texture,
+                data = {
+                    Id = 1, Type = "item", ObjectiveIndex = 4, ObjectiveData = twinObjective,
+                    Name = "Windstone", ObjectiveTargetId = 10,
+                },
+            }
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(itemId)
+                if itemId == 1234 then return {7.5, "questie"} end
+                if itemId == 5678 then return {4.1, "questie"} end
+            end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, twin})
+
+            assert.are.equal(2, #GameTooltip.questOrder[1])
+            local firstText = next(GameTooltip.questOrder[1][1])
+            local secondText = next(GameTooltip.questOrder[1][2])
+            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, GameTooltip.questOrder[1][1][firstText][10])
+            assert.are.same({name = "Windstone", suffix = "  |cFF999999[4.1%]|r"}, GameTooltip.questOrder[1][2][secondText][10])
+            assert.is_not_nil(RowContaining("[7.5%]"))
+            assert.is_not_nil(RowContaining("[4.1%]"))
+        end)
     end)
 end)

@@ -787,36 +787,38 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
 end
 
 ---Merges objective tooltip rows for a quest, combining clustered pin sources by stable source id.
+---Rows are keyed by ObjectiveIndex (not display text) so two item objectives with identical wording
+---keep separate source/drop-rate lists while nearby pins for the same objective still merge.
 ---@param icon IconFrame
 ---@param tip table<string, table> @Objective text -> sourceKey -> source entry
 ---@param quest table @Ordered objective tip rows for this quest id
----@param usedText table @Tracks which objective texts were already added per quest id
+---@param usedText table @questId -> objectiveIndex -> quest-row index
 function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
+    local questId = icon.data.Id
+    local objectiveKey = icon.data.ObjectiveIndex or 0
+    usedText[questId] = usedText[questId] or {}
+
     for text, nameTable in pairs(tip) do
-        local data = {}
-        data[text] = nameTable
-        -- Add the data for the first time
-        if not usedText[icon.data.Id] then
-            usedText[icon.data.Id] = {
-                [text] = true
-            }
-            tinsert(quest, data)
-            -- add another line to an existing entry
-        elseif not usedText[icon.data.Id][text] then
-            tinsert(quest, data)
-            usedText[icon.data.Id][text] = true
+        local dataIndex = usedText[questId][objectiveKey]
+        if not dataIndex then
+            tinsert(quest, { [text] = nameTable })
+            usedText[questId][objectiveKey] = #quest
         else
-            -- Merge additional NPC/object sources from nearby clustered pins by source id.
-            local sourceKey, sourceEntry = _MapIconTooltip.BuildSourceEntry(icon.data)
-            if sourceKey then
-                for dataIndex, _ in pairs(quest) do
-                    if quest[dataIndex][text] then
-                        local existing = quest[dataIndex][text][sourceKey]
-                        if (not existing) then
-                            quest[dataIndex][text][sourceKey] = sourceEntry
-                        elseif type(existing) == "table" and (not existing.suffix or existing.suffix == "") and sourceEntry.suffix ~= "" then
-                            existing.suffix = sourceEntry.suffix
-                        end
+            local row = quest[dataIndex]
+            if not row[text] then
+                row[text] = nameTable
+            else
+                -- Merge additional NPC/object sources from nearby clustered pins by source id.
+                for sourceKey, sourceEntry in pairs(nameTable) do
+                    local existing = row[text][sourceKey]
+                    if (not existing) then
+                        row[text][sourceKey] = sourceEntry
+                    elseif type(existing) == "table"
+                        and (not existing.suffix or existing.suffix == "")
+                        and type(sourceEntry) == "table"
+                        and sourceEntry.suffix
+                        and sourceEntry.suffix ~= "" then
+                        existing.suffix = sourceEntry.suffix
                     end
                 end
             end
