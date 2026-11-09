@@ -1768,6 +1768,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                     QO.SpecialObjectives[itemId] = {
                         Type = "item",
                         Id = itemId,
+                        IsRequiredSourceItem = true,
                         ---@type string @We have to hard-type it here because of the function
                         Description = QuestieDB.QueryItemSingle(itemId, "name")
                     }

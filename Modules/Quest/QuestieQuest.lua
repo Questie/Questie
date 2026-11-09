@@ -75,6 +75,37 @@ local function _HasEnded(acceptance)
     return acceptance ~= nil and (not ActiveQuests.IsCurrent(acceptance))
 end
 
+---Stops an in-flight PopulateObjective worker after a yield when the acceptance ended, a newer
+---populate replaced it, or the objective completed (e.g. bag refresh cleared AlreadySpawned).
+---@param acceptance Acceptance?
+---@param objective QuestObjective
+---@param populateGeneration number
+---@return boolean
+local function _ShouldStopDrawing(acceptance, objective, populateGeneration)
+    return _HasEnded(acceptance)
+        or populateGeneration ~= objective._populateGeneration
+        or objective.Completed == true
+end
+
+---requiredSourceItems special objectives are keyed by item id; extraObjectives may also be Type "item".
+---@param quest Quest
+---@param specialObjective QuestObjective
+---@return boolean
+local function _IsRequiredSourceItemObjective(quest, specialObjective)
+    if specialObjective.IsRequiredSourceItem then
+        return true
+    end
+    if (not quest.requiredSourceItems) or (not specialObjective.Id) then
+        return false
+    end
+    for _, itemId in pairs(quest.requiredSourceItems) do
+        if itemId == specialObjective.Id then
+            return true
+        end
+    end
+    return false
+end
+
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 -- this variable defines how many operations to run (batched at a time) before yielding for a frame.
@@ -1009,6 +1040,10 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         return
     end
 
+    -- Invalidate any earlier worker still yielding on this objective before we touch AlreadySpawned.
+    objective._populateGeneration = (objective._populateGeneration or 0) + 1
+    local populateGeneration = objective._populateGeneration
+
     objective:Update()
     local completed = objective.Completed
     local objectiveData = quest.ObjectiveData[objective.Index] or
@@ -1064,15 +1099,15 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             objectiveCenter = {x = 0, y = 0}
         end
 
-        local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter, acceptance)
+        local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter, acceptance, populateGeneration)
         if (not iconsToDraw) then
             return
         end
-        local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType, acceptance)
+        local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType, acceptance, populateGeneration)
         if (not iconPerZone) then
             return
         end
-        _DrawObjectiveWaypoints(objective, icon, iconPerZone, acceptance)
+        _DrawObjectiveWaypoints(objective, icon, iconPerZone, acceptance, populateGeneration)
     end
 end
 
@@ -1129,7 +1164,8 @@ end
 ---@param objective QuestObjective
 ---@param objectiveIndex ObjectiveIndex
 ---@param objectiveCenter {x:X, y:Y}
-_DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter, acceptance)
+---@param populateGeneration number
+_DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter, acceptance, populateGeneration)
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DetermineIconsToDraw]")
 
     local iconsToDraw = {}
@@ -1206,7 +1242,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                         if yieldCount >= TICKS_PER_YIELD then
                             yieldCount = 0
                             coYield()
-                            if _HasEnded(acceptance) then
+                            if _ShouldStopDrawing(acceptance, objective, populateGeneration) then
                                 return nil
                             end
                         end
@@ -1236,7 +1272,7 @@ local function _HasProperDistanceToAlreadyPlacedObjectives(coords, placed)
     return true
 end
 
-_DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType, acceptance)
+_DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType, acceptance, populateGeneration)
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveIcons] Adding Icons for quest:", questId)
 
     local spawnedIconCount = 0
@@ -1282,8 +1318,13 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType, acce
 
         local coords = {icon.x, icon.y}
         if zoneKey and _HasProperDistanceToAlreadyPlacedObjectives(coords, alreadyPlacedByZone[zoneKey]) then
-            local spawnsMapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs
-            local spawnsMinimapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs
+            local spawned = objective.AlreadySpawned[icon.AlreadySpawnedId]
+            if (not spawned) then
+                -- Cleared by a newer PopulateObjective (bag refresh completed the objective).
+                return nil, nil
+            end
+            local spawnsMapRefs = spawned.mapRefs
+            local spawnsMinimapRefs = spawned.minimapRefs
 
             local x, y = icon.x, icon.y
 
@@ -1329,7 +1370,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType, acce
         if yieldCount >= (TICKS_PER_YIELD * 2) then
             yieldCount = 0
             coYield()
-            if _HasEnded(acceptance) then
+            if _ShouldStopDrawing(acceptance, objective, populateGeneration) then
                 return nil, nil
             end
         end
@@ -1367,7 +1408,7 @@ _GetIconsSortedByDistance = function(icons)
     return iconCount, orderedList
 end
 
-_DrawObjectiveWaypoints = function(objective, icon, iconPerZone, acceptance)
+_DrawObjectiveWaypoints = function(objective, icon, iconPerZone, acceptance, populateGeneration)
     local yieldCount = 0
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
         if spawnData.Waypoints then
@@ -1394,7 +1435,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone, acceptance)
                 if yieldCount >= TICKS_PER_YIELD then
                     yieldCount = 0
                     coYield() -- We declare the yieldCount at the top level, but increment it every time we try to draw a point, because otherwise we could draw 29x 29-point paths and never call a coYield when TICKS_PER_YIELD is 30.
-                    if _HasEnded(acceptance) then
+                    if _ShouldStopDrawing(acceptance, objective, populateGeneration) then
                         return
                     end
                 end
@@ -1506,10 +1547,13 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                 specialObjective.Update = function(self)
                     self.Completed = quest.Objectives[self.RealObjectiveIndex].Completed
                 end
-            elseif specialObjective.Type == "item" and specialObjective.Id then
+            elseif specialObjective.Type == "item" and specialObjective.Id
+                and _IsRequiredSourceItemObjective(quest, specialObjective) then
                 -- requiredSourceItems (e.g. Fresh Zhevra Carcass on Ishamuhale) are not quest-log
                 -- objectives, so they never get leaderboard progress. Complete once the player has
                 -- the item so drop pips clear; stay complete after the item is consumed at its use site.
+                -- ExtraObjectives with Type "item" stay on their RealObjectiveIndex / NOP path above.
+                specialObjective.IsRequiredSourceItem = true
                 specialObjective.Needed = specialObjective.Needed or 1
                 specialObjective.Collected = specialObjective.Collected or 0
                 if specialObjective.Completed == nil then
@@ -1536,6 +1580,8 @@ end
 
 ---Refresh map icons for requiredSourceItems after bag changes. These items never appear on the
 ---quest log, so QUEST_LOG_UPDATE alone will not clear their drop pips (Ishamuhale / Zhevra carcass).
+---Starts a new PopulateObjective per eligible special objective; that bumps `_populateGeneration`
+---so any in-flight worker that still holds stale AlreadySpawned entries stops after its next yield.
 function QuestieQuest:UpdateRequiredSourceItemObjectives()
     for questId, acceptance in ActiveQuests.Iterate() do
         local quest = acceptance.quest
@@ -1543,7 +1589,8 @@ function QuestieQuest:UpdateRequiredSourceItemObjectives()
             -- continue
         elseif QuestieQuest:ShouldShowQuestNotes(questId) then
             for _, objective in pairs(quest.SpecialObjectives) do
-                if objective.Type == "item" and objective.Id and (not objective.RealObjectiveIndex) then
+                if objective.Type == "item" and objective.Id
+                    and _IsRequiredSourceItemObjective(quest, objective) then
                     ThreadLib.ThreadCallbackInstant(function()
                         if (not ActiveQuests.IsCurrent(acceptance)) then
                             return

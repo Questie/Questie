@@ -108,7 +108,10 @@ describe("QuestLifecycle", function()
                 IsComplete = function() return 0 end,
                 WasComplete = true,
                 isComplete = true,
-                Objectives = {{}}
+                Objectives = {{}},
+                SpecialObjectives = {
+                    [10338] = {Collected = 1, Completed = true, AlreadySpawned = {[1] = {}}},
+                },
             }
             QuestieDB.GetQuest = spy.new(function() return quest end)
             ActiveQuests.Add(questId, quest)
@@ -118,6 +121,9 @@ describe("QuestLifecycle", function()
             assert.is_nil(quest.WasComplete)
             assert.is_nil(quest.isComplete)
             assert.are_same({}, quest.Objectives)
+            assert.is_nil(quest.SpecialObjectives[10338].Collected)
+            assert.is_nil(quest.SpecialObjectives[10338].Completed)
+            assert.are_same({}, quest.SpecialObjectives[10338].AlreadySpawned)
             assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, questId)
         end)
 
@@ -629,7 +635,10 @@ describe("QuestLifecycle", function()
 
         it("should reset quest objectives and flags", function()
             local questId = 100
-            local quest = {WasComplete = true, isComplete = true, Objectives = {{}}}
+            local quest = {
+                WasComplete = true, isComplete = true, Objectives = {{}},
+                SpecialObjectives = {[10338] = {Collected = 1, Completed = true, AlreadySpawned = {[1] = {}}}},
+            }
             ActiveQuests.Add(questId, quest)
             QuestieDB.GetQuest = spy.new(function() return quest end)
 
@@ -638,6 +647,9 @@ describe("QuestLifecycle", function()
             assert.are_same({}, quest.Objectives)
             assert.is_nil(quest.WasComplete)
             assert.is_nil(quest.isComplete)
+            assert.is_nil(quest.SpecialObjectives[10338].Collected)
+            assert.is_nil(quest.SpecialObjectives[10338].Completed)
+            assert.are_same({}, quest.SpecialObjectives[10338].AlreadySpawned)
         end)
 
         it("should clear Alliance tournament eligibility marker", function()

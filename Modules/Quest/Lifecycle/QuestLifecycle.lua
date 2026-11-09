@@ -56,11 +56,21 @@ local allianceChampionMarkerQuests = {[13699] = true, [13713] = true, [13723] = 
 local hordeChampionMarkerQuests = {[13726] = true, [13727] = true, [13728] = true, [13729] = true, [13731] = true}
 
 ---Clears the progress Questie derived for a quest, so the next population starts from the quest log.
+---SpecialObjectives live on the shared QuestieDB quest object across abandon/re-accept, so their
+---Collected/Completed (including sticky requiredSourceItem bag completion) must be cleared here.
 ---@param quest Quest
 local function _ResetProgress(quest)
     quest.Objectives = {}
     quest.WasComplete = nil
     quest.isComplete = nil
+    if quest.SpecialObjectives then
+        for _, specialObjective in pairs(quest.SpecialObjectives) do
+            specialObjective.Collected = nil
+            specialObjective.Completed = nil
+            specialObjective.AlreadySpawned = {}
+            specialObjective._populateGeneration = nil
+        end
+    end
 end
 
 ---Draws a logged quest from scratch: its objectives or finisher replace its starter/finisher frames.
