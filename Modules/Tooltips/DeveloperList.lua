@@ -17,8 +17,8 @@ Questie.devChars = {
     ["5126"] = {"025AD3E3"},
     --          Muehe         Muehe         Muehe
     ["6939"] = {"007067A3", "00D2035B", "00A44B02"},
-    --          Cheeq
-    ["6941"] = {"00A3ADC7"},
+    --          Cheeq       Cheeq
+    ["6941"] = {"00A3ADC7", "011582A1"},
     --          TheCruxBB
     ["6945"] = {"0069183E"},
 }
