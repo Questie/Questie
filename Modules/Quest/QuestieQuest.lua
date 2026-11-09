@@ -1506,12 +1506,52 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                 specialObjective.Update = function(self)
                     self.Completed = quest.Objectives[self.RealObjectiveIndex].Completed
                 end
+            elseif specialObjective.Type == "item" and specialObjective.Id then
+                -- requiredSourceItems (e.g. Fresh Zhevra Carcass on Ishamuhale) are not quest-log
+                -- objectives, so they never get leaderboard progress. Complete once the player has
+                -- the item so drop pips clear; stay complete after the item is consumed at its use site.
+                specialObjective.Needed = specialObjective.Needed or 1
+                specialObjective.Collected = specialObjective.Collected or 0
+                if specialObjective.Completed == nil then
+                    specialObjective.Completed = false
+                end
+                specialObjective.Update = function(self)
+                    local count = QuestieCompat.GetItemCount(self.Id) or 0
+                    if count >= (self.Needed or 1) then
+                        self.Collected = count
+                        self.Completed = true
+                    elseif not self.Completed then
+                        self.Collected = count
+                    end
+                end
             else
                 specialObjective.Update = NOP_FUNCTION
             end
 
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
             specialObjective.AlreadySpawned = specialObjective.AlreadySpawned or {}
+        end
+    end
+end
+
+---Refresh map icons for requiredSourceItems after bag changes. These items never appear on the
+---quest log, so QUEST_LOG_UPDATE alone will not clear their drop pips (Ishamuhale / Zhevra carcass).
+function QuestieQuest:UpdateRequiredSourceItemObjectives()
+    for questId, acceptance in ActiveQuests.Iterate() do
+        local quest = acceptance.quest
+        if (not quest) or (not quest.requiredSourceItems) or (not next(quest.requiredSourceItems)) then
+            -- continue
+        elseif QuestieQuest:ShouldShowQuestNotes(questId) then
+            for _, objective in pairs(quest.SpecialObjectives) do
+                if objective.Type == "item" and objective.Id and (not objective.RealObjectiveIndex) then
+                    ThreadLib.ThreadCallbackInstant(function()
+                        if (not ActiveQuests.IsCurrent(acceptance)) then
+                            return
+                        end
+                        QuestieQuest:PopulateObjective(quest, 0, objective, true, acceptance)
+                    end)
+                end
+            end
         end
     end
 end

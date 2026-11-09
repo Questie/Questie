@@ -159,6 +159,8 @@ describe("EventHandler event dispatch", function()
         end)
 
         it("should update the tracker on bag changes while recipes are tracked", function()
+            QuestieLoader:ImportModule("QuestieQuest").UpdateRequiredSourceItemObjectives = spy.new(function() end)
+
             bucketEvents.BAG_UPDATE_DELAYED.callback()
 
             assert.spy(QuestieTracker.Update).was.called(1)
@@ -166,10 +168,20 @@ describe("EventHandler event dispatch", function()
 
         it("should not update the tracker on bag changes without tracked recipes", function()
             TrackerRecipes.HasTrackedRecipes = function() return false end
+            QuestieLoader:ImportModule("QuestieQuest").UpdateRequiredSourceItemObjectives = spy.new(function() end)
 
             bucketEvents.BAG_UPDATE_DELAYED.callback()
 
             assert.spy(QuestieTracker.Update).was.not_called()
+        end)
+
+        it("refreshes requiredSourceItem map icons on bag changes", function()
+            local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+            QuestieQuest.UpdateRequiredSourceItemObjectives = spy.new(function() end)
+
+            bucketEvents.BAG_UPDATE_DELAYED.callback()
+
+            assert.spy(QuestieQuest.UpdateRequiredSourceItemObjectives).was.called(1)
         end)
 
         it("should update the tracker only for item data requested for recipes", function()
@@ -214,8 +226,9 @@ describe("EventHandler event dispatch", function()
             QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
 
             assert.is_nil(callbacks.TRACKED_RECIPE_UPDATE)
-            assert.is_nil(bucketEvents.BAG_UPDATE_DELAYED)
             assert.is_nil(callbacks.ITEM_DATA_LOAD_RESULT)
+            -- BAG_UPDATE_DELAYED stays registered for requiredSourceItem drop-pip updates.
+            assert.is_not_nil(bucketEvents.BAG_UPDATE_DELAYED)
         end)
     end)
 

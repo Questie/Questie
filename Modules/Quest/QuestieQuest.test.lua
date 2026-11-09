@@ -802,6 +802,37 @@ describe("QuestieQuest", function()
             assert.is_false(quest.Objectives[2].Completed)
         end)
 
+        it("completes requiredSourceItem special objectives from bag count and keeps them complete after consume", function()
+            -- Ishamuhale: Fresh Zhevra Carcass (10338) is requiredSourceItems, not a quest-log row.
+            local itemCounts = {[10338] = 0}
+            stub(QuestieLoader:ImportModule("QuestieCompat"), "GetItemCount", function(itemId)
+                return itemCounts[itemId] or 0
+            end)
+            local special = {Type = "item", Id = 10338, Description = "Fresh Zhevra Carcass"}
+            local quest = {
+                Id = 882, ObjectiveData = {{Id = 5101, Type = "item"}}, Objectives = {},
+                SpecialObjectives = {[10338] = special}, requiredSourceItems = {10338},
+            }
+            QuestieQuest.GetAllLeaderBoardDetails = function()
+                return {{type = "item", text = "Ishamuhale's Fang: 0/1", numFulfilled = 0, numRequired = 1}}
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+            special:Update()
+            assert.is_false(special.Completed)
+            assert.are.equal(0, special.Collected)
+
+            itemCounts[10338] = 1
+            special:Update()
+            assert.is_true(special.Completed)
+            assert.are.equal(1, special.Collected)
+
+            -- Using the carcass at the dead tree consumes it; pips must stay cleared.
+            itemCounts[10338] = 0
+            special:Update()
+            assert.is_true(special.Completed)
+        end)
+
         it("does not warn for a log objective with no objective data table", function()
             QuestieQuest.GetAllLeaderBoardDetails = function()
                 return {{type = "log", text = "Read the note."}}

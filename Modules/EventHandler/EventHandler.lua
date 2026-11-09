@@ -66,6 +66,8 @@ local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -290,14 +292,16 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", AchievementEventHandler.PlayerEquipmentChanged)
     end
 
+    -- Bucket shared by recipe tracking and requiredSourceItem map icons (bag loot clears drop pips).
+    Questie:RegisterBucketEvent("BAG_UPDATE_DELAYED", 0.5, function()
+        if TrackerRecipes.IsSupported() and TrackerRecipes.HasTrackedRecipes() then
+            _EventHandler.UpdateTracker()
+        end
+        QuestieQuest:UpdateRequiredSourceItemObjectives()
+    end)
+
     if TrackerRecipes.IsSupported() then
         Questie:RegisterEvent("TRACKED_RECIPE_UPDATE", _EventHandler.UpdateTracker)
-        -- A bucket, because QuestieTracker temporarily registers BAG_UPDATE_DELAYED as a plain event for quest items
-        Questie:RegisterBucketEvent("BAG_UPDATE_DELAYED", 0.5, function()
-            if TrackerRecipes.HasTrackedRecipes() then
-                _EventHandler.UpdateTracker()
-            end
-        end)
         -- C_Item.RequestLoadItemDataByID answers with ITEM_DATA_LOAD_RESULT, not GET_ITEM_INFO_RECEIVED
         Questie:RegisterEvent("ITEM_DATA_LOAD_RESULT", function(_, itemId, success)
             if success and TrackerRecipes.OnItemInfoReceived(itemId) then
