@@ -1251,6 +1251,18 @@ describe("QuestieLib", function()
     end)
 
     describe("FormatDate", function()
+        local originalDate
+
+        before_each(function()
+            -- The expected strings are Central European time (UTC+1), whatever timezone the machine runs in.
+            originalDate = _G.date
+            _G.date = function(format, timestamp) return os.date("!" .. format, timestamp + 3600) end
+        end)
+
+        after_each(function()
+            _G.date = originalDate
+        end)
+
         it("should format date for enUS", function()
             l10n.GetUILocale = function() return "enUS" end
             _G.CALENDAR_WEEKDAY_NAMES = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"}
