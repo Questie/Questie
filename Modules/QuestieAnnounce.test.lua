@@ -94,6 +94,36 @@ describe("QuestieAnnounce", function()
                 "{rt1} Questie: 5/5 Windstone Cluster for [The Quest]!", "INSTANCE_CHAT")
         end)
 
+        it("resolves the |4 grammar escape of frFR objective text before sending it to chat", function()
+            _G.IsInGroup = function() return true end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "[The Quest]" end
+
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Massacreur Mo'grosh : 3/4 |4personnage tué:personnages tués;", 3, 4)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Massacreur Mo'grosh : 4/4 |4personnage tué:personnages tués;", 4, 4)
+
+            assert.spy(_G.SendChatMessage).was.called_with(
+                "{rt1} Questie: Massacreur Mo'grosh : 4/4 personnages tués for [The Quest]!", "INSTANCE_CHAT")
+        end)
+
+        it("uses the singular form of the |4 grammar escape for a count of 1", function()
+            QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
+
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Défias : 0/1 |4personnage tué:personnages tués;", 0, 1)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Défias : 1/1 |4personnage tué:personnages tués;", 1, 1)
+
+            assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called_with(QuestieAnnounce, 1, "Défias : 1/1 personnage tué")
+        end)
+
+        it("picks the right form of a three-form |4 grammar escape", function()
+            QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
+
+            for questId, case in ipairs({{count = 21, form = "яблоко"}, {count = 3, form = "яблока"}, {count = 5, form = "яблок"}, {count = 12, form = "яблок"}}) do
+                QuestieAnnounce:ObjectiveChanged(questId, 1, "0/" .. case.count .. " |4яблоко:яблока:яблок;", 0, case.count)
+                QuestieAnnounce:ObjectiveChanged(questId, 1, case.count .. "/" .. case.count .. " |4яблоко:яблока:яблок;", case.count, case.count)
+                assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called_with(QuestieAnnounce, questId, case.count .. "/" .. case.count .. " " .. case.form)
+            end
+        end)
+
         it("tracks identical wording independently across quests and native indices", function()
             QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
             QuestieAnnounce:ObjectiveChanged(1, 1, "Target: 0/1", 0, 1)
