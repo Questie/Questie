@@ -3,12 +3,15 @@ dofile("setupTests.lua")
 describe("TrackerLinePool", function()
     local TrackerLinePool
     local TrackerData
+    local TrackerQuestTooltip
     local originalObjectiveColor
 
     before_each(function()
         originalObjectiveColor = Questie.db.profile.trackerColorObjectives
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerData.GetObjectiveText = spy.new(function() return "Updated objective text" end)
+        TrackerQuestTooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
+        TrackerQuestTooltip.Show, TrackerQuestTooltip.Hide = spy.new(function() end), spy.new(function() end)
         dofile("Modules/Tracker/LinePool/TrackerLinePool.lua")
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
     end)
@@ -155,6 +158,8 @@ describe("TrackerLinePool", function()
             TrackerLinePool.RefreshHighlight()
 
             assert.are_same({1, 0.5, 1}, {lines[1].alpha, lines[2].alpha, lines[3].alpha})
+            assert.spy(TrackerQuestTooltip.Hide).was.called(1)
+            assert.spy(TrackerQuestTooltip.Show).was.called_with(lines[3])
         end)
 
         it("should highlight the quest of a line whose button is hovered outside the line frame", function()
@@ -165,6 +170,7 @@ describe("TrackerLinePool", function()
             TrackerLinePool.RefreshHighlight()
 
             assert.are_same({0.5, 1, 0.5}, {lines[1].alpha, lines[2].alpha, lines[3].alpha})
+            assert.spy(TrackerQuestTooltip.Show).was.not_called()
         end)
 
         it("should highlight the quest of a line whose quest item button reaches into the next line", function()
@@ -178,6 +184,7 @@ describe("TrackerLinePool", function()
             TrackerLinePool.RefreshHighlight()
 
             assert.are_same({0.5, 1, 0.5}, {lines[1].alpha, lines[2].alpha, lines[3].alpha})
+            assert.spy(TrackerQuestTooltip.Show).was.not_called()
         end)
 
         local function _ZoneLines()
@@ -212,7 +219,17 @@ describe("TrackerLinePool", function()
             TrackerLinePool.RefreshHighlight()
 
             assert.are_same({1, 1, 1}, {lines[1].alpha, lines[2].alpha, lines[3].alpha})
+            assert.spy(TrackerQuestTooltip.Hide).was.called(1)
+            assert.spy(TrackerQuestTooltip.Show).was.not_called()
         end)
+    end)
+
+    it("dismisses a hover before resetting the line pool", function()
+        local enabled = Questie.db.profile.trackerEnabled
+        Questie.db.profile.trackerEnabled = true
+        TrackerLinePool.ResetLinesForChange()
+        Questie.db.profile.trackerEnabled = enabled
+        assert.spy(TrackerQuestTooltip.Hide).was.called(1)
     end)
 
     it("should not expose UpdateQuestTitleLines, which Spoken uses to inject its own tracker play buttons", function()

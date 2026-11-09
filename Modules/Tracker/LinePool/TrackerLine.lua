@@ -32,6 +32,8 @@ local ExpandZoneButton = QuestieLoader:ImportModule("ExpandZoneButton")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerQuestTooltip
+local TrackerQuestTooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
@@ -162,12 +164,16 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line:SetScript("OnEnter", function(self)
         OnEnter(self)
         TrackerFadeTicker.Unfade()
+        TrackerQuestTooltip.Show(self)
     end)
 
     line:SetScript("OnLeave", function(self)
         OnLeave(self)
         TrackerFadeTicker.Fade()
+        TrackerQuestTooltip.Hide(self)
     end)
+
+    line:SetScript("OnHide", TrackerQuestTooltip.Hide)
 
     line.criteriaMark = AchievementCriteriaCheckmark.New(index, line)
     line.expandZone = ExpandZoneButton.New(index, line, OnEnter, OnLeave)

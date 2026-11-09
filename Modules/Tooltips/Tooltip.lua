@@ -45,6 +45,7 @@ local nativeQuestFallback = false
 local nativeTooltipHooksInitialized = false
 ---@type ForeverFormatter?
 local nativeQuestFormatter
+local nativeQuestTooltipStates = {}
 -- Blizzard's party progress of the tooltip being rendered, only set while its Questie lines are built.
 ---@type table<number, table<string, NativePartyObjective[]>>?
 local nativePartyProgress
@@ -855,6 +856,46 @@ local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
     return _StyleNativeQuestLine(tooltip, lineData, lineType)
 end
 
+---Applies Questie's quest formatting without replacing native rows or their completion decorations.
+---@param tooltip GameTooltip
+function QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+    if nativeQuestTooltipStates[tooltip] then return end
+    local state = {}
+    nativeQuestTooltipStates[tooltip] = state
+    QuestieTooltips:InitBlizzardTooltips()
+    if not (TooltipDataProcessor and type(TooltipDataProcessor.AddLinePostCall) == "function"
+        and type(tooltip.GetLeftLine) == "function" and Enum and Enum.TooltipDataLineType) then
+        return
+    end
+
+    tooltip:HookScript("OnTooltipCleared", function() state.formatter = nil end)
+    for _, name in ipairs({"QuestTitle", "QuestObjective"}) do
+        local lineType = Enum.TooltipDataLineType[name]
+        if lineType then
+            TooltipDataProcessor.AddLinePostCall(lineType, function(frame, lineData)
+                if frame ~= tooltip or frame:IsForbidden() or not Questie.db.profile.enableTooltips
+                    or not _IsPublicTooltipTable(lineData) then
+                    return
+                end
+                local text, index = lineData.leftText, lineData.lineIndex
+                if (issecretvalue and issecretvalue(index)) or type(index) ~= "number"
+                    or (not (issecretvalue and issecretvalue(text)) and type(text) ~= "string") then
+                    return
+                end
+                local fontString = tooltip:GetLeftLine(index)
+                if not fontString then return end
+                state.formatter = state.formatter or Forever.CreateFormatter()
+                -- Display-only writes: do not read FontStrings, mutate tooltip data or inspect completion.
+                if name == "QuestTitle" then
+                    fontString:SetText(state.formatter.Title(lineData.id, text))
+                else
+                    fontString:SetText(state.formatter.Objective(text))
+                end
+            end)
+        end
+    end
+end
+
 function QuestieTooltips:InitBlizzardTooltips()
     if nativeTooltipHooksInitialized or not (TooltipDataProcessor
         and type(TooltipDataProcessor.AddLinePreCall) == "function"
@@ -872,6 +913,7 @@ function QuestieTooltips:InitBlizzardTooltips()
         local lineType = Enum.TooltipDataLineType[name]
         if lineType then
             TooltipDataProcessor.AddLinePreCall(lineType, function(tooltip, lineData)
+                if nativeQuestTooltipStates[tooltip] then return end
                 if Questie.IsForever then
                     return _ProcessNativeQuestLine(tooltip, lineData, name)
                 end

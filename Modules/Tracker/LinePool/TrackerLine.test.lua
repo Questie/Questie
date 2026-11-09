@@ -53,6 +53,10 @@ describe("TrackerLine untrack click", function()
         QuestieLoader:ImportModule("TrackerUtils").IsSpokenLoaded = function() return false end
         QuestieLoader:ImportModule("ExpandQuestButton").New = _HookableButton
         QuestieLoader:ImportModule("QuestFocusButton").New = _HookableButton
+        local tooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
+        tooltip.Show, tooltip.Hide = spy.new(function() end), spy.new(function() end)
+        local fade = QuestieLoader:ImportModule("TrackerFadeTicker")
+        fade.Unfade, fade.Fade = spy.new(function() end), spy.new(function() end)
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.UntrackQuestId = spy.new(function() end)
         compat = QuestieLoader:ImportModule("QuestieCompat")
@@ -85,6 +89,25 @@ describe("TrackerLine untrack click", function()
         end
         assert.spy(onEnter).was.called_with(line)
         assert.spy(onLeave).was.called_with(line)
+        assert.spy(QuestieLoader:ImportModule("TrackerQuestTooltip").Show).was.not_called()
+    end)
+
+    it("shows and hides the quest tooltip without replacing hover or fade callbacks", function()
+        local onEnter, onLeave = spy.new(function() end), spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, onEnter, onLeave, function() end)
+        local tooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
+        local fade = QuestieLoader:ImportModule("TrackerFadeTicker")
+
+        line.scripts.OnEnter(line)
+        assert.spy(onEnter).was.called_with(line)
+        assert.spy(fade.Unfade).was.called(1)
+        assert.spy(tooltip.Show).was.called_with(line)
+        line.scripts.OnLeave(line)
+        assert.spy(onLeave).was.called_with(line)
+        assert.spy(fade.Fade).was.called(1)
+        assert.spy(tooltip.Hide).was.called_with(line)
+        line.scripts.OnHide(line)
+        assert.spy(tooltip.Hide).was.called(2)
     end)
 
     it("links a Blizzard-only quest through its display data", function()

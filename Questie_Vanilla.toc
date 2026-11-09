@@ -252,6 +252,7 @@ Modules\Journey\QuestieSearchResults.lua
 # Tracker
 Modules\Tracker\TrackerQuestieBehavior.lua
 Modules\Tracker\TrackerData.lua
+Modules\Tracker\TrackerQuestTooltip.lua
 Modules\Tracker\AchievementTracking.lua
 Modules\Tracker\TrackerAchievements.lua
 Modules\Tracker\TrackerRecipes.lua
