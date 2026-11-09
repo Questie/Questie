@@ -1251,12 +1251,13 @@ describe("QuestieLib", function()
     end)
 
     describe("FormatDate", function()
-        local originalDate
+        local originalDate, utcOffset
 
         before_each(function()
             -- The expected strings are Central European time (UTC+1), whatever timezone the machine runs in.
             originalDate = _G.date
-            _G.date = function(format, timestamp) return os.date("!" .. format, timestamp + 3600) end
+            utcOffset = 3600
+            _G.date = function(format, timestamp) return os.date("!" .. format, timestamp + utcOffset) end
         end)
 
         after_each(function()
@@ -1271,6 +1272,17 @@ describe("QuestieLib", function()
             local formattedDate = QuestieLib.FormatDate(1771439740)
 
             assert.are_same("Wednesday, February 18, 2026 at 19:35", formattedDate)
+        end)
+
+        it("should use the local timezone offset", function()
+            utcOffset = -5 * 3600 -- UTC-5, 6 hours behind the Central European expectation in the other tests
+            l10n.GetUILocale = function() return "enUS" end
+            _G.CALENDAR_WEEKDAY_NAMES = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"}
+            _G.CALENDAR_FULLDATE_MONTH_NAMES = {"January","February","March","April","May","June","July","August","September","October","November","December"}
+
+            local formattedDate = QuestieLib.FormatDate(1771439740)
+
+            assert.are_same("Wednesday, February 18, 2026 at 13:35", formattedDate)
         end)
 
         it("should format date for deDE", function()
