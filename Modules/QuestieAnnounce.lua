@@ -102,6 +102,42 @@ function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText)
     end
 end
 
+---SendChatMessage rejects the |4singular:plural; grammar escape that Forever leaves in some localized objective text,
+---for example frFR "Massacreur : 4/4 |4personnage tué:personnages tués;". Resolves it for the announced count.
+---shortcut: only the 2-form (singular for 1) and 3-form (Slavic) rules, other languages fall back to the first form.
+---@param text any
+---@param count any
+---@return any
+local function _ResolveGrammarEscapes(text, count)
+    if type(text) ~= "string" then
+        return text
+    end
+
+    return (text:gsub("|4([^;]*);", function(forms)
+        local candidates = {}
+        for form in (forms .. ":"):gmatch("([^:]*):") do
+            candidates[#candidates + 1] = form
+        end
+
+        local index = 1
+        if type(count) == "number" then
+            if #candidates == 2 then
+                index = count == 1 and 1 or 2
+            elseif #candidates == 3 then
+                local lastDigit, lastTwoDigits = count % 10, count % 100
+                if lastDigit == 1 and lastTwoDigits ~= 11 then
+                    index = 1
+                elseif lastDigit >= 2 and lastDigit <= 4 and (lastTwoDigits < 12 or lastTwoDigits > 14) then
+                    index = 2
+                else
+                    index = 3
+                end
+            end
+        end
+        return candidates[index]
+    end))
+end
+
 local _has_seen_incomplete = {}
 local _has_sent_announce = {}
 
@@ -119,7 +155,7 @@ function QuestieAnnounce:ObjectiveChanged(questId, objectiveIndex, text, numFulf
     elseif _has_seen_incomplete[objectiveKey] and not _has_sent_announce[objectiveKey] then
         _has_seen_incomplete[objectiveKey] = nil
         _has_sent_announce[objectiveKey] = true
-        QuestieAnnounce:AnnounceObjectiveToChannel(questId, text)
+        QuestieAnnounce:AnnounceObjectiveToChannel(questId, _ResolveGrammarEscapes(text, numRequired))
     end
 end
 
