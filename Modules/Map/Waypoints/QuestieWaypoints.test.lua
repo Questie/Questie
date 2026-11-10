@@ -5,6 +5,7 @@ describe("QuestieWaypoints", function()
     local QuestieWaypoints
     local WaypointMap, WaypointMinimap
     local savedLibStub
+    local savedFocus
 
     local PATROLS = {{{10, 10}, {20, 10}}, {{30, 30}, {40, 30}}}
     local NORMAL, HOSTILE, HIGHLIGHT = {1, 0.72, 0, 0.5}, {1, 0.2, 0, 0.7}, {0.93, 0.46, 0.13, 0.8}
@@ -20,6 +21,8 @@ describe("QuestieWaypoints", function()
     end
 
     before_each(function()
+        savedFocus = Questie.db.char.TrackerFocus
+        Questie.db.char.TrackerFocus = nil
         savedLibStub = _G.LibStub
         _G.LibStub = function()
             return {GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 0 end}
@@ -37,6 +40,7 @@ describe("QuestieWaypoints", function()
     end)
 
     after_each(function()
+        Questie.db.char.TrackerFocus = savedFocus
         _G.LibStub = savedLibStub
     end)
 
@@ -106,12 +110,22 @@ describe("QuestieWaypoints", function()
     end)
 
     it("shows a path on the world map while its icon is shown, faded with it", function()
-        local icon = Icon({})
+        local icon = Icon({Id = 136, Type = "available"})
         QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         local path = icon.data.waypointPaths[1]
 
         assert.are.equal(1, QuestieWaypoints.WorldMapAlpha(path))
         icon.faded = true
+        assert.are.equal(0.3, QuestieWaypoints.WorldMapAlpha(path))
+        Questie.db.profile.hideUnfocusedQuestObjectiveIcons = true
+        Questie.db.char.TrackerFocus = 151
+        assert.is_nil(QuestieWaypoints.WorldMapAlpha(path))
+        icon.faded = nil
+        assert.is_nil(QuestieWaypoints.WorldMapAlpha(path))
+        Questie.db.char.TrackerFocus = 136
+        assert.are.equal(1, QuestieWaypoints.WorldMapAlpha(path))
+        icon.faded = true
+        Questie.db.profile.hideUnfocusedQuestObjectiveIcons = false
         assert.are.equal(0.3, QuestieWaypoints.WorldMapAlpha(path))
         icon.hidden = true
         assert.is_nil(QuestieWaypoints.WorldMapAlpha(path))
@@ -121,7 +135,7 @@ describe("QuestieWaypoints", function()
     end)
 
     it("shows a path on the minimap only with the icon's minimap twin", function()
-        local data = {}
+        local data = {Id = 136, Type = "monster"}
         local icon = Icon(data)
         QuestieWaypoints.Add(icon, "m_icon", PATROLS, 12)
         local path = data.waypointPaths[1]
@@ -130,6 +144,16 @@ describe("QuestieWaypoints", function()
         icon.minimapTwin = {data = data}
         assert.are.equal(1, QuestieWaypoints.MinimapAlpha(path))
         icon.minimapTwin.faded = true
+        assert.are.equal(0.3, QuestieWaypoints.MinimapAlpha(path))
+        Questie.db.profile.hideUnfocusedQuestObjectiveIcons = true
+        Questie.db.char.TrackerFocus = 151
+        assert.is_nil(QuestieWaypoints.MinimapAlpha(path))
+        icon.minimapTwin.faded = nil
+        assert.is_nil(QuestieWaypoints.MinimapAlpha(path))
+        Questie.db.char.TrackerFocus = 136
+        assert.are.equal(1, QuestieWaypoints.MinimapAlpha(path))
+        icon.minimapTwin.faded = true
+        Questie.db.profile.hideUnfocusedQuestObjectiveIcons = false
         assert.are.equal(0.3, QuestieWaypoints.MinimapAlpha(path))
         icon.minimapTwin.hidden = true
         assert.is_nil(QuestieWaypoints.MinimapAlpha(path))

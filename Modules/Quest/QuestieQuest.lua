@@ -21,6 +21,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieLib
@@ -197,6 +199,8 @@ function QuestieQuest:ShowQuestIcons()
             coYield()
         end
     end
+    -- Quest-giver patrols depend on focus too, even when none of their icons changed opacity.
+    QuestieWaypoints.Refresh()
 end
 
 function _QuestieQuest:ShowManualIcons()
@@ -243,6 +247,7 @@ function QuestieQuest:HideQuestIcons()
             coYield()
         end
     end
+    QuestieWaypoints.Refresh()
 end
 
 function _QuestieQuest:HideManualIcons()

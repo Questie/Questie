@@ -31,6 +31,7 @@ describe("QuestieQuest", function()
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+        QuestieLoader:ImportModule("QuestieWaypoints").Refresh = spy.new(function() end)
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.TryGetQuest = function() end
         dofile("Modules/Quest/ActiveQuests.lua")
@@ -494,6 +495,7 @@ describe("QuestieQuest", function()
             end)
 
             assert.is_true(coroutine.resume(co))
+            assert.spy(QuestieLoader:ImportModule("QuestieWaypoints").Refresh).was.called()
         end)
 
         it("should throw an error when not called from a coroutine", function()
@@ -512,6 +514,7 @@ describe("QuestieQuest", function()
             end)
 
             assert.is_true(coroutine.resume(co))
+            assert.spy(QuestieLoader:ImportModule("QuestieWaypoints").Refresh).was.called()
         end)
 
         it("should throw an error when not called from a coroutine", function()
