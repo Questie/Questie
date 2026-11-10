@@ -60,8 +60,12 @@ describe("QuestDetailsFrame quest links", function()
         QuestieLib.GetColoredQuestName = function(_, id) return "Quest " .. id end
 
         QuestChain = QuestieLoader:ImportModule("QuestChain")
-        QuestChain.GetNextQuests = function() return {} end
+        QuestChain.GetFollowUpQuests = function() return {} end
         QuestChain.GetRewardText = function() return "" end
+        QuestChain.GetLockReasons = function() return {} end
+        QuestieLoader:ImportModule("QuestLockReasons").FormatReasons = function(reasons)
+            return reasons and reasons[1] and ("<" .. table.concat(reasons, "; ") .. ">") or ""
+        end
 
         local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
         QuestieJourneyUtils.Spacer = function() end
@@ -138,7 +142,7 @@ describe("QuestDetailsFrame quest links", function()
     end)
 
     it("lists the next quests in the chain with their rewards after the prerequisites", function()
-        QuestChain.GetNextQuests = function(questId) return questId == 93036 and {93037, 93038} or {} end
+        QuestChain.GetFollowUpQuests = function(questId) return questId == 93036 and {93037, 93038} or {} end
         QuestChain.GetRewardText = function(questId) return questId == 93037 and "(1,150xp) " or "" end
 
         QuestDetailsFrame:Draw({AddChild = function() end}, {
@@ -156,8 +160,27 @@ describe("QuestDetailsFrame quest links", function()
         assert.equals("Quest 93038", links[3].shownText)
     end)
 
+    it("follows the next quests in the chain with why the player cannot take them", function()
+        QuestChain.GetFollowUpQuests = function() return {93037, 93038, 93039} end
+        QuestChain.GetRewardText = function(questId) return questId ~= 93039 and "(1,150xp) " or "" end
+        QuestChain.GetLockReasons = spy.new(function()
+            return {[93037] = {}, [93038] = {"Warrior only", "Requires level 20"}, [93039] = {"Warrior only"}}
+        end)
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            Finisher = {},
+        })
+
+        assert.spy(QuestChain.GetLockReasons).was.called_with(93036, {93037, 93038, 93039})
+        assert.equals("Quest 93037 (1,150xp) ", links[1].shownText)
+        assert.equals("Quest 93038 (1,150xp) <Warrior only; Requires level 20>", links[2].shownText)
+        assert.equals("Quest 93039 <Warrior only>", links[3].shownText)
+    end)
+
     it("navigates to a next quest in the chain", function()
-        QuestChain.GetNextQuests = function() return {93037, 93038} end
+        QuestChain.GetFollowUpQuests = function() return {93037, 93038} end
 
         QuestDetailsFrame:Draw({AddChild = function() end}, {
             Id = 93036,
@@ -172,7 +195,7 @@ describe("QuestDetailsFrame quest links", function()
     end)
 
     it("stretches every quest link to the width of its section", function()
-        QuestChain.GetNextQuests = function() return {93037} end
+        QuestChain.GetFollowUpQuests = function() return {93037} end
 
         QuestDetailsFrame:Draw({AddChild = function() end}, {
             Id = 93036,

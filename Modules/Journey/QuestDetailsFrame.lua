@@ -28,6 +28,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestChain
 local QuestChain = QuestieLoader:ImportModule("QuestChain")
+---@type QuestLockReasons
+local QuestLockReasons = QuestieLoader:ImportModule("QuestLockReasons")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -503,10 +505,15 @@ function QuestDetailsFrame:Draw(container, quest)
             QuestieDB.QueryQuestSingle, QuestChain.GetRewardText)
     end
 
-    local nextQuestIds = QuestChain.GetNextQuests(quest.Id)
+    local nextQuestIds = QuestChain.GetFollowUpQuests(quest.Id)
     if nextQuestIds[1] then
+        -- Quests the player cannot take are listed too, followed by the reasons why
+        local lockReasons = QuestChain.GetLockReasons(quest.Id, nextQuestIds)
+        local function _GetNextQuestText(nextQuestId)
+            return QuestChain.GetRewardText(nextQuestId) .. QuestLockReasons.FormatReasons(lockReasons[nextQuestId])
+        end
         QuestieJourneyUtils:Spacer(container)
-        AddLinkedParagraph(container, "quest", nextQuestIds, l10n("Next in chain"), QuestieDB.QueryQuestSingle, QuestChain.GetRewardText)
+        AddLinkedParagraph(container, "quest", nextQuestIds, l10n("Next in chain"), QuestieDB.QueryQuestSingle, _GetNextQuestText)
     end
 
     QuestieJourneyUtils:Spacer(container)
