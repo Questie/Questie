@@ -217,6 +217,7 @@ Modules\Quest\Lifecycle\QuestLifecycle.lua
 Modules\Quest\QuestieQuestPrivates.lua
 Modules\Quest\BreadcrumbQuests.lua
 Modules\Quest\QuestChain.lua
+Modules\Quest\QuestLockReasons.lua
 
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
