@@ -1572,7 +1572,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     end
 
     local questLevel, requiredLevel = QuestieLib.GetEffectiveQuestLevel(questId)
-    
     QO.level = questLevel
     QO.requiredLevel = requiredLevel
 
