@@ -121,13 +121,12 @@ describe("ObjectivePreview", function()
         function tooltip:IsOwned(owner) return self.owner == owner end
 
         originals = {
-            CreateFrame = _G.CreateFrame, DrawLine = _G.DrawLine, GameTooltip = _G.GameTooltip, UnitRace = _G.UnitRace,
+            CreateFrame = _G.CreateFrame, GameTooltip = _G.GameTooltip, UnitRace = _G.UnitRace,
             UnitFactionGroup = _G.UnitFactionGroup, GetCursorPosition = _G.GetCursorPosition, icons = Questie.icons,
             UPPER_LEFT_VERTEX = _G.UPPER_LEFT_VERTEX, UPPER_RIGHT_VERTEX = _G.UPPER_RIGHT_VERTEX,
             LOWER_LEFT_VERTEX = _G.LOWER_LEFT_VERTEX, LOWER_RIGHT_VERTEX = _G.LOWER_RIGHT_VERTEX,
         }
         _G.CreateFrame = _CreateFrame
-        _G.DrawLine = function() end
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX = "UL", "UR"
         _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = "LL", "LR"
         _G.GameTooltip = tooltip
@@ -145,6 +144,7 @@ describe("ObjectivePreview", function()
         QuestieDB.QueryNPCSingle = function(id) if id == 6 then return "Koboldungeziefer" end end
         QuestieDB.QueryItemSingle = function() end
 
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         dofile("Modules/Tutorial/ObjectivePreview.lua")
         ObjectivePreview = QuestieLoader:ImportModule("ObjectivePreview")
@@ -152,7 +152,7 @@ describe("ObjectivePreview", function()
     end)
 
     after_each(function()
-        _G.CreateFrame, _G.DrawLine, _G.GameTooltip = originals.CreateFrame, originals.DrawLine, originals.GameTooltip
+        _G.CreateFrame, _G.GameTooltip = originals.CreateFrame, originals.GameTooltip
         _G.UnitRace, _G.UnitFactionGroup, _G.GetCursorPosition = originals.UnitRace, originals.UnitFactionGroup,
             originals.GetCursorPosition
         Questie.icons = originals.icons

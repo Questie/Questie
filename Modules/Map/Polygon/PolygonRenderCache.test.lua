@@ -404,7 +404,15 @@ describe("PolygonRenderCache with PolygonRenderer", function()
             function texture:SetTexture() calls.textureSetup = calls.textureSetup + 1 end
             function texture:SetAllPoints() end
             function texture:ClearAllPoints() end
-            function texture:SetVertexOffset() calls.vertexSetup = calls.vertexSetup + 1 end
+            function texture:SetVertexOffset(vertex, x, y)
+                if sublevel == 0 then
+                    calls.vertexSetup = calls.vertexSetup + 1
+                else
+                    calls.borderSetup = calls.borderSetup + 1
+                end
+                self.offsets = self.offsets or {}
+                self.offsets[vertex] = {x, y}
+            end
             function texture:SetTexCoord() calls.uvSetup = calls.uvSetup + 1 end
             function texture:SetVertexColor(...)
                 self.color = {...}
@@ -417,16 +425,29 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         return frame
     end
 
+    ---How thick a border edge is drawn: the distance between its left and right sides. Its vertex
+    ---offsets have y up and start at the frame's corners; both left corners lie on the left side,
+    ---which runs along the edge.
+    local function Thickness(border)
+        local frame, offsets = border.parent, border.offsets
+        local startLeftX, startLeftY = offsets.UL[1], offsets.UL[2]
+        local endLeftX, endLeftY = offsets.UR[1] + frame.width, offsets.UR[2]
+        local startRightX, startRightY = offsets.LL[1], offsets.LL[2] - frame.height
+        local dx, dy = endLeftX - startLeftX, endLeftY - startLeftY
+        return math.abs(dx * (startRightY - startLeftY) - dy * (startRightX - startLeftX)) / math.sqrt(dx * dx + dy * dy)
+    end
+
     before_each(function()
-        saved = {CreateFrame = _G.CreateFrame, DrawLine = _G.DrawLine, random = math.random,
+        saved = {CreateFrame = _G.CreateFrame, random = math.random,
             UPPER_LEFT_VERTEX = _G.UPPER_LEFT_VERTEX, LOWER_LEFT_VERTEX = _G.LOWER_LEFT_VERTEX,
             UPPER_RIGHT_VERTEX = _G.UPPER_RIGHT_VERTEX, LOWER_RIGHT_VERTEX = _G.LOWER_RIGHT_VERTEX}
-        nativeFrames, calls, failAnchorFrame = {}, {textureSetup = 0, vertexSetup = 0, uvSetup = 0, fillStyle = 0, random = 0}, nil
+        nativeFrames, failAnchorFrame = {}, nil
+        calls = {textureSetup = 0, vertexSetup = 0, borderSetup = 0, uvSetup = 0, fillStyle = 0, random = 0}
         _G.CreateFrame = CreateFrameMock
-        _G.DrawLine = function(texture, _, _, _, _, _, thickness) texture.thickness = thickness end
         _G.UPPER_LEFT_VERTEX, _G.LOWER_LEFT_VERTEX = "UL", "LL"
         _G.UPPER_RIGHT_VERTEX, _G.LOWER_RIGHT_VERTEX = "UR", "LR"
         math.random = function() calls.random = calls.random + 1; return calls.random / 100 end
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         dofile("Modules/Map/Polygon/PolygonRenderCache.lua")
         local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
@@ -443,7 +464,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         failAnchorFrame = nil
         cache:Clear()
         math.random = saved.random
-        _G.CreateFrame, _G.DrawLine = saved.CreateFrame, saved.DrawLine
+        _G.CreateFrame = saved.CreateFrame
         _G.UPPER_LEFT_VERTEX, _G.LOWER_LEFT_VERTEX = saved.UPPER_LEFT_VERTEX, saved.LOWER_LEFT_VERTEX
         _G.UPPER_RIGHT_VERTEX, _G.LOWER_RIGHT_VERTEX = saved.UPPER_RIGHT_VERTEX, saved.LOWER_RIGHT_VERTEX
     end)
@@ -456,7 +477,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         local hoverUpdate = renderer.hoverDriver.scripts.OnUpdate
         shape.highlighted = true
         assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
-        assert.are_equal(1.8, border.thickness)
+        assert.are.near(1.8, Thickness(border), 1e-9)
         assert.are_equal(tint, fill.color)
         assert.are_equal(hoverUpdate, renderer.hoverDriver.scripts.OnUpdate)
         shape.highlighted = false
@@ -469,7 +490,9 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(firstView, renderer.activeFrames[1])
         assert.are_equal(fill, firstView.fills[1])
         assert.are_equal(tint, fill.color)
-        assert.are_same({textureSetup = 5, vertexSetup = 8, uvSetup = 2, fillStyle = 2, random = 15}, calls)
+        -- Two fills and six border pieces: the triangle's 27-degree corner adds two fills and a cap.
+        -- The border was drawn, thickened for the highlight and restored: three times four vertices each.
+        assert.are_same({textureSetup = 8, vertexSetup = 8, borderSetup = 72, uvSetup = 2, fillStyle = 2, random = 24}, calls)
 
         shape.points = {{x = 50, y = 50}, {x = 60, y = 50}, {x = 50, y = 60}}
         assert.is_true(cache:Present(20, {shape}, 1000, 500, 8))
@@ -481,7 +504,8 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(firstView, renderer.activeFrames[1])
         assert.is_false(secondView.shown)
         assert.are_equal(tint, fill.color)
-        assert.are_same({textureSetup = 10, vertexSetup = 16, uvSetup = 4, fillStyle = 4, random = 30}, calls)
+        -- Only map 20's new view was drawn; returning to map 10 redrew nothing.
+        assert.are_same({textureSetup = 16, vertexSetup = 16, borderSetup = 96, uvSetup = 4, fillStyle = 4, random = 48}, calls)
     end)
 
     it("reconfigures a resized view without new primitives and releases all maps with their owner", function()
@@ -491,9 +515,9 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.is_true(cache:Present(10, {shape}, 800, 400, 8))
         assert.are_equal(firstView, renderer.activeFrames[1])
         assert.are_equal(tint, firstView.fills[1].polygonDebugColor)
-        assert.are_equal(5, calls.textureSetup)
+        assert.are_equal(8, calls.textureSetup)
         assert.are_equal(16, calls.vertexSetup)
-        assert.are_equal(15, calls.random)
+        assert.are_equal(24, calls.random)
         assert.is_true(cache:Present(20, {shape}, 800, 400, 8))
         cache:Hide()
         assert.are_equal(2, Count(renderer.ownedFrames))
@@ -504,7 +528,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(0, Count(renderer.ownedFrames))
         assert.are_equal(2, #renderer.freeFrames)
         assert.are_equal(4, #renderer.freeFills)
-        assert.are_equal(6, #renderer.freeBorders)
+        assert.are_equal(12, #renderer.freeBorders)
         assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
     end)
 
@@ -538,7 +562,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(0, Count(renderer.ownedFrames))
         assert.are_equal(4, #renderer.freeFrames)
         assert.are_equal(8, #renderer.freeFills)
-        assert.are_equal(12, #renderer.freeBorders)
+        assert.are_equal(24, #renderer.freeBorders)
     end)
 
     it("retries a failed polygon release across maps without touching its visible sibling", function()
@@ -567,7 +591,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(1, Count(renderer.ownedFrames))
         assert.are_equal(2, #renderer.freeFrames)
         assert.are_equal(4, #renderer.freeFills)
-        assert.are_equal(6, #renderer.freeBorders)
+        assert.are_equal(12, #renderer.freeBorders)
         assert.are_same({siblingView}, renderer.activeFrames)
     end)
 

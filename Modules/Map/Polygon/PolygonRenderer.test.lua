@@ -31,6 +31,30 @@ describe("PolygonRenderer", function()
         return PolygonRenderer.New(canvas, {})
     end
 
+    -- Border pieces: one per edge, plus two fills and a cap at each corner of 60 degrees or less,
+    -- where MapGeometry.MITER_LIMIT stops mitering. The {0, 0}, {30, 0}, {15, 30} triangle has one
+    -- such corner, its 53-degree apex, so 6 pieces; a right triangle has two 45-degree corners, so 9.
+    local function _AssertNear(expected, actual)
+        assert.are.equal(#expected, #actual)
+        for i, value in ipairs(expected) do assert.are.near(value, actual[i], 1e-9) end
+    end
+
+    -- A border piece's corners in frame units with y down, read back from its vertex offsets, which
+    -- have y up and start at the frame's own corners: start left, start right, end left, end right.
+    local function _Corners(texture)
+        local frame, offsets = texture.parent, texture.offsets
+        return {offsets.UL[1], -offsets.UL[2], offsets.LL[1], frame.height - offsets.LL[2],
+            offsets.UR[1] + frame.width, -offsets.UR[2], offsets.LR[1] + frame.width, frame.height - offsets.LR[2]}
+    end
+
+    -- How thick a border edge is drawn: the distance between its left and right sides. Both left
+    -- corners lie on the left side, which runs along the edge.
+    local function _Thickness(texture)
+        local corners = _Corners(texture)
+        local dx, dy = corners[5] - corners[1], corners[6] - corners[2]
+        return math.abs(dx * (corners[4] - corners[2]) - dy * (corners[3] - corners[1])) / math.sqrt(dx * dx + dy * dy)
+    end
+
     local function _CreateTexture(frame)
         local texture = {parent = frame, offsets = {}, id = #textures + 1}
         textures[#textures + 1] = texture
@@ -95,16 +119,14 @@ describe("PolygonRenderer", function()
     before_each(function()
         frames, textures, failTexture = {}, {}, nil
         originals = {
-            CreateFrame = _G.CreateFrame, DrawLine = _G.DrawLine, random = math.random,
+            CreateFrame = _G.CreateFrame, random = math.random,
             UPPER_LEFT_VERTEX = _G.UPPER_LEFT_VERTEX, UPPER_RIGHT_VERTEX = _G.UPPER_RIGHT_VERTEX,
             LOWER_LEFT_VERTEX = _G.LOWER_LEFT_VERTEX, LOWER_RIGHT_VERTEX = _G.LOWER_RIGHT_VERTEX,
         }
         _G.CreateFrame = _CreateFrame
-        _G.DrawLine = function(texture, parent, startX, startY, endX, endY, thickness, scale, anchor)
-            texture.line = {parent, startX, startY, endX, endY, thickness, scale, anchor}
-        end
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX = "UL", "UR"
         _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = "LL", "LR"
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
         PolygonRenderer.debugRandomColors = false
@@ -113,7 +135,7 @@ describe("PolygonRenderer", function()
     after_each(function()
         PolygonRenderer.debugRandomColors = false
         math.random = originals.random
-        _G.CreateFrame, _G.DrawLine = originals.CreateFrame, originals.DrawLine
+        _G.CreateFrame = originals.CreateFrame
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX = originals.UPPER_LEFT_VERTEX, originals.UPPER_RIGHT_VERTEX
         _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = originals.LOWER_LEFT_VERTEX, originals.LOWER_RIGHT_VERTEX
     end)
@@ -143,8 +165,15 @@ describe("PolygonRenderer", function()
         assert.are_same({0, 0, 0, 1, 1, 0, 1, 1}, textures[1].uv)
         assert.are_same({0.2, 0.4, 0.6, 0.25}, textures[1].color)
         assert.are_same({0.2, 0.4, 0.6, 0.75}, textures[3].color)
-        assert.are_same({frames[1], 0, 0, 200, 0, 1.5, 1, "TOPLEFT"}, textures[3].line)
-        assert.are_same({frames[1], 0, -150, 0, 0, 1.5, 1, "TOPLEFT"}, textures[6].line)
+        -- Borders are 1.5 wide, centered on the outline. A rectangle's miters lie on its corners'
+        -- diagonals, 0.75 along each axis: inside on the left of this clockwise outline, outside on the
+        -- right. The first edge runs along the top, (0, 0) to (200, 0) in the 200x150 frame.
+        _AssertNear({0.75, -0.75}, textures[3].offsets.UL)
+        _AssertNear({-0.75, 150.75}, textures[3].offsets.LL)
+        _AssertNear({-0.75, -0.75}, textures[3].offsets.UR)
+        _AssertNear({0.75, 150.75}, textures[3].offsets.LR)
+        -- The last edge, up the left side, ends on the very corners the first starts on.
+        _AssertNear({0.75, 149.25, -0.75, 150.75, 0.75, 0.75, -0.75, -0.75}, _Corners(textures[6]))
         assert.are_equal("Interface\\BUTTONS\\WHITE8X8", textures[1].path)
         assert.is_false(textures[1].snap)
         assert.are_equal(0, textures[1].bias)
@@ -171,18 +200,19 @@ describe("PolygonRenderer", function()
 
         renderer:Hover(15, 10)
         assert.are_same({0.546875, 0.625, 0.703125, 0.1875}, frames[1].borders[1].color)
-        assert.are_equal(1.8, frames[1].borders[1].line[6])
+        assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
         renderer:Hover(90, 90)
         assert.are_same({0.4375, 0.5, 0.5625, 0.1875}, frames[1].borders[1].color)
-        assert.are_equal(1.5, frames[1].borders[1].line[6])
-        assert.are_equal(15, randomCalls)
+        assert.are.near(1.5, _Thickness(frames[1].borders[1]), 1e-9)
+        -- Three per texture: two fills and six border pieces.
+        assert.are_equal(24, randomCalls)
 
         PolygonRenderer.debugRandomColors = false
         assert.is_table(_Draw(renderer, shapes, 100, 100, 8))
         assert.are_same({0.2, 0.4, 0.6, 0.05}, frames[1].fills[1].color)
         assert.are_same({0.2, 0.4, 0.6, 0.1875}, frames[1].borders[1].color)
         assert.is_nil(frames[1].borders[1].polygonDebugColor)
-        assert.are_equal(15, randomCalls)
+        assert.are_equal(24, randomCalls)
     end)
 
     it("closes an odd fan with a degenerate quad rather than an extra outer edge", function()
@@ -192,10 +222,10 @@ describe("PolygonRenderer", function()
             color = {1, 0, 0},
         }}, 100, 100, 8)
 
-        assert.are_same({regions = 1, fills = 2, borders = 3}, counts)
+        assert.are_same({regions = 1, fills = 2, borders = 6}, counts)
         assert.are_same({UL = {0, 0}, LL = {15, 20}, UR = {-15, -30}, LR = {-15, 20}}, textures[2].offsets)
         assert.are_same({1, 0, 0, 0.3}, textures[2].color)
-        assert.are_equal(5, #textures)
+        assert.are_equal(8, #textures)
     end)
 
     it("keeps disconnected outlines in separate noninteractive frames", function()
@@ -205,10 +235,11 @@ describe("PolygonRenderer", function()
             {points = {{x = 40, y = 40}, {x = 50, y = 40}, {x = 40, y = 50}}, color = {0, 1, 0}},
         }, 100, 100, 8)
 
-        assert.are_same({regions = 2, fills = 4, borders = 6}, counts)
+        assert.are_same({regions = 2, fills = 4, borders = 18}, counts)
         assert.are_equal(2, #frames)
         assert.are_equal(frames[1], textures[1].parent)
-        assert.are_equal(frames[2], textures[6].parent)
+        -- The first of the second outline's, after the first's two fills and nine border pieces.
+        assert.are_equal(frames[2], textures[12].parent)
         assert.are_same({"TOPLEFT", canvas, "TOPLEFT", 40, -40}, frames[2].anchor)
     end)
 
@@ -219,9 +250,9 @@ describe("PolygonRenderer", function()
         shapes[1].color = {0, 1, 0, 0.4}
         local counts = _Draw(renderer, shapes, 200, 300, 10)
 
-        assert.are_same({regions = 1, fills = 2, borders = 3}, counts)
+        assert.are_same({regions = 1, fills = 2, borders = 6}, counts)
         assert.are_equal(1, #frames)
-        assert.are_equal(5, #textures)
+        assert.are_equal(8, #textures)
         assert.are_equal(60, frames[1].width)
         assert.are_equal(90, frames[1].height)
         assert.are_equal(10, frames[1].level)
@@ -236,12 +267,12 @@ describe("PolygonRenderer", function()
         _Draw(renderer, shapes, 100, 100, 8)
         _Draw(renderer, shapes, 100, 100, 8)
 
-        assert.are_equal(5, #textures)
+        assert.are_equal(8, #textures)
         for _, texture in ipairs(textures) do
             assert.are_same({shapeMask, playerMask}, texture.masks)
         end
         _Draw(PolygonRenderer.New(canvas), shapes, 100, 100, 8)
-        assert.is_nil(textures[6].masks)
+        assert.is_nil(textures[9].masks)
     end)
 
     it("uses caller-supplied border opacity independently of fill opacity and resets it on reuse", function()
@@ -259,7 +290,7 @@ describe("PolygonRenderer", function()
         assert.is_table(_Draw(renderer, shapes, 100, 100, 8))
         assert.are_same({0.2, 0.4, 0.6, 0.75}, frames[1].borders[1].color)
         assert.are_equal(1, #frames)
-        assert.are_equal(5, #textures)
+        assert.are_equal(8, #textures)
     end)
 
     local validBorderAlpha = {
@@ -327,7 +358,7 @@ describe("PolygonRenderer", function()
         assert.is_nil(textures[1].allPoints)
         assert.are_equal(1, #renderer.freeFrames)
         assert.are_equal(2, #renderer.freeFills)
-        assert.are_equal(3, #renderer.freeBorders)
+        assert.are_equal(6, #renderer.freeBorders)
         assert.are_equal(0, #renderer.activeFrames)
     end)
 
@@ -350,7 +381,7 @@ describe("PolygonRenderer", function()
         failTexture = nil
         assert.is_table(_Draw(renderer, shapes, 100, 100, 8))
         assert.are_equal(1, #frames)
-        assert.are_equal(5, #textures)
+        assert.are_equal(8, #textures)
         assert.is_true(frames[1].shown)
     end)
 
@@ -366,18 +397,19 @@ describe("PolygonRenderer", function()
             local view = renderer:Create(triangle, 100, 100, 8)
             assert.is_false(view:IsShown())
             assert.is_true(renderer.ownedFrames[view])
-            local offsets, line = view.fills[1].offsets, view.borders[1].line
+            local offsets = view.fills[1].offsets
             local configure = spy.on(view.fills[1], "SetVertexOffset")
             local uv = spy.on(view.fills[1], "SetTexCoord")
+            local border = spy.on(view.borders[1], "SetVertexOffset")
             renderer:SetVisibleFrames({view})
             renderer:SetVisibleFrames({view})
             assert.is_true(view:IsShown())
             assert.are.equal(offsets, view.fills[1].offsets)
-            assert.are.equal(line, view.borders[1].line)
             assert.spy(configure).was.not_called()
             assert.spy(uv).was.not_called()
+            assert.spy(border).was.not_called()
             assert.are.equal(1, #frames)
-            assert.are.equal(5, #textures)
+            assert.are.equal(11, #textures)
         end)
 
         it("finds the visible outlines at a point without hovering, and tells hover listeners the cursor", function()
@@ -435,20 +467,45 @@ describe("PolygonRenderer", function()
             local vertices = spy.on(view.fills[1], "SetVertexOffset")
             local fills = spy.on(view.fills[1], "SetVertexColor")
             local anchors = spy.on(view, "SetPoint")
-            local oldLine = view.borders[1].line
             triangle.highlighted = true
             renderer:Style(view, triangle, 8)
             renderer:SetVisibleFrames({view})
-            assert.are.equal(1.8, view.borders[1].line[6])
-            assert.are_not.equal(oldLine, view.borders[1].line)
+            -- Redrawn at the new thickness on the textures it already had; the next case checks every piece.
+            assert.are.equal(9, #view.borders)
+            assert.are.near(1.8, _Thickness(view.borders[1]), 1e-9)
+            assert.are.near(1.8, _Thickness(view.borders[3]), 1e-9)
             assert.spy(vertices).was.not_called()
             assert.spy(fills).was.not_called()
             assert.spy(anchors).was.not_called()
 
-            local selectedLine = view.borders[1].line
+            local redraws = spy.on(view.borders[1], "SetVertexOffset")
             renderer:Style(view, triangle, 8)
             renderer:SetVisibleFrames({view})
-            assert.are.equal(selectedLine, view.borders[1].line)
+            assert.spy(redraws).was.not_called()
+        end)
+
+        it("redraws every border piece for a highlight as configuring the view highlighted draws it", function()
+            local renderer = _NewHoverRenderer()
+            -- Wider than tall, so a redraw cannot swap the frame's width and height unnoticed. At 100x50
+            -- the triangle's corners are 90, 27 and 63 degrees: one sharp corner, so 6 pieces.
+            local view = renderer:Create(triangle, 100, 50, 8)
+            renderer:SetVisibleFrames({view})
+            triangle.highlighted = true
+            renderer:Style(view, triangle, 8)
+            renderer:SetVisibleFrames({view})
+
+            -- Configured again while highlighted, the reference is drawn at the highlight's thickness
+            -- from the start rather than redrawn.
+            local reference = renderer:Create(triangle, 100, 50, 8)
+            renderer:SetVisibleFrames({view, reference})
+            renderer:Configure(reference, triangle, 100, 50, 8)
+            assert.are.equal(6, #view.borders)
+            assert.are.near(1.8, _Thickness(reference.borders[1]), 1e-9)
+            for i, border in ipairs(view.borders) do
+                for _, vertex in ipairs({"UL", "LL", "UR", "LR"}) do
+                    _AssertNear(reference.borders[i].offsets[vertex], border.offsets[vertex])
+                end
+            end
         end)
 
         it("updates color, faded opacity, and frame level without repeating border geometry", function()
@@ -456,13 +513,14 @@ describe("PolygonRenderer", function()
             triangle.highlighted = true
             local view = renderer:Create(triangle, 100, 100, 8)
             renderer:SetVisibleFrames({view})
-            local line, offsets = view.borders[1].line, view.fills[1].offsets
+            local offsets = view.fills[1].offsets
+            local redraws = spy.on(view.borders[1], "SetVertexOffset")
             triangle.color, triangle.borderAlpha = {0.4, 0.2, 0.1, 0.05}, 0.1875
             renderer:Style(view, triangle, 12)
             renderer:SetVisibleFrames({view})
             assert.are.same({0.4, 0.2, 0.1, 0.05}, view.fills[1].color)
             assert.are.same({0.5, 0.25, 0.125, 0.1875}, view.borders[1].color)
-            assert.are.equal(line, view.borders[1].line)
+            assert.spy(redraws).was.not_called()
             assert.are.equal(offsets, view.fills[1].offsets)
             assert.are.equal(12, view.level)
         end)
@@ -473,13 +531,13 @@ describe("PolygonRenderer", function()
             local view = renderer:Create(triangle, 100, 100, 8)
             renderer:SetVisibleFrames({view})
             renderer:Hover(10, 10)
-            local line = view.borders[1].line
+            local redraws = spy.on(view.borders[1], "SetVertexOffset")
             triangle.highlighted = false
             renderer:Style(view, triangle, 8)
             renderer:SetVisibleFrames({view})
             assert.is_true(renderer.hoveredFrames[view])
             assert.is_true(renderer.highlightedFrames[view])
-            assert.are.equal(line, view.borders[1].line)
+            assert.spy(redraws).was.not_called()
         end)
 
         it("reconfigures canvas size using the same frames, primitives, and diagnostic colors", function()
@@ -499,7 +557,7 @@ describe("PolygonRenderer", function()
             assert.are.equal(80, view.width)
             assert.are.equal(120, view.height)
             assert.are.equal(1, #frames)
-            assert.are.equal(5, #textures)
+            assert.are.equal(11, #textures)
         end)
 
         it("retains diagnostic colors through appearance updates and hide/show", function()
@@ -532,7 +590,7 @@ describe("PolygonRenderer", function()
             assert.are.same({second}, renderer.activeFrames)
             assert.are.equal(1, #renderer.freeFrames)
             assert.are.equal(2, #renderer.freeFills)
-            assert.are.equal(3, #renderer.freeBorders)
+            assert.are.equal(9, #renderer.freeBorders)
             local replacement = renderer:Create(triangle, 100, 100, 8)
             assert.are.equal(first, replacement)
             assert.are.equal(3, #frames) -- Two views and one driver, no extra view allocation.
@@ -550,22 +608,22 @@ describe("PolygonRenderer", function()
             assert.are.same({}, renderer.ownedFrames)
             assert.are.equal(2, #renderer.freeFrames)
             assert.are.equal(4, #renderer.freeFills)
-            assert.are.equal(6, #renderer.freeBorders)
+            assert.are.equal(18, #renderer.freeBorders)
             renderer:Create(triangle, 100, 100, 8)
             assert.are.equal(2, #frames)
-            assert.are.equal(10, #textures)
+            assert.are.equal(22, #textures)
         end)
 
         it("releases excess primitives when a configured view becomes smaller", function()
             local renderer = PolygonRenderer.New(canvas)
             local square = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 40, y = 40}, {x = 0, y = 40}}, color = {1, 0, 0}}
-            local view = renderer:Create(square, 100, 100, 8)
-            local border = view.borders[4]
-            renderer:Configure(view, triangle, 100, 100, 8)
-            assert.are.equal(3, #view.borders)
-            assert.are.equal(1, #renderer.freeBorders)
+            -- The triangle's two sharp corners need more border pieces than the square's four edges.
+            local view = renderer:Create(triangle, 100, 100, 8)
+            local border = view.borders[9]
+            renderer:Configure(view, square, 100, 100, 8)
+            assert.are.equal(4, #view.borders)
+            assert.are.equal(5, #renderer.freeBorders)
             assert.is_false(border.shown)
-            assert.is_nil(border.polygonStartX)
             assert.is_nil(border.polygonDebugColor)
         end)
 
@@ -584,7 +642,7 @@ describe("PolygonRenderer", function()
             assert.are.same({}, renderer.ownedFrames)
             assert.are.same({}, renderer.highlightedFrames)
             assert.are.equal(1, #renderer.freeFrames)
-            assert.are.equal(3, #renderer.freeBorders)
+            assert.are.equal(9, #renderer.freeBorders)
             assert.is_false(view:IsShown())
         end)
 
@@ -613,7 +671,7 @@ describe("PolygonRenderer", function()
             assert.is_false(failed:IsShown())
             assert.are.equal(2, #renderer.freeFrames)
             assert.are.equal(4, #renderer.freeFills)
-            assert.are.equal(6, #renderer.freeBorders)
+            assert.are.equal(18, #renderer.freeBorders)
             renderer:UpdateHover()
             assert.are.same({}, renderer.hoveredFrames)
 
@@ -624,7 +682,7 @@ describe("PolygonRenderer", function()
             assert.are.same({}, renderer.ownedFrames)
             assert.are.equal(3, #renderer.freeFrames)
             assert.are.equal(4, #renderer.freeFills)
-            assert.are.equal(6, #renderer.freeBorders)
+            assert.are.equal(18, #renderer.freeBorders)
         end)
 
         it("keeps a failed visible release hidden and out of hover until cleanup succeeds", function()
@@ -654,31 +712,26 @@ describe("PolygonRenderer", function()
 
         it("cleans partial geometry growth on a highlighted view without redrawing unfinished borders", function()
             local renderer = _NewHoverRenderer()
-            triangle.highlighted = true
-            local view = renderer:Create(triangle, 100, 100, 8)
+            local square = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 40, y = 40}, {x = 0, y = 40}}, color = {1, 0, 0},
+                highlighted = true}
+            local view = renderer:Create(square, 100, 100, 8)
             renderer:SetVisibleFrames({view})
-            failTexture = 6 -- The extra border acquired when growing from triangle to square.
-            local square = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 40, y = 40}, {x = 0, y = 40}}, color = {1, 0, 0}}
-            assert.has_error(function() renderer:Configure(view, square, 100, 100, 8) end, "texture configuration failed")
-            local unfinished = view.borders[4]
-            local redrawn = {}
-            _G.DrawLine = function(texture, _, startX, startY, endX, endY)
-                redrawn[#redrawn + 1] = {texture = texture, startX = startX, startY = startY, endX = endX, endY = endY}
-            end
+            -- Growing from the square's four border pieces to the triangle's nine: the two fills and
+            -- four edges are reused, and the fifth border piece is the first new texture.
+            failTexture = 7
+            assert.has_error(function() renderer:Configure(view, triangle, 100, 100, 8) end, "texture configuration failed")
+            assert.are.equal(5, #view.borders)
+            local redraws = {}
+            for i, border in ipairs(view.borders) do redraws[i] = spy.on(border, "SetVertexOffset") end
             renderer:Clear()
             renderer:Clear()
-            -- Assert outside the renderer's protected cleanup, which catches native errors.
-            assert.are.equal(3, #redrawn)
-            for _, line in ipairs(redrawn) do
-                assert.are_not.equal(unfinished, line.texture)
-                assert.is_number(line.startX)
-                assert.is_number(line.startY)
-                assert.is_number(line.endX)
-                assert.is_number(line.endY)
-            end
+            -- Assert outside the renderer's protected cleanup, which catches native errors. Restoring
+            -- the unhighlighted thickness from the square's stale border would redraw the textures the
+            -- failed configuration left half done.
+            for _, redraw in ipairs(redraws) do assert.spy(redraw).was.not_called() end
             assert.are.same({}, renderer.ownedFrames)
             assert.are.equal(1, #renderer.freeFrames)
-            assert.are.equal(4, #renderer.freeBorders)
+            assert.are.equal(5, #renderer.freeBorders)
         end)
     end)
 
@@ -705,16 +758,16 @@ describe("PolygonRenderer", function()
             renderer:Hover(10, 10)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.highlightedFrames)
-            assert.are_equal(1.8, frames[1].borders[1].line[6])
-            assert.are_equal(1.8, frames[2].borders[1].line[6])
+            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
+            assert.are.near(1.8, _Thickness(frames[2].borders[1]), 1e-9)
 
-            local retainedLine = frames[1].borders[1].line
+            local redraws = spy.on(frames[1].borders[1], "SetVertexOffset")
             renderer:Hover(30, 30) -- In both rectangles, but no longer in the triangle.
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are_equal(retainedLine, frames[1].borders[1].line)
-            assert.are_equal(1.8, frames[1].borders[1].line[6])
-            assert.are_equal(1.5, frames[2].borders[1].line[6])
+            assert.spy(redraws).was.not_called()
+            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
+            assert.are.near(1.5, _Thickness(frames[2].borders[1]), 1e-9)
         end)
 
         it("tells a hover listener the hovered shapes on every check", function()
@@ -770,14 +823,14 @@ describe("PolygonRenderer", function()
             local fill, border = frames[1].fills[1], frames[1].borders[1]
             renderer:Hover(10, 10)
             assert.are_same({0.25, 0.5, 0.75, 0.1875}, border.color)
-            assert.are_equal(1.8, border.line[6])
+            assert.are.near(1.8, _Thickness(border), 1e-9)
             assert.are_same({0.2, 0.4, 0.6, 0.05}, fill.color)
-            assert.are_equal(5, #textures)
+            assert.are_equal(11, #textures)
 
             renderer:Hover(90, 90)
             assert.are_same({0.2, 0.4, 0.6, 0.1875}, border.color)
-            assert.are_equal(1.5, border.line[6])
-            assert.are_equal(5, #textures)
+            assert.are.near(1.5, _Thickness(border), 1e-9)
+            assert.are_equal(11, #textures)
         end)
 
         it("keeps a transparent border invisible through selection and restoration", function()
@@ -789,13 +842,13 @@ describe("PolygonRenderer", function()
 
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
             assert.are_same({0.25, 0.5, 0.75, 0}, border.color)
-            assert.are_equal(1.8, border.line[6])
+            assert.are.near(1.8, _Thickness(border), 1e-9)
             assert.are_same({0.2, 0.4, 0.6, 0.05}, frames[1].fills[1].color)
 
             renderer:Hover(90, 90)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({0.2, 0.4, 0.6, 0}, border.color)
-            assert.are_equal(1.5, border.line[6])
+            assert.are.near(1.5, _Thickness(border), 1e-9)
         end)
 
         it("ends the hover when offered no cursor", function()
@@ -824,15 +877,15 @@ describe("PolygonRenderer", function()
             _Draw(renderer, {{points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}},
                 color = {0.2, 0.4, 0.6}}}, 100, 100, 8)
             renderer:Hover(10, 10)
-            local highlightedLine = frames[1].borders[1].line
+            local redraws = spy.on(frames[1].borders[1], "SetVertexOffset")
 
             renderer:Hover(15, 10)
-            assert.are_equal(highlightedLine, frames[1].borders[1].line)
+            assert.spy(redraws).was.not_called()
             renderer:Hover(90, 90)
-            local restoredLine = frames[1].borders[1].line
+            -- One draw sets a piece's four vertices.
+            assert.spy(redraws).was.called(4)
             renderer:Hover(90, 90)
-            assert.are_not.equal(highlightedLine, restoredLine)
-            assert.are_equal(restoredLine, frames[1].borders[1].line)
+            assert.spy(redraws).was.called(4)
         end)
 
         it("combines direct overlap hits with the separate marker highlight", function()
@@ -842,23 +895,23 @@ describe("PolygonRenderer", function()
                     color = {0.2, 0.4, 0.6}, highlighted = true, borderAlpha = 0.1875},
                 {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 0, y = 40}}, color = {0.6, 0.4, 0.2}},
             }, 100, 100, 8)
-            local markerLine = frames[1].borders[1].line
+            local redraws = spy.on(frames[1].borders[1], "SetVertexOffset")
             renderer:Hover(10, 10)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.highlightedFrames)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.hoveredFrames)
-            assert.are_equal(markerLine, frames[1].borders[1].line)
+            assert.spy(redraws).was.not_called()
 
             renderer:Hover(90, 90)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are_equal(markerLine, frames[1].borders[1].line)
+            assert.spy(redraws).was.not_called()
 
             assert.is_false(renderer:Hover(nil, nil))
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are_equal(markerLine, frames[1].borders[1].line)
+            assert.spy(redraws).was.not_called()
             assert.are_same({0.25, 0.5, 0.75, 0.1875}, frames[1].borders[1].color)
-            assert.are_equal(1.5, frames[2].borders[1].line[6])
+            assert.are.near(1.5, _Thickness(frames[2].borders[1]), 1e-9)
         end)
 
         it("keeps marker-associated highlighting available without a hover input", function()
@@ -868,21 +921,21 @@ describe("PolygonRenderer", function()
             _Draw(renderer, shapes, 100, 100, 8)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are_equal(1.8, frames[1].borders[1].line[6])
+            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
             assert.are_same({0.25, 0.5, 0.75, 0.1875}, frames[1].borders[1].color)
 
             renderer.hoverDriver:Hide()
             assert.are_same({}, renderer.highlightedFrames)
-            assert.are_equal(1.5, frames[1].borders[1].line[6])
+            assert.are.near(1.5, _Thickness(frames[1].borders[1]), 1e-9)
             renderer.hoverDriver:Show()
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are_equal(1.8, frames[1].borders[1].line[6])
+            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
 
             shapes[1].highlighted = false
             _Draw(renderer, shapes, 100, 100, 8)
             assert.are_same({}, renderer.highlightedFrames)
             assert.is_false(frames[1].polygonHighlighted)
-            assert.are_equal(1.5, frames[1].borders[1].line[6])
+            assert.are.near(1.5, _Thickness(frames[1].borders[1]), 1e-9)
             assert.are_same({0.2, 0.4, 0.6, 0.1875}, frames[1].borders[1].color)
             assert.is_false(renderer.hoverDriver.shown)
             assert.are_equal(2, #frames)
@@ -901,7 +954,7 @@ describe("PolygonRenderer", function()
             assert.is_true(driver:IsShown())
             assert.is_false(driver:IsVisible())
             assert.are_same({}, renderer.hoveredFrames)
-            assert.are_equal(1.5, frames[1].borders[1].line[6])
+            assert.are.near(1.5, _Thickness(frames[1].borders[1]), 1e-9)
 
             parent.visible = true
             driver.scripts.OnShow(driver)
@@ -929,11 +982,11 @@ describe("PolygonRenderer", function()
             assert.is_nil(frames[1].polygonColor)
             assert.is_nil(frames[1].polygonHighlighted)
             assert.is_nil(frames[2].polygonHighlighted)
-            assert.are_equal(1.5, markerBorder.line[6])
-            assert.are_equal(1.5, geometricBorder.line[6])
+            assert.are.near(1.5, _Thickness(markerBorder), 1e-9)
+            assert.are.near(1.5, _Thickness(geometricBorder), 1e-9)
             assert.are_same({0.2, 0.4, 0.6, 0.75}, markerBorder.color)
             assert.are_equal(2, #renderer.freeFrames)
-            assert.are_equal(6, #renderer.freeBorders)
+            assert.are_equal(18, #renderer.freeBorders)
         end)
 
         it("leaves no hover driver or marker highlight after a replacement draw fails", function()
