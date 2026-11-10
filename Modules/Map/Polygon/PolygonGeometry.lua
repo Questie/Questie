@@ -42,7 +42,7 @@ local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
 ---@class PolygonGeometryOptions
 ---@field radius number? World units, default 180.
 ---@field areaCutoff number? Squared zone percentages, default 0.9.
----@field tolerance number? Percentage-space reduction distance, default 0.03.
+---@field tolerance number? Percentage-space reduction distance, default 0.06.
 ---@field objectSpacing number? World units between an object cluster's listed locations, default 10.
 
 local CHECK_INTERVAL = 256
@@ -270,7 +270,7 @@ end
 
 -- Outlines are rings without a repeated closing vertex. Closing the ring for Simplify keeps its start
 -- and splits it first at the vertex farthest from the start. Percent space stretches x and y
--- differently, but the 0.03 default is well under a canvas unit on either axis.
+-- differently, but the 0.06 default is well under a canvas unit on either axis.
 ---@param points table[] Convex outline in zone percent, not closed.
 ---@param tolerance number Percent.
 ---@return table[] reduced At least three of the outline's own points; the outline itself when fewer would remain.
@@ -344,7 +344,7 @@ function PolygonGeometry.Build(points, options, isCancelled)
     options = options or {}
     local radius = options.radius or 180
     local areaCutoff = options.areaCutoff or 0.9
-    local tolerance = options.tolerance or 0.03
+    local tolerance = options.tolerance or 0.06
     local objectSpacing = options.objectSpacing or 10
     assert(_IsFinite(radius) and radius > 0, "Polygon radius must be positive and finite")
     assert(_IsFinite(objectSpacing) and objectSpacing >= 0, "Polygon object spacing must be nonnegative and finite")
