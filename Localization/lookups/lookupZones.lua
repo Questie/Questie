@@ -668,6 +668,7 @@ l10n.zoneLookup = {
         [6454]="Deathknell",
         [6455]="Sunstrider Isle",
         [6457]="New Tinkertown",
+        [16591]="Riverglades",
     },
     [1]={
         [14]="Durotar",
@@ -864,7 +865,7 @@ l10n.zoneLookup = {
         [607]="Valley of Spears",
         [608]="Nijel's Point",
         [609]="Kolkar Village",
-        [616]="Hyjal",
+        [616]="Mount Hyjal",
         [618]="Winterspring",
         [636]="Blackwolf River",
         [637]="Kodo Rock",
@@ -1244,6 +1245,7 @@ l10n.zoneLookup = {
         [6452]="Camp Narache",
         [6453]="Echo Isles",
         [6456]="Ammen Vale",
+        [16651]="Shen'dralas",
     },
     [13]={
         [3817]="Test Dungeon",
