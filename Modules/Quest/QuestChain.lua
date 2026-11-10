@@ -17,17 +17,20 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
 
 ---Whether a quest's doable state rules it out for the player for good, unlike a missing level or prequest.
+---A quest that a turned-in quest made unavailable counts too, unlike one an active quest blocks.
 ---@param doableState number A QuestieDB.DoableStates value
 ---@return boolean
 local function _IsRuledOutForPlayer(doableState)
     local DoableStates = QuestieDB.DoableStates
     return doableState == DoableStates.WRONG_RACE or doableState == DoableStates.WRONG_CLASS or
-        doableState == DoableStates.PROFESSION_MISSING or doableState == DoableStates.PROFESSION_SPECIALIZATION
+        doableState == DoableStates.PROFESSION_MISSING or doableState == DoableStates.PROFESSION_SPECIALIZATION or
+        doableState == DoableStates.EXCLUSIVE_COMPLETED or doableState == DoableStates.DISABLING_QUEST_COMPLETED
 end
 
 ---Follows nextQuestInChain from a quest and returns the follow-up quests in chain order. The walk stops before
 ---a quest missing from the database, a quest Questie hides, a quest the player's race, class or professions
----rule out, and a quest it already passed, so a chain that loops back ends instead of repeating forever.
+---rule out, a quest a turned-in quest made unavailable, and a quest it already passed, so a chain that loops
+---back ends instead of repeating forever.
 ---@param questId QuestId
 ---@return QuestId[] nextQuestIds Empty when the quest has no follow-up the player could take
 function QuestChain.GetNextQuests(questId)

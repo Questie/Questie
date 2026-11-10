@@ -49,8 +49,11 @@ describe("QuestChain", function()
             AVAILABLE = 0,
             WRONG_RACE = 6,
             WRONG_CLASS = 8,
+            EXCLUSIVE_COMPLETED = 14,
+            EXCLUSIVE_IN_QUEST_LOG = 15,
             PROFESSION_SPECIALIZATION = 17,
             LEVEL_TOO_LOW = 26,
+            DISABLING_QUEST_COMPLETED = 27,
             PROFESSION_MISSING = 29,
         }
         QuestieDB.QueryQuestSingle = function(questId, key)
@@ -122,7 +125,8 @@ describe("QuestChain", function()
             assert.are_same({2}, QuestChain.GetNextQuests(1))
         end)
 
-        for _, stateName in ipairs({"WRONG_RACE", "WRONG_CLASS", "PROFESSION_MISSING", "PROFESSION_SPECIALIZATION"}) do
+        for _, stateName in ipairs({"WRONG_RACE", "WRONG_CLASS", "PROFESSION_MISSING", "PROFESSION_SPECIALIZATION",
+                                    "EXCLUSIVE_COMPLETED", "DISABLING_QUEST_COMPLETED"}) do
             it("should stop before a quest the player cannot take because of " .. stateName, function()
                 nextQuestInChain[1] = 2
                 nextQuestInChain[2] = 3
@@ -139,6 +143,15 @@ describe("QuestChain", function()
             nextQuestInChain[3] = 0
             doableStates[2] = QuestieDB.DoableStates.LEVEL_TOO_LOW
             doableStates[3] = QuestieDB.DoableStates.LEVEL_TOO_LOW
+
+            assert.are_same({2, 3}, QuestChain.GetNextQuests(1))
+        end)
+
+        it("should keep a quest that an exclusive quest in the quest log blocks", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 0
+            doableStates[3] = QuestieDB.DoableStates.EXCLUSIVE_IN_QUEST_LOG
 
             assert.are_same({2, 3}, QuestChain.GetNextQuests(1))
         end)
