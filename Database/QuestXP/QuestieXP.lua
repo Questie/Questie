@@ -19,8 +19,6 @@ QuestXP.db = type(support) == "table" and support.db or nil
 local floor = floor
 local UnitLevel = UnitLevel
 
-local globalXPMultiplier = 1
-
 local _GetBuffMultiplier
 
 ---@return false|nil valid @Nil on success; false stops initialization.
@@ -28,15 +26,6 @@ local _GetBuffMultiplier
 function QuestXP.Init()
     local valid, report = SupportValidation.ValidateQuestXP(QuestXP.db, Expansions.Current)
     if not valid then return false, report end
-
-    if Expansions.Current >= Expansions.Wotlk then
-        -- Handle Fast Track "Guild Perk"
-        -- We don't check for Rank 1, because Blizzard made Rank 2 active for all characters
-        local isFastTrackActive = IsSpellKnown(78632) -- Fast Track (Rank 2)
-        if isFastTrackActive then
-            globalXPMultiplier = globalXPMultiplier + 0.1 -- 10% bonus XP
-        end
-    end
 end
 
 ---Skips aura reads during Forever combat; other clients retain their normal money-bonus check.
@@ -54,50 +43,63 @@ end
 
 ---@param xp XP
 ---@param qLevel Level
+---@param showXPAtMaxLevel boolean
 ---@param ignorePlayerLevel boolean
 ---@return XP experience
-local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
+local function getAdjustedXP(xp, qLevel, showXPAtMaxLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player")
-    if charLevel == GetMaxPlayerLevel() and (not ignorePlayerLevel) then
+    if charLevel == GetMaxPlayerLevel() and (not showXPAtMaxLevel) then
         return 0
     end
 
-    --? These calculations are fetched from cmangos
-    local xpMultiplier = 2 * (qLevel - charLevel) + 20
-    if (xpMultiplier < 1) then
-        xpMultiplier = 1
-    elseif (xpMultiplier > 10) then
-        xpMultiplier = 10
+    if ignorePlayerLevel then
+        return xp
     end
 
-    xp = xp * xpMultiplier / 10
-    --? I am unsure if the first xp <= 100 is actually correct... because some 85 xp quests should actually give 90
-    if (xp <= 100) then
-        xp = 5 * floor((xp + 2) / 5)
-    elseif (xp <= 500) then
-        xp = 10 * floor((xp + 5) / 10)
-    elseif (xp <= 1000) then
-        xp = 25 * floor((xp + 12) / 25)
+    if Questie.IsForever then
+        -- In Forever trivial quests give half their XP
+        if QuestieDB.IsTrivial(qLevel) then
+            xp = floor(xp / 20) * 10 -- round down to multiple of 10
+        end
     else
-        xp = 50 * floor((xp + 25) / 50)
+        --? These calculations are fetched from cmangos
+        local xpMultiplier = 2 * (qLevel - charLevel) + 20
+        if (xpMultiplier < 1) then
+            xpMultiplier = 1
+        elseif (xpMultiplier > 10) then
+            xpMultiplier = 10
+        end
+
+        xp = xp * xpMultiplier / 10
+        --? I am unsure if the first xp <= 100 is actually correct... because some 85 xp quests should actually give 90
+        if (xp <= 100) then
+            xp = 5 * floor((xp + 2) / 5)
+        elseif (xp <= 500) then
+            xp = 10 * floor((xp + 5) / 10)
+        elseif (xp <= 1000) then
+            xp = 25 * floor((xp + 12) / 25)
+        else
+            xp = 50 * floor((xp + 25) / 50)
+        end
     end
 
-    return floor(xp * (globalXPMultiplier + _GetBuffMultiplier()))
+    return floor(xp * _GetBuffMultiplier())
 end
 
 
 ---Get the adjusted XP for a quest.
 ---@param questId QuestId
+---@param showXPAtMaxLevel boolean
 ---@param ignorePlayerLevel boolean
 ---@return XP experience
-function QuestXP:GetQuestLogRewardXP(questId, ignorePlayerLevel)
+function QuestXP:GetQuestLogRewardXP(questId, showXPAtMaxLevel, ignorePlayerLevel)
     if QuestXP.db[questId] then
         local level = QuestXP.db[questId][1]
         local xp = QuestXP.db[questId][2]
 
         --? We have -1 as a level for quests that are event quests and so on for TBC and WOTLK.
         if level > 0 and xp > 0 then
-            return getAdjustedXP(xp, level, ignorePlayerLevel)
+            return getAdjustedXP(xp, level, showXPAtMaxLevel, ignorePlayerLevel)
         end
     end
 
@@ -133,7 +135,17 @@ end
 _GetBuffMultiplier = function()
     if Questie.IsForever and (InCombatLockdown() or IsInInstance()) then return 0 end
 
-    local buffMultiplier = 0
+    local buffMultiplier = 1
+
+    if Expansions.Current >= Expansions.Wotlk then
+        -- Handle Fast Track "Guild Perk"
+        -- We don't check for Rank 1, because Blizzard made Rank 2 active for all characters
+        local isFastTrackActive = IsSpellKnown(78632) -- Fast Track (Rank 2)
+        if isFastTrackActive then
+            buffMultiplier = buffMultiplier + 0.1 -- 10% bonus XP
+        end
+    end
+
     for i = 1, 40 do
         local _, _, stacks, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then
