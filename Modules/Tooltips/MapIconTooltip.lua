@@ -96,18 +96,6 @@ local function FormatLabelWithColon(label)
     end
 end
 
----Icons are removed over several frames, so a quest that just left the quest log can still have some.
----@param iconData IconData
----@return boolean
-local function _HasLeftQuestLog(iconData)
-    if iconData.Type == "available" or iconData.Type == "complete" then
-        return false
-    end
-    local objective = iconData.ObjectiveData
-    return objective ~= nil and objective.Description ~= nil and (not objective.IsPartyObjective)
-        and ActiveQuests.Get(iconData.Id) == nil
-end
-
 local reportedIconWithoutData = false
 
 ---The visible icons around a spot, as a hovered icon's tooltip lists them: those of the spot's zone within
@@ -153,8 +141,7 @@ function MapIconTooltip.IconsNear(onMinimap, areaId, x, y, keep)
         if icon ~= keep and (icon.hidden or icon.texture.a == 0) then
             return
         end
-        if icon.x and icon.AreaID == areaId and QuestieLib:Maxdist(icon.x, icon.y, x, y) < maxDistCluster
-            and not _HasLeftQuestLog(icon.data) then
+        if icon.x and icon.AreaID == areaId and QuestieLib:Maxdist(icon.x, icon.y, x, y) < maxDistCluster then
             icons[#icons + 1] = icon
         end
     end
@@ -239,7 +226,9 @@ function MapIconTooltip.ShowForIcons(owner, icons, tooltip)
 
             local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
             npcAndObjectOrder[iconData.Name][tip.title] = tip
-        elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
+        -- Icons are removed over several frames, so a quest that just left the quest log can still have some
+        elseif iconData.ObjectiveData and iconData.ObjectiveData.Description
+            and (iconData.ObjectiveData.IsPartyObjective or ActiveQuests.Get(iconData.Id)) then
             local key = iconData.Id
             if not questOrder[key] then
                 questOrder[key] = {};

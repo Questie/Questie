@@ -232,6 +232,18 @@ describe("MapIconTooltip objective wording", function()
         assert.spy(update).was.not_called()
     end)
 
+    it("should not list the objectives of a quest that left the quest log for the icons it is given", function()
+        local update = spy.new(function() end)
+        objective.Update = update
+        ActiveQuests.Remove(1)
+
+        -- A minimap path, a quest area and a refresh list their icons without looking around them.
+        MapIconTooltip.ShowForIcons(icon, {icon}, GameTooltip)
+
+        assert.is_nil(GameTooltip.questOrder[1])
+        assert.spy(update).was.not_called()
+    end)
+
     it("should list the objectives of a party member's quest the player does not have", function()
         objective.IsPartyObjective = true
         objective.NativeText = "9/15 Windstone Cluster"
