@@ -1,5 +1,7 @@
 dofile("setupTests.lua")
 
+-- luacheck: globals pending
+
 local Harness = dofile("test/MapTooltipDropHarness.lua")
 
 describe("MapIconTooltip quest-item drop cases", function()
@@ -101,7 +103,7 @@ describe("MapIconTooltip quest-item drop cases", function()
         describe(case.id, function()
             before_each(function()
                 SetupTooltipEnv()
-                _, DropDB = Harness.LoadDropDB(case)
+                DropDB = select(2, Harness.LoadDropDB(case))
             end)
 
             it("resolves DropDB rates for every known source NPC", function()
@@ -180,7 +182,7 @@ describe("MapIconTooltip quest-item drop cases", function()
         describe(case.id .. " (Forever DropTables gap)", function()
             before_each(function()
                 SetupTooltipEnv()
-                _, DropDB = Harness.LoadDropDB(case)
+                DropDB = select(2, Harness.LoadDropDB(case))
             end)
 
             it("has no DropDB rate for known source NPCs today", function()
@@ -214,7 +216,7 @@ describe("MapIconTooltip quest-item drop cases", function()
                     corrections = case.provisionalCorrection,
                     sources = case.sources,
                 }
-                _, DropDB = Harness.LoadDropDB(filled)
+                DropDB = select(2, Harness.LoadDropDB(filled))
                 local icons = Harness.BuildIcons(case)
                 MapIconTooltip.ShowOnTooltip(icons[1], GameTooltip, nil, icons)
                 local tipRow = GameTooltip.questOrder[case.questId][1]
@@ -264,7 +266,7 @@ describe("MapIconTooltip quest-item drop cases", function()
             case = Harness.Case("consumed-by-hatred-tusks")
             SetupTooltipEnv()
             -- Hierarchy is corrections > cmangos > wowhead; without Era corrections cmangos wins.
-            _, DropDB = Harness.LoadDropDB(case, {useCorrections = false})
+            DropDB = select(2, Harness.LoadDropDB(case, {useCorrections = false}))
         end)
 
         it("falls back to cmangos rates and formats them for the tip", function()
@@ -310,7 +312,7 @@ describe("MapIconTooltip quest-item drop cases", function()
                 cmangos = {},
                 sources = classicSources,
             }
-            _, DropDB = Harness.LoadDropDB(wowheadOnly, {useCorrections = false})
+            DropDB = select(2, Harness.LoadDropDB(wowheadOnly, {useCorrections = false}))
             local icons, _ = Harness.BuildIcons(case, classicSources)
             for _, source in ipairs(classicSources) do
                 local drop = DropDB.GetItemDroprate(case.itemId, source.npcId)
