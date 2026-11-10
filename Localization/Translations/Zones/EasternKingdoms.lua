@@ -604,6 +604,18 @@ local easternKingdomsLocales = {
         ["zhCN"] = "北郡",
         ["zhTW"] = "北郡",
     },
+    ["Riverglades"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Flusslande",
+        ["esES"] = "Clarofluvial",
+        ["esMX"] = "Claros del Río",
+        ["frFR"] = "Rives Claires",
+        ["koKR"] = "강물터",
+        ["ptBR"] = "Sendas do Rio",
+        ["ruRU"] = "Лесоречье",
+        ["zhCN"] = "河林",
+        ["zhTW"] = "大河林地",
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do

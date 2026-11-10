@@ -424,6 +424,18 @@ local kalimdorLocales = {
         ["zhCN"] = "纳拉其营地",
         ["zhTW"] = "納拉其營地",
     },
+    ["Shen'dralas"] = {
+        ["enUS"] = true,
+        ["deDE"] = true,
+        ["esES"] = true,
+        ["esMX"] = true,
+        ["frFR"] = "Shen’dralas",
+        ["koKR"] = "셴드랄라스",
+        ["ptBR"] = true,
+        ["ruRU"] = "Шен'дралас",
+        ["zhCN"] = "辛德拉",
+        ["zhTW"] = "申德拉斯",
+    },
 }
 
 for k, v in pairs(kalimdorLocales) do
