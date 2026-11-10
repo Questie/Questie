@@ -741,6 +741,14 @@ end
 
 _MinimapIconFadeLogic = function(self)
     local profile = Questie.db.profile
+    local data = self.data
+    local iconType = data and data.Type
+    local iconFadeLevel = profile.iconFadeLevel
+    if profile.hideUnfocusedQuestObjectiveIcons
+        and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item")
+    then
+        iconFadeLevel = 0
+    end
     if self.miniMapIcon and self.x and self.y and self.UiMapID and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
         if (QuestieMap.playerX and QuestieMap.playerY) then
             local x, y
@@ -758,16 +766,19 @@ _MinimapIconFadeLogic = function(self)
 
                 if (distance > profile.fadeLevel) then
                     local fade = 1 - (math.min(10, (distance - profile.fadeLevel)) * normalizedValue);
+                    if self.faded and fade > iconFadeLevel then
+                        fade = iconFadeLevel
+                    end
                     self:SetFade(fade)
                 elseif (distance < profile.fadeOverPlayerDistance) and profile.fadeOverPlayer then
                     local fadeAmount = profile.fadeOverPlayerLevel + distance * (1 - profile.fadeOverPlayerLevel) / profile.fadeOverPlayerDistance
-                    if self.faded and fadeAmount > profile.iconFadeLevel then
-                        fadeAmount = profile.iconFadeLevel
+                    if self.faded and fadeAmount > iconFadeLevel then
+                        fadeAmount = iconFadeLevel
                     end
                     self:SetFade(fadeAmount)
                 else
                     if self.faded then
-                        self:SetFade(profile.iconFadeLevel)
+                        self:SetFade(iconFadeLevel)
                     else
                         self:SetFade(1)
                     end
@@ -775,7 +786,7 @@ _MinimapIconFadeLogic = function(self)
             end
         else
             if self.faded then
-                self:SetFade(profile.iconFadeLevel)
+                self:SetFade(iconFadeLevel)
             else
                 self:SetFade(1)
             end

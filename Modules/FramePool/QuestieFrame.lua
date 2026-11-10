@@ -415,12 +415,22 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.FadeOut(self)
-    if not self.faded then
+    local profile = Questie.db.profile
+    local data = self.data
+    local iconType = data and data.Type
+    local fadeLevel = profile.iconFadeLevel
+    if profile.hideUnfocusedQuestObjectiveIcons
+        and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item")
+    then
+        fadeLevel = 0
+    end
+
+    local r, g, b, alpha = self.texture:GetVertexColor()
+    if not self.faded or alpha ~= fadeLevel then
         self.faded = true
-        local r, g, b = self.texture:GetVertexColor()
-        self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
+        self.texture:SetVertexColor(r, g, b, fadeLevel)
         r, g, b = self.glowTexture:GetVertexColor()
-        self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
+        self.glowTexture:SetVertexColor(r, g, b, fadeLevel)
         QuestieWaypoints.OwnerChanged(self)
     end
 end

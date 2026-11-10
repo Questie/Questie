@@ -169,8 +169,10 @@ function QuestieQuest:ShowQuestIcons()
     assert(coroutine.running(), "ShowQuestIcons must be called from a coroutine")
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
+    local focusedQuestId = Questie.db.char.TrackerFocus
     local questCount = 0
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
+        local fadeIcons = focusedQuestId and questId ~= focusedQuestId and ActiveQuests.Get(questId) ~= nil
         if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
             for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 ---@type IconFrame
@@ -180,7 +182,7 @@ function QuestieQuest:ShowQuestIcons()
                     if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
                         icon:FakeShow()
                     end
-                    if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
+                    if fadeIcons and icon.data.Type ~= "complete" then
                         icon:FadeOut()
                     else
                         icon:FadeIn()
@@ -210,22 +212,28 @@ function _QuestieQuest:ShowManualIcons()
     end
 end
 
---- Hides all quest icons. Needs to be called from a coroutine
+---Applies current quest icon visibility, restoring icons made eligible by a focus change. Needs a coroutine.
 function QuestieQuest:HideQuestIcons()
     assert(coroutine.running(), "HideQuestIcons must be called from a coroutine")
 
+    local focusedQuestId = Questie.db.char.TrackerFocus
     local questCount = 0
-    for _, frameList in pairs(QuestieMap.questIdFrames) do
+    for questId, frameList in pairs(QuestieMap.questIdFrames) do
+        local fadeIcons = focusedQuestId and questId ~= focusedQuestId and ActiveQuests.Get(questId) ~= nil
         for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
-            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
-                -- Hides Objective Icons
-                icon:FakeHide()
-            end
-            if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
-                icon:FadeOut()
-            else
-                icon:FadeIn()
+            if icon ~= nil then
+                if icon:ShouldBeHidden() then
+                    icon:FakeHide()
+                elseif icon.hidden then
+                    -- Focusing overrides the quest's saved hidden preference. Restore its frame as well as its opacity.
+                    icon:FakeShow()
+                end
+                if fadeIcons and icon.data.Type ~= "complete" then
+                    icon:FadeOut()
+                else
+                    icon:FadeIn()
+                end
             end
         end
 
