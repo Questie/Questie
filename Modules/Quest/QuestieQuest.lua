@@ -166,29 +166,25 @@ function QuestieQuest.ToggleQuestNotes(showIcons)
     end)
 end
 
---- Shows all quest icons. Needs to be called from a coroutine.
-function QuestieQuest:ShowQuestIcons()
-    assert(coroutine.running(), "ShowQuestIcons must be called from a coroutine")
-
-    local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
-    local focusedQuestId = Questie.db.char.TrackerFocus
+---Reconciles existing frames with all visibility filters. Must run in a coroutine.
+local function _RefreshQuestIcons()
     local questCount = 0
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
+        local focusedQuestId = Questie.db.char.TrackerFocus
         local fadeIcons = focusedQuestId and questId ~= focusedQuestId and ActiveQuests.Get(questId) ~= nil
-        if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
-            for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-                ---@type IconFrame
-                local icon = _G[frameName];
-                local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
-                    if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                        icon:FakeShow()
-                    end
-                    if fadeIcons and icon.data.Type ~= "complete" then
-                        icon:FadeOut()
-                    else
-                        icon:FadeIn()
-                    end
+        for _, frameName in pairs(frameList) do
+            ---@type IconFrame
+            local icon = _G[frameName]
+            if icon ~= nil then
+                if icon:ShouldBeHidden() then
+                    icon:FakeHide()
+                elseif icon.hidden then
+                    icon:FakeShow()
+                end
+                if fadeIcons and icon.data.Type ~= "complete" then
+                    icon:FadeOut()
+                else
+                    icon:FadeIn()
                 end
             end
         end
@@ -201,6 +197,12 @@ function QuestieQuest:ShowQuestIcons()
     end
     -- Quest-giver patrols depend on focus too, even when none of their icons changed opacity.
     QuestieWaypoints.Refresh()
+end
+
+---Shows eligible quest icons and reapplies the other visibility filters. Needs a coroutine.
+function QuestieQuest:ShowQuestIcons()
+    assert(coroutine.running(), "ShowQuestIcons must be called from a coroutine")
+    _RefreshQuestIcons()
 end
 
 function _QuestieQuest:ShowManualIcons()
@@ -219,35 +221,7 @@ end
 ---Applies current quest icon visibility, restoring icons made eligible by a focus change. Needs a coroutine.
 function QuestieQuest:HideQuestIcons()
     assert(coroutine.running(), "HideQuestIcons must be called from a coroutine")
-
-    local focusedQuestId = Questie.db.char.TrackerFocus
-    local questCount = 0
-    for questId, frameList in pairs(QuestieMap.questIdFrames) do
-        local fadeIcons = focusedQuestId and questId ~= focusedQuestId and ActiveQuests.Get(questId) ~= nil
-        for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-            local icon = _G[frameName];
-            if icon ~= nil then
-                if icon:ShouldBeHidden() then
-                    icon:FakeHide()
-                elseif icon.hidden then
-                    -- Focusing overrides the quest's saved hidden preference. Restore its frame as well as its opacity.
-                    icon:FakeShow()
-                end
-                if fadeIcons and icon.data.Type ~= "complete" then
-                    icon:FadeOut()
-                else
-                    icon:FadeIn()
-                end
-            end
-        end
-
-        questCount = questCount + 1
-        if questCount >= TICKS_PER_YIELD then
-            questCount = 0
-            coYield()
-        end
-    end
-    QuestieWaypoints.Refresh()
+    _RefreshQuestIcons()
 end
 
 function _QuestieQuest:HideManualIcons()

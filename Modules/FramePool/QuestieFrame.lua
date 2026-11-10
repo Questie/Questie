@@ -15,6 +15,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
@@ -415,22 +417,12 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.FadeOut(self)
-    local profile = Questie.db.profile
-    local data = self.data
-    local iconType = data and data.Type
-    local fadeLevel = profile.iconFadeLevel
-    if profile.hideUnfocusedQuestObjectiveIcons
-        and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item")
-    then
-        fadeLevel = 0
-    end
-
-    local r, g, b, alpha = self.texture:GetVertexColor()
-    if not self.faded or alpha ~= fadeLevel then
+    if not self.faded then
         self.faded = true
-        self.texture:SetVertexColor(r, g, b, fadeLevel)
+        local r, g, b = self.texture:GetVertexColor()
+        self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         r, g, b = self.glowTexture:GetVertexColor()
-        self.glowTexture:SetVertexColor(r, g, b, fadeLevel)
+        self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         QuestieWaypoints.OwnerChanged(self)
     end
 end
@@ -490,6 +482,7 @@ function _QuestieFrame.ShouldBeHidden(self)
     local data = self.data
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
+    local focusedQuestId = Questie.db.char.TrackerFocus
 
     local IsSoD = Questie.IsSoD
 
@@ -509,6 +502,9 @@ function _QuestieFrame.ShouldBeHidden(self)
         or ((not profile.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
         or (profile.hideUnexploredMapIcons and not QuestieMap.utils.IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
         or (profile.hideUntrackedQuestsMapIcons and iconType ~= "available" and not QuestieQuest:ShouldShowQuestNotes(questId)) -- Hides untracked map icons
+        or (profile.hideUnfocusedQuestObjectiveIcons and focusedQuestId and questId ~= focusedQuestId
+            and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item")
+            and ActiveQuests.Get(questId))
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).

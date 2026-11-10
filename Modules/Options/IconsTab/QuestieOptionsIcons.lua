@@ -151,7 +151,7 @@ function QuestieOptions.tabs.icons:Initialize()
                 order = 1.4,
                 name = function() return l10n("Only show focused quest objective icons"); end,
                 desc = function()
-                    return l10n("When a quest is focused, make other quests' map and minimap objective icons fully transparent.")
+                    return l10n("When a quest is focused, hide other quests' objective icons.")
                 end,
                 width = 1.6,
                 disabled = function() return (not Questie.db.profile.enabled); end,

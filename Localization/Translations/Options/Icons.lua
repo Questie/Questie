@@ -206,7 +206,7 @@ local iconOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
-    ["When a quest is focused, make other quests' map and minimap objective icons fully transparent."] = {
+    ["When a quest is focused, hide other quests' objective icons."] = {
         ["enUS"] = true,
         ["deDE"] = false,
         ["esES"] = false,

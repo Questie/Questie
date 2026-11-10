@@ -14,8 +14,11 @@ describe("QuestieFrame", function()
 
     ---@type IconFrame
     local QuestieFrameInstance
+    local savedFocus
 
     before_each(function()
+        savedFocus = Questie.db.char.TrackerFocus
+        Questie.db.char.TrackerFocus = nil
         Questie.db.profile = {
             enabled = true,
             enableMapIcons = true,
@@ -47,6 +50,7 @@ describe("QuestieFrame", function()
 
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ShouldShowQuestNotes = function() return true end
+        QuestieLoader:ImportModule("ActiveQuests").Get = function() end
 
         QuestieLoader:ImportModule("DailyQuests")
 
@@ -62,6 +66,10 @@ describe("QuestieFrame", function()
                 Id = 123,
             }
         }
+    end)
+
+    after_each(function()
+        Questie.db.char.TrackerFocus = savedFocus
     end)
 
     it("passes the clicked quest name and ID to the hide confirmation", function()
@@ -365,13 +373,44 @@ describe("QuestieFrame", function()
             assert.is_true(result)
         end)
 
-        it("should return true when icon type is monster and objective icons are disabled", function()
+        it("should respect objective visibility and the focused quest on both maps", function()
             Questie.db.profile.enableObjectives = false
             QuestieFrameInstance.data.Type = "monster"
 
             local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
 
             assert.is_true(result)
+
+            Questie.db.profile.enableObjectives = true
+            Questie.db.profile.hideUnfocusedQuestObjectiveIcons = true
+            ---@type ActiveQuests
+            local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
+            ActiveQuests.Get = function(id) return id == 123 and {} or nil end
+
+            for _, iconType in ipairs({"monster", "object", "event", "item"}) do
+                QuestieFrameInstance.data.Type = iconType
+                for _, minimap in ipairs({false, true}) do
+                    QuestieFrameInstance.miniMapIcon = minimap
+                    Questie.db.char.TrackerFocus = 456
+                    assert.is_true(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+                    Questie.db.char.TrackerFocus = 123
+                    assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+                    Questie.db.char.TrackerFocus = nil
+                    assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+                end
+            end
+
+            Questie.db.char.TrackerFocus = 456
+            Questie.db.profile.hideUnfocusedQuestObjectiveIcons = false
+            assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            Questie.db.profile.hideUnfocusedQuestObjectiveIcons = true
+            for _, iconType in ipairs({"available", "complete", "manual"}) do
+                QuestieFrameInstance.data.Type = iconType
+                assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            end
+            QuestieFrameInstance.data.Type = "monster"
+            ActiveQuests.Get = function() end
+            assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
         end)
 
         it("should return true when icon type is object and objective icons are disabled", function()

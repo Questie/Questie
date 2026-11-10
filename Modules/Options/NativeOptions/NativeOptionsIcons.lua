@@ -120,7 +120,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         type = "checkbox",
                         order = 1.4,
                         title = "Only show focused quest objective icons",
-                        tooltip = "When a quest is focused, make other quests' map and minimap objective icons fully transparent.",
+                        tooltip = "When a quest is focused, hide other quests' objective icons.",
                         width = "full",
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.hideUnfocusedQuestObjectiveIcons end,

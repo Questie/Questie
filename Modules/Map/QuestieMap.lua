@@ -24,8 +24,6 @@ local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
 local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type ActiveQuests
-local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -696,16 +694,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
         iconMinimap.FadeLogic = _MinimapIconFadeLogic
     end
 
-    -- New or redrawn objectives must respect focus before their first draw, without waiting for a full icon refresh.
-    local focusedQuestId = Questie.db.char.TrackerFocus
-    if Questie.db.profile.hideUnfocusedQuestObjectiveIcons and focusedQuestId and data.Id ~= focusedQuestId
-        and ActiveQuests.Get(data.Id)
-        and (data.Type == "monster" or data.Type == "object" or data.Type == "event" or data.Type == "item")
-    then
-        iconMap:FadeOut()
-        iconMinimap:FadeOut()
-    end
-
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, uiMapId, x / 100, y / 100, true, floatOnEdge)
     QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, uiMapId, x / 100, y / 100, showFlag)
     local r, g, b = iconMinimap.texture:GetVertexColor()
@@ -753,14 +741,6 @@ end
 
 _MinimapIconFadeLogic = function(self)
     local profile = Questie.db.profile
-    local data = self.data
-    local iconType = data and data.Type
-    local iconFadeLevel = profile.iconFadeLevel
-    if profile.hideUnfocusedQuestObjectiveIcons
-        and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item")
-    then
-        iconFadeLevel = 0
-    end
     if self.miniMapIcon and self.x and self.y and self.UiMapID and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
         if (QuestieMap.playerX and QuestieMap.playerY) then
             local x, y
@@ -778,19 +758,16 @@ _MinimapIconFadeLogic = function(self)
 
                 if (distance > profile.fadeLevel) then
                     local fade = 1 - (math.min(10, (distance - profile.fadeLevel)) * normalizedValue);
-                    if self.faded and fade > iconFadeLevel then
-                        fade = iconFadeLevel
-                    end
                     self:SetFade(fade)
                 elseif (distance < profile.fadeOverPlayerDistance) and profile.fadeOverPlayer then
                     local fadeAmount = profile.fadeOverPlayerLevel + distance * (1 - profile.fadeOverPlayerLevel) / profile.fadeOverPlayerDistance
-                    if self.faded and fadeAmount > iconFadeLevel then
-                        fadeAmount = iconFadeLevel
+                    if self.faded and fadeAmount > profile.iconFadeLevel then
+                        fadeAmount = profile.iconFadeLevel
                     end
                     self:SetFade(fadeAmount)
                 else
                     if self.faded then
-                        self:SetFade(iconFadeLevel)
+                        self:SetFade(profile.iconFadeLevel)
                     else
                         self:SetFade(1)
                     end
@@ -798,7 +775,7 @@ _MinimapIconFadeLogic = function(self)
             end
         else
             if self.faded then
-                self:SetFade(iconFadeLevel)
+                self:SetFade(profile.iconFadeLevel)
             else
                 self:SetFade(1)
             end
