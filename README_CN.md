@@ -52,7 +52,6 @@ Questie 拥有《魔兽世界》经典怀旧服所有官方语言的翻译版本
 ### 安装 Lua
 
 1. 安装 [Lua](https://www.lua.org/download.html) (5.1, 因为《魔兽世界》客户端使用 Lua 5.1)
-   - 对于 macOS 系统，使用命令`brew install lua@5.1`
 2. 安装 [luarocks](https://luarocks.org/)
    - 对于 macOS 系统，使用命令`brew install luarocks`
 3. 配置 `luarocks` 以使用正确的 Lua 版本（默认情况下，luarocks 使用最新安装的 Lua 版本）

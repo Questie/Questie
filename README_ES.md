@@ -51,7 +51,6 @@ Siguiendo [esta guía](https://github.com/Questie/Questie/wiki/Localization-to-m
 ### Instalando Lua
 
 1. Instala [Lua](https://www.lua.org/download.html) (5.1, ya que el cliente de WoW usa Lua 5.1)
-   - En macOS eso es `brew install lua@5.1`
 2. Instala [luarocks](https://luarocks.org/)
    - En macOS eso es `brew install luarocks`
 3. Configura `luarocks` para usar la versión correcta de Lua (por defecto luarocks usa la versión más reciente instalada)
