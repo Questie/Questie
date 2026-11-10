@@ -24,6 +24,11 @@ function AvailableQuests.IsLevelRequirementsFulfilled(questId, minLevel, maxLeve
     end
 
     local level, requiredLevel, requiredMaxLevel = QuestieLib.GetEffectiveQuestLevel(questId, playerLevel)
+    -- Don't spam the map with icons of quests with requiredLevel 0
+    if requiredLevel == 0 then 
+        Questie.Debug(Questie.DEBUG_ELEVATED, "Field requiredLevel is missing for quest id: ", questId)
+        requiredLevel = level
+    end
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuestId and ActiveQuests.Get(parentQuestId) then
