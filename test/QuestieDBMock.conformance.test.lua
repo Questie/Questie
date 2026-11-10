@@ -1027,7 +1027,7 @@ describe("Forever race encoding across provider and consumer", function()
     end)
 
     it("preserves a Skyborne-only restriction through composed reads without allowing Humans", function()
-        local mask = QuestieDB.QueryQuestSingle(94006, "requiredRaces")
+        local mask = QuestieDB.QueryQuestSingle(94007, "requiredRaces")
 
         assert.are_same(12884901888, mask)
         assert.is_true(QuestiePlayer.HasRequiredRace(mask))
