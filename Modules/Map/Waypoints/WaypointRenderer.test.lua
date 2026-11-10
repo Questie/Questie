@@ -5,6 +5,8 @@ describe("WaypointRenderer", function()
     local WaypointRenderer
     ---@type WaypointGeometry
     local WaypointGeometry
+    ---@type MapGeometry
+    local MapGeometry
     local saved
     local createdTextures, bands
     -- The client's vertex indexes (Blizzard_FrameXMLBase Constants.lua).
@@ -77,8 +79,10 @@ describe("WaypointRenderer", function()
         _G.DrawLine = function(texture, _, _, _, _, _, thickness) table.insert(bands, {texture = texture, thickness = thickness}) end
         Questie.db.profile.waypointSmoothing = 0.5
         dofile("Modules/Libs/QuestieLib.lua")
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         dofile("Modules/Map/Waypoints/WaypointRenderer.lua")
+        MapGeometry = QuestieLoader:ImportModule("MapGeometry")
         WaypointGeometry = QuestieLoader:ImportModule("WaypointGeometry")
         WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
     end)
@@ -94,8 +98,8 @@ describe("WaypointRenderer", function()
 
         -- The tolerances follow the line's width; the curve fits the quads, fade included.
         local smoothed = WaypointGeometry.Smooth(BEND, Questie.db.profile.waypointSmoothing * 2, 2 * QUAD_SCALE)
-        local trimmed = WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * 2)
-        local expected = WaypointGeometry.Quads(trimmed, 2 * QUAD_SCALE)
+        local trimmed = MapGeometry.Simplify(smoothed, WaypointRenderer.TRIMMING * 2)
+        local expected = MapGeometry.Quads(trimmed, 2 * QUAD_SCALE)
         assert.is_true(#expected > 2)
         assert.are.equal(#expected, #view.lines)
         for i, line in ipairs(view.lines) do
@@ -238,7 +242,8 @@ describe("WaypointRenderer", function()
         WaypointRenderer.RedrawAll()
 
         local smoothed = WaypointGeometry.Smooth(BEND, 0.5 * 2, 2 * QUAD_SCALE)
-        local expected = WaypointGeometry.Quads(WaypointGeometry.Trim(smoothed, WaypointRenderer.TRIMMING * 2), 2 * QUAD_SCALE)
+        local expected = MapGeometry.Quads(MapGeometry.Simplify(smoothed, WaypointRenderer.TRIMMING * 2),
+            2 * QUAD_SCALE)
         assert.is_true(#expected > 2)
         assert.are.equal(#expected, #view.lines)
         for _, line in ipairs(view.lines) do

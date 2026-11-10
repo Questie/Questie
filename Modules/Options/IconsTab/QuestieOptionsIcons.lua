@@ -24,6 +24,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 QuestieOptions.tabs.icons = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -146,6 +148,57 @@ function QuestieOptions.tabs.icons:Initialize()
                             end
                         end
                     end)
+                end,
+            },
+            polygonSpacer = {
+                type = "description",
+                order = 1.31,
+                name = "",
+                desc = "",
+                image = "",
+                imageWidth = 0.06,
+                width = 0.06,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                func = function() end,
+            },
+            -- Only meaningful for the Questie blobs preset; clicked markers override it per objective.
+            showPolygonsOnAcceptToggle = {
+                type = "toggle",
+                order = 1.32,
+                name = function() return l10n("Show quest areas when accepted"); end,
+                desc = function() return l10n("When unchecked, quest areas only show while you are near them. Click a map marker to always show or hide its areas."); end,
+                width = 1.6,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                disabled = function() return (not Questie.db.profile.enabled); end,
+                get = function() return Questie.db.profile.showPolygonsOnAccept; end,
+                set = function(_, value)
+                    Questie.db.profile.showPolygonsOnAccept = value
+                    QuestiePolygon.RefreshVisibility()
+                end,
+            },
+            polygonAreaTooltipsSpacer = {
+                type = "description",
+                order = 1.33,
+                name = "",
+                desc = "",
+                image = "",
+                imageWidth = 0.06,
+                width = 0.06,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                func = function() end,
+            },
+            -- Only meaningful for the Questie blobs preset; read on the next hover.
+            polygonAreaTooltipsToggle = {
+                type = "toggle",
+                order = 1.34,
+                name = function() return l10n("Show quest area tooltips"); end,
+                desc = function() return l10n("Hovering a quest area on the world map lists its quest and objectives."); end,
+                width = 1.6,
+                hidden = function() return not Questie.db.profile.enableQuestiePolygons end,
+                disabled = function() return (not Questie.db.profile.enabled); end,
+                get = function() return Questie.db.profile.polygonAreaTooltips; end,
+                set = function(_, value)
+                    Questie.db.profile.polygonAreaTooltips = value
                 end,
             },
             icon_toggles_group = {
@@ -512,6 +565,7 @@ function QuestieOptions.tabs.icons:Initialize()
                         set = function(info, value)
                             Questie.db.profile.enableMiniMapIcons = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestiePolygon.ScheduleRefresh() -- Minimap areas follow this switch.
                         end,
                     },
                     alwaysGlowMinimap = {
@@ -1342,6 +1396,7 @@ _GetIconThemes = function()
     if Expansions.Current >= Expansions.Wotlk or Questie.IsForever then
         return {
             ["questie"] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
+            ["polygon"] = "|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t " .. l10n("Questie blobs"),
             ["blizzard"] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
             ["pfquest"] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
             ["custom"] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
@@ -1349,6 +1404,7 @@ _GetIconThemes = function()
     else
         return {
             ["questie"] = "|T" .. Questie.icons["complete"] .. ":14|t Questie",
+            ["polygon"] = "|TInterface\\Addons\\Questie\\Icons\\blobs\\BlobPOI.png:14|t " .. l10n("Questie blobs"),
             ["pfquest"] = "|T" .. Questie.icons["node"] .. ":14|t pfQuest",
             ["custom"] = "|T" .. Questie.icons["object"] .. ":16|t " .. l10n("Custom"),
         }
@@ -1359,6 +1415,7 @@ _GetIconThemesSort = function()
     if Expansions.Current >= Expansions.Wotlk or Questie.IsForever then
         return {
             "questie",
+            "polygon",
             "blizzard",
             "pfquest",
             "custom",
@@ -1366,6 +1423,7 @@ _GetIconThemesSort = function()
     else
         return {
             "questie",
+            "polygon",
             "pfquest",
             "custom",
         }
@@ -1373,7 +1431,10 @@ _GetIconThemesSort = function()
 end
 
 function QuestieOptionsUtils.DetermineTheme()
-    if (GetCVar("questPOI") == "1" and Questie.db.profile.enableObjectives == false) then
+    -- Icon customization does not change the selected rendering mode.
+    if Questie.db.profile.enableQuestiePolygons then
+        Questie.db.profile.iconTheme = "polygon"
+    elseif (GetCVar("questPOI") == "1" and Questie.db.profile.enableObjectives == false) then
         Questie.db.profile.iconTheme = "blizzard"
     else
         if (Questie.db.profile.enableObjectives == true and
@@ -1413,7 +1474,8 @@ end
 function QuestieOptionsUtils.ExecuteTheme(info, value)
     Questie.db.profile.iconTheme = value
     local currentQuestPOI = GetCVar("questPOI")
-    if value == "questie" then
+    if value == "questie" or value == "polygon" then
+        Questie.db.profile.enableQuestiePolygons = value == "polygon"
         if currentQuestPOI and currentQuestPOI ~= "0" then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
         end
@@ -1434,6 +1496,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
         Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "pfquest" then
+        Questie.db.profile.enableQuestiePolygons = false
         if currentQuestPOI and currentQuestPOI ~= "0" then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
         end
@@ -1454,6 +1517,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = false
         Questie.db.profile.objectiveFilterDistance = 2
     elseif value == "blizzard" then
+        Questie.db.profile.enableQuestiePolygons = false
         if currentQuestPOI and currentQuestPOI ~= "1" then -- check for Blizzard style objectives
             SetCVar("questPOI", "1")
         end
@@ -1474,7 +1538,10 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
         Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "custom" then
-        return
+        if not Questie.db.profile.enableQuestiePolygons then
+            return
+        end
+        Questie.db.profile.enableQuestiePolygons = false
     end
     Questie:SetIcons()
     QuestieQuest:SmoothReset()

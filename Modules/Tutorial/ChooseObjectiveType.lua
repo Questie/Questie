@@ -4,6 +4,14 @@ local Tutorial = QuestieLoader:ImportModule("Tutorial")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
+---@type ObjectivePreview
+local ObjectivePreview = QuestieLoader:ImportModule("ObjectivePreview")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
+
+local PREVIEW_SIZE = ObjectivePreview.SIZE
+local COLUMN_STEP = PREVIEW_SIZE + 20 -- A preview's width and the gap to the next.
+local PICTURES = "Interface\\Addons\\Questie\\Modules\\Tutorial\\"
 
 local function _LinkPreviewToButton(preview, button)
     preview:RegisterForClicks("LeftButtonUp")
@@ -12,6 +20,7 @@ local function _LinkPreviewToButton(preview, button)
     local border = CreateFrame("Frame", nil, preview, "BackdropTemplate")
     border:SetPoint("TOPLEFT", -4, 4)
     border:SetPoint("BOTTOMRIGHT", 4, -4)
+    border:SetFrameLevel(preview:GetFrameLevel() + 10) -- Above a live preview's map.
     border:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16 })
     border:SetBackdropBorderColor(0.65, 0.65, 0.65, 1)
 
@@ -32,9 +41,44 @@ local function _LinkPreviewToButton(preview, button)
     button:SetScript("OnLeave", ClearHighlight)
 end
 
+---A live map of the style. Should building it fail, the error goes to the error handler with its stack and
+---the popup still offers the choice, over the fallback picture if there is one.
+---@param parent Frame
+---@param style ObjectivePreviewStyle
+---@param fallbackPicture string?
+---@return Button
+local function _CreatePreview(parent, style, fallbackPicture)
+    local ok, preview = xpcall(function() return ObjectivePreview.Create(parent, style) end, CallErrorHandler)
+    if ok then return preview end
+    preview = CreateFrame("Button", nil, parent)
+    preview:SetSize(PREVIEW_SIZE, PREVIEW_SIZE)
+    if fallbackPicture then preview:SetNormalTexture(fallbackPicture) end
+    return preview
+end
+
 function Tutorial.CreateChooseObjectiveTypeFrame()
+    -- Blizzard's own quest objectives came with WotLK Phase 4, and Forever has them too.
+    local hasBlizzardObjectives = ((Expansions.Current >= Expansions.Wotlk) or Questie.IsForever) and GetCVar("questPOI") ~= nil
+    local choices = {
+        {label = "Questie Objectives", preset = "questie", preview = function(parent)
+            return _CreatePreview(parent, "icons", PICTURES .. "onlyQuestie.blp")
+        end},
+        {label = "Questie blobs", preset = "polygon", preview = function(parent)
+            return _CreatePreview(parent, "blobs")
+        end},
+    }
+    if hasBlizzardObjectives then
+        choices[#choices + 1] = {label = "Blizzard Objectives", preset = "blizzard", preview = function(parent)
+            local picture = CreateFrame("Button", nil, parent)
+            picture:SetNormalTexture(PICTURES .. "onlyBlizzard.blp")
+            picture:SetSize(PREVIEW_SIZE, PREVIEW_SIZE)
+            return picture
+        end}
+    end
+    local width = 40 + #choices * COLUMN_STEP
+
     local baseFrame = CreateFrame("Frame", "QuestieTutorialChooseObjectiveType", UIParent)
-    baseFrame:SetSize(760, 400)
+    baseFrame:SetSize(width, 400)
     baseFrame:SetPoint("CENTER", 0, 50)
     baseFrame:SetFrameStrata("HIGH")
     baseFrame:EnableMouse(true)
@@ -51,58 +95,27 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     if Questie.IsForever then
         customText:SetText(l10n("With WoW Forever Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"))
-    else
+    elseif hasBlizzardObjectives then
         customText:SetText(l10n("With WotLK Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"))
+    else
+        customText:SetText(l10n("Questie can show quest objectives as icons or as areas.\n\nPlease choose the objective style you want to use:"))
     end
-    customText:SetWidth(700)
+    customText:SetWidth(width - 60)
     customText:SetPoint("TOP", 0, -54)
 
-    local onlyQuestieImage = CreateFrame("Button", nil, baseFrame)
-    onlyQuestieImage:SetNormalTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyQuestie.blp")
-    onlyQuestieImage:SetSize(220, 220)
-    onlyQuestieImage:SetPoint("TOPLEFT", 30, -112)
+    for index, choice in ipairs(choices) do
+        local preview = choice.preview(baseFrame)
+        preview:SetPoint("TOPLEFT", 30 + (index - 1) * COLUMN_STEP, -112)
 
-    local pdfQuestImage = CreateFrame("Button", nil, baseFrame)
-    pdfQuestImage:SetNormalTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\pfQuest.blp")
-    pdfQuestImage:SetSize(220, 220)
-    pdfQuestImage:SetPoint("TOP", 0, -112)
-
-    local onlyBlizzardImage = CreateFrame("Button", nil, baseFrame)
-    onlyBlizzardImage:SetNormalTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyBlizzard.blp")
-    onlyBlizzardImage:SetSize(220, 220)
-    onlyBlizzardImage:SetPoint("TOPRIGHT", -30, -112)
-
-    local acceptOnlyQuestieButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptOnlyQuestieButton:SetText(l10n("Questie Objectives"))
-    acceptOnlyQuestieButton:SetSize(180, 28)
-    acceptOnlyQuestieButton:SetPoint("TOP", onlyQuestieImage, "BOTTOM", 0, -16)
-    acceptOnlyQuestieButton:SetScript("OnClick", function()
-        Questie.db.global.tutorialObjectiveTypeChosen = true
-        QuestieOptionsUtils.ExecuteTheme(nil, 'questie')
-        baseFrame:Hide()
-    end)
-
-    local acceptPfQuestButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptPfQuestButton:SetText(l10n("pfQuest Objectives"))
-    acceptPfQuestButton:SetSize(180, 28)
-    acceptPfQuestButton:SetPoint("TOP", pdfQuestImage, "BOTTOM", 0, -16)
-    acceptPfQuestButton:SetScript("OnClick", function()
-        Questie.db.global.tutorialObjectiveTypeChosen = true
-        QuestieOptionsUtils.ExecuteTheme(nil, 'pfquest')
-        baseFrame:Hide()
-    end)
-
-    local acceptOnlyBlizzardButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptOnlyBlizzardButton:SetText(l10n("Blizzard Objectives"))
-    acceptOnlyBlizzardButton:SetSize(180, 28)
-    acceptOnlyBlizzardButton:SetPoint("TOP", onlyBlizzardImage, "BOTTOM", 0, -16)
-    acceptOnlyBlizzardButton:SetScript("OnClick", function()
-        Questie.db.global.tutorialObjectiveTypeChosen = true
-        QuestieOptionsUtils.ExecuteTheme(nil, 'blizzard')
-        baseFrame:Hide()
-    end)
-
-    _LinkPreviewToButton(onlyQuestieImage, acceptOnlyQuestieButton)
-    _LinkPreviewToButton(pdfQuestImage, acceptPfQuestButton)
-    _LinkPreviewToButton(onlyBlizzardImage, acceptOnlyBlizzardButton)
+        local button = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
+        button:SetText(l10n(choice.label))
+        button:SetSize(180, 28)
+        button:SetPoint("TOP", preview, "BOTTOM", 0, -16)
+        button:SetScript("OnClick", function()
+            Questie.db.global.tutorialObjectiveStyleWithBlobsChosen = true
+            QuestieOptionsUtils.ExecuteTheme(nil, choice.preset)
+            baseFrame:Hide()
+        end)
+        _LinkPreviewToButton(preview, button)
+    end
 end

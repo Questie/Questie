@@ -311,6 +311,10 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             assert.are_same(provider.Enum.factionRaceMasks, mock.lib.Enum.factionRaceMasks)
         end)
 
+        it("carries the provider's icon types", function()
+            assert.are_same(provider.Enum.iconTypes, mock.lib.Enum.iconTypes)
+        end)
+
         it("carries the provider's Database Key Enums and field types", function()
             for _, metaName in ipairs({"QuestMeta", "NpcMeta", "ItemMeta", "ObjectMeta"}) do
                 local keysName = metaName:sub(1, 1):lower() .. metaName:sub(2, -5) .. "Keys"

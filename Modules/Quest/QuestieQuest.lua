@@ -23,6 +23,8 @@ local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration"
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieLib
@@ -43,6 +45,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type ActiveQuests
 local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
+---@type ObjectiveColors
+local ObjectiveColors = QuestieLoader:ImportModule("ObjectiveColors")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Phasing
@@ -253,6 +257,7 @@ function _QuestieQuest:HideManualIcons()
 end
 
 function QuestieQuest:ClearAllNotes()
+    QuestiePolygon.Reset()
     for _, acceptance in ActiveQuests.Iterate() do
         local quest = acceptance.quest
         -- A quest the database lacks has no objectives, but the other quests still need their cleanup
@@ -352,6 +357,7 @@ local function _UpdateSpecials(questId)
 end
 
 function QuestieQuest:SmoothReset()
+    QuestiePolygon.Reset()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     if QuestieQuest._isResetting then
         QuestieQuest._resetAgain = true
@@ -967,33 +973,30 @@ end
 ---@return boolean @Returns true if quest.sourceItemId matches an item in a players bag
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
     local quest = QuestieDB.GetQuest(questId)
-    if quest and quest.sourceItemId > 0 then
-        if QuestieCompat.GetItemCount(quest.sourceItemId) > 0 then
-            return true
-        end
-
-        -- If we are missing the sourceItem for zero objective quests then make an objective for it so the
-        -- player has a visual indication as to what item is missing and so the quest has a "tag" of some kind.
-        -- Also double check the quests leaderboard and make sure an objective doesn't already exist.
-        if makeObjective then
-            local leaderBoard = QuestieQuest:GetAllLeaderBoardDetails(quest.Id)
-            if leaderBoard and (not leaderBoard[1]) then
-                local itemName = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")
-                quest.Objectives = {
-                    [1] = {
-                        Description = itemName,
-                        Type = "item",
-                        Needed = 1,
-                        Collected = 0,
-                        Completed = false,
-                        Id = quest.sourceItemId,
-                        questId = quest.Id
-                    }
-                }
-            end
-        end
-    else
+    if not quest or quest.sourceItemId <= 0 then
         return true
+    end
+
+    if QuestieCompat.GetItemCount(quest.sourceItemId) > 0 then
+        return true
+    end
+
+    -- Show the missing source item only when the quest has no native objectives.
+    if makeObjective then
+        local leaderBoard = QuestieQuest:GetAllLeaderBoardDetails(quest.Id)
+        if leaderBoard and (not leaderBoard[1]) then
+            quest.Objectives = {
+                [1] = {
+                    Description = QuestieDB.QueryItemSingle(quest.sourceItemId, "name"),
+                    Type = "item",
+                    Needed = 1,
+                    Collected = 0,
+                    Completed = false,
+                    Id = quest.sourceItemId,
+                    questId = quest.Id
+                }
+            }
+        end
     end
 
     return false
@@ -1028,12 +1031,15 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     _RegisterObjectiveTooltips(objective, quest.Id, blockItemTooltips)
 
     if completed then
+        QuestiePolygon.RemoveObjective(quest.Id, objective.Index or objectiveIndex)
         _UnloadAlreadySpawnedIcons(objective)
         return
     end
 
     if (not objective.Color) then
-        objective.Color = QuestieLib:ColorWheel()
+        -- Special objectives arrive with index 0; their canonical Index keeps their colors apart.
+        -- The spawn list built above places the objective, which a first pick needs.
+        objective.Color = ObjectiveColors.Get(quest, objective, objective.Index or objectiveIndex)
     end
 
     if objective.spawnList and next(objective.spawnList) then
@@ -1069,15 +1075,35 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             objectiveCenter = {x = 0, y = 0}
         end
 
-        local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter, acceptance)
-        if (not iconsToDraw) then
-            return
+        -- Blob mode replaces the local player's objective icons on both maps with cluster
+        -- markers, which also draw the objective's routes. Party objectives, tooltip registration
+        -- and quest state stay shared. The chosen style decides, not whether Questie is on:
+        -- switched off, blob mode draws nothing.
+        local polygonMode = QuestiePolygon.IsChosen() and not objective.IsPartyObjective
+        if polygonMode then
+            -- Nameplates read objective.Icon, which the ordinary icon pass otherwise records.
+            if not objective.Icon then
+                for _, spawnData in pairs(objective.spawnList) do
+                    if spawnData.Icon then
+                        objective.Icon = spawnData.Icon
+                        break
+                    end
+                end
+            end
+            QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
+        else
+            local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter, acceptance)
+            if (not iconsToDraw) then
+                return
+            end
+            local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType, acceptance)
+            if (not iconPerZone) then
+                return
+            end
+            _DrawObjectiveWaypoints(objective, icon, iconPerZone, acceptance)
         end
-        local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType, acceptance)
-        if (not iconPerZone) then
-            return
-        end
-        _DrawObjectiveWaypoints(objective, icon, iconPerZone, acceptance)
+    else
+        QuestiePolygon.RemoveObjective(quest.Id, objective.Index or objectiveIndex)
     end
 end
 

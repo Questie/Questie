@@ -1,5 +1,4 @@
 dofile("setupTests.lua")
-local match = require("luassert.match")
 
 describe("MapIconTooltip objective wording", function()
     local MapIconTooltip, QuestieComms, ActiveQuests, cached, objective, icon, now, pins
@@ -28,7 +27,7 @@ describe("MapIconTooltip objective wording", function()
         _G.C_Map = {GetMapInfo = function() return nil end}
         _G.WorldMapFrame = {GetMapID = function() return 1 end}
         _G.GameTooltip = {
-            IsShown = function() return false end,
+            IsShown = function() return false end, IsOwned = function() return false end,
             SetOwner = function() end, SetFrameStrata = function() end, Show = function() end,
         }
         Questie.db.profile = {trackerColorObjectives = "minimal"}
@@ -60,8 +59,6 @@ describe("MapIconTooltip objective wording", function()
             return {AddLine = function() end, AddDoubleLine = function() end}
         end
         layout.Render = function() end
-        QuestieLoader:ImportModule("QuestieWaypoints").SetHighlighted = function() end
-        QuestieLoader:ImportModule("WaypointHover").End = function() end
 
         objective = {Index = 3, Type = "item", Description = "Windstone Cluster", Collected = 9, Needed = 15,
             Update = function() end}
@@ -83,6 +80,11 @@ describe("MapIconTooltip objective wording", function()
         end}}
         -- Show traverses visible pins; only one pin participates in these renderer tests.
         _G.LibStub = function() return pins end
+        -- Outside blob mode, objective lines start with no area colour, and no areas lie beneath icons.
+        local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+        QuestiePolygon.ObjectiveSwatch = function() end
+        QuestiePolygon.AreaIconsAt = function() return {} end
+        QuestiePolygon.ClickHint = function() end
         dofile("Modules/Tooltips/MapIconTooltip.lua")
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         now = 1
@@ -98,8 +100,7 @@ describe("MapIconTooltip objective wording", function()
         _G.Minimap, _G.GetCVar = savedGlobals.Minimap, savedGlobals.GetCVar
     end)
 
-    local function RenderObjectiveLines()
-        MapIconTooltip.Show(icon)
+    local function ObjectiveLines()
         local lines = {}
         for _, row in ipairs(GameTooltip.questOrder[1]) do
             for text in pairs(row) do
@@ -108,6 +109,31 @@ describe("MapIconTooltip objective wording", function()
         end
         return lines
     end
+
+    local function RenderObjectiveLines()
+        MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+        return ObjectiveLines()
+    end
+
+    it("shows nothing for an icon faded out to nothing", function()
+        icon.texture.GetVertexColor = function() return 1, 1, 1, 0 end
+        GameTooltip.Show = spy.new(function() end)
+
+        MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+        assert.spy(GameTooltip.Show).was.not_called()
+    end)
+
+    it("replaces another owner's tooltip at once, such as a quest area's", function()
+        now = 0.01
+        GameTooltip.IsShown = function() return true end
+        GameTooltip.SetOwner = spy.new(function() end)
+
+        MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+        assert.spy(GameTooltip.SetOwner).was.called(1)
+        assert.are.equal(icon, GameTooltip.SetOwner.calls[1].refs[2])
+    end)
 
     it("uses accepted native text without appending counts or stripping punctuation", function()
         cached[1] = {objectives = {[3] = {text = "9/15 Windstone Cluster."}}}
@@ -200,7 +226,19 @@ describe("MapIconTooltip objective wording", function()
         objective.Update = update
         ActiveQuests.Remove(1)
 
-        MapIconTooltip.Show(icon)
+        MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+        assert.is_nil(GameTooltip.questOrder[1])
+        assert.spy(update).was.not_called()
+    end)
+
+    it("should not list the objectives of a quest that left the quest log for the icons it is given", function()
+        local update = spy.new(function() end)
+        objective.Update = update
+        ActiveQuests.Remove(1)
+
+        -- A minimap path, a quest area and a refresh list their icons without looking around them.
+        MapIconTooltip.ShowForIcons(icon, {icon}, GameTooltip)
 
         assert.is_nil(GameTooltip.questOrder[1])
         assert.spy(update).was.not_called()
@@ -264,10 +302,11 @@ describe("MapIconTooltip objective wording", function()
             owner = nil
             GameTooltip.IsShown = function() return true end
             GameTooltip.SetOwner = spy.new(function(_, frame) owner = frame end)
-            GameTooltip.GetOwner = function() return owner end
+            GameTooltip.IsOwned = function(_, frame) return owner == frame end
+            GameTooltip.GetAnchorType = function() return "ANCHOR_CURSOR" end
             objective.IsPartyObjective = true
             QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
-            MapIconTooltip.Show(icon)
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
         end)
 
         after_each(function()
@@ -286,10 +325,24 @@ describe("MapIconTooltip objective wording", function()
             assert.are.equal(icon, owner)
         end)
 
-        it("should reset the hover highlights of the icon before showing again", function()
+        it("should keep the hover's highlights when showing again", function()
             MapIconTooltip.RefreshQuest(1)
 
-            assert.spy(QuestieFrame.ResetHoverHighlights).was.called_with(icon)
+            assert.spy(GameTooltip.SetOwner).was.called(2)
+            assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
+        end)
+
+        it("should show the tooltip again where it was anchored, such as beside the gamepad cursor", function()
+            local anchor = "ANCHOR_RIGHT"
+            GameTooltip.GetAnchorType = function() return anchor end
+            GameTooltip.SetOwner = function(_, frame, newAnchor) owner, anchor = frame, newAnchor end
+            GameTooltip.SetAnchorType = function(_, newAnchor) anchor = newAnchor end
+            QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 4, required = 15}}} end
+
+            MapIconTooltip.RefreshQuest(1)
+
+            assert.is_truthy(ListedText():find("4/15", 1, true))
+            assert.are.equal("ANCHOR_RIGHT", anchor)
         end)
 
         it("should leave a tooltip alone that does not list the quest", function()
@@ -308,12 +361,12 @@ describe("MapIconTooltip objective wording", function()
                 pathTooltip = {
                     IsShown = function() return true end,
                     SetOwner = spy.new(function(_, frame) pathOwner = frame end),
-                    GetOwner = function() return pathOwner end,
+                    IsOwned = function(_, frame) return pathOwner == frame end,
+                    GetAnchorType = function() return "ANCHOR_CURSOR" end,
                     SetFrameStrata = function() end,
                     Show = function() end,
                 }
-                now = now + 0.1
-                MapIconTooltip.ShowOnTooltip(icon, pathTooltip, minimap, {icon})
+                MapIconTooltip.ShowForIcons(minimap, {icon}, pathTooltip)
             end)
 
             it("should show the tooltip again with its own owner, icons and the changed progress", function()
@@ -346,8 +399,7 @@ describe("MapIconTooltip objective wording", function()
                     texture = {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end},
                     data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
                 }
-                now = now + 0.1
-                MapIconTooltip.ShowOnTooltip(icon, pathTooltip, minimap, {icon, other})
+                MapIconTooltip.ShowForIcons(minimap, {icon, other}, pathTooltip)
                 assert.is_not_nil(pathTooltip.questOrder[2])
                 other.data = {Id = 3, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"}
 
@@ -390,12 +442,12 @@ describe("MapIconTooltip objective wording", function()
             end)
         end)
 
-        it("should leave the tooltip and its highlights alone when the icon faded out meanwhile", function()
+        it("should show the tooltip again when the icon faded out meanwhile, which still holds it", function()
             icon.texture.GetVertexColor = function() return 1, 1, 1, 0 end
 
             MapIconTooltip.RefreshQuest(1)
 
-            assert.spy(GameTooltip.SetOwner).was.called(1)
+            assert.spy(GameTooltip.SetOwner).was.called(2)
             assert.spy(QuestieFrame.ResetHoverHighlights).was.not_called()
         end)
 
@@ -425,63 +477,94 @@ describe("MapIconTooltip objective wording", function()
         end)
     end)
 
-    describe("for a patrol path", function()
-        it("belongs to the frame it is given", function()
-            local owner = {}
-            GameTooltip.SetOwner = spy.new(function() end)
+    describe("around a spot", function()
+        local shown
 
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, owner)
-
-            assert.spy(GameTooltip.SetOwner).was.called_with(match._, match.is_ref(owner), "ANCHOR_CURSOR")
-        end)
-
-        it("shows for an icon faded out by distance, which shows nothing when hovered itself", function()
-            icon.texture.GetVertexColor = function() return 1, 1, 1, 0 end
-            GameTooltip.Show = spy.new(function() end)
-
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
-            assert.spy(GameTooltip.Show).was.not_called()
-
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, {})
-            assert.spy(GameTooltip.Show).was.called(1)
-        end)
-
-        it("lists the given icons of an NPC's quests, however far away and faded", function()
-            _G.Minimap = {GetZoom = function() return 0 end, SetZoom = function() end}
-            _G.GetCVar = function() return "0" end
-            icon.miniMapIcon = true
-            -- HereBeDragons shows neither icon: both are out of range. The second is faded out, elsewhere.
-            pins.activeMinimapPins = {}
-            local secondQuest = {
-                x = 90, y = 10, AreaID = 2, miniMapIcon = true,
-                texture = {a = 0, GetVertexColor = function() return 1, 1, 1, 0 end},
-                data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
-            }
-
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, _G.Minimap, {icon, secondQuest})
-
-            assert.is_not_nil(GameTooltip.questOrder[1])
-            assert.is_not_nil(GameTooltip.questOrder[2])
-        end)
-
-        it("keeps the colors to restore when a hovered icon's tooltip shows again before its reset", function()
-            GameTooltip.IsShown = function() return true end
-            icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a = 1, 0.5, 0, 1
-            icon.texture.SetVertexColor = function(texture, r, g, b, a)
-                texture.r, texture.g, texture.b, texture.a = r, g, b, a
+        before_each(function()
+            shown = {}
+            pins.worldmapProvider.GetMap = function()
+                return {EnumeratePinsByTemplate = function()
+                    local i = 0
+                    return function()
+                        i = i + 1
+                        return shown[i] and {icon = shown[i]}
+                    end
+                end}
             end
+        end)
 
-            -- The path's hover shows the tooltip, then the icon's own hover past the throttle, with no reset between.
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
-            now = now + 0.1
+        local function Icon(name, x, y, areaId, alpha)
+            return {name = name, x = x, y = y, AreaID = areaId, texture = {a = alpha or 1}, data = {}}
+        end
+
+        local function Names(icons)
+            local names = {}
+            for i, listed in ipairs(icons) do names[i] = listed.name end
+            return names
+        end
+
+        it("names everything an icon stands for under its objective line, such as each NPC of a quest area", function()
+            icon.data.Names = {"Windstone", "Boulder"}
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip)
+            local names
+            for _, row in ipairs(GameTooltip.questOrder[1]) do
+                for _, rowNames in pairs(row) do names = rowNames end
+            end
+            assert.are.same({Windstone = true, Boulder = true}, names)
+        end)
+
+        it("lists the visible icons of the spot's zone within the shown map's cluster distance", function()
+            local hovered = Icon("hovered", 50, 50, 1, 0)
+            local hidden = Icon("hidden", 50, 50, 1)
+            hidden.hidden = true
+            shown = {Icon("near", 50.5, 50.9, 1), Icon("far", 52, 50, 1), Icon("other zone", 50, 50, 2), hidden,
+                Icon("faded", 50, 50, 1, 0), hovered}
+            assert.are.same({"near", "hovered"}, Names(MapIconTooltip.IconsNear(false, 1, 50, 50, hovered)))
+
+            _G.C_Map = {GetMapInfo = function() return {mapType = 2} end} -- A continent clusters wider.
+            assert.are.same({"near", "far"}, Names(MapIconTooltip.IconsNear(false, 1, 50, 50)))
+        end)
+
+        it("reports a shown icon without data once, as hovering areas looks on every move", function()
+            local savedError, reported = Questie.Error, spy.new(function() end)
+            Questie.Error = reported
+            shown = {{x = 50, y = 50, AreaID = 1, texture = {a = 1}}}
+            MapIconTooltip.IconsNear(false, 1, 50, 50)
+            MapIconTooltip.IconsNear(false, 1, 50, 50)
+            Questie.Error = savedError
+            assert.spy(reported).was.called(1)
+        end)
+
+        it("lists minimap icons within a distance shrinking as the minimap zooms in", function()
+            _G.GetCVar = function(name) return name == "minimapInsideZoom" and "3" or "0" end
+            local zoom = 0
+            _G.Minimap = {GetZoom = function() return zoom end, SetZoom = function() end}
+            local near, far = Icon("near", 50.4, 50, 1), Icon("far", 50.6, 50, 1)
+            pins.activeMinimapPins = {[near] = true, [far] = true}
+            assert.are.same({"near"}, Names(MapIconTooltip.IconsNear(true, 1, 50, 50)))
+            zoom = 1
+            assert.are.same({}, Names(MapIconTooltip.IconsNear(true, 1, 50, 50)))
+        end)
+
+        it("lists the areas beneath a hovered icon after the icons around it, each once", function()
+            local beneath = Icon("beneath", 70, 70, 1)
+            shown = {icon}
+            local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+            QuestiePolygon.AreaIconsAt = function(hovered)
+                assert.are.equal(icon, hovered)
+                return {icon, beneath}
+            end
+            MapIconTooltip.ShowForIcons = spy.new(function() end)
+
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
 
-            assert.are.equal(1, #icon.data.touchedPins)
-            assert.are.equal(icon, icon.data.touchedPins[1].icon)
-            assert.are.equal(icon.data, icon.data.touchedPins[1].data)
-            assert.are_same({1, 0.5, 0, 1}, icon.data.touchedPins[1].color)
+            local listed = MapIconTooltip.ShowForIcons.calls[1].refs[2]
+            assert.are.equal(2, #listed)
+            assert.are.equal(icon, listed[1])
+            assert.are.equal(beneath, listed[2])
         end)
     end)
+
     describe("order", function()
         local rendered, questLevels
 
@@ -510,12 +593,26 @@ describe("MapIconTooltip objective wording", function()
                 data = {Id = questId, Type = type, ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone", QuestData = {}}}
         end
 
+        it("ends a quest area marker's own tooltip with what clicking it does", function()
+            local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+            QuestiePolygon.ClickHint = function(owner) return owner == icon and "Click to hide areas" or nil end
+            local savedColorize = Questie.Colorize
+            Questie.Colorize = function(_, text, color) return color .. ":" .. text end
+
+            MapIconTooltip.ShowForIcons(icon, {icon}, GameTooltip)
+            assert.are.equal("gray:Click to hide areas", rendered[#rendered])
+            rendered = {}
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip)
+            Questie.Colorize = savedColorize
+            assert.is_nil(RowOf("Click to hide areas"))
+        end)
+
         it("lists a giver's quests by level, low to high", function()
             questLevels = {[1] = 1, [10] = 30, [11] = 5, [12] = 18}
 
             local hovered = QuestIcon(10, "complete")
 
-            MapIconTooltip.ShowOnTooltip(hovered, GameTooltip, nil, {hovered, QuestIcon(11, "complete"), QuestIcon(12, "complete")})
+            MapIconTooltip.ShowForIcons({}, {hovered, QuestIcon(11, "complete"), QuestIcon(12, "complete")}, GameTooltip)
 
             assert.is_true(RowOf("Quest 11") < RowOf("Quest 12"))
             assert.is_true(RowOf("Quest 12") < RowOf("Quest 10"))
@@ -524,9 +621,118 @@ describe("MapIconTooltip objective wording", function()
         it("lists active quests' objectives by level, low to high", function()
             questLevels = {[1] = 20, [2] = 5}
 
-            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {QuestIcon(2, "item")})
+            MapIconTooltip.ShowForIcons({}, {icon, QuestIcon(2, "item")}, GameTooltip)
 
             assert.is_true(RowOf("Quest 2") < RowOf("Quest 1"))
+        end)
+    end)
+
+    describe("for given icons", function()
+        -- A tooltip frame acting like GameTooltip: the last SetOwner holds it until it hides.
+        local function HoldingTooltip()
+            local tooltip = {}
+            function tooltip:SetOwner(frame, anchor, x, y) self.holder, self.anchor, self.offset = frame, anchor, {x, y} end
+            function tooltip:IsOwned(frame) return self.holder == frame end
+            function tooltip:IsShown() return self.holder ~= nil end
+            function tooltip:GetAnchorType() return self.anchor end
+            function tooltip:ClearLines() end
+            function tooltip:SetFrameStrata() end
+            function tooltip:Show() end
+            tooltip.Hide = spy.new(function(self) self.holder = nil end)
+            return tooltip
+        end
+
+        it("starts the icons' own objective lines with their area colour, not party lines", function()
+            cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
+            QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
+            QuestieLoader:ImportModule("QuestiePolygon").ObjectiveSwatch = function(swatched)
+                assert.are.equal(icon, swatched)
+                return "[area] "
+            end
+
+            MapIconTooltip.ShowForIcons({}, {icon}, GameTooltip)
+
+            assert.are.same({
+                ["[area] |cFFEEEEEEWindstone Cluster: 9/15 (|cFFFFFFFFLocal Fullname|r|cFFEEEEEE)|r"] = true,
+                ["|cFFEEEEEEWindstone Cluster: 3/15 (|cFFFFFFFFBob|r|cFFEEEEEE)|r"] = true,
+            }, ObjectiveLines())
+        end)
+
+        it("lists them wherever they are and however faded, for the frame given", function()
+            local tooltip = HoldingTooltip()
+            _G.Minimap = {}
+            -- HereBeDragons shows neither minimap icon, and the second is faded out, in another zone.
+            local faraway = {
+                x = 90, y = 10, AreaID = 2, miniMapIcon = true,
+                texture = {a = 0, GetVertexColor = function() return 1, 1, 1, 0 end},
+                data = {Id = 2, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
+            }
+
+            MapIconTooltip.ShowForIcons(_G.Minimap, {icon, faraway}, tooltip)
+
+            assert.are.equal(_G.Minimap, MapIconTooltip.GetOwner(tooltip))
+            assert.is_not_nil(tooltip.questOrder[1])
+            assert.is_not_nil(tooltip.questOrder[2])
+        end)
+
+        it("releases only the tooltip shown for its owner", function()
+            local tooltip = HoldingTooltip()
+            local area, other = {}, {}
+
+            -- A map icon tooltip shown since for another frame stays.
+            MapIconTooltip.ShowForIcons(area, {icon}, tooltip)
+            MapIconTooltip.ShowForIcons(other, {icon}, tooltip)
+            MapIconTooltip.Release(area, tooltip)
+            assert.spy(tooltip.Hide).was.not_called()
+            assert.are.equal(other, MapIconTooltip.GetOwner(tooltip))
+
+            MapIconTooltip.Release(other, tooltip)
+            assert.spy(tooltip.Hide).was.called(1)
+            assert.is_nil(MapIconTooltip.GetOwner(tooltip))
+
+            -- Another addon's tooltip for the same frame is not a map icon tooltip.
+            tooltip:SetOwner(area, "ANCHOR_CURSOR")
+            MapIconTooltip.Release(area, tooltip)
+            assert.spy(tooltip.Hide).was.called(1)
+            assert.are.equal(area, tooltip.holder)
+        end)
+
+        it("stops counting a tooltip another frame took, and leaves that frame's tooltip alone", function()
+            local tooltip = HoldingTooltip()
+            local area, pin = {}, {}
+            MapIconTooltip.ShowForIcons(area, {icon}, tooltip)
+
+            -- A Blizzard pin takes the tooltip. The tracker's own `_owner` field means nothing here.
+            tooltip:SetOwner(pin, "ANCHOR_RIGHT")
+            tooltip._owner = area
+            assert.is_nil(MapIconTooltip.GetOwner(tooltip))
+            MapIconTooltip.Redraw()
+            MapIconTooltip.Release(area, tooltip)
+
+            assert.spy(tooltip.Hide).was.not_called()
+            assert.are.equal(pin, tooltip.holder)
+        end)
+
+        it("redraws every tooltip its owner still holds, at the same anchor and offset", function()
+            local mapTooltip, gamepadTooltip, endedTooltip = HoldingTooltip(), HoldingTooltip(), HoldingTooltip()
+            local ended = {}
+            MapIconTooltip.ShowForIcons(icon, {icon}, mapTooltip)
+            MapIconTooltip.ShowForIcons(icon, {icon}, gamepadTooltip)
+            -- The gamepad's tooltip sits beside its cursor.
+            gamepadTooltip:SetOwner(icon, "ANCHOR_RIGHT")
+            MapIconTooltip.ShowForIcons(ended, {icon}, endedTooltip)
+            MapIconTooltip.Release(ended, endedTooltip)
+            local rendered = {}
+            QuestieLoader:ImportModule("TooltipLayout").Render = function(_, tooltip) rendered[tooltip] = true end
+
+            MapIconTooltip.Redraw()
+
+            assert.are.same({[mapTooltip] = true, [gamepadTooltip] = true}, rendered)
+            assert.are.equal("ANCHOR_CURSOR_RIGHT", mapTooltip.anchor)
+            assert.are.same({5, 2}, mapTooltip.offset)
+            assert.are.equal("ANCHOR_RIGHT", gamepadTooltip.anchor)
+            assert.are.same({}, gamepadTooltip.offset)
+            assert.are.equal(icon, gamepadTooltip.holder)
         end)
     end)
 end)
