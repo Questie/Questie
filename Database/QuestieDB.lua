@@ -1572,8 +1572,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     end
 
     local questLevel, requiredLevel = QuestieLib.GetEffectiveQuestLevel(questId)
-    -- Don't spam the map with icons of quests with requiredLevel 0
-    if requiredLevel == 0 then requiredLevel = questLevel end
     
     QO.level = questLevel
     QO.requiredLevel = requiredLevel
