@@ -24,6 +24,8 @@ local WeaponMasterSkills = QuestieLoader:ImportModule("WeaponMasterSkills")
 local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
@@ -692,6 +694,16 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
     if (not iconMinimap.FadeLogic) then
         iconMinimap.SetFade = _MinimapIconSetFade
         iconMinimap.FadeLogic = _MinimapIconFadeLogic
+    end
+
+    -- New or redrawn objectives must respect focus before their first draw, without waiting for a full icon refresh.
+    local focusedQuestId = Questie.db.char.TrackerFocus
+    if Questie.db.profile.hideUnfocusedQuestObjectiveIcons and focusedQuestId and data.Id ~= focusedQuestId
+        and ActiveQuests.Get(data.Id)
+        and (data.Type == "monster" or data.Type == "object" or data.Type == "event" or data.Type == "item")
+    then
+        iconMap:FadeOut()
+        iconMinimap:FadeOut()
     end
 
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, uiMapId, x / 100, y / 100, true, floatOnEdge)
