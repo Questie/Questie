@@ -228,7 +228,7 @@ local function _DrawLines(self, view)
         -- Curves are fitted to the quads, fade included, so no two of their pieces overlap.
         local smoothed = WaypointGeometry.Smooth(run, smoothing, quadHalfWidth)
         local points = MapGeometry.Simplify(smoothed, WaypointRenderer.TRIMMING * halfWidth)
-        local lineQuads, fillQuads, capQuads = WaypointGeometry.Quads(points, quadHalfWidth)
+        local lineQuads, fillQuads, capQuads = MapGeometry.Quads(points, quadHalfWidth)
         local newLines, newFills, newCaps
         lines, newLines = _DrawKind(self, view, "lines", lineQuads, lines, quadHalfWidth)
         fills, newFills = _DrawKind(self, view, "fills", fillQuads, fills, quadHalfWidth)

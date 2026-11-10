@@ -1,6 +1,9 @@
--- luacheck: globals DrawLine UPPER_LEFT_VERTEX LOWER_LEFT_VERTEX UPPER_RIGHT_VERTEX LOWER_RIGHT_VERTEX
+-- luacheck: globals UPPER_LEFT_VERTEX LOWER_LEFT_VERTEX UPPER_RIGHT_VERTEX LOWER_RIGHT_VERTEX
 ---@class PolygonRenderer
 local PolygonRenderer = QuestieLoader:CreateModule("PolygonRenderer")
+
+---@type MapGeometry
+local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
 
 -- Diagnostic tints are chosen on acquisition, not refresh. Set false for newly
 -- acquired primitives to use objective colors; retained primitives keep their tints.
@@ -54,25 +57,66 @@ function PolygonRenderer.New(canvas, hoverInput, maskTextures)
         hoveredFrames = {}, highlightedFrames = {}}, Renderer)
 end
 
+-- Borders
+-- A border is one quad per outline edge, mitered with its neighbours (MapGeometry.Quads), so its
+-- corners neither gap on the outside nor overlap and draw darker on the inside. A corner sharper
+-- than MapGeometry.MITER_LIMIT allows adds two fills and a cap; a convex outline has at most two
+-- such corners. All pieces are drawn plain, so a cap's kite leaves that corner slightly pointed
+-- where a disc would round it, which is too small to see at these thicknesses.
+local BORDER_THICKNESS, SELECTED_BORDER_THICKNESS = 1.5, 1.8
+
+---A configured border's geometry, kept so a highlight can redraw it at another thickness.
+---@class PolygonBorder
+---@field ring table[] The outline closed back to its first point, in frame units with y down.
+---@field frameWidth number
+---@field frameHeight number
+---@field thickness number The thickness it is drawn at.
+
+---Edges, then sharp corners' fills, then their caps, each in MapGeometry.Quads' corner layout. How
+---many there are depends only on the outline's angles, so any thickness fits the same textures.
+---@param ring table[]
+---@param thickness number
+---@return number[][] pieces
+local function _BorderPieces(ring, thickness)
+    local pieces, fills, caps = MapGeometry.Quads(ring, thickness / 2)
+    for _, list in ipairs({fills, caps}) do
+        for _, piece in ipairs(list) do pieces[#pieces + 1] = piece end
+    end
+    return pieces
+end
+
+---Stretches a texture spanning the frame over one border piece, as _DrawSquare does for fills:
+---each vertex moves from the frame's corner onto the piece's. Vertex offsets have y up.
+local function _DrawBorderPiece(texture, frame, piece, frameWidth, frameHeight)
+    local startLeftX, startLeftY, startRightX, startRightY = piece[1], piece[2], piece[3], piece[4]
+    local endLeftX, endLeftY, endRightX, endRightY = piece[5], piece[6], piece[7], piece[8]
+    texture:SetAllPoints(frame)
+    texture:SetVertexOffset(UPPER_LEFT_VERTEX, startLeftX, -startLeftY)
+    texture:SetVertexOffset(LOWER_LEFT_VERTEX, startRightX, frameHeight - startRightY)
+    texture:SetVertexOffset(UPPER_RIGHT_VERTEX, endLeftX - frameWidth, -endLeftY)
+    texture:SetVertexOffset(LOWER_RIGHT_VERTEX, endRightX - frameWidth, frameHeight - endRightY)
+end
+
 -- Hover selection and border styling
 -- Border geometry is retained so hover changes neither fills nor pooled ownership.
 -- RGB brightening keeps the caller's faded opacity intact, including a transparent border.
 local function _RestyleBorders(frame, selected)
-    local brightness = selected and 1.25 or 1
-    local thickness = selected and 1.8 or 1.5
-    for _, line in ipairs(frame.borders) do
-        -- An allocation/configuration failure may leave an owned border without
-        -- endpoints. Cleanup must not try to redraw that unfinished primitive.
-        if line.polygonStartX ~= nil then
-            local color = line.polygonDebugColor or frame.polygonColor
-            if line.polygonThickness ~= thickness then
-                DrawLine(line, frame, line.polygonStartX, line.polygonStartY, line.polygonEndX, line.polygonEndY,
-                    thickness, 1, "TOPLEFT")
-                line.polygonThickness = thickness
-            end
-            line:SetVertexColor(math.min(color[1] * brightness, 1), math.min(color[2] * brightness, 1),
-                math.min(color[3] * brightness, 1), frame.polygonBorderAlpha)
+    local border = frame.polygonBorder
+    -- A failed configuration leaves no border record. Cleanup must not redraw or tint that
+    -- unfinished border; it releases the textures anyway.
+    if not border then return end
+    local thickness = selected and SELECTED_BORDER_THICKNESS or BORDER_THICKNESS
+    if border.thickness ~= thickness then
+        for i, piece in ipairs(_BorderPieces(border.ring, thickness)) do
+            _DrawBorderPiece(frame.borders[i], frame, piece, border.frameWidth, border.frameHeight)
         end
+        border.thickness = thickness
+    end
+    local brightness = selected and 1.25 or 1
+    for _, texture in ipairs(frame.borders) do
+        local color = texture.polygonDebugColor or frame.polygonColor
+        texture:SetVertexColor(math.min(color[1] * brightness, 1), math.min(color[2] * brightness, 1),
+            math.min(color[3] * brightness, 1), frame.polygonBorderAlpha)
     end
 end
 
@@ -269,8 +313,6 @@ local function _ReleaseTextures(owned, free, count)
         texture:Hide()
         texture:ClearAllPoints()
         texture.polygonDebugColor = nil
-        texture.polygonStartX, texture.polygonStartY, texture.polygonEndX, texture.polygonEndY = nil, nil, nil, nil
-        texture.polygonThickness = nil
         free[#free + 1], owned[index] = texture, nil
     end
 end
@@ -323,6 +365,8 @@ local function _ConfigureFrame(self, frame, shape, width, height, frameLevel, ce
     local points = shape.points
     local minX, minY = bounds[1], bounds[2]
     frame.polygonOutline, frame.polygonBounds = points, bounds
+    -- Recorded again only once every border piece is drawn; see _RestyleBorders.
+    frame.polygonBorder = nil
     frame:ClearAllPoints()
     frame:SetPoint("TOPLEFT", self.canvas, "TOPLEFT", minX * width / 100, -minY * height / 100)
     frame:SetSize(frameWidth, frameHeight)
@@ -340,18 +384,23 @@ local function _ConfigureFrame(self, frame, shape, width, height, frameLevel, ce
     end
     _ReleaseTextures(frame.fills, self.freeFills, math.ceil(#points / 2))
 
-    -- Borders remain independent primitives, including center-aligned edges.
-    local thickness = self.highlightedFrames[frame] and 1.8 or 1.5
-    for i, a in ipairs(points) do
-        local b = points[i % #points + 1]
-        local line = _AcquireTexture(self, frame, true, i)
-        line.polygonStartX, line.polygonStartY = (a.x - minX) * width / 100, -(a.y - minY) * height / 100
-        line.polygonEndX, line.polygonEndY = (b.x - minX) * width / 100, -(b.y - minY) * height / 100
-        DrawLine(line, frame, line.polygonStartX, line.polygonStartY, line.polygonEndX, line.polygonEndY, thickness, 1, "TOPLEFT")
-        line.polygonThickness = thickness
-        line:Show()
+    -- Borders are centered on the outline. Frame units scale both axes alike, unlike percentages,
+    -- so miters computed in them stay true on screen.
+    local ring = {}
+    for i, point in ipairs(points) do
+        ring[i] = {x = (point.x - minX) * width / 100, y = (point.y - minY) * height / 100}
     end
-    _ReleaseTextures(frame.borders, self.freeBorders, #points)
+    ring[#ring + 1] = ring[1]
+    local thickness = self.highlightedFrames[frame] and SELECTED_BORDER_THICKNESS or BORDER_THICKNESS
+    local pieces = _BorderPieces(ring, thickness)
+    for i, piece in ipairs(pieces) do
+        local texture = _AcquireTexture(self, frame, true, i)
+        _DrawBorderPiece(texture, frame, piece, frameWidth, frameHeight)
+        texture:Show()
+    end
+    _ReleaseTextures(frame.borders, self.freeBorders, #pieces)
+    ---@type PolygonBorder
+    frame.polygonBorder = {ring = ring, frameWidth = frameWidth, frameHeight = frameHeight, thickness = thickness}
     -- New/grown primitives need appearance even if the caller's color is unchanged.
     frame.polygonColor, frame.polygonBorderAlpha = nil, nil
     self:Style(frame, shape, frameLevel)
@@ -443,7 +492,7 @@ function Renderer:Release(frame)
     frame:Hide()
     if wasVisible then _SyncHoverDriver(self) end
     frame.polygonOutline, frame.polygonBounds, frame.polygonColor, frame.polygonBorderAlpha = nil, nil, nil, nil
-    frame.polygonHighlighted, frame.polygonFrameLevel, frame.polygonShape = nil, nil, nil
+    frame.polygonHighlighted, frame.polygonFrameLevel, frame.polygonShape, frame.polygonBorder = nil, nil, nil, nil
     _ReleaseTextures(frame.fills, self.freeFills, 0)
     _ReleaseTextures(frame.borders, self.freeBorders, 0)
     frame:ClearAllPoints()

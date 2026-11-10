@@ -1,9 +1,9 @@
 dofile("setupTests.lua")
 
 describe("PolygonMinimap", function()
-    local PolygonMinimap, Pins, savedGlobals, savedError, hooks, lineDraws, player, minimap, cluster, rotateCVar, atlases
+    local PolygonMinimap, Pins, savedGlobals, savedError, hooks, vertexDraws, player, minimap, cluster, rotateCVar, atlases
     local root, renderer, cursor, focus, QuestieCompat, savedCompat
-    local GLOBALS = {"CreateFrame", "DrawLine", "LibStub", "hooksecurefunc", "Minimap", "GetPlayerFacing", "GetMinimapShape",
+    local GLOBALS = {"CreateFrame", "LibStub", "hooksecurefunc", "Minimap", "GetPlayerFacing", "GetMinimapShape",
         "C_Texture", "C_Minimap", "issecretvalue", "GetCVar", "WorldMapFrame", "CreateFramePool", "CreateFromMixins", "GetCursorPosition",
         "CreateUnsecuredRegionPoolInstance", "MapCanvasDataProviderMixin", "MapCanvasPinMixin",
         "UPPER_LEFT_VERTEX", "UPPER_RIGHT_VERTEX", "LOWER_LEFT_VERTEX", "LOWER_RIGHT_VERTEX"}
@@ -49,7 +49,12 @@ describe("PolygonMinimap", function()
         function frame:CreateTexture()
             local texture = Region()
             texture.SetSnapToPixelGrid, texture.SetTexelSnappingBias = function() end, function() end
-            texture.SetVertexOffset, texture.SetTexCoord = function() end, function() end
+            texture.SetTexCoord = function() end
+            function texture:SetVertexOffset(vertex, x, y)
+                vertexDraws = vertexDraws + 1
+                self.offsets = self.offsets or {}
+                self.offsets[vertex] = {x, y}
+            end
             function texture:SetVertexColor(...) self.color = {...} end
             function texture:AddMaskTexture(mask)
                 self.masks = self.masks or {}
@@ -84,22 +89,53 @@ describe("PolygonMinimap", function()
         return layer
     end
 
-    ---Each border starts at its outline vertex. Its position is the container's offset from the
-    ---minimap center, plus the polygon frame's offset in the container, plus the vertex in the
+    ---Corners of the frame's fill fan, in the frame with y up: the outline's vertices and the fan's
+    ---center. Vertex offsets start at the frame's own corners: 1 upper left, 2 upper right, 3 lower
+    ---left, 4 lower right.
+    local function FillCorners(frame)
+        local corners = {}
+        for _, fill in ipairs(frame.fills) do
+            local offsets = fill.offsets
+            corners[#corners + 1] = {offsets[1][1], offsets[1][2]}
+            corners[#corners + 1] = {offsets[2][1] + frame.width, offsets[2][2]}
+            corners[#corners + 1] = {offsets[3][1], offsets[3][2] - frame.height}
+            corners[#corners + 1] = {offsets[4][1] + frame.width, offsets[4][2] - frame.height}
+        end
+        return corners
+    end
+
+    ---How thick a border edge is drawn: the distance between its left and right sides. Its vertex
+    ---offsets place its start left (1), end left (2) and start right (3) corners; both left corners lie
+    ---on the left side, which runs along the edge.
+    local function Thickness(border)
+        local frame, offsets = border.parent, border.offsets
+        local startLeftX, startLeftY = offsets[1][1], offsets[1][2]
+        local endLeftX, endLeftY = offsets[2][1] + frame.width, offsets[2][2]
+        local startRightX, startRightY = offsets[3][1], offsets[3][2] - frame.height
+        local dx, dy = endLeftX - startLeftX, endLeftY - startLeftY
+        return math.abs(dx * (startRightY - startLeftY) - dy * (startRightX - startLeftX)) / math.sqrt(dx * dx + dy * dy)
+    end
+
+    ---Each outline vertex is a corner of the fill fan. Its position is the container's offset from
+    ---the minimap center, plus the polygon frame's offset in the container, plus the vertex in the
     ---frame. HereBeDragons places a minimap icon on each vertex for comparison.
     local function AssertOutlineOnIcons(frame, outline)
         local container = renderer.canvas.anchor
         assert.are.same({"TOPLEFT", minimap, "CENTER"}, {container[1], container[2], container[3]})
         assert.are.equal(renderer.canvas, frame.anchor[2])
+        local corners = FillCorners(frame)
         for i, point in ipairs(outline) do
-            local line = frame.borders[i].line
             local icon = Region()
             Pins:AddMinimapIconWorld("test", icon, 0, World(10, point.x, point.y))
             Pins.updateFrame.scripts.OnUpdate(Pins.updateFrame, 2)
             assert.is_true(icon.shown, "vertex " .. i .. " must be inside the minimap for a placed icon")
             assert.are.same({"CENTER", minimap, "CENTER"}, {icon.anchor[1], icon.anchor[2], icon.anchor[3]})
-            assert.are_near(icon.anchor[4], container[4] + frame.anchor[4] + line[2], 1e-9)
-            assert.are_near(icon.anchor[5], container[5] + frame.anchor[5] + line[3], 1e-9)
+            local x, y = icon.anchor[4] - container[4] - frame.anchor[4], icon.anchor[5] - container[5] - frame.anchor[5]
+            local drawn = false
+            for _, corner in ipairs(corners) do
+                drawn = drawn or (math.abs(corner[1] - x) < 1e-9 and math.abs(corner[2] - y) < 1e-9)
+            end
+            assert.is_true(drawn, "vertex " .. i .. " must be drawn where its icon is")
             Pins:RemoveMinimapIcon("test", icon)
         end
     end
@@ -108,7 +144,7 @@ describe("PolygonMinimap", function()
         savedGlobals = {}
         for _, name in ipairs(GLOBALS) do savedGlobals[name] = _G[name] end
         savedError = Questie.Error
-        hooks, lineDraws, atlases, root = {}, 0, {}, nil
+        hooks, vertexDraws, atlases, root = {}, 0, {}, nil
         player = {instance = 0, facing = 0.3, zone = 10}
         player.x, player.y = World(10, 41, 42)
         rotateCVar = "1"
@@ -156,10 +192,6 @@ describe("PolygonMinimap", function()
             IsShown = function() return false end}
         _G.GetCVar = function(name) return name == "rotateMinimap" and rotateCVar or "0" end
         _G.C_Minimap = nil
-        _G.DrawLine = function(texture, parent, startX, startY, endX, endY, thickness)
-            lineDraws = lineDraws + 1
-            texture.line = {parent, startX, startY, endX, endY, thickness}
-        end
         _G.hooksecurefunc = function(object, method, hook) hooks[#hooks + 1] = {object, method, hook} end
         _G.Minimap = minimap
         _G.GetPlayerFacing = function() return player.facing end
@@ -168,6 +200,7 @@ describe("PolygonMinimap", function()
         _G.issecretvalue = nil
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX, _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = 1, 2, 3, 4
         dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
+        dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         -- The areas layer's renderer, to read the frames it drew.
         local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
@@ -207,10 +240,10 @@ describe("PolygonMinimap", function()
         AssertOutlineOnIcons(frame, cluster.outline)
 
         -- Walking only moves the container; the outline keeps its projection.
-        local draws = lineDraws
+        local draws = vertexDraws
         player.x, player.y = World(10, 43, 41)
         Tick()
-        assert.are.equal(draws, lineDraws)
+        assert.are.equal(draws, vertexDraws)
         AssertOutlineOnIcons(frame, cluster.outline)
     end)
 
@@ -220,19 +253,19 @@ describe("PolygonMinimap", function()
         local layer = Start(function() return areas end)
         Tick()
         local frame = renderer.activeFrames[1]
-        assert.are.equal(1.5, frame.borders[1].line[6])
+        assert.are_near(1.5, Thickness(frame.borders[1]), 1e-9)
 
         areas = {{key = area.key, cluster = area.cluster, color = area.color, alpha = 1, highlighted = true}}
         layer.Invalidate()
         Tick()
         assert.are.equal(frame, renderer.activeFrames[1])
-        assert.are.equal(1.8, frame.borders[1].line[6])
+        assert.are_near(1.8, Thickness(frame.borders[1]), 1e-9)
         AssertOutlineOnIcons(frame, cluster.outline)
 
         areas[1].highlighted = false
         layer.Invalidate()
         Tick()
-        assert.are.equal(1.5, frame.borders[1].line[6])
+        assert.are_near(1.5, Thickness(frame.borders[1]), 1e-9)
     end)
 
     it("keeps a large area whose center is out of view while its edge reaches the minimap", function()
@@ -266,7 +299,7 @@ describe("PolygonMinimap", function()
         Tick()
         local keptFrame, removedFrame = renderer.activeFrames[1], renderer.activeFrames[2]
 
-        local draws = lineDraws
+        local draws = vertexDraws
         areas = {{key = kept.key, cluster = kept.cluster, color = kept.color, alpha = 0.4}}
         layer.Invalidate()
         Tick()
@@ -274,7 +307,7 @@ describe("PolygonMinimap", function()
         assert.is_nil(renderer.ownedFrames[removedFrame])
         assert.are.same({keptFrame}, renderer.activeFrames)
         assert.is_true(keptFrame:IsShown())
-        assert.are.equal(draws, lineDraws)
+        assert.are.equal(draws, vertexDraws)
         assert.are_near(0.25 * 0.4, keptFrame.fills[1].color[4], 1e-9)
     end)
 
@@ -315,7 +348,7 @@ describe("PolygonMinimap", function()
         assert.are_near(x, last.x, 1e-6)
         assert.are_near(y, last.y, 1e-6)
         local frame = renderer.activeFrames[1]
-        assert.are.equal(1.8, frame.borders[1].line[6])
+        assert.are_near(1.8, Thickness(frame.borders[1]), 1e-9)
 
         -- Overlapping areas both hover.
         CursorAt(World(10, 41.2, 41.2))
@@ -327,7 +360,7 @@ describe("PolygonMinimap", function()
         Tick()
         assert.are.same({}, heard[#heard].keys)
         assert.is_nil(heard[#heard].x)
-        assert.are.equal(1.5, frame.borders[1].line[6])
+        assert.are_near(1.5, Thickness(frame.borders[1]), 1e-9)
     end)
 
     it("clears its drawings, and lets the canvas idle once nothing is collected again", function()
