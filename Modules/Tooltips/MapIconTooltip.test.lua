@@ -379,7 +379,7 @@ describe("MapIconTooltip objective wording", function()
             assert.is_not_nil(RowContaining("Windstone"))
         end)
 
-        it("stores and renders a drop-rate suffix on the source name for item objectives", function()
+        it("stores drop rates on sources and renders [N%] on the item objective line", function()
             objective.Id = 1234
             icon.data.ObjectiveTargetId = 5678
             QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(itemId, npcId)
@@ -392,8 +392,14 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.Show(icon)
 
             local tipRow = GameTooltip.questOrder[1][1]
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, tipRow.lines[1].sources[5678])
-            assert.is_not_nil(RowContaining("[7.5%]"))
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff26007.5%|cff555555]"}, tipRow.lines[1].sources[5678])
+            local itemLine = RowContaining("Windstone Cluster")
+            assert.is_not_nil(itemLine)
+            assert.is_truthy(itemLine:find("%[7%.5%%%]", 1) or itemLine:find("7.5%", 1, true))
+            -- Mob name stays bare; rate belongs on the item/objective wording (like unit tips).
+            local mobLine = RowContaining("|cFFDDDDDDWindstone")
+            assert.is_not_nil(mobLine)
+            assert.is_nil(mobLine:find("7.5%", 1, true))
         end)
 
         it("omits drop rates when enableTooltipDroprates is disabled", function()
@@ -408,7 +414,7 @@ describe("MapIconTooltip objective wording", function()
 
             local tipRow = GameTooltip.questOrder[1][1]
             assert.are.same({name = "Windstone", suffix = ""}, tipRow.lines[1].sources[5678])
-            assert.is_nil(RowContaining("[50%]"))
+            assert.is_nil(RowContaining("50%"))
         end)
 
         it("does not look up drop rates for non-item objectives", function()
@@ -447,10 +453,10 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, other})
 
             local tipRow = GameTooltip.questOrder[1][1]
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, tipRow.lines[1].sources[10])
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[3.2%]|r"}, tipRow.lines[1].sources[20])
-            assert.is_not_nil(RowContaining("[7.5%]"))
-            assert.is_not_nil(RowContaining("[3.2%]"))
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff26007.5%|cff555555]"}, tipRow.lines[1].sources[10])
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff10003.2%|cff555555]"}, tipRow.lines[1].sources[20])
+            assert.is_truthy(RowContaining("7.5%"):find("Windstone Cluster", 1, true))
+            assert.is_truthy(RowContaining("3.2%"):find("Windstone Cluster", 1, true))
         end)
 
         it("shows a shared source name again on a second objective line", function()
@@ -482,8 +488,8 @@ describe("MapIconTooltip objective wording", function()
                 end
             end
             assert.is_true(windstoneRows >= 2)
-            assert.is_not_nil(RowContaining("[7.5%]"))
-            assert.is_not_nil(RowContaining("[4.1%]"))
+            assert.is_not_nil(RowContaining("7.5%"))
+            assert.is_not_nil(RowContaining("4.1%"))
         end)
 
         it("keeps separate drop rates when two objectives share identical text", function()
@@ -511,10 +517,10 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, twin})
 
             assert.are.equal(2, #GameTooltip.questOrder[1])
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[7.5%]|r"}, GameTooltip.questOrder[1][1].lines[1].sources[10])
-            assert.are.same({name = "Windstone", suffix = "  |cFF999999[4.1%]|r"}, GameTooltip.questOrder[1][2].lines[1].sources[10])
-            assert.is_not_nil(RowContaining("[7.5%]"))
-            assert.is_not_nil(RowContaining("[4.1%]"))
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff26007.5%|cff555555]"}, GameTooltip.questOrder[1][1].lines[1].sources[10])
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff15004.1%|cff555555]"}, GameTooltip.questOrder[1][2].lines[1].sources[10])
+            assert.is_not_nil(RowContaining("7.5%"))
+            assert.is_not_nil(RowContaining("4.1%"))
         end)
 
         it("keeps special objectives distinct when both pins use ObjectiveIndex 0", function()
@@ -544,8 +550,8 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, other})
 
             assert.are.equal(2, #GameTooltip.questOrder[1])
-            assert.is_not_nil(RowContaining("[7.5%]"))
-            assert.is_not_nil(RowContaining("[4.1%]"))
+            assert.is_not_nil(RowContaining("7.5%"))
+            assert.is_not_nil(RowContaining("4.1%"))
         end)
 
         it("keeps local and party player lines in insertion order", function()

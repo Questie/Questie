@@ -79,8 +79,37 @@ local function FormatDropText(rate)
     end
 end
 
----Builds the colored ` [N%]` suffix for a map pin's source (item objectives only).
+---pfQuest map tooltip GetColor(rate, 100): red→yellow (0–50%), yellow→green (50–100%).
+---@param rate number
+---@return string hex RRGGBB
+local function DropRateColorHex(rate)
+    local perc = (tonumber(rate) or 0) / 100
+    local r1, g1, b1, r2, g2, b2
+    if perc <= 0.5 then
+        perc = perc * 2
+        r1, g1, b1 = 1, 0, 0
+        r2, g2, b2 = 1, 1, 0
+    else
+        perc = perc * 2 - 1
+        r1, g1, b1 = 1, 1, 0
+        r2, g2, b2 = 0, 1, 0
+    end
+    local r = r1 + (r2 - r1) * perc
+    local g = g1 + (g2 - g1) * perc
+    local b = b1 + (b2 - b1) * perc
+    return string.format("%02x%02x%02x", math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5))
+end
+
+---pfQuest-style ` [N%]` with dark brackets and a rate-colored percent.
+---@param rate number
+---@return string
+local function FormatDropRateSuffix(rate)
+    return "  |cff555555[|cff" .. DropRateColorHex(rate) .. FormatDropText(rate) .. "%|cff555555]"
+end
+
+---Builds the colored ` [N%]` suffix for an item objective line (item objectives only).
 ---Uses ObjectiveTargetId as the NPC/object id passed to QuestieDB.GetItemDroprate.
+---Rendered after the objective/item wording, matching unit tooltips — not on quest or mob names.
 ---@param iconData table @Map icon data; needs ObjectiveData and ObjectiveTargetId for rates
 ---@return string @Empty string when rates are disabled, inapplicable, or unknown
 function _MapIconTooltip.GetDropRateSuffix(iconData)
@@ -97,7 +126,7 @@ function _MapIconTooltip.GetDropRateSuffix(iconData)
 
     local dropRateData = QuestieDB.GetItemDroprate(itemId, npcId)
     if dropRateData and dropRateData[1] then
-        return "  |cFF999999[" .. FormatDropText(dropRateData[1]) .. "%]|r"
+        return FormatDropRateSuffix(dropRateData[1])
     end
     return ""
 end
@@ -528,7 +557,8 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                 end
             end
 
-            -- Always show mob/object names + drop rates (Shift still unlocks XP / dungeon / chain extras).
+            -- Always show mob/object names (Shift still unlocks XP / dungeon / chain extras).
+            -- Drop rates append to the item/objective wording (same as unit tooltips), not the mob or quest title.
             -- Deduplicate sources per objective line so a shared mob can still show its rate on each objective.
             -- Player lines (local + party) stay in insertion order; do not walk them with pairs.
             local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
@@ -538,6 +568,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                     local nameData = line.sources
                     local dataType = type(nameData)
                     local hasSourceName = false
+                    local renderedObjectiveWithRate = false
                     local addedSources = {}
                     if dataType == "table" then
                         for sourceKey, sourceInfo in pairs(nameData) do
@@ -547,7 +578,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                                 if (not addedSources[sourceKey]) then
                                     addedSources[sourceKey] = true
                                     local displayName = _MapIconTooltip.GetLevelString(creatureLevels, name)
-                                    tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName .. suffix);
+                                    tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName);
+                                    if suffix ~= "" then
+                                        tooltipRows:AddLine(indentSix .. defaultQuestColor .. textLine .. suffix);
+                                        renderedObjectiveWithRate = true
+                                    end
                                 end
                             end
                         end
@@ -559,8 +594,10 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                             tooltipRows:AddLine(indentThree .. "|cFFDDDDDD" .. displayName);
                         end
                     end
-                    local objectiveIndent = hasSourceName and indentSix or indentThree
-                    tooltipRows:AddLine(objectiveIndent .. defaultQuestColor .. textLine);
+                    if not renderedObjectiveWithRate then
+                        local objectiveIndent = hasSourceName and indentSix or indentThree
+                        tooltipRows:AddLine(objectiveIndent .. defaultQuestColor .. textLine);
+                    end
                 end
             end
         end
