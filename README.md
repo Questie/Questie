@@ -52,7 +52,7 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 ### Installing Lua
 
 1. Install [Lua](https://www.lua.org/download.html) (5.1, since the WoW client uses Lua 5.1)
-   - For macOS that is `brew install lua@5.1`
+   - Homebrew no longer provides Lua 5.1; get 5.1.5 from the [Lua source archive](https://www.lua.org/ftp/)
 2. Install [luarocks](https://luarocks.org/)
    - For macOS that is `brew install luarocks`
 3. Configure `luarocks` to use the correct Lua version (by default luarocks uses the latest installed Lua version)
@@ -82,6 +82,8 @@ See [QuestieDB integration](docs/questiedb-integration.md) for data ownership, i
 Entity database validation is owned by QuestieDB. Questie retains loader-usage validation, which you can run with:
 
 `lua cli/validate-loader-usage.lua`
+
+If your system `lua` is newer than 5.1, run it with your Lua 5.1 binary instead, e.g. `lua5.1 cli/validate-loader-usage.lua`.
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
