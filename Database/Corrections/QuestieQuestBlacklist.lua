@@ -7119,6 +7119,8 @@ function QuestieQuestBlacklist:Load()
 
         [96339] = HIDE_ON_MAP, -- Legacy Reward: Replica Ironforge Air Rifle -- todo fix
         [96383] = HIDE_ON_MAP, -- Legacy Reward: Spectral Bear Cub -- todo fix
+
+        [99267] = true, -- An Unfortunate End
     }
 
     if Questie.IsSoD then
