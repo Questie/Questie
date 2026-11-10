@@ -63,7 +63,7 @@ function QuestieOptionsDefaults:Load()
             questMinimapObjectiveColors = false,
             enableObjectives = true,
             enableQuestiePolygons = false,
-            showPolygonsOnAccept = true,
+            showPolygonsOnAccept = false,
             polygonAreaTooltips = true,
             enableTurnins = true,
             enableAvailable = true,
