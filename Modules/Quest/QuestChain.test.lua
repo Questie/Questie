@@ -13,24 +13,33 @@ describe("QuestChain", function()
     ---@type QuestieLib
     local QuestieLib
 
+    ---@type QuestieEvent
+    local QuestieEvent
+    ---@type QuestLockReasons
+    local QuestLockReasons
+
     local nextQuestInChain
     local doableStates
+    local activeQuests
     local savedGlobals
 
     before_each(function()
         nextQuestInChain = {}
         doableStates = {}
+        activeQuests = {}
 
         savedGlobals = {
             C_CurrencyInfo = _G.C_CurrencyInfo,
             FormatLargeNumber = _G.FormatLargeNumber,
             Colorize = Questie.Colorize,
             profile = Questie.db.profile,
+            char = Questie.db.char,
         }
         _G.C_CurrencyInfo = {GetCoinTextureString = function(copper) return copper .. "c" end}
         _G.FormatLargeNumber = function(number) return number == 1150 and "1,150" or tostring(number) end
         Questie.Colorize = function(_, text, color) return "[" .. color .. "]" .. text end
         Questie.db.profile = {showQuestXpAtMaxLevel = false}
+        Questie.db.char = {complete = {}}
 
         dofile("Localization/l10n.lua")
 
@@ -42,7 +51,14 @@ describe("QuestChain", function()
         QuestieLib.GetEffectiveQuestLevel = function() return 20 end
         QuestieLib.PrintDifficultyColor = function(_, level, text) return "<" .. level .. ">" .. text end
 
-        QuestieLoader:ImportModule("QuestieEvent").IsEventQuest = function() return false end
+        QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+        QuestieEvent.IsEventQuest = function() return false end
+
+        QuestieLoader:ImportModule("QuestieQuestBlacklist").HIDE_ON_MAP = "HIDE_ON_MAP"
+        QuestieLoader:ImportModule("ActiveQuests").Get = function(questId) return activeQuests[questId] end
+
+        QuestLockReasons = QuestieLoader:ImportModule("QuestLockReasons")
+        QuestLockReasons.GetReasons = function() return {} end
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.DoableStates = {
@@ -80,6 +96,7 @@ describe("QuestChain", function()
         _G.FormatLargeNumber = savedGlobals.FormatLargeNumber
         Questie.Colorize = savedGlobals.Colorize
         Questie.db.profile = savedGlobals.profile
+        Questie.db.char = savedGlobals.char
     end)
 
     describe("GetNextQuests", function()
@@ -169,6 +186,96 @@ describe("QuestChain", function()
             nextQuestInChain[2] = 1
 
             assert.are_same({2}, QuestChain.GetNextQuests(1))
+        end)
+    end)
+
+    describe("GetFollowUpQuests", function()
+        it("should list the quests the player cannot take", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 0
+            doableStates[2] = QuestieDB.DoableStates.WRONG_CLASS
+            doableStates[3] = QuestieDB.DoableStates.EXCLUSIVE_COMPLETED
+
+            assert.are_same({2, 3}, QuestChain.GetFollowUpQuests(1))
+        end)
+
+        it("should stop before a quest missing from the database or hidden by Questie for good", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 4
+            QuestieDB.QuestPointers[4] = nil
+            assert.are_same({2, 3}, QuestChain.GetFollowUpQuests(1))
+
+            QuestieCorrections.hiddenQuests[3] = true
+            assert.are_same({2}, QuestChain.GetFollowUpQuests(1))
+        end)
+
+        it("should keep a quest hidden only on the map and a world event quest", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 3
+            nextQuestInChain[3] = 0
+            QuestieCorrections.hiddenQuests[2] = "HIDE_ON_MAP"
+            QuestieCorrections.hiddenQuests[3] = true
+            QuestieEvent.IsEventQuest = function(questId) return questId == 3 end
+
+            assert.are_same({2, 3}, QuestChain.GetFollowUpQuests(1))
+        end)
+
+        it("should end a chain that loops back", function()
+            nextQuestInChain[1] = 2
+            nextQuestInChain[2] = 1
+
+            assert.are_same({2}, QuestChain.GetFollowUpQuests(1))
+        end)
+    end)
+
+    describe("GetLockReasons", function()
+        local ownReasons
+
+        before_each(function()
+            ownReasons = {}
+            QuestLockReasons.GetReasons = function(questId) return ownReasons[questId] or {} end
+        end)
+
+        it("should list each quest's own reasons", function()
+            ownReasons[3] = {"Warrior only", "Requires level 20"}
+
+            assert.are_same({[2] = {}, [3] = {"Warrior only", "Requires level 20"}}, QuestChain.GetLockReasons(1, {2, 3}))
+        end)
+
+        it("should give a quest without reasons the reasons of the last quest before it that has some", function()
+            ownReasons[2] = {"Warrior only"}
+            ownReasons[4] = {"Requires level 20"}
+
+            assert.are_same({[2] = {"Warrior only"}, [3] = {"Warrior only"}, [4] = {"Requires level 20"}, [5] = {"Requires level 20"}},
+                QuestChain.GetLockReasons(1, {2, 3, 4, 5}))
+        end)
+
+        it("should give no reasons to a quest turned in or in the quest log, nor to the quests after it", function()
+            ownReasons[2] = {"Warrior only"}
+            ownReasons[3] = {"Requires level 20"}
+            Questie.db.char.complete[3] = true
+            activeQuests[5] = {}
+            ownReasons[5] = {"Requires level 30"}
+
+            assert.are_same({[2] = {"Warrior only"}, [3] = {}, [4] = {}, [5] = {}}, QuestChain.GetLockReasons(1, {2, 3, 4, 5}))
+        end)
+
+        it("should treat the given quest and the quests before each one as part of the chain", function()
+            local chainQuestIdsByQuest = {}
+            QuestLockReasons.GetReasons = function(questId, chainQuestIds)
+                local copy = {}
+                for chainQuestId in pairs(chainQuestIds) do
+                    copy[chainQuestId] = true
+                end
+                chainQuestIdsByQuest[questId] = copy
+                return {}
+            end
+
+            QuestChain.GetLockReasons(1, {2, 3})
+
+            assert.are_same({[2] = {[1] = true}, [3] = {[1] = true, [2] = true}}, chainQuestIdsByQuest)
         end)
     end)
 
