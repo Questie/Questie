@@ -147,8 +147,8 @@ local function _SavedVisibility(entry)
     if quests then return quests[entry.index] end
 end
 
----Automatic mode shows every objective's areas from quest accept, or, when the player
----disables that option, only while they are near one of the objective's clusters.
+---Automatic mode shows an objective's areas while the player is near one of its clusters,
+---or every objective's areas from quest accept when the player enables that option.
 ---@param entry PolygonObjectiveEntry
 ---@return boolean
 local function _IsAutomaticallyShown(entry)
