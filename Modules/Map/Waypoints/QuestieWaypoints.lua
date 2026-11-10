@@ -117,6 +117,20 @@ local function _IsOwned(path)
     return path.owner.data == path.data
 end
 
+---@param icon IconFrame
+---@return number? @nil excludes other quests' routes from drawing and hover targets while focused.
+local function _GetIconAlpha(icon)
+    local profile = Questie.db.profile
+    local focusedQuestId = Questie.db.char.TrackerFocus
+    -- Available and turn-in icons can own patrols too, even though those icons are never hidden by focus.
+    if profile.hideUnfocusedQuestObjectiveIcons and focusedQuestId
+        and icon.data.Type ~= "manual" and icon.data.Id ~= focusedQuestId
+    then
+        return nil
+    end
+    return icon.faded and profile.iconFadeLevel or 1
+end
+
 ---World map opacity of a path; nil while it should not show.
 ---@param path WaypointPath
 ---@return number?
@@ -124,7 +138,7 @@ function QuestieWaypoints.WorldMapAlpha(path)
     if not Questie.db.profile.waypointMapEnabled then return nil end
     local owner = path.owner
     if not _IsOwned(path) or owner.hidden or (soloData and not soloData[path.data]) then return nil end
-    return owner.faded and Questie.db.profile.iconFadeLevel or 1
+    return _GetIconAlpha(owner)
 end
 
 ---Minimap opacity of a path; nil while it should not show. Paths follow the owner's minimap
@@ -136,7 +150,7 @@ function QuestieWaypoints.MinimapAlpha(path)
     if not profile.waypointMinimapEnabled then return nil end
     local twin = path.owner.minimapTwin
     if not _IsOwned(path) or not twin or twin.data ~= path.data or twin.hidden then return nil end
-    return twin.faded and profile.iconFadeLevel or 1
+    return _GetIconAlpha(twin)
 end
 
 ---The minimap icons of the path's route: one for each copy that shows on the minimap, as for each of

@@ -31,6 +31,7 @@ describe("QuestieQuest", function()
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+        QuestieLoader:ImportModule("QuestieWaypoints").Refresh = spy.new(function() end)
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.TryGetQuest = function() end
         dofile("Modules/Quest/ActiveQuests.lua")
@@ -486,14 +487,39 @@ describe("QuestieQuest", function()
     end)
 
     describe("ShowQuestIcons", function()
-        it("should not throw an error when called from a coroutine", function()
-            QuestieMap.questIdFrames = {}
+        after_each(function()
+            _G.QuestieFocusRefreshTestIcon = nil
+        end)
+
+        it("should reconcile quest icon visibility when called from a coroutine", function()
+            local shouldHide = false
+            local icon = {
+                data = {Type = "monster"},
+                hidden = true,
+                ShouldBeHidden = function() return shouldHide end,
+                FakeShow = spy.new(function(self) self.hidden = false end),
+                FakeHide = spy.new(function(self) self.hidden = true end),
+                FadeIn = function() end,
+                FadeOut = function() end,
+            }
+            _G.QuestieFocusRefreshTestIcon = icon
+            QuestieMap.questIdFrames = {[123] = {"QuestieFocusRefreshTestIcon"}}
 
             local co = coroutine.create(function()
                 QuestieQuest:ShowQuestIcons()
             end)
 
             assert.is_true(coroutine.resume(co))
+            assert.is_false(icon.hidden)
+            assert.spy(icon.FakeShow).was.called()
+            assert.spy(QuestieLoader:ImportModule("QuestieWaypoints").Refresh).was.called()
+
+            -- Clearing focus restores the saved hidden preference through ShouldBeHidden.
+            shouldHide = true
+            co = coroutine.create(function() QuestieQuest:ShowQuestIcons() end)
+            assert.is_true(coroutine.resume(co))
+            assert.is_true(icon.hidden)
+            assert.spy(icon.FakeHide).was.called()
         end)
 
         it("should throw an error when not called from a coroutine", function()
@@ -512,6 +538,7 @@ describe("QuestieQuest", function()
             end)
 
             assert.is_true(coroutine.resume(co))
+            assert.spy(QuestieLoader:ImportModule("QuestieWaypoints").Refresh).was.called()
         end)
 
         it("should throw an error when not called from a coroutine", function()

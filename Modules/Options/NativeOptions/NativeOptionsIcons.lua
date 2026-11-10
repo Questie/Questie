@@ -116,6 +116,25 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                             end)
                         end,
                     },
+                    hideUnfocusedQuestObjectiveIcons = {
+                        type = "checkbox",
+                        order = 1.4,
+                        title = "Only show focused quest objective icons",
+                        tooltip = "When a quest is focused, hide other quests' objective icons.",
+                        width = "full",
+                        enabled = _IsEnabled,
+                        get = function() return Questie.db.profile.hideUnfocusedQuestObjectiveIcons end,
+                        set = function(_, value)
+                            Questie.db.profile.hideUnfocusedQuestObjectiveIcons = value
+                            ThreadLib.ThreadInstant(function()
+                                if value then
+                                    QuestieQuest:HideQuestIcons()
+                                else
+                                    QuestieQuest:ShowQuestIcons()
+                                end
+                            end)
+                        end,
+                    },
                 },
             },
             icon_toggles_group = {
