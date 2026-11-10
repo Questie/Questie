@@ -4084,9 +4084,9 @@ function QuestieQuestBlacklist:Load()
         [5666] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5667] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5668] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5669] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5670] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5671] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5669] = true, -- Not in the game
+        [5670] = true, -- Not in the game
+        [5671] = true, -- Not in the game
         [5672] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [5673] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [5674] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
@@ -4101,8 +4101,8 @@ function QuestieQuestBlacklist:Load()
         [5683] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5687] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5686] = true, -- Not in the game
+        [5687] = true, -- Not in the game
         [5688] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5689] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
