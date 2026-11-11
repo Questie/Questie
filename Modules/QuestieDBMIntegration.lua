@@ -170,6 +170,12 @@ do
         end
     end
 
+    local function OnHudEnabledChanged(_, enabled)
+        if enabled and QuestieHUDEnabled then
+            DelayedMapCheck()
+        end
+    end
+
     --Called when Hud Option in questie options is toggled to on
     function QuestieDBMIntegration:EnableHUD()
         if DBM and DBM.HudMap and not QuestieHUDEnabled then
@@ -180,6 +186,9 @@ do
             -- Worldwide quest pins must not drive the HUD's automatic zoom.
             DBM.HudMap:SetFixedZoom(Questie.db.profile.DBMHUDZoom or 100)
             self:ChangeRefreshRate(Questie.db.profile.DBMHUDRefresh or 0.03)
+            if DBM.HudMap.Version and DBM.HudMap.Version >= 3 then
+                DBM.HudMap.RegisterCallback(self, "EnabledChanged", OnHudEnabledChanged)
+            end
             eventFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
             DelayedMapCheck()
             DBM:Unschedule(DelayedMapCheck)
@@ -233,6 +242,9 @@ do
             if disable then
                 QuestieHUDEnabled = false
                 LastInstanceMapID = nil
+                if DBM.HudMap.Version and DBM.HudMap.Version >= 3 then
+                    DBM.HudMap.UnregisterCallback(self, "EnabledChanged")
+                end
                 if eventFrame then
                     eventFrame:UnregisterEvent("LOADING_SCREEN_DISABLED")
                 end
