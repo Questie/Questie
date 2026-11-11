@@ -20,6 +20,15 @@ Alternatively you can always use [the latest GitHub release](https://github.com/
 
 If you have problems, please read the [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ-for-Classic-(1.13)).
 
+## Questie DB
+
+Since Questie version 12.0.0 the database is kept in a separate addon called QuestieDB that is required for Questie to work and the Curseforge release is now separated.
+
+The Curseforge app should install it automatically, but if you install manually, [download QuestieDB as well from here](https://www.curseforge.com/wow/addons/questiedb).
+
+Alternatively, the Github release for [QuestieDB can be found here](https://github.com/Questie/QuestieDB/releases/latest).
+
+[Github releases for Questie](https://github.com/Questie/Questie/releases/latest) also include the latest QuestieDB at time of release.
 
 ## Information
 - [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ)
