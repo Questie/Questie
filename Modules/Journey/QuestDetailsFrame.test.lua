@@ -4,6 +4,7 @@ describe("QuestDetailsFrame quest links", function()
     local QuestDetailsFrame
     local QuestieSearchResults
     local QuestChain
+    local QuestLockReasons
     local links
     local groups
     local navigation
@@ -63,7 +64,9 @@ describe("QuestDetailsFrame quest links", function()
         QuestChain.GetFollowUpQuests = function() return {} end
         QuestChain.GetRewardText = function() return "" end
         QuestChain.GetLockReasons = function() return {} end
-        QuestieLoader:ImportModule("QuestLockReasons").FormatReasons = function(reasons)
+        QuestLockReasons = QuestieLoader:ImportModule("QuestLockReasons")
+        QuestLockReasons.GetReasonsOutsideChain = function() return {} end
+        QuestLockReasons.FormatReasons = function(reasons)
             return reasons and reasons[1] and ("<" .. table.concat(reasons, "; ") .. ">") or ""
         end
 
@@ -138,6 +141,25 @@ describe("QuestDetailsFrame quest links", function()
         assert.equals(3, #links)
         assert.equals("Quest 92517 (1,150xp) ", links[1].shownText)
         assert.equals("Quest 92518 (400xp) ", links[2].shownText)
+        assert.equals("Quest 94568", links[3].shownText)
+    end)
+
+    it("shows why the player cannot take the prerequisites, after their rewards", function()
+        QuestChain.GetRewardText = function(questId) return questId == 92517 and "(1,150xp) " or "" end
+        local reasons = {[92517] = {"Alliance only"}, [92518] = {"Warrior only", "Requires level 20"}}
+        QuestLockReasons.GetReasonsOutsideChain = spy.new(function(questId) return reasons[questId] or {} end)
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            preQuestSingle = {92517},
+            preQuestGroup = {-92518, 94568},
+            Finisher = {},
+        })
+
+        assert.spy(QuestLockReasons.GetReasonsOutsideChain).was.called_with(92518)
+        assert.equals("Quest 92517 (1,150xp) <Alliance only>", links[1].shownText)
+        assert.equals("Quest 92518 <Warrior only; Requires level 20>", links[2].shownText)
         assert.equals("Quest 94568", links[3].shownText)
     end)
 

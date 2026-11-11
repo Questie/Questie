@@ -299,6 +299,13 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, getTex
     end
 end
 
+---Returns the text shown after a prequest's name: its rewards, then why the player cannot take it.
+---@param preQuestId QuestId
+---@return string
+local function _GetPreQuestText(preQuestId)
+    return QuestChain.GetRewardText(preQuestId) .. QuestLockReasons.FormatReasons(QuestLockReasons.GetReasonsOutsideChain(preQuestId))
+end
+
 ---@param container ScrollFrame
 ---@param quest Quest
 function QuestDetailsFrame:Draw(container, quest)
@@ -496,13 +503,13 @@ function QuestDetailsFrame:Draw(container, quest)
     if quest.preQuestSingle and next(quest.preQuestSingle) then
         QuestieJourneyUtils:Spacer(container)
         AddLinkedParagraph(container, "quest", quest.preQuestSingle, l10n("Requires one of these quests to be finished"),
-            QuestieDB.QueryQuestSingle, QuestChain.GetRewardText)
+            QuestieDB.QueryQuestSingle, _GetPreQuestText)
     end
 
     if quest.preQuestGroup and next(quest.preQuestGroup) then
         QuestieJourneyUtils:Spacer(container)
         AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"),
-            QuestieDB.QueryQuestSingle, QuestChain.GetRewardText)
+            QuestieDB.QueryQuestSingle, _GetPreQuestText)
     end
 
     local nextQuestIds = QuestChain.GetFollowUpQuests(quest.Id)
