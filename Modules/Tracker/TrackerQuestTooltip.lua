@@ -5,6 +5,8 @@ local TrackerQuestTooltip = QuestieLoader:CreateModule("TrackerQuestTooltip")
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+---@type TrackerLinePool
+local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 
 local REFRESH_INTERVAL = 0.5
 
@@ -42,8 +44,23 @@ function TrackerQuestTooltip.Hide(line)
     end
 end
 
+---@param line TrackerLineFrame
+---@return TrackerLineFrame
+local function _GetTitleLine(line)
+    if line.mode == "quest" then
+        return line
+    end
+    for i = 1, TrackerLinePool.GetHighestIndex() do
+        local candidate = TrackerLinePool.GetLine(i)
+        if candidate and candidate.mode == "quest" and candidate.Quest == line.Quest and candidate:IsVisible() then
+            return candidate
+        end
+    end
+    return line
+end
+
 local function _CanShow()
-    return Questie.db.profile.enableTooltips and Questie.db.profile.trackerEnabled
+    return IsInGroup() and Questie.db.profile.enableTooltips and Questie.db.profile.trackerEnabled
         and C_TooltipInfo and type(C_TooltipInfo.GetQuestPartyProgress) == "function"
 end
 
@@ -55,7 +72,9 @@ local function _Refresh()
         return
     end
 
-    tooltip:SetOwner(line, "ANCHOR_CURSOR")
+    local titleLine = _GetTitleLine(line)
+    tooltip:SetOwner(titleLine, "ANCHOR_NONE")
+    tooltip:SetPoint("BOTTOMLEFT", titleLine, "TOPLEFT")
     -- Keep native rendering in its secure accessor path, including the title and solo player's progress.
     -- Missing native data hides the tooltip; keep refreshing while hovered so it can recover.
     if not tooltip:SetQuestPartyProgress(questId, false, false) then

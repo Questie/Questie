@@ -4,7 +4,7 @@ local match = require("luassert.match")
 describe("TrackerQuestTooltip", function()
     local TrackerQuestTooltip, QuestieTooltips
     local saved, quests, tooltip, tickers, nativeAvailable, nativeProgress
-    local setNativeProgress, getNativeProgress
+    local setNativeProgress, getNativeProgress, pool
 
     local function _Line(mode, id)
         local quest = {Id = id or 783}
@@ -24,6 +24,12 @@ describe("TrackerQuestTooltip", function()
         }
         Questie.db.profile.enableTooltips, Questie.db.profile.trackerEnabled = true, true
         quests, tickers = {}, {}
+        _G.IsInGroup = function() return true end
+        pool = {}
+        local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+        saved.GetHighestIndex, saved.GetLine = TrackerLinePool.GetHighestIndex, TrackerLinePool.GetLine
+        TrackerLinePool.GetHighestIndex = function() return #pool end
+        TrackerLinePool.GetLine = function(i) return pool[i] end
         nativeAvailable, nativeProgress = true, {completed = false}
         setNativeProgress = spy.new(function(self)
             self.visible, self.progress = nativeAvailable, nativeProgress
@@ -32,6 +38,7 @@ describe("TrackerQuestTooltip", function()
         getNativeProgress = spy.new(function() error("must use the secure tooltip accessor") end)
         tooltip = {
             SetOwner = spy.new(function() end),
+            SetPoint = spy.new(function() end),
             Hide = spy.new(function(self) self.visible = false end),
             SetQuestPartyProgress = function(...) return setNativeProgress(...) end,
             GetPrimaryTooltipData = function() error("must not inspect native progress") end,
@@ -56,6 +63,8 @@ describe("TrackerQuestTooltip", function()
 
     after_each(function()
         TrackerQuestTooltip.Hide()
+        local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+        TrackerLinePool.GetHighestIndex, TrackerLinePool.GetLine = saved.GetHighestIndex, saved.GetLine
         _G.CreateFrame, _G.C_TooltipInfo, _G.C_Timer = saved.CreateFrame, saved.C_TooltipInfo, saved.C_Timer
         _G.GameTooltip, _G.IsInGroup, Questie.IsForever = saved.GameTooltip, saved.IsInGroup, saved.IsForever
         Questie.db.profile.enableTooltips, Questie.db.profile.trackerEnabled = saved.enableTooltips, saved.trackerEnabled
@@ -87,18 +96,48 @@ describe("TrackerQuestTooltip", function()
         assert.spy(CreateFrame).was.not_called()
     end)
 
-    it("includes the title and active player for title and objective hovers, solo or grouped", function()
-        for _, grouped in ipairs({false, true}) do
-            _G.IsInGroup = function() return grouped end
-            for _, mode in ipairs({"quest", "objective"}) do
-                local line = _Line(mode)
-                TrackerQuestTooltip.Show(line)
-                assert.spy(tooltip.SetOwner).was.called_with(match.is_ref(tooltip), match.is_ref(line), "ANCHOR_CURSOR")
-            end
-        end
-        assert.spy(setNativeProgress).was.called(4)
+    it("should not show when not in a party", function()
+        _G.IsInGroup = function() return false end
+        TrackerQuestTooltip.Show(_Line())
+        assert.spy(CreateFrame).was.not_called()
+        assert.spy(C_Timer.NewTicker).was.not_called()
+    end)
+
+    it("should anchor above the quest title line when hovering an objective", function()
+        local objective = _Line("objective")
+        local otherTitle = _Line("quest", 999)
+        local titleLine = _Line("quest")
+        titleLine.Quest = objective.Quest
+        quests[783] = objective.Quest
+        pool = {otherTitle, objective, titleLine}
+        TrackerQuestTooltip.Show(objective)
+        assert.spy(tooltip.SetOwner).was.called(1)
+        assert.spy(tooltip.SetOwner).was.called_with(match.is_ref(tooltip), match.is_ref(titleLine), "ANCHOR_NONE")
+        assert.spy(tooltip.SetPoint).was.called_with(match.is_ref(tooltip), "BOTTOMLEFT", match.is_ref(titleLine), "TOPLEFT")
         assert.spy(setNativeProgress).was.called_with(match.is_ref(tooltip), 783, false, false)
         assert.spy(getNativeProgress).was.not_called()
+    end)
+
+    it("should anchor above the hovered title line", function()
+        local line = _Line("quest")
+        pool = {line}
+        TrackerQuestTooltip.Show(line)
+        assert.spy(tooltip.SetPoint).was.called_with(match.is_ref(tooltip), "BOTTOMLEFT", match.is_ref(line), "TOPLEFT")
+    end)
+
+    it("should fall back to the hovered line when no title line is visible", function()
+        local objective = _Line("objective")
+        pool = {objective}
+        TrackerQuestTooltip.Show(objective)
+        assert.spy(tooltip.SetOwner).was.called_with(match.is_ref(tooltip), match.is_ref(objective), "ANCHOR_NONE")
+    end)
+
+    it("should hide the tooltip on refresh after leaving the party", function()
+        TrackerQuestTooltip.Show(_Line())
+        _G.IsInGroup = function() return false end
+        tickers[1].callback()
+        assert.is_false(tooltip.visible)
+        assert.is_true(tickers[1].cancelled)
     end)
 
     it("uses capabilities rather than an expansion flag", function()
