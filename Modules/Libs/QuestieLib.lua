@@ -153,7 +153,7 @@ end
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState)
-    local name = QuestieDB.QueryQuestSingle(questId, "name")
+    local name = QuestieDB.QueryQuestSingle(questId, "name") or ("[Missing name: " .. tostring(questId) .. "]")
     local level, _ = QuestieLib.GetEffectiveQuestLevel(questId);
 
     if showLevel then
