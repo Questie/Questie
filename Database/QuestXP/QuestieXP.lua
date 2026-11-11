@@ -4,8 +4,6 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 --Contains functions to fetch the Quest Experiance for quests.
 ---@class QuestXP
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 ---@type SupportValidation
 local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
