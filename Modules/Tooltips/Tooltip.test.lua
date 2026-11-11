@@ -832,6 +832,141 @@ describe("Tooltip", function()
             assert.spy(GameTooltip.AddLine).was.not_called()
         end)
 
+        describe("dedicated native quest tooltip", function()
+            local tooltip, frameScripts, fontStrings, linePostCalls, formatter, registerPostCall
+            local getLeftLine
+
+            before_each(function()
+                frameScripts, linePostCalls = {}, {}
+                fontStrings = {
+                    {SetText = spy.new(function() end)},
+                    {SetText = spy.new(function() end)},
+                }
+                for _, fontString in ipairs(fontStrings) do
+                    fontString.GetText = function() error("must not inspect native text") end
+                    fontString.GetWidth = function() error("must not measure native text") end
+                end
+                getLeftLine = spy.new(function(_, index) return fontStrings[index] end)
+                tooltip = {
+                    IsForbidden = function() return false end,
+                    HookScript = spy.new(function(_, name, callback) frameScripts[name] = callback end),
+                    GetLeftLine = function(...) return getLeftLine(...) end,
+                    AddLine = spy.new(function() error("must preserve native rendering") end),
+                }
+                formatter = {
+                    Title = spy.new(function() return "Questie title" end),
+                    Objective = spy.new(function() return "Questie objective" end),
+                }
+                QuestieLoader:ImportModule("Forever").CreateFormatter = spy.new(function() return formatter end)
+                registerPostCall = spy.new(function(kind, callback) linePostCalls[kind] = callback end)
+                _G.TooltipDataProcessor.AddLinePostCall = function(kind, callback) registerPostCall(kind, callback) end
+            end)
+
+            it("registers once and formats text without consuming native completion rows", function()
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                local title = {id = 783, leftText = "Native title", lineIndex = 1}
+                local objectiveLine = setmetatable({leftText = "Ready for turn-in", lineIndex = 2}, {
+                    __index = function(_, key)
+                        if key == "completed" then error("must leave native completion to Blizzard") end
+                    end,
+                })
+
+                assert.is_nil(preCalls[17](tooltip, title))
+                assert.is_nil(preCalls[18](tooltip, {leftText = "Player"}))
+                assert.is_nil(preCalls[8](tooltip, objectiveLine))
+                linePostCalls[17](tooltip, title)
+                linePostCalls[8](tooltip, objectiveLine)
+
+                assert.spy(registerPostCall).was.called(2)
+                assert.spy(tooltip.HookScript).was.called(1)
+                assert.spy(formatter.Title).was.called_with(783, "Native title")
+                assert.spy(formatter.Objective).was.called_with("Ready for turn-in")
+                assert.spy(fontStrings[1].SetText).was.called_with(fontStrings[1], "Questie title")
+                assert.spy(fontStrings[2].SetText).was.called_with(fontStrings[2], "Questie objective")
+                assert.spy(tooltip.AddLine).was.not_called()
+                assert.are.same({id = 783, leftText = "Native title", lineIndex = 1}, title)
+                assert.are.equal("Ready for turn-in", objectiveLine.leftText)
+            end)
+
+            it("reuses the existing title formatter and its quest-level preference", function()
+                dofile("Modules/Tooltips/Forever.lua")
+                Questie.db.profile.enableTooltipsQuestLevel = true
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                linePostCalls[17](tooltip, {id = 783, leftText = "Native title", lineIndex = 1})
+                assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 783, true, true)
+                assert.spy(fontStrings[1].SetText).was.called_with(fontStrings[1], "Quest Name")
+            end)
+
+            it("keeps independent formatter state per tooltip and clears it on a native rebuild", function()
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                local foreverTooltips = QuestieLoader:ImportModule("Forever")
+                linePostCalls[17](tooltip, {id = 783, leftText = "First title", lineIndex = 1})
+                linePostCalls[8](tooltip, {leftText = "First objective", lineIndex = 2})
+                assert.spy(foreverTooltips.CreateFormatter).was.called(1)
+                frameScripts.OnTooltipCleared()
+                linePostCalls[17](tooltip, {id = 784, leftText = "New title", lineIndex = 1})
+                assert.spy(foreverTooltips.CreateFormatter).was.called(2)
+                postCalls[2](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+            end)
+
+            it("passes opaque text and IDs to formatting without inspecting them", function()
+                local opaqueText, opaqueId = {}, {}
+                local forbidden = {__tostring = function() error("opaque value inspected") end}
+                setmetatable(opaqueText, forbidden)
+                setmetatable(opaqueId, forbidden)
+                _G.issecretvalue = function(value) return rawequal(value, opaqueText) or rawequal(value, opaqueId) end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                linePostCalls[17](tooltip, {id = opaqueId, leftText = opaqueText, lineIndex = 1})
+                linePostCalls[8](tooltip, {leftText = opaqueText, lineIndex = 2})
+                assert.spy(formatter.Title).was.called_with(opaqueId, opaqueText)
+                assert.spy(formatter.Objective).was.called_with(opaqueText)
+            end)
+
+            it("leaves restricted rows, secret indices and absent font strings native", function()
+                local restricted = setmetatable({}, {__index = function() error("restricted row inspected") end})
+                _G.issecrettable = function(value) return rawequal(value, restricted) end
+                _G.issecretvalue = function(value) return value == 99 end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                linePostCalls[17](tooltip, restricted)
+                linePostCalls[17](tooltip, {leftText = "Secret index", lineIndex = 99})
+                linePostCalls[17](tooltip, {lineIndex = 1})
+                assert.spy(getLeftLine).was.not_called()
+                linePostCalls[17](tooltip, {leftText = "Absent font string", lineIndex = 3})
+                assert.spy(formatter.Title).was.not_called()
+                assert.spy(tooltip.AddLine).was.not_called()
+            end)
+
+            it("does not style other, forbidden or disabled tooltip frames", function()
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                local title = {id = 783, leftText = "Title", lineIndex = 1}
+                linePostCalls[17]({}, title)
+                tooltip.IsForbidden = function() return true end
+                linePostCalls[17](tooltip, title)
+                tooltip.IsForbidden = function() return false end
+                Questie.db.profile.enableTooltips = false
+                linePostCalls[17](tooltip, title)
+                assert.spy(formatter.Title).was.not_called()
+            end)
+
+            it("keeps native rendering when font-string access is unavailable, including on other clients", function()
+                Questie.IsForever = false
+                tooltip.GetLeftLine = nil
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                assert.spy(registerPostCall).was.not_called()
+                assert.is_nil(preCalls[17](tooltip, {leftText = "Native title"}))
+                assert.is_nil(preCalls[8](tooltip, {leftText = "Native objective"}))
+            end)
+
+            it("keeps native rendering when the post-call processor is unavailable", function()
+                _G.TooltipDataProcessor.AddLinePostCall = nil
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                assert.is_nil(preCalls[17](tooltip, {leftText = "Native title"}))
+                assert.spy(registerPostCall).was.not_called()
+            end)
+        end)
+
         describe("native party progress", function()
             local lines, rendered, savedGlobals
             local TITLE, PLAYER, OBJECTIVE = 17, 18, 8

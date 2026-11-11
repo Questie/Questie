@@ -117,6 +117,7 @@ Checkout the [README of the Questie API](./Public/README.md).
 - Automatically tracks quests on accepting
 - Can show all quests from the log at once (instead of default 5)
 - Left click quest to open quest log (configurable)
+- Hover a quest title or objective to see your progress and party members' progress on clients with native quest-party tooltips (including Forever). Uses Questie's quest formatting where supported, while keeping native completion icons and localized text.
 - Right-click for more options, e.g.:
     - Focus quest (makes other quest icons translucent)
     - Point arrow towards objective (requires [TomTom addon](https://www.curseforge.com/wow/addons/tomtom))
