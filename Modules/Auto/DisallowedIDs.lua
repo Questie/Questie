@@ -168,6 +168,7 @@ _AutoQuesting.disallowedQuests = {
         [13481] = true, -- Let's Get Out of Here!
         [13482] = true, -- Let's Get Out of Here
         [25476] = true, -- Rescue OOX-22/FE!
+        [94927] = true, -- Dunston Checks Out
         ---
         [10346] = true, -- Gryphoneer Windbellow (Return to the Abyssal Shelf) (Alliance)
         [10347] = true, -- Wing Commander Brack (Return to the Abyssal Shelf) (Horde)
