@@ -440,6 +440,17 @@ function QuestLockReasons.GetReasons(questId, chainQuestIds)
     return permanent
 end
 
+---Lists everything that keeps the player from taking a quest that is not part of a chain, as GetReasons does, so
+---every prequest it requires is a reason. A quest the player has turned in or has in the quest log has none.
+---@param questId QuestId
+---@return string[] reasons Empty when nothing keeps the player from the quest
+function QuestLockReasons.GetReasonsOutsideChain(questId)
+    if _IsCompletedOrActive(questId) then
+        return {}
+    end
+    return QuestLockReasons.GetReasons(questId, {})
+end
+
 ---Joins reasons from GetReasons into one red text, as shown after a quest's name.
 ---@param reasons string[]?
 ---@return string text Empty when there are no reasons

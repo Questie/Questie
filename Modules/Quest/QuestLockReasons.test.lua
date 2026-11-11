@@ -377,6 +377,27 @@ describe("QuestLockReasons", function()
         end)
     end)
 
+    describe("GetReasonsOutsideChain", function()
+        it("should list the reasons of a quest, its prequests included", function()
+            SetQuestNames({[201] = "Alpha"})
+            fields[QUEST].requiredClasses = 1
+            fields[QUEST].preQuestSingle = {201}
+
+            assert.are_same({"Warrior only", "Requires Alpha"}, QuestLockReasons.GetReasonsOutsideChain(QUEST))
+        end)
+
+        it("should return no reasons for a quest turned in or in the quest log", function()
+            fields[QUEST].requiredClasses = 1
+
+            Questie.db.char.complete[QUEST] = true
+            assert.are_same({}, QuestLockReasons.GetReasonsOutsideChain(QUEST))
+
+            Questie.db.char.complete[QUEST] = nil
+            activeQuests[QUEST] = {}
+            assert.are_same({}, QuestLockReasons.GetReasonsOutsideChain(QUEST))
+        end)
+    end)
+
     describe("FormatReasons", function()
         it("should join the reasons into one red text", function()
             assert.are_equal("[red]Warrior only; Requires level 31", QuestLockReasons.FormatReasons({"Warrior only", "Requires level 31"}))
