@@ -20,6 +20,15 @@
 
 如果您遇到问题，请阅读 [常见问题解答](https://github.com/Questie/Questie/wiki/FAQ-for-Classic-(1.13)) 。
 
+## Questie DB
+
+自 Questie 12.0.0 版本起，数据库被拆分为独立插件 QuestieDB，Questie 运行依赖它，并且二者在 CurseForge 上分开发布。
+
+CurseForge 客户端会自动安装它，但如果你手动安装插件，[请从这里下载 QuestieDB](https://www.curseforge.com/wow/addons/questiedb)。
+
+另外，QuestieDB 的 Github 发布版  [可在这里找到](https://github.com/Questie/QuestieDB/releases/latest)。
+
+[Questie 的 GitHub 发布版](https://github.com/Questie/Questie/releases/latest) 在发布时一并附带最新版的 QuestieDB。
 
 ## 信息
 - [常见问题解答](https://github.com/Questie/Questie/wiki/FAQ)
