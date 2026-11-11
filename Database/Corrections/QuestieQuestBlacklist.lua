@@ -7059,6 +7059,7 @@ function QuestieQuestBlacklist:Load()
         [78147] = HIDE_ON_MAP, -- Crimes Against Anatomy
         [78148] = HIDE_ON_MAP, -- Runes of the Sorcerer-Kings
         [78149] = HIDE_ON_MAP, -- Fury of the Land
+        [79090] = not Questie.IsSoD, -- Repelling Invaders
         [79091] = HIDE_ON_MAP, -- Archmage Antonidas: The Unabridged Autobiography
         [79092] = HIDE_ON_MAP, -- Archmage Theocritus' Research Journal
         [79093] = HIDE_ON_MAP, -- Rumi of Gnomeregan: The Collected Works
@@ -7066,6 +7067,7 @@ function QuestieQuestBlacklist:Load()
         [79095] = HIDE_ON_MAP, -- The Apothecary's Metaphysical Primer
         [79096] = HIDE_ON_MAP, -- Ataeric: On Arcane Curiosities
         [79097] = HIDE_ON_MAP, -- Baxtan: On Destructive Magics
+        [79098] = not Questie.IsSoD, -- Clear the Forest!
         [79535] = HIDE_ON_MAP, -- Basilisks: Should Petrification be Feared?
         [79947] = HIDE_ON_MAP, -- Geomancy: The Stone-Cold Truth
         [79948] = HIDE_ON_MAP, -- Defensive Magics 101
