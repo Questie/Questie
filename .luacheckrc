@@ -2908,6 +2908,7 @@ globals = {
     "SetItemRef",
     "ScrollFrame_OnScrollRangeChanged",
     -- Forever globals
+    "C_TooltipInfo.GetQuestPartyProgress",
     "C_CurveUtil",
     "C_Intl",
     "C_StringUtil",

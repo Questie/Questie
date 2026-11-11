@@ -264,6 +264,7 @@ Modules\Tracker\AutoCompleteFrame.lua
 Modules\Tracker\ChallengeModeTimer.lua
 Modules\Tracker\TrackerQuestieBehavior.lua
 Modules\Tracker\TrackerData.lua
+Modules\Tracker\TrackerQuestTooltip.lua
 Modules\Tracker\AchievementTracking.lua
 Modules\Tracker\TrackerAchievements.lua
 Modules\Tracker\TrackerRecipes.lua
