@@ -7117,9 +7117,11 @@ function QuestieQuestBlacklist:Load()
         [91899] = HIDE_ON_MAP, -- A Sealed Crate
         [91900] = HIDE_ON_MAP, -- A Sealed Crate
         [91901] = HIDE_ON_MAP, -- A Sealed Crate
+        [91902] = HIDE_ON_MAP, -- A Sealed Crate
         [91904] = HIDE_ON_MAP, -- A Sealed Crate
         [91905] = HIDE_ON_MAP, -- A Sealed Crate
         [91906] = HIDE_ON_MAP, -- A Sealed Crate
+        [91907] = HIDE_ON_MAP, -- A Sealed Crate
 
         [93928] = true, -- Of Mice and Milk
 
