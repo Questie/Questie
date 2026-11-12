@@ -1,9 +1,12 @@
 dofile("setupTests.lua")
 
-describe("QuestDetailsFrame prerequisite links", function()
+describe("QuestDetailsFrame quest links", function()
     local QuestDetailsFrame
     local QuestieSearchResults
+    local QuestChain
+    local QuestLockReasons
     local links
+    local groups
     local navigation
     local originalQuestie, originalLibStub, originalUnitLevel
 
@@ -12,20 +15,22 @@ describe("QuestDetailsFrame prerequisite links", function()
             callbacks = {},
             userdata = {},
             text = {SetFontObject = function() end},
-            SetFullWidth = function() end,
-            SetText = function() end,
+            SetFullWidth = function(self, isFull) self.fullWidth = isFull end,
+            SetText = function(self, text) self.shownText = text end,
             SetValue = function() end,
             SetLabel = function() end,
             SetDisabled = function() end,
             SetHeight = function() end,
             SetLayout = function() end,
-            SetTitle = function() end,
+            SetTitle = function(self, title) self.title = title end,
             AddChild = function() end,
             SetUserData = function(self, key, value) self.userdata[key] = value end,
             SetCallback = function(self, event, callback) self.callbacks[event] = callback end,
         }
         if widgetType == "InteractiveLabel" then
             links[#links + 1] = widget
+        elseif widgetType == "InlineGroup" then
+            groups[#groups + 1] = widget
         end
         return widget
     end
@@ -38,7 +43,7 @@ describe("QuestDetailsFrame prerequisite links", function()
         }
         _G.LibStub = function() return {Create = CreateWidget} end
         _G.UnitLevel = function() return 5 end
-        links, navigation = {}, {}
+        links, groups, navigation = {}, {}, {}
 
         dofile("Localization/l10n.lua")
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -53,7 +58,17 @@ describe("QuestDetailsFrame prerequisite links", function()
         QuestieLib.GetEffectiveQuestLevel = function() return 8 end
         QuestieLib.GetRaceString = function() return "" end
         QuestieLib.GetClassString = function() return "" end
-        QuestieLib.GetColoredQuestName = function(_, id) return "Prerequisite " .. id end
+        QuestieLib.GetColoredQuestName = function(_, id) return "Quest " .. id end
+
+        QuestChain = QuestieLoader:ImportModule("QuestChain")
+        QuestChain.GetFollowUpQuests = function() return {} end
+        QuestChain.GetRewardText = function() return "" end
+        QuestChain.GetLockReasons = function() return {} end
+        QuestLockReasons = QuestieLoader:ImportModule("QuestLockReasons")
+        QuestLockReasons.GetReasonsOutsideChain = function() return {} end
+        QuestLockReasons.FormatReasons = function(reasons)
+            return reasons and reasons[1] and ("<" .. table.concat(reasons, "; ") .. ">") or ""
+        end
 
         local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
         QuestieJourneyUtils.Spacer = function() end
@@ -109,5 +124,123 @@ describe("QuestDetailsFrame prerequisite links", function()
 
         links[2].callbacks.OnClick()
         assert.spy(QuestieSearchResults.SetSearch).was.called_with(QuestieSearchResults, "quest", 94568)
+    end)
+
+    it("shows the rewards of the prerequisites", function()
+        local rewards = {[92517] = "(1,150xp) ", [92518] = "(400xp) "}
+        QuestChain.GetRewardText = function(questId) return rewards[questId] or "" end
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            preQuestSingle = {92517},
+            preQuestGroup = {-92518, 94568},
+            Finisher = {},
+        })
+
+        assert.equals(3, #links)
+        assert.equals("Quest 92517 (1,150xp) ", links[1].shownText)
+        assert.equals("Quest 92518 (400xp) ", links[2].shownText)
+        assert.equals("Quest 94568", links[3].shownText)
+    end)
+
+    it("shows why the player cannot take the prerequisites, after their rewards", function()
+        QuestChain.GetRewardText = function(questId) return questId == 92517 and "(1,150xp) " or "" end
+        local reasons = {[92517] = {"Alliance only"}, [92518] = {"Warrior only", "Requires level 20"}}
+        QuestLockReasons.GetReasonsOutsideChain = spy.new(function(questId) return reasons[questId] or {} end)
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            preQuestSingle = {92517},
+            preQuestGroup = {-92518, 94568},
+            Finisher = {},
+        })
+
+        assert.spy(QuestLockReasons.GetReasonsOutsideChain).was.called_with(92518)
+        assert.equals("Quest 92517 (1,150xp) <Alliance only>", links[1].shownText)
+        assert.equals("Quest 92518 <Warrior only; Requires level 20>", links[2].shownText)
+        assert.equals("Quest 94568", links[3].shownText)
+    end)
+
+    it("lists the next quests in the chain with their rewards after the prerequisites", function()
+        QuestChain.GetFollowUpQuests = function(questId) return questId == 93036 and {93037, 93038} or {} end
+        QuestChain.GetRewardText = function(questId) return questId == 93037 and "(1,150xp) " or "" end
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            preQuestSingle = {92517},
+            Finisher = {},
+        })
+
+        assert.equals(2, #groups)
+        assert.equals("Requires one of these quests to be finished", groups[1].title)
+        assert.equals("Next in chain", groups[2].title)
+        assert.equals(3, #links)
+        assert.equals("Quest 93037 (1,150xp) ", links[2].shownText)
+        assert.equals("Quest 93038", links[3].shownText)
+    end)
+
+    it("follows the next quests in the chain with why the player cannot take them", function()
+        QuestChain.GetFollowUpQuests = function() return {93037, 93038, 93039} end
+        QuestChain.GetRewardText = function(questId) return questId ~= 93039 and "(1,150xp) " or "" end
+        QuestChain.GetLockReasons = spy.new(function()
+            return {[93037] = {}, [93038] = {"Warrior only", "Requires level 20"}, [93039] = {"Warrior only"}}
+        end)
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            Finisher = {},
+        })
+
+        assert.spy(QuestChain.GetLockReasons).was.called_with(93036, {93037, 93038, 93039})
+        assert.equals("Quest 93037 (1,150xp) ", links[1].shownText)
+        assert.equals("Quest 93038 (1,150xp) <Warrior only; Requires level 20>", links[2].shownText)
+        assert.equals("Quest 93039 <Warrior only>", links[3].shownText)
+    end)
+
+    it("navigates to a next quest in the chain", function()
+        QuestChain.GetFollowUpQuests = function() return {93037, 93038} end
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            Finisher = {},
+        })
+
+        links[2].callbacks.OnClick()
+
+        assert.same({"hide tooltip", "search"}, navigation)
+        assert.spy(QuestieSearchResults.SetSearch).was.called_with(QuestieSearchResults, "quest", 93038)
+    end)
+
+    it("stretches every quest link to the width of its section", function()
+        QuestChain.GetFollowUpQuests = function() return {93037} end
+
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            preQuestSingle = {92517},
+            preQuestGroup = {92518},
+            Finisher = {},
+        })
+
+        assert.equals(3, #links)
+        for _, link in ipairs(links) do
+            assert.is_true(link.fullWidth)
+        end
+    end)
+
+    it("leaves out the next in chain section when the quest has no follow-up", function()
+        QuestDetailsFrame:Draw({AddChild = function() end}, {
+            Id = 93036,
+            name = "Infiltrating the Cult",
+            Finisher = {},
+        })
+
+        assert.equals(0, #groups)
+        assert.equals(0, #links)
     end)
 end)

@@ -26,6 +26,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestChain
+local QuestChain = QuestieLoader:ImportModule("QuestChain")
+---@type QuestLockReasons
+local QuestLockReasons = QuestieLoader:ImportModule("QuestLockReasons")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -250,7 +254,8 @@ end
 ---@param lookup table Table of IDs (npc|object|quest|item)
 ---@param header string The text header to show above the links
 ---@param query function The function used to get link name from
-local function AddLinkedParagraph(frame, linkType, lookup, header, query)
+---@param getTextSuffix (fun(id: number): string)? Returns text to show after a link's name; nothing is added when it is empty
+local function AddLinkedParagraph(frame, linkType, lookup, header, query, getTextSuffix)
     if lookup and #lookup > 0 then
         local group = AceGUI:Create("InlineGroup")
         group:SetFullWidth(true)
@@ -261,6 +266,8 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
         for _, id in pairs(lookup) do
             id = math.abs(id)
             local link = AceGUI:Create("InteractiveLabel")
+            -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
+            link:SetFullWidth(true)
             local name = query(id, "name")
             local text
             if linkType == 'quest' then
@@ -270,6 +277,10 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
                 text = '['..lvl..'] '..name..' ('..id..')'
             else
                 text = name.." ("..id..")"
+            end
+            local textSuffix = getTextSuffix and getTextSuffix(id)
+            if textSuffix and textSuffix ~= "" then
+                text = text .. " " .. textSuffix
             end
             link:SetText(text)
             link:SetUserData("id", id)
@@ -286,6 +297,13 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
             group:AddChild(link)
         end
     end
+end
+
+---Returns the text shown after a prequest's name: its rewards, then why the player cannot take it.
+---@param preQuestId QuestId
+---@return string
+local function _GetPreQuestText(preQuestId)
+    return QuestChain.GetRewardText(preQuestId) .. QuestLockReasons.FormatReasons(QuestLockReasons.GetReasonsOutsideChain(preQuestId))
 end
 
 ---@param container ScrollFrame
@@ -484,12 +502,25 @@ function QuestDetailsFrame:Draw(container, quest)
     -- Pre Quests - two separate labeled sections
     if quest.preQuestSingle and next(quest.preQuestSingle) then
         QuestieJourneyUtils:Spacer(container)
-        AddLinkedParagraph(container, "quest", quest.preQuestSingle, l10n("Requires one of these quests to be finished"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(container, "quest", quest.preQuestSingle, l10n("Requires one of these quests to be finished"),
+            QuestieDB.QueryQuestSingle, _GetPreQuestText)
     end
 
     if quest.preQuestGroup and next(quest.preQuestGroup) then
         QuestieJourneyUtils:Spacer(container)
-        AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"),
+            QuestieDB.QueryQuestSingle, _GetPreQuestText)
+    end
+
+    local nextQuestIds = QuestChain.GetFollowUpQuests(quest.Id)
+    if nextQuestIds[1] then
+        -- Quests the player cannot take are listed too, followed by the reasons why
+        local lockReasons = QuestChain.GetLockReasons(quest.Id, nextQuestIds)
+        local function _GetNextQuestText(nextQuestId)
+            return QuestChain.GetRewardText(nextQuestId) .. QuestLockReasons.FormatReasons(lockReasons[nextQuestId])
+        end
+        QuestieJourneyUtils:Spacer(container)
+        AddLinkedParagraph(container, "quest", nextQuestIds, l10n("Next in chain"), QuestieDB.QueryQuestSingle, _GetNextQuestText)
     end
 
     QuestieJourneyUtils:Spacer(container)
