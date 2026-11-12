@@ -98,9 +98,13 @@ local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.
 
 ---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
-    -- Opening it from addon code taints Forever's gamepad bindings, which leads to a crash
-    if Questie.IsForever and InputUtil and InputUtil.IsGamepadUIEnabled() then
-        Questie:Print(l10n("Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."))
+    -- Opening it from addon code taints Forever's gamepad bindings (a crash) and the world map's pin pools
+    if Questie.IsForever then
+        if InputUtil and InputUtil.IsGamepadUIEnabled() then
+            Questie:Print(l10n("Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."))
+        else
+            Questie:Print(l10n("Opening the quest log from Questie is disabled on WoW Forever. Open it with your Quest Log key instead."))
+        end
         return
     end
 

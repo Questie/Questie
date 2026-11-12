@@ -1404,16 +1404,19 @@ end)
 describe("QuestieCompat super tracking", function()
     ---@type QuestieCompat
     local QuestieCompat
-    local originalSuperTrack
+    local originalSuperTrack, originalIsForever
 
     before_each(function()
         originalSuperTrack = _G.C_SuperTrack
+        originalIsForever = Questie.IsForever
+        Questie.IsForever = false
         dofile("Modules/QuestieCompat.lua")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end)
 
     after_each(function()
         _G.C_SuperTrack = originalSuperTrack
+        Questie.IsForever = originalIsForever
     end)
 
     describe("without C_SuperTrack", function()
@@ -1423,6 +1426,7 @@ describe("QuestieCompat super tracking", function()
 
         it("should report super tracking as unsupported", function()
             assert.is_false(QuestieCompat.IsSuperTrackingSupported())
+            assert.is_false(QuestieCompat.CanSetSuperTracking())
         end)
 
         it("should return no super tracked quest", function()
@@ -1448,6 +1452,7 @@ describe("QuestieCompat super tracking", function()
 
         it("should report super tracking as supported", function()
             assert.is_true(QuestieCompat.IsSuperTrackingSupported())
+            assert.is_true(QuestieCompat.CanSetSuperTracking())
         end)
 
         it("should set the super tracked quest", function()
@@ -1470,6 +1475,32 @@ describe("QuestieCompat super tracking", function()
 
             assert.spy(C_SuperTrack.SetSuperTrackedQuestID).was.called_with(0)
             assert.is_nil(QuestieCompat.GetSuperTrackedQuestID())
+        end)
+
+        describe("on Forever", function()
+            before_each(function()
+                Questie.IsForever = true
+            end)
+
+            it("should not allow setting the super tracked quest", function()
+                assert.is_true(QuestieCompat.IsSuperTrackingSupported())
+                assert.is_false(QuestieCompat.CanSetSuperTracking())
+            end)
+
+            it("should ignore setting and clearing the super tracked quest", function()
+                superTrackedQuestId = 456
+
+                QuestieCompat.SetSuperTrackedQuestID(123)
+                QuestieCompat.ClearSuperTrackedQuest()
+
+                assert.spy(C_SuperTrack.SetSuperTrackedQuestID).was.not_called()
+            end)
+
+            it("should still read the super tracked quest", function()
+                superTrackedQuestId = 456
+
+                assert.are_same(456, QuestieCompat.GetSuperTrackedQuestID())
+            end)
         end)
     end)
 end)

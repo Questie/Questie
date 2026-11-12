@@ -873,17 +873,23 @@ function QuestieCompat.GetSuperTrackedQuestID()
     return questId
 end
 
----Does nothing on clients without super tracking.
+---Forever: SUPER_TRACKING_CHANGED fires inside the call and Blizzard_QuestSuperTracking refreshes the map's quest pins from it, tainting their pool.
+---@return boolean
+function QuestieCompat.CanSetSuperTracking()
+    return QuestieCompat.IsSuperTrackingSupported() and (not Questie.IsForever)
+end
+
+---Does nothing on clients without super tracking, or where setting it taints.
 ---@param questId QuestId
 function QuestieCompat.SetSuperTrackedQuestID(questId)
-    if QuestieCompat.IsSuperTrackingSupported() then
+    if QuestieCompat.CanSetSuperTracking() then
         C_SuperTrack.SetSuperTrackedQuestID(questId)
     end
 end
 
----Does nothing on clients without super tracking.
+---Does nothing on clients without super tracking, or where setting it taints.
 function QuestieCompat.ClearSuperTrackedQuest()
-    if QuestieCompat.IsSuperTrackingSupported() then
+    if QuestieCompat.CanSetSuperTracking() then
         C_SuperTrack.SetSuperTrackedQuestID(0)
     end
 end
