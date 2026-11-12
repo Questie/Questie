@@ -281,6 +281,9 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
         frame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
     elseif XPerl_Target then
         targetFrame = XPerl_Target
+    elseif EllesmereUIUnitFrames_Target then
+        targetFrame = EllesmereUIUnitFrames_Target
+        strata = "MEDIUM"
     end
 
     frame:SetParent(targetFrame)
