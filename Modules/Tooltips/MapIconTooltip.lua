@@ -230,7 +230,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
             handleMapIcon(icon)
         end
     else
-        for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+        for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate(HBDPins.worldmapPinTemplate) do
             handleMapIcon(pin.icon)
         end
     end
