@@ -1184,7 +1184,7 @@ describe("QuestieQuest", function()
         before_each(function()
             replacements, draws = {}, {}
             entrances = {{1537, 27.63, 47.83}} -- The Hall of Thanes -> Ironforge
-            replace(_G, "LibStub", function() return {GetWorldCoordinatesFromZone = function() end} end)
+            replace(QuestieLoader:ImportModule("HBD"), "GetWorldCoordinatesFromZone", function() end)
             replace(Questie, "Warning", spy.new(function() end))
             replace(Questie.db, "profile", {enableObjectives = true, objectiveFilterDistance = 0})
             replace(ZoneDB, "GetUiMapIdByAreaId", function(_, area) if area == 1537 then return 1455 end end)

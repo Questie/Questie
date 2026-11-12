@@ -77,7 +77,8 @@ local function _HasEnded(acceptance)
     return acceptance ~= nil and (not ActiveQuests.IsCurrent(acceptance))
 end
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
 
 -- this variable defines how many operations to run (batched at a time) before yielding for a frame.
 -- 1 would mean yielding every operation (so lower = slower but less lag)

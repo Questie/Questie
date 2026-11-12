@@ -1,8 +1,6 @@
-local MAJOR, MINOR = "HereBeDragonsQuestie-Migrate", 2
-assert(LibStub, MAJOR .. " requires LibStub")
-
-local HBDMigrate, _oldversion = LibStub:NewLibrary(MAJOR, MINOR)
-if not HBDMigrate then return end
+-- Questie modification: a Questie module instead of a LibStub library, like HereBeDragons-2.0.lua.
+---@class HBDMigrate
+local HBDMigrate = QuestieLoader:CreateModule("HBDMigrate")
 
 local SetupMigrationData
 local MapMigrationData, mapFileToIdMap, uiMapIdToIdMap

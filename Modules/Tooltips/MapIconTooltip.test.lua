@@ -7,7 +7,7 @@ describe("MapIconTooltip objective wording", function()
 
     before_each(function()
         savedGlobals = {
-            LibStub = _G.LibStub, GetTime = _G.GetTime, GameTooltip = _G.GameTooltip,
+            GetTime = _G.GetTime, GameTooltip = _G.GameTooltip,
             WorldMapFrame = _G.WorldMapFrame, C_Map = _G.C_Map, IsShiftKeyDown = _G.IsShiftKeyDown,
             GetUnitName = _G.GetUnitName, UnitClassBase = _G.UnitClassBase, GetClassColor = _G.GetClassColor,
             C_CurrencyInfo = _G.C_CurrencyInfo, OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION,
@@ -70,7 +70,10 @@ describe("MapIconTooltip objective wording", function()
             texture = {GetVertexColor = function() return 1, 1, 1, 1 end, SetVertexColor = function() end},
             data = {Id = 1, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective, Name = "Windstone"},
         }
-        pins = {worldmapProvider = {GetMap = function()
+        -- Show traverses visible pins; only one pin participates in these renderer tests.
+        pins = QuestieLoader:ImportModule("HBDPins")
+        pins.activeMinimapPins = nil
+        pins.worldmapProvider = {GetMap = function()
             return {EnumeratePinsByTemplate = function()
                 local returned = false
                 return function()
@@ -80,9 +83,7 @@ describe("MapIconTooltip objective wording", function()
                     end
                 end
             end}
-        end}}
-        -- Show traverses visible pins; only one pin participates in these renderer tests.
-        _G.LibStub = function() return pins end
+        end}
         dofile("Modules/Tooltips/MapIconTooltip.lua")
         MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
         now = 1
@@ -92,7 +93,7 @@ describe("MapIconTooltip objective wording", function()
         _G.QUEST_MONSTERS_KILLED = savedGlobals.QUEST_MONSTERS_KILLED
         _G.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION = savedGlobals.OPTIONAL_QUEST_OBJECTIVE_DESCRIPTION
         _G.C_CurrencyInfo = savedGlobals.C_CurrencyInfo
-        _G.LibStub, _G.GetTime, _G.GameTooltip = savedGlobals.LibStub, savedGlobals.GetTime, savedGlobals.GameTooltip
+        _G.GetTime, _G.GameTooltip = savedGlobals.GetTime, savedGlobals.GameTooltip
         _G.WorldMapFrame, _G.C_Map, _G.IsShiftKeyDown = savedGlobals.WorldMapFrame, savedGlobals.C_Map, savedGlobals.IsShiftKeyDown
         _G.GetUnitName, _G.UnitClassBase, _G.GetClassColor = savedGlobals.GetUnitName, savedGlobals.UnitClassBase, savedGlobals.GetClassColor
         _G.Minimap, _G.GetCVar = savedGlobals.Minimap, savedGlobals.GetCVar

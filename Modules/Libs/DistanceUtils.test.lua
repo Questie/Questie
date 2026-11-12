@@ -11,17 +11,16 @@ describe("DistanceUtils", function()
     ---@type DistanceUtils
     local DistanceUtils
 
-    local HBDMock = {}
+    ---@type HBD
+    local HBDMock
 
     local match = require("luassert.match")
     local _ = match._ -- any match
 
     before_each(function()
+        HBDMock = QuestieLoader:ImportModule("HBD")
         HBDMock.GetPlayerWorldPosition = function() end
         HBDMock.GetWorldCoordinatesFromZone = function() end
-        setmetatable(_G.LibStub, {
-            __call = function() return HBDMock end
-        })
 
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")

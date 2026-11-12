@@ -87,7 +87,7 @@ describe("WaypointMinimap", function()
     end
 
     before_each(function()
-        saved = {LibStub = _G.LibStub, CreateFrame = _G.CreateFrame, Minimap = _G.Minimap,
+        saved = {CreateFrame = _G.CreateFrame, Minimap = _G.Minimap,
             GetPlayerFacing = _G.GetPlayerFacing, GetMinimapShape = _G.GetMinimapShape,
             hooksecurefunc = _G.hooksecurefunc, C_Texture = _G.C_Texture, GetCursorPosition = _G.GetCursorPosition}
         hooks = {}
@@ -105,12 +105,8 @@ describe("WaypointMinimap", function()
         _G.Minimap = NewFrame()
         _G.GetPlayerFacing = function() return facing end
         _G.GetMinimapShape = nil
-        _G.LibStub = function()
-            return {
-                GetPlayerWorldPosition = function() return player[1], player[2], player[3] end,
-                GetMinimapView = function() return radius, rotating end,
-            }
-        end
+        QuestieLoader:ImportModule("HBD").GetPlayerWorldPosition = function() return player[1], player[2], player[3] end
+        QuestieLoader:ImportModule("HBDPins").GetMinimapView = function() return radius, rotating end
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
         QuestieWaypoints.paths = {}
         QuestieWaypoints.MinimapAlpha = function(path) return path.minimapAlpha end

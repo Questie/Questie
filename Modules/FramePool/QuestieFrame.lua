@@ -27,7 +27,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 ---@class IconData
 ---@field Id QuestId

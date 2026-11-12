@@ -5,7 +5,6 @@ describe("HereBeDragons Classic world-map bounds", function()
         "WOW_PROJECT_ID", "WOW_PROJECT_CLASSIC"}
     local savedGlobals
     local library
-    local oldVersion
     local rectangles
     local bounds
     local maps
@@ -15,11 +14,8 @@ describe("HereBeDragons Classic world-map bounds", function()
         for _, name in ipairs(globalNames) do
             savedGlobals[name] = _G[name]
         end
-        library = {}
-        oldVersion = nil
-        _G.LibStub = setmetatable({NewLibrary = function() return library, oldVersion end}, {
-            __call = function() return {New = function() return {} end} end,
-        })
+        -- CallbackHandler is the only library HereBeDragons still gets from LibStub
+        _G.LibStub = function() return {New = function() return {} end} end
         _G.CreateFrame = function()
             return {SetScript = function() end, UnregisterAllEvents = function() end, RegisterEvent = function() end}
         end
@@ -77,6 +73,7 @@ describe("HereBeDragons Classic world-map bounds", function()
 
     it("derives Era bounds from its own rectangles, including out-of-range edges", function()
         dofile("Libs/HereBeDragons/HereBeDragons-2.0.lua")
+        library = QuestieLoader:ImportModule("HBD")
 
         assert.are.same({2000, 2400, 1800, 1000}, library.worldMapData[0])
         assert.are.same({2000, 1200, 400, 700}, library.worldMapData[1])
@@ -90,6 +87,7 @@ describe("HereBeDragons Classic world-map bounds", function()
         _G.GetBuildInfo = function() return "1.60.1", "69913", "test", 16001 end
 
         dofile("Libs/HereBeDragons/HereBeDragons-2.0.lua")
+        library = QuestieLoader:ImportModule("HBD")
 
         assert.are.same({2000, 2400, 1800, 1000}, library.worldMapData[0])
         assert.are.same({2000, 1200, 400, 700}, library.worldMapData[1])
@@ -101,6 +99,7 @@ describe("HereBeDragons Classic world-map bounds", function()
         _G.GetBuildInfo = function() return "12.0.7", "test", "test", 120007 end
 
         dofile("Libs/HereBeDragons/HereBeDragons-2.0.lua")
+        library = QuestieLoader:ImportModule("HBD")
 
         assert.are.same({76153.14, 50748.62, 65008.24, 23827.51}, library.worldMapData[0])
     end)
@@ -110,19 +109,10 @@ describe("HereBeDragons Classic world-map bounds", function()
         rectangles[1414] = {0, 0, 0, 1}
 
         dofile("Libs/HereBeDragons/HereBeDragons-2.0.lua")
+        library = QuestieLoader:ImportModule("HBD")
 
         assert.are.same({44688.53, 29795.11, 32601.04, 9894.93}, library.worldMapData[0])
         assert.are.same({44878.66, 29916.10, 8723.96, 14824.53}, library.worldMapData[1])
     end)
 
-    it("rebuilds cached mappings when upgrading version 33", function()
-        oldVersion = 33
-        library.mapData = {[1415] = {1, 1, 1, 1}}
-        library.worldMapData = {[0] = {1, 1, 1, 1}}
-
-        dofile("Libs/HereBeDragons/HereBeDragons-2.0.lua")
-
-        assert.are.same({2000, 2400, 1800, 1000}, library.worldMapData[0])
-        assert.are.equal(1000, library.mapData[1415][1])
-    end)
 end)
