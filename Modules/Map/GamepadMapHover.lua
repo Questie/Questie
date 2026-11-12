@@ -7,9 +7,10 @@ local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestieFrame
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+
 -- Blizzard's gamepad cursor can't see Questie pins (see HBDHooks), so we find the hovered icon ourselves.
 
-local PIN_TEMPLATE = "HereBeDragonsPinsTemplateQuestie"
 local UPDATE_INTERVAL = 0.05
 local MAX_DISTANCE_SQUARED = 12 * 12 -- same range as Blizzard's gamepad cursor
 
@@ -92,7 +93,7 @@ function _GamepadMapHover.FindIconUnderCursor()
     local cursorX, cursorY = WorldMapFrame.ScrollContainer:GetGamepadCursorPosition()
 
     local closestIcon, closestDistance
-    for pin in WorldMapFrame:EnumeratePinsByTemplate(PIN_TEMPLATE) do
+    for pin in WorldMapFrame:EnumeratePinsByTemplate(HBDPins.worldmapPinTemplate) do
         local icon = pin.icon
         if _IsIconVisible(icon) then
             -- pin.GetCenter is overridden by HBDHooks

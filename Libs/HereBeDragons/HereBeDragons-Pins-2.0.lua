@@ -25,6 +25,12 @@ pins.worldmapIconPins     = pins.worldmapIconPins or {} -- Questie modification:
 pins.worldmapProvider     = pins.worldmapProvider or CreateFromMixins(MapCanvasDataProviderMixin)
 pins.worldmapProviderPin  = pins.worldmapProviderPin or CreateFromMixins(MapCanvasPinMixin)
 
+-- Questie modification: every addon's world map pins share WorldMapFrame.pinPools, keyed by template name.
+-- Deriving the name from MAJOR gives a copy of this file with a renamed MAJOR its own pins instead of Questie's.
+-- Use pins.worldmapPinTemplate to enumerate the pins this library placed.
+local WORLDMAP_PIN_TEMPLATE = MAJOR .. "-WorldMapPin"
+pins.worldmapPinTemplate  = WORLDMAP_PIN_TEMPLATE
+
 -- make sure the pool is refreshed
 if oldversion and oldversion < 15 and pins.worldmapProvider and CreateUnsecuredRegionPoolInstance then
     pins.worldmapProvider:RemoveAllData()
@@ -34,7 +40,7 @@ end
 if not pins.worldmapPinsPool then
     -- new frame pools in WoW 11.x
     if CreateUnsecuredRegionPoolInstance then
-        pins.worldmapPinsPool = CreateUnsecuredRegionPoolInstance("HereBeDragonsPinsTemplateQuestie")
+        pins.worldmapPinsPool = CreateUnsecuredRegionPoolInstance(WORLDMAP_PIN_TEMPLATE)
     else
         pins.worldmapPinsPool = CreateFramePool("FRAME")
     end
@@ -373,11 +379,11 @@ worldmapPinsPool.creationFunc = worldmapPinsPool.createFunc
 worldmapPinsPool.resetterFunc = worldmapPinsPool.resetFunc
 
 -- register pin pool with the world map
-WorldMapFrame.pinPools["HereBeDragonsPinsTemplateQuestie"] = worldmapPinsPool
+WorldMapFrame.pinPools[WORLDMAP_PIN_TEMPLATE] = worldmapPinsPool
 
 -- provider base API
 function worldmapProvider:RemoveAllData()
-    self:GetMap():RemoveAllPinsByTemplate("HereBeDragonsPinsTemplateQuestie")
+    self:GetMap():RemoveAllPinsByTemplate(WORLDMAP_PIN_TEMPLATE)
 end
 
 -- Questie modification: look up the pin directly instead of scanning all pins, which made bulk removal O(n^2)
@@ -389,7 +395,7 @@ function worldmapProvider:RemovePinByIcon(icon)
 end
 
 function worldmapProvider:RemovePinsByRef(ref)
-    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+    for pin in self:GetMap():EnumeratePinsByTemplate(WORLDMAP_PIN_TEMPLATE) do
         if pin.icon and worldmapPinRegistry[ref][pin.icon] then
             self:GetMap():RemovePin(pin)
         end
@@ -490,7 +496,7 @@ function worldmapProvider:HandlePin(icon, data)
         x, y = HBD:GetZoneCoordinatesFromWorldInstance(data.x, data.y, data.instanceID, uiMapID)
     end
     if x and y then
-        self:GetMap():AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, x, y, data.frameLevelType)
+        self:GetMap():AcquirePin(WORLDMAP_PIN_TEMPLATE, icon, x, y, data.frameLevelType)
     end
 end
 

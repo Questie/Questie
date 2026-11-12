@@ -85,8 +85,8 @@ describe("HereBeDragons-Pins world-map icon removal", function()
         local removedIcon = CreateIcon()
         local keptIcon = CreateIcon()
         pins.worldmapPinRegistry[ref] = {[removedIcon] = true, [keptIcon] = true}
-        local removedPin = map:AcquirePin("HereBeDragonsPinsTemplateQuestie", removedIcon, 0.1, 0.1)
-        local keptPin = map:AcquirePin("HereBeDragonsPinsTemplateQuestie", keptIcon, 0.2, 0.2)
+        local removedPin = map:AcquirePin(pins.worldmapPinTemplate, removedIcon, 0.1, 0.1)
+        local keptPin = map:AcquirePin(pins.worldmapPinTemplate, keptIcon, 0.2, 0.2)
 
         pins:RemoveWorldMapIcon(ref, removedIcon)
 
@@ -101,7 +101,7 @@ describe("HereBeDragons-Pins world-map icon removal", function()
         local oldIcon = CreateIcon()
         local newIcon = CreateIcon()
         pins.worldmapPinRegistry[ref] = {[oldIcon] = true, [newIcon] = true}
-        local pin = map:AcquirePin("HereBeDragonsPinsTemplateQuestie", oldIcon, 0.1, 0.1)
+        local pin = map:AcquirePin(pins.worldmapPinTemplate, oldIcon, 0.1, 0.1)
         map:RemovePin(pin)
         map.activePins[pin] = true
         pin:OnAcquired(newIcon, 0.2, 0.2)
@@ -114,7 +114,7 @@ describe("HereBeDragons-Pins world-map icon removal", function()
 
     it("should release the previous pin when an icon is handled again", function()
         local icon = CreateIcon()
-        local oldPin = map:AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, 0.1, 0.1)
+        local oldPin = map:AcquirePin(pins.worldmapPinTemplate, icon, 0.1, 0.1)
         map.GetMapID = function() return nil end
         pins.worldmapProvider.GetMap = function() return map end
 
