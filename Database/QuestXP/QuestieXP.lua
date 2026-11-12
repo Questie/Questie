@@ -45,8 +45,9 @@ end
 ---@param qLevel Level
 ---@param showXPAtMaxLevel boolean
 ---@param ignorePlayerLevel boolean
+---@param questId QuestId
 ---@return XP experience
-local function getAdjustedXP(xp, qLevel, showXPAtMaxLevel, ignorePlayerLevel)
+local function getAdjustedXP(xp, qLevel, showXPAtMaxLevel, ignorePlayerLevel, questId)
     local charLevel = UnitLevel("player")
     if charLevel == GetMaxPlayerLevel() and (not showXPAtMaxLevel) then
         return 0
@@ -57,10 +58,12 @@ local function getAdjustedXP(xp, qLevel, showXPAtMaxLevel, ignorePlayerLevel)
     end
 
     if Questie.IsForever then
-        -- In Forever trivial quests give half their XP
-        if QuestieDB.IsTrivial(qLevel) then
-            xp = floor(xp / 20) * 10 -- round down to multiple of 10
+        -- Query the server for the XP reward fraction value when 6+ levels over
+        if charLevel - qLevel > 5 then
+            xp = GetQuestLogRewardXP(questId)
         end
+        -- Use DB XP value in the other cases
+        return floor(xp * _GetBuffMultiplier())
     else
         --? These calculations are fetched from cmangos
         local xpMultiplier = 2 * (qLevel - charLevel) + 20
@@ -81,9 +84,10 @@ local function getAdjustedXP(xp, qLevel, showXPAtMaxLevel, ignorePlayerLevel)
         else
             xp = 50 * floor((xp + 25) / 50)
         end
+
+        return floor(xp * _GetBuffMultiplier())
     end
 
-    return floor(xp * _GetBuffMultiplier())
 end
 
 
@@ -99,7 +103,7 @@ function QuestXP:GetQuestLogRewardXP(questId, showXPAtMaxLevel, ignorePlayerLeve
 
         --? We have -1 as a level for quests that are event quests and so on for TBC and WOTLK.
         if level > 0 and xp > 0 then
-            return getAdjustedXP(xp, level, showXPAtMaxLevel, ignorePlayerLevel)
+            return getAdjustedXP(xp, level, showXPAtMaxLevel, ignorePlayerLevel, questId)
         end
     end
 
