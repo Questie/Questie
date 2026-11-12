@@ -168,7 +168,6 @@ _AutoQuesting.disallowedQuests = {
         [13481] = true, -- Let's Get Out of Here!
         [13482] = true, -- Let's Get Out of Here
         [25476] = true, -- Rescue OOX-22/FE!
-        [94927] = true, -- Dunston Checks Out
         ---
         [10346] = true, -- Gryphoneer Windbellow (Return to the Abyssal Shelf) (Alliance)
         [10347] = true, -- Wing Commander Brack (Return to the Abyssal Shelf) (Horde)
@@ -188,6 +187,9 @@ _AutoQuesting.disallowedQuests = {
         -- Aldor/Scryer quests
         [10551] = true, -- Allegiance to the Aldor
         [10552] = true, -- Allegiance to the Scryers
+        --Forever
+        [94927] = true, -- Dunston Checks Out
+        [99123] = true, -- Lost in the Shadows
     },
     turnIn = {
         [2199] = true, -- Lore for a Price (crafting material objectives)
