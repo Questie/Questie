@@ -4,39 +4,34 @@ describe("HBDHooks", function()
     ---@type HBDHooks
     local HBDHooks
 
+    ---@type HBDPins
     local HBDPins
     local activePins
-    local originalLibStub
 
     before_each(function()
         activePins = {{}, {}}
-        HBDPins = {
-            worldmapProviderPin = {},
-            worldmapProvider = {
-                OnMapChanged = function() end,
-                GetMap = function()
-                    return {
-                        EnumeratePinsByTemplate = function()
-                            local i = 0
-                            return function()
-                                i = i + 1
-                                return activePins[i]
-                            end
-                        end,
-                    }
-                end,
-            },
+        HBDPins = QuestieLoader:ImportModule("HBDPins")
+        HBDPins.worldmapProviderPin = {}
+        HBDPins.worldmapProvider = {
+            OnMapChanged = function() end,
+            GetMap = function()
+                return {
+                    EnumeratePinsByTemplate = function()
+                        local i = 0
+                        return function()
+                            i = i + 1
+                            return activePins[i]
+                        end
+                    end,
+                }
+            end,
         }
-
-        originalLibStub = _G.LibStub
-        _G.LibStub = function() return HBDPins end
 
         dofile("Modules/Map/HBDHooks.lua")
         HBDHooks = QuestieLoader:ImportModule("HBDHooks")
     end)
 
     after_each(function()
-        _G.LibStub = originalLibStub
         Questie.IsForever = nil
     end)
 

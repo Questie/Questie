@@ -289,10 +289,10 @@ describe("QuestieFrame", function()
         end)
 
         it("should release the icon's paths and minimap twin when it unloads", function()
-            local savedLibStub = _G.LibStub
-            _G.LibStub = function() return {RemoveMinimapIcon = function() end, RemoveWorldMapIcon = function() end} end
+            local HBDPins = QuestieLoader:ImportModule("HBDPins")
+            HBDPins.RemoveMinimapIcon = function() end
+            HBDPins.RemoveWorldMapIcon = function() end
             dofile("Modules/FramePool/QuestieFrame.lua")
-            _G.LibStub = savedLibStub
             QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
             QuestieMap.questIdFrames = {}
             QuestieWaypoints.RemoveOwner = spy.new(function() end)
@@ -310,10 +310,10 @@ describe("QuestieFrame", function()
         end)
 
         it("should forget that a flash hid the icon when it unloads", function()
-            local savedLibStub = _G.LibStub
-            _G.LibStub = function() return {RemoveMinimapIcon = function() end, RemoveWorldMapIcon = function() end} end
+            local HBDPins = QuestieLoader:ImportModule("HBDPins")
+            HBDPins.RemoveMinimapIcon = function() end
+            HBDPins.RemoveWorldMapIcon = function() end
             dofile("Modules/FramePool/QuestieFrame.lua")
-            _G.LibStub = savedLibStub
             QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
             QuestieMap.questIdFrames = {}
             QuestieWaypoints.RemoveOwner = function() end

@@ -1,7 +1,7 @@
 dofile("setupTests.lua")
 
 describe("HereBeDragons-Pins world-map icon removal", function()
-    local globalNames = {"LibStub", "CreateFrame", "CreateFromMixins", "MapCanvasDataProviderMixin", "MapCanvasPinMixin",
+    local globalNames = {"CreateFrame", "CreateFromMixins", "MapCanvasDataProviderMixin", "MapCanvasPinMixin",
         "CreateUnsecuredRegionPoolInstance", "CreateFramePool", "Minimap", "GetCVar", "WorldMapFrame", "C_Minimap"}
     local savedGlobals
     local pins
@@ -23,7 +23,6 @@ describe("HereBeDragons-Pins world-map icon removal", function()
             savedGlobals[name] = _G[name]
         end
 
-        pins = {}
         map = {
             activePins = {},
             enumerateCount = 0,
@@ -47,9 +46,7 @@ describe("HereBeDragons-Pins world-map icon removal", function()
         end
 
         local frame = {SetScript = function() end, UnregisterAllEvents = function() end, RegisterEvent = function() end}
-        _G.LibStub = setmetatable({NewLibrary = function() return pins, nil end}, {
-            __call = function() return {RegisterCallback = function() end} end,
-        })
+        QuestieLoader:ImportModule("HBD").RegisterCallback = function() end
         _G.CreateFrame = function() return frame end
         _G.CreateFromMixins = function(mixin)
             local copy = {}
@@ -72,12 +69,22 @@ describe("HereBeDragons-Pins world-map icon removal", function()
         }
 
         dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
+        pins = QuestieLoader:ImportModule("HBDPins")
     end)
 
     after_each(function()
         for _, name in ipairs(globalNames) do
             _G[name] = savedGlobals[name]
         end
+    end)
+
+    -- Another addon that copied this file kept Questie's template name, so both shared one pool and
+    -- Questie's tooltip walked the other addon's pins.
+    it("should name its world map pin pool after the addon that loads it", function()
+        loadfile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")("OtherAddon")
+
+        assert.are.equal("HereBeDragonsPins-OtherAddon-WorldMapPin", pins.worldmapPinTemplate)
+        assert.are.equal(pins.worldmapPinsPool, WorldMapFrame.pinPools["HereBeDragonsPins-OtherAddon-WorldMapPin"])
     end)
 
     it("should remove only the pin of the given icon without scanning all pins", function()

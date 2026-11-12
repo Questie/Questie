@@ -7,7 +7,8 @@ local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 ---@type QuestieFrame
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 -- Blizzard's gamepad cursor can't see Questie pins (see HBDHooks), so we find the hovered icon ourselves.
 

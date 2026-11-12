@@ -1,53 +1,46 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
-local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 16
-assert(LibStub, MAJOR .. " requires LibStub")
+-- Questie modification: a Questie module instead of a LibStub library, like HereBeDragons-2.0.lua.
+---@class HBDPins
+local pins = QuestieLoader:CreateModule("HBDPins")
 
-local pins, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
-if not pins then return end
-
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
 
 local MinimapRadiusAPI = C_Minimap and C_Minimap.GetViewRadius
 
-pins.updateFrame          = pins.updateFrame or CreateFrame("Frame")
+pins.updateFrame          = CreateFrame("Frame")
 
 -- storage for minimap pins
-pins.minimapPins          = pins.minimapPins or {}
-pins.activeMinimapPins    = pins.activeMinimapPins or {}
-pins.minimapPinRegistry   = pins.minimapPinRegistry or {}
+pins.minimapPins          = {}
+pins.activeMinimapPins    = {}
+pins.minimapPinRegistry   = {}
 
 -- and worldmap pins
-pins.worldmapPins         = pins.worldmapPins or {}
-pins.worldmapPinRegistry  = pins.worldmapPinRegistry or {}
-pins.worldmapIconPins     = pins.worldmapIconPins or {} -- Questie modification: icon -> acquired pin
+pins.worldmapPins         = {}
+pins.worldmapPinRegistry  = {}
+pins.worldmapIconPins     = {} -- Questie modification: icon -> acquired pin
 
-pins.worldmapProvider     = pins.worldmapProvider or CreateFromMixins(MapCanvasDataProviderMixin)
-pins.worldmapProviderPin  = pins.worldmapProviderPin or CreateFromMixins(MapCanvasPinMixin)
+pins.worldmapProvider     = CreateFromMixins(MapCanvasDataProviderMixin)
+pins.worldmapProviderPin  = CreateFromMixins(MapCanvasPinMixin)
 
 -- Questie modification: every addon's world map pins share WorldMapFrame.pinPools, keyed by template name.
--- Deriving the name from MAJOR gives a copy of this file with a renamed MAJOR its own pins instead of Questie's.
+-- Naming the template after the loading addon keeps pins apart from addons that copied an earlier version of
+-- this file. A copy of this version still registers into Questie's module, so embed upstream HereBeDragons.
 -- Use pins.worldmapPinTemplate to enumerate the pins this library placed.
-local WORLDMAP_PIN_TEMPLATE = MAJOR .. "-WorldMapPin"
+local addonName = ... or "Questie" -- the test runner loads files without the addon name
+local WORLDMAP_PIN_TEMPLATE = "HereBeDragonsPins-" .. addonName .. "-WorldMapPin"
 pins.worldmapPinTemplate  = WORLDMAP_PIN_TEMPLATE
 
--- make sure the pool is refreshed
-if oldversion and oldversion < 15 and pins.worldmapProvider and CreateUnsecuredRegionPoolInstance then
-    pins.worldmapProvider:RemoveAllData()
-    pins.worldmapPinsPool = nil
-end
-
-if not pins.worldmapPinsPool then
-    -- new frame pools in WoW 11.x
-    if CreateUnsecuredRegionPoolInstance then
-        pins.worldmapPinsPool = CreateUnsecuredRegionPoolInstance(WORLDMAP_PIN_TEMPLATE)
-    else
-        pins.worldmapPinsPool = CreateFramePool("FRAME")
-    end
+-- new frame pools in WoW 11.x
+if CreateUnsecuredRegionPoolInstance then
+    pins.worldmapPinsPool = CreateUnsecuredRegionPoolInstance(WORLDMAP_PIN_TEMPLATE)
+else
+    pins.worldmapPinsPool = CreateFramePool("FRAME")
 end
 
 -- store a reference to the active minimap object
-pins.Minimap = pins.Minimap or Minimap
+pins.Minimap = Minimap
 
 -- Data Constants
 local WORLD_MAP_ID = 947
@@ -602,13 +595,13 @@ HBD.RegisterCallback(pins, "PlayerZoneChanged", UpdateMinimap)
 -- @param floatOnEdge flag if the icon should float on the edge of the minimap when going out of range, or hide immediately (default false)
 function pins:AddMinimapIconWorld(ref, icon, instanceID, x, y, floatOnEdge)
     if not ref then
-        error(MAJOR..": AddMinimapIconWorld: 'ref' must not be nil", 2)
+        error("HBDPins: AddMinimapIconWorld: 'ref' must not be nil", 2)
     end
     if type(icon) ~= "table" or not icon.SetPoint then
-        error(MAJOR..": AddMinimapIconWorld: 'icon' must be a frame", 2)
+        error("HBDPins: AddMinimapIconWorld: 'icon' must be a frame", 2)
     end
     if type(instanceID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error(MAJOR..": AddMinimapIconWorld: 'instanceID', 'x' and 'y' must be numbers", 2)
+        error("HBDPins: AddMinimapIconWorld: 'instanceID', 'x' and 'y' must be numbers", 2)
     end
 
     if not minimapPinRegistry[ref] then
@@ -642,13 +635,13 @@ end
 -- @param floatOnEdge flag if the icon should float on the edge of the minimap when going out of range, or hide immediately (default false)
 function pins:AddMinimapIconMap(ref, icon, uiMapID, x, y, showInParentZone, floatOnEdge)
     if not ref then
-        error(MAJOR..": AddMinimapIconMap: 'ref' must not be nil", 2)
+        error("HBDPins: AddMinimapIconMap: 'ref' must not be nil", 2)
     end
     if type(icon) ~= "table" or not icon.SetPoint then
-        error(MAJOR..": AddMinimapIconMap: 'icon' must be a frame", 2)
+        error("HBDPins: AddMinimapIconMap: 'icon' must be a frame", 2)
     end
     if type(uiMapID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error(MAJOR..": AddMinimapIconMap: 'uiMapID', 'x' and 'y' must be numbers", 2)
+        error("HBDPins: AddMinimapIconMap: 'uiMapID', 'x' and 'y' must be numbers", 2)
     end
 
     -- convert to world coordinates and use our known adding function
@@ -745,16 +738,16 @@ HBD_PINS_WORLDMAP_SHOW_WORLD     = 3
 -- @param frameLevel Optional Frame Level type registered with the WorldMapFrame, defaults to PIN_FRAME_LEVEL_AREA_POI
 function pins:AddWorldMapIconWorld(ref, icon, instanceID, x, y, showFlag, frameLevel)
     if not ref then
-        error(MAJOR..": AddWorldMapIconWorld: 'ref' must not be nil", 2)
+        error("HBDPins: AddWorldMapIconWorld: 'ref' must not be nil", 2)
     end
     if type(icon) ~= "table" or not icon.SetPoint then
-        error(MAJOR..": AddWorldMapIconWorld: 'icon' must be a frame", 2)
+        error("HBDPins: AddWorldMapIconWorld: 'icon' must be a frame", 2)
     end
     if type(instanceID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error(MAJOR..": AddWorldMapIconWorld: 'instanceID', 'x' and 'y' must be numbers", 2)
+        error("HBDPins: AddWorldMapIconWorld: 'instanceID', 'x' and 'y' must be numbers", 2)
     end
     if showFlag ~= nil and type(showFlag) ~= "number" then
-        error(MAJOR..": AddWorldMapIconWorld: 'showFlag' must be a number (or nil)", 2)
+        error("HBDPins: AddWorldMapIconWorld: 'showFlag' must be a number (or nil)", 2)
     end
 
     if not worldmapPinRegistry[ref] then
@@ -786,16 +779,16 @@ end
 -- @param frameLevel Optional Frame Level type registered with the WorldMapFrame, defaults to PIN_FRAME_LEVEL_AREA_POI
 function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag, frameLevel)
     if not ref then
-        error(MAJOR..": AddWorldMapIconMap: 'ref' must not be nil", 2)
+        error("HBDPins: AddWorldMapIconMap: 'ref' must not be nil", 2)
     end
     if type(icon) ~= "table" or not icon.SetPoint then
-        error(MAJOR..": AddWorldMapIconMap: 'icon' must be a frame", 2)
+        error("HBDPins: AddWorldMapIconMap: 'icon' must be a frame", 2)
     end
     if type(uiMapID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error(MAJOR..": AddWorldMapIconMap: 'uiMapID', 'x' and 'y' must be numbers", 2)
+        error("HBDPins: AddWorldMapIconMap: 'uiMapID', 'x' and 'y' must be numbers", 2)
     end
     if showFlag ~= nil and type(showFlag) ~= "number" then
-        error(MAJOR..": AddWorldMapIconMap: 'showFlag' must be a number (or nil)", 2)
+        error("HBDPins: AddWorldMapIconMap: 'showFlag' must be a number (or nil)", 2)
     end
 
     -- convert to world coordinates
@@ -864,8 +857,3 @@ function pins:GetVectorToIcon(icon)
     return HBD:GetWorldVector(instance, x, y, data.x, data.y)
 end
 
-if oldversion then
-    if WorldMapFrame:IsShown() then
-        worldmapProvider:RefreshAllData(false)
-    end
-end

@@ -222,6 +222,21 @@ describe("QuestieProfilerPreHook", function()
             end
         end)
 
+        it("leaves HereBeDragons to the profiler's library pass", function()
+            local originals = {}
+            for _, name in ipairs({"HBD", "HBDPins", "HBDMigrate"}) do
+                originals[name] = function() end
+                GivenModule(name, {Work = originals[name]})
+            end
+
+            LoadPreHook(true)
+            QuestieLoader:CreateModule("PreHookLibraryTrigger")
+
+            for name, original in pairs(originals) do
+                assert.are_equal(original, QuestieLoader._modules[name].Work, name .. " must be excluded")
+            end
+        end)
+
         it("leaves QuestieDB's generated query primitives alone but wraps the rest of it", function()
             local query = function() end
             local ordinary = function() end

@@ -52,8 +52,10 @@ QuestieMap.manualFrames = {}
 local fadeOverDistance = 10;
 local normalizedValue = 1 / fadeOverDistance; --Opacity / Distance to fade over
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;

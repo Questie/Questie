@@ -12,7 +12,8 @@ local WaypointMinimap = QuestieLoader:ImportModule("WaypointMinimap")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
 
 ---An NPC's patrol on one map, drawn while its owning icon is.
 ---@class WaypointPath : WaypointPolyline
