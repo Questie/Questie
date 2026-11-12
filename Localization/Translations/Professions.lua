@@ -55,7 +55,7 @@ local professionLocals = {
     ["Leatherworking"] = {
         ["enUS"] = true,
         ["deDE"] = "Lederverarbeitung",
-        ["esES"] = (Expansions.Current == Expansions.Era and "Marroquinería") or "Peletería",
+        ["esES"] = (Expansions:IsEra() and "Marroquinería") or "Peletería",
         ["esMX"] = "Peletería",
         ["frFR"] = "Travail du cuir",
         ["koKR"] = "가죽세공",
@@ -103,7 +103,7 @@ local professionLocals = {
     ["Herbalism"] = {
         ["enUS"] = true,
         ["deDE"] = "Kräuterkunde",
-        ["esES"] = (Expansions.Current == Expansions.Era and "Botánica") or "Herboristería",
+        ["esES"] = (Expansions:IsEra() and "Botánica") or "Herboristería",
         ["esMX"] = "Herboristería",
         ["frFR"] = "Herboristerie",
         ["koKR"] = "약초채집",
@@ -175,7 +175,7 @@ local professionLocals = {
     ["Tailoring"] = {
         ["enUS"] = true,
         ["deDE"] = "Schneiderei",
-        ["esES"] = (Expansions.Current == Expansions.Era and "Costura") or "Sastrería",
+        ["esES"] = (Expansions:IsEra() and "Costura") or "Sastrería",
         ["esMX"] = "Sastrería",
         ["frFR"] = "Couture",
         ["koKR"] = "재봉술",
