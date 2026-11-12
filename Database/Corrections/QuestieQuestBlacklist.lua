@@ -7079,6 +7079,7 @@ function QuestieQuestBlacklist:Load()
         [79951] = HIDE_ON_MAP, -- Mummies: A Guide to the Unsavory Undead
         [79952] = HIDE_ON_MAP, -- RwlRwlRwlRwl!
         [79953] = HIDE_ON_MAP, -- A Ludite's Guide to Caring for Your Demonic Pet        
+        [80001] = not Questie.IsSoD, -- Rekinde
         [81730] = not Questie.IsSoD, -- Duskwood Mission I: Defeat Worgen
         [81731] = not Questie.IsSoD, -- Duskwood Mission II: Defeat Ogres
         [81732] = not Questie.IsSoD, -- Duskwood Mission III: Defeat Dragonkin
