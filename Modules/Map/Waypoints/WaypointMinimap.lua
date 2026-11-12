@@ -17,8 +17,10 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 -- Everything visible lies within √2 view radii of the player: a square minimap's corners. Segments
 -- within CULL_MARGIN radii of the projection origin are drawn, which covers that view while the

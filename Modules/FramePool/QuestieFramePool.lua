@@ -13,10 +13,11 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type MapIconTooltip
 local MapIconTooltip = QuestieLoader:ImportModule("MapIconTooltip")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 -- set pins parent to QuestieFrameGroup for easier compatibility with other addons
--- cant use this because it fucks with everything, but we gotta stick with HereBeDragonsQuestie anyway
+-- cant use this because it fucks with everything, but we gotta stick with Questie's HereBeDragons anyway
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 
 local numberOfFrames = 0

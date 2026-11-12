@@ -4,7 +4,6 @@ describe("QuestieWaypoints", function()
     ---@type QuestieWaypoints
     local QuestieWaypoints
     local WaypointMap, WaypointMinimap
-    local savedLibStub
 
     local PATROLS = {{{10, 10}, {20, 10}}, {{30, 30}, {40, 30}}}
     local NORMAL, HOSTILE, HIGHLIGHT = {1, 0.72, 0, 0.5}, {1, 0.2, 0, 0.7}, {0.93, 0.46, 0.13, 0.8}
@@ -20,10 +19,7 @@ describe("QuestieWaypoints", function()
     end
 
     before_each(function()
-        savedLibStub = _G.LibStub
-        _G.LibStub = function()
-            return {GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 0 end}
-        end
+        QuestieLoader:ImportModule("HBD").GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 0 end
         Questie.db.profile = {iconFadeLevel = 0.3, waypointMapEnabled = true, waypointMinimapEnabled = true, waypointOpacity = 1,
             waypointColor = NORMAL, waypointHostileColor = HOSTILE, waypointHighlight = true, waypointHighlightColor = HIGHLIGHT}
         QuestieLoader:ImportModule("ZoneDB").GetUiMapIdByAreaId = function(_, areaId) return areaId + 1000 end
@@ -34,10 +30,6 @@ describe("QuestieWaypoints", function()
         dofile("Modules/Map/Waypoints/WaypointGeometry.lua")
         dofile("Modules/Map/Waypoints/QuestieWaypoints.lua")
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
-    end)
-
-    after_each(function()
-        _G.LibStub = savedLibStub
     end)
 
     it("draws each patrol for the icon and shares the paths with its data", function()

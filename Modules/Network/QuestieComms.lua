@@ -25,7 +25,8 @@ local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjective
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
 
 QuestieComms.data = {}
 

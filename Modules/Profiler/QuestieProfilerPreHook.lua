@@ -47,8 +47,9 @@ local ownWrappers = setmetatable({}, {__mode = "k"})
 -- the profiler drives, and it also hands its own callback functions to the profiler at file scope, so
 -- redirecting those would put an indirection inside every resume boundary.
 --
--- The rest mirror PROFILING_DISALLOWED_PATHS in QuestieProfiler.lua, which excludes them because they run
--- thousands of times inside a single useful high-level measurement and would otherwise dominate every result.
+-- QuestieStreamLib and QuestieSerializer mirror PROFILING_DISALLOWED_PATHS in QuestieProfiler.lua, which
+-- excludes them because they run thousands of times inside a single useful high-level measurement and would
+-- otherwise dominate every result.
 -- That list cannot be imported here - this file loads long before it - so it is repeated, and the two must be
 -- changed together.
 local EXCLUDED_MODULES = {
@@ -59,6 +60,11 @@ local EXCLUDED_MODULES = {
     ThreadLib = true,
     QuestieStreamLib = true,
     QuestieSerializer = true,
+    -- HereBeDragons is measured as a library root instead (PROFILED_LIBRARIES in QuestieProfiler.lua), which
+    -- names it Libs.* and hooks its frame scripts. Wrapping its slots here would claim it for the module pass first.
+    HBD = true,
+    HBDPins = true,
+    HBDMigrate = true,
 }
 
 -- Same reasoning, for slots rather than whole modules: QuestieDB's generated query primitives.

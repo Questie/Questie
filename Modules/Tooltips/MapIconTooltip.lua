@@ -36,7 +36,8 @@ local WaypointHover = QuestieLoader:ImportModule("WaypointHover")
 ---@type QuestieFrame
 local QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 local GetCoinTextureString = C_CurrencyInfo.GetCoinTextureString or GetCoinTextureString
 
 

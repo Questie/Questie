@@ -5,7 +5,8 @@ local _HBDHooks = {}
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 
 function HBDHooks:Init()
