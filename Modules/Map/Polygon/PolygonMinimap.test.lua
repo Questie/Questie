@@ -104,16 +104,18 @@ describe("PolygonMinimap", function()
         return corners
     end
 
-    ---How thick a border edge is drawn: the distance between its left and right sides. Its vertex
-    ---offsets place its start left (1), end left (2) and start right (3) corners; both left corners lie
-    ---on the left side, which runs along the edge.
+    ---How thick a border edge's line is drawn: its piece's width, the distance between its left and right
+    ---sides, times 12/16, the share of the piece the border texture's line fills
+    ---(Icons/originals/blobs/build.py). Its vertex offsets place its start left (1), end left (2) and
+    ---start right (3) corners; both left corners lie on the left side, which runs along the edge.
     local function Thickness(border)
         local frame, offsets = border.parent, border.offsets
         local startLeftX, startLeftY = offsets[1][1], offsets[1][2]
         local endLeftX, endLeftY = offsets[2][1] + frame.width, offsets[2][2]
         local startRightX, startRightY = offsets[3][1], offsets[3][2] - frame.height
         local dx, dy = endLeftX - startLeftX, endLeftY - startLeftY
-        return math.abs(dx * (startRightY - startLeftY) - dy * (startRightX - startLeftX)) / math.sqrt(dx * dx + dy * dy)
+        local width = math.abs(dx * (startRightY - startLeftY) - dy * (startRightX - startLeftX)) / math.sqrt(dx * dx + dy * dy)
+        return width * 12 / 16
     end
 
     ---Each outline vertex is a corner of the fill fan. Its position is the container's offset from
@@ -259,7 +261,7 @@ describe("PolygonMinimap", function()
         layer.Invalidate()
         Tick()
         assert.are.equal(frame, renderer.activeFrames[1])
-        assert.are_near(1.8, Thickness(frame.borders[1]), 1e-9)
+        assert.are_near(2.25, Thickness(frame.borders[1]), 1e-9)
         AssertOutlineOnIcons(frame, cluster.outline)
 
         areas[1].highlighted = false
@@ -348,7 +350,7 @@ describe("PolygonMinimap", function()
         assert.are_near(x, last.x, 1e-6)
         assert.are_near(y, last.y, 1e-6)
         local frame = renderer.activeFrames[1]
-        assert.are_near(1.8, Thickness(frame.borders[1]), 1e-9)
+        assert.are_near(2.25, Thickness(frame.borders[1]), 1e-9)
 
         -- Overlapping areas both hover.
         CursorAt(World(10, 41.2, 41.2))

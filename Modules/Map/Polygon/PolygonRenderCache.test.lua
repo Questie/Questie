@@ -425,16 +425,18 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         return frame
     end
 
-    ---How thick a border edge is drawn: the distance between its left and right sides. Its vertex
-    ---offsets have y up and start at the frame's corners; both left corners lie on the left side,
-    ---which runs along the edge.
+    ---How thick a border edge's line is drawn: its piece's width, the distance between its left and right
+    ---sides, times 12/16, the share of the piece the border texture's line fills
+    ---(Icons/originals/blobs/build.py). Its vertex offsets have y up and start at the frame's corners;
+    ---both left corners lie on the left side, which runs along the edge.
     local function Thickness(border)
         local frame, offsets = border.parent, border.offsets
         local startLeftX, startLeftY = offsets.UL[1], offsets.UL[2]
         local endLeftX, endLeftY = offsets.UR[1] + frame.width, offsets.UR[2]
         local startRightX, startRightY = offsets.LL[1], offsets.LL[2] - frame.height
         local dx, dy = endLeftX - startLeftX, endLeftY - startLeftY
-        return math.abs(dx * (startRightY - startLeftY) - dy * (startRightX - startLeftX)) / math.sqrt(dx * dx + dy * dy)
+        local width = math.abs(dx * (startRightY - startLeftY) - dy * (startRightX - startLeftX)) / math.sqrt(dx * dx + dy * dy)
+        return width * 12 / 16
     end
 
     before_each(function()
@@ -477,7 +479,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         local hoverUpdate = renderer.hoverDriver.scripts.OnUpdate
         shape.highlighted = true
         assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
-        assert.are.near(1.8, Thickness(border), 1e-9)
+        assert.are.near(2.25, Thickness(border), 1e-9)
         assert.are_equal(tint, fill.color)
         assert.are_equal(hoverUpdate, renderer.hoverDriver.scripts.OnUpdate)
         shape.highlighted = false
@@ -491,8 +493,9 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_equal(fill, firstView.fills[1])
         assert.are_equal(tint, fill.color)
         -- Two fills and six border pieces: the triangle's 27-degree corner adds two fills and a cap.
-        -- The border was drawn, thickened for the highlight and restored: three times four vertices each.
-        assert.are_same({textureSetup = 8, vertexSetup = 8, borderSetup = 72, uvSetup = 2, fillStyle = 2, random = 24}, calls)
+        -- The border was drawn, thickened for the highlight and restored: three times four vertices and
+        -- one texture mapping each. Each texture's image was set once.
+        assert.are_same({textureSetup = 8, vertexSetup = 8, borderSetup = 72, uvSetup = 20, fillStyle = 2, random = 24}, calls)
 
         shape.points = {{x = 50, y = 50}, {x = 60, y = 50}, {x = 50, y = 60}}
         assert.is_true(cache:Present(20, {shape}, 1000, 500, 8))
@@ -505,7 +508,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.is_false(secondView.shown)
         assert.are_equal(tint, fill.color)
         -- Only map 20's new view was drawn; returning to map 10 redrew nothing.
-        assert.are_same({textureSetup = 16, vertexSetup = 16, borderSetup = 96, uvSetup = 4, fillStyle = 4, random = 48}, calls)
+        assert.are_same({textureSetup = 16, vertexSetup = 16, borderSetup = 96, uvSetup = 28, fillStyle = 4, random = 48}, calls)
     end)
 
     it("reconfigures a resized view without new primitives and releases all maps with their owner", function()
