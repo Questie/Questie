@@ -49,7 +49,7 @@ Login Stage 3
 
 The Stage 1 check gates login work, **not earlier TOC-file bindings**. A provider that lacks an
 API used during file loading can still fail before the compatibility message. Moving that gate
-earlier is unfinished work in the [release-bundling plan](../PLAN-release-bundles.md).
+earlier is unfinished work.
 
 Player race encoding comes from the provider's read-only `LibQuestieDB.Enum.raceMaskById`.
 Faction-wide masks come from `LibQuestieDB.Enum.factionRaceMasks.Alliance` and `.Horde`.
@@ -233,7 +233,7 @@ failures. Build/test jobs must not have publishing credentials or access live in
 For a contract change, develop against the proposed provider revision, publish the supporting
 provider release, then update the consumer's required target before merging. A temporary PR/commit
 check does not replace released-provider validation. Distribution and release selection are covered
-by the separate [release-bundling plan](../PLAN-release-bundles.md). The agreed
+by the [release guide](release-guide.md). The
 [release metadata structure](release-format.md) describes component ownership and bundling.
 
 ## Outstanding integration validation
