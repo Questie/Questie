@@ -61,9 +61,26 @@ end
 -- A border is one quad per outline edge, mitered with its neighbours (MapGeometry.Quads), so its
 -- corners neither gap on the outside nor overlap and draw darker on the inside. A corner sharper
 -- than MapGeometry.MITER_LIMIT allows adds two fills and a cap; a convex outline has at most two
--- such corners. All pieces are drawn plain, so a cap's kite leaves that corner slightly pointed
--- where a disc would round it, which is too small to see at these thicknesses.
-local BORDER_THICKNESS, SELECTED_BORDER_THICKNESS = 1.5, 1.8
+-- such corners.
+-- A highlight thickens the border by half: soft edges make a smaller step hard to see.
+local BORDER_THICKNESS, SELECTED_BORDER_THICKNESS = 1.5, 2.25
+
+-- Borders are drawn as patrol paths draw their lines (see "The outline texture" in docs/waypoints.md),
+-- with the same textures less their black outline; Icons/originals/blobs/build.py draws them. The
+-- line texture's 16 rows run across a piece: white in the middle 12, then a fade to transparent, so
+-- the border's edges stay smooth instead of stair-stepping. The cap texture is the same rows turned
+-- into rings.
+local LINE_TEXTURE = "Interface\\Addons\\Questie\\Icons\\blobs\\blob-line-aa.png"
+local CAP_TEXTURE = "Interface\\Addons\\Questie\\Icons\\blobs\\blob-cap-aa.png"
+-- Pieces are wider than the border by the fade, so the border keeps its thickness.
+local PIECE_SCALE = 16 / 12
+-- The cap disc's radius, 8 texels of the 32 wide image, spans a piece's half width.
+local CAP_RADIUS = 8 / 32
+-- An edge stretches the whole line texture over its piece. A fill's start corners take the texture's
+-- edge rows, and its end corners, both at the turn's point, the centre row between them.
+-- ulX, ulY, llX, llY, urX, urY, lrX, lrY, matching start left, start right, end left, end right.
+local EDGE_LOOK = {texture = LINE_TEXTURE, texCoords = {0, 0, 0, 1, 1, 0, 1, 1}}
+local FILL_LOOK = {texture = LINE_TEXTURE, texCoords = {0, 0, 0, 1, 1, 0.5, 1, 0.5}}
 
 ---A configured border's geometry, kept so a highlight can redraw it at another thickness.
 ---@class PolygonBorder
@@ -72,22 +89,52 @@ local BORDER_THICKNESS, SELECTED_BORDER_THICKNESS = 1.5, 1.8
 ---@field frameHeight number
 ---@field thickness number The thickness it is drawn at.
 
----Edges, then sharp corners' fills, then their caps, each in MapGeometry.Quads' corner layout. How
----many there are depends only on the outline's angles, so any thickness fits the same textures.
+---The cap's look: its kite on the disc, with its first corner, the turn's point, at the disc's centre
+---and the disc's radius spanning halfWidth, so the cap carries the edges' rows around the point.
+---@param cap number[]
+---@param halfWidth number
+---@return table look
+local function _CapLook(cap, halfWidth)
+    local scale = CAP_RADIUS / halfWidth
+    local x, y = cap[1], cap[2]
+    return {texture = CAP_TEXTURE, texCoords = {0.5, 0.5, 0.5 + (cap[3] - x) * scale, 0.5 + (cap[4] - y) * scale,
+        0.5 + (cap[5] - x) * scale, 0.5 + (cap[6] - y) * scale, 0.5 + (cap[7] - x) * scale, 0.5 + (cap[8] - y) * scale}}
+end
+
+---Edges, then sharp corners' fills, then their caps, each in MapGeometry.Quads' corner layout, with
+---each piece's texture and coordinates. How many there are, and which kind each is, depends only on
+---the outline's angles, so any thickness fits the same textures.
 ---@param ring table[]
 ---@param thickness number
 ---@return number[][] pieces
+---@return table[] looks
 local function _BorderPieces(ring, thickness)
-    local pieces, fills, caps = MapGeometry.Quads(ring, thickness / 2)
-    for _, list in ipairs({fills, caps}) do
-        for _, piece in ipairs(list) do pieces[#pieces + 1] = piece end
+    local halfWidth = thickness / 2 * PIECE_SCALE
+    local pieces, fills, caps = MapGeometry.Quads(ring, halfWidth)
+    local looks = {}
+    for i = 1, #pieces do looks[i] = EDGE_LOOK end
+    for _, fill in ipairs(fills) do
+        pieces[#pieces + 1] = fill
+        looks[#pieces] = FILL_LOOK
     end
-    return pieces
+    for _, cap in ipairs(caps) do
+        pieces[#pieces + 1] = cap
+        looks[#pieces] = _CapLook(cap, halfWidth)
+    end
+    return pieces, looks
 end
 
 ---Stretches a texture spanning the frame over one border piece, as _DrawSquare does for fills:
 ---each vertex moves from the frame's corner onto the piece's. Vertex offsets have y up.
-local function _DrawBorderPiece(texture, frame, piece, frameWidth, frameHeight)
+---Pooled border textures keep their image; it changes only when a piece of another kind reuses one.
+local function _DrawBorderPiece(texture, frame, piece, look, frameWidth, frameHeight)
+    if texture.polygonBorderTexture ~= look.texture then
+        -- Bilinear filtering of the full-size image blends the rows across pixels; NEAREST would step
+        -- them as lines move. TRILINEAR's mipmaps were tried too: zoomed out, they blur and fade
+        -- the border.
+        texture:SetTexture(look.texture, "CLAMP", "CLAMP", "LINEAR")
+        texture.polygonBorderTexture = look.texture
+    end
     local startLeftX, startLeftY, startRightX, startRightY = piece[1], piece[2], piece[3], piece[4]
     local endLeftX, endLeftY, endRightX, endRightY = piece[5], piece[6], piece[7], piece[8]
     texture:SetAllPoints(frame)
@@ -95,6 +142,7 @@ local function _DrawBorderPiece(texture, frame, piece, frameWidth, frameHeight)
     texture:SetVertexOffset(LOWER_LEFT_VERTEX, startRightX, frameHeight - startRightY)
     texture:SetVertexOffset(UPPER_RIGHT_VERTEX, endLeftX - frameWidth, -endLeftY)
     texture:SetVertexOffset(LOWER_RIGHT_VERTEX, endRightX - frameWidth, frameHeight - endRightY)
+    texture:SetTexCoord(unpack(look.texCoords))
 end
 
 -- Hover selection and border styling
@@ -107,8 +155,9 @@ local function _RestyleBorders(frame, selected)
     if not border then return end
     local thickness = selected and SELECTED_BORDER_THICKNESS or BORDER_THICKNESS
     if border.thickness ~= thickness then
-        for i, piece in ipairs(_BorderPieces(border.ring, thickness)) do
-            _DrawBorderPiece(frame.borders[i], frame, piece, border.frameWidth, border.frameHeight)
+        local pieces, looks = _BorderPieces(border.ring, thickness)
+        for i, piece in ipairs(pieces) do
+            _DrawBorderPiece(frame.borders[i], frame, piece, looks[i], border.frameWidth, border.frameHeight)
         end
         border.thickness = thickness
     end
@@ -302,7 +351,10 @@ local function _AcquireTexture(self, frame, border, index)
     texture:SetParent(frame)
     texture:SetSnapToPixelGrid(false)
     texture:SetTexelSnappingBias(0)
-    texture:SetTexture(WHITE_TEXTURE, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE", "NEAREST")
+    -- A border's image depends on its piece's kind, so _DrawBorderPiece sets it.
+    if not border then
+        texture:SetTexture(WHITE_TEXTURE, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE", "NEAREST")
+    end
     texture.polygonDebugColor = PolygonRenderer.debugRandomColors and {math.random(), math.random(), math.random()} or nil
     return texture
 end
@@ -392,10 +444,10 @@ local function _ConfigureFrame(self, frame, shape, width, height, frameLevel, ce
     end
     ring[#ring + 1] = ring[1]
     local thickness = self.highlightedFrames[frame] and SELECTED_BORDER_THICKNESS or BORDER_THICKNESS
-    local pieces = _BorderPieces(ring, thickness)
+    local pieces, looks = _BorderPieces(ring, thickness)
     for i, piece in ipairs(pieces) do
         local texture = _AcquireTexture(self, frame, true, i)
-        _DrawBorderPiece(texture, frame, piece, frameWidth, frameHeight)
+        _DrawBorderPiece(texture, frame, piece, looks[i], frameWidth, frameHeight)
         texture:Show()
     end
     _ReleaseTextures(frame.borders, self.freeBorders, #pieces)

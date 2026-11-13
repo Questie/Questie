@@ -47,12 +47,18 @@ describe("PolygonRenderer", function()
             offsets.UR[1] + frame.width, -offsets.UR[2], offsets.LR[1] + frame.width, frame.height - offsets.LR[2]}
     end
 
-    -- How thick a border edge is drawn: the distance between its left and right sides. Both left
-    -- corners lie on the left side, which runs along the edge.
+    -- The border texture's line fills the middle 12 of its 16 rows, and a fade the rest
+    -- (Icons/originals/blobs/build.py), so a piece is 16/12 as wide as its line.
+    local LINE_SHARE = 12 / 16
+
+    -- How thick a border edge's line is drawn: its piece's width, the distance between the piece's
+    -- left and right sides, times LINE_SHARE. Both left corners lie on the left side, which runs
+    -- along the edge.
     local function _Thickness(texture)
         local corners = _Corners(texture)
         local dx, dy = corners[5] - corners[1], corners[6] - corners[2]
-        return math.abs(dx * (corners[4] - corners[2]) - dy * (corners[3] - corners[1])) / math.sqrt(dx * dx + dy * dy)
+        local width = math.abs(dx * (corners[4] - corners[2]) - dy * (corners[3] - corners[1])) / math.sqrt(dx * dx + dy * dy)
+        return width * LINE_SHARE
     end
 
     local function _CreateTexture(frame)
@@ -61,9 +67,9 @@ describe("PolygonRenderer", function()
         function texture:SetParent(parent) self.parent = parent end
         function texture:SetSnapToPixelGrid(value) self.snap = value end
         function texture:SetTexelSnappingBias(value) self.bias = value end
-        function texture:SetTexture(path)
+        function texture:SetTexture(path, wrapHorizontal, wrapVertical, filter)
             if self.id == failTexture then error("texture configuration failed") end
-            self.path = path
+            self.path, self.wrap, self.filter = path, {wrapHorizontal, wrapVertical}, filter
         end
         function texture:SetAllPoints(parent) self.allPoints = parent end
         function texture:SetVertexOffset(vertex, x, y) self.offsets[vertex] = {x, y} end
@@ -165,18 +171,77 @@ describe("PolygonRenderer", function()
         assert.are_same({0, 0, 0, 1, 1, 0, 1, 1}, textures[1].uv)
         assert.are_same({0.2, 0.4, 0.6, 0.25}, textures[1].color)
         assert.are_same({0.2, 0.4, 0.6, 0.75}, textures[3].color)
-        -- Borders are 1.5 wide, centered on the outline. A rectangle's miters lie on its corners'
-        -- diagonals, 0.75 along each axis: inside on the left of this clockwise outline, outside on the
-        -- right. The first edge runs along the top, (0, 0) to (200, 0) in the 200x150 frame.
-        _AssertNear({0.75, -0.75}, textures[3].offsets.UL)
-        _AssertNear({-0.75, 150.75}, textures[3].offsets.LL)
-        _AssertNear({-0.75, -0.75}, textures[3].offsets.UR)
-        _AssertNear({0.75, 150.75}, textures[3].offsets.LR)
+        -- Borders are 1.5 wide, centered on the outline, and their pieces 1.5 * 16 / 12 = 2 wide, so
+        -- the texture's fade lies outside the line. A rectangle's miters lie on its corners' diagonals,
+        -- 1 along each axis: inside on the left of this clockwise outline, outside on the right. The
+        -- first edge runs along the top, (0, 0) to (200, 0) in the 200x150 frame.
+        _AssertNear({1, -1}, textures[3].offsets.UL)
+        _AssertNear({-1, 151}, textures[3].offsets.LL)
+        _AssertNear({-1, -1}, textures[3].offsets.UR)
+        _AssertNear({1, 151}, textures[3].offsets.LR)
         -- The last edge, up the left side, ends on the very corners the first starts on.
-        _AssertNear({0.75, 149.25, -0.75, 150.75, 0.75, 0.75, -0.75, -0.75}, _Corners(textures[6]))
+        _AssertNear({1, 149, -1, 151, 1, 1, -1, -1}, _Corners(textures[6]))
         assert.are_equal("Interface\\BUTTONS\\WHITE8X8", textures[1].path)
+        -- Each edge stretches the whole line texture over its piece: rows across it, the same all along.
+        for i = 3, 6 do
+            assert.are_equal("Interface\\Addons\\Questie\\Icons\\blobs\\blob-line-aa.png", textures[i].path)
+            assert.are_same({0, 0, 0, 1, 1, 0, 1, 1}, textures[i].uv)
+        end
+        -- Bilinear filtering keeps the fade smooth; the clamp keeps a cap's corners past the image on
+        -- its transparent outer texels.
+        assert.are_same({"CLAMP", "CLAMP"}, textures[3].wrap)
+        assert.are_equal("LINEAR", textures[3].filter)
         assert.is_false(textures[1].snap)
         assert.are_equal(0, textures[1].bias)
+    end)
+
+    describe("sharp corners", function()
+        local LINE = "Interface\\Addons\\Questie\\Icons\\blobs\\blob-line-aa.png"
+        local CAP = "Interface\\Addons\\Questie\\Icons\\blobs\\blob-cap-aa.png"
+        -- The {0, 0}, {30, 0}, {15, 30} triangle in a 100x100 canvas, so frame units equal percent: its
+        -- apex is its one corner sharp enough for fills and a cap.
+        local TRIANGLE = {points = {{x = 0, y = 0}, {x = 30, y = 0}, {x = 15, y = 30}}, color = {1, 0, 0}}
+
+        it("fades the fills from the point and rounds the cap with the line's rows", function()
+            local renderer = PolygonRenderer.New(canvas)
+            _Draw(renderer, {TRIANGLE}, 100, 100, 8)
+            local borders = frames[1].borders
+
+            assert.are_equal(6, #borders)
+            -- A fill runs from a segment's end corners, on its two sides, to the point at the centre row.
+            for i = 4, 5 do
+                assert.are_equal(LINE, borders[i].path)
+                assert.are_same({0, 0, 0, 1, 1, 0.5, 1, 0.5}, borders[i].uv)
+            end
+            -- The cap's kite reaches sqrt(2) half widths from the apex (15, 30): along the outward normals
+            -- of the edges meeting there, (2, 1) / sqrt(5) to the right and (-2, 1) / sqrt(5) to the left,
+            -- and straight down, away from the triangle. Pieces' half width is 1.5 / 2 * 16 / 12 = 1. The
+            -- cap image's disc radius, 8 of its 32 texels, spans one half width.
+            local function Kite(centerX, centerY, reach)
+                local across, down = reach * 2 / math.sqrt(5), reach / math.sqrt(5)
+                return {centerX, centerY, centerX + across, centerY + down, centerX - across, centerY + down,
+                    centerX, centerY + reach}
+            end
+            assert.are_equal(CAP, borders[6].path)
+            _AssertNear(Kite(15, 30, math.sqrt(2)), _Corners(borders[6]))
+            _AssertNear(Kite(0.5, 0.5, math.sqrt(2) / 4), borders[6].uv)
+        end)
+
+        it("gives a reused texture the image of the piece it draws now", function()
+            local renderer = PolygonRenderer.New(canvas)
+            _Draw(renderer, {TRIANGLE}, 100, 100, 8)
+            local view = frames[1]
+            local cap = view.borders[6]
+            assert.are_equal(CAP, cap.path)
+
+            -- A hexagon has six edges and no sharp corner, so its sixth piece is an edge.
+            renderer:Configure(view, {points = {{x = 20, y = 10}, {x = 40, y = 10}, {x = 50, y = 30}, {x = 40, y = 50},
+                {x = 20, y = 50}, {x = 10, y = 30}}, color = {1, 0, 0}}, 100, 100, 8)
+
+            assert.are_equal(cap, view.borders[6])
+            assert.are_equal(LINE, cap.path)
+            assert.are_same({0, 0, 0, 1, 1, 0, 1, 1}, cap.uv)
+        end)
     end)
 
     it("keeps independent debug tints through hover while preserving fill and border opacity", function()
@@ -200,7 +265,7 @@ describe("PolygonRenderer", function()
 
         renderer:Hover(15, 10)
         assert.are_same({0.546875, 0.625, 0.703125, 0.1875}, frames[1].borders[1].color)
-        assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
+        assert.are.near(2.25, _Thickness(frames[1].borders[1]), 1e-9)
         renderer:Hover(90, 90)
         assert.are_same({0.4375, 0.5, 0.5625, 0.1875}, frames[1].borders[1].color)
         assert.are.near(1.5, _Thickness(frames[1].borders[1]), 1e-9)
@@ -472,8 +537,8 @@ describe("PolygonRenderer", function()
             renderer:SetVisibleFrames({view})
             -- Redrawn at the new thickness on the textures it already had; the next case checks every piece.
             assert.are.equal(9, #view.borders)
-            assert.are.near(1.8, _Thickness(view.borders[1]), 1e-9)
-            assert.are.near(1.8, _Thickness(view.borders[3]), 1e-9)
+            assert.are.near(2.25, _Thickness(view.borders[1]), 1e-9)
+            assert.are.near(2.25, _Thickness(view.borders[3]), 1e-9)
             assert.spy(vertices).was.not_called()
             assert.spy(fills).was.not_called()
             assert.spy(anchors).was.not_called()
@@ -500,7 +565,7 @@ describe("PolygonRenderer", function()
             renderer:SetVisibleFrames({view, reference})
             renderer:Configure(reference, triangle, 100, 50, 8)
             assert.are.equal(6, #view.borders)
-            assert.are.near(1.8, _Thickness(reference.borders[1]), 1e-9)
+            assert.are.near(2.25, _Thickness(reference.borders[1]), 1e-9)
             for i, border in ipairs(view.borders) do
                 for _, vertex in ipairs({"UL", "LL", "UR", "LR"}) do
                     _AssertNear(reference.borders[i].offsets[vertex], border.offsets[vertex])
@@ -758,15 +823,15 @@ describe("PolygonRenderer", function()
             renderer:Hover(10, 10)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true, [frames[2]] = true}, renderer.highlightedFrames)
-            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
-            assert.are.near(1.8, _Thickness(frames[2].borders[1]), 1e-9)
+            assert.are.near(2.25, _Thickness(frames[1].borders[1]), 1e-9)
+            assert.are.near(2.25, _Thickness(frames[2].borders[1]), 1e-9)
 
             local redraws = spy.on(frames[1].borders[1], "SetVertexOffset")
             renderer:Hover(30, 30) -- In both rectangles, but no longer in the triangle.
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
             assert.spy(redraws).was.not_called()
-            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
+            assert.are.near(2.25, _Thickness(frames[1].borders[1]), 1e-9)
             assert.are.near(1.5, _Thickness(frames[2].borders[1]), 1e-9)
         end)
 
@@ -823,7 +888,7 @@ describe("PolygonRenderer", function()
             local fill, border = frames[1].fills[1], frames[1].borders[1]
             renderer:Hover(10, 10)
             assert.are_same({0.25, 0.5, 0.75, 0.1875}, border.color)
-            assert.are.near(1.8, _Thickness(border), 1e-9)
+            assert.are.near(2.25, _Thickness(border), 1e-9)
             assert.are_same({0.2, 0.4, 0.6, 0.05}, fill.color)
             assert.are_equal(11, #textures)
 
@@ -842,7 +907,7 @@ describe("PolygonRenderer", function()
 
             assert.are_same({[frames[1]] = true}, renderer.hoveredFrames)
             assert.are_same({0.25, 0.5, 0.75, 0}, border.color)
-            assert.are.near(1.8, _Thickness(border), 1e-9)
+            assert.are.near(2.25, _Thickness(border), 1e-9)
             assert.are_same({0.2, 0.4, 0.6, 0.05}, frames[1].fills[1].color)
 
             renderer:Hover(90, 90)
@@ -921,7 +986,7 @@ describe("PolygonRenderer", function()
             _Draw(renderer, shapes, 100, 100, 8)
             assert.are_same({}, renderer.hoveredFrames)
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
+            assert.are.near(2.25, _Thickness(frames[1].borders[1]), 1e-9)
             assert.are_same({0.25, 0.5, 0.75, 0.1875}, frames[1].borders[1].color)
 
             renderer.hoverDriver:Hide()
@@ -929,7 +994,7 @@ describe("PolygonRenderer", function()
             assert.are.near(1.5, _Thickness(frames[1].borders[1]), 1e-9)
             renderer.hoverDriver:Show()
             assert.are_same({[frames[1]] = true}, renderer.highlightedFrames)
-            assert.are.near(1.8, _Thickness(frames[1].borders[1]), 1e-9)
+            assert.are.near(2.25, _Thickness(frames[1].borders[1]), 1e-9)
 
             shapes[1].highlighted = false
             _Draw(renderer, shapes, 100, 100, 8)
