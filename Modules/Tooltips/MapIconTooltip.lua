@@ -406,7 +406,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                             tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
 
                             local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "nextQuestInChain")
-                            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbForQuestId") or 0 end
+                            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "breadcrumbForQuestId") or 0 end
 
                             if nextNextQuestId > 0 then
                                 nextQuestId = nextNextQuestId
