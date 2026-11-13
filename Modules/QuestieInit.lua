@@ -281,6 +281,12 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieMap initializing.")
     QuestieMap:InitializeQueue()
 
+    -- Enable before quest initialization draws the first objective icons.
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieDBM initializing.")
+    if Questie.db.profile.dbmHUDEnable then
+        QuestieDBMIntegration:EnableHUD()
+    end
+
     coYield()
     QuestieQuest:Initialize()
     coYield()
@@ -320,11 +326,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     end
     QuestieComms:Initialize()
     coYield()
-
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] QuestieDBM initializing.")
-    if Questie.db.profile.dbmHUDEnable then
-        QuestieDBMIntegration:EnableHUD()
-    end
 
     WorldMapButton.Initialize()
     Townsfolk.PostBoot()
