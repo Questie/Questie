@@ -27,12 +27,18 @@ local ENTRY_POINTS = {
     ["Modules/Tooltips/MapIconTooltip.lua"] = {
         QuestiePolygon = "objective lines start with their area colour; icons list the areas beneath them; markers hint their click",
     },
-    ["Modules/Options/MapTab/QuestieOptionsMap.lua"] = {QuestieWaypoints = "Map > Waypoints settings"},
+    ["Modules/Options/MapTab/QuestieOptionsMap.lua"] = {
+        QuestieWaypoints = "Map > Waypoints settings",
+        QuestiePolygon = "Map > Blobs settings",
+    },
     ["Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua"] = {QuestieWaypoints = "Show waypoint hover area"},
-    ["Modules/Options/IconsTab/QuestieOptionsIcons.lua"] = {QuestiePolygon = "Questie blobs preset and quest area settings"},
-    ["Modules/Options/NativeOptions/NativeOptionsMap.lua"] = {QuestieWaypoints = "Map > Waypoints settings"},
+    ["Modules/Options/IconsTab/QuestieOptionsIcons.lua"] = {QuestiePolygon = "Enable Minimap Icons redraws the minimap areas"},
+    ["Modules/Options/NativeOptions/NativeOptionsMap.lua"] = {
+        QuestieWaypoints = "Map > Waypoints settings",
+        QuestiePolygon = "Map > Blobs settings",
+    },
     ["Modules/Options/NativeOptions/NativeOptionsAdvanced.lua"] = {QuestieWaypoints = "Show waypoint hover area"},
-    ["Modules/Options/NativeOptions/NativeOptionsIcons.lua"] = {QuestiePolygon = "Questie blobs preset and quest area settings"},
+    ["Modules/Options/NativeOptions/NativeOptionsIcons.lua"] = {QuestiePolygon = "Enable Minimap Icons redraws the minimap areas"},
     ["Modules/Tutorial/ObjectivePreview.lua"] = {
         PolygonRenderer = "the objective style popup's still blobs map, which has no quests for the adapter, draws its areas",
     },
