@@ -46,7 +46,7 @@ local eventsLocales = {
         ["esES"] = "Festival Lunar",
         ["esMX"] = "Festival Lunar",
         ["frFR"] = "Fête lunaire",
-        ["koKR"] = (Expansions:IsEra() and "설날") or "달의 축제",
+        ["koKR"] = (Questie.IsOnlyEra and "설날") or "달의 축제",
         ["ptBR"] = "Festival da Lua",
         ["ruRU"] = "Лунный фестиваль",
         ["zhCN"] = "新年",
@@ -98,7 +98,7 @@ local eventsLocales = {
         ["ptBR"] = "Solstício",
         ["ruRU"] = "Огненный солнцеворот",
         ["zhCN"] = "仲夏",
-        ["zhTW"] = (Expansions:IsEra() and "仲夏") or "仲夏節",
+        ["zhTW"] = (Questie.IsOnlyEra and "仲夏") or "仲夏節",
     },
     ["Brewfest"] = {
         ["enUS"] = true,
