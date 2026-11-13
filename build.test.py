@@ -137,6 +137,17 @@ class BuildModeTests(unittest.TestCase):
                            "commit": "c" * 40, "author": "Muehe", "coAuthors": ["Logonz"]}],
         }
         self.provider_manifest = {"releases": [{"filename": "QuestieDB-1.0.0-all.zip"}], "questiedb": self.database}
+        self.trace_zip = self.root / "trace.zip"
+        with zipfile.ZipFile(self.trace_zip, "w") as archive:
+            for toc in ("QuestieTrace-Classic.toc", "QuestieTrace-Camelot.toc"):
+                archive.writestr("QuestieTrace/" + toc, "## Version: 1.10.0\n")
+        self.trace = {
+            "repository": "https://github.com/Questie/QuestieTrace",
+            "version": "1.10.0", "producerCommit": "9" * 40,
+            "artifacts": [{"file": "QuestieTrace-v1.10.0.zip", "bytes": self.trace_zip.stat().st_size,
+                           "sha256": hashlib.sha256(self.trace_zip.read_bytes()).hexdigest()}],
+        }
+        self.trace_manifest = {"releases": [{"filename": "QuestieTrace-v1.10.0.zip"}], "questietrace": self.trace}
         self.downloads = self.enterContext(patch("urllib.request.urlretrieve", side_effect=self.download_provider))
 
     def write_provider_zip(self, version="1.0.0"):
@@ -146,10 +157,14 @@ class BuildModeTests(unittest.TestCase):
                                  "## Version: " + version + "\n## X-BUILD-COMMIT: " + "a" * 40 + "\n")
 
     def download_provider(self, url, destination):
-        if url.endswith("/latest/download/release.json"):
+        if url == "https://github.com/Questie/QuestieDB/releases/latest/download/release.json":
             Path(destination).write_text(json.dumps(self.provider_manifest), encoding="utf-8")
-        elif url.endswith("/latest/download/QuestieDB-1.0.0-all.zip"):
+        elif url == "https://github.com/Questie/QuestieDB/releases/latest/download/QuestieDB-1.0.0-all.zip":
             shutil.copyfile(self.provider_zip, destination)
+        elif url == "https://github.com/Questie/QuestieTrace/releases/latest/download/release.json":
+            Path(destination).write_text(json.dumps(self.trace_manifest), encoding="utf-8")
+        elif url == "https://github.com/Questie/QuestieTrace/releases/latest/download/QuestieTrace-v1.10.0.zip":
+            shutil.copyfile(self.trace_zip, destination)
         else:
             self.fail("Unexpected download: " + url)
 
@@ -215,8 +230,50 @@ class BuildModeTests(unittest.TestCase):
         self.assertEqual("Questie-v11.38.0+v1.0.0.zip", filename)
         with zipfile.ZipFile(output / filename) as archive:
             roots = {name.split("/")[0] for name in archive.namelist()}
-            self.assertEqual({"Questie", "QuestieDB"}, roots)
-        self.assertEqual(2, self.downloads.call_count)
+            self.assertEqual({"Questie", "QuestieDB", "QuestieTrace"}, roots)
+        self.assertEqual(4, self.downloads.call_count)
+
+    def test_should_bundle_the_latest_questietrace_release_and_keep_its_section(self):
+        output, manifest = self.run_build("--bundled", "-r")
+        self.assertEqual(self.trace, manifest["questietrace"])
+        self.assertEqual("Questie-v11.38.0+v1.0.0.zip", manifest["releases"][0]["filename"])
+        with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
+            self.assertEqual("## Version: 1.10.0\n", archive.read("QuestieTrace/QuestieTrace-Classic.toc").decode())
+
+    def test_should_not_bundle_questietrace_in_standalone_builds(self):
+        _, manifest = self.run_build("--standalone", "-r")
+        self.assertNotIn("questietrace", manifest)
+        self.downloads.assert_not_called()
+
+    def test_should_reject_a_questietrace_archive_that_does_not_match_its_manifest(self):
+        archive = self.trace["artifacts"][0]
+        for field, value in (("sha256", "f" * 64), ("bytes", 1)):
+            with self.subTest(field=field), patch.dict(archive, {field: value}):
+                with self.assertRaisesRegex(ValueError, "QuestieTrace archive checksum or size"):
+                    self.run_build("--bundled", "-r")
+                self.assertFalse((self.root / "releases/v11.38.0/release.json").exists())
+
+    def test_should_reject_a_questietrace_manifest_without_exactly_one_artifact(self):
+        archive = self.trace["artifacts"][0]
+        for artifacts in ([], [archive, archive]):
+            with self.subTest(artifacts=artifacts):
+                self.trace["artifacts"] = artifacts
+                with self.assertRaisesRegex(ValueError, "exactly one QuestieTrace artifact"):
+                    self.run_build("--bundled", "-r")
+
+    def test_should_reject_a_questietrace_archive_with_any_toc_differing_from_its_manifest(self):
+        with zipfile.ZipFile(self.trace_zip, "w") as archive:
+            archive.writestr("QuestieTrace/QuestieTrace-Classic.toc", "## Version: 1.10.0\n")
+            archive.writestr("QuestieTrace/QuestieTrace-Camelot.toc", "## Version: 1.9.2\n")
+        self.trace["artifacts"][0].update(bytes=self.trace_zip.stat().st_size,
+                                          sha256=hashlib.sha256(self.trace_zip.read_bytes()).hexdigest())
+        with self.assertRaisesRegex(ValueError, "QuestieTrace TOC does not match"):
+            self.run_build("--bundled", "-r")
+
+    def test_should_reject_a_questietrace_archive_whose_toc_differs_from_its_manifest(self):
+        self.trace["version"] = "1.11.0"
+        with self.assertRaisesRegex(ValueError, "QuestieTrace TOC does not match"):
+            self.run_build("--bundled", "-r")
 
     def test_bundled_prerelease_names_zip_without_changing_component_versions(self):
         source_toc = (self.root / build.tocs[1]).read_text()
@@ -338,7 +395,7 @@ class BuildModeTests(unittest.TestCase):
                 self.downloads.reset_mock()
                 output, manifest = self.run_build(*flags, "-r")
                 self.assertEqual(has_database, "questiedb" in manifest)
-                self.assertEqual(2 if has_database else 0, self.downloads.call_count)
+                self.assertEqual(4 if has_database else 0, self.downloads.call_count)
                 filename = "Questie-v11.38.0+v1.0.0.zip" if has_database else "Questie-v11.38.0.zip"
                 self.assertEqual(filename, manifest["releases"][0]["filename"])
                 with zipfile.ZipFile(output / filename) as archive:
@@ -394,7 +451,7 @@ class BuildModeTests(unittest.TestCase):
         self.assertIn("## QuestieDB 1.0.0", notes)
         self.assertIn("Correct quest prerequisites.", notes)
         self.assertNotIn("An unrelated later release", notes)
-        self.assertEqual(2, self.downloads.call_count)
+        self.assertEqual(4, self.downloads.call_count)
 
     def test_failed_packaging_does_not_write_success_metadata(self):
         with patch.object(build.shutil, "make_archive", side_effect=OSError("archive failed")):

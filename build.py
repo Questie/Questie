@@ -2,7 +2,8 @@
 
 """
 Each build writes one ZIP and a matching release.json with component metadata.
-Standalone builds (the default) do not download QuestieDB; bundled builds include it.
+Standalone builds (the default) do not download QuestieDB; bundled builds include it
+and the latest stable QuestieTrace release.
 
 This program accepts optional command line options:
 
@@ -11,7 +12,7 @@ This program accepts optional command line options:
         Build Questie only (default); QuestieDB must be installed separately
     -b
     --bundled
-        Build Questie and QuestieDB together
+        Build Questie, QuestieDB and QuestieTrace together
 
     -r
     --release
@@ -190,6 +191,8 @@ def main():
             if versions != [dbManifest["version"]] or commits != [dbManifest["producerCommit"]]:
                 raise ValueError("QuestieDB TOC does not match the downloaded manifest: " + dbTocs[expansion_id])
         print("DB version:", dbVersion, dbHash)
+        traceManifest = copy_trace_content_to(release_folder_path + "/tmp")
+        print("QuestieTrace version:", traceManifest["version"])
 
     # Stamp only staged Questie TOCs; source files and the provider version remain unchanged.
     if versionOverride != "":
@@ -249,6 +252,7 @@ def main():
     if bundled:
         # Preserve upstream extensions and original artifact records without rewriting them.
         release["questiedb"] = dbManifest
+        release["questietrace"] = traceManifest
     with open(release_folder_path + "/release.json", "w", encoding="utf-8") as result:
         json.dump(release, result, indent=4)
         result.write("\n")
@@ -380,10 +384,43 @@ def copy_db_content_to(release_folder_path):
     return manifest
 
 
+def copy_trace_content_to(release_folder_path):
+    """Add the latest stable QuestieTrace release, verified against its manifest."""
+    from urllib.request import urlretrieve
+    release_url = 'https://github.com/Questie/QuestieTrace/releases/latest/download/'
+    with tempfile.TemporaryDirectory(prefix="questietrace-manifest-") as temporary:
+        manifest_path = os.path.join(temporary, "release.json")
+        urlretrieve(release_url + 'release.json', manifest_path)
+        with open(manifest_path, encoding="utf-8") as source:
+            manifest = json.load(source)["questietrace"]
+    artifacts = manifest["artifacts"]
+    if not isinstance(artifacts, list) or len(artifacts) != 1:
+        raise ValueError("Expected exactly one QuestieTrace artifact")
+    archive = artifacts[0]
+    zipPath = release_folder_path + '/' + os.path.basename(archive["file"])
+    urlretrieve(release_url + os.path.basename(archive["file"]), zipPath)
+
+    checksum = hashlib.sha256()
+    with open(zipPath, "rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            checksum.update(block)
+    if os.path.getsize(zipPath) != archive["bytes"] or checksum.hexdigest() != archive["sha256"].lower():
+        raise ValueError("QuestieTrace archive checksum or size does not match its manifest")
+    shutil.unpack_archive(zipPath, release_folder_path)
+    os.remove(zipPath)
+
+    for toc_name in ("QuestieTrace-Classic.toc", "QuestieTrace-Camelot.toc"):
+        with open(release_folder_path + "/QuestieTrace/" + toc_name, encoding="utf-8") as toc:
+            versions = re.findall(r"^## Version: (.*?)$", toc.read(), re.MULTILINE)
+        if versions != [manifest["version"]]:
+            raise ValueError("QuestieTrace TOC does not match the downloaded manifest: " + toc_name)
+    return manifest
+
+
 def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion=None, dbHash=None):
     """Write one ZIP, remove successful staging, and restore the caller's working directory.
 
-    A database version selects the bundled two-addon layout; otherwise Questie's
+    A database version selects the bundled addon-folder layout; otherwise Questie's
     files remain at the archive root, matching the existing standalone layout.
     """
     root = os.getcwd()
