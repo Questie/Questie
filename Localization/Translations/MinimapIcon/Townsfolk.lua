@@ -295,7 +295,7 @@ local townsfolkLocales = {
     ["Weapon Master"] = {
         ["enUS"] = true,
         ["deDE"] = "Waffenmeister",
-        ["esES"] = (Expansions.Current == Expansions.Era and "Maestro armero") or "Maestro de armas",
+        ["esES"] = (Expansions:IsEra() and "Maestro armero") or "Maestro de armas",
         ["esMX"] = "Maestro de armas",
         ["frFR"] = "Maître d'armes",
         ["koKR"] = "무기 전문가",

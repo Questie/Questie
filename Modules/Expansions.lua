@@ -22,3 +22,9 @@ if Questie and Questie.IsForever then
     -- VersionCheck runs first in every TOC. Forever's API family does not determine its content expansion.
     Expansions.Current = Expansions.Era
 end
+
+-- Era content is also used by Forever, but Era-specific presentation is not.
+-- Keep Current numeric for data selection and expose the client-aware predicate separately.
+function Expansions:IsEra()
+    return self.Current == self.Era and not (Questie and Questie.IsForever)
+end

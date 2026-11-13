@@ -61,6 +61,7 @@ describe("Client content detection", function()
         assert.is_false(Questie.IsSoD)
         assert.is_false(Questie.IsTBC)
         assert.are.equal(expansions.Era, expansions.Current)
+        assert.is_false(expansions:IsEra())
     end)
 
     it("does not map actual Retail to Classic content", function()
@@ -82,6 +83,7 @@ describe("Client content detection", function()
         assert.is_true(Questie.IsClassic)
         assert.is_true(Questie.IsEra)
         assert.are.equal(expansions.Era, expansions.Current)
+        assert.is_true(expansions:IsEra())
     end)
 
     it("keeps Season of Discovery distinct from non-seasonal Classic", function()
@@ -95,6 +97,7 @@ describe("Client content detection", function()
         assert.is_false(Questie.IsEra)
         assert.is_true(Questie.IsSoD)
         assert.are.equal(expansions.Era, expansions.Current)
+        assert.is_true(expansions:IsEra())
     end)
 
     local otherClients = {

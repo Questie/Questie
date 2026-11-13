@@ -6,10 +6,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local battlegroundsLocales = {
     ["Warsong Gulch"] = {
         ["enUS"] = true,
-        ["deDE"] = (Expansions.Current == Expansions.Era and "Warsongschlucht") or "Kriegshymnenschlucht",
+        ["deDE"] = (Expansions:IsEra() and "Warsongschlucht") or "Kriegshymnenschlucht",
         ["esES"] = "Garganta Grito de Guerra",
         ["esMX"] = "Garganta Grito de Guerra",
-        ["frFR"] = (Expansions.Current == Expansions.Era and "Goulet des Warsong") or "Goulet des Chanteguerres",
+        ["frFR"] = (Expansions:IsEra() and "Goulet des Warsong") or "Goulet des Chanteguerres",
         ["koKR"] = "전쟁노래 협곡",
         ["ptBR"] = "Ravina Brado Guerreiro",
         ["ruRU"] = "Ущелье Песни Войны",
