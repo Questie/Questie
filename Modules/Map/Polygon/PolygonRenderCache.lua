@@ -56,10 +56,11 @@ end
 ---@param shapes PolygonCachedShape[]
 ---@param width number Canvas logical width.
 ---@param height number Canvas logical height.
----@param frameLevel number
+---@param firstLevel number The frame levels the polygons stack in, smaller on top; see PolygonRenderer's Stacking.
+---@param lastLevel number
 ---@return boolean? success True on publication; nil on configuration or cleanup failure.
 ---@return string? err
-function Cache:Present(mapId, shapes, width, height, frameLevel)
+function Cache:Present(mapId, shapes, width, height, firstLevel, lastLevel)
     local renderer = self.renderer
     local ok, err = pcall(function()
         assert(type(mapId) == "number" and mapId > -math.huge and mapId < math.huge, "Invalid polygon destination map")
@@ -94,21 +95,21 @@ function Cache:Present(mapId, shapes, width, height, frameLevel)
             if not view then
                 -- Create records native ownership before configuration can throw.
                 -- Clear can recover even if no handle was returned to this cache.
-                local frame = renderer:Create(shape, width, height, frameLevel)
+                local frame = renderer:Create(shape, width, height)
                 view = {frame = frame, points = shape.points, width = width, height = height}
                 outline.maps[mapId] = view
             elseif view.points ~= shape.points or view.width ~= width or view.height ~= height then
-                renderer:Configure(view.frame, shape, width, height, frameLevel)
+                renderer:Configure(view.frame, shape, width, height)
                 view.points, view.width, view.height = shape.points, width, height
             else
                 -- Appearance records are recreated by callers. The renderer compares
                 -- their scalar values and can restyle highlights without touching fills.
-                renderer:Style(view.frame, shape, frameLevel)
+                renderer:Style(view.frame, shape)
             end
             visibleFrames[#visibleFrames + 1] = view.frame
         end
         -- One publication also reconciles direct-hover and marker highlights for the batch.
-        renderer:SetVisibleFrames(visibleFrames)
+        renderer:SetVisibleFrames(visibleFrames, firstLevel, lastLevel)
     end)
     if not ok then
         -- A native cleanup failure must not escape Present's error contract. The

@@ -347,8 +347,8 @@ function QuestiePolygon.Refresh()
         end
     end
     local canvas = map:GetCanvas()
-    local level = WorldMapLayers.FrameLevel("areas")
-    local _, err = renderCache:Present(mapId, shapes, canvas:GetWidth(), canvas:GetHeight(), level)
+    local firstLevel, lastLevel = WorldMapLayers.FrameLevels("areas")
+    local _, err = renderCache:Present(mapId, shapes, canvas:GetWidth(), canvas:GetHeight(), firstLevel, lastLevel)
     if err then Questie.Error("Polygon drawing failed:", err) end
     -- Areas drawn anew may lie differently under a still cursor.
     WorldMapLayers.Invalidate("areas")

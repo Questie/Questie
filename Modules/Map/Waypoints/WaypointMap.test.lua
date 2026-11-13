@@ -73,7 +73,7 @@ describe("WaypointMap", function()
         WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
         WorldMapLayers.AddLayer = function(name, layer) layers[name] = layer end
         WorldMapLayers.Invalidate = spy.new(function() end)
-        WorldMapLayers.FrameLevel = function(name) return name == "paths" and 2015 or 0 end
+        WorldMapLayers.FrameLevels = function(name) if name == "paths" then return 2015, 2015 end end
 
         renderer = {
             Draw = spy.new(function(_, view) return view or NewView() end),

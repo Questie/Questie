@@ -47,9 +47,9 @@ describe("PolygonRenderCache", function()
     end)
 
     it("creates and publishes a new view only once", function()
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
 
-        assert.spy(renderer.Create).was.called_with(match._, shape, 1000, 500, 8)
+        assert.spy(renderer.Create).was.called_with(match._, shape, 1000, 500)
         assert.spy(renderer.Configure).was.not_called()
         assert.spy(renderer.Style).was.not_called()
         assert.spy(renderer.SetVisibleFrames).was.called(1)
@@ -58,55 +58,56 @@ describe("PolygonRenderCache", function()
     end)
 
     it("reuses geometry when callers recreate identical appearance records", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         local nextShape = {owner = owner, key = key, source = source, sourceMapId = 10,
             points = source, color = {0.2, 0.5, 1, 0.25}, borderAlpha = 0.75, highlighted = false}
 
-        assert.is_true(cache:Present(10, {nextShape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {nextShape}, 1000, 500, 8, 14))
 
         assert.spy(renderer.Create).was.called(1)
         assert.spy(renderer.Configure).was.not_called()
         assert.spy(renderer.Release).was.not_called()
-        assert.spy(renderer.Style).was.called_with(match._, createdFrames[1], nextShape, 8)
+        assert.spy(renderer.Style).was.called_with(match._, createdFrames[1], nextShape)
         assert.are_same({createdFrames[1]}, renderer.visible)
     end)
 
     it("delegates highlight changes to style without rebuilding geometry", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         shape.highlighted = true
 
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Create).was.called(1)
         assert.spy(renderer.Configure).was.not_called()
         assert.spy(renderer.Release).was.not_called()
-        assert.spy(renderer.Style).was.called_with(match._, createdFrames[1], shape, 8)
+        assert.spy(renderer.Style).was.called_with(match._, createdFrames[1], shape)
         assert.is_true(createdFrames[1].shown)
     end)
 
-    it("updates color, opacity, and frame level through style only", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+    it("updates color and opacity through style only, and publishes the frame levels", function()
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         shape.color, shape.borderAlpha = {1, 0.5, 0.2, 0.1}, 0.3
 
-        cache:Present(10, {shape}, 1000, 500, 12)
+        cache:Present(10, {shape}, 1000, 500, 12, 18)
 
         assert.spy(renderer.Create).was.called(1)
         assert.spy(renderer.Configure).was.not_called()
-        assert.spy(renderer.Style).was.called_with(match._, createdFrames[1], shape, 12)
+        assert.spy(renderer.Style).was.called_with(match._, createdFrames[1], shape)
+        assert.spy(renderer.SetVisibleFrames).was.called_with(match._, {createdFrames[1]}, 12, 18)
     end)
 
     it("retains all visited map views and shows the original handle on a return visit", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         local sourceFrame = createdFrames[1]
         local projection = {{x = -5, y = 40}, {x = 5, y = 40}, {x = -5, y = 50}}
         shape.points = projection
-        cache:Present(20, {shape}, 800, 400, 8)
+        cache:Present(20, {shape}, 800, 400, 8, 14)
         local projectedFrame = createdFrames[2]
         assert.is_false(sourceFrame.shown)
         assert.is_true(projectedFrame.shown)
         shape.points = source
 
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.is_true(sourceFrame.shown)
         assert.is_false(projectedFrame.shown)
@@ -119,13 +120,13 @@ describe("PolygonRenderCache", function()
     end)
 
     it("hides and reopens without releasing or reconfiguring a cached view", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         cache:Hide()
         cache:Hide()
         assert.is_false(createdFrames[1].shown)
         assert.are_same({}, renderer.visible)
 
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.is_true(createdFrames[1].shown)
         assert.spy(renderer.Create).was.called(1)
@@ -135,12 +136,12 @@ describe("PolygonRenderCache", function()
     end)
 
     it("hides absent previews without dropping their cached geometry", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
-        cache:Present(10, {}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
+        cache:Present(10, {}, 1000, 500, 8, 14)
         assert.is_false(createdFrames[1].shown)
         assert.is_true(renderer.owned[createdFrames[1]])
 
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.is_true(createdFrames[1].shown)
         assert.spy(renderer.Create).was.called(1)
@@ -149,42 +150,42 @@ describe("PolygonRenderCache", function()
     end)
 
     it("reconfigures a changed destination projection without releasing other maps", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         shape.points = {{x = 30, y = 30}, {x = 40, y = 30}, {x = 30, y = 40}}
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
         shape.points = {{x = 50, y = 50}, {x = 60, y = 50}, {x = 50, y = 60}}
 
-        cache:Present(20, {shape}, 1000, 500, 8)
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Create).was.called(2)
         assert.spy(renderer.Configure).was.called(1)
-        assert.spy(renderer.Configure).was.called_with(match._, createdFrames[2], shape, 1000, 500, 8)
+        assert.spy(renderer.Configure).was.called_with(match._, createdFrames[2], shape, 1000, 500)
         assert.spy(renderer.Release).was.not_called()
         assert.is_true(renderer.owned[createdFrames[1]])
     end)
 
     it("reconfigures one retained handle after resize and remembers its new dimensions", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
-        cache:Present(10, {shape}, 800, 400, 8)
-        cache:Present(10, {shape}, 800, 400, 8)
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 800, 400, 8, 14)
+        cache:Present(10, {shape}, 800, 400, 8, 14)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Create).was.called(1)
         assert.spy(renderer.Configure).was.called(2)
-        assert.spy(renderer.Configure).was.called_with(match._, createdFrames[1], shape, 800, 400, 8)
-        assert.spy(renderer.Configure).was.called_with(match._, createdFrames[1], shape, 1000, 500, 8)
+        assert.spy(renderer.Configure).was.called_with(match._, createdFrames[1], shape, 800, 400)
+        assert.spy(renderer.Configure).was.called_with(match._, createdFrames[1], shape, 1000, 500)
         assert.spy(renderer.Release).was.not_called()
     end)
 
     it("invalidates all destinations when the original source outline changes", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
         shape.source = {{x = 70, y = 70}, {x = 80, y = 70}, {x = 70, y = 80}}
         shape.points = shape.source
 
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Release).was.called(2)
         assert.is_true(renderer.released[createdFrames[1]])
@@ -192,16 +193,16 @@ describe("PolygonRenderCache", function()
         assert.is_nil(renderer.owned[createdFrames[1]])
         assert.is_nil(renderer.owned[createdFrames[2]])
         assert.are_same({createdFrames[3]}, renderer.visible)
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         assert.spy(renderer.Create).was.called(4)
     end)
 
     it("invalidates every destination when source map identity changes", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
         shape.sourceMapId = 30
 
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Release).was.called(2)
         assert.spy(renderer.Create).was.called(3)
@@ -211,12 +212,12 @@ describe("PolygonRenderCache", function()
     it("releases only the specified polygon across maps and keeps its sibling", function()
         local sibling = {owner = owner, key = {}, source = source, sourceMapId = 10,
             points = source, color = {1, 0, 0}}
-        cache:Present(10, {shape, sibling}, 1000, 500, 8)
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape, sibling}, 1000, 500, 8, 14)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
 
         cache:Release(owner, key)
         cache:Release(owner, key)
-        cache:Present(10, {sibling}, 1000, 500, 8)
+        cache:Present(10, {sibling}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Release).was.called(2)
         assert.is_true(renderer.released[createdFrames[1]])
@@ -230,14 +231,14 @@ describe("PolygonRenderCache", function()
     it("releases all of one owner's hidden and visible views without releasing another owner", function()
         local other = {owner = {}, key = key, source = source, sourceMapId = 10,
             points = source, color = {1, 0, 0}}
-        cache:Present(10, {shape, other}, 1000, 500, 8)
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape, other}, 1000, 500, 8, 14)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
         cache:Hide()
 
         cache:Release(owner)
         cache:Release(owner)
         cache:Release({})
-        cache:Present(10, {other}, 1000, 500, 8)
+        cache:Present(10, {other}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Release).was.called(2)
         assert.is_nil(renderer.owned[createdFrames[1]])
@@ -248,10 +249,10 @@ describe("PolygonRenderCache", function()
     end)
 
     it("creates a fresh handle when a previously released logical identity is reused", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         cache:Release(owner)
 
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.spy(renderer.Create).was.called(2)
         assert.is_nil(renderer.owned[createdFrames[1]])
@@ -259,8 +260,8 @@ describe("PolygonRenderCache", function()
     end)
 
     it("clears visible and hidden map views and starts a new cache while keeping its renderer", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
         cache:Hide()
 
         cache:Clear()
@@ -269,7 +270,7 @@ describe("PolygonRenderCache", function()
         assert.spy(renderer.Clear).was.called(2)
         assert.are_same({}, renderer.owned)
         assert.are_same({}, renderer.visible)
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         assert.spy(renderer.Create).was.called(3)
         assert.are_same({createdFrames[3]}, renderer.visible)
     end)
@@ -281,7 +282,7 @@ describe("PolygonRenderCache", function()
             error("creation failed")
         end)
 
-        local success, err = cache:Present(10, {shape}, 1000, 500, 8)
+        local success, err = cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.is_nil(success)
         assert.matches("creation failed", err)
@@ -290,16 +291,16 @@ describe("PolygonRenderCache", function()
         assert.are_same({}, renderer.visible)
         assert.spy(renderer.Clear).was.called(1)
         renderer.Create = create
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         assert.are_same({createdFrames[2]}, renderer.visible)
     end)
 
     it("clears retained views on a Configure failure and retries without stale cache entries", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
-        cache:Present(20, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
+        cache:Present(20, {shape}, 1000, 500, 8, 14)
         renderer.Configure = spy.new(function() error("configuration failed") end)
 
-        local success, err = cache:Present(20, {shape}, 800, 400, 8)
+        local success, err = cache:Present(20, {shape}, 800, 400, 8, 14)
 
         assert.is_nil(success)
         assert.matches("configuration failed", err)
@@ -307,16 +308,16 @@ describe("PolygonRenderCache", function()
         assert.are_same({}, renderer.visible)
         assert.spy(renderer.Clear).was.called(1)
         renderer.Configure = spy.new(function() end)
-        assert.is_true(cache:Present(20, {shape}, 800, 400, 8))
+        assert.is_true(cache:Present(20, {shape}, 800, 400, 8, 14))
         assert.are_same({createdFrames[3]}, renderer.visible)
         assert.spy(renderer.Configure).was.not_called()
     end)
 
     it("clears all ownership if style application fails", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
         renderer.Style = spy.new(function() error("styling failed") end)
 
-        local success, err = cache:Present(10, {shape}, 1000, 500, 8)
+        local success, err = cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.is_nil(success)
         assert.matches("styling failed", err)
@@ -327,21 +328,21 @@ describe("PolygonRenderCache", function()
     it("clears a batch if publishing visibility fails", function()
         renderer.SetVisibleFrames = spy.new(function() error("visibility failed") end)
 
-        local success, err = cache:Present(10, {shape}, 1000, 500, 8)
+        local success, err = cache:Present(10, {shape}, 1000, 500, 8, 14)
 
         assert.is_nil(success)
         assert.matches("visibility failed", err)
         assert.are_same({}, renderer.owned)
         assert.spy(renderer.Clear).was.called(1)
         renderer.SetVisibleFrames = spy.new(function() end)
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         assert.spy(renderer.Create).was.called(2)
     end)
 
     it("clears earlier views when a later shape has no lifecycle identity", function()
         local invalid = {source = source, sourceMapId = 10, points = source, color = {1, 0, 0}}
 
-        local success, err = cache:Present(10, {shape, invalid}, 1000, 500, 8)
+        local success, err = cache:Present(10, {shape, invalid}, 1000, 500, 8, 14)
 
         assert.is_nil(success)
         assert.matches("owner and key identities", err)
@@ -351,9 +352,9 @@ describe("PolygonRenderCache", function()
     end)
 
     it("rejects invalid canvas dimensions even for an already configured or empty view", function()
-        cache:Present(10, {shape}, 1000, 500, 8)
+        cache:Present(10, {shape}, 1000, 500, 8, 14)
 
-        local success, err = cache:Present(10, {}, 0, 500, 8)
+        local success, err = cache:Present(10, {}, 0, 500, 8, 14)
 
         assert.is_nil(success)
         assert.matches("Invalid polygon canvas extent", err)
@@ -450,6 +451,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         _G.UPPER_RIGHT_VERTEX, _G.LOWER_RIGHT_VERTEX = "UR", "LR"
         math.random = function() calls.random = calls.random + 1; return calls.random / 100 end
         dofile("Modules/Map/MapGeometry.lua")
+        dofile("Modules/Map/Polygon/PolygonStacking.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         dofile("Modules/Map/Polygon/PolygonRenderCache.lua")
         local Renderer = QuestieLoader:ImportModule("PolygonRenderer")
@@ -472,23 +474,23 @@ describe("PolygonRenderCache with PolygonRenderer", function()
     end)
 
     it("retains actual native configuration through hover, previews, reopen, and A/B/A navigation", function()
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         local firstView = renderer.activeFrames[1]
         local fill, border = firstView.fills[1], firstView.borders[1]
         local tint = fill.color
         local hoverUpdate = renderer.hoverDriver.scripts.OnUpdate
         shape.highlighted = true
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         assert.are.near(2.25, Thickness(border), 1e-9)
         assert.are_equal(tint, fill.color)
         assert.are_equal(hoverUpdate, renderer.hoverDriver.scripts.OnUpdate)
         shape.highlighted = false
-        assert.is_true(cache:Present(10, {}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {}, 1000, 500, 8, 14))
         assert.is_false(firstView.shown)
         assert.is_nil(renderer.hoverDriver.scripts.OnUpdate)
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         cache:Hide()
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         assert.are_equal(firstView, renderer.activeFrames[1])
         assert.are_equal(fill, firstView.fills[1])
         assert.are_equal(tint, fill.color)
@@ -498,12 +500,12 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         assert.are_same({textureSetup = 8, vertexSetup = 8, borderSetup = 72, uvSetup = 20, fillStyle = 2, random = 24}, calls)
 
         shape.points = {{x = 50, y = 50}, {x = 60, y = 50}, {x = 50, y = 60}}
-        assert.is_true(cache:Present(20, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(20, {shape}, 1000, 500, 8, 14))
         local secondView = renderer.activeFrames[1]
         assert.are_not.equal(firstView, secondView)
         assert.is_false(firstView.shown)
         shape.points = source
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         assert.are_equal(firstView, renderer.activeFrames[1])
         assert.is_false(secondView.shown)
         assert.are_equal(tint, fill.color)
@@ -512,16 +514,16 @@ describe("PolygonRenderCache with PolygonRenderer", function()
     end)
 
     it("reconfigures a resized view without new primitives and releases all maps with their owner", function()
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         local firstView = renderer.activeFrames[1]
         local tint = firstView.fills[1].polygonDebugColor
-        assert.is_true(cache:Present(10, {shape}, 800, 400, 8))
+        assert.is_true(cache:Present(10, {shape}, 800, 400, 8, 14))
         assert.are_equal(firstView, renderer.activeFrames[1])
         assert.are_equal(tint, firstView.fills[1].polygonDebugColor)
         assert.are_equal(8, calls.textureSetup)
         assert.are_equal(16, calls.vertexSetup)
         assert.are_equal(24, calls.random)
-        assert.is_true(cache:Present(20, {shape}, 800, 400, 8))
+        assert.is_true(cache:Present(20, {shape}, 800, 400, 8, 14))
         cache:Hide()
         assert.are_equal(2, Count(renderer.ownedFrames))
 
@@ -537,8 +539,8 @@ describe("PolygonRenderCache with PolygonRenderer", function()
 
     it("attempts every owner's view and retains only failed mappings for a release retry", function()
         local sibling = {owner = owner, key = {}, source = source, sourceMapId = 10, points = source, color = {1, 0, 0}}
-        assert.is_true(cache:Present(10, {shape, sibling}, 1000, 500, 8))
-        assert.is_true(cache:Present(20, {shape, sibling}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape, sibling}, 1000, 500, 8, 14))
+        assert.is_true(cache:Present(20, {shape, sibling}, 1000, 500, 8, 14))
         local failedView, siblingView = renderer.activeFrames[1], renderer.activeFrames[2]
         failAnchorFrame = failedView.id
 
@@ -570,8 +572,8 @@ describe("PolygonRenderCache with PolygonRenderer", function()
 
     it("retries a failed polygon release across maps without touching its visible sibling", function()
         local sibling = {owner = owner, key = {}, source = source, sourceMapId = 10, points = source, color = {1, 0, 0}}
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
-        assert.is_true(cache:Present(20, {shape, sibling}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
+        assert.is_true(cache:Present(20, {shape, sibling}, 1000, 500, 8, 14))
         local failedView, siblingView = renderer.activeFrames[1], renderer.activeFrames[2]
         failAnchorFrame = failedView.id
 
@@ -599,15 +601,15 @@ describe("PolygonRenderCache with PolygonRenderer", function()
     end)
 
     it("attempts all old destinations on failed source invalidation and keeps native cleanup retryable", function()
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         local failedView = renderer.activeFrames[1]
-        assert.is_true(cache:Present(20, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(20, {shape}, 1000, 500, 8, 14))
         local projectedView = renderer.activeFrames[1]
         failAnchorFrame = failedView.id
         shape.source = {{x = 30, y = 30}, {x = 40, y = 30}, {x = 30, y = 40}}
         shape.points = shape.source
 
-        local success, err = cache:Present(20, {shape}, 1000, 500, 8)
+        local success, err = cache:Present(20, {shape}, 1000, 500, 8, 14)
 
         assert.is_nil(success)
         assert.matches("native anchor failed", err)
@@ -625,14 +627,14 @@ describe("PolygonRenderCache with PolygonRenderer", function()
 
         assert.are_equal(0, Count(renderer.ownedFrames))
         assert.are_equal(2, #renderer.freeFrames)
-        assert.is_true(cache:Present(20, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(20, {shape}, 1000, 500, 8, 14))
     end)
 
     it("reports creation and cleanup failures without losing native ownership, then retries cleanup", function()
         local sibling = {owner = owner, key = {}, source = source, sourceMapId = 10, points = source, color = {1, 0, 0}}
         failAnchorFrame = 2 -- The second view fails before the batch creates a hover driver.
 
-        local success, err = cache:Present(10, {shape, sibling}, 1000, 500, 8)
+        local success, err = cache:Present(10, {shape, sibling}, 1000, 500, 8, 14)
 
         assert.is_nil(success)
         assert.matches("native anchor failed", err)
@@ -646,7 +648,7 @@ describe("PolygonRenderCache with PolygonRenderer", function()
         cache:Clear()
         assert.are_equal(0, Count(renderer.ownedFrames))
         assert.are_equal(2, #renderer.freeFrames)
-        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8))
+        assert.is_true(cache:Present(10, {shape}, 1000, 500, 8, 14))
         assert.are_equal(1, #renderer.activeFrames)
     end)
 end)

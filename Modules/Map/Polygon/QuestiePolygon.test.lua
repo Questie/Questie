@@ -110,7 +110,7 @@ describe("QuestiePolygon world-map adapter", function()
         layers = {}
         WorldMapLayers.AddLayer = function(name, layer) layers[name] = layer end
         WorldMapLayers.Invalidate = spy.new(function() end)
-        WorldMapLayers.FrameLevel = function(name) return name == "areas" and 10 or nil end
+        WorldMapLayers.FrameLevels = function(name) if name == "areas" then return 10, 16 end end
         iconListeners = {}
         previewListener = nil
         QuestieLoader:ImportModule("MapPreview").Subscribe = function(listener)
@@ -1246,7 +1246,7 @@ describe("QuestiePolygon world-map adapter", function()
             map.mapId = 20
             FlushRefresh()
 
-            assert.spy(renderCache.Present).was.called_with(renderCache, 20, drawnShapes, 1000, 500, 10)
+            assert.spy(renderCache.Present).was.called_with(renderCache, 20, drawnShapes, 1000, 500, 10, 16)
             assert.are.equal(marker.entry, drawnShapes[1].owner)
             assert.are.equal(marker, drawnShapes[1].key)
             assert.are.equal(marker.cluster.outline, drawnShapes[1].source)
@@ -1533,7 +1533,7 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(1, #frames)
         Polygon.EnterMarker(frames[1])
         FlushRefresh()
-        assert.spy(renderCache.Present).was.called_with(renderCache, 10, {}, 1000, 500, 10)
+        assert.spy(renderCache.Present).was.called_with(renderCache, 10, {}, 1000, 500, 10, 16)
     end)
 
     it("converts dungeon sentinel spawns to entrance locations instead of invalid hull points", function()
@@ -1760,7 +1760,7 @@ describe("QuestiePolygon world-map adapter", function()
             Polygon.ScheduleRefresh() -- Marker OnShow can queue first, before providers run.
             map.provider:RefreshAllData()
             assert.spy(renderCache.Present).was.called(presentCount + 1)
-            assert.spy(renderCache.Present).was.called_with(renderCache, 10, drawnShapes, 1000, 500, 10)
+            assert.spy(renderCache.Present).was.called_with(renderCache, 10, drawnShapes, 1000, 500, 10, 16)
             assert.is_true(drawnShapes[1].highlighted)
             map.provider:OnShow()
             map.mapId = 20
@@ -1778,7 +1778,7 @@ describe("QuestiePolygon world-map adapter", function()
             FlushRefresh()
 
             assert.spy(renderCache.Present).was.called(presentCount + 2)
-            assert.spy(renderCache.Present).was.called_with(renderCache, 20, drawnShapes, 800, 400, 10)
+            assert.spy(renderCache.Present).was.called_with(renderCache, 20, drawnShapes, 800, 400, 10, 16)
             assert.are.equal(1, #drawnShapes)
             assert.is_false(drawnShapes[1].highlighted)
             assert.spy(HBD.TranslateZoneCoordinates).was.called_with(HBD, 0.1, 0.1, 10, 20, true)

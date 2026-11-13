@@ -14,11 +14,11 @@ describe("PolygonRenderer", function()
         local ok, err = pcall(function()
             local views = {}
             for _, shape in ipairs(shapes) do
-                local view = renderer:Create(shape, width, height, level)
+                local view = renderer:Create(shape, width, height)
                 views[#views + 1] = view
                 counts.fills, counts.borders = counts.fills + #view.fills, counts.borders + #view.borders
             end
-            renderer:SetVisibleFrames(views)
+            renderer:SetVisibleFrames(views, level, level)
         end)
         if not ok then
             renderer:Clear()
@@ -133,6 +133,7 @@ describe("PolygonRenderer", function()
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX = "UL", "UR"
         _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = "LL", "LR"
         dofile("Modules/Map/MapGeometry.lua")
+        dofile("Modules/Map/Polygon/PolygonStacking.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
         PolygonRenderer.debugRandomColors = false
@@ -236,7 +237,7 @@ describe("PolygonRenderer", function()
 
             -- A hexagon has six edges and no sharp corner, so its sixth piece is an edge.
             renderer:Configure(view, {points = {{x = 20, y = 10}, {x = 40, y = 10}, {x = 50, y = 30}, {x = 40, y = 50},
-                {x = 20, y = 50}, {x = 10, y = 30}}, color = {1, 0, 0}}, 100, 100, 8)
+                {x = 20, y = 50}, {x = 10, y = 30}}, color = {1, 0, 0}}, 100, 100)
 
             assert.are_equal(cap, view.borders[6])
             assert.are_equal(LINE, cap.path)
@@ -450,6 +451,38 @@ describe("PolygonRenderer", function()
         assert.is_true(frames[1].shown)
     end)
 
+    describe("stacking", function()
+        local renderer
+
+        local function Square(minX, minY, maxX, maxY)
+            return {points = {{x = minX, y = minY}, {x = maxX, y = minY}, {x = maxX, y = maxY}, {x = minX, y = maxY}},
+                color = {1, 0, 0}}
+        end
+
+        before_each(function()
+            renderer = PolygonRenderer.New(canvas)
+        end)
+
+        it("publishes each outline at its level from PolygonStacking, as last configured", function()
+            local big, small = renderer:Create(Square(0, 0, 60, 60), 100, 100), renderer:Create(Square(10, 10, 20, 20), 100, 100)
+            renderer:SetVisibleFrames({big, small}, 10, 16)
+            assert.are.same({10, 11}, {big.level, small.level})
+            assert.is_true(big.shown and small.shown)
+
+            renderer:Configure(small, Square(70, 70, 80, 80), 100, 100)
+            renderer:SetVisibleFrames({big, small}, 10, 16)
+
+            assert.are.same({10, 10}, {big.level, small.level})
+        end)
+
+        it("needs levels to publish outlines", function()
+            local view = renderer:Create(Square(0, 0, 60, 60), 100, 100)
+
+            assert.has_error(function() renderer:SetVisibleFrames({view}) end, "Invalid polygon frame levels")
+            renderer:SetVisibleFrames({})
+        end)
+    end)
+
     describe("retained views", function()
         local triangle
 
@@ -459,15 +492,15 @@ describe("PolygonRenderer", function()
 
         it("creates a hidden owned view and shows it without configuring its primitives again", function()
             local renderer = PolygonRenderer.New(canvas)
-            local view = renderer:Create(triangle, 100, 100, 8)
+            local view = renderer:Create(triangle, 100, 100)
             assert.is_false(view:IsShown())
             assert.is_true(renderer.ownedFrames[view])
             local offsets = view.fills[1].offsets
             local configure = spy.on(view.fills[1], "SetVertexOffset")
             local uv = spy.on(view.fills[1], "SetTexCoord")
             local border = spy.on(view.borders[1], "SetVertexOffset")
-            renderer:SetVisibleFrames({view})
-            renderer:SetVisibleFrames({view})
+            renderer:SetVisibleFrames({view}, 8, 8)
+            renderer:SetVisibleFrames({view}, 8, 8)
             assert.is_true(view:IsShown())
             assert.are.equal(offsets, view.fills[1].offsets)
             assert.spy(configure).was.not_called()
@@ -483,9 +516,9 @@ describe("PolygonRenderer", function()
                 heard[#heard + 1] = {#shapes, x, y}
             end})
             local square = {points = {{x = 0, y = 0}, {x = 20, y = 0}, {x = 20, y = 20}, {x = 0, y = 20}}, color = {1, 0, 0}}
-            local view, other = renderer:Create(triangle, 100, 100, 8), renderer:Create(square, 100, 100, 8)
-            renderer:Create(square, 100, 100, 8) -- Hidden: never published.
-            renderer:SetVisibleFrames({view, other})
+            local view, other = renderer:Create(triangle, 100, 100), renderer:Create(square, 100, 100)
+            renderer:Create(square, 100, 100) -- Hidden: never published.
+            renderer:SetVisibleFrames({view, other}, 8, 8)
             heard = {}
 
             local found = renderer:ShapesAt(10, 10)
@@ -506,8 +539,8 @@ describe("PolygonRenderer", function()
 
         it("retains hidden views and excludes them from hover until shown again", function()
             local renderer = _NewHoverRenderer()
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             renderer:Hover(10, 10)
             assert.is_true(renderer.highlightedFrames[view])
             local offsets = view.fills[1].offsets
@@ -518,7 +551,7 @@ describe("PolygonRenderer", function()
             assert.are.equal(0, #renderer.freeFrames)
             renderer:UpdateHover() -- The cursor is still inside the outline, but the view is not visible.
             assert.are.same({}, renderer.highlightedFrames)
-            renderer:SetVisibleFrames({view})
+            renderer:SetVisibleFrames({view}, 8, 8)
             assert.is_true(view:IsShown())
             assert.is_true(renderer.highlightedFrames[view])
             assert.are.equal(offsets, view.fills[1].offsets)
@@ -527,14 +560,14 @@ describe("PolygonRenderer", function()
 
         it("changes a marker highlight without touching fills or anchors", function()
             local renderer = _NewHoverRenderer()
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             local vertices = spy.on(view.fills[1], "SetVertexOffset")
             local fills = spy.on(view.fills[1], "SetVertexColor")
             local anchors = spy.on(view, "SetPoint")
             triangle.highlighted = true
-            renderer:Style(view, triangle, 8)
-            renderer:SetVisibleFrames({view})
+            renderer:Style(view, triangle)
+            renderer:SetVisibleFrames({view}, 8, 8)
             -- Redrawn at the new thickness on the textures it already had; the next case checks every piece.
             assert.are.equal(9, #view.borders)
             assert.are.near(2.25, _Thickness(view.borders[1]), 1e-9)
@@ -544,8 +577,8 @@ describe("PolygonRenderer", function()
             assert.spy(anchors).was.not_called()
 
             local redraws = spy.on(view.borders[1], "SetVertexOffset")
-            renderer:Style(view, triangle, 8)
-            renderer:SetVisibleFrames({view})
+            renderer:Style(view, triangle)
+            renderer:SetVisibleFrames({view}, 8, 8)
             assert.spy(redraws).was.not_called()
         end)
 
@@ -553,17 +586,17 @@ describe("PolygonRenderer", function()
             local renderer = _NewHoverRenderer()
             -- Wider than tall, so a redraw cannot swap the frame's width and height unnoticed. At 100x50
             -- the triangle's corners are 90, 27 and 63 degrees: one sharp corner, so 6 pieces.
-            local view = renderer:Create(triangle, 100, 50, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 50)
+            renderer:SetVisibleFrames({view}, 8, 8)
             triangle.highlighted = true
-            renderer:Style(view, triangle, 8)
-            renderer:SetVisibleFrames({view})
+            renderer:Style(view, triangle)
+            renderer:SetVisibleFrames({view}, 8, 8)
 
             -- Configured again while highlighted, the reference is drawn at the highlight's thickness
             -- from the start rather than redrawn.
-            local reference = renderer:Create(triangle, 100, 50, 8)
-            renderer:SetVisibleFrames({view, reference})
-            renderer:Configure(reference, triangle, 100, 50, 8)
+            local reference = renderer:Create(triangle, 100, 50)
+            renderer:SetVisibleFrames({view, reference}, 8, 8)
+            renderer:Configure(reference, triangle, 100, 50)
             assert.are.equal(6, #view.borders)
             assert.are.near(2.25, _Thickness(reference.borders[1]), 1e-9)
             for i, border in ipairs(view.borders) do
@@ -576,13 +609,13 @@ describe("PolygonRenderer", function()
         it("updates color, faded opacity, and frame level without repeating border geometry", function()
             local renderer = _NewHoverRenderer()
             triangle.highlighted = true
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             local offsets = view.fills[1].offsets
             local redraws = spy.on(view.borders[1], "SetVertexOffset")
             triangle.color, triangle.borderAlpha = {0.4, 0.2, 0.1, 0.05}, 0.1875
-            renderer:Style(view, triangle, 12)
-            renderer:SetVisibleFrames({view})
+            renderer:Style(view, triangle)
+            renderer:SetVisibleFrames({view}, 12, 12)
             assert.are.same({0.4, 0.2, 0.1, 0.05}, view.fills[1].color)
             assert.are.same({0.5, 0.25, 0.125, 0.1875}, view.borders[1].color)
             assert.spy(redraws).was.not_called()
@@ -593,13 +626,13 @@ describe("PolygonRenderer", function()
         it("keeps direct hover highlighted after the marker highlight is withdrawn", function()
             local renderer = _NewHoverRenderer()
             triangle.highlighted = true
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             renderer:Hover(10, 10)
             local redraws = spy.on(view.borders[1], "SetVertexOffset")
             triangle.highlighted = false
-            renderer:Style(view, triangle, 8)
-            renderer:SetVisibleFrames({view})
+            renderer:Style(view, triangle)
+            renderer:SetVisibleFrames({view}, 8, 8)
             assert.is_true(renderer.hoveredFrames[view])
             assert.is_true(renderer.highlightedFrames[view])
             assert.spy(redraws).was.not_called()
@@ -608,13 +641,13 @@ describe("PolygonRenderer", function()
         it("reconfigures canvas size using the same frames, primitives, and diagnostic colors", function()
             PolygonRenderer.debugRandomColors = true
             local renderer = PolygonRenderer.New(canvas)
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             local fill, border = view.fills[1], view.borders[1]
             local fillTint, borderTint = fill.polygonDebugColor, border.polygonDebugColor
             math.random = function() error("retained primitives must not choose a new color") end
-            renderer:Configure(view, triangle, 200, 300, 8)
-            renderer:SetVisibleFrames({view})
+            renderer:Configure(view, triangle, 200, 300)
+            renderer:SetVisibleFrames({view}, 8, 8)
             assert.are.equal(fill, view.fills[1])
             assert.are.equal(border, view.borders[1])
             assert.are.equal(fillTint, fill.polygonDebugColor)
@@ -628,23 +661,23 @@ describe("PolygonRenderer", function()
         it("retains diagnostic colors through appearance updates and hide/show", function()
             PolygonRenderer.debugRandomColors = true
             local renderer = PolygonRenderer.New(canvas)
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             local tint = view.fills[1].polygonDebugColor
             math.random = function() error("style/show must not choose new colors") end
             triangle.color = {1, 0, 0, 0.1}
-            renderer:Style(view, triangle, 8)
+            renderer:Style(view, triangle)
             renderer:SetVisibleFrames({})
-            renderer:SetVisibleFrames({view})
+            renderer:SetVisibleFrames({view}, 8, 8)
             assert.are.equal(tint, view.fills[1].polygonDebugColor)
             assert.are.same({tint[1], tint[2], tint[3], 0.1}, view.fills[1].color)
         end)
 
         it("releases one retained view without disturbing the other and pools it only once", function()
             local renderer = _NewHoverRenderer()
-            local first = renderer:Create(triangle, 100, 100, 8)
-            local second = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({first, second})
+            local first = renderer:Create(triangle, 100, 100)
+            local second = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({first, second}, 8, 8)
             renderer:Release(first)
             renderer:Release(first)
             assert.is_false(first:IsShown())
@@ -656,16 +689,16 @@ describe("PolygonRenderer", function()
             assert.are.equal(1, #renderer.freeFrames)
             assert.are.equal(2, #renderer.freeFills)
             assert.are.equal(9, #renderer.freeBorders)
-            local replacement = renderer:Create(triangle, 100, 100, 8)
+            local replacement = renderer:Create(triangle, 100, 100)
             assert.are.equal(first, replacement)
             assert.are.equal(3, #frames) -- Two views and one driver, no extra view allocation.
         end)
 
         it("clears visible and hidden owned views and reuses their pools", function()
             local renderer = PolygonRenderer.New(canvas)
-            local first = renderer:Create(triangle, 100, 100, 8)
-            local second = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({first})
+            local first = renderer:Create(triangle, 100, 100)
+            local second = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({first}, 8, 8)
             renderer:Clear()
             renderer:Clear()
             assert.is_nil(first.polygonOutline)
@@ -674,7 +707,7 @@ describe("PolygonRenderer", function()
             assert.are.equal(2, #renderer.freeFrames)
             assert.are.equal(4, #renderer.freeFills)
             assert.are.equal(18, #renderer.freeBorders)
-            renderer:Create(triangle, 100, 100, 8)
+            renderer:Create(triangle, 100, 100)
             assert.are.equal(2, #frames)
             assert.are.equal(22, #textures)
         end)
@@ -683,9 +716,9 @@ describe("PolygonRenderer", function()
             local renderer = PolygonRenderer.New(canvas)
             local square = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 40, y = 40}, {x = 0, y = 40}}, color = {1, 0, 0}}
             -- The triangle's two sharp corners need more border pieces than the square's four edges.
-            local view = renderer:Create(triangle, 100, 100, 8)
+            local view = renderer:Create(triangle, 100, 100)
             local border = view.borders[9]
-            renderer:Configure(view, square, 100, 100, 8)
+            renderer:Configure(view, square, 100, 100)
             assert.are.equal(4, #view.borders)
             assert.are.equal(5, #renderer.freeBorders)
             assert.is_false(border.shown)
@@ -695,11 +728,11 @@ describe("PolygonRenderer", function()
         it("can clear ownership after a native style call keeps failing", function()
             local renderer = _NewHoverRenderer()
             triangle.highlighted = true
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             view.borders[1].SetVertexColor = function() error("native color failure") end
             triangle.color = {1, 0, 0, 0.25}
-            assert.has_error(function() renderer:Style(view, triangle, 8) end, "native color failure")
+            assert.has_error(function() renderer:Style(view, triangle) end, "native color failure")
 
             renderer:Clear()
             renderer:Clear()
@@ -713,9 +746,9 @@ describe("PolygonRenderer", function()
 
         it("keeps a failed creation owned while clearing other views, then retries cleanup without double-pooling", function()
             local renderer = _NewHoverRenderer()
-            local first = renderer:Create(triangle, 100, 100, 8)
-            local second = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({first, second})
+            local first = renderer:Create(triangle, 100, 100)
+            local second = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({first, second}, 8, 8)
             local nativeCreateFrame = _G.CreateFrame
             _G.CreateFrame = function(...)
                 local frame = nativeCreateFrame(...)
@@ -723,7 +756,7 @@ describe("PolygonRenderer", function()
                 return frame
             end
 
-            assert.has_error(function() renderer:Create(triangle, 100, 100, 8) end, "native anchor failure")
+            assert.has_error(function() renderer:Create(triangle, 100, 100) end, "native anchor failure")
             local failed = frames[#frames]
             assert.is_true(renderer.ownedFrames[failed])
             assert.has_error(function() renderer:Clear() end, "native anchor failure")
@@ -753,8 +786,8 @@ describe("PolygonRenderer", function()
         it("keeps a failed visible release hidden and out of hover until cleanup succeeds", function()
             local renderer = _NewHoverRenderer()
             triangle.highlighted = true
-            local view = renderer:Create(triangle, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(triangle, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             renderer:Hover(10, 10)
             view.ClearAllPoints = function() error("native anchor failure") end
 
@@ -779,12 +812,12 @@ describe("PolygonRenderer", function()
             local renderer = _NewHoverRenderer()
             local square = {points = {{x = 0, y = 0}, {x = 40, y = 0}, {x = 40, y = 40}, {x = 0, y = 40}}, color = {1, 0, 0},
                 highlighted = true}
-            local view = renderer:Create(square, 100, 100, 8)
-            renderer:SetVisibleFrames({view})
+            local view = renderer:Create(square, 100, 100)
+            renderer:SetVisibleFrames({view}, 8, 8)
             -- Growing from the square's four border pieces to the triangle's nine: the two fills and
             -- four edges are reused, and the fifth border piece is the first new texture.
             failTexture = 7
-            assert.has_error(function() renderer:Configure(view, triangle, 100, 100, 8) end, "texture configuration failed")
+            assert.has_error(function() renderer:Configure(view, triangle, 100, 100) end, "texture configuration failed")
             assert.are.equal(5, #view.borders)
             local redraws = {}
             for i, border in ipairs(view.borders) do redraws[i] = spy.on(border, "SetVertexOffset") end

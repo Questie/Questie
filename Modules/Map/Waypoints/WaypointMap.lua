@@ -46,7 +46,7 @@ local shownMapId, shownWidth, shownHeight, shownScale, currentScale
 local function _Style(path, alpha)
     local profile = Questie.db.profile
     return {thickness = profile.waypointWidth / shownScale, color = QuestieWaypoints.Color(path), alpha = alpha,
-        frameLevel = WorldMapLayers.FrameLevel("paths"), hoverRadius = profile.waypointDebugHover and WaypointHover.Radius() / shownScale or nil}
+        frameLevel = WorldMapLayers.FrameLevels("paths"), hoverRadius = profile.waypointDebugHover and WaypointHover.Radius() / shownScale or nil}
 end
 
 ---Paths draw on their own map only. Several icons can own the same patrol, such as an NPC who

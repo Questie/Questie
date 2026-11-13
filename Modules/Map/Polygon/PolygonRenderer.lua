@@ -4,6 +4,8 @@ local PolygonRenderer = QuestieLoader:CreateModule("PolygonRenderer")
 
 ---@type MapGeometry
 local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
+---@type PolygonStacking
+local PolygonStacking = QuestieLoader:ImportModule("PolygonStacking")
 
 -- Diagnostic tints are chosen on acquisition, not refresh. Set false for newly
 -- acquired primitives to use objective colors; retained primitives keep their tints.
@@ -388,8 +390,7 @@ end
 ---combine staged marker-highlight requests with cursor hover.
 ---@param frame Frame Owned view returned by Create.
 ---@param shape PolygonShape
----@param frameLevel number
-function Renderer:Style(frame, shape, frameLevel)
+function Renderer:Style(frame, shape)
     assert(self.ownedFrames[frame], "Polygon view is not owned by this renderer")
     local r, g, b, fillAlpha, borderAlpha, highlighted = _Appearance(shape)
     -- Every caller styles each visible view per publication, so this is the shape on screen.
@@ -407,13 +408,9 @@ function Renderer:Style(frame, shape, frameLevel)
     end
     frame.polygonBorderAlpha, frame.polygonHighlighted = borderAlpha, highlighted
     if borderChanged then _RestyleBorders(frame, self.highlightedFrames[frame] == true) end
-    if frame.polygonFrameLevel ~= frameLevel then
-        frame:SetFrameLevel(frameLevel)
-        frame.polygonFrameLevel = frameLevel
-    end
 end
 
-local function _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, bounds, frameWidth, frameHeight)
+local function _ConfigureFrame(self, frame, shape, width, height, center, bounds, frameWidth, frameHeight)
     local points = shape.points
     local minX, minY = bounds[1], bounds[2]
     frame.polygonOutline, frame.polygonBounds = points, bounds
@@ -455,17 +452,17 @@ local function _ConfigureFrame(self, frame, shape, width, height, frameLevel, ce
     frame.polygonBorder = {ring = ring, frameWidth = frameWidth, frameHeight = frameHeight, thickness = thickness}
     -- New/grown primitives need appearance even if the caller's color is unchanged.
     frame.polygonColor, frame.polygonBorderAlpha = nil, nil
-    self:Style(frame, shape, frameLevel)
+    self:Style(frame, shape)
 end
 
 ---Allocates one initially hidden view. Mutating operations throw on failure; the
 ---cache catches failures and calls Clear, which owns even partially configured regions.
+---Its frame level is set when it is published.
 ---@param shape PolygonShape
 ---@param width number Canvas logical width in UI pixels.
 ---@param height number Canvas logical height in UI pixels.
----@param frameLevel number Below objective markers.
 ---@return Frame
-function Renderer:Create(shape, width, height, frameLevel)
+function Renderer:Create(shape, width, height)
     _Appearance(shape)
     local center, bounds, frameWidth, frameHeight = _Bounds(shape.points, width, height)
     local frame = table.remove(self.freeFrames)
@@ -476,41 +473,55 @@ function Renderer:Create(shape, width, height, frameLevel)
     end
     self.ownedFrames[frame] = true
     frame:Hide()
-    _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, bounds, frameWidth, frameHeight)
+    _ConfigureFrame(self, frame, shape, width, height, center, bounds, frameWidth, frameHeight)
     return frame
 end
 
 ---Configures supplied map percentages at the new canvas extent; coordinate-space
 ---translation belongs to the caller. Reused primitives retain their debug colors.
 ---Replace the outline table rather than mutating points shared with cached views.
+---Publish the view again to restack it.
 ---@param frame Frame
 ---@param shape PolygonShape
 ---@param width number
 ---@param height number
----@param frameLevel number
-function Renderer:Configure(frame, shape, width, height, frameLevel)
+function Renderer:Configure(frame, shape, width, height)
     assert(self.ownedFrames[frame], "Polygon view is not owned by this renderer")
     _Appearance(shape)
     local center, bounds, frameWidth, frameHeight = _Bounds(shape.points, width, height)
-    _ConfigureFrame(self, frame, shape, width, height, frameLevel, center, bounds, frameWidth, frameHeight)
+    _ConfigureFrame(self, frame, shape, width, height, center, bounds, frameWidth, frameHeight)
 end
 
 -- Visibility publication and teardown
----Publishes a complete visible set without releasing absent views. A cached view
----from another map stays hidden/inert, with its primitive configuration intact.
+---Publishes a complete visible set without releasing absent views, stacking overlapping outlines
+---smaller on top in the frame levels given (PolygonStacking). A cached view from another map stays
+---hidden/inert, with its primitive configuration intact.
 ---@param frames Frame[]
-function Renderer:SetVisibleFrames(frames)
+---@param firstLevel number? The level of outlines that overlap nothing larger. Required unless frames is empty.
+---@param lastLevel number? The highest level a stack may reach, firstLevel or above; below whatever must draw over every outline.
+function Renderer:SetVisibleFrames(frames, firstLevel, lastLevel)
     local visible = {}
     for _, frame in ipairs(frames) do
         assert(self.ownedFrames[frame], "Polygon view is not owned by this renderer")
         assert(not visible[frame], "Duplicate polygon view in visible set")
         visible[frame] = true
     end
+    local levels = {}
+    if frames[1] then
+        assert(_IsFinite(firstLevel) and _IsFinite(lastLevel) and firstLevel <= lastLevel, "Invalid polygon frame levels")
+        local outlines = {}
+        for i, frame in ipairs(frames) do outlines[i] = frame.polygonOutline end
+        levels = PolygonStacking.Levels(outlines, firstLevel, lastLevel)
+    end
     for _, frame in ipairs(self.activeFrames) do
         if not visible[frame] then frame:Hide() end
     end
     local activeFrames = {}
-    for _, frame in ipairs(frames) do
+    for i, frame in ipairs(frames) do
+        if frame.polygonFrameLevel ~= levels[i] then
+            frame:SetFrameLevel(levels[i])
+            frame.polygonFrameLevel = levels[i]
+        end
         activeFrames[#activeFrames + 1] = frame
         if not frame:IsShown() then frame:Show() end
     end
