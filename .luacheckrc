@@ -2952,6 +2952,7 @@ globals = {
     "SUFUnittarget",
     "XPerl_Target",
     "EllesmereUIUnitFrames_Target",
+    "LUFUnittarget",
     "ElvUF_Target",
     "AzeriteUnitFrameTarget",
     "GwTargetUnitFrame",

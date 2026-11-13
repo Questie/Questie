@@ -284,6 +284,8 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     elseif EllesmereUIUnitFrames_Target then
         targetFrame = EllesmereUIUnitFrames_Target
         strata = "MEDIUM"
+    elseif LUFUnittarget then
+        targetFrame = LUFUnittarget
     end
 
     frame:SetParent(targetFrame)
