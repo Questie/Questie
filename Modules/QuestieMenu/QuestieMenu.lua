@@ -33,6 +33,8 @@ local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
 local Moonwell = QuestieLoader:ImportModule("Moonwell")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
+---@type QuestieTraceMenu
+local QuestieTraceMenu = QuestieLoader:ImportModule("QuestieTraceMenu")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -465,6 +467,8 @@ function QuestieMenu.buildTownsfolkMenu()
     return townsfolkMenu
 end
 
+---Shows the main Questie menu and its optional QuestieTrace entry.
+---@param hideDelay number|nil
 function QuestieMenu:Show(hideDelay)
     if not Questie.db.profile.townsfolkConfig then
         Questie.db.profile.townsfolkConfig = {}
@@ -503,6 +507,18 @@ function QuestieMenu:Show(hideDelay)
     tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildVendorMenu(), notCheckable=true})
 
     tinsert(menuTable, div)
+
+    local traceMenu = QuestieTraceMenu.Build(function(api, button)
+        if button == "RightButton" then
+            QuestieTraceMenu.Toggle(api)
+        else
+            QuestieMenu:Hide()
+            api.ShowExportWindow()
+        end
+    end)
+    if traceMenu then
+        tinsert(menuTable, traceMenu)
+    end
 
     tinsert(menuTable, { text= l10n('Advanced Search'), func=function()
         QuestieOptionsEngine:HideFrame();

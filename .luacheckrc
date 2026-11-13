@@ -2962,6 +2962,7 @@ globals = {
     "VoiceOver",
     "VoiceOverFrame",
     "Spoken",
+    "QuestieTraceAPI",
     "QUESTIE_LOCALES_OVERRIDE",
     -----------------------------------------------------> Project Specific
     "Questie",
