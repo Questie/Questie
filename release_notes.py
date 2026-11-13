@@ -78,7 +78,12 @@ def component_changes(name: str, before: dict, after: dict) -> str:
 
 
 def release_changes(before: dict, after: dict) -> str:
-    """Render each changed component; require matching component sets rather than guessing a baseline."""
+    """Render each changed component; require matching component sets rather than guessing a baseline.
+
+    QuestieTrace is summarized as a single version line and may be missing from older bundles.
+    """
+    before, after = dict(before), dict(after)
+    trace_before, trace_after = before.pop("questietrace", None), after.pop("questietrace", None)
     components = set(after) - {"releases"}
     if not components or components != set(before) - {"releases"}:
         raise ValueError("Both release.json files must contain the same addon sections")
@@ -88,6 +93,10 @@ def release_changes(before: dict, after: dict) -> str:
         notes = component_changes(name, before[component], after[component])
         if notes:
             sections.append(notes)
+    if trace_after is not None:
+        update = changelog.get_questietrace_update(trace_after, trace_before)
+        if update:
+            sections.append(update)
     return "\n".join(sections) if sections else "No component source changes.\n"
 
 
