@@ -195,6 +195,67 @@ class QuestieDBChangelogTests(unittest.TestCase):
                     changelog.get_addon_changelog("QuestieDB", self.load(manifest))
 
 
+class QuestieTraceChangelogTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        questie = {"repository": "https://github.com/Questie/Questie", "version": "12.0.0",
+                   "producerCommit": "e" * 40, "changelog": []}
+        self.manifest = {"releases": [], "questie": questie, "questietrace": self.trace("1.10.0")}
+        self.previous = {"releases": [], "questie": questie, "questietrace": self.trace("1.9.2")}
+
+    @staticmethod
+    def trace(version):
+        return {"repository": "https://github.com/Questie/QuestieTrace", "version": version,
+                "producerCommit": "9" * 40, "artifacts": []}
+
+    def render(self, *extra):
+        current = self.root / "release.json"
+        current.write_text(json.dumps(self.manifest), encoding="utf-8")
+        previous = self.root / "previous.json"
+        previous.write_text(json.dumps(self.previous), encoding="utf-8")
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            changelog.main(["--release-manifest", str(current), "--previous-manifest", str(previous), *extra])
+        return output.getvalue()
+
+    def test_should_mention_a_new_questietrace_version_with_a_release_link(self):
+        notes = self.render()
+        self.assertIn("Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)", notes)
+        self.assertNotIn("## QuestieTrace", notes)
+
+    def test_should_not_mention_an_unchanged_questietrace_version(self):
+        self.previous["questietrace"] = self.trace("1.10.0")
+        self.assertNotIn("QuestieTrace", self.render())
+
+    def test_should_mention_questietrace_when_the_previous_bundle_had_none(self):
+        del self.previous["questietrace"]
+        self.assertIn("Updated QuestieTrace to [v1.10.0]", self.render())
+
+    def test_should_fail_without_a_previous_manifest_for_a_bundle_with_questietrace(self):
+        current = self.root / "release.json"
+        current.write_text(json.dumps(self.manifest), encoding="utf-8")
+        with self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
+            changelog.main(["--release-manifest", str(current)])
+
+    def test_should_fail_when_the_previous_manifest_cannot_be_read(self):
+        current = self.root / "release.json"
+        current.write_text(json.dumps(self.manifest), encoding="utf-8")
+        with self.assertRaises(OSError):
+            changelog.main(["--release-manifest", str(current), "--previous-manifest", str(self.root / "missing.json")])
+
+    def test_should_reject_unsafe_questietrace_repositories_in_links(self):
+        self.manifest["questietrace"]["repository"] = "https://example.org/x)[evil](https://example.org"
+        with self.assertRaises(ValueError):
+            self.render()
+
+    def test_should_reject_unsafe_questietrace_versions_in_links(self):
+        self.manifest["questietrace"]["version"] = "1.10.0)[evil](https://example.org"
+        with self.assertRaises(ValueError):
+            self.render()
+
+
 class ReleaseTagTests(unittest.TestCase):
     def test_full_questie_notes_survive_database_only_bundle_releases(self):
         with tempfile.TemporaryDirectory() as temporary:

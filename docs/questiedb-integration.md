@@ -293,7 +293,7 @@ unchanged, including its upstream artifacts and extensions. There are no separat
 build-result or provider metadata files. The bundled downloader requires QuestieDB's
 wrapped manifest format; older flat manifests are not supported.
 
-Use `python3 changelog.py --release-manifest releases/<build>/release.json`
+Use `python3 changelog.py --release-manifest releases/<build>/release.json --previous-manifest <previous>/release.json`
 to render the retained Questie changes first and database changes second, without Git
-or network access. The publication workflow builds and uploads only the bundled ZIP
-and its manifest. CF/Wago uploads remain disabled.
+or network access. See the [release metadata](release-format.md#release-notes-and-announcements)
+for the QuestieTrace line.

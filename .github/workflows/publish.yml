@@ -73,7 +73,14 @@ jobs:
 
       - name: Generate Changelog
         id: changelog
-        run: python changelog.py --release-manifest "$RELEASE_DIR/release.json" >> CHANGELOG.md
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          # Compare the bundled QuestieTrace with the latest stable bundle; fail rather than omit the line.
+          PREVIOUS_TAG=$(gh api "repos/$GH_REPO/releases/latest" --jq '.tag_name')
+          gh release download --pattern release.json --output previous-release.json -- "$PREVIOUS_TAG"
+          python changelog.py --release-manifest "$RELEASE_DIR/release.json" --previous-manifest previous-release.json >> CHANGELOG.md
 
       - name: Read release metadata
         id: metadata
