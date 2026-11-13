@@ -7,9 +7,13 @@ It updates the Version and Title fields in all supported flavor TOCs, leaves the
 
 This only prepares the source version. It does not create a GitHub release or upload to CurseForge/Wago. The workflow must exist on the default branch before GitHub offers **Run workflow**. Then select the prepared tag in **Build and publish bundle** to build that exact source commit.
 
+Alternatively, enter the version in **Build and publish bundle** itself. It runs the same bump on `master` (with the same approval) and builds the bumped commit. Leave the field empty to build the selected ref unchanged.
+
 For a local bump, run `uv run --no-project versionbump.py 12.0.1` from a clean checkout root. This creates a local commit and tag but does not push. Add `--no-git` to only edit the TOCs. Failed Git commands stop the script; successful earlier steps are not rolled back.
 
-Builds include the latest stable QuestieDB. For database-only updates, reuse the same Questie source revision.
+Builds include the latest stable QuestieDB and the latest stable QuestieTrace release. For database-only updates, reuse the same Questie source revision.
+
+QuestieTrace is released on GitHub only, from its own repository. To ship a QuestieTrace update to players, publish it there first, then release Questie.
 
 ### Version-bump permissions
 
@@ -29,7 +33,7 @@ The workflow does not change these settings. If authentication or a protection r
 Open [GitHub Actions](https://github.com/Questie/Questie/actions) → **Build and publish bundle**.
 
 Select the intended source ref:
-- Check **(--dry-run)**.
+- Check **(--dry_run)**.
 - Check **(--release)** for a normal release; leave it unchecked for a prerelease.
 
 Tests run first, followed by **Build bundle**. Inspect the run summary and download **release-bundle** to check the ZIP, manifest, and notes. Artifacts remain available for 7 days.
@@ -37,18 +41,20 @@ Tests run first, followed by **Build bundle**. Inspect the run summary and downl
 No release or external upload occurs during a dry run.
 
 ### Publish
-Run again with **(--dry-run) unchecked**.
+Run again with **(--dry_run) unchecked**.
 
-A separate GitHub job publishes the exact built files. Release titles look like:
+A separate GitHub job publishes the exact built files. The ZIP contains the `Questie/`, `QuestieDB/` and `QuestieTrace/` folders. Release titles look like:
 ```text
 v12.0.0+v1.0.3
 v12.0.0-pre.abc1234+v1.0.3
 ```
 
-Git tags retain the `bundle/` prefix. Existing releases aren't overwritten.
+Git tags retain the `bundle/` prefix. The tag names the Questie and QuestieDB versions only; the QuestieTrace version is recorded in `release.json`. Existing releases aren't overwritten.
+
+The notes contain Questie's and QuestieDB's changes. If the bundled QuestieTrace differs from the one in the latest stable bundle, they also contain one line such as "Updated QuestieTrace to v1.10.0". The build fails if that latest bundle or its `release.json` can't be downloaded.
 
 ### CurseForge and Wago
-Select **Upload to CurseForge/Wago** in the main workflow, or run either separately:
+Check **Upload to CurseForge** and/or **Upload to Wago** in the main workflow (both unchecked by default), or run either separately:
 - **Upload existing bundle to CurseForge**
 - **Upload existing bundle to Wago**
 
@@ -56,11 +62,11 @@ They download the published GitHub bundle without rebuilding. Manual runs defaul
 
 Prereleases upload as **beta** on both platforms.
 
-CurseForge gets the bundle with its `QuestieDB/` directory removed and named after Questie's part of the tag (for example `v12.0.0`). The upload declares the `questiedb` project as a required dependency, so the CurseForge app installs QuestieDB separately; the QuestieDB repo publishes it there. The GitHub release and Wago keep the full bundle. CurseForge users always get the newest QuestieDB on CurseForge, so publish a required QuestieDB release there before uploading the Questie release that needs it.
+CurseForge gets the bundle with its `QuestieDB/` directory removed and named after Questie's part of the tag (for example `v12.0.0`). `QuestieTrace/` stays in, since QuestieTrace has no CurseForge project of its own. The upload declares the `questiedb` project as a required dependency, so the CurseForge app installs QuestieDB separately; the QuestieDB repo publishes it there. The GitHub release and Wago keep the full bundle. CurseForge users always get the newest QuestieDB on CurseForge, so publish a required QuestieDB release there before uploading the Questie release that needs it.
 
 Before reserving or uploading, both scripts check the tag's component versions against `release.json`, verify Questie's source commit against the tag, and require the ZIP filename to match the manifest and tag. Beta tags must include that commit's seven-character prefix.
 
-This rejects mislabeled bundles, not older releases whose metadata agrees. Apart from the CurseForge check that the stripped ZIP holds only `Questie/`, it does not inspect the ZIP's contents.
+This rejects mislabeled bundles, not older releases whose metadata agrees. The ZIP's contents are only checked for the expected folders: CurseForge requires exactly `Questie/` and `QuestieTrace/` after removing `QuestieDB/`, and Wago requires all three.
 
 ### Failed external uploads
 Reservation tags prevent duplicate attempts. Check the platform and previous workflow before retrying.
@@ -68,10 +74,10 @@ Reservation tags prevent duplicate attempts. Check the platform and previous wor
 Only remove the reservation if no upload was accepted and no attempt is still running. Failure logs provide the removal command.
 
 ### Announcements
-GitHub notes include both components' full current-release notes. Generate announcement deltas with:
+GitHub notes include Questie's and QuestieDB's full current-release notes. Generate announcement deltas with:
 
 ```sh
 python3 release_notes.py <previous-bundle-tag> latest
 ```
 
-For the first new-format bundle, use its GitHub notes directly.
+QuestieTrace appears as a single "Updated QuestieTrace to …" line when its version changed.
