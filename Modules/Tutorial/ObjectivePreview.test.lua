@@ -51,7 +51,7 @@ describe("ObjectivePreview", function()
     -- Every frame sits at left 100, top 700 at effective scale 2: the preview's point (x, y) in percent is on
     -- screen at ((100 + 2.2x) * 2, (700 - 2.2y) * 2).
     local function _CreateFrame(_kind, _name, parent)
-        local frame = {parent = parent, scripts = {}, children = {}, shown = true}
+        local frame = {parent = parent, scripts = {}, children = {}, shown = true, level = (parent and parent.level or 0) + 1}
         frames[#frames + 1] = frame
         if parent and parent.children then parent.children[#parent.children + 1] = frame end
         function frame:SetScript(name, callback) self.scripts[name] = callback end
@@ -70,8 +70,8 @@ describe("ObjectivePreview", function()
         function frame:GetEffectiveScale() return 2 end
         function frame:GetLeft() return 100 end
         function frame:GetTop() return 700 end
-        function frame:GetFrameLevel() return 1 end
-        function frame:SetFrameLevel() end
+        function frame:GetFrameLevel() return self.level end
+        function frame:SetFrameLevel(level) self.level = level end
         function frame:SetSize() end
         function frame:SetPoint() end
         function frame:SetAllPoints() end
@@ -145,6 +145,7 @@ describe("ObjectivePreview", function()
         QuestieDB.QueryItemSingle = function() end
 
         dofile("Modules/Map/MapGeometry.lua")
+        dofile("Modules/Map/Polygon/PolygonStacking.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         dofile("Modules/Tutorial/ObjectivePreview.lua")
         ObjectivePreview = QuestieLoader:ImportModule("ObjectivePreview")
@@ -209,6 +210,25 @@ describe("ObjectivePreview", function()
         textures = {}
         _Create("blobs", "Human", "Alliance")
         assert.are_same({1, 2}, {#_Textures("slay.blp"), #_Textures("loot.blp")})
+    end)
+
+    it("draws the smaller of overlapping areas on top, and every marker above both, within its levels", function()
+        local view = _Create("blobs", "Human", "Alliance")
+        local kobolds, wolves, markers = nil, nil, {}
+        for _, frame in ipairs(frames) do
+            if frame.polygonOutline == KOBOLDS.clusters[1].outline then kobolds = frame end
+            if frame.polygonOutline == WOLVES.clusters[1].outline then wolves = frame end
+        end
+        for _, texture in ipairs(textures) do
+            if texture.path == "slay.blp" or texture.path == "loot.blp" then markers[#markers + 1] = texture.parent end
+        end
+
+        assert.are.equal(wolves.level + 1, kobolds.level)
+        assert.are.equal(3, #markers)
+        for _, marker in ipairs(markers) do
+            assert.is_true(marker.level > kobolds.level)
+            assert.is_true(marker.level <= view.level + ObjectivePreview.LEVELS)
+        end
     end)
 
     it("shows a hovered marker's objective, then the areas beneath it, in the client's language", function()

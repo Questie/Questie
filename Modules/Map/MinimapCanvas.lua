@@ -18,12 +18,15 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 ---@alias MinimapLayerName "areas"|"paths"
 
--- The layers, bottom to top. Each layer's container sits one level above the one before it, so paths
--- cross areas, and the cursor is offered top down in the same order: draw order and hover order both
--- come from this table, as in WorldMapLayers. A new drawing feature adds one name. Questie's minimap
--- icons stay far above at 2016+ (QuestieMap.utils.SetDrawOrder).
+-- The layers, bottom to top. Each layer's container sits LAYER_LEVELS levels above the one before it,
+-- so paths cross areas, and the cursor is offered top down in the same order: draw order and hover
+-- order both come from this table, as in WorldMapLayers. A new drawing feature adds one name. Questie's
+-- minimap icons stay far above at 2016+ (QuestieMap.utils.SetDrawOrder).
 ---@type MinimapLayerName[]
 local LAYER_ORDER = {"areas", "paths"}
+---How many frame levels each layer's drawings may use, from its container's up, such as overlapping
+---areas stacked smaller on top.
+MinimapCanvas.LAYER_LEVELS = 8
 -- Everything visible lies within √2 view radii of the player: a square minimap's corners. Drawings
 -- within REACH radii of the origin cover that view while the player stays within DRIFT radii of it
 -- (√2 + 0.5 < 2); past that, everything is projected again.
@@ -447,14 +450,14 @@ end
 ---Invalidate. Errors when the canvas cannot be created; the minimap is optional, so callers pcall.
 ---@param name MinimapLayerName
 ---@param layer MinimapLayer
----@return Frame container The layer's renderer canvas: it moves with the player, so projected units are TOPLEFT offsets. Its frame level comes from LAYER_ORDER, as the hover order does, so it draws above the layers beneath it.
+---@return Frame container The layer's renderer canvas: it moves with the player, so projected units are TOPLEFT offsets. Its frame level comes from LAYER_ORDER, as the hover order does, so it and the LAYER_LEVELS levels from it draw above the layers beneath it.
 ---@return MaskTexture[] masks The minimap's shape and the hole over the player arrow. Add both to every texture.
 function MinimapCanvas.AddLayer(name, layer)
     local index = _Index(name)
     if not root then _CreateRoot() end
     local container = CreateFrame("Frame", nil, root)
     container:SetSize(1, 1)
-    container:SetFrameLevel(root:GetFrameLevel() + index - 1)
+    container:SetFrameLevel(root:GetFrameLevel() + (index - 1) * MinimapCanvas.LAYER_LEVELS)
     container:SetPoint("TOPLEFT", minimap, "CENTER", offsetX, -offsetY)
     states[name] = {name = name, layer = layer, container = container, dirty = false, active = false, drawn = false,
         offered = false, reported = false}

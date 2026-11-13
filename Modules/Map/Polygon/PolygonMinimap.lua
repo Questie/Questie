@@ -87,6 +87,9 @@ function PolygonMinimap.New(collect, onHover)
     local drawnProjection
     local container, renderer
 
+    ---Overlapping areas stack in the layer's levels, smaller on top. Moving the projection moves,
+    ---turns and scales every outline alike, so the same areas stack the same way; other geometry
+    ---arrives through Collect, which forces the next publication.
     ---@param frames Frame[]
     local function _Publish(frames)
         if visible and #visible == #frames then
@@ -96,7 +99,8 @@ function PolygonMinimap.New(collect, onHover)
             end
             if same then return end
         end
-        renderer:SetVisibleFrames(frames)
+        local level = container:GetFrameLevel()
+        renderer:SetVisibleFrames(frames, level, level + MinimapCanvas.LAYER_LEVELS - 1)
         visible = frames
     end
 
@@ -114,9 +118,8 @@ function PolygonMinimap.New(collect, onHover)
         end
         local shape = {key = area.key, color = {color[1], color[2], color[3], FILL_ALPHA * alpha},
             borderAlpha = BORDER_ALPHA * alpha, highlighted = highlighted}
-        local level = container:GetFrameLevel()
         if view and view.cluster == area.cluster and view.projection == projection then
-            renderer:Style(view.frame, shape, level)
+            renderer:Style(view.frame, shape)
         else
             -- The renderer's percentages over a 100x100 extent are minimap units.
             local points = {}
@@ -126,9 +129,9 @@ function PolygonMinimap.New(collect, onHover)
             end
             shape.points = points
             if view then
-                renderer:Configure(view.frame, shape, 100, 100, level)
+                renderer:Configure(view.frame, shape, 100, 100)
             else
-                view = {frame = renderer:Create(shape, 100, 100, level)}
+                view = {frame = renderer:Create(shape, 100, 100)}
                 views[area.key] = view
             end
         end

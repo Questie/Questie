@@ -559,7 +559,7 @@ describe("TrackerUtils", function()
             end
             local WorldMapLayers = QuestieLoader:ImportModule("WorldMapLayers")
             WorldMapLayers.AddLayer, WorldMapLayers.Invalidate = function() end, function() end
-            WorldMapLayers.FrameLevel = function() return 10 end
+            WorldMapLayers.FrameLevels = function() return 10, 10 end
             QuestieLoader:ImportModule("QuestieFrame").Subscribe = function() end
             QuestieLoader:ImportModule("MapPreview").Subscribe = function() end
             dofile("Modules/Map/Polygon/PolygonGeometry.lua")

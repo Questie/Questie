@@ -5,7 +5,34 @@ describe("WorldMapLayers", function()
     local WorldMapLayers
     local QuestieCompat
     local saved, savedError
-    local poller, cursor, scale, overCanvas, focus, gamepadUI, blobLevel
+    local poller, cursor, scale, overCanvas, focus, gamepadUI, levelTypes
+
+    -- The level types below the first pins each client draws over its maps, {start, range}, as
+    -- Blizzard_WorldMap registers them on the client's flavor.
+    local CLIENT_LEVELS = {
+        era = {PIN_FRAME_LEVEL_QUEST_BLOB = {2004, 1}, PIN_FRAME_LEVEL_SCENARIO_BLOB = {2005, 1},
+            PIN_FRAME_LEVEL_MAP_HIGHLIGHT = {2006, 1}, PIN_FRAME_LEVEL_DEBUG = {2007, 4}, PIN_FRAME_LEVEL_DIG_SITE = {2011, 1}},
+        forever = {PIN_FRAME_LEVEL_QUEST_BLOB = {2007, 1}, PIN_FRAME_LEVEL_SCENARIO_BLOB = {2008, 1},
+            PIN_FRAME_LEVEL_MAP_HIGHLIGHT = {2009, 1}, PIN_FRAME_LEVEL_DEBUG = {2010, 4}, PIN_FRAME_LEVEL_DIG_SITE = {2014, 1}},
+        wrath = {PIN_FRAME_LEVEL_QUEST_BLOB = {2002, 1}, PIN_FRAME_LEVEL_MAP_HIGHLIGHT = {2003, 1},
+            PIN_FRAME_LEVEL_DEBUG = {2004, 4}, PIN_FRAME_LEVEL_GOSSIP = {2008, 1}},
+        mists = {PIN_FRAME_LEVEL_QUEST_BLOB = {2002, 1}, PIN_FRAME_LEVEL_SCENARIO_BLOB = {2003, 1},
+            PIN_FRAME_LEVEL_MAP_HIGHLIGHT = {2004, 1}, PIN_FRAME_LEVEL_DEBUG = {2005, 4}, PIN_FRAME_LEVEL_DIG_SITE = {2009, 1}},
+    }
+
+    ---Blizzard's level manager: a level type the client lacks answers PIN_FRAME_LEVEL_DEFAULT's level.
+    -- It offers no way to add a level type: Questie only reads them.
+    local function LevelsManager()
+        local function Definition(name) return levelTypes[name] or {2000, 1} end
+        return {
+            GetValidFrameLevel = function(_, name, index)
+                local start, range = unpack(Definition(name))
+                return start + math.min(math.max(index or 1, 1), range) - 1
+            end,
+            GetFrameLevelStart = function(_, name) return Definition(name)[1] end,
+            GetFrameLevelRange = function(_, name) return Definition(name)[2] end,
+        }
+    end
 
     -- A layer recording what it was offered; it claims the cursor while claims is true.
     local function Layer(claims)
@@ -23,7 +50,7 @@ describe("WorldMapLayers", function()
 
     before_each(function()
         saved = {WorldMapFrame = _G.WorldMapFrame, CreateFrame = _G.CreateFrame, issecretvalue = _G.issecretvalue}
-        cursor, scale, overCanvas, gamepadUI, blobLevel = {0.5, 0.25}, 1, true, false, 2004
+        cursor, scale, overCanvas, gamepadUI, levelTypes = {0.5, 0.25}, 1, true, false, CLIENT_LEVELS.era
         local canvas = {GetWidth = function() return 1000 end, GetHeight = function() return 500 end,
             IsMouseOver = function() return overCanvas end}
         local scrollContainer = {
@@ -34,12 +61,7 @@ describe("WorldMapLayers", function()
             GetMapID = function() return 1 end,
             GetCanvas = function() return canvas end,
             ScrollContainer = scrollContainer,
-            GetPinFrameLevelsManager = function()
-                return {GetValidFrameLevel = function(_, name)
-                    assert.are.equal("PIN_FRAME_LEVEL_QUEST_BLOB", name)
-                    return blobLevel
-                end}
-            end,
+            GetPinFrameLevelsManager = LevelsManager,
         }
         _G.CreateFrame = function()
             poller = {scripts = {}}
@@ -229,14 +251,32 @@ describe("WorldMapLayers", function()
         assert.are.equal(500, paths.calls[3].x)
     end)
 
-    it("draws each layer above the ones beneath it, on every client's quest area level", function()
-        for _, level in ipairs({2004, 2007}) do
-            blobLevel = level
-            assert.is_true(WorldMapLayers.FrameLevel("areas") < WorldMapLayers.FrameLevel("paths"))
+    it("draws each layer above the ones beneath it, on every client's levels", function()
+        for _, client in ipairs({"era", "forever", "wrath", "mists"}) do
+            levelTypes = CLIENT_LEVELS[client]
+            local _, areasLast = WorldMapLayers.FrameLevels("areas")
+            local pathsFirst, pathsLast = WorldMapLayers.FrameLevels("paths")
+            assert.is_true(areasLast < pathsFirst, client)
             -- Questie's icons start at 2016.
-            assert.is_true(WorldMapLayers.FrameLevel("paths") < 2016)
+            assert.is_true(pathsLast < 2016, client)
         end
-        assert.has_error(function() WorldMapLayers.FrameLevel("nope") end)
+        assert.has_error(function() WorldMapLayers.FrameLevels("nope") end)
         assert.has_error(function() WorldMapLayers.Invalidate("nope") end)
+    end)
+
+    it("stacks areas from Blizzard's quest area level to the end of its debug pins' levels, reading them only", function()
+        local expected = {era = {2004, 2010}, forever = {2007, 2013}, wrath = {2002, 2007}, mists = {2002, 2008}}
+        for client, range in pairs(expected) do
+            levelTypes = CLIENT_LEVELS[client]
+            assert.are.same(range, {WorldMapLayers.FrameLevels("areas")}, client)
+        end
+
+        -- Without debug levels, areas keep the quest area level alone.
+        levelTypes = {PIN_FRAME_LEVEL_QUEST_BLOB = {2004, 1}}
+        assert.are.same({2004, 2004}, {WorldMapLayers.FrameLevels("areas")})
+
+        -- Levels another addon moved up never reach the paths.
+        levelTypes = {PIN_FRAME_LEVEL_QUEST_BLOB = {2012, 1}, PIN_FRAME_LEVEL_DEBUG = {2015, 4}}
+        assert.are.same({2012, 2014}, {WorldMapLayers.FrameLevels("areas")})
     end)
 end)

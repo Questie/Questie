@@ -203,6 +203,7 @@ describe("PolygonMinimap", function()
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX, _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = 1, 2, 3, 4
         dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
         dofile("Modules/Map/MapGeometry.lua")
+        dofile("Modules/Map/Polygon/PolygonStacking.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")
         -- The areas layer's renderer, to read the frames it drew.
         local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
@@ -268,6 +269,22 @@ describe("PolygonMinimap", function()
         layer.Invalidate()
         Tick()
         assert.are_near(1.5, Thickness(frame.borders[1]), 1e-9)
+    end)
+
+    it("draws areas inside larger ones above them, up to the last of its layer's 8 levels", function()
+        -- Ten squares around the same spot, each inside the one before, listed smallest first.
+        local areas = {}
+        for i = 9, 0, -1 do
+            local half = 2 - i * 0.15
+            areas[#areas + 1] = Area({{x = 42 - half, y = 42 - half}, {x = 42 + half, y = 42 - half},
+                {x = 42 + half, y = 42 + half}, {x = 42 - half, y = 42 + half}})
+        end
+        Start(function() return areas end)
+        Tick()
+
+        local level, above = renderer.canvas:GetFrameLevel(), {}
+        for i, frame in ipairs(renderer.activeFrames) do above[i] = frame.level - level end
+        assert.are.same({7, 7, 7, 6, 5, 4, 3, 2, 1, 0}, above)
     end)
 
     it("keeps a large area whose center is out of view while its edge reaches the minimap", function()

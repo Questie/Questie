@@ -27,17 +27,27 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@class WorldMapLayer
 ---@field Hover fun(cursor: WorldMapCursor?): boolean Hovers what lies under the cursor and returns whether anything does; the layers beneath then get nil. nil ends the layer's hover.
 
+-- Below Questie's icons, which draw from 2016 up, or in a block of their own below Blizzard's quest pins
+-- (QuestieMap.utils.SetDrawOrder).
+local PATHS_LEVEL = 2015
+
 -- The layers, bottom to top. Each draws above the ones before it and wins the cursor over them, so
 -- draw order and hover order both come from this table. A new drawing feature adds one row.
----@type {name: WorldMapLayerName, FrameLevel: fun(): number}[]
+---@type {name: WorldMapLayerName, FrameLevels: fun(): number, number}[]
 local LAYER_ORDER = {
-    -- Blizzard's own level for quest areas: 2004 on Era and 2007 on Forever, where more pin types come first.
-    {name = "areas", FrameLevel = function()
-        return WorldMapFrame:GetPinFrameLevelsManager():GetValidFrameLevel("PIN_FRAME_LEVEL_QUEST_BLOB")
+    -- From Blizzard's own level for quest areas, 2004 on Era and 2007 on Forever, where more pin types
+    -- come first, to the end of its debug pins' levels: every client registers those, with only map
+    -- highlights and scenario areas between, right above quest areas and below the first pins areas must
+    -- not cover. Overlapping areas stack in these levels. Read, never written: inserting a level type
+    -- would taint Blizzard's pins (docs/map-frame-levels.md). A client without debug levels answers
+    -- 2000 for them, leaving the quest area level alone.
+    {name = "areas", FrameLevels = function()
+        local levels = WorldMapFrame:GetPinFrameLevelsManager()
+        local first = levels:GetValidFrameLevel("PIN_FRAME_LEVEL_QUEST_BLOB")
+        local debugEnd = levels:GetFrameLevelStart("PIN_FRAME_LEVEL_DEBUG") + levels:GetFrameLevelRange("PIN_FRAME_LEVEL_DEBUG") - 1
+        return first, math.max(first, math.min(debugEnd, PATHS_LEVEL - 1))
     end},
-    -- Below Questie's icons, which draw from 2016 up, or in a block of their own below Blizzard's quest pins
-    -- (QuestieMap.utils.SetDrawOrder).
-    {name = "paths", FrameLevel = function() return 2015 end},
+    {name = "paths", FrameLevels = function() return PATHS_LEVEL, PATHS_LEVEL end},
 }
 
 ---@class WorldMapLayerState
@@ -159,7 +169,7 @@ local function _CreatePoller()
 end
 
 ---@param name WorldMapLayerName
----@return {name: WorldMapLayerName, FrameLevel: fun(): number}
+---@return {name: WorldMapLayerName, FrameLevels: fun(): number, number}
 local function _Row(name)
     for _, row in ipairs(LAYER_ORDER) do
         if row.name == name then return row end
@@ -187,9 +197,11 @@ function WorldMapLayers.Invalidate(name)
     dirty = true
 end
 
----The frame level the layer's drawings use, so it draws in the order it hovers.
+---The frame levels the layer's drawings use, so it draws in the order it hovers: every layer's lie
+---below the next one's.
 ---@param name WorldMapLayerName
----@return number
-function WorldMapLayers.FrameLevel(name)
-    return _Row(name).FrameLevel()
+---@return number first
+---@return number last The same as first for a layer drawn at one level.
+function WorldMapLayers.FrameLevels(name)
+    return _Row(name).FrameLevels()
 end

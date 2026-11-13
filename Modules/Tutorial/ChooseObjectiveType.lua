@@ -20,7 +20,7 @@ local function _LinkPreviewToButton(preview, button)
     local border = CreateFrame("Frame", nil, preview, "BackdropTemplate")
     border:SetPoint("TOPLEFT", -4, 4)
     border:SetPoint("BOTTOMRIGHT", 4, -4)
-    border:SetFrameLevel(preview:GetFrameLevel() + 10) -- Above a live preview's map.
+    border:SetFrameLevel(preview:GetFrameLevel() + ObjectivePreview.LEVELS + 1) -- Above a live preview's drawing.
     border:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16 })
     border:SetBackdropBorderColor(0.65, 0.65, 0.65, 1)
 

@@ -236,7 +236,7 @@ The hover shape is the path fattened by radius *r*: the union of capsules around
   - **Fallback shape:** a mask set before Questie loaded, such as Forever's at login or an addon that loads earlier, can only be read through `GetMinimapShape()`. That is a community convention, not Blizzard's, and it only names the round quarters. A fully square minimap gets the square mask. Any round quarter gets the round mask, so paths stop short in square corners rather than draw past a round edge: Forever's own mask atlas where the client has it, or a round texture.
   - **Player:** a soft 38 px hole over the player arrow.
 - **Culling:** only segments within 2 view radii of the origin are drawn. Everything visible lies within √2 radii of the player, so that covers the view until the canvas projects again. If culling cuts a closed patrol elsewhere, its last run continues into its first, so its start stays a corner.
-- **Layering:** paths sit one level above objective areas, two above the minimap, and far below Questie's minimap icons. Blizzard's backdrop chrome at the minimap's level + 1 draws beneath them.
+- **Layering:** paths sit above the 8 levels objective areas stack in (`MinimapCanvas.LAYER_LEVELS`), 9 above the minimap, and far below Questie's minimap icons. Blizzard's backdrop chrome at the minimap's level + 1 draws beneath them.
 - **Hover:** the [capsule test](#hover) in minimap units, against the runs drawn for the current projection.
   - The canvas offers the cursor to its layers top down, as `WorldMapLayers` does on the world map, so a path wins it over the objective areas beneath. Nothing hovers in Forever's gamepad UI (`QuestieCompat.IsGamepadUIEnabled`).
   - The cursor counts only over the bare minimap (`GetMouseFocus() == Minimap`), so Questie's minimap icons, buttons and other addons' pins win.
@@ -292,10 +292,10 @@ That was judged good enough, since few players use a rotating minimap. If it eve
 ## Polygon areas
 
 Waypoints are on for every player, while polygon quest areas (blob mode) are opt-in. They are two drawing features that never import each other; `test/MapFeatureImports.test.lua` keeps it that way.
-- **Hover and frame levels:** set by `WorldMapLayers`' `LAYER_ORDER`. Lines draw at 2015, above objective areas (`PIN_FRAME_LEVEL_QUEST_BLOB`: 2004 on Era, 2007 on Forever) and below Questie's icons (2016+). Hover follows the same order: paths win the cursor over the areas beneath them.
+- **Hover and frame levels:** set by `WorldMapLayers`' `LAYER_ORDER`. Lines draw at 2015, above the levels objective areas stack in and below Questie's icons (2016+); see [Map frame levels](map-frame-levels.md). Hover follows the same order: paths win the cursor over the areas beneath them.
 - **Icons:** both follow Questie's icons through `QuestieFrame`'s icon events.
 - **Ownership:** blob markers own their objective's patrols: the cluster the NPC spawns in, else the zone's marker. Zones only patrols reach get a route marker showing the patrolling NPC. Hovering an area lights up only it and its marker icon. Hovering a route on the world map hovers its marker, which shows and highlights its objective's areas; on the minimap a route's hover only highlights.
-- **Minimap:** both are layers of `MinimapCanvas`, whose `LAYER_ORDER` stacks paths one level above areas; hover follows that order: paths win the cursor over the areas beneath them.
+- **Minimap:** both are layers of `MinimapCanvas`, whose `LAYER_ORDER` stacks paths above the areas' levels; hover follows that order: paths win the cursor over the areas beneath them.
 
 ## Verified in game
 

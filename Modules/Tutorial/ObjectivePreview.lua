@@ -30,6 +30,12 @@ local GLOW_SIZE = 1.13 -- The glow ring, relative to its icon (QuestieFrame's).
 local GROWTH, GLOW_GROWTH = 1.35, 1.5 -- A hovered icon's picture and a lit glow ring (IconHighlight's).
 local DIM_ALPHA = 0.5 -- Other quests' icons under a spotlight (IconHighlight's).
 local FILL_ALPHA, BORDER_ALPHA = 0.25, 0.75 -- Area opacity at full marker opacity (QuestiePolygon's).
+-- Overlapping areas stack in their own levels above the map, smaller on top as on the world map (PolygonRenderer's
+-- Stacking), and the markers draw above them all.
+local AREA_LEVELS = 8
+---How many frame levels above its view the preview draws in: its canvas's, its areas' and its markers'. A frame
+---meant to cover the preview, such as a border, goes above them.
+ObjectivePreview.LEVELS = AREA_LEVELS + 2
 
 -- The map icon tooltip's look: an objective line is indented (TooltipLayout's) and, in blob mode, starts with
 -- its area colour (QuestiePolygon's swatch).
@@ -120,7 +126,7 @@ end
 ---@return ObjectivePreviewMarker
 local function _CreateMarker(state, objective, spot)
     local frame = CreateFrame("Frame", nil, state.canvas)
-    frame:SetFrameLevel(state.canvas:GetFrameLevel() + 2)
+    frame:SetFrameLevel(state.canvas:GetFrameLevel() + AREA_LEVELS + 1)
     frame:SetSize(ICON_SIZE, ICON_SIZE)
     frame:SetPoint("CENTER", state.canvas, "TOPLEFT", spot.x / 100 * SIZE, -spot.y / 100 * SIZE)
     local glow = frame:CreateTexture(nil, "OVERLAY", nil, -1)
@@ -160,11 +166,14 @@ local function _Style(state, hoveredMarker, areaMarkers)
                 color = {color[1], color[2], color[3], FILL_ALPHA * alpha},
                 borderAlpha = BORDER_ALPHA * alpha,
                 highlighted = objective == spotlight,
-            }, state.canvas:GetFrameLevel() + 1)
+            })
         end
     end
     -- Publishing again combines the highlights just styled with the cursor's.
-    if state.renderer then state.renderer:SetVisibleFrames(state.areas) end
+    if state.renderer then
+        local level = state.canvas:GetFrameLevel()
+        state.renderer:SetVisibleFrames(state.areas, level + 1, level + AREA_LEVELS)
+    end
 end
 
 ---Shows the map icon tooltip for the markers' objectives, each once, or hides the preview's own.
@@ -271,7 +280,7 @@ function ObjectivePreview.Create(parent, style)
             if marker.outline then
                 local color = objective.color
                 marker.area = state.renderer:Create({points = marker.outline, color = {color[1], color[2], color[3], FILL_ALPHA}},
-                    SIZE, SIZE, canvas:GetFrameLevel() + 1)
+                    SIZE, SIZE)
                 state.areas[#state.areas + 1] = marker.area
             end
         end

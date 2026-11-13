@@ -376,8 +376,9 @@ describe("MinimapCanvas", function()
             local areas, paths = FakeLayer("areas"), FakeLayer("paths")
 
             assert.are.equal(minimap:GetFrameLevel() + 1, areas.container:GetFrameLevel())
-            assert.are.equal(areas.container:GetFrameLevel() + 1, paths.container:GetFrameLevel())
-            assert.is_true(paths.container:GetFrameLevel() < 2016)
+            -- The areas' own stack, from their container's level up, stays beneath the paths.
+            assert.are.equal(areas.container:GetFrameLevel() + MinimapCanvas.LAYER_LEVELS, paths.container:GetFrameLevel())
+            assert.is_true(paths.container:GetFrameLevel() + MinimapCanvas.LAYER_LEVELS - 1 < 2016)
             assert.has_error(function() MinimapCanvas.AddLayer("nope", {}) end)
         end)
 
