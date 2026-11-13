@@ -7,6 +7,8 @@ local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 QuestieOptionsEngine.tabs.map = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -43,6 +45,12 @@ local function _WaypointsEnabled()
     return (profile.waypointMapEnabled or profile.waypointMinimapEnabled) and true or false
 end
 
+-- The quest area settings only matter with icons on and the Questie blobs style chosen.
+local function _BlobSettingsEnabled()
+    local profile = Questie.db.profile
+    return (profile.enabled and profile.enableQuestiePolygons) and true or false
+end
+
 function QuestieOptionsEngine.tabs.map:Initialize()
     return {
         title = "Map",
@@ -50,6 +58,38 @@ function QuestieOptionsEngine.tabs.map:Initialize()
         order = 1.5,
         icon = 134269,
         items = {
+            blobs_header = {
+                type = "divider",
+                order = 0.1,
+                title = "Blobs",
+            },
+            -- Clicked markers override it per objective.
+            showPolygonsOnAcceptToggle = {
+                type = "checkbox",
+                order = 0.2,
+                title = "Show quest areas when accepted",
+                tooltip = "When unchecked, quest areas only show while you are near them. Click a map marker to always show or hide its areas.",
+                width = "half",
+                enabled = _BlobSettingsEnabled,
+                get = _Get("showPolygonsOnAccept"),
+                set = function(_, value)
+                    Questie.db.profile.showPolygonsOnAccept = value
+                    QuestiePolygon.RefreshVisibility()
+                end,
+            },
+            -- Read on the next hover.
+            polygonAreaTooltipsToggle = {
+                type = "checkbox",
+                order = 0.3,
+                title = "Show quest area tooltips",
+                tooltip = "Hovering a quest area on the world map lists its quest and objectives.",
+                width = "half",
+                enabled = _BlobSettingsEnabled,
+                get = _Get("polygonAreaTooltips"),
+                set = function(_, value)
+                    Questie.db.profile.polygonAreaTooltips = value
+                end,
+            },
             waypoint_header = {
                 type = "divider",
                 order = 1,

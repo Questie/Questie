@@ -7,6 +7,8 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -37,12 +39,56 @@ local function _WaypointsDisabled()
     return not (profile.waypointMapEnabled or profile.waypointMinimapEnabled)
 end
 
+-- The quest area settings only matter with icons on and the Questie blobs style chosen.
+local function _BlobSettingsDisabled()
+    local profile = Questie.db.profile
+    return not (profile.enabled and profile.enableQuestiePolygons)
+end
+
 function QuestieOptions.tabs.map:Initialize()
     return {
         name = function() return l10n("Map"); end,
         type = "group",
         order = 2.5,
         args = {
+            blobs_header = {
+                type = "header",
+                order = 0.1,
+                name = function() return l10n("Blobs"); end,
+            },
+            blobsSpacer = {
+                type = "description",
+                order = 0.11,
+                name = "",
+                width = 0.06,
+            },
+            -- Clicked markers override it per objective.
+            showPolygonsOnAcceptToggle = {
+                type = "toggle",
+                order = 0.2,
+                name = function() return l10n("Show quest areas when accepted"); end,
+                desc = function() return l10n("When unchecked, quest areas only show while you are near them. Click a map marker to always show or hide its areas."); end,
+                width = 1.595,
+                disabled = _BlobSettingsDisabled,
+                get = function() return Questie.db.profile.showPolygonsOnAccept; end,
+                set = function(_, value)
+                    Questie.db.profile.showPolygonsOnAccept = value
+                    QuestiePolygon.RefreshVisibility()
+                end,
+            },
+            -- Read on the next hover.
+            polygonAreaTooltipsToggle = {
+                type = "toggle",
+                order = 0.3,
+                name = function() return l10n("Show quest area tooltips"); end,
+                desc = function() return l10n("Hovering a quest area on the world map lists its quest and objectives."); end,
+                width = 1.595,
+                disabled = _BlobSettingsDisabled,
+                get = function() return Questie.db.profile.polygonAreaTooltips; end,
+                set = function(_, value)
+                    Questie.db.profile.polygonAreaTooltips = value
+                end,
+            },
             waypoint_header = {
                 type = "header",
                 order = 1,

@@ -1,7 +1,7 @@
 dofile("setupTests.lua")
 
 describe("map options", function()
-    local QuestieWaypoints
+    local QuestieWaypoints, QuestiePolygon
     local args
 
     before_each(function()
@@ -9,6 +9,8 @@ describe("map options", function()
         QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
         QuestieWaypoints.Refresh = spy.new(function() end)
         QuestieWaypoints.Redraw = spy.new(function() end)
+        QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+        QuestiePolygon.RefreshVisibility = spy.new(function() end)
         dofile("Modules/Options/QuestieOptionsDefaults.lua")
         dofile("Modules/Options/QuestieOptions.lua")
         dofile("Modules/Options/MapTab/QuestieOptionsMap.lua")
@@ -36,5 +38,38 @@ describe("map options", function()
 
         assert.are.equal(1, Questie.db.profile.waypointSmoothing)
         assert.spy(QuestieWaypoints.Redraw).was.called(1)
+    end)
+
+    describe("blobs", function()
+        it("comes first, under its own header", function()
+            local first
+            for key, option in pairs(args) do
+                if not first or option.order < args[first].order then first = key end
+            end
+
+            assert.are_equal("blobs_header", first)
+            assert.are_equal("header", args.blobs_header.type)
+        end)
+
+        it("greys out the quest area settings unless icons are on and Questie blobs is chosen", function()
+            Questie.db.profile.enabled, Questie.db.profile.enableQuestiePolygons = true, false
+            assert.is_true(args.showPolygonsOnAcceptToggle.disabled())
+            assert.is_true(args.polygonAreaTooltipsToggle.disabled())
+
+            Questie.db.profile.enableQuestiePolygons = true
+            assert.is_false(args.showPolygonsOnAcceptToggle.disabled())
+            assert.is_false(args.polygonAreaTooltipsToggle.disabled())
+
+            Questie.db.profile.enabled = false
+            assert.is_true(args.showPolygonsOnAcceptToggle.disabled())
+            assert.is_true(args.polygonAreaTooltipsToggle.disabled())
+        end)
+
+        it("refreshes area visibility when the accepted quest areas setting changes", function()
+            args.showPolygonsOnAcceptToggle.set(nil, true)
+
+            assert.is_true(Questie.db.profile.showPolygonsOnAccept)
+            assert.spy(QuestiePolygon.RefreshVisibility).was.called(1)
+        end)
     end)
 end)

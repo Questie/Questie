@@ -42,10 +42,6 @@ local function _IsEnabled()
     return Questie.db.profile.enabled
 end
 
-local function _AreQuestAreaSettingsEnabled()
-    return Questie.db.profile.enabled and Questie.db.profile.enableQuestiePolygons
-end
-
 local function _IsMapEnabled()
     return Questie.db.profile.enabled and Questie.db.profile.enableMapIcons
 end
@@ -90,33 +86,6 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         get = function() return Questie.db.profile.iconTheme end,
                         set = function(key)
                             QuestieOptionsUtils.ExecuteTheme(nil, key)
-                        end,
-                    },
-                    -- Only meaningful for the Questie blobs preset; clicked markers override it per objective.
-                    showPolygonsOnAcceptToggle = {
-                        type = "checkbox",
-                        order = 1.22,
-                        title = "Show quest areas when accepted",
-                        tooltip = "When unchecked, quest areas only show while you are near them. Click a map marker to always show or hide its areas.",
-                        width = "full",
-                        enabled = _AreQuestAreaSettingsEnabled,
-                        get = function() return Questie.db.profile.showPolygonsOnAccept end,
-                        set = function(_, value)
-                            Questie.db.profile.showPolygonsOnAccept = value
-                            QuestiePolygon.RefreshVisibility()
-                        end,
-                    },
-                    -- Only meaningful for the Questie blobs preset; read on the next hover.
-                    polygonAreaTooltipsToggle = {
-                        type = "checkbox",
-                        order = 1.24,
-                        title = "Show quest area tooltips",
-                        tooltip = "Hovering a quest area on the world map lists its quest and objectives.",
-                        width = "full",
-                        enabled = _AreQuestAreaSettingsEnabled,
-                        get = function() return Questie.db.profile.polygonAreaTooltips end,
-                        set = function(_, value)
-                            Questie.db.profile.polygonAreaTooltips = value
                         end,
                     },
                     hideMapIconsForUntrackedToggle = {

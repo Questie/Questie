@@ -186,29 +186,5 @@ describe("objective rendering presets", function()
             assert.are_same({"questie", "polygon", "blizzard", "pfquest", "custom"}, picker.sortOrder())
         end)
 
-        it("enables the quest area settings only in blob mode", function()
-            local items = _IconOptions()
-            Questie.db.profile.enabled = true
-
-            assert.is_false(items.showPolygonsOnAcceptToggle.enabled())
-            assert.is_false(items.polygonAreaTooltipsToggle.enabled())
-
-            utils.ExecuteTheme(nil, "polygon")
-
-            assert.is_true(items.showPolygonsOnAcceptToggle.enabled())
-            assert.is_true(items.polygonAreaTooltipsToggle.enabled())
-        end)
-
-        it("refreshes area visibility when the accepted quest areas setting changes", function()
-            local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
-            local originalRefresh = QuestiePolygon.RefreshVisibility
-            QuestiePolygon.RefreshVisibility = spy.new(function() end)
-
-            _IconOptions().showPolygonsOnAcceptToggle.set(nil, false)
-
-            assert.is_false(Questie.db.profile.showPolygonsOnAccept)
-            assert.spy(QuestiePolygon.RefreshVisibility).was.called(1)
-            QuestiePolygon.RefreshVisibility = originalRefresh
-        end)
     end)
 end)
