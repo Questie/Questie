@@ -7,13 +7,20 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import zipfile
 
 
 SCRIPT = Path(__file__).with_name("upload-wago.sh").resolve()
 GIT = shutil.which("git")
 
 
-@unittest.skipUnless(GIT and shutil.which("jq"), "git and jq are required")
+def write_bundle(path, directories=("Questie", "QuestieDB", "QuestieTrace")):
+    with zipfile.ZipFile(path, "w") as bundle:
+        for directory in directories:
+            bundle.writestr(f"{directory}/{directory}.toc", directory)
+
+
+@unittest.skipUnless(GIT and shutil.which("jq") and shutil.which("unzip"), "git, jq and unzip are required")
 class WagoUploadTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
@@ -32,7 +39,7 @@ class WagoUploadTests(unittest.TestCase):
         self.release_dir = self.work / "releases/v12.0.0"
         self.release_dir.mkdir(parents=True)
         self.zip = self.release_dir / "Questie-v12.0.0+v1.0.0.zip"
-        self.zip.write_bytes(b"test artifact")
+        write_bundle(self.zip)
         self.manifest = {
             "questie": {"version": "12.0.0", "producerCommit": self.commit},
             "questiedb": {"version": "1.0.0"},
@@ -113,6 +120,17 @@ exit "$UPLOAD_EXIT"
         self.assertIn("authorization: Bearer test-token", arguments)
         self.assertIn("https://addons.wago.io/api/projects/qv634BKb/version", arguments)
         self.assertIn(self.commit, self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
+
+    def test_should_fail_without_reserving_when_the_bundle_lacks_an_addon(self):
+        for directories in (("Questie", "QuestieDB"), ("Questie", "QuestieTrace"), ("QuestieDB", "QuestieTrace")):
+            with self.subTest(directories=directories):
+                self.publish_bundle_tag()
+                write_bundle(self.zip, directories)
+                result = self.run_upload()
+                self.assertEqual(1, result.returncode, result.stderr)
+                self.assertIn("must contain Questie, QuestieDB and QuestieTrace TOCs", result.stderr)
+                self.assertFalse(self.has_remote_marker())
+                self.assertFalse(self.calls.exists())
 
     def test_http_200_is_success_and_keeps_reservation(self):
         self.publish_bundle_tag()

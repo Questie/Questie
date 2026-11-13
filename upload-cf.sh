@@ -34,6 +34,7 @@
 # Tags containing -pre.<commit> upload as beta; other tags upload as release.
 # CurseForge gets the bundle without its QuestieDB directory (zip and unzip are required);
 # QuestieDB is declared as a required dependency and published by the QuestieDB repo.
+# QuestieTrace stays in the ZIP.
 # "latest" is not accepted here. The script still requires jq with a manual ZIP name.
 # This performs a REAL upload and pushes a reservation tag to origin. There is no
 # dry-run mode. If it fails, check CurseForge before following the printed retry steps.
@@ -81,7 +82,8 @@ sh "$(dirname "$0")/validate-bundle.sh" "$RELEASE_DIR/release.json" "$LATEST_GIT
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
 # CurseForge installs QuestieDB as a required dependency, so upload the bundle without it.
-# This keeps the exact Questie files of the GitHub bundle instead of rebuilding them.
+# QuestieTrace has no CurseForge project of its own and stays in the ZIP.
+# This keeps the exact files of the GitHub bundle instead of rebuilding them.
 QUESTIE_LABEL="${LATEST_GIT_TAG#bundle/}"
 QUESTIE_LABEL="${QUESTIE_LABEL%%+*}"
 CF_ZIP="$RELEASE_DIR/Questie-$QUESTIE_LABEL.zip"
@@ -91,8 +93,13 @@ if ! zip -q -d "$CF_ZIP" 'QuestieDB/*'; then
   exit 1
 fi
 contents=$(unzip -Z1 "$CF_ZIP")
-if printf '%s\n' "$contents" | grep -qv '^Questie/' || ! printf '%s\n' "$contents" | grep -q '^Questie/Questie.*\.toc$'; then
-  echo "Questie-only ZIP must contain Questie TOCs and nothing outside Questie/" >&2
+if printf '%s\n' "$contents" | grep -Eqv '^(Questie|QuestieTrace)/'; then
+  echo "CurseForge ZIP must contain nothing outside Questie/ and QuestieTrace/" >&2
+  exit 1
+fi
+if ! printf '%s\n' "$contents" | grep -q '^Questie/Questie.*\.toc$' ||
+  ! printf '%s\n' "$contents" | grep -q '^QuestieTrace/QuestieTrace.*\.toc$'; then
+  echo "CurseForge ZIP must contain Questie and QuestieTrace TOCs" >&2
   exit 1
 fi
 
@@ -121,7 +128,6 @@ CF_METADATA=$(cat <<-EOF
     "relations": {
         "projects": [
             {slug: "questiedb", type: "requiredDependency"},
-            {slug: "questietrace", type: "requiredDependency"},
             {slug: "Ace3", type: "embeddedLibrary"},
             {slug: "CallbackHandler", type: "embeddedLibrary"},
             {slug: "HereBeDragons", type: "embeddedLibrary"},

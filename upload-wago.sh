@@ -2,7 +2,7 @@
 # Manual upload to Wago:
 # First publish the bundle on GitHub with "Build and publish bundle". This script
 # distributes that existing release; it does not build or create a GitHub release.
-# Run from the checkout root with git, gh, jq and curl installed, gh authenticated,
+# Run from the checkout root with git, gh, jq, unzip and curl installed, gh authenticated,
 # and permission to push tags to origin. Continue only when each step succeeds.
 #
 # 1. Choose an existing release (replace these example values). Use a fresh download
@@ -76,6 +76,14 @@ if [ ! -f "$RELEASE_DIR/$BUNDLED_ZIP" ]; then
 fi
 # Validate the downloaded bundle before reserving or uploading it.
 sh "$(dirname "$0")/validate-bundle.sh" "$RELEASE_DIR/release.json" "$LATEST_GIT_TAG" "$bundle_commit" "$BUNDLED_ZIP"
+# Wago gets the full bundle, so every addon must be in it.
+contents=$(unzip -Z1 "$RELEASE_DIR/$BUNDLED_ZIP")
+for addon in Questie QuestieDB QuestieTrace; do
+  if ! printf '%s\n' "$contents" | grep -q "^$addon/$addon.*\\.toc\$"; then
+    echo "Wago ZIP must contain Questie, QuestieDB and QuestieTrace TOCs" >&2
+    exit 1
+  fi
+done
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
 case "$LATEST_GIT_TAG" in
