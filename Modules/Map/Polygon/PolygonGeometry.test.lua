@@ -161,6 +161,150 @@ describe("PolygonGeometry", function()
         assert.are_equal(2, #_Build({a, b}))
     end)
 
+    describe("reassignment", function()
+        -- Percentages are world units / 10, plus 10 on y, so seeds go in world order.
+        local function Spawn(worldX, worldY)
+            worldY = worldY or 0
+            return {x = worldX / 10, y = worldY / 10 + 10, worldX = worldX, worldY = worldY, uiMapId = 1429, instanceId = 0}
+        end
+
+        for _, axis in ipairs({"x", "y"}) do
+            it("moves a spawn the greedy pass left with a farther center to the nearest one, along " .. axis, function()
+                local function At(position)
+                    if axis == "x" then return Spawn(position, 0) end
+                    return Spawn(0, position)
+                end
+                local function Bounds(low, high)
+                    if axis == "x" then return {minX = low, minY = 0, maxX = high, maxY = 0} end
+                    return {minX = 0, minY = low, maxX = 0, maxY = high}
+                end
+                local offset = axis == "x" and 0 or 10
+                -- Greedy: 0 takes 170 (center 85), then 260 (175 away; center 143.3). 350 seeds a second
+                -- cluster and takes 400 (center 375). 260 is 116.7 from its own center but 115 from the
+                -- second one, so it moves there.
+                local a, b, c, d, e = At(0), At(170), At(260), At(350), At(400)
+
+                local result = _Build({e, d, c, b, a})
+
+                assert.are_equal(2, #result)
+                assert.are_equal(a, result[1].representative)
+                assert.are_same(Bounds(0, 170), result[1].worldBounds)
+                assert.are_near(offset + 8.5, result[1][axis], 1e-9)
+                assert.are_equal(d, result[2].representative)
+                assert.are_same(Bounds(260, 400), result[2].worldBounds)
+                assert.are_near(offset + (26 + 35 + 40) / 3, result[2][axis], 1e-9)
+            end)
+        end
+
+        it("lets the member nearest the new center lead a cluster whose seed moved away", function()
+            -- Greedy: 0 takes 50 to 120 (center 60) and rejects 240, exactly 180 away. 240 seeds a second
+            -- cluster taking 380 to 540 (center 430). 240 is nearer the first center, 180 against 190, so
+            -- it moves. The second cluster's new mean is 468: 460 is nearest it, though 450 is nearest
+            -- the old center.
+            local spawns = {}
+            for i, worldX in ipairs({0, 50, 70, 120, 240, 380, 450, 460, 510, 540}) do spawns[i] = Spawn(worldX) end
+
+            local result = _Build(spawns)
+
+            assert.are_equal(2, #result)
+            assert.are_equal(spawns[1], result[1].representative)
+            assert.are_same({minX = 0, minY = 0, maxX = 240, maxY = 0}, result[1].worldBounds)
+            assert.are_near(9.6, result[1].x, 1e-9)
+            assert.are_equal(spawns[8], result[2].representative)
+            assert.are_same({minX = 380, minY = 0, maxX = 540, maxY = 0}, result[2].worldBounds)
+            assert.are_near(46.8, result[2].x, 1e-9)
+        end)
+
+        it("compares a spawn with clusters as far away as its own center drifted", function()
+            -- Greedy: (-225, 0) takes the three spawns around (-205, 0). (0, 0) seeds a second cluster,
+            -- which takes five spawns at (170, 0) and ten at (310, -9..9), so its center drifts to
+            -- (246.9, 0). The seed is then 205 from the first center, nearer than its own, though the
+            -- two clusters' spawns are 185 apart, farther than the radius.
+            local spawns = {Spawn(-225, 0), Spawn(-205, -30), Spawn(-205, 30), Spawn(-185, 0), Spawn(0, 0)}
+            for _ = 1, 5 do spawns[#spawns + 1] = Spawn(170, 0) end
+            for y = -9, 9, 2 do spawns[#spawns + 1] = Spawn(310, y) end
+
+            local result = _Build(spawns)
+
+            assert.are_equal(2, #result)
+            assert.are_same({minX = -225, minY = -30, maxX = 0, maxY = 30}, result[1].worldBounds)
+            assert.are_same({minX = 170, minY = -9, maxX = 310, maxY = 9}, result[2].worldBounds)
+        end)
+
+        it("returns nothing, and does not fail, when cancelled at any check", function()
+            -- 150 spawns spread over a zone, so the build forms, reassigns and outlines several clusters.
+            local spawns = {}
+            for i = 0, 149 do
+                local worldX, worldY = (i * 73) % 1000 * 3, (i * 151) % 700 * 3
+                spawns[#spawns + 1] = {x = worldX / 30, y = worldY / 30, worldX = worldX, worldY = worldY,
+                    uiMapId = 1429, instanceId = 0}
+            end
+            local checks = 0
+            assert.is_true(#_Build(spawns, nil, function() checks = checks + 1; return false end) > 1)
+
+            for cancelAt = 1, checks do
+                local count = 0
+                local result = _Build(spawns, nil, function() count = count + 1; return count >= cancelAt end)
+                assert.is_nil(result, string.format("cancelled at check %d of %d", cancelAt, checks))
+            end
+        end)
+
+        -- Finding Warmth (quest 99159, Forever): its 34 Fallen Logs in Dun Morogh, as QuestieDB lists
+        -- them (object 694934) with HereBeDragons' world positions. The greedy pass alone gives three
+        -- areas, two of which both cover 3 logs around (56-57, 53.5).
+        local FINDING_WARMTH_LOGS = {
+            {49.8, 51.6, -650.567, -5571.283}, {50.8, 49.9, -699.817, -5515.467}, {51.3, 52, -724.442, -5584.417},
+            {52.4, 50.4, -778.617, -5531.883}, {52.4, 50.5, -778.617, -5535.167}, {52.5, 50.4, -783.542, -5531.883},
+            {54, 46.8, -857.417, -5413.683}, {54.2, 45.3, -867.267, -5364.433}, {55.4, 45.8, -926.367, -5380.850},
+            {55.5, 45.8, -931.292, -5380.850}, {55.9, 48.6, -950.992, -5472.783}, {55.9, 53.4, -950.992, -5630.383},
+            {56, 52.2, -955.917, -5590.983}, {56, 53.5, -955.917, -5633.667}, {56.4, 55.4, -975.617, -5696.050},
+            {56.4, 55.5, -975.617, -5699.333}, {56.5, 55.6, -980.542, -5702.617}, {56.6, 50.9, -985.467, -5548.300},
+            {57, 53.4, -1005.167, -5630.383}, {57, 53.5, -1005.167, -5633.667}, {57.2, 54.9, -1015.017, -5679.633},
+            {57.4, 46.4, -1024.867, -5400.550}, {57.4, 46.5, -1024.867, -5403.833}, {57.5, 46.4, -1029.792, -5400.550},
+            {57.6, 48.6, -1034.717, -5472.783}, {58.2, 52, -1064.267, -5584.417}, {58.3, 54.4, -1069.192, -5663.217},
+            {58.3, 54.5, -1069.192, -5666.500}, {58.3, 56.2, -1069.192, -5722.317}, {58.4, 58.6, -1074.117, -5801.117},
+            {58.5, 58.6, -1079.042, -5801.117}, {58.6, 57.1, -1083.967, -5751.867}, {59.8, 58.6, -1143.067, -5801.117},
+            {60.1, 53, -1157.842, -5617.250},
+        }
+
+        ---Inside or on a convex outline, in either winding.
+        local function Inside(outline, point)
+            local side = 0
+            for i, a in ipairs(outline) do
+                local b = outline[i % #outline + 1]
+                local cross = (b.x - a.x) * (point.y - a.y) - (b.y - a.y) * (point.x - a.x)
+                if cross ~= 0 then
+                    local sign = cross > 0 and 1 or -1
+                    if side == 0 then side = sign elseif sign ~= side then return false end
+                end
+            end
+            return true
+        end
+
+        it("never puts one of Finding Warmth's logs inside two of its areas", function()
+            local logs = {}
+            for i, log in ipairs(FINDING_WARMTH_LOGS) do
+                logs[i] = {x = log[1], y = log[2], worldX = log[3], worldY = log[4], uiMapId = 1426, instanceId = 0,
+                    isObject = true}
+            end
+
+            local result = _Build(logs)
+
+            local areas = {}
+            for _, cluster in ipairs(result) do
+                if cluster.outline then areas[#areas + 1] = cluster.outline end
+            end
+            assert.is_true(#areas >= 2, "the logs should still need more than one area")
+            for _, log in ipairs(logs) do
+                local containing = 0
+                for _, outline in ipairs(areas) do
+                    if Inside(outline, log) then containing = containing + 1 end
+                end
+                assert.is_true(containing <= 1, string.format("log at %.1f, %.1f lies inside %d areas", log.x, log.y, containing))
+            end
+        end)
+    end)
+
     it("keeps the same outline when collinear edge points precede the farthest corners", function()
         local a = {x = 10, y = 10, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0}
         local b = {x = 30, y = 10, worldX = 20, worldY = 0, uiMapId = 1429, instanceId = 0}

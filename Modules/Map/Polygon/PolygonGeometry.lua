@@ -25,7 +25,7 @@ local MapGeometry = QuestieLoader:ImportModule("MapGeometry")
 ---@field representative PolygonSpawnPoint For an object cluster without an area, the member the marker sits on.
 ---@field isObject boolean? A cluster of game objects, which list their own positions.
 ---@field locations PolygonSpawnPoint[]? Object members at least objectSpacing apart, starting with the representative.
----@field kinds PolygonSpawnPoint[]? The first member of each kind, in admission order; nil when no member has a kind.
+---@field kinds PolygonSpawnPoint[]? The first member of each kind, in member order, the representative's kind first; nil when no member has a kind.
 
 ---@class PolygonWorldBounds
 ---@field minX number World units, matching PolygonSpawnPoint.worldX.
@@ -306,7 +306,7 @@ end
 ---where it points. Without an area, a centroid could stand in empty ground between objects, so
 ---the marker sits on the member nearest the members' mean instead.
 ---@param cluster PolygonCluster
----@param members PolygonSpawnPoint[] In admission order, which is deterministic.
+---@param members PolygonSpawnPoint[] The representative first, in a deterministic order.
 ---@return boolean? completed nil on cancellation.
 local function _ListObjects(cluster, members, meanX, meanY, spacing, work)
     local first = members[1]
@@ -331,6 +331,139 @@ local function _ListObjects(cluster, members, meanX, meanY, spacing, work)
     end
     cluster.isObject, cluster.locations = true, locations
     return true
+end
+
+-- Reassignment
+-- The greedy pass never guarantees separate clusters: a cluster's center drifts while it grows, so it
+-- can take part of a row of spawns and leave the rest to the next cluster, and both outlines then
+-- cover the row. One round fixes that: every spawn moves to the cluster whose center, the mean of its
+-- spawns, is nearest. Each spawn then sits on its own center's side of the line halfway between any
+-- two centers, so the convex hulls of a partition's clusters cannot overlap; outlines smooth those
+-- hulls and can still bulge slightly past that line. Objects and creatures are separate partitions.
+-- A cluster's reach is the farthest any of its spawns lies from its center; it can exceed the radius,
+-- as the center drifts. A cluster whose spawn bounds are farther from another's than either one's reach
+-- cannot win any of its spawns, which lie nearer their own center, so only nearer clusters are compared.
+-- Further rounds would only make clusters rounder, at several times the cost.
+
+---@param groups PolygonSpawnPoint[][] One partition's greedy clusters, each in admission order, seed first.
+---@return PolygonSpawnPoint[][]? groups The non-empty clusters in the same order: spawns that stayed, in
+---admission order, then the ones that moved in, in theirs. The seed leads while it stays; otherwise the
+---member nearest the new center does. nil on cancellation.
+local function _Reassign(groups, work)
+    if #groups < 2 then return groups end
+    local centerX, centerY, bounds, reachSquared = {}, {}, {}, {}
+    for g, members in ipairs(groups) do
+        local sumX, sumY, minX, minY, maxX, maxY = 0, 0, huge, huge, -huge, -huge
+        for _, member in ipairs(members) do
+            local x, y = member.worldX, member.worldY
+            sumX, sumY = sumX + x, sumY + y
+            minX, maxX, minY, maxY = math.min(minX, x), math.max(maxX, x), math.min(minY, y), math.max(maxY, y)
+            if not _Checkpoint(work) then return end
+        end
+        local x, y, farthest = sumX / #members, sumY / #members, 0
+        for _, member in ipairs(members) do
+            farthest = math.max(farthest, (member.worldX - x)^2 + (member.worldY - y)^2)
+            if not _Checkpoint(work) then return end
+        end
+        centerX[g], centerY[g], bounds[g], reachSquared[g] = x, y, {minX, minY, maxX, maxY}, farthest
+    end
+
+    -- Neighbors in ascending order, so ties between them resolve the same way every time.
+    local neighbors = {}
+    for g = 1, #groups do neighbors[g] = {} end
+    for g = 1, #groups - 1 do
+        local a = bounds[g]
+        for h = g + 1, #groups do
+            local b = bounds[h]
+            local gapX, gapY = math.max(0, b[1] - a[3], a[1] - b[3]), math.max(0, b[2] - a[4], a[2] - b[4])
+            if gapX * gapX + gapY * gapY <= math.max(reachSquared[g], reachSquared[h]) then
+                neighbors[g][#neighbors[g] + 1] = h
+                neighbors[h][#neighbors[h] + 1] = g
+            end
+            if not _Checkpoint(work) then return end
+        end
+    end
+
+    -- Centers are the greedy clusters' means, fixed for the round, so the order spawns are visited in
+    -- changes nothing. A tie stays put.
+    local stayed, movedIn = {}, {}
+    for g = 1, #groups do stayed[g], movedIn[g] = {}, {} end
+    for g, members in ipairs(groups) do
+        for _, member in ipairs(members) do
+            local x, y = member.worldX, member.worldY
+            local nearest, nearestDistance = g, (x - centerX[g])^2 + (y - centerY[g])^2
+            for _, h in ipairs(neighbors[g]) do
+                local distance = (x - centerX[h])^2 + (y - centerY[h])^2
+                if distance < nearestDistance then nearest, nearestDistance = h, distance end
+            end
+            local into = nearest == g and stayed[g] or movedIn[nearest]
+            into[#into + 1] = member
+            if not _Checkpoint(work, 1 + #neighbors[g]) then return end
+        end
+    end
+
+    local result = {}
+    for g, members in ipairs(stayed) do
+        for _, member in ipairs(movedIn[g]) do members[#members + 1] = member end
+        if members[1] and members[1] ~= groups[g][1] then
+            local sumX, sumY = 0, 0
+            for _, member in ipairs(members) do sumX, sumY = sumX + member.worldX, sumY + member.worldY end
+            local meanX, meanY = sumX / #members, sumY / #members
+            local nearest, nearestDistance = 1, huge
+            for i, member in ipairs(members) do
+                local distance = (member.worldX - meanX)^2 + (member.worldY - meanY)^2
+                if distance < nearestDistance then nearest, nearestDistance = i, distance end
+            end
+            table.insert(members, 1, table.remove(members, nearest))
+            if not _Checkpoint(work, 2 * #members) then return end
+        end
+        if members[1] then result[#result + 1] = members end
+    end
+    return result
+end
+
+---Builds one cluster's record and outline.
+---@param members PolygonSpawnPoint[] The first is the cluster's representative.
+---@return PolygonCluster? cluster nil on cancellation.
+local function _BuildCluster(members, areaCutoff, tolerance, objectSpacing, work)
+    local first = members[1]
+    local sumX, sumY, worldSumX, worldSumY = 0, 0, 0, 0
+    local minX, minY, maxX, maxY = huge, huge, -huge, -huge
+    local kinds, seenKinds = {}, {}
+    for _, member in ipairs(members) do
+        sumX, sumY = sumX + member.x, sumY + member.y
+        worldSumX, worldSumY = worldSumX + member.worldX, worldSumY + member.worldY
+        minX, maxX = math.min(minX, member.worldX), math.max(maxX, member.worldX)
+        minY, maxY = math.min(minY, member.worldY), math.max(maxY, member.worldY)
+        local kind = member.kind
+        if kind ~= nil and not seenKinds[kind] then
+            seenKinds[kind] = true
+            kinds[#kinds + 1] = member
+        end
+        if not _Checkpoint(work) then return end
+    end
+    local cluster = {uiMapId = first.uiMapId, instanceId = first.instanceId,
+        x = sumX / #members, y = sumY / #members, representative = first, kinds = kinds[1] and kinds or nil,
+        worldBounds = {minX = minX, minY = minY, maxX = maxX, maxY = maxY}}
+    -- Outlines and markers share clustering, but isolated/collinear/tiny regions
+    -- remain useful point markers instead of being discarded by the area cutoff.
+    local hull = _GiftWrap(members, work)
+    if not hull then return end
+    if #hull >= 3 then
+        local samples = _SampleSpline(hull, work)
+        if not samples then return end
+        local envelope = _SplineEnvelope(samples, work)
+        if not envelope then return end
+        local outline = _ReduceOutline(envelope, tolerance)
+        if not _Checkpoint(work, #envelope) then return end
+        local area, x, y = _AreaAndCentroid(outline, work)
+        if area == nil then return end
+        if x and y then cluster.x, cluster.y = x, y end
+        if area > areaCutoff then cluster.outline = outline end
+    end
+    if first.isObject and not _ListObjects(cluster, members, worldSumX / #members, worldSumY / #members,
+        objectSpacing, work) then return end
+    return cluster
 end
 
 ---Builds complete cluster geometry without mutating inputs. The caller must run in a
@@ -378,12 +511,13 @@ function PolygonGeometry.Build(points, options, isCancelled)
 
         -- Greedy clustering keeps the historical two passes: mean-centered admission
         -- first, then drift recovery using the mean and bounding-box centers.
+        local groups = {}
         for seedIndex = partitionFirst, partitionLast do
             local seed = sorted[seedIndex]
             if not touched[seedIndex] then
                 local members = {seed}
                 touched[seedIndex] = true
-                local sumX, sumY, worldSumX, worldSumY = seed.x, seed.y, seed.worldX, seed.worldY
+                local worldSumX, worldSumY = seed.worldX, seed.worldY
                 local minX, maxX, minY, maxY = seed.worldX, seed.worldX, seed.worldY, seed.worldY
                 local centerX, centerY = seed.worldX, seed.worldY
                 for pass = 1, 2 do
@@ -395,7 +529,6 @@ function PolygonGeometry.Build(points, options, isCancelled)
                             if distance < radiusSquared then
                                 touched[index] = true
                                 members[#members + 1] = candidate
-                                sumX, sumY = sumX + candidate.x, sumY + candidate.y
                                 worldSumX, worldSumY = worldSumX + candidate.worldX, worldSumY + candidate.worldY
                                 minX, maxX = math.min(minX, candidate.worldX), math.max(maxX, candidate.worldX)
                                 minY, maxY = math.min(minY, candidate.worldY), math.max(maxY, candidate.worldY)
@@ -408,39 +541,17 @@ function PolygonGeometry.Build(points, options, isCancelled)
                         if not _Checkpoint(work) then return end
                     end
                 end
-
-                local kinds, seenKinds = {}, {}
-                for _, member in ipairs(members) do
-                    local kind = member.kind
-                    if kind ~= nil and not seenKinds[kind] then
-                        seenKinds[kind] = true
-                        kinds[#kinds + 1] = member
-                    end
-                end
-                local cluster = {uiMapId = seed.uiMapId, instanceId = seed.instanceId,
-                    x = sumX / #members, y = sumY / #members, representative = seed, kinds = kinds[1] and kinds or nil,
-                    worldBounds = {minX = minX, minY = minY, maxX = maxX, maxY = maxY}}
-                -- Outlines and markers share clustering, but isolated/collinear/tiny regions
-                -- remain useful point markers instead of being discarded by the area cutoff.
-                local hull = _GiftWrap(members, work)
-                if not hull then return end
-                if #hull >= 3 then
-                    local samples = _SampleSpline(hull, work)
-                    if not samples then return end
-                    local envelope = _SplineEnvelope(samples, work)
-                    if not envelope then return end
-                    local outline = _ReduceOutline(envelope, tolerance)
-                    if not _Checkpoint(work, #envelope) then return end
-                    local area, x, y = _AreaAndCentroid(outline, work)
-                    if area == nil then return end
-                    if x and y then cluster.x, cluster.y = x, y end
-                    if area > areaCutoff then cluster.outline = outline end
-                end
-                if seed.isObject and not _ListObjects(cluster, members, worldSumX / #members, worldSumY / #members,
-                    objectSpacing, work) then return end
-                clusters[#clusters + 1] = cluster
+                groups[#groups + 1] = members
             end
             if not _Checkpoint(work) then return end
+        end
+
+        groups = _Reassign(groups, work)
+        if not groups then return end
+        for _, members in ipairs(groups) do
+            local cluster = _BuildCluster(members, areaCutoff, tolerance, objectSpacing, work)
+            if not cluster then return end
+            clusters[#clusters + 1] = cluster
         end
         partitionFirst = partitionLast + 1
     end
