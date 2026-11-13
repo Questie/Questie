@@ -14,7 +14,7 @@ SCRIPT = Path(__file__).with_name("upload-cf.sh").resolve()
 GIT = shutil.which("git")
 
 
-def write_bundle(path, directories=("Questie", "QuestieDB")):
+def write_bundle(path, directories=("Questie", "QuestieDB", "QuestieTrace")):
     with zipfile.ZipFile(path, "w") as bundle:
         for directory in directories:
             bundle.writestr(f"{directory}/{directory}.toc", directory)
@@ -119,16 +119,16 @@ exit "$UPLOAD_EXIT"
         self.assertIn('"releaseType": "release"', arguments)
         self.assertIn('"displayName": "v12.0.0"', arguments)
         self.assertIn('{slug: "questiedb", type: "requiredDependency"}', arguments)
-        self.assertIn('{slug: "questietrace", type: "requiredDependency"}', arguments)
+        self.assertNotIn("questietrace", arguments)
         with zipfile.ZipFile(str(self.calls) + ".zip") as uploaded:
-            self.assertEqual(["Questie/Questie.toc"], uploaded.namelist())
+            self.assertEqual(["Questie/Questie.toc", "QuestieTrace/QuestieTrace.toc"], uploaded.namelist())
         with zipfile.ZipFile(self.zip) as bundle:
             self.assertIn("QuestieDB/QuestieDB.toc", bundle.namelist())
         self.assertIn(self.commit, self.git("ls-remote", "--tags", "origin", f"refs/tags/{self.marker}"))
 
     def test_should_fail_without_reserving_when_the_bundle_lacks_questiedb(self):
         self.publish_bundle_tag()
-        write_bundle(self.zip, ("Questie",))
+        write_bundle(self.zip, ("Questie", "QuestieTrace"))
         result = self.run_upload()
         self.assertEqual(1, result.returncode, result.stderr)
         self.assertIn("contains no QuestieDB directory", result.stderr)
@@ -137,10 +137,19 @@ exit "$UPLOAD_EXIT"
 
     def test_should_fail_without_reserving_when_the_bundle_has_other_top_level_files(self):
         self.publish_bundle_tag()
-        write_bundle(self.zip, ("Questie", "QuestieDB", "Other"))
+        write_bundle(self.zip, ("Questie", "QuestieDB", "QuestieTrace", "Other"))
         result = self.run_upload()
         self.assertEqual(1, result.returncode, result.stderr)
-        self.assertIn("nothing outside Questie/", result.stderr)
+        self.assertIn("nothing outside Questie/ and QuestieTrace/", result.stderr)
+        self.assertFalse(self.has_remote_marker())
+        self.assertFalse(self.calls.exists())
+
+    def test_should_fail_without_reserving_when_the_bundle_lacks_questietrace(self):
+        self.publish_bundle_tag()
+        write_bundle(self.zip, ("Questie", "QuestieDB"))
+        result = self.run_upload()
+        self.assertEqual(1, result.returncode, result.stderr)
+        self.assertIn("must contain Questie and QuestieTrace TOCs", result.stderr)
         self.assertFalse(self.has_remote_marker())
         self.assertFalse(self.calls.exists())
 
