@@ -27,10 +27,6 @@
 #    CHANGELOG.md in the checkout root; save any local edits to that file first.
 #    gh release view "$RELEASE_TAG" --repo Questie/Questie --json body --template '{{.body}}' > CHANGELOG.md
 #
-#    Alternatively, render notes from the downloaded manifest with Python via uv
-#    (no gh needed for this step; later edits to the GitHub release notes are not included):
-#    uv run --no-project changelog.py --release-manifest "$RELEASE_DIR/release.json" > CHANGELOG.md
-#
 # 4. Check the downloaded files and notes, then export WAGO_API_TOKEN securely in
 #    your shell. Do not commit the token or paste it here. Start the upload:
 #    sh upload-wago.sh "$RELEASE_TAG"

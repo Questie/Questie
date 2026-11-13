@@ -224,9 +224,24 @@ def get_addon_changelog(name, manifest):
     return result
 
 
+def get_questietrace_update(manifest, previous):
+    """Return one line when the bundled QuestieTrace version differs from the previous bundle."""
+    version = manifest["version"]
+    if previous is not None and previous.get("version") == version:
+        return ""
+    # Both become part of a Markdown link target.
+    if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
+        raise ValueError("QuestieTrace manifest has an invalid version")
+    repository = manifest["repository"]
+    if repository != "https://github.com/Questie/QuestieTrace":
+        raise ValueError("QuestieTrace manifest has an unexpected repository")
+    return f"Updated QuestieTrace to [v{version}]({repository}/releases/tag/v{version})\n"
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Generate Questie notes or render a packaged release.json.")
     parser.add_argument("--release-manifest", help="Render retained component metadata without Git or network access")
+    parser.add_argument("--previous-manifest", help="release.json of the previous stable bundle, to detect a QuestieTrace update")
     args = parser.parse_args(argv)
     if args.release_manifest:
         with open(args.release_manifest, encoding="utf-8") as source:
@@ -235,6 +250,14 @@ def main(argv=None):
         print(get_addon_changelog("Questie", manifest["questie"]))
         if "questiedb" in manifest:
             print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
+        if "questietrace" in manifest:
+            if not args.previous_manifest:
+                parser.error("--previous-manifest is required for bundles with QuestieTrace")
+            with open(args.previous_manifest, encoding="utf-8") as source:
+                previous = json.load(source)
+            update = get_questietrace_update(manifest["questietrace"], previous.get("questietrace"))
+            if update:
+                print(update)
     else:
         show_contributors_section = not is_running_in_github_actions()
         print(get_commit_changelog(show_contributors_section))
