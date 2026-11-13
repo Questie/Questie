@@ -99,6 +99,31 @@ class ReleaseNotesTests(unittest.TestCase):
         self.assertIn("[All commits]", notes)
         self.assertNotIn("No component source changes", notes)
 
+    def test_should_summarize_a_questietrace_update_in_one_line_without_comparing_commits(self):
+        self.after = copy.deepcopy(self.before)
+        self.before["questietrace"] = component("QuestieTrace", "1.9.2", "c")
+        self.after["questietrace"] = component("QuestieTrace", "1.10.0", "d")
+        with patch.object(release_notes, "gh_json") as gh:
+            notes = release_notes.release_changes(self.before, self.after)
+        gh.assert_not_called()
+        self.assertEqual("Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)\n",
+                         notes)
+
+    def test_should_skip_an_unchanged_questietrace(self):
+        self.after = copy.deepcopy(self.before)
+        for manifest in (self.before, self.after):
+            manifest["questietrace"] = component("QuestieTrace", "1.10.0", "d")
+        with patch.object(release_notes, "gh_json") as gh:
+            self.assertEqual("No component source changes.\n", release_notes.release_changes(self.before, self.after))
+        gh.assert_not_called()
+
+    def test_should_accept_a_starting_bundle_without_questietrace(self):
+        self.after = copy.deepcopy(self.before)
+        self.after["questietrace"] = component("QuestieTrace", "1.10.0", "d")
+        with patch.object(release_notes, "gh_json"):
+            notes = release_notes.release_changes(self.before, self.after)
+        self.assertIn("Updated QuestieTrace to [v1.10.0]", notes)
+
     def test_reverse_diverged_and_incomplete_ranges_fail_instead_of_printing_partial_notes(self):
         for status, total, message in (("behind", 0, "descend"), ("diverged", 1, "descend"), ("ahead", 2, "incomplete")):
             with self.subTest(status=status):
