@@ -340,6 +340,58 @@ describe("PolygonGeometry", function()
         assert.are_not_same(outline[1], outline[#outline])
     end)
 
+    it("smooths sharp corners without reaching into a neighboring area", function()
+        -- The spawns on the hull corners of two neighboring Murloc Eye areas in Westfall (Westfall Stew,
+        -- quest 38), with HereBeDragons' world positions. Their hulls are apart, but the second area's
+        -- corner at (32.5, 26.25), where a long edge meets short ones, faces the first area's corner
+        -- at (32.42, 26.63). Evenly timed smoothing overshoots such a corner, and the outlines overlapped.
+        local function Area(corners)
+            local points = {}
+            for i, corner in ipairs(corners) do
+                points[i] = {x = corner[1], y = corner[2], worldX = corner[3], worldY = corner[4], uiMapId = 1436,
+                    instanceId = 0}
+            end
+            -- The radius is wider than either area, so each is one cluster.
+            local result = _Build(points, {radius = 1000})
+            assert.are_equal(1, #result)
+            return result[1].outline
+        end
+        ---Whether some edge's normal separates the two convex outlines; touching counts as apart.
+        local function Separated(a, b)
+            for _, outline in ipairs({a, b}) do
+                for i, p in ipairs(outline) do
+                    local q = outline[i % #outline + 1]
+                    local normalX, normalY = q.y - p.y, p.x - q.x
+                    local minA, maxA, minB, maxB = math.huge, -math.huge, math.huge, -math.huge
+                    for _, v in ipairs(a) do
+                        local s = v.x * normalX + v.y * normalY
+                        minA, maxA = math.min(minA, s), math.max(maxA, s)
+                    end
+                    for _, v in ipairs(b) do
+                        local s = v.x * normalX + v.y * normalY
+                        minB, maxB = math.min(minB, s), math.max(maxB, s)
+                    end
+                    if maxA <= minB or maxB <= minA then return true end
+                end
+            end
+            return false
+        end
+
+        local first = Area({
+            {26.52, 40.58, 2088.467, -10346.866}, {26.6, 36.51, 2085.667, -10251.899}, {28.26, 28.19, 2027.567, -10057.766},
+            {28.73, 27.18, 2011.117, -10034.199}, {29.26, 26.43, 1992.567, -10016.699}, {30.26, 25.39, 1957.567, -9992.433},
+            {31.76, 26.12, 1905.067, -10009.466}, {32.42, 26.63, 1881.967, -10021.366}, {30.8, 35.11, 1938.667, -10219.233},
+            {27.58, 40.66, 2051.367, -10348.733},
+        })
+        local second = Area({
+            {32.25, 25.4, 1887.917, -9992.666}, {32.92, 17.54, 1864.467, -9809.266}, {33.45, 15.14, 1845.917, -9753.266},
+            {38.5, 14.29, 1669.167, -9733.433}, {38.87, 14.7, 1656.217, -9742.999}, {39.02, 15.41, 1650.967, -9759.566},
+            {38.79, 16.19, 1659.017, -9777.766}, {36.12, 22.05, 1752.467, -9914.499}, {32.5, 26.25, 1879.167, -10012.499},
+        })
+
+        assert.is_true(Separated(first, second))
+    end)
+
     it("reduces smooth boundary vertices with the requested distance tolerance", function()
         local points = {
             {x = 10, y = 10, worldX = 0, worldY = 0, uiMapId = 1429, instanceId = 0},

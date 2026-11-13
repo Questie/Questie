@@ -244,24 +244,42 @@ local function _SplineEnvelope(points, work)
     return hull
 end
 
--- Periodic Catmull-Rom samples. Including t=0 preserves the original hull vertices;
--- the second hull discards inward spline excursions and leaves a convex fan to render.
+---The curve's point at time t between b and c: Barry and Goldman's pyramid of linear interpolations
+---through a, b, c and d, which it reaches at times 0, toB, toC and toD.
+---@return number x, number y
+local function _CatmullRom(a, b, c, d, toB, toC, toD, t)
+    local ab, bc, cd = t / toB, (t - toB) / (toC - toB), (t - toC) / (toD - toC)
+    local abc, bcd = t / toC, (t - toB) / (toD - toB)
+    local abX, bcX, cdX = a.x + (b.x - a.x) * ab, b.x + (c.x - b.x) * bc, c.x + (d.x - c.x) * cd
+    local abY, bcY, cdY = a.y + (b.y - a.y) * ab, b.y + (c.y - b.y) * bc, c.y + (d.y - c.y) * cd
+    local abcX, bcdX = abX + (bcX - abX) * abc, bcX + (cdX - bcX) * bcd
+    local abcY, bcdY = abY + (bcY - abY) * abc, bcY + (cdY - bcY) * bcd
+    return abcX + (bcdX - abcX) * bc, abcY + (bcdY - abcY) * bc
+end
+
+-- Periodic centripetal Catmull-Rom samples, ten per hull edge. Each edge takes parameter time in
+-- proportion to the square root of its length. Even timing makes a short edge beside a long one
+-- overshoot: a sharp corner then grows a spike past its spawns, which can reach into a neighboring
+-- cluster's area. Each edge's first sample is its hull vertex, copied exactly, so the second hull,
+-- which discards inward excursions and leaves a convex fan to render, contains every spawn. Lengths
+-- are in percent, which stretches x and y differently; it only shifts the timing a little.
 local function _SampleSpline(hull, work)
-    local samples, count = {}, #hull
+    local samples, count, spans = {}, #hull, {}
     for i = 1, count do
-        local a, b = hull[(i - 2) % count + 1], hull[i]
-        local c, d = hull[i % count + 1], hull[(i + 1) % count + 1]
-        for step = 0, 9 do
-            local t = step / 10
-            local t2, t3 = t * t, t * t * t
-            samples[#samples + 1] = {
-                x = 0.5 * (2 * b.x + (c.x - a.x) * t
-                    + (2 * a.x - 5 * b.x + 4 * c.x - d.x) * t2
-                    + (3 * b.x - a.x - 3 * c.x + d.x) * t3),
-                y = 0.5 * (2 * b.y + (c.y - a.y) * t
-                    + (2 * a.y - 5 * b.y + 4 * c.y - d.y) * t2
-                    + (3 * b.y - a.y - 3 * c.y + d.y) * t3),
-            }
+        local a, b = hull[i], hull[i % count + 1]
+        spans[i] = math.sqrt(math.sqrt((b.x - a.x)^2 + (b.y - a.y)^2))
+    end
+    for i = 1, count do
+        local previous, nextIndex = (i - 2) % count + 1, i % count + 1
+        local a, b, c, d = hull[previous], hull[i], hull[nextIndex], hull[nextIndex % count + 1]
+        -- Parameter time from a: at b, c and d.
+        local toB = spans[previous]
+        local toC = toB + spans[i]
+        local toD = toC + spans[nextIndex]
+        samples[#samples + 1] = {x = b.x, y = b.y}
+        for step = 1, 9 do
+            local x, y = _CatmullRom(a, b, c, d, toB, toC, toD, toB + (toC - toB) * step / 10)
+            samples[#samples + 1] = {x = x, y = y}
             if not _Checkpoint(work) then return end
         end
     end
