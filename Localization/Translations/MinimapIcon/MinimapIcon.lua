@@ -362,6 +362,30 @@ local minimapIconLocales = {
         ["zhCN"] = "Questie 会在战斗结束后打开",
         ["zhTW"] = "Questie 會在戰鬥結束後開啟",
     },
+    ["QuestieTrace started"] = {
+        ["enUS"] = true,
+        ["deDE"] = "QuestieTrace gestartet", -- 🤖
+        ["esES"] = "QuestieTrace iniciado", -- 🤖
+        ["esMX"] = "QuestieTrace iniciado", -- 🤖
+        ["frFR"] = "QuestieTrace démarré", -- 🤖
+        ["koKR"] = "QuestieTrace 시작됨", -- 🤖
+        ["ptBR"] = "QuestieTrace iniciado", -- 🤖
+        ["ruRU"] = "QuestieTrace запущен", -- 🤖
+        ["zhCN"] = "QuestieTrace 已开始", -- 🤖
+        ["zhTW"] = "QuestieTrace 已開始", -- 🤖
+    },
+    ["QuestieTrace stopped"] = {
+        ["enUS"] = true,
+        ["deDE"] = "QuestieTrace gestoppt", -- 🤖
+        ["esES"] = "QuestieTrace detenido", -- 🤖
+        ["esMX"] = "QuestieTrace detenido", -- 🤖
+        ["frFR"] = "QuestieTrace arrêté", -- 🤖
+        ["koKR"] = "QuestieTrace 중지됨", -- 🤖
+        ["ptBR"] = "QuestieTrace interrompido", -- 🤖
+        ["ruRU"] = "QuestieTrace остановлен", -- 🤖
+        ["zhCN"] = "QuestieTrace 已停止", -- 🤖
+        ["zhTW"] = "QuestieTrace 已停止", -- 🤖
+    },
 }
 
 for k, v in pairs(minimapIconLocales) do

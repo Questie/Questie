@@ -1339,6 +1339,11 @@ function lib:UIDropDownMenu_AddButton(info, level)
 			uncheck:SetTexture("Interface\\Common\\UI-DropDownRadioChecks");
 		end
 
+		-- Questie patch (not upstream): check textures are pooled between entries. Reset colors before a checked
+		-- callback can apply an entry-specific tint, so that tint cannot leak into the next entry.
+		check:SetVertexColor(1, 1, 1, 1);
+		uncheck:SetVertexColor(1, 1, 1, 1);
+
 		-- Checked can be a function now
 		local checked = info.checked;
 		if ( type(checked) == "function" ) then
