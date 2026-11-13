@@ -166,6 +166,27 @@ local function FormatDropText(rate)
     end
 end
 
+---pfQuest map tooltip GetColor(rate, 100): red→yellow (0–50%), yellow→green (50–100%).
+---@param rate number
+---@return string hex RRGGBB
+local function DropRateColorHex(rate)
+    local perc = (tonumber(rate) or 0) / 100
+    local r1, g1, b1, r2, g2, b2
+    if perc <= 0.5 then
+        perc = perc * 2
+        r1, g1, b1 = 1, 0, 0
+        r2, g2, b2 = 1, 1, 0
+    else
+        perc = perc * 2 - 1
+        r1, g1, b1 = 1, 1, 0
+        r2, g2, b2 = 0, 1, 0
+    end
+    local r = r1 + (r2 - r1) * perc
+    local g = g1 + (g2 - g1) * perc
+    local b = b1 + (b2 - b1) * perc
+    return string.format("%02x%02x%02x", math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5))
+end
+
 -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
 -- It uses a similar system like here with i_ID etc as keys.
 local function _FetchTooltipsForGroupMembers(key, tooltipData)
@@ -451,7 +472,8 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                                     dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
                                 end
                             end
-                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
+                            -- pfQuest-style: dark brackets, percent colored by rate (red→yellow→green).
+                            dropRateText = "  " .. dropIcon .. "|cff555555[|cff" .. DropRateColorHex(dropRateData[1]) .. FormatDropText(dropRateData[1]) .. "%|cff555555]";
                         end
                         if native then
                             text = "   " .. color .. native.text .. dropRateText
@@ -510,7 +532,11 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                 if objectivePlayerName == playerName and anotherPlayer then -- Add current player name to own objective
                     local playerClass = UnitClassBase("player")
                     local _, _, _, argbHex = GetClassColor(playerClass)
-                    local dropIndex = string.find(objectiveInfo.text, "  |cFF999999")
+                    local dropIndex = string.find(objectiveInfo.text, "  |cff555555[", 1, true)
+                    if not dropIndex then
+                        -- Legacy gray drop suffix (pre pfQuest-colored rates).
+                        dropIndex = string.find(objectiveInfo.text, "  |cFF999999", 1, true)
+                    end
                     local playerString = " (|c" .. argbHex .. objectivePlayerName .. "|r" .. objectiveInfo.color .. ")|r"
                     if dropIndex then
                         objectiveInfo.text = objectiveInfo.text:sub(1,dropIndex-1)..playerString.." "..objectiveInfo.text:sub(dropIndex+1) -- Ensures drop data is shown after player name
