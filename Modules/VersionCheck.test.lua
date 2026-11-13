@@ -49,8 +49,8 @@ describe("Client content detection", function()
         return QuestieLoader:ImportModule("Expansions")
     end
 
-    it("maps Forever's Retail project ID to Classic content using its interface version", function()
-        _G.WOW_PROJECT_ID = 1
+    it("maps Forever's project ID to Classic content using its interface version", function()
+        _G.WOW_PROJECT_ID = 18
         _G.GetBuildInfo = function() return "1.60.1", "69893", "Sep 16 2026", 16001 end
 
         local expansions = LoadClient()
