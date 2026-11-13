@@ -4,7 +4,8 @@ describe("Client content detection", function()
     local globalNames = {
         "Questie", "QuestieLoader", "LibStub", "GetBuildInfo", "C_Seasons", "Enum", "C_GameRules",
         "WOW_PROJECT_ID", "WOW_PROJECT_CLASSIC", "WOW_PROJECT_BURNING_CRUSADE_CLASSIC",
-        "WOW_PROJECT_WRATH_CLASSIC", "WOW_PROJECT_CATACLYSM_CLASSIC", "WOW_PROJECT_MISTS_CLASSIC",
+        "WOW_PROJECT_WRATH_CLASSIC", "WOW_PROJECT_CATACLYSM_CLASSIC", "WOW_PROJECT_CAMELOT",
+        "WOW_PROJECT_MISTS_CLASSIC",
     }
     local savedGlobals
 
