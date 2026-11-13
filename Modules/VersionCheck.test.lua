@@ -23,6 +23,7 @@ describe("Client content detection", function()
         _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
         _G.WOW_PROJECT_WRATH_CLASSIC = 11
         _G.WOW_PROJECT_CATACLYSM_CLASSIC = 14
+        _G.WOW_PROJECT_CAMELOT = 18
         _G.WOW_PROJECT_MISTS_CLASSIC = 19
         _G.GetBuildInfo = function() return "1.15.9", "test", "test", 11509 end
         _G.C_GameRules = nil
