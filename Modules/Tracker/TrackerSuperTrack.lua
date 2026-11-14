@@ -12,6 +12,19 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
+---Blizzard super tracks a newly accepted quest when no quest is super tracked, which moves the minimap arrow.
+---It is already super tracked when QUEST_ACCEPTED fires, so it can be cleared right away.
+---@param questId QuestId
+function TrackerSuperTrack.OnQuestAccepted(questId)
+    if Questie.db.profile.trackerFollowSuperTracking then
+        return
+    end
+
+    if QuestieCompat.GetSuperTrackedQuestID() == questId then
+        QuestieCompat.ClearSuperTrackedQuest()
+    end
+end
+
 ---Follows super tracking changes made outside Questie, e.g. on the Blizzard map or quest log.
 ---Changes Questie made itself already match its focus, so only the tracker is redrawn.
 ---Ignored unless the follow option is on.

@@ -64,6 +64,8 @@ describe("EventHandler event dispatch", function()
         }
         QuestieProfessions.Update = spy.new(function() return false, false end)
         AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
+        local TrackerSuperTrack = QuestieLoader:ImportModule("TrackerSuperTrack")
+        TrackerSuperTrack.OnQuestAccepted = function() end
         TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
         TrackerRecipes.IsSupported = function() return false end
 
