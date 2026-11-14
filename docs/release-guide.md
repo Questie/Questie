@@ -51,7 +51,7 @@ v12.0.0-pre.abc1234+v1.0.3
 
 Git tags retain the `bundle/` prefix. The tag names the Questie and QuestieDB versions only; the QuestieTrace version is recorded in `release.json`. Existing releases aren't overwritten.
 
-The notes contain Questie's and QuestieDB's changes. If the bundled QuestieTrace differs from the one in the latest stable bundle, they also contain one line such as "Updated QuestieTrace to v1.10.0". The build fails if that latest bundle or its `release.json` can't be downloaded.
+The notes contain Questie's and QuestieDB's changes. If the bundled QuestieTrace differs from the one in the latest stable bundle, they also contain a General Fixes entry such as "Updated QuestieTrace to v1.10.0". The build fails if that latest bundle or its `release.json` can't be downloaded.
 
 ### CurseForge and Wago
 Check **Upload to CurseForge** and/or **Upload to Wago** in the main workflow (both unchecked by default), or run either separately:
@@ -80,4 +80,4 @@ GitHub notes include Questie's and QuestieDB's full current-release notes. Gener
 python3 release_notes.py <previous-bundle-tag> latest
 ```
 
-QuestieTrace appears as a single "Updated QuestieTrace to …" line when its version changed.
+QuestieTrace appears as an "Updated QuestieTrace to …" General Fixes entry when its version changed.

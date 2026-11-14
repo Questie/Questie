@@ -106,7 +106,7 @@ class ReleaseNotesTests(unittest.TestCase):
         with patch.object(release_notes, "gh_json") as gh:
             notes = release_notes.release_changes(self.before, self.after)
         gh.assert_not_called()
-        self.assertEqual("Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)\n",
+        self.assertEqual("### General Fixes\n\n- Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)\n",
                          notes)
 
     def test_should_skip_an_unchanged_questietrace(self):

@@ -60,8 +60,8 @@ GitHub bundle notes include Questie's and QuestieDB's full current-release chang
 Questie's baseline excludes tags on the current source commit, so database-only
 bundles retain the same Questie notes. QuestieDB's supplied notes are copied unchanged.
 
-QuestieTrace gets one line, for example
-`Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)`,
+QuestieTrace gets one entry in Questie's General Fixes section, for example
+`- Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)`,
 when its version differs from the `release.json` of the latest stable bundle (or that
 bundle had no `questietrace` section). Render notes with
 `changelog.py --release-manifest <new> --previous-manifest <latest stable>`; the

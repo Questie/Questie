@@ -173,10 +173,11 @@ def _escape_markdown(text):
     return re.sub(r"([\\`*_\[\]()~])", r"\\\1", text)
 
 
-def get_addon_changelog(name, manifest):
+def get_addon_changelog(name, manifest, general_fixes=()):
     """Render retained addon changes in their supplied order, without rewriting their wording.
 
     Identical text within a category becomes one line that credits everyone who made that change.
+    general_fixes are uncredited lines added to the end of the General Fixes section.
     """
     repository = manifest["repository"]
     # Repositories form Markdown link targets. Reject credentials, query strings and markup.
@@ -191,7 +192,6 @@ def get_addon_changelog(name, manifest):
         result += "Build commit unavailable (local build without Git history).\n\n"
     else:
         result += f"Build: [{producer[:7]}]({commit_url}{producer})\n\n"
-    headings = dict(commit_keys_and_header)
     # Missing or empty entries leave version/build information, not a claim that nothing changed.
     entries = manifest.get("changelog", [])
     if not isinstance(entries, list):
@@ -210,22 +210,19 @@ def get_addon_changelog(name, manifest):
         for author in [entry["author"], *coauthors]:
             author = _escape_markdown(author)
             credits.setdefault(author, f"[{author}]({commit_url}{commit})")
-    previous_category = None
+    lines = {category: [] for category, _ in commit_keys_and_header}
     for (category, text), credits in credits_by_line.items():
-        heading = headings[category]
-        if category != previous_category:
-            if previous_category is not None:
-                result += "\n"
-            result += "#" + heading
-            previous_category = category
-        result += f"- {text} ({', '.join(credits.values())})\n"
-    if entries:
+        lines[category].append(f"- {text} ({', '.join(credits.values())})\n")
+    lines["fix"].extend(f"- {line}\n" for line in general_fixes)
+    sections = [("#" + heading + "".join(lines[category])) for category, heading in commit_keys_and_header if lines[category]]
+    result += "\n".join(sections)
+    if sections:
         result += "\n"
     return result
 
 
 def get_questietrace_update(manifest, previous):
-    """Return one line when the bundled QuestieTrace version differs from the previous bundle."""
+    """Return one changelog line (no bullet) when the bundled QuestieTrace version differs from the previous bundle."""
     version = manifest["version"]
     if previous is not None and previous.get("version") == version:
         return ""
@@ -235,7 +232,7 @@ def get_questietrace_update(manifest, previous):
     repository = manifest["repository"]
     if repository != "https://github.com/Questie/QuestieTrace":
         raise ValueError("QuestieTrace manifest has an unexpected repository")
-    return f"Updated QuestieTrace to [v{version}]({repository}/releases/tag/v{version})\n"
+    return f"Updated QuestieTrace to [v{version}]({repository}/releases/tag/v{version})"
 
 
 def main(argv=None):
@@ -246,18 +243,17 @@ def main(argv=None):
     if args.release_manifest:
         with open(args.release_manifest, encoding="utf-8") as source:
             manifest = json.load(source)
-        # The two components keep independent identities. Questie's changes always come first.
-        print(get_addon_changelog("Questie", manifest["questie"]))
-        if "questiedb" in manifest:
-            print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
+        # The components keep independent identities. Questie's changes always come first.
+        update = ""
         if "questietrace" in manifest:
             if not args.previous_manifest:
                 parser.error("--previous-manifest is required for bundles with QuestieTrace")
             with open(args.previous_manifest, encoding="utf-8") as source:
                 previous = json.load(source)
             update = get_questietrace_update(manifest["questietrace"], previous.get("questietrace"))
-            if update:
-                print(update)
+        print(get_addon_changelog("Questie", manifest["questie"], [update] if update else []))
+        if "questiedb" in manifest:
+            print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
     else:
         show_contributors_section = not is_running_in_github_actions()
         print(get_commit_changelog(show_contributors_section))

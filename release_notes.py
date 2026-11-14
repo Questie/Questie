@@ -22,7 +22,7 @@ def load_release(repository: str, tag: str) -> dict:
                    "--pattern", "release.json", "--output", "-", "--", tag)
 
 
-def component_changes(name: str, before: dict, after: dict) -> str:
+def component_changes(name: str, before: dict, after: dict, general_fixes=()) -> str:
     """Compare exact producer commits, including changes from skipped component releases."""
     repository = after["repository"]
     match = re.fullmatch(r"https://github.com/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)", repository)
@@ -33,7 +33,7 @@ def component_changes(name: str, before: dict, after: dict) -> str:
         if not re.fullmatch(r"[0-9a-fA-F]{40}", commit) or commit == "0" * 40:
             raise ValueError(f"{name}: comparison requires real producerCommit SHAs")
     if base == head:
-        return ""
+        return "### General Fixes\n\n" + "".join(f"- {line}\n" for line in general_fixes) if general_fixes else ""
 
     # Pagination matters when an announcement skips several releases.
     pages = gh_json("api", "--paginate", "--slurp",
@@ -71,8 +71,8 @@ def component_changes(name: str, before: dict, after: dict) -> str:
 
     notes = changelog.get_addon_changelog(name, {
         **after, "version": f"{before['version']} → {after['version']}", "changelog": entries,
-    })
-    if not entries:
+    }, general_fixes)
+    if not entries and not general_fixes:
         notes += "No changelog entries were marked in this range.\n\n"
     return notes + f"[All commits]({repository}/compare/{base}...{head})\n"
 
@@ -87,16 +87,14 @@ def release_changes(before: dict, after: dict) -> str:
     components = set(after) - {"releases"}
     if not components or components != set(before) - {"releases"}:
         raise ValueError("Both release.json files must contain the same addon sections")
+    update = changelog.get_questietrace_update(trace_after, trace_before) if trace_after is not None else ""
     sections = []
     for component in sorted(components):
         name = {"questie": "Questie", "questiedb": "QuestieDB"}.get(component, component)
-        notes = component_changes(name, before[component], after[component])
+        fixes = [update] if update and component == "questie" else []
+        notes = component_changes(name, before[component], after[component], fixes)
         if notes:
             sections.append(notes)
-    if trace_after is not None:
-        update = changelog.get_questietrace_update(trace_after, trace_before)
-        if update:
-            sections.append(update)
     return "\n".join(sections) if sections else "No component source changes.\n"
 
 
