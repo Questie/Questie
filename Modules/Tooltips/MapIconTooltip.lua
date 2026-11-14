@@ -395,8 +395,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                     if nextQuestId > 0 and (not QuestieCorrections.hiddenQuests[nextQuestId]) then
                         local _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
                         local firstInChain = true;
-                        while nextQuestId ~= nil and (not QuestieCorrections.hiddenQuests[nextQuestId]) and (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS and
+                        local visitedQuestIds = {}
+                        while nextQuestId > 0 and (not visitedQuestIds[nextQuestId]) and (not QuestieCorrections.hiddenQuests[nextQuestId]) and
+                            (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS and
                             returnReason ~= DoableStates.PROFESSION_MISSING and returnReason ~= DoableStates.PROFESSION_SPECIALIZATION) do
+                            visitedQuestIds[nextQuestId] = true
                             if firstInChain then
                                 tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
                                 firstInChain = false
@@ -407,7 +410,6 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
                             local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "nextQuestInChain")
                             if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "breadcrumbForQuestId") or 0 end
-
                             if nextNextQuestId > 0 then
                                 nextQuestId = nextNextQuestId
                                 -- check availability for the next nextQuestId
