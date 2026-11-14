@@ -246,6 +246,11 @@ _IsQuestAllowedToAccept = function()
         if AutoQuesting.private.disallowedQuests.accept[questId] then
             return false
         end
+
+        local questTagId = QuestieDB.GetQuestTagInfo(questId)
+        if questTagId == QuestieDB.questTagIds.ESCORT then
+            return false
+        end
     end
 
     return true
