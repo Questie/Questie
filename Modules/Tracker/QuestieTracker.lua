@@ -296,33 +296,7 @@ function QuestieTracker.Initialize()
     QuestieCombatQueue:Queue(function()
         QuestieTracker.HandleZoneChanged() -- covers login/reload while already inside an instance
 
-        -- Sync and populate the QuestieTracker - this should only run when a player has loaded
-        -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
-
-        -- The questsWatched variable holds the native (Blizzard) watch count captured before Questie
-        -- takes over quest watching, so any pre-existing native watches can be migrated into the tracker.
-        if questsWatched > 0 then
-            -- When a quest is removed from the Watch Frame, the questIndex can change so we need to snag
-            -- the entire list and build a temp table with QuestIDs instead to ensure we remove them all.
-            local tempQuestIDs = {}
-            for i = 1, questsWatched do
-                local questIndex = QuestieCompat.GetQuestIndexForWatch(i)
-                if questIndex then
-                    local questId = select(8, QuestieCompat.GetQuestLogTitle(questIndex))
-                    if questId then
-                        tempQuestIDs[i] = questId
-                    end
-                end
-            end
-
-            -- Remove quest from the Blizzard Quest Watch and populate the tracker.
-            for _, questId in pairs(tempQuestIDs) do
-                local questIndex = QuestieCompat.GetQuestLogIndexByID(questId)
-                if questIndex then
-                    QuestieTracker:AQW_Insert(questIndex, QUEST_WATCH_NO_EXPIRE)
-                end
-            end
-        end
+        QuestieTracker.MigrateNativeQuestWatches()
 
         -- Look for any QuestID's that don't belong in the Questie.db.char.TrackedQuests or
         -- the Questie.db.char.AutoUntrackedQuests tables. They can get out of sync.
@@ -357,6 +331,35 @@ function QuestieTracker.Initialize()
                 Questie.Debug(Questie.DEBUG_INFO, "[QuestieTracker:Initialize] Hidden tracker - already in pet battle")
             end
         end)
+    end
+end
+
+-- Sync and populate the QuestieTracker - this should only run when a player has loaded
+-- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
+function QuestieTracker.MigrateNativeQuestWatches()
+    -- The questsWatched variable holds the native (Blizzard) watch count captured before Questie
+    -- takes over quest watching, so any pre-existing native watches can be migrated into the tracker.
+    if questsWatched > 0 then
+        -- When a quest is removed from the Watch Frame, the questIndex can change so we need to snag
+        -- the entire list and build a temp table with QuestIDs instead to ensure we remove them all.
+        local tempQuestIDs = {}
+        for i = 1, questsWatched do
+            local questIndex = QuestieCompat.GetQuestIndexForWatch(i)
+            if questIndex then
+                local questId = select(8, QuestieCompat.GetQuestLogTitle(questIndex))
+                if questId then
+                    tempQuestIDs[i] = questId
+                end
+            end
+        end
+
+        -- Remove quest from the Blizzard Quest Watch and populate the tracker.
+        for _, questId in pairs(tempQuestIDs) do
+            local questIndex = QuestieCompat.GetQuestLogIndexByID(questId)
+            if questIndex then
+                QuestieTracker:AQW_Insert(questIndex, QUEST_WATCH_NO_EXPIRE, true)
+            end
+        end
     end
 end
 
@@ -1379,7 +1382,8 @@ function QuestieTracker:UntrackQuestId(questId)
     end)
 end
 
-function QuestieTracker:AQW_Insert(index, _expire)
+---@param keepCollapsed boolean? Keeps the collapse state, e.g. when native watches are synced on startup
+function QuestieTracker:AQW_Insert(index, _expire, keepCollapsed)
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:AQW_Insert]")
     if (not Questie.db.profile.trackerEnabled) or (index == 0) or (index == nil) then
         return
@@ -1446,12 +1450,9 @@ function QuestieTracker:AQW_Insert(index, _expire)
         if quest then
             -- Tracking is independent of map enrichment, including native-only quests.
             -- Expand the group the tracker lists this quest under, which depends on the sort mode.
-            local zoneId = TrackerUtils.GetQuestGroupName(quest)
-            if Questie.db.char.collapsedQuests[questId] == true then
+            if (not keepCollapsed) then
+                local zoneId = TrackerUtils.GetQuestGroupName(quest)
                 Questie.db.char.collapsedQuests[questId] = nil
-            end
-
-            if Questie.db.char.collapsedZones[zoneId] == true then
                 Questie.db.char.collapsedZones[zoneId] = nil
             end
 
