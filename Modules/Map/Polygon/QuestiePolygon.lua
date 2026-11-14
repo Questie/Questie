@@ -1267,11 +1267,13 @@ end
 ---@async
 ---@param entry PolygonObjectiveEntry
 ---@param zoneMarkers table<AreaId, PolygonMarker> Markers just drawn; the last one of each zone, which owns patrols no cluster holds.
-local function _AttachRoutes(entry, zoneMarkers)
+---@param leavesOutRares boolean The areas leave out rare targets: their patrols go too, so no route marker brings them back.
+local function _AttachRoutes(entry, zoneMarkers, leavesOutRares)
     if not next(zoneMarkers) then return end
     local generation, attached = entry.generation, 0
     for _, spawnData in pairs(entry.objective.spawnList or {}) do
-        for areaId, patrols in pairs(spawnData.Waypoints or {}) do
+        local patrolsShown = not (leavesOutRares and spawnData.IsRare)
+        for areaId, patrols in pairs(patrolsShown and spawnData.Waypoints or {}) do
             local first = patrols[1] and patrols[1][1]
             if first then
                 local marker = _RouteOwner(entry, spawnData, areaId) or zoneMarkers[areaId]
@@ -1339,9 +1341,13 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
 
     -- Collect the full eligible source set before comparing geometry signatures.
     -- Collection charges each spawn to the frame's shared polygon budget.
+    -- Rares count only where nothing else is shown: a rare dropping the same item as common mobs
+    -- would add clusters and markers of its own, or stretch the common areas. An objective whose
+    -- targets are all rare, such as a dungeon boss, still gets its areas.
     local work = PolygonGeometry.NewWork(isCancelled)
-    local points, signatureParts, pointsByKey, phases = {}, {}, {}, {}
+    local commonPoints, rarePoints, phases = {}, {}, {}
     for targetKey, spawnData in pairs(objective.spawnList or {}) do
+        local targetPoints = spawnData.IsRare and rarePoints or commonPoints
         for areaId, spawns in pairs(spawnData.Spawns or {}) do
             for _, spawn in ipairs(spawns) do
                 local phase = spawn[3]
@@ -1362,15 +1368,12 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
                             if worldX and worldY and instanceId then
                                 local key = table.concat({tostring(targetKey), location[1], uiMapId, instanceId,
                                     x, y, worldX, worldY}, ":")
-                                local point = {
+                                targetPoints[#targetPoints + 1] = {
                                     x = x, y = y, worldX = worldX, worldY = worldY,
                                     uiMapId = uiMapId, instanceId = instanceId, areaId = location[1],
                                     key = key, kind = targetKey, spawnData = spawnData,
                                     isObject = spawnData.IsObject == true,
                                 }
-                                points[#points + 1] = point
-                                signatureParts[#signatureParts + 1] = key
-                                pointsByKey[key] = point
                             end
                         end
                     end
@@ -1380,6 +1383,13 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         end
     end
     if isCancelled() then return end
+    local leavesOutRares = commonPoints[1] ~= nil
+    local points = leavesOutRares and commonPoints or rarePoints
+    local signatureParts, pointsByKey = {}, {}
+    for i, point in ipairs(points) do
+        signatureParts[i] = point.key
+        pointsByKey[point.key] = point
+    end
     table.sort(signatureParts)
     local signature = table.concat(signatureParts, "|")
 
@@ -1468,5 +1478,5 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
     _NotifyVisibilityChanged()
     QuestiePolygon.ScheduleNudging()
     QuestiePolygon.ScheduleRefresh()
-    _AttachRoutes(entry, zoneMarkers)
+    _AttachRoutes(entry, zoneMarkers, leavesOutRares)
 end

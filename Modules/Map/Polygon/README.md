@@ -15,7 +15,8 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 - Hovering an area, on the world map or the minimap, lights up only that area and the marker icon attached to it, with or without the tooltip; overlapping areas light up each of theirs. The rest of the quest stays as it is: hovering the marker itself puts its quest in the spotlight, highlights all of its objective's areas and the routes it owns. Areas drawn only as a preview don't hover.
 - Forever's Map & Quest Log shows a box, matching Blizzard's tracking checkbox, in the gutter left of each objective row with areas. While the objective's areas show, a muted fill in its area color with rounded corners (`Icons/quest-log-area-fill.png`) sits inside the box; while they are hidden, the box is empty. Box and fill draw without pixel snapping, so fractional UI scales keep both edges symmetric. Hovering a box previews the objective as hovering its tracker line does, its areas with every cluster highlighted, and a tooltip says what a click does. Clicks follow the same saved-choice rules as marker clicks; shift-click applies the clicked row's new state to every objective of the quest, including special objectives. Quest titles and rows without areas have no box. Other clients' quest logs are not covered yet.
 - A marker's tooltip names every NPC or object its cluster holds, with Shift, not only the one it shows.
-- Isolated, collinear, and small clusters keep a point marker without an area. Rare-only targets are not discarded.
+- Isolated, collinear, and small clusters keep a point marker without an area.
+- Rares (rank 2, rare elite, or 4, rare) count only where nothing else shows: while any of an objective's common targets has a spawn phasing shows, its rares get no area, marker or patrol path, since the common areas already show where to go. An objective whose targets are all rare, such as a dungeon boss, still gets them. Spawn lists mark rares (`IsRare`, `QuestieQuestPrivates`).
 - The minimap shows the same areas as the world map, beneath the cluster icons. See [Minimap areas](#minimap-areas). Objective NPCs' patrol routes (Questie's waypoint paths) belong to the objective's markers: the cluster the NPC spawns in, else the zone's marker. They follow that marker on both maps: its map icon, and on the minimap its minimap icon of the same spawn, which shares its data.
 - Party-only objectives keep their existing rendering. Quest availability/turn-in markers, quest state, tooltip registration, and tracker behavior remain with Questie.
 
@@ -64,7 +65,7 @@ Stored coordinates, polygon outlines, waypoint geometry, and navigation targets 
 
 ```text
 Questie objective.spawnList
-  → phase-filtered points with explicit map/world coordinates
+  → phase-filtered points with explicit map/world coordinates; rares only without common points
   → map/instance-partitioned moving-center clusters
   → one reassignment round: each spawn to the nearest neighboring cluster center
   → convex hull → centripetal Catmull-Rom samples → convex envelope → reduction

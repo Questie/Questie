@@ -46,7 +46,8 @@ end
 ---@field Id NpcId The ID of the NPC
 ---@field Waypoints table<AreaId, CoordPair[]>
 ---@field Hostile true|boolean
----@field IsRare true? A rare or rare elite, which might not be there: map drawing shows its patrol only when no other target marks where to go.
+---@field IsRare true? A rare or rare elite, which might not be there: map drawing shows its patrol only when no
+---other target marks where to go, and blob mode leaves it out where its objective has common targets.
 
 ---@class SpawnListItem : SpawnListBase, SpawnListTooltip, SpawnListNPC
 ---@field Id ObjectId|NpcId The ID of the Object or Npc
@@ -115,7 +116,6 @@ monster = function(npcId, objective)
         Waypoints = enableSpawns and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
         Hostile = true,
         IsRare = (rank == 2 or rank == 4) or nil, -- cmangos ranks: 2 rare elite, 4 rare
-
         Icon = objective.Icon or Questie.ICON_TYPE_SLAY,
         GetIconScale = _GetIconScaleForMonster,
         IconScale = _GetIconScaleForMonster(),

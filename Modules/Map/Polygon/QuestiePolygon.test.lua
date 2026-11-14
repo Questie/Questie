@@ -952,6 +952,50 @@ describe("QuestiePolygon world-map adapter", function()
         assert.are.equal(2, #Geometry.Build.calls[2].vals[1])
     end)
 
+    describe("rare targets", function()
+        ---A rare wolf beside the objective's common one, patrolling a zone of its own.
+        local function AddRare()
+            objective.spawnList[124] = {Id = 124, Name = "Rare Wolf", IsRare = true, Icon = 1,
+                GetIconScale = function() return 1 end, Spawns = {[1] = {{60, 70}}}, TooltipKey = "m_124",
+                Waypoints = {[3] = {{{30, 40}, {35, 45}}}}}
+        end
+
+        ---The targets of the spawns the areas were built from.
+        local function BuiltKinds()
+            local kinds = {}
+            for _, point in ipairs(Geometry.Build.calls[#Geometry.Build.calls].refs[1]) do kinds[point.kind] = true end
+            return kinds
+        end
+
+        it("leaves rares and their patrols out where common targets have spawns", function()
+            AddRare()
+            Update()
+
+            assert.are.same({[123] = true}, BuiltKinds())
+            assert.are.same({}, RouteOwners())
+            for _, frame in ipairs(frames) do assert.are_not.equal("Rare Wolf", frame.data.Name) end
+        end)
+
+        it("gives an objective whose targets are all rare its areas and patrols", function()
+            objective.spawnList[123] = nil
+            AddRare()
+            Update()
+
+            assert.are.same({[124] = true}, BuiltKinds())
+            local routes = RouteOwners()
+            assert.are.same({1, "m_124"}, {#routes, routes[1].entity})
+        end)
+
+        it("counts only common spawns phasing shows", function()
+            -- The common wolf's only spawn is in a phase the player can't see.
+            objective.spawnList[123].Spawns = {[1] = {{15, 25, 2}}}
+            AddRare()
+            Update()
+
+            assert.are.same({[124] = true}, BuiltKinds())
+        end)
+    end)
+
     describe("quest log area state", function()
         it("reads and saves objective state with the marker-click rules", function()
             Update()
