@@ -972,6 +972,25 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are.same({}, drawnShapes)
         end)
 
+        it("keeps a saved choice through a redraw and forgets it once the quest leaves the log", function()
+            Update()
+            Polygon.SetObjectiveAreaShown(42, 1, true)
+
+            -- A redraw removes the quest's areas and draws them again.
+            Polygon.RemoveQuest(42)
+            Update()
+            FlushRefresh()
+            assert.are.equal(1, #drawnShapes)
+
+            -- Turned in or abandoned, then taken again: nearby mode, away from the area.
+            Polygon.ForgetQuest(42)
+            Polygon.RemoveQuest(42)
+            Update()
+            FlushRefresh()
+            assert.are.same({}, drawnShapes)
+            assert.is_nil(Questie.db.char.polygon.objectiveVisibility[42])
+        end)
+
         it("has no state for point-only objectives or while polygons are disabled", function()
             Geometry.Build = function(points)
                 return {{uiMapId = 10, instanceId = 10, x = 10, y = 20, representative = points[1]}}

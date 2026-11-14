@@ -21,6 +21,8 @@ describe("QuestLifecycle", function()
     local QuestLogCache
     ---@type ActiveQuests
     local ActiveQuests
+    ---@type QuestiePolygon
+    local QuestiePolygon
 
     before_each(function()
         _G.WOW_PROJECT_ID = nil
@@ -60,6 +62,9 @@ describe("QuestLifecycle", function()
 
         QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
         QuestLogCache.TryGetQuest = spy.new(function() return {} end)
+
+        QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
+        QuestiePolygon.ForgetQuest = spy.new(function() end)
 
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
@@ -445,6 +450,14 @@ describe("QuestLifecycle", function()
     end)
 
     describe("CompleteQuest", function()
+        it("should forget the quest's area choices, so a repeatable quest starts fresh", function()
+            ActiveQuests.Add(100, {})
+
+            QuestLifecycle:CompleteQuest(100)
+
+            assert.spy(QuestiePolygon.ForgetQuest).was.called_with(100)
+        end)
+
         it("should remove quest from the quest log", function()
             local questId = 100
             ActiveQuests.Add(questId, {WasComplete = true, isComplete = true})
@@ -625,6 +638,15 @@ describe("QuestLifecycle", function()
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
             assert.spy(AvailableQuests.RemoveQuest).was.called()
             assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
+        end)
+
+        it("should forget the quest's area choices", function()
+            ActiveQuests.Add(100, {})
+            QuestieDB.GetQuest = spy.new(function() return {} end)
+
+            QuestLifecycle:AbandonQuest(100)
+
+            assert.spy(QuestiePolygon.ForgetQuest).was.called_with(100)
         end)
 
         it("should reset quest objectives and flags", function()

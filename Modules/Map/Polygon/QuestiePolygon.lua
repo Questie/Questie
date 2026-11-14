@@ -139,12 +139,20 @@ end
 -- Area visibility
 -- Questie.db.char.polygon.objectiveVisibility[questId][objectiveIndex] stores the player's
 -- explicit choice: true shows the objective's areas and false hides them. nil follows the
--- automatic mode. Choices for finished quests are not pruned; each quest has few keys.
+-- automatic mode. Choices last while the quest stays in the log, through redraws and reloads.
 ---@param entry PolygonObjectiveEntry
 ---@return boolean?
 local function _SavedVisibility(entry)
     local quests = Questie.db.char.polygon.objectiveVisibility[entry.quest.Id]
     if quests then return quests[entry.index] end
+end
+
+---Forgets the player's choices for a quest that left the log, turned in or abandoned, so taking it
+---again follows the automatic mode, as repeatable quests do each time. Redraws remove a quest's areas
+---too (RemoveQuest), but keep its choices.
+---@param questId QuestId
+function QuestiePolygon.ForgetQuest(questId)
+    Questie.db.char.polygon.objectiveVisibility[questId] = nil
 end
 
 ---Automatic mode shows an objective's areas while the player is near one of its clusters,

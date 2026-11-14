@@ -20,6 +20,7 @@ local ENTRY_POINTS = {
         QuestiePolygon = "UnloadQuestFrames removes a quest's areas",
     },
     ["Modules/Quest/QuestieQuest.lua"] = {QuestiePolygon = "blob mode draws, removes and resets objective areas"},
+    ["Modules/Quest/Lifecycle/QuestLifecycle.lua"] = {QuestiePolygon = "turning in or abandoning a quest forgets its area choices"},
     ["Modules/Tracker/TrackerUtils.lua"] = {
         QuestieWaypoints = "Show on Map shows only the flashed objective's paths",
         QuestiePolygon = "Show on Map flashes the objective's markers",
