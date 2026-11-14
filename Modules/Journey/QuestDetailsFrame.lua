@@ -498,7 +498,6 @@ function QuestDetailsFrame:Draw(container, quest)
     if nextQuestInChain == 0 then nextQuestInChain = QuestieDB.QueryQuestSingle(quest.Id, "breadcrumbForQuestId") or 0 end
     if nextQuestInChain and nextQuestInChain > 0 and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) then
         local nextQuestIDs = {}
-        local DoableStates = QuestieDB.DoableStates
         local visitedQuestIds = {}
         while nextQuestInChain > 0 and (not visitedQuestIds[nextQuestInChain]) and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) do
             visitedQuestIds[nextQuestInChain] = true
