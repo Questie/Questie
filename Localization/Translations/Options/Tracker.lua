@@ -1153,6 +1153,30 @@ local trackerOptionsLocales = {
         ["zhTW"] = "此功能會打開任務日誌並顯示選點的任務，或是打開成就視窗並顯示選點的的成就",
     },
     ---------------------------------------------------------
+    ["Share / Link Quest"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest teilen/verlinken", -- AI 🤖
+        ["esES"] = "Compartir/vincular misión", -- AI 🤖
+        ["esMX"] = "Compartir/vincular misión", -- AI 🤖
+        ["frFR"] = "Partager / Lier la quête", -- AI 🤖
+        ["koKR"] = "퀘스트 공유 / 링크", -- AI 🤖
+        ["ptBR"] = "Compartilhar/vincular missão", -- AI 🤖
+        ["ruRU"] = "Поделиться / Ссылка", -- AI 🤖
+        ["zhCN"] = "共享 / 任务链接", -- AI 🤖
+        ["zhTW"] = "分享 / 任務連結", -- AI 🤖
+    },
+    ["This shortcut shares a Quest with your group when the chat input box is NOT visible, otherwise this will link a Quest to chat."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Dieser Shortcut teilt eine Quest mit deiner Gruppe, wenn das Chat-Eingabefeld nicht sichtbar ist, andernfalls wird die Quest verlinkt.", -- AI 🤖
+        ["esES"] = "Este atajo comparte una misión con tu grupo cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.", -- AI 🤖
+        ["esMX"] = "Este atajo comparte una misión con tu grupo cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.", -- AI 🤖
+        ["frFR"] = "Ce raccourci partage une quête avec votre groupe lorsque la boîte de saisie de discussion n'est PAS visible, sinon il liera une quête dans la discussion.", -- AI 🤖
+        ["koKR"] = "이 단축키는 채팅 입력창이 보이지 않을 때 퀘스트를 파티와 공유하며, 그렇지 않으면 퀘스트를 채팅에 링크합니다.", -- AI 🤖
+        ["ptBR"] = "Este atalho compartilha uma missão com seu grupo quando a caixa de entrada do bate-papo NÃO está visível; caso contrário, ele vinculará uma missão ao bate-papo.", -- AI 🤖
+        ["ruRU"] = "Сочетание клавиш, чтобы поделиться заданием с группой. Если активно поле ввода чата, то в чат отправится ссылка на задание", -- AI 🤖
+        ["zhCN"] = "当聊天输入框不可见时，此快捷键会将任务共享给你的队伍；否则，会将任务链接到聊天中", -- AI 🤖
+        ["zhTW"] = "當聊天輸入框不可見時，此快捷鍵會將任務分享給你的隊伍；否則，會將任務連結貼到聊天視窗", -- AI 🤖
+    },
     -- Classic and TBC only --
     ["Untrack / Link Quest"] = {
         ["enUS"] = true,

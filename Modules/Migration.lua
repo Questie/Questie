@@ -308,6 +308,16 @@ local migrationFunctions = {
         -- The Blizzard quest timer is always hidden now; timed quests are shown in the Questie tracker.
         Questie.db.profile.showBlizzardQuestTimer = nil
     end,
+    [50] = function()
+        -- Shift + Left Click shares quests now, instead of untracking them
+        local profile = Questie.db.profile
+        if profile.trackerbindUntrack == "shiftleft" then
+            profile.trackerbindUntrack = "disabled"
+        end
+        -- Sharing is checked before the other shortcuts, so it must not take over one of them
+        local isTaken = profile.trackerbindOpenQuestLog == "shiftleft" or profile.trackerbindSetTomTom == "shiftleft"
+        profile.trackerbindShareQuest = isTaken and "disabled" or "shiftleft"
+    end,
 }
 
 function Migration:Migrate()
