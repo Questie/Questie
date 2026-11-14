@@ -1402,6 +1402,29 @@ describe("Tooltip", function()
             end
         end)
 
+        it("should show an objective that has no Update function", function()
+            -- CheckQuestSourceItem gives a quest whose source item is missing an objective without Update
+            QuestieTooltips.lookupByKey = {["m_123"] = {["1 1"] = {
+                questId = 1,
+                objective = {
+                    Index = 1,
+                    Description = "do it",
+                    Type = "item",
+                    Needed = 1,
+                    Collected = 0,
+                    Completed = false,
+                    Id = 456,
+                    questId = 1,
+                }
+            }}}
+            ActiveQuests.Add(1, {})
+
+            local tooltip
+
+            assert.has_no.errors(function() tooltip = QuestieTooltips.GetTooltip("m_123") end)
+            assert.are_same({"Quest Name", "   gold0/1 do it"}, tooltip)
+        end)
+
         it("should return quest name and objective description when tooltip has objective without Needed", function()
             QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
                 questId = 1,
