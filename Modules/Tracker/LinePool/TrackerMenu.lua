@@ -308,6 +308,16 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
     })
 end
 
+TrackerMenu.addShareQuestOption = function(menu, quest)
+    tinsert(menu, {
+        text = l10n('Share Quest'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+            TrackerUtils.ShareQuest(quest.Id)
+        end
+    })
+end
+
 TrackerMenu.addShowInQuestLogOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Show in Quest Log'),
@@ -536,6 +546,9 @@ function TrackerMenu:GetMenuForQuest(quest)
     tinsert(menu, { text = coloredQuestName, isTitle = true })
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
+    if TrackerUtils.CanShareQuest(quest.Id) then
+        TrackerMenu.addShareQuestOption(menu, quest)
+    end
     if capabilities.canFocusQuest then
         TrackerMenu.addFocusUnfocusOption(menu, enrichedQuest)
     elseif Questie.db.char.TrackerFocus == quest.Id then

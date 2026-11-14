@@ -1075,6 +1075,22 @@ function TrackerUtils:IsSpokenLoaded()
     return IsAddOnLoaded("Spoken") and IsAddOnLoaded("Spoken_Quests")
 end
 
+---@param questId QuestId
+---@return boolean
+function TrackerUtils.CanShareQuest(questId)
+    return IsInGroup() and QuestieCompat.IsQuestPushable(questId)
+end
+
+---@param questId QuestId
+function TrackerUtils.ShareQuest(questId)
+    -- QuestLogPushQuest is blocked in combat
+    if InCombatLockdown() then
+        Questie:Print(l10n("Can't share a Quest while in combat."))
+        return
+    end
+    QuestieCompat.PushQuest(questId)
+end
+
 function TrackerUtils:UpdateVoiceOverPlayButtons()
     if self:IsVoiceOverLoaded() then
         if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
