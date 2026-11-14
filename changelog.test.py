@@ -222,8 +222,15 @@ class QuestieTraceChangelogTests(unittest.TestCase):
 
     def test_should_mention_a_new_questietrace_version_with_a_release_link(self):
         notes = self.render()
-        self.assertIn("Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)", notes)
+        self.assertIn("### General Fixes\n\n- Updated QuestieTrace to [v1.10.0](https://github.com/Questie/QuestieTrace/releases/tag/v1.10.0)", notes)
         self.assertNotIn("## QuestieTrace", notes)
+
+    def test_should_append_questietrace_to_existing_general_fixes(self):
+        self.manifest["questie"]["changelog"] = [{"category": "fix", "text": "Fix it", "commit": "a" * 40,
+                                                  "author": "Dev", "coAuthors": []}]
+        notes = self.render()
+        self.assertRegex(notes, r"### General Fixes\n\n- Fix it \(.*\)\n- Updated QuestieTrace to \[v1\.10\.0\]")
+        self.assertEqual(1, notes.count("### General Fixes"))
 
     def test_should_not_mention_an_unchanged_questietrace_version(self):
         self.previous["questietrace"] = self.trace("1.10.0")
