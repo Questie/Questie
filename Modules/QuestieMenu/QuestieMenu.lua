@@ -495,10 +495,6 @@ function QuestieMenu:Show(hideDelay)
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
-    local hasTailoring = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.TAILORING, 1})
-    if hasTailoring then
-        tinsert(menuTable, build("Moonwell"))
-    end
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.profile.showAvailableQuests
         Questie.db.profile.showAvailableQuests = value

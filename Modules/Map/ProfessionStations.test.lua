@@ -134,10 +134,11 @@ describe("ProfessionStations", function()
         it("should use the translated generic name on esMX", function()
             dofile("Localization/Translations/ProfessionStations.lua")
             QuestieLoader:ImportModule("l10n"):SetUILocale("esMX")
-            QuestieDB.GetObject = function(_, id) return {id = id, name = "Anvil"} end
+            QuestieDB.GetObject = function(_, id) return {id = id, spawns = {[1] = {{50, 50}}}} end
 
             ProfessionStations.ShowAll("anvil")
 
+            assert.is_true(#QuestieMap.ShowObject.calls > 0)
             for _, call in ipairs(QuestieMap.ShowObject.calls) do
                 assert.are_same("Yunque", call.vals[5])
             end
