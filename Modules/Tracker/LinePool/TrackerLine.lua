@@ -233,6 +233,12 @@ _OnClickQuest = function(self, button)
 
     if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
         TrackerUtils.SetQuestTomTomTarget(self.Quest.Id, self.Quest.enrichment)
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindShareQuest, button) then
+        if ChatEdit_GetActiveWindow() then
+            ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
+        elseif TrackerUtils.CanShareQuest(self.Quest.Id) then
+            TrackerUtils.ShareQuest(self.Quest.Id)
+        end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))

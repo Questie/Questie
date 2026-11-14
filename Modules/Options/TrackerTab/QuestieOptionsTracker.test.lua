@@ -114,6 +114,16 @@ describe("tracker automatic tracking option", function()
         assert.is_true(Questie.db.profile.trackerFollowSuperTracking)
     end)
 
+    it("should change the share quest shortcut", function()
+        local settings = options.tabs.tracker:Initialize()
+        local shareQuest = settings.args.group_quests.args.shareQuest
+
+        shareQuest.set(nil, "altleft")
+
+        assert.are_same("altleft", shareQuest.get())
+        assert.are_same("altleft", Questie.db.profile.trackerbindShareQuest)
+    end)
+
     it("updates the tracker and publishes visibility when only the modern log exists", function()
         local settings = options.tabs.tracker:Initialize()
         settings.args.group_quests.args.autoTrackQuests.set(nil, true)

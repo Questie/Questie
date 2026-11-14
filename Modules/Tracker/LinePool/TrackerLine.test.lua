@@ -151,6 +151,77 @@ describe("TrackerLine untrack click", function()
         assert.spy(compat.QuestLog_Update).was.not_called()
     end)
 
+    describe("share click", function()
+        local utils
+
+        before_each(function()
+            Questie.db.profile.trackerbindShareQuest = "share"
+            utils = QuestieLoader:ImportModule("TrackerUtils")
+            utils.IsBindTrue = function(_, binding) return binding == "share" end
+            utils.CanShareQuest = function() return true end
+            utils.ShareQuest = spy.new(function() end)
+            _G.ChatEdit_GetActiveWindow = function() return nil end
+        end)
+
+        it("should share the quest", function()
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetQuest({Id = 783})
+            line:SetOnClick("quest")
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(utils.ShareQuest).was.called_with(783)
+            assert.spy(tracker.UntrackQuestId).was.not_called()
+        end)
+
+        it("should do nothing when the quest can not be shared", function()
+            utils.CanShareQuest = function() return false end
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetQuest({Id = 783})
+            line:SetOnClick("quest")
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(utils.ShareQuest).was.not_called()
+            assert.spy(tracker.UntrackQuestId).was.not_called()
+        end)
+
+        it("should link the quest to chat while the chat input is open", function()
+            local data = QuestieLoader:ImportModule("TrackerData")
+            data.GetQuestLink = function() return "[A Threat Within]" end
+            _G.IsModifiedClick = function() return true end
+            _G.ChatEdit_GetActiveWindow = function() return {} end
+            _G.ChatEdit_InsertLink = spy.new(function() end)
+            local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+            line:SetQuest({Id = 783})
+            line:SetOnClick("quest")
+
+            line.scripts.OnClick(line, "LeftButton")
+
+            assert.spy(ChatEdit_InsertLink).was.called_with("[A Threat Within]")
+            assert.spy(utils.ShareQuest).was.not_called()
+        end)
+    end)
+
+    it("should link the quest to chat with a share shortcut without Shift while the chat input is open", function()
+        Questie.db.profile.trackerbindShareQuest = "share"
+        local utils = QuestieLoader:ImportModule("TrackerUtils")
+        utils.IsBindTrue = function(_, binding) return binding == "share" end
+        utils.ShareQuest = spy.new(function() end)
+        QuestieLoader:ImportModule("TrackerData").GetQuestLink = function() return "[A Threat Within]" end
+        _G.IsModifiedClick = function() return false end
+        _G.ChatEdit_GetActiveWindow = function() return {} end
+        _G.ChatEdit_InsertLink = spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, function() end, function() end, function() end)
+        line:SetQuest({Id = 783})
+        line:SetOnClick("quest")
+
+        line.scripts.OnClick(line, "LeftButton")
+
+        assert.spy(ChatEdit_InsertLink).was.called_with("[A Threat Within]")
+        assert.spy(utils.ShareQuest).was.not_called()
+    end)
+
     describe("recipe click", function()
         local recipes
 
