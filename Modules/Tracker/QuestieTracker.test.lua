@@ -317,6 +317,26 @@ describe("QuestieTracker", function()
             assert.is_nil(Questie.db.char.collapsedZones["Quests (By Level)"])
         end)
 
+        it("should keep zones and quests collapsed when migrating native watches on startup", function()
+            local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            local countMock = stub(QuestieCompat, "GetNumQuestWatches", function() return 1 end)
+            local watchMock = stub(QuestieCompat, "GetQuestIndexForWatch", function() return 2 end)
+            local indexMock = stub(QuestieCompat, "GetQuestLogIndexByID", function() return 2 end)
+            dofile("Modules/Tracker/QuestieTracker.lua")
+            QuestieTracker.Update = spy.new(function() end)
+            Questie.db.char.collapsedQuests[91741] = true
+            Questie.db.char.collapsedZones["Northshire Abbey"] = true
+
+            QuestieTracker.MigrateNativeQuestWatches()
+
+            countMock:revert()
+            watchMock:revert()
+            indexMock:revert()
+            assert.spy(QuestieTracker.Update).was.called()
+            assert.is_true(Questie.db.char.collapsedQuests[91741])
+            assert.is_true(Questie.db.char.collapsedZones["Northshire Abbey"])
+        end)
+
         it("ignores Blizzard's auto-watch before Questie finishes accepting the quest in manual tracking", function()
             Questie.IsForever = false
             Questie.db.profile.autoTrackQuests = false
