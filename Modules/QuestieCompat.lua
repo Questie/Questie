@@ -1117,6 +1117,58 @@ function QuestieCompat.GetNumGossipAvailableQuests()
     error(errorMsg, 2)
 end
 
+---Unlike SelectQuestLogEntry, this also restores an empty selection on legacy clients.
+---@param questLogIndex number
+local function _RestoreQuestLogSelection(questLogIndex)
+    if questLogIndex <= 0 then
+        if C_QuestLog and C_QuestLog.SetSelectedQuest then
+            C_QuestLog.SetSelectedQuest(0)
+        elseif SelectQuestLogEntry then
+            SelectQuestLogEntry(0)
+        end
+        return
+    end
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestLog.IsPushableQuest)
+---Whether the quest in the player's quest log can be shared with party members.
+---@param questId QuestId
+---@return boolean
+function QuestieCompat.IsQuestPushable(questId)
+    if C_QuestLog and C_QuestLog.IsPushableQuest then
+        return C_QuestLog.IsPushableQuest(questId) == true
+    end
+
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
+    if (not questLogIndex) or questLogIndex == 0 then
+        return false
+    end
+
+    -- GetQuestLogPushable reads the selected quest
+    local lastSelection = QuestieCompat.GetQuestLogSelection()
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
+    local pushable = GetQuestLogPushable() and true or false
+    _RestoreQuestLogSelection(lastSelection)
+    return pushable
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_QuestLogPushQuest)
+---Shares the quest in the player's quest log with party members.
+---@param questId QuestId
+function QuestieCompat.PushQuest(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
+    if (not questLogIndex) or questLogIndex == 0 then
+        return
+    end
+
+    -- QuestLogPushQuest shares the selected quest
+    local lastSelection = QuestieCompat.GetQuestLogSelection()
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
+    QuestLogPushQuest()
+    _RestoreQuestLogSelection(lastSelection)
+end
+
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_SetAbandonQuest)
 ---Marks the selected quest for abandonment; does not abandon it yet.
 function QuestieCompat.SetAbandonQuest()
