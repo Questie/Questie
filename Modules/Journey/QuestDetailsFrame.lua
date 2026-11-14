@@ -504,7 +504,7 @@ function QuestDetailsFrame:Draw(container, quest)
             visitedQuestIds[nextQuestInChain] = true
             nextQuestIDs[#nextQuestIDs + 1] = nextQuestInChain
             local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "nextQuestInChain")
-            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "breadcrumbForQuestId") or 0 end
+            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "breadcrumbForQuestId") or 0 end
             if nextNextQuestId > 0 then
                 nextQuestInChain = nextNextQuestId
             else
