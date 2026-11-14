@@ -389,6 +389,18 @@ local trackerUILocales = {
         ["zhCN"] = "在手柄模式下，无法通过 Questie 打开任务日志。请改用手柄打开。", -- AI 🤖
         ["zhTW"] = "在控制器模式下，無法透過 Questie開啟任務日誌。請改用控制器開 啟。", -- AI 🤖
     },
+    ["Opening the quest log from Questie is disabled on WoW Forever. Open it with your Quest Log key instead."] = {
+        ["enUS"] = true,
+        ["deDE"] = false,
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+    },
     ["Can't open Quest Log while in combat. Open it manually."] = {
         ["enUS"] = true,
         ["deDE"] = "Das Quest Log kann nicht im Kampf geöffnet werden. Bitte öffne es manuell.",
