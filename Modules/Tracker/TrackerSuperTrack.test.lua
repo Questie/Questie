@@ -7,13 +7,14 @@ describe("TrackerSuperTrack", function()
     local QuestieQuest
     local QuestieTracker
     local superTrackedQuestId
-
+    local QuestieCompat
     before_each(function()
         Questie.db.char.TrackerFocus = nil
         superTrackedQuestId = nil
 
-        local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
         QuestieCompat.GetSuperTrackedQuestID = function() return superTrackedQuestId end
+        QuestieCompat.ClearSuperTrackedQuest = spy.new(function() end)
         Questie.db.profile.trackerFollowSuperTracking = true
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.FocusQuest = spy.new(function() return true end)
@@ -26,6 +27,34 @@ describe("TrackerSuperTrack", function()
 
         dofile("Modules/Tracker/TrackerSuperTrack.lua")
         TrackerSuperTrack = QuestieLoader:ImportModule("TrackerSuperTrack")
+    end)
+
+    describe("OnQuestAccepted", function()
+        it("should clear the super tracking Blizzard sets for the accepted quest", function()
+            Questie.db.profile.trackerFollowSuperTracking = false
+            superTrackedQuestId = 123
+
+            TrackerSuperTrack.OnQuestAccepted(123)
+
+            assert.spy(QuestieCompat.ClearSuperTrackedQuest).was.called()
+        end)
+
+        it("should keep the super tracking of another quest", function()
+            Questie.db.profile.trackerFollowSuperTracking = false
+            superTrackedQuestId = 50
+
+            TrackerSuperTrack.OnQuestAccepted(123)
+
+            assert.spy(QuestieCompat.ClearSuperTrackedQuest).was.not_called()
+        end)
+
+        it("should keep the super tracking when following is enabled", function()
+            superTrackedQuestId = 123
+
+            TrackerSuperTrack.OnQuestAccepted(123)
+
+            assert.spy(QuestieCompat.ClearSuperTrackedQuest).was.not_called()
+        end)
     end)
 
     describe("OnSuperTrackingChanged", function()

@@ -164,6 +164,7 @@ function EventHandler:RegisterLateEvents()
             questId = questLogIndex
             questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
         end
+        TrackerSuperTrack.OnQuestAccepted(questId)
         QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
