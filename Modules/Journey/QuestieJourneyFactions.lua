@@ -59,6 +59,7 @@ QuestieJourneyFactions.expansionFactionCandidates = {
         factionIDs.EARTHEN_RING_FOREVER,
         factionIDs.THE_WATCHERS,
         factionIDs.BROTHERHOOD_OF_THE_HORSE,
+        factionIDs.POWDERFUSE,
     },
     tbc = {
         factionIDs.SILVERMOON_CITY,
