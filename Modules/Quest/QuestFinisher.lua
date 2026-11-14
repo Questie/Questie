@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestFinisher
 local QuestFinisher = QuestieLoader:CreateModule("QuestFinisher")
 
@@ -7,6 +10,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieMap
@@ -14,18 +19,17 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
---- COMPATIBILITY ---
-local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+local IsQuestFlaggedCompleted = QuestieCompat.IsQuestFlaggedCompleted
 
 local pairs, ipairs, tostring = pairs, ipairs, tostring
-local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap
+local _GetIconData, _GetIcon, _GetIconScale, _RemoveDuplicateQuestTitle, _AddFinisherToMap, _IsFinisherDrawn
 
 ---@param quest Quest
 function QuestFinisher.AddFinisher(quest)
     local questId = quest.Id
     Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
-    if (not QuestiePlayer.currentQuestlog[questId]) or
+    if (not ActiveQuests.Get(questId)) or
         IsQuestFlaggedCompleted(questId) or
         quest:IsComplete() == -1 or
         Questie.db.char.complete[questId] then
@@ -43,6 +47,13 @@ function QuestFinisher.AddFinisher(quest)
         return
     end
 
+    if _IsFinisherDrawn(questId) then
+        -- Callers remove a quest's icons before requesting its finisher, so a turn-in icon still present was drawn by
+        -- another request in the same batch. A second set would stack on top of it.
+        Questie.Debug(Questie.DEBUG_INFO, "[QuestieQuest] Finisher already drawn for quest", questId)
+        return
+    end
+
     if quest.Finisher.NPC then
         for i = 1, #quest.Finisher.NPC do
             local finisher = QuestieDB:GetNPC(quest.Finisher.NPC[i])
@@ -50,7 +61,7 @@ function QuestFinisher.AddFinisher(quest)
             if finisher then
                 _AddFinisherToMap(finisher, quest, "m_" .. finisher.id)
             else
-                Questie.Error("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
+                Questie.Warning("Finisher NPC", quest.Finisher.NPC[i], "for quest:", questId, "is not in the DB")
             end
         end
     end
@@ -82,7 +93,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
         _RemoveDuplicateQuestTitle(quest.Id, key, finisher.name, quest.SpecialObjectives[1], playerZone)
     end
 
-    QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key, "Finisher")
+    local finisherName = QuestieTooltips:RegisterQuestStartTooltip(quest.Id, finisher.name, finisher.id, key, "Finisher")
 
     local finisherIcons = {}
     local finisherLocs = {}
@@ -90,7 +101,7 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
     for finisherZone, spawns in pairs(finisher.spawns or {}) do
         if finisherZone and spawns then
             for _, coords in ipairs(spawns) do
-                local data = _GetIconData(quest, finisher.name)
+                local data = _GetIconData(quest, finisherName)
                 --[[local data = {
                     Id = quest.Id,
                     Icon = _GetIcon(quest),
@@ -135,16 +146,29 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
         for zone, waypoints in pairs(finisher.waypoints) do
             if (not ZoneDB.IsDungeonZone(zone)) then
                 if (not finisherIcons[zone]) and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
-                    local data = _GetIconData(quest, finisher.name)
+                    local data = _GetIconData(quest, finisherName)
 
                     finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                 end
 
-                QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone)
+                QuestieMap:DrawWaypoints(finisherIcons[zone], key, waypoints, zone)
             end
         end
     end
+end
+
+---Whether a turn-in icon of the quest is drawn, shown or hidden. GetFramesForQuest trusts the frame names stored for
+---the quest, so the frame's own data must name the quest too.
+---@param questId QuestId
+---@return boolean
+_IsFinisherDrawn = function(questId)
+    for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
+        if frame.data and frame.data.Id == questId and frame.data.Type == "complete" then
+            return true
+        end
+    end
+    return false
 end
 
 _GetIconData = function(quest, finisherName)
@@ -189,7 +213,7 @@ _RemoveDuplicateQuestTitle = function(questId, key, finisherName, specialObjecti
                     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] AddFinisher - Removing duplicate Quest Title!")
 
                     -- Remove duplicate Quest Title
-                    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. finisherName] = nil
+                    QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. tostring(finisherName)] = nil
 
                     -- Now check to see if the dup has a Special Objective
                     local objText = string.match(line, ".*|cFFcbcbcb.*")

@@ -2,8 +2,8 @@
 era/hc:
   - '### Game flavor\s*Era/HC'
 
-anniversary:
-  - '### Game flavor\s*Anniversary'
+forever:
+  - '### Game flavor\s*Forever'
 
 # Label for Classic Seasonal quests
 Season of Discovery:

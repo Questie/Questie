@@ -1,4 +1,7 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 describe("QuestieLink", function()
     ---@type QuestieLink
@@ -10,14 +13,13 @@ describe("QuestieLink", function()
     local QuestieLib
     ---@type QuestieEvent
     local QuestieEvent
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type TrackerUtils
     local TrackerUtils
     ---@type QuestieReputation
     local QuestieReputation
 
     local tooltipLines
+    local originalItemSetHyperlink, originalGetUILocale
 
     before_each(function()
         Questie.started = true
@@ -28,23 +30,12 @@ describe("QuestieLink", function()
 
         tooltipLines = {}
 
+        originalItemSetHyperlink = function() end
         _G.ItemRefTooltip = {
             AddLine = function(_, text)
                 table.insert(tooltipLines, text)
             end,
-            IsShown = function() return false end,
-            SetOwner = function() end,
-            ClearLines = function() end,
-            Show = function() end,
-            Hide = function() end,
-        }
-        _G.ItemRefTooltipTextLeft1 = {
-            GetText = function() return "" end,
-        }
-        _G.ShowUIPanel = function() end
-        _G.UIParent = {}
-        _G.GameTooltip = {
-            SetHyperlink = function() end,
+            SetHyperlink = originalItemSetHyperlink,
         }
 
         _G.Questie.Colorize = function(_, text)
@@ -52,6 +43,7 @@ describe("QuestieLink", function()
         end
 
         _G.HaveQuestData = function() return false end
+        _G.GetQuestLink = nil
         _G.C_QuestLog.GetQuestObjectives = function() return nil end
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -62,9 +54,8 @@ describe("QuestieLink", function()
         QuestieDB.QueryNPCSingle = spy.new(function() return nil end)
         QuestieDB.QueryObjectSingle = spy.new(function() return nil end)
         QuestieDB.QueryItemSingle = spy.new(function() return nil end)
-
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
-        QuestiePlayer.currentQuestlog = {}
+        ActiveQuests.Reset()
+        QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function() return nil end
 
         QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
         QuestieReputation.GetFactionName = spy.new(function() return nil end)
@@ -73,7 +64,7 @@ describe("QuestieLink", function()
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetEffectiveQuestLevel = function() return 10 end
         QuestieLib.GetLevelString = function() return "[10] " end
-        QuestieLib.PrintDifficultyColor = function(_, _, ...) return "|cffffffff" end
+        QuestieLib.PrintDifficultyColor = spy.new(function() return "|cffffffff" end)
 
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
         QuestieEvent.IsEventQuest = function() return false end
@@ -81,13 +72,22 @@ describe("QuestieLink", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         QuestieLoader:ImportModule("ZoneDB")
         dofile("Localization/l10n.lua")
+        originalGetUILocale = QuestieLoader:ImportModule("l10n").GetUILocale
 
         dofile("Modules/QuestLinks/Link.lua")
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+        QuestieLink.Initialize()
+    end)
+
+    after_each(function()
+        QuestieLoader:ImportModule("l10n").GetUILocale = originalGetUILocale
+        Questie.IsForever = nil
+        _G.LinkUtil = nil
     end)
 
     describe("GetQuestLinkStringById", function()
-        it("should return a formatted link string with level and name from the database", function()
+        it("should return a formatted link string with level and name from the database when trackerShowQuestLevel is true", function()
+            Questie.db.profile.trackerShowQuestLevel = true
             QuestieDB.QueryQuestSingle = function()
                 return "Test Quest"
             end
@@ -95,9 +95,185 @@ describe("QuestieLink", function()
                 return 15
             end
 
-            local result = QuestieLink:GetQuestLinkStringById(1234)
+            local result = QuestieLink.GetQuestLinkStringById(1234)
 
             assert.are_same("[[15] Test Quest (1234)]", result)
+        end)
+
+        it("should return a formatted link string without level when trackerShowQuestLevel is false", function()
+            Questie.db.profile.trackerShowQuestLevel = false
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetEffectiveQuestLevel = function()
+                return 15
+            end
+
+            local result = QuestieLink.GetQuestLinkStringById(1234)
+
+            assert.are_same("[Test Quest (1234)]", result)
+        end)
+
+        it("should return nil when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink.GetQuestLinkStringById(91899)
+
+            assert.is_nil(result)
+        end)
+    end)
+
+    describe("GetQuestHyperLink", function()
+        it("should return nil when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink:GetQuestHyperLink(91899, "Player-1234")
+
+            assert.is_nil(result)
+        end)
+
+        it("colors both brackets using the linked quest ID", function()
+            QuestieDB.QueryQuestSingle = function() return "Test Quest" end
+            QuestieLib.GetColoredQuestName = function() return "Test Quest" end
+
+            QuestieLink:GetQuestHyperLink(1234, "Player-1234")
+
+            assert.spy(QuestieLib.PrintDifficultyColor).was.called_with(QuestieLib, 10, "[", false, false, false, 1234)
+            assert.spy(QuestieLib.PrintDifficultyColor).was.called_with(QuestieLib, 10, "]", false, false, false, 1234)
+        end)
+    end)
+
+    describe("GetNativeQuestLinkStringById", function()
+        it("should return the native link when GetQuestLink API is available", function()
+            _G.GetQuestLink = function()
+                return "Test Link"
+            end
+
+            local result = QuestieLink.GetNativeQuestLinkStringById(1234)
+
+            assert.are_same("Test Link", result)
+        end)
+
+        it("should fall back to Questie format when GetQuestLink returns nil (quest not in quest log)", function()
+            _G.GetQuestLink = function()
+                return nil
+            end
+            Questie.db.profile.trackerShowQuestLevel = true
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetEffectiveQuestLevel = function()
+                return 15
+            end
+
+            local result = QuestieLink.GetNativeQuestLinkStringById(1234)
+
+            assert.are_same("[[15] Test Quest (1234)]", result)
+        end)
+
+        it("should fall back to Questie format when GetQuestLink API is not available", function()
+            _G.GetQuestLink = nil
+            Questie.db.profile.trackerShowQuestLevel = false
+            QuestieDB.QueryQuestSingle = function()
+                return "Test Quest"
+            end
+            QuestieLib.GetEffectiveQuestLevel = function()
+                return 15
+            end
+
+            local result = QuestieLink.GetNativeQuestLinkStringById(1234)
+
+            assert.are_same("[Test Quest (1234)]", result)
+        end)
+
+        it("should return nil when GetQuestLink returns nil and the quest is not in the database", function()
+            _G.GetQuestLink = function()
+                return nil
+            end
+            QuestieDB.QueryQuestSingle = function()
+                return nil
+            end
+
+            local result = QuestieLink.GetNativeQuestLinkStringById(91899)
+
+            assert.is_nil(result)
+        end)
+    end)
+
+    describe("hyperlink click hook", function()
+        local clickHandler, chatWindow, originals
+
+        before_each(function()
+            originals = {
+                hooksecurefunc = _G.hooksecurefunc, split = string.split, shift = _G.IsShiftKeyDown,
+                getWindow = _G.ChatEdit_GetActiveWindow, insert = _G.ChatEdit_InsertLink,
+            }
+            string.split = function(delimiter, str) return _G.strsplit(delimiter, str) end
+            _G.hooksecurefunc = function(name, fn)
+                if name == "ChatFrame_OnHyperlinkShow" then clickHandler = fn end
+            end
+            _G.IsShiftKeyDown = function() return true end
+            chatWindow = {text = "existing text", GetText = function(self) return self.text end,
+                SetText = function(self, text) self.text = text end}
+            _G.ChatEdit_GetActiveWindow = function() return chatWindow end
+            _G.ChatEdit_InsertLink = spy.new(function() end)
+            QuestieLink.Initialize()
+        end)
+
+        after_each(function()
+            _G.hooksecurefunc = originals.hooksecurefunc
+            string.split = originals.split
+            _G.IsShiftKeyDown = originals.shift
+            _G.ChatEdit_GetActiveWindow = originals.getWindow
+            _G.ChatEdit_InsertLink = originals.insert
+        end)
+
+        it("should keep the existing chat text when the quest is not in the database", function()
+            QuestieDB.QueryQuestSingle = function() return nil end
+
+            clickHandler(nil, "questie:91899", nil, "LeftButton")
+
+            assert.are_same("existing text", chatWindow.text)
+            assert.spy(_G.ChatEdit_InsertLink).was.not_called()
+        end)
+
+        it("should insert the quest link when the quest is in the database", function()
+            Questie.db.profile.trackerShowQuestLevel = false
+            QuestieDB.QueryQuestSingle = function() return "Test Quest" end
+
+            clickHandler(nil, "questie:1234", nil, "LeftButton")
+
+            assert.spy(_G.ChatEdit_InsertLink).was.called_with("[Test Quest (1234)]")
+        end)
+    end)
+
+    describe("ItemRefTooltip:SetHyperlink wiring", function()
+        it("should delegate to HandleSetHyperlink.Run with self, the original fallback handler, and the link", function()
+            local HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
+            HandleSetHyperlink.Run = spy.new(function() end)
+
+            local link = "questie:74:GUID-0-1234"
+            ItemRefTooltip:SetHyperlink(link)
+
+            assert.spy(HandleSetHyperlink.Run).was.called_with(ItemRefTooltip, originalItemSetHyperlink, link)
+        end)
+
+        it("should register link handlers instead of replacing SetHyperlink on Forever", function()
+            local HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
+            local originalSetHyperlink = function() end
+            _G.ItemRefTooltip.SetHyperlink = originalSetHyperlink
+            _G.LinkUtil = {RegisterLinkHandler = spy.new(function() end)}
+            Questie.IsForever = true
+
+            QuestieLink.Initialize()
+
+            assert.are_equal(originalSetHyperlink, ItemRefTooltip.SetHyperlink)
+            assert.spy(LinkUtil.RegisterLinkHandler).was.called_with("questie", HandleSetHyperlink.ProcessLink)
+            assert.spy(LinkUtil.RegisterLinkHandler).was.called_with("quest", HandleSetHyperlink.ProcessLink)
         end)
     end)
 
@@ -154,8 +330,30 @@ describe("QuestieLink", function()
                 " - Fierce Boar",
                 " - Argent Dawn",
             }, tooltipLines)
+            assert.spy(QuestieLib.PrintDifficultyColor).was.called_with(QuestieLib, 10, "", false, false, false, 1234)
             assert.spy(QuestieDB.QueryNPCSingle).was.called_with(101, "name")
             assert.spy(QuestieReputation.GetFactionName).was.called_with(201)
+        end)
+
+        it("uses database requirements when quest data exists but the objective response is unavailable", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId, name = "Agitators", Description = {"Destroy the winds."}, zoneOrSort = 0,
+                    ObjectiveData = {{Type = "monster", Id = 101, Text = "Destroy Roiling Winds"}},
+                    Objectives = {}, Finisher = {},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function() return "Available", nil, "AVAILABLE" end
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+            _G.HaveQuestData = function() return true end
+            _G.C_QuestLog.GetQuestObjectives = function() return nil end
+
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - Destroy Roiling Winds",
+            }, tooltipLines)
         end)
 
         it("should show Blizzard objective text when HaveQuestData returns true", function()
@@ -178,8 +376,8 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = "Fierce Boar slain: 0/8"},
-                    {text = "Argent Dawn reputation: 0/1000"},
+                    {text = "Fierce Boar slain: 0/8", type = "monster"},
+                    {text = "Argent Dawn reputation: 0/1000", type = "reputation"},
                 }
             end
 
@@ -205,6 +403,75 @@ describe("QuestieLink", function()
             assert.spy(QuestieReputation.GetFactionName).was.not_called()
         end)
 
+        it("preserves loaded Chinese sentences with interior spaces instead of substituting database names", function()
+            QuestieLoader:ImportModule("l10n").GetUILocale = function() return "zhCN" end
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId, name = "Agitators", Description = {"Destroy the winds."}, zoneOrSort = 0,
+                    ObjectiveData = {{Type = "monster", Id = 101}}, Objectives = {}, Finisher = {},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function() return "Available", nil, "AVAILABLE" end
+            QuestieDB.QueryNPCSingle = spy.new(function() return "Database name" end)
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+            _G.HaveQuestData = function() return true end
+            local objectives = {{text = "4/6 烈风 已摧毁", type = "monster"}}
+            _G.C_QuestLog.GetQuestObjectives = function() return objectives end
+
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - 4/6 烈风 已摧毁",
+            }, tooltipLines)
+            assert.are.equal("4/6 烈风 已摧毁", objectives[1].text)
+            assert.spy(QuestieDB.QueryNPCSingle).was.not_called()
+        end)
+
+        it("uses database requirements instead of incomplete native rows without modifying the response", function()
+            QuestieDB.GetQuest = function(questId)
+                return {
+                    Id = questId, name = "Agitators", Description = {"Destroy the winds."}, zoneOrSort = 0,
+                    ObjectiveData = {{Type = "monster", Id = 101, Text = "Destroy Roiling Winds"}, {Type = "monster", Id = 102}},
+                    Objectives = {}, Finisher = {},
+                }
+            end
+            QuestieDB.IsDoableVerbose = function() return "Available", nil, "AVAILABLE" end
+            QuestieDB.QueryNPCSingle = spy.new(function() return "烈风" end)
+            TrackerUtils.GetZoneNameByID = function() return "Test Zone" end
+            _G.HaveQuestData = function() return true end
+            local objectives = {
+                {text = "0/6   destroyed", type = "monster"},
+                {text = "0/6   已摧毁", type = "monster"},
+                {text = "0/6   unknown", type = "monster"}, -- No database fallback for this row.
+                {text = "", type = "event"},
+            }
+            _G.C_QuestLog.GetQuestObjectives = function() return objectives end
+
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - Destroy Roiling Winds", " - 烈风",
+            }, tooltipLines)
+            assert.spy(QuestieDB.QueryNPCSingle).was.called_with(102, "name")
+            assert.are.equal("0/6   destroyed", objectives[1].text)
+            assert.are.equal("0/6   已摧毁", objectives[2].text)
+
+            -- An update can lose either the name or the type without losing the whole quest response.
+            objectives[1].text = "0/6  "
+            objectives[2] = {text = "4/6 烈风已摧毁"}
+            tooltipLines = {}
+            QuestieLink:CreateQuestTooltip("questie:92409:GUID-0-1234", ItemRefTooltip)
+
+            assert.are.same({
+                "Agitators", "You have not done this quest", " ", "Destroy the winds.", " ", "Objectives",
+                " - Destroy Roiling Winds", " - 烈风",
+            }, tooltipLines)
+            assert.are.equal("0/6  ", objectives[1].text)
+            assert.is_nil(objectives[2].type)
+        end)
+
         it("should use NPC names from DB when Blizzard objective is missing it", function()
             QuestieDB.GetQuest = function(questId)
                 return {
@@ -225,8 +492,8 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = "Fierce Boar slain: 3/8"},
-                    {text = " : 0/1"},
+                    {text = "Fierce Boar slain: 3/8", type = "monster"},
+                    {text = " : 0/1", type = "monster"},
                 }
             end
 
@@ -247,7 +514,7 @@ describe("QuestieLink", function()
                 " ",
                 "Objectives",
                 " - Fierce Boar slain: 3/8",
-                " - Kobold Miner: 0/1",
+                " - Kobold Miner",
             }, tooltipLines)
         end)
 
@@ -271,8 +538,8 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = " : 0/1"},
-                    {text = "Orb clicked: 0/1"},
+                    {text = " : 0/1", type = "object"},
+                    {text = "Orb clicked: 0/1", type = "object"},
                 }
             end
 
@@ -292,7 +559,7 @@ describe("QuestieLink", function()
                 "Click some stuff.",
                 " ",
                 "Objectives",
-                " - Different Orb: 0/1",
+                " - Different Orb",
                 " - Orb clicked: 0/1",
             }, tooltipLines)
         end)
@@ -318,9 +585,9 @@ describe("QuestieLink", function()
             _G.HaveQuestData = function() return true end
             _G.C_QuestLog.GetQuestObjectives = function()
                 return {
-                    {text = "Linen Cloth: 5/10"},
-                    {text = "Wool Cloth: 3/10"},
-                    {text = " : 0/10"},
+                    {text = "Linen Cloth: 5/10", type = "item"},
+                    {text = "Wool Cloth: 3/10", type = "item"},
+                    {text = " : 0/10", type = "item"},
                 }
             end
 
@@ -342,7 +609,63 @@ describe("QuestieLink", function()
                 "Objectives",
                 " - Linen Cloth: 5/10",
                 " - Wool Cloth: 3/10",
-                " - Silk Cloth: 0/10",
+                " - Silk Cloth",
+            }, tooltipLines)
+        end)
+
+        local nativeProgressCases = {
+            {name = "Classic counter placement", text = "Windstone Cluster: 9/15", needed = 15},
+            {name = "Forever counter placement and punctuation", text = "9/15 Windstone Cluster.", needed = 15},
+            {name = "action instruction without a counter", text = "Use Walk on Air", needed = 0},
+        }
+        for _, case in ipairs(nativeProgressCases) do
+            it("preserves " .. case.name .. " in active quest-link progress", function()
+                QuestieDB.GetQuest = function()
+                    return {
+                        Id = 5678, name = "Progress Quest", Description = {"Quest description."},
+                        ObjectiveData = {}, Finisher = {}, zoneOrSort = 0,
+                        Objectives = {{Index = 3, Description = "Fallback wording", Collected = 9, Needed = case.needed}},
+                    }
+                end
+                ActiveQuests.Add(5678)
+                QuestieDB.IsDoableVerbose = function() return "On quest", nil, "AVAILABLE" end
+                local cached = {objectives = {[3] = {text = case.text}}}
+                QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id)
+                    assert.are.equal(5678, id)
+                    return cached
+                end
+                _G.C_QuestLog.GetQuestObjectives = spy.new(function() error("Rendering must not fetch objectives") end)
+
+                QuestieLink:CreateQuestTooltip("questie:5678:GUID", ItemRefTooltip)
+
+                assert.are.same({
+                    "Progress Quest", "You are on this quest", " ", "Quest description.", " ", "Your progress: ",
+                    " - |cFFEEEEEE" .. case.text .. "|r",
+                }, tooltipLines)
+                assert.are.equal(case.text, cached.objectives[3].text)
+                assert.spy(_G.C_QuestLog.GetQuestObjectives).was.not_called()
+            end)
+        end
+
+        it("keeps synthetic quest-link progress separate from a coinciding native index", function()
+            QuestieDB.GetQuest = function()
+                return {
+                    Id = 5678, name = "Progress Quest", Description = {"Quest description."},
+                    ObjectiveData = {}, Finisher = {}, zoneOrSort = 0,
+                    Objectives = {{Index = 1, Description = "Quest item", Collected = 0, Needed = 1, IsSourceItem = true}},
+                }
+            end
+            ActiveQuests.Add(5678)
+            QuestieDB.IsDoableVerbose = function() return "On quest", nil, "AVAILABLE" end
+            QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function()
+                return {objectives = {{text = "Unrelated native objective"}}}
+            end
+
+            QuestieLink:CreateQuestTooltip("questie:5678:GUID", ItemRefTooltip)
+
+            assert.are.same({
+                "Progress Quest", "You are on this quest", " ", "Quest description.", " ", "Your progress: ",
+                " - |cFFEEEEEEQuest item: 0/1|r",
             }, tooltipLines)
         end)
 
@@ -378,9 +701,8 @@ describe("QuestieLink", function()
             end
 
             local questId = 5678
-            QuestiePlayer.currentQuestlog = {
-                [questId] = true,
-            }
+            ActiveQuests.Reset()
+            ActiveQuests.Add(questId)
 
             QuestieLink:CreateQuestTooltip("questie:" .. questId .. ":GUID-0-5678", ItemRefTooltip)
 
@@ -451,7 +773,8 @@ describe("QuestieLink", function()
             QuestieDB.IsDoableVerbose = function()
                 return "You are on this quest", nil, "AVAILABLE"
             end
-            QuestiePlayer.currentQuestlog = {[1234] = true}
+            ActiveQuests.Reset()
+            ActiveQuests.Add(1234)
 
             QuestieLink:CreateQuestTooltip("questie:1234:GUID", ItemRefTooltip)
 

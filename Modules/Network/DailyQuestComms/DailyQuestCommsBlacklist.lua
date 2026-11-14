@@ -4,6 +4,12 @@ local DailyQuestCommsBlacklist = QuestieLoader:CreateModule("DailyQuestCommsBlac
 -- These quests are excluded from broadcasting and incoming broadcasts are rejected for them.
 ---@type table<QuestId, boolean>
 local blacklistedQuestIds = {
+    -- Hallow's End
+    [11131] = true, -- Stop the Fires!
+    [11219] = true, -- Stop the Fires!
+    [12135] = true, -- "Let the Fires Come!"
+    [12139] = true, -- "Let the Fires Come!"
+
     -- Blackrock Eruption SoD event
     [84348] = true, -- Priority Target: Duke Tectonis
     [84349] = true, -- Priority Target: Duke Searbrand
@@ -19,10 +25,6 @@ local blacklistedQuestIds = {
 ---@param questId QuestId @The quest ID to check.
 ---@return boolean @True if the quest ID is blacklisted.
 function DailyQuestCommsBlacklist.IsBlacklisted(questId)
-    if (not Questie.IsSoD) then
-        return false
-    end
-
     return blacklistedQuestIds[questId] == true
 end
 

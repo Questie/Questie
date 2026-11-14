@@ -1,0 +1,139 @@
+name: Bump version
+run-name: "Bump to v${{ inputs.version }} on ${{ github.ref_name }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version without the v prefix (for example 12.0.1)
+        type: string
+        required: true
+      dry_run:
+        description: (--dry_run) Do not commit/push, just log git diff
+        type: boolean
+        default: false
+  workflow_call:
+    inputs:
+      version:
+        description: Version without the v prefix (for example 12.0.1)
+        type: string
+        required: true
+      dry_run:
+        description: (--dry_run) Do not commit/push, just log git diff
+        type: boolean
+        default: false
+    outputs:
+      commit_sha:
+        description: Bumped commit, or the current commit for a dry run/empty version
+        value: ${{ jobs.sha.outputs.commit_sha }}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: versionbump-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  bump:
+    name: Update TOCs, commit and tag
+    if: ${{ github.ref == 'refs/heads/master' && inputs.version != '' }}
+    runs-on: ubuntu-latest
+    environment: version-bump
+    env:
+      VERSION: ${{ inputs.version }}
+      TARGET_BRANCH: ${{ github.ref_name }}
+    outputs:
+      commit_sha: ${{ steps.commitsha.outputs.commit_sha }}
+    steps:
+      - name: Validate version number
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9]+)*$ ]]; then
+            echo "ERROR: Invalid version number: $VERSION" >&2
+            echo "Enter a version such as 12.0.1 or 12.0.1-b1, without a v prefix." >&2
+            exit 1
+          fi
+      # Environment approval is required before this job receives the private key.
+      # Limit each short-lived token to this repository and Contents write access.
+      - name: Create app token
+        if: ${{ !inputs.dry_run }}
+        id: app-token
+        uses: actions/create-github-app-token@v3.3.0
+        with:
+          client-id: ${{ secrets.VERSION_BUMP_APP_CLIENT_ID }}
+          private-key: ${{ secrets.VERSION_BUMP_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+
+      - name: Checkout selected commit
+        uses: actions/checkout@v7.0.1
+        with:
+          token: ${{ steps.app-token.outputs.token || github.token }}
+
+      - name: Ensure version tag doesn't exist
+        run: |
+          existing_tag=$(git ls-remote --tags origin "refs/tags/v$VERSION")
+          if [[ -n "$existing_tag" ]]; then
+            echo "ERROR: Tag v$VERSION already exists; refusing to replace it." >&2
+            exit 2
+          fi
+
+      - name: Update versions
+        run: python3 versionbump.py "$VERSION" --no-git
+
+      - name: Log git diff
+        if: ${{ inputs.dry_run }}
+        run: git diff
+
+      - name: Commit, tag and push
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          AUTHOR_LOGIN: ${{ github.actor }}
+          AUTHOR_ID: ${{ github.actor_id }}
+        run: |
+          bot_id=$(gh api "/users/${APP_SLUG}[bot]" --jq '.id')
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${bot_id}+${APP_SLUG}[bot]@users.noreply.github.com"
+          git add -- 'Questie_*.toc'
+          # Credit the original initiator; the app remains the authenticated committer.
+          git commit --author "$AUTHOR_LOGIN <$AUTHOR_ID+$AUTHOR_LOGIN@users.noreply.github.com>" \
+            -m "Bump version to v$VERSION"
+          git tag "v$VERSION"
+
+          # Publish both refs together. A rejected branch or tag must leave neither
+          # change on origin. Do not force pushes or bypass branch protection.
+          git push --atomic origin "HEAD:refs/heads/$TARGET_BRANCH" "refs/tags/v$VERSION"
+
+      - name: Summarize
+        if: ${{ !inputs.dry_run }}
+        run: |
+          commit=$(git rev-parse HEAD)
+          {
+            printf 'Updated flavor TOCs to %s on branch %s.\n\n' "$VERSION" "$TARGET_BRANCH"
+            printf 'Created commit %s and tag v%s.\n\n' "$commit" "$VERSION"
+            printf 'No GitHub release or platform upload was created.\n'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Save commit sha for later
+        id: commitsha
+        run: echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  sha:
+    name: Output git sha to other workflows
+    runs-on: ubuntu-latest
+    needs: bump
+    if: ${{ always() }} # run even for empty version string
+    outputs:
+      commit_sha: ${{ steps.commit.outputs.commit_sha }}
+    env:
+      COMMIT_SHA: ${{ needs.bump.outputs.commit_sha }}
+      GITHUB_SHA: ${{ github.sha }}
+    steps:
+      - name: Save commit sha
+        id: commit
+        run: echo "commit_sha=${COMMIT_SHA:-$GITHUB_SHA}" >> "$GITHUB_OUTPUT"

@@ -34,11 +34,11 @@ describe("loadTOC", function()
 
     it("keeps Questie.lua as the final executable entry in every production manifest", function()
         local tocPaths = {
-            "Questie-BCC.toc",
-            "Questie-Cata.toc",
-            "Questie-Classic.toc",
-            "Questie-Mists.toc",
-            "Questie-WOTLKC.toc",
+            "Questie_TBC.toc",
+            "Questie_Cata.toc",
+            "Questie_Vanilla.toc",
+            "Questie_Mists.toc",
+            "Questie_Wrath.toc",
         }
 
         for _, tocPath in ipairs(tocPaths) do

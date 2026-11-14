@@ -53,6 +53,11 @@ function TrackerFadeTicker.Start()
                         TrackerLinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
                     end
 
+                    -- Un-fade the quest focus buttons
+                    if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerFadeQuestFocusButtons) then
+                        TrackerLinePool.SetAllQuestFocusAlpha(fadeTickerValue * 3.3)
+                    end
+
                     -- Un-fade the quest item buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerFadeQuestItemButtons) then
                         TrackerLinePool.SetAllItemButtonAlpha(fadeTickerValue * 3.3)
@@ -94,6 +99,11 @@ function TrackerFadeTicker.Start()
                     -- Fade the minimize buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerFadeMinMaxButtons) then
                         TrackerLinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
+                    end
+
+                    -- Fade the quest focus buttons
+                    if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerFadeQuestFocusButtons) then
+                        TrackerLinePool.SetAllQuestFocusAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Fade the quest item buttons

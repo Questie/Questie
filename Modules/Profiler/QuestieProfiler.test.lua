@@ -21,14 +21,10 @@ describe("QuestieProfiler", function()
     local originalQuestieOrderedModules
     local originalQuestieError
     local QuestieStreamLib
-    local DBCompiler
     local QuestieSerializer
     local QuestieDB
     local originalStreamLoad
     local originalStreamHotRead
-    local originalCompilerReaders
-    local originalCompilerWriters
-    local originalCompilerSkippers
     local originalSerializerReaders
     local originalSerializerWriters
     local originalSerialize
@@ -58,14 +54,10 @@ describe("QuestieProfiler", function()
         originalQuestieOrderedModules = Questie.orderedModules
         originalQuestieError = Questie.Error
         QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib")
-        DBCompiler = QuestieLoader:ImportModule("DBCompiler")
         QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         originalStreamLoad = QuestieStreamLib.Load
         originalStreamHotRead = QuestieStreamLib.HotRead
-        originalCompilerReaders = DBCompiler.readers
-        originalCompilerWriters = DBCompiler.writers
-        originalCompilerSkippers = DBCompiler.skippers
         originalSerializerReaders = QuestieSerializer.ReaderTable
         originalSerializerWriters = QuestieSerializer.WriterTable
         originalSerialize = QuestieSerializer.Serialize
@@ -121,9 +113,6 @@ describe("QuestieProfiler", function()
         Questie.Error = originalQuestieError
         QuestieStreamLib.Load = originalStreamLoad
         QuestieStreamLib.HotRead = originalStreamHotRead
-        DBCompiler.readers = originalCompilerReaders
-        DBCompiler.writers = originalCompilerWriters
-        DBCompiler.skippers = originalCompilerSkippers
         QuestieSerializer.ReaderTable = originalSerializerReaders
         QuestieSerializer.WriterTable = originalSerializerWriters
         QuestieSerializer.Serialize = originalSerialize
@@ -401,9 +390,6 @@ describe("QuestieProfiler", function()
             stream.reads = (stream.reads or 0) + 1
             return stream.reads
         end
-        local reader = function() return "read" end
-        local writer = function() end
-        local skipper = function() end
         local hotQuery = function() return "query" end
         local getQuest = function()
             clock = clock + 2
@@ -417,9 +403,6 @@ describe("QuestieProfiler", function()
         }
         QuestieStreamLib.Load = streamLoad
         QuestieStreamLib.HotRead = streamRead
-        DBCompiler.readers = {u8 = reader}
-        DBCompiler.writers = {u8 = writer}
-        DBCompiler.skippers = {u8 = skipper}
         QuestieDB.GetQuest = getQuest
         for _, slotName in ipairs(querySlotNames) do
             QuestieDB[slotName] = hotQuery
@@ -431,9 +414,6 @@ describe("QuestieProfiler", function()
 
         assert.are_equal(streamLoad, QuestieStreamLib.Load)
         assert.are_equal(streamRead, QuestieStreamLib.HotRead)
-        assert.are_equal(reader, DBCompiler.readers.u8)
-        assert.are_equal(writer, DBCompiler.writers.u8)
-        assert.are_equal(skipper, DBCompiler.skippers.u8)
         assert.are_equal(streamLoad, testModule.copiedStream.Load)
         assert.are_equal(streamRead, testModule.copiedStream.ReadByte)
         assert.are_equal(queryTablePrimitive, QuestieDB.QueryNPC.Primitive)
@@ -489,11 +469,9 @@ describe("QuestieProfiler", function()
             lowLevelCalls = lowLevelCalls + 1
         end
         QuestieStreamLib.HotRead = hotPrimitive
-        DBCompiler.readers = {u8 = hotPrimitive}
         QuestieDB.QueryQuest = hotQuery
         QuestieDB.GetQuest = function()
             for _ = 1, 200 do
-                DBCompiler.readers.u8()
                 QuestieStreamLib.HotRead()
                 QuestieDB.QueryQuest()
             end
@@ -506,9 +484,8 @@ describe("QuestieProfiler", function()
         end
 
         assert.are_equal(getterWrapper, QuestieDB.GetQuest)
-        assert.are_same(12000, lowLevelCalls)
+        assert.are_same(8000, lowLevelCalls)
         assert.are_same(20, Profiler.hookCallCount["QuestieDB.GetQuest"])
-        assert.is_nil(Profiler.hookCallCount["DBCompiler.readers.u8"])
         assert.is_nil(Profiler.hookCallCount["QuestieStreamLib.HotRead"])
         assert.is_nil(Profiler.hookCallCount["QuestieDB.QueryQuest"])
     end)
@@ -1061,29 +1038,54 @@ describe("QuestieProfiler", function()
             }
         end
 
+        local mockedModules
+
+        ---Registers stand-ins under HereBeDragons' module names, which is how HereBeDragons registers itself.
+        ---@param registry table<string, table>
+        local function MockModules(registry)
+            mockedModules = registry
+            for name, module in pairs(registry) do
+                QuestieLoader._modules[name] = module
+            end
+        end
+
         before_each(function()
             originalLibStub = _G.LibStub
         end)
 
         after_each(function()
             _G.LibStub = originalLibStub
+            for name in pairs(mockedModules or {}) do
+                QuestieLoader._modules[name] = nil
+            end
+            mockedModules = nil
         end)
 
         it("profiles an allowlisted library under its Libraries name", function()
             local original = function() end
-            MockLibStub({["HereBeDragonsQuestie-2.0"] = {GetZoneDistance = original}})
+            MockModules({HBD = {GetZoneDistance = original}})
 
             Profiler:Start(false)
 
             assert.are_same(0, Profiler.hookCallCount["Libs.HBD.GetZoneDistance"])
-            assert.are_not_equal(original, libraries["HereBeDragonsQuestie-2.0"].GetZoneDistance)
+            assert.are_not_equal(original, mockedModules.HBD.GetZoneDistance)
+        end)
+
+        it("profiles an allowlisted LibStub library under its Libraries name", function()
+            local original = function() end
+            MockLibStub({["LibUIDropDownMenuQuestie-4.0"] = {UIDropDownMenu_Initialize = original}})
+
+            Profiler:Start(false)
+
+            assert.are_same(0, Profiler.hookCallCount["Libs.LibDropDown.UIDropDownMenu_Initialize"])
+            assert.are_not_equal(original, libraries["LibUIDropDownMenuQuestie-4.0"].UIDropDownMenu_Initialize)
         end)
 
         it("measures a library call and names the Questie function that made it", function()
-            MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {
+            MockModules({HBDPins = {
                 AddWorldMapIconMap = function() clock = clock + 4 end,
             }})
-            local HBDPins = libraries["HereBeDragonsQuestie-Pins-2.0"]
+            local HBDPins = mockedModules.HBDPins
             local testModule = QuestieLoader:CreateModule(testModuleName)
             testModule.DrawIcon = function()
                 clock = clock + 1
@@ -1127,11 +1129,11 @@ describe("QuestieProfiler", function()
             -- rides along onto frames that Unhook cannot reach.
             local pinMethod = function() end
             local providerMethod = function() end
-            MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {
+            MockModules({HBDPins = {
                 worldmapProviderPin = {OnAcquired = pinMethod},
                 worldmapProvider = {RemovePinByIcon = providerMethod},
             }})
-            local HBDPins = libraries["HereBeDragonsQuestie-Pins-2.0"]
+            local HBDPins = mockedModules.HBDPins
 
             Profiler:Start(false)
 
@@ -1161,7 +1163,7 @@ describe("QuestieProfiler", function()
                     clock = clock + 6
                 end
                 local frame = MockFrame({OnUpdate = handler})
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                MockModules({HBDPins = {updateFrame = frame}})
 
                 Profiler:Start(false)
                 frame:GetScript("OnUpdate")(frame, 0.016)
@@ -1176,7 +1178,7 @@ describe("QuestieProfiler", function()
                 local frame = MockFrame({OnUpdate = function(self, elapsed)
                     seenFrame, seenElapsed = self, elapsed
                 end})
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                MockModules({HBDPins = {updateFrame = frame}})
 
                 Profiler:Start(false)
                 frame:GetScript("OnUpdate")(frame, 0.016)
@@ -1187,7 +1189,7 @@ describe("QuestieProfiler", function()
 
             it("hooks every named script on a frame", function()
                 local frame = MockFrame({OnUpdate = function() end, OnEvent = function() end})
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                MockModules({HBDPins = {updateFrame = frame}})
 
                 Profiler:Start(false)
 
@@ -1198,7 +1200,7 @@ describe("QuestieProfiler", function()
             it("restores the frame's own handler on Unhook", function()
                 local handler = function() end
                 local frame = MockFrame({OnUpdate = handler})
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                MockModules({HBDPins = {updateFrame = frame}})
 
                 Profiler:Start(false)
                 assert.are_not_equal(handler, frame:GetScript("OnUpdate"))
@@ -1209,7 +1211,7 @@ describe("QuestieProfiler", function()
 
             it("leaves a script another addon replaced mid-session alone", function()
                 local frame = MockFrame({OnUpdate = function() end})
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                MockModules({HBDPins = {updateFrame = frame}})
                 Profiler:Start(false)
 
                 -- Someone else took the slot after the profiler installed its wrapper. It is theirs now.
@@ -1222,7 +1224,7 @@ describe("QuestieProfiler", function()
 
             it("does not stack wrappers when hooks are refreshed", function()
                 local frame = MockFrame({OnUpdate = function() clock = clock + 3 end})
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                MockModules({HBDPins = {updateFrame = frame}})
 
                 Profiler:Start(false)
                 local afterFirst = frame:GetScript("OnUpdate")
@@ -1236,14 +1238,14 @@ describe("QuestieProfiler", function()
 
             it("ignores a frame that has no such script", function()
                 local frame = MockFrame({})
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {updateFrame = frame}})
+                MockModules({HBDPins = {updateFrame = frame}})
 
                 assert.is_true(Profiler:Start(false))
                 assert.is_nil(Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnUpdate"])
             end)
 
             it("ignores a library that does not expose the frame at all", function()
-                MockLibStub({["HereBeDragonsQuestie-Pins-2.0"] = {}})
+                MockModules({HBDPins = {}})
 
                 assert.is_true(Profiler:Start(false))
                 assert.is_nil(Profiler.hookCallCount["Libs.HBDPins.updateFrame.OnUpdate"])
@@ -1252,8 +1254,8 @@ describe("QuestieProfiler", function()
 
         it("restores library functions on Unhook", function()
             local original = function() end
-            MockLibStub({["HereBeDragonsQuestie-2.0"] = {GetZoneDistance = original}})
-            local HBD = libraries["HereBeDragonsQuestie-2.0"]
+            MockModules({HBD = {GetZoneDistance = original}})
+            local HBD = mockedModules.HBD
 
             Profiler:Start(false)
             Profiler:Unhook()
@@ -1262,8 +1264,8 @@ describe("QuestieProfiler", function()
         end)
 
         it("does not stack wrappers when hooks are refreshed", function()
-            MockLibStub({["HereBeDragonsQuestie-2.0"] = {GetZoneDistance = function() clock = clock + 2 end}})
-            local HBD = libraries["HereBeDragonsQuestie-2.0"]
+            MockModules({HBD = {GetZoneDistance = function() clock = clock + 2 end}})
+            local HBD = mockedModules.HBD
 
             Profiler:Start(false)
             local afterFirst = HBD.GetZoneDistance
@@ -1277,7 +1279,7 @@ describe("QuestieProfiler", function()
 
         it("gives a table shared with a Questie module the library identity", function()
             local shared = {Convert = function() end}
-            MockLibStub({["HereBeDragonsQuestie-2.0"] = {utils = shared}})
+            MockModules({HBD = {utils = shared}})
             local testModule = QuestieLoader:CreateModule(testModuleName)
             testModule.utils = shared
 

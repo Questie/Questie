@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 --[[
 Feast of Winter Veil    1.2.0    18 December 2004
 Noblegarden    1.3.0    7 March 2005    X
@@ -80,18 +83,16 @@ local alwaysTurnInAbleQuests = {
     [7945] = true, -- Your Fortune Awaits You...
 }
 
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieClassicPolicyCorrections
+local QuestieClassicPolicyCorrections = QuestieLoader:ImportModule("QuestieClassicPolicyCorrections")
+---@type QuestieTBCPolicyCorrections
+local QuestieTBCPolicyCorrections = QuestieLoader:ImportModule("QuestieTBCPolicyCorrections")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieNPCFixes
-local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
----@type QuestieTBCNpcFixes
-local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -184,7 +185,7 @@ function QuestieEvent:Load()
 
         if _WithinDates(startDay, startMonth, startHour, startMinute, endDay, endMonth, endHour, endMinute) and (eventCorrections[eventName] ~= false) then
             if Questie.db.profile.showEventQuests then
-                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n(eventName)))
+                print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The \"%s\" world event is active!", l10n(eventName)))
             end
             activeEvents[eventName] = true
         end
@@ -247,7 +248,7 @@ function QuestieEvent:Load()
 
     if dmfIsActive then
         if Questie.db.profile.showEventQuests then
-            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The '%s' world event is active!", l10n("Darkmoon Faire")))
+            print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The \"%s\" world event is active!", l10n("Darkmoon Faire")))
         end
     end
 
@@ -382,18 +383,21 @@ end
 --- The faire ends the sunday after it has begun.
 _LoadDarkmoonFaire = function()
     local eventLocation = _GetDarkmoonFaireLocation()
-    if (eventLocation == DMF_LOCATIONS.NONE) then
+    if eventLocation == DMF_LOCATIONS.NONE then
+        -- nil withdraws the slot; an inactive faire must not keep stale NPC coordinates.
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
         return
     end
 
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
     local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    local npcFixes
+    -- The NPC Policy Correction slot is written exactly once per load, outside the Event Quest loop
+    -- below: the number of visible Event Quests must not control entity Correction application.
     if Questie.IsTBC then
-        npcFixes = QuestieTBCNpcFixes:LoadDarkmoonFixes(isInMulgore, isInTerokkar)
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
     else
-        npcFixes = QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
+        QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
     end
 
     for _, questData in pairs(QuestieEvent.eventQuests) do
@@ -402,11 +406,6 @@ _LoadDarkmoonFaire = function()
             local questId = questData[2]
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
-
-            -- Update the NPC spawns based on the place of the faire
-            for id, data in pairs(npcFixes) do
-                QuestieDB.npcDataOverrides[id] = data
-            end
         end
     end
 
@@ -504,12 +503,20 @@ end
 
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
-    ["Winter Veil"] = {
+    ["Winter Veil"] =
+        not Questie.IsTitanReforged and { -- regular servers
+            startDate = "15/12",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "2/1",
+            endHour = 10,
+            endMinute = 0,
+        } or { -- Titan servers
         startDate = "15/12",
-        startHour = 10,
+        startHour = 6,
         startMinute = 0,
         endDate = "2/1",
-        endHour = 10,
+        endHour = 6,
         endMinute = 0,
     },
     ["Love is in the Air"] = { -- WARNING THIS DATE VARIES!!!!
@@ -536,7 +543,7 @@ QuestieEvent.eventDates = {
         endHour = 10,
         endMinute = 0,
     },
-    ["Midsummer"] = 
+    ["Midsummer"] =
         -- Fixed calendar days: 21 Jun 4 AM - 4 Jul 4 AM
         not Questie.IsTitanReforged and { -- regular servers
             startDate = "21/6",
@@ -557,17 +564,26 @@ QuestieEvent.eventDates = {
         startDate = "19/9",
         startHour = 10,
         startMinute = 0,
-        endDate = "20/10",
+        endDate = "20/9",
         endHour = 10,
         endMinute = 0,
     },
-    ["Brewfest"] = { -- TODO: This might be different (retail date)
+    ["Brewfest"] =
+    -- TODO: This might be different (retail date)
+    not Questie.IsTitanReforged and { -- regular servers
+            startDate = "20/9",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "6/10",
+            endHour = 10,
+            endMinute = 0,
+        } or { -- Titan servers
         startDate = "20/9",
-        startHour = 10,
-        startMinute = 0,
-        endDate = "6/10",
-        endHour = 10,
-        endMinute = 0,
+        startHour = 0,
+        startMinute = 1,
+        endDate = "5/10",
+        endHour = 23,
+        endMinute = 59,
     },
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "21/9",
@@ -577,13 +593,21 @@ QuestieEvent.eventDates = {
         endHour = 23,
         endMinute = 59,
     },
-    ["Hallow's End"] = { -- WARNING THIS DATE VARIES!!!!
+    ["Hallow's End"] =  -- WARNING THIS DATE VARIES!!!!
+        not Questie.IsTitanReforged and { -- regular servers
+            startDate = "18/10",
+            startHour = 10,
+            startMinute = 0,
+            endDate = "1/11",
+            endHour = 11,
+            endMinute = 0,
+        } or { -- Titan servers
         startDate = "18/10",
-        startHour = 10,
+        startHour = 1,
         startMinute = 0,
-        endDate = "1/11",
-        endHour = 11,
-        endMinute = 0,
+        endDate = "31/10",
+        endHour = 23,
+        endMinute = 59,
     },
     ["Day of the Dead"] = {
         startDate = "1/11",
@@ -609,6 +633,8 @@ QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
         ["Pilgrim's Bounty"] = false,
+        ["Pirates' Day"] = false,
+        ["Day of the Dead"] = false,
         ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
             -- Date is set for 2027. Please update this every year.
             startDate = "28/3",
@@ -625,9 +651,18 @@ QuestieEvent.eventDateCorrections = {
             endDate = "15/2",
             endHour = 10,
             endMinute = 0
+        },
+        ["Hallow's End"] = { -- WARNING THIS DATE VARIES!!!!
+            startDate = "18/10",
+            startHour = 4, -- was active at 05:35 ingame, assuming 4 is start hour
+            startMinute = 0,
+            endDate = "1/11",
+            endHour = 23,
+            endMinute = 59,
         },
     },
     ["TBC"] = {
+        ["Day of the Dead"] = false,
         ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!! -- One day event, on the actual day of Easter.
             -- Date is set for 2027. Please update this every year.
             startDate = "28/3",
@@ -644,6 +679,38 @@ QuestieEvent.eventDateCorrections = {
             endDate = "15/2",
             endHour = 10,
             endMinute = 0
+        },
+        ["Pirates' Day"] = {
+            startDate = "19/9",
+            startHour = 0,
+            startMinute = 0,
+            endDate = "20/9",
+            endHour = 0,
+            endMinute = 0,
+        },
+        ["Brewfest"] = {
+            startDate = "20/9",
+            startHour = 0,
+            startMinute = 1,
+            endDate = "5/10",
+            endHour = 23,
+            endMinute = 59,
+        },
+        ["Hallow's End"] = {
+            startDate = "18/10",
+            startHour = 4,
+            startMinute = 0,
+            endDate = "1/11",
+            endHour = 23,
+            endMinute = 59,
+        },
+        ["Winter Veil"] = {
+            startDate = "15/12",
+            startHour = 6,
+            startMinute = 0,
+            endDate = "2/1",
+            endHour = 6,
+            endMinute = 0,
         },
     },
 }

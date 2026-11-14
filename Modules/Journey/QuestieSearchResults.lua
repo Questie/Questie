@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults")
 -------------------------
@@ -38,13 +41,13 @@ if Questie.IsHardcore then
     TICKS_PER_YIELD = 15
 end
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 local stringrep = string.rep
 local stringsub = string.sub
 
 local AceGUI = LibStub("AceGUI-3.0");
 
-local _HandleTreeItemClick, _FindFirstSpawn
+local _HandleTreeItemSelected, _FindFirstSpawn
 local lastOpenSearch = "quest"
 local _selected = 0
 
@@ -113,13 +116,39 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
     end
 end
 
+-- Track which items the user explicitly chose to show on the map
+---@type table<string, true>
+local _shownItemIds = {}
+
+function QuestieSearchResults.ClearShownItemIds()
+    _shownItemIds = {}
+end
+
+-- Check whether the relevant manual frames are already shown on the map
+---@param id NpcId|ObjectId|ItemId @NPC (>0) or object (<0) id, or item id when idsToShow is provided
+---@param idsToShow NpcId[]|ObjectId[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
+---@param groupName string? @Source group name for items (e.g. "NPC", "Object", "Vendor")
+local function _HasShownFrames(id, idsToShow, groupName)
+    if idsToShow and groupName then
+        return _shownItemIds[id .. ":" .. groupName] ~= nil
+    end
+    if (not QuestieMap.manualFrames["any"]) then
+        return false
+    end
+    return QuestieMap.manualFrames["any"][id] ~= nil
+end
+
 -- Create a button for showing/hiding manual notes of NPCs/objects
-local function CreateShowHideButton(id)
+---@param id NpcId|ObjectId|ItemId @NPC (>0) or object (<0) id, or item id when idsToShow is provided
+---@param idsToShow NpcId[]|ObjectId[]? @NPC/object ids shown together (e.g. all mobs dropping an item)
+---@param groupName string? @Source group name for items (e.g. "NPC", "Object", "Vendor")
+local function CreateShowHideButton(id, idsToShow, groupName)
     -- Initialise button
     local button = AceGUI:Create("Button")
     button.id = id
-    button.idsToShow = nil
-    if (not QuestieMap.manualFrames["any"]) or (not QuestieMap.manualFrames["any"][id]) then
+    button.idsToShow = idsToShow
+    button.groupName = groupName
+    if (not _HasShownFrames(id, idsToShow, groupName)) then
         button:SetText(l10n("Show on Map"))
         button:SetCallback("OnClick", function(self) self:ShowOnMap(self) end)
     else
@@ -131,7 +160,8 @@ local function CreateShowHideButton(id)
         self:SetText(l10n("Show on Map"))
         self:SetCallback("OnClick", function() self:ShowOnMap(self) end)
 
-        if self.idsToShow then
+        if self.idsToShow and self.groupName then
+            _shownItemIds[self.id .. ":" .. self.groupName] = nil
             local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
                 ids[#ids + 1] = spawnId
@@ -156,7 +186,8 @@ local function CreateShowHideButton(id)
         self:SetText(l10n("Remove from Map"))
         self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
 
-        if self.idsToShow then
+        if self.idsToShow and self.groupName then
+            _shownItemIds[self.id .. ":" .. self.groupName] = true
             local ids = {}
             for _, spawnId in pairs(self.idsToShow) do
                 ids[#ids + 1] = spawnId
@@ -370,9 +401,9 @@ QuestieScanningTooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
 --- This function queries an item tooltip from the server, waits for the result, then calls the following function to draw an item info frame to a given parent frame.
 ---@param f Frame The frame to attach the created item details frame to
----@param itemId ItemID The ID for the item to show details about
+---@param itemId ItemId The ID for the item to show details about
 ---@return nil
- function QuestieSearchResults:ItemDetailsFrame(f, itemId)
+function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     -- Caching an item creates visible lag of 2 or 3 seconds at times (e.g. 13490, 13492 on Era)
     -- So we need to make sure the item data is *sufficiently* cached before we draw the frame
     -- We can't use the following because it creates a delay in the tooltip being drawn:
@@ -395,8 +426,7 @@ end
 
 --- This function draws an item info frame to a given parent frame after the previous function made sure its data is cached.
 ---@param f Frame The frame to attach the created item details frame to
----@param itemId ItemID The ID for the item to show details about
----@return nil
+---@param itemId ItemId The ID for the item to show details about
 function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     local header = AceGUI:Create("Heading")
     header:SetFullWidth(true)
@@ -464,8 +494,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         npcLabel:SetText(l10n("%d NPCs drop this item", #npcIdsWithSpawns))
         f:AddChild(npcLabel)
         if (#npcIdsWithSpawns > 0) then
-            local showHideButton = CreateShowHideButton(itemId)
-            showHideButton.idsToShow = npcIdsWithSpawns
+            local showHideButton = CreateShowHideButton(itemId, npcIdsWithSpawns, "NPC")
             f:AddChild(showHideButton)
         end
         AddLinkedParagraph(f, "npc", npcIdsWithSpawns, "", QuestieDB.QueryNPCSingle, false)
@@ -495,8 +524,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         objectLabel:SetText(l10n("%d Objects drop this item", #objectIdsWithSpawns))
         f:AddChild(objectLabel)
         if (#objectIdsWithSpawns > 0) then
-            local showHideButton = CreateShowHideButton(itemId)
-            showHideButton.idsToShow = objectIdsWithSpawns
+            local showHideButton = CreateShowHideButton(itemId, objectIdsWithSpawns, "Object")
             f:AddChild(showHideButton)
         end
         AddLinkedParagraph(f, "object", objectIdsWithSpawns, "", QuestieDB.QueryObjectSingle, false)
@@ -528,8 +556,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         vendorLabel:SetText(l10n("%d Vendors sell this item", #vendorIdsWithSpawns))
         f:AddChild(vendorLabel)
         if (#vendorIdsWithSpawns > 0) then
-            local showHideButton = CreateShowHideButton(itemId)
-            showHideButton.idsToShow = vendorIdsWithSpawns
+            local showHideButton = CreateShowHideButton(itemId, vendorIdsWithSpawns, "Vendor")
             f:AddChild(showHideButton)
         end
         AddLinkedParagraph(f, "npc", vendorIdsWithSpawns, "", QuestieDB.QueryNPCSingle)
@@ -594,7 +621,13 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultTree:SetFullHeight(true);
     resultTree.treeframe:SetWidth(415);
     resultTree:SetTree(results);
-    resultTree:SetCallback("OnClick", _HandleTreeItemClick)
+    -- Programmatic selection fires OnGroupSelected, not OnClick.
+    resultTree:SetCallback("OnGroupSelected", _HandleTreeItemSelected)
+    resultTree:SetCallback("OnClick", function(_, _, selectedId)
+        if IsShiftKeyDown() and lastOpenSearch == "quest" then
+            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(tonumber(selectedId)))
+        end
+    end)
 
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
@@ -604,19 +637,9 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     end
 end
 
-_HandleTreeItemClick = function(group, ...)
-    local treePath = {...}
-
+_HandleTreeItemSelected = function(group, _, value)
     -- This is either the questId, npcId, objectId or itemId
-    local selectedId = tonumber(treePath[2])
-    if IsShiftKeyDown() and lastOpenSearch == "quest" then
-        if Questie.db.profile.trackerShowQuestLevel then
-            ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(selectedId))
-        else
-            local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
-            ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
-        end
-    end
+    local selectedId = tonumber(value)
 
     -- get master frame and create scroll frame inside
     local master = group.frame.obj;

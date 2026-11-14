@@ -12,8 +12,10 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestiePartyObjectives
+local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestieMenu
@@ -128,17 +130,19 @@ function QuestieOptions.tabs.icons:Initialize()
 
                         -- Hides tooltips for untracked quests
                         if value == true then
-                            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                                if not QuestieQuest:ShouldShowQuestNotes(quest.Id) then
-                                    QuestieTooltips:RemoveQuest(quest.Id)
+                            for questId, acceptance in ActiveQuests.Iterate() do
+                                if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
+                                    QuestieTooltips:RemoveQuest(questId)
                                 end
                             end
                         end
 
                         -- Readds tooltips from all missing quests
                         if value == false then
-                            for _, quest in pairs(QuestiePlayer.currentQuestlog) do
-                                QuestieQuest:PopulateObjectiveNotes(quest)
+                            for _, acceptance in ActiveQuests.Iterate() do
+                                if acceptance.quest then
+                                    QuestieQuest:PopulateObjectiveNotes(acceptance.quest)
+                                end
                             end
                         end
                     end)
@@ -273,6 +277,8 @@ function QuestieOptions.tabs.icons:Initialize()
                         set = function(info, value)
                             Questie.db.profile.enableObjectives = value
                             QuestieQuest:ToggleNotes(value)
+                            -- Party members' objectives are drawn without icons while the objectives are disabled
+                            QuestiePartyObjectives:ScheduleUpdate()
                             QuestieOptionsUtils.DetermineTheme()
                         end,
                     },
@@ -1333,7 +1339,7 @@ function QuestieOptionsUtils.SetPfQuestIcons(info, value)
 end
 
 _GetIconThemes = function()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Wotlk or Questie.IsForever then
         return {
             ["questie"] = "|T" .. Questie.icons["slay"] .. ":14|t Questie",
             ["blizzard"] = "|TInterface/buttons/adventureguidemicrobuttonalert.blp:20:20:0:0:32:32:2:28:2:28|t Blizzard",
@@ -1350,7 +1356,7 @@ _GetIconThemes = function()
 end
 
 _GetIconThemesSort = function()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Expansions.Current >= Expansions.Wotlk or Questie.IsForever then
         return {
             "questie",
             "blizzard",
@@ -1381,7 +1387,7 @@ function QuestieOptionsUtils.DetermineTheme()
                 Questie.db.profile.alwaysGlowMap == false and
                 Questie.db.profile.questMinimapObjectiveColors == true and
                 Questie.db.profile.alwaysGlowMinimap == false and
-                Questie.db.profile.objectiveFilterDistance == 0)
+                Questie.db.profile.objectiveFilterDistance == 2)
         then
             Questie.db.profile.iconTheme = "pfquest"
         elseif (Questie.db.profile.enableObjectives == true and
@@ -1406,8 +1412,9 @@ end
 
 function QuestieOptionsUtils.ExecuteTheme(info, value)
     Questie.db.profile.iconTheme = value
+    local currentQuestPOI = GetCVar("questPOI")
     if value == "questie" then
-        if GetCVar("questPOI") then -- check for Blizzard style objectives
+        if currentQuestPOI and currentQuestPOI ~= "0" then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
         end
         if WorldMapQuestShowObjectives then
@@ -1427,7 +1434,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMinimap = optionsDefaults.profile.alwaysGlowMinimap
         Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "pfquest" then
-        if GetCVar("questPOI") then -- check for Blizzard style objectives
+        if currentQuestPOI and currentQuestPOI ~= "0" then -- check for Blizzard style objectives
             SetCVar("questPOI", "0")
         end
         if WorldMapQuestShowObjectives then
@@ -1445,9 +1452,9 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.alwaysGlowMap = false
         Questie.db.profile.questMinimapObjectiveColors = true
         Questie.db.profile.alwaysGlowMinimap = false
-        Questie.db.profile.objectiveFilterDistance = 0
+        Questie.db.profile.objectiveFilterDistance = 2
     elseif value == "blizzard" then
-        if GetCVar("questPOI") then -- check for Blizzard style objectives
+        if currentQuestPOI and currentQuestPOI ~= "1" then -- check for Blizzard style objectives
             SetCVar("questPOI", "1")
         end
         if WorldMapQuestShowObjectives then

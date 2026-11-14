@@ -187,6 +187,9 @@ _AutoQuesting.disallowedQuests = {
         -- Aldor/Scryer quests
         [10551] = true, -- Allegiance to the Aldor
         [10552] = true, -- Allegiance to the Scryers
+        --Forever
+        [94927] = true, -- Dunston Checks Out
+        [99123] = true, -- Lost in the Shadows
     },
     turnIn = {
         [2199] = true, -- Lore for a Price (crafting material objectives)

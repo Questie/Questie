@@ -31,24 +31,22 @@ busted -p ".test.lua" Localization/lookups
 luacheck -q -- Database Localization Modules Public Questie.lua
 ```
 
-### Database Validation (CLI scripts)
+### Loader usage validation
+
+Entity database validation is owned by QuestieDB. Validate Questie's loader usage with:
 
 ```bash
-lua cli/validate-era.lua
-lua cli/validate-tbc.lua
-lua cli/validate-wotlk.lua
-lua cli/validate-mop.lua
-lua cli/validate-sod.lua
+lua cli/validate-loader-usage.lua
 ```
-
-> **Note:** Any change to `cli/validators.lua` must be accompanied by a matching test in `cli/validators.test.lua`.
 
 ### Build (release packaging)
 
 ```bash
-python3 build.py --all          # all expansions
-python3 build.py --classic      # era only
-python3 build.py --release      # omit commit hash from name
+python3 build.py --standalone  # -s; Questie only (default); install QuestieDB separately
+python3 build.py --bundled     # -b; Questie + QuestieDB + QuestieTrace
+python3 build.py --all         # all expansions
+python3 build.py --classic     # era only
+python3 build.py --release     # omit commit hash from name
 ```
 
 ### Commit Message Prefixes (Changelog)
@@ -265,7 +263,7 @@ end)
 
 ## CI Pipeline
 
-CI runs on every push/PR: busted tests, database validators for each expansion, luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
+CI runs on every push/PR: Busted tests, QuestieLoader usage validation, and luacheck lint. Test files (`*.test.lua`) are excluded from release builds.
 
 ## Test Requirements
 
@@ -332,6 +330,8 @@ Prefer plain **functions** over **methods** when `self` is not needed. This avoi
 
 **Bad** — unnecessary method syntax:
 
+Method: `QuestieMap.utils:IsExplored` (using `:` and implicitly handing `self` aka `QuestieMap.utils` as first parameter)
+
 ```lua
 function QuestieMap.utils:IsExplored(uiMapId, x, y)
     -- self is not used
@@ -344,6 +344,8 @@ local isExplored = QuestieMap.utils:IsExplored(123, 50, 50)
 ```
 
 **Good** — plain function when `self` is unused:
+
+Function: `QuestieMap.utils.IsExplored` (using `.` and no implicit `self`)
 
 ```lua
 function QuestieMap.utils.IsExplored(uiMapId, x, y)
@@ -363,3 +365,26 @@ function _MinimapIcon:CreateDataBrokerObject()
     -- Use self...
 end
 ```
+
+### Blizzard UI behaviour
+
+When code depends on how Blizzard's own UI behaves, check its source for every client Questie supports. Don't add code that guards against a
+client behaving differently until a client is known to: it costs work on every client and tells readers that some client needs it.
+
+The source is mirrored at [Gethe/wow-ui-source](https://github.com/Gethe/wow-ui-source), with a branch or tag per client. The `version.txt`
+of each one names its client version, which should match the `## Interface` of the TOC file.
+
+| TOC file                                     | Branch or tag         |
+|----------------------------------------------|-----------------------|
+| `Questie_Vanilla.toc`                        | `classic_era`         |
+| `Questie_TBC.toc`                            | `classic_anniversary` |
+| `Questie_Wrath.toc`                          | `classic_titan`       |
+| `Questie_Cata.toc`                           | `4.4.2` (tag)         |
+| `Questie_Mists.toc`                          | `classic`             |
+| `Questie_Forever.toc`, `Questie_Camelot.toc` | `forever`             |
+
+```bash
+gh api "repos/Gethe/wow-ui-source/contents/Interface/AddOns/Blizzard_Menu/DropdownButton.lua?ref=classic_era" --jq .content | base64 -d
+```
+
+Say in a comment what was checked, so the next reader doesn't have to check it again.

@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
@@ -9,14 +12,16 @@ QuestieJourneyFrame = nil
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type JourneyData
+local JourneyData = QuestieLoader:ImportModule("JourneyData")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -46,13 +51,14 @@ local questCategoryKeys = {
     CATACLYSM = 5,
     THE_MAELSTROM = 6,
     PANDARIA = 7,
-    DUNGEONS = 8,
-    BATTLEGROUNDS = 9,
-    CLASS = 10,
-    PROFESSIONS = 11,
-    EVENTS = 12,
-    PET_BATTLES = 13,
-    SCENARIOS = 14,
+    ZEPHRAS_ISLE = 8,
+    DUNGEONS = 9,
+    BATTLEGROUNDS = 10,
+    CLASS = 11,
+    PROFESSIONS = 12,
+    EVENTS = 13,
+    PET_BATTLES = 14,
+    SCENARIOS = 15,
 }
 QuestieJourney.questCategoryKeys = questCategoryKeys
 
@@ -78,6 +84,7 @@ function QuestieJourney:Initialize()
             not (questCategoryKeys.CATACLYSM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.THE_MAELSTROM == id and Expansions.Current < Expansions.Cata) and
             not (questCategoryKeys.PANDARIA == id and Expansions.Current < Expansions.MoP) and
+            not (questCategoryKeys.ZEPHRAS_ISLE == id and not Questie.IsForever) and
             not (questCategoryKeys.PET_BATTLES == id and Expansions.Current < Expansions.MoP) and
             not (questCategoryKeys.SCENARIOS == id and Expansions.Current < Expansions.MoP)
         then
@@ -91,8 +98,8 @@ function QuestieJourney:Initialize()
 
     coroutine.yield()
     self.continents = continents
-    self.zoneMap = ZoneDB.GetZonesWithQuests(true)
-    self.zones = ZoneDB.GetRelevantZones()
+    -- Generate once here; tabs reuse these quest groups and dropdown choices instead of rescanning the database.
+    self.zoneMap, self.zones = JourneyData.Build(true)
     coroutine.yield()
 
     -- Pre-initialize faction data used by the "Quests by Faction" tab so it is ready on first open.
@@ -123,7 +130,7 @@ function QuestieJourney:BuildMainFrame()
                 notesPopupWinIsOpen = false
             end
         end)
-        journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
+        journeyFrame:SetTitle(l10n("%s's Journey", GetUnitName("player", true)))
         journeyFrame:SetLayout("Fill")
         journeyFrame:EnableResize(true)
         journeyFrame:SetWidth(1000)
@@ -163,7 +170,7 @@ function QuestieJourney:BuildMainFrame()
         settingsButton:SetCallback("OnClick", function()
             QuestieCombatQueue:Queue(function()
                 QuestieJourney:ToggleJourneyWindow()
-                QuestieOptions:ToggleConfigWindow()
+                QuestieOptionsEngine:ToggleConfigWindow()
             end)
         end)
         journeyFrame:AddChild(settingsButton)

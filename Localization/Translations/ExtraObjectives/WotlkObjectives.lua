@@ -2558,18 +2558,6 @@ local wotlkObjectiveLocales = {
         ["zhCN"] = "将库塞尔的布片浸入召唤者诺沃斯的尸体中",
         ["zhTW"] = false,
     },
-    ["Grab a keg"] = { -- 11122
-        ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "拿一桶啤酒",
-        ["zhTW"] = false,
-    },
     ["Place the flower offering"] = { -- 13669
         ["enUS"] = true,
         ["deDE"] = false,

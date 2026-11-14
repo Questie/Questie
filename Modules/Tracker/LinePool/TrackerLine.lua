@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerLine
 local TrackerLine = QuestieLoader:CreateModule("TrackerLine")
 
@@ -15,27 +18,35 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
 ---@type VoiceOverPlayButton
 local VoiceOverPlayButton = QuestieLoader:ImportModule("VoiceOverPlayButton")
+---@type SpokenPlayButton
+local SpokenPlayButton = QuestieLoader:ImportModule("SpokenPlayButton")
 ---@type AchievementCriteriaCheckmark
 local AchievementCriteriaCheckmark = QuestieLoader:ImportModule("AchievementCriteriaCheckmark")
 ---@type ExpandQuestButton
 local ExpandQuestButton = QuestieLoader:ImportModule("ExpandQuestButton")
+---@type QuestFocusButton
+local QuestFocusButton = QuestieLoader:ImportModule("QuestFocusButton")
 ---@type ExpandZoneButton
 local ExpandZoneButton = QuestieLoader:ImportModule("ExpandZoneButton")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
----@type DistanceUtils
-local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+---@type TrackerData
+local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerQuestTooltip
+local TrackerQuestTooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type AchievementTracking
+local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
+---@type TrackerRecipes
+local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
-local _SetMode, _OnClickQuest, _OnClickAchieve
+local _SetMode, _OnClickQuest, _OnClickAchieve, _OnClickRecipe
 
 local lineMarginLeft = 10
 
@@ -78,6 +89,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
     function line:SetQuest(quest)
         self.Quest = quest
+        self.Recipe = nil
         self.expandQuest.questId = quest.Id
 
         OnQuestAdded(quest.Id, self)
@@ -90,6 +102,13 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
     function line:SetObjective(objective)
         self.Objective = objective
+    end
+
+    ---@param recipe TrackerRecipe
+    function line:SetRecipe(recipe)
+        self.Recipe = recipe
+        self.Quest = nil
+        self.Objective = nil
     end
 
     function line:SetScenarioCriteria(objective)
@@ -115,22 +134,13 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
 
                     timeElapsed = 0
                 else
+                    self.label:SetText("")
                     timeElapsed = 0
                     return
                 end
             end
         else
             return
-        end
-    end
-
-    function line:SetVerticalPadding(amount)
-        if self.mode == "zone" then
-            self:SetHeight(Questie.db.profile.trackerFontSizeZone + amount)
-        elseif self.mode == "quest" or "achieve" then
-            self:SetHeight(Questie.db.profile.trackerFontSizeQuest + amount)
-        else
-            self:SetHeight(Questie.db.profile.trackerFontSizeObjective + amount)
         end
     end
 
@@ -143,6 +153,8 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
             self:SetScript("OnClick", _OnClickQuest)
         elseif onClickMode == "achieve" then
             self:SetScript("OnClick", _OnClickAchieve)
+        elseif onClickMode == "recipe" then
+            self:SetScript("OnClick", _OnClickRecipe)
         end
     end
 
@@ -152,17 +164,36 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line:SetScript("OnEnter", function(self)
         OnEnter(self)
         TrackerFadeTicker.Unfade()
+        TrackerQuestTooltip.Show(self)
     end)
 
     line:SetScript("OnLeave", function(self)
         OnLeave(self)
         TrackerFadeTicker.Fade()
+        TrackerQuestTooltip.Hide(self)
     end)
+
+    line:SetScript("OnHide", TrackerQuestTooltip.Hide)
 
     line.criteriaMark = AchievementCriteriaCheckmark.New(index, line)
     line.expandZone = ExpandZoneButton.New(index, line, OnEnter, OnLeave)
-    line.playButton = VoiceOverPlayButton.New(index, line)
+    if TrackerUtils:IsSpokenLoaded() then
+        line.playButton = SpokenPlayButton.New(index, line)
+    else
+        line.playButton = VoiceOverPlayButton.New(index, line)
+    end
     line.expandQuest = ExpandQuestButton.New(index, line)
+    line.questFocus = QuestFocusButton.New(index, line)
+
+    -- Hovering a button in front of the title highlights the quest like hovering the line itself
+    for _, button in ipairs({line.questFocus, line.playButton, line.expandQuest}) do
+        button:HookScript("OnEnter", function()
+            OnEnter(line)
+        end)
+        button:HookScript("OnLeave", function()
+            OnLeave(line)
+        end)
+    end
 
     return line
 end
@@ -201,22 +232,15 @@ _OnClickQuest = function(self, button)
     end
 
     if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
-        local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(self.Quest)
-        if spawn then
-            TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
-        end
+        TrackerUtils.SetQuestTomTomTarget(self.Quest.Id, self.Quest.enrichment)
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            if Questie.db.profile.trackerShowQuestLevel then
-                ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(self.Quest.Id))
-            else
-                ChatEdit_InsertLink("[" .. self.Quest.name .. " (" .. self.Quest.Id .. ")]")
-            end
+            ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
         else
             QuestieTracker:UntrackQuestId(self.Quest.Id)
             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-            if questLogFrame:IsShown() then
-                QuestLog_Update()
+            if questLogFrame and questLogFrame:IsShown() then
+                QuestieCompat.QuestLog_Update()
             end
         end
     elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
@@ -242,15 +266,14 @@ _OnClickAchieve = function(self, button)
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
         else
-            if Questie.db.char.trackedAchievementIds[self.Quest.Id] then
-                QuestieTracker:UntrackAchieveId(self.Quest.Id)
-                QuestieTracker:UpdateAchieveTrackerCache(self.Quest.Id)
+            if AchievementTracking.IsTracked(self.Quest.Id) then
+                AchievementTracking.Untrack(self.Quest.Id)
 
                 if (not AchievementFrame) then
                     AchievementFrame_LoadUI()
                 end
 
-                AchievementFrameAchievements_ForceUpdate()
+                QuestieCompat.AchievementFrameAchievements_ForceUpdate()
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
@@ -266,15 +289,37 @@ _OnClickAchieve = function(self, button)
         end
 
         if (not AchievementFrame:IsShown()) then
-            AchievementFrame_ToggleAchievementFrame()
-            AchievementFrame_SelectAchievement(self.Quest.Id)
+            QuestieCompat.AchievementFrame_ToggleAchievementFrame()
+            QuestieCompat.AchievementFrame_SelectAchievement(self.Quest.Id)
         else
             if (AchievementFrameAchievements.selection ~= self.Quest.Id) then
-                AchievementFrame_SelectAchievement(self.Quest.Id)
+                QuestieCompat.AchievementFrame_SelectAchievement(self.Quest.Id)
             end
         end
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForAchievement(self.Quest)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
+    end
+end
+
+---@param button string
+_OnClickRecipe = function(self, button)
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerLine:_OnClickRecipe]")
+    if (not self.Recipe) then
+        return
+    end
+
+    if TrackerMenu.menuFrame:IsShown() then
+        LibDropDown:CloseDropDownMenus()
+    end
+
+    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
+        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+            ChatEdit_InsertLink(TrackerRecipes.GetLink(self.Recipe.Id))
+        else
+            TrackerRecipes.Untrack(self.Recipe.Id)
+        end
+    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+        TrackerRecipes.OpenRecipe(self.Recipe.Id)
     end
 end

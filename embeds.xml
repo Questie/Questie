@@ -1,10 +1,13 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
-    <!-- Names the embedded libraries' load interval after this XML. None of them call QuestieLoader, so
-         they cannot be told apart from one another; the stamp draws the boundary where the group starts.-->
+    <!-- Names the embedded libraries' load interval after this XML. Apart from HereBeDragons, which is a set of
+         Questie modules and gets its own rows, none of them call QuestieLoader, so they cannot be told apart
+         from one another; the stamp draws the boundary where the group starts.-->
     <Script>QuestieLoader:StampLoadBoundary()</Script>
 
     <Script file="Libs\LibStub\LibStub.lua"/>
     <Script file="Libs\LibDeflate\LibDeflate.lua"/>
+    <Script file="Modules\Libs\LibPopupStack-1.0\LibPopupStack-1.0.lua"/>
+    <Script file="Modules\Libs\AddonDialog\Dialog.lua"/>
     <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
     <!-- The order of Ace imports matter as they reference each other -->
     <Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>
@@ -24,11 +27,14 @@
     <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
     <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
 
-    <Script file="Libs\Krowi_WorldMapButtons\Krowi_WorldMapButtons-1.4.lua"/>
+    <Script file="Libs\Krowi_WorldMapButtons\Krowi_WorldMapButtons.lua"/>
 
     <!-- Questie's map and menu libraries. Keep HereBeDragons core before its Pins extension. -->
     <Include file="Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-2.0.lua"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-Migrate.lua"/>
+
+    <!-- Close the library timing interval only after all embedded libraries load. -->
+    <Script file="Modules\Libs\QuestiePopup.lua"/>
 </Ui>

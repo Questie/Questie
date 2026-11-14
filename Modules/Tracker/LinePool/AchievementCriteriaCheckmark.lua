@@ -3,7 +3,7 @@ local AchievementCriteriaCheckmark = QuestieLoader:CreateModule("AchievementCrit
 
 ---@param index number
 ---@param parent TrackerLineFrame
----@return LineFrame
+---@return Button
 function AchievementCriteriaCheckmark.New(index, parent)
     local criteriaMark = CreateFrame("Button", "linePool.criteriaMark" .. index, parent)
     criteriaMark.texture = criteriaMark:CreateTexture(nil, "OVERLAY", nil, 0)

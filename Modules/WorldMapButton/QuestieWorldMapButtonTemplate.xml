@@ -23,7 +23,7 @@
             </Layer>
             <Layer level="ARTWORK">
                 <Texture parentKey="Icon" file="Interface\Addons\Questie\Icons\questie.png">
-                    <Size x="20" y="20"/>
+                    <Size x="22" y="22"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" x="6" y="-5"/>
                     </Anchors>

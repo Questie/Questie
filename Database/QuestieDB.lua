@@ -1,5 +1,15 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieDB : QuestieModule
+---@field questKeys QuestieDBQuestKeys
+---@field npcKeys QuestieDBNpcKeys
+---@field itemKeys QuestieDBItemKeys
+---@field objectKeys QuestieDBObjectKeys
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
+
+---@type SupportValidation
+local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
 ---@class QuestieDBPrivate
 local _QuestieDB = QuestieDB.private
 
@@ -10,6 +20,8 @@ local _QuestieDB = QuestieDB.private
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieQuestBlacklist
@@ -22,10 +34,6 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
@@ -115,42 +123,19 @@ QuestieDB.DoableStates = {
     ARENA_RATING = 32,
 }
 
--- * race bitmask data, for easy access
--- ? The PlayableRaceBit can be found in ChrRaces.dbc
--- ? https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
--- ? The values below are calculated by 2^PlayableRaceBit
+-- Individual race masks use 2^PlayableRaceBit from ChrRaces, not 2^(raceID-1).
+-- https://wago.tools/db2/ChrRaces?build=5.5.0.60802&filter[PlayableRaceBit]=>-1
+-- The provider selects faction membership for its active content flavor. Missing capability
+-- stays unset here so VersionCheckDB can report it during startup, rather than guessing Classic masks.
+local factionRaceMasks = LibQuestieDB.Enum.factionRaceMasks
+if type(factionRaceMasks) ~= "table" then
+    factionRaceMasks = nil
+end
+
 ---@class RaceKeys
 QuestieDB.raceKeys = {
-    -- Allow all alliance races
-    ALL_ALLIANCE = (function()
-        if Questie.IsClassic then
-            return 77
-        elseif Questie.IsTBC or Questie.IsWotlk then
-            return 1101
-        elseif Questie.IsCata then
-            return 2098253
-        elseif Questie.IsMoP then
-            return 18875469
-        else
-            print("Unknown expansion for ALL_ALLIANCE")
-            return 77
-        end
-    end)(),
-    -- Allow all horde races
-    ALL_HORDE = (function()
-        if Questie.IsClassic then
-            return 178
-        elseif Questie.IsTBC or Questie.IsWotlk then
-            return 690
-        elseif Questie.IsCata then
-            return 946
-        elseif Questie.IsMoP then
-            return 33555378
-        else
-            print("Unknown expansion for ALL_HORDE")
-            return 178
-        end
-    end)(),
+    ALL_ALLIANCE = factionRaceMasks and factionRaceMasks.Alliance,
+    ALL_HORDE = factionRaceMasks and factionRaceMasks.Horde,
     -- Allow all races (No limit on allowed races)
     NONE = 0,
 
@@ -163,57 +148,31 @@ QuestieDB.raceKeys = {
     --[[ 5]] TAUREN = 32,
     --[[ 6]] GNOME = 64,
     --[[ 7]] TROLL = 128,
-    --[[ 8]] GOBLIN = 256,                  -- Cata
-    --[[ 9]] BLOOD_ELF = 512,               -- TBC
-    --[[10]] DRAENEI = 1024,                -- TBC
-    --[[21]] WORGEN = 2097152,              -- Cata
-    --[[23]] PANDAREN = 8388608,            -- MoP
-    --[[24]] PANDAREN_ALLIANCE = 16777216,  -- MoP
-    --[[25]] PANDAREN_HORDE = 33554432,     -- MoP
+    --[[ 8]] GOBLIN = 256,                   -- Cata
+    --[[ 9]] BLOOD_ELF = 512,                -- TBC
+    --[[10]] DRAENEI = 1024,                 -- TBC
+    --[[21]] WORGEN = 2097152,               -- Cata
+    --[[23]] PANDAREN = 8388608,             -- MoP
+    --[[24]] PANDAREN_ALLIANCE = 16777216,   -- MoP
+    --[[25]] PANDAREN_HORDE = 33554432,      -- MoP
+    --[[32]] SKYBORNE_ALLIANCE = 4294967296, -- Forever -- High Order Skyborne
+    --[[33]] SKYBORNE_HORDE = 8589934592,    -- Forever -- Windshaper Skyborne
 }
 
--- Combining these with "and" makes the order matter
--- 1 and 2 ~= 2 and 1
-QuestieDB.classKeys = {
-    -- Allow all classes
-    ALL_CLASSES = (function()
-        if Questie.IsClassic then -- alliance 1439, horde 1501
-            return playerFaction == "Alliance" and 1439 or 1501
-        elseif Questie.IsTBC then
-            return 1503
-        elseif Questie.IsWotlk or Questie.IsCata then
-            return 1535
-        elseif Questie.IsMoP then
-            return 2047
-        else
-            print("Unknown expansion for ALL_CLASSES")
-            return playerFaction == "Alliance" and 1439 or 1501
-        end
-    end)(),
+QuestieDB.classKeys = LibQuestieDB.Enum.classKeys
+QuestieDB.factionIDs = LibQuestieDB.Enum.factionIDs
 
-    NONE = 0,
-    WARRIOR = 1,
-    PALADIN = 2,
-    HUNTER = 4,
-    ROGUE = 8,
-    PRIEST = 16,
-    DEATH_KNIGHT = 32,
-    SHAMAN = 64,
-    MAGE = 128,
-    WARLOCK = 256,
-    MONK = 512,
-    DRUID = 1024
+---@alias NpcFlags integer
+QuestieDB.npcFlags = LibQuestieDB.Enum.npcFlags
+
+QuestieDB.itemClasses = {
+    QUEST = 12,
 }
 
-QuestieDB.specialFlags = {
-    NONE = 0,
-    REPEATABLE = 1,
-}
 
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
 _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};
-_QuestieDB.objectCache = {};
 _QuestieDB.zoneCache = {};
 
 ---A Memoized table for function Quest:CheckRace
@@ -232,119 +191,156 @@ local QuestieCorrectionshiddenQuests
 ---Questie.db.char.hidden
 local Questiedbcharhidden
 
-QuestieDB.itemDataOverrides = {}
-QuestieDB.npcDataOverrides = {}
-QuestieDB.objectDataOverrides = {}
-QuestieDB.questDataOverrides = {}
-
 QuestieDB.activeChildQuests = {}
 
+---@type table<QuestId, table<string, table>> Creature levels per Quest, rebuilt from composed NPC reads.
+QuestieDB._CreatureLevelCache = {}
 
-function QuestieDB:Initialize()
+-------------------------------------------------------------------------------------------------
+-- Provider binding, at file load. QuestieDB is a required dependency, so `LibQuestieDB` exists
+-- before this file runs; only the ID maps and caches wait for `Initialize`, because they follow
+-- the composed view Questie's own Policy Corrections change during Login Initialization.
+-------------------------------------------------------------------------------------------------
 
-    StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-        text = l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."),
-        button1 = l10n("Recompile Database"),
-        button2 = l10n("Don't show again"),
-        OnAccept = function()
-            if Questie.IsSoD then
-                Questie.db.global.sod.dbIsCompiled = false
-            else
-                Questie.db.global.dbIsCompiled = false
-            end
-            ReloadUI()
-        end,
-        OnDecline = function()
-            Questie.db.profile.disableDatabaseWarnings = true
-        end,
-        OnShow = function(self)
-            self:SetFrameStrata("TOOLTIP")
-        end,
-        timeout = 0,
-        whileDead = true,
-        hideOnEscape = false,
-        preferredIndex = 3
-    }
+-- Database Key Enums per datatype (declared in `.types/QuestieDB/Meta.t.lua`, a copy of the
+-- provider's declarations), and the field names in enum order. Rich projections request every
+-- field through `QueryNPC(id, QuestieDB._npcAdapterQueryOrder)` and friends, so the packed result
+-- lines up with the matching key enum.
+for datatype, prefix in pairs({Quest = "quest", Npc = "npc", Item = "item", Object = "object"}) do
+    local keys = LibQuestieDB.Meta[datatype .. "Meta"][prefix .. "Keys"]
+    local queryOrder = {}
+    for key, index in pairs(keys) do
+        queryOrder[index] = key
+    end
+    QuestieDB[prefix .. "Keys"] = keys
+    QuestieDB["_" .. prefix .. "AdapterQueryOrder"] = queryOrder
+end
+
+-- Query bindings keep the provider's plain-function (dot-call) shape.
+QuestieDB.QueryQuestSingle = LibQuestieDB.Quest.Get
+QuestieDB.QueryNPCSingle = LibQuestieDB.Npc.Get
+QuestieDB.QueryItemSingle = LibQuestieDB.Item.Get
+QuestieDB.QueryObjectSingle = LibQuestieDB.Object.Get
+QuestieDB.QueryQuest = LibQuestieDB.Quest.GetAll
+QuestieDB.QueryNPC = LibQuestieDB.Npc.GetAll
+QuestieDB.QueryItem = LibQuestieDB.Item.GetAll
+QuestieDB.QueryObject = LibQuestieDB.Object.GetAll
+
+-- Shared support data is read-only; faction filtering remains in Questie.
+QuestieDB.factionTemplate = LibQuestieDB.Support.Get("QuestieDB").factionTemplate
+
+-- QuestieDB owns Objective Order. These are provider tables that consumers must not mutate.
+QuestieDB.killCreditObjectiveFirst = LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst
+QuestieDB.objectObjectiveFirst = LibQuestieDB.ObjectiveFirst.objectObjectiveFirst
+QuestieDB.itemObjectiveFirst = LibQuestieDB.ObjectiveFirst.itemObjectiveFirst
+QuestieDB.eventObjectiveFirst = LibQuestieDB.ObjectiveFirst.eventObjectiveFirst
+QuestieDB.spellObjectiveFirst = LibQuestieDB.ObjectiveFirst.spellObjectiveFirst
+
+---Gives each entity type's first load its own frame, ahead of anything in Login Initialization
+---that reads entity IDs. In Source mode that first read compiles and corrects a whole payload:
+---it cannot yield part-way and counts against the client's script time limit, so one resume must
+---only pay for one type. In Baked mode the reads are lookups and the yields cost a few frames.
+---
+---Npc goes first because Quest's requiredRaces pass reads it, which would otherwise load both
+---types in Quest's resume.
+---@async
+function QuestieDB.PreloadEntityData()
+    for _, entity in ipairs({LibQuestieDB.Npc, LibQuestieDB.Quest, LibQuestieDB.Item, LibQuestieDB.Object}) do
+        entity.GetAllIds()
+        coroutine.yield()
+    end
+end
+
+---Rebinds the composed ID maps. QuestieDB replaces a shared read-only map when a Correction
+---write touches its datatype, so a retained reference can hide an added entity or keep a
+---withdrawn one. `PreloadEntityData` has already paid for the expensive first reads.
+---@return nil
+local function _BindEntityIdMaps()
+    QuestieDB.QuestPointers = LibQuestieDB.Quest.GetAllIds(true)
+    QuestieDB.NPCPointers = LibQuestieDB.Npc.GetAllIds(true)
+    QuestieDB.ItemPointers = LibQuestieDB.Item.GetAllIds(true)
+    QuestieDB.ObjectPointers = LibQuestieDB.Object.GetAllIds(true)
+end
+
+---Drops every Questie-owned projection cache fed by composed NPC and Item rows.
+---Full-reset form for `Initialize` only; a Correction write evicts through the targeted
+---`RefreshAfterCorrectionApply` instead.
+---@return nil
+local function _ClearEntityCaches()
+    _QuestieDB.itemCache = {}
+    _QuestieDB.npcCache = {}
+    _QuestieDB.zoneCache = {}
+    QuestieDB._CreatureLevelCache = {}
+end
+
+---Binds the composed ID maps and resets the caches during Login Initialization. It runs after the
+---provider locale is forwarded and after Questie's initial Policy Correction writes, so the first
+---bound view is already composed.
+---@return false|nil valid @Nil on success; false stops initialization.
+---@return string? report
+function QuestieDB.Initialize()
+    local valid, report = SupportValidation.ValidateFactionTemplates(QuestieDB.factionTemplate, Expansions.Current)
+    if not valid then return false, report end
 
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
-    -- For now we store both, the SoD database and the Era/HC database
-    local npcBin, npcPtrs, questBin, questPtrs, objBin, objPtrs, itemBin, itemPtrs
-    if Questie.IsSoD then
-        npcBin = Questie.db.global.sod.npcBin
-        npcPtrs = Questie.db.global.sod.npcPtrs
-        questBin = Questie.db.global.sod.questBin
-        questPtrs = Questie.db.global.sod.questPtrs
-        objBin = Questie.db.global.sod.objBin
-        objPtrs = Questie.db.global.sod.objPtrs
-        itemBin = Questie.db.global.sod.itemBin
-        itemPtrs = Questie.db.global.sod.itemPtrs
-    else
-        npcBin = Questie.db.global.npcBin
-        npcPtrs = Questie.db.global.npcPtrs
-        questBin = Questie.db.global.questBin
-        questPtrs = Questie.db.global.questPtrs
-        objBin = Questie.db.global.objBin
-        objPtrs = Questie.db.global.objPtrs
-        itemBin = Questie.db.global.itemBin
-        itemPtrs = Questie.db.global.itemPtrs
-    end
+    _BindEntityIdMaps()
+    -- Anything that reached the API before Login Initialization saw an uncorrected view. No quest
+    -- lifecycle state exists yet, so quest objects are dropped along with the entity caches.
+    _QuestieDB.questCache = {}
+    _ClearEntityCaches()
 
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Begin GetDBHandles")
-    local npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
-    QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(npcBin, npcPtrs, npcSkipMap, QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] NPC GetDBHandles Complete")
-
-    local questSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder)
-    QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(questBin, questPtrs, questSkipMap, QuestieDB.questKeys, QuestieDB.questDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Quest GetDBHandles Complete")
-
-    local objectSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder)
-    QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(objBin, objPtrs, objectSkipMap, QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Object GetDBHandles Complete")
-
-    local itemSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder)
-    QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(itemBin, itemPtrs, itemSkipMap, QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieDB:Init] Item GetDBHandles Complete")
-
-    QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
-    QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
-    QuestieDB._QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
-    QuestieDB._QueryItemSingle = QuestieDB.QueryItem.QuerySingle
-
-    QuestieDB.NPCPointers = QuestieDB.QueryNPC.pointers
-    QuestieDB.QuestPointers = QuestieDB.QueryQuest.pointers
-    QuestieDB.ObjectPointers = QuestieDB.QueryObject.pointers
-    QuestieDB.ItemPointers = QuestieDB.QueryItem.pointers
-
-    QuestieDB._QueryNPC = QuestieDB.QueryNPC.Query
-    QuestieDB._QueryQuest = QuestieDB.QueryQuest.Query
-    QuestieDB._QueryObject = QuestieDB.QueryObject.Query
-    QuestieDB._QueryItem = QuestieDB.QueryItem.Query
-
-    QuestieDB.QueryNPC = QuestieDB._QueryNPC
-    QuestieDB.QueryQuest = QuestieDB._QueryQuest
-    QuestieDB.QueryObject = QuestieDB._QueryObject
-    QuestieDB.QueryItem = QuestieDB._QueryItem
-
-    QuestieDB.QueryQuestSingle = QuestieDB._QueryQuestSingle
-    QuestieDB.QueryNPCSingle = QuestieDB._QueryNPCSingle
-    QuestieDB.QueryObjectSingle = QuestieDB._QueryObjectSingle
-    QuestieDB.QueryItemSingle = QuestieDB._QueryItemSingle
-
-    -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
-    _QuestieDB.questCache = {};
-    _QuestieDB.itemCache = {};
-    _QuestieDB.npcCache = {};
-    _QuestieDB.objectCache = {};
-    _QuestieDB.zoneCache = {};
-
-    --? This improves performance a lot, the regular functions still work but this is much faster because i caches
-    checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
+    checkRace = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
     checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
-    --? Set the localized versions of these.
     QuestieCorrectionshiddenQuests = QuestieCorrections.hiddenQuests
     Questiedbcharhidden = Questie.db.char.hidden
+end
+
+---Refreshes Questie's view after one Policy Correction write. Targeted on purpose: only the
+---written datatype's ID map is rebound (the provider replaces it when a Correction adds or
+---withdraws an entity), and only the changed entities leave the projection caches.
+---`QuestieCorrections.SetCorrection` is the only caller and passes the union of the slot's old
+---and new row IDs.
+---
+---Quest evictions carry a caveat: the quest lifecycle (tracker, `ActiveQuests`,
+---map icons) holds the object `GetQuest` returned and updates it in place, so evicting a quest
+---that lifecycle state already references splits identity — the holders keep the stale object
+---while new reads build a fresh one. Every Quest slot today is written before
+---`QuestieDB.Initialize` (Content Phase and external locale, both in Stage 1), where no
+---lifecycle state exists yet; a future post-initialization Quest writer must additionally
+---invalidate the affected quests through the quest lifecycle.
+---@param datatype "Quest"|"Npc"|"Item"|"Object"
+---@param changedIds table<number, true> Entity IDs whose composed rows can have changed.
+---@return nil
+function QuestieDB.RefreshAfterCorrectionApply(datatype, changedIds)
+    if datatype == "Quest" then
+        QuestieDB.QuestPointers = LibQuestieDB.Quest.GetAllIds(true)
+        for questId in pairs(changedIds) do
+            _QuestieDB.questCache[questId] = nil
+            QuestieDB._CreatureLevelCache[questId] = nil
+        end
+    elseif datatype == "Npc" then
+        QuestieDB.NPCPointers = LibQuestieDB.Npc.GetAllIds(true)
+        for npcId in pairs(changedIds) do
+            _QuestieDB.npcCache[npcId] = nil
+        end
+        -- Creature levels derive from NPC rows per quest, and which quests reference a changed
+        -- NPC is unknown here, so the whole derived cache goes.
+        QuestieDB._CreatureLevelCache = {}
+    elseif datatype == "Item" then
+        QuestieDB.ItemPointers = LibQuestieDB.Item.GetAllIds(true)
+        for itemId in pairs(changedIds) do
+            _QuestieDB.itemCache[itemId] = nil
+        end
+        -- Creature levels also derive from Item npcDrops reads (GetCreatureLevels), and which
+        -- quests reference a changed Item is unknown here — same rule as NPC writes.
+        QuestieDB._CreatureLevelCache = {}
+    elseif datatype == "Object" then
+        -- Objects are projected fresh on every GetObject, so only the ID map is rebound.
+        QuestieDB.ObjectPointers = LibQuestieDB.Object.GetAllIds(true)
+    else
+        error("RefreshAfterCorrectionApply: unknown datatype " .. tostring(datatype), 2)
+    end
 end
 
 ---@param objectId ObjectId
@@ -353,11 +349,7 @@ function QuestieDB:GetObject(objectId)
     if not objectId then
         return nil
     end
-    if _QuestieDB.objectCache[objectId] then
-        return _QuestieDB.objectCache[objectId];
-    end
 
-    --local rawdata = QuestieDB.objectData[objectId];
     local rawdata = QuestieDB.QueryObject(objectId, QuestieDB._objectAdapterQueryOrder)
 
     if not rawdata then
@@ -373,7 +365,6 @@ function QuestieDB:GetObject(objectId)
     for stringKey, intKey in pairs(QuestieDB.objectKeys) do
         obj[stringKey] = rawdata[intKey]
     end
-    --_QuestieDB.objectCache[objectId] = obj;
     return obj;
 end
 
@@ -424,6 +415,7 @@ function QuestieDB:GetItem(itemId)
                 sources[#sources + 1] = {
                     Id = npcId,
                     Type = "monster",
+                    Vendor = true,
                 }
             end
         end
@@ -561,6 +553,35 @@ function QuestieDB:GetZoneOrSortForClass(class)
 end
 
 local questTagInfoCache = {}
+local questTagRetryQueue = {}
+local questTagRetryTimer = false
+
+local function ProcessQuestTagRetry()
+    questTagRetryTimer = false
+
+    local queue = questTagRetryQueue
+    questTagRetryQueue = {}
+
+    for questId in pairs(queue) do
+        local questTagId, questTagName = QuestieCompat.GetQuestTagInfo(questId)
+
+        questTagInfoCache[questId] = {
+            questTagId,
+            questTagName,
+        }
+    end
+end
+
+local function ScheduleQuestTagRetry(questId)
+    questTagRetryQueue[questId] = true
+
+    if questTagRetryTimer then
+        return
+    end
+
+    questTagRetryTimer = true
+    C_Timer.After(1, ProcessQuestTagRetry)
+end
 
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard and cache the results.
@@ -568,29 +589,29 @@ local questTagInfoCache = {}
 ---@return number|nil questTagId
 ---@return string|nil questTagName
 function QuestieDB.GetQuestTagInfo(questId)
-    if questTagInfoCache[questId] then
-        return questTagInfoCache[questId][1], questTagInfoCache[questId][2]
+    local cached = questTagInfoCache[questId]
+
+    if cached then
+        return cached[1], cached[2]
     end
 
-    local questTagCorrections = _QuestieDB.questTagCorrections
-    local questTagId, questTagName
-    if questTagCorrections[questId] then
-        questTagId, questTagName = questTagCorrections[questId][1], questTagCorrections[questId][2]
-    else
-        questTagId, questTagName = GetQuestTagInfo(questId)
+    local correction = _QuestieDB.questTagCorrections[questId]
 
-        if questTagId == nil and questTagName == nil then
-            -- Retry the API call after a short delay, as the API tends to incorrectly return nil on the first call.
-            -- Doing it here asserts, we only call the API twice per quest at most.
-            C_Timer.After(1, function()
-                local retryQuestTagId, retryQuestTagName = GetQuestTagInfo(questId)
-                questTagInfoCache[questId] = {retryQuestTagId, retryQuestTagName}
-            end)
-        end
+    if correction then
+        questTagInfoCache[questId] = correction
+        return correction[1], correction[2]
     end
 
-    -- cache the result to avoid hitting the API throttling limit
-    questTagInfoCache[questId] = {questTagId, questTagName}
+    local questTagId, questTagName = QuestieCompat.GetQuestTagInfo(questId)
+
+    questTagInfoCache[questId] = {
+        questTagId,
+        questTagName,
+    }
+
+    if questTagId == nil and questTagName == nil then
+        ScheduleQuestTagRetry(questId)
+    end
 
     return questTagId, questTagName
 end
@@ -610,7 +631,7 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     end
 
     for _, exId in pairs(exclusiveTo) do
-        if Questie.db.char.complete[exId] or QuestiePlayer.currentQuestlog[exId] then
+        if Questie.db.char.complete[exId] or ActiveQuests.Get(exId) then
             return true
         end
     end
@@ -689,7 +710,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     -- IsDoableVerbose is only called manually by the user.
 
     local completedQuests = Questie.db.char.complete
-    local currentQuestlog = QuestiePlayer.currentQuestlog
+    local activeQuests = ActiveQuests.GetAll()
 
     -- These are localized in the init function
     if completedQuests[questId] then
@@ -802,7 +823,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuest and parentQuest ~= 0 then
-        if not currentQuestlog[parentQuest] then
+        if not activeQuests[parentQuest] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " has an inactive parent quest") end
             return false
         end
@@ -810,7 +831,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
     if nextQuestInChain and nextQuestInChain ~= 0 then
-        if completedQuests[nextQuestInChain] or currentQuestlog[nextQuestInChain] then
+        if completedQuests[nextQuestInChain] or activeQuests[nextQuestInChain] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Follow up quests already completed or in the quest log for quest " .. questId) end
             return false
         end
@@ -821,7 +842,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
-            if completedQuests[v] or currentQuestlog[v] then
+            if completedQuests[v] or activeQuests[v] then
                 if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player has completed a quest exclusive with quest " .. questId) end
                 return false
             end
@@ -859,7 +880,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
         -- Check the target quest of this breadcrumb
-        if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
+        if completedQuests[breadcrumbForQuestId] or activeQuests[breadcrumbForQuestId] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Target of breadcrumb quest already completed or in the quest log for quest " .. questId) end
             return false
         end
@@ -867,7 +888,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         --[[ Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
         for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do -- TODO: Remove `or {}` when we have a validation for the breadcrumb data
-            if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
+            if breadcrumbId ~= questId and activeQuests[breadcrumbId] then
                 if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Alternative breadcrumb quest in the quest log for quest " .. questId) end
                 return false
             end
@@ -878,7 +899,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
-            if QuestiePlayer.currentQuestlog[breadcrumbId] then
+            if activeQuests[breadcrumbId] then
                 if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Breadcrumb quest " .. breadcrumbId .. " in the quest log for quest " .. questId) end
                 return false
             end
@@ -889,14 +910,14 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
     if disabledByQuest and disabledByQuest ~= 0 then
         -- Check the disabling quest is active
-        if QuestiePlayer.currentQuestlog[disabledByQuest] then
+        if activeQuests[disabledByQuest] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Disabling quest " .. disabledByQuest .. " in the quest log for quest " .. questId) end
             return false
         end
     end
 
     -- Check if this quest is not detected as active from the NPC/object itself
-    if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
+    if DailyQuests.ShouldBeHidden(questId, completedQuests, activeQuests) then
         if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Daily quest " .. questId .. " is not active") end
         return false
     end
@@ -914,7 +935,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     -- In order to not mess with the existing logic for preQuestSingle, this field must be accompanied by preQuestSingle
     local availableStartingWith = QuestieDB.QueryQuestSingle(questId, "availableStartingWith")
     if availableStartingWith and availableStartingWith ~= 0 then
-        if not completedQuests[availableStartingWith] and not currentQuestlog[availableStartingWith] then
+        if not completedQuests[availableStartingWith] and not activeQuests[availableStartingWith] then
             if debugPrint then Questie.Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Quest " .. questId .. " is not available because " .. availableStartingWith .. " is not active/turned in!") end
             return false
         end
@@ -961,7 +982,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- IsDoableVerbose is only called manually by the user.
 
     local completedQuests = Questie.db.char.complete
-    local currentQuestlog = QuestiePlayer.currentQuestlog
+    local activeQuests = ActiveQuests.GetAll()
     local DoableStates = QuestieDB.DoableStates
     local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
 
@@ -1058,6 +1079,31 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
+    -- Check if this quest has a quest that disables it while in quest log
+    local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
+    if disabledByQuest and disabledByQuest ~= 0 then
+        -- Check the disabling quest is active
+        if activeQuests[disabledByQuest] then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest is active"), true, DoableStates.DISABLED_BY
+            elseif returnText and not returnBrief then
+                return "Disabling quest " .. disabledByQuest .. " is in the quest log for quest " .. questId, true, DoableStates.DISABLED_BY
+            end
+        end
+    end
+
+    -- Check if this quest is visible until you turn in a certain quest
+    local availableUntilCompleted = QuestieDB.QueryQuestSingle(questId, "availableUntilCompleted")
+    if availableUntilCompleted and availableUntilCompleted ~= 0 then
+        if completedQuests[availableUntilCompleted] then
+            if returnText and returnBrief then
+                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest already turned in"), true, DoableStates.DISABLING_QUEST_COMPLETED
+            elseif returnText and not returnBrief then
+                return "Quest " .. questId .. " is not available because " .. availableUntilCompleted .. " has been turned in", true, DoableStates.DISABLING_QUEST_COMPLETED
+            end
+        end
+    end
+
     -- Check if a quest which is exclusive to the current has already been completed or accepted
     -- If yes the current quest can't be accepted
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
@@ -1070,7 +1116,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
                 elseif returnText and not returnBrief then
                     return msg, true, DoableStates.EXCLUSIVE_COMPLETED
                 end
-            elseif currentQuestlog[v] then
+            elseif activeQuests[v] then
                 local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. v .. " is in the quest log"
                 if returnText and returnBrief then
                     return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest in quest log"), true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
@@ -1175,7 +1221,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
         -- Check the follow up quest of this breadcrumb
-        if completedQuests[breadcrumbForQuestId] or currentQuestlog[breadcrumbForQuestId] then
+        if completedQuests[breadcrumbForQuestId] or activeQuests[breadcrumbForQuestId] then
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Follow up quest active or completed"), true, DoableStates.BREADCRUMB_FOLLOWUP
             elseif returnText and not returnBrief then
@@ -1186,7 +1232,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         --[[ Check if the other breadcrumbs are active
         local otherBreadcrumbs = QuestieDB.QueryQuestSingle(breadcrumbForQuestId, "breadcrumbs")
         for _, breadcrumbId in ipairs(otherBreadcrumbs or {}) do
-            if breadcrumbId ~= questId and currentQuestlog[breadcrumbId] then
+            if breadcrumbId ~= questId and activeQuests[breadcrumbId] then
                 if returnText and returnBrief then
                     return l10n("Unavailable")..l10n(": ")..l10n("Another breadcrumb is active"), true, DoableStates.EXCLUSIVE_BREADCRUMB
                 elseif returnText and not returnBrief then
@@ -1226,6 +1272,31 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
     if preQuestSingle then
+        -- Edge case where the one prequest is not doable (locked out by an exclusive quest), so this quest is completely unavailable
+        if #preQuestSingle == 1 and not completedQuests[preQuestSingle[1]] then
+            ---@type QuestId[]?
+            local preQuestSingleExclusives = QuestieDB.QueryQuestSingle(preQuestSingle[1], "exclusiveTo")
+            if preQuestSingleExclusives then
+                for preQuestSingleExclusivesIndex=1, #preQuestSingleExclusives do
+                    if completedQuests[preQuestSingleExclusives[preQuestSingleExclusivesIndex]] then
+                        local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. preQuestSingleExclusives[preQuestSingleExclusivesIndex] .. " is completed"
+                        if returnText and returnBrief then
+                            return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest completed"), true, DoableStates.EXCLUSIVE_COMPLETED
+                        elseif returnText and not returnBrief then
+                            return msg, true, DoableStates.EXCLUSIVE_COMPLETED
+                        end
+                    elseif activeQuests[preQuestSingleExclusives[preQuestSingleExclusivesIndex]] then
+                        local msg = "Quest " .. questId .. " is unavailable because exclusive quest " .. preQuestSingleExclusives[preQuestSingleExclusivesIndex] .. " is in the quest log"
+                        if returnText and returnBrief then
+                            return l10n("Unavailable")..l10n(": ")..l10n("Exclusive quest in quest log"), true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
+                        elseif returnText and not returnBrief then
+                            return msg, true, DoableStates.EXCLUSIVE_IN_QUEST_LOG
+                        end
+                    end
+                end
+            end
+        end
+
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         if not isPreQuestSingleFulfilled then
             local msg = "Pre-quest requirement not fulfilled for quest " .. questId
@@ -1254,7 +1325,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check parent quests
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuest and parentQuest ~= 0 then
-        if not currentQuestlog[parentQuest] then
+        if not activeQuests[parentQuest] then
             local msg = "Quest " .. questId .. " has an inactive parent quest: " .. parentQuest
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Inactive parent"), true, DoableStates.PARENT_INACTIVE
@@ -1267,7 +1338,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     -- Check if it has nextQuestInChain completed or in quest log
     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
     if nextQuestInChain and nextQuestInChain ~= 0 then
-        if completedQuests[nextQuestInChain] or currentQuestlog[nextQuestInChain] then
+        if completedQuests[nextQuestInChain] or activeQuests[nextQuestInChain] then
             local msg = "Follow up quest " .. nextQuestInChain .. " already completed or in the quest log for quest " .. questId
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Later quest completed or active"), true, DoableStates.NEXTQUESTINCHAIN_ACTIVE_OR_COMPLETED
@@ -1312,7 +1383,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
     local breadcrumbs = QuestieDB.QueryQuestSingle(questId, "breadcrumbs")
     if breadcrumbs then
         for _, breadcrumbId in ipairs(breadcrumbs) do
-            if currentQuestlog[breadcrumbId] then
+            if activeQuests[breadcrumbId] then
                 if returnText and returnBrief then
                     return l10n("Unavailable")..l10n(": ")..l10n("A breadcrumb is active"), true, DoableStates.BREADCRUMB_ACTIVE
                 elseif returnText and not returnBrief then
@@ -1322,21 +1393,8 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    -- Check if this quest has a quest that disables it while in quest log
-    local disabledByQuest = QuestieDB.QueryQuestSingle(questId, "disabledByQuest")
-    if disabledByQuest and disabledByQuest ~= 0 then
-        -- Check the disabling quest is active
-        if currentQuestlog[disabledByQuest] then
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest is active"), true, DoableStates.DISABLED_BY
-            elseif returnText and not returnBrief then
-                return "Disabling quest " .. disabledByQuest .. " is in the quest log for quest " .. questId, true, DoableStates.DISABLED_BY
-            end
-        end
-    end
-
     -- Daily quest not active (based on ShouldBeHidden)
-    if DailyQuests.ShouldBeHidden(questId, completedQuests, currentQuestlog) then
+    if DailyQuests.ShouldBeHidden(questId, completedQuests, activeQuests) then
         if returnText and returnBrief then
             return l10n("Unavailable")..l10n(": ")..l10n("Daily quest not active"), true, DoableStates.INACTIVE_DAILY
         elseif returnText then
@@ -1344,22 +1402,10 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
         end
     end
 
-    -- Check if this quest is visible until you turn in a certain quest
-    local availableUntilCompleted = QuestieDB.QueryQuestSingle(questId, "availableUntilCompleted")
-    if availableUntilCompleted and availableUntilCompleted ~= 0 then
-        if completedQuests[availableUntilCompleted] then
-            if returnText and returnBrief then
-                return l10n("Unavailable")..l10n(": ")..l10n("Disabling quest already turned in"), true, DoableStates.DISABLING_QUEST_COMPLETED
-            elseif returnText and not returnBrief then
-                return "Quest " .. questId .. " is not available because " .. availableUntilCompleted .. " has been turned in", true, DoableStates.DISABLING_QUEST_COMPLETED
-            end
-        end
-    end
-
     -- Check if this quest is visible if you have a certain quest in log or turned in (slightly different to preQuestSingle)
     local availableStartingWith = QuestieDB.QueryQuestSingle(questId, "availableStartingWith")
     if availableStartingWith and availableStartingWith ~= 0 then
-        if not completedQuests[availableStartingWith] and not currentQuestlog[availableStartingWith] then
+        if not completedQuests[availableStartingWith] and not activeQuests[availableStartingWith] then
             if returnText and returnBrief then
                 return l10n("Unavailable")..l10n(": ")..l10n("Enabling quest not active nor turned in"), true, DoableStates.ENABLING_QUEST_MISSING
             elseif returnText and not returnBrief then
@@ -1404,17 +1450,21 @@ end
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB.IsComplete(questId)
     local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
-    local noQuestItem = not QuestieQuest:CheckQuestSourceItem(questId, false)
 
-    --[[ pseudo:
-    if no questLogEntry then return 0
-    if has questLogEntry.isComplete then return questLogEntry.isComplete
-    if no objectives and an item is needed but not obtained then return 0
-    if no objectives then return 1
-    return 0
-    --]]
-
-    return questLogEntry and (questLogEntry.isComplete or (questLogEntry.objectives[1] and 0) or (#questLogEntry.objectives == 0 and noQuestItem and 0) or 1) or 0
+    if (not questLogEntry) then
+        return 0
+    end
+    if questLogEntry.isComplete then
+        return questLogEntry.isComplete
+    end
+    if questLogEntry.objectives[1] then
+        return 0
+    end
+    -- Only checked last, because it looks up the quest and the player's items
+    if (not QuestieQuest:CheckQuestSourceItem(questId, false)) then
+        return 0
+    end
+    return 1
 end
 
 ---@param self Quest
@@ -1423,9 +1473,14 @@ local function _IsComplete(self)
     return QuestieDB.IsComplete(self.Id)
 end
 
----@param questLevel number the level of the quest
+---@param questLevel number? the level of the quest
 ---@return boolean @Returns true if the quest should be grey, false otherwise
 function QuestieDB.IsTrivial(questLevel)
+    if questLevel == nil then
+        -- We assume unknown quests are not trivial
+        return false
+    end
+
     if questLevel == -1 then
         return false -- Scaling quests are never trivial
     end
@@ -1437,7 +1492,7 @@ function QuestieDB.IsTrivial(questLevel)
         return false -- Orange
     elseif (levelDiff >= -2) then
         return false -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+    elseif (-levelDiff <= QuestieCompat.GetQuestGreenRange("player")) then
         return false -- Green
     else
         return true -- Grey
@@ -1582,7 +1637,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = objectObjective[2],
                         Icon = objectObjective[3]
                     }
-                    if QuestieCorrections.objectObjectiveFirst[questId] then
+                    if QuestieDB.objectObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, objectObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = objectObjectiveData
@@ -1603,7 +1658,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                         Text = itemObjective[2],
                         Icon = itemObjective[3]
                     }
-                    if QuestieCorrections.itemObjectiveFirst[questId] then
+                    if QuestieDB.itemObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, itemObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = itemObjectiveData
@@ -1635,7 +1690,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
                 --? There are quest(s) which have the killCredit first so we need to switch them
                 -- Place the kill credit objective first
-                if QuestieCorrections.killCreditObjectiveFirst[questId] then
+                if QuestieDB.killCreditObjectiveFirst[questId] then
                     tinsert(QO.ObjectiveData, 1, killCreditObjective)
                 else
                     QO.ObjectiveData[#QO.ObjectiveData+1] = killCreditObjective
@@ -1656,7 +1711,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
                     --? There are quest(s) which have the spellObjective first so we need to switch them
                     -- Place the spell objective first
-                    if QuestieCorrections.spellObjectiveFirst[questId] then
+                    if QuestieDB.spellObjectiveFirst[questId] then
                         tinsert(QO.ObjectiveData, 1, spellObjectiveData)
                     else
                         QO.ObjectiveData[#QO.ObjectiveData+1] = spellObjectiveData
@@ -1675,7 +1730,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
-        if QuestieCorrections.eventObjectiveFirst[questId] then
+        if QuestieDB.eventObjectiveFirst[questId] then
             tinsert(QO.ObjectiveData, 1, triggerEndObjective)
         else
             QO.ObjectiveData[#QO.ObjectiveData+1] = triggerEndObjective
@@ -1762,7 +1817,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     return QO
 end
 
-QuestieDB._CreatureLevelCache = {}
 ---@param quest Quest
 ---@return table<string, table> @List of creature names with their min-max level and rank
 function QuestieDB:GetCreatureLevels(quest)
@@ -1877,21 +1931,6 @@ function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
     end
 
     return false
-end
-
----------------------------------------------------------------------------------------------------
--- Modifications to objectDB
-function _QuestieDB:DeleteGatheringNodes()
-    local prune = { -- gathering nodes
-        1617,1618,1619,1620,1621,1622,1623,1624,1628, -- herbs
-
-        1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
-    }
-    local objectSpawnsKey = QuestieDB.objectKeys.spawns
-    for i=1, #prune do
-        local id = prune[i]
-        QuestieDB.objectData[id][objectSpawnsKey] = nil
-    end
 end
 
 ---------------------------------------------------------------------------------------------------
@@ -2099,26 +2138,6 @@ function _QuestieDB:CheckAchievementRequirements(questId)
     end
 end
 
-function _QuestieDB:HideClassAndRaceQuests()
-    local questKeys = QuestieDB.questKeys
-    for _, entry in pairs(QuestieDB.questData) do
-        -- check requirements, set hidden flag if not met
-        local requiredClasses = entry[questKeys.requiredClasses]
-        if (requiredClasses) and (requiredClasses ~= 0) then
-            if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
-                entry.hidden = true
-            end
-        end
-        local requiredRaces = entry[questKeys.requiredRaces]
-        if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
-            if (not QuestiePlayer.HasRequiredRace(requiredRaces)) then
-                entry.hidden = true
-            end
-        end
-    end
-    Questie.Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
-end
-
 -- This function is intended for usage with Gossip and Greeting frames, where there's a list of quests but no QuestIDs are
 -- obtainable until entering the specific quest dialog.
 -- This is a bruteforce method for obtaining a QuestID with no input other than a quest name, and the ID of the questgiver.
@@ -2158,7 +2177,7 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
         else
             if questsEnded then
                 for _, id in pairs(questsEnded) do
-                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) and QuestiePlayer.currentQuestlog[id] then
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) and ActiveQuests.Get(id) then
                         questID = id
                     end
                 end
@@ -2169,9 +2188,3 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
     end
     return questID;
 end
-
-QuestieDB.waypointPresets = {
-    ORGRIMS_HAMMER = {[ZoneDB.zoneIDs.ICECROWN]={{{62.37,30.60},{61.93,30.93},{61.48,31.24},{61.08,31.55},{60.74,31.92},{60.46,32.44},{60.26,33.11},{60.14,33.85},{60.11,34.63},{60.17,35.35},{60.31,36.01},{60.56,36.66},{60.84,37.33},{61.15,38.00},{61.44,38.67},{61.71,39.28},{62.00,39.92},{62.31,40.55},{62.60,41.20},{62.90,41.83},{63.05,42.20},{63.33,42.85},{63.58,43.53},{63.85,44.19},{64.08,44.86},{64.33,45.50},{64.45,45.87},{64.69,46.56},{64.94,47.21},{65.16,47.87},{65.43,48.51},{65.71,49.15},{66.03,49.77},{66.36,50.46},{66.72,51.10},{67.07,51.67},{67.41,52.08},{67.82,52.37},{68.31,52.47},{68.80,52.38},{69.23,51.98},{69.45,51.56},{69.57,51.13},{69.67,50.59},{69.73,49.96},{69.77,49.26},{69.79,48.48},{69.80,47.62},{69.79,46.68},{69.79,45.68},{69.78,44.90},{69.78,44.25},{69.76,43.55},{69.75,42.80},{69.72,42.01},{69.70,41.20},{69.67,40.38},{69.64,39.54},{69.61,38.71},{69.58,37.88},{69.55,37.07},{69.52,36.28},{69.49,35.54},{69.46,34.83},{69.45,34.18},{69.42,33.50},{69.41,32.46},{69.42,31.52},{69.45,30.67},{69.47,29.92},{69.48,29.25},{69.46,28.65},{69.42,28.12},{69.35,27.83},{69.11,27.19},{68.71,26.77},{68.23,26.54},{67.71,26.51},{67.24,26.55},{66.81,26.76},{66.35,27.09},{65.90,27.52},{65.44,27.95},{65.01,28.39},{64.58,28.73},{64.16,29.10},{63.74,29.43},{63.34,29.79},{62.94,30.11},{62.65,30.37},{62.37,30.60}}}},
-    THE_SKYBREAKER = {[ZoneDB.zoneIDs.ICECROWN]={{{63.59,52.34},{63.44,51.88},{63.30,51.52},{63.15,51.19},{63.01,50.85},{62.85,50.52},{62.68,50.17},{62.50,49.78},{62.31,49.36},{62.09,48.88},{61.86,48.33},{61.81,48.20},{61.67,47.88},{61.52,47.52},{61.37,47.13},{61.19,46.74},{61.02,46.32},{60.84,45.88},{60.65,45.44},{60.46,44.99},{60.28,44.53},{60.09,44.08},{59.90,43.63},{59.72,43.18},{59.54,42.75},{59.36,42.34},{59.20,41.94},{59.04,41.56},{58.89,41.22},{58.75,40.87},{58.52,40.30},{58.32,39.77},{58.14,39.27},{57.97,38.80},{57.81,38.39},{57.65,38.03},{57.49,37.72},{57.31,37.50},{57.12,37.34},{56.87,37.29},{56.57,37.39},{56.27,37.60},{55.97,37.88},{55.72,38.23},{55.53,38.61},{55.43,38.95},{55.43,39.09},{55.46,39.49},{55.52,39.92},{55.62,40.39},{55.76,40.88},{55.89,41.38},{56.02,41.85},{56.17,42.25},{56.33,42.68},{56.51,43.13},{56.70,43.56},{56.88,43.99},{57.05,44.39},{57.22,44.74},{57.42,45.15},{57.64,45.52},{57.83,45.81},{58.03,46.14},{58.23,46.56},{58.41,46.90},{58.60,47.25},{58.80,47.62},{59.00,48.03},{59.19,48.46},{59.36,48.84},{59.53,49.22},{59.69,49.63},{59.86,50.04},{60.03,50.46},{60.19,50.90},{60.36,51.32},{60.51,51.74},{60.65,52.17},{60.79,52.59},{60.94,53.02},{61.07,53.46},{61.23,53.89},{61.39,54.30},{61.55,54.72},{61.70,55.18},{61.88,55.65},{62.05,56.14},{62.23,56.58},{62.43,56.95},{62.65,57.21},{62.87,57.30},{62.95,57.27},{63.22,57.16},{63.52,56.97},{63.81,56.68},{64.07,56.32},{64.26,55.91},{64.33,55.47},{64.30,55.11},{64.25,54.72},{64.16,54.30},{64.04,53.84},{63.91,53.36},{63.76,52.88},{63.59,52.34}}}},
-    ALLIANCE_GUNSHIP = {[ZoneDB.zoneIDs.DEEPHOLM]={{{61.79,46.28},{61.68,45.72},{61.55,45.10},{61.45,44.56},{61.34,43.97},{61.22,43.46},{61.13,42.90},{61.06,42.23},{60.98,41.63},{60.90,40.98},{60.84,40.28},{60.81,39.59},{60.84,38.98},{60.99,38.55},{61.33,38.23},{61.75,38.04},{62.21,38.04},{62.62,38.33},{62.82,38.82},{62.95,39.32},{63.07,39.93},{63.19,40.61},{63.30,41.31},{63.40,41.98},{63.49,42.57},{63.60,43.23},{63.69,43.90},{63.77,44.48},{63.85,44.98},{63.95,45.61},{64.05,46.15},{64.22,46.69},{64.31,47.26},{64.40,47.87},{64.47,48.40},{64.54,49.02},{64.62,49.71},{64.69,50.29},{64.76,50.96},{64.82,51.65},{64.84,52.29},{64.77,52.81},{64.59,53.41},{64.29,53.74},{63.93,53.82},{63.58,53.79},{63.15,53.70},{62.72,53.51},{62.42,53.16},{62.32,52.68},{62.27,52.08},{62.23,51.41},{62.20,50.75},{62.18,50.12},{62.22,49.50},{62.23,48.90},{62.19,48.31},{62.09,47.73},{61.97,47.12},{61.83,46.50},{61.79,46.28}}}},
-}

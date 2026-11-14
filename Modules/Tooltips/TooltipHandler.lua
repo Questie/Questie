@@ -9,16 +9,24 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local lastGuid
 
+-- Forever can hide unit and tooltip values, inside instances and for some tooltips in combat. The lookups
+-- below test, compare and split them, so a secret value must be checked before any of that.
+local function _IsSecret(value)
+    return issecretvalue and issecretvalue(value)
+end
+
 function _QuestieTooltips:AddUnitDataToTooltip()
     if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 
     local name, unitToken = self:GetUnit();
-    if not unitToken then return end
+    if _IsSecret(name) or _IsSecret(unitToken) or not unitToken then return end
     local guid = UnitGUID(unitToken);
+    if _IsSecret(guid) then return end
     if (not guid) then
         guid = UnitGUID("mouseover");
+        if _IsSecret(guid) then return end
     end
 
     local type, _, _, _, _, npcId, _ = strsplit("-", guid or "");
@@ -61,9 +69,11 @@ function _QuestieTooltips:AddItemDataToTooltip()
     end
 
     local name, link = self:GetItem()
+    if _IsSecret(name) or _IsSecret(link) then return end
     local itemId
     if link then
-        itemId = select(3, string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"))
+        -- Read the payload independently of legacy hex colors or modern named colors such as |cnIQ1:.
+        itemId = string.match(link, "item:(%d+)")
     end
     if name and itemId and (
         name ~= QuestieTooltips.lastGametooltipItem or
@@ -75,7 +85,8 @@ function _QuestieTooltips:AddItemDataToTooltip()
     ) then
         QuestieTooltips.lastGametooltipItem = name
         if Questie.db.profile.enableTooltipsItemID then
-            GameTooltip:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
+            -- A clicked item link shows in ItemRefTooltip; its ID belongs there, not on the hover tooltip.
+            self:AddDoubleLine(l10n("Item ID"), "|cFFFFFFFF" .. itemId .. "|r")
         end
 
         if (not checkedQuestStartItems[itemId]) then
@@ -103,38 +114,65 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
+---Adds the Spell ID line. The ID goes to the tooltip exactly as received: a secret ID from Forever is never
+---read, compared, converted or concatenated, so only the native renderer sees its value.
+---@param tooltip GameTooltip
+---@param spellId any @Possibly secret on Forever
+---@return nil
+function _QuestieTooltips.AddSpellIdToTooltip(tooltip, spellId)
+    if (tooltip.IsForbidden and tooltip:IsForbidden()) or (not Questie.db.profile.enableTooltips)
+        or (not Questie.db.profile.enableTooltipsSpellID) then
+        return
+    end
+
+    -- Colors are arguments rather than markup around the ID: gold label, white value, like the other ID lines.
+    if _IsSecret(spellId) then
+        -- Rendering is the only use of a secret. If the client refuses it, the tooltip simply has no ID line.
+        pcall(tooltip.AddDoubleLine, tooltip, l10n("Spell ID"), spellId, 1, 0.82, 0, 1, 1, 1)
+    elseif type(spellId) == "number" then
+        tooltip:AddDoubleLine(l10n("Spell ID"), spellId, 1, 0.82, 0, 1, 1, 1)
+    end
+end
+
+---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
+---The caller owns showing/resizing the tooltip after its native render pass.
 ---@param name string
 ---@param playerZone AreaId
+---@return nil
 function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
     if (not Questie.db.profile.enableTooltips) or (not name) then
         return
     end
 
-    local lookup = l10n.objectNameLookup[name] or {}
-    local count = table.getn(lookup)
-
-    if Questie.db.profile.enableTooltipsObjectID == true and count > 0 then
+    -- Name ambiguity depends on all provider Objects, even when the Object ID line is disabled.
+    -- Login Initialization warms the provider index.
+    local ids = LibQuestieDB.Object.IdsByName(name)
+    local count = ids and #ids or 0
+    if Questie.db.profile.enableTooltipsObjectID then
         if count == 1 then
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. "|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. "|r")
         elseif count > 10 and (not Questie.db.profile.debugEnabled) then
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (10+)|r")
-        else
-            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. lookup[1] .. " (" .. count .. ")|r")
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. " (10+)|r")
+        elseif count > 1 then
+            GameTooltip:AddDoubleLine(l10n("Object ID"), "|cFFFFFFFF" .. ids[1] .. " (" .. count .. ")|r")
         end
     end
 
+    -- Only a provider-wide unique name can bypass zone disambiguation (0 = any zone).
+    local zoneFilter = count == 1 and 0 or playerZone
+
     local addedObjects = 0
     local alreadyAddedObjectiveLines = {}
-    for _, gameObjectId in pairs(lookup) do
-        if count > 10 and addedObjects >= 10 then
-            -- only show 10 tooltips
+    -- GetTooltip checks local and Comms registrations; party-only Objects need no local registration.
+    for _, gameObjectId in ipairs(ids or {}) do
+        if addedObjects >= 10 then
             break
         end
 
-        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, playerZone);
-        if tooltipData then
-            for _, line in pairs (tooltipData) do
-                if (not alreadyAddedObjectiveLines[line]) then
+        local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, zoneFilter)
+        if tooltipData and next(tooltipData) then
+            for _, line in pairs(tooltipData) do
+                if not alreadyAddedObjectiveLines[line] then
                     alreadyAddedObjectiveLines[line] = true
                     GameTooltip:AddLine(line)
                 end
@@ -142,15 +180,17 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
             addedObjects = addedObjects + 1
         end
     end
-    GameTooltip:Show()
-    QuestieTooltips.lastGametooltipType = "object";
+
+    QuestieTooltips.lastGametooltipType = "object"
 end
 
 function _QuestieTooltips:CountTooltip()
     local tooltipCount = 0
     for i = 1, GameTooltip:NumLines() do
         local frame = _G["GameTooltipTextLeft"..i]
-        if frame and frame:GetText() then
+        local text = frame and frame:GetText()
+        -- A secret native row still occupies a line; count it without testing its text.
+        if _IsSecret(text) or text then
             tooltipCount = tooltipCount + 1
         else
             return tooltipCount

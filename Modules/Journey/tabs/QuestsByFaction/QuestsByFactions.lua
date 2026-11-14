@@ -24,6 +24,8 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local QuestieJourneyFactions = QuestieLoader:ImportModule("QuestieJourneyFactions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
@@ -349,11 +351,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         local quest = QuestieDB.GetQuest(questId)
 
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            if Questie.db.profile.trackerShowQuestLevel then
-                ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(quest.Id))
-            else
-                ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
-            end
+            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
         end
 
         QuestDetailsFrame:Draw(scrollFrame, quest)
@@ -428,7 +426,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
             temp.iconSize = 14
             temp.useIconGutter = true
             temp.iconGutterOffset = -3
-            if QuestiePlayer.currentQuestlog[questId] then
+            if ActiveQuests.Get(questId) then
                 if QuestieDB.IsComplete(questId) == 1 then
                     temp.icon = Questie.icons["complete"]
                 else
@@ -495,9 +493,11 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         local childQuestExclusiveTo = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
                         local blockedByExclusiveTo = false
                         for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
-                            if QuestiePlayer.currentQuestlog[exclusiveToQuestId] or Questie.db.char.complete[exclusiveToQuestId] then
+                            if ActiveQuests.Get(exclusiveToQuestId) or Questie.db.char.complete[exclusiveToQuestId] then
                                 tinsert(factionTree[4].children, temp)
                                 completedCounter = completedCounter + 1
+                                blockedByExclusiveTo = true
+                                break
                             end
                         end
                         if (not blockedByExclusiveTo) then
@@ -586,7 +586,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                             local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
                             if exclusivePreQuests then
                                 for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
-                                    if not questDecidedCategory and (Questie.db.char.complete[exclusivePreQuestId] or QuestiePlayer.currentQuestlog[exclusivePreQuestId]) then
+                                    if not questDecidedCategory and (Questie.db.char.complete[exclusivePreQuestId] or ActiveQuests.Get(exclusivePreQuestId)) then
                                         tinsert(factionTree[6].children, temp)
                                         unobtainableCounter = unobtainableCounter + 1
                                         questDecidedCategory = true
@@ -601,7 +601,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                         local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
                         if exclusiveFollowups then
                             for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
-                                if not questDecidedCategory and (Questie.db.char.complete[exclusiveFollowupId] or QuestiePlayer.currentQuestlog[exclusiveFollowupId]) then
+                                if not questDecidedCategory and (Questie.db.char.complete[exclusiveFollowupId] or ActiveQuests.Get(exclusiveFollowupId)) then
                                     tinsert(factionTree[6].children, temp)
                                     unobtainableCounter = unobtainableCounter + 1
                                     questDecidedCategory = true
@@ -674,9 +674,9 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
                     tinsert(factionTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.DISABLED_BY then -- disabling quest is active
-                    tinsert(factionTree[5].children, temp)
+                    tinsert(factionTree[6].children, temp)
                     if not QuestieDB.IsRepeatable(questId) then
-                        prequestMissingCounter = prequestMissingCounter + 1
+                        unobtainableCounter = unobtainableCounter + 1
                     end
                 elseif returnReason == DoableStates.ARENA_RATING then -- missing arena rating
                     tinsert(factionTree[5].children, temp)

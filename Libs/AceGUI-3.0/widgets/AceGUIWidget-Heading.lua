@@ -1,7 +1,7 @@
 --[[-----------------------------------------------------------------------------
 Heading Widget
 -------------------------------------------------------------------------------]]
-local Type, Version = "Heading", 20
+local Type, Version = "Heading", 21
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -9,7 +9,7 @@ if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 local pairs = pairs
 
 -- WoW APIs
-local CreateFrame, UIParent = CreateFrame, UIParent
+local CreateFrame, UIParent, issecretvalue = CreateFrame, UIParent, issecretvalue
 
 --[[-----------------------------------------------------------------------------
 Methods
@@ -21,11 +21,16 @@ local methods = {
 		self:SetHeight(18)
 	end,
 
-	-- ["OnRelease"] = nil,
+	["OnRelease"] = function(self)
+		self.label:ClearText()
+		self.label:ClearAllPoints()
+		self.label:SetPoint("TOP")
+		self.label:SetPoint("BOTTOM")
+	end,
 
 	["SetText"] = function(self, text)
 		self.label:SetText(text or "")
-		if text and text ~= "" then
+		if issecretvalue(text) or (text and text ~= "") then
 			self.left:SetPoint("RIGHT", self.label, "LEFT", -5, 0)
 			self.right:Show()
 		else

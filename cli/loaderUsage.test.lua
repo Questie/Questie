@@ -147,7 +147,7 @@ function Something.Update()
         it("sees the runtime loader call the TOC-driven scan cannot", function()
             local findings = LoaderUsage.ScanBindingsXml("Bindings.xml")
 
-            assert.are_same(1, #findings)
+            assert.are_same(2, #findings)
             assert.are_same(3, findings[1].lineNumber)
             -- Exempted with a reason rather than invisible: a binding body has no file scope to hoist to.
             assert.is_true(findings[1].known)
@@ -169,11 +169,11 @@ function Something.Update()
 
     describe("the shipped codebase", function()
         local ALL_TOCS = {
-            "Questie-Classic.toc",
-            "Questie-BCC.toc",
-            "Questie-WOTLKC.toc",
-            "Questie-Cata.toc",
-            "Questie-Mists.toc",
+            "Questie_Vanilla.toc",
+            "Questie_TBC.toc",
+            "Questie_Wrath.toc",
+            "Questie_Cata.toc",
+            "Questie_Mists.toc",
         }
 
         it("has no runtime call outside the reviewed files", function()
@@ -201,14 +201,14 @@ function Something.Update()
 
     describe("ReadTocLuaPaths", function()
         it("returns lua entries in load order with forward slashes", function()
-            local paths = LoaderUsage.ReadTocLuaPaths("Questie-Classic.toc")
+            local paths = LoaderUsage.ReadTocLuaPaths("Questie_Vanilla.toc")
 
             assert.are_same("Modules/Libs/QuestieLoader.lua", paths[1])
             assert.is_true(#paths > 100)
         end)
 
         it("skips commented entries", function()
-            for _, path in ipairs(LoaderUsage.ReadTocLuaPaths("Questie-Classic.toc")) do
+            for _, path in ipairs(LoaderUsage.ReadTocLuaPaths("Questie_Vanilla.toc")) do
                 assert.are_same(nil, string.match(path, "^#"))
             end
         end)

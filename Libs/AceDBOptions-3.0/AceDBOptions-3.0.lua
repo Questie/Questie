@@ -1,8 +1,8 @@
 --- AceDBOptions-3.0 provides a universal AceConfig options screen for managing AceDB-3.0 profiles.
 -- @class file
 -- @name AceDBOptions-3.0
--- @release $Id: AceDBOptions-3.0.lua 1304 2023-05-19 19:50:10Z nevcairiel $
-local ACEDBO_MAJOR, ACEDBO_MINOR = "AceDBOptions-3.0", 15
+-- @release $Id: AceDBOptions-3.0.lua 1408 2026-09-03 15:37:56Z funkehdude $
+local ACEDBO_MAJOR, ACEDBO_MINOR = "AceDBOptions-3.0", 17
 local AceDBOptions = LibStub:NewLibrary(ACEDBO_MAJOR, ACEDBO_MINOR)
 
 if not AceDBOptions then return end -- No upgrade needed
@@ -33,6 +33,7 @@ local L = {
 	delete_desc = "Delete existing and unused profiles from the database to save space, and cleanup the SavedVariables file.",
 	delete_sub = "Deletes a profile from the database.",
 	intro = "You can change the active database profile, so you can have different settings for every character.",
+	name_too_long = "Profile names cannot be longer than 50 characters.",
 	new = "New",
 	new_sub = "Create a new empty profile.",
 	profiles = "Profiles",
@@ -56,6 +57,7 @@ if LOCALE == "deDE" then
 	L["delete_desc"] = "Lösche vorhandene oder unbenutzte Profile aus der Datenbank, um Platz zu sparen und die SavedVariables-Datei 'sauber' zu halten."
 	L["delete_sub"] = "Löscht ein Profil aus der Datenbank."
 	L["intro"] = "Hier kannst du das aktive Datenbankprofil ändern, damit du verschiedene Einstellungen für jeden Charakter erstellen kannst, wodurch eine sehr flexible Konfiguration möglich wird."
+	L["name_too_long"] = "Profilnamen können nicht länger als 50 Zeichen sein."
 	L["new"] = "Neu"
 	L["new_sub"] = "Ein neues Profil erstellen."
 	L["profiles"] = "Profile"
@@ -76,6 +78,7 @@ elseif LOCALE == "frFR" then
 	L["delete_desc"] = "Supprime les profils existants inutilisés de la base de données afin de gagner de la place et de nettoyer le fichier SavedVariables."
 	L["delete_sub"] = "Supprime un profil de la base de données."
 	L["intro"] = "Vous pouvez changer le profil actuel afin d'avoir des paramètres différents pour chaque personnage, permettant ainsi d'avoir une configuration très flexible."
+	L["name_too_long"] = "Les noms de profil ne peuvent pas dépasser 50 caractères."
 	L["new"] = "Nouveau"
 	L["new_sub"] = "Créée un nouveau profil vierge."
 	L["profiles"] = "Profils"
@@ -96,6 +99,7 @@ elseif LOCALE == "koKR" then
 	L["delete_desc"] = "데이터베이스에서 기존 프로필과 사용하지 않는 프로필을 삭제하여 공간을 절약하고 SavedVariables 파일을 정리합니다."
 	L["delete_sub"] = "데이터베이스에서 프로필을 삭제합니다."
 	L["intro"] = "활성 데이터베이스 프로필을 변경할 수 있으며, 모든 캐릭터마다 서로 다른 설정을 지정할 수 있습니다."
+	L["name_too_long"] = "프로필 이름은 50자리를 초과할 수 없습니다."
 	L["new"] = "새로운 프로필"
 	L["new_sub"] = "비어 있는 프로필을 새로 만듭니다."
 	L["profiles"] = "프로필"
@@ -116,6 +120,7 @@ elseif LOCALE == "esES" or LOCALE == "esMX" then
 	L["delete_desc"] = "Borra los perfiles existentes y sin uso de la base de datos para ganar espacio y limpiar el archivo SavedVariables."
 	L["delete_sub"] = "Borra un perfil de la base de datos."
 	L["intro"] = "Puedes cambiar el perfil activo de tal manera que cada personaje tenga diferentes configuraciones."
+	L["name_too_long"] = "Los nombres de perfil no pueden exceder los 50 caracteres."
 	L["new"] = "Nuevo"
 	L["new_sub"] = "Crear un nuevo perfil vacio."
 	L["profiles"] = "Perfiles"
@@ -136,6 +141,7 @@ elseif LOCALE == "zhTW" then
 	L["delete_desc"] = "從資料庫裡刪除不再使用的設定檔，以節省空間，並且清理 SavedVariables 檔案。"
 	L["delete_sub"] = "從資料庫裡刪除一個設定檔。"
 	L["intro"] = "您可以從資料庫中選擇一個設定檔來使用，如此就可以讓每個角色使用不同的設定。"
+	L["name_too_long"] = "設定檔名稱不能超過50個字元。"
 	L["new"] = "新建"
 	L["new_sub"] = "新建一個空的設定檔。"
 	L["profiles"] = "設定檔"
@@ -156,6 +162,7 @@ elseif LOCALE == "zhCN" then
 	L["delete_desc"] = "从数据库里删除不再使用的配置文件，以节省空间，并且清理SavedVariables文件。"
 	L["delete_sub"] = "从数据库里删除一个配置文件。"
 	L["intro"] = "你可以选择一个活动的数据配置文件，这样你的每个角色就可以拥有不同的设置值，可以给你的插件配置带来极大的灵活性。"
+	L["name_too_long"] = "配置文件名称不能超过50个字符。"
 	L["new"] = "新建"
 	L["new_sub"] = "新建一个空的配置文件。"
 	L["profiles"] = "配置文件"
@@ -176,6 +183,7 @@ elseif LOCALE == "ruRU" then
 	L["delete_desc"] = "Удаление существующего и неиспользуемого профиля из базы данных для сохранения места, и очистка файла SavedVariables."
 	L["delete_sub"] = "Удаление профиля из базы данных."
 	L["intro"] = "Изменяя активный профиль, Вы можете задать разные настройки для каждого персонажа."
+	L["name_too_long"] = "Имена профилей не могут превышать 50 символов."
 	L["new"] = "Новый"
 	L["new_sub"] = "Создание нового чистого профиля."
 	L["profiles"] = "Профили"
@@ -196,6 +204,7 @@ elseif LOCALE == "itIT" then
 	L["delete_desc"] = "Cancella i profili non utilizzati dal database per risparmiare spazio e mantenere puliti i file di configurazione SavedVariables."
 	L["delete_sub"] = "Cancella un profilo dal Database."
 	L["intro"] = "Puoi cambiare il profilo attivo, in modo da usare impostazioni diverse per ogni personaggio."
+	L["name_too_long"] = "Il nome del profilo non può superare i 50 caratteri."
 	L["new"] = "Nuovo"
 	L["new_sub"] = "Crea un nuovo profilo vuoto."
 	L["profiles"] = "Profili"
@@ -216,6 +225,7 @@ elseif LOCALE == "ptBR" then
 	L["delete_desc"] = "Remove perfis existentes e inutilizados do banco de dados para economizar espaço, e limpar o arquivo SavedVariables."
 	L["delete_sub"] = "Remove um perfil do banco de dados."
 	L["intro"] = "Você pode alterar o perfil do banco de dados ativo, para que possa ter definições diferentes para cada personagem."
+	L["name_too_long"] = "O nome do perfil não pode exceder 50 caracteres."
 	L["new"] = "Novo"
 	L["new_sub"] = "Cria um novo perfil vazio."
 	L["profiles"] = "Perfis"
@@ -346,6 +356,7 @@ end
 --[[
 	the real options table
 ]]
+local strlenutf8 = strlenutf8
 local optionsTable = {
 	desc = {
 		order = 1,
@@ -382,6 +393,15 @@ local optionsTable = {
 		order = 30,
 		get = false,
 		set = "SetProfile",
+		usage = L["name_too_long"],
+		validate = function(_, text)
+			local length = strlenutf8(text)
+			if length > 50 or length == 0 or text:find("^ +$") then
+				return false
+			end
+			return true
+		end,
+		width = 2,
 	},
 	choose = {
 		name = L["choose"],
@@ -392,6 +412,7 @@ local optionsTable = {
 		set = "SetProfile",
 		values = "ListProfiles",
 		arg = "common",
+		width = 2,
 	},
 	copydesc = {
 		order = 50,
@@ -408,6 +429,7 @@ local optionsTable = {
 		values = "ListProfiles",
 		disabled = "HasNoProfiles",
 		arg = "nocurrent",
+		width = 2,
 	},
 	deldesc = {
 		order = 70,
@@ -426,6 +448,7 @@ local optionsTable = {
 		arg = "nocurrent",
 		confirm = true,
 		confirmText = L["delete_confirm"],
+		width = 2,
 	},
 }
 

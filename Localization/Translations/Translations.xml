@@ -10,6 +10,7 @@
     <Script file="ExtraObjectives\TbcObjectives.lua"/>
     <Script file="ExtraObjectives\WotlkObjectives.lua"/>
     <Script file="ExtraObjectives\MopObjectives.lua"/>
+    <Script file="ExtraObjectives\ForeverObjectives.lua"/>
 
     <Script file="Journey\MyJourney.lua"/>
     <Script file="Journey\QuestsByZone.lua"/>
@@ -25,6 +26,7 @@
     <Script file="Options\Map.lua"/>
     <Script file="Options\Minimap.lua"/>
     <Script file="Options\Nameplates.lua"/>
+    <Script file="Options\Profiles.lua"/>
     <Script file="Options\Social.lua"/>
     <Script file="Options\Sounds.lua"/>
     <Script file="Options\Tooltips.lua"/>
@@ -44,6 +46,7 @@
     <Script file="Zones\Raids.lua"/>
     <Script file="Zones\ZoneSections.lua"/>
     <Script file="Zones\Scenarios.lua"/>
+    <Script file="Zones\ZephrasIsle.lua"/>
 
     <Script file="AutoQuesting.lua"/>
     <Script file="Classes.lua"/>

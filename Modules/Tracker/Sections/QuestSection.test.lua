@@ -1,0 +1,335 @@
+dofile("setupTests.lua")
+local match = require("luassert.match")
+
+describe("QuestSection", function()
+    ---@type QuestSection
+    local QuestSection
+    local TrackerLinePool, TrackerLayout, TrackerUtils, TrackerData, TrackerQuestTimers
+
+    local texts, availableLines, drawnLines
+
+    local function _FakeLine()
+        local label = {
+            SetText = function(_, text) texts[#texts + 1] = text end,
+            GetUnboundedStringWidth = function() return 10 end,
+            GetWidth = function() return 300 end,
+            GetHeight = function() return 10 end,
+        }
+        setmetatable(label, {__index = function() return function() end end})
+        local button = {}
+        setmetatable(button, {__index = function() return function() end end})
+        local line = {label = label, expandZone = button, expandQuest = button, playButton = button, questFocus = button, criteriaMark = button}
+        setmetatable(line, {__index = function() return function() end end})
+        return line
+    end
+
+    local function _GetLine()
+        if availableLines == 0 then
+            return nil
+        end
+        availableLines = availableLines - 1
+        local line = _FakeLine()
+        drawnLines[#drawnLines + 1] = line
+        return line
+    end
+
+    local function _Quest(id, complete, objectives)
+        return {
+            Id = id,
+            Objectives = objectives or {},
+            IsComplete = function() return complete end,
+        }
+    end
+
+    local function _Details(quests)
+        local sortedQuestIds, questDetails = {}, {}
+        for _, entry in ipairs(quests) do
+            sortedQuestIds[#sortedQuestIds + 1] = entry.quest.Id
+            questDetails[entry.quest.Id] = {quest = entry.quest, zoneName = entry.zoneName}
+        end
+        return sortedQuestIds, questDetails
+    end
+
+    before_each(function()
+        texts = {}
+        drawnLines = {}
+        availableLines = 100
+
+        Questie.db.char.collapsedZones = {}
+        Questie.db.char.collapsedQuests = {}
+        Questie.db.char.minAllQuestsInZone = {}
+        Questie.db.char.AutoUntrackedQuests = {}
+        Questie.db.char.TrackedQuests = {}
+        Questie.db.profile.autoTrackQuests = true
+        Questie.db.profile.trackerShowCompleteQuests = true
+        Questie.db.profile.hideCompletedQuestObjectives = false
+        Questie.db.profile.collapseCompletedQuests = false
+        Questie.db.profile.hideBlizzardCompletionText = false
+        Questie.db.profile.trackerColorObjectives = "white"
+        Questie.db.profile.trackerQuestPadding = 2
+
+        Questie.Colorize = function(_, text) return text end
+
+        TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
+        TrackerLayout.GetMargins = function() return {left = 14, right = 30, quest = 20, objective = 30, itemButtonSize = 24, buttonSize = 15, playButtonRight = 13, playButtonSize = 17} end
+        TrackerLayout.UpdateWidth = function() end
+        TrackerLayout.GetBaseFrame = function() return {} end
+        TrackerLayout.GetBaseFrameWidth = function() return 400 end
+        TrackerLayout.TrackLineWidth = function() end
+        TrackerLayout.UpdateLineWidth = spy.new(function() end)
+
+        TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+        TrackerLinePool.GetNextLine = spy.new(_GetLine)
+        TrackerLinePool.GetLastLine = _FakeLine
+
+        TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        TrackerUtils.GetCompletionText = function() return nil end
+        TrackerUtils.AddQuestItemButtons = spy.new(function() return true end)
+
+        TrackerData = QuestieLoader:ImportModule("TrackerData")
+        TrackerData.GetColoredQuestName = function(quest) return "Quest " .. quest.Id end
+        TrackerData.GetObjectiveText = function(objective) return objective.Description end
+
+        TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+        TrackerQuestTimers.UpdateAndGetRemainingTime = function() end
+
+        dofile("Localization/l10n.lua")
+        dofile("Modules/Tracker/LinePool/LineBuilder.lua")
+        dofile("Modules/Tracker/Sections/QuestSection.lua")
+        QuestSection = QuestieLoader:ImportModule("QuestSection")
+    end)
+
+    it("should draw the zone header, the quest and its objectives", function()
+        local quest = _Quest(1, 0, {{Description = "Wolf slain: 1/5", Completed = false}})
+
+        QuestSection.Draw(_Details({{quest = quest, zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1", "Wolf slain: 1/5"}, texts)
+        assert.spy(TrackerUtils.AddQuestItemButtons).was.called(1)
+    end)
+
+    it("should indent the objectives of a quest with a secondary item button", function()
+        local withButtons = _Quest(1, 0, {{Description = "Wolf slain: 1/5", Completed = false}})
+        local withoutButtons = _Quest(2, 0, {{Description = "Bear slain: 1/5", Completed = false}})
+        TrackerUtils.AddQuestItemButtons = spy.new(function(quest, _, _, _, _, _, rePositionLine)
+            if quest.Id == 1 then
+                rePositionLine(1)
+            end
+            return true
+        end)
+
+        QuestSection.Draw(_Details({
+            {quest = withButtons, zoneName = "Elwynn Forest"},
+            {quest = withoutButtons, zoneName = "Elwynn Forest"},
+        }))
+
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[3], 54)
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[5], 30)
+        assert.is_true(drawnLines[3].questHasSecondaryQIB)
+        assert.is_false(drawnLines[5].questHasSecondaryQIB)
+    end)
+
+    it("should draw the quest title with its own color", function()
+        TrackerData.GetColoredQuestName = spy.new(function(quest) return "|cFFFFFF00Quest " .. quest.Id .. "|r" end)
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
+
+        assert.are_same("|cFFFFFF00Quest 1|r", texts[2])
+        assert.spy(TrackerData.GetColoredQuestName).was.called_with(match._, match._, false)
+    end)
+
+    it("should auto collapse a complete quest when configured", function()
+        Questie.db.profile.collapseCompletedQuests = true
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
+
+        assert.is_true(Questie.db.char.collapsedQuests[1])
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1"}, texts)
+    end)
+
+    it("should not indent the title of a collapsed quest for a secondary item button", function()
+        Questie.db.char.collapsedQuests = {[1] = true}
+        local LineBuilder = QuestieLoader:ImportModule("LineBuilder")
+        LineBuilder.IndentTitle = spy.new(function() end)
+        TrackerUtils.AddQuestItemButtons = function(_, _, _, _, _, _, rePositionLine)
+            rePositionLine()
+            return true
+        end
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
+
+        assert.spy(LineBuilder.IndentTitle).was.not_called()
+    end)
+
+    it("should draw the remaining time of a timed quest", function()
+        local quest = _Quest(1, 0, {{Description = "Escort: 0/1", Completed = false}})
+        quest.trackTimedQuest = true
+        TrackerQuestTimers.GetRemainingTimeByQuestId = function() return "14 Minutes", 840 end
+        TrackerQuestTimers.UpdateAndGetRemainingTime = spy.new(function() end)
+
+        QuestSection.Draw(_Details({{quest = quest, zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1", "14 Minutes", "Escort: 0/1"}, texts)
+        assert.is_true(drawnLines[3].label.activeTimer)
+        assert.spy(TrackerQuestTimers.UpdateAndGetRemainingTime).was.called_with(match._, quest, drawnLines[3], false)
+    end)
+
+    it("should draw an inactive timer when the time is up", function()
+        local quest = _Quest(1, 0)
+        quest.trackTimedQuest = true
+        TrackerQuestTimers.GetRemainingTimeByQuestId = function() return "0 Seconds", 0 end
+
+        QuestSection.Draw(_Details({{quest = quest, zoneName = "Elwynn Forest"}}))
+
+        assert.are_same("Time's up!", texts[3])
+        assert.is_false(drawnLines[3].label.activeTimer)
+    end)
+
+    it("should draw one zone header per zone", function()
+        local first = _Quest(1, 0)
+        local second = _Quest(2, 0)
+        local third = _Quest(3, 0)
+
+        QuestSection.Draw(_Details({
+            {quest = first, zoneName = "Elwynn Forest"},
+            {quest = second, zoneName = "Elwynn Forest"},
+            {quest = third, zoneName = "Westfall"},
+        }))
+
+        local headers = {}
+        for _, text in ipairs(texts) do
+            if text:find("|cFFC0C0C0", 1, true) then
+                headers[#headers + 1] = text
+            end
+        end
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "|cFFC0C0C0Westfall|r"}, headers)
+    end)
+
+    it("should skip quests that are not tracked", function()
+        Questie.db.char.AutoUntrackedQuests = {[1] = true}
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({}, texts)
+    end)
+
+    it("should only draw the zone header when the zone is collapsed", function()
+        Questie.db.char.collapsedZones = {["Elwynn Forest"] = true}
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({"|cFFC0C0C0Elwynn Forest +|r"}, texts)
+    end)
+
+    it("should hide completed objectives when configured", function()
+        Questie.db.profile.hideCompletedQuestObjectives = true
+        local quest = _Quest(1, 0, {
+            {Description = "Wolf slain: 5/5", Completed = true},
+            {Description = "Bear slain: 0/5", Completed = false},
+        })
+
+        QuestSection.Draw(_Details({{quest = quest, zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1", "Bear slain: 0/5"}, texts)
+    end)
+
+    it("should show complete quests as complete", function()
+        QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
+
+        assert.is_truthy(texts[3]:find("Quest Complete!", 1, true))
+    end)
+
+    it("should size the complete line like an objective", function()
+        QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
+
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called(1)
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[3], 30)
+    end)
+
+    it("should size the failed line behind a secondary item button", function()
+        TrackerUtils.AddQuestItemButtons = function(_, _, _, _, _, _, rePositionLine)
+            rePositionLine()
+            return true
+        end
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, -1), zoneName = "Elwynn Forest"}}))
+
+        assert.spy(TrackerLayout.UpdateLineWidth).was.called_with(drawnLines[3], 54)
+    end)
+
+    it("should show failed quests as failed", function()
+        QuestSection.Draw(_Details({{quest = _Quest(1, -1), zoneName = "Elwynn Forest"}}))
+
+        assert.is_truthy(texts[3]:find("Quest Failed!", 1, true))
+    end)
+
+    it("should show the completion text of a complete quest", function()
+        _G.strfind = string.find
+        TrackerUtils.GetCompletionText = function() return "Return to Marshal Dughan" end
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}}))
+
+        assert.is_truthy(texts[3]:find("Return to Marshal Dughan", 1, true))
+    end)
+
+    it("should stop drawing when the line pool is exhausted", function()
+        availableLines = 0
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({}, texts)
+    end)
+
+    it("should stop drawing when the item button pool is exhausted", function()
+        TrackerUtils.AddQuestItemButtons = spy.new(function() return false end)
+
+        QuestSection.Draw(_Details({
+            {quest = _Quest(1, 0), zoneName = "Elwynn Forest"},
+            {quest = _Quest(2, 0), zoneName = "Elwynn Forest"},
+        }))
+
+        assert.spy(TrackerUtils.AddQuestItemButtons).was.called(1)
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1"}, texts)
+    end)
+
+    describe("HasVisibleQuestItems", function()
+        before_each(function()
+            TrackerUtils.GetQuestItemIds = function(quest) return quest.Id == 1 and {5} or {} end
+        end)
+
+        it("should return true when a shown quest has a quest item", function()
+            assert.is_true(QuestSection.HasVisibleQuestItems(_Details({
+                {quest = _Quest(2, 0), zoneName = "Elwynn Forest"},
+                {quest = _Quest(1, 0), zoneName = "Elwynn Forest"},
+            })))
+        end)
+
+        it("should return false when no quest has a quest item", function()
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(2, 0), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item is in a collapsed zone", function()
+            Questie.db.char.collapsedZones["Elwynn Forest"] = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item is collapsed", function()
+            Questie.db.char.collapsedQuests[1] = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item gets collapsed as completed", function()
+            Questie.db.profile.collapseCompletedQuests = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the quest with a quest item is untracked", function()
+            Questie.db.char.AutoUntrackedQuests[1] = true
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}})))
+        end)
+    end)
+end)

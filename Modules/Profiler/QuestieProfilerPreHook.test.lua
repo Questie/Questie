@@ -209,13 +209,28 @@ describe("QuestieProfilerPreHook", function()
 
         it("leaves the low-level paths the profiler already refuses to measure", function()
             local originals = {}
-            for _, name in ipairs({"QuestieStreamLib", "DBCompiler", "QuestieSerializer"}) do
+            for _, name in ipairs({"QuestieStreamLib", "QuestieSerializer"}) do
                 originals[name] = function() end
                 GivenModule(name, {Work = originals[name]})
             end
 
             LoadPreHook(true)
             QuestieLoader:CreateModule("PreHookLowLevelTrigger")
+
+            for name, original in pairs(originals) do
+                assert.are_equal(original, QuestieLoader._modules[name].Work, name .. " must be excluded")
+            end
+        end)
+
+        it("leaves HereBeDragons to the profiler's library pass", function()
+            local originals = {}
+            for _, name in ipairs({"HBD", "HBDPins", "HBDMigrate"}) do
+                originals[name] = function() end
+                GivenModule(name, {Work = originals[name]})
+            end
+
+            LoadPreHook(true)
+            QuestieLoader:CreateModule("PreHookLibraryTrigger")
 
             for name, original in pairs(originals) do
                 assert.are_equal(original, QuestieLoader._modules[name].Work, name .. " must be excluded")

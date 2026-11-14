@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 local Questie = _G.Questie
 ---@class QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
@@ -9,24 +12,23 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 
 local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
 -- === Below code borrowed from ShutUp to implement Questie logo swapping for chat messages ===
 
--- Compatibility: 2.5.5+ uses ChatFrameUtil.AddMessageEventFilter/RemoveMessageEventFilter instead of ChatFrame_AddMessageEventFilter/RemoveMessageEventFilter
-local ChatFrameAddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
-local ChatFrameRemoveMessageEventFilter = ChatFrameUtil and ChatFrameUtil.RemoveMessageEventFilter or ChatFrame_RemoveMessageEventFilter
+local ChatFrameAddMessageEventFilter = QuestieCompat.AddMessageEventFilter
 
--- Safe wrapper for ChatFrameAddMessageEventFilter that handles initialization timing issues
+---Registers a chat filter, retrying CreateSecureFiltersArray errors after a delay.
+---@param event string
+---@param filter function
 local function SafeAddMessageEventFilter(event, filter)
     local success, err = pcall(function()
         ChatFrameAddMessageEventFilter(event, filter)
     end)
     if not success then
-        -- If ChatFrameUtil isn't ready yet, retry after a short delay
         if err and string.find(err, "CreateSecureFiltersArray") then
             C_Timer.After(0.1, function()
                 SafeAddMessageEventFilter(event, filter)
@@ -85,38 +87,75 @@ _GetAnnounceMarker = function()
 end
 
 ---@param questId QuestId
----@param objectiveText string
----@param objectiveProgress string
-function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText, objectiveProgress)
+---@param objectiveText string @Complete accepted native wording, including any native progress counter.
+function QuestieAnnounce:AnnounceObjectiveToChannel(questId, objectiveText)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId);
-        local objective = objectiveProgress .. " " .. objectiveText
-        local message = l10n("%s for %s!", objective, questLink)
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
+        local message = l10n("%s for %s!", objectiveText, questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
-            localMessage = l10n("%s for %s!", objective, QuestieLink:GetQuestHyperLink(questId))
+            localMessage = l10n("%s for %s!", objectiveText, QuestieLink:GetQuestHyperLink(questId) or "no quest name")
         end
 
         _QuestieAnnounce:AnnounceToChannel(message, localMessage)
     end
 end
 
+---SendChatMessage rejects the |4singular:plural; grammar escape that Forever leaves in some localized objective text,
+---for example frFR "Massacreur : 4/4 |4personnage tué:personnages tués;". Resolves it for the announced count.
+---shortcut: only the 2-form (singular for 1) and 3-form (Slavic) rules, other languages fall back to the first form.
+---@param text any
+---@param count any
+---@return any
+local function _ResolveGrammarEscapes(text, count)
+    if type(text) ~= "string" then
+        return text
+    end
+
+    return (text:gsub("|4([^;]*);", function(forms)
+        local candidates = {}
+        for form in (forms .. ":"):gmatch("([^:]*):") do
+            candidates[#candidates + 1] = form
+        end
+
+        local index = 1
+        if type(count) == "number" then
+            if #candidates == 2 then
+                index = count == 1 and 1 or 2
+            elseif #candidates == 3 then
+                local lastDigit, lastTwoDigits = count % 10, count % 100
+                if lastDigit == 1 and lastTwoDigits ~= 11 then
+                    index = 1
+                elseif lastDigit >= 2 and lastDigit <= 4 and (lastTwoDigits < 12 or lastTwoDigits > 14) then
+                    index = 2
+                else
+                    index = 3
+                end
+            end
+        end
+        return candidates[index]
+    end))
+end
+
 local _has_seen_incomplete = {}
 local _has_sent_announce = {}
 
 ---@param questId QuestId
----@param text string
+---@param objectiveIndex ObjectiveIndex @Original native index, not a dense display-row index.
+---@param text string @Complete accepted native wording; never used as objective identity.
 ---@param numFulfilled number
 ---@param numRequired number
-function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequired)
-    -- Announce completed objective
+function QuestieAnnounce:ObjectiveChanged(questId, objectiveIndex, text, numFulfilled, numRequired)
+    -- Native text changes with progress and can be identical across quests or objective slots.
+    -- Keep the existing count-based trigger and once-announced policy, keyed by stable identity instead.
+    local objectiveKey = questId .. ":" .. objectiveIndex
     if (numRequired ~= numFulfilled) then
-        _has_seen_incomplete[text] = true
-    elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
-        _has_seen_incomplete[text] = nil
-        _has_sent_announce[text] = true
-        QuestieAnnounce:AnnounceObjectiveToChannel(questId, text, tostring(numFulfilled) .. "/" .. tostring(numRequired))
+        _has_seen_incomplete[objectiveKey] = true
+    elseif _has_seen_incomplete[objectiveKey] and not _has_sent_announce[objectiveKey] then
+        _has_seen_incomplete[objectiveKey] = nil
+        _has_sent_announce[objectiveKey] = true
+        QuestieAnnounce:AnnounceObjectiveToChannel(questId, _ResolveGrammarEscapes(text, numRequired))
     end
 end
 
@@ -124,13 +163,13 @@ end
 ---@param itemId ItemId
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceItems then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId);
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId);
         local itemLink = select(2, GetItemInfo(itemId))
-        local message = l10n("Picked up %s which starts %s!", itemLink, questLink)
+        local message = l10n("Picked up %s which starts %s!", itemLink, questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
-            localMessage = l10n("Picked up %s which starts %s!", itemLink, QuestieLink:GetQuestHyperLink(questId))
+            localMessage = l10n("Picked up %s which starts %s!", itemLink, QuestieLink:GetQuestHyperLink(questId) or "no quest name")
         end
 
         _QuestieAnnounce:AnnounceToChannel(message, localMessage)
@@ -146,7 +185,7 @@ function _QuestieAnnounce:AnnounceSelf(questId, itemId)
     local questHyperLink = QuestieLink:GetQuestHyperLink(questId);
     local itemLink = select(2, GetItemInfo(itemId));
 
-    Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questHyperLink));
+    Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questHyperLink or "no quest name"));
 end
 
 ---@return boolean
@@ -203,7 +242,7 @@ end
 local playerNameCache
 ---@return string
 local function _GetPlayerName()
-    playerNameCache = UnitName("player")
+    playerNameCache = GetUnitName("player", true)
     return playerNameCache
 end
 
@@ -236,8 +275,8 @@ end
 ---@param questId QuestId
 function QuestieAnnounce:AcceptedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAccepted then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId)
-        local message = l10n("Quest %s: %s", l10n('Accepted'), questLink or "no quest name")
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n("Accepted"), questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
@@ -251,8 +290,8 @@ end
 ---@param questId QuestId
 function QuestieAnnounce:AbandonedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAbandoned then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId)
-        local message = l10n("Quest %s: %s", l10n('Abandoned'), questLink or "no quest name")
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n("Abandoned"), questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
@@ -266,8 +305,8 @@ end
 ---@param questId QuestId
 function QuestieAnnounce:CompletedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceCompleted then
-        local questLink = QuestieLink:GetQuestLinkStringById(questId)
-        local message = l10n("Quest %s: %s", l10n('Completed'), questLink or "no quest name")
+        local questLink = QuestieLink.GetNativeQuestLinkStringById(questId)
+        local message = l10n("Quest %s: %s", l10n("Completed"), questLink or "no quest name")
 
         local localMessage
         if Questie.db.profile.questAnnounceLocally == true then
@@ -284,6 +323,6 @@ function QuestieAnnounce.IncompleteBreadcrumbQuest(questId, breadcrumbQuestId)
     local questLink = QuestieLink:GetQuestHyperLink(questId)
     local breadcrumbQuestLink = QuestieLink:GetQuestHyperLink(breadcrumbQuestId)
 
-    local message = l10n("You have accepted %s without completing its breadcrumb quest %s", questLink, breadcrumbQuestLink)
+    local message = l10n("You have accepted %s without completing its breadcrumb quest %s", questLink or "no quest name", breadcrumbQuestLink or "no quest name")
     Questie:Print(message)
 end

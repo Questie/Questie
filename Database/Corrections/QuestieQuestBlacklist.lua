@@ -54,6 +54,7 @@ function QuestieQuestBlacklist:Load()
         [5847] = true,
         -- Special quests
         [3861] = HIDE_ON_MAP, -- CLUCK!
+        [97583] = HIDE_ON_MAP, -- WRIGGLE.
         -- World event quests
         -- Fetched from https://classic.wowhead.com/world-event-quests
         [7904] = true,
@@ -271,6 +272,9 @@ function QuestieQuestBlacklist:Load()
         [8225] = HIDE_ON_MAP,
         [8228] = HIDE_ON_MAP,
         [8229] = HIDE_ON_MAP,
+        [97065] = HIDE_ON_MAP,
+        [97066] = HIDE_ON_MAP,
+        [97067] = HIDE_ON_MAP,
         --love is in the air
         [8903] = true,
         [8904] = true,
@@ -710,6 +714,8 @@ function QuestieQuestBlacklist:Load()
         [14065] = true,
 
         --- Brewfest
+        [11486] = true,
+        [11487] = true,
         [12193] = true,
         [12194] = true,
         [12491] = true,
@@ -812,16 +818,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
-        [6861] = Expansions.Current == Expansions.Era,
-        [6862] = Expansions.Current == Expansions.Era,
-        [6864] = Expansions.Current == Expansions.Era,
-        [6901] = Expansions.Current == Expansions.Era,
+        [6861] = true,
+        [6862] = true,
+        [6864] = true,
+        [6901] = true,
         [7221] = true,
         [7222] = true,
-        [7281] = Expansions.Current == Expansions.Era,
-        [7282] = Expansions.Current == Expansions.Era,
-        [7301] = Expansions.Current == Expansions.Era,
-        [7302] = Expansions.Current == Expansions.Era,
+        [7281] = Expansions.Current >= Expansions.Cata,
+        [7282] = Expansions.Current >= Expansions.Cata,
+        [7301] = Expansions.Current >= Expansions.Cata,
+        [7302] = Expansions.Current >= Expansions.Cata,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
@@ -1675,55 +1681,6 @@ function QuestieQuestBlacklist:Load()
         [83714] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (new version to reward correct emblems)
         [83717] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Titan Rune Protocol Gamma (not available anymore)
         [87379] = Expansions.Current >= Expansions.Wotlk, -- Proof of Demise: Threats to Azeroth (not available anymore)
-        [93950] = not Questie.IsTitanReforged, -- A Message From The Stars -- only present on Titan servers
-        [93975] = not Questie.IsTitanReforged, -- Ragnaros Must Die! -- only present on Titan servers
-        [94376] = not Questie.IsTitanReforged, -- Titanic Power -- only present on Titan servers
-        [94576] = not Questie.IsTitanReforged, -- Find a New Way -- only present on Titan servers
-        [94577] = not Questie.IsTitanReforged, -- Kael'thas Must Die! -- only present on Titan servers
-        [94579] = not Questie.IsTitanReforged, -- Patchwerk Must Die! -- only present on Titan servers
-        [95705] = not Questie.IsTitanReforged, -- Gobb's Grand Opening! -- only present on Titan servers
-        [95706] = not Questie.IsTitanReforged, -- Gobb's Weekly Greed Deal -- only present on Titan servers
-        [95844] = not Questie.IsTitanReforged, -- Gobb's Grand Tank Temptation -- only present on Titan servers
-        [95845] = not Questie.IsTitanReforged, -- Another Shot at the Scarab -- only present on Titan servers
-        [95037] = not Questie.IsTitanReforged, -- Lord Jaraxxus Must Die!
-        [95072] = not Questie.IsTitanReforged, -- Hoodoo Embodiment
-        [95074] = not Questie.IsTitanReforged, -- Falcon's Prophecy
-        [95075] = not Questie.IsTitanReforged, -- Destructive Prophecy
-        [95076] = not Questie.IsTitanReforged, -- Divine Prophecy
-        [95077] = not Questie.IsTitanReforged, -- Redeemer's Prophecy
-        [95078] = not Questie.IsTitanReforged, -- Prophecy of Protection
-        [95079] = not Questie.IsTitanReforged, -- Stormcaller's Prophecy
-        [95080] = not Questie.IsTitanReforged, -- Witchdoctor's Prophecy
-        [95081] = not Questie.IsTitanReforged, -- Guardian's Prophecy
-        [95082] = not Questie.IsTitanReforged, -- Lunar Prophecy
-        [95083] = not Questie.IsTitanReforged, -- Naturalist's Prophecy
-        [95084] = not Questie.IsTitanReforged, -- Dread Prophecy
-        [95085] = not Questie.IsTitanReforged, -- Desecrator's Prophecy
-        [95088] = not Questie.IsTitanReforged, -- Death's Embodiment
-        [95089] = not Questie.IsTitanReforged, -- Arcanist's Embodiment
-        [95090] = not Questie.IsTitanReforged, -- Embodiment of Desecration
-        [95092] = not Questie.IsTitanReforged, -- Embodiment of Dread
-        [95093] = not Questie.IsTitanReforged, -- Embodiment of Protection
-        [95094] = not Questie.IsTitanReforged, -- Embodiment of Wrath
-        [95095] = not Questie.IsTitanReforged, -- Auratic Embodiment
-        [95096] = not Questie.IsTitanReforged, -- Destructive Embodiment
-        [95097] = not Questie.IsTitanReforged, -- Syncretist's Embodiment
-        [95098] = not Questie.IsTitanReforged, -- Divine Embodiment
-        [95099] = not Questie.IsTitanReforged, -- Redeemer's Embodiment
-        [95100] = not Questie.IsTitanReforged, -- Witchdoctor's Embodiment
-        [95101] = not Questie.IsTitanReforged, -- Vodouisant's Embodiment
-        [95102] = not Questie.IsTitanReforged, -- Stormcaller's Embodiment
-        [95103] = not Questie.IsTitanReforged, -- Guardian's Embodiment
-        [95104] = not Questie.IsTitanReforged, -- Animist's Embodiment
-        [95105] = not Questie.IsTitanReforged, -- Lunar Embodiment
-        [95106] = not Questie.IsTitanReforged, -- Naturalist's Embodiment
-        [95205] = not Questie.IsTitanReforged, -- Greater Inscrptions of the Zandalar
-        [96211] = not Questie.IsTitanReforged, -- Heart of the Eredar
-        [96312] = not Questie.IsTitanReforged, -- Brutallus Must Die!
-        [96315] = true, -- XT-002 Deconstructor Must Die! not open now
-        [96318] = true, -- Shade of Aran Must Die! not open now
-        [98183] = not Questie.IsTitanReforged, -- A Ritual Renewed
-
         --- Daily quests
         [24788] = true, -- Daily Heroic Random (1st)
         [24789] = true, -- Daily Heroic Random (Nth)
@@ -2709,7 +2666,7 @@ function QuestieQuestBlacklist:Load()
         [1124] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1125] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1126] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1127] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1127] = true,
         [1128] = true, -- Not in the game
         [1129] = true, -- Not in the game
         [1130] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4127,9 +4084,9 @@ function QuestieQuestBlacklist:Load()
         [5666] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5667] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5668] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5669] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5670] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5671] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5669] = true, -- Not in the game
+        [5670] = true, -- Not in the game
+        [5671] = true, -- Not in the game
         [5672] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [5673] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
         [5674] = Expansions.Current >= Expansions.Wotlk, -- Removed with Wotlk
@@ -4144,14 +4101,14 @@ function QuestieQuestBlacklist:Load()
         [5683] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5684] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5685] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5686] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5687] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5686] = true, -- Not in the game
+        [5687] = true, -- Not in the game
         [5688] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5689] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5690] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5691] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5692] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5693] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5691] = true,
+        [5692] = true,
+        [5693] = true,
         [5694] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5695] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5696] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4162,9 +4119,9 @@ function QuestieQuestBlacklist:Load()
         [5701] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5702] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5703] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5704] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5705] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [5706] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [5704] = true,
+        [5705] = true,
+        [5706] = true,
         [5707] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5708] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [5709] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -7089,6 +7046,90 @@ function QuestieQuestBlacklist:Load()
         [13235] = false, -- The Flesh Giant Champion
         [13331] = false, -- Keeping the Alliance Blind
         [13359] = false, -- Where Dragons Fell
+
+        --- Forever quests
+        [60860] = true, -- This is a promotion quest that is only available in Asia
+        [60870] = true, -- This is a promotion quest that is only available in Asia
+        [78124] = HIDE_ON_MAP, -- Nar'thalas Almanac
+        [78127] = HIDE_ON_MAP, -- The Dalaran Digest
+        [78132] = not Questie.IsSoD, -- Dragonslayer's Helm
+        [78133] = not Questie.IsSoD, -- Dragonslayer's Shield
+        [78134] = not Questie.IsSoD, -- Dragonslayer's Lance
+        [78142] = HIDE_ON_MAP, -- Bewitchments and Glamours
+        [78143] = HIDE_ON_MAP, -- Secrets of the Dreamers
+        [78145] = HIDE_ON_MAP, -- Arcanic Systems Manual
+        [78146] = HIDE_ON_MAP, -- Goaz Scrolls
+        [78147] = HIDE_ON_MAP, -- Crimes Against Anatomy
+        [78148] = HIDE_ON_MAP, -- Runes of the Sorcerer-Kings
+        [78149] = HIDE_ON_MAP, -- Fury of the Land
+        [79090] = not Questie.IsSoD, -- Repelling Invaders
+        [79091] = HIDE_ON_MAP, -- Archmage Antonidas: The Unabridged Autobiography
+        [79092] = HIDE_ON_MAP, -- Archmage Theocritus' Research Journal
+        [79093] = HIDE_ON_MAP, -- Rumi of Gnomeregan: The Collected Works
+        [79094] = HIDE_ON_MAP, -- The Lessons of Ta'zo
+        [79095] = HIDE_ON_MAP, -- The Apothecary's Metaphysical Primer
+        [79096] = HIDE_ON_MAP, -- Ataeric: On Arcane Curiosities
+        [79097] = HIDE_ON_MAP, -- Baxtan: On Destructive Magics
+        [79098] = not Questie.IsSoD, -- Clear the Forest!
+        [79535] = HIDE_ON_MAP, -- Basilisks: Should Petrification be Feared?
+        [79947] = HIDE_ON_MAP, -- Geomancy: The Stone-Cold Truth
+        [79948] = HIDE_ON_MAP, -- Defensive Magics 101
+        [79949] = HIDE_ON_MAP, -- A Web of Lies: Debunking Myths and Legends
+        [79950] = HIDE_ON_MAP, -- Demons and You
+        [79951] = HIDE_ON_MAP, -- Mummies: A Guide to the Unsavory Undead
+        [79952] = HIDE_ON_MAP, -- RwlRwlRwlRwl!
+        [79953] = HIDE_ON_MAP, -- A Ludite's Guide to Caring for Your Demonic Pet        
+        [80001] = not Questie.IsSoD, -- Rekinde
+        [81730] = not Questie.IsSoD, -- Duskwood Mission I: Defeat Worgen
+        [81731] = not Questie.IsSoD, -- Duskwood Mission II: Defeat Ogres
+        [81732] = not Questie.IsSoD, -- Duskwood Mission III: Defeat Dragonkin
+        [81733] = not Questie.IsSoD, -- Duskwood Mission IV: Ogre Intelligence
+        [81734] = not Questie.IsSoD, -- Duskwood Mission V: Worgen Intelligence
+        [81735] = not Questie.IsSoD, -- Duskwood Mission VI: Dragon Intelligence
+        [81736] = not Questie.IsSoD, -- Duskwood Mission VII: Recover Shadowscythe
+        [81737] = not Questie.IsSoD, -- Duskwood Mission VIII: Recover Ogre Magi text
+        [81738] = not Questie.IsSoD, -- Duskwood Mission IX: Recover Dragon Egg
+        [81739] = not Questie.IsSoD, -- Duskwood Mission X: Nightmare Moss
+        [81740] = not Questie.IsSoD, -- Duskwood Mission XI: Cold Iron Ore
+        [81741] = not Questie.IsSoD, -- Duskwood Mission XII: Dream-Touched Dragonscale
+        [81742] = not Questie.IsSoD, -- Duskwood Mission XIII: Defeat Ylanthrius
+        [81743] = not Questie.IsSoD, -- Duskwood Mission XIV: Defeat Vvarc'zul
+        [81744] = not Questie.IsSoD, -- Duskwood Mission XV: Defeat Amokarok
+        [81745] = not Questie.IsSoD, -- Duskwood Mission XVI: Rescue Kroll Mountainshade
+        [81746] = not Questie.IsSoD, -- Duskwood Mission XVII: Rescue Alara Grovemender
+        [81747] = not Questie.IsSoD, -- Duskwood Mission XVIII: Rescue Elenora Marshwalker
+        [81947] = HIDE_ON_MAP, -- Sanguine Sorcery
+        [81949] = HIDE_ON_MAP, -- Legends of the Tidesages
+        [81951] = HIDE_ON_MAP, -- The Liminal and the Arcane
+        [81952] = HIDE_ON_MAP, -- Everyday Etiquette
+        [81953] = HIDE_ON_MAP, -- Stonewrought Design
+        [81954] = HIDE_ON_MAP, -- Venomous Journeys
+        [81955] = HIDE_ON_MAP, -- A Mind of Metal
+        [81956] = HIDE_ON_MAP, -- Conjurer's Codex
+        [84395] = HIDE_ON_MAP, -- Undead Potatoes
+        [84396] = HIDE_ON_MAP, -- Magma or Lava?
+        [84397] = HIDE_ON_MAP, -- Northern Kalimdor - A Comprehensive Guide
+        [84398] = HIDE_ON_MAP, -- A Study of the Light
+        [84399] = HIDE_ON_MAP, -- Ka-Boom!
+        [84400] = HIDE_ON_MAP, -- The Knight and the Lady
+        [84401] = HIDE_ON_MAP, -- Scourge: Undead Menace or Misunderstood?
+        [84402] = HIDE_ON_MAP, -- Necromancy 101
+
+        [91899] = HIDE_ON_MAP, -- A Sealed Crate
+        [91900] = HIDE_ON_MAP, -- A Sealed Crate
+        [91901] = HIDE_ON_MAP, -- A Sealed Crate
+        [91902] = HIDE_ON_MAP, -- A Sealed Crate
+        [91904] = HIDE_ON_MAP, -- A Sealed Crate
+        [91905] = HIDE_ON_MAP, -- A Sealed Crate
+        [91906] = HIDE_ON_MAP, -- A Sealed Crate
+        [91907] = HIDE_ON_MAP, -- A Sealed Crate
+
+        [93928] = true, -- Of Mice and Milk
+
+        [96339] = HIDE_ON_MAP, -- Legacy Reward: Replica Ironforge Air Rifle -- todo fix
+        [96383] = HIDE_ON_MAP, -- Legacy Reward: Spectral Bear Cub -- todo fix
+
+        [99267] = true, -- An Unfortunate End
     }
 
     if Questie.IsSoD then
@@ -7936,6 +7977,10 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         [24428] = true, -- A Most Puzzling Circumstance
         [24429] = true, -- A Most Puzzling Circumstance
 
+        -- Raid weeklies not yet available on Titan Reforged
+        -- [96315] = true, -- XT-002 Deconstructor Must Die!
+        [96318] = true, -- Shade of Aran Must Die!
+
         -- Black Knight
         -- [13633] = true, -- The Black Knight of Westfall?
         -- [13634] = true, -- The Black Knight of Silverpine?
@@ -8015,24 +8060,24 @@ function QuestieQuestBlacklist.LoadAutoBlacklistIsTitanReforged()
         -- [24801] = true, -- A Victory For The Sunreavers (H)
 
         -- Ulduar
-        [13604] = true,
+        [13604] = true, -- Archivum Data Disc
         [13606] = true,
         [13607] = true,
         [13609] = true,
         [13610] = true,
         [13611] = true,
         [13614] = true,
-        [13622] = true,
-        [13629] = true,
-        [13631] = true,
-        [13816] = true,
-        [13817] = true,
-        [13818] = true,
-        [13819] = true,
-        [13821] = true,
-        [13822] = true,
-        [13823] = true,
-        [13824] = true,
+        -- [13622] = true, -- Ancient History
+        -- [13629] = true, -- Val'anyr, Hammer of Ancient Kings
+        [13631] = true, -- All Is Well That Ends Well
+        -- [13816] = true, -- Heroic: The Celestial Planetarium
+        -- [13817] = true, -- Heroic: Archivum Data Disc
+        -- [13818] = true, -- Heroic: Algalon
+        -- [13819] = true, -- Heroic: All Is Well That Ends Well
+        -- [13821] = true, -- Heroic: Freya's Sigil
+        -- [13822] = true, -- Heroic: Hodir's Sigil
+        -- [13823] = true, -- Heroic: Thorim's Sigil
+        -- [13824] = true, -- Heroic: Mimiron's Sigil
 
         -- -- Aspirant
         -- [13828] = true,

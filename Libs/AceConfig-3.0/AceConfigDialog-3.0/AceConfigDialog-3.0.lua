@@ -1,13 +1,13 @@
 --- AceConfigDialog-3.0 generates AceGUI-3.0 based windows based on option tables.
 -- @class file
 -- @name AceConfigDialog-3.0
--- @release $Id: AceConfigDialog-3.0.lua 1386 2025-12-11 18:25:02Z nevcairiel $
+-- @release $Id: AceConfigDialog-3.0.lua 1409 2026-09-03 22:41:24Z funkehdude $
 
 local LibStub = LibStub
 local gui = LibStub("AceGUI-3.0")
 local reg = LibStub("AceConfigRegistry-3.0")
 
-local MAJOR, MINOR = "AceConfigDialog-3.0", 92
+local MAJOR, MINOR = "AceConfigDialog-3.0", 93
 local AceConfigDialog, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigDialog then return end
@@ -546,12 +546,12 @@ end
 do
 	local InCombatLockdown = InCombatLockdown
 	local frame = AceConfigDialog.popup
-	if not frame or oldminor < 81 then
+	if not frame or oldminor < 93 then
 		frame = CreateFrame("Frame", nil, UIParent)
 		AceConfigDialog.popup = frame
 		frame:Hide()
 		frame:SetPoint("CENTER", UIParent, "CENTER")
-		frame:SetSize(320, 72)
+		frame:SetSize(400, 72)
 		frame:EnableMouse(true) -- Do not allow click-through on the frame
 		frame:SetFrameStrata("TOOLTIP")
 		frame:SetFrameLevel(100) -- Lots of room to draw under it
@@ -576,7 +576,7 @@ do
 		frame:SetFixedFrameLevel(true)
 
 		local text = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-		text:SetSize(290, 0)
+		text:SetSize(370, 0)
 		text:SetPoint("TOP", 0, -16)
 		frame.text = text
 
@@ -608,11 +608,7 @@ local function confirmPopup(appName, rootframe, basepath, info, message, func, .
 	local frame = AceConfigDialog.popup
 	frame:Show()
 	frame.text:SetText(message)
-	-- From StaticPopup.lua
-	-- local height = 32 + text:GetHeight() + 2;
-	-- height = height + 6 + accept:GetHeight()
-	-- We add 32 + 2 + 6 + 21 (button height) == 61
-	local height = 61 + frame.text:GetHeight()
+	local height = 70 + frame.text:GetHeight()
 	frame:SetHeight(height)
 
 	frame.accept:ClearAllPoints()

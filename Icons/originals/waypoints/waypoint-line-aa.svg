@@ -1,0 +1,10 @@
+<!-- Path line texture, 16x16 texels. Constant along x; across y it is the line's profile, with the
+     centerline at y = 8. The vertex color tints only the white core. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- y 0-1 stays transparent, so filtering fades the edge to nothing. -->
+  <rect y="1" width="16" height="1" fill="#000" fill-opacity="0.5"/>  <!-- fade -->
+  <rect y="2" width="16" height="3" fill="#000"/>                     <!-- outline -->
+  <rect y="5" width="16" height="6" fill="#fff"/>                     <!-- core -->
+  <rect y="11" width="16" height="3" fill="#000"/>                    <!-- outline -->
+  <rect y="14" width="16" height="1" fill="#000" fill-opacity="0.5"/> <!-- fade -->
+</svg>

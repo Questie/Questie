@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class Townsfolk
 local Townsfolk = QuestieLoader:CreateModule("Townsfolk")
 
@@ -16,6 +19,28 @@ local sub, bitband, strlen = string.sub, bit.band, string.len
 
 local professionKeys = QuestieProfessions.professionKeys
 
+-- Townsfolk lookups, rebuilt from composed reads on every login by `Initialize`. They live on
+-- the module rather than in SavedVariables because nothing is meant to survive a session;
+-- QuestieMenu reads them to build the townsfolk and profession menus.
+---@type table<string, NpcId[]> Category name to NPC IDs, both factions
+Townsfolk.townsfolk = {}
+---@type table<ProfessionKey, NpcId[]>
+Townsfolk.professionTrainers = {}
+---@type table<string, table<string, NpcId[]>> Class file name to category to NPC IDs
+Townsfolk.classSpecificTownsfolk = {}
+---@type table<string, table<string, NpcId[]>> Faction name to category to NPC IDs
+Townsfolk.factionSpecificTownsfolk = {}
+---@type table<string, ItemId[]> Pet food category to Item IDs
+Townsfolk.petFoodVendorTypes = {}
+
+---@type table<ProfessionEnum, NpcId[]> Filled by the files in ProfessionTrainers/
+local professionTrainerIds = {}
+
+---@param professionKey ProfessionEnum
+---@param ids NpcId[]
+function Townsfolk.SetProfessionTrainerIds(professionKey, ids)
+    professionTrainerIds[professionKey] = ids
+end
 
 local function _reformatVendors(lst, existingTable)
     local newList = existingTable or {}
@@ -29,12 +54,12 @@ end
 ---@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
 local function _PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
     local count = 0
-    for id, npcData in pairs(QuestieDB.npcData) do
-        local flags = npcData[QuestieDB.npcKeys.npcFlags]
+    for id in pairs(QuestieDB.NPCPointers) do
+        local flags = QuestieDB.QueryNPCSingle(id, "npcFlags")
         for name, folkType in pairs(folkTypes) do
             if flags and folkType.mask and bitband(flags, folkType.mask) == folkType.mask then
-                local npcName = npcData[QuestieDB.npcKeys.name]
-                local subName = npcData[QuestieDB.npcKeys.subName]
+                local npcName = QuestieDB.QueryNPCSingle(id, "name")
+                local subName = QuestieDB.QueryNPCSingle(id, "subName")
                 if npcName and sub(npcName, 1, 5) ~= "[DND]" then
                     if (not folkType.requireSubname) or (subName and strlen(subName) > 1) then
                         folkType.data[#folkType.data+1] = id
@@ -69,12 +94,12 @@ function Townsfolk.Initialize()
         },
         ["Banker"] = {
             mask = QuestieDB.npcFlags.BANKER,
-            requireSubname = true,
+            requireSubname = false,
             data = {}
         },
         ["Battlemaster"] = {
             mask = QuestieDB.npcFlags.BATTLEMASTER,
-            requireSubname = true,
+            requireSubname = false,
             data = {}
         },
         ["Flight Master"] = {
@@ -128,7 +153,12 @@ function Townsfolk.Initialize()
     }
 
     if Expansions.Current <= Expansions.Wotlk then
-        townfolk["Weapon Master"] = {} -- populated below
+        townfolk["Weapon Master"] = {}
+        for _, id in ipairs(Townsfolk.GetWeaponTrainers()) do
+            if QuestieDB.NPCPointers[id] then
+                tinsert(townfolk["Weapon Master"], id)
+            end
+        end
     end
 
     ---@type table<ProfessionEnum, NpcId[]>
@@ -144,7 +174,8 @@ function Townsfolk.Initialize()
         [professionKeys.ENGINEERING] = {},
         [professionKeys.ENCHANTING] = {},
         [professionKeys.FISHING] = {},
-        [professionKeys.SKINNING] = {}
+        [professionKeys.SKINNING] = {},
+        [professionKeys.RIDING] = {}
     }
 
     if Expansions.Current >= Expansions.Tbc then
@@ -159,227 +190,14 @@ function Townsfolk.Initialize()
         professionTrainers[professionKeys.ARCHAEOLOGY] = {}
     end
 
-    local count = 0
-    local validProfessionTrainers = Townsfolk.GetProfessionTrainers()
-    for i=1, #validProfessionTrainers do
-        local id = validProfessionTrainers[i]
-        if QuestieDB.npcData[id] then
-            local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
-            if subName then
-                if townfolk[subName] then -- weapon master,
-                    tinsert(townfolk[subName], id)
-                else
-                    for k, professionId in pairs(QuestieProfessions.professionTable) do
-                        if string.match(subName, k) and professionId ~= professionKeys.RIDING then -- Skip Riding Trainer for now
-                            tinsert(professionTrainers[professionId], id)
-                        end
-                    end
+    for professionId, ids in pairs(professionTrainerIds) do
+        if professionTrainers[professionId] then
+            for i = 1, #ids do
+                if QuestieDB.NPCPointers[ids[i]] then
+                    tinsert(professionTrainers[professionId], ids[i])
                 end
             end
         end
-
-        if count > 10 then -- Yield every 10 iterations, 10 is just a madeup number, is pretty fast.
-            count = 0
-            coroutine.yield()
-        end
-        count = count + 1
-    end
-
-    -- Fix NPC Aresella (18991) can train first aid profession
-    if Expansions.Current >= Expansions.Tbc then
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 18991) -- Aresella
-        tinsert(professionTrainers[professionKeys.COOKING], 19186) -- Kylene <Barmaid> (this is an edge case)
-    end
-
-    if Expansions.Current <= Expansions.Tbc then
-        -- The vendors below are selling profession rank up books up to TBC.
-        -- The books themselves were removed in 3.1, but we stop at TBC.
-        -- Vendors selling "Expert First Aid - Under Wraps"
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 2805) -- Deneb Walker
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 13476) -- Balai Lok'Wein
-        -- Vendors selling "Expert Cookbook"
-        tinsert(professionTrainers[professionKeys.COOKING], 3955) -- Shandrina
-        tinsert(professionTrainers[professionKeys.COOKING], 12033) -- Wulan
-    end
-
-    if Expansions.Current < Expansions.Cata then
-        -- NPCs that used to be needed up to Cata
-        tinsert(professionTrainers[professionKeys.FISHING], 10216) -- Gubber Blump
-    end
-
-    if Expansions.Current >= Expansions.Cata then
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.COOKING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.FISHING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.HERBALISM], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.HERBALISM], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.HERBALISM], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.HERBALISM], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.MINING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.MINING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.MINING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.MINING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.MINING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.MINING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.MINING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.MINING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.MINING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.MINING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.MINING], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.SKINNING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.SKINNING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.SKINNING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.SKINNING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.SKINNING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.SKINNING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.SKINNING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.SKINNING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.SKINNING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.SKINNING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.SKINNING], 50247) -- Jack "All-Trades" Derrington
-        tinsert(professionTrainers[professionKeys.TAILORING], 45286) -- KTC Train-a-Tron Deluxe
-        tinsert(professionTrainers[professionKeys.TAILORING], 47384) -- Lien Farner
-        tinsert(professionTrainers[professionKeys.TAILORING], 47396) -- Wembil Taskwidget
-        tinsert(professionTrainers[professionKeys.TAILORING], 47400) -- Nedric Sallow
-        tinsert(professionTrainers[professionKeys.TAILORING], 47418) -- Runda
-        tinsert(professionTrainers[professionKeys.TAILORING], 47419) -- Lalum Darkmane
-        tinsert(professionTrainers[professionKeys.TAILORING], 47420) -- Iranis Shadebloom
-        tinsert(professionTrainers[professionKeys.TAILORING], 47421) -- Saren
-        tinsert(professionTrainers[professionKeys.TAILORING], 47431) -- Valn
-        tinsert(professionTrainers[professionKeys.TAILORING], 48619) -- Therisa Sallow
-        tinsert(professionTrainers[professionKeys.TAILORING], 50247) -- Jack "All-Trades" Derrington
-    end
-
-    if Expansions.Current >= Expansions.MoP then
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 56777) -- Ni Gentlepaw
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.ALCHEMY], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 64058) -- Jorunga Stonehoof
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 64085) -- Cullen Hammerblow
-        tinsert(professionTrainers[professionKeys.BLACKSMITHING], 66360) -- Master Brandom
-        tinsert(professionTrainers[professionKeys.COOKING], 56707) -- Chin
-        tinsert(professionTrainers[professionKeys.COOKING], 58712) -- Kol Ironpaw
-        tinsert(professionTrainers[professionKeys.COOKING], 58713) -- Anthea Ironpaw
-        tinsert(professionTrainers[professionKeys.COOKING], 58714) -- Mei Mei Ironpaw
-        tinsert(professionTrainers[professionKeys.COOKING], 58715) -- Yan Ironpaw
-        tinsert(professionTrainers[professionKeys.COOKING], 58716) -- Jian Ironpaw
-        tinsert(professionTrainers[professionKeys.COOKING], 58717) -- Bobo Ironpaw
-        tinsert(professionTrainers[professionKeys.COOKING], 64231) -- Sungshin Ironpaw
-        tinsert(professionTrainers[professionKeys.COOKING], 66353) -- Master Chang
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.ENCHANTING], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.ENGINEERING], 64924) -- Guyo Crystalgear
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 54614) -- Mishka
-        tinsert(professionTrainers[professionKeys.FIRST_AID], 56227) -- Mishka
-        tinsert(professionTrainers[professionKeys.FISHING], 63721) -- Nat Pagle
-        tinsert(professionTrainers[professionKeys.HERBALISM], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.HERBALISM], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.HERBALISM], 66355) -- Master Marshall
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.INSCRIPTION], 66355) -- Master Marshall
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.JEWELCRAFTING], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.LEATHERWORKING], 66354) -- Master Cannon
-        tinsert(professionTrainers[professionKeys.MINING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.MINING], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.SKINNING], 55646) -- Shademaster Kiryn
-        tinsert(professionTrainers[professionKeys.SKINNING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.SKINNING], 65043) -- Elder Oakpaw
-        tinsert(professionTrainers[professionKeys.SKINNING], 63825) -- Mr. Pleeb
-        tinsert(professionTrainers[professionKeys.SKINNING], 66354) -- Master Cannon
-        tinsert(professionTrainers[professionKeys.TAILORING], 57620) -- Whittler Dewei
-        tinsert(professionTrainers[professionKeys.TAILORING], 65043) -- Elder Oakpaw
     end
 
     if Expansions.Current >= Expansions.Tbc then
@@ -393,8 +211,8 @@ function Townsfolk.Initialize()
 
     if Expansions.Current >= Expansions.MoP then
         townfolk["Battle Pet Trainer"] = {}
-        for id, npcData in pairs(QuestieDB.npcData) do
-            local subName = npcData[QuestieDB.npcKeys.subName]
+        for id in pairs(QuestieDB.NPCPointers) do
+            local subName = QuestieDB.QueryNPCSingle(id, "subName")
             if subName and subName == "Battle Pet Trainer" then
                 tinsert(townfolk["Battle Pet Trainer"], id)
             end
@@ -412,7 +230,7 @@ function Townsfolk.Initialize()
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
-            if QuestieDB.npcData[trainer] then
+            if QuestieDB.NPCPointers[trainer] then
                 tinsert(newTrainers, trainer)
             end
         end
@@ -436,11 +254,12 @@ function Townsfolk.Initialize()
     local petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
     local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
 
-    count = 0
-    for id, data in pairs(QuestieDB.itemData) do
-        local foodType = data[QuestieDB.itemKeys.foodType]
-        if foodType then
-            tinsert(petFoodVendorTypes[petFoodIndexes[foodType]], id)
+    local count = 0
+    for id in pairs(QuestieDB.ItemPointers) do
+        -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
+        local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
+        if petFoodCategory then
+            tinsert(petFoodVendorTypes[petFoodCategory], id)
         end
         if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
             count = 0
@@ -451,13 +270,11 @@ function Townsfolk.Initialize()
 
     coroutine.yield()
 
-    --- Set the globals
-    Questie.db.global.townsfolk = townfolk
-
-    Questie.db.global.professionTrainers = professionTrainers
-    Questie.db.global.classSpecificTownsfolk = classSpecificTownsfolk
-    Questie.db.global.factionSpecificTownsfolk = factionSpecificTownsfolk
-    Questie.db.global.petFoodVendorTypes = petFoodVendorTypes
+    Townsfolk.townsfolk = townfolk
+    Townsfolk.professionTrainers = professionTrainers
+    Townsfolk.classSpecificTownsfolk = classSpecificTownsfolk
+    Townsfolk.factionSpecificTownsfolk = factionSpecificTownsfolk
+    Townsfolk.petFoodVendorTypes = petFoodVendorTypes
 end
 
 function Townsfolk.PostBoot() -- post DB boot (use queries here)
@@ -509,11 +326,11 @@ function Townsfolk:BuildCharacterTownsfolk()
     Questie.db.char.vendorList = {}
     Questie.db.char.townsfolkClass = UnitClassBase("player")
 
-    for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
+    for key, npcs in pairs(Townsfolk.factionSpecificTownsfolk[playerFaction]) do
         Questie.db.char.townsfolk[key] = npcs
     end
 
-    for key, npcs in pairs(Questie.db.global.classSpecificTownsfolk[playerClass]) do
+    for key, npcs in pairs(Townsfolk.classSpecificTownsfolk[playerClass]) do
         Questie.db.char.townsfolk[key] = npcs
     end
 end
@@ -521,9 +338,9 @@ end
 local function _UpdatePetFood() -- call on change pet
     Questie.db.char.vendorList["Pet Food"] = {}
     -- detect petfood vendors for player's pet
-    for _, key in pairs({GetStablePetFoodTypes(0)}) do
-        if Questie.db.global.petFoodVendorTypes[key] then
-            Townsfolk:PopulateVendors(Questie.db.global.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"], true)
+    for _, key in pairs({QuestieCompat.GetStablePetFoodTypes(0)}) do
+        if Townsfolk.petFoodVendorTypes[key] then
+            Townsfolk:PopulateVendors(Townsfolk.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"], true)
         end
     end
     Questie.db.char.vendorList["Pet Food"] = _reformatVendors(Questie.db.char.vendorList["Pet Food"])
@@ -608,8 +425,8 @@ function Townsfolk.GetFactionSpecificMailboxes()
     local mailboxes = Townsfolk.GetMailboxes()
     for i=1, #mailboxes do
         local id = mailboxes[i]
-        if QuestieDB.objectData[id] then
-            local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
+        if QuestieDB.ObjectPointers[id] then
+            local factionID = QuestieDB.QueryObjectSingle(id, "factionID")
 
             if factionID == 0 then
                 tinsert(hordeMailBoxes, id)

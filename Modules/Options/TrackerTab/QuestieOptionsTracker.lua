@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -11,8 +14,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
----@type TrackerQuestTimers
-local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type CommsVisibility
@@ -27,7 +30,7 @@ local _GetShortcuts
 local trackerOptions = {}
 
 local SharedMedia = LibStub("LibSharedMedia-3.0")
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 ---Toggle tracker visibility based on a condition
 ---@param shouldHide boolean Whether to hide (true) or show (false) the tracker
@@ -156,8 +159,8 @@ function QuestieOptions.tabs.tracker:Initialize()
 
                             -- Update Quest Log and mark tracked Quests
                             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-                            if questLogFrame:IsShown() then
-                                QuestLog_Update()
+                            if questLogFrame and questLogFrame:IsShown() then
+                                QuestieCompat.QuestLog_Update()
                             end
 
                             QuestieTracker:Update()
@@ -176,24 +179,17 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    showQuestTimer = {
+                    followSuperTracking = {
                         type = "toggle",
-                        order = 3,
+                        order = 3.1,
                         width = 1.5,
-                        name = function() return l10n("Show Blizzard Timer") end,
-                        desc = function() return l10n("If checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker.") end,
+                        name = function() return l10n("Follow Blizzard Super Tracking") end,
+                        desc = function() return l10n("If checked, the Quest Focus follows the quest that is super tracked by Blizzard, e.g. when accepting a quest or clicking it on the map.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.showBlizzardQuestTimer end,
+                        hidden = function() return not QuestieCompat.IsSuperTrackingSupported() end,
+                        get = function() return Questie.db.profile.trackerFollowSuperTracking end,
                         set = function(_, value)
-                            Questie.db.profile.showBlizzardQuestTimer = value
-
-                            if value == true then
-                                TrackerQuestTimers:ShowBlizzardTimer()
-                            else
-                                TrackerQuestTimers:HideBlizzardTimer()
-                            end
-
-                            QuestieTracker:Update()
+                            Questie.db.profile.trackerFollowSuperTracking = value
                         end
                     },
                     listAchievementsFirst = {
@@ -442,33 +438,27 @@ function QuestieOptions.tabs.tracker:Initialize()
                             -- Disable the hide option when minimize is enabled
                             if value then
                                 Questie.db.profile.hideTrackerInCombat = false
+                                QuestieTracker.OnHideInCombatChanged(false)
                             end
-                            if value and InCombatLockdown() then
-                                QuestieTracker:Collapse()
-                            else
-                                QuestieTracker:Expand()
-                            end
+                            QuestieTracker.OnMinimizeInCombatChanged(value)
                         end
                     },
-                    minimizeInDungeons = {
+                    minimizeInInstances = {
                         type = "toggle",
                         order = 2,
                         width = 1.5,
-                        name = function() return l10n("Minimize In Dungeons") end,
-                        desc = function() return l10n("If checked, the Questie Tracker will automatically be minimized when entering a dungeon.") end,
+                        name = function() return l10n("Minimize In Instances") end,
+                        desc = function() return l10n("If checked, the Questie Tracker will automatically be minimized when entering a dungeon, raid, or battleground.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.minimizeTrackerInDungeons end,
+                        get = function() return Questie.db.profile.minimizeTrackerInInstances end,
                         set = function(_, value)
-                            Questie.db.profile.minimizeTrackerInDungeons = value
+                            Questie.db.profile.minimizeTrackerInInstances = value
                             -- Disable the hide option when minimize is enabled
                             if value then
-                                Questie.db.profile.hideTrackerInDungeons = false
+                                Questie.db.profile.hideTrackerInInstances = false
+                                QuestieTracker.OnHideInInstancesChanged(false)
                             end
-                            if value and IsInInstance() then
-                                QuestieTracker:Collapse()
-                            else
-                                QuestieTracker:Expand()
-                            end
+                            QuestieTracker.OnMinimizeInInstancesChanged(value)
                         end
                     },
                     hideInCombat = {
@@ -483,24 +473,26 @@ function QuestieOptions.tabs.tracker:Initialize()
                             Questie.db.profile.hideTrackerInCombat = value
                             if value then
                                 Questie.db.profile.minimizeTrackerInCombat = false
+                                QuestieTracker.OnMinimizeInCombatChanged(false)
                             end
-                            toggleTrackerVisibility(value, InCombatLockdown)
+                            QuestieTracker.OnHideInCombatChanged(value)
                         end
                     },
-                    hideInDungeons = {
+                    hideInInstances = {
                         type = "toggle",
                         order = 4,
                         width = 1.5,
-                        name = function() return l10n("Hide In Dungeons") end,
-                        desc = function() return l10n("If checked, the Questie Tracker will automatically be hidden when entering a dungeon.") end,
+                        name = function() return l10n("Hide In Instances") end,
+                        desc = function() return l10n("If checked, the Questie Tracker will automatically be hidden when entering a dungeon, raid, or battleground.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.hideTrackerInDungeons end,
+                        get = function() return Questie.db.profile.hideTrackerInInstances end,
                         set = function(_, value)
-                            Questie.db.profile.hideTrackerInDungeons = value
+                            Questie.db.profile.hideTrackerInInstances = value
                             if value then
-                                Questie.db.profile.minimizeTrackerInDungeons = false
+                                Questie.db.profile.minimizeTrackerInInstances = false
+                                QuestieTracker.OnMinimizeInInstancesChanged(false)
                             end
-                            toggleTrackerVisibility(value, IsInInstance)
+                            QuestieTracker.OnHideInInstancesChanged(value)
                         end
                     },
                     hideInPetBattles = {
@@ -591,6 +583,47 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    showQuestFocusButtons = {
+                        type = "toggle",
+                        order = 7.1,
+                        width = 1.5,
+                        name = function() return l10n("Show Quest Focus Buttons") end,
+                        desc = function() return l10n("If checked, a round button in front of each Quest lets you focus or unfocus the Quest on the map.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowQuestFocusButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowQuestFocusButtons = value
+                            QuestieTracker:Update()
+                        end
+                    },
+                    showPlayButtons = {
+                        type = "toggle",
+                        order = 7.3,
+                        width = 1.5,
+                        name = function() return l10n("Show Play Buttons") end,
+                        desc = function() return l10n("If checked, a button in front of each Quest plays its voice-over from VoiceOver or Spoken.") end,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        hidden = function() return not (TrackerUtils:IsVoiceOverLoaded() or TrackerUtils:IsSpokenLoaded()) end,
+                        get = function() return Questie.db.profile.trackerShowPlayButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowPlayButtons = value
+                            QuestieTracker:Update()
+                        end
+                    },
+                    fadeQuestFocusButtons = {
+                        type = "toggle",
+                        order = 7.2,
+                        width = 1.5,
+                        name = function() return l10n("Fade Quest Focus Buttons") end,
+                        desc = function() return l10n("If checked, the Quest Focus Buttons will fade and become transparent when not in use.") end,
+                        disabled = function() return (not Questie.db.profile.trackerEnabled) or (not Questie.db.profile.trackerShowQuestFocusButtons) end,
+                        get = function() return Questie.db.profile.trackerFadeQuestFocusButtons end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerFadeQuestFocusButtons = value
+                            TrackerLinePool.SetAllQuestFocusAlpha(value and 0 or 1)
+                            QuestieTracker:Update()
+                        end
+                    },
                     disableHoverFade = {
                         type = "toggle",
                         order = 8,
@@ -652,7 +685,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         name = function() return l10n("Sticky VoiceOver Frame") end,
                         desc = function() return l10n("If checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        hidden = function() return not (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla")) end,
+                        hidden = function() return not TrackerUtils:IsVoiceOverLoaded() end,
                         get = function() return Questie.db.profile.stickyVoiceOverFrame end,
                         set = function(_, value)
                             Questie.db.profile.stickyVoiceOverFrame = value
@@ -810,6 +843,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                                     Questie.db.profile.alwaysShowTracker = value
                                     if (Questie.db.profile.alwaysShowTracker == true) and (Questie.db.char.isTrackerExpanded == false) then
                                         Questie.db.char.isTrackerExpanded = true
+                                        -- Expanding needs quest lines, not only formatting.
+                                        QuestieTracker:Update()
                                     end
                                     QuestieTracker:UpdateFormatting()
                                 end

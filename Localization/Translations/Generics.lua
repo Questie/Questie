@@ -407,7 +407,7 @@ local genericsLocales = {
         ["koKR"] = "파티",
         ["ptBR"] = "Grupo",
         ["ruRU"] = "Группа",
-        ["zhCN"] = "队伍",
+        ["zhCN"] = "小队",
         ["zhTW"] = "小隊",
     },
     ["Raid"] = {
@@ -457,6 +457,18 @@ local genericsLocales = {
         ["ruRU"] = "Достижения",
         ["zhCN"] = "成就",
         ["zhTW"] = "成就",
+    },
+    ["Recipes"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Rezepte",
+        ["esES"] = "Recetas",
+        ["esMX"] = "Recetas",
+        ["frFR"] = "Recettes",
+        ["koKR"] = "제조법",
+        ["ptBR"] = "Receitas",
+        ["ruRU"] = "Рецепты",
+        ["zhCN"] = "配方",
+        ["zhTW"] = "配方",
     },
     ["Dismiss"] = {
         ["enUS"] = true,

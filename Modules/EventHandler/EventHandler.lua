@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class EventHandler
 local EventHandler = QuestieLoader:CreateModule("EventHandler")
 local _EventHandler = {}
@@ -25,8 +28,12 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerQuestFrame
 local TrackerQuestFrame = QuestieLoader:ImportModule("TrackerQuestFrame")
+---@type TrackerRecipes
+local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerSuperTrack
+local TrackerSuperTrack = QuestieLoader:ImportModule("TrackerSuperTrack")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -51,18 +58,17 @@ local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
+---@type QuestieMenu
+local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type WatchFrameHook
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
-
-local trackerMinimizedByDungeon = false
-local trackerHiddenByDungeon = false
-
-
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
@@ -70,14 +76,24 @@ local FACTION_STANDING_CHANGED_PATTERN
 function EventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
 
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-        if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
-            -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
-            -- Don't use WorldMapFrame:Hide() that will cause taint issues
-            HideUIPanel(WorldMapFrame)
-            tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
+    local questPOIHandled = false
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function(event, isInitialLogin, isReloadingUi)
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
+        if not questPOIHandled then
+            if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
+                -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
+                -- Don't use WorldMapFrame:Hide() that will cause taint issues
+                HideUIPanel(WorldMapFrame)
+                tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
+            end
+            questPOIHandled = true
         end
-        Questie:UnregisterEvent("PLAYER_ENTERING_WORLD")
+
+        -- Instance changes need a layout even when quests are unchanged, which quest-log checks skip:
+        -- the Challenge Mode keystone after login, and the proximity sort restarting after leaving an instance.
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
     end)
 end
 
@@ -94,10 +110,29 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_ALIVE", function(...)
         QuestieTracker:UpdateDurabilityFrame()
         QuestieTracker:UpdateVoiceOverFrame()
+
+        -- HandleZoneChanged() defers minimizedByInstance's expand while the player is a ghost.
+        -- Re-run it on resurrection so the tracker restores if the player released/left the
+        -- instance while dead and only became alive again after already leaving it.
+        QuestieTracker.HandleZoneChanged()
     end)
 
     -- Events to update a players professions and reputations
-    Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
+    -- Skill chat can be secret; batch refreshes without retaining the chat arguments.
+    local skillUpdatePending = false
+    Questie:RegisterEvent("CHAT_MSG_SKILL", function()
+        if skillUpdatePending then
+            return
+        end
+
+        skillUpdatePending = true
+        Questie:ScheduleTimer(function()
+            skillUpdatePending = false
+            _EventHandler.ChatMsgSkill()
+        end, 2)
+    end)
+    -- Learning or unlearning a profession need not print CHAT_MSG_SKILL
+    Questie:RegisterBucketEvent("SKILL_LINES_CHANGED", 2, _EventHandler.ChatMsgSkill)
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, function()
         QuestEventHandler.ReputationChange()
         _EventHandler:ChatMsgCompatFactionChange()
@@ -124,6 +159,12 @@ function EventHandler:RegisterLateEvents()
         end
     end)
     Questie:RegisterEvent("QUEST_ACCEPTED", function(_, questLogIndex, questId)
+        if Questie.IsForever then
+            -- Forever sends only the quest ID; Classic sends the log index followed by the ID.
+            questId = questLogIndex
+            questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
+        end
+        TrackerSuperTrack.OnQuestAccepted(questId)
         QuestEventHandler.QuestAccepted(questLogIndex, questId)
     end)
     Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
@@ -159,68 +200,35 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_LOG_UPDATE", function()
         QuestEventHandler.QuestLogUpdate()
         QuestgiverFrame.RecheckGreeting()
+        QuestgiverFrame.RecheckGossip()
     end)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", function(_, questId) QuestEventHandler.QuestWatchUpdate(questId) end)
+    if QuestieCompat.IsSuperTrackingSupported() then
+        Questie:RegisterEvent("SUPER_TRACKING_CHANGED", TrackerSuperTrack.OnSuperTrackingChanged)
+    end
     Questie:RegisterEvent("QUEST_AUTOCOMPLETE", function(_, questId) QuestEventHandler.QuestAutoComplete(questId) end)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", function(_, unitTarget) QuestEventHandler.UnitQuestLogChanged(unitTarget) end)
-    Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", QuestEventHandler.CurrencyDisplayUpdate)
+    Questie:RegisterEvent("CURRENCY_DISPLAY_UPDATE", function(...)
+        QuestEventHandler.CurrencyDisplayUpdate(...)
+        if TrackerRecipes.HasCurrencyReagents() then
+            _EventHandler.UpdateTracker()
+        end
+    end)
+    Questie:RegisterEvent("CRITERIA_UPDATE", QuestEventHandler.CriteriaUpdate)
     Questie:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", function(_, eventType) QuestEventHandler.PlayerInteractionManagerFrameHide(eventType) end)
 
+    -- The client's quest data is stale from PLAYER_LEAVING_WORLD on, and whether LOADING_SCREEN_ENABLED comes before
+    -- or after it is not known: either one protects the cache.
+    Questie:RegisterEvent("PLAYER_LEAVING_WORLD", function()
+        QuestLogCache.OnLoadingScreenEnabled()
+    end)
     Questie:RegisterEvent("LOADING_SCREEN_ENABLED", function()
         QuestLogCache.OnLoadingScreenEnabled()
     end)
 
     Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
         Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-        -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
-        -- backend Questie updates that occur when a player zones in/out of an instance. This
-        -- is necessary to get everything back into it's "normal" state after all the updates.
-        local isInInstance, instanceType = IsInInstance()
-
-        if isInInstance then
-            C_Timer.After(8, function()
-                Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
-                if Questie.db.profile.minimizeTrackerInDungeons then
-                    trackerMinimizedByDungeon = true
-
-                    QuestieCombatQueue:Queue(function()
-                        QuestieTracker:Collapse()
-                    end)
-                end
-
-                -- Handle complete hiding in dungeons
-                if Questie.db.profile.hideTrackerInDungeons then
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Hiding tracker completely in dungeon")
-                    trackerHiddenByDungeon = true
-                    QuestieTracker:Hide()
-                end
-            end)
-        else
-            -- Handle exiting instances for both minimize and hide
-            if trackerMinimizedByDungeon == true then
-                C_Timer.After(8, function()
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Minimize")
-                    if Questie.db.profile.minimizeTrackerInDungeons and (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) then
-                        trackerMinimizedByDungeon = false
-
-                        QuestieCombatQueue:Queue(function()
-                            QuestieTracker:Expand()
-                        end)
-                    end
-                end)
-            end
-
-            -- Handle complete hiding when exiting dungeons
-            if trackerHiddenByDungeon == true then
-                C_Timer.After(8, function()
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance - Complete Hide")
-                    if Questie.db.profile.hideTrackerInDungeons then
-                        trackerHiddenByDungeon = false
-                        QuestieTracker:Show()
-                    end
-                end)
-            end
-        end
+        QuestieTracker.HandleZoneChanged()
     end)
 
     -- Pet Battle Events (MoP onwards)
@@ -267,13 +275,11 @@ function EventHandler:RegisterLateEvents()
 
     -- UI Achievement Events
     if Expansions.Current >= Expansions.Wotlk and Questie.db.profile.trackerEnabled then
-        Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(_, achieveId)
-            AchievementEventHandler.AchievementEarned(achieveId)
-        end)
+        Questie:RegisterEvent("ACHIEVEMENT_EARNED", AchievementEventHandler.AchievementEarned)
 
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", AchievementEventHandler.TrackedAchievementUpdate)
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achieveId)
-            AchievementEventHandler.TrackedAchievementListChanged(achieveId)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(_, achievementId)
+            AchievementEventHandler.TrackedAchievementListChanged(achievementId)
         end)
 
         -- This fires pretty often, multiple times for a single Achievement change and also for things most likely not related to Achievements at all.
@@ -283,6 +289,22 @@ function EventHandler:RegisterLateEvents()
         Questie:RegisterEvent("CHAT_MSG_MONEY", AchievementEventHandler.ChatMsgMoney)
         Questie:RegisterEvent("CHAT_MSG_TEXT_EMOTE", AchievementEventHandler.ChatMsgTextEmote)
         Questie:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", AchievementEventHandler.PlayerEquipmentChanged)
+    end
+
+    if TrackerRecipes.IsSupported() then
+        Questie:RegisterEvent("TRACKED_RECIPE_UPDATE", _EventHandler.UpdateTracker)
+        -- A bucket, because QuestieTracker temporarily registers BAG_UPDATE_DELAYED as a plain event for quest items
+        Questie:RegisterBucketEvent("BAG_UPDATE_DELAYED", 0.5, function()
+            if TrackerRecipes.HasTrackedRecipes() then
+                _EventHandler.UpdateTracker()
+            end
+        end)
+        -- C_Item.RequestLoadItemDataByID answers with ITEM_DATA_LOAD_RESULT, not GET_ITEM_INFO_RECEIVED
+        Questie:RegisterEvent("ITEM_DATA_LOAD_RESULT", function(_, itemId, success)
+            if success and TrackerRecipes.OnItemInfoReceived(itemId) then
+                _EventHandler.UpdateTracker()
+            end
+        end)
     end
 
     if Expansions.Current >= Expansions.MoP then
@@ -332,15 +354,6 @@ function EventHandler:RegisterLateEvents()
         -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
             QuestieCombatQueue:Queue(WatchFrameHook.Hide)
-        end)
-    end
-
-    if Expansions.Current >= Expansions.MoP then
-        Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_ENTERING_WORLD")
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
         end)
     end
 
@@ -435,6 +448,12 @@ end
 --- Fires when a System Message (yellow text) is output to the main chat window
 ---@param message string The message value from the CHAT_MSG_SYSTEM event
 function _EventHandler:ChatMsgSystem(message)
+    if issecretvalue and issecretvalue(message) then
+        -- The text cannot identify reputation changes; check the current faction state instead.
+        _EventHandler:ChatMsgCompatFactionChange()
+        return
+    end
+
     -- When a new quest is accepted or completed quest is turned in, update the LibDataBroker text with the appropriate message
     if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
         MinimapIcon:UpdateText(message)
@@ -510,7 +529,7 @@ function _EventHandler:ModifierStateChanged(key, down)
         -- getting reset properly and getting stuck to the Mouse Cursor.
 
         -- Questie Map Icons
-        if MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or MouseIsOver(Minimap) then
+        if QuestieCompat.MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or QuestieCompat.MouseIsOver(Minimap) then
             if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
                 GameTooltip:Hide()
                 GameTooltip:ClearLines()
@@ -523,7 +542,7 @@ function _EventHandler:ModifierStateChanged(key, down)
 
         -- Questie Tracker Sizer
         if QuestieTracker.started then
-            if MouseIsOver(Questie_BaseFrame.sizer) then
+            if QuestieCompat.MouseIsOver(Questie_BaseFrame.sizer) then
                 if down == 1 then
                     if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
                         GameTooltip:Hide()
@@ -541,11 +560,6 @@ function _EventHandler:ModifierStateChanged(key, down)
                 end
             end
         end
-    end
-
-    if QuestieTracker.started then
-        -- AI_VoiceOver PlayButtons
-        TrackerUtils:ShowVoiceOverPlayButtons()
     end
 
     if Questie.db.profile.trackerLocked then
@@ -575,14 +589,17 @@ function _EventHandler:ModifierStateChanged(key, down)
     end
 end
 
---- Fires when some chat messages about skills are displayed
+---Refreshes skill-gated quests after skill chat or skill line changes.
 function _EventHandler:ChatMsgSkill()
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_SKILL")
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] Profession skills changed")
 
-    -- This needs to be done to draw new quests that just came available
+    -- Redraw for professions gained or lost as well as skill thresholds crossed.
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     if isProfUpdate or isNewProfession then
         AvailableQuests.CalculateAndDrawAll()
+    end
+    if Questie.db.profile.townsfolkKnownProfessions then
+        QuestieMenu.RefreshKnownProfessionTrainers()
     end
 
     -- Skill based Achievement updates
@@ -606,27 +623,14 @@ function _EventHandler:ChatMsgCompatFactionChange()
     end
 end
 
-local trackerMinimizedByCombat, trackerHiddenByCombat = false, false
 local optionsHiddenByCombat, journeyHiddenByCombat = false, false
+
 function _EventHandler:PlayerRegenDisabled()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
     if QuestieTracker then
-        if Questie.db.profile.minimizeTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerMinimizedByCombat) then
-            trackerMinimizedByCombat = true
-            QuestieTracker:Collapse()
-        end
-
-        -- Handle complete hiding in combat
-        if Questie.db.profile.hideTrackerInCombat and (not trackerHiddenByCombat) then
-            trackerHiddenByCombat = true
-            QuestieTracker:Hide()
-        end
-
-        if IsInInstance() and Questie.db.profile.minimizeTrackerInDungeons then
-            QuestieTracker:Collapse()
-        end
+        QuestieTracker.HandleCombatStarted()
     end
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
@@ -644,28 +648,19 @@ function _EventHandler:PlayerRegenDisabled()
             QuestieJourney:ToggleJourneyWindow()
         end
     end
+
+    -- The Native settings panel can be shown in combat, unlike Ace, but some of its options
+    -- (like toggling the tracker) cannot be changed in combat, so we disable those ones in combat.
+    -- Changing their enabled/disabled visible state requires calling RefreshStates(),
+    -- so we refresh them at the start and end of combat if the settings panel is visible.
+    -- There is a delay here because InCombatLockdown() doesn't return accurately immediately following PLAYER_REGEN_DISABLED.
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshStates() end)
 end
 
 function _EventHandler:PlayerRegenEnabled()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.profile.minimizeTrackerInCombat and trackerMinimizedByCombat then
-        if (not Questie.db.profile.minimizeTrackerInDungeons) or (not IsInInstance()) then
-            trackerMinimizedByCombat = false
-            QuestieTracker:Expand()
-        end
 
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-    end
-
-    -- Handle complete hiding in combat
-    if Questie.db.profile.hideTrackerInCombat and trackerHiddenByCombat then
-        if (not Questie.db.profile.hideTrackerInDungeons) or (not IsInInstance()) then
-            trackerHiddenByCombat = false
-            QuestieTracker:Show()
-        end
-    end
+    QuestieTracker.HandleCombatEnded()
 
     if optionsHiddenByCombat then
         QuestieConfigFrame:Show()
@@ -676,4 +671,12 @@ function _EventHandler:PlayerRegenEnabled()
         QuestieJourney:ToggleJourneyWindow()
         journeyHiddenByCombat = false
     end
+
+    C_Timer.After(0.1, function() QuestieOptionsEngine:RefreshStates() end)
+end
+
+function _EventHandler.UpdateTracker()
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
 end

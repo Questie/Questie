@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
@@ -17,7 +20,19 @@ local _validSubTypes = {Accept = true, Complete = true, Abandon = true}
 ---Returns journey data for all other characters on this account that have journey entries
 ---@return table<string, table> charKey -> journeyData
 local function _GetOtherCharactersWithJourney()
-    local currentKey = UnitName("player") .. " - " .. GetRealmName()
+    -- This needs to stay in sync with the charKey that is created in Libs/AceDB-3.0/AceDB-3.0.lua
+    local currentKey
+    if RegionalUniqueNamesEnabled and RegionalUniqueNamesEnabled() then
+		local name, surname = UnitNameUnmodified("player")
+		if surname then
+			currentKey = name .. " " .. tostring(surname)
+		else
+			currentKey = name
+		end
+    else
+        currentKey = UnitNameUnmodified("player") .. " - " .. GetRealmName()
+    end
+
     local results = {}
     for charKey, charData in pairs((QuestieConfig and QuestieConfig.char) or {}) do
         if charKey ~= currentKey and charData.journey and #charData.journey > 0 then
@@ -138,7 +153,7 @@ function QuestieJourney:ShowCharacterBrowserFrame()
             return
         end
         _pendingJourneyImport = journey
-        StaticPopup_Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
+        Popup.Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
     end)
 
     frame:AddChild(dropdown)
@@ -149,8 +164,10 @@ function QuestieJourney:ShowCharacterBrowserFrame()
 end
 
 ---Popup dialog for confirming journey import
----@type StaticPopupDialog
-StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
+---@type DialogDefinition
+Popup.Dialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
+    -- Reopening confirms the latest selection without cancelling its pending data.
+    noCancelOnReuse = true,
     text = "",
     button1 = YES,
     button2 = NO,
@@ -173,5 +190,4 @@ StaticPopupDialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }

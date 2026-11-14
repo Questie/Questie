@@ -1,10 +1,35 @@
 dofile("Modules/Libs/QuestieLoader.lua")
+_G.GetBuildInfo = function() return "5.5.3", "0", "", 50503 end
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 
-dofile("Database/itemDB.lua")
-dofile("Database/questDB.lua")
-dofile("Database/Zones/data/zoneIds.lua")
+-- Entity schemas come from the QuestieDB seam in tests that need database metadata.
+
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
+-- Only constants used by test cases and their loaded modules belong in this fixture.
+-- Keep unknown names nil so missing setup cannot silently change a test's behavior.
+---@type table<string, AreaId>
+ZoneDB.zoneIDs = {
+    -- ZoneDB and tracker tests.
+    DUN_MOROGH = 1,
+    DUROTAR = 14,
+    BURNING_STEPPES = 46,
+    SEARING_GORGE = 51,
+    ZUL_DRAK = 66,
+    FERALAS = 357,
+    DIRE_MAUL = 2557,
+
+    -- Retained Classic/TBC Darkmoon policy producers.
+    ELWYNN_FOREST = 12,
+    MULGORE = 215,
+    TEROKKAR_FOREST = 3519,
+
+    -- QuestieDB's file-scope transport routes, also loaded by QuestieLib and l10n tests.
+    ICECROWN = 210,
+    DEEPHOLM = 5042,
+}
 
 local EMTPY_FUNC = function() end
 
@@ -48,9 +73,16 @@ _G.wipe = function(t)
     return t
 end
 
-_G.Enum = {ItemQuality = {Poor = 0, Standard = 1}}
+-- QuestieDB is installed per test file by test/QuestieDBMock.lua; never inherit another file's fake.
+_G.LibQuestieDB = nil
+
+_G.Enum = {
+    ItemQuality = {Poor = 0, Standard = 1},
+    UIMapType = {Cosmic = 0, World = 1, Continent = 2, Zone = 3, Dungeon = 4, Micro = 5, Orphan = 6},
+}
 
 _G.MAX_NUM_QUESTS = 25
+QuestieLoader:ImportModule("QuestieCompat").MAX_NUM_QUESTS = 25
 _G.QUEST_MONSTERS_KILLED = ""
 _G.QUEST_ITEMS_NEEDED = ""
 _G.QUEST_OBJECTS_FOUND = ""
@@ -94,7 +126,14 @@ _G.UnitInParty = function() return false end
 _G.UnitInRaid = function() return false end
 _G.UnitFactionGroup = function() return "Horde" end
 _G.UnitName = function() return "Testi" end
+_G.UnitNameUnmodified = function() return "Testi" end
 _G.GetRealmName = function() return "Ook Ook" end
+_G.GetUnitName = function(unit, fullName)
+    if unit == "player" and fullName then
+        return "Testi Lastname"
+    end
+    return "Testi"
+end
 _G.QUEST_MONSTERS_KILLED = "%s slain: %d/%d"
 _G.QUEST_ITEMS_NEEDED = "%s: %d/%d"
 _G.QUEST_OBJECTS_FOUND = "%s: %d/%d"
@@ -216,6 +255,8 @@ setmetatable(_G.CreateFrame, {
                 return frameType
             end,
             RegisterForClicks = EMTPY_FUNC,
+            EnableMouse = EMTPY_FUNC,
+            SetFrameLevel = EMTPY_FUNC,
             SetAttribute = function(_, key, value)
                 attributes[key] = value
             end,

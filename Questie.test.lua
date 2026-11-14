@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 describe("Questie", function()
     local startupCalls
@@ -192,6 +193,115 @@ describe("Questie", function()
         assert.are_same(1, #reportedErrors)
         assert.are_same("QuestieProfiler failed to close the load-timing capture", reportedErrors[1][2])
         assert.is_truthy(string.find(reportedErrors[1][3], "expected load close failure", 1, true))
+    end)
+
+    describe("Warning", function()
+        local originalProfile
+
+        before_each(function()
+            dofile("Questie.lua")
+            originalProfile = Questie.db.profile
+            Questie.db.profile = {debugEnabled = false, debugEnabledPrint = true, debugLevel = Questie.DEBUG_CRITICAL}
+            Questie.Print = spy.new(function() end)
+        end)
+
+        after_each(function()
+            Questie.db.profile = originalProfile
+        end)
+
+        it("does not print warnings when debug mode is disabled", function()
+            Questie.Warning("Missing objective data for quest ", 42, " ", "Wolf")
+
+            assert.spy(Questie.Print).was.not_called()
+        end)
+
+        it("prints important warnings in debug mode even with verbose debug output disabled", function()
+            Questie.db.profile.debugEnabled = true
+            Questie.db.profile.debugEnabledPrint = false
+            Questie.db.profile.debugLevel = 0
+
+            Questie.Warning("Missing objective data for quest ", 42, " ", "Wolf")
+
+            assert.spy(Questie.Print).was.called_with(Questie, "|cffffff00[WARNING]|r",
+                "Missing objective data for quest ", 42, " ", "Wolf")
+        end)
+    end)
+
+    describe("Forever tracker lifecycle", function()
+        local originalForever
+        local originalShowWatchFrame
+        local originalHideWatchFrame
+        local originalExpansion
+        local originalProfile
+        local expansions
+
+        before_each(function()
+            originalForever = Questie.IsForever
+            originalShowWatchFrame = QuestieCompat.ShowWatchFrame
+            originalHideWatchFrame = QuestieCompat.HideWatchFrame
+            originalProfile = Questie.db.profile
+            expansions = QuestieLoader:ImportModule("Expansions")
+            originalExpansion = expansions.Current
+            Questie.IsForever = true
+            expansions.Current = expansions.Era
+            Questie.db.profile = {trackerEnabled = true}
+            QuestieCompat.HideWatchFrame = spy.new(function() end)
+            QuestieCompat.ShowWatchFrame = spy.new(function() end)
+            dofile("Questie.lua")
+        end)
+
+        after_each(function()
+            Questie.IsForever = originalForever
+            QuestieCompat.ShowWatchFrame = originalShowWatchFrame
+            QuestieCompat.HideWatchFrame = originalHideWatchFrame
+            Questie.db.profile = originalProfile
+            expansions.Current = originalExpansion
+        end)
+
+        it("releases and reacquires the modern tracker despite using Era content", function()
+            Questie:OnDisable()
+            assert.spy(QuestieCompat.ShowWatchFrame).was.called(1)
+
+            Questie:OnEnable()
+            assert.spy(QuestieCompat.HideWatchFrame).was.called(1)
+        end)
+
+        it("should hide the watch frame when the legacy Blizzard timer setting is true", function()
+            Questie.db.profile.showBlizzardQuestTimer = true
+
+            Questie:OnEnable()
+
+            assert.spy(QuestieCompat.HideWatchFrame).was.called(1)
+        end)
+    end)
+
+    describe("RefreshConfig", function()
+        it("redraws waypoint lines with the new profile's settings", function()
+            local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+            local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+            local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+            local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
+            local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+            local originals = {QuestieQuest.SmoothReset, TrackerBaseFrame.OnProfileChange, CommsVisibility.ScheduleSnapshot,
+                WaypointRenderer.RedrawAll, QuestieWaypoints.Refresh}
+            finally(function()
+                QuestieQuest.SmoothReset, TrackerBaseFrame.OnProfileChange = originals[1], originals[2]
+                CommsVisibility.ScheduleSnapshot, WaypointRenderer.RedrawAll = originals[3], originals[4]
+                QuestieWaypoints.Refresh = originals[5]
+            end)
+            QuestieQuest.SmoothReset = function() end
+            TrackerBaseFrame.OnProfileChange = function() end
+            CommsVisibility.ScheduleSnapshot = function() end
+            WaypointRenderer.RedrawAll = spy.new(function() end)
+            QuestieWaypoints.Refresh = spy.new(function() end)
+            dofile("Questie.lua")
+            Questie.SetIcons = function() end
+
+            Questie:RefreshConfig("OnProfileChanged")
+
+            assert.spy(WaypointRenderer.RedrawAll).was.called(1)
+            assert.spy(QuestieWaypoints.Refresh).was.called(1)
+        end)
     end)
 
     describe("Colorize", function()

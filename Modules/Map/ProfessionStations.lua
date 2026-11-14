@@ -14,9 +14,9 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
--- Object IDs for profession workstations, generated from the object databases of all
--- expansions. Objects that have no spawns in the current expansion are skipped by
--- QuestieMap:ShowObject, so a single list per category covers every expansion.
+-- QuestieDB owns the object rows, names, and localization. This module owns only
+-- the station display policy and the ID lists; objects without active spawns are
+-- skipped by QuestieMap:ShowObject, so one list per category covers every expansion.
 ---@type table<string, ObjectId[]>
 ProfessionStations.data = {
     moonwell = {

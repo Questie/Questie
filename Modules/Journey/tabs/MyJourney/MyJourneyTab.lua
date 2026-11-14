@@ -74,7 +74,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
     QuestieJourneyUtils:Spacer(container);
 
     local treeHeader = AceGUI:Create("Heading");
-    treeHeader:SetText(l10n("%s's Journey", UnitName("player")));
+    treeHeader:SetText(l10n("%s's Journey", GetUnitName("player", true)));
     treeHeader:SetFullWidth(true);
     container:AddChild(treeHeader);
 

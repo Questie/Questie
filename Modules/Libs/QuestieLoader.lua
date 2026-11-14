@@ -185,7 +185,7 @@ end
 ---
 ---Pass an addon-relative identity when a wrapper announces the file loaded immediately after it. The
 ---override is used verbatim instead of the wrapper's `debugstack` source:
----  QuestieLoader:StampLoadBoundary("Libs/HereBeDragons/HereBeDragons-2.0.lua")
+---  QuestieLoader:StampLoadBoundary("Libs/LibDeflate/LibDeflate.lua")
 ---
 ---Only main-chunk calls take effect. Locale lookup XML uses the first form because most of its child files
 ---return before reaching a module call; a wrapper can use the second form to keep those child intervals distinct.

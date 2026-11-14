@@ -467,7 +467,7 @@ local searchLocales = {
         ["koKR"] = "해당되는 모든 퀘스트를 완료해야 합니다",
         ["ptBR"] = "Requer que todas estas missões sejam concluídas",
         ["ruRU"] = "Требуется выполнение всех этих заданий",
-        ["zhCN"] = "必須完成以下所有任务",
+        ["zhCN"] = "需要完成所有这些任务",
         ["zhTW"] = "需要完成所有這些任務",
     },
     ["Requires one of these quests to be finished"] = {
@@ -479,7 +479,7 @@ local searchLocales = {
         ["koKR"] = "해당 퀘스트 중 한가지를 완료해야 합니다",
         ["ptBR"] = "Requer que uma destas missões seja concluída",
         ["ruRU"] = "Требуется выполнение одного из этих заданий",
-        ["zhCN"] = "必須完成以下任务之一",
+        ["zhCN"] = "需要完成以下任务之一",
         ["zhTW"] = "需要完成其中之一任務",
     },
     ["Object"] = {

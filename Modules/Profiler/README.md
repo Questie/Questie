@@ -89,8 +89,8 @@ its predecessor. XML groups that would otherwise be invisible open with
   It also could never run: `QuestieLoader` calls `GetTimePreciseSec` directly and would have aborted the addon
   first. If the clock is ever absent the loader records nothing and the profiler declines to arm, saying so in
   chat. Do not reintroduce a second clock; a measurement that can go backwards is worse than none.
-- **`PROFILING_DISALLOWED_PATHS` is deliberate.** `QuestieStreamLib`, the `DBCompiler` reader/writer/skipper
-  tables, the serializer dispatch tables and the `QuestieDB.Query*` slots run thousands of times inside one
+- **`PROFILING_DISALLOWED_PATHS` is deliberate.** `QuestieStreamLib`, the serializer dispatch tables, and the
+  `QuestieDB.Query*` slots run thousands of times inside one
   useful high-level measurement and would otherwise dominate every result. Their cost is still visible
   inclusively in whatever called them. Do not "fix" this.
 - **Never re-open generic frame traversal.** Frames are runtime objects with protected behaviour and enormous
@@ -154,10 +154,12 @@ Two consequences to be honest about. The indirection is permanent for the sessio
 it - only a reload does**; the window says so. And the pre-hook is what makes the engine's exclusion list
 load-bearing twice over, which is what the cross-check rule above is for.
 
-Bundled libraries are allowlisted by LibStub major, Questie-suffixed ones only. The other ~22 majors LibStub
-holds are generic (Ace3, CallbackHandler, LibSharedMedia, LibDBIcon, Krowi) and registration is not ownership:
-the loaded copy may belong to another addon, so wrapping those tables would count other addons' calls, add
-overhead to them, and let this report claim work that is not Questie's.
+HereBeDragons is a set of Questie modules (`HBD`, `HBDPins`, `HBDMigrate`) and is allowlisted by module name. The
+library pass runs before the module pass, so it keeps its `Libs.*` names, frame scripts and exclusions, and the
+pre-hook leaves it alone. The other bundled libraries are allowlisted by LibStub major, Questie-suffixed ones
+only. The other ~22 majors LibStub holds are generic (Ace3, CallbackHandler, LibSharedMedia, LibDBIcon, Krowi)
+and registration is not ownership: the loaded copy may belong to another addon, so wrapping those tables would
+count other addons' calls, add overhead to them, and let this report claim work that is not Questie's.
 
 ## What has been measured
 
@@ -239,8 +241,10 @@ expensive job in a startup profile.
 - **Blanket `_G` traversal, blanket `LibStub:IterateLibraries()`, generic frame traversal, and global slot
   replacement.** Unbounded, affect unrelated addons, ambiguous ownership, taint risk. Global replacement also
   cannot be undone: a wrapper already captured into another addon's local survives restoration.
-- **Re-registering vendored libraries through QuestieLoader** instead of the LibStub allowlist. Same coverage,
-  but it edits vendored source, breaks LibStub's version guard, and creates a merge conflict on every update.
+- **Re-registering vendored libraries through QuestieLoader** just for the profiler, instead of the LibStub
+  allowlist. Same coverage, but it edits vendored source, breaks LibStub's version guard, and creates a merge
+  conflict on every update. HereBeDragons became a Questie module for another reason: addons that copied it kept
+  its world map pin template and collided with Questie's pins. The profiler follows it there.
 - **Rewriting the profiler around `C_AddOnProfiler.MeasureCall`** - see below.
 
 ## `C_AddOnProfiler.MeasureCall`, evaluated but not built
@@ -266,7 +270,7 @@ is unsafe, or if overhead is materially worse.
 ## Measuring something new
 
 The question "is X slow?" is usually answerable ad hoc in a few lines rather than by building anything - that
-is how every number above was produced. A live client and the WoWDevBridge CLI are enough:
+is how every number above was produced. A live client is enough:
 
 - Wrap a library table temporarily from a `/run` snippet, drive the workload, read the counters, restore
   ownership-safely: only put the original back if the slot still holds your wrapper.

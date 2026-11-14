@@ -1,225 +1,243 @@
 dofile("setupTests.lua")
 
-dofile("Database/itemDB.lua")
-dofile("Database/npcDB.lua")
-dofile("Database/objectDB.lua")
-dofile("Database/questDB.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("l10n", function()
-
-    ---@type QuestieDB
-    local QuestieDB
     ---@type l10n
     local l10n
+    ---@type QuestieDBMock
+    local mock
 
     local originalGetLocale
-    local originalQuestieDBState
-    local originalL10nState
-
-    local function _SetupEnglishData()
-        QuestieDB.itemData = {[750] = {[QuestieDB.itemKeys.name] = "Tough Wolf Meat"}}
-        QuestieDB.npcData = {[99] = {[QuestieDB.npcKeys.name] = "Morgaine the Sly"}}
-        QuestieDB.objectData = {[60] = {[QuestieDB.objectKeys.name] = "WANTED: Gath'Ilzogg"}}
-        QuestieDB.questData = {[1359] = {[QuestieDB.questKeys.name] = "Zinge's Delivery"}}
-        l10n.itemLookup = {}
-        l10n.questLookup = {}
-        l10n.npcNameLookup = {}
-        l10n.objectLookup = {}
-        l10n.questLookupOverrides = nil
-    end
-
-    local function _SaveModuleState()
-        originalQuestieDBState = {
-            itemData = QuestieDB.itemData,
-            npcData = QuestieDB.npcData,
-            objectData = QuestieDB.objectData,
-            questData = QuestieDB.questData,
-        }
-        originalL10nState = {
-            itemLookup = l10n.itemLookup,
-            questLookup = l10n.questLookup,
-            npcNameLookup = l10n.npcNameLookup,
-            objectLookup = l10n.objectLookup,
-            questLookupOverrides = l10n.questLookupOverrides,
-        }
-    end
-
-    local function _RestoreModuleState()
-        QuestieDB.itemData = originalQuestieDBState.itemData
-        QuestieDB.npcData = originalQuestieDBState.npcData
-        QuestieDB.objectData = originalQuestieDBState.objectData
-        QuestieDB.questData = originalQuestieDBState.questData
-        l10n.itemLookup = originalL10nState.itemLookup
-        l10n.questLookup = originalL10nState.questLookup
-        l10n.npcNameLookup = originalL10nState.npcNameLookup
-        l10n.objectLookup = originalL10nState.objectLookup
-        l10n.questLookupOverrides = originalL10nState.questLookupOverrides
-    end
-
-    local function _InitializeLocale(locale)
-        _G.GetLocale = function() return locale end
-
-        l10n.InitializeUILocale()
-        l10n:Initialize()
-    end
 
     before_each(function()
-        _G.QUESTIE_LOCALES_OVERRIDE = nil
+        mock = LoadQuestieDBMock()
         originalGetLocale = _G.GetLocale
-        dofile("Database/QuestieDB.lua")
-        QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        _G.QUESTIE_LOCALES_OVERRIDE = nil
+        Questie.db.global.questieLocaleDiff = false
+        Questie.db.global.questieLocale = nil
 
         dofile("Localization/l10n.lua")
         l10n = QuestieLoader:ImportModule("l10n")
-
-        _SaveModuleState()
-        _SetupEnglishData()
     end)
 
     after_each(function()
-        _G.QUESTIE_LOCALES_OVERRIDE = nil
         _G.GetLocale = originalGetLocale
-        _RestoreModuleState()
+        _G.QUESTIE_LOCALES_OVERRIDE = nil
     end)
 
-    it("should return fallback UI locales without changing the current UI locale", function()
+    it("returns fallback UI locales without changing the active UI locale", function()
         l10n:SetUILocale("deDE")
 
         assert.are_same("enUS", l10n:GetFallbackLocale("unsupported"))
         assert.are_same("deDE", l10n:GetUILocale())
     end)
 
-    it("should return locale override locales as supported fallbacks", function()
-        Questie.db.global.questieLocaleDiff = false
+    it("uses the configured Questie UI locale", function()
+        Questie.db.global.questieLocaleDiff = true
+        Questie.db.global.questieLocale = "frFR"
+
+        l10n.InitializeUILocale()
+
+        assert.are_same("frFR", l10n:GetUILocale())
+    end)
+
+    it("keeps the configured UI locale while registering external UI translations", function()
+        Questie.db.global.questieLocaleDiff = true
+        Questie.db.global.questieLocale = "frFR"
+        l10n.translations["Questie string"] = {
+            enUS = true,
+            frFR = "Configured string",
+        }
         _G.QUESTIE_LOCALES_OVERRIDE = {
             locale = "zzZZ",
-            itemLookup = function() return {} end,
-            questLookup = function() return {} end,
-            npcNameLookup = function() return {} end,
-            objectLookup = function() return {} end,
-            translations = {},
+            translations = {
+                ["Questie string"] = "External string",
+            },
         }
 
         l10n.InitializeUILocale()
 
-        assert.are_same("zzZZ", l10n:GetFallbackLocale("zzZZ"))
+        assert.are_same("frFR", l10n:GetUILocale())
+        assert.are_same("Configured string", l10n("Questie string"))
+        assert.are_same("External string", l10n.translations["Questie string"].zzZZ)
     end)
 
-    it("should keep enUS names without lookup", function()
-        _InitializeLocale("enUS")
+    it("uses the client locale when Questie has no locale override", function()
+        _G.GetLocale = function() return "deDE" end
 
-        assert.are_same("Tough Wolf Meat", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
-        assert.are_same("Morgaine the Sly", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
-        assert.are_same("WANTED: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
-        assert.are_same("Zinge's Delivery", QuestieDB.questData[1359][QuestieDB.questKeys.name])
+        l10n.InitializeUILocale()
+
+        assert.are_same("deDE", l10n:GetUILocale())
     end)
 
-    -- Generated lookup files are validated under Localization/lookups; these behavior tests only need one non-English locale.
-    it("should localize item names", function()
-        l10n.itemLookup["deDE"] = function()
-            return {[750] = "Zähes Wolfsfleisch"}
-        end
+    it("registers external UI translations under the external locale", function()
+        l10n.translations["Questie string"] = {enUS = true}
+        _G.QUESTIE_LOCALES_OVERRIDE = {
+            locale = "zzZZ",
+            translations = {
+                ["Questie string"] = "External string",
+            },
+        }
 
-        _InitializeLocale("deDE")
+        l10n.InitializeUILocale()
 
-        assert.are_same("Zähes Wolfsfleisch", QuestieDB.itemData[750][QuestieDB.itemKeys.name])
+        assert.are_same("zzZZ", l10n:GetUILocale())
+        assert.are_same("External string", l10n("Questie string"))
     end)
 
-    it("should localize NPC names from string lookup values", function()
-        l10n.npcNameLookup["deDE"] = function()
-            return {[99] = "Morgaine die Verschlagene"}
-        end
+    it("falls back to the English key when a UI translation is unavailable", function()
+        l10n:SetUILocale("deDE")
 
-        _InitializeLocale("deDE")
-
-        assert.are_same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
+        assert.are_same("Missing 7", l10n("Missing %d", 7))
     end)
 
-    it("should localize NPC names and subnames from table lookup values", function()
-        l10n.npcNameLookup["deDE"] = function()
-            return {[99] = {"Morgaine die Verschlagene", "Seltene Gegnerin"}}
+    describe("external entity names", function()
+        local itemKeys, questKeys, npcKeys, objectKeys
+
+        before_each(function()
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            itemKeys, questKeys, npcKeys, objectKeys = QuestieDB.itemKeys, QuestieDB.questKeys, QuestieDB.npcKeys, QuestieDB.objectKeys
+            mock.SetBaseRow("Item", 5, {[itemKeys.name] = "Sharptalon's Claw"})
+            mock.SetBaseRow("Quest", 2, {[questKeys.name] = "Sharptalon's Claw", [questKeys.objectivesText] = {"Bring the claw."}})
+            mock.SetBaseRow("Quest", 3, {[questKeys.name] = "Webwood Venom"})
+            mock.SetBaseRow("Npc", 30, {[npcKeys.name] = "Forest Spider"})
+            mock.SetBaseRow("Object", 31, {[objectKeys.name] = "Old Lion Statue"})
+        end)
+
+        for _, externalLocale in ipairs({"deDE", "ukUA"}) do
+            it("forwards all four lookups under " .. externalLocale, function()
+                _G.QUESTIE_LOCALES_OVERRIDE = {
+                    locale = externalLocale,
+                    translations = {},
+                    itemLookup = function() return {[5] = "Klaue von Scharfkralle"} end,
+                    questLookup = {[2] = {"Klaue von Scharfkralle", {"Bringt die Klaue."}}},
+                    npcNameLookup = function() return {[30] = {"Waldspinne", "Spinne"}} end,
+                    objectLookup = {[31] = "Alte Löwenstatue"},
+                }
+
+                l10n.InitializeUILocale()
+                LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+                l10n.PublishLocaleOverrideEntityNames()
+
+                assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Item.Get(5, "name"))
+                assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Quest.Get(2, "name"))
+                assert.are_same({"Bringt die Klaue."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
+                assert.are_same("Waldspinne", LibQuestieDB.Npc.Get(30, "name"))
+                assert.are_same("Spinne", LibQuestieDB.Npc.Get(30, "subName"))
+                assert.are_same("Alte Löwenstatue", LibQuestieDB.Object.Get(31, "name"))
+                assert.are_same("QuestieLocalesOverride", LibQuestieDB.GetProvenance("Item", 5, "name"))
+            end)
         end
 
-        _InitializeLocale("deDE")
+        it("registers inactive translations for a later provider locale switch", function()
+            Questie.db.global.questieLocaleDiff = true
+            Questie.db.global.questieLocale = "frFR"
+            _G.QUESTIE_LOCALES_OVERRIDE = {
+                locale = "ukUA",
+                translations = {},
+                itemLookup = {[5] = "Klaue von Scharfkralle"},
+            }
 
-        assert.are_same("Morgaine die Verschlagene", QuestieDB.npcData[99][QuestieDB.npcKeys.name])
-        assert.are_same("Seltene Gegnerin", QuestieDB.npcData[99][QuestieDB.npcKeys.subName])
-    end)
+            l10n.InitializeUILocale()
+            LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+            l10n.PublishLocaleOverrideEntityNames()
 
-    it("should localize object names", function()
-        l10n.objectLookup["deDE"] = function()
-            return {[60] = "GESUCHT: Gath'Ilzogg"}
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+            LibQuestieDB.l10n.SetLocale("ukUA")
+            assert.are_same("Klaue von Scharfkralle", LibQuestieDB.Item.Get(5, "name"))
+        end)
+
+        it("drops unknown IDs, empty strings, and empty objective tables", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {
+                locale = "ukUA",
+                translations = {},
+                itemLookup = {[5] = "", [6] = "Unbekannt"},
+                questLookup = {[2] = {"", {}}, [4] = {"Unbekannt"}},
+                npcNameLookup = {[30] = {"", ""}, [99] = "Unbekannt"},
+                objectLookup = {[31] = "", [32] = "Unbekannt"},
+            }
+
+            l10n.InitializeUILocale()
+            LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+            l10n.PublishLocaleOverrideEntityNames()
+
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Quest.Get(2, "name"))
+            assert.are_same({"Bring the claw."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
+            assert.are_same("Forest Spider", LibQuestieDB.Npc.Get(30, "name"))
+            assert.are_same("Old Lion Statue", LibQuestieDB.Object.Get(31, "name"))
+            assert.is_false(LibQuestieDB.Item.Exists(6))
+            assert.is_false(LibQuestieDB.Quest.Exists(4))
+            assert.is_false(LibQuestieDB.Npc.Exists(99))
+            assert.is_false(LibQuestieDB.Object.Exists(32))
+            assert.are_same({"QuestieDB"}, LibQuestieDB.GetOwners())
+        end)
+
+        it("keeps UI initialization free of entity reads and publication", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {locale = "ukUA", translations = {}, itemLookup = function()
+                error("entity lookup ran during UI initialization")
+            end}
+            LibQuestieDB.Item.Exists = function() error("entity read during UI initialization") end
+            LibQuestieDB.l10n.SetCorrection = function() error("publication during UI initialization") end
+            l10n.InitializeUILocale()
+            assert.are_same("ukUA", l10n:GetUILocale())
+        end)
+
+        it("bypasses English external entity overrides", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {locale = "enUS", translations = {}, itemLookup = {[5] = "Override"}}
+            LibQuestieDB.l10n.SetCorrection = function() error("English must not be published") end
+            l10n.InitializeUILocale()
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+        end)
+
+        it("replaces rows and withdraws disappeared locales without touching unrelated slots", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {locale = "deDE", translations = {}, itemLookup = {[5] = "Klaue"}}
+            LibQuestieDB.l10n.SetLocale("deDE")
+            LibQuestieDB.l10n.SetCorrection("QuestieLocalesOverride", "deDE", "Npc", "Other", {[30] = {[npcKeys.name] = "Spinne"}})
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Klaue", LibQuestieDB.Item.Get(5, "name"))
+            QUESTIE_LOCALES_OVERRIDE.itemLookup = {}
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+            QUESTIE_LOCALES_OVERRIDE.itemLookup = {[5] = "Neue Klaue"}
+            l10n.PublishLocaleOverrideEntityNames()
+            _G.QUESTIE_LOCALES_OVERRIDE = nil
+            l10n.PublishLocaleOverrideEntityNames()
+            assert.are_same("Sharptalon's Claw", LibQuestieDB.Item.Get(5, "name"))
+            assert.are_same("Spinne", LibQuestieDB.Npc.Get(30, "name"))
+            assert.are_same({}, mock.applyCount)
+        end)
+
+        for _, objectives in ipairs({{}, {[2] = "Sparse"}, {"Line", false}, {note = "Map"}, {""}}) do
+            it("ignores malformed or empty legacy objectives without using the description", function()
+                _G.QUESTIE_LOCALES_OVERRIDE = {locale = "deDE", translations = {},
+                    questLookup = {[2] = {"Name", {"Description"}, objectives}}}
+                LibQuestieDB.l10n.SetLocale("deDE")
+                l10n.PublishLocaleOverrideEntityNames()
+                assert.are_same("Name", LibQuestieDB.Quest.Get(2, "name"))
+                assert.are_same({"Bring the claw."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
+            end)
         end
 
-        _InitializeLocale("deDE")
+        it("reads objectives from the third element of the older three-element quest shape", function()
+            _G.QUESTIE_LOCALES_OVERRIDE = {
+                locale = "ukUA",
+                translations = {},
+                questLookup = {
+                    [2] = {"Klaue", {"Beschreibung."}, {"Bringt die Klaue."}},
+                    [3] = {nil, {"Nur Ziele."}},
+                },
+            }
 
-        assert.are_same("GESUCHT: Gath'Ilzogg", QuestieDB.objectData[60][QuestieDB.objectKeys.name])
-    end)
+            l10n.InitializeUILocale()
+            LibQuestieDB.l10n.SetLocale(l10n:GetUILocale())
+            l10n.PublishLocaleOverrideEntityNames()
 
-    it("should localize quest names", function()
-        l10n.questLookup["deDE"] = function()
-            return {[1359] = {"Zinges Lieferung"}}
-        end
-
-        _InitializeLocale("deDE")
-
-        assert.are_same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
-    end)
-
-    it("should apply current quest lookup rows as title and objective lines", function()
-        l10n.questLookup["deDE"] = function()
-            return {[1359] = {"Zinges Lieferung", {"Bringt die Lieferung zu Zinge."}}}
-        end
-
-        _InitializeLocale("deDE")
-
-        assert.are_same("Zinges Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
-        assert.are_same({"Bringt die Lieferung zu Zinge."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
-    end)
-
-    it("should preserve quest objective tables", function()
-        l10n.questLookup["deDE"] = function()
-            return {[1359] = {"Zinges Lieferung", {"Erster Schritt.", "", "Zweiter Schritt."}}}
-        end
-
-        _InitializeLocale("deDE")
-
-        assert.are_same({"Erster Schritt.", "", "Zweiter Schritt."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
-    end)
-
-    it("should let quest lookup overrides replace normal quest lookup data", function()
-        l10n.questLookup["deDE"] = function()
-            return {[1359] = {"Normale Lieferung", {"Normales Ziel."}}}
-        end
-        l10n.questLookupOverrides = function()
-            return {[1359] = {"Überschriebene Lieferung", {"Überschriebenes Ziel."}}}
-        end
-
-        _InitializeLocale("deDE")
-
-        assert.are_same("Überschriebene Lieferung", QuestieDB.questData[1359][QuestieDB.questKeys.name])
-        assert.are_same({"Überschriebenes Ziel."}, QuestieDB.questData[1359][QuestieDB.questKeys.objectivesText])
-    end)
-
-    it("should ignore lookup rows for IDs missing from QuestieDB", function()
-        l10n.itemLookup["deDE"] = function()
-            return {[999001] = "Missing Item"}
-        end
-        l10n.npcNameLookup["deDE"] = function()
-            return {[999002] = "Missing NPC"}
-        end
-        l10n.objectLookup["deDE"] = function()
-            return {[999003] = "Missing Object"}
-        end
-        l10n.questLookup["deDE"] = function()
-            return {[999004] = {"Missing Quest", {"Missing objective."}}}
-        end
-
-        _InitializeLocale("deDE")
-
-        assert.is_nil(QuestieDB.itemData[999001])
-        assert.is_nil(QuestieDB.npcData[999002])
-        assert.is_nil(QuestieDB.objectData[999003])
-        assert.is_nil(QuestieDB.questData[999004])
+            assert.are_same({"Bringt die Klaue."}, LibQuestieDB.Quest.Get(2, "objectivesText"))
+            assert.are_same("Webwood Venom", LibQuestieDB.Quest.Get(3, "name"))
+            assert.are_same({"Nur Ziele."}, LibQuestieDB.Quest.Get(3, "objectivesText"))
+        end)
     end)
 end)
