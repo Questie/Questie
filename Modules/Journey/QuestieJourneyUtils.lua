@@ -14,6 +14,7 @@ local WrappedText = QuestieLoader:ImportModule("WrappedText")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+local _QuestieJourney = QuestieJourney.private
 ---@type QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 local GetItemInfo = QuestieCompat.GetItemInfo
@@ -144,6 +145,16 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
 
     if QuestieJourney.OpenQuestInCurrentView
         and QuestieJourney:OpenQuestInCurrentView(questId) then
+        return
+    end
+
+    -- When a quest link is clicked from Advanced Search, keep the user in
+    -- that result set and open the target details pane immediately. Using
+    -- SetSearch alone only selects the result row; OpenDetails also performs
+    -- the same deferred selection as a real row click.
+    if _QuestieJourney.lastOpenWindow == "search"
+        and QuestieSearchResults.OpenDetails then
+        QuestieSearchResults:OpenDetails("quest", questId)
         return
     end
 
