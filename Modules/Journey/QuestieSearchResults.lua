@@ -1078,9 +1078,9 @@ function QuestieSearchResults:OpenDetails(detailType, id)
     local selectResult = function()
         if requestGeneration == searchInteractionGeneration and activeResultTree and lastOpenSearch == detailType then
             -- SetSearch can rebuild the result tree twice while the search box
-            -- callback is settling.  Invoke the same handler as a row click
-            -- after the final tree exists.
-            _HandleTreeItemSelected(activeResultTree, nil, id)
+            -- callback is settling. Select on the final tree so its selected
+            -- row and details pane are updated together, just like a click.
+            activeResultTree:SelectByValue(id)
         end
     end
 
