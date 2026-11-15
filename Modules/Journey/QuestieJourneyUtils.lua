@@ -212,20 +212,22 @@ function QuestieJourneyUtils.ApplyModernQuestLinkStyle(label)
         -- Use explicit hover visibility rather than the legacy HIGHLIGHT
         -- region, which renders as a heavy blue block on some clients.
         local surface = label.frame:CreateTexture(nil, "BACKGROUND")
-        surface:SetColorTexture(0.30, 0.22, 0.08, 0.24)
+        -- Match the selected-row treatment used by the Journey tree on the
+        -- left, so linked quests have the same golden-bronze contrast.
+        surface:SetColorTexture(0.42, 0.27, 0.05, 0.52)
         surface:SetPoint("TOPLEFT", label.frame, "TOPLEFT", 2, -1)
         surface:SetPoint("BOTTOMRIGHT", label.frame, "BOTTOMRIGHT", -2, 1)
         surface:Hide()
 
         local accent = label.frame:CreateTexture(nil, "ARTWORK")
-        accent:SetColorTexture(0.86, 0.62, 0.16, 0.72)
+        accent:SetColorTexture(0.98, 0.72, 0.18, 0.95)
         accent:SetPoint("TOPLEFT", label.frame, "TOPLEFT", 2, -1)
         accent:SetPoint("BOTTOMLEFT", label.frame, "BOTTOMLEFT", 2, 1)
         accent:SetWidth(2)
         accent:Hide()
 
         local topEdge = label.frame:CreateTexture(nil, "ARTWORK")
-        topEdge:SetColorTexture(0.86, 0.62, 0.16, 0.14)
+        topEdge:SetColorTexture(0.98, 0.72, 0.18, 0.22)
         topEdge:SetPoint("TOPLEFT", label.frame, "TOPLEFT", 4, -1)
         topEdge:SetPoint("TOPRIGHT", label.frame, "TOPRIGHT", -2, -1)
         topEdge:SetHeight(1)
