@@ -387,6 +387,13 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         spawnObject = QuestieDB:GetObject(spawn)
     end
 
+    if not spawnObject then
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieSearchResults:SpawnDetailsFrame] Missing spawn data:", spawnType, spawn)
+        AddModernDivider(f, l10n(typeLabel ~= "" and typeLabel or "Unknown"))
+        QuestieJourneyUtils:AddLine(f, Questie:Colorize(typeLabel ~= "" and typeLabel or l10n("Unknown")) .. l10n(": ") .. tostring(spawn))
+        return
+    end
+
     AddModernDivider(f, spawnObject.name)
 
     local infoContainer = f
