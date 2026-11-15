@@ -64,17 +64,33 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                 local f = AceGUI:Create("ScrollFrame");
                 f:SetLayout("flow");
-                local nestedBackground = f.frame:CreateTexture(nil, "BACKGROUND")
-                nestedBackground:SetAllPoints(f.frame)
-                if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainerTexture then
-                    QuestieOptionsControls.ApplyJourneyContainerTexture(nestedBackground)
+                if f.frame and f.frame.CreateTexture then
+                    local nestedBackground = f.frame:CreateTexture(nil, "BACKGROUND")
+                    nestedBackground:SetAllPoints(f.frame)
+                    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainerTexture then
+                        QuestieOptionsControls.ApplyJourneyContainerTexture(nestedBackground)
+                    end
                 end
                 if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
                     QuestieOptionsControls.ApplyModernScrollbar(f.scrollbar)
                 end
                 master:AddChild(f);
 
-                local header = QuestieOptionsControls.CreateModernDividerGroup(f, "")
+                local header
+                if QuestieOptionsControls and QuestieOptionsControls.CreateModernDividerGroup then
+                    header = QuestieOptionsControls.CreateModernDividerGroup(f, "")
+                else
+                    header = AceGUI:Create("Heading")
+                    header:SetFullWidth(true)
+                    f:AddChild(header)
+                end
+                local function SetHeaderText(text)
+                    if header.modernDivider and header.modernDivider.title then
+                        header.modernDivider.title:SetText(text)
+                    else
+                        header:SetText(text)
+                    end
+                end
 
                 QuestieJourneyUtils:Spacer(f);
 
@@ -85,7 +101,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 local timestamp = Questie:Colorize(QuestieLib.FormatDate(entry.Timestamp), 'lightBlue');
 
                 if entry.Event == "Note" then
-                    header.modernDivider.title:SetText(l10n('Note: %s', entry.Title));
+                    SetHeaderText(l10n('Note: %s', entry.Title));
 
                     local note = AceGUI:Create("Label");
                     note:SetFullWidth(true);
@@ -109,7 +125,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     f:AddChild(deleteButton);
 
                 elseif entry.Event == "Level" then
-                    header.modernDivider.title:SetText(l10n('You Reached Level %s', entry.NewLevel));
+                    SetHeaderText(l10n('You Reached Level %s', entry.NewLevel));
 
                     local congrats = AceGUI:Create("Label");
                     congrats:SetText(l10n('Congratulations! You reached %s !', entry.NewLevel));
@@ -134,7 +150,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     local quest = QuestieDB.GetQuest(entry.Quest)
                     if quest then
                         local qName = quest.name;
-                        header.modernDivider.title:SetText(l10n('Quest %s: %s', state, qName));
+                        SetHeaderText(l10n('Quest %s: %s', state, qName));
 
 
                         local obj = AceGUI:Create("Label");
@@ -153,7 +169,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     questIdLabel:SetText(l10n("Quest ID") .. l10n(": ") .. entry.Quest);
                     f:AddChild(questIdLabel);
                 else
-                    header.modernDivider.title:SetText("ERROR!!");
+                    SetHeaderText("ERROR!!");
                 end
 
             end
