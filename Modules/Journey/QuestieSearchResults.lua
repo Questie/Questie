@@ -157,6 +157,9 @@ end
 local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTomTomButton)
     if lookup and #lookup > 0 then
         local group = AceGUI:Create("InlineGroup");
+        if QuestDetailsFrame.ResetInfoGroup then
+            QuestDetailsFrame:ResetInfoGroup(group)
+        end
         group:SetFullWidth(true);
         group:SetLayout("flow");
         group:SetTitle(header);

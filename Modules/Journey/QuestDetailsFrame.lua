@@ -530,6 +530,12 @@ local function AddNPCPortrait(group, npc, portraitIndex, anchor)
     portrait:Show()
 end
 
+---Reset a recycled Journey information panel before changing its content type.
+---@param group AceGUIWidget
+function QuestDetailsFrame:ResetInfoGroup(group)
+    ResetNPCInfoLayout(group)
+end
+
 ---Apply the shared NPC panel layout and portrait to another Journey detail view.
 ---@param group AceGUIWidget
 ---@param npc NPC
