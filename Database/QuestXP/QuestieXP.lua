@@ -5,6 +5,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@class QuestXP
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
 
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type SupportValidation
 local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
 
@@ -87,7 +89,6 @@ local function getAdjustedXP(xp, qLevel, showXPAtMaxLevel, ignorePlayerLevel, qu
 
         return floor(xp * _GetBuffMultiplier())
     end
-
 end
 
 
@@ -104,6 +105,15 @@ function QuestXP:GetQuestLogRewardXP(questId, showXPAtMaxLevel, ignorePlayerLeve
         --? We have -1 as a level for quests that are event quests and so on for TBC and WOTLK.
         if level > 0 and xp > 0 then
             return getAdjustedXP(xp, level, showXPAtMaxLevel, ignorePlayerLevel, questId)
+        end
+    -- Also try to show this value for quests where we don't have any entry in DB
+    else
+        local level = QuestieDB.QueryQuestSingle(questId, "questLevel")
+        if level > 0 then
+            local xp = GetQuestLogRewardXP(questId)
+            if xp > 0 then
+                return getAdjustedXP(xp, level, showXPAtMaxLevel, ignorePlayerLevel, questId)
+            end
         end
     end
 
