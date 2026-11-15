@@ -370,6 +370,10 @@ local visibilityFrame
 
 ---Hides Blizzard's tracker when requested, or lets Blizzard restore its normal visibility.
 local function ApplyObjectiveTrackerVisibility()
+    if ObjectiveTrackerFrame and hideObjectiveTracker then
+        -- Alpha is not protected, so a protected tracker shown by Blizzard during combat stays invisible until it can be hidden.
+        ObjectiveTrackerFrame:SetAlpha(0)
+    end
     if InCombatLockdown() and (not hideObjectiveTracker or (ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsProtected())) then
         -- Retry after combat using the latest request, not the state when combat began.
         visibilityFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -380,6 +384,7 @@ local function ApplyObjectiveTrackerVisibility()
         if hideObjectiveTracker then
             ObjectiveTrackerFrame:Hide()
         else
+            ObjectiveTrackerFrame:SetAlpha(1)
             -- Forever: calling Update() here would run Blizzard's layout (and its secret aura reads) and taint it.
             ObjectiveTrackerFrame:Show()
         end
