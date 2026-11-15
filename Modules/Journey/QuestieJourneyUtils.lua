@@ -151,8 +151,11 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
     local currentWindow = _QuestieJourney.lastOpenWindow
 
     -- Match the Advanced Search result-click flow: SetSearch rebuilds the
-    -- result set, selects the target row, and opens its details pane.
+    -- result set, selects the target row, and opens its details pane. Re-select
+    -- the tab first, matching master and ensuring the current search canvas is
+    -- rebuilt before SetSearch uses its search widgets.
     if currentWindow == "search" then
+        QuestieJourney.tabGroup:SelectTab("search")
         QuestieSearchResults:SetSearch("quest", questId)
         return
     end
