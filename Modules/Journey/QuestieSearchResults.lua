@@ -1061,9 +1061,9 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
     frame:Show()
 end
 
-function QuestieSearchResults:SetSearch(detailType, id)
+function QuestieSearchResults:SetSearch(detailType, id, selectResult)
     searchInteractionGeneration = searchInteractionGeneration + 1
-    _selected = id
+    _selected = selectResult == false and 0 or id
     programmaticSearchUpdate = true
     searchBox:SetText(tostring(id))
     programmaticSearchUpdate = false
@@ -1078,7 +1078,10 @@ end
 ---@param detailType string
 ---@param id number
 function QuestieSearchResults:OpenDetails(detailType, id)
-    self:SetSearch(detailType, id)
+    -- Rebuild the result tabs without selecting during the intermediate
+    -- teardown/recreate cycle. The deferred selection below is the only
+    -- selection performed for linked navigation.
+    self:SetSearch(detailType, id, false)
     local requestGeneration = searchInteractionGeneration
 
     local selectResult = function()
