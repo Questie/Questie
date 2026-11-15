@@ -38,6 +38,13 @@ end
 
 -- function that draws 'Quests By Zone' tab
 function _QuestieJourney.questsByZone:DrawTab(container)
+    -- The Journey canvas releases its children when switching tabs, but the
+    -- zone tab's module-local tree reference can outlive that widget. Clear it
+    -- before rebuilding so returning from Advanced Search gets fresh callbacks.
+    if _QuestieJourney.questsByZone.ResetTree then
+        _QuestieJourney.questsByZone:ResetTree()
+    end
+
     ---@class AceSimpleGroup
     treegroup = AceGUI:Create("SimpleGroup")
 

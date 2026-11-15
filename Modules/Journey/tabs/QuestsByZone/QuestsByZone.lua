@@ -29,6 +29,10 @@ local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControl
 local AceGUI = LibStub("AceGUI-3.0")
 local zoneTreeFrame
 
+function _QuestieJourney.questsByZone:ResetTree()
+    zoneTreeFrame = nil
+end
+
 ---Select and open a quest that is present in the currently displayed zone tree.
 ---@param questId QuestId
 ---@return boolean opened
