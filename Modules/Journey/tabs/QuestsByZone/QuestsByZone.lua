@@ -31,6 +31,8 @@ local zoneTreeFrame
 ---@param treeFrame table @The AceGUI TreeGroup frame
 ---@param zoneTree table @The zone tree table
 function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zoneTree)
+    if not treeFrame or not zoneTree then return end
+
     local savedSelection = _QuestieJourney.lastZoneSelection[3]
     if not savedSelection then return end
 
