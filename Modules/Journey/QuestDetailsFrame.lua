@@ -238,6 +238,7 @@ local function ApplyNPCInfoLayout(group)
         group.npcPortraitReleaseHooked = true
         local previousOnRelease = group.events and group.events.OnRelease
         group:SetCallback("OnRelease", function(widget, ...)
+            widget.npcPortraitReleaseHooked = false
             ResetNPCInfoLayout(widget)
             if previousOnRelease then
                 previousOnRelease(widget, ...)
@@ -462,7 +463,9 @@ local function ResolveNPCPortrait(portrait, npcID)
     if request and now - request.first > NPC_PORTRAIT_TIMEOUT_SECONDS then
         npcPortraitModels[npcID] = nil
         npcPortraitRequests[npcID] = nil
-        request = nil
+        -- Stop this retry chain. A later panel acquisition will register a
+        -- waiter and start a fresh request.
+        return
     end
     if request and now - request.last < NPC_PORTRAIT_RETRY_SECONDS then
         return

@@ -1005,7 +1005,10 @@ function QuestieSearchResults:DrawSearchTab(container)
             end
         end
     end);
-    searchBox:SetCallback("OnEnterPressed", performSearch);
+    searchBox:SetCallback("OnEnterPressed", function(...)
+        searchDebounceGeneration = searchDebounceGeneration + 1
+        performSearch(...)
+    end);
     container:AddChild(searchBox);
 
     searchGroup:SetFullHeight(true);
