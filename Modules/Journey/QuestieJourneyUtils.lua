@@ -163,12 +163,16 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
     -- Do not cross from the faction view into another tab when the target is
     -- not part of the currently rendered faction tree.
     if currentWindow == "faction" then
+        if QuestieJourney.OpenQuestDetailsInCurrentView then
+            QuestieJourney:OpenQuestDetailsInCurrentView(questId)
+        end
         return
     end
 
     local function OpenQuestInZone()
-        if QuestieJourney.OpenQuestInZone then
-            QuestieJourney:OpenQuestInZone(questId)
+        local opened = QuestieJourney.OpenQuestInZone and QuestieJourney:OpenQuestInZone(questId)
+        if not opened and QuestieJourney.OpenQuestDetailsInCurrentView then
+            QuestieJourney:OpenQuestDetailsInCurrentView(questId)
         end
     end
 

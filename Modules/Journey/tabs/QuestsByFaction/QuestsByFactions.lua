@@ -60,6 +60,34 @@ function _QuestieJourney.questsByFaction:OpenQuest(questId)
     return false
 end
 
+---Render a quest in the current Faction details pane when it is not in the tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByFaction:OpenQuestDetails(questId)
+    if not factionTreeFrame or not factionTreeFrame.frame or not factionTreeFrame.frame.obj then
+        return false
+    end
+
+    local quest = QuestieDB.GetQuest(questId)
+    if not quest then
+        return false
+    end
+
+    local master = factionTreeFrame.frame.obj
+    master:ReleaseChildren()
+    master:SetLayout("fill")
+    master:SetFullWidth(true)
+    master:SetFullHeight(true)
+
+    local scrollFrame = AceGUI:Create("ScrollFrame")
+    scrollFrame:SetLayout("flow")
+    scrollFrame:SetFullHeight(true)
+    master:AddChild(scrollFrame)
+
+    QuestDetailsFrame:Draw(scrollFrame, quest)
+    return true
+end
+
 local expansionDefinitions = {
     { key = "classic", label = EXPANSION_NAME0, order = Expansions.Era },
     { key = "tbc", label = EXPANSION_NAME1, order = Expansions.Tbc },

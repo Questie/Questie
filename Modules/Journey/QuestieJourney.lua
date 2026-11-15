@@ -238,6 +238,23 @@ function QuestieJourney:OpenQuestInCurrentView(questId)
     return false
 end
 
+---Open quest details in the active Zone/Faction pane when no tree row exists.
+---@param questId QuestId
+---@return boolean opened
+function QuestieJourney:OpenQuestDetailsInCurrentView(questId)
+    if _QuestieJourney.lastOpenWindow == "zone"
+        and _QuestieJourney.questsByZone
+        and _QuestieJourney.questsByZone.OpenQuestDetails then
+        return _QuestieJourney.questsByZone:OpenQuestDetails(questId)
+    elseif _QuestieJourney.lastOpenWindow == "faction"
+        and _QuestieJourney.questsByFaction
+        and _QuestieJourney.questsByFaction.OpenQuestDetails then
+        return _QuestieJourney.questsByFaction:OpenQuestDetails(questId)
+    end
+
+    return false
+end
+
 -- There are ways to toggle this function before the frame has been created
 function QuestieJourney:ToggleJourneyWindow()
     if (not Questie.started) then

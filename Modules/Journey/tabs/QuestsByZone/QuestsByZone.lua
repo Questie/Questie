@@ -63,6 +63,34 @@ function _QuestieJourney.questsByZone:OpenQuest(questId)
     return false
 end
 
+---Render a quest in the current Zone details pane when it is not in the tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByZone:OpenQuestDetails(questId)
+    if not zoneTreeFrame or not zoneTreeFrame.frame or not zoneTreeFrame.frame.obj then
+        return false
+    end
+
+    local quest = QuestieDB.GetQuest(questId)
+    if not quest then
+        return false
+    end
+
+    local master = zoneTreeFrame.frame.obj
+    master:ReleaseChildren()
+    master:SetLayout("fill")
+    master:SetFullWidth(true)
+    master:SetFullHeight(true)
+
+    local scrollFrame = AceGUI:Create("ScrollFrame")
+    scrollFrame:SetLayout("flow")
+    scrollFrame:SetFullHeight(true)
+    master:AddChild(scrollFrame)
+
+    QuestDetailsFrame:Draw(scrollFrame, quest)
+    return true
+end
+
 ---Restore the previously selected quest in the zone tree
 ---@param treeFrame table @The AceGUI TreeGroup frame
 ---@param zoneTree table @The zone tree table
