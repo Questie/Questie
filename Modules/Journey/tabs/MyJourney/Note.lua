@@ -10,6 +10,8 @@ _QuestieJourney.notePopup = nil
 -------------------------
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
+---@type QuestDetailsFrame
+local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsControls
@@ -114,6 +116,11 @@ end
 
 _CreateContainer = function ()
     local container = AceGUI:Create("InlineGroup")
+    -- InlineGroups are pooled by AceGUI. Clear any NPC portrait/item icon and
+    -- shifted content anchors left by a previously displayed Journey panel.
+    if QuestDetailsFrame and QuestDetailsFrame.ResetInfoGroup then
+        QuestDetailsFrame:ResetInfoGroup(container)
+    end
     container:SetFullHeight(true)
     container:SetFullWidth(true)
     container:SetLayout('flow')
