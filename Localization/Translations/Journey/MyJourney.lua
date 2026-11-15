@@ -26,6 +26,18 @@ local myJourneyLocales = {
         ["zhCN"] = "我的旅程",
         ["zhTW"] = "我的冒險日記",
     },
+    ["Your character's history"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Die Historie deines Charakters", -- 🤖
+        ["esES"] = "El historial de tu personaje", -- 🤖
+        ["esMX"] = "El historial de tu personaje", -- 🤖
+        ["frFR"] = "L’historique de votre personnage", -- 🤖
+        ["koKR"] = "캐릭터의 기록", -- 🤖
+        ["ptBR"] = "O histórico do seu personagem", -- 🤖
+        ["ruRU"] = "Записи о вашем персонаже", -- 🤖
+        ["zhCN"] = "你的角色记录", -- 🤖
+        ["zhTW"] = "你的角色紀錄", -- 🤖
+    },
     ["%s's Journey"] = {
         ["enUS"] = true,
         ["deDE"] = "%s's Reise",

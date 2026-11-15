@@ -17,9 +17,7 @@ _QuestieJourney.treeCache = nil
 
 
 function _QuestieJourney:HandleTabChange(container, group)
-    if not _QuestieJourney.containerCache then
-        _QuestieJourney.containerCache = container
-    end
+    _QuestieJourney.containerCache = container
 
     container:ReleaseChildren()
 

@@ -6,6 +6,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -139,7 +141,10 @@ function QuestieJourney:ShowCharacterBrowserFrame()
     if statusBar then statusBar:Hide() end
 
     importBtnNative = CreateFrame("Button", nil, frame.frame, "UIPanelButtonTemplate")
-    importBtnNative:SetSize(100, 20)
+    importBtnNative:SetSize(120, 32)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyStyledButton then
+        QuestieOptionsControls.ApplyStyledButton(importBtnNative, 120)
+    end
     importBtnNative:SetText(l10n("Import"))
     if closeBtn then
         importBtnNative:SetPoint("BOTTOMLEFT", frame.frame, "BOTTOMLEFT", 27, 17)

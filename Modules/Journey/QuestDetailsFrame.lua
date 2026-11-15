@@ -26,8 +26,29 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
 local AceGUI = LibStub("AceGUI-3.0")
+
+local function ApplyModernButton(button, width)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyStyledButton then
+        button:SetWidth(width)
+        button:SetHeight(40)
+        QuestieOptionsControls.ApplyStyledButton(button.frame, width, button.text)
+    end
+end
+
+local function ApplyModernInfoLink(link)
+    if QuestieJourneyUtils and QuestieJourneyUtils.ApplyModernQuestLinkStyle then
+        QuestieJourneyUtils.ApplyModernQuestLinkStyle(link)
+    elseif link and link.highlight then
+        link.highlight:SetColorTexture(0.08, 0.12, 0.19, 0.78)
+        link.highlight:SetBlendMode("BLEND")
+    end
+end
 
 local stringrep = string.rep
 
@@ -78,6 +99,7 @@ local function CreateTomTomButton(name, zone, x, y)
 
     local tomTomButton = AceGUI:Create("Button")
     tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
+    ApplyModernButton(tomTomButton, 220)
     tomTomButton:SetCallback("OnClick", function()
         TrackerUtils:SetTomTomTarget(name, zone, x, y)
     end)
@@ -103,10 +125,23 @@ end
 ---@param fullWidth boolean
 ---@return AceHeader
 local function CreateHeading(text, fullWidth)
-    ---@class AceHeader
-    local header = AceGUI:Create("Heading")
+    if not QuestieOptionsControls or not QuestieOptionsControls.CreateModernDivider then
+        local legacyHeader = AceGUI:Create("Heading")
+        legacyHeader:SetFullWidth(fullWidth)
+        legacyHeader:SetText(text)
+        return legacyHeader
+    end
+
+    local header = AceGUI:Create("SimpleGroup")
+    header:SetLayout("Fill")
     header:SetFullWidth(fullWidth)
-    header:SetText(text)
+    header:SetHeight(24)
+    header.modernDivider = QuestieOptionsControls.CreateModernDivider(header.content, text)
+    header:SetCallback("OnRelease", function(widget)
+        if widget.modernDivider then
+            widget.modernDivider:Hide()
+        end
+    end)
 
     return header
 end
@@ -121,6 +156,387 @@ local function CreateLabel(text, fullWidth)
     header:SetText(text)
 
     return header
+end
+
+local function AddInfoPanelSpacing(container)
+    local spacer = AceGUI:Create("SimpleGroup")
+    spacer:SetFullWidth(true)
+    spacer:SetHeight(16)
+    container:AddChild(spacer)
+end
+
+local function GetInlineGroupBorder(group)
+    if not group or not group.content then
+        return nil
+    end
+
+    -- Embedded Ace3 exposes InlineGroup.border, but an externally loaded Ace3
+    -- may not.  InlineGroup.content is parented to that same border in both
+    -- implementations, so resolve it from the live frame when necessary.
+    if not group.border and group.content.GetParent then
+        group.border = group.content:GetParent()
+    end
+    return group.border
+end
+
+local NPC_PORTRAIT_SIZE = 48
+local NPC_PORTRAIT_MIN_GROUP_HEIGHT = NPC_PORTRAIT_SIZE + 56
+
+local function EnsureNPCInfoHeight(group)
+    if group and group.frame and group.frame.GetHeight and group.SetHeight
+        and group.frame:GetHeight() < NPC_PORTRAIT_MIN_GROUP_HEIGHT then
+        group:SetHeight(NPC_PORTRAIT_MIN_GROUP_HEIGHT)
+    end
+end
+
+local function ResetNPCInfoLayout(group)
+    if not group or not group.content then
+        return
+    end
+
+    group.npcPortraitLayoutActive = false
+    group.itemIconLayoutActive = false
+    for _, portrait in pairs(group.npcPortraits or {}) do
+        portrait:Hide()
+        portrait.npcID = nil
+    end
+    group.npcPortraits = nil
+
+    -- InlineGroups are recycled by AceGUI.  Hide an item icon left by a
+    -- previous item-start panel before this group is reused for links or NPCs.
+    if group.itemIcon then
+        group.itemIcon:Hide()
+    end
+
+    local border = GetInlineGroupBorder(group)
+    if border then
+        group.content:ClearAllPoints()
+        group.content:SetPoint("TOPLEFT", border, "TOPLEFT", 10, -10)
+        group.content:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -10, 10)
+    end
+end
+
+local function ApplyNPCInfoLayout(group)
+    local border = GetInlineGroupBorder(group)
+    if not group or not group.content or not border then
+        return
+    end
+
+    group.npcPortraitLayoutActive = true
+
+    -- Reapply the same first-level surface used by the quest-link panels.
+    -- NPC panels can come from a recycled InlineGroup with its old backdrop.
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
+        QuestieOptionsControls.ApplyModernContainer(border, false)
+    end
+
+    if not group.npcPortraitReleaseHooked and group.SetCallback then
+        group.npcPortraitReleaseHooked = true
+        local previousOnRelease = group.events and group.events.OnRelease
+        group:SetCallback("OnRelease", function(widget, ...)
+            ResetNPCInfoLayout(widget)
+            if previousOnRelease then
+                previousOnRelease(widget, ...)
+            end
+        end)
+    end
+
+    -- Leave a fixed column for the still portrait.  Moving the group content
+    -- moves every line in the NPC panel, not just the NPC name.
+    group.content:ClearAllPoints()
+    group.content:SetPoint("TOPLEFT", border, "TOPLEFT", 68, -10)
+    group.content:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -10, 10)
+
+    -- AceGUI sizes the group from its text children only.  Reserve enough
+    -- vertical space for the portrait and the panel's top/bottom padding.
+    EnsureNPCInfoHeight(group)
+
+    -- Make the minimum part of the group's normal measurement.  The parent
+    -- container reads the child's height immediately after LayoutFinished.
+    if not group.npcPortraitLayoutFinishedHooked and group.LayoutFinished then
+        group.npcPortraitLayoutFinishedHooked = true
+        local layoutFinished = group.LayoutFinished
+        group.LayoutFinished = function(self, width, height)
+            layoutFinished(self, width, height)
+            if self.npcPortraitLayoutActive then
+                EnsureNPCInfoHeight(self)
+            end
+        end
+    end
+
+    -- InlineGroup recalculates its content size as it is laid out.  Keep the
+    -- portrait column when the group is resized after the first layout too.
+    if not group.npcPortraitLayoutHooked and group.frame and group.frame.HookScript then
+        group.npcPortraitLayoutHooked = true
+        group.frame:HookScript("OnSizeChanged", function()
+            if group.npcPortraitLayoutActive then
+                ApplyNPCInfoLayout(group)
+            end
+        end)
+    end
+end
+
+local function ApplyItemInfoLayout(group)
+    local border = GetInlineGroupBorder(group)
+    if not group or not group.content or not border then
+        return
+    end
+
+    group.itemIconLayoutActive = true
+    group.content:ClearAllPoints()
+    group.content:SetPoint("TOPLEFT", border, "TOPLEFT", 68, -10)
+    group.content:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -10, 10)
+    EnsureNPCInfoHeight(group)
+
+    if not group.itemIconLayoutFinishedHooked and group.LayoutFinished then
+        group.itemIconLayoutFinishedHooked = true
+        local layoutFinished = group.LayoutFinished
+        group.LayoutFinished = function(self, width, height)
+            layoutFinished(self, width, height)
+            if self.itemIconLayoutActive then
+                EnsureNPCInfoHeight(self)
+            end
+        end
+    end
+
+    if not group.itemIconLayoutHooked and group.frame and group.frame.HookScript then
+        group.itemIconLayoutHooked = true
+        group.frame:HookScript("OnSizeChanged", function()
+            if group.itemIconLayoutActive then
+                ApplyItemInfoLayout(group)
+            end
+        end)
+    end
+end
+
+local function AddItemIcon(group, item)
+    local border = GetInlineGroupBorder(group)
+    if not group or not border or not item or not item.Id or not border.CreateTexture then
+        return
+    end
+
+    if not group.itemIcon then
+        group.itemIcon = border:CreateTexture(nil, "OVERLAY", nil, 7)
+        group.itemIcon:SetSize(NPC_PORTRAIT_SIZE, NPC_PORTRAIT_SIZE)
+    end
+
+    local iconTexture
+    if QuestieCompat and QuestieCompat.GetItemIcon then
+        local ok, texture = pcall(QuestieCompat.GetItemIcon, item.Id)
+        if ok then
+            iconTexture = texture
+        end
+    end
+
+    group.itemIcon:ClearAllPoints()
+    group.itemIcon:SetPoint("TOPLEFT", border, "TOPLEFT", 12, -24)
+    group.itemIcon:SetTexture(iconTexture or "Interface\\Icons\\INV_Misc_QuestionMark")
+    group.itemIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+    group.itemIcon:Show()
+end
+
+---@param group AceGUIWidget
+---@param npc NPC
+---@param portraitIndex integer
+---@param anchor AceGUIWidget
+local npcPortraitDisplays = {}
+local npcPortraitRequests = {}
+local npcPortraitModels = {}
+local npcPortraitProbes
+local NPC_PORTRAIT_RETRY_SECONDS = 0.05
+local NPC_PORTRAIT_TIMEOUT_SECONDS = 5
+
+local function GetKnownNPCDisplayID(npcID)
+    local questFaces = rawget(_G, "SpokenQuestFaces")
+    local displayID = questFaces and questFaces[npcID]
+    return type(displayID) == "number" and displayID > 0 and displayID or nil
+end
+
+local function ReadNPCDisplayID(model)
+    local ok, displayID = pcall(function()
+        return model and model.GetDisplayInfo and model:GetDisplayInfo()
+    end)
+    if not ok then
+        return nil
+    end
+    return type(displayID) == "number" and displayID > 0 and displayID or nil
+end
+
+local function PaintNPCPortrait(portrait, npcID, displayID)
+    if not displayID or not portrait or portrait.npcID ~= npcID or not SetPortraitTextureFromCreatureDisplayID then
+        return false
+    end
+
+    local painted = pcall(SetPortraitTextureFromCreatureDisplayID, portrait, displayID)
+    if painted then
+        portrait:Show()
+    end
+    return painted
+end
+
+local function GetNPCDefaultDisplays()
+    if npcPortraitProbes == false then
+        return nil, nil
+    end
+    if npcPortraitProbes == nil then
+        local ownCreated, own = pcall(CreateFrame, "DressUpModel")
+        local blankCreated, blank = pcall(CreateFrame, "DressUpModel")
+        if not (ownCreated and blankCreated and own and blank and own.SetUnit and own.GetDisplayInfo and blank.GetDisplayInfo) then
+            npcPortraitProbes = false
+            return nil, nil
+        end
+        -- A hidden model may never finish loading its display information.
+        -- Keep the probes alive but invisible while the client resolves them.
+        own:SetSize(1, 1)
+        blank:SetSize(1, 1)
+        own:SetAlpha(0)
+        blank:SetAlpha(0)
+        own:Show()
+        blank:Show()
+        npcPortraitProbes = { own = own, blank = blank }
+    end
+
+    local now = GetTime and GetTime() or 0
+    if npcPortraitProbes.at ~= now then
+        pcall(npcPortraitProbes.own.SetUnit, npcPortraitProbes.own, "player")
+        npcPortraitProbes.at = now
+        npcPortraitProbes.ownDisplay = ReadNPCDisplayID(npcPortraitProbes.own)
+        npcPortraitProbes.blankDisplay = ReadNPCDisplayID(npcPortraitProbes.blank)
+    end
+    return npcPortraitProbes.ownDisplay, npcPortraitProbes.blankDisplay
+end
+
+local function ResolveNPCPortrait(portrait, npcID)
+    local displayID = npcPortraitDisplays[npcID] or GetKnownNPCDisplayID(npcID)
+    if PaintNPCPortrait(portrait, npcID, displayID) then
+        return
+    end
+
+    if not (SetPortraitTextureFromCreatureDisplayID and type(CreateFrame) == "function") then
+        return
+    end
+
+    local now = GetTime and GetTime() or 0
+    local request = npcPortraitRequests[npcID]
+    if request and now - request.first > NPC_PORTRAIT_TIMEOUT_SECONDS then
+        npcPortraitModels[npcID] = nil
+        return
+    end
+    if request and now - request.last < NPC_PORTRAIT_RETRY_SECONDS then
+        return
+    end
+
+    if not request then
+        request = { first = now, last = now, sent = now, fresh = true }
+        npcPortraitRequests[npcID] = request
+    else
+        request.last = now
+    end
+
+    local model = npcPortraitModels[npcID]
+    if not model then
+        local created
+        created, model = pcall(CreateFrame, "DressUpModel")
+        if not (created and model and model.SetCreature and model.GetDisplayInfo) then
+            return
+        end
+        -- DressUpModel loads asynchronously and hidden models can remain on
+        -- their default display forever.  Showing a 1x1, fully transparent
+        -- model lets the client complete the load without flashing it on UI.
+        model:SetSize(1, 1)
+        model:SetAlpha(0)
+        model:Show()
+        npcPortraitModels[npcID] = model
+        request.previous = ReadNPCDisplayID(model)
+        if model.SetScript then
+            pcall(model.SetScript, model, "OnModelLoaded", function(loadedModel)
+                local loadedDisplayID = ReadNPCDisplayID(loadedModel)
+                if loadedDisplayID then
+                    npcPortraitDisplays[npcID] = loadedDisplayID
+                    npcPortraitModels[npcID] = nil
+                    PaintNPCPortrait(portrait, npcID, loadedDisplayID)
+                end
+            end)
+        end
+        pcall(model.SetCreature, model, npcID)
+    end
+
+    local currentDisplayID = ReadNPCDisplayID(model)
+    local ownDisplayID, blankDisplayID
+    if currentDisplayID then
+        ownDisplayID, blankDisplayID = GetNPCDefaultDisplays()
+    end
+    local stale = currentDisplayID == ownDisplayID
+        or currentDisplayID == blankDisplayID
+        or (request.fresh and currentDisplayID == request.previous)
+    request.fresh = false
+    if currentDisplayID and not stale then
+        npcPortraitDisplays[npcID] = currentDisplayID
+        npcPortraitModels[npcID] = nil
+        PaintNPCPortrait(portrait, npcID, currentDisplayID)
+        return
+    end
+
+    if now - request.sent >= 1 then
+        request.sent, request.fresh, request.previous = now, true, currentDisplayID
+        pcall(model.SetCreature, model, npcID)
+    end
+
+    if C_Timer and C_Timer.After then
+        C_Timer.After(NPC_PORTRAIT_RETRY_SECONDS, function()
+            ResolveNPCPortrait(portrait, npcID)
+        end)
+    end
+end
+
+local function AddNPCPortrait(group, npc, portraitIndex, anchor)
+    local border = GetInlineGroupBorder(group)
+    if not group or not border or not group.content or not npc or not npc.id or type(CreateFrame) ~= "function" then
+        return
+    end
+
+    group.npcPortraits = group.npcPortraits or {}
+    local portrait = group.npcPortraits[portraitIndex]
+    if not portrait then
+        local texture
+        local created = pcall(function()
+            -- The border is the visible panel.  Parenting to it keeps the
+            -- portrait above the backdrop while avoiding the content frame's
+            -- child layout moving it out of the reserved column.
+            texture = border:CreateTexture(nil, "OVERLAY", nil, 7)
+        end)
+        if not created or not texture then
+            return
+        end
+
+        portrait = texture
+        group.npcPortraits[portraitIndex] = portrait
+        portrait:SetSize(NPC_PORTRAIT_SIZE, NPC_PORTRAIT_SIZE)
+        portrait:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+    end
+
+    portrait:ClearAllPoints()
+    portrait:SetPoint("TOPLEFT", border, "TOPLEFT", 12, -24)
+
+    -- Portrait textures are kept by the panel frame and may be reused when a
+    -- different quest is selected. Clear the previous NPC image before the
+    -- asynchronous display lookup starts, otherwise the old portrait can be
+    -- shown until the new model finishes loading.
+    portrait:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+    portrait:SetTexCoord(0, 1, 0, 1)
+    portrait.npcID = npc.id
+    ResolveNPCPortrait(portrait, npc.id)
+
+    portrait:Show()
+end
+
+---Apply the shared NPC panel layout and portrait to another Journey detail view.
+---@param group AceGUIWidget
+---@param npc NPC
+function QuestDetailsFrame:ApplyNPCInfoGroup(group, npc)
+    ResetNPCInfoLayout(group)
+    ApplyNPCInfoLayout(group)
+    AddNPCPortrait(group, npc, 1, nil)
 end
 
 ---@param questLevel number
@@ -170,6 +586,7 @@ local function GetLevelDifficultyRanges(questLevel, questMinLevel)
                 gray = questLevel + 9
             end
         end
+
     end
 
     -- Calculate Base Values
@@ -253,14 +670,19 @@ end
 local function AddLinkedParagraph(frame, linkType, lookup, header, query)
     if lookup and #lookup > 0 then
         local group = AceGUI:Create("InlineGroup")
+        ResetNPCInfoLayout(group)
         group:SetFullWidth(true)
         group:SetLayout("List")
         group:SetTitle(header)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+            QuestieOptionsControls.ApplyModernInfoGroup(group)
+        end
         frame:AddChild(group)
 
         for _, id in pairs(lookup) do
             id = math.abs(id)
             local link = AceGUI:Create("InteractiveLabel")
+            ApplyModernInfoLink(link)
             -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
             link:SetFullWidth(true)
             local name = query(id, "name")
@@ -274,14 +696,22 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
                 text = name.." ("..id..")"
             end
             link:SetText(text)
+            if link.modernQuestLinkRefresh then
+                link.modernQuestLinkRefresh()
+            end
             link:SetUserData("id", id)
             link:SetUserData("type", linkType)
             link:SetUserData("name", name)
             link:SetCallback("OnClick", function()
                 QuestieJourneyUtils.HideJourneyTooltip()
-                -- Zone and faction details can be opened before the search widgets exist.
-                QuestieJourney.tabGroup:SelectTab("search")
-                QuestieSearchResults:SetSearch(linkType, id)
+                if linkType == "quest" and QuestieJourneyUtils.OpenQuestInJourney then
+                    QuestieJourneyUtils.OpenQuestInJourney(id)
+                else
+                    -- NPC/object/item links still use their existing detail
+                    -- search flow; quest links open the target quest directly.
+                    QuestieJourney.tabGroup:SelectTab("search")
+                    QuestieSearchResults:SetSearch(linkType, id)
+                end
             end)
             link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
             link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
@@ -293,6 +723,21 @@ end
 ---@param container ScrollFrame
 ---@param quest Quest
 function QuestDetailsFrame:Draw(container, quest)
+    if not container or not quest then
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestDetailsFrame:Draw] Missing quest data.")
+        return
+    end
+
+    -- Draw is also reached from restored selections and search navigation.
+    -- Clear any previous detail widgets before adding the new headings.
+    if container.ReleaseChildren then
+        container:ReleaseChildren()
+    end
+
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(container.scrollbar)
+    end
+
     local questNameHeader = CreateHeading(quest.name, true)
     container:AddChild(questNameHeader)
 
@@ -313,6 +758,9 @@ function QuestDetailsFrame:Draw(container, quest)
     completedCheckbox:SetValue(Questie.db.char.complete[quest.Id])
     completedCheckbox:SetLabel(l10n("Complete"))
     completedCheckbox:SetDisabled(true)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernCheckbox then
+        QuestieOptionsControls.ApplyModernCheckbox(completedCheckbox)
+    end
     completedCheckbox:SetHeight(16)
     completedCheckbox.text:SetFontObject(GameFontHighlightSmall)
     completedCheckbox:SetFullWidth(true)
@@ -323,6 +771,9 @@ function QuestDetailsFrame:Draw(container, quest)
     hiddenByQuestieCheckbox:SetValue(QuestieCorrections.hiddenQuests[quest.Id])
     hiddenByQuestieCheckbox:SetLabel(l10n("Hidden by Questie"))
     hiddenByQuestieCheckbox:SetDisabled(true)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernCheckbox then
+        QuestieOptionsControls.ApplyModernCheckbox(hiddenByQuestieCheckbox)
+    end
     hiddenByQuestieCheckbox:SetHeight(16)
     hiddenByQuestieCheckbox.text:SetFontObject(GameFontHighlightSmall)
     hiddenByQuestieCheckbox:SetFullWidth(true)
@@ -333,6 +784,9 @@ function QuestDetailsFrame:Draw(container, quest)
     hideQuestCheckbox.questId = quest.Id
     hideQuestCheckbox:SetLabel(l10n("Hidden"))
     hideQuestCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernCheckbox then
+        QuestieOptionsControls.ApplyModernCheckbox(hideQuestCheckbox)
+    end
     hideQuestCheckbox.text:SetFontObject(GameFontHighlightSmall)
     hideQuestCheckbox:SetFullWidth(true)
     hideQuestCheckbox:SetCallback("OnValueChanged", function(frame)
@@ -384,6 +838,15 @@ function QuestDetailsFrame:Draw(container, quest)
         local requiredLabel = "Required Race"
         if requiredRaces == QuestieDB.raceKeys.ALL_ALLIANCE or requiredRaces == QuestieDB.raceKeys.ALL_HORDE then
             requiredLabel = "Required Faction"
+        end
+        local factionIcon
+        if requiredRaces == QuestieDB.raceKeys.ALL_ALLIANCE then
+            factionIcon = Questie.icons and Questie.icons.faction_alliance
+        elseif requiredRaces == QuestieDB.raceKeys.ALL_HORDE then
+            factionIcon = Questie.icons and Questie.icons.faction_horde
+        end
+        if factionIcon then
+            reqRaces = "|T" .. factionIcon .. ":16:16|t " .. reqRaces
         end
         local reqRacesLabel = CreateLabel(Questie:Colorize(l10n(requiredLabel) .. l10n(": "), 'yellow') .. reqRaces, true)
         container:AddChild(reqRacesLabel)
@@ -515,14 +978,19 @@ function QuestDetailsFrame:Draw(container, quest)
         AddLinkedParagraph(container, "quest", nextQuestIDs, l10n("Next in chain"), QuestieDB.QueryQuestSingle)
     end
 
-    QuestieJourneyUtils:Spacer(container)
+    AddInfoPanelSpacing(container)
 
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
         local startNPCGroup = AceGUI:Create("InlineGroup")
+        ResetNPCInfoLayout(startNPCGroup)
         startNPCGroup:SetLayout("List")
         startNPCGroup:SetTitle(l10n("Quest Start NPC Information"))
         startNPCGroup:SetFullWidth(true)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+            QuestieOptionsControls.ApplyModernInfoGroup(startNPCGroup)
+        end
+        ApplyNPCInfoLayout(startNPCGroup)
         container:AddChild(startNPCGroup)
 
         QuestieJourneyUtils:Spacer(startNPCGroup)
@@ -533,6 +1001,7 @@ function QuestDetailsFrame:Draw(container, quest)
         startNPCNameLabel:SetFontObject(GameFontHighlight)
         startNPCNameLabel:SetColor(255, 165, 0)
         startNPCGroup:AddChild(startNPCNameLabel)
+        AddNPCPortrait(startNPCGroup, startNpc, 1, startNPCNameLabel)
 
         local startNPCIdLabel = AceGUI:Create("Label")
         startNPCIdLabel:SetText(l10n("NPC ID").. l10n(": ") .. startNpc.id)
@@ -593,14 +1062,22 @@ function QuestDetailsFrame:Draw(container, quest)
                 end
             end
         end
+
+        -- AceGUI may restore InlineGroup's default content anchors while laying
+        -- out children, so apply the portrait column after the group is built.
+        ApplyNPCInfoLayout(startNPCGroup)
     end
 
     -- Get Quest Start GameObject
     if quest.Starts and quest.Starts.GameObject then
         local startObjectGroup = AceGUI:Create("InlineGroup")
+        ResetNPCInfoLayout(startObjectGroup)
         startObjectGroup:SetLayout("List")
         startObjectGroup:SetTitle(l10n('Quest Start Object Information'))
         startObjectGroup:SetFullWidth(true)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+            QuestieOptionsControls.ApplyModernInfoGroup(startObjectGroup)
+        end
         container:AddChild(startObjectGroup)
 
         QuestieJourneyUtils:Spacer(startObjectGroup)
@@ -672,10 +1149,15 @@ function QuestDetailsFrame:Draw(container, quest)
 
     -- Get Quest Start Item
     if quest.Starts and quest.Starts.Item then
+        AddInfoPanelSpacing(container)
         local startItemGroup = AceGUI:Create("InlineGroup")
+        ResetNPCInfoLayout(startItemGroup)
         startItemGroup:SetLayout("List")
         startItemGroup:SetTitle(l10n('Quest Start Item Information'))
         startItemGroup:SetFullWidth(true)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+            QuestieOptionsControls.ApplyModernInfoGroup(startItemGroup)
+        end
         container:AddChild(startItemGroup)
 
         QuestieJourneyUtils:Spacer(startItemGroup)
@@ -693,15 +1175,23 @@ function QuestDetailsFrame:Draw(container, quest)
         startItemIdLabel:SetText(l10n("Item ID") .. l10n(": ") .. startItem.Id)
         startItemIdLabel:SetFullWidth(true)
         startItemGroup:AddChild(startItemIdLabel)
+
+        ApplyItemInfoLayout(startItemGroup)
+        AddItemIcon(startItemGroup, startItem)
     end
 
-    QuestieJourneyUtils:Spacer(container)
+    AddInfoPanelSpacing(container)
 
     if quest.Finisher.NPC then
         local endNPCGroup = AceGUI:Create("InlineGroup")
+        ResetNPCInfoLayout(endNPCGroup)
         endNPCGroup:SetLayout("List")
         endNPCGroup:SetTitle(l10n('Quest Turn-in NPC Information'))
         endNPCGroup:SetFullWidth(true)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+            QuestieOptionsControls.ApplyModernInfoGroup(endNPCGroup)
+        end
+        ApplyNPCInfoLayout(endNPCGroup)
         container:AddChild(endNPCGroup)
 
         QuestieJourneyUtils:Spacer(endNPCGroup)
@@ -719,6 +1209,7 @@ function QuestDetailsFrame:Draw(container, quest)
             endNPCNameLabel:SetColor(255, 165, 0)
             endNPCNameLabel:SetFullWidth(true)
             endNPCGroup:AddChild(endNPCNameLabel)
+            AddNPCPortrait(endNPCGroup, endNPC, i, endNPCNameLabel)
 
             local endNPCIdLabel = AceGUI:Create("Label")
             endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
@@ -778,6 +1269,8 @@ function QuestDetailsFrame:Draw(container, quest)
             end
         end
 
+        ApplyNPCInfoLayout(endNPCGroup)
+
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
@@ -786,9 +1279,13 @@ function QuestDetailsFrame:Draw(container, quest)
 
     if quest.Finisher.GameObject then
         local endObjectGroup = AceGUI:Create("InlineGroup")
+        ResetNPCInfoLayout(endObjectGroup)
         endObjectGroup:SetLayout("List")
         endObjectGroup:SetTitle(l10n('Quest Turn-in Object Information'))
         endObjectGroup:SetFullWidth(true)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+            QuestieOptionsControls.ApplyModernInfoGroup(endObjectGroup)
+        end
         container:AddChild(endObjectGroup)
 
         QuestieJourneyUtils:Spacer(endObjectGroup)

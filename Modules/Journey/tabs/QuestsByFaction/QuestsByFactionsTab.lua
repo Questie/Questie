@@ -11,6 +11,8 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -24,6 +26,12 @@ local _GetWatchedFactionId
 
 local selectedExpansionKey
 local expansionDropdown, factionDropdown, treegroup
+
+local function ApplyModernDropdown(dropdown, width)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernDropdown then
+        QuestieOptionsControls.ApplyModernDropdown(dropdown, width)
+    end
+end
 
 local function _GetDefaultExpansion()
     local watchedFactionId = _GetWatchedFactionId and _GetWatchedFactionId()
@@ -49,10 +57,7 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
     ---@class AceSimpleGroup
     treegroup = AceGUI:Create("SimpleGroup")
 
-    local header = AceGUI:Create("Heading")
-    header:SetText(l10n('Select Expansion and Faction'))
-    header:SetFullWidth(true)
-    container:AddChild(header)
+    QuestieOptionsControls.CreateModernDividerGroup(container, l10n('Select Expansion and Faction'))
 
     QuestieJourneyUtils:Spacer(container)
 
@@ -64,10 +69,7 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container)
 
-    header = AceGUI:Create("Heading")
-    header:SetText(l10n('Quests'))
-    header:SetFullWidth(true)
-    container:AddChild(header)
+    QuestieOptionsControls.CreateModernDividerGroup(container, l10n('Quests'))
 
     QuestieJourneyUtils:Spacer(container)
 
@@ -92,6 +94,7 @@ end
 
 _CreateExpansionDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
+    ApplyModernDropdown(dropdown, 200)
     dropdown:SetList(QuestieJourney.availableFactionExpansions, QuestieJourney.availableFactionExpansionOrder)
     dropdown:SetCallback("OnValueChanged", _HandleExpansionSelection)
 
@@ -113,6 +116,7 @@ end
 _CreateFactionDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetWidth(205)
+    ApplyModernDropdown(dropdown, 200)
     if not selectedExpansionKey then
         selectedExpansionKey = _GetDefaultExpansion()
     end

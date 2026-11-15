@@ -28,6 +28,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
 -- this variable defines how many operations to run (batched at a time) before yielding for a frame.
 -- 1 would mean yielding every operation (so lower = slower but less lag)
@@ -50,9 +52,99 @@ local AceGUI = LibStub("AceGUI-3.0");
 local _HandleTreeItemSelected, _FindFirstSpawn
 local lastOpenSearch = "quest"
 local _selected = 0
+local searchResultTabs
+local detailsFrameGeneration = 0
+local activeResultTree
 
 local BY_NAME = 1
 local BY_ID = 2
+
+local function ApplyModernButton(button, width)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyStyledButton then
+        button:SetWidth(width)
+        button:SetHeight(40)
+        QuestieOptionsControls.ApplyStyledButton(button.frame, width, button.text)
+    end
+end
+
+local function AddModernDivider(container, text)
+    if QuestieOptionsControls and QuestieOptionsControls.CreateModernDividerGroup then
+        return QuestieOptionsControls.CreateModernDividerGroup(container, text)
+    end
+
+    local header = AceGUI:Create("Heading")
+    header:SetFullWidth(true)
+    header:SetText(text)
+    container:AddChild(header)
+    return header
+end
+
+local function ApplyModernSearchBox(searchBox, placeholder)
+    local frame = searchBox.frame
+    if not frame or not frame.CreateTexture then
+        return
+    end
+
+    local legacyEditBox = searchBox.editbox
+    legacyEditBox:Hide()
+
+    local editBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
+    editBox:SetAutoFocus(false)
+    editBox:SetFontObject(ChatFontNormal)
+    editBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -7)
+    editBox:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 4, -7)
+    editBox:SetHeight(26)
+    editBox:SetMaxLetters(256)
+    editBox:SetTextInsets(22, 4, 3, 3)
+    if editBox.SetPropagateKeyboardInput then
+        editBox:SetPropagateKeyboardInput(false)
+    end
+
+    searchBox.editbox = editBox
+    editBox.obj = searchBox
+    searchBox.disablebutton = true
+    searchBox.button:Hide()
+
+    local rawSetText = searchBox.SetText
+    searchBox.SetText = function(self, text)
+        rawSetText(self, text)
+        self.editbox:SetTextInsets(22, 4, 3, 3)
+    end
+
+    editBox:SetScript("OnEscapePressed", function()
+        searchBox:ClearFocus()
+    end)
+    editBox:SetScript("OnEnterPressed", function(self)
+        local cancel = searchBox:Fire("OnEnterPressed", self:GetText())
+        if not cancel then
+            self:ClearFocus()
+        end
+    end)
+    editBox:SetScript("OnTextChanged", function(self)
+        if _G.SearchBoxTemplate_OnTextChanged then
+            _G.SearchBoxTemplate_OnTextChanged(self)
+        end
+        searchBox:Fire("OnTextChanged", self:GetText())
+    end)
+    editBox:SetScript("OnEditFocusGained", function(self)
+        if self.SetPropagateKeyboardInput then
+            self:SetPropagateKeyboardInput(false)
+        end
+        AceGUI:SetFocus(searchBox)
+    end)
+    editBox:SetScript("OnEnter", function()
+        searchBox:Fire("OnEnter")
+    end)
+    editBox:SetScript("OnLeave", function()
+        searchBox:Fire("OnLeave")
+    end)
+
+    if type(editBox.Instructions) == "table" then
+        editBox.Instructions:SetText(placeholder)
+    end
+
+    searchBox:SetHeight(40)
+end
 
 
 ---Takes a frame and adds a paragraph with a header text and a list of links to other search results
@@ -73,6 +165,9 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
         for _,id in pairs(lookup) do
             id = abs(id)
             local link = AceGUI:Create("InteractiveLabel")
+            if QuestieJourneyUtils.ApplyModernQuestLinkStyle then
+                QuestieJourneyUtils.ApplyModernQuestLinkStyle(link)
+            end
             local name = query(id, "name")
             local text
             if linkType == 'quest' then
@@ -84,6 +179,9 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
                 text = name.." ("..id..")"
             end
             link:SetText(text);
+            if link.modernQuestLinkRefresh then
+                link.modernQuestLinkRefresh()
+            end
             link:SetUserData("id", id)
             link:SetUserData("type", linkType)
             link:SetUserData("name", name)
@@ -104,6 +202,7 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
                         QuestieJourneyUtils:Spacer(group)
                         local button = AceGUI:Create("Button")
                         button:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
+                        ApplyModernButton(button, 220)
                         button:SetCallback("OnClick", function()
                             TrackerUtils:SetTomTomTarget(name, zone, x, y)
                         end)
@@ -155,6 +254,7 @@ local function CreateShowHideButton(id, idsToShow, groupName)
         button:SetText(l10n("Remove from Map"))
         button:SetCallback("OnClick", function(self) self:RemoveFromMap(self) end)
     end
+    ApplyModernButton(button, 180)
     -- Functions for showing/hiding and switching behaviour afterwards
     button.RemoveFromMap = function(self)
         self:SetText(l10n("Show on Map"))
@@ -272,9 +372,6 @@ local function recurseTable(theTable, theKeys)
 end
 
 function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
-    local header = AceGUI:Create("Heading");
-    header:SetFullWidth(true);
-
     local id = 0
     local typeLabel = ""
     local query
@@ -287,26 +384,39 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         spawnObject = QuestieDB:GetObject(spawn)
     end
 
-    header:SetText(spawnObject.name);
-    f:AddChild(header);
+    AddModernDivider(f, spawnObject.name)
 
-    QuestieJourneyUtils:Spacer(f);
+    local infoContainer = f
+    if spawnType == "npc" then
+        infoContainer = AceGUI:Create("InlineGroup")
+        infoContainer:SetLayout("List")
+        infoContainer:SetFullWidth(true)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+            QuestieOptionsControls.ApplyModernInfoGroup(infoContainer)
+        end
+        f:AddChild(infoContainer)
+        if QuestDetailsFrame.ApplyNPCInfoGroup then
+            QuestDetailsFrame:ApplyNPCInfoGroup(infoContainer, spawnObject)
+        end
+    end
 
-    QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n(typeLabel))..l10n(": ")..spawn)
+    QuestieJourneyUtils:Spacer(infoContainer);
+
+    QuestieJourneyUtils:AddLine(infoContainer, Questie:Colorize(l10n(typeLabel))..l10n(": ")..spawn)
     if spawnType == "npc" then
         if spawnObject.subName then
-            QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Title"))..l10n(": ")..spawnObject.subName)
+            QuestieJourneyUtils:AddLine(infoContainer, Questie:Colorize(l10n("Title"))..l10n(": ")..spawnObject.subName)
         end
         local minLevel = spawnObject.minLevel
         local maxLevel = spawnObject.maxLevel
         local level
         if minLevel == maxLevel then level = minLevel else level = minLevel.." - "..maxLevel end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Level"))..l10n(": ")..level)
+        QuestieJourneyUtils:AddLine(infoContainer, Questie:Colorize(l10n("Level"))..l10n(": ")..level)
         local minLevelHealth = spawnObject.minLevelHealth
         local maxLevelHealth = spawnObject.maxLevelHealth
         local health
         if minLevelHealth == maxLevelHealth then health = minLevelHealth else health = minLevelHealth.." - "..maxLevelHealth end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Health"))..l10n(": ")..health)
+        QuestieJourneyUtils:AddLine(infoContainer, Questie:Colorize(l10n("Health"))..l10n(": ")..health)
         local friendlyTo = l10n("no faction")
         if spawnObject.friendlyToFaction == "AH" then
             friendlyTo = l10n("both factions")
@@ -315,10 +425,10 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         elseif spawnObject.friendlyToFaction == "H" then
             friendlyTo = l10n("Horde")
         end
-        QuestieJourneyUtils:AddLine(f, Questie:Colorize(l10n("Friendly to"))..l10n(": ")..friendlyTo)
+        QuestieJourneyUtils:AddLine(infoContainer, Questie:Colorize(l10n("Friendly to"))..l10n(": ")..friendlyTo)
     end
 
-    QuestieJourneyUtils:Spacer(f);
+    QuestieJourneyUtils:Spacer(infoContainer);
 
     -- Also Starts
     if spawnObject.questStarts then
@@ -351,6 +461,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             if tx ~= -1 or ty ~= -1 then
                 local tomTomButton = AceGUI:Create("Button")
                 tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
+                ApplyModernButton(tomTomButton, 220)
                 tomTomButton:SetCallback("OnClick", function()
                     TrackerUtils:SetTomTomTarget(spawnObject.name, startindex, tx, ty)
                 end)
@@ -412,6 +523,12 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     -- Instead we use this:
     QuestieScanningTooltip:SetItemByID(itemId)
 
+    local requestGeneration = f.journeyDetailsGeneration
+
+    local function IsCurrentDetailsFrame()
+        return f.frame and f.frame:IsShown() and f.journeyDetailsGeneration == requestGeneration
+    end
+
     -- Then we wait for client to say it cached the item
     local ticker
     ticker = C_Timer.NewTicker(0.05, function()
@@ -419,7 +536,11 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         if C_Item.IsItemDataCachedByID(itemId) then
             ticker:Cancel()
             -- We still need another tiny delay because the following content might still clip the last few lines otherwise
-            C_Timer.After(0.05, function() QuestieSearchResults:ItemsFrameAfterTicker(f, itemId) end)
+            C_Timer.After(0.05, function()
+                if IsCurrentDetailsFrame() then
+                    QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
+                end
+            end)
         end
     end)
 end
@@ -428,13 +549,9 @@ end
 ---@param f Frame The frame to attach the created item details frame to
 ---@param itemId ItemId The ID for the item to show details about
 function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
-    local header = AceGUI:Create("Heading")
-    header:SetFullWidth(true)
-
     local query = QuestieDB.QueryItemSingle
 
-    header:SetText(query(itemId, "name"))
-    f:AddChild(header)
+    AddModernDivider(f, query(itemId, "name"))
 
     local grp = AceGUI:Create("SimpleGroup")
     grp:SetFullWidth(true)
@@ -470,10 +587,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     local objectDrops = sources[2]
     local vendors = sources[3]
 
-    local npcSpawnsHeading = AceGUI:Create("Heading")
-    npcSpawnsHeading:SetText(l10n("NPCs"))
-    npcSpawnsHeading:SetFullWidth(true)
-    f:AddChild(npcSpawnsHeading)
+    AddModernDivider(f, l10n("NPCs"))
 
     if (not npcDrops or not next(npcDrops)) then
         local noNPCSourcesLabel = AceGUI:Create("Label")
@@ -500,10 +614,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         AddLinkedParagraph(f, "npc", npcIdsWithSpawns, "", QuestieDB.QueryNPCSingle, false)
     end
 
-    local objectSpawnsHeading = AceGUI:Create("Heading")
-    objectSpawnsHeading:SetText(l10n("Objects"))
-    objectSpawnsHeading:SetFullWidth(true)
-    f:AddChild(objectSpawnsHeading)
+    AddModernDivider(f, l10n("Objects"))
 
     if (not objectDrops or not next(objectDrops)) then
         local noObjectSourcesLabel = AceGUI:Create("Label")
@@ -530,10 +641,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
         AddLinkedParagraph(f, "object", objectIdsWithSpawns, "", QuestieDB.QueryObjectSingle, false)
     end
 
-    local vendorSpawnsHeading = AceGUI:Create("Heading")
-    vendorSpawnsHeading:SetText(l10n("Vendors"))
-    vendorSpawnsHeading:SetFullWidth(true)
-    f:AddChild(vendorSpawnsHeading)
+    AddModernDivider(f, l10n("Vendors"))
 
     if (not vendors or not next(vendors)) then
         local noVendorSourcesLabel = AceGUI:Create("Label")
@@ -572,6 +680,7 @@ end
 -- draws a list of results of a certain type, e.g. "quest"
 function QuestieSearchResults:DrawResultTab(container, resultType)
     -- probably already done by `JourneySelectTabGroup`, doesn't hurt to be safe though
+    activeResultTree = nil
     container:ReleaseChildren();
 
     local results = {}
@@ -617,9 +726,17 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultFrame:SetFullHeight(true);
 
     local resultTree = AceGUI:Create("TreeGroup");
+    activeResultTree = resultTree
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
     resultTree.treeframe:SetWidth(415);
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
+        QuestieOptionsControls.ApplyJourneyContainer(resultTree.treeframe)
+        QuestieOptionsControls.ApplyJourneyContainer(resultTree.border)
+    end
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(resultTree.scrollbar)
+    end
     resultTree:SetTree(results);
     -- Programmatic selection fires OnGroupSelected, not OnClick.
     resultTree:SetCallback("OnGroupSelected", _HandleTreeItemSelected)
@@ -638,8 +755,17 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
 end
 
 _HandleTreeItemSelected = function(group, _, value)
+    if group ~= activeResultTree or (group.IsReleasing and group:IsReleasing()) then
+        return
+    end
+
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(value)
+
+    if searchResultTabs then
+        searchResultTabs.modernHoverLocked = true
+        searchResultTabs.modernPinnedValue = lastOpenSearch
+    end
 
     -- get master frame and create scroll frame inside
     local master = group.frame.obj;
@@ -650,6 +776,11 @@ _HandleTreeItemSelected = function(group, _, value)
 
     local details = AceGUI:Create("ScrollFrame");
     details:SetLayout("Flow");
+    detailsFrameGeneration = detailsFrameGeneration + 1
+    details.journeyDetailsGeneration = detailsFrameGeneration
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(details.scrollbar)
+    end
     master:AddChild(details);
 
     if lastOpenSearch == "quest" then
@@ -669,7 +800,7 @@ local function SelectTabGroup(container, _, resultType)
 end
 
 local function _GetSearchFunction(searchBox, searchGroup)
-    return function()
+    return function(keepFocus)
         if searchBox:GetText() ~= "" then
             local searchText = searchBox:GetText()
 
@@ -687,15 +818,23 @@ local function _GetSearchFunction(searchBox, searchGroup)
                 local text = string.trim(searchText, " \n\r\t[]");
                 QuestieSearchResults:DrawSearchResultTab(searchGroup, tonumber(text) and BY_ID or BY_NAME, text, false)
             end
-            searchBox:ClearFocus()
+            if not keepFocus then
+                searchBox:ClearFocus()
+            end
         end
     end
 end
 
 -- Draw search results from advanced search tab
-local searchResultTabs
 function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query, useLast)
+    if searchResultTabs then
+        -- Hover locking belongs to one result set and must not carry into a new query.
+        searchResultTabs.modernHoverLocked = false
+        searchResultTabs.modernPinnedValue = nil
+    end
+
     if not searchResultTabs then
+        activeResultTree = nil
         searchGroup:ReleaseChildren();
         if searchType == BY_NAME and (not useLast) then
             QuestieSearch:ByName(query)
@@ -756,10 +895,14 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
                 disabled = resultCounts.item == 0,
             },
         })
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernTabGroup then
+            QuestieOptionsControls.ApplyModernTabGroup(searchResultTabs)
+        end
         searchResultTabs:SetCallback("OnGroupSelected", SelectTabGroup)
         if _selected == 0 then searchResultTabs:SelectTab("quest"); end
         searchGroup:AddChild(searchResultTabs);
     else
+        activeResultTree = nil
         searchGroup:ReleaseChildren();
         searchResultTabs = nil;
         self:DrawSearchResultTab(searchGroup, searchType, query, useLast);
@@ -770,40 +913,30 @@ end
 local typeDropdown
 local searchBox
 local searchGroup
-local searchButton
 function QuestieSearchResults:DrawSearchTab(container)
-    -- Header
-    local header = AceGUI:Create("Heading");
-    header:SetText(l10n("Enter in your Search"));
-    header:SetFullWidth(true);
-    container:AddChild(header);
-    QuestieJourneyUtils:Spacer(container);
+    AddModernDivider(container, l10n("Enter in your Search"))
 
     searchBox = AceGUI:Create("EditBox");
     searchGroup = AceGUI:Create("SimpleGroup");
-    searchButton = AceGUI:Create("Button");
 
-    searchButton:SetText(l10n("Search"));
-    searchButton:SetDisabled(true);
-    searchButton:SetCallback("OnClick", _GetSearchFunction(searchBox, searchGroup));
-    container:AddChild(searchButton);
-
-    searchBox:SetFocus();
-    searchBox:SetRelativeWidth(0.6);
-    searchBox:SetLabel(l10n("Advanced Search") .. " (".. l10n("Quests") .. ", ".. l10n("NPCs") .. ", ".. l10n("Objects") .. ", ".. l10n("Items") .. ")");
-    searchBox:DisableButton(true);
+    searchBox:SetRelativeWidth(0.35);
+    local searchPlaceholder = l10n("Advanced Search") .. " (" .. l10n("Quests") .. ", " .. l10n("NPCs") .. ", " .. l10n("Objects") .. ", " .. l10n("Items") .. ")"
+    ApplyModernSearchBox(searchBox, searchPlaceholder);
+    local performSearch = _GetSearchFunction(searchBox, searchGroup)
     searchBox:SetCallback("OnTextChanged", function()
-        if searchBox:GetText() ~= "" then
-            searchButton:SetDisabled(false);
+        if searchBox:GetText() == "" then
+            activeResultTree = nil
+            searchGroup:ReleaseChildren()
+            if searchResultTabs then
+                searchResultTabs.modernHoverLocked = false
+                searchResultTabs.modernPinnedValue = nil
+            end
+            searchResultTabs = nil
         else
-            searchButton:SetDisabled(true);
+            performSearch(true)
         end
     end);
-    searchBox:SetCallback("OnEnterPressed", _GetSearchFunction(searchBox, searchGroup));
-    -- Check for existence of previous search, if present use its text
-    if QuestieSearch.LastResult.query ~= "" then
-        searchBox:SetText(QuestieSearch.LastResult.query)
-    end
+    searchBox:SetCallback("OnEnterPressed", performSearch);
     container:AddChild(searchBox);
 
     searchGroup:SetFullHeight(true);
@@ -812,10 +945,9 @@ function QuestieSearchResults:DrawSearchTab(container)
     container:AddChild(searchGroup);
     -- Check for existence of previous search, if present use its result
     if QuestieSearch.LastResult.query ~= "" then
-        searchButton:SetDisabled(false)
-        local text = string.trim(searchBox:GetText(), " \n\r\t[]")
-        QuestieSearchResults:DrawSearchResultTab(searchGroup, tonumber(text) and BY_ID or BY_NAME, text, true)
+        searchBox:SetText(QuestieSearch.LastResult.query)
     end
+    searchBox:SetFocus();
 end
 
 function QuestieSearchResults:GetDetailFrame(detailType, id)
@@ -827,6 +959,9 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
     details:SetFullWidth(true);
     details:SetFullHeight(true);
     details:SetLayout("Flow")
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(details.scrollbar)
+    end
     frame:AddChild(details)
     if detailType == "quest" then
         QuestDetailsFrame:Draw(details, QuestieDB.GetQuest(id))
@@ -852,4 +987,26 @@ function QuestieSearchResults:SetSearch(detailType, id)
     searchBox:SetText(tostring(id))
     QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_ID, id, false)
     searchResultTabs:SelectTab(detailType)
+end
+
+---Open a search result's detail pane as if the result row had been clicked.
+---@param detailType string
+---@param id number
+function QuestieSearchResults:OpenDetails(detailType, id)
+    self:SetSearch(detailType, id)
+
+    local selectResult = function()
+        if activeResultTree and lastOpenSearch == detailType then
+            -- SetSearch can rebuild the result tree twice while the search box
+            -- callback is settling.  Invoke the same handler as a row click
+            -- after the final tree exists.
+            _HandleTreeItemSelected(activeResultTree, nil, id)
+        end
+    end
+
+    if C_Timer and C_Timer.After then
+        C_Timer.After(0, selectResult)
+    else
+        selectResult()
+    end
 end

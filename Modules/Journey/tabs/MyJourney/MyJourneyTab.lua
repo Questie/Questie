@@ -15,14 +15,26 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0");
 
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
+
+local function AddModernDivider(container, text)
+    if QuestieOptionsControls and QuestieOptionsControls.CreateModernDividerGroup then
+        QuestieOptionsControls.CreateModernDividerGroup(container, text)
+        return
+    end
+
+    local header = AceGUI:Create("Heading")
+    header:SetText(text)
+    header:SetFullWidth(true)
+    container:AddChild(header)
+end
+
 --- Draw the "My Journey" tab
 ---@param container Frame
 ---@return SimpleGroup
 function _QuestieJourney.myJourney:DrawTab(container)
-    local header = AceGUI:Create("Heading");
-    header:SetText(l10n('Your Recent History'));
-    header:SetFullWidth(true);
-    container:AddChild(header);
+    AddModernDivider(container, l10n('Your Recent History'))
     QuestieJourneyUtils:Spacer(container);
 
     -- get last 5 elements from table for history
@@ -73,16 +85,36 @@ function _QuestieJourney.myJourney:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container);
 
-    local treeHeader = AceGUI:Create("Heading");
-    treeHeader:SetText(l10n("%s's Journey", GetUnitName("player", true)));
-    treeHeader:SetFullWidth(true);
-    container:AddChild(treeHeader);
+    AddModernDivider(container, l10n("%s's Journey", GetUnitName("player", true)))
 
-    local noteButton = AceGUI:Create("Button");
-    noteButton:SetText(l10n('Add New Adventure Note'));
-    noteButton:SetPoint("RIGHT");
-    noteButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup);
-    container:AddChild(noteButton);
+    local noteButtonText = l10n('Add New Adventure Note')
+    local noteButton = AceGUI:Create("SimpleGroup")
+    noteButton:SetLayout("Fill")
+    noteButton:SetFullWidth(true)
+    noteButton:SetHeight(32)
+
+    if QuestieOptionsControls and QuestieOptionsControls.CreateStyledButton then
+        local nativeButton = QuestieOptionsControls.CreateStyledButton(noteButton.content, 220)
+        nativeButton:SetText(noteButtonText)
+        nativeButton:SetPoint("LEFT", noteButton.content, "LEFT", 0, 0)
+        nativeButton:SetScript("OnClick", _QuestieJourney.ShowNotePopup)
+        noteButton.nativeButton = nativeButton
+    else
+        local legacyButton = AceGUI:Create("Button")
+        legacyButton:SetText(noteButtonText)
+        legacyButton:SetWidth(220)
+        legacyButton:SetHeight(32)
+        legacyButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup)
+        noteButton:AddChild(legacyButton)
+    end
+
+    noteButton:SetCallback("OnRelease", function(widget)
+        if widget.nativeButton then
+            widget.nativeButton:Hide()
+            widget.nativeButton = nil
+        end
+    end)
+    container:AddChild(noteButton)
 
     QuestieJourneyUtils:Spacer(container);
 

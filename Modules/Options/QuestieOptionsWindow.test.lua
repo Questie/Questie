@@ -46,6 +46,19 @@ describe("QuestieOptionsWindow", function()
             assert.are.equal(700, window:GetHeight())
         end)
 
+        it("should support custom panels using the same window shell", function()
+            local window = QuestieOptionsWindow.Create({
+                name = "QuestieJourneyFrame",
+                title = "My Journey",
+                width = 1000,
+                height = 650,
+            })
+
+            assert.are.equal(1000, window:GetWidth())
+            assert.are.equal(650, window:GetHeight())
+            assert.are_same({"QuestieJourneyFrame"}, UISpecialFrames)
+        end)
+
         describe("dragging", function()
             local window, dragBar, moving
 

@@ -14,6 +14,18 @@ local questsByZoneLocales = {
         ["zhCN"] = "按地区查寻",
         ["zhTW"] = "依區域查看",
     },
+    ["Explore quests by zone"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quests nach Zone erkunden", -- 🤖
+        ["esES"] = "Explora misiones por zona", -- 🤖
+        ["esMX"] = "Explora misiones por zona", -- 🤖
+        ["frFR"] = "Explorez les quêtes par zone", -- 🤖
+        ["koKR"] = "지역별 퀘스트 탐색", -- 🤖
+        ["ptBR"] = "Explora missões por zona", -- 🤖
+        ["ruRU"] = "Поиск заданий по зоне", -- 🤖
+        ["zhCN"] = "按区域浏览任务", -- 🤖
+        ["zhTW"] = "依區域探索任務", -- 🤖
+    },
     ["Select Category"] = {
         ["enUS"] = true,
         ["deDE"] = "Kategorie wählen",

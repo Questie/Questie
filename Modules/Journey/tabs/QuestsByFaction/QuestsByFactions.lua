@@ -30,11 +30,35 @@ local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
 local factionTreeFrame
 local factionQuestMap
+
+---Select and open a quest that is present in the currently displayed faction tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByFaction:OpenQuest(questId)
+    if not factionTreeFrame or not factionTreeFrame.tree then
+        return false
+    end
+
+    for _, category in ipairs(factionTreeFrame.tree) do
+        for _, quest in ipairs(category.children or {}) do
+            if tonumber(quest.value) == questId then
+                local selection = tostring(category.value) .. "\001" .. tostring(questId)
+                factionTreeFrame:SelectByValue(selection)
+                factionTreeFrame:Fire("OnClick", selection, false)
+                return true
+            end
+        end
+    end
+
+    return false
+end
 
 local expansionDefinitions = {
     { key = "classic", label = EXPANSION_NAME0, order = Expansions.Era },
@@ -319,19 +343,29 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
     factionTreeFrame:EnableButtonTooltips(false)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
+        QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.treeframe)
+        QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.border)
+    end
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(factionTreeFrame.scrollbar)
+    end
     factionTreeFrame:SetTree(factionTree)
 
     factionTreeFrame.treeframe:SetWidth(415)
-    factionTreeFrame:SetCallback("OnClick", function(group, ...)
-        local treePath = {...}
-
-        if not treePath[2] then
-            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
+    local lastRenderedTreeValue
+    factionTreeFrame:SetCallback("OnGroupSelected", function(group, _, treeValue)
+        if type(treeValue) ~= "string" then
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnGroupSelected] No tree path given in Journey.")
             return
         end
 
-        local sel, questId = strsplit("\001", treePath[2])
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b" or sel == "h") and (not questId) then
+        local _, questId = strsplit("\001", treeValue)
+        if not questId then
+            return
+        end
+
+        if lastRenderedTreeValue == treeValue then
             return
         end
 
@@ -349,12 +383,17 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
 
         questId = tonumber(questId)
         local quest = QuestieDB.GetQuest(questId)
+        if not quest then
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnGroupSelected] Quest data missing in Journey:", questId)
+            return
+        end
 
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
         end
 
         QuestDetailsFrame:Draw(scrollFrame, quest)
+        lastRenderedTreeValue = treeValue
     end)
 
     container:AddChild(factionTreeFrame)

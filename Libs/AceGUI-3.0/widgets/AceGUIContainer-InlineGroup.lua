@@ -89,6 +89,7 @@ local function Constructor()
 
 	local widget = {
 		frame     = frame,
+		border    = border,
 		content   = content,
 		titletext = titletext,
 		type      = Type

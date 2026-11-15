@@ -16,6 +16,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -28,15 +30,18 @@ local _HandleAllZonesSelection, _HandleContinentSelection, _HandleZoneSelection
 local selectedContinentId
 local contDropdown, zoneDropdown, treegroup
 
+local function ApplyModernDropdown(dropdown, width)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernDropdown then
+        QuestieOptionsControls.ApplyModernDropdown(dropdown, width)
+    end
+end
+
 -- function that draws 'Quests By Zone' tab
 function _QuestieJourney.questsByZone:DrawTab(container)
     ---@class AceSimpleGroup
     treegroup = AceGUI:Create("SimpleGroup")
 
-    local header = AceGUI:Create("Heading")
-    header:SetText(l10n("Select Category"))
-    header:SetFullWidth(true)
-    container:AddChild(header)
+    QuestieOptionsControls.CreateModernDividerGroup(container, l10n("Select Category"))
 
     QuestieJourneyUtils:Spacer(container)
 
@@ -48,12 +53,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container)
 
-    header = AceGUI:Create("Heading")
-    header:SetText(l10n("Quests"))
-    header:SetFullWidth(true)
-    container:AddChild(header)
-
-    QuestieJourneyUtils:Spacer(container)
+    QuestieOptionsControls.CreateModernDividerGroup(container, l10n("Quests"))
 
     treegroup:SetFullHeight(true)
     treegroup:SetFullWidth(true)
@@ -91,6 +91,7 @@ _CreateContinentDropdown = function()
     for _, key in ipairs(sortedKeys) do
         table.insert(order, key)
     end
+    ApplyModernDropdown(dropdown, 200)
     dropdown:SetList(list, order)
     dropdown:SetText(l10n("All Quests"))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
@@ -125,7 +126,8 @@ end
 
 _CreateZoneDropdown = function()
     local dropdown = AceGUI:Create("Dropdown")
-    dropdown:SetWidth(205)
+    dropdown:SetWidth(200)
+    ApplyModernDropdown(dropdown, 200)
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
     if _QuestieJourney.lastZoneSelection[2] then
         currentZoneId = _QuestieJourney.lastZoneSelection[2]
@@ -287,4 +289,65 @@ _HandleZoneSelection = function(key, _)
     _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
     _QuestieJourney.lastZoneSelection[2] = key.value
     _QuestieJourney.lastZoneSelection[3] = nil
+end
+
+local function FindQuestZoneLocation(questId)
+    local zoneMap = QuestieJourney.zoneMap or {}
+    local zonesByCategory = QuestieJourney.zones or {}
+    local quest = QuestieDB.GetQuest(questId)
+    local preferredZoneOrSort = quest and quest.zoneOrSort
+
+    -- Prefer the quest's own zoneOrSort so dungeon and special-category quests
+    -- open in their canonical dropdown rather than an arbitrary duplicate.
+    if preferredZoneOrSort and zoneMap[preferredZoneOrSort] and zoneMap[preferredZoneOrSort][questId] then
+        for categoryId, zones in pairs(zonesByCategory) do
+            if zones[preferredZoneOrSort] then
+                return categoryId, preferredZoneOrSort
+            end
+        end
+    end
+
+    for categoryId, zones in pairs(zonesByCategory) do
+        for zoneId in pairs(zones) do
+            if zoneMap[zoneId] and zoneMap[zoneId][questId] then
+                return categoryId, zoneId
+            end
+        end
+    end
+
+    return nil, nil
+end
+
+---Select the quest's real category/zone and open it in the zone tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByZone:OpenQuestInLocation(questId)
+    if not contDropdown or not zoneDropdown or not treegroup then
+        return false
+    end
+
+    local categoryId, zoneId = FindQuestZoneLocation(questId)
+    if not categoryId then
+        return false
+    end
+
+    -- Rebuild the zone list/tree for the target category. SetValue updates the
+    -- visible dropdown without relying on AceGUI to fire its callback.
+    contDropdown:SetValue(categoryId)
+    _HandleContinentSelection({value = categoryId})
+
+    if zoneDropdown.frame:IsShown() and zoneId then
+        zoneDropdown:SetValue(zoneId)
+        _HandleZoneSelection({value = zoneId})
+    end
+
+    if _QuestieJourney.questsByZone.OpenQuest then
+        return _QuestieJourney.questsByZone:OpenQuest(questId)
+    end
+
+    return false
+end
+
+function QuestieJourney:OpenQuestInZone(questId)
+    return _QuestieJourney.questsByZone:OpenQuestInLocation(questId)
 end

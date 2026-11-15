@@ -12,9 +12,37 @@ _QuestieJourney.notePopup = nil
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
+---@type QuestieOptionsWindow
+local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 
 local AceGUI = LibStub("AceGUI-3.0")
 local titleBox, messageBox
+
+local function ApplyNoteLayerColors(container)
+    if not container or not container.border then
+        return
+    end
+
+    -- Match the lighter Options panel surface; the editors are darker nested
+    -- surfaces, applied separately below.
+    QuestieOptionsControls.ApplyModernContainer(container.border)
+    container.border:SetBackdropColor(0.14, 0.11, 0.06, 0.95)
+    container.border:SetBackdropBorderColor(0.45, 0.32, 0.1, 1)
+end
+
+local function ApplyNoteEditorColor(widget)
+    local surface = widget and (widget.scrollBG or widget.editbox)
+    if not surface or not surface.SetBackdropColor then
+        return
+    end
+
+    surface:SetBackdropColor(0.08, 0.055, 0.03, 0.98)
+    if surface.SetBackdropBorderColor then
+        surface:SetBackdropBorderColor(0.42, 0.29, 0.12, 0.95)
+    end
+end
 
 local _CreateNoteWindow, _CreateContainer, _CreateDescription, _CreateTitleBox, _CreateMessageBox
 local _CreateNoteAddButton, _HandleNoteEntry, _DeleteNote
@@ -31,21 +59,32 @@ function _QuestieJourney:ShowNotePopup()
 end
 
 _CreateNoteWindow = function ()
-    local notePopup = AceGUI:Create("Window")
-    notePopup:Show()
-    notePopup:SetTitle(l10n('Add New Adventure Note'))
-    notePopup:SetWidth(400)
-    notePopup:SetHeight(400)
-    notePopup:EnableResize(false)
-    notePopup.frame:SetFrameStrata(_QuestieJourney.containerCache.frame:GetFrameStrata())
-    notePopup.frame:SetFrameLevel(_QuestieJourney.containerCache.frame:GetFrameLevel())
-    notePopup.frame:Raise()
-    notePopup:SetCallback("OnClose", function()
-        notePopup:Hide()
-    end)
+    local journeyFrame = QuestieJourneyFrame or UIParent
+    local popupWidth = math.min(560, journeyFrame:GetWidth() - 40)
+    local popupHeight = math.min(520, journeyFrame:GetHeight() - 40)
+    local notePopup = QuestieOptionsWindow.Create({
+        name = "QuestieJourneyNoteFrame",
+        title = l10n('Add New Adventure Note'),
+        portrait = "Interface\\Icons\\INV_Misc_Note_03",
+        width = popupWidth,
+        height = popupHeight,
+    })
+    notePopup:ClearAllPoints()
+    notePopup:SetPoint("CENTER", journeyFrame, "CENTER")
+    notePopup:Raise()
+
+    local content = AceGUI:Create("SimpleGroup")
+    content:SetFullHeight(true)
+    content:SetFullWidth(true)
+    content:SetLayout("flow")
+    content.frame:SetParent(notePopup.canvasContainer)
+    content.frame:SetAllPoints(notePopup.canvasContainer)
+    content.frame:Show()
+
+    QuestieOptionsControls.CreateModernDividerGroup(content, l10n('New Note'))
 
     local container = _CreateContainer()
-    notePopup:AddChild(container)
+    content:AddChild(container)
 
     local desc = _CreateDescription()
     container:AddChild(desc)
@@ -57,10 +96,19 @@ _CreateNoteWindow = function ()
 
     messageBox = _CreateMessageBox()
     container:AddChild(messageBox)
+    ApplyNoteEditorColor(titleBox)
+    ApplyNoteEditorColor(messageBox)
 
     local addEntryBtn = _CreateNoteAddButton()
     container:AddChild(addEntryBtn)
 
+    notePopup:Show()
+    -- AceGUI may restore the InlineGroup backdrop while laying out its children;
+    -- apply the shared Journey panel treatment after the completed layout too.
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
+        QuestieOptionsControls.ApplyModernContainer(container.border)
+    end
+    ApplyNoteLayerColors(container)
     return notePopup
 end
 
@@ -69,13 +117,16 @@ _CreateContainer = function ()
     container:SetFullHeight(true)
     container:SetFullWidth(true)
     container:SetLayout('flow')
-    container:SetTitle(l10n('New Note'))
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
+        QuestieOptionsControls.ApplyModernContainer(container.border)
+    end
+    ApplyNoteLayerColors(container)
     return container
 end
 
 _CreateDescription  =function ()
     local desc = AceGUI:Create("Label")
-    desc:SetText(Questie:Colorize(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'), 'yellow'))
+    desc:SetText(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'))
     desc:SetFullWidth(true)
     return desc
 end
@@ -95,13 +146,39 @@ _CreateMessageBox = function ()
     box:SetNumLines(12)
     box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(box.scrollBar)
+    end
     return box
 end
 
 _CreateNoteAddButton = function ()
-    local addEntryBtn = AceGUI:Create("Button")
-    addEntryBtn:SetText(l10n('Add Entry'))
-    addEntryBtn:SetCallback("OnClick", _HandleNoteEntry)
+    local addEntryBtn = AceGUI:Create("SimpleGroup")
+    addEntryBtn:SetLayout("Fill")
+    addEntryBtn:SetFullWidth(true)
+    addEntryBtn:SetHeight(32)
+
+    if QuestieOptionsControls and QuestieOptionsControls.CreateStyledButton then
+        local nativeButton = QuestieOptionsControls.CreateStyledButton(addEntryBtn.content, 150)
+        nativeButton:SetText(l10n('Add Entry'))
+        nativeButton:SetPoint("LEFT", addEntryBtn.content, "LEFT", 0, 0)
+        nativeButton:SetScript("OnClick", _HandleNoteEntry)
+        addEntryBtn.nativeButton = nativeButton
+    else
+        local legacyButton = AceGUI:Create("Button")
+        legacyButton:SetText(l10n('Add Entry'))
+        legacyButton:SetWidth(150)
+        legacyButton:SetHeight(32)
+        legacyButton:SetCallback("OnClick", _HandleNoteEntry)
+        addEntryBtn:AddChild(legacyButton)
+    end
+
+    addEntryBtn:SetCallback("OnRelease", function(widget)
+        if widget.nativeButton then
+            widget.nativeButton:Hide()
+            widget.nativeButton = nil
+        end
+    end)
     return addEntryBtn
 end
 

@@ -38,6 +38,47 @@ end
 local DEFAULT_TREE_WIDTH = 175
 local DEFAULT_TREE_SIZABLE = true
 
+local function HideToggleTextures(toggle)
+	for _, texture in ipairs({
+		toggle:GetNormalTexture(),
+		toggle:GetPushedTexture(),
+		toggle:GetHighlightTexture(),
+		toggle:GetDisabledTexture(),
+	}) do
+		if texture then
+			texture:Hide()
+			texture:SetAlpha(0)
+		end
+	end
+	if toggle.GetCheckedTexture then
+		local texture = toggle:GetCheckedTexture()
+		if texture then
+			texture:Hide()
+			texture:SetAlpha(0)
+		end
+	end
+	for _, region in ipairs({toggle:GetRegions()}) do
+		if region ~= toggle.modernLabel and region.Hide then
+			region:Hide()
+		end
+	end
+end
+
+local function SetModernToggleGlyph(toggle, isExpanded)
+	if not toggle.modernLabel then
+		toggle.modernLabel = toggle:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+		toggle.modernLabel:SetPoint("CENTER", toggle, "CENTER", 0, 0)
+		toggle.modernLabel:SetTextColor(1, 0.82, 0)
+		toggle.modernLabel:SetShadowColor(0, 0, 0, 1)
+		toggle.modernLabel:SetShadowOffset(1, -1)
+	end
+
+	toggle.modernLabel:SetText(isExpanded and "−" or "+")
+	toggle.modernLabel:Show()
+	HideToggleTextures(toggle)
+	toggle:SetAlpha(1)
+end
+
 --[[-----------------------------------------------------------------------------
 Support functions
 -------------------------------------------------------------------------------]]
@@ -47,6 +88,27 @@ local function GetButtonUniqueValue(line)
 		return GetButtonUniqueValue(parent).."\001"..line.value
 	else
 		return line.value
+	end
+end
+
+local function UpdateModernRowHighlight(button)
+	if not button.modernRowSurface then
+		return
+	end
+
+	if button.selected then
+		button.modernRowSurface:SetColorTexture(0.42, 0.27, 0.05, 0.52)
+		button.modernRowAccent:SetColorTexture(0.98, 0.72, 0.18, 0.95)
+		button.modernRowSurface:Show()
+		button.modernRowAccent:Show()
+	elseif button.modernRowHovered then
+		button.modernRowSurface:SetColorTexture(0.34, 0.22, 0.05, 0.32)
+		button.modernRowAccent:SetColorTexture(0.92, 0.66, 0.14, 0.65)
+		button.modernRowSurface:Show()
+		button.modernRowAccent:Show()
+	else
+		button.modernRowSurface:Hide()
+		button.modernRowAccent:Hide()
 	end
 end
 
@@ -83,7 +145,8 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 	-- the default inline behavior for all non-gutter rows.
 	local baseOffset = (level == 1) and 8 or 8 * level
 	local gutterOffset = useIconGutter and (iconTextOffset / 2) or 0
-	local textOffset = baseOffset + ((icon and not useIconGutter) and iconTextOffset or gutterOffset) + iconGutterOffset
+	local toggleTextOffset = canExpand and 18 or 0
+	local textOffset = baseOffset + toggleTextOffset + ((icon and not useIconGutter) and iconTextOffset or gutterOffset) + iconGutterOffset
 
     -- Clear stored icon state because TreeGroup buttons are recycled.
     button.iconBaseOffset = nil
@@ -99,6 +162,8 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 		button:UnlockHighlight()
 		button.selected = false
 	end
+	button.modernRowHovered = false
+	UpdateModernRowHighlight(button)
 	button.level = level
 	if ( level == 1 ) then
 		button:SetNormalFontObject("GameFontNormal")
@@ -107,7 +172,12 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 		button:SetNormalFontObject("GameFontHighlightSmall")
 		button:SetHighlightFontObject("GameFontHighlightSmall")
 	end
+	button.text:ClearAllPoints()
 	button.text:SetPoint("LEFT", textOffset, 2)
+	button.text:SetPoint("RIGHT", -8, 2)
+	toggle:ClearAllPoints()
+	toggle:SetPoint("LEFT", baseOffset, 0)
+	toggle:SetSize(16, 16)
 
 	if disabled then
 		button:EnableMouse(false)
@@ -122,7 +192,7 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 		-- Inline icons use Ace's original `baseOffset`. Gutter icons use the
 		-- left half of the split gutter; `iconGutterOffset` shifts both this
 		-- anchor and `textOffset`, so the icon/text pair moves as one unit.
-		local iconOffset = (useIconGutter and (baseOffset - (iconTextOffset / 2)) or baseOffset) + iconGutterOffset
+		local iconOffset = (useIconGutter and (baseOffset - (iconTextOffset / 2)) or baseOffset) + toggleTextOffset + iconGutterOffset
 		button.iconBaseOffset = iconOffset
 		button.icon:ClearAllPoints()
 		button.icon:SetSize(iconSize, iconSize)
@@ -141,15 +211,10 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 	end
 
 	if canExpand then
-		if not isExpanded then
-			toggle:SetNormalTexture(130838) -- Interface\\Buttons\\UI-PlusButton-UP
-			toggle:SetPushedTexture(130836) -- Interface\\Buttons\\UI-PlusButton-DOWN
-		else
-			toggle:SetNormalTexture(130821) -- Interface\\Buttons\\UI-MinusButton-UP
-			toggle:SetPushedTexture(130820) -- Interface\\Buttons\\UI-MinusButton-DOWN
-		end
+		SetModernToggleGlyph(toggle, isExpanded)
 		toggle:Show()
 	else
+		if toggle.modernLabel then toggle.modernLabel:Hide() end
 		toggle:Hide()
 	end
 end
@@ -290,6 +355,8 @@ end
 
 local function Button_OnEnter(frame)
 	local self = frame.obj
+	frame.modernRowHovered = true
+	UpdateModernRowHighlight(frame)
 	self:Fire("OnButtonEnter", frame.uniquevalue, frame)
 
 	if self.enabletooltips then
@@ -307,6 +374,8 @@ end
 
 local function Button_OnLeave(frame)
 	local self = frame.obj
+	frame.modernRowHovered = false
+	UpdateModernRowHighlight(frame)
 	self:Fire("OnButtonLeave", frame.uniquevalue, frame)
 
 	-- Added by Questie
@@ -417,10 +486,36 @@ local methods = {
 		local button = CreateFrame("Button", ("AceGUI30TreeButton%d"):format(num), self.treeframe, "OptionsListButtonTemplate")
 		button.obj = self
 
+		local legacyHighlight = button:GetHighlightTexture()
+		if legacyHighlight then
+			legacyHighlight:SetTexture(nil)
+			legacyHighlight:Hide()
+		end
+
+		local rowSurface = button:CreateTexture(nil, "ARTWORK")
+		rowSurface:SetPoint("TOPLEFT", button, "TOPLEFT", 2, -1)
+		rowSurface:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 1)
+		rowSurface:Hide()
+		button.modernRowSurface = rowSurface
+
+		local rowAccent = button:CreateTexture(nil, "ARTWORK")
+		rowAccent:SetPoint("TOPLEFT", button, "TOPLEFT", 2, -1)
+		rowAccent:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 2, 1)
+		rowAccent:SetWidth(2)
+		rowAccent:Hide()
+		button.modernRowAccent = rowAccent
+
 		local icon = button:CreateTexture(nil, "OVERLAY")
 		icon:SetWidth(14)
 		icon:SetHeight(14)
 		button.icon = icon
+
+		local modernLabel = button.toggle:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+		modernLabel:SetPoint("CENTER", button.toggle, "CENTER", 0, 0)
+		modernLabel:SetTextColor(1, 0.82, 0)
+		modernLabel:SetShadowColor(0, 0, 0, 1)
+		modernLabel:SetShadowOffset(1, -1)
+		button.toggle.modernLabel = modernLabel
 
 		button:SetScript("OnClick",Button_OnClick)
 		button:SetScript("OnDoubleClick", Button_OnDoubleClick)
