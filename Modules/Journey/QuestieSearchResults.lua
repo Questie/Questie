@@ -56,6 +56,7 @@ local searchResultTabs
 local detailsFrameGeneration = 0
 local searchInteractionGeneration = 0
 local searchDebounceGeneration = 0
+local programmaticSearchUpdate = false
 local activeResultTree
 
 local BY_NAME = 1
@@ -979,6 +980,9 @@ function QuestieSearchResults:DrawSearchTab(container)
     ApplyModernSearchBox(searchBox, searchPlaceholder);
     local performSearch = _GetSearchFunction(searchBox, searchGroup)
     searchBox:SetCallback("OnTextChanged", function()
+        if programmaticSearchUpdate then
+            return
+        end
         searchInteractionGeneration = searchInteractionGeneration + 1
         searchDebounceGeneration = searchDebounceGeneration + 1
         local currentDebounceGeneration = searchDebounceGeneration
@@ -1060,9 +1064,11 @@ end
 function QuestieSearchResults:SetSearch(detailType, id)
     searchInteractionGeneration = searchInteractionGeneration + 1
     _selected = id
+    programmaticSearchUpdate = true
     searchBox:SetText(tostring(id))
-    -- SetText fires OnTextChanged.  The linked navigation below is already
-    -- doing the authoritative redraw, so cancel that delayed live-search pass.
+    programmaticSearchUpdate = false
+    -- The linked navigation below is already doing the authoritative redraw,
+    -- so cancel any previously scheduled live-search pass.
     searchDebounceGeneration = searchDebounceGeneration + 1
     QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_ID, id, false)
     searchResultTabs:SelectTab(detailType)
