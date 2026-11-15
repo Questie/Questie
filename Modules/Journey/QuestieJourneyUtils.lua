@@ -148,13 +148,39 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
         return
     end
 
+    local currentWindow = _QuestieJourney.lastOpenWindow
+
     -- When a quest link is clicked from Advanced Search, keep the user in
     -- that result set and open the target details pane immediately. Using
     -- SetSearch alone only selects the result row; OpenDetails also performs
     -- the same deferred selection as a real row click.
-    if _QuestieJourney.lastOpenWindow == "search"
+    if currentWindow == "search"
         and QuestieSearchResults.OpenDetails then
         QuestieSearchResults:OpenDetails("quest", questId)
+        return
+    end
+
+    -- Do not cross from the faction view into another tab when the target is
+    -- not part of the currently rendered faction tree.
+    if currentWindow == "faction" then
+        return
+    end
+
+    local function OpenQuestInZone()
+        if QuestieJourney.OpenQuestInZone then
+            QuestieJourney:OpenQuestInZone(questId)
+        end
+    end
+
+    -- A Zone link remains in the Zone tab even when the target requires a
+    -- zone/category change. If the target has no zone location, leave the
+    -- current view unchanged instead of falling back to Advanced Search.
+    if currentWindow == "zone" then
+        if C_Timer and C_Timer.After then
+            C_Timer.After(0, OpenQuestInZone)
+        else
+            OpenQuestInZone()
+        end
         return
     end
 
@@ -166,17 +192,7 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
     -- one frame makes this work both from an already-open tab and from a
     -- quest details panel in the zone/faction tabs.
     local openQuest = function()
-        if QuestieJourney.OpenQuestInZone
-            and QuestieJourney:OpenQuestInZone(questId) then
-            return
-        end
-
-        QuestieJourney.tabGroup:SelectTab("search")
-        if QuestieSearchResults.OpenDetails then
-            QuestieSearchResults:OpenDetails("quest", questId)
-        else
-            QuestieSearchResults:SetSearch("quest", questId)
-        end
+        OpenQuestInZone()
     end
     if C_Timer and C_Timer.After then
         C_Timer.After(0, openQuest)
