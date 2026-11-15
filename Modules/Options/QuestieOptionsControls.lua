@@ -1133,7 +1133,8 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
             arrow:SetHighlightAtlas(HasAtlas(atlas .. "-over") and atlas .. "-over" or atlas, "BLEND")
             arrow:SetScript("OnClick", function()
                 local minimum, maximum = scrollbar:GetMinMaxValues()
-                local value = scrollbar:GetValue() + (direction == "up" and -20 or 20)
+                local step = scrollbar.GetValueStep and scrollbar:GetValueStep() or 1
+                local value = scrollbar:GetValue() + (direction == "up" and -step or step)
                 scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
             end)
             return arrow
@@ -1579,6 +1580,18 @@ local function _CreateButtonSlices(button, atlases)
 end
 
 local function _ApplyStyledButton(button, width, text)
+    local existingStyle = button.questieStyledButton
+    if existingStyle then
+        if width and width ~= existingStyle.width then
+            existingStyle.width = width
+            button:SetText(button:GetText())
+        end
+        return button
+    end
+
+    local style = { width = width }
+    button.questieStyledButton = style
+
     for _, texture in ipairs({
         button:GetNormalTexture(),
         button:GetPushedTexture(),
@@ -1663,9 +1676,9 @@ local function _ApplyStyledButton(button, width, text)
         rawSetText(self, newText)
 
         local targetWidth = math.max(minLeftWidth + minRightWidth, (text:GetStringWidth() or 0) + BUTTON_HORIZONTAL_PADDING)
-        local isExpanded = targetWidth > width
+        local isExpanded = targetWidth > style.width
         if isExpanded then
-            targetWidth = width
+            targetWidth = style.width
         end
 
         local currentHeight = isExpanded and (BUTTON_HEIGHT * 1.5) or BUTTON_HEIGHT

@@ -54,6 +54,8 @@ local lastOpenSearch = "quest"
 local _selected = 0
 local searchResultTabs
 local detailsFrameGeneration = 0
+local searchInteractionGeneration = 0
+local searchDebounceGeneration = 0
 local activeResultTree
 
 local BY_NAME = 1
@@ -86,6 +88,7 @@ local function ApplyModernSearchBox(searchBox, placeholder)
     end
 
     local legacyEditBox = searchBox.editbox
+    local originalDisableButton = searchBox.disablebutton
     legacyEditBox:Hide()
 
     local editBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
@@ -106,9 +109,32 @@ local function ApplyModernSearchBox(searchBox, placeholder)
     searchBox.button:Hide()
 
     local rawSetText = searchBox.SetText
+    local modernSearchBox = {
+        editBox = editBox,
+        legacyEditBox = legacyEditBox,
+        rawSetText = rawSetText,
+        disablebutton = originalDisableButton,
+    }
+    searchBox.modernSearchBox = modernSearchBox
     searchBox.SetText = function(self, text)
         rawSetText(self, text)
         self.editbox:SetTextInsets(22, 4, 3, 3)
+    end
+
+    -- AceGUI's ChatEdit_InsertLink hook only knows about its named native
+    -- edit boxes. Forward links to this anonymous SearchBoxTemplate edit box
+    -- while it is active so shift-click continues to work after restyling.
+    if type(hooksecurefunc) == "function" then
+        local function InsertSearchLink(text)
+            if editBox:IsShown() and editBox:HasFocus() then
+                editBox:Insert(text)
+            end
+        end
+        if ChatFrameUtil and ChatFrameUtil.InsertLink then
+            hooksecurefunc(ChatFrameUtil, "InsertLink", InsertSearchLink)
+        elseif ChatEdit_InsertLink then
+            hooksecurefunc("ChatEdit_InsertLink", InsertSearchLink)
+        end
     end
 
     editBox:SetScript("OnEscapePressed", function()
@@ -144,6 +170,20 @@ local function ApplyModernSearchBox(searchBox, placeholder)
     end
 
     searchBox:SetHeight(40)
+
+    searchBox:SetCallback("OnRelease", function(widget)
+        local state = widget.modernSearchBox
+        if not state then
+            return
+        end
+
+        state.editBox:Hide()
+        state.legacyEditBox:Show()
+        widget.editbox = state.legacyEditBox
+        widget.SetText = state.rawSetText
+        widget.disablebutton = state.disablebutton
+        widget.modernSearchBox = nil
+    end)
 end
 
 
@@ -769,6 +809,8 @@ _HandleTreeItemSelected = function(group, _, value)
         return
     end
 
+    searchInteractionGeneration = searchInteractionGeneration + 1
+
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(value)
 
@@ -786,6 +828,9 @@ _HandleTreeItemSelected = function(group, _, value)
 
     local details = AceGUI:Create("ScrollFrame");
     details:SetLayout("Flow");
+    details:SetCallback("OnRelease", function(widget)
+        widget.journeyDetailsGeneration = nil
+    end)
     detailsFrameGeneration = detailsFrameGeneration + 1
     details.journeyDetailsGeneration = detailsFrameGeneration
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
@@ -934,7 +979,11 @@ function QuestieSearchResults:DrawSearchTab(container)
     ApplyModernSearchBox(searchBox, searchPlaceholder);
     local performSearch = _GetSearchFunction(searchBox, searchGroup)
     searchBox:SetCallback("OnTextChanged", function()
-        if searchBox:GetText() == "" then
+        searchInteractionGeneration = searchInteractionGeneration + 1
+        searchDebounceGeneration = searchDebounceGeneration + 1
+        local currentDebounceGeneration = searchDebounceGeneration
+        local searchText = searchBox:GetText()
+        if searchText == "" then
             activeResultTree = nil
             searchGroup:ReleaseChildren()
             if searchResultTabs then
@@ -943,7 +992,17 @@ function QuestieSearchResults:DrawSearchTab(container)
             end
             searchResultTabs = nil
         else
-            performSearch(true)
+            local function RunSearch()
+                if currentDebounceGeneration == searchDebounceGeneration
+                    and searchBox:GetText() == searchText then
+                    performSearch(true)
+                end
+            end
+            if C_Timer and C_Timer.After then
+                C_Timer.After(0.15, RunSearch)
+            else
+                RunSearch()
+            end
         end
     end);
     searchBox:SetCallback("OnEnterPressed", performSearch);
@@ -969,6 +1028,9 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
     details:SetFullWidth(true);
     details:SetFullHeight(true);
     details:SetLayout("Flow")
+    details:SetCallback("OnRelease", function(widget)
+        widget.journeyDetailsGeneration = nil
+    end)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(details.scrollbar)
     end
@@ -993,8 +1055,12 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
 end
 
 function QuestieSearchResults:SetSearch(detailType, id)
+    searchInteractionGeneration = searchInteractionGeneration + 1
     _selected = id
     searchBox:SetText(tostring(id))
+    -- SetText fires OnTextChanged.  The linked navigation below is already
+    -- doing the authoritative redraw, so cancel that delayed live-search pass.
+    searchDebounceGeneration = searchDebounceGeneration + 1
     QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_ID, id, false)
     searchResultTabs:SelectTab(detailType)
 end
@@ -1004,9 +1070,10 @@ end
 ---@param id number
 function QuestieSearchResults:OpenDetails(detailType, id)
     self:SetSearch(detailType, id)
+    local requestGeneration = searchInteractionGeneration
 
     local selectResult = function()
-        if activeResultTree and lastOpenSearch == detailType then
+        if requestGeneration == searchInteractionGeneration and activeResultTree and lastOpenSearch == detailType then
             -- SetSearch can rebuild the result tree twice while the search box
             -- callback is settling.  Invoke the same handler as a row click
             -- after the final tree exists.

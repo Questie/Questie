@@ -65,10 +65,23 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 local f = AceGUI:Create("ScrollFrame");
                 f:SetLayout("flow");
                 if f.frame and f.frame.CreateTexture then
-                    local nestedBackground = f.frame:CreateTexture(nil, "BACKGROUND")
-                    nestedBackground:SetAllPoints(f.frame)
+                    local nestedBackground = f.modernJourneyBackground
+                    if not nestedBackground then
+                        nestedBackground = f.frame:CreateTexture(nil, "BACKGROUND")
+                        nestedBackground:SetAllPoints(f.frame)
+                        f.modernJourneyBackground = nestedBackground
+                    end
+                    nestedBackground:Show()
                     if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainerTexture then
                         QuestieOptionsControls.ApplyJourneyContainerTexture(nestedBackground)
+                    end
+                    if not f.modernJourneyBackgroundReleaseHooked and f.SetCallback then
+                        f.modernJourneyBackgroundReleaseHooked = true
+                        f:SetCallback("OnRelease", function(widget)
+                            if widget.modernJourneyBackground then
+                                widget.modernJourneyBackground:Hide()
+                            end
+                        end)
                     end
                 end
                 if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then

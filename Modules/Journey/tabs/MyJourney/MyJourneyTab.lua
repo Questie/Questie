@@ -94,11 +94,15 @@ function _QuestieJourney.myJourney:DrawTab(container)
     noteButton:SetHeight(32)
 
     if QuestieOptionsControls and QuestieOptionsControls.CreateStyledButton then
-        local nativeButton = QuestieOptionsControls.CreateStyledButton(noteButton.content, 220)
+        local nativeButton = noteButton.nativeButton
+        if not nativeButton then
+            nativeButton = QuestieOptionsControls.CreateStyledButton(noteButton.content, 220)
+            noteButton.nativeButton = nativeButton
+        end
+        nativeButton:Show()
         nativeButton:SetText(noteButtonText)
         nativeButton:SetPoint("LEFT", noteButton.content, "LEFT", 0, 0)
         nativeButton:SetScript("OnClick", _QuestieJourney.ShowNotePopup)
-        noteButton.nativeButton = nativeButton
     else
         local legacyButton = AceGUI:Create("Button")
         legacyButton:SetText(noteButtonText)
@@ -111,7 +115,6 @@ function _QuestieJourney.myJourney:DrawTab(container)
     noteButton:SetCallback("OnRelease", function(widget)
         if widget.nativeButton then
             widget.nativeButton:Hide()
-            widget.nativeButton = nil
         end
     end)
     container:AddChild(noteButton)

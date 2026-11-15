@@ -354,6 +354,17 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
 
     factionTreeFrame.treeframe:SetWidth(415)
     local lastRenderedTreeValue
+    factionTreeFrame:SetCallback("OnClick", function(_, _, treeValue)
+        if type(treeValue) ~= "string" or not (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+            return
+        end
+
+        local _, questId = strsplit("\001", treeValue)
+        local quest = questId and QuestieDB.GetQuest(tonumber(questId))
+        if quest then
+            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
+        end
+    end)
     factionTreeFrame:SetCallback("OnGroupSelected", function(group, _, treeValue)
         if type(treeValue) ~= "string" then
             Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnGroupSelected] No tree path given in Journey.")
@@ -386,10 +397,6 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         if not quest then
             Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnGroupSelected] Quest data missing in Journey:", questId)
             return
-        end
-
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
         end
 
         QuestDetailsFrame:Draw(scrollFrame, quest)

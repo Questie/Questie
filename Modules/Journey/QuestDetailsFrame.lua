@@ -189,6 +189,8 @@ local function EnsureNPCInfoHeight(group)
     end
 end
 
+local RemoveNPCPortraitWaiter
+
 local function ResetNPCInfoLayout(group)
     if not group or not group.content then
         return
@@ -197,10 +199,12 @@ local function ResetNPCInfoLayout(group)
     group.npcPortraitLayoutActive = false
     group.itemIconLayoutActive = false
     for _, portrait in pairs(group.npcPortraits or {}) do
+        if portrait.npcID then
+            RemoveNPCPortraitWaiter(portrait, portrait.npcID)
+        end
         portrait:Hide()
         portrait.npcID = nil
     end
-    group.npcPortraits = nil
 
     -- InlineGroups are recycled by AceGUI.  Hide an item icon left by a
     -- previous item-start panel before this group is reused for links or NPCs.
@@ -342,6 +346,7 @@ end
 local npcPortraitDisplays = {}
 local npcPortraitRequests = {}
 local npcPortraitModels = {}
+local npcPortraitWaiters = {}
 local npcPortraitProbes
 local NPC_PORTRAIT_RETRY_SECONDS = 0.05
 local NPC_PORTRAIT_TIMEOUT_SECONDS = 5
@@ -372,6 +377,40 @@ local function PaintNPCPortrait(portrait, npcID, displayID)
         portrait:Show()
     end
     return painted
+end
+
+RemoveNPCPortraitWaiter = function(portrait, npcID)
+    local waiters = npcPortraitWaiters[npcID]
+    if not waiters then
+        return
+    end
+
+    waiters[portrait] = nil
+    if not next(waiters) then
+        npcPortraitWaiters[npcID] = nil
+    end
+end
+
+local function PaintWaitingNPCPortraits(npcID, displayID)
+    local waiters = npcPortraitWaiters[npcID]
+    if not waiters then
+        return
+    end
+
+    for portrait in pairs(waiters) do
+        if PaintNPCPortrait(portrait, npcID, displayID) then
+            waiters[portrait] = nil
+        end
+    end
+
+    if not next(waiters) then
+        npcPortraitWaiters[npcID] = nil
+    end
+end
+
+local function RegisterNPCPortraitWaiter(portrait, npcID)
+    npcPortraitWaiters[npcID] = npcPortraitWaiters[npcID] or {}
+    npcPortraitWaiters[npcID][portrait] = true
 end
 
 local function GetNPCDefaultDisplays()
@@ -409,6 +448,8 @@ end
 local function ResolveNPCPortrait(portrait, npcID)
     local displayID = npcPortraitDisplays[npcID] or GetKnownNPCDisplayID(npcID)
     if PaintNPCPortrait(portrait, npcID, displayID) then
+        RemoveNPCPortraitWaiter(portrait, npcID)
+        PaintWaitingNPCPortraits(npcID, displayID)
         return
     end
 
@@ -420,7 +461,8 @@ local function ResolveNPCPortrait(portrait, npcID)
     local request = npcPortraitRequests[npcID]
     if request and now - request.first > NPC_PORTRAIT_TIMEOUT_SECONDS then
         npcPortraitModels[npcID] = nil
-        return
+        npcPortraitRequests[npcID] = nil
+        request = nil
     end
     if request and now - request.last < NPC_PORTRAIT_RETRY_SECONDS then
         return
@@ -454,7 +496,8 @@ local function ResolveNPCPortrait(portrait, npcID)
                 if loadedDisplayID then
                     npcPortraitDisplays[npcID] = loadedDisplayID
                     npcPortraitModels[npcID] = nil
-                    PaintNPCPortrait(portrait, npcID, loadedDisplayID)
+                    npcPortraitRequests[npcID] = nil
+                    PaintWaitingNPCPortraits(npcID, loadedDisplayID)
                 end
             end)
         end
@@ -473,7 +516,8 @@ local function ResolveNPCPortrait(portrait, npcID)
     if currentDisplayID and not stale then
         npcPortraitDisplays[npcID] = currentDisplayID
         npcPortraitModels[npcID] = nil
-        PaintNPCPortrait(portrait, npcID, currentDisplayID)
+        npcPortraitRequests[npcID] = nil
+        PaintWaitingNPCPortraits(npcID, currentDisplayID)
         return
     end
 
@@ -482,9 +526,17 @@ local function ResolveNPCPortrait(portrait, npcID)
         pcall(model.SetCreature, model, npcID)
     end
 
-    if C_Timer and C_Timer.After then
+    if C_Timer and C_Timer.After and not request.retryScheduled then
+        request.retryScheduled = true
         C_Timer.After(NPC_PORTRAIT_RETRY_SECONDS, function()
-            ResolveNPCPortrait(portrait, npcID)
+            local currentRequest = npcPortraitRequests[npcID]
+            if currentRequest ~= request then
+                return
+            end
+            request.retryScheduled = false
+            for waitingPortrait in pairs(npcPortraitWaiters[npcID] or {}) do
+                ResolveNPCPortrait(waitingPortrait, npcID)
+            end
         end)
     end
 end
@@ -517,6 +569,10 @@ local function AddNPCPortrait(group, npc, portraitIndex, anchor)
 
     portrait:ClearAllPoints()
     portrait:SetPoint("TOPLEFT", border, "TOPLEFT", 12, -24)
+    if anchor and anchor.frame then
+        portrait:ClearAllPoints()
+        portrait:SetPoint("TOPRIGHT", anchor.frame, "TOPLEFT", -8, 0)
+    end
 
     -- Portrait textures are kept by the panel frame and may be reused when a
     -- different quest is selected. Clear the previous NPC image before the
@@ -525,6 +581,7 @@ local function AddNPCPortrait(group, npc, portraitIndex, anchor)
     portrait:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
     portrait:SetTexCoord(0, 1, 0, 1)
     portrait.npcID = npc.id
+    RegisterNPCPortraitWaiter(portrait, npc.id)
     ResolveNPCPortrait(portrait, npc.id)
 
     portrait:Show()

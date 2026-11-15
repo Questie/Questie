@@ -124,7 +124,7 @@ function QuestieSearch:Search(rawQuery, searchType, queryType)
                     QuestieSearch.LastResult[searchType][id] = nil;
                 end
             else
-                if name and string.find(string.lower(name), queryToFind) then -- fuzzy search
+                if name and string.find(string.lower(name), queryToFind, 1, true) then -- fuzzy search
                     -- We have a search result or a favourite to display
                     searchCount = searchCount + 1;
                     QuestieSearch.LastResult[searchType][id] = true;
@@ -146,7 +146,7 @@ function QuestieSearch:Search(rawQuery, searchType, queryType)
                     lastResults[id] = nil;
                 end
             else
-                if string.find(tostring(id), sanitizedQuery) then -- fuzzy search
+                if string.find(tostring(id), sanitizedQuery, 1, true) then -- fuzzy search
                     -- We have a search result or a favourite to display
                     searchCount = searchCount + 1;
                     lastResults[id] = true;
