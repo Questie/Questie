@@ -85,6 +85,7 @@ function QuestieOptionsDefaults:Load()
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
+            trackQuestsByZone = false,
             trackerShowCompleteQuests = true,
             trackerShowQuestLevel = true,
             collapseCompletedQuests = false,
@@ -248,6 +249,8 @@ function QuestieOptionsDefaults:Load()
             TrackerHiddenObjectives = {},
             TrackedQuests = {},
             AutoUntrackedQuests = {},
+            ZoneAutoUntrackedQuests = {},
+            ZoneTrackedQuests = {},
             collapsedZones = {},
             minAllQuestsInZone = {},
             collapsedQuests = {},

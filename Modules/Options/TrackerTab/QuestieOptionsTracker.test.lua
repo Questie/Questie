@@ -114,6 +114,19 @@ describe("tracker automatic tracking option", function()
         assert.is_true(Questie.db.profile.trackerFollowSuperTracking)
     end)
 
+    it("should change the track by zone setting", function()
+        Questie.db.profile.trackQuestsByZone = false
+        local settings = options.tabs.tracker:Initialize()
+        local trackByZone = settings.args.group_quests.args.trackQuestsByZone
+
+        assert.is_false(trackByZone.get())
+        trackByZone.set(nil, true)
+
+        assert.is_true(trackByZone.get())
+        assert.is_true(Questie.db.profile.trackQuestsByZone)
+        assert.spy(tracker.Update).was.called_with(tracker)
+    end)
+
     it("updates the tracker and publishes visibility when only the modern log exists", function()
         local settings = options.tabs.tracker:Initialize()
         settings.args.group_quests.args.autoTrackQuests.set(nil, true)
