@@ -57,6 +57,7 @@ local detailsFrameGeneration = 0
 local searchInteractionGeneration = 0
 local searchDebounceGeneration = 0
 local programmaticSearchUpdate = false
+local programmaticSearchText
 local activeResultTree
 
 local BY_NAME = 1
@@ -983,10 +984,17 @@ function QuestieSearchResults:DrawSearchTab(container)
         if programmaticSearchUpdate then
             return
         end
+        local searchText = searchBox:GetText()
+        if programmaticSearchText then
+            if searchText == programmaticSearchText then
+                programmaticSearchText = nil
+                return
+            end
+            programmaticSearchText = nil
+        end
         searchInteractionGeneration = searchInteractionGeneration + 1
         searchDebounceGeneration = searchDebounceGeneration + 1
         local currentDebounceGeneration = searchDebounceGeneration
-        local searchText = searchBox:GetText()
         if searchText == "" then
             activeResultTree = nil
             searchGroup:ReleaseChildren()
@@ -1067,6 +1075,7 @@ end
 function QuestieSearchResults:SetSearch(detailType, id, selectResult)
     searchInteractionGeneration = searchInteractionGeneration + 1
     _selected = selectResult == false and 0 or id
+    programmaticSearchText = tostring(id)
     programmaticSearchUpdate = true
     searchBox:SetText(tostring(id))
     programmaticSearchUpdate = false
