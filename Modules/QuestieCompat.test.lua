@@ -1085,6 +1085,7 @@ describe("QuestieCompat Forever paths", function()
             IsProtected = function() return false end,
             Hide = spy.new(function() end),
             Show = spy.new(function() end),
+            SetAlpha = spy.new(function() end),
             Update = spy.new(function() end),
         }
         questInfo = {title = "A Threat Within", level = 1, suggestedGroup = 0, questID = 783, isHeader = false}
@@ -1296,6 +1297,27 @@ describe("QuestieCompat Forever paths", function()
         QuestieCompat.ShowWatchFrame()
         onShow()
         assert.spy(ObjectiveTrackerFrame.Hide).was.called(3)
+    end)
+
+    it("should make a protected tracker invisible while Blizzard shows it during combat", function()
+        local onShow
+        ObjectiveTrackerFrame.IsProtected = function() return true end
+        ObjectiveTrackerFrame.HookScript = function(_, _, callback) onShow = callback end
+        QuestieCompat.HideWatchFrame()
+        ObjectiveTrackerFrame.SetAlpha:clear()
+
+        _G.InCombatLockdown = function() return true end
+        onShow()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.called_with(ObjectiveTrackerFrame, 0)
+        assert.spy(ObjectiveTrackerFrame.Hide).was.called(1)
+
+        QuestieCompat.ShowWatchFrame()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.not_called_with(ObjectiveTrackerFrame, 1)
+
+        _G.InCombatLockdown = function() return false end
+        onRegen()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.called_with(ObjectiveTrackerFrame, 1)
+        assert.spy(ObjectiveTrackerFrame.Show).was.called(1)
     end)
 
     it("keeps the legacy tuple positions and nil completion for an incomplete quest", function()
