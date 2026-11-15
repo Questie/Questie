@@ -143,7 +143,7 @@ ProfessionStations.data = {
 }
 
 local _icons = {
-    moonwell = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
+    moonwell = QuestieLib.AddonPath.."Icons\\inv_fabric_moonrag_01.png",
     anvil = QuestieLib.AddonPath.."Icons\\inv_hammer_20.png",
     forge = QuestieLib.AddonPath.."Icons\\spell_fire_flameblades.png",
     alchemyLab = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png",
