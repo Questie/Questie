@@ -530,4 +530,85 @@ describe("MapIconTooltip objective wording", function()
             assert.is_true(RowOf("Quest 2") < RowOf("Quest 1"))
         end)
     end)
+    describe("next in chain", function()
+        local rendered
+
+        before_each(function()
+            rendered = {}
+            _G.IsShiftKeyDown = function() return true end
+            Questie.db.profile.enableTooltipsNextInChain = true
+            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = true
+            QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            QuestieLoader:ImportModule("QuestXP").GetQuestRewardMoney = function() return 0 end
+            QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() return {} end
+            QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests = {}
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieDB.GetCreatureLevels = function() return {} end
+            -- Quest 1 is followed by quest 5, the end of its chain
+            QuestieDB.QueryQuestSingle = function(questId, key)
+                if key == "nextQuestInChain" then
+                    return questId == 1 and 5 or 0
+                end
+            end
+            QuestieDB.DoableStates = {AVAILABLE = 0, WRONG_RACE = 6, WRONG_CLASS = 8, PROFESSION_SPECIALIZATION = 17, PROFESSION_MISSING = 29}
+            QuestieDB.IsDoableVerbose = function() return "", true, QuestieDB.DoableStates.AVAILABLE end
+            QuestieLoader:ImportModule("TooltipLayout").CreateRows = function()
+                local function Add(_, text) rendered[#rendered + 1] = text end
+                return {AddLine = Add, AddDoubleLine = Add}
+            end
+        end)
+
+        ---@return number? row Where the first row containing text was rendered.
+        local function RowOf(text)
+            for row, line in ipairs(rendered) do
+                if line:find(text, 1, true) then return row end
+            end
+        end
+
+        it("should list the next quests of an active quest below its objectives with Shift", function()
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.is_not_nil(RowOf("Next in chain"))
+            assert.is_true(RowOf("Windstone Cluster") < RowOf("Next in chain"))
+            assert.is_true(RowOf("Next in chain") < RowOf("Quest 5"))
+        end)
+
+        it("should not list the next quests of an active quest without Shift", function()
+            _G.IsShiftKeyDown = function() return false end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.is_nil(RowOf("Next in chain"))
+            assert.is_nil(RowOf("Quest 5"))
+        end)
+
+        it("should not list the next quests of an active quest when the option is off", function()
+            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = false
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.is_nil(RowOf("Next in chain"))
+            assert.is_nil(RowOf("Quest 5"))
+        end)
+
+        it("should not list the next quests of an active quest when next in chain is off", function()
+            Questie.db.profile.enableTooltipsNextInChain = false
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.is_nil(RowOf("Next in chain"))
+            assert.is_nil(RowOf("Quest 5"))
+        end)
+
+        it("should keep listing the next quests of a giver's quest when the option for active quests is off", function()
+            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = false
+            local giver = {x = 50, y = 50, AreaID = 1, texture = icon.texture,
+                data = {Id = 1, Type = "complete", ObjectiveIndex = 0, Name = "Giver", QuestData = {}}}
+
+            MapIconTooltip.ShowOnTooltip(giver, GameTooltip, nil, {giver})
+
+            assert.is_not_nil(RowOf("Next in chain"))
+            assert.is_true(RowOf("Next in chain") < RowOf("Quest 5"))
+        end)
+    end)
 end)

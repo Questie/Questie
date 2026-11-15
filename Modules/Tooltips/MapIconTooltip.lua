@@ -505,6 +505,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                     end
                 end
             end
+
+            -- Below the objectives, so they stay right under the quest they belong to.
+            if shift and Questie.db.profile.enableTooltipsNextInChain and Questie.db.profile.enableTooltipsNextInChainOnActiveQuests then
+                _AddNextInChainRows(tooltipRows, questId)
+            end
         end
 
         if next(self.npcAndObjectOrder) and next(self.manualOrder) then
