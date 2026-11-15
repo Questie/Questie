@@ -18,6 +18,8 @@ local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerQuestTimers
+local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type TrackerRecipes
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type TrackerMapEligibility
@@ -812,6 +814,7 @@ function TrackerUtils:GetSortedQuestIds()
 
             -- Rank each group by its nearest visible, tracked quest location.
             -- DistanceUtils uses unfinished objectives, or the finisher for completed quests.
+            TrackerQuestTimers:UpdateAndGetRemainingTime(sortData.q)
             local complete = sortData.q:IsComplete()
             local showQuest = QuestieTracker.IsTrackedByQuestie(questId)
                 and ((complete ~= 1 and not sortData.q.isComplete)
