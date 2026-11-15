@@ -315,8 +315,13 @@ end
 
 local function Button_OnClick(frame)
 	local self = frame.obj
-	self:Fire("OnClick", frame.uniquevalue, frame.selected)
-	if not frame.selected then
+	-- Tree buttons are recycled when the tree or zone changes. The button's
+	-- cached selected flag can therefore be stale; the TreeGroup status is the
+	-- authoritative selection state.
+	local status = self.status or self.localstatus
+	local alreadySelected = status.selected == frame.uniquevalue
+	self:Fire("OnClick", frame.uniquevalue, alreadySelected)
+	if not alreadySelected then
 		self:SetSelected(frame.uniquevalue)
 		frame.selected = true
 		frame:LockHighlight()
