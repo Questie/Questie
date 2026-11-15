@@ -12,6 +12,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local WrappedText = QuestieLoader:ImportModule("WrappedText")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 local GetItemInfo = QuestieCompat.GetItemInfo
 local GetItemIcon = QuestieCompat.GetItemIcon
 
@@ -134,8 +138,6 @@ end
 ---Open a quest directly in the Journey quest detail view.
 ---@param questId QuestId
 function QuestieJourneyUtils.OpenQuestInJourney(questId)
-    local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
-    local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
     if not QuestieJourney or not QuestieJourney.tabGroup or not QuestieSearchResults then
         return
     end
