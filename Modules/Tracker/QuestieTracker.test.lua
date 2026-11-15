@@ -140,8 +140,10 @@ describe("QuestieTracker", function()
 
     describe("zone auto tracking", function()
         local originalGetQuests, originalGetCurrentZoneId, originalGetParentZoneId, originalScheduleSnapshot
+        local originalForever, originalQuestLog
         local currentZoneId
         local quests
+        local scheduleSnapshot
 
         before_each(function()
             currentZoneId = 141 -- Teldrassil
@@ -155,10 +157,13 @@ describe("QuestieTracker", function()
             originalGetCurrentZoneId = QuestiePlayer.GetCurrentZoneId
             originalGetParentZoneId = ZoneDB.GetParentZoneId
             originalScheduleSnapshot = QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot
+            originalForever = Questie.IsForever
+            originalQuestLog = _G.C_QuestLog
             TrackerData.GetQuests = function() return quests end
             QuestiePlayer.GetCurrentZoneId = function() return currentZoneId end
             ZoneDB.GetParentZoneId = function() return nil end
-            QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = function() end
+            scheduleSnapshot = spy.new(function() end)
+            QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = scheduleSnapshot
             QuestieTracker.Update = spy.new(function() end)
         end)
 
@@ -167,6 +172,8 @@ describe("QuestieTracker", function()
             QuestiePlayer.GetCurrentZoneId = originalGetCurrentZoneId
             ZoneDB.GetParentZoneId = originalGetParentZoneId
             QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = originalScheduleSnapshot
+            Questie.IsForever = originalForever
+            _G.C_QuestLog = originalQuestLog
         end)
 
         it("auto-untracks quests from other zones but keeps class and profession categories", function()
@@ -188,6 +195,42 @@ describe("QuestieTracker", function()
 
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[2])
             assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+            assert.spy(scheduleSnapshot).was.called_with(QuestieLoader:ImportModule("CommsVisibility"), "ZONE_TRACKING")
+        end)
+
+        it("restores native quest watches when zone filtering is disabled", function()
+            local addQuestWatch = spy.new(function() end)
+            Questie.IsForever = true
+            _G.C_QuestLog = {AddQuestWatch = addQuestWatch}
+            Questie.db.char.AutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[2] = true
+            Questie.db.profile.trackQuestsByZone = false
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.spy(addQuestWatch).was.called_with(2)
+        end)
+
+        it("does not untrack manually selected quests when automatic tracking is disabled", function()
+            Questie.db.profile.autoTrackQuests = false
+            Questie.db.char.TrackedQuests[2] = true
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_true(Questie.db.char.TrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+        end)
+
+        it("resets zone overrides before re-enabling the filter", function()
+            Questie.db.char.AutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneTrackedQuests[2] = true
+
+            QuestieTracker:ResetZoneTrackingOverrides()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneTrackedQuests[2])
         end)
 
         it("keeps an out-of-zone quest tracked after the player explicitly retracks it", function()
@@ -384,6 +427,7 @@ describe("QuestieTracker", function()
 
         it("retracks and expands an unknown native quest", function()
             Questie.db.char.AutoUntrackedQuests[91741] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[91741] = true
             Questie.db.char.collapsedQuests[91741] = true
             Questie.db.char.collapsedZones["Northshire Abbey"] = true
 
@@ -391,6 +435,7 @@ describe("QuestieTracker", function()
 
             assert.spy(QuestEventHandler.IsQuestAccepted).was.called_with(91741)
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[91741])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[91741])
             assert.is_true(Questie.db.char.ZoneTrackedQuests[91741])
             assert.is_nil(Questie.db.char.collapsedQuests[91741])
             assert.is_nil(Questie.db.char.collapsedZones["Northshire Abbey"])

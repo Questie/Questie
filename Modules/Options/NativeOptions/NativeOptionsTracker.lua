@@ -161,7 +161,11 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                         enabled = function() return Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackQuestsByZone end,
                         set = function(_, value)
+                            local wasEnabled = Questie.db.profile.trackQuestsByZone
                             Questie.db.profile.trackQuestsByZone = value
+                            if value and not wasEnabled then
+                                QuestieTracker:ResetZoneTrackingOverrides()
+                            end
                             QuestieTracker:Update()
                         end,
                     },

@@ -111,6 +111,12 @@ local function _GetZoneTrackedQuests()
     return Questie.db.char.ZoneTrackedQuests
 end
 
+local function _RestoreNativeQuestWatch(questId)
+    if Questie.IsForever and C_QuestLog and C_QuestLog.AddQuestWatch then
+        C_QuestLog.AddQuestWatch(questId)
+    end
+end
+
 ---@param zoneId number?
 ---@param ancestorId number?
 ---@return boolean
@@ -698,10 +704,18 @@ function QuestieTracker:UpdateZoneTracking()
     local zoneAutoUntrackedQuests = _GetZoneAutoUntrackedQuests()
     local zoneTrackedQuests = _GetZoneTrackedQuests()
     if not Questie.db.profile.trackQuestsByZone then
+        local restored = false
         for questId in pairs(zoneAutoUntrackedQuests) do
-            Questie.db.char.AutoUntrackedQuests[questId] = nil
+            if Questie.db.char.AutoUntrackedQuests[questId] then
+                Questie.db.char.AutoUntrackedQuests[questId] = nil
+                _RestoreNativeQuestWatch(questId)
+                restored = true
+            end
         end
         wipe(zoneAutoUntrackedQuests)
+        if restored then
+            CommsVisibility:ScheduleSnapshot("ZONE_TRACKING")
+        end
         return
     end
 
@@ -719,24 +733,45 @@ function QuestieTracker:UpdateZoneTracking()
             if Questie.db.char.AutoUntrackedQuests[questId] then
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
                 retracked = true
-                if Questie.IsForever and C_QuestLog and C_QuestLog.AddQuestWatch then
-                    C_QuestLog.AddQuestWatch(questId)
-                end
+                _RestoreNativeQuestWatch(questId)
             end
         end
     end
 
-    for questId, quest in pairs(quests) do
-        if not _IsQuestInCurrentZone(quest, currentZoneId)
-            and type(quest.zoneOrSort) == "number" and quest.zoneOrSort > 0
-            and not zoneTrackedQuests[questId]
-            and not Questie.db.char.AutoUntrackedQuests[questId] then
-            zoneAutoUntrackedQuests[questId] = true
-            QuestieTracker:UntrackQuestId(questId, true)
+    -- Manual tracking mode already means every quest in this snapshot was explicitly selected by
+    -- the player. Do not remove those selections just because they are outside the current zone.
+    if Questie.db.profile.autoTrackQuests then
+        for questId, quest in pairs(quests) do
+            if not _IsQuestInCurrentZone(quest, currentZoneId)
+                and type(quest.zoneOrSort) == "number" and quest.zoneOrSort > 0
+                and not zoneTrackedQuests[questId]
+                and not Questie.db.char.AutoUntrackedQuests[questId] then
+                zoneAutoUntrackedQuests[questId] = true
+                QuestieTracker:UntrackQuestId(questId, true)
+            end
         end
     end
 
     if retracked and not Questie.IsForever then
+        CommsVisibility:ScheduleSnapshot("ZONE_TRACKING")
+    end
+end
+
+---Clears zone-specific overrides when the opt-in filter is enabled again.
+---Automatic untracks are restored first so the next zone refresh starts from a clean state.
+function QuestieTracker:ResetZoneTrackingOverrides()
+    local zoneAutoUntrackedQuests = _GetZoneAutoUntrackedQuests()
+    local restored = false
+    for questId in pairs(zoneAutoUntrackedQuests) do
+        if Questie.db.char.AutoUntrackedQuests[questId] then
+            Questie.db.char.AutoUntrackedQuests[questId] = nil
+            _RestoreNativeQuestWatch(questId)
+            restored = true
+        end
+    end
+    wipe(zoneAutoUntrackedQuests)
+    wipe(_GetZoneTrackedQuests())
+    if restored then
         CommsVisibility:ScheduleSnapshot("ZONE_TRACKING")
     end
 end
@@ -1527,6 +1562,7 @@ function QuestieTracker:AQW_Insert(index, _expire, keepCollapsed)
             -- Modern AddQuestWatch is an idempotent add, not the legacy shift-click toggle.
             if Questie.db.profile.autoTrackQuests then
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
+                _GetZoneAutoUntrackedQuests()[questId] = nil
                 if wasAutoUntracked then
                     _GetZoneTrackedQuests()[questId] = true
                 end
@@ -1543,11 +1579,13 @@ function QuestieTracker:AQW_Insert(index, _expire, keepCollapsed)
         else
             if Questie.db.char.AutoUntrackedQuests[questId] then
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
+                _GetZoneAutoUntrackedQuests()[questId] = nil
                 _GetZoneTrackedQuests()[questId] = true
 
                 -- Add quest to the tracker
             elseif IsShiftKeyDown() and QuestLogFrame and QuestLogFrame:IsShown() then
                 Questie.db.char.AutoUntrackedQuests[questId] = true
+                _GetZoneTrackedQuests()[questId] = nil
             end
         end
 

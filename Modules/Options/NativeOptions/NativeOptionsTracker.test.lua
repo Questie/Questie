@@ -4,7 +4,7 @@ local stub = require("luassert.stub")
 describe("native tracker options", function()
     local isAddOnLoadedMock
     local originals
-    local QuestieOptionsEngine, tracker, compat, visibility, trackerUtils
+    local QuestieOptionsEngine, tracker, compat, visibility, trackerUtils, resetZoneTrackingOverrides
     local isVoiceOverLoadedStub, isSpokenLoadedStub
 
     -- Visibility is decided once when the tab is defined, so each case defines the tab after setting up the addons.
@@ -31,6 +31,8 @@ describe("native tracker options", function()
         QuestieOptionsEngine.tabs = {}
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.Update = spy.new(function() end)
+        resetZoneTrackingOverrides = spy.new(function() end)
+        tracker.ResetZoneTrackingOverrides = resetZoneTrackingOverrides
         tracker.UpdateFormatting = spy.new(function() end)
         compat = QuestieLoader:ImportModule("QuestieCompat")
         isAddOnLoadedMock = stub(compat, "IsAddOnLoaded", function() return false end)
@@ -106,6 +108,7 @@ describe("native tracker options", function()
 
         assert.is_true(trackByZone.get())
         assert.is_true(Questie.db.profile.trackQuestsByZone)
+        assert.spy(resetZoneTrackingOverrides).was.called_with(tracker)
         assert.spy(tracker.Update).was.called_with(tracker)
     end)
 

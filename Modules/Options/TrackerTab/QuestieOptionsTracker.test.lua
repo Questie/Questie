@@ -4,7 +4,7 @@ local stub = require("luassert.stub")
 describe("tracker automatic tracking option", function()
     local isAddOnLoadedMock
     local originals
-    local options, tracker, compat, visibility
+    local options, tracker, compat, visibility, resetZoneTrackingOverrides
 
     before_each(function()
         originals = {
@@ -27,6 +27,8 @@ describe("tracker automatic tracking option", function()
         options.tabs = {}
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.Update = spy.new(function() end)
+        resetZoneTrackingOverrides = spy.new(function() end)
+        tracker.ResetZoneTrackingOverrides = resetZoneTrackingOverrides
         compat = QuestieLoader:ImportModule("QuestieCompat")
         isAddOnLoadedMock = stub(compat, "IsAddOnLoaded", function() return false end)
         compat.QuestLog_Update = spy.new(function() end)
@@ -124,6 +126,7 @@ describe("tracker automatic tracking option", function()
 
         assert.is_true(trackByZone.get())
         assert.is_true(Questie.db.profile.trackQuestsByZone)
+        assert.spy(resetZoneTrackingOverrides).was.called_with(tracker)
         assert.spy(tracker.Update).was.called_with(tracker)
     end)
 
