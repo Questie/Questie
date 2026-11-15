@@ -156,18 +156,7 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
     -- the same deferred selection as a real row click.
     if currentWindow == "search"
         and QuestieSearchResults.OpenDetails then
-        local openSearchQuest = function()
-            -- Let the originating InteractiveLabel click finish before the
-            -- current details frame is released and rebuilt.
-            if _QuestieJourney.lastOpenWindow == "search" then
-                QuestieSearchResults:OpenDetails("quest", questId)
-            end
-        end
-        if C_Timer and C_Timer.After then
-            C_Timer.After(0, openSearchQuest)
-        else
-            openSearchQuest()
-        end
+        QuestieSearchResults:OpenDetails("quest", questId)
         return
     end
 

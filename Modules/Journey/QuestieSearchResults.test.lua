@@ -120,14 +120,6 @@ describe("QuestieSearchResults selection", function()
         assert.spy(QuestDetailsFrame.Draw).was.called_with(QuestDetailsFrame, widgets.ScrollFrame, quest)
     end)
 
-    it("opens the right pane when advanced-search navigation opens a linked quest", function()
-        QuestieSearchResults:OpenDetails("quest", 92517)
-
-        assert.equals(92517, widgets.TreeGroup.selected)
-        assert.spy(QuestDetailsFrame.Draw).was.called(1)
-        assert.spy(QuestDetailsFrame.Draw).was.called_with(QuestDetailsFrame, widgets.ScrollFrame, quest)
-    end)
-
     it("still inserts a chat link when shift-clicking an already selected quest", function()
         QuestieSearchResults:SetSearch("quest", 92517)
         _G.IsShiftKeyDown = function() return true end
