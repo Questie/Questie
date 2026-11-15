@@ -1,8 +1,6 @@
 dofile("setupTests.lua")
 
-dofile("Database/questDB.lua")
-dofile("Database/itemDB.lua")
-dofile("Database/npcDB.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieDB", function()
     ---@type QuestiePlayer
@@ -13,29 +11,35 @@ describe("QuestieDB", function()
     local QuestieCorrections
     ---@type QuestieDB
     local QuestieDB
+    ---@type QuestieDBMock
+    local mock
 
     ---@type Quest
     local testQuest
 
     before_each(function()
+        QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = function() return true end
+        mock = LoadQuestieDBMock()
         Questie.db.char.complete = {}
+        Questie.IsTitanReforged = false
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
         QuestieCorrections.questItemBlacklist = {}
-        QuestieCorrections.killCreditObjectiveFirst = {}
-        QuestieCorrections.objectObjectiveFirst = {}
-        QuestieCorrections.itemObjectiveFirst = {}
-        QuestieCorrections.eventObjectiveFirst = {}
-        QuestieCorrections.spellObjectiveFirst = {}
 
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.killCreditObjectiveFirst = {}
+        QuestieDB.objectObjectiveFirst = {}
+        QuestieDB.itemObjectiveFirst = {}
+        QuestieDB.eventObjectiveFirst = {}
+        QuestieDB.spellObjectiveFirst = {}
         QuestieDB.QueryNPCSingle = function() return nil end
         QuestieDB.private.questCache = {}
         QuestieDB.private.itemCache = {}
         dofile("Localization/l10n.lua")
+        dofile("Database/Corrections/titanReforgedQuestTags.lua")
         dofile("Database/Corrections/questTagInfoCorrections.lua")
         QuestieDB.private.InitializeQuestTagInfoCorrections()
 
@@ -51,6 +55,28 @@ describe("QuestieDB", function()
             [questKeys.objectivesText] = "Finish him!",
             [questKeys.objectives] = {{{1000}}}
         }
+    end)
+
+    describe("raceKeys", function()
+        it("binds the provider's active faction masks without selecting a flavor again", function()
+            mock.lib.Enum.factionRaceMasks = {Alliance = 4294967373, Horde = 8589934770}
+
+            dofile("Database/QuestieDB.lua")
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+            assert.are_same(4294967373, QuestieDB.raceKeys.ALL_ALLIANCE)
+            assert.are_same(8589934770, QuestieDB.raceKeys.ALL_HORDE)
+        end)
+
+        it("leaves missing faction masks unset until the startup capability check", function()
+            mock.lib.Enum.factionRaceMasks = nil
+
+            dofile("Database/QuestieDB.lua")
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+            assert.is_nil(QuestieDB.raceKeys.ALL_ALLIANCE)
+            assert.is_nil(QuestieDB.raceKeys.ALL_HORDE)
+        end)
     end)
 
     describe("GetQuest", function()
@@ -105,7 +131,7 @@ describe("QuestieDB", function()
                 [1] = {{1000, "Slay the target"}},
                 [6] = {{12345, "Cast the spell", 67890}}
             }
-            QuestieCorrections.spellObjectiveFirst[123] = true
+            QuestieDB.spellObjectiveFirst[123] = true
             QuestieDB.QueryQuest = spy.new(function() return testQuest end)
             QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
 
@@ -159,7 +185,7 @@ describe("QuestieDB", function()
             assert.is_nil(item.Hidden)
             assert.are_same({555}, item.vendors)
             assert.are_same("Test NPC", item.name)
-            assert.are_same({{Id = 555, Type = "monster"}}, item.Sources)
+            assert.are_same({{Id = 555, Type = "monster", Vendor = true}}, item.Sources)
         end)
 
         it("should not add vendors when they are hostile", function()
@@ -196,6 +222,28 @@ describe("QuestieDB", function()
 
             assert.are_same(41, questTagId)
             assert.are_same("PvP", questTagName)
+            assert.spy(_G.GetQuestTagInfo).was.not_called()
+        end)
+
+        it("uses the API for Titan quest IDs outside Titan Reforged", function()
+            _G.GetQuestTagInfo = spy.new(function() return 41, "PvP" end)
+
+            local questTagId, questTagName = QuestieDB.GetQuestTagInfo(93975)
+
+            assert.are_same(41, questTagId)
+            assert.are_same("PvP", questTagName)
+            assert.spy(_G.GetQuestTagInfo).was.called_with(93975)
+        end)
+
+        it("uses Titan quest tag corrections on Titan Reforged", function()
+            Questie.IsTitanReforged = true
+            QuestieDB.private.InitializeQuestTagInfoCorrections()
+            _G.GetQuestTagInfo = spy.new(function() return 41, "PvP" end)
+
+            local questTagId, questTagName = QuestieDB.GetQuestTagInfo(93975)
+
+            assert.are_same(62, questTagId)
+            assert.are_same("Raid", questTagName)
             assert.spy(_G.GetQuestTagInfo).was.not_called()
         end)
 
@@ -241,6 +289,10 @@ describe("QuestieDB", function()
     end)
 
     describe("IsTrivial", function()
+        it("should return false for nil quest level", function()
+            assert.is_false(QuestieDB.IsTrivial(nil))
+        end)
+
         it("should return false for scaling quests", function()
             QuestiePlayer.GetPlayerLevel = spy.new(function() return 60 end)
 
@@ -380,6 +432,320 @@ describe("QuestieDB", function()
         it("should return false for unfulfilled preQuestSingle", function()
             Questie.db.char.complete = {[2] = true}
             assert.is_false(QuestieDB:IsPreQuestSingleFulfilled({1}))
+        end)
+    end)
+
+    describe("PreloadEntityData", function()
+        it("gives every entity type its own resume, with Npc before Quest", function()
+            local readPosition, readCount, readsThisResume = {}, 0, 0
+            for _, datatype in ipairs({"Quest", "Npc", "Item", "Object"}) do
+                local entity = LibQuestieDB[datatype]
+                local originalGetAllIds = entity.GetAllIds
+                entity.GetAllIds = function(...)
+                    readCount = readCount + 1
+                    readPosition[datatype] = readCount
+                    readsThisResume = readsThisResume + 1
+                    return originalGetAllIds(...)
+                end
+            end
+
+            local preload = coroutine.create(QuestieDB.PreloadEntityData)
+            repeat
+                readsThisResume = 0
+                assert.is_true(coroutine.resume(preload))
+                assert.is_true(readsThisResume <= 1)
+            until coroutine.status(preload) == "dead"
+
+            -- No read in the last resume, so Stage 1's next step cannot share the last type's frame.
+            assert.are_equal(0, readsThisResume)
+            assert.are_equal(4, readCount)
+            assert.is_number(readPosition.Item)
+            assert.is_number(readPosition.Object)
+            assert.is_true(readPosition.Npc < readPosition.Quest)
+        end)
+    end)
+
+    describe("Initialize", function()
+        local LibQuestieDB
+
+        before_each(function()
+            LibQuestieDB = mock.lib
+            QuestieLib.TableMemoizeFunction = function() return {} end
+            Questie.db.char.hidden = {}
+
+            local questKeys, npcKeys, itemKeys, objectKeys = QuestieDB.questKeys, QuestieDB.npcKeys, QuestieDB.itemKeys, QuestieDB.objectKeys
+            mock.SetBaseRow("Quest", 2, {
+                [questKeys.name] = "Sharptalon's Claw",
+                [questKeys.startedBy] = {{100}},
+                [questKeys.finishedBy] = {{200}},
+                [questKeys.requiredLevel] = 20,
+            })
+            mock.SetBaseRow("Npc", 30, {
+                [npcKeys.name] = "Forest Spider",
+                [npcKeys.zoneID] = 12,
+                [npcKeys.friendlyToFaction] = "H",
+            })
+            mock.SetBaseRow("Item", 5, {
+                [itemKeys.name] = "Sharptalon's Claw",
+                [itemKeys.npcDrops] = {30},
+            })
+            mock.SetBaseRow("Object", 31, {
+                [objectKeys.name] = "Old Lion Statue",
+                [objectKeys.zoneID] = 1519,
+            })
+        end)
+
+        it("binds the provider schema, query functions, and Objective Order tables at file load", function()
+            LibQuestieDB.ObjectiveFirst.spellObjectiveFirst[2] = true
+            mock.supportModules.QuestieDB.factionTemplate = {[35] = 12}
+            -- The outer before_each stubs some of these after loading; a fresh load shows the bindings.
+            dofile("Database/QuestieDB.lua")
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+            assert.are_equal(LibQuestieDB.Meta.QuestMeta.questKeys, QuestieDB.questKeys)
+            assert.are_equal(LibQuestieDB.Meta.NpcMeta.npcKeys, QuestieDB.npcKeys)
+            assert.are_equal(LibQuestieDB.Meta.ItemMeta.itemKeys, QuestieDB.itemKeys)
+            assert.are_equal(LibQuestieDB.Meta.ObjectMeta.objectKeys, QuestieDB.objectKeys)
+            assert.are_same("name", QuestieDB._npcAdapterQueryOrder[QuestieDB.npcKeys.name])
+            assert.are_same("zoneID", QuestieDB._objectAdapterQueryOrder[QuestieDB.objectKeys.zoneID])
+
+            assert.are_equal(LibQuestieDB.Quest.Get, QuestieDB.QueryQuestSingle)
+            assert.are_equal(LibQuestieDB.Npc.Get, QuestieDB.QueryNPCSingle)
+            assert.are_equal(LibQuestieDB.Item.Get, QuestieDB.QueryItemSingle)
+            assert.are_equal(LibQuestieDB.Object.Get, QuestieDB.QueryObjectSingle)
+            assert.are_equal(LibQuestieDB.Quest.GetAll, QuestieDB.QueryQuest)
+            assert.are_equal(LibQuestieDB.Npc.GetAll, QuestieDB.QueryNPC)
+            assert.are_equal(LibQuestieDB.Item.GetAll, QuestieDB.QueryItem)
+            assert.are_equal(LibQuestieDB.Object.GetAll, QuestieDB.QueryObject)
+
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst, QuestieDB.killCreditObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.objectObjectiveFirst, QuestieDB.objectObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.itemObjectiveFirst, QuestieDB.itemObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.eventObjectiveFirst, QuestieDB.eventObjectiveFirst)
+            assert.are_equal(LibQuestieDB.ObjectiveFirst.spellObjectiveFirst, QuestieDB.spellObjectiveFirst)
+            assert.is_true(QuestieDB.spellObjectiveFirst[2])
+            assert.are_equal(mock.supportModules.QuestieDB.factionTemplate, QuestieDB.factionTemplate)
+            assert.are_equal(12, QuestieDB.factionTemplate[35])
+        end)
+
+        it("binds the composed ID maps", function()
+            QuestieDB.Initialize()
+
+            assert.are_equal(LibQuestieDB.Quest.GetAllIds(true), QuestieDB.QuestPointers)
+            assert.are_equal(LibQuestieDB.Npc.GetAllIds(true), QuestieDB.NPCPointers)
+            assert.are_equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
+            assert.are_equal(LibQuestieDB.Object.GetAllIds(true), QuestieDB.ObjectPointers)
+            assert.is_true(QuestieDB.QuestPointers[2])
+            assert.is_true(QuestieDB.NPCPointers[30])
+            assert.is_true(QuestieDB.ItemPointers[5])
+            assert.is_true(QuestieDB.ObjectPointers[31])
+        end)
+
+        it("projects composed rows through the adapter query orders", function()
+            QuestieLib.GetEffectiveQuestLevel = function() return 20, 20 end
+            QuestiePlayer.faction = "Horde"
+
+            QuestieDB.Initialize()
+
+            local quest = QuestieDB.GetQuest(2)
+            assert.are_same("Sharptalon's Claw", quest.name)
+            assert.are_same({100}, quest.Starts.NPC)
+            assert.are_same({200}, quest.Finisher.NPC)
+            assert.are_same({}, quest.ObjectiveData)
+
+            local npc = QuestieDB:GetNPC(30)
+            assert.are_same("Forest Spider", npc.name)
+            assert.are_same(12, npc.zoneID)
+            assert.is_true(npc.friendly)
+
+            local item = QuestieDB:GetItem(5)
+            assert.are_same("Sharptalon's Claw", item.name)
+            assert.are_same({{Id = 30, Type = "monster"}}, item.Sources)
+
+            local object = QuestieDB:GetObject(31)
+            assert.are_same("Old Lion Statue", object.name)
+            assert.are_same(1519, object.zoneID)
+        end)
+
+        it("clears semantic caches filled before initialization", function()
+            QuestieDB.private.questCache[2] = {}
+            QuestieDB.private.itemCache[5] = {}
+            QuestieDB.private.npcCache[30] = {}
+            QuestieDB.private.zoneCache[1] = {}
+            QuestieDB._CreatureLevelCache[2] = {}
+
+            QuestieDB.Initialize()
+
+            assert.are_same({}, QuestieDB.private.questCache)
+            assert.are_same({}, QuestieDB.private.itemCache)
+            assert.are_same({}, QuestieDB.private.npcCache)
+            assert.are_same({}, QuestieDB.private.zoneCache)
+            assert.are_same({}, QuestieDB._CreatureLevelCache)
+        end)
+    end)
+
+    describe("RefreshAfterCorrectionApply", function()
+        local LibQuestieDB
+
+        before_each(function()
+            LibQuestieDB = mock.lib
+            QuestieLib.TableMemoizeFunction = function() return {} end
+            Questie.db.char.hidden = {}
+            QuestieDB.Initialize()
+        end)
+
+        it("rebinds only the written datatype's ID map", function()
+            LibQuestieDB.Corrections.Set("Questie", "Item", "RuntimeItemRepair", {[999] = {[QuestieDB.itemKeys.name] = "Repaired Item"}})
+            assert.are_not_equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
+            -- A sentinel carries the "only": a rebind-all implementation would overwrite it with
+            -- the provider's Quest map, which a kept map identity could not distinguish.
+            local questPointersSentinel = {}
+            QuestieDB.QuestPointers = questPointersSentinel
+
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
+
+            assert.are_equal(LibQuestieDB.Item.GetAllIds(true), QuestieDB.ItemPointers)
+            assert.are_equal(questPointersSentinel, QuestieDB.QuestPointers)
+        end)
+
+        it("makes a slot-added Item visible and a withdrawn Item disappear", function()
+            LibQuestieDB.Corrections.Set("Questie", "Item", "RuntimeItemRepair", {[999] = {[QuestieDB.itemKeys.name] = "Repaired Item"}})
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
+
+            assert.is_true(QuestieDB.ItemPointers[999])
+            assert.are_same("Repaired Item", QuestieDB:GetItem(999).name)
+
+            LibQuestieDB.Corrections.Set("Questie", "Item", "RuntimeItemRepair", nil)
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
+
+            assert.is_nil(QuestieDB.ItemPointers[999])
+            assert.is_nil(QuestieDB:GetItem(999))
+        end)
+
+        it("evicts exactly the changed Quests and their derived creature levels", function()
+            local changedQuest = {Id = 2}
+            local untouchedQuest = {Id = 3}
+            QuestieDB.private.questCache[2] = changedQuest
+            QuestieDB.private.questCache[3] = untouchedQuest
+            QuestieDB.private.itemCache[5] = {}
+            QuestieDB._CreatureLevelCache[2] = {}
+            QuestieDB._CreatureLevelCache[3] = {}
+
+            QuestieDB.RefreshAfterCorrectionApply("Quest", {[2] = true})
+
+            assert.is_nil(QuestieDB.private.questCache[2])
+            assert.are_equal(untouchedQuest, QuestieDB.private.questCache[3])
+            assert.is_nil(QuestieDB._CreatureLevelCache[2])
+            assert.is_not_nil(QuestieDB._CreatureLevelCache[3])
+            assert.is_not_nil(QuestieDB.private.itemCache[5])
+
+            -- The documented caveat, concretely: a lifecycle holder keeps the old object while a
+            -- fresh read builds a replacement. A post-initialization Quest writer must reconcile
+            -- the two through the quest lifecycle.
+            mock.SetBaseRow("Quest", 2, {
+                [QuestieDB.questKeys.name] = "Changed Quest",
+                [QuestieDB.questKeys.startedBy] = {{100}},
+            })
+            QuestieLib.GetEffectiveQuestLevel = function() return 60, 60 end
+            local rebuilt = QuestieDB.GetQuest(2)
+            assert.are_not_equal(changedQuest, rebuilt)
+            assert.are_same("Changed Quest", rebuilt.name)
+        end)
+
+        it("evicts changed NPCs and the whole derived creature-level cache on an NPC write", function()
+            QuestieDB.private.npcCache[30] = {}
+            QuestieDB.private.npcCache[31] = {}
+            QuestieDB._CreatureLevelCache[2] = {}
+            QuestieDB.private.questCache[2] = {Id = 2}
+
+            QuestieDB.RefreshAfterCorrectionApply("Npc", {[30] = true})
+
+            assert.is_nil(QuestieDB.private.npcCache[30])
+            assert.is_not_nil(QuestieDB.private.npcCache[31])
+            assert.are_same({}, QuestieDB._CreatureLevelCache)
+            assert.is_not_nil(QuestieDB.private.questCache[2])
+        end)
+
+        it("wipes the derived creature-level cache on an Item write, since levels derive from npcDrops", function()
+            QuestieDB._CreatureLevelCache[2] = {}
+
+            QuestieDB.RefreshAfterCorrectionApply("Item", {[999] = true})
+
+            assert.are_same({}, QuestieDB._CreatureLevelCache)
+        end)
+
+        it("fails fast on an unknown datatype instead of silently skipping the refresh", function()
+            assert.has_error(function()
+                QuestieDB.RefreshAfterCorrectionApply("npc", {[30] = true})
+            end, "RefreshAfterCorrectionApply: unknown datatype npc")
+        end)
+    end)
+    it("validates the bound faction template before initializing consumer state with debug disabled", function()
+        Questie.db.profile.debugEnabled = false
+        local bound = {[1] = 99}
+        QuestieDB.factionTemplate = bound
+        local validator = spy.new(function() return false, "faction report" end)
+        QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = validator
+        local initTags = spy.new(function() end)
+        QuestieDB.private.InitializeQuestTagInfoCorrections = initTags
+        local valid, report = QuestieDB.Initialize()
+        assert.is_false(valid)
+        assert.are_equal("faction report", report)
+        assert.spy(validator).was.called_with(bound, QuestieLoader:ImportModule("Expansions").Current)
+        assert.spy(initTags).was.not_called()
+        assert.are_same({[1] = 99}, bound)
+        assert.are_not_equal(bound, mock.supportModules.QuestieDB.factionTemplate)
+    end)
+
+    describe("IsComplete", function()
+        local QuestLogCache, QuestieQuest, originalQuestLog, originalCheckQuestSourceItem
+
+        before_each(function()
+            QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+            QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+            originalQuestLog = QuestLogCache.questLog_DO_NOT_MODIFY
+            originalCheckQuestSourceItem = QuestieQuest.CheckQuestSourceItem
+            QuestieQuest.CheckQuestSourceItem = spy.new(function() return false end)
+        end)
+
+        after_each(function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = originalQuestLog
+            QuestieQuest.CheckQuestSourceItem = originalCheckQuestSourceItem
+        end)
+
+        it("should return 0 without checking the source item when the quest is not in the log", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {}
+
+            assert.are.equal(0, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.not_called()
+        end)
+
+        it("should return 0 without checking the source item when the quest has objectives", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {objectives = {{}}}}
+
+            assert.are.equal(0, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.not_called()
+        end)
+
+        it("should return the log state without checking the source item when it is set", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {isComplete = -1, objectives = {}}}
+
+            assert.are.equal(-1, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.not_called()
+        end)
+
+        it("should return 0 when a quest without objectives misses its source item", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {objectives = {}}}
+
+            assert.are.equal(0, QuestieDB.IsComplete(1))
+            assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 1, false)
+        end)
+
+        it("should return 1 when a quest without objectives has its source item", function()
+            QuestLogCache.questLog_DO_NOT_MODIFY = {[1] = {objectives = {}}}
+            QuestieQuest.CheckQuestSourceItem = function() return true end
+
+            assert.are.equal(1, QuestieDB.IsComplete(1))
         end)
     end)
 end)

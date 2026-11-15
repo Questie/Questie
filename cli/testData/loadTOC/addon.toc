@@ -1,0 +1,4 @@
+# Lua and XML entries must run in manifest order.
+first.lua
+nested\files.xml
+last.lua

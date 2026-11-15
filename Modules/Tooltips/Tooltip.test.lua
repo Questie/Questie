@@ -1,4 +1,6 @@
 dofile("setupTests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 
 describe("Tooltip", function()
     ---@type QuestieDB
@@ -11,6 +13,7 @@ describe("Tooltip", function()
     local QuestiePlayer
     ---@type QuestieTooltips
     local QuestieTooltips
+    local cached
 
     local objective = {
         hasRegisteredTooltips = true,
@@ -26,6 +29,9 @@ describe("Tooltip", function()
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.GetItemDroprate = function () return nil end
+        -- Quests have no level or type here; the tooltip sorts them by level, then ID.
+        QuestieDB.QueryQuestSingle = function() return nil end
+        QuestieDB.GetQuestTagInfo = function() end
         QuestieDB.GetQuest = spy.new(function(questId)
             return {
                 Id = questId,
@@ -55,15 +61,1109 @@ describe("Tooltip", function()
         }
         QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
         QuestiePlayer.GetPartyMemberByName = function() return nil end
-        QuestiePlayer.currentQuestlog = {}
+        dofile("Modules/Quest/ActiveQuests.lua")
         QuestiePlayer.numberOfGroupMembers = 0
+        cached = {}
+        QuestieLoader:ImportModule("QuestLogCache").TryGetQuest = function(id) return cached[id] end
+        local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+        ZoneDB.GetParentZoneId = function() return nil end
         dofile("Localization/l10n.lua")
+        dofile("Modules/Tooltips/Forever.lua")
 
         dofile("Modules/Tooltips/Tooltip.lua")
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
     end)
 
+    describe("Initialize", function()
+        local savedGlobals
+        local originalItemHandler
+        local originalUnitHandler
+        local originalSpellHandler
+        local originalObjectHandler
+        local originalGetCurrentZoneId
+        local gameScripts
+        local itemScripts
+
+        before_each(function()
+            savedGlobals = {
+                GameTooltip = _G.GameTooltip,
+                ItemRefTooltip = _G.ItemRefTooltip,
+                TooltipDataProcessor = _G.TooltipDataProcessor,
+                Enum = _G.Enum,
+                issecretvalue = _G.issecretvalue,
+                issecrettable = _G.issecrettable,
+                GameTooltipTextLeft1 = _G.GameTooltipTextLeft1,
+                IsInInstance = _G.IsInInstance,
+                IsForever = Questie.IsForever,
+            }
+            gameScripts = {}
+            itemScripts = {}
+            _G.GameTooltip = {
+                HookScript = spy.new(function(_, name, callback) gameScripts[name] = callback end),
+                HasScript = function() return true end,
+                IsForbidden = function() return false end,
+                Show = spy.new(function() end),
+            }
+            _G.ItemRefTooltip = {
+                HookScript = function(_, name, callback) itemScripts[name] = callback end,
+                HasScript = function() return true end,
+            }
+            originalItemHandler = QuestieTooltips.private.AddItemDataToTooltip
+            originalUnitHandler = QuestieTooltips.private.AddUnitDataToTooltip
+            originalSpellHandler = QuestieTooltips.private.AddSpellIdToTooltip
+            QuestieTooltips.private.AddItemDataToTooltip = spy.new(function() end)
+            QuestieTooltips.private.AddUnitDataToTooltip = spy.new(function() end)
+            QuestieTooltips.private.AddSpellIdToTooltip = spy.new(function() end)
+            originalObjectHandler = QuestieTooltips.private.AddObjectDataToTooltip
+            originalGetCurrentZoneId = QuestiePlayer.GetCurrentZoneId
+            QuestieTooltips.private.AddObjectDataToTooltip = spy.new(function() end)
+            QuestiePlayer.GetCurrentZoneId = spy.new(function() return 440 end)
+            Questie.db.profile.enableTooltips = true
+            _G.issecretvalue = nil
+            _G.issecrettable = nil
+        end)
+
+        after_each(function()
+            _G.GameTooltip = savedGlobals.GameTooltip
+            _G.ItemRefTooltip = savedGlobals.ItemRefTooltip
+            _G.TooltipDataProcessor = savedGlobals.TooltipDataProcessor
+            _G.Enum = savedGlobals.Enum
+            _G.issecretvalue = savedGlobals.issecretvalue
+            _G.issecrettable = savedGlobals.issecrettable
+            _G.GameTooltipTextLeft1 = savedGlobals.GameTooltipTextLeft1
+            _G.IsInInstance = savedGlobals.IsInInstance
+            Questie.IsForever = savedGlobals.IsForever
+            QuestieTooltips.private.AddItemDataToTooltip = originalItemHandler
+            QuestieTooltips.private.AddUnitDataToTooltip = originalUnitHandler
+            QuestieTooltips.private.AddSpellIdToTooltip = originalSpellHandler
+            QuestieTooltips.private.AddObjectDataToTooltip = originalObjectHandler
+            QuestiePlayer.GetCurrentZoneId = originalGetCurrentZoneId
+        end)
+
+        it("routes modern callbacks only to supported tooltips and skips unit work in raids", function()
+            local callbacks = {}
+            _G.Enum = {TooltipDataType = {Item = 0, Spell = 1, Unit = 2, Object = 4}}
+            GameTooltip.GetPrimaryTooltipData = function() return {} end
+            _G.TooltipDataProcessor = {
+                AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
+            }
+
+            QuestieTooltips:Initialize()
+            callbacks[0](GameTooltip)
+            callbacks[0](ItemRefTooltip)
+            callbacks[0]({})
+            callbacks[1](GameTooltip, {id = 133})
+            callbacks[1](ItemRefTooltip, {id = 116})
+            callbacks[1]({}, {id = 133})
+            callbacks[2](GameTooltip, {})
+            callbacks[2](ItemRefTooltip, {})
+            callbacks[2]({}, {})
+            QuestiePlayer.numberOfGroupMembers = 7
+            callbacks[2](GameTooltip, {})
+
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(GameTooltip, 133)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(ItemRefTooltip, 116)
+            assert.is_nil(gameScripts.OnTooltipSetItem)
+            assert.is_nil(gameScripts.OnTooltipSetSpell)
+            assert.is_nil(gameScripts.OnTooltipSetUnit)
+            assert.is_nil(itemScripts.OnTooltipSetItem)
+            assert.is_nil(gameScripts.OnUpdate)
+            assert.is_function(callbacks[4])
+        end)
+
+        it("skips NPC lookups inside Forever instances, where NPC data is treated as secret", function()
+            local callbacks = {}
+            _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+            GameTooltip.GetPrimaryTooltipData = function() return {} end
+            _G.TooltipDataProcessor = {
+                AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
+            }
+            Questie.IsForever = true
+            local inInstance = true
+            _G.IsInInstance = function() return inInstance end
+
+            QuestieTooltips:Initialize()
+            callbacks[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-1125-0"})
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+
+            inInstance = false
+            callbacks[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-1125-0"})
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+        end)
+
+        it("leaves an NPC tooltip native when Forever hides its GUID", function()
+            local callbacks = {}
+            _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+            GameTooltip.GetPrimaryTooltipData = function() return {} end
+            _G.TooltipDataProcessor = {
+                AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
+            }
+            _G.issecretvalue = function(value) return value == "Secret GUID" end
+
+            QuestieTooltips:Initialize()
+            callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+
+            callbacks[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-1125-0"})
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+        end)
+
+        it("retains the Classic tooltip-set scripts when the modern processor is absent", function()
+            _G.TooltipDataProcessor = nil
+            GameTooltip.GetSpell = function() return "Fireball", 133 end
+            ItemRefTooltip.GetSpell = function() return "Frostbolt", 116 end
+
+            QuestieTooltips:Initialize()
+            gameScripts.OnTooltipSetItem(GameTooltip)
+            itemScripts.OnTooltipSetItem(ItemRefTooltip)
+            gameScripts.OnTooltipSetUnit(GameTooltip)
+            gameScripts.OnTooltipSetSpell(GameTooltip)
+            itemScripts.OnTooltipSetSpell(ItemRefTooltip)
+
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called_with(ItemRefTooltip)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(GameTooltip, 133)
+            assert.spy(QuestieTooltips.private.AddSpellIdToTooltip).was.called_with(ItemRefTooltip, 116)
+            assert.is_function(gameScripts.OnUpdate)
+        end)
+
+        it("uses native scripts on Classic even when the shared processor exists", function()
+            _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+            _G.TooltipDataProcessor = {AddTooltipPostCall = spy.new(function() end)}
+
+            QuestieTooltips:Initialize()
+            gameScripts.OnTooltipSetItem(GameTooltip)
+            itemScripts.OnTooltipSetItem(ItemRefTooltip)
+            gameScripts.OnTooltipSetUnit(GameTooltip)
+
+            assert.spy(TooltipDataProcessor.AddTooltipPostCall).was.not_called()
+            assert.spy(QuestieTooltips.private.AddItemDataToTooltip).was.called(2)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+            assert.is_function(gameScripts.OnUpdate)
+        end)
+
+        it("does not hook unavailable tooltip-set scripts", function()
+            _G.TooltipDataProcessor = nil
+            GameTooltip.HasScript = function() return false end
+            ItemRefTooltip.HasScript = function() return false end
+
+            QuestieTooltips:Initialize()
+
+            assert.is_nil(gameScripts.OnTooltipSetItem)
+            assert.is_nil(gameScripts.OnTooltipSetUnit)
+            assert.is_nil(gameScripts.OnTooltipSetSpell)
+            assert.is_nil(itemScripts.OnTooltipSetItem)
+            assert.is_nil(itemScripts.OnTooltipSetSpell)
+        end)
+
+        describe("Classic object polling", function()
+            local originalProvider, originalGetTooltip
+            local caption
+
+            before_each(function()
+                originalProvider = _G.LibQuestieDB
+                originalGetTooltip = QuestieTooltips.GetTooltip
+                _G.LibQuestieDB = {Object = {IdsByName = spy.new(function() return {1001} end)}}
+                QuestieTooltips.GetTooltip = spy.new(function() return {"Quest objective"} end)
+                _G.TooltipDataProcessor = nil
+                GameTooltip.GetUnit = spy.new(function() end)
+                GameTooltip.GetItem = spy.new(function() end)
+                GameTooltip.GetSpell = spy.new(function() end)
+                GameTooltip.NumLines = function() return 1 end
+                GameTooltip.AddLine = spy.new(function()
+                    assert.spy(GameTooltip.Show).was.not_called()
+                end)
+                caption = "Battered Chest"
+                _G.GameTooltipTextLeft1 = {GetText = spy.new(function() return caption end)}
+                -- Keep the real handler so its early exits and Object state participate in polling.
+                dofile("Modules/Tooltips/TooltipHandler.lua")
+                QuestieTooltips:Initialize()
+            end)
+
+            after_each(function()
+                _G.LibQuestieDB = originalProvider
+                QuestieTooltips.GetTooltip = originalGetTooltip
+            end)
+
+            it("shows the tooltip after adding lines without repeating unchanged work", function()
+                gameScripts.OnUpdate(GameTooltip)
+                gameScripts.OnUpdate(GameTooltip)
+
+                assert.spy(LibQuestieDB.Object.IdsByName).was.called_with("Battered Chest")
+                assert.spy(LibQuestieDB.Object.IdsByName).was.called(1)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest objective")
+                assert.spy(GameTooltip.Show).was.called(1)
+            end)
+
+            it("does not inspect or change the native tooltip while augmentation is disabled", function()
+                Questie.db.profile.enableTooltips = false
+
+                gameScripts.OnUpdate(GameTooltip)
+                gameScripts.OnUpdate(GameTooltip)
+
+                assert.spy(GameTooltip.GetUnit).was.not_called()
+                assert.spy(GameTooltip.GetItem).was.not_called()
+                assert.spy(GameTooltip.GetSpell).was.not_called()
+                assert.spy(GameTooltipTextLeft1.GetText).was.not_called()
+                assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
+                assert.spy(LibQuestieDB.Object.IdsByName).was.not_called()
+                assert.spy(GameTooltip.AddLine).was.not_called()
+                assert.spy(GameTooltip.Show).was.not_called()
+            end)
+
+            it("does not show or augment a tooltip without a caption", function()
+                caption = nil
+
+                gameScripts.OnUpdate(GameTooltip)
+                gameScripts.OnUpdate(GameTooltip)
+
+                assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
+                assert.spy(LibQuestieDB.Object.IdsByName).was.not_called()
+                assert.spy(GameTooltip.AddLine).was.not_called()
+                assert.spy(GameTooltip.Show).was.not_called()
+            end)
+        end)
+
+        describe("structured Object callbacks", function()
+            local callbacks
+            local registration
+            local primaryData
+
+            before_each(function()
+                callbacks = {}
+                primaryData = {type = 4, dataInstanceID = 12, lines = {{leftText = "Battered Chest"}}}
+                _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+                registration = spy.new(function(kind, callback) callbacks[kind] = callback end)
+                _G.TooltipDataProcessor = {
+                    AddTooltipPostCall = function(kind, callback) registration(kind, callback) end,
+                }
+                GameTooltip.GetPrimaryTooltipData = function() return primaryData end
+                QuestieTooltips:Initialize()
+            end)
+
+            it("resolves public primary Object text without touching legacy getters or FontStrings", function()
+                -- None of the legacy getters or FontStrings exist on this frame.
+                callbacks[4](GameTooltip, primaryData)
+
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Battered Chest", 440)
+                assert.spy(GameTooltip.Show).was.not_called()
+                assert.is_nil(gameScripts.OnUpdate)
+            end)
+
+            it("adds once per clear, including a rebuild that reuses the same payload and instance ID", function()
+                callbacks[4](GameTooltip, primaryData)
+                gameScripts.OnShow(GameTooltip)
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(1)
+
+                gameScripts.OnTooltipCleared(GameTooltip)
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(2)
+            end)
+
+            it("allows an object again after the frame is cleared and reused for a unit", function()
+                callbacks[4](GameTooltip, primaryData)
+                gameScripts.OnTooltipCleared(GameTooltip)
+                primaryData = {type = 2, guid = "Creature-0-0-0-0-2955-0"}
+                callbacks[2](GameTooltip, primaryData)
+                gameScripts.OnTooltipCleared(GameTooltip)
+                primaryData = {type = 4, lines = {{leftText = "Wanted Poster"}}}
+                callbacks[4](GameTooltip, primaryData)
+
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(2)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Wanted Poster", 440)
+            end)
+
+            it("ignores scanning frames, ItemRefTooltip and appended Object blocks", function()
+                callbacks[4]({}, primaryData)
+                callbacks[4](ItemRefTooltip, primaryData)
+                callbacks[4](GameTooltip, {type = 4, lines = {{leftText = "Appended caption"}}})
+
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+                assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
+            end)
+
+            it("does not register more hooks or callbacks when initialized twice", function()
+                QuestieTooltips:Initialize()
+
+                assert.spy(registration).was.called(3)
+                assert.spy(GameTooltip.HookScript).was.called(3)
+            end)
+
+            it("skips disabled tooltips without consuming a later enabled render", function()
+                Questie.db.profile.enableTooltips = false
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+                Questie.db.profile.enableTooltips = true
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(1)
+            end)
+
+            it("leaves forbidden tooltips untouched", function()
+                GameTooltip.IsForbidden = function() return true end
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+            end)
+
+            it("leaves map-icon and raid tooltip policy unchanged", function()
+                GameTooltip.ShownAsMapIcon = true
+                callbacks[4](GameTooltip, primaryData)
+                GameTooltip.ShownAsMapIcon = nil
+                QuestiePlayer.numberOfGroupMembers = 7
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+            end)
+
+            it("does not inspect a secret payload or a table with secret contents", function()
+                local inaccessible = setmetatable({}, {__index = function() error("restricted read") end})
+                _G.issecretvalue = function(value) return value == inaccessible end
+                callbacks[4](GameTooltip, inaccessible)
+                _G.issecretvalue = function() return false end
+                _G.issecrettable = function(value) return value == inaccessible end
+                callbacks[4](GameTooltip, inaccessible)
+
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+            end)
+
+            it("rejects an inaccessible primary payload before comparing or indexing it", function()
+                local data = primaryData
+                primaryData = setmetatable({}, {__index = function() error("restricted read") end})
+                _G.issecrettable = function(value) return value == primaryData end
+                callbacks[4](GameTooltip, data)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+            end)
+
+            it("does not index restricted line containers or title rows", function()
+                local inaccessible = setmetatable({}, {__index = function() error("restricted read") end})
+                _G.issecrettable = function(value) return value == inaccessible end
+                primaryData.lines = inaccessible
+                callbacks[4](GameTooltip, primaryData)
+                primaryData.lines = {inaccessible}
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+            end)
+
+            it("does not send restricted text to provider name lookup", function()
+                local secretText = "Restricted object name"
+                _G.issecretvalue = function(value) return value == secretText end
+                primaryData.lines[1].leftText = secretText
+                callbacks[4](GameTooltip, primaryData)
+                assert.spy(QuestiePlayer.GetCurrentZoneId).was.not_called()
+                assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+            end)
+
+            local incompletePayloads = {
+                {name = "missing lines", data = {}},
+                {name = "empty lines", data = {lines = {}}},
+                {name = "missing title text", data = {lines = {{}}}},
+                {name = "empty title text", data = {lines = {{leftText = ""}}}},
+                {name = "non-string title text", data = {lines = {{leftText = 42}}}},
+            }
+            for _, case in ipairs(incompletePayloads) do
+                it("ignores " .. case.name, function()
+                    primaryData = case.data
+                    callbacks[4](GameTooltip, primaryData)
+                    assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+                end)
+            end
+        end)
+    end)
+
+    describe("native quest line handling", function()
+        local saved, scripts, preCalls, postCalls, primaryData, registerLinePreCall
+        local originalUnitHandler, originalObjectHandler, originalZoneGetter
+
+        local function clearTooltip()
+            for _, callback in ipairs(scripts.OnTooltipCleared or {}) do callback() end
+        end
+
+        local function markObjectCaptionSecret()
+            _G.issecretvalue = function(value) return value == "Object name" end
+        end
+
+        before_each(function()
+            saved = {
+                GameTooltip = _G.GameTooltip, ItemRefTooltip = _G.ItemRefTooltip,
+                Enum = _G.Enum, TooltipDataProcessor = _G.TooltipDataProcessor,
+                issecretvalue = _G.issecretvalue, issecrettable = _G.issecrettable,
+                IsForever = Questie.IsForever, format = string.format,
+                IsInInstance = _G.IsInInstance, InCombatLockdown = _G.InCombatLockdown,
+            }
+            originalUnitHandler = QuestieTooltips.private.AddUnitDataToTooltip
+            originalObjectHandler = QuestieTooltips.private.AddObjectDataToTooltip
+            originalZoneGetter = QuestiePlayer.GetCurrentZoneId
+            QuestieTooltips.private.AddUnitDataToTooltip = spy.new(function() end)
+            QuestieTooltips.private.AddObjectDataToTooltip = spy.new(function() end)
+            QuestiePlayer.GetCurrentZoneId = function() return 440 end
+            Questie.IsForever = true
+            Questie.db.profile.enableTooltips = true
+            Questie.db.profile.enableTooltipsQuestLevel = true
+            _G.issecretvalue, _G.issecrettable = nil, nil
+            _G.IsInInstance = function() return false end
+            _G.InCombatLockdown = function() return false end
+            scripts, preCalls, postCalls = {}, {}, {}
+            primaryData = {type = 4, lines = {{leftText = "Object name"}}}
+            _G.Enum = {
+                TooltipDataType = {Item = 0, Unit = 2, Object = 4},
+                TooltipDataLineType = {QuestTitle = 17, QuestObjective = 8, QuestPlayer = 18},
+            }
+            registerLinePreCall = spy.new(function(kind, callback) preCalls[kind] = callback end)
+            _G.TooltipDataProcessor = {
+                AddLinePreCall = function(kind, callback) registerLinePreCall(kind, callback) end,
+                AddTooltipPostCall = function(kind, callback) postCalls[kind] = callback end,
+            }
+            _G.GameTooltip = {
+                IsForbidden = function() return false end,
+                HookScript = function(_, name, callback)
+                    scripts[name] = scripts[name] or {}
+                    table.insert(scripts[name], callback)
+                end,
+                GetPrimaryTooltipData = function() return primaryData end,
+                AddLine = spy.new(function() end),
+                processingInfo = {tooltipData = primaryData},
+                -- A secret-text path must not depend on our public-text layout or FontString readers.
+                NumLines = function() error("must not inspect rendered lines") end,
+                GetWidth = function() error("must not measure") end,
+                Show = function() error("native pipeline owns Show") end,
+            }
+            _G.ItemRefTooltip = {HookScript = function() end}
+            QuestieTooltips:Initialize()
+        end)
+
+        after_each(function()
+            _G.GameTooltip, _G.ItemRefTooltip = saved.GameTooltip, saved.ItemRefTooltip
+            _G.Enum, _G.TooltipDataProcessor = saved.Enum, saved.TooltipDataProcessor
+            _G.issecretvalue, _G.issecrettable = saved.issecretvalue, saved.issecrettable
+            Questie.IsForever, string.format = saved.IsForever, saved.format
+            _G.IsInInstance, _G.InCombatLockdown = saved.IsInInstance, saved.InCombatLockdown
+            QuestieTooltips.private.AddUnitDataToTooltip = originalUnitHandler
+            QuestieTooltips.private.AddObjectDataToTooltip = originalObjectHandler
+            QuestiePlayer.GetCurrentZoneId = originalZoneGetter
+        end)
+
+        it("registers native styling callbacks and the ownership reset once on Forever", function()
+            QuestieTooltips:InitBlizzardTooltips()
+
+            assert.spy(registerLinePreCall).was.called(3)
+            assert.are.equal(2, #scripts.OnTooltipCleared) -- Object augmentation reset and native quest ownership reset.
+        end)
+
+        it("preserves MoP suppression and augmentation", function()
+            Questie.IsForever = false
+            dofile("Modules/Tooltips/Tooltip.lua")
+            QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+            local foreverTooltips = QuestieLoader:ImportModule("Forever")
+            foreverTooltips.CreateFormatter = spy.new(function() error("Forever formatter called on another client") end)
+            QuestieTooltips:Initialize()
+
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Native title"}))
+            assert.is_true(preCalls[8](GameTooltip, {leftText = "Native objective"}))
+            postCalls[2](GameTooltip, primaryData)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(foreverTooltips.CreateFormatter).was.not_called()
+            Questie.db.profile.enableTooltips = false
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Disabled"}))
+        end)
+
+        it("reuses public quest candidates within a rebuild and refreshes them on clear", function()
+            markObjectCaptionSecret()
+            local foreverTooltips = QuestieLoader:ImportModule("Forever")
+            local formatter = {
+                Title = spy.new(function() return "Selected native title" end),
+                Objective = spy.new(function() return "Selected objective" end),
+            }
+            foreverTooltips.CreateFormatter = spy.new(function() return formatter end)
+
+            preCalls[17](GameTooltip, {leftText = "First quest", id = 42})
+            preCalls[18](GameTooltip, {leftText = "Player"})
+            preCalls[8](GameTooltip, {leftText = "Objective"})
+            preCalls[17](GameTooltip, {leftText = "Second quest", id = 43})
+
+            assert.spy(foreverTooltips.CreateFormatter).was.called(1)
+            assert.spy(formatter.Title).was.called_with(42, "First quest")
+            assert.spy(formatter.Title).was.called(2)
+            assert.spy(formatter.Objective).was.called_with("Objective")
+            assert.spy(formatter.Objective).was.called(1) -- Player rows are names, not quest-log objectives.
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Selected native title", 1, 0.82, 0, false)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   Player", 238 / 255, 238 / 255, 238 / 255, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   Selected objective", 238 / 255, 238 / 255, 238 / 255, true)
+
+            clearTooltip()
+            preCalls[17](GameTooltip, {leftText = "Refreshed quest", id = 44})
+            assert.spy(foreverTooltips.CreateFormatter).was.called(2)
+        end)
+
+        it("hides public object quest lines and uses normal Questie augmentation", function()
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
+            assert.is_true(preCalls[8](GameTooltip, {leftText = "0/8 Objective", numFulfilled = 0, numRequired = 8}))
+            postCalls[4](GameTooltip, primaryData)
+
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Object name", 440)
+        end)
+
+        it("uses normal Questie replacement for readable NPC data even in combat", function()
+            _G.InCombatLockdown = function() return true end
+            primaryData.type = 2
+            primaryData.guid = "Creature-0-0-0-0-1125-0"
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Beer Basted Boar Ribs", id = 384}))
+            assert.is_true(preCalls[8](GameTooltip, {leftText = "0/6 Crag Boar Rib"}))
+            postCalls[2](GameTooltip, primaryData)
+
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
+        end)
+
+        it("styles NPC quest rows inside instances as secret data, even when they are readable", function()
+            _G.IsInInstance = function() return true end
+            primaryData.type = 2
+            primaryData.guid = "Creature-0-0-0-0-1125-0"
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
+            assert.is_true(preCalls[8](GameTooltip, {leftText = "0/8 Objective"}))
+            _G.issecretvalue = function(value) return value == "Secret quest" end
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Secret quest"}))
+            postCalls[2](GameTooltip, primaryData)
+
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name", 1, 0.82, 0, false)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   0/8 Objective", 238 / 255, 238 / 255, 238 / 255, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Secret quest", 1, 0.82, 0, false)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+        end)
+
+        it("treats Object quest rows the same inside instances as outside", function()
+            _G.IsInInstance = function() return true end
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
+            postCalls[4](GameTooltip, primaryData)
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called_with("Object name", 440)
+
+            clearTooltip()
+            markObjectCaptionSecret()
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Secret quest"}))
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Secret quest", 1, 0.82, 0, false)
+        end)
+
+        it("keeps native rows for readable and secret data when the group-size gate prevents Questie replacement", function()
+            QuestiePlayer.numberOfGroupMembers = 7
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Quest", id = 42}))
+            assert.is_nil(preCalls[8](GameTooltip, {leftText = "0/8 Objective"}))
+            markObjectCaptionSecret()
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Secret quest"}))
+            postCalls[2](GameTooltip, primaryData)
+            postCalls[4](GameTooltip, primaryData)
+
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+        end)
+
+        it("chooses secret fallback before hiding a public title followed by a secret objective", function()
+            local title = {type = 17, leftText = "Public title", id = 42}
+            local objectiveLine = {type = 8, leftText = "Secret objective"}
+            primaryData.lines = {{leftText = "Object name"}, title, objectiveLine}
+            _G.issecretvalue = function(value) return value == "Secret objective" end
+
+            assert.is_true(preCalls[17](GameTooltip, title))
+            assert.is_true(preCalls[8](GameTooltip, objectiveLine))
+            postCalls[4](GameTooltip, primaryData)
+
+            -- The readable quest ID still gets Questie's title; only the secret objective stays native text.
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name", 1, 0.82, 0, false)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   Secret objective", 238 / 255, 238 / 255, 238 / 255, true)
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+        end)
+
+        it("uses secret fallback when the Unit GUID is restricted even if the quest text is public", function()
+            primaryData.type = 2
+            primaryData.guid = "Secret GUID"
+            _G.issecretvalue = function(value) return value == "Secret GUID" end
+
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Public title"}))
+            postCalls[2](GameTooltip, primaryData)
+
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Public title", 1, 0.82, 0, false)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+        end)
+
+        it("lets native sizing use unwrapped titles while objectives wrap, without inspecting or mutating data", function()
+            markObjectCaptionSecret()
+            local title = {leftText = "Flintfire's Shipment", id = 98321}
+            local objectiveLine = {leftText = "0/8 Flintfire's Shipment", completed = false}
+
+            assert.is_true(preCalls[17](GameTooltip, title))
+            assert.is_true(preCalls[8](GameTooltip, objectiveLine))
+
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name", 1, 0.82, 0, false)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "   0/8 Flintfire's Shipment", 238 / 255, 238 / 255, 238 / 255, true)
+            assert.are.same({leftText = "Flintfire's Shipment", id = 98321}, title)
+            assert.are.same({leftText = "0/8 Flintfire's Shipment", completed = false}, objectiveLine)
+            assert.spy(QuestieDB.GetQuest).was.not_called()
+        end)
+
+        it("uses Questie's title for a readable ID and an ID placeholder when the ID is missing", function()
+            markObjectCaptionSecret()
+            Questie.db.profile.enableTooltipsQuestID = true
+            preCalls[17](GameTooltip, {leftText = "Known quest", id = 42})
+            preCalls[17](GameTooltip, {leftText = "Unknown quest"})
+
+            assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 42, true, true)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Quest Name", 1, 0.82, 0, false)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Unknown quest (???)", 1, 0.82, 0, false)
+        end)
+
+        it("does not show secret quest IDs when the setting is disabled, even with debug mode enabled", function()
+            _G.issecretvalue = function(value) return value == "Object name" or value == "Secret ID" end
+            Questie.db.profile.enableTooltipsQuestID = false
+            Questie.db.profile.debugEnabled = true
+
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Quest", id = "Secret ID"}))
+
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "[??] Quest", 1, 0.82, 0, false)
+        end)
+
+        it("passes opaque secret text and IDs only to formatting and native rendering", function()
+            local forbidden = {__tostring = function() error("secret inspected") end, __concat = function() error("secret concatenated") end}
+            local text, id, rendered = setmetatable({}, forbidden), setmetatable({}, forbidden), setmetatable({}, forbidden)
+            _G.issecretvalue = function(value)
+                return rawequal(value, text) or rawequal(value, id) or rawequal(value, rendered)
+            end
+            local nativeFormat = string.format
+            string.format = function(format, ...)
+                local input, questId = ...
+                if rawequal(input, text) then
+                    assert.are.equal("[??] %s (%s)", format)
+                    assert.is_true(rawequal(questId, id))
+                    return rendered -- Native formatting accepts secrets and returns another secret.
+                end
+                return nativeFormat(format, ...)
+            end
+            Questie.db.profile.enableTooltipsQuestID = true
+
+            assert.is_true(preCalls[17](GameTooltip, {leftText = text, id = id}))
+
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, rendered, 1, 0.82, 0, false)
+            assert.spy(QuestieDB.GetQuest).was.not_called()
+        end)
+
+        it("resets secret fallback on clear and returns to normal replacement for public data", function()
+            markObjectCaptionSecret()
+            preCalls[17](GameTooltip, {leftText = "Quest"})
+            postCalls[2](GameTooltip, primaryData)
+            postCalls[4](GameTooltip, primaryData)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+
+            clearTooltip()
+            _G.issecretvalue = nil
+            assert.is_true(preCalls[17](GameTooltip, {leftText = "Public quest"}))
+            postCalls[4](GameTooltip, primaryData)
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.called(1)
+            clearTooltip()
+            postCalls[2](GameTooltip, primaryData)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+        end)
+
+        it("keeps fallback-only secret blocks without legacy augmentation or FontString reads", function()
+            markObjectCaptionSecret()
+            assert.is_nil(preCalls[8](GameTooltip, {leftText = "Objective", rightText = "0/8"}))
+            postCalls[2](GameTooltip, primaryData)
+            postCalls[4](GameTooltip, primaryData)
+
+            assert.spy(GameTooltip.AddLine).was.not_called()
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+            assert.spy(QuestieTooltips.private.AddObjectDataToTooltip).was.not_called()
+            clearTooltip()
+            postCalls[2](GameTooltip, primaryData)
+            assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+        end)
+
+        it("preserves the order of multiple quest blocks and styles player lines without a separate icon", function()
+            markObjectCaptionSecret()
+            preCalls[17](GameTooltip, {leftText = "First quest"})
+            preCalls[18](GameTooltip, {leftText = "Player"})
+            preCalls[8](GameTooltip, {leftText = "First objective"})
+            preCalls[17](GameTooltip, {leftText = "Second quest"})
+            preCalls[8](GameTooltip, {leftText = "Second objective"})
+
+            local calls = GameTooltip.AddLine.calls
+            assert.are.equal("[??] First quest", calls[1].refs[2])
+            assert.are.equal("   Player", calls[2].refs[2])
+            assert.are.equal("   First objective", calls[3].refs[2])
+            assert.are.equal("[??] Second quest", calls[4].refs[2])
+            assert.are.equal("   Second objective", calls[5].refs[2])
+        end)
+
+        it("leaves unsupported, forbidden, map-icon and disabled tooltips to the native renderer", function()
+            assert.is_nil(preCalls[17]({}, {leftText = "Other tooltip"}))
+            GameTooltip.IsForbidden = function() return true end
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Forbidden"}))
+            GameTooltip.IsForbidden = function() return false end
+            GameTooltip.ShownAsMapIcon = true
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Map icon"}))
+            GameTooltip.ShownAsMapIcon = nil
+            primaryData.type = 0
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Item"}))
+            primaryData.type = 4
+            Questie.db.profile.enableTooltips = false
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Disabled"}))
+            assert.spy(GameTooltip.AddLine).was.not_called()
+        end)
+
+        it("does not consume a line with inaccessible data or without usable text", function()
+            local restricted = setmetatable({}, {__index = function() error("restricted read") end})
+            _G.issecrettable = function(value) return value == restricted end
+            assert.is_nil(preCalls[17](GameTooltip, restricted))
+            GameTooltip.processingInfo = restricted
+            assert.is_nil(preCalls[17](GameTooltip, {leftText = "Quest"}))
+            GameTooltip.processingInfo = {tooltipData = primaryData}
+            markObjectCaptionSecret()
+            assert.is_nil(preCalls[17](GameTooltip, {}))
+            assert.is_nil(preCalls[8](GameTooltip, {leftText = "Objective", rightText = "0/8"}))
+            assert.spy(GameTooltip.AddLine).was.not_called()
+        end)
+
+        describe("dedicated native quest tooltip", function()
+            local tooltip, frameScripts, fontStrings, linePostCalls, formatter, registerPostCall
+            local getLeftLine
+
+            before_each(function()
+                frameScripts, linePostCalls = {}, {}
+                fontStrings = {
+                    {SetText = spy.new(function() end)},
+                    {SetText = spy.new(function() end)},
+                }
+                for _, fontString in ipairs(fontStrings) do
+                    fontString.GetText = function() error("must not inspect native text") end
+                    fontString.GetWidth = function() error("must not measure native text") end
+                end
+                getLeftLine = spy.new(function(_, index) return fontStrings[index] end)
+                tooltip = {
+                    IsForbidden = function() return false end,
+                    HookScript = spy.new(function(_, name, callback) frameScripts[name] = callback end),
+                    GetLeftLine = function(...) return getLeftLine(...) end,
+                    AddLine = spy.new(function() error("must preserve native rendering") end),
+                }
+                formatter = {
+                    Title = spy.new(function() return "Questie title" end),
+                    Objective = spy.new(function() return "Questie objective" end),
+                }
+                QuestieLoader:ImportModule("Forever").CreateFormatter = spy.new(function() return formatter end)
+                registerPostCall = spy.new(function(kind, callback) linePostCalls[kind] = callback end)
+                _G.TooltipDataProcessor.AddLinePostCall = function(kind, callback) registerPostCall(kind, callback) end
+            end)
+
+            it("registers once and formats text without consuming native completion rows", function()
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                local title = {id = 783, leftText = "Native title", lineIndex = 1}
+                local objectiveLine = setmetatable({leftText = "Ready for turn-in", lineIndex = 2}, {
+                    __index = function(_, key)
+                        if key == "completed" then error("must leave native completion to Blizzard") end
+                    end,
+                })
+
+                assert.is_nil(preCalls[17](tooltip, title))
+                assert.is_nil(preCalls[18](tooltip, {leftText = "Player"}))
+                assert.is_nil(preCalls[8](tooltip, objectiveLine))
+                linePostCalls[17](tooltip, title)
+                linePostCalls[8](tooltip, objectiveLine)
+
+                assert.spy(registerPostCall).was.called(2)
+                assert.spy(tooltip.HookScript).was.called(1)
+                assert.spy(formatter.Title).was.called_with(783, "Native title")
+                assert.spy(formatter.Objective).was.called_with("Ready for turn-in")
+                assert.spy(fontStrings[1].SetText).was.called_with(fontStrings[1], "Questie title")
+                assert.spy(fontStrings[2].SetText).was.called_with(fontStrings[2], "Questie objective")
+                assert.spy(tooltip.AddLine).was.not_called()
+                assert.are.same({id = 783, leftText = "Native title", lineIndex = 1}, title)
+                assert.are.equal("Ready for turn-in", objectiveLine.leftText)
+            end)
+
+            it("reuses the existing title formatter and its quest-level preference", function()
+                dofile("Modules/Tooltips/Forever.lua")
+                Questie.db.profile.enableTooltipsQuestLevel = true
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                linePostCalls[17](tooltip, {id = 783, leftText = "Native title", lineIndex = 1})
+                assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 783, true, true)
+                assert.spy(fontStrings[1].SetText).was.called_with(fontStrings[1], "Quest Name")
+            end)
+
+            it("keeps independent formatter state per tooltip and clears it on a native rebuild", function()
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                local foreverTooltips = QuestieLoader:ImportModule("Forever")
+                linePostCalls[17](tooltip, {id = 783, leftText = "First title", lineIndex = 1})
+                linePostCalls[8](tooltip, {leftText = "First objective", lineIndex = 2})
+                assert.spy(foreverTooltips.CreateFormatter).was.called(1)
+                frameScripts.OnTooltipCleared()
+                linePostCalls[17](tooltip, {id = 784, leftText = "New title", lineIndex = 1})
+                assert.spy(foreverTooltips.CreateFormatter).was.called(2)
+                postCalls[2](GameTooltip, primaryData)
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called(1)
+            end)
+
+            it("passes opaque text and IDs to formatting without inspecting them", function()
+                local opaqueText, opaqueId = {}, {}
+                local forbidden = {__tostring = function() error("opaque value inspected") end}
+                setmetatable(opaqueText, forbidden)
+                setmetatable(opaqueId, forbidden)
+                _G.issecretvalue = function(value) return rawequal(value, opaqueText) or rawequal(value, opaqueId) end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                linePostCalls[17](tooltip, {id = opaqueId, leftText = opaqueText, lineIndex = 1})
+                linePostCalls[8](tooltip, {leftText = opaqueText, lineIndex = 2})
+                assert.spy(formatter.Title).was.called_with(opaqueId, opaqueText)
+                assert.spy(formatter.Objective).was.called_with(opaqueText)
+            end)
+
+            it("leaves restricted rows, secret indices and absent font strings native", function()
+                local restricted = setmetatable({}, {__index = function() error("restricted row inspected") end})
+                _G.issecrettable = function(value) return rawequal(value, restricted) end
+                _G.issecretvalue = function(value) return value == 99 end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                linePostCalls[17](tooltip, restricted)
+                linePostCalls[17](tooltip, {leftText = "Secret index", lineIndex = 99})
+                linePostCalls[17](tooltip, {lineIndex = 1})
+                assert.spy(getLeftLine).was.not_called()
+                linePostCalls[17](tooltip, {leftText = "Absent font string", lineIndex = 3})
+                assert.spy(formatter.Title).was.not_called()
+                assert.spy(tooltip.AddLine).was.not_called()
+            end)
+
+            it("does not style other, forbidden or disabled tooltip frames", function()
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                local title = {id = 783, leftText = "Title", lineIndex = 1}
+                linePostCalls[17]({}, title)
+                tooltip.IsForbidden = function() return true end
+                linePostCalls[17](tooltip, title)
+                tooltip.IsForbidden = function() return false end
+                Questie.db.profile.enableTooltips = false
+                linePostCalls[17](tooltip, title)
+                assert.spy(formatter.Title).was.not_called()
+            end)
+
+            it("keeps native rendering when font-string access is unavailable, including on other clients", function()
+                Questie.IsForever = false
+                tooltip.GetLeftLine = nil
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                assert.spy(registerPostCall).was.not_called()
+                assert.is_nil(preCalls[17](tooltip, {leftText = "Native title"}))
+                assert.is_nil(preCalls[8](tooltip, {leftText = "Native objective"}))
+            end)
+
+            it("keeps native rendering when the post-call processor is unavailable", function()
+                _G.TooltipDataProcessor.AddLinePostCall = nil
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                assert.is_nil(preCalls[17](tooltip, {leftText = "Native title"}))
+                assert.spy(registerPostCall).was.not_called()
+            end)
+        end)
+
+        describe("native party progress", function()
+            local lines, rendered, savedGlobals
+            local TITLE, PLAYER, OBJECTIVE = 17, 18, 8
+
+            local function objectiveLine(text, fulfilled, required)
+                return {type = OBJECTIVE, leftText = text, numFulfilled = fulfilled, numRequired = required}
+            end
+
+            local function renderUnit()
+                QuestieTooltips.private.AddUnitDataToTooltip = function()
+                    rendered = QuestieTooltips.GetTooltip("m_123")
+                end
+                postCalls[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-123-0", lines = lines})
+            end
+
+            before_each(function()
+                savedGlobals = {
+                    IsInGroup = _G.IsInGroup, GetNumSubgroupMembers = _G.GetNumSubgroupMembers, UnitGUID = _G.UnitGUID,
+                    GetUnitName = _G.GetUnitName, GetClassColor = _G.GetClassColor,
+                }
+                local guids = {player = "Player-me", party1 = "Player-bob", party2 = "Player-kim"}
+                local names = {party1 = "Bob-Realm", party2 = "Kim"}
+                _G.IsInGroup = function() return true end
+                _G.GetNumSubgroupMembers = function() return 2 end
+                _G.UnitGUID = function(unit) return guids[unit] end
+                _G.GetUnitName = function(unit) return names[unit] or "Me" end
+                _G.GetClassColor = function() return 1, 1, 1, "FFFFFFFF" end
+                QuestiePlayer.GetPartyMemberByName = function() return {colorHex = "FFAAAAAA"} end
+                ActiveQuests.Add(1, {})
+                QuestieTooltips.lookupByKey = {["m_123"] = {["1 1"] = {
+                    questId = 1,
+                    objective = {Index = 1, Update = function() end, Collected = 1, Needed = 1, Description = "Supplies"},
+                }}}
+                rendered = nil
+                lines = {
+                    {type = 0, leftText = "Mob"},
+                    {type = TITLE, id = 1, leftText = "Quest"},
+                    {type = PLAYER, guid = "Player-me", leftText = "Me"},
+                    objectiveLine("1/1 Supplies", 1, 1),
+                    {type = PLAYER, guid = "Player-bob", leftText = "Bob"},
+                    objectiveLine("9/10 Supplies", 9, 10),
+                    {type = PLAYER, guid = "Player-stranger", leftText = "Stranger"},
+                    objectiveLine("2/10 Supplies", 2, 10),
+                }
+            end)
+
+            after_each(function()
+                for name, value in pairs(savedGlobals) do _G[name] = value end
+            end)
+
+            it("should show the progress of party members from Blizzard's lines by their full name", function()
+                renderUnit()
+
+                assert.are.same({
+                    "Quest Name",
+                    "   gold1/1 Supplies (|cFFFFFFFFMe|rgold)|r",
+                    "   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r",
+                }, rendered)
+            end)
+
+            it("should show party members' progress on Object tooltips", function()
+                primaryData = {type = 4, lines = lines}
+                lines[1] = {type = 0, leftText = "Object name"}
+                QuestieTooltips.private.AddObjectDataToTooltip = function()
+                    rendered = QuestieTooltips.GetTooltip("m_123")
+                end
+
+                postCalls[4](GameTooltip, primaryData)
+
+                assert.are.equal("   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r", rendered[3])
+            end)
+
+            it("should keep the Comms data of a member who also has a Blizzard row", function()
+                QuestieComms.data.KeyExists = function() return true end
+                QuestieComms.data.GetTooltip = function()
+                    return {[1] = {["Bob-Realm"] = {[1] = {fulfilled = 3, required = 5, text = "do it"}}}}
+                end
+
+                renderUnit()
+
+                assert.are.same({
+                    "Quest Name",
+                    "   gold1/1 Supplies (|cFFFFFFFFMe|rgold)|r",
+                    "   gold3/5 do it (|cFFAAAAAABob-Realm|rgold)|r",
+                }, rendered)
+            end)
+
+            it("should add a quest title for a quest only the party shares", function()
+                QuestieTooltips.lookupByKey = {["m_123"] = {}}
+                lines[2].id = 2
+
+                renderUnit()
+
+                assert.are.same({
+                    "Quest Name",
+                    "   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r",
+                }, rendered)
+            end)
+
+            it("should ignore Blizzard's lines outside Forever", function()
+                Questie.IsForever = false
+
+                renderUnit()
+
+                assert.are.same({"Quest Name", "   gold1/1 Supplies"}, rendered)
+            end)
+
+            it("should ignore Blizzard's lines when one of them is secret", function()
+                _G.issecretvalue = function(value) return value == "9/10 Supplies" end
+
+                renderUnit()
+
+                assert.are.same({"Quest Name", "   gold1/1 Supplies"}, rendered)
+            end)
+
+            it("should mark Blizzard's lines only while debugging", function()
+                Questie.db.profile.debugEnabled = true
+
+                renderUnit()
+
+                assert.are.equal("   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r |cFF999999[Blizzard]|r", rendered[3])
+            end)
+
+            it("should add progress for a quest without any registered tooltip", function()
+            QuestieTooltips.lookupByKey = {}
+
+            renderUnit()
+
+            assert.are.same({
+                "Quest Name",
+                "   gold9/10 Supplies (|cFFAAAAAABob-Realm|rgold)|r",
+            }, rendered)
+        end)
+
+        it("should not list objectives of a quest the NPC starts or finishes", function()
+            Questie.db.profile.showQuestsInNpcTooltip = true
+            QuestieTooltips.lookupByKey = {["m_123"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
+
+            renderUnit()
+
+            assert.are.same({"Quest Name"}, rendered)
+        end)
+
+        it("should drop Blizzard's lines when the augmentation fails", function()
+            QuestieTooltips.private.AddUnitDataToTooltip = function() error("boom") end
+
+            assert.has_error(function()
+                postCalls[2](GameTooltip, {type = 2, guid = "Creature-0-0-0-0-123-0", lines = lines})
+            end, "boom")
+
+            assert.are.same({"Quest Name", "   gold1/1 Supplies"}, QuestieTooltips.GetTooltip("m_123"))
+        end)
+
+        it("should not keep Blizzard's lines for later lookups", function()
+                renderUnit()
+
+                assert.are.same({"Quest Name", "   gold1/1 Supplies"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+        end)
+    end)
+
+    describe("RegisterQuestStartTooltip", function()
+        it("should register a tooltip with a placeholder name when the starter has no name", function()
+            QuestieTooltips.lookupByKey = {}
+            QuestieTooltips.lookupKeysByQuestId = {}
+
+            local name
+            assert.has_no.errors(function()
+                name = QuestieTooltips:RegisterQuestStartTooltip(94414, nil, 123, "m_123", "NPC")
+            end)
+
+            assert.are_same("MissingName (m_123)", name)
+
+            local tooltip = QuestieTooltips.lookupByKey["m_123"]["94414 MissingName (m_123) 123"]
+            assert.are_same("MissingName (m_123)", tooltip.name)
+            assert.are_same({"m_123"}, QuestieTooltips.lookupKeysByQuestId[94414])
+        end)
+    end)
+
     describe("GetTooltip", function()
+        it("uses the quest ID when coloring the starter icon", function()
+            Questie.db.profile.showQuestsInNpcTooltip = true
+            QuestieLib.GetEffectiveQuestLevel = function() return 2 end
+            QuestieLib.GetDifficultyColorPercent = spy.new(function() return 0.753, 0.753, 0.753 end)
+            QuestieLoader:ImportModule("QuestieEvent").IsEventQuest = function() return false end
+            QuestieDB.IsPvPQuest = function() return false end
+            QuestieDB.IsRepeatable = function() return false end
+            QuestieTooltips:RegisterQuestStartTooltip(94414, "Quest giver", 123, "m_123", "NPC")
+
+            local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+            assert.spy(QuestieLib.GetDifficultyColorPercent).was.called_with(QuestieLib, 2, 94414)
+            assert.are.same({
+                "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32:192:192:192|tQuest Name",
+            }, tooltip)
+        end)
+
         it("should return quest name when tooltip has name set and showQuestsInNpcTooltip is active", function()
             Questie.db.profile.showQuestsInNpcTooltip = true
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}
@@ -84,11 +1184,13 @@ describe("Tooltip", function()
             assert.are_same({}, tooltip)
         end)
 
-        it("should return nil when no tooltip is registered", function()
+        it("should skip spawn reads when neither local nor party tooltip data is registered", function()
             QuestieTooltips.lookupByKey = {}
+            QuestieDB.QueryObjectSingle = spy.new(function() return {[440] = {{10, 10}}} end)
 
-            local tooltip = QuestieTooltips.GetTooltip("key")
+            local tooltip = QuestieTooltips.GetTooltip("o_123", 440)
 
+            assert.spy(QuestieDB.QueryObjectSingle).was.not_called()
             assert.spy(QuestieLib.GetColoredQuestName).was.not_called()
             assert.is_nil(tooltip)
         end)
@@ -147,7 +1249,7 @@ describe("Tooltip", function()
                     spawnList = {[123] = {ItemId = 5}}
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("m_123")
 
@@ -156,23 +1258,148 @@ describe("Tooltip", function()
             assert.are_same({"Quest Name", "   goldItem Name"}, tooltip)
         end)
 
-        it("should return quest name and objective when tooltip has objective and Needed", function()
+        it("keeps fallback wording and punctuation with one progress counter", function()
             QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
                 questId = 1,
                 objective = {
                     Index = 1,
                     Needed = 5,
                     Collected = 3,
-                    Description = "do it",
+                    Description = "Collect Windstone Clusters.",
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
-            assert.are_same({"Quest Name", "   gold3/5 do it"}, tooltip)
+            assert.are_same({"Quest Name", "   gold3/5 Collect Windstone Clusters."}, tooltip)
+        end)
+
+        it("should keep the registration of a quest a quest log rebuild has not logged again yet", function()
+            local registration = {questId = 1, objective = {Index = 1, Description = "Wolf", Update = function() end}}
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = registration}}
+            cached[1] = {objectives = {}}
+
+            QuestieTooltips.GetTooltip("key")
+
+            assert.are.equal(registration, QuestieTooltips.lookupByKey["key"]["1 1"])
+        end)
+
+        it("should remove the registration of a quest that left the quest log", function()
+            QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = {
+                questId = 1, objective = {Index = 1, Description = "Wolf", Update = function() end},
+            }}}
+
+            QuestieTooltips.GetTooltip("key")
+
+            assert.is_nil(QuestieTooltips.lookupByKey["key"]["1 1"])
+        end)
+
+        describe("order", function()
+            before_each(function()
+                local levels = {[1] = 30, [2] = 5, [3] = 18}
+                QuestieLib.GetEffectiveQuestLevel = function(questId) return levels[questId], 0 end
+                QuestieLib.GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            end)
+
+            -- An objective of an active quest with nothing to count.
+            local function Objective(questId)
+                ActiveQuests.Add(questId, {})
+                return {questId = questId, objective = {Index = 1, Description = "Objective " .. questId, Update = function() end}}
+            end
+
+            it("lists the quests an NPC starts or finishes by level, low to high", function()
+                Questie.db.profile.showQuestsInNpcTooltip = true
+                QuestieTooltips.lookupByKey = {["key"] = {
+                    ["1 test 9"] = {questId = 1, name = "test", starterId = 9},
+                    ["2 test 9"] = {questId = 2, name = "test", starterId = 9},
+                    ["3 test 9"] = {questId = 3, name = "test", starterId = 9},
+                }}
+
+                assert.are_same({"Quest 2", "Quest 3", "Quest 1"}, QuestieTooltips.GetTooltip("key"))
+            end)
+
+            it("lists active quests' objectives by level, low to high", function()
+                QuestieTooltips.lookupByKey = {["key"] = {["1 1"] = Objective(1), ["2 1"] = Objective(2), ["3 1"] = Objective(3)}}
+
+                assert.are_same({"Quest 2", "   goldObjective 2", "Quest 3", "   goldObjective 3", "Quest 1", "   goldObjective 1"},
+                    QuestieTooltips.GetTooltip("key"))
+            end)
+        end)
+
+        describe("native objective wording", function()
+            local liveObjective, originalIsInGroup, originalUnitName
+
+            before_each(function()
+                originalIsInGroup, originalUnitName = _G.IsInGroup, _G.UnitName
+                _G.IsInGroup = function() return false end
+                _G.UnitName = function() return "Local" end
+                liveObjective = {Index = 3, Id = 25, Type = "item", Needed = 15, Collected = 9,
+                    Description = "Windstone Cluster", Update = function() end}
+                QuestieTooltips:RegisterObjectiveTooltip(1, "m_123", liveObjective)
+                ActiveQuests.Add(1, {})
+            end)
+
+            after_each(function()
+                _G.IsInGroup, _G.UnitName = originalIsInGroup, originalUnitName
+            end)
+
+            it("preserves accepted local text at its native index and keeps the drop rate", function()
+                Questie.db.profile.enableTooltipDroprates = true
+                QuestieDB.GetItemDroprate = function() return {25} end
+                cached[1] = {objectives = {[3] = {text = "9/15 Windstone Cluster."}}}
+
+                local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+                assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster.  |cFF999999[25%]|r"}, tooltip)
+                assert.are.equal("9/15 Windstone Cluster.", cached[1].objectives[3].text)
+            end)
+
+            it("does not invent a counter for a native action instruction", function()
+                liveObjective.Type, liveObjective.Collected, liveObjective.Needed = "object", 1, 1
+                cached[1] = {objectives = {[3] = {text = "Use Walk on Air"}}}
+
+                assert.are.same({"Quest Name", "   goldUse Walk on Air"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+
+            it("keeps a synthetic source item's text even when its index collides with native data", function()
+                liveObjective.IsSourceItem = true
+                liveObjective.Description, liveObjective.Collected, liveObjective.Needed = "Quest item", 0, 1
+                cached[1] = {objectives = {[3] = {text = "9/15 Windstone Cluster"}}}
+
+                assert.are.same({"Quest Name", "   gold0/1 Quest item"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+
+            it("falls back when the accepted snapshot lacks this objective index", function()
+                cached[1] = {objectives = {[1] = {text = "Unrelated objective"}}}
+
+                assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster"}, QuestieTooltips.GetTooltip("m_123"))
+            end)
+
+            local remoteCases = {
+                {name = "Forever", text = "9/15 Windstone Cluster", expected = "3/15 Windstone Cluster"},
+                {name = "Classic", text = "Windstone Cluster: 9/15", expected = "Windstone Cluster: 3/15"},
+                {name = "instruction without a counter", text = "Use Walk on Air", expected = "3/15 Fallback wording"},
+            }
+            for _, case in ipairs(remoteCases) do
+                it("uses remote progress for " .. case.name, function()
+                    _G.IsInGroup = function() return true end
+                    QuestieTooltips.lookupByKey = {}
+                    QuestiePlayer.GetPartyMemberByName = function(_, name)
+                        if name == "Bob" then return {colorHex = "FFFFFFFF"} end
+                    end
+                    QuestieComms.data.KeyExists = function() return true end
+                    local remote = {nativeText = case.text, text = "Fallback wording", fulfilled = 3, required = 15}
+                    QuestieComms.data.GetTooltip = function() return {[1] = {Bob = {[3] = remote}}} end
+
+                    local tooltip = QuestieTooltips.GetTooltip("m_123")
+
+                    assert.are.same({"Quest Name", "   gold" .. case.expected .. " (|cFFFFFFFFBob|rgold)|r"}, tooltip)
+                    assert.are.equal(case.text, remote.nativeText)
+                end)
+            end
         end)
 
         it("should return quest name and objective description when tooltip has objective without Needed", function()
@@ -184,7 +1411,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return {[440]={{10,10}}}
             end)
@@ -212,6 +1439,31 @@ describe("Tooltip", function()
             assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
         end)
 
+        it("should return tooltip for objects in the parent zone of the players zone", function()
+            QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
+                questId = 1,
+                objective = {
+                    Index = 1,
+                    Description = "do it",
+                    Update = function() end,
+                }
+            }}}
+            ActiveQuests.Add(1, {})
+            QuestieDB.QueryObjectSingle = spy.new(function()
+                return {[721]={{10,10}}} -- Gnomeregan
+            end)
+            local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+            ZoneDB.GetParentZoneId = spy.new(function(_, areaId)
+                if areaId == 10030 then return 721 end
+            end)
+            local playerZone = 10030 -- Gnomeregan - The Dormitory
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
+
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
+            assert.spy(ZoneDB.GetParentZoneId).was.called_with(ZoneDB, 10030)
+        end)
+
         it("should return quest name and objective description when players zone ID is 0", function()
             QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
                 questId = 1,
@@ -221,7 +1473,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function() end)
             local playerZone = 0
 
@@ -241,7 +1493,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function() end)
             _G.Questie.Debug = spy.new(function() end)
 
@@ -262,7 +1514,7 @@ describe("Tooltip", function()
                     Update = function() end,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
             QuestieDB.QueryObjectSingle = spy.new(function()
                 return nil
             end)
@@ -273,6 +1525,26 @@ describe("Tooltip", function()
             assert.spy(QuestieLib.GetColoredQuestName).was.called_with(QuestieLib, 1, nil, true)
             assert.are_same({"Quest Name", "   golddo it"}, tooltip)
             assert.spy(QuestieDB.QueryObjectSingle).was.called_with(123, "spawns")
+        end)
+
+        it("should return quest name and objective description when object has an empty spawn table", function()
+            QuestieTooltips.lookupByKey = {["o_123"] = {["1 1"] = {
+                questId = 1,
+                objective = {
+                    Index = 1,
+                    Description = "do it",
+                    Update = function() end,
+                }
+            }}}
+            ActiveQuests.Add(1, {})
+            QuestieDB.QueryObjectSingle = spy.new(function()
+                return {}
+            end)
+            local playerZone = 440
+
+            local tooltip = QuestieTooltips.GetTooltip("o_123", playerZone)
+
+            assert.are_same({"Quest Name", "   golddo it"}, tooltip)
         end)
 
         it("should only return quest name when tooltip has completed objective and showQuestsInNpcTooltip is true", function()
@@ -294,7 +1566,7 @@ describe("Tooltip", function()
                     }
                 }
             }}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
@@ -321,7 +1593,7 @@ describe("Tooltip", function()
                     }
                 }
             }}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
@@ -365,8 +1637,8 @@ describe("Tooltip", function()
                     }
                 }
             }}
-            QuestiePlayer.currentQuestlog[1] = {}
-            QuestiePlayer.currentQuestlog[2] = {}
+            ActiveQuests.Add(1, {})
+            ActiveQuests.Add(2, {})
 
             local tooltip = QuestieTooltips.GetTooltip("key")
 
@@ -391,7 +1663,7 @@ describe("Tooltip", function()
                     Update = updateSpy,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             QuestieTooltips.GetTooltip("key")
 
@@ -411,7 +1683,7 @@ describe("Tooltip", function()
                     Update = updateSpy,
                 }
             }}}
-            QuestiePlayer.currentQuestlog[1] = {}
+            ActiveQuests.Add(1, {})
 
             QuestieTooltips.GetTooltip("key")
 

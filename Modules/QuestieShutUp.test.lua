@@ -1,18 +1,36 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 describe("QuestieShutUp", function()
     ---@type QuestieShutUp
     local QuestieShutUp
+    local addFilterMock, removeFilterMock
 
     before_each(function()
-        _G.ChatFrameUtil = {
-            AddMessageEventFilter = function() end,
-            RemoveMessageEventFilter = function() end,
-        }
+        local compat = QuestieLoader:ImportModule("QuestieCompat")
+        addFilterMock = stub(compat, "AddMessageEventFilter")
+        removeFilterMock = stub(compat, "RemoveMessageEventFilter")
 
         dofile("Modules/QuestieShutUp.lua")
         QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
         QuestieShutUp:ToggleFilters(true)
+    end)
+
+    after_each(function()
+        addFilterMock:revert()
+        removeFilterMock:revert()
+    end)
+
+    it("registers and removes the same group-chat filter", function()
+        assert.spy(addFilterMock).was.called(6)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieShutUp.FilterFunc)
+
+        QuestieShutUp:ToggleFilters(false)
+
+        assert.spy(removeFilterMock).was.called(6)
+        assert.spy(removeFilterMock).was.called_with("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
+        assert.spy(removeFilterMock).was.called_with("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieShutUp.FilterFunc)
     end)
 
     describe("FilterFunc", function()

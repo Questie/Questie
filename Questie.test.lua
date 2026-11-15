@@ -1,14 +1,313 @@
 dofile("setupTests.lua")
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 describe("Questie", function()
+    local startupCalls
+    local Profiler
+    local QuestieValidateGameCache
+    local originalProfilerStartStartup
+    local originalProfilerImportLoadTimings
+    local originalLoaderFinishLoadTimings
+    local originalStartCheck
+    local originalQuestiePrint
+    local originalProfilerEnabled
+
     before_each(function()
-        local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
-        QuestieValidateGameCache.StartCheck = function() end
+        startupCalls = {}
+        originalProfilerEnabled = _G.QuestieProfilerEnabled
+        -- Profiling is opt-in, so the tests below that expect it to arm must opt in.
+        _G.QuestieProfilerEnabled = true
+        Profiler = QuestieLoader:ImportModule("Profiler")
+        QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+        originalProfilerStartStartup = Profiler.StartStartup
+        originalProfilerImportLoadTimings = Profiler.ImportLoadTimings
+        originalLoaderFinishLoadTimings = QuestieLoader.FinishLoadTimings
+        originalStartCheck = QuestieValidateGameCache.StartCheck
+        originalQuestiePrint = Questie.Print
+
+        Profiler.StartStartup = function(_, showUI)
+            table.insert(startupCalls, {name = "profiler", showUI = showUI})
+            return true
+        end
+        QuestieLoader.FinishLoadTimings = function()
+            table.insert(startupCalls, {name = "loadClose"})
+        end
+        Profiler.ImportLoadTimings = function()
+            table.insert(startupCalls, {name = "loadImport"})
+        end
+        QuestieValidateGameCache.StartCheck = function()
+            table.insert(startupCalls, {name = "cache"})
+        end
+    end)
+
+    after_each(function()
+        _G.QuestieProfilerEnabled = originalProfilerEnabled
+        Profiler.StartStartup = originalProfilerStartStartup
+        Profiler.ImportLoadTimings = originalProfilerImportLoadTimings
+        QuestieLoader.FinishLoadTimings = originalLoaderFinishLoadTimings
+        QuestieValidateGameCache.StartCheck = originalStartCheck
+        Questie.Print = originalQuestiePrint
+    end)
+
+    it("shows profiling immediately before Game Cache Validation", function()
+        dofile("Questie.lua")
+
+        assert.are_same("profiler", startupCalls[1].name)
+        assert.is_true(startupCalls[1].showUI)
+        assert.are_same("cache", startupCalls[2].name)
+        -- The final file interval closes before its rows are published, after every other startup call.
+        assert.are_same("loadClose", startupCalls[3].name)
+        assert.are_same("loadImport", startupCalls[4].name)
+        assert.are_same(4, #startupCalls)
+    end)
+
+    it("does not arm profiling when it has not been enabled", function()
+        _G.QuestieProfilerEnabled = nil
 
         dofile("Questie.lua")
+
+        assert.are_same(1, #startupCalls)
+        assert.are_same("cache", startupCalls[1].name)
+    end)
+
+    it("starts Game Cache Validation and closes load timing when profiler startup throws", function()
+        local reportedErrors = {}
+        Profiler.StartStartup = function()
+            error("expected profiler startup failure")
+        end
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same({"cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("|cffff0000[ERROR]|r", reportedErrors[1][1])
+        assert.are_same("QuestieProfiler failed during Addon Load", reportedErrors[1][2])
+        assert.is_truthy(string.find(reportedErrors[1][3], "expected profiler startup failure", 1, true))
+    end)
+
+    it("reports a profiler startup that quietly declines to arm", function()
+        local reportedErrors = {}
+        Profiler.StartStartup = function()
+            return false
+        end
+        Questie.Print = function(_, errorPrefix, message)
+            table.insert(reportedErrors, {errorPrefix, message})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler did not arm during Addon Load", reportedErrors[1][2])
+        assert.are_same({"cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+    end)
+
+    it("does not repeat a profiler startup rejection already reported by the engine", function()
+        local reportedErrors = {}
+        Profiler.StartStartup = function()
+            return false, true
+        end
+        Questie.Print = function(_, errorPrefix, message)
+            table.insert(reportedErrors, {errorPrefix, message})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same(0, #reportedErrors)
+        assert.are_same({"cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+    end)
+
+    it("reports an import failure after closing the load-timing window", function()
+        local reportedErrors = {}
+        Profiler.ImportLoadTimings = function()
+            table.insert(startupCalls, {name = "loadImport"})
+            error("expected load import failure")
+        end
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same({"profiler", "cache", "loadClose", "loadImport"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+            startupCalls[4].name,
+        })
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler failed to import load timings", reportedErrors[1][2])
+        assert.is_truthy(string.find(reportedErrors[1][3], "expected load import failure", 1, true))
+    end)
+
+    it("still closes load timing when the profiler import method is missing", function()
+        local reportedErrors = {}
+        Profiler.ImportLoadTimings = nil
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same({"profiler", "cache", "loadClose"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler failed to import load timings", reportedErrors[1][2])
+        assert.is_truthy(reportedErrors[1][3])
+    end)
+
+    it("does not import load timings when closing the final interval fails", function()
+        local reportedErrors = {}
+        QuestieLoader.FinishLoadTimings = function()
+            table.insert(startupCalls, {name = "loadClose"})
+            error("expected load close failure")
+        end
+        Questie.Print = function(_, errorPrefix, message, profilerError)
+            table.insert(reportedErrors, {errorPrefix, message, profilerError})
+        end
+
+        dofile("Questie.lua")
+
+        assert.are_same({"profiler", "cache", "loadClose"}, {
+            startupCalls[1].name,
+            startupCalls[2].name,
+            startupCalls[3].name,
+        })
+        assert.are_same(1, #reportedErrors)
+        assert.are_same("QuestieProfiler failed to close the load-timing capture", reportedErrors[1][2])
+        assert.is_truthy(string.find(reportedErrors[1][3], "expected load close failure", 1, true))
+    end)
+
+    describe("Warning", function()
+        local originalProfile
+
+        before_each(function()
+            dofile("Questie.lua")
+            originalProfile = Questie.db.profile
+            Questie.db.profile = {debugEnabled = false, debugEnabledPrint = true, debugLevel = Questie.DEBUG_CRITICAL}
+            Questie.Print = spy.new(function() end)
+        end)
+
+        after_each(function()
+            Questie.db.profile = originalProfile
+        end)
+
+        it("does not print warnings when debug mode is disabled", function()
+            Questie.Warning("Missing objective data for quest ", 42, " ", "Wolf")
+
+            assert.spy(Questie.Print).was.not_called()
+        end)
+
+        it("prints important warnings in debug mode even with verbose debug output disabled", function()
+            Questie.db.profile.debugEnabled = true
+            Questie.db.profile.debugEnabledPrint = false
+            Questie.db.profile.debugLevel = 0
+
+            Questie.Warning("Missing objective data for quest ", 42, " ", "Wolf")
+
+            assert.spy(Questie.Print).was.called_with(Questie, "|cffffff00[WARNING]|r",
+                "Missing objective data for quest ", 42, " ", "Wolf")
+        end)
+    end)
+
+    describe("Forever tracker lifecycle", function()
+        local originalForever
+        local originalShowWatchFrame
+        local originalHideWatchFrame
+        local originalExpansion
+        local originalProfile
+        local expansions
+
+        before_each(function()
+            originalForever = Questie.IsForever
+            originalShowWatchFrame = QuestieCompat.ShowWatchFrame
+            originalHideWatchFrame = QuestieCompat.HideWatchFrame
+            originalProfile = Questie.db.profile
+            expansions = QuestieLoader:ImportModule("Expansions")
+            originalExpansion = expansions.Current
+            Questie.IsForever = true
+            expansions.Current = expansions.Era
+            Questie.db.profile = {trackerEnabled = true}
+            QuestieCompat.HideWatchFrame = spy.new(function() end)
+            QuestieCompat.ShowWatchFrame = spy.new(function() end)
+            dofile("Questie.lua")
+        end)
+
+        after_each(function()
+            Questie.IsForever = originalForever
+            QuestieCompat.ShowWatchFrame = originalShowWatchFrame
+            QuestieCompat.HideWatchFrame = originalHideWatchFrame
+            Questie.db.profile = originalProfile
+            expansions.Current = originalExpansion
+        end)
+
+        it("releases and reacquires the modern tracker despite using Era content", function()
+            Questie:OnDisable()
+            assert.spy(QuestieCompat.ShowWatchFrame).was.called(1)
+
+            Questie:OnEnable()
+            assert.spy(QuestieCompat.HideWatchFrame).was.called(1)
+        end)
+
+        it("should hide the watch frame when the legacy Blizzard timer setting is true", function()
+            Questie.db.profile.showBlizzardQuestTimer = true
+
+            Questie:OnEnable()
+
+            assert.spy(QuestieCompat.HideWatchFrame).was.called(1)
+        end)
+    end)
+
+    describe("RefreshConfig", function()
+        it("redraws waypoint lines with the new profile's settings", function()
+            local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+            local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+            local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+            local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
+            local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
+            local originals = {QuestieQuest.SmoothReset, TrackerBaseFrame.OnProfileChange, CommsVisibility.ScheduleSnapshot,
+                WaypointRenderer.RedrawAll, QuestieWaypoints.Refresh}
+            finally(function()
+                QuestieQuest.SmoothReset, TrackerBaseFrame.OnProfileChange = originals[1], originals[2]
+                CommsVisibility.ScheduleSnapshot, WaypointRenderer.RedrawAll = originals[3], originals[4]
+                QuestieWaypoints.Refresh = originals[5]
+            end)
+            QuestieQuest.SmoothReset = function() end
+            TrackerBaseFrame.OnProfileChange = function() end
+            CommsVisibility.ScheduleSnapshot = function() end
+            WaypointRenderer.RedrawAll = spy.new(function() end)
+            QuestieWaypoints.Refresh = spy.new(function() end)
+            dofile("Questie.lua")
+            Questie.SetIcons = function() end
+
+            Questie:RefreshConfig("OnProfileChanged")
+
+            assert.spy(WaypointRenderer.RedrawAll).was.called(1)
+            assert.spy(QuestieWaypoints.Refresh).was.called(1)
+        end)
     end)
 
     describe("Colorize", function()
+        before_each(function()
+            dofile("Questie.lua")
+        end)
         it("should preserve named color output", function()
             local expectedColors = {
                 red = "|cFFff0000Text|r",
@@ -66,6 +365,10 @@ describe("Questie", function()
             lime = {108 / 255, 227 / 255, 20 / 255},
             pvpRed = {227 / 255, 86 / 255, 57 / 255},
         }
+
+        before_each(function()
+            dofile("Questie.lua")
+        end)
 
         local function _AssertRGB(expected, r, g, b)
             assert.are_same(expected[1], r)

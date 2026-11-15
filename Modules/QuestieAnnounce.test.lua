@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local stub = require("luassert.stub")
 
 describe("QuestieAnnounce", function()
     ---@type QuestieAnnounce
@@ -6,6 +7,7 @@ describe("QuestieAnnounce", function()
 
     ---@type QuestieLink
     local QuestieLink
+    local getItemInfoMock, addFilterMock
 
     before_each(function()
         _G.SendChatMessage = spy.new(function() end)
@@ -21,23 +23,181 @@ describe("QuestieAnnounce", function()
         }
 
         QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+        addFilterMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "AddMessageEventFilter")
+        getItemInfoMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "GetItemInfo")
 
         dofile("Localization/l10n.lua")
         dofile("Modules/QuestieAnnounce.lua")
         QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
     end)
 
+    after_each(function()
+        getItemInfoMock:revert()
+        addFilterMock:revert()
+    end)
+
+    it("registers the logo filter for group chat", function()
+        QuestieAnnounce:InitializeLogoFilter()
+
+        assert.spy(addFilterMock).was.called(6)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_PARTY", QuestieAnnounce.LogoFilter)
+        assert.spy(addFilterMock).was.called_with("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestieAnnounce.LogoFilter)
+    end)
+
+    it("should announce a quest-starting item using its item hyperlink", function()
+        _G.IsInGroup = function() return true end
+        Questie.db.profile.questAnnounceItems = true
+        QuestieLink.GetNativeQuestLinkStringById = function() return "[The Quest]" end
+        getItemInfoMock.returns("A Letter", "|Hitem:123|h[A Letter]|h")
+
+        local announced = QuestieAnnounce:AnnounceQuestItemLootedToChannel(1, 123)
+
+        assert.is_true(announced)
+        assert.spy(getItemInfoMock).was.called_with(123)
+        assert.spy(_G.SendChatMessage).was.called_with(
+            "{rt1} Questie: Picked up |Hitem:123|h[A Letter]|h which starts [The Quest]!", "INSTANCE_CHAT")
+    end)
+
+    it("should announce a quest-starting item with a fallback when the quest link is unavailable", function()
+        _G.IsInGroup = function() return true end
+        Questie.db.profile.questAnnounceItems = true
+        QuestieLink.GetNativeQuestLinkStringById = function() return nil end
+        getItemInfoMock.returns("A Letter", "|Hitem:123|h[A Letter]|h")
+
+        QuestieAnnounce:AnnounceQuestItemLootedToChannel(91899, 123)
+
+        assert.spy(_G.SendChatMessage).was.called_with(
+            "{rt1} Questie: Picked up |Hitem:123|h[A Letter]|h which starts no quest name!", "INSTANCE_CHAT")
+    end)
+
+    it("should print a fallback for breadcrumb quests missing from the database", function()
+        QuestieLink.GetQuestHyperLink = function() return nil end
+        Questie.Print = spy.new(function() end)
+
+        QuestieAnnounce.IncompleteBreadcrumbQuest(91899, 91898)
+
+        assert.spy(Questie.Print).was.called_with(Questie,
+            "You have accepted no quest name without completing its breadcrumb quest no quest name")
+    end)
+
+    describe("ObjectiveChanged", function()
+        it("announces completion when native progress text changes", function()
+            _G.IsInGroup = function() return true end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "[The Quest]" end
+
+            QuestieAnnounce:ObjectiveChanged(1, 3, "2/5 Windstone Cluster", 2, 5)
+            assert.spy(_G.SendChatMessage).was.not_called()
+            QuestieAnnounce:ObjectiveChanged(1, 3, "5/5 Windstone Cluster", 5, 5)
+
+            assert.spy(_G.SendChatMessage).was.called(1)
+            assert.spy(_G.SendChatMessage).was.called_with(
+                "{rt1} Questie: 5/5 Windstone Cluster for [The Quest]!", "INSTANCE_CHAT")
+        end)
+
+        it("resolves the |4 grammar escape of frFR objective text before sending it to chat", function()
+            _G.IsInGroup = function() return true end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "[The Quest]" end
+
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Massacreur Mo'grosh : 3/4 |4personnage tué:personnages tués;", 3, 4)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Massacreur Mo'grosh : 4/4 |4personnage tué:personnages tués;", 4, 4)
+
+            assert.spy(_G.SendChatMessage).was.called_with(
+                "{rt1} Questie: Massacreur Mo'grosh : 4/4 personnages tués for [The Quest]!", "INSTANCE_CHAT")
+        end)
+
+        it("uses the singular form of the |4 grammar escape for a count of 1", function()
+            QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
+
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Défias : 0/1 |4personnage tué:personnages tués;", 0, 1)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Défias : 1/1 |4personnage tué:personnages tués;", 1, 1)
+
+            assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called_with(QuestieAnnounce, 1, "Défias : 1/1 personnage tué")
+        end)
+
+        it("picks the right form of a three-form |4 grammar escape", function()
+            QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
+
+            for questId, case in ipairs({{count = 21, form = "яблоко"}, {count = 3, form = "яблока"}, {count = 5, form = "яблок"}, {count = 12, form = "яблок"}}) do
+                QuestieAnnounce:ObjectiveChanged(questId, 1, "0/" .. case.count .. " |4яблоко:яблока:яблок;", 0, case.count)
+                QuestieAnnounce:ObjectiveChanged(questId, 1, case.count .. "/" .. case.count .. " |4яблоко:яблока:яблок;", case.count, case.count)
+                assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called_with(QuestieAnnounce, questId, case.count .. "/" .. case.count .. " " .. case.form)
+            end
+        end)
+
+        it("tracks identical wording independently across quests and native indices", function()
+            QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Target: 0/1", 0, 1)
+            QuestieAnnounce:ObjectiveChanged(1, 3, "Target: 0/1", 0, 1)
+            QuestieAnnounce:ObjectiveChanged(2, 1, "Target: 0/1", 0, 1)
+
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Target: 1/1", 1, 1)
+            QuestieAnnounce:ObjectiveChanged(1, 3, "Target: 1/1", 1, 1)
+            QuestieAnnounce:ObjectiveChanged(2, 1, "Target: 1/1", 1, 1)
+
+            assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called(3)
+            assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called_with(QuestieAnnounce, 1, "Target: 1/1")
+            assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called_with(QuestieAnnounce, 2, "Target: 1/1")
+        end)
+
+        it("does not announce an objective first observed complete", function()
+            QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
+
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Target: 1/1", 1, 1)
+
+            assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.not_called()
+        end)
+
+        it("retains the once-announced policy even if wording or counts change again", function()
+            QuestieAnnounce.AnnounceObjectiveToChannel = spy.new(function() end)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Target: 0/1", 0, 1)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Target: 1/1", 1, 1)
+
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Target: 1/1", 1, 1)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Updated instruction: 0/1", 0, 1)
+            QuestieAnnounce:ObjectiveChanged(1, 1, "Updated instruction: 1/1", 1, 1)
+
+            assert.spy(QuestieAnnounce.AnnounceObjectiveToChannel).was.called(1)
+        end)
+    end)
+
     describe("AnnounceObjectiveToChannel", function()
+        local nativeTexts = {
+            {name = "Classic counter placement", text = "Wolf slain: 5/5"},
+            {name = "localized wording and punctuation", text = "5/5 烈风已摧毁。"},
+            {name = "instructions without a counter", text = "Use Walk on Air"},
+        }
+        for _, case in ipairs(nativeTexts) do
+            it("preserves " .. case.name .. " in native announcement text", function()
+                _G.IsInGroup = function() return true end
+                QuestieLink.GetNativeQuestLinkStringById = function() return "[The Quest]" end
+
+                QuestieAnnounce:AnnounceObjectiveToChannel(1, case.text)
+
+                assert.spy(_G.SendChatMessage).was.called_with(
+                    "{rt1} Questie: " .. case.text .. " for [The Quest]!", "INSTANCE_CHAT")
+            end)
+        end
+
+        it("should announce with a fallback when the quest link is unavailable", function()
+            _G.IsInGroup = function() return true end
+            QuestieLink.GetNativeQuestLinkStringById = function() return nil end
+
+            QuestieAnnounce:AnnounceObjectiveToChannel(91899, "1/1 Crate")
+
+            assert.spy(_G.SendChatMessage).was.called_with(
+                "{rt1} Questie: 1/1 Crate for no quest name!", "INSTANCE_CHAT")
+        end)
+
         it("should not announce when questAnnounceObjectives is disabled", function()
             Questie.db.profile.questAnnounceObjectives = false
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill goblins", "1/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "1/10 Kill goblins")
 
             assert.spy(_G.SendChatMessage).was.not_called()
         end)
 
         it("should not announce when not in the correct channel", function()
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill ogres", "1/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "1/10 Kill ogres")
 
             assert.spy(_G.SendChatMessage).was.not_called()
         end)
@@ -50,18 +210,18 @@ describe("QuestieAnnounce", function()
                 end
                 return true
             end
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "1/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "1/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.called_with("{rt1} Questie: 1/10 Kill wolves for |cff...questLink|r!", "PARTY")
         end)
 
         it("should announce to instance chat when in an instance group", function()
             _G.IsInGroup = function() return true end
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "2/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "2/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.called_with("{rt1} Questie: 2/10 Kill wolves for |cff...questLink|r!", "INSTANCE_CHAT")
         end)
@@ -76,11 +236,11 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "disabled"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "3/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "3/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "3/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
@@ -89,11 +249,11 @@ describe("QuestieAnnounce", function()
         it("should print locally when questAnnounceLocally is true and channel is disabled and not in a group", function()
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "disabled"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "4/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "4/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "4/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
@@ -109,11 +269,11 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "5/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "5/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.called_with("{rt1} Questie: 5/10 Kill wolves for |cff...questLink|r!", "PARTY")
             assert.spy(Questie.Print).was.called_with(Questie, "5/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
@@ -131,7 +291,7 @@ describe("QuestieAnnounce", function()
             Questie.db.profile.questAnnounceChannel = "disabled"
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "6/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "6/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.not_called()
@@ -144,7 +304,7 @@ describe("QuestieAnnounce", function()
             Questie.db.profile.questieShutUp = true
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "7/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "7/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.not_called()
@@ -161,11 +321,11 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "raid"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "8/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "8/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "8/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
@@ -176,11 +336,11 @@ describe("QuestieAnnounce", function()
             _G.IsInGroup = function() return true end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "9/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "9/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.called_with(Questie, "9/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
@@ -191,10 +351,10 @@ describe("QuestieAnnounce", function()
             _G.IsInGroup = function() return true end
             Questie.db.profile.questAnnounceLocally = false
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "10/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "10/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.not_called()
@@ -211,10 +371,10 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = false
             Questie.db.profile.questAnnounceChannel = "raid"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "11/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "11/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.not_called()
             assert.spy(Questie.Print).was.not_called()
@@ -225,11 +385,11 @@ describe("QuestieAnnounce", function()
             _G.IsInGroup = function() return true end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "raid"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "12/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "12/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.called_with("{rt1} Questie: 12/10 Kill wolves for |cff...questLink|r!", "RAID")
             assert.spy(Questie.Print).was.called_with(Questie, "12/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
@@ -245,11 +405,11 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "|cff...questLink|r" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "|cff...questLink|r" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "13/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "13/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.called_with("{rt1} Questie: 13/10 Kill wolves for |cff...questLink|r!", "PARTY")
             assert.spy(Questie.Print).was.called_with(Questie, "13/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")
@@ -265,11 +425,11 @@ describe("QuestieAnnounce", function()
             end
             Questie.db.profile.questAnnounceLocally = true
             Questie.db.profile.questAnnounceChannel = "party"
-            QuestieLink.GetQuestLinkStringById = function() return "plain quest link" end
+            QuestieLink.GetNativeQuestLinkStringById = function() return "plain quest link" end
             QuestieLink.GetQuestHyperLink = function() return "|Hquestie:1:guid|h[Quest Name]|h" end
             Questie.Print = spy.new(function() end)
 
-            QuestieAnnounce:AnnounceObjectiveToChannel(1, "Kill wolves", "14/10")
+            QuestieAnnounce:AnnounceObjectiveToChannel(1, "14/10 Kill wolves")
 
             assert.spy(_G.SendChatMessage).was.called_with("{rt1} Questie: 14/10 Kill wolves for plain quest link!", "PARTY")
             assert.spy(Questie.Print).was.called_with(Questie, "14/10 Kill wolves for |Hquestie:1:guid|h[Quest Name]|h!")

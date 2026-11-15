@@ -4,13 +4,45 @@ describe("TrackerQuestTimers", function()
 
     ---@type TrackerQuestTimers
     local TrackerQuestTimers
+    local savedGlobals
+    local globalNames = {
+        "C_QuestLog", "GetQuestLogIndexByID", "GetQuestTimers", "GetQuestLogSelection",
+        "SelectQuestLogEntry", "GetQuestLogTimeLeft", "SecondsToTime",
+    }
 
     before_each(function()
+        savedGlobals = {}
+        for _, name in ipairs(globalNames) do
+            savedGlobals[name] = _G[name]
+        end
+        _G.C_QuestLog = {}
         dofile("Modules/Tracker/TrackerQuestTimers.lua")
         TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
     end)
 
+    after_each(function()
+        for _, name in ipairs(globalNames) do
+            _G[name] = savedGlobals[name]
+        end
+    end)
+
     describe("GetRemainingTimeByQuestId", function()
+        it("matches modern timer records by quest ID without changing quest-log selection", function()
+            C_QuestLog.GetQuestTimers = function()
+                return {{questID = 999, questTimer = 12}, {questID = 33, questTimer = 81}}
+            end
+            _G.SecondsToTime = spy.new(function() return "1 Min 21 Sec" end)
+            _G.SelectQuestLogEntry = spy.new(function() end)
+
+            local text, seconds = TrackerQuestTimers:GetRemainingTimeByQuestId(33)
+
+            assert.are.equal("1 Min 21 Sec", text)
+            assert.are.equal(81, seconds)
+            assert.spy(SecondsToTime).was.called_with(81, false, false)
+            assert.spy(SelectQuestLogEntry).was.not_called()
+            assert.is_nil(TrackerQuestTimers:GetRemainingTimeByQuestId(783))
+        end)
+
         it("should return nil if questLogIndex is nil", function()
             _G.GetQuestLogIndexByID = function()
                 return nil
@@ -79,6 +111,39 @@ describe("TrackerQuestTimers", function()
 
             assert.spy(_G.SelectQuestLogEntry).was.called_with(123)
             assert.spy(_G.SelectQuestLogEntry).was.called_with(456)
+        end)
+    end)
+
+    describe("UpdateTimerFrame", function()
+        local frame
+
+        before_each(function()
+            local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            QuestieTracker.disableHooks = nil
+            Questie.db.profile.trackerEnabled = true
+            Questie.db.char.isTrackerExpanded = true
+            local timers = {{questID = 1, questTimer = 1}}
+            _G.C_QuestLog = {GetQuestTimers = function() return timers end}
+            _G.SecondsToTime = function() return "1 Sec" end
+            frame = {label = {activeTimer = true, SetText = spy.new(function() end), SetFont = function() end}}
+            TrackerQuestTimers:UpdateAndGetRemainingTime({Id = 1}, frame, false)
+            timers[1] = nil
+        end)
+
+        it("should clear the label and retire the timer when it expired", function()
+            TrackerQuestTimers:UpdateTimerFrame()
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.spy(frame.label.SetText).was.called(1)
+            assert.spy(frame.label.SetText).was.called_with(frame.label, "")
+        end)
+
+        it("should not touch a label whose line was reused", function()
+            frame.label.activeTimer = nil
+
+            TrackerQuestTimers:UpdateTimerFrame()
+
+            assert.spy(frame.label.SetText).was_not.called()
         end)
     end)
 end)

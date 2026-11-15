@@ -4,7 +4,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local eventsLocales = {
-    ["The '%s' world event is active!"] = {
+    ["The \"%s\" world event is active!"] = {
         ["enUS"] = true,
         ["deDE"] = "Das '%s' Feiertag-Event ist aktiv!",
         ["esES"] = "¡El evento del mundo '%s' está activo!",
@@ -13,7 +13,7 @@ local eventsLocales = {
         ["koKR"] = "월드 이벤트 '%s' 활성화",
         ["ptBR"] = "O evento mundial '%s' está ativo!",
         ["ruRU"] = "Игровое событие '%s' активно!",
-        ["zhCN"] = "世界任务'%s'已开始！",
+        ["zhCN"] = "世界事件'%s'已开始！",
         ["zhTW"] = "世界事件'%s'已開始！",
     },
     ["The Darkmoon Faire is up in %s!"] = {
@@ -46,7 +46,7 @@ local eventsLocales = {
         ["esES"] = "Festival Lunar",
         ["esMX"] = "Festival Lunar",
         ["frFR"] = "Fête lunaire",
-        ["koKR"] = (Expansions.Current == Expansions.Era and "설날") or "달의 축제",
+        ["koKR"] = (Expansions:IsEra() and "설날") or "달의 축제",
         ["ptBR"] = "Festival da Lua",
         ["ruRU"] = "Лунный фестиваль",
         ["zhCN"] = "新年",
@@ -98,7 +98,7 @@ local eventsLocales = {
         ["ptBR"] = "Solstício",
         ["ruRU"] = "Огненный солнцеворот",
         ["zhCN"] = "仲夏",
-        ["zhTW"] = (Expansions.Current == Expansions.Era and "仲夏") or "仲夏節",
+        ["zhTW"] = (Expansions:IsEra() and "仲夏") or "仲夏節",
     },
     ["Brewfest"] = {
         ["enUS"] = true,
@@ -339,6 +339,30 @@ local eventsLocales = {
         ["ruRU"] = true,
         ["zhCN"] = "泰坦重铸服务器",
         ["zhTW"] = true,
+    },
+    ["Pirates' Day"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Piratentag",
+        ["esES"] = "Día de los Piratas",
+        ["esMX"] = "Día de los Piratas",
+        ["frFR"] = "Jour des pirates",
+        ["koKR"] = "해적의 날",
+        ["ptBR"] = "Dia dos Piratas",
+        ["ruRU"] = "День пирата",
+        ["zhCN"] = "海盗日",
+        ["zhTW"] = "海盜節",
+    },
+    ["Camping"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Lager aufschlagen",
+        ["esES"] = "Acampando",
+        ["esMX"] = "Campamento",
+        ["frFR"] = "Campement",
+        ["koKR"] = "야영 중",
+        ["ptBR"] = "Acampamento",
+        ["ruRU"] = "Разбить лагерь",
+        ["zhCN"] = "露营",
+        ["zhTW"] = "紮營",
     },
 }
 

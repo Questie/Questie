@@ -203,31 +203,6 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，已完成的成就目標將自動從Questie追蹤器中移除",
     },
     ---------------------------------------------------------
-    ["Show Blizzard Timer"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Blizzard Timer anzeigen",
-        ["esES"] = "Mostrar temporizador de Blizzard",
-        ["esMX"] = "Mostrar temporizador de Blizzard",
-        ["frFR"] = "Chronomètre par défaut",
-        ["koKR"] = "블리자드 타이머 표시",
-        ["ptBR"] = "Mostrar temporizador de Blizzard",
-        ["ruRU"] = "Таймер Blizzard",
-        ["zhCN"] = "显示暴雪计时器",
-        ["zhTW"] = "顯示內建任務計時器",
-    },
-    ["If checked, the default Blizzard Timer Frame for Quests will be shown instead of being embedded inside the Questie Tracker."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Wenn diese Option aktiviert ist, wird der Standard-Blizzard-Timer-Frame für Quests angezeigt, anstatt in den Tracker eingebettet zu sein.",
-        ["esES"] = "Si está seleccionado, se mostrará el marco del temporizador de Blizzard para las misiones en lugar de estar incorporado dentro del rastreador.",
-        ["esMX"] = "Si está seleccionado, se mostrará el marco del temporizador de Blizzard para las misiones en lugar de estar incorporado dentro del rastreador.",
-        ["frFR"] = "Si cette option est cochée, le cadre du chronomètre pour les quêtes est affiché au lieu d’être intégré au suivi.",
-        ["koKR"] = "이 옵션을 선택하면 추적기에 내장 된 대신 퀘스트에 대한 기본 블리자드 타이머 프레임이 표시됩니다.",
-        ["ptBR"] = "Se marcado, o quadro do temporizador de Blizzard para missões será mostrado em vez de incorporado no rastreador.",
-        ["ruRU"] = "Когда включено, будет отображаться стандартный таймер Blizzard вместо встраивания его в трекер",
-        ["zhCN"] = "启用时，将显示暴雪默认的任务计时框架，而非将其嵌入Questie追踪器内",
-        ["zhTW"] = "啟用時，會顯示遊戲內建的任務計時器框架，而不會內嵌在任務清單裡面",
-    },
-    ---------------------------------------------------------
     ["Enable Tracker Header"] = {
         ["enUS"] = true,
         ["deDE"] = "Tracker-Kopfzeile aktivieren",
@@ -328,29 +303,29 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，進入戰鬥後會自動將任務清單最小化",
     },
     ---------------------------------------------------------
-    ["Minimize In Dungeons"] = {
+    ["Minimize In Instances"] = {
         ["enUS"] = true,
         ["deDE"] = "In Instanzen minimieren",
-        ["esES"] = "Minimizar en mazmorras",
-        ["esMX"] = "Minimizar en calabozos",
-        ["frFR"] = "Réduire dans les donjons",
-        ["koKR"] = "던전 내 최소화",
-        ["ptBR"] = "Minimizar em masmorras",
-        ["ruRU"] = "Свернуть в подземельях",
-        ["zhCN"] = "地下城时最小化",
-        ["zhTW"] = "地下城中最小化",
+        ["esES"] = "Minimizar en estancias",
+        ["esMX"] = "Minimizar en estancias",
+        ["frFR"] = "Réduire dans les instances",
+        ["koKR"] = "인스턴스 내 최소화",
+        ["ptBR"] = "Minimizar em instâncias",
+        ["ruRU"] = "Свернуть в инстансах",
+        ["zhCN"] = "副本中最小化",
+        ["zhTW"] = "副本中最小化",
     },
-    ["If checked, the Questie Tracker will automatically be minimized when entering a dungeon."] = {
+    ["If checked, the Questie Tracker will automatically be minimized when entering a dungeon, raid, or battleground."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch minimiert.",
-        ["esES"] = "Si está seleccionado, el rastreador se minimizará automáticamente al entrar a una mazmorra.",
-        ["esMX"] = "Si está seleccionado, el rastreador se minimizará automáticamente al entrar a un calabozo.",
-        ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement réduit lors de l'entrée dans un donjon.",
-        ["koKR"] = "이 옵션을 선택하면 던전으로 들어갈 때 Questie 추적기가 자동으로 최소화됩니다.",
-        ["ptBR"] = "Se marcado, o rastreador será minimizado automaticamente ao entrar em uma masmorra.",
-        ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически свернут",
-        ["zhCN"] = "启用时，进入地下城时追踪器将自动最小化",
-        ["zhTW"] = "啟用時，進入地下城後會自動將任務清單最小化",
+        ["deDE"] = "Wenn aktiviert, wird der Tracker beim Betreten eines Dungeons, Schlachtzugs oder Schlachtfelds automatisch minimiert.",
+        ["esES"] = "Si está seleccionado, el rastreador se minimizará automáticamente al entrar en una mazmorra, banda o campo de batalla.",
+        ["esMX"] = "Si está seleccionado, el rastreador se minimizará automáticamente al entrar en un calabozo, banda o campo de batalla.",
+        ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement réduit lors de l'entrée dans un donjon, un raid ou un champ de bataille.",
+        ["koKR"] = "이 옵션을 선택하면 던전, 공격대 또는 전장에 들어갈 때 Questie 추적기가 자동으로 최소화됩니다.",
+        ["ptBR"] = "Se marcado, o rastreador será minimizado automaticamente ao entrar em uma masmorra, raide ou campo de batalha.",
+        ["ruRU"] = "Когда включено, трекер Questie будет автоматически свернут при входе в подземелье, рейд или на поле боя",
+        ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动最小化",
+        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動最小化",
     },
     ---------------------------------------------------------
     ["Hide In Combat"] = {
@@ -378,29 +353,29 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，進入戰鬥後會自動將任務清單隱藏",
     },
     ---------------------------------------------------------
-    ["Hide In Dungeons"] = {
+    ["Hide In Instances"] = {
         ["enUS"] = true,
         ["deDE"] = "In Instanzen ausblenden",
-        ["esES"] = "Ocultar en mazmorras",
-        ["esMX"] = "Ocultar en calabozos",
-        ["frFR"] = "Cacher dans les donjons",
-        ["koKR"] = "던전에서 숨기기",
-        ["ptBR"] = "Ocultar em masmorras",
-        ["ruRU"] = "Скрывать в подземельях",
-        ["zhCN"] = "在地下城中隐藏",
-        ["zhTW"] = "在地下城中隱藏",
+        ["esES"] = "Ocultar en estancias",
+        ["esMX"] = "Ocultar en estancias",
+        ["frFR"] = "Cacher dans les instances",
+        ["koKR"] = "인스턴스에서 숨기기",
+        ["ptBR"] = "Ocultar em instâncias",
+        ["ruRU"] = "Скрывать в инстансах",
+        ["zhCN"] = "在副本中隐藏",
+        ["zhTW"] = "在副本中隱藏",
     },
-    ["If checked, the Questie Tracker will automatically be hidden when entering a dungeon."] = {
+    ["If checked, the Questie Tracker will automatically be hidden when entering a dungeon, raid, or battleground."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch ausgeblendet.",
-        ["esES"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar a una mazmorra.",
-        ["esMX"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar a un calabozo.",
-        ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement caché lors de l’entrée dans un donjon.",
-        ["koKR"] = "이 옵션을 선택하면 던전에 들어갈 때 Questie 추적기가 자동으로 숨겨집니다.",
-        ["ptBR"] = "Se marcado, o rastreador será automaticamente ocultado ao entrar em uma masmorra.",
-        ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически скрыт",
-        ["zhCN"] = "启用时，进入地下城时追踪器将自动隐藏",
-        ["zhTW"] = "啟用時，進入地下城後會自動將任務清單隱藏",
+        ["deDE"] = "Wenn aktiviert, wird der Tracker beim Betreten eines Dungeons, Schlachtzugs oder Schlachtfelds automatisch ausgeblendet.",
+        ["esES"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en una mazmorra, banda o campo de batalla.",
+        ["esMX"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en un calabozo, banda o campo de batalla.",
+        ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement caché lors de l'entrée dans un donjon, un raid ou un champ de bataille.",
+        ["koKR"] = "이 옵션을 선택하면 던전, 공격대 또는 전장에 들어갈 때 Questie 추적기가 자동으로 숨겨집니다.",
+        ["ptBR"] = "Se marcado, o rastreador será automaticamente ocultado ao entrar em uma masmorra, raide ou campo de batalha.",
+        ["ruRU"] = "Когда включено, трекер Questie будет автоматически скрыт при входе в подземелье, рейд или на поле боя",
+        ["zhCN"] = "启用时，进入地下城、团队副本或战场时，追踪器将自动隐藏",
+        ["zhTW"] = "啟用時，進入地下城、團隊副本或戰場時，任務清單將自動隱藏",
     },
     ---------------------------------------------------------
     ["Hide In Pet Battles"] = {
@@ -417,15 +392,15 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Questie Tracker will automatically be hidden when entering a pet battle."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Haustierkampfs automatisch ausgeblendet.",
+        ["deDE"] = "Wenn aktiviert, wird der Tracker beim Betreten eines Haustierkampfs automatisch ausgeblendet.",
         ["esES"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en un duelo de mascotas.",
         ["esMX"] = "Si está seleccionado, el rastreador se ocultará automáticamente al entrar en un duelo de mascotas.",
         ["frFR"] = "Si cette option est cochée, le suivi sera automatiquement caché lors d’un combat de mascottes.",
         ["koKR"] = "이 옵션을 선택하면 펫 배틀을 시작할 때 Questie 추적기가 자동으로 숨겨집니다.",
         ["ptBR"] = "Se marcado, o rastreador será automaticamente ocultado ao entrar em uma batalha de mascotes.",
-        ["ruRU"] = "Когда включено, трекер Questie будет автоматически скрываться при входе в битву питомцев",
-        ["zhCN"] = "启用时，进入宠物对战时Questie追踪器会自动隐藏",
-        ["zhTW"] = "啟用時，進入寵物對戰時，Questie追蹤器會自動隱藏",
+        ["ruRU"] = "Когда включено, трекер Questie будет автоматически скрыт при входе в битву питомцев",
+        ["zhCN"] = "启用时，进入宠物对战时，追踪器会自动隐藏",
+        ["zhTW"] = "啟用時，進入寵物對戰時，任務清單會自動隱藏",
     },
     ---------------------------------------------------------
     ["Fade Min/Max Buttons"] = {
@@ -442,7 +417,7 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Minimize and Maximize Buttons will fade and become transparent when not in use."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Schaltflächen zum Minimieren und Maximieren von Quests ausgeblendet und transparent, wenn sie nicht verwendet werden.",
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Buttons zum Minimieren und Maximieren von Quests ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está seleccionado, los botones minimizar y maximizar se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["esMX"] = "Si está seleccionado, los botones minimizar y maximizar se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["frFR"] = "Si cette option est cochée, les boutons min. et max. s’estompent et deviennent transparents lorsqu’ils ne sont pas utilisés.",
@@ -467,7 +442,7 @@ local trackerOptionsLocales = {
     },
     ["If checked, the Quest Item Buttons will fade and become transparent when not in use."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Schaltflächen für die Questgegenstände ausgeblendet und transparent, wenn sie nicht verwendet werden.",
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Buttons für die Quest-Gegenstände ausgeblendet und transparent, wenn sie nicht verwendet werden.",
         ["esES"] = "Si está seleccionado, los botones de objetos de misión se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["esMX"] = "Si está seleccionado, los botones de objetos de misión se desvanecerán y se volverán transparentes cuando no estén en uso.",
         ["frFR"] = "Si cette option est cochée, les boutons des objets de quête s’estompent et deviennent transparents lorsqu’ils ne sont pas utilisés.",
@@ -476,6 +451,102 @@ local trackerOptionsLocales = {
         ["ruRU"] = "Когда включено, кнопки предметов заданий исчезают и становятся прозрачными при неиспользовании",
         ["zhCN"] = "启用时，任务物品按钮在未使用时会淡化并变得透明",
         ["zhTW"] = "啟用時，任務物品按鈕在未使用時會淡化並變得透明",
+    },
+    ["Show Quest Focus Buttons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest-Fokus-Buttons anzeigen",
+        ["esES"] = "Mostrar botones de enfoque de misión", -- AI 🤖
+        ["esMX"] = "Mostrar botones de enfoque de misión", -- AI 🤖
+        ["frFR"] = "Afficher les boutons de focalisation de quête", -- AI 🤖
+        ["koKR"] = "퀘스트 집중 버튼 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar botões de foco da missão", -- AI 🤖
+        ["ruRU"] = "Показывать кнопки фокуса задания", -- AI 🤖
+        ["zhCN"] = "显示任务聚焦按钮", -- AI 🤖
+        ["zhTW"] = "顯示任務聚焦按鈕", -- AI 🤖
+    },
+    ["If checked, a round button in front of each Quest lets you focus or unfocus the Quest on the map."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, kannst du mit einem runden Button vor jeder Quest die Quest auf der Karte fokussieren oder den Fokus aufheben.",
+        ["esES"] = "Si está seleccionado, un botón redondo delante de cada misión te permite enfocar o dejar de enfocar la misión en el mapa.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, un botón redondo delante de cada misión te permite enfocar o dejar de enfocar la misión en el mapa.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, un bouton rond devant chaque quête permet de focaliser ou de défocaliser la quête sur la carte.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 각 퀘스트 앞의 둥근 버튼으로 지도에서 퀘스트를 집중하거나 집중을 해제할 수 있습니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, um botão redondo na frente de cada missão permite focar ou desfocar a missão no mapa.", -- AI 🤖
+        ["ruRU"] = "Когда включено, круглая кнопка перед каждым заданием позволяет сфокусировать задание на карте или снять фокус.", -- AI 🤖
+        ["zhCN"] = "启用时，每个任务前的圆形按钮可让你在地图上聚焦或取消聚焦该任务。", -- AI 🤖
+        ["zhTW"] = "啟用時，每個任務前的圓形按鈕可讓你在地圖上聚焦或取消聚焦該任務。", -- AI 🤖
+    },
+    ["Show Play Buttons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Abspiel-Buttons anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar botones de reproducción", -- AI 🤖
+        ["esMX"] = "Mostrar botones de reproducción", -- AI 🤖
+        ["frFR"] = "Afficher les boutons de lecture", -- AI 🤖
+        ["koKR"] = "재생 버튼 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar botões de reprodução", -- AI 🤖
+        ["ruRU"] = "Показывать кнопки воспроизведения", -- AI 🤖
+        ["zhCN"] = "显示播放按钮", -- AI 🤖
+        ["zhTW"] = "顯示播放按鈕", -- AI 🤖
+    },
+    ["If checked, a button in front of each Quest plays its voice-over from VoiceOver or Spoken."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, spielt ein Button vor jeder Quest ihre Vertonung von VoiceOver oder Spoken ab.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, un botón delante de cada misión reproduce su locución de VoiceOver o Spoken.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, un botón delante de cada misión reproduce su locución de VoiceOver o Spoken.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, un bouton devant chaque quête lit son doublage vocal de VoiceOver ou Spoken.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 각 퀘스트 앞의 버튼으로 VoiceOver 또는 Spoken의 음성 더빙을 재생합니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, um botão na frente de cada missão reproduz sua narração do VoiceOver ou Spoken.", -- AI 🤖
+        ["ruRU"] = "Когда включено, кнопка перед каждым заданием воспроизводит его озвучку из VoiceOver или Spoken.", -- AI 🤖
+        ["zhCN"] = "启用时，每个任务前的按钮会播放来自 VoiceOver 或 Spoken 的任务配音。", -- AI 🤖
+        ["zhTW"] = "啟用時，每個任務前的按鈕會播放來自 VoiceOver 或 Spoken 的任務配音。", -- AI 🤖
+    },
+    ["Follow Blizzard Super Tracking"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Blizzard-Superverfolgung folgen", -- AI 🤖
+        ["esES"] = "Seguir el superseguimiento de Blizzard", -- AI 🤖
+        ["esMX"] = "Seguir el superseguimiento de Blizzard", -- AI 🤖
+        ["frFR"] = "Suivre le super-suivi de Blizzard", -- AI 🤖
+        ["koKR"] = "블리자드 슈퍼 추적 따르기", -- AI 🤖
+        ["ptBR"] = "Seguir o super rastreamento da Blizzard", -- AI 🤖
+        ["ruRU"] = "Следовать суперотслеживанию Blizzard", -- AI 🤖
+        ["zhCN"] = "跟随暴雪超级追踪", -- AI 🤖
+        ["zhTW"] = "跟隨暴雪超級追蹤", -- AI 🤖
+    },
+    ["If checked, the Quest Focus follows the quest that is super tracked by Blizzard, e.g. when accepting a quest or clicking it on the map."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, folgt der Quest-Fokus der von Blizzard superverfolgten Quest, z. B. beim Annehmen einer Quest oder beim Anklicken auf der Karte.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, el foco de misión sigue a la misión con superseguimiento de Blizzard, p. ej. al aceptar una misión o hacer clic en ella en el mapa.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, el foco de misión sigue a la misión con superseguimiento de Blizzard, p. ej. al aceptar una misión o hacer clic en ella en el mapa.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, le focus de quête suit la quête en super-suivi de Blizzard, par ex. lors de l'acceptation d'une quête ou d'un clic sur la carte.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 퀘스트를 수락하거나 지도에서 클릭할 때 블리자드가 슈퍼 추적하는 퀘스트를 퀘스트 포커스가 따라갑니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, o foco de missão segue a missão com super rastreamento da Blizzard, por ex. ao aceitar uma missão ou clicar nela no mapa.", -- AI 🤖
+        ["ruRU"] = "Когда включено, фокус задания следует за заданием, которое суперотслеживает Blizzard, например при принятии задания или щелчке по нему на карте.", -- AI 🤖
+        ["zhCN"] = "启用时，任务聚焦会跟随暴雪超级追踪的任务，例如接受任务或在地图上点击任务时。", -- AI 🤖
+        ["zhTW"] = "啟用時，任務聚焦會跟隨暴雪超級追蹤的任務，例如接受任務或在地圖上點擊任務時。", -- AI 🤖
+    },
+    ["Fade Quest Focus Buttons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest-Fokus-Buttons ausblenden",
+        ["esES"] = "Desvanecer botones de enfoque de misión", -- AI 🤖
+        ["esMX"] = "Desvanecer botones de enfoque de misión", -- AI 🤖
+        ["frFR"] = "Fondu des boutons de focalisation de quête", -- AI 🤖
+        ["koKR"] = "퀘스트 집중 버튼 페이드", -- AI 🤖
+        ["ptBR"] = "Desvanecer botões de foco da missão", -- AI 🤖
+        ["ruRU"] = "Скрывать кнопки фокуса задания", -- AI 🤖
+        ["zhCN"] = "淡化任务聚焦按钮", -- AI 🤖
+        ["zhTW"] = "淡出任務聚焦按鈕", -- AI 🤖
+    },
+    ["If checked, the Quest Focus Buttons will fade and become transparent when not in use."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, werden die Quest-Fokus-Buttons ausgeblendet und transparent, wenn sie nicht verwendet werden.",
+        ["esES"] = "Si está seleccionado, los botones de enfoque de misión se desvanecerán y se volverán transparentes cuando no estén en uso.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, los botones de enfoque de misión se desvanecerán y se volverán transparentes cuando no estén en uso.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, les boutons de focalisation de quête s’estompent et deviennent transparents lorsqu’ils ne sont pas utilisés.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 퀘스트 집중 버튼이 사용하지 않을 때 사라지고 투명해집니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, os botões de foco da missão desaparecerão e se tornarão transparentes quando não estiverem em uso.", -- AI 🤖
+        ["ruRU"] = "Когда включено, кнопки фокуса задания исчезают и становятся прозрачными при неиспользовании", -- AI 🤖
+        ["zhCN"] = "启用时，任务聚焦按钮在未使用时会淡化并变得透明", -- AI 🤖
+        ["zhTW"] = "啟用時，任務聚焦按鈕在未使用時會淡化並變得透明", -- AI 🤖
     },
     ---------------------------------------------------------
     ["Enable Background"] = {

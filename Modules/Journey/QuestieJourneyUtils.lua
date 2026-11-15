@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils")
 
@@ -9,9 +12,11 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local WrappedText = QuestieLoader:ImportModule("WrappedText")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type HandleSetHyperlink
+local HandleSetHyperlink = QuestieLoader:ImportModule("HandleSetHyperlink")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
-local GetItemIcon = C_Item.GetItemIconByID or GetItemIcon
+local GetItemInfo = QuestieCompat.GetItemInfo
+local GetItemIcon = QuestieCompat.GetItemIcon
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -56,7 +61,7 @@ function QuestieJourneyUtils:GetZoneName(id)
             return l10n.zoneLookup[category][id]
         end
     end
-    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[8]) do
+    for dungeonZoneId, dungeonName in pairs(l10n.zoneCategoryLookup[9]) do
         if dungeonZoneId == id then
             return dungeonName
         end
@@ -136,7 +141,7 @@ function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
     label:SetUserData('type', 'quest')
     label:SetUserData('name', quest.name)
     label:SetCallback("OnClick", function()
-        ItemRefTooltip:SetHyperlink("%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]")
+        HandleSetHyperlink.TryShowQuestTooltip("%|Hquestie:" .. questId .. ":.*%|h")
     end)
     label:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
     label:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)

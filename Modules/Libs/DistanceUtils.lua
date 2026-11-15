@@ -8,7 +8,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
 
 local _GetDistance
 local alreadyErroredZoneIds = {}
@@ -111,7 +112,8 @@ end
 ---@param quest Quest
 ---@return CoordPair, AreaId, string, number
 function DistanceUtils.GetNearestSpawnForQuest(quest)
-    if quest:IsComplete() == 1 then
+    local complete = quest:IsComplete()
+    if complete == 1 or (complete ~= -1 and quest.isComplete) then
         return DistanceUtils.GetNearestFinisherOrStarter(quest.Finisher)
     end
 

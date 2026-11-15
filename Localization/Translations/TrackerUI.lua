@@ -128,30 +128,6 @@ local trackerUILocales = {
         ["zhTW"] = "整合插件",
     },
     -- VoiceOver Integration
-    ["VoiceOver"] = {
-        ["enUS"] = true,
-        ["deDE"] = true,
-        ["esES"] = true,
-        ["esMX"] = true,
-        ["frFR"] = true,
-        ["koKR"] = true,
-        ["ptBR"] = true,
-        ["ruRU"] = true,
-        ["zhCN"] = true,
-        ["zhTW"] = true,
-    },
-    ["Hold shift to see PlayButtons"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Halte Shift gedrückt, um Play-Buttons zu sehen",
-        ["esES"] = "Manten presionada la tecla mayús para ver los PlayButtons",
-        ["esMX"] = "Manten presionada la tecla mayús para ver los PlayButtons",
-        ["frFR"] = "Maintenez la touche Maj enfoncée pour voir les PlayButtons",
-        ["koKR"] = "플레이 버튼을 보기 위해서는 쉬프트 키를 누르고 계세요",
-        ["ptBR"] = "Pressione Shift para ver os PlayButtons",
-        ["ruRU"] = "Зажмите Shift, чтобы увидеть PlayButtons",
-        ["zhCN"] = "按住 Shift 键查看播放按钮",
-        ["zhTW"] = "按住 Shift 顯示播放按鈕",
-    },
     -- TomTom Integration
     ["TomTom"] = {
         ["enUS"] = true,
@@ -177,6 +153,18 @@ local trackerUILocales = {
         ["zhCN"] = "Ctrl + 左键单击或右键单击任务标题",
         ["zhTW"] = "Ctrl+左鍵或右鍵點擊任務標題",
     },
+    ["Toggle Questie Tracker"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questie-Tracker zeigen/verstecken",
+        ["esES"] = "Mostrar/ocultar el rastreador de Questie",
+        ["esMX"] = "Mostrar/ocultar el rastreador de Questie",
+        ["frFR"] = "Afficher/cacher le suivi de quêtes de Questie",
+        ["koKR"] = "Questie 추적기 표시",
+        ["ptBR"] = "Mostrar/ocultar o rastreador do Questie",
+        ["ruRU"] = "Включить трекер Questie",
+        ["zhCN"] = "切换Questie追踪器",
+        ["zhTW"] = "切換Questie追蹤器",
+    },
     ---------------------------------------------------------
     -- Quest/Achievement Right Click Menu
     ["Focus Quest"] = {
@@ -190,18 +178,6 @@ local trackerUILocales = {
         ["ruRU"] = "Фокусировка на задании",
         ["zhCN"] = "关注任务",
         ["zhTW"] = "關注任務",
-    },
-    ["Focus Objective"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Questziel fokussieren",
-        ["esES"] = "Enfocar objetivo",
-        ["esMX"] = "Enfocar objetivo",
-        ["frFR"] = "Prioriser cet objectif",
-        ["koKR"] = "관심 목표",
-        ["ptBR"] = "Focar objetivo",
-        ["ruRU"] = "Фокусировка на цели",
-        ["zhCN"] = "关注目标",
-        ["zhTW"] = "關注目標",
     },
     ["Unfocus"] = {
         ["enUS"] = true,
@@ -218,7 +194,7 @@ local trackerUILocales = {
     -- "Set TomTom Target" is in the Tracker.lua inside the Translations/Options directory
     ["Minimize Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Suche minimieren",
+        ["deDE"] = "Quest minimieren",
         ["esES"] = "Minimizar misión",
         ["esMX"] = "Minimizar misión",
         ["frFR"] = "Minimiser la quête",
@@ -302,7 +278,7 @@ local trackerUILocales = {
     },
     ["Link Achievement to chat"] = {
         ["enUS"] = true,
-        ["deDE"] = "Verknüpfen Sie den Erfolg mit dem Chat",
+        ["deDE"] = "Erfolg in Chat verlinken",
         ["esES"] = "Vincular logro al chat",
         ["esMX"] = "Vincular logro al chat",
         ["frFR"] = "Lier la réussite au chat",
@@ -314,7 +290,7 @@ local trackerUILocales = {
     },
     ["Untrack Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Questfokussieren entfernen",
+        ["deDE"] = "Quest nicht mehr verfolgen",
         ["esES"] = "No rastrear misión",
         ["esMX"] = "No rastrear misión",
         ["frFR"] = "Annuler le suivi",
@@ -326,7 +302,7 @@ local trackerUILocales = {
     },
     ["Untrack Achievement"] = {
         ["enUS"] = true,
-        ["deDE"] = "Erfolg aufheben",
+        ["deDE"] = "Erfolg nicht mehr verfolgen",
         ["esES"] = "No rastrear logro",
         ["esMX"] = "No rastrear logro",
         ["frFR"] = "Annuler le suivi des réalisations",
@@ -338,7 +314,7 @@ local trackerUILocales = {
     },
     ["Abandon Quest"] = {
         ["enUS"] = true,
-        ["deDE"] = "Suche aufgeben",
+        ["deDE"] = "Quest abbrechen",
         ["esES"] = "Abandonar misión",
         ["esMX"] = "Abandonar misión",
         ["frFR"] = "Abandonner la quête",
@@ -400,6 +376,18 @@ local trackerUILocales = {
         ["ruRU"] = "Задание провалено!",
         ["zhCN"] = "任务失败！",
         ["zhTW"] = "任務失敗！",
+    },
+    ["Opening the quest log from Questie is disabled in controller mode. Open it with your controller instead."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Das Öffnen des Questlogs über Questie ist im Controller-Modus deaktiviert. Öffne es stattdessen mit deinem Controller.", -- AI 🤖
+        ["esES"] = "Abrir el registro de misiones desde Questie está desactivado en el modo mando. Ábrelo con tu mando en su lugar.", -- AI 🤖
+        ["esMX"] = "Abrir el registro de misiones desde Questie está desactivado en el modo de control. Ábrelo con tu control en su lugar.", -- AI 🤖
+        ["frFR"] = "L'ouverture du journal de quêtes depuis Questie est désactivée en mode manette. Ouvrez-le plutôt avec votre manette.", -- AI 🤖
+        ["koKR"] = "컨트롤러 모드에서는 Questie에서 퀘스트 로그를 여는 기능이 비활성 화됩니다. 대신 컨트롤러로 여세요.", -- AI 🤖
+        ["ptBR"] = "Abrir o diário de missões pelo Questie está desativado no modo controle. Abra-o com o seu controle.", -- AI 🤖
+        ["ruRU"] = "Открытие журнала заданий через Questie отключено в режиме контроллера. Откройте его с помощью контроллера.", -- AI 🤖
+        ["zhCN"] = "在手柄模式下，无法通过 Questie 打开任务日志。请改用手柄打开。", -- AI 🤖
+        ["zhTW"] = "在控制器模式下，無法透過 Questie開啟任務日誌。請改用控制器開 啟。", -- AI 🤖
     },
     ["Can't open Quest Log while in combat. Open it manually."] = {
         ["enUS"] = true,
@@ -496,18 +484,6 @@ local trackerUILocales = {
         ["ruRU"] = "Задания (По близости убыв.)",
         ["zhCN"] = "任务（按远近 反向）",
         ["zhTW"] = "任務（依遠近 反向）",
-    },
-    ["Blizzard Timer Active!"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Blizzard Timer aktiv!",
-        ["esES"] = "¡Temporizador de Blizzard activo!",
-        ["esMX"] = "¡Temporizador de Blizzard activo!",
-        ["frFR"] = "Chronomètre de Blizzard actif !",
-        ["koKR"] = "블리자드 타이머 활성화됨!",
-        ["ptBR"] = "Temporizador de Blizzard ativo!",
-        ["ruRU"] = "Таймер Blizzard активен!",
-        ["zhCN"] = "暴雪计时器启动！",
-        ["zhTW"] = "暴雪計時器啟動！",
     },
     ["Time's up!"] = {
         ["enUS"] = true,

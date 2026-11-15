@@ -6,6 +6,10 @@ local QuestDetailsFrame = QuestieLoader:CreateModule("QuestDetailsFrame")
 -------------------------
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieReputation
@@ -132,12 +136,39 @@ local function GetLevelDifficultyRanges(questLevel, questMinLevel)
 
     -- Gray Level based on level range.
     if (questLevel ~= -1) then
-        if (questLevel <= 5) then
-            gray =  questLevel + 5
-        elseif (questLevel <= 39) then
-            gray = (questLevel + math.ceil(questLevel / 10) + 5)
+        if Questie.IsClassic then
+            -- values observed on wowhead
+            if (questLevel <= 4) then
+                gray = questLevel + 5
+            elseif (questLevel <= 13) then
+                gray = questLevel + 6
+            elseif (questLevel <= 22) then
+                gray = questLevel + 7
+            elseif (questLevel <= 31) then
+                gray = questLevel + 8
+            elseif (questLevel <= 40) then
+                gray = questLevel + 9
+            elseif (questLevel <= 49) then
+                gray = questLevel + 10
+            elseif (questLevel <= 58) then
+                gray = questLevel + 11
+            else
+                gray = questLevel + 12
+            end
         else
-            gray = (questLevel + math.ceil(questLevel / 5) + 1)
+            -- values observed on TBC and MoP. Assuming Wotlk follows same values.
+            -- GetQuestGreenRange() returns 8 from 40-90
+            if (questLevel <= 4) then
+                gray = questLevel + 5
+            elseif (questLevel <= 13) then
+                gray = questLevel + 6
+            elseif (questLevel <= 22) then
+                gray = questLevel + 7
+            elseif (questLevel <= 31) then
+                gray = questLevel + 8
+            else
+                gray = questLevel + 9
+            end
         end
     end
 
@@ -230,6 +261,8 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
         for _, id in pairs(lookup) do
             id = math.abs(id)
             local link = AceGUI:Create("InteractiveLabel")
+            -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
+            link:SetFullWidth(true)
             local name = query(id, "name")
             local text
             if linkType == 'quest' then
@@ -244,7 +277,12 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
             link:SetUserData("id", id)
             link:SetUserData("type", linkType)
             link:SetUserData("name", name)
-            link:SetCallback("OnClick", function() end) -- No-op; could be used for navigation
+            link:SetCallback("OnClick", function()
+                QuestieJourneyUtils.HideJourneyTooltip()
+                -- Zone and faction details can be opened before the search widgets exist.
+                QuestieJourney.tabGroup:SelectTab("search")
+                QuestieSearchResults:SetSearch(linkType, id)
+            end)
             link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
             link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
             group:AddChild(link)
@@ -424,8 +462,19 @@ function QuestDetailsFrame:Draw(container, quest)
     end
 
     if QuestieDB.IsRepeatable(quest.Id) then
-        local repeatableLabel = CreateLabel(Questie:Colorize(l10n("Repeatable"), 'yellow'), true)
-        container:AddChild(repeatableLabel)
+        if QuestieDB.IsDailyQuest(quest.Id) then
+            local dailyLabel = CreateLabel(Questie:Colorize(l10n("Repeatable")..l10n(": "), 'yellow') .. l10n("Daily"), true)
+            container:AddChild(dailyLabel)
+        elseif QuestieDB.IsWeeklyQuest(quest.Id) then
+            local weeklyLabel = CreateLabel(Questie:Colorize(l10n("Repeatable")..l10n(": "), 'yellow') .. l10n("Weekly"), true)
+            container:AddChild(weeklyLabel)
+        elseif QuestieDB.IsMonthlyQuest(quest.Id) then
+            local monthlyLabel = CreateLabel(Questie:Colorize(l10n("Repeatable")..l10n(": "), 'yellow') .. l10n("Monthly"), true)
+            container:AddChild(monthlyLabel)
+        else
+            local repeatableLabel = CreateLabel(Questie:Colorize(l10n("Repeatable"), 'yellow'), true)
+            container:AddChild(repeatableLabel)
+        end
     end
 
     local eligibilityText, shouldShowDoableLabel = QuestieDB.IsDoableVerbose(quest.Id, false, true, true)
@@ -443,6 +492,27 @@ function QuestDetailsFrame:Draw(container, quest)
     if quest.preQuestGroup and next(quest.preQuestGroup) then
         QuestieJourneyUtils:Spacer(container)
         AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle)
+    end
+
+    local nextQuestInChain = QuestieDB.QueryQuestSingle(quest.Id, "nextQuestInChain")
+    if nextQuestInChain == 0 then nextQuestInChain = QuestieDB.QueryQuestSingle(quest.Id, "breadcrumbForQuestId") or 0 end
+    if nextQuestInChain and nextQuestInChain > 0 and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) then
+        local nextQuestIDs = {}
+        local visitedQuestIds = {}
+        while nextQuestInChain > 0 and (not visitedQuestIds[nextQuestInChain]) and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) do
+            visitedQuestIds[nextQuestInChain] = true
+            nextQuestIDs[#nextQuestIDs + 1] = nextQuestInChain
+            local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "nextQuestInChain")
+            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "breadcrumbForQuestId") or 0 end
+            if nextNextQuestId > 0 then
+                nextQuestInChain = nextNextQuestId
+            else
+                break
+            end
+        end
+
+        QuestieJourneyUtils:Spacer(container)
+        AddLinkedParagraph(container, "quest", nextQuestIDs, l10n("Next in chain"), QuestieDB.QueryQuestSingle)
     end
 
     QuestieJourneyUtils:Spacer(container)

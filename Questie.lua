@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 local band = bit.band
 
 -------------------------
@@ -19,6 +22,12 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type QuestieProfiler
+local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
+---@type WaypointRenderer
+local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 ---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
@@ -36,24 +45,24 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnEnable()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Questie.IsForever or Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is enabled
-        if (Questie.db.profile.trackerEnabled and not Questie.db.profile.showBlizzardQuestTimer) then
+        if (Questie.db.profile.trackerEnabled) then
             QuestieCompat.HideWatchFrame()
         end
     end
 end
 
 function Questie:OnDisable()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Questie.IsForever or Expansions.Current >= Expansions.Wotlk then
         -- Called when the addon is disabled
         QuestieCompat.ShowWatchFrame()
     end
 end
 
 ---AceDB has already activated the new profile before this callback. RefreshConfig calls the
----local icon, quest, and tracker refresh paths, then schedules V1 from the newly active profile's
----tracking policy. QuestieQuest:SmoothReset may continue asynchronously.
+---local icon, quest, tracker, and waypoint line refresh paths, then schedules V1 from the newly
+---active profile's tracking policy. QuestieQuest:SmoothReset may continue asynchronously.
 ---@param _event "OnProfileChanged"|"OnProfileCopied"|"OnProfileReset" AceDB callback name.
 ---@param _database AceDBObject-3.0 AceDB database whose new profile data is already active.
 ---@param _profileName string? New or source profile name; absent for profile reset.
@@ -61,6 +70,9 @@ function Questie:RefreshConfig(_event, _database, _profileName)
     Questie:SetIcons()
     QuestieQuest:SmoothReset()
     TrackerBaseFrame:OnProfileChange()
+    -- Lines kept across the reset would otherwise keep the old profile's smoothing, width, colors and visibility.
+    WaypointRenderer.RedrawAll()
+    QuestieWaypoints.Refresh()
     CommsVisibility:ScheduleSnapshot("PROFILE_CHANGED")
     Questie.Debug(Questie.DEBUG_DEVELOP, "Switched Ace Profile!")
 end
@@ -205,7 +217,7 @@ Questie.DEBUG_SPAM = 2 ^ 4
 
 function Questie.Debug(msgDebugLevel, ...)
     if (Questie.db.profile.debugEnabled) then
-        local optionsDebugLevel = Questie.db.profile.debugLevel
+        local optionsDebugLevel = Questie.db.profile.debugLevel or 0 -- 0 for fallback on Forever
 
         if (band(optionsDebugLevel, msgDebugLevel) == 0) or (not Questie.db.profile.debugEnabledPrint) then
             return
@@ -336,5 +348,41 @@ Questie.LOWLEVEL_ALL = 2
 Questie.LOWLEVEL_OFFSET = 3
 Questie.LOWLEVEL_RANGE = 4
 
+-- Profiling is opt-in and costs a player who never enables it nothing: no wrappers are installed, no timers
+-- run, and no frames are built. Questie.lua is last in each TOC Manifest, so arming here covers every Questie
+-- module, but that is well before AceDB exists - hence a plain saved variable rather than a profile setting.
+-- Every TOC declares LoadSavedVariablesFirst, so the flag is already populated by the time this runs.
+-- Optional profiling must never prevent Game Cache Validation or Addon Load callbacks.
+-- "== true" and not truthiness, because QuestieLoader and the pre-hook armed on exactly that test hundreds
+-- of lines ago: any looser test here would start a session those two never instrumented for.
+if QuestieProfilerEnabled == true then
+    local profilerStarted, profilerArmed, rejectionReported = pcall(QuestieProfiler.StartStartup, QuestieProfiler, true)
+    if not profilerStarted then
+        Questie.Error("QuestieProfiler failed during Addon Load", profilerArmed)
+    elseif profilerArmed ~= true and rejectionReported ~= true then
+        -- Some ownership failures return quietly. Loud engine rejections set rejectionReported so this caller
+        -- does not print a second, less useful error for the same failure.
+        Questie.Error("QuestieProfiler did not arm during Addon Load")
+    end
+end
+
 -- Start checking the game's cache.
 QuestieValidateGameCache.StartCheck()
+
+-- Questie.lua is the last file every TOC lists, so this line runs when addon load is complete and nothing
+-- else. The load-timing window must close here, synchronously: ADDON_LOADED fires later, behind the
+-- pre-hook's sweep and AceAddon's OnInitialize in handler order, and closing there charged their work to
+-- this file's row. Closing and publishing stay separate so a missing profiler method cannot leave the loader
+-- timing later runtime module calls as if they were still part of addon load.
+if QuestieProfilerEnabled == true then
+    local loadTimingClosed, loadTimingCloseError = pcall(QuestieLoader.FinishLoadTimings, QuestieLoader)
+    if not loadTimingClosed then
+        Questie.Error("QuestieProfiler failed to close the load-timing capture", loadTimingCloseError)
+    else
+        local loadTimingsImported, loadTimingImportError =
+            pcall(QuestieProfiler.ImportLoadTimings, QuestieProfiler)
+        if not loadTimingsImported then
+            Questie.Error("QuestieProfiler failed to import load timings", loadTimingImportError)
+        end
+    end
+end

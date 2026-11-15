@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:CreateModule("TrackerQuestTimers")
 
@@ -22,9 +25,7 @@ function TrackerQuestTimers:Initialize()
 
     if QuestTimerFrame then
         QuestTimerFrame:HookScript("OnShow", function()
-            if Questie.db.profile.showBlizzardQuestTimer then
-                TrackerQuestTimers:ShowBlizzardTimer()
-            else
+            if Questie.db.profile.trackerEnabled and (not QuestieTracker.disableHooks) then
                 TrackerQuestTimers:HideBlizzardTimer()
             end
         end)
@@ -51,14 +52,13 @@ function TrackerQuestTimers:ShowBlizzardTimer()
 end
 
 ---@param quest table
----@param frame LineFrame|nil
+---@param frame TrackerLineFrame|nil
 ---@param clear boolean
 ---@return string|nil timeRemainingString, number|nil timeRemaining
 function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
     local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
 
     if (timeRemainingString == nil) then
-        quest.timedBlizzardQuest = nil
         quest.trackTimedQuest = false
         return nil
     end
@@ -73,15 +73,8 @@ function TrackerQuestTimers:UpdateAndGetRemainingTime(quest, frame, clear)
     end
 
     if timeRemaining then
-        if Questie.db.profile.showBlizzardQuestTimer then
-            TrackerQuestTimers:ShowBlizzardTimer()
-            quest.timedBlizzardQuest = true
-            quest.trackTimedQuest = false
-        else
-            TrackerQuestTimers:HideBlizzardTimer()
-            quest.timedBlizzardQuest = false
-            quest.trackTimedQuest = true
-        end
+        TrackerQuestTimers:HideBlizzardTimer()
+        quest.trackTimedQuest = true
     end
 
     return timeRemainingString, timeRemaining
@@ -91,22 +84,32 @@ end
 ---@return string? timeRemainingString @Format is "4 Mins 45 Secs"
 ---@return number? timeRemaining
 function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
-    local questLogIndex = GetQuestLogIndexByID(questId)
+    if C_QuestLog.GetQuestTimers then
+        -- Modern timers carry their quest ID, so there is no need to change quest-log selection.
+        for _, questTimer in ipairs(C_QuestLog.GetQuestTimers()) do
+            if questTimer.questID == questId then
+                return SecondsToTime(questTimer.questTimer, false, false), questTimer.questTimer
+            end
+        end
+        return nil
+    end
+
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
     if (not questLogIndex) then
         return nil
     end
 
-    local questTimers = GetQuestTimers(questId)
+    local questTimers = QuestieCompat.GetQuestTimers(questId)
     if (not questTimers) then
         return nil
     end
 
-    local currentQuestLogSelection = GetQuestLogSelection()
-    SelectQuestLogEntry(questLogIndex)
+    local currentQuestLogSelection = QuestieCompat.GetQuestLogSelection()
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
     -- We can't use GetQuestTimers because we don't know for which quest the timer is.
     -- GetQuestLogTimeLeft returns the correct value though.
     local timeRemaining = GetQuestLogTimeLeft(questLogIndex)
-    SelectQuestLogEntry(currentQuestLogSelection)
+    QuestieCompat.SelectQuestLogEntry(currentQuestLogSelection)
 
     if timeRemaining ~= nil then
         local timeRemainingString = SecondsToTime(timeRemaining, false, false)
@@ -118,6 +121,11 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
 end
 
 function TrackerQuestTimers:UpdateTimerFrame()
+    if timer and (not timer.frame.label.activeTimer) then
+        -- The line was reset or reused for something else
+        timer = nil
+    end
+
     if timer and (Questie.db.profile.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
         local timeRemainingString = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
         if timeRemainingString ~= nil then
@@ -127,6 +135,8 @@ function TrackerQuestTimers:UpdateTimerFrame()
             timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "lightBlue"))
         else
             Questie.Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
+            timer.frame.label:SetText("")
+            timer = nil
             return
         end
     end

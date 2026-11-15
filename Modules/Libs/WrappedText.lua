@@ -196,18 +196,21 @@ local function _GetTextWrapBreak(textWrapFontString, line, lineLength)
         return lineEndIndex, nextStartIndex, brokeAtSpace
     end
 
+    local offsets = utf8.computeOffsets(line)
     local endIndex = 1
     local lastSpaceIndex
+    local strLen = strlen(line)
 
     -- Walk until this span would wrap to a second visual row.
     while (endIndex <= lineLength) do
-        local character = utf8.sub(line, endIndex, endIndex)
+        local character = utf8.subWithOffsets(line, offsets, endIndex, endIndex)
         -- Track the last ASCII space so Latin text can break at word boundaries.
         if (character == " ") then
             lastSpaceIndex = endIndex
         end
 
-        local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, endIndex)
+        local byteEndIndex = utf8.charIndexToByteIndexWithOffsets(offsets, endIndex, strLen)
+        local indexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(1, byteEndIndex)
         if (not indexes) then
             local lineEndIndex, nextStartIndex, brokeAtSpace = _GetTextWrapBreakByWidth(textWrapFontString, line, lineLength)
             textWrapFontString:SetText(line)
@@ -265,7 +268,9 @@ end
 ---@param remainingLineLength number UTF-8 character length of `remainingLine`.
 ---@return number remainingRows Visual row count, approximated by width if row-span data is unavailable.
 local function _GetRemainingRows(textWrapFontString, remainingLine, lastLine, nextStartIndex, remainingLineLength)
-    local remainingIndexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(nextStartIndex, remainingLineLength)
+    local byteStartIndex = utf8.charIndexToByteIndex(remainingLine, nextStartIndex)
+    local byteEndIndex = utf8.charIndexToByteIndex(remainingLine, remainingLineLength)
+    local remainingIndexes = textWrapFontString:CalculateScreenAreaFromCharacterSpan(byteStartIndex, byteEndIndex)
     if remainingIndexes then
         return #remainingIndexes
     end

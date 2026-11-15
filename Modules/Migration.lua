@@ -1,7 +1,5 @@
 ---@class Migration
 local Migration = QuestieLoader:CreateModule("Migration")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -134,7 +132,7 @@ local migrationFunctions = {
             return
         end
 
-        -- Preserve previous dungeon hide preference for both new flags
+        -- Preserve previous dungeon hide preference for new flag
         local previousHideInDungeons = Questie.db.profile.hideTrackerInDungeons
 
         Questie.db.profile.minimizeTrackerInCombat = false
@@ -211,6 +209,104 @@ local migrationFunctions = {
     end,
     [36] = function()
         Questie.db.global.unavailableDailyQuestsByNpc = {}
+    end,
+    [37] = function()
+        -- Reserved for the former Titan compiler-storage invalidation migration.
+    end,
+    [38] = function()
+        -- Preserve previous dungeon hide & minimize preference for both new flags
+        local previousMinimizeInInstances = Questie.db.profile.minimizeTrackerInDungeons
+        local previousHideInInstances = Questie.db.profile.hideTrackerInDungeons
+
+        Questie.db.profile.minimizeTrackerInInstances = previousMinimizeInInstances
+        Questie.db.profile.hideTrackerInInstances = previousHideInInstances
+
+        Questie.db.profile.minimizeTrackerInDungeons = nil
+        Questie.db.profile.hideTrackerInDungeons = nil
+    end,
+    [39] = function()
+        -- Compiler payloads existed in the ordinary, SoD, and Titan global scopes.
+        local compilerPayloadKeys = {
+            "dbIsCompiled",
+            "dbCompiledOnVersion",
+            "dbCompiledLang",
+            "dbCompiledExpansion",
+            "dbCompiledCount",
+            "npcBin",
+            "npcPtrs",
+            "questBin",
+            "questPtrs",
+            "objBin",
+            "objPtrs",
+            "itemBin",
+            "itemPtrs",
+        }
+        local compilerScopes = {
+            Questie.db.global,
+            Questie.db.global.sod,
+            Questie.db.global.titanReforged,
+        }
+
+        for _, scope in pairs(compilerScopes) do
+            if scope then
+                for _, key in ipairs(compilerPayloadKeys) do
+                    scope[key] = nil
+                end
+            end
+        end
+
+        Questie.db.profile.disableDatabaseWarnings = nil
+        Questie.db.char.townsfolkVersion = nil
+    end,
+    [40] = function()
+        -- Townsfolk lookups moved from SavedVariables to the Townsfolk module; they are rebuilt every login.
+        Questie.db.global.townsfolk = nil
+        Questie.db.global.professionTrainers = nil
+        Questie.db.global.classSpecificTownsfolk = nil
+        Questie.db.global.factionSpecificTownsfolk = nil
+        Questie.db.global.petFoodVendorTypes = nil
+    end,
+    [41] = function()
+        -- Native wording and counter-free fallbacks no longer have a shortened/full display preference.
+        Questie.db.profile.trimObjectiveText = nil
+    end,
+    [42] = function()
+        Questie.db.profile.enableTooltipsSpellID = false
+    end,
+    [43] = function()
+        -- NPC patrol path settings, under Map > Waypoints; the hover area under Advanced > Developer Options.
+        local profile = Questie.db.profile
+        profile.waypointMapEnabled = true
+        profile.waypointMinimapEnabled = true
+        profile.waypointWidth = 3
+        profile.waypointOpacity = 1
+        profile.waypointColor = {1, 0.72, 0, 0.5}
+        profile.waypointHostileColor = {1, 0.2, 0, 0.7}
+        profile.waypointHighlight = true
+        profile.waypointHighlightColor = {0.93, 0.46, 0.13, 0.8}
+        profile.waypointSmoothing = 0.75
+        profile.waypointDebugHover = false
+    end,
+    [44] = function()
+        Questie.db.profile.trackerShowQuestFocusButtons = true
+    end,
+    [45] = function()
+        Questie.db.profile.trackerFadeQuestFocusButtons = false
+    end,
+    [46] = function()
+        Questie.db.profile.trackerShowPlayButtons = true
+    end,
+    [47] = function()
+        Questie.db.profile.trackerFollowSuperTracking = false
+    end,
+    [48] = function()
+        -- New setting: show Questie in the addon compartment by default, mirroring DBM.
+        Questie.db.profile.minimap = Questie.db.profile.minimap or {hide = false}
+        Questie.db.profile.minimap.showInCompartment = true
+    end,
+    [49] = function()
+        -- The Blizzard quest timer is always hidden now; timed quests are shown in the Questie tracker.
+        Questie.db.profile.showBlizzardQuestTimer = nil
     end,
 }
 

@@ -1,4 +1,8 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
+local stub = require("luassert.stub")
 
 describe("QuestFinisher", function()
     ---@type QuestieDB
@@ -19,8 +23,13 @@ describe("QuestFinisher", function()
 
     local match = require("luassert.match")
     local _ = match._ -- any match
+    local isQuestFlaggedCompletedMock
+    local originalWarning
+    local originalError
 
     before_each(function()
+        originalWarning = Questie.Warning
+        originalError = Questie.Error
         Questie.db.char.complete = {}
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
@@ -29,7 +38,8 @@ describe("QuestFinisher", function()
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
-        _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = false
+        isQuestFlaggedCompletedMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsQuestFlaggedCompleted",
+            function() return false end)
         QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() end)
         QuestieDB.IsActiveEventQuest = function() return false end
         QuestieDB.IsPvPQuest = function() return false end
@@ -39,7 +49,8 @@ describe("QuestFinisher", function()
         QuestieEvent.CanQuestBeTurnedInOutsideOfEvent = function() return false end
         QuestieMap.DrawWorldIcon = spy.new(function() end)
         QuestieMap.DrawWaypoints = spy.new(function() end)
-        QuestiePlayer.currentQuestlog = {}
+        QuestieMap.GetFramesForQuest = function() return {} end
+        ActiveQuests.Reset()
         QuestiePlayer.GetCurrentZoneId = function()
             return 440
         end
@@ -49,8 +60,27 @@ describe("QuestFinisher", function()
         QuestFinisher = QuestieLoader:ImportModule("QuestFinisher")
     end)
 
+    after_each(function()
+        isQuestFlaggedCompletedMock:revert()
+        Questie.Warning = originalWarning
+        Questie.Error = originalError
+    end)
+
+    it("should use the name returned by the tooltip registration for a finisher without a name", function()
+        ActiveQuests.Add(1)
+        QuestieTooltips.RegisterQuestStartTooltip = spy.new(function() return "MissingName (m_123)" end)
+        QuestieDB.GetNPC = spy.new(function() return {id = 123, spawns = {[1] = {{50, 50}}}} end)
+        QuestieDB.GetObject = spy.new(function() end)
+        local quest = {Id = 1, Finisher = {NPC = {123}}, IsComplete = function() return 1 end, IsRepeatable = false}
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, nil, 123, "m_123", "Finisher")
+        assert.is_equal("MissingName (m_123)", QuestieMap.DrawWorldIcon.calls[1].vals[2].Name)
+    end)
+
     it("should add NPC finisher", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function(_, id)
             if id == 123 then
                 return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
@@ -86,7 +116,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should add object finisher", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetObject = spy.new(function(_, id)
             if id == 123 then
                 return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
@@ -122,7 +152,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should add mixed finisher", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function(_, id)
             if id == 123 then
                 return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
@@ -162,7 +192,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should add finisher with waypoints", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function()
             return {
                 id = 123,
@@ -187,11 +217,11 @@ describe("QuestFinisher", function()
         assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.called_with(QuestieTooltips, 1, "Test Finisher", 123, "m_123", "Finisher")
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
         assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 10, 10)
-        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, _, {{{10, 10}, {20, 20}}}, 1)
+        assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, _, "m_123", {{{10, 10}, {20, 20}}}, 1)
     end)
 
     it("should add finisher for dungeon location", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function() return {id = 123, name = "Test Finisher", spawns = {[1] = {{-1, -1}}}} end)
         ZoneDB.GetDungeonLocation = spy.new(function() return {{2, 60, 60}} end)
         local quest = {
@@ -216,7 +246,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should add NPC finisher for PvP quests", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function()
             return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
         end)
@@ -244,7 +274,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should add NPC finisher for repeatable quests", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function()
             return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
         end)
@@ -271,7 +301,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should not add finisher if quest is not in the players quest log", function()
-        QuestiePlayer.currentQuestlog = {}
+        ActiveQuests.Reset()
         local quest = {
             Id = 1,
         }
@@ -284,8 +314,8 @@ describe("QuestFinisher", function()
     end)
 
     it("should not add finisher when IsQuestFlaggedCompleted is true", function()
-        QuestiePlayer.currentQuestlog[1] = true
-        _G.C_QuestLog.IsQuestFlaggedCompleted.mockedReturnValue = true
+        ActiveQuests.Add(1)
+        isQuestFlaggedCompletedMock.returns(true)
         local quest = {
             Id = 1,
         }
@@ -298,7 +328,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should not add finisher when quest is already complete", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         Questie.db.char.complete[1] = true
         local quest = {
             Id = 1,
@@ -315,7 +345,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should not add finisher when quest is an event quest but event is not active", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function() end)
         QuestieDB.GetObject = spy.new(function() end)
         QuestieEvent.IsEventQuest = function() return true end
@@ -340,7 +370,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should add finisher when quest is an event quest and event is not active but can be turned in outside of event", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function()
             return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}}
         end)
@@ -369,7 +399,7 @@ describe("QuestFinisher", function()
     end)
 
     it("should not add finisher when quest has no finisher", function()
-        QuestiePlayer.currentQuestlog[1] = true
+        ActiveQuests.Add(1)
         QuestieDB.GetNPC = spy.new(function() end)
         QuestieDB.GetObject = spy.new(function() end)
         local quest = {
@@ -389,9 +419,58 @@ describe("QuestFinisher", function()
         assert.spy(QuestieMap.DrawWaypoints).was.not_called()
     end)
 
-    it("should not add finisher when finisher NPC is missing in DB", function()
-        QuestiePlayer.currentQuestlog[1] = true
-        _G.Questie.Error = spy.new(function() end)
+    it("should not add finisher when its turn-in icons are already drawn", function()
+        ActiveQuests.Add(1)
+        QuestieDB.GetNPC = spy.new(function() return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}} end)
+        QuestieMap.GetFramesForQuest = function(_, questId)
+            return questId == 1 and {QuestieFrame1 = {data = {Id = 1, Type = "complete"}}} or {}
+        end
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieTooltips.RegisterQuestStartTooltip).was.not_called()
+        assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
+    end)
+
+    it("should add finisher when the quest's drawn icons are not its turn-in icons", function()
+        ActiveQuests.Add(1)
+        QuestieDB.GetNPC = spy.new(function() return {id = 123, name = "Test Finisher", spawns = {[1] = {{50, 50}}}} end)
+        QuestieMap.GetFramesForQuest = function()
+            return {
+                QuestieFrame1 = {data = {Id = 1, Type = "monster"}}, -- an objective icon
+                QuestieFrame2 = {data = {Id = 2, Type = "complete"}}, -- another quest's turn-in
+                QuestieFrame3 = {}, -- unloaded
+            }
+        end
+        local quest = {
+            Id = 1,
+            Finisher = {
+                NPC = {123},
+            },
+            IsComplete = function()
+                return 1
+            end,
+        }
+
+        QuestFinisher.AddFinisher(quest)
+
+        assert.spy(QuestieMap.DrawWorldIcon).was.called(1)
+        assert.spy(QuestieMap.DrawWorldIcon).was.called_with(QuestieMap, _, 1, 50, 50, nil)
+    end)
+
+    it("should warn and not add a finisher when its NPC is missing in DB", function()
+        ActiveQuests.Add(1)
+        Questie.Warning = spy.new(function() end)
+        Questie.Error = spy.new(function() end)
         QuestieDB.GetNPC = spy.new(function() return nil end)
         QuestieDB.GetObject = spy.new(function() end)
         local quest = {
@@ -411,6 +490,7 @@ describe("QuestFinisher", function()
         assert.spy(QuestieDB.GetObject).was.not_called()
         assert.spy(QuestieMap.DrawWorldIcon).was.not_called()
         assert.spy(QuestieMap.DrawWaypoints).was.not_called()
-        assert.spy(_G.Questie.Error).was.called_with("Finisher NPC", 123, "for quest:", 1, "is not in the DB")
+        assert.spy(Questie.Warning).was.called_with("Finisher NPC", 123, "for quest:", 1, "is not in the DB")
+        assert.spy(Questie.Error).was.not_called()
     end)
 end)

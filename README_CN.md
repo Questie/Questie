@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.36.1/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/latest/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -20,6 +20,15 @@
 
 如果您遇到问题，请阅读 [常见问题解答](https://github.com/Questie/Questie/wiki/FAQ-for-Classic-(1.13)) 。
 
+## Questie DB
+
+自 Questie 12.0.0 版本起，数据库被拆分为独立插件 QuestieDB，Questie 运行依赖它，并且二者在 CurseForge 上分开发布。
+
+CurseForge 客户端会自动安装它，但如果你手动安装插件，[请从这里下载 QuestieDB](https://www.curseforge.com/wow/addons/questiedb)。
+
+另外，QuestieDB 的 Github 发布版  [可在这里找到](https://github.com/Questie/QuestieDB/releases/latest)。
+
+[Questie 的 GitHub 发布版](https://github.com/Questie/Questie/releases/latest) 在发布时一并附带最新版的 QuestieDB。
 
 ## 信息
 - [常见问题解答](https://github.com/Questie/Questie/wiki/FAQ)
@@ -52,7 +61,6 @@ Questie 拥有《魔兽世界》经典怀旧服所有官方语言的翻译版本
 ### 安装 Lua
 
 1. 安装 [Lua](https://www.lua.org/download.html) (5.1, 因为《魔兽世界》客户端使用 Lua 5.1)
-   - 对于 macOS 系统，使用命令`brew install lua@5.1`
 2. 安装 [luarocks](https://luarocks.org/)
    - 对于 macOS 系统，使用命令`brew install luarocks`
 3. 配置 `luarocks` 以使用正确的 Lua 版本（默认情况下，luarocks 使用最新安装的 Lua 版本）
@@ -75,13 +83,11 @@ Questie 使用 `luacheck`进行代码规范检查。你可以在本地运行此�
 1. 在项目根目录中运行 `busted -p ".test.lua" .`
 2. 添加新测试时，确保将测试文件命名为 `<模块名>.test.lua` 并将其放置在对应模块旁。
 
-### 数据库验证
+### 实体数据库验证
 
-每个扩展包都有一个验证脚本，用于检查数据库中常见的错误。通过这种方式，我们尽量保证数据的正确性，并且当我们调整 `Quest.startedBy` 时，不会忘记调整 `NPC.questStarts` 字段。你可以运行以下脚本：
+实体数据库验证由 QuestieDB 负责。Questie 保留了加载器使用验证，可通过以下命令运行：
 
-`lua cli/validate-<扩展包名>.lua`
-
-将 `<扩展包名>` 替换为你想要验证的扩展包名称 (可查看 `cli` 文件夹获取可用脚本).
+`lua cli/validate-loader-usage.lua`
 
 ## 捐赠
 如果您想通过捐赠来支持 Questie 的开发，您可以通过贝宝（PayPal）进行捐赠：

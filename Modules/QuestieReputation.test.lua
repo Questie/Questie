@@ -1,4 +1,5 @@
 dofile("setupTests.lua")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("QuestieReputation", function()
     ---@type QuestieReputation
@@ -25,6 +26,9 @@ describe("QuestieReputation", function()
         _G.IsPlayerSpell = spy.new(function()
             return false
         end)
+        _G.IsInInstance = spy.new(function()
+            return false
+        end)
         _G.UnitAura = spy.new(function()
             return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
         end)
@@ -35,6 +39,9 @@ describe("QuestieReputation", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function() end)
 
+        -- QuestieDB binds the provider schema and queries at file load.
+        LoadQuestieDBMock()
+        dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.raceKeys = {HUMAN = 1}
 
@@ -150,6 +157,67 @@ describe("QuestieReputation", function()
     end)
 
     describe("GetReputationReward", function()
+        describe("combat buff bonuses", function()
+            local originalInCombatLockdown, originalUnitAura, originalIsForever, originalExpansion, originalCTraits
+            local diplomatRank
+
+            before_each(function()
+                originalInCombatLockdown = _G.InCombatLockdown
+                originalUnitAura = _G.UnitAura
+                originalIsForever = Questie.IsForever
+                originalCTraits = _G.C_Traits
+                diplomatRank = 0
+                _G.C_Traits = {
+                    GetConfigIDBySystemID = function() return 1 end,
+                    GetConfigInfo = function() return {treeIDs = {1}} end,
+                    GetTreeNodes = function() return {1} end,
+                    GetNodeInfo = function() return {entryIDs = {1}, currentRank = diplomatRank} end,
+                    GetEntryInfo = function() return {definitionID = 1} end,
+                    GetDefinitionInfo = function() return {spellID = 1225485} end,
+                }
+                originalExpansion = Expansions.Current
+                Expansions.Current = Expansions.Era
+                Questie.IsForever = true
+                _G.InCombatLockdown = function() return false end
+                _G.UnitAura = spy.new(function(_, index)
+                    if index == 1 then return nil, nil, nil, nil, nil, nil, nil, nil, nil, 46668 end
+                end)
+                QuestieDB.QueryQuestSingle = function() return {{909, 75}} end
+            end)
+
+            after_each(function()
+                _G.InCombatLockdown = originalInCombatLockdown
+                _G.UnitAura = originalUnitAura
+                _G.C_Traits = originalCTraits
+                Questie.IsForever = originalIsForever
+                Expansions.Current = originalExpansion
+            end)
+
+            it("skips Forever combat aura reads without dropping the Human racial bonus", function()
+                assert.are_same({{909, 82.5}}, QuestieReputation.GetReputationReward(1))
+                _G.UnitAura:clear()
+                _G.InCombatLockdown = function() return true end
+                diplomatRank = 5
+
+                assert.are_same({{909, 82.5}}, QuestieReputation.GetReputationReward(1))
+                assert.spy(UnitAura).was.not_called()
+
+                _G.InCombatLockdown = function() return false end
+                diplomatRank = 0
+                _G.UnitAura = spy.new(function() return nil end)
+                assert.are_same({{909, 75}}, QuestieReputation.GetReputationReward(1))
+                assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
+            end)
+
+            it("keeps Classic reputation buff calculations active during combat", function()
+                Questie.IsForever = false
+                _G.InCombatLockdown = function() return true end
+
+                assert.are_same({{909, 82.5}}, QuestieReputation.GetReputationReward(1))
+                assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
+            end)
+        end)
+
         it("should return the reputation reward for a quest", function()
             Questie.IsCata = false
             Expansions.Current = Expansions.Wotlk
@@ -407,6 +475,7 @@ describe("QuestieReputation", function()
 
             assert.are_same({{909, 82.5}}, reputationReward)
             assert.spy(UnitAura).was.called_with("player", 1, "HELPFUL")
+
         end)
 
         it("should respect Hallow's End Alliance buff bonus", function()

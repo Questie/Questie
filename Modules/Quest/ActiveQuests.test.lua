@@ -1,0 +1,162 @@
+dofile("setupTests.lua")
+
+describe("ActiveQuests", function()
+    ---@type ActiveQuests
+    local ActiveQuests
+
+    before_each(function()
+        dofile("Modules/Quest/ActiveQuests.lua")
+        ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
+    end)
+
+    describe("Add", function()
+        it("should log the quest with a current acceptance", function()
+            local quest = {Id = 1}
+
+            local acceptance = ActiveQuests.Add(1, quest)
+
+            assert.is_true(ActiveQuests.IsCurrent(acceptance))
+            assert.are.equal(acceptance, ActiveQuests.Get(1))
+            assert.are.equal(quest, acceptance.quest)
+        end)
+
+        it("should log a quest the database lacks without a quest object", function()
+            local acceptance = ActiveQuests.Add(1)
+
+            assert.is_nil(acceptance.quest)
+        end)
+
+        it("should replace the acceptance of a quest accepted again", function()
+            local first = ActiveQuests.Add(1, {})
+
+            local second = ActiveQuests.Add(1, {})
+
+            assert.is_false(ActiveQuests.IsCurrent(first))
+            assert.is_true(ActiveQuests.IsCurrent(second))
+        end)
+    end)
+
+    describe("Remove", function()
+        it("should end the acceptance and unlog the quest", function()
+            local acceptance = ActiveQuests.Add(1, {})
+
+            assert.are.equal(acceptance, ActiveQuests.Remove(1))
+
+            assert.is_false(ActiveQuests.IsCurrent(acceptance))
+            assert.is_nil(ActiveQuests.Get(1))
+        end)
+
+        it("should return nil for a quest that is not logged", function()
+            assert.is_nil(ActiveQuests.Remove(1))
+        end)
+    end)
+
+    describe("Iterate", function()
+        it("should iterate every logged quest with its acceptance", function()
+            local first = ActiveQuests.Add(1, {})
+            local second = ActiveQuests.Add(2)
+            ActiveQuests.Add(3, {})
+            ActiveQuests.Remove(3)
+
+            local iterated = {}
+            for questId, acceptance in ActiveQuests.Iterate() do
+                iterated[questId] = acceptance
+            end
+
+            assert.are.same({[1] = first, [2] = second}, iterated)
+        end)
+
+        it("should keep iterating the quests logged when it started while the log changes", function()
+            local first = ActiveQuests.Add(1, {})
+            local second = ActiveQuests.Add(2, {})
+
+            local iterated = {}
+            for questId, acceptance in ActiveQuests.Iterate() do
+                for addedQuestId = 10, 50 do
+                    ActiveQuests.Add(addedQuestId, {})
+                end
+                iterated[questId] = acceptance
+            end
+
+            assert.are.same({[1] = first, [2] = second}, iterated)
+        end)
+    end)
+
+    describe("GetAll", function()
+        it("should look up every logged quest by its ID", function()
+            local acceptance = ActiveQuests.Add(1, {})
+            ActiveQuests.Add(2, {})
+            ActiveQuests.Remove(2)
+
+            local logged = ActiveQuests.GetAll()
+
+            assert.are.equal(acceptance, logged[1])
+            assert.is_nil(logged[2])
+        end)
+    end)
+
+    describe("IsCurrent", function()
+        it("should treat a missing acceptance as not current", function()
+            assert.is_false(ActiveQuests.IsCurrent(nil))
+        end)
+    end)
+
+    describe("Reset and Restore", function()
+        -- Rebuilds yield, so another rebuild can start before the first one restored every quest
+        it("should keep acceptances saved by an earlier Reset across an overlapping Reset", function()
+            local acceptance = ActiveQuests.Add(1, {})
+            ActiveQuests.Reset()
+            ActiveQuests.Reset()
+
+            assert.are.equal(acceptance, ActiveQuests.Restore(1, {}))
+        end)
+        it("should not let Restore bring back an acceptance removed after a Reset", function()
+            local acceptance = ActiveQuests.Add(1, {})
+            ActiveQuests.Reset()
+            ActiveQuests.Remove(1)
+
+            assert.are_not.equal(acceptance, ActiveQuests.Restore(1, {}))
+        end)
+
+        it("should unlog every quest on Reset", function()
+            local acceptance = ActiveQuests.Add(1, {})
+
+            ActiveQuests.Reset()
+
+            assert.is_false(ActiveQuests.IsCurrent(acceptance))
+            assert.is_nil(ActiveQuests.Get(1))
+        end)
+
+        it("should keep the acceptance of a quest restored after a Reset", function()
+            local acceptance = ActiveQuests.Add(1, {})
+            ActiveQuests.Reset()
+            local quest = {}
+
+            assert.are.equal(acceptance, ActiveQuests.Restore(1, quest))
+
+            assert.is_true(ActiveQuests.IsCurrent(acceptance))
+            assert.are.equal(quest, acceptance.quest)
+        end)
+
+        it("should keep the current acceptance when restoring a logged quest", function()
+            local acceptance = ActiveQuests.Add(1, {})
+
+            assert.are.equal(acceptance, ActiveQuests.Restore(1, {}))
+        end)
+
+        it("should create an acceptance when restoring a quest that was not logged", function()
+            local acceptance = ActiveQuests.Restore(1, {})
+
+            assert.is_true(ActiveQuests.IsCurrent(acceptance))
+        end)
+
+        it("should not let Restore bring back an acceptance replaced after a Reset", function()
+            local first = ActiveQuests.Add(1, {})
+            ActiveQuests.Reset()
+            local second = ActiveQuests.Add(1, {})
+
+            assert.are.equal(second, ActiveQuests.Restore(1, {}))
+            assert.is_false(ActiveQuests.IsCurrent(first))
+        end)
+    end)
+end)

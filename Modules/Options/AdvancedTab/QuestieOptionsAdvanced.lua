@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -19,6 +22,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieProfiler
+local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -34,15 +41,6 @@ local function _GetAutomaticLocale()
     end
 
     return l10n:GetFallbackLocale(GetLocale())
-end
-
----@return nil
-local function _InvalidateCompiledDatabase()
-    if Questie.IsSoD then
-        Questie.db.global.sod.dbIsCompiled = false
-    else
-        Questie.db.global.dbIsCompiled = false
-    end
 end
 
 function QuestieOptions.tabs.advanced:Initialize()
@@ -262,7 +260,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
 
                     pendingLocaleSelection = lang
-                    StaticPopup_Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
+                    Popup.Show("QUESTIE_LOCALE_CHANGE_CONFIRM")
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -287,7 +285,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Reset Questie"); end,
                 desc = function() return l10n("Reset Questie to the default values for all settings."); end,
                 func = function()
-                    StaticPopup_Show("QUESTIE_RESET_CONFIRM")
+                    Popup.Show("QUESTIE_RESET_CONFIRM")
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
@@ -297,7 +295,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n("Reset Questie Journey"); end,
                 desc = function() return l10n("Clear the Journey of the current character"); end,
                 func = function(_, _)
-                    StaticPopup_Show("QUESTIE_JOURNEY_RESET_CONFIRM")
+                    Popup.Show("QUESTIE_JOURNEY_RESET_CONFIRM")
                 end,
             },
             Spacer_Browse = QuestieOptionsUtils:Spacer(4.4),
@@ -309,23 +307,14 @@ function QuestieOptions.tabs.advanced:Initialize()
                 func = function() QuestieJourney:ShowCharacterBrowserFrame() end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
-            recompileDatabase = {
-                type = "execute",
-                order = 4.6,
-                name = function() return l10n("Recompile Database"); end,
-                desc = function() return l10n("Forces a recompile of the Questie database. This will also reload the UI."); end,
-                func = function(_, _)
-                    StaticPopup_Show("QUESTIE_RECOMPILE_DATABASE_CONFIRM")
-                end,
-            },
-            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
             openProfiler = {
                 type = "execute",
                 order = 4.8,
                 name = function() return l10n("Open Profiler"); end,
                 desc = function() return l10n("Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes."); end,
-                func = function(_, _)
-                    QuestieLoader:ImportModule("Profiler"):Start()
+                func = function (_, _)
+                    -- Opens retained results when a session already ran; Start would reset them.
+                    QuestieProfiler:OpenUI()
                 end,
             },
             Spacer_H = QuestieOptionsUtils:Spacer(4.9),
@@ -405,6 +394,24 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function() return Questie.db.profile.enableTooltipsObjectID; end,
                 set = function(_, value)
                     Questie.db.profile.enableTooltipsObjectID = value
+                    if value then
+                        -- Warm the provider Object name index here, where the synchronous build is
+                        -- invisible, instead of on the first hover. Turning the option off keeps the
+                        -- index; QuestieDB owns its invalidation.
+                        LibQuestieDB.Object.BuildNameIndex()
+                    end
+                end
+            },
+            showSpellIDs = {
+                type = "toggle",
+                order = 5.045,
+                name = function() return l10n("Show Spell IDs"); end,
+                desc = function() return l10n("If checked, the ID of spells will be shown in tooltips."); end,
+                disabled = function() return (not Questie.db.profile.enableTooltips); end,
+                width = "full",
+                get = function() return Questie.db.profile.enableTooltipsSpellID; end,
+                set = function(_, value)
+                    Questie.db.profile.enableTooltipsSpellID = value
                 end
             },
             showQuestIDs = {
@@ -438,8 +445,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "toggle",
                 order = 5.08,
                 disabled = function() return not Questie.db.profile.debugEnabled; end,
-                name = function() return l10n("Enable Debug") .. "-PRINT" end,
-                desc = function() return l10n("Enable or disable debug functionality.") .. "-PRINT" end,
+                name = function() return l10n("Enable Debug-PRINT"); end,
+                desc = function() return l10n("Enable or disable debug print functionality."); end,
                 width = "full",
                 get = function() return Questie.db.profile.debugEnabledPrint; end,
                 set = function(_, value)
@@ -474,11 +481,23 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
                 end,
             },
+            waypointDebugHover = {
+                type = "toggle",
+                order = 5.1,
+                name = function() return l10n("Show waypoint hover area"); end,
+                desc = function() return l10n("Draws the area around each patrol path on the world map where hovering shows its NPC."); end,
+                width = "full",
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                set = function(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
+                    QuestieWaypoints.Refresh()
+                end,
+            },
         },
     }
 end
 
-StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_RESET_CONFIRM"] = {
     text = "",
     button1 = YES,
     button2 = NO,
@@ -495,8 +514,7 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
         Questie.db.profile.lowLevelStyle = optionsDefaults.profile.lowLevelStyle
         Questie.db.profile.migrationVersion = nil
         Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide
-
-        _InvalidateCompiledDatabase()
+        Questie.db.profile.minimap.showInCompartment = optionsDefaults.profile.minimap.showInCompartment
 
         Questie.db.char.hidden = nil
         Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies
@@ -514,10 +532,9 @@ StaticPopupDialogs["QUESTIE_RESET_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }
 
-StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     text = "", -- we set it in OnShow
     button1 = YES,
     button2 = NO,
@@ -534,10 +551,11 @@ StaticPopupDialogs["QUESTIE_JOURNEY_RESET_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
 }
 
-StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+Popup.Dialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
+    -- Reopening confirms the latest selection without cancelling its pending value.
+    noCancelOnReuse = true,
     text = "", -- we set it in OnShow
     button1 = YES,
     button2 = NO,
@@ -552,7 +570,6 @@ StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
         l10n:SetUILocale(effectiveLocale)
         Questie.db.global.questieLocale = effectiveLocale
         Questie.db.global.questieLocaleDiff = pendingLocaleSelection ~= "auto"
-        _InvalidateCompiledDatabase()
         pendingLocaleSelection = nil
         ReloadUI()
     end,
@@ -568,28 +585,6 @@ StaticPopupDialogs["QUESTIE_LOCALE_CHANGE_CONFIRM"] = {
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
-    preferredIndex = 3,
-}
-
-StaticPopupDialogs["QUESTIE_RECOMPILE_DATABASE_CONFIRM"] = {
-    text = "", -- we set it in OnShow
-    button1 = YES,
-    button2 = NO,
-    OnAccept = function(self)
-        _InvalidateCompiledDatabase()
-        ReloadUI()
-    end,
-    OnShow = function(self)
-        local confirmText = l10n(
-            "Questie database recompile\n\nThis will reload the WoW UI and then take some time to complete. You will see a message in chat when the process has completed.\n\nThe recompile process should be done while not in combat, or Questie may malfunction!\n\nAre you sure you want to recompile the Questie database?")
-        self.Text:SetText(confirmText)
-        self:SetFrameStrata("FULLSCREEN_DIALOG")
-        self:Raise()
-    end,
-    timeout = 0,
-    whileDead = true,
-    hideOnEscape = true,
-    preferredIndex = 3,
 }
 
 _GetLanguages = function()
@@ -597,7 +592,7 @@ _GetLanguages = function()
         ["auto"] = l10n("Automatic") .. " (" .. _GetAutomaticLocale() .. ")",
         ["enUS"] = "English",
         ["deDE"] = "Deutsch",
-        ["esES"] = "Español",
+        ["esES"] = "Español (España)",
         ["esMX"] = "Español (América Latina)",
         ["frFR"] = "Français",
         ["koKR"] = "한국어",

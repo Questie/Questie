@@ -1,4 +1,8 @@
 dofile("setupTests.lua")
+dofile("Modules/Quest/ActiveQuests.lua")
+---@type ActiveQuests
+local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 -- Issue references:
 -- https://github.com/Questie/Questie/issues/6734
@@ -14,8 +18,6 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
     local QuestieNameplate
     ---@type QuestieQuest
     local QuestieQuest
-    ---@type QuestiePlayer
-    local QuestiePlayer
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieLib
@@ -95,12 +97,11 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         dofile("Modules/Quest/Lifecycle/QuestLifecycle.lua")
         local QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
         QuestLifecycle.AcceptQuest = spy.new(function(_, questId)
-            QuestiePlayer.currentQuestlog[questId] = {}
+            ActiveQuests.Add(questId, {})
         end)
         QuestLifecycle.CompleteQuest = spy.new(function() end)
 
         dofile("Modules/QuestiePlayer.lua")
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
         dofile("Modules/Tracker/QuestieTracker.lua")
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
@@ -129,12 +130,20 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieAnnounce.AcceptedQuest = spy.new(function() end)
         QuestieAnnounce.CompletedQuest = spy.new(function() end)
 
+        -- QuestieDB binds the provider schema and queries at file load.
+        LoadQuestieDBMock()
         dofile("Database/QuestieDB.lua")
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        -- The quest is absent from the database: single and bulk reads both return nil, so the
+        -- missing-Item repair on accept has nothing to request.
         QuestieDB.QueryQuestSingle = function() return nil end
+        QuestieDB.QueryQuest = function() return nil end
 
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
+
+        local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
+        BreadcrumbQuests.CheckQuestBreadcrumbs = function() end
 
         dofile("Modules/Network/QuestiePartyObjectives.lua")
         dofile("Public/Enums.lua")
@@ -155,8 +164,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 10,
             raw_finished = false,
             raw_numFulfilled = 0,
-            raw_text = "Thick Yeti Hide: 0/10",
-            text = "Thick Yeti Hide",
+            text = "Thick Yeti Hide: 0/10",
             type = "item"
         }, cachedQuest.objectives[1])
 
@@ -182,12 +190,13 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 10,
             raw_finished = true,
             raw_numFulfilled = 10,
-            raw_text = "Thick Yeti Hide: 10/10",
-            text = "Thick Yeti Hide",
+            text = "Thick Yeti Hide: 10/10",
             type = "item"
         }, cachedQuest.objectives[1])
         assert.spy(Sounds.PlayObjectiveComplete).was.called(1)
 
+        -- Turning the quest in removes it from the game's quest log.
+        mockedQuestLogTitle[2] = nil
         QuestEventHandler.QuestTurnedIn(2822, 4050, 0)
         QuestEventHandler.QuestLogUpdate()
         QuestEventHandler.QuestRemoved(2822)
@@ -220,8 +229,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 10,
             raw_finished = false,
             raw_numFulfilled = 0,
-            raw_text = "Rage Scar Yeti Hide: 0/10",
-            text = "Rage Scar Yeti Hide",
+            text = "Rage Scar Yeti Hide: 0/10",
             type = "item"
         }, cachedQuest.objectives[1])
 
@@ -247,8 +255,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 5,
             raw_finished = false,
             raw_numFulfilled = 0,
-            raw_text = "Woodpaw Alpha slain: 0/5",
-            text = "Woodpaw Alpha",
+            text = "Woodpaw Alpha slain: 0/5",
             type = "monster"
         }, cachedQuest.objectives[1])
 
@@ -273,8 +280,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
             numRequired = 5,
             raw_finished = false,
             raw_numFulfilled = 1,
-            raw_text = "Woodpaw Alpha slain: 1/5",
-            text = "Woodpaw Alpha",
+            text = "Woodpaw Alpha slain: 1/5",
             type = "monster"
         }, cachedQuest.objectives[1])
     end)

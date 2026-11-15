@@ -1,3 +1,6 @@
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
+
 ---@class QuestieFrame
 local QuestieFrame = QuestieLoader:CreateModule("QuestieFrame")
 local _QuestieFrame = QuestieFrame.private
@@ -12,8 +15,20 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieWaypoints
+local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 ---@class IconData
 ---@field Id QuestId
@@ -25,6 +40,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 ---@field Name string
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
+---@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
 
 ---@class IconTexture : Texture
 ---@field r number
@@ -40,6 +56,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     ---@class IconFrame : Button
     ---@field isManualIcon boolean
     ---@field data IconData
+    ---@field minimapTwin IconFrame? A world map icon's minimap icon; its waypoint paths follow it on the minimap.
     local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId
 
@@ -99,7 +116,8 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
 
     newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
-    newFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+    newFrame:RegisterForClicks("LeftButtonUp")
+    QuestieFrame.EnsureRightClickPassThrough(newFrame)
     newFrame:SetScript("OnClick", _QuestieFrame.OnClick);
 
     newFrame.GlowUpdate = _QuestieFrame.GlowUpdate
@@ -135,23 +153,25 @@ function _QuestieFrame.OnLeave(self)
         GameTooltip._Rebuild = nil
     end
 
-    --Reset highlighting if it exists.
-    if self.data.lineFrames then
-        for _, lineFrame in pairs(self.data.lineFrames) do
-            local line = lineFrame.line
-            line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
-        end
-    end
+    QuestieFrame.ResetHoverHighlights(self)
+    GameTooltip.ShownAsMapIcon = false
+end
+
+---@param self IconFrame
+function QuestieFrame.ResetHoverHighlights(self)
+    QuestieWaypoints.SetHighlighted(self.data, false)
 
     if self.data.touchedPins then
         for i = #self.data.touchedPins, 1, -1 do
             local entry = self.data.touchedPins[i]
             local icon = entry.icon;
-            icon.texture:SetVertexColor(unpack(entry.color));
+            -- A pin unloaded or recycled since was tinted for someone else: its color is not ours to restore
+            if icon.data == entry.data then
+                icon.texture:SetVertexColor(unpack(entry.color));
+            end
         end
         self.data.touchedPins = nil;
     end
-    GameTooltip.ShownAsMapIcon = false
 end
 
 ---@param self IconTexture
@@ -168,38 +188,47 @@ function _QuestieFrame.SetVertexColor(self, r, g, b, a)
     self.a = a or 1
 end
 
+-- Right clicks fall through to the map, so Blizzard zooms out/pings securely without causing taints.
+-- SetPassThroughButtons is blocked in combat, so frames acquired then retry once combat ends.
+---@param frame IconFrame
+function QuestieFrame.EnsureRightClickPassThrough(frame)
+    if frame:ShouldButtonPassThrough("RightButton") then
+        return
+    end
+    if InCombatLockdown() then
+        if (not frame.rightClickPassThroughQueued) then
+            frame.rightClickPassThroughQueued = QuestieCombatQueue:Queue(_QuestieFrame.RetryRightClickPassThrough, frame)
+        end
+        return
+    end
+    frame:SetPassThroughButtons("RightButton")
+end
+
+---@param frame IconFrame
+function _QuestieFrame.RetryRightClickPassThrough(frame)
+    frame.rightClickPassThroughQueued = nil
+    QuestieFrame.EnsureRightClickPassThrough(frame)
+end
+
 ---@param self IconFrame
 function _QuestieFrame.OnClick(self, button)
     local uiMapId = self.UiMapID
 
     if uiMapId and WorldMapFrame:IsShown() and (not IsModifierKeyDown()) and (not self.miniMapIcon) then
-        local currentMapId = WorldMapFrame:GetMapID()
-        if button == "RightButton" then
-            local mapInfo = C_Map.GetMapInfo(currentMapId)
-            local currentMapParent = mapInfo.parentMapID
-
-            if currentMapParent and currentMapParent > 0 then
-                WorldMapFrame:SetMapID(currentMapParent)
-            end
-        else
-            if uiMapId ~= currentMapId then
-                WorldMapFrame:SetMapID(uiMapId);
-            end
+        if button == "LeftButton" and uiMapId ~= WorldMapFrame:GetMapID() then
+            QuestieCompat.OpenWorldMap(uiMapId)
         end
     else
         -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
         if uiMapId and button == "LeftButton" then
             local frameData = self.data
             if ChatEdit_GetActiveWindow() and frameData.QuestData then
-                if Questie.db.profile.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkStringById(frameData.Id))
-                else
-                    ChatEdit_InsertLink("[" .. frameData.QuestData.name .. " (" .. frameData.Id .. ")]")
-                end
+                ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(frameData.Id))
             else
                 if frameData.Type == "available" and IsShiftKeyDown() then
-                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(frameData.Id)
-                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
+                    local questName = QuestieLib:GetColoredQuestName(frameData.Id, Questie.db.profile.enableTooltipsQuestLevel, false)
+                    local confirmText = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", questName)
+                    Popup.Show("QUESTIE_CONFIRMHIDE", confirmText, nil, frameData.Id)
                 elseif frameData.Type == "manual" and IsShiftKeyDown() and (not frameData.ManualTooltipData.disableShiftToRemove) then
                     QuestieMap:UnloadManualFrames(frameData.id)
                 end
@@ -223,12 +252,6 @@ function _QuestieFrame.OnClick(self, button)
 
         -- Add waypoint
         Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(uiMapId, x, y, {title = title, crazy = true, from = "Questie"})
-    end
-
-    -- Make sure we don't break the map ping feature - this allows us to ping our own icons.
-    if self.miniMapIcon and button == "RightButton" and (not IsModifierKeyDown()) then
-        local _, _, _, x, y = self:GetPoint()
-        Minimap:PingLocation(x, y)
     end
 end
 
@@ -327,7 +350,7 @@ function _QuestieFrame.UpdateTexture(self, texture)
         self:SetSize(16, 16)
     end
 
-    -- Party member objectives (quests the local player does not have) are dimmed so they are
+    -- Party member objectives (ones the local player does not need) are dimmed so they are
     -- visually distinct from the player's own quest icons. Frame alpha composes with the
     -- texture/minimap fade alpha. Runs on every draw, so recycled frames reset to 1.
     if self.data.ObjectiveData and self.data.ObjectiveData.IsPartyObjective then
@@ -340,6 +363,8 @@ end
 ---@param self IconFrame
 function _QuestieFrame.Unload(self)
     if not self._loaded then
+        -- Its paths draw without it, so they go now rather than once the draw queue reaches it.
+        QuestieWaypoints.RemoveOwner(self)
         self._needsUnload = true
         return -- icon is still in the draw queue
     end
@@ -366,6 +391,7 @@ function _QuestieFrame.Unload(self)
     end
     self.shouldBeShowing = nil
     self.faded = nil
+    self._hidden_by_flash = nil
     HBDPins:RemoveMinimapIcon(Questie, self)
     HBDPins:RemoveWorldMapIcon(Questie, self)
     QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self))
@@ -373,12 +399,9 @@ function _QuestieFrame.Unload(self)
     self.texture:SetVertexColor(1, 1, 1, 1)
     self.miniMapIcon = nil;
 
-    --Unload potential waypoint frames that are used for pathing.
-    if self.data and self.data.lineFrames then
-        for _, lineFrame in pairs(self.data.lineFrames) do
-            lineFrame:Unload();
-        end
-    end
+    -- Release the patrol paths this icon owns.
+    QuestieWaypoints.RemoveOwner(self)
+    self.minimapTwin = nil
 
     if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
     self:Hide()
@@ -402,14 +425,7 @@ function _QuestieFrame.FadeOut(self)
         self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
-        if self.data.lineFrames then
-            for _, lineFrame in pairs(self.data.lineFrames) do
-                local line = lineFrame.line
-                if line then
-                    line:SetColorTexture(line.dR, line.dG, line.dB, Questie.db.global.iconFadeLevel)
-                end
-            end
-        end
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 
@@ -421,14 +437,7 @@ function _QuestieFrame.FadeIn(self)
         self.texture:SetVertexColor(r, g, b, 1)
         r, g, b = self.glowTexture:GetVertexColor()
         self.glowTexture:SetVertexColor(r, g, b, 1)
-        if self.data.lineFrames then
-            for _, lineFrame in pairs(self.data.lineFrames) do
-                local line = lineFrame.line
-                if line then
-                    line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
-                end
-            end
-        end
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 
@@ -442,16 +451,12 @@ function _QuestieFrame.FakeHide(self)
             self.shouldBeShowing = true;
         end
         self:Hide();
-        if self.data.lineFrames then
-            for _, line in pairs(self.data.lineFrames) do
-                line:FakeHide()
-            end
-        end
         self._hide = self.Hide;
         self.Hide = function()
             self.shouldBeShowing = false;
         end
         self.hidden = true
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 
@@ -466,12 +471,8 @@ function _QuestieFrame.FakeShow(self)
         self._hide = nil
         if self.shouldBeShowing then
             self:Show();
-            if self.data.lineFrames then
-                for _, line in pairs(self.data.lineFrames) do
-                    line:FakeShow()
-                end
-            end
         end
+        QuestieWaypoints.OwnerChanged(self)
     end
 end
 
@@ -508,7 +509,8 @@ function _QuestieFrame.ShouldBeHidden(self)
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and (
-                ((not profile.enableAvailable) and normal)
+                (not profile.showAvailableQuests)
+                or ((not profile.enableAvailable) and normal)
                 or ((not profile.showRepeatableQuests) and repeatable)
                 or ((not profile.showEventQuests) and event)
                 or ((not profile.showDungeonQuests) and dungeon)

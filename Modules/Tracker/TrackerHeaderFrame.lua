@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class TrackerHeaderFrame
 local TrackerHeaderFrame = QuestieLoader:CreateModule("TrackerHeaderFrame")
 -------------------------
@@ -24,9 +27,11 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 local headerFrame, trackerBaseFrame
 
@@ -55,20 +60,16 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
             if QuestieJourney:IsShown() then
                 QuestieJourney:ToggleJourneyWindow()
             end
-
-            QuestieCombatQueue:Queue(function()
-                QuestieOptions:ToggleConfigWindow()
-            end)
+            QuestieOptionsEngine:ToggleConfigWindow()
 
             return
         elseif button == "RightButton" then
-            if QuestieConfigFrame:IsShown() then
-                QuestieConfigFrame:Hide()
-            end
+            QuestieOptions:HideFrame()
 
-            QuestieCombatQueue:Queue(function()
-                QuestieJourney:ToggleJourneyWindow()
-            end)
+            if QuestieOptionsEngine:IsShown() then
+                QuestieOptionsEngine:ToggleConfigWindow()
+            end
+            QuestieJourney:ToggleJourneyWindow()
 
             return
         end
@@ -83,26 +84,28 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
         end
         GameTooltip._owner = self
         GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-        GameTooltip:AddLine("Questie " .. QuestieLib:GetAddonVersionString(), 1, 1, 1)
-        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click") .. l10n(": "), "gray") .. l10n("Toggle Options"))
-        GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. l10n(": "), "gray") .. l10n("Toggle My Journey"))
+        GameTooltip:AddDoubleLine(Questie:Colorize("Questie", "gold"), Questie:Colorize(QuestieLib:GetAddonVersionString(), "gray"))
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. l10n(": "), "gray") .. l10n("Drag while Unlocked"))
-        GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. l10n(": "), "gray") .. l10n("Drag while Locked"))
+        GameTooltip:AddDoubleLine(Questie:Colorize(l10n("Left Click"), "lightBlue"), Questie:Colorize(l10n("Toggle Options"), "white"))
+        GameTooltip:AddDoubleLine(Questie:Colorize(l10n("Right Click"), "lightBlue"), Questie:Colorize(l10n("Toggle My Journey"), "white"))
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddDoubleLine(
+            Questie:Colorize(l10n("Left Click + Hold"), "lightBlue"),
+            Questie:Colorize(l10n("Drag while Unlocked"), "white")
+        )
+        GameTooltip:AddDoubleLine(
+            Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "lightBlue"),
+            Questie:Colorize(l10n("Drag while Locked"), "white")
+        )
 
-        local VoiceOver, TomTom = TrackerUtils:IsVoiceOverLoaded(), IsAddOnLoaded("TomTom")
-
-        if VoiceOver or TomTom then
+        if IsAddOnLoaded("TomTom") then
             GameTooltip:AddLine(" ")
-            GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations") .. l10n(": "), "gray"))
-
-            if VoiceOver then
-                GameTooltip:AddLine(Questie:Colorize(l10n("VoiceOver") .. l10n(": "), "white") .. l10n("Hold shift to see PlayButtons"))
-            end
-
-            if TomTom then
-                GameTooltip:AddLine(Questie:Colorize(l10n("TomTom") .. l10n(": "), "white") .. l10n("Ctrl + Left Click or Right Click a Quest Title"))
-            end
+            GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations"), "gold"))
+            GameTooltip:AddLine(" ")
+            GameTooltip:AddDoubleLine(
+                Questie:Colorize(l10n("TomTom"), "lightBlue"),
+                Questie:Colorize(l10n("Ctrl + Left Click or Right Click a Quest Title"), "white")
+            )
         end
 
         GameTooltip:Show()

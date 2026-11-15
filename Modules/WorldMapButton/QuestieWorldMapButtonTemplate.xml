@@ -1,4 +1,7 @@
 <Ui>
+    <!-- This template has no Lua module call, so it names its own load-timing interval. -->
+    <Script>QuestieLoader:StampLoadBoundary()</Script>
+
     <Button name="QuestieWorldMapButtonTemplate" frameStrata="HIGH" mixin="QuestieWorldMapButtonMixin" motionScriptsWhileDisabled="true" virtual="true">
         <Size x="32" y="32"/>
         <Layers>
@@ -20,7 +23,7 @@
             </Layer>
             <Layer level="ARTWORK">
                 <Texture parentKey="Icon" file="Interface\Addons\Questie\Icons\questie.png">
-                    <Size x="20" y="20"/>
+                    <Size x="22" y="22"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" x="6" y="-5"/>
                     </Anchors>

@@ -1,8 +1,13 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieOptions
 local QuestieOptions = QuestieLoader:CreateModule("QuestieOptions");
 -------------------------
 --Import modules.
 -------------------------
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type QuestieJourney
@@ -11,6 +16,14 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type Sounds
+local Sounds = QuestieLoader:ImportModule("Sounds")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 
 QuestieOptions.tabs = { ... }
 QuestieConfigFrame = nil
@@ -18,12 +31,21 @@ QuestieConfigFrame = nil
 local AceGUI = LibStub("AceGUI-3.0")
 ---@type AceConfigDialog-3.0
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+local SharedMedia = LibStub("LibSharedMedia-3.0")
 
 -- Forward declaration
 local _CreateOptionsTable
 
 ---Initializes the frames for the options menu
 function QuestieOptions:Initialize()
+    -------------------------------------------------------------------------------
+    -- This code is for creating the native Settings API menu, added in API 10.0 --
+    -------------------------------------------------------------------------------
+
+
+    ------------------------------------------------------------
+    -- Everything below this initializes the old AceGUI popup --
+    ------------------------------------------------------------
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
 
     local optionsTable = _CreateOptionsTable()
@@ -31,7 +53,7 @@ function QuestieOptions:Initialize()
     coroutine.yield()
 
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", optionsTable)
-    AceConfigDialog:AddToBlizOptions("Questie", "Questie");
+    --AceConfigDialog:AddToBlizOptions("Questie", "Questie");
 
     coroutine.yield()
 
@@ -103,6 +125,8 @@ _CreateOptionsTable = function()
     coroutine.yield()
     local icons_tab = QuestieOptions.tabs.icons:Initialize()
     coroutine.yield()
+    local map_tab = QuestieOptions.tabs.map:Initialize()
+    coroutine.yield()
     local tracker_tab = QuestieOptions.tabs.tracker:Initialize()
     coroutine.yield()
     local auto_tab = QuestieOptions.tabs.auto:Initialize()
@@ -113,6 +137,8 @@ _CreateOptionsTable = function()
     coroutine.yield()
     local advanced_tab = QuestieOptions.tabs.advanced:Initialize()
     coroutine.yield()
+    QuestieOptionsEngine:Initialize()
+    coroutine.yield()
     return {
         name = "Questie",
         handler = Questie,
@@ -121,6 +147,7 @@ _CreateOptionsTable = function()
         args = {
             general_tab = general_tab,
             icons_tab = icons_tab,
+            map_tab = map_tab,
             tracker_tab = tracker_tab,
             auto_tab = auto_tab,
             nameplate_tab = nameplate_tab,
@@ -130,3 +157,14 @@ _CreateOptionsTable = function()
         }
     }
 end
+
+-- Hook initialization into addon load sequence
+--local initFrame = CreateFrame("Frame")
+--initFrame:RegisterEvent("ADDON_LOADED")
+--initFrame:SetScript("OnEvent", function(self, event, addonName)
+--    if addonName == "Questie" then -- Replace with your actual folder name
+--        self:UnregisterEvent("ADDON_LOADED")
+--    end
+--end)
+
+return QuestieOptions

@@ -25,10 +25,11 @@ function CommsRouting:GetGroupBroadcastDistribution(input)
 end
 
 ---AceComm calls Ambiguate(sender, "none"), so our own sender is the short player name.
+---However for WoW Forever the sender is "Firstname Lastname" even after the Ambiguate call.
 ---@param sender string
 ---@return boolean
 function CommsRouting:IsSelf(sender)
-    return sender == UnitName("player")
+    return sender == GetUnitName("player")
 end
 
 ---Returns true when the addon message arrived over a grouped distribution from a grouped sender.

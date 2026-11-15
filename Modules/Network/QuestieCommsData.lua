@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -8,7 +11,7 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
+local GetItemInfo = QuestieCompat.GetItemInfo
 
 --[i_1337][playerName][questId] = objective
 local commsTooltipLookup = {}
@@ -28,8 +31,12 @@ function QuestieComms.data:KeyExists(tooltipKey)
     end
 end
 
+---Builds remote objective rows for an entity key; callers must check KeyExists first.
+---Returns available wording immediately. Loading callbacks can update the returned rows later,
+---but do not refresh strings a tooltip has already rendered. Rows retain counter-free text for fallback
+---and optional nativeText for native-layout rendering with the remote fulfilled/required values.
 ---@param tooltipKey string @A key in the form of "i_1337"
----@return table @tooltipData[questId][playerName][objectiveIndex].text
+---@return table @tooltipData[questId][playerName][objectiveIndex]
 function QuestieComms.data:GetTooltip(tooltipKey)
     local tooltipData = {}
     for playerName, questData in pairs(commsTooltipLookup[tooltipKey]) do
@@ -40,37 +47,73 @@ function QuestieComms.data:GetTooltip(tooltipKey)
             if(not tooltipData[questId][playerName]) then
                 tooltipData[questId][playerName] = {};
             end
+            -- Prefer Blizzard's wording, even when this quest is absent from our own quest log.
+            local questObjectives = QuestieLib.GetLoadedQuestObjectives(questId)
             for objectiveIndex, objective in pairs(objectives) do
                 if(not tooltipData[questId][playerName][objectiveIndex]) then
                     tooltipData[questId][playerName][objectiveIndex] = {};
                 end
-                local oName = "";
-                if((objective.type == "monster" or objective.type == "m") and objective.id) then
-                    oName = QuestieDB:GetNPC(objective.id).name;
-                elseif((objective.type == "object" or objective.type == "o") and objective.id) then
-                    oName = QuestieDB:GetObject(objective.id).name;
-                elseif((objective.type == "item" or objective.type == "i") and objective.id) then
-                    local dbItem = QuestieDB:GetItem(objective.id);
-                    if(dbItem and dbItem.name and (not dbItem.Hidden)) then
-                        oName = dbItem.name;-- this is capital letters for some reason...
-                    else
-                        local itemName = GetItemInfo(objective.id)
-                        if(itemName) then
-                            oName = itemName;
+
+                -- Wording comes from quest data; progress must remain the remote player's comms values.
+                local row = tooltipData[questId][playerName][objectiveIndex]
+                local questObjective = questObjectives and questObjectives[objectiveIndex]
+                if questObjective then
+                    -- Preserve native layout for counter replacement; keep counter-free wording for fallback renderers.
+                    local text = QuestieLib.GetFullObjectiveText(questObjective.text) or questObjective.text
+                    row.text = text ~= "" and text or nil
+                    row.nativeText = questObjective.text ~= "" and questObjective.text or nil
+                end
+                row.fulfilled = objective.fulfilled
+                row.required = objective.required
+
+                if not row.text then
+                    -- Use entity names as interim text while the quest wording loads.
+                    ---@type (fun(): boolean)?
+                    local itemCallbackCancel
+
+                    if (not row.text) and (objective.type == "monster" or objective.type == "m") and objective.id then
+                        local npc = QuestieDB:GetNPC(objective.id)
+                        row.text = npc and npc.name
+                    elseif (not row.text) and (objective.type == "object" or objective.type == "o") and objective.id then
+                        local object = QuestieDB:GetObject(objective.id)
+                        row.text = object and object.name
+                    elseif (not row.text) and (objective.type == "item" or objective.type == "i") and objective.id then
+                        local dbItem = QuestieDB:GetItem(objective.id);
+                        if(dbItem and dbItem.name and (not dbItem.Hidden)) then
+                            row.text = dbItem.name;
                         else
-                            oName = "Item missing from DB, fetching from server!";
-                            local item = Item:CreateFromItemID(objective.id)
-                            item:ContinueOnItemLoad(function()
-                                local name = item:GetItemName();
-                                oName = name;
-                                tooltipData[questId][playerName][objectiveIndex].text = name;
-                            end)
+                            -- Missing or hidden DB item: try the client cache, then request its name.
+                            local itemName = GetItemInfo(objective.id)
+                            if(itemName) then
+                                row.text = itemName;
+                            else
+                                row.text = "Item missing from DB, fetching from server!";
+                                local item = Item:CreateFromItemID(objective.id)
+                                itemCallbackCancel = item:ContinueWithCancelOnItemLoad(function()
+                                    row.text = item:GetItemName() or row.text
+                                end)
+                            end
                         end
                     end
+
+                    -- Upgrade this returned row when quest text arrives; timeout leaves the fallback intact.
+                    QuestieLib.ContinueOnQuestObjectivesLoad(questId, function(loadedObjectives)
+                        local questObjective = loadedObjectives[objectiveIndex]
+                        if questObjective then
+                            local text = QuestieLib.GetFullObjectiveText(questObjective.text) or questObjective.text
+                            if text ~= nil and text ~= "" then
+                                -- A late item-name callback must not overwrite valid API wording.
+                                if itemCallbackCancel then
+                                    itemCallbackCancel()
+                                end
+                                row.text = text
+                                row.nativeText = questObjective.text
+                            end
+                        end
+                    end)
                 end
-                tooltipData[questId][playerName][objectiveIndex].text = oName
-                tooltipData[questId][playerName][objectiveIndex].fulfilled = objective.fulfilled;
-                tooltipData[questId][playerName][objectiveIndex].required = objective.required;
+                -- Tooltip consumers concatenate this field even when neither source supplies a name.
+                row.text = row.text or ""
             end
         end
     end
@@ -112,6 +155,12 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
             end
         end
     end
+
+    -- Prime Blizzard's cache before the first hover; GetTooltip reads and validates the result later.
+    C_QuestLog.GetQuestObjectives(questId)
+    C_Timer.After(0.2, function()
+        C_QuestLog.GetQuestObjectives(questId)
+    end)
 end
 
 function QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveIndex, data)

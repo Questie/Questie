@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.36.1/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/latest/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -20,6 +20,15 @@ Alternatively you can always use [the latest GitHub release](https://github.com/
 
 If you have problems, please read the [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ-for-Classic-(1.13)).
 
+## Questie DB
+
+Since Questie version 12.0.0 the database is kept in a separate addon called QuestieDB that is required for Questie to work and the Curseforge release is now separated.
+
+The Curseforge app should install it automatically, but if you install manually, [download QuestieDB as well from here](https://www.curseforge.com/wow/addons/questiedb).
+
+Alternatively, the Github release for [QuestieDB can be found here](https://github.com/Questie/QuestieDB/releases/latest).
+
+[Github releases for Questie](https://github.com/Questie/Questie/releases/latest) also include the latest QuestieDB at time of release.
 
 ## Information
 - [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ)
@@ -52,7 +61,7 @@ Following [this guide](https://github.com/Questie/Questie/wiki/Localization-to-m
 ### Installing Lua
 
 1. Install [Lua](https://www.lua.org/download.html) (5.1, since the WoW client uses Lua 5.1)
-   - For macOS that is `brew install lua@5.1`
+   - Homebrew no longer provides Lua 5.1; get 5.1.5 from the [Lua source archive](https://www.lua.org/ftp/)
 2. Install [luarocks](https://luarocks.org/)
    - For macOS that is `brew install luarocks`
 3. Configure `luarocks` to use the correct Lua version (by default luarocks uses the latest installed Lua version)
@@ -75,13 +84,15 @@ Questie uses `luacheck` for linting. You can run it locally with:
 1. Run `busted -p ".test.lua" .` in the root directory of the project
 2. When adding new tests, make sure to name them `<module>.test.lua` and place them next to the module
 
-### Database validation
+### Entity database validation
 
-There is a validation script for every expansion that checks the database for common errors. That way we try to keep data as correct as possible, and we don't forget to adjust the `NPC.questStarts` field when we adjust `Quest.startedBy`. You can run the scripts with:
+See [QuestieDB integration](docs/questiedb-integration.md) for data ownership, initialization, and testing against the real provider.
 
-`lua cli/validate-<expansion>.lua`
+Entity database validation is owned by QuestieDB. Questie retains loader-usage validation, which you can run with:
 
-Replace `<expansion>` with the expansion you want to validate (check the `cli` folder for available scripts).
+`lua cli/validate-loader-usage.lua`
+
+If your system `lua` is newer than 5.1, run it with your Lua 5.1 binary instead, e.g. `lua5.1 cli/validate-loader-usage.lua`.
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so via PayPal:
@@ -106,6 +117,7 @@ Checkout the [README of the Questie API](./Public/README.md).
 - Automatically tracks quests on accepting
 - Can show all quests from the log at once (instead of default 5)
 - Left click quest to open quest log (configurable)
+- Hover a quest title or objective to see your progress and party members' progress on clients with native quest-party tooltips (including Forever). Uses Questie's quest formatting where supported, while keeping native completion icons and localized text.
 - Right-click for more options, e.g.:
     - Focus quest (makes other quest icons translucent)
     - Point arrow towards objective (requires [TomTom addon](https://www.curseforge.com/wow/addons/tomtom))

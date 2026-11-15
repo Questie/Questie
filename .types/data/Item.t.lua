@@ -4,6 +4,7 @@
 ---@class ItemDropSource
 ---@field Id NpcId|ObjectId
 ---@field Type "monster"|"object"
+---@field Vendor true? The NPC sells the item rather than dropping it.
 
 ---@class ItemClass
 local ItemClass = {

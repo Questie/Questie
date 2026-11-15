@@ -13,6 +13,18 @@ function QuestieOptionsDefaults:Load()
             eventScale = 1.35,
             lootScale = 1,
             iconFadeLevel = 0.3,
+            waypointMapEnabled = true,
+            waypointMinimapEnabled = true,
+            waypointWidth = 3,
+            waypointOpacity = 1,
+            -- AceDB saves only the channels that differ from these, so changing a default color needs a
+            -- migration writing whole colors, or saved colors mix with the new default.
+            waypointColor = {1, 0.72, 0, 0.5},
+            waypointHostileColor = {1, 0.2, 0, 0.7},
+            waypointHighlight = true,
+            waypointHighlightColor = {0.93, 0.46, 0.13, 0.8},
+            waypointSmoothing = 0.75,
+            waypointDebugHover = false,
             trackerLocked = true,
             monsterScale = 1,
             objectScale = 1,
@@ -52,12 +64,14 @@ function QuestieOptionsDefaults:Load()
             enableObjectives = true,
             enableTurnins = true,
             enableAvailable = true,
+            showAvailableQuests = true,
             enableAvailableItems = true,
             enableTooltips = true,
             enableTooltipsItemID = false,
             enableTooltipsNPCID = false,
             enableTooltipsBreadcrumbQuests = false,
             enableTooltipsObjectID = false,
+            enableTooltipsSpellID = false,
             enableTooltipsQuestID = false,
             enableTooltipsQuestLevel = true,
             showQuestXpAtMaxLevel = false,
@@ -68,27 +82,29 @@ function QuestieOptionsDefaults:Load()
             questieShutUp = false,
             bugWorkarounds = true,
             hideIconsOnContinents = false,
-            trimObjectiveText = true,
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
             trackerShowCompleteQuests = true,
             trackerShowQuestLevel = true,
             collapseCompletedQuests = false,
+            trackerShowQuestFocusButtons = true,
+            trackerShowPlayButtons = true,
             hideCompletedQuestObjectives = false,
             hideBlizzardCompletionText = false,
             hideCompletedAchieveObjectives = true,
-            showBlizzardQuestTimer = false,
             trackerHeaderEnabled = true,
             moveHeaderToBottom = false,
             stickyDurabilityFrame = false,
             minimizeTrackerInCombat = false,
-            minimizeTrackerInDungeons = true,
+            minimizeTrackerInInstances = true,
             hideTrackerInCombat = false,
-            hideTrackerInDungeons = false,
+            hideTrackerInInstances = false,
             hideTrackerInPetBattles = true,
             trackerFadeMinMaxButtons = false,
             trackerFadeQuestItemButtons = false,
+            trackerFadeQuestFocusButtons = false,
+            trackerFollowSuperTracking = false,
             trackerDisableHoverFade = false,
             trackerBackdropEnabled = false,
             currentBackdropEnabled = false,
@@ -175,12 +191,14 @@ function QuestieOptionsDefaults:Load()
             iconTheme = "questie",
 
             minimap = {
-                hide = false
+                hide = false,
+                showInCompartment = true
             },
 
             TrackerWidth = 0,
             TrackerHeight = 0,
 
+            townsfolkKnownProfessions = false,
             townsfolkConfig = {
                 ["Repair"] = false,
                 ["Innkeeper"] = true,
@@ -233,13 +251,11 @@ function QuestieOptionsDefaults:Load()
             collapsedZones = {},
             minAllQuestsInZone = {},
             collapsedQuests = {},
-            trackedAchievementIds = {},
         },
         global = {
             questieLocale = "enUS",
             questieLocaleDiff = false,
             journeyKeybindDefaultApplied = false,
-            sod = {}, -- Special place for the SoD database
         }
     }
 end

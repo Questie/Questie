@@ -13,8 +13,12 @@ describe("Phasing", function()
     local QuestLogCache
 
     local phases
+    local previousLibQuestieDB
 
     before_each(function()
+        previousLibQuestieDB = _G.LibQuestieDB
+        _G.LibQuestieDB = {Enum = {phases = dofile("test/PhasingConstantsMock.lua")}}
+
         -- Accessing _G["Questie"] is required
         _G["Questie"] = {db = {char = {complete = {}}}}
         Questie = _G["Questie"]
@@ -26,6 +30,25 @@ describe("Phasing", function()
         Phasing = QuestieLoader:ImportModule("Phasing")
         phases = Phasing.phases
         Phasing.Initialize()
+    end)
+
+    after_each(function()
+        _G.LibQuestieDB = previousLibQuestieDB
+    end)
+
+    it("should expose the provider's phase table without copying it", function()
+        assert.are.equal(LibQuestieDB.Enum.phases, Phasing.phases)
+    end)
+
+    it("should use provider-supplied fake phase IDs for visibility", function()
+        LibQuestieDB.Enum.phases.HYJAL_IAN_AND_TARIK_NOT_IN_CAGE = 900001
+        dofile("Modules/Phasing.lua")
+        Phasing = QuestieLoader:ImportModule("Phasing")
+        Phasing.Initialize()
+        Questie.db.char.complete[25272] = true
+
+        assert.is_true(Phasing.IsSpawnVisible(900001))
+        assert.is_false(Phasing.IsSpawnVisible(1000))
     end)
 
     it("should return true for phase nil", function()

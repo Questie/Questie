@@ -1,3 +1,6 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieReputation
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 ---@type QuestiePlayer
@@ -11,10 +14,10 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local playerReputations = {}
 
-local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _FilterShaTarRewards
+local _ReachedNewStanding, _WinterSaberChanged, _GetRewardMultiplier, _GetBuffMultiplier, _GetActiveDiplomatStacks, _FilterShaTarRewards
 
 -- Fast local references
-local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+local ExpandFactionHeader, GetNumFactions, GetFactionInfo = QuestieCompat.ExpandFactionHeader, QuestieCompat.GetNumFactions, QuestieCompat.GetFactionInfo
 local tinsert, floor = table.insert, math.floor
 
 --- Updates all factions a player already discovered and checks if any of these
@@ -302,7 +305,7 @@ function QuestieReputation.GetReputationReward(questId)
         if reward then
             reward = reward * (reward > 0 and reputationMultiplier or 1)
             -- faction bonus commendation check
-            if select(15, GetFactionInfoByID(factionId)) == true then
+            if select(15, QuestieCompat.GetFactionInfoByID(factionId)) == true then
                 reward = reward * 2
             end
 
@@ -313,15 +316,52 @@ function QuestieReputation.GetReputationReward(questId)
     return rewards
 end
 
+_GetActiveDiplomatStacks = function()
+    -- Correct API command to get the player's active progression configuration
+    local configID = C_Traits.GetConfigIDBySystemID(45) -- 45 for Legacy Tree
+    if not configID then return 0 end
+
+    -- Fetch the specific tree structural data attached to this config
+    local configInfo = C_Traits.GetConfigInfo(configID)
+    if not configInfo or not configInfo.treeIDs then return 0 end
+
+    for _, treeID in ipairs(configInfo.treeIDs) do
+        local nodes = C_Traits.GetTreeNodes(treeID)
+        for _, nodeID in ipairs(nodes or {}) do
+            local nodeInfo = C_Traits.GetNodeInfo(configID, nodeID)
+            
+            if nodeInfo and nodeInfo.entryIDs then
+                for _, entryID in ipairs(nodeInfo.entryIDs) do
+                    local entryInfo = C_Traits.GetEntryInfo(configID, entryID)
+                    if entryInfo and entryInfo.definitionID then
+                        local defInfo = C_Traits.GetDefinitionInfo(entryInfo.definitionID)
+                        -- Match against the target Diplomat spell ID (1225485)
+                        if defInfo and defInfo.spellID == 1225485 then 
+                            return nodeInfo.currentRank or 0
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return 0
+end
+
 _GetRewardMultiplier = function()
     local knowsMrPopularityRank1 = QuestieCompat.IsSpellKnown(78634)
     local knowsMrPopularityRank2 = QuestieCompat.IsSpellKnown(78635)
     local buffMultiplier = _GetBuffMultiplier()
-    local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
     local multiplier = 1 + buffMultiplier
 
-    if playerIsHuman and not Questie.IsTitanReforged then
-        multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
+    -- in Forever the Classic human racial is now a legacy talent, available for every race
+    if Questie.IsForever then
+        local diplomatRanks = _GetActiveDiplomatStacks()
+        multiplier = multiplier + diplomatRanks * 0.02 -- 2% bonus reputation for each rank of Diplomat
+    else
+        local playerIsHuman = QuestiePlayer.HasRequiredRace(QuestieDB.raceKeys.HUMAN)
+        if playerIsHuman and not Questie.IsTitanReforged then
+            multiplier = multiplier + 0.1 -- 10% bonus reputation from Diplomacy (Human Racial, not present on Titan servers)
+        end
     end
 
     if knowsMrPopularityRank2 then
@@ -333,11 +373,15 @@ _GetRewardMultiplier = function()
     return multiplier
 end
 
+---Returns the temporary reputation bonus, omitting aura bonuses during Forever combat.
+---This changes only the displayed estimate; racial and other non-aura modifiers still apply.
 ---@return number
 _GetBuffMultiplier = function()
+    if Questie.IsForever and (InCombatLockdown() or IsInInstance()) then return 0 end
+
     local buffMultiplier = 0
     for i = 1, 40 do
-        local _, _, _, _, _, _, _, _, _, spellId, _ = UnitAura("player", i, "HELPFUL")
+        local _, _, _, _, _, _, _, _, _, spellId, _ = QuestieCompat.UnitAura("player", i, "HELPFUL")
         if spellId == nil then
             break
         end
@@ -394,7 +438,7 @@ function QuestieReputation.GetFactionName(factionId)
         return friendReputation.name
     end
 
-    return select(1, GetFactionInfoByID(factionId))
+    return select(1, QuestieCompat.GetFactionInfoByID(factionId))
 end
 
 ---@param reputationReward ReputationPair[]

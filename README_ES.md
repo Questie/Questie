@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v11.36.1/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/latest/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -51,7 +51,6 @@ Siguiendo [esta guía](https://github.com/Questie/Questie/wiki/Localization-to-m
 ### Instalando Lua
 
 1. Instala [Lua](https://www.lua.org/download.html) (5.1, ya que el cliente de WoW usa Lua 5.1)
-   - En macOS eso es `brew install lua@5.1`
 2. Instala [luarocks](https://luarocks.org/)
    - En macOS eso es `brew install luarocks`
 3. Configura `luarocks` para usar la versión correcta de Lua (por defecto luarocks usa la versión más reciente instalada)
@@ -74,13 +73,11 @@ Questie usa `luacheck` para linting. Puedes ejecutarlo localmente con:
 1. Ejecuta `busted -p ".test.lua" .` en el directorio raíz del proyecto
 2. Al agregar nuevos tests, asegúrate de nombrarlos `<module>.test.lua` y ubicarlos junto al módulo
 
-### Validación de la base de datos
+### Validación de la base de datos de entidades
 
-Hay un script de validación para cada expansión que comprueba la base de datos en busca de errores comunes. De esa manera intentamos mantener los datos lo más correctos posible, y no olvidarnos de ajustar el campo `NPC.questStarts` cuando ajustamos `Quest.startedBy`. Puedes ejecutar los scripts con:
+QuestieDB se encarga de validar la base de datos de entidades. Questie conserva la validación del uso del cargador, que puedes ejecutar con:
 
-`lua cli/validate-<expansion>.lua`
-
-Reemplaza `<expansion>` con la expansión que quieras validar (revisa la carpeta `cli` para ver los scripts disponibles).
+`lua cli/validate-loader-usage.lua`
 
 ## Donaciones
 Si quieres apoyar el desarrollo de Questie mediante una donación, puedes hacerlo vía PayPal:

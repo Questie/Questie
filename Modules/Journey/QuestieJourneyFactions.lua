@@ -1,10 +1,7 @@
 ---@class QuestieJourneyFactions
 local QuestieJourneyFactions = QuestieLoader:CreateModule("QuestieJourneyFactions")
 
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
-local factionIDs = QuestieDB.factionIDs
+local factionIDs = LibQuestieDB.Enum.factionIDs
 
 ---Per-expansion faction lists for the Journey "Quests by Faction" tab.
 ---@type table<string, FactionId[]>
@@ -48,6 +45,21 @@ QuestieJourneyFactions.expansionFactionCandidates = {
         factionIDs.HORDE_FORCES,
         factionIDs.DARKMOON_FAIRE,
         factionIDs.BROOD_OF_NOZDORMU,
+        -- only visible in Forever
+        factionIDs.AZEROTH_COMMERCE_AUTHORITY,
+        factionIDs.DUROTAR_SUPPLY_AND_LOGISTICS,
+        factionIDs.CENARION_SCOUTS,
+        factionIDs.KIRIN_TOR_FOREVER,
+        factionIDs.BARKSKIN_BURROW,
+        factionIDs.NIGHTCLAW_DRUIDS,
+        factionIDs.GUARDIANS_OF_HYJAL_FOREVER,
+        factionIDs.WINDSHAPERS,
+        factionIDs.HIGH_ORDER,
+        factionIDs.BOLDEROK_CLAN,
+        factionIDs.EARTHEN_RING_FOREVER,
+        factionIDs.THE_WATCHERS,
+        factionIDs.BROTHERHOOD_OF_THE_HORSE,
+        factionIDs.POWDERFUSE,
     },
     tbc = {
         factionIDs.SILVERMOON_CITY,

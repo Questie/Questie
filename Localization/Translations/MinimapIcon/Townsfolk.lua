@@ -136,6 +136,18 @@ local townsfolkLocales = {
         ["zhCN"] = "邮箱",
         ["zhTW"] = "郵箱",
     },
+    ["Known Professions"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Bekannte Berufe",
+        ["esES"] = "Profesiones conocidas",
+        ["esMX"] = "Profesiones conocidas",
+        ["frFR"] = "Métiers connus",
+        ["koKR"] = "배운 전문 기술",
+        ["ptBR"] = "Profissões conhecidas",
+        ["ruRU"] = "Известные профессии",
+        ["zhCN"] = "已学专业",
+        ["zhTW"] = "已學專業",
+    },
     ["Profession Trainers"] = {
         ["enUS"] = true,
         ["deDE"] = "Berufsausbilder",
@@ -283,7 +295,7 @@ local townsfolkLocales = {
     ["Weapon Master"] = {
         ["enUS"] = true,
         ["deDE"] = "Waffenmeister",
-        ["esES"] = (Expansions.Current == Expansions.Era and "Maestro armero") or "Maestro de armas",
+        ["esES"] = (Expansions:IsEra() and "Maestro armero") or "Maestro de armas",
         ["esMX"] = "Maestro de armas",
         ["frFR"] = "Maître d'armes",
         ["koKR"] = "무기 전문가",

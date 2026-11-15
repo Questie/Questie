@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
 
-import os
-import shutil
-import subprocess
-import sys
-import fileinput
-import re
-
 """
+Each build writes one ZIP and a matching release.json with component metadata.
+Standalone builds (the default) do not download QuestieDB; bundled builds include it
+and the latest stable QuestieTrace release.
+
 This program accepts optional command line options:
+
+    -s
+    --standalone
+        Build Questie only (default); QuestieDB must be installed separately
+    -b
+    --bundled
+        Build Questie, QuestieDB and QuestieTrace together
 
     -r
     --release
-        Do not include commit hash in directory/zip/version names
+        Do not include commit hash and branch name in directory/zip/version names
+    -pr
+    --prerelease
+        Use release packaging with -pre.<Questie commit> in the ZIP name
+    -v <versionString>
+    --version <versionString>
+        Disregard git and toc versions, and use <versionString> instead
+
     -a
     --all
         Included files for all expansions
@@ -25,139 +36,269 @@ This program accepts optional command line options:
     -w
     --wotlk
         Include WotLK files
-
     -ca
     --cata
         Include Cata files
-        
     -m
     --mop
         Include MoP files
-
-    -v <versionString>
-    --version <versionString>
-        Disregard git and toc versions, and use <versionString> instead
-
+    -f
+    --forever
+        Include Forever files
 """
+
+import fileinput
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from typing import Iterable
+
+import changelog
+
+
 addonDir = "Questie"
 includedExpansions = []
-tocs = ["", "Questie-Classic.toc", "Questie-BCC.toc", "Questie-WOTLKC.toc", "Questie-Cata.toc", "Questie-Mists.toc"]
+# Expansion settings shared by selection, packaging, and addon-manager metadata.
+# Defaults apply only when no flavor is selected.
+EXPANSIONS = {
+    1: {
+        "flags": ("-c", "--classic"),
+        "toc_suffix": "Vanilla",
+        "flavor": "classic",
+        "default": True,
+    },
+    2: {
+        "flags": ("-t", "--tbc"),
+        "toc_suffix": "TBC",
+        "flavor": "bcc",
+        "default": True,
+    },
+    3: {
+        "flags": ("-w", "--wotlk"),
+        "toc_suffix": "Wrath",
+        "flavor": "wrath",
+        "default": True,
+    },
+    4: {
+        "flags": ("-ca", "--cata"),
+        "toc_suffix": "Cata",
+        "flavor": "cata",
+        "default": False,
+    },
+    5: {
+        "flags": ("-m", "--mop"),
+        "toc_suffix": "Mists",
+        "flavor": "mists",
+        "default": True,
+    },
+    160: { # weird value here because Blizzard broke their versioning scheme with Forever (1.60) and we have to represent it somehow
+        "flags": ("-f", "--forever"),
+        "toc_suffix": "Camelot",
+        "extra_toc_suffixes": ("Forever",),
+        "flavor": "forever",
+        "default": True,
+    },
+}
+tocs = {}
+dbTocs = {}
+allTocs = {}
+for number, expansion in EXPANSIONS.items():
+    tocs[number] = f"Questie_{expansion['toc_suffix']}.toc"
+    dbTocs[number] = f"QuestieDB_{expansion['toc_suffix']}.toc"
+    # Extra TOCs are shipped and stamped alongside the primary one.
+    allTocs[number] = [tocs[number]] + [f"Questie_{suffix}.toc" for suffix in expansion.get("extra_toc_suffixes", ())]
+
+directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Public"]
+filesToInclude = ["Bindings.xml", "embeds.xml", "Questie.lua", "Questie.toc", "README.md", "README_ES.md", "README_CN.md", "LICENSE.md", "gpl-3.0.md"]
+# originals hold texture sources and the scripts that render them; only their output ships.
+ignorePatterns = ["*.test.lua", "originals"]
 
 
 def main():
+    """Stage the selected addons, package one ZIP, and describe it in release.json."""
+    # Reject declaration drift before naming or replacing any build outputs.
+    get_required_db_contract([toc for group in allTocs.values() for toc in group])
     isReleaseBuild = False
+    isPrereleaseBuild = False
+    bundled = None
+    includedExpansions.clear()
     versionOverride = ""
     if len(sys.argv) > 1:
-        ver = False
+        expect_version = False
         for arg in sys.argv[1:]:
-            if ver:
+            if expect_version:
                 versionOverride = arg
-                ver = False
+                expect_version = False
+            elif arg in ["-s", "--standalone", "-b", "--bundled"]:
+                requested_bundled = arg in ["-b", "--bundled"]
+                if bundled is not None and bundled != requested_bundled:
+                    raise ValueError("Choose either --standalone or --bundled")
+                bundled = requested_bundled
             elif arg in ["-r", "--release"]:
                 isReleaseBuild = True
                 print("Creating a release build")
+            elif arg in ["-pr", "--prerelease"]:
+                isReleaseBuild = True
+                isPrereleaseBuild = True
+                print("Creating a prerelease build")
             elif arg in ["-v", "--version"]:
-                ver = True
+                expect_version = True
             elif arg in ["-a", "--all"]:
-                if 1 not in includedExpansions:
-                    includedExpansions.append(1)
-                if 2 not in includedExpansions:
-                    includedExpansions.append(2)
-                if 3 not in includedExpansions:
-                    includedExpansions.append(3)
-                if 4 not in includedExpansions:
-                    includedExpansions.append(4)
-                if 5 not in includedExpansions:
-                    includedExpansions.append(5)
-            elif arg in ["-c", "--classic"] and 1 not in includedExpansions:
-                includedExpansions.append(1)
-            elif arg in ["-t", "--tbc"] and 2 not in includedExpansions:
-                includedExpansions.append(2)
-            elif arg in ["-w", "--wotlk"] and 3 not in includedExpansions:
-                includedExpansions.append(3)
-            elif arg in ["-ca", "--cata"] and 4 not in includedExpansions:
-                includedExpansions.append(4)
-            elif arg in ["-m", "--mop"] and 5 not in includedExpansions:
-                includedExpansions.append(5)
-    if len(includedExpansions) == 0:
-        # If expansions go online/offline their major version needs to be added/removed here
-        includedExpansions.append(1)
-        includedExpansions.append(2)
-        includedExpansions.append(3)
-        includedExpansions.append(5)
+                for number in EXPANSIONS:
+                    if number not in includedExpansions:
+                        includedExpansions.append(number)
+            else:
+                for number, expansion in EXPANSIONS.items():
+                    if arg in expansion["flags"] and number not in includedExpansions:
+                        includedExpansions.append(number)
+    if bundled is None:
+        bundled = False
+    if not includedExpansions:
+        for number, expansion in EXPANSIONS.items():
+            if expansion["default"]:
+                includedExpansions.append(number)
 
-    release_dir = get_version_dir(isReleaseBuild, versionOverride)
+    # Rebuild this output directory from fresh staging; previous outputs are replaced.
+    version, nr_of_commits, recent_commit = get_git_information()
+    release_dir = get_version_dir(isReleaseBuild, versionOverride, version, nr_of_commits, recent_commit)
 
     if os.path.isdir("releases/%s" % release_dir):
         print("Warning: Folder already exists, removing!")
         shutil.rmtree("releases/%s" % release_dir)
 
     release_folder_path = "releases/%s" % release_dir
-    release_addon_folder_path = release_folder_path + ("/%s" % addonDir)
+    release_addon_folder_path = release_folder_path + ("/tmp/%s" % addonDir)
 
     copy_content_to(release_addon_folder_path)
 
+    # Standalone builds need no download. Bundled builds verify the provider before packaging.
+    dbManifest = None
+    dbVersion, dbHash = None, None
+    if bundled:
+        dbManifest = copy_db_content_to(release_folder_path + "/tmp")
+        dbVersion, dbHash = get_db_version(release_folder_path + "/tmp/QuestieDB/")
+        # Names and notes must describe the provider that was actually extracted.
+        for expansion_id in includedExpansions:
+            with open(release_folder_path + "/tmp/QuestieDB/" + dbTocs[expansion_id], encoding="utf-8") as toc:
+                contents = toc.read()
+            versions = re.findall(r"^## Version: (.*?)$", contents, re.MULTILINE)
+            commits = re.findall(r"^## X-BUILD-COMMIT: (.*?)$", contents, re.MULTILINE)
+            if versions != [dbManifest["version"]] or commits != [dbManifest["producerCommit"]]:
+                raise ValueError("QuestieDB TOC does not match the downloaded manifest: " + dbTocs[expansion_id])
+        print("DB version:", dbVersion, dbHash)
+        traceManifest = copy_trace_content_to(release_folder_path + "/tmp")
+        print("QuestieTrace version:", traceManifest["version"])
+
+    # Stamp only staged Questie TOCs; source files and the provider version remain unchanged.
     if versionOverride != "":
-        for tocN in includedExpansions:
-            toc = tocs[tocN]
-            questie_toc_path = release_addon_folder_path + toc
-            with fileinput.FileInput(questie_toc_path, inplace=True) as file:
+        vs = versionOverride
+        if not isReleaseBuild:
+            vs += "-%s" % recent_commit
+        for expansion_id in includedExpansions:
+            for toc in allTocs[expansion_id]:
+                with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
+                    for line in file:
+                        if line[:10] == "## Version":
+                            print("## Version: " + vs)
+                        elif line[:8] == '## Title':
+                            print('## Title: Questie|cFF00FF00 ' + vs + '|r')
+                        else:
+                            print(line, end="")
+
+    with open(release_addon_folder_path + "/" + tocs[includedExpansions[0]], encoding="utf-8") as toc:
+        questieVersion = re.search(r"^## Version: (.*?)$", toc.read(), re.MULTILINE).group(1)
+
+    # Questie's identity is independent of build mode and the selected database.
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    questie = {
+        "repository": "https://github.com/Questie/Questie",
+        "version": questieVersion,
+        "producerCommit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=script_dir, text=True).strip(),
+        "changelog": changelog.get_changelog_entries(),
+    }
+
+    # Add Questie commit to toc files
+    for expansion_id in includedExpansions:
+        for toc in allTocs[expansion_id]:
+            with fileinput.FileInput(release_addon_folder_path + "/" + toc, inplace=True) as file:
                 for line in file:
-                    if line[:10] == "## Version":
-                        print("## Version: " + versionOverride)
+                    if line == "## X-Wago-ID: qv634BKb\n":
+                        print(line + "## X-BUILD-COMMIT: %s" % questie["producerCommit"])
                     else:
                         print(line, end="")
 
+    # Archive creation removes staging. Write release metadata only after the ZIP succeeds.
     zip_name = "%s-%s" % (addonDir, release_dir)
-    zip_release_folder(zip_name, release_dir, addonDir)
+    if isPrereleaseBuild:
+        zip_name += "-pre." + questie["producerCommit"][:7]
+    filename = zip_release_folder(zip_name, release_dir, isReleaseBuild, dbVersion, dbHash)
 
-    interface_classic = get_interface_versions()
-    interface_bcc = get_interface_versions("BCC")
-    interface_wotlk = get_interface_versions("WOTLKC")
-    interface_cata = get_interface_versions("Cata")
-    interface_mop = get_interface_versions("Mists")
+    # Advertise every declared interface for each selected flavor.
+    metadata = []
+    for expansion_id, expansion in EXPANSIONS.items():
+        if expansion_id in includedExpansions:
+            for interface in get_interface_versions(expansion["toc_suffix"]):
+                metadata.append({"flavor": expansion["flavor"], "interface": int(interface)})
 
-    def flavor_entries(flavor, versions):
-        result = ""
-        for v in versions:
-            result += """
-                {
-                    "flavor": "%s",
-                    "interface": %s
-                },""" % (flavor, v)
-        return result
-
-    flavorString = ""
-    if 1 in includedExpansions:
-        flavorString += flavor_entries("classic", interface_classic)
-    if 2 in includedExpansions:
-        flavorString += flavor_entries("bcc", interface_bcc)
-    if 3 in includedExpansions:
-        flavorString += flavor_entries("wrath", interface_wotlk)
-    if 4 in includedExpansions:
-        flavorString += flavor_entries("cata", interface_cata)
-    if 5 in includedExpansions:
-        flavorString += flavor_entries("mists", interface_mop)
-
-    with open(release_folder_path + "/release.json", "w") as rf:
-        rf.write("""{
-    "releases": [
-        {
-            "filename": "%s.zip",
-            "nolib": false,
-            "metadata": [%s
-            ]
-        }
-    ]
-}""" % (zip_name, flavorString[:-1]))
+    release = {
+        "releases": [{"filename": filename, "nolib": False, "metadata": metadata}],
+        "questie": questie,
+    }
+    if bundled:
+        # Preserve upstream extensions and original artifact records without rewriting them.
+        release["questiedb"] = dbManifest
+        release["questietrace"] = traceManifest
+    with open(release_folder_path + "/release.json", "w", encoding="utf-8") as result:
+        json.dump(release, result, indent=4)
+        result.write("\n")
 
     print("New release '%s' created successfully" % release_dir)
 
 
-def get_version_dir(is_release_build, versionOverride):
-    version, nr_of_commits, recent_commit = get_git_information()
+def get_required_db_contract(toc_paths: Iterable[str]) -> int:
+    """Return the shared provider requirement, rejecting missing, duplicate, or inconsistent declarations."""
+    required = None
+    for path in toc_paths:
+        with open(path, encoding="utf-8") as source:
+            declarations = re.findall(
+                r"^##[ \t]*X-QuestieDB-Contract:[ \t]*(.*)$", source.read(), re.MULTILINE | re.IGNORECASE
+            )
+        if len(declarations) != 1 or not re.fullmatch(r"[1-9][0-9]*", declarations[0].strip()):
+            raise ValueError(f"{path}: expected one positive integer X-QuestieDB-Contract")
+        value = int(declarations[0].strip())
+        if required is not None and value != required:
+            raise ValueError(f"{path}: X-QuestieDB-Contract {value} differs from {required} in the other TOCs")
+        required = value
+    if required is None:
+        raise ValueError("No Questie TOCs supplied for contract validation")
+    return required
+
+
+def get_release_version():
+    """Validate the committed flavor versions before creating release output."""
+    versions = set()
+    for toc in [toc for group in allTocs.values() for toc in group]:
+        with open(toc, encoding="utf-8") as source:
+            matches = re.findall(r"^## Version: (.+)$", source.read(), re.MULTILINE)
+        if len(matches) != 1 or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:[.-][A-Za-z0-9]+)*", matches[0]):
+            raise ValueError(f"{toc}: expected one version such as 12.0.0 or 12.0.0-b1 (without v)")
+        versions.add(matches[0])
+    if len(versions) != 1:
+        raise ValueError("TOC versions disagree")
+    return versions.pop()
+
+
+def get_version_dir(is_release_build, versionOverride, version, nr_of_commits, recent_commit):
+    """Use the TOC version for releases; retain Git-based development names and explicit overrides."""
     if versionOverride != "":
         version = versionOverride
+    elif is_release_build:
+        version = "v" + get_release_version()
     print("Tag: " + version)
     if is_release_build:
         release_dir = "%s" % version
@@ -167,51 +308,146 @@ def get_version_dir(is_release_build, versionOverride):
     print("Number of commits since tag: " + nr_of_commits)
     print("Most Recent commit: " + recent_commit)
     branch = get_branch()
-    if branch != "master" and branch != "HEAD":
+    if branch != "master" and branch != "HEAD" and versionOverride == "" and not is_release_build:
         release_dir += "-%s" % branch
     print("Current branch: " + branch)
 
     return release_dir
 
 
-directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Public"]
-filesToInclude = ["Bindings.xml", "embeds.xml", "Questie.lua", "Questie.toc", "README.md", "README_ES.md", "README_CN.md"]
-expansionStrings = ["", "Classic", "TBC", "Wotlk", "Cata", "MoP"]
-ignorePatterns = ["*.test.lua"]
+def get_db_version(dbPath):
+    """Read the first selected provider TOC; main checks that every selected TOC agrees with its manifest."""
+    with open(dbPath + dbTocs[includedExpansions[0]], "r") as toc:
+        match = re.search("## Version: (.*?)\n.*?## X-BUILD-COMMIT: (.*?)\n", toc.read(), re.DOTALL)
+        return match.group(1), match.group(2)
 
 
 def copy_content_to(release_folder_path):
-    for i in [1, 2, 3, 4, 5]:
-        if i in includedExpansions:
-            filesToInclude.append(tocs[i])
-        else:
-            ignorePatterns.append(f"{expansionStrings[i]}")
+    """Copy runtime directories and selected root files, excluding tests without changing shared lists."""
+    selected_files = list(filesToInclude)
+    for number in EXPANSIONS:
+        if number in includedExpansions:
+            selected_files.extend(allTocs[number])
 
     for _, directories, files in os.walk("."):
         for directory in directories:
             if directory in directoriesToInclude:
-                shutil.copytree(directory, "%s/%s" % (release_folder_path, directory), ignore=shutil.ignore_patterns(*ignorePatterns))
+                shutil.copytree(
+                    directory, "%s/%s" % (release_folder_path, directory),
+                    ignore=shutil.ignore_patterns(*ignorePatterns),
+                )
         for file in files:
-            if file in filesToInclude:
+            if file in selected_files:
                 shutil.copy2(file, "%s/%s" % (release_folder_path, file))
         break
 
 
-def zip_release_folder(zip_name, version_dir, addon_dir):
+def copy_db_content_to(release_folder_path):
+    """Keep latest-stable selection, but verify its ZIP against one retained manifest."""
+    from urllib.request import urlretrieve
+    release_url = 'https://github.com/Questie/QuestieDB/releases/latest/download/'
+    # The download is only an input. Its addon section is retained in our release.json.
+    with tempfile.TemporaryDirectory(prefix="questiedb-manifest-") as temporary:
+        manifest_path = os.path.join(temporary, "release.json")
+        urlretrieve(release_url + 'release.json', manifest_path)
+        with open(manifest_path, encoding="utf-8") as source:
+            manifest = json.load(source)["questiedb"]
+    # This version is used in the output filename, not just displayed in notes.
+    if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:[.-][A-Za-z0-9]+)*", manifest["version"]):
+        raise ValueError("QuestieDB manifest has an invalid version")
+    if not re.fullmatch(r"[0-9a-fA-F]{40}", manifest["producerCommit"]):
+        raise ValueError("QuestieDB manifest has an invalid producerCommit")
+    # Only the "All" flavor is downloaded; unrelated artifact records are not consumed.
+    artifacts = manifest["artifacts"]
+    if not isinstance(artifacts, list):
+        raise ValueError("QuestieDB manifest needs an artifacts array")
+    archives = []
+    for artifact in artifacts:
+        if isinstance(artifact, dict) and artifact.get("flavor") == "All":
+            archives.append(artifact)
+    if len(archives) != 1:
+        raise ValueError("Expected exactly one QuestieDB 'All' flavor artifact")
+    archive = archives[0]
+    archiveName = os.path.basename(archive["file"])
+    zipPath = release_folder_path + '/' + archiveName
+    urlretrieve(release_url + archiveName, zipPath)
+
+    # A release can change between downloads. Reject mixed generations before extraction.
+    checksum = hashlib.sha256()
+    with open(zipPath, "rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            checksum.update(block)
+    if os.path.getsize(zipPath) != archive["bytes"] or checksum.hexdigest() != archive["sha256"].lower():
+        raise ValueError("QuestieDB archive checksum or size does not match its manifest")
+    shutil.unpack_archive(zipPath, release_folder_path)
+    os.remove(zipPath)
+    return manifest
+
+
+def copy_trace_content_to(release_folder_path):
+    """Add the latest stable QuestieTrace release, verified against its manifest."""
+    from urllib.request import urlretrieve
+    release_url = 'https://github.com/Questie/QuestieTrace/releases/latest/download/'
+    with tempfile.TemporaryDirectory(prefix="questietrace-manifest-") as temporary:
+        manifest_path = os.path.join(temporary, "release.json")
+        urlretrieve(release_url + 'release.json', manifest_path)
+        with open(manifest_path, encoding="utf-8") as source:
+            manifest = json.load(source)["questietrace"]
+    artifacts = manifest["artifacts"]
+    if not isinstance(artifacts, list) or len(artifacts) != 1:
+        raise ValueError("Expected exactly one QuestieTrace artifact")
+    archive = artifacts[0]
+    zipPath = release_folder_path + '/' + os.path.basename(archive["file"])
+    urlretrieve(release_url + os.path.basename(archive["file"]), zipPath)
+
+    checksum = hashlib.sha256()
+    with open(zipPath, "rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            checksum.update(block)
+    if os.path.getsize(zipPath) != archive["bytes"] or checksum.hexdigest() != archive["sha256"].lower():
+        raise ValueError("QuestieTrace archive checksum or size does not match its manifest")
+    shutil.unpack_archive(zipPath, release_folder_path)
+    os.remove(zipPath)
+
+    for toc_name in ("QuestieTrace-Classic.toc", "QuestieTrace-Camelot.toc"):
+        with open(release_folder_path + "/QuestieTrace/" + toc_name, encoding="utf-8") as toc:
+            versions = re.findall(r"^## Version: (.*?)$", toc.read(), re.MULTILINE)
+        if versions != [manifest["version"]]:
+            raise ValueError("QuestieTrace TOC does not match the downloaded manifest: " + toc_name)
+    return manifest
+
+
+def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion=None, dbHash=None):
+    """Write one ZIP, remove successful staging, and restore the caller's working directory.
+
+    A database version selects the bundled addon-folder layout; otherwise Questie's
+    files remain at the archive root, matching the existing standalone layout.
+    """
     root = os.getcwd()
     os.chdir("releases/%s" % version_dir)
-    print("Zipping %s" % zip_name)
-    shutil.make_archive(zip_name, "zip", ".", addon_dir)
-    os.chdir(root)
+    try:
+        archive_root = "tmp/Questie"
+        if dbVersion is not None:
+            zip_name += "+v" + dbVersion
+            if not is_release_build:
+                zip_name += "-" + dbHash[:9]
+            archive_root = "tmp"
+        print("Creating %s.zip" % zip_name)
+        shutil.make_archive(zip_name, "zip", archive_root, ".")
+        shutil.rmtree("tmp")
+    finally:
+        os.chdir(root)
+    return zip_name + ".zip"
 
 
 def get_git_information():
+    """Return the nearest tag, commit count, and short SHA. Git is required; no fallback is implemented."""
     if is_tool("git"):
         script_dir = os.path.dirname(os.path.realpath(__file__))
-        p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=script_dir, stderr=subprocess.STDOUT)
-        tag_string = str(p).rstrip("\\n'").lstrip("b'")
+        output = subprocess.check_output(["git", "describe", "--tags", "--match", "v*", "--long"], cwd=script_dir, stderr=subprocess.STDOUT)
+        tag_string = str(output).rstrip("\\n'").lstrip("b'")
 
-        # versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
+        # Split from the right because version tags themselves can contain hyphens.
         version_tag, nr_of_commits, recent_commit = tag_string.rsplit("-", maxsplit=2)
         recent_commit = recent_commit.lstrip("g")  # There is a "g" before all the commits.
         return version_tag, nr_of_commits, recent_commit
@@ -220,16 +456,17 @@ def get_git_information():
 
 
 def get_branch():
+    """Read the branch used in development output names, or HEAD for a detached checkout."""
     if is_tool("git"):
         script_dir = os.path.dirname(os.path.realpath(__file__))
-        # git rev-parse --abbrev-ref HEAD
-        p = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=script_dir)
-        branch = str(p).rstrip("\\n'").lstrip("b'")
+        output = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=script_dir)
+        branch = str(output).rstrip("\\n'").lstrip("b'")
         return branch
 
 
-def get_interface_versions(expansion="Classic"):
-    with open("Questie-%s.toc" % expansion, "r") as toc:
+def get_interface_versions(expansion):
+    """Read every interface version from the source TOC for this flavor suffix."""
+    with open("Questie_%s.toc" % expansion, "r") as toc:
         match = re.match("## Interface: (.*?)\n", toc.read(), re.DOTALL)
         return [v.strip() for v in match.group(1).split(",")]
 

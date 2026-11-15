@@ -1,9 +1,10 @@
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 ---@class QuestieProfessions
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type AvailableQuests
-local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -13,25 +14,13 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
+---@type table<number, boolean> Skill line IDs of the professions, for clients that report them
+local professionIds = {}
 ---@type table<SpecializationKeys, string>
 local specializationNames
-local alternativeProfessionNames = {}
 
 -- Fast local references
-local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, QuestieCompat.IsSpellKnown
-
-hooksecurefunc("AbandonSkill", function(skillIndex)
-    local skillName = GetSkillLineInfo(skillIndex)
-    if skillName and professionTable[skillName] then
-        if playerProfessions[professionTable[skillName]] then
-            Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
-            playerProfessions[professionTable[skillName]] = nil
-            --? Reset all autoBlacklisted quests if a skill is abandoned
-            QuestieQuest.ResetAutoblacklistCategory("skill")
-            AvailableQuests.CalculateAndDrawAll()
-        end
-    end
-end)
+local IsSpellKnown = QuestieCompat.IsSpellKnown
 
 function QuestieProfessions:Init()
 
@@ -46,34 +35,35 @@ function QuestieProfessions:Init()
             end
         end
     end
-
-    for professionName, professionId in pairs(alternativeProfessionNames) do
-        professionTable[professionName] = professionId
-    end
-
-    QuestieProfessions.professionTable = professionTable
 end
 
---- Returns if a skill increased and learning a new profession, does not however return if a skill is unlearned
----@return boolean HasProfessionUpdate @Returns true if the players profession skill has increased
+---Refreshes known professions and reports changes that can affect available quests.
+---@return boolean HasProfessionUpdate @True for a skill threshold increase, a new profession, or an unlearned profession.
 ---@return boolean HasNewProfession @Returns true if the player has learned a new profession
 function QuestieProfessions:Update()
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
-    ExpandSkillHeader(0)
     local hasProfessionUpdate = false
     local hasNewProfession = false
 
     --- Used to compare to be able to detect if a profession has been learned
     local temporaryPlayerProfessions = {}
 
-    -- Since MoP introduced "Ways of Cooking" those show up as separate skills and we need to check more lines
+    QuestieCompat.ExpandAllSkillHeaders()
+    -- MoP's "Ways of Cooking" add skill lines before the weapon skills.
     local maxSkillLineToCheck = Expansions.Current >= Expansions.MoP and 20 or 14
-    for i=1, GetNumSkillLines() do
-        if i > maxSkillLineToCheck then break; end -- We don't have to go through all the weapon skills
+    for i = 1, QuestieCompat.GetNumSkillLines() do
+        local skillName, isHeader, skillRank, skillLineId = QuestieCompat.GetSkillLineInfo(i)
+        -- Without skill line IDs the localized names are matched, so only the leading profession lines are checked.
+        if (not skillLineId) and i > maxSkillLineToCheck then break end
 
-        local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
-        if (not isHeader) and professionTable[skillName] then
-            temporaryPlayerProfessions[professionTable[skillName]] = {skillName, skillRank}
+        local professionId
+        if skillLineId then
+            professionId = professionIds[skillLineId] and skillLineId
+        else
+            professionId = professionTable[skillName]
+        end
+        if skillName and (not isHeader) and professionId then
+            temporaryPlayerProfessions[professionId] = {skillName, skillRank}
         end
     end
 
@@ -95,6 +85,14 @@ function QuestieProfessions:Update()
             end
         end
     end
+    for professionId, profession in pairs(playerProfessions) do
+        if not temporaryPlayerProfessions[professionId] then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. profession[1] .. "(" .. professionId .. ")")
+            QuestieQuest.ResetAutoblacklistCategory("skill")
+            hasProfessionUpdate = true
+        end
+    end
+
     playerProfessions = temporaryPlayerProfessions
     return hasProfessionUpdate, hasNewProfession
 end
@@ -263,6 +261,9 @@ QuestieProfessions.professionKeys = {
     RIDING = 762,
     ARCHAEOLOGY = 794,
 }
+for _, professionId in pairs(QuestieProfessions.professionKeys) do
+    professionIds[professionId] = true
+end
 
 ---@enum RankEnum
 QuestieProfessions.rankNames = {
@@ -313,16 +314,16 @@ local sortIds = {
     [QuestieProfessions.professionKeys.ALCHEMY] = -181,
     [QuestieProfessions.professionKeys.HERBALISM] = -24,
     [QuestieProfessions.professionKeys.COOKING] = -304,
-    [QuestieProfessions.professionKeys.MINING] = -667, -- Dummy Id
+    [QuestieProfessions.professionKeys.MINING] = -501, -- Dummy Id
     [QuestieProfessions.professionKeys.TAILORING] = -264,
     [QuestieProfessions.professionKeys.ENGINEERING] = -201,
-    [QuestieProfessions.professionKeys.ENCHANTING] = -668, -- Dummy Id
+    [QuestieProfessions.professionKeys.ENCHANTING] = -502, -- Dummy Id
     [QuestieProfessions.professionKeys.FISHING] = -101,
-    [QuestieProfessions.professionKeys.SKINNING] = -666, -- Dummy Id
+    [QuestieProfessions.professionKeys.SKINNING] = -500, -- Dummy Id
     [QuestieProfessions.professionKeys.INSCRIPTION] = -371,
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = -373,
     [QuestieProfessions.professionKeys.ARCHAEOLOGY] = -377,
-    --[QuestieProfessions.professionKeys.RIDING] = ,
+    [QuestieProfessions.professionKeys.RIDING] = -398,
 }
 
 ---@enum SpecializationKeys
@@ -414,31 +415,6 @@ end
 function QuestieProfessions:GetSortIdByProfessionId(professionId)
     return sortIds[professionId]
 end
-
--- alternate naming scheme (used by DB)
-alternativeProfessionNames = {
-    ["Enchanter"] = 333,
-    ["Tailor"] = 197,
-    ["Leatherworker"] = 165,
-    ["Engineer"] = 202,
-    ["Blacksmith"] = 164,
-    ["Herbalist"] = 182,
-    ["Fisherman"] = 356,
-    ["Fishmonger"] = 356,
-    ["Skinner"] = 393,
-    ["Alchemist"] = 171,
-    ["Miner"] = 186,
-    ["Cook"] = 185,
-    ["Chef"] = 185,
-    ["Butcher"] = 185,
-    ["Physician"] = 129,
-    ["Weapon Crafter"] = 164,
-    ["Leathercrafter"] = 165,
-    ["Armorsmith"] = 164,
-    ["Weaponsmith"] = 164,
-    ["Surgeon"] = 129,
-    ["Trauma Surgeon"] = 129,
-}
 
 ---@class ProfessionMetaDB
 QuestieProfessions.rankKeys = {

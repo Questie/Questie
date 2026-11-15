@@ -10,8 +10,15 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type QuestieOptionsEngine
+local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local KButtons = LibStub("Krowi_WorldMapButtons-1.4")
+if Questie.IsForever then
+    -- Krowi classifies version 1.x as the old Classic map. Forever has modern overlay buttons;
+    -- its old-map workaround reparents them away from the map and breaks GetMapID/TriggerEvent.
+    KButtons.HasNoOverlay = false
+end
 
 ---@type AceConfigDialog-3.0
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
@@ -63,9 +70,7 @@ QuestieWorldMapButtonMixin = {
                 UpdateTooltip(mapButton)
             end
             -- Refresh options UI if open to reflect new state
-            if _G.QuestieConfigFrame and _G.QuestieConfigFrame:IsShown() then
-                AceConfigDialog:Open("Questie", _G.QuestieConfigFrame)
-            end
+            QuestieOptionsEngine:RefreshStates()
         elseif button == "RightButton" then
             if QuestieMenu.IsOpen() then
                 QuestieMenu:Hide()

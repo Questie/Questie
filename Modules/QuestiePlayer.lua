@@ -11,10 +11,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
----@type table<QuestId, Quest>
-QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
-local playerRaceId = -1
 local playerRaceFlag = 255 -- dummy default value to always return race not matching, corrected in init
 local playerRaceFlagX2 = 1 -- dummy default value to always return race not matching, corrected in init
 local playerClassName = ""
@@ -29,8 +26,12 @@ QuestiePlayer.numberOfGroupMembers = 0
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
 
-    playerRaceId = select(3, UnitRace("player"))
-    playerRaceFlag = 2 ^ (playerRaceId - 1)
+    -- The provider owns the encoding used by its quest masks. Race IDs are not bit positions.
+    local playerRaceId = select(3, UnitRace("player"))
+    playerRaceFlag = LibQuestieDB.Enum.raceMaskById[playerRaceId]
+    if not playerRaceFlag then
+        error("QuestieDB has no race mask for race ID " .. tostring(playerRaceId) .. ". Update QuestieDB and reload.")
+    end
     playerRaceFlagX2 = 2 * playerRaceFlag
 
     playerClassName = select(1, UnitClass("player"))
@@ -80,9 +81,11 @@ function QuestiePlayer:GetGroupType()
     end
 end
 
+---@param requiredRaces number? Race mask; nil and zero are unrestricted.
 ---@return boolean
 function QuestiePlayer.HasRequiredRace(requiredRaces)
-    -- test a bit flag: (value % (2*flag) >= flag)
+    -- Faction-wide masks already include their races in the provider. Do not widen subsets here.
+    -- Arithmetic preserves Skyborne bits above the range of 32-bit bitwise operations.
     return (not requiredRaces) or (requiredRaces == 0) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)
 end
 
@@ -92,10 +95,16 @@ function QuestiePlayer.HasRequiredClass(requiredClasses)
     return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % playerClassFlagX2) >= playerClassFlag)
 end
 
----@return AreaId
+---@return AreaId?
 function QuestiePlayer:GetCurrentZoneId()
     local uiMapId = C_Map.GetBestMapForUnit("player")
     if uiMapId then
+        local mapInfo = C_Map.GetMapInfo(uiMapId)
+        if mapInfo and mapInfo.mapType <= Enum.UIMapType.Continent then
+            -- Pre-Cata caves and dungeon entrance areas have no map of their own, so the client
+            -- reports the continent (or world) map. The zone text still names the real zone, so use that.
+            return ZoneDB:GetAreaIdByName(GetRealZoneText()) or ZoneDB:GetAreaIdByUiMapId(uiMapId)
+        end
         return ZoneDB:GetAreaIdByUiMapId(uiMapId)
     end
 

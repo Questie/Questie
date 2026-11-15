@@ -2,6 +2,18 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local autoOptionsLocales = {
+    ["Auto Options"] = { -- this is for a feature called Questie Auto, which auto-accepts and auto-completes quests
+        ["enUS"] = true,
+        ["deDE"] = "Automatische Optionen", -- 🤖 Gemini Flash 3.8
+        ["esES"] = "Opciones de automatización", -- 🤖 Gemini Flash 3.8
+        ["esMX"] = "Opciones de automatización", -- 🤖 Gemini Flash 3.8
+        ["frFR"] = "Options automatiques", -- 🤖 Gemini Flash 3.8
+        ["koKR"] = "자동 수행 설정", -- 🤖 Gemini Flash 3.8
+        ["ptBR"] = "Opções automáticas", -- 🤖 Gemini Flash 3.8
+        ["ruRU"] = "Автоматические настройки", -- 🤖 Gemini Flash 3.8
+        ["zhCN"] = "自动选项", -- 🤖 Gemini Flash 3.8
+        ["zhTW"] = "自動選項", -- 🤖 Gemini Flash 3.8
+    },
     ["Auto Complete Quests"] = {
         ["enUS"] = true,
         ["deDE"] = "Quests automatisch abschließen",

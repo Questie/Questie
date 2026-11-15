@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+import argparse
+import html
+import json
+import re
 import os
 import subprocess
 import sys
@@ -32,25 +36,38 @@ def get_commit_changelog(include_contributors):
     return get_changelog_string(categories, contributors)
 
 
+def get_changelog_entries():
+    """Capture current Questie changes and author credits for the packaged manifest."""
+    last_tag = get_last_git_tag()
+    revision = f"{last_tag}..HEAD" if last_tag else "HEAD"
+    # NUL-separated fields preserve multiline commit bodies and author display names.
+    log = subprocess.check_output(
+        ["git", "log", "--reverse", "-z", "--format=%H%x00%an%x00%s%x00%b", revision], text=True
+    )
+    fields = log.split("\0")[:-1]
+    entries = []
+    for offset in range(0, len(fields), 4):
+        commit, author, subject, body = fields[offset:offset + 4]
+        coauthors = re.findall(r"^Co-authored-by:[ \t]*(.*?)[ \t]*<[^>\r\n]+>[ \t]*$", body, re.MULTILINE | re.IGNORECASE)
+        # Reuse Questie's marked categories and wording transforms, not rendered Markdown.
+        for category, texts in get_sorted_categories([subject]).items():
+            for text in texts:
+                entries.append({
+                    "category": category, "text": text, "commit": commit,
+                    "author": author or "Contributor", "coAuthors": coauthors,
+                })
+    order = [category for category, _ in commit_keys_and_header]
+    entries.sort(key=lambda entry: (order.index(entry["category"]), entry["text"]))
+    return entries
+
+
 def get_last_git_tag():
-    # get the tag this changelog is meant for
-    latest_tag = subprocess.run(
-        ["git", "describe", "--tags", "--abbrev=0", "HEAD"],
+    # Tags on this source commit must not erase its notes when rebundling with a newer database.
+    # Start before HEAD and ignore prereleases; legacy v* releases remain valid baselines.
+    return subprocess.run(
+        ["git", "describe", "--tags", "--match", "bundle/v*", "--match", "v*", "--exclude", "*-pre.*", "--abbrev=0", "HEAD^"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
-
-    if "-b" in latest_tag:
-        # If the latest tag is a beta release, get the previous tag
-        return subprocess.run(
-            ["git", "describe", "--tags", "--abbrev=0", f"{latest_tag}^"],
-            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-        ).stdout.decode().strip('\n')
-    else:
-        # If the latest tag is a stable release, get the previous non-beta tag
-        return subprocess.run(
-            ["git", "describe", "--tags", "--abbrev=0", "--exclude", "*-b*", "HEAD^"],
-            **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
-        ).stdout.decode().strip('\n')
 
 
 def get_chronological_git_log(last_tag):
@@ -83,7 +100,7 @@ def get_sorted_categories(git_log):
                 categories[key].append(line)
 
     for key in categories.keys():
-        categories[key].sort()
+        categories[key] = sorted(set(categories[key]))
 
     return categories
 
@@ -148,6 +165,99 @@ def get_changelog_string(categories, contributors):
     return changelog
 
 
+def _escape_markdown(text):
+    # Credits are display text, not Markdown, HTML, or GitHub usernames.
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("Release notes need nonempty display text")
+    text = html.escape(text, quote=False).replace("\r", " ").replace("\n", " ")
+    return re.sub(r"([\\`*_\[\]()~])", r"\\\1", text)
+
+
+def get_addon_changelog(name, manifest, general_fixes=()):
+    """Render retained addon changes in their supplied order, without rewriting their wording.
+
+    Identical text within a category becomes one line that credits everyone who made that change.
+    general_fixes are uncredited lines added to the end of the General Fixes section.
+    """
+    repository = manifest["repository"]
+    # Repositories form Markdown link targets. Reject credentials, query strings and markup.
+    if not re.fullmatch(r"https://[A-Za-z0-9.-]+/[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)+", repository):
+        raise ValueError("Expected a canonical HTTPS repository URL without a trailing slash")
+    commit_url = repository + "/commit/"
+    producer = manifest["producerCommit"]
+    if not isinstance(producer, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", producer):
+        raise ValueError("Release metadata has an invalid producerCommit")
+    result = f"## {name} {_escape_markdown(manifest['version'])}\n\n"
+    if producer == "0" * 40:
+        result += "Build commit unavailable (local build without Git history).\n\n"
+    else:
+        result += f"Build: [{producer[:7]}]({commit_url}{producer})\n\n"
+    # Missing or empty entries leave version/build information, not a claim that nothing changed.
+    entries = manifest.get("changelog", [])
+    if not isinstance(entries, list):
+        raise ValueError("Addon changelog must be an array")
+    # Merge when rendering, not when capturing: release_notes.py needs every commit in the manifest
+    # to know which ones it already describes.
+    credits_by_line = {}
+    for entry in entries:
+        commit = entry["commit"]
+        if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-fA-F]{40}", commit) or commit == "0" * 40:
+            raise ValueError("Addon changelog has an invalid commit")
+        coauthors = entry["coAuthors"]
+        if not isinstance(coauthors, list):
+            raise ValueError("Addon changelog coAuthors must be an array")
+        credits = credits_by_line.setdefault((entry["category"], _escape_markdown(entry["text"])), {})
+        for author in [entry["author"], *coauthors]:
+            author = _escape_markdown(author)
+            credits.setdefault(author, f"[{author}]({commit_url}{commit})")
+    lines = {category: [] for category, _ in commit_keys_and_header}
+    for (category, text), credits in credits_by_line.items():
+        lines[category].append(f"- {text} ({', '.join(credits.values())})\n")
+    lines["fix"].extend(f"- {line}\n" for line in general_fixes)
+    sections = [("#" + heading + "".join(lines[category])) for category, heading in commit_keys_and_header if lines[category]]
+    result += "\n".join(sections)
+    if sections:
+        result += "\n"
+    return result
+
+
+def get_questietrace_update(manifest, previous):
+    """Return one changelog line (no bullet) when the bundled QuestieTrace version differs from the previous bundle."""
+    version = manifest["version"]
+    if previous is not None and previous.get("version") == version:
+        return ""
+    # Both become part of a Markdown link target.
+    if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
+        raise ValueError("QuestieTrace manifest has an invalid version")
+    repository = manifest["repository"]
+    if repository != "https://github.com/Questie/QuestieTrace":
+        raise ValueError("QuestieTrace manifest has an unexpected repository")
+    return f"Updated QuestieTrace to [v{version}]({repository}/releases/tag/v{version})"
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Generate Questie notes or render a packaged release.json.")
+    parser.add_argument("--release-manifest", help="Render retained component metadata without Git or network access")
+    parser.add_argument("--previous-manifest", help="release.json of the previous stable bundle, to detect a QuestieTrace update")
+    args = parser.parse_args(argv)
+    if args.release_manifest:
+        with open(args.release_manifest, encoding="utf-8") as source:
+            manifest = json.load(source)
+        # The components keep independent identities. Questie's changes always come first.
+        update = ""
+        if "questietrace" in manifest:
+            if not args.previous_manifest:
+                parser.error("--previous-manifest is required for bundles with QuestieTrace")
+            with open(args.previous_manifest, encoding="utf-8") as source:
+                previous = json.load(source)
+            update = get_questietrace_update(manifest["questietrace"], previous.get("questietrace"))
+        print(get_addon_changelog("Questie", manifest["questie"], [update] if update else []))
+        if "questiedb" in manifest:
+            print(get_addon_changelog("QuestieDB", manifest["questiedb"]))
+    else:
+        show_contributors_section = not is_running_in_github_actions()
+        print(get_commit_changelog(show_contributors_section))
+
+
 if __name__ == "__main__":
-    show_contributors_section = not is_running_in_github_actions()
-    print(get_commit_changelog(show_contributors_section))
+    main()

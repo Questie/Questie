@@ -1,0 +1,303 @@
+-- Owns native metadata, objective display records and their lifetime for every tracked quest.
+-- TrackerQuestieBehavior owns quest completion, database additions and Questie compatibility exceptions.
+-- Shared formatting at the end of this file affects both known and database-unknown quests.
+---@class TrackerData
+local TrackerData = QuestieLoader:CreateModule("TrackerData")
+
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type TrackerQuestieBehavior
+local TrackerQuestieBehavior = QuestieLoader:ImportModule("TrackerQuestieBehavior")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
+---@class TrackerQuest
+---@field Id QuestId
+---@field name string
+---@field level number
+---@field zoneName string? Native quest-log header, including quests absent from the database.
+---@field zoneOrSort number?
+---@field Objectives table[] Live display objectives; optional enrichment points to original map objects.
+---@field enrichment Quest? Never mutate this through the display record.
+---@field objectivesLoaded boolean Whether a valid objective snapshot has been obtained.
+---@field completionState number Numeric quest state resolved by TrackerQuestieBehavior.
+---@field isComplete boolean Additional completion state resolved by TrackerQuestieBehavior, distinct from IsComplete().
+---@field IsComplete fun(self: TrackerQuest): number
+---@field layoutSignature string Value of _GetLayoutSignature at the last refresh.
+
+local quests = {}
+local counterTypes = {monster = true, item = true, object = true, reputation = true, killcredit = true, spell = true}
+-- Increases whenever a quest is added, removed or changes its layout signature, or a quest timer starts or stops.
+local revision = 0
+local timerCount = 0
+
+local function _IsComplete(self)
+    return self.completionState
+end
+
+---tostring keeps every value as one field: table.concat rejects booleans, and assigning nil adds no field.
+---@param parts string[]
+local function _AppendStrings(parts, ...)
+    for index = 1, select("#", ...) do
+        parts[#parts + 1] = tostring((select(index, ...)))
+    end
+end
+
+---The quest data the tracker layout reads for one quest, as one comparable string.
+---Settings and UI state are not included: changing them calls QuestieTracker:Update() directly.
+---Quest timers are not included either. Legacy timers carry no quest ID, so TrackerData.Refresh counts them instead.
+---@param displayQuest TrackerQuest
+---@return string
+local function _GetLayoutSignature(displayQuest)
+    -- Tags, completion text and item buttons can change without a quest event. Layout reads them from the same sources.
+    local itemIds = TrackerUtils.GetQuestItemIds(displayQuest, displayQuest:IsComplete())
+    local parts = {}
+    _AppendStrings(parts, displayQuest.name, displayQuest.level, displayQuest.zoneName, displayQuest.zoneOrSort,
+        displayQuest.completionState, displayQuest.isComplete, displayQuest.objectivesLoaded, displayQuest.enrichment ~= nil,
+        QuestieLib:GetQuestTypeSuffix(displayQuest.Id), TrackerUtils:GetCompletionText(displayQuest), table.concat(itemIds, ","))
+    for _, objective in ipairs(displayQuest.Objectives) do
+        _AppendStrings(parts, objective.Type, objective.Description, objective.Collected, objective.Needed, objective.Completed)
+    end
+    return table.concat(parts, "\031")
+end
+
+---@param questId QuestId
+local function _ForgetQuest(questId)
+    if quests[questId] then
+        quests[questId] = nil
+        revision = revision + 1
+    end
+end
+
+-- Both bulk rendering and single-quest progress updates retain record identity so existing rows see new state.
+local function _RefreshQuest(questId, title, level, header, nativeComplete)
+    local displayQuest = quests[questId]
+    if not displayQuest then
+        displayQuest = {
+            Id = questId, Objectives = {}, objectivesLoaded = false, IsComplete = _IsComplete,
+        }
+        quests[questId] = displayQuest
+    end
+    displayQuest.name = title
+    -- Older clients use -1 for quests whose effective level follows the player.
+    displayQuest.level = level == -1 and QuestiePlayer.GetPlayerLevel() or level or 0
+    displayQuest.zoneName = header
+
+    -- Blizzard data: build objective wording and progress for every quest, without database matching.
+    -- Quest-level completion is resolved once by TrackerQuestieBehavior below.
+    -- Keep rendering while the initial snapshot loads; a cache miss is expected, not an error.
+    local cached = QuestLogCache.TryGetQuest(questId)
+    local previousObjectives = displayQuest.Objectives
+    displayQuest.Objectives = {}
+    displayQuest.objectivesLoaded = cached ~= nil
+
+    if cached then
+        local objectiveIndices = {}
+        for index in pairs(cached.objectives) do
+            objectiveIndices[#objectiveIndices + 1] = index
+        end
+
+        -- QuestLogCache can omit invalid empty rows. Keep native ordering without letting a hole
+        -- discard later objectives; display indices stay dense for the line pool's incremental updates.
+        table.sort(objectiveIndices)
+        for displayIndex, index in ipairs(objectiveIndices) do
+            local live = cached.objectives[index]
+            local objective = previousObjectives[displayIndex] or {}
+            objective.Index = displayIndex
+            objective.NativeIndex = index
+            objective.questId = questId
+            objective.Type = live.type
+            -- The cache validates native text. Keep its accepted wording, counters and punctuation intact.
+            objective.Description = live.text
+            objective.Collected = tonumber(live.numFulfilled) or 0
+            objective.Needed = tonumber(live.numRequired) or 0
+            -- Native action objectives can report 1/1 while unfinished. The cache owns completion normalization.
+            objective.Completed = live.finished == true
+            displayQuest.Objectives[displayIndex] = objective
+        end
+    end
+
+    -- Resolve quest completion and apply Questie-specific behavior in one place, including the unloaded case.
+    -- This step never replaces the native title, objective wording or live progress with database values.
+    TrackerQuestieBehavior.Apply(displayQuest, cached, nativeComplete)
+
+    local signature = _GetLayoutSignature(displayQuest)
+    if signature ~= displayQuest.layoutSignature then
+        displayQuest.layoutSignature = signature
+        revision = revision + 1
+    end
+    return displayQuest
+end
+
+---Native membership is independent of both QuestieDB and the last valid objective cache.
+---@param questId QuestId
+---@return boolean
+function TrackerData.ContainsQuest(questId)
+    local index = QuestieCompat.GetQuestLogIndexByID(questId)
+    return index ~= nil and index > 0
+end
+
+---Refresh once before a full layout; ordinary layout reads use GetQuests without rescanning objectives.
+---@return table<QuestId, TrackerQuest>
+function TrackerData.Refresh()
+    local present = {}
+    local headers = {}
+    local modernLog = C_QuestLog and C_QuestLog.GetInfo
+    local numEntries = not modernLog and QuestieCompat.GetNumQuestLogEntries()
+    local index = 1
+    -- Legacy logs put collapsed quests after the visible entry count. Enumerate to the first absent title.
+    while true do
+        local title, level, _, isHeader, _, complete, _, questId = QuestieCompat.GetQuestLogTitle(index)
+        if not title then
+            break
+        end
+        if isHeader then
+            headers[#headers + 1] = title
+        elseif questId and questId > 0 then
+            local header = headers[#headers]
+            if not modernLog and index > numEntries then
+                -- GetQuestSortIndex is a header ordinal, not a log index. Hidden quests have no preceding-header fallback.
+                local headerOrdinal = GetQuestSortIndex and GetQuestSortIndex(index)
+                header = headers[headerOrdinal] or (quests[questId] and quests[questId].zoneName)
+            end
+            present[questId] = true
+            _RefreshQuest(questId, title, level, header, complete)
+        end
+        index = index + 1
+    end
+    for questId in pairs(quests) do
+        if not present[questId] then
+            _ForgetQuest(questId)
+        end
+    end
+    -- Only a layout creates timer rows, and some timers start after acceptance without changing quest data.
+    -- A count ignores the remaining seconds. A timer that ends also completes or fails its quest.
+    local currentTimerCount = #{QuestieCompat.GetQuestTimers()}
+    if currentTimerCount ~= timerCount then
+        timerCount = currentTimerCount
+        revision = revision + 1
+    end
+    return quests
+end
+
+---Returns the current display snapshot without reading client data.
+---@return table<QuestId, TrackerQuest>
+function TrackerData.GetQuests()
+    return quests
+end
+
+---Reads the current display snapshot without client queries, refreshes or membership changes.
+---Call Refresh or RefreshQuest from update paths before reading; RemoveQuest invalidates lifecycle removals.
+---@param questId QuestId
+---@return TrackerQuest?
+function TrackerData.GetQuest(questId)
+    return quests[questId]
+end
+
+---Refreshes only this quest's objectives. Header discovery reads log metadata, not other quests' progress.
+---Use for incremental updates and commands that must revalidate a possibly stale display record.
+---@param questId QuestId
+---@return TrackerQuest?
+function TrackerData.RefreshQuest(questId)
+    local index = QuestieCompat.GetQuestLogIndexByID(questId)
+    if not index or index <= 0 then
+        _ForgetQuest(questId)
+        return nil
+    end
+    local title, level, _, isHeader, _, complete, _, currentId = QuestieCompat.GetQuestLogTitle(index)
+    if not title or isHeader or currentId ~= questId then
+        return nil
+    end
+    local header
+    if (C_QuestLog and C_QuestLog.GetInfo) or index <= QuestieCompat.GetNumQuestLogEntries() then
+        for headerIndex = index - 1, 1, -1 do
+            local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+            if entryIsHeader then
+                header = headerTitle
+                break
+            end
+        end
+    else
+        -- Count native headers to translate the hidden quest's ordinal without reading other quests' objectives.
+        local headerOrdinal = GetQuestSortIndex and GetQuestSortIndex(index)
+        if headerOrdinal then
+            local ordinal = 0
+            for headerIndex = 1, index - 1 do
+                local headerTitle, _, _, entryIsHeader = QuestieCompat.GetQuestLogTitle(headerIndex)
+                if entryIsHeader then
+                    ordinal = ordinal + 1
+                    if ordinal == headerOrdinal then
+                        header = headerTitle
+                        break
+                    end
+                end
+            end
+        end
+        header = header or (quests[questId] and quests[questId].zoneName)
+    end
+    return _RefreshQuest(questId, title, level, header, complete)
+end
+
+---@param questId QuestId
+function TrackerData.RemoveQuest(questId)
+    _ForgetQuest(questId)
+end
+
+---Changes whenever a refresh or removal changes the quest data or timers the tracker layout reads. Compare for equality only.
+---@return number
+function TrackerData.GetLayoutRevision()
+    return revision
+end
+
+---@param displayQuest TrackerQuest
+---@param showLevel boolean
+---@param showState boolean
+---@return string
+function TrackerData.GetColoredQuestName(displayQuest, showLevel, showState)
+    local name = displayQuest.name
+    if showLevel then
+        name = QuestieLib:GetLevelString(displayQuest.Id, displayQuest.level) .. name
+    end
+    if Questie.db.profile.enableTooltipsQuestID then
+        name = name .. " " .. l10n("(") .. displayQuest.Id .. l10n(")")
+    end
+    if showState then
+        if displayQuest:IsComplete() == -1 then
+            name = name .. " " .. Questie:Colorize(l10n("(") .. l10n("Failed") .. l10n(")"), "red")
+        elseif displayQuest:IsComplete() == 1 or displayQuest.isComplete then
+            name = name .. " " .. Questie:Colorize(l10n("(") .. l10n("Complete") .. l10n(")"), "green")
+        end
+    end
+    local isRepeatable, isEvent, isPvP = TrackerQuestieBehavior.GetTitleFlags(displayQuest)
+    return QuestieLib:PrintDifficultyColor(displayQuest.level, name, isRepeatable, isEvent, isPvP)
+end
+
+---Keep Questie's chat-safe bracket format without requiring a database title.
+---@param displayQuest TrackerQuest
+---@return string
+function TrackerData.GetQuestLink(displayQuest)
+    local name = displayQuest.name .. " (" .. displayQuest.Id .. ")]"
+    if Questie.db.profile.trackerShowQuestLevel then
+        return "[[" .. displayQuest.level .. "] " .. name
+    end
+    return "[" .. name
+end
+
+---@param objective table
+---@return string
+function TrackerData.GetObjectiveText(objective)
+    -- Counts provide intermediate progress colors, but must not turn an unfinished 1/1 action green.
+    local hasPartialProgress = counterTypes[objective.Type] and type(objective.Needed) == "number" and objective.Needed > 0
+        and type(objective.Collected) == "number" and objective.Collected < objective.Needed
+    local colorObjective = not objective.Completed and hasPartialProgress and objective
+        or {Collected = objective.Completed and 1 or 0, Needed = 1}
+    return QuestieLib:GetRGBForObjective(colorObjective) .. objective.Description
+end

@@ -40,8 +40,8 @@
 -- end
 -- @class file
 -- @name AceDB-3.0.lua
--- @release $Id: AceDB-3.0.lua 1364 2025-07-05 16:01:08Z nevcairiel $
-local ACEDB_MAJOR, ACEDB_MINOR = "AceDB-3.0", 33
+-- @release $Id: AceDB-3.0.lua 1419 2026-09-25 11:47:59Z nevcairiel $
+local ACEDB_MAJOR, ACEDB_MINOR = "AceDB-3.0", 39
 local AceDB = LibStub:NewLibrary(ACEDB_MAJOR, ACEDB_MINOR)
 
 if not AceDB then return end -- No upgrade needed
@@ -49,6 +49,7 @@ if not AceDB then return end -- No upgrade needed
 -- Lua APIs
 local type, pairs, next, error = type, pairs, next, error
 local setmetatable, rawset, rawget = setmetatable, rawset, rawget
+local strlenutf8 = strlenutf8
 
 -- WoW APIs
 local _G = _G
@@ -251,17 +252,43 @@ local preserve_keys = {
 	["children"] = true,
 }
 
-local realmKey = GetRealmName()
-local charKey = UnitName("player") .. " - " .. realmKey
-local _, classKey = UnitClass("player")
-local _, raceKey = UnitRace("player")
 local factionKey = UnitFactionGroup("player")
-local factionrealmKey = factionKey .. " - " .. realmKey
 local localeKey = GetLocale():lower()
+local charKey, realmKey, classKey, raceKey, factionrealmKey, factionrealmregionKey
+do
+	local _
+	_, classKey = UnitClass("player")
+	_, raceKey = UnitRace("player")
 
-local regionTable = { "US", "KR", "EU", "TW", "CN" }
-local regionKey = regionTable[GetCurrentRegion()] or GetCurrentRegionName() or "TR"
-local factionrealmregionKey = factionrealmKey .. " - " .. regionKey
+	if RegionalUniqueNamesEnabled and RegionalUniqueNamesEnabled() then
+		if C_GameRules.IsGameRuleActive(Enum.GameRule.HardcoreRuleset) then
+			realmKey = "Hardcore"
+		elseif C_GameRules.IsGameRuleActive(Enum.GameRule.RPRuleset) then
+			realmKey = "RP"
+		elseif C_GameRules.IsGameRuleActive(Enum.GameRule.PvPRuleset) then
+			realmKey = "PvP"
+		else
+			realmKey = "PvE"
+		end
+		local name, surname = UnitNameUnmodified("player")
+		if surname then
+			charKey = name .. " " .. tostring(surname)
+		else
+			charKey = name
+		end
+	else
+		realmKey = GetRealmName()
+		charKey = UnitNameUnmodified("player") .. " - " .. realmKey
+	end
+
+	local regionTable = { "US", "KR", "EU", "TW", "CN" }
+	local regionName = GetCurrentRegionName()
+	if regionName and regionName == "" then regionName = nil end -- PTR/Beta tends to be ""
+	local regionKey = regionTable[GetCurrentRegion()] or regionName or "TR"
+
+	factionrealmKey = factionKey .. " - " .. realmKey
+	factionrealmregionKey = factionrealmKey .. " - " .. regionKey
+end
 
 -- Actual database initialization function
 local function initdb(sv, defaults, defaultProfile, olddb, parent)
@@ -274,6 +301,18 @@ local function initdb(sv, defaults, defaultProfile, olddb, parent)
 	if not parent then
 		-- Make a container for profile keys
 		if not sv.profileKeys then sv.profileKeys = {} end
+
+		-- Validate any existing profile name
+		if sv.profileKeys[charKey] then
+			if type(sv.profileKeys[charKey]) ~= "string" then
+				sv.profileKeys[charKey] = defaultProfile or charKey
+			else
+				local profileNameLength = strlenutf8(sv.profileKeys[charKey])
+				if profileNameLength == 0 or profileNameLength > 50 or sv.profileKeys[charKey]:find("^ +$") then
+					sv.profileKeys[charKey] = defaultProfile or charKey
+				end
+			end
+		end
 
 		-- Try to get the profile selected from the char db
 		profileKey = sv.profileKeys[charKey] or defaultProfile or charKey
@@ -446,6 +485,11 @@ end
 function DBObjectLib:SetProfile(name)
 	if type(name) ~= "string" then
 		error(("Usage: AceDBObject:SetProfile(name): 'name' - string expected, got %q."):format(type(name)), 2)
+	else
+		local profileNameLength = strlenutf8(name)
+		if profileNameLength == 0 or profileNameLength > 50 or name:find("^ +$") then
+			error("Usage: AceDBObject:SetProfile(name): 'name' - string length must be between 1 and 50 characters.", 2)
+		end
 	end
 
 	-- changing to the same profile, dont do anything
@@ -777,8 +821,15 @@ function AceDB:New(tbl, defaults, defaultProfile)
 		error(("Usage: AceDB:New(tbl, defaults, defaultProfile): 'defaults' - table expected, got %q."):format(type(defaults)), 2)
 	end
 
-	if defaultProfile and type(defaultProfile) ~= "string" and defaultProfile ~= true then
-		error(("Usage: AceDB:New(tbl, defaults, defaultProfile): 'defaultProfile' - string or true expected, got %q."):format(type(defaultProfile)), 2)
+	if defaultProfile then
+		if type(defaultProfile) == "string" then
+			local profileNameLength = strlenutf8(defaultProfile)
+			if profileNameLength == 0 or profileNameLength > 50 or defaultProfile:find("^ +$") then
+				error("Usage: AceDB:New(tbl, defaults, defaultProfile): 'defaultProfile' - string length must be between 1 and 50 characters.", 2)
+			end
+		elseif defaultProfile ~= true then
+			error(("Usage: AceDB:New(tbl, defaults, defaultProfile): 'defaultProfile' - string or true expected, got %q."):format(type(defaultProfile)), 2)
+		end
 	end
 
 	return initdb(tbl, defaults, defaultProfile)

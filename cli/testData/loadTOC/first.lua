@@ -1,0 +1,3 @@
+local addonName, addonTable = ...
+addonTable.loadTOCTestMarker = "shared addon table"
+table.insert(LOAD_TOC_TEST_ORDER, addonName .. ": first Lua")

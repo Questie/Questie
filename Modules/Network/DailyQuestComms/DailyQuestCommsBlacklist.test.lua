@@ -57,21 +57,11 @@ describe("DailyQuestCommsBlacklist", function()
     end)
 
     describe("IsBlacklisted", function()
-        it("should return false when not on SoD", function()
-            Questie.IsSoD = false
-
-            assert.is_false(DailyQuestCommsBlacklist.IsBlacklisted(84348))
-        end)
-
         it("should return false for a non-blacklisted questId", function()
-            Questie.IsSoD = true
-
             assert.is_false(DailyQuestCommsBlacklist.IsBlacklisted(5678))
         end)
 
         it("should return true for a blacklisted questId", function()
-            Questie.IsSoD = true
-
             assert.is_true(DailyQuestCommsBlacklist.IsBlacklisted(84348))
         end)
     end)
