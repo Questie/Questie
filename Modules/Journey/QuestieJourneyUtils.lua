@@ -150,13 +150,10 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
 
     local currentWindow = _QuestieJourney.lastOpenWindow
 
-    -- When a quest link is clicked from Advanced Search, keep the user in
-    -- that result set and open the target details pane immediately. Using
-    -- SetSearch alone only selects the result row; OpenDetails also performs
-    -- the same deferred selection as a real row click.
-    if currentWindow == "search"
-        and QuestieSearchResults.OpenDetails then
-        QuestieSearchResults:OpenDetails("quest", questId)
+    -- Match the Advanced Search result-click flow: SetSearch rebuilds the
+    -- result set, selects the target row, and opens its details pane.
+    if currentWindow == "search" then
+        QuestieSearchResults:SetSearch("quest", questId)
         return
     end
 
