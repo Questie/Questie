@@ -1021,7 +1021,10 @@ function QuestieSearchResults:DrawSearchTab(container)
     container:AddChild(searchGroup);
     -- Check for existence of previous search, if present use its result
     if QuestieSearch.LastResult.query ~= "" then
-        searchBox:SetText(QuestieSearch.LastResult.query)
+        local query = QuestieSearch.LastResult.query
+        searchBox:SetText(query)
+        local text = string.trim(searchBox:GetText(), " \n\r\t[]")
+        QuestieSearchResults:DrawSearchResultTab(searchGroup, tonumber(text) and BY_ID or BY_NAME, text, true)
     end
     searchBox:SetFocus();
 end
