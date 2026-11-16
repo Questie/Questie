@@ -121,16 +121,30 @@ local DMF_CALENDAR_ICON_TEXTURES = {
 }
 
 -- Determine the DMF start day for the month based on what weekday the 1st is.
--- We also require the Monday start to have reached 03:00 server time before considering the event active.
-local DMF_START_DAY_BY_FIRST_WEEKDAY = {
-    [1] = 9,  -- 1st is a Sunday -> Monday is 9th
-    [2] = 8,  -- 1st is a Monday -> Monday is 8th
-    [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
-    [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
-    [5] = 5,  -- 1st is a Thursday -> Monday is 5th
-    [6] = 4,  -- 1st is a Friday -> Monday is 4th
-    [7] = 10, -- 1st is a Saturday -> Monday is 10th
-}
+local DMF_START_DAY_BY_FIRST_WEEKDAY = {}
+if Expansions.Current < Expansions.Wotlk then
+    -- DMF starts on the first Monday of the first full week in Era + TBC
+    DMF_START_DAY_BY_FIRST_WEEKDAY = {
+        [1] = 9,  -- 1st is a Sunday -> Monday is 9th
+        [2] = 8,  -- 1st is a Monday -> Monday is 8th
+        [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
+        [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
+        [5] = 5,  -- 1st is a Thursday -> Monday is 5th
+        [6] = 4,  -- 1st is a Friday -> Monday is 4th
+        [7] = 10, -- 1st is a Saturday -> Monday is 10th
+    }
+else
+    -- DMF starts on the first Sunday of the month in Wotlk
+    DMF_START_DAY_BY_FIRST_WEEKDAY = {
+        [1] = 1,  -- 1st is a Sunday -> Sunday is 1st
+        [2] = 7,  -- 1st is a Monday -> Sunday is 7th
+        [3] = 6,  -- 1st is a Tuesday -> Sunday is 6th
+        [4] = 5,  -- 1st is a Wednesday -> Sunday is 5th
+        [5] = 4,  -- 1st is a Thursday -> Sunday is 4th
+        [6] = 3,  -- 1st is a Friday -> Sunday is 3rd
+        [7] = 2, -- 1st is a Saturday -> Sunday is 2nd
+    }
+end
 
 function QuestieEvent.Initialize()
     Questie:RegisterEvent("CALENDAR_UPDATE_EVENT_LIST", function()
@@ -333,20 +347,27 @@ _IsDarkmoonFaireWeek = function(currentDate)
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
+    -- For Era and TBC the event is from Monday 04:00 to next Monday 04:00
+    -- For Wotlk the event is from Sunday 0:01 to Saturday 23:59
+    local eventDuration = Expansions.Current < Expansions.Wotlk and 7 or 6
+    local dmfStartTime = Expansions.Current < Expansions.Wotlk and 400 or 1
+    local dmfEndTime = Expansions.Current < Expansions.Wotlk and 400 or 2359
     local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
-    local endDay = startDay + 7
+    local endDay = startDay + eventDuration
     local dayOfMonth = currentDate.monthDay
+    local currentTimeFormatted = currentDate.hour * 100 + currentDate.minute
 
-    -- If we're on the first day (Monday) require hour >= 3
-    if dayOfMonth == startDay and currentDate.hour < 3 then
+    -- If we're on the first day check if it started already
+    if dayOfMonth == startDay and currentTimeFormatted < dmfStartTime then
         return false
     end
 
-    -- The event ends at 03:00 on the following Monday
-    if dayOfMonth == endDay and currentDate.hour >= 3 then
+    -- Check if the event is already finished on the final day
+    if dayOfMonth == endDay and currentTimeFormatted >= dmfEndTime then
         return false
     end
 
+    -- Check if we're inbetween first day and final day
     return dayOfMonth >= startDay and dayOfMonth <= endDay
 end
 
