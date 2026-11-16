@@ -2064,5 +2064,43 @@ describe("AvailableQuests", function()
             assert.are_same("_DrawAvailableQuest", submittedJobs[3].threadName)
             assert.is_nil(submittedJobs[4])
         end)
+
+        describe("Isle of Quel'Danas quests on Era", function()
+            local originalGlobalPhase
+            local originalProfilePhase
+
+            before_each(function()
+                originalGlobalPhase = Questie.db.global.isleOfQuelDanasPhase
+                originalProfilePhase = Questie.db.profile.isleOfQuelDanasPhase
+                Questie.IsClassic = true
+                IsleOfQuelDanas.quests = {{}, {}, {[2] = true}}
+            end)
+
+            after_each(function()
+                Questie.db.global.isleOfQuelDanasPhase = originalGlobalPhase
+                Questie.db.profile.isleOfQuelDanasPhase = originalProfilePhase
+            end)
+
+            it("hides the quests of the global phase and ignores a stale profile phase", function()
+                Questie.db.global.isleOfQuelDanasPhase = 3
+                Questie.db.profile.isleOfQuelDanasPhase = 1
+
+                AvailableQuests.CalculateAndDrawAll()
+                submittedJobs[1].threadFunction()
+
+                assert.are_same({[3] = true}, AvailableQuests.__availableQuests)
+            end)
+
+            it("hides the phase 1 quests while the global phase is not set", function()
+                IsleOfQuelDanas.quests = {{[2] = true}, {}, {}}
+                Questie.db.global.isleOfQuelDanasPhase = nil
+                Questie.db.profile.isleOfQuelDanasPhase = 1 -- The former default, which Era relied on
+
+                AvailableQuests.CalculateAndDrawAll()
+                submittedJobs[1].threadFunction()
+
+                assert.are_same({[3] = true}, AvailableQuests.__availableQuests)
+            end)
+        end)
     end)
 end)

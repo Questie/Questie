@@ -586,7 +586,7 @@ _CalculateAndDrawAvailableQuests = function()
     local hidden = Questie.db.char.hidden
 
     local activeQuests = ActiveQuests.GetAll()
-    local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.profile.isleOfQuelDanasPhase] or {}
+    local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase or 1] or {}
     local aqWarEffortQuests = QuestieQuestBlacklist.AQWarEffortQuests
 
     QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
