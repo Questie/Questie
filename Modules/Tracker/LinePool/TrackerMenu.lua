@@ -299,10 +299,10 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
-            else
+            if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(TrackerData.GetQuestLink(quest))
+            else
+                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
             end
         end
     })
@@ -598,10 +598,10 @@ TrackerMenu.addAchieveLinkToChatOption = function(menu, achieve)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
-            else
+            if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(GetAchievementLink(achieve.Id))
+            else
+                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
             end
         end
     })
