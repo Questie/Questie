@@ -34,8 +34,6 @@ describe("QuestieEvent", function()
 
         Expansions = QuestieLoader:ImportModule("Expansions")
 
-        DMF_START_DAY_BY_FIRST_WEEKDAY = {}
-
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
         ContentPhases = QuestieLoader:ImportModule("ContentPhases")
         dofile("Localization/l10n.lua")

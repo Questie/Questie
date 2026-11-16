@@ -120,30 +120,34 @@ local DMF_CALENDAR_ICON_TEXTURES = {
     [235448] = true, -- Start Texture
 }
 
+-- DMF starts on the first Monday after the first full weekend in Era + TBC
+local DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC = {
+    [1] = 9,  -- 1st is a Sunday -> Monday is 9th
+    [2] = 8,  -- 1st is a Monday -> Monday is 8th
+    [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
+    [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
+    [5] = 5,  -- 1st is a Thursday -> Monday is 5th
+    [6] = 4,  -- 1st is a Friday -> Monday is 4th
+    [7] = 10, -- 1st is a Saturday -> Monday is 10th
+}
+
+-- DMF starts on the first Sunday of the month in Wotlk
+local DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK = {
+    [1] = 1,  -- 1st is a Sunday -> Sunday is 1st
+    [2] = 7,  -- 1st is a Monday -> Sunday is 7th
+    [3] = 6,  -- 1st is a Tuesday -> Sunday is 6th
+    [4] = 5,  -- 1st is a Wednesday -> Sunday is 5th
+    [5] = 4,  -- 1st is a Thursday -> Sunday is 4th
+    [6] = 3,  -- 1st is a Friday -> Sunday is 3rd
+    [7] = 2, -- 1st is a Saturday -> Sunday is 2nd
+}
 -- Determine the DMF start day for the month based on what weekday the 1st is.
-local DMF_START_DAY_BY_FIRST_WEEKDAY = {}
-if Expansions.Current < Expansions.Wotlk then
-    -- DMF starts on the first Monday after the first full weekend in Era + TBC
-    DMF_START_DAY_BY_FIRST_WEEKDAY = {
-        [1] = 9,  -- 1st is a Sunday -> Monday is 9th
-        [2] = 8,  -- 1st is a Monday -> Monday is 8th
-        [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
-        [4] = 6,  -- 1st is a Wednesday -> Monday is 6th
-        [5] = 5,  -- 1st is a Thursday -> Monday is 5th
-        [6] = 4,  -- 1st is a Friday -> Monday is 4th
-        [7] = 10, -- 1st is a Saturday -> Monday is 10th
-    }
-else
-    -- DMF starts on the first Sunday of the month in Wotlk
-    DMF_START_DAY_BY_FIRST_WEEKDAY = {
-        [1] = 1,  -- 1st is a Sunday -> Sunday is 1st
-        [2] = 7,  -- 1st is a Monday -> Sunday is 7th
-        [3] = 6,  -- 1st is a Tuesday -> Sunday is 6th
-        [4] = 5,  -- 1st is a Wednesday -> Sunday is 5th
-        [5] = 4,  -- 1st is a Thursday -> Sunday is 4th
-        [6] = 3,  -- 1st is a Friday -> Sunday is 3rd
-        [7] = 2, -- 1st is a Saturday -> Sunday is 2nd
-    }
+local function dmfStartDayByFirstWeekday(firstWeekday)
+    if Expansions.Current < Expansions.Wotlk then
+        return DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC[firstWeekday]
+    else
+        return DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK[firstWeekday]
+    end
 end
 
 function QuestieEvent.Initialize()
@@ -352,7 +356,7 @@ _IsDarkmoonFaireWeek = function(currentDate)
     local eventDuration = Expansions.Current < Expansions.Wotlk and 7 or 6
     local dmfStartTime = Expansions.Current < Expansions.Wotlk and 400 or 1
     local dmfEndTime = Expansions.Current < Expansions.Wotlk and 400 or 2359
-    local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
+    local startDay = dmfStartDayByFirstWeekday(firstWeekday)
     local endDay = startDay + eventDuration
     local dayOfMonth = currentDate.monthDay
     local currentTimeFormatted = currentDate.hour * 100 + currentDate.minute
