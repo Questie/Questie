@@ -20,6 +20,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type ContentPhases
+local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfiler
@@ -172,13 +174,13 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                         width = "half",
                         options = IsleOfQuelDanas.localizedPhaseNames,
                         enabled = function()
-                            return Expansions.Current > Expansions.Tbc
+                            return ContentPhases.activePhases.TBC >= 5
                         end,
                         get = function()
-                            return Questie.db.profile.isleOfQuelDanasPhase
+                            return Questie.db.global.isleOfQuelDanasPhase
                         end,
                         set = function(key)
-                            Questie.db.profile.isleOfQuelDanasPhase = key
+                            Questie.db.global.isleOfQuelDanasPhase = key
                             QuestieQuest:SmoothReset()
                         end,
                     },

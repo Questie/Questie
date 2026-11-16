@@ -750,6 +750,7 @@ describe("QuestieOptionsEngine", function()
             }
 
             QuestieLoader:ImportModule("IsleOfQuelDanas").localizedPhaseNames = {"Phase 1", "Phase 2"}
+            dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
             local compat = QuestieLoader:ImportModule("QuestieCompat")
             compat.IsAddOnLoaded = function() return false end
             compat.IsSuperTrackingSupported = function() return true end

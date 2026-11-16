@@ -230,7 +230,6 @@ function QuestieOptionsDefaults:Load()
             debugEnabledPrint = false,
             debugLevel = 0,
             -- TBC Isle of Quel'Danas
-            isleOfQuelDanasPhase = 1,
             isIsleOfQuelDanasPhaseReminderDisabled = false,
         },
         char = {
