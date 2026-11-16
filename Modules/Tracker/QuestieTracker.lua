@@ -131,10 +131,24 @@ local function _IsZoneOrChild(zoneId, ancestorId)
 end
 
 ---@param quest TrackerQuest
+---@return number?
+local function _GetQuestZoneId(quest)
+    -- The native quest-log header describes the quest's current zone more accurately than
+    -- QuestieDB's zoneOrSort for quests that start in one zone and continue in another.
+    if quest.zoneName then
+        local nativeZoneId = ZoneDB:GetAreaIdByName(quest.zoneName)
+        if nativeZoneId then
+            return nativeZoneId
+        end
+    end
+    return quest.zoneOrSort
+end
+
+---@param quest TrackerQuest
 ---@param currentZoneId number
 ---@return boolean
 local function _IsQuestInCurrentZone(quest, currentZoneId)
-    local questZoneId = quest.zoneOrSort
+    local questZoneId = _GetQuestZoneId(quest)
     if type(questZoneId) ~= "number" or questZoneId <= 0 then
         -- Negative zoneOrSort values are QuestSort categories such as classes and professions.
         return false

@@ -139,7 +139,7 @@ describe("QuestieTracker", function()
     end)
 
     describe("zone auto tracking", function()
-        local originalGetQuests, originalGetCurrentZoneId, originalGetParentZoneId, originalScheduleSnapshot
+        local originalGetQuests, originalGetCurrentZoneId, originalGetParentZoneId, originalGetAreaIdByName, originalScheduleSnapshot
         local originalForever, originalQuestLog
         local currentZoneId
         local quests
@@ -156,6 +156,7 @@ describe("QuestieTracker", function()
             originalGetQuests = TrackerData.GetQuests
             originalGetCurrentZoneId = QuestiePlayer.GetCurrentZoneId
             originalGetParentZoneId = ZoneDB.GetParentZoneId
+            originalGetAreaIdByName = ZoneDB.GetAreaIdByName
             originalScheduleSnapshot = QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot
             originalForever = Questie.IsForever
             originalQuestLog = _G.C_QuestLog
@@ -171,6 +172,7 @@ describe("QuestieTracker", function()
             TrackerData.GetQuests = originalGetQuests
             QuestiePlayer.GetCurrentZoneId = originalGetCurrentZoneId
             ZoneDB.GetParentZoneId = originalGetParentZoneId
+            ZoneDB.GetAreaIdByName = originalGetAreaIdByName
             QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = originalScheduleSnapshot
             Questie.IsForever = originalForever
             _G.C_QuestLog = originalQuestLog
@@ -184,6 +186,21 @@ describe("QuestieTracker", function()
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[3])
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[4])
             assert.is_true(Questie.db.char.ZoneAutoUntrackedQuests[2])
+        end)
+
+        it("uses the native quest-log zone when database metadata points to another zone", function()
+            currentZoneId = 1657 -- Darnassus
+            quests = {
+                [952] = {Id = 952, zoneOrSort = 1657, zoneName = "Darkshore"},
+            }
+            ZoneDB.GetAreaIdByName = function(_, zoneName)
+                return zoneName == "Darkshore" and 148 or nil
+            end
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_true(Questie.db.char.AutoUntrackedQuests[952])
+            assert.is_true(Questie.db.char.ZoneAutoUntrackedQuests[952])
         end)
 
         it("restores zone filtering state when the option is disabled", function()
