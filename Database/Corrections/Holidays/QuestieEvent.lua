@@ -123,7 +123,7 @@ local DMF_CALENDAR_ICON_TEXTURES = {
 -- Determine the DMF start day for the month based on what weekday the 1st is.
 local DMF_START_DAY_BY_FIRST_WEEKDAY = {}
 if Expansions.Current < Expansions.Wotlk then
-    -- DMF starts on the first Monday of the first full week in Era + TBC
+    -- DMF starts on the first Monday after the first full weekend in Era + TBC
     DMF_START_DAY_BY_FIRST_WEEKDAY = {
         [1] = 9,  -- 1st is a Sunday -> Monday is 9th
         [2] = 8,  -- 1st is a Monday -> Monday is 8th
