@@ -170,8 +170,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                         type = "toggle",
                         order = 1.5,
                         width = 1.5,
-                        name = function() return l10n("Track by Zone") end,
-                        desc = function() return l10n("If checked, the Questie Tracker will automatically untrack quests from zones you are not currently in. Class, profession, and other non-zone quests remain tracked. Quests you manually choose to track remain tracked.") end,
+                        name = function() return l10n("Hide Other Zones") end,
+                        desc = function() return l10n("If checked, the Questie Tracker will hide quests from zones you are not currently in by automatically untracking them. Class, profession, and other non-zone quests remain tracked. Quests you manually choose to track remain tracked.") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.trackQuestsByZone end,
                         set = function(_, value)
