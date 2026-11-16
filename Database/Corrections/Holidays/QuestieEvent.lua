@@ -441,7 +441,7 @@ _LoadDarkmoonFaire = function()
 
     -- The NPC Policy Correction slot is written exactly once per load, outside the Event Quest loop
     -- below: the number of visible Event Quests must not control entity Correction application.
-    if Questie.IsTBC then
+    if Questie.IsTBC or Questie.IsWotlk then
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
     else
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
