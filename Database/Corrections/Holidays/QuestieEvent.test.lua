@@ -299,14 +299,14 @@ describe("QuestieEvent", function()
             assert.is_true(table.getn(QuestieEvent.activeQuests) > 0)
         end)
 
-        it("should not be active on the following Monday at 03:00 for Era (end hour gating)", function()
+        it("should not be active on the following Monday at 04:00 for Era (end hour gating)", function()
             QuestieCompat.GetCurrentCalendarTime = function()
                     return {
                         weekday = 2,
                         monthDay = 15,
                         month = 3,
                         year = 2025,
-                        hour = 3,
+                        hour = 4,
                         minute = 0,
                     }
                 end
