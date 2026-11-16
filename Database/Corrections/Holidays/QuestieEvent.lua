@@ -96,7 +96,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
+local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _GetDarkmoonFaireLocationWotlK, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
 
 ---@enum DMFLocation
 local DMF_LOCATIONS = {
@@ -121,6 +121,7 @@ local DMF_CALENDAR_ICON_TEXTURES = {
 }
 
 -- DMF starts on the first Monday after the first full weekend in Era + TBC
+-- Forever also uses this exact timeframe and location rotation
 local DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC = {
     [1] = 9,  -- 1st is a Sunday -> Monday is 9th
     [2] = 8,  -- 1st is a Monday -> Monday is 8th
@@ -274,7 +275,7 @@ function QuestieEvent:Load()
 
     -- TODO: Also handle WotLK which has a different starting schedule
     if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
-            or Questie.IsTBC then
+            or Questie.IsTBC or Questie.IsWotlk then
         _LoadDarkmoonFaire()
     end
 
@@ -306,6 +307,8 @@ _GetDarkmoonFaireLocation = function()
         return _GetDarkmoonFaireLocationSoD(currentDate)
     elseif Questie.IsTBC then
         return _GetDarkmoonFaireLocationTBC(currentDate)
+    elseif Questie.IsWotlk then
+        return _GetDarkmoonFaireLocationWotlK(currentDate)
     else
         return _GetDarkmoonFaireLocationEra(currentDate)
     end
@@ -341,6 +344,25 @@ _GetDarkmoonFaireLocationTBC = function(currentDate)
         return DMF_LOCATIONS.ELWYNN_FOREST
     end
     return DMF_LOCATIONS.TEROKKAR_FOREST
+end
+
+--- DMF in WotlK rotates monthly through three locations: Mulgore, Terokkar Forest, and Elwynn Forest.
+--- Event starts after midnight on Sunday, and ends right before midnight on Saturday.
+--- Order is different from Era/TBC.
+---@param currentDate CalendarTime
+---@return DMFLocation
+_GetDarkmoonFaireLocationWotlK = function(currentDate)
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local remainder = currentDate.month % 3
+    if remainder == 1 then
+        return DMF_LOCATIONS.TEROKKAR_FOREST
+    elseif remainder == 2 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
+    return DMF_LOCATIONS.MULGORE
 end
 
 ---@param currentDate CalendarTime
