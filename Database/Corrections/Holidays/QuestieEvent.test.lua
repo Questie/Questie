@@ -267,7 +267,7 @@ describe("QuestieEvent", function()
             assert.is_equal(0, #QuestieEvent.activeQuests)
         end)
 
-        it("should be active at 03:00 on start Monday for Era (hour gating)", function()
+        it("should be active at 04:00 on start Monday for Era (hour gating)", function()
             -- Simulate Era environment and a month where the 1st is a Monday -> startDay = 8
             QuestieCompat.GetCurrentCalendarTime = function()
                     return {
@@ -275,7 +275,7 @@ describe("QuestieEvent", function()
                         monthDay = 8,
                         month = 2,
                         year = 2025,
-                        hour = 3,
+                        hour = 4,
                         minute = 0,
                     }
                 end
