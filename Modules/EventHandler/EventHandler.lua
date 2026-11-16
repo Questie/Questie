@@ -54,8 +54,6 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type QuestgiverFrame
 local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
----@type QuestieDebugOffer
-local QuestieDebugOffer = QuestieLoader:ImportModule("QuestieDebugOffer")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type QuestieMenu
@@ -170,9 +168,6 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_DETAIL", function() -- When the quest is presented!
         AvailableQuests.ValidateAvailableQuestsFromQuestDetail()
         AutoQuesting.OnQuestDetail()
-        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
-            QuestieDebugOffer.QuestDialog()
-        end
     end)
     Questie:RegisterEvent("QUEST_PROGRESS", AutoQuesting.OnQuestProgress)
     Questie:RegisterEvent("GOSSIP_SHOW", function()
@@ -189,12 +184,7 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("GOSSIP_CLOSED", function() -- Called twice when the stopping to talk to an NPC
         AutoQuesting.OnGossipClosed()
     end)
-    Questie:RegisterEvent("QUEST_COMPLETE", function() -- When complete window shows
-        AutoQuesting.OnQuestComplete()
-        if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
-            QuestieDebugOffer.QuestDialog()
-        end
-    end)
+    Questie:RegisterEvent("QUEST_COMPLETE", AutoQuesting.OnQuestComplete) -- When complete window shows
     Questie:RegisterEvent("QUEST_REMOVED", function(_, questId) QuestEventHandler.QuestRemoved(questId) end)
     Questie:RegisterEvent("QUEST_TURNED_IN", function(_, questId, xpReward, moneyReward) QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward) end)
     Questie:RegisterEvent("QUEST_LOG_UPDATE", function()
@@ -345,11 +335,6 @@ function EventHandler:RegisterLateEvents()
         end)
     end
 
-    -- Questie Debug Offer
-    if Questie.IsSoD or Questie.db.profile.enableBugHintsForAllFlavors then
-        Questie:RegisterEvent("LOOT_OPENED", QuestieDebugOffer.LootWindow)
-    end
-
     if Expansions.Current >= Expansions.Cata and Questie.db.profile.trackerEnabled then
         -- This is fired pretty often when an auto complete quest frame is showing. We want the default one to be hidden though.
         Questie:RegisterEvent("UPDATE_ALL_UI_WIDGETS", function()
@@ -375,7 +360,6 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", function(...)
         QuestieNameplate:DrawTargetFrame()
-        --if Questie.IsSoD then QuestieDebugOffer.NPCTarget() end;
     end)
 
     -- quest announce
