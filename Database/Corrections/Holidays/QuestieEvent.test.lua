@@ -483,7 +483,7 @@ describe("QuestieEvent", function()
                     if offset == nil then
                         return {year = 2025, month = 1}
                     else
-                        return {firstWeekday = 7}
+                        return {firstWeekday = 4}
                     end
                 end
             }
