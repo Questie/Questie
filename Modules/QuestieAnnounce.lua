@@ -182,6 +182,10 @@ end
 ---@param questId QuestId
 ---@param itemId ItemId
 function _QuestieAnnounce:AnnounceSelf(questId, itemId)
+    if Questie.db.profile.questieShutUp or Questie.db.profile.questAnnounceItems ~= true then
+        return
+    end
+
     local questHyperLink = QuestieLink:GetQuestHyperLink(questId);
     local itemLink = select(2, GetItemInfo(itemId));
 
