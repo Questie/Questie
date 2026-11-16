@@ -31,9 +31,10 @@ describe("QuestieEvent", function()
         -- The Darkmoon NPC producers are exercised in their own QuestiePolicy tests; here they only need to exist.
         QuestieLoader:ImportModule("QuestieClassicPolicyCorrections").LoadDarkmoonFixes = function() return {} end
         QuestieLoader:ImportModule("QuestieTBCPolicyCorrections").LoadDarkmoonFixes = function() return {} end
-        DMF_START_DAY_BY_FIRST_WEEKDAY = {}
 
         Expansions = QuestieLoader:ImportModule("Expansions")
+
+        DMF_START_DAY_BY_FIRST_WEEKDAY = {}
 
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
         ContentPhases = QuestieLoader:ImportModule("ContentPhases")
