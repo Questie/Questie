@@ -24,15 +24,14 @@ local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
--- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
-
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
 QuestieJourney.zones = {}
 QuestieJourney.tabGroup = nil
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
@@ -54,7 +53,7 @@ local journeyCanvases = {}
 local journeySideTabs = {}
 
 local function CreateJourneyCanvas(parent)
-    local canvas = AceGUI:Create("SimpleGroup")
+    local canvas = QuestieGUI:Create("SimpleGroup")
     canvas:SetLayout("Flow")
     canvas:SetFullWidth(true)
     canvas:SetFullHeight(true)

@@ -19,7 +19,8 @@ local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControl
 ---@type QuestieOptionsWindow
 local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 local titleBox, messageBox
 
 local function ApplyNoteLayerColors(container)
@@ -75,7 +76,7 @@ _CreateNoteWindow = function ()
     notePopup:SetPoint("CENTER", journeyFrame, "CENTER")
     notePopup:Raise()
 
-    local content = AceGUI:Create("SimpleGroup")
+    local content = QuestieGUI:Create("SimpleGroup")
     content:SetFullHeight(true)
     content:SetFullWidth(true)
     content:SetLayout("flow")
@@ -105,7 +106,7 @@ _CreateNoteWindow = function ()
     container:AddChild(addEntryBtn)
 
     notePopup:Show()
-    -- AceGUI may restore the InlineGroup backdrop while laying out its children;
+    -- The container may restore its backdrop while laying out its children;
     -- apply the shared Journey panel treatment after the completed layout too.
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
         QuestieOptionsControls.ApplyModernContainer(container.border)
@@ -115,8 +116,8 @@ _CreateNoteWindow = function ()
 end
 
 _CreateContainer = function ()
-    local container = AceGUI:Create("InlineGroup")
-    -- InlineGroups are pooled by AceGUI. Clear any NPC portrait/item icon and
+    local container = QuestieGUI:Create("InlineGroup")
+    -- Clear any NPC portrait/item icon and
     -- shifted content anchors left by a previously displayed Journey panel.
     if QuestDetailsFrame and QuestDetailsFrame.ResetInfoGroup then
         QuestDetailsFrame:ResetInfoGroup(container)
@@ -132,14 +133,14 @@ _CreateContainer = function ()
 end
 
 _CreateDescription  =function ()
-    local desc = AceGUI:Create("Label")
+    local desc = QuestieGUI:Create("Label")
     desc:SetText(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'))
     desc:SetFullWidth(true)
     return desc
 end
 
 _CreateTitleBox = function ()
-    local box = AceGUI:Create("EditBox")
+    local box = QuestieGUI:Create("EditBox")
     box:SetFullWidth(true)
     box:SetLabel(l10n('Entry Title'))
     box:DisableButton(true)
@@ -148,7 +149,7 @@ _CreateTitleBox = function ()
 end
 
 _CreateMessageBox = function ()
-    local box = AceGUI:Create("MultiLineEditBox")
+    local box = QuestieGUI:Create("MultiLineEditBox")
     box:SetFullWidth(true)
     box:SetNumLines(12)
     box:SetLabel(l10n('Journal Entry'))
@@ -160,7 +161,7 @@ _CreateMessageBox = function ()
 end
 
 _CreateNoteAddButton = function ()
-    local addEntryBtn = AceGUI:Create("SimpleGroup")
+    local addEntryBtn = QuestieGUI:Create("SimpleGroup")
     addEntryBtn:SetLayout("Fill")
     addEntryBtn:SetFullWidth(true)
     addEntryBtn:SetHeight(32)
@@ -172,7 +173,7 @@ _CreateNoteAddButton = function ()
         nativeButton:SetScript("OnClick", _HandleNoteEntry)
         addEntryBtn.nativeButton = nativeButton
     else
-        local legacyButton = AceGUI:Create("Button")
+        local legacyButton = QuestieGUI:Create("Button")
         legacyButton:SetText(l10n('Add Entry'))
         legacyButton:SetWidth(150)
         legacyButton:SetHeight(32)

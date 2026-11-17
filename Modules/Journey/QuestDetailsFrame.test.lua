@@ -49,6 +49,11 @@ describe("QuestDetailsFrame prerequisite links", function()
         QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests = {}
         QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() end
 
+        dofile("Modules/Journey/QuestieGUI.lua")
+        QuestieLoader:ImportModule("QuestieGUI").Create = function(_, widgetType)
+            return CreateWidget(nil, widgetType)
+        end
+
         local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetEffectiveQuestLevel = function() return 8 end
         QuestieLib.GetRaceString = function() return "" end

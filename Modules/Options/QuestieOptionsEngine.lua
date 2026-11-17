@@ -343,6 +343,7 @@ end
 ---@return Frame window
 local function _CreatePopup()
     local window = QuestieOptionsWindow.Create()
+    QuestieConfigFrame = window
 
     local previousSideTab
     for _, tab in ipairs(visibleTabs) do

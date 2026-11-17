@@ -41,8 +41,11 @@ if Questie then
 end
 
 --Initialized below
----@class Questie : AceAddon, AceConsole-3.0, AceEvent-3.0, AceTimer-3.0, AceComm-3.0, AceBucket-3.0
-Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceBucket-3.0")
+---@type QuestieRuntime
+local QuestieRuntime = QuestieLoader:ImportModule("QuestieRuntime")
+
+---@class Questie
+Questie = QuestieRuntime:CreateAddon()
 
 Questie.API = {
     isReady = false,

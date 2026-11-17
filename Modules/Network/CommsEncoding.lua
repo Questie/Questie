@@ -7,7 +7,7 @@ CommsEncoding owns Questie's modern typed-prefix wire encoding:
         -> LibDeflate:EncodeForWoWAddonChannel(compressed)
 
 Compression/CBOR are Blizzard-owned APIs. LibDeflate is used only for its proven
-addon-channel-safe byte escaping so binary compressed payloads can travel through AceComm.
+addon-channel-safe byte escaping so binary compressed payloads can travel through the addon channel.
 ]]
 ---@class CommsEncoding : QuestieModule
 ---@field MAX_ENCODED_PAYLOAD_BYTES number
@@ -18,7 +18,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local type = type
 
--- AceComm reserves one byte per multipart message, leaving 254 bytes for payload.
+-- The multipart protocol reserves one byte per message, leaving 254 bytes for payload.
 -- All modern protocols share this ceiling so an unexpected size increase remains
 -- survivable without adding per-prefix resource policy.
 local ACE_COMM_MULTIPART_PAYLOAD_BYTES = 254

@@ -9,7 +9,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local _journeyCharacterBrowserFrame
 local _pendingJourneyImport
@@ -22,7 +23,7 @@ local _validSubTypes = {Accept = true, Complete = true, Abandon = true}
 ---Returns journey data for all other characters on this account that have journey entries
 ---@return table<string, table> charKey -> journeyData
 local function _GetOtherCharactersWithJourney()
-    -- This needs to stay in sync with the charKey that is created in Libs/AceDB-3.0/AceDB-3.0.lua
+    -- This needs to stay in sync with the character key used by QuestieDatabase.
     local currentKey
     if RegionalUniqueNamesEnabled and RegionalUniqueNamesEnabled() then
 		local name, surname = UnitNameUnmodified("player")
@@ -77,7 +78,7 @@ function QuestieJourney:ShowCharacterBrowserFrame()
 
     local characters = _GetOtherCharactersWithJourney()
 
-    local frame = AceGUI:Create("Frame")
+    local frame = QuestieGUI:Create("Frame")
     _journeyCharacterBrowserFrame = frame
     frame:SetTitle(l10n("Import Journey data"))
     frame:SetLayout("Flow")
@@ -87,13 +88,13 @@ function QuestieJourney:ShowCharacterBrowserFrame()
     local importBtnNative
     frame:SetCallback("OnClose", function(widget)
         if importBtnNative then importBtnNative:Hide() end
-        AceGUI:Release(widget)
+        QuestieGUI:Release(widget)
         _journeyCharacterBrowserFrame = nil
     end)
 
     if not next(characters) then
         frame:SetHeight(150)
-        local label = AceGUI:Create("Label")
+        local label = QuestieGUI:Create("Label")
         label:SetText(l10n("No other characters with journey data found."))
         label:SetFullWidth(true)
         frame:AddChild(label)
@@ -114,7 +115,7 @@ function QuestieJourney:ShowCharacterBrowserFrame()
 
     local selectedCharacterName = dropdownOrder[1]
 
-    local dropdown = AceGUI:Create("Dropdown")
+    local dropdown = QuestieGUI:Create("Dropdown")
     dropdown:SetLabel(l10n("Select a character to import"))
     dropdown:SetFullWidth(true)
     dropdown:SetList(dropdownList, dropdownOrder)
@@ -124,9 +125,7 @@ function QuestieJourney:ShowCharacterBrowserFrame()
         selectedCharacterName = value
     end)
 
-    -- Find AceGUI's built-in close button and status bar.
-    -- statusbg is a Button (BackdropTemplate, no text) that spans the bottom and blocks clicks in that zone.
-    -- We hide it (unused) and anchor the Import button directly to the left of the close button.
+    -- Find the native close button and anchor the Import button beside it.
     local closeBtn, statusBar
     for _, child in next, {frame.frame:GetChildren()} do
         if child:GetObjectType() == "Button" then

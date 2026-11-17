@@ -20,7 +20,8 @@ local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 local GetItemInfo = QuestieCompat.GetItemInfo
 local GetItemIcon = QuestieCompat.GetItemIcon
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 function QuestieJourneyUtils:GetSortedZoneKeys(zones)
     local function compare(a, b)
@@ -36,7 +37,7 @@ function QuestieJourneyUtils:GetSortedZoneKeys(zones)
 end
 
 function QuestieJourneyUtils:Spacer(container, size)
-    local spacer = AceGUI:Create("Label");
+    local spacer = QuestieGUI:Create("Label");
     spacer:SetFullWidth(true);
     spacer:SetText(" ");
     if size and size == "large" then
@@ -50,7 +51,7 @@ function QuestieJourneyUtils:Spacer(container, size)
 end
 
 function QuestieJourneyUtils:AddLine(frame, text)
-    local label = AceGUI:Create("Label")
+    local label = QuestieGUI:Create("Label")
     label:SetFullWidth(true);
     label:SetText(text)
     label:SetFontObject(GameFontNormal)
@@ -305,10 +306,10 @@ function QuestieJourneyUtils.ApplyModernQuestLinkStyle(label)
 end
 
 ---@param quest Quest
----@return AceInteractiveLabel
+---@return QuestieInteractiveLabel
 function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
-    ---@class AceInteractiveLabel
-    local label = AceGUI:Create("InteractiveLabel")
+    ---@class QuestieInteractiveLabel
+    local label = QuestieGUI:Create("InteractiveLabel")
     local questId = quest.Id
 
     QuestieJourneyUtils.ApplyModernQuestLinkStyle(label)
@@ -331,12 +332,12 @@ function QuestieJourneyUtils.GetInteractiveQuestLabel(quest)
 end
 
 ---@param itemId ItemId
----@return AceIcon
+---@return QuestieIcon
 function QuestieJourneyUtils.GetItemIcon(itemId)
     local itemLink = select(2, GetItemInfo(itemId))
 
-    ---@class AceIcon
-    local itemIcon = AceGUI:Create("Icon")
+    ---@class QuestieIcon
+    local itemIcon = QuestieGUI:Create("Icon")
     itemIcon:SetWidth(25)
     itemIcon:SetHeight(25)
     itemIcon:SetImage(GetItemIcon(itemId))

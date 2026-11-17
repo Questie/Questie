@@ -26,7 +26,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 local zoneTreeFrame
 
 function _QuestieJourney.questsByZone:ResetTree()
@@ -82,7 +83,7 @@ function _QuestieJourney.questsByZone:OpenQuestDetails(questId)
     master:SetFullWidth(true)
     master:SetFullHeight(true)
 
-    local scrollFrame = AceGUI:Create("ScrollFrame")
+    local scrollFrame = QuestieGUI:Create("ScrollFrame")
     scrollFrame:SetLayout("flow")
     scrollFrame:SetFullHeight(true)
     master:AddChild(scrollFrame)
@@ -92,7 +93,7 @@ function _QuestieJourney.questsByZone:OpenQuestDetails(questId)
 end
 
 ---Restore the previously selected quest in the zone tree
----@param treeFrame table @The AceGUI TreeGroup frame
+---@param treeFrame table @The QuestieGUI TreeGroup frame
 ---@param zoneTree table @The zone tree table
 function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zoneTree)
     if not treeFrame or not zoneTree then return end
@@ -149,7 +150,7 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
                 master:SetFullHeight(true)
 
                 ---@class ScrollFrame
-                local scrollFrame = AceGUI:Create("ScrollFrame")
+                local scrollFrame = QuestieGUI:Create("ScrollFrame")
                 scrollFrame:SetLayout("flow")
                 scrollFrame:SetFullHeight(true)
                 master:AddChild(scrollFrame)
@@ -173,7 +174,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         return
     end
 
-    zoneTreeFrame = AceGUI:Create("TreeGroup")
+    zoneTreeFrame = QuestieGUI:Create("TreeGroup")
     zoneTreeFrame:SetFullWidth(true)
     zoneTreeFrame:SetFullHeight(true)
     zoneTreeFrame:EnableButtonTooltips(false)
@@ -217,7 +218,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         master:SetFullHeight(true)
 
         ---@class ScrollFrame
-        local scrollFrame = AceGUI:Create("ScrollFrame")
+        local scrollFrame = QuestieGUI:Create("ScrollFrame")
         scrollFrame:SetLayout("flow")
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)

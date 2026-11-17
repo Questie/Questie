@@ -59,6 +59,11 @@ describe("QuestieSearchResults selection", function()
 
         dofile("Localization/l10n.lua")
         QuestieLoader:ImportModule("QuestieJourneyUtils").Spacer = function() end
+        dofile("Modules/Journey/QuestieGUI.lua")
+        local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
+        QuestieGUI.Create = function(_, widgetType)
+            return CreateWidget(nil, widgetType)
+        end
         QuestieLoader:ImportModule("QuestieLink").GetQuestLinkStringById = function(id)
             return "quest:" .. id
         end

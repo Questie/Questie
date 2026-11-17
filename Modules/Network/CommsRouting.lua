@@ -17,14 +17,14 @@ local allowedGroupMessageDistributions = {
     WHISPER = true,
 }
 
----Normalizes Questie group types and AceComm group distributions to an AceComm broadcast distribution.
+---Normalizes Questie group types to an addon-channel broadcast distribution.
 ---@param input string?
 ---@return string?
 function CommsRouting:GetGroupBroadcastDistribution(input)
     return groupBroadcastByInput[input]
 end
 
----AceComm calls Ambiguate(sender, "none"), so our own sender is the short player name.
+---The receiver uses Ambiguate(sender, "none"), so our own sender is the short player name.
 ---However for WoW Forever the sender is "Firstname Lastname" even after the Ambiguate call.
 ---@param sender string
 ---@return boolean
@@ -34,7 +34,7 @@ end
 
 ---Returns true when the addon message arrived over a grouped distribution from a grouped sender.
 ---@param distribution string
----@param sender string Full sender name, including realm when AceComm provided one.
+---@param sender string Full sender name, including realm when the channel provided one.
 ---@return boolean
 function CommsRouting:IsMessageFromGroupMember(distribution, sender)
     return allowedGroupMessageDistributions[distribution] == true

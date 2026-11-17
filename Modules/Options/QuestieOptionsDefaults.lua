@@ -17,7 +17,7 @@ function QuestieOptionsDefaults:Load()
             waypointMinimapEnabled = true,
             waypointWidth = 3,
             waypointOpacity = 1,
-            -- AceDB saves only the channels that differ from these, so changing a default color needs a
+            -- The profile database saves only the channels that differ from these, so changing a default color needs a
             -- migration writing whole colors, or saved colors mix with the new default.
             waypointColor = {1, 0.72, 0, 0.5},
             waypointHostileColor = {1, 0.2, 0, 0.7},

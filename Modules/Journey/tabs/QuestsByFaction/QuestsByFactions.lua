@@ -33,7 +33,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local factionTreeFrame
 local factionQuestMap
@@ -79,7 +80,7 @@ function _QuestieJourney.questsByFaction:OpenQuestDetails(questId)
     master:SetFullWidth(true)
     master:SetFullHeight(true)
 
-    local scrollFrame = AceGUI:Create("ScrollFrame")
+    local scrollFrame = QuestieGUI:Create("ScrollFrame")
     scrollFrame:SetLayout("flow")
     scrollFrame:SetFullHeight(true)
     master:AddChild(scrollFrame)
@@ -367,7 +368,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         return
     end
 
-    factionTreeFrame = AceGUI:Create("TreeGroup")
+    factionTreeFrame = QuestieGUI:Create("TreeGroup")
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
     factionTreeFrame:EnableButtonTooltips(false)
@@ -415,7 +416,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         master:SetFullHeight(true)
 
         ---@class ScrollFrame
-        local scrollFrame = AceGUI:Create("ScrollFrame")
+        local scrollFrame = QuestieGUI:Create("ScrollFrame")
         scrollFrame:SetLayout("flow")
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)

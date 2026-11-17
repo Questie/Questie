@@ -47,7 +47,8 @@ local GetItemInfo = QuestieCompat.GetItemInfo
 local stringrep = string.rep
 local stringsub = string.sub
 
-local AceGUI = LibStub("AceGUI-3.0");
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local _HandleTreeItemSelected, _FindFirstSpawn
 local lastOpenSearch = "quest"
@@ -76,7 +77,7 @@ local function AddModernDivider(container, text)
         return QuestieOptionsControls.CreateModernDividerGroup(container, text)
     end
 
-    local header = AceGUI:Create("Heading")
+    local header = QuestieGUI:Create("Heading")
     header:SetFullWidth(true)
     header:SetText(text)
     container:AddChild(header)
@@ -123,7 +124,7 @@ local function ApplyModernSearchBox(searchBox, placeholder)
         self.editbox:SetTextInsets(22, 4, 3, 3)
     end
 
-    -- AceGUI's ChatEdit_InsertLink hook only knows about its named native
+    -- The chat link hook only knows about its named native
     -- edit boxes. Forward links to this anonymous SearchBoxTemplate edit box
     -- while it is active so shift-click continues to work after restyling.
     if type(hooksecurefunc) == "function" then
@@ -158,7 +159,7 @@ local function ApplyModernSearchBox(searchBox, placeholder)
         if self.SetPropagateKeyboardInput then
             self:SetPropagateKeyboardInput(false)
         end
-        AceGUI:SetFocus(searchBox)
+        QuestieGUI:SetFocus(searchBox)
     end)
     editBox:SetScript("OnEnter", function()
         searchBox:Fire("OnEnter")
@@ -190,7 +191,7 @@ end
 
 
 ---Takes a frame and adds a paragraph with a header text and a list of links to other search results
----@param frame AceGUIWidget The frame to work on
+---@param frame QuestieGUIWidget The frame to work on
 ---@param linkType string The type of result to link to (npc|object|quest|item)
 ---@param lookup table Table of IDs (npc|object|quest|item)
 ---@param header string The text header to show above the links
@@ -198,7 +199,7 @@ end
 ---@param boolean addTomTomButton Whether to add a button for setting a TomTom target for the first spawn of each linked result, if available
 local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTomTomButton)
     if lookup and #lookup > 0 then
-        local group = AceGUI:Create("InlineGroup");
+        local group = QuestieGUI:Create("InlineGroup");
         if QuestDetailsFrame.ResetInfoGroup then
             QuestDetailsFrame:ResetInfoGroup(group)
         end
@@ -209,7 +210,7 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
 
         for _,id in pairs(lookup) do
             id = abs(id)
-            local link = AceGUI:Create("InteractiveLabel")
+            local link = QuestieGUI:Create("InteractiveLabel")
             if QuestieJourneyUtils.ApplyModernQuestLinkStyle then
                 QuestieJourneyUtils.ApplyModernQuestLinkStyle(link)
             end
@@ -245,7 +246,7 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
                     if zone then
                         local name = query(id, "name")
                         QuestieJourneyUtils:Spacer(group)
-                        local button = AceGUI:Create("Button")
+                        local button = QuestieGUI:Create("Button")
                         button:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
                         ApplyModernButton(button, 220)
                         button:SetCallback("OnClick", function()
@@ -288,7 +289,7 @@ end
 ---@param groupName string? @Source group name for items (e.g. "NPC", "Object", "Vendor")
 local function CreateShowHideButton(id, idsToShow, groupName)
     -- Initialise button
-    local button = AceGUI:Create("Button")
+    local button = QuestieGUI:Create("Button")
     button.id = id
     button.idsToShow = idsToShow
     button.groupName = groupName
@@ -440,7 +441,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
     local infoContainer = f
     if spawnType == "npc" then
-        infoContainer = AceGUI:Create("InlineGroup")
+        infoContainer = QuestieGUI:Create("InlineGroup")
         infoContainer:SetLayout("List")
         infoContainer:SetFullWidth(true)
         if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
@@ -492,7 +493,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         AddLinkedParagraph(f, "quest", spawnObject.questEnds, l10n("Ends the following quests"), QuestieDB.QueryQuestSingle, false)
     end
 
-    local spawnZone = AceGUI:Create("Label")
+    local spawnZone = QuestieGUI:Create("Label")
     spawnZone:SetFontObject(GameFontNormal)
     spawnZone:SetFullWidth(true)
     local spawns = spawnObject.spawns
@@ -511,7 +512,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             local tx = spawns[startindex][1][1]
             local ty = spawns[startindex][1][2]
             if tx ~= -1 or ty ~= -1 then
-                local tomTomButton = AceGUI:Create("Button")
+                local tomTomButton = QuestieGUI:Create("Button")
                 tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
                 ApplyModernButton(tomTomButton, 220)
                 tomTomButton:SetCallback("OnClick", function()
@@ -531,7 +532,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             local starty = spawns[startindex][1][2];
 
             if (startx ~= -1 or starty ~= -1) then
-                local spawnLoc = AceGUI:Create("Label");
+                local spawnLoc = QuestieGUI:Create("Label");
                 spawnLoc:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty));
                 spawnLoc:SetFontObject(GameFontNormal)
                 spawnLoc:SetFullWidth(true);
@@ -605,20 +606,20 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
 
     AddModernDivider(f, query(itemId, "name"))
 
-    local grp = AceGUI:Create("SimpleGroup")
+    local grp = QuestieGUI:Create("SimpleGroup")
     grp:SetFullWidth(true)
     grp:SetLayout("Flow")
 
     local itemIcon = QuestieJourneyUtils.GetItemIcon(itemId)
     grp:AddChild(itemIcon)
 
-    local spawnIdLabel = AceGUI:Create("Label")
+    local spawnIdLabel = QuestieGUI:Create("Label")
     spawnIdLabel:SetText(l10n("Item ID")..l10n(": ") .. itemId)
     grp:AddChild(spawnIdLabel)
 
     f:AddChild(grp)
 
-    local tooltip = AceGUI:Create("GameTooltipWidget", itemId)
+    local tooltip = QuestieGUI:Create("GameTooltipWidget", itemId)
     tooltip:SetOwner(itemIcon.frame, "ANCHOR_BOTTOMRIGHT")
     tooltip:SetItemByID(itemId)
     tooltip:ShowTooltip()
@@ -627,7 +628,7 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
 
     if QuestieCorrections.questItemBlacklist[itemId] then
         QuestieJourneyUtils:Spacer(f)
-        local itemBlacklistedLabel = AceGUI:Create("Label")
+        local itemBlacklistedLabel = QuestieGUI:Create("Label")
         itemBlacklistedLabel:SetText(l10n("This item is blacklisted because it has too many sources"))
         itemBlacklistedLabel:SetFullWidth(true)
         f:AddChild(itemBlacklistedLabel)
@@ -642,12 +643,12 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     AddModernDivider(f, l10n("NPCs"))
 
     if (not npcDrops or not next(npcDrops)) then
-        local noNPCSourcesLabel = AceGUI:Create("Label")
+        local noNPCSourcesLabel = QuestieGUI:Create("Label")
         noNPCSourcesLabel:SetText(l10n("No NPC drops this item"))
         noNPCSourcesLabel:SetFullWidth(true)
         f:AddChild(noNPCSourcesLabel)
     else
-        local npcLabel = AceGUI:Create("Label")
+        local npcLabel = QuestieGUI:Create("Label")
 
         local npcIdsWithSpawns = {}
         for _, npcId in pairs(npcDrops) do
@@ -669,12 +670,12 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     AddModernDivider(f, l10n("Objects"))
 
     if (not objectDrops or not next(objectDrops)) then
-        local noObjectSourcesLabel = AceGUI:Create("Label")
+        local noObjectSourcesLabel = QuestieGUI:Create("Label")
         noObjectSourcesLabel:SetText(l10n("No Object drops this item"))
         noObjectSourcesLabel:SetFullWidth(true)
         f:AddChild(noObjectSourcesLabel)
     else
-        local objectLabel = AceGUI:Create("Label")
+        local objectLabel = QuestieGUI:Create("Label")
 
         local objectIdsWithSpawns = {}
         for _, objectId in pairs(objectDrops) do
@@ -696,12 +697,12 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     AddModernDivider(f, l10n("Vendors"))
 
     if (not vendors or not next(vendors)) then
-        local noVendorSourcesLabel = AceGUI:Create("Label")
+        local noVendorSourcesLabel = QuestieGUI:Create("Label")
         noVendorSourcesLabel:SetText(l10n("No Vendor sells this item"))
         noVendorSourcesLabel:SetFullWidth(true)
         f:AddChild(noVendorSourcesLabel)
     else
-        local vendorLabel = AceGUI:Create("Label")
+        local vendorLabel = QuestieGUI:Create("Label")
 
         local vendorIdsWithSpawns = {}
         for _, npcId in pairs(vendors) do
@@ -772,12 +773,12 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
             end
         end
     end
-    local resultFrame = AceGUI:Create("SimpleGroup");
+    local resultFrame = QuestieGUI:Create("SimpleGroup");
     resultFrame:SetLayout("Fill");
     resultFrame:SetFullWidth(true);
     resultFrame:SetFullHeight(true);
 
-    local resultTree = AceGUI:Create("TreeGroup");
+    local resultTree = QuestieGUI:Create("TreeGroup");
     activeResultTree = resultTree
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
@@ -828,7 +829,7 @@ _HandleTreeItemSelected = function(group, _, value)
     master:SetFullWidth(true);
     master:SetFullHeight(true);
 
-    local details = AceGUI:Create("ScrollFrame");
+    local details = QuestieGUI:Create("ScrollFrame");
     details:SetLayout("Flow");
     details:SetCallback("OnRelease", function(widget)
         widget.journeyDetailsGeneration = nil
@@ -920,13 +921,13 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
             end
         end
         if (resultCountTotal == 0) then
-            local noresults = AceGUI:Create("Label");
+            local noresults = QuestieGUI:Create("Label");
             noresults:SetText(Questie:Colorize(l10n('No Match for Search Results: %s', query), 'yellow'));
             noresults:SetFullWidth(true);
             searchGroup:AddChild(noresults);
             return;
         end
-        searchResultTabs = AceGUI:Create("TabGroup");
+        searchResultTabs = QuestieGUI:Create("TabGroup");
         searchResultTabs:SetFullWidth(true);
         searchResultTabs:SetFullHeight(true);
         searchResultTabs:SetLayout("Flow");
@@ -973,8 +974,8 @@ local searchGroup
 function QuestieSearchResults:DrawSearchTab(container)
     AddModernDivider(container, l10n("Enter in your Search"))
 
-    searchBox = AceGUI:Create("EditBox");
-    searchGroup = AceGUI:Create("SimpleGroup");
+    searchBox = QuestieGUI:Create("EditBox");
+    searchGroup = QuestieGUI:Create("SimpleGroup");
 
     searchBox:SetRelativeWidth(0.35);
     local searchPlaceholder = l10n("Advanced Search") .. " (" .. l10n("Quests") .. ", " .. l10n("NPCs") .. ", " .. l10n("Objects") .. ", " .. l10n("Items") .. ")"
@@ -1038,11 +1039,11 @@ function QuestieSearchResults:DrawSearchTab(container)
 end
 
 function QuestieSearchResults:GetDetailFrame(detailType, id)
-    local frame = AceGUI:Create("Frame")
+    local frame = QuestieGUI:Create("Frame")
     frame:SetHeight(500)
     frame:SetWidth(300)
     frame:SetLayout("Fill");
-    local details = AceGUI:Create("ScrollFrame")
+    local details = QuestieGUI:Create("ScrollFrame")
     details:SetFullWidth(true);
     details:SetFullHeight(true);
     details:SetLayout("Flow")

@@ -15,6 +15,7 @@ describe("Client content detection", function()
         end
         _G.Questie = nil
         dofile("Modules/Libs/QuestieLoader.lua")
+        dofile("Modules/QuestieRuntime.lua")
         _G.LibStub = function()
             return {NewAddon = function() return {} end}
         end

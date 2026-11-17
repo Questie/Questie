@@ -31,7 +31,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local function ApplyModernButton(button, width)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyStyledButton then
@@ -91,13 +92,13 @@ end
 ---@param zone AreaId
 ---@param x number
 ---@param y number
----@return AceGUIWidget|nil
+---@return QuestieGUIWidget|nil
 local function CreateTomTomButton(name, zone, x, y)
     if (not (TomTom and TomTom.AddWaypoint)) or (x == -1 and y == -1) then
         return nil
     end
 
-    local tomTomButton = AceGUI:Create("Button")
+    local tomTomButton = QuestieGUI:Create("Button")
     tomTomButton:SetText(l10n("Set |cFF54e33bTomTom|r Target"))
     ApplyModernButton(tomTomButton, 220)
     tomTomButton:SetCallback("OnClick", function()
@@ -126,13 +127,13 @@ end
 ---@return AceHeader
 local function CreateHeading(text, fullWidth)
     if not QuestieOptionsControls or not QuestieOptionsControls.CreateModernDivider then
-        local legacyHeader = AceGUI:Create("Heading")
+        local legacyHeader = QuestieGUI:Create("Heading")
         legacyHeader:SetFullWidth(fullWidth)
         legacyHeader:SetText(text)
         return legacyHeader
     end
 
-    local header = AceGUI:Create("SimpleGroup")
+    local header = QuestieGUI:Create("SimpleGroup")
     header:SetLayout("Fill")
     header:SetFullWidth(fullWidth)
     header:SetHeight(24)
@@ -151,7 +152,7 @@ end
 ---@return AceLabel
 local function CreateLabel(text, fullWidth)
     ---@class AceLabel
-    local header = AceGUI:Create("Label")
+    local header = QuestieGUI:Create("Label")
     header:SetFullWidth(fullWidth)
     header:SetText(text)
 
@@ -159,7 +160,7 @@ local function CreateLabel(text, fullWidth)
 end
 
 local function AddInfoPanelSpacing(container)
-    local spacer = AceGUI:Create("SimpleGroup")
+    local spacer = QuestieGUI:Create("SimpleGroup")
     spacer:SetFullWidth(true)
     spacer:SetHeight(16)
     container:AddChild(spacer)
@@ -170,8 +171,8 @@ local function GetInlineGroupBorder(group)
         return nil
     end
 
-    -- Embedded Ace3 exposes InlineGroup.border, but an externally loaded Ace3
-    -- may not.  InlineGroup.content is parented to that same border in both
+    -- InlineGroup exposes a border, but a custom container may not. The content
+    -- parent is the reliable fallback.
     -- implementations, so resolve it from the live frame when necessary.
     if not group.border and group.content.GetParent then
         group.border = group.content:GetParent()
@@ -206,7 +207,7 @@ local function ResetNPCInfoLayout(group)
         portrait.npcID = nil
     end
 
-    -- InlineGroups are recycled by AceGUI.  Hide an item icon left by a
+    -- InlineGroups are reused. Hide an item icon left by a
     -- previous item-start panel before this group is reused for links or NPCs.
     if group.itemIcon then
         group.itemIcon:Hide()
@@ -252,7 +253,7 @@ local function ApplyNPCInfoLayout(group)
     group.content:SetPoint("TOPLEFT", border, "TOPLEFT", 68, -10)
     group.content:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -10, 10)
 
-    -- AceGUI sizes the group from its text children only.  Reserve enough
+    -- Size the group from its text children. Reserve enough
     -- vertical space for the portrait and the panel's top/bottom padding.
     EnsureNPCInfoHeight(group)
 
@@ -340,10 +341,10 @@ local function AddItemIcon(group, item)
     group.itemIcon:Show()
 end
 
----@param group AceGUIWidget
+---@param group QuestieGUIWidget
 ---@param npc NPC
 ---@param portraitIndex integer
----@param anchor AceGUIWidget
+---@param anchor QuestieGUIWidget
 local npcPortraitDisplays = {}
 local npcPortraitRequests = {}
 local npcPortraitModels = {}
@@ -591,13 +592,13 @@ local function AddNPCPortrait(group, npc, portraitIndex, anchor)
 end
 
 ---Reset a recycled Journey information panel before changing its content type.
----@param group AceGUIWidget
+---@param group QuestieGUIWidget
 function QuestDetailsFrame:ResetInfoGroup(group)
     ResetNPCInfoLayout(group)
 end
 
 ---Apply the shared NPC panel layout and portrait to another Journey detail view.
----@param group AceGUIWidget
+---@param group QuestieGUIWidget
 ---@param npc NPC
 function QuestDetailsFrame:ApplyNPCInfoGroup(group, npc)
     ResetNPCInfoLayout(group)
@@ -735,7 +736,7 @@ end
 ---@param query function The function used to get link name from
 local function AddLinkedParagraph(frame, linkType, lookup, header, query)
     if lookup and #lookup > 0 then
-        local group = AceGUI:Create("InlineGroup")
+        local group = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(group)
         group:SetFullWidth(true)
         group:SetLayout("List")
@@ -747,7 +748,7 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
 
         for _, id in pairs(lookup) do
             id = math.abs(id)
-            local link = AceGUI:Create("InteractiveLabel")
+            local link = QuestieGUI:Create("InteractiveLabel")
             ApplyModernInfoLink(link)
             -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
             link:SetFullWidth(true)
@@ -809,7 +810,7 @@ function QuestDetailsFrame:Draw(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
-    local obj = AceGUI:Create("Label")
+    local obj = QuestieGUI:Create("Label")
     obj:SetText(QuestieJourneyUtils.CreateObjectiveText(quest.Description))
     obj:SetFullWidth(true)
     container:AddChild(obj)
@@ -820,7 +821,7 @@ function QuestDetailsFrame:Draw(container, quest)
     container:AddChild(questInfoHeader)
 
     -- Complete checkbox (disabled/read-only)
-    local completedCheckbox = AceGUI:Create("CheckBox")
+    local completedCheckbox = QuestieGUI:Create("CheckBox")
     completedCheckbox:SetValue(Questie.db.char.complete[quest.Id])
     completedCheckbox:SetLabel(l10n("Complete"))
     completedCheckbox:SetDisabled(true)
@@ -833,7 +834,7 @@ function QuestDetailsFrame:Draw(container, quest)
     container:AddChild(completedCheckbox)
 
     -- Hidden by Questie checkbox (disabled/read-only)
-    local hiddenByQuestieCheckbox = AceGUI:Create("CheckBox")
+    local hiddenByQuestieCheckbox = QuestieGUI:Create("CheckBox")
     hiddenByQuestieCheckbox:SetValue(QuestieCorrections.hiddenQuests[quest.Id])
     hiddenByQuestieCheckbox:SetLabel(l10n("Hidden by Questie"))
     hiddenByQuestieCheckbox:SetDisabled(true)
@@ -846,7 +847,7 @@ function QuestDetailsFrame:Draw(container, quest)
     container:AddChild(hiddenByQuestieCheckbox)
 
     -- Hidden checkbox (interactive with tooltip)
-    local hideQuestCheckbox = AceGUI:Create("CheckBox")
+    local hideQuestCheckbox = QuestieGUI:Create("CheckBox")
     hideQuestCheckbox.questId = quest.Id
     hideQuestCheckbox:SetLabel(l10n("Hidden"))
     hideQuestCheckbox:SetValue(Questie.db.char.hidden[quest.Id] ~= nil)
@@ -1048,7 +1049,7 @@ function QuestDetailsFrame:Draw(container, quest)
 
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
-        local startNPCGroup = AceGUI:Create("InlineGroup")
+        local startNPCGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(startNPCGroup)
         startNPCGroup:SetLayout("List")
         startNPCGroup:SetTitle(l10n("Quest Start NPC Information"))
@@ -1069,12 +1070,12 @@ function QuestDetailsFrame:Draw(container, quest)
         startNPCGroup:AddChild(startNPCNameLabel)
         AddNPCPortrait(startNPCGroup, startNpc, 1, startNPCNameLabel)
 
-        local startNPCIdLabel = AceGUI:Create("Label")
+        local startNPCIdLabel = QuestieGUI:Create("Label")
         startNPCIdLabel:SetText(l10n("NPC ID").. l10n(": ") .. startNpc.id)
         startNPCIdLabel:SetFullWidth(true)
         startNPCGroup:AddChild(startNPCIdLabel)
 
-        local startNPCZoneLabel = AceGUI:Create("Label")
+        local startNPCZoneLabel = QuestieGUI:Create("Label")
         local startindex = 0
         if (not startNpc.spawns) then
             return
@@ -1096,7 +1097,7 @@ function QuestDetailsFrame:Draw(container, quest)
         local startx = startNpc.spawns[startindex][1][1]
         local starty = startNpc.spawns[startindex][1][2]
         if (startx ~= -1 or starty ~= -1) then
-            local startNPCLocLabel = AceGUI:Create("Label")
+            local startNPCLocLabel = QuestieGUI:Create("Label")
             startNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty))
             startNPCLocLabel:SetFullWidth(true)
             startNPCGroup:AddChild(startNPCLocLabel)
@@ -1112,7 +1113,7 @@ function QuestDetailsFrame:Draw(container, quest)
         if startNpc.questStarts and #startNpc.questStarts >= 2 then
             QuestieJourneyUtils:Spacer(startNPCGroup)
 
-            local alsoStartsLabel = AceGUI:Create("Label")
+            local alsoStartsLabel = QuestieGUI:Create("Label")
             alsoStartsLabel:SetText(l10n('This NPC Also Starts the following quests:'))
             alsoStartsLabel:SetColor(255, 165, 0)
             alsoStartsLabel:SetFontObject(GameFontHighlight)
@@ -1129,14 +1130,14 @@ function QuestDetailsFrame:Draw(container, quest)
             end
         end
 
-        -- AceGUI may restore InlineGroup's default content anchors while laying
+        -- The container may restore default content anchors while laying
         -- out children, so apply the portrait column after the group is built.
         ApplyNPCInfoLayout(startNPCGroup)
     end
 
     -- Get Quest Start GameObject
     if quest.Starts and quest.Starts.GameObject then
-        local startObjectGroup = AceGUI:Create("InlineGroup")
+        local startObjectGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(startObjectGroup)
         startObjectGroup:SetLayout("List")
         startObjectGroup:SetTitle(l10n('Quest Start Object Information'))
@@ -1151,19 +1152,19 @@ function QuestDetailsFrame:Draw(container, quest)
         for _, oid in pairs(quest.Starts.GameObject) do
             local startObj = QuestieDB:GetObject(oid)
 
-            local startObjectNameLabel = AceGUI:Create("Label")
+            local startObjectNameLabel = QuestieGUI:Create("Label")
             startObjectNameLabel:SetText(startObj.name)
             startObjectNameLabel:SetFontObject(GameFontHighlight)
             startObjectNameLabel:SetColor(255, 165, 0)
             startObjectNameLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectNameLabel)
 
-            local startObjectIdLabel = AceGUI:Create("Label")
+            local startObjectIdLabel = QuestieGUI:Create("Label")
             startObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. startObj.id)
             startObjectIdLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectIdLabel)
 
-            local startObjectZoneLabel = AceGUI:Create("Label")
+            local startObjectZoneLabel = QuestieGUI:Create("Label")
             local startindex = 0
             for i in pairs(startObj.spawns) do
                 startindex = i
@@ -1178,7 +1179,7 @@ function QuestDetailsFrame:Draw(container, quest)
             local startx = startObj.spawns[startindex][1][1]
             local starty = startObj.spawns[startindex][1][2]
             if (startx ~= -1 or starty ~= -1) then
-                local startObjectLocLabel = AceGUI:Create("Label")
+                local startObjectLocLabel = QuestieGUI:Create("Label")
                 startObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty))
                 startObjectLocLabel:SetFullWidth(true)
                 startObjectGroup:AddChild(startObjectLocLabel)
@@ -1194,7 +1195,7 @@ function QuestDetailsFrame:Draw(container, quest)
             if startObj.questStarts and #startObj.questStarts >= 2 then
                 QuestieJourneyUtils:Spacer(startObjectGroup)
 
-                local alsoStartsLabel = AceGUI:Create("Label")
+                local alsoStartsLabel = QuestieGUI:Create("Label")
                 alsoStartsLabel:SetText(l10n('This Object Also Starts the following quests:'))
                 alsoStartsLabel:SetColor(255, 165, 0)
                 alsoStartsLabel:SetFontObject(GameFontHighlight)
@@ -1216,7 +1217,7 @@ function QuestDetailsFrame:Draw(container, quest)
     -- Get Quest Start Item
     if quest.Starts and quest.Starts.Item then
         AddInfoPanelSpacing(container)
-        local startItemGroup = AceGUI:Create("InlineGroup")
+        local startItemGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(startItemGroup)
         startItemGroup:SetLayout("List")
         startItemGroup:SetTitle(l10n('Quest Start Item Information'))
@@ -1230,14 +1231,14 @@ function QuestDetailsFrame:Draw(container, quest)
 
         local startItem = QuestieDB:GetItem(quest.Starts.Item[1])
 
-        local startItemNameLabel = AceGUI:Create("Label")
+        local startItemNameLabel = QuestieGUI:Create("Label")
         startItemNameLabel:SetText(startItem.name)
         startItemNameLabel:SetFontObject(GameFontHighlight)
         startItemNameLabel:SetColor(255, 165, 0)
         startItemNameLabel:SetFullWidth(true)
         startItemGroup:AddChild(startItemNameLabel)
 
-        local startItemIdLabel = AceGUI:Create("Label")
+        local startItemIdLabel = QuestieGUI:Create("Label")
         startItemIdLabel:SetText(l10n("Item ID") .. l10n(": ") .. startItem.Id)
         startItemIdLabel:SetFullWidth(true)
         startItemGroup:AddChild(startItemIdLabel)
@@ -1249,7 +1250,7 @@ function QuestDetailsFrame:Draw(container, quest)
     AddInfoPanelSpacing(container)
 
     if quest.Finisher.NPC then
-        local endNPCGroup = AceGUI:Create("InlineGroup")
+        local endNPCGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(endNPCGroup)
         endNPCGroup:SetLayout("List")
         endNPCGroup:SetTitle(l10n('Quest Turn-in NPC Information'))
@@ -1269,7 +1270,7 @@ function QuestDetailsFrame:Draw(container, quest)
 
             local endNPC = QuestieDB:GetNPC(npcId)
 
-            local endNPCNameLabel = AceGUI:Create("Label")
+            local endNPCNameLabel = QuestieGUI:Create("Label")
             endNPCNameLabel:SetText(endNPC.name)
             endNPCNameLabel:SetFontObject(GameFontHighlight)
             endNPCNameLabel:SetColor(255, 165, 0)
@@ -1277,13 +1278,13 @@ function QuestDetailsFrame:Draw(container, quest)
             endNPCGroup:AddChild(endNPCNameLabel)
             AddNPCPortrait(endNPCGroup, endNPC, i, endNPCNameLabel)
 
-            local endNPCIdLabel = AceGUI:Create("Label")
+            local endNPCIdLabel = QuestieGUI:Create("Label")
             endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
             endNPCIdLabel:SetFullWidth(true)
             endNPCGroup:AddChild(endNPCIdLabel)
 
             if endNPC.spawns then
-                local endNPCZoneLabel = AceGUI:Create("Label")
+                local endNPCZoneLabel = QuestieGUI:Create("Label")
                 local endindex = 0
                 for zone in pairs(endNPC.spawns) do
                     endindex = zone
@@ -1299,7 +1300,7 @@ function QuestDetailsFrame:Draw(container, quest)
                     local endx = endNPC.spawns[endindex][1][1]
                     local endy = endNPC.spawns[endindex][1][2]
                     if (endx ~= -1 or endy ~= -1) then
-                        local endNPCLocLabel = AceGUI:Create("Label")
+                        local endNPCLocLabel = QuestieGUI:Create("Label")
                         endNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
                         endNPCLocLabel:SetFullWidth(true)
                         endNPCGroup:AddChild(endNPCLocLabel)
@@ -1317,7 +1318,7 @@ function QuestDetailsFrame:Draw(container, quest)
             if endNPC.questEnds and #endNPC.questEnds >= 2 then
                 QuestieJourneyUtils:Spacer(endNPCGroup)
 
-                local alsoEndsLabel = AceGUI:Create("Label")
+                local alsoEndsLabel = QuestieGUI:Create("Label")
                 alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
                 alsoEndsLabel:SetFontObject(GameFontHighlight)
                 alsoEndsLabel:SetColor(255, 165, 0)
@@ -1344,7 +1345,7 @@ function QuestDetailsFrame:Draw(container, quest)
     end
 
     if quest.Finisher.GameObject then
-        local endObjectGroup = AceGUI:Create("InlineGroup")
+        local endObjectGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(endObjectGroup)
         endObjectGroup:SetLayout("List")
         endObjectGroup:SetTitle(l10n('Quest Turn-in Object Information'))
@@ -1363,20 +1364,20 @@ function QuestDetailsFrame:Draw(container, quest)
 
             local endObject = QuestieDB:GetObject(objectId)
 
-            local endObjectNameLabel = AceGUI:Create("Label")
+            local endObjectNameLabel = QuestieGUI:Create("Label")
             endObjectNameLabel:SetText(endObject.name)
             endObjectNameLabel:SetFontObject(GameFontHighlight)
             endObjectNameLabel:SetColor(255, 165, 0)
             endObjectNameLabel:SetFullWidth(true)
             endObjectGroup:AddChild(endObjectNameLabel)
 
-            local endObjectIdLabel = AceGUI:Create("Label")
+            local endObjectIdLabel = QuestieGUI:Create("Label")
             endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
             endObjectIdLabel:SetFullWidth(true)
             endObjectGroup:AddChild(endObjectIdLabel)
 
             if endObject.spawns then
-                local endObjectZoneLabel = AceGUI:Create("Label")
+                local endObjectZoneLabel = QuestieGUI:Create("Label")
                 local endindex = 0
                 for zone in pairs(endObject.spawns) do
                     endindex = zone
@@ -1392,7 +1393,7 @@ function QuestDetailsFrame:Draw(container, quest)
                     local endx = endObject.spawns[endindex][1][1]
                     local endy = endObject.spawns[endindex][1][2]
                     if (endx ~= -1 or endy ~= -1) then
-                        local endObjectLocLabel = AceGUI:Create("Label")
+                        local endObjectLocLabel = QuestieGUI:Create("Label")
                         endObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
                         endObjectLocLabel:SetFullWidth(true)
                         endObjectGroup:AddChild(endObjectLocLabel)
@@ -1410,7 +1411,7 @@ function QuestDetailsFrame:Draw(container, quest)
             if endObject.questEnds and #endObject.questEnds >= 2 then
                 QuestieJourneyUtils:Spacer(endObjectGroup)
 
-                local alsoEndsLabel = AceGUI:Create("Label")
+                local alsoEndsLabel = QuestieGUI:Create("Label")
                 alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
                 alsoEndsLabel:SetFontObject(GameFontHighlight)
                 alsoEndsLabel:SetColor(255, 165, 0)

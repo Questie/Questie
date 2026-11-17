@@ -14,7 +14,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local ExpandFactionHeader, GetNumFactions, GetFactionInfo = QuestieCompat.ExpandFactionHeader, QuestieCompat.GetNumFactions, QuestieCompat.GetFactionInfo
 
@@ -55,7 +56,7 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
     _QuestieJourney.questsByFaction:InitializeFactionData()
 
     ---@class AceSimpleGroup
-    treegroup = AceGUI:Create("SimpleGroup")
+    treegroup = QuestieGUI:Create("SimpleGroup")
 
     QuestieOptionsControls.CreateModernDividerGroup(container, l10n('Select Expansion and Faction'))
 
@@ -93,7 +94,7 @@ _GetWatchedFactionId = function()
 end
 
 _CreateExpansionDropdown = function()
-    local dropdown = AceGUI:Create("Dropdown")
+    local dropdown = QuestieGUI:Create("Dropdown")
     ApplyModernDropdown(dropdown, 200)
     dropdown:SetList(QuestieJourney.availableFactionExpansions, QuestieJourney.availableFactionExpansionOrder)
     dropdown:SetCallback("OnValueChanged", _HandleExpansionSelection)
@@ -114,7 +115,7 @@ _CreateExpansionDropdown = function()
 end
 
 _CreateFactionDropdown = function()
-    local dropdown = AceGUI:Create("Dropdown")
+    local dropdown = QuestieGUI:Create("Dropdown")
     dropdown:SetWidth(205)
     ApplyModernDropdown(dropdown, 200)
     if not selectedExpansionKey then

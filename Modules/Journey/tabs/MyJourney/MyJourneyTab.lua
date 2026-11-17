@@ -13,7 +13,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0");
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
@@ -24,7 +25,7 @@ local function AddModernDivider(container, text)
         return
     end
 
-    local header = AceGUI:Create("Heading")
+    local header = QuestieGUI:Create("Heading")
     header:SetText(text)
     header:SetFullWidth(true)
     container:AddChild(header)
@@ -46,7 +47,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
         end
 
         recentEvents[i] = {};
-        recentEvents[i] = AceGUI:Create("Label");
+        recentEvents[i] = QuestieGUI:Create("Label");
         recentEvents[i]:SetFullWidth(true);
 
         local timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", 'lightBlue');
@@ -77,7 +78,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
     end
 
     if counter == 0 then
-        local justdoit = AceGUI:Create("Label");
+        local justdoit = QuestieGUI:Create("Label");
         justdoit:SetFullWidth(true);
         justdoit:SetText(Questie:Colorize(l10n("It's about time you embark on your first Journey!"), 'yellow'));
         container:AddChild(justdoit);
@@ -88,7 +89,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
     AddModernDivider(container, l10n("%s's Journey", GetUnitName("player", true)))
 
     local noteButtonText = l10n('Add New Adventure Note')
-    local noteButton = AceGUI:Create("SimpleGroup")
+    local noteButton = QuestieGUI:Create("SimpleGroup")
     noteButton:SetLayout("Fill")
     noteButton:SetFullWidth(true)
     noteButton:SetHeight(32)
@@ -104,7 +105,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
         nativeButton:SetPoint("LEFT", noteButton.content, "LEFT", 0, 0)
         nativeButton:SetScript("OnClick", _QuestieJourney.ShowNotePopup)
     else
-        local legacyButton = AceGUI:Create("Button")
+        local legacyButton = QuestieGUI:Create("Button")
         legacyButton:SetText(noteButtonText)
         legacyButton:SetWidth(220)
         legacyButton:SetHeight(32)
@@ -122,7 +123,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
     QuestieJourneyUtils:Spacer(container);
 
     ---@class SimpleGroup
-    local treeGroup = AceGUI:Create("SimpleGroup");
+    local treeGroup = QuestieGUI:Create("SimpleGroup");
     treeGroup:SetLayout("fill");
     treeGroup:SetFullHeight(true);
     treeGroup:SetFullWidth(true);

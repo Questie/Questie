@@ -27,7 +27,7 @@ QuestieOptionsEngine.tabs.profiles = { ... }
 
 local selectedDeleteProfile = nil
 
----Applies the new profile to Questie's visuals and to the option controls being shown. AceDB calls this for every
+---Applies the new profile to Questie's visuals and to the option controls being shown. The database calls this for every
 ---change of profile. Refreshing a control never runs its setter, so what setters do to apply a value is covered here.
 local function _OnProfileChanged()
     if Questie.SetIcons then
@@ -56,7 +56,7 @@ local function _OnProfileChanged()
     QuestieOptionsEngine:RefreshStates()
 end
 
----Returns existing profiles PLUS AceDB standard stand-in presets
+---Returns existing profiles plus the standard character, class, and realm presets.
 ---@return table<string, string>
 local function _GetChooseProfiles()
     local profiles = {}
@@ -105,7 +105,7 @@ local function _HasExistingNonActiveProfiles()
 end
 
 function QuestieOptionsEngine.tabs.profiles:Initialize()
-    -- Register AceDB callbacks to keep profile display and dropdowns synced
+    -- Register database callbacks to keep profile display and dropdowns synced
     if Questie.db and Questie.db.RegisterCallback then
         Questie.db.RegisterCallback(QuestieOptionsEngine.tabs.profiles, "OnProfileChanged", _OnProfileChanged)
         Questie.db.RegisterCallback(QuestieOptionsEngine.tabs.profiles, "OnProfileCopied", _OnProfileChanged)

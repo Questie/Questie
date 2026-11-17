@@ -9,6 +9,8 @@ local QuestieOptionsControls = QuestieLoader:CreateModule("QuestieOptionsControl
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
+---@type QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 ---@class QuestieOptionsControl: Button
 ---@field itemData table Normalized item definition, see QuestieOptionsLayout
@@ -82,13 +84,12 @@ function QuestieOptionsControls.CreateModernDivider(parent, text)
     return heading
 end
 
----Creates an AceGUI row containing a modern centered divider heading.
----@param container AceGUIWidget
+---Creates a QuestieGUI row containing a modern centered divider heading.
+---@param container QuestieGUIWidget
 ---@param text string
----@return AceGUIWidget
+---@return QuestieGUIWidget
 function QuestieOptionsControls.CreateModernDividerGroup(container, text)
-    local AceGUI = LibStub("AceGUI-3.0")
-    local dividerRow = AceGUI:Create("SimpleGroup")
+    local dividerRow = QuestieGUI:Create("SimpleGroup")
     dividerRow:SetLayout("Fill")
     dividerRow:SetFullWidth(true)
     dividerRow:SetHeight(24)
@@ -102,7 +103,7 @@ function QuestieOptionsControls.CreateModernDividerGroup(container, text)
     return dividerRow
 end
 
----Replaces an AceGUI container's legacy gray backdrop with the native Blizzard panel treatment.
+---Applies the native Blizzard panel treatment to a QuestieGUI container.
 ---@param frame Frame
 ---@param nested boolean? Use the darker surface reserved for a container inside a container.
 ---@param addNineSlice boolean? Add the native panel layer when the frame does not already have one.
@@ -363,7 +364,7 @@ end
 -------------------------
 
 ---Applies the same compact checkbox art used by the native Questie options controls.
----@param checkbox AceGUIWidget
+---@param checkbox QuestieGUIWidget
 function QuestieOptionsControls.ApplyModernCheckbox(checkbox)
     if not checkbox or not checkbox.checkbg then
         return checkbox
@@ -762,9 +763,9 @@ local function _GetDropdownOptions(item)
     return options or {}
 end
 
----Replaces an AceGUI dropdown's legacy menu with the modern Blizzard dropdown menu.
----The AceGUI widget API remains intact for Journey's existing list/value callbacks.
----@param dropdown AceGUIWidget
+---Applies the modern Blizzard dropdown menu to a QuestieGUI dropdown.
+---The QuestieGUI widget API remains intact for Journey's existing list/value callbacks.
+---@param dropdown QuestieGUIWidget
 ---@param width number
 function QuestieOptionsControls.ApplyModernDropdown(dropdown, width)
     if dropdown.modernDropdown then
@@ -813,7 +814,7 @@ function QuestieOptionsControls.ApplyModernDropdown(dropdown, width)
     nativeDropdown:SetHeight(32)
     UpdateNativePosition()
 
-    -- The legacy widget still owns the frame used by AceGUI's layout, but its old controls must not be visible.
+    -- The widget still owns the layout frame, but its old controls must not be visible.
     dropdown.dropdown:Hide()
     dropdown.button:Hide()
     dropdown.button_cover:Hide()
@@ -855,14 +856,14 @@ function QuestieOptionsControls.ApplyModernDropdown(dropdown, width)
     return dropdown
 end
 
----Applies the flat modern tab treatment to an AceGUI TabGroup tab.
+---Applies the flat modern tab treatment to a QuestieGUI TabGroup tab.
 ---@param tab Button
 function QuestieOptionsControls.ApplyModernTab(tab)
     if tab.modernTabBackground then
         return tab
     end
 
-    -- AceGUI's TabGroup is still responsible for layout and selection, but use Blizzard's
+    -- The tab group is still responsible for layout and selection, but use Blizzard's
     -- native MinimalTabTemplate for the visible button whenever the client provides it.
     local nativeOk, nativeTab = pcall(CreateFrame, "Button", nil, tab, "MinimalTabTemplate")
     if nativeOk and nativeTab and nativeTab.Text and nativeTab.SetSelected then
@@ -885,7 +886,7 @@ function QuestieOptionsControls.ApplyModernTab(tab)
         local rawSetSelected = tab.SetSelected
         local rawSetDisabled = tab.SetDisabled
 
-        -- AceGUI positions legacy tabs with a small overlap. Inset the native tab so its
+        -- The legacy tab positions use a small overlap. Inset the native tab so its
         -- Blizzard border does not collide with the neighboring tab.
         nativeTab:SetPoint("TOPLEFT", tab, "TOPLEFT", 5, 0)
         nativeTab:SetPoint("BOTTOMRIGHT", tab, "BOTTOMRIGHT", -5, 0)
@@ -1169,7 +1170,7 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
 end
 
 ---Applies the flat dark-and-gold section treatment used by modern Questie information panels.
----@param group AceGUIWidget
+---@param group QuestieGUIWidget
 function QuestieOptionsControls.ApplyModernInfoGroup(group)
     if not group or not group.border then
         return group
@@ -1190,9 +1191,8 @@ function QuestieOptionsControls.ApplyModernInfoGroup(group)
         group.modernInfoDivider = nil
     end
 
-    -- Reapply the surface when AceGUI gives this widget back from its pool.
-    -- The same InlineGroup can previously have been used as a darker nested
-    -- panel.
+    -- Reapply the surface when a widget is shown again. The same InlineGroup
+    -- can previously have been used as a darker nested panel.
     if group.modernInfoGroup then
         return group
     end
@@ -1270,9 +1270,13 @@ local function _InstallTabHoverPreview(tabGroup, tab)
     end)
 end
 
----Applies the modern tab treatment to every tab already built by an AceGUI TabGroup.
----@param tabGroup AceGUIWidget
+---Applies the modern tab treatment to every tab already built by a QuestieGUI TabGroup.
+---@param tabGroup QuestieGUIWidget
 function QuestieOptionsControls.ApplyModernTabGroup(tabGroup)
+    if tabGroup.nativeTabs then
+        return tabGroup
+    end
+
     if not tabGroup.modernRawSelectTab then
         tabGroup.modernRawSelectTab = tabGroup.SelectTab
         tabGroup.modernPinnedValue = (tabGroup.status or tabGroup.localstatus).selected

@@ -19,7 +19,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsControls
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local RESET = -1000
 local playerClass = UnitClassBase("player")
@@ -46,7 +47,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     end
 
     ---@class AceSimpleGroup
-    treegroup = AceGUI:Create("SimpleGroup")
+    treegroup = QuestieGUI:Create("SimpleGroup")
 
     QuestieOptionsControls.CreateModernDividerGroup(container, l10n("Select Category"))
 
@@ -80,7 +81,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 end
 
 _CreateContinentDropdown = function()
-    local dropdown = AceGUI:Create("Dropdown")
+    local dropdown = QuestieGUI:Create("Dropdown")
     local list = {
         ["ALL_QUESTS"] = l10n("All Quests"),
         ["_SEPARATOR"] = "|cff7f7f7f----------------|r"
@@ -132,7 +133,7 @@ _CreateContinentDropdown = function()
 end
 
 _CreateZoneDropdown = function()
-    local dropdown = AceGUI:Create("Dropdown")
+    local dropdown = QuestieGUI:Create("Dropdown")
     dropdown:SetWidth(200)
     ApplyModernDropdown(dropdown, 200)
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
@@ -339,7 +340,7 @@ function _QuestieJourney.questsByZone:OpenQuestInLocation(questId)
     end
 
     -- Rebuild the zone list/tree for the target category. SetValue updates the
-    -- visible dropdown without relying on AceGUI to fire its callback.
+    -- visible dropdown without relying on the widget to fire its callback.
     contDropdown:SetValue(categoryId)
     _HandleContinentSelection({value = categoryId})
 
