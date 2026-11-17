@@ -2616,6 +2616,28 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         --[95456] = {41, l10n("PvP")}, -- Concerted Efforts
         [95457] = {41, l10n("PvP")}, -- For Great Honor
         --[95458] = {41, l10n("PvP")}, -- For Great Honor
+        [98887] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98888] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98889] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98890] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98891] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98892] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98893] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98894] = {41, l10n("PvP")}, -- Conflict at Darkspear Islands
+        [98895] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98896] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98897] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98898] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98899] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98900] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98901] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98902] = {41, l10n("PvP")}, -- Darkspear Islands Clash
+        [98903] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
+        [98904] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
+        [98905] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
+        [98906] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
+        [98907] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
+        [98908] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
     }
 
     -- Keep Titan tags behind the same flavor and season boundary as the provider's Titan Quest records.
