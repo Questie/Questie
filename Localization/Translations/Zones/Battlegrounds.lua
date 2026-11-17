@@ -52,6 +52,18 @@ local battlegroundsLocales = {
         ["zhCN"] = "风暴之眼",
         ["zhTW"] = "暴風之眼",
     },
+    ["Darkspear Islands"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Darkspear-Inseln",
+        ["esES"] = "Islas Lanza Negra",
+        ["esMX"] = "Islas Lanza Negra",
+        ["frFR"] = "Îles des Sombrelances",
+        ["koKR"] = "검은창 군도",
+        ["ptBR"] = "Ilhas Lançanegra",
+        ["ruRU"] = "Острова Черного Копья",
+        ["zhCN"] = "暗矛群岛",
+        ["zhTW"] = "暗矛島嶼",
+    },
 }
 
 for k, v in pairs(battlegroundsLocales) do
