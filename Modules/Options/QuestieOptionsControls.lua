@@ -43,6 +43,24 @@ local function GetModernContainerColor(nested)
     return 0.16, 0.145, 0.133, 0.85
 end
 
+local function EnsureJourneyPaneBackdrop(frame)
+    if not frame or not frame.SetBackdrop then
+        return
+    end
+
+    -- TreeGroup creates this backdrop for the left pane. Apply the same
+    -- frame treatment to the details pane, which is otherwise just a plain
+    -- child frame and therefore has no visible box edge of its own.
+    frame:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true,
+        tileSize = 16,
+        edgeSize = 12,
+        insets = {left = 3, right = 3, top = 3, bottom = 3},
+    })
+end
+
 ---Creates the centered divider heading used by modern Questie sections.
 ---@param parent Frame
 ---@param text string
@@ -200,6 +218,7 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
     -- These are the visible Journey panes. They sit directly on the Journey
     -- canvas, so use the same first-level surface as the working Options and
     -- Add Note panels instead of the nearly-black nested-control tint.
+    EnsureJourneyPaneBackdrop(treeGroup.content)
     QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, false, true)
     QuestieOptionsControls.ApplyModernContainer(treeGroup.content, false, true)
     return treeGroup
@@ -1196,11 +1215,11 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         local arrowDown = CreateArrow("down")
         if arrowUp and anchor then
             arrowUp:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowUp:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -1, -1)
+            arrowUp:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -6, -3)
         end
         if arrowDown and anchor then
             arrowDown:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowDown:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -1, 1)
+            arrowDown:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -6, 3)
         end
 
         local function SyncArrowVisibility()
