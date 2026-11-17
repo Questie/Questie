@@ -799,6 +799,10 @@ function QuestDetailsFrame:Draw(container, quest)
         return
     end
 
+    if container.BeginUpdate then
+        container:BeginUpdate()
+    end
+
     -- Draw is also reached from restored selections and search navigation.
     -- Clear any previous detail widgets before adding the new headings.
     if container.ReleaseChildren then
@@ -1082,6 +1086,7 @@ function QuestDetailsFrame:Draw(container, quest)
         local startNPCZoneLabel = QuestieGUI:Create("Label")
         local startindex = 0
         if (not startNpc.spawns) then
+            if container.EndUpdate then container:EndUpdate() end
             return
         end
         for i in pairs(startNpc.spawns) do
@@ -1089,6 +1094,7 @@ function QuestDetailsFrame:Draw(container, quest)
         end
 
         if startindex == 0 then
+            if container.EndUpdate then container:EndUpdate() end
             return
         end
 
@@ -1442,6 +1448,10 @@ function QuestDetailsFrame:Draw(container, quest)
     if Questie.db.profile.debugEnabled then
         QuestieJourneyUtils:Spacer(container)
         QuestieJourneyUtils:AddLine(container, recurseTable(quest, QuestieDB.questKeys))
+    end
+
+    if container.EndUpdate then
+        container:EndUpdate()
     end
 end
 

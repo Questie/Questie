@@ -39,6 +39,10 @@ function _QuestieJourney.myJourney:DrawTab(container)
 
     -- get last 5 elements from table for history
     local counter = #Questie.db.char.journey;
+    local recentGroup = QuestieGUI:Create("SimpleGroup")
+    recentGroup:SetLayout("list")
+    recentGroup:SetFullWidth(true)
+    container:AddChild(recentGroup)
     local recentEvents = {};
     for i = counter, counter-4, -1 do
         if i <= 0 then
@@ -48,6 +52,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
         recentEvents[i] = {};
         recentEvents[i] = QuestieGUI:Create("Label");
         recentEvents[i]:SetFullWidth(true);
+        recentEvents[i]:SetWordWrap(false)
 
         local timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", 'lightBlue');
 
@@ -73,14 +78,15 @@ function _QuestieJourney.myJourney:DrawTab(container)
             recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('Note Created: %s', title), 'yellow'));
         end
 
-        container:AddChild(recentEvents[i]);
+        recentGroup:AddChild(recentEvents[i]);
     end
 
     if counter == 0 then
         local justdoit = QuestieGUI:Create("Label");
         justdoit:SetFullWidth(true);
+        justdoit:SetWordWrap(false)
         justdoit:SetText(Questie:Colorize(l10n("It's about time you embark on your first Journey!"), 'yellow'));
-        container:AddChild(justdoit);
+        recentGroup:AddChild(justdoit);
     end
 
     AddModernDivider(container, l10n("%s's Journey", GetUnitName("player", true)))

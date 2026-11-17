@@ -83,7 +83,7 @@ local function GetWidgetTitleHeight(widget)
 end
 
 local function LayoutChildren(widget)
-    if widget.layoutInProgress then
+    if widget.layoutInProgress or (widget.layoutSuspended and widget.layoutSuspended > 0) then
         return
     end
 
@@ -98,6 +98,8 @@ local function LayoutChildren(widget)
     local rowHeight = 0
     local hasFullHeightChild = false
     local contentWidth = content:GetWidth() or 0
+    local contentInset = widget.type == "ScrollFrame" and SCROLL_CONTENT_INSET or 0
+    local layoutWidth = math.max(contentWidth - (contentInset * 2), 0)
     local rowGap = layout == "list" and 0 or FLOW_GAP
 
     for index, child in ipairs(children) do
@@ -105,17 +107,17 @@ local function LayoutChildren(widget)
         if frame then
             frame:ClearAllPoints()
             if layout == "fill" and index == 1 then
-                frame:SetPoint("TOPLEFT", content, "TOPLEFT")
-                frame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT")
+                frame:SetPoint("TOPLEFT", content, "TOPLEFT", contentInset, -contentInset)
+                frame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT", -contentInset, contentInset)
             elseif layout == "table" then
-                local width = child.relativeWidth and content:GetWidth() * child.relativeWidth or content:GetWidth()
+                local width = child.relativeWidth and layoutWidth * child.relativeWidth or layoutWidth
                 local titleHeight = GetWidgetTitleHeight(child)
-                frame:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -(y + titleHeight))
+                frame:SetPoint("TOPLEFT", content, "TOPLEFT", contentInset, -(contentInset + y + titleHeight))
                 frame:SetWidth(width)
                 y = y + GetWidgetHeight(child) + titleHeight
             else
-                local childWidth = child.fullWidth and (contentWidth > 0 and contentWidth or GetWidgetWidth(child))
-                    or (child.relativeWidth and contentWidth * child.relativeWidth or GetWidgetWidth(child))
+                local childWidth = child.fullWidth and (layoutWidth > 0 and layoutWidth or GetWidgetWidth(child))
+                    or (child.relativeWidth and layoutWidth * child.relativeWidth or GetWidgetWidth(child))
                 local titleHeight = GetWidgetTitleHeight(child)
                 local childHeight = GetWidgetHeight(child) + titleHeight
                 if layout == "list" and child.text and child.text.SetWordWrap then
@@ -126,7 +128,7 @@ local function LayoutChildren(widget)
                 end
                 local startsNewRow = x == 0
                     or child.fullWidth
-                    or (contentWidth > 0 and x + childWidth > contentWidth)
+                    or (layoutWidth > 0 and x + childWidth > layoutWidth)
 
                 if startsNewRow then
                     if x > 0 then y = y + rowHeight + rowGap end
@@ -134,21 +136,21 @@ local function LayoutChildren(widget)
                     rowHeight = 0
                 end
 
-                frame:SetPoint("TOPLEFT", content, "TOPLEFT", x, -(y + titleHeight))
-                if child.fullWidth or (contentWidth > 0 and childWidth >= contentWidth) then
-                    frame:SetPoint("TOPRIGHT", content, "TOPRIGHT", 0, -y)
+                frame:SetPoint("TOPLEFT", content, "TOPLEFT", contentInset + x, -(contentInset + y + titleHeight))
+                if child.fullWidth or (layoutWidth > 0 and childWidth >= layoutWidth) then
+                    frame:SetPoint("TOPRIGHT", content, "TOPRIGHT", -contentInset, -(contentInset + y))
                 else
                     frame:SetWidth(childWidth)
                 end
                 if child.fullHeight then
-                    frame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT")
+                    frame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT", -contentInset, contentInset)
                     hasFullHeightChild = true
                 else
                     frame:SetHeight(childHeight)
                 end
                 rowHeight = math.max(rowHeight, childHeight)
                 if child.fullWidth then
-                    x = contentWidth + rowGap
+                    x = layoutWidth + rowGap
                 else
                     x = x + childWidth + rowGap
                 end
@@ -158,7 +160,7 @@ local function LayoutChildren(widget)
     end
 
     if layout ~= "fill" and widget.autoHeight and not widget.fullHeight and not hasFullHeightChild then
-        local desiredContentHeight = math.max(y + rowHeight, 1)
+        local desiredContentHeight = math.max(y + rowHeight + (contentInset * 2), 1)
         content:SetHeight(desiredContentHeight)
         if #children > 0 then
             local inset = widget.inset or 0
@@ -337,6 +339,16 @@ local function CreateBaseWidget(widgetType, parent)
     end
     function widget:SetAutoAdjustHeight(autoHeight)
         self.autoHeight = autoHeight
+    end
+    function widget:BeginUpdate()
+        self.layoutSuspended = (self.layoutSuspended or 0) + 1
+    end
+    function widget:EndUpdate()
+        self.layoutSuspended = math.max((self.layoutSuspended or 1) - 1, 0)
+        if self.layoutSuspended == 0 then
+            LayoutChildren(self)
+            if self.UpdateScrollMetrics then self:UpdateScrollMetrics() end
+        end
     end
 
     return widget
@@ -642,8 +654,7 @@ local function CreateScrollFrame(parent)
     widget.frame = CreateFrame("ScrollFrame", nil, parent)
     widget.border = widget.frame
     widget.content = CreateBackdropFrame("Frame", widget.frame)
-    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", SCROLL_CONTENT_INSET, -SCROLL_CONTENT_INSET)
-    widget.content:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -SCROLL_CONTENT_INSET, -SCROLL_CONTENT_INSET)
+    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.content:SetWidth(1)
     widget.content:SetHeight(1)
     widget.frame:SetScrollChild(widget.content)
@@ -664,7 +675,7 @@ local function CreateScrollFrame(parent)
     end
     widget.frame:HookScript("OnSizeChanged", function()
         local scrollbarWidth = widget.scrollbar.questieNativeMinimalScrollBar and (widget.scrollbar:GetWidth() or 8) or 16
-        widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - scrollbarWidth - (SCROLL_CONTENT_INSET * 2), 1))
+        widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - scrollbarWidth, 1))
         if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
     end)
     if not widget.scrollbar.questieNativeMinimalScrollBar then
@@ -675,7 +686,7 @@ local function CreateScrollFrame(parent)
         local height = 0
         for _, item in ipairs(self.children) do height = height + GetWidgetHeight(item) end
         local viewHeight = self.frame:GetHeight() or 0
-        self.content:SetHeight(math.max(height, viewHeight, 1))
+        self.content:SetHeight(math.max(height + (SCROLL_CONTENT_INSET * 2), viewHeight, 1))
         if not self.scrollbar.questieNativeMinimalScrollBar then
             local maximum = math.max(0, height - viewHeight)
             self.scrollbar:SetMinMaxValues(0, maximum)
