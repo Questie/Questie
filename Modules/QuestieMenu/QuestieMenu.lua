@@ -467,7 +467,10 @@ end
 function QuestieMenu.buildTownsfolkMenu()
     -- Refresh the player's professions so station entries reflect freshly
     -- learned (or unlearned) skills instead of the bucketed event state
-    QuestieProfessions:Update()
+    local isProfUpdate, isNewProfession = QuestieProfessions:Update()
+    if isProfUpdate or isNewProfession then
+        AvailableQuests.CalculateAndDrawAll()
+    end
 
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
