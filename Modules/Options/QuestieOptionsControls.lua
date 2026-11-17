@@ -191,9 +191,12 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
         return treeGroup
     end
 
-    -- The TreeGroup border is the light canvas/background. The two panes are
-    -- the actual nested containers and use the darker Options surface.
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.border, false, false)
+    -- The surrounding TreeGroup is structural; the two panes are the actual
+    -- nested containers and use the darker Options surface.
+    if treeGroup.border and treeGroup.border.SetBackdropColor then
+        treeGroup.border:SetBackdropColor(0, 0, 0, 0)
+        treeGroup.border:SetBackdropBorderColor(0, 0, 0, 0)
+    end
     QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, true, false)
     QuestieOptionsControls.ApplyModernContainer(treeGroup.content, true, false)
     return treeGroup
@@ -1137,6 +1140,13 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         trackMiddle:SetPoint("TOPLEFT", trackTop, "BOTTOMLEFT")
         trackMiddle:SetPoint("BOTTOMRIGHT", trackBottom, "TOPRIGHT")
 
+        -- Keep a small guaranteed-visible thumb on clients whose vertical
+        -- atlas art is present but does not render on a Slider child texture.
+        local visibleThumb = scrollbar:CreateTexture(nil, "ARTWORK")
+        visibleThumb:SetColorTexture(0.45, 0.28, 0.1, 0.95)
+        visibleThumb:SetPoint("CENTER", thumb, "CENTER")
+        visibleThumb:SetSize(8, 40)
+
         local function SizeThumb()
             local thumbHeight = 40
             local trackHeight = scrollbar:GetHeight() or 0
@@ -1145,6 +1155,7 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
                 thumbHeight = math.min(thumbHeight, maximum)
             end
             thumb:SetSize(8, thumbHeight)
+            visibleThumb:SetHeight(thumbHeight)
 
             local info = C_Texture.GetAtlasInfo("minimal-scrollbar-small-thumb-middle")
             if info and info.height and info.height > 0 then
@@ -1186,6 +1197,14 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
             arrowDown:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
             arrowDown:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -1, 1)
         end
+
+        local function SyncArrowVisibility()
+            if arrowUp then arrowUp:SetShown(scrollbar:IsShown()) end
+            if arrowDown then arrowDown:SetShown(scrollbar:IsShown()) end
+        end
+        scrollbar:HookScript("OnShow", SyncArrowVisibility)
+        scrollbar:HookScript("OnHide", SyncArrowVisibility)
+        SyncArrowVisibility()
 
         scrollbar:HookScript("OnSizeChanged", SizeThumb)
         SizeThumb()

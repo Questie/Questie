@@ -318,7 +318,11 @@ local function CreateContainer(widgetType, parent, inset, color)
     widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", inset or 6, -(inset or 6))
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -(inset or 6), inset or 6)
     widget.border = widget.frame
-    SetBackdrop(widget.border, color or {0.08, 0.055, 0.03, 0.96}, {0.35, 0.25, 0.1, 1})
+    if color then
+        SetBackdrop(widget.border, color, {0.35, 0.25, 0.1, 1})
+    else
+        SetBackdrop(widget.border, {0, 0, 0, 0}, {0, 0, 0, 0})
+    end
     widget.frame:SetHeight(40)
     widget.frame:HookScript("OnSizeChanged", function()
         widget.content:ClearAllPoints()
