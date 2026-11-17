@@ -184,8 +184,9 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
 
     local function ApplySurface(frame)
         if frame and frame.SetBackdropColor then
-            frame:SetBackdropColor(0.08, 0.055, 0.03, 0.96)
-            frame:SetBackdropBorderColor(0.35, 0.25, 0.1, 1)
+            local red, green, blue, alpha = GetModernContainerColor(false)
+            frame:SetBackdropColor(red, green, blue, alpha)
+            frame:SetBackdropBorderColor(0.45, 0.32, 0.1, 1)
         end
     end
 

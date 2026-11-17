@@ -856,9 +856,15 @@ local function CreateTabGroup(parent)
     -- Content widgets create their own child frames, so a small level offset
     -- is not enough to keep the tabs above the result container.
     widget.tabBar:SetFrameLevel(widget.frame:GetFrameLevel() + 20)
-    widget.content:ClearAllPoints()
-    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 0, -34)
-    widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
+    local function LayoutTabGroup()
+        -- CreateContainer reanchors content when the parent is resized. Keep
+        -- the content below the tab bar after that generic layout pass.
+        widget.content:ClearAllPoints()
+        widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 0, -34)
+        widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
+    end
+    LayoutTabGroup()
+    widget.frame:HookScript("OnSizeChanged", LayoutTabGroup)
     function widget:SetTabs(tabs)
         self.tabs = tabs or {}
         for _, child in ipairs({self.tabBar:GetChildren()}) do child:Hide() end
