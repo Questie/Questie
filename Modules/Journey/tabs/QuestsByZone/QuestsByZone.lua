@@ -213,6 +213,11 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         scrollFrame:SetLayout("flow")
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)
+        if master.RefreshLayout then
+            master:RefreshLayout()
+        end
+        scrollFrame.frame:Show()
+        scrollFrame.content:Show()
 
         ---@type number
         questId = tonumber(questId)

@@ -64,7 +64,10 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     dropdownRow:AddChild(zoneDropdown)
     container:AddChild(dropdownRow)
 
-    QuestieJourneyUtils:Spacer(container)
+    local categoryToQuestSpacer = QuestieGUI:Create("SimpleGroup")
+    categoryToQuestSpacer:SetFullWidth(true)
+    categoryToQuestSpacer:SetHeight(4)
+    container:AddChild(categoryToQuestSpacer)
 
     QuestieOptionsControls.CreateModernDividerGroup(container, l10n("Quests"))
 

@@ -361,6 +361,10 @@ local function CreateBaseWidget(widgetType, parent)
             if self.UpdateScrollMetrics then self:UpdateScrollMetrics() end
         end
     end
+    function widget:RefreshLayout()
+        LayoutChildren(self)
+        if self.UpdateScrollMetrics then self:UpdateScrollMetrics() end
+    end
 
     return widget
 end
