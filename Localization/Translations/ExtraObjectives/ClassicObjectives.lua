@@ -962,6 +962,18 @@ local classicObjectiveLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
     },
+    ["Kill Chief Murgut"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Töte Häuptling Murgut",
+        ["esES"] = false,
+        ["esMX"] = false,
+        ["frFR"] = false,
+        ["koKR"] = false,
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["zhCN"] = "杀死穆戈特酋长",
+        ["zhTW"] = false,
+    },
 }
 
 for k, v in pairs(classicObjectiveLocales) do
