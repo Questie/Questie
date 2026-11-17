@@ -198,28 +198,6 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
     return treeGroup
 end
 
----Applies the Journey surface to a texture-backed detail pane.
----@param texture Texture
----@return Texture
-function QuestieOptionsControls.ApplyJourneyContainerTexture(texture)
-    QuestieOptionsControls.ApplyModernContainerTexture(texture, false)
-    if texture and texture.SetColorTexture then
-        texture:SetColorTexture(0.16, 0.145, 0.133, 0.85)
-    end
-    return texture
-end
-
----Applies the shared modern container surface to a texture-backed panel.
----@param texture Texture
----@param nested boolean? Use the darker surface reserved for a container inside a container.
----@return Texture
-function QuestieOptionsControls.ApplyModernContainerTexture(texture, nested)
-    if texture and texture.SetColorTexture then
-        texture:SetColorTexture(GetModernContainerColor(nested))
-    end
-    return texture
-end
-
 -------------------------
 -- Shared by control types
 -------------------------
