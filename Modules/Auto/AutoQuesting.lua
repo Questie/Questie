@@ -74,11 +74,13 @@ function AutoQuesting.OnQuestGreeting()
             -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
             -- TODO: Do we want to call SelectAvailableQuest in QuestieCompat.SelectAvailableQuest when C_GossipInfo.GetAvailableQuests() is an empty table?
             local indexToAccept = 1
-            if (not Questie.db.profile.autoAccept.trivial) and GetAvailableQuestInfo then
+            if not Questie.db.profile.autoAccept.trivial then
                 indexToAccept = 0
+                local npcGuid = UnitGUID("npc")
                 for i = 1, availableQuestsCount do
-                    local isTrivial = GetAvailableQuestInfo(i)
-                    if not isTrivial then
+                    local questId = QuestieCompat.GetQuestGreetingQuestID(i, false, npcGuid)
+                    local questLevel = questId > 0 and QuestieDB.QueryQuestSingle(questId, "questLevel") or nil
+                    if not QuestieDB.IsTrivial(questLevel) then
                         indexToAccept = i
                         break
                     end
