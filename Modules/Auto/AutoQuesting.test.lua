@@ -545,6 +545,51 @@ describe("AutoQuesting", function()
     end)
 
     describe("OnQuestGreeting", function()
+        local originalGetAvailableQuestInfo
+
+        before_each(function()
+            originalGetAvailableQuestInfo = _G.GetAvailableQuestInfo
+        end)
+
+        after_each(function()
+            _G.GetAvailableQuestInfo = originalGetAvailableQuestInfo
+        end)
+
+        it("should skip trivial quests and select the first non-trivial quest when trivial quests are not accepted", function()
+            _G.GetNumAvailableQuests = function() return 2 end
+            _G.GetAvailableQuestInfo = function(index) return index == 1 end
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = false
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.called(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(2)
+        end)
+
+        it("should not select a quest when all available quests are trivial and trivial quests are not accepted", function()
+            _G.GetNumAvailableQuests = function() return 2 end
+            _G.GetAvailableQuestInfo = function() return true end
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = false
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
+        end)
+
+        it("should select the first quest even when trivial when trivial quests are accepted", function()
+            _G.GetNumAvailableQuests = function() return 2 end
+            _G.GetAvailableQuestInfo = function(index) return index == 1 end
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = true
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.called(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(1)
+        end)
+
         it("should accept quests", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autocomplete = false
