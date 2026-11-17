@@ -119,13 +119,18 @@ local function LayoutChildren(widget)
                 local childWidth = child.fullWidth and (layoutWidth > 0 and layoutWidth or GetWidgetWidth(child))
                     or (child.relativeWidth and layoutWidth * child.relativeWidth or GetWidgetWidth(child))
                 local titleHeight = GetWidgetTitleHeight(child)
-                local childHeight = GetWidgetHeight(child) + titleHeight
+                -- The title is anchored above the child frame. It occupies
+                -- layout space, but it is not part of the child frame's own
+                -- height. Including it here makes the parent repeatedly grow
+                -- the panel while the panel's layout shrinks itself back.
+                local childHeight = GetWidgetHeight(child)
                 if layout == "list" and child.text and child.text.SetWordWrap then
                     child.text:SetWordWrap(false)
                     if child.text.SetMaxLines then child.text:SetMaxLines(1) end
                     childHeight = 20
                     if not child.fullHeight then child.frame:SetHeight(childHeight) end
                 end
+                local occupiedHeight = childHeight + titleHeight
                 local startsNewRow = x == 0
                     or child.fullWidth
                     or (layoutWidth > 0 and x + childWidth > layoutWidth)
@@ -148,7 +153,7 @@ local function LayoutChildren(widget)
                 else
                     frame:SetHeight(childHeight)
                 end
-                rowHeight = math.max(rowHeight, childHeight)
+                rowHeight = math.max(rowHeight, occupiedHeight)
                 if child.fullWidth then
                     x = layoutWidth + rowGap
                 else
