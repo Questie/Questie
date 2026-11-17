@@ -61,6 +61,17 @@ local function EnsureJourneyPaneBackdrop(frame)
     })
 end
 
+local function ApplyJourneyPaneSurface(frame)
+    if not frame or not frame.modernContainerSurface then
+        return
+    end
+
+    -- Questie Options uses a warm brown translucent surface for its boxes.
+    -- Keep Journey panes distinct from the canvas without falling back to the
+    -- nearly-black nested tint.
+    frame.modernContainerSurface:SetColorTexture(0.11, 0.075, 0.045, 0.92)
+end
+
 ---Creates the centered divider heading used by modern Questie sections.
 ---@param parent Frame
 ---@param text string
@@ -215,12 +226,14 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
         treeGroup.border:SetBackdropColor(0, 0, 0, 0)
         treeGroup.border:SetBackdropBorderColor(0, 0, 0, 0)
     end
-    -- These are two sibling containers on the Journey canvas. Use the darker
-    -- nested Options surface so their fill is visibly distinct from the
-    -- translucent Journey background.
+    -- These are two sibling containers on the Journey canvas. Use the same
+    -- warm brown family as the Options boxes, with a slightly stronger
+    -- surface so the pane boundaries remain visible over the game world.
     EnsureJourneyPaneBackdrop(treeGroup.content)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, true, true)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, true, true)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, false, true)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, false, true)
+    ApplyJourneyPaneSurface(treeGroup.treeframe)
+    ApplyJourneyPaneSurface(treeGroup.content)
     return treeGroup
 end
 
