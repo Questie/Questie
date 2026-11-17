@@ -350,11 +350,11 @@ class BuildModeTests(unittest.TestCase):
                         self.assertEqual([f"Questie_{suffix}.toc"], packaged_tocs)
         self.downloads.assert_not_called()
 
-    def test_forever_build_ships_both_camelot_and_forever_tocs(self):
+    def test_forever_build_ships_forever_toc(self):
         output, manifest = self.run_build("--standalone", "-r", selection=("--forever",))
         with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
             packaged_tocs = sorted(name for name in archive.namelist() if name.endswith(".toc"))
-        self.assertEqual(["Questie_Camelot.toc", "Questie_Forever.toc"], packaged_tocs)
+        self.assertEqual(["Questie_Forever.toc"], packaged_tocs)
 
     def test_flat_provider_manifest_is_not_silently_accepted(self):
         self.provider_manifest = self.database
