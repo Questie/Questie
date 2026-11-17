@@ -121,17 +121,32 @@ function QuestieOptionsControls.ApplyModernContainer(frame, nested, addNineSlice
         addNineSlice = true
     end
 
+    local red, green, blue, alpha = GetModernContainerColor(nested)
     if frame.SetBackdropColor then
+        -- Questie Options uses a translucent color texture over the window
+        -- background. Keep the backdrop itself transparent so Journey panels
+        -- get the same brown surface instead of a black tooltip texture.
+        frame:SetBackdropColor(0, 0, 0, 0)
         if nested then
-            -- Match the darker surface used by the native Options tab group.
-            frame:SetBackdropColor(GetModernContainerColor(true))
             frame:SetBackdropBorderColor(0.28, 0.22, 0.12, 1)
         else
-            -- Match the existing QuestieOptionsWindow background instead of
-            -- introducing another brown for top-level panels.
-            frame:SetBackdropColor(GetModernContainerColor(false))
             frame:SetBackdropBorderColor(0.45, 0.32, 0.1, 1)
         end
+    end
+
+    if frame.CreateTexture then
+        local surface = frame.modernContainerSurface
+        if not surface then
+            surface = frame:CreateTexture(nil, "BACKGROUND")
+            surface:SetAllPoints(frame)
+            frame.modernContainerSurface = surface
+        end
+        surface:SetColorTexture(red, green, blue, alpha)
+        surface:Show()
+    elseif frame.SetBackdropColor then
+        -- Keep the old behavior as a compatibility fallback for lightweight
+        -- frame implementations that cannot create child textures.
+        frame:SetBackdropColor(red, green, blue, alpha)
     end
 
     if not frame.modernContainer then
@@ -165,10 +180,6 @@ end
 ---@return Frame
 function QuestieOptionsControls.ApplyJourneyContainer(frame)
     QuestieOptionsControls.ApplyModernContainer(frame, false, false)
-    if frame and frame.SetBackdropColor then
-        frame:SetBackdropColor(0.16, 0.145, 0.133, 0.85)
-        frame:SetBackdropBorderColor(0.45, 0.32, 0.1, 1)
-    end
     return frame
 end
 
@@ -182,16 +193,8 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
         return treeGroup
     end
 
-    local function ApplySurface(frame)
-        if frame and frame.SetBackdropColor then
-            local red, green, blue, alpha = GetModernContainerColor(false)
-            frame:SetBackdropColor(red, green, blue, alpha)
-            frame:SetBackdropBorderColor(0.45, 0.32, 0.1, 1)
-        end
-    end
-
-    ApplySurface(treeGroup.border)
-    ApplySurface(treeGroup.treeframe)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.border, false, false)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, false, false)
     return treeGroup
 end
 
@@ -1196,8 +1199,8 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
 
         local arrowUp = CreateArrow("up")
         local arrowDown = CreateArrow("down")
-        if arrowUp then arrowUp:SetPoint("BOTTOM", scrollbar, "TOP", 0, 2) end
-        if arrowDown then arrowDown:SetPoint("TOP", scrollbar, "BOTTOM", 0, -2) end
+        if arrowUp then arrowUp:SetPoint("TOP", scrollbar, "TOP", 0, -1) end
+        if arrowDown then arrowDown:SetPoint("BOTTOM", scrollbar, "BOTTOM", 0, 1) end
 
         scrollbar:HookScript("OnSizeChanged", SizeThumb)
         SizeThumb()
@@ -1279,17 +1282,17 @@ function QuestieOptionsControls.ApplyModernInfoGroup(group)
 end
 
 local function _SelectTabForHover(tabGroup, value)
-    if not tabGroup.modernRawSelectTab then
-        return
-    end
-
     tabGroup.modernHovering = true
-    tabGroup.modernRawSelectTab(tabGroup, value)
+    if tabGroup.modernRawSelectTab then
+        tabGroup.modernRawSelectTab(tabGroup, value)
+    elseif tabGroup.SelectTab then
+        tabGroup:SelectTab(value)
+    end
     tabGroup.modernHovering = false
 end
 
 local function _InstallTabHoverPreview(tabGroup, tab)
-    local button = tab.modernTabButton or tab
+    local button = tab.modernTabButton or tab.button or tab
     if not button or button.modernHoverPreview then
         return
     end
@@ -1326,19 +1329,24 @@ end
 ---Applies the modern tab treatment to every tab already built by a QuestieGUI TabGroup.
 ---@param tabGroup QuestieGUIWidget
 function QuestieOptionsControls.ApplyModernTabGroup(tabGroup)
-    if tabGroup.nativeTabs then
-        return tabGroup
-    end
-
     if not tabGroup.modernRawSelectTab then
         tabGroup.modernRawSelectTab = tabGroup.SelectTab
-        tabGroup.modernPinnedValue = (tabGroup.status or tabGroup.localstatus).selected
-        tabGroup.SelectTab = function(self, value)
-            self.modernRawSelectTab(self, value)
-            if not self.modernHovering then
-                self.modernPinnedValue = value
+        if not tabGroup.nativeTabs then
+            tabGroup.modernPinnedValue = (tabGroup.status or tabGroup.localstatus).selected
+            tabGroup.SelectTab = function(self, value)
+                self.modernRawSelectTab(self, value)
+                if not self.modernHovering then
+                    self.modernPinnedValue = value
+                end
             end
         end
+    end
+
+    if tabGroup.nativeTabs then
+        for _, tab in ipairs(tabGroup.tabs or {}) do
+            _InstallTabHoverPreview(tabGroup, tab)
+        end
+        return tabGroup
     end
 
     if tabGroup.border then

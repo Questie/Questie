@@ -734,6 +734,8 @@ local function CreateTreeGroup(parent)
                 button.text = button:CreateFontString(nil, "OVERLAY", node.children and "GameFontNormal" or "GameFontHighlightSmall")
                 button.text:SetText(node.text or tostring(node.value))
                 button.text:SetJustifyH("LEFT")
+                button.text:SetWordWrap(false)
+                if button.text.SetMaxLines then button.text:SetMaxLines(1) end
 
                 local toggleOffset = node.children and 18 or 0
                 if node.children then
