@@ -810,6 +810,7 @@ function QuestieOptionsControls.ApplyModernDropdown(dropdown, width)
     end
 
     nativeDropdown:SetupMenu(FillMenu)
+    if width then rawSetWidth(dropdown, width) end
     nativeDropdown:SetWidth(width or frame:GetWidth())
     nativeDropdown:SetHeight(32)
     UpdateNativePosition()

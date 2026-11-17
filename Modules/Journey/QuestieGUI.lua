@@ -4,6 +4,7 @@ local QuestieGUI = QuestieLoader:CreateModule("QuestieGUI")
 local PATH_SEPARATOR = "\001"
 local DEFAULT_WIDTH = 180
 local DEFAULT_HEIGHT = 24
+local FLOW_GAP = 3
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -54,6 +55,11 @@ local function GetWidgetHeight(widget)
     return height and height > 0 and height or DEFAULT_HEIGHT
 end
 
+local function GetWidgetWidth(widget)
+    local width = widget.frame and widget.frame:GetWidth()
+    return width and width > 0 and width or DEFAULT_WIDTH
+end
+
 local function LayoutChildren(widget)
     local content = widget.content
     if not content then return end
@@ -61,6 +67,10 @@ local function LayoutChildren(widget)
     local layout = string.lower(widget.layout or "flow")
     local children = widget.children or {}
     local y = 0
+    local x = 0
+    local rowHeight = 0
+    local hasFullHeightChild = false
+    local contentWidth = content:GetWidth() or 0
 
     for index, child in ipairs(children) do
         local frame = child.frame
@@ -75,21 +85,39 @@ local function LayoutChildren(widget)
                 frame:SetWidth(width)
                 y = y + GetWidgetHeight(child)
             else
-                frame:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -y)
-                frame:SetPoint("TOPRIGHT", content, "TOPRIGHT", 0, -y)
+                local childWidth = child.relativeWidth and contentWidth * child.relativeWidth or GetWidgetWidth(child)
+                local childHeight = GetWidgetHeight(child)
+                local startsNewRow = x == 0
+                    or child.fullWidth
+                    or (contentWidth > 0 and x + childWidth > contentWidth)
+
+                if startsNewRow then
+                    if x > 0 then y = y + rowHeight + FLOW_GAP end
+                    x = 0
+                    rowHeight = 0
+                end
+
+                frame:SetPoint("TOPLEFT", content, "TOPLEFT", x, -y)
+                if child.fullWidth or (contentWidth > 0 and childWidth >= contentWidth) then
+                    frame:SetPoint("TOPRIGHT", content, "TOPRIGHT", 0, -y)
+                else
+                    frame:SetWidth(childWidth)
+                end
                 if child.fullHeight then
                     frame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT")
+                    hasFullHeightChild = true
                 else
-                    frame:SetHeight(GetWidgetHeight(child))
-                    y = y + GetWidgetHeight(child)
+                    frame:SetHeight(childHeight)
                 end
+                rowHeight = math.max(rowHeight, childHeight)
+                x = x + childWidth + FLOW_GAP
             end
             frame:Show()
         end
     end
 
-    if layout ~= "fill" and widget.autoHeight then
-        content:SetHeight(math.max(y, 1))
+    if layout ~= "fill" and widget.autoHeight and not hasFullHeightChild then
+        content:SetHeight(math.max(y + rowHeight, 1))
     end
 end
 
@@ -186,6 +214,7 @@ local function CreateBaseWidget(widgetType, parent)
     end
     function widget:SetRelativeWidth(width)
         self.relativeWidth = width
+        if self.parent then LayoutChildren(self.parent) end
     end
     function widget:SetWidth(width)
         self.frame:SetWidth(width)
@@ -709,6 +738,7 @@ local function CreateTreeGroup(parent)
     end
     widget.frame:HookScript("OnSizeChanged", LayoutTree)
     widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
+    widget.treeScroll:HookScript("OnSizeChanged", LayoutTree)
 
     function widget:SetTree(tree)
         self.tree = tree or {}
