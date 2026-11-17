@@ -63,8 +63,8 @@ end
 
 _CreateNoteWindow = function ()
     local journeyFrame = QuestieJourneyFrame or UIParent
-    local popupWidth = math.min(560, journeyFrame:GetWidth() - 40)
-    local popupHeight = math.min(520, journeyFrame:GetHeight() - 40)
+    local popupWidth = math.min(680, journeyFrame:GetWidth() - 40)
+    local popupHeight = math.min(620, journeyFrame:GetHeight() - 40)
     local notePopup = QuestieOptionsWindow.Create({
         name = "QuestieJourneyNoteFrame",
         title = l10n('Add New Adventure Note'),
@@ -151,7 +151,7 @@ end
 _CreateMessageBox = function ()
     local box = QuestieGUI:Create("MultiLineEditBox")
     box:SetFullWidth(true)
-    box:SetNumLines(12)
+    box:SetNumLines(20)
     box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then

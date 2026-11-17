@@ -85,7 +85,8 @@ local function LayoutChildren(widget)
                 frame:SetWidth(width)
                 y = y + GetWidgetHeight(child)
             else
-                local childWidth = child.relativeWidth and contentWidth * child.relativeWidth or GetWidgetWidth(child)
+                local childWidth = child.fullWidth and (contentWidth > 0 and contentWidth or GetWidgetWidth(child))
+                    or (child.relativeWidth and contentWidth * child.relativeWidth or GetWidgetWidth(child))
                 local childHeight = GetWidgetHeight(child)
                 local startsNewRow = x == 0
                     or child.fullWidth
@@ -110,7 +111,11 @@ local function LayoutChildren(widget)
                     frame:SetHeight(childHeight)
                 end
                 rowHeight = math.max(rowHeight, childHeight)
-                x = x + childWidth + FLOW_GAP
+                if child.fullWidth then
+                    x = contentWidth + FLOW_GAP
+                else
+                    x = x + childWidth + FLOW_GAP
+                end
             end
             frame:Show()
         end
@@ -806,7 +811,9 @@ local function CreateTreeGroup(parent)
     end
     widget.frame:HookScript("OnSizeChanged", LayoutTree)
     widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
-    widget.treeScroll:HookScript("OnSizeChanged", LayoutTree)
+    widget.treeScroll:HookScript("OnSizeChanged", function()
+        widget.treeContent:SetWidth(math.max(widget.treeScroll:GetWidth() or 1, 1))
+    end)
 
     function widget:SetTree(tree)
         self.tree = tree or {}
@@ -844,6 +851,8 @@ local function CreateTabGroup(parent)
     widget.tabBar:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.tabBar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT")
     widget.tabBar:SetHeight(32)
+    widget.content:SetFrameLevel(widget.frame:GetFrameLevel() + 1)
+    widget.tabBar:SetFrameLevel(widget.frame:GetFrameLevel() + 2)
     widget.content:ClearAllPoints()
     widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 0, -34)
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")

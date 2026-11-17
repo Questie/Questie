@@ -138,6 +138,10 @@ local function CreateHeading(text, fullWidth)
     header:SetFullWidth(fullWidth)
     header:SetHeight(24)
     header.modernDivider = QuestieOptionsControls.CreateModernDivider(header.content, text)
+    if header.border then
+        header.border:SetBackdropColor(0, 0, 0, 0)
+        header.border:SetBackdropBorderColor(0, 0, 0, 0)
+    end
     header:SetCallback("OnRelease", function(widget)
         if widget.modernDivider then
             widget.modernDivider:Hide()

@@ -94,6 +94,10 @@ function QuestieOptionsControls.CreateModernDividerGroup(container, text)
     dividerRow:SetFullWidth(true)
     dividerRow:SetHeight(24)
     dividerRow.modernDivider = QuestieOptionsControls.CreateModernDivider(dividerRow.frame, text)
+    if dividerRow.border then
+        dividerRow.border:SetBackdropColor(0, 0, 0, 0)
+        dividerRow.border:SetBackdropBorderColor(0, 0, 0, 0)
+    end
     dividerRow:SetCallback("OnRelease", function(widget)
         if widget.modernDivider then
             widget.modernDivider:Hide()
