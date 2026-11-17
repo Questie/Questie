@@ -80,15 +80,21 @@ _CreateNoteWindow = function ()
     local content = QuestieGUI:Create("SimpleGroup")
     content:SetFullHeight(true)
     content:SetFullWidth(true)
-    content:SetLayout("flow")
     content.frame:SetParent(notePopup.canvasContainer)
     content.frame:SetAllPoints(notePopup.canvasContainer)
     content.frame:Show()
 
-    QuestieOptionsControls.CreateModernDividerGroup(content, l10n('New Note'))
+    -- Keep the divider independent from the flow layout. The editor panel is
+    -- manually anchored below it so its action button cannot flow outside the
+    -- Add Note frame when the multiline box grows.
+    QuestieOptionsControls.CreateModernDivider(content.frame, l10n('New Note'))
 
     local container = _CreateContainer()
-    content:AddChild(container)
+    container.frame:SetParent(content.frame)
+    container.frame:ClearAllPoints()
+    container.frame:SetPoint("TOPLEFT", content.frame, "TOPLEFT", 0, -28)
+    container.frame:SetPoint("BOTTOMRIGHT", content.frame, "BOTTOMRIGHT", 0, 0)
+    container.frame:Show()
 
     local desc = _CreateDescription()
     container:AddChild(desc)
@@ -104,7 +110,13 @@ _CreateNoteWindow = function ()
     ApplyNoteEditorColor(messageBox)
 
     local addEntryBtn = _CreateNoteAddButton()
-    container:AddChild(addEntryBtn)
+    -- The action row is a direct child of the Add Note frame and is anchored
+    -- inside its bottom edge, rather than becoming an overflowing flow child.
+    addEntryBtn.frame:SetParent(notePopup.canvasContainer)
+    addEntryBtn.frame:ClearAllPoints()
+    addEntryBtn.frame:SetPoint("BOTTOMLEFT", container.frame, "BOTTOMLEFT", 10, 10)
+    addEntryBtn.frame:SetSize(150, 32)
+    addEntryBtn.frame:Show()
 
     notePopup:Show()
     -- The container may restore its backdrop while laying out its children;
@@ -155,7 +167,7 @@ _CreateMessageBox = function ()
     -- Keep the editor tall enough to be useful while leaving the action row
     -- below it. The multiline widget owns the scrollbar, so it remains
     -- inside this editor region when the note window is resized.
-    box:SetNumLines(30)
+    box:SetNumLines(32)
     box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then

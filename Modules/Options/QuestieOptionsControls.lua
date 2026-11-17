@@ -1080,6 +1080,13 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         return scrollbar
     end
 
+    -- Questie Options already uses Blizzard's native MinimalScrollBar. Keep
+    -- that exact control untouched when Journey created one; this helper is
+    -- only the compatibility styling path for older clients/templates.
+    if scrollbar.questieNativeMinimalScrollBar then
+        return scrollbar
+    end
+
     scrollbar.modernScrollbar = true
 
     local function HasAtlas(name)

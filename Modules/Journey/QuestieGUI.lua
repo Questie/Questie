@@ -14,6 +14,19 @@ local function CreateBackdropFrame(frameType, parent, template)
     return CreateFrame(frameType, nil, parent)
 end
 
+local function CreateJourneyScrollBar(parent)
+    if ScrollUtil and type(CreateFrame) == "function" then
+        local ok, nativeScrollBar = pcall(CreateFrame, "EventFrame", nil, parent, "MinimalScrollBar")
+        if ok and nativeScrollBar and nativeScrollBar.SetScrollPercentage
+            and nativeScrollBar.RegisterCallback and nativeScrollBar.SetHideIfUnscrollable then
+            nativeScrollBar.questieNativeMinimalScrollBar = true
+            return nativeScrollBar
+        end
+    end
+
+    return CreateFrame("Slider", nil, parent, "UIPanelScrollBarTemplate")
+end
+
 local function SetBackdrop(frame, color, border)
     if not frame or not frame.SetBackdrop then
         return
@@ -617,33 +630,48 @@ local function CreateScrollFrame(parent)
     widget.content:SetHeight(1)
     widget.frame:SetScrollChild(widget.content)
     widget.frame:EnableMouseWheel(true)
-    widget.scrollbar = CreateFrame("Slider", nil, widget.frame, "UIPanelScrollBarTemplate")
-    widget.scrollbar:SetScript("OnValueChanged", function(_, value)
-        widget.frame:SetVerticalScroll(value)
-    end)
+    widget.scrollbar = CreateJourneyScrollBar(widget.frame)
+    if widget.scrollbar.questieNativeMinimalScrollBar then
+        widget.scrollbar:SetPoint("RIGHT", widget.frame, "RIGHT", -12, 0)
+        widget.scrollbar:SetPoint("BOTTOM", widget.frame, "BOTTOM", 0, 5)
+        widget.scrollbar:SetPoint("TOP", widget.frame, "TOP", 0, -5)
+        ScrollUtil.InitScrollFrameWithScrollBar(widget.frame, widget.scrollbar)
+        widget.scrollbar:SetHideIfUnscrollable(true)
+    else
+        widget.scrollbar:SetScript("OnValueChanged", function(_, value)
+            widget.frame:SetVerticalScroll(value)
+        end)
+        widget.scrollbar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -2)
+        widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -2, 2)
+    end
     widget.frame:HookScript("OnSizeChanged", function()
-        widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - 16, 1))
+        local scrollbarWidth = widget.scrollbar.questieNativeMinimalScrollBar and (widget.scrollbar:GetWidth() or 8) or 16
+        widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - scrollbarWidth - 16, 1))
         if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
     end)
-    widget.scrollbar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -2)
-    widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -2, 2)
-    widget.scrollbar:SetMinMaxValues(0, 0)
-    widget.scrollbar:SetValueStep(1)
+    if not widget.scrollbar.questieNativeMinimalScrollBar then
+        widget.scrollbar:SetMinMaxValues(0, 0)
+        widget.scrollbar:SetValueStep(1)
+    end
     function widget:UpdateScrollMetrics()
         local height = 0
         for _, item in ipairs(self.children) do height = height + GetWidgetHeight(item) end
         local viewHeight = self.frame:GetHeight() or 0
         self.content:SetHeight(math.max(height, viewHeight, 1))
-        local maximum = math.max(0, height - viewHeight)
-        self.scrollbar:SetMinMaxValues(0, maximum)
-        self.scrollbar:SetShown(maximum > 0)
-        self.scrollbar:SetValue(math.min(self.scrollbar:GetValue() or 0, maximum))
+        if not self.scrollbar.questieNativeMinimalScrollBar then
+            local maximum = math.max(0, height - viewHeight)
+            self.scrollbar:SetMinMaxValues(0, maximum)
+            self.scrollbar:SetShown(maximum > 0)
+            self.scrollbar:SetValue(math.min(self.scrollbar:GetValue() or 0, maximum))
+        end
     end
-    widget.frame:HookScript("OnMouseWheel", function(_, delta)
-        local minimum, maximum = widget.scrollbar:GetMinMaxValues()
-        local value = widget.scrollbar:GetValue() - delta * 40
-        widget.scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
-    end)
+    if not widget.scrollbar.questieNativeMinimalScrollBar then
+        widget.frame:HookScript("OnMouseWheel", function(_, delta)
+            local minimum, maximum = widget.scrollbar:GetMinMaxValues()
+            local value = widget.scrollbar:GetValue() - delta * 40
+            widget.scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
+        end)
+    end
     function widget:SetHeight(height)
         self.explicitHeight = height
         self.frame:SetHeight(height)
@@ -726,21 +754,29 @@ local function CreateTreeGroup(parent)
     widget.treeContent:SetWidth(1)
     widget.treeContent:SetHeight(1)
     widget.treeScroll:SetScrollChild(widget.treeContent)
-    widget.scrollbar = CreateFrame("Slider", nil, widget.treeframe, "UIPanelScrollBarTemplate")
-    widget.scrollbar:SetScript("OnValueChanged", function(_, value)
-        widget.treeScroll:SetVerticalScroll(value)
-    end)
-    widget.scrollbar:SetPoint("TOPRIGHT", widget.treeframe, "TOPRIGHT", -2, -2)
-    widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.treeframe, "BOTTOMRIGHT", -2, 2)
-    widget.scrollbar:SetWidth(16)
-    widget.scrollbar:SetMinMaxValues(0, 0)
-    widget.scrollbar:SetValueStep(1)
-    widget.scrollbar:SetValue(0)
-    widget.treeScroll:SetScript("OnMouseWheel", function(_, delta)
-        local minimum, maximum = widget.scrollbar:GetMinMaxValues()
-        local value = widget.scrollbar:GetValue() - delta * 40
-        widget.scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
-    end)
+    widget.scrollbar = CreateJourneyScrollBar(widget.treeframe)
+    if widget.scrollbar.questieNativeMinimalScrollBar then
+        widget.scrollbar:SetPoint("RIGHT", widget.treeframe, "RIGHT", -12, 0)
+        widget.scrollbar:SetPoint("BOTTOM", widget.treeframe, "BOTTOM", 0, 5)
+        widget.scrollbar:SetPoint("TOP", widget.treeframe, "TOP", 0, -5)
+        ScrollUtil.InitScrollFrameWithScrollBar(widget.treeScroll, widget.scrollbar)
+        widget.scrollbar:SetHideIfUnscrollable(true)
+    else
+        widget.scrollbar:SetScript("OnValueChanged", function(_, value)
+            widget.treeScroll:SetVerticalScroll(value)
+        end)
+        widget.scrollbar:SetPoint("TOPRIGHT", widget.treeframe, "TOPRIGHT", -2, -2)
+        widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.treeframe, "BOTTOMRIGHT", -2, 2)
+        widget.scrollbar:SetWidth(16)
+        widget.scrollbar:SetMinMaxValues(0, 0)
+        widget.scrollbar:SetValueStep(1)
+        widget.scrollbar:SetValue(0)
+        widget.treeScroll:SetScript("OnMouseWheel", function(_, delta)
+            local minimum, maximum = widget.scrollbar:GetMinMaxValues()
+            local value = widget.scrollbar:GetValue() - delta * 40
+            widget.scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
+        end)
+    end
     SetBackdrop(widget.treeframe, {0.08, 0.055, 0.03, 0.96}, {0.35, 0.25, 0.1, 1})
     widget.content:ClearAllPoints()
     widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
@@ -837,10 +873,12 @@ local function CreateTreeGroup(parent)
         local contentHeight = math.max(1, -y + 4)
         widget.treeContent:SetHeight(contentHeight)
         local viewHeight = widget.treeScroll:GetHeight() or 0
-        local maximum = math.max(0, contentHeight - viewHeight)
-        widget.scrollbar:SetMinMaxValues(0, maximum)
-        widget.scrollbar:SetShown(maximum > 0)
-        widget.treeScroll:SetVerticalScroll(math.min(widget.treeScroll:GetVerticalScroll() or 0, maximum))
+        if not widget.scrollbar.questieNativeMinimalScrollBar then
+            local maximum = math.max(0, contentHeight - viewHeight)
+            widget.scrollbar:SetMinMaxValues(0, maximum)
+            widget.scrollbar:SetShown(maximum > 0)
+            widget.treeScroll:SetVerticalScroll(math.min(widget.treeScroll:GetVerticalScroll() or 0, maximum))
+        end
     end
 
     local function LayoutTree()
