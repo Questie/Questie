@@ -28,11 +28,9 @@ local function ApplyNoteLayerColors(container)
         return
     end
 
-    -- Match the lighter Options panel surface; the editors are darker nested
-    -- surfaces, applied separately below.
-    QuestieOptionsControls.ApplyModernContainer(container.border)
-    container.border:SetBackdropColor(0.14, 0.11, 0.06, 0.95)
-    container.border:SetBackdropBorderColor(0.45, 0.32, 0.1, 1)
+    -- Use the same NineSlice container treatment as Questie Options. The
+    -- editor surfaces are darker nested controls, applied separately below.
+    QuestieOptionsControls.ApplyModernContainer(container.border, false, true)
 end
 
 local function ApplyNoteEditorColor(widget)
@@ -71,6 +69,9 @@ _CreateNoteWindow = function ()
         portrait = "Interface\\Icons\\INV_Misc_Note_03",
         width = popupWidth,
         height = popupHeight,
+        resizable = true,
+        minWidth = 520,
+        minHeight = 500,
     })
     notePopup:ClearAllPoints()
     notePopup:SetPoint("CENTER", journeyFrame, "CENTER")
@@ -151,7 +152,7 @@ end
 _CreateMessageBox = function ()
     local box = QuestieGUI:Create("MultiLineEditBox")
     box:SetFullWidth(true)
-    box:SetNumLines(20)
+    box:SetNumLines(24)
     box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then

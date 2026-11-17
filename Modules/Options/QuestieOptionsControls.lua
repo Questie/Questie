@@ -197,8 +197,8 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
         treeGroup.border:SetBackdropColor(0, 0, 0, 0)
         treeGroup.border:SetBackdropBorderColor(0, 0, 0, 0)
     end
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, true, false)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, true, false)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, true, true)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, true, true)
     return treeGroup
 end
 
