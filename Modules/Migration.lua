@@ -314,6 +314,14 @@ local migrationFunctions = {
         if Questie.db.profile.trackQuestsByZone == nil then
             Questie.db.profile.trackQuestsByZone = false
         end
+        -- Shift + Left Click shares quests now, instead of untracking them
+        local profile = Questie.db.profile
+        if profile.trackerbindUntrack == "shiftleft" then
+            profile.trackerbindUntrack = "disabled"
+        end
+        -- Sharing is checked before the other shortcuts, so it must not take over one of them
+        local isTaken = profile.trackerbindOpenQuestLog == "shiftleft" or profile.trackerbindSetTomTom == "shiftleft"
+        profile.trackerbindShareQuest = isTaken and "disabled" or "shiftleft"
     end,
 }
 

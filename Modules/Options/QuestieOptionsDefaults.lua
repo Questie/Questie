@@ -121,7 +121,8 @@ function QuestieOptionsDefaults:Load()
             trackerSortObjectives = "byZone",
             trackerbindSetTomTom = "ctrlleft",
             trackerbindOpenQuestLog = "left",
-            trackerbindUntrack = "shiftleft",
+            trackerbindUntrack = "disabled",
+            trackerbindShareQuest = "shiftleft",
             trackerSetpoint = "TOPLEFT",
             trackerFontSizeHeader = 12,
             trackerFontHeader = "Friz Quadrata TT",
@@ -225,7 +226,6 @@ function QuestieOptionsDefaults:Load()
             migrationVersion = 0,
             globalMigrationSteps = {},
 
-            enableBugHintsForAllFlavors = false,
             debugEnabled = false,
             debugEnabledPrint = false,
             debugLevel = 0,

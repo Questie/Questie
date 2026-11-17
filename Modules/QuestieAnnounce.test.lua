@@ -80,6 +80,46 @@ describe("QuestieAnnounce", function()
             "You have accepted no quest name without completing its breadcrumb quest no quest name")
     end)
 
+    describe("ItemLooted", function()
+        local playerName
+
+        before_each(function()
+            playerName = GetUnitName("player", true)
+            QuestieLoader:ImportModule("QuestieDB").QueryItemSingle = function() return 91899 end
+            QuestieLink.GetQuestHyperLink = function() return "|Hquestie:91899:guid|h[Quest Name]|h" end
+            getItemInfoMock.returns("A Letter", "|Hitem:123|h[A Letter]|h")
+            Questie.db.profile.questAnnounceChannel = "disabled"
+            Questie.Print = spy.new(function() end)
+        end)
+
+        for _, case in ipairs({
+            {items = true, locally = false, shutUp = false, expected = "You picked up |Hitem:123|h[A Letter]|h which starts |Hquestie:91899:guid|h[Quest Name]|h!"},
+            {items = true, locally = true, shutUp = false, expected = "Picked up |Hitem:123|h[A Letter]|h which starts |Hquestie:91899:guid|h[Quest Name]|h!"},
+            {items = false, locally = false, shutUp = false},
+            {items = false, locally = true, shutUp = false},
+            {items = true, locally = false, shutUp = true},
+            {items = true, locally = true, shutUp = true},
+            {items = false, locally = false, shutUp = true},
+        }) do
+            local description = string.format("questAnnounceItems=%s, questAnnounceLocally=%s, questieShutUp=%s prints %s",
+                tostring(case.items), tostring(case.locally), tostring(case.shutUp), case.expected and "once" or "nothing")
+            it(description, function()
+                Questie.db.profile.questAnnounceItems = case.items
+                Questie.db.profile.questAnnounceLocally = case.locally
+                Questie.db.profile.questieShutUp = case.shutUp
+
+                QuestieAnnounce:ItemLooted("|Hitem:123|h[A Letter]|h", "", nil, nil, playerName)
+
+                if case.expected then
+                    assert.spy(Questie.Print).was.called(1)
+                    assert.spy(Questie.Print).was.called_with(Questie, case.expected)
+                else
+                    assert.spy(Questie.Print).was.not_called()
+                end
+            end)
+        end
+    end)
+
     describe("ObjectiveChanged", function()
         it("announces completion when native progress text changes", function()
             _G.IsInGroup = function() return true end

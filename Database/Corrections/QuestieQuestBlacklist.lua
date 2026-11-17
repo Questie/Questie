@@ -7115,6 +7115,11 @@ function QuestieQuestBlacklist:Load()
         [84401] = HIDE_ON_MAP, -- Scourge: Undead Menace or Misunderstood?
         [84402] = HIDE_ON_MAP, -- Necromancy 101
 
+        -- Not in the game on Forever. See Questie/Questie#8247
+        [87318] = true, -- Hearts of the Lost
+        [88757] = true, -- Accessories of the Lost
+        [88758] = true, -- Sentiments of the Lost
+
         [91899] = HIDE_ON_MAP, -- A Sealed Crate
         [91900] = HIDE_ON_MAP, -- A Sealed Crate
         [91901] = HIDE_ON_MAP, -- A Sealed Crate

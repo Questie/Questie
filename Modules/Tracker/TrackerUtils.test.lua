@@ -1427,6 +1427,75 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("ShareQuest", function()
+        local originalInCombat, pushMock, printMock
+
+        before_each(function()
+            originalInCombat = _G.InCombatLockdown
+            pushMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "PushQuest")
+            printMock = stub(Questie, "Print")
+        end)
+
+        after_each(function()
+            _G.InCombatLockdown = originalInCombat
+            pushMock:revert()
+            printMock:revert()
+        end)
+
+        it("should share the quest", function()
+            _G.InCombatLockdown = function() return false end
+
+            TrackerUtils.ShareQuest(783)
+
+            assert.stub(pushMock).was.called_with(783)
+            assert.stub(printMock).was.not_called()
+        end)
+
+        it("should print a message and not share the quest in combat", function()
+            _G.InCombatLockdown = function() return true end
+
+            TrackerUtils.ShareQuest(783)
+
+            assert.stub(pushMock).was.not_called()
+            assert.stub(printMock).was.called_with(Questie, "Can't share a Quest while in combat.")
+        end)
+    end)
+
+    describe("CanShareQuest", function()
+        local originalIsInGroup, pushableMock
+
+        before_each(function()
+            originalIsInGroup = _G.IsInGroup
+            pushableMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsQuestPushable", function() return true end)
+        end)
+
+        after_each(function()
+            _G.IsInGroup = originalIsInGroup
+            pushableMock:revert()
+        end)
+
+        it("should allow sharing a pushable quest in a group", function()
+            _G.IsInGroup = function() return true end
+
+            assert.is_true(TrackerUtils.CanShareQuest(783))
+            assert.stub(pushableMock).was.called_with(783)
+        end)
+
+        it("should not allow sharing outside of a group", function()
+            _G.IsInGroup = function() return false end
+
+            assert.is_false(TrackerUtils.CanShareQuest(783))
+        end)
+
+        it("should not allow sharing a quest that is not pushable", function()
+            _G.IsInGroup = function() return true end
+            pushableMock:revert()
+            pushableMock = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsQuestPushable", function() return false end)
+
+            assert.is_false(TrackerUtils.CanShareQuest(783))
+        end)
+    end)
+
     describe("GetQuestGroupName", function()
         it("uses the native header when sorting by zone", function()
             Questie.db.profile.trackerSortObjectives = "byZone"

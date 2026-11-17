@@ -49,6 +49,7 @@ describe("TrackerMenu", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = function() end
         TrackerUtils.ShowObjectiveOnMap = function() end
+        TrackerUtils.CanShareQuest = function() return false end
 
         QuestieLoader:ImportModule("QuestieLink")
         QuestieLoader:ImportModule("QuestieCombatQueue")
@@ -124,6 +125,35 @@ describe("TrackerMenu", function()
                 "Nibbled-On Book", "Minimize Quest", "Show in Quest Log", "Link Quest to chat",
                 "Untrack Quest", "Abandon Quest", "|cFF39c0edWoWHead URL|r", "Lock Tracker", CANCEL,
             }, labels)
+        end)
+
+        it("should offer sharing the quest between the objectives and focusing it when it can be shared", function()
+            TrackerUtils.CanShareQuest = spy.new(function() return true end)
+            local originalObjective = {Index = 1, spawnList = {{Spawns = {}}}}
+            local quest = {
+                Id = 100, name = "Wolves", SpecialObjectives = {},
+                Objectives = {{Index = 1, Description = "3/5 Wolves slain.", enrichment = originalObjective}},
+                enrichment = {Id = 100, Objectives = {originalObjective}, IsComplete = function() return 0 end},
+                IsComplete = function() return 0 end,
+            }
+            displayQuests[100] = quest
+
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+
+            assert.spy(TrackerUtils.CanShareQuest).was.called_with(100)
+            assert.are.same({"Objectives", "Share Quest", "Focus Quest"}, {menu[2].text, menu[3].text, menu[4].text})
+        end)
+
+        it("should offer sharing a complete quest right after its title", function()
+            TrackerUtils.CanShareQuest = function() return true end
+            local quest = {
+                Id = 91741, name = "Nibbled-On Book", Objectives = {}, SpecialObjectives = {},
+                IsComplete = function() return 1 end,
+            }
+
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+
+            assert.are.equal("Share Quest", menu[2].text)
         end)
 
         it("uses the original verified objective for hiding and showing map icons", function()
@@ -497,6 +527,17 @@ describe("TrackerMenu", function()
             menu[1].func()
             assert.spy(tracker.UntrackQuestId).was.called_with(tracker, 783)
             assert.spy(compat.QuestLog_Update).was.not_called()
+        end)
+
+        it("should share the quest", function()
+            local utils = QuestieLoader:ImportModule("TrackerUtils")
+            utils.ShareQuest = spy.new(function() end)
+            local menu = {}
+            TrackerMenu.addShareQuestOption(menu, {Id = 783})
+
+            menu[1].func()
+
+            assert.spy(utils.ShareQuest).was.called_with(783)
         end)
 
         it("opens abandonment confirmation and restores selection on the modern client", function()

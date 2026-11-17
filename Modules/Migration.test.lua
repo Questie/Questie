@@ -224,6 +224,38 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_false(Questie.db.profile.trackQuestsByZone)
+    it("should move Shift + Left Click from untracking to sharing quests when upgrading from version 49", function()
+        Questie.db.profile.migrationVersion = 49
+        Questie.db.profile.trackerbindUntrack = "shiftleft"
+
+        Migration:Migrate()
+
+        assert.are_same("disabled", Questie.db.profile.trackerbindUntrack)
+        assert.are_same("shiftleft", Questie.db.profile.trackerbindShareQuest)
+        assert.are_same(50, Questie.db.profile.migrationVersion)
+    end)
+
+    it("should keep a custom untrack shortcut when upgrading from version 49", function()
+        Questie.db.profile.migrationVersion = 49
+        Questie.db.profile.trackerbindUntrack = "altleft"
+
+        Migration:Migrate()
+
+        assert.are_same("altleft", Questie.db.profile.trackerbindUntrack)
+        assert.are_same("shiftleft", Questie.db.profile.trackerbindShareQuest)
+        assert.are_same(50, Questie.db.profile.migrationVersion)
+    end)
+
+    it("should keep a Shift + Left Click quest log shortcut and not share quests with it when upgrading from version 49", function()
+        Questie.db.profile.migrationVersion = 49
+        Questie.db.profile.trackerbindOpenQuestLog = "shiftleft"
+        Questie.db.profile.trackerbindUntrack = "altleft"
+
+        Migration:Migrate()
+
+        assert.are_same("shiftleft", Questie.db.profile.trackerbindOpenQuestLog)
+        assert.are_same("altleft", Questie.db.profile.trackerbindUntrack)
+        assert.are_same("disabled", Questie.db.profile.trackerbindShareQuest)
         assert.are_same(50, Questie.db.profile.migrationVersion)
     end)
 end)
