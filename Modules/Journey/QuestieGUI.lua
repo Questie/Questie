@@ -116,8 +116,16 @@ local function LayoutChildren(widget)
         end
     end
 
-    if layout ~= "fill" and widget.autoHeight and not hasFullHeightChild then
-        content:SetHeight(math.max(y + rowHeight, 1))
+    if layout ~= "fill" and widget.autoHeight and not widget.fullHeight and not hasFullHeightChild then
+        local desiredContentHeight = math.max(y + rowHeight, 1)
+        content:SetHeight(desiredContentHeight)
+        if #children > 0 then
+            local inset = widget.inset or 0
+            local desiredFrameHeight = math.max(desiredContentHeight + inset * 2, widget.explicitHeight or 0)
+            if math.abs((widget.frame:GetHeight() or 0) - desiredFrameHeight) > 0.5 then
+                widget.frame:SetHeight(desiredFrameHeight)
+            end
+        end
     end
 end
 
@@ -128,6 +136,13 @@ local function AddChild(widget, child)
     local parent = widget.content or widget.frame
     if child.frame and parent then
         child.frame:SetParent(parent)
+        if not child.layoutParentHooked then
+            child.frame:HookScript("OnSizeChanged", function()
+                LayoutChildren(widget)
+                if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
+            end)
+            child.layoutParentHooked = true
+        end
     end
     LayoutChildren(widget)
 end
@@ -221,6 +236,7 @@ local function CreateBaseWidget(widgetType, parent)
         LayoutChildren(self)
     end
     function widget:SetHeight(height)
+        self.explicitHeight = height
         self.frame:SetHeight(height)
         LayoutChildren(self)
     end
@@ -285,6 +301,7 @@ end
 
 local function CreateContainer(widgetType, parent, inset, color)
     local widget = CreateBaseWidget(widgetType, parent)
+    widget.inset = inset or 6
     widget.content = CreateBackdropFrame("Frame", widget.frame)
     widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", inset or 6, -(inset or 6))
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -(inset or 6), inset or 6)
@@ -308,17 +325,34 @@ local function CreateLabel(widgetType, parent)
     widget.text:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -4, -2)
     widget.text:SetJustifyH("LEFT")
     widget.text:SetWordWrap(true)
+    local function UpdateLabelHeight()
+        local width = math.max((widget.frame:GetWidth() or DEFAULT_WIDTH) - 8, 1)
+        widget.text:SetWidth(width)
+        local textHeight = widget.text:GetStringHeight() or 0
+        local height = math.max(20, textHeight + 4)
+        if math.abs((widget.frame:GetHeight() or 0) - height) > 0.5 then
+            widget.frame:SetHeight(height)
+        end
+    end
+    widget.frame:HookScript("OnSizeChanged", UpdateLabelHeight)
+    function widget:SetText(text)
+        self.value = text
+        self.text:SetText(text or "")
+        UpdateLabelHeight()
+    end
     function widget:SetColor(r, g, b)
         self.text:SetTextColor(r, g, b)
     end
     function widget:SetFontObject(font)
         self.text:SetFontObject(font)
+        UpdateLabelHeight()
     end
     function widget:SetJustifyH(justify)
         self.text:SetJustifyH(justify)
     end
     function widget:SetWordWrap(wrap)
         self.text:SetWordWrap(wrap)
+        UpdateLabelHeight()
     end
     function widget:SetImage(texture)
         self.image = self.image or self.frame:CreateTexture(nil, "ARTWORK")
@@ -356,12 +390,29 @@ end
 
 local function CreateCheckBox(parent)
     local widget = CreateBaseWidget("CheckBox", parent)
-    widget.frame = CreateBackdropFrame("CheckButton", parent, "UICheckButtonTemplate")
-    widget.text = widget.frame.text or widget.frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    widget.frame = CreateFrame("CheckButton", nil, parent)
+    widget.frame:SetSize(24, 24)
+    widget.checkbg = widget.frame:CreateTexture(nil, "ARTWORK")
+    widget.checkbg:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
+    widget.checkbg:SetSize(24, 24)
+    widget.checkbg:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
+    widget.check = widget.frame:CreateTexture(nil, "OVERLAY")
+    widget.check:SetAllPoints(widget.checkbg)
+    widget.check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+    widget.highlight = widget.frame:CreateTexture(nil, "HIGHLIGHT")
+    widget.highlight:SetAllPoints(widget.checkbg)
+    widget.highlight:SetTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
+    widget.text = widget.frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    widget.text:SetPoint("LEFT", widget.checkbg, "RIGHT", 4, 0)
+    widget.text:SetPoint("RIGHT", widget.frame, "RIGHT", -4, 0)
+    widget.text:SetJustifyH("LEFT")
+    widget.nativeControl = widget.frame
     widget.frame:SetScript("OnClick", function(frame)
         widget.value = frame:GetChecked()
         Fire(widget, "OnValueChanged", widget.value)
     end)
+    widget.frame:SetScript("OnEnter", function() Fire(widget, "OnEnter") end)
+    widget.frame:SetScript("OnLeave", function() Fire(widget, "OnLeave") end)
     function widget:SetValue(value)
         self.value = value and true or false
         self.frame:SetChecked(self.value)
@@ -374,6 +425,15 @@ local function CreateCheckBox(parent)
     end
     function widget:GetChecked()
         return self.frame:GetChecked()
+    end
+    function widget:SetLabel(text)
+        self.label = self.text
+        self.text:SetText(text or "")
+    end
+    function widget:SetDisabled(disabled)
+        self.disabled = disabled and true or false
+        if self.disabled then self.frame:Disable() else self.frame:Enable() end
+        self.frame:SetAlpha(self.disabled and 0.55 or 1)
     end
     return widget
 end
@@ -519,28 +579,35 @@ local function CreateScrollFrame(parent)
     end)
     widget.frame:HookScript("OnSizeChanged", function()
         widget.content:SetWidth(math.max(widget.frame:GetWidth() or 1, 1))
+        if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
     end)
     widget.scrollbar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -2)
     widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -2, 2)
     widget.scrollbar:SetMinMaxValues(0, 0)
     widget.scrollbar:SetValueStep(1)
+    function widget:UpdateScrollMetrics()
+        local height = 0
+        for _, item in ipairs(self.children) do height = height + GetWidgetHeight(item) end
+        local viewHeight = self.frame:GetHeight() or 0
+        self.content:SetHeight(math.max(height, viewHeight, 1))
+        local maximum = math.max(0, height - viewHeight)
+        self.scrollbar:SetMinMaxValues(0, maximum)
+        self.scrollbar:SetShown(maximum > 0)
+        self.scrollbar:SetValue(math.min(self.scrollbar:GetValue() or 0, maximum))
+    end
     widget.frame:HookScript("OnMouseWheel", function(_, delta)
         local minimum, maximum = widget.scrollbar:GetMinMaxValues()
         local value = widget.scrollbar:GetValue() - delta * 40
         widget.scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
     end)
     function widget:SetHeight(height)
+        self.explicitHeight = height
         self.frame:SetHeight(height)
-        self.content:SetHeight(math.max(height, self.content:GetHeight() or 0))
+        self:UpdateScrollMetrics()
     end
     function widget:AddChild(child)
         AddChild(self, child)
-        local height = 0
-        for _, item in ipairs(self.children) do height = height + GetWidgetHeight(item) end
-        self.content:SetHeight(math.max(height, self.frame:GetHeight() or 1))
-        local maximum = math.max(0, height - (self.frame:GetHeight() or 0))
-        self.scrollbar:SetMinMaxValues(0, maximum)
-        self.scrollbar:SetShown(maximum > 0)
+        self:UpdateScrollMetrics()
     end
     return widget
 end
@@ -785,17 +852,33 @@ local function CreateTabGroup(parent)
         for _, child in ipairs({self.tabBar:GetChildren()}) do child:Hide() end
         local x = 0
         for _, tab in ipairs(self.tabs) do
-            local button = CreateFrame("Button", nil, self.tabBar, "UIPanelButtonTemplate")
+            local nativeOk, button = pcall(CreateFrame, "Button", nil, self.tabBar, "MinimalTabTemplate")
+            if not nativeOk or not button then
+                button = CreateFrame("Button", nil, self.tabBar, "UIPanelButtonTemplate")
+            end
             button:SetPoint("TOPLEFT", self.tabBar, "TOPLEFT", x, 0)
             button:SetSize(math.max(90, (tab.text and string.len(tab.text) or 8) * 8 + 24), 28)
-            button:SetText(tab.text or tab.value)
-            button:SetScript("OnClick", function() self:SelectTab(tab.value) end)
+            if button.Text then button.Text:SetText(tab.text or tab.value) else button:SetText(tab.text or tab.value) end
+            tab.disabled = tab.disabled and true or false
+            if tab.disabled then button:Disable() else button:Enable() end
+            button:SetScript("OnClick", function() if not tab.disabled then self:SelectTab(tab.value) end end)
             tab.button = button
             x = x + button:GetWidth() + 4
         end
     end
     function widget:SelectTab(value)
         self.localstatus.selected = value
+        for _, tab in ipairs(self.tabs) do
+            local selected = tab.value == value
+            tab.selected = selected
+            if tab.button.SetSelected then
+                tab.button:SetSelected(selected)
+            elseif selected then
+                tab.button:LockHighlight()
+            else
+                tab.button:UnlockHighlight()
+            end
+        end
         Fire(self, "OnGroupSelected", value)
     end
     return widget
