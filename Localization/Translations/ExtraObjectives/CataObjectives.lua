@@ -3770,18 +3770,6 @@ local cataObjectiveLocales = {
         ["zhCN"] = "投掷秘密信号粉末",
         ["zhTW"] = false,
     },
-    ["Kill Chief Murgut"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Töte Häuptling Murgut",
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = "杀死穆戈特酋长",
-        ["zhTW"] = false,
-    },
     ["Take a ride to the Mor'shan Ramparts"] = {
         ["enUS"] = true,
         ["deDE"] = "Nimm die Fahrt zum Schutzwall der Mor'shan",
