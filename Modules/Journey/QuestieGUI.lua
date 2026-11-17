@@ -5,6 +5,7 @@ local PATH_SEPARATOR = "\001"
 local DEFAULT_WIDTH = 180
 local DEFAULT_HEIGHT = 24
 local FLOW_GAP = 3
+local SCROLL_CONTENT_INSET = 16
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -634,8 +635,8 @@ local function CreateScrollFrame(parent)
     widget.frame = CreateFrame("ScrollFrame", nil, parent)
     widget.border = widget.frame
     widget.content = CreateBackdropFrame("Frame", widget.frame)
-    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 8, -8)
-    widget.content:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -8, -8)
+    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", SCROLL_CONTENT_INSET, -SCROLL_CONTENT_INSET)
+    widget.content:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -SCROLL_CONTENT_INSET, -SCROLL_CONTENT_INSET)
     widget.content:SetWidth(1)
     widget.content:SetHeight(1)
     widget.frame:SetScrollChild(widget.content)
@@ -656,7 +657,7 @@ local function CreateScrollFrame(parent)
     end
     widget.frame:HookScript("OnSizeChanged", function()
         local scrollbarWidth = widget.scrollbar.questieNativeMinimalScrollBar and (widget.scrollbar:GetWidth() or 8) or 16
-        widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - scrollbarWidth - 16, 1))
+        widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - scrollbarWidth - (SCROLL_CONTENT_INSET * 2), 1))
         if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
     end)
     if not widget.scrollbar.questieNativeMinimalScrollBar then
