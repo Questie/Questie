@@ -32,10 +32,10 @@ describe("ProfessionStations", function()
     end
 
     local categories = {
-        {key = "moonwell", icon = QuestieLib.AddonPath.."Icons\\inv_fabric_moonrag_01.png", title = "Moonwell"},
-        {key = "anvil", icon = QuestieLib.AddonPath.."Icons\\inv_hammer_20.png", title = "Anvil"},
-        {key = "forge", icon = QuestieLib.AddonPath.."Icons\\spell_fire_flameblades.png", title = "Forge"},
-        {key = "alchemyLab", icon = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png", title = "Alchemy Lab"},
+        {key = "Moonwell", title = "Moonwell"},
+        {key = "Anvil", title = "Anvil"},
+        {key = "Forge", title = "Forge"},
+        {key = "Alchemy Lab", title = "Alchemy Lab"},
     }
 
     local function collectShown(spy)
@@ -49,7 +49,7 @@ describe("ProfessionStations", function()
 
     local function getExpectedIds(category)
         local ids = {}
-        for _, id in ipairs(ProfessionStations.data[category]) do
+        for _, id in ipairs(ProfessionStations.stations[category].objectIds) do
             ids[#ids + 1] = id
         end
         table.sort(ids)
@@ -92,7 +92,7 @@ describe("ProfessionStations", function()
                 ProfessionStations.ShowAll(category.key)
 
                 for _, call in ipairs(QuestieMap.ShowObject.calls) do
-                    assert.are_same(category.icon, call.vals[3])
+                    assert.are_same(ProfessionStations.stations[category.key].icon, call.vals[3])
                     assert.are_same(1.2, call.vals[4])
                     assert.are_same("Object name " .. call.vals[2], call.vals[5])
                     assert.are_same({}, call.vals[6])
@@ -123,7 +123,7 @@ describe("ProfessionStations", function()
         it("should use the translated title when the object has no name", function()
             QuestieDB.GetObject = function(_, id) return {id = id, spawns = {[1] = {{50, 50}}}} end
 
-            ProfessionStations.ShowAll("anvil")
+            ProfessionStations.ShowAll("Anvil")
 
             assert.is_true(#QuestieMap.ShowObject.calls > 0)
             for _, call in ipairs(QuestieMap.ShowObject.calls) do
@@ -136,7 +136,7 @@ describe("ProfessionStations", function()
             QuestieLoader:ImportModule("l10n"):SetUILocale("esMX")
             QuestieDB.GetObject = function(_, id) return {id = id, spawns = {[1] = {{50, 50}}}} end
 
-            ProfessionStations.ShowAll("anvil")
+            ProfessionStations.ShowAll("Anvil")
 
             assert.is_true(#QuestieMap.ShowObject.calls > 0)
             for _, call in ipairs(QuestieMap.ShowObject.calls) do
@@ -231,47 +231,6 @@ describe("ProfessionStations", function()
         end)
     end)
 
-    describe("GetAvailableStationKeys", function()
-        local keys
-
-        before_each(function()
-            keys = QuestieProfessions.professionKeys
-        end)
-
-        it("should only return stations the player qualifies for", function()
-            setPlayerProfessions({keys.MINING})
-
-            assert.are_same({"Forge"}, ProfessionStations.GetAvailableStationKeys())
-        end)
-
-        it("should return an empty list without matching professions", function()
-            setPlayerProfessions({})
-
-            assert.are_same({}, ProfessionStations.GetAvailableStationKeys())
-        end)
-
-        it("should exclude stations that are not required in the current expansion", function()
-            setPlayerProfessions({keys.BLACKSMITHING, keys.TAILORING, keys.MINING, keys.ALCHEMY})
-            Expansions.Current = Expansions.Wotlk
-
-            assert.are_same({"Anvil", "Forge", "Moonwell"}, ProfessionStations.GetAvailableStationKeys())
-        end)
-
-        it("should sort the stations alphabetically by their localized titles", function()
-            dofile("Localization/Translations/ProfessionStations.lua")
-            setPlayerProfessions({keys.BLACKSMITHING, keys.TAILORING, keys.MINING, keys.ALCHEMY})
-            Expansions.Current = Expansions.Era
-
-            assert.are_same({"Alchemy Lab", "Anvil", "Forge", "Moonwell"}, ProfessionStations.GetAvailableStationKeys())
-
-            QuestieLoader:ImportModule("l10n"):SetUILocale("esMX")
-
-            assert.are_same({"Forge", "Alchemy Lab", "Moonwell", "Anvil"}, ProfessionStations.GetAvailableStationKeys())
-
-            QuestieLoader:ImportModule("l10n"):SetUILocale("enUS")
-        end)
-    end)
-
     describe("HideUnlearned", function()
         local keys
 
@@ -285,9 +244,9 @@ describe("ProfessionStations", function()
             setPlayerProfessions({})
 
             assert.is_true(ProfessionStations.HideUnlearned())
-            assert.are_same(getExpectedIds("anvil"), collectShown(QuestieMap.UnloadManualFrames))
+            assert.are_same(getExpectedIds("Anvil"), collectShown(QuestieMap.UnloadManualFrames))
             for _, call in ipairs(QuestieMap.UnloadManualFrames.calls) do
-                assert.are_same("anvil", call.vals[3])
+                assert.are_same("Anvil", call.vals[3])
             end
             assert.is_false(_G["Questie"].db.profile.townsfolkConfig["Anvil"])
         end)
@@ -320,8 +279,8 @@ describe("ProfessionStations", function()
             for _, call in ipairs(QuestieMap.UnloadManualFrames.calls) do
                 unloadedTypes[call.vals[3]] = true
             end
-            assert.is_true(unloadedTypes["anvil"])
-            assert.is_nil(unloadedTypes["moonwell"])
+            assert.is_true(unloadedTypes["Anvil"])
+            assert.is_nil(unloadedTypes["Moonwell"])
             assert.is_false(_G["Questie"].db.profile.townsfolkConfig["Anvil"])
             assert.is_true(_G["Questie"].db.profile.townsfolkConfig["Moonwell"])
         end)

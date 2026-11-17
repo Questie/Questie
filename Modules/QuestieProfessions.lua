@@ -10,9 +10,6 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type ProfessionStations
-local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
-
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
@@ -46,7 +43,6 @@ function QuestieProfessions:Update()
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
     local hasProfessionUpdate = false
     local hasNewProfession = false
-    local hasUnlearnedProfession = false
 
     --- Used to compare to be able to detect if a profession has been learned
     local temporaryPlayerProfessions = {}
@@ -93,14 +89,10 @@ function QuestieProfessions:Update()
             Questie.Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. profession[1] .. "(" .. professionId .. ")")
             QuestieQuest.ResetAutoblacklistCategory("skill")
             hasProfessionUpdate = true
-            hasUnlearnedProfession = true
         end
     end
 
     playerProfessions = temporaryPlayerProfessions
-    if hasUnlearnedProfession then
-        ProfessionStations.HideUnlearned()
-    end
     return hasProfessionUpdate, hasNewProfession
 end
 

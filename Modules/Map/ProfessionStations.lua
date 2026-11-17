@@ -14,9 +14,9 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
--- QuestieDB owns the object rows, names, and localization. This module owns only
--- the station display policy and the ID lists; objects without active spawns are
--- skipped by QuestieMap:ShowObject, so one list per category covers every expansion.
+-- QuestieDB owns the object rows, names, and localization. These IDs come from
+-- QuestieDB's object locations and are grouped by expansion below; objects
+-- without active spawns are skipped by QuestieMap:ShowObject.
 ---@type table<string, ObjectId[]>
 ProfessionStations.data = {
     moonwell = {
@@ -110,7 +110,7 @@ ProfessionStations.data = {
         -- Forge (Wotlk)
         186433, 186486, 186556, 186653, 186654, 187256, 187388,
         188250, 188257, 188354, 188356, 188396, 188452, 188607,
-        188624, 188651, 188683, 190457, 190495, 190524, 190765,
+        188624, 188651, 190457, 190495, 190524, 190765,
         191237, 191287, 191288, 191346, 191505, 191508, 192020,
         192062, 192572, 192573, 192583, 192831, 193126, 194128,
         194468, 194487, 202391, 202392, 202393, 202394,
@@ -142,55 +142,38 @@ ProfessionStations.data = {
     },
 }
 
-local _icons = {
-    moonwell = QuestieLib.AddonPath.."Icons\\inv_fabric_moonrag_01.png",
-    anvil = QuestieLib.AddonPath.."Icons\\inv_hammer_20.png",
-    forge = QuestieLib.AddonPath.."Icons\\spell_fire_flameblades.png",
-    alchemyLab = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png",
-}
-
-local _titles = {
-    moonwell = "Moonwell",
-    anvil = "Anvil",
-    forge = "Forge",
-    alchemyLab = "Alchemy Lab",
-}
-
----@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
+---@param key string @Townsfolk menu key, e.g. "Anvil"
 ---@param object Object|nil
 ---@return string
-local function _GetTitle(category, object)
+local function _GetTitle(key, object)
     if object and object.name then
         return Questie:Colorize(object.name, "white")
     end
-    return Questie:Colorize(l10n(_titles[category]), "white")
+    return Questie:Colorize(l10n(key), "white")
 end
 
----@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
-local function _GetActiveData(category)
-    local data = {}
-    for _, objectId in ipairs(ProfessionStations.data[category]) do
-        data[objectId] = true
+---@param key string @Townsfolk menu key, e.g. "Anvil"
+function ProfessionStations.ShowAll(key)
+    local station = ProfessionStations.stations[key]
+    if not station then
+        return
     end
-    return data
-end
 
----@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
-function ProfessionStations.ShowAll(category)
-    local icon = _icons[category]
-
-    for objectID in pairs(_GetActiveData(category)) do
+    for _, objectID in ipairs(station.objectIds) do
         local object = QuestieDB:GetObject(objectID)
-        if object and object.spawns then
-            QuestieMap:ShowObject(objectID, icon, 1.2, _GetTitle(category, object), {}, true, category)
-        end
+        QuestieMap:ShowObject(objectID, station.icon, 1.2, _GetTitle(key, object), {}, true, key)
     end
 end
 
----@param category "moonwell"|"anvil"|"forge"|"alchemyLab"
-function ProfessionStations.HideAll(category)
-    for objectID in pairs(_GetActiveData(category)) do
-        QuestieMap:UnloadManualFrames(objectID, category)
+---@param key string @Townsfolk menu key, e.g. "Anvil"
+function ProfessionStations.HideAll(key)
+    local station = ProfessionStations.stations[key]
+    if not station then
+        return
+    end
+
+    for _, objectID in ipairs(station.objectIds) do
+        QuestieMap:UnloadManualFrames(objectID, key)
     end
 end
 
@@ -201,77 +184,61 @@ local function _KnowsProfession(profession)
     return hasProfession == true
 end
 
-local _stationTownsfolkKeys = {
-    "Moonwell",
-    "Anvil",
-    "Forge",
-    "Alchemy Lab",
+---@class ProfessionStation
+---@field icon string
+---@field objectIds ObjectId[]
+---@field isAvailable fun(): boolean @True when the player needs this station
+---@type table<string, ProfessionStation>
+ProfessionStations.stations = {
+    ["Moonwell"] = {
+        icon = QuestieLib.AddonPath.."Icons\\inv_fabric_moonrag_01.png",
+        objectIds = ProfessionStations.data.moonwell,
+        isAvailable = function()
+            return _KnowsProfession(QuestieProfessions.professionKeys.TAILORING)
+        end,
+    },
+    ["Anvil"] = {
+        icon = QuestieLib.AddonPath.."Icons\\inv_hammer_20.png",
+        objectIds = ProfessionStations.data.anvil,
+        isAvailable = function()
+            local professionKeys = QuestieProfessions.professionKeys
+            -- Blacksmiths and engineers need anvils in every expansion,
+            -- jewelcrafters only start needing them in Cataclysm.
+            return _KnowsProfession(professionKeys.BLACKSMITHING)
+                or _KnowsProfession(professionKeys.ENGINEERING)
+                or (Expansions.Current >= Expansions.Cata and _KnowsProfession(professionKeys.JEWELCRAFTING))
+        end,
+    },
+    ["Forge"] = {
+        icon = QuestieLib.AddonPath.."Icons\\spell_fire_flameblades.png",
+        objectIds = ProfessionStations.data.forge,
+        isAvailable = function()
+            local professionKeys = QuestieProfessions.professionKeys
+            -- Miners need forges in every expansion, engineers and jewelcrafters
+            -- only start needing them in TBC.
+            return _KnowsProfession(professionKeys.MINING)
+                or (Expansions.Current >= Expansions.Tbc and (
+                    _KnowsProfession(professionKeys.ENGINEERING)
+                    or _KnowsProfession(professionKeys.JEWELCRAFTING)
+                ))
+        end,
+    },
+    ["Alchemy Lab"] = {
+        icon = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png",
+        objectIds = ProfessionStations.data.alchemyLab,
+        isAvailable = function()
+            return Expansions.Current <= Expansions.Tbc
+                and _KnowsProfession(QuestieProfessions.professionKeys.ALCHEMY)
+        end,
+    },
 }
 
----Whether the player meets the expansion and profession requirements to see
----the station belonging to the given townsfolk menu entry.
----@param townsfolkKey string
+---@param key string @Townsfolk menu key, e.g. "Anvil"
 ---@return boolean
-function ProfessionStations.IsStationAvailable(townsfolkKey)
-    local professionKeys = QuestieProfessions.professionKeys
-
-    if townsfolkKey == "Moonwell" then
-        return _KnowsProfession(professionKeys.TAILORING)
-    elseif townsfolkKey == "Anvil" then
-        -- Blacksmiths and engineers need anvils in every expansion,
-        -- jewelcrafters only start needing them in Cataclysm
-        if _KnowsProfession(professionKeys.BLACKSMITHING) or _KnowsProfession(professionKeys.ENGINEERING) then
-            return true
-        end
-        if Expansions.Current < Expansions.Cata then
-            return false
-        end
-        return _KnowsProfession(professionKeys.JEWELCRAFTING)
-    elseif townsfolkKey == "Forge" then
-        -- Miners need forges in every expansion, engineers and jewelcrafters
-        -- only start needing them in TBC
-        if _KnowsProfession(professionKeys.MINING) then
-            return true
-        end
-        if Expansions.Current < Expansions.Tbc then
-            return false
-        end
-        return _KnowsProfession(professionKeys.ENGINEERING) or _KnowsProfession(professionKeys.JEWELCRAFTING)
-    elseif townsfolkKey == "Alchemy Lab" then
-        -- Alchemy labs are only required up to and including TBC
-        if Expansions.Current > Expansions.Tbc then
-            return false
-        end
-        return _KnowsProfession(professionKeys.ALCHEMY)
-    end
-
-    return false
+function ProfessionStations.IsStationAvailable(key)
+    local station = ProfessionStations.stations[key]
+    return station ~= nil and station.isAvailable()
 end
-
----Returns the townsfolk keys of all stations the player currently qualifies
----for, sorted alphabetically by their localized titles.
----@return string[]
-function ProfessionStations.GetAvailableStationKeys()
-    local available = {}
-    for _, key in ipairs(_stationTownsfolkKeys) do
-        if ProfessionStations.IsStationAvailable(key) then
-            available[#available + 1] = key
-        end
-    end
-    table.sort(available, function(a, b)
-        return l10n(a) < l10n(b)
-    end)
-    return available
-end
-
----Maps townsfolk menu keys to station categories.
----@type table<string, string>
-ProfessionStations.stationCategories = {
-    ["Moonwell"] = "moonwell",
-    ["Anvil"] = "anvil",
-    ["Forge"] = "forge",
-    ["Alchemy Lab"] = "alchemyLab",
-}
 
 ---Hides every enabled station whose profession requirement the player no
 ---longer meets, e.g. after unlearning one of their professions, and disables
@@ -280,9 +247,9 @@ ProfessionStations.stationCategories = {
 function ProfessionStations.HideUnlearned()
     local removed = false
     local config = Questie.db.profile.townsfolkConfig
-    for townsfolkKey, category in pairs(ProfessionStations.stationCategories) do
+    for townsfolkKey in pairs(ProfessionStations.stations) do
         if config and config[townsfolkKey] and not ProfessionStations.IsStationAvailable(townsfolkKey) then
-            ProfessionStations.HideAll(category)
+            ProfessionStations.HideAll(townsfolkKey)
             config[townsfolkKey] = false
             removed = true
         end

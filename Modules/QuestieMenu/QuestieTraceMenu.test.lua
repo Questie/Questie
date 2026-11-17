@@ -74,7 +74,7 @@ describe("QuestieTraceMenu", function()
         questieProfessions.professionKeys = professionKeys
         questieProfessions.Update = function() end
         questieProfessions.HasProfessionAndSkillLevel = function() return false end
-        professionStations.GetAvailableStationKeys = function() return {} end
+        professionStations.stations = {}
         townsfolk.townsfolk = {}
         townsfolk.professionTrainers = {}
         Questie.db = {

@@ -1,6 +1,8 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- Locale values are provisional translations and should be verified against the
+-- corresponding WoW client strings.
 local locales = {
     ["Moonwell"] = {
         ["enUS"] = true,
@@ -52,6 +54,6 @@ local locales = {
     },
 }
 
-for k, v in pairs(locales) do
-    l10n.translations[k] = v
+for translationKey, translations in pairs(locales) do
+    l10n.translations[translationKey] = translations
 end

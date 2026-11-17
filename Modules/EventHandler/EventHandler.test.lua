@@ -11,9 +11,11 @@ describe("EventHandler event dispatch", function()
     local QuestEventHandler
     local Expansions
     local QuestieProfessions
+    local ProfessionStations
     local AvailableQuests
     local savedSkillCallbacks
     local TrackerRecipes
+    local originalHideUnlearned
 
     before_each(function()
         savedGlobals = {
@@ -57,6 +59,9 @@ describe("EventHandler event dispatch", function()
         originalExpansion = Expansions.Current
         Expansions.Current = Expansions.Era
         QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+        ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+        originalHideUnlearned = ProfessionStations.HideUnlearned
+        ProfessionStations.HideUnlearned = spy.new(function() end)
         AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
         savedSkillCallbacks = {
             Update = QuestieProfessions.Update,
@@ -88,6 +93,7 @@ describe("EventHandler event dispatch", function()
         Expansions.Current = originalExpansion
         QuestieProfessions.Update = savedSkillCallbacks.Update
         AvailableQuests.CalculateAndDrawAll = savedSkillCallbacks.CalculateAndDrawAll
+        ProfessionStations.HideUnlearned = originalHideUnlearned
     end)
 
     it("preserves Classic's explicit log index and quest ID", function()

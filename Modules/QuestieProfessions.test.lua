@@ -8,9 +8,6 @@ describe("QuestieProfessions", function()
     local QuestieQuest
     ---@type QuestieProfessions
     local QuestieProfessions
-    ---@type ProfessionStations
-    local ProfessionStations
-
     local mockedProfessionSkill
     local savedGlobals
     local globalNames = {
@@ -55,9 +52,6 @@ describe("QuestieProfessions", function()
         }
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
-        ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
-        ProfessionStations.HideUnlearned = spy.new(function() end)
-
         dofile("Modules/QuestieCompat.lua")
         dofile("Modules/QuestieProfessions.lua")
         QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
@@ -133,7 +127,6 @@ describe("QuestieProfessions", function()
             assert.is_false(learned)
             assert.are.same({}, QuestieProfessions:GetPlayerProfessions())
             assert.spy(QuestieQuest.ResetAutoblacklistCategory).was.called_with("skill")
-            assert.spy(ProfessionStations.HideUnlearned).was.called()
         end)
 
         it("should detect when a player learned a new profession", function()

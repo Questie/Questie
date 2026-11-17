@@ -50,10 +50,6 @@ local _townsfolk_texturemap = {
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
     ["Mailbox"] = "Interface\\Minimap\\tracking\\mailbox",
-    ["Moonwell"] = QuestieLib.AddonPath.."Icons\\inv_fabric_moonrag_01.png",
-    ["Anvil"] = QuestieLib.AddonPath.."Icons\\inv_hammer_20.png",
-    ["Forge"] = QuestieLib.AddonPath.."Icons\\spell_fire_flameblades.png",
-    ["Alchemy Lab"] = QuestieLib.AddonPath.."Icons\\ui_profession_alchemy.png",
     ["Profession Trainers"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
@@ -104,6 +100,10 @@ local _townsfolk_order = {
     "Barber",
     "Arcane Reforger",
     "Transmogrifier",
+    "Alchemy Lab",
+    "Anvil",
+    "Forge",
+    "Moonwell",
     "Spirit Healer",
 }
 
@@ -147,12 +147,11 @@ local function isTracked(key)
 end
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    local stationCategory = ProfessionStations.stationCategories[key]
-    if stationCategory then
+    if ProfessionStations.stations[key] then
         if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and ProfessionStations.IsStationAvailable(key) then
-            ProfessionStations.ShowAll(stationCategory)
+            ProfessionStations.ShowAll(key)
         else
-            ProfessionStations.HideAll(stationCategory)
+            ProfessionStations.HideAll(key)
         end
         return
     end
@@ -232,7 +231,8 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
 end
 
 local function build(key)
-    local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+    local station = ProfessionStations.stations[key]
+    local icon = (station and station.icon) or _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 
     return {
         text = l10n(tostring(key)),
@@ -471,14 +471,11 @@ function QuestieMenu.buildTownsfolkMenu()
 
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
-        if key == "Spirit Healer" then
-            -- Stations are grouped before the Spirit Healer,
-            -- ordered alphabetically by their localized titles
-            for _, stationKey in ipairs(ProfessionStations.GetAvailableStationKeys()) do
-                tinsert(townsfolkMenu, build(stationKey))
+        if ProfessionStations.stations[key] then
+            if ProfessionStations.IsStationAvailable(key) then
+                tinsert(townsfolkMenu, build(key))
             end
-        end
-        if Townsfolk.townsfolk[key] or Questie.db.char.townsfolk[key] then
+        elseif Townsfolk.townsfolk[key] or Questie.db.char.townsfolk[key] then
             tinsert(townsfolkMenu, build(key))
         end
     end
