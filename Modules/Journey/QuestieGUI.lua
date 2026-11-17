@@ -509,13 +509,16 @@ local function CreateScrollFrame(parent)
     widget.border = widget.frame
     widget.content = CreateBackdropFrame("Frame", widget.frame)
     widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
-    widget.content:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT")
+    widget.content:SetWidth(1)
     widget.content:SetHeight(1)
     widget.frame:SetScrollChild(widget.content)
     widget.frame:EnableMouseWheel(true)
     widget.scrollbar = CreateFrame("Slider", nil, widget.frame, "UIPanelScrollBarTemplate")
     widget.scrollbar:SetScript("OnValueChanged", function(_, value)
         widget.frame:SetVerticalScroll(value)
+    end)
+    widget.frame:HookScript("OnSizeChanged", function()
+        widget.content:SetWidth(math.max(widget.frame:GetWidth() or 1, 1))
     end)
     widget.scrollbar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -2)
     widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -2, 2)
@@ -609,7 +612,7 @@ local function CreateTreeGroup(parent)
     widget.treeScroll:EnableMouseWheel(true)
     widget.treeContent = CreateFrame("Frame", nil, widget.treeScroll)
     widget.treeContent:SetPoint("TOPLEFT", widget.treeScroll, "TOPLEFT")
-    widget.treeContent:SetPoint("TOPRIGHT", widget.treeScroll, "TOPRIGHT")
+    widget.treeContent:SetWidth(1)
     widget.treeContent:SetHeight(1)
     widget.treeScroll:SetScrollChild(widget.treeContent)
     widget.scrollbar = CreateFrame("Slider", nil, widget.treeframe, "UIPanelScrollBarTemplate")
@@ -647,38 +650,38 @@ local function CreateTreeGroup(parent)
         local function AddNodes(nodes, path, depth)
             for _, node in ipairs(nodes or {}) do
                 local nodePath = path and (path .. PATH_SEPARATOR .. tostring(node.value)) or tostring(node.value)
-                local button = CreateFrame("Button", nil, widget.treeContent, "OptionsListButtonTemplate")
+                local button = CreateFrame("Button", nil, widget.treeContent)
                 button.treeValue = nodePath
                 button:SetPoint("TOPLEFT", widget.treeContent, "TOPLEFT", depth * 10, y)
-                button:SetPoint("TOPRIGHT", widget.treeContent, "TOPRIGHT", 0, y)
+                button:SetWidth(math.max(widget.treeContent:GetWidth() or 1, 1) - depth * 10)
                 button:SetHeight(22)
-                button:SetText(node.text or tostring(node.value))
-                button:SetNormalFontObject(node.children and "GameFontNormal" or "GameFontHighlightSmall")
-                button:SetHighlightFontObject(node.children and "GameFontHighlight" or "GameFontHighlightSmall")
+                button:SetFrameLevel(widget.treeScroll:GetFrameLevel() + 1)
+                button:EnableMouse(true)
+                button:SetHighlightTexture("Interface\\Buttons\\UI-Listbox-Highlight2")
+                button.text = button:CreateFontString(nil, "OVERLAY", node.children and "GameFontNormal" or "GameFontHighlightSmall")
+                button.text:SetText(node.text or tostring(node.value))
+                button.text:SetJustifyH("LEFT")
 
                 local toggleOffset = node.children and 18 or 0
-                if node.children and button.toggle then
+                if node.children then
+                    button.toggle = CreateFrame("Button", nil, button)
                     button.toggle:ClearAllPoints()
                     button.toggle:SetPoint("LEFT", button, "LEFT", depth * 10, 0)
                     button.toggle:SetSize(16, 16)
-                    if not button.toggle.treeGlyph then
-                        button.toggle.treeGlyph = button.toggle:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-                        button.toggle.treeGlyph:SetPoint("CENTER")
-                        button.toggle.treeGlyph:SetTextColor(1, 0.82, 0)
-                    end
+                    button.toggle.treeGlyph = button.toggle:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+                    button.toggle.treeGlyph:SetPoint("CENTER")
+                    button.toggle.treeGlyph:SetTextColor(1, 0.82, 0)
                     button.toggle.treeGlyph:SetText(widget.localstatus.groups[nodePath] == false and "+" or "−")
                     button.toggle:SetScript("OnClick", function()
                         widget.localstatus.groups[nodePath] = widget.localstatus.groups[nodePath] == false
                         RenderTree()
                     end)
                     button.toggle:Show()
-                elseif button.toggle then
-                    button.toggle:Hide()
                 end
 
                 local iconOffset = depth * 10 + toggleOffset
                 if node.icon then
-                    button.icon = button.icon or button:CreateTexture(nil, "OVERLAY")
+                    button.icon = button:CreateTexture(nil, "OVERLAY")
                     button.icon:SetSize(node.iconSize or 14, node.iconSize or 14)
                     button.icon:SetPoint("LEFT", button, "LEFT", iconOffset, 0)
                     button.icon:SetTexture(node.icon)
@@ -689,13 +692,9 @@ local function CreateTreeGroup(parent)
                     button.icon:Hide()
                 end
 
-                local label = button.text or button:GetFontString()
-                if label then
-                    label:ClearAllPoints()
-                    label:SetPoint("LEFT", button, "LEFT", iconOffset, 0)
-                    label:SetPoint("RIGHT", button, "RIGHT", -8, 0)
-                    label:SetJustifyH("LEFT")
-                end
+                button.text:ClearAllPoints()
+                button.text:SetPoint("LEFT", button, "LEFT", iconOffset, 0)
+                button.text:SetPoint("RIGHT", button, "RIGHT", -8, 0)
                 if button.SetEnabled then button:SetEnabled(not node.disabled) end
                 button:SetScript("OnClick", function()
                     Fire(widget, "OnClick", nodePath, widget.localstatus.selected == nodePath)
@@ -714,6 +713,7 @@ local function CreateTreeGroup(parent)
                     if widget.buttonTooltips then GameTooltip:Hide() end
                 end)
                 if widget.localstatus.selected == nodePath then button:LockHighlight() end
+                button:Show()
                 y = y - 24
                 if node.children and widget.localstatus.groups[nodePath] ~= false then
                     AddNodes(node.children, nodePath, depth + 1)
@@ -731,6 +731,7 @@ local function CreateTreeGroup(parent)
     end
 
     local function LayoutTree()
+        widget.treeContent:SetWidth(math.max(widget.treeScroll:GetWidth() or 1, 1))
         widget.content:ClearAllPoints()
         widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", 6, 0)
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")

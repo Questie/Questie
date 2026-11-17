@@ -54,10 +54,15 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     QuestieJourneyUtils:Spacer(container)
 
     contDropdown = _CreateContinentDropdown()
-    container:AddChild(contDropdown)
-
     zoneDropdown = _CreateZoneDropdown()
-    container:AddChild(zoneDropdown)
+
+    local dropdownRow = QuestieGUI:Create("SimpleGroup")
+    dropdownRow:SetLayout("Flow")
+    dropdownRow:SetFullWidth(true)
+    dropdownRow:SetHeight(48)
+    dropdownRow:AddChild(contDropdown)
+    dropdownRow:AddChild(zoneDropdown)
+    container:AddChild(dropdownRow)
 
     QuestieJourneyUtils:Spacer(container)
 

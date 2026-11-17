@@ -814,6 +814,8 @@ function QuestieOptionsControls.ApplyModernDropdown(dropdown, width)
     nativeDropdown:SetWidth(width or frame:GetWidth())
     nativeDropdown:SetHeight(32)
     UpdateNativePosition()
+    frame:HookScript("OnSizeChanged", UpdateNativePosition)
+    frame:HookScript("OnShow", UpdateNativePosition)
 
     -- The widget still owns the layout frame, but its old controls must not be visible.
     dropdown.dropdown:Hide()

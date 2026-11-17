@@ -63,10 +63,15 @@ function _QuestieJourney.questsByFaction:DrawTab(container)
     QuestieJourneyUtils:Spacer(container)
 
     expansionDropdown = _CreateExpansionDropdown()
-    container:AddChild(expansionDropdown)
-
     factionDropdown = _CreateFactionDropdown()
-    container:AddChild(factionDropdown)
+
+    local dropdownRow = QuestieGUI:Create("SimpleGroup")
+    dropdownRow:SetLayout("Flow")
+    dropdownRow:SetFullWidth(true)
+    dropdownRow:SetHeight(48)
+    dropdownRow:AddChild(expansionDropdown)
+    dropdownRow:AddChild(factionDropdown)
+    container:AddChild(dropdownRow)
 
     QuestieJourneyUtils:Spacer(container)
 
