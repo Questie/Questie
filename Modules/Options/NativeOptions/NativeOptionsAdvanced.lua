@@ -18,8 +18,6 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ContentPhases
 local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 ---@type QuestieJourney
@@ -190,9 +188,6 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                         title = "Disable Phase reminder",
                         tooltip = "Enable or disable the reminder on login to set the Isle of Quel'Danas phase",
                         width = "half",
-                        enabled = function()
-                            return Expansions.Current > Expansions.Tbc
-                        end,
                         get = function()
                             return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled
                         end,
