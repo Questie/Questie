@@ -3057,6 +3057,7 @@ l10n.zoneCategoryLookup = {
         [4384] = "Strand of the Ancients",
         [4710] = "Isle of Conquest",
         [9999] = "The Ring of Trials",
+        [16606] = "Darkspear Islands",
     },
     [11] = {
         [-61] = "Warlock",
