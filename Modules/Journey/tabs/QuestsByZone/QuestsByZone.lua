@@ -180,6 +180,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame:EnableButtonTooltips(false)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
         QuestieOptionsControls.ApplyJourneyContainer(zoneTreeFrame.treeframe)
+        QuestieOptionsControls.ApplyJourneyContainer(zoneTreeFrame.content)
         QuestieOptionsControls.ApplyJourneyContainer(zoneTreeFrame.border)
     end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then

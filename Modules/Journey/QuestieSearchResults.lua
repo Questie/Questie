@@ -785,6 +785,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultTree.treeframe:SetWidth(415);
     if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
         QuestieOptionsControls.ApplyJourneyContainer(resultTree.treeframe)
+        QuestieOptionsControls.ApplyJourneyContainer(resultTree.content)
         QuestieOptionsControls.ApplyJourneyContainer(resultTree.border)
     end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then

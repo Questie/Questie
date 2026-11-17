@@ -374,6 +374,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     factionTreeFrame:EnableButtonTooltips(false)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
         QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.treeframe)
+        QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.content)
         QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.border)
     end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
