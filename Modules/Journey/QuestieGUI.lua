@@ -83,9 +83,14 @@ local function GetWidgetTitleHeight(widget)
 end
 
 local function LayoutChildren(widget)
+    if widget.layoutInProgress then
+        return
+    end
+
     local content = widget.content
     if not content then return end
 
+    widget.layoutInProgress = true
     local layout = string.lower(widget.layout or "flow")
     local children = widget.children or {}
     local y = 0
@@ -163,6 +168,8 @@ local function LayoutChildren(widget)
             end
         end
     end
+
+    widget.layoutInProgress = false
 end
 
 local function AddChild(widget, child)

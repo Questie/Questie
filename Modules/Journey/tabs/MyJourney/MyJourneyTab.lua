@@ -36,7 +36,6 @@ end
 ---@return SimpleGroup
 function _QuestieJourney.myJourney:DrawTab(container)
     AddModernDivider(container, l10n('Your Recent History'))
-    QuestieJourneyUtils:Spacer(container);
 
     -- get last 5 elements from table for history
     local counter = #Questie.db.char.journey;
@@ -84,8 +83,6 @@ function _QuestieJourney.myJourney:DrawTab(container)
         container:AddChild(justdoit);
     end
 
-    QuestieJourneyUtils:Spacer(container);
-
     AddModernDivider(container, l10n("%s's Journey", GetUnitName("player", true)))
 
     local noteButtonText = l10n('Add New Adventure Note')
@@ -120,7 +117,10 @@ function _QuestieJourney.myJourney:DrawTab(container)
     end)
     container:AddChild(noteButton)
 
-    QuestieJourneyUtils:Spacer(container);
+    local treeSpacing = QuestieGUI:Create("SimpleGroup")
+    treeSpacing:SetFullWidth(true)
+    treeSpacing:SetHeight(8)
+    container:AddChild(treeSpacing)
 
     ---@class SimpleGroup
     local treeGroup = QuestieGUI:Create("SimpleGroup");

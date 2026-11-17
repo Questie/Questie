@@ -48,14 +48,6 @@ function _QuestieJourney.questsByZone:OpenQuest(questId)
                 local selection = tostring(category.value) .. "\001" .. tostring(questId)
                 _QuestieJourney.lastZoneSelection[3] = selection
                 zoneTreeFrame:SelectByValue(selection)
-                -- SelectByValue normally fires OnGroupSelected. Render
-                -- explicitly as well because a cross-zone rebuild can finish
-                -- with the new row selected while the old detail pane remains.
-                if zoneTreeFrame.renderQuestDetails then
-                    zoneTreeFrame.renderQuestDetails(selection, true)
-                else
-                    zoneTreeFrame:Fire("OnGroupSelected", selection)
-                end
                 return true
             end
         end
